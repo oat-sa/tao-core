@@ -130,13 +130,15 @@ class tao_helpers_form_GenerisFormFactory
 					
 					//take instance values to populate the form
 					if(!is_null($instance)){
-						$value = $instance->getUniquePropertyValue($property);
-						if(!is_null($value)){
-							if($value instanceof core_kernel_classes_Resource){
-								$element->setValue($value->uriResource);
-							}
-							if($value instanceof core_kernel_classes_Literal){
-								$element->setValue((string)$value);
+						$values = $instance->getPropertyValuesCollection($property);
+						foreach($values->getIterator() as $value){
+							if(!is_null($value)){
+								if($value instanceof core_kernel_classes_Resource){
+									$element->setValue($value->uriResource);
+								}
+								if($value instanceof core_kernel_classes_Literal){
+									$element->setValue((string)$value);
+								}
 							}
 						}
 					}

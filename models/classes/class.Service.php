@@ -172,42 +172,22 @@ abstract class tao_models_classes_Service
 
         // section 10-13-1-45--135fece8:123b76cb3ff:-8000:00000000000018A5 begin
 		
-		
-		/*print "Instance:<br>";
-		print "<pre>";
-		print_r($instance);
-		print "</pre>";
-		
-		print "Properties:<br>";
-		print "<pre>";
-		print_r($props);
-		print "</pre>";*/
-		
-		//@todo check if we will create the constants for the URI
-		//@todo are somes property required ?
 		foreach($props as $propertyUri => $propertyValue){
 			
 			$prop = new core_kernel_classes_Property( $propertyUri );
-			$instance->editPropertyValues(
-					$prop,
-					$propertyValue
-				);
-			/*if($prop->getWidget() != ''){
-				$instance->removePropertyValues($prop);
+			$values = $instance->getPropertyValuesCollection($prop);
+			if($values->count() > 0){
 				$instance->editPropertyValues(
 					$prop,
 					$propertyValue
 				);
-			}*/
-			/*
-			$range = $property->getRange;
-			if($range->uriResource == '' || $range->uriResource == 'http://www.w3.org/2000/01/rdf-schema#Literal'){
-				if($instance->getPropertyValues($property))
-				
 			}
 			else{
-				
-			}*/
+				$instance->setPropertyValue(
+					$prop,
+					$propertyValue
+				);
+			}
 		}
         $returnValue = $instance;
 		
