@@ -1,0 +1,26 @@
+body{
+	position:absolute; 
+	height:100%; 
+	width:100%; 
+	margin: 0px; 
+	padding: 0px;
+}
+div#tabs{
+	position:relative; 
+	margin: 50px 10px 0px 10px; 
+	height: 82%; 
+	overflow-y: auto;
+}
+table{
+	width:100%; 
+	border-collapse:collapse;
+}
+body img{
+	vertical-align:baseline;
+}
+fieldset{
+	border: solid 1px #cfcfcf;
+}
+fieldset table tr td{ 
+	padding:4px;
+}

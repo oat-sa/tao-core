@@ -1,0 +1,18 @@
+div.xhtml_form{
+	color:#444;
+}
+div.xhtml_form div{
+	position:relative;
+	min-height:45px;
+}
+div.xhtml_form div .form_desc{
+	position:absolute;
+}
+div.xhtml_form div input,
+div.xhtml_form div select,
+div.xhtml_form div textarea{
+	margin-left:30%;
+}
+div.xhtml_form div .elt_desc{
+	font-weight:normal;
+}

@@ -1,0 +1,45 @@
+<?xml version='1.0'?>
+<!DOCTYPE rdf:RDF [
+	 <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+	 <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+	 <!ENTITY local 'http://www.tao.lu/Ontologies/TAO.rdf#'>
+	
+	 <!ENTITY xmls 'http://www.w3.org/2000/01/rdf-schema#'>]>
+	  
+<rdf:RDF
+xmlns="&local;"
+xmlns:rdf="&rdf;"
+xmlns:rdfs="&rdfs;" >
+
+<rdf:Description rdf:ID="TAOObject">
+  <rdfs:subClassOf rdf:resource="&rdfs;Resource"/>
+  <rdfs:label xml:lang="EN">TAO Object</rdfs:label>
+  <rdfs:comment xml:lang="EN">Any ressource related to etesting</rdfs:comment>
+</rdf:Description>
+
+<rdf:Description rdf:ID="linkModules">
+  <rdf:type rdf:resource="&rdf;Property"/>
+  <rdfs:label xml:lang="EN">Members</rdfs:label>
+  <rdfs:comment xml:lang="EN">Members</rdfs:comment>
+  <rdfs:domain rdf:resource="&subject;Property"/>
+  <rdfs:range rdf:resource="#Boolean"/>
+  <widget rdf:resource="&widget;CheckBox"/>
+</rdf:Description>
+
+<rdf:Description rdf:ID="Boolean">
+  <rdfs:subClassOf rdf:resource="&rdfs;Resource"/>
+  <rdfs:label xml:lang="EN">Booleant</rdfs:label>
+  <rdfs:comment xml:lang="EN">Boolean</rdfs:comment>
+</rdf:Description>
+<rdf:Description rdf:ID="True">
+  <rdf:type rdf:resource="#Boolean"/>
+  <rdfs:label xml:lang="EN">True</rdfs:label>
+  <rdfs:comment xml:lang="EN">True</rdfs:comment>
+</rdf:Description>
+<rdf:Description rdf:ID="False">
+  <rdf:type rdf:resource="#Boolean"/>
+  <rdfs:label xml:lang="EN">False</rdfs:label>
+  <rdfs:comment xml:lang="EN">False</rdfs:comment>
+</rdf:Description>
+
+</rdf:RDF>
