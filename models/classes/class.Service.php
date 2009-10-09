@@ -91,6 +91,7 @@ abstract class tao_models_classes_Service
 				if($ignoreCase){
 					$comparator = strtolower($comparator);
 				}
+				
 				if( $identifier == $comparator && $comparator !== false ){
 					$returnValue = $resource;
 					break;

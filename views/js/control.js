@@ -32,6 +32,9 @@ function _href(ref){
 	return  (ref.indexOf('?') > -1) ? ref + '&nc='+new Date().getTime() : ref + '?nc='+new Date().getTime(); 
 }
 
+function openForm(loc){
+	 $("#form-container").load(_href(loc));
+}
 
 var $tabs = null;
 $(function(){

@@ -22,5 +22,9 @@
 		<a href="#" onclick="alert($tabs.tabs('option', 'selected'));"> Advanced mode</a>
 	</span>
 	</div>
+	
+	<div id="json-tree">
+		
+	</div>
 </body>
 </html>

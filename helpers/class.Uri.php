@@ -141,7 +141,10 @@ class tao_helpers_Uri
         $returnValue = (string) '';
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A3F begin
-		if(preg_match("/^http/", $uri)){
+		
+		if( preg_match("/^http/", $uri) || 
+			preg_match("/^#/", $uri)		//@todo remove this section when short uri bug has been fixed
+		){
 			$returnValue = urlencode(
 				str_replace('.', '_', $uri)
 			);
@@ -149,6 +152,7 @@ class tao_helpers_Uri
 		else{
 			$returnValue = $uri;
 		}
+		
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A3F end
 
         return (string) $returnValue;
@@ -167,7 +171,9 @@ class tao_helpers_Uri
         $returnValue = (string) '';
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A42 begin
-		if(preg_match("/^http/", $uri)){
+		if( preg_match("/^http/", $uri) || 
+			preg_match("/^%23/", $uri)		//@todo remove this section when short uri bug has been fixed
+			){
 			$returnValue = urldecode(
 				str_replace('_', '.', $uri)
 			);
