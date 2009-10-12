@@ -24,3 +24,10 @@ fieldset{
 fieldset table tr td{ 
 	padding:4px;
 }
+div#ajax-loading{
+	display:none;
+	position:absolute;
+	top:45%;
+	left:45%;
+	z-index:1000;
+}

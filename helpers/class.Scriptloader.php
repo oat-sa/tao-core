@@ -3,14 +3,8 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/class.Scriptloader.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 07.10.2009, 11:33:28 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * The scriptloader helper enables you to load web resources dynamically. It
+ * now CSS and JS resources.
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
@@ -30,7 +24,8 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D1-constants end
 
 /**
- * Short description of class tao_helpers_Scriptloader
+ * The scriptloader helper enables you to load web resources dynamically. It
+ * now CSS and JS resources.
  *
  * @access public
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -121,7 +116,7 @@ class tao_helpers_Scriptloader
     }
 
     /**
-     * Short description of method addFile
+     * add a file to load
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -150,7 +145,7 @@ class tao_helpers_Scriptloader
     }
 
     /**
-     * Short description of method addCssFile
+     * add a css file to load
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -165,7 +160,7 @@ class tao_helpers_Scriptloader
     }
 
     /**
-     * Short description of method addJsFile
+     * add a js file to load
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -180,7 +175,7 @@ class tao_helpers_Scriptloader
     }
 
     /**
-     * Short description of method addCssFiles
+     * add an array of css files to load
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -197,7 +192,7 @@ class tao_helpers_Scriptloader
     }
 
     /**
-     * Short description of method addJsFiles
+     * add an array of css files to load
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -214,7 +209,7 @@ class tao_helpers_Scriptloader
     }
 
     /**
-     * Short description of method render
+     * render the html to load the resources
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>

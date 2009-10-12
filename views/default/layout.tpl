@@ -3,9 +3,11 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>TAO</title>
+	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 	<?=tao_helpers_Scriptloader::render()?>
 </head>
 <body>
+	<div id="ajax-loading"><img src="<?=BASE_WWW?>img/ajax-loader.gif" alt="loading" /></div>
 	<img src="<?=BASE_WWW?>img/TAO_mention_EN_30x22mm.gif" alt="logo" style="position: absolute; right: 10px; top: 5px;" />
 	<br />
 	<div id="tabs">
@@ -21,10 +23,6 @@
 		<img src="<?=BASE_WWW?>img/application_double.png" />
 		<a href="#" onclick="alert($tabs.tabs('option', 'selected'));"> Advanced mode</a>
 	</span>
-	</div>
-	
-	<div id="json-tree">
-		
 	</div>
 </body>
 </html>

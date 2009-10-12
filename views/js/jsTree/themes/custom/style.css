@@ -9,7 +9,7 @@
 .tree-custom ul { background-position:6px 1px; background-repeat:repeat-y; background-image:url(data:image/gif;base64,R0lGODlhAgACAIAAAB4dGf///yH5BAEAAAEALAAAAAACAAIAAAICRF4AOw==); _background-image:url("dot_for_ie.gif"); *background-image:url("dot_for_ie.gif"); }
 .tree-custom li { background-position:-64px -16px; background-repeat:no-repeat; background-image:url("icons.png"); }
 
-.tree-custom ul , .tree-custom li {margin:3px;}
+/*.tree-custom ul , .tree-custom li {margin:3px 3px 3px 0px;}*/
 /* NO DOTS */
 .tree-custom .no_dots, .tree-custom .no_dots ul { background:transparent; }
 .tree-custom .no_dots li.leaf { background-image:none; background-color:transparent; }

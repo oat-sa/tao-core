@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/class.Uri.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 07.10.2009, 11:33:28 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Utilities on URL/URI
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
@@ -30,19 +23,20 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 
 /**
  * Conveniance function 
- * @param mixed $params [optional]
- * @param mixed $action [optional]
- * @param mixed $module [optional]
+ * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @param  string action
+ * @param  string module
+ * @param  array params
  * @return 
  */
-function _url( $params = null, $action = null, $module = null){
-	return tao_helpers_Uri::url($params, $action, $module);
+function _url($action = null, $module = null, $params = array()){
+	return tao_helpers_Uri::url($action, $module, $params);
 }
 
 // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D2-constants end
 
 /**
- * Short description of class tao_helpers_Uri
+ * Utilities on URL/URI
  *
  * @access public
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -57,7 +51,7 @@ class tao_helpers_Uri
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute base
+     * the base url
      *
      * @access private
      * @var mixed
@@ -67,7 +61,7 @@ class tao_helpers_Uri
     // --- OPERATIONS ---
 
     /**
-     * Short description of method getBaseUrl
+     * get the project base url
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -88,16 +82,17 @@ class tao_helpers_Uri
     }
 
     /**
-     * Short description of method url
+     * conveniance method to create urls based on the current MVC context and
+     * it for the used kind of url resolving
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
-     * @param  mixed params
-     * @param  mixed action
-     * @param  mixed module
+     * @param  string action
+     * @param  string module
+     * @param  array params
      * @return string
      */
-    public static function url($params = null, $action = null, $module = null)
+    public static function url($action = null, $module = null, $params = array())
     {
         $returnValue = (string) '';
 
@@ -112,7 +107,7 @@ class tao_helpers_Uri
 			$action = $context->getActionName();
 		}
 		$returnValue .= '/' . $module . '/' . $action;
-		if(!is_null($params)){
+		if(count($params) > 0){
 			$returnValue .= '?';
 			if(is_string($params)){
 				$returnValue .= $params;
@@ -129,7 +124,7 @@ class tao_helpers_Uri
     }
 
     /**
-     * Short description of method encode
+     * encode an URI
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -159,7 +154,7 @@ class tao_helpers_Uri
     }
 
     /**
-     * Short description of method decode
+     * decode an URI
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>

@@ -5,54 +5,71 @@ function uiNaviguate(){
 	
 	//tab navigation
 	$('a.nav', $('.ui-tabs-panel')).click(function() {
-		$('.ui-tabs-panel').load(_href(this.href));
+		_load('.ui-tabs-panel', this.href);
 		return false;
 	});
 	
 	//load the forms into the form container
 	$('a.form-nav', $('.ui-tabs-panel')).click(function() {
-		 $("#form-container").load(_href(this.href));
+		  _load("#form-container", this.href);
 		 return false;
 	});
 	
 	//submit the form by ajax into the form container
 	$("form").submit(function(){
 		try{
+			loading();
 			$("#form-container").load(
 				_href($(this).attr('action')),
-				$(this).serializeArray()
+				$(this).serializeArray(),
+				loaded()
 			);
 		}
-		catch(exp){}
+		catch(exp){console.log(exp);}
 		return false;
 	});
 }
 
+/**
+ * Load url asyncly into selector container
+ * @param {String} selector
+ * @param {String} url
+ */
+function _load(selector, url, data){
+	if(data){
+		data.nc = new Date().getTime();
+	}
+	else{
+		data = {nc: new Date().getTime()}
+	}
+	loading();
+	$(selector).load(url, data, loaded());
+}
+
+/**
+ * Make a nocache url, using a timestamp
+ * @param {String} ref
+ */
 function _href(ref){
 	return  (ref.indexOf('?') > -1) ? ref + '&nc='+new Date().getTime() : ref + '?nc='+new Date().getTime(); 
 }
 
-function openForm(loc){
-	 $("#form-container").load(_href(loc));
+/**
+ * Show the loader
+ */
+function loading(){
+	$("#ajax-loading").show('fast');
+}
+
+/**
+ * Hide the loader
+ */
+function loaded(){
+	$("#ajax-loading").hide('fast');
 }
 
 var $tabs = null;
 $(function(){
-	
 	//create tabs
 	$tabs = $('#tabs').tabs({load: uiNaviguate});
-	/*$tabs = $('#tabs').tabs({
-	    load: function(event, ui) {
-	        $('a.nav', ui.panel).click(function() {
-	            $(ui.panel).load(this.href);
-	            return false;
-	        });
-	    }
-	});*/
-	
-	
-	
-		
-	
-
 });
