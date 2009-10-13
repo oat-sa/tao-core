@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 06.10.2009, 12:07:20 with ArgoUML PHP module 
+ * Automatically generated on 13.10.2009, 14:34:11 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -91,6 +91,14 @@ abstract class tao_helpers_form_FormElement
      * @var string
      */
     protected $description = '';
+
+    /**
+     * Short description of attribute level
+     *
+     * @access protected
+     * @var int
+     */
+    protected $level = 0;
 
     // --- OPERATIONS ---
 
@@ -282,6 +290,39 @@ abstract class tao_helpers_form_FormElement
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A27 begin
 		$this->description = $description;
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A27 end
+    }
+
+    /**
+     * Short description of method getLevel
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @return int
+     */
+    public function getLevel()
+    {
+        $returnValue = (int) 0;
+
+        // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A49 begin
+		$returnValue = $this->level;
+        // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A49 end
+
+        return (int) $returnValue;
+    }
+
+    /**
+     * Short description of method setLevel
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  int level
+     * @return mixed
+     */
+    public function setLevel($level)
+    {
+        // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4B begin
+		$this->level = $level;
+        // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4B end
     }
 
 } /* end of abstract class tao_helpers_form_FormElement */

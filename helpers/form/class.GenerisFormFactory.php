@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 07.10.2009, 14:26:27 with ArgoUML PHP module 
+ * Automatically generated on 13.10.2009, 10:20:31 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -53,12 +53,12 @@ class tao_helpers_form_GenerisFormFactory
     const RENDER_MODE_XHTML = 'xhtml';
 
     /**
-     * Short description of attribute TOP_LEVEL_CLASS_URI
+     * Short description of attribute DEFAULT_TOP_LEVEL_CLASS
      *
      * @access public
      * @var string
      */
-    const TOP_LEVEL_CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject';
+    const DEFAULT_TOP_LEVEL_CLASS = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject';
 
     /**
      * Short description of attribute forms
@@ -95,14 +95,18 @@ class tao_helpers_form_GenerisFormFactory
 				case self::RENDER_MODE_XHTML:
 					$myForm = new tao_helpers_form_xhtml_Form($name);
 					$myForm->setDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')));
-					$hiddenEltClass = 'tao_helpers_form_elements_xhtml_Hiddenbox';
+					$hiddenEltClass = 'tao_helpers_form_elements_xhtml_Hidden';
 					break;
 				default: 
 					return null;
 			}
 			
+			
+			$properties = self::getDefaultProperties();
+			$properties = $properties->union($clazz->getProperties());
+			
 			//@todo take the properties ahead the class recursivly till the top level class  
-			foreach($clazz->getProperties()->getIterator() as $property){
+			foreach($properties->getIterator() as $property){
 				
 				//map properties widgets to form elments 
 				$element = self::elementMap($property, $renderMode);
@@ -142,6 +146,15 @@ class tao_helpers_form_GenerisFormFactory
 							}
 						}
 					}
+					if($element->getDescription() == 'label'){
+						$element->setLevel(0);
+					}
+					elseif($element->getDescription() == 'comment'){
+						$element->setLevel(1);
+					}
+					else{
+						$element->setLevel(2);
+					}
 					$myForm->addElement($element);
 				}
 			}
@@ -149,12 +162,14 @@ class tao_helpers_form_GenerisFormFactory
 			//add an hidden elt for the class uri
 			$classUriElt = new $hiddenEltClass('classUri');
 			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
+			$classUriElt->setLevel(3);
 			$myForm->addElement($classUriElt);
 			
 			if(!is_null($instance)){
 				//add an hidden elt for the instance Uri
 				$instanceUriElt = new $hiddenEltClass('uri');
 				$instanceUriElt->setValue(tao_helpers_Uri::encode($instance->uriResource));
+				$instanceUriElt->setLevel(3);
 				$myForm->addElement($instanceUriElt);
 			}
 			
@@ -197,6 +212,38 @@ class tao_helpers_form_GenerisFormFactory
 		}
 		
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001937 end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method getDefaultProperties
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @return core_kernel_classes_ContainerCollection
+     */
+    protected static function getDefaultProperties()
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--5ce810e0:1244ce713f8:-8000:0000000000001A43 begin
+
+		$defaultUris = array(
+			'http://www.w3.org/2000/01/rdf-schema#label',
+			'http://www.w3.org/2000/01/rdf-schema#comment'
+		);
+		
+		$returnValue = new core_kernel_classes_ContainerCollection(new core_kernel_classes_Container(__METHOD__),__METHOD__);
+		
+		$resourceClass = new core_kernel_classes_Class('http://www.w3.org/2000/01/rdf-schema#Resource');
+		foreach($resourceClass->getProperties()->getIterator() as $property){
+			if(in_array($property->uriResource, $defaultUris)){
+				$returnValue->add($property);
+			}
+		}
+		
+        // section 127-0-1-1--5ce810e0:1244ce713f8:-8000:0000000000001A43 end
 
         return $returnValue;
     }

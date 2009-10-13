@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 06.10.2009, 14:24:55 with ArgoUML PHP module 
+ * Automatically generated on 13.10.2009, 14:34:11 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -211,19 +211,42 @@ abstract class tao_helpers_form_Form
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001983 begin
 		foreach($this->elements as $element){
 			 
-			 if(!is_null($this->decorator) && $element->getWidget() != 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox'){
+			 if(!is_null($this->decorator) && $element->getWidget() != ''){
 			 	$returnValue .= $this->decorator->preRender();
 			 }
 			 
 			 $returnValue .= $element->render();
 			 
-			 if(!is_null($this->decorator) && $element->getWidget() != 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox'){
+			 if(!is_null($this->decorator) && $element->getWidget() != ''){
 			 	$returnValue .= $this->decorator->postRender();
 			 }
 		}
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001983 end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method initElements
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @return mixed
+     */
+    protected function initElements()
+    {
+        // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4E begin
+		$tosort = array();
+		foreach($this->elements as $i => $element){
+			$tosort[$element->getLevel().'_'.$i] = $element;	//force string key
+		}
+		ksort($tosort);											//sort by key
+		$this->elements = array();							
+		foreach($tosort as $element){
+			array_push($this->elements, $element); 
+		}
+		unset($tosort);
+        // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4E end
     }
 
     /**

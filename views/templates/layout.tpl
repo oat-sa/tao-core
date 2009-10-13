@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div id="ajax-loading"><img src="<?=BASE_WWW?>img/ajax-loader.gif" alt="loading" /></div>
-	<img src="<?=BASE_WWW?>img/TAO_mention_EN_30x22mm.gif" alt="logo" style="position: absolute; right: 10px; top: 5px;" />
+	<img src="<?=BASE_WWW?>img/logo.gif" alt="logo" style="position: absolute; right: 10px; top: 5px;" />
 	<br />
 	<div id="tabs">
 		<ul>

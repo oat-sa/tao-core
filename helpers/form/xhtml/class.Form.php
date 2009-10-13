@@ -86,6 +86,9 @@ class tao_helpers_form_xhtml_Form
     public function evaluate()
     {
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A33 begin
+		
+		$this->initElements();
+		
 		if(isset($_POST["{$this->name}_sent"])){
 			
 			$this->submited = true;

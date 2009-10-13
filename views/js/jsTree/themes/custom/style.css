@@ -1,15 +1,11 @@
 /* BACKGROUND */
-/*.tree-apple .ltr, .tree-apple .rtl { background:url("bg.jpg") left top repeat; min-width:100%; _width:100%; margin-left:0; margin-right:0; display:table; }*/
 .tree-custom .ltr, .tree-custom .rtl { background:none left top repeat; min-width:100%; _width:100%; margin-left:0; margin-right:0; display:table; }
 .tree-custom .ltr > li.leaf, .tree-custom .rtl > li.leaf { background-image:none; }
-
 /* LOCKED */
 .tree-custom .locked li a { color:gray; }
 /* DOTS */
 .tree-custom ul { background-position:6px 1px; background-repeat:repeat-y; background-image:url(data:image/gif;base64,R0lGODlhAgACAIAAAB4dGf///yH5BAEAAAEALAAAAAACAAIAAAICRF4AOw==); _background-image:url("dot_for_ie.gif"); *background-image:url("dot_for_ie.gif"); }
 .tree-custom li { background-position:-64px -16px; background-repeat:no-repeat; background-image:url("icons.png"); }
-
-/*.tree-custom ul , .tree-custom li {margin:3px 3px 3px 0px;}*/
 /* NO DOTS */
 .tree-custom .no_dots, .tree-custom .no_dots ul { background:transparent; }
 .tree-custom .no_dots li.leaf { background-image:none; background-color:transparent; }
@@ -19,8 +15,7 @@
 #jstree-marker { background-image:url("icons.png"); }
 /* DEFAULT, HOVER, CLICKED, LOADING STATES */
 .tree-custom li a, .tree-custom li span { border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
-.tree-custom li a:hover, .tree-custom li a.hover, .tree-custom li span { background: #e7f4f9; border:1px solid #d8f0fa; padding:0px 3px 0px 3px; }
-/*.tree-custom li a.clicked, .tree-custom li a.clicked:hover, .tree-custom li span.clicked { background: #beebff; border:1px solid #99defd; padding:0px 3px 0px 3px; }*/
+.tree-custom li a:hover, .tree-custom li a.hover, .tree-custom li span { background: #B5CEDF; border:1px solid #599FCF; padding:0px 3px 0px 3px; }
 .tree-custom li a.clicked, .tree-custom li a.clicked:hover, .tree-custom li span.clicked { background:#B5CEDF; border:1px solid #599FCF; padding:0px 3px 0px 3px; }
 /* ICONS */
 .tree-custom ins { background-image:url("icons.png"); background-position:0 0; background-repeat:no-repeat; }
@@ -30,9 +25,9 @@
 .tree-custom li span ins { background-position:-16px 0; }
 #jstree-dragged.tree-custom ins { background:url("icons.png") -16px -32px no-repeat; }
 #jstree-dragged.tree-custom ins.forbidden { background:url("icons.png") -16px -16px no-repeat; }
-
 /* CONTEXT MENU */
 .tree-custom-context a ins { background-image:url("icons.png"); background-repeat:no-repeat; background-position:-64px -64px; }
 .tree-custom-context a ins.create { background-position:0 -16px; }
 .tree-custom-context a ins.rename { background-position:-16px 0px; }
 .tree-custom-context a ins.remove { background-position:0 -32px; }
+.tree-custom-context li a.disabled span{ color:#c0c0c0;text-decoration:line-through;}
