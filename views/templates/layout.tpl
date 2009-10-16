@@ -7,22 +7,36 @@
 	<?=tao_helpers_Scriptloader::render()?>
 </head>
 <body>
-	<div id="ajax-loading"><img src="<?=BASE_WWW?>img/ajax-loader.gif" alt="loading" /></div>
-	<img src="<?=BASE_WWW?>img/logo.gif" alt="logo" style="position: absolute; right: 10px; top: 5px;" />
-	<br />
+
+	<div id="ajax-loading">
+		<img src="<?=BASE_WWW?>img/ajax-loader.gif" alt="loading" />
+	</div>
+
+	<div id="main-menu" class="ui-state-default">
+	
+	<?foreach(get_data('extensions') as $name => $display):?>
+		<span><a href="<?=_url('index', null, array('extension' => $name))?>"><?=$display?></a></span>
+	<?endforeach?>
+	
+		<span><a href="settings"><?=__('Admin')?></a></span>
+		<span><a href="logout"><?=__('Logout')?></a></span>
+	</div>
+	
+	<img src="<?=BASE_WWW?>img/logo.gif" alt="logo" id="logo" />
+	
+<?if(get_data('sections')):?>
 	<div id="tabs">
 		<ul>
-		<?foreach(get_data('extensions') as $name => $display):?>
-			<li><a href="/<?=$name?>"><?=$display?></a></li>
+		<?foreach(get_data('sections') as $section):?>
+			<li><a href="<?=ROOT_URL.(string)$section['url']?>"><?=(string)$section['name']?></a></li>
 		<?endforeach?>
 		</ul>
+		<div id="section-actions" />
 	</div>
+<?else:?>
+	<?include('home.tpl');?> 
+<?endif?>
+
 	<br />
-	<div style="width:100%; text-align:right;">
-	<span class="ui-state-default ui-corner-all" style="padding:5px;margin-right:10px;">
-		<img src="<?=BASE_WWW?>img/application_double.png" />
-		<a href="#" onclick="alert($tabs.tabs('option', 'selected'));"> Advanced mode</a>
-	</span>
-	</div>
 </body>
 </html>

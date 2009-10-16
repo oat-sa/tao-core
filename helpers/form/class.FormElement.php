@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/class.FormElement.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 13.10.2009, 14:34:11 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Represents a FormElement entity
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
@@ -22,7 +15,15 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_helpers_form_Form
+ * Represents a form. It provides the default behavior for form management and
+ * be overridden for any rendering mode.
+ * A form is composed by a set of FormElements.
+ *
+ * The form data flow is:
+ * 1. add the elements to the form instance
+ * 2. run evaluate (initElements, update states (submited, valid, etc), update
+ * )
+ * 3. render form
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  */
@@ -37,7 +38,7 @@ require_once('tao/helpers/form/class.Form.php');
 // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A5-constants end
 
 /**
- * Short description of class tao_helpers_form_FormElement
+ * Represents a FormElement entity
  *
  * @abstract
  * @access public

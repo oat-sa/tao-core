@@ -3,14 +3,15 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/class.Form.php
+ * Represents a form. It provides the default behavior for form management and
+ * be overridden for any rendering mode.
+ * A form is composed by a set of FormElements.
  *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 13.10.2009, 14:34:11 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * The form data flow is:
+ * 1. add the elements to the form instance
+ * 2. run evaluate (initElements, update states (submited, valid, etc), update
+ * )
+ * 3. render form
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
@@ -20,13 +21,6 @@ error_reporting(E_ALL);
 if (0 > version_compare(PHP_VERSION, '5')) {
     die('This file was generated for PHP 5');
 }
-
-/**
- * include tao_helpers_form_FormElement
- *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
- */
-require_once('tao/helpers/form/class.FormElement.php');
 
 /**
  * include tao_helpers_form_Decorator
@@ -44,7 +38,15 @@ require_once('tao/helpers/form/interface.Decorator.php');
 // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A4-constants end
 
 /**
- * Short description of class tao_helpers_form_Form
+ * Represents a form. It provides the default behavior for form management and
+ * be overridden for any rendering mode.
+ * A form is composed by a set of FormElements.
+ *
+ * The form data flow is:
+ * 1. add the elements to the form instance
+ * 2. run evaluate (initElements, update states (submited, valid, etc), update
+ * )
+ * 3. render form
  *
  * @abstract
  * @access public
@@ -55,7 +57,7 @@ require_once('tao/helpers/form/interface.Decorator.php');
 abstract class tao_helpers_form_Form
 {
     // --- ASSOCIATIONS ---
-    // generateAssociationEnd :     // generateAssociationEnd : 
+    // generateAssociationEnd : 
 
     // --- ATTRIBUTES ---
 
@@ -102,7 +104,7 @@ abstract class tao_helpers_form_Form
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
+     * the form constructor
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -198,7 +200,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method renderElements
+     * render all the form elements
      *
      * @access protected
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -227,7 +229,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method initElements
+     * initialize the elements set
      *
      * @access protected
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -250,7 +252,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method isValid
+     * Enables you to know if the form is valid
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -286,7 +288,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method getValues
+     * Enables you to know if the form has been submited
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -306,7 +308,32 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method evaluate
+     * Short description of method getValue
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string name
+     * @return boolean
+     */
+    public function getValue($name)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--6132c277:1244e864521:-8000:0000000000001A59 begin
+		foreach($this->elements as $element){
+			if($element->getName() == $name){
+				return  $element->getValue();
+			}
+		}
+        // section 127-0-1-1--6132c277:1244e864521:-8000:0000000000001A59 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * evaluate the form inside the current context. Must be overridden, for
+     * rendering mode: for example, it's used to populate and validate the data
+     * the http request for an xhtml context
      *
      * @abstract
      * @access public
@@ -316,7 +343,7 @@ abstract class tao_helpers_form_Form
     public abstract function evaluate();
 
     /**
-     * Short description of method render
+     * Render the form. Must be overridden for each rendering mode.
      *
      * @abstract
      * @access public

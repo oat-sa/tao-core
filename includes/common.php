@@ -37,7 +37,6 @@ require_once 	dirname(__FILE__). "/config.php";
 require 		dirname(__FILE__).'/clearbricks/common/_main.php';
 require_once 	dirname(__FILE__).'/../../generis/common/common.php';
 
-
 //04 LOADER
 
 /**
@@ -108,4 +107,5 @@ tao_helpers_Scriptloader::addJsFiles(array(
 	BASE_WWW . 'js/generis.tree.js'
 
 ));
+require_once(BASE_PATH.'/helpers/class.Uri.php');
 ?>

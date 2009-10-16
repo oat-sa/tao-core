@@ -3,12 +3,16 @@
  */
 function uiNaviguate(){
 	
+	_load('#section-actions', '/tao/Main/getSectionActions', {
+			section: $("li a[href=#" + $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id + "]:first").text()		//get the link text of the selected tab
+		});
+	
 	//tab navigation
-	$('a.nav', $('.ui-tabs-panel')).click(function() {
+	$('a.nav').click(function() {
 		_load('.ui-tabs-panel', this.href);
 		return false;
 	});
-	
+	/*
 	//load the forms into the form container
 	$('a.form-nav', $('.ui-tabs-panel')).click(function() {
 		  _load("#form-container", this.href);
@@ -28,6 +32,7 @@ function uiNaviguate(){
 		catch(exp){console.log(exp);}
 		return false;
 	});
+	*/
 }
 
 /**
