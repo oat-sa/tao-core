@@ -108,10 +108,11 @@ class tao_helpers_form_GenerisFormFactory
 			
 			
 			$defaultProperties = self::getDefaultProperties();
-			$properties = $defaultProperties->union($clazz->getProperties());
 			
 			//@todo take the properties ahead the class recursivly till the top level class  
-			foreach($properties->getIterator() as $property){
+			foreach(array_merge($defaultProperties, $clazz->getProperties()) as $property){
+				
+				$property->feed();
 				
 				//map properties widgets to form elments 
 				$element = self::elementMap($property, $renderMode);
@@ -131,7 +132,7 @@ class tao_helpers_form_GenerisFormFactory
 							}
 						}
 					}
-					if(!is_null($defaultProperties->indexOf($property))){
+					if(in_array($property, $defaultProperties)){
 						$element->setLevel(0);
 					}
 					else{
@@ -202,7 +203,7 @@ class tao_helpers_form_GenerisFormFactory
 			$properties = self::getDefaultProperties();
 			
 			//@todo take the properties ahead the class recursivly till the top level class  
-			foreach($properties->getIterator() as $property){
+			foreach($properties as $property){
 				
 				//map properties widgets to form elments 
 				$element = self::elementMap($property, $renderMode);
@@ -246,9 +247,12 @@ class tao_helpers_form_GenerisFormFactory
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001937 begin
 		
 		//create the element from the right widget
-		$widget = ucfirst(strtolower(substr($property->getWidget(), strrpos($property->getWidget(), '#') + 1 )));
+		$widgetResource = $property->getWidget();
+		$widget = ucfirst(strtolower(substr($widgetResource->uriResource, strrpos($widgetResource->uriResource, '#') + 1 )));
 		$elementClass = 'tao_helpers_form_elements_'.$renderMode.'_'.$widget;
+		
 		if(!class_exists($elementClass)){
+			echo "<br>$elementClass not found<br>";
 			return null;
 		}
 		
@@ -258,7 +262,8 @@ class tao_helpers_form_GenerisFormFactory
 		if(!$element instanceof tao_helpers_form_FormElement){
 			return null;
 		}
-		if($element->getWidget() != $property->getWidget()){
+		if($element->getWidget() != $widgetResource->uriResource){
+			echo "<br>$elementClass widget<br>";
 			return null;
 		}
 		
@@ -273,9 +278,8 @@ class tao_helpers_form_GenerisFormFactory
 		if(method_exists($element, 'setOptions')){
 			$range = $property->getRange();
 			if($range != null){
-				$range = new core_kernel_classes_Class($range);
 				$options = array();
-				foreach($range->getInstances()->getIterator() as $rangeInstance){
+				foreach($range->getInstances() as $rangeInstance){
 					$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
 				}
 				$element->setOptions($options);
@@ -293,11 +297,11 @@ class tao_helpers_form_GenerisFormFactory
      *
      * @access protected
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
-     * @return core_kernel_classes_ContainerCollection
+     * @return array
      */
     protected static function getDefaultProperties()
     {
-        $returnValue = null;
+        $returnValue = array();
 
         // section 127-0-1-1--5ce810e0:1244ce713f8:-8000:0000000000001A43 begin
 
@@ -305,18 +309,16 @@ class tao_helpers_form_GenerisFormFactory
 			'http://www.w3.org/2000/01/rdf-schema#label'
 		);
 		
-		$returnValue = new core_kernel_classes_ContainerCollection(new core_kernel_classes_Container(__METHOD__),__METHOD__);
-		
 		$resourceClass = new core_kernel_classes_Class('http://www.w3.org/2000/01/rdf-schema#Resource');
-		foreach($resourceClass->getProperties()->getIterator() as $property){
+		foreach($resourceClass->getProperties() as $property){
 			if(in_array($property->uriResource, $defaultUris)){
-				$returnValue->add($property);
+				array_push($returnValue, $property);
 			}
 		}
 		
         // section 127-0-1-1--5ce810e0:1244ce713f8:-8000:0000000000001A43 end
 
-        return $returnValue;
+        return (array) $returnValue;
     }
 
 } /* end of class tao_helpers_form_GenerisFormFactory */

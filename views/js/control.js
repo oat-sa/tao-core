@@ -3,27 +3,31 @@
  */
 function uiNaviguate(){
 	
-	_load('#section-actions', '/tao/Main/getSectionActions', {
+	//left menu action init by loading the tab content
+	$.ajax({
+		url: '/tao/Main/getSectionActions',
+		type: "GET",
+		data: {
 			section: $("li a[href=#" + $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id + "]:first").text()		//get the link text of the selected tab
-		});
-	
-	//tab navigation
-	$('a.nav').click(function() {
-		_load('.ui-tabs-panel', this.href);
-		return false;
+		},
+		dataType: 'html',
+		success: function(response){
+			$('#section-actions').html(response);
+			$('a.nav').click(function() {	//links load the content into the main container
+				 _load("#main-container", this.href);
+				 return false;
+			});
+		}
 	});
-	/*
-	//load the forms into the form container
-	$('a.form-nav', $('.ui-tabs-panel')).click(function() {
-		  _load("#form-container", this.href);
+	$('a.nav').click(function() {
+		 _load("#main-container", this.href);
 		 return false;
 	});
-	
 	//submit the form by ajax into the form container
 	$("form").submit(function(){
 		try{
 			loading();
-			$("#form-container").load(
+			$("#main-container").load(
 				_href($(this).attr('action')),
 				$(this).serializeArray(),
 				loaded()
@@ -32,7 +36,7 @@ function uiNaviguate(){
 		catch(exp){console.log(exp);}
 		return false;
 	});
-	*/
+	
 }
 
 /**

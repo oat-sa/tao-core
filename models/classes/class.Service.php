@@ -6,7 +6,7 @@ error_reporting(E_ALL);
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Bertrand Chevrier, <taosupport@tudor.lu>
+ * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
  * @subpackage models_classes
  */
@@ -29,7 +29,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <taosupport@tudor.lu>
+ * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
  * @subpackage models_classes
  */
@@ -46,7 +46,7 @@ abstract class tao_models_classes_Service
      * @access protected
      * @var array
      */
-    protected $ontologies = array('http://www.tao.lu/Ontologies/generis.rdf#','http://www.tao.lu/Ontologies/TAO.rdf#');
+    protected $ontologies = array('http://www.tao.lu/Ontologies/generis.rdf#','http://www.tao.lu/Ontologies/TAO.rdf#', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#');
 
     // --- OPERATIONS ---
 
@@ -54,7 +54,7 @@ abstract class tao_models_classes_Service
      * constructor
      *
      * @access public
-     * @author Bertrand Chevrier, <taosupport@tudor.lu>
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @return void
      */
     public function __construct()
@@ -64,10 +64,33 @@ abstract class tao_models_classes_Service
     }
 
     /**
+     * Short description of method loadOntologies
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  array ontologies
+     * @return mixed
+     */
+    protected function loadOntologies($ontologies)
+    {
+        // section 127-0-1-1-266d5677:1246ba0ab68:-8000:0000000000001A9B begin
+		
+		$myOntologies = array_merge($this->ontologies, $ontologies);
+		if(count($myOntologies) > 0){
+			$session = core_kernel_classes_Session::singleton();
+			foreach($myOntologies as $ontology){
+				$session->model->loadModel($ontology);
+			}
+		}
+		
+        // section 127-0-1-1-266d5677:1246ba0ab68:-8000:0000000000001A9B end
+    }
+
+    /**
      * Short description of method getOneInstanceBy
      *
      * @access public
-     * @author Bertrand Chevrier, <taosupport@tudor.lu>
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @param  Class clazz
      * @param  string identifier
      * @param  string mode
@@ -107,7 +130,7 @@ abstract class tao_models_classes_Service
      * Short description of method getPropertyByLabel
      *
      * @access public
-     * @author Bertrand Chevrier, <taosupport@tudor.lu>
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @param  Class clazz
      * @param  string label
      * @return core_kernel_classes_Property
@@ -135,7 +158,7 @@ abstract class tao_models_classes_Service
      * Short description of method createInstance
      *
      * @access public
-     * @author Bertrand Chevrier, <taosupport@tudor.lu>
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @param  Class clazz
      * @param  string label
      * @return core_kernel_classes_Resource
@@ -162,12 +185,12 @@ abstract class tao_models_classes_Service
      * Short description of method bindProperties
      *
      * @access public
-     * @author Bertrand Chevrier, <taosupport@tudor.lu>
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @param  Resource instance
      * @param  array properties
      * @return core_kernel_classes_Resource
      */
-    public function bindProperties( core_kernel_classes_Resource $instance, $props = array())
+    public function bindProperties( core_kernel_classes_Resource $instance, $properties = array())
     {
         $returnValue = null;
 

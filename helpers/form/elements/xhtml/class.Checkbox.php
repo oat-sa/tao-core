@@ -61,7 +61,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @return string
      */
-    public function newOperation()
+    public function render()
     {
         $returnValue = (string) '';
 
