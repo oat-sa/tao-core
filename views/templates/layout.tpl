@@ -31,7 +31,8 @@
 			<li><a href="<?=ROOT_URL.(string)$section['url']?>"><?=(string)$section['name']?></a></li>
 		<?endforeach?>
 		</ul>
-		<div id="section-actions" />
+		<div id="section-trees"></div>
+		<div id="section-actions" ></div>
 	</div>
 <?else:?>
 	<?include('home.tpl');?> 

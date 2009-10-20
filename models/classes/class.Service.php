@@ -103,7 +103,7 @@ abstract class tao_models_classes_Service
 
         // section 10-13-1-45--20a3dc13:1239ebd775d:-8000:00000000000018B6 begin
 		($ignoreCase) ? $identifier = strtolower(trim($identifier)) : $identifier = trim($identifier);
-		foreach($clazz->getInstances()->getIterator() as $resource){
+		foreach($clazz->getInstances() as $resource){
 			if( strlen($identifier) > 0 ){
 				$comparator = false;
 				switch ($mode){
@@ -169,7 +169,7 @@ abstract class tao_models_classes_Service
 
         // section 10-13-1-45--135fece8:123b76cb3ff:-8000:0000000000001897 begin
 		if( empty($label) ){
-			$label = $clazz->getLabel() . '_' . ($clazz->getInstances()->count() + 1);
+			$label = $clazz->getLabel() . '_' . (count($clazz->getInstances()) + 1);
 		}
 		$returnValue = core_kernel_classes_ResourceFactory::create(
 			$clazz,
@@ -196,21 +196,43 @@ abstract class tao_models_classes_Service
 
         // section 10-13-1-45--135fece8:123b76cb3ff:-8000:00000000000018A5 begin
 		
-		foreach($props as $propertyUri => $propertyValue){
+		foreach($properties as $propertyUri => $propertyValue){
 			
 			$prop = new core_kernel_classes_Property( $propertyUri );
 			$values = $instance->getPropertyValuesCollection($prop);
 			if($values->count() > 0){
-				$instance->editPropertyValues(
-					$prop,
-					$propertyValue
-				);
+				if(is_array($propertyValue)){
+					$instance->removePropertyValues($prop);
+					foreach($propertyValue as $aPropertyValue){
+						$instance->setPropertyValue(
+							$prop,
+							$aPropertyValue
+						);
+					}
+				}
+				else{
+					$instance->editPropertyValues(
+						$prop,
+						$propertyValue
+					);
+				}
 			}
 			else{
-				$instance->setPropertyValue(
-					$prop,
-					$propertyValue
-				);
+				
+				if(is_array($propertyValue)){
+					foreach($propertyValue as $aPropertyValue){
+						$instance->setPropertyValue(
+							$prop,
+							$aPropertyValue
+						);
+					}
+				}
+				else{
+					$instance->setPropertyValue(
+						$prop,
+						$propertyValue
+					);
+				}
 			}
 		}
         $returnValue = $instance;

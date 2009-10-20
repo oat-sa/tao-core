@@ -252,7 +252,6 @@ class tao_helpers_form_GenerisFormFactory
 		$elementClass = 'tao_helpers_form_elements_'.$renderMode.'_'.$widget;
 		
 		if(!class_exists($elementClass)){
-			echo "<br>$elementClass not found<br>";
 			return null;
 		}
 		
@@ -263,7 +262,6 @@ class tao_helpers_form_GenerisFormFactory
 			return null;
 		}
 		if($element->getWidget() != $widgetResource->uriResource){
-			echo "<br>$elementClass widget<br>";
 			return null;
 		}
 		
@@ -271,7 +269,7 @@ class tao_helpers_form_GenerisFormFactory
 		$element->setName( tao_helpers_Uri::encode($property->uriResource));
 
 		//use the property label as element description
-		(strlen(trim($property->getLabel())) > 0) ? $propDesc = strtolower($property->getLabel()) : $propDesc = 'element_'.(count($myForm->getElements())+1);	
+		(strlen(trim($property->getLabel())) > 0) ? $propDesc = $property->getLabel() : $propDesc = 'field '.(count($myForm->getElements())+1);	
 		$element->setDescription($propDesc);
 		
 		//multi elements use the property range as options

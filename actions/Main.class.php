@@ -1,38 +1,55 @@
 <?php
 class Main extends Module {
 
+	protected $service = null;
+	
+	public function __construct(){
+		$this->service = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
+	}
+
 	public function index(){
 		
-		$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
 		$extensions = array();
-		foreach($taoService->getStructure() as $extension => $xmlStruct){
+		foreach($this->service->getStructure() as $extension => $xmlStruct){
 			$extensions[$extension] = (string)$xmlStruct['name'];
 		}
 		$this->setData('extensions', $extensions);
 		
 		if($this->getRequestParameter('extension') != null){
-			$taoService->setCurrentExtension($this->getRequestParameter('extension'));
+			$this->service->setCurrentExtension($this->getRequestParameter('extension'));
 		}
 		
 		$this->setData('sections', false);
-		$currentExtension = $taoService->getCurrentExtension();
+		$currentExtension = $this->service->getCurrentExtension();
 		if($currentExtension){
-			$this->setData('sections', $taoService->getStructure($currentExtension)->sections[0]);
+			$this->setData('sections', $this->service->getStructure($currentExtension)->sections[0]);
 		}
 		
 		$this->setView('layout.tpl');
 	}
 	
 	public function getSectionActions(){
-		$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
+		
 		$this->setData('actions', false);
-		$currentExtension = $taoService->getCurrentExtension();
+		$currentExtension = $this->service->getCurrentExtension();
 		if($currentExtension){
-			$structure = $taoService->getStructure($currentExtension, $this->getRequestParameter('section'));
+			$structure = $this->service->getStructure($currentExtension, $this->getRequestParameter('section'));
 			$this->setData('actions', $structure->actions[0]);
 		}
 		
 		$this->setView('actions.tpl');
+	}
+	
+	public function getSectionTrees(){
+		
+		$this->setData('actions', false);
+		$currentExtension = $this->service->getCurrentExtension();
+		if($currentExtension){
+			$structure = $this->service->getStructure($currentExtension, $this->getRequestParameter('section'));
+			$this->setData('trees', $structure->trees[0]);
+		}
+		
+		$this->setView('trees.tpl');
 	}
 	
 	public function logout(){

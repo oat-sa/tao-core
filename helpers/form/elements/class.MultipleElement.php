@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 30.09.2009, 16:56:26 with ArgoUML PHP module 
+ * Automatically generated on 20.10.2009, 15:51:36 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -22,7 +22,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_helpers_form_FormElement
+ * Represents a FormElement entity
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  */
@@ -61,6 +61,14 @@ abstract class tao_helpers_form_elements_MultipleElement
      */
     protected $options = array();
 
+    /**
+     * Short description of attribute values
+     *
+     * @access protected
+     * @var array
+     */
+    protected $values = array();
+
     // --- OPERATIONS ---
 
     /**
@@ -90,6 +98,7 @@ abstract class tao_helpers_form_elements_MultipleElement
         $returnValue = array();
 
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A37 begin
+		$returnValue = $this->options;
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A37 end
 
         return (array) $returnValue;
@@ -108,6 +117,39 @@ abstract class tao_helpers_form_elements_MultipleElement
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A2C begin
 		$this->value = tao_helpers_Uri::encode($value);
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A2C end
+    }
+
+    /**
+     * Short description of method addValue
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string value
+     * @return mixed
+     */
+    public function addValue($value)
+    {
+        // section 127-0-1-1-bed3971:124720c750d:-8000:0000000000001A97 begin
+		$this->values[] = tao_helpers_Uri::encode($value);
+        // section 127-0-1-1-bed3971:124720c750d:-8000:0000000000001A97 end
+    }
+
+    /**
+     * Short description of method getValues
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @return array
+     */
+    public function getValues()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-bed3971:124720c750d:-8000:0000000000001A9D begin
+		$returnValue = $this->values;
+        // section 127-0-1-1-bed3971:124720c750d:-8000:0000000000001A9D end
+
+        return (array) $returnValue;
     }
 
 } /* end of abstract class tao_helpers_form_elements_MultipleElement */

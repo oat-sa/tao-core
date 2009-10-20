@@ -1,9 +1,22 @@
 /**
  * initialize the naviguation into the ui components 
  */
-function uiNaviguate(){
+function loadControls(){
 	
-	//left menu action init by loading the tab content
+	//left menu trees init by loading the tab content
+	$.ajax({
+		url: '/tao/Main/getSectionTrees',
+		type: "GET",
+		data: {
+			section: $("li a[href=#" + $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id + "]:first").text()		//get the link text of the selected tab
+		},
+		dataType: 'html',
+		success: function(response){
+			$('#section-trees').html(response);
+			initNavigation();
+		}
+	});
+	//left menu actions init by loading the tab content
 	$.ajax({
 		url: '/tao/Main/getSectionActions',
 		type: "GET",
@@ -13,13 +26,19 @@ function uiNaviguate(){
 		dataType: 'html',
 		success: function(response){
 			$('#section-actions').html(response);
-			$('a.nav').click(function() {	//links load the content into the main container
-				 _load("#main-container", this.href);
-				 return false;
-			});
+			initNavigation();
 		}
 	});
-	$('a.nav').click(function() {
+	
+	initNavigation();
+}
+
+/**
+ * change links and form behavior to load  content via ajax
+ */
+function initNavigation(){
+	//links load the content into the main container
+	$('a.nav').click(function() { 	
 		 _load("#main-container", this.href);
 		 return false;
 	});
@@ -36,7 +55,6 @@ function uiNaviguate(){
 		catch(exp){console.log(exp);}
 		return false;
 	});
-	
 }
 
 /**
@@ -80,5 +98,5 @@ function loaded(){
 var $tabs = null;
 $(function(){
 	//create tabs
-	$tabs = $('#tabs').tabs({load: uiNaviguate});
+	$tabs = $('#tabs').tabs({load: loadControls});
 });

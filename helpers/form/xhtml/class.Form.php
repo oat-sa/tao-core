@@ -66,8 +66,17 @@ class tao_helpers_form_xhtml_Form
         $returnValue = array();
 
         // section 127-0-1-1-4c3c2ff9:1242ef00aa7:-8000:0000000000001A1A begin
-		foreach(parent::getValues() as $key => $value){
-			$returnValue[tao_helpers_Uri::decode($key)] = tao_helpers_Uri::decode($value);
+		foreach($this->elements as $element){
+			if($element instanceof tao_helpers_form_elements_xhtml_Checkbox){
+				
+				$returnValue[tao_helpers_Uri::decode($element->getName())] = array();
+				foreach($element->getValues() as $curValue){
+					array_push($returnValue[tao_helpers_Uri::decode($element->getName())], tao_helpers_Uri::decode($curValue));
+				}
+			}
+			else{
+				$returnValue[tao_helpers_Uri::decode($element->getName())] = tao_helpers_Uri::decode($element->getValue());
+			}
 		}
 		unset($returnValue['uri']);
 		unset($returnValue['classUri']);
@@ -95,10 +104,19 @@ class tao_helpers_form_xhtml_Form
 			
 			//set posted values
 			foreach($this->elements as $id => $element){
-				if(isset($_POST[$element->getName()])){
-					$this->elements[$id]->setValue( 
-						tao_helpers_Uri::decode($_POST[$element->getName()]) 
-					);	
+				if($element instanceof tao_helpers_form_elements_xhtml_Checkbox){
+					foreach($element->getOptions() as $optionId => $option){
+						if(isset($_POST[$optionId])){
+							$this->elements[$id]->addValue(tao_helpers_Uri::decode($optionId));
+						}
+					}
+				}
+				else{
+					if(isset($_POST[$element->getName()])){
+						$this->elements[$id]->setValue( 
+							tao_helpers_Uri::decode($_POST[$element->getName()]) 
+						);
+					}
 				}
 			}
 			
