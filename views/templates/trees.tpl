@@ -33,7 +33,8 @@
 			classEditable: <?=(!empty($tree['editClassUrl']))?'true':'false'?>,
 			editClassAction: "<?=(string)$tree['editClassUrl']?>",
 			editInstanceAction: "<?=(string)$tree['editInstanceUrl']?>",
-			createInstanceAction: "<?=(string)$tree['addInstanceUrl']?>"
+			createInstanceAction: "<?=(string)$tree['addInstanceUrl']?>",
+			subClassAction: "<?=(string)$tree['addSubClassUrl']?>"
 		});
 		
 		<?endforeach?>

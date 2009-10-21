@@ -15,10 +15,13 @@
 #jstree-marker { background-image:url("icons.png"); }
 /* DEFAULT, HOVER, CLICKED, LOADING STATES */
 .tree-custom li a, .tree-custom li span { border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
-.tree-custom li a:hover, .tree-custom li a.hover, .tree-custom li span { background: #B5CEDF; border:1px solid #599FCF; padding:0px 3px 0px 3px; }
+.tree-custom li a:hover, .tree-custom li a.hover, .tree-custom li span { background: #B5CEDF; border:1px solid #599FCF; padding:0px 3px 0px 3px; font-size:15px;}
+.tree-custom li a {font-size:15px;}
 .tree-custom li a.clicked, .tree-custom li a.clicked:hover, .tree-custom li span.clicked { background:#B5CEDF; border:1px solid #599FCF; padding:0px 3px 0px 3px; }
 /* ICONS */
 .tree-custom ins { background-image:url("icons.png"); background-position:0 0; background-repeat:no-repeat; }
+.tree-custom li.node-class ins{background-image:url("class.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-instance ins{background-image:url("instance.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom ul li a.loading ins { background-image:url("throbber.gif") !important; background-position:0 0 !important; } /* UL is added to make selector stronger */
 .tree-custom li a ins.forbidden { background-position:-16px -16px; }
 .tree-custom .locked li a ins { background-position:0 -48px; }

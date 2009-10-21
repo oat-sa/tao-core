@@ -46,7 +46,7 @@ abstract class tao_models_classes_Service
      * @access protected
      * @var array
      */
-    protected $ontologies = array('http://www.tao.lu/Ontologies/generis.rdf#','http://www.tao.lu/Ontologies/TAO.rdf#', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#');
+    protected $ontologies = array('http://www.tao.lu/Ontologies/generis.rdf#','http://www.tao.lu/Ontologies/TAO.rdf#');
 
     // --- OPERATIONS ---
 
@@ -182,6 +182,33 @@ abstract class tao_models_classes_Service
     }
 
     /**
+     * Short description of method createSubClass
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  Class parentClazz
+     * @param  string label
+     * @return core_kernel_classes_Class
+     */
+    public function createSubClass( core_kernel_classes_Class $parentClazz, $label = '')
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AB5 begin
+		if( empty($label) ){
+			$label = $parentClazz->getLabel() . '_' . (count($parentClazz->getInstances()) + 1);
+		}
+		$returnValue = $parentClazz->createSubClass(
+			$label,
+			$label . ' created from ' . get_class($this) . ' the '. date('Y-m-d h:i:s') 
+		);
+		
+        // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AB5 end
+
+        return $returnValue;
+    }
+
+    /**
      * Short description of method bindProperties
      *
      * @access public
@@ -240,6 +267,76 @@ abstract class tao_models_classes_Service
         // section 10-13-1-45--135fece8:123b76cb3ff:-8000:00000000000018A5 end
 
         return $returnValue;
+    }
+
+    /**
+     * Short description of method toTree
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  Class clazz
+     * @param  boolean subclasses
+     * @param  boolean instances
+     * @param  string highlightUri
+     * @return array
+     */
+    public function toTree( core_kernel_classes_Class $clazz, $subclasses = true, $instances = true, $highlightUri = '')
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B begin
+		
+		$instancesData = array();
+		if($instances){
+			foreach($clazz->getInstances(false) as $instance){
+				$instancesData[] = array(
+						'data' 	=> $instance->getLabel(),
+						'attributes' => array(
+							'id' => tao_helpers_Uri::encode($instance->uriResource),
+							'class' => 'node-instance'
+						)
+					);
+			}
+		}
+		$subclassesData = array();
+		if($subclasses){
+			foreach($clazz->getSubClasses(false) as $subclass){
+				$subclassesData[] = $this->toTree($subclass, $subclasses, $instances, $highlightUri);
+			}
+		}
+		
+		//format classes for json tree datastore 
+		$data = array(
+				'data' 	=> $clazz->getLabel(),
+				'attributes' => array(
+						'id' => tao_helpers_Uri::encode($clazz->uriResource),
+						'class' => 'node-class'
+					)
+ 			);
+		$children = array_merge($subclassesData, $instancesData);
+		if(count($children) > 0){
+			$data['children'] = $children;
+		}
+		if($highlightUri != ''){
+			
+		/*	if($highlightUri == tao_helpers_Uri::encode($clazz->uriResource)){
+				$data['state'] = 'open';
+			}
+			else{*/
+				$clazzChildren = $clazz->getSubClasses(true);
+				foreach($clazzChildren as $clazzChild){
+					if($highlightUri == tao_helpers_Uri::encode($clazzChild->uriResource)){
+						$data['state'] = 'open';
+						break;
+					}
+				}
+		//	}
+		}
+		$returnValue = $data;
+		
+        // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B end
+
+        return (array) $returnValue;
     }
 
 } /* end of abstract class tao_models_classes_Service */

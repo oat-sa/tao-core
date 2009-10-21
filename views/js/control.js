@@ -3,6 +3,8 @@
  */
 function loadControls(){
 	
+	
+	
 	//left menu trees init by loading the tab content
 	$.ajax({
 		url: '/tao/Main/getSectionTrees',

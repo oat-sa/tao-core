@@ -55,13 +55,13 @@ function GenerisTreeClass(selector, dataUrl, options){
 				},
 				onselect: function(NODE, TREE_OBJ){
 					
-					if($(NODE).hasClass('node-class')){
+					if($(NODE).hasClass('node-class') && instance.options.editClassAction){
 						_load(instance.options.formContainer, 
 							instance.options.editClassAction,
 							{classUri:$(NODE).attr('id')}
 						);
 					}
-					if($(NODE).hasClass('node-instance')){
+					if($(NODE).hasClass('node-instance') && instance.options.editInstanceAction){
 						PNODE = TREE_OBJ.parent(NODE);
 						_load(instance.options.formContainer, 
 							instance.options.editInstanceAction, 
@@ -74,9 +74,9 @@ function GenerisTreeClass(selector, dataUrl, options){
 			plugins: {
 				contextmenu : {
 					items : {
-						edit: {
+						select: {
 							label: "Edit",
-							icon: "",
+							icon: "rename",
 							visible : function (NODE, TREE_OBJ) {
 								if($(NODE).hasClass('node-instance') || instance.options.classEditable ){
 									return true;
@@ -88,13 +88,51 @@ function GenerisTreeClass(selector, dataUrl, options){
 							},
 		                    separator_before : true
 						},
-						create:{
-							label: "Create instance",
+						subclass: {
+							label: "Add subclass",
+							icon	: "create",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return false; 
 								}
-								if(!$(NODE).hasClass('node-class')){ 
+								if(!$(NODE).hasClass('node-class') || !instance.options.subClassAction){ 
+									return false;
+								}
+								return TREE_OBJ.check("creatable", NODE);
+							},
+							action  : function(NODE, TREE_OBJ){
+								$.ajax({
+									url: instance.options.subClassAction,
+									type: "POST",
+									data: {classUri: $(NODE).attr('id')},
+									dataType: 'json',
+									success: function(response){
+										if(response.uri){
+											TREE_OBJ.select_branch(
+												TREE_OBJ.create({
+													data: response.label,
+													attributes: {
+														id: response.uri,
+														class: 'node-class'
+													}
+												}, 
+												TREE_OBJ.get_node(NODE[0])
+												)
+											);
+										}
+									}
+								});
+							},
+		                    separator_before : true
+						},
+						instance:{
+							label: "Add instance",
+							icon	: "create",
+							visible: function (NODE, TREE_OBJ) {
+								if(NODE.length != 1) {
+									return false; 
+								}
+								if(!$(NODE).hasClass('node-class') || !instance.options.createInstanceAction){ 
 									return false;
 								}
 								return TREE_OBJ.check("creatable", NODE);
@@ -123,6 +161,26 @@ function GenerisTreeClass(selector, dataUrl, options){
 								});
 							}
 						},
+						delete:{
+							label	: "Remove",
+							icon	: "remove",
+							visible	: function (NODE, TREE_OBJ) { 
+								var ok = true; 
+								$.each(NODE, function () { 
+									if(TREE_OBJ.check("deletable", this) == false) 
+										ok = false; 
+										return false; 
+									}); 
+									return ok; 
+								}, 
+							action	: function (NODE, TREE_OBJ) { 
+								$.each(NODE, function () { 
+									TREE_OBJ.remove(this); 
+								}); 
+							} 
+						},
+						remove: false,
+						create: false,
 						rename: false,
 					}
 				}
