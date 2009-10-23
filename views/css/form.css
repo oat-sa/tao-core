@@ -21,3 +21,13 @@ div.xhtml_form div textarea{
 div.xhtml_form div .elt_desc{
 	font-weight:normal;
 }
+div.xhtml_form div.form-group{
+	border: solid 1px #ddd;
+	background-color: #ddd;
+	margin:8px;
+	padding:4px;
+}
+div.xhtml_form div.form-group div{
+	background-color: #fff;
+	padding:4px;
+}

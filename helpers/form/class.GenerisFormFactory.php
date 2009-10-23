@@ -193,6 +193,7 @@ class tao_helpers_form_GenerisFormFactory
 				case self::RENDER_MODE_XHTML:
 					$myForm = new tao_helpers_form_xhtml_Form($name);
 					$myForm->setDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')));
+					$myForm->setGroupDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')));
 					$hiddenEltClass = 'tao_helpers_form_elements_xhtml_Hidden';
 					break;
 				default: 
@@ -200,8 +201,8 @@ class tao_helpers_form_GenerisFormFactory
 			}
 			
 			
-			
-			
+			//add a group form for the class edition 
+			$elementNames = array();
 			$defaultProperties = self::getDefaultProperties();
 			foreach($defaultProperties  as $property){
 				
@@ -227,16 +228,23 @@ class tao_helpers_form_GenerisFormFactory
 					else{
 						$element->setLevel(1);
 					}
+					$element->setName('class_'.$element->getName());
 					$myForm->addElement($element);
+					$elementNames[] = $element->getName();
 				}
 			}
+			if(count($elementNames) > 0){
+				$myForm->createGroup('class', 'Class', $elementNames);
+			}
 			
-			
+			//class properties edition: add a grou pform for  each property
 			if(is_null($topClazz)){
 				$topClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
 			}
 			$level  = 2;
+			$i = 0;
 			foreach(self::getClassProperties($clazz, $topClazz) as $classProperty){
+				$elementNames = array();
 				foreach(array_merge(self::getDefaultProperties(),self::getPropertyProperties()) as $property){
 					
 					//map properties widgets to form elments 
@@ -255,23 +263,32 @@ class tao_helpers_form_GenerisFormFactory
 								}
 							}
 						}
+						$element->setName('property_'.$i.'_'.$element->getName());
 						$element->setLevel($level);
 						$myForm->addElement($element);
+						$elementNames[] = $element->getName();
 						$level++;
 					}
 					$level++;
 				}
+				
+				//add an hidden elt for the property uri
+				$propUriElt = new $hiddenEltClass("propertyUri{$i}");
+				$propUriElt->setValue(tao_helpers_Uri::encode($classProperty->uriResource));
+				$propUriElt->setLevel(3);
+				$myForm->addElement($propUriElt);
+				
+				$i++;
+				if(count($elementNames) > 0){
+					$myForm->createGroup('property_'.$i, 'Property #'.$i, $elementNames);
+				}
 			}
-			
-			
-			
 			
 			//add an hidden elt for the class uri
 			$classUriElt = new $hiddenEltClass('classUri');
 			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
 			$classUriElt->setLevel(3);
 			$myForm->addElement($classUriElt);
-			
 			
 			//form data evaluation
 			$myForm->evaluate();		

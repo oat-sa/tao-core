@@ -101,6 +101,22 @@ abstract class tao_helpers_form_Form
      */
     protected $submited = false;
 
+    /**
+     * Short description of attribute groups
+     *
+     * @access protected
+     * @var array
+     */
+    protected $groups = array();
+
+    /**
+     * Short description of attribute groupDecorator
+     *
+     * @access protected
+     * @var Decorator
+     */
+    protected $groupDecorator = null;
+
     // --- OPERATIONS ---
 
     /**
@@ -213,6 +229,10 @@ abstract class tao_helpers_form_Form
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001983 begin
 		foreach($this->elements as $element){
 			 
+			 if($this->getElementGroup($element->getName()) != ''){
+			 	continue;	//render grouped elements after  
+			 }
+			 
 			 if(!is_null($this->decorator) && $element->getWidget() != ''){
 			 	$returnValue .= $this->decorator->preRender();
 			 }
@@ -222,6 +242,32 @@ abstract class tao_helpers_form_Form
 			 if(!is_null($this->decorator) && $element->getWidget() != ''){
 			 	$returnValue .= $this->decorator->postRender();
 			 }
+		}
+		foreach($this->groups as $groupName => $group){
+		
+			if(!is_null($this->groupDecorator)){
+				$returnValue .= $this->groupDecorator->preRender();
+			}
+			$returnValue .= $group['title'];
+			
+			foreach($this->elements as $element){
+				 if($this->getElementGroup($element->getName()) == $groupName){
+				 
+				 	if(!is_null($this->decorator) && $element->getWidget() != ''){
+					 	$returnValue .= $this->decorator->preRender();
+					 }
+					 
+					 $returnValue .= $element->render();
+					 
+					 if(!is_null($this->decorator) && $element->getWidget() != ''){
+					 	$returnValue .= $this->decorator->postRender();
+					 }
+				 
+				 }
+			}
+			if(!is_null($this->groupDecorator)){
+				$returnValue .= $this->groupDecorator->postRender();
+			}
 		}
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001983 end
 
@@ -328,6 +374,89 @@ abstract class tao_helpers_form_Form
         // section 127-0-1-1--6132c277:1244e864521:-8000:0000000000001A59 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method createGroup
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string groupName
+     * @param  string groupTitle
+     * @param  array elements
+     * @return mixed
+     */
+    public function createGroup($groupName, $groupTitle = '', $elements = array())
+    {
+        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ABB begin
+		$this->groups[$groupName] = array(
+			'title' 	=> (empty($groupTitle)) ? $groupName : $groupTitle,
+			'elements'	=> $elements
+		);
+        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ABB end
+    }
+
+    /**
+     * Short description of method addToGroup
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string groupName
+     * @param  string elementName
+     * @return mixed
+     */
+    public function addToGroup($groupName, $elementName = '')
+    {
+        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ACA begin
+		
+		if(isset($this->groups[$groupName])){
+			if(isset($this->groups[$groupName]['elements'])){
+				if(!in_array($elementName, $this->groups[$groupName]['elements'])){
+					$this->groups[$groupName]['elements'][] = $elementName;
+				}
+			}
+		}
+		
+        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ACA end
+    }
+
+    /**
+     * Short description of method getElementGroup
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string elementName
+     * @return string
+     */
+    protected function getElementGroup($elementName)
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ACF begin
+		foreach($this->groups as $groupName => $group){
+				if(in_array($elementName, $group['elements'])){
+					$returnValue = $groupName;
+					break;
+				}
+		}
+        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ACF end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method setGroupDecorator
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  Decorator decorator
+     * @return mixed
+     */
+    public function setGroupDecorator( tao_helpers_form_Decorator $decorator)
+    {
+        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001AD9 begin
+		$this->groupDecorator = $decorator;
+        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001AD9 end
     }
 
     /**
