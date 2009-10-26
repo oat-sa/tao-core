@@ -4,13 +4,14 @@ body{
 	width:100%; 
 	margin: 0px; 
 	padding: 0px;
+	background-color:#F4F4F4;
 }
 div#tabs,
 div#home{
 	position:relative; 
-	top:40px;
-	height: 85%; 
-	width:99%;
+	top:5px;
+	height: 91%; 
+	width:98%;
 	margin:auto;
 	overflow-y: auto;
 }
@@ -77,9 +78,11 @@ img#logo{
 	position: absolute; 
 	right: 10px; 
 	top: 5px;
+	z-index:100;
 }
 div#main-menu{
 	padding:4px;
+	border-bottom-style:none;
 }
 div#main-menu span{
 	border-right:solid 1px #CCC;
@@ -91,4 +94,17 @@ div#main-menu span a{
 }
 div#main-menu span a:hover{
 	border-bottom: solid 2px #599FFC;
+}
+div.tree-actions{
+	font-size:12px;
+	margin-top:10px;
+}
+div.home-box{
+	width: 200px;
+	height:150px;
+	text-align:center;
+	float:left;
+	margin:auto;
+	padding-top:50px;
+	border: solid 1px #333;
 }

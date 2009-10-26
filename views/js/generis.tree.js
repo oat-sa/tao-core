@@ -161,22 +161,77 @@ function GenerisTreeClass(selector, dataUrl, options){
 								});
 							}
 						},
+						duplicate:{
+							label	: "Duplicate",
+							icon	: "create",
+							visible	: function (NODE, TREE_OBJ) { 
+									if($(NODE).hasClass('node-instance')  || !instance.options.duplicateAction){
+										return true;
+									}
+									return false;
+								}, 
+							action	: function (NODE, TREE_OBJ) { 
+								PNODE = TREE_OBJ.parent(NODE);
+								$.ajax({
+									url: instance.options.duplicateAction,
+									type: "POST",
+									data: {classUri: $(PNODE).attr('id'), uri: $(NODE).attr('id')},
+									dataType: 'json',
+									success: function(response){
+										if(response.uri){
+											TREE_OBJ.select_branch(
+												TREE_OBJ.create({
+													data: response.label,
+													attributes: {
+														id: response.uri,
+														class: 'node-instance'
+													}
+												},
+												TREE_OBJ.get_node(PNODE)
+												)
+											);
+										}
+									}
+								});
+							} 
+						},
 						delete:{
 							label	: "Remove",
 							icon	: "remove",
 							visible	: function (NODE, TREE_OBJ) { 
 								var ok = true; 
 								$.each(NODE, function () { 
-									if(TREE_OBJ.check("deletable", this) == false) 
+									if(TREE_OBJ.check("deletable", this) == false || !instance.options.deleteAction) 
 										ok = false; 
 										return false; 
 									}); 
 									return ok; 
 								}, 
 							action	: function (NODE, TREE_OBJ) { 
-								$.each(NODE, function () { 
-									TREE_OBJ.remove(this); 
-								}); 
+								if(confirm("Please confirm deletion")){
+									$.each(NODE, function () { 
+										var selectedNode = this;
+										if($(selectedNode).hasClass('node-class')){
+											data =  {classUri: $(selectedNode).attr('id')}
+										}
+										if($(selectedNode).hasClass('node-instance')){
+											PNODE = TREE_OBJ.parent(selectedNode);
+											data =  {uri: $(selectedNode).attr('id'), classUri: $(PNODE).attr('id')}
+										}
+										$.ajax({
+											url: instance.options.deleteAction,
+											type: "POST",
+											data: data,
+											dataType: 'json',
+											success: function(response){
+												if(response.deleted){
+													TREE_OBJ.remove(selectedNode); 
+												}
+											}
+										});
+										
+									}); 
+								}
 							} 
 						},
 						remove: false,
@@ -190,6 +245,13 @@ function GenerisTreeClass(selector, dataUrl, options){
 		//create the tree
 		$(selector).tree(this.treeOptions);
 		
+		$("#open-action-" + options.actionId).click(function(){
+			//alert(instance.selector);
+			$.tree.reference(instance.selector).open_all();
+		});
+		$("#close-action-" + options.actionId).click(function(){
+			$.tree.reference(instance.selector).close_all();
+		});
 	}
 	catch(exp){
 		alert(exp);
