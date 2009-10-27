@@ -18,7 +18,7 @@
 		<span><a href="<?=_url('index', null, array('extension' => $name))?>"><?=$display?></a></span>
 	<?endforeach?>
 	
-		<span><a href="settings"><?=__('Admin')?></a></span>
+		<span><a href="settings"><?=__('Settings')?></a></span>
 		<span><a href="logout"><?=__('Logout')?></a></span>
 	</div>
 	
