@@ -1,5 +1,14 @@
+/* forms style */
+div#form-title{
+	padding:4px;
+	font-size:0.9em;
+}
+div#form-container{
+	font-size:0.9em;
+}
 div.xhtml_form{
 	color:#444;
+	font-size:0.9em;
 }
 div.xhtml_form div{
 	position:relative;
@@ -15,8 +24,8 @@ div.xhtml_form div textarea{
 	margin-left:30%;
 }
 div.xhtml_form div textarea{
-	width: 300px;
-	height: 60px;
+	width: 250px;
+	height: 50px;
 }
 div.xhtml_form div .elt_desc{
 	font-weight:normal;

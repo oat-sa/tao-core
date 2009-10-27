@@ -3,8 +3,6 @@
  */
 function loadControls(){
 	
-	
-	
 	//left menu trees init by loading the tab content
 	$.ajax({
 		url: '/tao/Main/getSectionTrees',
@@ -57,6 +55,23 @@ function initNavigation(){
 		catch(exp){console.log(exp);}
 		return false;
 	});
+	
+	
+	$.ui.dialog.defaults.bgiframe = true;		//fix ie6 bug
+	$("a#settings-loader").click(function(){
+		try{
+			var settingTitle = $(this).text();
+			$("#settings-form").load(this.href).dialog({
+				title: settingTitle,
+				width: 500,
+				height: 300
+			});
+		}
+		catch(exp){console.log(exp);}
+		
+		return false;
+	});
+	_autoFx();
 }
 
 /**
@@ -81,6 +96,18 @@ function _load(selector, url, data){
  */
 function _href(ref){
 	return  (ref.indexOf('?') > -1) ? ref + '&nc='+new Date().getTime() : ref + '?nc='+new Date().getTime(); 
+}
+
+/**
+ * apply effect to elements that are only present
+ */
+function _autoFx(){
+	setTimeout(function(){
+		$(".auto-highlight").effect("highlight", {color: "#9FC9FF"}, 2500);
+	}, 750);
+	setTimeout(function(){
+		$(".auto-hide").fadeOut("slow");
+	}, 2000);
 }
 
 /**

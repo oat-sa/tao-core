@@ -7,7 +7,7 @@
 	<?=tao_helpers_Scriptloader::render()?>
 </head>
 <body>
-
+	<div id="settings-form" style="display:none;"></div>
 	<div id="ajax-loading">
 		<img src="<?=BASE_WWW?>img/ajax-loader.gif" alt="loading" />
 	</div>
@@ -18,8 +18,8 @@
 		<span><a href="<?=_url('index', null, array('extension' => $name))?>"><?=$display?></a></span>
 	<?endforeach?>
 	
-		<span><a href="settings"><?=__('Settings')?></a></span>
-		<span><a href="logout"><?=__('Logout')?></a></span>
+		<span><a href="<?=_url('index', 'Settings')?>" id="settings-loader"><?=__('Settings')?></a></span>
+		<span><a href="<?=_url('logout')?>"><?=__('Logout')?></a></span>
 	</div>
 	
 	<img src="<?=BASE_WWW?>img/logo.gif" alt="logo" id="logo" />

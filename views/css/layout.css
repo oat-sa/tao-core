@@ -1,3 +1,4 @@
+/* Common */
 body{
 	position:absolute; 
 	height:100%; 
@@ -5,50 +6,6 @@ body{
 	margin: 0px; 
 	padding: 0px;
 	background-color:#F4F4F4;
-}
-div#tabs,
-div#home{
-	position:relative; 
-	top:15px;
-	height: 89%; 
-	width:98%;
-	margin:auto;
-	overflow-y: auto;
-}
-div#tabs div.ui-tabs-panel{
-	position:absolute; 
-	left:21%;
-	width:74%;
-}
-div#section-trees{
-	margin-top:0px;
-	width:18%;
-	left:1%;
-	z-index:100;
-	padding-left:12px;
-	padding-top:12px;
-}
-div#section-actions{
-	width:20%;
-	left:1%;
-	z-index:100;
-}
-div#section-actions ul{
-	list-style-type:none;
-	margin-left:0px;
-	padding-left:0px;
-}
-div#section-actions ul li{
-	margin:12px;
-	padding:4px;
-}
-div#section-actions ul li a:hover{
-	color:#BFD6FF;
-}
-div#home_title{
-	margin:5px;
-	padding:5px;
-	text-align:center;
 }
 table{
 	width:100%; 
@@ -70,12 +27,29 @@ div#ajax-loading{
 	left:45%;
 	z-index:1000;
 }
+
+/* Layout */
+div#tabs,
+div#home{
+	position:relative; 
+	top:15px;
+	height: 89%; 
+	width:98%;
+	margin:auto;
+	overflow-y: auto;
+}
+div#tabs div.ui-tabs-panel{
+	position:absolute; 
+	left:21%;
+	width:74%;
+}
 img#logo{
 	position: absolute; 
 	right: 10px; 
 	top: 5px;
 	z-index:100;
 }
+/* Layout -> Menu */
 div#main-menu{
 	padding:4px;
 	border-bottom-style:none;
@@ -91,9 +65,54 @@ div#main-menu span a{
 div#main-menu span a:hover{
 	border-bottom: solid 2px #599FFC;
 }
+/* Layout -> Trees */
+div#section-trees{
+	margin-top:0px;
+	width:18%;
+	left:1%;
+	z-index:100;
+	padding-left:12px;
+	padding-top:12px;
+}
 div.tree-actions{
 	font-size:12px;
 	margin-top:10px;
+}
+
+/* Layout -> Actions */
+div#section-actions{
+	width:20%;
+	left:1%;
+	z-index:100;
+}
+div#section-actions ul{
+	list-style-type:none;
+	margin-left:0px;
+	padding-left:0px;
+}
+div#section-actions ul li{
+	margin:12px;
+	padding:4px;
+}
+div#section-actions ul li a:hover{
+	color:#BFD6FF;
+}
+
+/* messages */
+div#info-box{
+	padding:5px;
+	text-align:center;
+	background-color:#EEE;
+	border: solid 1px #bbb;
+	color:#3383BB;
+	font-size:1em;	
+}
+
+/* Home Page */
+div#home_title{
+	margin:5px;
+	padding:5px;
+	text-align:center;
 }
 div.home-box{
 	width: 200px;
@@ -108,7 +127,7 @@ div.home-box a{
 	text-decoration:none;
 }
 div.home-box a:hover{
-	color:#8FB8FFs;
+	color:#8FB8FF;
 }
 div.home-box-right{
 	float:right;
