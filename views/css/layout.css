@@ -98,6 +98,20 @@ div#section-actions ul li a:hover{
 	color:#BFD6FF;
 }
 
+/* Layout -> Grid */
+div#section-grid{
+	position:absolute;
+	bottom:0%;
+	right:2.5%;
+	width:550px;
+}
+
+/* Layout -> Main container */
+div#main-container{
+	height:400px;
+	overflow-y:auto;
+}
+
 /* messages */
 div#info-box{
 	padding:5px;

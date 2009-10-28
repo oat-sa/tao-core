@@ -33,6 +33,7 @@
 		</ul>
 		<div id="section-trees"></div>
 		<div id="section-actions" ></div>
+		<div id="section-grid" ></div>
 	</div>
 <?else:?>
 	<?include('home.tpl');?> 

@@ -42,7 +42,7 @@ class Main extends Module {
 	
 	public function getSectionTrees(){
 		
-		$this->setData('actions', false);
+		$this->setData('trees', false);
 		$currentExtension = $this->service->getCurrentExtension();
 		if($currentExtension){
 			$structure = $this->service->getStructure($currentExtension, $this->getRequestParameter('section'));
@@ -50,6 +50,16 @@ class Main extends Module {
 		}
 		
 		$this->setView('trees.tpl');
+	}
+	
+	public function getSectionGrid(){
+		$this->setData('grid', false);
+		$currentExtension = $this->service->getCurrentExtension();
+		if($currentExtension){
+			$this->setData('grid', true);
+		}
+		
+		$this->setView('grid.tpl');
 	}
 	
 	public function logout(){

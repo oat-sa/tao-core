@@ -29,6 +29,19 @@ function loadControls(){
 			initNavigation();
 		}
 	});
+	//bottom grid init by loading the tab content
+	$.ajax({
+		url: '/tao/Main/getSectionGrid',
+		type: "GET",
+		data: {
+			section: $("li a[href=#" + $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id + "]:first").text()		//get the link text of the selected tab
+		},
+		dataType: 'html',
+		success: function(response){
+			$('#section-grid').html(response);
+			initNavigation();
+		}
+	});
 	
 	initNavigation();
 }
