@@ -12,7 +12,7 @@ div.xhtml_form{
 }
 div.xhtml_form div{
 	position:relative;
-	min-height:45px;
+	min-height:40px;
 }
 div.xhtml_form div .form_desc{
 	position:absolute;
@@ -21,11 +21,11 @@ div.xhtml_form div .form_desc{
 div.xhtml_form div input,
 div.xhtml_form div select,
 div.xhtml_form div textarea{
-	margin-left:30%;
+	margin-left:35%;
 }
 div.xhtml_form div textarea{
-	width: 250px;
-	height: 50px;
+	width: 220px;
+	height: 45px;
 }
 div.xhtml_form div .elt_desc{
 	font-weight:normal;
@@ -33,10 +33,10 @@ div.xhtml_form div .elt_desc{
 div.xhtml_form div.form-group{
 	border: solid 1px #ddd;
 	background-color: #ddd;
-	margin:8px;
-	padding:4px;
+	margin:6px;
+	padding:3px;
 }
 div.xhtml_form div.form-group div{
 	background-color: #fff;
-	padding:4px;
+	padding:3px;
 }

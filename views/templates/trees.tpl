@@ -33,9 +33,8 @@
 		});
 		
 		<?foreach(get_data('trees') as $i => $tree):?>
-		
 		new GenerisTreeClass('#tree-<?=$i?>', "<?=(string)$tree['dataUrl']?>", {
-			formContainer: 			'#main-container',
+			formContainer: 			getMainContainerSelector(),
 			actionId: 				"<?=$i?>",
 			classEditable: 			 <?=(!empty($tree['editClassUrl']))?'true':'false'?>,
 			editClassAction: 		"<?=(string)$tree['editClassUrl']?>",
@@ -43,7 +42,9 @@
 			createInstanceAction: 	"<?=(string)$tree['addInstanceUrl']?>",
 			subClassAction: 		"<?=(string)$tree['addSubClassUrl']?>",
 			deleteAction: 			"<?=(string)$tree['deleteUrl']?>",
-			duplicateAction: 		"<?=(string)$tree['duplicateUrl']?>"
+			duplicateAction: 		"<?=(string)$tree['duplicateUrl']?>",
+			gridContainer:			"#section-grid",
+			gridAction:				"<?=(string)$tree['gridUrl']?>"
 		});
 		
 		<?endforeach?>

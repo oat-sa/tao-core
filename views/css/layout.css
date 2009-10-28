@@ -65,6 +65,10 @@ div#main-menu span a{
 div#main-menu span a:hover{
 	border-bottom: solid 2px #599FFC;
 }
+div#main-menu span.current-extension a{
+	border-bottom: solid 2px #599FFC;
+}
+
 /* Layout -> Trees */
 div#section-trees{
 	margin-top:0px;
@@ -107,7 +111,18 @@ div#section-grid{
 }
 
 /* Layout -> Main container */
-div#main-container{
+div#preview-container{
+	width:49%;
+	height:400px;
+	overflow-y:auto;
+	float:left;
+	background-color:#EFEFEF;
+	color:#CCC;
+	text-align:center;
+	font-size:32px;
+	margin-right:5px;
+}
+div.main-container{
 	height:400px;
 	overflow-y:auto;
 }

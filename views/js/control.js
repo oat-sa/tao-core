@@ -29,37 +29,31 @@ function loadControls(){
 			initNavigation();
 		}
 	});
-	//bottom grid init by loading the tab content
-	$.ajax({
-		url: '/tao/Main/getSectionGrid',
-		type: "GET",
-		data: {
-			section: $("li a[href=#" + $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id + "]:first").text()		//get the link text of the selected tab
-		},
-		dataType: 'html',
-		success: function(response){
-			$('#section-grid').html(response);
-			initNavigation();
-		}
-	});
+	
+	$("#section-grid").fadeOut();
 	
 	initNavigation();
 }
 
+function getMainContainerSelector(){
+	var uiTab = $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id;
+	return "div#"+uiTab+" div.main-container";
+}
 /**
  * change links and form behavior to load  content via ajax
  */
 function initNavigation(){
+	
 	//links load the content into the main container
 	$('a.nav').click(function() { 	
-		 _load("#main-container", this.href);
+		 _load(getMainContainerSelector(), this.href);
 		 return false;
 	});
 	//submit the form by ajax into the form container
 	$("form").submit(function(){
 		try{
 			loading();
-			$("#main-container").load(
+			$(getMainContainerSelector()).load(
 				_href($(this).attr('action')),
 				$(this).serializeArray(),
 				loaded()
@@ -84,6 +78,7 @@ function initNavigation(){
 		
 		return false;
 	});
+	
 	_autoFx();
 }
 
@@ -140,5 +135,5 @@ function loaded(){
 var $tabs = null;
 $(function(){
 	//create tabs
-	$tabs = $('#tabs').tabs({load: loadControls});
+	$tabs = $('#tabs').tabs({load: loadControls, collapsible: true});
 });

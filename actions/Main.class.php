@@ -2,7 +2,7 @@
 class Main extends Module {
 
 	protected $service = null;
-	
+
 	public function __construct(){
 		$this->service = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
 	}
@@ -24,10 +24,11 @@ class Main extends Module {
 		if($currentExtension){
 			$this->setData('sections', $this->service->getStructure($currentExtension)->sections[0]);
 		}
+		$this->setData('currentExtension', $currentExtension);
 		
 		$this->setView('layout.tpl');
 	}
-	
+
 	public function getSectionActions(){
 		
 		$this->setData('actions', false);
@@ -39,7 +40,7 @@ class Main extends Module {
 		
 		$this->setView('actions.tpl');
 	}
-	
+
 	public function getSectionTrees(){
 		
 		$this->setData('trees', false);
@@ -51,17 +52,7 @@ class Main extends Module {
 		
 		$this->setView('trees.tpl');
 	}
-	
-	public function getSectionGrid(){
-		$this->setData('grid', false);
-		$currentExtension = $this->service->getCurrentExtension();
-		if($currentExtension){
-			$this->setData('grid', true);
-		}
-		
-		$this->setView('grid.tpl');
-	}
-	
+
 	public function logout(){
 		session_destroy();
 		$this->redirect('index');	

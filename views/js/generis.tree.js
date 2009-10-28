@@ -68,6 +68,22 @@ function GenerisTreeClass(selector, dataUrl, options){
 							{classUri: $(PNODE).attr('id'),  uri: $(NODE).attr('id')}
 						);
 					}
+					if($(NODE).hasClass('node-instance') && instance.options.gridAction && instance.options.gridContainer){
+						
+						if($(instance.options.gridContainer).css('display') == 'none'){
+							$(instance.options.gridContainer).html('');
+							$(instance.options.gridContainer).fadeIn();
+						}
+						
+						PNODE = TREE_OBJ.parent(NODE);
+						_load(instance.options.gridContainer, 
+							instance.options.gridAction, 
+							{classUri: $(PNODE).attr('id'),  uri: $(NODE).attr('id')}
+						);
+					}
+					else if(instance.options.gridContainer){
+						$(instance.options.gridContainer).fadeOut();
+					}
 					return false;
 				}
 			},

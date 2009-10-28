@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/elements/class.Hidden.php
+ * Generis Object Oriented API - tao/helpers/form/elements/class.Free.php
  *
  * $Id$
  *
@@ -29,23 +29,22 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 require_once('tao/helpers/form/class.FormElement.php');
 
 /* user defined includes */
-// section 127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A42-includes begin
-// section 127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A42-includes end
+// section 127-0-1-1-43da7667:1249b43a7f8:-8000:0000000000001AC7-includes begin
+// section 127-0-1-1-43da7667:1249b43a7f8:-8000:0000000000001AC7-includes end
 
 /* user defined constants */
-// section 127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A42-constants begin
-// section 127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A42-constants end
+// section 127-0-1-1-43da7667:1249b43a7f8:-8000:0000000000001AC7-constants begin
+// section 127-0-1-1-43da7667:1249b43a7f8:-8000:0000000000001AC7-constants end
 
 /**
- * Short description of class tao_helpers_form_elements_Hidden
+ * Short description of class tao_helpers_form_elements_Free
  *
- * @abstract
  * @access public
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
  * @subpackage helpers_form_elements
  */
-abstract class tao_helpers_form_elements_Hidden
+class tao_helpers_form_elements_Free
     extends tao_helpers_form_FormElement
 {
     // --- ASSOCIATIONS ---
@@ -73,6 +72,6 @@ abstract class tao_helpers_form_elements_Hidden
      */
     public abstract function render();
 
-} /* end of abstract class tao_helpers_form_elements_Hidden */
+} /* end of class tao_helpers_form_elements_Free */
 
 ?>

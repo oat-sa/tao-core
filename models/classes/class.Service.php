@@ -46,7 +46,7 @@ abstract class tao_models_classes_Service
      * @access protected
      * @var array
      */
-    protected $ontologies = array('http://www.tao.lu/Ontologies/generis.rdf#','http://www.tao.lu/Ontologies/TAO.rdf#');
+    protected $ontologies = array('http://www.tao.lu/Ontologies/generis.rdf','http://www.tao.lu/Ontologies/TAO.rdf');
 
     // --- OPERATIONS ---
 

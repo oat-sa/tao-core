@@ -195,6 +195,7 @@ class tao_helpers_form_GenerisFormFactory
 					$myForm->setDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')));
 					$myForm->setGroupDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')));
 					$hiddenEltClass = 'tao_helpers_form_elements_xhtml_Hidden';
+					$selectEltClass = 'tao_helpers_form_elements_xhtml_Combobox';
 					break;
 				default: 
 					return null;
@@ -249,6 +250,24 @@ class tao_helpers_form_GenerisFormFactory
 					
 					//map properties widgets to form elments 
 					$element = self::elementMap($property, $renderMode);
+					
+					//add range mannually because it's widget is not implemented
+					if(is_null($element) && $property->uriResource == 'http://www.w3.org/2000/01/rdf-schema#range'){
+						$property->feed();
+						$element = new $selectEltClass();
+						$element->setName(tao_helpers_Uri::encode($property->uriResource));
+						$element->setDescription('Range');
+						//$range = new core_kernel_classes_Class('http://www.w3.org/2000/01/rdf-schema#Class');
+						$range = $property->getRange();
+						if($range != null){
+							$options = array();
+							foreach($range->getInstances(true) as $rangeInstance){
+								$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
+							}
+							$element->setOptions($options);
+						}
+					}
+					
 					if(!is_null($element)){
 						
 						//take property values to populate the form
@@ -269,8 +288,8 @@ class tao_helpers_form_GenerisFormFactory
 						$elementNames[] = $element->getName();
 						$level++;
 					}
-					$level++;
 				}
+				$level++;
 				
 				//add an hidden elt for the property uri
 				$propUriElt = new $hiddenEltClass("propertyUri{$i}");
@@ -323,6 +342,7 @@ class tao_helpers_form_GenerisFormFactory
 		$elementClass = 'tao_helpers_form_elements_'.$renderMode.'_'.$widget;
 		
 		if(!class_exists($elementClass)){
+		//	echo "unknown widget $elementClass for property {$property->uriResource}<br />";
 			return null;
 		}
 		
@@ -467,18 +487,18 @@ class tao_helpers_form_GenerisFormFactory
 		$defaultUris = array(
 			'http://www.w3.org/2000/01/rdf-schema#label',
 			'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget',
-			'http://www.w3.org/2000/01/rdf-schema#domain',
+			//'http://www.w3.org/2000/01/rdf-schema#domain',
 			'http://www.w3.org/2000/01/rdf-schema#range',
 			'http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent'
 		);
 		
 		$resourceClass = new core_kernel_classes_Class('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property');
-		foreach($resourceClass->getProperties() as $property){
+		
+		foreach($resourceClass->getProperties(true) as $property){
 			if(in_array($property->uriResource, $defaultUris)){
 				array_push($returnValue, $property);
 			}
 		}
-		
         // section 127-0-1-1-696660da:12480a2774f:-8000:0000000000001AB5 end
 
         return (array) $returnValue;

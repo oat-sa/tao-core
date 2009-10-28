@@ -15,7 +15,13 @@
 	<div id="main-menu" class="ui-state-default">
 	
 	<?foreach(get_data('extensions') as $name => $display):?>
-		<span><a href="<?=_url('index', null, array('extension' => $name))?>"><?=$display?></a></span>
+		<?if(get_data('currentExtension') == $name):?>
+			<span class="current-extension" >
+		<?else:?>
+			<span>
+		<?endif?>
+				<a href="<?=_url('index', null, array('extension' => $name))?>"><?=$display?></a>
+			</span>
 	<?endforeach?>
 	
 		<span><a href="<?=_url('index', 'Settings')?>" id="settings-loader"><?=__('Settings')?></a></span>
