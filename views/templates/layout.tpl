@@ -45,6 +45,8 @@
 	<?include('home.tpl');?> 
 <?endif?>
 
-	<br />
+	<div id="footer">
+		TAO<sup>&copy;</sup> - 2009 - A joint initiative of CRP Henri Tudor and the University of Luxembourg
+	</div>
 </body>
 </html>

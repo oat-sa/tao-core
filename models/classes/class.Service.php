@@ -318,12 +318,28 @@ abstract class tao_models_classes_Service
 			$data['children'] = $children;
 		}
 		if($highlightUri != ''){
-			
-			$clazzChildren = $clazz->getSubClasses(true);
-			foreach($clazzChildren as $clazzChild){
-				if($highlightUri == tao_helpers_Uri::encode($clazzChild->uriResource)){
-					$data['state'] = 'open';
-					break;
+			if($highlightUri == tao_helpers_Uri::encode($clazz->uriResource)){
+				$data['state'] = 'open';
+			}
+			else{
+				foreach($clazz->getInstances() as $childInstance){
+					if($highlightUri == tao_helpers_Uri::encode($childInstance->uriResource)){
+						$data['state'] = 'open';
+						break;
+					}
+				}
+				$clazzChildren = $clazz->getSubClasses(true);
+				foreach($clazzChildren as $clazzChild){
+					if($highlightUri == tao_helpers_Uri::encode($clazzChild->uriResource)){
+						$data['state'] = 'open';
+						break;
+					}
+					foreach($clazzChild->getInstances() as $childInstance){
+						if($highlightUri == tao_helpers_Uri::encode($childInstance->uriResource)){
+							$data['state'] = 'open';
+							break;
+						}
+					}
 				}
 			}
 		}

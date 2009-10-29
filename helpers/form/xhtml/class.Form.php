@@ -121,8 +121,8 @@ class tao_helpers_form_xhtml_Form
 			}
 			
 			$this->validate();
-			
 		}
+			
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A33 end
     }
 

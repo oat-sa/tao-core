@@ -116,6 +116,9 @@ function _autoFx(){
 	setTimeout(function(){
 		$(".auto-hide").fadeOut("slow");
 	}, 2000);
+	setTimeout(function(){
+		$(".auto-slide").slideUp(1500);
+	}, 5000);
 }
 
 /**

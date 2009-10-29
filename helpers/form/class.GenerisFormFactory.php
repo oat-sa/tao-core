@@ -93,7 +93,7 @@ class tao_helpers_form_GenerisFormFactory
 		
 		if(!is_null($clazz)){
 			
-			(strlen(trim($clazz->getLabel())) > 0) ? $name = strtolower($clazz->getLabel()) : $name = 'form_'.(count(self::$forms)+1);
+			$name = 'form_'.(count(self::$forms)+1);
 			
 			//use the right implementation (depending the render mode)
 			switch($renderMode){
@@ -186,7 +186,7 @@ class tao_helpers_form_GenerisFormFactory
 		
 		if(!is_null($clazz)){
 			
-			(strlen(trim($clazz->getLabel())) > 0) ? $name = strtolower($clazz->getLabel()) : $name = 'form_'.(count(self::$forms)+1);
+			$name = 'form_'.(count(self::$forms)+1);
 			
 			//use the right implementation (depending the render mode)
 			switch($renderMode){
