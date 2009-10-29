@@ -133,5 +133,22 @@ class ServiceTestCase extends UnitTestCase {
 		$testProperty->delete();
 		$testModelClass->delete();
 	}
+	
+	public function testExtensions(){
+		$extensions = $this->taoService->getLoadedExtensions();
+		foreach($extensions as $extension){
+			$extTestPath = ROOT_PATH . $extension . '/test';
+			if(file_exists($extTestPath)){
+				if(is_dir($extTestPath)){
+					foreach(scandir($extTestPath) as $file){
+						if(preg_match("/TestCase\.php$/", $file)){
+							echo "You can run too : <a href='".ROOT_URL.'/'.$extension. "/test/$file'>$file</a> <br>";
+						}
+						
+					}
+				}
+			}
+		}
+	}
 }
 ?>

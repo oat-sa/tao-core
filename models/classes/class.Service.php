@@ -143,7 +143,7 @@ abstract class tao_models_classes_Service
 		if(strlen(trim($label)) == 0){
 			throw new Exception("Please, never use empty labels!");
 		}
-		foreach($clazz->getProperties()->getIterator() as $property){
+		foreach($clazz->getProperties() as $property){
 			if($property->getLabel() == $label){
 				$returnValue = $property;
 				break;
