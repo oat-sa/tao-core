@@ -290,7 +290,7 @@ abstract class tao_models_classes_Service
 		if($instances){
 			foreach($clazz->getInstances(false) as $instance){
 				$instancesData[] = array(
-						'data' 	=> $instance->getLabel(),
+						'data' 	=> tao_helpers_Display::textCutter($instance->getLabel(), 16),
 						'attributes' => array(
 							'id' => tao_helpers_Uri::encode($instance->uriResource),
 							'class' => 'node-instance'
@@ -307,7 +307,7 @@ abstract class tao_models_classes_Service
 		
 		//format classes for json tree datastore 
 		$data = array(
-				'data' 	=> $clazz->getLabel(),
+				'data' 	=> tao_helpers_Display::textCutter($clazz->getLabel(), 16),
 				'attributes' => array(
 						'id' => tao_helpers_Uri::encode($clazz->uriResource),
 						'class' => 'node-class'

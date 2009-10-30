@@ -194,21 +194,25 @@ class tao_models_classes_TaoService
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A79 begin
 		
 		if( count(self::$structure) == 0 ){
+			$structure = array();
 			foreach($this->getLoadedExtensions() as $loadedExtension){
 				$xmlStructure = $this->loadExtensionStructure($loadedExtension);
 				if(!is_null($xmlStructure)){
-					self::$structure[$loadedExtension] = $xmlStructure;
+					self::$structure[(int)$xmlStructure['level']] = array('extension' => $loadedExtension, 'data' => $xmlStructure);
 				}
 			}
+			ksort(self::$structure);
 		}
 		if(!empty($extension)){
-			if(isset(self::$structure[$extension])){
-				if(!empty($section)){
-					$xmlStruct = self::$structure[$extension];
-					$nodes = $xmlStruct->xpath("//section[@name='{$section}']");
-					return $nodes[0];
+			foreach(self::$structure as $structure){
+				if($structure['extension'] == $extension){
+					if(!empty($section)){
+						$xmlStruct = $structure['data'];
+						$nodes = $xmlStruct->xpath("//section[@name='{$section}']");
+						return $nodes[0];
+					}
+					return $structure['data'];
 				}
-				return self::$structure[$extension];
 			}
 		}
 		

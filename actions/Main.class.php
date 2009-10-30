@@ -10,9 +10,13 @@ class Main extends Module {
 	public function index(){
 		
 		$extensions = array();
-		foreach($this->service->getStructure() as $extension => $xmlStruct){
-			$extensions[$extension] = (string)$xmlStruct['name'];
+		foreach($this->service->getStructure() as $i => $structure){
+			$extensions[$i] = array(
+				'name' 		=> (string)$structure['data']['name'],
+				'extension'	=> $structure['extension']
+			);
 		}
+		ksort($extensions);
 		$this->setData('extensions', $extensions);
 		
 		if($this->getRequestParameter('extension') != null){

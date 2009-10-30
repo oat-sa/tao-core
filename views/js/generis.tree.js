@@ -94,7 +94,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 							label: "Edit",
 							icon: "rename",
 							visible : function (NODE, TREE_OBJ) {
-								if($(NODE).hasClass('node-instance') || instance.options.classEditable ){
+								if( ($(NODE).hasClass('node-instance') &&  instance.options.editInstanceAction)  || 
+									($(NODE).hasClass('node-class') &&  instance.options.editClassAction) ){
 									return true;
 								}
 								return false;
@@ -181,7 +182,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							label	: "Duplicate",
 							icon	: "create",
 							visible	: function (NODE, TREE_OBJ) { 
-									if($(NODE).hasClass('node-instance')  || !instance.options.duplicateAction){
+									if($(NODE).hasClass('node-instance')  && instance.options.duplicateAction){
 										return true;
 									}
 									return false;

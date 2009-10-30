@@ -35,10 +35,14 @@ function loadControls(){
 	initNavigation();
 }
 
+/**
+ * @return {String} the current main container jQuery selector (from the opened tab)
+ */
 function getMainContainerSelector(){
 	var uiTab = $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id;
 	return "div#"+uiTab+" div.main-container";
 }
+
 /**
  * change links and form behavior to load  content via ajax
  */
@@ -122,17 +126,42 @@ function _autoFx(){
 }
 
 /**
- * Show the loader
+ * Check and cut the text of the selector container only if the text is longer than the maxLength parameter
+ * @param {String} selector JQuery selector
+ * @param {int} maxLength  
  */
-function loading(){
-	$("#ajax-loading").show('fast');
+function textCutter(selector, maxLength){
+	if(!maxLength){
+		maxLength = 100; 
+	}
+	$(selector).each(function(){
+		if($(this).text().length > maxLength && !$(this).hasClass("text-cutted")){
+			$(this).attr('title', $(this).text());
+			$(this).css('cursor', 'pointer');
+			$(this).html($(this).text().substring(0, maxLength) + "[...<img src='"+imgPath+"bullet_add.png' />]")
+			$(this).addClass("text-cutted");
+		}
+	});
 }
 
 /**
- * Hide the loader
+ * Begin an async request, while loading:
+ * - show the loader img
+ * - disable the submit buttons
+ */
+function loading(){
+	$("#ajax-loading").show('fast');
+	$("input[type='submit']").attr('disabled', 'true');
+}
+
+/**
+ * Complete an async request, once loaded:
+ *  - hide the loader img
+ *  - enable back the submit buttons
  */
 function loaded(){
 	$("#ajax-loading").hide('fast');
+	$("input[type='submit']").attr('disabled', 'false');
 }
 
 var $tabs = null;

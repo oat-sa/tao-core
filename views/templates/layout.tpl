@@ -4,7 +4,13 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>TAO</title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
+	
+	<script type='text/javascript'>
+		var imgPath = '<?=BASE_WWW?>img/';
+	</script>
+	
 	<?=tao_helpers_Scriptloader::render()?>
+	
 </head>
 <body>
 	<div id="settings-form" style="display:none;"></div>
@@ -14,13 +20,13 @@
 
 	<div id="main-menu" class="ui-state-default">
 	
-	<?foreach(get_data('extensions') as $name => $display):?>
-		<?if(get_data('currentExtension') == $name):?>
+	<?foreach(get_data('extensions') as $extension):?>
+		<?if(get_data('currentExtension') == $extension['extension']):?>
 			<span class="current-extension" >
 		<?else:?>
 			<span>
 		<?endif?>
-				<a href="<?=_url('index', null, array('extension' => $name))?>"><?=$display?></a>
+				<a href="<?=_url('index', null, array('extension' => $extension['extension']))?>"><?=$extension['name']?></a>
 			</span>
 	<?endforeach?>
 	

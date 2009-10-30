@@ -36,7 +36,6 @@
 		new GenerisTreeClass('#tree-<?=$i?>', "<?=(string)$tree['dataUrl']?>", {
 			formContainer: 			getMainContainerSelector(),
 			actionId: 				"<?=$i?>",
-			classEditable: 			 <?=(!empty($tree['editClassUrl']))?'true':'false'?>,
 			editClassAction: 		"<?=(string)$tree['editClassUrl']?>",
 			editInstanceAction: 	"<?=(string)$tree['editInstanceUrl']?>",
 			createInstanceAction: 	"<?=(string)$tree['addInstanceUrl']?>",
@@ -46,7 +45,6 @@
 			gridContainer:			"#section-grid",
 			gridAction:				"<?=(string)$tree['gridUrl']?>"
 		});
-		
 		<?endforeach?>
 		
 	});
