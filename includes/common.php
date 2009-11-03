@@ -107,6 +107,7 @@ tao_helpers_Scriptloader::addJsFiles(array(
 	BASE_WWW . 'js/jqGrid/js/i18n/grid.locale-en.js',
 	BASE_WWW . 'js/jqGrid/js/jquery.jqGrid.min.js',
 	BASE_WWW . 'js/control.js',
+	BASE_WWW . 'js/form.js',
 	BASE_WWW . 'js/generis.tree.js'
 
 ));

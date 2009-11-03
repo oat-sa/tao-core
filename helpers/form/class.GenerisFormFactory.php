@@ -96,6 +96,7 @@ class tao_helpers_form_GenerisFormFactory
 			$name = 'form_'.(count(self::$forms)+1);
 			
 			//use the right implementation (depending the render mode)
+			//@todo refactor this and use a FormFactory/FormElementFactory
 			switch($renderMode){
 				case self::RENDER_MODE_XHTML:
 					$myForm = new tao_helpers_form_xhtml_Form($name);
@@ -108,8 +109,6 @@ class tao_helpers_form_GenerisFormFactory
 			
 			$defaultProperties 	= self::getDefaultProperties();
 			$classProperties	= self::getClassProperties($clazz, new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS));
-			
-			//@todo take the properties ahead the class recursivly till the top level class  
 			foreach(array_merge($defaultProperties, $classProperties) as $property){
 				
 				$property->feed();
@@ -189,13 +188,14 @@ class tao_helpers_form_GenerisFormFactory
 			$name = 'form_'.(count(self::$forms)+1);
 			
 			//use the right implementation (depending the render mode)
+			//@todo refactor this and use a FormFactory/FormElementFactory
 			switch($renderMode){
 				case self::RENDER_MODE_XHTML:
 					$myForm = new tao_helpers_form_xhtml_Form($name);
 					$myForm->setDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')));
 					$myForm->setGroupDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')));
 					$hiddenEltClass = 'tao_helpers_form_elements_xhtml_Hidden';
-					$selectEltClass = 'tao_helpers_form_elements_xhtml_Combobox';
+					$buttonEltClass = 'tao_helpers_form_elements_xhtml_Button';
 					break;
 				default: 
 					return null;
@@ -204,8 +204,7 @@ class tao_helpers_form_GenerisFormFactory
 			
 			//add a group form for the class edition 
 			$elementNames = array();
-			$defaultProperties = self::getDefaultProperties();
-			foreach($defaultProperties  as $property){
+			foreach(self::getDefaultProperties()  as $property){
 				
 				//map properties widgets to form elments 
 				$element = self::elementMap($property, $renderMode);
@@ -223,12 +222,7 @@ class tao_helpers_form_GenerisFormFactory
 							}
 						}
 					}
-					if(in_array($property, $defaultProperties)){
-						$element->setLevel(0);
-					}
-					else{
-						$element->setLevel(1);
-					}
+					$element->setLevel(2);
 					$element->setName('class_'.$element->getName());
 					$myForm->addElement($element);
 					$elementNames[] = $element->getName();
@@ -238,76 +232,29 @@ class tao_helpers_form_GenerisFormFactory
 				$myForm->createGroup('class', 'Class', $elementNames);
 			}
 			
+			//add an hidden elt for the class uri
+			$classUriElt = new $hiddenEltClass('classUri');
+			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
+			$myForm->addElement($classUriElt);
+			
+			
 			//class properties edition: add a grou pform for  each property
 			if(is_null($topClazz)){
 				$topClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
 			}
-			$level  = 2;
 			$i = 0;
 			foreach(self::getClassProperties($clazz, $topClazz) as $classProperty){
-				$elementNames = array();
-				foreach(array_merge(self::getDefaultProperties(),self::getPropertyProperties()) as $property){
-					
-					//map properties widgets to form elments 
-					$element = self::elementMap($property, $renderMode);
-					
-					//add range mannually because it's widget is not implemented
-					if(is_null($element) && $property->uriResource == 'http://www.w3.org/2000/01/rdf-schema#range'){
-						$property->feed();
-						$element = new $selectEltClass();
-						$element->setName(tao_helpers_Uri::encode($property->uriResource));
-						$element->setDescription('Range');
-						//$range = new core_kernel_classes_Class('http://www.w3.org/2000/01/rdf-schema#Class');
-						$range = $property->getRange();
-						if($range != null){
-							$options = array();
-							foreach($range->getInstances(true) as $rangeInstance){
-								$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
-							}
-							$element->setOptions($options);
-						}
-					}
-					
-					if(!is_null($element)){
-						
-						//take property values to populate the form
-						$values = $classProperty->getPropertyValuesCollection($property);
-						foreach($values->getIterator() as $value){
-							if(!is_null($value)){
-								if($value instanceof core_kernel_classes_Resource){
-									$element->setValue($value->uriResource);
-								}
-								if($value instanceof core_kernel_classes_Literal){
-									$element->setValue((string)$value);
-								}
-							}
-						}
-						$element->setName('property_'.$i.'_'.$element->getName());
-						$element->setLevel($level);
-						$myForm->addElement($element);
-						$elementNames[] = $element->getName();
-						$level++;
-					}
-				}
-				$level++;
-				
-				//add an hidden elt for the property uri
-				$propUriElt = new $hiddenEltClass("propertyUri{$i}");
-				$propUriElt->setValue(tao_helpers_Uri::encode($classProperty->uriResource));
-				$propUriElt->setLevel(3);
-				$myForm->addElement($propUriElt);
-				
+				self::propertyEditor($classProperty, $myForm, $i, $renderMode);
 				$i++;
-				if(count($elementNames) > 0){
-					$myForm->createGroup('property_'.$i, 'Property #'.$i, $elementNames);
-				}
 			}
 			
-			//add an hidden elt for the class uri
-			$classUriElt = new $hiddenEltClass('classUri');
-			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
-			$classUriElt->setLevel(3);
-			$myForm->addElement($classUriElt);
+			//add a button to add new properties
+			$addPropElement = new $buttonEltClass("propertyAdder");
+			$addPropElement->addAttribute('class', 'property-adder');
+			$addPropElement->setValue(__('Add a new property'));
+			$addPropElement->setLevel(3);
+			$myForm->addElement($addPropElement);
+			$myForm->createGroup('property-actions', 'Actions', array($addPropElement->getName()));
 			
 			//form data evaluation
 			$myForm->evaluate();		
@@ -317,6 +264,115 @@ class tao_helpers_form_GenerisFormFactory
 		}
 		
         // section 127-0-1-1-173d16:124524d2e59:-8000:0000000000001A5D end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method propertyEditor
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  Property property
+     * @param  Form form
+     * @param  int index
+     * @param  string renderMode
+     * @return tao_helpers_form_Form
+     */
+    public static function propertyEditor( core_kernel_classes_Property $property,  tao_helpers_form_Form $form, $index = 0, $renderMode = 'xhtml')
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-397f707b:124b59ea33f:-8000:0000000000001B0E begin
+		
+		if(is_null($form)){
+			throw new Exception("tao_helpers_form_Form parameter must be a valid form instance");
+		}
+		
+		$level = ($index + 1) * 10;
+		$elementNames = array();
+		
+		//use the right implementation (depending the render mode)
+		//@todo refactor this and use a FormElementFactory
+		switch($renderMode){
+			case self::RENDER_MODE_XHTML:
+				$hiddenEltClass = 'tao_helpers_form_elements_xhtml_Hidden';
+				$selectEltClass = 'tao_helpers_form_elements_xhtml_Combobox';
+				$buttonEltClass = 'tao_helpers_form_elements_xhtml_Button';
+				break;
+			default: 
+				return null;
+		}
+		
+		foreach(array_merge(self::getDefaultProperties(),self::getPropertyProperties()) as $propertyProperty){
+			
+			//map properties widgets to form elments 
+			$element = self::elementMap($propertyProperty, $renderMode);
+			
+			//add range mannually because it's widget is not implemented
+			if(is_null($element) && $propertyProperty->uriResource == 'http://www.w3.org/2000/01/rdf-schema#range'){
+				$propertyProperty->feed();
+				$element = new $selectEltClass();
+				$element->setName(tao_helpers_Uri::encode($propertyProperty->uriResource));
+				$element->setDescription('Range');
+				
+				$range = $propertyProperty->getRange();
+				if($range != null){
+					$options = array();
+					foreach($range->getInstances(true) as $rangeInstance){
+						$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
+					}
+					$element->setOptions($options);
+				}
+			}
+			
+			if(!is_null($element)){
+				
+				//take property values to populate the form
+				$values = $property->getPropertyValuesCollection($propertyProperty);
+				foreach($values->getIterator() as $value){
+					if(!is_null($value)){
+						if($value instanceof core_kernel_classes_Resource){
+							$element->setValue($value->uriResource);
+						}
+						if($value instanceof core_kernel_classes_Literal){
+							$element->setValue((string)$value);
+						}
+					}
+				}
+				$element->setName("property_{$index}_{$element->getName()}");
+				$element->setLevel($level);
+				$form->addElement($element);
+				$elementNames[] = $element->getName();
+				$level++;
+				
+			}
+		}
+		
+		//add a delete button 
+		$deleteElt = new $buttonEltClass("propertyDeleter{$index}");
+		$deleteElt->addAttribute('class', 'property-deleter');
+		$deleteElt->setValue(__('Delete property'));
+		$deleteElt->setLevel($level);
+		$form->addElement($deleteElt);
+		$elementNames[] = $deleteElt->getName();
+		$level++;
+		
+		//add an hidden elt for the property uri (IT MUST BE OUTSIDDE A GROUP FOR DELETION)
+		$propUriElt = new $hiddenEltClass("propertyUri{$index}");
+		$propUriElt->setValue(tao_helpers_Uri::encode($property->uriResource));
+		$propUriElt->setLevel($level);
+		$form->addElement($propUriElt);
+		$level++;
+		
+		
+		if(count($elementNames) > 0){
+			$form->createGroup("property_{$index}", "Property #".($index+1), $elementNames);
+		}
+		
+		$returnValue = $form;
+		
+        // section 127-0-1-1-397f707b:124b59ea33f:-8000:0000000000001B0E end
 
         return $returnValue;
     }

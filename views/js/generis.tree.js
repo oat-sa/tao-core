@@ -53,6 +53,9 @@ function GenerisTreeClass(selector, dataUrl, options){
 						type : $(TREE_OBJ.container).attr('id') 
 					} 
 				},
+				/*onload: function(TREE_OBJ){
+					TREE_OBJ.open_all();
+				},*/
 				onselect: function(NODE, TREE_OBJ){
 					
 					if($(NODE).hasClass('node-class') && instance.options.editClassAction){
@@ -263,7 +266,6 @@ function GenerisTreeClass(selector, dataUrl, options){
 		$(selector).tree(this.treeOptions);
 		
 		$("#open-action-" + options.actionId).click(function(){
-			//alert(instance.selector);
 			$.tree.reference(instance.selector).open_all();
 		});
 		$("#close-action-" + options.actionId).click(function(){

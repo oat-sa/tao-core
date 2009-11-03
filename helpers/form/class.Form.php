@@ -218,11 +218,11 @@ abstract class tao_helpers_form_Form
     /**
      * render all the form elements
      *
-     * @access protected
+     * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @return string
      */
-    protected function renderElements()
+    public function renderElements()
     {
         $returnValue = (string) '';
 
@@ -233,13 +233,13 @@ abstract class tao_helpers_form_Form
 			 	continue;	//render grouped elements after  
 			 }
 			 
-			 if(!is_null($this->decorator) && $element->getWidget() != ''){
+			 if(!is_null($this->decorator) && !($element instanceof tao_helpers_form_elements_Hidden)){
 			 	$returnValue .= $this->decorator->preRender();
 			 }
 			 
 			 $returnValue .= $element->render();
 			 
-			 if(!is_null($this->decorator) && $element->getWidget() != ''){
+			 if(!is_null($this->decorator) && !($element instanceof tao_helpers_form_elements_Hidden)){
 			 	$returnValue .= $this->decorator->postRender();
 			 }
 		}
@@ -253,13 +253,13 @@ abstract class tao_helpers_form_Form
 			foreach($this->elements as $element){
 				 if($this->getElementGroup($element->getName()) == $groupName){
 				 
-				 	if(!is_null($this->decorator) && $element->getWidget() != ''){
+				 	if(!is_null($this->decorator) && !($element instanceof tao_helpers_form_elements_Hidden) ){
 					 	$returnValue .= $this->decorator->preRender();
 					 }
 					 
 					 $returnValue .= $element->render();
 					 
-					 if(!is_null($this->decorator) && $element->getWidget() != ''){
+					 if(!is_null($this->decorator) && !($element instanceof tao_helpers_form_elements_Hidden) ){
 					 	$returnValue .= $this->decorator->postRender();
 					 }
 				 
@@ -284,9 +284,10 @@ abstract class tao_helpers_form_Form
     protected function initElements()
     {
         // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4E begin
+		
 		$tosort = array();
 		foreach($this->elements as $i => $element){
-			$tosort[$element->getLevel().'_'.$i] = $element;	//force string key
+			$tosort['0'.$element->getLevel()] = $element;	//force string key
 		}
 		ksort($tosort);											//sort by key
 		$this->elements = array();							
@@ -294,6 +295,7 @@ abstract class tao_helpers_form_Form
 			array_push($this->elements, $element); 
 		}
 		unset($tosort);
+		
         // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4E end
     }
 

@@ -84,6 +84,7 @@ function initNavigation(){
 	});
 	
 	_autoFx();
+	_initForms();
 }
 
 /**
@@ -123,6 +124,16 @@ function _autoFx(){
 	setTimeout(function(){
 		$(".auto-slide").slideUp(1500);
 	}, 5000);
+}
+
+function _initForms(){
+	 $("input.property-deleter").click(function(){
+	 	groupNode = $(this).parents(".form-group").get(0);
+		if(groupNode){
+			$(groupNode).empty();
+			$(groupNode).remove();
+		}
+	 })
 }
 
 /**

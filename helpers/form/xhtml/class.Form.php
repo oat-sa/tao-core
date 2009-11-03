@@ -149,13 +149,15 @@ class tao_helpers_form_xhtml_Form
 		 	$returnValue .= $this->decorator->preRender();
 		 }
 		 $returnValue .= "<input type='hidden' name='{$this->name}_sent' value='1' />";
-		 $returnValue .= "<input type='submit' value='submit' />";
+		 $returnValue .= "<input type='submit' value='".__('save')."'  />";
+		 $returnValue .= "<input type='button' value='".__('revert'). "' class='form-reverter' />";
 		 if(!is_null($this->decorator)){
 		 	$returnValue .= $this->decorator->postRender();
 		 }
         
 		$returnValue .= "</form>";
         $returnValue .= "</div>";
+		
         // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018F0 end
 
         return (string) $returnValue;

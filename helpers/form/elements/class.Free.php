@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 28.10.2009, 15:33:15 with ArgoUML PHP module 
+ * Automatically generated on 02.11.2009, 12:38:10 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -39,26 +39,19 @@ require_once('tao/helpers/form/class.FormElement.php');
 /**
  * Short description of class tao_helpers_form_elements_Free
  *
+ * @abstract
  * @access public
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
  * @subpackage helpers_form_elements
  */
-class tao_helpers_form_elements_Free
+abstract class tao_helpers_form_elements_Free
     extends tao_helpers_form_FormElement
 {
     // --- ASSOCIATIONS ---
 
 
     // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute widget
-     *
-     * @access protected
-     * @var string
-     */
-    protected $widget = '';
 
     // --- OPERATIONS ---
 
@@ -72,6 +65,6 @@ class tao_helpers_form_elements_Free
      */
     public abstract function render();
 
-} /* end of class tao_helpers_form_elements_Free */
+} /* end of abstract class tao_helpers_form_elements_Free */
 
 ?>

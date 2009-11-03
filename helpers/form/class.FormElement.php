@@ -99,7 +99,7 @@ abstract class tao_helpers_form_FormElement
      * @access protected
      * @var int
      */
-    protected $level = 0;
+    protected $level = 1;
 
     // --- OPERATIONS ---
 
