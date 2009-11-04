@@ -62,6 +62,7 @@ function initNavigation(){
 				$(this).serializeArray(),
 				loaded()
 			);
+			window.location = '#form-title';
 		}
 		catch(exp){console.log(exp);}
 		return false;
@@ -127,12 +128,36 @@ function _autoFx(){
 }
 
 function _initForms(){
-	 $("input.property-deleter").click(function(){
+	 $(".property-deleter").click(function(){
 	 	groupNode = $(this).parents(".form-group").get(0);
 		if(groupNode){
 			$(groupNode).empty();
 			$(groupNode).remove();
 		}
+	 })
+	 $(".property-adder").click(function(){
+		 var groupNode = $(this).parents(".form-group").get(0);
+		 if(ctx_extension){
+		 	url = '/' + ctx_extension + '/' + ctx_module + '/';
+		 }
+		 url += 'addClassProperty';
+		 var eltId = this.id;
+		 if (groupNode) {
+		 	$.ajax({
+		 		url: url,
+		 		type: "POST",
+		 		data: {
+		 			index: $(".property-uri").size(),
+		 			classUri: $("#classUri").val()
+		 		},
+		 		dataType: 'html',
+		 		success: function(response){
+		 			$(groupNode).before(response)
+		 			initNavigation();
+					window.location = '#'+eltId;
+		 		}
+		 	});
+		 }
 	 })
 }
 

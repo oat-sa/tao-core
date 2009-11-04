@@ -1,5 +1,5 @@
 <?php
-class Settings extends Module {
+class Settings extends CommonModule {
 
 	public function index(){
 		

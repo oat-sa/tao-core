@@ -1,7 +1,5 @@
 <?php
-class Main extends Module {
-
-	protected $service = null;
+class Main extends CommonModule {
 
 	public function __construct(){
 		$this->service = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');

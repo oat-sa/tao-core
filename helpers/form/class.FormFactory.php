@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 03.11.2009, 17:25:46 with ArgoUML PHP module 
+ * Automatically generated on 04.11.2009, 12:17:26 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -44,7 +44,30 @@ class tao_helpers_form_FormFactory
 
     // --- ATTRIBUTES ---
 
+    /**
+     * Short description of attribute renderMode
+     *
+     * @access protected
+     * @var string
+     */
+    protected static $renderMode = 'xhtml';
+
     // --- OPERATIONS ---
+
+    /**
+     * Short description of method setRenderMode
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string renderMode
+     * @return mixed
+     */
+    public static function setRenderMode($renderMode)
+    {
+        // section 127-0-1-1--4d0d476d:124bee31dc8:-8000:0000000000001B2E begin
+		self::$renderMode = $renderMode;
+        // section 127-0-1-1--4d0d476d:124bee31dc8:-8000:0000000000001B2E end
+    }
 
     /**
      * Short description of method getForm
@@ -52,10 +75,9 @@ class tao_helpers_form_FormFactory
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @param  string name
-     * @param  string renderMode
      * @return tao_helpers_form_Form
      */
-    public static function getForm($name = '', $renderMode = 'xhtml')
+    public static function getForm($name = '')
     {
         $returnValue = null;
 
@@ -63,14 +85,14 @@ class tao_helpers_form_FormFactory
 		
 		//use the right implementation (depending the render mode)
 		//@todo refactor this and use a FormElementFactory
-		switch($renderMode){
-			case self::RENDER_MODE_XHTML:
+		switch(self::$renderMode){
+			case 'xhtml':
 				$myForm = new tao_helpers_form_xhtml_Form($name);
 				$myForm->setDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')));
 				$myForm->setGroupDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')));
 				break;
 			default: 
-				throw new Exception("$renderMode not yet supported");
+				throw new Exception("render mode {self::$renderMode} not yet supported");
 		}
 		
 		$returnValue = $myForm;
@@ -85,15 +107,36 @@ class tao_helpers_form_FormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string name
      * @param  string type
-     * @param  string renderMode
      * @return tao_helpers_form_FormElement
      */
-    public static function getElement($type, $renderMode = 'xhtml')
+    public static function getElement($name = '', $type = '')
     {
         $returnValue = null;
 
         // section 127-0-1-1--35d6051a:124bac7a23e:-8000:0000000000001B21 begin
+		
+		$eltClass = false;
+		
+		switch(self::$renderMode){
+			case 'xhtml':
+				$eltClass = "tao_helpers_form_elements_xhtml_{$type}";
+				if(!class_exists($eltClass)){
+					//throw new Exception("type $type not yet supported");
+					return null;
+				}
+				break;
+			default: 
+				throw new Exception("render mode {self::$renderMode} not yet supported");
+		}
+		if($eltClass){
+			$returnValue = new $eltClass($name);
+			if(!$returnValue instanceof tao_helpers_form_FormElement){
+				throw new Exception("$eltClass must be a tao_helpers_form_FormElement");
+			}
+		}
+		
         // section 127-0-1-1--35d6051a:124bac7a23e:-8000:0000000000001B21 end
 
         return $returnValue;
