@@ -53,9 +53,6 @@ function GenerisTreeClass(selector, dataUrl, options){
 						type : $(TREE_OBJ.container).attr('id') 
 					} 
 				},
-				/*onload: function(TREE_OBJ){
-					TREE_OBJ.open_all();
-				},*/
 				onselect: function(NODE, TREE_OBJ){
 					
 					if($(NODE).hasClass('node-class') && instance.options.editClassAction){

@@ -82,13 +82,16 @@ class tao_helpers_form_GenerisFormFactory
 
         // section 10-13-1-45--70bace43:123ffff90e9:-8000:00000000000018CD begin
 		
+		
 		if(!is_null($clazz)){
 			
 			$name = 'form_'.(count(self::$forms)+1);
 			$myForm = tao_helpers_form_FormFactory::getForm($name);
 			
+			$level = 2;
 			$defaultProperties 	= self::getDefaultProperties();
 			$classProperties	= self::getClassProperties($clazz, new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS));
+			$maxLevel = count(array_merge($defaultProperties, $classProperties)) + $level;
 			foreach(array_merge($defaultProperties, $classProperties) as $property){
 				
 				$property->feed();
@@ -112,10 +115,12 @@ class tao_helpers_form_GenerisFormFactory
 						}
 					}
 					if(in_array($property, $defaultProperties)){
-						$element->setLevel(0);
+						$element->setLevel($level);
+						$level++;
 					}
 					else{
-						$element->setLevel(1);
+						$element->setLevel($maxLevel);
+						$maxLevel++;
 					}
 					$myForm->addElement($element);
 				}
@@ -124,19 +129,19 @@ class tao_helpers_form_GenerisFormFactory
 			//add an hidden elt for the class uri
 			$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
 			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
-			$classUriElt->setLevel(2);
+			$classUriElt->setLevel($level);
 			$myForm->addElement($classUriElt);
 			
 			if(!is_null($instance)){
 				//add an hidden elt for the instance Uri
 				$instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
 				$instanceUriElt->setValue(tao_helpers_Uri::encode($instance->uriResource));
-				$instanceUriElt->setLevel(2);
+				$instanceUriElt->setLevel($level+1);
 				$myForm->addElement($instanceUriElt);
 			}
 			
 			//form data evaluation
-			$myForm->evaluate();		
+			$myForm->evaluate();
 				
 			self::$forms[$name] = $myForm;
 			$returnValue = self::$forms[$name];
@@ -194,7 +199,7 @@ class tao_helpers_form_GenerisFormFactory
 				}
 			}
 			if(count($elementNames) > 0){
-				$myForm->createGroup('class', 'Class', $elementNames);
+				$myForm->createGroup('class', 'Class: '.$clazz->getLabel(), $elementNames);
 			}
 			
 			//add an hidden elt for the class uri
@@ -202,15 +207,42 @@ class tao_helpers_form_GenerisFormFactory
 			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
 			$myForm->addElement($classUriElt);
 			
-			
 			//class properties edition: add a grou pform for  each property
 			if(is_null($topClazz)){
 				$topClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
 			}
 			$i = 0;
 			foreach(self::getClassProperties($clazz, $topClazz) as $classProperty){
-				self::propertyEditor($classProperty, $myForm, $i);
 				$i++;
+				$useEditor = false;
+				$domains = $classProperty->getDomain();
+				foreach($domains->getIterator() as $domain){
+					if($domain->uriResource == $clazz->uriResource){
+						$useEditor = true;
+						break;
+					}
+				}
+				if($useEditor){
+					self::propertyEditor($classProperty, $myForm, $i, true);
+				}
+				else{
+					$domainElement = tao_helpers_form_FormFactory::getElement('parentProperty'.$i, 'Free');
+					$value = "Edit property into parent class ";
+					foreach($domains->getIterator() as $domain){
+						$value .= "<a class='nav' href='";
+						$value .= _url(null, null, array(
+								'classUri' 		=> tao_helpers_Uri::encode($domain->uriResource), 
+								'reload' 		=> true,
+								'showNodeUri'	=> tao_helpers_Uri::encode($domain->uriResource)
+							));
+						$value .= "'>".$domain->getLabel()."</a>";
+					}
+					$domainElement->setValue($value);
+					$domainElement->setLevel(($i * 10) + 1);
+					$myForm->addElement($domainElement);
+					
+					$myForm->createGroup("property_{$i}", "Property #".($i).": ".$classProperty->getLabel(), array('parentProperty'.$i));
+				}
 			}
 			
 			//add a button to add new properties
@@ -241,9 +273,10 @@ class tao_helpers_form_GenerisFormFactory
      * @param  Property property
      * @param  Form form
      * @param  int index
+     * @param  boolean simpleMode
      * @return tao_helpers_form_xhtml_Form
      */
-    public static function propertyEditor( core_kernel_classes_Property $property,  tao_helpers_form_xhtml_Form $form, $index = 0)
+    public static function propertyEditor( core_kernel_classes_Property $property,  tao_helpers_form_xhtml_Form $form, $index = 0, $simpleMode = false)
     {
         $returnValue = null;
 
@@ -253,10 +286,164 @@ class tao_helpers_form_GenerisFormFactory
 			throw new Exception("tao_helpers_form_Form parameter must be a valid form instance");
 		}
 		
-		$level = ($index + 1) * 10;
+		if($simpleMode){
+			$returnValue = self::simplePropertyEditor($property, $form, $index);
+		}
+		else{
+			$returnValue = self::advancedPropertyEditor($property, $form, $index);
+		}
+		
+		//add an hidden elt for the property uri
+		$propUriElt = tao_helpers_form_FormFactory::getElement("propertyUri{$index}", 'Hidden');
+		$propUriElt->addAttribute('class', 'property-uri');
+		$propUriElt->setValue(tao_helpers_Uri::encode($property->uriResource));
+		$propUriElt->setLevel($index * 10);
+		$returnValue->addElement($propUriElt);
+		
+        // section 127-0-1-1-397f707b:124b59ea33f:-8000:0000000000001B0E end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method simplePropertyEditor
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  Property property
+     * @param  Form form
+     * @param  int index
+     * @return tao_helpers_form_Form
+     */
+    protected static function simplePropertyEditor( core_kernel_classes_Property $property,  tao_helpers_form_Form $form, $index = 0)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B39 begin
+		
+		$level = ($index * 10) + 1;
 		$elementNames = array();
 		
-		foreach(array_merge(self::getDefaultProperties(),self::getPropertyProperties()) as $propertyProperty){
+		foreach(self::getDefaultProperties() as $propertyProperty){
+		
+			//map properties widgets to form elments 
+			$element = self::elementMap($propertyProperty);
+			
+			if(!is_null($element)){
+				//take property values to populate the form
+				$values = $property->getPropertyValuesCollection($propertyProperty);
+				foreach($values->getIterator() as $value){
+					if(!is_null($value)){
+						if($value instanceof core_kernel_classes_Resource){
+							$element->setValue($value->uriResource);
+						}
+						if($value instanceof core_kernel_classes_Literal){
+							$element->setValue((string)$value);
+						}
+					}
+				}
+				$element->setName("property_{$index}_{$element->getName()}");
+				$element->setLevel($level);
+				$form->addElement($element);
+				$elementNames[] = $element->getName();
+				$level++;
+			}
+		}
+		
+		//build the type list from the "widget/range to type" map
+		$typeElt = tao_helpers_form_FormFactory::getElement("property_{$index}_type", 'Combobox');
+		$typeElt->setDescription(__('Type'));
+		$typeElt->addAttribute('class', 'property-type');
+		$typeElt->setEmptyOption(' --- select --- ');
+		$options = array();
+		foreach(self::getPropertyMap() as $typeKey => $map){
+			$options[$typeKey] = $map['title'];
+			if($property->getWidget()->uriResource == $map['widget']){
+				$typeElt->setValue($typeKey);
+			}
+		}
+		$typeElt->setOptions($options);
+		$typeElt->setLevel($level);
+		$form->addElement($typeElt);
+		$elementNames[] = $typeElt->getName();
+		$level++;
+		
+		$listElt = tao_helpers_form_FormFactory::getElement("property_{$index}_range", 'Combobox');
+		$listElt->setDescription(__('List values'));
+		$listElt->addAttribute('class', 'property-listvalues');
+		$listElt->setEmptyOption(' --- select --- ');
+		
+		$topLevelClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
+		$domains = $property->getDomain();
+		$options = array();
+		foreach($topLevelClazz->getSubClasses(false) as $subClass){
+			$isDomain = false;
+			foreach($domains->getIterator() as $domain){
+				if($subClass->uriResource == $domain->uriResource){
+					$isDomain = true;
+					break;
+				} 
+				foreach($domain->getParentClasses(true) as $domainParent){
+					if($subClass->uriResource == $domainParent->uriResource){
+						$isDomain = true;
+						break;
+					} 
+				}
+			}
+			if(!$isDomain){
+				$options[tao_helpers_Uri::encode($subClass->uriResource)] = $subClass->getLabel();
+				if($property->getRange()->uriResource == $subClass->uriResource){
+					$listElt->setValue($subClass->uriResource);
+				}
+			}
+		}
+		$listElt->setOptions(array_merge($options, array('new' => 'Add new values')));
+		$listElt->setLevel($level);
+		$form->addElement($listElt);
+		$elementNames[] = $listElt->getName();
+		$level++;
+		
+		
+		//add a delete button 
+		$deleteElt = tao_helpers_form_FormFactory::getElement("propertyDeleter{$index}", 'Button');
+		$deleteElt->addAttribute('class', 'property-deleter');
+		$deleteElt->setValue(__('Delete property'));
+		$deleteElt->setLevel($level);
+		$form->addElement($deleteElt);
+		$elementNames[] = $deleteElt->getName();
+		$level++;
+		
+		if(count($elementNames) > 0){
+			$form->createGroup("property_{$index}", "Property #".($index+1).": ".$property->getLabel(), $elementNames);
+		}
+			
+		$returnValue = $form;
+		
+        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B39 end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method advancedPropertyEditor
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  Property property
+     * @param  Form form
+     * @param  int index
+     * @return tao_helpers_form_Form
+     */
+    protected static function advancedPropertyEditor( core_kernel_classes_Property $property,  tao_helpers_form_Form $form, $index = 0)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B40 begin
+		
+		$level = ($index * 10) + 1;
+		$elementNames = array();
+		
+		foreach(array_merge(self::getDefaultProperties(), self::getPropertyProperties()) as $propertyProperty){
 			
 			//map properties widgets to form elments 
 			$element = self::elementMap($propertyProperty);
@@ -296,7 +483,6 @@ class tao_helpers_form_GenerisFormFactory
 				$form->addElement($element);
 				$elementNames[] = $element->getName();
 				$level++;
-				
 			}
 		}
 		
@@ -309,22 +495,13 @@ class tao_helpers_form_GenerisFormFactory
 		$elementNames[] = $deleteElt->getName();
 		$level++;
 		
-		//add an hidden elt for the property uri (IT MUST BE OUTSIDDE A GROUP FOR DELETION)
-		$propUriElt = tao_helpers_form_FormFactory::getElement("propertyUri{$index}", 'Hidden');
-		$propUriElt->addAttribute('class', 'property-uri');
-		$propUriElt->setValue(tao_helpers_Uri::encode($property->uriResource));
-		$propUriElt->setLevel($level);
-		$form->addElement($propUriElt);
-		$level++;
-		
-		
 		if(count($elementNames) > 0){
-			$form->createGroup("property_{$index}", "Property #".($index+1), $elementNames);
+			$form->createGroup("property_{$index}", "Property #".($index+1).": ".$property->getLabel(), $elementNames);
 		}
 		
 		$returnValue = $form;
 		
-        // section 127-0-1-1-397f707b:124b59ea33f:-8000:0000000000001B0E end
+        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B40 end
 
         return $returnValue;
     }
@@ -369,6 +546,7 @@ class tao_helpers_form_GenerisFormFactory
 			}
 			$returnValue = $element;
 		}
+		
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001937 end
 
         return $returnValue;
@@ -428,7 +606,6 @@ class tao_helpers_form_GenerisFormFactory
 				}
 			}while($top === false);
 		}
-		
 		
         // section 127-0-1-1-2db84171:12476b7fa3b:-8000:0000000000001AAB end
 
@@ -493,6 +670,62 @@ class tao_helpers_form_GenerisFormFactory
 			}
 		}
         // section 127-0-1-1-696660da:12480a2774f:-8000:0000000000001AB5 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method getPropertyMap
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @return array
+     */
+    public static function getPropertyMap()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B31 begin
+		
+		$returnValue = array(
+			'text' => array(
+				'title' 	=> 'A short text',
+				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
+			),
+			'longtext' => array(
+				'title' 	=> 'A long text',
+				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
+				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
+			),
+			'html' => array(
+				'title' 	=> 'A formated text',
+				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea',
+				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
+			),
+			'password' => array(
+				'title' 	=> 'A password',
+				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
+				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
+			),
+			'list' => array(
+				'title' 	=> 'A simple choice list',
+				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox',
+				'range'		=> null
+			),
+			'longlist' => array(
+				'title' 	=> 'A simple choice long list',
+				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
+				'range'		=> null
+			),
+			'multilist' => array(
+				'title' 	=> 'A multiple choice list',
+				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
+				'range'		=> null
+			)
+		);
+		
+        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B31 end
 
         return (array) $returnValue;
     }

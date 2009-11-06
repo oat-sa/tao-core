@@ -12,7 +12,7 @@ div.xhtml_form{
 }
 div.xhtml_form div{
 	position:relative;
-	min-height:35px;
+	/*min-height:35px;*/
 }
 div.xhtml_form div .form_desc{
 	position:absolute;
@@ -37,9 +37,11 @@ div.xhtml_form div.form-group{
 	border: solid 1px #ddd;
 	background-color: #ddd;
 	margin:5px;
-	padding:2px;
+	padding:3px;
+	color:#3383BB;
 }
 div.xhtml_form div.form-group div{
 	background-color: #fff;
-	padding:2px;
+	padding:3px;
+	color:#444;
 }

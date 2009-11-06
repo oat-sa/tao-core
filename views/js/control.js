@@ -16,6 +16,22 @@ function loadControls(){
 			initNavigation();
 		}
 	});
+	
+	$("#section-grid").fadeOut();
+	
+	initActions();
+	initNavigation();
+}
+
+/**
+ * @return {String} the current main container jQuery selector (from the opened tab)
+ */
+function getMainContainerSelector(){
+	var uiTab = $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id;
+	return "div#"+uiTab+" div.main-container";
+}
+
+function initActions(){
 	//left menu actions init by loading the tab content
 	$.ajax({
 		url: '/tao/Main/getSectionActions',
@@ -26,21 +42,9 @@ function loadControls(){
 		dataType: 'html',
 		success: function(response){
 			$('#section-actions').html(response);
-			initNavigation();
+		//	initNavigation();
 		}
 	});
-	
-	$("#section-grid").fadeOut();
-	
-	initNavigation();
-}
-
-/**
- * @return {String} the current main container jQuery selector (from the opened tab)
- */
-function getMainContainerSelector(){
-	var uiTab = $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id;
-	return "div#"+uiTab+" div.main-container";
 }
 
 /**
@@ -158,6 +162,50 @@ function _initForms(){
 		 		}
 		 	});
 		 }
+	 })
+	 $(".property-listvalues").each(function(){
+	 	$(this).parent("div").hide("slow");
+	 })
+	 $(".property-listvalues").change(function(){
+	 	if($(this).val() == 'new'){
+			alert('add new class')
+		}
+		else{
+			var classUri = $(this).val();
+			var elt = this;
+			if(ctx_extension){
+			 	url = '/' + ctx_extension + '/' + ctx_module + '/';
+			 }
+			 url += 'getInstances';
+			$.ajax({
+				url: url,
+				type: "POST",
+				data: {classUri: classUri},
+				dataType: 'json',
+				success: function(response){
+					html = '<ul>';
+					for(i in response){
+						html += '<li>'+response[i]+'</li>'
+					}
+					html += '</ul>';
+					$(elt).parent("div").append(html);
+				}
+			});
+		}
+	 })
+	 $(".property-type").change(function(){
+	 	if(/list$/.test($(this).val())){
+			elt = $(this).parent("div").next("div");
+			if(elt.css('display') == 'none'){
+				elt.show("slow");
+			}
+		}
+		else{
+			elt = $(this).parent("div").next("div")
+			if(elt.css('display') != 'none'){
+				elt.hide("slow");
+			}
+		}
 	 })
 }
 

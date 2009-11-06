@@ -85,10 +85,31 @@ div.tree-actions{
 
 /* Layout -> Actions */
 div#section-actions{
-	width:20%;
 	left:1%;
+	margin-left:1%;
+	margin-top:1%;
+	padding:0px;
+	text-align:left;
+	width:18%;
 	z-index:100;
 }
+div#section-actions div#action-items{
+	padding:15px;
+}
+div#section-actions div#action-items td{
+	text-align:center;
+	padding-bottom:15px;
+}
+
+div#section-actions div#action-items{
+	font-size:11px;
+	font-weight:bold;
+}
+div#section-actions div#action-items a img{
+	text-decoration:none;
+	border-width: 0px;	
+}
+
 div#section-actions ul{
 	list-style-type:none;
 	margin-left:0px;
@@ -113,7 +134,7 @@ div#section-grid{
 /* Layout -> Main container */
 div#preview-container{
 	width:49%;
-	height:400px;
+	height:500px;
 	overflow-y:auto;
 	float:left;
 	background-color:#EFEFEF;
@@ -123,7 +144,7 @@ div#preview-container{
 	margin-right:5px;
 }
 div.main-container{
-	height:400px;
+	height:500px;
 	overflow-y:auto;
 }
 
