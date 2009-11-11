@@ -140,7 +140,7 @@ class tao_helpers_Uri
 		if( preg_match("/^http/", $uri)){
 			
 			$returnValue = urlencode(
-				str_replace('.', '_', $uri)
+				str_replace('.', '__', $uri)
 			);
 		}
 		else{
@@ -166,7 +166,7 @@ class tao_helpers_Uri
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A42 begin
 		if( preg_match("/^http/", $uri)){
 			$returnValue = urldecode(
-				str_replace('_', '.', $uri)
+				str_replace('__', '.', $uri)
 			);
 		}
 		else{

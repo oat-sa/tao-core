@@ -17,10 +17,11 @@ function loadControls(){
 		}
 	});
 	
-	$("#section-grid").fadeOut();
+	//$("#section-meta").empty();
 	
 	initActions();
-	initNavigation();
+	//initNavigation();
+	_initControls();
 }
 
 /**
@@ -42,9 +43,30 @@ function initActions(){
 		dataType: 'html',
 		success: function(response){
 			$('#section-actions').html(response);
-		//	initNavigation();
+			initNavigation();
 		}
 	});
+	
+}
+
+function getMetaData(uri, classUri){
+	if(uri){
+		 url = '';
+		 if(ctx_extension){
+		 	url = '/' + ctx_extension + '/' + ctx_module + '/';
+		 }
+		 url += 'getMetaData';
+		 $.ajax({
+		 	url: url,
+			type: "POST",
+			data:{uri: uri, classUri: classUri},
+			dataType: 'html',
+			success: function(response){
+				$('#section-meta').html(response);
+				_initControls();
+			}
+		 });
+	}
 }
 
 /**
@@ -71,23 +93,15 @@ function initNavigation(){
 		catch(exp){console.log(exp);}
 		return false;
 	});
-	
-	
-	$.ui.dialog.defaults.bgiframe = true;		//fix ie6 bug
-	$("a#settings-loader").click(function(){
-		try{
-			var settingTitle = $(this).text();
-			$("#settings-form").load(this.href).dialog({
-				title: settingTitle,
-				width: 500,
-				height: 300
-			});
+	//revert form
+	$(".form-reverter").click(function(){
+		if ($("#uri")) {
+			GenerisTreeClass.selectTreeNode($("#uri").val());
 		}
-		catch(exp){console.log(exp);}
-		
-		return false;
-	});
-	
+		else if ($("#classUri")) {
+			GenerisTreeClass.selectTreeNode($("#classUri").val());
+		}
+	})
 	_autoFx();
 	_initForms();
 }
@@ -207,6 +221,55 @@ function _initForms(){
 			}
 		}
 	 })
+	 $('.html-area').wysiwyg();
+}
+
+function _initControls(){
+	
+	//fix ie6 bug
+	$.ui.dialog.defaults.bgiframe = true;		
+	
+	//settings dialog
+	$("#settings-form").dialog({
+		width: 500,
+		height: 300,
+		autoOpen: false
+	});
+	$("a#settings-loader").click(function(){
+		$("#settings-form").dialog('option', 'title', $(this).text());
+		$("#settings-form").load(this.href).dialog('open');
+		return false;
+	});
+	
+	//meta data dialog
+	$("#comment-form-container").dialog({
+			title: $("#comment-form-container-title").text(),
+			width: 400,
+			height: 200,
+			autoOpen: false
+		});
+	 $("#comment-editor").click(function(){
+		$("#comment-form-container").dialog('open');
+		return false;
+	 })
+	 $("#comment-saver").click(function(){
+		if (ctx_extension) {
+			url = '/' + ctx_extension + '/' + ctx_module + '/';
+		}
+		url += 'saveComment';
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: $("#comment-form").serializeArray(),
+			dataType: 'json',
+			success: function(response){
+				if (response.saved) {
+					$("#comment-form-container").dialog('close');
+					$("#comment-field").text(response.comment);
+				}
+			}
+		})
+	})
 }
 
 /**

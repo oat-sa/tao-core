@@ -229,13 +229,7 @@ class tao_helpers_form_GenerisFormFactory
 					$domainElement = tao_helpers_form_FormFactory::getElement('parentProperty'.$i, 'Free');
 					$value = "Edit property into parent class ";
 					foreach($domains->getIterator() as $domain){
-						$value .= "<a class='nav' href='";
-						$value .= _url(null, null, array(
-								'classUri' 		=> tao_helpers_Uri::encode($domain->uriResource), 
-								'reload' 		=> true,
-								'showNodeUri'	=> tao_helpers_Uri::encode($domain->uriResource)
-							));
-						$value .= "'>".$domain->getLabel()."</a>";
+						$value .= "<a  href='#' onclick='GenerisTreeClass.selectTreeNode(\"".tao_helpers_Uri::encode($domain->uriResource)."\");' >".$domain->getLabel()."</a> ";
 					}
 					$domainElement->setValue($value);
 					$domainElement->setLevel(($i * 10) + 1);
@@ -358,9 +352,12 @@ class tao_helpers_form_GenerisFormFactory
 		$options = array();
 		foreach(self::getPropertyMap() as $typeKey => $map){
 			$options[$typeKey] = $map['title'];
-			if($property->getWidget()->uriResource == $map['widget']){
-				$typeElt->setValue($typeKey);
+			if($property->getWidget()){
+				if($property->getWidget()->uriResource == $map['widget']){
+					$typeElt->setValue($typeKey);
+				}
 			}
+			
 		}
 		$typeElt->setOptions($options);
 		$typeElt->setLevel($level);

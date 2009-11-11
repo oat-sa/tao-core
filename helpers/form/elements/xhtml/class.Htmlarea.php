@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 30.09.2009, 14:21:07 with ArgoUML PHP module 
+ * Automatically generated on 11.11.2009, 16:54:16 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -52,6 +52,14 @@ class tao_helpers_form_elements_xhtml_Htmlarea
 
     // --- ATTRIBUTES ---
 
+    /**
+     * Short description of attribute CSS_CLASS
+     *
+     * @access public
+     * @var string
+     */
+    const CSS_CLASS = 'html-area';
+
     // --- OPERATIONS ---
 
     /**
@@ -66,10 +74,21 @@ class tao_helpers_form_elements_xhtml_Htmlarea
         $returnValue = (string) '';
 
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F4 begin
+
+		if(array_key_exists('class', $this->attributes)){
+			if(strstr($this->attributes['class'], self::CSS_CLASS) !== false){
+				$this->attributes['class'] .= ' ' . self::CSS_CLASS;
+			}
+		}
+		else{
+			$this->attributes['class'] = self::CSS_CLASS;
+		}
+		 
 		 $returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
 		 $returnValue .= "<textarea name='{$this->name}' id='{$this->name}' ";
 		 $returnValue .= $this->renderAttributes();
 		 $returnValue .= ">{$this->value}</textarea>";
+		 
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F4 end
 
         return (string) $returnValue;

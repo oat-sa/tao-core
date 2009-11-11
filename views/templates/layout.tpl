@@ -45,7 +45,7 @@
 		</ul>
 		<div id="section-trees"></div>
 		<div id="section-actions" ></div>
-		<div id="section-grid" ></div>
+		<div id="section-meta"></div>
 	</div>
 <?else:?>
 	<?include('home.tpl');?> 

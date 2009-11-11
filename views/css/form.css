@@ -9,10 +9,12 @@ div#form-container{
 div.xhtml_form{
 	color:#444;
 	font-size:0.9em;
+	padding-bottom:5px;
 }
 div.xhtml_form div{
 	position:relative;
 	/*min-height:35px;*/
+	padding:3px;
 }
 div.xhtml_form div .form_desc{
 	position:absolute;
@@ -20,15 +22,20 @@ div.xhtml_form div .form_desc{
 }
 div.xhtml_form div input,
 div.xhtml_form div select,
-div.xhtml_form div textarea{
+div.xhtml_form div textarea,
+div.xhtml_form div.wysiwyg{
 	margin-left:35%;
 }
 div.xhtml_form div input.form-reverter{
 	margin-left:5%;
 }
 div.xhtml_form div textarea{
-	width: 220px;
+	width: 260px;
 	height: 40px;
+}
+div.xhtml_form div.wysiwyg{
+	width: 260px;
+	height: 80px;
 }
 div.xhtml_form div .elt_desc{
 	font-weight:normal;

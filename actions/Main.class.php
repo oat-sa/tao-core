@@ -1,6 +1,7 @@
 <?php
 class Main extends CommonModule {
 
+
 	public function __construct(){
 		$this->service = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
 		$this->defaultData();
@@ -47,9 +48,12 @@ class Main extends CommonModule {
 			$actions = array();
 			foreach($actionNodes as $actionNode){
 				$action = array(
+					'js'		=> (isset($actionNode['js'])) ? (string)$actionNode['js'] : false,
 					'url' 		=> (string)$actionNode['url'],
 					'display'	=> (string)$actionNode['name'],
-					'name'		=> _clean((string)$actionNode['name'])
+					'name'		=> _clean((string)$actionNode['name']),
+					'uri'		=> ($uri) ? $this->getSessionAttribute('uri') : false,
+					'classUri'	=> ($classUri) ? $this->getSessionAttribute('classUri') : false
 				);
 				
 				$action['disabled'] = true;

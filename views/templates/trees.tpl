@@ -41,9 +41,7 @@
 			createInstanceAction: 	"<?=(string)$tree['addInstanceUrl']?>",
 			subClassAction: 		"<?=(string)$tree['addSubClassUrl']?>",
 			deleteAction: 			"<?=(string)$tree['deleteUrl']?>",
-			duplicateAction: 		"<?=(string)$tree['duplicateUrl']?>",
-			gridContainer:			"#section-grid",
-			gridAction:				"<?=(string)$tree['gridUrl']?>"
+			duplicateAction: 		"<?=(string)$tree['duplicateUrl']?>"
 		});
 		<?endforeach?>
 		

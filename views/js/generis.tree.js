@@ -11,6 +11,8 @@
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  */ 
 
+GenerisTreeClass.instances = [];
+
 /**
  * Constructor
  * @param {String} selector the jquery selector of the tree container
@@ -26,6 +28,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 		this.options = options;
 		this.dataUrl = dataUrl;
 		var instance = this;
+		
+		GenerisTreeClass.instances[GenerisTreeClass.instances.length + 1] = instance;
 		
 		this.treeOptions = {
 			data: {
@@ -68,22 +72,6 @@ function GenerisTreeClass(selector, dataUrl, options){
 							{classUri: $(PNODE).attr('id'),  uri: $(NODE).attr('id')}
 						);
 					}
-					if($(NODE).hasClass('node-instance') && instance.options.gridAction && instance.options.gridContainer){
-						
-						if($(instance.options.gridContainer).css('display') == 'none'){
-							$(instance.options.gridContainer).html('');
-							$(instance.options.gridContainer).fadeIn();
-						}
-						
-						PNODE = TREE_OBJ.parent(NODE);
-						_load(instance.options.gridContainer, 
-							instance.options.gridAction, 
-							{classUri: $(PNODE).attr('id'),  uri: $(NODE).attr('id')}
-						);
-					}
-					else if(instance.options.gridContainer){
-						$(instance.options.gridContainer).fadeOut();
-					}
 					return false;
 				}
 			},
@@ -118,26 +106,11 @@ function GenerisTreeClass(selector, dataUrl, options){
 								return TREE_OBJ.check("creatable", NODE);
 							},
 							action  : function(NODE, TREE_OBJ){
-								$.ajax({
+								GenerisTreeClass.addClass({
+									id: $(NODE).attr('id'),
 									url: instance.options.subClassAction,
-									type: "POST",
-									data: {classUri: $(NODE).attr('id')},
-									dataType: 'json',
-									success: function(response){
-										if(response.uri){
-											TREE_OBJ.select_branch(
-												TREE_OBJ.create({
-													data: response.label,
-													attributes: {
-														id: response.uri,
-														class: 'node-class'
-													}
-												}, 
-												TREE_OBJ.get_node(NODE[0])
-												)
-											);
-										}
-									}
+									NODE: NODE,
+									TREE_OBJ: TREE_OBJ
 								});
 							},
 		                    separator_before : true
@@ -155,26 +128,11 @@ function GenerisTreeClass(selector, dataUrl, options){
 								return TREE_OBJ.check("creatable", NODE);
 							},
 							action: function (NODE, TREE_OBJ) { 
-								$.ajax({
+								GenerisTreeClass.addInstance({
 									url: instance.options.createInstanceAction,
-									type: "POST",
-									data: {classUri: $(NODE).attr('id')},
-									dataType: 'json',
-									success: function(response){
-										if(response.uri){
-											TREE_OBJ.select_branch(
-												TREE_OBJ.create({
-													data: response.label,
-													attributes: {
-														id: response.uri,
-														class: 'node-instance'
-													}
-												}, 
-												TREE_OBJ.get_node(NODE[0])
-												)
-											);
-										}
-									}
+									id: $(NODE).attr('id'),
+									NODE: NODE,
+									TREE_OBJ: TREE_OBJ
 								});
 							}
 						},
@@ -188,29 +146,12 @@ function GenerisTreeClass(selector, dataUrl, options){
 									return false;
 								}, 
 							action	: function (NODE, TREE_OBJ) { 
-								PNODE = TREE_OBJ.parent(NODE);
-								$.ajax({
+								GenerisTreeClass.cloneNode({
 									url: instance.options.duplicateAction,
-									type: "POST",
-									data: {classUri: $(PNODE).attr('id'), uri: $(NODE).attr('id')},
-									dataType: 'json',
-									success: function(response){
-										if(response.uri){
-											TREE_OBJ.select_branch(
-												TREE_OBJ.create({
-													data: response.label,
-													attributes: {
-														id: response.uri,
-														class: 'node-instance'
-													}
-												},
-												TREE_OBJ.get_node(PNODE)
-												)
-											);
-										}
-									}
+									NODE: NODE,
+									TREE_OBJ: TREE_OBJ
 								});
-							} 
+							}
 						},
 						delete:{
 							label	: "Remove",
@@ -225,30 +166,11 @@ function GenerisTreeClass(selector, dataUrl, options){
 									return ok; 
 								}, 
 							action	: function (NODE, TREE_OBJ) { 
-								if(confirm("Please confirm deletion")){
-									$.each(NODE, function () { 
-										var selectedNode = this;
-										if($(selectedNode).hasClass('node-class')){
-											data =  {classUri: $(selectedNode).attr('id')}
-										}
-										if($(selectedNode).hasClass('node-instance')){
-											PNODE = TREE_OBJ.parent(selectedNode);
-											data =  {uri: $(selectedNode).attr('id'), classUri: $(PNODE).attr('id')}
-										}
-										$.ajax({
-											url: instance.options.deleteAction,
-											type: "POST",
-											data: data,
-											dataType: 'json',
-											success: function(response){
-												if(response.deleted){
-													TREE_OBJ.remove(selectedNode); 
-												}
-											}
-										});
-										
-									}); 
-								}
+								GenerisTreeClass.removeNode({
+									url: instance.options.deleteAction,
+									NODE: NODE,
+									TREE_OBJ: TREE_OBJ
+								});
 							} 
 						},
 						remove: false,
@@ -270,7 +192,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 		});
 	}
 	catch(exp){
-		alert(exp);
+		console.log(exp);
 	}
 }
 
@@ -285,9 +207,236 @@ GenerisTreeClass.prototype.getTree = function(){
  * @var GenerisTreeClass.defaultOptions is an example of options to provide to the tree
  */
 GenerisTreeClass.defaultOptions = {
-	formContainer: '#form-container',
-	editClassAction: '/editClass',
-	editInstanceAction: '/editInstance', 
-	classEditable: false,
-	createInstanceAction: '/createInstance'
+	formContainer: '#form-container'
 };
+
+/**
+ * select a node in the current tree
+ * @param {String} id
+ * @return {Boolean}
+ */
+GenerisTreeClass.selectTreeNode = function(id){
+	i=0;
+	while(i < GenerisTreeClass.instances.length){
+		aGenerisTree = GenerisTreeClass.instances[i];
+		if(aGenerisTree){
+			aJsTree = aGenerisTree.getTree();
+			if(aJsTree){
+				if(aJsTree.select_branch($("li[id='"+id+"']"))){
+					return true;
+				}
+			}
+		}
+		i++;
+	}
+	return false;
+}
+
+/**
+ * Enable you to retrieve the right tree instance and node instance from an Uri
+ * @param {String} uri is the id of the tree node
+ * @return {Object}
+ */
+function getTreeOptions(uri){
+	if (uri) {
+		i = 0;
+		while (i < GenerisTreeClass.instances.length) {
+			aGenerisTree = GenerisTreeClass.instances[i];
+			if (aGenerisTree) {
+				aJsTree = aGenerisTree.getTree();
+				if (aJsTree) {
+					if (aJsTree.get_node($("li[id='" + uri + "']"))) {
+						return {
+							NODE: aJsTree.get_node($("li[id='" + uri + "']")),
+							TREE_OBJ: aJsTree
+						};
+					}
+				}
+			}
+			i++;
+		}
+	}
+	return false;
+}
+
+/**
+ * Sub class action
+ * @param {Object} options
+ */
+GenerisTreeClass.addClass = function(options){
+	var TREE_OBJ = options.TREE_OBJ;
+	var NODE = options.NODE;
+	$.ajax({
+		url: options.url,
+		type: "POST",
+		data: {classUri: options.id},
+		dataType: 'json',
+		success: function(response){
+			if(response.uri){
+				TREE_OBJ.select_branch(
+					TREE_OBJ.create({
+						data: response.label,
+						attributes: {
+							id: response.uri,
+							class: 'node-class'
+						}
+					}, TREE_OBJ.get_node(NODE[0])));
+			}
+		}
+	});
+}
+
+/**
+ * conveniance method to subclass
+ * @param {String} uri
+ * @param {String} classUri
+ * @param {String} url
+ */
+function subClass(uri, classUri, url){
+	var options = getTreeOptions(classUri);
+	if(options){
+		options.id = classUri;
+		options.url = url;
+		GenerisTreeClass.addClass(options);
+	}
+}
+
+/**
+ * add an instance
+ * @param {Object} options
+ */
+GenerisTreeClass.addInstance = function(options){
+	var TREE_OBJ = options.TREE_OBJ;
+	var NODE = options.NODE;
+	$.ajax({
+		url: options.url,
+		type: "POST",
+		data: {classUri: options.id},
+		dataType: 'json',
+		success: function(response){
+			if (response.uri) {
+				TREE_OBJ.select_branch(TREE_OBJ.create({
+					data: response.label,
+					attributes: {
+						id: response.uri,
+						class: 'node-instance'
+					}
+				}, TREE_OBJ.get_node(NODE[0])));
+			}
+		}
+	});
+}
+
+/**
+ * conveniance method to instanciate
+ * @param {String} uri
+ * @param {String} classUri
+ * @param {String} url
+ */
+function instanciate(uri, classUri, url){
+	var options = getTreeOptions(classUri);
+	if(options){
+		options.id = classUri;
+		options.url = url;
+		GenerisTreeClass.addInstance(options);
+	}
+}
+
+/**
+ * remove a resource
+ * @param {Object} options
+ */
+GenerisTreeClass.removeNode = function(options){
+	var TREE_OBJ = options.TREE_OBJ;
+	var NODE = options.NODE;
+	if(confirm("Please confirm deletion")){
+		console.log(NODE);
+		$.each(NODE, function () { 
+			data = false;
+			var selectedNode = this;
+			if($(selectedNode).hasClass('node-class')){
+				data =  {classUri: $(selectedNode).attr('id')}
+			}
+			if($(selectedNode).hasClass('node-instance')){
+				PNODE = TREE_OBJ.parent(selectedNode);
+				data =  {uri: $(selectedNode).attr('id'), classUri: $(PNODE).attr('id')}
+			}
+			if(data){
+				$.ajax({
+					url: options.url,
+					type: "POST",
+					data: data,
+					dataType: 'json',
+					success: function(response){
+						if(response.deleted){
+							TREE_OBJ.remove(selectedNode); 
+						}
+					}
+				});
+			}
+		}); 
+	}
+}
+
+/**
+ * conveniance method to instanciate
+ * @param {String} uri
+ * @param {String} classUri
+ * @param {String} url
+ */
+function removeNode(uri, classUri, url){
+	var options = getTreeOptions(uri);
+	if(!options){
+		options = getTreeOptions(classUri);
+	}
+	if(options){
+		options.url = url;
+		GenerisTreeClass.removeNode(options);
+	}
+}
+
+/**
+ * clone a resource
+ * @param {Object} options
+ */
+GenerisTreeClass.cloneNode = function(options){
+	var TREE_OBJ = options.TREE_OBJ;
+	var NODE = options.NODE;
+	var PNODE = TREE_OBJ.parent(NODE);
+	$.ajax({
+		url: options.url,
+		type: "POST",
+		data: {classUri: $(PNODE).attr('id'), uri: $(NODE).attr('id')},
+		dataType: 'json',
+		success: function(response){
+			if(response.uri){
+				TREE_OBJ.select_branch(
+					TREE_OBJ.create({
+						data: response.label,
+						attributes: {
+							id: response.uri,
+							class: 'node-instance'
+						}
+					},
+					TREE_OBJ.get_node(PNODE)
+					)
+				);
+			}
+		}
+	});
+}
+
+/**
+ * conveniance method to clone
+ * @param {String} uri
+ * @param {String} classUri
+ * @param {String} url
+ */
+function cloneNode(uri, classUri, url){
+	var options = getTreeOptions(uri);
+	if(options){
+		options.url = url;
+		GenerisTreeClass.cloneNode(options);
+	}
+}
+

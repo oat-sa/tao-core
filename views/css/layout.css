@@ -28,6 +28,10 @@ div#ajax-loading{
 	z-index:1000;
 }
 
+a img{
+	border-width:0px;
+}
+
 /* Layout */
 div#tabs,
 div#home{
@@ -40,8 +44,8 @@ div#home{
 }
 div#tabs div.ui-tabs-panel{
 	position:absolute; 
-	left:21%;
-	width:74%;
+	left:18%;
+	width:78%;
 }
 img#logo{
 	position: absolute; 
@@ -93,6 +97,9 @@ div#section-actions{
 	width:18%;
 	z-index:100;
 }
+div#section-actions div#action-title{
+	padding: 3px;
+}
 div#section-actions div#action-items{
 	padding:15px;
 }
@@ -123,17 +130,35 @@ div#section-actions ul li a:hover{
 	color:#BFD6FF;
 }
 
-/* Layout -> Grid */
-div#section-grid{
+/* Layout -> metadata */
+div#section-meta{
 	position:absolute;
 	bottom:0%;
-	right:2.5%;
-	width:38%;
+	right:1%;
+	width:33%;
+}
+div#meta-title{
+	padding:3px;
+	font-weight:normal;
+}
+div#meta-content table{
+	border-collapse:collapse;
+}
+div#meta-content table th,
+div#meta-content table td{
+	width:33%;
+	border: solid 1px #ccc;
+	font-size:0.9em;
+	color:#444;
+	padding:3px;
+}
+div#meta-content table td{
+	font-weight:normal;
 }
 
 /* Layout -> Main container */
 div#preview-container{
-	width:49%;
+	width:59%;
 	height:500px;
 	overflow-y:auto;
 	float:left;
