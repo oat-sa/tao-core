@@ -1,8 +1,20 @@
 <?php
+/**
+ * Top level controller
+ * All children extenions module should extends the CommonModule to access the shared data 
+ */
 abstract class CommonModule extends Module {
 
+	/**
+	 * The Modules access the models throught the service instance
+	 * @var tao_models_classes_Service
+	 */
 	protected $service = null;
 	
+	/**
+	 * Retrieve the data from the url and make the base initialization
+	 * @return void
+	 */
 	protected function defaultData(){
 		$context = Context::getInstance();
 		if($this->hasSessionAttribute('currentExtension')){
@@ -32,7 +44,6 @@ abstract class CommonModule extends Module {
 			unset($_SESSION[SESSION_NAMESPACE]['uri']);
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
 		}
-		
 	}
 }
 ?>

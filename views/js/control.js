@@ -221,7 +221,11 @@ function _initForms(){
 			}
 		}
 	 })
-	 $('.html-area').wysiwyg();
+	 $('.html-area').each(function(){
+		if($(this).css('display') != 'none') {
+			$(this).wysiwyg();
+		}
+	});
 }
 
 function _initControls(){

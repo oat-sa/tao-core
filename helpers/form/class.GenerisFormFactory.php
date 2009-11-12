@@ -410,6 +410,14 @@ class tao_helpers_form_GenerisFormFactory
 		$elementNames[] = $deleteElt->getName();
 		$level++;
 		
+		//add an hidden element with the mode (simple)
+		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$index}", 'Hidden');
+		$modeElt->setValue('simple');
+		$modeElt->setLevel($level);
+		$form->addElement($modeElt);
+		$elementNames[] = $modeElt->getName();
+		$level++;
+		
 		if(count($elementNames) > 0){
 			$form->createGroup("property_{$index}", "Property #".($index+1).": ".$property->getLabel(), $elementNames);
 		}
@@ -490,6 +498,14 @@ class tao_helpers_form_GenerisFormFactory
 		$deleteElt->setLevel($level);
 		$form->addElement($deleteElt);
 		$elementNames[] = $deleteElt->getName();
+		$level++;
+		
+		//add an hidden element with the mode (simple)
+		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$index}", 'Hidden');
+		$modeElt->setValue('advanced');
+		$modeElt->setLevel($level);
+		$form->addElement($modeElt);
+		$elementNames[] = $modeElt->getName();
 		$level++;
 		
 		if(count($elementNames) > 0){

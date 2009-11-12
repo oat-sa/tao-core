@@ -440,3 +440,7 @@ function cloneNode(uri, classUri, url){
 	}
 }
 
+function fullScreen(uri, classUri, url){
+	url += '?uri='+uri+'&classUri='+classUri;
+	window.open(url, 'tao', 'width=800,height=600,menubar=no,toolbar=no');
+}
