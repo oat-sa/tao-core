@@ -45,5 +45,21 @@ abstract class CommonModule extends Module {
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
 		}
 	}
+
+	/**
+	 * Check if the current user is allowed to acces the request
+	 * Override this method to allow/deny a request
+	 * @return boolean
+	 */
+	protected function _isAllowed(){
+		if($this->hasSessionAttribute("auth_id")){
+			$auth_id = $this->getSessionAttribute("auth_id");
+			if(preg_match("/^[0-9a-f]{12,13}$/", $auth_id)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }
 ?>

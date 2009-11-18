@@ -129,19 +129,24 @@ class tao_helpers_Uri
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @param  string uri
+     * @param  boolean dotMode
      * @return string
      */
-    public static function encode($uri)
+    public static function encode($uri, $dotMode = true)
     {
         $returnValue = (string) '';
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A3F begin
 		
 		if( preg_match("/^http/", $uri)){
-			
-			$returnValue = urlencode(
-				str_replace('.', '__', $uri)
-			);
+			if($dotMode){
+				$returnValue = urlencode(
+					str_replace('.', '__', $uri)
+				);
+			}
+			else{
+				$returnValue = urlencode($uri);
+			}
 		}
 		else{
 			$returnValue = $uri;
@@ -157,17 +162,23 @@ class tao_helpers_Uri
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @param  string uri
+     * @param  boolean dotMode
      * @return string
      */
-    public static function decode($uri)
+    public static function decode($uri, $dotMode = true)
     {
         $returnValue = (string) '';
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A42 begin
 		if( preg_match("/^http/", $uri)){
-			$returnValue = urldecode(
-				str_replace('__', '.', $uri)
-			);
+			if($dotMode){
+				$returnValue = urldecode(
+					str_replace('__', '.', $uri)
+				);
+			}
+			else{
+				$returnValue = urldecode($uri);
+			}
 		}
 		else{
 			$returnValue = $uri;

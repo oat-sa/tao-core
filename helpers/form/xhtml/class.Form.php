@@ -149,8 +149,14 @@ class tao_helpers_form_xhtml_Form
 		 	$returnValue .= $this->decorator->preRender();
 		 }
 		 $returnValue .= "<input type='hidden' name='{$this->name}_sent' value='1' />";
-		 $returnValue .= "<input type='submit' value='".__('save')."'  />";
-		 $returnValue .= "<input type='button' value='".__('revert'). "' class='form-reverter' />";
+		 
+		 (isset($this->options['submitValue'])) ? $value = $this->options['submitValue'] : $value = __('save');
+		 $returnValue .= "<input type='submit' value='{$value}'  />";
+		 
+		 if(!isset($this->options['noRevert'])){
+		 	$returnValue .= "<input type='button' value='".__('revert'). "' class='form-reverter' />";
+		 }
+		 
 		 if(!is_null($this->decorator)){
 		 	$returnValue .= $this->decorator->postRender();
 		 }

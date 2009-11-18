@@ -8,7 +8,7 @@ function loadControls(){
 		url: '/tao/Main/getSectionTrees',
 		type: "GET",
 		data: {
-			section: $("li a[href=#" + $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id + "]:first").text()		//get the link text of the selected tab
+			section: $("li a[href=#" + $('.ui-tabs-panel')[tabs.tabs('option', 'selected')].id + "]:first").text()		//get the link text of the selected tab
 		},
 		dataType: 'html',
 		success: function(response){
@@ -28,8 +28,29 @@ function loadControls(){
  * @return {String} the current main container jQuery selector (from the opened tab)
  */
 function getMainContainerSelector(){
-	var uiTab = $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id;
+	var uiTab = $('.ui-tabs-panel')[tabs.tabs('option', 'selected')].id;
 	return "div#"+uiTab+" div.main-container";
+}
+
+function selectTabByName(name){
+	$("#"+name).click();
+}
+
+function getTabIndexByName(name){
+	elts = $("div#tabs ul.ui-tabs-nav li a");
+	i = 0;
+	while(i < elts.length){
+		elt = elts[i];
+		if(elt){
+			if(elt.id){
+				if(elt.id == name){
+					return i;
+				}
+			}
+		}
+		i++;
+	}
+	return -1;
 }
 
 function initActions(){
@@ -38,7 +59,7 @@ function initActions(){
 		url: '/tao/Main/getSectionActions',
 		type: "GET",
 		data: {
-			section: $("li a[href=#" + $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id + "]:first").text()		//get the link text of the selected tab
+			section: $("li a[href=#" + $('.ui-tabs-panel')[tabs.tabs('option', 'selected')].id + "]:first").text()		//get the link text of the selected tab
 		},
 		dataType: 'html',
 		success: function(response){
@@ -226,6 +247,17 @@ function _initForms(){
 			$(this).wysiwyg();
 		}
 	});
+	
+	
+	$('.authoringOpener').click(function(){
+		index = getTabIndexByName('item_authoring');
+		if(index > -1){
+			if($("#uri") && $("#classUri")){
+				tabs.tabs('url', index, '/taoItems/Items/authoring?uri=' + $("#uri").val() +'&classUri=' + $("#classUri").val());
+				tabs.tabs('select', index);
+			}
+		}
+	});
 }
 
 function _initControls(){
@@ -246,6 +278,13 @@ function _initControls(){
 	});
 	
 	//meta data dialog
+	if ($("#comment-form-container").hasClass("ui-dialog-content")) {
+		console.log('class found')
+		$("#comment-form-container").dialog('destroy');
+	}
+	else{
+		console.log('class not found')
+	}
 	$("#comment-form-container").dialog({
 			title: $("#comment-form-container-title").text(),
 			width: 400,
@@ -315,8 +354,12 @@ function loaded(){
 	$("input[type='submit']").attr('disabled', 'false');
 }
 
-var $tabs = null;
+var tabs = null;
 $(function(){
 	//create tabs
-	$tabs = $('#tabs').tabs({load: loadControls, collapsible: true});
-});
+	tabs = $('#tabs').tabs({
+		load: loadControls, 
+		collapsible: true
+	});
+	
+})

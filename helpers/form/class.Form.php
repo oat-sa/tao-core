@@ -117,6 +117,14 @@ abstract class tao_helpers_form_Form
      */
     protected $groupDecorator = null;
 
+    /**
+     * Short description of attribute options
+     *
+     * @access protected
+     * @var array
+     */
+    protected $options = array();
+
     // --- OPERATIONS ---
 
     /**
@@ -125,12 +133,14 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @param  string name
+     * @param  array options
      * @return mixed
      */
-    public function __construct($name = '')
+    public function __construct($name = '', $options = array())
     {
         // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:0000000000001912 begin
 		$this->name = $name;
+		$this->options = $options;
         // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:0000000000001912 end
     }
 

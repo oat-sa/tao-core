@@ -6,7 +6,12 @@
  */
 abstract class TaoModule extends CommonModule {
 
-
+	public function __construct(){
+		
+		if(!$this->_isAllowed()){
+			throw new Exception("Access denied. Please renew your authentication!");
+		}
+	}
 	
 	/**
 	 * All tao module must have a method to get the meta data of the selected resource

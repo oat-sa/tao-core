@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 04.11.2009, 12:17:26 with ArgoUML PHP module 
+ * Automatically generated on 18.11.2009, 16:58:59 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -75,9 +75,10 @@ class tao_helpers_form_FormFactory
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
      * @param  string name
+     * @param  array options
      * @return tao_helpers_form_Form
      */
-    public static function getForm($name = '')
+    public static function getForm($name = '', $options = array())
     {
         $returnValue = null;
 
@@ -87,7 +88,7 @@ class tao_helpers_form_FormFactory
 		//@todo refactor this and use a FormElementFactory
 		switch(self::$renderMode){
 			case 'xhtml':
-				$myForm = new tao_helpers_form_xhtml_Form($name);
+				$myForm = new tao_helpers_form_xhtml_Form($name, $options);
 				$myForm->setDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')));
 				$myForm->setGroupDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')));
 				break;

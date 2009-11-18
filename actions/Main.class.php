@@ -1,12 +1,66 @@
 <?php
 class Main extends CommonModule {
 
-
+	/**
+	 * Constructor performs initializations actions
+	 * @return void
+	 */
 	public function __construct(){
+		
+		//check if user is authenticated
+		$context = Context::getInstance();
+		if(!$this->_isAllowed() &&  $context->getActionName() != 'login'){
+			$this->logout();
+			return;
+		}
+		
+		//initialize service
 		$this->service = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
 		$this->defaultData();
 	}
+	
+	/**
+	 * Login form
+	 * @return 
+	 */
+	public function login(){
+		
+		$myForm = tao_helpers_form_FormFactory::getForm('login', array('noRevert' => true, 'submitValue' => __('Connect')));
+		$loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
+		$loginElt->setLevel(1);
+		$myForm->addElement($loginElt);
+		
+		$passElt = tao_helpers_form_FormFactory::getElement('password', 'Hiddenbox');
+		$passElt->setLevel(2);
+		$myForm->addElement($passElt);
+		
+		$myForm->evaluate();
+		
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				$this->setSessionAttribute("auth_id", uniqid());
+			//	var_dump($this->getSessionAttribute("auth_id"));
+				$this->redirect('index');	
+			}
+		}
+		
+		$this->setData('form', $myForm->render());
+		$this->setView('login.tpl');
+	}
 
+	/**
+	 * 
+	 * @return 
+	 */
+	public function logout(){
+		session_destroy();
+		$this->redirect('login');	
+	}
+
+	/**
+	 * The main action, load the layout
+	 * @return void
+	 */
 	public function index(){
 		
 		$extensions = array();
@@ -20,7 +74,12 @@ class Main extends CommonModule {
 		$this->setData('extensions', $extensions);
 		
 		if($this->getRequestParameter('extension') != null){
-			$this->service->setCurrentExtension($this->getRequestParameter('extension'));
+			if($this->getRequestParameter('extension') == 'none'){
+				unset($_SESSION[SESSION_NAMESPACE]['currentExtension']);
+			}
+			else{
+				$this->service->setCurrentExtension($this->getRequestParameter('extension'));
+			}
 			unset($_SESSION[SESSION_NAMESPACE]['uri']);
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
 		}
@@ -35,6 +94,10 @@ class Main extends CommonModule {
 		$this->setView('layout.tpl');
 	}
 
+	/**
+	 * Load the actions for the current section and the current data context
+	 * @return void
+	 */
 	public function getSectionActions(){
 		
 		$uri = $this->hasSessionAttribute('uri');
@@ -85,6 +148,10 @@ class Main extends CommonModule {
 		$this->setView('actions.tpl');
 	}
 
+	/**
+	 * Load the section trees
+	 * @return 
+	 */
 	public function getSectionTrees(){
 		
 		$this->setData('trees', false);
@@ -97,9 +164,5 @@ class Main extends CommonModule {
 		$this->setView('trees.tpl');
 	}
 
-	public function logout(){
-		session_destroy();
-		$this->redirect('index');	
-	}
 }
 ?>

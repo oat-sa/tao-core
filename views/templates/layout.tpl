@@ -19,7 +19,7 @@
 	</div>
 
 	<div id="main-menu" class="ui-state-default">
-	
+		<span><a href="<?=_url('index', null, array('extension' => 'none'))?>"><?=__('Home')?></a></span>
 	<?foreach(get_data('extensions') as $extension):?>
 		<?if(get_data('currentExtension') == $extension['extension']):?>
 			<span class="current-extension" >
@@ -34,13 +34,15 @@
 		<span><a href="<?=_url('logout')?>"><?=__('Logout')?></a></span>
 	</div>
 	
-	<img src="<?=BASE_WWW?>img/logo.gif" alt="logo" id="logo" />
+	<a href="<?=_url('index')?>">
+		<img src="<?=BASE_WWW?>img/logo.gif" alt="logo" id="logo" />
+	</a>
 	
 <?if(get_data('sections')):?>
 	<div id="tabs">
 		<ul>
 		<?foreach(get_data('sections') as $section):?>
-			<li><a href="<?=ROOT_URL.(string)$section['url']?>"><?=(string)$section['name']?></a></li>
+			<li><a id="<?=(string)$section['id']?>" href="<?=ROOT_URL.(string)$section['url']?>"><?=(string)$section['name']?></a></li>
 		<?endforeach?>
 		</ul>
 		<div id="section-trees"></div>
