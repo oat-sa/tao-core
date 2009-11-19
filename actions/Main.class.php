@@ -39,7 +39,6 @@ class Main extends CommonModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$this->setSessionAttribute("auth_id", uniqid());
-			//	var_dump($this->getSessionAttribute("auth_id"));
 				$this->redirect('index');	
 			}
 		}
@@ -54,7 +53,7 @@ class Main extends CommonModule {
 	 */
 	public function logout(){
 		session_destroy();
-		$this->redirect('login');	
+		$this->redirect(_url('login'));	
 	}
 
 	/**
