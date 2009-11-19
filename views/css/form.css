@@ -52,3 +52,10 @@ div.xhtml_form div.form-group div{
 	padding:3px;
 	color:#444;
 }
+.form-error{
+	font-size:13px;
+	font-weight:bold;
+	padding:3px;
+	margin:5px;
+	margin-bottom:25px;
+}

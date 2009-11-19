@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 18.11.2009, 16:58:59 with ArgoUML PHP module 
+ * Automatically generated on 19.11.2009, 15:16:44 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -91,6 +91,7 @@ class tao_helpers_form_FormFactory
 				$myForm = new tao_helpers_form_xhtml_Form($name, $options);
 				$myForm->setDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')));
 				$myForm->setGroupDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')));
+				$myForm->setErrorDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')));
 				break;
 			default: 
 				throw new Exception("render mode {self::$renderMode} not yet supported");
@@ -139,6 +140,31 @@ class tao_helpers_form_FormFactory
 		}
 		
         // section 127-0-1-1--35d6051a:124bac7a23e:-8000:0000000000001B21 end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method getValidator
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string name
+     * @param  array options
+     * @return tao_helpers_form_Validator
+     */
+    public static function getValidator($name, $options = array())
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BD2 begin
+		
+		$clazz = 'tao_helpers_form_validators_'.$name;
+		if(class_exists($clazz)){
+			$returnValue = new $clazz($options);
+		}
+		
+        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BD2 end
 
         return $returnValue;
     }

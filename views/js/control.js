@@ -278,13 +278,9 @@ function _initControls(){
 	});
 	
 	//meta data dialog
-	if ($("#comment-form-container").hasClass("ui-dialog-content")) {
-		console.log('class found')
+	/*if ($("#comment-form-container").hasClass("ui-dialog-content")) {
 		$("#comment-form-container").dialog('destroy');
-	}
-	else{
-		console.log('class not found')
-	}
+	}*/
 	$("#comment-form-container").dialog({
 			title: $("#comment-form-container-title").text(),
 			width: 400,

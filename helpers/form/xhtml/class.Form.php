@@ -182,9 +182,14 @@ class tao_helpers_form_xhtml_Form
 
         // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019E2 begin
 		
-		//@todo validate the form
-		
 		$this->valid = true;
+		
+		foreach($this->elements as $element){
+			if(!$element->validate()){
+				$this->valid = false;
+			}
+		}
+		
         // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019E2 end
 
         return (bool) $returnValue;

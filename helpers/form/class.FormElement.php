@@ -101,6 +101,22 @@ abstract class tao_helpers_form_FormElement
      */
     protected $level = 1;
 
+    /**
+     * Short description of attribute validators
+     *
+     * @access protected
+     * @var array
+     */
+    protected $validators = array();
+
+    /**
+     * Short description of attribute error
+     *
+     * @access protected
+     * @var string
+     */
+    protected $error = '';
+
     // --- OPERATIONS ---
 
     /**
@@ -324,6 +340,72 @@ abstract class tao_helpers_form_FormElement
         // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4B begin
 		$this->level = $level;
         // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4B end
+    }
+
+    /**
+     * Short description of method addValidator
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  Validator validator
+     * @return mixed
+     */
+    public function addValidator( tao_helpers_form_Validator $validator)
+    {
+        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BAE begin
+		
+		$this->validators[$validator->getName()] = $validator;
+		
+        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BAE end
+    }
+
+    /**
+     * Short description of method validate
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @return boolean
+     */
+    public function validate()
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BC7 begin
+		
+		$returnValue = true;
+	
+		foreach($this->validators as $validator){
+			$validator->setValue($this->getValue());
+			if(!$validator->evaluate()){
+				$this->error = $validator->getMessage();
+				$returnValue = false;
+				break;
+			}			
+		}
+		
+        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BC7 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getError
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @return string
+     */
+    public function getError()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BD8 begin
+		
+		$returnValue = $this->error; 
+		
+        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BD8 end
+
+        return (string) $returnValue;
     }
 
 } /* end of abstract class tao_helpers_form_FormElement */
