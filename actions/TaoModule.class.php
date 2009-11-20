@@ -27,6 +27,22 @@ abstract class TaoModule extends CommonModule {
 	abstract public function saveComment();
 	
 	/**
+	 * Import module data Action
+	 * @return void
+	 */
+	abstract public function import();
+	
+	/**
+	 * Export module data Action
+	 * @return void
+	 */
+	abstract public function export();
+	
+/*
+ * Shared Methods
+ */
+	
+	/**
 	 * get the current item class regarding the classUri' request parameter
 	 * @return core_kernel_classes_Class the item class
 	 */
