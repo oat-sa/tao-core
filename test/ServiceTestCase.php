@@ -144,7 +144,6 @@ class ServiceTestCase extends UnitTestCase {
 						if(preg_match("/TestCase\.php$/", $file)){
 							echo "You can run too : <a href='".ROOT_URL.'/'.$extension. "/test/$file'>$file</a> <br>";
 						}
-						
 					}
 				}
 			}

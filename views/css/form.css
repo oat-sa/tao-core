@@ -19,6 +19,7 @@ div.xhtml_form div{
 div.xhtml_form div .form_desc{
 	position:absolute;
 	text-transform:capitalize;
+	font-size:1.2em;
 }
 div.xhtml_form div input,
 div.xhtml_form div select,

@@ -115,10 +115,15 @@ class Main extends CommonModule {
 			$actionNodes =  $structure->actions[0];
 			$actions = array();
 			foreach($actionNodes as $actionNode){
+				$display = (string)$actionNode['name'];
+				if(strlen($display) > 15){
+					$display = str_replace(' ', "<br>", $display);
+				} 
 				$action = array(
 					'js'		=> (isset($actionNode['js'])) ? (string)$actionNode['js'] : false,
 					'url' 		=> (string)$actionNode['url'],
-					'display'	=> (string)$actionNode['name'],
+					'display'	=> $display,
+					'rowName'	=> (string)$actionNode['name'],
 					'name'		=> _clean((string)$actionNode['name']),
 					'uri'		=> ($uri) ? $this->getSessionAttribute('uri') : false,
 					'classUri'	=> ($classUri) ? $this->getSessionAttribute('classUri') : false

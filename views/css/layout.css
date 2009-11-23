@@ -6,6 +6,7 @@ body{
 	margin: 0px; 
 	padding: 0px;
 	background-color:#F4F4F4;
+	font-size:12px;
 }
 table{
 	width:100%; 
@@ -44,8 +45,12 @@ div#home{
 }
 div#tabs div.ui-tabs-panel{
 	position:absolute; 
-	left:18%;
-	width:78%;
+	left:17.5%;
+	width:81%;
+	padding-top:0.5%;
+	padding-right:0px;
+	overflow-x:hidden;
+	overflow-y:auto;
 }
 img#logo{
 	position: absolute; 
@@ -64,7 +69,7 @@ div#main-menu span{
 	padding-right:8px; 
 }
 div#main-menu span a{
-	font-size:1.1em;
+	font-size:1.3em;
 }
 div#main-menu span a:hover{
 	border-bottom: solid 2px #599FFC;
@@ -78,9 +83,12 @@ div#section-trees{
 	margin-top:0px;
 	width:18%;
 	left:1%;
+	margin-left:0.5%;
+	margin-top:0.5%;
+	margin-right:0.5%;
 	z-index:100;
-	padding-left:12px;
-	padding-top:12px;
+/*	padding-left:12px;
+	padding-top:12px;*/
 }
 div.tree-actions{
 	font-size:12px;
@@ -90,8 +98,9 @@ div.tree-actions{
 /* Layout -> Actions */
 div#section-actions{
 	left:1%;
-	margin-left:1%;
-	margin-top:1%;
+	margin-left:0.5%;
+	margin-top:0.5%;
+	margin-right:0.5%;
 	padding:0px;
 	text-align:left;
 	width:18%;
@@ -101,7 +110,7 @@ div#section-actions div#action-title{
 	padding: 3px;
 }
 div#section-actions div#action-items{
-	padding:15px;
+	/*padding:15px;*/
 }
 div#section-actions div#action-items td{
 	text-align:center;

@@ -91,13 +91,14 @@ class tao_helpers_form_GenerisFormFactory
 			$level = 2;
 			$defaultProperties 	= self::getDefaultProperties();
 			$classProperties	= self::getClassProperties($clazz, new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS));
-			$maxLevel = count(array_merge($defaultProperties, $classProperties)) + $level;
+			$maxLevel = count(array_merge($defaultProperties, $classProperties));
 			foreach(array_merge($defaultProperties, $classProperties) as $property){
 				
 				$property->feed();
 				
 				//map properties widgets to form elments 
 				$element = self::elementMap($property);
+				
 				if(!is_null($element)){
 					
 					//take instance values to populate the form
@@ -119,7 +120,7 @@ class tao_helpers_form_GenerisFormFactory
 						$level++;
 					}
 					else{
-						$element->setLevel($maxLevel);
+						$element->setLevel($maxLevel + $level);
 						$maxLevel++;
 					}
 					$myForm->addElement($element);
