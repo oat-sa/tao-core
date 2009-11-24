@@ -9,8 +9,8 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 30.09.2009, 14:21:07 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 24.11.2009, 14:18:39 with ArgoUML PHP module 
+ * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
@@ -22,7 +22,15 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_helpers_form_Form
+ * Represents a form. It provides the default behavior for form management and
+ * be overridden for any rendering mode.
+ * A form is composed by a set of FormElements.
+ *
+ * The form data flow is:
+ * 1. add the elements to the form instance
+ * 2. run evaluate (initElements, update states (submited, valid, etc), update
+ * )
+ * 3. render form
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  */
@@ -67,6 +75,27 @@ interface tao_helpers_form_Decorator
      * @return string
      */
     public function postRender();
+
+    /**
+     * Short description of method getOption
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string key
+     * @return string
+     */
+    public function getOption($key);
+
+    /**
+     * Short description of method setOption
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string key
+     * @param  string value
+     * @return boolean
+     */
+    public function setOption($key, $value);
 
 } /* end of interface tao_helpers_form_Decorator */
 

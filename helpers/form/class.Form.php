@@ -279,6 +279,7 @@ abstract class tao_helpers_form_Form
 		foreach($this->groups as $groupName => $group){
 		
 			if(!is_null($this->groupDecorator)){
+				$this->groupDecorator->setOption('id', tao_helpers_Display::textCleaner($groupName));
 				$returnValue .= $this->groupDecorator->preRender();
 			}
 			$returnValue .= $group['title'];
@@ -312,6 +313,7 @@ abstract class tao_helpers_form_Form
 			}
 			if(!is_null($this->groupDecorator)){
 				$returnValue .= $this->groupDecorator->postRender();
+				$this->groupDecorator->setOption('id', '');
 			}
 		}
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001983 end

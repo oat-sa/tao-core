@@ -153,7 +153,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 								});
 							}
 						},
-						delete:{
+						del:{
 							label	: "Remove",
 							icon	: "remove",
 							visible	: function (NODE, TREE_OBJ) { 

@@ -90,7 +90,7 @@ class tao_helpers_Display
         // section 127-0-1-1-3f9c691f:124c3973fb8:-8000:0000000000001B28 begin
 		$i=0;
 		while($i < strlen($input)){
-			if(preg_match("/^[a-zA-Z09]{1}$/", $input[$i])){
+			if(preg_match("/^[a-zA-Z0-9]{1}$/", $input[$i])){
 				$returnValue .= $input[$i];
 			}
 			else{

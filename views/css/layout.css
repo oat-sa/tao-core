@@ -1,4 +1,4 @@
-/* Common */
+/* Common theme */
 body{
 	position:absolute; 
 	height:100%; 
@@ -28,14 +28,12 @@ div#ajax-loading{
 	left:45%;
 	z-index:1000;
 }
-
 a img{
 	border-width:0px;
 }
 
 /* Layout */
-div#tabs,
-div#home{
+div#tabs, div#home{
 	position:relative; 
 	top:15px;
 	height: 90%; 
@@ -58,6 +56,7 @@ img#logo{
 	top: 5px;
 	z-index:100;
 }
+
 /* Layout -> Menu */
 div#main-menu{
 	padding:4px;
@@ -87,8 +86,6 @@ div#section-trees{
 	margin-top:0.5%;
 	margin-right:0.5%;
 	z-index:100;
-/*	padding-left:12px;
-	padding-top:12px;*/
 }
 div.tree-actions{
 	font-size:12px;
@@ -109,14 +106,12 @@ div#section-actions{
 div#section-actions div#action-title{
 	padding: 3px;
 }
-div#section-actions div#action-items{
-	/*padding:15px;*/
+div#section-actions div#action-items{ 
 }
 div#section-actions div#action-items td{
 	text-align:center;
 	padding-bottom:15px;
 }
-
 div#section-actions div#action-items{
 	font-size:11px;
 	font-weight:bold;
@@ -125,7 +120,6 @@ div#section-actions div#action-items a img{
 	text-decoration:none;
 	border-width: 0px;	
 }
-
 div#section-actions ul{
 	list-style-type:none;
 	margin-left:0px;
@@ -192,21 +186,6 @@ div#footer{
 	margin:0px;
 }
 
-/* messages */
-div#info-box{
-	position:fixed;
-	bottom:0px;
-	height:90px;
-	width:250px;
-	right:10px;
-	z-index:1000;
-	padding:5px;
-	text-align:center;
-	border: solid 1px #bbb;
-	color:#3383BB;
-	font-size:1em;	
-}
-
 /* Home Page */
 div#home_title{
 	margin:5px;
@@ -236,7 +215,7 @@ div.home-box-right{
  	z-index:9999999;
 }
 
-/* Login */
+/* Login Page */
 div#login_form, div#login_title{
 	width: 500px;
 	margin:auto;
@@ -245,4 +224,19 @@ div#login_form, div#login_title{
 div#login_title{
 	padding:6px;
 	margin-top:50px;
+}
+
+/* Flash Messages */
+div#info-box{
+	position:fixed;
+	bottom:0px;
+	height:90px;
+	width:250px;
+	right:10px;
+	z-index:1000;
+	padding:5px;
+	text-align:center;
+	border: solid 1px #bbb;
+	color:#3383BB;
+	font-size:1em;	
 }

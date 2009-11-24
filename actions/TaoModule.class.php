@@ -92,6 +92,7 @@ abstract class TaoModule extends CommonModule {
 				}
 				
 				$clazz = $this->service->bindProperties($clazz, $classValues);
+				$propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
 				
 				foreach($propertyValues as $propNum => $properties){
 					if(isset($_POST['propertyUri'.$propNum]) && count($properties) == 0){
@@ -106,13 +107,25 @@ abstract class TaoModule extends CommonModule {
 					}
 					else{
 						if($_POST["propertyMode{$propNum}"] == 'simple'){
-							echo "<br>$propNum<br>";
-							var_dump($properties);
-							echo "<br><br>";
+							
+							$type = $properties['type'];
+							$range = $properties['range'];
+							unset($properties['type']);
+							unset($properties['range']);
+							
+							if(isset($propertyMap[$type])){
+								$properties['http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget'] = $propertyMap[$type]['widget'];
+								if(isset($propertyMap[$type]['range']) &&  is_null($propertyMap[$type]['range'])){
+									$properties['http://www.w3.org/2000/01/rdf-schema#range'] = $range;
+								}
+								else{
+									$properties['http://www.w3.org/2000/01/rdf-schema#range'] = $propertyMap[$type]['range'];
+								}
+								
+							}
 						}
-						else{
-							$this->service->bindProperties(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])), $properties);
-						}
+						
+						$this->service->bindProperties(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])), $properties);
 					}
 				}
 			}
@@ -172,6 +185,21 @@ abstract class TaoModule extends CommonModule {
 		echo json_encode($instances);
 	}
 
-	
+	public function createNewList(){
+		$myForm = tao_helpers_form_FormFactory::getForm('newlist', array('noRevert' => true, 'submitValue' => __('Add')));
+		$label = tao_helpers_form_FormFactory::getElement('class_label', 'Textbox');
+		$label->setDescription(__('List name'));
+		$label->setLevel(1);
+		$label->addValidator(
+			tao_helpers_form_FormFactory::getValidator('NotEmpty')
+		);
+		$myForm->addElement($label);
+		
+		$myForm->evaluate();
+		
+		
+		$this->setData('data', $myForm->render());
+		$this->setView('blank.tpl');
+	}
 }
 ?>

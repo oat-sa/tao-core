@@ -319,7 +319,7 @@ class tao_helpers_form_GenerisFormFactory
 		$level = ($index * 10) + 1;
 		$elementNames = array();
 		
-		foreach(self::getDefaultProperties() as $propertyProperty){
+		foreach(array_merge(self::getDefaultProperties(), self::getPropertyProperties('simple')) as $propertyProperty){
 		
 			//map properties widgets to form elments 
 			$element = self::elementMap($propertyProperty);
@@ -349,7 +349,7 @@ class tao_helpers_form_GenerisFormFactory
 		$typeElt = tao_helpers_form_FormFactory::getElement("property_{$index}_type", 'Combobox');
 		$typeElt->setDescription(__('Type'));
 		$typeElt->addAttribute('class', 'property-type');
-		$typeElt->setEmptyOption(' --- select --- ');
+		$typeElt->setEmptyOption(' --- '.__('select').' --- ');
 		$options = array();
 		foreach(self::getPropertyMap() as $typeKey => $map){
 			$options[$typeKey] = $map['title'];
@@ -369,7 +369,7 @@ class tao_helpers_form_GenerisFormFactory
 		$listElt = tao_helpers_form_FormFactory::getElement("property_{$index}_range", 'Combobox');
 		$listElt->setDescription(__('List values'));
 		$listElt->addAttribute('class', 'property-listvalues');
-		$listElt->setEmptyOption(' --- select --- ');
+		$listElt->setEmptyOption(' --- '.__('select').' --- ');
 		
 		$topLevelClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
 		$domains = $property->getDomain();
@@ -395,7 +395,7 @@ class tao_helpers_form_GenerisFormFactory
 				}
 			}
 		}
-		$listElt->setOptions(array_merge($options, array('new' => 'Add new values')));
+		$listElt->setOptions(array_merge($options, array('new' => '+ '.__('Add new values'))));
 		$listElt->setLevel($level);
 		$form->addElement($listElt);
 		$elementNames[] = $listElt->getName();
@@ -449,7 +449,7 @@ class tao_helpers_form_GenerisFormFactory
 		$level = ($index * 10) + 1;
 		$elementNames = array();
 		
-		foreach(array_merge(self::getDefaultProperties(), self::getPropertyProperties()) as $propertyProperty){
+		foreach(array_merge(self::getDefaultProperties(), self::getPropertyProperties('advanced')) as $propertyProperty){
 			
 			//map properties widgets to form elments 
 			$element = self::elementMap($propertyProperty);
@@ -458,7 +458,7 @@ class tao_helpers_form_GenerisFormFactory
 			if(is_null($element) && $propertyProperty->uriResource == 'http://www.w3.org/2000/01/rdf-schema#range'){
 				$propertyProperty->feed();
 				$element = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($propertyProperty->uriResource), 'Combobox');
-				$element->setDescription('Range');
+				$element->setDescription(__('Range'));
 				
 				$range = $propertyProperty->getRange();
 				if($range != null){
@@ -544,7 +544,7 @@ class tao_helpers_form_GenerisFormFactory
 			}
 	
 			//use the property label as element description
-			(strlen(trim($property->getLabel())) > 0) ? $propDesc = $property->getLabel() : $propDesc = 'field '.(count($myForm->getElements())+1);	
+			(strlen(trim($property->getLabel())) > 0) ? $propDesc = tao_helpers_Display::textCleaner($property->getLabel(), ' ') : $propDesc = 'field '.(count($myForm->getElements())+1);	
 			$element->setDescription($propDesc);
 			
 			//multi elements use the property range as options
@@ -660,29 +660,38 @@ class tao_helpers_form_GenerisFormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string mode
      * @return array
      */
-    public static function getPropertyProperties()
+    public static function getPropertyProperties($mode = 'simple')
     {
         $returnValue = array();
 
         // section 127-0-1-1-696660da:12480a2774f:-8000:0000000000001AB5 begin
 		
-		$defaultUris = array(
-			'http://www.w3.org/2000/01/rdf-schema#label',
-			'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget',
-			//'http://www.w3.org/2000/01/rdf-schema#domain',
-			'http://www.w3.org/2000/01/rdf-schema#range',
-			'http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent'
-		);
-		
+		switch($mode){
+			case 'simple':
+				$defaultUris = array(
+					'http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent'
+				);
+				break;
+			case 'advanced':
+			default:	
+				$defaultUris = array(
+					'http://www.w3.org/2000/01/rdf-schema#label',
+					'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget',
+					'http://www.w3.org/2000/01/rdf-schema#range',
+					'http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent'
+				);
+				break;
+		} 
 		$resourceClass = new core_kernel_classes_Class('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property');
-		
-		foreach($resourceClass->getProperties(true) as $property){
+		foreach($resourceClass->getProperties() as $property){
 			if(in_array($property->uriResource, $defaultUris)){
 				array_push($returnValue, $property);
 			}
 		}
+		
         // section 127-0-1-1-696660da:12480a2774f:-8000:0000000000001AB5 end
 
         return (array) $returnValue;
@@ -703,37 +712,37 @@ class tao_helpers_form_GenerisFormFactory
 		
 		$returnValue = array(
 			'text' => array(
-				'title' 	=> 'A short text',
+				'title' 	=> __('A short text'),
 				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
 				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
 			),
 			'longtext' => array(
-				'title' 	=> 'A long text',
+				'title' 	=> __('A long text'),
 				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
 				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
 			),
 			'html' => array(
-				'title' 	=> 'A formated text',
+				'title' 	=> __('A formated text'),
 				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea',
 				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
 			),
 			'password' => array(
-				'title' 	=> 'A password',
+				'title' 	=> __('A password'),
 				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
 				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
 			),
 			'list' => array(
-				'title' 	=> 'A simple choice list',
+				'title' 	=> __('A simple choice list'),
 				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox',
 				'range'		=> null
 			),
 			'longlist' => array(
-				'title' 	=> 'A simple choice long list',
+				'title' 	=> __('A simple choice long list'),
 				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
 				'range'		=> null
 			),
 			'multilist' => array(
-				'title' 	=> 'A multiple choice list',
+				'title' 	=> __('A multiple choice list'),
 				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
 				'range'		=> null
 			)
