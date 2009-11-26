@@ -48,6 +48,9 @@ abstract class CommonModule extends Module {
 		if($this->getRequestParameter('messsage')){
 			$this->setData('messsage', $this->getRequestParameter('messsage'));
 		}
+		if($this->getRequestParameter('errorMessage')){
+			$this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
+		}
 	}
 
 	/**

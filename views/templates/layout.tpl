@@ -7,6 +7,11 @@
 	
 	<script type='text/javascript'>
 		var imgPath = '<?=BASE_WWW?>img/';
+		<?if(get_data('errorMessage')):?>
+			$(function(){
+				createErrorMessage("get_data('errorMessage')");
+			});
+		<?endif?>
 	</script>
 	
 	<?=tao_helpers_Scriptloader::render()?>

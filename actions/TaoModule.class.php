@@ -8,8 +8,15 @@ abstract class TaoModule extends CommonModule {
 
 	public function __construct(){
 		
+		$errorMessage = __('Access denied. Please renew your authentication!');
+		
 		if(!$this->_isAllowed()){
-			throw new Exception("Access denied. Please renew your authentication!");
+			if(tao_helpers_Request::isAjax()){
+				header("HTTP/1.0 403 Forbidden");
+				echo $errorMessage;
+				return;
+			}
+			throw new Exception($errorMessage);
 		}
 	}
 	
@@ -37,6 +44,13 @@ abstract class TaoModule extends CommonModule {
 	 * @return void
 	 */
 	abstract public function export();
+	
+	/**
+	 * Get the lists of a module which are the first child of TAO Object
+	 * Render a json response
+	 * @return void
+	 */
+	abstract public function getLists();
 	
 /*
  * Shared Methods
@@ -186,16 +200,140 @@ abstract class TaoModule extends CommonModule {
 	}
 
 	/**
-	 * Get the lists of a module which are the first child of TAO
-	 * Render a json response
+	 * Get the data of the flat lists which are the first level children of TAO Object
+	 * @param array $exclude [optional]
+	 * @return array $data the lists data
+	 */
+	protected function getListData($exclude = array()){ 
+	
+		$data = array();
+	
+		$taoObjectClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+		foreach($taoObjectClass->getSubClasses(false)  as $subClass){
+			if(in_array($subClass->uriResource, $exclude)){
+				continue;
+			}
+			array_push(
+				$data, 
+				$this->service->toTree($subClass, false, true)
+			);
+		}
+		return array(
+			'data' 		=> __('Lists'),
+			'attributes' => array('class' => 'node-root'),
+			'children' 	=> $data,
+			'state'		=> 'open'
+		);
+	}
+	
+	/**
+	 * Create a list node (a class as the list and an instance as the list item)
+	 * Render the json response with the label and uri of the created resource 
 	 * @return void
 	 */
-	public function getListData(){
+	public function createList(){
+		
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
 		
-	//	$taoObjectClass = new core_k
+		$response = array();
+		
+		if($this->getRequestParameter('classUri')){
+			
+			$taoObjectClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+			
+			if($this->getRequestParameter('type') == 'class' && $this->getRequestParameter('classUri') == 'root'){
+				
+				$label = __('List ').(count($taoObjectClass->getSubClasses(false)) + 1);
+				$clazz = $this->service->createSubClass($taoObjectClass, $label);
+				if(!is_null($clazz)){
+					$response['label']	= $clazz->getLabel();
+					$response['uri'] 	= tao_helpers_Uri::encode($clazz->uriResource);
+				}
+			}
+			if($this->getRequestParameter('type') == 'instance'){
+				
+				$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+				if(!is_null($clazz)){
+					if($clazz->isSubClassOf($taoObjectClass)){
+						
+						$label = __('List item ').(count($clazz->getInstances(false)) + 1);
+						$instance = $this->service->createInstance($clazz, $label);
+						if(!is_null($instance)){
+							$response['label']	= $instance->getLabel();
+							$response['uri'] 	= tao_helpers_Uri::encode($instance->uriResource);
+						}
+					}
+				}
+				
+			}
+		}
+		echo json_encode($response);
 	}
+	
+	/**
+	 * Remove a list node: either a class (the list) or an instance (the list item)
+	 *  Render the json response with the deletion status
+	 * @return void
+	 */
+	public function removeList(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$taoObjectClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+		
+		$deleted = false;
+		if($this->getRequestParameter('uri') && $this->getRequestParameter('classUri')){
+			$instance = $this->service->getOneInstanceBy(
+				new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri'))),
+				tao_helpers_Uri::decode($this->getRequestParameter('uri')),
+				'uri'
+			);
+			if(!is_null($instance)){
+				$deleted = $instance->delete();
+			}
+		}
+		if($this->getRequestParameter('classUri')){
+			$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+			if(!is_null($clazz)){
+				if($clazz->setSubClassOf($taoObjectClass)){
+					$deleted = $clazz->delete();
+				}
+			}
+		}
+		
+		echo json_encode(array('deleted' => $deleted));
+	}
+	
+	/**
+	 * Rename a list node: change the label of a resource
+	 * Render the json response with the renamed status
+	 * @return void
+	 */
+	public function renameList(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$data = array('renamed'	=> false);
+		
+		$resource = null;
+		if($this->getRequestParameter('uri')){
+			$resource = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+		}
+		if(!is_null($resource)){
+			$data['oldName'] = (string)$resource->getUniquePropertyValue(new core_kernel_classes_Property(RDFS_LABEL));
+		}
+		if($this->getRequestParameter('newName')){
+			$resource = $this->service->bindProperties($resource, array(RDFS_LABEL => $this->getRequestParameter('newName')));
+			if($resource->getUniquePropertyValue(new core_kernel_classes_Property(RDFS_LABEL)).'' == $this->getRequestParameter('newName') && $this->getRequestParameter('newName') != ''){
+				$data['renamed'] = true;
+			}
+		}
+		echo json_encode($data);
+	}
+	
 }
 ?>

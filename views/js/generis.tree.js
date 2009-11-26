@@ -171,6 +171,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 									NODE: NODE,
 									TREE_OBJ: TREE_OBJ
 								});
+								return false;
 							} 
 						},
 						remove: false,
@@ -269,7 +270,7 @@ GenerisTreeClass.addClass = function(options){
 	$.ajax({
 		url: options.url,
 		type: "POST",
-		data: {classUri: options.id},
+		data: {classUri: options.id, type: 'class'},
 		dataType: 'json',
 		success: function(response){
 			if(response.uri){
@@ -311,7 +312,7 @@ GenerisTreeClass.addInstance = function(options){
 	$.ajax({
 		url: options.url,
 		type: "POST",
-		data: {classUri: options.id},
+		data: {classUri: options.id, type: 'instance'},
 		dataType: 'json',
 		success: function(response){
 			if (response.uri) {
@@ -350,7 +351,6 @@ GenerisTreeClass.removeNode = function(options){
 	var TREE_OBJ = options.TREE_OBJ;
 	var NODE = options.NODE;
 	if(confirm("Please confirm deletion")){
-		console.log(NODE);
 		$.each(NODE, function () { 
 			data = false;
 			var selectedNode = this;
@@ -440,6 +440,32 @@ function cloneNode(uri, classUri, url){
 	}
 }
 
+/**
+ * Rename a node
+ * @param {Object} options
+ */
+GenerisTreeClass.renameNode = function(options){
+	var TREE_OBJ = options.TREE_OBJ;
+	var NODE = options.NODE;
+	$.ajax({
+		url: options.url,
+		type: "POST",
+		data: {uri: $(NODE).attr('id'), newName: TREE_OBJ.get_text(NODE)},
+		dataType: 'json',
+		success: function(response){
+			if(!response.renamed){
+				TREE_OBJ.rename(NODE, response.oldName);	
+			}
+		}
+	});
+}
+
+/**
+ * Open a popup
+ * @param {Object} uri
+ * @param {Object} classUri
+ * @param {Object} url
+ */
 function fullScreen(uri, classUri, url){
 	url += '?uri='+uri+'&classUri='+classUri;
 	window.open(url, 'tao', 'width=800,height=600,menubar=no,toolbar=no');

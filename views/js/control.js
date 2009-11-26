@@ -232,8 +232,24 @@ function loaded(){
 	$("input[type='submit']").attr('disabled', 'false');
 }
 
+function createErrorMessage(message){
+	$("body").append("<div id='info-box' class='ui-state-error ui-widget-header ui-corner-all auto-slide' >"+message+"</div>")
+	_autoFx();
+}
+
 var tabs = null;
 $(function(){
+	
+	$("body").ajaxError(function(event, request, settings){
+	 	if(request.status == 404){
+			createErrorMessage(request.responseText);
+		}
+		if(request.status == 403){
+			window.location = '/tao/Main/login?errorMessage='+request.responseText;
+		}
+	});
+
+	
 	//create tabs
 	tabs = $('#tabs').tabs({
 		load: loadControls, 

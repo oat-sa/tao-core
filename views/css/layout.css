@@ -240,3 +240,14 @@ div#info-box{
 	color:#3383BB;
 	font-size:1em;	
 }
+
+div#info-box.ui-state-error{
+	color:#FFF;
+}
+
+a.ui-state-default{
+	padding:4px 8px 4px 8px;
+}
+a.ui-state-default:hover{
+	text-decoration:none;	
+}
