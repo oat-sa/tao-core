@@ -44,6 +44,10 @@ abstract class CommonModule extends Module {
 			unset($_SESSION[SESSION_NAMESPACE]['uri']);
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
 		}
+		
+		if($this->getRequestParameter('messsage')){
+			$this->setData('messsage', $this->getRequestParameter('messsage'));
+		}
 	}
 
 	/**

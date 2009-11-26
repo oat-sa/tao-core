@@ -13,6 +13,11 @@
 	
 </head>
 <body>
+	<?if(get_data('message')):?>
+	<div id="info-box" class="ui-widget-header ui-corner-all auto-slide">
+		<span><?=get_data('message')?></span>
+	</div>
+	<?endif?>
 	<div id="settings-form" style="display:none;"></div>
 	<div id="ajax-loading">
 		<img src="<?=BASE_WWW?>img/ajax-loader.gif" alt="loading" />

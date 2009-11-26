@@ -185,21 +185,17 @@ abstract class TaoModule extends CommonModule {
 		echo json_encode($instances);
 	}
 
-	public function createNewList(){
-		$myForm = tao_helpers_form_FormFactory::getForm('newlist', array('noRevert' => true, 'submitValue' => __('Add')));
-		$label = tao_helpers_form_FormFactory::getElement('class_label', 'Textbox');
-		$label->setDescription(__('List name'));
-		$label->setLevel(1);
-		$label->addValidator(
-			tao_helpers_form_FormFactory::getValidator('NotEmpty')
-		);
-		$myForm->addElement($label);
+	/**
+	 * Get the lists of a module which are the first child of TAO
+	 * Render a json response
+	 * @return void
+	 */
+	public function getListData(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
 		
-		$myForm->evaluate();
-		
-		
-		$this->setData('data', $myForm->render());
-		$this->setView('blank.tpl');
+	//	$taoObjectClass = new core_k
 	}
 }
 ?>

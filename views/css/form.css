@@ -28,8 +28,12 @@ div.xhtml_form div input,
 div.xhtml_form div select,
 div.xhtml_form div textarea,
 div.xhtml_form div.wysiwyg,
+div.xhtml_form span.mceEditor,
 div.xhtml_form ul.form-elt-list{
 	margin-left:30%;
+}
+div.xhtml_form span.mceEditor{
+	display:block;
 }
 div.xhtml_form div input.form-reverter{
 	margin-left:5%;

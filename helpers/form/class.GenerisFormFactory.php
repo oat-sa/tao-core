@@ -395,7 +395,7 @@ class tao_helpers_form_GenerisFormFactory
 				}
 			}
 		}
-		$listElt->setOptions(array_merge($options, array('new' => '+ '.__('Add new values'))));
+		$listElt->setOptions(array_merge($options, array('new' => '+ '.__('Add / Edit lists'))));
 		$listElt->setLevel($level);
 		$form->addElement($listElt);
 		$elementNames[] = $listElt->getName();
