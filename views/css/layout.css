@@ -251,3 +251,9 @@ a.ui-state-default{
 a.ui-state-default:hover{
 	text-decoration:none;	
 }
+
+div#authoring-container{
+	left:0px;
+	width:800px;
+	height:600px;
+}

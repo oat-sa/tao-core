@@ -54,6 +54,7 @@ function _initForms(){
 		if(index > -1){
 			if($("#uri") && $("#classUri")){
 				tabs.tabs('url', index, '/taoItems/Items/authoring?uri=' + $("#uri").val() +'&classUri=' + $("#classUri").val());
+				tabs.tabs('enable', index);
 				tabs.tabs('select', index);
 			}
 		}

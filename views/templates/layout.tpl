@@ -5,17 +5,20 @@
 	<title>TAO</title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 	
-	<script type='text/javascript'>
-		var imgPath = '<?=BASE_WWW?>img/';
-		<?if(get_data('errorMessage')):?>
-			$(function(){
-				createErrorMessage("get_data('errorMessage')");
-			});
-		<?endif?>
-	</script>
+	<script type='text/javascript'>var imgPath = '<?=BASE_WWW?>img/';</script>
 	
 	<?=tao_helpers_Scriptloader::render()?>
 	
+	<script type='text/javascript'>
+		$(function(){
+		
+		<?if(get_data('errorMessage')):?>
+			createErrorMessage("get_data('errorMessage')");
+		<?endif?>
+
+			
+		});
+	</script>
 </head>
 <body>
 	<?if(get_data('message')):?>
