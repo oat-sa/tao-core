@@ -350,6 +350,42 @@ abstract class tao_models_classes_Service
         return (array) $returnValue;
     }
 
+    /**
+     * Short description of method toArray
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  Class clazz
+     * @return array
+     */
+    public function toArray( core_kernel_classes_Class $clazz = null)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C80 begin
+		$properties = $clazz->getProperties(false); 
+		foreach($clazz->getInstances(false) as $instance){
+			$data = array();
+			foreach($properties	as $property){
+				
+				$data[$property->getLabel()] = null;
+				
+				$values = $instance->getPropertyValues($property);
+				if(count($values) > 1){
+					$data[$property->getLabel()] = $values;
+				}
+				elseif(count($values) == 1){
+					$data[$property->getLabel()] = $values[0];
+				}
+			}
+			array_push($returnValue, $data);
+		}
+		
+        // section 127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C80 end
+
+        return (array) $returnValue;
+    }
+
 } /* end of abstract class tao_models_classes_Service */
 
 ?>

@@ -35,7 +35,7 @@ if (function_exists("xdebug_enable"))  {
 
 require_once 	dirname(__FILE__). "/config.php";
 require_once 	dirname(__FILE__). "/constants.php";
-require 		dirname(__FILE__).'/clearbricks/common/_main.php';
+require 		dirname(__FILE__).'/../../PHP-Framework/clearbricks/common/_main.php';
 require_once 	dirname(__FILE__).'/../../generis/common/common.php';
 
 //04 LOADER

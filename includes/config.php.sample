@@ -22,7 +22,7 @@ define("DIR_VIEWS"			, "views/");
 define("DIR_HELPERS"		, dirname(__FILE__) . "/../helpers/");
 
 # core directory
-define("DIR_CORE"			, dirname(__FILE__) . "/core/");
+define("DIR_CORE"			, dirname(__FILE__) . "/../../PHP-Framework/core/");
 
 # core helpers directory
 define("DIR_CORE_HELPERS"	, DIR_CORE . "helpers/");
@@ -53,9 +53,11 @@ $GLOBALS['dir_theme']		= "templates/";
 $GLOBALS['lang']			= 'en';
 
 #BASE PATH: the root path in the file system (usually the document root)
-define('BASE_PATH', $_SERVER['DOCUMENT_ROOT'] . '/tao');
+define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT']);
+define('BASE_PATH', ROOT_PATH . '/tao');
 
 #BASE URL (usually the domain root)
+define('ROOT_URL', 'http://'.$_SERVER['HTTP_HOST']);
 define('BASE_URL', 'http://'.$_SERVER['HTTP_HOST']. '/tao');
 
 #BASE WWW the web resources path
