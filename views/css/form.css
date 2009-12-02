@@ -28,12 +28,9 @@ div.xhtml_form div input,
 div.xhtml_form div select,
 div.xhtml_form div textarea,
 div.xhtml_form div.wysiwyg,
-div.xhtml_form span.mceEditor,
-div.xhtml_form ul.form-elt-list{
+div.xhtml_form ul.form-elt-list,
+div.xhtml_form div .form-elt-container{
 	margin-left:30%;
-}
-div.xhtml_form span.mceEditor{
-	display:block;
 }
 div.xhtml_form div input.form-reverter{
 	margin-left:5%;
@@ -54,6 +51,20 @@ div.xhtml_form ul.form-elt-list{
 	color:#444;
 }
 
+div.xhtml_form div .form-elt-container{
+	padding:3px;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+div.xhtml_form div .file-uploader{
+	cursor:pointer;
+	z-index:10000;
+	padding:5px;
+	top:15px;
+	margin-bottom:15px;
+	font-size:1.1em;
+}
+
 /* Form group */
 div.xhtml_form div.form-group{
 	border: solid 1px #ddd;
@@ -71,14 +82,28 @@ div.xhtml_form div.form-group div{
 }
 
 /* Form error message */
-.form-error{
-	font-size:0.8em;
+div.xhtml_form div.form-error,
+div.xhtml_form div.form-group div.form-error{
+	font-size:0.9em;
 	font-weight:bold;
-	padding:3px;
+	padding:4px;
 	margin:5px;
 	margin-bottom:25px;
+	color: #fff;
 }
 
 div#form-container div.xhtml_form div.form-elt-highlight{
 	background-color:#DAE6F8;
+}
+div#form-container table{
+	border-collapse:collapse;
+	width:96%;
+	margin:2% auto 2% auto;
+}
+div#form-container table td,
+div#form-container table th{
+	border: solid 1px #CCC;
+} 
+div#form-container table th{
+	padding:5px;
 }

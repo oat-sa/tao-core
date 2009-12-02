@@ -126,7 +126,8 @@ class Main extends CommonModule {
 					'rowName'	=> (string)$actionNode['name'],
 					'name'		=> _clean((string)$actionNode['name']),
 					'uri'		=> ($uri) ? $this->getSessionAttribute('uri') : false,
-					'classUri'	=> ($classUri) ? $this->getSessionAttribute('classUri') : false
+					'classUri'	=> ($classUri) ? $this->getSessionAttribute('classUri') : false,
+					'reload'	=> (isset($actionNode['reload'])) ? true : false
 				);
 				
 				$action['disabled'] = true;

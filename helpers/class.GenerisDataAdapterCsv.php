@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 30.11.2009, 18:13:29 with ArgoUML PHP module 
+ * Automatically generated on 01.12.2009, 13:27:17 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -65,17 +65,28 @@ class tao_helpers_GenerisDataAdapterCsv
     public function __construct($options = array())
     {
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CDC begin
+		$this->options = $options;
 		
-		if(count($options) == 0){
-			$this->options = array(
-				'delimiter'					=> ';',
-				'text_wrapper'				=> '"',
-				'line_break'				=> '\n',
-				'multi_values_delimiter'	=> '|'
-			);
+		if(!isset($this->options['field_delimiter'])){
+			$this->options['field_delimiter'] = ';';
+		}				
+		if(!isset($this->options['field_encloser'])){
+			$this->options['field_encloser'] = '"';
+		}
+		if(!isset($this->options['line_break'])){
+			$this->options['line_break'] = '\n';
+		}
+		if(!isset($this->options['multi_values_delimiter'])){
+			$this->options['multi_values_delimiter'] = '|';
+		}
+		if(!isset($this->options['first_row_column_names'])){
+			$this->options['first_row_column_names'] = true;
+		}
+		if(isset($this->options['column_order'])){
+			$this->options['first_row_column_names'] = false;
 		}
 		else{
-			$this->options = $options;
+			$this->options['column_order'] = null;
 		}
 		
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CDC end
@@ -95,6 +106,26 @@ class tao_helpers_GenerisDataAdapterCsv
         $returnValue = (bool) false;
 
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CAE begin
+		
+		//more readable in conacts
+		$WRAP  = $this->options['field_encloser'];
+		$DELIM = $this->options['field_delimiter'];
+		$BREAK = "\n";
+		$MULTI = $this->options['multi_values_delimiter'];
+		
+		$rows = explode($BREAK, $rows);
+		
+		if($this->options['first_row_column_names']){
+			
+			$fields = explode($DELIM, $rows[0]);
+			unset($rows[0]);
+			
+		}
+		else if(isset($this->options['column_order'])){
+			$fields = $this->options['column_order'];
+		}
+		
+		
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CAE end
 
         return (bool) $returnValue;
@@ -114,16 +145,17 @@ class tao_helpers_GenerisDataAdapterCsv
 
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CB2 begin
 		
-		$WRAP  = $this->options['text_wrapper'];
-		$DELIM = $this->options['delimiter'];
-		$BREAK = $this->options['line_break'];
+		//more readable in conacts
+		$WRAP  = $this->options['field_encloser'];
+		$DELIM = $this->options['field_delimiter'];
+		$BREAK = "\n";
 		$MULTI = $this->options['multi_values_delimiter'];
 		
-		$properties = $source->getProperties(false); 
+		$properties = $this->getClassProperties($source);
 		$index = 0;
 		foreach($properties as $property){
 			$returnValue .= $WRAP . addslashes($property->getLabel()) . $WRAP;
-			($index < count($properties)) ? $returnValue .= $DELIM :  $returnValue .= $BREAK ;
+			($index < count($properties) - 1) ? $returnValue .= $DELIM :  $returnValue .= $BREAK ;
 			$index++;
 		}
 		
@@ -131,16 +163,27 @@ class tao_helpers_GenerisDataAdapterCsv
 		
 			$index = 0;	
 			foreach($properties	as $property){
-				$value = '';
-				$values = $instance->getPropertyValues($property);
-				if(count($values) > 1){
-					$value = implode($MULTI, $values);
+				$exportedValue = '';
+				$values = $instance->getPropertyValuesCollection($property);
+				
+				$pIndex = 0;
+				foreach($values->getIterator() as $value){
+					if($pIndex > 0 && $pIndex < $values->count()){
+						$exportedValue .= $MULTI;
+					}
+					if(!is_null($value)){
+						if($value instanceof core_kernel_classes_Resource){
+							$exportedValue .= $value->getLabel();
+						}
+						if($value instanceof core_kernel_classes_Literal){
+							$exportedValue .= (string)$value;
+						}
+					}
+					$pIndex++;
 				}
-				elseif(count($values) == 1){
-					$value = $values[0];
-				}
-				$returnValue .= $WRAP . addslashes($values[0]) . $WRAP;
-				($index < count($properties)) ? $returnValue .= $DELIM :  $returnValue .= $BREAK ;
+				
+				$returnValue .= $WRAP . addslashes($exportedValue) . $WRAP;
+				($index < count($properties) - 1) ? $returnValue .= $DELIM :  $returnValue .= $BREAK ;
 				$index++;
 			}
 		}

@@ -94,9 +94,23 @@ function initNavigation(){
 	
 	//links load the content into the main container
 	$('a.nav').click(function() { 	
-		 _load(getMainContainerSelector(), this.href);
-		 return false;
+		try{
+			_load(getMainContainerSelector(), this.href);
+		}
+		catch(exp){ return false; }
+		return false;
 	});
+	
+	//set up the container size
+	uiTab = $('.ui-tabs-panel')[tabs.tabs('option', 'selected')].id;
+	if($('#section-actions').html() == '' && $('#section-trees').html()  == '' && $("div#"+uiTab).css('left') == '17.5%' ){
+		$("div#"+uiTab).css('left', '0.5%');
+		$("div#"+uiTab).css('width', '98%');
+	}
+	if( $('#section-actions').html() != '' || $('#section-trees').html()  != '' ){
+		$("div#"+uiTab).css('left', '17.5%');
+		$("div#"+uiTab).css('width', '81%');
+	}
 	
 	_initFormNavigation();
 	_autoFx();
@@ -109,6 +123,7 @@ function initNavigation(){
  * @param {String} url
  */
 function _load(selector, url, data){
+	
 	if(data){
 		data.nc = new Date().getTime();
 	}
@@ -116,7 +131,13 @@ function _load(selector, url, data){
 		data = {nc: new Date().getTime()}
 	}
 	loading();
-	$(selector).load(url, data, loaded());
+	if(url.indexOf('?') == -1){
+		$(selector).load(url, data, loaded());
+	}
+	else{
+		url += '&' + ($.param(data));
+		$(selector).load(url, loaded());
+	}
 }
 
 /**

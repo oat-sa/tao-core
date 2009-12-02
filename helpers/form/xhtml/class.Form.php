@@ -104,6 +104,18 @@ class tao_helpers_form_xhtml_Form
 			
 			//set posted values
 			foreach($this->elements as $id => $element){
+				
+				if($element instanceof tao_helpers_form_elements_xhtml_File){
+					print "<pre>";
+					print_r($_POST);
+					print_r($_FILES);
+					print "</pre>";
+					if(isset($_FILES[$element->getName()])){
+						$this->elements[$id]->setValue( 
+							$_FILES[$element->getName()]
+						);
+					}
+				}
 				if($element instanceof tao_helpers_form_elements_xhtml_Checkbox){
 					foreach($element->getOptions() as $optionId => $option){
 						if(isset($_POST[$optionId])){
@@ -142,7 +154,11 @@ class tao_helpers_form_xhtml_Form
 		(strpos($_SERVER['REQUEST_URI'], '?') > 0) ? $action = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $action = $_SERVER['REQUEST_URI'];
 		
 		$returnValue .= "<div class='xhtml_form'>";
-		$returnValue .= "<form method='post' id='{$this->name}' name='{$this->name}' action='$action'>";
+		$returnValue .= "<form method='post' id='{$this->name}' name='{$this->name}' action='$action' ";
+		if($this->hasFileUpload()){
+			$returnValue .= "enctype='multipart/form-data' ";
+		}
+		$returnValue .= ">";
 		$returnValue .= $this->renderElements();
 		
 		 if(!is_null($this->decorator)){
@@ -150,8 +166,16 @@ class tao_helpers_form_xhtml_Form
 		 }
 		 $returnValue .= "<input type='hidden' name='{$this->name}_sent' value='1' />";
 		 
-		 (isset($this->options['submitValue'])) ? $value = $this->options['submitValue'] : $value = __('save');
-		 $returnValue .= "<input type='submit' value='{$value}'  />";
+		 $submitBtn = true;
+		 if(isset($this->options['submitBtn'])){
+		 	if($this->options['submitBtn'] === false){
+		 		$submitBtn = false;
+		 	}
+		 }
+		 if($submitBtn){
+		 	(isset($this->options['submitValue'])) ? $value = $this->options['submitValue'] : $value = __('save');
+		 	$returnValue .= "<input type='submit' value='{$value}'  />";
+		 }
 		 
 		 if(!isset($this->options['noRevert'])){
 		 	$returnValue .= "<input type='button' value='".__('revert'). "' class='form-reverter' />";

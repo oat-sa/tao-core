@@ -5,7 +5,10 @@
 	<title>TAO</title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 	
-	<script type='text/javascript'>var imgPath = '<?=BASE_WWW?>img/';</script>
+	<script type='text/javascript'>
+		var jsPath 	= '<?=BASE_WWW?>js/';
+		var imgPath = '<?=BASE_WWW?>img/';
+	</script>
 	
 	<?=tao_helpers_Scriptloader::render()?>
 	

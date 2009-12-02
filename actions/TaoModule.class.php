@@ -33,17 +33,103 @@ abstract class TaoModule extends CommonModule {
 	 */
 	abstract public function saveComment();
 	
+	
+
+	
 	/**
 	 * Import module data Action
 	 * @return void
 	 */
-	abstract public function import();
+	public function import(){
+		
+		//CSV Adapter
+		$adapter = new tao_helpers_GenerisDataAdapterCsv();
+		$options = $adapter->getOptions();
+		
+		//option form
+		$myForm = tao_helpers_form_FormFactory::getForm('import', array('submitBtn' => false, 'noRevert' => true));
+		$level = 1;
+		
+		//create import options form
+		foreach($options as $optName => $optValue){
+			(is_bool($optValue))  ? $eltType = 'Checkbox' : $eltType = 'Textbox';
+			$optElt = tao_helpers_form_FormFactory::getElement($optName, $eltType);
+			$optElt->setDescription(tao_helpers_Display::textCleaner($optName, ' '));
+			$optElt->setLevel($level);
+			$optElt->addAttribute("size", ($optName == 'column_order') ? 40 : 6);
+			if(is_null($optValue) || $optName == 'line_break'){
+				$optElt->addAttribute("disabled", "true");
+			}
+			$optElt->setValue($optValue);
+			if($eltType == 'Checkbox'){
+				$optElt->setOptions(array($optName => ''));
+				$optElt->setValue($optName);
+			}
+			if(!preg_match("/column/", strtolower($optName))){
+				$optElt->addValidator(
+					tao_helpers_form_FormFactory::getValidator('NotEmpty')
+				);
+			}
+			$myForm->addElement($optElt);
+			$level++;
+		}
+		$myForm->createGroup('options', __('CSV Options'), array_keys($options));
+		
+		//create file upload form box
+		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'File');
+		$fileElt->setLevel($level);
+		$fileElt->setDescription("Add the source file");
+		$fileElt->addValidators(array(
+			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/plain', 'text/csv', 'application/csv-tab-delimited-table'))),
+			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => 2000000))
+		));
+		$myForm->addElement($fileElt);
+		$myForm->createGroup('file', __('Upload CSV File'), array('source'));
+		
+		$myForm->evaluate();
+		
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				/*
+				 * HERE
+				 */
+			}
+		}
+		
+		$this->setData('myForm', $myForm->render());
+		$this->setData('formTitle', __('Import data'));
+		$this->setView('importform.tpl');
+	}
+	
 	
 	/**
-	 * Export module data Action
+	 * Export the selected class instance in a flat CSV file
+	 * download header sent
 	 * @return void
 	 */
-	abstract public function export();
+	public function export(){
+		
+		if($this->hasSessionAttribute('currentExtension')){
+			
+			$extension = str_replace('tao', '', $this->getSessionAttribute('currentExtension'));
+			$clazz = $this->getCurrentClass();
+			
+			if(!is_null($clazz)){
+				$fileName = strtolower($extension."_".tao_helpers_Display::textCleaner($clazz->getLabel())."_".time().".csv");
+				$adapter = new tao_helpers_GenerisDataAdapterCsv();
+				$data = $adapter->export($clazz);
+				
+				if($data){
+					header('Content-type: application/csv-tab-delimited-table');
+					header('Content-Disposition: attachment; filename="'.$fileName.'"');
+					echo $data;
+					return;
+				}
+			}
+		}
+		throw new Exception("Unable to export data");
+	}
 	
 	/**
 	 * Get the lists of a module which are the first child of TAO Object

@@ -106,11 +106,11 @@ tao_helpers_Scriptloader::addJsFiles(array(
 	BASE_WWW . 'js/jsTree/jquery.tree.min.js',
 	BASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
 	BASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
-//	BASE_WWW . 'js/tiny_mce/jquery.tinymce.js',
-//	BASE_WWW . 'js/editorOptions.js',
+	BASE_WWW . 'js/ajaxupload.js',
 	BASE_WWW . 'js/form.js',
 	BASE_WWW . 'js/control.js',
 	BASE_WWW . 'js/generis.tree.js'
+	
 
 ));
 require_once(BASE_PATH.'/helpers/class.Uri.php');

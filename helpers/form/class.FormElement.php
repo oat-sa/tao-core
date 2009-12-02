@@ -360,6 +360,25 @@ abstract class tao_helpers_form_FormElement
     }
 
     /**
+     * Short description of method addValidators
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  array validators
+     * @return mixed
+     */
+    public function addValidators($validators)
+    {
+        // section 127-0-1-1-6a096e44:1254eebc226:-8000:0000000000001CE4 begin
+		
+		foreach($validators as $validator){
+			$this->addValidator($validator);
+		}
+		
+        // section 127-0-1-1-6a096e44:1254eebc226:-8000:0000000000001CE4 end
+    }
+
+    /**
      * Short description of method validate
      *
      * @access public

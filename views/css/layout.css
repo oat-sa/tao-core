@@ -41,16 +41,23 @@ div#tabs, div#home{
 	margin:auto;
 	overflow-y: auto;
 }
+
+/* --- */
+/* don't change it */
 div#tabs div.ui-tabs-panel{
 	position:absolute; 
-	left:17.5%;
-	width:81%;
+	/*left:17.5%;
+	width:81%;*/
+	left:0.5%;
+	width:95%;
 	height:90%;
 	padding-top:0.5%;
 	padding-right:0px;
 	overflow-x:hidden;
 	overflow-y:auto;
 }
+/* --- */
+
 img#logo{
 	position: absolute; 
 	right:10px; 

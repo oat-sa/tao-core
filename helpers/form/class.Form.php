@@ -347,6 +347,31 @@ abstract class tao_helpers_form_Form
     }
 
     /**
+     * Short description of method hasFileUpload
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @return boolean
+     */
+    public function hasFileUpload()
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-3453b76:1254af40027:-8000:0000000000001CCD begin
+		
+		foreach($this->elements as $element){
+			if($element instanceof tao_helpers_form_elements_File){
+				 $returnValue = true;
+				 break;
+			}
+		}
+		
+        // section 127-0-1-1-3453b76:1254af40027:-8000:0000000000001CCD end
+
+        return (bool) $returnValue;
+    }
+
+    /**
      * Enables you to know if the form is valid
      *
      * @access public

@@ -18,9 +18,9 @@
 								<br />
 								<a href="#" onclick="<?=$action['js']?>('<?=$action["uri"]?>', '<?=$action["classUri"]?>', '<?=$action["url"]?>')"><?=$action['display']?></a>
 							<?else:?>
-								<a class="nav" href="<?=$action['url']?>" title="<?=$action['display']?>"><img src="<?=BASE_WWW?>img/actions/<?=$action['name']?>.png"  /></a>
+								<a class="<?if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>" title="<?=$action['display']?>"><img src="<?=BASE_WWW?>img/actions/<?=$action['name']?>.png"  /></a>
 								<br />
-								<a class="nav" href="<?=$action['url']?>"><?=$action['display']?></a>
+								<a class="<?if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>"><?=$action['display']?></a>
 							<?endif?>
 							
 						
