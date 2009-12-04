@@ -53,7 +53,7 @@ function tao_autoload($pClassName) {
 		require_once $__autoload[$pClassName];
 	}
 	else {
-		$split = split("_",$pClassName);
+		$split = explode("_",$pClassName);
 		$path = GENERIS_BASE_PATH.'/';
 		for ( $i = 0 ; $i<sizeof($split)-1 ; $i++){
 			$path .= $split[$i].'/';

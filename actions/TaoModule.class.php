@@ -47,7 +47,7 @@ abstract class TaoModule extends CommonModule {
 		$options = $adapter->getOptions();
 		
 		//option form
-		$myForm = tao_helpers_form_FormFactory::getForm('import', array('submitBtn' => false, 'noRevert' => true));
+		$myForm = tao_helpers_form_FormFactory::getForm('import', array('noSubmit' => false, 'noRevert' => true));
 		$level = 1;
 		
 		//create import options form
@@ -88,12 +88,33 @@ abstract class TaoModule extends CommonModule {
 		$myForm->createGroup('file', __('Upload CSV File'), array('source'));
 		
 		$myForm->evaluate();
-		
+
+		//if the form is submited and valid
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				/*
-				 * HERE
-				 */
+				
+				//init import options
+				$clazz = $this->getCurrentClass();
+				
+				$adapter->setOptions(array(
+					'field_delimiter' 		=> $myForm->getValue('field_delimiter'),
+					'field_encloser' 		=> $myForm->getValue('field_encloser'),
+					'line_break' 			=> $myForm->getValue('line_break'),
+					'multi_values_delimiter' => $myForm->getValue('multi_values_delimiter'),
+					'first_row_column_names' => $myForm->getValue('first_row_column_names'),
+					'column_order' 			=> $myForm->getValue('column_order')
+				));
+				
+				//import data from the file
+				$fileData = $myForm->getValue('source');
+				if($adapter->import(file_get_contents($fileData['tmp_name']), $clazz)){
+					unlink($fileData['tmp_name']);
+					
+					$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
+					$this->setData('message', __('Data imported'));
+					$this->setData('reload', true);
+					$this->forward(get_class($this), 'index');
+				}
 			}
 		}
 		
