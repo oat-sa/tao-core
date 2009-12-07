@@ -106,10 +106,7 @@ class tao_helpers_form_xhtml_Form
 			foreach($this->elements as $id => $element){
 				
 				if($element instanceof tao_helpers_form_elements_xhtml_File){
-					print "<pre>";
-					print_r($_POST);
-					print_r($_FILES);
-					print "</pre>";
+					
 					if(isset($_FILES[$element->getName()])){
 						$this->elements[$id]->setValue( 
 							$_FILES[$element->getName()]
@@ -117,9 +114,12 @@ class tao_helpers_form_xhtml_Form
 					}
 				}
 				if($element instanceof tao_helpers_form_elements_xhtml_Checkbox){
+					$this->elements[$id]->setValues(array());
 					foreach($element->getOptions() as $optionId => $option){
-						if(isset($_POST[$optionId])){
-							$this->elements[$id]->addValue(tao_helpers_Uri::decode($optionId));
+						if(!empty($optionId)){
+							if(isset($_POST[$optionId])){
+								$this->elements[$id]->addValue(tao_helpers_Uri::decode($optionId));
+							}
 						}
 					}
 				}

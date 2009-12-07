@@ -9,8 +9,8 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 20.10.2009, 15:51:36 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 07.12.2009, 12:35:02 with ArgoUML PHP module 
+ * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
@@ -150,6 +150,23 @@ abstract class tao_helpers_form_elements_MultipleElement
         // section 127-0-1-1-bed3971:124720c750d:-8000:0000000000001A9D end
 
         return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method setValues
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  array values
+     * @return mixed
+     */
+    public function setValues($values)
+    {
+        // section 127-0-1-1-c213658:12568a3be0b:-8000:0000000000001CED begin
+		
+		$this->values = $values;
+		
+        // section 127-0-1-1-c213658:12568a3be0b:-8000:0000000000001CED end
     }
 
 } /* end of abstract class tao_helpers_form_elements_MultipleElement */
