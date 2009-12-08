@@ -77,10 +77,15 @@ function _initForms(){
 	
 	//open the authoring tool on the authoringOpener button
 	$('.authoringOpener').click(function(){
-		index = getTabIndexByName('item_authoring');
+		if(ctx_extension){
+		 	url = '/' + ctx_extension + '/' + ctx_module + '/';
+			tabName = ctx_module.toLowerCase() + '_authoring';
+		 }
+		url += 'authoring';
+		index = getTabIndexByName(tabName);
 		if(index > -1){
 			if($("#uri") && $("#classUri")){
-				tabs.tabs('url', index, '/taoItems/Items/authoring?uri=' + $("#uri").val() +'&classUri=' + $("#classUri").val());
+				tabs.tabs('url', index, url + '?uri=' + $("#uri").val() +'&classUri=' + $("#classUri").val());
 				tabs.tabs('enable', index);
 				tabs.tabs('select', index);
 			}
@@ -91,7 +96,6 @@ function _initForms(){
 		if (confirm('Please confirm property deletion!')) {
 			groupNode = $(this).parents(".form-group").get(0);
 			if (groupNode) {
-				console.log($(groupNode));
 				$(groupNode).remove();
 			}
 		}
