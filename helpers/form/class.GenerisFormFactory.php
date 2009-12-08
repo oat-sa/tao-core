@@ -420,7 +420,7 @@ class tao_helpers_form_GenerisFormFactory
 		$level++;
 		
 		if(count($elementNames) > 0){
-			$form->createGroup("property_{$index}", "Property #".($index+1).": ".$property->getLabel(), $elementNames);
+			$form->createGroup("property_{$index}", "Property #".($index).": ".$property->getLabel(), $elementNames);
 		}
 			
 		$returnValue = $form;

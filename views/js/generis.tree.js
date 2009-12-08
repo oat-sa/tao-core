@@ -470,3 +470,26 @@ function fullScreen(uri, classUri, url){
 	url += '?uri='+uri+'&classUri='+classUri;
 	window.open(url, 'tao', 'width=800,height=600,menubar=no,toolbar=no');
 }
+
+/**
+ * Add a new property
+ * @param {Object} uri
+ * @param {Object} classUri
+ * @param {Object} url
+ */
+function addProperty(uri, classUri, url){
+	$.ajax({
+		url: url,
+		type: "POST",
+		data: {
+			index: $(".property-uri").size(),
+			classUri: classUri
+		},
+		dataType: 'html',
+		success: function(response){
+			$("#property_actions").before(response)
+			initNavigation();
+			window.location = '#propertyAdder';
+		}
+	});
+}

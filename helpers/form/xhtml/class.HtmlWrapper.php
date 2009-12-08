@@ -3,13 +3,13 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/xhtml/class.TagWrapper.php
+ * Generis Object Oriented API - tao/helpers/form/xhtml/class.HtmlWrapper.php
  *
  * $Id$
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 08.12.2009, 10:44:16 with ArgoUML PHP module 
+ * Automatically generated on 08.12.2009, 10:43:14 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -29,22 +29,22 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 require_once('tao/helpers/form/interface.Decorator.php');
 
 /* user defined includes */
-// section 127-0-1-1-3ed01c83:12409dc285c:-8000:000000000000196F-includes begin
-// section 127-0-1-1-3ed01c83:12409dc285c:-8000:000000000000196F-includes end
+// section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CEE-includes begin
+// section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CEE-includes end
 
 /* user defined constants */
-// section 127-0-1-1-3ed01c83:12409dc285c:-8000:000000000000196F-constants begin
-// section 127-0-1-1-3ed01c83:12409dc285c:-8000:000000000000196F-constants end
+// section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CEE-constants begin
+// section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CEE-constants end
 
 /**
- * Short description of class tao_helpers_form_xhtml_TagWrapper
+ * Short description of class tao_helpers_form_xhtml_HtmlWrapper
  *
  * @access public
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
  * @subpackage helpers_form_xhtml
  */
-class tao_helpers_form_xhtml_TagWrapper
+class tao_helpers_form_xhtml_HtmlWrapper
         implements tao_helpers_form_Decorator
 {
     // --- ASSOCIATIONS ---
@@ -53,28 +53,20 @@ class tao_helpers_form_xhtml_TagWrapper
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute tag
+     * Short description of attribute begin
      *
      * @access protected
      * @var string
      */
-    protected $tag = 'div';
+    protected $begin = '';
 
     /**
-     * Short description of attribute id
+     * Short description of attribute end
      *
      * @access protected
      * @var string
      */
-    protected $id = '';
-
-    /**
-     * Short description of attribute cssClass
-     *
-     * @access protected
-     * @var string
-     */
-    protected $cssClass = '';
+    protected $end = '';
 
     // --- OPERATIONS ---
 
@@ -90,16 +82,6 @@ class tao_helpers_form_xhtml_TagWrapper
         $returnValue = (string) '';
 
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001952 begin
-		if(!empty($this->tag)){
-			$returnValue .= "<{$this->tag}";
-			if(!empty($this->id)){
-				$returnValue .= " id='{$this->id}' ";	
-			}
-			if(!empty($this->cssClass)){
-				$returnValue .= " class='{$this->cssClass}' ";	
-			}
-			$returnValue .= ">";
-		}
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001952 end
 
         return (string) $returnValue;
@@ -117,9 +99,6 @@ class tao_helpers_form_xhtml_TagWrapper
         $returnValue = (string) '';
 
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001954 begin
-		if(!empty($this->tag)){
-			$returnValue .= "</{$this->tag}>";
-		}
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001954 end
 
         return (string) $returnValue;
@@ -138,9 +117,6 @@ class tao_helpers_form_xhtml_TagWrapper
         $returnValue = (string) '';
 
         // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C79 begin
-		if(isset($this->$key)){
-			$returnValue = $this->$key;
-		}
         // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C79 end
 
         return (string) $returnValue;
@@ -160,9 +136,6 @@ class tao_helpers_form_xhtml_TagWrapper
         $returnValue = (bool) false;
 
         // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C7C begin
-		
-		$this->$key = $value;
-		
         // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C7C end
 
         return (bool) $returnValue;
@@ -178,19 +151,10 @@ class tao_helpers_form_xhtml_TagWrapper
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001976 begin
-		if(isset($options['tag'])){
-			$this->tag = $options['tag'];
-		}
-		if(isset($options['cssClass'])){
-			$this->cssClass = $options['cssClass'];
-		}
-		if(isset($options['id'])){
-			$this->id = $options['id'];
-		}
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001976 end
+        // section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CF5 begin
+        // section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CF5 end
     }
 
-} /* end of class tao_helpers_form_xhtml_TagWrapper */
+} /* end of class tao_helpers_form_xhtml_HtmlWrapper */
 
 ?>

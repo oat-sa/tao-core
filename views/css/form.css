@@ -78,7 +78,7 @@ div.xhtml_form div.form-group div{
 	background-color: #fff;
 	padding:3px;
 	color:#444;
-	font-size:0.8em;
+	font-size:0.9em;
 }
 
 /* Form error message */
@@ -106,4 +106,10 @@ div#form-container table th{
 } 
 div#form-container table th{
 	padding:5px;
+}
+
+div.form-group span.form-group-control{
+	cursor:pointer;
+	position:absolute;
+	right: 1%;
 }

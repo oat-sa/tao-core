@@ -16,15 +16,19 @@
     {
         var element = this[0];
 
-        if ( element.nodeName.toLowerCase() == 'iframe' )
-            return element.contentWindow.document;
-            /*
-            return ( $.browser.msie )
-                ? document.frames[element.id].document
-                : element.contentWindow.document // contentDocument;
-             */
-        else
-            return $(this);
+        if (element.nodeName.toLowerCase() == 'iframe') {
+			if(!element.contentWindow){
+				return null;
+			}
+			return element.contentWindow.document;
+		}
+		/*
+		 return ( $.browser.msie )
+		 ? document.frames[element.id].document
+		 : element.contentWindow.document // contentDocument;
+		 */
+		else 
+			return $(this);
     };
 
     $.fn.documentSelection = function()

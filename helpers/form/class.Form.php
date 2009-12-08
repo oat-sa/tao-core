@@ -275,6 +275,12 @@ abstract class tao_helpers_form_Form
 			 }
 		}
 		
+		$subGroupDecorator = null;
+		if(!is_null($this->groupDecorator)){
+			$decoratorClass = get_class($this->groupDecorator);
+			$subGroupDecorator = new $decoratorClass();
+		}
+		
 		//render group
 		foreach($this->groups as $groupName => $group){
 		
@@ -283,6 +289,9 @@ abstract class tao_helpers_form_Form
 				$returnValue .= $this->groupDecorator->preRender();
 			}
 			$returnValue .= $group['title'];
+			if(!is_null($subGroupDecorator)){
+				$returnValue .= $subGroupDecorator->preRender();
+			}
 			
 			foreach($this->elements as $element){
 				 if($this->getElementGroup($element->getName()) == $groupName){
@@ -310,6 +319,9 @@ abstract class tao_helpers_form_Form
 					 }
 				 
 				 }
+			}
+			if(!is_null($subGroupDecorator)){
+				$returnValue .= $subGroupDecorator->postRender();
 			}
 			if(!is_null($this->groupDecorator)){
 				$returnValue .= $this->groupDecorator->postRender();

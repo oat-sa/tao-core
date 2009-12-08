@@ -67,6 +67,7 @@ function _initFormNavigation(){
  */
 function _initForms(){
 	
+	
 	//map the wysiwyg editor to the html-area fields
 	$('.html-area').each(function(){
 		if($(this).css('display') != 'none') {
@@ -86,14 +87,51 @@ function _initForms(){
 		}
 	});
 	
-	//property delete button 
-	 $(".property-deleter").click(function(){
-	 	groupNode = $(this).parents(".form-group").get(0);
-		if(groupNode){
-			$(groupNode).empty();
-			$(groupNode).remove();
+	function removeGroup(){
+		if (confirm('Please confirm property deletion!')) {
+			groupNode = $(this).parents(".form-group").get(0);
+			if (groupNode) {
+				console.log($(groupNode));
+				$(groupNode).remove();
+			}
 		}
-	 })
+	}
+	
+	//property form group controls
+	$('.form-group').each(function(){
+		var formGroup = $(this);
+		if(/^property\_[0-9]+$/.test(formGroup.attr('id'))){
+			var child = formGroup.children("div:first");
+			child.hide();
+			
+			//toggle control
+			toggeler = $("<span class='form-group-control ui-icon ui-icon-circle-plus' title='expand' style='right:48px;'></span>");			
+			toggeler.click(function(){
+				var control = $(this);
+				if(child.css('display') == 'none'){
+					child.show('slow');
+					control.removeClass('ui-icon-circle-plus');
+					control.addClass('ui-icon-circle-minus');
+					control.attr('title', 'hide property');
+				}
+				else{
+					child.hide('slow');
+					control.removeClass('ui-icon-circle-minus');
+					control.addClass('ui-icon-circle-plus');
+					control.attr('title', 'show property');
+				}
+			})
+			formGroup.prepend(toggeler);
+			
+			//delete control
+			deleter = $("<span class='form-group-control ui-icon ui-icon-circle-close' title='Delete' style='right:24px;'></span>");
+			deleter.click(removeGroup);
+			formGroup.prepend(deleter);
+		}
+	});
+	
+	//property delete button 
+	 $(".property-deleter").click(removeGroup);
 	 
 	 //property add button
 	 $(".property-adder").click(function(){
@@ -125,14 +163,13 @@ function _initForms(){
 	  * display or not the list regarding the property type
 	  */
 	 function showPropertyList(){
-	 	if(/list$/.test($(this).val())){
-			elt = $(this).parent("div").next("div");
+	 	elt = $(this).parent("div").next("div");
+		if(/list$/.test($(this).val())){
 			if(elt.css('display') == 'none'){
 				elt.show("slow");
 			}
 		}
 		else{
-			elt = $(this).parent("div").next("div")
 			if(elt.css('display') != 'none'){
 				elt.hide("slow");
 			}
@@ -157,6 +194,7 @@ function _initForms(){
 			//dialog content
 			elt = $(this).parent("div");
 			elt.append("<div id='"+dialogId+"' style='display:none;' >\
+							Right click the tree to manage your lists<br />\
 							<div id='"+treeId+"' ></div>\
 							<div style='text-align:center;'>\
 								<a id='"+closerId+"' class='ui-state-default ui-corner-all' href='#'>Ok</a>\
@@ -328,6 +366,16 @@ function _initForms(){
 	 
 	 $(".property-listvalues").change(showPropertyListValues);
 	 $(".property-listvalues").each(showPropertyListValues);
+	 $(".property-listvalues").each(function(){
+	 	var listField = $(this);
+		listControl = $("<img title='manage lists' style='cursor:pointer;' />")
+		listControl.attr('src', imgPath + '/add.png');
+		listControl.click(function(){
+			listField.val('new');
+			listField.change();
+		});
+		listControl.insertAfter(listField);
+	 });
 	 
 	 $(".property-listvalues").each(function(){
 	 	elt = $(this).parent("div");
