@@ -155,7 +155,7 @@ function _initForms(){
 		 		},
 		 		dataType: 'html',
 		 		success: function(response){
-		 			$(groupNode).before(response)
+					$(groupNode).before(response);
 		 			initNavigation();
 					window.location = '#'+eltId;
 		 		}
@@ -170,13 +170,11 @@ function _initForms(){
 	 	elt = $(this).parent("div").next("div");
 		if(/list$/.test($(this).val())){
 			if(elt.css('display') == 'none'){
-				elt.show("slow");
+				elt.show();
 			}
 		}
-		else{
-			if(elt.css('display') != 'none'){
-				elt.hide("slow");
-			}
+		else if(elt.css('display') != 'none'){
+			elt.css('display', 'none');
 		}
 	 }
 	 

@@ -179,6 +179,23 @@ div#preview-container{
 	font-size:32px;
 	margin-right:5px;
 }
+div#group-container,
+div#subject-container,
+div#test-container,
+div#item-container{
+	width:22%;
+	height:500px;
+	overflow-y:auto;
+	float:left;
+	margin-right:5px;
+}
+div.container-title{
+	padding:4px;
+	font-size:1em;
+}
+div.container-content{
+	font-size:1em;
+}
 div.main-container{
 	height:500px;
 	overflow-y:auto;

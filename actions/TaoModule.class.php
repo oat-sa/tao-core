@@ -272,7 +272,6 @@ abstract class TaoModule extends CommonModule {
 			$index = 1;
 		}
 		
-		
 		$class = $this->getCurrentClass();
 		$myForm = tao_helpers_form_GenerisFormFactory::propertyEditor(
 			$class->createProperty(),
@@ -314,6 +313,12 @@ abstract class TaoModule extends CommonModule {
 	protected function getListData($exclude = array()){ 
 	
 		$data = array();
+		
+		//generis boolean is always in the list
+		array_push(
+			$data, 
+			$this->service->toTree(new core_kernel_classes_Class(GENERIS_BOOLEAN), false, true)
+		);
 	
 		$taoObjectClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
 		foreach($taoObjectClass->getSubClasses(false)  as $subClass){

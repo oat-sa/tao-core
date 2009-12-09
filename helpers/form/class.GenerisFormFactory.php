@@ -374,7 +374,13 @@ class tao_helpers_form_GenerisFormFactory
 		$topLevelClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
 		$domains = $property->getDomain();
 		$options = array();
-		foreach($topLevelClazz->getSubClasses(false) as $subClass){
+		foreach(
+			array_merge(
+				array(new core_kernel_classes_Class(GENERIS_BOOLEAN)),
+				$topLevelClazz->getSubClasses(false)
+			) 
+			as $subClass){
+				
 			$isDomain = false;
 			foreach($domains->getIterator() as $domain){
 				if($subClass->uriResource == $domain->uriResource){

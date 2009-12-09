@@ -229,12 +229,13 @@ abstract class tao_models_classes_Service
 			$values = $instance->getPropertyValuesCollection($prop);
 			if($values->count() > 0){
 				if(is_array($propertyValue)){
-					$instance->removePropertyValues($prop);
-					foreach($propertyValue as $aPropertyValue){
-						$instance->setPropertyValue(
-							$prop,
-							$aPropertyValue
-						);
+					if($instance->removePropertyValues($prop)){
+						foreach($propertyValue as $aPropertyValue){
+							$instance->setPropertyValue(
+								$prop,
+								$aPropertyValue
+							);
+						}
 					}
 				}
 				else{
