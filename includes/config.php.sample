@@ -3,6 +3,8 @@
  * main configuration file
  */
 
+
+
 # plugins directory
 define("DIR_PLUGIN"			, dirname(__FILE__). "/../plugins/");
 
@@ -16,22 +18,15 @@ define("DIR_MODELS"			, dirname(__FILE__). "/../models/");
 define('DIR_PLUGINS'		, dirname(__FILE__).'/../plugins/');
 
 # views directory
-define("DIR_VIEWS"			, "views/");
+define("DIR_VIEWS"			, dirname(__FILE__).'/../views/');
 
 # helpers directory
 define("DIR_HELPERS"		, dirname(__FILE__) . "/../helpers/");
 
-# core directory
-define("DIR_CORE"			, dirname(__FILE__) . "/../../PHP-Framework/core/");
 
-# core helpers directory
-define("DIR_CORE_HELPERS"	, DIR_CORE . "helpers/");
-
-# core utils directory
-define("DIR_CORE_UTILS"		, DIR_CORE . "util/");
 
 # session namespace
-define('SESSION_NAMESPACE', 'PHPFramework');
+define('SESSION_NAMESPACE', 'ClearFw');
 
 # default module name
 define('DEFAULT_MODULE_NAME', 'Main');
@@ -58,7 +53,7 @@ define('BASE_PATH', ROOT_PATH . '/tao');
 
 #BASE URL (usually the domain root)
 define('ROOT_URL', 'http://'.$_SERVER['HTTP_HOST']);
-define('BASE_URL', 'http://'.$_SERVER['HTTP_HOST']. '/tao');
+define('BASE_URL', 'http://localhost/tao');
 
 #BASE WWW the web resources path
 define('BASE_WWW', BASE_URL . '/' . DIR_VIEWS);
