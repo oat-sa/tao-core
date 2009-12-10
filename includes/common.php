@@ -4,13 +4,10 @@
  * @todo create a proper class to bootstrap by context
  */
 
-// 01 SESSION
 
 session_start();
 
 
-
-// 03 INCLUDES
 
 require_once 	dirname(__FILE__). "/config.php";
 require_once 	dirname(__FILE__). "/constants.php";
@@ -23,9 +20,6 @@ require_once 	dirname(__FILE__). "/constants.php";
  * @param 	string		$pClassName		Name of the class
  */
 function tao_autoload($pClassName) {
-
-	global $__autoload;
-
 
 	$split = explode("_",$pClassName);
 	$path = GENERIS_BASE_PATH.'/../';
