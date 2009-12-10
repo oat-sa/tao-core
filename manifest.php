@@ -7,7 +7,7 @@
 			'author' => 'CRP Henry Tudor',
 			'dependances' => array(),
 			'install' => array( 
-				'sql' => dirname(__FILE__). '/install/db/tao',
+				'sql' => dirname(__FILE__). '/install/db/tao.sql',
 				'php' => dirname(__FILE__). '/install/install.php'
 			),
 			'configFile' => dirname(__FILE__). '/includes/common.php',
