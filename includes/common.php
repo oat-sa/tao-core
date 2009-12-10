@@ -35,8 +35,6 @@ if (function_exists("xdebug_enable"))  {
 
 require_once 	dirname(__FILE__). "/config.php";
 require_once 	dirname(__FILE__). "/constants.php";
-require 		dirname(__FILE__).'/../../PHP-Framework/clearbricks/common/_main.php';
-require_once 	dirname(__FILE__).'/../../generis/common/common.php';
 
 //04 LOADER
 
@@ -54,7 +52,7 @@ function tao_autoload($pClassName) {
 	}
 	else {
 		$split = explode("_",$pClassName);
-		$path = GENERIS_BASE_PATH.'/';
+		$path = GENERIS_BASE_PATH.'/../';
 		for ( $i = 0 ; $i<sizeof($split)-1 ; $i++){
 			$path .= $split[$i].'/';
 		}
@@ -84,9 +82,9 @@ function fw_autoload($pClassName) {
 
 spl_autoload_register("fw_autoload");
 spl_autoload_register("tao_autoload");
-spl_autoload_register("Plugin::pluginClassAutoLoad");
 
-set_include_path(get_include_path() . PATH_SEPARATOR . GENERIS_BASE_PATH);
+
+set_include_path(get_include_path() . PATH_SEPARATOR . GENERIS_BASE_PATH.'/..');
 
 
 // 05 SCRIPTS

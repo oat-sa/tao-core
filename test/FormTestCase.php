@@ -1,7 +1,8 @@
 <?php
+require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
 
 require_once dirname(__FILE__).'/../includes/common.php';
-require_once $GLOBALS['inc_path'].'/simpletest/autorun.php';
+require_once INCLUDES_PATH.'/simpletest/autorun.php';
 
 /**
 * @constant login for the generis module you wish to connect to 
@@ -16,7 +17,7 @@ define("PASS", "demo", true);
 /**
 * @constant module for the module you wish to connect to 
 */
-define("MODULE", "taosubjects", true);
+define("MODULE", "taotrans_demo", true);
 
 /**
  *
