@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
 
-require_once dirname(__FILE__).'/../includes/common.php';
+
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
 
 /**
@@ -71,6 +71,7 @@ class FormTestCase extends UnitTestCase {
 		//Check if the Literal type is in range
 		$this->assertTrue( array_key_exists('http://www.w3.org/2000/01/rdf-schema#Literal', $options));
 		
+
 		//Check if the Boolean type is in range
 		$this->assertTrue( array_key_exists('http://www.tao.lu/Ontologies/generis.rdf#Boolean', $options));
 	}
