@@ -84,6 +84,10 @@ div#main-menu span a:hover{
 div#main-menu span.current-extension a{
 	border-bottom: solid 2px #599FFC;
 }
+div#main-menu span.disabled-extension{
+	font-size:1.3em;
+	color:#C0C0C0;
+}
 
 /* Layout -> Trees */
 div#section-trees{
@@ -145,7 +149,7 @@ div#section-actions ul li a:hover{
 div#section-meta{
 	position:absolute;
 	bottom:0%;
-	right:1%;
+	right:0.25%;
 	width:33%;
 }
 div#meta-title{
@@ -214,6 +218,7 @@ div#footer{
 /* Home Page */
 div#home_title{
 	margin:5px;
+	margin-bottom:30px;
 	padding:5px;
 	text-align:center;
 }
@@ -248,7 +253,14 @@ div#login_form, div#login_title{
 }
 div#login_title{
 	padding:6px;
-	margin-top:50px;
+}
+
+div.error-message{
+	width: 500px;
+	margin: auto;
+	margin-bottom:10px;
+	padding:5px;
+	font-weight:bold;
 }
 
 /* Flash Messages */

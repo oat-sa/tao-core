@@ -59,8 +59,8 @@ abstract class CommonModule extends Module {
 	 * @return boolean
 	 */
 	protected function _isAllowed(){
-		if($this->hasSessionAttribute("auth_id")){
-			$auth_id = $this->getSessionAttribute("auth_id");
+		if($this->hasSessionAttribute(tao_models_classes_UserService::AUTH_TOKEN_KEY)){
+			$auth_id = $this->getSessionAttribute(tao_models_classes_UserService::AUTH_TOKEN_KEY);
 			if(preg_match("/^[0-9a-f]{12,13}$/", $auth_id)){
 				return true;
 			}

@@ -1,0 +1,143 @@
+/*
+ * tabs helpers
+ */
+
+/**
+ * @return {String} the current main container jQuery selector (from the opened tab)
+ */
+function getMainContainerSelector(){
+	var uiTab = $('.ui-tabs-panel')[tabs.tabs('option', 'selected')].id;
+	return "div#"+uiTab+" div.main-container";
+}
+
+/**
+ * @param {String} name the name of the tab to select
+ */
+function selectTabByName(name){
+	$("#"+name).click();
+}
+
+/**
+ * get the index of the tab identified by name
+ * @param {String} name
+ * @return the index or -1 if not found
+ */
+function getTabIndexByName(name){
+	elts = $("div#tabs ul.ui-tabs-nav li a");
+	i = 0;
+	while(i < elts.length){
+		elt = elts[i];
+		if(elt){
+			if(elt.id){
+				if(elt.id == name){
+					return i;
+				}
+			}
+		}
+		i++;
+	}
+	return -1;
+}
+
+/*
+ * Naviguation and ajax helpers
+ */
+
+/**
+ * Begin an async request, while loading:
+ * - show the loader img
+ * - disable the submit buttons
+ */
+function loading(){
+	$("#ajax-loading").show('fast');
+	$("input[type='submit']").attr('disabled', 'true');
+}
+
+/**
+ * Complete an async request, once loaded:
+ *  - hide the loader img
+ *  - enable back the submit buttons
+ */
+function loaded(){
+	$("#ajax-loading").hide('fast');
+	$("input[type='submit']").attr('disabled', 'false');
+}
+
+/**
+ * Load url asyncly into selector container
+ * @param {String} selector
+ * @param {String} url
+ */
+function _load(selector, url, data){
+	
+	if(data){
+		data.nc = new Date().getTime();
+	}
+	else{
+		data = {nc: new Date().getTime()}
+	}
+	loading();
+	if(url.indexOf('?') == -1){
+		$(selector).load(url, data, loaded());
+	}
+	else{
+		url += '&' + ($.param(data));
+		$(selector).load(url, loaded());
+	}
+}
+
+/**
+ * Make a nocache url, using a timestamp
+ * @param {String} ref
+ */
+function _href(ref){
+	return  (ref.indexOf('?') > -1) ? ref + '&nc='+new Date().getTime() : ref + '?nc='+new Date().getTime(); 
+}
+
+
+/*
+ * others
+ */
+
+/**
+ * apply effect to elements that are only present
+ */
+function _autoFx(){
+	setTimeout(function(){
+		$(".auto-highlight").effect("highlight", {color: "#9FC9FF"}, 2500);
+	}, 750);
+	setTimeout(function(){
+		$(".auto-hide").fadeOut("slow");
+	}, 2000);
+	setTimeout(function(){
+		$(".auto-slide").slideUp(1500);
+	}, 5000);
+}
+
+/**
+ * Check and cut the text of the selector container only if the text is longer than the maxLength parameter
+ * @param {String} selector JQuery selector
+ * @param {int} maxLength  
+ */
+function textCutter(selector, maxLength){
+	if(!maxLength){
+		maxLength = 100; 
+	}
+	$(selector).each(function(){
+		if($(this).text().length > maxLength && !$(this).hasClass("text-cutted")){
+			$(this).attr('title', $(this).text());
+			$(this).css('cursor', 'pointer');
+			$(this).html($(this).text().substring(0, maxLength) + "[...<img src='"+imgPath+"bullet_add.png' />]");
+			$(this).addClass("text-cutted");
+		}
+	});
+}
+
+/**
+ * Create a error popup to display an error message
+ * @param {Object} message
+ */
+function createErrorMessage(message){
+	$("body").append("<div id='info-box' class='ui-state-error ui-widget-header ui-corner-all auto-slide' >"+message+"</div>")
+	_autoFx();
+}

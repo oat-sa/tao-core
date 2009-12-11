@@ -54,14 +54,27 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 		//create the tree
 		$(selector).tree(this.treeOptions);
 		
-		$("#saver-action-" + options.actionId).click(function(){
-			var myTreeForm = $.tree.reference(instance.selector);
-			$.tree.plugins.checkbox.get_checked(myTreeForm).each(function(){
-				var NODE = $(this);
+		$("#saver-action-" + this.options.actionId).click(function(){
+			var toSend = [];
+			$.each( $.tree.plugins.checkbox.get_checked($.tree.reference(instance.selector)) , function(i, NODE){
 				if(NODE.hasClass('node-instance')){
-					console.log(NODE.attr('id'));
-				} 
+					toSend[i] = NODE.attr('id');
+				}
 			});
+			
+			console.log(toSend);
+			
+			$.ajax({
+			 	url: instance.options.saveUrl,
+				type: "POST",
+				data: toSend,
+				dataType: 'json',
+				success: function(response){
+					if(response.saved){
+						alert('Tree saved');
+					}
+				}
+			 });
 		});
 	}
 	catch(exp){

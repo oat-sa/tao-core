@@ -1,6 +1,8 @@
 <?php
 class Main extends CommonModule {
 
+	protected $userService = null;
+
 	/**
 	 * Constructor performs initializations actions
 	 * @return void
@@ -9,14 +11,14 @@ class Main extends CommonModule {
 		
 		//check if user is authenticated
 		$context = Context::getInstance();
-
 		if(!$this->_isAllowed() &&  $context->getActionName() != 'login'){
-			//$this->logout();
+			$this->logout();
 			return;
 		}
 		
 		//initialize service
 		$this->service = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
+		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 		$this->defaultData();
 	}
 	
@@ -45,8 +47,13 @@ class Main extends CommonModule {
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				$this->setSessionAttribute("auth_id", uniqid());
-				$this->redirect('index');	
+				if($this->userService->loginUser($myForm->getValue('login'), $myForm->getValue('password'))){
+					$this->setSessionAttribute(tao_models_classes_UserService::AUTH_TOKEN_KEY, uniqid());
+					$this->redirect(_url('index', 'Main'));	
+				}
+				else{
+					$this->setData('errorMessage', __('No account match the given login / password'));
+				}
 			}
 		}
 		
@@ -60,7 +67,7 @@ class Main extends CommonModule {
 	 */
 	public function logout(){
 		session_destroy();
-		$this->redirect(_url('login'));	
+		$this->redirect(_url('login', 'Main'));	
 	}
 
 	/**

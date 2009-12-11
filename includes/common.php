@@ -31,20 +31,24 @@ BASE_WWW . 'css/form.css'
 ));
 
 tao_helpers_Scriptloader::addJsFiles(array(
-
-BASE_WWW . 'js/jquery-1.3.2.min.js',
-BASE_WWW . 'js/jquery-ui-1.7.2.custom.min.js',
-BASE_WWW . 'js/jsTree/jquery.tree.min.js',
-BASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
-BASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
-BASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
-BASE_WWW . 'js/ajaxupload.js',
-BASE_WWW . 'js/form.js',
-BASE_WWW . 'js/control.js',
-BASE_WWW . 'js/generis.tree.js',
-BASE_WWW . 'js/generis.treeform.js'
+	
+	BASE_WWW . 'js/jquery-1.3.2.min.js',
+	BASE_WWW . 'js/jquery-ui-1.7.2.custom.min.js',
+	BASE_WWW . 'js/jsTree/jquery.tree.min.js',
+	BASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
+	BASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
+	BASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
+	BASE_WWW . 'js/ajaxupload.js',
+	BASE_WWW . 'js/helpers.js',
+	BASE_WWW . 'js/form.js',
+	BASE_WWW . 'js/control.js',
+	BASE_WWW . 'js/settings.js',
+	BASE_WWW . 'js/generis.tree.js',
+	BASE_WWW . 'js/generis.treeform.js'
+	
 
 ));
 require_once(BASE_PATH.'/helpers/class.Uri.php');
 require_once(BASE_PATH.'/helpers/class.Display.php');
+
 ?>
