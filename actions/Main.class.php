@@ -9,7 +9,7 @@ class Main extends CommonModule {
 		
 		//check if user is authenticated
 		$context = Context::getInstance();
-		echo $context->getActionName();
+
 		if(!$this->_isAllowed() &&  $context->getActionName() != 'login'){
 			//$this->logout();
 			return;

@@ -2,6 +2,10 @@
 /**
  * main configuration file
  */
+//@todo to remove when the user management is implemented
+define("API_LOGIN", "demo", true);
+define("API_PASS", md5("demo"), true);
+define("API_MODULE", "taotrans_demo", true);
 
 
 
