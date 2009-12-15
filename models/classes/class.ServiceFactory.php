@@ -11,6 +11,7 @@ error_reporting(E_ALL);
  * @package tao
  * @subpackage models_classes
  * @version 0.1
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {

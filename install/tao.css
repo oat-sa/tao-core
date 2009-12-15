@@ -1,0 +1,27 @@
+
+#install {
+	border: 2px double #336699;
+	margin-top: 0px;
+	margin-left: 200px;
+	margin-right: 200px;
+	padding: 5px;
+}
+
+#install label {
+	width: 15em;
+	float: left;
+	text-align: left;
+	margin-right: 0.5em;
+	display: block;
+	color: rgb(87,153,214);
+}
+
+#install i {
+	font-size: small;
+	font-style: italic;
+	display: block;
+	
+
+	
+	
+}

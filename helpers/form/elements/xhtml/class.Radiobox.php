@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Generis Object Oriented API -
  *
- * $Id$
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  *
  * This file is part of Generis Object Oriented API.
  *

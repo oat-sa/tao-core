@@ -13,6 +13,7 @@ error_reporting(E_ALL);
  * @package tao
  * @see core_kernel_classes_* packages
  * @subpackage helpers_form
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {

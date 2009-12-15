@@ -9,6 +9,7 @@ error_reporting(E_ALL);
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
  * @subpackage helpers
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
