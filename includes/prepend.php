@@ -5,17 +5,14 @@
  */
 
 //when a user is logged in
-if( Session::hasAttribute(tao_models_classes_UserService::AUTH_TOKEN_KEY) && 
-	Session::hasAttribute(tao_models_classes_UserService::LOGIN_KEY)){
+if( tao_models_classes_UserService::isASessionOpened()){
 
-
-	
 	//get the current user data
 	$userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 	$currentUser = $userService->getCurrentUser(Session::getAttribute(tao_models_classes_UserService::LOGIN_KEY));
 
-	var_dump($currentUser);
-	exit();
+	
+	
 	if(isset($currentUser['login']) && isset($currentUser['password'])){
 		
 		//connect the API

@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 10.12.2009, 15:56:34 with ArgoUML PHP module 
+ * Automatically generated on 14.12.2009, 15:19:40 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -227,12 +227,35 @@ class tao_models_classes_UserService
 			$foundLogin = $result->fields['login'];
 			if(strlen($foundLogin) > 0){
 				Session::setAttribute(self::LOGIN_KEY, $result->fields['login']);
+				Session::setAttribute(self::AUTH_TOKEN_KEY, uniqid());
 				$returnValue = true;
 				break;
 			}
 			$result->MoveNext();
 		}
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D05 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method isASessionOpened
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @return boolean
+     */
+    public static function isASessionOpened()
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--5f8e44a2:1258d8ab867:-8000:0000000000001D20 begin
+		if(Session::hasAttribute(self::AUTH_TOKEN_KEY) && Session::hasAttribute(self::LOGIN_KEY)){
+			if(preg_match("/^[0-9a-f]{12,13}$/", strtolower(Session::getAttribute(self::AUTH_TOKEN_KEY)))){
+				$returnValue = true;
+			}
+		}
+        // section 127-0-1-1--5f8e44a2:1258d8ab867:-8000:0000000000001D20 end
 
         return (bool) $returnValue;
     }

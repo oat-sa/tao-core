@@ -35,6 +35,10 @@ class Main extends CommonModule {
 	 */
 	public function login(){
 		
+		if($this->getData('errorMessage')){
+			session_destroy();
+		}
+		
 		$myForm = tao_helpers_form_FormFactory::getForm('login', array('noRevert' => true, 'submitValue' => __('Connect')));
 		$loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
 		$loginElt->setLevel(1);
@@ -55,7 +59,6 @@ class Main extends CommonModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				if($this->userService->loginUser($myForm->getValue('login'), $myForm->getValue('password'))){
-					$this->setSessionAttribute(tao_models_classes_UserService::AUTH_TOKEN_KEY, uniqid());
 					$this->redirect(_url('index', 'Main'));	
 				}
 				else{

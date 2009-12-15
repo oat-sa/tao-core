@@ -135,9 +135,18 @@ function textCutter(selector, maxLength){
 
 /**
  * Create a error popup to display an error message
- * @param {Object} message
+ * @param {String} message
  */
 function createErrorMessage(message){
 	$("body").append("<div id='info-box' class='ui-state-error ui-widget-header ui-corner-all auto-slide' >"+message+"</div>")
+	_autoFx();
+}
+
+/**
+ * Create an info popup to display a message
+ * @param {String} message
+ */
+function createInfoMessage(message){
+	$("body").append("<div id='info-box' class='ui-widget-header ui-corner-all auto-slide' >"+message+"</div>")
 	_autoFx();
 }
