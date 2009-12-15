@@ -3,6 +3,11 @@
  * The TaoModule is an abstract controller, 
  * the tao children extensions Modules should extends the TaoModule to beneficiate the shared methods.
  * It regroups the methods that can be applied on any extension (the rdf:Class managment for example)
+ *
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * @package tao
+ * @subpackage action
  */
 abstract class TaoModule extends CommonModule {
 

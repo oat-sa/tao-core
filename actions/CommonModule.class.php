@@ -1,7 +1,12 @@
 <?php
 /**
  * Top level controller
- * All children extenions module should extends the CommonModule to access the shared data 
+ * All children extenions module should extends the CommonModule to access the shared data
+ * 
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * @package tao
+ * @subpackage action
  */
 abstract class CommonModule extends Module {
 

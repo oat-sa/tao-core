@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
+ * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ */
+
 if (isset($_SERVER['CONFIG_PATH'])) {
 	define('CONFIG_PATH',$_SERVER['CONFIG_PATH']);
 } else {
