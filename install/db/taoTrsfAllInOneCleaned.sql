@@ -789,7 +789,7 @@ INSERT INTO `statements` VALUES
 (9,'http://www.tao.lu/Ontologies/TAOTest.rdf#TestContent','http://www.w3.org/2000/01/rdf-schema#comment','TestContent','EN',519,'generis','yyy[]','yy-[]','y--[Administrators]','2009-12-04 16:00:11'),
 (9,'http://www.tao.lu/Ontologies/TAOTest.rdf#TestContent','http://www.w3.org/2000/01/rdf-schema#domain','http://www.tao.lu/Ontologies/TAOTest.rdf#Test','',520,'generis','yyy[]','yy-[]','y--[Administrators]','2009-12-04 16:00:11'),
 (9,'http://www.tao.lu/Ontologies/TAOTest.rdf#TestContent','http://www.w3.org/2000/01/rdf-schema#range','http://www.w3.org/2000/01/rdf-schema#Literal','',521,'generis','yyy[]','yy-[]','y--[Administrators]','2009-12-04 16:00:11'),
-(9,'http://www.tao.lu/Ontologies/TAOTest.rdf#TestContent','http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget','http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TAuthoring','',522,'generis','yyy[]','yy-[]','y--[Administrators]','2009-12-04 16:00:11'),
+(9,'http://www.tao.lu/Ontologies/TAOTest.rdf#TestContent','http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget','http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring','',522,'generis','yyy[]','yy-[]','y--[Administrators]','2009-12-04 16:00:11'),
 
 
 (12,'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject','http://www.w3.org/2000/01/rdf-schema#label','Testee','EN',559,'generis','yyy[]','yy-[]','y--[Administrators]','2009-12-15 14:36:43'),
