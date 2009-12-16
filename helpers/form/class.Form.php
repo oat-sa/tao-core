@@ -215,6 +215,9 @@ abstract class tao_helpers_form_Form
     public function addElement( tao_helpers_form_FormElement $element)
     {
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AE begin
+		if($element->getLevel() == 1){
+			$element->setLevel(count($this->elements) + 2);
+		}
 		$this->elements[] = $element;
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AE end
     }

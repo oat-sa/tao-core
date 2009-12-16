@@ -50,8 +50,8 @@ abstract class CommonModule extends Module {
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
 		}
 		
-		if($this->getRequestParameter('messsage')){
-			$this->setData('messsage', $this->getRequestParameter('messsage'));
+		if($this->getRequestParameter('message')){
+			$this->setData('message', $this->getRequestParameter('message'));
 		}
 		if($this->getRequestParameter('errorMessage')){
 			$this->setData('errorMessage', $this->getRequestParameter('errorMessage'));

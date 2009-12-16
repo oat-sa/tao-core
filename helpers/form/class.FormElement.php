@@ -8,7 +8,6 @@ error_reporting(E_ALL);
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
  * @subpackage helpers_form
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -117,6 +116,14 @@ abstract class tao_helpers_form_FormElement
      * @var string
      */
     protected $error = '';
+
+    /**
+     * Short description of attribute forcedValid
+     *
+     * @access protected
+     * @var boolean
+     */
+    protected $forcedValid = false;
 
     // --- OPERATIONS ---
 
@@ -393,14 +400,16 @@ abstract class tao_helpers_form_FormElement
         // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BC7 begin
 		
 		$returnValue = true;
-	
-		foreach($this->validators as $validator){
-			$validator->setValue($this->getValue());
-			if(!$validator->evaluate()){
-				$this->error = $validator->getMessage();
-				$returnValue = false;
-				break;
-			}			
+		
+		if(!$this->forcedValid){
+			foreach($this->validators as $validator){
+				$validator->setValue($this->getValue());
+				if(!$validator->evaluate()){
+					$this->error = $validator->getMessage();
+					$returnValue = false;
+					break;
+				}			
+			}
 		}
 		
         // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BC7 end
@@ -426,6 +435,20 @@ abstract class tao_helpers_form_FormElement
         // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BD8 end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method setForcedValid
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @return mixed
+     */
+    public function setForcedValid()
+    {
+        // section 127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D7D begin
+		$this->forcedValid = true;
+        // section 127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D7D end
     }
 
 } /* end of abstract class tao_helpers_form_FormElement */

@@ -44,7 +44,7 @@
 				<a href="<?=_url('index', null, array('extension' => $extension['extension']))?>"><?=$extension['name']?></a>
 			</span>
 	<?endforeach?>
-	<?if(get_data('currentExtension')):?>
+	<?if(get_data('currentExtension') && get_data('currentExtension') != 'users'):?>
 		<span><a href="<?=_url('index', 'Settings')?>" id="settings-loader"><?=__('Settings')?></a></span>
 	<?else:?>
 		<span class="disabled-extension"><?=__('Settings')?></span>

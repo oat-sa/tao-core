@@ -5,11 +5,11 @@ error_reporting(E_ALL);
 /**
  * Generis Object Oriented API - tao/models/classes/class.UserService.php
  *
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * $Id$
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 14.12.2009, 15:19:40 with ArgoUML PHP module 
+ * Automatically generated on 16.12.2009, 13:36:10 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
@@ -256,6 +256,169 @@ class tao_models_classes_UserService
 			}
 		}
         // section 127-0-1-1--5f8e44a2:1258d8ab867:-8000:0000000000001D20 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getAllUsers
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  array options
+     * @return array
+     */
+    public function getAllUsers($options = array())
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 begin
+		
+		$query = "SELECT `user`.* FROM `user` ";
+		if(isset($options['order'])){
+			$query .= " ORDER BY {$options['order']} ";
+			(isset($options['orderDir'])) ? $query .= $options['orderDir'] :  $query .= 'ASC';
+		}
+		if(isset($options['start']) && isset($options['end'])){
+			$query .= " LIMIT {$options['start']}, {$options['end']} ";
+		}
+		$result = $this->dbWrapper->execSql($query);
+		while (!$result->EOF){
+			$returnValue[] = $result->fields;
+			$result->MoveNext();
+		}
+		
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method getOneUser
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string login
+     * @return array
+     */
+    public function getOneUser($login)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D4E begin
+		
+		$result = $this->dbWrapper->execSql("SELECT `user`.* FROM `user` WHERE `user`.`login`  = '".addslashes($login)."' LIMIT 1 ");
+		if (!$result->EOF){
+			$returnValue = $result->fields;
+		}
+		
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D4E end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method saveUser
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  array user
+     * @return boolean
+     */
+    public function saveUser($user)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D53 begin
+		
+		if(isset($user['login'])){
+			if(count($this->getOneUser($user['login'])) == 0){
+				//insert
+				$returnValue = $this->dbWrapper->execSql(
+					"INSERT INTO `user` (login, password, admin, usergroup, LastName, FirstName, E_Mail, Company, Deflg) 
+					VALUES ('{$user['login']}', '{$user['password']}', 1, 'admin', '{$user['LastName']}', '{$user['FirstName']}', '{$user['E_Mail']}', '{$user['Company']}', '{$user['Deflg']}')"
+				);
+			}
+			else{
+				//update
+				$returnValue = $this->dbWrapper->execSql(
+					"UPDATE `user`  
+					SET password = '{$user['password']}', LastName = '{$user['LastName']}', FirstName='{$user['FirstName']}', E_Mail='{$user['E_Mail']}', Company='{$user['Company']}', Deflg='{$user['Deflg']}'
+					WHERE login = '{$user['login']}'"
+				);
+			}
+		}
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D53 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method removeUser
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string login
+     * @return boolean
+     */
+    public function removeUser($login)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D56 begin
+		if(strlen($login) > 0){
+			$returnValue = $this->dbWrapper->execSql("DELETE FROM `user` WHERE login = '{$login}' LIMIT 1");
+		}
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D56 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method loginExist
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string login
+     * @return boolean
+     */
+    public function loginExist($login)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D54 begin
+		
+		$returnValue = true ;
+		
+		$result = $this->dbWrapper->execSql("SELECT COUNT(login) as number FROM `user` WHERE `user`.`login`  = '".addslashes($login)."'");
+		if (!$result->EOF){
+			($result->fields['number'] == 0) ? $returnValue = false : $returnValue = true ;
+		}
+		
+        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D54 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method loginAvailable
+     *
+     * @access public
+     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @param  string login
+     * @return boolean
+     */
+    public function loginAvailable($login)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D76 begin
+		
+		if(!empty($login)){
+			$returnValue = !$this->loginExist($login);
+		}
+		
+        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D76 end
 
         return (bool) $returnValue;
     }

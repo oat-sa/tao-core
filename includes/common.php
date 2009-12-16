@@ -18,6 +18,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . GENERIS_BASE_PATH.'/..');
 tao_helpers_Scriptloader::addCssFiles(array(
 	BASE_WWW . 'css/overcast/jquery-ui-1.7.2.custom.css',
 	BASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
+	BASE_WWW . 'js/jqGrid/css/ui.jqgrid.css',
 	BASE_WWW . 'css/layout.css',
 	BASE_WWW . 'css/form.css'
 ));
@@ -29,6 +30,8 @@ tao_helpers_Scriptloader::addJsFiles(array(
 	BASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
 	BASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
 	BASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
+	BASE_WWW . 'js/jqGrid/js/i18n/grid.locale-en.js',
+	BASE_WWW . 'js/jqGrid/js/jquery.jqGrid.min.js',
 	BASE_WWW . 'js/ajaxupload.js',
 	BASE_WWW . 'js/helpers.js',
 	BASE_WWW . 'js/form.js',
@@ -36,7 +39,6 @@ tao_helpers_Scriptloader::addJsFiles(array(
 	BASE_WWW . 'js/settings.js',
 	BASE_WWW . 'js/generis.tree.js',
 	BASE_WWW . 'js/generis.treeform.js'
-	
 ));
 
 require_once(BASE_PATH.'/helpers/class.Uri.php');

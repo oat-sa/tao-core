@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension name="Users" url="/tao/Users/index" level="8">
+	<sections>
+		<section id="list_users" name="Manage users" url="/tao/Users/index">
+			<trees />
+			<actions />
+		</section>
+		<section  id="add_user" name="Add a user" url="/tao/Users/add">
+			<trees />
+			<actions />
+		</section>
+		<section  id="edit_user" name="Edit a user" url="/tao/Users/edit">
+			<trees />
+			<actions />
+		</section>
+	</sections>
+</extension>

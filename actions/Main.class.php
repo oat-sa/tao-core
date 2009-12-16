@@ -41,14 +41,10 @@ class Main extends CommonModule {
 		
 		$myForm = tao_helpers_form_FormFactory::getForm('login', array('noRevert' => true, 'submitValue' => __('Connect')));
 		$loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
-		$loginElt->setLevel(1);
-		$loginElt->addValidator(
-			tao_helpers_form_FormFactory::getValidator('NotEmpty')
-		);
+		$loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$myForm->addElement($loginElt);
 		
 		$passElt = tao_helpers_form_FormFactory::getElement('password', 'Hiddenbox');
-		$passElt->setLevel(2);
 		$passElt->addValidator(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty')
 		);

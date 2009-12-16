@@ -288,7 +288,14 @@ a.ui-state-default{
 a.ui-state-default:hover{
 	text-decoration:none;	
 }
-
+span.ui-state-default{
+	padding:4px 8px 4px 8px;
+	margin:4px;
+	border:solid #444 1px;
+}
+span.ui-state-default img{
+	vertical-align:text-bottom;
+}
 div#authoring-container{
 	left:0px;
 	width:100%;

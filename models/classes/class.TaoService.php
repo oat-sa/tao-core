@@ -85,12 +85,15 @@ class tao_models_classes_TaoService
         // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001820 begin
 		
 		if( count(self::$extensions) == 0 ){		//check it only once
-			foreach(scandir(ROOT_PATH) as $path){
-				if( is_dir(ROOT_PATH.'/'.$path) && $path != '.' && $path != '..'  && preg_match("/^tao[A-Z]+[a-z]*/", $path) ){
-					self::$extensions[] = $path;
-				}
+			
+			$extensionsManager = common_ext_ExtensionsManager::singleton();
+			foreach($extensionsManager->getInstalledExtensions() as $extension){
+				self::$extensions[] = $extension->id;
 			}
+			
+			self::$extensions[] = 'users';
 		}
+		
 		$returnValue = self::$extensions;
 		
         // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001820 end
@@ -169,7 +172,14 @@ class tao_models_classes_TaoService
         $returnValue = null;
 
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6C begin
-		$structureFilePath = ROOT_PATH.'/'.$extension.'/actions/structure.xml';
+		
+		if($extension == 'users'){
+			$structureFilePath = ROOT_PATH.'/tao/actions/users-structure.xml';
+		}
+		else{
+			$structureFilePath = ROOT_PATH.'/'.$extension.'/actions/structure.xml';
+		}
+		
 		if(file_exists($structureFilePath)){
 			return new SimpleXMLElement($structureFilePath, null, true);
 		}

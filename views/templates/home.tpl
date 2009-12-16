@@ -13,6 +13,7 @@
 		<tbody>
 			<tr>
 				<?foreach(get_data('extensions') as $i => $extension):?>
+				<?if($extension['extension'] != 'users'):?>
 				<?if($i%3==0 && $i > 0):?>
 					</tr>
 					<tr>
@@ -23,6 +24,7 @@
 						<a class="extension-nav" href="<?=_url('index', null, array('extension' => $extension['extension']))?>"><?=$extension['name']?></a>
 					</div>
 				</td>
+				<?endif?>
 				<?endforeach?>
 			</tr>
 		</tbody>

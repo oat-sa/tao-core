@@ -90,7 +90,7 @@ class tao_helpers_form_validators_Regex
         // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C13 begin
 		
 		$value = $this->getValue();
-		if(preg_macth($this->options['format'], $value)){
+		if(preg_match($this->options['format'], $value)){
 			 $returnValue = true;
 		}
 		
