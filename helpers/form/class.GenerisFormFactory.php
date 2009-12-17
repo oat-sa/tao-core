@@ -208,7 +208,7 @@ class tao_helpers_form_GenerisFormFactory
 			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
 			$myForm->addElement($classUriElt);
 			
-			//class properties edition: add a grou pform for  each property
+			//class properties edition: add a group form for each property
 			if(is_null($topClazz)){
 				$topClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
 			}
@@ -235,7 +235,7 @@ class tao_helpers_form_GenerisFormFactory
 					$domainElement->setValue($value);
 					$myForm->addElement($domainElement);
 					
-					$myForm->createGroup("property_{$i}", "Property #".($i).": ".$classProperty->getLabel(), array('parentProperty'.$i));
+					$myForm->createGroup("parent_property_{$i}", "Property #".($i).": ".$classProperty->getLabel(), array('parentProperty'.$i));
 				}
 			}
 			

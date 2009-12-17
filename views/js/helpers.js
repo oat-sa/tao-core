@@ -111,7 +111,7 @@ function _autoFx(){
 	}, 2000);
 	setTimeout(function(){
 		$(".auto-slide").slideUp(1500);
-	}, 5000);
+	}, 7000);
 }
 
 /**

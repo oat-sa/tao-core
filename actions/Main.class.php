@@ -110,6 +110,14 @@ class Main extends CommonModule {
 		}
 		$this->setData('currentExtension', $currentExtension);
 		
+		$user = $this->userService->getCurrentUser();
+		if(isset($user['login'])){
+			$this->setData('user_lang', $this->userService->getUserLanguage($user['login']));
+		}
+		else{
+			$this->setData('user_lang', $this->userService->getDefaultLanguage());
+		}
+		
 		$this->setView('layout.tpl');
 	}
 

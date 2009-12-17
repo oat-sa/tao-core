@@ -145,6 +145,18 @@ div#section-actions ul li a:hover{
 	color:#BFD6FF;
 }
 
+/* Layout -> language */
+div#section-lg{
+	left:1%;
+	margin-left:0.5%;
+	margin-top:0.5%;
+	margin-right:0.5%;
+	padding:0px;
+	text-align:left;
+	width:18%;
+	z-index:100;
+}
+
 /* Layout -> metadata */
 div#section-meta{
 	position:absolute;

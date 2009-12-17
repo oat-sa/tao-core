@@ -214,13 +214,15 @@ abstract class TaoModule extends CommonModule {
 				$clazz = $this->service->bindProperties($clazz, $classValues);
 				$propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
 				
+				
 				foreach($propertyValues as $propNum => $properties){
 					if(isset($_POST['propertyUri'.$propNum]) && count($properties) == 0){
-						
 						//delete property mode
 						foreach($clazz->getProperties() as $classProperty){
 							if($classProperty->uriResource == tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])){
-								$classProperty->delete();
+								if($classProperty->delete()){
+									echo 'deleted '.tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])."<br>";
+								}
 								break;
 							}
 						}
@@ -235,16 +237,14 @@ abstract class TaoModule extends CommonModule {
 							
 							if(isset($propertyMap[$type])){
 								$properties['http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget'] = $propertyMap[$type]['widget'];
-								if(isset($propertyMap[$type]['range']) &&  is_null($propertyMap[$type]['range'])){
+								if(is_null($propertyMap[$type]['range'])){
 									$properties['http://www.w3.org/2000/01/rdf-schema#range'] = $range;
 								}
 								else{
 									$properties['http://www.w3.org/2000/01/rdf-schema#range'] = $propertyMap[$type]['range'];
 								}
-								
 							}
 						}
-						
 						$this->service->bindProperties(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])), $properties);
 					}
 				}

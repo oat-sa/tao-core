@@ -104,9 +104,12 @@ function _initForms(){
 	//property form group controls
 	$('.form-group').each(function(){
 		var formGroup = $(this);
-		if(/^property\_[0-9]+$/.test(formGroup.attr('id'))){
+		if(/^property\_[0-9]+$/.test(formGroup.attr('id')) || /^parent_property\_[0-9]+$/.test(formGroup.attr('id')) ){
 			var child = formGroup.children("div:first");
-			child.hide();
+			
+			if(!formGroup.hasClass('form-group-opened')){
+				child.hide();
+			}
 			
 			//toggle control
 			toggeler = $("<span class='form-group-control ui-icon ui-icon-circle-plus' title='expand' style='right:48px;'></span>");			
@@ -128,9 +131,11 @@ function _initForms(){
 			formGroup.prepend(toggeler);
 			
 			//delete control
-			deleter = $("<span class='form-group-control ui-icon ui-icon-circle-close' title='Delete' style='right:24px;'></span>");
-			deleter.click(removeGroup);
-			formGroup.prepend(deleter);
+			if (/^property\_[0-9]+/.test(formGroup.attr('id'))) {
+				deleter = $("<span class='form-group-control ui-icon ui-icon-circle-close' title='Delete' style='right:24px;'></span>");
+				deleter.click(removeGroup);
+				formGroup.prepend(deleter);
+			}
 		}
 	});
 	
@@ -145,17 +150,22 @@ function _initForms(){
 		 }
 		 url += 'addClassProperty';
 		 var eltId = this.id;
+		 var index = $(".property-uri").size();
 		 if (groupNode) {
 		 	$.ajax({
 		 		url: url,
 		 		type: "POST",
 		 		data: {
-		 			index: $(".property-uri").size(),
+		 			index: index,
 		 			classUri: $("#classUri").val()
 		 		},
 		 		dataType: 'html',
 		 		success: function(response){
-					$(groupNode).before(response);
+					$(groupNode).before(response)
+					formGroupElt = $("#property_" + index);
+					if(formGroupElt){
+						formGroupElt.addClass('form-group-opened');
+					}
 		 			initNavigation();
 					window.location = '#'+eltId;
 		 		}
