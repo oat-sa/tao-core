@@ -157,12 +157,6 @@ abstract class TaoModule extends CommonModule {
 		throw new Exception("Unable to export data");
 	}
 	
-	/**
-	 * Get the lists of a module which are the first child of TAO Object
-	 * Render a json response
-	 * @return void
-	 */
-	abstract public function getLists();
 	
 /*
  * Shared Methods
@@ -311,6 +305,28 @@ abstract class TaoModule extends CommonModule {
 	}
 
 	/**
+	 * Get the lists of a module which are the first child of TAO Object
+	 * Render a json response
+	 * @return void
+	 */
+	public function getLists(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		echo  json_encode(
+			$this->getListData(array(
+				TAO_GROUP_CLASS,
+				TAO_ITEM_CLASS,
+				TAO_ITEM_MODEL_CLASS,
+				TAO_RESULT_CLASS,
+				TAO_SUBJECT_CLASS,
+				TAO_TEST_CLASS
+			))
+		);
+	}
+
+	/**
 	 * Get the data of the flat lists which are the first level children of TAO Object
 	 * @param array $exclude [optional]
 	 * @return array $data the lists data
@@ -324,6 +340,7 @@ abstract class TaoModule extends CommonModule {
 			$data, 
 			$this->service->toTree(new core_kernel_classes_Class(GENERIS_BOOLEAN), false, true)
 		);
+		
 	
 		$taoObjectClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
 		foreach($taoObjectClass->getSubClasses(false)  as $subClass){
