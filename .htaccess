@@ -12,6 +12,8 @@ RewriteRule ^(.*)$ /taoItems/models/ext/itemAuthoring/index.php [L]
 #don't macth resources and tests
 RewriteCond %{REQUEST_URI} !/views/  [NC]
 RewriteCond %{REQUEST_URI} !/test/  [NC]
+RewriteCond %{REQUEST_URI} !/doc/  [NC]
+RewriteCond %{REQUEST_URI} !/install/  [NC]
 #call entry point for url resolving and framework bootstrap
 RewriteRule ^(.*)$ index.php [L]
 
