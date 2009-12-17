@@ -9,7 +9,6 @@ error_reporting(E_ALL);
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  * @package tao
  * @subpackage models_classes
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -280,9 +279,10 @@ abstract class tao_models_classes_Service
      * @param  boolean subclasses
      * @param  boolean instances
      * @param  string highlightUri
+     * @param  string labelFilter
      * @return array
      */
-    public function toTree( core_kernel_classes_Class $clazz, $subclasses = true, $instances = true, $highlightUri = '')
+    public function toTree( core_kernel_classes_Class $clazz, $subclasses = true, $instances = true, $highlightUri = '', $labelFilter = '')
     {
         $returnValue = array();
 
@@ -291,19 +291,28 @@ abstract class tao_models_classes_Service
 		$instancesData = array();
 		if($instances){
 			foreach($clazz->getInstances(false) as $instance){
-				$instancesData[] = array(
+				$instanceData = array(
 						'data' 	=> tao_helpers_Display::textCutter($instance->getLabel(), 16),
 						'attributes' => array(
 							'id' => tao_helpers_Uri::encode($instance->uriResource),
 							'class' => 'node-instance'
 						)
 					);
+				if(strlen($labelFilter) > 0){
+					if(preg_match("/^".str_replace('*', '(.*)', $labelFilter."$/"), $instance->getLabel())){
+						$instancesData[] = $instanceData;
+					}
+				}
+				else{
+					$instancesData[] = $instanceData;
+				}
+				
 			}
 		}
 		$subclassesData = array();
 		if($subclasses){
 			foreach($clazz->getSubClasses(false) as $subclass){
-				$subclassesData[] = $this->toTree($subclass, $subclasses, $instances, $highlightUri);
+				$subclassesData[] = $this->toTree($subclass, $subclasses, $instances, $highlightUri, $labelFilter);
 			}
 		}
 		
@@ -360,7 +369,7 @@ abstract class tao_models_classes_Service
      * @param  Class clazz
      * @return array
      */
-    public function toArray( core_kernel_classes_Class $clazz = null)
+    public function toArray( core_kernel_classes_Class $clazz)
     {
         $returnValue = array();
 

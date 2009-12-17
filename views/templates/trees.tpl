@@ -11,10 +11,10 @@
 	<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" style="padding:0em 0em 1em 1em;">
 		<div id="tree-<?=$i?>" ></div>
 		<div id="tree-actions-<?=$i?>" class="tree-actions">
-			<?=__("Filter:")?>
-			<input type="text" /><br />
-			<input type='button' id="open-action-<?=$i?>"  value='<?=__("Open all")?>'  />
-			<input type='button' id="close-action-<?=$i?>" value='<?=__("Close all")?>' />
+			<input type="text"   id="filter-content-<?=$i?>" value="" autocomplete='off' />
+			<input type='button' id="filter-action-<?=$i?>"  value="<?=__("Filter")?>" />
+			<input type='button' id="open-action-<?=$i?>"    value='<?=__("Open all")?>'  />
+			<input type='button' id="close-action-<?=$i?>"   value='<?=__("Close all")?>'/>
 		</div>
 	</div>
 		

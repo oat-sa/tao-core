@@ -54,8 +54,12 @@ function GenerisTreeClass(selector, dataUrl, options){
 			callback : {
 				beforedata:function(NODE, TREE_OBJ) { 
 					return { 
-						type : $(TREE_OBJ.container).attr('id') 
+						type : $(TREE_OBJ.container).attr('id'),
+						filter: $("#filter-content-" + options.actionId).val()
 					} 
+				},
+				onload: function(TREE_OBJ){
+					TREE_OBJ.open_branch($("li.node-class:first"));
 				},
 				onselect: function(NODE, TREE_OBJ){
 					
@@ -191,9 +195,13 @@ function GenerisTreeClass(selector, dataUrl, options){
 		$("#close-action-" + options.actionId).click(function(){
 			$.tree.reference(instance.selector).close_all();
 		});
+		
+		$("#filter-action-" + options.actionId).click(function(){
+			$.tree.reference(instance.selector).refresh();
+		});
 	}
 	catch(exp){
-		console.log(exp);
+		//console.log(exp);
 	}
 }
 
