@@ -167,7 +167,7 @@ function install($param){
 	fwrite($fp,$config);
 	fclose($fp);
 
-	echo 'File' . $filename .' written <br/>';
+	echo 'File ' . $filename .' written <br/>';
 	
 
 	$extensions = array('tao', 'taoDelivery' , 'taoGroups', 'taoItems' , 'taoResults', 'taoSubjects' , 'taoTests' );
@@ -181,7 +181,7 @@ function install($param){
 		fwrite($fp,$config);
 		fclose($fp);
 	
-		echo 'File' . $filename .' written <br/>';
+		echo 'File ' . $filename .' written <br/>';
 		echo 'Extension : <b>' . $ext. '</b> instaled<br/>';
 	}
 }
