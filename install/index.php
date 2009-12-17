@@ -8,7 +8,7 @@
 <meta name="MSSmartTagsPreventParsing" content="TRUE" />
 <meta name="ROBOTS" content="NOARCHIVE,NOINDEX,NOFOLLOW" />
 <meta name="GOOGLEBOT" content="NOSNIPPET" />
-<title>Generis Install Wizard</title>
+<title>Tao Install Wizard</title>
 
 <style type="text/css">
 	@import url(./tao.css);

@@ -5,16 +5,16 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
+
 if (isset($_SERVER['CONFIG_PATH'])) {
 	define('CONFIG_PATH',$_SERVER['CONFIG_PATH']);
 } else {
-	define('CONFIG_PATH',dirname(__FILE__).'/../common');
+	define('CONFIG_PATH',dirname(__FILE__).'/../../generis/common');
 }
 
 require_once CONFIG_PATH.'/config.php.in';
-require_once $GLOBALS["inc_path"].'/adodb/adodb-exceptions.inc.php';
-require_once $GLOBALS["inc_path"].'/adodb/adodb.inc.php';
-
+require_once INCLUDES_PATH.'/adodb/adodb-exceptions.inc.php';
+require_once INCLUDES_PATH.'/adodb/adodb.inc.php';
 
 if (empty($_POST))
 {
@@ -71,22 +71,22 @@ function install($param){
 		exit(0);
 	}
 
-	//	var_dump($_POST);
 
 
 	// Does config.php.in exist?
-	$config_in = dirname(__FILE__).'/../common/config.php.in';
+	$config_in = CONFIG_PATH.'/config.php.in';
 	if (!is_file($config_in)) {
-		throw new common_Exception(sprintf('File %s does not exist.',$config_in));
+		throw new Exception(sprintf('File %s does not exist.',$config_in));
 	}
 	try {
 		$con = &NewADOConnection($param["dbdriver"]);
+//		$con->debug = true;
 		$con->Connect($param["dbhost"], $param["dbuser"], $param["dbpass"]);
 		$con->Execute('DROP DATABASE IF EXISTS '. $param["moduleName"]. ' ;');
 		$con->Execute('CREATE DATABASE '.  $param["moduleName"] . ' ;');
 		$con->Execute('USE '. $param["moduleName"] . ';');
 
-		loadSql('db/generis.sql',$con);
+		loadSql('db/tao-trsfr.sql',$con);
 		echo "DataBase created : <b>". $param["moduleName"] . "</b><br/>";
 
 		$nameSpace="http://".$_SERVER['HTTP_HOST']."/middleware/".$param["moduleName"].".rdf";
@@ -97,7 +97,6 @@ function install($param){
 		$login = $param["login"];
 		$pass = md5($param['pass']);
 		$lg = $param["lg"];
-		
 		
 		$sql = "INSERT INTO `settings` (`key`, `value`) VALUES ('NameSpace', '$nameSpace');";
 		$con->Execute($sql) or die("NameSpace configuration error");
@@ -125,7 +124,7 @@ function install($param){
 		$con->Execute("INSERT INTO `models` VALUES ('8', '".$nameSpace."', '".$nameSpace."#')");
 
 	} catch (exception $e) {
-		$message .= urlencode("<b>Problem found when creating Portal Databaase </b> : <br/>". $e->getMessage() . "<br/>");
+		$message .= urlencode("<b>Problem found </b> : <br/>". str_split($e->getMessage(),100) . "<br/>");
 		header('Location:http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].
 							'?message='.$message . 
 							'&dbhost='.urlencode($param["dbhost"]) .
@@ -160,7 +159,7 @@ function install($param){
 
 
 	//TODO
-	$filename = dirname(__FILE__).'/../common/config.php';
+	$filename = CONFIG_PATH.'/config.php';
 	$fp = @fopen($filename,'wb');
 	if ($fp === false) {
 		throw new Exception(sprintf('Cannot write %s file.',$filename));
