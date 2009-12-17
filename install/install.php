@@ -170,7 +170,7 @@ function install($param){
 	echo 'File' . $filename .' written <br/>';
 	
 
-	$extensions = array('taoDelivery' , 'taoGroups', 'taoItems' , 'taoResults', 'taoSubjects' , 'taoTests' );
+	$extensions = array('tao', 'taoDelivery' , 'taoGroups', 'taoItems' , 'taoResults', 'taoSubjects' , 'taoTests' );
 	foreach ($extensions as $ext) {
 		$config = file_get_contents( EXTENSION_PATH. '/'. $ext.'/includes/config.php.sample');
 		$filename = EXTENSION_PATH. '/'. $ext.'/includes/config.php';
