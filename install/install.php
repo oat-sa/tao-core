@@ -167,7 +167,23 @@ function install($param){
 	fwrite($fp,$config);
 	fclose($fp);
 
-	printf('File %s written .',$filename);
+	echo 'File' . $filename .' written <br/>';
+	
+
+	$extensions = array('taoDelivery' , 'taoGroups', 'taoItems' , 'taoResults', 'taoSubjects' , 'taoTests' );
+	foreach ($extensions as $ext) {
+		$config = file_get_contents( EXTENSION_PATH. '/'. $ext.'/includes/config.php.sample');
+		$filename = EXTENSION_PATH. '/'. $ext.'/includes/config.php';
+		$fp = @fopen($filename,'wb');
+		if ($fp === false) {
+			throw new Exception(sprintf('Cannot write %s file.',$filename));
+		}
+		fwrite($fp,$config);
+		fclose($fp);
+	
+		echo 'File' . $filename .' written <br/>';
+		echo 'Extension : <b>' . $ext. '</b> instaled<br/>';
+	}
 }
 
 function writeConfigValue($name,$val,&$str)
