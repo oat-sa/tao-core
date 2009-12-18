@@ -14,5 +14,6 @@
 <script type="text/javascript">
 $(function(){
 	initNavigation();
+	$("#section-meta").empty();
 });
 </script>

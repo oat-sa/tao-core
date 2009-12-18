@@ -470,9 +470,9 @@ GenerisTreeClass.renameNode = function(options){
 
 /**
  * Open a popup
- * @param {Object} uri
- * @param {Object} classUri
- * @param {Object} url
+ * @param {String} uri
+ * @param {String} classUri
+ * @param {String} url
  */
 function fullScreen(uri, classUri, url){
 	url += '?uri='+uri+'&classUri='+classUri;
@@ -481,9 +481,9 @@ function fullScreen(uri, classUri, url){
 
 /**
  * Add a new property
- * @param {Object} uri
- * @param {Object} classUri
- * @param {Object} url
+ * @param {String} uri
+ * @param {String} classUri
+ * @param {String} url
  */
 function addProperty(uri, classUri, url){
 	$.ajax({
@@ -502,6 +502,12 @@ function addProperty(uri, classUri, url){
 	});
 }
 
+/**
+ * Load the result table with the tree instances in parameter
+ * @param {String} uri
+ * @param {String} classUri
+ * @param {String} url
+ */
 function resultTable(uri, classUri, url){
 	options = getTreeOptions(classUri);
 	TREE_OBJ = options.TREE_OBJ;
