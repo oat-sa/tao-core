@@ -117,7 +117,7 @@ function install($param){
 
 		$query = "	INSERT INTO `user` ( `login` , `password` , `admin` , `usergroup` , `LastName` , `FirstName` , 
 				`E_Mail` , `Company` , `Deflg` , `enabled` ) VALUES ('$login', '$pass', '1', 'admin', '$lastName', 
-				'$firstName', '$email', '$company', '$lg', '0')";
+				'$firstName', '$email', '$company', '$lg', '1')";
 		$con->Execute($query) or die("User configuration error");
 		echo "User created : <b>" . $login ."</b><br/>";
 
