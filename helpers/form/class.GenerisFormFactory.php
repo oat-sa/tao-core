@@ -216,19 +216,26 @@ class tao_helpers_form_GenerisFormFactory
 			foreach(self::getClassProperties($clazz, $topClazz) as $classProperty){
 				$i++;
 				$useEditor = false;
+				$parentProp = true;
 				$domains = $classProperty->getDomain();
 				foreach($domains->getIterator() as $domain){
 					if($domain->uriResource == $clazz->uriResource){
-						$useEditor = true;
+						$parentProp = false;
+						
+						//@todo use the getPrivileges method once implemented
+						if($classProperty->getLastModificationUser() != 'generis'){
+							$useEditor = true;
+						}
 						break;
 					}
 				}
+				
 				if($useEditor){
 					self::propertyEditor($classProperty, $myForm, $i, true);
 				}
-				else{
+				else if($parentProp){
 					$domainElement = tao_helpers_form_FormFactory::getElement('parentProperty'.$i, 'Free');
-					$value = "Edit property into parent class ";
+					$value = __("Edit property into parent class ");
 					foreach($domains->getIterator() as $domain){
 						$value .= "<a  href='#' onclick='GenerisTreeClass.selectTreeNode(\"".tao_helpers_Uri::encode($domain->uriResource)."\");' >".$domain->getLabel()."</a> ";
 					}
@@ -236,6 +243,13 @@ class tao_helpers_form_GenerisFormFactory
 					$myForm->addElement($domainElement);
 					
 					$myForm->createGroup("parent_property_{$i}", "Property #".($i).": ".$classProperty->getLabel(), array('parentProperty'.$i));
+				}
+				else{
+					$roElement = tao_helpers_form_FormFactory::getElement('roProperty'.$i, 'Free');
+					$roElement->setValue(__("You cannot modify this property"));
+					$myForm->addElement($roElement);
+					
+					$myForm->createGroup("ro_property_{$i}", "Property #".($i).": ".$classProperty->getLabel(), array('roProperty'.$i));
 				}
 			}
 			

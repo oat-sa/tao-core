@@ -501,3 +501,32 @@ function addProperty(uri, classUri, url){
 		}
 	});
 }
+
+function resultTable(uri, classUri, url){
+	options = getTreeOptions(classUri);
+	TREE_OBJ = options.TREE_OBJ;
+	NODE = options.NODE;
+	
+	function getInstances(TREE_OBJ, NODE){
+		NODES = new Array();
+		$.each(TREE_OBJ.children(NODE), function(i, CNODE){
+			if ($(CNODE).hasClass('node-instance')) {
+				NODES.push($(CNODE).attr('id'));
+			}
+			if ($(CNODE).hasClass('node-class')) {
+				subNodes = getInstances(TREE_OBJ, CNODE);
+				NODES.concat(subNodes);
+			}
+		});
+		return NODES;
+	}
+	data = {};
+	instances = getInstances(TREE_OBJ, NODE);
+	i=0;
+	while(i< instances.length){
+		data['uri_'+i] = instances[i];
+		i++;
+	}
+	data.classUri = classUri;
+	_load(getMainContainerSelector(), url, data);
+}

@@ -221,7 +221,7 @@ abstract class TaoModule extends CommonModule {
 						foreach($clazz->getProperties() as $classProperty){
 							if($classProperty->uriResource == tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])){
 								if($classProperty->delete()){
-									echo 'deleted '.tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])."<br>";
+									
 								}
 								break;
 							}

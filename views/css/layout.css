@@ -313,3 +313,7 @@ div#authoring-container{
 	width:100%;
 	height:100%;
 }
+div.ext-home-container{
+	padding:1%;
+	font-size:1.1em;
+}

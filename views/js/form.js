@@ -104,7 +104,7 @@ function _initForms(){
 	//property form group controls
 	$('.form-group').each(function(){
 		var formGroup = $(this);
-		if(/^property\_[0-9]+$/.test(formGroup.attr('id')) || /^parent_property\_[0-9]+$/.test(formGroup.attr('id')) ){
+		if(/property\_[0-9]+$/.test(formGroup.attr('id'))){
 			var child = formGroup.children("div:first");
 			
 			if(!formGroup.hasClass('form-group-opened')){
