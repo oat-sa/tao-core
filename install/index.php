@@ -240,7 +240,7 @@ of the module will be the suffix of the module's namespace
 
 
 <p><label for="pass">Choose a password</label> <input type="password"
-	id="pass" name="param[pass]" value="<?php echo isset($_GET["pass"]) ? $_GET["pass"] : "" ;?>"/> <i>Choose a for the super user, password should be at
+	id="pass" name="param[pass]" value="<?php echo isset($_GET["pass"]) ? $_GET["pass"] : "" ;?>"/> <i>Choose a password for the super user, password should be at
 least 6 characters long. Passwords are case sensitive</i></p>
 
 
