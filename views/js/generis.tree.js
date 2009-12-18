@@ -180,7 +180,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						},
 						remove: false,
 						create: false,
-						rename: false,
+						rename: false
 					}
 				}
 			}
@@ -287,7 +287,7 @@ GenerisTreeClass.addClass = function(options){
 						data: response.label,
 						attributes: {
 							id: response.uri,
-							class: 'node-class'
+							'class': 'node-class'
 						}
 					}, TREE_OBJ.get_node(NODE[0])));
 			}
@@ -328,7 +328,7 @@ GenerisTreeClass.addInstance = function(options){
 					data: response.label,
 					attributes: {
 						id: response.uri,
-						class: 'node-instance'
+						'class': 'node-instance'
 					}
 				}, TREE_OBJ.get_node(NODE[0])));
 			}
@@ -423,7 +423,7 @@ GenerisTreeClass.cloneNode = function(options){
 						data: response.label,
 						attributes: {
 							id: response.uri,
-							class: 'node-instance'
+							'class': 'node-instance'
 						}
 					},
 					TREE_OBJ.get_node(PNODE)

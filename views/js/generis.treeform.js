@@ -67,7 +67,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 		});
 	}
 	catch(exp){
-		console.log(exp);
+	//	console.log(exp);
 	}
 }
 

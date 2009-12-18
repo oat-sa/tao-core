@@ -19,7 +19,9 @@ $(function(){
 				
 			}
 		}
-		catch(exp){ console.log(exp) }
+		catch(exp){ 
+			//console.log(exp)
+		}
 		return false;
 	});
 })
