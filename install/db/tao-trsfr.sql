@@ -798,6 +798,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Contenu de la table `user`
 --
 
+INSERT INTO `user` (`login`, `password`, `admin`, `usergroup`, `LastName`, `FirstName`, `E_Mail`, `Company`, `Deflg`, `enabled`) VALUES
+('generis', 'b01a52f727b0810639526fe2c8188331', 1, 'admin', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
