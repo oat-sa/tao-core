@@ -221,6 +221,7 @@ class tao_models_classes_UserService
 			"SELECT `user`.* FROM `user` 
 			 WHERE `user`.`login`  = '".addslashes($login)."' 
 			 AND `user`.`password` = '".md5($password)."' 
+			 AND `user`.`enabled` = 1 
 			 LIMIT 1 "
 		);
 		while (!$result->EOF){
@@ -274,7 +275,7 @@ class tao_models_classes_UserService
 
         // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 begin
 		
-		$query = "SELECT `user`.* FROM `user` ";
+		$query = "SELECT `user`.* FROM `user` WHERE `enabled` = 1 ";
 		if(isset($options['order'])){
 			$query .= " ORDER BY {$options['order']} ";
 			(isset($options['orderDir'])) ? $query .= $options['orderDir'] :  $query .= 'ASC';
@@ -335,8 +336,8 @@ class tao_models_classes_UserService
 			if(count($this->getOneUser($user['login'])) == 0){
 				//insert
 				$returnValue = $this->dbWrapper->execSql(
-					"INSERT INTO `user` (login, password, admin, usergroup, LastName, FirstName, E_Mail, Company, Deflg) 
-					VALUES ('{$user['login']}', '{$user['password']}', 1, 'admin', '{$user['LastName']}', '{$user['FirstName']}', '{$user['E_Mail']}', '{$user['Company']}', '{$user['Deflg']}')"
+					"INSERT INTO `user` (login, password, admin, usergroup, LastName, FirstName, E_Mail, Company, Deflg, enabled) 
+					VALUES ('{$user['login']}', '{$user['password']}', 1, 'admin', '{$user['LastName']}', '{$user['FirstName']}', '{$user['E_Mail']}', '{$user['Company']}', '{$user['Deflg']}',1)"
 				);
 			}
 			else{
@@ -390,7 +391,7 @@ class tao_models_classes_UserService
 		
 		$returnValue = true ;
 		
-		$result = $this->dbWrapper->execSql("SELECT COUNT(login) as number FROM `user` WHERE `user`.`login`  = '".addslashes($login)."'");
+		$result = $this->dbWrapper->execSql("SELECT COUNT(login) as number FROM `user` WHERE `user`.`login`  = '".addslashes($login)."' AND `user`.`enabled` = 1");
 		if (!$result->EOF){
 			($result->fields['number'] == 0) ? $returnValue = false : $returnValue = true ;
 		}
