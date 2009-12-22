@@ -74,6 +74,16 @@ class tao_helpers_form_elements_xhtml_Authoring
         $returnValue = (string) '';
 
         // section 127-0-1-1-51e1cabd:124e3b3d559:-8000:0000000000001B4D begin
+		
+		if(array_key_exists('class', $this->attributes)){
+			if(strstr($this->attributes['class'], self::CSS_CLASS) !== false){
+				$this->attributes['class'] .= ' ' . self::CSS_CLASS;
+			}
+		}
+		else{
+			$this->attributes['class'] = self::CSS_CLASS;
+		}
+		
 		$returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
 		$returnValue .= "<input type='button' value='".__('AUTHORING TOOL')."' ";
 		$returnValue .= $this->renderAttributes();
