@@ -5,14 +5,14 @@ error_reporting(E_ALL);
 /**
  * Generis Object Oriented API - tao/helpers/form/interface.Decorator.php
  *
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * $Id$
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 24.11.2009, 14:18:39 with ArgoUML PHP module 
+ * Automatically generated on 22.12.2009, 16:53:44 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -32,7 +32,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * )
  * 3. render form
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 require_once('tao/helpers/form/class.Form.php');
 
@@ -48,7 +48,7 @@ require_once('tao/helpers/form/class.Form.php');
  * Short description of class tao_helpers_form_Decorator
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -62,7 +62,7 @@ interface tao_helpers_form_Decorator
      * Short description of method preRender
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
     public function preRender();
@@ -71,7 +71,7 @@ interface tao_helpers_form_Decorator
      * Short description of method postRender
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
     public function postRender();
@@ -80,7 +80,7 @@ interface tao_helpers_form_Decorator
      * Short description of method getOption
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string key
      * @return string
      */
@@ -90,7 +90,7 @@ interface tao_helpers_form_Decorator
      * Short description of method setOption
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string key
      * @param  string value
      * @return boolean

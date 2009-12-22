@@ -3,16 +3,9 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/models/classes/class.UserService.php
+ * This class provide service on user management
  *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 16.12.2009, 13:36:10 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
- *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -25,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 require_once('tao/models/classes/class.Service.php');
 
@@ -38,10 +31,10 @@ require_once('tao/models/classes/class.Service.php');
 // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFA-constants end
 
 /**
- * Short description of class tao_models_classes_UserService
+ * This class provide service on user management
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -54,7 +47,7 @@ class tao_models_classes_UserService
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute dbWrapper
+     * the database wrapper instance
      *
      * @access protected
      * @var DbWrapper
@@ -62,7 +55,7 @@ class tao_models_classes_UserService
     protected $dbWrapper = null;
 
     /**
-     * Short description of attribute LOGIN_KEY
+     * the key to retrieve the login in the presistent session
      *
      * @access public
      * @var string
@@ -70,7 +63,7 @@ class tao_models_classes_UserService
     const LOGIN_KEY = 'user_login';
 
     /**
-     * Short description of attribute AUTH_TOKEN_KEY
+     * the key to retrieve the authentication token in the presistent session
      *
      * @access public
      * @var string
@@ -83,7 +76,7 @@ class tao_models_classes_UserService
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
     public function __construct()
@@ -99,7 +92,7 @@ class tao_models_classes_UserService
      * Short description of method setUserLanguage
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string login
      * @param  string lang
      * @return boolean
@@ -130,7 +123,7 @@ class tao_models_classes_UserService
      * Short description of method getUserLanguage
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string login
      * @return string
      */
@@ -158,7 +151,7 @@ class tao_models_classes_UserService
      * Short description of method getDefaultLanguage
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
     public function getDefaultLanguage()
@@ -175,10 +168,10 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method getCurrentUser
+     * retrieve the logged in user
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
     public function getCurrentUser()
@@ -203,10 +196,10 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method loginUser
+     * authenticate a user
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string login
      * @param  string password
      * @return boolean
@@ -240,10 +233,10 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method isASessionOpened
+     * check if a session is currently running
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return boolean
      */
     public static function isASessionOpened()
@@ -262,11 +255,11 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method getAllUsers
+     * Get the list of available users
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
-     * @param  array options
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  array options the user list options to order the list and paginate the results
      * @return array
      */
     public function getAllUsers($options = array())
@@ -295,11 +288,11 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method getOneUser
+     * get a user by his login
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
-     * @param  string login
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string login the user login is the unique identifier to retrieve him
      * @return array
      */
     public function getOneUser($login)
@@ -319,10 +312,10 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method saveUser
+     * Save (insert or update) the user in parameter
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array user
      * @return boolean
      */
@@ -358,7 +351,7 @@ class tao_models_classes_UserService
      * Short description of method removeUser
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string login
      * @return boolean
      */
@@ -376,10 +369,10 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method loginExist
+     * Remove a user by a login
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string login
      * @return boolean
      */
@@ -402,10 +395,10 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method loginAvailable
+     * Check if the login is available (because it's unique)
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string login
      * @return boolean
      */

@@ -6,7 +6,7 @@ error_reporting(E_ALL);
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -29,7 +29,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -41,7 +41,7 @@ abstract class tao_models_classes_Service
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute ontologies
+     * The defaults ontologies to load
      *
      * @access protected
      * @var array
@@ -54,7 +54,7 @@ abstract class tao_models_classes_Service
      * constructor
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return void
      */
     public function __construct()
@@ -64,10 +64,10 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method loadOntologies
+     * Enable you to  load the RDF ontologies
      *
      * @access protected
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array ontologies
      * @return mixed
      */
@@ -87,10 +87,10 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method getOneInstanceBy
+     * Retrieve a particular instance regarding the given parameters
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @param  string identifier
      * @param  string mode
@@ -127,10 +127,10 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method getPropertyByLabel
+     * Retrieve a property
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @param  string label
      * @return core_kernel_classes_Property
@@ -155,10 +155,10 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method createInstance
+     * Instantiate an RDFs Class
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @param  string label
      * @return core_kernel_classes_Resource
@@ -178,10 +178,10 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method createSubClass
+     * Subclass an RDFS Class
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class parentClazz
      * @param  string label
      * @return core_kernel_classes_Class
@@ -202,10 +202,10 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method bindProperties
+     * bind the given RDFS properties to the RDFS resource in parameter
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Resource instance
      * @param  array properties
      * @return core_kernel_classes_Resource
@@ -264,10 +264,11 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method toTree
+     * Format an RDFS Class to an array to be interpreted by the client tree
+     * This is a closed array format.
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @param  boolean subclasses
      * @param  boolean instances
@@ -355,10 +356,10 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method toArray
+     * Format an RDFS Class to an array
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @return array
      */

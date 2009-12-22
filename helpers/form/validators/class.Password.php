@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 16.12.2009, 11:45:56 with ArgoUML PHP module 
+ * Automatically generated on 22.12.2009, 16:53:45 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form_validators
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_form_Validator
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 require_once('tao/helpers/form/class.Validator.php');
 
@@ -40,7 +40,7 @@ require_once('tao/helpers/form/class.Validator.php');
  * Short description of class tao_helpers_form_validators_Password
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form_validators
  */
@@ -58,7 +58,7 @@ class tao_helpers_form_validators_Password
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -90,7 +90,7 @@ class tao_helpers_form_validators_Password
      * Short description of method evaluate
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return boolean
      */
     public function evaluate()

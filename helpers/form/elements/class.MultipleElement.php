@@ -5,14 +5,14 @@ error_reporting(E_ALL);
 /**
  * Generis Object Oriented API -
  *
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * $Id$
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 07.12.2009, 12:35:02 with ArgoUML PHP module 
+ * Automatically generated on 22.12.2009, 16:53:45 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * Represents a FormElement entity
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 require_once('tao/helpers/form/class.FormElement.php');
 
@@ -41,7 +41,7 @@ require_once('tao/helpers/form/class.FormElement.php');
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements
  */
@@ -75,7 +75,7 @@ abstract class tao_helpers_form_elements_MultipleElement
      * Short description of method setOptions
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -90,7 +90,7 @@ abstract class tao_helpers_form_elements_MultipleElement
      * Short description of method getOptions
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
     public function getOptions()
@@ -108,7 +108,7 @@ abstract class tao_helpers_form_elements_MultipleElement
      * Short description of method setValue
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string value
      * @return mixed
      */
@@ -123,7 +123,7 @@ abstract class tao_helpers_form_elements_MultipleElement
      * Short description of method addValue
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string value
      * @return mixed
      */
@@ -138,7 +138,7 @@ abstract class tao_helpers_form_elements_MultipleElement
      * Short description of method getValues
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
     public function getValues()
@@ -156,7 +156,7 @@ abstract class tao_helpers_form_elements_MultipleElement
      * Short description of method setValues
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array values
      * @return mixed
      */

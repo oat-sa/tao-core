@@ -3,16 +3,9 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/models/classes/class.TaoService.php
+ * This class provide the services for the Tao extension
  *
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 15.10.2009, 14:57:06 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
- *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -25,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 require_once('tao/models/classes/class.Service.php');
 
@@ -38,10 +31,10 @@ require_once('tao/models/classes/class.Service.php');
 // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822-constants end
 
 /**
- * Short description of class tao_models_classes_TaoService
+ * This class provide the services for the Tao extension
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -54,7 +47,7 @@ class tao_models_classes_TaoService
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute extensions
+     * to stock the list of extensions
      *
      * @access private
      * @var array
@@ -62,7 +55,7 @@ class tao_models_classes_TaoService
     private static $extensions = array();
 
     /**
-     * Short description of attribute structure
+     * to stock the extension structure
      *
      * @access protected
      * @var array
@@ -75,7 +68,7 @@ class tao_models_classes_TaoService
      * Get the list of TAO's children extension available in the current context
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
     public function getLoadedExtensions()
@@ -102,10 +95,10 @@ class tao_models_classes_TaoService
     }
 
     /**
-     * Short description of method isLoaded
+     * Check if an extension is loaded
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string extension
      * @return boolean
      */
@@ -121,10 +114,10 @@ class tao_models_classes_TaoService
     }
 
     /**
-     * Short description of method setCurrentExtension
+     * define the current extension
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string extension
      * @return mixed
      */
@@ -139,10 +132,10 @@ class tao_models_classes_TaoService
     }
 
     /**
-     * Short description of method getCurrentExtension
+     * get the current extension
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
     public function getCurrentExtension()
@@ -160,10 +153,11 @@ class tao_models_classes_TaoService
     }
 
     /**
-     * Short description of method loadExtensionStructure
+     * Load the extension structure file.
+     * Return the SimpleXmlElement object (don't forget to cast it)
      *
      * @access protected
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string extension
      * @return SimpleXMLElement
      */
@@ -189,10 +183,10 @@ class tao_models_classes_TaoService
     }
 
     /**
-     * Short description of method getStructure
+     * Get the structure for the extension/section in parameters
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string extension
      * @param  string section
      * @return array

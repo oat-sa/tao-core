@@ -7,11 +7,10 @@ error_reporting(E_ALL);
  * Use the ServiceFactory::get(serviceName) to retrieve a single instance of a
  * implementation.
  *
- * @author Bertrand Chevrier, <taosupport@tudor.lu>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage models_classes
  * @version 0.1
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -32,7 +31,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * implementation.
  *
  * @access public
- * @author Bertrand Chevrier, <taosupport@tudor.lu>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage models_classes
  * @version 0.1
@@ -62,7 +61,8 @@ class tao_models_classes_ServiceFactory
     private static $dataSource = 'Generis';
 
     /**
-     * Short description of attribute namePattern
+     * pattern to create service dynamically.
+     * Use the printf syntax, where %1$ is the short name of the service
      *
      * @access protected
      * @var string
@@ -72,10 +72,11 @@ class tao_models_classes_ServiceFactory
     // --- OPERATIONS ---
 
     /**
-     * Entry point to get an instance of a service.
+     * Entry point to get an instance of a service 
+     * by it's short name.
      *
      * @access public
-     * @author Bertrand Chevrier, <taosupport@tudor.lu>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string serviceName The name of the service you want to retrieve. You can set the complete class name, the interface name or only the ressource name managed by the service.
      * @return tao_models_classes_Service
      */

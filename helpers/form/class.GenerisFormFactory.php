@@ -9,11 +9,10 @@ error_reporting(E_ALL);
  * required to use it.
  * Now only the xhtml rendering mode is implemented
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @see core_kernel_classes_* packages
  * @subpackage helpers_form
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -36,7 +35,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Now only the xhtml rendering mode is implemented
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @see core_kernel_classes_* packages
  * @subpackage helpers_form
@@ -72,7 +71,7 @@ class tao_helpers_form_GenerisFormFactory
      * The default rendering is in xhtml
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @param  Resource instance
      * @return tao_helpers_form_Form
@@ -158,7 +157,7 @@ class tao_helpers_form_GenerisFormFactory
      * create a Form to add a subclass to the rdfs:Class clazz
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @param  Class topClazz
      * @return tao_helpers_form_xhtml_Form
@@ -276,7 +275,7 @@ class tao_helpers_form_GenerisFormFactory
      * Short description of method propertyEditor
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Property property
      * @param  Form form
      * @param  int index
@@ -315,7 +314,7 @@ class tao_helpers_form_GenerisFormFactory
      * Short description of method simplePropertyEditor
      *
      * @access protected
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Property property
      * @param  Form form
      * @param  int index
@@ -458,7 +457,7 @@ class tao_helpers_form_GenerisFormFactory
      * Short description of method advancedPropertyEditor
      *
      * @access protected
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Property property
      * @param  Form form
      * @param  int index
@@ -548,7 +547,7 @@ class tao_helpers_form_GenerisFormFactory
      * Enable you to map an rdf property to a form element using the Widget
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Property property
      * @return tao_helpers_form_FormElement
      */
@@ -594,7 +593,7 @@ class tao_helpers_form_GenerisFormFactory
      * Short description of method getClassProperties
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @param  Class topLevelClazz
      * @return array
@@ -655,7 +654,7 @@ class tao_helpers_form_GenerisFormFactory
      * get the default properties to add to every forms
      *
      * @access protected
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
     protected static function getDefaultProperties()
@@ -684,7 +683,7 @@ class tao_helpers_form_GenerisFormFactory
      * Short description of method getPropertyProperties
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string mode
      * @return array
      */
@@ -726,7 +725,7 @@ class tao_helpers_form_GenerisFormFactory
      * Short description of method getPropertyMap
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
     public static function getPropertyMap()

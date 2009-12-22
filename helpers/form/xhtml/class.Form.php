@@ -5,14 +5,14 @@ error_reporting(E_ALL);
 /**
  * Generis Object Oriented API - tao/helpers/form/xhtml/class.Form.php
  *
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * $Id$
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 07.10.2009, 14:49:20 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 22.12.2009, 16:53:45 with ArgoUML PHP module 
+ * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form_xhtml
  */
@@ -22,9 +22,17 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_helpers_form_Form
+ * Represents a form. It provides the default behavior for form management and
+ * be overridden for any rendering mode.
+ * A form is composed by a set of FormElements.
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * The form data flow is:
+ * 1. add the elements to the form instance
+ * 2. run evaluate (initElements, update states (submited, valid, etc), update
+ * )
+ * 3. render form
+ *
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 require_once('tao/helpers/form/class.Form.php');
 
@@ -40,7 +48,7 @@ require_once('tao/helpers/form/class.Form.php');
  * Short description of class tao_helpers_form_xhtml_Form
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form_xhtml
  */
@@ -58,7 +66,7 @@ class tao_helpers_form_xhtml_Form
      * Short description of method getValues
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
     public function getValues()
@@ -89,7 +97,7 @@ class tao_helpers_form_xhtml_Form
      * Short description of method evaluate
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
     public function evaluate()
@@ -142,7 +150,7 @@ class tao_helpers_form_xhtml_Form
      * Short description of method render
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
     public function render()
@@ -191,7 +199,7 @@ class tao_helpers_form_xhtml_Form
      * Short description of method validate
      *
      * @access private
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return boolean
      */
     private function validate()

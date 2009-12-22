@@ -5,14 +5,14 @@ error_reporting(E_ALL);
 /**
  * Generis Object Oriented API - tao/helpers/form/class.FormFactory.php
  *
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * $Id$
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 19.11.2009, 15:16:44 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 22.12.2009, 16:53:45 with ArgoUML PHP module 
+ * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -33,7 +33,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Short description of class tao_helpers_form_FormFactory
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -58,7 +58,7 @@ class tao_helpers_form_FormFactory
      * Short description of method setRenderMode
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string renderMode
      * @return mixed
      */
@@ -73,7 +73,7 @@ class tao_helpers_form_FormFactory
      * Short description of method getForm
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string name
      * @param  array options
      * @return tao_helpers_form_Form
@@ -108,7 +108,7 @@ class tao_helpers_form_FormFactory
      * Short description of method getElement
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string name
      * @param  string type
      * @return tao_helpers_form_FormElement
@@ -148,7 +148,7 @@ class tao_helpers_form_FormFactory
      * Short description of method getValidator
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string name
      * @param  array options
      * @return tao_helpers_form_Validator

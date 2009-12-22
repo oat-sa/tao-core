@@ -13,10 +13,9 @@ error_reporting(E_ALL);
  * )
  * 3. render form
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -26,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_form_Decorator
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 require_once('tao/helpers/form/interface.Decorator.php');
 
@@ -51,7 +50,7 @@ require_once('tao/helpers/form/interface.Decorator.php');
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -140,7 +139,7 @@ abstract class tao_helpers_form_Form
      * the form constructor
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string name
      * @param  array options
      * @return mixed
@@ -157,7 +156,7 @@ abstract class tao_helpers_form_Form
      * Short description of method getName
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
     public function getName()
@@ -175,7 +174,7 @@ abstract class tao_helpers_form_Form
      * Short description of method getElements
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
     public function getElements()
@@ -193,7 +192,7 @@ abstract class tao_helpers_form_Form
      * Short description of method setElements
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array elements
      * @return mixed
      */
@@ -208,7 +207,7 @@ abstract class tao_helpers_form_Form
      * Short description of method addElement
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  FormElement element
      * @return mixed
      */
@@ -226,7 +225,7 @@ abstract class tao_helpers_form_Form
      * Short description of method setDecorator
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Decorator decorator
      * @return mixed
      */
@@ -241,7 +240,7 @@ abstract class tao_helpers_form_Form
      * render all the form elements
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
     public function renderElements()
@@ -341,7 +340,7 @@ abstract class tao_helpers_form_Form
      * initialize the elements set
      *
      * @access protected
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
     protected function initElements()
@@ -366,7 +365,7 @@ abstract class tao_helpers_form_Form
      * Short description of method hasFileUpload
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return boolean
      */
     public function hasFileUpload()
@@ -391,7 +390,7 @@ abstract class tao_helpers_form_Form
      * Enables you to know if the form is valid
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return boolean
      */
     public function isValid()
@@ -409,7 +408,7 @@ abstract class tao_helpers_form_Form
      * Short description of method isSubmited
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return boolean
      */
     public function isSubmited()
@@ -427,7 +426,7 @@ abstract class tao_helpers_form_Form
      * Enables you to know if the form has been submited
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
     public function getValues()
@@ -447,7 +446,7 @@ abstract class tao_helpers_form_Form
      * Short description of method getValue
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string name
      * @return boolean
      */
@@ -470,7 +469,7 @@ abstract class tao_helpers_form_Form
      * Short description of method createGroup
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string groupName
      * @param  string groupTitle
      * @param  array elements
@@ -490,7 +489,7 @@ abstract class tao_helpers_form_Form
      * Short description of method addToGroup
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string groupName
      * @param  string elementName
      * @return mixed
@@ -514,7 +513,7 @@ abstract class tao_helpers_form_Form
      * Short description of method getElementGroup
      *
      * @access protected
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string elementName
      * @return string
      */
@@ -538,7 +537,7 @@ abstract class tao_helpers_form_Form
      * Short description of method setGroupDecorator
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Decorator decorator
      * @return mixed
      */
@@ -555,7 +554,7 @@ abstract class tao_helpers_form_Form
      * Short description of method setErrorDecorator
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Decorator decorator
      * @return mixed
      */
@@ -575,7 +574,7 @@ abstract class tao_helpers_form_Form
      *
      * @abstract
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
     public abstract function evaluate();
@@ -585,7 +584,7 @@ abstract class tao_helpers_form_Form
      *
      * @abstract
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
     public abstract function render();

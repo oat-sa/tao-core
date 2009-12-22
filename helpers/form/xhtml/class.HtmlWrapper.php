@@ -5,14 +5,14 @@ error_reporting(E_ALL);
 /**
  * Generis Object Oriented API - tao/helpers/form/xhtml/class.HtmlWrapper.php
  *
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * $Id$
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 08.12.2009, 10:43:14 with ArgoUML PHP module 
+ * Automatically generated on 22.12.2009, 16:53:45 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form_xhtml
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_form_Decorator
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 require_once('tao/helpers/form/interface.Decorator.php');
 
@@ -40,7 +40,7 @@ require_once('tao/helpers/form/interface.Decorator.php');
  * Short description of class tao_helpers_form_xhtml_HtmlWrapper
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers_form_xhtml
  */
@@ -74,7 +74,7 @@ class tao_helpers_form_xhtml_HtmlWrapper
      * Short description of method preRender
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
     public function preRender()
@@ -91,7 +91,7 @@ class tao_helpers_form_xhtml_HtmlWrapper
      * Short description of method postRender
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
     public function postRender()
@@ -108,7 +108,7 @@ class tao_helpers_form_xhtml_HtmlWrapper
      * Short description of method getOption
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string key
      * @return string
      */
@@ -126,7 +126,7 @@ class tao_helpers_form_xhtml_HtmlWrapper
      * Short description of method setOption
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string key
      * @param  string value
      * @return boolean
@@ -145,7 +145,7 @@ class tao_helpers_form_xhtml_HtmlWrapper
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array options
      * @return mixed
      */
