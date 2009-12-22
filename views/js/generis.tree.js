@@ -29,6 +29,10 @@ function GenerisTreeClass(selector, dataUrl, options){
 		this.dataUrl = dataUrl;
 		var instance = this;
 		
+		if(!options.instanceName){
+			options.instanceName = 'instance';
+		}
+		
 		GenerisTreeClass.instances[GenerisTreeClass.instances.length + 1] = instance;
 		
 		this.treeOptions = {
@@ -60,6 +64,24 @@ function GenerisTreeClass(selector, dataUrl, options){
 				},
 				onload: function(TREE_OBJ){
 					TREE_OBJ.open_branch($("li.node-class:first"));
+				},
+				ondata: function(DATA, TREE_OBJ){
+					if(instance.options.instanceClass){
+						if(DATA.children){
+							function addClassToNodes(nodes, clazz){
+								$.each(nodes, function(i, node){
+									if(node.attributes['class'] == 'node-instance'){
+										node.attributes['class'] = 'node-instance ' + clazz;
+									}
+									if(node.children){
+										addClassToNodes(node.children, clazz);
+									}
+								});
+							}
+							addClassToNodes(DATA.children, instance.options.instanceClass);
+						}
+					}
+					return DATA;
 				},
 				onselect: function(NODE, TREE_OBJ){
 					
@@ -120,7 +142,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 		                    separator_before : true
 						},
 						instance:{
-							label: "Add instance",
+							label: "Add " + instance.options.instanceName,
 							icon	: "/tao/views/img/instance_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
@@ -136,7 +158,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 									url: instance.options.createInstanceAction,
 									id: $(NODE).attr('id'),
 									NODE: NODE,
-									TREE_OBJ: TREE_OBJ
+									TREE_OBJ: TREE_OBJ,
+									cssClass: instance.options.instanceClass
 								});
 							}
 						},
@@ -317,6 +340,11 @@ function subClass(uri, classUri, url){
 GenerisTreeClass.addInstance = function(options){
 	var TREE_OBJ = options.TREE_OBJ;
 	var NODE = options.NODE;
+	var  cssClass = 'node-instance';
+	if(options.cssClass){
+		 cssClass += ' ' + options.cssClass;
+	}
+	
 	$.ajax({
 		url: options.url,
 		type: "POST",
@@ -328,7 +356,7 @@ GenerisTreeClass.addInstance = function(options){
 					data: response.label,
 					attributes: {
 						id: response.uri,
-						'class': 'node-instance'
+						'class': cssClass
 					}
 				}, TREE_OBJ.get_node(NODE[0])));
 			}

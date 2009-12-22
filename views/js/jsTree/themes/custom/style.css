@@ -22,7 +22,12 @@
 .tree-custom ins { background-image:url("icons.png"); background-position:0 0; background-repeat:no-repeat; }
 li.node-root ins{background-image:url("list.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-class ins{background-image:url("class.png"); background-position:0 0; background-repeat:no-repeat;}
-.tree-custom li.node-instance ins{background-image:url("instance.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom .node-instance ins{background-image:url("instance.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-item ins{background-image:url("item.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-test ins{background-image:url("test.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-subject ins{background-image:url("subject.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-group ins{background-image:url("group.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-result ins{background-image:url("result.png"); background-position:0 0; background-repeat:no-repeat;}
 
 .tree-custom ul li a.loading ins { background-image:url("throbber.gif") !important; background-position:0 0 !important; } /* UL is added to make selector stronger */
 .tree-custom li a ins.forbidden { background-position:-16px -16px; }

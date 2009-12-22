@@ -192,6 +192,7 @@ class Main extends CommonModule {
 		if($currentExtension){
 			$structure = $this->service->getStructure($currentExtension, $this->getRequestParameter('section'));
 			$this->setData('trees', $structure->trees[0]);
+			$this->setData('instanceName', strtolower(str_replace('tao', '', substr($currentExtension, 0, strlen($currentExtension) - 1))));
 		}
 		
 		$this->setView('trees.tpl');

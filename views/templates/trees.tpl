@@ -41,7 +41,9 @@
 			createInstanceAction: 	"<?=(string)$tree['addInstanceUrl']?>",
 			subClassAction: 		"<?=(string)$tree['addSubClassUrl']?>",
 			deleteAction: 			"<?=(string)$tree['deleteUrl']?>",
-			duplicateAction: 		"<?=(string)$tree['duplicateUrl']?>"
+			duplicateAction: 		"<?=(string)$tree['duplicateUrl']?>",
+			instanceClass:			"node-<?=get_data('instanceName')?>",
+			instanceName:			"<?=get_data('instanceName')?>"
 		});
 		<?endforeach?>
 		

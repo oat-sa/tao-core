@@ -275,7 +275,6 @@ div#login_form, div#login_title{
 	padding:5px;
 }
 div#login_title{
-	padding:6px;
 	font-weight:bold;
 }
 
@@ -302,10 +301,11 @@ div#info-box{
 	font-size:1em;	
 }
 
+/* update JQuery UI styles  */
+
 div#info-box.ui-state-error{
 	color:#FFF;
 }
-
 a.ui-state-default{
 	padding:4px 8px 4px 8px;
 }
