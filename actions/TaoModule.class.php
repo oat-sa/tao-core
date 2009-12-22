@@ -189,6 +189,7 @@ abstract class TaoModule extends CommonModule {
 				
 				$classValues = array();
 				$propertyValues = array();
+				
 				foreach($myForm->getValues() as $key => $value){
 					if(preg_match("/^class_/", $key)){
 						$classKey =  tao_helpers_Uri::decode(str_replace('class_', '', $key));

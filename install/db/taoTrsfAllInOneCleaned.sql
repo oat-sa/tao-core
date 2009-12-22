@@ -381,7 +381,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('demo','fe01ce2a7fbac8fafaed7c982a04e229',1,'admin','','',' ',' ','EN',1),('generis','b01a52f727b0810639526fe2c8188331',1,'admin','','','','','EN',0);
+INSERT INTO `user` VALUES ('tao','016e73c3c4de5f7c1b1dcf51aceaefc6',1,'admin','','',' ',' ','EN',1),('generis','b01a52f727b0810639526fe2c8188331',1,'admin','','','','','EN',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -394,4 +394,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-12-22  9:33:09
+-- Dump completed on 2009-12-22 12:52:22

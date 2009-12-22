@@ -176,6 +176,7 @@ class tao_helpers_Uri
 				$returnValue = urldecode(
 					str_replace('__', '.', $uri)
 				);
+				$returnValue = str_replace('w_org', 'w3.org', $returnValue);
 			}
 			else{
 				$returnValue = urldecode($uri);

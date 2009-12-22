@@ -609,9 +609,8 @@ class tao_helpers_form_GenerisFormFactory
 			$returnValue = $clazz->getProperties(true);
 		}
 		else{
-			$returnValue = $clazz->getProperties(false);
 			if($clazz->uriResource == $topLevelClazz->uriResource){
-				return (array) $returnValue;
+				return (array) $clazz->getProperties(false);
 			}
 			$top = false;
 			$parent = null;
@@ -643,6 +642,8 @@ class tao_helpers_form_GenerisFormFactory
 					
 				}
 			}while($top === false);
+			
+			$returnValue = array_merge($returnValue, $clazz->getProperties(false));
 		}
 		
         // section 127-0-1-1-2db84171:12476b7fa3b:-8000:0000000000001AAB end

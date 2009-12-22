@@ -59,8 +59,8 @@ div#tabs div.ui-tabs-panel{
 img#logo{
 	position: absolute; 
 	right:10px; 
-	top: 5px;
-	z-index:100;
+	top: -2px;
+	z-index:1000;
 }
 
 /* Layout -> Menu */
