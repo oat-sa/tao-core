@@ -171,11 +171,7 @@ abstract class tao_models_classes_Service
 		if( empty($label) ){
 			$label = $clazz->getLabel() . '_' . (count($clazz->getInstances()) + 1);
 		}
-		$returnValue = core_kernel_classes_ResourceFactory::create(
-			$clazz,
-			$label,
-			$label . ' created from ' . get_class($this) . ' the '. date('Y-m-d h:i:s') 
-		);
+		$returnValue = core_kernel_classes_ResourceFactory::create($clazz, $label, '');
         // section 10-13-1-45--135fece8:123b76cb3ff:-8000:0000000000001897 end
 
         return $returnValue;
@@ -198,10 +194,7 @@ abstract class tao_models_classes_Service
 		if( empty($label) ){
 			$label = $parentClazz->getLabel() . '_' . (count($parentClazz->getInstances()) + 1);
 		}
-		$returnValue = $parentClazz->createSubClass(
-			$label,
-			$label . ' created from ' . get_class($this) . ' the '. date('Y-m-d h:i:s') 
-		);
+		$returnValue = $parentClazz->createSubClass($label, '');
 		
         // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AB5 end
 
