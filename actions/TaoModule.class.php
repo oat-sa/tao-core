@@ -11,6 +11,9 @@
  */
 abstract class TaoModule extends CommonModule {
 
+	/**
+	 * Check the authentication
+	 */
 	public function __construct(){
 		
 		$errorMessage = __('Access denied. Please renew your authentication!');

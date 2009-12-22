@@ -8,6 +8,10 @@
  */
 class Main extends CommonModule {
 
+	/**
+	 * @access protected
+	 * @var tao_models_classes_UserService
+	 */
 	protected $userService = null;
 
 	/**
@@ -30,8 +34,9 @@ class Main extends CommonModule {
 	}
 	
 	/**
-	 * Login form
-	 * @return 
+	 * Authentication form, 
+	 * default page, main entry point to the user
+	 * @return void
 	 */
 	public function login(){
 		
@@ -68,7 +73,7 @@ class Main extends CommonModule {
 	}
 
 	/**
-	 * 
+	 * Logout, destroy the session and back to the login page
 	 * @return 
 	 */
 	public function logout(){
@@ -183,7 +188,7 @@ class Main extends CommonModule {
 
 	/**
 	 * Load the section trees
-	 * @return 
+	 * @return void
 	 */
 	public function getSectionTrees(){
 		

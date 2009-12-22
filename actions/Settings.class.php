@@ -1,5 +1,7 @@
 <?php
 /**
+ * This controller provide the actions to manage the user settings
+ * 
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
@@ -8,8 +10,16 @@
  */
 class Settings extends CommonModule {
 
+	/**
+	 * @access protected
+	 * @var tao_models_classes_UserService
+	 */
 	protected $userService = null;
 	
+	/**
+	 * initialize the services 
+	 * @return 
+	 */
 	public function __construct(){
 		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 	}

@@ -1,5 +1,7 @@
 <?php
 /**
+ * This controller provide the actions to manage the application users (list/add/edit/delete)
+ * 
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
