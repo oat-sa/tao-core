@@ -52,9 +52,7 @@
 		<span><a href="<?=_url('logout')?>"><?=__('Logout')?></a></span>
 	</div>
 	
-	<a href="<?=_url('index')?>">
-		<img src="<?=BASE_WWW?>img/logo.gif" alt="logo" id="logo" />
-	</a>
+	<img src="<?=BASE_WWW?>img/logo.gif" alt="logo" id="logo" />
 	
 <?if(get_data('sections')):?>
 	<div id="tabs">
