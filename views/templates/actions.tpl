@@ -1,6 +1,6 @@
 <?if(get_data('actions')):?>
-	<div id="action-title" class='ui-widget ui-state-default ui-widget-header ui-corner-top'><?=__('Actions')?></div>
-	<div id="action-items" class="ui-widget ui-state-default ui-corner-bottom">
+	<div id="action-title" class='ui-widget ui-widget-header ui-state-default  ui-corner-top'><?=__('Actions')?></div>
+	<div id="action-items" class="ui-widget ui-widget-content ui-corner-bottom">
 		<table>
 			<tbody>
 				<tr>

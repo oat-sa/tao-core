@@ -20,8 +20,10 @@
 .tree-custom li a.clicked, .tree-custom li a.clicked:hover, .tree-custom li span.clicked { background:#B5CEDF; border:1px solid #599FCF; padding:0px 3px 0px 3px; }
 /* ICONS */
 .tree-custom ins { background-image:url("icons.png"); background-position:0 0; background-repeat:no-repeat; }
+li.node-root ins{background-image:url("list.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-class ins{background-image:url("class.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-instance ins{background-image:url("instance.png"); background-position:0 0; background-repeat:no-repeat;}
+
 .tree-custom ul li a.loading ins { background-image:url("throbber.gif") !important; background-position:0 0 !important; } /* UL is added to make selector stronger */
 .tree-custom li a ins.forbidden { background-position:-16px -16px; }
 .tree-custom .locked li a ins { background-position:0 -48px; }
@@ -29,7 +31,7 @@
 #jstree-dragged.tree-custom ins { background:url("icons.png") -16px -32px no-repeat; }
 #jstree-dragged.tree-custom ins.forbidden { background:url("icons.png") -16px -16px no-repeat; }
 /* CONTEXT MENU */
-.tree-custom-context a ins { background-image:url("icons.png"); background-repeat:no-repeat; background-position:-64px -64px; }
+.tree-custom-context a ins { background-image:url("icons.png"); /* background-repeat:no-repeat; */background-position:-64px -64px; }
 .tree-custom-context a ins.create { background-position:0 -16px; }
 .tree-custom-context a ins.rename { background-position:-16px 0px; }
 .tree-custom-context a ins.remove { background-position:0 -32px; }

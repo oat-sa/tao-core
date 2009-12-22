@@ -72,7 +72,7 @@
 <?endif?>
 
 	<div id="section-lg">
-		<img src="<?=BASE_WWW?>img/lg.png" />&nbsp;<?=__('Data language')?> : <?=get_data('user_lang')?> 
+		<img src="<?=BASE_WWW?>img/lg.png" />&nbsp;<?=__('Data language')?> : <strong><?=get_data('user_lang')?></strong> 
 	</div>
 	<div id="footer">
 		TAO<sup>&reg;</sup> - 2009 - A joint initiative of CRP Henri Tudor and the University of Luxembourg

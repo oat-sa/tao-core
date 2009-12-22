@@ -382,6 +382,14 @@ class tao_helpers_form_GenerisFormFactory
 		$listElt->addAttribute('class', 'property-listvalues');
 		$listElt->setEmptyOption(' --- '.__('select').' --- ');
 		
+		$exclude = array(
+			TAO_GROUP_CLASS,
+			TAO_ITEM_CLASS,
+			TAO_ITEM_MODEL_CLASS,
+			TAO_RESULT_CLASS,
+			TAO_SUBJECT_CLASS,
+			TAO_TEST_CLASS
+		);
 		$topLevelClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
 		$domains = $property->getDomain();
 		$options = array();
@@ -391,7 +399,11 @@ class tao_helpers_form_GenerisFormFactory
 				$topLevelClazz->getSubClasses(false)
 			) 
 			as $subClass){
-				
+			
+			if(in_array($subClass->uriResource, $exclude)){
+				continue;
+			}
+			
 			$isDomain = false;
 			foreach($domains->getIterator() as $domain){
 				if($subClass->uriResource == $domain->uriResource){

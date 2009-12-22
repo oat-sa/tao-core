@@ -150,7 +150,7 @@ function _initForms(){
 		 }
 		 url += 'addClassProperty';
 		 var eltId = this.id;
-		 var index = $(".property-uri").size();
+		var index = ($(".form-group").size() - 1);
 		 if (groupNode) {
 		 	$.ajax({
 		 		url: url,
@@ -286,6 +286,7 @@ function _initForms(){
 						contextmenu: {
 							items: {
 								remove: {
+									icon	: "/tao/views/img/delete.png",
 									visible: function(NODE, TREE_OBJ){
 										if($(NODE).hasClass('node-root')){
 											return false; 
@@ -302,6 +303,7 @@ function _initForms(){
 									}
 								},
 								create: {
+									icon	: "/tao/views/img/add.png",
 									visible: function(NODE, TREE_OBJ){
 										if($(NODE).hasClass('node-instance')){
 											return false; 
@@ -329,6 +331,7 @@ function _initForms(){
 									}
 								},
 								rename: {
+									icon	: "/tao/views/img/rename.png",
 									visible: function(NODE, TREE_OBJ){
 										if($(NODE).hasClass('node-root')){
 											return false; 

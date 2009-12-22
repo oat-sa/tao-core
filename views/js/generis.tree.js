@@ -84,7 +84,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 					items : {
 						select: {
 							label: "Edit",
-							icon: "rename",
+							icon: "/tao/views/img/pencil.png",
 							visible : function (NODE, TREE_OBJ) {
 								if( ($(NODE).hasClass('node-instance') &&  instance.options.editInstanceAction)  || 
 									($(NODE).hasClass('node-class') &&  instance.options.editClassAction) ){
@@ -99,7 +99,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						},
 						subclass: {
 							label: "Add subclass",
-							icon	: "create",
+							icon	: "/tao/views/img/class_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return false; 
@@ -121,7 +121,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						},
 						instance:{
 							label: "Add instance",
-							icon	: "create",
+							icon	: "/tao/views/img/instance_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return false; 
@@ -142,7 +142,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						},
 						duplicate:{
 							label	: "Duplicate",
-							icon	: "create",
+							icon	: "/tao/views/img/duplicate.png",
 							visible	: function (NODE, TREE_OBJ) { 
 									if($(NODE).hasClass('node-instance')  && instance.options.duplicateAction){
 										return true;
@@ -159,7 +159,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						},
 						del:{
 							label	: "Remove",
-							icon	: "remove",
+							icon	: "/tao/views/img/delete.png",
 							visible	: function (NODE, TREE_OBJ) { 
 								var ok = true; 
 								$.each(NODE, function () { 
@@ -486,16 +486,21 @@ function fullScreen(uri, classUri, url){
  * @param {String} url
  */
 function addProperty(uri, classUri, url){
+	var index = ($(".form-group").size() - 1);
 	$.ajax({
 		url: url,
 		type: "POST",
 		data: {
-			index: $(".property-uri").size(),
+			index: index,
 			classUri: classUri
 		},
 		dataType: 'html',
 		success: function(response){
-			$("#property_actions").before(response)
+			$("#property_actions").before(response);
+			formGroupElt = $("#property_" + index);
+			if(formGroupElt){
+				formGroupElt.addClass('form-group-opened');
+			}
 			initNavigation();
 			window.location = '#propertyAdder';
 		}

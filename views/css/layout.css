@@ -5,7 +5,7 @@ body{
 	width:100%; 
 	margin: 0px; 
 	padding: 0px;
-	background-color:#F4F4F4;
+	background-color:#EEEEEE;
 	font-size:12px;
 }
 table{
@@ -46,8 +46,6 @@ div#tabs, div#home{
 /* don't change it */
 div#tabs div.ui-tabs-panel{
 	position:absolute; 
-	/*left:17.5%;
-	width:81%;*/
 	left:0.5%;
 	width:95%;
 	height:90%;
@@ -76,17 +74,21 @@ div#main-menu span{
 	padding-right:8px; 
 }
 div#main-menu span a{
-	font-size:1.3em;
+	font-size:1.2em;
+	font-weight:bold;
+	color:#888;
 }
 div#main-menu span a:hover{
-	border-bottom: solid 2px #599FFC;
+	border-bottom: solid 2px #D00239;
+	color:#D00239;
 }
 div#main-menu span.current-extension a{
-	border-bottom: solid 2px #599FFC;
+	border-bottom: solid 2px #D00239;
+	color:#D00239;
 }
 div#main-menu span.disabled-extension{
 	font-size:1.3em;
-	color:#C0C0C0;
+	color:#B0B0B0;
 }
 
 /* Layout -> Trees */
@@ -127,10 +129,18 @@ div#section-actions div#action-items td{
 div#section-actions div#action-items{
 	font-size:11px;
 	font-weight:bold;
+	color:#666;
 }
 div#section-actions div#action-items a img{
 	text-decoration:none;
 	border-width: 0px;	
+}
+div#section-actions div#action-items a{
+	text-decoration:none;
+	color:#D1043B;
+}
+div#section-actions div#action-items a:hover{
+	color:#FA648C;
 }
 div#section-actions ul{
 	list-style-type:none;
@@ -142,19 +152,18 @@ div#section-actions ul li{
 	padding:4px;
 }
 div#section-actions ul li a:hover{
-	color:#BFD6FF;
+	color:#FA648C;
 }
 
 /* Layout -> language */
 div#section-lg{
 	left:1%;
-	margin-left:0.5%;
-	margin-top:0.5%;
-	margin-right:0.5%;
+	margin-left:1%;
+	margin-top:1%;
 	padding:0px;
 	text-align:left;
 	width:18%;
-	z-index:100;
+	z-index:10000;
 }
 
 /* Layout -> metadata */
@@ -235,19 +244,21 @@ div#home_title{
 	text-align:center;
 }
 div.home-box{
-	width: 200px;
-	height:150px;
+	width: 180px;
+	height:125px;
 	text-align:center;
 	margin:15px;
 	padding-top:50px;
 	border: solid 1px #999;
+	background-color:#E2E2E2;
+	background-position:bottom;
 }
 div.home-box a{
-	color:#3383BB;
+	color:#D00239;
 	text-decoration:none;
 }
 div.home-box a:hover{
-	color:#8FB8FF;
+	color:#FA648C;
 }
 div.home-box-right{
 	float:right;
@@ -265,6 +276,7 @@ div#login_form, div#login_title{
 }
 div#login_title{
 	padding:6px;
+	font-weight:bold;
 }
 
 div.error-message{
