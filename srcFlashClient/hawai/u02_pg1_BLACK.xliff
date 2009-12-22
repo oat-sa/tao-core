@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file datatype="plaintext" original="ItemContent" source-language="en">
+    <header/>
+    <body>
+      <trans-unit id="u02p1_txt1_txt">
+        <source xml:lang="en">Enderson Ltd. - - -  Meeting Room Reservation System</source>
+        <target xml:lang="">Enderson Ltd. - - -  Meeting Room Reservation System</target>
+        <note xml:lang="en">u02p1_txt1_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt2_txt">
+        <source xml:lang="en">View Calendar</source>
+        <target xml:lang="">View Calendar</target>
+        <note xml:lang="en">u02p1_txt2_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt3_txt">
+        <source xml:lang="en">View Meeting Room Details</source>
+        <target xml:lang="">View Meeting Room Details</target>
+        <note xml:lang="en">u02p1_txt3_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt4_txt">
+        <source xml:lang="en">Make Room Reservation</source>
+        <target xml:lang="">Make Room Reservation</target>
+        <note xml:lang="en">u02p1_txt4_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt5_txt">
+        <source xml:lang="en">Change Room Reservation</source>
+        <target xml:lang="">Change Room Reservation</target>
+        <note xml:lang="en">u02p1_txt5_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt6_txt">
+        <source xml:lang="en">Complete Unfilled Request Notice</source>
+        <target xml:lang="">Complete Unfilled Request Notice</target>
+        <note xml:lang="en">u02p1_txt6_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt7_txt">
+        <source xml:lang="en">March 16  Reservations</source>
+        <target xml:lang="">March 16  Reservations</target>
+        <note xml:lang="en">u02p1_txt7_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt8_txt">
+        <source xml:lang="en">Room 1A</source>
+        <target xml:lang="">Room 1A</target>
+        <note xml:lang="en">u02p1_txt8_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt9_txt">
+        <source xml:lang="en">Room 2B</source>
+        <target xml:lang="">Room 2B</target>
+        <note xml:lang="en">u02p1_txt9_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt10_txt">
+        <source xml:lang="en">Room 314</source>
+        <target xml:lang="">Room 314</target>
+        <note xml:lang="en">u02p1_txt10_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt11_txt">
+        <source xml:lang="en">Room 411</source>
+        <target xml:lang="">Room 411</target>
+        <note xml:lang="en">u02p1_txt11_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt12_txt">
+        <source xml:lang="en">8:00 – 9:00</source>
+        <target xml:lang="">8:00 – 9:00</target>
+        <note xml:lang="en">u02p1_txt12_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt13_txt">
+        <source xml:lang="en">9:00 – 10:00</source>
+        <target xml:lang="">9:00 – 10:00</target>
+        <note xml:lang="en">u02p1_txt13_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt14_txt">
+        <source xml:lang="en">10:00 – 11:00</source>
+        <target xml:lang="">10:00 – 11:00</target>
+        <note xml:lang="en">u02p1_txt14_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt15_txt">
+        <source xml:lang="en">11:00 – 12:00</source>
+        <target xml:lang="">11:00 – 12:00</target>
+        <note xml:lang="en">u02p1_txt15_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt16_txt">
+        <source xml:lang="en">12:00 – 1:00</source>
+        <target xml:lang="">12:00 – 1:00</target>
+        <note xml:lang="en">u02p1_txt16_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt17_txt">
+        <source xml:lang="en">1:00 – 2:00</source>
+        <target xml:lang="">1:00 – 2:00</target>
+        <note xml:lang="en">u02p1_txt17_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt18_txt">
+        <source xml:lang="en">2:00 – 3:00</source>
+        <target xml:lang="">2:00 – 3:00</target>
+        <note xml:lang="en">u02p1_txt18_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt19_txt">
+        <source xml:lang="en">3:00 – 4:00</source>
+        <target xml:lang="">3:00 – 4:00</target>
+        <note xml:lang="en">u02p1_txt19_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt20_txt">
+        <source xml:lang="en">4:00 – 5:00</source>
+        <target xml:lang="">4:00 – 5:00</target>
+        <note xml:lang="en">u02p1_txt20_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt21_txt">
+        <source xml:lang="en">5:00 – 6:00</source>
+        <target xml:lang="">5:00 – 6:00</target>
+        <note xml:lang="en">u02p1_txt21_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt22_txt">
+        <source xml:lang="en">Human Resources Department</source>
+        <target xml:lang="">Human Resources Department</target>
+        <note xml:lang="en">u02p1_txt22_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt23_txt">
+        <source xml:lang="en">New Products Department</source>
+        <target xml:lang="">New Products Department</target>
+        <note xml:lang="en">u02p1_txt23_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt24_txt">
+        <source xml:lang="en">Planning Department</source>
+        <target xml:lang="">Planning Department</target>
+        <note xml:lang="en">u02p1_txt24_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt25_txt">
+        <source xml:lang="en">Marketing Department</source>
+        <target xml:lang="">Marketing Department</target>
+        <note xml:lang="en">u02p1_txt25_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt26_txt">
+        <source xml:lang="en">Technology Support Department</source>
+        <target xml:lang="">Technology Support Department</target>
+        <note xml:lang="en">u02p1_txt26_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt28_txt">
+        <source xml:lang="en">http://enderson.com/reservations/vc</source>
+        <target xml:lang="">http://enderson.com/reservations/vc</target>
+        <note xml:lang="en">u02p1_txt28_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt29_txt">
+        <source xml:lang="en">Confirmed reservations (in red) should not be changed</source>
+        <target xml:lang="">Confirmed reservations (in red) should not be changed</target>
+        <note xml:lang="en">u02p1_txt29_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p1_txt30_txt">
+        <source xml:lang="en">Time</source>
+        <target xml:lang="">Time</target>
+        <note xml:lang="en">u02p1_txt30_txt</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

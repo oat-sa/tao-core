@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tao:ITEM xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rdfs='http://www.w3.org/TR/1999/PR-rdf-schema-19990303#' xmlns:tao='http://www.tao.lu/tao.rdfs#' rdf:ID='http://mod1.tao.lu/middleware/CLL.rdf#i1141734457086891300'>
+    <rdfs:LABEL lang='fr-FR'>PIAACend</rdfs:LABEL>
+    <rdfs:COMMENT lang='fr-FR'>PIAAC End of the test</rdfs:COMMENT>
+    <tao:DURATION/>
+    <tao:ITEMPRESENTATION>
+        <xul>
+            <stylesheet src='./item.css' id='item_stylesheet'/>
+            <box id='itemContainer_box' class='item' top='-52' left='-301'>
+				        <image id='logo_image' disabled='true' src='../common_images/PIAAC_OECD.jpg' top='0' left='0'/>
+                <textbox id="thanks_textbox" value="&lt;p align=&quot;center&quot;&gt;&lt;font size=&quot;48&quot; color=&quot;#3300cc&quot;&gt;&lt;b&gt;Thank You!&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;" top="124" left="562" width="400" height="90" multiline="true" wrap="true" style="border-style:none;"/>
+			          <image id="upload_progressmeter" disabled="false" src="../common_runtime/upload_result.swf" top="224" left="562" height="100" width="400"/>
+            </box>
+        </xul>
+    </tao:ITEMPRESENTATION>
+</tao:ITEM>

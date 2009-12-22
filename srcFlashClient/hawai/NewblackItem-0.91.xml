@@ -1,0 +1,165 @@
+<black:manifest xmlns:tao="http://www.tao.lu/tao.rdfs#" xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:black="http://www.exulis.lu/black.rdfs#">
+  <black:business>
+    <tao:settings>
+      <rdfs:label lang="EN"> Computer Software Knowledge Test </rdfs:label>
+      <rdfs:comment lang="EN"> Computer Software Knowledge Test on Development Methods </rdfs:comment>
+      <tao:duration> 120 </tao:duration>
+    </tao:settings>
+    <tao:items>
+      <tao:item order="1" id="ITEM_UID_1">
+        <tao:questionmaterial datasource="xpath:////layout//label[@id='ITEM1_ITEM_LABEL']/@value">
+        </tao:questionmaterial>
+        <!-- AND, OR, XOR, ORX, MNF, M -->
+        <!-- MNF_2 "minimum not" fail 2 good answers -->
+        <!-- M_2 minimum 2 good answers -->
+        <tao:itemrule> AND </tao:itemrule>
+        <tao:hasguide>
+        </tao:hasguide>
+        <tao:setvalues>
+          <tao:setvalue datasource="xpath:////layout//radio[@id='ITEM1_PROP_UID_1']/@selected" order="1">
+          </tao:setvalue>
+          <tao:setvalue datasource="xpath:////layout//radio[@id='ITEM1_PROP_UID_2']/@selected" order="2">
+          </tao:setvalue>
+          <tao:setvalue datasource="xpath:////layout//radio[@id='ITEM1_PROP_UID_3']/@selected" order="3">
+          </tao:setvalue>
+          <tao:setvalue datasource="xpath:////layout//radio[@id='ITEM1_PROP_UID_4']/@selected" order="4">
+          </tao:setvalue>
+          <tao:setvalue datasource="xpath:////layout//radio[@id='ITEM1_PROP_UID_5']/@selected" order="5">
+          </tao:setvalue>
+          <tao:setvalue datasource="xpath:////layout//radio[@id='ITEM1_PROP_UID_6']/@selected" order="6">
+          </tao:setvalue>
+        </tao:setvalues>
+        <tao:expectedvalues>
+          <!-- Functions of the scoring method the expected value could be wrote in string -->
+          <tao:expectedvalue> 000010 </tao:expectedvalue>
+        </tao:expectedvalues>
+      </tao:item>
+      <tao:item order="2" id="ITEM_UID_2">
+        <tao:questionmaterial datasource="xpath:////layout//label[@id='ITEM2_ITEM_LABEL']/@value">
+        </tao:questionmaterial>
+        <tao:itemrule> AND </tao:itemrule>
+        <tao:hasguide>
+        </tao:hasguide>
+        <tao:setvalues>
+          <tao:setvalue datasource="xpath:////layout//radio[@id='ITEM2_PROP_UID_1']/@selected" order="1">
+          </tao:setvalue>
+          <tao:setvalue datasource="xpath:////layout//radio[@id='ITEM2_PROP_UID_2']/@selected" order="2">
+          </tao:setvalue>
+        </tao:setvalues>
+        <tao:expectedvalues>
+          <tao:expectedvalue> 01 </tao:expectedvalue>
+        </tao:expectedvalues>
+      </tao:item>
+      <tao:item order="3" id="ITEM_UID_3">
+        <tao:questionmaterial datasource="xpath:////layout//label[@id='ITEM3_ITEM_LABEL']/@value">
+        </tao:questionmaterial>
+        <tao:itemrule> AND </tao:itemrule>
+        <tao:hasguide>
+        </tao:hasguide>
+        <tao:setvalues>
+          <tao:setvalue datasource="xpath:////layout//checkbox[@id='ITEM3_PROP_UID_1']/@checked" order="1">
+          </tao:setvalue>
+          <tao:setvalue datasource="xpath:////layout//checkbox[@id='ITEM3_PROP_UID_2']/@checked" order="2">
+          </tao:setvalue>
+          <tao:setvalue datasource="xpath:////layout//checkbox[@id='ITEM3_PROP_UID_3']/@checked" order="3">
+          </tao:setvalue>
+          <tao:setvalue datasource="xpath:////layout//checkbox[@id='ITEM3_PROP_UID_4']/@checked" order="4">
+          </tao:setvalue>
+          <tao:setvalue datasource="xpath:////layout//checkbox[@id='ITEM3_PROP_UID_5']/@checked" order="5">
+          </tao:setvalue>
+          <tao:setvalue datasource="xpath:////layout//checkbox[@id='ITEM3_PROP_UID_6']/@checked" order="6">
+          </tao:setvalue>
+        </tao:setvalues>
+        <tao:expectedvalues>
+          <tao:expectedvalue> 000010 </tao:expectedvalue>
+        </tao:expectedvalues>
+      </tao:item>
+    </tao:items>
+  </black:business>
+  <black:layout>
+    <xul:window id="myBlackWindow" xmlns:rdfs="http://www.w3.org/TR/1999/PR-rdf-schema-19990303#" xmlns:auth="http://www.tao.lu/waterphoenix.rdfs#" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:tao="http://www.tao.lu/tao.rdfs#" xmlns:html="http://www.w3.org/1999/xhtml">
+      <hbox left="0" top="0">
+        <groupbox left="5" top="5">
+          <xul:image left="15" top="5" src="waterfall.png">
+          </xul:image>
+        </groupbox>
+        <vbox left="20" top="0" flex="1">
+          <hbox left="20" top="0" flex="1">
+            <description left="25" top="1" id="UNIT_STIMULUS_LABEL_UID1">
+              <html:h2 left="25" top="17.600006103515625"> How to develop with Waterfall Processes? </html:h2>
+            </description>
+          </hbox>
+          <!-- ********************************************* ITEM 1 layout definition RADIOBUTTON Example ********************************************* -->
+          <hbox left="20" top="45.600006103515625" id="ITEM1" flex="1">
+            <groupbox left="25" top="50.600006103515625" flex="1" maxwidth="350">
+              <description left="40" top="51.600006103515625" id="ITEM1_QUESTION_UID"> In which Phase do you validate your development ? </description>
+            </groupbox>
+            <groupbox left="385" top="50.600006103515625" flex="1">
+              <radiogroup left="395" top="50.600006103515625">
+                <radio left="399" top="52.600006103515625" id="ITEM1_PROP_UID_1" label="Requirements specification Phase">
+                </radio>
+                <radio left="399" top="77.60000610351562" id="ITEM1_PROP_UID_2" label="Design Phase">
+                </radio>
+                <radio left="399" top="102.60000610351562" id="ITEM1_PROP_UID_3" label="Implementation Phase">
+                </radio>
+                <radio left="399" top="127.60000610351562" id="ITEM1_PROP_UID_4" label="Integration Phase">
+                </radio>
+                <radio left="399" top="152.60000610351562" id="ITEM1_PROP_UID_5" label="Testing and Debugging Phase">
+                </radio>
+                <radio left="399" top="177.60000610351562" id="ITEM1_PROP_UID_6" label="Installation and Maintenance">
+                </radio>
+              </radiogroup>
+            </groupbox>
+          </hbox>
+          <!-- ********************************************* ITEM 2 layout definition RADIOBUTTON Example ********************************************* -->
+          <hbox left="20" top="205.60000610351562" id="ITEM2" flex="1">
+            <groupbox left="25" top="210.60000610351562" flex="1" maxwidth="350">
+              <description left="40" top="211.60000610351562" id="ITEM2_QUESTION_UID"> Does WaterFall model suit to development where requirements are not well understood or are likely to change in the course of the project ? </description>
+            </groupbox>
+            <groupbox left="385" top="210.60000610351562" flex="1">
+              <radiogroup left="395" top="210.60000610351562">
+                <radio left="399" top="212.60000610351562" id="ITEM2_PROP_UID_1" label="true">
+                </radio>
+                <radio left="399" top="237.60000610351562" id="ITEM2_PROP_UID_2" label="false">
+                </radio>
+              </radiogroup>
+            </groupbox>
+          </hbox>
+          <!-- ********************************************* ITEM 3 layout definition CHECKBOX Example ********************************************* -->
+          <hbox left="20" top="271.6000061035156" id="ITEM3" flex="1">
+            <groupbox left="25" top="276.6000061035156" flex="1" maxwidth="350">
+              <description left="40" top="277.6000061035156" id="ITEM3_QUESTION_UID"> Which type of testing focuses on finding defects after a major code change has occurred. </description>
+            </groupbox>
+            <groupbox left="385" top="276.6000061035156" flex="1">
+              <checkbox left="399" top="278.6000061035156" id="ITEM3_PROP_UID_1" label="Beta testing">
+              </checkbox>
+              <checkbox left="399" top="303.6000061035156" id="ITEM3_PROP_UID_2" label="Acceptance testing">
+              </checkbox>
+              <checkbox left="399" top="328.6000061035156" id="ITEM3_PROP_UID_3" label="Unit Testing">
+              </checkbox>
+              <checkbox left="399" top="353.6000061035156" id="ITEM3_PROP_UID_4" label="Integration Testing">
+              </checkbox>
+              <checkbox left="399" top="378.6000061035156" id="ITEM3_PROP_UID_5" label="Regression Testing">
+              </checkbox>
+              <checkbox left="399" top="403.6000061035156" id="ITEM3_PROP_UID_6" label="System Testing">
+              </checkbox>
+            </groupbox>
+          </hbox>
+          <hbox left="20" top="431.6000061035156">
+            <button left="25" top="432.6000061035156" id="prevInquiry_button" label="&lt;" image="inquiry_previous.jpg" url="http://www.tao.lu/middleware/itempics/default/left.swf" disabled="true" oncommand="tao_item.prevInquiry">
+            </button>
+            <button left="119" top="432.6000061035156" id="nextInquiry_button" label="&gt;" image="inquiry_next.jpg" url="http://www.tao.lu/middleware/itempics/default/right.swf" disabled="true" oncommand="tao_item.nextInquiry">
+            </button>
+          </hbox>
+        </vbox>
+      </hbox>
+    </xul:window>
+  </black:layout>
+  <black:action>
+  </black:action>
+  <black:content>
+  </black:content>
+  <black:knowledge>
+  </black:knowledge>
+</black:manifest>
+

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tao:ITEM xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rdfs='http://www.w3.org/TR/1999/PR-rdf-schema-19990303#' xmlns:tao='http://www.tao.lu/tao.rdfs#' rdf:ID='http://localhost/middleware/PISAItems.rdf#i1210319705066778000'>
+    <tao:INQUIRIESMANIFEST>1a-2b-3b</tao:INQUIRIESMANIFEST>
+    <rdfs:LABEL lang='EN'>demotutorial</rdfs:LABEL>
+    <rdfs:COMMENT lang='EN'>demotutorial</rdfs:COMMENT>
+    <tao:DURATION/>
+    <tao:ITEMPRESENTATION>
+        <xul>
+            <stylesheet src='./item.css' id='item_stylesheet'/>
+            <box id='itemContainer_box' class='item'>
+                <label top='-32' left='595' value='&lt;font family="Arial" size="24" color="#0066CC">Section 1&lt;/font>' height='30' width='200' readonly='true' class='section' id='section_label'/>
+                <box width='261' top='0' height='580' id='inquiryContainer_box' left='-275'/>
+                <image src='../common_runtime/eXULiS.swf?file=../U02-DT-MC-WB-WP/u02_BLACK_dt.xml' style='border-style:none' top='3' left='2' width='720' height='710' disabled='false' readonly='true' multiline='true' wrap='true' id='problem_textbox'/>
+                <button top='664' oncommand='tao_item.prevInquiry' label='&lt;' disabled='true' width='66' height='35' id='prevInquiry_button' left='-266'/>
+                <button top='664' oncommand='tao_item.nextInquiry' label='&gt;' disabled='true' width='66' height='35' id='nextInquiry_button' left='-103'/>
+                <progressmeter mode='determined' top='800' id='item_progressmeter' value='0' left='700'/>
+            </box>
+        </xul>
+    </tao:ITEMPRESENTATION>
+    <tao:TEMPLATE/>
+    <tao:ITEMLISTENERS/>
+    <tao:PROBLEM lang='EN' type='String'>../st617map/cba_rte.swf?path=../st617map/</tao:PROBLEM>
+    <tao:INQUIRY order='1' startingFrame='cbaPage_0_7314325360904'>
+        <tao:QUESTION lang='EN' type='String'>&lt;p>This is the first question: are you ready&lt;/p></tao:QUESTION>
+        <tao:INQUIRYDESCRIPTION>
+            <tao:PROPOSITIONTYPE>Exclusive Choice</tao:PROPOSITIONTYPE>
+            <tao:WIDGET>radio</tao:WIDGET>
+            <tao:PROPLISTENERS>
+                <tao:ITEMBEHAVIOR src='#{XPATH(/tao:ITEM/tao:INQUIRY[@order=1]/tao:INQUIRYDESCRIPTION/tao:HASPRESENTATIONLAYER/xul/box/box/radiogroup)}#' tao:LISTENERNAME='Answered : &lt;b>This is the first question: are you ready&lt;/b>'/>
+            </tao:PROPLISTENERS>
+            <tao:ANSWERTYPE>Exclusive Vector</tao:ANSWERTYPE>
+            <tao:EVALUATIONRULE>AND.swf</tao:EVALUATIONRULE>
+            <tao:HASGUIDE>technicalID.hlp</tao:HASGUIDE>
+            <tao:HASPRESENTATIONLAYER>
+                <xul>
+                    <box top='0' id='inquiryContainer_box' class='inquiryContainer_box' left='0'>
+                        <label top='16' left='-2' value='&lt;font family="Arial" size="16" color="#0066CC">Unit 2&lt;/font>' height='20' width='200' readonly='true' class='questionCount' id='question_count'/>
+                        <box top='86' id='instructions_container_box' left='0'>
+                            <textbox style='border-style:none;backgroundColor:0xCCFFFF;editable:true;selectable:true;' top='0' height='260' width='261' left='0' value='&lt;font family="Arial" size="13" color="#000000">&lt;b>As part of your job, you handle requests for meeting room reservations.&lt;/b>&lt;/font>' readonly='true' wrap='true' class='instructions' id='instructions_textbox'/>
+                        </box>
+                        <box top='200' id='question_container_box' left='-10'>
+                            <textbox style='border-style:none;backgroundColor:0x99CCFF' top='0' left='0' height='220' width='267' value='' readonly='true' wrap='true' class='questionBackground' id='question_background'/>
+                            <textbox style='border-style:none;backgroundColor:0x99CCFF' top='10' left='10' height='210' width='256' value='&lt;font family="Arial" size="13" color="#000000">&lt;b>&lt;br/>Check the final set of email requests you have received for March 16.&lt;br/>&lt;br/>Fill as many of these meeting requests as possible using the room reservation system.&lt;br/>&lt;br/>Once you have handled all the requests, click Next to go on.&lt;br/>&lt;/b> &lt;/font>' readonly='true' wrap='true' class='question' id='question_textbox'/>
+                        </box>
+                    </box>
+                </xul>
+            </tao:HASPRESENTATIONLAYER>
+            <tao:LISTPROPOSITION>
+                <tao:PROPOSITION lang='EN' answer='0' type='String' Id='1' order='1'>&lt;p>yes&lt;/p></tao:PROPOSITION>
+                <tao:PROPOSITION lang='EN' answer='0' type='String' Id='2' order='2'>no</tao:PROPOSITION>
+            </tao:LISTPROPOSITION>
+            <tao:HASANSWER>10</tao:HASANSWER>
+        </tao:INQUIRYDESCRIPTION>
+    </tao:INQUIRY>
+	
+    
+</tao:ITEM>

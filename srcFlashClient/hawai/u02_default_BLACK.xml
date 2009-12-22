@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<black:Manifest xmlns:black="http://www.exulis.lu/black.rdfs#" id="u02p0">
+	<black:Business><xliffhandler id="u02_default_BLACK">u02_default_BLACK.xliff</xliffhandler></black:Business>
+	<black:Layout xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+		<window id="webbrowser" title="xpath:////text[@id='u02p0_txt1_txt']" url="xpath:////text[@id='u02p0_txt9_txt']">
+			<box id="client-zone">
+				<box width="719" height="569" style="background-color: #ffffff">
+					<vbox id="vbox1" left="0" top="0" width="720" height="50" style="background-color: #000000; border-style: solid">
+						<description id="u02_default_txt1" left="10" top="14" width="730" height="50" value="xpath:////text[@id='u02p0_txt1_txt']" style="font-weight: bold; font-size: 16px; font-family: Arial; color: #ffffff"/>
+					</vbox>
+					<hbox id="hbox1" left="0" top="40" width="710" height="530">
+						<vbox left="0" top="10" width="120" height="530" style="border-style: none; background: #dddddd">
+							
+							<description class="hlink" target="_self" href="unit02page1" id="u02_default_txt2" value="xpath:////text[@id='u02p0_txt2_txt']" style="font-weight: bold; font-size: 16px; font-family: Arial" left="10" top="45" width="110" height="50" oncommand="as//drawReservation(box)"/>
+							
+							<description class="hlink" target="_self" href="unit02page2" id="u02_default_txt3" value="xpath:////text[@id='u02p0_txt3_txt']" style="font-weight: bold; font-size: 16px; font-family: Arial" left="10" top="108" width="110" height="50"/>
+							<description class="hlink" target="_self" href="unit02page3" id="u02_default_txt4" value="xpath:////text[@id='u02p0_txt4_txt']" style="font-weight: bold; font-size: 16px; font-family: Arial" left="10" top="171" width="110" height="50"/>
+							<description class="hlink" target="_self" href="unit02page5" id="u02_default_txt6" value="xpath:////text[@id='u02p0_txt6_txt']" style="font-weight: bold; font-size: 16px; font-family: Arial" left="10" top="234" width="110" height="100"/>
+						</vbox>
+						<vbox left="120" top="10" width="1" height="530" style="background: #99ccff"/>
+						<vbox align="center" left="289" top="120" width="260" height="125">
+							<box orient="horizontal" width="260" height="18">
+								<hbox left="0" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="20" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="40" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="60" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="80" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="100" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="120" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="140" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="160" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="180" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="200" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="220" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="240" top="0" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+							</box>
+							<vbox align="center" top="23" width="260" height="80" style="background: #99ccff">
+								<box left="5" top="5" width="250" height="70">
+									<description id="u02_default_txt7" top="15" width="250" height="80" value="xpath:////text[@id='u02p0_txt7_txt']" style="font-size: 16px; font-family: Verdana; text-align: center"/>
+								</box>
+							</vbox>
+							<box orient="horizontal" width="260" height="18">
+								<hbox left="0" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="20" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="40" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="60" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="80" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="100" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="120" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="140" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="160" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="180" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="200" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="220" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+								<hbox left="240" top="108" width="17" height="17" style="background: #cccc00; border-width: 1px; border-style: solid; border-color:#99ccff"/>
+							</box>
+						</vbox>
+					</hbox>
+				</box>
+			</box>
+		</window>
+	</black:Layout>
+	<black:Action/>
+	<black:Content>
+		<webdata>
+			<texts>
+				<text id="u02p0_txt1_txt"><![CDATA[xlf://u02p0_txt1_txt]]></text>
+				<text id="u02p0_txt2_txt"><![CDATA[xlf://u02p0_txt2_txt]]></text>
+				<text id="u02p0_txt3_txt"><![CDATA[xlf://u02p0_txt3_txt]]></text>
+				<text id="u02p0_txt4_txt"><![CDATA[xlf://u02p0_txt4_txt]]></text>
+				<text id="u02p0_txt5_txt"><![CDATA[xlf://u02p0_txt5_txt]]></text>
+				<text id="u02p0_txt6_txt"><![CDATA[xlf://u02p0_txt6_txt]]></text>
+				<text id="u02p0_txt7_txt"><![CDATA[xlf://u02p0_txt7_txt]]></text>
+				<text id="u02p0_txt9_txt"><![CDATA[xlf://u02p0_txt9_txt]]></text>
+			</texts>
+			<images/>
+		</webdata>
+	</black:Content>
+	<black:Knowledge/>
+</black:Manifest>

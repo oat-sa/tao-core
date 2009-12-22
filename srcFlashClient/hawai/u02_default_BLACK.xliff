@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file datatype="plaintext" original="ItemContent" source-language="en">
+    <header/>
+    <body>
+      <trans-unit id="u02p0_txt1_txt">
+        <source xml:lang="en">Enderson Ltd. - - -  Meeting Room Reservation System</source>
+        <target xml:lang="">Enderson Ltd. - - -  Meeting Room Reservation System</target>
+        <note xml:lang="en">u02p0_txt1_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p0_txt2_txt">
+        <source xml:lang="en">View Calendar</source>
+        <target xml:lang="">View Calendar</target>
+        <note xml:lang="en">u02p0_txt2_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p0_txt3_txt">
+        <source xml:lang="en">View Meeting Room Details</source>
+        <target xml:lang="">View Meeting Room Details</target>
+        <note xml:lang="en">u02p0_txt3_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p0_txt4_txt">
+        <source xml:lang="en">Make Room Reservation</source>
+        <target xml:lang="">Make Room Reservation</target>
+        <note xml:lang="en">u02p0_txt4_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p0_txt5_txt">
+        <source xml:lang="en">Change Room Reservation</source>
+        <target xml:lang="">Change Room Reservation</target>
+        <note xml:lang="en">u02p0_txt5_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p0_txt6_txt">
+        <source xml:lang="en">Complete Unfilled Request Notice</source>
+        <target xml:lang="">Complete Unfilled Request Notice</target>
+        <note xml:lang="en">u02p0_txt6_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p0_txt7_txt">
+        <source xml:lang="en">All the tools you need to make meeting planning easy.</source>
+        <target xml:lang="">All the tools you need to make meeting planning easy.</target>
+        <note xml:lang="en">u02p0_txt7_txt</note>
+      </trans-unit>
+      <trans-unit id="u02p0_txt9_txt">
+        <source xml:lang="en">http://enderson.com/reservations</source>
+        <target xml:lang="">http://enderson.com/reservations</target>
+        <note xml:lang="en">u02p0_txt9_txt</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

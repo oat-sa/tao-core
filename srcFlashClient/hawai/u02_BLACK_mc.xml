@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<black:Manifest xmlns:black="http://www.exulis.lu/black.rdfs#" id="unit02MC">
+	<black:Business>
+		<filesystem path="xpath:////MAILElement" id="mcModel" />
+		<xliffhandler id="u02_BLACK_mc">u02_BLACK_mc.xliff</xliffhandler>
+	</black:Business>
+	<black:Layout xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+		<keyset id="kboard_shcut">
+			<key id="copy-key" modifiers="shift" key="C" keycode="" oncommand="as://getClipBoardFromKb()" />
+			<key id="paste-key" modifiers="shift" key="V" keycode="" oncommand="as://pasteClipBoardFromKb()" />
+		</keyset>
+		<window style="font-size:14;font-family:Arial;font-color:#FFFFFF;border:none;text-align:center;" title="xpath:////element[@id='windowmc_title']" dragable="false" id="mailclient" width="719" close="false" height="679" titlebar="true">
+			<toolbox id="menu-zone">
+				<menubar style="fontSize:13;backgroundColor:0xB3B3B3;" top="20" height="30" width="720" id="mc-main-menu" left="0">
+					<menu accesskey="F" id="file-menu" label="xpath:////menu[@id='file_menu']/label">
+						<menupopup id="file-popup">
+							<menuitem disabled="true" key="new" label="xpath:////menuElt[@id='new_menuelt_lbl']"/>
+							<menuitem key="newfolder" label="xpath:////menuElt[@id='newfolder_menuelt_lbl']" oncommand="as://show(createfolder_window);"/>
+							<menuitem disabled="true" key="open" label="xpath:////menuElt[@id='open_menuelt_lbl']"/>
+							<menuitem disabled="true" key="save" label="xpath:////menuElt[@id='save_menuelt_lbl']"/>
+							<menuitem disabled="true" key="attachments" label="xpath:////menuElt[@id='attachments_menuelt_lbl']"/>
+							<menuitem disabled="true" key="close" label="xpath:////menuElt[@id='close_menuelt_lbl']"/>
+						</menupopup>
+					</menu>
+					<menu accesskey="E" id="edit-menu" label="xpath:////menu[@id='edit_menu']/label">
+						<menupopup id="edit-popup">
+							<menuitem disabled="true" key="undo" label="xpath:////menuElt[@id='undo_menuelt_lbl']"/>
+							<menuseparator/>
+							<menuitem disabled="true" key="cut" label="xpath:////menuElt[@id='cut_menuelt_lbl']"/>
+							<menuitem key="copy" label="xpath:////menuElt[@id='copy_menuelt_lbl']" disabled="true" />
+							<menuitem key="paste" label="xpath:////menuElt[@id='paste_menuelt_lbl']" disabled="true" />
+							<menuseparator/>
+							<menuitem label="xpath:////menuElt[@id='find_menuelt_lbl']" key="find" oncommand="as://show(mcsearch_window);" />
+						</menupopup>
+					</menu>
+					<menu accesskey="V" id="view-menu" label="xpath:////menu[@id='view_menu']/label">
+						<menupopup id="view-popup">
+							<menuitem oncommand="as://customFeedTrace(SORT_MENU);as://show(sortmcwindow);" key="sort-mc" label="xpath:////menuElt[@id='sort_mc_menuelt_lbl']"/>
+							<menuitem disabled="true" key="sort-sender" label="xpath:////menuElt[@id='sort_sender_menuelt_lbl']"/>
+							<menuitem disabled="true" key="sort-subject" label="xpath:////menuElt[@id='sort_subject_menuelt_lbl']"/>
+							<menuitem disabled="true" key="sort-date" label="xpath:////menuElt[@id='sort_date_menuelt_lbl']"/>
+							<menuitem disabled="true" key="sort-size" label="xpath:////menuElt[@id='sort_size_menuelt_lbl']"/>
+						</menupopup>
+					</menu>
+					<menu accesskey="M" id="message-menu" label="xpath:////menu[@id='message_menu']/label">
+						<menupopup id="message-popup">
+							<menuitem id="btNewMail" key="new" label="xpath:////menuElt[@id='new_menuelt_lbl']" oncommand="as://show(popup_noaccess_feature);"/>
+							<menuitem disabled="true" id="btReplyMail" key="reply" label="xpath:////menuElt[@id='reply_menuelt_lbl']" oncommand="as://show(popup_noaccess_feature);"/>
+							<menuitem  disabled="true" id="btReplyAll" key="reply-all" label="xpath:////menuElt[@id='reply_all_menuelt_lbl']" oncommand="as://show(popup_noaccess_feature);"/>
+							<menuitem  disabled="true" id="btForward" key="forward" label="xpath:////menuElt[@id='forward_menuelt_lbl']" oncommand="as://show(popup_noaccess_feature);"/>
+							<menuitem disabled="true" id="btSend" key="send" label="xpath:////menuElt[@id='send_menuelt_lbl']" oncommand="as://show(popup_noaccess_feature);"/>
+							<menuitem  disabled="true" id="btMoveFolder" oncommand="as://show(move_window);" key="move-folder" label="xpath:////menuElt[@id='move_folder_menuelt_lbl']"/>
+							<menuitem disabled="true" id="btCopyFolder"  key="copy-folder" label="xpath:////menuElt[@id='copy_folder_menuelt_lbl']" oncommand="as://show(copy_window,btSend,btMoveFolder|btDelete|btCopyFolder,reply_window);" />
+							<menuitem disabled="true" id="btDelete" label="xpath:////menuElt[@id='delete_menuelt_lbl']" key="delete" oncommand="as://show(popup_noaccess_feature);"/>
+						</menupopup>
+					</menu>
+					<menu accesskey="H" id="help-menu" label="xpath:////menu[@id='help_menu']/label">
+						<menupopup id="help-popup">
+							<menuitem oncommand="as://customFeedTrace(MC_HELP_MENUITEM);as://show(popup_help_mc);" key="help" label="xpath:////menuElt[@id='helpmc_menuelt_lbl']"/>
+						</menupopup>
+					</menu>
+				</menubar>
+				<toolbar style="background:#ffcc99;" top="50" height="50" width="719" id="mc-toolbar" left="0">
+					<toolbarbutton style="borderStyle:none;" top="-1" imageDisabled="xpath:////image[@id='newmail_btnDisabled_img']" height="50" width="50" imageRollOut="xpath:////image[@id='newmail_btnRollOut_img']" image="xpath:////image[@id='newmail_img']" imageRollOver="xpath:////image[@id='newmail_btnRollOver_img']" tooltiptext="xpath:////hint[@id='newmail_hint']" id="newmail" imagePress="xpath:////image[@id='newmail_btnPress_img']" left="0"  oncommand="as://show(popup_noaccess_feature);"/>
+					<toolbarbutton disabled="true" style="borderStyle:none;" top="-1" imageDisabled="xpath:////image[@id='replymail_btnDisabled_img']" height="50" width="50" imageRollOut="xpath:////image[@id='replymail_btnRollOut_img']" image="xpath:////image[@id='replymail_img']" imageRollOver="xpath:////image[@id='replymail_btnRollOver_img']" tooltiptext="xpath:////hint[@id='reply_hint']" id="replymail" imagePress="xpath:////image[@id='replymail_btnPress_img']" left="60" oncommand="as://show(popup_noaccess_feature);"/>
+					<toolbarbutton disabled="true" style="borderStyle:none;" top="-1" imageDisabled="xpath:////image[@id='replyall_btnDisabled_img']" height="50" width="50" imageRollOut="xpath:////image[@id='replyall_btnRollOut_img']" image="xpath:////image[@id='replyall_img']" imageRollOver="xpath:////image[@id='replyall_btnRollOver_img']" tooltiptext="xpath:////hint[@id='replyall_hint']" id="replyall" imagePress="xpath:////image[@id='replyall_btnPress_img']" left="120" oncommand="as://show(popup_noaccess_feature);"/>
+					<toolbarbutton disabled="true" style="borderStyle:none;" top="-1" imageDisabled="xpath:////image[@id='forward_btnDisabled_img']" height="50" width="50" imageRollOut="xpath:////image[@id='forward_btnRollOut_img']" image="xpath:////image[@id='forward_img']" imageRollOver="xpath:////image[@id='forward_btnRollOver_img']" tooltiptext="xpath:////hint[@id='forward_hint']" id="forward" imagePress="xpath:////image[@id='forward_btnPress_img']" left="180" oncommand="as://show(popup_noaccess_feature);"/>
+					<toolbarbutton disabled="true" style="borderStyle:none;" top="-1" imageDisabled="xpath:////image[@id='move_btnDisabled_img']" height="50" width="50" imageRollOut="xpath:////image[@id='move_btnRollOut_img']" image="xpath:////image[@id='move_img']" imageRollOver="xpath:////image[@id='move_btnRollOver_img']" tooltiptext="xpath:////hint[@id='move_hint']" id="move" imagePress="xpath:////image[@id='move_btnPress_img']" left="240" oncommand="as://show(move_window);"/>
+					<toolbarbutton style="borderStyle:none;" top="-1" imageDisabled="xpath:////image[@id='find_btnDisabled_img']" height="50" width="50" imageRollOut="xpath:////image[@id='find_btnRollOut_img']" imageToggle="xpath:////image[@id='find_btnPress_img']" image="xpath:////image[@id='find_img']" imageRollOver="xpath:////image[@id='find_btnRollOver_img']" tooltiptext="xpath:////hint[@id='find_hint']" id="find" imagePress="xpath:////image[@id='find_btnPress_img']" left="580" oncommand="as://show(mcsearch_window);"/>
+					<toolbarbutton style="borderStyle:none;" top="-1" oncommand="as://customFeedTrace(MC_HELP_TOOLBAR);as://show(popup_help_mc);" imageDisabled="xpath:////image[@id='help_btnDisabled_img']" height="50" width="50" imageRollOut="xpath:////image[@id='help_btnRollOut_img']" image="xpath:////image[@id='help_img']" imageRollOver="xpath:////image[@id='help_btnRollOver_img']" tooltiptext="xpath:////hint[@id='help_hint']" id="help" imagePress="xpath:////image[@id='help_btnPress_img']" left="628"/>
+					<toolbarbutton disabled="true" style="borderStyle:none;" top="-1" imageDisabled="xpath:////image[@id='trash_btnDisabled_img']" height="50" width="50" imageRollOut="xpath:////image[@id='trash_btnRollOut_img']" imageToggle="xpath:////image[@id='trash_btnPress_img']" image="xpath:////image[@id='trash_img']" imageRollOver="xpath:////image[@id='trash_btnRollOver_img']" tooltiptext="xpath:////hint[@id='trash_hint']" id="trash" imagePress="xpath:////image[@id='trash_btnPress_img']" left="670" oncommand="as://show(popup_noaccess_feature);"/>
+				</toolbar>
+			</toolbox>
+
+			<box width="719" top="100" left="0" id="clientzone" height="579">
+				<box id="outlooklike" startpath="ReservationsFolder" width="719" height="579" left="0" buttons="btReplyMail|btReplyAll|btForward|btMoveFolder|btDelete|replymail|replyall|forward|move|trash|btCopyFolder" >
+					<box style="background:#BBBBBB" top="0" dragconnection="true" height="579" startPath="desktop" width="250" model="mcModel" type="fstree" id="treeview" left="0" />
+					<box style="background:#CCCCCC" top="0" dragconnection="true" height="189" startPath="desktop" width="467" model="mcModel" type="fslist" id="listview" left="251" />
+					<box style="background:#ffcc99" top="190" height="69" startPath="desktop" width="467" model="mcModel" type="fshead" id="headerview" left="251" />
+					<box top="239" height="340" startPath="desktop" width="460" model="mcModel" type="fsview" id="mailview" left="251" style="font-size:12;font-family:Arial;" />
+				</box>
+			</box>
+
+			<window style="font-size:14;font-family:Arial;font-color:#FFFFFF;border:none;text-align:center;" title="" top="100" visible="false" titlebar="true" width="719" close="true" dragable="true" height="430" id="reply_window" left="0">
+				<box id="box_reply" visible="true" left="0" top="20" width="719" height="430" style="background: #ffcc99; border-width: 1px; border-style: solid">
+					<textbox id="reply_to" value="" left="75" top="15" width="558" height="40" style="font-size: 14px; font-family: Arial; background-color: #ffffff; border-style: solid; border-width: 2px; border-color: #c0c0c0"/>
+					<description id="reply_to_label" left="10" top="20" width="60" height="40" style="font-size: 14px; font-family: Arial; text-align: right">xpath:////reply_text/text[@id='reply_to_text']</description>
+					<textbox id="reply_cc" left="75" top="60" width="558" height="20" style="font-size: 14px; font-family: Arial; background-color: #ffffff; border-style: solid; border-width: 2px; border-color: #c0c0c0"/>
+					<description id="reply_cc_label" left="10" top="60" width="60" height="20" style="font-size: 14px; font-family: Arial; text-align: right">xpath:////reply_text/text[@id='reply_cc_text']</description>
+					<textbox id="reply_subject" value="" left="75" top="85" width="558" height="20" style="font-size: 14px; font-family: Arial; background-color: #ffffff; border-style: solid; border-width: 2px; border-color: #c0c0c0"/>
+					<description id="reply_subject_label" class="hlink" target="_self" href="lptr" left="10" top="85" width="60" height="20" style="font-size: 14px; font-family: Arial; text-align: right">xpath:////reply_text/text[@id='reply_subject_text']</description>
+					<toolbarbutton style="borderStyle:none;" top="30" left="650" imageDisabled="xpath:////image[@id='send_btnDisabled_img']" height="50" width="50" imageRollOut="xpath:////image[@id='send_btnRollOut_img']" image="xpath:////image[@id='send_img']" imageRollOver="xpath:////image[@id='send_btnRollOver_img']" tooltiptext="xpath:////hint[@id='send_hint']" id="send" imagePress="xpath:////image[@id='send_btnPress_img']" oncommand="as://sendMail(reply_window,headerview,SentFolder,reply_to,reply_cc,reply_subject,email_message);as://hide(reply_window,null,btSend|btMoveFolder|btDelete|btCopyFolder,reply_window);"/>
+					<textbox id="email_message" left="17" top="127" width="682" height="287" style="font-size: 14px; font-family: Arial; background-color: #ffffff; border-style: solid; border-width: 2px; border-color: #c0c0c0;"/>
+				</box>
+			</window>
+		</window>
+		
+		
+		<window id="mcsearch_window" left="255" top="439" width="250" height="100" visible="false" style="font-size:14;font-family:Arial;font-color:#FFFFFF;border:none;text-align:center;" dragable="true" close="true" title="xpath:////menuElt[@id='find_menuelt_lbl']" titlebar="true">
+			<box id="searchviewmc" width="250" height="100" top="20" left="0" style="background: #aaaaaa" >
+				<toolbar id="search-toolbarmc" top="8" left="0" >
+					<textbox id="searchtfieldmc" value="" style="fontSize:14;background:#ffffff;font-family:Verdana;" top="25" left="10" width="200" height="23" />
+					<button top="20" width="30" height="30" left="215" id="spread-searchmc-btn" label="xpath:////element[@id='ok_lbl']" oncommand="as://mailFind(listview,treeview,headerview,mailview,searchtfieldmc,spread-searchmc-previous-btn,spread-searchmc-next-btn)" />
+					<toolbarbutton id="spread-searchmc-previous-btn" top="50" left="90" width="30" height="30" visible="false" style="borderStyle:none;" image="xpath:////image[@id='searchPrevious_img']" imageDisabled="xpath:////image[@id='searchPrevious_btnDisabled_img']" imagePress="xpath:////image[@id='searchPrevious_btnPress_img']" imageRollOver="xpath:////image[@id='searchPrevious_btnRollOver_img']" imageRollOut="xpath:////image[@id='searchPrevious_btnRollOut_img']" />
+					<toolbarbutton id="spread-searchmc-next-btn" top="50" left="130" width="30" height="30" visible="false" style="borderStyle:none;" image="xpath:////image[@id='searchNext_img']" imageDisabled="xpath:////image[@id='searchNext_btnDisabled_img']" imagePress="xpath:////image[@id='searchNext_btnPress_img']" imageRollOver="xpath:////image[@id='searchNext_btnRollOver_img']" imageRollOut="xpath:////image[@id='searchNext_btnRollOut_img']" />
+				</toolbar>
+			</box>
+		</window>
+		
+		
+		<window style="font-size:14;font-family:Arial;font-color:#FFFFFF;border:none;text-align:center;" title="xpath:////element[@id='windowmcmove_title']" top="119" visible="false" titlebar="true" width="250" close="true" dragable="true" height="420" id="move_window" left="235">
+			<box style="background:#aaaaaa" top="20" height="420" width="250" id="moveview" left="0">
+				<box style="background:#BBBBBB" top="0" height="360" width="250" model="mcModel" type="fstree" id="movetree" left="0"/>
+				<button top="370" oncommand="as://moveTo(mailview,movetree);as://hide(move_window)" label="xpath:////element[@id='ok_lbl']" width="80" height="30" id="moveValidation" left="30"/>
+				<button top="370" oncommand="as://hide(move_window)" height="30" width="80" label="xpath:////element[@id='cancel_lbl']" id="moveCancel" left="140"/>
+			</box>
+		</window>
+		<window style="font-size:14;font-family:Arial;font-color:#FFFFFF;border:none;text-align:center;" title="xpath:////element[@id='windowmccopy_title']" top="119" visible="false" titlebar="true" width="250" close="true" dragable="true" height="420" id="copy_window" left="235">
+			<box style="background:#aaaaaa" top="20" height="420" width="250" id="copyview" left="0">
+			<box style="background:#BBBBBB" top="0" height="360" width="250" model="mcModel" type="fstree" id="copytree" left="0" />
+				<button top="370" oncommand="as://copyTo(mailview,copytree);as://hide(copy_window)" label="xpath:////element[@id='ok_lbl']" width="80" height="30" id="copyValidation" left="30" />
+				<button top="370" oncommand="as://hide(copy_window)" height="30" width="80" label="xpath:////element[@id='cancel_lbl']" id="copyCancel" left="140" />
+			</box>
+		</window>
+		<window style="font-size:14;font-family:Arial;font-color:#FFFFFF;border:none;text-align:center" title="xpath:////element[@id='windowmccreatefolder_title']" top="134" visible="false" titlebar="true" width="250" close="true" dragable="true" height="390" id="createfolder_window" left="235">
+			<box style="background:#aaaaaa" top="20" height="400" width="250" id="addview" left="0">
+				<textbox style="font-size:10;font-weight:bold;font-family:Verdana;read-only:true;border:none" top="10" value="xpath:////element[@id='addfolder_txt1']" height="20" width="237" id="create_folder_name" left="6"/>
+				<textbox style="fontSize:12;font-family:Verdana;background:#ffffff;" top="30" value="" height="22" width="237" id="createfoldernameinput" left="6"/>
+				<textbox style="font-size:10;font-weight:bold;font-family:Verdana;read-only:true;border:none" top="60" value="xpath:////element[@id='addfolder_txt2']" height="20" width="237" id="createfolderintrotext" left="6"/>
+				<box style="background:#bbbbbb" top="80" height="250" width="237" model="mcModel" type="fstree" id="addfoldertreeview" left="6"/>
+				<button top="350" oncommand="as://createFolder(addfoldertreeview,createfoldernameinput);as://hide(createfolder_window)" label="xpath:////element[@id='ok_lbl']" width="80" height="30" id="addValidation" left="30"/>
+				<button top="350" oncommand="as://hide(createfolder_window)" height="30" width="80" label="xpath:////element[@id='cancel_lbl']" id="addCancel" left="140"/>
+			</box>
+		</window>
+		<window style="font-size:14;font-family:Arial;font-color:#FFFFFF;border:none;text-align:center;" titlebar="true" visible="false" top="254" title="xpath:////element[@id='windowmcsort_title']" height="150" width="250" close="true" dragable="true" id="sortmcwindow" left="235">
+			<box style="background:#aaaaaa" top="20" height="150" width="250" class="clientzone" id="sortmcbox">
+				<box top="0" style="background:#aaaaaa" id="sortpriority1" left="0">
+					<textbox style="font-size:10;font-weight:bold;font-family:Verdana;read-only:true;border:none;" top="5" value="xpath:////textboxes/element[@id='sortmctitle']" height="20" width="200" id="sortmctitle" left="3"/>
+					<box style="background:#ff0000" top="25" height="22" width="235" model="mcModel" type="fssort" id="sortablemccol" left="5"/>
+					<radiogroup top="63" id="priority1order" left="10">
+						<radio top="0" selected="true" height="25" width="100" label="xpath:////element[@id='mcsort_ascending']" id="prioritysortmcasc" left="0"/>
+						<radio top="0" label="xpath:////element[@id='mcsort_descending']" width="100" height="25" id="prioritysortmcdesc" left="120"/>
+					</radiogroup>
+				</box>
+				<button top="100" oncommand="as://processMcSort(listview,sortablemccol,prioritysortmcasc);as://hide(sortmcwindow)" label="xpath:////element[@id='ok_lbl']" width="80" height="30" id="sortValidation" left="30"/>
+				<button top="100" oncommand="as://hide(sortmcwindow)" label="xpath:////element[@id='cancel_lbl']" width="80" height="30" id="sortCancel" left="140"/>
+			</box>
+		</window>
+
+		<box load="onrequest" visible="false" type="content" id="popup_help_mc"><![CDATA[../common_BLACK/popup_help_mc_BLACK.xml]]></box>
+		<box load="onrequest" visible="false" type="content" id="popup_noaccess_feature"><![CDATA[../common_BLACK/popup_no_access_feature_BLACK.xml]]></box>
+		<box load="onrequest" visible="false" type="content" id="popup_unfilled_mc"><![CDATA[../common_BLACK/popup_unfilled_to_BLACK.xml]]></box>
+		<box id="spreadview" />
+	</black:Layout>
+	<black:Action>
+	</black:Action>
+	<black:Content>
+		<reply_text>
+			<text id="reply_to_text"><![CDATA[xlf://reply_to_text]]></text>
+			<text id="reply_cc_text"><![CDATA[xlf://reply_cc_text]]></text>
+			<text id="reply_subject_text"><![CDATA[xlf://reply_subject_text]]></text>
+		</reply_text>
+		<GUIElement>
+			
+			<window>
+				<element id="windowmc_title"><![CDATA[xlf://windowmc_title]]></element>
+				<element id="windowmccopy_title"><![CDATA[xlf://windowmccopy_title]]></element>
+				<element id="windowmcmove_title"><![CDATA[xlf://windowmcmove_title]]></element>
+				<element id="windowmcsort_title"><![CDATA[xlf://windowmcsort_title]]></element>
+				<element id="windowmccreatefolder_title"><![CDATA[xlf://windowmccreatefolder_title]]></element>
+			</window>
+			<textboxes>
+				<element id="sortmctitle"><![CDATA[xlf://sortmctitle]]></element>
+				<element id="mcsort_ascending"><![CDATA[xlf://mcsort_ascending]]></element>
+				<element id="mcsort_descending"><![CDATA[xlf://mcsort_descending]]></element>
+				<element id="addfolder_txt1"><![CDATA[xlf://addfolder_txt1]]></element>
+				<element id="addfolder_txt2"><![CDATA[xlf://addfolder_txt2]]></element>
+			</textboxes>
+			<button>
+				<element id="ok_lbl"><![CDATA[xlf://ok_lbl]]></element>
+				<element id="cancel_lbl"><![CDATA[xlf://cancel_lbl]]></element>
+			</button>
+			<menuBar>
+				<menu id="file_menu">
+					<label id="file_lbl"><![CDATA[xlf://file_lbl]]></label>
+					<menuElt type="label" id="new_menuelt_lbl"><![CDATA[xlf://new_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="newfolder_menuelt_lbl"><![CDATA[xlf://newfolder_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="open_menuelt_lbl"><![CDATA[xlf://open_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="save_menuelt_lbl"><![CDATA[xlf://save_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="attachments_menuelt_lbl"><![CDATA[xlf://attachments_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="close_menuelt_lbl"><![CDATA[xlf://close_menuelt_lbl]]></menuElt>
+				</menu>
+				<menu id="edit_menu">
+					<label id="edit_lbl"><![CDATA[xlf://edit_lbl]]></label>
+					<menuElt type="label" id="undo_menuelt_lbl"><![CDATA[xlf://undo_menuelt_lbl]]></menuElt>
+					<menuseparator/>
+					<menuElt type="label" id="cut_menuelt_lbl"><![CDATA[xlf://cut_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="copy_menuelt_lbl"><![CDATA[xlf://copy_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="paste_menuelt_lbl"><![CDATA[xlf://paste_menuelt_lbl]]></menuElt>
+					<menuElt id="find_menuelt_lbl" type="label"><![CDATA[xlf://find_menuelt_lbl]]></menuElt>
+				</menu>
+				<menu id="view_menu">
+					<label id="view_lbl"><![CDATA[xlf://view_lbl]]></label>
+					<menuElt type="label" id="sort_mc_menuelt_lbl"><![CDATA[xlf://sort_mc_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="sort_sender_menuelt_lbl"><![CDATA[xlf://sort_sender_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="sort_subject_menuelt_lbl"><![CDATA[xlf://sort_subject_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="sort_date_menuelt_lbl"><![CDATA[xlf://sort_date_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="sort_size_menuelt_lbl"><![CDATA[xlf://sort_size_menuelt_lbl]]></menuElt>
+				</menu>
+				<menu id="message_menu">
+					<label id="message_lbl"><![CDATA[xlf://message_lbl]]></label>
+					<menuElt type="label" id="reply_menuelt_lbl"><![CDATA[xlf://reply_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="reply_all_menuelt_lbl"><![CDATA[xlf://reply_all_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="forward_menuelt_lbl"><![CDATA[xlf://forward_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="send_menuelt_lbl"><![CDATA[xlf://send_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="move_folder_menuelt_lbl"><![CDATA[xlf://move_folder_menuelt_lbl]]></menuElt>
+					<menuElt type="label" id="copy_folder_menuelt_lbl"><![CDATA[xlf://copy_folder_menuelt_lbl]]></menuElt>
+					<menuElt id="delete_menuelt_lbl" type="label"><![CDATA[xlf://delete_menuelt_lbl]]></menuElt>
+				</menu>
+				<menu id="help_menu">
+					<label id="help_lbl"><![CDATA[xlf://help_lbl]]></label>
+					<menuElt type="label" id="helpmc_menuelt_lbl"><![CDATA[xlf://helpmc_menuelt_lbl]]></menuElt>
+				</menu>
+			</menuBar>
+			<toolBar>
+				<toolBarElt type="button" id="newmail_btn">
+					<image id="newmail_img"><![CDATA[../common_images/btn_webmail-New_Normal.gif]]></image>
+					<image id="newmail_btnDisabled_img"><![CDATA[../common_images/btn_webmail-New_Disabled.gif]]></image>
+					<image id="newmail_btnPress_img"><![CDATA[../common_images/btn_webmail-New_Active.gif]]></image>
+					<image id="newmail_btnRollOver_img"><![CDATA[../common_images/btn_webmail-New_Rollover.gif]]></image>
+					<image id="newmail_btnRollOut_img"><![CDATA[../common_images/btn_webmail-New_Normal.gif]]></image>
+					<hint id="newmail_hint"><![CDATA[xlf://newmail_hint]]></hint>
+				</toolBarElt>
+				<toolBarElt id="searchPrevious_btn" type="button">
+					<image id="searchPrevious_img"><![CDATA[../common_images/miniprevious.png]]></image>
+					<image id="searchPrevious_btnDisabled_img"><![CDATA[../common_images/miniprevious.png]]></image>
+					<image id="searchPrevious_btnPress_img"><![CDATA[../common_images/miniprevious.png]]></image>
+					<image id="searchPrevious_btnRollOver_img"><![CDATA[../common_images/miniprevious.png]]></image>
+					<image id="searchPrevious_btnRollOut_img"><![CDATA[../common_images/miniprevious.png]]></image>
+					<image id="searchPrevious_mouseNormal_img"><![CDATA[../common_images/miniprevious.png]]></image>
+					<image id="searchPrevious_mouseDisabled_img"><![CDATA[../common_images/miniprevious.png]]></image>
+					<label id="searchPrevious_lbl"><![CDATA[xlf://searchPrevious_lbl]]></label>
+					<hint id="searchPrevious_hint"><![CDATA[xlf://searchPrevious_hint]]></hint>
+				</toolBarElt>
+				<toolBarElt id="searchNext_btn" type="button">
+					<image id="searchNext_img"><![CDATA[../common_images/mininext.png]]></image>
+					<image id="searchNext_btnDisabled_img"><![CDATA[../common_images/mininext.png]]></image>
+					<image id="searchNext_btnPress_img"><![CDATA[../common_images/mininext.png]]></image>
+					<image id="searchNext_btnRollOver_img"><![CDATA[../common_images/mininext.png]]></image>
+					<image id="searchNext_btnRollOut_img"><![CDATA[../common_images/mininext.png]]></image>
+					<image id="searchNext_mouseNormal_img"><![CDATA[../common_images/mininext.png]]></image>
+					<image id="searchNext_mouseDisabled_img"><![CDATA[../common_images/mininext.png]]></image>
+					<label id="searchNext_lbl"><![CDATA[xlf://searchNext_lbl]]></label>
+					<hint id="searchNext_hint"><![CDATA[xlf://searchNext_hint]]></hint>
+				</toolBarElt>
+				<toolBarElt type="button" id="replymail_btn">
+					<image id="replymail_img"><![CDATA[../common_images/btn_webmail-Reply_Normal.gif]]></image>
+					<image id="replymail_btnDisabled_img"><![CDATA[../common_images/btn_webmail-Reply_Disabled.gif]]></image>
+					<image id="replymail_btnPress_img"><![CDATA[../common_images/btn_webmail-Reply_Active.gif]]></image>
+					<image id="replymail_btnRollOver_img"><![CDATA[../common_images/btn_webmail-Reply_Rollover.gif]]></image>
+					<image id="replymail_btnRollOut_img"><![CDATA[../common_images/btn_webmail-Reply_Normal.gif]]></image>
+					<hint id="reply_hint"><![CDATA[xlf://reply_hint]]></hint>
+				</toolBarElt>
+				<toolBarElt type="button" id="replyall_btn">
+					<image id="replyall_img"><![CDATA[../common_images/btn_webmail-Reply-All_Normal.gif]]></image>
+					<image id="replyall_btnDisabled_img"><![CDATA[../common_images/btn_webmail-Reply-All_Disabled.gif]]></image>
+					<image id="replyall_btnPress_img"><![CDATA[../common_images/btn_webmail-Reply-All_Active.gif]]></image>
+					<image id="replyall_btnRollOver_img"><![CDATA[../common_images/btn_webmail-Reply-All_Rollover.gif]]></image>
+					<image id="replyall_btnRollOut_img"><![CDATA[../common_images/btn_webmail-Reply-All_Normal.gif]]></image>
+					<hint id="replyall_hint"><![CDATA[xlf://replyall_hint]]></hint>
+				</toolBarElt>
+				<toolBarElt type="button" id="forward_btn">
+					<image id="forward_img"><![CDATA[../common_images/btn_webmail-Forward_Normal.gif]]></image>
+					<image id="forward_btnDisabled_img"><![CDATA[../common_images/btn_webmail-Forward_Disabled.gif]]></image>
+					<image id="forward_btnPress_img"><![CDATA[../common_images/btn_webmail-Forward_Active.gif]]></image>
+					<image id="forward_btnRollOver_img"><![CDATA[../common_images/btn_webmail-Forward_Rollover.gif]]></image>
+					<image id="forward_btnRollOut_img"><![CDATA[../common_images/btn_webmail-Forward_Normal.gif]]></image>
+					<hint id="forward_hint"><![CDATA[xlf://forward_hint]]></hint>
+				</toolBarElt>
+				<toolBarElt type="button" id="send_btn">
+					<image id="send_img"><![CDATA[../common_images/btn_webmail-Send_Normal.gif]]></image>
+					<image id="send_btnDisabled_img"><![CDATA[../common_images/btn_webmail-Send_Disabled.gif]]></image>
+					<image id="send_btnPress_img"><![CDATA[../common_images/btn_webmail-Send_Active.gif]]></image>
+					<image id="send_btnRollOver_img"><![CDATA[../common_images/btn_webmail-Send_Rollover.gif]]></image>
+					<image id="send_btnRollOut_img"><![CDATA[../common_images/btn_webmail-Send_Normal.gif]]></image>
+					<hint id="send_hint"><![CDATA[xlf://send_hint]]></hint>
+				</toolBarElt>
+				<toolBarElt type="button" id="move_btn">
+					<image id="move_img"><![CDATA[../common_images/btn_webmail-Move-Normal.gif]]></image>
+					<image id="move_btnDisabled_img"><![CDATA[../common_images/btn_webmail-Move-Disabled.gif]]></image>
+					<image id="move_btnPress_img"><![CDATA[../common_images/btn_webmail-Move-Active.gif]]></image>
+					<image id="move_btnRollOver_img"><![CDATA[../common_images/btn_webmail-Move-Rollover.gif]]></image>
+					<image id="move_btnRollOut_img"><![CDATA[../common_images/btn_webmail-Move-Normal.gif]]></image>
+					<hint id="move_hint"><![CDATA[xlf://move_hint]]></hint>
+				</toolBarElt>
+				<toolBarElt type="button" id="find_btn">
+					<image id="find_img"><![CDATA[../common_images/btn_webmail-Find_Normal.gif]]></image>
+					<image id="find_btnDisabled_img"><![CDATA[../common_images/btn_webmail-Find_Disabled.gif]]></image>
+					<image id="find_btnPress_img"><![CDATA[../common_images/btn_webmail-Find_Active.gif]]></image>
+					<image id="find_btnRollOver_img"><![CDATA[../common_images/btn_webmail-Find_Rollover.gif]]></image>
+					<image id="find_btnRollOut_img"><![CDATA[../common_images/btn_webmail-Find_Normal.gif]]></image>
+					<hint id="find_hint"><![CDATA[xlf://find_hint]]></hint>
+				</toolBarElt>
+				<toolBarElt type="button" id="help_btn">
+					<image id="help_img"><![CDATA[../common_images/btn_webmail-Help_Normal.gif]]></image>
+					<image id="help_btnDisabled_img"><![CDATA[../common_images/btn_webmail-Help_Disabled.gif]]></image>
+					<image id="help_btnPress_img"><![CDATA[../common_images/btn_webmail-Help_Active.gif]]></image>
+					<image id="help_btnRollOver_img"><![CDATA[../common_images/btn_webmail-Help_Rollover.gif]]></image>
+					<image id="help_btnRollOut_img"><![CDATA[../common_images/btn_webmail-Help_Normal.gif]]></image>
+					<hint id="help_hint"><![CDATA[xlf://help_hint]]></hint>
+				</toolBarElt>
+				<toolBarElt type="button" id="trash_btn">
+					<image id="trash_img"><![CDATA[../common_images/btn_webmail-Delete_Normal.gif]]></image>
+					<image id="trash_btnDisabled_img"><![CDATA[../common_images/btn_webmail-Delete_Disabled.gif]]></image>
+					<image id="trash_btnPress_img"><![CDATA[../common_images/btn_webmail-Delete_Active.gif]]></image>
+					<image id="trash_btnRollOver_img"><![CDATA[../common_images/btn_webmail-Delete_Rollover.gif]]></image>
+					<image id="trash_btnRollOut_img"><![CDATA[../common_images/btn_webmail-Delete_Normal.gif]]></image>
+					<hint id="trash_hint"><![CDATA[xlf://trash_hint]]></hint>
+				</toolBarElt>
+			</toolBar>
+		</GUIElement>
+		<MAILElement>
+			<item listheader="from::xpath:////headercolumn[@id='headerFrom'];label::xpath:////headercolumn[@id='headerSubject'];date::xpath:////headercolumn[@id='headerSent'];size::xpath:////headercolumn[@id='headerSize']" lock="true" label="xlf://myMails__label" viewMode="list" date="" id="myMails">
+				<item date="" lock="false" unfold="true" type="drive" id="InboxFolder" label="xlf://InboxFolder__label">
+				</item>
+				<item date="12/23/2008:12h36:52" unfold="true" lock="false" type="folder" id="MtgRoomFolder" label="xlf://MtgRoomFolder__label">
+					<item lock="false" date="12/23/2008:12h36:52" unfold="true" type="folder" id="ReservationsFolder" label="xlf://ReservationsFolder__label">
+						<item size="829" from="xlf://u02_item101__from" lock="false" attached="" label="xlf://u02_item101__label" application="mailer" datedisplayed="xlf://u02_item101__datedisplayed" date="2151130" type="file" id="u02_item101" sizedisplayed="xlf://u02_item101__sizedisplayed"><![CDATA[xlf://u02_item101]]></item>
+						<item size="787" from="xlf://u02_item102__from" attached="" label="xlf://u02_item102__label" application="mailer" datedisplayed="xlf://u02_item102__datedisplayed" date="2150845" type="file" id="u02_item102" sizedisplayed="xlf://u02_item102__sizedisplayed"><![CDATA[xlf://u02_item102]]></item>
+						<item size="767" from="xlf://u02_item103__from" attached="" label="xlf://u02_item103__label" application="mailer" datedisplayed="xlf://u02_item103__datedisplayed" date="2141017" type="file" id="u02_item103" sizedisplayed="xlf://u02_item103__sizedisplayed"><![CDATA[xlf://u02_item103]]></item>
+						<item size="777" from="xlf://u02_item104__from" attached="" label="xlf://u02_item104__label" application="mailer" datedisplayed="xlf://u02_item104__datedisplayed" date="2140948" type="file" id="u02_item104" sizedisplayed="xlf://u02_item104__sizedisplayed"><![CDATA[xlf://u02_item104]]></item>
+					</item>
+				</item>
+			</item>
+		</MAILElement>
+		<mailercolumn>
+			<headercolumn id="headerFrom"><![CDATA[xlf://headerFrom]]></headercolumn>
+			<headercolumn id="headerSubject"><![CDATA[xlf://headerSubject]]></headercolumn>
+			<headercolumn id="headerSize"><![CDATA[xlf://headerSize]]></headercolumn>
+			<headercolumn id="headerAttached"><![CDATA[xlf://headerAttached]]></headercolumn>
+			<headercolumn id="headerTo"><![CDATA[xlf://headerTo]]></headercolumn>
+			<headercolumn id="headerSent"><![CDATA[xlf://headerSent]]></headercolumn>
+			<headercolumn id="headerCc"><![CDATA[xlf://headerCc]]></headercolumn>
+		</mailercolumn>
+	</black:Content>
+	<black:Knowledge>
+	</black:Knowledge>
+</black:Manifest>
