@@ -304,7 +304,7 @@ div#info-box{
 /* update JQuery UI styles  */
 
 div#info-box.ui-state-error{
-	color:#FFF;
+/*	color:#FFF;*/
 }
 a.ui-state-default{
 	padding:4px 8px 4px 8px;
