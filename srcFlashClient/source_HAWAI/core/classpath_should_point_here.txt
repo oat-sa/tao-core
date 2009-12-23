@@ -1,1 +1,0 @@
-The classPath (for flash tools) should reference this folder (i.e. "/core")

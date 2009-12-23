@@ -1,1 +1,0 @@
-﻿// <symbol> tag is handled by the SVGg class

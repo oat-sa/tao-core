@@ -1,4 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<tao:TEST xmlns:tao='http://www.tao.lu/tao.rdfs#' xmlns:rdfs='http://www.w3.org/TR/1999/PR-rdf-schema-19990303#' rdfid='http://localhost/middleware/PIAACTests.rdf#121031959037028'>
-    <tao:TESTcontent lang='en-US'>Test_en-US</tao:TESTcontent>
-</tao:TEST>
