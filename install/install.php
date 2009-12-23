@@ -123,26 +123,28 @@ function install($param){
 
 		$con->Execute("INSERT INTO `models` VALUES ('8', '".$nameSpace."', '".$nameSpace."#')");
 
+		
+		loadSqlReplaceNS('db/sampleData.sql',$con,$nameSpace);
 	} catch (exception $e) {
 		$message .= urlencode("<b>Problem found </b> : <br/>". str_split($e->getMessage(),100) . "<br/>");
-		header('Location:http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].
-							'?message='.$message . 
-							'&dbhost='.urlencode($param["dbhost"]) .
-							'&dbname='. urlencode($param["moduleName"]) .
-							'&dbuser='. urlencode($param["dbuser"]) . 
-							'&dbpass='. urlencode($param["dbpass"]) .
-							'&dbdriver='. urlencode($param["dbdriver"]) .
-							'&pass='. urlencode($param["pass"]).
-							'&login='. urlencode($param["login"]).
-							'&passc='. urlencode($param["passc"]).
-							'&company='. urlencode($param["company"]).
-							'&moduleName='. urlencode($param["moduleName"]).
-							'&lastName='. urlencode($param["lastName"]).
-							'&firstName='. urlencode($param["firstName"]).
-							'&lg='. urlencode($param["lg"]).
-							'&email='. urlencode($param["email"])
-
-		);
+//		header('Location:http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].
+//							'?message='.$message . 
+//							'&dbhost='.urlencode($param["dbhost"]) .
+//							'&dbname='. urlencode($param["moduleName"]) .
+//							'&dbuser='. urlencode($param["dbuser"]) . 
+//							'&dbpass='. urlencode($param["dbpass"]) .
+//							'&dbdriver='. urlencode($param["dbdriver"]) .
+//							'&pass='. urlencode($param["pass"]).
+//							'&login='. urlencode($param["login"]).
+//							'&passc='. urlencode($param["passc"]).
+//							'&company='. urlencode($param["company"]).
+//							'&moduleName='. urlencode($param["moduleName"]).
+//							'&lastName='. urlencode($param["lastName"]).
+//							'&firstName='. urlencode($param["firstName"]).
+//							'&lg='. urlencode($param["lg"]).
+//							'&email='. urlencode($param["email"])
+//
+//		);
 		var_dump($e);
 		adodb_backtrace($e->gettrace());
 	}
@@ -190,6 +192,33 @@ function writeConfigValue($name,$val,&$str)
 {
 	$val = str_replace("'","\'",$val);
 	$str = preg_replace('/(\''.$name.'\')(.*?)$/ms','$1,\''.$val.'\');',$str);
+}
+
+function loadSqlReplaceNS($pFile, $con,$namespace){
+	if ($file = @fopen($pFile, "r")){
+		$ch = "";
+
+		while (!feof ($file)){
+			$line = utf8_decode(fgets($file));
+
+			if (isset($line[0]) && ($line[0] != '#') && ($line[0] != '-')){
+				$ch = $ch.$line;
+			}
+		}
+
+		$requests = explode(";", $ch);
+		unset($requests[count($requests)-1]);
+		foreach($requests as $request){
+			$request = str_replace("##NAMESPACE",$namespace,$request);
+			$con->Execute($request);
+
+		}
+
+		fclose($file);
+	}
+	else{
+		die("File not found".$pFichier);
+	}
 }
 
 function loadSql($pFile, $con) {
