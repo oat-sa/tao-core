@@ -559,6 +559,9 @@ class tao_helpers_form_GenerisFormFactory
 		
 		//create the element from the right widget
 		$widgetResource = $property->getWidget();
+		if(is_null($widgetResource)){
+			return null;
+		}
 		$widget = ucfirst(strtolower(substr($widgetResource->uriResource, strrpos($widgetResource->uriResource, '#') + 1 )));
 		$element = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($property->uriResource), $widget);
 		if(!is_null($element)){
