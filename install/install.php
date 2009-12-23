@@ -127,24 +127,24 @@ function install($param){
 		loadSqlReplaceNS('db/sampleData.sql',$con,$nameSpace);
 	} catch (exception $e) {
 		$message .= urlencode("<b>Problem found </b> : <br/>". str_split($e->getMessage(),100) . "<br/>");
-//		header('Location:http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].
-//							'?message='.$message . 
-//							'&dbhost='.urlencode($param["dbhost"]) .
-//							'&dbname='. urlencode($param["moduleName"]) .
-//							'&dbuser='. urlencode($param["dbuser"]) . 
-//							'&dbpass='. urlencode($param["dbpass"]) .
-//							'&dbdriver='. urlencode($param["dbdriver"]) .
-//							'&pass='. urlencode($param["pass"]).
-//							'&login='. urlencode($param["login"]).
-//							'&passc='. urlencode($param["passc"]).
-//							'&company='. urlencode($param["company"]).
-//							'&moduleName='. urlencode($param["moduleName"]).
-//							'&lastName='. urlencode($param["lastName"]).
-//							'&firstName='. urlencode($param["firstName"]).
-//							'&lg='. urlencode($param["lg"]).
-//							'&email='. urlencode($param["email"])
-//
-//		);
+		header('Location:http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].
+							'?message='.$message . 
+							'&dbhost='.urlencode($param["dbhost"]) .
+							'&dbname='. urlencode($param["moduleName"]) .
+							'&dbuser='. urlencode($param["dbuser"]) . 
+							'&dbpass='. urlencode($param["dbpass"]) .
+							'&dbdriver='. urlencode($param["dbdriver"]) .
+							'&pass='. urlencode($param["pass"]).
+							'&login='. urlencode($param["login"]).
+							'&passc='. urlencode($param["passc"]).
+							'&company='. urlencode($param["company"]).
+							'&moduleName='. urlencode($param["moduleName"]).
+							'&lastName='. urlencode($param["lastName"]).
+							'&firstName='. urlencode($param["firstName"]).
+							'&lg='. urlencode($param["lg"]).
+							'&email='. urlencode($param["email"])
+
+		);
 		var_dump($e);
 		adodb_backtrace($e->gettrace());
 	}
