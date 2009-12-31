@@ -195,9 +195,16 @@ class Main extends CommonModule {
 		$this->setData('trees', false);
 		$currentExtension = $this->service->getCurrentExtension();
 		if($currentExtension){
+		
 			$structure = $this->service->getStructure($currentExtension, $this->getRequestParameter('section'));
 			$this->setData('trees', $structure->trees[0]);
-			$this->setData('instanceName', strtolower(str_replace('tao', '', substr($currentExtension, 0, strlen($currentExtension) - 1))));
+			
+			//differentiate the instanceName of Deliveries from the others
+			if($currentExtension=="taoDelivery"){
+				$this->setData('instanceName', strtolower(str_replace('tao', '', $currentExtension)));
+			}else{
+				$this->setData('instanceName', strtolower(str_replace('tao', '', substr($currentExtension, 0, strlen($currentExtension) - 1))));
+			}
 		}
 		
 		$this->setView('trees.tpl');
