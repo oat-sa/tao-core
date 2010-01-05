@@ -38,7 +38,7 @@ class Settings extends CommonModule {
 				$currentUser = $this->userService->getCurrentUser(Session::getAttribute(tao_models_classes_UserService::LOGIN_KEY));
 				$currentUser['Deflg'] = $newLang;
 				if($this->userService->saveUser($currentUser)){
-					core_kernel_classes_Session::singleton()->setLg($newLang);
+					
 					$this->setData('message', __('settings updated'));
 				}
 			}
