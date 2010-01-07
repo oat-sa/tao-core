@@ -232,15 +232,13 @@ abstract class tao_models_classes_Service
 					}
 				}
 				else{
-					if( strlen(trim($propertyValue))>0 ){
-						//if the value of the property is not "empty":
-						$instance->editPropertyValues(
-							$prop,
-							$propertyValue
-						);
-					}else{
-						//if the property value is empty, delete the corresponding propertyvalue:
-						$instance->removePropertyValues($prop);
+					$instance->editPropertyValues(
+						$prop,
+						$propertyValue
+					);
+					if(strlen(trim($propertyValue))==0){
+						//if the property value is an empty space(the default value in a select input field), delete the corresponding triplet (and not all property values)
+						core_kernel_classes_ApiModelOO::singleton()->removeStatement($instance->uriResource, $propertyUri, '', '');
 					}
 				}
 			}
