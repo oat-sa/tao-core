@@ -232,10 +232,16 @@ abstract class tao_models_classes_Service
 					}
 				}
 				else{
-					$instance->editPropertyValues(
-						$prop,
-						$propertyValue
-					);
+					if( strlen(trim($propertyValue))>0 ){
+						//if the value of the property is not "empty":
+						$instance->editPropertyValues(
+							$prop,
+							$propertyValue
+						);
+					}else{
+						//if the property value is empty, delete the corresponding propertyvalue:
+						$instance->removePropertyValues($prop);
+					}
 				}
 			}
 			else{

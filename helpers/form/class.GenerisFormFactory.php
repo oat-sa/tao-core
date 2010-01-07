@@ -578,9 +578,16 @@ class tao_helpers_form_GenerisFormFactory
 				$range = $property->getRange();
 				if($range != null){
 					$options = array();
-					foreach($range->getInstances() as $rangeInstance){
+					foreach($range->getInstances(true) as $rangeInstance){
 						$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
 					}
+					
+					//set the default value to an empty space
+					if(method_exists($element, 'setEmptyOption')){
+						$element->setEmptyOption(' ');
+					}
+					
+					//complete the options listing
 					$element->setOptions($options);
 				}
 			}
