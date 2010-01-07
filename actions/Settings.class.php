@@ -30,7 +30,8 @@ class Settings extends CommonModule {
 	 */
 	public function index(){
 		
-		$myForm = $this->initSettingsForm();
+		$myFormContainer = new tao_actions_form_Settings(array('data_lang' => $this->getDataLang()));
+		$myForm = $myFormContainer->getForm();
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
@@ -48,43 +49,20 @@ class Settings extends CommonModule {
 	}
 	
 	/**
-	 * create the settings form component
-	 * @return tao_helpers_form_Form the form
+	 * get the langage of the current user
+	 * @return the lang code
 	 */
-	private function initSettingsForm(){
-		
-		$myForm = tao_helpers_form_FormFactory::getForm('users', array('noRevert' => true));
-		
-		//@todo manage ui language with .po files
-		$uiLangElement = tao_helpers_form_FormFactory::getElement('ui_lang', 'Textbox');
-		$uiLangElement->setDescription(__('Interface language'));
-		$uiLangElement->setValue('EN');
-		$uiLangElement->setAttributes(array("readonly" => "true"));
-		$myForm->addElement($uiLangElement);
-		
+	private function getDataLang(){
 		$currentUser = $this->userService->getCurrentUser(Session::getAttribute(tao_models_classes_UserService::LOGIN_KEY));
 		$userLanguage = '';
 		if(isset($currentUser['login'])){
 			$userLanguage = $this->userService->getUserLanguage($currentUser['login']);
 		}
-		
-		$dataLangElement = tao_helpers_form_FormFactory::getElement('data_lang', 'Textbox');
-		$dataLangElement->setDescription(__('Data language'));
 		if(!empty($userLanguage)){
-			$dataLangElement->setValue($userLanguage);
+			return $userLanguage;
 		}
-		else{
-			$dataLangElement->setValue($this->userService->getDefaultLanguage());
-		}
-		$dataLangElement->addValidators(array(
-			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-			tao_helpers_form_FormFactory::getValidator('Regex', array('format' => "/^[A-Z]{2,3}$/"))
-		));
-		$myForm->addElement($dataLangElement);
-		
-		$myForm->evaluate();
-		
-		return $myForm;
+		return $this->userService->getDefaultLanguage();
 	}
+	
 }
 ?>
