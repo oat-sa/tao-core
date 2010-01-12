@@ -11,7 +11,7 @@
 		'description' => 'TAO http://www.tao.lu',
 		'additional' => array(
 			'version' => '1.0',
-			'author' => 'CRP Henry Tudor',
+			'author' => 'CRP Henri Tudor',
 			'dependances' => array(),
 			'install' => array( 
 				'sql' => dirname(__FILE__). '/install/db/tao.sql',
