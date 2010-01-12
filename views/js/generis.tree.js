@@ -222,6 +222,12 @@ function GenerisTreeClass(selector, dataUrl, options){
 		$("#filter-action-" + options.actionId).click(function(){
 			$.tree.reference(instance.selector).refresh();
 		});
+		$("#filter-content-" + options.actionId).bind('keypress', function(e) {
+	        if(e.keyCode==13 && this.value.length > 0){
+				$.tree.reference(instance.selector).refresh();
+	        }
+		});
+
 	}
 	catch(exp){
 		//console.log(exp);
