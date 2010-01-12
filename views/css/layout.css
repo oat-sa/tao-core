@@ -206,10 +206,7 @@ div#preview-container{
 	font-size:32px;
 	margin-right:5px;
 }
-div#group-container,
-div#subject-container,
-div#test-container,
-div#item-container{
+div.data-container{
 	width:22%;
 	height:500px;
 	overflow-y:auto;
@@ -330,4 +327,16 @@ div#authoring-container{
 div.ext-home-container{
 	padding:1%;
 	font-size:1.1em;
+}
+ul.sortable-list{
+	 list-style-type: none; 
+	 margin: 0; 
+	 padding: 0; 
+	 width: 60%;
+}
+ul.sortable-list li{
+	 margin: 0 3px 3px 3px; 
+	 padding: 0.4em; 
+	 padding-left: 1.5em; 
+	 height: 18px;
 }
