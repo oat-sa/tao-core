@@ -474,8 +474,10 @@ GenerisTreeClass.cloneNode = function(options){
  * @param {String} classUri
  * @param {String} url
  */
-function cloneNode(uri, classUri, url){
+function duplicateNode(uri, classUri, url){
+	console.log('test');
 	var options = getTreeOptions(uri);
+	console.log(options);
 	if(options){
 		options.url = url;
 		GenerisTreeClass.cloneNode(options);
