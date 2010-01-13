@@ -100,9 +100,11 @@ GenerisTreeFormClass.prototype.saveData = function(){
 	loading();
 	var instance = this;
 	var toSend = {};
+	var index = 0;
 	$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE){
 		if ($(NODE).hasClass('node-instance')) {
-			toSend['instance_' + i] = $(NODE).attr('id');
+			toSend['instance_' + index] = $(NODE).attr('id');
+			index++;
 		}
 	});
 	
@@ -122,6 +124,9 @@ GenerisTreeFormClass.prototype.saveData = function(){
 		dataType: 'json',
 		success: function(response){
 			if (response.saved) {
+				if(instance.options.saveCallback){
+					 instance.options.saveCallback(toSend);
+				}
 				createInfoMessage('Tree saved successfully');
 			}
 		},
