@@ -201,7 +201,7 @@ class Main extends CommonModule {
 			
 			//differentiate the instanceName of Deliveries from the others
 			if($currentExtension=="taoDelivery"){
-				$this->setData('instanceName', strtolower(str_replace('tao', '', $currentExtension)));
+				$this->setData('instanceName', $this->getSessionAttribute('currentSection'));
 			}else{
 				$this->setData('instanceName', strtolower(str_replace('tao', '', substr($currentExtension, 0, strlen($currentExtension) - 1))));
 			}

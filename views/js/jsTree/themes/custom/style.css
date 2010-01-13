@@ -29,6 +29,8 @@ li.node-root ins{background-image:url("list.png"); background-position:0 0; back
 .tree-custom li.node-group ins{background-image:url("group.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-result ins{background-image:url("result.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-delivery ins{background-image:url("delivery.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-campaign ins{background-image:url("campaign.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-result_server ins{background-image:url("result_server.png"); background-position:0 0; background-repeat:no-repeat;}
 
 .tree-custom ul li a.loading ins { background-image:url("throbber.gif") !important; background-position:0 0 !important; } /* UL is added to make selector stronger */
 .tree-custom li a ins.forbidden { background-position:-16px -16px; }
