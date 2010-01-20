@@ -214,14 +214,7 @@ abstract class TaoModule extends CommonModule {
 						}
 					}
 				}
-				
-				//debug: start
-				$table=array("formValues"=>$myForm->getValues(), "classValues"=>$classValues, "propertyValues"=>$propertyValues, "POST"=>$_POST);
-				$handle = fopen("/class.txt","wb");
-				$fileContent = fwrite($handle,json_encode($table));
-				fclose($handle);
-				//debug: end
-				
+											
 				$clazz = $this->service->bindProperties($clazz, $classValues);
 				$propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
 				
