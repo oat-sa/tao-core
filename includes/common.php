@@ -31,8 +31,11 @@ tao_helpers_Scriptloader::addJsFiles(array(
 	BASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
 	BASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
 	BASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
-	BASE_WWW . 'js/jqGrid/js/i18n/grid.locale-en.js',
-	BASE_WWW . 'js/jqGrid/js/jquery.jqGrid.min.js',
+	/*BASE_WWW . 'js/jqGrid/js/i18n/grid.locale-en.js',
+	BASE_WWW . 'js/jqGrid/js/jquery.jqGrid.min.js',*/
+	BASE_WWW . 'js/jquery.jqGrid-3.6.2/js/i18n/grid.locale-en.js',
+	BASE_WWW . 'js/jquery.jqGrid-3.6.2/js/jquery.jqGrid.min.js',
+	BASE_WWW . 'js/jquery.numeric.js',
 	BASE_WWW . 'js/ajaxupload.js',
 	BASE_WWW . 'js/helpers.js',
 	BASE_WWW . 'js/form.js',

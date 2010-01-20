@@ -112,3 +112,6 @@ div.form-group span.form-group-control{
 	position:absolute;
 	right: 1%;
 }
+input[type=button], input[type=submit]{
+	cursor:pointer;
+}

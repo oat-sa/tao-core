@@ -41,7 +41,6 @@ div#tabs, div#home{
 	height: 90%; 
 	width:98%;
 	margin:auto;
-/*	overflow-y: auto;*/
 }
 
 /* --- */
@@ -224,7 +223,6 @@ div.main-container{
 	height:500px;
 	overflow-y:auto;
 }
-
 /* Layout -> footer */
 div#footer{
 	font-size:10px;
@@ -234,7 +232,6 @@ div#footer{
 	bottom:0%;
 	margin:0px;
 }
-
 /* Home Page */
 div#home_title{
 	margin:5px;
@@ -266,7 +263,6 @@ div.home-box-right{
  .ui-dialog, div.ui-dialog div{
  	z-index:9999999;
 }
-
 /* Login Page */
 div#login_form, div#login_title{
 	width: 500px;
@@ -276,7 +272,6 @@ div#login_form, div#login_title{
 div#login_title{
 	font-weight:bold;
 }
-
 div.error-message{
 	width: 500px;
 	margin: auto;
@@ -284,7 +279,6 @@ div.error-message{
 	padding:5px;
 	font-weight:bold;
 }
-
 /* Flash Messages */
 div#info-box{
 	position:fixed;
@@ -301,10 +295,6 @@ div#info-box{
 }
 
 /* update JQuery UI styles  */
-
-div#info-box.ui-state-error{
-/*	color:#FFF;*/
-}
 a.ui-state-default{
 	padding:4px 8px 4px 8px;
 }
@@ -332,19 +322,23 @@ ul.sortable-list{
 	 list-style-type: none; 
 	 margin: 0; 
 	 padding: 0; 
-	 /*width: 60%;*/
 }
 ul.sortable-list li{
 	 margin: 0 3px 3px 3px; 
-	 padding: 0.4em; 
-	 padding-left: 1.5em; 
+	 padding: 4px; 
+	 padding-left: 25px; 
 	 height: 18px;
-	 cursor:pointer;
 }
 ul.sortable-list li:hover{
-	color:#666;	
+	color:#D00239;
+	cursor: pointer;
 }
 ul.sortable-list li span { 
 	position: absolute; 
-	margin-left: -1.3em; 
+}
+ul.sortable-list li span.ui-icon-arrowthick-2-n-s{
+	margin-left: -15px;
+}
+ul.sortable-list li span.ui-icon-grip-dotted-vertical{
+	margin-left: -25px;
 }

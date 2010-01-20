@@ -575,5 +575,5 @@ function resultTable(uri, classUri, url){
 		i++;
 	}
 	data.classUri = classUri;
-	_load(getMainContainerSelector(), url, data);
+	_load(getMainContainerSelector(tabs), url, data);
 }

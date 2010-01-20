@@ -75,7 +75,7 @@ function initNavigation(){
 	//links load the content into the main container
 	$('a.nav').click(function() { 	
 		try{
-			_load(getMainContainerSelector(), this.href);
+			_load(getMainContainerSelector(tabs), this.href);
 		}
 		catch(exp){ return false; }
 		return false;

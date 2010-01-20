@@ -12,7 +12,7 @@ function _initFormNavigation(){
 				return false;
 			}
 			else {
-				$(getMainContainerSelector()).load(myForm.attr('action'), myForm.serializeArray(), loaded());
+				$(getMainContainerSelector(tabs)).load(myForm.attr('action'), myForm.serializeArray(), loaded());
 			}
 			window.location = '#form-title';
 		}
@@ -41,7 +41,7 @@ function _initFormNavigation(){
 						myAjaxUploader.setData(data);
 					},
 					onComplete: function(file, response) {
-						$(getMainContainerSelector()).html(response);
+						$(getMainContainerSelector(tabs)).html(response);
 						loaded();
 					}
 				});

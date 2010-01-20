@@ -5,8 +5,11 @@
 /**
  * @return {String} the current main container jQuery selector (from the opened tab)
  */
-function getMainContainerSelector(){
-	var uiTab = $('.ui-tabs-panel')[tabs.tabs('option', 'selected')].id;
+function getMainContainerSelector(tabObj){
+	if(tabObj == undefined){
+		tabObj = tabs;	//backward compat by using the global object
+	}
+	var uiTab = $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')].id;
 	return "div#"+uiTab+" div.main-container";
 }
 
@@ -37,6 +40,18 @@ function getTabIndexByName(name){
 		i++;
 	}
 	return -1;
+}
+
+/**
+ * Add parameters to a tab 
+ * @param {Object} tabObj
+ * @param {String} tabName
+ * @param {Object} parameters
+ */
+function updateTabUrl(tabObj, tabName, url){
+	index = getTabIndexByName(tabName);
+	tabObj.tabs('url', index, url);
+	tabObj.tabs('enable', index);
 }
 
 /*
@@ -93,6 +108,16 @@ function _load(selector, url, data){
 function _href(ref){
 	return  (ref.indexOf('?') > -1) ? ref + '&nc='+new Date().getTime() : ref + '?nc='+new Date().getTime(); 
 }
+
+/**
+ * EXtends the JQuery post method for conveniance use with Json 
+ * @param {String} url
+ * @param {Object} data
+ * @param {Function} callback
+ */
+$.postJson = function(url, data, callback) {
+	$.post(url, data, callback, "json");
+};
 
 
 /*
