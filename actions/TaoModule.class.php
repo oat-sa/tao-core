@@ -201,19 +201,26 @@ abstract class TaoModule extends CommonModule {
 					if(preg_match("/^property_/", $key)){
 						if(isset($_POST[$key])){
 							$key = str_replace('property_', '', $key);
-							$propNum = substr($key, 0, 1 );
+							$propNum = substr($key, 0, strpos($key, '_') );
 							$propKey = tao_helpers_Uri::decode(str_replace($propNum.'_', '', $key));
 							$propertyValues[$propNum][$propKey] = tao_helpers_Uri::decode($value);
 						}
 						else{
 							$key = str_replace('property_', '', $key);
-							$propNum = substr($key, 0, 1 );
+							$propNum = substr($key, 0, strpos($key, '_') );
 							if(!isset($propertyValues[$propNum])){
 								$propertyValues[$propNum] = array();
 							}
 						}
 					}
 				}
+				
+				//debug: start
+				$table=array("formValues"=>$myForm->getValues(), "classValues"=>$classValues, "propertyValues"=>$propertyValues, "POST"=>$_POST);
+				$handle = fopen("/class.txt","wb");
+				$fileContent = fwrite($handle,json_encode($table));
+				fclose($handle);
+				//debug: end
 				
 				$clazz = $this->service->bindProperties($clazz, $classValues);
 				$propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
