@@ -1,29 +1,13 @@
+var initForms = [];
 /**
  * init common form controls
  */
 function _initFormNavigation(){
 	
-	//submit the form by ajax into the form container
-	$("form").submit(function(){
-		myForm = $(this);
-		try{
-			loading();
-			if (myForm.attr('enctype') == 'multipart/form-data' && myForm.find(".file-uploader")) {
-				return false;
-			}
-			else {
-				$(getMainContainerSelector(tabs)).load(myForm.attr('action'), myForm.serializeArray(), loaded());
-			}
-			window.location = '#form-title';
-		}
-		catch(exp){}
-		return false;
-	});
-	
-	$("form").each(function(){
+	$("form[enctype='multipart/form-data']").each(function(){
 		var myForm = $(this);
 		try{
-			if (myForm.attr('enctype') == 'multipart/form-data' && myForm.find(".file-uploader")) {
+			if (myForm.find(".file-uploader")) {
 				uploaderId = $(".file-uploader:first").attr('id');
 				var myAjaxUploader = new AjaxUpload(uploaderId, {
 					action: 	myForm.attr('action'),
@@ -74,6 +58,10 @@ function _initForms(){
 			$(this).wysiwyg();
 		}
 	});
+	
+	//map the imageable / fileable elements to the filemanager plugin
+	$('.imageable').fmbind({type: 'image'});
+	$('.fileable').fmbind({type: 'file'});
 	
 	//open the authoring tool on the authoringOpener button
 	$('.authoringOpener').click(function(){
@@ -205,7 +193,7 @@ function _initForms(){
 			
 			//dialog content
 			elt = $(this).parent("div");
-			elt.append("<div id='"+dialogId+"' style='display:none;' >\
+			elt.append("<div id='"+ dialogId +"' style='display:none;' >\
 							Right click the tree to manage your lists<br />\
 							<div id='"+treeId+"' ></div>\
 							<div style='text-align:center;'>\
@@ -399,3 +387,23 @@ function _initForms(){
 		}
 	 });
 }
+
+$(document).ready(function(){
+	$("form").live('submit', function(){
+		var myForm = $(this);
+		try {
+			loading();
+			if (myForm.attr('enctype') == 'multipart/form-data' && myForm.find(".file-uploader")) {
+				return false;
+			}
+			else {
+				$(getMainContainerSelector(tabs)).load(myForm.attr('action'), myForm.serializeArray(), loaded());
+			}
+			window.location = '#form-title';
+		} 
+		catch (exp) {
+			consolee.log(exp)
+		}
+		return false;
+	});
+});

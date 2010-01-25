@@ -10,6 +10,9 @@ function getMainContainerSelector(tabObj){
 		tabObj = tabs;	//backward compat by using the global object
 	}
 	var uiTab = $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')].id;
+	if($("div#"+uiTab+" div.main-container").css('display') == 'none'){
+		return "div#"+uiTab;
+	}
 	return "div#"+uiTab+" div.main-container";
 }
 
@@ -66,6 +69,7 @@ function updateTabUrl(tabObj, tabName, url){
 function loading(){
 	$("#ajax-loading").show('fast');
 	$("input[type='submit']").attr('disabled', 'true');
+	$("input[type='button']").attr('disabled', 'true');
 }
 
 /**
@@ -76,6 +80,7 @@ function loading(){
 function loaded(){
 	$("#ajax-loading").hide('fast');
 	$("input[type='submit']").attr('disabled', 'false');
+	$("input[type='button']").attr('disabled', 'false');
 }
 
 /**

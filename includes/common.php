@@ -39,7 +39,9 @@ tao_helpers_Scriptloader::addJsFiles(array(
 	BASE_WWW . 'js/control.js',
 	BASE_WWW . 'js/settings.js',
 	BASE_WWW . 'js/generis.tree.js',
-	BASE_WWW . 'js/generis.treeform.js'
+	BASE_WWW . 'js/generis.treeform.js',
+	'/filemanager/views/js/fmRunner.js',
+	'/filemanager/views/js/jquery.fmRunner.js'
 ));
 
 require_once(BASE_PATH.'/helpers/class.Uri.php');
