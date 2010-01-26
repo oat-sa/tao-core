@@ -23,6 +23,13 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
+ * include tao_helpers_form_FormContainer
+ *
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ */
+require_once('tao/helpers/form/class.FormContainer.php');
+
+/**
  * include tao_helpers_form_Decorator
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -57,7 +64,7 @@ require_once('tao/helpers/form/interface.Decorator.php');
 abstract class tao_helpers_form_Form
 {
     // --- ASSOCIATIONS ---
-    // generateAssociationEnd : 
+    // generateAssociationEnd :     // generateAssociationEnd : 
 
     // --- ATTRIBUTES ---
 
@@ -153,6 +160,23 @@ abstract class tao_helpers_form_Form
     }
 
     /**
+     * Short description of method setName
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string name
+     * @return mixed
+     */
+    public function setName($name)
+    {
+        // section 127-0-1-1-2209c6ee:1266b4e4079:-8000:0000000000001E39 begin
+		
+		$this->name = $name;
+		
+        // section 127-0-1-1-2209c6ee:1266b4e4079:-8000:0000000000001E39 end
+    }
+
+    /**
      * Short description of method getName
      *
      * @access public
@@ -168,6 +192,23 @@ abstract class tao_helpers_form_Form
         // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:0000000000001918 end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method setOptions
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  array options
+     * @return mixed
+     */
+    public function setOptions($options)
+    {
+        // section 127-0-1-1-2209c6ee:1266b4e4079:-8000:0000000000001E36 begin
+		
+		$this->options = $options;
+		
+        // section 127-0-1-1-2209c6ee:1266b4e4079:-8000:0000000000001E36 end
     }
 
     /**

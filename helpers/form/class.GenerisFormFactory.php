@@ -74,9 +74,11 @@ class tao_helpers_form_GenerisFormFactory
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @param  Resource instance
+     * @param  string name
+     * @param  array options
      * @return tao_helpers_form_Form
      */
-    public static function instanceEditor( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $instance = null)
+    public static function instanceEditor( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $instance = null, $name = '', $options = array())
     {
         $returnValue = null;
 
@@ -85,8 +87,11 @@ class tao_helpers_form_GenerisFormFactory
 		
 		if(!is_null($clazz)){
 			
-			$name = 'form_'.(count(self::$forms)+1);
-			$myForm = tao_helpers_form_FormFactory::getForm($name);
+			if(empty($name)){
+				$name = 'form_'.(count(self::$forms)+1);
+			}
+			
+			$myForm = tao_helpers_form_FormFactory::getForm($name, $options);
 			
 			$level = 2;
 			$defaultProperties 	= self::getDefaultProperties();
@@ -253,11 +258,13 @@ class tao_helpers_form_GenerisFormFactory
 			}
 			
 			//add a button to add new properties
+			/* 
 			$addPropElement = tao_helpers_form_FormFactory::getElement('propertyAdder', 'Button');
 			$addPropElement->addAttribute('class', 'property-adder');
 			$addPropElement->setValue(__('Add a new property'));
 			$myForm->addElement($addPropElement);
 			$myForm->createGroup('property-actions', 'Actions', array($addPropElement->getName()));
+			*/
 			
 			//form data evaluation
 			$myForm->evaluate();		
