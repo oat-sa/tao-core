@@ -268,6 +268,36 @@ abstract class tao_models_classes_Service
     }
 
     /**
+     * Short description of method cloneInstance
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource instance
+     * @param  Class clazz
+     * @return core_kernel_classes_Resource
+     */
+    public function cloneInstance( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $clazz = null)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-50de96c6:1266ae198e7:-8000:0000000000001E30 begin
+		
+		$returnValue = $this->createInstance($clazz);
+		if(!is_null($returnValue)){
+			foreach($clazz->getProperties(true) as $property){
+				foreach($instance->getPropertyValues($property) as $propertyValue){
+					$returnValue->setPropertyValue($property, $propertyValue);
+				}
+			}
+			$returnValue->setLabel($instance->getLabel()." bis");
+		}
+		
+        // section 127-0-1-1-50de96c6:1266ae198e7:-8000:0000000000001E30 end
+
+        return $returnValue;
+    }
+
+    /**
      * Format an RDFS Class to an array to be interpreted by the client tree
      * This is a closed array format.
      *
@@ -328,7 +358,7 @@ abstract class tao_models_classes_Service
 		}
 		if($highlightUri != ''){
 			if($highlightUri == tao_helpers_Uri::encode($clazz->uriResource)){
-				$data['state'] = 'open';
+				//$data['state'] = 'open';
 			}
 			else{
 				foreach($clazz->getInstances() as $childInstance){

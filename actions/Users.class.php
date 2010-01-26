@@ -16,7 +16,7 @@ class Users extends CommonModule {
 	 * Constructor performs initializations actions
 	 * @return void
 	 */
-	public function __construct(){
+	public function __construct(){		
 		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 		$this->defaultData();
 	}

@@ -34,14 +34,14 @@ tao_helpers_Scriptloader::addJsFiles(array(
 	BASE_WWW . 'js/jquery.jqGrid-3.6.2/js/jquery.jqGrid.min.js',
 	BASE_WWW . 'js/jquery.numeric.js',
 	BASE_WWW . 'js/ajaxupload.js',
+	ROOT_URL . '/filemanager/views/js/fmRunner.js',
+	ROOT_URL . '/filemanager/views/js/jquery.fmRunner.js',
 	BASE_WWW . 'js/helpers.js',
-	BASE_WWW . 'js/form.js',
-	BASE_WWW . 'js/control.js',
-	BASE_WWW . 'js/settings.js',
+	BASE_WWW . 'js/uiBootstrap.js',
+	BASE_WWW . 'js/uiForm.js',
 	BASE_WWW . 'js/generis.tree.js',
-	BASE_WWW . 'js/generis.treeform.js',
-	'/filemanager/views/js/fmRunner.js',
-	'/filemanager/views/js/jquery.fmRunner.js'
+	BASE_WWW . 'js/generis.actions.js',
+	BASE_WWW . 'js/generis.treeform.js'
 ));
 
 require_once(BASE_PATH.'/helpers/class.Uri.php');

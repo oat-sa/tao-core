@@ -7,7 +7,7 @@
  */
 function getMainContainerSelector(tabObj){
 	if(tabObj == undefined){
-		tabObj = tabs;	//backward compat by using the global object
+		tabObj = UiBootstrap.tabs;	//backward compat by using the global object
 	}
 	var uiTab = $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')].id;
 	if($("div#"+uiTab+" div.main-container").css('display') == 'none'){
@@ -79,8 +79,8 @@ function loading(){
  */
 function loaded(){
 	$("#ajax-loading").hide('fast');
-	$("input[type='submit']").attr('disabled', 'false');
-	$("input[type='button']").attr('disabled', 'false');
+	$("input[type='submit']").attr('disabled', false);
+	$("input[type='button']").attr('disabled', false);
 }
 
 /**

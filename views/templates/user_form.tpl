@@ -27,13 +27,8 @@ var ctx_action 		= "<?=get_data('action')?>";
 $(function(){
 
 	<?if(get_data('action') != 'edit'):?>
-		tabs.tabs('disable', getTabIndexByName('edit_user'));
+		UiBootstrap.tabs.tabs('disable', getTabIndexByName('edit_user'));
 	<?endif?>
 
-	<?if(get_data('reload') === true):?>	
-		loadControls();
-	<?else:?>
-		initActions();
-	<?endif?>
 });
 </script>

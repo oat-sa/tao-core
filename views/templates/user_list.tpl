@@ -15,13 +15,13 @@
 function editUser(login){
 	index = getTabIndexByName('edit_user');
 	if(index && login){
-		tabs.tabs('url', index, "/tao/Users/edit?login="+login);
-		tabs.tabs('enable', index);
+		UiBootstrap.tabs.tabs('url', index, "/tao/Users/edit?login="+login);
+		UiBootstrap.tabs.tabs('enable', index);
 		selectTabByName('edit_user');
 	}
 }
 $(function(){
-	tabs.tabs('disable', getTabIndexByName('edit_user'));
+	UiBootstrap.tabs.tabs('disable', getTabIndexByName('edit_user'));
 	$("#user-list").jqGrid({
 		url:'/tao/Users/data', 
 		datatype: "json", 

@@ -6,10 +6,9 @@ error_reporting(E_ALL);
  * The scriptloader helper enables you to load web resources dynamically. It
  * now CSS and JS resources.
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -29,7 +28,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * now CSS and JS resources.
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -75,10 +74,53 @@ class tao_helpers_Scriptloader
     // --- OPERATIONS ---
 
     /**
+     * Short description of method contextInit
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string extension
+     * @param  string module
+     * @param  string action
+     * @return mixed
+     */
+    public static function contextInit($extension, $module, $action)
+    {
+        // section 127-0-1-1-38d1d39c:12665a8fe44:-8000:0000000000001E2B begin
+		
+		$basePath = '/'.$extension.'/views/';
+		
+		//load module scripts
+		$jsModuleFile = $basePath.self::JS.'/'.$module.'.'.self::JS;
+		$jsModuleDir = $basePath.self::JS.'/'.$module.'/';
+		
+		$cssModuleFile = $basePath.self::CSS.'/'.$module.'.'.self::CSS;
+		$cssModuleDir = $basePath.self::CSS.'/'.$module.'/';
+		
+		if(file_exists($jsModuleFile)){
+			self::addJsFile($jsModuleFile);
+		}
+		foreach(glog($jsModuleDir.'*.'.self::JS) as $file){
+			self::addJsFile($file);
+		}
+		if(file_exists($cssModuleFile)){
+			self::addCssFile($cssModuleFile);
+		}
+		foreach(glog($cssModuleDir.'*.'.self::CSS) as $file){
+			self::addCssFile($file);
+		}
+		
+		//
+		//@todo load action scripts
+		//
+		
+        // section 127-0-1-1-38d1d39c:12665a8fe44:-8000:0000000000001E2B end
+    }
+
+    /**
      * define the paths to look for the scripts
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array paths
      * @param  boolean recursive
      * @param  string filter
@@ -120,7 +162,7 @@ class tao_helpers_Scriptloader
      * add a file to load
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string file
      * @param  string type
      * @return mixed
@@ -149,7 +191,7 @@ class tao_helpers_Scriptloader
      * add a css file to load
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string file
      * @return mixed
      */
@@ -164,7 +206,7 @@ class tao_helpers_Scriptloader
      * add a js file to load
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string file
      * @return mixed
      */
@@ -179,7 +221,7 @@ class tao_helpers_Scriptloader
      * add an array of css files to load
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array files
      * @return mixed
      */
@@ -196,7 +238,7 @@ class tao_helpers_Scriptloader
      * add an array of css files to load
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array files
      * @return mixed
      */
@@ -213,7 +255,7 @@ class tao_helpers_Scriptloader
      * render the html to load the resources
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string filter
      * @return string
      */

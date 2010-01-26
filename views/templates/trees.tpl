@@ -34,7 +34,7 @@
 		
 		<?foreach(get_data('trees') as $i => $tree):?>
 		new GenerisTreeClass('#tree-<?=$i?>', "<?=(string)$tree['dataUrl']?>", {
-			formContainer: 			getMainContainerSelector(tabs),
+			formContainer: 			getMainContainerSelector(UiBootstrap.tabs),
 			actionId: 				"<?=$i?>",
 			editClassAction: 		"<?=(string)$tree['editClassUrl']?>",
 			editInstanceAction: 	"<?=(string)$tree['editInstanceUrl']?>",
