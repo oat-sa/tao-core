@@ -1,0 +1,225 @@
+msgid "Données fournisseur"
+msgstr ""
+
+msgid "Données client"
+msgstr ""
+
+msgid "Caractéristisques du projet"
+msgstr ""
+
+msgid "Questions"
+msgstr ""
+
+msgid "Refus de candidature"
+msgstr ""
+
+msgid "fin du formulaire"
+msgstr ""
+
+msgid "Le fournisseur du projet est-il ?"
+msgstr ""
+
+msgid "Indiquez le nom du fournisseur du projet"
+msgstr ""
+
+msgid "Indiquez le nom du responsable de la candidature"
+msgstr ""
+
+msgid "Indiquez l’e-mail du responsable de la candidature"
+msgstr ""
+
+msgid "Indiquez le n° de téléphone du responsable de la candidature"
+msgstr ""
+
+msgid "Indiquez l’URL de l’entreprise"
+msgstr ""
+
+msgid "Le fournisseur est-il établi au Luxembourg ?"
+msgstr ""
+
+msgid "Indiquez l’adresse du fournisseur"
+msgstr ""
+
+msgid "Indiquez le n° de registre de commerce de l’entreprise"
+msgstr ""
+
+msgid "Le client du projet fait-il partie de la même entreprise ou du même groupe ?"
+msgstr ""
+
+msgid "L’entreprise cliente est-elle établie au Luxembourg ?"
+msgstr ""
+
+msgid "Indiquez le nom de l’entreprise cliente "
+msgstr ""
+
+msgid "Indiquez le nom du responsable de projet"
+msgstr ""
+
+msgid "Indiquez l’e-mail du responsable de projet"
+msgstr ""
+
+msgid "Indiquez le n° de téléphone du responsable de projet"
+msgstr ""
+
+msgid "Indiquez l’URL de l’entreprise cliente"
+msgstr ""
+
+msgid "Indiquez l’adresse de l’entreprise cliente"
+msgstr ""
+
+msgid "Indiquez le n° de registre de commerce de l’entreprise cliente"
+msgstr ""
+
+msgid "Quel est le nom du projet ?"
+msgstr ""
+
+msgid "Le résultat principal de votre projet est-il : (plusieurs réponses possibles)"
+msgstr ""
+
+msgid "A quelle date le résultat du projet a été ou sera mis en production ? (Le règlement du concours stipule que le projet doit impérativement être livré entre le 20/06/2008 et le 31/12/2009)"
+msgstr ""
+
+msgid "Quelle charge de travail représente ou représentait le projet ?"
+msgstr ""
+
+msgid "De combien de personnes est ou était constituée l’équipe projet ?"
+msgstr ""
+
+msgid "Quel est ou était le budget du projet ?"
+msgstr ""
+
+msgid "Votre projet fait-il partie d’un portefeuille de projets?"
+msgstr ""
+
+msgid "Décrivez la demande et la problématique de départ"
+msgstr ""
+
+msgid "Décrivez brièvement la solution innovante proposée"
+msgstr ""
+
+msgid "En quoi votre projet répond-il à la problématique initiale ?"
+msgstr ""
+
+msgid "Décrivez le potentiel socio-économique de votre projet"
+msgstr ""
+
+msgid "Quelle valeur ajoutée le résultat de votre projet a-t-il créé ? (Ex : optimisation de la chaîne logistique, rationalisation au niveau des traitements de données, suppression d’étapes intermédiaires…)"
+msgstr ""
+
+msgid "Le règlement du concours stipule que le fournisseur ou le client doit être établi au Luxembourg. Nous regrettons de ne pouvoir donner suite à votre demande de candidature."
+msgstr ""
+
+msgid "Le règlement du concours stipule que le projet doit impérativement être livré entre le 20/06/2008 et le 31/12/2009. Nous regrettons de ne pouvoir donner suite à votre demande de candidature."
+msgstr ""
+
+msgid "Votre inscription au concours Top 10 ICT est sur le point d’être terminée, souhaiteriez vous nous communiquer d’autres éléments au sujet de votre projet ?"
+msgstr ""
+
+msgid "Quels éléments souhaiteriez-vous ajouter ?"
+msgstr ""
+
+msgid "Votre inscription au concours Top10 ICT est à présent terminée et enregistrée. Nous vous remercions pour votre participation."
+msgstr ""
+
+msgid "Oui"
+msgstr ""
+
+msgid "Non"
+msgstr ""
+
+msgid "Le candidat déclare sur l’honneur être en règle avec les administrations et des lois en vigueur (autorisation de commerce, paiements TVA, contributions et sécurité sociale)."
+msgstr ""
+
+msgid "Le candidat déclare avoir pris connaissance et accepte le règlement."
+msgstr ""
+
+msgid "Le candidat déclare avoir l’autorisation de son client pour la participation au concours Top10 ICT."
+msgstr ""
+
+msgid "Une innovation par un produit ou un service ?"
+msgstr ""
+
+msgid "Une innovation par les processus ?"
+msgstr ""
+
+msgid "Une innovation organisationnelle "
+msgstr ""
+
+msgid "Une innovation par le marketing ou le design ?"
+msgstr ""
+
+msgid ">1000 jours-personne"
+msgstr ""
+
+msgid "≤ 1000 jours-personne"
+msgstr ""
+
+msgid "≤ 100 jours-personnes"
+msgstr ""
+
+msgid "Ne sait pas"
+msgstr ""
+
+msgid "confidentiel"
+msgstr ""
+
+msgid "> 5 collaborateurs"
+msgstr ""
+
+msgid "≤ 5 collaborateurs"
+msgstr ""
+
+msgid "≤ 2 collaborateurs"
+msgstr ""
+
+msgid "> 1 million d’€"
+msgstr ""
+
+msgid "≤ 1 million d’€"
+msgstr ""
+
+msgid "≤ 0,1 million d’€"
+msgstr ""
+
+msgid "Une entreprise"
+msgstr ""
+
+msgid "Un département interne"
+msgstr ""
+
+msgid "Un regroupement d'entreprises"
+msgstr ""
+
+msgid "Login ou mot de passe incorecte."
+msgstr ""
+
+msgid "Aucun compte ne correspond à ces identifiants."
+msgstr ""
+
+msgid "Plusieurs comptes correspondent à ces identifiants. Veuillez avertir l'administrateur."
+msgstr ""
+
+msgid "Le champ prénom est requis"
+msgstr ""
+
+msgid "Le champ nom est requis"
+msgstr ""
+
+msgid "Le champ email est requis"
+msgstr ""
+
+msgid "Le champ email est mal formaté"
+msgstr ""
+
+msgid "Cette adresse email est déjà utilisée"
+msgstr ""
+
+msgid "Le formulaire contient des erreurs. Merci de les corriger pour pouvoir poursuivre."
+msgstr ""
+
+msgid "Une erreur est survenue lors de l'insertion de votre compte. Veuillez contacter l'administrateur."
+msgstr ""
+
+msgid "Votre inscription sur topten-ict.tudor.lu"
+msgstr ""
+

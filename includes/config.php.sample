@@ -43,7 +43,8 @@ define('DEFAULT_ACTION_NAME', 'index');
 $GLOBALS['dir_theme']		= "templates/";
 
 # language
-$GLOBALS['lang']			= 'EN';
+$GLOBALS['default_lang']	= 'EN';
+$GLOBALS['available_langs']	= array('EN', 'FR', 'DE', 'LU');
 
 #BASE PATH: the root path in the file system (usually the document root)
 define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT']);

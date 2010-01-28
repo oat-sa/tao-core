@@ -4,6 +4,8 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
+$GLOBALS['lang'] = $GLOBALS['default_lang'];
+
 //when a user is logged in
 if( tao_models_classes_UserService::isASessionOpened()){
 
@@ -11,8 +13,6 @@ if( tao_models_classes_UserService::isASessionOpened()){
 	$userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 	$currentUser = $userService->getCurrentUser(Session::getAttribute(tao_models_classes_UserService::LOGIN_KEY));
 
-	
-	
 	if(isset($currentUser['login']) && isset($currentUser['password'])){
 		
 		//connect the API
@@ -22,6 +22,11 @@ if( tao_models_classes_UserService::isASessionOpened()){
 		core_kernel_classes_Session::singleton()->defaultLg = $userService->getDefaultLanguage();
 		core_kernel_classes_Session::singleton()->setLg($userService->getUserLanguage($currentUser['login']));
 		
+		if(isset($currentUser['Uilg'])){
+			if(in_array($currentUser['Uilg'], $GLOBALS['available_langs'])){
+				$GLOBALS['lang'] = $currentUser['Uilg'];
+			}
+		}
 	}
 	unset($currentUser);
 }

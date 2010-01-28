@@ -8,7 +8,6 @@
 	if(!is_file(dirname(__FILE__). '/../generis/common/config.php')){
 		header("Location: ./install/");
 	}
-
 	require_once dirname(__FILE__) . '/../generis/common/inc.extension.php';
 	require_once dirname(__FILE__). '/includes/common.php';
 	

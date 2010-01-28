@@ -10,10 +10,13 @@
 
 session_start();
 
-require_once 	dirname(__FILE__). "/config.php";
-require_once 	dirname(__FILE__). "/constants.php";
 
-set_include_path(get_include_path() . PATH_SEPARATOR . GENERIS_BASE_PATH.'/..');
+require_once dirname(__FILE__). "/config.php";
+require_once dirname(__FILE__). "/constants.php";
+
+set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH);
+
+include_once dirname(__FILE__). '/prepend.php';
 
 tao_helpers_Scriptloader::addCssFiles(array(
 	BASE_WWW . 'css/custom-theme/jquery-ui-1.7.2.custom.css',

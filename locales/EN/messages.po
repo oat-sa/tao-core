@@ -1,0 +1,237 @@
+msgid ""
+msgstr ""
+
+msgid "No account match the given login / password"
+msgstr ""
+
+msgid "settings updated"
+msgstr ""
+
+msgid "Access denied. Please renew your authentication!"
+msgstr ""
+
+msgid "CSV Options"
+msgstr ""
+
+msgid "Upload CSV File"
+msgstr ""
+
+msgid "Data imported"
+msgstr ""
+
+msgid "Import data"
+msgstr ""
+
+msgid "Lists"
+msgstr ""
+
+msgid "List "
+msgstr ""
+
+msgid "List item "
+msgstr ""
+
+msgid "Active user"
+msgstr ""
+
+msgid "Edit user"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "Please confirm user deletion"
+msgstr ""
+
+msgid "Delete user"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "An error occured during user deletion"
+msgstr ""
+
+msgid "User deleted successfully"
+msgstr ""
+
+msgid "User added"
+msgstr ""
+
+msgid "Add a user"
+msgstr ""
+
+msgid "User saved"
+msgstr ""
+
+msgid "Edit a user"
+msgstr ""
+
+msgid "Unable to restore default user"
+msgstr ""
+
+msgid "User restored successfully"
+msgstr ""
+
+msgid "Interface language"
+msgstr ""
+
+msgid "Data language"
+msgstr ""
+
+msgid "Login *"
+msgstr ""
+
+msgid "login already exist"
+msgstr ""
+
+msgid "Password *"
+msgstr ""
+
+msgid "Repeat password *"
+msgstr ""
+
+msgid "Old Password"
+msgstr ""
+
+msgid "New password"
+msgstr ""
+
+msgid "Repeat new password"
+msgstr ""
+
+msgid "FirstName"
+msgstr ""
+
+msgid "LastName"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Company"
+msgstr ""
+
+msgid "Language *"
+msgstr ""
+
+msgid "Edit property into parent class "
+msgstr ""
+
+msgid "You cannot modify this property"
+msgstr ""
+
+msgid "Add a new property"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "select"
+msgstr ""
+
+msgid "List values"
+msgstr ""
+
+msgid "Add / Edit lists"
+msgstr ""
+
+msgid "Delete property"
+msgstr ""
+
+msgid "Range"
+msgstr ""
+
+msgid "A short text"
+msgstr ""
+
+msgid "A long text"
+msgstr ""
+
+msgid "A formated text"
+msgstr ""
+
+msgid "A password"
+msgstr ""
+
+msgid "A simple choice list"
+msgstr ""
+
+msgid "A simple choice long list"
+msgstr ""
+
+msgid "A multiple choice list"
+msgstr ""
+
+msgid "AUTHORING TOOL"
+msgstr ""
+
+msgid "Invalid file type!"
+msgstr ""
+
+msgid "Invalid file size"
+msgstr ""
+
+msgid "The uploaded file is too large"
+msgstr ""
+
+msgid "Invalid field length"
+msgstr ""
+
+msgid "This field is too short"
+msgstr ""
+
+msgid "This field is too long"
+msgstr ""
+
+msgid "This field must not be empty"
+msgstr ""
+
+msgid "Password are not matching"
+msgstr ""
+
+msgid "The format of this field is not valid."
+msgstr ""
+
+msgid "save"
+msgstr ""
+
+msgid "revert"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "TAO Backend Tool"
+msgstr ""
+
+msgid "Javascript is required to run this software. Please activate it in your browser."
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "My settings"
+msgstr ""
+
+msgid "Use the * character to replace any string"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Open all"
+msgstr ""
+
+msgid "Close all"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+

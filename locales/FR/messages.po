@@ -1,0 +1,237 @@
+msgid ""
+msgstr ""
+
+msgid "No account match the given login / password"
+msgstr "Aucun compte ne correspond à ces identifiants"
+
+msgid "settings updated"
+msgstr "Préférences mise à jour"
+
+msgid "Access denied. Please renew your authentication!"
+msgstr "Accès refusé. Veuillez vous identifier à nouveau"
+
+msgid "CSV Options"
+msgstr ""
+
+msgid "Upload CSV File"
+msgstr ""
+
+msgid "Data imported"
+msgstr "Donnée importée"
+
+msgid "Import data"
+msgstr "Importer de donné"
+
+msgid "Lists"
+msgstr "Listes"
+
+msgid "List "
+msgstr "Liste"
+
+msgid "List item "
+msgstr ""
+
+msgid "Active user"
+msgstr "Utilisateur actif"
+
+msgid "Edit user"
+msgstr "Modifier l'utilisateur"
+
+msgid "edit"
+msgstr "modifier"
+
+msgid "Please confirm user deletion"
+msgstr "Veuillez confirmer la supression"
+
+msgid "Delete user"
+msgstr "Supprimer l'utilisateur"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "An error occured during user deletion"
+msgstr "Une erreur est survenue durant la suppression de l'utilisateur"
+
+msgid "User deleted successfully"
+msgstr "L'utilisateur a été supprimé avec succès"
+
+msgid "User added"
+msgstr "Utilisateur ajouté"
+
+msgid "Add a user"
+msgstr "Ajouter un utilisateur"
+
+msgid "User saved"
+msgstr "L'utilisateur a été sauvé"
+
+msgid "Edit a user"
+msgstr "Modifier un utilisateur"
+
+msgid "Unable to restore default user"
+msgstr "Impossible de restaurer l'utilisateur par défaut"
+
+msgid "User restored successfully"
+msgstr "L'utilisateur a été restauré"
+
+msgid "Interface language"
+msgstr "Langue de l'interface"
+
+msgid "Data language"
+msgstr "Langue des données"
+
+msgid "Login *"
+msgstr "Identifiant *"
+
+msgid "login already exist"
+msgstr "Cet identifiant existe déjà"
+
+msgid "Password *"
+msgstr "Mot de passe *"
+
+msgid "Repeat password *"
+msgstr "Répéter le mot de passe"
+
+msgid "Old Password"
+msgstr "Ancien mot de passe"
+
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+msgid "Repeat new password"
+msgstr "Répéter le mot de passe"
+
+msgid "FirstName"
+msgstr "Prénom"
+
+msgid "LastName"
+msgstr "Nom"
+
+msgid "Email"
+msgstr "Courriel"
+
+msgid "Company"
+msgstr "Société"
+
+msgid "Language *"
+msgstr "Langue *"
+
+msgid "Edit property into parent class "
+msgstr "Modifier la propriété depuis la classe parente"
+
+msgid "You cannot modify this property"
+msgstr "Cette propriété ne peut pas être modifié"
+
+msgid "Add a new property"
+msgstr "Ajouter une nouvelle propriété"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "select"
+msgstr "choisir"
+
+msgid "List values"
+msgstr "Liste des valeurs"
+
+msgid "Add / Edit lists"
+msgstr "Ajouter / Modifier les listes"
+
+msgid "Delete property"
+msgstr "Supprimer la propriété"
+
+msgid "Range"
+msgstr "rang"
+
+msgid "A short text"
+msgstr "Un texte court"
+
+msgid "A long text"
+msgstr "Un texte long"
+
+msgid "A formated text"
+msgstr "Un texte formatté"
+
+msgid "A password"
+msgstr "Un mot de passe"
+
+msgid "A simple choice list"
+msgstr "Une liste à choix simple"
+
+msgid "A simple choice long list"
+msgstr "Une longue liste à choix simple"
+
+msgid "A multiple choice list"
+msgstr "Une liste à choix multiple"
+
+msgid "AUTHORING TOOL"
+msgstr "Editeur"
+
+msgid "Invalid file type!"
+msgstr "Type de fichier invalide"
+
+msgid "Invalid file size"
+msgstr "Taille du fichier invalide"
+
+msgid "The uploaded file is too large"
+msgstr "Le fichier téléchargé est trop volumineux"
+
+msgid "Invalid field length"
+msgstr "La longueur du champ est invalide"
+
+msgid "This field is too short"
+msgstr "Ce champ est trop court"
+
+msgid "This field is too long"
+msgstr "Ce champ  est trop long"
+
+msgid "This field must not be empty"
+msgstr "Ce champ ne doit pas être vide"
+
+msgid "Password are not matching"
+msgstr "Le mot de passe ne correspond pas"
+
+msgid "The format of this field is not valid."
+msgstr "Le format de ce champ est invalide"
+
+msgid "save"
+msgstr "enregistrer"
+
+msgid "revert"
+msgstr "annuler"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "TAO Backend Tool"
+msgstr "TAO Outils d'administration"
+
+msgid "Javascript is required to run this software. Please activate it in your browser."
+msgstr "Javascript est requis pour utiliser ce logiciel. Veuillez l'activer dans votre naviguateur."
+
+msgid "Home"
+msgstr "Accueil"
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Logout"
+msgstr "Se déconnecter"
+
+msgid "My settings"
+msgstr "Préférences"
+
+msgid "Use the * character to replace any string"
+msgstr "Utiliser * en remplacement de toute chaîne de caractère"
+
+msgid "Filter"
+msgstr "Filtrer"
+
+msgid "Open all"
+msgstr "Dérouler"
+
+msgid "Close all"
+msgstr "Enrouler"
+
+msgid "Back"
+msgstr "Retour"
+
