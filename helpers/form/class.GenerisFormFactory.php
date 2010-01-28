@@ -786,6 +786,11 @@ class tao_helpers_form_GenerisFormFactory
 				'title' 	=> __('A multiple choice list'),
 				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
 				'range'		=> null
+			),
+			'calendar' => array(
+				'title' 	=> __('A dynamic datepicker'),
+				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar',
+				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
 			)
 		);
 		
