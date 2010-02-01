@@ -69,14 +69,6 @@ abstract class tao_helpers_form_Form
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute elements
-     *
-     * @access protected
-     * @var array
-     */
-    protected $elements = array();
-
-    /**
      * Short description of attribute name
      *
      * @access protected
@@ -85,12 +77,20 @@ abstract class tao_helpers_form_Form
     protected $name = '';
 
     /**
-     * Short description of attribute decorator
+     * Short description of attribute elements
      *
      * @access protected
-     * @var Decorator
+     * @var array
      */
-    protected $decorator = null;
+    protected $elements = array();
+
+    /**
+     * Short description of attribute actions
+     *
+     * @access protected
+     * @var array
+     */
+    protected $actions = array();
 
     /**
      * Short description of attribute valid
@@ -117,12 +117,12 @@ abstract class tao_helpers_form_Form
     protected $groups = array();
 
     /**
-     * Short description of attribute groupDecorator
+     * Short description of attribute decorators
      *
      * @access protected
-     * @var Decorator
+     * @var array
      */
-    protected $groupDecorator = null;
+    protected $decorators = array();
 
     /**
      * Short description of attribute options
@@ -131,14 +131,6 @@ abstract class tao_helpers_form_Form
      * @var array
      */
     protected $options = array();
-
-    /**
-     * Short description of attribute errorDecorator
-     *
-     * @access protected
-     * @var Decorator
-     */
-    protected $errorDecorator = null;
 
     // --- OPERATIONS ---
 
@@ -188,7 +180,9 @@ abstract class tao_helpers_form_Form
         $returnValue = (string) '';
 
         // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:0000000000001918 begin
+		
 		$returnValue = $this->name;
+		
         // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:0000000000001918 end
 
         return (string) $returnValue;
@@ -223,7 +217,9 @@ abstract class tao_helpers_form_Form
         $returnValue = array();
 
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AC begin
+		
 		$returnValue = $this->elements;
+		
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AC end
 
         return (array) $returnValue;
@@ -240,7 +236,9 @@ abstract class tao_helpers_form_Form
     public function setElements($elements)
     {
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018B1 begin
+		
 		$this->elements = $elements;
+		
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018B1 end
     }
 
@@ -255,11 +253,36 @@ abstract class tao_helpers_form_Form
     public function addElement( tao_helpers_form_FormElement $element)
     {
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AE begin
+		
 		if($element->getLevel() == 1){
 			$element->setLevel(count($this->elements) + 2);
 		}
 		$this->elements[] = $element;
+		
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AE end
+    }
+
+    /**
+     * Short description of method setActions
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  array actions
+     * @return mixed
+     */
+    public function setActions($actions)
+    {
+        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E49 begin
+		
+		$this->actions = array();
+		
+		foreach($actions as $action){
+			if($action instanceof tao_helpers_form_FormElement){
+				$this->actions[] = $action;
+			}
+		}
+		
+        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E49 end
     }
 
     /**
@@ -268,13 +291,58 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Decorator decorator
+     * @param  string type
      * @return mixed
      */
-    public function setDecorator( tao_helpers_form_Decorator $decorator)
+    public function setDecorator( tao_helpers_form_Decorator $decorator, $type = 'element')
     {
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001961 begin
-		$this->decorator = $decorator;
+		
+		$this->decorators[$type] = $decorator;
+		
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001961 end
+    }
+
+    /**
+     * Short description of method setDecorators
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  array decorators
+     * @return mixed
+     */
+    public function setDecorators($decorators)
+    {
+        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E3E begin
+		
+		foreach($decorators as $type => $decorator){
+			$this->setDecorator($decorator, $type);
+		}
+		
+        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E3E end
+    }
+
+    /**
+     * Short description of method getDecorator
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string type
+     * @return tao_helpers_form_Decorator
+     */
+    public function getDecorator($type = 'element')
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-42952c74:1268930e800:-8000:0000000000001E52 begin
+		
+		if(array_key_exists($type, $this->decorators)){
+			$returnValue  = $this->decorators[$type];
+		}
+		
+        // section 127-0-1-1-42952c74:1268930e800:-8000:0000000000001E52 end
+
+        return $returnValue;
     }
 
     /**
@@ -295,8 +363,8 @@ abstract class tao_helpers_form_Form
 			 	continue;	//render grouped elements after  
 			 }
 			 
-			 if(!is_null($this->decorator) && !($element instanceof tao_helpers_form_elements_Hidden)){
-			 	$returnValue .= $this->decorator->preRender();
+			 if(!is_null($this->getDecorator()) && !($element instanceof tao_helpers_form_elements_Hidden)){
+			 	$returnValue .= $this->getDecorator()->preRender();
 			 }
 			 
 			 //render element
@@ -304,33 +372,33 @@ abstract class tao_helpers_form_Form
 			 
 			 //render error message
 			 if(!$this->isValid() && $element->getError() != ''){
-			 	if(!is_null($this->errorDecorator)){
-			 		$returnValue .= $this->errorDecorator->preRender();
+			 	if(!is_null($this->getDecorator('error'))){
+			 		$returnValue .= $this->getDecorator('error')->preRender();
 			 	}
 			 	$returnValue .= $element->getError();
-				if(!is_null($this->errorDecorator)){
-			 		$returnValue .= $this->errorDecorator->postRender();
+				if(!is_null($this->getDecorator('error'))){
+			 		$returnValue .= $this->getDecorator('error')->postRender();
 			 	}
 			 }
 			
 			 
-			 if(!is_null($this->decorator) && !($element instanceof tao_helpers_form_elements_Hidden)){
-			 	$returnValue .= $this->decorator->postRender();
+			 if(!is_null($this->getDecorator()) && !($element instanceof tao_helpers_form_elements_Hidden)){
+			 	$returnValue .= $this->getDecorator()->postRender();
 			 }
 		}
 		
 		$subGroupDecorator = null;
-		if(!is_null($this->groupDecorator)){
-			$decoratorClass = get_class($this->groupDecorator);
+		if(!is_null($this->getDecorator('group'))){
+			$decoratorClass = get_class($this->getDecorator('group'));
 			$subGroupDecorator = new $decoratorClass();
 		}
 		
 		//render group
 		foreach($this->groups as $groupName => $group){
 		
-			if(!is_null($this->groupDecorator)){
-				$this->groupDecorator->setOption('id', tao_helpers_Display::textCleaner($groupName));
-				$returnValue .= $this->groupDecorator->preRender();
+			if(!is_null($this->getDecorator('group'))){
+				$this->getDecorator('group')->setOption('id', tao_helpers_Display::textCleaner($groupName));
+				$returnValue .= $this->getDecorator('group')->preRender();
 			}
 			$returnValue .= $group['title'];
 			if(!is_null($subGroupDecorator)){
@@ -340,8 +408,8 @@ abstract class tao_helpers_form_Form
 			foreach($this->elements as $element){
 				 if($this->getElementGroup($element->getName()) == $groupName){
 				 
-				 	if(!is_null($this->decorator) && !($element instanceof tao_helpers_form_elements_Hidden) ){
-					 	$returnValue .= $this->decorator->preRender();
+				 	if(!is_null($this->getDecorator()) && !($element instanceof tao_helpers_form_elements_Hidden) ){
+					 	$returnValue .= $this->getDecorator()->preRender();
 					 }
 					 
 					 //render element
@@ -349,17 +417,17 @@ abstract class tao_helpers_form_Form
 					 
 					 //render error message
 					 if(!$this->isValid() && $element->getError() != ''){
-					 	if(!is_null($this->errorDecorator)){
-					 		$returnValue .= $this->errorDecorator->preRender();
+					 	if(!is_null($this->getDecorator('error'))){
+					 		$returnValue .= $this->getDecorator('error')->preRender();
 					 	}
 					 	$returnValue .= $element->getError();
-						if(!is_null($this->errorDecorator)){
-					 		$returnValue .= $this->errorDecorator->postRender();
+						if(!is_null($this->getDecorator('error'))){
+					 		$returnValue .= $this->getDecorator('error')->postRender();
 					 	}
 					 }
 					 
-					 if(!is_null($this->decorator) && !($element instanceof tao_helpers_form_elements_Hidden) ){
-					 	$returnValue .= $this->decorator->postRender();
+					 if(!is_null($this->getDecorator()) && !($element instanceof tao_helpers_form_elements_Hidden) ){
+					 	$returnValue .= $this->getDecorator()->postRender();
 					 }
 				 
 				 }
@@ -367,12 +435,42 @@ abstract class tao_helpers_form_Form
 			if(!is_null($subGroupDecorator)){
 				$returnValue .= $subGroupDecorator->postRender();
 			}
-			if(!is_null($this->groupDecorator)){
-				$returnValue .= $this->groupDecorator->postRender();
-				$this->groupDecorator->setOption('id', '');
+			if(!is_null($this->getDecorator('group'))){
+				$returnValue .= $this->getDecorator('group')->postRender();
+				$this->getDecorator('group')->setOption('id', '');
 			}
 		}
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001983 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method renderActions
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return string
+     */
+    public function renderActions()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E4C begin
+		
+		if(!is_null($this->getDecorator('actions'))){
+		 	$returnValue .= $this->getDecorator('actions')->preRender();
+		 }
+
+		foreach($this->actions as $action){
+			$returnValue .= $action->render();
+		}
+		 
+		 if(!is_null($this->getDecorator('actions'))){
+		 	$returnValue .= $this->getDecorator('actions')->postRender();
+		 }
+		
+        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E4C end
 
         return (string) $returnValue;
     }
@@ -461,6 +559,37 @@ abstract class tao_helpers_form_Form
         // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019E0 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method setValues
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  array values
+     * @return mixed
+     */
+    public function setValues($values)
+    {
+        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E43 begin
+		
+		foreach($values as $key => $value){
+			foreach($this->elements as $element){
+				if($element->getName() == $key){
+					if( $element instanceof tao_helpers_form_elements_Checkbox ||
+						(method_exists($element, 'setValues') && is_array($value)) ){
+						$element->setValues($value);
+					}
+					else{
+						$element->setValue($value);
+					}
+					break;
+				}
+			}
+			
+		}
+		
+        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E43 end
     }
 
     /**
@@ -572,40 +701,6 @@ abstract class tao_helpers_form_Form
         // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ACF end
 
         return (string) $returnValue;
-    }
-
-    /**
-     * Short description of method setGroupDecorator
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Decorator decorator
-     * @return mixed
-     */
-    public function setGroupDecorator( tao_helpers_form_Decorator $decorator)
-    {
-        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001AD9 begin
-		
-		$this->groupDecorator = $decorator;
-		
-        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001AD9 end
-    }
-
-    /**
-     * Short description of method setErrorDecorator
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Decorator decorator
-     * @return mixed
-     */
-    public function setErrorDecorator( tao_helpers_form_Decorator $decorator)
-    {
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C04 begin
-		
-		$this->errorDecorator = $decorator;
-		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C04 end
     }
 
     /**

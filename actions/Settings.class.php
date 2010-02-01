@@ -30,16 +30,15 @@ class Settings extends CommonModule {
 	 */
 	public function index(){
 		
-		$myFormContainer = new tao_actions_form_Settings(array('data_lang' => $this->getDataLang()));
+		$myFormContainer = new tao_actions_form_Settings($this->getLangs());
 		$myForm = $myFormContainer->getForm();
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
-				$newLang = $myForm->getValue('data_lang');
 				$currentUser = $this->userService->getCurrentUser(Session::getAttribute(tao_models_classes_UserService::LOGIN_KEY));
-				$currentUser['Deflg'] = $newLang;
+				$currentUser['Deflg'] = $myForm->getValue('data_lang');
+				$currentUser['Uilg'] = $myForm->getValue('ui_lang');
 				if($this->userService->saveUser($currentUser)){
-					
 					$this->setData('message', __('settings updated'));
 				}
 			}
@@ -50,18 +49,25 @@ class Settings extends CommonModule {
 	
 	/**
 	 * get the langage of the current user
-	 * @return the lang code
+	 * @return the lang codes
 	 */
-	private function getDataLang(){
+	private function getLangs(){
+		
+		$defaultLang = $this->userService->getDefaultLanguage();
+		$dataLang = $defaultLang;
+		$uiLang = $defaultLang;
+		
 		$currentUser = $this->userService->getCurrentUser(Session::getAttribute(tao_models_classes_UserService::LOGIN_KEY));
-		$userLanguage = '';
-		if(isset($currentUser['login'])){
-			$userLanguage = $this->userService->getUserLanguage($currentUser['login']);
+		if(!is_null($currentUser)){
+			if(isset($currentUser['Deflg'])){
+				$dataLang = $currentUser['Deflg'];
+			}
+			if(isset($currentUser['Uilg'])){
+				$uiLang = $currentUser['Uilg'];
+			}
 		}
-		if(!empty($userLanguage)){
-			return $userLanguage;
-		}
-		return $this->userService->getDefaultLanguage();
+		
+		return array('data_lang' => $dataLang, 'ui_lang' => $uiLang);
 	}
 	
 }

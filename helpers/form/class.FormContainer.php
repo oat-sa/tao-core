@@ -105,6 +105,10 @@ abstract class tao_helpers_form_FormContainer
 		$this->initForm();
 		$this->initElements();
 		
+		if(count($this->data) > 0){
+			$this->form->setValues($this->data);
+		}
+		
 		if(!is_null($this->form)){
 			$this->form->evaluate();
 		}

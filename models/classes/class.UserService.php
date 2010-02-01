@@ -337,7 +337,7 @@ class tao_models_classes_UserService
 				//update
 				$returnValue = $this->dbWrapper->execSql(
 					"UPDATE `user`  
-					SET password = '{$user['password']}', LastName = '{$user['LastName']}', FirstName='{$user['FirstName']}', E_Mail='{$user['E_Mail']}', Company='{$user['Company']}', Deflg='{$user['Deflg']}'
+					SET password = '{$user['password']}', LastName = '{$user['LastName']}', FirstName='{$user['FirstName']}', E_Mail='{$user['E_Mail']}', Company='{$user['Company']}', Deflg='{$user['Deflg']}', Uilg='{$user['Uilg']}' 
 					WHERE login = '{$user['login']}'"
 				);
 			}

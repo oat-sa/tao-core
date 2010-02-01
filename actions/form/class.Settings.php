@@ -81,22 +81,21 @@ class tao_actions_form_Settings
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF5 begin
 		
-		//@todo manage ui language with .po files
-		$uiLangElement = tao_helpers_form_FormFactory::getElement('ui_lang', 'Textbox');
+		$options = array();
+		foreach($GLOBALS['available_langs'] as $langCode){
+			$options[$langCode] = $langCode;
+		}
+		
+		$uiLangElement = tao_helpers_form_FormFactory::getElement('ui_lang', 'Combobox');
 		$uiLangElement->setDescription(__('Interface language'));
-		$uiLangElement->setValue('EN');
-		$uiLangElement->setAttributes(array("readonly" => "true"));
+		$uiLangElement->setOptions($options);
+		
 		$this->form->addElement($uiLangElement);
 		
-		$dataLangElement = tao_helpers_form_FormFactory::getElement('data_lang', 'Textbox');
+		$dataLangElement = tao_helpers_form_FormFactory::getElement('data_lang', 'Combobox');
 		$dataLangElement->setDescription(__('Data language'));
-		if(isset($this->data['data_lang'])){
-			$dataLangElement->setValue($this->data['data_lang']);
-		}
-		$dataLangElement->addValidators(array(
-			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-			tao_helpers_form_FormFactory::getValidator('Regex', array('format' => "/^[A-Z]{2,3}$/"))
-		));
+		$dataLangElement->setOptions($options);
+		
 		$this->form->addElement($dataLangElement);
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF5 end

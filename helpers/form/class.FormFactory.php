@@ -88,11 +88,27 @@ class tao_helpers_form_FormFactory
 		//@todo refactor this and use a FormElementFactory
 		switch(self::$renderMode){
 			case 'xhtml':
+				
 				$myForm = new tao_helpers_form_xhtml_Form($name, $options);
-				$myForm->setDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')));
-				$myForm->setGroupDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')));
-				$myForm->setErrorDecorator(new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')));
+				
+				$myForm->setDecorators(array(
+					'element'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
+					'group'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')),
+					'error'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')),
+					'actions'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-actions'))
+				));
+				
+				$saveAction = self::getElement('save', 'Submit');
+				$saveAction->setValue(__('Save'));
+				
+				$revertAction = self::getElement('revert', 'Button');
+				$revertAction->setValue(__('Revert'));
+				$revertAction->setAttributes(array('class' => 'form-reverter'));
+				
+				$myForm->setActions(array($saveAction, $revertAction));
+				
 				break;
+			
 			default: 
 				throw new Exception("render mode {self::$renderMode} not yet supported");
 		}

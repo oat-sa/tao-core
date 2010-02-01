@@ -65,7 +65,7 @@ class tao_actions_form_Users
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFA begin
 		
-		$this->form = tao_helpers_form_FormFactory::getForm('users', array('noRevert' => true));
+		$this->form = tao_helpers_form_FormFactory::getForm('users', array('topAction' => true));
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFA end
     }
@@ -100,9 +100,6 @@ class tao_actions_form_Users
 		}
 		else{
 			$loginElement->setAttributes(array('readonly' => 'true'));
-			if(isset($this->data['login'])){
-				$loginElement->setValue($this->data['login']);
-			}
 		}
 		$this->form->addElement($loginElement);
 		
@@ -175,33 +172,21 @@ class tao_actions_form_Users
 		//firstname field
 		$fNameElement = tao_helpers_form_FormFactory::getElement('FirstName', 'Textbox');
 		$fNameElement->setDescription(__('FirstName'));
-		if(isset($this->data['FirstName'])){
-			$fNameElement->setValue($this->data['FirstName']);
-		}
 		$this->form->addElement($fNameElement);
 		
 		//lastname field
 		$lNameElement = tao_helpers_form_FormFactory::getElement('LastName', 'Textbox');
 		$lNameElement->setDescription(__('LastName'));
-		if(isset($this->data['LastName'])){
-			$lNameElement->setValue($this->data['LastName']);
-		}
 		$this->form->addElement($lNameElement);
 		
 		//email field 
 		$emailElement = tao_helpers_form_FormFactory::getElement('E_Mail', 'Textbox');
 		$emailElement->setDescription(__('Email'));
-		if(isset($this->data['E_Mail'])){
-			$emailElement->setValue($this->data['E_Mail']);
-		}
 		$this->form->addElement($emailElement);
 		
 		//company field
 		$companyElement = tao_helpers_form_FormFactory::getElement('Company', 'Textbox');
 		$companyElement->setDescription(__('Company'));
-		if(isset($this->data['Company'])){
-			$companyElement->setValue($this->data['Company']);
-		}
 		$this->form->addElement($companyElement);
 		
 		//language field
@@ -212,10 +197,7 @@ class tao_actions_form_Users
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 			tao_helpers_form_FormFactory::getValidator('Regex', array('format' => "/^[A-Z]{2,3}$/"))
 		));
-		if($this->options['mode'] == 'edit' && isset($this->data['Deflg'])){
-			$lgElement->setValue($this->data['Deflg']);
-		}
-		else{
+		if($this->options['mode'] == 'add'){
 			$lgElement->setValue($GLOBALS['lang']);
 		}
 		$this->form->addElement($lgElement);

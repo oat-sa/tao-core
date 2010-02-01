@@ -44,18 +44,8 @@ class Main extends CommonModule {
 			session_destroy();
 		}
 		
-		$myForm = tao_helpers_form_FormFactory::getForm('login', array('noRevert' => true, 'submitValue' => __('Connect')));
-		$loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
-		$loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		$myForm->addElement($loginElt);
-		
-		$passElt = tao_helpers_form_FormFactory::getElement('password', 'Hiddenbox');
-		$passElt->addValidator(
-			tao_helpers_form_FormFactory::getValidator('NotEmpty')
-		);
-		$myForm->addElement($passElt);
-		
-		$myForm->evaluate();
+		$myLoginFormContainer = new tao_actions_form_Login();
+		$myForm = $myLoginFormContainer->getForm();
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){

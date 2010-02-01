@@ -103,7 +103,6 @@ GenerisAction.addProperty = function (uri, classUri, url){
 			if(formGroupElt){
 				formGroupElt.addClass('form-group-opened');
 			}
-			initNavigation();
 			window.location = '#propertyAdder';
 		}
 	});

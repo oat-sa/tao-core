@@ -167,12 +167,20 @@ class tao_helpers_form_xhtml_Form
 			$returnValue .= "enctype='multipart/form-data' ";
 		}
 		$returnValue .= ">";
+		
+		$returnValue .= "<input type='hidden' name='{$this->name}_sent' value='1' />";
+		
+		if(isset($this->options['topAction'])){
+			$returnValue .= $this->renderActions();
+		}
+		
 		$returnValue .= $this->renderElements();
 		
-		 if(!is_null($this->decorator)){
-		 	$returnValue .= $this->decorator->preRender();
+		$returnValue .= $this->renderActions();
+		
+		/* if(!is_null($this->getDecorator('actions'))){
+		 	$returnValue .= $this->getDecorator('actions')->preRender();
 		 }
-		 $returnValue .= "<input type='hidden' name='{$this->name}_sent' value='1' />";
 		 
 		 if(!isset($this->options['noSubmit'])){
 		 	(isset($this->options['submitValue'])) ? $value = $this->options['submitValue'] : $value = __('save');
@@ -183,9 +191,12 @@ class tao_helpers_form_xhtml_Form
 		 	$returnValue .= "<input type='button' value='".__('revert'). "' class='form-reverter' />";
 		 }
 		 
-		 if(!is_null($this->decorator)){
-		 	$returnValue .= $this->decorator->postRender();
+		 
+		 if(!is_null($this->getDecorator('actions'))){
+		 	$returnValue .= $this->getDecorator('actions')->postRender();
 		 }
+		 
+		 */
         
 		$returnValue .= "</form>";
         $returnValue .= "</div>";
