@@ -268,21 +268,46 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array actions
+     * @param  string context
      * @return mixed
      */
-    public function setActions($actions)
+    public function setActions($actions, $context = 'bottom')
     {
         // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E49 begin
 		
-		$this->actions = array();
+		$this->actions[$context] = array();
 		
 		foreach($actions as $action){
-			if($action instanceof tao_helpers_form_FormElement){
-				$this->actions[] = $action;
+			if( ! $action instanceof tao_helpers_form_FormElement){
+				throw new Exception(" the actions parameter must only contains instances of tao_helpers_form_FormElement ");
 			}
+			$this->actions[$context][] = $action;
 		}
 		
         // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E49 end
+    }
+
+    /**
+     * Short description of method getActions
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string context
+     * @return array
+     */
+    public function getActions($context = 'bottom')
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--41373b28:1268dca6296:-8000:0000000000001E6A begin
+		
+		if(isset($this->actions[$context])){
+			$returnValue = $this->actions[$context];
+		}
+		
+        // section 127-0-1-1--41373b28:1268dca6296:-8000:0000000000001E6A end
+
+        return (array) $returnValue;
     }
 
     /**
@@ -380,7 +405,6 @@ abstract class tao_helpers_form_Form
 			 		$returnValue .= $this->getDecorator('error')->postRender();
 			 	}
 			 }
-			
 			 
 			 if(!is_null($this->getDecorator()) && !($element instanceof tao_helpers_form_elements_Hidden)){
 			 	$returnValue .= $this->getDecorator()->postRender();
@@ -450,25 +474,38 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string context
      * @return string
      */
-    public function renderActions()
+    public function renderActions($context = 'bottom')
     {
         $returnValue = (string) '';
 
         // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E4C begin
 		
-		if(!is_null($this->getDecorator('actions'))){
-		 	$returnValue .= $this->getDecorator('actions')->preRender();
-		 }
-
-		foreach($this->actions as $action){
-			$returnValue .= $action->render();
+		if(isset($this->actions[$context])){
+			
+			$decorator = null;
+			if(!is_null($this->getDecorator('actions-'.$context))){
+			 	$decorator = $this->getDecorator('actions-'.$context);
+			}
+			else if(!is_null($this->getDecorator('actions'))){
+			 	$decorator = $this->getDecorator('actions');
+			}
+			
+			if(!is_null($decorator)){
+				$returnValue .= $decorator->preRender();
+			}
+	
+			foreach($this->actions[$context] as $action){
+				$returnValue .= $action->render();
+			}
+			 
+			if(!is_null($decorator)){
+				$returnValue .= $decorator->postRender();
+			}
+		
 		}
-		 
-		 if(!is_null($this->getDecorator('actions'))){
-		 	$returnValue .= $this->getDecorator('actions')->postRender();
-		 }
 		
         // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E4C end
 

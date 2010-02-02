@@ -65,7 +65,8 @@ class tao_actions_form_Settings
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF3 begin
 		
-		$this->form = tao_helpers_form_FormFactory::getForm('settings', array('noRevert' => true));
+		$this->form = tao_helpers_form_FormFactory::getForm('settings');
+		$this->form->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF3 end
     }

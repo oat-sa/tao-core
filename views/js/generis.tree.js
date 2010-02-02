@@ -63,7 +63,13 @@ function GenerisTreeClass(selector, dataUrl, options){
 					} 
 				},
 				onload: function(TREE_OBJ){
-					TREE_OBJ.open_branch($("li.node-class:first"));
+					if (instance.options.selectNode && !instance.nodeSelected) {
+						TREE_OBJ.select_branch($("li[id='"+instance.options.selectNode+"']"));
+						instance.nodeSelected = true;	//select it only on first load
+					}
+					else{
+						TREE_OBJ.open_branch($("li.node-class:first"));
+					}
 				},
 				ondata: function(DATA, TREE_OBJ){
 					if(instance.options.instanceClass){

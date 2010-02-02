@@ -115,3 +115,27 @@ div.form-group span.form-group-control{
 input[type=button], input[type=submit]{
 	cursor:pointer;
 }
+
+div.xhtml_form div.form-actions{
+	padding-left:30%;
+}
+div.xhtml_form div.form-actions input{
+	margin-left:0px;
+	margin-right: 20px;
+}
+div.xhtml_form div.form-toolbar{
+	color:#AAA;
+	position:absolute;
+	right:10px;
+	top:10px;
+}
+div.xhtml_form div.form-toolbar a img{
+	vertical-align:text-bottom;	
+}
+div.xhtml_form div.form-toolbar a{
+	text-decoration:none;
+	padding: 1px;
+}
+div.xhtml_form div.form-toolbar a:hover{
+	color:#D00239;	
+}

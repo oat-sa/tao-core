@@ -44,8 +44,13 @@
 			duplicateAction: 		"<?=(string)$tree['duplicateUrl']?>",
 			instanceClass:			"node-<?=get_data('instanceName')?>",
 			instanceName:			"<?=get_data('instanceName')?>"
+			<?if(get_data('openUri')):?>
+			,selectNode:			"<?=get_data('openUri')?>"
+			<?endif?>
 		});
 		<?endforeach?>
+		
+		
 		
 	});
 	

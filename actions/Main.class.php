@@ -189,6 +189,13 @@ class Main extends CommonModule {
 			$structure = $this->service->getStructure($currentExtension, $this->getRequestParameter('section'));
 			$this->setData('trees', $structure->trees[0]);
 			
+			$openUri = false;
+			if($this->hasSessionAttribute("showNodeUri")){
+				$openUri = $this->getSessionAttribute("showNodeUri");
+				unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
+			}
+			$this->setData('openUri', $openUri);
+			
 			//differentiate the instanceName of Deliveries from the others
 			if($currentExtension=="taoDelivery"){
 				$this->setData('instanceName', $this->getSessionAttribute('currentSection'));

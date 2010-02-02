@@ -65,7 +65,8 @@ class tao_actions_form_Users
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFA begin
 		
-		$this->form = tao_helpers_form_FormFactory::getForm('users', array('topAction' => true));
+		$this->form = tao_helpers_form_FormFactory::getForm('users');
+		$this->form->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFA end
     }

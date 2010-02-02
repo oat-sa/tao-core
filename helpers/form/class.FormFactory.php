@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 26.01.2010, 17:06:30 with ArgoUML PHP module 
+ * Automatically generated on 02.02.2010, 11:38:11 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -92,20 +92,14 @@ class tao_helpers_form_FormFactory
 				$myForm = new tao_helpers_form_xhtml_Form($name, $options);
 				
 				$myForm->setDecorators(array(
-					'element'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
-					'group'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')),
-					'error'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')),
-					'actions'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-actions'))
+					'element'			=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
+					'group'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')),
+					'error'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')),
+					'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-actions')),
+					'actions-top'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
 				));
 				
-				$saveAction = self::getElement('save', 'Submit');
-				$saveAction->setValue(__('Save'));
-				
-				$revertAction = self::getElement('revert', 'Button');
-				$revertAction->setValue(__('Revert'));
-				$revertAction->setAttributes(array('class' => 'form-reverter'));
-				
-				$myForm->setActions(array($saveAction, $revertAction));
+				$myForm->setActions(self::getCommonActions(), 'bottom');
 				
 				break;
 			
@@ -183,6 +177,62 @@ class tao_helpers_form_FormFactory
         // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BD2 end
 
         return $returnValue;
+    }
+
+    /**
+     * Short description of method getCommonActions
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string context
+     * @param  boolean save
+     * @param  boolean revert
+     * @return array
+     */
+    public static function getCommonActions($context = 'bottom', $save = true, $revert = true)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--792ca639:1268e3f82cb:-8000:0000000000001E6C begin
+		
+		switch($context){
+			
+			case 'top':
+				$actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
+				$value = '';
+				if($save){
+					$value .=  "<a href='#' onclick='$(\"#users\").submit();' ><img src='".TAOBASE_WWW."/img/save.png' /> ".__('Save')."</a>";
+					if($revert){
+						$value .=  " | ";
+					}
+				}
+				if($revert){
+					$value .=  "<a href='#' class='form-reverter'><img src='".TAOBASE_WWW."/img/revert.png'  /> ".__('Revert')."</a>";
+				}
+					
+				$actions->setValue($value);
+				$returnValue[] = $actions;
+				break;
+				
+			case 'bottom':
+			default:
+				if($save){
+					$saveAction = self::getElement('save', 'Submit');
+					$saveAction->setValue(__('Save'));
+					$returnValue[] = $saveAction;
+				}
+				if($revert){
+					$revertAction = self::getElement('revert', 'Button');
+					$revertAction->setValue(__('Revert'));
+					$revertAction->setAttributes(array('class' => 'form-reverter'));
+					$returnValue[] = $revertAction;
+				}
+				break;
+		}
+		
+        // section 127-0-1-1--792ca639:1268e3f82cb:-8000:0000000000001E6C end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_helpers_form_FormFactory */

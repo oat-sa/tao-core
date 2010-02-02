@@ -59,10 +59,10 @@ class tao_helpers_form_GenerisFormFactory
      * a list of forms currently instanciated with the factory (can be used to
      * multiple forms)
      *
-     * @access private
+     * @access protected
      * @var array
      */
-    private static $forms = array();
+    protected static $forms = array();
 
     // --- OPERATIONS ---
 
@@ -92,6 +92,7 @@ class tao_helpers_form_GenerisFormFactory
 			}
 			
 			$myForm = tao_helpers_form_FormFactory::getForm($name, $options);
+			$myForm->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
 			
 			$level = 2;
 			$defaultProperties 	= self::getDefaultProperties();
@@ -176,7 +177,15 @@ class tao_helpers_form_GenerisFormFactory
 		if(!is_null($clazz)){
 			
 			$name = 'form_'.(count(self::$forms)+1);
+			
 			$myForm = tao_helpers_form_FormFactory::getForm($name);
+			
+			//add property action in toolbar
+			$topActions = tao_helpers_form_FormFactory::getCommonActions('top');
+			$propertyElt = tao_helpers_form_FormFactory::getElement('property', 'Free');
+			$propertyElt->setValue(" | <a href='#' class='property-adder'><img src='".TAOBASE_WWW."/img/prop_add.png'  /> ".__('Add property')."</a>");
+			$topActions[] = $propertyElt;
+			$myForm->setActions($topActions, 'top');
 			
 			//add a group form for the class edition 
 			$elementNames = array();
@@ -515,7 +524,6 @@ class tao_helpers_form_GenerisFormFactory
 					}
 				}
 				$element->setName("property_{$index}_{$element->getName()}");
-			//	$element->setLevel($level);
 				$form->addElement($element);
 				$elementNames[] = $element->getName();
 				$level++;
@@ -526,7 +534,6 @@ class tao_helpers_form_GenerisFormFactory
 		$deleteElt = tao_helpers_form_FormFactory::getElement("propertyDeleter{$index}", 'Button');
 		$deleteElt->addAttribute('class', 'property-deleter');
 		$deleteElt->setValue(__('Delete property'));
-	//	$deleteElt->setLevel($level);
 		$form->addElement($deleteElt);
 		$elementNames[] = $deleteElt->getName();
 		$level++;
@@ -534,7 +541,6 @@ class tao_helpers_form_GenerisFormFactory
 		//add an hidden element with the mode (simple)
 		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$index}", 'Hidden');
 		$modeElt->setValue('advanced');
-	//	$modeElt->setLevel($level);
 		$form->addElement($modeElt);
 		$elementNames[] = $modeElt->getName();
 		$level++;

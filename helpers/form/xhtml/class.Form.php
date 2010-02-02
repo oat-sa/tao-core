@@ -161,45 +161,25 @@ class tao_helpers_form_xhtml_Form
 		
 		(strpos($_SERVER['REQUEST_URI'], '?') > 0) ? $action = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $action = $_SERVER['REQUEST_URI'];
 		
-		$returnValue .= "<div class='xhtml_form'>";
+		$returnValue .= "<div class='xhtml_form'>\n";
+		
 		$returnValue .= "<form method='post' id='{$this->name}' name='{$this->name}' action='$action' ";
 		if($this->hasFileUpload()){
 			$returnValue .= "enctype='multipart/form-data' ";
 		}
-		$returnValue .= ">";
+		$returnValue .= ">\n";
 		
-		$returnValue .= "<input type='hidden' name='{$this->name}_sent' value='1' />";
+		$returnValue .= "<input type='hidden' name='{$this->name}_sent' value='1' />\n";
 		
-		if(isset($this->options['topAction'])){
-			$returnValue .= $this->renderActions();
-		}
+		
+		$returnValue .= $this->renderActions('top');
 		
 		$returnValue .= $this->renderElements();
 		
-		$returnValue .= $this->renderActions();
+		$returnValue .= $this->renderActions('bottom');
 		
-		/* if(!is_null($this->getDecorator('actions'))){
-		 	$returnValue .= $this->getDecorator('actions')->preRender();
-		 }
-		 
-		 if(!isset($this->options['noSubmit'])){
-		 	(isset($this->options['submitValue'])) ? $value = $this->options['submitValue'] : $value = __('save');
-		 	$returnValue .= "<input type='submit' value='{$value}'  />";
-		 }
-		 
-		 if(!isset($this->options['noRevert'])){
-		 	$returnValue .= "<input type='button' value='".__('revert'). "' class='form-reverter' />";
-		 }
-		 
-		 
-		 if(!is_null($this->getDecorator('actions'))){
-		 	$returnValue .= $this->getDecorator('actions')->postRender();
-		 }
-		 
-		 */
-        
-		$returnValue .= "</form>";
-        $returnValue .= "</div>";
+		$returnValue .= "</form>\n";
+        $returnValue .= "</div>\n";
 		
         // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018F0 end
 

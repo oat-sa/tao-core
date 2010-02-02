@@ -164,32 +164,12 @@ UiForm = function(){
 		 
 		 //property add button
 		 $(".property-adder").click(function(){
-			 var groupNode = $(this).parents(".form-group").get(0);
 			 if(ctx_extension){
 			 	url = '/' + ctx_extension + '/' + ctx_module + '/';
 			 }
 			 url += 'addClassProperty';
-			 var eltId = this.id;
-			var index = ($(".form-group").size() - 1);
-			 if (groupNode) {
-			 	$.ajax({
-			 		url: url,
-			 		type: "POST",
-			 		data: {
-			 			index: index,
-			 			classUri: $("#classUri").val()
-			 		},
-			 		dataType: 'html',
-			 		success: function(response){
-						$(groupNode).before(response)
-						formGroupElt = $("#property_" + index);
-						if(formGroupElt){
-							formGroupElt.addClass('form-group-opened');
-						}
-						window.location = '#'+eltId;
-			 		}
-			 	});
-			 }
+			 
+			 GenerisAction.addProperty (null,  $("#classUri").val(), url);
 		 })
 		 
 		 /**
@@ -225,17 +205,17 @@ UiForm = function(){
 				//dialog content
 				elt = $(this).parent("div");
 				elt.append("<div id='"+ dialogId +"' style='display:none;' > " +
-								"Right click the tree to manage your lists<br /> " +
+								"<span class='ui-state-highlight'>Right click the tree to manage your lists</span><br /><br />" +
 								"<div id='"+treeId+"' ></div> " +
-								"<div style='text-align:center;'> " +
-									"<a id='"+closerId+"' class='ui-state-default ui-corner-all' href='#'>Ok</a> " +
+								"<div style='text-align:center;margin-top:25px;'> " +
+									"<a id='"+closerId+"' class='ui-state-default ui-corner-all' href='#'>Save</a> " +
 								"</div> " +
 							"</div>");
 							
 				//init dialog events
 				$("#"+dialogId).dialog({
-					width: 300,
-					height: 300,
+					width: 350,
+					height: 400,
 					autoOpen: false,
 					title: 'Manage data list'
 				});

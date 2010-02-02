@@ -98,7 +98,9 @@ GenerisAction.addProperty = function (uri, classUri, url){
 		},
 		dataType: 'html',
 		success: function(response){
-			$("#property_actions").before(response);
+			console.log($(".form-group:last"));
+			console.log(response);
+			$(".form-group:last").after(response);
 			formGroupElt = $("#property_" + index);
 			if(formGroupElt){
 				formGroupElt.addClass('form-group-opened');

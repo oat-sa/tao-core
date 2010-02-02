@@ -56,6 +56,6 @@ define('BASE_URL', ROOT_URL.'/tao');
 
 #BASE WWW the web resources path
 define('BASE_WWW', BASE_URL . '/views/' );
-
+define('TAOBASE_WWW', BASE_WWW);
 
 ?>
