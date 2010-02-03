@@ -1,6 +1,3 @@
-msgid ""
-msgstr ""
-
 msgid "No account match the given login / password"
 msgstr "Aucun compte ne correspond à ces identifiants"
 
@@ -26,7 +23,7 @@ msgid "Lists"
 msgstr "Listes"
 
 msgid "List "
-msgstr "Liste"
+msgstr ""
 
 msgid "List item "
 msgstr ""
@@ -73,6 +70,15 @@ msgstr "Impossible de restaurer l'utilisateur par défaut"
 msgid "User restored successfully"
 msgstr "L'utilisateur a été restauré"
 
+msgid "Connect"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
 msgid "Interface language"
 msgstr "Langue de l'interface"
 
@@ -115,14 +121,23 @@ msgstr "Société"
 msgid "Language *"
 msgstr "Langue *"
 
-msgid "Edit property into parent class "
-msgstr "Modifier la propriété depuis la classe parente"
+msgid "Save"
+msgstr ""
 
-msgid "You cannot modify this property"
-msgstr "Cette propriété ne peut pas être modifié"
+msgid "Revert"
+msgstr ""
+
+msgid "Add property"
+msgstr ""
 
 msgid "Add a new property"
 msgstr "Ajouter une nouvelle propriété"
+
+msgid "Edit property into parent class "
+msgstr ""
+
+msgid "You cannot modify this property"
+msgstr "Cette propriété ne peut pas être modifié"
 
 msgid "Type"
 msgstr "Type"
@@ -163,6 +178,9 @@ msgstr "Une longue liste à choix simple"
 msgid "A multiple choice list"
 msgstr "Une liste à choix multiple"
 
+msgid "A dynamic datepicker"
+msgstr ""
+
 msgid "AUTHORING TOOL"
 msgstr "Editeur"
 
@@ -192,12 +210,6 @@ msgstr "Le mot de passe ne correspond pas"
 
 msgid "The format of this field is not valid."
 msgstr "Le format de ce champ est invalide"
-
-msgid "save"
-msgstr "enregistrer"
-
-msgid "revert"
-msgstr "annuler"
 
 msgid "Actions"
 msgstr "Actions"
@@ -234,4 +246,16 @@ msgstr "Enrouler"
 
 msgid "Back"
 msgstr "Retour"
+
+msgid "List"
+msgstr "Liste"
+
+msgid "Edit property into parent class"
+msgstr "Modifier la propriété depuis la classe parente"
+
+msgid "save"
+msgstr "enregistrer"
+
+msgid "revert"
+msgstr "annuler"
 

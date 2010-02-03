@@ -30,4 +30,8 @@ if( tao_models_classes_UserService::isASessionOpened()){
 	}
 	unset($currentUser);
 }
+
+
+tao_helpers_I18n::init($GLOBALS['lang']);
+
 ?>

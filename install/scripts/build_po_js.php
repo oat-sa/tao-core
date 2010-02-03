@@ -69,7 +69,8 @@ foreach($extensions as $extensionName => $extensionData){
 		
 		$buffer  = "/* auto generated content */\n";
 		$buffer .= "/* extesion: $extensionName, lang: $code */\n";
-		$buffer .= "var i18n_tr_$code = " . json_encode($strings) . ";";
+		$buffer .= "var langCode = '$code';\n";
+		$buffer .= "var i18n_tr = " . json_encode($strings) . ";";
 		if(file_put_contents($path . '/' . POJS_FILE_NAME, $buffer)){
 			echo $path . '/' . POJS_FILE_NAME . " created\n";
 		}

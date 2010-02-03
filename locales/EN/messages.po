@@ -1,6 +1,3 @@
-msgid ""
-msgstr ""
-
 msgid "No account match the given login / password"
 msgstr ""
 
@@ -73,6 +70,15 @@ msgstr ""
 msgid "User restored successfully"
 msgstr ""
 
+msgid "Connect"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
 msgid "Interface language"
 msgstr ""
 
@@ -115,13 +121,22 @@ msgstr ""
 msgid "Language *"
 msgstr ""
 
+msgid "Save"
+msgstr ""
+
+msgid "Revert"
+msgstr ""
+
+msgid "Add property"
+msgstr ""
+
+msgid "Add a new property"
+msgstr ""
+
 msgid "Edit property into parent class "
 msgstr ""
 
 msgid "You cannot modify this property"
-msgstr ""
-
-msgid "Add a new property"
 msgstr ""
 
 msgid "Type"
@@ -163,6 +178,9 @@ msgstr ""
 msgid "A multiple choice list"
 msgstr ""
 
+msgid "A dynamic datepicker"
+msgstr ""
+
 msgid "AUTHORING TOOL"
 msgstr ""
 
@@ -191,12 +209,6 @@ msgid "Password are not matching"
 msgstr ""
 
 msgid "The format of this field is not valid."
-msgstr ""
-
-msgid "save"
-msgstr ""
-
-msgid "revert"
 msgstr ""
 
 msgid "Actions"

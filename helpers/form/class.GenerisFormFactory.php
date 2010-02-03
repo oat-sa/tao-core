@@ -187,6 +187,14 @@ class tao_helpers_form_GenerisFormFactory
 			$topActions[] = $propertyElt;
 			$myForm->setActions($topActions, 'top');
 			
+			//set bottom property actions
+			$bottomActions = tao_helpers_form_FormFactory::getCommonActions('bottom');
+			$addPropElement = tao_helpers_form_FormFactory::getElement('propertyAdder', 'Button');
+			$addPropElement->addAttribute('class', 'property-adder');
+			$addPropElement->setValue(__('Add a new property'));
+			$bottomActions[] = $addPropElement;
+			$myForm->setActions($bottomActions, 'bottom');
+			
 			//add a group form for the class edition 
 			$elementNames = array();
 			foreach(self::getDefaultProperties()  as $property){
@@ -267,13 +275,12 @@ class tao_helpers_form_GenerisFormFactory
 			}
 			
 			//add a button to add new properties
-			/* 
-			$addPropElement = tao_helpers_form_FormFactory::getElement('propertyAdder', 'Button');
+			/*$addPropElement = tao_helpers_form_FormFactory::getElement('propertyAdder', 'Button');
 			$addPropElement->addAttribute('class', 'property-adder');
 			$addPropElement->setValue(__('Add a new property'));
 			$myForm->addElement($addPropElement);
-			$myForm->createGroup('property-actions', 'Actions', array($addPropElement->getName()));
-			*/
+			$myForm->createGroup('property-actions', 'Actions', array($addPropElement->getName()));*/
+			
 			
 			//form data evaluation
 			$myForm->evaluate();		
@@ -437,7 +444,7 @@ class tao_helpers_form_GenerisFormFactory
 				}
 			}
 		}
-		$listElt->setOptions(array_merge($options, array('new' => '+ '.__('Add / Edit lists'))));
+		$listElt->setOptions(array_merge($options, array('new' => ' + '.__('Add / Edit lists'))));
 		$form->addElement($listElt);
 		$elementNames[] = $listElt->getName();
 		$level++;

@@ -201,7 +201,7 @@ class tao_helpers_form_FormFactory
 				$actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
 				$value = '';
 				if($save){
-					$value .=  "<a href='#' onclick='$(\"#users\").submit();' ><img src='".TAOBASE_WWW."/img/save.png' /> ".__('Save')."</a>";
+					$value .=  "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/save.png' /> ".__('Save')."</a>";
 					if($revert){
 						$value .=  " | ";
 					}

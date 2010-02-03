@@ -40,29 +40,17 @@ UiForm = function(){
 	 */
 	this.initNav = function(){
 		$("form").live('submit', function(){
-			var myForm = $(this);
-			
-			try {
-				if (myForm.attr('enctype') == 'multipart/form-data' && myForm.find(".file-uploader")) {
-					return false;
-				}
-				else {
-					if (UiBootstrap.tabs.size() == 0) {
-						return true;
-					}
-					$(getMainContainerSelector(UiBootstrap.tabs)).load(myForm.attr('action'), myForm.serializeArray());
-				}
-				window.location = '#form-title';
-			} 
-			catch (exp) {
-				console.log(exp);
-				return false;
-			}
-			return false;
+			return formInstance.submitForm($(this));
 		});
 	}
 	
 	this.initElements = function(){
+		//save form button
+		$(".form-submiter").click(function(){
+			myForm =  $(this).parents("form").get(0);
+			return formInstance.submitForm($(myForm));
+		});
+	
 		//revert form button
 		$(".form-reverter").click(function(){
 			if ($("#uri")) {
@@ -397,6 +385,26 @@ UiForm = function(){
 				elt.addClass('form-elt-highlight');
 			}
 		 });
+	}
+	
+	this.submitForm = function(myForm){
+		try {
+			if (myForm.attr('enctype') == 'multipart/form-data' && myForm.find(".file-uploader")) {
+				return false;
+			}
+			else {
+				if (UiBootstrap.tabs.size() == 0) {
+					return true;
+				}
+				$(getMainContainerSelector(UiBootstrap.tabs)).load(myForm.attr('action'), myForm.serializeArray());
+			}
+			window.location = '#form-title';
+		} 
+		catch (exp) {
+			console.log(exp);
+			return false;
+		}
+		return false;
 	}
 	
 	this.initFileUploadForm = function (){

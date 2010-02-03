@@ -27,6 +27,10 @@ function GenerisTreeClass(selector, dataUrl, options){
 		this.selector = selector;
 		this.options = options;
 		this.dataUrl = dataUrl;
+		
+		/**
+		 * global access into sub scopes
+		 */
 		var instance = this;
 		
 		if(!options.instanceName){
@@ -63,9 +67,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 					} 
 				},
 				onload: function(TREE_OBJ){
-					if (instance.options.selectNode && !instance.nodeSelected) {
+					if (instance.options.selectNode) {
 						TREE_OBJ.select_branch($("li[id='"+instance.options.selectNode+"']"));
-						instance.nodeSelected = true;	//select it only on first load
 					}
 					else{
 						TREE_OBJ.open_branch($("li.node-class:first"));
@@ -90,6 +93,10 @@ function GenerisTreeClass(selector, dataUrl, options){
 					return DATA;
 				},
 				onselect: function(NODE, TREE_OBJ){
+					
+					if($(NODE).attr('id') == instance.options.selectNode){
+						return false;
+					}
 					
 					if($(NODE).hasClass('node-class') && instance.options.editClassAction){
 						_load(instance.options.formContainer, 
@@ -214,6 +221,10 @@ function GenerisTreeClass(selector, dataUrl, options){
 				}
 			}
 		};
+		
+		if(this.options.selectNode){
+			this.treeOptions.selected = this.options.selectNode;
+		}
 		
 		//create the tree
 		$(selector).tree(this.treeOptions);
