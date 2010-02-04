@@ -41,6 +41,9 @@ div#tabs, div#home{
 	height: 90%; 
 	width:98%;
 	margin:auto;
+	background-image:url('../img/tao.png');
+	background-repeat:no-repeat;
+	background-position:center;
 }
 
 /* --- */

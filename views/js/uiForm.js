@@ -93,9 +93,9 @@ UiForm = function(){
 			index = getTabIndexByName(tabName);
 			if(index > -1){
 				if($("#uri") && $("#classUri")){
-					UiBootstrap.tabs('url', index, url + '?uri=' + $("#uri").val() +'&classUri=' + $("#classUri").val());
-					UiBootstrap.tabs('enable', index);
-					UiBootstrap.tabs('select', index);
+					UiBootstrap.tabs.tabs('url', index, url + '?uri=' + $("#uri").val() +'&classUri=' + $("#classUri").val());
+					UiBootstrap.tabs.tabs('enable', index);
+					UiBootstrap.tabs.tabs('select', index);
 				}
 			}
 		});
