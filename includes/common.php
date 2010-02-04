@@ -26,6 +26,11 @@ tao_helpers_Scriptloader::addCssFiles(array(
 	BASE_WWW . 'css/form.css'
 ));
 
+$gridi18nFile = 'js/jquery.jqGrid-3.6.2/js/i18n/grid.locale-'.strtolower($GLOBALS['lang']).'.js';
+if(!file_exists(BASE_PATH. '/views' . $gridi18nFile)){
+	$gridi18nFile = 'js/jquery.jqGrid-3.6.2/js/i18n/grid.locale-en.js';
+}
+
 tao_helpers_Scriptloader::addJsFiles(array(
 	BASE_WWW . 'js/jquery-1.3.2.min.js',
 	BASE_WWW . 'js/jquery-ui-1.7.2.custom.min.js',
@@ -33,7 +38,7 @@ tao_helpers_Scriptloader::addJsFiles(array(
 	BASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
 	BASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
 	BASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
-	BASE_WWW . 'js/jquery.jqGrid-3.6.2/js/i18n/grid.locale-en.js',
+	BASE_WWW . $gridi18nFile,
 	BASE_WWW . 'js/jquery.jqGrid-3.6.2/js/jquery.jqGrid.min.js',
 	BASE_WWW . 'js/jquery.numeric.js',
 	BASE_WWW . 'js/ajaxupload.js',

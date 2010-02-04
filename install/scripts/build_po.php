@@ -51,7 +51,7 @@ foreach($extensions as $extensionName => $extensionData){
 		$extensionData['path'] . '/models/',
 		$extensionData['path'] . '/views/'
 	);
-	$extension	= array('php', 'tpl', 'js');
+	$extension	= array('php', 'tpl', 'js', 'xml');
 	$fichier	= PO_FILE_NAME;
 	$empLoc		= $extensionData['path'] . '/' . LOCAL_DIR_NAME . '/';
 	

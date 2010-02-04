@@ -167,7 +167,7 @@ class tao_actions_form_Users
 			}
 			$this->form->addElement($pass3Element);
 			
-			$this->form->createGroup("pass_group", "Change your password", array('password0', 'password1', 'password2', 'password3'));
+			$this->form->createGroup("pass_group", __("Change your password"), array('password0', 'password1', 'password2', 'password3'));
 		}
 		
 		//firstname field
@@ -191,17 +191,19 @@ class tao_actions_form_Users
 		$this->form->addElement($companyElement);
 		
 		//language field
-		$lgElement = tao_helpers_form_FormFactory::getElement('Deflg', 'Textbox');
+		$options = array();
+		foreach($GLOBALS['available_langs'] as $langCode){
+			$options[$langCode] = $langCode;
+		}
+		$lgElement = tao_helpers_form_FormFactory::getElement('Deflg', 'Combobox');
 		$lgElement->setDescription(__('Language *'));
-		$lgElement->setAttributes(array('size' => 6));
-		$lgElement->addValidators(array(
-			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-			tao_helpers_form_FormFactory::getValidator('Regex', array('format' => "/^[A-Z]{2,3}$/"))
-		));
+		$lgElement->setOptions($options);
 		if($this->options['mode'] == 'add'){
 			$lgElement->setValue($GLOBALS['lang']);
 		}
 		$this->form->addElement($lgElement);
+		
+		
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC end
     }

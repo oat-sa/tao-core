@@ -41,7 +41,12 @@
 		    				$liste_chaine	= array_merge($liste_chaine, parcoursRepertoire($pRoot.$fd."/", $pExtension));
 		    			# si c'est un fichier
 	    				} else {
-	    					$liste_chaine	= array_merge($liste_chaine, recuperationChaine($pRoot. $fd, $pExtension));
+	    					if(in_array('xml', $pExtension) && preg_match("/actions(.*)structure\.xml$/", $pRoot. $fd)){
+	    						$liste_chaine	= array_merge($liste_chaine, getXmlStrings($pRoot. $fd));
+	    					}
+							else{
+								$liste_chaine	= array_merge($liste_chaine, recuperationChaine($pRoot. $fd, $pExtension));
+							}
 	    				}
 	   		 		}
 	    			
@@ -147,5 +152,26 @@
 			$rmap = array('', "\n", "\r", "\t", '"');
 			return trim((string) preg_replace($smap, $rmap, $string));
 		}
+	}
+	
+	function getXmlStrings($file){
+		if (!file_exists($file)) {
+	 		return array();
+	 	}
+		
+		$strings = array();
+		try{
+			$xml = new SimpleXMLElement(trim(file_get_contents($file)));
+			if($xml instanceof SimpleXMLElement){
+				$nodes = $xml->xpath("//*[@name]");
+				foreach($nodes as $node){
+					if(isset($node['name'])){
+						$strings[(string)$node['name']] = '';
+					}
+				}
+			}
+		}
+		catch(Exception $e){}
+		return $strings;
 	}
 ?>

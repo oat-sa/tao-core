@@ -86,7 +86,7 @@ abstract class TaoModule extends CommonModule {
 		//create file upload form box
 		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'File');
 		$fileElt->setLevel($level);
-		$fileElt->setDescription("Add the source file");
+		$fileElt->setDescription(__("Add the source file"));
 		$fileElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/plain', 'text/csv', 'application/csv-tab-delimited-table'))),

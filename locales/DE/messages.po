@@ -10,6 +10,9 @@ msgstr ""
 msgid "CSV Options"
 msgstr ""
 
+msgid "Add the source file"
+msgstr ""
+
 msgid "Upload CSV File"
 msgstr ""
 
@@ -106,6 +109,9 @@ msgstr ""
 msgid "Repeat new password"
 msgstr ""
 
+msgid "Change your password"
+msgstr ""
+
 msgid "FirstName"
 msgstr ""
 
@@ -121,6 +127,12 @@ msgstr ""
 msgid "Language *"
 msgstr ""
 
+msgid "Users"
+msgstr ""
+
+msgid "Manage users"
+msgstr ""
+
 msgid "Save"
 msgstr ""
 
@@ -133,7 +145,13 @@ msgstr ""
 msgid "Add a new property"
 msgstr ""
 
+msgid "Class"
+msgstr ""
+
 msgid "Edit property into parent class "
+msgstr ""
+
+msgid "Property"
 msgstr ""
 
 msgid "You cannot modify this property"
@@ -211,6 +229,42 @@ msgstr ""
 msgid "The format of this field is not valid."
 msgstr ""
 
+msgid "Edit"
+msgstr ""
+
+msgid "Add subclass"
+msgstr ""
+
+msgid "Add "
+msgstr ""
+
+msgid "Duplicate"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Please confirm deletion"
+msgstr ""
+
+msgid "Tree saved successfully"
+msgstr ""
+
+msgid "Please confirm property deletion!"
+msgstr ""
+
+msgid "Right click the tree to manage your lists"
+msgstr ""
+
+msgid "Manage data list"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Rename"
+msgstr ""
+
 msgid "Actions"
 msgstr ""
 
@@ -246,4 +300,11 @@ msgstr ""
 
 msgid "Back"
 msgstr ""
+
+msgid "Restore default user"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
 

@@ -118,7 +118,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 				contextmenu : {
 					items : {
 						select: {
-							label: "Edit",
+							label: __("Edit"),
 							icon: "/tao/views/img/pencil.png",
 							visible : function (NODE, TREE_OBJ) {
 								if( ($(NODE).hasClass('node-instance') &&  instance.options.editInstanceAction)  || 
@@ -133,7 +133,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 		                    separator_before : true
 						},
 						subclass: {
-							label: "Add subclass",
+							label: __("Add subclass"),
 							icon	: "/tao/views/img/class_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
@@ -155,7 +155,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 		                    separator_before : true
 						},
 						instance:{
-							label: "Add " + instance.options.instanceName,
+							label: __("Add ") + instance.options.instanceName,
 							icon	: "/tao/views/img/instance_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
@@ -177,7 +177,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							}
 						},
 						duplicate:{
-							label	: "Duplicate",
+							label	: __("Duplicate"),
 							icon	: "/tao/views/img/duplicate.png",
 							visible	: function (NODE, TREE_OBJ) { 
 									if($(NODE).hasClass('node-instance')  && instance.options.duplicateAction){
@@ -194,7 +194,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							}
 						},
 						del:{
-							label	: "Remove",
+							label	: __("Remove"),
 							icon	: "/tao/views/img/delete.png",
 							visible	: function (NODE, TREE_OBJ) { 
 								var ok = true; 
@@ -381,7 +381,7 @@ GenerisTreeClass.addInstance = function(options){
 GenerisTreeClass.removeNode = function(options){
 	var TREE_OBJ = options.TREE_OBJ;
 	var NODE = options.NODE;
-	if(confirm("Please confirm deletion")){
+	if(confirm(__("Please confirm deletion"))){
 		$.each(NODE, function () { 
 			data = false;
 			var selectedNode = this;

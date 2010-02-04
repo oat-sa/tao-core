@@ -10,17 +10,17 @@
 						<?if($action['disabled']):?>
 							<img src="<?=BASE_WWW?>img/actions/<?=$action['name']?>_disabled.png"  />
 							<br />
-							<span><?=$action['display']?></span>
+							<span><?=__($action['display'])?></span>
 						<?else:?>
 							
 							<?if($action['js']):?>
 								<a href="#" onclick="<?=$action['js']?>('<?=$action["uri"]?>', '<?=$action["classUri"]?>', '<?=$action["url"]?>')" title="<?=$action['rowName']?>"><img src="<?=BASE_WWW?>img/actions/<?=$action['name']?>.png"  /></a>
 								<br />
-								<a href="#" onclick="<?=$action['js']?>('<?=$action["uri"]?>', '<?=$action["classUri"]?>', '<?=$action["url"]?>')"><?=$action['display']?></a>
+								<a href="#" onclick="<?=$action['js']?>('<?=$action["uri"]?>', '<?=$action["classUri"]?>', '<?=$action["url"]?>')"><?=__($action['display'])?></a>
 							<?else:?>
-								<a class="<?if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>" title="<?=$action['display']?>"><img src="<?=BASE_WWW?>img/actions/<?=$action['name']?>.png"  /></a>
+								<a class="<?if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>" title="<?=__($action['display'])?>"><img src="<?=BASE_WWW?>img/actions/<?=$action['name']?>.png"  /></a>
 								<br />
-								<a class="<?if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>"><?=$action['display']?></a>
+								<a class="<?if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>"><?=__($action['display'])?></a>
 							<?endif?>
 							
 						

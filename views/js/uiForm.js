@@ -101,7 +101,7 @@ UiForm = function(){
 		});
 		
 		function removeGroup(){
-			if (confirm('Please confirm property deletion!')) {
+			if (confirm(__('Please confirm property deletion!'))) {
 				groupNode = $(this).parents(".form-group").get(0);
 				if (groupNode) {
 					$(groupNode).remove();
@@ -193,10 +193,10 @@ UiForm = function(){
 				//dialog content
 				elt = $(this).parent("div");
 				elt.append("<div id='"+ dialogId +"' style='display:none;' > " +
-								"<span class='ui-state-highlight'>Right click the tree to manage your lists</span><br /><br />" +
+								"<span class='ui-state-highlight'>" + __('Right click the tree to manage your lists') + "</span><br /><br />" +
 								"<div id='"+treeId+"' ></div> " +
 								"<div style='text-align:center;margin-top:25px;'> " +
-									"<a id='"+closerId+"' class='ui-state-default ui-corner-all' href='#'>Save</a> " +
+									"<a id='"+closerId+"' class='ui-state-default ui-corner-all' href='#'>" + __('Save') + "</a> " +
 								"</div> " +
 							"</div>");
 							
@@ -205,7 +205,7 @@ UiForm = function(){
 					width: 350,
 					height: 400,
 					autoOpen: false,
-					title: 'Manage data list'
+					title: __('Manage data list')
 				});
 				
 				$("#"+dialogId).bind('dialogclose', function(event, ui){
@@ -273,6 +273,7 @@ UiForm = function(){
 							contextmenu: {
 								items: {
 									remove: {
+										label: __("Remove"),
 										icon	: "/tao/views/img/delete.png",
 										visible: function(NODE, TREE_OBJ){
 											if($(NODE).hasClass('node-root')){
@@ -290,6 +291,7 @@ UiForm = function(){
 										}
 									},
 									create: {
+										label: __("Create"),
 										icon	: "/tao/views/img/add.png",
 										visible: function(NODE, TREE_OBJ){
 											if($(NODE).hasClass('node-instance')){
@@ -318,6 +320,7 @@ UiForm = function(){
 										}
 									},
 									rename: {
+										label: __("Rename"),
 										icon	: "/tao/views/img/rename.png",
 										visible: function(NODE, TREE_OBJ){
 											if($(NODE).hasClass('node-root')){

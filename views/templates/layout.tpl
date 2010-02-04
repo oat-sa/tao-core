@@ -41,7 +41,7 @@
 		<?else:?>
 			<span>
 		<?endif?>
-				<a href="<?=_url('index', null, array('extension' => $extension['extension']))?>"><?=$extension['name']?></a>
+				<a href="<?=_url('index', null, array('extension' => $extension['extension']))?>"><?=__($extension['name'])?></a>
 			</span>
 	<?endforeach?>
 	<?if(get_data('currentExtension') && get_data('currentExtension') != 'users'):?>
@@ -58,7 +58,7 @@
 	<div id="tabs">
 		<ul>
 		<?foreach(get_data('sections') as $section):?>
-			<li><a id="<?=(string)$section['id']?>" href="<?=ROOT_URL.(string)$section['url']?>"><?=(string)$section['name']?></a></li>
+			<li><a id="<?=(string)$section['id']?>" href="<?=ROOT_URL.(string)$section['url']?>"><?=__((string)$section['name'])?></a></li>
 		<?endforeach?>
 		</ul>
 		<div id="section-trees"></div>

@@ -8,8 +8,8 @@
 		<div id="user-list-pager"></div> 
 		
 		<br />
-		<span class="ui-state-default ui-corner-all"><a href="#" onclick="selectTabByName('add_user');"><img src="<?=BASE_WWW?>img/add.png" alt="add" /> Add a user</a></span><br /><br />
-		<span class="ui-state-default ui-corner-all"><a href="<?=_url('restore')?>"><img src="<?=BASE_WWW?>img/undo.png" alt="add" /> Restore default user</a></span><br />
+		<span class="ui-state-default ui-corner-all"><a href="#" onclick="selectTabByName('add_user');"><img src="<?=BASE_WWW?>img/add.png" alt="add" /> <?=__('Add a user')?></a></span><br /><br />
+		<span class="ui-state-default ui-corner-all"><a href="<?=_url('restore')?>"><img src="<?=BASE_WWW?>img/undo.png" alt="add" /> <?=__('Restore default user')?></a></span><br />
 </div>
 <script type="text/javascript">
 function editUser(login){
@@ -25,7 +25,7 @@ $(function(){
 	$("#user-list").jqGrid({
 		url:'/tao/Users/data', 
 		datatype: "json", 
-		colNames:['', 'Login', 'FirstName', 'LastName','Email','Company','Language', 'Actions'], 
+		colNames:['', __('Login'), __('FirstName'), __('LastName'), __('Email'), __('Company'), __('Language'), __('Actions')], 
 		colModel:[ 
 			{name:'active',index:'active', width:25, align:"center", sortable: false},
 			{name:'login',index:'login', width:150}, 
@@ -43,7 +43,7 @@ $(function(){
 		sortname: 'login', 
 		viewrecords: false, 
 		sortorder: "asc", 
-		caption: "Users"
+		caption: __("Users")
 	});
 	$("#user-list").jqGrid('navGrid','#user-list-pager',{edit:false, add:false, del:false});
 	_autoFx();
