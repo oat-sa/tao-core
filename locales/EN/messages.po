@@ -307,4 +307,14 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
+msgid "EN"
+msgstr "English"
 
+msgid "FR"
+msgstr "French"
+
+msgid "DE"
+msgstr "German"
+
+msgid "LU"
+msgstr "Luxemburgish"

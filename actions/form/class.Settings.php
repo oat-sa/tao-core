@@ -84,7 +84,7 @@ class tao_actions_form_Settings
 		
 		$options = array();
 		foreach($GLOBALS['available_langs'] as $langCode){
-			$options[$langCode] = $langCode;
+			$options[$langCode] = __($langCode);
 		}
 		
 		$uiLangElement = tao_helpers_form_FormFactory::getElement('ui_lang', 'Combobox');

@@ -49,6 +49,7 @@ $GLOBALS['available_langs']	= array('EN', 'FR', 'DE', 'LU');
 #BASE PATH: the root path in the file system (usually the document root)
 define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT']);
 define('BASE_PATH', ROOT_PATH . '/tao');
+define('TAOVIEW_PATH', DIR_VIEWS);
 
 #BASE URL (usually the domain root)
 define('ROOT_URL', 'http://'.$_SERVER['HTTP_HOST']);

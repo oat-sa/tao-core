@@ -92,7 +92,13 @@ class tao_helpers_form_GenerisFormFactory
 			}
 			
 			$myForm = tao_helpers_form_FormFactory::getForm($name, $options);
-			$myForm->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
+			
+			//add translate action in toolbar
+			$topActions = tao_helpers_form_FormFactory::getCommonActions('top');
+			$translateELt = tao_helpers_form_FormFactory::getElement('translate', 'Free');
+			$translateELt->setValue(" | <a href='translateInstance?uri=".tao_helpers_Uri::encode($instance->uriResource)."&classUri=".tao_helpers_Uri::encode($clazz->uriResource)."' class='nav' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
+			$topActions[] = $translateELt;
+			$myForm->setActions($topActions, 'top');
 			
 			$level = 2;
 			$defaultProperties 	= self::getDefaultProperties();
@@ -155,6 +161,28 @@ class tao_helpers_form_GenerisFormFactory
 		}
 		
         // section 10-13-1-45--70bace43:123ffff90e9:-8000:00000000000018CD end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method translateInstanceEditor
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class clazz
+     * @param  Resource instance
+     * @return tao_helpers_form_Form
+     */
+    public static function translateInstanceEditor( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $instance)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--442e4448:1269d8ce833:-8000:0000000000001E7E begin
+		
+		$returnValue = self::instanceEditor($clazz, $instance);
+		
+        // section 127-0-1-1--442e4448:1269d8ce833:-8000:0000000000001E7E end
 
         return $returnValue;
     }

@@ -193,7 +193,7 @@ class tao_actions_form_Users
 		//language field
 		$options = array();
 		foreach($GLOBALS['available_langs'] as $langCode){
-			$options[$langCode] = $langCode;
+			$options[$langCode] = __($langCode);
 		}
 		$lgElement = tao_helpers_form_FormFactory::getElement('Deflg', 'Combobox');
 		$lgElement->setDescription(__('Language *'));

@@ -28,21 +28,190 @@ abstract class TaoModule extends CommonModule {
 		}
 	}
 	
+	
+	
 	/**
-	 * All tao module must have a method to get the meta data of the selected resource
-	 * Display the metadata. 
+     * @see Module::setView()
+     * @param string $identifier view identifier
+     * @param boolean set to true if you want to use the views in the tao extension instead of the current extension 
+     */
+    public function setView($identifier, $useMetaExtensionView = false) {
+        parent::setView($identifier);
+		if($useMetaExtensionView){
+			Renderer::setViewsBasePath(TAOVIEW_PATH);
+		}
+	}
+	
+/*
+ * Shared Methods
+ */
+	
+	/**
+	 * get the current item class regarding the classUri' request parameter
+	 * @return core_kernel_classes_Class the item class
+	 */
+	protected function getCurrentClass(){
+		$classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
+		if(is_null($classUri) || empty($classUri)){
+			throw new Exception("No valid class uri found");
+		}
+		
+		return  new core_kernel_classes_Class($classUri);
+	}
+	
+	/**
+	 *  ! Please override me !
+	 * get the current instance regarding the uri and classUri in parameter
+	 * @return core_kernel_classes_Resource
+	 */
+	protected function getCurrentInstance(){
+		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+		if(is_null($uri) || empty($uri)){
+			throw new Exception("No valid uri found");
+		}
+		
+		$clazz = $this->getCurrentClass();
+		$instance = $this->service->getOneInstanceBy( $clazz, $uri, 'uri');
+		if(is_null($instance)){
+			throw new Exception("No instance found for the uri {$uri}");
+		}
+		
+		return $instance;
+	}
+
+	/**
+	 * Edit a class using the GenerisFormFactory::classEditor
+	 * Manage the form submit by saving the class
+	 * @param core_kernel_classes_Class    $clazz
+	 * @param core_kernel_classes_Resource $resource
+	 * @return tao_helpers_form_Form the generated form
+	 */
+	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource){
+		$myForm = tao_helpers_form_GenerisFormFactory::classEditor($clazz, $resource);
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				
+				$classValues = array();
+				$propertyValues = array();
+				
+				foreach($myForm->getValues() as $key => $value){
+					if(preg_match("/^class_/", $key)){
+						$classKey =  tao_helpers_Uri::decode(str_replace('class_', '', $key));
+						$classValues[$classKey] =  tao_helpers_Uri::decode($value);
+					}
+					if(preg_match("/^property_/", $key)){
+						if(isset($_POST[$key])){
+							$key = str_replace('property_', '', $key);
+							$propNum = substr($key, 0, strpos($key, '_') );
+							$propKey = tao_helpers_Uri::decode(str_replace($propNum.'_', '', $key));
+							$propertyValues[$propNum][$propKey] = tao_helpers_Uri::decode($value);
+						}
+						else{
+							$key = str_replace('property_', '', $key);
+							$propNum = substr($key, 0, strpos($key, '_') );
+							if(!isset($propertyValues[$propNum])){
+								$propertyValues[$propNum] = array();
+							}
+						}
+					}
+				}
+											
+				$clazz = $this->service->bindProperties($clazz, $classValues);
+				$propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
+				
+				
+				foreach($propertyValues as $propNum => $properties){
+					if(isset($_POST['propertyUri'.$propNum]) && count($properties) == 0){
+						//delete property mode
+						foreach($clazz->getProperties() as $classProperty){
+							if($classProperty->uriResource == tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])){
+								if($classProperty->delete()){
+									
+								}
+								break;
+							}
+						}
+					}
+					else{
+						if($_POST["propertyMode{$propNum}"] == 'simple'){
+							
+							$type = $properties['type'];
+							$range = $properties['range'];
+							unset($properties['type']);
+							unset($properties['range']);
+							
+							if(isset($propertyMap[$type])){
+								$properties['http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget'] = $propertyMap[$type]['widget'];
+								if(is_null($propertyMap[$type]['range'])){
+									$properties['http://www.w3.org/2000/01/rdf-schema#range'] = $range;
+								}
+								else{
+									$properties['http://www.w3.org/2000/01/rdf-schema#range'] = $propertyMap[$type]['range'];
+								}
+							}
+						}
+						$this->service->bindProperties(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])), $properties);
+					}
+				}
+			}
+		}
+		return $myForm;
+	}
+	
+/*
+ * Actions
+ */
+ 
+	
+	/**
+	 * Main action
 	 * @return void
 	 */
-	abstract public function getMetaData();
+	public function index(){
+		
+		if($this->getData('reload') == true){
+			unset($_SESSION[SESSION_NAMESPACE]['uri']);
+			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
+		}
+		$this->setView('index.tpl', false);
+	}
 	
 	/**
-	 * All tao module must have a method to save the comment field of the selected resource
-	 * @return json response {saved: true, comment: text of the comment to refresh it}
+	 * Duplicate the current instance
+	 * render a JSON response
+	 * @return void
 	 */
-	abstract public function saveComment();
+	public function cloneInstance(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$clone = $this->service->cloneInstance($this->getCurrentInstance(), $this->getCurrentClass());
+		if(!is_null($clone)){
+			echo json_encode(array(
+				'label'	=> $clone->getLabel(),
+				'uri' 	=> tao_helpers_Uri::encode($clone->uriResource)
+			));
+		}
+	}
 	
-	
-
+	/**
+	 * Add an instance of the selected class
+	 * @return void
+	 */
+	public function addInstance(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$clazz = $this->getCurrentClass();
+		$instance = $this->service->createInstance($clazz);
+		if(!is_null($group) && $group instanceof core_kernel_classes_Resource){
+			echo json_encode(array(
+				'label'	=> $instance->getLabel(),
+				'uri' 	=> tao_helpers_Uri::encode($instance->uriResource)
+			));
+		}
+	}
 	
 	/**
 	 * Import module data Action
@@ -128,7 +297,7 @@ abstract class TaoModule extends CommonModule {
 		
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Import data'));
-		$this->setView('importform.tpl');
+		$this->setView('importform.tpl', true);
 	}
 	
 	
@@ -161,105 +330,11 @@ abstract class TaoModule extends CommonModule {
 	}
 	
 	
-/*
- * Shared Methods
- */
-	
-	/**
-	 * get the current item class regarding the classUri' request parameter
-	 * @return core_kernel_classes_Class the item class
-	 */
-	protected function getCurrentClass(){
-		$classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
-		if(is_null($classUri) || empty($classUri)){
-			throw new Exception("No valid class uri found");
-		}
-		
-		return  new core_kernel_classes_Class($classUri);
+	public function translateInstance(){
+		$this->setData('myForm', $myForm->render());
+		$this->setData('formTitle', __('Translate'));
+		$this->setView('form.tpl', true);
 	}
-
-	/**
-	 * Edit a class using the GenerisFormFactory::classEditor
-	 * Manage the form submit by saving the class
-	 * @param core_kernel_classes_Class    $clazz
-	 * @param core_kernel_classes_Resource $resource
-	 * @return tao_helpers_form_Form the generated form
-	 */
-	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource){
-		$myForm = tao_helpers_form_GenerisFormFactory::classEditor($clazz, $resource);
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				
-				$classValues = array();
-				$propertyValues = array();
-				
-				foreach($myForm->getValues() as $key => $value){
-					if(preg_match("/^class_/", $key)){
-						$classKey =  tao_helpers_Uri::decode(str_replace('class_', '', $key));
-						$classValues[$classKey] =  tao_helpers_Uri::decode($value);
-					}
-					if(preg_match("/^property_/", $key)){
-						if(isset($_POST[$key])){
-							$key = str_replace('property_', '', $key);
-							$propNum = substr($key, 0, strpos($key, '_') );
-							$propKey = tao_helpers_Uri::decode(str_replace($propNum.'_', '', $key));
-							$propertyValues[$propNum][$propKey] = tao_helpers_Uri::decode($value);
-						}
-						else{
-							$key = str_replace('property_', '', $key);
-							$propNum = substr($key, 0, strpos($key, '_') );
-							if(!isset($propertyValues[$propNum])){
-								$propertyValues[$propNum] = array();
-							}
-						}
-					}
-				}
-											
-				$clazz = $this->service->bindProperties($clazz, $classValues);
-				$propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
-				
-				
-				foreach($propertyValues as $propNum => $properties){
-					if(isset($_POST['propertyUri'.$propNum]) && count($properties) == 0){
-						//delete property mode
-						foreach($clazz->getProperties() as $classProperty){
-							if($classProperty->uriResource == tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])){
-								if($classProperty->delete()){
-									
-								}
-								break;
-							}
-						}
-					}
-					else{
-						if($_POST["propertyMode{$propNum}"] == 'simple'){
-							
-							$type = $properties['type'];
-							$range = $properties['range'];
-							unset($properties['type']);
-							unset($properties['range']);
-							
-							if(isset($propertyMap[$type])){
-								$properties['http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget'] = $propertyMap[$type]['widget'];
-								if(is_null($propertyMap[$type]['range'])){
-									$properties['http://www.w3.org/2000/01/rdf-schema#range'] = $range;
-								}
-								else{
-									$properties['http://www.w3.org/2000/01/rdf-schema#range'] = $propertyMap[$type]['range'];
-								}
-							}
-						}
-						$this->service->bindProperties(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])), $properties);
-					}
-				}
-			}
-		}
-		return $myForm;
-	}
-	
-/*
- * Actions
- */
 
 	/**
 	 * Render the add property sub form.
@@ -287,7 +362,7 @@ abstract class TaoModule extends CommonModule {
 		);
 		
 		$this->setData('data', $myForm->renderElements());
-		$this->setView('blank.tpl');
+		$this->setView('blank.tpl', true);
 	}	
 	
 	/**
@@ -476,6 +551,18 @@ abstract class TaoModule extends CommonModule {
 		echo json_encode($data);
 	}
 	
+	/**
+	 * All tao module must have a method to get the meta data of the selected resource
+	 * Display the metadata. 
+	 * @return void
+	 */
+	abstract public function getMetaData();
+	
+	/**
+	 * All tao module must have a method to save the comment field of the selected resource
+	 * @return json response {saved: true, comment: text of the comment to refresh it}
+	 */
+	abstract public function saveComment();
 	
 }
 ?>
