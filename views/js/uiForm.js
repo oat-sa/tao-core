@@ -411,6 +411,7 @@ UiForm = function(){
 				if (UiBootstrap.tabs.size() == 0) {
 					return true;
 				}
+				$(getMainContainerSelector(UiBootstrap.tabs)).load(myForm.attr('action'), myForm.serializeArray());
 			}
 			window.location = '#form-title';
 		} 
