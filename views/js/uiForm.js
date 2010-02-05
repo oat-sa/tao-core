@@ -60,7 +60,19 @@ UiForm = function(){
 				if ($("#classUri")) {
 					GenerisTreeClass.selectTreeNode($("#classUri").val());
 				}
-		})
+		});
+		
+		//translate button
+		$(".form-translator").click(function(){
+			if($("#uri") && $("#classUri")){
+				if(ctx_extension){
+					url = '/' + ctx_extension + '/' + ctx_module + '/';
+				}
+				url += 'translateInstance';
+				$(getMainContainerSelector(UiBootstrap.tabs)).load(url, {'uri': $("#uri").val(), 'classUri': $("#classUri").val()});
+			}
+			return false;
+		});
 		
 		//map the wysiwyg editor to the html-area fields
 		$('.html-area').each(function(){
@@ -399,7 +411,6 @@ UiForm = function(){
 				if (UiBootstrap.tabs.size() == 0) {
 					return true;
 				}
-				$(getMainContainerSelector(UiBootstrap.tabs)).load(myForm.attr('action'), myForm.serializeArray());
 			}
 			window.location = '#form-title';
 		} 

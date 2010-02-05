@@ -96,7 +96,7 @@ class tao_helpers_form_GenerisFormFactory
 			//add translate action in toolbar
 			$topActions = tao_helpers_form_FormFactory::getCommonActions('top');
 			$translateELt = tao_helpers_form_FormFactory::getElement('translate', 'Free');
-			$translateELt->setValue(" | <a href='translateInstance?uri=".tao_helpers_Uri::encode($instance->uriResource)."&classUri=".tao_helpers_Uri::encode($clazz->uriResource)."' class='nav' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
+			$translateELt->setValue(" | <a href='#' class='form-translator' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
 			$topActions[] = $translateELt;
 			$myForm->setActions($topActions, 'top');
 			
@@ -180,7 +180,52 @@ class tao_helpers_form_GenerisFormFactory
 
         // section 127-0-1-1--442e4448:1269d8ce833:-8000:0000000000001E7E begin
 		
-		$returnValue = self::instanceEditor($clazz, $instance);
+		$myForm = self::instanceEditor($clazz, $instance);
+		$myForm->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
+		
+		$elements = $myForm->getElements();
+		
+		$myForm->setElements(array());
+		
+		$currentLangElt = tao_helpers_form_FormFactory::getElement('current_lang', 'Textbox');
+		$currentLangElt->setDescription(__('Current language'));
+		$currentLangElt->setAttributes(array('readonly' => 'true'));
+		$currentLangElt->setValue(__(core_kernel_classes_Session::singleton()->getLg()));
+		$myForm->addElement($currentLangElt);
+		
+		$options = array();
+		foreach($GLOBALS['available_langs'] as $langCode){
+			$options[$langCode] = __($langCode);
+		}
+		$dataLangElement = tao_helpers_form_FormFactory::getElement('translate_lang', 'Combobox');
+		$dataLangElement->setDescription(__('Translate to'));
+		$dataLangElement->setOptions($options);
+		$dataLangElement->setEmptyOption(__('Select a language'));
+		$myForm->addElement($dataLangElement);
+		
+		$myForm->createGroup('translation_info', __('Translation parameters'), array('current_lang', 'translate_lang'));
+		
+		$dataGroup = array();
+		foreach($elements as $element){
+			
+			$translatedElt = clone $element;
+			
+			$name = 'view_'.$element->getName();
+			$element->setName($name);
+			$element->setAttributes(array('readonly' => 'true'));
+			$myForm->addElement($element);
+			
+			$translatedElt->setDescription(' ');
+			$translatedElt->setValue('');
+			$myForm->addElement($translatedElt);
+			
+			$dataGroup[] = $name;
+			$dataGroup[] = $translatedElt->getName();
+		}
+		
+		$myForm->createGroup('translation_form', __('Translate'), $dataGroup);
+		
+		$returnValue = $myForm;
 		
         // section 127-0-1-1--442e4448:1269d8ce833:-8000:0000000000001E7E end
 

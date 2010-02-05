@@ -331,6 +331,11 @@ abstract class TaoModule extends CommonModule {
 	
 	
 	public function translateInstance(){
+		
+		
+		$myForm = tao_helpers_form_GenerisFormFactory::translateInstanceEditor($this->getCurrentClass(), $this->getCurrentInstance());
+		
+		
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Translate'));
 		$this->setView('form.tpl', true);
