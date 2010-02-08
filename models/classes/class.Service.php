@@ -425,6 +425,75 @@ abstract class tao_models_classes_Service
         return (array) $returnValue;
     }
 
+    /**
+     * Short description of method getTranslatedProperties
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource instance
+     * @param  string lang
+     * @return array
+     */
+    public function getTranslatedProperties( core_kernel_classes_Resource $instance, $lang)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E84 begin
+		
+		try{
+			$type = $instance->getUniquePropertyValue(new core_kernel_classes_Property(RDFS_TYPE));
+			$clazz = new core_kernel_classes_Class($type->uriResource);
+			
+			foreach($clazz->getProperties(true) as $property){
+				
+				if($property->isLgDependent() || $property->uriResource == RDFS_LABEL){
+					$collection = $instance->getPropertyValuesByLg($property, $lang);
+					if($collection->count() > 0 ){
+						
+						if($collection->count() == 1){
+							$returnValue[$property->uriResource] = (string)$collection->get(0);
+						}
+						else{
+							$propData = array();
+							foreach($collection->getIterator() as $collectionItem){
+								$propData[] = (string)$collectionItem;
+							}
+							$returnValue[$property->uriResource] = $propData;
+						}
+					}
+					
+				}
+			}
+		}
+		catch(Exception $e){
+			print $e;
+		}
+		
+        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E84 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method setTranslatedProperties
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource instance
+     * @param  string lang
+     * @param  array data
+     * @return boolean
+     */
+    public function setTranslatedProperties( core_kernel_classes_Resource $instance, $lang, $data)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E88 begin
+        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E88 end
+
+        return (bool) $returnValue;
+    }
+
 } /* end of abstract class tao_models_classes_Service */
 
 ?>

@@ -332,13 +332,51 @@ abstract class TaoModule extends CommonModule {
 	
 	public function translateInstance(){
 		
-		
-		$myForm = tao_helpers_form_GenerisFormFactory::translateInstanceEditor($this->getCurrentClass(), $this->getCurrentInstance());
-		
+		$instance = $this->getCurrentInstance();
+		$myForm = tao_helpers_form_GenerisFormFactory::translateInstanceEditor($this->getCurrentClass(), $instance);
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				
+				$values = $myForm->getValues();
+				if(isset($values['translate_lang'])){
+					$lang = $values['translate_lang'];
+					
+					$translated = 0;
+					foreach($values as $key => $value){
+						if(preg_match("/^http/", $key) && !empty($value)){
+							if($instance->setPropertyValueByLg(new core_kernel_classes_Property($key), $value, $lang)){
+								$translated++;
+							}
+						}
+					}
+					if($translated > 0){
+						$this->setData('message', __('Translation saved'));
+					}
+				}
+			}
+		}
 		
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Translate'));
 		$this->setView('form.tpl', true);
+	}
+	
+	public function getTranslatedData(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$data = array();
+		if($this->hasRequestParameter('lang')){
+			
+			$trData = $this->service->getTranslatedProperties(
+					$this->getCurrentInstance(),
+					$this->getRequestParameter('lang') 
+				);
+			foreach($trData as $key => $value){
+				$data[tao_helpers_Uri::encode($key)] = $value;
+			}
+		}
+		echo json_encode($data);
 	}
 
 	/**

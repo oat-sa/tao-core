@@ -27,9 +27,13 @@ UiForm = function(){
 		
 		$("body").ajaxComplete(function(event, request, settings){
 			if(settings.dataType == 'html'){
+				formInstance.initElements();	
 				if( /edit/.test(settings.url) || /add/.test(settings.url)){
-					formInstance.initElements();
+					
 					formInstance.initOntoForms();
+				}
+				if(/translateInstance/.test(settings.url)){
+					formInstance.initTranslationForm();
 				}
 			}
 		});
@@ -82,8 +86,8 @@ UiForm = function(){
 		});
 		
 		//map the imageable / fileable elements to the filemanager plugin
-		$('.imageable').fmbind({
-			type: 'image'
+		$('.imageable').fmbind({type: 'image'}, function(elt, value){
+			$(elt).val(value)
 		});
 		$('.fileable').fmbind({
 			type: 'file'
@@ -400,6 +404,34 @@ UiForm = function(){
 				elt.addClass('form-elt-highlight');
 			}
 		 });
+	}
+	
+	this.initTranslationForm = function(){
+		$('#translate_lang').change(function(){
+			trLang = $(this).val();
+			if(trLang != ''){
+				
+				/*$("#translation_form :input").each(function({
+					val('');
+				});*/
+				
+				if(ctx_extension){
+				 	url = '/' + ctx_extension + '/' + ctx_module + '/';
+				}
+				url += 'getTranslatedData';
+				
+				$.post(
+					url,
+					{uri: $("#uri").val(), classUri: $("#classUri").val(), lang: trLang},
+					function(response){
+						for(index in response){
+							$(":input[name='"+index+"']").val(response[index]);
+						}
+					},
+					'json'
+				);
+			}
+		});
 	}
 	
 	this.submitForm = function(myForm){

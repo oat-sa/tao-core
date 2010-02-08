@@ -166,15 +166,13 @@ class tao_helpers_form_GenerisFormFactory
     }
 
     /**
-     * Create a translation form from an instance of your ontology.
-     * Only text widgets are now supported
+     * Short description of method translateInstanceEditor
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @param  Resource instance
      * @return tao_helpers_form_Form
-     * @see tao_helpers_form_GenerisFormFactory::isntanceEditor
      */
     public static function translateInstanceEditor( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $instance)
     {
@@ -183,16 +181,17 @@ class tao_helpers_form_GenerisFormFactory
         // section 127-0-1-1--442e4448:1269d8ce833:-8000:0000000000001E7E begin
 		
 		$myForm = self::instanceEditor($clazz, $instance);
+		$myForm->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
+		
 		$elements = $myForm->getElements();
 		
-		$myTranslatedForm = tao_helpers_form_FormFactory::getForm('translate_'.$myForm->getName());
-		$myTranslatedForm->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
+		$myForm->setElements(array());
 		
 		$currentLangElt = tao_helpers_form_FormFactory::getElement('current_lang', 'Textbox');
 		$currentLangElt->setDescription(__('Current language'));
 		$currentLangElt->setAttributes(array('readonly' => 'true'));
 		$currentLangElt->setValue(__(core_kernel_classes_Session::singleton()->getLg()));
-		$myTranslatedForm->addElement($currentLangElt);
+		$myForm->addElement($currentLangElt);
 		
 		$options = array();
 		foreach($GLOBALS['available_langs'] as $langCode){
@@ -202,21 +201,17 @@ class tao_helpers_form_GenerisFormFactory
 		$dataLangElement->setDescription(__('Translate to'));
 		$dataLangElement->setOptions($options);
 		$dataLangElement->setEmptyOption(__('Select a language'));
-		$dataLangElement->addValidator( tao_helpers_form_FormFactory::getValidator('NotEmpty') );
-		$myTranslatedForm->addElement($dataLangElement);
+		$myForm->addElement($dataLangElement);
 		
-		$myTranslatedForm->createGroup('translation_info', __('Translation parameters'), array('current_lang', 'translate_lang'));
+		$myForm->createGroup('translation_info', __('Translation parameters'), array('current_lang', 'translate_lang'));
 		
 		$dataGroup = array();
-		$level = 5;
 		foreach($elements as $element){
 			
-			$element->setLevel($level);
 			if( $element instanceof tao_helpers_form_elements_Hidden ||
 				$element->getName() == 'uri' || $element->getName() == 'classUri'){
 					
-				$myTranslatedForm->addElement($element);
-				
+				$myForm->addElement($element);
 			}
 			else{
 				
@@ -225,7 +220,6 @@ class tao_helpers_form_GenerisFormFactory
 				
 				//translate only language dependent properties or Labels
 				//supported widget are: Textbox, TextArea, HtmlArea
-				//@todo support other widgets
 				if(	( $property->isLgDependent() && 
 					  ($element instanceof tao_helpers_form_elements_Textbox ||
 					   $element instanceof tao_helpers_form_elements_TextArea ||
@@ -238,26 +232,21 @@ class tao_helpers_form_GenerisFormFactory
 					$name = 'view_'.$element->getName();
 					$element->setName($name);
 					$element->setAttributes(array('readonly' => 'true'));
-					$myTranslatedForm->addElement($element);
+					$myForm->addElement($element);
 					
 					$translatedElt->setDescription(' ');
 					$translatedElt->setValue('');
-					$translatedElt->setLevel($level + 1);
-					$myTranslatedForm->addElement($translatedElt);
+					$myForm->addElement($translatedElt);
 					
 					$dataGroup[] = $name;
 					$dataGroup[] = $translatedElt->getName();
 				}
 			}
-			$level += 2;
 		}
 		
-		$myTranslatedForm->createGroup('translation_form', __('Translate'), $dataGroup);
+		$myForm->createGroup('translation_form', __('Translate'), $dataGroup);
 		
-		//form data evaluation
-		$myTranslatedForm->evaluate();
-			
-		$returnValue = $myTranslatedForm;
+		$returnValue = $myForm;
 		
         // section 127-0-1-1--442e4448:1269d8ce833:-8000:0000000000001E7E end
 
