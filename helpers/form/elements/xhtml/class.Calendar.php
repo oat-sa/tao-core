@@ -71,7 +71,13 @@ class tao_helpers_form_elements_xhtml_Calendar
 		}
 		$elementId = $this->getDescription().'_'.$uniqueId;
 		
-		$returnValue .= "<label class='form_desc calendar' for='{$this->name}'>".$this->getDescription()."</label>";
+		
+		if(!isset($this->attributes['noLabel'])){
+			$returnValue .= "<label class='form_desc calendar' for='{$this->name}'>".$this->getDescription()."</label>";
+		}
+		else{
+			unset($this->attributes['noLabel']);
+		}
 		$returnValue .= "<input type='text' name='{$this->name}' id='$elementId' ";
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= " value='{$this->value}'  />";

@@ -84,10 +84,15 @@ class tao_helpers_form_elements_xhtml_Htmlarea
 			$this->attributes['class'] = self::CSS_CLASS;
 		}
 		 
-		 $returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
-		 $returnValue .= "<textarea name='{$this->name}' id='{$this->name}' ";
-		 $returnValue .= $this->renderAttributes();
-		 $returnValue .= ">{$this->value}</textarea>";
+		 if(!isset($this->attributes['noLabel'])){
+			$returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
+		}
+		else{
+			unset($this->attributes['noLabel']);
+		}
+		$returnValue .= "<textarea name='{$this->name}' id='{$this->name}' ";
+		$returnValue .= $this->renderAttributes();
+		$returnValue .= ">{$this->value}</textarea>";
 		 
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F4 end
 

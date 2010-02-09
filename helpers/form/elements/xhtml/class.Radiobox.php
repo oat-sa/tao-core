@@ -68,7 +68,13 @@ class tao_helpers_form_elements_xhtml_Radiobox
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F6 begin
 		
 		$i = 0;
-		$returnValue .= "<span class='form_desc'>".$this->getDescription()."</span>";
+		
+		if(!isset($this->attributes['noLabel'])){
+			$returnValue .= "<span class='form_desc'>".$this->getDescription()."</span>";
+		}
+		else{
+			unset($this->attributes['noLabel']);
+		}
 		foreach($this->options as $optionId => $optionLabel){
 			 $returnValue .= "<input type='radio' name='{$this->name}' id='{$this->name}_{$i}' value='{$optionId}' ";
 			 $returnValue .= $this->renderAttributes();

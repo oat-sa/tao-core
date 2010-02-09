@@ -66,11 +66,18 @@ class tao_helpers_form_elements_xhtml_Hiddenbox
         $returnValue = (string) '';
 
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F8 begin
-		 $returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
-		 $returnValue .= "<input type='password' name='{$this->name}' id='{$this->name}' ";
-		 $returnValue .= $this->renderAttributes();
-		 $returnValue .= " value='{$this->value}' />";
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F8 end
+		
+		if(!isset($this->attributes['noLabel'])){
+			$returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
+		}
+		else{
+			unset($this->attributes['noLabel']);
+		}
+		$returnValue .= "<input type='password' name='{$this->name}' id='{$this->name}' ";
+		$returnValue .= $this->renderAttributes();
+		$returnValue .= " value='{$this->value}' />";
+        
+		// section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F8 end
 
         return (string) $returnValue;
     }

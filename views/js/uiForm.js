@@ -26,10 +26,11 @@ UiForm = function(){
 		}
 		
 		$("body").ajaxComplete(function(event, request, settings){
+			
+			//initialize regarding the request action
 			if(settings.dataType == 'html'){
 				formInstance.initElements();	
 				if( /edit/.test(settings.url) || /add/.test(settings.url)){
-					
 					formInstance.initOntoForms();
 				}
 				if(/translateInstance/.test(settings.url)){
@@ -441,6 +442,9 @@ UiForm = function(){
 			}
 			else {
 				if (UiBootstrap.tabs.size() == 0) {
+					return true;
+				}
+				if(!$(getMainContainerSelector(UiBootstrap.tabs))){
 					return true;
 				}
 				$(getMainContainerSelector(UiBootstrap.tabs)).load(myForm.attr('action'), myForm.serializeArray());

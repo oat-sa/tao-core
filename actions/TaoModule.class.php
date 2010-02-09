@@ -80,6 +80,12 @@ abstract class TaoModule extends CommonModule {
 	}
 
 	/**
+	 * get the main class
+	 * @return core_kernel_classes_Classes
+	 */
+	protected abstract function getRootClass();
+
+	/**
 	 * Edit a class using the GenerisFormFactory::classEditor
 	 * Manage the form submit by saving the class
 	 * @param core_kernel_classes_Class    $clazz
@@ -118,8 +124,7 @@ abstract class TaoModule extends CommonModule {
 											
 				$clazz = $this->service->bindProperties($clazz, $classValues);
 				$propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
-				
-				
+							
 				foreach($propertyValues as $propNum => $properties){
 					if(isset($_POST['propertyUri'.$propNum]) && count($properties) == 0){
 						//delete property mode
@@ -158,6 +163,8 @@ abstract class TaoModule extends CommonModule {
 		return $myForm;
 	}
 	
+	
+	
 /*
  * Actions
  */
@@ -174,6 +181,22 @@ abstract class TaoModule extends CommonModule {
 			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
 		}
 		$this->setView('index.tpl', false);
+	}
+	
+	/**
+	 * Render json data from the current ontology root class
+	 * @return void
+	 */
+	public function getOntologyData(){
+		
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$filter = '';
+		if($this->hasRequestParameter('filter')){
+			$filter = $this->getRequestParameter('filter');
+		}
+		echo json_encode( $this->service->toTree( $this->getRootClass(), true, true, '', $filter));
 	}
 	
 	/**
@@ -205,7 +228,7 @@ abstract class TaoModule extends CommonModule {
 		}
 		$clazz = $this->getCurrentClass();
 		$instance = $this->service->createInstance($clazz);
-		if(!is_null($group) && $group instanceof core_kernel_classes_Resource){
+		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			echo json_encode(array(
 				'label'	=> $instance->getLabel(),
 				'uri' 	=> tao_helpers_Uri::encode($instance->uriResource)
@@ -329,7 +352,10 @@ abstract class TaoModule extends CommonModule {
 		throw new Exception("Unable to export data");
 	}
 	
-	
+	/**
+	 * Render the  form to translate a Resource instance
+	 * @return void
+	 */
 	public function translateInstance(){
 		
 		$instance = $this->getCurrentInstance();
@@ -361,6 +387,10 @@ abstract class TaoModule extends CommonModule {
 		$this->setView('form.tpl', true);
 	}
 	
+	/**
+	 * load the translated data of an instance regarding the given lang 
+	 * @return void
+	 */
 	public function getTranslatedData(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
@@ -377,6 +407,18 @@ abstract class TaoModule extends CommonModule {
 			}
 		}
 		echo json_encode($data);
+	}
+	
+	public function search(){
+		$myForm = tao_helpers_form_GenerisFormFactory::searchInstancesEditor($this->getRootClass());
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				
+			}
+		}
+		$this->setData('myForm', $myForm->render());
+		$this->setData('formTitle', __('Search'));
+		$this->setView('form.tpl', true);
 	}
 
 	/**

@@ -265,6 +265,64 @@ class tao_helpers_form_GenerisFormFactory
     }
 
     /**
+     * Short description of method searchInstancesEditor
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class clazz
+     * @return tao_helpers_form_Form
+     */
+    public static function searchInstancesEditor( core_kernel_classes_Class $clazz)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-22aa168e:126ae36f293:-8000:0000000000001E8D begin
+		
+		if(empty($name)){
+			$name = 'form_'.(count(self::$forms)+1);
+		}
+			
+		$myForm = tao_helpers_form_FormFactory::getForm($name);
+			
+		//search action in toolbar
+		$searchELt = tao_helpers_form_FormFactory::getElement('search', 'Free');
+		$searchELt->setValue("<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/search.png'  /> ".__('Search')."</a>");
+		$myForm->setActions(array($searchELt), 'top');
+		
+		$searchBtnElt = tao_helpers_form_FormFactory::getElement('search-button', 'Submit');
+		$searchBtnElt->setValue(__('Search'));
+		$myForm->setActions(array($searchBtnElt), 'bottom');
+		
+		$chaining = tao_helpers_form_FormFactory::getElement('chaining', 'Radiobox');
+		$chaining->setDescription(__('Chaining'));
+		$chaining->setOptions(array('and' => __('Inclusive (AND)'), 'or' =>  __('Exclusive (OR)')));
+		$chaining->setValue('and');
+		$myForm->addElement($chaining);
+		
+		$myForm->createGroup('params', __('Options'), array('chaining'));
+		
+		$defaultProperties 	= self::getDefaultProperties();
+		$classProperties	= self::getClassProperties($clazz, new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS));
+		
+		$filters = array();
+		foreach(array_merge($defaultProperties, $classProperties) as $property){
+			$element = tao_helpers_form_FormFactory::getElement($property->uriResource, 'Textbox');
+			$element->setDescription($property->getLabel());
+			$myForm->addElement($element);
+			$filters[] = $property->uriResource;
+		}
+		$myForm->createGroup('filters', __('Filters'), $filters);
+		
+		$myForm->evaluate();
+		
+		$returnValue = $myForm;
+		
+        // section 127-0-1-1-22aa168e:126ae36f293:-8000:0000000000001E8D end
+
+        return $returnValue;
+    }
+
+    /**
      * create a Form to add a subclass to the rdfs:Class clazz
      *
      * @access public
