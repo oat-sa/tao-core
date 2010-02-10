@@ -32,6 +32,7 @@ div#ajax-loading{
 }
 a img{
 	border-width:0px;
+	text-decoration:none;
 }
 
 /* Layout */

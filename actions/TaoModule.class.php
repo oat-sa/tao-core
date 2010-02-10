@@ -183,6 +183,7 @@ abstract class TaoModule extends CommonModule {
 		$this->setView('index.tpl', false);
 	}
 	
+	
 	/**
 	 * Render json data from the current ontology root class
 	 * @return void
@@ -409,16 +410,57 @@ abstract class TaoModule extends CommonModule {
 		echo json_encode($data);
 	}
 	
+	/**
+	 * search the instances of an ontology
+	 * @return 
+	 */
 	public function search(){
-		$myForm = tao_helpers_form_GenerisFormFactory::searchInstancesEditor($this->getRootClass());
+		$found = false;
+		$clazz = $this->getRootClass();
+		$myForm = tao_helpers_form_GenerisFormFactory::searchInstancesEditor($clazz, true);
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
+				$filters = $myForm->getValues('filters');
+				$properties = array();
+				foreach($filters as $propUri => $filter){
+					$properties[] = new core_kernel_classes_Property($propUri);
+				}
+				$this->setData('properties', $properties);
+				$instances = $this->service->searchInstances($filters, $clazz, $myForm->getValues('params'));
+				if(count($instances) > 0 ){
+					$found = array();
+					$index = 1;
+					foreach($instances as $instance){
+						
+						$instanceProperties = array();
+						foreach($properties as $i => $property){
+							$value = '';
+							$propertyValues = $instance->getPropertyValuesCollection($property);
+							foreach($propertyValues->getIterator() as $j => $propertyValue){
+								if($propertyValue instanceof core_kernel_classes_Literal){
+									$value .= (string)$propertyValue;
+								}
+								if($propertyValue instanceof core_kernel_classes_Resource){
+									$value .= $propertyValue->getLabel();
+								}
+								if($j < $propertyValues->count()){
+									$value .= "<br />";
+								}
+							}
+							$instanceProperties[$i] = $value;
+						}
+						$found[$index]['uri'] = tao_helpers_Uri::encode($instance->uriResource);
+						$found[$index]['properties'] = $instanceProperties;
+						$index++;
+					}
+				}
 			}
 		}
+		$this->setData('found', $found);
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Search'));
-		$this->setView('form.tpl', true);
+		$this->setView('search_form.tpl', true);
 	}
 
 	/**

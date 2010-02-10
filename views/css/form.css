@@ -5,6 +5,7 @@ div#form-title{
 }
 div#form-container{
 	font-size:1em;
+	position:relative;
 }
 div.xhtml_form{
 	color:#444;
@@ -50,7 +51,6 @@ div.xhtml_form ul.form-elt-list{
 	padding-left:15px;
 	color:#444;
 }
-
 div.xhtml_form div .form-elt-container{
 	padding:3px;
 	margin-top:5px;
@@ -90,7 +90,6 @@ div.xhtml_form div.form-group div.form-error{
 	margin:5px;
 	margin-bottom:25px;
 }
-
 div#form-container div.xhtml_form div.form-elt-highlight{
 	background-color:#DAE6F8;
 }
@@ -106,7 +105,6 @@ div#form-container table th{
 div#form-container table th{
 	padding:5px;
 }
-
 div.form-group span.form-group-control{
 	cursor:pointer;
 	position:absolute;
@@ -115,7 +113,6 @@ div.form-group span.form-group-control{
 input[type=button], input[type=submit]{
 	cursor:pointer;
 }
-
 div.xhtml_form div.form-actions{
 	padding-left:30%;
 }
@@ -127,7 +124,8 @@ div.xhtml_form div.form-toolbar{
 	color:#AAA;
 	position:absolute;
 	right:10px;
-	top:10px;
+	top:-28px;
+	z-index:1000;
 }
 div.xhtml_form div.form-toolbar a img{
 	vertical-align:text-bottom;	

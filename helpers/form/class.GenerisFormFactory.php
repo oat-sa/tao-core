@@ -270,9 +270,10 @@ class tao_helpers_form_GenerisFormFactory
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
+     * @param  boolean recursive
      * @return tao_helpers_form_Form
      */
-    public static function searchInstancesEditor( core_kernel_classes_Class $clazz)
+    public static function searchInstancesEditor( core_kernel_classes_Class $clazz, $recursive = false)
     {
         $returnValue = null;
 
@@ -293,23 +294,53 @@ class tao_helpers_form_GenerisFormFactory
 		$searchBtnElt->setValue(__('Search'));
 		$myForm->setActions(array($searchBtnElt), 'bottom');
 		
-		$chaining = tao_helpers_form_FormFactory::getElement('chaining', 'Radiobox');
-		$chaining->setDescription(__('Chaining'));
-		$chaining->setOptions(array('and' => __('Inclusive (AND)'), 'or' =>  __('Exclusive (OR)')));
-		$chaining->setValue('and');
-		$myForm->addElement($chaining);
+		$chainingElt = tao_helpers_form_FormFactory::getElement('chaining', 'Radiobox');
+		$chainingElt->setDescription(__('Filtering mode'));
+		$chainingElt->setOptions(array('and' => __('Inclusive (AND)'), 'or' =>  __('Exclusive (OR)')));
+		$chainingElt->setValue('and');
+		$myForm->addElement($chainingElt);
 		
-		$myForm->createGroup('params', __('Options'), array('chaining'));
+		$options = array();
+		foreach($GLOBALS['available_langs'] as $langCode){
+			$options[$langCode] = __($langCode);
+		}
+		$langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
+		$langElt->setDescription(__('Language'));
+		$langElt->setOptions($options);
+		$myForm->addElement($langElt);
+		
+		$myForm->createGroup('params', __('Options'), array('chaining', 'lang'));
 		
 		$defaultProperties 	= self::getDefaultProperties();
 		$classProperties	= self::getClassProperties($clazz, new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS));
 		
+		$properties = array_merge($defaultProperties, $classProperties);
+		
+		if($recursive){
+			foreach($clazz->getSubClasses(true) as $subClass){
+				$properties = array_merge(self::getClassProperties($subClass, $subClass), $properties);
+			}
+		}
+		
 		$filters = array();
-		foreach(array_merge($defaultProperties, $classProperties) as $property){
-			$element = tao_helpers_form_FormFactory::getElement($property->uriResource, 'Textbox');
-			$element->setDescription($property->getLabel());
-			$myForm->addElement($element);
-			$filters[] = $property->uriResource;
+		foreach($properties as $property){
+		/*	$name = tao_helpers_Uri::encode($property->uriResource);
+			$element = tao_helpers_form_FormFactory::getElement($name, 'Textbox');
+			$element->setDescription($property->getLabel());*/
+			$element = self::elementMap($property);
+			if(!is_null($element) && ! $element instanceof tao_helpers_form_elements_Authoring ){
+				
+				if($element instanceof tao_helpers_form_elements_Radiobox || $element instanceof tao_helpers_form_elements_Combobox){
+					$newElement = tao_helpers_form_FormFactory::getElement($element->getName(), 'Checkbox');
+					$newElement->setDescription($element->getDescription());
+					$newElement->setOptions($element->getOptions());
+					$element = $newElement;
+				}
+				
+				$myForm->addElement($element);
+				$filters[] = $element->getName();
+			
+			}
 		}
 		$myForm->createGroup('filters', __('Filters'), $filters);
 		

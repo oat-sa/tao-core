@@ -10,6 +10,14 @@
 var GenerisAction = {};
 
 /**
+ * conveniance method to select a resource 
+ * @param {String} uri
+ */
+GenerisAction.select = function(uri){
+	GenerisTreeClass.selectTreeNode(uri);
+}
+
+/**
  * conveniance method to subclass
  * @param {String} uri
  * @param {String} classUri

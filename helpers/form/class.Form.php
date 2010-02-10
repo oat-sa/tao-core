@@ -634,16 +634,26 @@ abstract class tao_helpers_form_Form
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string groupName
      * @return array
      */
-    public function getValues()
+    public function getValues($groupName = '')
     {
         $returnValue = array();
 
         // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019E6 begin
+		
 		foreach($this->elements as $element){
+			if(!empty($groupName)){
+				if(isset($this->groups[$groupName])){
+					if(!in_array($element->getName(), $this->groups[$groupName]['elements'])){
+						continue;
+					}
+				}
+			}
 			$returnValue[$element->getName()] = $element->getValue();
 		}
+		
         // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019E6 end
 
         return (array) $returnValue;

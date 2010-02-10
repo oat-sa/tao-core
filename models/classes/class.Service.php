@@ -127,6 +127,98 @@ abstract class tao_models_classes_Service
     }
 
     /**
+     * Short description of method searchInstances
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  array propertyFilters
+     * @param  Class topClazz
+     * @param  array options
+     * @return array
+     */
+    public function searchInstances($propertyFilters = array(),  core_kernel_classes_Class $topClazz = null, $options = array())
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-106f2734:126b2f503d0:-8000:0000000000001E96 begin
+		
+		if(count($propertyFilters) == 0){
+			return $returnValue; 
+		}
+		
+		$query = "SELECT DISTINCT `subject` FROM `statements` ";
+		
+		$conditions = array();
+		foreach($propertyFilters as $propUri => $pattern){
+			if(is_string($pattern)){
+				if(!empty($pattern)){
+					$conditions[] = " (`predicate` = '{$propUri}' AND `object` LIKE '".str_replace('*', '%', $pattern)."') ";
+				}
+			}
+			if(is_array($pattern)){
+				if(count($pattern) > 0){
+					$multiCondition =  " (`predicate` = '{$propUri}' AND  ";
+					foreach($pattern as $i => $patternToken){
+						if($i > 0){
+							$multiCondition .= " OR ";
+						}
+						$multiCondition .= " `object` LIKE '".str_replace('*', '%', $patternToken)."'  ";
+					}
+					$conditions[] = $multiCondition." ) ";
+				}
+			}
+		}
+		if(count($conditions) == 0){
+			return $returnValue; 
+		}
+		$matchingUris = array();
+		
+		if(count($conditions) > 0){
+			
+			$query .= " WHERE ";
+			
+			$chainingMode = 'and';
+			if(isset($options['chaining'])){
+				$chainingMode = $options['chaining'];
+			}
+			switch($chainingMode){
+				case 'or':
+					$query .= implode(' OR ', $conditions);
+					break;
+				case 'and':
+				default:
+					$query .= implode(' AND ', $conditions);
+					break;
+			}
+			
+		}
+		
+		if(isset($options['lang'])){
+			$query .= " AND (l_language = '' OR l_language = '{$options['lang']}') ";
+		}
+		
+		$dbWrapper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
+		$result = $dbWrapper->execSql($query);
+		while (!$result->EOF){
+			$matchingUris[] = $result->fields['subject'];
+			$result->MoveNext();
+		}
+		
+		if(!is_null($topClazz)){
+			$instances = $topClazz->getInstances(true);
+			foreach($matchingUris as $matchingUri){
+				if(isset($instances[$matchingUri])){
+					$returnValue[] = $instances[$matchingUri];
+				}
+			}
+		}
+		
+        // section 127-0-1-1-106f2734:126b2f503d0:-8000:0000000000001E96 end
+
+        return (array) $returnValue;
+    }
+
+    /**
      * Retrieve a property
      *
      * @access public

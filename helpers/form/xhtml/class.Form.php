@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 22.12.2009, 16:53:45 with ArgoUML PHP module 
+ * Automatically generated on 09.02.2010, 15:57:12 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -67,14 +67,22 @@ class tao_helpers_form_xhtml_Form
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string groupName
      * @return array
      */
-    public function getValues()
+    public function getValues($groupName = '')
     {
         $returnValue = array();
 
         // section 127-0-1-1-4c3c2ff9:1242ef00aa7:-8000:0000000000001A1A begin
 		foreach($this->elements as $element){
+			if(!empty($groupName)){
+				if(isset($this->groups[$groupName])){
+					if(!in_array($element->getName(), $this->groups[$groupName]['elements'])){
+						continue;
+					}
+				}
+			}
 			if($element instanceof tao_helpers_form_elements_xhtml_Checkbox){
 				
 				$returnValue[tao_helpers_Uri::decode($element->getName())] = array();

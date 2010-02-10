@@ -412,9 +412,11 @@ UiForm = function(){
 			trLang = $(this).val();
 			if(trLang != ''){
 				
-				/*$("#translation_form :input").each(function({
-					val('');
-				});*/
+				$("#translation_form :input").each(function(){
+					if(/^http/.test($(this).attr('name'))){
+						$(this).val('');
+					}
+				});
 				
 				if(ctx_extension){
 				 	url = '/' + ctx_extension + '/' + ctx_module + '/';
