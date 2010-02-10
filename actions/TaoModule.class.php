@@ -237,6 +237,36 @@ abstract class TaoModule extends CommonModule {
 		}
 	}
 	
+	public function sasAddInstance(){
+		$clazz = $this->getCurrentClass();
+		$instance = $this->service->createInstance($clazz);
+		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
+			$this->redirect('sasEditInstance?uri='.tao_helpers_Uri::encode($instance->uriResource).'&classUri='.tao_helpers_Uri::encode($clazz->uriResource));
+		}
+	}
+	
+	public function sasEditInstance(){
+		$clazz = $this->getCurrentClass();
+		$instance = $this->getCurrentInstance();
+		
+		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $instance);
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				
+				$instance = $this->service->bindProperties($instance, $myForm->getValues());
+				
+				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($instance->uriResource));
+				$this->setData('message', __('Resource saved'));
+			}
+		}
+		
+		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
+		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
+		$this->setData('formTitle', __('Edit'));
+		$this->setData('myForm', $myForm->render());
+		$this->setView('form.tpl', true);
+	}
+	
 	/**
 	 * Import module data Action
 	 * @return void
@@ -609,7 +639,6 @@ abstract class TaoModule extends CommonModule {
 						}
 					}
 				}
-				
 			}
 		}
 		echo json_encode($response);

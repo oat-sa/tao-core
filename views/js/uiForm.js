@@ -27,13 +27,17 @@ UiForm = function(){
 		
 		$("body").ajaxComplete(function(event, request, settings){
 			
-			//initialize regarding the request action
+			//initialize regarding the requested action
 			if(settings.dataType == 'html'){
-				formInstance.initElements();	
-				if( /edit/.test(settings.url) || /add/.test(settings.url)){
+				if(/edit|add/.test(settings.url)){
+					formInstance.initElements();
 					formInstance.initOntoForms();
 				}
-				if(/translateInstance/.test(settings.url)){
+				else if (/searh|authoring|itemSequence/.test(settings.url)) {
+					formInstance.initElements();
+				}
+				else if(/translate/.test(settings.url)){
+					formInstance.initElements();
 					formInstance.initTranslationForm();
 				}
 			}

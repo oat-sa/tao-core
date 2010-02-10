@@ -31,7 +31,44 @@ if( tao_models_classes_UserService::isASessionOpened()){
 	unset($currentUser);
 }
 
-
+//I18N
 tao_helpers_I18n::init($GLOBALS['lang']);
 
+//Scripts loader
+if(!tao_helpers_Request::isAjax()){
+	
+	tao_helpers_Scriptloader::addCssFiles(array(
+		TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.7.2.custom.css',
+		TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
+		TAOBASE_WWW . 'js/jquery.jqGrid-3.6.2/css/ui.jqgrid.css',
+		TAOBASE_WWW . 'css/layout.css',
+		TAOBASE_WWW . 'css/form.css'
+	));
+	
+	$gridi18nFile = 'js/jquery.jqGrid-3.6.2/js/i18n/grid.locale-'.strtolower($GLOBALS['lang']).'.js';
+	if(!file_exists(BASE_PATH. '/views' . $gridi18nFile)){
+		$gridi18nFile = 'js/jquery.jqGrid-3.6.2/js/i18n/grid.locale-en.js';
+	}
+	
+	tao_helpers_Scriptloader::addJsFiles(array(
+		TAOBASE_WWW . 'js/jquery-1.3.2.min.js',
+		TAOBASE_WWW . 'js/jquery-ui-1.7.2.custom.min.js',
+		TAOBASE_WWW . 'js/jsTree/jquery.tree.min.js',
+		TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
+		TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
+		TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
+		TAOBASE_WWW . $gridi18nFile,
+		TAOBASE_WWW . 'js/jquery.jqGrid-3.6.2/js/jquery.jqGrid.min.js',
+		TAOBASE_WWW . 'js/jquery.numeric.js',
+		TAOBASE_WWW . 'js/ajaxupload.js',
+		ROOT_URL . '/filemanager/views/js/fmRunner.js',
+		ROOT_URL . '/filemanager/views/js/jquery.fmRunner.js',
+		TAOBASE_WWW . 'js/helpers.js',
+		TAOBASE_WWW . 'js/uiBootstrap.js',
+		TAOBASE_WWW . 'js/uiForm.js',
+		TAOBASE_WWW . 'js/generis.tree.js',
+		TAOBASE_WWW . 'js/generis.actions.js',
+		TAOBASE_WWW . 'js/generis.treeform.js'
+	));
+}
 ?>
