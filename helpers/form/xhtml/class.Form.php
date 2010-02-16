@@ -84,11 +84,7 @@ class tao_helpers_form_xhtml_Form
 				}
 			}
 			if($element instanceof tao_helpers_form_elements_xhtml_Checkbox){
-				
-				$returnValue[tao_helpers_Uri::decode($element->getName())] = array();
-				foreach($element->getValues() as $curValue){
-					array_push($returnValue[tao_helpers_Uri::decode($element->getName())], tao_helpers_Uri::decode($curValue));
-				}
+				$returnValue[tao_helpers_Uri::decode($element->getName())] = array_map("tao_helpers_Uri::decode", $element->getValues());
 			}
 			else{
 				$returnValue[tao_helpers_Uri::decode($element->getName())] = tao_helpers_Uri::decode($element->getValue());
@@ -131,12 +127,12 @@ class tao_helpers_form_xhtml_Form
 				}
 				if($element instanceof tao_helpers_form_elements_xhtml_Checkbox){
 					$this->elements[$id]->setValues(array());
-					foreach($element->getOptions() as $optionId => $option){
-						if(!empty($optionId)){
-							if(isset($_POST[$optionId])){
-								$this->elements[$id]->addValue(tao_helpers_Uri::decode($optionId));
-							}
+					$i = 0;
+					foreach($element->getOptions() as $option){
+						if(isset($_POST[$element->getName().'_'.$i])){
+							$this->elements[$id]->addValue(tao_helpers_Uri::decode($_POST[$element->getName().'_'.$i]));
 						}
+						$i++;
 					}
 				}
 				else{

@@ -125,6 +125,8 @@ class Main extends CommonModule {
 		$uri = $this->hasSessionAttribute('uri');
 		$classUri = $this->hasSessionAttribute('classUri');
 		
+		$rootClasses = array(TAO_GROUP_CLASS, TAO_ITEM_CLASS, TAO_RESULT_CLASS, TAO_SUBJECT_CLASS, TAO_TEST_CLASS);
+		
 		$this->setData('actions', false);
 		$currentExtension = $this->service->getCurrentExtension();
 		if($currentExtension){
@@ -167,6 +169,14 @@ class Main extends CommonModule {
 					case '*': $action['disabled'] = false; break;
 					default : $action['disabled'] = true; break;
 				}
+				
+				//@todo remove this when permissions engine is setup
+				if($action['rowName'] == 'delete'){
+					if(in_array($action['classUri'], array_map("tao_helpers_Uri::encode", $rootClasses))){
+						$action['disabled'] = true; 
+					}
+				}
+				
 				array_push($actions, $action);
 			}
 			

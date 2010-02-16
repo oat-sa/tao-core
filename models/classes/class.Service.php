@@ -146,13 +146,17 @@ abstract class tao_models_classes_Service
 			return $returnValue; 
 		}
 		
-		$query = "SELECT DISTINCT `subject` FROM `statements` ";
+		if(isset($options['lang'])){
+			$langToken = " AND (l_language = '' OR l_language = '{$options['lang']}') ";
+		}
+		
+		$query = "SELECT DISTINCT `subject` FROM `statements` WHERE ";
 		
 		$conditions = array();
 		foreach($propertyFilters as $propUri => $pattern){
 			if(is_string($pattern)){
 				if(!empty($pattern)){
-					$conditions[] = " (`predicate` = '{$propUri}' AND `object` LIKE '".str_replace('*', '%', $pattern)."') ";
+					$conditions[] = " (`predicate` = '{$propUri}' AND `object` LIKE '".str_replace('*', '%', $pattern)."' $langToken ) ";
 				}
 			}
 			if(is_array($pattern)){
@@ -164,7 +168,7 @@ abstract class tao_models_classes_Service
 						}
 						$multiCondition .= " `object` LIKE '".str_replace('*', '%', $patternToken)."'  ";
 					}
-					$conditions[] = $multiCondition." ) ";
+					$conditions[] = "{$multiCondition} {$langToken} ) ";
 				}
 			}
 		}
@@ -173,42 +177,47 @@ abstract class tao_models_classes_Service
 		}
 		$matchingUris = array();
 		
-		if(count($conditions) > 0){
-			
-			$query .= " WHERE ";
-			
-			$chainingMode = 'and';
-			if(isset($options['chaining'])){
-				$chainingMode = $options['chaining'];
+		$intersect = true; 
+		if(isset($options['chaining'])){
+			if($options['chaining'] == 'or'){
+				$intersect = false; 
 			}
-			switch($chainingMode){
-				case 'or':
-					$query .= implode(' OR ', $conditions);
-					break;
-				case 'and':
-				default:
-					$query .= implode(' AND ', $conditions);
-					break;
-			}
-			
-		}
-		
-		if(isset($options['lang'])){
-			$query .= " AND (l_language = '' OR l_language = '{$options['lang']}') ";
 		}
 		
 		$dbWrapper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
-		$result = $dbWrapper->execSql($query);
-		while (!$result->EOF){
-			$matchingUris[] = $result->fields['subject'];
-			$result->MoveNext();
+		if(count($conditions) > 0){
+			$i = 0;
+			foreach($conditions as $condition){
+				$tmpMatchingUris = array();
+				$result = $dbWrapper->execSql($query . $condition);
+				while (!$result->EOF){
+					$tmpMatchingUris[] = $result->fields['subject'];
+					$result->MoveNext();
+				}
+				if($intersect){
+					//EXCLUSIVES CONDITIONS
+					if($i == 0){
+						$matchingUris = $tmpMatchingUris;
+					}
+					else{
+						$matchingUris = array_intersect($matchingUris, $tmpMatchingUris);
+					}
+				}
+				else{
+					//INCLUSIVES CONDITIONS
+					$matchingUris = array_merge($matchingUris, $tmpMatchingUris);
+				}
+				$i++;
+			}
 		}
 		
 		if(!is_null($topClazz)){
 			$instances = $topClazz->getInstances(true);
 			foreach($matchingUris as $matchingUri){
 				if(isset($instances[$matchingUri])){
-					$returnValue[] = $instances[$matchingUri];
+					if(!in_array($instances[$matchingUri], $returnValue)){
+						$returnValue[] = $instances[$matchingUri];
+					}
 				}
 			}
 		}

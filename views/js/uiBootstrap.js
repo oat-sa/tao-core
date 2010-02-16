@@ -54,8 +54,7 @@ UiBootstrap = function(options){
 			loaded();
 			_autoFx();
 			if (settings.dataType == 'html') {
-				if( !/^\/tao\/Main\/getSectionActions/.test(settings.url) && 
-					!/getMetaData/.test(settings.url) ){
+				if(/add|edit|Instance|Class|search|getSectionTrees/.test(settings.url) ){
 					bootInstance.initActions();
 				}
 				bootInstance.initSize();

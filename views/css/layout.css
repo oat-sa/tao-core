@@ -200,7 +200,7 @@ div#meta-content table td{
 /* Layout -> Main container */
 div#preview-container{
 	width:59%;
-	height:500px;
+	height:100%;
 	overflow-y:auto;
 	float:left;
 	background-color:#EFEFEF;
@@ -211,7 +211,6 @@ div#preview-container{
 }
 div.data-container{
 	width:22%;
-	height:500px;
 	overflow-y:auto;
 	float:left;
 	margin-right:5px;
@@ -224,7 +223,6 @@ div.container-content{
 	font-size:1em;
 }
 div.main-container{
-	height:500px;
 	overflow-y:auto;
 }
 /* Layout -> footer */

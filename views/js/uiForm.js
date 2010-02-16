@@ -33,7 +33,7 @@ UiForm = function(){
 					formInstance.initElements();
 					formInstance.initOntoForms();
 				}
-				else if (/searh|authoring|itemSequence/.test(settings.url)) {
+				else if (/search|authoring|itemSequence/.test(settings.url)) {
 					formInstance.initElements();
 				}
 				else if(/translate/.test(settings.url)){
@@ -54,6 +54,7 @@ UiForm = function(){
 	}
 	
 	this.initElements = function(){
+
 		//save form button
 		$(".form-submiter").click(function(){
 			myForm =  $(this).parents("form").get(0);

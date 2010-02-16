@@ -7,7 +7,6 @@
  * 
  * @todo create a proper class to bootstrap by context
  */
-
 session_start();
 
 

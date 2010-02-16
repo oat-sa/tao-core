@@ -1,0 +1,2 @@
+
+ALTER TABLE `user` ADD `Uilg` VARCHAR( 2 ) NOT NULL DEFAULT 'EN' AFTER `Deflg` ;

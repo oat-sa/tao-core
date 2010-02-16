@@ -69,6 +69,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 				onload: function(TREE_OBJ){
 					if (instance.options.selectNode) {
 						TREE_OBJ.select_branch($("li[id='"+instance.options.selectNode+"']"));
+						instance.options.selectNode = false;
 					}
 					else{
 						TREE_OBJ.open_branch($("li.node-class:first"));
@@ -128,6 +129,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 								return false;
 							},
 							action  : function(NODE, TREE_OBJ){
+								
 								TREE_OBJ.select_branch(NODE);
 							},
 		                    separator_before : true

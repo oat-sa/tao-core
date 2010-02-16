@@ -296,7 +296,7 @@ class tao_helpers_form_GenerisFormFactory
 		
 		$chainingElt = tao_helpers_form_FormFactory::getElement('chaining', 'Radiobox');
 		$chainingElt->setDescription(__('Filtering mode'));
-		$chainingElt->setOptions(array('and' => __('Inclusive (AND)'), 'or' =>  __('Exclusive (OR)')));
+		$chainingElt->setOptions(array('and' => __('Exclusive (AND)'), 'or' =>  __('Inclusive (OR)')));
 		$chainingElt->setValue('and');
 		$myForm->addElement($chainingElt);
 		
@@ -324,9 +324,7 @@ class tao_helpers_form_GenerisFormFactory
 		
 		$filters = array();
 		foreach($properties as $property){
-		/*	$name = tao_helpers_Uri::encode($property->uriResource);
-			$element = tao_helpers_form_FormFactory::getElement($name, 'Textbox');
-			$element->setDescription($property->getLabel());*/
+	
 			$element = self::elementMap($property);
 			if(!is_null($element) && ! $element instanceof tao_helpers_form_elements_Authoring ){
 				
