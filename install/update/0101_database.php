@@ -9,16 +9,22 @@
   * DATABASE_NAME
   */
  
+ if(!defined(DATABASE_NAME)){
+ 	echo "\nPlease configure me!\n";
+	exit(1);
+ }
+ 
  mysql_connect(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
  mysql_select_db(DATABASE_NAME);
  mysql_query("SET NAMES 'utf8'");
  
- mysql_query("alter database ".$DB_TE_NAME." default CHARACTER SET utf8 COLLATE utf8_general_ci;");
+ 
+ mysql_query("alter database ".DATABASE_NAME." default CHARACTER SET utf8 COLLATE utf8_general_ci;");
  
   $counter = 0;
   $resultCounter = 0;
  
- $query = "show table status from ".$DB_TE_NAME;
+ $query = "show table status from ".DATABASE_NAME;
  $result = mysql_query($query);
  while($row = mysql_fetch_array($result, MYSQL_BOTH)){
  	if($row['Collation'] != 'utf8_general_ci'){

@@ -96,7 +96,7 @@ GenerisAction.fullScreen = function (uri, classUri, url){
  * @param {String} url
  */
 GenerisAction.addProperty = function (uri, classUri, url){
-	var index = ($(".form-group").size() - 1);
+	var index = ($(".form-group").size());
 	$.ajax({
 		url: url,
 		type: "POST",

@@ -171,7 +171,7 @@ class Main extends CommonModule {
 				}
 				
 				//@todo remove this when permissions engine is setup
-				if($action['rowName'] == 'delete'){
+				if($action['rowName'] == 'delete' && $classUri && !$uri){
 					if(in_array($action['classUri'], array_map("tao_helpers_Uri::encode", $rootClasses))){
 						$action['disabled'] = true; 
 					}
