@@ -533,7 +533,6 @@ class tao_helpers_form_GenerisFormFactory
 
         // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B39 begin
 		
-		$level = ($index * 10) + 1;
 		$elementNames = array();
 		
 		foreach(array_merge(self::getDefaultProperties(), self::getPropertyProperties('simple')) as $propertyProperty){
@@ -557,7 +556,6 @@ class tao_helpers_form_GenerisFormFactory
 				$element->setName("property_{$index}_{$element->getName()}");
 				$form->addElement($element);
 				$elementNames[] = $element->getName();
-				$level++;
 			}
 		}
 		
@@ -579,7 +577,6 @@ class tao_helpers_form_GenerisFormFactory
 		$typeElt->setOptions($options);
 		$form->addElement($typeElt);
 		$elementNames[] = $typeElt->getName();
-		$level++;
 		
 		$listElt = tao_helpers_form_FormFactory::getElement("property_{$index}_range", 'Combobox');
 		$listElt->setDescription(__('List values'));
@@ -631,8 +628,6 @@ class tao_helpers_form_GenerisFormFactory
 		$listElt->setOptions(array_merge($options, array('new' => ' + '.__('Add / Edit lists'))));
 		$form->addElement($listElt);
 		$elementNames[] = $listElt->getName();
-		$level++;
-		
 		
 		//add a delete button 
 		$deleteElt = tao_helpers_form_FormFactory::getElement("propertyDeleter{$index}", 'Button');
@@ -640,14 +635,12 @@ class tao_helpers_form_GenerisFormFactory
 		$deleteElt->setValue(__('Delete property'));
 		$form->addElement($deleteElt);
 		$elementNames[] = $deleteElt->getName();
-		$level++;
 		
 		//add an hidden element with the mode (simple)
 		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$index}", 'Hidden');
 		$modeElt->setValue('simple');
 		$form->addElement($modeElt);
 		$elementNames[] = $modeElt->getName();
-		$level++;
 		
 		if(count($elementNames) > 0){
 			$form->createGroup("property_{$index}", "<img src='/tao/views/img/prop_green.png' /> ".__('Property')." #".($index).": ".$property->getLabel(), $elementNames);

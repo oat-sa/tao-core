@@ -459,7 +459,9 @@ abstract class tao_models_classes_Service
 		}
 		if($highlightUri != ''){
 			if($highlightUri == tao_helpers_Uri::encode($clazz->uriResource)){
-				//$data['state'] = 'open';
+				if(count($clazz->getInstances()) > 0 || count($clazz->getSubClasses()) > 0){
+					$data['state'] = 'open';
+				} 
 			}
 			else{
 				foreach($clazz->getInstances() as $childInstance){

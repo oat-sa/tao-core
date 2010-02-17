@@ -197,7 +197,12 @@ abstract class TaoModule extends CommonModule {
 		if($this->hasRequestParameter('filter')){
 			$filter = $this->getRequestParameter('filter');
 		}
-		echo json_encode( $this->service->toTree( $this->getRootClass(), true, true, '', $filter));
+		$highlightUri = '';
+		if($this->hasSessionAttribute("showNodeUri")){
+			$highlightUri = $this->getSessionAttribute("showNodeUri");
+			unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
+		}
+		echo json_encode( $this->service->toTree( $this->getRootClass(), true, true, $highlightUri, $filter));
 	}
 	
 	/**
@@ -237,6 +242,10 @@ abstract class TaoModule extends CommonModule {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return 
+	 */
 	public function sasAddInstance(){
 		$clazz = $this->getCurrentClass();
 		$instance = $this->service->createInstance($clazz);
@@ -245,6 +254,10 @@ abstract class TaoModule extends CommonModule {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return 
+	 */
 	public function sasEditInstance(){
 		$clazz = $this->getCurrentClass();
 		$instance = $this->getCurrentInstance();
