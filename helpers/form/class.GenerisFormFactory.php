@@ -64,6 +64,30 @@ class tao_helpers_form_GenerisFormFactory
      */
     protected static $forms = array();
 
+    /**
+     * Short description of attribute MODE_SOFT
+     *
+     * @access public
+     * @var int
+     */
+    const MODE_SOFT = 2;
+
+    /**
+     * Short description of attribute MODE_STANDALONE
+     *
+     * @access public
+     * @var int
+     */
+    const MODE_STANDALONE = 3;
+
+    /**
+     * Short description of attribute mode
+     *
+     * @access protected
+     * @var int
+     */
+    protected static $mode = 2;
+
     // --- OPERATIONS ---
 
     /**
@@ -95,9 +119,11 @@ class tao_helpers_form_GenerisFormFactory
 			
 			//add translate action in toolbar
 			$topActions = tao_helpers_form_FormFactory::getCommonActions('top');
-			$translateELt = tao_helpers_form_FormFactory::getElement('translate', 'Free');
-			$translateELt->setValue(" | <a href='#' class='form-translator' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
-			$topActions[] = $translateELt;
+			if(self::$mode == self::MODE_SOFT){
+				$translateELt = tao_helpers_form_FormFactory::getElement('translate', 'Free');
+				$translateELt->setValue(" | <a href='#' class='form-translator' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
+				$topActions[] = $translateELt;
+			}
 			$myForm->setActions($topActions, 'top');
 			
 			$level = 2;
@@ -760,6 +786,12 @@ class tao_helpers_form_GenerisFormFactory
 			return null;
 		}
 		$widget = ucfirst(strtolower(substr($widgetResource->uriResource, strrpos($widgetResource->uriResource, '#') + 1 )));
+		
+		//authoring widget is not used in standalone mode
+		if($widget == 'Authoring' && self::$mode == self::MODE_STANDALONE){
+			return null;
+		}
+		
 		$element = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($property->uriResource), $widget);
 		if(!is_null($element)){
 			if($element->getWidget() != $widgetResource->uriResource){
@@ -987,6 +1019,27 @@ class tao_helpers_form_GenerisFormFactory
         // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B31 end
 
         return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method setMode
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  int mode
+     * @return mixed
+     */
+    public static function setMode($mode)
+    {
+        // section 127-0-1-1-4e0e5d33:126dbe320ca:-8000:0000000000001EAB begin
+		
+		if($mode != self::MODE_SOFT && $mode != self::MODE_STANDALONE){
+			throw new Exception("Unknown mode");
+		}
+		
+		self::$mode = $mode;
+        
+		// section 127-0-1-1-4e0e5d33:126dbe320ca:-8000:0000000000001EAB end
     }
 
 } /* end of class tao_helpers_form_GenerisFormFactory */

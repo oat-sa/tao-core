@@ -291,7 +291,7 @@ abstract class TaoModule extends CommonModule {
 		$options = $adapter->getOptions();
 		
 		//option form
-		$myForm = tao_helpers_form_FormFactory::getForm('import', array('noSubmit' => false, 'noRevert' => true));
+		$myForm = tao_helpers_form_FormFactory::getForm('import');
 		$level = 1;
 		
 		//create import options form

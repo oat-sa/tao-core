@@ -40,6 +40,9 @@ UiForm = function(){
 					formInstance.initElements();
 					formInstance.initTranslationForm();
 				}
+				else if(/import/.test(settings.url)){
+					formInstance.initFileUploadForm();
+				}
 			}
 		});
 	}
@@ -472,6 +475,7 @@ UiForm = function(){
 			try{
 				if (myForm.find(".file-uploader")) {
 					uploaderId = $(".file-uploader:first").attr('id');
+					
 					var myAjaxUploader = new AjaxUpload(uploaderId, {
 						action: 	myForm.attr('action'),
 						name: 		uploaderId,
@@ -489,11 +493,15 @@ UiForm = function(){
 						},
 						onComplete: function(file, response) {
 							$(getMainContainerSelector(uiBootstrap.tabs)).html(response);
+							this.enable();
+							loaded();
 						}
 					});
 				}
 			}
-			catch(exp){}
+			catch(exp){
+				console.log(exp);
+			}
 			return false;
 		});
 	}

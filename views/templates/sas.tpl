@@ -14,9 +14,18 @@
 	
 	<script type='text/javascript'>
 		$(document).ready(function(){
-			uiForm.initElements();
-			uiForm.initOntoForms();
-			uiForm.initTranslationForm();
+			var ctx_action = '<?=get_data("action")?>';
+			if(/edit|add/.test(ctx_action)){
+				uiForm.initElements();
+				uiForm.initOntoForms();
+			}
+			else if (/search|authoring|itemSequence/.test(ctx_action)) {
+				uiForm.initElements();
+			}
+			else if(/translate/.test(ctx_action)){
+				uiForm.initElements();
+				uiForm.initTranslationForm();
+			}
 		});
 	</script>
 	

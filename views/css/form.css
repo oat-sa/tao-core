@@ -56,7 +56,7 @@ div.xhtml_form div .form-elt-container{
 	margin-top:5px;
 	margin-bottom:5px;
 }
-div.xhtml_form div .file-uploader{
+div.xhtml_form div span.file-uploader{
 	cursor:pointer;
 	z-index:10000;
 	padding:5px;

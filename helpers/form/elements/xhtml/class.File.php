@@ -75,7 +75,7 @@ class tao_helpers_form_elements_xhtml_File
 		
 		$returnValue .= "<br />";
 		$returnValue .= "<input type='hidden' name='MAX_FILE_SIZE' value='".tao_helpers_form_elements_File::MAX_FILE_SIZE."' />";
-		$returnValue .= "<a href='#' ><span id='{$this->name}' class='form-elt-container file-uploader ui-state-default ui-corner-all' '>".$this->getDescription()."</span></a>";
+		$returnValue .= "<span id='{$this->name}' class='form-elt-container file-uploader ui-state-default ui-corner-all' >".$this->getDescription()."</span>";
 		$returnValue .= "<br />";
 		$returnValue .= "<br />";
 		

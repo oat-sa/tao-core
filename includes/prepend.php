@@ -60,7 +60,7 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . $gridi18nFile,
 		TAOBASE_WWW . 'js/jquery.jqGrid-3.6.2/js/jquery.jqGrid.min.js',
 		TAOBASE_WWW . 'js/jquery.numeric.js',
-		TAOBASE_WWW . 'js/ajaxupload.js',
+//		TAOBASE_WWW . 'js/ajaxupload.js',
 		ROOT_URL . '/filemanager/views/js/fmRunner.js',
 		ROOT_URL . '/filemanager/views/js/jquery.fmRunner.js',
 		TAOBASE_WWW . 'js/helpers.js',
