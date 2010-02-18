@@ -79,11 +79,14 @@ class Main extends CommonModule {
 		
 		$extensions = array();
 		foreach($this->service->getStructure() as $i => $structure){
-			$extensions[$i] = array(
-				'name' 		=> (string)$structure['data']['name'],
-				'extension'	=> $structure['extension']
-			);
+			if($structure['extension'] != 'users'){
+				$extensions[$i] = array(
+					'name' 		=> (string)$structure['data']['name'],
+					'extension'	=> $structure['extension']
+				);
+			}
 		}
+		
 		ksort($extensions);
 		$this->setData('extensions', $extensions);
 		

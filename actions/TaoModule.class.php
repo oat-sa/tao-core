@@ -404,6 +404,25 @@ abstract class TaoModule extends CommonModule {
 		
 		$instance = $this->getCurrentInstance();
 		$myForm = tao_helpers_form_GenerisFormFactory::translateInstanceEditor($this->getCurrentClass(), $instance);
+		
+		if($this->hasRequestParameter('target_lang')){
+			
+			$targetLang = $this->getRequestParameter('target_lang');
+		
+			if(in_array($targetLang, $GLOBALS['available_langs'])){
+				$langElt = $myForm->getElement('translate_lang');
+				$langElt->setValue($targetLang);
+				
+				$trData = $this->service->getTranslatedProperties($instance, $targetLang);
+				foreach($trData as $key => $value){
+					$element = $myForm->getElement(tao_helpers_Uri::encode($key));
+					if(!is_null($element)){
+						$element->setValue($value);
+					}
+				}
+			}
+		}
+		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
@@ -721,17 +740,58 @@ abstract class TaoModule extends CommonModule {
 	}
 	
 	/**
-	 * All tao module must have a method to get the meta data of the selected resource
+	 * get the meta data of the selected resource
 	 * Display the metadata. 
 	 * @return void
 	 */
-	abstract public function getMetaData();
+	public function getMetaData(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$this->setData('metadata', false); 
+		try{
+			$instance = $this->getCurrentInstance();
+			
+			$date = $instance->getLastModificationDate();
+			$this->setData('date', $date->format('d/m/Y H:i:s'));
+			$this->setData('user', $instance->getLastModificationUser());
+			$this->setData('comment', $instance->comment);
+			
+			$this->setData('uri', $this->getRequestParameter('uri'));
+			$this->setData('classUri', $this->getRequestParameter('classUri'));
+			$this->setData('metadata', true); 
+		}
+		catch(Exception $e){}
+		
+		$this->setView('metadata.tpl', true);
+	}
 	
 	/**
-	 * All tao module must have a method to save the comment field of the selected resource
+	 * save the comment field of the selected resource
 	 * @return json response {saved: true, comment: text of the comment to refresh it}
 	 */
-	abstract public function saveComment();
+	public function saveComment(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$response = array(
+			'saved' 	=> false,
+			'comment' 	=> ''
+		);
+		try{
+			if($this->getRequestParameter('comment')){
+				$instance = $this->getCurrentInstance();
+				$instance->setComment($this->getRequestParameter('comment'));
+				if($instance->comment == $this->getRequestParameter('comment')){
+					$response['saved'] = true;
+					$response['comment'] = $instance->comment;
+				}
+			}
+		}
+		catch(Exception $e){}
+		echo json_encode($response);
+	}
 	
 }
 ?>

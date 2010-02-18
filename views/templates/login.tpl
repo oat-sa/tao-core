@@ -19,7 +19,7 @@
 
 	<div id="main-menu" class="ui-state-default">&nbsp;</div>
 	
-	<img src="<?=BASE_WWW?>img/logo.gif" alt="logo" id="logo" />
+	<img src="<?=BASE_WWW?>img/logo_tao.png" alt="TAO" id="logo" />
 	
 	<div id="home" class="ui-widget ui-widget-content ui-corner-all">
 		<div id="home_title" class="ui-widget-header ui-corner-all"><?=__('TAO Backend Tool')?></div>

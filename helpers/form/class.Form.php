@@ -206,6 +206,32 @@ abstract class tao_helpers_form_Form
     }
 
     /**
+     * Short description of method getElement
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string name
+     * @return tao_helpers_form_FormElement
+     */
+    public function getElement($name)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-34faf2f6:126dcb3a83d:-8000:0000000000001EAB begin
+		
+		foreach($this->elements as $element){
+			if($element->getName() == $name){
+				$returnValue = $element;
+				break;
+			}
+		}
+		
+        // section 127-0-1-1-34faf2f6:126dcb3a83d:-8000:0000000000001EAB end
+
+        return $returnValue;
+    }
+
+    /**
      * Short description of method getElements
      *
      * @access public

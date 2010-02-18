@@ -26,6 +26,7 @@ UiBootstrap = function(options){
 		
 		this.initAjax();
 		this.initNav();
+		this.initMenuBar();
 		
 		//fix ie6 bug with dialog z-index
 		$.ui.dialog.defaults.bgiframe = true;	
@@ -57,6 +58,9 @@ UiBootstrap = function(options){
 				if(/add|edit|Instance|Class|search|getSectionTrees/.test(settings.url) ){
 					bootInstance.initActions();
 				}
+				if(!/getMetaData/.test(settings.url)){
+					$("#section-meta").empty();
+				}
 				bootInstance.initSize();
 			}
 		});
@@ -82,12 +86,6 @@ UiBootstrap = function(options){
 				_load(getMainContainerSelector(UiBootstrap.tabs), this.href);
 			}
 			catch(exp){ return false; }
-			return false;
-		});
-		
-		//initialize the settings menu
-		$("#settings-loader").click(function(){
-			_load(getMainContainerSelector(UiBootstrap.tabs), this.href);
 			return false;
 		});
 	}
@@ -144,70 +142,36 @@ UiBootstrap = function(options){
 		}
 	}
 	
-	/**
-	 * init and load the meta data component
-	 * @param {String} uri
-	 * @param {String} classUri
-	 */
-	this.getMetaData = function(uri, classUri){
+	this.initMenuBar = function(){
+		//menu button
+		$("#menu-button").mouseover(function(){
+			this.src = this.src.replace('.png', '_high.png'); 
+		});
+		$("#menu-button").mouseout(function(){
+			this.src = this.src.replace('_high.png', '.png'); 
+		});
+		$("#menu-button").click(function(){
+			$("#menu-popup").show("slide", { direction: "up" }, 800);
+			setTimeout(function(){
+				$("#menu-popup").hide("slide", { direction: "up" }, 500);
+			}, 6000);
+		});
 		
-		$("#comment-form-container").dialog('destroy');
+		$("#menu-expander").click(function(){
+			$('.ghost-menu').toggle();
+			if(/arrow_right\.png$/.test(this.src)){
+				this.src = this.src.replace('_right.png', '_left.png');
+			}
+			else{
+				this.src = this.src.replace('_left.png', '_right.png');
+			}
+		})
 		
-		if(uri){
-			 url = '';
-			 if(ctx_extension){
-			 	url = '/' + ctx_extension + '/' + ctx_module + '/';
-			 }
-			 url += 'getMetaData';
-			 $.ajax({
-			 	url: url,
-				type: "POST",
-				data:{uri: uri, classUri: classUri},
-				dataType: 'html',
-				success: function(response){
-					$('#section-meta').html(response);
-					
-					//meta data dialog
-					var commentContainer = $("#comment-form-container");
-					if (commentContainer) {
-						
-						$("#comment-editor").click(function(){
-							
-							commentContainer.dialog({
-								title: $("#comment-form-container-title").text(),
-								width: 330,
-								height: 220,
-								autoOpen: false
-							});
-							commentContainer.bind('dialogclose', function(event, ui){
-								commentContainer.dialog('destroy');
-								//commentContainer.remove();
-							});
-							commentContainer.dialog('open');
-							$("#comment-saver").click(function(){
-								if (ctx_extension) {
-									url = '/' + ctx_extension + '/' + ctx_module + '/';
-								}
-								url += 'saveComment';
-								$.ajax({
-									url: url,
-									type: "POST",
-									data: $("#comment-form").serializeArray(),
-									dataType: 'json',
-									success: function(response){
-										if (response.saved) {
-											commentContainer.dialog('close');
-											$("#comment-field").text(response.comment);
-										}
-									}
-								})
-							})
-							return false;
-						})
-					}
-				}
-			});
-		}
+		//initialize the settings menu
+		$("#settings-loader").click(function(){
+			_load(getMainContainerSelector(UiBootstrap.tabs), this.href);
+			return false;
+		});
 	}
 	
 	//run the manual constructor

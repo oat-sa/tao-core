@@ -34,6 +34,10 @@ a img{
 	border-width:0px;
 	text-decoration:none;
 }
+img.icon{
+	vertical-align:middle;
+	margin-right:3px;
+}
 
 /* Layout */
 div#tabs, div#home{
@@ -64,14 +68,25 @@ div#tabs div.ui-tabs-panel{
 img#logo{
 	position: absolute; 
 	right:10px; 
-	top: -2px;
+	top: 4px;
 	z-index:1000;
 }
 
 /* Layout -> Menu */
 div#main-menu{
-	padding:4px;
+	padding:10px 4px 0px 45px;
 	border-bottom-style:none;
+}
+div#main-menu img#menu-button{
+	position:absolute;
+	left:0px;
+	top:4px;
+	cursor:pointer;
+}
+div#main-menu img#menu-expander{
+	margin:0px 6px 0px 10px;
+	vertical-align:baseline;
+	cursor:pointer;
 }
 div#main-menu span{
 	border-right:solid 1px #CCC;
@@ -94,6 +109,37 @@ div#main-menu span.current-extension a{
 div#main-menu span.disabled-extension{
 	font-size:1.3em;
 	color:#B0B0B0;
+}
+div#main-menu span.ghost-menu{
+	display:none;
+}
+div#menu-popup{
+	position:absolute;
+	top:40px;
+	left:0px;
+	background-color:#fff;
+	z-index:1000000;
+	margin:0px;
+	padding:0px;
+}
+div#menu-popup ul{
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+}
+div#menu-popup ul li{
+	padding:5px 35px 5px 35px;
+	border:solid 1px #888;	
+	font-size:1.2em;
+}
+div#menu-popup ul li a{
+	font-weight:bold;
+	color:#888;
+	text-decoration:none;
+	top:-1px;
+}
+div#menu-popup ul li a:hover{
+	color:#D00239;
 }
 
 /* Layout -> Trees */
@@ -206,7 +252,6 @@ div#preview-container{
 	background-color:#EFEFEF;
 	color:#CCC;
 	text-align:center;
-	font-size:32px;
 	margin-right:5px;
 }
 div.data-container{

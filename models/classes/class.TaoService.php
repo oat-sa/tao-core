@@ -83,7 +83,6 @@ class tao_models_classes_TaoService
 			foreach($extensionsManager->getInstalledExtensions() as $extension){
 				self::$extensions[] = $extension->id;
 			}
-			
 			self::$extensions[] = 'users';
 		}
 		

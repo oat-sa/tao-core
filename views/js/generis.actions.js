@@ -150,3 +150,61 @@ GenerisAction.resultTable = function (uri, classUri, url){
 	data.classUri = classUri;
 	_load(getMainContainerSelector(UiBootstrap.tabs), url, data);
 }
+
+/**
+ * init and load the meta data component
+ * @param {String} uri
+ * @param {String} classUri
+ */
+GenerisAction.loadMetaData = function(uri, classUri, url){
+	$("#comment-form-container").dialog('destroy');
+	 $.ajax({
+	 	url: url,
+		type: "POST",
+		data:{uri: uri, classUri: classUri},
+		dataType: 'html',
+		success: function(response){
+			$('#section-meta').html(response);
+			$('#section-meta').show();
+			
+			//meta data dialog
+			var commentContainer = $("#comment-form-container");
+			if (commentContainer) {
+				
+				$("#comment-editor").click(function(){
+					
+					commentContainer.dialog({
+						title: $("#comment-form-container-title").text(),
+						width: 330,
+						height: 220,
+						autoOpen: false
+					});
+					commentContainer.bind('dialogclose', function(event, ui){
+						commentContainer.dialog('destroy');
+						//commentContainer.remove();
+					});
+					commentContainer.dialog('open');
+					$("#comment-saver").click(function(){
+						if (ctx_extension) {
+							url = '/' + ctx_extension + '/' + ctx_module + '/';
+						}
+						url += 'saveComment';
+						$.ajax({
+							url: url,
+							type: "POST",
+							data: $("#comment-form").serializeArray(),
+							dataType: 'json',
+							success: function(response){
+								if (response.saved) {
+									commentContainer.dialog('close');
+									$("#comment-field").text(response.comment);
+								}
+							}
+						})
+					})
+					return false;
+				})
+			}
+		}
+	});
+}
