@@ -75,6 +75,8 @@ class tao_helpers_I18n
 			TAOBASE_WWW . 'js/i18n.js',
 		));
 		
+		$_SESSION['lang'] = self::$langCode;
+		
         // section 127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7C end
     }
 
