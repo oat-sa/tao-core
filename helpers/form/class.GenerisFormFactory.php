@@ -615,7 +615,11 @@ class tao_helpers_form_GenerisFormFactory
 			TAO_ITEM_MODEL_CLASS,
 			TAO_RESULT_CLASS,
 			TAO_SUBJECT_CLASS,
-			TAO_TEST_CLASS
+			TAO_TEST_CLASS,
+			TAO_DELIVERY_CLASS,
+			TAO_DELIVERY_CAMPAIGN_CLASS,
+			TAO_DELIVERY_RESULTSERVER_CLASS,
+			TAO_DELIVERY_HISTORY_CLASS
 		);
 		$topLevelClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
 		$domains = $property->getDomain();
