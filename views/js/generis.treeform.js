@@ -127,7 +127,7 @@ GenerisTreeFormClass.prototype.saveData = function(){
 				if(instance.options.saveCallback){
 					 instance.options.saveCallback(toSend);
 				}
-				createInfoMessage(__('Tree saved successfully'));
+				createInfoMessage(__('Selection saved successfully'));
 			}
 		},
 		complete: function(){

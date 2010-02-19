@@ -93,7 +93,9 @@ abstract class TaoModule extends CommonModule {
 	 * @return tao_helpers_form_Form the generated form
 	 */
 	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource){
+	
 		$myForm = tao_helpers_form_GenerisFormFactory::classEditor($clazz, $resource);
+		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
@@ -131,9 +133,8 @@ abstract class TaoModule extends CommonModule {
 						foreach($clazz->getProperties() as $classProperty){
 							if($classProperty->uriResource == tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])){
 								if($classProperty->delete()){
-									
+									break;
 								}
-								break;
 							}
 						}
 					}
@@ -157,6 +158,8 @@ abstract class TaoModule extends CommonModule {
 						}
 						$this->service->bindProperties(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])), $properties);
 					}
+					//reload form
+					$myForm = tao_helpers_form_GenerisFormFactory::classEditor($clazz, $resource);
 				}
 			}
 		}
@@ -519,6 +522,11 @@ abstract class TaoModule extends CommonModule {
 				}
 			}
 		}
+		$this->setData('openAction', 'GenerisAction.select');
+		if(preg_match("/^SaS/", get_class($this))){
+			$this->setData('openAction', 'alert');
+		}
+		
 		$this->setData('found', $found);
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Search'));

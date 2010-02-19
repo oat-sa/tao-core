@@ -45,17 +45,17 @@ $(document).ready(function(){
 	});
 	$("#result-list").jqGrid('navGrid','#result-list-pager',{edit:false, add:false, del:false});
 	
-	<?foreach(get_data('found') as $i => $row):?>
+<?foreach(get_data('found') as $i => $row):?>
 	
 	jQuery("#result-list").jqGrid('addRowData', <?=$i?> , {
 		'id' : <?=$i?>,
 	<?foreach($row['properties'] as $j => $propValue):?>
 		'property_<?=$j?>': '<?=$propValue?>',
 	<?endforeach?>
-		'actions': "<img class='icon' src='<?=TAOBASE_WWW?>/img/bullet_go.png' /><a href='#' onclick='GenerisAction.select(\"<?=$row['uri']?>\"); return false;' class='' ><?=__('Open')?></a>"
+		'actions': "<img class='icon' src='<?=TAOBASE_WWW?>/img/bullet_go.png' /><a href='#' onclick='<?=get_data('openAction')?>(\"<?=$row['uri']?>\"); return false;' class='' ><?=__('Open')?></a>"
 	}); 
 	
-	<?endforeach?>
+<?endforeach?>
 });
 </script>
 <?endif?>

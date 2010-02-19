@@ -13,8 +13,10 @@
 	<?=tao_helpers_Scriptloader::render()?>
 	
 	<script type='text/javascript'>
+		var ctx_extension 	= '<?=get_data("extension")?>';
+		var ctx_module 		= '<?=get_data("module")?>';
+		var ctx_action 		= '<?=get_data("action")?>';
 		$(document).ready(function(){
-			var ctx_action = '<?=get_data("action")?>';
 			if(/edit|add/.test(ctx_action)){
 				uiForm.initElements();
 				uiForm.initOntoForms();
@@ -28,7 +30,11 @@
 			}
 		});
 	</script>
-	
+	<style type="text/css">
+		div.main-container{
+			height:100%;
+		}
+	</style>
 </head>
 <body>
 	<div id="ajax-loading">

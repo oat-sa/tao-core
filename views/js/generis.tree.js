@@ -94,6 +94,9 @@ function GenerisTreeClass(selector, dataUrl, options){
 					return DATA;
 				},
 				onselect: function(NODE, TREE_OBJ){
+					if($(NODE).attr('id') == instance.options.selectNode){
+						return false;
+					}
 					if($(NODE).hasClass('node-class') && instance.options.editClassAction){
 						_load(instance.options.formContainer, 
 							instance.options.editClassAction,
@@ -101,9 +104,6 @@ function GenerisTreeClass(selector, dataUrl, options){
 						);
 					}
 					if($(NODE).hasClass('node-instance') && instance.options.editInstanceAction){
-						if($(NODE).attr('id') == instance.options.selectNode){
-							return false;
-						}
 						PNODE = TREE_OBJ.parent(NODE);
 						_load(instance.options.formContainer, 
 							instance.options.editInstanceAction, 
