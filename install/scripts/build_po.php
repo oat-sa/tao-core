@@ -44,7 +44,6 @@ foreach(scandir(ROOT_PATH) as $file){
 }
 
 //common extensions
-/*
 foreach($extensions as $extensionName => $extensionData){
 
 	##init vars to run the poextraction script
@@ -66,7 +65,7 @@ foreach($extensions as $extensionName => $extensionData){
 		
 		echo "\n------\n";
 	}
-}*/
+}
 
 //UTR
 $utrPath = ROOT_PATH .'taoResults/models/ext/utrv1';
@@ -100,7 +99,6 @@ if(file_exists($utrPath)){
 }
 
 //WATER PHENIX
-/*
 $wpPath =  '/home/crp/workspace/authoring';
 if(file_exists($utrPath)){
 	
@@ -130,5 +128,5 @@ if(file_exists($utrPath)){
 	}
 	
 }
-*/
+
 ?>
