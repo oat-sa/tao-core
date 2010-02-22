@@ -43,37 +43,73 @@ foreach(scandir(ROOT_PATH) as $file){
 		}		
 	}
 }
+
+function buildPoJs($langCode, $path){
+	$strings = array();
+		
+	$content = file_get_contents($path . '/' . PO_FILE_NAME);
+	$content = substr($content, strstr($content, '"msgid"'));
+	$lines = explode("\n", $content);
+	foreach($lines as $line){
+		if(trim($line) != ''){
+			if(preg_match("/^msgid/", $line)){
+				$line = preg_replace("/^msgid[\ ]+[\'|\\\"]/", '', ltrim($line));
+				$line = preg_replace("/[\'|\\\"]$/", '', rtrim($line));
+				$key = $line;
+			}
+			if(preg_match("/^msgstr/", $line)){
+				$line = preg_replace("/^msgstr[\ ]+[\'|\\\"]/", '', ltrim($line));
+				$line = preg_replace("/[\'|\\\"]$/", '', rtrim($line));
+				$strings[$key] = $line;
+			}
+		}
+	}
+	
+	$buffer  = "/* auto generated content */\n";
+	$buffer .= "/* extesion: $extensionName, lang: $langCode */\n";
+	$buffer .= "var langCode = '$langCode';\n";
+	$buffer .= "var i18n_tr = " . json_encode($strings) . ";";
+	if(file_put_contents($path . '/' . POJS_FILE_NAME, $buffer)){
+		echo $path . '/' . POJS_FILE_NAME . " created\n";
+	}
+}
+
 foreach($extensions as $extensionName => $extensionData){
 
 	foreach($extensionData['langs'] as $code => $path){
-		
-		$strings = array();
-		
-		$content = file_get_contents($path . '/' . PO_FILE_NAME);
-		$content = substr($content, strstr($content, '"msgid"'));
-		$lines = explode("\n", $content);
-		foreach($lines as $line){
-			if(trim($line) != ''){
-				if(preg_match("/^msgid/", $line)){
-					$line = preg_replace("/^msgid[\ ]+[\'|\\\"]/", '', ltrim($line));
-					$line = preg_replace("/[\'|\\\"]$/", '', rtrim($line));
-					$key = $line;
-				}
-				if(preg_match("/^msgstr/", $line)){
-					$line = preg_replace("/^msgstr[\ ]+[\'|\\\"]/", '', ltrim($line));
-					$line = preg_replace("/[\'|\\\"]$/", '', rtrim($line));
-					$strings[$key] = $line;
-				}
+		buildPoJs($code, $path);
+	}
+}
+//UTR
+$utrPath = ROOT_PATH .'taoResults/models/ext/utrv1';
+if(file_exists($utrPath)){
+	$localDir	= $utrPath . '/view/' . LOCAL_DIR_NAME . '/';
+	$langs = array();
+	foreach(scandir($localDir) as $localFile){
+		if(is_dir($localDir . '/' . $localFile)){
+			if(file_exists($localDir . '/' . $localFile . '/' . PO_FILE_NAME)){
+				$langs[$localFile] = $localDir . '/' . $localFile;
 			}
 		}
-		
-		$buffer  = "/* auto generated content */\n";
-		$buffer .= "/* extesion: $extensionName, lang: $code */\n";
-		$buffer .= "var langCode = '$code';\n";
-		$buffer .= "var i18n_tr = " . json_encode($strings) . ";";
-		if(file_put_contents($path . '/' . POJS_FILE_NAME, $buffer)){
-			echo $path . '/' . POJS_FILE_NAME . " created\n";
+	}
+	foreach($langs as $code => $path){
+		buildPoJs($code, $path);
+	}
+}
+//WATER-PHOENIX
+$wpPath =  '/home/crp/workspace/authoring';
+if(file_exists($wpPath)){
+	$localDir	= $wpPath . '/' . LOCAL_DIR_NAME . '/';
+	$langs = array();
+	foreach(scandir($localDir) as $localFile){
+		if(is_dir($localDir . '/' . $localFile)){
+			if(file_exists($localDir . '/' . $localFile . '/' . PO_FILE_NAME)){
+				$langs[$localFile] = $localDir . '/' . $localFile;
+			}
 		}
+	}
+	foreach($langs as $code => $path){
+		buildPoJs($code, $path);
 	}
 }
 ?>

@@ -7,6 +7,12 @@ msgstr ""
 msgid "Access denied. Please renew your authentication!"
 msgstr ""
 
+msgid "Resource saved"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
 msgid "CSV Options"
 msgstr ""
 
@@ -20,6 +26,15 @@ msgid "Data imported"
 msgstr ""
 
 msgid "Import data"
+msgstr ""
+
+msgid "Translation saved"
+msgstr ""
+
+msgid "Translate"
+msgstr ""
+
+msgid "Search"
 msgstr ""
 
 msgid "Lists"
@@ -139,6 +154,36 @@ msgstr ""
 msgid "Revert"
 msgstr ""
 
+msgid "Current language"
+msgstr ""
+
+msgid "Translate to"
+msgstr ""
+
+msgid "Select a language"
+msgstr ""
+
+msgid "Translation parameters"
+msgstr ""
+
+msgid "Filtering mode"
+msgstr ""
+
+msgid "Exclusive (AND)"
+msgstr ""
+
+msgid "Inclusive (OR)"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Filters"
+msgstr ""
+
 msgid "Add property"
 msgstr ""
 
@@ -229,9 +274,6 @@ msgstr ""
 msgid "The format of this field is not valid."
 msgstr ""
 
-msgid "Edit"
-msgstr ""
-
 msgid "Add subclass"
 msgstr ""
 
@@ -247,7 +289,7 @@ msgstr ""
 msgid "Please confirm deletion"
 msgstr ""
 
-msgid "Tree saved successfully"
+msgid "Selection saved successfully"
 msgstr ""
 
 msgid "Please confirm property deletion!"
@@ -283,6 +325,27 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "Meta Data"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Edit item comment"
+msgstr ""
+
+msgid "Search results"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
 msgid "My settings"
 msgstr ""
 
@@ -304,9 +367,6 @@ msgstr ""
 msgid "Restore default user"
 msgstr ""
 
-msgid "Language"
-msgstr ""
-
 msgid "EN"
 msgstr "English"
 
@@ -318,3 +378,4 @@ msgstr "German"
 
 msgid "LU"
 msgstr "Luxemburgish"
+

@@ -7,6 +7,12 @@ msgstr "Préférences mise à jour"
 msgid "Access denied. Please renew your authentication!"
 msgstr "Accès refusé. Veuillez vous identifier à nouveau"
 
+msgid "Resource saved"
+msgstr ""
+
+msgid "Edit"
+msgstr "Modifier"
+
 msgid "CSV Options"
 msgstr ""
 
@@ -21,6 +27,15 @@ msgstr "Donnée importée"
 
 msgid "Import data"
 msgstr "Importer de donné"
+
+msgid "Translation saved"
+msgstr ""
+
+msgid "Translate"
+msgstr ""
+
+msgid "Search"
+msgstr ""
 
 msgid "Lists"
 msgstr "Listes"
@@ -139,6 +154,36 @@ msgstr "Enregistrer"
 msgid "Revert"
 msgstr "Annuler"
 
+msgid "Current language"
+msgstr ""
+
+msgid "Translate to"
+msgstr ""
+
+msgid "Select a language"
+msgstr ""
+
+msgid "Translation parameters"
+msgstr ""
+
+msgid "Filtering mode"
+msgstr ""
+
+msgid "Exclusive (AND)"
+msgstr ""
+
+msgid "Inclusive (OR)"
+msgstr ""
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Options"
+msgstr ""
+
+msgid "Filters"
+msgstr ""
+
 msgid "Add property"
 msgstr "Ajouter une propriété"
 
@@ -229,9 +274,6 @@ msgstr "Le mot de passe ne correspond pas"
 msgid "The format of this field is not valid."
 msgstr "Le format de ce champ est invalide"
 
-msgid "Edit"
-msgstr "Modifier"
-
 msgid "Add subclass"
 msgstr "Ajouter une sous-classe"
 
@@ -247,8 +289,8 @@ msgstr "Supprimer"
 msgid "Please confirm deletion"
 msgstr "Veuillez confirmer la suppression"
 
-msgid "Tree saved successfully"
-msgstr "Sélection sauvée avec succès"
+msgid "Selection saved successfully"
+msgstr ""
 
 msgid "Please confirm property deletion!"
 msgstr "Veuillez confirmer la suppression de la propriété"
@@ -283,6 +325,27 @@ msgstr "Paramètres"
 msgid "Logout"
 msgstr "Se déconnecter"
 
+msgid "Meta Data"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Edit item comment"
+msgstr ""
+
+msgid "Search results"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
 msgid "My settings"
 msgstr "Préférences"
 
@@ -304,8 +367,8 @@ msgstr "Retour"
 msgid "Restore default user"
 msgstr "Restaurer l'utilisateur par défaut"
 
-msgid "Language"
-msgstr "Langue"
+msgid "Tree saved successfully"
+msgstr "Sélection sauvée avec succès"
 
 msgid "Edit property into parent class"
 msgstr "Modifier la propriété depuis la classe parente"
@@ -333,3 +396,4 @@ msgstr "German"
 
 msgid "LU"
 msgstr "Luxemburgish"
+

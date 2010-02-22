@@ -44,6 +44,7 @@ foreach(scandir(ROOT_PATH) as $file){
 }
 
 //common extensions
+/*
 foreach($extensions as $extensionName => $extensionData){
 
 	##init vars to run the poextraction script
@@ -65,7 +66,7 @@ foreach($extensions as $extensionName => $extensionData){
 		
 		echo "\n------\n";
 	}
-}
+}*/
 
 //UTR
 $utrPath = ROOT_PATH .'taoResults/models/ext/utrv1';
@@ -77,9 +78,10 @@ if(file_exists($utrPath)){
 	);
 	$extension	= array('php', 'js');
 	$fichier	= PO_FILE_NAME;
-	$empLoc		= $utrPath . '/view/' . LOCAL_DIR_NAME . '/';
+	$localDir	= $utrPath . '/view/' . LOCAL_DIR_NAME . '/';
+	$empLoc 	= $localDir;
 	$langs = array();
-	foreach(scandir($empLoc) as $localFile){
+	foreach(scandir($localDir) as $localFile){
 		if(is_dir($localDir . '/' . $localFile)){
 			if(file_exists($localDir . '/' . $localFile . '/' . PO_FILE_NAME)){
 				$langs[$localFile] = $localDir . '/' . $localFile;
@@ -98,7 +100,8 @@ if(file_exists($utrPath)){
 }
 
 //WATER PHENIX
-$wpPath = ROOT_PATH .'authoring';
+/*
+$wpPath =  '/home/crp/workspace/authoring';
 if(file_exists($utrPath)){
 	
 	$directories	= array(
@@ -107,9 +110,10 @@ if(file_exists($utrPath)){
 	);
 	$extension	= array('php', 'js', 'ejs');
 	$fichier	= PO_FILE_NAME;
-	$empLoc		= $wpPath . '/' . LOCAL_DIR_NAME . '/';
+	$localDir	= $wpPath . '/' . LOCAL_DIR_NAME . '/';
+	$empLoc 	= $localDir;
 	$langs = array();
-	foreach(scandir($empLoc) as $localFile){
+	foreach(scandir($localDir) as $localFile){
 		if(is_dir($localDir . '/' . $localFile)){
 			if(file_exists($localDir . '/' . $localFile . '/' . PO_FILE_NAME)){
 				$langs[$localFile] = $localDir . '/' . $localFile;
@@ -126,5 +130,5 @@ if(file_exists($utrPath)){
 	}
 	
 }
-
+*/
 ?>
