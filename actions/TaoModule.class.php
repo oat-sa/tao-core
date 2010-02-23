@@ -400,6 +400,18 @@ abstract class TaoModule extends CommonModule {
 	}
 	
 	/**
+	 * @todo implement it. Used for dev.
+	 * @return void 
+	 */
+	public function rdfExport(){
+		throw new Exception("Not yet implemented");
+		$clazz = $this->getRootClass();
+		$adapter = new tao_helpers_GenerisDataAdapterRdf();
+		header('Content-Type: text/xml');
+		print $adapter->export($clazz);
+	}
+	
+	/**
 	 * Render the  form to translate a Resource instance
 	 * @return void
 	 */
