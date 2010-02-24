@@ -181,6 +181,9 @@ msgstr "Langue"
 msgid "Options"
 msgstr ""
 
+msgid "Use the * character to replace any string"
+msgstr "Utiliser * en remplacement de toute chaîne de caractère"
+
 msgid "Filters"
 msgstr ""
 
@@ -348,9 +351,6 @@ msgstr ""
 
 msgid "My settings"
 msgstr "Préférences"
-
-msgid "Use the * character to replace any string"
-msgstr "Utiliser * en remplacement de toute chaîne de caractère"
 
 msgid "Filter"
 msgstr "Filtrer"

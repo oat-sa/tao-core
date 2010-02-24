@@ -501,7 +501,12 @@ abstract class TaoModule extends CommonModule {
 				$filters = $myForm->getValues('filters');
 				$properties = array();
 				foreach($filters as $propUri => $filter){
-					$properties[] = new core_kernel_classes_Property($propUri);
+					if(preg_match("/^http/", $propUri)){
+						$properties[] = new core_kernel_classes_Property($propUri);
+					}
+					else{
+						unset($filters[$propUri]);
+					}
 				}
 				$this->setData('properties', $properties);
 				$instances = $this->service->searchInstances($filters, $clazz, $myForm->getValues('params'));

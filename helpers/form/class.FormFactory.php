@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 02.02.2010, 11:38:11 with ArgoUML PHP module 
+ * Automatically generated on 24.02.2010, 11:08:58 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

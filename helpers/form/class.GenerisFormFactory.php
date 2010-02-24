@@ -337,6 +337,14 @@ class tao_helpers_form_GenerisFormFactory
 		
 		$myForm->createGroup('params', __('Options'), array('chaining', 'lang'));
 		
+		
+		$filters = array();
+		
+		$descElt = tao_helpers_form_FormFactory::getElement('desc', 'Label');
+		$descElt->setValue(__('Use the * character to replace any string'));
+		$myForm->addElement($descElt);
+		$filters[] = 'desc';
+		
 		$defaultProperties 	= self::getDefaultProperties();
 		$classProperties	= self::getClassProperties($clazz, new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS));
 		
@@ -348,7 +356,6 @@ class tao_helpers_form_GenerisFormFactory
 			}
 		}
 		
-		$filters = array();
 		foreach($properties as $property){
 	
 			$element = self::elementMap($property);

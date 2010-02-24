@@ -181,6 +181,9 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
+msgid "Use the * character to replace any string"
+msgstr ""
+
 msgid "Filters"
 msgstr ""
 
@@ -347,9 +350,6 @@ msgid "Open"
 msgstr ""
 
 msgid "My settings"
-msgstr ""
-
-msgid "Use the * character to replace any string"
 msgstr ""
 
 msgid "Filter"

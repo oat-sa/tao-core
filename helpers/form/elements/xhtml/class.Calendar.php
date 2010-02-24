@@ -78,6 +78,10 @@ class tao_helpers_form_elements_xhtml_Calendar
 		else{
 			unset($this->attributes['noLabel']);
 		}
+		if(!isset($this->attributes['size'])){
+			$this->attributes['size'] = 8;
+		}
+		
 		$returnValue .= "<input type='text' name='{$this->name}' id='$elementId' ";
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= " value='{$this->value}'  />";

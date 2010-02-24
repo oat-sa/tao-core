@@ -47,6 +47,9 @@ div.xhtml_form div.wysiwyg{
 div.xhtml_form div .elt_desc{
 	font-weight:normal;
 }
+div.xhtml_form div .form-elt-info{
+	font-style:italic;
+}
 div.xhtml_form ul.form-elt-list{
 	padding-left:15px;
 	color:#444;
