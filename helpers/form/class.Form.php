@@ -809,6 +809,32 @@ abstract class tao_helpers_form_Form
     }
 
     /**
+     * Short description of method removeGroup
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string grouName
+     * @return boolean
+     */
+    public function removeGroup($grouName)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-86dc9fc:12705e3a3bc:-8000:0000000000001ED1 begin
+		
+		if(isset($this->groups[$grouName])){
+			foreach($this->groups[$grouName]['elements'] as $element){
+				$this->removeElement($element);
+			}
+			unset($this->groups[$grouName]);
+		}
+		
+        // section 127-0-1-1-86dc9fc:12705e3a3bc:-8000:0000000000001ED1 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
      * evaluate the form inside the current context. Must be overridden, for
      * rendering mode: for example, it's used to populate and validate the data
      * the http request for an xhtml context

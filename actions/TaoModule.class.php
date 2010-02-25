@@ -94,6 +94,7 @@ abstract class TaoModule extends CommonModule {
 	 */
 	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource){
 	
+		
 		$myForm = tao_helpers_form_GenerisFormFactory::classEditor($clazz, $resource);
 		
 		if($myForm->isSubmited()){
@@ -102,6 +103,17 @@ abstract class TaoModule extends CommonModule {
 				$classValues = array();
 				$propertyValues = array();
 				
+				//in case of deletion of just added properties
+				foreach($_POST as $key => $value){
+					if(preg_match("/^propertyUri/", $key)){
+						$propNum = str_replace('propertyUri', '', $key);
+						if(!isset($propertyValues[$propNum])){
+							$propertyValues[$propNum] = array();
+						}
+					}
+				}
+				
+				//create a table of property models
 				foreach($myForm->getValues() as $key => $value){
 					if(preg_match("/^class_/", $key)){
 						$classKey =  tao_helpers_Uri::decode(str_replace('class_', '', $key));
@@ -109,38 +121,42 @@ abstract class TaoModule extends CommonModule {
 					}
 					if(preg_match("/^property_/", $key)){
 						if(isset($_POST[$key])){
-							$key = str_replace('property_', '', $key);
-							$propNum = substr($key, 0, strpos($key, '_') );
-							$propKey = tao_helpers_Uri::decode(str_replace($propNum.'_', '', $key));
+							$pkey = str_replace('property_', '', $key);
+							$propNum = substr($pkey, 0, strpos($pkey, '_') );
+							$propKey = tao_helpers_Uri::decode(str_replace($propNum.'_', '', $pkey));
 							$propertyValues[$propNum][$propKey] = tao_helpers_Uri::decode($value);
 						}
 						else{
-							$key = str_replace('property_', '', $key);
-							$propNum = substr($key, 0, strpos($key, '_') );
+							$pkey = str_replace('property_', '', $key);
+							$propNum = substr($pkey, 0, strpos($pkey, '_') );
 							if(!isset($propertyValues[$propNum])){
 								$propertyValues[$propNum] = array();
 							}
 						}
 					}
 				}
-											
+				
 				$clazz = $this->service->bindProperties($clazz, $classValues);
 				$propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
-							
+				
 				foreach($propertyValues as $propNum => $properties){
 					if(isset($_POST['propertyUri'.$propNum]) && count($properties) == 0){
 						//delete property mode
 						foreach($clazz->getProperties() as $classProperty){
 							if($classProperty->uriResource == tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])){
 								if($classProperty->delete()){
+									$myForm->removeGroup("property_".$propNum);
 									break;
 								}
 							}
 						}
 					}
 					else{
+						$simpleMode = false;
 						if($_POST["propertyMode{$propNum}"] == 'simple'){
-							
+							$simpleMode = true;
+						}
+						if($simpleMode){
 							$type = $properties['type'];
 							$range = $properties['range'];
 							unset($properties['type']);
@@ -156,10 +172,14 @@ abstract class TaoModule extends CommonModule {
 								}
 							}
 						}
-						$this->service->bindProperties(new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])), $properties);
+						$property = new core_kernel_classes_Property(tao_helpers_Uri::decode($_POST['propertyUri'.$propNum]));
+						$this->service->bindProperties($property, $properties);
+						
+						$myForm->removeGroup("property_".$propNum);
+						tao_helpers_form_GenerisFormFactory::propertyEditor($property, $myForm, $propNum, $simpleMode );
 					}
 					//reload form
-					$myForm = tao_helpers_form_GenerisFormFactory::classEditor($clazz, $resource);
+					//$myForm = tao_helpers_form_GenerisFormFactory::classEditor($clazz, $resource);
 				}
 			}
 		}
