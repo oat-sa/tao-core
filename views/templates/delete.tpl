@@ -22,7 +22,8 @@ $(document).ready(function(){
 			dataType: 'json',
 			success: function(response){
 				if(response.deleted){
-					
+					$("#instance-deleter").hide();
+					createInfoMessage("<?=get_data('label')?> "+__(' has been deleted successfully'));
 				}
 			}
 		});
