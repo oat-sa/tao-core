@@ -61,6 +61,8 @@ function updateTabUrl(tabObj, tabName, url){
  * Naviguation and ajax helpers
  */
 
+var listDisabled = [];
+
 /**
  * Begin an async request, while loading:
  * - show the loader img

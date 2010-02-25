@@ -137,9 +137,11 @@ class tao_helpers_form_xhtml_Form
 				}
 				else{
 					if(isset($_POST[$element->getName()])){
-						$this->elements[$id]->setValue( 
-							tao_helpers_Uri::decode($_POST[$element->getName()]) 
-						);
+						if($element->getName() != 'uri' && $element->getName() != 'classUri'){
+							$this->elements[$id]->setValue( 
+								tao_helpers_Uri::decode($_POST[$element->getName()]) 
+							);
+						}
 					}
 				}
 			}

@@ -269,6 +269,38 @@ abstract class tao_helpers_form_Form
     }
 
     /**
+     * Short description of method removeElement
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string name
+     * @return boolean
+     */
+    public function removeElement($name)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-740c50e3:12704c0ea0d:-8000:0000000000001ECE begin
+		
+		foreach($this->elements as $index => $element){
+			if($element->getName() == $name){
+				unset($this->elements[$index]);
+				$groupName = $this->getElementGroup($name);
+				if(!empty($groupName)){
+					if(isset($this->groups[$groupName]['elements'][$name])){
+						unset($this->groups[$groupName]['elements'][$name]);
+					}
+				}
+				$returnValue = true;
+			}
+		}
+		
+        // section 127-0-1-1-740c50e3:12704c0ea0d:-8000:0000000000001ECE end
+
+        return (bool) $returnValue;
+    }
+
+    /**
      * Short description of method addElement
      *
      * @access public

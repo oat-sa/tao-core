@@ -225,6 +225,22 @@ abstract class tao_helpers_form_FormElement
     }
 
     /**
+     * Short description of method setAttribute
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string key
+     * @param  string value
+     * @return mixed
+     */
+    public function setAttribute($key, $value)
+    {
+        // section 127-0-1-1-740c50e3:12704c0ea0d:-8000:0000000000001ECA begin
+		$this->attributes[$key] = $value;
+        // section 127-0-1-1-740c50e3:12704c0ea0d:-8000:0000000000001ECA end
+    }
+
+    /**
      * Short description of method setAttributes
      *
      * @access public

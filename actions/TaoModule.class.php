@@ -283,6 +283,17 @@ abstract class TaoModule extends CommonModule {
 		$this->setView('form.tpl', true);
 	}
 	
+	public function sasDeleteInstance(){
+		$clazz = $this->getCurrentClass();
+		$instance = $this->getCurrentInstance();
+		
+		$this->setData('label', $instance->getLabel());
+		
+		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
+		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
+		$this->setView('delete.tpl', true);
+	}
+	
 	/**
 	 * Import module data Action
 	 * @return void
