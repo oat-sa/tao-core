@@ -303,6 +303,10 @@ abstract class TaoModule extends CommonModule {
 		$this->setView('form.tpl', true);
 	}
 	
+	/**
+	 * 
+	 * @return 
+	 */
 	public function sasDeleteInstance(){
 		$clazz = $this->getCurrentClass();
 		$instance = $this->getCurrentInstance();

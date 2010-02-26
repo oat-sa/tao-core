@@ -9,7 +9,7 @@
   * DATABASE_NAME
   */
  
- if(!defined(DATABASE_NAME)){
+ if(!defined("DATABASE_NAME")){
  	echo "\nPlease configure me!\n";
 	exit(1);
  }
@@ -55,7 +55,7 @@
  		$type = $subRow['Type'];
  		$field = $subRow['Field'];
  		$collation = $subRow['Collation'];
- 		if(preg_match("/^varchar/",$type) || preg_match("/^char/",$type) || preg_match("/^text/",$type)){
+ 		if(preg_match("/^varchar/",$type) || preg_match("/^char/",$type) || preg_match("/^text/",$type) || preg_match("/text$/",$type)){
  			if($collation != 'utf8_general_ci'){
  				$counter++;
  				$alterQuery = "ALTER TABLE ".$table." MODIFY ".$field." ".$type." CHARACTER SET utf8 COLLATE utf8_general_ci";
