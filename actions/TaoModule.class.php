@@ -483,7 +483,7 @@ abstract class TaoModule extends CommonModule {
 					$translated = 0;
 					foreach($values as $key => $value){
 						if(preg_match("/^http/", $key) && !empty($value)){
-							if($instance->setPropertyValueByLg(new core_kernel_classes_Property($key), $value, $lang)){
+							if($instance->editPropertyValueByLg(new core_kernel_classes_Property($key), $value, $lang)){
 								$translated++;
 							}
 						}
