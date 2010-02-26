@@ -36,7 +36,7 @@
 			<li><a href="<?=_url('index', null, array('extension' => 'none'))?>"><img src="<?=BASE_WWW?>img/home.png" class="icon" /><?=__('Home')?></a></li>
 			<li><a href="<?=_url('index', null, array('extension' => 'users'))?>"><img src="<?=BASE_WWW?>img/user_edit.png" class="icon" /><?=__('Users')?></a></li>
 		<?if(get_data('currentExtension') && get_data('currentExtension') != 'users'):?>
-			<li><a href="<?=_url('index', 'Settings')?>" id="settings-loader"><img src="<?=BASE_WWW?>img/settings.png" class="icon" /><?=__('Settings')?></a></li>
+			<li><a href="<?=_url('index', 'Settings')?>" class="settings-loader"><img src="<?=BASE_WWW?>img/settings.png" class="icon" /><?=__('Settings')?></a></li>
 		<?else:?>
 			<li><img src="<?=BASE_WWW?>img/settings_disabled.png" class="icon" /><?=__('Settings')?></li>
 		<?endif?>
@@ -59,7 +59,7 @@
 	<?endforeach?>
 	<span class="ghost-menu"><a href="<?=_url('index', null, array('extension' => 'users'))?>"><?=__('Users')?></a></span>
 	<?if(get_data('currentExtension') && get_data('currentExtension') != 'users'):?>
-		<span class="ghost-menu"><a href="<?=_url('index', 'Settings')?>" id="settings-loader"><?=__('Settings')?></a></span>
+		<span class="ghost-menu"><a href="<?=_url('index', 'Settings')?>" class="settings-loader"><?=__('Settings')?></a></span>
 	<?else:?>
 		<span class="ghost-menu disabled-extension"><?=__('Settings')?></span>
 	<?endif?>

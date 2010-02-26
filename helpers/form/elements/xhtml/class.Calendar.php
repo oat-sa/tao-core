@@ -69,7 +69,7 @@ class tao_helpers_form_elements_xhtml_Calendar
 		if(empty($uniqueId)){
 			$uniqueId=uniqid('calendar_');
 		}
-		$elementId = $this->getDescription().'_'.$uniqueId;
+		$elementId = tao_helpers_Display::TextCleaner($this->getDescription()).'_'.$uniqueId;
 		
 		
 		if(!isset($this->attributes['noLabel'])){

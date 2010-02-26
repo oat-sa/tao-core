@@ -168,7 +168,7 @@ UiBootstrap = function(options){
 		})
 		
 		//initialize the settings menu
-		$("#settings-loader").click(function(){
+		$(".settings-loader").click(function(){
 			_load(getMainContainerSelector(UiBootstrap.tabs), this.href);
 			return false;
 		});
