@@ -123,6 +123,7 @@ class tao_helpers_GenerisDataAdapterRdf
 					$namespaces = array(
 						'xmlns:rdf'		=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
 						'xmlns:rdfs'	=> 'http://www.w3.org/2000/01/rdf-schema#',
+						'xmlns:ns1'	=> $modelUri,
 						'xml:base'		=> $modelUri
 					);
 					
@@ -173,6 +174,9 @@ class tao_helpers_GenerisDataAdapterRdf
 										}
 										break;
 									}
+									else if(preg_match("/http\:\/\/(.*)\#[a-zA-Z1-9]*/", $object)){
+										$resourceValue = true;
+									}
 								}
 								if(!is_null($nodeName)){
 									try{
@@ -189,8 +193,8 @@ class tao_helpers_GenerisDataAdapterRdf
 											if(!empty($object) && !is_null($object)){
 												$node->appendChild($dom->createCDATASection($object));
 											}
-											$description->appendChild($node);
 										}
+										$description->appendChild($node);
 									}
 									catch(DOMException $de){
 										//print $de;

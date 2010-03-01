@@ -51,7 +51,11 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					if(instance.options.checkedNodes){
 						instance.check(instance.options.checkedNodes);
 					}
+					if(instance.options.loadCallback){
+						instance.options.loadCallback();
+					}
 					instance.getTree().open_all();
+					
 				}
 			},
 			plugins : {
