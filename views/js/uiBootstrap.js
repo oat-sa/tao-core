@@ -55,7 +55,7 @@ UiBootstrap = function(options){
 			loaded();
 			_autoFx();
 			if (settings.dataType == 'html') {
-				if(/add|edit|Instance|Class|search|getSectionTrees/.test(settings.url) ){
+				if(/add|edit|Instance|Class|search|getSectionTrees/.test(settings.url) && !/authoring/i.test(settings.url)){
 					bootInstance.initActions();
 				}
 				if(!/getMetaData/.test(settings.url)){
