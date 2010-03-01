@@ -55,6 +55,10 @@ UiBootstrap = function(options){
 			loaded();
 			_autoFx();
 			if (settings.dataType == 'html') {
+				if(/authoring/i.test(settings.url)){
+					$("#section-trees").empty();
+					$("#section-actions").empty();
+				}
 				if(/add|edit|Instance|Class|search|getSectionTrees/.test(settings.url) && !/authoring/i.test(settings.url)){
 					bootInstance.initActions();
 				}

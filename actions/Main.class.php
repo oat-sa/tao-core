@@ -134,56 +134,59 @@ class Main extends CommonModule {
 		$currentExtension = $this->service->getCurrentExtension();
 		if($currentExtension){
 			$structure = $this->service->getStructure($currentExtension, $this->getRequestParameter('section'));
-			$actionNodes =  $structure->actions[0];
-			$actions = array();
-			foreach($actionNodes as $actionNode){
-				$display = (string)$actionNode['name'];
-				if(strlen($display) > 15){
-					$display = str_replace(' ', "<br>", $display);
-				} 
-				$action = array(
-					'js'		=> (isset($actionNode['js'])) ? (string)$actionNode['js'] : false,
-					'url' 		=> (string)$actionNode['url'],
-					'display'	=> $display,
-					'rowName'	=> (string)$actionNode['name'],
-					'name'		=> _clean((string)$actionNode['name']),
-					'uri'		=> ($uri) ? $this->getSessionAttribute('uri') : false,
-					'classUri'	=> ($classUri) ? $this->getSessionAttribute('classUri') : false,
-					'reload'	=> (isset($actionNode['reload'])) ? true : false
-				);
-				
-				$action['disabled'] = true;
-				switch((string)$actionNode['context']){
-					case 'resource':
-						if($classUri || $uri) {
-							$action['disabled'] = false; break;
-						}
-						break;
-					case 'class':
-						if($classUri && !$uri) {
-							$action['disabled'] = false; break;
-						}
-						break;
-					case 'instance':
-						if($classUri && $uri) {
-							$action['disabled'] = false; break;
-						}
-						break;
-					case '*': $action['disabled'] = false; break;
-					default : $action['disabled'] = true; break;
-				}
-				
-				//@todo remove this when permissions engine is setup
-				if($action['rowName'] == 'delete' && $classUri && !$uri){
-					if(in_array($action['classUri'], array_map("tao_helpers_Uri::encode", $rootClasses))){
-						$action['disabled'] = true; 
-					}
-				}
-				
-				array_push($actions, $action);
-			}
 			
-			$this->setData('actions', $actions);
+			if(isset($structure->actions[0])){
+				$actionNodes =  $structure->actions[0];
+				$actions = array();
+				foreach($actionNodes as $actionNode){
+					$display = (string)$actionNode['name'];
+					if(strlen($display) > 15){
+						$display = str_replace(' ', "<br>", $display);
+					} 
+					$action = array(
+						'js'		=> (isset($actionNode['js'])) ? (string)$actionNode['js'] : false,
+						'url' 		=> (string)$actionNode['url'],
+						'display'	=> $display,
+						'rowName'	=> (string)$actionNode['name'],
+						'name'		=> _clean((string)$actionNode['name']),
+						'uri'		=> ($uri) ? $this->getSessionAttribute('uri') : false,
+						'classUri'	=> ($classUri) ? $this->getSessionAttribute('classUri') : false,
+						'reload'	=> (isset($actionNode['reload'])) ? true : false
+					);
+					
+					$action['disabled'] = true;
+					switch((string)$actionNode['context']){
+						case 'resource':
+							if($classUri || $uri) {
+								$action['disabled'] = false; break;
+							}
+							break;
+						case 'class':
+							if($classUri && !$uri) {
+								$action['disabled'] = false; break;
+							}
+							break;
+						case 'instance':
+							if($classUri && $uri) {
+								$action['disabled'] = false; break;
+							}
+							break;
+						case '*': $action['disabled'] = false; break;
+						default : $action['disabled'] = true; break;
+					}
+					
+					//@todo remove this when permissions engine is setup
+					if($action['rowName'] == 'delete' && $classUri && !$uri){
+						if(in_array($action['classUri'], array_map("tao_helpers_Uri::encode", $rootClasses))){
+							$action['disabled'] = true; 
+						}
+					}
+					
+					array_push($actions, $action);
+				}
+				
+				$this->setData('actions', $actions);
+			}
 		}
 		
 		$this->setView('actions.tpl');
