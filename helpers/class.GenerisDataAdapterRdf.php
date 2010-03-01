@@ -104,7 +104,7 @@ class tao_helpers_GenerisDataAdapterRdf
 
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EC1 begin
 		
-		$modelId = 0;
+		
 		if(!is_null($source)){
 			$dbWrapper =  core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
 			
@@ -114,103 +114,14 @@ class tao_helpers_GenerisDataAdapterRdf
 				 WHERE `statements`.`subject` = '{$source->uriResource}' AND predicate = 'http://www.w3.org/2000/01/rdf-schema#subClassOf'"
 			);
 			if (!$result->EOF){
-				$modelId 	= $result->fields['modelID'];
 				$modelUri 	= $result->fields['modelURI'];
 			}
 			
-			if($modelId > 0){
-				try{
-					$namespaces = array(
-						'xmlns:rdf'		=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-						'xmlns:rdfs'	=> 'http://www.w3.org/2000/01/rdf-schema#',
-						'xmlns:ns1'	=> $modelUri,
-						'xml:base'		=> $modelUri
-					);
-					
-					$dom = new DOMDocument();
-					$root = $dom->createElement('rdf:RDF');
-					foreach($namespaces as $namespaceId => $namespaceUri){
-						$root->setAttribute($namespaceId, $namespaceUri);
-					}
-					$dom->appendChild($root);
-					
-					$subjects = array();
-					$result = $dbWrapper->execSql("SELECT DISTINCT `subject` FROM `statements` WHERE `modelID`=$modelId");
-					while(!$result->EOF){
-						$subjects[] = $result->fields['subject'];
-						$result->moveNext();
-					}
-					foreach($subjects as $subject){
-						$description = $dom->createElement('rdf:Description');
-						$description->setAttribute('rdf:ID', str_replace($modelUri, '', $subject));
-						
-							$result = $dbWrapper->execSql("SELECT * FROM `statements` WHERE `modelID`=$modelId AND `subject`= '{$subject}'");
-							while(!$result->EOF){
-								
-								$predicate = trim($result->fields['predicate']);
-								$object = trim($result->fields['object']);
-								
-								$nodeName = null;
-								
-								foreach($namespaces as $namespaceId => $namespaceUri){
-									if(preg_match("/^".preg_quote($namespaceUri, '/')."/", $predicate)){
-										if($namespaceId == 'xml:base'){
-											$nodeName = str_replace($namespaceUri, '', $predicate);
-											break;
-										}
-										else{
-											$nodeName = str_replace('xmlns:', '', $namespaceId).':'.str_replace($namespaceUri, '', $predicate);
-											break;
-										}
-									}
-								}
-								$resourceValue = false;
-								$resourceNS = null;
-								foreach($namespaces as $namespaceId => $namespaceUri){
-									if(preg_match("/^".preg_quote($namespaceUri, '/')."/", $object)){
-										$resourceValue = true;
-										if($namespaceId != 'xml:base'){
-											$resourceNS = $namespaceUri;
-										}
-										break;
-									}
-									else if(preg_match("/http\:\/\/(.*)\#[a-zA-Z1-9]*/", $object)){
-										$resourceValue = true;
-									}
-								}
-								if(!is_null($nodeName)){
-									try{
-										$node = $dom->createElement($nodeName);
-										if($resourceValue){
-											if(is_null($resourceNS)){
-												$node->setAttribute('rdf:resource', str_replace($modelUri, '', $object));
-											}
-											else{
-												$node->setAttribute('rdf:resource', $object);
-											}
-										}
-										else{
-											if(!empty($object) && !is_null($object)){
-												$node->appendChild($dom->createCDATASection($object));
-											}
-										}
-										$description->appendChild($node);
-									}
-									catch(DOMException $de){
-										//print $de;
-									}
-								}
-								$result->moveNext();
-							}
-						$root->appendChild($description);
-					}
-					
-					$returnValue = $dom->saveXml();
-				}
-				catch(Exception $e){
-					print $e;
-				}
-			}
+			$api = core_kernel_classes_ApiModelOO::singleton();
+			$returnValue = $api->exportXmlRdf($modelUri);
+		}
+		else{
+			$returnValue = $api->exportXmlRdf();
 		}
 		
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EC1 end
