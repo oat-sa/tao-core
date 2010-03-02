@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 22.02.2010, 15:39:02 with ArgoUML PHP module 
+ * Automatically generated on 02.03.2010, 13:54:17 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -98,12 +98,13 @@ class tao_helpers_GenerisDataAdapterRdf
      * @param  Class source
      * @return string
      */
-    public function export( core_kernel_classes_Class $source)
+    public function export( core_kernel_classes_Class $source = null)
     {
         $returnValue = (string) '';
 
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EC1 begin
-		
+	
+		$api = core_kernel_classes_ApiModelOO::singleton();
 		
 		if(!is_null($source)){
 			$dbWrapper =  core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
@@ -117,8 +118,8 @@ class tao_helpers_GenerisDataAdapterRdf
 				$modelUri 	= $result->fields['modelURI'];
 			}
 			
-			$api = core_kernel_classes_ApiModelOO::singleton();
-			$returnValue = $api->exportXmlRdf($modelUri);
+			$session = core_kernel_classes_Session::singleton();
+			$returnValue = $api->exportXmlRdf(array($modelUri, $session->getNameSpace()));
 		}
 		else{
 			$returnValue = $api->exportXmlRdf();

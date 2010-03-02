@@ -41,7 +41,7 @@ class Users extends CommonModule {
 		$sord = $this->getRequestParameter('sord'); 
 		$start = $limit * $page - $limit; 
 		
-		if(!$sidx) $sidx =1; // connect to the database 
+		if(!$sidx) $sidx =1; 
 		
 		$users = $this->userService->getAllUsers(array(
 			'order' 	=> $sidx,

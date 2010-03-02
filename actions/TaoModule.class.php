@@ -31,6 +31,7 @@ abstract class TaoModule extends CommonModule {
 	
 	
 	/**
+	 * @todo 
      * @see Module::setView()
      * @param string $identifier view identifier
      * @param boolean set to true if you want to use the views in the tao extension instead of the current extension 
@@ -412,39 +413,114 @@ abstract class TaoModule extends CommonModule {
 	 * @return void
 	 */
 	public function export(){
+
+
+		if(!file_exists(EXPORT_PATH)){
+			if(!mkdir(EXPORT_PATH)){
+				throw new Exception("Unable to create  " .EXPORT_PATH.". Check your filesystem!");
+			}
+		}
 		
-		if($this->hasSessionAttribute('currentExtension')){
+		$myLoginFormContainer = new tao_actions_form_Export();
+		$myForm = $myLoginFormContainer->getForm();
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
 			
-			$extension = str_replace('tao', '', $this->getSessionAttribute('currentExtension'));
-			$clazz = $this->getCurrentClass();
-			
-			if(!is_null($clazz)){
-				$fileName = strtolower($extension."_".tao_helpers_Display::textCleaner($clazz->getLabel())."_".time().".csv");
-				$adapter = new tao_helpers_GenerisDataAdapterCsv();
-				$data = $adapter->export($clazz);
+				$rdf = '';
+				$adapter = new tao_helpers_GenerisDataAdapterRdf();
+				if($myForm->getValue('ontology') == 'current'){
+					$rdf =  $adapter->export($this->getRootClass());
+				}
+				else{
+					$rdf =  $adapter->export();
+				}
 				
-				if($data){
-					header('Content-type: application/csv-tab-delimited-table');
-					header('Content-Disposition: attachment; filename="'.$fileName.'"');
-					echo $data;
-					return;
+				if(!empty($rdf)){
+					
+					$path = EXPORT_PATH."/".$myForm->getValue('name').'_'.time().'.rdf';
+					file_put_contents($path, $rdf);
 				}
 			}
 		}
-		throw new Exception("Unable to export data");
+		
+		
+		
+		$this->setData('formTitle', __('Export data to RDF'));
+		$this->setData('myForm', $myForm->render());
+		$this->setView('export_form.tpl', true);
+		
+		
 	}
 	
-	/**
-	 * @todo implement it. Used for dev.
-	 * @return void 
-	 */
-	public function rdfExport(){
-		//throw new Exception("Not yet implemented");
-		$clazz = $this->getRootClass();
-		$adapter = new tao_helpers_GenerisDataAdapterRdf();
-		header('Content-Type: text/xml');
-		print $adapter->export($clazz);
+	public function getExportedFiles(){
+		$exportedFiles = array();
+		foreach(scandir(EXPORT_PATH) as $file){
+			$path = EXPORT_PATH.'/'.$file;
+			if(preg_match("/\.rdf$/", $file) && !is_dir($path)){
+				$exportedFiles[] = array(
+					'path'		=> $path,
+					'url'		=> EXPORT_URL.'/'.$file,
+					'name'		=> substr($file, 0, strrpos($file, '_')),
+					'date'		=> date('Y-m-d H:i:s', ((int)substr(str_replace('.rdf', '', $file), strrpos($file, '_') + 1)))
+				);
+			}
+		}
+		
+		$page = $this->getRequestParameter('page'); 
+		$limit = $this->getRequestParameter('rows'); 
+		$sidx = $this->getRequestParameter('sidx');  
+		$sord = $this->getRequestParameter('sord'); 
+		$start = $limit * $page - $limit; 
+		
+		if(!$sidx) $sidx =1; 
+		
+		//slice from start to limit
+		$files = array_slice($exportedFiles, $start, $limit);
+		
+		$col = array();
+		foreach($files as $key => $val){
+			$col[$key] = $val[$sidx];
+		}
+		array_multisort($col, ($sord == 'asc') ? SORT_ASC: SORT_DESC, $files);
+		
+		$count = count($exportedFiles); 
+		if( $count >0 ) { 
+			$total_pages = ceil($count/$limit); 
+		} 
+		else { 
+			$total_pages = 0; 
+		} 
+		if ($page > $total_pages){
+			$page = $total_pages; 
+		}
+		
+		$response = new stdClass();
+		$response->page = $page; 
+		$response->total = $total_pages; 
+		$response->records = $count; 
+		foreach($files as $i => $file) { 
+			$response->rows[$i]['id']= $i; 
+			$response->rows[$i]['cell']= array(
+				$file['name'],
+				basename($file['path']),
+				$file['date'],
+				"<a href='{$file['url']}' target='_blank' ><img src='".TAOBASE_WWW."img/bullet_go.png'  title='".__('download')."' />".__('Download')."</a>&nbsp;|&nbsp;" .
+				"<a href='".tao_helpers_Uri::url('deleteExportedFiles')."?filePath=".urlencode($file['path'])."' class='nav' ><img src='".TAOBASE_WWW."img/delete.png' title='".__('delete')."' />".__('Delete')."</a>"
+			);
+		} 
+		echo json_encode($response); 
 	}
+	
+	public function deleteExportedFiles(){
+		if($this->hasRequestParameter('filePath')){
+			$path = urldecode($this->getRequestParameter('filePath'));
+			if(preg_match("/^".preg_quote(EXPORT_PATH, '/')."/", $path)){
+				unlink($path);
+			}
+		}
+		$this->redirect(tao_helpers_Uri::url('export'));
+	}
+	
 	
 	/**
 	 * Render the  form to translate a Resource instance
@@ -574,6 +650,7 @@ abstract class TaoModule extends CommonModule {
 				}
 			}
 		}
+		
 		$this->setData('openAction', 'GenerisAction.select');
 		if(preg_match("/^SaS/", get_class($this))){
 			$this->setData('openAction', 'alert');

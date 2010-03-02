@@ -5,14 +5,14 @@ error_reporting(E_ALL);
 /**
  * Generis Object Oriented API - tao/helpers/class.GenerisDataAdapterCsv.php
  *
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * $Id$
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 01.12.2009, 13:27:17 with ArgoUML PHP module 
+ * Automatically generated on 02.03.2010, 13:54:17 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_GenerisDataAdapter
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 require_once('tao/helpers/class.GenerisDataAdapter.php');
 
@@ -40,7 +40,7 @@ require_once('tao/helpers/class.GenerisDataAdapter.php');
  * Short description of class tao_helpers_GenerisDataAdapterCsv
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -58,7 +58,7 @@ class tao_helpers_GenerisDataAdapterCsv
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -96,7 +96,7 @@ class tao_helpers_GenerisDataAdapterCsv
      * Short description of method import
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string source
      * @param  Class destination
      * @return boolean
@@ -135,11 +135,11 @@ class tao_helpers_GenerisDataAdapterCsv
      * Short description of method export
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class source
      * @return string
      */
-    public function export( core_kernel_classes_Class $source)
+    public function export( core_kernel_classes_Class $source = null)
     {
         $returnValue = (string) '';
 

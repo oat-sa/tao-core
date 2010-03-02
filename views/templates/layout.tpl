@@ -16,7 +16,7 @@
 		$(function(){
 		
 		<?if(get_data('errorMessage')):?>
-			createErrorMessage("get_data('errorMessage')");
+			createErrorMessage("<?=get_data('errorMessage')?>");
 		<?endif?>
 		
 		});

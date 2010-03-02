@@ -156,6 +156,10 @@ div.tree-actions{
 	font-size:12px;
 	margin-top:10px;
 }
+div#section-trees div.tree-custom{
+	max-height:180px;
+	overflow-y:auto;
+}
 
 /* Layout -> Actions */
 div#section-actions{
@@ -175,7 +179,9 @@ div#section-actions div#action-items{
 }
 div#section-actions div#action-items td{
 	text-align:center;
-	padding-bottom:15px;
+	vertical-align:bottom;
+	padding:5px 0px 5px 0px;	
+	width:33%;
 }
 div#section-actions div#action-items{
 	font-size:11px;

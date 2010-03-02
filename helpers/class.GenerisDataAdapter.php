@@ -5,14 +5,14 @@ error_reporting(E_ALL);
 /**
  * Generis Object Oriented API - tao/helpers/class.GenerisDataAdapter.php
  *
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * $Id$
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 01.12.2009, 15:49:12 with ArgoUML PHP module 
+ * Automatically generated on 02.03.2010, 13:54:17 with ArgoUML PHP module 
  * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -34,7 +34,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -67,7 +67,7 @@ abstract class tao_helpers_GenerisDataAdapter
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -84,7 +84,7 @@ abstract class tao_helpers_GenerisDataAdapter
      * Short description of method getOptions
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
     public function getOptions()
@@ -104,7 +104,7 @@ abstract class tao_helpers_GenerisDataAdapter
      * Short description of method setOptions
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -121,7 +121,7 @@ abstract class tao_helpers_GenerisDataAdapter
      * Short description of method getClassProperties
      *
      * @access protected
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @param  Class topLevelClazz
      * @return array
@@ -181,7 +181,7 @@ abstract class tao_helpers_GenerisDataAdapter
      *
      * @abstract
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string source
      * @param  Class destination
      * @return boolean
@@ -193,11 +193,11 @@ abstract class tao_helpers_GenerisDataAdapter
      *
      * @abstract
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class source
      * @return string
      */
-    public abstract function export( core_kernel_classes_Class $source);
+    public abstract function export( core_kernel_classes_Class $source = null);
 
 } /* end of abstract class tao_helpers_GenerisDataAdapter */
 
