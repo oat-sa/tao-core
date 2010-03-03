@@ -125,6 +125,14 @@ abstract class tao_helpers_form_FormElement
      */
     protected $forcedValid = false;
 
+    /**
+     * Short description of attribute unit
+     *
+     * @access protected
+     * @var string
+     */
+    protected $unit = '';
+
     // --- OPERATIONS ---
 
     /**
@@ -331,6 +339,21 @@ abstract class tao_helpers_form_FormElement
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A27 begin
 		$this->description = $description;
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A27 end
+    }
+
+    /**
+     * Short description of method setUnit
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string unit
+     * @return mixed
+     */
+    public function setUnit($unit)
+    {
+        // section 127-0-1-1--5a8373f9:1272396a4bd:-8000:0000000000001EE3 begin
+		$this->unit = $unit;
+        // section 127-0-1-1--5a8373f9:1272396a4bd:-8000:0000000000001EE3 end
     }
 
     /**
