@@ -26,10 +26,6 @@ define("DIR_VIEWS"			, dirname(__FILE__) . '/../views/');
 define("DIR_HELPERS"		, dirname(__FILE__) . "/../helpers/");
 
 
-
-# session namespace
-define('SESSION_NAMESPACE', 'ClearFw');
-
 # default module name
 define('DEFAULT_MODULE_NAME', 'Main');
 
@@ -37,26 +33,18 @@ define('DEFAULT_MODULE_NAME', 'Main');
 define('DEFAULT_ACTION_NAME', 'index');
 
 
-										
-
 # theme directory
 $GLOBALS['dir_theme']		= "templates/";
 
-# language
-$GLOBALS['default_lang']	= 'EN';
-$GLOBALS['available_langs']	= array('EN', 'FR', 'DE', 'LU');
 
 #BASE PATH: the root path in the file system (usually the document root)
-define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT']);
 define('BASE_PATH', ROOT_PATH . '/tao');
 define('TAOVIEW_PATH', DIR_VIEWS);
 
 #BASE URL (usually the domain root)
-define('ROOT_URL', 'http://'.$_SERVER['HTTP_HOST']);
 define('BASE_URL', ROOT_URL.'/tao');
 
 #BASE WWW the web resources path
 define('BASE_WWW', BASE_URL . '/views/' );
 define('TAOBASE_WWW', BASE_WWW);
-
 ?>
