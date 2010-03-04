@@ -32,6 +32,15 @@
 .tree-custom li.node-delivery ins{background-image:url("delivery.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-campaign ins{background-image:url("campaign.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-result_server ins{background-image:url("result_server.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-process-root ins{background-image:url("process-root.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-activity ins{background-image:url("process_activity.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-property ins{background-image:url("process_property.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-connector ins{background-image:url("process_connector.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-rule ins{background-image:url("process_rule.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-interactive-service ins{background-image:url("process_service.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-activity-goto ins{background-image:url("process_activity_goto.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-connector-goto ins{background-image:url("process_connector_goto.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-connector-prev ins{background-image:url("process_connector_prev.png"); background-position:0 0; background-repeat:no-repeat;}
 
 .tree-custom ul li a.loading ins { background-image:url("throbber.gif") !important; background-position:0 0 !important; } /* UL is added to make selector stronger */
 .tree-custom li a ins.forbidden { background-position:-16px -16px; }
