@@ -74,7 +74,8 @@ class Users extends CommonModule {
 				$user['LastName'],
 				$user['E_Mail'],
 				$user['Company'],
-				$user['Deflg'],
+				__($user['Deflg']),
+				__($user['Uilg']),
 				"<a href='#' onclick='editUser(\"".$user['login']."\");'><img src='".BASE_WWW."img/pencil.png' alt='".__('Edit user')."' title='".__('edit')."' /></a>&nbsp;|&nbsp;" .
 				"<a href='#' onclick='if(confirm(\"".__('Please confirm user deletion')."\")){ window.location=\""._url('delete', 'Users', array('login' => $user['login']))."\"; }' ><img src='".BASE_WWW."img/delete.png' alt='".__('Delete user')."' title='".__('delete')."' /></a>"
 			);

@@ -212,7 +212,9 @@ class tao_models_classes_TaoService
 					if(!empty($section)){
 						$xmlStruct = $structure['data'];
 						$nodes = $xmlStruct->xpath("//section[@name='{$section}']");
-						return $nodes[0];
+						if(isset($nodes[0])){
+							return $nodes[0];
+						}
 					}
 					return $structure['data'];
 				}

@@ -88,7 +88,7 @@
 		<img src="<?=BASE_WWW?>img/lg.png" />&nbsp;<?=__('Data language')?>: <strong><?=__(get_data('user_lang'))?></strong> 
 	</div>
 	<div id="footer">
-		TAO<sup>&reg;</sup> - 2009 - A joint initiative of CRP Henri Tudor and the University of Luxembourg
+		TAO<sup>&reg;</sup> - <?=date('Y')?> - A joint initiative of CRP Henri Tudor and the University of Luxembourg
 	</div>
 </body>
 </html>

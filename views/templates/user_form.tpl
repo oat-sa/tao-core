@@ -7,7 +7,7 @@
 	<span><?=get_data('message')?></span>
 </div>
 <?endif?>
-<div class="main-container">
+<div class="main-container"></div>
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 		<?=get_data('formTitle')?>
 	</div>
@@ -19,7 +19,7 @@
 	<span class="ui-widget ui-state-default ui-corner-all" style="padding:5px;">
 		<a href="#" onclick="selectTabByName('manage_users');"><?=__('Back')?></a>
 	</span>
-</div>
+
 <script type="text/javascript">
 var ctx_extension 	= "<?=get_data('extension')?>";
 var ctx_module 		= "<?=get_data('module')?>";

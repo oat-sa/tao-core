@@ -195,14 +195,21 @@ class tao_actions_form_Users
 		foreach($GLOBALS['available_langs'] as $langCode){
 			$options[$langCode] = __($langCode);
 		}
-		$lgElement = tao_helpers_form_FormFactory::getElement('Deflg', 'Combobox');
-		$lgElement->setDescription(__('Language *'));
-		$lgElement->setOptions($options);
+		$dataLgElement = tao_helpers_form_FormFactory::getElement('Deflg', 'Combobox');
+		$dataLgElement->setDescription(__('Data Language *'));
+		$dataLgElement->setOptions($options);
 		if($this->options['mode'] == 'add'){
-			$lgElement->setValue($GLOBALS['lang']);
+			$dataLgElement->setValue($GLOBALS['lang']);
 		}
-		$this->form->addElement($lgElement);
+		$this->form->addElement($dataLgElement);
 		
+		$uiLgElement = tao_helpers_form_FormFactory::getElement('Uilg', 'Combobox');
+		$uiLgElement->setDescription(__('Interface Language *'));
+		$uiLgElement->setOptions($options);
+		if($this->options['mode'] == 'add'){
+			$uiLgElement->setValue($GLOBALS['lang']);
+		}
+		$this->form->addElement($uiLgElement);
 		
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC end
