@@ -30,7 +30,7 @@ else {
   $resultCounter = 0;
  
  $query = "show table status from ".$database;
- $result = mysql_query($query);echo $query;
+ $result = mysql_query($query);
  while($row = mysql_fetch_array($result, MYSQL_BOTH)){
  	if($row['Collation'] != 'utf8_general_ci'){
  		$table = $row['Name'];
@@ -38,12 +38,12 @@ else {
  		$counter++;
  		if(mysql_query($alterQuery)){
  			$resultCounter++;
- 			print "<br />".$table." change collation to utf8_general_ci";
+// 			print "<br />".$table." change collation to utf8_general_ci";
  		}
  	}
  }
   if($counter > 0){
- 	print "<br />".$resultCounter." / ".$counter." tables modified<br />";
+// 	print "<br />".$resultCounter." / ".$counter." tables modified<br />";
  }
  
  
@@ -66,7 +66,7 @@ else {
  				$alterQuery = "ALTER TABLE ".$table." MODIFY ".$field." ".$type." CHARACTER SET utf8 COLLATE utf8_general_ci";
  				if(mysql_query($alterQuery)){
  					$resultCounter++;
- 					print "<br />".$table.".".$field." : from ".$collation." to utf8_general_ci";
+// 					print "<br />".$table.".".$field." : from ".$collation." to utf8_general_ci";
  				}
  			}
  		}
@@ -74,7 +74,7 @@ else {
  }
  
  if($counter > 0){
- 	print "<br />".$resultCounter." / ".$counter." fields modified<br />";
+// 	print "<br />".$resultCounter." / ".$counter." fields modified<br />";
  }
  
  mysql_close();
