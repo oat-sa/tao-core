@@ -1,17 +1,17 @@
-msgid "No account match the given login / password"
+Ôªømsgid "No account match the given login / password"
 msgstr "Keen Konto passt bei desen login / Passwuert"
 
 msgid "settings updated"
-msgstr "Astellungen aktualiséiert"
+msgstr "Astellungen aktualis≈Ωiert"
 
 msgid "Access denied. Please renew your authentication!"
-msgstr "Keen Accès. W.e.g. identifizéiert Ierch nei!"
+msgstr "Keen Acc¬ès. W.e.g. identifiz≈Ωiert Ierch nei!"
 
 msgid "Resource saved"
 msgstr "Ressource gespaichert"
 
 msgid "Edit"
-msgstr "Editéiren"
+msgstr "Edit≈Ωiren"
 
 msgid "CSV Options"
 msgstr "CSV optiounen"
@@ -23,10 +23,10 @@ msgid "Upload CSV File"
 msgstr "CSF Fichier eroplueden"
 
 msgid "Data imported"
-msgstr "Daten importéiert"
+msgstr "Daten import≈Ωiert"
 
 msgid "Import data"
-msgstr "Daten importéiren"
+msgstr "Daten import≈Ωiren"
 
 msgid "Translation saved"
 msgstr "Iwersetzung gespaichert"
@@ -38,10 +38,10 @@ msgid "Search"
 msgstr "Sichen"
 
 msgid "Lists"
-msgstr "Lëschten"
+msgstr "L‚Äòschten"
 
 msgid "List "
-msgstr "Lëscht"
+msgstr "L‚Äòscht"
 
 msgid "List item "
 msgstr "Item uweisen"
@@ -50,25 +50,25 @@ msgid "Active user"
 msgstr "Aktiven User"
 
 msgid "Edit user"
-msgstr "User editéiren"
+msgstr "User edit≈Ωiren"
 
 msgid "edit"
-msgstr "editéiren"
+msgstr "edit≈Ωiren"
 
 msgid "Please confirm user deletion"
-msgstr "W.e.g. konfirméiert Läschen vum User"
+msgstr "W.e.g. konfirm≈Ωiert L≈†schen vum User"
 
 msgid "Delete user"
-msgstr "User läschen"
+msgstr "User l≈†schen"
 
 msgid "delete"
-msgstr "läschen"
+msgstr "l≈†schen"
 
 msgid "An error occured during user deletion"
-msgstr "Während dem Läschen vum User gouf et e Fehler"
+msgstr "W≈†hrend dem L≈†schen vum User gouf et e Fehler"
 
 msgid "User deleted successfully"
-msgstr "User erfollegraich geläscht"
+msgstr "User erfollegraich gel≈†scht"
 
 msgid "User added"
 msgstr "User dobeigesaat"
@@ -80,13 +80,13 @@ msgid "User saved"
 msgstr "User gespaichert"
 
 msgid "Edit a user"
-msgstr "User editéiren"
+msgstr "User edit≈Ωiren"
 
 msgid "Unable to restore default user"
-msgstr "Standarduser kann net retabléiert gin"
+msgstr "Standarduser kann net retabl≈Ωiert gin"
 
 msgid "User restored successfully"
-msgstr "User erfollegraich retabléiert"
+msgstr "User erfollegraich retabl≈Ωiert"
 
 msgid "Connect"
 msgstr "Verbannen"
@@ -125,7 +125,7 @@ msgid "Repeat new password"
 msgstr "Neit Passwuert widerhuelen"
 
 msgid "Change your password"
-msgstr "Passwuert änneren"
+msgstr "Passwuert ≈†nneren"
 
 msgid "FirstName"
 msgstr "Viirnumm"
@@ -152,7 +152,7 @@ msgid "Save"
 msgstr "Spaicheren"
 
 msgid "Revert"
-msgstr "Zréckgoen"
+msgstr "Zr≈Ωckgoen"
 
 msgid "Current language"
 msgstr "Aktuell Sprooch"
@@ -188,22 +188,22 @@ msgid "Filters"
 msgstr "Filteren"
 
 msgid "Add property"
-msgstr "Proprietéit dobeisetzen"
+msgstr "Propriet≈Ωit dobeisetzen"
 
 msgid "Add a new property"
-msgstr "Nei Proprietéit dobeisetzen"
+msgstr "Nei Propriet≈Ωit dobeisetzen"
 
 msgid "Class"
 msgstr "Klass"
 
 msgid "Edit property into parent class "
-msgstr "Iwergeuerdnet Proprietéit editéiren"
+msgstr "Iwergeuerdnet Propriet≈Ωit edit≈Ωiren"
 
 msgid "Property"
-msgstr "Proprietéit"
+msgstr "Propriet≈Ωit"
 
 msgid "You cannot modify this property"
-msgstr "Dir kënnt des Proprietéit net änneren"
+msgstr "Dir k‚Äònnt des Propriet≈Ωit net ≈†nneren"
 
 msgid "Type"
 msgstr "Typ"
@@ -215,10 +215,10 @@ msgid "List values"
 msgstr "Werter uweisen"
 
 msgid "Add / Edit lists"
-msgstr "Lëschten dobeisetzen / editéiren"
+msgstr "L‚Äòschten dobeisetzen / edit≈Ωiren"
 
 msgid "Delete property"
-msgstr "Proprietéit läschen"
+msgstr "Propriet≈Ωit l≈†schen"
 
 msgid "Range"
 msgstr "Beraich"
@@ -230,49 +230,49 @@ msgid "A long text"
 msgstr "Ee lange Text"
 
 msgid "A formated text"
-msgstr "Ee formatéierte Text"
+msgstr "Ee format≈Ωierte Text"
 
 msgid "A password"
 msgstr "Ee Passwuert"
 
 msgid "A simple choice list"
-msgstr "Eng einfach Auswiel Lëscht"
+msgstr "Eng einfach Auswiel L‚Äòscht"
 
 msgid "A simple choice long list"
-msgstr "Eng laang einfach Auswiel Lëscht"
+msgstr "Eng laang einfach Auswiel L‚Äòscht"
 
 msgid "A multiple choice list"
-msgstr "Eng multiple choice Lëscht"
+msgstr "Eng multiple choice L‚Äòscht"
 
 msgid "A dynamic datepicker"
 msgstr "Een dynameschen Kalenner"
 
 msgid "AUTHORING TOOL"
-msgstr "Entwéckler Instrument"
+msgstr "Entw≈Ωckler Instrument"
 
 msgid "Invalid file type!"
-msgstr "Ongëltegen Dateityp!"
+msgstr "Ong‚Äòltegen Dateityp!"
 
 msgid "Invalid file size"
-msgstr "Ongëlteg Dateigréisst"
+msgstr "Ong‚Äòlteg Dateigr≈Ωisst"
 
 msgid "The uploaded file is too large"
 msgstr "De ropgeluedene Fichier as ze grouss"
 
 msgid "Invalid field length"
-msgstr "Ongëlteg Datenfeld Längt"
+msgstr "Ong‚Äòlteg Datenfeld L≈†ngt"
 
 msgid "This field is too short"
-msgstr "Dëst Datenfeld as ze kuerz"
+msgstr "D‚Äòst Datenfeld as ze kuerz"
 
 msgid "This field is too long"
-msgstr "Dëst Datenfeld as ze laang"
+msgstr "D‚Äòst Datenfeld as ze laang"
 
 msgid "This field must not be empty"
-msgstr "Dëst Datenfeld dierf nit eidel sin"
+msgstr "D‚Äòst Datenfeld dierf nit eidel sin"
 
 msgid "Password are not matching"
-msgstr "Passwierder stëmmen nit iwerteneen"
+msgstr "Passwierder st‚Äòmmen nit iwerteneen"
 
 msgid "The format of this field is not valid."
 msgstr "Den Format vun desem Datenfeld as nit valid."
@@ -284,25 +284,25 @@ msgid "Add "
 msgstr "Dobeisetzen"
 
 msgid "Duplicate"
-msgstr "Duplizéiren"
+msgstr "Dupliz≈Ωiren"
 
 msgid "Remove"
 msgstr "Ewech huelen"
 
 msgid "Please confirm deletion"
-msgstr "W.e.g. konfirméiert d'Läschen"
+msgstr "W.e.g. konfirm≈Ωiert d'L≈†schen"
 
 msgid "Selection saved successfully"
 msgstr "Auswiel erfollegraich gespaichert"
 
 msgid "Please confirm property deletion!"
-msgstr "W.e.g. konfirméiert d'Läschen vun der Proprietéit"
+msgstr "W.e.g. konfirm≈Ωiert d'L≈†schen vun der Propriet≈Ωit"
 
 msgid "Right click the tree to manage your lists"
-msgstr "Macht een Rietsklick op den Baam fier aer Lëschten ze verwalten"
+msgstr "Macht een Rietsklick op den Baam fier aer L‚Äòschten ze verwalten"
 
 msgid "Manage data list"
-msgstr "Daten Lëschten verwalten"
+msgstr "Daten L‚Äòschten verwalten"
 
 msgid "Create"
 msgstr "Erstellen"
@@ -317,7 +317,7 @@ msgid "TAO Backend Tool"
 msgstr "TAO Backend Instrument"
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
-msgstr "Javascript get fier desen Programm gebraucht. Aktivéiert en w.e.g. an aerem Browser."
+msgstr "Javascript get fier desen Programm gebraucht. Aktiv≈Ωiert en w.e.g. an aerem Browser."
 
 msgid "Home"
 msgstr "Heem"
@@ -341,7 +341,7 @@ msgid "Comment"
 msgstr "Bemierkung"
 
 msgid "Edit item comment"
-msgstr "Item Bemierkung editéiren"
+msgstr "Item Bemierkung edit≈Ωiren"
 
 msgid "Search results"
 msgstr "An den Resultater sichen"
@@ -362,10 +362,10 @@ msgid "Close all"
 msgstr "All zoumachen"
 
 msgid "Back"
-msgstr "Zréck"
+msgstr "Zr≈Ωck"
 
 msgid "Restore default user"
-msgstr "Standarduser retabléiren"
+msgstr "Standarduser retabl≈Ωiren"
 
 msgid "EN"
 msgstr "English"

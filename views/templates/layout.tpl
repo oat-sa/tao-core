@@ -73,7 +73,7 @@
 	<div id="tabs">
 		<ul>
 		<?foreach(get_data('sections') as $section):?>
-			<li><a id="<?=(string)$section['id']?>" href="<?=ROOT_URL.(string)$section['url']?>"><?=__((string)$section['name'])?></a></li>
+			<li><a id="<?=(string)$section['id']?>" href="<?=ROOT_URL.(string)$section['url']?>" title='<?=(string)$section['name']?>'><?=__((string)$section['name'])?></a></li>
 		<?endforeach?>
 		</ul>
 		<div id="section-trees"></div>

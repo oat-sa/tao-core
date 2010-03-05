@@ -17,7 +17,7 @@ msgid "CSV Options"
 msgstr "CSV-Optionen"
 
 msgid "Add the source file"
-msgstr "Quelldatei hinzufügen"
+msgstr "Quelldatei hinzufÃ¼gen"
 
 msgid "Upload CSV File"
 msgstr "CSV-Datei uploaden"
@@ -29,10 +29,10 @@ msgid "Import data"
 msgstr "Daten importieren"
 
 msgid "Translation saved"
-msgstr "Übersetzung gespeichert"
+msgstr "Ãœbersetzung gespeichert"
 
 msgid "Translate"
-msgstr "Übersetzen"
+msgstr "Ãœbersetzen"
 
 msgid "Search"
 msgstr "Suchen"
@@ -56,25 +56,25 @@ msgid "edit"
 msgstr "bearbeiten"
 
 msgid "Please confirm user deletion"
-msgstr "Wollen Sie den Benutzer wirklich löschen?"
+msgstr "Wollen Sie den Benutzer wirklich lÃ¶schen?"
 
 msgid "Delete user"
-msgstr "Benutzer löschen"
+msgstr "Benutzer lÃ¶schen"
 
 msgid "delete"
-msgstr "löschen"
+msgstr "lÃ¶schen"
 
 msgid "An error occured during user deletion"
-msgstr "Ein Fehler ist während dem Löschvorgang aufgetreten"
+msgstr "Ein Fehler ist wÃ¤hrend dem LÃ¶schvorgang aufgetreten"
 
 msgid "User deleted successfully"
-msgstr "Benutzer erfolgreich gelöscht"
+msgstr "Benutzer erfolgreich gelÃ¶scht"
 
 msgid "User added"
-msgstr "Benutzer hinzugefügt"
+msgstr "Benutzer hinzugefÃ¼gt"
 
 msgid "Add a user"
-msgstr "Benutzer hinzufügen"
+msgstr "Benutzer hinzufÃ¼gen"
 
 msgid "User saved"
 msgstr "Benutzer gespeichert"
@@ -83,7 +83,7 @@ msgid "Edit a user"
 msgstr "Einen Benutzer bearbeiten"
 
 msgid "Unable to restore default user"
-msgstr "Wiederherstellen des Default-Benutzers nicht möglich"
+msgstr "Wiederherstellen des Default-Benutzers nicht mÃ¶glich"
 
 msgid "User restored successfully"
 msgstr "Benutzer erfolgreich wiederhergestellt"
@@ -125,7 +125,7 @@ msgid "Repeat new password"
 msgstr "Neues Passwort wiederholen"
 
 msgid "Change your password"
-msgstr "Passwort ändern"
+msgstr "Passwort Ã¤ndern"
 
 msgid "FirstName"
 msgstr "Vorname"
@@ -152,19 +152,19 @@ msgid "Save"
 msgstr "Speichern"
 
 msgid "Revert"
-msgstr "Rückgängig"
+msgstr "RÃ¼ckgÃ¤ngig"
 
 msgid "Current language"
 msgstr "Aktuelle Sprache"
 
 msgid "Translate to"
-msgstr "Übersetzen auf"
+msgstr "Ãœbersetzen auf"
 
 msgid "Select a language"
-msgstr "Sprache auswählen"
+msgstr "Sprache auswÃ¤hlen"
 
 msgid "Translation parameters"
-msgstr "Übersetzungsparameter"
+msgstr "Ãœbersetzungsparameter"
 
 msgid "Filtering mode"
 msgstr "Filtermodus"
@@ -188,10 +188,10 @@ msgid "Filters"
 msgstr "Filter"
 
 msgid "Add property"
-msgstr "Eigenschaft hinzufügen"
+msgstr "Eigenschaft hinzufÃ¼gen"
 
 msgid "Add a new property"
-msgstr "Neue Eigenschaft hinzufügen"
+msgstr "Neue Eigenschaft hinzufÃ¼gen"
 
 msgid "Class"
 msgstr "Klasse"
@@ -203,22 +203,22 @@ msgid "Property"
 msgstr "Eigenschaft"
 
 msgid "You cannot modify this property"
-msgstr "Sie können diese Eigenschaft nicht ändern"
+msgstr "Sie kÃ¶nnen diese Eigenschaft nicht Ã¤ndern"
 
 msgid "Type"
 msgstr "Typ"
 
 msgid "select"
-msgstr "Auswählen"
+msgstr "AuswÃ¤hlen"
 
 msgid "List values"
 msgstr "Werte auflisten"
 
 msgid "Add / Edit lists"
-msgstr "Listen hinzufügen/bearbeiten"
+msgstr "Listen hinzufÃ¼gen/bearbeiten"
 
 msgid "Delete property"
-msgstr "Eigenschaft löschen"
+msgstr "Eigenschaft lÃ¶schen"
 
 msgid "Range"
 msgstr "Umfang"
@@ -251,16 +251,16 @@ msgid "AUTHORING TOOL"
 msgstr "AUTORENWERKZEUG"
 
 msgid "Invalid file type!"
-msgstr "Ungültiger Dateityp"
+msgstr "UngÃ¼ltiger Dateityp"
 
 msgid "Invalid file size"
-msgstr "Ungültige Dateigröße"
+msgstr "UngÃ¼ltige DateigrÃ¶ÃŸe"
 
 msgid "The uploaded file is too large"
-msgstr "Die hochgeladene Datei ist zu groß"
+msgstr "Die hochgeladene Datei ist zu groÃŸ"
 
 msgid "Invalid field length"
-msgstr "Ungültige Feldlänge"
+msgstr "UngÃ¼ltige FeldlÃ¤nge"
 
 msgid "This field is too short"
 msgstr "Dieses Feld ist zu klein"
@@ -272,16 +272,16 @@ msgid "This field must not be empty"
 msgstr "Dieses Feld darf nicht leer sein"
 
 msgid "Password are not matching"
-msgstr "Ungültiges Passwort"
+msgstr "UngÃ¼ltiges Passwort"
 
 msgid "The format of this field is not valid."
-msgstr "Das Format dieses Feldes ist ungültig"
+msgstr "Das Format dieses Feldes ist ungÃ¼ltig"
 
 msgid "Add subclass"
-msgstr "Subklasse hinzufügen"
+msgstr "Subklasse hinzufÃ¼gen"
 
 msgid "Add "
-msgstr "Hinzufügen"
+msgstr "HinzufÃ¼gen"
 
 msgid "Duplicate"
 msgstr "Duplizieren"
@@ -290,13 +290,13 @@ msgid "Remove"
 msgstr "Entfernen"
 
 msgid "Please confirm deletion"
-msgstr "Möchten Sie wirklich löschen?"
+msgstr "MÃ¶chten Sie wirklich lÃ¶schen?"
 
 msgid "Selection saved successfully"
 msgstr "Auswahl erfolgreich gespeichert"
 
 msgid "Please confirm property deletion!"
-msgstr "Möchten Sie die Eigenschaft wirklich löschen?"
+msgstr "MÃ¶chten Sie die Eigenschaft wirklich lÃ¶schen?"
 
 msgid "Right click the tree to manage your lists"
 msgstr "Zur Verwaltung der Listen klicken Sie bitte mit der rechten Maustaste auf den Baum"
@@ -317,7 +317,7 @@ msgid "TAO Backend Tool"
 msgstr "TAO Backend Werkzueg"
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
-msgstr "Diese Software benötigt Javascript. Bitte aktivieren Sie es in Ihrem Browser."
+msgstr "Diese Software benÃ¶tigt Javascript. Bitte aktivieren Sie es in Ihrem Browser."
 
 msgid "Home"
 msgstr "Home"
@@ -347,7 +347,7 @@ msgid "Search results"
 msgstr "Ergebnisse suchen"
 
 msgid "Open"
-msgstr "Öffnen"
+msgstr "Ã–ffnen"
 
 msgid "My settings"
 msgstr "Meine Einstellungen"
@@ -356,13 +356,13 @@ msgid "Filter"
 msgstr "Filter"
 
 msgid "Open all"
-msgstr "Alles öffnen"
+msgstr "Alles Ã¶ffnen"
 
 msgid "Close all"
-msgstr "Alles schließen"
+msgstr "Alles schlieÃŸen"
 
 msgid "Back"
-msgstr "Zurück"
+msgstr "ZurÃ¼ck"
 
 msgid "Restore default user"
 msgstr "Default-Benutzer wiederherstellen"
@@ -371,7 +371,7 @@ msgid "EN"
 msgstr "Englisch"
 
 msgid "FR"
-msgstr "Französisch"
+msgstr "FranzÃ¶sisch"
 
 msgid "DE"
 msgstr "Deutsch"
