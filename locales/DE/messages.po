@@ -379,3 +379,892 @@ msgstr "Deutsch"
 msgid "LU"
 msgstr "Luxemburgisch"
 
+msgid "Campaign Class saved"
+msgstr "Klasse \"Kampagne\" gespeichert"
+
+msgid "Edit campaign class"
+msgstr "Klasse \"Kampagne\" bearbeiten"
+
+msgid "Campaign saved"
+msgstr "Kampagne gespeichert"
+
+msgid "Edit Campaign"
+msgstr "Kampagne bearbeiten"
+
+msgid "Delivery Class saved"
+msgstr "Klasse \"Delivery\" gespeichert"
+
+msgid "Edit delivery class"
+msgstr "Klasse\"Delivery\" bearbeiten"
+
+msgid "Delivery saved"
+msgstr "Klasse\"Delivery\" gespeichert"
+
+msgid "Edit delivery"
+msgstr "Delivery bearbeiten"
+
+msgid "saved"
+msgstr "gespeichert"
+
+msgid "Result Server class saved"
+msgstr "Klasse \"Ergebnis-Server\" gespeichert"
+
+msgid "Edit resultServer class"
+msgstr "Klasse \"Ergebnis-Server\" bearbeiten"
+
+msgid "Result Server saved"
+msgstr "Ergebnis-Server gespeichert"
+
+msgid "Edit ResultServer"
+msgstr "Ergebnis-Server bearbeiten"
+
+msgid "Delivery"
+msgstr "Delivery"
+
+msgid "Manage deliveries"
+msgstr "Deliveries verwalten"
+
+msgid "Deliveries library"
+msgstr "Deliveries-Bibliothek"
+
+msgid "search"
+msgstr "suchen"
+
+msgid "new class"
+msgstr "neue Klasse"
+
+msgid "new delivery"
+msgstr "neues Delivery"
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "duplicate"
+msgstr "duplizieren"
+
+msgid "edit delivery"
+msgstr "Delivery bearbeiten"
+
+msgid "new property"
+msgstr "neue Eigenschaft"
+
+msgid "create table"
+msgstr "Tabelle erstellen"
+
+msgid "export"
+msgstr "Export"
+
+msgid "compile"
+msgstr "kompilieren"
+
+msgid "cache"
+msgstr "Cache"
+
+msgid "view history"
+msgstr "History anschauen"
+
+msgid "Manage Campaigns"
+msgstr "Kampagnen verwalten"
+
+msgid "Campaigns library"
+msgstr "Kampagnen-Bibliotheky"
+
+msgid "new campaign"
+msgstr "neue Kampagne"
+
+msgid "edit campaign"
+msgstr "Kampagne bearbeiten"
+
+msgid "Manage Result Servers"
+msgstr "Ergebnis-Server verwalten"
+
+msgid "Result Servers library"
+msgstr "Ergebnis-Server-Bibliothek"
+
+msgid "new result server"
+msgstr "neuer Ergebnis-Server"
+
+msgid "edit result server"
+msgstr "Ergebnis-Server bearbeiten"
+
+msgid "Delivery authoring"
+msgstr "Delivery-Authoring"
+
+msgid "Label"
+msgstr "Label"
+
+msgid "Service Definition"
+msgstr "Dienst-Definiton"
+
+msgid "Formal Parameter IN"
+msgstr "Formaler Parameter IN"
+
+msgid "Formal Parameter OUT"
+msgstr "Formaler Parameter OUT"
+
+msgid "Connector Type"
+msgstr "Konnektor-Typ"
+
+msgid "IF"
+msgstr "IF"
+
+msgid "create new activity"
+msgstr "neue Aktivität erstellen"
+
+msgid "create new connector"
+msgstr "neuen Konnektor erstellen"
+
+msgid "Activity or Connector"
+msgstr "Aktivität oder Konnektor"
+
+msgid "Activity"
+msgstr "Aktivität"
+
+msgid "Connector"
+msgstr "Konnektor"
+
+msgid "Process Activities"
+msgstr "Prozess-Aktivitäten"
+
+msgid "Property"
+msgstr "Eigenschaften"
+
+msgid "undefined"
+msgstr "undefiniert"
+
+msgid "If"
+msgstr "If"
+
+msgid "Then"
+msgstr "Then"
+
+msgid "Else"
+msgstr "Else"
+
+msgid "type??"
+msgstr "TyP??"
+
+msgid "(still undefined)"
+msgstr "(noch immer undefiniert)"
+
+msgid "Please confirm deletion"
+msgstr "Wollen Sie wirklich löschen?"
+
+msgid "Please confirm deletion? warning: the related connectors may be affected"
+msgstr "Wollen Sie wirklich löschen? Warnung: die abhängigen Konnektoren können betroffen sein"
+
+msgid "Select delivery campaign"
+msgstr "Delivery-Kampagne auswählen"
+
+msgid "Save"
+msgstr "Sichern"
+
+msgid "Select delivery"
+msgstr "Delivery auswählen"
+
+msgid "The Delivery module allows users to define tests delivery parameters."
+msgstr "Das Delivery-Modul erlaubt Benutzern, die Definition der Test-Delivery-Parameter,"
+
+msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
+msgstr "Dieser Bereich der Deliver-Verwaltung ermöglicht das Hinzufügen und Löschen von Deliveries und die Bearbeitung deren Eigenschaftswerte"
+
+msgid "Campaign"
+msgstr "Kampagne"
+
+msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
+msgstr "der Bereich der Kampagnen-Verwaltung erlaubt das Hinzufügen, Bearbeiten und Zuweisen von Deliveries zu Delivery-Kampagnen"
+
+msgid "Result Server"
+msgstr "Ergebnis-Server"
+
+msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
+msgstr "Der Bereich der Ergebnis-Server-Verwaltung erlaubt das Hinzufügen, Bearbeiten und Zuweisen von Delivery-Ergebnis-Servern zu Deliveries."
+
+msgid "Please select a delivery before authoring it!"
+msgstr "Bitte wählen Sie ein Delivery vor dem Bearbeiten"
+
+msgid "Back"
+msgstr "Zurück"
+
+msgid "Formal Parameter"
+msgstr "Formale Parameter"
+
+msgid "Role"
+msgstr "Rolle"
+
+msgid "Process Variables"
+msgstr "Prozess Variablen"
+
+msgid "Activity Editor"
+msgstr "Aktivitäten Editor"
+
+msgid "Process Property"
+msgstr "Prozess-Eigenschaft"
+
+msgid "loading..."
+msgstr "Ladevorgang ..."
+
+msgid "Sure?"
+msgstr "Sind Sie sich sicher?"
+
+msgid "save"
+msgstr "speichern"
+
+msgid "reload"
+msgstr "neu laden"
+
+msgid "cancel"
+msgstr "abbrechen"
+
+msgid "Use the * character to replace any string"
+msgstr "Benutzen Sie bitten das Zeichen * zur Ersetzung eienr Zeichenfolge"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Open all"
+msgstr "Alles öffnen"
+
+msgid "Close all"
+msgstr "Alles schließen"
+
+msgid "Select testees to be <b>excluded</b>"
+msgstr "Markieren Sie die Testpersonen, die <b>ausgeschlossen</b> werden sollen."
+
+msgid "EN"
+msgstr "Englisch"
+
+msgid "FR"
+msgstr "Französisch"
+
+msgid "DE"
+msgstr "Deutsch"
+
+msgid "LU"
+msgstr "Luxemburgisch"
+
+
+msgid "Class saved"
+msgstr "Klasse gespeichert"
+
+msgid "Edit group class"
+msgstr "Klasse \"Gruppe\" bearbeiten"
+
+msgid "Group saved"
+msgstr "Gruppe gespeichert"
+
+msgid "Groups"
+msgstr "Gruppen"
+
+msgid "Manage groups"
+msgstr "Gruppen verwalten"
+
+msgid "Groups library"
+msgstr "Gruppen-Bibliothek"
+
+msgid "search"
+msgstr "suchen"
+
+msgid "new class"
+msgstr "neue Klasse"
+
+msgid "new group"
+msgstr "neue Gruppe"
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "duplicate"
+msgstr "duplizieren"
+
+msgid "edit group"
+msgstr "Gruppe bearbeiten"
+
+msgid "new property"
+msgstr "neue Eigenschaft"
+
+msgid "meta data"
+msgstr "Meta-Daten"
+
+msgid "create table"
+msgstr "Tabelle erstellen"
+
+msgid "export"
+msgstr "Export"
+
+msgid "The Group module allows to groupe Testees according to global features and classifications."
+msgstr "Das Gruppen-Modul erlaubt das gruppieren von Testpersonen gemäß globalen Eigenschaften und Klassifikationen."
+
+msgid "The main objective of the Group module is to assign the test(s) to the appointed group, thus establishing the basis for running a test."
+msgstr "Das Gruppen-Moduls ermöglicht das Zuweisen von Tests zu Gruppen und stellt damit die Grundlage für das Aufrufen und Laufen eines Tests."
+
+msgid "Select group testees"
+msgstr "Testpersonen der Gruppe markieren"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Select group test"
+msgstr "Test der Gruppe markieren"
+
+msgid "EN"
+msgstr "Englisch"
+
+msgid "FR"
+msgstr "Französisch"
+
+msgid "DE"
+msgstr "Deutsch"
+
+msgid "LU"
+msgstr "Luxemburgisch"
+
+msgid "Item saved"
+msgstr "Item gespeichert"
+
+msgid "Preview not yet available"
+msgstr "Vorschau noch nicht verfügbar"
+
+msgid "Edit Item"
+msgstr "Item bearbeiten"
+
+msgid "Class saved"
+msgstr "Kalsse gespeichert"
+
+msgid "Edit a class"
+msgstr "Klasse bearbeiten"
+
+msgid "An error occured while saving the item"
+msgstr "Ein Fehler ist während des Speicherns des Items aufgetreten"
+
+msgid "Item saved successfully"
+msgstr "Item erfolgreich gespeichert"
+
+msgid "Items"
+msgstr "Items"
+
+msgid "Manage items"
+msgstr "Items verwalten"
+
+msgid "Item library"
+msgstr "Item-Bibliothek"
+
+msgid "search"
+msgstr "suchen"
+
+msgid "new class"
+msgstr "neue Klasse"
+
+msgid "new item"
+msgstr "neues Item"
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "duplicate"
+msgstr "duplizieren"
+
+msgid "edit item"
+msgstr "Item bearbeiten"
+
+msgid "new property"
+msgstr "neue Eigenschaft"
+
+msgid "preview"
+msgstr "Vorschau"
+
+msgid "meta data"
+msgstr "Meta-Daten"
+
+msgid "create table"
+msgstr "Tabelle erstellen"
+
+msgid "export"
+msgstr "Export"
+
+msgid "Item authoring"
+msgstr "Item-Authoring"
+
+msgid "Please select an item before!"
+msgstr "Bitte Item markieren!"
+
+msgid "Back"
+msgstr "Zurück"
+
+msgid "Preview"
+msgstr "Vorschau"
+
+msgid "PREVIEW BOX"
+msgstr "VORSCHAU BOX"
+
+msgid "The Item module enables the creation and design of items and exercises."
+msgstr "Das Item-Modul ermöglicht das Erstellen und Entwickeln von Items und Übungen."
+
+msgid "A series of different templates are provided to the Item authors such as multiple choice questions, puzzle design, text with gaps, etc."
+msgstr "Verschiedene Templates werden dem Item-Autoren zur Verfügung gestellt, wie z.B. Multiple-Choice-Fragen, Puzzle-Entwurf, Lückentexte, etc.""
+
+msgid "EN"
+msgstr "Englisch"
+
+msgid "FR"
+msgstr "Französisch"
+
+msgid "DE"
+msgstr "Deutsch"
+
+msgid "LU"
+msgstr "Luxemburgisch"
+
+msgid "edit group"
+msgstr "Gruppe bearbeiten"
+
+msgid "new group"
+msgstr "neue Gruppe"
+
+msgid "Result saved"
+msgstr "Ergebnis gespeichert"
+
+msgid "Edit result"
+msgstr "Ergebnis bearbeiten"
+
+msgid "Class saved"
+msgstr "Klasse gespeichert"
+
+msgid "Edit result class"
+msgstr "Klasse \"Ergebnis\" speichern"
+
+msgid "Results"
+msgstr "Ergebnisse"
+
+msgid "Manage results"
+msgstr "Ergebnisse verwalten"
+
+msgid "Results library"
+msgstr "Ergebnis-Bibliothek"
+
+msgid "search"
+msgstr "suchen"
+
+msgid "new class"
+msgstr "neue Klasse"
+
+msgid "new result"
+msgstr "neues Ergebnis"
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "duplicate"
+msgstr "duplizieren"
+
+msgid "edit result"
+msgstr "Ergebnis bearbeiten"
+
+msgid "new property"
+msgstr "neue Eigenschaft"
+
+msgid "meta data"
+msgstr "Meta-Daten"
+
+msgid "create table"
+msgstr "Tabelle erstellen"
+
+msgid "export"
+msgstr "Export"
+
+msgid "This module constitutes the final step."
+msgstr "Diese Modul stellt den letzten Schritt dar."
+
+msgid "All results of passed Tests with their referring Subject, Group and Item specific data, as well as the individual data collected during Test execution are stored and managed here."
+msgstr "Hier werden alle Ergebnisse durchlaufener Tests mit den dazugehörigen spezifischen Daten der Testpersonen, Gruppen und Items, sowie die individuelle Datenerhebung während des Testdurchlaufs gespeichert und verwaltet."
+
+msgid "EN"
+msgstr "Englisch"
+
+msgid "FR"
+msgstr "Französisch"
+
+msgid "DE"
+msgstr "Deutsch"
+
+msgid "LU"
+msgstr "Luxemburgisch"
+
+msgid "Subject saved"
+msgstr "Testperson gespeichert"
+
+msgid "Edit subject"
+msgstr "Testperson bearbeiten"
+
+msgid "Class saved"
+msgstr "Klasse gespeichert"
+
+msgid "Edit subject class"
+msgstr "Klasse \"Testperson\" bearbeiten"
+
+msgid "Testees"
+msgstr "Testpersonen"
+
+msgid "Manage testees"
+msgstr "Testpersonen verwalten"
+
+msgid "Testees library"
+msgstr "Testpersonen-Bibliothek"
+
+msgid "search"
+msgstr "suchen"
+
+msgid "new class"
+msgstr "neue Klasse"
+
+msgid "new subject"
+msgstr "neue Testperson"
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "duplicate"
+msgstr "duplizieren"
+
+msgid "edit subject"
+msgstr "Testperson bearbeiten"
+
+msgid "new property"
+msgstr "neue Eigenschaft"
+
+msgid "meta data"
+msgstr "Meta-Daten"
+
+msgid "create table"
+msgstr "Tabelle erstellen"
+
+msgid "export"
+msgstr "Export"
+
+msgid "Add to group"
+msgstr "Zu Gruppe hinzufügen"
+
+msgid "Save"
+msgstr "Sichern"
+
+msgid "The Testees module allows to record and manage  testees."
+msgstr "Das Testpersonen-Modul ermöglicht das Speichern und Verwalten von Testpersonen."
+
+msgid "Its flexibility allows the design of datasheets (e.g. name, address, date of birth, gender etc.)."
+msgstr "Die Flexibilität erlaubt das Entwerfen von individuellen Datensätzen (z.B. Name, Adresse, Geburtasdatum, Geschlecht usw.)."
+
+msgid "Testees may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
+msgstr "Testpersonen können entsprechend dem relevanten Assessment-Kontext (Personalverwaltung, Bildung, Edumetrisches Monitoring usw,) zusammengefasst werden."
+
+msgid "EN"
+msgstr "Englisch"
+
+msgid "FR"
+msgstr "Französisch"
+
+msgid "DE"
+msgstr "Deutsch"
+
+msgid "LU"
+msgstr "Luxemburgisch"
+
+msgid "Test gespeichert"
+msgstr ""
+
+msgid "Edit test"
+msgstr "Test bearbeiten"
+
+msgid "Class saved"
+msgstr "Klasse gespeichert"
+
+msgid "Edit test class"
+msgstr "Klasse \"Test\ bearbeiten"
+
+msgid "test saved"
+msgstr "Test gespeichert"
+
+msgid "Test parameters"
+msgstr "Test-Parameter"
+
+msgid "An error occured while saving the test"
+msgstr "Ein Fehler ist während des Speicherns des Tests aufgetreten"
+
+msgid "Test saved successfully"
+msgstr "Test erfolgreich gespeichert"
+
+msgid "Maximum time allowed"
+msgstr "Maximale Dauer"
+
+msgid "Password"
+msgstr "Passwort"
+
+msgid "g1"
+msgstr "g1"
+
+msgid "Sequence mode"
+msgstr "sequenzierungs-Modus"
+
+msgid "Sequencial"
+msgstr "Sequenziell"
+
+msgid "Random"
+msgstr "Zufällig"
+
+msgid "Maxfisher"
+msgstr "Maxfisher"
+
+msgid "Delay"
+msgstr "Verzögerung"
+
+msgid "g2"
+msgstr "g2"
+
+msgid "Scoring method"
+msgstr "Scoring-Methode"
+
+msgid "Classical ratio"
+msgstr "Classical ratio"
+
+msgid "Maximum likelihood"
+msgstr "Maximum likelihood"
+
+msgid "Maximum a posteriori"
+msgstr "Maximum a posteriori"
+
+msgid "Expected a posteriori"
+msgstr "Expected a posteriori"
+
+msgid "QMIN"
+msgstr "QMIN"
+
+msgid "QMAX"
+msgstr "QMAX"
+
+msgid "QITER"
+msgstr "QITER"
+
+msgid "g3"
+msgstr "g3"
+
+msgid "Cumul model"
+msgstr "Cumul model"
+
+msgid "Classical"
+msgstr "Classical"
+
+msgid "Likelihood"
+msgstr "Likelihood"
+
+msgid "Log-likelihood"
+msgstr "Log-likelihood"
+
+msgid "g4"
+msgstr "g4"
+
+msgid "Halt criteria"
+msgstr "Halt criteria"
+
+msgid "DELTASCORE"
+msgstr "DELTASCORE"
+
+msgid "DELTASE"
+msgstr "DELTASE"
+
+msgid "Threshold"
+msgstr "Threshold"
+
+msgid "Max"
+msgstr "Max"
+
+msgid "g5"
+msgstr "g5"
+
+msgid "Threshold 1"
+msgstr "Threshold 1"
+
+msgid "Threshold 2"
+msgstr "Threshold 2"
+
+msgid "Threshold 3"
+msgstr "Threshold 3"
+
+msgid "g6"
+msgstr "g6"
+
+msgid "Darstellung"
+msgstr ""
+
+msgid "Display items list during the test"
+msgstr "Item-Liste während des Tests anzeigen"
+
+msgid "Show a progress bar during the test"
+msgstr "Fortschritt-Balken während des Tests anzeigen"
+
+msgid "Display label"
+msgstr "Label anzeigen"
+
+msgid "Display comments"
+msgstr "Kommentar anzeigen"
+
+msgid "Deactivate back button"
+msgstr "Zurück-Button deaktivieren"
+
+msgid "Test content (top position)"
+msgstr "Test-Content (Position oben)"
+
+msgid "Test content (left position)"
+msgstr "Test-Content (Position links)"
+
+msgid "Navigation buttons (top position)"
+msgstr "Navigations-Buttons (Position Oben)"
+
+msgid "Navigation buttons (left position)"
+msgstr "Navigations-Buttons (Position links)"
+
+msgid "Progressbar (top position)"
+msgstr "Fortschritt-Balken (Position oben)"
+
+msgid "Progressbar (left position)"
+msgstr "Fortschritt-Balken (Position links)"
+
+msgid "Left button image"
+msgstr "Grafik für Zurück-Button"
+
+msgid "Right button image"
+msgstr "Grafik für Weiter-Button"
+
+msgid "Tests"
+msgstr "Tests"
+
+msgid "Manage tests"
+msgstr "Tests verwalten"
+
+msgid "Tests library"
+msgstr "Tests-Bibliothek"
+
+msgid "search"
+msgstr "suchen"
+
+msgid "new class"
+msgstr "neue Klasse"
+
+msgid "new test"
+msgstr "neuer Test"
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "duplicate"
+msgstr "duplizieren"
+
+msgid "edit test"
+msgstr "Test bearbeiten"
+
+msgid "new property"
+msgstr "neue Eigenschaft"
+
+msgid "preview"
+msgstr "Vorschau"
+
+msgid "meta data"
+msgstr "Meat-Daten"
+
+msgid "create table"
+msgstr "Tabelle erstellen"
+
+msgid "export"
+msgstr "Export"
+
+msgid "Parameters"
+msgstr "Parameter"
+
+msgid "Items Sequence"
+msgstr "Item-Reihenfolge"
+
+msgid "Please select an test before!"
+msgstr "Bitte markieren Sie einen Test"
+
+msgid "Back"
+msgstr "Zurück"
+
+msgid "The Test module allows to combine a selection of Items to a Test."
+msgstr "Das Test-Modul erlaubt das Zusammenfassen von Items zu Tests."
+
+msgid "The Test mode (sequencing, scoring, cumulating, etc.) and layout are also configured here."
+msgstr "Test-Modus (Sequenzierung, Scoring, Kumulierung, etc.) und Layout werden ebenfalls hier festgelegt."
+
+msgid "Select related items"
+msgstr "Items auswählen"
+
+msgid "Save"
+msgstr "Sichern"
+
+msgid "Items sequence"
+msgstr "Items-Reihenfolge"
+
+msgid "Sequence saved successfully"
+msgstr "Reihenfolge erfolgreich gespeichert"
+
+msgid "sequence"
+msgstr "Reihenfolge"
+
+msgid "uri"
+msgstr "URI"
+
+msgid "label"
+msgstr "Label"
+
+msgid "weight"
+msgstr "Gewichtung"
+
+msgid "difficulty"
+msgstr "Schwierigkeitsgrad"
+
+msgid "discrimination"
+msgstr "Diskrimination"
+
+msgid "guessing"
+msgstr "Guessing"
+
+msgid "model"
+msgstr "Modell"
+
+msgid "Numeric value"
+msgstr "Numerischer Wert"
+
+msgid "Items"
+msgstr "Items"
+
+msgid "Sequence saved"
+msgstr "Reihenfolge gespeichert"
+
+msgid "An error occured while saving the sequence"
+msgstr "Ein Fehler ist während des Speicherns der Reihenfolge aufgetreten"
+
+msgid "Test Preview"
+msgstr "Test-Vorschau"
+
+msgid "compiled"
+msgstr "kompiliert"
+
+msgid "compiled with warning"
+msgstr "kompiliert mit Warnung"
+
+msgid "compilation failed"
+msgstr "Kompilierung gescheitert"
+
+msgid "Compiling test"
+msgstr "Test wird kompiliert"
+
+msgid "EN"
+msgstr "Englisch"
+
+msgid "FR"
+msgstr "Französisch"
+
+msgid "DE"
+msgstr "Deutsch"
+
+msgid "LU"
+msgstr "Luxemburgisch"
+

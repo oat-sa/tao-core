@@ -15,5 +15,9 @@
 $(function(){
 	$("#section-meta").empty();
 	uiForm.initElements();
+	
+	<?if(get_data('refresh')):?>
+		window.location.reload();
+	<?endif?>
 });
 </script>

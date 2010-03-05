@@ -40,6 +40,7 @@ class Settings extends CommonModule {
 				$currentUser['Uilg'] = $myForm->getValue('ui_lang');
 				if($this->userService->saveUser($currentUser)){
 					$this->setData('message', __('settings updated'));
+					$this->setData('refresh', true);
 				}
 			}
 		}

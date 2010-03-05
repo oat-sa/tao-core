@@ -397,3 +397,657 @@ msgstr "German"
 msgid "LU"
 msgstr "Luxemburgish"
 
+msgid "Class saved"
+msgstr "Classe enregistrée"
+
+msgid "Edit group class"
+msgstr "Modifier la classe Groupe"
+
+msgid "Group saved"
+msgstr "Groupe enregistré"
+
+msgid "Groups"
+msgstr "Groupes"
+
+msgid "Manage groups"
+msgstr "Gérer les groupes"
+
+msgid "Groups library"
+msgstr "Librairie"
+
+msgid "search"
+msgstr "Rechercher"
+
+msgid "new class"
+msgstr "Nouvelle classe"
+
+msgid "new group"
+msgstr "nouveau groupe"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "duplicate"
+msgstr "dupliquer"
+
+msgid "edit group"
+msgstr "modifier le groupe"
+
+msgid "new property"
+msgstr "nouvelle propriété"
+
+msgid "meta data"
+msgstr "métadonnée"
+
+msgid "create table"
+msgstr "créer un tableau"
+
+msgid "export"
+msgstr "exporter"
+
+msgid "The Group module allows to groupe Testees according to global features and classifications."
+msgstr "Le module Groupe vous permet de rassembler des Sujets par rapport à des fonctions globales et des classifications"
+
+msgid "The main objective of the Group module is to assign the test(s) to the appointed group, thus establishing the basis for running a test."
+msgstr "L'objectif principal du module Groupe est d'attribuer le(s) test(s) au groupe désigné, en établissant ainsi la base de l'exécution du test."
+
+msgid "Select group testees"
+msgstr "Choisissez les sujets du groupe"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Select group test"
+msgstr "Choisir le test du groupe"
+
+msgid "import"
+msgstr "importer"
+
+msgid "EN"
+msgstr "English"
+
+msgid "FR"
+msgstr "French"
+
+msgid "DE"
+msgstr "German"
+
+msgid "LU"
+msgstr "Luxemburgish"
+
+msgid "Item saved"
+msgstr "Item enregistré"
+
+msgid "Preview not yet available"
+msgstr "Prévisualisation non disponible"
+
+msgid "Edit Item"
+msgstr "Modifier un item"
+
+msgid "Class saved"
+msgstr "Classe enregistrée"
+
+msgid "Edit a class"
+msgstr "Modifier une classe"
+
+msgid "An error occured while saving the item"
+msgstr "Une erreur est survenue pendant la sauvegarde de l'item"
+
+msgid "Item saved successfully"
+msgstr "L'item a été enregistré avec succès"
+
+msgid "Items"
+msgstr "Items"
+
+msgid "Manage items"
+msgstr "Gérer les items"
+
+msgid "Item library"
+msgstr "Librairie d'items"
+
+msgid "search"
+msgstr "Recharcher"
+
+msgid "new class"
+msgstr "nouvelle classe"
+
+msgid "new item"
+msgstr "nouvel item"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "duplicate"
+msgstr "dupliquer"
+
+msgid "edit item"
+msgstr "modifier l'item"
+
+msgid "new property"
+msgstr "nouvelle propriété"
+
+msgid "preview"
+msgstr "Afficher"
+
+msgid "meta data"
+msgstr "Métadonnée"
+
+msgid "create table"
+msgstr "créer un tableau"
+
+msgid "export"
+msgstr "exporter"
+
+msgid "Item authoring"
+msgstr "Editeur d'item"
+
+msgid "Please select an item before!"
+msgstr "Veuillez choisir un item!"
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "Preview"
+msgstr "Afficher"
+
+msgid "PREVIEW BOX"
+msgstr "Prévisualisation"
+
+msgid "The Item module enables the creation and design of items and exercises."
+msgstr "Le module Item vous permet la création et le design d'items et d'exercises"
+
+msgid "A series of different templates are provided to the Item authors such as multiple choice questions, puzzle design, text with gaps, etc."
+msgstr "Un ensemble de différent modèles est fournit au auteurs d'items comme les questions à choix multiple, l'éditeur de puzzle, les textes à trou, etc."
+
+msgid "Preview available inside the authoring tool"
+msgstr "La prévisualisation est disponible depuis l'éditeur"
+
+msgid "fullscreen preview"
+msgstr "prévisualisation en plein écran"
+
+msgid "import"
+msgstr "importer"
+
+msgid "Meta Data"
+msgstr "Meta-données"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "User"
+msgstr "Utilisateur"
+
+msgid "Comment"
+msgstr "Commentaire"
+
+msgid "Edit item comment"
+msgstr "Modifier les commentaires de l'item"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "EN"
+msgstr "English"
+
+msgid "FR"
+msgstr "French"
+
+msgid "DE"
+msgstr "German"
+
+msgid "LU"
+msgstr "Luxemburgish"
+
+msgid "Result saved"
+msgstr "Résultat enregistrée"
+
+msgid "Edit result"
+msgstr "Modifier le résultat"
+
+msgid "Class saved"
+msgstr "Classe enregistrée"
+
+msgid "Edit result class"
+msgstr "Modifier la classe de résultat"
+
+msgid "Results"
+msgstr "Résultats"
+
+msgid "Manage results"
+msgstr "Gérer les résultats"
+
+msgid "Results library"
+msgstr "Librairie de résultats"
+
+msgid "search"
+msgstr "Recherche"
+
+msgid "new class"
+msgstr "nouvelle classe"
+
+msgid "new result"
+msgstr "nouveau résultat"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "duplicate"
+msgstr "dupliquer"
+
+msgid "edit result"
+msgstr "modifier les résultat"
+
+msgid "new property"
+msgstr "nouvelle propriété"
+
+msgid "meta data"
+msgstr "métadonnée"
+
+msgid "create table"
+msgstr "créer le tableau"
+
+msgid "export"
+msgstr "exporter"
+
+msgid "This module constitutes the final step."
+msgstr "Ce module constitue la dernière étape."
+
+msgid "All results of passed Tests with their referring Subject, Group and Item specific data, as well as the individual data collected during Test execution are stored and managed here."
+msgstr "Les résultats de tous les tests passés avec les données des Sujets, Groupes et Items. Les données récupérées pendant la passation de chaque tesst dont collectées et géreés ici."
+
+msgid "import"
+msgstr "importer"
+
+msgid "EN"
+msgstr "English"
+
+msgid "FR"
+msgstr "French"
+
+msgid "DE"
+msgstr "German"
+
+msgid "LU"
+msgstr "Luxemburgish"
+
+msgid "Subject saved"
+msgstr "Sujet enregistrée"
+
+msgid "Edit subject"
+msgstr "Modifier le sujet"
+
+msgid "Class saved"
+msgstr "Classe enregistrée"
+
+msgid "Edit subject class"
+msgstr "Modifier la classe sujet"
+
+msgid "Testees"
+msgstr "Sujets"
+
+msgid "Manage testees"
+msgstr "Gérer les sujets"
+
+msgid "Testees library"
+msgstr "Librairie de sujets"
+
+msgid "search"
+msgstr "Rechercher"
+
+msgid "new class"
+msgstr "nouvelle classe"
+
+msgid "new subject"
+msgstr "nouveau sujet"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "duplicate"
+msgstr "dupliquer"
+
+msgid "edit subject"
+msgstr "modifier un sujet"
+
+msgid "new property"
+msgstr "nouvelle propriété"
+
+msgid "meta data"
+msgstr "métadonnée"
+
+msgid "create table"
+msgstr "créer un tableau"
+
+msgid "export"
+msgstr "exporter"
+
+msgid "Add to group"
+msgstr "Ajouter au groupe"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "The Testees module allows to record and manage  testees."
+msgstr "Le module des sujets vous permet d'ajouter et de gérer les sujets des tests."
+
+msgid "Its flexibility allows the design of datasheets (e.g. name, address, date of birth, gender etc.)."
+msgstr "Sa flexibilité permet la conception des structures de données (ex : nom, adresse, date de naissance, genre… etc.). "
+
+msgid "Testees may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
+msgstr "Les sujets peuvent être assignés à des ensembles selon le contexte d’évaluation ( Gestion des ressources humaine, education, contrôle d'édumetrie, etc.) "
+
+msgid "import"
+msgstr "importer"
+
+msgid "EN"
+msgstr "English"
+
+msgid "FR"
+msgstr "French"
+
+msgid "DE"
+msgstr "German"
+
+msgid "LU"
+msgstr "Luxemburgish"
+
+msgid "Test saved"
+msgstr "Test enregistré"
+
+msgid "Edit test"
+msgstr "Editer le test"
+
+msgid "Class saved"
+msgstr "Classe enregistrée"
+
+msgid "Edit test class"
+msgstr "Editer la classe du test"
+
+msgid "test saved"
+msgstr "Test enregistré"
+
+msgid "Test parameters"
+msgstr "Paramètres du test"
+
+msgid "An error occured while saving the test"
+msgstr "Une erreur est survenue durant la sauvegarde du test"
+
+msgid "Test saved successfully"
+msgstr "Le test a été enregistré avec succès"
+
+msgid "Maximum time allowed"
+msgstr "Temps limite"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "g1"
+msgstr "g1"
+
+msgid "Sequence mode"
+msgstr "mode de séquencement"
+
+msgid "Sequencial"
+msgstr "séquentiel"
+
+msgid "Random"
+msgstr "Aléatoire"
+
+msgid "Maxfisher"
+msgstr ""
+
+msgid "Delay"
+msgstr "Délais"
+
+msgid "g2"
+msgstr "g2"
+
+msgid "Scoring method"
+msgstr "Méthode de notation"
+
+msgid "Classical ratio"
+msgstr "Ratio classique"
+
+msgid "Maximum likelihood"
+msgstr ""
+
+msgid "Maximum a posteriori"
+msgstr ""
+
+msgid "Expected a posteriori"
+msgstr ""
+
+msgid "QMIN"
+msgstr ""
+
+msgid "QMAX"
+msgstr ""
+
+msgid "QITER"
+msgstr ""
+
+msgid "g3"
+msgstr ""
+
+msgid "Cumul model"
+msgstr ""
+
+msgid "Classical"
+msgstr ""
+
+msgid "Likelihood"
+msgstr ""
+
+msgid "Log-likelihood"
+msgstr ""
+
+msgid "g4"
+msgstr ""
+
+msgid "Halt criteria"
+msgstr ""
+
+msgid "DELTASCORE"
+msgstr ""
+
+msgid "DELTASE"
+msgstr ""
+
+msgid "Threshold"
+msgstr ""
+
+msgid "Max"
+msgstr ""
+
+msgid "g5"
+msgstr ""
+
+msgid "Threshold 1"
+msgstr ""
+
+msgid "Threshold 2"
+msgstr ""
+
+msgid "Threshold 3"
+msgstr ""
+
+msgid "g6"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Display items list during the test"
+msgstr "Afficher la liste d'items durant le test"
+
+msgid "Show a progress bar during the test"
+msgstr "Afficher une barre de progression durant le test "
+
+msgid "Display label"
+msgstr "Affihcier le label"
+
+msgid "Display comments"
+msgstr "Afficher les commentaires"
+
+msgid "Deactivate back button"
+msgstr "Désactiver le bouton retour"
+
+msgid "Test content (top position)"
+msgstr "Contenu du test (position haute)"
+
+msgid "Test content (left position)"
+msgstr "Contenu du test ( position à gauche)"
+
+msgid "Navigation buttons (top position)"
+msgstr "Bouton de navigation, (position haute) "
+
+msgid "Navigation buttons (left position)"
+msgstr "Bouton de navigation, (position à gauche)"
+
+msgid "Progressbar (top position)"
+msgstr "Barre de progression ( position haute)"
+
+msgid "Progressbar (left position)"
+msgstr "Barre de progression ( position à gauche)"
+
+msgid "Left button image"
+msgstr " Image du bouton à gauche"
+
+msgid "Right button image"
+msgstr "Image du bouton à droite"
+
+msgid "Tests"
+msgstr "Les tests"
+
+msgid "Manage tests"
+msgstr "Gérer les tests"
+
+msgid "Tests library"
+msgstr "Bibliothèques des tests"
+
+msgid "search"
+msgstr "Rechercher"
+
+msgid "new class"
+msgstr "Nouvelle classe"
+
+msgid "new test"
+msgstr "Nouveau test"
+
+msgid "delete"
+msgstr "Supprimer"
+
+msgid "duplicate"
+msgstr "dupliquer"
+
+msgid "edit test"
+msgstr "Editer un test"
+
+msgid "new property"
+msgstr "Nouvelle propriété"
+
+msgid "preview"
+msgstr "Afficher"
+
+msgid "meta data"
+msgstr "métadonnée"
+
+msgid "create table"
+msgstr "Créer la table"
+
+msgid "export"
+msgstr "exporter"
+
+msgid "Parameters"
+msgstr "Paramètres"
+
+msgid "Items Sequence"
+msgstr "Séquence d'items"
+
+msgid "Please select an test before!"
+msgstr "Veuillez choisir un test!"
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "The Test module allows to combine a selection of Items to a Test."
+msgstr "le module permet de combiner la sélection d'items à un test"
+
+msgid "The Test mode (sequencing, scoring, cumulating, etc.) and layout are also configured here."
+msgstr "Le mode de test ( séquence, notation, cumul, etx), et les canevas sont aussi configurées ici"
+
+msgid "Select related items"
+msgstr "Sélectionner les items liés au test"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Items sequence"
+msgstr "Séquence d'item"
+
+msgid "Sequence saved successfully"
+msgstr "La séquence a été enregistré avec succès"
+
+msgid "sequence"
+msgstr "Séquence"
+
+msgid "uri"
+msgstr "uri"
+
+msgid "label"
+msgstr "Label"
+
+msgid "weight"
+msgstr "Poids"
+
+msgid "difficulty"
+msgstr "Difficulté"
+
+msgid "discrimination"
+msgstr "Discrimination"
+
+msgid "guessing"
+msgstr "Supposition"
+
+msgid "model"
+msgstr "Modèle"
+
+msgid "Numeric value"
+msgstr "Valeure numérique"
+
+msgid "Items"
+msgstr "Items"
+
+msgid "Sequence saved"
+msgstr "Séquneces enregistrée"
+
+msgid "An error occured while saving the sequence"
+msgstr "Erreur pendant la sauvegarde de la séquence"
+
+msgid "Test Preview"
+msgstr "Prévisualisation du test"
+
+msgid "compiled"
+msgstr "compilé"
+
+msgid "compiled with warning"
+msgstr "compilé avec avertissement"
+
+msgid "compilation failed"
+msgstr "échec de compilation"
+
+msgid "Compiling test"
+msgstr "Compilation du test en cours"
+
+msgid "EN"
+msgstr "English"
+
+msgid "FR"
+msgstr "French"
+
+msgid "DE"
+msgstr "German"
+
+msgid "LU"
+msgstr "Luxemburgish"
+

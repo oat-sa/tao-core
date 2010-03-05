@@ -139,7 +139,7 @@ class Main extends CommonModule {
 				$actionNodes =  $structure->actions[0];
 				$actions = array();
 				foreach($actionNodes as $actionNode){
-					$display = (string)$actionNode['name'];
+					$display = __((string)$actionNode['name']);
 					if(strlen($display) > 15){
 						$display = str_replace(' ', "<br>", $display);
 					} 

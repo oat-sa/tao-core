@@ -2,16 +2,16 @@
 msgstr "Keen Konto passt bei desen login / Passwuert"
 
 msgid "settings updated"
-msgstr "Astellungen aktualisŽiert"
+msgstr "Astellungen aktualiséiert"
 
 msgid "Access denied. Please renew your authentication!"
-msgstr "Keen Accs. W.e.g. identifizŽiert Ierch nei!"
+msgstr "Keen Accès. W.e.g. identifizéiert Ierch nei!"
 
 msgid "Resource saved"
 msgstr "Ressource gespaichert"
 
 msgid "Edit"
-msgstr "EditŽiren"
+msgstr "Editéiren"
 
 msgid "CSV Options"
 msgstr "CSV optiounen"
@@ -23,10 +23,10 @@ msgid "Upload CSV File"
 msgstr "CSF Fichier eroplueden"
 
 msgid "Data imported"
-msgstr "Daten importŽiert"
+msgstr "Daten importéiert"
 
 msgid "Import data"
-msgstr "Daten importŽiren"
+msgstr "Daten importéiren"
 
 msgid "Translation saved"
 msgstr "Iwersetzung gespaichert"
@@ -38,10 +38,10 @@ msgid "Search"
 msgstr "Sichen"
 
 msgid "Lists"
-msgstr "L‘schten"
+msgstr "Lëschten"
 
 msgid "List "
-msgstr "L‘scht"
+msgstr "Lëscht"
 
 msgid "List item "
 msgstr "Item uweisen"
@@ -50,25 +50,25 @@ msgid "Active user"
 msgstr "Aktiven User"
 
 msgid "Edit user"
-msgstr "User editŽiren"
+msgstr "User editéiren"
 
 msgid "edit"
-msgstr "editŽiren"
+msgstr "editéiren"
 
 msgid "Please confirm user deletion"
-msgstr "W.e.g. konfirmŽiert LŠschen vum User"
+msgstr "W.e.g. konfirméiert Läschen vum User"
 
 msgid "Delete user"
-msgstr "User lŠschen"
+msgstr "User läschen"
 
 msgid "delete"
-msgstr "lŠschen"
+msgstr "läschen"
 
 msgid "An error occured during user deletion"
-msgstr "WŠhrend dem LŠschen vum User gouf et e Fehler"
+msgstr "Während dem Läschen vum User gouf et e Fehler"
 
 msgid "User deleted successfully"
-msgstr "User erfollegraich gelŠscht"
+msgstr "User erfollegraich geläscht"
 
 msgid "User added"
 msgstr "User dobeigesaat"
@@ -80,13 +80,13 @@ msgid "User saved"
 msgstr "User gespaichert"
 
 msgid "Edit a user"
-msgstr "User editŽiren"
+msgstr "User editéiren"
 
 msgid "Unable to restore default user"
-msgstr "Standarduser kann net retablŽiert gin"
+msgstr "Standarduser kann net retabléiert gin"
 
 msgid "User restored successfully"
-msgstr "User erfollegraich retablŽiert"
+msgstr "User erfollegraich retabléiert"
 
 msgid "Connect"
 msgstr "Verbannen"
@@ -125,7 +125,7 @@ msgid "Repeat new password"
 msgstr "Neit Passwuert widerhuelen"
 
 msgid "Change your password"
-msgstr "Passwuert Šnneren"
+msgstr "Passwuert änneren"
 
 msgid "FirstName"
 msgstr "Viirnumm"
@@ -152,7 +152,7 @@ msgid "Save"
 msgstr "Spaicheren"
 
 msgid "Revert"
-msgstr "ZrŽckgoen"
+msgstr "Zréckgoen"
 
 msgid "Current language"
 msgstr "Aktuell Sprooch"
@@ -188,22 +188,22 @@ msgid "Filters"
 msgstr "Filteren"
 
 msgid "Add property"
-msgstr "ProprietŽit dobeisetzen"
+msgstr "Proprietéit dobeisetzen"
 
 msgid "Add a new property"
-msgstr "Nei ProprietŽit dobeisetzen"
+msgstr "Nei Proprietéit dobeisetzen"
 
 msgid "Class"
 msgstr "Klass"
 
 msgid "Edit property into parent class "
-msgstr "Iwergeuerdnet ProprietŽit editŽiren"
+msgstr "Iwergeuerdnet Proprietéit editéiren"
 
 msgid "Property"
-msgstr "ProprietŽit"
+msgstr "Proprietéit"
 
 msgid "You cannot modify this property"
-msgstr "Dir k‘nnt des ProprietŽit net Šnneren"
+msgstr "Dir kënnt des Proprietéit net änneren"
 
 msgid "Type"
 msgstr "Typ"
@@ -215,10 +215,10 @@ msgid "List values"
 msgstr "Werter uweisen"
 
 msgid "Add / Edit lists"
-msgstr "L‘schten dobeisetzen / editŽiren"
+msgstr "Lëschten dobeisetzen / editéiren"
 
 msgid "Delete property"
-msgstr "ProprietŽit lŠschen"
+msgstr "Proprietéit läschen"
 
 msgid "Range"
 msgstr "Beraich"
@@ -230,49 +230,49 @@ msgid "A long text"
 msgstr "Ee lange Text"
 
 msgid "A formated text"
-msgstr "Ee formatŽierte Text"
+msgstr "Ee formatéierte Text"
 
 msgid "A password"
 msgstr "Ee Passwuert"
 
 msgid "A simple choice list"
-msgstr "Eng einfach Auswiel L‘scht"
+msgstr "Eng einfach Auswiel Lëscht"
 
 msgid "A simple choice long list"
-msgstr "Eng laang einfach Auswiel L‘scht"
+msgstr "Eng laang einfach Auswiel Lëscht"
 
 msgid "A multiple choice list"
-msgstr "Eng multiple choice L‘scht"
+msgstr "Eng multiple choice Lëscht"
 
 msgid "A dynamic datepicker"
 msgstr "Een dynameschen Kalenner"
 
 msgid "AUTHORING TOOL"
-msgstr "EntwŽckler Instrument"
+msgstr "Entwéckler Instrument"
 
 msgid "Invalid file type!"
-msgstr "Ong‘ltegen Dateityp!"
+msgstr "Ongëltegen Dateityp!"
 
 msgid "Invalid file size"
-msgstr "Ong‘lteg DateigrŽisst"
+msgstr "Ongëlteg Dateigréisst"
 
 msgid "The uploaded file is too large"
 msgstr "De ropgeluedene Fichier as ze grouss"
 
 msgid "Invalid field length"
-msgstr "Ong‘lteg Datenfeld LŠngt"
+msgstr "Ongëlteg Datenfeld Längt"
 
 msgid "This field is too short"
-msgstr "D‘st Datenfeld as ze kuerz"
+msgstr "Dëst Datenfeld as ze kuerz"
 
 msgid "This field is too long"
-msgstr "D‘st Datenfeld as ze laang"
+msgstr "Dëst Datenfeld as ze laang"
 
 msgid "This field must not be empty"
-msgstr "D‘st Datenfeld dierf nit eidel sin"
+msgstr "Dëst Datenfeld dierf nit eidel sin"
 
 msgid "Password are not matching"
-msgstr "Passwierder st‘mmen nit iwerteneen"
+msgstr "Passwierder stëmmen nit iwerteneen"
 
 msgid "The format of this field is not valid."
 msgstr "Den Format vun desem Datenfeld as nit valid."
@@ -284,25 +284,25 @@ msgid "Add "
 msgstr "Dobeisetzen"
 
 msgid "Duplicate"
-msgstr "DuplizŽiren"
+msgstr "Duplizéiren"
 
 msgid "Remove"
 msgstr "Ewech huelen"
 
 msgid "Please confirm deletion"
-msgstr "W.e.g. konfirmŽiert d'LŠschen"
+msgstr "W.e.g. konfirméiert d'Läschen"
 
 msgid "Selection saved successfully"
 msgstr "Auswiel erfollegraich gespaichert"
 
 msgid "Please confirm property deletion!"
-msgstr "W.e.g. konfirmŽiert d'LŠschen vun der ProprietŽit"
+msgstr "W.e.g. konfirméiert d'Läschen vun der Proprietéit"
 
 msgid "Right click the tree to manage your lists"
-msgstr "Macht een Rietsklick op den Baam fier aer L‘schten ze verwalten"
+msgstr "Macht een Rietsklick op den Baam fier aer Lëschten ze verwalten"
 
 msgid "Manage data list"
-msgstr "Daten L‘schten verwalten"
+msgstr "Daten Lëschten verwalten"
 
 msgid "Create"
 msgstr "Erstellen"
@@ -317,7 +317,7 @@ msgid "TAO Backend Tool"
 msgstr "TAO Backend Instrument"
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
-msgstr "Javascript get fier desen Programm gebraucht. AktivŽiert en w.e.g. an aerem Browser."
+msgstr "Javascript get fier desen Programm gebraucht. Aktivéiert en w.e.g. an aerem Browser."
 
 msgid "Home"
 msgstr "Heem"
@@ -341,7 +341,7 @@ msgid "Comment"
 msgstr "Bemierkung"
 
 msgid "Edit item comment"
-msgstr "Item Bemierkung editŽiren"
+msgstr "Item Bemierkung editéiren"
 
 msgid "Search results"
 msgstr "An den Resultater sichen"
@@ -362,10 +362,10 @@ msgid "Close all"
 msgstr "All zoumachen"
 
 msgid "Back"
-msgstr "ZrŽck"
+msgstr "Zréck"
 
 msgid "Restore default user"
-msgstr "Standarduser retablŽiren"
+msgstr "Standarduser retabléiren"
 
 msgid "EN"
 msgstr "English"
@@ -378,4 +378,884 @@ msgstr "German"
 
 msgid "LU"
 msgstr "Luxembourgish"
+
+﻿msgid "Campaign Class saved"
+msgstr "Campagne Klass gespäichert"
+
+msgid "Edit campaign class"
+msgstr "Editéier Campagne Klass"
+
+msgid "Campaign saved"
+msgstr "Campagne gespäichert"
+
+msgid "Edit Campaign"
+msgstr "Editéier Campagne"
+
+msgid "Delivery Class saved"
+msgstr "Ausliwwerungsklass gespäichert"
+
+msgid "Edit delivery class"
+msgstr "Editéier Ausliwwerungsklass"
+
+msgid "Delivery saved"
+msgstr "Ausliwwerung gespäichert"
+
+msgid "Edit delivery"
+msgstr "Editéier Ausliwwerung"
+
+msgid "saved"
+msgstr "gespäichert"
+
+msgid "Result Server class saved"
+msgstr "Resultatserver Klass gespäichert"
+
+msgid "Edit resultServer class"
+msgstr "Editéier Resultatserver Klass"
+
+msgid "Result Server saved"
+msgstr "Resultatserver gespäichert"
+
+msgid "Edit ResultServer"
+msgstr "Editéier Resultatserver"
+
+msgid "Delivery"
+msgstr "Ausliwwerung"
+
+msgid "Manage deliveries"
+msgstr "Ausliwwerungen managen"
+
+msgid "Deliveries library"
+msgstr "Ausliwwerungs Sammlung"
+
+msgid "search"
+msgstr "duerchsichen"
+
+msgid "new class"
+msgstr "nei Klass"
+
+msgid "new delivery"
+msgstr "nei Ausliwwerung"
+
+msgid "delete"
+msgstr "läschen"
+
+msgid "duplicate"
+msgstr "duplizéieren"
+
+msgid "edit delivery"
+msgstr "editéier Ausliwwerung"
+
+msgid "new property"
+msgstr "nei Propriétéit"
+
+msgid "create table"
+msgstr "Tabell erschafen"
+
+msgid "export"
+msgstr "exportéieren"
+
+msgid "compile"
+msgstr "kompiléieren"
+
+msgid "cache"
+msgstr "Cache"
+
+msgid "view history"
+msgstr "Log uweisen"
+
+msgid "Manage Campaigns"
+msgstr "Campagnen managen"
+
+msgid "Campaigns library"
+msgstr "Campagne Sammlung"
+
+msgid "new campaign"
+msgstr "nei Campagne"
+
+msgid "edit campaign"
+msgstr "editéier Campagne"
+
+msgid "Manage Result Servers"
+msgstr "Resultatserver managen"
+
+msgid "Result Servers library"
+msgstr "Resultatserver Sammlung"
+
+msgid "new result server"
+msgstr "neie Resultatserver"
+
+msgid "edit result server"
+msgstr "editéier Resultatserver"
+
+msgid "Delivery authoring"
+msgstr "Ausliwwerungs Editioun"
+
+msgid "Label"
+msgstr "Etiquette"
+
+msgid "Service Definition"
+msgstr "Service Définitioun"
+
+msgid "Formal Parameter IN"
+msgstr "Formalen Agangsparameter"
+
+msgid "Formal Parameter OUT"
+msgstr "Formalen Ausgangsparameter"
+
+msgid "Connector Type"
+msgstr "Konnektiounstyp"
+
+msgid "IF"
+msgstr "WANN"
+
+msgid "create new activity"
+msgstr "erschaf nei Aktivitéit"
+
+msgid "create new connector"
+msgstr "erschaf nei Konnektioun"
+
+msgid "Activity or Connector"
+msgstr "Aktivitéit oder Konnektioun"
+
+msgid "Activity"
+msgstr "Aktivitéit"
+
+msgid "Connector"
+msgstr "Konnektioun"
+
+msgid "Process Activities"
+msgstr "Aktivitéieten beschaffen"
+
+msgid "Property"
+msgstr "Propriétéit"
+
+msgid "undefined"
+msgstr "ondéfinéiert"
+
+msgid "If"
+msgstr "Wann"
+
+msgid "Then"
+msgstr "Dann"
+
+msgid "Else"
+msgstr "Soss"
+
+msgid "type??"
+msgstr "Typ??"
+
+msgid "(still undefined)"
+msgstr "(nach ëmmer ondéfinéiert)"
+
+msgid "Please confirm deletion"
+msgstr "Wirklech Läschen?"
+
+msgid "Please confirm deletion? warning: the related connectors may be affected"
+msgstr "Wirklech Läschen? Achtung: déi verbonne Konnektioune kënnen betraff sinn"
+
+msgid "Select delivery campaign"
+msgstr "Ausliwwerungs Campagne wielen"
+
+msgid "Save"
+msgstr "Späicheren"
+
+msgid "Select delivery"
+msgstr "Ausliwwerung wielen"
+
+msgid "The Delivery module allows users to define tests delivery parameters."
+msgstr "Den Ausliwwerungsmodul erlaabt de Benotzer Test Ausliwwerungs Parameter ze définéieren"
+
+msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
+msgstr "Des Ausliwwerungs Management Sektioun erlaabt Ausliwwerungen bäizefügen oder ze läschen an hir Propriétéiten ze veränneren"
+
+msgid "Campaign"
+msgstr "Campagne"
+
+msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
+msgstr "D'Campagne Management Sektioun erlaabt Ausliwwerungen bäizefügen, ze editéieren a matt Ausliwwerungs Campagnen ze verbannen."
+
+msgid "Result Server"
+msgstr "Resultatserver"
+
+msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
+msgstr "D'Resultatserver Management Sektioun erlaabt Ausliwwerungs Resultat Serveren bäizefügen, ze editéieren oder matt Ausliwwerungen ze verbannen."
+
+msgid "Please select a delivery before authoring it!"
+msgstr "W.e.g. wielt eng Ausliwwerung aus virun der Editioun"
+
+msgid "Back"
+msgstr "Zréck"
+
+msgid "Formal Parameter"
+msgstr "Formal Parameter"
+
+msgid "Role"
+msgstr "Roll"
+
+msgid "Process Variables"
+msgstr "Prozess Variablen"
+
+msgid "Activity Editor"
+msgstr "Aktivitéits Editor"
+
+msgid "Process Property"
+msgstr "Prozess Propriétéit"
+
+msgid "loading..."
+msgstr "lueden..."
+
+msgid "Sure?"
+msgstr "Sëcher?"
+
+msgid "save"
+msgstr "späicheren"
+
+msgid "reload"
+msgstr "nei lueden"
+
+msgid "cancel"
+msgstr "ofbriechen"
+
+msgid "Use the * character to replace any string"
+msgstr "Benotzt den * fir eng Zeecheketten ze ersetzen "
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Open all"
+msgstr "All opmaachen"
+
+msgid "Close all"
+msgstr "All zoumaachen"
+
+msgid "Select testees to be <b>excluded</b>"
+msgstr "Wielt d'Testkandidaten déi <b>ausgeschloss</b> solle ginn"
+
+msgid "EN"
+msgstr "Englesch"
+
+msgid "FR"
+msgstr "Franséisch"
+
+msgid "DE"
+msgstr "Däitsch"
+
+msgid "LU"
+msgstr "Letzebuergesch"﻿msgid "Class saved"
+msgstr "Klass gespaichert"
+
+msgid "Edit group class"
+msgstr "Gruppen Klass editéiren"
+
+msgid "Group saved"
+msgstr "Grupp gespaichert"
+
+msgid "Groups"
+msgstr "Gruppen"
+
+msgid "Manage groups"
+msgstr "Gruppen verwalten"
+
+msgid "Groups library"
+msgstr "Gruppensammlung"
+
+msgid "search"
+msgstr "sichen"
+
+msgid "new class"
+msgstr "Nei Klass"
+
+msgid "new group"
+msgstr "Nei Grupp"
+
+msgid "delete"
+msgstr "läschen"
+
+msgid "duplicate"
+msgstr "duplizéiren"
+
+msgid "edit group"
+msgstr "Grupp editéiren"
+
+msgid "new property"
+msgstr "nei Proprietéit"
+
+msgid "meta data"
+msgstr "Meta Daten"
+
+msgid "create table"
+msgstr "Tabell erstellen"
+
+msgid "export"
+msgstr "exportéiren"
+
+msgid "The Group module allows to groupe Testees according to global features and classifications."
+msgstr "Den Gruppen Modul erlabt Testpersounen ze gruppéiren no globalen Charakteristiken an Klassifikatiounen."
+
+msgid "The main objective of the Group module is to assign the test(s) to the appointed group, thus establishing the basis for running a test."
+msgstr "d'Haaptziel vum Gruppen Modul besteht dran fier Tester mat hiirem entspriechenden Grupp ze verbannen an esou een Test ze erméiglechen."
+
+msgid "Select group testees"
+msgstr "Gruppen Testpersounen eraussichen"
+
+msgid "Save"
+msgstr "Spaicheren"
+
+msgid "Select group test"
+msgstr "Gruppen Test eraussichen"
+
+msgid "EN"
+msgstr "English"
+
+msgid "FR"
+msgstr "French"
+
+msgid "DE"
+msgstr "German"
+
+msgid "LU"
+msgstr "Luxembourgish"
+
+﻿msgid "Item saved"
+msgstr "Item gespaichert"
+
+msgid "Preview not yet available"
+msgstr "Viirbléck nat net verfügbar"
+
+msgid "Edit Item"
+msgstr "Item editéiren"
+
+msgid "Class saved"
+msgstr "Klass gespaichert"
+
+msgid "Edit a class"
+msgstr "Klass editéiren"
+
+msgid "An error occured while saving the item"
+msgstr "Beim Spaicheren vum Item gouf et e Fehler"
+
+msgid "Item saved successfully"
+msgstr "Item erfollegraich gespaichert"
+
+msgid "Items"
+msgstr "Itemen"
+
+msgid "Manage items"
+msgstr "Itemen verwalten"
+
+msgid "Item library"
+msgstr "Item Sammlung"
+
+msgid "search"
+msgstr "sichen"
+
+msgid "new class"
+msgstr "nei Klass"
+
+msgid "new item"
+msgstr "neien Item"
+
+msgid "delete"
+msgstr "läschen"
+
+msgid "duplicate"
+msgstr "duplizéiren"
+
+msgid "edit item"
+msgstr "Item editéiren"
+
+msgid "new property"
+msgstr "nei Proprietéit"
+
+msgid "preview"
+msgstr "Viirbléck"
+
+msgid "meta data"
+msgstr "Meta Daten"
+
+msgid "create table"
+msgstr "Tabell erstellen"
+
+msgid "export"
+msgstr "exportéiren"
+
+msgid "Item authoring"
+msgstr "Item Entwécklung"
+
+msgid "Please select an item before!"
+msgstr "W.e.g. sicht fier d'éischt een Item eraus!"
+
+msgid "Back"
+msgstr "Zréck"
+
+msgid "Preview"
+msgstr "Viirbléck"
+
+msgid "PREVIEW BOX"
+msgstr "Viirbléck Këscht"
+
+msgid "The Item module enables the creation and design of items and exercises."
+msgstr "Den Item Modul erlaabt d'Erstellen an formatéiren vun Itemen an Aufgaben"
+
+msgid "A series of different templates are provided to the Item authors such as multiple choice questions, puzzle design, text with gaps, etc."
+msgstr "D'Item Ersteller kënnen op eng Lëscht vun Viirlagen zréckgraifen wéi z.B. mutliple choice Froen, Puzzle Froen, Lückentext, asw."
+
+msgid "EN"
+msgstr "English"
+
+msgid "FR"
+msgstr "French"
+
+msgid "DE"
+msgstr "German"
+
+msgid "LU"
+msgstr "Luxembourgish"
+
+﻿msgid "Result saved"
+msgstr "Resultat gespaichert"
+
+msgid "Edit result"
+msgstr "Resultat editéiren"
+
+msgid "Class saved"
+msgstr "Klass gespaichert"
+
+msgid "Edit result class"
+msgstr "Resultat Klass editéiren"
+
+msgid "Results"
+msgstr "Resultater"
+
+msgid "Manage results"
+msgstr "Resultater verwalten"
+
+msgid "Results library"
+msgstr "Resultater Sammlung"
+
+msgid "search"
+msgstr "sichen"
+
+msgid "new class"
+msgstr "nei Klass"
+
+msgid "new result"
+msgstr "neit Resultat"
+
+msgid "delete"
+msgstr "läschen"
+
+msgid "duplicate"
+msgstr "duplizéiren"
+
+msgid "edit result"
+msgstr "Resultat editéiren"
+
+msgid "new property"
+msgstr "nei Proprietéit"
+
+msgid "meta data"
+msgstr "Meta Daten"
+
+msgid "create table"
+msgstr "Tabell erstellen"
+
+msgid "export"
+msgstr "exportéiren"
+
+msgid "This module constitutes the final step."
+msgstr "Desen Modul stellt den letzen Schrack duer."
+
+msgid "All results of passed Tests with their referring Subject, Group and Item specific data, as well as the individual data collected during Test execution are stored and managed here."
+msgstr "All Resultater vun duerchgefouerten Tester, mat hieren entspriechenden Testpersounen, Gruppen, Item Daten an och all individeull Daten déi während der Testpassatioun gesammelt goufen, gin hei gespaichert"
+
+msgid "EN"
+msgstr "English"
+
+msgid "FR"
+msgstr "French"
+
+msgid "DE"
+msgstr "German"
+
+msgid "LU"
+msgstr "Luxembourgish"
+
+﻿msgid "Subject saved"
+msgstr "Testpersoun gespaichert"
+
+msgid "Edit subject"
+msgstr "Testpersoun editéiren"
+
+msgid "Class saved"
+msgstr "Klass gespaichert"
+
+msgid "Edit subject class"
+msgstr "Testpersounen Klass editéiren"
+
+msgid "Testees"
+msgstr "Testpersounen"
+
+msgid "Manage testees"
+msgstr "Testpersounen verwalten"
+
+msgid "Testees library"
+msgstr "Testpersounen Sammlung"
+
+msgid "search"
+msgstr "sichen"
+
+msgid "new class"
+msgstr "nei Klass"
+
+msgid "new subject"
+msgstr "nei Testpersoun"
+
+msgid "delete"
+msgstr "läschen"
+
+msgid "duplicate"
+msgstr "duplizéiren"
+
+msgid "edit subject"
+msgstr "Testpersoun editéiren"
+
+msgid "new property"
+msgstr "nei Proprietéit"
+
+msgid "meta data"
+msgstr "Meta Daten"
+
+msgid "create table"
+msgstr "Tabell erstellen"
+
+msgid "export"
+msgstr "exportéiren"
+
+msgid "Add to group"
+msgstr "Bei e Grupp derbeisetzen"
+
+msgid "Save"
+msgstr "Spaicheren"
+
+msgid "The Testees module allows to record and manage  testees."
+msgstr "Den Testpersounen Modul erlaabt et fier Testpersounen opzehuelen an ze verwalten."
+
+msgid "Its flexibility allows the design of datasheets (e.g. name, address, date of birth, gender etc.)."
+msgstr "Seng Flexibilitéit erlaabt d'Erstellen vun Datensätz (z.b. Numm, Adress, Gebuertsdatum, Geschlecht, etc.)."
+
+msgid "Testees may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
+msgstr "Testpersounen kënnen zesummengefaasst gin opgrond vun dem entspriechenden Assessment Kontext (Personalverwaltung, Educatioun, Schoulmonitoring, etc.)."
+
+msgid "EN"
+msgstr "English"
+
+msgid "FR"
+msgstr "French"
+
+msgid "DE"
+msgstr "German"
+
+msgid "LU"
+msgstr "Luxembourgish"
+
+﻿msgid "Test saved"
+msgstr "Test gespäichert"
+
+msgid "Edit test"
+msgstr "Editéier Test"
+
+msgid "Class saved"
+msgstr "Klass gespäichert"
+
+msgid "Edit test class"
+msgstr "Test Klass editéieren"
+
+msgid "test saved"
+msgstr "Test gespäichert"
+
+msgid "Test parameters"
+msgstr "Test Parameter"
+
+msgid "An error occured while saving the test"
+msgstr "Beim Späicher vum Test ass e Feeler virkomm"
+
+msgid "Test saved successfully"
+msgstr "Test erfollechräich gespäichert"
+
+msgid "Maximum time allowed"
+msgstr "Maximum erlaabten Zäit"
+
+msgid "Password"
+msgstr "PAsswuert"
+
+msgid "g1"
+msgstr "g1"
+
+msgid "Sequence mode"
+msgstr "Sequenz Modus"
+
+msgid "Sequencial"
+msgstr "Sequenzial"
+
+msgid "Random"
+msgstr "Zoufälleg"
+
+msgid "Maxfisher"
+msgstr "Maxfisher"
+
+msgid "Delay"
+msgstr "Délai"
+
+msgid "g2"
+msgstr "g2"
+
+msgid "Scoring method"
+msgstr "Bewertungs Method"
+
+msgid "Classical ratio"
+msgstr "Klassesch Ratio"
+
+msgid "Maximum likelihood"
+msgstr "Maximal Wahrscheinlechkeet"
+
+msgid "Maximum a posteriori"
+msgstr "Maximum a posteriori"
+
+msgid "Expected a posteriori"
+msgstr "Erwaarten a posteriori"
+
+msgid "QMIN"
+msgstr "QMIN"
+
+msgid "QMAX"
+msgstr "QMAX"
+
+msgid "QITER"
+msgstr "QITER"
+
+msgid "g3"
+msgstr "g3"
+
+msgid "Cumul model"
+msgstr "Cumul Modell"
+
+msgid "Classical"
+msgstr "Klassesch"
+
+msgid "Likelihood"
+msgstr "Wahrscheinlechkeet"
+
+msgid "Log-likelihood"
+msgstr "Log-Wahrscheinlechkeet"
+
+msgid "g4"
+msgstr "g4"
+
+msgid "Halt criteria"
+msgstr "Stop Critère"
+
+msgid "DELTASCORE"
+msgstr "DELTASCORE"
+
+msgid "DELTASE"
+msgstr "DELTASE"
+
+msgid "Threshold"
+msgstr "Schwell"
+
+msgid "Max"
+msgstr "Max"
+
+msgid "g5"
+msgstr "g5"
+
+msgid "Threshold 1"
+msgstr "Schwell 1"
+
+msgid "Threshold 2"
+msgstr "Schwell 2"
+
+msgid "Threshold 3"
+msgstr "Schwell 3"
+
+msgid "g6"
+msgstr "g6"
+
+msgid "Display"
+msgstr "Uweisen"
+
+msgid "Display items list during the test"
+msgstr "Itemlëscht während dem Test uweisen"
+
+msgid "Show a progress bar during the test"
+msgstr "Eng Progressbar während dem Test weisen"
+
+msgid "Display label"
+msgstr "Etiquette uweisen"
+
+msgid "Display comments"
+msgstr "Kommentar uweisen"
+
+msgid "Deactivate back button"
+msgstr "\"Zreck-Knäppchen\" ofschalten"
+
+msgid "Test content (top position)"
+msgstr "Test Contenu (iewescht Positioun)"
+
+msgid "Test content (left position)"
+msgstr "Test Contenu (lenks Positioun)"
+
+msgid "Navigation buttons (top position)"
+msgstr "Navigatioun (iewescht Positioun)"
+
+msgid "Navigation buttons (left position)"
+msgstr "Navigatioun (lenks Positioun)"
+
+msgid "Progressbar (top position)"
+msgstr "Progressbar (iewescht Positioun)"
+
+msgid "Progressbar (left position)"
+msgstr "Progressbar (lenks Positioun)"
+
+msgid "Left button image"
+msgstr "Bild fir Lenks-Knäppchen"
+
+msgid "Right button image"
+msgstr "Bild fir Riets-Knäppchen"
+
+msgid "Tests"
+msgstr "Tester"
+
+msgid "Manage tests"
+msgstr "Testermanagen"
+
+msgid "Tests library"
+msgstr "Test Sammlung"
+
+msgid "search"
+msgstr "duerchsichen"
+
+msgid "new class"
+msgstr "nei Klass"
+
+msgid "new test"
+msgstr "neien Test"
+
+msgid "delete"
+msgstr "läschen"
+
+msgid "duplicate"
+msgstr "duplizéieren"
+
+msgid "edit test"
+msgstr "Test editéieren"
+
+msgid "new property"
+msgstr "nei Propriétéit"
+
+msgid "preview"
+msgstr "Virschau"
+
+msgid "meta data"
+msgstr "Metadaten"
+
+msgid "create table"
+msgstr "Tabell erschafen"
+
+msgid "export"
+msgstr "exportéieren"
+
+msgid "Parameters"
+msgstr "Parameter"
+
+msgid "Items Sequence"
+msgstr "Itemsequenz"
+
+msgid "Please select an test before!"
+msgstr "Wielt w.e.g als éischt en Test"
+
+msgid "Back"
+msgstr "Zréck"
+
+msgid "The Test module allows to combine a selection of Items to a Test."
+msgstr "Den Test Modul erlaabt eng Selektioun vun Itemen matt engem Test ze verbannen."
+
+msgid "The Test mode (sequencing, scoring, cumulating, etc.) and layout are also configured here."
+msgstr "Den Test Modus (Sequenzéieren, Bewerten, Sammelen, etc.) an de Layout gin och hei konfiguréiert."
+
+msgid "Select related items"
+msgstr "Verwandten Itemen wielen"
+
+msgid "Save"
+msgstr "Späicheren"
+
+msgid "Items sequence"
+msgstr "Itemsequenz"
+
+msgid "Sequence saved successfully"
+msgstr "Sequenz erfollechräich gespäichert"
+
+msgid "sequence"
+msgstr "Sequenz"
+
+msgid "uri"
+msgstr "uri"
+
+msgid "label"
+msgstr "Etiquette"
+
+msgid "weight"
+msgstr "Gewiicht"
+
+msgid "difficulty"
+msgstr "Schwieregkeet"
+
+msgid "discrimination"
+msgstr "Diskriminatioun"
+
+msgid "guessing"
+msgstr "roden"
+
+msgid "model"
+msgstr "Modell"
+
+msgid "Numeric value"
+msgstr "Numeresche Wert"
+
+msgid "Items"
+msgstr "Itemen"
+
+msgid "Sequence saved"
+msgstr "Sequenz gespäichert"
+
+msgid "An error occured while saving the sequence"
+msgstr "Beim Späichere vun der Sequenz ass e Feeler passéiert"
+
+msgid "Test Preview"
+msgstr "Test Virschau"
+
+msgid "compiled"
+msgstr "compiléiert"
+
+msgid "compiled with warning"
+msgstr "matt enger Warnung compiléiert"
+
+msgid "compilation failed"
+msgstr "Compilatioun feelgeschloen"
+
+msgid "Compiling test"
+msgstr "Test gëtt compiléiert"
+
+msgid "EN"
+msgstr "Englesch"
+
+msgid "FR"
+msgstr "Franséich"
+
+msgid "DE"
+msgstr "Däitsch"
+
+msgid "LU"
+msgstr "Lëtzebuergesch"
 
