@@ -125,6 +125,12 @@ function install($param){
 
 		
 		loadSqlReplaceNS('db/sampleData.sql',$con,$nameSpace);
+		
+		$fileContent = file_get_contents('db/qcmContent.sql');
+		$fileContent = str_replace("##NAMESPACE",$nameSpace,$fileContent);
+		$con->Execute($fileContent); 
+		
+
 	} catch (exception $e) {
 		$message .= urlencode("<b>Problem found </b> : <br/>". str_split($e->getMessage(),100) . "<br/>");
 		header('Location:http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].
