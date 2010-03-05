@@ -1,5 +1,5 @@
 msgid "No account match the given login / password"
-msgstr ""
+msgstr "Aucun compte correspond  au nom d’utilisateur et mot de passe"
 
 msgid "settings updated"
 msgstr "Préférences mise à jour"
@@ -8,19 +8,19 @@ msgid "Access denied. Please renew your authentication!"
 msgstr "Accès refusé. Veuillez vous identifier à nouveau"
 
 msgid "Resource saved"
-msgstr ""
+msgstr "Ressource enregistrée"
 
 msgid "Edit"
 msgstr "Modifier"
 
 msgid "CSV Options"
-msgstr ""
+msgstr "Options CSV"
 
 msgid "Add the source file"
-msgstr ""
+msgstr "Ajouter le fichier source"
 
 msgid "Upload CSV File"
-msgstr ""
+msgstr "Télécharger le fichier CSV"
 
 msgid "Data imported"
 msgstr "Donnée importée"
@@ -29,22 +29,22 @@ msgid "Import data"
 msgstr "Importer de donné"
 
 msgid "Translation saved"
-msgstr ""
+msgstr "Traduction suavegardée"
 
 msgid "Translate"
-msgstr ""
+msgstr "Traduire"
 
 msgid "Search"
-msgstr ""
+msgstr "Rechercher"
 
 msgid "Lists"
 msgstr "Listes"
 
 msgid "List "
-msgstr ""
+msgstr "Liste"
 
 msgid "List item "
-msgstr ""
+msgstr "Liste des items"
 
 msgid "Active user"
 msgstr "Utilisateur actif"
@@ -146,7 +146,7 @@ msgid "Users"
 msgstr "Utilisateurs"
 
 msgid "Manage users"
-msgstr ""
+msgstr "Gestion d'utilisateurs"
 
 msgid "Save"
 msgstr "Enregistrer"
@@ -155,37 +155,37 @@ msgid "Revert"
 msgstr "Annuler"
 
 msgid "Current language"
-msgstr ""
+msgstr "Langue courante"
 
 msgid "Translate to"
-msgstr ""
+msgstr "Traduire à"
 
 msgid "Select a language"
-msgstr ""
+msgstr "Sélectionner un langage"
 
 msgid "Translation parameters"
-msgstr ""
+msgstr "Paramètres de la traductions"
 
 msgid "Filtering mode"
-msgstr ""
+msgstr "Mode de filtrage"
 
 msgid "Exclusive (AND)"
-msgstr ""
+msgstr "ET"
 
 msgid "Inclusive (OR)"
-msgstr ""
+msgstr "OU"
 
 msgid "Language"
 msgstr "Langue"
 
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 msgid "Use the * character to replace any string"
 msgstr "Utiliser * en remplacement de toute chaîne de caractère"
 
 msgid "Filters"
-msgstr ""
+msgstr "Filtres"
 
 msgid "Add property"
 msgstr "Ajouter une propriété"
@@ -197,7 +197,7 @@ msgid "Class"
 msgstr "Classe"
 
 msgid "Edit property into parent class "
-msgstr ""
+msgstr "Editer la propriété dans la classe"
 
 msgid "Property"
 msgstr "Propriété"
@@ -281,7 +281,7 @@ msgid "Add subclass"
 msgstr "Ajouter une sous-classe"
 
 msgid "Add "
-msgstr ""
+msgstr "Ajouter"
 
 msgid "Duplicate"
 msgstr "Dupliquer"
@@ -293,7 +293,7 @@ msgid "Please confirm deletion"
 msgstr "Veuillez confirmer la suppression"
 
 msgid "Selection saved successfully"
-msgstr ""
+msgstr "La sélection est sauvegardée correctement"
 
 msgid "Please confirm property deletion!"
 msgstr "Veuillez confirmer la suppression de la propriété"
@@ -329,25 +329,25 @@ msgid "Logout"
 msgstr "Se déconnecter"
 
 msgid "Meta Data"
-msgstr ""
+msgstr "métadonnée"
 
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 msgid "User"
-msgstr ""
+msgstr "Utilisateur"
 
 msgid "Comment"
-msgstr ""
+msgstr "Commentaire"
 
 msgid "Edit item comment"
-msgstr ""
+msgstr "Editer le commentaire d'item"
 
 msgid "Search results"
-msgstr ""
+msgstr "Recherche des résultats"
 
 msgid "Open"
-msgstr ""
+msgstr "Ouvrir"
 
 msgid "My settings"
 msgstr "Préférences"
