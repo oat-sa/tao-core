@@ -1,5 +1,8 @@
-msgid "No account match the given login / password"
+msgid ""
 msgstr ""
+
+msgid "No account match the given login / password"
+msgstr "No account matchs the given login / password"
 
 msgid "settings updated"
 msgstr ""
@@ -43,7 +46,7 @@ msgstr ""
 msgid "List "
 msgstr ""
 
-msgid "List item "
+msgid "List items "
 msgstr ""
 
 msgid "Active user"
@@ -272,7 +275,7 @@ msgid "This field must not be empty"
 msgstr ""
 
 msgid "Password are not matching"
-msgstr ""
+msgstr "Passwords are not matching"
 
 msgid "The format of this field is not valid."
 msgstr ""

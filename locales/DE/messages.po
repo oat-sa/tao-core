@@ -1,381 +1,381 @@
 msgid "No account match the given login / password"
-msgstr ""
+msgstr "Login un Passwort passen zu keinem Account"
 
 msgid "settings updated"
-msgstr ""
+msgstr "Einstellungen aktualisiert"
 
 msgid "Access denied. Please renew your authentication!"
-msgstr ""
+msgstr "Zugriff verweigert. Bitte erneuern Sie Ihre Authentifizierung"
 
 msgid "Resource saved"
-msgstr ""
+msgstr "Ressource gespeichert"
 
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 msgid "CSV Options"
-msgstr ""
+msgstr "CSV-Optionen"
 
 msgid "Add the source file"
-msgstr ""
+msgstr "Quelldatei hinzufügen"
 
 msgid "Upload CSV File"
-msgstr ""
+msgstr "CSV-Datei uploaden"
 
 msgid "Data imported"
-msgstr ""
+msgstr "Daten wurden importiert"
 
 msgid "Import data"
-msgstr ""
+msgstr "Daten importieren"
 
 msgid "Translation saved"
-msgstr ""
+msgstr "Übersetzung gespeichert"
 
 msgid "Translate"
-msgstr ""
+msgstr "Übersetzen"
 
 msgid "Search"
-msgstr ""
+msgstr "Suchen"
 
 msgid "Lists"
-msgstr ""
+msgstr "Listen"
 
 msgid "List "
-msgstr ""
+msgstr "Auflisten"
 
-msgid "List item "
-msgstr ""
+msgid "List item"
+msgstr "Items auflisten "
 
 msgid "Active user"
-msgstr ""
+msgstr "Aktiver User"
 
 msgid "Edit user"
-msgstr ""
+msgstr "Benutzer bearbeiten"
 
 msgid "edit"
-msgstr ""
+msgstr "bearbeiten"
 
 msgid "Please confirm user deletion"
-msgstr ""
+msgstr "Wollen Sie den Benutzer wirklich löschen?"
 
 msgid "Delete user"
-msgstr ""
+msgstr "Benutzer löschen"
 
 msgid "delete"
-msgstr ""
+msgstr "löschen"
 
 msgid "An error occured during user deletion"
-msgstr ""
+msgstr "Ein Fehler ist während dem Löschvorgang aufgetreten"
 
 msgid "User deleted successfully"
-msgstr ""
+msgstr "Benutzer erfolgreich gelöscht"
 
 msgid "User added"
-msgstr ""
+msgstr "Benutzer hinzugefügt"
 
 msgid "Add a user"
-msgstr ""
+msgstr "Benutzer hinzufügen"
 
 msgid "User saved"
-msgstr ""
+msgstr "Benutzer gespeichert"
 
 msgid "Edit a user"
-msgstr ""
+msgstr "Einen Benutzer bearbeiten"
 
 msgid "Unable to restore default user"
-msgstr ""
+msgstr "Wiederherstellen des Default-Benutzers nicht möglich"
 
 msgid "User restored successfully"
-msgstr ""
+msgstr "Benutzer erfolgreich wiederhergestellt"
 
 msgid "Connect"
-msgstr ""
+msgstr "Verbinden"
 
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 msgid "Interface language"
-msgstr ""
+msgstr "Interface-Sprache"
 
 msgid "Data language"
-msgstr ""
+msgstr "Daten-Sprache"
 
 msgid "Login *"
-msgstr ""
+msgstr "Login *"
 
 msgid "login already exist"
-msgstr ""
+msgstr "das Login existiert bereits"
 
 msgid "Password *"
-msgstr ""
+msgstr "Passwort *"
 
 msgid "Repeat password *"
-msgstr ""
+msgstr "Passwort wiederholen *"
 
 msgid "Old Password"
-msgstr ""
+msgstr "Altes Passwort"
 
 msgid "New password"
-msgstr ""
+msgstr "Neues Passwort"
 
 msgid "Repeat new password"
-msgstr ""
+msgstr "Neues Passwort wiederholen"
 
 msgid "Change your password"
-msgstr ""
+msgstr "Passwort ändern"
 
 msgid "FirstName"
-msgstr ""
+msgstr "Vorname"
 
 msgid "LastName"
-msgstr ""
+msgstr "Nachname"
 
 msgid "Email"
-msgstr ""
+msgstr "E-Mail"
 
 msgid "Company"
-msgstr ""
+msgstr "Unternehmen"
 
 msgid "Language *"
-msgstr ""
+msgstr "Sprache *"
 
 msgid "Users"
-msgstr ""
+msgstr "Benutzer"
 
 msgid "Manage users"
-msgstr ""
+msgstr "Benutzer verwalten"
 
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 msgid "Revert"
-msgstr ""
+msgstr "Rückgängig"
 
 msgid "Current language"
-msgstr ""
+msgstr "Aktuelle Sprache"
 
 msgid "Translate to"
-msgstr ""
+msgstr "Übersetzen auf"
 
 msgid "Select a language"
-msgstr ""
+msgstr "Sprache auswählen"
 
 msgid "Translation parameters"
-msgstr ""
+msgstr "Übersetzungsparameter"
 
 msgid "Filtering mode"
-msgstr ""
+msgstr "Filtermodus"
 
 msgid "Exclusive (AND)"
-msgstr ""
+msgstr "Exklusiv (UND)"
 
 msgid "Inclusive (OR)"
-msgstr ""
+msgstr "Inklusiv (OR)"
 
 msgid "Language"
-msgstr ""
+msgstr "Sprachen"
 
 msgid "Options"
-msgstr ""
+msgstr "Optionen"
 
 msgid "Use the * character to replace any string"
-msgstr ""
+msgstr "Benutzen Sie das Zeichen * zur Ersetzung einer Zeichenfolge"
 
 msgid "Filters"
-msgstr ""
+msgstr "Filter"
 
 msgid "Add property"
-msgstr ""
+msgstr "Eigenschaft hinzufügen"
 
 msgid "Add a new property"
-msgstr ""
+msgstr "Neue Eigenschaft hinzufügen"
 
 msgid "Class"
-msgstr ""
+msgstr "Klasse"
 
 msgid "Edit property into parent class "
-msgstr ""
+msgstr "Eigenschaft in Eltern-Klasse bearbeiten"
 
 msgid "Property"
-msgstr ""
+msgstr "Eigenschaft"
 
 msgid "You cannot modify this property"
-msgstr ""
+msgstr "Sie können diese Eigenschaft nicht ändern"
 
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 msgid "select"
-msgstr ""
+msgstr "Auswählen"
 
 msgid "List values"
-msgstr ""
+msgstr "Werte auflisten"
 
 msgid "Add / Edit lists"
-msgstr ""
+msgstr "Listen hinzufügen/bearbeiten"
 
 msgid "Delete property"
-msgstr ""
+msgstr "Eigenschaft löschen"
 
 msgid "Range"
-msgstr ""
+msgstr "Umfang"
 
 msgid "A short text"
-msgstr ""
+msgstr "Textzeile"
 
 msgid "A long text"
-msgstr ""
+msgstr "Textfeld"
 
 msgid "A formated text"
-msgstr ""
+msgstr "Formatierter Text"
 
 msgid "A password"
-msgstr ""
+msgstr "Passwort"
 
 msgid "A simple choice list"
-msgstr ""
+msgstr "Einfache Auswahlliste"
 
 msgid "A simple choice long list"
-msgstr ""
+msgstr "Einfache lange Auswahlliste"
 
 msgid "A multiple choice list"
-msgstr ""
+msgstr "Multiple-Choice liste"
 
 msgid "A dynamic datepicker"
-msgstr ""
+msgstr "Dynamische Datumsauswahl"
 
 msgid "AUTHORING TOOL"
-msgstr ""
+msgstr "AUTORENWERKZEUG"
 
 msgid "Invalid file type!"
-msgstr ""
+msgstr "Ungültiger Dateityp"
 
 msgid "Invalid file size"
-msgstr ""
+msgstr "Ungültige Dateigröße"
 
 msgid "The uploaded file is too large"
-msgstr ""
+msgstr "Die hochgeladene Datei ist zu groß"
 
 msgid "Invalid field length"
-msgstr ""
+msgstr "Ungültige Feldlänge"
 
 msgid "This field is too short"
-msgstr ""
+msgstr "Dieses Feld ist zu klein"
 
 msgid "This field is too long"
-msgstr ""
+msgstr "Dieses Feld ist zu lang"
 
 msgid "This field must not be empty"
-msgstr ""
+msgstr "Dieses Feld darf nicht leer sein"
 
 msgid "Password are not matching"
-msgstr ""
+msgstr "Ungültiges Passwort"
 
 msgid "The format of this field is not valid."
-msgstr ""
+msgstr "Das Format dieses Feldes ist ungültig"
 
 msgid "Add subclass"
-msgstr ""
+msgstr "Subklasse hinzufügen"
 
 msgid "Add "
-msgstr ""
+msgstr "Hinzufügen"
 
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplizieren"
 
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 msgid "Please confirm deletion"
-msgstr ""
+msgstr "Möchten Sie wirklich löschen?"
 
 msgid "Selection saved successfully"
-msgstr ""
+msgstr "Auswahl erfolgreich gespeichert"
 
 msgid "Please confirm property deletion!"
-msgstr ""
+msgstr "Möchten Sie die Eigenschaft wirklich löschen?"
 
 msgid "Right click the tree to manage your lists"
-msgstr ""
+msgstr "Zur Verwaltung der Listen klicken Sie bitte mit der rechten Maustaste auf den Baum"
 
 msgid "Manage data list"
-msgstr ""
+msgstr "Daten-Liste verwalten"
 
 msgid "Create"
-msgstr ""
+msgstr "Erstellen"
 
 msgid "Rename"
-msgstr ""
+msgstr "Umbenennen"
 
 msgid "Actions"
-msgstr ""
+msgstr "Aktionen"
 
 msgid "TAO Backend Tool"
-msgstr ""
+msgstr "TAO Backend Werkzueg"
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
-msgstr ""
+msgstr "Diese Software benötigt Javascript. Bitte aktivieren Sie es in Ihrem Browser."
 
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 msgid "Logout"
-msgstr ""
+msgstr "Ausloggen"
 
 msgid "Meta Data"
-msgstr ""
+msgstr "Mata-Daten"
 
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 msgid "User"
-msgstr ""
+msgstr "Benutzer"
 
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 msgid "Edit item comment"
-msgstr ""
+msgstr "Item-Kommentar bearbeiten"
 
 msgid "Search results"
-msgstr ""
+msgstr "Ergebnisse suchen"
 
 msgid "Open"
-msgstr ""
+msgstr "Öffnen"
 
 msgid "My settings"
-msgstr ""
+msgstr "Meine Einstellungen"
 
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 msgid "Open all"
-msgstr ""
+msgstr "Alles öffnen"
 
 msgid "Close all"
-msgstr ""
+msgstr "Alles schließen"
 
 msgid "Back"
-msgstr ""
+msgstr "Zurück"
 
 msgid "Restore default user"
-msgstr ""
+msgstr "Default-Benutzer wiederherstellen"
 
 msgid "EN"
-msgstr "English"
+msgstr "Englisch"
 
 msgid "FR"
-msgstr "French"
+msgstr "Französisch"
 
 msgid "DE"
-msgstr "German"
+msgstr "Deutsch"
 
 msgid "LU"
-msgstr "Luxemburgish"
+msgstr "Luxemburgisch"
 

@@ -212,7 +212,7 @@ abstract class tao_helpers_form_FormElement
     public function setValue($value)
     {
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018D2 begin
-		$this->value = $value;
+		$this->value = str_replace('"', "", $value);
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018D2 end
     }
 

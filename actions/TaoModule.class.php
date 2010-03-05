@@ -504,8 +504,9 @@ abstract class TaoModule extends CommonModule {
 				$file['name'],
 				basename($file['path']),
 				$file['date'],
-				"<a href='{$file['url']}' target='_blank' ><img src='".TAOBASE_WWW."img/bullet_go.png'  title='".__('download')."' />".__('Download')."</a>&nbsp;|&nbsp;" .
-				"<a href='".tao_helpers_Uri::url('deleteExportedFiles')."?filePath=".urlencode($file['path'])."' class='nav' ><img src='".TAOBASE_WWW."img/delete.png' title='".__('delete')."' />".__('Delete')."</a>"
+				"<a href='{$file['url']}' class='nd' target='_blank' ><img src='".TAOBASE_WWW."img/search.png'  title='".__('view')."' />".__('View')."</a>&nbsp;|&nbsp;" .
+				"<a href='".tao_helpers_Uri::url('downloadExportedFiles')."?filePath=".urlencode($file['path'])."' class='nd'  ><img src='".TAOBASE_WWW."img/bullet_go.png'  title='".__('download')."' />".__('Download')."</a>&nbsp;|&nbsp;" .
+				"<a href='".tao_helpers_Uri::url('deleteExportedFiles')."?filePath=".urlencode($file['path'])."' class='nav nd' ><img src='".TAOBASE_WWW."img/delete.png' title='".__('delete')."' />".__('Delete')."</a>"
 			);
 		} 
 		echo json_encode($response); 
@@ -520,6 +521,21 @@ abstract class TaoModule extends CommonModule {
 		}
 		$this->redirect(tao_helpers_Uri::url('export'));
 	}
+	
+	public function downloadExportedFiles(){
+		if($this->hasRequestParameter('filePath')){
+			$path = urldecode($this->getRequestParameter('filePath'));
+			if(preg_match("/^".preg_quote(EXPORT_PATH, '/')."/", $path) && file_exists($path)){
+				
+				header('Content-Type: text/xml');
+				header('Content-Disposition: attachment; fileName="'.basename($path).'"');
+				echo file_get_contents($path);
+				return;
+			}
+		}
+		return;
+	}
+	
 	
 	
 	/**
