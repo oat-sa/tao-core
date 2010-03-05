@@ -81,6 +81,9 @@ class tao_models_classes_TaoService
 			
 			$extensionsManager = common_ext_ExtensionsManager::singleton();
 			foreach($extensionsManager->getInstalledExtensions() as $extension){
+				if($extension->id == 'wfEngine'){
+					continue;
+				}
 				self::$extensions[] = $extension->id;
 			}
 			self::$extensions[] = 'users';
