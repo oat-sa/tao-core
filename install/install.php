@@ -186,6 +186,11 @@ function install($param){
 		echo 'File ' . $filename .' written <br/>';
 		echo 'Extension : <b>' . $ext. '</b> instaled<br/>';
 	}
+	
+	
+
+	define('INSTALL_DATABASE_NAME' , $param["moduleName"]);
+	include_once 'update/0101_database.php';
 }
 
 function writeConfigValue($name,$val,&$str)
