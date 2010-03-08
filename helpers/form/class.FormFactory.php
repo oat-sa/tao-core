@@ -3,14 +3,9 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/class.FormFactory.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 24.02.2010, 11:08:58 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * The FormFactory enable you to create ready-to-use instances of the Form
+ * It helps you to get the commonly used instances for the default rendering
+ * etc.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -30,7 +25,9 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section 127-0-1-1--35d6051a:124bac7a23e:-8000:0000000000001B16-constants end
 
 /**
- * Short description of class tao_helpers_form_FormFactory
+ * The FormFactory enable you to create ready-to-use instances of the Form
+ * It helps you to get the commonly used instances for the default rendering
+ * etc.
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -45,7 +42,7 @@ class tao_helpers_form_FormFactory
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute renderMode
+     * The rendering mode of the form.
      *
      * @access protected
      * @var string
@@ -55,7 +52,7 @@ class tao_helpers_form_FormFactory
     // --- OPERATIONS ---
 
     /**
-     * Short description of method setRenderMode
+     * Define the rendering mode
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -70,7 +67,7 @@ class tao_helpers_form_FormFactory
     }
 
     /**
-     * Short description of method getForm
+     * Factors an instance of Form
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -115,7 +112,7 @@ class tao_helpers_form_FormFactory
     }
 
     /**
-     * Short description of method getElement
+     * Create dynamically a Form Element instance of the defined type
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -155,7 +152,7 @@ class tao_helpers_form_FormFactory
     }
 
     /**
-     * Short description of method getValidator
+     * Get an instance of a Validator
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -180,7 +177,7 @@ class tao_helpers_form_FormFactory
     }
 
     /**
-     * Short description of method getCommonActions
+     * Get the common actions: save and revert
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

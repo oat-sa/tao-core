@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/actions/form/class.Export.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 01.03.2010, 18:00:34 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * This container initialize the export form.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -22,7 +15,8 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_helpers_form_FormContainer
+ * This class provide a container for a specific form instance.
+ * It's subclasses instanciate a form and it's elements to be used as a
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
@@ -37,7 +31,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
 // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED4-constants end
 
 /**
- * Short description of class tao_actions_form_Export
+ * This container initialize the export form.
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

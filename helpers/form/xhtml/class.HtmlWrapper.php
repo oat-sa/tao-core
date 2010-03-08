@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/xhtml/class.HtmlWrapper.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 22.12.2009, 16:53:45 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * This decorator render the decorated element inside xhtml.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -22,7 +15,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_helpers_form_Decorator
+ * A decorator is an helper used for aspect oriented rendering.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
@@ -37,7 +30,7 @@ require_once('tao/helpers/form/interface.Decorator.php');
 // section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CEE-constants end
 
 /**
- * Short description of class tao_helpers_form_xhtml_HtmlWrapper
+ * This decorator render the decorated element inside xhtml.
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

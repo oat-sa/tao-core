@@ -54,7 +54,7 @@ abstract class tao_helpers_form_FormElement
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute name
+     * the name of the element
      *
      * @access protected
      * @var string
@@ -62,7 +62,7 @@ abstract class tao_helpers_form_FormElement
     protected $name = '';
 
     /**
-     * Short description of attribute value
+     * the value of the element
      *
      * @access protected
      * @var mixed
@@ -70,7 +70,7 @@ abstract class tao_helpers_form_FormElement
     protected $value = null;
 
     /**
-     * Short description of attribute attributes
+     * the list of element attributes (key/value pairs)
      *
      * @access protected
      * @var array
@@ -78,7 +78,7 @@ abstract class tao_helpers_form_FormElement
     protected $attributes = array();
 
     /**
-     * Short description of attribute widget
+     * the widget links to the element
      *
      * @access protected
      * @var string
@@ -86,7 +86,7 @@ abstract class tao_helpers_form_FormElement
     protected $widget = '';
 
     /**
-     * Short description of attribute description
+     * the element description
      *
      * @access protected
      * @var string
@@ -94,7 +94,7 @@ abstract class tao_helpers_form_FormElement
     protected $description = '';
 
     /**
-     * Short description of attribute level
+     * used to display an element regarding the others
      *
      * @access protected
      * @var int
@@ -102,7 +102,7 @@ abstract class tao_helpers_form_FormElement
     protected $level = 1;
 
     /**
-     * Short description of attribute validators
+     * The list of validators links to the elements
      *
      * @access protected
      * @var array
@@ -110,7 +110,7 @@ abstract class tao_helpers_form_FormElement
     protected $validators = array();
 
     /**
-     * Short description of attribute error
+     * the error message to display when the element validation has failed
      *
      * @access protected
      * @var string
@@ -118,7 +118,7 @@ abstract class tao_helpers_form_FormElement
     protected $error = '';
 
     /**
-     * Short description of attribute forcedValid
+     * to force the validation of the element
      *
      * @access protected
      * @var boolean
@@ -126,7 +126,7 @@ abstract class tao_helpers_form_FormElement
     protected $forcedValid = false;
 
     /**
-     * Short description of attribute unit
+     * add a unit to the element (only for rendering purposes)
      *
      * @access protected
      * @var string

@@ -3,14 +3,8 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/class.Validator.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 22.12.2009, 16:53:44 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * The validators enable you to perform a validation callback on a form element.
+ * It's provide a model of validation and must be overriden.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -37,7 +31,8 @@ require_once('tao/helpers/form/class.FormElement.php');
 // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001B73-constants end
 
 /**
- * Short description of class tao_helpers_form_Validator
+ * The validators enable you to perform a validation callback on a form element.
+ * It's provide a model of validation and must be overriden.
  *
  * @abstract
  * @access public

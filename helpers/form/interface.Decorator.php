@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/interface.Decorator.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 22.12.2009, 16:53:44 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * A decorator is an helper used for aspect oriented rendering.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -45,7 +38,7 @@ require_once('tao/helpers/form/class.Form.php');
 // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001951-constants end
 
 /**
- * Short description of class tao_helpers_form_Decorator
+ * A decorator is an helper used for aspect oriented rendering.
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

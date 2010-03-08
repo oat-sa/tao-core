@@ -65,7 +65,7 @@ class tao_helpers_form_GenerisFormFactory
     protected static $forms = array();
 
     /**
-     * Short description of attribute MODE_SOFT
+     * Software mode: when the form is used as a component of the application
      *
      * @access public
      * @var int
@@ -73,7 +73,7 @@ class tao_helpers_form_GenerisFormFactory
     const MODE_SOFT = 2;
 
     /**
-     * Short description of attribute MODE_STANDALONE
+     * Standalone mode: when the form is used as a standalone component
      *
      * @access public
      * @var int
@@ -81,7 +81,7 @@ class tao_helpers_form_GenerisFormFactory
     const MODE_STANDALONE = 3;
 
     /**
-     * Short description of attribute mode
+     * the form mode (MODE_SOFT or MODE_STANDALONE)
      *
      * @access protected
      * @var int
@@ -291,7 +291,9 @@ class tao_helpers_form_GenerisFormFactory
     }
 
     /**
-     * Short description of method searchInstancesEditor
+     * Create a form to search instances of the Class in parameter.
+     * The form is composed by the Class properties (and subclasses if recursive
+     * set)
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -512,7 +514,7 @@ class tao_helpers_form_GenerisFormFactory
     }
 
     /**
-     * Short description of method propertyEditor
+     * Create a form from a Property
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -551,7 +553,8 @@ class tao_helpers_form_GenerisFormFactory
     }
 
     /**
-     * Short description of method simplePropertyEditor
+     * Edit a property with some shortcuts for the range, the widgets, etc.
+     * It creates an easy to use form, but it's limited in terms of features
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -691,7 +694,9 @@ class tao_helpers_form_GenerisFormFactory
     }
 
     /**
-     * Short description of method advancedPropertyEditor
+     * Edit a property. It creates a form with all the attributes to edit a
+     * the domain, the range, the widget, etc.
+     * This editor is more flexible because you can edit the Property
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -840,7 +845,9 @@ class tao_helpers_form_GenerisFormFactory
     }
 
     /**
-     * Short description of method getClassProperties
+     * Enable you to get the properties of a class. 
+     * The advantage of this method is to limit the level of recusrivity in the
+     * It get the properties up to the defined top class
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -933,7 +940,7 @@ class tao_helpers_form_GenerisFormFactory
     }
 
     /**
-     * Short description of method getPropertyProperties
+     * Get the properties of the rdfs Property class
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -975,7 +982,8 @@ class tao_helpers_form_GenerisFormFactory
     }
 
     /**
-     * Short description of method getPropertyMap
+     * Returnn the map between the Property properties: range, widget, etc. to
+     * shorcuts for the simplePropertyEditor
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -1036,7 +1044,7 @@ class tao_helpers_form_GenerisFormFactory
     }
 
     /**
-     * Short description of method setMode
+     * Define the app mode
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -1053,7 +1061,7 @@ class tao_helpers_form_GenerisFormFactory
 		
 		self::$mode = $mode;
         
-		// section 127-0-1-1-4e0e5d33:126dbe320ca:-8000:0000000000001EAB end
+        // section 127-0-1-1-4e0e5d33:126dbe320ca:-8000:0000000000001EAB end
     }
 
 } /* end of class tao_helpers_form_GenerisFormFactory */

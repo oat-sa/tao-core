@@ -69,7 +69,7 @@ abstract class tao_helpers_form_Form
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute name
+     * the form name
      *
      * @access protected
      * @var string
@@ -77,7 +77,7 @@ abstract class tao_helpers_form_Form
     protected $name = '';
 
     /**
-     * Short description of attribute elements
+     * the list of element composing the form
      *
      * @access protected
      * @var array
@@ -85,7 +85,7 @@ abstract class tao_helpers_form_Form
     protected $elements = array();
 
     /**
-     * Short description of attribute actions
+     * the actions of the form by context
      *
      * @access protected
      * @var array
@@ -93,7 +93,7 @@ abstract class tao_helpers_form_Form
     protected $actions = array();
 
     /**
-     * Short description of attribute valid
+     * if the form is valid or not
      *
      * @access protected
      * @var boolean
@@ -101,7 +101,7 @@ abstract class tao_helpers_form_Form
     protected $valid = false;
 
     /**
-     * Short description of attribute submited
+     * if the form has been submited or not
      *
      * @access protected
      * @var boolean
@@ -109,7 +109,7 @@ abstract class tao_helpers_form_Form
     protected $submited = false;
 
     /**
-     * Short description of attribute groups
+     * It represents the logicall groups
      *
      * @access protected
      * @var array
@@ -117,7 +117,7 @@ abstract class tao_helpers_form_Form
     protected $groups = array();
 
     /**
-     * Short description of attribute decorators
+     * The list of Decorator linked to the form
      *
      * @access protected
      * @var array
@@ -125,7 +125,7 @@ abstract class tao_helpers_form_Form
     protected $decorators = array();
 
     /**
-     * Short description of attribute options
+     * The form's options
      *
      * @access protected
      * @var array
@@ -152,7 +152,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method setName
+     * set the form name
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -169,7 +169,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method getName
+     * Get the form name
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -189,7 +189,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method setOptions
+     * set the form options
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -206,7 +206,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method getElement
+     * get an element of the form identified by it's name
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -232,7 +232,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method getElements
+     * get all the form elements
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -252,7 +252,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method setElements
+     * Define the list of form elements
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -269,7 +269,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method removeElement
+     * Remove an element identified by it's name.
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -301,7 +301,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method addElement
+     * Add an element to the form
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -321,7 +321,8 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method setActions
+     * Define the form actions for a context.
+     * The different contexts are top and bottom.
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -346,7 +347,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method getActions
+     * Get the defined actions for a context
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -369,7 +370,9 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method setDecorator
+     * Set the decorator of the type defined in parameter.
+     * The different types are element, error, group.
+     * By default it uses the element decorator.
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -387,7 +390,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method setDecorators
+     * Set the form decorators
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -406,7 +409,9 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method getDecorator
+     * Get the decorator of the type defined in parameter.
+     * The different types are element, error, group.
+     * By default it uses the element decorator.
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -528,7 +533,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method renderActions
+     * render the form actions by context
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -596,7 +601,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method hasFileUpload
+     * Check if the form contains a file upload element
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -639,7 +644,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method isSubmited
+     * Enables you to know if the form has been submited
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -657,7 +662,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method setValues
+     * Update manually the values of the form
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -688,7 +693,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Enables you to know if the form has been submited
+     * Get the current values of the form
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -718,7 +723,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method getValue
+     * get the current value of the element identified by the name in parameter
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -741,7 +746,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method createGroup
+     * Create a logical group of elements
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -761,7 +766,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method addToGroup
+     * add an element to a group
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -785,7 +790,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method getElementGroup
+     * get the group where is an element
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -809,7 +814,7 @@ abstract class tao_helpers_form_Form
     }
 
     /**
-     * Short description of method removeGroup
+     * remove the group identified by the name in parameter
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

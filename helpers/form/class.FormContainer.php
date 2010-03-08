@@ -3,14 +3,8 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/class.FormContainer.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 07.01.2010, 16:10:20 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * This class provide a container for a specific form instance.
+ * It's subclasses instanciate a form and it's elements to be used as a
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -45,7 +39,8 @@ require_once('tao/helpers/form/class.Form.php');
 // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCE-constants end
 
 /**
- * Short description of class tao_helpers_form_FormContainer
+ * This class provide a container for a specific form instance.
+ * It's subclasses instanciate a form and it's elements to be used as a
  *
  * @abstract
  * @access public
@@ -117,7 +112,7 @@ abstract class tao_helpers_form_FormContainer
     }
 
     /**
-     * Short description of method getForm
+     * get the form instance
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -137,7 +132,8 @@ abstract class tao_helpers_form_FormContainer
     }
 
     /**
-     * Short description of method initForm
+     * Must be overriden and must instanciate the form instance and put it in
+     * form attribute
      *
      * @abstract
      * @access protected
@@ -147,7 +143,7 @@ abstract class tao_helpers_form_FormContainer
     protected abstract function initForm();
 
     /**
-     * Short description of method initElements
+     * Used to create the form elements and bind them to the form instance
      *
      * @abstract
      * @access protected

@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/actions/form/class.Settings.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 07.01.2010, 16:02:27 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * This container initialize the settings form.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -22,7 +15,8 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_helpers_form_FormContainer
+ * This class provide a container for a specific form instance.
+ * It's subclasses instanciate a form and it's elements to be used as a
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
@@ -37,7 +31,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
 // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF1-constants end
 
 /**
- * Short description of class tao_actions_form_Settings
+ * This container initialize the settings form.
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

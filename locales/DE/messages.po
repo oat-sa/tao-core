@@ -17,7 +17,7 @@ msgid "CSV Options"
 msgstr "CSV-Optionen"
 
 msgid "Add the source file"
-msgstr "Quelldatei hinzufÃ¼gen"
+msgstr "Quelldatei hinzufügen"
 
 msgid "Upload CSV File"
 msgstr "CSV-Datei uploaden"
@@ -29,10 +29,10 @@ msgid "Import data"
 msgstr "Daten importieren"
 
 msgid "Translation saved"
-msgstr "Ãbersetzung gespeichert"
+msgstr "Übersetzung gespeichert"
 
 msgid "Translate"
-msgstr "Ãbersetzen"
+msgstr "Übersetzen"
 
 msgid "Search"
 msgstr "Suchen"
@@ -56,25 +56,25 @@ msgid "edit"
 msgstr "bearbeiten"
 
 msgid "Please confirm user deletion"
-msgstr "Wollen Sie den Benutzer wirklich lÃ¶schen?"
+msgstr "Wollen Sie den Benutzer wirklich löschen?"
 
 msgid "Delete user"
-msgstr "Benutzer lÃ¶schen"
+msgstr "Benutzer löschen"
 
 msgid "delete"
-msgstr "lÃ¶schen"
+msgstr "löschen"
 
 msgid "An error occured during user deletion"
-msgstr "Ein Fehler ist wÃ¤hrend dem LÃ¶schvorgang aufgetreten"
+msgstr "Ein Fehler ist während dem Löschvorgang aufgetreten"
 
 msgid "User deleted successfully"
-msgstr "Benutzer erfolgreich gelÃ¶scht"
+msgstr "Benutzer erfolgreich gelöscht"
 
 msgid "User added"
-msgstr "Benutzer hinzugefÃ¼gt"
+msgstr "Benutzer hinzugefügt"
 
 msgid "Add a user"
-msgstr "Benutzer hinzufÃ¼gen"
+msgstr "Benutzer hinzufügen"
 
 msgid "User saved"
 msgstr "Benutzer gespeichert"
@@ -83,7 +83,7 @@ msgid "Edit a user"
 msgstr "Einen Benutzer bearbeiten"
 
 msgid "Unable to restore default user"
-msgstr "Wiederherstellen des Default-Benutzers nicht mÃ¶glich"
+msgstr "Wiederherstellen des Default-Benutzers nicht möglich"
 
 msgid "User restored successfully"
 msgstr "Benutzer erfolgreich wiederhergestellt"
@@ -125,7 +125,7 @@ msgid "Repeat new password"
 msgstr "Neues Passwort wiederholen"
 
 msgid "Change your password"
-msgstr "Passwort Ã¤ndern"
+msgstr "Passwort ändern"
 
 msgid "FirstName"
 msgstr "Vorname"
@@ -152,19 +152,19 @@ msgid "Save"
 msgstr "Speichern"
 
 msgid "Revert"
-msgstr "RÃ¼ckgÃ¤ngig"
+msgstr "Rückgängig"
 
 msgid "Current language"
 msgstr "Aktuelle Sprache"
 
 msgid "Translate to"
-msgstr "Ãbersetzen auf"
+msgstr "Übersetzen auf"
 
 msgid "Select a language"
-msgstr "Sprache auswÃ¤hlen"
+msgstr "Sprache auswählen"
 
 msgid "Translation parameters"
-msgstr "Ãbersetzungsparameter"
+msgstr "Übersetzungsparameter"
 
 msgid "Filtering mode"
 msgstr "Filtermodus"
@@ -188,10 +188,10 @@ msgid "Filters"
 msgstr "Filter"
 
 msgid "Add property"
-msgstr "Eigenschaft hinzufÃ¼gen"
+msgstr "Eigenschaft hinzufügen"
 
 msgid "Add a new property"
-msgstr "Neue Eigenschaft hinzufÃ¼gen"
+msgstr "Neue Eigenschaft hinzufügen"
 
 msgid "Class"
 msgstr "Klasse"
@@ -203,22 +203,22 @@ msgid "Property"
 msgstr "Eigenschaft"
 
 msgid "You cannot modify this property"
-msgstr "Sie kÃ¶nnen diese Eigenschaft nicht Ã¤ndern"
+msgstr "Sie können diese Eigenschaft nicht ändern"
 
 msgid "Type"
 msgstr "Typ"
 
 msgid "select"
-msgstr "AuswÃ¤hlen"
+msgstr "Auswählen"
 
 msgid "List values"
 msgstr "Werte auflisten"
 
 msgid "Add / Edit lists"
-msgstr "Listen hinzufÃ¼gen/bearbeiten"
+msgstr "Listen hinzufügen/bearbeiten"
 
 msgid "Delete property"
-msgstr "Eigenschaft lÃ¶schen"
+msgstr "Eigenschaft löschen"
 
 msgid "Range"
 msgstr "Umfang"
@@ -251,16 +251,16 @@ msgid "AUTHORING TOOL"
 msgstr "AUTORENWERKZEUG"
 
 msgid "Invalid file type!"
-msgstr "UngÃ¼ltiger Dateityp"
+msgstr "Ungültiger Dateityp"
 
 msgid "Invalid file size"
-msgstr "UngÃ¼ltige DateigrÃ¶Ãe"
+msgstr "Ungültige Dateigröße"
 
 msgid "The uploaded file is too large"
-msgstr "Die hochgeladene Datei ist zu groÃ"
+msgstr "Die hochgeladene Datei ist zu groß"
 
 msgid "Invalid field length"
-msgstr "UngÃ¼ltige FeldlÃ¤nge"
+msgstr "Ungültige Feldlänge"
 
 msgid "This field is too short"
 msgstr "Dieses Feld ist zu klein"
@@ -272,16 +272,16 @@ msgid "This field must not be empty"
 msgstr "Dieses Feld darf nicht leer sein"
 
 msgid "Password are not matching"
-msgstr "UngÃ¼ltiges Passwort"
+msgstr "Ungültiges Passwort"
 
 msgid "The format of this field is not valid."
-msgstr "Das Format dieses Feldes ist ungÃ¼ltig"
+msgstr "Das Format dieses Feldes ist ungültig"
 
 msgid "Add subclass"
-msgstr "Subklasse hinzufÃ¼gen"
+msgstr "Subklasse hinzufügen"
 
 msgid "Add "
-msgstr "HinzufÃ¼gen"
+msgstr "Hinzufügen"
 
 msgid "Duplicate"
 msgstr "Duplizieren"
@@ -290,13 +290,13 @@ msgid "Remove"
 msgstr "Entfernen"
 
 msgid "Please confirm deletion"
-msgstr "MÃ¶chten Sie wirklich lÃ¶schen?"
+msgstr "Möchten Sie wirklich löschen?"
 
 msgid "Selection saved successfully"
 msgstr "Auswahl erfolgreich gespeichert"
 
 msgid "Please confirm property deletion!"
-msgstr "MÃ¶chten Sie die Eigenschaft wirklich lÃ¶schen?"
+msgstr "Möchten Sie die Eigenschaft wirklich löschen?"
 
 msgid "Right click the tree to manage your lists"
 msgstr "Zur Verwaltung der Listen klicken Sie bitte mit der rechten Maustaste auf den Baum"
@@ -317,7 +317,7 @@ msgid "TAO Backend Tool"
 msgstr "TAO Backend Werkzueg"
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
-msgstr "Diese Software benÃ¶tigt Javascript. Bitte aktivieren Sie es in Ihrem Browser."
+msgstr "Diese Software benötigt Javascript. Bitte aktivieren Sie es in Ihrem Browser."
 
 msgid "Home"
 msgstr "Home"
@@ -347,7 +347,7 @@ msgid "Search results"
 msgstr "Ergebnisse suchen"
 
 msgid "Open"
-msgstr "Ãffnen"
+msgstr "Öffnen"
 
 msgid "My settings"
 msgstr "Meine Einstellungen"
@@ -356,28 +356,16 @@ msgid "Filter"
 msgstr "Filter"
 
 msgid "Open all"
-msgstr "Alles Ã¶ffnen"
+msgstr "Alles öffnen"
 
 msgid "Close all"
-msgstr "Alles schlieÃen"
+msgstr "Alles schließen"
 
 msgid "Back"
-msgstr "ZurÃ¼ck"
+msgstr "Zurück"
 
 msgid "Restore default user"
 msgstr "Default-Benutzer wiederherstellen"
-
-msgid "EN"
-msgstr "Englisch"
-
-msgid "FR"
-msgstr "FranzÃ¶sisch"
-
-msgid "DE"
-msgstr "Deutsch"
-
-msgid "LU"
-msgstr "Luxemburgisch"
 
 msgid "Campaign Class saved"
 msgstr "Klasse \"Kampagne\" gespeichert"
@@ -437,7 +425,7 @@ msgid "new delivery"
 msgstr "neues Delivery"
 
 msgid "delete"
-msgstr "lÃ¶schen"
+msgstr "löschen"
 
 msgid "duplicate"
 msgstr "duplizieren"
@@ -509,22 +497,22 @@ msgid "IF"
 msgstr "IF"
 
 msgid "create new activity"
-msgstr "neue AktivitÃ¤t erstellen"
+msgstr "neue Aktivität erstellen"
 
 msgid "create new connector"
 msgstr "neuen Konnektor erstellen"
 
 msgid "Activity or Connector"
-msgstr "AktivitÃ¤t oder Konnektor"
+msgstr "Aktivität oder Konnektor"
 
 msgid "Activity"
-msgstr "AktivitÃ¤t"
+msgstr "Aktivität"
 
 msgid "Connector"
 msgstr "Konnektor"
 
 msgid "Process Activities"
-msgstr "Prozess-AktivitÃ¤ten"
+msgstr "Prozess-Aktivitäten"
 
 msgid "Property"
 msgstr "Eigenschaften"
@@ -548,43 +536,43 @@ msgid "(still undefined)"
 msgstr "(noch immer undefiniert)"
 
 msgid "Please confirm deletion"
-msgstr "Wollen Sie wirklich lÃ¶schen?"
+msgstr "Wollen Sie wirklich löschen?"
 
 msgid "Please confirm deletion? warning: the related connectors may be affected"
-msgstr "Wollen Sie wirklich lÃ¶schen? Warnung: die abhÃ¤ngigen Konnektoren kÃ¶nnen betroffen sein"
+msgstr "Wollen Sie wirklich löschen? Warnung: die abhängigen Konnektoren können betroffen sein"
 
 msgid "Select delivery campaign"
-msgstr "Delivery-Kampagne auswÃ¤hlen"
+msgstr "Delivery-Kampagne auswählen"
 
 msgid "Save"
 msgstr "Speichern"
 
 msgid "Select delivery"
-msgstr "Delivery auswÃ¤hlen"
+msgstr "Delivery auswählen"
 
 msgid "The Delivery module allows users to define tests delivery parameters."
 msgstr "Das Delivery-Modul erlaubt Benutzern, die Definition der Test-Delivery-Parameter,"
 
 msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
-msgstr "Dieser Bereich der Deliver-Verwaltung ermÃ¶glicht das HinzufÃ¼gen und LÃ¶schen von Deliveries und die Bearbeitung deren Eigenschaftswerte"
+msgstr "Dieser Bereich der Deliver-Verwaltung ermöglicht das Hinzufügen und Löschen von Deliveries und die Bearbeitung deren Eigenschaftswerte"
 
 msgid "Campaign"
 msgstr "Kampagne"
 
 msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
-msgstr "der Bereich der Kampagnen-Verwaltung erlaubt das HinzufÃ¼gen, Bearbeiten und Zuweisen von Deliveries zu Delivery-Kampagnen"
+msgstr "der Bereich der Kampagnen-Verwaltung erlaubt das Hinzufügen, Bearbeiten und Zuweisen von Deliveries zu Delivery-Kampagnen"
 
 msgid "Result Server"
 msgstr "Ergebnis-Server"
 
 msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "Der Bereich der Ergebnis-Server-Verwaltung erlaubt das HinzufÃ¼gen, Bearbeiten und Zuweisen von Delivery-Ergebnis-Servern zu Deliveries."
+msgstr "Der Bereich der Ergebnis-Server-Verwaltung erlaubt das Hinzufügen, Bearbeiten und Zuweisen von Delivery-Ergebnis-Servern zu Deliveries."
 
 msgid "Please select a delivery before authoring it!"
-msgstr "Bitte wÃ¤hlen Sie ein Delivery vor dem Bearbeiten"
+msgstr "Bitte wählen Sie ein Delivery vor dem Bearbeiten"
 
 msgid "Back"
-msgstr "ZurÃ¼ck"
+msgstr "Zurück"
 
 msgid "Formal Parameter"
 msgstr "Formale Parameter"
@@ -596,7 +584,7 @@ msgid "Process Variables"
 msgstr "Prozess Variablen"
 
 msgid "Activity Editor"
-msgstr "AktivitÃ¤ten Editor"
+msgstr "Aktivitäten Editor"
 
 msgid "Process Property"
 msgstr "Prozess-Eigenschaft"
@@ -623,26 +611,13 @@ msgid "Filter"
 msgstr "Filter"
 
 msgid "Open all"
-msgstr "Alles Ã¶ffnen"
+msgstr "Alles öffnen"
 
 msgid "Close all"
-msgstr "Alles schlieÃen"
+msgstr "Alles schließen"
 
 msgid "Select testees to be <b>excluded</b>"
 msgstr "Markieren Sie die Testpersonen, die <b>ausgeschlossen</b> werden sollen."
-
-msgid "EN"
-msgstr "Englisch"
-
-msgid "FR"
-msgstr "FranzÃ¶sisch"
-
-msgid "DE"
-msgstr "Deutsch"
-
-msgid "LU"
-msgstr "Luxemburgisch"
-
 
 msgid "Class saved"
 msgstr "Klasse gespeichert"
@@ -707,23 +682,11 @@ msgstr "Speichern"
 msgid "Select group test"
 msgstr "Test der Gruppe markieren"
 
-msgid "EN"
-msgstr "Englisch"
-
-msgid "FR"
-msgstr "Französisch"
-
-msgid "DE"
-msgstr "Deutsch"
-
-msgid "LU"
-msgstr "Luxemburgisch"
-
 msgid "Item saved"
 msgstr "Item gespeichert"
 
 msgid "Preview not yet available"
-msgstr "Vorschau noch nicht verfÃ¼gbar"
+msgstr "Vorschau noch nicht verfügbar"
 
 msgid "Edit Item"
 msgstr "Item bearbeiten"
@@ -735,7 +698,7 @@ msgid "Edit a class"
 msgstr "Klasse bearbeiten"
 
 msgid "An error occured while saving the item"
-msgstr "Ein Fehler ist wÃ¤hrend des Speicherns des Items aufgetreten"
+msgstr "Ein Fehler ist während des Speicherns des Items aufgetreten"
 
 msgid "Item saved successfully"
 msgstr "Item erfolgreich gespeichert"
@@ -759,7 +722,7 @@ msgid "new item"
 msgstr "neues Item"
 
 msgid "delete"
-msgstr "lÃ¶schen"
+msgstr "löschen"
 
 msgid "duplicate"
 msgstr "duplizieren"
@@ -789,7 +752,7 @@ msgid "Please select an item before!"
 msgstr "Bitte Item markieren!"
 
 msgid "Back"
-msgstr "ZurÃ¼ck"
+msgstr "Zurück"
 
 msgid "Preview"
 msgstr "Vorschau"
@@ -798,22 +761,10 @@ msgid "PREVIEW BOX"
 msgstr "VORSCHAU BOX"
 
 msgid "The Item module enables the creation and design of items and exercises."
-msgstr "Das Item-Modul ermÃ¶glicht das Erstellen und Entwickeln von Items und Ãbungen."
+msgstr "Das Item-Modul ermöglicht das Erstellen und Entwickeln von Items und Übungen."
 
 msgid "A series of different templates are provided to the Item authors such as multiple choice questions, puzzle design, text with gaps, etc."
-msgstr "Verschiedene Templates werden dem Item-Autoren zur VerfÃ¼gung gestellt, wie z.B. Multiple-Choice-Fragen, Puzzle-Entwurf, LÃ¼ckentexte, etc."
-
-msgid "EN"
-msgstr "Englisch"
-
-msgid "FR"
-msgstr "FranzÃ¶sisch"
-
-msgid "DE"
-msgstr "Deutsch"
-
-msgid "LU"
-msgstr "Luxemburgisch"
+msgstr "Verschiedene Templates werden dem Item-Autoren zur Verfügung gestellt, wie z.B. Multiple-Choice-Fragen, Puzzle-Entwurf, Lückentexte, etc."
 
 msgid "Result saved"
 msgstr "Ergebnis gespeichert"
@@ -871,18 +822,6 @@ msgstr "Diese Modul stellt den letzten Schritt dar."
 
 msgid "All results of passed Tests with their referring Subject, Group and Item specific data, as well as the individual data collected during Test execution are stored and managed here."
 msgstr "Hier werden alle Ergebnisse durchlaufener Tests mit den dazugehörigen spezifischen Daten der Testpersonen, Gruppen und Items, sowie die individuelle Datenerhebung während des Testdurchlaufs gespeichert und verwaltet."
-
-msgid "EN"
-msgstr "Englisch"
-
-msgid "FR"
-msgstr "Französisch"
-
-msgid "DE"
-msgstr "Deutsch"
-
-msgid "LU"
-msgstr "Luxemburgisch"
 
 msgid "Subject saved"
 msgstr "Testperson gespeichert"
@@ -950,18 +889,6 @@ msgstr "Die Flexibilität erlaubt das Entwerfen von individuellen Datensätzen (
 msgid "Testees may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
 msgstr "Testpersonen können entsprechend dem relevanten Assessment-Kontext (Personalverwaltung, Bildung, Edumetrisches Monitoring usw,) zusammengefasst werden."
 
-msgid "EN"
-msgstr "Englisch"
-
-msgid "FR"
-msgstr "Französisch"
-
-msgid "DE"
-msgstr "Deutsch"
-
-msgid "LU"
-msgstr "Luxemburgisch"
-
 msgid "Test saved"
 msgstr "Test gespeichert"
 
@@ -981,7 +908,7 @@ msgid "Test parameters"
 msgstr "Test-Parameter"
 
 msgid "An error occured while saving the test"
-msgstr "Ein Fehler ist wÃ¤hrend des Speicherns des Tests aufgetreten"
+msgstr "Ein Fehler ist während des Speicherns des Tests aufgetreten"
 
 msgid "Test saved successfully"
 msgstr "Test erfolgreich gespeichert"
@@ -1002,13 +929,13 @@ msgid "Sequencial"
 msgstr "Sequenziell"
 
 msgid "Random"
-msgstr "ZufÃ¤llig"
+msgstr "Zufällig"
 
 msgid "Maxfisher"
 msgstr "Maxfisher"
 
 msgid "Delay"
-msgstr "VerzÃ¶gerung"
+msgstr "Verzögerung"
 
 msgid "g2"
 msgstr "g2"
@@ -1089,10 +1016,10 @@ msgid "Darstellung"
 msgstr ""
 
 msgid "Display items list during the test"
-msgstr "Item-Liste wÃ¤hrend des Tests anzeigen"
+msgstr "Item-Liste während des Tests anzeigen"
 
 msgid "Show a progress bar during the test"
-msgstr "Fortschrittsbalken wÃ¤hrend des Tests anzeigen"
+msgstr "Fortschrittsbalken während des Tests anzeigen"
 
 msgid "Display label"
 msgstr "Label anzeigen"
@@ -1101,7 +1028,7 @@ msgid "Display comments"
 msgstr "Kommentar anzeigen"
 
 msgid "Deactivate back button"
-msgstr "ZurÃ¼ck-Button deaktivieren"
+msgstr "Zurück-Button deaktivieren"
 
 msgid "Test content (top position)"
 msgstr "Test-Content (Position oben)"
@@ -1122,10 +1049,10 @@ msgid "Progressbar (left position)"
 msgstr "Fortschrittsbalken (Position links)"
 
 msgid "Left button image"
-msgstr "Grafik fÃ¼r ZurÃ¼ck-Button"
+msgstr "Grafik für Zurück-Button"
 
 msgid "Right button image"
-msgstr "Grafik fÃ¼r Weiter-Button"
+msgstr "Grafik für Weiter-Button"
 
 msgid "Tests"
 msgstr "Tests"
@@ -1146,7 +1073,7 @@ msgid "new test"
 msgstr "neuer Test"
 
 msgid "delete"
-msgstr "lÃ¶schen"
+msgstr "löschen"
 
 msgid "duplicate"
 msgstr "duplizieren"
@@ -1161,7 +1088,7 @@ msgid "preview"
 msgstr "Vorschau"
 
 msgid "meta data"
-msgstr "Meat-Daten"
+msgstr "Meta-Daten"
 
 msgid "create table"
 msgstr "Tabelle erstellen"
@@ -1179,7 +1106,7 @@ msgid "Please select an test before!"
 msgstr "Bitte markieren Sie einen Test"
 
 msgid "Back"
-msgstr "ZurÃ¼ck"
+msgstr "Zurück"
 
 msgid "The Test module allows to combine a selection of Items to a Test."
 msgstr "Das Test-Modul erlaubt das Zusammenfassen von Items zu Tests."
@@ -1188,7 +1115,7 @@ msgid "The Test mode (sequencing, scoring, cumulating, etc.) and layout are also
 msgstr "Test-Modus (Sequenzierung, Scoring, Kumulierung, etc.) und Layout werden ebenfalls hier festgelegt."
 
 msgid "Select related items"
-msgstr "Items auswÃ¤hlen"
+msgstr "Items auswählen"
 
 msgid "Save"
 msgstr "Speichern"
@@ -1233,7 +1160,7 @@ msgid "Sequence saved"
 msgstr "Reihenfolge gespeichert"
 
 msgid "An error occured while saving the sequence"
-msgstr "Ein Fehler ist wÃ¤hrend des Speicherns der Reihenfolge aufgetreten"
+msgstr "Ein Fehler ist während des Speicherns der Reihenfolge aufgetreten"
 
 msgid "Test Preview"
 msgstr "Test-Vorschau"
@@ -1254,7 +1181,7 @@ msgid "EN"
 msgstr "Englisch"
 
 msgid "FR"
-msgstr "FranzÃ¶sisch"
+msgstr "Französisch"
 
 msgid "DE"
 msgstr "Deutsch"
