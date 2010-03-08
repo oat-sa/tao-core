@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/class.Array.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 20.01.2010, 11:18:30 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * Utility class on Arrays
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -30,7 +23,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section 127-0-1-1-1eeb40:1264b38a9fa:-8000:0000000000001E16-constants end
 
 /**
- * Short description of class tao_helpers_Array
+ * Utility class on Arrays
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

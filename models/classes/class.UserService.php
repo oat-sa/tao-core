@@ -89,7 +89,7 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method setUserLanguage
+     * set the language for the user identified by the login in parameter
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -120,7 +120,7 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method getUserLanguage
+     * get the language defined for the user identified by the login in
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -148,7 +148,7 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method getDefaultLanguage
+     * get the language defined by default
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

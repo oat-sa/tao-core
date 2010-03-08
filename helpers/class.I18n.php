@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/class.I18n.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 03.02.2010, 13:59:15 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * Internationalization helper: init the translators for the right language
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -30,7 +23,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section 127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7B-constants end
 
 /**
- * Short description of class tao_helpers_I18n
+ * Internationalization helper: init the translators for the right language
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -48,9 +41,9 @@ class tao_helpers_I18n
      * Short description of attribute langCode
      *
      * @access private
-     * @var Integer
+     * @var string
      */
-    private static $langCode = null;
+    private static $langCode = '';
 
     // --- OPERATIONS ---
 

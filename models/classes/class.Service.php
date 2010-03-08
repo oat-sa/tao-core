@@ -127,7 +127,7 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method searchInstances
+     * serach the instances matching the filters in parameters
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -369,7 +369,7 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method cloneInstance
+     * duplicate a resource
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -529,7 +529,7 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method getTranslatedProperties
+     * get the properties of an instance for a specific language
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -578,7 +578,7 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method setTranslatedProperties
+     * set the properties of an instance for a specific language
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

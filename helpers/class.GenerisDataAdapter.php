@@ -3,14 +3,9 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/class.GenerisDataAdapter.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 02.03.2010, 13:54:17 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * This class enables you to manage interfaces with data. 
+ * It provides the default prototype to adapt the data import/export from/to any
+ * format.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -30,7 +25,9 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001C8F-constants end
 
 /**
- * Short description of class tao_helpers_GenerisDataAdapter
+ * This class enables you to manage interfaces with data. 
+ * It provides the default prototype to adapt the data import/export from/to any
+ * format.
  *
  * @abstract
  * @access public
@@ -177,7 +174,7 @@ abstract class tao_helpers_GenerisDataAdapter
     }
 
     /**
-     * Short description of method import
+     * import prototype
      *
      * @abstract
      * @access public
@@ -189,7 +186,7 @@ abstract class tao_helpers_GenerisDataAdapter
     public abstract function import($source,  core_kernel_classes_Class $destination);
 
     /**
-     * Short description of method export
+     * export prototype
      *
      * @abstract
      * @access public

@@ -3,16 +3,9 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/class.Display.php
+ * Utility of display methods
  *
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 05.11.2009, 13:58:12 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
- *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -33,10 +26,10 @@ function _clean($input){
 // section 127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF8-constants end
 
 /**
- * Short description of class tao_helpers_Display
+ * Utility of display methods
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -50,10 +43,11 @@ class tao_helpers_Display
     // --- OPERATIONS ---
 
     /**
-     * Short description of method textCutter
+     * enable you to cut a long string and end it with [...] and add an hover
+     * to display the complete string on mouse over.
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string input
      * @param  int maxLength
      * @return string
@@ -75,10 +69,11 @@ class tao_helpers_Display
     }
 
     /**
-     * Short description of method textCleaner
+     * clean a text with the joker character to replace any characters that is
+     * alphanumeric
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string input
      * @param  string joker
      * @return string

@@ -3,16 +3,10 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/class.GenerisDataAdapterCsv.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 02.03.2010, 13:54:17 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * Adapter for CSV format
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @deprecated
  * @package tao
  * @subpackage helpers
  */
@@ -22,7 +16,9 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_helpers_GenerisDataAdapter
+ * This class enables you to manage interfaces with data. 
+ * It provides the default prototype to adapt the data import/export from/to any
+ * format.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
@@ -37,10 +33,11 @@ require_once('tao/helpers/class.GenerisDataAdapter.php');
 // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CAC-constants end
 
 /**
- * Short description of class tao_helpers_GenerisDataAdapterCsv
+ * Adapter for CSV format
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @deprecated
  * @package tao
  * @subpackage helpers
  */
