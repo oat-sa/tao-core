@@ -869,6 +869,7 @@ class tao_helpers_form_GenerisFormFactory
 				}
 				else{
 					$parents = $parent->getParentClasses(false);
+				
 				}
 				if(count($parents) == 0){
 					break;
@@ -879,7 +880,9 @@ class tao_helpers_form_GenerisFormFactory
 						$top = true; 
 						break;
 					}
+					
 					if($parent->uriResource == 'http://www.w3.org/2000/01/rdf-schema#Class'){
+						$top = true; 
 						continue;
 					}
 					

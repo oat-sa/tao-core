@@ -385,18 +385,6 @@ msgstr "enregistrer"
 msgid "revert"
 msgstr "annuler"
 
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "DE"
-msgstr "German"
-
-msgid "LU"
-msgstr "Luxemburgish"
-
 msgid "Class saved"
 msgstr "Classe enregistrée"
 
@@ -462,18 +450,6 @@ msgstr "Choisir le test du groupe"
 
 msgid "import"
 msgstr "importer"
-
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "DE"
-msgstr "German"
-
-msgid "LU"
-msgstr "Luxemburgish"
 
 msgid "Item saved"
 msgstr "Item enregistré"
@@ -586,18 +562,6 @@ msgstr "Modifier les commentaires de l'item"
 msgid "Save"
 msgstr "Enregistrer"
 
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "DE"
-msgstr "German"
-
-msgid "LU"
-msgstr "Luxemburgish"
-
 msgid "Result saved"
 msgstr "Résultat enregistrée"
 
@@ -657,18 +621,6 @@ msgstr "Les résultats de tous les tests passés avec les données des Sujets, G
 
 msgid "import"
 msgstr "importer"
-
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "DE"
-msgstr "German"
-
-msgid "LU"
-msgstr "Luxemburgish"
 
 msgid "Subject saved"
 msgstr "Sujet enregistrée"
@@ -738,18 +690,6 @@ msgstr "Les sujets peuvent être assignés à des ensembles selon le contexte d�
 
 msgid "import"
 msgstr "importer"
-
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "DE"
-msgstr "German"
-
-msgid "LU"
-msgstr "Luxemburgish"
 
 msgid "Test saved"
 msgstr "Test enregistré"
@@ -1039,15 +979,266 @@ msgstr "échec de compilation"
 msgid "Compiling test"
 msgstr "Compilation du test en cours"
 
+msgid "Campaign Class saved"
+msgstr "Campagne sauvegardée"
+
+msgid "Edit campaign class"
+msgstr "Editer une classe de campagne"
+
+msgid "Campaign saved"
+msgstr "Campagne sauvegardée"
+
+msgid "Edit Campaign"
+msgstr "Editer une campagne"
+
+msgid "Delivery Class saved"
+msgstr "Classe de Delivery Sauvegardée"
+
+msgid "Edit delivery class"
+msgstr "Editer une classe de Delivery"
+
+msgid "Delivery saved"
+msgstr "Delivery Sauvegardé"
+
+msgid "Edit delivery"
+msgstr "Editer un Delivery"
+
+msgid "saved"
+msgstr "sauvegardé"
+
+msgid "Result Server class saved"
+msgstr "Classe de server de résultats sauvegardée"
+
+msgid "Edit resultServer class"
+msgstr "Editer une classe de serveur de résultats"
+
+msgid "Result Server saved"
+msgstr "Server de résultat sauvegardé"
+
+msgid "Edit ResultServer"
+msgstr "Editer un serveur de résultats"
+
+msgid "Delivery"
+msgstr "Delivery"
+
+msgid "Manage deliveries"
+msgstr "Gérer les deliveries"
+
+msgid "Deliveries library"
+msgstr "Librarie de Deliveries"
+
+msgid "search"
+msgstr "Recherche"
+
+msgid "new class"
+msgstr "Nouvelle Classe"
+
+msgid "new delivery"
+msgstr "Nouveau Delivery"
+
+msgid "delete"
+msgstr "Supprimer"
+
+msgid "duplicate"
+msgstr "Dupliquer"
+
+msgid "edit delivery"
+msgstr "Editer un delivery"
+
+msgid "new property"
+msgstr "Nouveau delivery"
+
+msgid "create table"
+msgstr "Créer une table"
+
+msgid "export"
+msgstr "Exporter"
+
+msgid "compile"
+msgstr "Compiler"
+
+msgid "cache"
+msgstr "Cache"
+
+msgid "view history"
+msgstr "Voir l'historique"
+
+msgid "Manage Campaigns"
+msgstr "Gérer les campagnes"
+
+msgid "Campaigns library"
+msgstr "Librairie de campagnes"
+
+msgid "new campaign"
+msgstr "Nouvelle camapgne"
+
+msgid "edit campaign"
+msgstr "Editer une campagne"
+
+msgid "Manage Result Servers"
+msgstr "Gérer les serveurs de résultats"
+
+msgid "Result Servers library"
+msgstr "Librairie de serveurs de résultats"
+
+msgid "new result server"
+msgstr "Nouveau serveur de résultats"
+
+msgid "edit result server"
+msgstr "Editer un serveur de résultats"
+
+msgid "Delivery authoring"
+msgstr "Editer un delivery"
+
+msgid "Label"
+msgstr "Label"
+
+msgid "Service Definition"
+msgstr ""
+
+msgid "Formal Parameter IN"
+msgstr ""
+
+msgid "Formal Parameter OUT"
+msgstr ""
+
+msgid "Connector Type"
+msgstr ""
+
+msgid "IF"
+msgstr ""
+
+msgid "create new activity"
+msgstr "Créer une nouvelle activitée"
+
+msgid "create new connector"
+msgstr "Créer un nouveau connector"
+
+msgid "Activity or Connector"
+msgstr ""
+
+msgid "Activity"
+msgstr ""
+
+msgid "Connector"
+msgstr ""
+
+msgid "Process Activities"
+msgstr ""
+
+msgid "Property"
+msgstr ""
+
+msgid "undefined"
+msgstr "indéfini"
+
+msgid "If"
+msgstr ""
+
+msgid "Then"
+msgstr ""
+
+msgid "Else"
+msgstr ""
+
+msgid "type??"
+msgstr ""
+
+msgid "(still undefined)"
+msgstr "(encore indéfini)"
+
+msgid "Please confirm deletion"
+msgstr "Veuillez confirmer la suppression"
+
+msgid "Please confirm deletion? warning: the related connectors may be affected"
+msgstr "Veuillez confirmer la suppression"
+
+msgid "Select delivery campaign"
+msgstr "Selectionner une campagne de delivery"
+
+msgid "Save"
+msgstr "Sauvegarder"
+
+msgid "Select delivery"
+msgstr "Choisir un delivery"
+
+msgid "The Delivery module allows users to define tests delivery parameters."
+msgstr "Le module de delivery permet aux utilisateurs de définir les paramètres de passation de deliveries"
+
+msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
+msgstr "Cette section permet d'ajouter et de supprimer des deliveries et d'éditer leur propriétés."
+
+msgid "Campaign"
+msgstr "Campagne"
+
+msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
+msgstr "Cette section permet d'ajouter, d'éditer et d'assigner des deliveries à une campagne de delivery"
+
+msgid "Result Server"
+msgstr "Serveur de résultats"
+
+msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
+msgstr "La section permet d'ajouter, d'éditer et d'assigner des serveurs de résultats au deliveries."
+
+msgid "Please select a delivery before authoring it!"
+msgstr "Veuillez sélectionner un delivery avant de l'éditer."
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "Formal Parameter"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Process Variables"
+msgstr ""
+
+msgid "Activity Editor"
+msgstr ""
+
+msgid "Process Property"
+msgstr ""
+
+msgid "loading..."
+msgstr "Chargement..."
+
+msgid "Sure?"
+msgstr ""
+
+msgid "save"
+msgstr "Sauvegarder"
+
+msgid "reload"
+msgstr "Recharger"
+
+msgid "cancel"
+msgstr "Annuler"
+
+msgid "Use the * character to replace any string"
+msgstr "Utiliser le caractère * pour remplacer toutes les chaines de caractères"
+
+msgid "Filter"
+msgstr "Filtrer"
+
+msgid "Open all"
+msgstr "Ouvrir tout"
+
+msgid "Close all"
+msgstr "Fermer tout"
+
+msgid "Select testees to be <b>excluded</b>"
+msgstr "Sélectionner les sujets de tests à <b>exclure</b>"
+
 msgid "EN"
-msgstr "English"
+msgstr "Anglais"
 
 msgid "FR"
-msgstr "French"
+msgstr "Français"
 
 msgid "DE"
-msgstr "German"
+msgstr "Allemand"
 
 msgid "LU"
-msgstr "Luxemburgish"
-
+msgstr "Luxembourgeois"
