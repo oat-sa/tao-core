@@ -1017,12 +1017,12 @@ class tao_helpers_form_GenerisFormFactory
 				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
 			),
 			'list' => array(
-				'title' 	=> __('A simple choice list'),
+				'title' 	=> __('A single choice list'),
 				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox',
 				'range'		=> null
 			),
 			'longlist' => array(
-				'title' 	=> __('A simple choice long list'),
+				'title' 	=> __('A single choice long list'),
 				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
 				'range'		=> null
 			),
