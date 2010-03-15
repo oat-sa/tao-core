@@ -26,60 +26,60 @@
       <fontname>Dialog</fontname>
       <fontsize>12</fontsize>
       <defaultstereotypeview>0</defaultstereotypeview>
-      <activediagram>transfer services</activediagram>
+      <activediagram>Helpers</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
       <member type="profile"
-              name="Copy of tao.uml.zargo_profile.profile" />
+              name="tao.uml.zargo_profile.profile" />
       <member type="xmi"
-              name="Copy of tao.uml.zargo.xmi" />
+              name="tao.uml.zargo.xmi" />
       <member type="pgml"
-              name="Copy of tao.uml.zargo_DesigngenerisAPIoo.pgml"
+              name="tao.uml.zargo_DesigngenerisAPIoo.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Design generis API oo" />
       <member type="pgml"
-              name="Copy of tao.uml.zargo_Extension.pgml"
+              name="tao.uml.zargo_Extension.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Extension" />
       <member type="pgml"
-              name="Copy of tao.uml.zargo_deliverymodel.pgml"
+              name="tao.uml.zargo_deliverymodel.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="delivery model" />
       <member type="pgml"
-              name="Copy of tao.uml.zargo_Logger.pgml"
+              name="tao.uml.zargo_Logger.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Logger" />
       <member type="pgml"
-              name="Copy of tao.uml.zargo_CapiImport.pgml"
+              name="tao.uml.zargo_CapiImport.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Capi Import" />
       <member type="pgml"
-              name="Copy of tao.uml.zargo_RdfList.pgml"
+              name="tao.uml.zargo_RdfList.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="RdfList" />
       <member type="pgml"
-              name="Copy of tao.uml.zargo_Factory.pgml"
+              name="tao.uml.zargo_Factory.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Factory" />
       <member type="pgml"
-              name="Copy of tao.uml.zargo_transferservices.pgml"
+              name="tao.uml.zargo_transferservices.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="transfer services" />
       <member type="pgml"
-              name="Copy of tao.uml.zargo_Forms.pgml"
+              name="tao.uml.zargo_Forms.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Forms" />
       <member type="pgml"
-              name="Copy of tao.uml.zargo_Helpers.pgml"
+              name="tao.uml.zargo_Helpers.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="Helpers" />
       <member type="pgml"
-              name="Copy of tao.uml.zargo_transferforms.pgml"
+              name="tao.uml.zargo_transferforms.pgml"
               diagramclass="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram"
               diagramname="transfer forms" />
       <member type="todo"
-              name="Copy of tao.uml.zargo.todo" />
+              name="tao.uml.zargo.todo" />
     </members>
     <historyfile name="" />
   </argo>
@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Mar 15 08:59:33 CET 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Mar 15 09:29:45 CET 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.28.1(6) revised on $Date: 2007-05-12 08:08:08 +0200 (Sat, 12 May 2007) $ </XMI.exporterVersion>
