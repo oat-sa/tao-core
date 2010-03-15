@@ -66,13 +66,13 @@ UiForm = function(){
 	
 		//revert form button
 		$(".form-reverter").click(function(){
-			if ($("#uri")) {
+			
+			if ($("#uri").val() != undefined) {
 				GenerisTreeClass.selectTreeNode($("#uri").val());
 			}
-			else 
-				if ($("#classUri")) {
+			else if ($("#classUri").val() != undefined) {
 					GenerisTreeClass.selectTreeNode($("#classUri").val());
-				}
+			}
 		});
 		
 		//translate button

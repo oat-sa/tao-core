@@ -1,24 +1,10 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
-
-
+require_once dirname(__FILE__) . '/../includes/common.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
 
-/**
-* @constant login for the generis module you wish to connect to 
-*/
-define("LOGIN", "demo", true);
 
-/**
-* @constant password for the module you wish to connect to 
-*/
-define("PASS", "demo", true);
-
-/**
-* @constant module for the module you wish to connect to 
-*/
-define("MODULE", "taotrans_demo", true);
 
 /**
  * This class enable you to test the models managment of the tao extension
@@ -38,8 +24,8 @@ class ServiceTestCase extends UnitTestCase {
 	 * tests initialization
 	 */
 	public function setUp(){		
-		//connection to the API 
-		core_control_FrontController::connect(LOGIN, md5(PASS), MODULE);
+		//connect the API
+		core_control_FrontController::connect('tao', md5('tao'), DATABASE_NAME);
 	}
 	
 	/**
@@ -97,8 +83,6 @@ class ServiceTestCase extends UnitTestCase {
 			new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#Boolean'),  
 			'http://www.tao.lu/Ontologies/generis.rdf#True'
 		);
-		var_dump(new core_kernel_classes_Resource(GENERIS_TRUE));
-		var_dump( $this->taoService,$booleanTrueinstance);
 		$this->assertIsA( $booleanTrueinstance, 'core_kernel_classes_Resource');
 		$this->assertEqual( strtoupper($booleanTrueinstance->getLabel()), 'TRUE');
 			
@@ -139,19 +123,21 @@ class ServiceTestCase extends UnitTestCase {
 	}
 	
 	public function testExtensions(){
+		echo "<b>Tests to run</b>:<ul>";
 		$extensions = $this->taoService->getLoadedExtensions();
 		foreach($extensions as $extension){
-			$extTestPath = ROOT_PATH . $extension . '/test';
+			$extTestPath = ROOT_PATH . '/' . $extension . '/test';
 			if(file_exists($extTestPath)){
 				if(is_dir($extTestPath)){
 					foreach(scandir($extTestPath) as $file){
 						if(preg_match("/TestCase\.php$/", $file)){
-							echo "You can run too : <a href='".ROOT_URL.'/'.$extension. "/test/$file'>$file</a> <br>";
+							echo "<li><a href='".ROOT_URL.'/'.$extension. "/test/$file'>$extension/test/$file</a></li>";
 						}
 					}
 				}
 			}
 		}
+		echo "</ul>";
 	}
 }
 ?>
