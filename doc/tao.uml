@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Mar 15 12:47:19 CET 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Mar 15 14:34:59 CET 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.28.1(6) revised on $Date: 2007-05-12 08:08:08 +0200 (Sat, 12 May 2007) $ </XMI.exporterVersion>
@@ -22901,8 +22901,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                       </UML:GeneralizableElement.generalization>
                       <UML:Classifier.feature>
                         <UML:Attribute xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:0000000000002023'
-                          name = 'campaignClass' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                          changeability = 'changeable' targetScope = 'instance'>
+                          name = 'campaignClass' visibility = 'protected' isSpecification = 'false'
+                          ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
                             <UML:Multiplicity xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:0000000000002056'>
                               <UML:Multiplicity.range>
@@ -22911,9 +22911,16 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
                           </UML:StructuralFeature.multiplicity>
+                          <UML:Attribute.initialValue>
+                            <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002125'
+                              language = '' body = 'null'/>
+                          </UML:Attribute.initialValue>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                          </UML:StructuralFeature.type>
                         </UML:Attribute>
                         <UML:Attribute xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:000000000000202A'
-                          name = 'deliveryOntologies' visibility = 'public' isSpecification = 'false'
+                          name = 'deliveryOntologies' visibility = 'protected' isSpecification = 'false'
                           ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
                             <UML:Multiplicity xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:0000000000002048'>
@@ -22923,6 +22930,13 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
                           </UML:StructuralFeature.multiplicity>
+                          <UML:Attribute.initialValue>
+                            <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000211B'
+                              language = '' body = 'array(&apos;http://www.tao.lu/Ontologies/TAODelivery.rdf&apos;)'/>
+                          </UML:Attribute.initialValue>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                          </UML:StructuralFeature.type>
                         </UML:Attribute>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:0000000000002049'
                           name = '__construct' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
@@ -23083,7 +23097,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                       </UML:GeneralizableElement.generalization>
                       <UML:Classifier.feature>
                         <UML:Attribute xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:0000000000002159'
-                          name = 'deliveryOntologies' visibility = 'public' isSpecification = 'false'
+                          name = 'deliveryOntologies' visibility = 'protected' isSpecification = 'false'
                           ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
                             <UML:Multiplicity xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:0000000000002184'>
@@ -23093,9 +23107,16 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
                           </UML:StructuralFeature.multiplicity>
+                          <UML:Attribute.initialValue>
+                            <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002123'
+                              language = '' body = 'array(&apos;http://www.tao.lu/Ontologies/TAODelivery.rdf&apos;)'/>
+                          </UML:Attribute.initialValue>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                          </UML:StructuralFeature.type>
                         </UML:Attribute>
                         <UML:Attribute xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:0000000000002160'
-                          name = 'resultServerClass' visibility = 'public' isSpecification = 'false'
+                          name = 'resultServerClass' visibility = 'protected' isSpecification = 'false'
                           ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
                             <UML:Multiplicity xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:0000000000002188'>
@@ -23105,6 +23126,13 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
                           </UML:StructuralFeature.multiplicity>
+                          <UML:Attribute.initialValue>
+                            <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002121'
+                              language = '' body = 'null'/>
+                          </UML:Attribute.initialValue>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                          </UML:StructuralFeature.type>
                         </UML:Attribute>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:000000000000216F'
                           name = '__construct' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
@@ -23553,11 +23581,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                             </UML:Multiplicity>
                           </UML:StructuralFeature.multiplicity>
                           <UML:Attribute.initialValue>
-                            <UML:Expression xmi.id = '10-13-1-39-3f14293e:12761707112:-8000:000000000000218E'
-                              language = '' body = '&apos;&apos;'/>
+                            <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000210C'
+                              language = '' body = 'null'/>
                           </UML:Attribute.initialValue>
                           <UML:StructuralFeature.type>
-                            <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                            <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
                           </UML:StructuralFeature.type>
                         </UML:Attribute>
                         <UML:Attribute xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:0000000000002092'
@@ -24250,7 +24278,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                       </UML:GeneralizableElement.generalization>
                       <UML:Classifier.feature>
                         <UML:Attribute xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020D7'
-                          name = 'processOntologies' visibility = 'public' isSpecification = 'false'
+                          name = 'processOntologies' visibility = 'protected' isSpecification = 'false'
                           ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
                             <UML:Multiplicity xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020E8'>
@@ -24260,9 +24288,16 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
                           </UML:StructuralFeature.multiplicity>
+                          <UML:Attribute.initialValue>
+                            <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002140'
+                              language = '' body = 'array(&#10;array(&#9; &apos;http://www.tao.lu/Ontologies/TAODelivery.rdf&apos;,&#10;&#9;&apos;http://www.tao.lu/Ontologies/TAOTest.rdf&apos;,&#10;&#9;&apos;http://www.tao.lu/middleware/hyperclass.rdf&apos;,&#10;&#9;&apos;http://www.tao.lu/middleware/taoqual.rdf&apos;,&#10;&#9;&apos;http://www.tao.lu/middleware/Rules.rdf&apos;,&#10;&#9;&apos;http://www.tao.lu/middleware/Interview.rdf&apos;&#10;)'/>
+                          </UML:Attribute.initialValue>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                          </UML:StructuralFeature.type>
                         </UML:Attribute>
                         <UML:Attribute xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020DE'
-                          name = 'processUri' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          name = 'processUri' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
                           changeability = 'changeable' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
                             <UML:Multiplicity xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020EC'>
@@ -24272,6 +24307,13 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
                           </UML:StructuralFeature.multiplicity>
+                          <UML:Attribute.initialValue>
+                            <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000213E'
+                              language = '' body = '&apos;&apos;'/>
+                          </UML:Attribute.initialValue>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                          </UML:StructuralFeature.type>
                         </UML:Attribute>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020ED'
                           name = '__construct' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
@@ -24288,7 +24330,35 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           isLeaf = 'false' isAbstract = 'false'>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020F0'
-                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002156'
+                                  language = '' body = 'null'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002157'
+                              name = 'process' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002158'
+                                  language = '' body = ''/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002159'
+                              name = 'label' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000215B'
+                                  language = '' body = '&apos;&apos;'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020F1'
@@ -24297,7 +24367,35 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           isLeaf = 'false' isAbstract = 'false'>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020F2'
-                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002160'
+                                  language = '' body = 'null'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002161'
+                              name = 'activity' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002162'
+                                  language = '' body = ''/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002163'
+                              name = 'label' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002165'
+                                  language = '' body = '&apos;&apos;'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020F3'
@@ -24306,7 +24404,25 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           isLeaf = 'false' isAbstract = 'false'>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020F4'
-                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000216A'
+                                  language = '' body = 'null'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000216B'
+                              name = 'activity' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000216C'
+                                  language = '' body = ''/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020F5'
@@ -24315,7 +24431,35 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           isAbstract = 'false'>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020F6'
-                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000217F'
+                                  language = '' body = 'false'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002175'
+                              name = 'connector' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002176'
+                                  language = '' body = ''/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002180'
+                              name = 'condition' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002182'
+                                  language = '' body = '&apos;&apos;'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020F7'
@@ -24324,7 +24468,38 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           isLeaf = 'false' isAbstract = 'false'>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020F8'
-                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002183'
+                                  language = '' body = ''/>
+                              </UML:Parameter.defaultValue>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002184'
+                              name = 'connector' isSpecification = 'false'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002185'
+                              name = 'followingActivity' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002189'
+                                  language = '' body = 'null'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000218A'
+                              name = 'newActivityLabel' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000218D'
+                                  language = '' body = '&apos;&apos;'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020F9'
@@ -24334,6 +24509,52 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020FA'
                               name = 'return' isSpecification = 'false' kind = 'return'/>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000218E'
+                              name = 'connector' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000218F'
+                                  language = '' body = ''/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002190'
+                              name = 'connectorType' isSpecification = 'false'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002191'
+                              name = 'followingActivity' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002195'
+                                  language = '' body = 'null'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002196'
+                              name = 'newActivityLabel' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002199'
+                                  language = '' body = '&apos;&apos;'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000219A'
+                              name = 'followingActivityisConnector' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:00000000000021A0'
+                                  language = '' body = 'false'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020FB'
@@ -24342,7 +24563,25 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           isLeaf = 'false' isAbstract = 'false'>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020FC'
-                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:00000000000021A6'
+                                  language = '' body = 'false'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:00000000000021A7'
+                              name = 'activity' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:00000000000021A8'
+                                  language = '' body = ''/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020FD'
@@ -24351,7 +24590,25 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           isLeaf = 'false' isAbstract = 'false'>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020FE'
-                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:00000000000021AD'
+                                  language = '' body = 'false'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:00000000000021AE'
+                              name = 'callOfService' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:00000000000021AF'
+                                  language = '' body = ''/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:00000000000020FF'
@@ -24360,7 +24617,25 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           isLeaf = 'false' isAbstract = 'false'>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:0000000000002100'
-                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:00000000000021B4'
+                                  language = '' body = 'false'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:00000000000021B5'
+                              name = 'connector' isSpecification = 'false'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:00000000000021BB'
+                                  language = '' body = ''/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:0000000000002101'
@@ -24486,6 +24761,24 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           isLeaf = 'false' isAbstract = 'false'>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '10-13-1-39-5129ca57:1276133a327:-8000:000000000000211C'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000216D'
+                          name = 'newOperation' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000216E'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000216F'
+                          name = 'newOperation' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002170'
                               name = 'return' isSpecification = 'false' kind = 'return'/>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
@@ -25248,6 +25541,20 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     <UML:Expression xmi.id = '127-0-1-1--17efb1e2:1273d5deb78:-8000:0000000000001F57'
       language = '' body = ''/>
     <UML:Expression xmi.id = '10-13-1-39-3f14293e:12761707112:-8000:00000000000020B4'
+      language = '' body = ''/>
+    <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000211C'
+      language = '' body = ''/>
+    <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000211E'
+      language = '' body = ''/>
+    <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002120'
+      language = '' body = ''/>
+    <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002122'
+      language = '' body = ''/>
+    <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002124'
+      language = '' body = ''/>
+    <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:0000000000002128'
+      language = '' body = 'array(&#10;&apos;http://www.tao.lu/Ontologies/TAODelivery.rdf&apos;,&#10;&#9;&#9;&apos;http://www.tao.lu/Ontologies/TAOTest.rdf&apos;,&#10;&#9;&#9;&apos;http://www.tao.lu/middleware/hyperclass.rdf&apos;,&#10;&#9;&#9;&apos;http://www.tao.lu/middleware/taoqual.rdf&apos;,&#10;&#9;&#9;&apos;http://www.tao.lu/middleware/Rules.rdf&apos;,&#10;&#9;&#9;&apos;http://www.tao.lu/middleware/Interview.rdf&apos;&#10;&#9;&#9;)'/>
+    <UML:Expression xmi.id = '10-13-1-39--729a24e0:12761d7ce6f:-8000:000000000000213F'
       language = '' body = ''/>
     <UML:Multiplicity xmi.id = '127-0-1-1-3ed01c83:12409dc285c:-8000:000000000000196C'>
       <UML:Multiplicity.range>
@@ -27105,7 +27412,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="752"
         y="1378"
         width="111"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -27121,7 +27428,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="752"
         y="1394"
         width="123"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -27153,7 +27460,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="752"
         y="1426"
         width="183"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -27169,7 +27476,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="752"
         y="1442"
         width="232"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -27201,7 +27508,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="752"
         y="1474"
         width="335"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -27217,7 +27524,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="752"
         y="1490"
         width="345"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -27233,7 +27540,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="752"
         y="1506"
         width="290"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -27249,7 +27556,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="752"
         y="1522"
         width="121"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -27297,7 +27604,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="752"
         y="1570"
         width="102"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -28053,7 +28360,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="504"
         y="1854"
         width="228"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -28069,7 +28376,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="504"
         y="1870"
         width="193"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -28101,7 +28408,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="504"
         y="1902"
         width="186"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -28263,7 +28570,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="504"
         y="1776"
         width="166"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -28543,7 +28850,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="656"
         y="1030"
         width="349"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="192 192 192"
         stroke="0"
@@ -30091,7 +30398,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="464"
         y="186"
         width="219"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -30539,7 +30846,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="640"
         y="642"
         width="222"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -30555,7 +30862,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="640"
         y="658"
         width="222"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -30603,7 +30910,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="640"
         y="706"
         width="209"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -30979,7 +31286,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="504"
         y="1221"
         width="224"
-        height="25"
+        height="22"
         fill="0"
         fillcolor="192 192 192"
         stroke="0"
@@ -37099,7 +37406,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="1576"
         y="917"
         width="242"
-        height="25"
+        height="22"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -37819,7 +38126,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="16"
         y="1039"
         width="154"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="192 192 192"
         stroke="0"
@@ -37835,7 +38142,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="16"
         y="1055"
         width="126"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="192 192 192"
         stroke="0"
@@ -46361,7 +46668,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="8"
         y="686"
         width="204"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -46547,7 +46854,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="128"
         y="90"
         width="111"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -46563,7 +46870,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="128"
         y="106"
         width="123"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -46595,7 +46902,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="128"
         y="138"
         width="183"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -46611,7 +46918,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="128"
         y="154"
         width="232"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -46643,7 +46950,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="128"
         y="186"
         width="335"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -46659,7 +46966,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="128"
         y="202"
         width="345"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -46675,7 +46982,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="128"
         y="218"
         width="290"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -46739,7 +47046,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="128"
         y="282"
         width="102"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48458,7 +48765,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="790"
         width="192"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48474,7 +48781,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="806"
         width="603"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48490,7 +48797,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="822"
         width="556"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48506,7 +48813,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="838"
         width="312"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48522,7 +48829,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="854"
         width="296"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48538,7 +48845,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="870"
         width="338"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48554,7 +48861,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="886"
         width="411"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48570,7 +48877,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="902"
         width="368"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48586,7 +48893,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="918"
         width="691"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48602,7 +48909,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="934"
         width="157"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48618,7 +48925,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="950"
         width="360"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48634,7 +48941,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="966"
         width="441"
-        height="24"
+        height="25"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -48684,7 +48991,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="736"
         width="100"
-        height="24"
+        height="25"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -50557,7 +50864,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="856"
         y="1005"
         width="237"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
@@ -51966,7 +52273,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2034"
         width="331"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -51982,7 +52289,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2050"
         width="497"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -51998,7 +52305,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2066"
         width="313"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52014,7 +52321,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2082"
         width="249"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52030,7 +52337,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2098"
         width="246"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52046,7 +52353,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2114"
         width="111"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52062,7 +52369,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2130"
         width="434"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52078,7 +52385,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2146"
         width="220"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52094,7 +52401,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2162"
         width="245"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52110,7 +52417,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2178"
         width="269"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52126,7 +52433,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2194"
         width="430"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52142,7 +52449,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2210"
         width="252"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52158,7 +52465,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2226"
         width="279"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52174,7 +52481,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2242"
         width="245"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52190,7 +52497,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2258"
         width="246"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52206,7 +52513,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2274"
         width="362"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52222,7 +52529,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2290"
         width="292"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52238,7 +52545,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2306"
         width="222"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52254,7 +52561,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2322"
         width="329"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52270,7 +52577,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2338"
         width="339"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52286,7 +52593,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2354"
         width="421"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52302,7 +52609,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="2370"
         width="233"
-        height="24"
+        height="25"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52352,7 +52659,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="32"
         y="1968"
         width="120"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52363,12 +52670,12 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >deliveryClass : string</text>
+      >deliveryClass : Class</text>
       <text name="Fig23.4.3"
         x="32"
         y="1984"
         width="143"
-        height="24"
+        height="25"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52393,7 +52700,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
   </group>
   <group name="Fig24"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[640, 1944, 504, 480]pathVisible=true;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[640, 1944, 927, 530]pathVisible=true;stereotypeView=0;operationsVisible=true;attributesVisible=true;"
        href="10-13-1-39-5129ca57:1276133a327:-8000:0000000000002021"
        fill="1"
        fillcolor="200 255 200"
@@ -52401,21 +52708,20 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
        strokecolor="black"
   >
     <private>
-      enclosingFig="Fig22"
     </private>
     
     <rectangle name="Fig24.0"
       x="640"
       y="1944"
-      width="504"
-      height="480"
+      width="927"
+      height="530"
       fill="1"
       fillcolor="200 255 200"
       stroke="0"
       strokecolor="black"
     />
     <group name="Fig24.1"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[640, 1944, 504, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[640, 1944, 927, 0]"
          href="10-13-1-39-5129ca57:1276133a327:-8000:0000000000002021"
          fill="1"
          fillcolor="200 255 200"
@@ -52428,7 +52734,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <rectangle name="Fig24.1.0"
         x="640"
         y="1944"
-        width="504"
+        width="927"
         height="0"
         fill="1"
         fillcolor="200 255 200"
@@ -52439,7 +52745,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     <text name="Fig24.2"
       x="640"
       y="1944"
-      width="504"
+      width="927"
       height="23"
       fill="1"
       fillcolor="200 255 200"
@@ -52453,7 +52759,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >taoDelivery::models::classes::ProcessAuthoringService</text>
     <group name="Fig24.3"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[640, 2017, 504, 406]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[640, 2026, 927, 447]"
          href="10-13-1-39-5129ca57:1276133a327:-8000:0000000000002021"
          fill="1"
          fillcolor="200 255 200"
@@ -52465,9 +52771,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig24.3.0"
         x="640"
-        y="2017"
-        width="504"
-        height="406"
+        y="2026"
+        width="927"
+        height="447"
         fill="1"
         fillcolor="200 255 200"
         stroke="0"
@@ -52481,13 +52787,13 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         strokecolor="black"
       >
         <moveto x="640"
-                y="2017" />
-        <lineto x="1143"
-                y="2017" />
+                y="2026" />
+        <lineto x="1566"
+                y="2026" />
       </path>
       <text name="Fig24.3.2"
         x="640"
-        y="2018"
+        y="2027"
         width="78"
         height="16"
         fill="0"
@@ -52503,8 +52809,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >__construct()</text>
       <text name="Fig24.3.3"
         x="640"
-        y="2034"
-        width="83"
+        y="2043"
+        width="341"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -52516,11 +52822,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >createActivity()</text>
+      >createActivity(process : Resource,label : string = &apos;&apos;) : Resource</text>
       <text name="Fig24.3.4"
         x="640"
-        y="2050"
-        width="105"
+        y="2059"
+        width="353"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -52532,11 +52838,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >createConnector()</text>
+      >createConnector(activity : Resource,label : string = &apos;&apos;) : Resource</text>
       <text name="Fig24.3.5"
         x="640"
-        y="2066"
-        width="143"
+        y="2075"
+        width="304"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -52548,11 +52854,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >createInteractiveService()</text>
+      >createInteractiveService(activity : Resource) : Resource</text>
       <text name="Fig24.3.6"
         x="640"
-        y="2082"
-        width="74"
+        y="2091"
+        width="355"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -52564,11 +52870,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >createRule()</text>
+      >createRule(connector : Resource,condition : string = &apos;&apos;) : boolean</text>
       <text name="Fig24.3.7"
         x="640"
-        y="2098"
-        width="139"
+        y="2107"
+        width="588"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -52580,11 +52886,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >createSequenceActivity()</text>
+      >createSequenceActivity(connector : Resource,followingActivity : Resource = null,newActivityLabel : string = &apos;&apos;)</text>
       <text name="Fig24.3.8"
         x="640"
-        y="2114"
-        width="107"
+        y="2123"
+        width="927"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -52596,11 +52902,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >createSplitActivity()</text>
+      >createSplitActivity(connector : Resource,connectorType : string,followingActivity : Resource = null,newActivityLabel : string = &apos;&apos;,followingActivityisConnector : boolean = false)</text>
       <text name="Fig24.3.9"
         x="640"
-        y="2130"
-        width="83"
+        y="2139"
+        width="244"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -52612,12 +52918,12 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >deleteActivity()</text>
+      >deleteActivity(activity : Resource) : Resource</text>
       <text name="Fig24.3.10"
         x="640"
-        y="2146"
-        width="146"
-        height="16"
+        y="2155"
+        width="334"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52628,11 +52934,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >deleteActualParameters()</text>
+      >deleteActualParameters(callOfService : Resource) : boolean</text>
       <text name="Fig24.3.11"
         x="640"
-        y="2162"
-        width="105"
+        y="2171"
+        width="276"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -52644,10 +52950,10 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >deleteConnector()</text>
+      >deleteConnector(connector : Resource) : boolean</text>
       <text name="Fig24.3.12"
         x="640"
-        y="2178"
+        y="2187"
         width="110"
         height="16"
         fill="0"
@@ -52663,7 +52969,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >deleteExpression()</text>
       <text name="Fig24.3.13"
         x="640"
-        y="2194"
+        y="2203"
         width="95"
         height="16"
         fill="0"
@@ -52679,7 +52985,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >deleteInstance()</text>
       <text name="Fig24.3.14"
         x="640"
-        y="2210"
+        y="2219"
         width="94"
         height="16"
         fill="0"
@@ -52695,7 +53001,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >deleteProcess()</text>
       <text name="Fig24.3.15"
         x="640"
-        y="2226"
+        y="2235"
         width="74"
         height="16"
         fill="0"
@@ -52711,7 +53017,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >deleteRule()</text>
       <text name="Fig24.3.16"
         x="640"
-        y="2242"
+        y="2251"
         width="137"
         height="16"
         fill="0"
@@ -52727,7 +53033,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getActivitiesByProcess()</text>
       <text name="Fig24.3.17"
         x="640"
-        y="2258"
+        y="2267"
         width="143"
         height="16"
         fill="0"
@@ -52743,7 +53049,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getConnectorsByActivity()</text>
       <text name="Fig24.3.18"
         x="640"
-        y="2274"
+        y="2283"
         width="154"
         height="16"
         fill="0"
@@ -52759,7 +53065,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getConnectorsByProcess()</text>
       <text name="Fig24.3.19"
         x="640"
-        y="2290"
+        y="2299"
         width="78"
         height="16"
         fill="0"
@@ -52775,7 +53081,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getInstance()</text>
       <text name="Fig24.3.20"
         x="640"
-        y="2306"
+        y="2315"
         width="122"
         height="16"
         fill="0"
@@ -52791,7 +53097,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getProcessVariable()</text>
       <text name="Fig24.3.21"
         x="640"
-        y="2322"
+        y="2331"
         width="59"
         height="16"
         fill="0"
@@ -52807,7 +53113,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >isActivity()</text>
       <text name="Fig24.3.22"
         x="640"
-        y="2338"
+        y="2347"
         width="114"
         height="16"
         fill="0"
@@ -52823,7 +53129,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >isAuthorizedClass()</text>
       <text name="Fig24.3.23"
         x="640"
-        y="2354"
+        y="2363"
         width="81"
         height="16"
         fill="0"
@@ -52839,7 +53145,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >isConnector()</text>
       <text name="Fig24.3.24"
         x="640"
-        y="2370"
+        y="2379"
         width="122"
         height="16"
         fill="0"
@@ -52855,9 +53161,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >setActualParameter()</text>
       <text name="Fig24.3.25"
         x="640"
-        y="2386"
+        y="2395"
         width="105"
-        height="22"
+        height="16"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -52869,9 +53175,41 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         textsize="12"
         justification="Left"
       >deleteReference()</text>
+      <text name="Fig24.3.26"
+        x="640"
+        y="2411"
+        width="91"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >newOperation()</text>
+      <text name="Fig24.3.27"
+        x="640"
+        y="2427"
+        width="91"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >newOperation()</text>
     </group>
     <group name="Fig24.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[640, 1967, 504, 50]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[640, 1967, 927, 59]"
          href="10-13-1-39-5129ca57:1276133a327:-8000:0000000000002021"
          fill="1"
          fillcolor="200 255 200"
@@ -52884,8 +53222,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <rectangle name="Fig24.4.0"
         x="640"
         y="1967"
-        width="504"
-        height="50"
+        width="927"
+        height="59"
         fill="1"
         fillcolor="200 255 200"
         stroke="0"
@@ -52900,13 +53238,13 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >
         <moveto x="640"
                 y="1967" />
-        <lineto x="1143"
+        <lineto x="1566"
                 y="1967" />
       </path>
       <text name="Fig24.4.2"
         x="640"
         y="1968"
-        width="111"
+        width="147"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -52918,11 +53256,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >processOntologies</text>
+      >processOntologies : array</text>
       <text name="Fig24.4.3"
         x="640"
         y="1984"
-        width="67"
+        width="107"
         height="22"
         fill="0"
         fillcolor="200 255 200"
@@ -52934,13 +53272,13 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >processUri</text>
+      >processUri : string</text>
     </group>
     <rectangle name="Fig24.5"
       x="640"
       y="1944"
-      width="504"
-      height="480"
+      width="927"
+      height="530"
       fill="0"
       fillcolor="200 255 200"
       stroke="1"
@@ -53060,7 +53398,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="2529"
         width="283"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53076,7 +53414,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="2545"
         width="296"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53092,7 +53430,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="2561"
         width="346"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53108,7 +53446,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="2577"
         width="348"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53124,7 +53462,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="2593"
         width="272"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53140,7 +53478,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="2609"
         width="205"
-        height="18"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53156,7 +53494,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="24"
         y="2625"
         width="379"
-        height="24"
+        height="25"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53488,8 +53826,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <text name="Fig26.4.2"
         x="88"
         y="2768"
-        width="107"
-        height="16"
+        width="142"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53500,12 +53838,12 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >deliveryOntologies</text>
+      >deliveryOntologies : array</text>
       <text name="Fig26.4.3"
         x="88"
         y="2784"
-        width="105"
-        height="22"
+        width="141"
+        height="25"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53516,7 +53854,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >resultServerClass</text>
+      >resultServerClass : Class</text>
     </group>
     <rectangle name="Fig26.5"
       x="88"
@@ -53803,8 +54141,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <text name="Fig27.4.2"
         x="88"
         y="3032"
-        width="94"
-        height="16"
+        width="128"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53815,12 +54153,12 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >campaignClass</text>
+      >campaignClass : Class</text>
       <text name="Fig27.4.3"
         x="88"
         y="3048"
-        width="107"
-        height="22"
+        width="142"
+        height="25"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53831,7 +54169,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >deliveryOntologies</text>
+      >deliveryOntologies : array</text>
     </group>
     <rectangle name="Fig27.5"
       x="88"
@@ -53957,7 +54295,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="688"
         y="2568"
         width="320"
-        height="16"
+        height="19"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -53972,8 +54310,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <text name="Fig28.3.4"
         x="688"
         y="2584"
-        width="264"
-        height="22"
+        width="265"
+        height="25"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54079,7 +54417,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       x="688"
       y="2680"
       width="408"
-      height="22"
+      height="23"
       fill="1"
       fillcolor="200 255 200"
       stroke="0"
@@ -54092,7 +54430,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >taoDelivery::models::classes::ProcessTreeService</text>
     <group name="Fig29.3"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[688, 2803, 408, 164]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[688, 2801, 408, 166]"
          href="10-13-1-39-5129ca57:1276133a327:-8000:000000000000201F"
          fill="1"
          fillcolor="200 255 200"
@@ -54104,9 +54442,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig29.3.0"
         x="688"
-        y="2803"
+        y="2801"
         width="408"
-        height="164"
+        height="166"
         fill="1"
         fillcolor="200 255 200"
         stroke="0"
@@ -54120,15 +54458,15 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         strokecolor="black"
       >
         <moveto x="688"
-                y="2803" />
+                y="2801" />
         <lineto x="1095"
-                y="2803" />
+                y="2801" />
       </path>
       <text name="Fig29.3.2"
         x="688"
-        y="2804"
-        width="76"
-        height="15"
+        y="2802"
+        width="78"
+        height="16"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54142,9 +54480,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >__construct()</text>
       <text name="Fig29.3.3"
         x="688"
-        y="2819"
+        y="2818"
         width="79"
-        height="15"
+        height="16"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54159,8 +54497,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <text name="Fig29.3.4"
         x="688"
         y="2834"
-        width="75"
-        height="15"
+        width="74"
+        height="16"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54174,9 +54512,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >activityTree()</text>
       <text name="Fig29.3.5"
         x="688"
-        y="2849"
-        width="93"
-        height="15"
+        y="2850"
+        width="98"
+        height="16"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54190,9 +54528,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >addNodeClass()</text>
       <text name="Fig29.3.6"
         x="688"
-        y="2864"
-        width="93"
-        height="15"
+        y="2866"
+        width="95"
+        height="16"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54206,9 +54544,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >addNodePrefix()</text>
       <text name="Fig29.3.7"
         x="688"
-        y="2879"
-        width="95"
-        height="15"
+        y="2882"
+        width="98"
+        height="16"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54222,9 +54560,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >connectorNode()</text>
       <text name="Fig29.3.8"
         x="688"
-        y="2894"
-        width="134"
-        height="15"
+        y="2898"
+        width="138"
+        height="16"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54238,9 +54576,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >defaultConnectorNode()</text>
       <text name="Fig29.3.9"
         x="688"
-        y="2909"
-        width="63"
-        height="21"
+        y="2914"
+        width="65"
+        height="22"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54254,7 +54592,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >ruleNode()</text>
     </group>
     <group name="Fig29.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[688, 2702, 408, 101]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[688, 2703, 408, 98]"
          href="10-13-1-39-5129ca57:1276133a327:-8000:000000000000201F"
          fill="1"
          fillcolor="200 255 200"
@@ -54266,9 +54604,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig29.4.0"
         x="688"
-        y="2702"
+        y="2703"
         width="408"
-        height="101"
+        height="98"
         fill="1"
         fillcolor="200 255 200"
         stroke="0"
@@ -54282,15 +54620,15 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         strokecolor="black"
       >
         <moveto x="688"
-                y="2702" />
+                y="2703" />
         <lineto x="1095"
-                y="2702" />
+                y="2703" />
       </path>
       <text name="Fig29.4.2"
         x="688"
-        y="2703"
-        width="101"
-        height="15"
+        y="2704"
+        width="105"
+        height="16"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54304,9 +54642,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >addedConnectors</text>
       <text name="Fig29.4.3"
         x="688"
-        y="2718"
-        width="81"
-        height="15"
+        y="2720"
+        width="79"
+        height="16"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54320,9 +54658,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >currentActivity</text>
       <text name="Fig29.4.4"
         x="688"
-        y="2733"
-        width="99"
-        height="15"
+        y="2736"
+        width="101"
+        height="16"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54336,9 +54674,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >currentConnector</text>
       <text name="Fig29.4.5"
         x="688"
-        y="2748"
-        width="87"
-        height="21"
+        y="2752"
+        width="90"
+        height="22"
         fill="0"
         fillcolor="200 255 200"
         stroke="0"
@@ -54382,7 +54720,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         offset="-10" />
     </private>
     <path name="Fig30.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -54414,7 +54752,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         offset="-10" />
     </private>
     <path name="Fig31.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -54450,7 +54788,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         offset="-10" />
     </private>
     <path name="Fig32.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -54482,7 +54820,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         offset="-10" />
     </private>
     <path name="Fig33.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -54518,7 +54856,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         offset="-10" />
     </private>
     <path name="Fig34.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -54550,7 +54888,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         offset="-10" />
     </private>
     <path name="Fig35.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -54559,7 +54897,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <moveto x="884"
               y="2504" />
       <lineto x="884"
-              y="2424" />
+              y="2474" />
     </path>
   </group>
 </pgml>
@@ -55940,7 +56278,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="16"
         y="248"
         width="405"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -55956,7 +56294,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="16"
         y="264"
         width="420"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -56052,7 +56390,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="16"
         y="360"
         width="115"
-        height="25"
+        height="22"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -56134,7 +56472,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="16"
         y="104"
         width="101"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -56150,7 +56488,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="16"
         y="120"
         width="150"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -56166,7 +56504,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="16"
         y="136"
         width="60"
-        height="25"
+        height="22"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -56495,7 +56833,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="696"
         y="786"
         width="82"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -56511,7 +56849,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="696"
         y="802"
         width="107"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -56721,7 +57059,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="696"
         y="464"
         width="53"
-        height="19"
+        height="16"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
@@ -62770,7 +63108,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="1072"
         y="640"
         width="116"
-        height="25"
+        height="22"
         fill="0"
         fillcolor="255 255 200"
         stroke="0"
