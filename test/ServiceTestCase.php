@@ -1,10 +1,6 @@
 <?php
-
-require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
+require_once dirname(__FILE__) . '/TestRunner.php';
 require_once dirname(__FILE__) . '/../includes/common.php';
-require_once INCLUDES_PATH.'/simpletest/autorun.php';
-
-
 
 /**
  * This class enable you to test the models managment of the tao extension
@@ -24,8 +20,7 @@ class ServiceTestCase extends UnitTestCase {
 	 * tests initialization
 	 */
 	public function setUp(){		
-		//connect the API
-		core_control_FrontController::connect('tao', md5('tao'), DATABASE_NAME);
+		TestRunner::initTest();
 	}
 	
 	/**
@@ -122,22 +117,6 @@ class ServiceTestCase extends UnitTestCase {
 		$testModelClass->delete();
 	}
 	
-	public function testExtensions(){
-		echo "<b>Tests to run</b>:<ul>";
-		$extensions = $this->taoService->getLoadedExtensions();
-		foreach($extensions as $extension){
-			$extTestPath = ROOT_PATH . '/' . $extension . '/test';
-			if(file_exists($extTestPath)){
-				if(is_dir($extTestPath)){
-					foreach(scandir($extTestPath) as $file){
-						if(preg_match("/TestCase\.php$/", $file)){
-							echo "<li><a href='".ROOT_URL.'/'.$extension. "/test/$file'>$extension/test/$file</a></li>";
-						}
-					}
-				}
-			}
-		}
-		echo "</ul>";
-	}
+
 }
 ?>

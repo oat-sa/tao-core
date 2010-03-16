@@ -329,8 +329,8 @@ class tao_models_classes_UserService
 			if(count($this->getOneUser($user['login'])) == 0){
 				//insert
 				$returnValue = $this->dbWrapper->execSql(
-					"INSERT INTO `user` (login, password, admin, usergroup, LastName, FirstName, E_Mail, Company, Deflg, enabled) 
-					VALUES ('{$user['login']}', '{$user['password']}', 1, 'admin', '{$user['LastName']}', '{$user['FirstName']}', '{$user['E_Mail']}', '{$user['Company']}', '{$user['Deflg']}',1)"
+					"INSERT INTO `user` (login, password, admin, usergroup, LastName, FirstName, E_Mail, Company, Deflg, Uilg, enabled) 
+					VALUES ('{$user['login']}', '{$user['password']}', 1, 'admin', '{$user['LastName']}', '{$user['FirstName']}', '{$user['E_Mail']}', '{$user['Company']}', '{$user['Deflg']}', '{$user['Uilg']}', 1)"
 				);
 			}
 			else{
