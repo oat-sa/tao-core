@@ -46,7 +46,7 @@ a.nd{
 div#tabs, div#home{
 	position:relative; 
 	top:15px;
-	height: 90%; 
+	height: 89%; 
 	width:98%;
 	margin:auto;
 	background-image:url('../img/tao.png');
@@ -58,15 +58,20 @@ div#tabs, div#home{
 /* don't change it */
 div#tabs div.ui-tabs-panel{
 	position:absolute; 
-	left:0.5%;
-	width:95%;
+	left:0%;
+	width:99%;
 	height:90%;
 	padding-top:0.5%;
+	padding-left:1em;
 	padding-right:0px;
 	overflow-x:hidden;
 	overflow-y:auto;
 }
 /* --- */
+
+div.main-container{
+	margin-left:0.5%;
+}
 
 img#logo{
 	position: absolute; 
@@ -79,6 +84,7 @@ img#logo{
 div#main-menu{
 	padding:10px 4px 0px 45px;
 	border-bottom-style:none;
+	border-top-width: 0px;
 }
 div#main-menu img#menu-button{
 	position:absolute;
