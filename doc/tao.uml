@@ -26,7 +26,7 @@
       <fontname>Dialog</fontname>
       <fontsize>12</fontsize>
       <defaultstereotypeview>2</defaultstereotypeview>
-      <activediagram>Design generis API oo</activediagram>
+      <activediagram>transfer services</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Mar 16 17:12:28 CET 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Mar 18 15:26:23 CET 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -22025,7 +22025,7 @@ If the uri don&apos;t reference a subject subclass, it returns null </UML:Tagged
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '10-13-1-45--4deb5f8d:123cd7d5aaa:-8000:0000000000001895'
-                          name = 'isSubjectClass' visibility = 'protected' isSpecification = 'false'
+                          name = 'isSubjectClass' visibility = 'public' isSpecification = 'false'
                           ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
                           isLeaf = 'false' isAbstract = 'false'>
                           <UML:ModelElement.taggedValue>
@@ -50941,7 +50941,6 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
        strokecolor="black"
   >
     <private>
-      enclosingFig="Fig14"
     </private>
     
     <rectangle name="Fig15.0"
