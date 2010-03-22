@@ -279,6 +279,34 @@ abstract class tao_models_classes_Service
     }
 
     /**
+     * Short description of method getClass
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource instance
+     * @return core_kernel_classes_Class
+     */
+    public function getClass( core_kernel_classes_Resource $instance)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--519643a:127850ba1cf:-8000:000000000000233B begin
+        
+        if(!is_null($instance)){
+        	if(!$instance->isClass() && !$instance->isProperty()){
+        		$resource = $instance->getUniquePropertyValue(new core_kernel_classes_Property(RDFS_TYPE));
+        		if($resource instanceof core_kernel_classes_Resource){
+        			$returnValue = new core_kernel_classes_Class($resource->uriResource);
+        		}
+        	}
+        }
+        
+        // section 127-0-1-1--519643a:127850ba1cf:-8000:000000000000233B end
+
+        return $returnValue;
+    }
+
+    /**
      * Subclass an RDFS Class
      *
      * @access public
@@ -564,7 +592,6 @@ abstract class tao_models_classes_Service
 							$returnValue[$property->uriResource] = $propData;
 						}
 					}
-					
 				}
 			}
 		}
@@ -595,6 +622,65 @@ abstract class tao_models_classes_Service
         // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E88 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method changeClass
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource instance
+     * @param  Class destinationClass
+     * @return boolean
+     */
+    public function changeClass( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $destinationClass)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331 begin
+        
+        try{
+        	$returnValue = $instance->editPropertyValues(
+        		new core_kernel_classes_Property(RDFS_TYPE), 
+        		$destinationClass->uriResource
+        	);
+        }
+        catch(common_Exception $ce){
+        	print $ce;
+        }
+        
+        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getPropertyDiff
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class sourceClass
+     * @param  Class destinationClass
+     * @return array
+     */
+    public function getPropertyDiff( core_kernel_classes_Class $sourceClass,  core_kernel_classes_Class $destinationClass)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002337 begin
+      
+    	$sourceProperties = $sourceClass->getProperties(true);
+        $destinationProperties = $destinationClass->getProperties(true);
+       	
+        foreach($sourceProperties as $sourcePropertyUri => $sourceProperty){
+        	if(!array_key_exists($sourcePropertyUri, $destinationProperties)){
+        		array_push($returnValue, $sourceProperty);
+        	}
+        }
+        
+        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002337 end
+
+        return (array) $returnValue;
     }
 
 } /* end of abstract class tao_models_classes_Service */

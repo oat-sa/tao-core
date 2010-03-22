@@ -39,6 +39,7 @@
 			editClassAction: 		"<?=(string)$tree['editClassUrl']?>",
 			editInstanceAction: 	"<?=(string)$tree['editInstanceUrl']?>",
 			createInstanceAction: 	"<?=(string)$tree['addInstanceUrl']?>",
+			moveInstanceAction: 	"<?=(string)$tree['moveInstanceUrl']?>",
 			subClassAction: 		"<?=(string)$tree['addSubClassUrl']?>",
 			deleteAction: 			"<?=(string)$tree['deleteUrl']?>",
 			duplicateAction: 		"<?=(string)$tree['duplicateUrl']?>",

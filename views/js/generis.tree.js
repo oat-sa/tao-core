@@ -53,7 +53,12 @@ function GenerisTreeClass(selector, dataUrl, options){
 					renameable	: false,
 					deletable	: true,
 					creatable	: true,
-					draggable	: false
+					draggable	: function(NODE){
+						if($(NODE).hasClass('node-instance') && instance.options.moveInstanceAction){
+							return true;
+						}
+						return false;
+					}
 				}
 			},
 			ui: {
@@ -111,13 +116,58 @@ function GenerisTreeClass(selector, dataUrl, options){
 						);
 					}
 					return false;
+				},
+				onmove: function(NODE, REF_NODE, TYPE, TREE_OBJ, RB){
+					if(!instance.options.moveInstanceAction){
+						return false;
+					}
+					if($(REF_NODE).hasClass('node-instance') && TYPE == 'inside'){
+						$.tree.rollback(RB);
+					}
+					else{
+						if(TYPE == 'after' || TYPE == 'before'){
+							REF_NODE = TREE_OBJ.parent(REF_NODE);
+						}
+						function moveNode(url, data){
+							$.postJson(url, data,
+								function(response){
+									if(response.status == 'diff'){
+										message = __("Moving this element will remove the following properties:");
+										message += "\n";
+										for(i = 0; i < response.data.length; i++){
+											if(response.data[i].label){
+												message += "- " + response.data[i].label + "\n";
+											}
+										}
+										message += "Please confirm this operation.\n";
+										if(confirm(message)){
+											data.confirmed = true;
+											moveNode(url, data);
+										}
+										else{
+											$.tree.rollback(RB);
+										}
+									}
+									else if(response.status == true){
+										TREE_OBJ.select_branch(NODE);
+									}
+									else{
+										$.tree.rollback(RB);
+									}
+							});
+						}
+						moveNode(instance.options.moveInstanceAction, {
+							'uri': $(NODE).attr('id'),
+							'destinationClassUri': $(REF_NODE).attr('id')
+						});
+					}
 				}
 			},
 			plugins: {
 				contextmenu : {
 					items : {
 						select: {
-							label: __("Edit"),
+							label: __("edit ") + instance.options.instanceName,
 							icon: "/tao/views/img/pencil.png",
 							visible : function (NODE, TREE_OBJ) {
 								if( ($(NODE).hasClass('node-instance') &&  instance.options.editInstanceAction)  || 
@@ -133,7 +183,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 		                    separator_before : true
 						},
 						subclass: {
-							label: __("Add subclass"),
+							label: __("new class"),
 							icon	: "/tao/views/img/class_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
@@ -155,7 +205,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 		                    separator_before : true
 						},
 						instance:{
-							label: __("Add ") + instance.options.instanceName,
+							label: __("new ") + instance.options.instanceName,
 							icon	: "/tao/views/img/instance_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
@@ -177,7 +227,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							}
 						},
 						duplicate:{
-							label	: __("Duplicate"),
+							label	: __("duplicate"),
 							icon	: "/tao/views/img/duplicate.png",
 							visible	: function (NODE, TREE_OBJ) { 
 									if($(NODE).hasClass('node-instance')  && instance.options.duplicateAction){
@@ -194,7 +244,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							}
 						},
 						del:{
-							label	: __("Remove"),
+							label	: __("delete"),
 							icon	: "/tao/views/img/delete.png",
 							visible	: function (NODE, TREE_OBJ) { 
 								var ok = true; 

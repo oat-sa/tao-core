@@ -266,6 +266,43 @@ abstract class TaoModule extends CommonModule {
 		}
 	}
 	
+	public function moveInstance(){
+		
+		if($this->hasRequestParameter('destinationClassUri')){
+			
+			if(!$this->hasRequestParameter('classUri') && $this->hasRequestParameter('uri')){
+				$instance = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+				$clazz = $this->service->getClass($instance);
+			}
+			else{
+				$clazz = $this->getCurrentClass();
+				$instance = $this->getCurrentInstance();
+			}	
+			
+			
+			$destinationUri = $this->getRequestParameter('destinationClassUri');
+			if(!empty($destinationUri) && $destinationUri != $clazz->uriResource){
+				$destinationClass = new core_kernel_classes_Class(tao_helpers_Uri::decode($destinationUri));
+				
+				if(!$this->hasRequestParameter('confirmed')){
+					
+					$diff = $this->service->getPropertyDiff($clazz, $destinationClass);
+				
+					if(count($diff) > 0){
+						echo json_encode(array(
+							'status'	=> 'diff',
+							'data'		=> $diff
+						));
+						return true;
+					}
+				}
+				
+				$status = $this->service->changeClass($instance, $destinationClass);
+				echo json_encode(array('status'	=> $status));
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @return 

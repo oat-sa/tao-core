@@ -42,6 +42,8 @@
 .tree-custom li.node-connector-goto ins{background-image:url("process_connector_goto.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-connector-prev ins{background-image:url("process_connector_prev.png"); background-position:0 0; background-repeat:no-repeat;}
 
+.tree-custom li.node-instance a {padding-right:12px;background-image:url("grip.png");background-position: right;background-repeat: no-repeat;}
+
 .tree-custom ul li a.loading ins { background-image:url("throbber.gif") !important; background-position:0 0 !important; } /* UL is added to make selector stronger */
 .tree-custom li a ins.forbidden { background-position:-16px -16px; }
 .tree-custom .locked li a ins { background-position:0 -48px; }

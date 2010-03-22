@@ -83,7 +83,8 @@ class tao_actions_form_Export
 		$formatElt->setDescription(__('Ontology'));
 		$formatElt->setOptions(array(
 			'all'			=> __('All'),
-			'current'		=> __('Current')
+			'current'		=> __('Current (model, dependancies and data)'),
+			'data'			=> __('Current (only data)')
 		));
 		$formatElt->setValue('current');
 		$this->form->addElement($formatElt);
