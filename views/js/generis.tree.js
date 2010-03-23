@@ -11,13 +11,18 @@
  * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
  */ 
 
+/**
+ * @var {Array} instances the list of tree instances 
+ */
 GenerisTreeClass.instances = [];
 
 /**
- * Constructor
+ * The GenerisTreeClass constructor
  * @param {String} selector the jquery selector of the tree container
  * @param {String} dataUrl the url to call, it must provide the json data to populate the tree 
- * @param {Object} options
+ * @param {Object} options {formContainer, actionId, instanceClass, instanceName, selectNode,
+ * 							editClassAction, editInstanceAction, createInstanceAction,  
+ * 							moveInstanceAction, subClassAction, deleteAction, duplicateAction}
  */
 function GenerisTreeClass(selector, dataUrl, options){
 	try{
@@ -39,7 +44,12 @@ function GenerisTreeClass(selector, dataUrl, options){
 		
 		GenerisTreeClass.instances[GenerisTreeClass.instances.length + 1] = instance;
 		
+		/**
+		 * @var {Object} jsTree options
+		 * @see http://www.jstree.com/documentation for the options documentation 
+		 */
 		this.treeOptions = {
+			//how to retrieve the data
 			data: {
 				type: "json",
 				async : true,
@@ -48,6 +58,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 					url: instance.dataUrl
 				}
 			},
+			//what we can do with the elements
 			types: {
 			 "default" : {
 					renameable	: false,
@@ -65,12 +76,14 @@ function GenerisTreeClass(selector, dataUrl, options){
 				theme_name : "custom"
 			},
 			callback : {
+				//data to send to the server
 				beforedata:function(NODE, TREE_OBJ) { 
 					return { 
 						type : $(TREE_OBJ.container).attr('id'),
 						filter: $("#filter-content-" + options.actionId).val()
 					};
 				},
+				//once the tree is loaded
 				onload: function(TREE_OBJ){
 					if (instance.options.selectNode) {
 						TREE_OBJ.select_branch($("li[id='"+instance.options.selectNode+"']"));
@@ -80,6 +93,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						TREE_OBJ.open_branch($("li.node-class:first"));
 					}
 				},
+				//when we receive the data
 				ondata: function(DATA, TREE_OBJ){
 					if(instance.options.instanceClass){
 						if(DATA.children){
@@ -98,17 +112,22 @@ function GenerisTreeClass(selector, dataUrl, options){
 					}
 					return DATA;
 				},
+				//when a node is selected
 				onselect: function(NODE, TREE_OBJ){
 					if($(NODE).attr('id') == instance.options.selectNode){
 						return false;
 					}
 					if($(NODE).hasClass('node-class') && instance.options.editClassAction){
+						
+						//load the editClassAction into the formContainer
 						_load(instance.options.formContainer, 
 							instance.options.editClassAction,
 							{classUri:$(NODE).attr('id')}
 						);
 					}
 					if($(NODE).hasClass('node-instance') && instance.options.editInstanceAction){
+						
+						//load the editInstanceAction into the formContainer
 						PNODE = TREE_OBJ.parent(NODE);
 						_load(instance.options.formContainer, 
 							instance.options.editInstanceAction, 
@@ -117,6 +136,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 					}
 					return false;
 				},
+				//when a node is move by drag n'drop
 				onmove: function(NODE, REF_NODE, TYPE, TREE_OBJ, RB){
 					if(!instance.options.moveInstanceAction){
 						return false;
@@ -128,6 +148,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						if(TYPE == 'after' || TYPE == 'before'){
 							REF_NODE = TREE_OBJ.parent(REF_NODE);
 						}
+						//call the server with the new node position to save the new position
 						function moveNode(url, data){
 							$.postJson(url, data,
 								function(response){
@@ -145,7 +166,6 @@ function GenerisTreeClass(selector, dataUrl, options){
 											moveNode(url, data);
 										}
 										else{
-											console.log(RB);
 											$.tree.rollback(RB);
 										}
 									}
@@ -153,6 +173,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 										instance.options.selectNode = $(NODE).attr('id');
 										TREE_OBJ.refresh();
 										TREE_OBJ.open_branch(NODE);	
+										$('li.node-instance a.clicked').removeClass('clicked');
 									}
 									else{
 										$.tree.rollback(RB);
@@ -167,8 +188,11 @@ function GenerisTreeClass(selector, dataUrl, options){
 				}
 			},
 			plugins: {
+				
+				//the right click menu
 				contextmenu : {
 					items : {
+						//edit action
 						select: {
 							label: __("edit") + ' ' + __(instance.options.instanceName),
 							icon: "/tao/views/img/pencil.png",
@@ -180,10 +204,11 @@ function GenerisTreeClass(selector, dataUrl, options){
 								return false;
 							},
 							action  : function(NODE, TREE_OBJ){
-								TREE_OBJ.select_branch(NODE);
+								TREE_OBJ.select_branch(NODE);		//call the onselect callback
 							},
 		                    separator_before : true
 						},
+						//new class action
 						subclass: {
 							label: __("new class"),
 							icon	: "/tao/views/img/class_add.png",
@@ -197,6 +222,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 								return TREE_OBJ.check("creatable", NODE);
 							},
 							action  : function(NODE, TREE_OBJ){
+								
+								//specialize the selected class
 								GenerisTreeClass.addClass({
 									id: $(NODE).attr('id'),
 									url: instance.options.subClassAction,
@@ -206,6 +233,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							},
 		                    separator_before : true
 						},
+						//new instance action
 						instance:{
 							label: __("new") + ' ' +  __(instance.options.instanceName),
 							icon	: "/tao/views/img/instance_add.png",
@@ -219,6 +247,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 								return TREE_OBJ.check("creatable", NODE);
 							},
 							action: function (NODE, TREE_OBJ) { 
+								
+								//add a new instance of the selected class
 								GenerisTreeClass.addInstance({
 									url: instance.options.createInstanceAction,
 									id: $(NODE).attr('id'),
@@ -228,6 +258,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 								});
 							}
 						},
+						//move action
 						move:{
 							label	: __("move"),
 							icon	: "/tao/views/img/move.png",
@@ -238,6 +269,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 									return false;
 								}, 
 							action	: function (NODE, TREE_OBJ) { 
+								
+								//move the node
 								GenerisTreeClass.moveInstance({
 										url: instance.options.moveInstanceAction,
 										NODE: NODE,
@@ -246,6 +279,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							},
 		                    separator_before : true
 						},
+						//clone action
 						duplicate:{
 							label	: __("duplicate"),
 							icon	: "/tao/views/img/duplicate.png",
@@ -256,6 +290,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 									return false;
 								}, 
 							action	: function (NODE, TREE_OBJ) { 
+									
+								//clone the node
 								GenerisTreeClass.cloneNode({
 									url: instance.options.duplicateAction,
 									NODE: NODE,
@@ -263,6 +299,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 								});
 							}
 						},
+						//delete action
 						del:{
 							label	: __("delete"),
 							icon	: "/tao/views/img/delete.png",
@@ -276,6 +313,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 									return ok; 
 								}, 
 							action	: function (NODE, TREE_OBJ) { 
+									
+								//remove the node
 								GenerisTreeClass.removeNode({
 									url: instance.options.deleteAction,
 									NODE: NODE,
@@ -284,6 +323,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 								return false;
 							} 
 						},
+						//unset the default entries
 						remove: false,
 						create: false,
 						rename: false
@@ -296,16 +336,22 @@ function GenerisTreeClass(selector, dataUrl, options){
 			this.treeOptions.selected = this.options.selectNode;
 		}
 		
-		//create the tree
+		/*
+		 * Create and initialize the tree here
+		 */
 		$(selector).tree(this.treeOptions);
 		
+		//open all action
 		$("#open-action-" + options.actionId).click(function(){
 			$.tree.reference(instance.selector).open_all();
 		});
+		
+		//close all action
 		$("#close-action-" + options.actionId).click(function(){
 			$.tree.reference(instance.selector).close_all();
 		});
 		
+		//filter action
 		$("#filter-action-" + options.actionId).click(function(){
 			$.tree.reference(instance.selector).refresh();
 		});
@@ -540,6 +586,7 @@ GenerisTreeClass.moveInstance = function(options){
 	var myTREE_OBJ = options.TREE_OBJ;
 	var myNODE = options.NODE;
 	
+	//create the dialog content 
 	$('body').append(
 		$("<div id='tmp-moving' style='display:none;'>" +
 				"<span class='ui-state-highlight' style='margin:15px;'>" + __('Select the element destination') + "</span><br />" +
@@ -550,8 +597,13 @@ GenerisTreeClass.moveInstance = function(options){
 			"</div>")
 	);
 	
+	//create a new tree
 	var TMP_TREE = {
+			
+			//with the same data than the parent tree
 			data: myTREE_OBJ.settings.data,
+			
+			//but only the ability to click on a node
 			types: {
 			 "default" : {
 				clickable: function(NODE){
@@ -570,27 +622,29 @@ GenerisTreeClass.moveInstance = function(options){
 				theme_name : "custom"
 			},
 			callback: {
+				//add the type param to the server request to get only the classes
 				beforedata:function(NODE, TREE_OBJ) { 
 					return { 
 						type : $(TREE_OBJ.container).attr('id')
 					};
 				},
+				
+				//expand the tree on load
 				onload: function(TREE_OBJ){
 					TREE_OBJ.open_all();
 				},
+				
+				//call the tree onmove callback by selecting a class
 				onselect: function(NODE, TREE_OBJ){
-					/** 
-					 * @todo HERE get the id of the tree selector
-					 */
-					rollback = {
-							"tree-tree": myTREE_OBJ.get_rollback()
-					};
+					var rollback = {};
+					rollback[$(myTREE_OBJ.container).attr('id')] = myTREE_OBJ.get_rollback()
 					myTREE_OBJ.settings.callback.onmove(myNODE, NODE, 'inside', myTREE_OBJ, rollback);
 					$("#tmp-moving").dialog('close');
 				}
 			}
 	};
 	
+	//create a dialog window to embed the tree
 	position = $(getMainContainerSelector()).offset();	
 	$("#tmp-moving-tree").tree(TMP_TREE);
 	$("#tmp-moving").dialog({
@@ -600,7 +654,6 @@ GenerisTreeClass.moveInstance = function(options){
 		autoOpen: false,
 		title: __('Move to')
 	});
-	
 	$("#tmp-moving").bind('dialogclose', function(event, ui){
 		$.tree.reference("#tmp-moving-tree").destroy();
 		$("#tmp-moving").dialog('destroy');
@@ -609,5 +662,6 @@ GenerisTreeClass.moveInstance = function(options){
 	$("#tmp-moving-closer").click(function(){
 		$("#tmp-moving").dialog('close');
 	});
+	//open the dialog
 	$("#tmp-moving").dialog('open');
 };
