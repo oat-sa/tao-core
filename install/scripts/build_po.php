@@ -71,7 +71,6 @@ echo "\n => Rebuild tao extension \n";
 $taoConcats = array();
 foreach($extensions as $extensionName => $extensionData){
 	if(preg_match("/^tao/", $extensionName)){
-	
 		foreach(array_keys($extensionData['langs']) as $lang){
 			if(!isset($taoConcats[$lang])){
 				$taoConcats[$lang] = array();
@@ -83,6 +82,7 @@ foreach($extensions as $extensionName => $extensionData){
 		}
 	}
 }
+
 $taoPath = ROOT_PATH . 'tao/' . LOCAL_DIR_NAME . '/';
 foreach($taoConcats as $lang => $strings){
 	if(writePoFile($taoPath . $lang .'/' .PO_FILE_NAME, $strings)){
@@ -92,6 +92,7 @@ foreach($taoConcats as $lang => $strings){
 echo "\n------\n";
 
 //UTR
+
 $utrPath = ROOT_PATH .'taoResults/models/ext/utrv1';
 if(file_exists($utrPath)){
 	

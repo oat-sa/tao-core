@@ -137,6 +137,9 @@ function getPoFile($file) {
 		if ($msgstr) {
 			$res[poString($msgid)] = $msgstr;
 		}
+		else{
+			$res[poString($msgid)] = '';
+		}
 	}
 	
 	if (!empty($res[''])) {
