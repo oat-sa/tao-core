@@ -45,7 +45,7 @@ UiForm = function(){
 				}
 			}
 		});
-	}
+	};
 	
 	/**
 	 * init form naviguation (submit by ajax)
@@ -54,7 +54,7 @@ UiForm = function(){
 		$("form").live('submit', function(){
 			return formInstance.submitForm($(this));
 		});
-	}
+	};
 	
 	this.initElements = function(){
 
@@ -96,12 +96,12 @@ UiForm = function(){
 		
 		//map the imageable / fileable elements to the filemanager plugin
 		$('.imageable').fmbind({type: 'image'}, function(elt, value){
-			$(elt).val(value)
+			$(elt).val(value);
 		});
 		$('.fileable').fmbind({
 			type: 'file'
 		});
-	}
+	};
 	
 	/**
 	 * init special forms controls
@@ -125,6 +125,9 @@ UiForm = function(){
 			}
 		});
 		
+		/**
+		 * remove a form group, ie. a property
+		 */
 		function removeGroup(){
 			if (confirm(__('Please confirm property deletion!'))) {
 				groupNode = $(this).parents(".form-group").get(0);
@@ -144,7 +147,7 @@ UiForm = function(){
 					child.hide();
 				}
 				
-				//toggle control
+				//toggle controls: plus/minus icon
 				toggeler = $("<span class='form-group-control ui-icon ui-icon-circle-plus' title='expand' style='right:48px;'></span>");			
 				toggeler.click(function(){
 					var control = $(this);
@@ -160,7 +163,7 @@ UiForm = function(){
 						control.addClass('ui-icon-circle-plus');
 						control.attr('title', 'show property');
 					}
-				})
+				});
 				formGroup.prepend(toggeler);
 				
 				//delete control
@@ -183,7 +186,7 @@ UiForm = function(){
 			 url += 'addClassProperty';
 			 
 			 GenerisAction.addProperty (null,  $("#classUri").val(), url);
-		 })
+		 });
 		 
 		 /**
 		  * display or not the list regarding the property type
@@ -215,7 +218,7 @@ UiForm = function(){
 				var treeId = rangeId.replace('_range', '_tree');
 				var closerId = rangeId.replace('_range', '_closer');
 				
-				//dialog content
+				//dialog content to embed the list tree
 				elt = $(this).parent("div");
 				elt.append("<div id='"+ dialogId +"' style='display:none;' > " +
 								"<span class='ui-state-highlight' style='margin:15px;'>" + __('Right click the tree to manage your lists') + "</span><br />" +
@@ -233,6 +236,7 @@ UiForm = function(){
 					title: __('Manage data list')
 				});
 				
+				//destroy dialog on close
 				$("#"+dialogId).bind('dialogclose', function(event, ui){
 					$.tree.reference("#"+treeId).destroy();
 					$("#"+dialogId).dialog('destroy');
@@ -250,7 +254,7 @@ UiForm = function(){
 					removeUrl	= url + 'removeList';
 					renameUrl	= url + 'renameList';
 					 
-					//create tree
+					//create tree to manage lists
 					$("#"+treeId).tree({
 						data: {
 							type: "json",
@@ -286,7 +290,7 @@ UiForm = function(){
 									if($(this).val() != "" && $(this).val() != "new"){
 										$(this).remove();
 									}
-								})
+								});
 								$("#"+treeId+" .node-root .node-class").each(function(){
 									$("#"+rangeId+" option[value='new']").before("<option value='"+$(this).attr('id')+"'>"+$(this).children("a:first").text()+"</option>");
 								});
@@ -295,8 +299,56 @@ UiForm = function(){
 							}
 						},
 						plugins: {
+							//tree right click menu
 							contextmenu: {
 								items: {
+									
+									//create a new list or a list item
+									create: {
+										label: __("Create"),
+										icon	: "/tao/views/img/add.png",
+										visible: function(NODE, TREE_OBJ){
+											if($(NODE).hasClass('node-instance')){
+												return false; 
+											}
+											return TREE_OBJ.check("creatable", NODE);
+										},
+										action  : function(NODE, TREE_OBJ){
+											if ($(NODE).hasClass('node-class')) {
+												//create item
+												GenerisTreeClass.addInstance({
+													url: createUrl,
+													id: $(NODE).attr('id'),
+													NODE: NODE,
+													TREE_OBJ: TREE_OBJ
+												});
+											}
+											if ($(NODE).hasClass('node-root')) {
+												//create list
+												GenerisTreeClass.addClass({
+													id: 'root',
+													url: createUrl,
+													NODE: NODE,
+													TREE_OBJ: TREE_OBJ
+												});
+											}
+											return false;
+										}
+									},
+									
+									//rename a node
+									rename: {
+										label: __("Rename"),
+										icon	: "/tao/views/img/rename.png",
+										visible: function(NODE, TREE_OBJ){
+											if($(NODE).hasClass('node-root')){
+												return false; 
+											}
+											return TREE_OBJ.check("renameable", NODE);
+										}
+									},
+									
+									//remove a node
 									remove: {
 										label: __("Remove"),
 										icon	: "/tao/views/img/delete.png",
@@ -314,51 +366,14 @@ UiForm = function(){
 											});
 											return false;
 										}
-									},
-									create: {
-										label: __("Create"),
-										icon	: "/tao/views/img/add.png",
-										visible: function(NODE, TREE_OBJ){
-											if($(NODE).hasClass('node-instance')){
-												return false; 
-											}
-											return TREE_OBJ.check("creatable", NODE);
-										},
-										action  : function(NODE, TREE_OBJ){
-											if ($(NODE).hasClass('node-class')) {
-												GenerisTreeClass.addInstance({
-													url: createUrl,
-													id: $(NODE).attr('id'),
-													NODE: NODE,
-													TREE_OBJ: TREE_OBJ
-												});
-											}
-											if ($(NODE).hasClass('node-root')) {
-												GenerisTreeClass.addClass({
-													id: 'root',
-													url: createUrl,
-													NODE: NODE,
-													TREE_OBJ: TREE_OBJ
-												});
-											}
-											return false;
-										}
-									},
-									rename: {
-										label: __("Rename"),
-										icon	: "/tao/views/img/rename.png",
-										visible: function(NODE, TREE_OBJ){
-											if($(NODE).hasClass('node-root')){
-												return false; 
-											}
-											return TREE_OBJ.check("renameable", NODE);
-										}
 									}
 								}
 							}
 						}
 					});
 				});
+				
+				//open the dialog window
 				$("#"+dialogId).dialog('open');
 			}
 			else{
@@ -380,7 +395,7 @@ UiForm = function(){
 						success: function(response){
 							html = "<ul class='form-elt-list'>";
 							for(i in response){
-								html += '<li>'+response[i]+'</li>'
+								html += '<li>'+response[i]+'</li>';
 							}
 							html += '</ul>';
 							$(elt).parent("div").append(html);
@@ -390,21 +405,28 @@ UiForm = function(){
 			}
 		 }
 		 
-		 //bind function to the drop down
+		 //bind functions to the drop down:
+		 
+		 //display the values drop down regarding the selected type
 		 $(".property-type").change(showPropertyList);
 		 $(".property-type").each(showPropertyList);
 		 
+		 //display the values of the selected list
 		 $(".property-listvalues").change(showPropertyListValues);
 		 $(".property-listvalues").each(showPropertyListValues);
+		 
+		 //show the "green plus" button to manage the lists 
 		 $(".property-listvalues").each(function(){
 		 	var listField = $(this);
-			listControl = $("<img title='manage lists' style='cursor:pointer;' />")
-			listControl.attr('src', imgPath + '/add.png');
-			listControl.click(function(){
-				listField.val('new');
-				listField.change();
-			});
-			listControl.insertAfter(listField);
+		 	if(listField.parent().find('img').length == 0){
+				listControl = $("<img title='manage lists' style='cursor:pointer;' />");
+				listControl.attr('src', imgPath + '/add.png');
+				listControl.click(function(){
+					listField.val('new');
+					listField.change();
+				});
+				listControl.insertAfter(listField);
+		 	}
 		 });
 		 
 		 $(".property-listvalues").each(function(){
@@ -413,8 +435,11 @@ UiForm = function(){
 				elt.addClass('form-elt-highlight');
 			}
 		 });
-	}
+	};
 	
+	/**
+	 * controls of the translation forms 
+	 */
 	this.initTranslationForm = function(){
 		$('#translate_lang').change(function(){
 			trLang = $(this).val();
@@ -443,8 +468,13 @@ UiForm = function(){
 				);
 			}
 		});
-	}
+	};
 	
+	/**
+	 * Ajax form submit -> post the form data and display back the form into the container
+	 * @param myForm
+	 * @return boolean
+	 */
 	this.submitForm = function(myForm){
 		try {
 			if (myForm.attr('enctype') == 'multipart/form-data' && myForm.find(".file-uploader")) {
@@ -462,12 +492,15 @@ UiForm = function(){
 			window.location = '#form-title';
 		} 
 		catch (exp) {
-			console.log(exp);
+			//console.log(exp);
 			return false;
 		}
 		return false;
-	}
+	};
 	
+	/**
+	 * special initialization for file upload forms
+	 */
 	this.initFileUploadForm = function (){
 	
 		$("form[enctype='multipart/form-data']").each(function(){
@@ -484,7 +517,7 @@ UiForm = function(){
 						onSubmit : function(file, extension){
 							this.disable();
 							loading();
-							formData = myForm.serializeArray()
+							formData = myForm.serializeArray();
 							data = {};
 							for (i in formData){
 								data[formData[i]['name']] = formData[i]['value']; 
@@ -500,16 +533,24 @@ UiForm = function(){
 				}
 			}
 			catch(exp){
-				console.log(exp);
+				//console.log(exp);
 			}
 			return false;
 		});
-	}
+	};
 	
 	this._init();
-}
+};
 
+/**
+ * @var {UiForm} uiForm global instance
+ */
 var uiForm = null;
 $(document).ready(function(){
+	
+	/**
+	 * instanciate on load
+	 */
 	uiForm = new UiForm();
+	
 });
