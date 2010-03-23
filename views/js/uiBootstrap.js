@@ -29,7 +29,7 @@ UiBootstrap = function(options){
 		this.initMenuBar();
 		
 		//fix ie6 bug with dialog z-index
-		$.ui.dialog.defaults.bgiframe = true;	
+	//	$.ui.dialog.defaults.bgiframe = true;	
 		
 		//create tabs
 		UiBootstrap.tabs = $('#tabs').tabs({

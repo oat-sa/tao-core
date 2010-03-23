@@ -152,6 +152,10 @@ function GenerisTreeClass(selector, dataUrl, options){
 						function moveNode(url, data){
 							$.postJson(url, data,
 								function(response){
+									if(response == null){
+										$.tree.rollback(RB);
+										return;
+									}
 									if(response.status == 'diff'){
 										message = __("Moving this element will remove the following properties:");
 										message += "\n";

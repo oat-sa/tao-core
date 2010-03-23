@@ -15,8 +15,7 @@
 						var _this = this;
 						var str	 = '<root>';
 						obj.each(function () {
-							opts.callback = true;
-							str += _this.get(this, tree, opts);
+							str += _this.get(this, tree, $.extend(true, {}, opts, { callback : true }));
 						});
 						str		+= '</root>';
 						return str;
@@ -50,11 +49,9 @@
 
 					if(obj.children("ul").size() > 0) {
 						var _this = this;
-						opts.callback = true;
 						obj.children("ul").children("li").each(function () {
-							str += _this.get(this, tree, opts);
+							str += _this.get(this, tree, $.extend(true, {}, opts, { callback : true }));
 						});
-						opts.callback = false;
 					}
 					str += '</item>';
 
@@ -98,8 +95,8 @@
 					// if(callback) callback.call(null,(new XMLSerializer()).serializeToString(processor.transformToDocument(data)).replace(/^<ul[^>]*>/i,"").replace(/<\/ul>$/i,""));
 				},
 				load	: function(data, tree, opts, callback) {
-					if(opts.static) {
-						callback.call(null, (new DOMParser()).parseFromString(opts.static,'text/xml'));
+					if(opts.staticData) {
+						callback.call(null, (new DOMParser()).parseFromString(opts.staticData,'text/xml'));
 					}
 					else {
 						$.ajax({
