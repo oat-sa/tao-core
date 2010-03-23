@@ -36,6 +36,7 @@
 .tree-custom li.node-activity ins{background-image:url("process_activity.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-activity-initial ins{background-image:url("process_activity_start.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-activity-last ins{background-image:url("process_activity_last.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-activity-unique ins{background-image:url("process_activity_unique.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-property ins{background-image:url("process_property.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-connector ins{background-image:url("process_connector.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-inferenceRule-onBefore ins{background-image:url("process_inferenceRule_before.png"); background-position:0 0; background-repeat:no-repeat;}
