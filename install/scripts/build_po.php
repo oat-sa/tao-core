@@ -83,7 +83,7 @@ foreach($extensions as $extensionName => $extensionData){
 		}
 	}
 }
-$taoPath = ROOT_PATH . 'tao' . LOCAL_DIR_NAME . '/';
+$taoPath = ROOT_PATH . 'tao/' . LOCAL_DIR_NAME . '/';
 foreach($taoConcats as $lang => $strings){
 	if(writePoFile($taoPath . $lang .'/' .PO_FILE_NAME, $strings)){
 		echo $taoPath . $lang .'/' .PO_FILE_NAME. " rebuild\n";

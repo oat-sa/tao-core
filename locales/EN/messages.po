@@ -1,3 +1,6 @@
+msgid ""
+msgstr ""
+
 msgid "No account match the given login / password"
 msgstr "No account matchs the given login / password"
 
@@ -28,27 +31,6 @@ msgstr ""
 msgid "Import data"
 msgstr ""
 
-msgid "Export data to RDF"
-msgstr ""
-
-msgid "view"
-msgstr ""
-
-msgid "View"
-msgstr ""
-
-msgid "download"
-msgstr ""
-
-msgid "Download"
-msgstr ""
-
-msgid "delete"
-msgstr ""
-
-msgid "Delete"
-msgstr ""
-
 msgid "Translation saved"
 msgstr ""
 
@@ -64,7 +46,7 @@ msgstr ""
 msgid "List "
 msgstr ""
 
-msgid "List item "
+msgid "List items "
 msgstr ""
 
 msgid "Active user"
@@ -80,6 +62,9 @@ msgid "Please confirm user deletion"
 msgstr ""
 
 msgid "Delete user"
+msgstr ""
+
+msgid "delete"
 msgstr ""
 
 msgid "An error occured during user deletion"
@@ -104,24 +89,6 @@ msgid "Unable to restore default user"
 msgstr ""
 
 msgid "User restored successfully"
-msgstr ""
-
-msgid "Export"
-msgstr ""
-
-msgid "Ontology"
-msgstr ""
-
-msgid "All"
-msgstr ""
-
-msgid "Current (model, dependancies and data)"
-msgstr ""
-
-msgid "Current (only data)"
-msgstr ""
-
-msgid "File name"
 msgstr ""
 
 msgid "Connect"
@@ -175,10 +142,7 @@ msgstr ""
 msgid "Company"
 msgstr ""
 
-msgid "Data Language *"
-msgstr ""
-
-msgid "Interface Language *"
+msgid "Language *"
 msgstr ""
 
 msgid "Users"
@@ -274,10 +238,10 @@ msgstr ""
 msgid "A password"
 msgstr ""
 
-msgid "A single choice list"
+msgid "A simple choice list"
 msgstr ""
 
-msgid "A single choice long list"
+msgid "A simple choice long list"
 msgstr ""
 
 msgid "A multiple choice list"
@@ -316,31 +280,19 @@ msgstr "Passwords are not matching"
 msgid "The format of this field is not valid."
 msgstr ""
 
-msgid "Moving this element will remove the following properties:"
+msgid "Add subclass"
 msgstr ""
 
-msgid "new class"
+msgid "Add "
 msgstr ""
 
-msgid "new"
+msgid "Duplicate"
 msgstr ""
 
-msgid "move"
-msgstr ""
-
-msgid "duplicate"
+msgid "Remove"
 msgstr ""
 
 msgid "Please confirm deletion"
-msgstr ""
-
-msgid "Select the element destination"
-msgstr ""
-
-msgid "Cancel"
-msgstr ""
-
-msgid "Move to"
 msgstr ""
 
 msgid "Selection saved successfully"
@@ -355,9 +307,6 @@ msgstr ""
 msgid "Manage data list"
 msgstr ""
 
-msgid "Remove"
-msgstr ""
-
 msgid "Create"
 msgstr ""
 
@@ -365,24 +314,6 @@ msgid "Rename"
 msgstr ""
 
 msgid "Actions"
-msgstr ""
-
-msgid "Confirm"
-msgstr ""
-
-msgid " has been deleted successfully"
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "File"
-msgstr ""
-
-msgid "Date"
-msgstr ""
-
-msgid "Exported files library"
 msgstr ""
 
 msgid "TAO Backend Tool"
@@ -401,6 +332,9 @@ msgid "Logout"
 msgstr ""
 
 msgid "Meta Data"
+msgstr ""
+
+msgid "Date"
 msgstr ""
 
 msgid "User"
@@ -434,12 +368,6 @@ msgid "Back"
 msgstr ""
 
 msgid "Restore default user"
-msgstr ""
-
-msgid "Data Language"
-msgstr ""
-
-msgid "Interface Language"
 msgstr ""
 
 msgid "EN"
