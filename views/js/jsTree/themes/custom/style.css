@@ -34,13 +34,18 @@
 .tree-custom li.node-result_server ins{background-image:url("result_server.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-process-root ins{background-image:url("process-root.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-activity ins{background-image:url("process_activity.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-activity-initial ins{background-image:url("process_activity_start.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-activity-last ins{background-image:url("process_activity_last.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-property ins{background-image:url("process_property.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-connector ins{background-image:url("process_connector.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-inferenceRule-onBefore ins{background-image:url("process_inferenceRule_before.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-inferenceRule-onAfter ins{background-image:url("process_inferenceRule_after.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-rule ins{background-image:url("process_rule.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-interactive-service ins{background-image:url("process_service.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-activity-goto ins{background-image:url("process_activity_goto.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-connector-goto ins{background-image:url("process_connector_goto.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-connector-prev ins{background-image:url("process_connector_prev.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-assignment ins{background-image:url("process_assignment.png"); background-position:0 0; background-repeat:no-repeat;}
 
 .tree-custom li.node-instance a, .tree-custom li.node-instance a.clicked {padding-right:12px;background-image:url("grip.png");background-position: right;background-repeat: no-repeat;}
 
