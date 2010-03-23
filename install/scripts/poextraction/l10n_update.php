@@ -20,37 +20,25 @@
 # ***** END LICENSE BLOCK *****
 
 	
-	# récupération des chaines existantes dans le fichier de langue
-	$listeChaineExistante	= getPoFile($empLoc. $langue . '/' . $fichier);
+//get exisiting strings
+$listeChaineExistante	= getPoFile($empLoc. $langue . '/' . $fichier);
+
+# charset 
+$charset = 'UTF-8';
+
+$listeChaineFichier = array();
+foreach ($directories as $dir){
+	$listeChaineFichier = array_merge($listeChaineFichier, parcoursRepertoire($dir, $extension));
+}
+$listeChaine	= array_merge($listeChaineFichier, $listeChaineExistante);
+
+
+echo $empLoc. $langue. "/" .$fichier."\n";
+if(writePoFile($empLoc. $langue. "/" .$fichier, $listeChaine)){
+	echo "File generated !\n";
+}
+else{
+	echo "An error occured during the file generation!\n";
+}
 	
-	# charset de la page
-	$charset = 'UTF-8';
-	
-	//header('Content-Type: text/html; charset=' . $charset);	
-		
-	$listeChaineFichier = array();
-	foreach ($directories as $dir){
-		$listeChaineFichier = array_merge($listeChaineFichier, parcoursRepertoire($dir, $extension));
-	}
-	
-	#
-	$listeChaine	= array_merge($listeChaineFichier, $listeChaineExistante);
-	
-	
-	# ouverture du fichier
-	echo $empLoc. $langue. "/" .$fichier."\n";
-	if (!$handle = fopen($empLoc. $langue. "/" .$fichier, 'w+')) {
-		echo "Impossible d'ouvrir le fichier:  ".$empLoc. $langue. "/" .$fichier. "\n";
-		exit();
-	}
-	
-	foreach($listeChaine as $chaine => $trad) {
-		fwrite($handle, "msgid \"". $chaine ."\"\n");
-		fwrite($handle, "msgstr \"". $trad ."\"\n");
-		fwrite($handle, "\n");
-	}
-	
-	fclose($handle);
-	
-	echo "Fichier généré !\n";
 ?>

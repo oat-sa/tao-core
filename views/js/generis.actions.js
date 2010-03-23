@@ -79,6 +79,20 @@ GenerisAction.duplicateNode = function (uri, classUri, url){
 }
 
 /**
+ * move a selected node
+ * @param {String} uri
+ * @param {String} classUri
+ * @param {String} url
+ */
+GenerisAction.moveNode = function (uri, classUri, url){
+	var options = getTreeOptions(uri);
+	if(options){
+		options.url = url;
+		GenerisTreeClass.moveInstance(options);
+	}
+}
+
+/**
  * Open a popup
  * @param {String} uri
  * @param {String} classUri

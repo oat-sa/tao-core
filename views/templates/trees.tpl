@@ -5,7 +5,7 @@
 	<?foreach(get_data('trees') as $i => $tree):?>
 	
 	<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all">
-	    <span class="ui-icon"/>
+	    <span class="ui-icon"></span>
 	     <a href="#"><?=__((string)$tree['name'])?></a>
 	  </h3>
 	<div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" style="padding:0em 0em 1em 1em;">

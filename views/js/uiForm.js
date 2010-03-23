@@ -218,9 +218,9 @@ UiForm = function(){
 				//dialog content
 				elt = $(this).parent("div");
 				elt.append("<div id='"+ dialogId +"' style='display:none;' > " +
-								"<span class='ui-state-highlight'>" + __('Right click the tree to manage your lists') + "</span><br /><br />" +
+								"<span class='ui-state-highlight' style='margin:15px;'>" + __('Right click the tree to manage your lists') + "</span><br />" +
 								"<div id='"+treeId+"' ></div> " +
-								"<div style='text-align:center;margin-top:25px;'> " +
+								"<div style='text-align:center;margin-top:30px;'> " +
 									"<a id='"+closerId+"' class='ui-state-default ui-corner-all' href='#'>" + __('Save') + "</a> " +
 								"</div> " +
 							"</div>");

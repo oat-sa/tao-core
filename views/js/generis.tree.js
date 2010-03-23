@@ -69,7 +69,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 					return { 
 						type : $(TREE_OBJ.container).attr('id'),
 						filter: $("#filter-content-" + options.actionId).val()
-					} 
+					};
 				},
 				onload: function(TREE_OBJ){
 					if (instance.options.selectNode) {
@@ -145,11 +145,14 @@ function GenerisTreeClass(selector, dataUrl, options){
 											moveNode(url, data);
 										}
 										else{
+											console.log(RB);
 											$.tree.rollback(RB);
 										}
 									}
 									else if(response.status == true){
-										TREE_OBJ.select_branch(NODE);
+										instance.options.selectNode = $(NODE).attr('id');
+										TREE_OBJ.refresh();
+										TREE_OBJ.open_branch(NODE);	
 									}
 									else{
 										$.tree.rollback(RB);
@@ -157,9 +160,9 @@ function GenerisTreeClass(selector, dataUrl, options){
 							});
 						}
 						moveNode(instance.options.moveInstanceAction, {
-							'uri': $(NODE).attr('id'),
-							'destinationClassUri': $(REF_NODE).attr('id')
-						});
+								'uri': $(NODE).attr('id'),
+								'destinationClassUri': $(REF_NODE).attr('id')
+							});
 					}
 				}
 			},
@@ -167,7 +170,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 				contextmenu : {
 					items : {
 						select: {
-							label: __("edit ") + instance.options.instanceName,
+							label: __("edit") + ' ' + __(instance.options.instanceName),
 							icon: "/tao/views/img/pencil.png",
 							visible : function (NODE, TREE_OBJ) {
 								if( ($(NODE).hasClass('node-instance') &&  instance.options.editInstanceAction)  || 
@@ -177,7 +180,6 @@ function GenerisTreeClass(selector, dataUrl, options){
 								return false;
 							},
 							action  : function(NODE, TREE_OBJ){
-								
 								TREE_OBJ.select_branch(NODE);
 							},
 		                    separator_before : true
@@ -205,7 +207,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 		                    separator_before : true
 						},
 						instance:{
-							label: __("new ") + instance.options.instanceName,
+							label: __("new") + ' ' +  __(instance.options.instanceName),
 							icon	: "/tao/views/img/instance_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
@@ -225,6 +227,24 @@ function GenerisTreeClass(selector, dataUrl, options){
 									cssClass: instance.options.instanceClass
 								});
 							}
+						},
+						move:{
+							label	: __("move"),
+							icon	: "/tao/views/img/move.png",
+							visible	: function (NODE, TREE_OBJ) { 
+									if($(NODE).hasClass('node-instance')  && instance.options.moveInstanceAction){
+										return true;
+									}
+									return false;
+								}, 
+							action	: function (NODE, TREE_OBJ) { 
+								GenerisTreeClass.moveInstance({
+										url: instance.options.moveInstanceAction,
+										NODE: NODE,
+										TREE_OBJ: TREE_OBJ
+									});
+							},
+		                    separator_before : true
 						},
 						duplicate:{
 							label	: __("duplicate"),
@@ -306,7 +326,7 @@ function GenerisTreeClass(selector, dataUrl, options){
  */
 GenerisTreeClass.prototype.getTree = function(){
 	return $.tree.reference(this.selector);
-}
+};
 
 /**
  * @var GenerisTreeClass.defaultOptions is an example of options to provide to the tree
@@ -335,7 +355,7 @@ GenerisTreeClass.selectTreeNode = function(id){
 		i++;
 	}
 	return false;
-}
+};
 
 /**
  * Enable you to retrieve the right tree instance and node instance from an Uri
@@ -390,7 +410,7 @@ GenerisTreeClass.addClass = function(options){
 			}
 		}
 	});
-}
+};
 
 /**
  * add an instance
@@ -421,7 +441,7 @@ GenerisTreeClass.addInstance = function(options){
 			}
 		}
 	});
-}
+};
 
 
 /**
@@ -436,11 +456,11 @@ GenerisTreeClass.removeNode = function(options){
 			data = false;
 			var selectedNode = this;
 			if($(selectedNode).hasClass('node-class')){
-				data =  {classUri: $(selectedNode).attr('id')}
+				data =  {classUri: $(selectedNode).attr('id')};
 			}
 			if($(selectedNode).hasClass('node-instance')){
 				PNODE = TREE_OBJ.parent(selectedNode);
-				data =  {uri: $(selectedNode).attr('id'), classUri: $(PNODE).attr('id')}
+				data =  {uri: $(selectedNode).attr('id'), classUri: $(PNODE).attr('id')};
 			}
 			if(data){
 				$.ajax({
@@ -457,7 +477,7 @@ GenerisTreeClass.removeNode = function(options){
 			}
 		}); 
 	}
-}
+};
 
 /**
  * clone a resource
@@ -488,7 +508,7 @@ GenerisTreeClass.cloneNode = function(options){
 			}
 		}
 	});
-}
+};
 
 /**
  * Rename a node
@@ -508,4 +528,86 @@ GenerisTreeClass.renameNode = function(options){
 			}
 		}
 	});
-}
+};
+
+/**
+ * Move an instance node
+ * @param {Object} options
+ */
+GenerisTreeClass.moveInstance = function(options){
+
+	//to prevent scope crossing
+	var myTREE_OBJ = options.TREE_OBJ;
+	var myNODE = options.NODE;
+	
+	$('body').append(
+		$("<div id='tmp-moving' style='display:none;'>" +
+				"<span class='ui-state-highlight' style='margin:15px;'>" + __('Select the element destination') + "</span><br />" +
+				"<div id='tmp-moving-tree'></div>" +
+				"<div style='text-align:center;margin-top:30px;'> " +
+					"<a id='tmp-moving-closer' class='ui-state-default ui-corner-all' href='#'>" + __('Cancel') + "</a> " +
+				"</div> " +
+			"</div>")
+	);
+	
+	var TMP_TREE = {
+			data: myTREE_OBJ.settings.data,
+			types: {
+			 "default" : {
+				clickable: function(NODE){
+						if($(NODE).hasClass('node-class')){
+							return true;
+						}
+						return false;
+					},
+					renameable	: false,
+					deletable	: false,
+					creatable	: false,
+					draggable	: false
+				}
+			},
+			ui: {
+				theme_name : "custom"
+			},
+			callback: {
+				beforedata:function(NODE, TREE_OBJ) { 
+					return { 
+						type : $(TREE_OBJ.container).attr('id')
+					};
+				},
+				onload: function(TREE_OBJ){
+					TREE_OBJ.open_all();
+				},
+				onselect: function(NODE, TREE_OBJ){
+					/** 
+					 * @todo HERE get the id of the tree selector
+					 */
+					rollback = {
+							"tree-tree": myTREE_OBJ.get_rollback()
+					};
+					myTREE_OBJ.settings.callback.onmove(myNODE, NODE, 'inside', myTREE_OBJ, rollback);
+					$("#tmp-moving").dialog('close');
+				}
+			}
+	};
+	
+	position = $(getMainContainerSelector()).offset();	
+	$("#tmp-moving-tree").tree(TMP_TREE);
+	$("#tmp-moving").dialog({
+		width: 350,
+		height: 400,
+		position: [position.left, position.top],
+		autoOpen: false,
+		title: __('Move to')
+	});
+	
+	$("#tmp-moving").bind('dialogclose', function(event, ui){
+		$.tree.reference("#tmp-moving-tree").destroy();
+		$("#tmp-moving").dialog('destroy');
+		$("#tmp-moving").remove();
+	});
+	$("#tmp-moving-closer").click(function(){
+		$("#tmp-moving").dialog('close');
+	});
+	$("#tmp-moving").dialog('open');
+};

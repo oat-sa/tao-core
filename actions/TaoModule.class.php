@@ -226,7 +226,14 @@ abstract class TaoModule extends CommonModule {
 			$highlightUri = $this->getSessionAttribute("showNodeUri");
 			unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
 		}
-		echo json_encode( $this->service->toTree( $this->getRootClass(), true, true, $highlightUri, $filter));
+		$instances = true;
+		if($this->hasRequestParameter('type')){
+			$type = $this->getRequestParameter('type');
+			if(preg_match("/^tmp\-moving\-tree$/", $type)){
+				$instances = false;
+			}
+		}
+		echo json_encode( $this->service->toTree( $this->getRootClass(), true, $instances, $highlightUri, $filter));
 	}
 	
 	/**

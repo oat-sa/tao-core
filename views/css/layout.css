@@ -206,6 +206,7 @@ div#section-actions div#action-items a{
 	font-weight:bold;
 	color:#D1043B;
 }
+div#section-actions div#action-items td:hover a,
 div#section-actions div#action-items a:hover{
 	color:#FA648C;
 }

@@ -67,6 +67,30 @@ foreach($extensions as $extensionName => $extensionData){
 	}
 }
 
+echo "\n => Rebuild tao extension \n";
+$taoConcats = array();
+foreach($extensions as $extensionName => $extensionData){
+	if(preg_match("/^tao/", $extensionName)){
+	
+		foreach(array_keys($extensionData['langs']) as $lang){
+			if(!isset($taoConcats[$lang])){
+				$taoConcats[$lang] = array();
+			} 
+			$poFile =  $extensionData['path'] . '/' . LOCAL_DIR_NAME . '/'.$lang.'/'.PO_FILE_NAME;
+			if(file_exists($poFile)){
+				$taoConcats[$lang] = array_merge($taoConcats[$lang], getPoFile($poFile));
+			}
+		}
+	}
+}
+$taoPath = ROOT_PATH . 'tao' . LOCAL_DIR_NAME . '/';
+foreach($taoConcats as $lang => $strings){
+	if(writePoFile($taoPath . $lang .'/' .PO_FILE_NAME, $strings)){
+		echo $taoPath . $lang .'/' .PO_FILE_NAME. " rebuild\n";
+	}
+}
+echo "\n------\n";
+
 //UTR
 $utrPath = ROOT_PATH .'taoResults/models/ext/utrv1';
 if(file_exists($utrPath)){
@@ -99,8 +123,8 @@ if(file_exists($utrPath)){
 }
 
 //WATER PHENIX
-$wpPath =  '/home/crp/workspace/authoring';
-if(file_exists($utrPath)){
+$wpPath =  ROOT_PATH .'taoItems/models/ext/itemAuthoring/waterphenix';
+if(file_exists($wpPath)){
 	
 	$directories	= array(
 		$wpPath . '/js/',
