@@ -28,6 +28,27 @@ msgstr "Daten wurden importiert"
 msgid "Import data"
 msgstr "Daten importieren"
 
+msgid "Export data to RDF"
+msgstr ""
+
+msgid "view"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "download"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "Delete"
+msgstr ""
+
 msgid "Translation saved"
 msgstr "Übersetzung gespeichert"
 
@@ -41,10 +62,10 @@ msgid "Lists"
 msgstr "Listen"
 
 msgid "List "
-msgstr "Auflisten"
+msgstr ""
 
-msgid "List item"
-msgstr "Items auflisten "
+msgid "List item "
+msgstr ""
 
 msgid "Active user"
 msgstr "Aktiver User"
@@ -60,9 +81,6 @@ msgstr "Wollen Sie den Benutzer wirklich löschen?"
 
 msgid "Delete user"
 msgstr "Benutzer löschen"
-
-msgid "delete"
-msgstr "löschen"
 
 msgid "An error occured during user deletion"
 msgstr "Ein Fehler ist während dem Löschvorgang aufgetreten"
@@ -87,6 +105,24 @@ msgstr "Wiederherstellen des Default-Benutzers nicht möglich"
 
 msgid "User restored successfully"
 msgstr "Benutzer erfolgreich wiederhergestellt"
+
+msgid "Export"
+msgstr ""
+
+msgid "Ontology"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Current (model, dependancies and data)"
+msgstr ""
+
+msgid "Current (only data)"
+msgstr ""
+
+msgid "File name"
+msgstr ""
 
 msgid "Connect"
 msgstr "Verbinden"
@@ -139,8 +175,11 @@ msgstr "E-Mail"
 msgid "Company"
 msgstr "Unternehmen"
 
-msgid "Language *"
-msgstr "Sprache *"
+msgid "Data Language *"
+msgstr ""
+
+msgid "Interface Language *"
+msgstr ""
 
 msgid "Users"
 msgstr "Benutzer"
@@ -182,7 +221,7 @@ msgid "Options"
 msgstr "Optionen"
 
 msgid "Use the * character to replace any string"
-msgstr "Benutzen Sie das Zeichen * zur Ersetzung einer Zeichenfolge"
+msgstr "Benutzen Sie bitten das Zeichen * zur Ersetzung eienr Zeichenfolge"
 
 msgid "Filters"
 msgstr "Filter"
@@ -197,10 +236,10 @@ msgid "Class"
 msgstr "Klasse"
 
 msgid "Edit property into parent class "
-msgstr "Eigenschaft in Eltern-Klasse bearbeiten"
+msgstr ""
 
 msgid "Property"
-msgstr "Eigenschaft"
+msgstr "Eigenschaften"
 
 msgid "You cannot modify this property"
 msgstr "Sie können diese Eigenschaft nicht ändern"
@@ -235,11 +274,11 @@ msgstr "Formatierter Text"
 msgid "A password"
 msgstr "Passwort"
 
-msgid "A simple choice list"
-msgstr "Einfache Auswahlliste"
+msgid "A single choice list"
+msgstr ""
 
-msgid "A simple choice long list"
-msgstr "Einfache lange Auswahlliste"
+msgid "A single choice long list"
+msgstr ""
 
 msgid "A multiple choice list"
 msgstr "Multiple-Choice liste"
@@ -277,20 +316,32 @@ msgstr "Ungültiges Passwort"
 msgid "The format of this field is not valid."
 msgstr "Das Format dieses Feldes ist ungültig"
 
-msgid "Add subclass"
-msgstr "Subklasse hinzufügen"
+msgid "Moving this element will remove the following properties:"
+msgstr ""
 
-msgid "Add "
-msgstr "Hinzufügen"
+msgid "new class"
+msgstr "neue Klasse"
 
-msgid "Duplicate"
-msgstr "Duplizieren"
+msgid "new"
+msgstr ""
 
-msgid "Remove"
-msgstr "Entfernen"
+msgid "move"
+msgstr ""
+
+msgid "duplicate"
+msgstr "duplizieren"
 
 msgid "Please confirm deletion"
-msgstr "Möchten Sie wirklich löschen?"
+msgstr "Wollen Sie wirklich löschen?"
+
+msgid "Select the element destination"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Move to"
+msgstr ""
 
 msgid "Selection saved successfully"
 msgstr "Auswahl erfolgreich gespeichert"
@@ -304,6 +355,9 @@ msgstr "Zur Verwaltung der Listen klicken Sie bitte mit der rechten Maustaste au
 msgid "Manage data list"
 msgstr "Daten-Liste verwalten"
 
+msgid "Remove"
+msgstr "Entfernen"
+
 msgid "Create"
 msgstr "Erstellen"
 
@@ -312,6 +366,24 @@ msgstr "Umbenennen"
 
 msgid "Actions"
 msgstr "Aktionen"
+
+msgid "Confirm"
+msgstr ""
+
+msgid " has been deleted successfully"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Exported files library"
+msgstr ""
 
 msgid "TAO Backend Tool"
 msgstr "TAO Backend Werkzueg"
@@ -330,9 +402,6 @@ msgstr "Ausloggen"
 
 msgid "Meta Data"
 msgstr "Meta-Daten"
-
-msgid "Date"
-msgstr "Datum"
 
 msgid "User"
 msgstr "Benutzer"
@@ -367,11 +436,44 @@ msgstr "Zurück"
 msgid "Restore default user"
 msgstr "Default-Benutzer wiederherstellen"
 
+msgid "Data Language"
+msgstr ""
+
+msgid "Interface Language"
+msgstr ""
+
+msgid "List"
+msgstr "Auflisten"
+
+msgid "List item"
+msgstr "Items auflisten"
+
+msgid "Language *"
+msgstr "Sprache *"
+
+msgid "Edit property into parent class"
+msgstr "Eigenschaft in Eltern-Klasse bearbeiten"
+
+msgid "A simple choice list"
+msgstr "Einfache Auswahlliste"
+
+msgid "A simple choice long list"
+msgstr "Einfache lange Auswahlliste"
+
+msgid "Add subclass"
+msgstr "Subklasse hinzufügen"
+
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "Duplicate"
+msgstr "Duplizieren"
+
 msgid "Campaign Class saved"
-msgstr "Klasse \"Kampagne\" gespeichert"
+msgstr "Klasse "Kampagne" gespeichert"
 
 msgid "Edit campaign class"
-msgstr "Klasse \"Kampagne\" bearbeiten"
+msgstr "Klasse "Kampagne" bearbeiten"
 
 msgid "Campaign saved"
 msgstr "Kampagne gespeichert"
@@ -380,13 +482,13 @@ msgid "Edit Campaign"
 msgstr "Kampagne bearbeiten"
 
 msgid "Delivery Class saved"
-msgstr "Klasse \"Delivery\" gespeichert"
+msgstr "Klasse "Delivery" gespeichert"
 
 msgid "Edit delivery class"
-msgstr "Klasse\"Delivery\" bearbeiten"
+msgstr "Klasse"Delivery" bearbeiten"
 
 msgid "Delivery saved"
-msgstr "Klasse\"Delivery\" gespeichert"
+msgstr "Klasse"Delivery" gespeichert"
 
 msgid "Edit delivery"
 msgstr "Delivery bearbeiten"
@@ -395,10 +497,10 @@ msgid "saved"
 msgstr "gespeichert"
 
 msgid "Result Server class saved"
-msgstr "Klasse \"Ergebnis-Server\" gespeichert"
+msgstr "Klasse "Ergebnis-Server" gespeichert"
 
 msgid "Edit resultServer class"
-msgstr "Klasse \"Ergebnis-Server\" bearbeiten"
+msgstr "Klasse "Ergebnis-Server" bearbeiten"
 
 msgid "Result Server saved"
 msgstr "Ergebnis-Server gespeichert"
@@ -418,17 +520,8 @@ msgstr "Deliveries-Bibliothek"
 msgid "search"
 msgstr "suchen"
 
-msgid "new class"
-msgstr "neue Klasse"
-
 msgid "new delivery"
 msgstr "neues Delivery"
-
-msgid "delete"
-msgstr "löschen"
-
-msgid "duplicate"
-msgstr "duplizieren"
 
 msgid "edit delivery"
 msgstr "Delivery bearbeiten"
@@ -514,9 +607,6 @@ msgstr "Konnektor"
 msgid "Process Activities"
 msgstr "Prozess-Aktivitäten"
 
-msgid "Property"
-msgstr "Eigenschaften"
-
 msgid "undefined"
 msgstr "undefiniert"
 
@@ -535,17 +625,11 @@ msgstr "Typ??"
 msgid "(still undefined)"
 msgstr "(noch immer undefiniert)"
 
-msgid "Please confirm deletion"
-msgstr "Wollen Sie wirklich löschen?"
-
 msgid "Please confirm deletion? warning: the related connectors may be affected"
 msgstr "Wollen Sie wirklich löschen? Warnung: die abhängigen Konnektoren können betroffen sein"
 
 msgid "Select delivery campaign"
 msgstr "Delivery-Kampagne auswählen"
-
-msgid "Save"
-msgstr "Speichern"
 
 msgid "Select delivery"
 msgstr "Delivery auswählen"
@@ -570,9 +654,6 @@ msgstr "Der Bereich der Ergebnis-Server-Verwaltung erlaubt das Hinzufügen, Bear
 
 msgid "Please select a delivery before authoring it!"
 msgstr "Bitte wählen Sie ein Delivery vor dem Bearbeiten"
-
-msgid "Back"
-msgstr "Zurück"
 
 msgid "Formal Parameter"
 msgstr "Formale Parameter"
@@ -604,18 +685,6 @@ msgstr "neu laden"
 msgid "cancel"
 msgstr "abbrechen"
 
-msgid "Use the * character to replace any string"
-msgstr "Benutzen Sie bitten das Zeichen * zur Ersetzung eienr Zeichenfolge"
-
-msgid "Filter"
-msgstr "Filter"
-
-msgid "Open all"
-msgstr "Alles öffnen"
-
-msgid "Close all"
-msgstr "Alles schließen"
-
 msgid "Select testees to be <b>excluded</b>"
 msgstr "Markieren Sie die Testpersonen, die <b>ausgeschlossen</b> werden sollen."
 
@@ -623,7 +692,7 @@ msgid "Class saved"
 msgstr "Klasse gespeichert"
 
 msgid "Edit group class"
-msgstr "Klasse \"Gruppe\" bearbeiten"
+msgstr "Klasse "Gruppe" bearbeiten"
 
 msgid "Group saved"
 msgstr "Gruppe gespeichert"
@@ -637,35 +706,14 @@ msgstr "Gruppen verwalten"
 msgid "Groups library"
 msgstr "Gruppen-Bibliothek"
 
-msgid "search"
-msgstr "suchen"
-
-msgid "new class"
-msgstr "neue Klasse"
-
 msgid "new group"
 msgstr "neue Gruppe"
-
-msgid "delete"
-msgstr "löschen"
-
-msgid "duplicate"
-msgstr "duplizieren"
 
 msgid "edit group"
 msgstr "Gruppe bearbeiten"
 
-msgid "new property"
-msgstr "neue Eigenschaft"
-
 msgid "meta data"
 msgstr "Meta-Daten"
-
-msgid "create table"
-msgstr "Tabelle erstellen"
-
-msgid "export"
-msgstr "Export"
 
 msgid "The Group module allows to groupe Testees according to global features and classifications."
 msgstr "Das Gruppen-Modul erlaubt das gruppieren von Testpersonen gemäß globalen Eigenschaften und Klassifikationen."
@@ -675,9 +723,6 @@ msgstr "Das Gruppen-Moduls ermöglicht das Zuweisen von Tests zu Gruppen und ste
 
 msgid "Select group testees"
 msgstr "Testpersonen der Gruppe markieren"
-
-msgid "Save"
-msgstr "Speichern"
 
 msgid "Select group test"
 msgstr "Test der Gruppe markieren"
@@ -690,9 +735,6 @@ msgstr "Vorschau noch nicht verfügbar"
 
 msgid "Edit Item"
 msgstr "Item bearbeiten"
-
-msgid "Class saved"
-msgstr "Klasse gespeichert"
 
 msgid "Edit a class"
 msgstr "Klasse bearbeiten"
@@ -712,47 +754,20 @@ msgstr "Items verwalten"
 msgid "Item library"
 msgstr "Item-Bibliothek"
 
-msgid "search"
-msgstr "suchen"
-
-msgid "new class"
-msgstr "neue Klasse"
-
 msgid "new item"
 msgstr "neues Item"
-
-msgid "delete"
-msgstr "löschen"
-
-msgid "duplicate"
-msgstr "duplizieren"
 
 msgid "edit item"
 msgstr "Item bearbeiten"
 
-msgid "new property"
-msgstr "neue Eigenschaft"
-
 msgid "preview"
 msgstr "Vorschau"
-
-msgid "meta data"
-msgstr "Meta-Daten"
-
-msgid "create table"
-msgstr "Tabelle erstellen"
-
-msgid "export"
-msgstr "Export"
 
 msgid "Item authoring"
 msgstr "Item-Authoring"
 
 msgid "Please select an item before!"
 msgstr "Bitte Item markieren!"
-
-msgid "Back"
-msgstr "Zurück"
 
 msgid "Preview"
 msgstr "Vorschau"
@@ -772,11 +787,8 @@ msgstr "Ergebnis gespeichert"
 msgid "Edit result"
 msgstr "Ergebnis bearbeiten"
 
-msgid "Class saved"
-msgstr "Klasse gespeichert"
-
 msgid "Edit result class"
-msgstr "Klasse \"Ergebnis\" speichern"
+msgstr "Klasse "Ergebnis" speichern"
 
 msgid "Results"
 msgstr "Ergebnisse"
@@ -787,35 +799,11 @@ msgstr "Ergebnisse verwalten"
 msgid "Results library"
 msgstr "Ergebnis-Bibliothek"
 
-msgid "search"
-msgstr "suchen"
-
-msgid "new class"
-msgstr "neue Klasse"
-
 msgid "new result"
 msgstr "neues Ergebnis"
 
-msgid "delete"
-msgstr "löschen"
-
-msgid "duplicate"
-msgstr "duplizieren"
-
 msgid "edit result"
 msgstr "Ergebnis bearbeiten"
-
-msgid "new property"
-msgstr "neue Eigenschaft"
-
-msgid "meta data"
-msgstr "Meta-Daten"
-
-msgid "create table"
-msgstr "Tabelle erstellen"
-
-msgid "export"
-msgstr "Export"
 
 msgid "This module constitutes the final step."
 msgstr "Diese Modul stellt den letzten Schritt dar."
@@ -829,11 +817,8 @@ msgstr "Testperson gespeichert"
 msgid "Edit subject"
 msgstr "Testperson bearbeiten"
 
-msgid "Class saved"
-msgstr "Klasse gespeichert"
-
 msgid "Edit subject class"
-msgstr "Klasse \"Testperson\" bearbeiten"
+msgstr "Klasse "Testperson" bearbeiten"
 
 msgid "Testees"
 msgstr "Testpersonen"
@@ -844,41 +829,14 @@ msgstr "Testpersonen verwalten"
 msgid "Testees library"
 msgstr "Testpersonen-Bibliothek"
 
-msgid "search"
-msgstr "suchen"
-
-msgid "new class"
-msgstr "neue Klasse"
-
 msgid "new subject"
 msgstr "neue Testperson"
-
-msgid "delete"
-msgstr "löschen"
-
-msgid "duplicate"
-msgstr "duplizieren"
 
 msgid "edit subject"
 msgstr "Testperson bearbeiten"
 
-msgid "new property"
-msgstr "neue Eigenschaft"
-
-msgid "meta data"
-msgstr "Meta-Daten"
-
-msgid "create table"
-msgstr "Tabelle erstellen"
-
-msgid "export"
-msgstr "Export"
-
 msgid "Add to group"
 msgstr "Zu Gruppe hinzufügen"
-
-msgid "Save"
-msgstr "Sichern"
 
 msgid "The Testees module allows to record and manage  testees."
 msgstr "Das Testpersonen-Modul ermöglicht das Speichern und Verwalten von Testpersonen."
@@ -895,11 +853,8 @@ msgstr "Test gespeichert"
 msgid "Edit test"
 msgstr "Test bearbeiten"
 
-msgid "Class saved"
-msgstr "Klasse gespeichert"
-
 msgid "Edit test class"
-msgstr "Klasse \"Test\" bearbeiten"
+msgstr "Klasse "Test" bearbeiten"
 
 msgid "test saved"
 msgstr "Test gespeichert"
@@ -915,9 +870,6 @@ msgstr "Test erfolgreich gespeichert"
 
 msgid "Maximum time allowed"
 msgstr "Maximale Dauer"
-
-msgid "Password"
-msgstr "Passwort"
 
 msgid "g1"
 msgstr "g1"
@@ -1012,9 +964,6 @@ msgstr "Threshold 3"
 msgid "g6"
 msgstr "g6"
 
-msgid "Darstellung"
-msgstr ""
-
 msgid "Display items list during the test"
 msgstr "Item-Liste während des Tests anzeigen"
 
@@ -1063,38 +1012,11 @@ msgstr "Tests verwalten"
 msgid "Tests library"
 msgstr "Tests-Bibliothek"
 
-msgid "search"
-msgstr "suchen"
-
-msgid "new class"
-msgstr "neue Klasse"
-
 msgid "new test"
 msgstr "neuer Test"
 
-msgid "delete"
-msgstr "löschen"
-
-msgid "duplicate"
-msgstr "duplizieren"
-
 msgid "edit test"
 msgstr "Test bearbeiten"
-
-msgid "new property"
-msgstr "neue Eigenschaft"
-
-msgid "preview"
-msgstr "Vorschau"
-
-msgid "meta data"
-msgstr "Meta-Daten"
-
-msgid "create table"
-msgstr "Tabelle erstellen"
-
-msgid "export"
-msgstr "Export"
 
 msgid "Parameters"
 msgstr "Parameter"
@@ -1105,9 +1027,6 @@ msgstr "Item-Reihenfolge"
 msgid "Please select an test before!"
 msgstr "Bitte markieren Sie einen Test"
 
-msgid "Back"
-msgstr "Zurück"
-
 msgid "The Test module allows to combine a selection of Items to a Test."
 msgstr "Das Test-Modul erlaubt das Zusammenfassen von Items zu Tests."
 
@@ -1116,9 +1035,6 @@ msgstr "Test-Modus (Sequenzierung, Scoring, Kumulierung, etc.) und Layout werden
 
 msgid "Select related items"
 msgstr "Items auswählen"
-
-msgid "Save"
-msgstr "Speichern"
 
 msgid "Items sequence"
 msgstr "Items-Reihenfolge"
@@ -1152,9 +1068,6 @@ msgstr "Modell"
 
 msgid "Numeric value"
 msgstr "Numerischer Wert"
-
-msgid "Items"
-msgstr "Items"
 
 msgid "Sequence saved"
 msgstr "Reihenfolge gespeichert"

@@ -1,4 +1,4 @@
-﻿msgid "No account match the given login / password"
+msgid "No account match the given login / password"
 msgstr "Keen Konto passt bei desen login / Passwuert"
 
 msgid "settings updated"
@@ -28,6 +28,27 @@ msgstr "Daten importéiert"
 msgid "Import data"
 msgstr "Daten importéiren"
 
+msgid "Export data to RDF"
+msgstr ""
+
+msgid "view"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "download"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "delete"
+msgstr "läschen"
+
+msgid "Delete"
+msgstr ""
+
 msgid "Translation saved"
 msgstr "Iwersetzung gespaichert"
 
@@ -41,10 +62,10 @@ msgid "Lists"
 msgstr "Lëschten"
 
 msgid "List "
-msgstr "Lëscht"
+msgstr ""
 
 msgid "List item "
-msgstr "Item uweisen"
+msgstr ""
 
 msgid "Active user"
 msgstr "Aktiven User"
@@ -60,9 +81,6 @@ msgstr "W.e.g. konfirméiert Läschen vum User"
 
 msgid "Delete user"
 msgstr "User läschen"
-
-msgid "delete"
-msgstr "läschen"
 
 msgid "An error occured during user deletion"
 msgstr "Während dem Läschen vum User gouf et e Fehler"
@@ -88,6 +106,24 @@ msgstr "Standarduser kann net retabléiert gin"
 msgid "User restored successfully"
 msgstr "User erfollegraich retabléiert"
 
+msgid "Export"
+msgstr ""
+
+msgid "Ontology"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Current (model, dependancies and data)"
+msgstr ""
+
+msgid "Current (only data)"
+msgstr ""
+
+msgid "File name"
+msgstr ""
+
 msgid "Connect"
 msgstr "Verbannen"
 
@@ -95,7 +131,7 @@ msgid "Login"
 msgstr "Login"
 
 msgid "Password"
-msgstr "Passwuert"
+msgstr "PAsswuert"
 
 msgid "Interface language"
 msgstr "Interface Sprooch"
@@ -139,8 +175,11 @@ msgstr "Email"
 msgid "Company"
 msgstr "Firma"
 
-msgid "Language *"
-msgstr "Sprooch *"
+msgid "Data Language *"
+msgstr ""
+
+msgid "Interface Language *"
+msgstr ""
 
 msgid "Users"
 msgstr "Useren"
@@ -149,7 +188,7 @@ msgid "Manage users"
 msgstr "Useren verwalten"
 
 msgid "Save"
-msgstr "Spaicheren"
+msgstr "Späicheren"
 
 msgid "Revert"
 msgstr "Zréckgoen"
@@ -182,7 +221,7 @@ msgid "Options"
 msgstr "Optiounen"
 
 msgid "Use the * character to replace any string"
-msgstr "Benotzt d'* Zeechen fier een Saatz ze ersetzen"
+msgstr "Benotzt den * fir eng Zeecheketten ze ersetzen"
 
 msgid "Filters"
 msgstr "Filteren"
@@ -197,10 +236,10 @@ msgid "Class"
 msgstr "Klass"
 
 msgid "Edit property into parent class "
-msgstr "Iwergeuerdnet Proprietéit editéiren"
+msgstr ""
 
 msgid "Property"
-msgstr "Proprietéit"
+msgstr "Propriétéit"
 
 msgid "You cannot modify this property"
 msgstr "Dir kënnt des Proprietéit net änneren"
@@ -235,11 +274,11 @@ msgstr "Ee formatéierte Text"
 msgid "A password"
 msgstr "Ee Passwuert"
 
-msgid "A simple choice list"
-msgstr "Eng einfach Auswiel Lëscht"
+msgid "A single choice list"
+msgstr ""
 
-msgid "A simple choice long list"
-msgstr "Eng laang einfach Auswiel Lëscht"
+msgid "A single choice long list"
+msgstr ""
 
 msgid "A multiple choice list"
 msgstr "Eng multiple choice Lëscht"
@@ -277,20 +316,32 @@ msgstr "Passwierder stëmmen nit iwerteneen"
 msgid "The format of this field is not valid."
 msgstr "Den Format vun desem Datenfeld as nit valid."
 
-msgid "Add subclass"
-msgstr "Subkategorie dobeisetzen"
+msgid "Moving this element will remove the following properties:"
+msgstr ""
 
-msgid "Add "
-msgstr "Dobeisetzen"
+msgid "new class"
+msgstr "nei Klass"
 
-msgid "Duplicate"
-msgstr "Duplizéiren"
+msgid "new"
+msgstr ""
 
-msgid "Remove"
-msgstr "Ewech huelen"
+msgid "move"
+msgstr ""
+
+msgid "duplicate"
+msgstr "duplizéieren"
 
 msgid "Please confirm deletion"
-msgstr "W.e.g. konfirméiert d'Läschen"
+msgstr "Wirklech Läschen?"
+
+msgid "Select the element destination"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Move to"
+msgstr ""
 
 msgid "Selection saved successfully"
 msgstr "Auswiel erfollegraich gespaichert"
@@ -304,6 +355,9 @@ msgstr "Macht een Rietsklick op den Baam fier aer Lëschten ze verwalten"
 msgid "Manage data list"
 msgstr "Daten Lëschten verwalten"
 
+msgid "Remove"
+msgstr "Ewech huelen"
+
 msgid "Create"
 msgstr "Erstellen"
 
@@ -312,6 +366,24 @@ msgstr "Embenennen"
 
 msgid "Actions"
 msgstr "Aktiounen"
+
+msgid "Confirm"
+msgstr ""
+
+msgid " has been deleted successfully"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "Date"
+msgstr "Meta Daten"
+
+msgid "Exported files library"
+msgstr ""
 
 msgid "TAO Backend Tool"
 msgstr "TAO Backend Instrument"
@@ -330,9 +402,6 @@ msgstr ""
 
 msgid "Meta Data"
 msgstr "Logout"
-
-msgid "Date"
-msgstr "Meta Daten"
 
 msgid "User"
 msgstr "User"
@@ -356,10 +425,10 @@ msgid "Filter"
 msgstr "Filter"
 
 msgid "Open all"
-msgstr "All opmachen"
+msgstr "All opmaachen"
 
 msgid "Close all"
-msgstr "All zoumachen"
+msgstr "All zoumaachen"
 
 msgid "Back"
 msgstr "Zréck"
@@ -367,19 +436,52 @@ msgstr "Zréck"
 msgid "Restore default user"
 msgstr "Standarduser retabléiren"
 
+msgid "Data Language"
+msgstr ""
+
+msgid "Interface Language"
+msgstr ""
+
+msgid "List"
+msgstr "Lëscht"
+
+msgid "List item"
+msgstr "Item uweisen"
+
+msgid "Language *"
+msgstr "Sprooch *"
+
+msgid "Edit property into parent class"
+msgstr "Iwergeuerdnet Proprietéit editéiren"
+
+msgid "A simple choice list"
+msgstr "Eng einfach Auswiel Lëscht"
+
+msgid "A simple choice long list"
+msgstr "Eng laang einfach Auswiel Lëscht"
+
+msgid "Add subclass"
+msgstr "Subkategorie dobeisetzen"
+
+msgid "Add"
+msgstr "Dobeisetzen"
+
+msgid "Duplicate"
+msgstr "Duplizéiren"
+
 msgid "EN"
-msgstr "English"
+msgstr "Englesch"
 
 msgid "FR"
-msgstr "French"
+msgstr "Franséich"
 
 msgid "DE"
-msgstr "German"
+msgstr "Däitsch"
 
 msgid "LU"
-msgstr "Luxembourgish"
+msgstr "Lëtzebuergesch"
 
-﻿msgid "Campaign Class saved"
+msgid "Campaign Class saved"
 msgstr "Campagne Klass gespäichert"
 
 msgid "Edit campaign class"
@@ -430,17 +532,8 @@ msgstr "Ausliwwerungs Sammlung"
 msgid "search"
 msgstr "duerchsichen"
 
-msgid "new class"
-msgstr "nei Klass"
-
 msgid "new delivery"
 msgstr "nei Ausliwwerung"
-
-msgid "delete"
-msgstr "läschen"
-
-msgid "duplicate"
-msgstr "duplizéieren"
 
 msgid "edit delivery"
 msgstr "editéier Ausliwwerung"
@@ -526,9 +619,6 @@ msgstr "Konnektioun"
 msgid "Process Activities"
 msgstr "Aktivitéieten beschaffen"
 
-msgid "Property"
-msgstr "Propriétéit"
-
 msgid "undefined"
 msgstr "ondéfinéiert"
 
@@ -547,17 +637,11 @@ msgstr "Typ??"
 msgid "(still undefined)"
 msgstr "(nach ëmmer ondéfinéiert)"
 
-msgid "Please confirm deletion"
-msgstr "Wirklech Läschen?"
-
 msgid "Please confirm deletion? warning: the related connectors may be affected"
 msgstr "Wirklech Läschen? Achtung: déi verbonne Konnektioune kënnen betraff sinn"
 
 msgid "Select delivery campaign"
 msgstr "Ausliwwerungs Campagne wielen"
-
-msgid "Save"
-msgstr "Späicheren"
 
 msgid "Select delivery"
 msgstr "Ausliwwerung wielen"
@@ -582,9 +666,6 @@ msgstr "D'Resultatserver Management Sektioun erlaabt Ausliwwerungs Resultat Serv
 
 msgid "Please select a delivery before authoring it!"
 msgstr "W.e.g. wielt eng Ausliwwerung aus virun der Editioun"
-
-msgid "Back"
-msgstr "Zréck"
 
 msgid "Formal Parameter"
 msgstr "Formal Parameter"
@@ -616,33 +697,11 @@ msgstr "nei lueden"
 msgid "cancel"
 msgstr "ofbriechen"
 
-msgid "Use the * character to replace any string"
-msgstr "Benotzt den * fir eng Zeecheketten ze ersetzen "
-
-msgid "Filter"
-msgstr "Filter"
-
-msgid "Open all"
-msgstr "All opmaachen"
-
-msgid "Close all"
-msgstr "All zoumaachen"
-
 msgid "Select testees to be <b>excluded</b>"
 msgstr "Wielt d'Testkandidaten déi <b>ausgeschloss</b> solle ginn"
 
-msgid "EN"
-msgstr "Englesch"
-
-msgid "FR"
-msgstr "Franséisch"
-
-msgid "DE"
-msgstr "Däitsch"
-
-msgid "LU"
-msgstr "Letzebuergesch"﻿msgid "Class saved"
-msgstr "Klass gespaichert"
+msgid "Class saved"
+msgstr "Klass gespäichert"
 
 msgid "Edit group class"
 msgstr "Gruppen Klass editéiren"
@@ -659,35 +718,14 @@ msgstr "Gruppen verwalten"
 msgid "Groups library"
 msgstr "Gruppensammlung"
 
-msgid "search"
-msgstr "sichen"
-
-msgid "new class"
-msgstr "Nei Klass"
-
 msgid "new group"
 msgstr "Nei Grupp"
-
-msgid "delete"
-msgstr "läschen"
-
-msgid "duplicate"
-msgstr "duplizéiren"
 
 msgid "edit group"
 msgstr "Grupp editéiren"
 
-msgid "new property"
-msgstr "nei Proprietéit"
-
 msgid "meta data"
-msgstr "Meta Daten"
-
-msgid "create table"
-msgstr "Tabell erstellen"
-
-msgid "export"
-msgstr "exportéiren"
+msgstr "Metadaten"
 
 msgid "The Group module allows to groupe Testees according to global features and classifications."
 msgstr "Den Gruppen Modul erlabt Testpersounen ze gruppéiren no globalen Charakteristiken an Klassifikatiounen."
@@ -698,25 +736,10 @@ msgstr "d'Haaptziel vum Gruppen Modul besteht dran fier Tester mat hiirem entspr
 msgid "Select group testees"
 msgstr "Gruppen Testpersounen eraussichen"
 
-msgid "Save"
-msgstr "Spaicheren"
-
 msgid "Select group test"
 msgstr "Gruppen Test eraussichen"
 
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "DE"
-msgstr "German"
-
-msgid "LU"
-msgstr "Luxembourgish"
-
-﻿msgid "Item saved"
+msgid "Item saved"
 msgstr "Item gespaichert"
 
 msgid "Preview not yet available"
@@ -724,9 +747,6 @@ msgstr "Viirbléck nat net verfügbar"
 
 msgid "Edit Item"
 msgstr "Item editéiren"
-
-msgid "Class saved"
-msgstr "Klass gespaichert"
 
 msgid "Edit a class"
 msgstr "Klass editéiren"
@@ -746,47 +766,20 @@ msgstr "Itemen verwalten"
 msgid "Item library"
 msgstr "Item Sammlung"
 
-msgid "search"
-msgstr "sichen"
-
-msgid "new class"
-msgstr "nei Klass"
-
 msgid "new item"
 msgstr "neien Item"
-
-msgid "delete"
-msgstr "läschen"
-
-msgid "duplicate"
-msgstr "duplizéiren"
 
 msgid "edit item"
 msgstr "Item editéiren"
 
-msgid "new property"
-msgstr "nei Proprietéit"
-
 msgid "preview"
-msgstr "Viirbléck"
-
-msgid "meta data"
-msgstr "Meta Daten"
-
-msgid "create table"
-msgstr "Tabell erstellen"
-
-msgid "export"
-msgstr "exportéiren"
+msgstr "Virschau"
 
 msgid "Item authoring"
 msgstr "Item Entwécklung"
 
 msgid "Please select an item before!"
 msgstr "W.e.g. sicht fier d'éischt een Item eraus!"
-
-msgid "Back"
-msgstr "Zréck"
 
 msgid "Preview"
 msgstr "Viirbléck"
@@ -800,26 +793,11 @@ msgstr "Den Item Modul erlaabt d'Erstellen an formatéiren vun Itemen an Aufgabe
 msgid "A series of different templates are provided to the Item authors such as multiple choice questions, puzzle design, text with gaps, etc."
 msgstr "D'Item Ersteller kënnen op eng Lëscht vun Viirlagen zréckgraifen wéi z.B. mutliple choice Froen, Puzzle Froen, Lückentext, asw."
 
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "DE"
-msgstr "German"
-
-msgid "LU"
-msgstr "Luxembourgish"
-
-﻿msgid "Result saved"
+msgid "Result saved"
 msgstr "Resultat gespaichert"
 
 msgid "Edit result"
 msgstr "Resultat editéiren"
-
-msgid "Class saved"
-msgstr "Klass gespaichert"
 
 msgid "Edit result class"
 msgstr "Resultat Klass editéiren"
@@ -833,35 +811,11 @@ msgstr "Resultater verwalten"
 msgid "Results library"
 msgstr "Resultater Sammlung"
 
-msgid "search"
-msgstr "sichen"
-
-msgid "new class"
-msgstr "nei Klass"
-
 msgid "new result"
 msgstr "neit Resultat"
 
-msgid "delete"
-msgstr "läschen"
-
-msgid "duplicate"
-msgstr "duplizéiren"
-
 msgid "edit result"
 msgstr "Resultat editéiren"
-
-msgid "new property"
-msgstr "nei Proprietéit"
-
-msgid "meta data"
-msgstr "Meta Daten"
-
-msgid "create table"
-msgstr "Tabell erstellen"
-
-msgid "export"
-msgstr "exportéiren"
 
 msgid "This module constitutes the final step."
 msgstr "Desen Modul stellt den letzen Schrack duer."
@@ -869,26 +823,11 @@ msgstr "Desen Modul stellt den letzen Schrack duer."
 msgid "All results of passed Tests with their referring Subject, Group and Item specific data, as well as the individual data collected during Test execution are stored and managed here."
 msgstr "All Resultater vun duerchgefouerten Tester, mat hieren entspriechenden Testpersounen, Gruppen, Item Daten an och all individeull Daten déi während der Testpassatioun gesammelt goufen, gin hei gespaichert"
 
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "DE"
-msgstr "German"
-
-msgid "LU"
-msgstr "Luxembourgish"
-
-﻿msgid "Subject saved"
+msgid "Subject saved"
 msgstr "Testpersoun gespaichert"
 
 msgid "Edit subject"
 msgstr "Testpersoun editéiren"
-
-msgid "Class saved"
-msgstr "Klass gespaichert"
 
 msgid "Edit subject class"
 msgstr "Testpersounen Klass editéiren"
@@ -902,41 +841,14 @@ msgstr "Testpersounen verwalten"
 msgid "Testees library"
 msgstr "Testpersounen Sammlung"
 
-msgid "search"
-msgstr "sichen"
-
-msgid "new class"
-msgstr "nei Klass"
-
 msgid "new subject"
 msgstr "nei Testpersoun"
-
-msgid "delete"
-msgstr "läschen"
-
-msgid "duplicate"
-msgstr "duplizéiren"
 
 msgid "edit subject"
 msgstr "Testpersoun editéiren"
 
-msgid "new property"
-msgstr "nei Proprietéit"
-
-msgid "meta data"
-msgstr "Meta Daten"
-
-msgid "create table"
-msgstr "Tabell erstellen"
-
-msgid "export"
-msgstr "exportéiren"
-
 msgid "Add to group"
 msgstr "Bei e Grupp derbeisetzen"
-
-msgid "Save"
-msgstr "Spaicheren"
 
 msgid "The Testees module allows to record and manage  testees."
 msgstr "Den Testpersounen Modul erlaabt et fier Testpersounen opzehuelen an ze verwalten."
@@ -947,26 +859,11 @@ msgstr "Seng Flexibilitéit erlaabt d'Erstellen vun Datensätz (z.b. Numm, Adres
 msgid "Testees may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
 msgstr "Testpersounen kënnen zesummengefaasst gin opgrond vun dem entspriechenden Assessment Kontext (Personalverwaltung, Educatioun, Schoulmonitoring, etc.)."
 
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "DE"
-msgstr "German"
-
-msgid "LU"
-msgstr "Luxembourgish"
-
-﻿msgid "Test saved"
+msgid "Test saved"
 msgstr "Test gespäichert"
 
 msgid "Edit test"
 msgstr "Editéier Test"
-
-msgid "Class saved"
-msgstr "Klass gespäichert"
 
 msgid "Edit test class"
 msgstr "Test Klass editéieren"
@@ -985,9 +882,6 @@ msgstr "Test erfollechräich gespäichert"
 
 msgid "Maximum time allowed"
 msgstr "Maximum erlaabten Zäit"
-
-msgid "Password"
-msgstr "PAsswuert"
 
 msgid "g1"
 msgstr "g1"
@@ -1098,7 +992,7 @@ msgid "Display comments"
 msgstr "Kommentar uweisen"
 
 msgid "Deactivate back button"
-msgstr "\"Zreck-Knäppchen\" ofschalten"
+msgstr ""Zreck-Knäppchen" ofschalten"
 
 msgid "Test content (top position)"
 msgstr "Test Contenu (iewescht Positioun)"
@@ -1133,38 +1027,11 @@ msgstr "Testermanagen"
 msgid "Tests library"
 msgstr "Test Sammlung"
 
-msgid "search"
-msgstr "duerchsichen"
-
-msgid "new class"
-msgstr "nei Klass"
-
 msgid "new test"
 msgstr "neien Test"
 
-msgid "delete"
-msgstr "läschen"
-
-msgid "duplicate"
-msgstr "duplizéieren"
-
 msgid "edit test"
 msgstr "Test editéieren"
-
-msgid "new property"
-msgstr "nei Propriétéit"
-
-msgid "preview"
-msgstr "Virschau"
-
-msgid "meta data"
-msgstr "Metadaten"
-
-msgid "create table"
-msgstr "Tabell erschafen"
-
-msgid "export"
-msgstr "exportéieren"
 
 msgid "Parameters"
 msgstr "Parameter"
@@ -1175,9 +1042,6 @@ msgstr "Itemsequenz"
 msgid "Please select an test before!"
 msgstr "Wielt w.e.g als éischt en Test"
 
-msgid "Back"
-msgstr "Zréck"
-
 msgid "The Test module allows to combine a selection of Items to a Test."
 msgstr "Den Test Modul erlaabt eng Selektioun vun Itemen matt engem Test ze verbannen."
 
@@ -1186,9 +1050,6 @@ msgstr "Den Test Modus (Sequenzéieren, Bewerten, Sammelen, etc.) an de Layout g
 
 msgid "Select related items"
 msgstr "Verwandten Itemen wielen"
-
-msgid "Save"
-msgstr "Späicheren"
 
 msgid "Items sequence"
 msgstr "Itemsequenz"
@@ -1223,9 +1084,6 @@ msgstr "Modell"
 msgid "Numeric value"
 msgstr "Numeresche Wert"
 
-msgid "Items"
-msgstr "Itemen"
-
 msgid "Sequence saved"
 msgstr "Sequenz gespäichert"
 
@@ -1246,16 +1104,4 @@ msgstr "Compilatioun feelgeschloen"
 
 msgid "Compiling test"
 msgstr "Test gëtt compiléiert"
-
-msgid "EN"
-msgstr "Englesch"
-
-msgid "FR"
-msgstr "Franséich"
-
-msgid "DE"
-msgstr "Däitsch"
-
-msgid "LU"
-msgstr "Lëtzebuergesch"
 
