@@ -42,8 +42,10 @@
 .tree-custom li.node-connector ins{background-image:url("process_connector.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-inferenceRule-onBefore ins{background-image:url("process_inferenceRule_before.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-inferenceRule-onAfter ins{background-image:url("process_inferenceRule_after.png"); background-position:0 0; background-repeat:no-repeat;}
-.tree-custom li.node-rule ins{background-image:url("process_rule.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-interactive-service ins{background-image:url("process_service.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-consistencyRule ins{background-image:url("process_consistency_rule.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-rule ins{background-image:url("process_rule.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-notification ins{background-image:url("process_notification.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-activity-goto ins{background-image:url("process_activity_goto.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-connector-goto ins{background-image:url("process_connector_goto.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-connector-prev ins{background-image:url("process_connector_prev.png"); background-position:0 0; background-repeat:no-repeat;}
