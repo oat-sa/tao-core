@@ -203,7 +203,12 @@ class Main extends CommonModule {
 		if($currentExtension){
 		
 			$structure = $this->service->getStructure($currentExtension, $this->getRequestParameter('section'));
-			$this->setData('trees', $structure->trees[0]);
+			$trees = array();
+			foreach($structure->trees[0] as $tree){
+				$treeId = tao_helpers_Display::textCleaner((string)$tree['name'], '_');
+				$trees[$treeId] = $tree;
+			}
+			$this->setData('trees', $trees);
 			
 			$openUri = false;
 			if($this->hasSessionAttribute("showNodeUri")){
