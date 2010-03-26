@@ -99,8 +99,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 						if(DATA.children){
 							function addClassToNodes(nodes, clazz){
 								$.each(nodes, function(i, node){
-									if(node.attributes['class'] == 'node-instance'){
-										node.attributes['class'] = 'node-instance ' + clazz;
+									if(/node\-instance/.test(node.attributes['class'])){
+										node.attributes['class'] = node.attributes['class'] + ' ' + clazz;
 									}
 									if(node.children){
 										addClassToNodes(node.children, clazz);
@@ -108,6 +108,9 @@ function GenerisTreeClass(selector, dataUrl, options){
 								});
 							}
 							addClassToNodes(DATA.children, instance.options.instanceClass);
+							if(instance.options.moveInstanceAction){
+								addClassToNodes(DATA.children, 'node-draggable');
+							}
 						}
 					}
 					return DATA;
