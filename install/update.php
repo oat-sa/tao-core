@@ -13,6 +13,8 @@ if(PHP_SAPI == 'cli'){
 	
 require_once dirname(__FILE__).'/../../generis/common/inc.extension.php';	
 require_once dirname(__FILE__).'/../includes/common.php';
+core_control_FrontController::connect('tao', md5('tao'), DATABASE_NAME);
+
 
 define('UPDATE_URI_DB');
 
