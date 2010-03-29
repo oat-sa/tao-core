@@ -20,7 +20,8 @@ $todefine = array(
 	'TAO_DELIVERY_HISTORY_CLASS'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#History',
 	'RDFS_LABEL'			=> 'http://www.w3.org/2000/01/rdf-schema#label',
 	'RDFS_TYPE'				=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-	'GENERIS_BOOLEAN'		=> 'http://www.tao.lu/Ontologies/generis.rdf#Boolean'
+	'GENERIS_BOOLEAN'		=> 'http://www.tao.lu/Ontologies/generis.rdf#Boolean',
+	'GENERIS_LIST'			=> 'http://www.tao.lu/Ontologies/generis.rdf#List'
 );
 foreach($todefine as $constName => $constValue){
 	if(!defined($constName)){

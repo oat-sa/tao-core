@@ -195,8 +195,10 @@ abstract class tao_models_classes_Service
 		if( empty($label) ){
 			$label = $clazz->getLabel() . '_' . (count($clazz->getInstances()) + 1);
 		}
+		
 		$returnValue = core_kernel_classes_ResourceFactory::create($clazz, $label, '');
-        // section 10-13-1-45--135fece8:123b76cb3ff:-8000:0000000000001897 end
+		
+		// section 10-13-1-45--135fece8:123b76cb3ff:-8000:0000000000001897 end
 
         return $returnValue;
     }

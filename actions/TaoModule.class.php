@@ -963,7 +963,9 @@ abstract class TaoModule extends CommonModule {
 			$this->setData('classUri', $this->getRequestParameter('classUri'));
 			$this->setData('metadata', true); 
 		}
-		catch(Exception $e){}
+		catch(Exception $e){
+			print $e;
+		}
 		
 		$this->setView('metadata.tpl', true);
 	}

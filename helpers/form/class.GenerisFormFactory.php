@@ -141,6 +141,7 @@ class tao_helpers_form_GenerisFormFactory
 					
 					//take instance values to populate the form
 					if(!is_null($instance)){
+						
 						$values = $instance->getPropertyValuesCollection($property);
 						foreach($values->getIterator() as $value){
 							if(!is_null($value)){
