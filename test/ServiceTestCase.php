@@ -51,19 +51,34 @@ class ServiceTestCase extends UnitTestCase {
 		
 		$extensions = $this->taoService->getLoadedExtensions();
 		$this->assertTrue( is_array($extensions) );
-			
-		$usualExts = array(
-			'taoGroups',
-			'taoItems',
-			'taoResults',
-			'taoSubjects',
-			'taoTests'
-		);
-		foreach($usualExts as $usualExt){
-			if(is_dir(GENERIS_BASE_PATH . '/' . $usualExt)){				//if the extension exists in the file system
-				$this->assertTrue( in_array($usualExt, $extensions) );		//the service should return it
+
+		$foundExtensions = array();
+		foreach(scandir(ROOT_PATH) as $file){
+			if(!preg_match("/^\./", $file) && is_dir(ROOT_PATH.'/'.$file)){
+				if(file_exists(ROOT_PATH.'/'.$file.'/manifest.php')){
+					$manifest = (include ROOT_PATH.'/'.$file.'/manifest.php');
+					$foundExtensions[] = $file;
+				}
 			}
 		}
+		
+		foreach($extensions as $extension){
+			if($this->taoService->isTaoChildExtension($extension)){
+				$this->assertTrue( in_array($extension, $foundExtensions) );		//the service should return it
+				$structure = $this->taoService->getStructure($extension);
+				$this->assertIsA($structure, 'SimpleXMLElement');
+
+				$this->assertTrue(isset($structure->sections));
+				foreach($structure->sections->section as $section){
+					$this->assertTrue(isset($section['name']));
+					$sectionData = $this->taoService->getStructure($extension, (string)$section['name']);
+					$this->assertTrue(isset($sectionData['name']));
+					$this->assertTrue(isset($sectionData['url']));
+				}
+			}
+		}
+		
+		
 	}
 	
 	/**
@@ -94,11 +109,27 @@ class ServiceTestCase extends UnitTestCase {
 		//we create a temp object for the needs of the test
 		$generisResourceClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource');
 		$testModelClass = $generisResourceClass->createSubClass('aModel', 'test model');
+		$this->assertIsA($testModelClass, 'core_kernel_classes_Class');
+		
 		$testProperty = $testModelClass->createProperty('aKey', 'test property');
+		$this->assertIsA($testProperty, 'core_kernel_classes_Property');
+		
+		//get the diff between the class and the subclass
+		$diffs = $this->taoService->getPropertyDiff($testModelClass, $generisResourceClass);
+		$this->assertIsA($diffs, 'array');
+		$diffProperty = $diffs[0];
+		$this->assertNotNull($diffProperty);
+		$this->assertIsA($diffProperty, 'core_kernel_classes_Property');
+		$this->assertEqual($testProperty->uriResource, $diffProperty->uriResource);
 		
 		//test the createInstance method 
 		$testInstance = $this->taoService->createInstance($testModelClass, 'anInstance');
 		$this->assertIsA( $testInstance, 'core_kernel_classes_Resource');
+		
+		//get the class from the instance
+		$clazz = $this->taoService->getClass($testInstance);
+		$this->assertIsA($clazz, 'core_kernel_classes_Class');
+		$this->assertEqual($clazz->uriResource, $testModelClass->uriResource);
 		
 		//test the bindProperties method
 		$testInstance = $this->taoService->bindProperties(
@@ -111,8 +142,17 @@ class ServiceTestCase extends UnitTestCase {
 		$this->assertEqual($testInstance->getUniquePropertyValue($testProperty), 'aValue');
 		
 		
+		//clone instance
+		$clonedInstance = $this->taoService->cloneInstance($testInstance, $testModelClass);
+		$this->assertIsA( $clonedInstance, 'core_kernel_classes_Resource');
+		$this->assertNotEqual($clonedInstance->uriResource, $testInstance->uriResource);
+		$this->assertEqual($testInstance->getUniquePropertyValue($testProperty), $clonedInstance->getUniquePropertyValue($testProperty));
+		
+		
+		
 		//clean them
 		$testInstance->delete();
+		$clonedInstance->delete();
 		$testProperty->delete();
 		$testModelClass->delete();
 	}

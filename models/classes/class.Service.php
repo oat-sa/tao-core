@@ -142,85 +142,8 @@ abstract class tao_models_classes_Service
 
         // section 127-0-1-1-106f2734:126b2f503d0:-8000:0000000000001E96 begin
 		
-		if(count($propertyFilters) == 0){
-			return $returnValue; 
-		}
-		
-		if(isset($options['lang'])){
-			$langToken = " AND (l_language = '' OR l_language = '{$options['lang']}') ";
-		}
-		
-		$query = "SELECT DISTINCT `subject` FROM `statements` WHERE ";
-		
-		$conditions = array();
-		foreach($propertyFilters as $propUri => $pattern){
-			if(is_string($pattern)){
-				if(!empty($pattern)){
-					$conditions[] = " (`predicate` = '{$propUri}' AND `object` LIKE '".str_replace('*', '%', $pattern)."' $langToken ) ";
-				}
-			}
-			if(is_array($pattern)){
-				if(count($pattern) > 0){
-					$multiCondition =  " (`predicate` = '{$propUri}' AND  ";
-					foreach($pattern as $i => $patternToken){
-						if($i > 0){
-							$multiCondition .= " OR ";
-						}
-						$multiCondition .= " `object` LIKE '".str_replace('*', '%', $patternToken)."'  ";
-					}
-					$conditions[] = "{$multiCondition} {$langToken} ) ";
-				}
-			}
-		}
-		if(count($conditions) == 0){
-			return $returnValue; 
-		}
-		$matchingUris = array();
-		
-		$intersect = true; 
-		if(isset($options['chaining'])){
-			if($options['chaining'] == 'or'){
-				$intersect = false; 
-			}
-		}
-		
-		$dbWrapper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
-		if(count($conditions) > 0){
-			$i = 0;
-			foreach($conditions as $condition){
-				$tmpMatchingUris = array();
-				$result = $dbWrapper->execSql($query . $condition);
-				while (!$result->EOF){
-					$tmpMatchingUris[] = $result->fields['subject'];
-					$result->MoveNext();
-				}
-				if($intersect){
-					//EXCLUSIVES CONDITIONS
-					if($i == 0){
-						$matchingUris = $tmpMatchingUris;
-					}
-					else{
-						$matchingUris = array_intersect($matchingUris, $tmpMatchingUris);
-					}
-				}
-				else{
-					//INCLUSIVES CONDITIONS
-					$matchingUris = array_merge($matchingUris, $tmpMatchingUris);
-				}
-				$i++;
-			}
-		}
-		
-		if(!is_null($topClazz)){
-			$instances = $topClazz->getInstances(true);
-			foreach($matchingUris as $matchingUri){
-				if(isset($instances[$matchingUri])){
-					if(!in_array($instances[$matchingUri], $returnValue)){
-						$returnValue[] = $instances[$matchingUri];
-					}
-				}
-			}
-		}
+		$apiSearch = new core_kernel_classes_ApiSearchI();
+		$returnValue = $apiSearch->searchInstances($propertyFilters, $topClazz, $options);
 		
         // section 127-0-1-1-106f2734:126b2f503d0:-8000:0000000000001E96 end
 
@@ -279,7 +202,7 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method getClass
+     * Get the class of the resource in parameter (the rdfs type property)
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

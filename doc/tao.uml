@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Mar 22 09:49:51 CET 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Mar 29 10:28:21 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -12548,6 +12548,34 @@ Return the SimpleXmlElement object (don&apos;t forget to cast it) </UML:TaggedVa
                             <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
                           </UML:StructuralFeature.type>
                         </UML:Attribute>
+                        <UML:Operation xmi.id = '127-0-1-1-34cc9151:127a8ee40c4:-8000:000000000000233E'
+                          name = 'isTaoChildExtension' visibility = 'public' isSpecification = 'false'
+                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-34cc9151:127a8ee40c4:-8000:0000000000002341'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Check if an extension is an extension loaded inside the TAO GUI</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-34cc9151:127a8ee40c4:-8000:000000000000233F'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-34cc9151:127a8ee40c4:-8000:0000000000002340'
+                              name = 'extension' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
                       </UML:Classifier.feature>
                     </UML:Class>
                     <UML:Generalization xmi.id = '10-13-1-45-792423e0:12398d13f24:-8000:0000000000001837'
@@ -12852,6 +12880,15 @@ Used to centralize the behavior related to every servcie instances. </UML:Tagged
                           name = 'getClass' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-34cc9151:127a8ee40c4:-8000:0000000000002342'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Get the class of the resource in parameter (the rdfs type property)</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--519643a:127850ba1cf:-8000:000000000000233C'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -48947,7 +48984,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::models::classes::Service</text>
     <group name="Fig2.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 713, 774, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 713, 766, 0]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834"
          fill="0"
          fillcolor="white"
@@ -48961,7 +48998,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <rectangle name="Fig2.2.0"
         x="25"
         y="713"
-        width="774"
+        width="766"
         height="0"
         fill="0"
         fillcolor="white"
@@ -49378,7 +49415,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig3.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 1088, 398, 55]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 1088, 398, 47]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822"
          fill="0"
          fillcolor="white"
@@ -49392,7 +49429,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="25"
         y="1088"
         width="398"
-        height="55"
+        height="47"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -49433,7 +49470,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig3.5"
       x="24"
-      y="1143"
+      y="1135"
       width="400"
       height="1"
       fill="1"
@@ -49442,7 +49479,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig3.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 1144, 398, 119]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 1136, 398, 127]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822"
          fill="0"
          fillcolor="white"
@@ -49454,9 +49491,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig3.6.0"
         x="25"
-        y="1144"
+        y="1136"
         width="398"
-        height="119"
+        height="127"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -49464,7 +49501,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig3.6.1"
         x="25"
-        y="1144"
+        y="1136"
         width="398"
         height="16"
         fill="0"
@@ -49480,7 +49517,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getLoadedExtensions() : array</text>
       <text name="Fig3.6.2"
         x="25"
-        y="1160"
+        y="1152"
         width="398"
         height="16"
         fill="0"
@@ -49496,7 +49533,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >isLoaded(extension : string) : boolean</text>
       <text name="Fig3.6.3"
         x="25"
-        y="1176"
+        y="1168"
         width="398"
         height="16"
         fill="0"
@@ -49512,7 +49549,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >setCurrentExtension(extension : string)</text>
       <text name="Fig3.6.4"
         x="25"
-        y="1192"
+        y="1184"
         width="398"
         height="16"
         fill="0"
@@ -49528,7 +49565,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getCurrentExtension() : string</text>
       <text name="Fig3.6.5"
         x="25"
-        y="1208"
+        y="1200"
         width="398"
         height="16"
         fill="0"
@@ -49544,7 +49581,23 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >loadExtensionStructure(extension : string) : SimpleXMLElement</text>
       <text name="Fig3.6.6"
         x="25"
-        y="1224"
+        y="1216"
+        width="398"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >getStructure(extension : string = &apos;&apos;,section : string = &apos;&apos;) : array</text>
+      <text name="Fig3.6.7"
+        x="25"
+        y="1232"
         width="398"
         height="22"
         fill="0"
@@ -49557,7 +49610,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >getStructure(extension : string = &apos;&apos;,section : string = &apos;&apos;) : array</text>
+      >isTaoChildExtension(extension : string) : boolean</text>
     </group>
   </group>
   <group name="Fig4"

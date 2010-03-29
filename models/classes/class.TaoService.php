@@ -234,6 +234,31 @@ class tao_models_classes_TaoService
         return (array) $returnValue;
     }
 
+    /**
+     * Check if an extension is an extension loaded inside the TAO GUI
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string extension
+     * @return boolean
+     */
+    public function isTaoChildExtension($extension)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-34cc9151:127a8ee40c4:-8000:000000000000233E begin
+        
+        if(!empty($extension)){
+        	if(file_exists(ROOT_PATH.'/'.$extension.'/actions/structure.xml')){
+        		 $returnValue = true;
+        	}
+        }
+        
+        // section 127-0-1-1-34cc9151:127a8ee40c4:-8000:000000000000233E end
+
+        return (bool) $returnValue;
+    }
+
 } /* end of class tao_models_classes_TaoService */
 
 ?>
