@@ -290,7 +290,7 @@ abstract class tao_models_classes_Service
 					);
 					if(strlen(trim($propertyValue))==0){
 						//if the property value is an empty space(the default value in a select input field), delete the corresponding triplet (and not all property values)
-						core_kernel_classes_ApiModelOO::singleton()->removeStatement($instance->uriResource, $propertyUri, '', '');
+						core_kernel_impl_ApiModelOO::singleton()->removeStatement($instance->uriResource, $propertyUri, '', '');
 					}
 				}
 			}

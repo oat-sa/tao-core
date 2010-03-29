@@ -99,7 +99,7 @@ class tao_helpers_GenerisDataAdapterRdf
 
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EC1 begin
 	
-		$api = core_kernel_classes_ApiModelOO::singleton();
+		$api = core_kernel_impl_ApiModelOO::singleton();
 		
 		if(!is_null($source)){
 			$dbWrapper =  core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);

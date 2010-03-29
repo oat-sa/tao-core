@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
 	
@@ -7,6 +8,7 @@ class TestRunner{
 	public static function initTest(){
 		//connect the API
 		core_control_FrontController::connect('tao', md5('tao'), DATABASE_NAME);
+
 	}
 	
 	public static function getTests(){

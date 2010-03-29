@@ -139,7 +139,7 @@ class ServiceTestCase extends UnitTestCase {
 			)
 		);
 		$this->assertIsA( $testInstance, 'core_kernel_classes_Resource');
-		$this->assertEqual($testInstance->getUniquePropertyValue($testProperty), 'aValue');
+		$this->assertEqual($testInstance->getUniquePropertyValue($testProperty)->literal, 'aValue');
 		
 		
 		//clone instance
