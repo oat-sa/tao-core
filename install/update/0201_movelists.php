@@ -28,8 +28,14 @@ $oldLists = getListData(array(
 	
 $typeProperty = new core_kernel_classes_Property(RDFS_TYPE);
 $newListClass = new core_kernel_classes_Class(TAO_LIST_CLASS);
-foreach($oldLists as $oldlist){
-	$oldlist->editPropertyValues($typeProperty, $newListClass);
+$levelProperty = new core_kernel_classes_Property(TAO_LIST_LEVEL_PROP);
+foreach($oldLists as $list){
+	$list->editPropertyValues($typeProperty, $newListClass);
+	$level = 1;
+	foreach($list->getInstances() as $element){
+		$element->setPropertyValue($levelProperty, $level);
+		$level++;
+	}
 }
  
 ?>

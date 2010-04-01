@@ -27,7 +27,7 @@ class Users extends CommonModule {
 	 */
 	public function index(){
 		$this->setData('data', 'list the users');
-		$this->setView('user_list.tpl');
+		$this->setView('user/list.tpl');
 	}
 	
 	/**
@@ -122,7 +122,7 @@ class Users extends CommonModule {
 		}
 		$this->setData('formTitle', __('Add a user'));
 		$this->setData('myForm', $myForm->render());
-		$this->setView('user_form.tpl');
+		$this->setView('user/form.tpl');
 	}
 	
 	/**
@@ -166,7 +166,7 @@ class Users extends CommonModule {
 		
 		$this->setData('formTitle', __('Edit a user'));
 		$this->setData('myForm', $myForm->render());
-		$this->setView('user_form.tpl');
+		$this->setView('user/form.tpl');
 	}
 	
 	/**

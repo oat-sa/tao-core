@@ -1,4 +1,4 @@
-<?include('header.tpl')?>
+<?include(TAO_TPL_PATH .'header.tpl')?>
 
 <?if(get_data('found')):?>
 	<table id="result-list"></table>
@@ -60,4 +60,4 @@ $(document).ready(function(){
 </script>
 <?endif?>
 
-<?include('footer.tpl');?>
+<?include(TAO_TPL_PATH .'footer.tpl');?>

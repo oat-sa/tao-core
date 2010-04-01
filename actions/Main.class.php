@@ -59,7 +59,7 @@ class Main extends CommonModule {
 		}
 		
 		$this->setData('form', $myForm->render());
-		$this->setView('login.tpl');
+		$this->setView('main/login.tpl');
 	}
 
 	/**
@@ -189,7 +189,7 @@ class Main extends CommonModule {
 			}
 		}
 		
-		$this->setView('actions.tpl');
+		$this->setView('main/actions.tpl');
 	}
 
 	/**
@@ -225,7 +225,7 @@ class Main extends CommonModule {
 			}
 		}
 		
-		$this->setView('trees.tpl');
+		$this->setView('main/trees.tpl');
 	}
 
 }

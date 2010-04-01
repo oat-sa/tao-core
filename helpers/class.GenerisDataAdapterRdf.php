@@ -112,8 +112,6 @@ class tao_helpers_GenerisDataAdapterRdf
 			if (!$result->EOF){
 				$modelUri 	= $result->fields['modelURI'];
 			}
-			
-			$session = core_kernel_classes_Session::singleton();
 			$returnValue = $api->exportXmlRdf(array($modelUri, $session->getNameSpace()));
 		}
 		else{

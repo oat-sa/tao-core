@@ -382,27 +382,82 @@ div.ext-home-container{
 	padding:1%;
 	font-size:1.1em;
 }
+
 ul.sortable-list{
-	 list-style-type: none; 
+ 	 list-style-type: none; 
 	 margin: 0; 
 	 padding: 0; 
 }
-ul.sortable-list li{
+ol.sortable-list{
+	margin: 0px 0px 0px 20px; 
+	padding: 0px 0px 0px 10px;
+}
+ul.sortable-list li,
+ol.sortable-list li{
 	 margin: 0 3px 3px 3px; 
 	 padding: 4px; 
 	 padding-left: 25px; 
 	 height: 18px;
 }
-ul.sortable-list li:hover{
+ul.sortable-list li:hover,
+ol.sortable-list li:hover{
 	color:#D00239;
 	cursor: pointer;
 }
-ul.sortable-list li span { 
+ul.sortable-list li span,
+ol.sortable-list li span { 
 	position: absolute; 
 }
-ul.sortable-list li span.ui-icon-arrowthick-2-n-s{
+ul.sortable-list li span.ui-icon-arrowthick-2-n-s,
+ol.sortable-list li span.ui-icon-arrowthick-2-n-s{
 	margin-left: -15px;
+	z-index: 50;
 }
-ul.sortable-list li span.ui-icon-grip-dotted-vertical{
+ul.sortable-list li span.ui-icon-grip-dotted-vertical,
+ol.sortable-list li span.ui-icon-grip-dotted-vertical{
 	margin-left: -25px;
+	z-index: 50;
+}
+div#list-container{
+	height:500px;	
+}
+div#list-container table {
+	width:auto;	
+}
+div#list-container table td{
+	width:220px;
+}
+div#list-container table a{
+	text-decoration:none;	
+}
+div#list-container table a:hover{
+	color: #D00239
+}
+div#list-container fieldset{
+	width:200px;
+	padding:10px;
+	background-color:#fff;
+}
+div#list-container fieldset legend{
+	font-weight:bold;
+}
+div#list-container fieldset div.list-elements{
+	background-color:#fff;
+	border: solid #777 1px;
+	border-bottom-color:#bbb;
+	border-right-color:#bbb;
+	height:200px;
+	overflow-y:scroll;
+	width:200px;
+	position: relative;
+}
+div#list-container fieldset div.list-controls{
+	text-align:right;
+	color:#999;
+}
+
+div#list-container li input{
+	width: 100px;
+	height:15px;
+	padding:0px;
 }

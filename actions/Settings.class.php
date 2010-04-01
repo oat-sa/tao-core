@@ -45,7 +45,7 @@ class Settings extends CommonModule {
 			}
 		}
 		$this->setData('myForm', $myForm->render());
-		$this->setView('settings.tpl');
+		$this->setView('form/settings.tpl');
 	}
 	
 	/**

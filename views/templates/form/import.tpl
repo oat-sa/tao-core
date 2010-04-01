@@ -1,4 +1,4 @@
-<?include('header.tpl');?>
+<?include(TAO_TPL_PATH .'header.tpl');?>
 	
 <script type="text/javascript">
 $(function(){
@@ -15,4 +15,4 @@ $(function(){
 	<?=get_data('myForm')?>
 </div>
 
-<?include('footer.tpl');?>
+<?include(TAO_TPL_PATH .'footer.tpl');?>

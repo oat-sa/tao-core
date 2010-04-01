@@ -21,7 +21,8 @@ $todefine = array(
 	'RDFS_LABEL'			=> 'http://www.w3.org/2000/01/rdf-schema#label',
 	'RDFS_TYPE'				=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
 	'GENERIS_BOOLEAN'		=> 'http://www.tao.lu/Ontologies/generis.rdf#Boolean',
-	'TAO_LIST_CLASS'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#List'
+	'TAO_LIST_CLASS'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#List',
+	'TAO_LIST_LEVEL_PROP'	=>	'http://www.tao.lu/Ontologies/TAO.rdf#level'
 );
 foreach($todefine as $constName => $constValue){
 	if(!defined($constName)){

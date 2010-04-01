@@ -1,4 +1,4 @@
-<?include('header.tpl')?>
+<?include(TAO_TPL_PATH .'header.tpl')?>
 
 
 
@@ -44,4 +44,4 @@ $(document).ready(function(){
 </script>
 
 
-<?include('footer.tpl');?>
+<?include(TAO_TPL_PATH .'footer.tpl');?>

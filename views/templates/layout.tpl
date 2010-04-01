@@ -81,7 +81,7 @@
 		<div id="section-meta"></div>
 	</div>
 <?else:?>
-	<?include('home.tpl');?> 
+	<?include('main/home.tpl');?> 
 <?endif?>
 
 	<div id="section-lg">

@@ -360,7 +360,7 @@ abstract class TaoModule extends CommonModule {
 		
 		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
-		$this->setView('delete.tpl', true);
+		$this->setView('form/delete.tpl', true);
 	}
 	
 	/**
@@ -447,7 +447,7 @@ abstract class TaoModule extends CommonModule {
 		
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Import data'));
-		$this->setView('importform.tpl', true);
+		$this->setView('form/import.tpl', true);
 	}
 	
 	
@@ -487,12 +487,9 @@ abstract class TaoModule extends CommonModule {
 			}
 		}
 		
-		
-		
 		$this->setData('formTitle', __('Export data to RDF'));
 		$this->setData('myForm', $myForm->render());
-		$this->setView('export_form.tpl', true);
-		
+		$this->setView('form/export.tpl', true);
 		
 	}
 	
@@ -719,7 +716,7 @@ abstract class TaoModule extends CommonModule {
 		$this->setData('found', $found);
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Search'));
-		$this->setView('search_form.tpl', true);
+		$this->setView('form/search.tpl', true);
 	}
 
 	/**
@@ -967,7 +964,7 @@ abstract class TaoModule extends CommonModule {
 			print $e;
 		}
 		
-		$this->setView('metadata.tpl', true);
+		$this->setView('form/metadata.tpl', true);
 	}
 	
 	/**
