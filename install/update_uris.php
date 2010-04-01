@@ -14,7 +14,7 @@ if(PHP_SAPI == 'cli'){
 require_once dirname(__FILE__).'/../../generis/common/inc.extension.php';	
 require_once dirname(__FILE__).'/../includes/common.php';
 
-//define('UPDATE_URI_SOURCE', true);
+define('UPDATE_URI_SOURCE', true);
 define('UPDATE_URI_DB', true);
 include_once dirname(__FILE__).'/update/0104_uri.php';
 ?>

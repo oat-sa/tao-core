@@ -78,10 +78,10 @@ if(defined("UPDATE_URI_SOURCE")){
 	 unset($files);
 	 
 	 foreach($matching_files as $file){
-	 	
+//		echo $file."\n";	 	
 		$uris = array();
 		$fileContent = file_get_contents($file);
-		preg_match_all("/(\#[1-9]{4,})/m", $fileContent, $uris);
+		preg_match_all("/(\#[0-9]{4,})/m", $fileContent, $uris);
 		
 		$replaced = 0;
 		foreach($uris[0] as $uri){
