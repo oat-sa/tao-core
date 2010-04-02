@@ -1,4 +1,7 @@
 <?php
+
+require_once('wfEngine/actions/ServicesApi.class.php');
+
 /**
  * The TaoModule is an abstract controller, 
  * the tao children extensions Modules should extends the TaoModule to beneficiate the shared methods.
@@ -318,6 +321,9 @@ abstract class TaoModule extends CommonModule {
 		$clazz = $this->getCurrentClass();
 		$instance = $this->service->createInstance($clazz);
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
+			
+			$kind = Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
+			ServiceApi::save( array($kind.'Uri' => $instance->uriResource) );
 			$this->redirect('sasEditInstance?uri='.tao_helpers_Uri::encode($instance->uriResource).'&classUri='.tao_helpers_Uri::encode($clazz->uriResource));
 		}
 	}

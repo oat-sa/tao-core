@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE extension SYSTEM "../doc/structure.dtd">
 <extension name="Users" url="/tao/Users/index" level="8">
 	<sections>
 		<section id="list_users" name="Manage users" url="/tao/Users/index">

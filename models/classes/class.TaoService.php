@@ -83,9 +83,10 @@ class tao_models_classes_TaoService
 			foreach($extensionsManager->getInstalledExtensions() as $extension){
 				
 				//@todo remove this crapy IF
-				if($extension->id == 'wfEngine'){
+				/*if($extension->id == 'wfEngine'){
 					continue;
 				}
+				*/
 				
 				self::$extensions[] = $extension->id;
 			}
