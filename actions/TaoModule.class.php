@@ -342,6 +342,12 @@ abstract class TaoModule extends CommonModule {
 				
 				$instance = $this->service->bindProperties($instance, $myForm->getValues());
 				
+				$itemService = tao_models_classes_ServiceFactory::get('Items');
+				if($itemService->isItemClass($clazz)){
+					//it is an item:
+					$instance = $itemService->setDefaultItemContent($instance);
+				}
+				
 				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($instance->uriResource));
 				$this->setData('message', __('Resource saved'));
 			}
