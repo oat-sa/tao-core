@@ -217,8 +217,8 @@ class Main extends CommonModule {
 			}
 			$this->setData('openUri', $openUri);
 			
-			//differentiate the instanceName of Deliveries from the others
-			if($currentExtension=="taoDelivery"){
+			//differentiate the instanceName of Deliveries and Process definition from the others
+			if($currentExtension=="taoDelivery" || $currentExtension=="wfEngine"){
 				$this->setData('instanceName', $this->getSessionAttribute('currentSection'));
 			}else{
 				$this->setData('instanceName', strtolower(str_replace('tao', '', substr($currentExtension, 0, strlen($currentExtension) - 1))));
