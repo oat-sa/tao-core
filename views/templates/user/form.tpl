@@ -7,28 +7,40 @@
 	<span><?=get_data('message')?></span>
 </div>
 <?endif?>
-<div class="main-container"></div>
+<div class="main-container">
+
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 		<?=get_data('formTitle')?>
 	</div>
 	<div id="form-container" class="ui-widget-content ui-corner-bottom">
 		<?=get_data('myForm')?>
 	</div>
-	
-	<br />
+</div>
+<br />
 	<span class="ui-widget ui-state-default ui-corner-all" style="padding:5px;">
 		<a href="#" onclick="selectTabByName('manage_users');"><?=__('Back')?></a>
 	</span>
-
 <script type="text/javascript">
 var ctx_extension 	= "<?=get_data('extension')?>";
 var ctx_module 		= "<?=get_data('module')?>";
 var ctx_action 		= "<?=get_data('action')?>";
-$(function(){
+$(document).ready(function(){
 
 	<?if(get_data('action') != 'edit'):?>
 		UiBootstrap.tabs.tabs('disable', getTabIndexByName('edit_user'));
 	<?endif?>
 
+	//display the role dropdown if the wf user box is checked 
+	$(".acls").click(function(){
+		if($(this).val() == 'wf'){
+			if($(this).attr('checked') == true){
+				$(".wfRoles").attr('disabled', false);
+			}
+			else{
+				$(".wfRoles").attr('disabled', true);
+			}
+		}
+	});
+	
 });
 </script>

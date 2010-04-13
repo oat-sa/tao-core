@@ -202,21 +202,24 @@ class tao_models_classes_UserService
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string login
      * @param  string password
+     * @param  boolean checkAdmin
      * @return boolean
      */
-    public function loginUser($login, $password)
+    public function loginUser($login, $password, $checkAdmin = true)
     {
         $returnValue = (bool) false;
 
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D05 begin
-		
-		$result = $this->dbWrapper->execSql(
-			"SELECT `user`.* FROM `user` 
+		$query = "SELECT `user`.* FROM `user` 
 			 WHERE `user`.`login`  = '".addslashes($login)."' 
 			 AND `user`.`password` = '".md5($password)."' 
-			 AND `user`.`enabled` = 1 
-			 LIMIT 1 "
-		);
+			 AND `user`.`enabled` = 1 ";
+		if($checkAdmin){
+			$query .= " AND `user`.`admin` = '1' ";
+		}
+		$query .= " LIMIT 1 ";
+		
+		$result = $this->dbWrapper->execSql($query);
 		while (!$result->EOF){
 			$foundLogin = $result->fields['login'];
 			if(strlen($foundLogin) > 0){
@@ -326,18 +329,22 @@ class tao_models_classes_UserService
         // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D53 begin
 		
 		if(isset($user['login'])){
+			$admin = '1';
+			if(isset($user['admin'])){
+				$admin = $user['admin'];
+			}
 			if(count($this->getOneUser($user['login'])) == 0){
 				//insert
 				$returnValue = $this->dbWrapper->execSql(
 					"INSERT INTO `user` (login, password, admin, usergroup, LastName, FirstName, E_Mail, Company, Deflg, Uilg, enabled) 
-					VALUES ('{$user['login']}', '{$user['password']}', 1, 'admin', '{$user['LastName']}', '{$user['FirstName']}', '{$user['E_Mail']}', '{$user['Company']}', '{$user['Deflg']}', '{$user['Uilg']}', 1)"
+					VALUES ('{$user['login']}', '{$user['password']}', '{$admin}', 'admin', '{$user['LastName']}', '{$user['FirstName']}', '{$user['E_Mail']}', '{$user['Company']}', '{$user['Deflg']}', '{$user['Uilg']}', 1)"
 				);
 			}
 			else{
 				//update
 				$returnValue = $this->dbWrapper->execSql(
 					"UPDATE `user`  
-					SET password = '{$user['password']}', LastName = '{$user['LastName']}', FirstName='{$user['FirstName']}', E_Mail='{$user['E_Mail']}', Company='{$user['Company']}', Deflg='{$user['Deflg']}', Uilg='{$user['Uilg']}' 
+					SET password = '{$user['password']}', admin = '{$admin}', LastName = '{$user['LastName']}', FirstName='{$user['FirstName']}', E_Mail='{$user['E_Mail']}', Company='{$user['Company']}', Deflg='{$user['Deflg']}', Uilg='{$user['Uilg']}' 
 					WHERE login = '{$user['login']}'"
 				);
 			}

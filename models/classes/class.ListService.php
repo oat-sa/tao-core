@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 29.03.2010, 17:25:41 with ArgoUML PHP module 
+ * Automatically generated on 12.04.2010, 12:38:57 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -57,7 +57,7 @@ class tao_models_classes_ListService
      * Short description of attribute parentListClass
      *
      * @access protected
-     * @var Class
+     * @var core_kernel_classes_Class
      */
     protected $parentListClass = null;
 
@@ -73,6 +73,9 @@ class tao_models_classes_ListService
     public function __construct()
     {
         // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002364 begin
+        
+    	$this->parentListClass = new core_kernel_classes_Class(TAO_LIST_CLASS);
+        
         // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002364 end
     }
 
@@ -88,9 +91,36 @@ class tao_models_classes_ListService
         $returnValue = array();
 
         // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:000000000000234C begin
+        
+        $returnValue[] = new core_kernel_classes_Class(GENERIS_BOOLEAN); 
+        
+        foreach($this->parentListClass->getSubClasses(false) as $list){
+        	$returnValue[] = $list;
+        }
+        
+        
+        
         // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:000000000000234C end
 
         return (array) $returnValue;
+    }
+
+    /**
+     * Get a list class from the uri in parameter
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string uri
+     * @return core_kernel_classes_Class
+     */
+    public function getList($uri)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-7add8745:127b99f9642:-8000:0000000000002388 begin
+        // section 127-0-1-1-7add8745:127b99f9642:-8000:0000000000002388 end
+
+        return $returnValue;
     }
 
     /**

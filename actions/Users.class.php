@@ -17,7 +17,14 @@ class Users extends CommonModule {
 	 * @return void
 	 */
 	public function __construct(){		
-		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
+		
+		$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');;
+    	if($taoService->isLoaded('wfEngine')){
+			$this->userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
+    	}
+    	else{
+    		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
+    	}
 		$this->defaultData();
 	}
 
@@ -156,6 +163,10 @@ class Users extends CommonModule {
 				unset($values['password1']);
 				unset($values['password2']);
 				unset($values['password3']);
+				
+				if(isset($values['acl'])){
+					(isset($values['acl']['tao'])) ? $values['admin'] = '1' : $values['admin'] = '0';
+				}
 				
 				if($this->userService->saveUser($values)){
 					$this->setData('message', __('User saved'));

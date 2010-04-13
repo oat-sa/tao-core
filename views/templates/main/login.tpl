@@ -32,7 +32,7 @@
 		<?endif?>
 		
 		<div id="login_title" class="ui-widget ui-widget-header ui-state-default ui-corner-top">
-			Please login
+			<?=__("Please login")?>
 		</div>
 		<div id="login_form" class="ui-widget ui-widget-content ui-corner-bottom">
 			<?=get_data('form')?>

@@ -86,7 +86,7 @@ class tao_models_classes_ServiceFactory
 
         // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001832 begin
 		
-		if( !class_exists($serviceName) || !preg_match("/^tao/", $serviceName) ){
+		if( !class_exists($serviceName) || !preg_match("/^(tao|wf)/", $serviceName) ){
 			//in case the parameter is the interface name we load the default dataSource implementation
 			$serviceName = sprintf(self::$namePattern, ucfirst(strtolower($serviceName)));
 		}

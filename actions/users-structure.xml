@@ -2,17 +2,8 @@
 <!DOCTYPE extension SYSTEM "../doc/structure.dtd">
 <extension name="Users" url="/tao/Users/index" level="8">
 	<sections>
-		<section id="list_users" name="Manage users" url="/tao/Users/index">
-			<trees />
-			<actions />
-		</section>
-		<section  id="add_user" name="Add a user" url="/tao/Users/add">
-			<trees />
-			<actions />
-		</section>
-		<section  id="edit_user" name="Edit a user" url="/tao/Users/edit">
-			<trees />
-			<actions />
-		</section>
+		<section id="list_users" name="Manage users" url="/tao/Users/index" />
+		<section  id="add_user" name="Add a user" url="/tao/Users/add" />
+		<section  id="edit_user" name="Edit a user" url="/tao/Users/edit" />
 	</sections>
 </extension>

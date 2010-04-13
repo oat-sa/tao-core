@@ -46,6 +46,14 @@ class tao_actions_form_Users
 
     // --- ATTRIBUTES ---
 
+    /**
+     * If the wfEngine extension is available
+     *
+     * @access protected
+     * @var boolean
+     */
+    protected $enableWfUsers = false;
+
     // --- OPERATIONS ---
 
     /**
@@ -59,6 +67,10 @@ class tao_actions_form_Users
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFA begin
 		
+    	//check if the wfENgine extension is loaded
+    	$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');;
+    	$this->enableWfUsers = $taoService->isLoaded('wfEngine');
+    	
 		$this->form = tao_helpers_form_FormFactory::getForm('users');
 		$this->form->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
 		
@@ -205,6 +217,63 @@ class tao_actions_form_Users
 		}
 		$this->form->addElement($uiLgElement);
 		
+		if($this->enableWfUsers){
+			
+			$wfUserService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
+			
+			$wfUser = null;
+			if($this->options['mode'] == 'edit' && isset($this->data['login'])){
+				$wfUser = $wfUserService->getOneWfUser($this->data['login']);
+			}
+			
+			
+			$isWfUserElt = tao_helpers_form_FormFactory::getElement('acl', 'Checkbox');
+			$isWfUserElt->setDescription(__('User access'));
+			$isWfUserElt->addAttribute('class', 'acls');
+			$isWfUserElt->setOptions(array(
+				'wf' 	=> __('Enable access to the workflow engine'),
+				'tao'	=> __('Enable access to the tao admin tools')
+			));
+			
+			$acl = array();
+			if($this->options['mode'] == 'add'){
+				$acl[] = 'tao';
+			}
+			else{
+				if(isset($this->data['admin'])){
+					if($this->data['admin'] == '1'){
+						$acl[] = 'tao';
+					}
+				}
+				if(!is_null($wfUser)){
+					$acl[] = 'wf';
+				}
+			}
+			$isWfUserElt->setValues($acl);
+			$this->form->addElement($isWfUserElt);
+			
+			$roles = array();
+			foreach($wfUserService->getAllRoles() as $role){
+				$roles[tao_helpers_Uri::encode($role->uriResource)] = $role->getLabel();
+			}
+			
+			$roleList = tao_helpers_form_FormFactory::getElement('wfRole', 'Checkbox');
+			$roleList->setDescription(__('Workflow engine role'));
+			$roleList->addAttribute('class', 'wfRoles');
+			$roleList->setOptions($roles);
+			if(is_null($wfUser)){
+				$roleList->addAttribute('disabled', 'true');
+			}
+			else{
+				$roles = array();
+				foreach($wfUser->getPropertyValues(new core_kernel_classes_Property(USER_ROLE)) as $role){
+					$roleList->setValue($role);
+				}
+			}
+			$this->form->addElement($roleList);
+			
+			$this->form->createGroup("acl_group", __("Access control list"), array('acl', 'wfRole'));
+		}
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC end
     }

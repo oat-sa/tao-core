@@ -203,25 +203,27 @@ class Main extends CommonModule {
 		if($currentExtension){
 		
 			$structure = $this->service->getStructure($currentExtension, $this->getRequestParameter('section'));
-			$trees = array();
-			foreach($structure->trees[0] as $tree){
-				$treeId = tao_helpers_Display::textCleaner((string)$tree['name'], '_');
-				$trees[$treeId] = $tree;
-			}
-			$this->setData('trees', $trees);
-			
-			$openUri = false;
-			if($this->hasSessionAttribute("showNodeUri")){
-				$openUri = $this->getSessionAttribute("showNodeUri");
-				unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
-			}
-			$this->setData('openUri', $openUri);
-			
-			//differentiate the instanceName of Deliveries and Process definition from the others
-			if($currentExtension=="taoDelivery" || $currentExtension=="wfEngine"){
-				$this->setData('instanceName', $this->getSessionAttribute('currentSection'));
-			}else{
-				$this->setData('instanceName', strtolower(str_replace('tao', '', substr($currentExtension, 0, strlen($currentExtension) - 1))));
+			if(isset($structure->trees[0])){
+				$trees = array();
+				foreach($structure->trees[0] as $tree){
+					$treeId = tao_helpers_Display::textCleaner((string)$tree['name'], '_');
+					$trees[$treeId] = $tree;
+				}
+				$this->setData('trees', $trees);
+				
+				$openUri = false;
+				if($this->hasSessionAttribute("showNodeUri")){
+					$openUri = $this->getSessionAttribute("showNodeUri");
+					unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
+				}
+				$this->setData('openUri', $openUri);
+				
+				//differentiate the instanceName of Deliveries and Process definition from the others
+				if($currentExtension=="taoDelivery" || $currentExtension=="wfEngine"){
+					$this->setData('instanceName', $this->getSessionAttribute('currentSection'));
+				}else{
+					$this->setData('instanceName', strtolower(str_replace('tao', '', substr($currentExtension, 0, strlen($currentExtension) - 1))));
+				}
 			}
 		}
 		
