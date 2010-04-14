@@ -54,7 +54,8 @@
 $(document).ready(function(){
 
 	var saveUrl = '/tao/Lists/saveLists';
-	var delUrl = '/tao/Lists/saveLists';
+	var delListUrl = '/tao/Lists/removeList';
+	var delEltUrl = '/tao/Lists/removeListElement';
 
 	$(".list-editor").click(function(){
 		uri = $(this).attr('id').replace('list-editor_', '');
@@ -78,6 +79,7 @@ $(document).ready(function(){
 			elementList.find('li').addClass('ui-state-default');
 			elementList.find('li').prepend('<span class="ui-icon ui-icon-grip-dotted-vertical" ></span>');
 			elementList.find('li').prepend('<span class="ui-icon ui-icon-arrowthick-2-n-s" ></span>');
+			elementList.find('li').append('<span class="ui-icon ui-icon-circle-close list-element-deletor" style="cursor:pointer;" ></span>');
 
 			elementList.sortable({
 				axis: 'y',
@@ -108,6 +110,7 @@ $(document).ready(function(){
 					function(response){
 						if(response.saved){
 							createInfoMessage(__("list saved"));
+							_load(getMainContainerSelector(), '/tao/Lists/index');
 						}
 					}
 				);
@@ -118,33 +121,56 @@ $(document).ready(function(){
 
 			elementAdder = $("<a href='#'><img src='<?=TAOBASE_WWW?>img/add.png' class='icon' /><?=__('New element')?></a>");
 			elementAdder.click(function(){
-				level = $(this).parent().find('ol').length + 1;
+				level = $(this).parent().find('ol').children().length + 1;
 				$(this).parent().find('ol').append(
 					"<li id='list-element_"+level+"' class='ui-state-default'>" +
 						"<span class='ui-icon ui-icon-arrowthick-2-n-s' ></span>" +
 						"<span class='ui-icon ui-icon-grip-dotted-vertical' ></span>" + 
 						"<input type='text' name='list-element_"+level+"_' />" + 
+						"<span class='ui-icon ui-icon-circle-close list-element-deletor' ></span>" + 
 					"</li>");
 			});
 			elementList.after(elementAdder);
 
+			
 		}
+
+		$(".list-element-deletor").click(function(){
+			if(confirm(__("Please confirm you want to delete this list element."))){
+				var element = $(this).parent();
+				uri = element.find('input:text').attr('name').replace(/^list\-element\_([1-9]*)\_/, '');
+				$.postJson(
+					delEltUrl,
+					{uri: uri},
+					function(response){
+						if(response.deleted){
+							element.remove();
+							createInfoMessage(__("element deleted"));
+						}
+					}
+				);
+			}
+		});
 		
 	});
 
 	$(".list-deletor").click(function(){
 		if(confirm(__("Please confirm you want to delete this list. This operation is not reversible."))){
-			uri = $(this).attr('id').replace('list-editor_', '');
+			var list = $(this).parents("td");
+			uri = $(this).attr('id').replace('list-deletor_', '');
 			$.postJson(
-				delUrl,
+				delListUrl,
 				{uri: uri},
 				function(response){
 					if(response.deleted){
 						createInfoMessage(__("list deleted"));
+						list.remove();
 					}
 				}
 			);
 		}
 	});
+
+	
 });
 </script>

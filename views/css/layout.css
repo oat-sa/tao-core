@@ -418,6 +418,12 @@ ol.sortable-list li span.ui-icon-grip-dotted-vertical{
 	margin-left: -25px;
 	z-index: 50;
 }
+ul.sortable-list li span.ui-icon-circle-close,
+ol.sortable-list li span.ui-icon-circle-close{
+	right: 10px;
+	margin-top:-20px;
+	z-index: 1000;
+}
 div#list-container{
 	height:500px;	
 }
@@ -425,7 +431,7 @@ div#list-container table {
 	width:auto;	
 }
 div#list-container table td{
-	width:220px;
+	width:240px;
 }
 div#list-container table a{
 	text-decoration:none;	
@@ -434,7 +440,7 @@ div#list-container table a:hover{
 	color: #D00239
 }
 div#list-container fieldset{
-	width:200px;
+	width:220px;
 	padding:10px;
 	background-color:#fff;
 }
@@ -448,7 +454,7 @@ div#list-container fieldset div.list-elements{
 	border-right-color:#bbb;
 	height:200px;
 	overflow-y:scroll;
-	width:200px;
+	width:220px;
 	position: relative;
 }
 div#list-container fieldset div.list-controls{

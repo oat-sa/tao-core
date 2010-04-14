@@ -129,7 +129,28 @@ class Lists extends CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		$saved = false;
+		$deleted = false;
+		
+		if($this->hasRequestParameter('uri')){
+			$deleted = $this->listService->removeList(
+				$this->listService->getList(tao_helpers_Uri::decode($this->getRequestParameter('uri')))
+			);
+		}
+		echo json_encode(array('deleted' => $deleted));
+	}
+	
+	public function removeListElement(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$deleted = false;
+		
+		if($this->hasRequestParameter('uri')){
+			$deleted = $this->listService->removeListElement(
+				new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')))
+			);
+		}
+		echo json_encode(array('deleted' => $deleted));
 	}
 }
 ?>

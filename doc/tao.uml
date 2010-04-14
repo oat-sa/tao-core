@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Apr 13 12:59:30 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Apr 13 16:23:11 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -14013,6 +14013,16 @@ Use the printf syntax, where %1$ is the short name of the service  </UML:TaggedV
                               name = 'listClass' isSpecification = 'false'>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-5832a712:127f78bc0a0:-8000:00000000000023C8'
+                              name = 'sort' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '127-0-1-1-5832a712:127f78bc0a0:-8000:00000000000023C9'
+                                  language = 'UML 1.4' body = 'true'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
@@ -52719,7 +52729,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::models::classes::UserService</text>
     <group name="Fig20.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 1281, 398, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 1281, 473, 0]"
          href="127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFA"
          fill="0"
          fillcolor="white"
@@ -52733,7 +52743,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <rectangle name="Fig20.2.0"
         x="25"
         y="1281"
-        width="398"
+        width="473"
         height="0"
         fill="0"
         fillcolor="white"
@@ -56035,7 +56045,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >getListElements(listClass : Class) : array</text>
+      >getListElements(listClass : Class,sort : boolean = true) : array</text>
       <text name="Fig36.6.5"
         x="145"
         y="1736"
@@ -56423,7 +56433,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <text name="Fig39.6.4"
         x="25"
         y="2032"
-        width="236"
+        width="235"
         height="22"
         fill="0"
         fillcolor="200 200 200"
