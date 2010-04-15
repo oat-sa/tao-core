@@ -3,12 +3,6 @@
 
 	<!-- the service tag contains a service -->
 	<!ELEMENT service (name,description,location,return?)>
-	
-		<!-- the name of the service -->
-		<!ELEMENT name (#PCDATA)>
-		
-		<!-- the description of the service -->
-		<!ELEMENT description (#PCDATA)>
 		
 		<!-- the location to access the service -->
 		<!ELEMENT location (param)*>
@@ -20,7 +14,7 @@
 		<!ELEMENT return (param)*>
 			
 			<!-- the list of the service parameter -->
-			<!ELEMENT param (#PCDATA)>
+			<!ELEMENT param (name?,description?)>
 			
 				<!-- the key of the parameter -->
 				<!ATTLIST param key CDATA #REQUIRED>
@@ -28,4 +22,8 @@
 				<!-- the value of the parameter if it's a constant -->
 				<!ATTLIST param value CDATA #IMPLIED>
 		
+		<!-- the name of the service -->
+		<!ELEMENT name (#PCDATA)>
 		
+		<!-- the description of the service -->
+		<!ELEMENT description (#PCDATA)>
