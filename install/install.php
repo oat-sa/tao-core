@@ -196,8 +196,9 @@ function install($param){
 	
 
 	define('INSTALL_DATABASE_NAME' , $param["moduleName"]);
-	include_once 'update/0101_database.php';
-	echo '<hr/><b>Installation Complete</b>';
+	include_once 'update/1.1/01_database.php';
+	echo '<hr/><b>Installation Complete</b><br/>';
+	echo "<br/><center><a href='/tao'>Go to TAO</a></center>";
 }
 
 function writeConfigValue($name,$val,&$str)
