@@ -33,7 +33,7 @@ class Users extends CommonModule {
 	 * @return void
 	 */
 	public function index(){
-		$this->setData('data', 'list the users');
+		$this->setData('data', __('list the users'));
 		$this->setView('user/list.tpl');
 	}
 	

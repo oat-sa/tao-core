@@ -12,10 +12,6 @@ RewriteCond %{REQUEST_METHOD} ^GET$
 RewriteCond %{REQUEST_URI} /tao/Main/eXULiS.swf [NC]
 RewriteRule ^(.*)$ /taoItems/models/ext/itemRuntime/eXULiS.swf [L]
 
-#RewriteCond %{REQUEST_METHOD} ^GET$
-#RewriteCond %{REQUEST_URI} /tao/Main/listen.swf [NC]
-#RewriteRule ^(.*)$ /taoItems/models/ext/itemRuntime/listen.swf [L]
-
 #don't macth resources and tests
 RewriteCond %{REQUEST_URI} !/views/  [NC]
 RewriteCond %{REQUEST_URI} !/test/  [NC]

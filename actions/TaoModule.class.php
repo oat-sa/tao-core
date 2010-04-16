@@ -15,6 +15,24 @@ require_once('wfEngine/actions/ServicesApi.class.php');
 abstract class TaoModule extends CommonModule {
 
 	/**
+	 * when the action is called inside the application
+	 * @var int
+	 */
+	const MODE_APP = 0;
+
+	/**
+	 * when the action is called in standalone mode
+	 * @var int
+	 */
+	const MODE_STANDALONE = 1;
+	
+	/**
+	 * define the current calling mode
+	 * @var int
+	 */
+	protected $mode;
+	
+	/**
 	 * Check the authentication
 	 */
 	public function __construct(){
@@ -29,6 +47,8 @@ abstract class TaoModule extends CommonModule {
 			}
 			throw new Exception($errorMessage);
 		}
+		
+		(preg_match("/^SaS/", get_class($this))) ? $this->mode = self::MODE_STANDALONE : $this->mode = self::MODE_APP;
 	}
 	
 	
@@ -210,7 +230,6 @@ abstract class TaoModule extends CommonModule {
 		$this->setView('index.tpl', false);
 	}
 	
-	
 	/**
 	 * Render json data from the current ontology root class
 	 * @return void
@@ -239,6 +258,26 @@ abstract class TaoModule extends CommonModule {
 		echo json_encode( $this->service->toTree( $this->getRootClass(), true, $instances, $highlightUri, $filter));
 	}
 	
+	
+	
+	/**
+	 * Add an instance of the selected class
+	 * @return void
+	 */
+	public function addInstance(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$clazz = $this->getCurrentClass();
+		$instance = $this->service->createInstance($clazz);
+		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
+			echo json_encode(array(
+				'label'	=> $instance->getLabel(),
+				'uri' 	=> tao_helpers_Uri::encode($instance->uriResource)
+			));
+		}
+	}
+	
 	/**
 	 * Duplicate the current instance
 	 * render a JSON response
@@ -259,23 +298,9 @@ abstract class TaoModule extends CommonModule {
 	}
 	
 	/**
-	 * Add an instance of the selected class
+	 * Move an instance from a class to another
 	 * @return void
 	 */
-	public function addInstance(){
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		$clazz = $this->getCurrentClass();
-		$instance = $this->service->createInstance($clazz);
-		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
-			echo json_encode(array(
-				'label'	=> $instance->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($instance->uriResource)
-			));
-		}
-	}
-	
 	public function moveInstance(){
 		
 		if($this->hasRequestParameter('destinationClassUri')){
@@ -314,69 +339,8 @@ abstract class TaoModule extends CommonModule {
 	}
 	
 	/**
-	 * 
-	 * @return 
-	 */
-	public function sasAddInstance(){
-		$clazz = $this->getCurrentClass();
-		$instance = $this->service->createInstance($clazz);
-		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
-			
-			$kind = Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
-			ServiceApi::save( array($kind.'Uri' => $instance->uriResource) );
-			$this->redirect('sasEditInstance?uri='.tao_helpers_Uri::encode($instance->uriResource).'&classUri='.tao_helpers_Uri::encode($clazz->uriResource));
-		}
-	}
-	
-	/**
-	 * 
-	 * @return 
-	 */
-	public function sasEditInstance(){
-		$clazz = $this->getCurrentClass();
-		$instance = $this->getCurrentInstance();
-		
-		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $instance);
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				
-				$instance = $this->service->bindProperties($instance, $myForm->getValues());
-				
-				$itemService = tao_models_classes_ServiceFactory::get('Items');
-				if($itemService->isItemClass($clazz)){
-					//it is an item:
-					$instance = $itemService->setDefaultItemContent($instance);
-				}
-				
-				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($instance->uriResource));
-				$this->setData('message', __('Resource saved'));
-			}
-		}
-		
-		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
-		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
-		$this->setData('formTitle', __('Edit'));
-		$this->setData('myForm', $myForm->render());
-		$this->setView('form.tpl', true);
-	}
-	
-	/**
-	 * 
-	 * @return 
-	 */
-	public function sasDeleteInstance(){
-		$clazz = $this->getCurrentClass();
-		$instance = $this->getCurrentInstance();
-		
-		$this->setData('label', $instance->getLabel());
-		
-		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
-		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
-		$this->setView('form/delete.tpl', true);
-	}
-	
-	/**
 	 * Import module data Action
+	 * @deprecated to be refactored
 	 * @return void
 	 */
 	public function import(){
@@ -505,6 +469,11 @@ abstract class TaoModule extends CommonModule {
 		
 	}
 	
+	
+	/**
+	 * Get the list of files exported for the current module
+	 * @return void
+	 */
 	public function getExportedFiles(){
 		$exportedFiles = array();
 		foreach(scandir(EXPORT_PATH) as $file){
@@ -565,6 +534,10 @@ abstract class TaoModule extends CommonModule {
 		echo json_encode($response); 
 	}
 	
+	/**
+	 * remove the exported files in parameters
+	 * @return void
+	 */
 	public function deleteExportedFiles(){
 		if($this->hasRequestParameter('filePath')){
 			$path = urldecode($this->getRequestParameter('filePath'));
@@ -575,6 +548,10 @@ abstract class TaoModule extends CommonModule {
 		$this->redirect(tao_helpers_Uri::url('export'));
 	}
 	
+	/**
+	 * download the exported files in parameters
+	 * @return void
+	 */
 	public function downloadExportedFiles(){
 		if($this->hasRequestParameter('filePath')){
 			$path = urldecode($this->getRequestParameter('filePath'));
@@ -721,7 +698,7 @@ abstract class TaoModule extends CommonModule {
 		}
 		
 		$this->setData('openAction', 'GenerisAction.select');
-		if(preg_match("/^SaS/", get_class($this))){
+		if($this->mode == self::MODE_STANDALONE){
 			$this->setData('openAction', 'alert');
 		}
 		
@@ -1005,5 +982,76 @@ abstract class TaoModule extends CommonModule {
 		echo json_encode($response);
 	}
 	
+	
+/*
+ * Services actions methods
+ */
+	
+	public function sasSelect(){
+		
+	}
+	
+	/**
+	 * Add a new instance
+	 * @return void
+	 */
+	public function sasAddInstance(){
+		$clazz = $this->getCurrentClass();
+		$instance = $this->service->createInstance($clazz);
+		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
+			
+			$kind = Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
+			ServiceApi::save( array($kind.'Uri' => $instance->uriResource) );
+			$this->redirect('sasEditInstance?uri='.tao_helpers_Uri::encode($instance->uriResource).'&classUri='.tao_helpers_Uri::encode($clazz->uriResource));
+		}
+	}
+	
+	
+	/**
+	 * Edit an instances 
+	 * @return void
+	 */
+	public function sasEditInstance(){
+		$clazz = $this->getCurrentClass();
+		$instance = $this->getCurrentInstance();
+		
+		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $instance);
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				
+				$instance = $this->service->bindProperties($instance, $myForm->getValues());
+				
+				$itemService = tao_models_classes_ServiceFactory::get('Items');
+				if($itemService->isItemClass($clazz)){
+					//it is an item:
+					$instance = $itemService->setDefaultItemContent($instance);
+				}
+				
+				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($instance->uriResource));
+				$this->setData('message', __('Resource saved'));
+			}
+		}
+		
+		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
+		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
+		$this->setData('formTitle', __('Edit'));
+		$this->setData('myForm', $myForm->render());
+		$this->setView('form.tpl', true);
+	}
+	
+	/**
+	 * Delete an instance
+	 * @return void
+	 */
+	public function sasDeleteInstance(){
+		$clazz = $this->getCurrentClass();
+		$instance = $this->getCurrentInstance();
+		
+		$this->setData('label', $instance->getLabel());
+		
+		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
+		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
+		$this->setView('form/delete.tpl', true);
+	}
 }
 ?>
