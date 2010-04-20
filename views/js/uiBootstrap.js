@@ -135,14 +135,17 @@ UiBootstrap = function(options){
 	 */
 	this.initSize = function(){
 		//set up the container size
-		uiTab = $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id;
-		if($('#section-actions').html() == '' && $('#section-trees').html()  == '' && $("div#"+uiTab).css('left') == '17.5%' ){
-			$("div#"+uiTab).css('left', '0%');
-			$("div#"+uiTab).css('width', '99%');
-		}
-		if( $('#section-actions').html() != '' || $('#section-trees').html()  != '' ){
-			$("div#"+uiTab).css('left', '17.5%');
-			$("div#"+uiTab).css('width', '81%');
+		myPanel = $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')];
+		if(myPanel){
+			uiTab = myPanel.id;
+			if($('#section-actions').html() == '' && $('#section-trees').html()  == '' && $("div#"+uiTab).css('left') == '17.5%' ){
+				$("div#"+uiTab).css('left', '0%');
+				$("div#"+uiTab).css('width', '99%');
+			}
+			if( $('#section-actions').html() != '' || $('#section-trees').html()  != '' ){
+				$("div#"+uiTab).css('left', '17.5%');
+				$("div#"+uiTab).css('width', '81%');
+			}
 		}
 	}
 	

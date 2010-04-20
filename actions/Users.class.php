@@ -121,6 +121,11 @@ class Users extends CommonModule {
 				$values['password'] = md5($values['password1']);
 				unset($values['password1']);
 				unset($values['password2']);
+				
+				if(isset($values['acl'])){
+					(isset($values['acl']['tao'])) ? $values['admin'] = '1' : $values['admin'] = '0';
+				}
+				
 				if($this->userService->saveUser($values)){
 					$this->setData('message', __('User added'));
 					$this->setData('exit', true);

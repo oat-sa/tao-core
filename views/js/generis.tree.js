@@ -79,7 +79,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 				//data to send to the server
 				beforedata:function(NODE, TREE_OBJ) { 
 					return { 
-						type : $(TREE_OBJ.container).attr('id'),
+						hideInstances : instance.options.hideInstances | false,
 						filter: $("#filter-content-" + options.actionId).val()
 					};
 				},
@@ -632,7 +632,7 @@ GenerisTreeClass.moveInstance = function(options){
 				//add the type param to the server request to get only the classes
 				beforedata:function(NODE, TREE_OBJ) { 
 					return { 
-						type : $(TREE_OBJ.container).attr('id')
+						hideInstances :true
 					};
 				},
 				

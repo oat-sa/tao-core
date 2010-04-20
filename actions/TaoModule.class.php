@@ -54,7 +54,6 @@ abstract class TaoModule extends CommonModule {
 	
 	
 	/**
-	 * @todo 
      * @see Module::setView()
      * @param string $identifier view identifier
      * @param boolean set to true if you want to use the views in the tao extension instead of the current extension 
@@ -64,6 +63,7 @@ abstract class TaoModule extends CommonModule {
 		if($useMetaExtensionView){
 			Renderer::setViewsBasePath(TAOVIEW_PATH);
 		}
+		return;
 	}
 	
 /*
@@ -249,9 +249,8 @@ abstract class TaoModule extends CommonModule {
 			unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
 		}
 		$instances = true;
-		if($this->hasRequestParameter('type')){
-			$type = $this->getRequestParameter('type');
-			if(preg_match("/^tmp\-moving\-tree$/", $type)){
+		if($this->hasRequestParameter('hideInstances')){
+			if((bool)$this->getRequestParameter('hideInstances')){
 				$instances = false;
 			}
 		}
@@ -987,8 +986,61 @@ abstract class TaoModule extends CommonModule {
  * Services actions methods
  */
 	
+	/**
+	 * Service of class or instance selection with a tree.
+	 * @return void
+	 */
 	public function sasSelect(){
+
+		$kind = strtolower(Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false));
 		
+		$this->setData('treeName', __('Select'));
+		$this->setData('dataUrl', tao_helpers_Uri::url('getOntologyData', get_class($this)));
+		$this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', get_class($this)));
+		
+		if($this->getRequestParameter('selectInstance') == 'true'){
+			$this->setData('editInstanceUrl', tao_helpers_Uri::url('sasSet', get_class($this)));
+			$this->setData('editClassUrl', false);
+		}
+		else{
+			$this->setData('editInstanceUrl', false);
+			$this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', get_class($this)));
+		}
+		
+		$this->setData('instanceName', $kind);
+		
+		$this->setView("sas/select.tpl", true);
+	}
+	
+	/**
+	 * Save the uri or the classUri in parameter into the workflow engine by using the dedicated seervice
+	 * @return void
+	 */
+	public function sasSet(){
+		$message = __('Error');
+		$kind = Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
+		
+		//set the class uri
+		if($this->hasRequestParameter('classUri')){
+			$clazz = $this->getCurrentClass();
+			if(!is_null($clazz)){
+				ServiceApi::save( array($kind.'ClassUri' => $clazz->uriResource) );
+				$message = $clazz->getLabel().' '.__('class selected');
+			}
+		}
+		
+		//set the instance uri
+		if($this->hasRequestParameter('uri')){
+			$instance = $this->getCurrentInstance();
+			if(!is_null($instance)){
+				ServiceApi::save( array($kind.'Uri' => $instance->uriResource) );
+				$message = $instance->getLabel().' '.__($kind).' '.__('selected');
+			}
+		}
+		$this->setData('message', $message);
+		
+		//only for the notification
+		$this->setView('header.tpl', true);
 	}
 	
 	/**
@@ -1002,6 +1054,7 @@ abstract class TaoModule extends CommonModule {
 			
 			$kind = Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
 			ServiceApi::save( array($kind.'Uri' => $instance->uriResource) );
+			
 			$this->redirect('sasEditInstance?uri='.tao_helpers_Uri::encode($instance->uriResource).'&classUri='.tao_helpers_Uri::encode($clazz->uriResource));
 		}
 	}
