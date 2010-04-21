@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 13.04.2010, 16:23:06 with ArgoUML PHP module 
+ * Automatically generated on 21.04.2010, 10:37:34 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -132,6 +132,35 @@ class tao_models_classes_ListService
     }
 
     /**
+     * Short description of method getListElement
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class listClass
+     * @param  string uri
+     * @return core_kernel_classes_Resource
+     */
+    public function getListElement( core_kernel_classes_Class $listClass, $uri)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--4fd18cbc:1281f7e7c81:-8000:00000000000023CA begin
+        
+        if(!empty($uri)){
+	        foreach($this->getListElements($listClass, false) as $element){   	
+	           	if($element->uriResource == $uri){
+	           		$returnValue = $element;
+	           		break;
+	           	}
+			}
+        }
+        
+        // section 127-0-1-1--4fd18cbc:1281f7e7c81:-8000:00000000000023CA end
+
+        return $returnValue;
+    }
+
+    /**
      * Short description of method getListElements
      *
      * @access public
@@ -150,16 +179,24 @@ class tao_models_classes_ListService
 
         	if($sort){
 	        	$levelProperty = new core_kernel_classes_Property(TAO_LIST_LEVEL_PROP);
-	        	foreach($listClass->getInstances(false) as $listElement){
+	        	$elements = $listClass->getInstances(false);
+	        	$secureMax = (count($elements) + 1);
+	        	foreach($elements as $listElement){
 	        		$level = '';
 	        		try{
 	        		 	$level = trim($listElement->getUniquePropertyValue($levelProperty));
 	        		}
 	        		catch(common_Exception $ce){
 	        		}
-	        	 	while(array_key_exists($level, $returnValue) || empty($level)){
-	        	 		$keys = sort(array_keys($returnValue));
+	        		$i = 0;
+	        	 	while( (array_key_exists($level, $returnValue) || empty($level)) && $i < $secureMax){
+						if(count($returnValue) == 0){
+							$level = "1";
+							break;
+						}
+	        	 		$keys = array_keys($returnValue);
 	        	 		$level = max($keys) + 1;
+	        	 		$i++;
 	        	 	}
 	        	 	$returnValue[(string)$level] = $listElement;
 	        		

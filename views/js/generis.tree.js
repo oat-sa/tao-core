@@ -570,10 +570,17 @@ GenerisTreeClass.cloneNode = function(options){
 GenerisTreeClass.renameNode = function(options){
 	var TREE_OBJ = options.TREE_OBJ;
 	var NODE = options.NODE;
+	var data = {
+			uri: $(NODE).attr('id'), 
+			newName: TREE_OBJ.get_text(NODE)
+		};
+	if(options.classUri){
+		data.classUri = options.classUri;
+	}
 	$.ajax({
 		url: options.url,
 		type: "POST",
-		data: {uri: $(NODE).attr('id'), newName: TREE_OBJ.get_text(NODE)},
+		data: data,
 		dataType: 'json',
 		success: function(response){
 			if(!response.renamed){

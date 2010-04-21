@@ -204,7 +204,7 @@ UiForm = function(){
 		 }
 		 
 		 /**
-		  * by selecting a list the values are displayed or the list editor open
+		  * by selecting a list, the values are displayed or the list editor opens
 		  */
 		 function showPropertyListValues(){
 		 	
@@ -221,7 +221,7 @@ UiForm = function(){
 				//dialog content to embed the list tree
 				elt = $(this).parent("div");
 				elt.append("<div id='"+ dialogId +"' style='display:none;' > " +
-								"<span class='ui-state-highlight' style='margin:15px;'>" + __('Right click the tree to manage your lists') + "</span><br />" +
+								"<span class='ui-state-highlight' style='margin:15px;'>" + __('Right click the tree to manage your lists') + "</span><br /><br />" +
 								"<div id='"+treeId+"' ></div> " +
 								"<div style='text-align:center;margin-top:30px;'> " +
 									"<a id='"+closerId+"' class='ui-state-default ui-corner-all' href='#'>" + __('Save') + "</a> " +
@@ -246,14 +246,13 @@ UiForm = function(){
 					$("#"+dialogId).dialog('close');
 				});
 				$("#"+dialogId).bind('dialogopen', function(event, ui){
-					if(ctx_extension){
-					 	url = '/' + ctx_extension + '/' + ctx_module + '/';
-					}
-					dataUrl 	= url + 'getLists';
-					createUrl	= url + 'createList';
-					removeUrl	= url + 'removeList';
-					renameUrl	= url + 'renameList';
-					 
+					url 			= '/tao/Lists/';
+					dataUrl 		= url + 'getListsData';
+					renameUrl		= url + 'rename';
+					createUrl		= url + 'create';
+					removeListUrl	= url + 'removeList';
+					removeListEltUrl= url + 'removeListElement';
+					
 					//create tree to manage lists
 					$("#"+treeId).tree({
 						data: {
@@ -277,11 +276,16 @@ UiForm = function(){
 						},
 						callback: {
 							onrename: function(NODE, TREE_OBJ, RB){
-								GenerisTreeClass.renameNode({
+								options = {
 									url: renameUrl,
 									NODE: NODE,
 									TREE_OBJ: TREE_OBJ
-								});
+								};
+								if($(NODE).hasClass('node-instance')){
+									PNODE = TREE_OBJ.parent(NODE);
+									options.classUri = $(PNODE).attr('id');
+								}
+								GenerisTreeClass.renameNode(options);
 							},
 							ondestroy: function(TREE_OBJ){
 								
@@ -359,6 +363,15 @@ UiForm = function(){
 											return TREE_OBJ.check("deletable", NODE);
 										},
 										action  : function(NODE, TREE_OBJ){
+											if($(NODE).hasClass('node-root')) {
+												return false;
+											}
+											if($(NODE).hasClass('node-class')) {
+												removeUrl = removeListUrl;
+											}
+											if($(NODE).hasClass('node-instance')) {
+												removeUrl = removeListEltUrl;
+											}
 											GenerisTreeClass.removeNode({
 												url: removeUrl,
 												NODE: NODE,
@@ -382,13 +395,10 @@ UiForm = function(){
 				$(this).parent("div").children("ul.form-elt-list").remove();
 				var classUri = $(this).val();
 				if(classUri != ''){
+					
 					var elt = this;
-					if(ctx_extension){
-					 	url = '/' + ctx_extension + '/' + ctx_module + '/';
-					}
-					url += 'getInstances';
 					$.ajax({
-						url: url,
+						url: '/tao/Lists/getListElements',
 						type: "POST",
 						data: {classUri: classUri},
 						dataType: 'json',

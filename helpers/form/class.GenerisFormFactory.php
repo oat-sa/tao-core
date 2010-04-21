@@ -615,58 +615,22 @@ class tao_helpers_form_GenerisFormFactory
 		$form->addElement($typeElt);
 		$elementNames[] = $typeElt->getName();
 		
+		//list drop down
+		$listService = tao_models_classes_ServiceFactory::get("tao_models_classes_ListService");
+			
 		$listElt = tao_helpers_form_FormFactory::getElement("property_{$index}_range", 'Combobox');
 		$listElt->setDescription(__('List values'));
 		$listElt->addAttribute('class', 'property-listvalues');
 		$listElt->setEmptyOption(' --- '.__('select').' --- ');
-		
-		$exclude = array(
-			TAO_GROUP_CLASS,
-			TAO_ITEM_CLASS,
-			TAO_ITEM_MODEL_CLASS,
-			TAO_RESULT_CLASS,
-			TAO_SUBJECT_CLASS,
-			TAO_TEST_CLASS,
-			TAO_DELIVERY_CLASS,
-			TAO_DELIVERY_CAMPAIGN_CLASS,
-			TAO_DELIVERY_RESULTSERVER_CLASS,
-			TAO_DELIVERY_HISTORY_CLASS
-		);
-		$topLevelClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
-		$domains = $property->getDomain();
-		$options = array();
-		foreach(
-			array_merge(
-				array(new core_kernel_classes_Class(GENERIS_BOOLEAN)),
-				$topLevelClazz->getSubClasses(false)
-			) 
-			as $subClass){
-			
-			if(in_array($subClass->uriResource, $exclude)){
-				continue;
+		$listOptions = array();
+		foreach($listService->getLists() as $list){
+			$listOptions[tao_helpers_Uri::encode($list->uriResource)] = $list->getLabel();
+			if($property->getRange()->uriResource == $list->uriResource){
+				$listElt->setValue($list->uriResource);
 			}
-			
-			$isDomain = false;
-			foreach($domains->getIterator() as $domain){
-				if($subClass->uriResource == $domain->uriResource){
-					$isDomain = true;
-					break;
-				} 
-				foreach($domain->getParentClasses(true) as $domainParent){
-					if($subClass->uriResource == $domainParent->uriResource){
-						$isDomain = true;
-						break;
-					} 
-				}
-			}
-			if(!$isDomain){
-				$options[tao_helpers_Uri::encode($subClass->uriResource)] = $subClass->getLabel();
-				if($property->getRange()->uriResource == $subClass->uriResource){
-					$listElt->setValue($subClass->uriResource);
-				}
-			}
-		}
-		$listElt->setOptions(array_merge($options, array('new' => ' + '.__('Add / Edit lists'))));
+		}	
+		$listOptions['new'] = ' + '.__('Add / Edit lists');
+		$listElt->setOptions($listOptions);
 		$form->addElement($listElt);
 		$elementNames[] = $listElt->getName();
 		

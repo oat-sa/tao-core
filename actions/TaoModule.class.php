@@ -439,7 +439,6 @@ abstract class TaoModule extends CommonModule {
 				throw new Exception("Unable to create  " .EXPORT_PATH.". Check your filesystem!");
 			}
 		}
-		
 		$myLoginFormContainer = new tao_actions_form_Export();
 		$myForm = $myLoginFormContainer->getForm();
 		if($myForm->isSubmited()){
@@ -737,195 +736,6 @@ abstract class TaoModule extends CommonModule {
 	}	
 	
 	/**
-	 * Get the instances of a class
-	 * Render a json response formated as an array with resource uri/label as key/value pair
-	 * @return void
-	 */
-	public function getInstances(){
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		
-		$clazz = $this->getCurrentClass();
-		
-		$instances = array();
-		if(!is_null($clazz)){
-			foreach($clazz->getInstances() as $instance){
-				$instances[tao_helpers_Uri::encode($instance->uriResource)] = $instance->getLabel();
-			}
-		}
-		echo json_encode($instances);
-	}
-
-	/**
-	 * Get the lists of a module which are the first child of TAO Object
-	 * Render a json response
-	 * @return void
-	 */
-	public function getLists(){
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		
-		echo  json_encode(
-			$this->getListData(array(
-				TAO_GROUP_CLASS,
-				TAO_ITEM_CLASS,
-				TAO_ITEM_MODEL_CLASS,
-				TAO_RESULT_CLASS,
-				TAO_SUBJECT_CLASS,
-				TAO_TEST_CLASS,
-				TAO_DELIVERY_CLASS,
-				TAO_DELIVERY_CAMPAIGN_CLASS,
-				TAO_DELIVERY_RESULTSERVER_CLASS,
-				TAO_DELIVERY_HISTORY_CLASS
-			))
-		);
-	}
-
-	/**
-	 * Get the data of the flat lists which are the first level children of TAO Object
-	 * @param array $exclude [optional]
-	 * @return array $data the lists data
-	 */
-	protected function getListData($exclude = array()){ 
-	
-		$data = array();
-		
-		//generis boolean is always in the list
-		array_push(
-			$data, 
-			$this->service->toTree(new core_kernel_classes_Class(GENERIS_BOOLEAN), false, true)
-		);
-		
-	
-		$taoObjectClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
-		foreach($taoObjectClass->getSubClasses(false)  as $subClass){
-			if(in_array($subClass->uriResource, $exclude)){
-				continue;
-			}
-			array_push(
-				$data, 
-				$this->service->toTree($subClass, false, true)
-			);
-		}
-		return array(
-			'data' 		=> __('Lists'),
-			'attributes' => array('class' => 'node-root'),
-			'children' 	=> $data,
-			'state'		=> 'open'
-		);
-	}
-	
-	/**
-	 * Create a list node (a class as the list and an instance as the list item)
-	 * Render the json response with the label and uri of the created resource 
-	 * @return void
-	 */
-	public function createList(){
-		
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		
-		$response = array();
-		
-		if($this->getRequestParameter('classUri')){
-			
-			$taoObjectClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
-			
-			if($this->getRequestParameter('type') == 'class' && $this->getRequestParameter('classUri') == 'root'){
-				
-				$label = __('List ').(count($taoObjectClass->getSubClasses(false)) + 1);
-				$clazz = $this->service->createSubClass($taoObjectClass, $label);
-				if(!is_null($clazz)){
-					$response['label']	= $clazz->getLabel();
-					$response['uri'] 	= tao_helpers_Uri::encode($clazz->uriResource);
-				}
-			}
-			if($this->getRequestParameter('type') == 'instance'){
-				
-				$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
-				if(!is_null($clazz)){
-					if($clazz->isSubClassOf($taoObjectClass)){
-						
-						$label = __('List item ').(count($clazz->getInstances(false)) + 1);
-						$instance = $this->service->createInstance($clazz, $label);
-						if(!is_null($instance)){
-							$response['label']	= $instance->getLabel();
-							$response['uri'] 	= tao_helpers_Uri::encode($instance->uriResource);
-						}
-					}
-				}
-			}
-		}
-		echo json_encode($response);
-	}
-	
-	/**
-	 * Remove a list node: either a class (the list) or an instance (the list item)
-	 *  Render the json response with the deletion status
-	 * @return void
-	 */
-	public function removeList(){
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		
-		$taoObjectClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
-		
-		$deleted = false;
-		if($this->getRequestParameter('uri') && $this->getRequestParameter('classUri')){
-			$instance = $this->service->getOneInstanceBy(
-				new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri'))),
-				tao_helpers_Uri::decode($this->getRequestParameter('uri')),
-				'uri'
-			);
-			if(!is_null($instance)){
-				$deleted = $instance->delete();
-			}
-		}
-		if($this->getRequestParameter('classUri')){
-			$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
-			if(!is_null($clazz)){
-				if($clazz->setSubClassOf($taoObjectClass)){
-					$deleted = $clazz->delete();
-				}
-			}
-		}
-		
-		echo json_encode(array('deleted' => $deleted));
-	}
-	
-	/**
-	 * Rename a list node: change the label of a resource
-	 * Render the json response with the renamed status
-	 * @return void
-	 */
-	public function renameList(){
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		
-		$data = array('renamed'	=> false);
-		
-		$resource = null;
-		if($this->getRequestParameter('uri')){
-			$resource = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-		}
-		if(!is_null($resource)){
-			$data['oldName'] = (string)$resource->getUniquePropertyValue(new core_kernel_classes_Property(RDFS_LABEL));
-		}
-		if($this->getRequestParameter('newName')){
-			$resource = $this->service->bindProperties($resource, array(RDFS_LABEL => $this->getRequestParameter('newName')));
-			if($resource->getUniquePropertyValue(new core_kernel_classes_Property(RDFS_LABEL)).'' == $this->getRequestParameter('newName') && $this->getRequestParameter('newName') != ''){
-				$data['renamed'] = true;
-			}
-		}
-		echo json_encode($data);
-	}
-	
-	/**
 	 * get the meta data of the selected resource
 	 * Display the metadata. 
 	 * @return void
@@ -986,13 +796,17 @@ abstract class TaoModule extends CommonModule {
  * Services actions methods
  */
 	
+	protected function getDataKind(){
+		return Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
+	}
+	
 	/**
 	 * Service of class or instance selection with a tree.
 	 * @return void
 	 */
 	public function sasSelect(){
 
-		$kind = strtolower(Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false));
+		$kind = $this->getDataKind();
 		
 		$this->setData('treeName', __('Select'));
 		$this->setData('dataUrl', tao_helpers_Uri::url('getOntologyData', get_class($this)));
@@ -1018,13 +832,12 @@ abstract class TaoModule extends CommonModule {
 	 */
 	public function sasSet(){
 		$message = __('Error');
-		$kind = Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
 		
 		//set the class uri
 		if($this->hasRequestParameter('classUri')){
 			$clazz = $this->getCurrentClass();
 			if(!is_null($clazz)){
-				ServiceApi::save( array($kind.'ClassUri' => $clazz->uriResource) );
+				ServiceApi::save( array($this->getDataKind().'ClassUri' => $clazz->uriResource) );
 				$message = $clazz->getLabel().' '.__('class selected');
 			}
 		}
@@ -1052,8 +865,7 @@ abstract class TaoModule extends CommonModule {
 		$instance = $this->service->createInstance($clazz);
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			
-			$kind = Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
-			ServiceApi::save( array($kind.'Uri' => $instance->uriResource) );
+			ServiceApi::save( array($this->getDataKind().'Uri' => $instance->uriResource) );
 			
 			$this->redirect('sasEditInstance?uri='.tao_helpers_Uri::encode($instance->uriResource).'&classUri='.tao_helpers_Uri::encode($clazz->uriResource));
 		}
@@ -1071,16 +883,7 @@ abstract class TaoModule extends CommonModule {
 		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $instance);
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				
 				$instance = $this->service->bindProperties($instance, $myForm->getValues());
-				
-				$itemService = tao_models_classes_ServiceFactory::get('Items');
-				if($itemService->isItemClass($clazz)){
-					//it is an item:
-					$instance = $itemService->setDefaultItemContent($instance);
-				}
-				
-				$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($instance->uriResource));
 				$this->setData('message', __('Resource saved'));
 			}
 		}

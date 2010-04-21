@@ -265,9 +265,8 @@ class tao_actions_form_Users
 				$roleList->addAttribute('disabled', 'true');
 			}
 			else{
-				$roles = array();
 				foreach($wfUser->getPropertyValues(new core_kernel_classes_Property(USER_ROLE)) as $role){
-					$roleList->setValue($role);
+					$roleList->addValue($role);
 				}
 			}
 			$this->form->addElement($roleList);

@@ -25,14 +25,14 @@ $(function(){
 	$("#user-list").jqGrid({
 		url:'/tao/Users/data', 
 		datatype: "json", 
-		colNames:['', __('Login'), __('FirstName'), __('LastName'), __('Email'), __('Company'), __('Data Language'), __('Interface Language'), __('Actions')], 
+		colNames:['', __('Login'), __('Name'), __('Email'), __('Company'), __('Permissions'), __('Data Language'), __('Interface Language'), __('Actions')], 
 		colModel:[ 
 			{name:'active',index:'active', width:25, align:"center", sortable: false},
 			{name:'login',index:'login', width:150}, 
-			{name:'firstname',index:'invdate', width:150}, 
-			{name:'lastname',index:'lastname', width:150}, 
+			{name:'name',index:'name', width:200}, 
 			{name:'email',index:'email',  width:250}, 
 			{name:'company',index:'company', width:150}, 
+			{name:'acl',index:'acl', width:100, align:"left", sortable: false}, 
 			{name:'deflg',index:'deflg', width:120, align:"center"},
 			{name:'uilg',index:'uilg', width:120, align:"center"},
 			{name:'actions',index:'actions', width:150, align:"center", sortable: false}

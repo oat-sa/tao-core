@@ -276,14 +276,14 @@ abstract class tao_models_classes_Service
 			$values = $instance->getPropertyValuesCollection($prop);
 			if($values->count() > 0){
 				if(is_array($propertyValue)){
-					if($instance->removePropertyValues($prop)){
-						foreach($propertyValue as $aPropertyValue){
-							$instance->setPropertyValue(
-								$prop,
-								$aPropertyValue
-							);
-						}
+					$instance->removePropertyValues($prop);
+					foreach($propertyValue as $aPropertyValue){
+						$instance->setPropertyValue(
+							$prop,
+							$aPropertyValue
+						);
 					}
+					
 				}
 				else{
 					$instance->editPropertyValues(
@@ -299,6 +299,7 @@ abstract class tao_models_classes_Service
 			else{
 				
 				if(is_array($propertyValue)){
+					
 					foreach($propertyValue as $aPropertyValue){
 						$instance->setPropertyValue(
 							$prop,
@@ -314,6 +315,7 @@ abstract class tao_models_classes_Service
 				}
 			}
 		}
+	
         $returnValue = $instance;
 		
         // section 10-13-1-45--135fece8:123b76cb3ff:-8000:00000000000018A5 end

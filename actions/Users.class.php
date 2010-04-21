@@ -68,19 +68,37 @@ class Users extends CommonModule {
 			$page = $total_pages; 
 		}
 		
+		$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');;
+    	$enableWfUsers = $taoService->isLoaded('wfEngine');
+    	if($enableWfUsers){
+    		$wfUserService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
+    	}
+		
 		$response = new stdClass();
 		$response->page = $page; 
 		$response->total = $total_pages; 
 		$response->records = $count; 
 		foreach($users as $i => $user) { 
+			
+			$acl = array();
+			if($user['admin'] == '1'){
+				$acl[] = "<img src='".BASE_WWW."img/tao_ico.png' title='".__('TAO Admin tools')."'  alt='".__('TAO Admin tools')."' />";
+			}
+			if($enableWfUsers){
+				$wfUser = $wfUserService->getOneWfUser($user['login']);
+				if(!is_null($wfUser)){
+					$acl[] = "<img src='".BASE_WWW."img/wf_ico.png' title='".__('Process engine')."'  alt='".__('Process engin')."' />";
+				}
+			}
+			
 			$response->rows[$i]['id']= $user['login']; 
 			$response->rows[$i]['cell']= array(
 				"<img src='".BASE_WWW."img/user_go.png' alt='".__('Active user')."' />",
 				$user['login'],
-				$user['FirstName'],
-				$user['LastName'],
+				$user['FirstName'].' '.$user['LastName'],
 				$user['E_Mail'],
 				$user['Company'],
+				implode(' | ', $acl),
 				__($user['Deflg']),
 				__($user['Uilg']),
 				"<a href='#' onclick='editUser(\"".$user['login']."\");'><img src='".BASE_WWW."img/pencil.png' alt='".__('Edit user')."' title='".__('edit')."' /></a>&nbsp;|&nbsp;" .
@@ -123,7 +141,7 @@ class Users extends CommonModule {
 				unset($values['password2']);
 				
 				if(isset($values['acl'])){
-					(isset($values['acl']['tao'])) ? $values['admin'] = '1' : $values['admin'] = '0';
+					(in_array('tao', $values['acl'])) ? $values['admin'] = '1' : $values['admin'] = '0';
 				}
 				
 				if($this->userService->saveUser($values)){
@@ -170,7 +188,7 @@ class Users extends CommonModule {
 				unset($values['password3']);
 				
 				if(isset($values['acl'])){
-					(isset($values['acl']['tao'])) ? $values['admin'] = '1' : $values['admin'] = '0';
+					(in_array('tao', $values['acl'])) ? $values['admin'] = '1' : $values['admin'] = '0';
 				}
 				
 				if($this->userService->saveUser($values)){
