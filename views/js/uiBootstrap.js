@@ -6,7 +6,7 @@
  * @require jquery >= 1.3.2 [http://jquery.com/]
  * @require [helpers.js]
  * 
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */ 
 
 /**

@@ -4,7 +4,7 @@
  * @require jquery >= 1.3.2 [http://jquery.com/]
  * @require GenerisTreeClass [generis.tree.js]
  * 
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */ 
 
 var GenerisAction = {};
@@ -214,8 +214,8 @@ GenerisAction.loadMetaData = function(uri, classUri, url){
 									$("#comment-field").text(response.comment);
 								}
 							}
-						})
-					})
+						});
+					});
 					return false;
 				})
 			}

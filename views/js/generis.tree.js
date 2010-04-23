@@ -8,7 +8,7 @@
  * @require jquery >= 1.3.2 [http://jquery.com/]
  * @require jstree >= 0.9.9 [http://jstree.com/]
  * 
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */ 
 
 /**
@@ -370,7 +370,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 
 	}
 	catch(exp){
-		//console.log(exp);
+		console.log(exp);
 	}
 }
 
@@ -476,7 +476,7 @@ GenerisTreeClass.addInstance = function(options){
 	if(options.cssClass){
 		 cssClass += ' ' + options.cssClass;
 	}
-	
+
 	$.ajax({
 		url: options.url,
 		type: "POST",

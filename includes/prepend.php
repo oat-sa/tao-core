@@ -42,7 +42,9 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
 		TAOBASE_WWW . 'js/jquery.jqGrid-3.6.4/css/ui.jqgrid.css',
 		TAOBASE_WWW . 'css/layout.css',
-		TAOBASE_WWW . 'css/form.css'
+		TAOBASE_WWW . 'css/form.css',
+		
+		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/uploadify.css'
 	));
 	
 	$gridi18nFile = 'js/jquery.jqGrid-3.6.4/js/i18n/grid.locale-'.strtolower($GLOBALS['lang']).'.js';
@@ -62,12 +64,19 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . 'js/jquery.numeric.js',
 		ROOT_URL 	. '/filemanager/views/js/fmRunner.js',
 		ROOT_URL 	. '/filemanager/views/js/jquery.fmRunner.js',
+		
+		TAOBASE_WWW . 'js/eventMgr.js',
+		TAOBASE_WWW . 'js/gateway/Main.js',
+		
 		TAOBASE_WWW . 'js/helpers.js',
 		TAOBASE_WWW . 'js/uiBootstrap.js',
 		TAOBASE_WWW . 'js/uiForm.js',
 		TAOBASE_WWW . 'js/generis.tree.js',
 		TAOBASE_WWW . 'js/generis.actions.js',
-		TAOBASE_WWW . 'js/generis.treeform.js'
+		TAOBASE_WWW . 'js/generis.treeform.js',
+		
+		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/jquery.uploadify.v2.1.0.min.js',
+		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/swfobject.js'
 	));
 }
 ?>

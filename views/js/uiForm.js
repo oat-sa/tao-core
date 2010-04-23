@@ -5,7 +5,7 @@
  * @require UiBootstrap [uiBootstrap.js]
  * @require [helpers.js]
  * 
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */ 
 UiForm = function(){
 	
@@ -40,7 +40,7 @@ UiForm = function(){
 					formInstance.initElements();
 					formInstance.initTranslationForm();
 				}
-				else if(/import/.test(settings.url)){
+				else if(/Import/.test(settings.url)){
 					formInstance.initFileUploadForm();
 				}
 			}
@@ -519,7 +519,7 @@ UiForm = function(){
 				if (myForm.find(".file-uploader")) {
 					uploaderId = $(".file-uploader:first").attr('id');
 					
-					var myAjaxUploader = new AjaxUpload(uploaderId, {
+			/*		var myAjaxUploader = new AjaxUpload(uploaderId, {
 						action: 	myForm.attr('action'),
 						name: 		uploaderId,
 						responseType: 'text/html',
@@ -539,11 +539,11 @@ UiForm = function(){
 							this.enable();
 							loaded();
 						}
-					});
+					});*/
 				}
 			}
 			catch(exp){
-				//console.log(exp);
+				console.log(exp);
 			}
 			return false;
 		});
