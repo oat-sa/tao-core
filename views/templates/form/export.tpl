@@ -1,6 +1,4 @@
-<?include(TAO_TPL_PATH .'header.tpl')?>
-
-
+<?include(TAO_TPL_PATH.'header.tpl')?>
 
 <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=get_data('formTitle')?>
@@ -8,20 +6,14 @@
 <div id="form-container" class="ui-widget-content ui-corner-bottom">
 	<?=get_data('myForm')?>
 </div>
-
-
-	<br />
-	<table id="files-list"></table>
-	<div id="files-list-pager"></div> 
-	<br />
+<br />
+<table id="files-list"></table>
+<div id="files-list-pager"></div> 
+<br />
 <script type="text/javascript">
 $(document).ready(function(){
-	if(ctx_extension){
-		url = '/' + ctx_extension + '/' + ctx_module + '/';
-	}
-	url += 'getExportedFiles';
 	$("#files-list").jqGrid({
-		url:url, 
+		url:'/tao/Export/getExportedFiles', 
 		datatype: "json",
 		colNames: [__('Name'),__('File'), __('Date'), __('Actions')] ,
 		colModel: [
@@ -42,6 +34,4 @@ $(document).ready(function(){
 	
 });
 </script>
-
-
-<?include(TAO_TPL_PATH .'footer.tpl');?>
+<?include(TAO_TPL_PATH.'footer.tpl')?>

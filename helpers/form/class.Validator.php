@@ -111,6 +111,26 @@ abstract class tao_helpers_form_Validator
     }
 
     /**
+     * Short description of method getOptions
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return array
+     */
+    public function getOptions()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--3dfcc751:12825c5585c:-8000:00000000000023E4 begin
+        
+        $returnValue = $this->options;
+        
+        // section 127-0-1-1--3dfcc751:12825c5585c:-8000:00000000000023E4 end
+
+        return (array) $returnValue;
+    }
+
+    /**
      * Short description of method setValue
      *
      * @access public

@@ -102,17 +102,17 @@ class tao_helpers_GenerisDataAdapterRdf
 		$api = core_kernel_impl_ApiModelOO::singleton();
 		
 		if(!is_null($source)){
-			$dbWrapper =  core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
 			
-			$result = $dbWrapper->execSql(
-				"SELECT `statements`.`modelID`, `models`.`modelURI` FROM `statements` 
-				 INNER JOIN `models` ON `models`.`modelID` = `statements`.`modelID`  
-				 WHERE `statements`.`subject` = '{$source->uriResource}' AND predicate = 'http://www.w3.org/2000/01/rdf-schema#subClassOf'"
-			);
-			if (!$result->EOF){
-				$modelUri 	= $result->fields['modelURI'];
+			$session = core_kernel_classes_Session::singleton();
+			$localModel = $session->getNameSpace();
+			$sourceModel = substr($source->uriResource, 0, strpos($source->uriResource, '#'));
+			if($localModel == $sourceModel){
+				$returnValue = $api->exportXmlRdf(array($localModel));
 			}
-			$returnValue = $api->exportXmlRdf(array($modelUri, $session->getNameSpace()));
+			else{
+				$returnValue = $api->exportXmlRdf(array($localModel, $sourceModel));
+			}
+			
 		}
 		else{
 			$returnValue = $api->exportXmlRdf();

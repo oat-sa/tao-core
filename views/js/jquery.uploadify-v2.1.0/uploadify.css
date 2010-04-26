@@ -22,6 +22,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+
+div.xhtml_form div.file-uploader .uploadifyQueueItem,
 .uploadifyQueueItem {
 	font: 11px Verdana, Geneva, sans-serif;
 	border: 2px solid #E5E5E5;
@@ -30,14 +32,20 @@ THE SOFTWARE.
 	padding: 10px;
 	width: 350px;
 }
+
+div.xhtml_form div.file-uploader .uploadifyErrors,
 .uploadifyError {
 	border: 2px solid #FBCBBC !important;
 	background-color: #FDE5DD !important;
 }
+
+div.xhtml_form div.file-uploader .uploadifyQueueItem .cancel,
 .uploadifyQueueItem .cancel {
 	float: right;
 }
-.uploadifyProgress {
+
+div.xhtml_form div.file-uploader .uploadifyProgress,
+.uploadifyProgress{
 	background-color: #FFFFFF;
 	border-top: 1px solid #808080;
 	border-left: 1px solid #808080;
@@ -46,8 +54,11 @@ THE SOFTWARE.
 	margin-top: 10px;
 	width: 100%;
 }
+
+div.xhtml_form div.file-uploader .uploadifyProgressBar,
 .uploadifyProgressBar {
 	background-color: #0099FF;
 	width: 1px;
 	height: 3px;
+	padding:0px;
 }

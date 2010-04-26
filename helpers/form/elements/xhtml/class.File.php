@@ -67,17 +67,11 @@ class tao_helpers_form_elements_xhtml_File
 
         // section 127-0-1-1-3453b76:1254af40027:-8000:0000000000001CCA begin
 		
-		/*$returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
+		$returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
 		$returnValue .= "<input type='hidden' name='MAX_FILE_SIZE' value='".tao_helpers_form_elements_File::MAX_FILE_SIZE."' />";
 		$returnValue .= "<input type='file' name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= " value='{$this->value}'  />";*/
-		
-		$returnValue .= "<br />";
-		$returnValue .= "<input type='hidden' name='MAX_FILE_SIZE' value='".tao_helpers_form_elements_File::MAX_FILE_SIZE."' />";
-		$returnValue .= "<span id='{$this->name}' class='form-elt-container file-uploader ui-state-default ui-corner-all' >".$this->getDescription()."</span>";
-		$returnValue .= "<br />";
-		$returnValue .= "<br />";
+		$returnValue .= " value='{$this->value}'  />";
 		
         // section 127-0-1-1-3453b76:1254af40027:-8000:0000000000001CCA end
 

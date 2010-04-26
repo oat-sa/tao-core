@@ -5,10 +5,9 @@ error_reporting(E_ALL);
 /**
  * Utilities on requests
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -27,7 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Utilities on requests
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -44,7 +43,7 @@ class tao_helpers_Request
      * Enables you to know if the request in the current scope is an ajax
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return boolean
      */
     public static function isAjax()

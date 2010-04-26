@@ -80,11 +80,11 @@ class tao_actions_form_Export
         // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED7 begin
 		
 		$formatElt = tao_helpers_form_FormFactory::getElement('ontology', 'Radiobox');
-		$formatElt->setDescription(__('Ontology'));
+		$formatElt->setDescription(__('Content'));
 		$formatElt->setOptions(array(
-			'all'			=> __('All'),
-			'current'		=> __('Current (model, dependancies and data)'),
-			'data'			=> __('Current (only data)')
+			'all'			=> __('All (model and data)'),
+			'current'		=> __('Current (current model, data and dependancies)'),
+			'data'			=> __('Only Data')
 		));
 		$formatElt->setValue('current');
 		$this->form->addElement($formatElt);

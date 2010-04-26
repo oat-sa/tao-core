@@ -5,10 +5,9 @@ error_reporting(E_ALL);
 /**
  * Utilities on URL/URI
  *
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -24,7 +23,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 
 /**
  * Conveniance function 
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @param  string action
  * @param  string module
  * @param  array params
@@ -40,7 +39,7 @@ function _url($action = null, $module = null, $params = array()){
  * Utilities on URL/URI
  *
  * @access public
- * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -65,7 +64,7 @@ class tao_helpers_Uri
      * get the project base url
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
     public static function getBaseUrl()
@@ -87,7 +86,7 @@ class tao_helpers_Uri
      * it for the used kind of url resolving
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string action
      * @param  string module
      * @param  array params
@@ -128,7 +127,7 @@ class tao_helpers_Uri
      * encode an URI
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string uri
      * @param  boolean dotMode
      * @return string
@@ -161,7 +160,7 @@ class tao_helpers_Uri
      * decode an URI
      *
      * @access public
-     * @author Bertrand Chevrier, <chevrier.bertrand@gmail.com>
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string uri
      * @param  boolean dotMode
      * @return string
