@@ -40,9 +40,10 @@ div.xhtml_form div textarea{
 	width: 280px;
 	height: 40px;
 }
-div.xhtml_form div.wysiwyg{
-	width: 280px;
-	height: 80px;
+div.xhtml_form div.wysiwyg,
+div.xhtml_form div textarea.html-area{
+	width: 320px;
+	height: 150px;
 }
 div.xhtml_form div .elt_desc{
 	font-weight:normal;

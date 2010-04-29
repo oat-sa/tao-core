@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 22.04.2010, 12:22:57 with ArgoUML PHP module 
+ * Automatically generated on 28.04.2010, 10:27:04 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -55,6 +55,32 @@ class tao_helpers_form_elements_xhtml_AsyncFile
     // --- OPERATIONS ---
 
     /**
+     * Short description of method getValue
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return mixed
+     */
+    public function getValue()
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-3ba812e2:1284379704f:-8000:00000000000023F8 begin
+        
+        if(!is_null($this->value)){
+        	$struct = @unserialize($this->value);
+        	if($struct !== false){
+        		$this->value = $struct;
+        	}
+        }
+        $returnValue = $this->value;
+        
+        // section 127-0-1-1-3ba812e2:1284379704f:-8000:00000000000023F8 end
+
+        return $returnValue;
+    }
+
+    /**
      * Short description of method render
      *
      * @access public
@@ -67,16 +93,19 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 
         // section 127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DE begin
         
+        $widgetName = $this->name.'-AsyncFileUploader';
+        
         $returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
 		
         $returnValue .= "<div class='form-elt-container file-uploader'>";
-        $returnValue .= "<input type='file' name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
+        $returnValue .= "<input type='file' name='{$widgetName}' id='{$widgetName}' ";
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= " value='{$this->value}'  />";
 		
 		$returnValue .= "<br />";
 		$returnValue .= "<img src='".TAOBASE_WWW."img/file_upload.png' class='icon' />";
-		$returnValue .= "<a href='#' id='{$this->name}_starter' >".__('Upload files')."</a>";
+		$returnValue .= "<a href='#' id='{$widgetName}_starter' >".__('Start upload')."</a>";
 
 		//get the upload max size (the min of those 3 directives)
 		$max_upload = (int)(ini_get('upload_max_filesize'));
@@ -109,46 +138,27 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 			}
 		}
 		
+		//initialize the AsyncFileUpload Js component
 		$returnValue .= '<script type="text/javascript">
 			$(document).ready(function(){
-				$(\'#'.$this->name.'\').uploadify({
-					"uploader"  : "'.TAOBASE_WWW.'js/jquery.uploadify-v2.1.0/uploadify.swf",
-					"script"    : "'.TAOBASE_WWW.'js/jquery.uploadify-v2.1.0/uploadify.php",
-					"cancelImg" : "'.TAOBASE_WWW.'img/cancel.png",
-					"buttonImg"	: "'.TAOBASE_WWW.'img/browse_btn.png",
-					"width"		: 140,
-					"height"	: 40,
-					"auto"      : false,
-					"sizeLimit"	: '.$fileSize.',
-					"onError"	: function(event, queueID, fileObj, errorObj){
-						console.log(errorObj);
-						console.log(fileObj);
-					},
-					"onComplete"	: function(event, queueID, fileObj, response, data){
-						console.log(fileObj);
-						console.log(response);
-						console.log(data);
-						return false;
-					},';
-		
+				new AsyncFileUpload("#'.$widgetName.'", {
+					"basePath"  : "'.TAOBASE_WWW.'",
+					"sizeLimit"	: '.$fileSize.',';
 		if(count($extensions) > 0){
  			$returnValue .='
 					"fileDesc"	: "'.__('Allowed files types: ').implode(', ', $extensions).'",
 					"fileExt"	: "'.implode(';', $extensions).'",';
 		}
 		$returnValue .='
-					"buttonText": "'.__('Browse').'",
+					"starter"   : "#'.$widgetName.'_starter",
+					"target"	: "#'.$this->name.'",
 					"folder"    : "/"
-				 });
-				 
-				 $("#'.$this->name.'_starter").click(function(){
-				 	$(\'#'.$this->name.'\').uploadifyUpload();
-				 });
+				});
 			});
 			</script>';
         $returnValue .= "</div>";
 		
-		// section 127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DE end
+        // section 127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DE end
 
         return (string) $returnValue;
     }

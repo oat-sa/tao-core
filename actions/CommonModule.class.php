@@ -17,6 +17,22 @@ abstract class CommonModule extends Module {
 	protected $service = null;
 	
 	/**
+	 * constructor checks if a user is logged in
+	 * If you don't want this check, please override the  _isAllowed method to return true
+	 */
+	public function __construct(){
+		$errorMessage = __('Access denied. Please renew your authentication!');
+		if(!$this->_isAllowed()){
+			if(tao_helpers_Request::isAjax()){
+				header("HTTP/1.0 403 Forbidden");
+				echo $errorMessage;
+				return;
+			}
+			throw new Exception($errorMessage);
+		}
+	}
+	
+	/**
 	 * Retrieve the data from the url and make the base initialization
 	 * @return void
 	 */

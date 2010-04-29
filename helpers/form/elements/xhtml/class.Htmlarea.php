@@ -93,6 +93,13 @@ class tao_helpers_form_elements_xhtml_Htmlarea
 		$returnValue .= "<textarea name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= ">{$this->value}</textarea>";
+		
+		//initialize the jwysiwyg component on the textarea
+	/*	$returnValue .= "<script type='text/javascript'>
+							$(document).ready(function(){
+								$('#{$this->name}').wysiwyg();
+							});
+						</script>";*/
 		 
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F4 end
 

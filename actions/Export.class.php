@@ -50,7 +50,7 @@ class Export extends CommonModule {
 							}
 						}
 					}
-					$adapter = new tao_helpers_GenerisDataAdapterRdf();
+					$adapter = new tao_helpers_data_GenerisAdapterRdf();
 					switch($myForm->getValue('ontology')){
 						case 'data':	$rdf =  $adapter->export($localClass); break;
 						case 'current':	$rdf =  $adapter->export($refClass); break;

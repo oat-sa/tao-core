@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/models/classes/class.ListService.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 21.04.2010, 10:37:34 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ * This class provides the services on the list management
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -38,7 +31,7 @@ require_once('tao/models/classes/class.Service.php');
 // section 127-0-1-1-68d242d4:127aa5da21a:-8000:000000000000234A-constants end
 
 /**
- * Short description of class tao_models_classes_ListService
+ * This class provides the services on the list management
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -54,7 +47,7 @@ class tao_models_classes_ListService
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute parentListClass
+     * the list parent class
      *
      * @access protected
      * @var Class
@@ -64,7 +57,7 @@ class tao_models_classes_ListService
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
+     * initialize the service
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -80,7 +73,7 @@ class tao_models_classes_ListService
     }
 
     /**
-     * Short description of method getLists
+     * get all the lists class
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -132,7 +125,8 @@ class tao_models_classes_ListService
     }
 
     /**
-     * Short description of method getListElement
+     * get the element of the list defined by listClass and identified by the
+     * in parameter
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -161,7 +155,7 @@ class tao_models_classes_ListService
     }
 
     /**
-     * Short description of method getListElements
+     * get all the elements of the list
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -214,7 +208,7 @@ class tao_models_classes_ListService
     }
 
     /**
-     * Short description of method removeList
+     * remove a list and it's elements
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -240,7 +234,7 @@ class tao_models_classes_ListService
     }
 
     /**
-     * Short description of method removeListElement
+     * remove a list element
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -263,7 +257,7 @@ class tao_models_classes_ListService
     }
 
     /**
-     * Short description of method createList
+     * create a new list class
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -287,7 +281,7 @@ class tao_models_classes_ListService
     }
 
     /**
-     * Short description of method createListElement
+     * add a new element to a list
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

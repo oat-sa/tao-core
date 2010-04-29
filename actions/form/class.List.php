@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/actions/form/class.List.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 30.03.2010, 15:33:17 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ * This container initialize the list form.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -38,7 +31,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
 // section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237A-constants end
 
 /**
- * Short description of class tao_actions_form_List
+ * This container initialize the list form.
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

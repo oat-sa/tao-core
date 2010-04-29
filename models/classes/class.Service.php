@@ -198,7 +198,7 @@ abstract class tao_models_classes_Service
 		
 		$returnValue = core_kernel_classes_ResourceFactory::create($clazz, $label, '');
 		
-		// section 10-13-1-45--135fece8:123b76cb3ff:-8000:0000000000001897 end
+        // section 10-13-1-45--135fece8:123b76cb3ff:-8000:0000000000001897 end
 
         return $returnValue;
     }
@@ -606,6 +606,67 @@ abstract class tao_models_classes_Service
         }
         
         // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002337 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method getClazzProperties
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class clazz
+     * @param  Class topLevelClazz
+     * @return array
+     */
+    public function getClazzProperties( core_kernel_classes_Class $clazz,  core_kernel_classes_Class $topLevelClazz = null)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 begin
+        
+        if(is_null($topLevelClazz)){
+			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+		}
+		
+		$returnValue = $clazz->getProperties(false);
+		if($clazz->uriResource == $topLevelClazz->uriResource){
+			return (array) $returnValue;
+		}
+		$top = false;
+		$parent = null;
+		do{
+			if(is_null($parent)){
+				$parents = $clazz->getParentClasses(false);
+			}
+			else{
+				$parents = $parent->getParentClasses(false);
+			}
+			if(count($parents) == 0){
+				break;
+			}
+			
+			foreach($parents as $parent){
+				
+				
+				if( !($parent instanceof core_kernel_classes_Class) || is_null($parent)){
+					$top = true; 
+					break;
+				}
+				if($parent->uriResource == RDFS_CLASS){
+					continue;
+				}
+				
+				$returnValue = array_merge($returnValue, $parent->getProperties(false));
+				if($parent->uriResource == $topLevelClazz->uriResource){
+					$top = true; 
+					break;
+				}
+				
+			}
+		}while($top === false);
+        
+        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 end
 
         return (array) $returnValue;
     }

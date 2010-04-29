@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage helpers
+ * @subpackage helpers_data
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -33,9 +33,9 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage helpers
+ * @subpackage helpers_data
  */
-abstract class tao_helpers_GenerisDataAdapter
+abstract class tao_helpers_data_GenerisAdapter
 {
     // --- ASSOCIATIONS ---
 
@@ -50,14 +50,6 @@ abstract class tao_helpers_GenerisDataAdapter
      */
     protected $options = array();
 
-    /**
-     * Short description of attribute DEFAULT_TOP_LEVEL_CLASS
-     *
-     * @access protected
-     * @var string
-     */
-    const DEFAULT_TOP_LEVEL_CLASS = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject';
-
     // --- OPERATIONS ---
 
     /**
@@ -71,14 +63,14 @@ abstract class tao_helpers_GenerisDataAdapter
     public function __construct($options = array())
     {
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001C97 begin
-		
-		$this->options = $options;
-		
+        
+    	$this->options = $options;
+    	
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001C97 end
     }
 
     /**
-     * Short description of method getOptions
+     * get the adapter options
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -89,16 +81,16 @@ abstract class tao_helpers_GenerisDataAdapter
         $returnValue = array();
 
         // section 127-0-1-1-10bf4933:12549adcf20:-8000:0000000000001CC0 begin
-		
-		$returnValue = $this->options;
-		
+        
+        $returnValue = $this->options;
+        
         // section 127-0-1-1-10bf4933:12549adcf20:-8000:0000000000001CC0 end
 
         return (array) $returnValue;
     }
 
     /**
-     * Short description of method setOptions
+     * set the adapter options
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -108,73 +100,32 @@ abstract class tao_helpers_GenerisDataAdapter
     public function setOptions($options = array())
     {
         // section 127-0-1-1-10bf4933:12549adcf20:-8000:0000000000001CC3 begin
-		
-		$this->options = $options;
-		
+        
+    	$this->options = $options;
+    	
         // section 127-0-1-1-10bf4933:12549adcf20:-8000:0000000000001CC3 end
     }
 
     /**
-     * Short description of method getClassProperties
+     * add a new option
      *
-     * @access protected
+     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class clazz
-     * @param  Class topLevelClazz
-     * @return array
+     * @param  string name
+     * @param  value
+     * @return mixed
      */
-    protected function getClassProperties( core_kernel_classes_Class $clazz,  core_kernel_classes_Class $topLevelClazz = null)
+    public function addOption($name, $value)
     {
-        $returnValue = array();
-
-        // section 127-0-1-1-10bf4933:12549adcf20:-8000:0000000000001CB8 begin
-		
-		if(is_null($topLevelClazz)){
-			$topLevelClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
-		}
-		
-		$returnValue = $clazz->getProperties(false);
-		if($clazz->uriResource == $topLevelClazz->uriResource){
-			return (array) $returnValue;
-		}
-		$top = false;
-		$parent = null;
-		do{
-			if(is_null($parent)){
-				$parents = $clazz->getParentClasses(false);
-			}
-			else{
-				$parents = $parent->getParentClasses(false);
-			}
-			if(count($parents) == 0){
-				break;
-			}
-			
-			foreach($parents as $parent){
-				if( !($parent instanceof core_kernel_classes_Class) || is_null($parent)){
-					$top = true; 
-					break;
-				}
-				if($parent->uriResource == 'http://www.w3.org/2000/01/rdf-schema#Class'){
-					continue;
-				}
-				
-				$returnValue = array_merge($returnValue, $parent->getProperties(false));
-				if($parent->uriResource == $topLevelClazz->uriResource){
-					$top = true; 
-					break;
-				}
-				
-			}
-		}while($top === false);
-					
-        // section 127-0-1-1-10bf4933:12549adcf20:-8000:0000000000001CB8 end
-
-        return (array) $returnValue;
+        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002412 begin
+        
+    	$this->options[$name] = $value;
+    	
+        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002412 end
     }
 
     /**
-     * import prototype
+     * import prototype: import the source into the destination class
      *
      * @abstract
      * @access public
@@ -186,7 +137,7 @@ abstract class tao_helpers_GenerisDataAdapter
     public abstract function import($source,  core_kernel_classes_Class $destination);
 
     /**
-     * export prototype
+     * export prototype: export the source class
      *
      * @abstract
      * @access public
@@ -196,6 +147,6 @@ abstract class tao_helpers_GenerisDataAdapter
      */
     public abstract function export( core_kernel_classes_Class $source = null);
 
-} /* end of abstract class tao_helpers_GenerisDataAdapter */
+} /* end of abstract class tao_helpers_data_GenerisAdapter */
 
 ?>

@@ -14,11 +14,11 @@
 			<tr>
 				<?foreach(get_data('extensions') as $i => $extension):?>
 				<?if($extension['extension'] != 'users'):?>
-				<?if($i%3==0 && $i > 0):?>
+				<?if($i%4==0 && $i > 0):?>
 					</tr>
 					<tr>
 				<?endif?>
-				<td >
+				<td>
 					<div class="home-box ui-corner-all ui-widget ui-widget-header" style="cursor:pointer;">
 						<img src="<?=BASE_WWW?>img/<?=$extension['extension']?>.png" /><br />
 						<a class="extension-nav" href="<?=_url('index', null, array('extension' => $extension['extension']))?>"><?=__($extension['name'])?></a>

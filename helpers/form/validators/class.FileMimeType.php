@@ -93,26 +93,27 @@ class tao_helpers_form_validators_FileMimeType
 		
 		$mimetype = '';
 		$value = $this->values[0];
+	/*	if(is_string($value)){
+			$value = unserialize($value);
+		}*/
 		if(is_array($value)){
 			
-			$filename = $value['tmp_name'];
-
-			//@todo in PHP >= 5.3.0 the finfo class has been moved from PECL to the core, so USE IT!
-			
 			//if the magic mime_content_type function is activated, usually by using the system mime magic translation ie. in /usr/share/mime.magic
-			if (function_exists('mime_content_type') && ini_get('mime_magic.magicfile') && is_readable($filename)) {
-	            $mimetype = mime_content_type($filename);
-	        }
-			else if(isset($value['type'])) {
+			if(isset($value['type'])) {
 				//by default use the $_FILE info but is a security failure 
 	            $mimetype = $value['type'];
 	        }
+	        if (isset($value['tmp_name']) && (empty($mimetype) || $mimetype == 'application/octet-stream')){
+	        	if(file_exists($value['tmp_name'])){
+	        		$mimetype = tao_helpers_File::getMimeType($value['tmp_name']);
+	        	}
+        	}
 			if(!empty($mimetype) ){
 				if(in_array($mimetype, $this->options['mimetype'])){
 					$returnValue = true;
 				}
 				else{
-					$this->message .= " ".implode(', ', $this->options['mimetype'])." are exected but $mimetype detected";
+					$this->message .= " ".implode(', ', $this->options['mimetype'])." are expected but $mimetype detected";
  				}
 			}
 		}

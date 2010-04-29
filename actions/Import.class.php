@@ -10,20 +10,21 @@
  */
 class Import extends CommonModule {
 
-	/**
-	 * Constructor performs initializations actions
-	 * @return void
-	 */
-	public function __construct(){		
-		$this->defaultData();
-	}
 	
 	/**
-	 * Export the selected class instance in a flat CSV file
-	 * download header sent
 	 * @return void
 	 */
 	public function index(){
+		$this->forward('Import', 'upload');
+	}
+	
+	/**
+	 * display the import form: csv options and file upload
+	 * @return void
+	 */
+	public function upload(){
+		
+		$this->removeSessionAttribute('import');
 		
 		$myFormContainer = new tao_actions_form_Import();
 		$myForm = $myFormContainer->getForm();
@@ -33,34 +34,92 @@ class Import extends CommonModule {
 			if($myForm->isValid()){
 				
 				//init import options
-				$clazz = $this->getCurrentClass();
-				$adapter = new tao_helpers_GenerisDataAdapterCsv();
-				$adapter->setOptions(array(
-					'field_delimiter' 		=> $myForm->getValue('field_delimiter'),
-					'field_encloser' 		=> $myForm->getValue('field_encloser'),
-					'line_break' 			=> $myForm->getValue('line_break'),
-					'multi_values_delimiter' => $myForm->getValue('multi_values_delimiter'),
-					'first_row_column_names' => $myForm->getValue('first_row_column_names'),
-					'column_order' 			=> $myForm->getValue('column_order')
-				));
 				
-				//import data from the file
+				$importData = array();
+				$importData['options'] = array(
+					'field_delimiter' 			=> $myForm->getValue('field_delimiter'),
+					'field_encloser' 			=> $myForm->getValue('field_encloser'),
+					'line_break' 				=> $myForm->getValue('line_break'),
+					'multi_values_delimiter' 	=> $myForm->getValue('multi_values_delimiter'),
+					'first_row_column_names' 	=> $myForm->getValue('first_row_column_names'),
+					'column_order' 				=> $myForm->getValue('column_order')
+				);
 				$fileData = $myForm->getValue('source');
-				if($adapter->import(file_get_contents($fileData['tmp_name']), $clazz)){
-					unlink($fileData['tmp_name']);
-					
-					$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
-					$this->setData('message', __('Data imported'));
-					$this->setData('reload', true);
-					$this->forward(get_class($this), 'index');
-				}
+				$importData['file'] = $fileData['uploaded_file'];
+				
+				$this->setSessionAttribute('import', $importData);
+				$this->redirect('mapping');
 			}
 		}
-		
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Import data'));
 		$this->setView('form/import.tpl', true);
 	}
 	
+	
+	/**
+	 * display the mapping form
+	 * @return void
+	 */
+	public function mapping(){
+		if(!$this->hasSessionAttribute('import')){
+			$this->redirect('upload');
+		}
+		
+		if($this->hasSessionAttribute('classUri')){
+			
+			//get the import options in the session (from the upload form)
+			$importData = $this->getSessionAttribute('import');
+			
+			//initialize the adapter
+			$adapter = new tao_helpers_data_GenerisAdapterCsv($importData['options']);
+			
+			
+			$service = tao_models_classes_ServiceFactory::get(str_replace('tao', '',$this->getSessionAttribute('currentExtension')));
+			
+			//get the current class of properties
+			$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getSessionAttribute('classUri')));
+			$properties = array(RDFS_LABEL => __('Label'));
+			foreach($service->getClazzProperties($clazz) as $property){
+				
+				//@todo manage the properties with range
+				$range = $property->getRange();
+				if($range->uriResource == RDFS_LITERAL){	
+					$properties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
+				}
+				
+			}
+			
+			//load the csv data from the file (uploaded in the upload form) to get the columns
+			$csv_data = $adapter->load($importData['file']);
+			
+			//build the mapping form 
+			$myFormContainer = new tao_actions_form_Mapping(array(), array(
+				'class_properties'  => $properties,
+				'csv_column'		=> array_keys($csv_data[0])
+			));
+			$myForm = $myFormContainer->getForm();
+			if($myForm->isSubmited()){
+				if($myForm->isValid()){
+					
+					
+					//set the mapping to the adapter
+					$adapter->addOption('map', $myForm->getValues());
+					
+					//import it!
+					if($adapter->import($importData['file'], $clazz)){
+						$this->setData('message', __('Data imported successfully'));
+						$this->setData('reload', true);
+						$this->forward('Import', 'upload');
+					}
+					
+				}
+			}
+			
+			$this->setData('myForm', $myForm->render());
+			$this->setData('formTitle', __('Import into ').$clazz->getLabel());
+			$this->setView('form.tpl', true);
+		}
+	}
 }
 ?>

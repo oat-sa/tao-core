@@ -73,9 +73,11 @@ class tao_helpers_form_elements_xhtml_Textbox
 		else{
 			unset($this->attributes['noLabel']);
 		}
-		$returnValue .= "<input type='text' name='{$this->name}' id='{$this->name}' ";
+		$returnValue .= "\n<input type='text' name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
+		
 		$returnValue .= ' value="'.$this->value.'"  />';
+		
 		if(!empty($this->unit)){
 			$returnValue .= " " . $this->unit;
 		}

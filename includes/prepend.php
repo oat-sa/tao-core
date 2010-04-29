@@ -64,8 +64,10 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . 'js/jquery.numeric.js',
 		ROOT_URL 	. '/filemanager/views/js/fmRunner.js',
 		ROOT_URL 	. '/filemanager/views/js/jquery.fmRunner.js',
+		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/jquery.uploadify.v2.1.0.min.js',
+		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/swfobject.js',
 		
-		TAOBASE_WWW . 'js/eventMgr.js',
+		TAOBASE_WWW . 'js/EventMgr.js',
 		TAOBASE_WWW . 'js/gateway/Main.js',
 		
 		TAOBASE_WWW . 'js/helpers.js',
@@ -74,9 +76,8 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . 'js/generis.tree.js',
 		TAOBASE_WWW . 'js/generis.actions.js',
 		TAOBASE_WWW . 'js/generis.treeform.js',
+		TAOBASE_WWW . 'js/AsyncFileUpload.js'
 		
-		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/jquery.uploadify.v2.1.0.min.js',
-		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/swfobject.js'
 	));
 }
 ?>

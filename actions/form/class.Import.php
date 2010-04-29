@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/actions/form/class.Import.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 21.04.2010, 17:21:51 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ * This container initialize the import form.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -38,7 +31,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
 // section 127-0-1-1--5823ae53:12820f19957:-8000:00000000000023CE-constants end
 
 /**
- * Short description of class tao_actions_form_Import
+ * This container initialize the import form.
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -68,6 +61,10 @@ class tao_actions_form_Import
         
     	$this->form = tao_helpers_form_FormFactory::getForm('import');
     	
+    	$nextElt = tao_helpers_form_FormFactory::getElement('next', 'Submit');
+		$nextElt->setValue(__('Next'));
+		$this->form->setActions(array($nextElt), 'bottom');
+    	
         // section 127-0-1-1--5823ae53:12820f19957:-8000:00000000000023CF end
     }
 
@@ -82,17 +79,16 @@ class tao_actions_form_Import
     {
         // section 127-0-1-1--5823ae53:12820f19957:-8000:00000000000023D1 begin
         
-    	$adapter = new tao_helpers_GenerisDataAdapterCsv();
+    	$adapter = new tao_helpers_data_GenerisAdapterCsv();
 		$options = $adapter->getOptions();
-		
-		$level = 1;
 		
 		//create import options form
 		foreach($options as $optName => $optValue){
 			(is_bool($optValue))  ? $eltType = 'Checkbox' : $eltType = 'Textbox';
 			$optElt = tao_helpers_form_FormFactory::getElement($optName, $eltType);
 			$optElt->setDescription(tao_helpers_Display::textCleaner($optName, ' '));
-			$optElt->setLevel($level);
+			$optElt->setValue(addslashes($optValue));
+			
 			$optElt->addAttribute("size", ($optName == 'column_order') ? 40 : 6);
 			if(is_null($optValue) || $optName == 'line_break'){
 				$optElt->addAttribute("disabled", "true");
@@ -108,13 +104,11 @@ class tao_actions_form_Import
 				);
 			}
 			$this->form->addElement($optElt);
-			$level++;
 		}
 		$this->form->createGroup('options', __('CSV Options'), array_keys($options));
 		
 		//create file upload form box
 		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
-		$fileElt->setLevel($level);
 		$fileElt->setDescription(__("Add the source file"));
 		$fileElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),

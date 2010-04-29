@@ -37,16 +37,7 @@ abstract class TaoModule extends CommonModule {
 	 */
 	public function __construct(){
 		
-		$errorMessage = __('Access denied. Please renew your authentication!');
-		
-		if(!$this->_isAllowed()){
-			if(tao_helpers_Request::isAjax()){
-				header("HTTP/1.0 403 Forbidden");
-				echo $errorMessage;
-				return;
-			}
-			throw new Exception($errorMessage);
-		}
+		parent::__construct();
 		
 		(preg_match("/^SaS/", get_class($this))) ? $this->mode = self::MODE_STANDALONE : $this->mode = self::MODE_APP;
 	}

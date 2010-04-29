@@ -3,11 +3,11 @@
 error_reporting(E_ALL);
 
 /**
- * Adapter for RDF format
+ * Adapter for RDF/RDFS format
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage helpers
+ * @subpackage helpers_data
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -21,7 +21,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
-require_once('tao/helpers/class.GenerisDataAdapter.php');
+require_once('tao/helpers/data/class.GenerisAdapter.php');
 
 /* user defined includes */
 // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EB0-includes begin
@@ -32,15 +32,15 @@ require_once('tao/helpers/class.GenerisDataAdapter.php');
 // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EB0-constants end
 
 /**
- * Adapter for RDF format
+ * Adapter for RDF/RDFS format
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage helpers
+ * @subpackage helpers_data
  */
-class tao_helpers_GenerisDataAdapterRdf
-    extends tao_helpers_GenerisDataAdapter
+class tao_helpers_data_GenerisAdapterRdf
+    extends tao_helpers_data_GenerisAdapter
 {
     // --- ASSOCIATIONS ---
 
@@ -60,6 +60,9 @@ class tao_helpers_GenerisDataAdapterRdf
     public function __construct($options = array())
     {
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EB2 begin
+        
+    	parent::__construct();
+    	
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EB2 end
     }
 
@@ -77,29 +80,28 @@ class tao_helpers_GenerisDataAdapterRdf
         $returnValue = (bool) false;
 
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EBC begin
-		
-		
-		
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EBC end
 
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method export
+     * Export to xml-rdf the ontology of the Class in parameter.
+     * All the ontologies are exported if the class is not set
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class source
      * @return string
+     * @see core_kernel_impl_ApiModelOO::exportXmlRdf
      */
     public function export( core_kernel_classes_Class $source = null)
     {
         $returnValue = (string) '';
 
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EC1 begin
-	
-		$api = core_kernel_impl_ApiModelOO::singleton();
+        
+   		$api = core_kernel_impl_ApiModelOO::singleton();
 		
 		if(!is_null($source)){
 			
@@ -117,12 +119,12 @@ class tao_helpers_GenerisDataAdapterRdf
 		else{
 			$returnValue = $api->exportXmlRdf();
 		}
-		
+        
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EC1 end
 
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_GenerisDataAdapterRdf */
+} /* end of class tao_helpers_data_GenerisAdapterRdf */
 
 ?>
