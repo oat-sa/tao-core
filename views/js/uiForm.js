@@ -246,7 +246,7 @@ UiForm = function(){
 					$("#"+dialogId).dialog('close');
 				});
 				$("#"+dialogId).bind('dialogopen', function(event, ui){
-					url 			= '/tao/Lists/';
+					url 			= root_url + '/tao/Lists/';
 					dataUrl 		= url + 'getListsData';
 					renameUrl		= url + 'rename';
 					createUrl		= url + 'create';
@@ -310,7 +310,7 @@ UiForm = function(){
 									//create a new list or a list item
 									create: {
 										label: __("Create"),
-										icon	: "/tao/views/img/add.png",
+										icon	: taobase_www + "img/add.png",
 										visible: function(NODE, TREE_OBJ){
 											if($(NODE).hasClass('node-instance')){
 												return false; 
@@ -343,7 +343,7 @@ UiForm = function(){
 									//rename a node
 									rename: {
 										label: __("Rename"),
-										icon	: "/tao/views/img/rename.png",
+										icon	: taobase_www + "img/rename.png",
 										visible: function(NODE, TREE_OBJ){
 											if($(NODE).hasClass('node-root')){
 												return false; 
@@ -355,7 +355,7 @@ UiForm = function(){
 									//remove a node
 									remove: {
 										label: __("Remove"),
-										icon	: "/tao/views/img/delete.png",
+										icon	: taobase_www + "img/delete.png",
 										visible: function(NODE, TREE_OBJ){
 											if($(NODE).hasClass('node-root')){
 												return false; 
@@ -398,7 +398,7 @@ UiForm = function(){
 					
 					var elt = this;
 					$.ajax({
-						url: '/tao/Lists/getListElements',
+						url: root_url + '/tao/Lists/getListElements',
 						type: "POST",
 						data: {classUri: classUri},
 						dataType: 'json',

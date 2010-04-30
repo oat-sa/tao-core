@@ -1,13 +1,13 @@
 
 AsyncFileUpload = function(elt, options){
 	
-	(options.basePath) ? basePath = options.basePath : basePath = '';
+	//(options.basePath) ? basePath = options.basePath : basePath = '';
 	
 	this.settings = {
-			"script"    : "/tao/File/upload",
-			"uploader"  : basePath + "js/jquery.uploadify-v2.1.0/uploadify.swf",
-			"cancelImg" : basePath + "img/cancel.png",
-			"buttonImg"	: basePath + "img/browse_btn.png",
+			"script"    : root_url + "/tao/File/upload",
+			"uploader"  : taobase_www + "js/jquery.uploadify-v2.1.0/uploadify.swf",
+			"cancelImg" : taobase_www + "img/cancel.png",
+			"buttonImg"	: taobase_www + "img/browse_btn.png",
 			"width"		: 140,
 			"height"	: 40,
 			"auto"      : false,

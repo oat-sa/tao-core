@@ -13,7 +13,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#files-list").jqGrid({
-		url:'/tao/Export/getExportedFiles', 
+		url: "<?=_url('getExportedFiles', 'Export', 'tao')?>", 
 		datatype: "json",
 		colNames: [__('Name'),__('File'), __('Date'), __('Actions')] ,
 		colModel: [

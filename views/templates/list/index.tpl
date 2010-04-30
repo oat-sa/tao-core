@@ -53,9 +53,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-	var saveUrl = '/tao/Lists/saveLists';
-	var delListUrl = '/tao/Lists/removeList';
-	var delEltUrl = '/tao/Lists/removeListElement';
+	var saveUrl 	= "<?=_url('saveLists', 'Lists', 'tao')?>";
+	var delListUrl 	= "<?=_url('removeList', 'Lists', 'tao')?>";
+	var delEltUrl 	= "<?=_url('removeListElement', 'Lists', 'tao')?>";
 
 	$(".list-editor").click(function(){
 		uri = $(this).attr('id').replace('list-editor_', '');
@@ -110,7 +110,7 @@ $(document).ready(function(){
 					function(response){
 						if(response.saved){
 							createInfoMessage(__("list saved"));
-							_load(getMainContainerSelector(), '/tao/Lists/index');
+							_load(getMainContainerSelector(), "<?=_url('index', 'Lists', 'tao')?>");
 						}
 					}
 				);

@@ -1,6 +1,6 @@
 <?if(get_data('exit')):?>
 <script type="text/javascript">
-	window.location = "/tao/Main/index?extension=users&message=<?=get_data('message')?>";
+	window.location = "<?=_url('index', 'Main', 'tao', array('extension' => 'users', 'message' => get_data('message')))?>";
 </script>
 <?elseif(get_data('message')):?>
 <div id="info-box" class="ui-widget-header ui-corner-all auto-slide">

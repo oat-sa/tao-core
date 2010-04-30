@@ -17,5 +17,4 @@ include_once dirname(__FILE__). '/prepend.php';
 
 require_once(BASE_PATH.'/helpers/class.Uri.php');
 require_once(BASE_PATH.'/helpers/class.Display.php');
-
 ?>

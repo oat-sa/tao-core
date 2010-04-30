@@ -102,7 +102,7 @@ class Users extends CommonModule {
 				__($user['Deflg']),
 				__($user['Uilg']),
 				"<a href='#' onclick='editUser(\"".$user['login']."\");'><img src='".BASE_WWW."img/pencil.png' alt='".__('Edit user')."' title='".__('edit')."' /></a>&nbsp;|&nbsp;" .
-				"<a href='#' onclick='if(confirm(\"".__('Please confirm user deletion')."\")){ window.location=\""._url('delete', 'Users', array('login' => $user['login']))."\"; }' ><img src='".BASE_WWW."img/delete.png' alt='".__('Delete user')."' title='".__('delete')."' /></a>"
+				"<a href='#' onclick='if(confirm(\"".__('Please confirm user deletion')."\")){ window.location=\""._url('delete', 'Users', 'tao', array('login' => $user['login']))."\"; }' ><img src='".BASE_WWW."img/delete.png' alt='".__('Delete user')."' title='".__('delete')."' /></a>"
 			);
 		} 
 		echo json_encode($response); 
@@ -120,7 +120,7 @@ class Users extends CommonModule {
 				$message = __('User deleted successfully');
 			}
 		}
-		$this->redirect(_url('index', 'Main', array('extension' => 'users', 'message' => $message)));
+		$this->redirect(_url('index', 'Main', 'tao', array('extension' => 'users', 'message' => $message)));
 	}
 	
 	/**
@@ -223,7 +223,7 @@ class Users extends CommonModule {
 			$message = __('User restored successfully');
 		}
 		
-		$this->redirect(_url('index', 'Main', array('extension' => 'users', 'message' => $message)));
+		$this->redirect(_url('index', 'Main', 'tao', array('extension' => 'users', 'message' => $message)));
 	}
 	
 }

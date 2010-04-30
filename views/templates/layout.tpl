@@ -33,8 +33,8 @@
 	</div>
 	<div id="menu-popup" style="display:none;">
 		<ul>
-			<li><a href="<?=_url('index', null, array('extension' => 'none'))?>"><img src="<?=BASE_WWW?>img/home.png" class="icon" /><?=__('Home')?></a></li>
-			<li><a href="<?=_url('index', null, array('extension' => 'users'))?>"><img src="<?=BASE_WWW?>img/user_edit.png" class="icon" /><?=__('Users')?></a></li>
+			<li><a href="<?=_url('index', null, null, array('extension' => 'none'))?>"><img src="<?=BASE_WWW?>img/home.png" class="icon" /><?=__('Home')?></a></li>
+			<li><a href="<?=_url('index', null, null, array('extension' => 'users'))?>"><img src="<?=BASE_WWW?>img/user_edit.png" class="icon" /><?=__('Users')?></a></li>
 		<?if(get_data('currentExtension') && get_data('currentExtension') != 'users'):?>
 			<li><a href="<?=_url('index', 'Settings')?>" class="settings-loader"><img src="<?=BASE_WWW?>img/settings.png" class="icon" /><?=__('Settings')?></a></li>
 		<?else:?>
@@ -47,17 +47,17 @@
 	<div id="main-menu" class="ui-state-default" >
 		<img id="menu-button" src='<?=BASE_WWW?>img/tao_button.png' alt='tao' />
 		
-		<span class="ghost-menu"><a href="<?=_url('index', null, array('extension' => 'none'))?>"><?=__('Home')?></a></span>
+		<span class="ghost-menu"><a href="<?=_url('index', null, null, array('extension' => 'none'))?>"><?=__('Home')?></a></span>
 	<?foreach(get_data('extensions') as $extension):?>
 		<?if(get_data('currentExtension') == $extension['extension']):?>
 			<span class="current-extension">
 		<?else:?>
 			<span>
 		<?endif?>
-				<a href="<?=_url('index', null, array('extension' => $extension['extension']))?>"><?=__($extension['name'])?></a>
+				<a href="<?=_url('index', null, null, array('extension' => $extension['extension']))?>"><?=__($extension['name'])?></a>
 			</span>
 	<?endforeach?>
-	<span class="ghost-menu"><a href="<?=_url('index', null, array('extension' => 'users'))?>"><?=__('Users')?></a></span>
+	<span class="ghost-menu"><a href="<?=_url('index', null, null, array('extension' => 'users'))?>"><?=__('Users')?></a></span>
 	<?if(get_data('currentExtension') && get_data('currentExtension') != 'users'):?>
 		<span class="ghost-menu"><a href="<?=_url('index', 'Settings')?>" class="settings-loader"><?=__('Settings')?></a></span>
 	<?else:?>

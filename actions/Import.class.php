@@ -48,7 +48,7 @@ class Import extends CommonModule {
 				$importData['file'] = $fileData['uploaded_file'];
 				
 				$this->setSessionAttribute('import', $importData);
-				$this->redirect('mapping');
+				$this->redirect(_url('mapping'));
 			}
 		}
 		$this->setData('myForm', $myForm->render());
@@ -63,7 +63,7 @@ class Import extends CommonModule {
 	 */
 	public function mapping(){
 		if(!$this->hasSessionAttribute('import')){
-			$this->redirect('upload');
+			$this->redirect(_url('upload'));
 		}
 		
 		if($this->hasSessionAttribute('classUri')){

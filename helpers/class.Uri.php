@@ -29,8 +29,8 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @param  array params
  * @return 
  */
-function _url($action = null, $module = null, $params = array()){
-	return tao_helpers_Uri::url($action, $module, $params);
+function _url($action = null, $module = null, $extension = null, $params = array()){
+	return tao_helpers_Uri::url($action, $module, $extension, $params);
 }
 
 // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D2-constants end
@@ -58,6 +58,14 @@ class tao_helpers_Uri
      */
     private static $base = null;
 
+    /**
+     * Short description of attribute root
+     *
+     * @access private
+     * @var mixed
+     */
+    private static $root = null;
+
     // --- OPERATIONS ---
 
     /**
@@ -72,11 +80,42 @@ class tao_helpers_Uri
         $returnValue = (string) '';
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A45 begin
+        
 		if(is_null(self::$base) && defined('BASE_URL')){
 			self::$base = BASE_URL;
+			if(!preg_match("/\/$/", self::$base)){
+				self::$base .= '/';
+			}
 		}
 		$returnValue = self::$base;
+		
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A45 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method getRootUrl
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return string
+     */
+    public static function getRootUrl()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-269c0444:12849d750d4:-8000:0000000000002440 begin
+        
+        if(is_null(self::$root) && defined('ROOT_URL')){
+			self::$root = ROOT_URL;
+			if(!preg_match("/\/$/", self::$root)){
+				self::$root .= '/';
+			}
+		}
+		$returnValue = self::$root;
+        
+        // section 127-0-1-1-269c0444:12849d750d4:-8000:0000000000002440 end
 
         return (string) $returnValue;
     }
@@ -89,15 +128,15 @@ class tao_helpers_Uri
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string action
      * @param  string module
+     * @param  string extension
      * @param  array params
      * @return string
      */
-    public static function url($action = null, $module = null, $params = array())
+    public static function url($action = null, $module = null, $extension = null, $params = array())
     {
         $returnValue = (string) '';
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A26 begin
-		$returnValue = self::getBaseUrl();
 		
 		$context = Context::getInstance();
 		if(is_null($module)){
@@ -106,7 +145,14 @@ class tao_helpers_Uri
 		if(is_null($action)){
 			$action = $context->getActionName();
 		}
-		$returnValue .= '/' . $module . '/' . $action;
+		
+    	if(is_null($extension) || empty($extension)){
+			$returnValue = self::getBaseUrl() . $module . '/' . $action;
+		}
+		else{
+			$returnValue = self::getRootUrl(). $extension . '/'. $module . '/' . $action;
+		}
+	
 		if(count($params) > 0){
 			$returnValue .= '?';
 			if(is_string($params)){
@@ -114,11 +160,30 @@ class tao_helpers_Uri
 			}
 			if(is_array($params)){
 				foreach($params as $key => $value){
-					$returnValue .= $key . '=' . urlencode($value) . '&';
+					$returnValue .= $key . '=' . $value . '&';
 				}
 			}
 		}
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A26 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * format propertly an ol style url
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string url
+     * @param  array params
+     * @return string
+     */
+    public static function legacyUrl($url, $params = array())
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1--399a8411:1284971f0c8:-8000:0000000000002436 begin
+        // section 127-0-1-1--399a8411:1284971f0c8:-8000:0000000000002436 end
 
         return (string) $returnValue;
     }
@@ -187,6 +252,25 @@ class tao_helpers_Uri
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A42 end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Encode the uris composing either the keys or the values of the array in
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  array uris
+     * @param  boolean dotMode
+     * @return array
+     */
+    public static function encodeArray($uris, $dotMode = true)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242B begin
+        // section 127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242B end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_helpers_Uri */

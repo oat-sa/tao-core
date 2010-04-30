@@ -15,7 +15,8 @@
 function editUser(login){
 	index = getTabIndexByName('edit_user');
 	if(index && login){
-		UiBootstrap.tabs.tabs('url', index, "/tao/Users/edit?login="+login);
+		editUrl = "<?=_url('edit', 'Users', 'tao')?>" + '?login=' + login;
+		UiBootstrap.tabs.tabs('url', index, editUrl);
 		UiBootstrap.tabs.tabs('enable', index);
 		selectTabByName('edit_user');
 	}
@@ -23,7 +24,7 @@ function editUser(login){
 $(function(){
 	UiBootstrap.tabs.tabs('disable', getTabIndexByName('edit_user'));
 	$("#user-list").jqGrid({
-		url:'/tao/Users/data', 
+		url: "<?=_url('data', 'Users', 'tao')?>", 
 		datatype: "json", 
 		colNames:['', __('Login'), __('Name'), __('Email'), __('Company'), __('Permissions'), __('Data Language'), __('Interface Language'), __('Actions')], 
 		colModel:[ 

@@ -75,7 +75,7 @@ UiBootstrap = function(options){
 				createErrorMessage(request.responseText);
 			}
 			if(request.status == 403){
-				window.location = '/tao/Main/logout';
+				window.location = root_url + '/tao/Main/logout';
 			}
 		});
 	}
@@ -100,7 +100,7 @@ UiBootstrap = function(options){
 	this.initTrees = function(){
 		//left menu trees init by loading the tab content
 		$.ajax({
-			url: '/tao/Main/getSectionTrees',
+			url: root_url + '/tao/Main/getSectionTrees',
 			type: "GET",
 			data: {
 				section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title')		//get the link text of the selected tab
@@ -118,7 +118,7 @@ UiBootstrap = function(options){
 	this.initActions = function(){
 		//left menu actions init by loading the tab content
 		$.ajax({
-			url: '/tao/Main/getSectionActions',
+			url: root_url + '/tao/Main/getSectionActions',
 			type: "GET",
 			data: {
 				section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title')		//get the link text of the selected tab

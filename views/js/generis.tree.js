@@ -202,7 +202,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						//edit action
 						select: {
 							label: __("edit") + ' ' + __(instance.options.instanceName),
-							icon: "/tao/views/img/pencil.png",
+							icon: taobase_www +"img/pencil.png",
 							visible : function (NODE, TREE_OBJ) {
 								if( ($(NODE).hasClass('node-instance') &&  instance.options.editInstanceAction)  || 
 									($(NODE).hasClass('node-class') &&  instance.options.editClassAction) ){
@@ -218,7 +218,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						//new class action
 						subclass: {
 							label: __("new class"),
-							icon	: "/tao/views/img/class_add.png",
+							icon	: taobase_www + "img/class_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return false; 
@@ -243,7 +243,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						//new instance action
 						instance:{
 							label: __("new") + ' ' +  __(instance.options.instanceName),
-							icon	: "/tao/views/img/instance_add.png",
+							icon	: taobase_www + "img/instance_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
 									return false; 

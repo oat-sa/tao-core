@@ -449,7 +449,7 @@ class tao_helpers_form_GenerisFormFactory
 				}
 			}
 			if(count($elementNames) > 0){
-				$myForm->createGroup('class', "<img src='/tao/views/img/class.png' /> ".__('Class').": ".$clazz->getLabel(), $elementNames);
+				$myForm->createGroup('class', "<img src='".TAOBASE_WWW."img/class.png' /> ".__('Class').": ".$clazz->getLabel(), $elementNames);
 			}
 			
 			//add an hidden elt for the class uri
@@ -491,14 +491,14 @@ class tao_helpers_form_GenerisFormFactory
 					$domainElement->setValue($value);
 					$myForm->addElement($domainElement);
 					
-					$myForm->createGroup("parent_property_{$i}", "<img src='/tao/views/img/prop_orange.png' /> ".__('Property')." #".($i).": ".$classProperty->getLabel(), array('parentProperty'.$i));
+					$myForm->createGroup("parent_property_{$i}", "<img src='".TAOBASE_WWW."img/prop_orange.png' /> ".__('Property')." #".($i).": ".$classProperty->getLabel(), array('parentProperty'.$i));
 				}
 				else{
 					$roElement = tao_helpers_form_FormFactory::getElement('roProperty'.$i, 'Free');
 					$roElement->setValue(__("You cannot modify this property"));
 					$myForm->addElement($roElement);
 					
-					$myForm->createGroup("ro_property_{$i}", "<img src='/tao/views/img/prop_red.png' /> ".__('Property')." #".($i).": ".$classProperty->getLabel(), array('roProperty'.$i));
+					$myForm->createGroup("ro_property_{$i}", "<img src='".TAOBASE_WWW."img/prop_red.png' /> ".__('Property')." #".($i).": ".$classProperty->getLabel(), array('roProperty'.$i));
 				}
 			}
 			
@@ -648,7 +648,7 @@ class tao_helpers_form_GenerisFormFactory
 		$elementNames[] = $modeElt->getName();
 		
 		if(count($elementNames) > 0){
-			$form->createGroup("property_{$index}", "<img src='/tao/views/img/prop_green.png' /> ".__('Property')." #".($index).": ".$property->getLabel(), $elementNames);
+			$form->createGroup("property_{$index}", "<img src='".TAOBASE_WWW."img/prop_green.png' /> ".__('Property')." #".($index).": ".$property->getLabel(), $elementNames);
 		}
 			
 		$returnValue = $form;

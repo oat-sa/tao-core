@@ -71,6 +71,14 @@ class tao_helpers_Scriptloader
      */
     private static $cssFiles = array();
 
+    /**
+     * Short description of attribute jsVars
+     *
+     * @access protected
+     * @var array
+     */
+    protected static $jsVars = array();
+
     // --- OPERATIONS ---
 
     /**
@@ -252,6 +260,48 @@ class tao_helpers_Scriptloader
     }
 
     /**
+     * Short description of method addJsVar
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string name
+     * @param  string value
+     * @return mixed
+     */
+    public static function addJsVar($name, $value = '')
+    {
+        // section 127-0-1-1--1c869303:1284d9e28b9:-8000:0000000000002459 begin
+        
+    	self::$jsVars[$name] = $value;
+    	
+        // section 127-0-1-1--1c869303:1284d9e28b9:-8000:0000000000002459 end
+    }
+
+    /**
+     * Short description of method addJsVars
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  array vars
+     * @return mixed
+     */
+    public static function addJsVars($vars)
+    {
+        // section 127-0-1-1--1c869303:1284d9e28b9:-8000:000000000000245F begin
+        
+    	if(is_array($vars)){
+	    	foreach($vars as $name => $value){
+	    		if(is_int($name)){
+	    			$name = 'var_'.$name;
+	    		}
+				self::addJsVar($name, $value);
+			}
+    	}
+        
+        // section 127-0-1-1--1c869303:1284d9e28b9:-8000:000000000000245F end
+    }
+
+    /**
      * render the html to load the resources
      *
      * @access public
@@ -270,6 +320,13 @@ class tao_helpers_Scriptloader
 			}
 		}
 		if(empty($filter) || strtolower($filter) == tao_helpers_Scriptloader::JS){
+			if(count(self::$jsVars) > 0){
+				$returnValue .= "\t<script type='text/javascript'>\n";
+				foreach(self::$jsVars as $name => $value){
+					$returnValue .= "\tvar {$name} = '{$value}';\n";
+				}
+				$returnValue .= "\t</script>\n";
+			}
 			foreach(self::$jsFiles as $file){
 				$returnValue .= "\t<script type='text/javascript' src='{$file}' ></script>\n";
 			}

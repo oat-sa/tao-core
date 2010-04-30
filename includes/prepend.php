@@ -1,13 +1,20 @@
 <?php
 /**
+ * The prepend script is used to Bootstrap the application:
+ * It initialize the transversals services: i18n, auth, api, scripts, etc.
+ * 
+ * @todo refactor it and create a contextual bootstrap sequence (regarding the context: http request, ajax, cli, web service, etc. ) 
+ * 
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 
+//used for backward compat
 $GLOBALS['lang'] = $GLOBALS['default_lang'];
 
-//when a user is logged in
-if( tao_models_classes_UserService::isASessionOpened()){
+
+//Authentication and API initialization
+if( tao_models_classes_UserService::isASessionOpened()){		//when a user is logged in
 
 	//get the current user data
 	$userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
@@ -31,12 +38,13 @@ if( tao_models_classes_UserService::isASessionOpened()){
 	unset($currentUser);
 }
 
-//I18N
+//initialize I18N
 tao_helpers_I18n::init($GLOBALS['lang']);
 
 //Scripts loader
 if(!tao_helpers_Request::isAjax()){
 	
+	//stylesheets to load
 	tao_helpers_Scriptloader::addCssFiles(array(
 		TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
 		TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
@@ -47,11 +55,20 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/uploadify.css'
 	));
 	
+	//js golbal vars to export
+	tao_helpers_Scriptloader::addJsVars(array(
+		'root_url'		=> ROOT_URL,				// -> the app URL (http://www.domain.com or (http://www.domain.com/app)
+		'base_url'		=> BASE_URL,				// -> the current extension URL (http://www.domain.com/tao, http://www.domain.com/taoItems)
+		'taobase_www'	=> TAOBASE_WWW,				// -> the resources URL of meta extension tao (http://www.domain.com/tao/views/)
+		'base_www'		=> BASE_WWW					// -> the resources URL of the current extension (http://www.domain.com/taoItems/views/)
+	));
+	
 	$gridi18nFile = 'js/jquery.jqGrid-3.6.4/js/i18n/grid.locale-'.strtolower($GLOBALS['lang']).'.js';
 	if(!file_exists(BASE_PATH. '/views' . $gridi18nFile)){
 		$gridi18nFile = 'js/jquery.jqGrid-3.6.4/js/i18n/grid.locale-en.js';
 	}
 	
+	//scripts to load
 	tao_helpers_Scriptloader::addJsFiles(array(
 		TAOBASE_WWW . 'js/jquery-1.4.2.min.js',
 		TAOBASE_WWW . 'js/jquery-ui-1.8.custom.min.js',

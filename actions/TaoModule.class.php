@@ -630,7 +630,11 @@ abstract class TaoModule extends CommonModule {
 			
 			ServiceApi::save( array($this->getDataKind().'Uri' => $instance->uriResource) );
 			
-			$this->redirect('sasEditInstance?uri='.tao_helpers_Uri::encode($instance->uriResource).'&classUri='.tao_helpers_Uri::encode($clazz->uriResource));
+			$params = array(
+				'uri'		=> tao_helpers_Uri::encode($instance->uriResource),
+				'classUri'	=> tao_helpers_Uri::encode($clazz->uriResource)
+			);
+			$this->redirect(_url('sasEditInstance', null, null, $params));
 		}
 	}
 	
