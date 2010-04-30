@@ -33,16 +33,16 @@
 		});
 		
 		<?foreach(get_data('trees') as $i => $tree):?>
-		new GenerisTreeClass('#tree-<?=$i?>', "<?=(string)$tree['dataUrl']?>", {
+		new GenerisTreeClass('#tree-<?=$i?>', "<?=$tree['dataUrl']?>", {
 			formContainer: 			getMainContainerSelector(UiBootstrap.tabs),
 			actionId: 				"<?=$i?>",
-			editClassAction: 		"<?=(string)$tree['editClassUrl']?>",
-			editInstanceAction: 	"<?=(string)$tree['editInstanceUrl']?>",
-			createInstanceAction: 	"<?=(string)$tree['addInstanceUrl']?>",
-			moveInstanceAction: 	"<?=(string)$tree['moveInstanceUrl']?>",
-			subClassAction: 		"<?=(string)$tree['addSubClassUrl']?>",
-			deleteAction: 			"<?=(string)$tree['deleteUrl']?>",
-			duplicateAction: 		"<?=(string)$tree['duplicateUrl']?>",
+			editClassAction: 		"<?=$tree['editClassUrl']?>",
+			editInstanceAction: 	"<?=$tree['editInstanceUrl']?>",
+			createInstanceAction: 	"<?=$tree['addInstanceUrl']?>",
+			moveInstanceAction: 	"<?=$tree['moveInstanceUrl']?>",
+			subClassAction: 		"<?=$tree['addSubClassUrl']?>",
+			deleteAction: 			"<?=$tree['deleteUrl']?>",
+			duplicateAction: 		"<?=$tree['duplicateUrl']?>",
 			instanceClass:			"node-<?=get_data('instanceName')?>",
 			instanceName:			"<?=get_data('instanceName')?>"
 			<?if(get_data('openUri')):?>

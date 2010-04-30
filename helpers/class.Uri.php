@@ -66,6 +66,30 @@ class tao_helpers_Uri
      */
     private static $root = null;
 
+    /**
+     * Short description of attribute ENCODE_ARRAY_KEYS
+     *
+     * @access public
+     * @var int
+     */
+    const ENCODE_ARRAY_KEYS = 1;
+
+    /**
+     * Short description of attribute ENCODE_ARRAY_VALUES
+     *
+     * @access public
+     * @var int
+     */
+    const ENCODE_ARRAY_VALUES = 2;
+
+    /**
+     * Short description of attribute ENCODE_ARRAY_ALL
+     *
+     * @access public
+     * @var int
+     */
+    const ENCODE_ARRAY_ALL = 3;
+
     // --- OPERATIONS ---
 
     /**
@@ -260,14 +284,28 @@ class tao_helpers_Uri
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array uris
+     * @param  int encodeMode
      * @param  boolean dotMode
      * @return array
      */
-    public static function encodeArray($uris, $dotMode = true)
+    public static function encodeArray($uris, $encodeMode = 3, $dotMode = true)
     {
         $returnValue = array();
 
         // section 127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242B begin
+        
+        if(is_array($uris)){
+        	foreach($uris as $key => $value){
+        		if($encodeMode == self::ENCODE_ARRAY_KEYS || $encodeMode == self::ENCODE_ARRAY_ALL){
+        			$key = self::encode($key, $dotMode);
+        		}
+        		if($encodeMode == self::ENCODE_ARRAY_VALUES || $encodeMode == self::ENCODE_ARRAY_ALL){
+        			$value = self::encode($value, $dotMode);
+        		}
+        		$returnValue[$key] = $value;
+        	}
+        }
+        
         // section 127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242B end
 
         return (array) $returnValue;

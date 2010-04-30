@@ -79,7 +79,7 @@ UiForm = function(){
 		$(".form-translator").click(function(){
 			if($("#uri") && $("#classUri")){
 				if(ctx_extension){
-					url = '/' + ctx_extension + '/' + ctx_module + '/';
+					url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
 				}
 				url += 'translateInstance';
 				$(getMainContainerSelector(UiBootstrap.tabs)).load(url, {'uri': $("#uri").val(), 'classUri': $("#classUri").val()});
@@ -111,7 +111,7 @@ UiForm = function(){
 		//open the authoring tool on the authoringOpener button
 		$('.authoringOpener').click(function(){
 			if(ctx_extension){
-			 	url = '/' + ctx_extension + '/' + ctx_module + '/';
+			 	url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
 				tabName = ctx_module.toLowerCase() + '_authoring';
 			 }
 			url += 'authoring';
@@ -181,7 +181,7 @@ UiForm = function(){
 		 //property add button
 		 $(".property-adder").click(function(){
 			 if(ctx_extension){
-			 	url = '/' + ctx_extension + '/' + ctx_module + '/';
+			 	url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
 			 }
 			 url += 'addClassProperty';
 			 
@@ -462,7 +462,7 @@ UiForm = function(){
 				});
 				
 				if(ctx_extension){
-				 	url = '/' + ctx_extension + '/' + ctx_module + '/';
+				 	url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
 				}
 				url += 'getTranslatedData';
 				

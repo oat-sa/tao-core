@@ -392,14 +392,12 @@ abstract class TaoModule extends CommonModule {
 		}
 		$data = array();
 		if($this->hasRequestParameter('lang')){
-			
-			$trData = $this->service->getTranslatedProperties(
-					$this->getCurrentInstance(),
-					$this->getRequestParameter('lang') 
-				);
-			foreach($trData as $key => $value){
-				$data[tao_helpers_Uri::encode($key)] = $value;
-			}
+			$data = tao_helpers_Uri::encodeArray(
+						$this->service->getTranslatedProperties(
+							$this->getCurrentInstance(),
+							$this->getRequestParameter('lang') 
+						), 
+						tao_helpers_Uri::ENCODE_ARRAY_KEYS);
 		}
 		echo json_encode($data);
 	}

@@ -145,7 +145,7 @@ class Main extends CommonModule {
 					} 
 					$action = array(
 						'js'		=> (isset($actionNode['js'])) ? (string)$actionNode['js'] : false,
-						'url' 		=> (string)$actionNode['url'],
+						'url' 		=> ROOT_URL.(string)$actionNode['url'],
 						'display'	=> $display,
 						'rowName'	=> (string)$actionNode['name'],
 						'name'		=> _clean((string)$actionNode['name']),
@@ -177,7 +177,7 @@ class Main extends CommonModule {
 					
 					//@todo remove this when permissions engine is setup
 					if($action['rowName'] == 'delete' && $classUri && !$uri){
-						if(in_array($action['classUri'], array_map("tao_helpers_Uri::encode", $rootClasses))){
+						if(in_array($action['classUri'], tao_helpers_Uri::encodeArray($rootClasses, tao_helpers_Uri::ENCODE_ARRAY_VALUES))){
 							$action['disabled'] = true; 
 						}
 					}
@@ -206,6 +206,14 @@ class Main extends CommonModule {
 			if(isset($structure->trees[0])){
 				$trees = array();
 				foreach($structure->trees[0] as $tree){
+					foreach($tree->attributes() as $attrName => $attrValue){
+						if(preg_match("/^\//", (string)$attrValue)){
+							$tree[$attrName] = ROOT_URL.(string)$attrValue;
+						}
+						else{
+							$tree[$attrName] = (string)$attrValue;
+						}
+					}
 					$treeId = tao_helpers_Display::textCleaner((string)$tree['name'], '_');
 					$trees[$treeId] = $tree;
 				}
