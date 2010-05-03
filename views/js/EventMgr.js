@@ -23,6 +23,9 @@ EventMgr = function() {
 		instance.single.trigger = function(eventType, params){
 			instance.single.eventTarget.trigger(eventType, params);
 		}
+		instance.single.unbind = function(eventType, params){
+			instance.single.eventTarget.unbind(eventType, params);
+		}
 	}
 	else{
 		return instance.single;
@@ -46,4 +49,18 @@ EventMgr.bind = function(eventType, callback){
  */
 EventMgr.trigger = function(eventType, params){
 	new EventMgr().trigger(eventType, params);
+}
+
+/**
+ * 
+ * @param eventType
+ * @param params
+ * @return
+ */
+EventMgr.unbind = function(eventType, params){
+	new EventMgr().unbind(eventType);
+}
+
+EventMgr.unbindAll = function(params){
+	new EventMgr().unbind();
 }
