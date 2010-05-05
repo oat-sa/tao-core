@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `extensions` (
   `version` varchar(4) NOT NULL,
   `loaded` tinyint(1) NOT NULL,
   `loadAtStartUp` tinyint(1) NOT NULL,
+  `ghost` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

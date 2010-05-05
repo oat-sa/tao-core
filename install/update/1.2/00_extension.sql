@@ -1,0 +1,1 @@
+ALTER TABLE `extensions` ADD COLUMN `ghost` tinyint(1) NOT NULL DEFAULT 0;
