@@ -1,0 +1,85 @@
+<?php
+
+error_reporting(E_ALL);
+
+/**
+ * Generis Object Oriented API - tao/actions/form/class.Instance.php
+ *
+ * $Id$
+ *
+ * This file is part of Generis Object Oriented API.
+ *
+ * Automatically generated on 30.04.2010, 17:08:58 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ *
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @package tao
+ * @subpackage actions_form
+ */
+
+if (0 > version_compare(PHP_VERSION, '5')) {
+    die('This file was generated for PHP 5');
+}
+
+/**
+ * include tao_actions_form_Generis
+ *
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ */
+require_once('tao/actions/form/class.Generis.php');
+
+/* user defined includes */
+// section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C-includes begin
+// section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C-includes end
+
+/* user defined constants */
+// section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C-constants begin
+// section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C-constants end
+
+/**
+ * Short description of class tao_actions_form_Instance
+ *
+ * @access public
+ * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @package tao
+ * @subpackage actions_form
+ */
+class tao_actions_form_Instance
+    extends tao_actions_form_Generis
+{
+    // --- ASSOCIATIONS ---
+
+
+    // --- ATTRIBUTES ---
+
+    // --- OPERATIONS ---
+
+    /**
+     * Short description of method initForm
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return mixed
+     */
+    public function initForm()
+    {
+        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002496 begin
+        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002496 end
+    }
+
+    /**
+     * Short description of method initElements
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return mixed
+     */
+    public function initElements()
+    {
+        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002498 begin
+        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002498 end
+    }
+
+} /* end of class tao_actions_form_Instance */
+
+?>

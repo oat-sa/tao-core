@@ -44,6 +44,7 @@ class Main extends CommonModule {
 			session_destroy();
 		}
 		
+		
 		$myLoginFormContainer = new tao_actions_form_Login();
 		$myForm = $myLoginFormContainer->getForm();
 		

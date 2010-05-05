@@ -26,7 +26,7 @@
       <fontname>Dialog</fontname>
       <fontsize>12</fontsize>
       <defaultstereotypeview>2</defaultstereotypeview>
-      <activediagram>Helpers</activediagram>
+      <activediagram>transfer forms</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Apr 30 09:49:24 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon May 03 09:29:48 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -14956,9 +14956,19 @@ Use the printf syntax, where %1$ is the short name of the service  </UML:TaggedV
                           </UML:Parameter.type>
                         </UML:Parameter>
                         <UML:Parameter xmi.id = '127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242E'
+                          name = 'encodeMode' isSpecification = 'false'>
+                          <UML:Parameter.defaultValue>
+                            <UML:Expression xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000247B'
+                              language = 'UML 1.4' body = '3'/>
+                          </UML:Parameter.defaultValue>
+                          <UML:Parameter.type>
+                            <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000723'/>
+                          </UML:Parameter.type>
+                        </UML:Parameter>
+                        <UML:Parameter xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000247C'
                           name = 'dotMode' isSpecification = 'false'>
                           <UML:Parameter.defaultValue>
-                            <UML:Expression xmi.id = '127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242F'
+                            <UML:Expression xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000247D'
                               language = 'UML 1.4' body = 'true'/>
                           </UML:Parameter.defaultValue>
                           <UML:Parameter.type>
@@ -14984,6 +14994,63 @@ Use the printf syntax, where %1$ is the short name of the service  </UML:TaggedV
                       </UML:Attribute.initialValue>
                       <UML:StructuralFeature.type>
                         <UML:DataType xmi.idref = '10-13-1-45-792423e0:12398d13f24:-8000:0000000000001858'/>
+                      </UML:StructuralFeature.type>
+                    </UML:Attribute>
+                    <UML:Attribute xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002462'
+                      name = 'ENCODE_ARRAY_KEYS' visibility = 'public' isSpecification = 'false'
+                      ownerScope = 'instance' changeability = 'frozen' targetScope = 'instance'>
+                      <UML:StructuralFeature.multiplicity>
+                        <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002481'>
+                          <UML:Multiplicity.range>
+                            <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002480'
+                              lower = '1' upper = '1'/>
+                          </UML:Multiplicity.range>
+                        </UML:Multiplicity>
+                      </UML:StructuralFeature.multiplicity>
+                      <UML:Attribute.initialValue>
+                        <UML:Expression xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000246B'
+                          language = '' body = '1'/>
+                      </UML:Attribute.initialValue>
+                      <UML:StructuralFeature.type>
+                        <UML:DataType xmi.idref = '10-13-1--99-2f1559da:11a15934f36:-8000:0000000000000BB5'/>
+                      </UML:StructuralFeature.type>
+                    </UML:Attribute>
+                    <UML:Attribute xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000246C'
+                      name = 'ENCODE_ARRAY_VALUES' visibility = 'public' isSpecification = 'false'
+                      ownerScope = 'instance' changeability = 'frozen' targetScope = 'instance'>
+                      <UML:StructuralFeature.multiplicity>
+                        <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002485'>
+                          <UML:Multiplicity.range>
+                            <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002484'
+                              lower = '1' upper = '1'/>
+                          </UML:Multiplicity.range>
+                        </UML:Multiplicity>
+                      </UML:StructuralFeature.multiplicity>
+                      <UML:Attribute.initialValue>
+                        <UML:Expression xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002473'
+                          language = '' body = '2'/>
+                      </UML:Attribute.initialValue>
+                      <UML:StructuralFeature.type>
+                        <UML:DataType xmi.idref = '10-13-1--99-2f1559da:11a15934f36:-8000:0000000000000BB5'/>
+                      </UML:StructuralFeature.type>
+                    </UML:Attribute>
+                    <UML:Attribute xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002486'
+                      name = 'ENCODE_ARRAY_ALL' visibility = 'public' isSpecification = 'false'
+                      ownerScope = 'instance' changeability = 'frozen' targetScope = 'instance'>
+                      <UML:StructuralFeature.multiplicity>
+                        <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000248C'>
+                          <UML:Multiplicity.range>
+                            <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000248B'
+                              lower = '1' upper = '1'/>
+                          </UML:Multiplicity.range>
+                        </UML:Multiplicity>
+                      </UML:StructuralFeature.multiplicity>
+                      <UML:Attribute.initialValue>
+                        <UML:Expression xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000248D'
+                          language = '' body = '3'/>
+                      </UML:Attribute.initialValue>
+                      <UML:StructuralFeature.type>
+                        <UML:DataType xmi.idref = '10-13-1--99-2f1559da:11a15934f36:-8000:0000000000000BB5'/>
                       </UML:StructuralFeature.type>
                     </UML:Attribute>
                   </UML:Classifier.feature>
@@ -21515,6 +21582,212 @@ The map should be set in the options before executing it.</UML:TaggedValue.dataV
                         <UML:Class xmi.idref = '127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCE'/>
                       </UML:Generalization.parent>
                     </UML:Generalization>
+                    <UML:Class xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A'
+                      name = 'Generis' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+                      isLeaf = 'false' isAbstract = 'true' isActive = 'false'>
+                      <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248B'/>
+                      </UML:GeneralizableElement.generalization>
+                    </UML:Class>
+                    <UML:Generalization xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248B'
+                      isSpecification = 'false'>
+                      <UML:Generalization.child>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A'/>
+                      </UML:Generalization.child>
+                      <UML:Generalization.parent>
+                        <UML:Class xmi.idref = '127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCE'/>
+                      </UML:Generalization.parent>
+                    </UML:Generalization>
+                    <UML:Class xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C'
+                      name = 'Instance' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+                      isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                      <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248D'/>
+                      </UML:GeneralizableElement.generalization>
+                      <UML:Classifier.feature>
+                        <UML:Operation xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002496'
+                          name = 'initForm' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002497'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002498'
+                          name = 'initElements' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002499'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                      </UML:Classifier.feature>
+                    </UML:Class>
+                    <UML:Generalization xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248D'
+                      isSpecification = 'false'>
+                      <UML:Generalization.child>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C'/>
+                      </UML:Generalization.child>
+                      <UML:Generalization.parent>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A'/>
+                      </UML:Generalization.parent>
+                    </UML:Generalization>
+                    <UML:Class xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248E'
+                      name = 'Translate' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+                      isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                      <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248F'/>
+                      </UML:GeneralizableElement.generalization>
+                      <UML:Classifier.feature>
+                        <UML:Operation xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249A'
+                          name = 'initForm' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249B'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249D'
+                          name = 'initElements' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249E'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                      </UML:Classifier.feature>
+                    </UML:Class>
+                    <UML:Generalization xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248F'
+                      isSpecification = 'false'>
+                      <UML:Generalization.child>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248E'/>
+                      </UML:Generalization.child>
+                      <UML:Generalization.parent>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C'/>
+                      </UML:Generalization.parent>
+                    </UML:Generalization>
+                    <UML:Class xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002490'
+                      name = 'Clazz' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+                      isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                      <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002491'/>
+                      </UML:GeneralizableElement.generalization>
+                      <UML:Classifier.feature>
+                        <UML:Operation xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A7'
+                          name = 'initForm' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A8'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A9'
+                          name = 'initElements' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024AA'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                      </UML:Classifier.feature>
+                    </UML:Class>
+                    <UML:Generalization xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002491'
+                      isSpecification = 'false'>
+                      <UML:Generalization.child>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002490'/>
+                      </UML:Generalization.child>
+                      <UML:Generalization.parent>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A'/>
+                      </UML:Generalization.parent>
+                    </UML:Generalization>
+                    <UML:Class xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002492'
+                      name = 'Property' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+                      isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                      <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002493'/>
+                        <UML:Generalization xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249C'/>
+                      </UML:GeneralizableElement.generalization>
+                      <UML:Classifier.feature>
+                        <UML:Operation xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A3'
+                          name = 'initForm' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A4'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A5'
+                          name = 'initElements' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A6'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                      </UML:Classifier.feature>
+                    </UML:Class>
+                    <UML:Generalization xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002493'
+                      isSpecification = 'false'>
+                      <UML:Generalization.child>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002492'/>
+                      </UML:Generalization.child>
+                      <UML:Generalization.parent>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A'/>
+                      </UML:Generalization.parent>
+                    </UML:Generalization>
+                    <UML:Class xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002494'
+                      name = 'Search' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+                      isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                      <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002495'/>
+                      </UML:GeneralizableElement.generalization>
+                      <UML:Classifier.feature>
+                        <UML:Operation xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249F'
+                          name = 'initForm' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A0'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A1'
+                          name = 'initElements' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A2'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                      </UML:Classifier.feature>
+                    </UML:Class>
+                    <UML:Generalization xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002495'
+                      isSpecification = 'false'>
+                      <UML:Generalization.child>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002494'/>
+                      </UML:Generalization.child>
+                      <UML:Generalization.parent>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A'/>
+                      </UML:Generalization.parent>
+                    </UML:Generalization>
+                    <UML:Generalization xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249C'
+                      isSpecification = 'false'>
+                      <UML:Generalization.child>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002492'/>
+                      </UML:Generalization.child>
+                      <UML:Generalization.parent>
+                        <UML:Class xmi.idref = '127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A'/>
+                      </UML:Generalization.parent>
+                    </UML:Generalization>
                   </UML:Namespace.ownedElement>
                 </UML:Package>
               </UML:Namespace.ownedElement>
@@ -27499,6 +27772,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         </UML:Package>
       </UML:Namespace.ownedElement>
     </UML:Model>
+    <UML:Expression xmi.id = '127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242F'
+      language = 'UML 1.4' body = 'true'/>
     <UML:Expression xmi.id = '127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A39'
       language = '' body = 'null'/>
     <UML:Expression xmi.id = '127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A3D'
@@ -29084,6 +29359,90 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     <UML:Multiplicity xmi.id = '127-0-1-1--1c869303:1284d9e28b9:-8000:0000000000002456'>
       <UML:Multiplicity.range>
         <UML:MultiplicityRange xmi.id = '127-0-1-1--1c869303:1284d9e28b9:-8000:0000000000002455'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002463'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002464'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002466'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002465'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002468'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002467'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000246D'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000246E'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002470'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000246F'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002472'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002471'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002475'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002476'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002478'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002477'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000247F'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000247E'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002483'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002482'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002487'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002488'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:000000000000248A'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1--553ca7ed:1284e761266:-8000:0000000000002489'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024AC'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024AD'
+          lower = '1' upper = '1'/>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024AF'>
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id = '127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024AE'
           lower = '1' upper = '1'/>
       </UML:Multiplicity.range>
     </UML:Multiplicity>
@@ -69174,7 +69533,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       name="Helpers"
 >
   <group name="Fig0"
-       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[8, 8, 664, 984]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
+       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[8, 32, 664, 1184]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
        href="10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A2"
        fill="1"
        fillcolor="200 200 200"
@@ -69186,9 +69545,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig0.0"
       x="8"
-      y="8"
+      y="32"
       width="664"
-      height="984"
+      height="1184"
       fill="0"
       fillcolor="white"
       stroke="0"
@@ -69202,23 +69561,23 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     >
       <moveto x="8"
-              y="8" />
+              y="32" />
       <lineto x="622"
-              y="8" />
+              y="32" />
       <lineto x="622"
-              y="31" />
+              y="55" />
       <lineto x="671"
-              y="31" />
+              y="55" />
       <lineto x="671"
-              y="991" />
+              y="1215" />
       <lineto x="8"
-              y="991" />
+              y="1215" />
       <lineto x="8"
-              y="8" />
+              y="32" />
     </path>
     <text name="Fig0.2"
       x="8"
-      y="8"
+      y="32"
       width="615"
       height="24"
       fill="0"
@@ -69233,7 +69592,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Left"
     >tao::helpers</text>
     <group name="Fig0.3"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[8, 8, 614, 1]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[8, 32, 614, 1]"
          href="10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A2"
          fill="1"
          fillcolor="200 200 200"
@@ -69246,7 +69605,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig0.3.0"
         x="8"
-        y="8"
+        y="32"
         width="614"
         height="1"
         fill="1"
@@ -69257,9 +69616,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <text name="Fig0.4"
       x="8"
-      y="31"
+      y="55"
       width="664"
-      height="961"
+      height="1161"
       fill="0"
       fillcolor="200 200 200"
       stroke="1"
@@ -69273,7 +69632,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     ></text>
   </group>
   <group name="Fig1"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 336, 616, 184]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 360, 616, 232]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D2"
        fill="1"
        fillcolor="white"
@@ -69286,9 +69645,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig1.0"
       x="40"
-      y="336"
+      y="360"
       width="616"
-      height="184"
+      height="232"
       fill="1"
       fillcolor="white"
       stroke="1"
@@ -69296,7 +69655,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig1.1"
       x="41"
-      y="337"
+      y="361"
       width="614"
       height="22"
       fill="0"
@@ -69311,7 +69670,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::helpers::Uri</text>
     <group name="Fig1.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 337, 614, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 361, 614, 0]"
          href="127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D2"
          fill="0"
          fillcolor="white"
@@ -69324,7 +69683,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig1.2.0"
         x="41"
-        y="337"
+        y="361"
         width="614"
         height="0"
         fill="0"
@@ -69335,7 +69694,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig1.3"
       x="40"
-      y="359"
+      y="383"
       width="616"
       height="1"
       fill="1"
@@ -69344,7 +69703,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig1.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 360, 614, 40]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 384, 614, 88]"
          href="127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D2"
          fill="0"
          fillcolor="white"
@@ -69356,9 +69715,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig1.4.0"
         x="41"
-        y="360"
+        y="384"
         width="614"
-        height="40"
+        height="88"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -69366,7 +69725,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig1.4.1"
         x="41"
-        y="360"
+        y="384"
         width="614"
         height="16"
         fill="0"
@@ -69382,7 +69741,55 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >base : mixed</text>
       <text name="Fig1.4.2"
         x="41"
-        y="376"
+        y="400"
+        width="614"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >root : mixed</text>
+      <text name="Fig1.4.3"
+        x="41"
+        y="416"
+        width="614"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >ENCODE_ARRAY_KEYS : int</text>
+      <text name="Fig1.4.4"
+        x="41"
+        y="432"
+        width="614"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >ENCODE_ARRAY_VALUES : int</text>
+      <text name="Fig1.4.5"
+        x="41"
+        y="448"
         width="614"
         height="22"
         fill="0"
@@ -69395,11 +69802,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >root : mixed</text>
+      >ENCODE_ARRAY_ALL : int</text>
     </group>
     <rectangle name="Fig1.5"
       x="40"
-      y="399"
+      y="471"
       width="616"
       height="1"
       fill="1"
@@ -69408,7 +69815,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig1.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 400, 614, 120]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 472, 614, 120]"
          href="127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D2"
          fill="0"
          fillcolor="white"
@@ -69420,7 +69827,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig1.6.0"
         x="41"
-        y="400"
+        y="472"
         width="614"
         height="120"
         fill="0"
@@ -69430,7 +69837,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig1.6.1"
         x="41"
-        y="400"
+        y="472"
         width="614"
         height="16"
         fill="0"
@@ -69446,7 +69853,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getBaseUrl() : string</text>
       <text name="Fig1.6.2"
         x="41"
-        y="416"
+        y="488"
         width="614"
         height="16"
         fill="0"
@@ -69462,7 +69869,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getRootUrl() : string</text>
       <text name="Fig1.6.3"
         x="41"
-        y="432"
+        y="504"
         width="614"
         height="16"
         fill="0"
@@ -69478,7 +69885,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >url(action : string = null,module : string = null,extension : string = null,params : array = array()) : string</text>
       <text name="Fig1.6.4"
         x="41"
-        y="448"
+        y="520"
         width="614"
         height="16"
         fill="0"
@@ -69494,7 +69901,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >legacyUrl(url : string,params : array = array()) : string</text>
       <text name="Fig1.6.5"
         x="41"
-        y="464"
+        y="536"
         width="614"
         height="16"
         fill="0"
@@ -69510,7 +69917,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >encode(uri : string,dotMode : boolean = true) : string</text>
       <text name="Fig1.6.6"
         x="41"
-        y="480"
+        y="552"
         width="614"
         height="16"
         fill="0"
@@ -69526,7 +69933,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >decode(uri : string,dotMode : boolean = true) : string</text>
       <text name="Fig1.6.7"
         x="41"
-        y="496"
+        y="568"
         width="614"
         height="22"
         fill="0"
@@ -69539,11 +69946,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >encodeArray(uris : array,dotMode : boolean = true) : array</text>
+      >encodeArray(uris : array,encodeMode : int = 3,dotMode : boolean = true) : array</text>
     </group>
   </group>
   <group name="Fig2"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 48, 512, 280]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 72, 512, 280]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D1"
        fill="1"
        fillcolor="white"
@@ -69556,7 +69963,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig2.0"
       x="40"
-      y="48"
+      y="72"
       width="512"
       height="280"
       fill="1"
@@ -69566,7 +69973,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig2.1"
       x="41"
-      y="49"
+      y="73"
       width="510"
       height="22"
       fill="0"
@@ -69581,7 +69988,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::helpers::Scriptloader</text>
     <group name="Fig2.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 49, 510, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 73, 510, 0]"
          href="127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D1"
          fill="0"
          fillcolor="white"
@@ -69594,7 +70001,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig2.2.0"
         x="41"
-        y="49"
+        y="73"
         width="510"
         height="0"
         fill="0"
@@ -69605,7 +70012,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig2.3"
       x="40"
-      y="71"
+      y="95"
       width="512"
       height="1"
       fill="1"
@@ -69614,7 +70021,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig2.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 72, 510, 88]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 96, 510, 88]"
          href="127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D1"
          fill="0"
          fillcolor="white"
@@ -69626,7 +70033,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig2.4.0"
         x="41"
-        y="72"
+        y="96"
         width="510"
         height="88"
         fill="0"
@@ -69636,7 +70043,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig2.4.1"
         x="41"
-        y="72"
+        y="96"
         width="510"
         height="16"
         fill="0"
@@ -69652,7 +70059,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >CSS : string</text>
       <text name="Fig2.4.2"
         x="41"
-        y="88"
+        y="112"
         width="510"
         height="16"
         fill="0"
@@ -69668,7 +70075,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >JS : string</text>
       <text name="Fig2.4.3"
         x="41"
-        y="104"
+        y="128"
         width="510"
         height="16"
         fill="0"
@@ -69684,7 +70091,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >jsFiles : array</text>
       <text name="Fig2.4.4"
         x="41"
-        y="120"
+        y="144"
         width="510"
         height="16"
         fill="0"
@@ -69700,7 +70107,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >cssFiles : array</text>
       <text name="Fig2.4.5"
         x="41"
-        y="136"
+        y="160"
         width="510"
         height="22"
         fill="0"
@@ -69717,7 +70124,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig2.5"
       x="40"
-      y="159"
+      y="183"
       width="512"
       height="1"
       fill="1"
@@ -69726,7 +70133,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig2.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 160, 510, 168]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 184, 510, 168]"
          href="127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D1"
          fill="0"
          fillcolor="white"
@@ -69738,7 +70145,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig2.6.0"
         x="41"
-        y="160"
+        y="184"
         width="510"
         height="168"
         fill="0"
@@ -69748,7 +70155,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig2.6.1"
         x="41"
-        y="160"
+        y="184"
         width="510"
         height="16"
         fill="0"
@@ -69764,7 +70171,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >contextInit(extension : string,module : string,action : string)</text>
       <text name="Fig2.6.2"
         x="41"
-        y="176"
+        y="200"
         width="510"
         height="16"
         fill="0"
@@ -69780,7 +70187,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >setPaths(paths : array,recursive : boolean = false,filter : string = &apos;&apos;)</text>
       <text name="Fig2.6.3"
         x="41"
-        y="192"
+        y="216"
         width="510"
         height="16"
         fill="0"
@@ -69796,7 +70203,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >addFile(file : string,type : string = &apos;&apos;)</text>
       <text name="Fig2.6.4"
         x="41"
-        y="208"
+        y="232"
         width="510"
         height="16"
         fill="0"
@@ -69812,7 +70219,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >addCssFile(file : string)</text>
       <text name="Fig2.6.5"
         x="41"
-        y="224"
+        y="248"
         width="510"
         height="16"
         fill="0"
@@ -69828,7 +70235,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >addJsFile(file : string)</text>
       <text name="Fig2.6.6"
         x="41"
-        y="240"
+        y="264"
         width="510"
         height="16"
         fill="0"
@@ -69844,7 +70251,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >addCssFiles(files : array = array())</text>
       <text name="Fig2.6.7"
         x="41"
-        y="256"
+        y="280"
         width="510"
         height="16"
         fill="0"
@@ -69860,7 +70267,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >addJsFiles(files : array = array())</text>
       <text name="Fig2.6.8"
         x="41"
-        y="272"
+        y="296"
         width="510"
         height="16"
         fill="0"
@@ -69876,7 +70283,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >addJsVar(name : string,value : string = &apos;&apos;)</text>
       <text name="Fig2.6.9"
         x="41"
-        y="288"
+        y="312"
         width="510"
         height="16"
         fill="0"
@@ -69892,7 +70299,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >addJsVars(vars : array)</text>
       <text name="Fig2.6.10"
         x="41"
-        y="304"
+        y="328"
         width="510"
         height="22"
         fill="0"
@@ -69909,7 +70316,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
   </group>
   <group name="Fig3"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 792, 512, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 888, 512, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A23"
        fill="1"
        fillcolor="white"
@@ -69922,7 +70329,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig3.0"
       x="40"
-      y="792"
+      y="888"
       width="512"
       height="73"
       fill="1"
@@ -69932,7 +70339,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig3.1"
       x="41"
-      y="793"
+      y="889"
       width="510"
       height="22"
       fill="0"
@@ -69947,7 +70354,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::helpers::Request</text>
     <group name="Fig3.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 793, 510, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 889, 510, 0]"
          href="127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A23"
          fill="0"
          fillcolor="white"
@@ -69960,7 +70367,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig3.2.0"
         x="41"
-        y="793"
+        y="889"
         width="510"
         height="0"
         fill="0"
@@ -69971,7 +70378,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig3.3"
       x="40"
-      y="815"
+      y="911"
       width="512"
       height="1"
       fill="1"
@@ -69980,7 +70387,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig3.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 816, 510, 22]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 912, 510, 22]"
          href="127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A23"
          fill="0"
          fillcolor="white"
@@ -69992,7 +70399,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig3.4.0"
         x="41"
-        y="816"
+        y="912"
         width="510"
         height="22"
         fill="0"
@@ -70003,7 +70410,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig3.5"
       x="40"
-      y="838"
+      y="934"
       width="512"
       height="1"
       fill="1"
@@ -70012,7 +70419,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig3.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 839, 510, 25]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 935, 510, 25]"
          href="127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A23"
          fill="0"
          fillcolor="white"
@@ -70024,7 +70431,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig3.6.0"
         x="41"
-        y="839"
+        y="935"
         width="510"
         height="25"
         fill="0"
@@ -70034,7 +70441,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig3.6.1"
         x="41"
-        y="839"
+        y="935"
         width="510"
         height="22"
         fill="0"
@@ -70051,7 +70458,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
   </group>
   <group name="Fig4"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 528, 512, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 608, 512, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF8"
        fill="1"
        fillcolor="white"
@@ -70064,7 +70471,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig4.0"
       x="40"
-      y="528"
+      y="608"
       width="512"
       height="89"
       fill="1"
@@ -70074,7 +70481,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig4.1"
       x="41"
-      y="529"
+      y="609"
       width="510"
       height="22"
       fill="0"
@@ -70089,7 +70496,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::helpers::Display</text>
     <group name="Fig4.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 529, 510, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 609, 510, 0]"
          href="127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF8"
          fill="0"
          fillcolor="white"
@@ -70102,7 +70509,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig4.2.0"
         x="41"
-        y="529"
+        y="609"
         width="510"
         height="0"
         fill="0"
@@ -70113,7 +70520,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig4.3"
       x="40"
-      y="551"
+      y="631"
       width="512"
       height="1"
       fill="1"
@@ -70122,7 +70529,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig4.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 552, 510, 22]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 632, 510, 22]"
          href="127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF8"
          fill="0"
          fillcolor="white"
@@ -70134,7 +70541,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig4.4.0"
         x="41"
-        y="552"
+        y="632"
         width="510"
         height="22"
         fill="0"
@@ -70145,7 +70552,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig4.5"
       x="40"
-      y="574"
+      y="654"
       width="512"
       height="1"
       fill="1"
@@ -70154,7 +70561,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig4.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 575, 510, 41]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 655, 510, 41]"
          href="127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF8"
          fill="0"
          fillcolor="white"
@@ -70166,7 +70573,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig4.6.0"
         x="41"
-        y="575"
+        y="655"
         width="510"
         height="41"
         fill="0"
@@ -70176,7 +70583,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig4.6.1"
         x="41"
-        y="575"
+        y="655"
         width="510"
         height="16"
         fill="0"
@@ -70192,7 +70599,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >textCutter(input : string,maxLength : int = 75) : string</text>
       <text name="Fig4.6.2"
         x="41"
-        y="591"
+        y="671"
         width="510"
         height="22"
         fill="0"
@@ -70209,7 +70616,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
   </group>
   <group name="Fig5"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 712, 512, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 800, 512, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-1eeb40:1264b38a9fa:-8000:0000000000001E16"
        fill="1"
        fillcolor="white"
@@ -70222,7 +70629,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig5.0"
       x="40"
-      y="712"
+      y="800"
       width="512"
       height="73"
       fill="1"
@@ -70232,7 +70639,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig5.1"
       x="41"
-      y="713"
+      y="801"
       width="510"
       height="22"
       fill="0"
@@ -70247,7 +70654,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::helpers::Array</text>
     <group name="Fig5.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 713, 510, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 801, 510, 0]"
          href="127-0-1-1-1eeb40:1264b38a9fa:-8000:0000000000001E16"
          fill="0"
          fillcolor="white"
@@ -70260,7 +70667,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig5.2.0"
         x="41"
-        y="713"
+        y="801"
         width="510"
         height="0"
         fill="0"
@@ -70271,7 +70678,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig5.3"
       x="40"
-      y="735"
+      y="823"
       width="512"
       height="1"
       fill="1"
@@ -70280,7 +70687,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig5.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 736, 510, 22]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 824, 510, 22]"
          href="127-0-1-1-1eeb40:1264b38a9fa:-8000:0000000000001E16"
          fill="0"
          fillcolor="white"
@@ -70292,7 +70699,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig5.4.0"
         x="41"
-        y="736"
+        y="824"
         width="510"
         height="22"
         fill="0"
@@ -70303,7 +70710,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig5.5"
       x="40"
-      y="758"
+      y="846"
       width="512"
       height="1"
       fill="1"
@@ -70312,7 +70719,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig5.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 759, 510, 25]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 847, 510, 25]"
          href="127-0-1-1-1eeb40:1264b38a9fa:-8000:0000000000001E16"
          fill="0"
          fillcolor="white"
@@ -70324,7 +70731,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig5.6.0"
         x="41"
-        y="759"
+        y="847"
         width="510"
         height="25"
         fill="0"
@@ -70334,7 +70741,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig5.6.1"
         x="41"
-        y="759"
+        y="847"
         width="510"
         height="22"
         fill="0"
@@ -70351,7 +70758,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
   </group>
   <group name="Fig6"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 624, 512, 77]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 704, 512, 77]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7B"
        fill="1"
        fillcolor="white"
@@ -70364,7 +70771,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig6.0"
       x="40"
-      y="624"
+      y="704"
       width="512"
       height="77"
       fill="1"
@@ -70374,7 +70781,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig6.1"
       x="41"
-      y="625"
+      y="705"
       width="510"
       height="22"
       fill="0"
@@ -70389,7 +70796,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::helpers::I18n</text>
     <group name="Fig6.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 625, 510, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 705, 510, 0]"
          href="127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7B"
          fill="0"
          fillcolor="white"
@@ -70402,7 +70809,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig6.2.0"
         x="41"
-        y="625"
+        y="705"
         width="510"
         height="0"
         fill="0"
@@ -70413,7 +70820,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig6.3"
       x="40"
-      y="647"
+      y="727"
       width="512"
       height="1"
       fill="1"
@@ -70422,7 +70829,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig6.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 648, 510, 25]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 728, 510, 25]"
          href="127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7B"
          fill="0"
          fillcolor="white"
@@ -70434,7 +70841,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig6.4.0"
         x="41"
-        y="648"
+        y="728"
         width="510"
         height="25"
         fill="0"
@@ -70444,7 +70851,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig6.4.1"
         x="41"
-        y="648"
+        y="728"
         width="510"
         height="22"
         fill="0"
@@ -70461,7 +70868,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig6.5"
       x="40"
-      y="673"
+      y="753"
       width="512"
       height="1"
       fill="1"
@@ -70470,7 +70877,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig6.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 674, 510, 25]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 754, 510, 25]"
          href="127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7B"
          fill="0"
          fillcolor="white"
@@ -70482,7 +70889,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig6.6.0"
         x="41"
-        y="674"
+        y="754"
         width="510"
         height="25"
         fill="0"
@@ -70492,7 +70899,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig6.6.1"
         x="41"
-        y="674"
+        y="754"
         width="510"
         height="22"
         fill="0"
@@ -70509,7 +70916,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
   </group>
   <group name="Fig7"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 872, 512, 101]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 984, 512, 101]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EE"
        fill="1"
        fillcolor="white"
@@ -70522,7 +70929,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig7.0"
       x="40"
-      y="872"
+      y="984"
       width="512"
       height="101"
       fill="1"
@@ -70532,7 +70939,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig7.1"
       x="41"
-      y="873"
+      y="985"
       width="510"
       height="22"
       fill="0"
@@ -70547,7 +70954,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::helpers::File</text>
     <group name="Fig7.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 873, 510, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 985, 510, 0]"
          href="127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EE"
          fill="0"
          fillcolor="white"
@@ -70560,7 +70967,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig7.2.0"
         x="41"
-        y="873"
+        y="985"
         width="510"
         height="0"
         fill="0"
@@ -70571,7 +70978,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig7.3"
       x="40"
-      y="895"
+      y="1007"
       width="512"
       height="1"
       fill="1"
@@ -70580,7 +70987,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig7.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 896, 510, 21]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 1008, 510, 21]"
          href="127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EE"
          fill="0"
          fillcolor="white"
@@ -70592,7 +70999,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig7.4.0"
         x="41"
-        y="896"
+        y="1008"
         width="510"
         height="21"
         fill="0"
@@ -70603,7 +71010,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig7.5"
       x="40"
-      y="916"
+      y="1028"
       width="512"
       height="1"
       fill="1"
@@ -70612,7 +71019,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig7.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 917, 510, 56]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 1029, 510, 56]"
          href="127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EE"
          fill="0"
          fillcolor="white"
@@ -70624,7 +71031,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig7.6.0"
         x="41"
-        y="917"
+        y="1029"
         width="510"
         height="56"
         fill="0"
@@ -70634,7 +71041,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig7.6.1"
         x="41"
-        y="917"
+        y="1029"
         width="510"
         height="16"
         fill="0"
@@ -70650,7 +71057,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >securityCheck(path : string) : boolean</text>
       <text name="Fig7.6.2"
         x="41"
-        y="933"
+        y="1045"
         width="510"
         height="16"
         fill="0"
@@ -70666,7 +71073,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >concat(paths : array) : string</text>
       <text name="Fig7.6.3"
         x="41"
-        y="949"
+        y="1061"
         width="510"
         height="22"
         fill="0"
@@ -71457,7 +71864,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
        description="org.argouml.uml.diagram.static_structure.ui.FigPackage[48, 24, 472, 208]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
        href="10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A3"
        fill="1"
-       fillcolor="white"
+       fillcolor="255 200 255"
        stroke="1"
        strokecolor="black"
   >
@@ -71477,7 +71884,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     <path name="Fig0.1"
       description="org.argouml.uml.diagram.static_structure.ui.FigPackage$PackageBackground"
       fill="1"
-      fillcolor="white"
+      fillcolor="255 200 255"
       stroke="0"
       strokecolor="black"
     >
@@ -71502,7 +71909,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       width="423"
       height="24"
       fill="0"
-      fillcolor="white"
+      fillcolor="255 200 255"
       stroke="1"
       strokecolor="black"
       textcolor="black"
@@ -71516,7 +71923,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[48, 24, 422, 1]"
          href="10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A3"
          fill="1"
-         fillcolor="white"
+         fillcolor="255 200 255"
          stroke="0"
          strokecolor="black"
          visibility="0"
@@ -71530,7 +71937,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         width="422"
         height="1"
         fill="1"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
       />
@@ -71541,7 +71948,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       width="472"
       height="185"
       fill="0"
-      fillcolor="white"
+      fillcolor="255 200 255"
       stroke="1"
       strokecolor="black"
       textcolor="black"
@@ -71556,7 +71963,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[64, 56, 428, 160]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCE"
        fill="1"
-       fillcolor="white"
+       fillcolor="255 200 255"
        stroke="1"
        strokecolor="black"
   >
@@ -71570,7 +71977,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       width="428"
       height="160"
       fill="1"
-      fillcolor="white"
+      fillcolor="255 200 255"
       stroke="1"
       strokecolor="black"
     />
@@ -71580,7 +71987,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       width="426"
       height="22"
       fill="0"
-      fillcolor="white"
+      fillcolor="255 200 255"
       stroke="0"
       strokecolor="black"
       textcolor="black"
@@ -71594,7 +72001,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[65, 57, 426, 0]"
          href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCE"
          fill="0"
-         fillcolor="white"
+         fillcolor="255 200 255"
          stroke="0"
          strokecolor="black"
          visibility="0"
@@ -71608,7 +72015,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         width="426"
         height="0"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
       />
@@ -71627,7 +72034,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[65, 80, 426, 59]"
          href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCE"
          fill="0"
-         fillcolor="white"
+         fillcolor="255 200 255"
          stroke="0"
          strokecolor="black"
     >
@@ -71650,7 +72057,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         width="426"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -71666,7 +72073,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         width="426"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -71682,7 +72089,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         width="426"
         height="22"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -71707,7 +72114,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[65, 140, 426, 75]"
          href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCE"
          fill="0"
-         fillcolor="white"
+         fillcolor="255 200 255"
          stroke="0"
          strokecolor="black"
     >
@@ -71730,7 +72137,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         width="426"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -71746,7 +72153,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         width="426"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -71762,7 +72169,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         width="426"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -71778,7 +72185,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         width="426"
         height="22"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -71791,7 +72198,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
   </group>
   <group name="Fig2"
-       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[48, 240, 336, 168]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
+       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[552, 640, 336, 168]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
        href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DE6"
        fill="1"
        fillcolor="white"
@@ -71802,8 +72209,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </private>
     
     <rectangle name="Fig2.0"
-      x="48"
-      y="240"
+      x="552"
+      y="640"
       width="336"
       height="168"
       fill="0"
@@ -71818,24 +72225,24 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       stroke="0"
       strokecolor="black"
     >
-      <moveto x="48"
-              y="240" />
-      <lineto x="334"
-              y="240" />
-      <lineto x="334"
-              y="263" />
-      <lineto x="383"
-              y="263" />
-      <lineto x="383"
-              y="407" />
-      <lineto x="48"
-              y="407" />
-      <lineto x="48"
-              y="240" />
+      <moveto x="552"
+              y="640" />
+      <lineto x="838"
+              y="640" />
+      <lineto x="838"
+              y="663" />
+      <lineto x="887"
+              y="663" />
+      <lineto x="887"
+              y="807" />
+      <lineto x="552"
+              y="807" />
+      <lineto x="552"
+              y="640" />
     </path>
     <text name="Fig2.2"
-      x="48"
-      y="240"
+      x="552"
+      y="640"
       width="287"
       height="24"
       fill="0"
@@ -71850,7 +72257,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Left"
     >taoTests::actions::form</text>
     <group name="Fig2.3"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[48, 240, 286, 1]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[552, 640, 286, 1]"
          href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DE6"
          fill="1"
          fillcolor="white"
@@ -71862,8 +72269,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig2.3.0"
-        x="48"
-        y="240"
+        x="552"
+        y="640"
         width="286"
         height="1"
         fill="1"
@@ -71873,8 +72280,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
     </group>
     <text name="Fig2.4"
-      x="48"
-      y="263"
+      x="552"
+      y="663"
       width="336"
       height="145"
       fill="0"
@@ -71890,7 +72297,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     ></text>
   </group>
   <group name="Fig3"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[64, 288, 264, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[568, 688, 264, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DE7"
        fill="1"
        fillcolor="white"
@@ -71902,8 +72309,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </private>
     
     <rectangle name="Fig3.0"
-      x="64"
-      y="288"
+      x="568"
+      y="688"
       width="264"
       height="89"
       fill="1"
@@ -71912,8 +72319,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <text name="Fig3.1"
-      x="65"
-      y="289"
+      x="569"
+      y="689"
       width="262"
       height="22"
       fill="0"
@@ -71928,7 +72335,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >taoTests::actions::form::TestAuthoring</text>
     <group name="Fig3.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[65, 289, 262, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[569, 689, 262, 0]"
          href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DE7"
          fill="0"
          fillcolor="white"
@@ -71940,8 +72347,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig3.2.0"
-        x="65"
-        y="289"
+        x="569"
+        y="689"
         width="262"
         height="0"
         fill="0"
@@ -71951,8 +72358,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
     </group>
     <rectangle name="Fig3.3"
-      x="64"
-      y="311"
+      x="568"
+      y="711"
       width="264"
       height="1"
       fill="1"
@@ -71961,7 +72368,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig3.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[65, 312, 262, 22]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[569, 712, 262, 22]"
          href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DE7"
          fill="0"
          fillcolor="white"
@@ -71972,8 +72379,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig3.4.0"
-        x="65"
-        y="312"
+        x="569"
+        y="712"
         width="262"
         height="22"
         fill="0"
@@ -71983,8 +72390,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
     </group>
     <rectangle name="Fig3.5"
-      x="64"
-      y="334"
+      x="568"
+      y="734"
       width="264"
       height="1"
       fill="1"
@@ -71993,7 +72400,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig3.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[65, 335, 262, 41]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[569, 735, 262, 41]"
          href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DE7"
          fill="0"
          fillcolor="white"
@@ -72004,8 +72411,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig3.6.0"
-        x="65"
-        y="335"
+        x="569"
+        y="735"
         width="262"
         height="41"
         fill="0"
@@ -72014,8 +72421,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         strokecolor="black"
       />
       <text name="Fig3.6.1"
-        x="65"
-        y="335"
+        x="569"
+        y="735"
         width="262"
         height="16"
         fill="0"
@@ -72030,8 +72437,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         justification="Left"
       >initForm()</text>
       <text name="Fig3.6.2"
-        x="65"
-        y="351"
+        x="569"
+        y="751"
         width="262"
         height="22"
         fill="0"
@@ -72072,11 +72479,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="328"
-              y="328" />
-      <lineto x="400"
-              y="328" />
-      <lineto x="400"
+      <moveto x="568"
+              y="704" />
+      <lineto x="488"
+              y="704" />
+      <lineto x="488"
               y="216" />
     </path>
   </group>
@@ -72084,7 +72491,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
        description="org.argouml.uml.diagram.static_structure.ui.FigPackage[552, 8, 512, 624]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
        href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF0"
        fill="1"
-       fillcolor="white"
+       fillcolor="255 255 200"
        stroke="1"
        strokecolor="black"
   >
@@ -72104,7 +72511,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     <path name="Fig5.1"
       description="org.argouml.uml.diagram.static_structure.ui.FigPackage$PackageBackground"
       fill="1"
-      fillcolor="white"
+      fillcolor="255 255 200"
       stroke="0"
       strokecolor="black"
     >
@@ -72129,7 +72536,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       width="463"
       height="24"
       fill="0"
-      fillcolor="white"
+      fillcolor="255 255 200"
       stroke="1"
       strokecolor="black"
       textcolor="black"
@@ -72143,7 +72550,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[552, 8, 462, 1]"
          href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF0"
          fill="1"
-         fillcolor="white"
+         fillcolor="255 255 200"
          stroke="0"
          strokecolor="black"
          visibility="0"
@@ -72157,7 +72564,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         width="462"
         height="1"
         fill="1"
-        fillcolor="white"
+        fillcolor="255 255 200"
         stroke="0"
         strokecolor="black"
       />
@@ -72168,7 +72575,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       width="512"
       height="601"
       fill="0"
-      fillcolor="white"
+      fillcolor="255 255 200"
       stroke="1"
       strokecolor="black"
       textcolor="black"
@@ -72758,9 +73165,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     >
       <moveto x="568"
               y="272" />
-      <lineto x="448"
+      <lineto x="488"
               y="272" />
-      <lineto x="448"
+      <lineto x="488"
               y="216" />
     </path>
   </group>
@@ -72949,9 +73356,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     >
       <moveto x="568"
               y="368" />
-      <lineto x="448"
+      <lineto x="488"
               y="368" />
-      <lineto x="448"
+      <lineto x="488"
               y="216" />
     </path>
   </group>
@@ -73140,14 +73547,14 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     >
       <moveto x="568"
               y="528" />
-      <lineto x="448"
+      <lineto x="488"
               y="528" />
-      <lineto x="448"
+      <lineto x="488"
               y="216" />
     </path>
   </group>
   <group name="Fig16"
-       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[48, 424, 336, 144]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
+       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[552, 816, 336, 144]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
        href="127-0-1-1-68f1e705:127f61c8a56:-8000:00000000000023BE"
        fill="1"
        fillcolor="white"
@@ -73158,8 +73565,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </private>
     
     <rectangle name="Fig16.0"
-      x="48"
-      y="424"
+      x="552"
+      y="816"
       width="336"
       height="144"
       fill="0"
@@ -73174,24 +73581,24 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       stroke="0"
       strokecolor="black"
     >
-      <moveto x="48"
-              y="424" />
-      <lineto x="334"
-              y="424" />
-      <lineto x="334"
-              y="447" />
-      <lineto x="383"
-              y="447" />
-      <lineto x="383"
-              y="567" />
-      <lineto x="48"
-              y="567" />
-      <lineto x="48"
-              y="424" />
+      <moveto x="552"
+              y="816" />
+      <lineto x="838"
+              y="816" />
+      <lineto x="838"
+              y="839" />
+      <lineto x="887"
+              y="839" />
+      <lineto x="887"
+              y="959" />
+      <lineto x="552"
+              y="959" />
+      <lineto x="552"
+              y="816" />
     </path>
     <text name="Fig16.2"
-      x="48"
-      y="424"
+      x="552"
+      y="816"
       width="287"
       height="24"
       fill="0"
@@ -73206,7 +73613,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Left"
     >wfEngine::actions::form</text>
     <group name="Fig16.3"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[48, 424, 286, 1]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[552, 816, 286, 1]"
          href="127-0-1-1-68f1e705:127f61c8a56:-8000:00000000000023BE"
          fill="1"
          fillcolor="white"
@@ -73218,8 +73625,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig16.3.0"
-        x="48"
-        y="424"
+        x="552"
+        y="816"
         width="286"
         height="1"
         fill="1"
@@ -73229,8 +73636,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
     </group>
     <text name="Fig16.4"
-      x="48"
-      y="447"
+      x="552"
+      y="839"
       width="336"
       height="121"
       fill="0"
@@ -73246,7 +73653,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     ></text>
   </group>
   <group name="Fig17"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[64, 456, 224, 96]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[568, 848, 224, 96]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-68f1e705:127f61c8a56:-8000:00000000000023BF"
        fill="1"
        fillcolor="white"
@@ -73258,8 +73665,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </private>
     
     <rectangle name="Fig17.0"
-      x="64"
-      y="456"
+      x="568"
+      y="848"
       width="224"
       height="96"
       fill="1"
@@ -73268,8 +73675,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <text name="Fig17.1"
-      x="65"
-      y="457"
+      x="569"
+      y="849"
       width="222"
       height="22"
       fill="0"
@@ -73284,7 +73691,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >wfEngine::actions::form::Login</text>
     <group name="Fig17.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[65, 457, 222, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[569, 849, 222, 0]"
          href="127-0-1-1-68f1e705:127f61c8a56:-8000:00000000000023BF"
          fill="0"
          fillcolor="white"
@@ -73296,8 +73703,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig17.2.0"
-        x="65"
-        y="457"
+        x="569"
+        y="849"
         width="222"
         height="0"
         fill="0"
@@ -73307,8 +73714,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
     </group>
     <rectangle name="Fig17.3"
-      x="64"
-      y="479"
+      x="568"
+      y="871"
       width="224"
       height="1"
       fill="1"
@@ -73317,7 +73724,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig17.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[65, 480, 222, 25]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[569, 872, 222, 25]"
          href="127-0-1-1-68f1e705:127f61c8a56:-8000:00000000000023BF"
          fill="0"
          fillcolor="white"
@@ -73328,8 +73735,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig17.4.0"
-        x="65"
-        y="480"
+        x="569"
+        y="872"
         width="222"
         height="25"
         fill="0"
@@ -73339,8 +73746,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
     </group>
     <rectangle name="Fig17.5"
-      x="64"
-      y="505"
+      x="568"
+      y="897"
       width="224"
       height="1"
       fill="1"
@@ -73349,7 +73756,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig17.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[65, 506, 222, 44]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[569, 898, 222, 44]"
          href="127-0-1-1-68f1e705:127f61c8a56:-8000:00000000000023BF"
          fill="0"
          fillcolor="white"
@@ -73360,8 +73767,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig17.6.0"
-        x="65"
-        y="506"
+        x="569"
+        y="898"
         width="222"
         height="44"
         fill="0"
@@ -73370,8 +73777,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         strokecolor="black"
       />
       <text name="Fig17.6.1"
-        x="65"
-        y="506"
+        x="569"
+        y="898"
         width="222"
         height="16"
         fill="0"
@@ -73386,8 +73793,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         justification="Left"
       >initForm()</text>
       <text name="Fig17.6.2"
-        x="65"
-        y="522"
+        x="569"
+        y="914"
         width="222"
         height="22"
         fill="0"
@@ -73428,11 +73835,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="288"
-              y="480" />
-      <lineto x="416"
-              y="480" />
-      <lineto x="416"
+      <moveto x="568"
+              y="920" />
+      <lineto x="488"
+              y="920" />
+      <lineto x="488"
               y="216" />
     </path>
   </group>
@@ -73609,8 +74016,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="127-0-1-1--5823ae53:12820f19957:-8000:00000000000023D3"
-                        angle="270.0"
-                        offset="-10" />
+                        angle="-257.0"
+                        offset="13" />
     </private>
     <path name="Fig20.0"
       description="org.argouml.gefext.ArgoFigPoly"
@@ -73621,9 +74028,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     >
       <moveto x="568"
               y="448" />
-      <lineto x="448"
+      <lineto x="488"
               y="448" />
-      <lineto x="448"
+      <lineto x="488"
               y="216" />
     </path>
   </group>
@@ -73812,10 +74219,1219 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     >
       <moveto x="808"
               y="416" />
-      <lineto x="448"
+      <lineto x="488"
               y="416" />
-      <lineto x="448"
+      <lineto x="488"
               y="216" />
+    </path>
+  </group>
+  <group name="Fig23"
+       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[48, 248, 416, 720]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
+       href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF0"
+       fill="1"
+       fillcolor="white"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+    </private>
+    
+    <rectangle name="Fig23.0"
+      x="48"
+      y="248"
+      width="416"
+      height="720"
+      fill="0"
+      fillcolor="white"
+      stroke="0"
+      strokecolor="black"
+    />
+    <path name="Fig23.1"
+      description="org.argouml.uml.diagram.static_structure.ui.FigPackage$PackageBackground"
+      fill="1"
+      fillcolor="white"
+      stroke="0"
+      strokecolor="black"
+    >
+      <moveto x="48"
+              y="248" />
+      <lineto x="414"
+              y="248" />
+      <lineto x="414"
+              y="271" />
+      <lineto x="463"
+              y="271" />
+      <lineto x="463"
+              y="967" />
+      <lineto x="48"
+              y="967" />
+      <lineto x="48"
+              y="248" />
+    </path>
+    <text name="Fig23.2"
+      x="48"
+      y="248"
+      width="367"
+      height="24"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Left"
+    >tao::actions::form</text>
+    <group name="Fig23.3"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[48, 248, 366, 1]"
+         href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF0"
+         fill="1"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig23.3.0"
+        x="48"
+        y="248"
+        width="366"
+        height="1"
+        fill="1"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <text name="Fig23.4"
+      x="48"
+      y="271"
+      width="416"
+      height="697"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    ></text>
+  </group>
+  <group name="Fig24"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[72, 296, 368, 69]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A"
+       fill="1"
+       fillcolor="255 255 200"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig23"
+    </private>
+    
+    <rectangle name="Fig24.0"
+      x="72"
+      y="296"
+      width="368"
+      height="69"
+      fill="1"
+      fillcolor="255 255 200"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig24.1"
+      x="73"
+      y="297"
+      width="366"
+      height="22"
+      fill="0"
+      fillcolor="255 255 200"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="true"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >Generis</text>
+    <group name="Fig24.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[73, 297, 157, 0]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig24.2.0"
+        x="73"
+        y="297"
+        width="157"
+        height="0"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig24.3"
+      x="72"
+      y="319"
+      width="368"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig24.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[73, 320, 366, 21]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig24.4.0"
+        x="73"
+        y="320"
+        width="366"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig24.5"
+      x="72"
+      y="341"
+      width="368"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig24.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[73, 342, 366, 21]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig24.6.0"
+        x="73"
+        y="342"
+        width="366"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+  </group>
+  <group name="Fig25"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248B"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig24.0"
+      destPortFig="Fig1.0"
+      sourceFigNode="Fig24"
+      destFigNode="Fig1"
+      <argouml:pathitem figname="Fig25.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248B"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig25.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="376"
+              y="296" />
+      <lineto x="376"
+              y="216" />
+    </path>
+  </group>
+  <group name="Fig26"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[72, 672, 256, 85]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C"
+       fill="1"
+       fillcolor="255 255 200"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig23"
+    </private>
+    
+    <rectangle name="Fig26.0"
+      x="72"
+      y="672"
+      width="256"
+      height="85"
+      fill="1"
+      fillcolor="255 255 200"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig26.1"
+      x="73"
+      y="673"
+      width="254"
+      height="22"
+      fill="0"
+      fillcolor="255 255 200"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >Instance</text>
+    <group name="Fig26.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[73, 673, 160, 0]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig26.2.0"
+        x="73"
+        y="673"
+        width="160"
+        height="0"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig26.3"
+      x="72"
+      y="695"
+      width="256"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig26.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[73, 696, 254, 21]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig26.4.0"
+        x="73"
+        y="696"
+        width="254"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig26.5"
+      x="72"
+      y="716"
+      width="256"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig26.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[73, 717, 254, 40]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig26.6.0"
+        x="73"
+        y="717"
+        width="254"
+        height="40"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig26.6.1"
+        x="73"
+        y="717"
+        width="254"
+        height="16"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >initForm()</text>
+      <text name="Fig26.6.2"
+        x="73"
+        y="733"
+        width="254"
+        height="22"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >initElements()</text>
+    </group>
+  </group>
+  <group name="Fig27"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248D"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig26.0"
+      destPortFig="Fig24.0"
+      sourceFigNode="Fig26"
+      destFigNode="Fig24"
+      <argouml:pathitem figname="Fig27.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248D"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig27.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="328"
+              y="696" />
+      <lineto x="376"
+              y="696" />
+      <lineto x="376"
+              y="365" />
+    </path>
+  </group>
+  <group name="Fig28"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[72, 784, 256, 85]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248E"
+       fill="1"
+       fillcolor="255 255 200"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig23"
+    </private>
+    
+    <rectangle name="Fig28.0"
+      x="72"
+      y="784"
+      width="256"
+      height="85"
+      fill="1"
+      fillcolor="255 255 200"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig28.1"
+      x="73"
+      y="785"
+      width="254"
+      height="22"
+      fill="0"
+      fillcolor="255 255 200"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >Translate</text>
+    <group name="Fig28.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[73, 785, 167, 0]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248E"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig28.2.0"
+        x="73"
+        y="785"
+        width="167"
+        height="0"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig28.3"
+      x="72"
+      y="807"
+      width="256"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig28.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[73, 808, 254, 21]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248E"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig28.4.0"
+        x="73"
+        y="808"
+        width="254"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig28.5"
+      x="72"
+      y="828"
+      width="256"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig28.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[73, 829, 254, 40]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248E"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig28.6.0"
+        x="73"
+        y="829"
+        width="254"
+        height="40"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig28.6.1"
+        x="73"
+        y="829"
+        width="254"
+        height="16"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >initForm()</text>
+      <text name="Fig28.6.2"
+        x="73"
+        y="845"
+        width="254"
+        height="22"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >initElements()</text>
+    </group>
+  </group>
+  <group name="Fig29"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248F"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig28.0"
+      destPortFig="Fig26.0"
+      sourceFigNode="Fig28"
+      destFigNode="Fig26"
+      <argouml:pathitem figname="Fig29.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248F"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig29.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="137"
+              y="784" />
+      <lineto x="137"
+              y="757" />
+    </path>
+  </group>
+  <group name="Fig30"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[72, 376, 248, 85]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002490"
+       fill="1"
+       fillcolor="255 255 200"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig23"
+    </private>
+    
+    <rectangle name="Fig30.0"
+      x="72"
+      y="376"
+      width="248"
+      height="85"
+      fill="1"
+      fillcolor="255 255 200"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig30.1"
+      x="73"
+      y="377"
+      width="246"
+      height="22"
+      fill="0"
+      fillcolor="255 255 200"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >Clazz</text>
+    <group name="Fig30.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[73, 377, 145, 0]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002490"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig30.2.0"
+        x="73"
+        y="377"
+        width="145"
+        height="0"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig30.3"
+      x="72"
+      y="399"
+      width="248"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig30.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[73, 400, 246, 21]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002490"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig30.4.0"
+        x="73"
+        y="400"
+        width="246"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig30.5"
+      x="72"
+      y="420"
+      width="248"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig30.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[73, 421, 246, 40]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002490"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig30.6.0"
+        x="73"
+        y="421"
+        width="246"
+        height="40"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig30.6.1"
+        x="73"
+        y="421"
+        width="246"
+        height="16"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >initForm()</text>
+      <text name="Fig30.6.2"
+        x="73"
+        y="437"
+        width="246"
+        height="22"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >initElements()</text>
+    </group>
+  </group>
+  <group name="Fig31"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002491"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig30.0"
+      destPortFig="Fig24.0"
+      sourceFigNode="Fig30"
+      destFigNode="Fig24"
+      <argouml:pathitem figname="Fig31.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002491"
+                        angle="66.99999999999999"
+                        offset="20" />
+    </private>
+    <path name="Fig31.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="320"
+              y="416" />
+      <lineto x="376"
+              y="416" />
+      <lineto x="376"
+              y="365" />
+    </path>
+  </group>
+  <group name="Fig32"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[72, 472, 248, 85]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002492"
+       fill="1"
+       fillcolor="255 255 200"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig23"
+    </private>
+    
+    <rectangle name="Fig32.0"
+      x="72"
+      y="472"
+      width="248"
+      height="85"
+      fill="1"
+      fillcolor="255 255 200"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig32.1"
+      x="73"
+      y="473"
+      width="246"
+      height="22"
+      fill="0"
+      fillcolor="255 255 200"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >Property</text>
+    <group name="Fig32.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[73, 473, 162, 0]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002492"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig32.2.0"
+        x="73"
+        y="473"
+        width="162"
+        height="0"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig32.3"
+      x="72"
+      y="495"
+      width="248"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig32.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[73, 496, 246, 21]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002492"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig32.4.0"
+        x="73"
+        y="496"
+        width="246"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig32.5"
+      x="72"
+      y="516"
+      width="248"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig32.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[73, 517, 246, 40]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002492"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig32.6.0"
+        x="73"
+        y="517"
+        width="246"
+        height="40"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig32.6.1"
+        x="73"
+        y="517"
+        width="246"
+        height="16"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >initForm()</text>
+      <text name="Fig32.6.2"
+        x="73"
+        y="533"
+        width="246"
+        height="22"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >initElements()</text>
+    </group>
+  </group>
+  <group name="Fig33"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[72, 568, 248, 85]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002494"
+       fill="1"
+       fillcolor="255 255 200"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig23"
+    </private>
+    
+    <rectangle name="Fig33.0"
+      x="72"
+      y="568"
+      width="248"
+      height="85"
+      fill="1"
+      fillcolor="255 255 200"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig33.1"
+      x="73"
+      y="569"
+      width="246"
+      height="22"
+      fill="0"
+      fillcolor="255 255 200"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >Search</text>
+    <group name="Fig33.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[73, 569, 151, 0]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002494"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig33.2.0"
+        x="73"
+        y="569"
+        width="151"
+        height="0"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig33.3"
+      x="72"
+      y="591"
+      width="248"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig33.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[73, 592, 246, 21]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002494"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig33.4.0"
+        x="73"
+        y="592"
+        width="246"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig33.5"
+      x="72"
+      y="612"
+      width="248"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig33.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[73, 613, 246, 40]"
+         href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002494"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig33.6.0"
+        x="73"
+        y="613"
+        width="246"
+        height="40"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig33.6.1"
+        x="73"
+        y="613"
+        width="246"
+        height="16"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >initForm()</text>
+      <text name="Fig33.6.2"
+        x="73"
+        y="629"
+        width="246"
+        height="22"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >initElements()</text>
+    </group>
+  </group>
+  <group name="Fig34"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002495"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig33.0"
+      destPortFig="Fig24.0"
+      sourceFigNode="Fig33"
+      destFigNode="Fig24"
+      <argouml:pathitem figname="Fig34.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002495"
+                        angle="-267.0"
+                        offset="155" />
+    </private>
+    <path name="Fig34.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="320"
+              y="576" />
+      <lineto x="376"
+              y="576" />
+      <lineto x="376"
+              y="365" />
+    </path>
+  </group>
+  <group name="Fig35"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249C"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig32.0"
+      destPortFig="Fig24.0"
+      sourceFigNode="Fig32"
+      destFigNode="Fig24"
+      <argouml:pathitem figname="Fig35.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249C"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig35.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="320"
+              y="504" />
+      <lineto x="376"
+              y="504" />
+      <lineto x="376"
+              y="365" />
     </path>
   </group>
 </pgml>
