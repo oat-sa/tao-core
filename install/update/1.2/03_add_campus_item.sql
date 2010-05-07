@@ -1,0 +1,6 @@
+INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`,  `author`, `stread`, `stedit`, `stdelete`, `epoch`) VALUES
+(10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#campus', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModels', '',  'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
+(10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#campus', 'http://www.w3.org/2000/01/rdf-schema#label', 'Campus', 'EN ',  'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
+(10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#campus', 'http://www.w3.org/2000/01/rdf-schema#comment', 'Campus', 'EN ',  'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
+(10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#campus', 'http://www.tao.lu/Ontologies/TAOItem.rdf#SWFFile', 'campus_item.swf', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
+(10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#campus', 'http://www.tao.lu/Ontologies/TAOItem.rdf#i12580164649880', 'Campus.php', 'EN',  'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null);
