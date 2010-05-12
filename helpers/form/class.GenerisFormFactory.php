@@ -128,9 +128,23 @@ class tao_helpers_form_GenerisFormFactory
 			
 			$level = 2;
 			$defaultProperties 	= self::getDefaultProperties();
-			$classProperties	= self::getClassProperties($clazz, new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS));
-			$maxLevel = count(array_merge($defaultProperties, $classProperties));
-			foreach(array_merge($defaultProperties, $classProperties) as $property){
+			
+			$editedProperties = $defaultProperties;
+			foreach(self::getClassProperties($clazz, new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS)) as $property){
+				$found = false;
+				foreach($editedProperties as $editedProperty){
+					if($editedProperty->uriResource == $property->uriResource){
+						$found = true;
+						break;
+					}
+				}
+				if(!$found){
+					$editedProperties[] = $property;
+				}
+			}
+			
+			$maxLevel = count($editedProperties);
+			foreach($editedProperties as $property){
 				
 				$property->feed();
 				
@@ -457,6 +471,10 @@ class tao_helpers_form_GenerisFormFactory
 			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
 			$myForm->addElement($classUriElt);
 			
+			
+			$session = core_kernel_classes_Session::singleton();
+			$localNamespace = $session->getNameSpace();
+			
 			//class properties edition: add a group form for each property
 			if(is_null($topClazz)){
 				$topClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
@@ -472,7 +490,7 @@ class tao_helpers_form_GenerisFormFactory
 						$parentProp = false;
 						
 						//@todo use the getPrivileges method once implemented
-						if($classProperty->getLastModificationUser() != 'generis'){
+						if(preg_match("/^".preg_quote($localNamespace, '/')."/", $classProperty->uriResource)){
 							$useEditor = true;
 						}
 						break;
@@ -826,49 +844,50 @@ class tao_helpers_form_GenerisFormFactory
 
         // section 127-0-1-1-2db84171:12476b7fa3b:-8000:0000000000001AAB begin
 		
-		if(is_null($topLevelClazz)){
-			$returnValue = $clazz->getProperties(true);
+		 
+        if(is_null($topLevelClazz)){
+			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
 		}
-		else{
-			if($clazz->uriResource == $topLevelClazz->uriResource){
-				return (array) $clazz->getProperties(false);
+		
+		$returnValue = $clazz->getProperties(false);
+		if($clazz->uriResource == $topLevelClazz->uriResource){
+			return (array) $returnValue;
+		}
+		$top = false;
+		$parent = null;
+		do{
+			if(is_null($parent)){
+				$parents = $clazz->getParentClasses(false);
 			}
-			$top = false;
-			$parent = null;
-			do{
-				if(is_null($parent)){
-					$parents = $clazz->getParentClasses(false);
-				}
-				else{
-					$parents = $parent->getParentClasses(false);
+			else{
+				$parents = $parent->getParentClasses(false);
+			}
+			if(count($parents) == 0){
+				break;
+			}
+			
+			foreach($parents as $aParent){
 				
-				}
-				if(count($parents) == 0){
+				
+				if( !($aParent instanceof core_kernel_classes_Class) || is_null($aParent)){
+					$top = true; 
 					break;
 				}
-				
-				foreach($parents as $parent){
-					if( !($parent instanceof core_kernel_classes_Class) || is_null($parent)){
-						$top = true; 
-						break;
-					}
-					
-					if($parent->uriResource == 'http://www.w3.org/2000/01/rdf-schema#Class'){
-						$top = true; 
-						continue;
-					}
-					
-					$returnValue = array_merge($returnValue, $parent->getProperties(false));
-					if($parent->uriResource == $topLevelClazz->uriResource){
-						$top = true; 
-						break;
-					}
-					
+				if($aParent->uriResource == RDFS_CLASS){
+					//$top = true; 
+					continue;
 				}
-			}while($top === false);
-			
-			$returnValue = array_merge($returnValue, $clazz->getProperties(false));
-		}
+				
+				$returnValue = array_merge($returnValue, $aParent->getProperties(false));
+				if($aParent->uriResource == $topLevelClazz->uriResource){
+					$top = true; 
+				}
+				
+				$parent = $aParent;
+				
+				
+			}
+		}while($top === false);
 		
         // section 127-0-1-1-2db84171:12476b7fa3b:-8000:0000000000001AAB end
 

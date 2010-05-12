@@ -354,6 +354,285 @@ abstract class tao_models_classes_Service
     }
 
     /**
+     * Short description of method cloneClazz
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class sourceClazz
+     * @param  Class newParentClazz
+     * @param  Class topLevelClazz
+     * @return core_kernel_classes_Class
+     */
+    public function cloneClazz( core_kernel_classes_Class $sourceClazz,  core_kernel_classes_Class $newParentClazz = null,  core_kernel_classes_Class $topLevelClazz = null)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F3F begin
+        
+        if(!is_null($sourceClazz) && !is_null($newParentClazz)){
+        	if((is_null($topLevelClazz))){
+        		$properties = $sourceClazz->getProperties(false);
+        	}
+        	else{
+        		$properties = $this->getClazzProperties($sourceClazz, $topLevelClazz);
+        	}
+        	
+        	//check for duplicated properties
+        	$newParentProperties = $newParentClazz->getProperties(true);
+        	foreach($properties as $index => $property){
+        		foreach($newParentProperties as $newParentProperty){
+        			if($property->uriResource == $newParentProperty->uriResource){
+        				unset($properties[$index]);
+        				break;
+        			}
+        		}
+        	}
+        	
+        	//create a new class
+        	$returnValue = $this->createSubClass($newParentClazz, $sourceClazz->getLabel());
+        	
+        	//assign the properties of the source class
+        	foreach($properties as $property){
+        		$property->setDomain($returnValue);
+        	}
+        }
+        
+        // section 127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F3F end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method changeClass
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource instance
+     * @param  Class destinationClass
+     * @return boolean
+     */
+    public function changeClass( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $destinationClass)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331 begin
+        
+        try{
+        	$returnValue = $instance->editPropertyValues(
+        		new core_kernel_classes_Property(RDFS_TYPE), 
+        		$destinationClass->uriResource
+        	);
+        }
+        catch(common_Exception $ce){
+        	print $ce;
+        }
+        
+        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Get all the properties of the class in parameter.
+     * The properties are taken recursivly into the class parents up to the top
+     * class.
+     * If the top level class is not defined, we used the TAOObject class.
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class clazz
+     * @param  Class topLevelClazz
+     * @return array
+     */
+    public function getClazzProperties( core_kernel_classes_Class $clazz,  core_kernel_classes_Class $topLevelClazz = null)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 begin
+        
+        if(is_null($topLevelClazz)){
+			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+		}
+		
+		$returnValue = $clazz->getProperties(false);
+		if($clazz->uriResource == $topLevelClazz->uriResource){
+			return (array) $returnValue;
+		}
+		$top = false;
+		$parent = null;
+		do{
+			if(is_null($parent)){
+				$parents = $clazz->getParentClasses(false);
+			}
+			else{
+				$parents = $parent->getParentClasses(false);
+			}
+			if(count($parents) == 0){
+				break;
+			}
+			
+			foreach($parents as $aParent){
+				
+				
+				if( !($aParent instanceof core_kernel_classes_Class) || is_null($aParent)){
+					$top = true; 
+					break;
+				}
+				if($aParent->uriResource == RDFS_CLASS){
+					//$top = true; 
+					continue;
+				}
+				
+				$returnValue = array_merge($returnValue, $aParent->getProperties(false));
+				if($aParent->uriResource == $topLevelClazz->uriResource){
+					$top = true; 
+				}
+				
+				$parent = $aParent;
+				
+				
+			}
+		}while($top === false);
+        
+        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method getPropertyDiff
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class sourceClass
+     * @param  Class destinationClass
+     * @return array
+     */
+    public function getPropertyDiff( core_kernel_classes_Class $sourceClass,  core_kernel_classes_Class $destinationClass)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002337 begin
+      
+    	$sourceProperties = $sourceClass->getProperties(true);
+        $destinationProperties = $destinationClass->getProperties(true);
+       	
+        foreach($sourceProperties as $sourcePropertyUri => $sourceProperty){
+        	if(!array_key_exists($sourcePropertyUri, $destinationProperties)){
+        		array_push($returnValue, $sourceProperty);
+        	}
+        }
+        
+        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002337 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * get the properties of an instance for a specific language
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource instance
+     * @param  string lang
+     * @return array
+     */
+    public function getTranslatedProperties( core_kernel_classes_Resource $instance, $lang)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E84 begin
+		
+		try{
+			$type = $instance->getUniquePropertyValue(new core_kernel_classes_Property(RDFS_TYPE));
+			$clazz = new core_kernel_classes_Class($type->uriResource);
+			
+			foreach($clazz->getProperties(true) as $property){
+				
+				if($property->isLgDependent() || $property->uriResource == RDFS_LABEL){
+					$collection = $instance->getPropertyValuesByLg($property, $lang);
+					if($collection->count() > 0 ){
+						
+						if($collection->count() == 1){
+							$returnValue[$property->uriResource] = (string)$collection->get(0);
+						}
+						else{
+							$propData = array();
+							foreach($collection->getIterator() as $collectionItem){
+								$propData[] = (string)$collectionItem;
+							}
+							$returnValue[$property->uriResource] = $propData;
+						}
+					}
+				}
+			}
+		}
+		catch(Exception $e){
+			print $e;
+		}
+		
+        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E84 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * set the properties of an instance for a specific language
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource instance
+     * @param  string lang
+     * @param  array data
+     * @return boolean
+     */
+    public function setTranslatedProperties( core_kernel_classes_Resource $instance, $lang, $data)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E88 begin
+        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E88 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Format an RDFS Class to an array
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class clazz
+     * @return array
+     */
+    public function toArray( core_kernel_classes_Class $clazz)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C80 begin
+		$properties = $clazz->getProperties(false); 
+		foreach($clazz->getInstances(false) as $instance){
+			$data = array();
+			foreach($properties	as $property){
+				
+				$data[$property->getLabel()] = null;
+				
+				$values = $instance->getPropertyValues($property);
+				if(count($values) > 1){
+					$data[$property->getLabel()] = $values;
+				}
+				elseif(count($values) == 1){
+					$data[$property->getLabel()] = $values[0];
+				}
+			}
+			array_push($returnValue, $data);
+		}
+		
+        // section 127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C80 end
+
+        return (array) $returnValue;
+    }
+
+    /**
      * Format an RDFS Class to an array to be interpreted by the client tree
      * This is a closed array format.
      *
@@ -443,230 +722,6 @@ abstract class tao_models_classes_Service
 		$returnValue = $data;
 		
         // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B end
-
-        return (array) $returnValue;
-    }
-
-    /**
-     * Format an RDFS Class to an array
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class clazz
-     * @return array
-     */
-    public function toArray( core_kernel_classes_Class $clazz)
-    {
-        $returnValue = array();
-
-        // section 127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C80 begin
-		$properties = $clazz->getProperties(false); 
-		foreach($clazz->getInstances(false) as $instance){
-			$data = array();
-			foreach($properties	as $property){
-				
-				$data[$property->getLabel()] = null;
-				
-				$values = $instance->getPropertyValues($property);
-				if(count($values) > 1){
-					$data[$property->getLabel()] = $values;
-				}
-				elseif(count($values) == 1){
-					$data[$property->getLabel()] = $values[0];
-				}
-			}
-			array_push($returnValue, $data);
-		}
-		
-        // section 127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C80 end
-
-        return (array) $returnValue;
-    }
-
-    /**
-     * get the properties of an instance for a specific language
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Resource instance
-     * @param  string lang
-     * @return array
-     */
-    public function getTranslatedProperties( core_kernel_classes_Resource $instance, $lang)
-    {
-        $returnValue = array();
-
-        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E84 begin
-		
-		try{
-			$type = $instance->getUniquePropertyValue(new core_kernel_classes_Property(RDFS_TYPE));
-			$clazz = new core_kernel_classes_Class($type->uriResource);
-			
-			foreach($clazz->getProperties(true) as $property){
-				
-				if($property->isLgDependent() || $property->uriResource == RDFS_LABEL){
-					$collection = $instance->getPropertyValuesByLg($property, $lang);
-					if($collection->count() > 0 ){
-						
-						if($collection->count() == 1){
-							$returnValue[$property->uriResource] = (string)$collection->get(0);
-						}
-						else{
-							$propData = array();
-							foreach($collection->getIterator() as $collectionItem){
-								$propData[] = (string)$collectionItem;
-							}
-							$returnValue[$property->uriResource] = $propData;
-						}
-					}
-				}
-			}
-		}
-		catch(Exception $e){
-			print $e;
-		}
-		
-        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E84 end
-
-        return (array) $returnValue;
-    }
-
-    /**
-     * set the properties of an instance for a specific language
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Resource instance
-     * @param  string lang
-     * @param  array data
-     * @return boolean
-     */
-    public function setTranslatedProperties( core_kernel_classes_Resource $instance, $lang, $data)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E88 begin
-        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E88 end
-
-        return (bool) $returnValue;
-    }
-
-    /**
-     * Short description of method changeClass
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Resource instance
-     * @param  Class destinationClass
-     * @return boolean
-     */
-    public function changeClass( core_kernel_classes_Resource $instance,  core_kernel_classes_Class $destinationClass)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331 begin
-        
-        try{
-        	$returnValue = $instance->editPropertyValues(
-        		new core_kernel_classes_Property(RDFS_TYPE), 
-        		$destinationClass->uriResource
-        	);
-        }
-        catch(common_Exception $ce){
-        	print $ce;
-        }
-        
-        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331 end
-
-        return (bool) $returnValue;
-    }
-
-    /**
-     * Short description of method getPropertyDiff
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class sourceClass
-     * @param  Class destinationClass
-     * @return array
-     */
-    public function getPropertyDiff( core_kernel_classes_Class $sourceClass,  core_kernel_classes_Class $destinationClass)
-    {
-        $returnValue = array();
-
-        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002337 begin
-      
-    	$sourceProperties = $sourceClass->getProperties(true);
-        $destinationProperties = $destinationClass->getProperties(true);
-       	
-        foreach($sourceProperties as $sourcePropertyUri => $sourceProperty){
-        	if(!array_key_exists($sourcePropertyUri, $destinationProperties)){
-        		array_push($returnValue, $sourceProperty);
-        	}
-        }
-        
-        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002337 end
-
-        return (array) $returnValue;
-    }
-
-    /**
-     * Short description of method getClazzProperties
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class clazz
-     * @param  Class topLevelClazz
-     * @return array
-     */
-    public function getClazzProperties( core_kernel_classes_Class $clazz,  core_kernel_classes_Class $topLevelClazz = null)
-    {
-        $returnValue = array();
-
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 begin
-        
-        if(is_null($topLevelClazz)){
-			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
-		}
-		
-		$returnValue = $clazz->getProperties(false);
-		if($clazz->uriResource == $topLevelClazz->uriResource){
-			return (array) $returnValue;
-		}
-		$top = false;
-		$parent = null;
-		do{
-			if(is_null($parent)){
-				$parents = $clazz->getParentClasses(false);
-			}
-			else{
-				$parents = $parent->getParentClasses(false);
-			}
-			if(count($parents) == 0){
-				break;
-			}
-			
-			foreach($parents as $parent){
-				
-				
-				if( !($parent instanceof core_kernel_classes_Class) || is_null($parent)){
-					$top = true; 
-					break;
-				}
-				if($parent->uriResource == RDFS_CLASS){
-					continue;
-				}
-				
-				$returnValue = array_merge($returnValue, $parent->getProperties(false));
-				if($parent->uriResource == $topLevelClazz->uriResource){
-					$top = true; 
-					break;
-				}
-				
-			}
-		}while($top === false);
-        
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 end
 
         return (array) $returnValue;
     }

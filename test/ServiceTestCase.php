@@ -23,6 +23,8 @@ class ServiceTestCase extends UnitTestCase {
 		TestRunner::initTest();
 	}
 	
+	
+	
 	/**
 	 * Test the service factory: dynamical instantiation and single instance serving  
 	 * @see tao_models_classes_ServiceFactory::get
@@ -43,11 +45,12 @@ class ServiceTestCase extends UnitTestCase {
 		
 	}
 	
+	
 	/**
-	 * Test the taoService methods
+	 * Test the taoService methods, the extensions loading
 	 * @see tao_models_classes_TaoService::getLoadedExtensions
 	 */
-	public function testTaoService(){
+	public function testTaoServiceExtention(){
 		
 		$extensions = $this->taoService->getLoadedExtensions();
 		$this->assertTrue( is_array($extensions) );
@@ -77,8 +80,6 @@ class ServiceTestCase extends UnitTestCase {
 				}
 			}
 		}
-		
-		
 	}
 	
 	/**
@@ -90,24 +91,24 @@ class ServiceTestCase extends UnitTestCase {
 		
 		//test the getOneInstanceBy method on the boolean
 		$booleanTrueinstance = $this->taoService->getOneInstanceBy(
-			new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#Boolean'),  
-			'http://www.tao.lu/Ontologies/generis.rdf#True'
+			new core_kernel_classes_Class(GENERIS_BOOLEAN),  
+			INSTANCE_BOOLEAN_TRUE
 		);
 		$this->assertIsA( $booleanTrueinstance, 'core_kernel_classes_Resource');
 		$this->assertEqual( strtoupper($booleanTrueinstance->getLabel()), 'TRUE');
 			
 		$booleanFalseinstance = $this->taoService->getOneInstanceBy(
-			new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#Boolean'),  
+			new core_kernel_classes_Class(GENERIS_BOOLEAN),  
 			'FALSE',
 			'label',
 			true
 		);
 		$this->assertIsA( $booleanFalseinstance, 'core_kernel_classes_Resource');
-		$this->assertEqual( $booleanFalseinstance->uriResource, 'http://www.tao.lu/Ontologies/generis.rdf#False');
+		$this->assertEqual( $booleanFalseinstance->uriResource, INSTANCE_BOOLEAN_FALSE);
 		
 		
 		//we create a temp object for the needs of the test
-		$generisResourceClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource');
+		$generisResourceClass = new core_kernel_classes_Class(GENERIS_RESOURCE);
 		$testModelClass = $generisResourceClass->createSubClass('aModel', 'test model');
 		$this->assertIsA($testModelClass, 'core_kernel_classes_Class');
 		
@@ -148,7 +149,25 @@ class ServiceTestCase extends UnitTestCase {
 		$this->assertNotEqual($clonedInstance->uriResource, $testInstance->uriResource);
 		$this->assertEqual($testInstance->getUniquePropertyValue($testProperty), $clonedInstance->getUniquePropertyValue($testProperty));
 		
-		
+		//get the properties between 2 classes
+		$itemClass = new core_kernel_classes_Class(TAO_ITEM_CLASS);
+		$itemSubClasses = $itemClass->getSubClasses(false);
+		if(count($itemSubClasses) > 0){
+			foreach($itemSubClasses as $testClass){ break; }
+		}
+		else{
+			$testClass =$itemClass;
+		}
+		$foundProp = $this->taoService->getClazzProperties(
+			$testClass, 
+			new core_kernel_classes_Class(TAO_OBJECT_CLASS)
+		);
+		$this->assertIsA( $foundProp, 'array');
+		//delete the item class in case it has been created if it was not in the model
+		$localNamspace = core_kernel_classes_Session::singleton()->getNamespace();
+		if(preg_match("/^".preg_quote($localNamspace, "/")."/", $itemClass->uriResource)){
+			$itemClass->delete();
+		}
 		
 		//clean them
 		$testInstance->delete();
@@ -156,7 +175,6 @@ class ServiceTestCase extends UnitTestCase {
 		$testProperty->delete();
 		$testModelClass->delete();
 	}
-	
 
 }
 ?>

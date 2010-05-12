@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/TestRunner.php';
-require_once dirname(__FILE__) . '/../includes/common.php';
 
 /**
  * 
@@ -68,7 +67,7 @@ class AuthTestCase extends UnitTestCase {
 		
 		//no other user session
 		$this->assertFalse( tao_models_classes_UserService::isASessionOpened() );
-		
+
 		//login user
 		$this->assertTrue( $this->userService->loginUser($this->testUser['login'], $this->testUser['clearPassword']) );
 		

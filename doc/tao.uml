@@ -4,7 +4,7 @@
     <documentation>
       <authorname>Bertrand Chevrier</authorname>
       <authoremail>bertrand.chevrier@tudor.lu</authoremail>
-      <version>0.30</version>
+      <version>0.30.1</version>
       <description>
         Tao Transfer
       </description>
@@ -88,10 +88,10 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu May 06 16:05:53 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon May 10 17:27:40 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
-      <XMI.exporterVersion>0.30(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
+      <XMI.exporterVersion>0.30.1(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
     </XMI.documentation>
     <XMI.metamodel xmi.name="UML" xmi.version="1.4"/></XMI.header>
   <XMI.content>
@@ -13030,101 +13030,129 @@ Used to centralize the behavior related to every servcie instances. </UML:Tagged
                             </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
-                        <UML:Operation xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B'
-                          name = 'toTree' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                        <UML:Operation xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F3F'
+                          name = 'cloneClazz' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
-                          <UML:ModelElement.taggedValue>
-                            <UML:TaggedValue xmi.id = '127-0-1-1-acd7f43:125b6b0035f:-8000:0000000000001DA0'
-                              isSpecification = 'false'>
-                              <UML:TaggedValue.dataValue>Format an RDFS Class to an array to be interpreted by the client tree component.
-This is a closed array format.</UML:TaggedValue.dataValue>
-                              <UML:TaggedValue.type>
-                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
-                              </UML:TaggedValue.type>
-                            </UML:TaggedValue>
-                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9C'
+                            <UML:Parameter xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F40'
                               name = 'return' isSpecification = 'false' kind = 'return'>
-                              <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
-                              </UML:Parameter.type>
-                            </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9D'
-                              name = 'clazz' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9E'
-                              name = 'subclasses' isSpecification = 'false' kind = 'in'>
-                              <UML:Parameter.defaultValue>
-                                <UML:Expression xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AA2'
-                                  language = '' body = 'true'/>
-                              </UML:Parameter.defaultValue>
+                            <UML:Parameter xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F41'
+                              name = 'sourceClazz' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.type>
-                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AA3'
-                              name = 'instances' isSpecification = 'false' kind = 'in'>
+                            <UML:Parameter xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F42'
+                              name = 'newParentClazz' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.defaultValue>
-                                <UML:Expression xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AA8'
-                                  language = '' body = 'true'/>
+                                <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F5D'
+                                  language = 'UML 1.4' body = 'null'/>
                               </UML:Parameter.defaultValue>
                               <UML:Parameter.type>
-                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1-2db84171:12476b7fa3b:-8000:0000000000001AB3'
-                              name = 'highlightUri' isSpecification = 'false' kind = 'in'>
+                            <UML:Parameter xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F51'
+                              name = 'topLevelClazz' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.defaultValue>
-                                <UML:Expression xmi.id = '127-0-1-1-2db84171:12476b7fa3b:-8000:0000000000001AB6'
-                                  language = '' body = '&apos;&apos;'/>
+                                <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F5E'
+                                  language = 'UML 1.4' body = 'null'/>
                               </UML:Parameter.defaultValue>
                               <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                              </UML:Parameter.type>
-                            </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1-1427410f:125d9f1ba42:-8000:0000000000001DCE'
-                              name = 'labelFilter' isSpecification = 'false' kind = 'in'>
-                              <UML:Parameter.defaultValue>
-                                <UML:Expression xmi.id = '127-0-1-1-1427410f:125d9f1ba42:-8000:0000000000001DD1'
-                                  language = '' body = '&apos;&apos;'/>
-                              </UML:Parameter.defaultValue>
-                              <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
-                        <UML:Operation xmi.id = '127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C80'
-                          name = 'toArray' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                        <UML:Operation xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331'
+                          name = 'changeClass' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002332'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002333'
+                              name = 'instance' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002334'
+                              name = 'destinationClass' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405'
+                          name = 'getClazzProperties' visibility = 'public' isSpecification = 'false'
+                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false'>
                           <UML:ModelElement.taggedValue>
-                            <UML:TaggedValue xmi.id = '127-0-1-1-acd7f43:125b6b0035f:-8000:0000000000001DA1'
+                            <UML:TaggedValue xmi.id = '127-0-1-1-709afecb:128491bc704:-8000:0000000000002419'
                               isSpecification = 'false'>
-                              <UML:TaggedValue.dataValue>Format an RDFS Class to an array</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.dataValue>Get all the properties of the class in parameter.
+The properties are taken recursivly into the class parents up to the top level class.
+If the top level class is not defined, we used the TAOObject class.</UML:TaggedValue.dataValue>
                               <UML:TaggedValue.type>
                                 <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
                               </UML:TaggedValue.type>
                             </UML:TaggedValue>
                           </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C81'
+                            <UML:Parameter xmi.id = '127-0-1-1--250780b8:12843f3062f:-8000:0000000000002406'
                               name = 'return' isSpecification = 'false' kind = 'return'>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C82'
-                              name = 'clazz' isSpecification = 'false' kind = 'in'>
+                            <UML:Parameter xmi.id = '127-0-1-1--250780b8:12843f3062f:-8000:0000000000002407'
+                              name = 'clazz' isSpecification = 'false'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--250780b8:12843f3062f:-8000:0000000000002408'
+                              name = 'topLevelClazz' isSpecification = 'false'>
                               <UML:Parameter.defaultValue>
-                                <UML:Expression xmi.id = '127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C87'
-                                  language = '' body = ''/>
+                                <UML:Expression xmi.id = '127-0-1-1--250780b8:12843f3062f:-8000:0000000000002409'
+                                  language = 'UML 1.4' body = 'null'/>
                               </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002337'
+                          name = 'getPropertyDiff' visibility = 'public' isSpecification = 'false'
+                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002338'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002339'
+                              name = 'sourceClass' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:000000000000233A'
+                              name = 'destinationClass' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
                               </UML:Parameter.type>
@@ -13205,92 +13233,103 @@ This is a closed array format.</UML:TaggedValue.dataValue>
                             </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
-                        <UML:Operation xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331'
-                          name = 'changeClass' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                        <UML:Operation xmi.id = '127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C80'
+                          name = 'toArray' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
-                          <UML:BehavioralFeature.parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002332'
-                              name = 'return' isSpecification = 'false' kind = 'return'>
-                              <UML:Parameter.type>
-                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
-                              </UML:Parameter.type>
-                            </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002333'
-                              name = 'instance' isSpecification = 'false' kind = 'in'>
-                              <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
-                              </UML:Parameter.type>
-                            </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002334'
-                              name = 'destinationClass' isSpecification = 'false' kind = 'in'>
-                              <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
-                              </UML:Parameter.type>
-                            </UML:Parameter>
-                          </UML:BehavioralFeature.parameter>
-                        </UML:Operation>
-                        <UML:Operation xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002337'
-                          name = 'getPropertyDiff' visibility = 'public' isSpecification = 'false'
-                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
-                          isLeaf = 'false' isAbstract = 'false'>
-                          <UML:BehavioralFeature.parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002338'
-                              name = 'return' isSpecification = 'false' kind = 'return'>
-                              <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
-                              </UML:Parameter.type>
-                            </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002339'
-                              name = 'sourceClass' isSpecification = 'false' kind = 'in'>
-                              <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
-                              </UML:Parameter.type>
-                            </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1--4b0a5ad3:12776b15903:-8000:000000000000233A'
-                              name = 'destinationClass' isSpecification = 'false' kind = 'in'>
-                              <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
-                              </UML:Parameter.type>
-                            </UML:Parameter>
-                          </UML:BehavioralFeature.parameter>
-                        </UML:Operation>
-                        <UML:Operation xmi.id = '127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405'
-                          name = 'getClazzProperties' visibility = 'public' isSpecification = 'false'
-                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
-                          isLeaf = 'false' isAbstract = 'false'>
                           <UML:ModelElement.taggedValue>
-                            <UML:TaggedValue xmi.id = '127-0-1-1-709afecb:128491bc704:-8000:0000000000002419'
+                            <UML:TaggedValue xmi.id = '127-0-1-1-acd7f43:125b6b0035f:-8000:0000000000001DA1'
                               isSpecification = 'false'>
-                              <UML:TaggedValue.dataValue>Get all the properties of the class in parameter.
-The properties are taken recursivly into the class parents up to the top level class.
-If the top level class is not defined, we used the TAOObject class.</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.dataValue>Format an RDFS Class to an array</UML:TaggedValue.dataValue>
                               <UML:TaggedValue.type>
                                 <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
                               </UML:TaggedValue.type>
                             </UML:TaggedValue>
                           </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1--250780b8:12843f3062f:-8000:0000000000002406'
+                            <UML:Parameter xmi.id = '127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C81'
                               name = 'return' isSpecification = 'false' kind = 'return'>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1--250780b8:12843f3062f:-8000:0000000000002407'
-                              name = 'clazz' isSpecification = 'false'>
+                            <UML:Parameter xmi.id = '127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C82'
+                              name = 'clazz' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C87'
+                                  language = '' body = ''/>
+                              </UML:Parameter.defaultValue>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1--250780b8:12843f3062f:-8000:0000000000002408'
-                              name = 'topLevelClazz' isSpecification = 'false'>
-                              <UML:Parameter.defaultValue>
-                                <UML:Expression xmi.id = '127-0-1-1--250780b8:12843f3062f:-8000:0000000000002409'
-                                  language = 'UML 1.4' body = 'null'/>
-                              </UML:Parameter.defaultValue>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B'
+                          name = 'toTree' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-acd7f43:125b6b0035f:-8000:0000000000001DA0'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Format an RDFS Class to an array to be interpreted by the client tree component.
+This is a closed array format.</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9C'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9D'
+                              name = 'clazz' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9E'
+                              name = 'subclasses' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AA2'
+                                  language = '' body = 'true'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AA3'
+                              name = 'instances' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AA8'
+                                  language = '' body = 'true'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-2db84171:12476b7fa3b:-8000:0000000000001AB3'
+                              name = 'highlightUri' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '127-0-1-1-2db84171:12476b7fa3b:-8000:0000000000001AB6'
+                                  language = '' body = '&apos;&apos;'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-1427410f:125d9f1ba42:-8000:0000000000001DCE'
+                              name = 'labelFilter' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '127-0-1-1-1427410f:125d9f1ba42:-8000:0000000000001DD1'
+                                  language = '' body = '&apos;&apos;'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
@@ -27789,6 +27828,21 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         <UML:Generalization xmi.idref = '127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024D2'/>
                       </UML:GeneralizableElement.generalization>
                       <UML:Classifier.feature>
+                        <UML:Attribute xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F3D'
+                          name = 'reviewerClass' visibility = 'protected' isSpecification = 'false'
+                          ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+                          <UML:StructuralFeature.multiplicity>
+                            <UML:Multiplicity xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F43'>
+                              <UML:Multiplicity.range>
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F42'
+                                  lower = '1' upper = '1'/>
+                              </UML:Multiplicity.range>
+                            </UML:Multiplicity>
+                          </UML:StructuralFeature.multiplicity>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                          </UML:StructuralFeature.type>
+                        </UML:Attribute>
                         <UML:Operation xmi.id = '127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024DB'
                           name = '__construct' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
@@ -27799,6 +27853,29 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024DC'
                               name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F28'
+                          name = 'getReviewerClass' visibility = 'public' isSpecification = 'false'
+                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F29'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F2A'
+                              name = 'uri' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F31'
+                                  language = 'UML 1.4' body = '&apos;&apos;'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B3'
@@ -27818,9 +27895,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           name = 'reviewerRole' visibility = 'protected' isSpecification = 'false'
                           ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
-                            <UML:Multiplicity xmi.id = '127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024DA'>
+                            <UML:Multiplicity xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F27'>
                               <UML:Multiplicity.range>
-                                <UML:MultiplicityRange xmi.id = '127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024D9'
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F26'
                                   lower = '1' upper = '1'/>
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
@@ -27829,6 +27906,38 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                             <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
                           </UML:StructuralFeature.type>
                         </UML:Attribute>
+                        <UML:Operation xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0C'
+                          name = 'createReviewer' visibility = 'public' isSpecification = 'false'
+                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0D'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F53'
+                          name = 'isReviewer' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F54'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F55'
+                              name = 'user' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
                       </UML:Classifier.feature>
                     </UML:Class>
                     <UML:Class xmi.id = '127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B9'
@@ -27889,12 +27998,179 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         <UML:Class xmi.idref = '10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834'/>
                       </UML:Generalization.parent>
                     </UML:Generalization>
+                    <UML:Class xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0F'
+                      name = 'ItemReviewingService' visibility = 'public' isSpecification = 'false'
+                      isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                      <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F19'/>
+                      </UML:GeneralizableElement.generalization>
+                      <UML:Classifier.feature>
+                        <UML:Attribute xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F10'
+                          name = 'itemReviewingClass' visibility = 'protected' isSpecification = 'false'
+                          ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+                          <UML:StructuralFeature.multiplicity>
+                            <UML:Multiplicity xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F23'>
+                              <UML:Multiplicity.range>
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F22'
+                                  lower = '1' upper = '1'/>
+                              </UML:Multiplicity.range>
+                            </UML:Multiplicity>
+                          </UML:StructuralFeature.multiplicity>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                          </UML:StructuralFeature.type>
+                        </UML:Attribute>
+                        <UML:Operation xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F17'
+                          name = '__construct' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:ModelElement.stereotype>
+                            <UML:Stereotype xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000AF1'/>
+                          </UML:ModelElement.stereotype>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F18'
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F32'
+                          name = 'getItemReviewingClass' visibility = 'public' isSpecification = 'false'
+                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F33'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F34'
+                              name = 'uri' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F3C'
+                                  language = 'UML 1.4' body = '&apos;&apos;'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F44'
+                          name = 'getRelatedItems' visibility = 'public' isSpecification = 'false'
+                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false'>
+                          <UML:ModelElement.stereotype>
+                            <UML:Stereotype xmi.idref = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F46'/>
+                          </UML:ModelElement.stereotype>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F45'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F47'
+                              name = 'itemReviewing' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F48'
+                          name = 'setRelatedItems' visibility = 'public' isSpecification = 'false'
+                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F49'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F4A'
+                              name = 'itemReviewing' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F4B'
+                              name = 'items' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F52'
+                                  language = 'UML 1.4' body = 'array()'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F5F'
+                          name = 'bindItem' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F60'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F61'
+                              name = 'itemReview' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F62'
+                              name = 'item' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F63'
+                          name = 'getBoundItems' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F64'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F65'
+                              name = 'itemReview' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                      </UML:Classifier.feature>
+                    </UML:Class>
+                    <UML:Generalization xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F19'
+                      isSpecification = 'false'>
+                      <UML:Generalization.child>
+                        <UML:Class xmi.idref = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0F'/>
+                      </UML:Generalization.child>
+                      <UML:Generalization.parent>
+                        <UML:Class xmi.idref = '127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B9'/>
+                      </UML:Generalization.parent>
+                    </UML:Generalization>
                   </UML:Namespace.ownedElement>
                 </UML:Package>
               </UML:Namespace.ownedElement>
             </UML:Package>
           </UML:Namespace.ownedElement>
         </UML:Package>
+        <UML:Stereotype xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F46'
+          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Operation</UML:Stereotype.baseClass>
+        </UML:Stereotype>
       </UML:Namespace.ownedElement>
     </UML:Model>
     <UML:Expression xmi.id = '127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242F'
@@ -28641,6 +28917,94 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       language = 'UML 1.4' body = 'true'/>
     <UML:Expression xmi.id = '127-0-1-1--1c869303:1284d9e28b9:-8000:000000000000245D'
       language = 'UML 1.4' body = '&apos;&apos;'/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F2B'
+      language = '&apos;' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F2C'
+      language = '&apos;&apos;' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F2D'
+      language = '&apos; &apos;' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F2E'
+      language = '&apos; ' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F2F'
+      language = '&apos;&apos; ' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F30'
+      language = '&apos;&apos;' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F35'
+      language = '' body = '&apos;'/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F36'
+      language = '' body = '&apos;&apos;'/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F37'
+      language = 'U' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F38'
+      language = 'MU' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F39'
+      language = 'UMU' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F3A'
+      language = 'UM U' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F3B'
+      language = 'UM ' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F4C'
+      language = '' body = 'a'/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F4D'
+      language = '' body = 'ra'/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F4E'
+      language = '' body = 'rra'/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F4F'
+      language = '' body = 'arra'/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F50'
+      language = '' body = 'yarra'/>
+    <UML:Expression xmi.id = '127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F51'
+      language = '' body = 'ayarra'/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F43'
+      language = '' body = 'n'/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F44'
+      language = '' body = 'un'/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F45'
+      language = '' body = 'lun'/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F46'
+      language = '' body = 'llun'/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F47'
+      language = '' body = 'n'/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F48'
+      language = '' body = 'un'/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F49'
+      language = '' body = 'lun'/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F4A'
+      language = '' body = 'llun'/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F4B'
+      language = '' body = '&#10;llun'/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F4C'
+      language = 'n' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F4D'
+      language = 'un' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F4E'
+      language = 'lun' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F4F'
+      language = 'llun' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F50'
+      language = 'UML 1.4' body = 'null'/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F52'
+      language = 'f' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F53'
+      language = 'af' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F54'
+      language = 'laf' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F55'
+      language = 'slaf' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F56'
+      language = 'eslaf' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F57'
+      language = 'e' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F58'
+      language = 'se' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F59'
+      language = 'lse' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F5A'
+      language = 'alse' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F5B'
+      language = 'false' body = ''/>
+    <UML:Expression xmi.id = '127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F5C'
+      language = '' body = 'false'/>
     <UML:Multiplicity xmi.id = '127-0-1-1-506607cb:1249f78eef0:-8000:0000000000001AE5'>
       <UML:Multiplicity.range>
         <UML:MultiplicityRange xmi.id = '127-0-1-1-506607cb:1249f78eef0:-8000:0000000000001AE6'
@@ -50782,7 +51146,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     ></text>
   </group>
   <group name="Fig1"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[24, 568, 400, 128]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[24, 560, 400, 128]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001829"
        fill="1"
        fillcolor="white"
@@ -50795,7 +51159,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig1.0"
       x="24"
-      y="568"
+      y="560"
       width="400"
       height="128"
       fill="1"
@@ -50805,7 +51169,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig1.1"
       x="25"
-      y="569"
+      y="561"
       width="398"
       height="22"
       fill="0"
@@ -50820,7 +51184,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::models::classes::ServiceFactory</text>
     <group name="Fig1.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 569, 398, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 561, 398, 0]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001829"
          fill="0"
          fillcolor="white"
@@ -50833,7 +51197,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig1.2.0"
         x="25"
-        y="569"
+        y="561"
         width="398"
         height="0"
         fill="0"
@@ -50844,7 +51208,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig1.3"
       x="24"
-      y="591"
+      y="583"
       width="400"
       height="1"
       fill="1"
@@ -50853,7 +51217,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig1.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 592, 398, 67]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 584, 398, 67]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001829"
          fill="0"
          fillcolor="white"
@@ -50865,7 +51229,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig1.4.0"
         x="25"
-        y="592"
+        y="584"
         width="398"
         height="67"
         fill="0"
@@ -50875,7 +51239,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig1.4.1"
         x="25"
-        y="592"
+        y="584"
         width="398"
         height="16"
         fill="0"
@@ -50891,7 +51255,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >instances : array</text>
       <text name="Fig1.4.2"
         x="25"
-        y="608"
+        y="600"
         width="398"
         height="16"
         fill="0"
@@ -50907,7 +51271,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >dataSource : string</text>
       <text name="Fig1.4.3"
         x="25"
-        y="624"
+        y="616"
         width="398"
         height="22"
         fill="0"
@@ -50924,7 +51288,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig1.5"
       x="24"
-      y="659"
+      y="651"
       width="400"
       height="1"
       fill="1"
@@ -50933,7 +51297,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig1.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 660, 398, 35]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 652, 398, 35]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001829"
          fill="0"
          fillcolor="white"
@@ -50945,7 +51309,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig1.6.0"
         x="25"
-        y="660"
+        y="652"
         width="398"
         height="35"
         fill="0"
@@ -50955,7 +51319,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig1.6.1"
         x="25"
-        y="660"
+        y="652"
         width="398"
         height="22"
         fill="0"
@@ -50972,7 +51336,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
   </group>
   <group name="Fig2"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[24, 712, 768, 336]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[24, 704, 768, 368]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834"
        fill="1"
        fillcolor="white"
@@ -50985,9 +51349,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig2.0"
       x="24"
-      y="712"
+      y="704"
       width="768"
-      height="336"
+      height="368"
       fill="1"
       fillcolor="white"
       stroke="1"
@@ -50995,7 +51359,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig2.1"
       x="25"
-      y="713"
+      y="705"
       width="766"
       height="22"
       fill="0"
@@ -51010,7 +51374,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::models::classes::Service</text>
     <group name="Fig2.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 713, 766, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 705, 766, 0]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834"
          fill="0"
          fillcolor="white"
@@ -51023,7 +51387,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig2.2.0"
         x="25"
-        y="713"
+        y="705"
         width="766"
         height="0"
         fill="0"
@@ -51034,7 +51398,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig2.3"
       x="24"
-      y="735"
+      y="727"
       width="768"
       height="1"
       fill="1"
@@ -51043,7 +51407,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig2.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 736, 766, 27]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 728, 766, 35]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834"
          fill="0"
          fillcolor="white"
@@ -51055,9 +51419,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig2.4.0"
         x="25"
-        y="736"
+        y="728"
         width="766"
-        height="27"
+        height="35"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -51065,7 +51429,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig2.4.1"
         x="25"
-        y="736"
+        y="728"
         width="766"
         height="22"
         fill="0"
@@ -51091,7 +51455,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig2.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 764, 766, 283]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 764, 766, 307]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834"
          fill="0"
          fillcolor="white"
@@ -51105,7 +51469,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         x="25"
         y="764"
         width="766"
-        height="283"
+        height="307"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -51286,7 +51650,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >toTree(clazz : Class,subclasses : boolean = true,instances : boolean = true,highlightUri : string = &apos;&apos;,labelFilter : string = &apos;&apos;) : array</text>
+      >cloneClazz(sourceClazz : Class,newParentClazz : Class = null,topLevelClazz : Class = null) : Class</text>
       <text name="Fig2.6.12"
         x="25"
         y="940"
@@ -51302,7 +51666,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >toArray(clazz : Class) : array</text>
+      >changeClass(instance : Resource,destinationClass : Class) : boolean</text>
       <text name="Fig2.6.13"
         x="25"
         y="956"
@@ -51318,7 +51682,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >getTranslatedProperties(instance : Resource,lang : string) : array</text>
+      >getClazzProperties(clazz : Class,topLevelClazz : Class = null) : array</text>
       <text name="Fig2.6.14"
         x="25"
         y="972"
@@ -51334,7 +51698,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >setTranslatedProperties(instance : Resource,lang : string,data : array) : boolean</text>
+      >getPropertyDiff(sourceClass : Class,destinationClass : Class) : array</text>
       <text name="Fig2.6.15"
         x="25"
         y="988"
@@ -51350,7 +51714,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >changeClass(instance : Resource,destinationClass : Class) : boolean</text>
+      >getTranslatedProperties(instance : Resource,lang : string) : array</text>
       <text name="Fig2.6.16"
         x="25"
         y="1004"
@@ -51366,10 +51730,26 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >getPropertyDiff(sourceClass : Class,destinationClass : Class) : array</text>
+      >setTranslatedProperties(instance : Resource,lang : string,data : array) : boolean</text>
       <text name="Fig2.6.17"
         x="25"
         y="1020"
+        width="766"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >toArray(clazz : Class) : array</text>
+      <text name="Fig2.6.18"
+        x="25"
+        y="1036"
         width="766"
         height="22"
         fill="0"
@@ -51382,11 +51762,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >getClazzProperties(clazz : Class,topLevelClazz : Class = null) : array</text>
+      >toTree(clazz : Class,subclasses : boolean = true,instances : boolean = true,highlightUri : string = &apos;&apos;,labelFilter : string = &apos;&apos;) : array</text>
     </group>
   </group>
   <group name="Fig3"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[24, 1064, 400, 200]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[24, 1104, 400, 200]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822"
        fill="1"
        fillcolor="white"
@@ -51399,7 +51779,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig3.0"
       x="24"
-      y="1064"
+      y="1104"
       width="400"
       height="200"
       fill="1"
@@ -51409,7 +51789,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig3.1"
       x="25"
-      y="1065"
+      y="1105"
       width="398"
       height="22"
       fill="0"
@@ -51424,7 +51804,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::models::classes::TaoService</text>
     <group name="Fig3.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 1065, 398, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 1105, 398, 0]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822"
          fill="0"
          fillcolor="white"
@@ -51437,7 +51817,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig3.2.0"
         x="25"
-        y="1065"
+        y="1105"
         width="398"
         height="0"
         fill="0"
@@ -51448,7 +51828,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig3.3"
       x="24"
-      y="1087"
+      y="1127"
       width="400"
       height="1"
       fill="1"
@@ -51457,7 +51837,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig3.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 1088, 398, 47]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 1128, 398, 47]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822"
          fill="0"
          fillcolor="white"
@@ -51469,7 +51849,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig3.4.0"
         x="25"
-        y="1088"
+        y="1128"
         width="398"
         height="47"
         fill="0"
@@ -51479,7 +51859,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig3.4.1"
         x="25"
-        y="1088"
+        y="1128"
         width="398"
         height="16"
         fill="0"
@@ -51495,7 +51875,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >extensions : array</text>
       <text name="Fig3.4.2"
         x="25"
-        y="1104"
+        y="1144"
         width="398"
         height="22"
         fill="0"
@@ -51512,7 +51892,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig3.5"
       x="24"
-      y="1135"
+      y="1175"
       width="400"
       height="1"
       fill="1"
@@ -51521,7 +51901,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig3.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 1136, 398, 127]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 1176, 398, 127]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822"
          fill="0"
          fillcolor="white"
@@ -51533,7 +51913,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig3.6.0"
         x="25"
-        y="1136"
+        y="1176"
         width="398"
         height="127"
         fill="0"
@@ -51543,7 +51923,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig3.6.1"
         x="25"
-        y="1136"
+        y="1176"
         width="398"
         height="16"
         fill="0"
@@ -51559,7 +51939,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getLoadedExtensions() : array</text>
       <text name="Fig3.6.2"
         x="25"
-        y="1152"
+        y="1192"
         width="398"
         height="16"
         fill="0"
@@ -51575,7 +51955,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >isLoaded(extension : string) : boolean</text>
       <text name="Fig3.6.3"
         x="25"
-        y="1168"
+        y="1208"
         width="398"
         height="16"
         fill="0"
@@ -51591,7 +51971,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >setCurrentExtension(extension : string)</text>
       <text name="Fig3.6.4"
         x="25"
-        y="1184"
+        y="1224"
         width="398"
         height="16"
         fill="0"
@@ -51607,7 +51987,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getCurrentExtension() : string</text>
       <text name="Fig3.6.5"
         x="25"
-        y="1200"
+        y="1240"
         width="398"
         height="16"
         fill="0"
@@ -51623,7 +52003,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >loadExtensionStructure(extension : string) : SimpleXMLElement</text>
       <text name="Fig3.6.6"
         x="25"
-        y="1216"
+        y="1256"
         width="398"
         height="16"
         fill="0"
@@ -51639,7 +52019,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getStructure(extension : string = &apos;&apos;,section : string = &apos;&apos;) : array</text>
       <text name="Fig3.6.7"
         x="25"
-        y="1232"
+        y="1272"
         width="398"
         height="22"
         fill="0"
@@ -51685,7 +52065,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <lineto x="456"
               y="1136" />
       <lineto x="456"
-              y="1048" />
+              y="1072" />
     </path>
   </group>
   <group name="Fig5"
@@ -52167,7 +52547,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <lineto x="584"
               y="280" />
       <lineto x="584"
-              y="712" />
+              y="704" />
     </path>
   </group>
   <group name="Fig8"
@@ -52633,7 +53013,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <lineto x="664"
               y="584" />
       <lineto x="664"
-              y="712" />
+              y="704" />
     </path>
   </group>
   <group name="Fig11"
@@ -53051,7 +53431,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <lineto x="768"
               y="1224" />
       <lineto x="768"
-              y="1048" />
+              y="1072" />
     </path>
   </group>
   <group name="Fig14"
@@ -54060,11 +54440,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <lineto x="752"
               y="1592" />
       <lineto x="752"
-              y="1048" />
+              y="1072" />
     </path>
   </group>
   <group name="Fig20"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[24, 1280, 475, 296]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[24, 1320, 481, 296]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFA"
        fill="1"
        fillcolor="white"
@@ -54077,8 +54457,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig20.0"
       x="24"
-      y="1280"
-      width="475"
+      y="1320"
+      width="481"
       height="296"
       fill="1"
       fillcolor="white"
@@ -54087,8 +54467,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig20.1"
       x="25"
-      y="1281"
-      width="473"
+      y="1321"
+      width="479"
       height="22"
       fill="0"
       fillcolor="white"
@@ -54102,7 +54482,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::models::classes::UserService</text>
     <group name="Fig20.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 1281, 473, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[25, 1321, 479, 0]"
          href="127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFA"
          fill="0"
          fillcolor="white"
@@ -54115,8 +54495,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig20.2.0"
         x="25"
-        y="1281"
-        width="473"
+        y="1321"
+        width="479"
         height="0"
         fill="0"
         fillcolor="white"
@@ -54126,8 +54506,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig20.3"
       x="24"
-      y="1303"
-      width="475"
+      y="1343"
+      width="481"
       height="1"
       fill="1"
       fillcolor="black"
@@ -54135,7 +54515,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig20.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 1304, 473, 56]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 1344, 479, 56]"
          href="127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFA"
          fill="0"
          fillcolor="white"
@@ -54147,8 +54527,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig20.4.0"
         x="25"
-        y="1304"
-        width="473"
+        y="1344"
+        width="479"
         height="56"
         fill="0"
         fillcolor="white"
@@ -54157,8 +54537,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig20.4.1"
         x="25"
-        y="1304"
-        width="473"
+        y="1344"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54173,8 +54553,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >dbWrapper : DbWrapper</text>
       <text name="Fig20.4.2"
         x="25"
-        y="1320"
-        width="473"
+        y="1360"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54189,8 +54569,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >LOGIN_KEY : string</text>
       <text name="Fig20.4.3"
         x="25"
-        y="1336"
-        width="473"
+        y="1376"
+        width="479"
         height="22"
         fill="0"
         fillcolor="white"
@@ -54206,8 +54586,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig20.5"
       x="24"
-      y="1359"
-      width="475"
+      y="1399"
+      width="481"
       height="1"
       fill="1"
       fillcolor="black"
@@ -54215,7 +54595,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig20.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 1360, 473, 216]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 1400, 479, 216]"
          href="127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFA"
          fill="0"
          fillcolor="white"
@@ -54227,8 +54607,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig20.6.0"
         x="25"
-        y="1360"
-        width="473"
+        y="1400"
+        width="479"
         height="216"
         fill="0"
         fillcolor="white"
@@ -54237,8 +54617,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig20.6.1"
         x="25"
-        y="1360"
-        width="473"
+        y="1400"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54253,8 +54633,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >&lt;&lt;create&gt;&gt; __construct()</text>
       <text name="Fig20.6.2"
         x="25"
-        y="1376"
-        width="473"
+        y="1416"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54269,8 +54649,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >setUserLanguage(login : string,lang : string) : boolean</text>
       <text name="Fig20.6.3"
         x="25"
-        y="1392"
-        width="473"
+        y="1432"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54285,8 +54665,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getUserLanguage(login : string) : string</text>
       <text name="Fig20.6.4"
         x="25"
-        y="1408"
-        width="473"
+        y="1448"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54301,8 +54681,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getDefaultLanguage() : string</text>
       <text name="Fig20.6.5"
         x="25"
-        y="1424"
-        width="473"
+        y="1464"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54317,8 +54697,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getCurrentUser() : array</text>
       <text name="Fig20.6.6"
         x="25"
-        y="1440"
-        width="473"
+        y="1480"
+        width="480"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54333,8 +54713,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >loginUser(login : string,password : string,checkAdmin : boolean = true) : boolean</text>
       <text name="Fig20.6.7"
         x="25"
-        y="1456"
-        width="473"
+        y="1496"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54349,8 +54729,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >isASessionOpened() : boolean</text>
       <text name="Fig20.6.8"
         x="25"
-        y="1472"
-        width="473"
+        y="1512"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54365,8 +54745,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getAllUsers(options : array = array()) : array</text>
       <text name="Fig20.6.9"
         x="25"
-        y="1488"
-        width="473"
+        y="1528"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54381,8 +54761,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getOneUser(login : string) : array</text>
       <text name="Fig20.6.10"
         x="25"
-        y="1504"
-        width="473"
+        y="1544"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54397,8 +54777,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >saveUser(user : array) : boolean</text>
       <text name="Fig20.6.11"
         x="25"
-        y="1520"
-        width="473"
+        y="1560"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54413,8 +54793,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >removeUser(login : string) : boolean</text>
       <text name="Fig20.6.12"
         x="25"
-        y="1536"
-        width="473"
+        y="1576"
+        width="479"
         height="16"
         fill="0"
         fillcolor="white"
@@ -54429,8 +54809,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >loginExist(login : string) : boolean</text>
       <text name="Fig20.6.13"
         x="25"
-        y="1552"
-        width="473"
+        y="1592"
+        width="479"
         height="22"
         fill="0"
         fillcolor="white"
@@ -54471,9 +54851,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     >
       <moveto x="480"
-              y="1280" />
+              y="1320" />
       <lineto x="480"
-              y="1048" />
+              y="1072" />
     </path>
   </group>
   <group name="Fig22"
@@ -55388,7 +55768,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <text name="Fig24.6.7"
         x="1481"
         y="2133"
-        width="1020"
+        width="995"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -56978,7 +57358,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <text name="Fig29.6.6"
         x="1713"
         y="2876"
-        width="556"
+        width="554"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -57086,7 +57466,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <lineto x="784"
               y="2792" />
       <lineto x="784"
-              y="1048" />
+              y="1072" />
     </path>
   </group>
   <group name="Fig32"
@@ -57119,7 +57499,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <lineto x="784"
               y="2048" />
       <lineto x="784"
-              y="1048" />
+              y="1072" />
     </path>
   </group>
   <group name="Fig33"
@@ -57152,7 +57532,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <lineto x="784"
               y="3024" />
       <lineto x="784"
-              y="1048" />
+              y="1072" />
     </path>
   </group>
   <group name="Fig34"
@@ -57185,7 +57565,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <lineto x="784"
               y="1960" />
       <lineto x="784"
-              y="1048" />
+              y="1072" />
     </path>
   </group>
   <group name="Fig35"
@@ -57220,7 +57600,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </path>
   </group>
   <group name="Fig36"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[144, 1608, 392, 216]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[144, 1632, 392, 216]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-68d242d4:127aa5da21a:-8000:000000000000234A"
        fill="1"
        fillcolor="white"
@@ -57233,7 +57613,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     
     <rectangle name="Fig36.0"
       x="144"
-      y="1608"
+      y="1632"
       width="392"
       height="216"
       fill="1"
@@ -57243,7 +57623,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     />
     <text name="Fig36.1"
       x="145"
-      y="1609"
+      y="1633"
       width="390"
       height="22"
       fill="0"
@@ -57258,7 +57638,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >tao::models::classes::ListService</text>
     <group name="Fig36.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[145, 1609, 390, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[145, 1633, 390, 0]"
          href="127-0-1-1-68d242d4:127aa5da21a:-8000:000000000000234A"
          fill="0"
          fillcolor="white"
@@ -57271,7 +57651,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig36.2.0"
         x="145"
-        y="1609"
+        y="1633"
         width="390"
         height="0"
         fill="0"
@@ -57282,7 +57662,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig36.3"
       x="144"
-      y="1631"
+      y="1655"
       width="392"
       height="1"
       fill="1"
@@ -57291,7 +57671,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig36.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[145, 1632, 390, 31]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[145, 1656, 390, 31]"
          href="127-0-1-1-68d242d4:127aa5da21a:-8000:000000000000234A"
          fill="0"
          fillcolor="white"
@@ -57303,7 +57683,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig36.4.0"
         x="145"
-        y="1632"
+        y="1656"
         width="390"
         height="31"
         fill="0"
@@ -57313,7 +57693,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig36.4.1"
         x="145"
-        y="1632"
+        y="1656"
         width="390"
         height="22"
         fill="0"
@@ -57330,7 +57710,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
     <rectangle name="Fig36.5"
       x="144"
-      y="1663"
+      y="1687"
       width="392"
       height="1"
       fill="1"
@@ -57339,7 +57719,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig36.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[145, 1664, 390, 159]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[145, 1688, 390, 159]"
          href="127-0-1-1-68d242d4:127aa5da21a:-8000:000000000000234A"
          fill="0"
          fillcolor="white"
@@ -57351,7 +57731,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       
       <rectangle name="Fig36.6.0"
         x="145"
-        y="1664"
+        y="1688"
         width="390"
         height="159"
         fill="0"
@@ -57361,7 +57741,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
       <text name="Fig36.6.1"
         x="145"
-        y="1664"
+        y="1688"
         width="390"
         height="16"
         fill="0"
@@ -57377,7 +57757,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >&lt;&lt;create&gt;&gt; __construct()</text>
       <text name="Fig36.6.2"
         x="145"
-        y="1680"
+        y="1704"
         width="390"
         height="16"
         fill="0"
@@ -57393,7 +57773,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getLists() : array</text>
       <text name="Fig36.6.3"
         x="145"
-        y="1696"
+        y="1720"
         width="390"
         height="16"
         fill="0"
@@ -57409,7 +57789,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getList(uri : string) : Class</text>
       <text name="Fig36.6.4"
         x="145"
-        y="1712"
+        y="1736"
         width="390"
         height="16"
         fill="0"
@@ -57425,7 +57805,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getListElement(listClass : Class,uri : string) : Resource</text>
       <text name="Fig36.6.5"
         x="145"
-        y="1728"
+        y="1752"
         width="390"
         height="16"
         fill="0"
@@ -57441,7 +57821,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >getListElements(listClass : Class,sort : boolean = true) : array</text>
       <text name="Fig36.6.6"
         x="145"
-        y="1744"
+        y="1768"
         width="390"
         height="16"
         fill="0"
@@ -57457,7 +57837,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >removeList(listClass : Class) : boolean</text>
       <text name="Fig36.6.7"
         x="145"
-        y="1760"
+        y="1784"
         width="390"
         height="16"
         fill="0"
@@ -57473,7 +57853,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >removeListElement(element : Resource) : boolean</text>
       <text name="Fig36.6.8"
         x="145"
-        y="1776"
+        y="1800"
         width="390"
         height="16"
         fill="0"
@@ -57489,7 +57869,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >createList(label : string = &apos;&apos;) : Class</text>
       <text name="Fig36.6.9"
         x="145"
-        y="1792"
+        y="1816"
         width="390"
         height="22"
         fill="0"
@@ -57531,9 +57911,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     >
       <moveto x="520"
-              y="1608" />
+              y="1632" />
       <lineto x="520"
-              y="1048" />
+              y="1072" />
     </path>
   </group>
   <group name="Fig38"
@@ -57869,11 +58249,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <moveto x="72"
               y="1936" />
       <lineto x="72"
-              y="1576" />
+              y="1616" />
     </path>
   </group>
   <group name="Fig41"
-       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[296, 1896, 464, 360]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
+       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[296, 1896, 472, 608]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
        href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B0"
        fill="1"
        fillcolor="white"
@@ -57886,8 +58266,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     <rectangle name="Fig41.0"
       x="296"
       y="1896"
-      width="464"
-      height="360"
+      width="472"
+      height="608"
       fill="0"
       fillcolor="white"
       stroke="0"
@@ -57902,23 +58282,23 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     >
       <moveto x="296"
               y="1896" />
-      <lineto x="710"
+      <lineto x="718"
               y="1896" />
-      <lineto x="710"
+      <lineto x="718"
               y="1919" />
-      <lineto x="759"
+      <lineto x="767"
               y="1919" />
-      <lineto x="759"
-              y="2255" />
+      <lineto x="767"
+              y="2503" />
       <lineto x="296"
-              y="2255" />
+              y="2503" />
       <lineto x="296"
               y="1896" />
     </path>
     <text name="Fig41.2"
       x="296"
       y="1896"
-      width="415"
+      width="423"
       height="24"
       fill="0"
       fillcolor="white"
@@ -57932,7 +58312,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Left"
     >taoQual::models::classes</text>
     <group name="Fig41.3"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[296, 1896, 414, 1]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[296, 1896, 422, 1]"
          href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B0"
          fill="1"
          fillcolor="white"
@@ -57946,7 +58326,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <rectangle name="Fig41.3.0"
         x="296"
         y="1896"
-        width="414"
+        width="422"
         height="1"
         fill="1"
         fillcolor="white"
@@ -57957,8 +58337,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     <text name="Fig41.4"
       x="296"
       y="1919"
-      width="464"
-      height="337"
+      width="472"
+      height="585"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -57972,7 +58352,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     ></text>
   </group>
   <group name="Fig42"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[320, 2032, 344, 88]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[312, 2032, 344, 152]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B1"
        fill="1"
        fillcolor="white"
@@ -57984,17 +58364,17 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </private>
     
     <rectangle name="Fig42.0"
-      x="320"
+      x="312"
       y="2032"
       width="344"
-      height="88"
+      height="152"
       fill="1"
       fillcolor="white"
       stroke="1"
       strokecolor="black"
     />
     <text name="Fig42.1"
-      x="321"
+      x="313"
       y="2033"
       width="342"
       height="22"
@@ -58010,7 +58390,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >ReviewerService</text>
     <group name="Fig42.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[321, 2033, 64, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[313, 2033, 247, 0]"
          href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B1"
          fill="0"
          fillcolor="white"
@@ -58022,9 +58402,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig42.2.0"
-        x="321"
+        x="313"
         y="2033"
-        width="64"
+        width="247"
         height="0"
         fill="0"
         fillcolor="white"
@@ -58033,7 +58413,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
     </group>
     <rectangle name="Fig42.3"
-      x="320"
+      x="312"
       y="2055"
       width="344"
       height="1"
@@ -58043,7 +58423,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig42.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[321, 2056, 342, 24]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[313, 2056, 342, 40]"
          href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B1"
          fill="0"
          fillcolor="white"
@@ -58054,18 +58434,34 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig42.4.0"
-        x="321"
+        x="313"
         y="2056"
         width="342"
-        height="24"
+        height="40"
         fill="0"
         fillcolor="white"
         stroke="0"
         strokecolor="black"
       />
       <text name="Fig42.4.1"
-        x="321"
+        x="313"
         y="2056"
+        width="342"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >reviewerClass : Class</text>
+      <text name="Fig42.4.2"
+        x="313"
+        y="2072"
         width="342"
         height="22"
         fill="0"
@@ -58081,8 +58477,8 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >reviewerRole : Resource</text>
     </group>
     <rectangle name="Fig42.5"
-      x="320"
-      y="2079"
+      x="312"
+      y="2095"
       width="344"
       height="1"
       fill="1"
@@ -58091,7 +58487,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig42.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[321, 2080, 342, 40]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[313, 2096, 342, 88]"
          href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B1"
          fill="0"
          fillcolor="white"
@@ -58102,18 +58498,18 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig42.6.0"
-        x="321"
-        y="2080"
+        x="313"
+        y="2096"
         width="342"
-        height="40"
+        height="88"
         fill="0"
         fillcolor="white"
         stroke="0"
         strokecolor="black"
       />
       <text name="Fig42.6.1"
-        x="321"
-        y="2080"
+        x="313"
+        y="2096"
         width="342"
         height="16"
         fill="0"
@@ -58128,8 +58524,56 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         justification="Left"
       >&lt;&lt;create&gt;&gt; __construct()</text>
       <text name="Fig42.6.2"
-        x="321"
-        y="2096"
+        x="313"
+        y="2112"
+        width="342"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >getReviewerClass(uri : string = &apos;&apos;) : Class</text>
+      <text name="Fig42.6.3"
+        x="313"
+        y="2128"
+        width="342"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >getReviewers() : array</text>
+      <text name="Fig42.6.4"
+        x="313"
+        y="2144"
+        width="342"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >createReviewer() : Resource</text>
+      <text name="Fig42.6.5"
+        x="313"
+        y="2160"
         width="342"
         height="22"
         fill="0"
@@ -58142,11 +58586,11 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         bold="false"
         textsize="12"
         justification="Left"
-      >getReviewers() : array</text>
+      >isReviewer(user : Resource) : boolean</text>
     </group>
   </group>
   <group name="Fig43"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[320, 1936, 336, 72]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[312, 1936, 440, 72]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B9"
        fill="1"
        fillcolor="white"
@@ -58158,9 +58602,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </private>
     
     <rectangle name="Fig43.0"
-      x="320"
+      x="312"
       y="1936"
-      width="336"
+      width="440"
       height="72"
       fill="1"
       fillcolor="white"
@@ -58168,9 +58612,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <text name="Fig43.1"
-      x="321"
+      x="313"
       y="1937"
-      width="334"
+      width="438"
       height="22"
       fill="0"
       fillcolor="white"
@@ -58184,7 +58628,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Center"
     >QualityService</text>
     <group name="Fig43.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[321, 1937, 64, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[313, 1937, 234, 0]"
          href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B9"
          fill="0"
          fillcolor="white"
@@ -58196,9 +58640,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig43.2.0"
-        x="321"
+        x="313"
         y="1937"
-        width="64"
+        width="234"
         height="0"
         fill="0"
         fillcolor="white"
@@ -58207,9 +58651,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
     </group>
     <rectangle name="Fig43.3"
-      x="320"
+      x="312"
       y="1959"
-      width="336"
+      width="440"
       height="1"
       fill="1"
       fillcolor="black"
@@ -58217,7 +58661,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig43.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[321, 1960, 334, 24]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[313, 1960, 438, 24]"
          href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B9"
          fill="0"
          fillcolor="white"
@@ -58228,9 +58672,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig43.4.0"
-        x="321"
+        x="313"
         y="1960"
-        width="334"
+        width="438"
         height="24"
         fill="0"
         fillcolor="white"
@@ -58238,9 +58682,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         strokecolor="black"
       />
       <text name="Fig43.4.1"
-        x="321"
+        x="313"
         y="1960"
-        width="334"
+        width="438"
         height="22"
         fill="0"
         fillcolor="white"
@@ -58255,9 +58699,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       >qualityOntologies : array</text>
     </group>
     <rectangle name="Fig43.5"
-      x="320"
+      x="312"
       y="1983"
-      width="336"
+      width="440"
       height="1"
       fill="1"
       fillcolor="black"
@@ -58265,7 +58709,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       strokecolor="black"
     />
     <group name="Fig43.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[321, 1984, 334, 24]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[313, 1984, 438, 24]"
          href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B9"
          fill="0"
          fillcolor="white"
@@ -58276,9 +58720,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig43.6.0"
-        x="321"
+        x="313"
         y="1984"
-        width="334"
+        width="438"
         height="24"
         fill="0"
         fillcolor="white"
@@ -58286,9 +58730,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
         strokecolor="black"
       />
       <text name="Fig43.6.1"
-        x="321"
+        x="313"
         y="1984"
-        width="334"
+        width="438"
         height="22"
         fill="0"
         fillcolor="white"
@@ -58318,20 +58762,22 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024D2"
-                        angle="270.0"
-                        offset="-10" />
+                        angle="-122.0"
+                        offset="28" />
     </private>
     <path name="Fig44.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="480"
-              y="2040" />
-      <lineto x="480"
-              y="2016" />
+      <moveto x="656"
+              y="2072" />
+      <lineto x="704"
+              y="2072" />
+      <lineto x="704"
+              y="2008" />
     </path>
   </group>
   <group name="Fig45"
@@ -58353,7 +58799,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         offset="-10" />
     </private>
     <path name="Fig45.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -58362,7 +58808,276 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <moveto x="600"
               y="1936" />
       <lineto x="600"
-              y="1048" />
+              y="1072" />
+    </path>
+  </group>
+  <group name="Fig46"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[312, 2192, 446, 184]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0F"
+       fill="1"
+       fillcolor="white"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig41"
+    </private>
+    
+    <rectangle name="Fig46.0"
+      x="312"
+      y="2192"
+      width="446"
+      height="184"
+      fill="1"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig46.1"
+      x="313"
+      y="2193"
+      width="444"
+      height="22"
+      fill="0"
+      fillcolor="white"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >ItemReviewingService</text>
+    <group name="Fig46.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[313, 2193, 444, 0]"
+         href="127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0F"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig46.2.0"
+        x="313"
+        y="2193"
+        width="444"
+        height="0"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig46.3"
+      x="312"
+      y="2215"
+      width="446"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig46.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[313, 2216, 444, 39]"
+         href="127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0F"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig46.4.0"
+        x="313"
+        y="2216"
+        width="444"
+        height="39"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig46.4.1"
+        x="313"
+        y="2216"
+        width="444"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >itemReviewingClass : Class</text>
+    </group>
+    <rectangle name="Fig46.5"
+      x="312"
+      y="2255"
+      width="446"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig46.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[313, 2256, 444, 119]"
+         href="127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0F"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig46.6.0"
+        x="313"
+        y="2256"
+        width="444"
+        height="119"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig46.6.1"
+        x="313"
+        y="2256"
+        width="444"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >&lt;&lt;create&gt;&gt; __construct()</text>
+      <text name="Fig46.6.2"
+        x="313"
+        y="2272"
+        width="444"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >getItemReviewingClass(uri : string = &apos;&apos;) : Class</text>
+      <text name="Fig46.6.3"
+        x="313"
+        y="2288"
+        width="444"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >getRelatedItems(itemReviewing : Resource) : array</text>
+      <text name="Fig46.6.4"
+        x="313"
+        y="2304"
+        width="444"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >setRelatedItems(itemReviewing : Resource,items : array = array()) : boolean</text>
+      <text name="Fig46.6.5"
+        x="313"
+        y="2320"
+        width="444"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >bindItem(itemReview : Resource,item : Resource) : Resource</text>
+      <text name="Fig46.6.6"
+        x="313"
+        y="2336"
+        width="444"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >getBoundItems(itemReview : Resource) : array</text>
+    </group>
+  </group>
+  <group name="Fig47"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F19"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig46.0"
+      destPortFig="Fig43.0"
+      sourceFigNode="Fig46"
+      destFigNode="Fig43"
+      <argouml:pathitem figname="Fig47.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F19"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig47.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="704"
+              y="2192" />
+      <lineto x="704"
+              y="2008" />
     </path>
   </group>
 </pgml>
