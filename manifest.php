@@ -17,7 +17,11 @@
 				'sql' => dirname(__FILE__). '/install/db/tao.sql',
 				'php' => dirname(__FILE__). '/install/install.php'
 			),
-
+			
+			'model' => array(
+							'http://www.tao.lu/Ontologies/generis.rdf',
+							'http://www.tao.lu/Ontologies/TAO.rdf'
+			),
 			'classLoaderPackages' => array( 
 				dirname(__FILE__).'/actions/',
 				dirname(__FILE__).'/helpers/',

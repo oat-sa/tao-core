@@ -10,6 +10,7 @@ DELETE FROM `statements` WHERE `subject` ='http://www.tao.lu/middleware/Intervie
 DELETE FROM `statements` WHERE `subject` ='http://www.tao.lu/middleware/Interview.rdf#i122786664635240';
 DELETE FROM `statements` WHERE `subject` ='http://www.tao.lu/middleware/Interview.rdf#fteHeight';
 
+DELETE FROM `statements` WHERE `subject` ='http://www.tao.lu/middleware/taoqual.rdf#i1190121738750';
 
 
 INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES

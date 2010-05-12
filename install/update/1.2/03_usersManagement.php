@@ -45,12 +45,13 @@ $subjectPassProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologie
 foreach ($subjectInstancesArray as $subject) {
 	$newLogin = $subject->getOnePropertyValue($subjectLoginProp);
 	$newPass = $subject->getOnePropertyValue($subjectPassProp);
-
-	echo 'Migrate Subject '. $newLogin . '<br/>';
-	$subject->editPropertyValues($loginProp,$newLogin);
-	$subject->editPropertyValues($passProp,md5($newPass));
-	$subject->removePropertyValues($subjectLoginProp);
-	$subject->removePropertyValues($subjectPassProp);
+	if(!core_kernel_users_Service::loginExists($newLogin)) {
+		echo 'Migrate Subject '. $newLogin . '<br/>';
+		$subject->editPropertyValues($loginProp,$newLogin);
+		$subject->editPropertyValues($passProp,md5($newPass));
+		$subject->removePropertyValues($subjectLoginProp);
+		$subject->removePropertyValues($subjectPassProp);
+	}
 }
 $result = $dbWarpper->execSql("DELETE FROM `statements` WHERE `subject` ='http://www.tao.lu/Ontologies/TAOSubject.rdf#Login' OR
  `subject` ='http://www.tao.lu/Ontologies/TAOSubject.rdf#Password';");
@@ -73,24 +74,38 @@ foreach($wfUserInstancesArray as $wfUser){
 	$role = $wfUser->getOnePropertyValue($wfUserRoleProp); 
 
 	if($role instanceof core_kernel_classes_Resource) {
-		$role->editPropertyValues(new core_kernel_classes_Property(RDF_TYPE),$backOfficeClass->uriResource);
+		$role->setPropertyValue(new core_kernel_classes_Property(RDF_TYPE),$backOfficeClass->uriResource);
 	
 		$role->editPropertyValues(new core_kernel_classes_Property(RDF_SUBCLASSOF),CLASS_GENERIS_USER);
 		
 		$roleClass = new core_kernel_classes_Class($role->uriResource);
 		$newLogin = $wfUser->getOnePropertyValue($wfUserLoginProp); 
-
-		echo 'Migrate wfUser '. $newLogin . '<br/>';
-		$newPass = $wfUser->getOnePropertyValue($wfUserPassProp); 	
-		$newMail =  $wfUser->getOnePropertyValue($wfUserMailProp); 	
-		$newWfUserInstance = $roleClass->createInstance('wfUser_'. $newLogin,'Generated during update from user table on'. date(DATE_ISO8601));
-		$newWfUserInstance->setPropertyValue($loginProp,$newLogin);
-		$newWfUserInstance->setPropertyValue($passProp,md5($newPass));
-		$newUserInstance->setPropertyValue($mailProp,$newMail);
+		if(!core_kernel_users_Service::loginExists($newLogin)) {
+			echo 'Migrate wfUser '. $newLogin . '<br/>';
+			$newPass = $wfUser->getOnePropertyValue($wfUserPassProp); 	
+			$newMail =  $wfUser->getOnePropertyValue($wfUserMailProp); 	
+			$newWfUserInstance = $roleClass->createInstance('wfUser_'. $newLogin,'Generated during update from user table on'. date(DATE_ISO8601));
+			$newWfUserInstance->setPropertyValue($loginProp,$newLogin);
+			$newWfUserInstance->setPropertyValue($passProp,md5($newPass));
+			$newUserInstance->setPropertyValue($mailProp,$newMail);
+		}
+		else{
+			
+		}
 	}
 	$wfUser->delete();
+	
+	$result = $dbWarpper->execSql("DELETE FROM `statements` WHERE `subject` ='". $wfUser->uriResource. "';");
 
 }
+$dbWarpper->execSql("DELETE FROM `statements` WHERE `subject` ='". $wfUserClass->uriResource. "';");
+$dbWarpper->execSql("DELETE FROM `statements` WHERE `subject` ='". $wfUserLoginProp->uriResource. "';");
+$dbWarpper->execSql("DELETE FROM `statements` WHERE `subject` ='". $wfUserPassProp->uriResource. "';");
+$dbWarpper->execSql("DELETE FROM `statements` WHERE `subject` ='". $wfUserClass->uriResource. "';");
+$dbWarpper->execSql("DELETE FROM `statements` WHERE `subject` ='". $wfUserMailProp->uriResource. "';");
+$dbWarpper->execSql("DELETE FROM `statements` WHERE `subject` ='". $wfUserRoleProp->uriResource. "';");
+$dbWarpper->execSql("DELETE FROM `statements` WHERE `subject` ='". $wfUserRoleProp->uriResource. "';");
+
 
 echo 'done';
 ?>
