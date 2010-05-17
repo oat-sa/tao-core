@@ -1,5 +1,5 @@
 <?php 
-
+core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
 error_reporting(E_ALL);
 
 $dbWarpper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
@@ -45,13 +45,15 @@ $subjectPassProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologie
 foreach ($subjectInstancesArray as $subject) {
 	$newLogin = $subject->getOnePropertyValue($subjectLoginProp);
 	$newPass = $subject->getOnePropertyValue($subjectPassProp);
-	if(!core_kernel_users_Service::loginExists($newLogin)) {
+	error_reporting(E_ALL);
+	if(!core_kernel_users_Service::singleton()->loginExists($newLogin)) {
 		echo 'Migrate Subject '. $newLogin . '<br/>';
 		$subject->editPropertyValues($loginProp,$newLogin);
 		$subject->editPropertyValues($passProp,md5($newPass));
 		$subject->removePropertyValues($subjectLoginProp);
 		$subject->removePropertyValues($subjectPassProp);
 	}
+
 }
 $result = $dbWarpper->execSql("DELETE FROM `statements` WHERE `subject` ='http://www.tao.lu/Ontologies/TAOSubject.rdf#Login' OR
  `subject` ='http://www.tao.lu/Ontologies/TAOSubject.rdf#Password';");
@@ -80,7 +82,7 @@ foreach($wfUserInstancesArray as $wfUser){
 		
 		$roleClass = new core_kernel_classes_Class($role->uriResource);
 		$newLogin = $wfUser->getOnePropertyValue($wfUserLoginProp); 
-		if(!core_kernel_users_Service::loginExists($newLogin)) {
+		if(!core_kernel_users_Service::singleton()->loginExists($newLogin)) {
 			echo 'Migrate wfUser '. $newLogin . '<br/>';
 			$newPass = $wfUser->getOnePropertyValue($wfUserPassProp); 	
 			$newMail =  $wfUser->getOnePropertyValue($wfUserMailProp); 	

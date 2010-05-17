@@ -13,13 +13,14 @@ if(PHP_SAPI == 'cli'){
 	
 require_once dirname(__FILE__).'/../../generis/common/inc.extension.php';	
 require_once dirname(__FILE__).'/../includes/common.php';
-core_control_FrontController::connect('generis', 'generis', DATABASE_NAME);
 
 
-define('UPDATE_URI_DB');
+
+
+define('UPDATE_URI_DB','tao');
 
 $updateFiles = array();
-foreach(glob(dirname(__FILE__).'/update/*') as $path){
+foreach(glob(dirname(__FILE__).'/update/1.2/*') as $path){
 		$updateFiles[basename($path)] = $path;
 }
 ksort($updateFiles);	
@@ -33,6 +34,11 @@ foreach($updateFiles as $file => $path){
 		loadSql($path);
 		mysql_close(DATABASE_NAME);
 	}
+
+//	if($file == '03_usersManagement.php'){
+//		include $path;
+//	}
+	
 }
 
 function loadSql($pFile) {

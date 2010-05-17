@@ -164,6 +164,7 @@ function install($param){
 	writeConfigValue('DATABASE_URL', $param["dbhost"],$config);
 	writeConfigValue('SGBD_DRIVER', $param["dbdriver"],$config);
 	writeConfigValue('DATABASE_NAME', $param["moduleName"],$config);
+	
 
 
 	//TODO
@@ -250,6 +251,7 @@ function loadSqlReplaceNS($pFile, $con,$namespace){
 		die("File not found".$pFichier);
 	}
 }
+
 
 function loadSql($pFile, $con) {
 	if ($file = @fopen($pFile, "r")){
