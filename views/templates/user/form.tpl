@@ -18,7 +18,7 @@
 </div>
 <br />
 	<span class="ui-widget ui-state-default ui-corner-all" style="padding:5px;">
-		<a href="#" onclick="selectTabByName('manage_users');"><?=__('Back')?></a>
+		<a href="#" onclick="selectTabByName('list_users');"><?=__('Back')?></a>
 	</span>
 <script type="text/javascript">
 var ctx_extension 	= "<?=get_data('extension')?>";
