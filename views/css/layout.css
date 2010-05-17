@@ -43,6 +43,11 @@ a.nd{
 	text-decoration:none;
 }
 
+span.elt-info{
+	font-style:italic;
+	color:#D00239;
+}
+
 /* Layout */
 div#tabs, div#home{
 	position:relative; 
@@ -50,9 +55,6 @@ div#tabs, div#home{
 	height: 89%; 
 	width:98%;
 	margin:auto;
-	background-image:url('../img/tao.png');
-	background-repeat:no-repeat;
-	background-position:center;
 }
 
 /* --- */
