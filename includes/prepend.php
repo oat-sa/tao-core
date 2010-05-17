@@ -86,6 +86,7 @@ if(!tao_helpers_Request::isAjax()){
 		
 		TAOBASE_WWW . 'js/EventMgr.js',
 		TAOBASE_WWW . 'js/gateway/Main.js',
+		ROOT_URL    . '/wfEngine/views/js/gateway/ProcessAuthoring.js',
 		
 		TAOBASE_WWW . 'js/helpers.js',
 		TAOBASE_WWW . 'js/uiBootstrap.js',
