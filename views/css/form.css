@@ -50,6 +50,8 @@ div.xhtml_form div .elt_desc{
 }
 div.xhtml_form div .form-elt-info{
 	font-style:italic;
+	font-size:1.1em;
+	color:#D00239;
 }
 div.xhtml_form ul.form-elt-list{
 	padding-left:15px;
