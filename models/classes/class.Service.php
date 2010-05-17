@@ -454,8 +454,8 @@ abstract class tao_models_classes_Service
 			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
 		}
 		
-		$returnValue = $clazz->getProperties(false);
 		if($clazz->uriResource == $topLevelClazz->uriResource){
+			$returnValue = $clazz->getProperties(false);
 			return (array) $returnValue;
 		}
 		$top = false;
@@ -493,6 +493,8 @@ abstract class tao_models_classes_Service
 				
 			}
 		}while($top === false);
+		
+		$returnValue = array_merge($returnValue, $clazz->getProperties(false));
         
         // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 end
 
