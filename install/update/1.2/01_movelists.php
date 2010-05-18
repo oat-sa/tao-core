@@ -1,5 +1,8 @@
 <?php 
 
+core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
+
+
  function getListData($exclude = array()){ 
 	$data = array();
 	$taoObjectClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);

@@ -1,4 +1,5 @@
 <?php 
+
 core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
 error_reporting(E_ALL);
 
