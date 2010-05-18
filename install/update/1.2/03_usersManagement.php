@@ -23,15 +23,18 @@ $uiLgProp = new core_kernel_classes_Property(PROPERTY_USER_UILG);
 //Migrate previous backoffice user
 $result = $dbWarpper->execSql('select * from user');
 while (!$result-> EOF){
-	$newUserInstance = $classTaoManager->createInstance('User_'.$result->fields['login'],'Generated during update from user table on'. date(DATE_ISO8601));
-	echo 'Migrate Manager '. 'User_'.$result->fields['login'] . '<br/>';
-	$newUserInstance->setPropertyValue($loginProp,$result->fields['login']);
-	$newUserInstance->setPropertyValue($passProp,$result->fields['password']);
-	$newUserInstance->setPropertyValue($lastNameProp,$result->fields['LastName']);
-	$newUserInstance->setPropertyValue($firstNameProp,$result->fields['FirstName']);
-	$newUserInstance->setPropertyValue($mailProp,$result->fields['E_Mail']);
-	$newUserInstance->setPropertyValue($defLgProp,$result->fields['Deflg']);
+	$newLogin = $result->fields['login'];
+	if(!core_kernel_users_Service::singleton()->loginExists($newLogin)) {
+		$newUserInstance = $classTaoManager->createInstance('User_'.$result->fields['login'],'Generated during update from user table on'. date(DATE_ISO8601));
+		echo 'Migrate Manager '. 'User_'.$result->fields['login'] . '<br/>';
+		$newUserInstance->setPropertyValue($loginProp,$result->fields['login']);
+		$newUserInstance->setPropertyValue($passProp,$result->fields['password']);
+		$newUserInstance->setPropertyValue($lastNameProp,$result->fields['LastName']);
+		$newUserInstance->setPropertyValue($firstNameProp,$result->fields['FirstName']);
+		$newUserInstance->setPropertyValue($mailProp,$result->fields['E_Mail']);
+		$newUserInstance->setPropertyValue($defLgProp,$result->fields['Deflg']);
 	$newUserInstance->setPropertyValue($uiLgProp,$result->fields['Uilg']);
+	}
 	$result->MoveNext();
 }
 
