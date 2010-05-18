@@ -46,14 +46,6 @@ class tao_actions_form_Users
 
     // --- ATTRIBUTES ---
 
-    /**
-     * If the wfEngine extension is available
-     *
-     * @access protected
-     * @var boolean
-     */
-    protected $enableWfUsers = false;
-
     // --- OPERATIONS ---
 
     /**
@@ -69,7 +61,6 @@ class tao_actions_form_Users
 		
     	//check if the wfENgine extension is loaded
     	$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');;
-    	$this->enableWfUsers = $taoService->isLoaded('wfEngine');
     	
 		$this->form = tao_helpers_form_FormFactory::getForm('users');
 		$this->form->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
@@ -88,6 +79,8 @@ class tao_actions_form_Users
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC begin
 		
+    	
+    	/*
 		if(!isset($this->options['mode'])){
 			throw new Exception("Please set a mode into container options ");
 		}
@@ -175,104 +168,9 @@ class tao_actions_form_Users
 			
 			$this->form->createGroup("pass_group", __("Change your password"), array('password0', 'password1', 'password2', 'password3'));
 		}
+		*/
 		
-		//firstname field
-		$fNameElement = tao_helpers_form_FormFactory::getElement('FirstName', 'Textbox');
-		$fNameElement->setDescription(__('FirstName'));
-		$this->form->addElement($fNameElement);
 		
-		//lastname field
-		$lNameElement = tao_helpers_form_FormFactory::getElement('LastName', 'Textbox');
-		$lNameElement->setDescription(__('LastName'));
-		$this->form->addElement($lNameElement);
-		
-		//email field 
-		$emailElement = tao_helpers_form_FormFactory::getElement('E_Mail', 'Textbox');
-		$emailElement->setDescription(__('Email'));
-		$this->form->addElement($emailElement);
-		
-		//company field
-		$companyElement = tao_helpers_form_FormFactory::getElement('Company', 'Textbox');
-		$companyElement->setDescription(__('Company'));
-		$this->form->addElement($companyElement);
-		
-		//language field
-		$options = array();
-		foreach($GLOBALS['available_langs'] as $langCode){
-			$options[$langCode] = __($langCode);
-		}
-		$dataLgElement = tao_helpers_form_FormFactory::getElement('Deflg', 'Combobox');
-		$dataLgElement->setDescription(__('Data Language *'));
-		$dataLgElement->setOptions($options);
-		if($this->options['mode'] == 'add'){
-			$dataLgElement->setValue($GLOBALS['lang']);
-		}
-		$this->form->addElement($dataLgElement);
-		
-		$uiLgElement = tao_helpers_form_FormFactory::getElement('Uilg', 'Combobox');
-		$uiLgElement->setDescription(__('Interface Language *'));
-		$uiLgElement->setOptions($options);
-		if($this->options['mode'] == 'add'){
-			$uiLgElement->setValue($GLOBALS['lang']);
-		}
-		$this->form->addElement($uiLgElement);
-		
-		if($this->enableWfUsers){
-			
-			$wfUserService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
-			
-			$wfUser = null;
-			if($this->options['mode'] == 'edit' && isset($this->data['login'])){
-				$wfUser = $wfUserService->getOneWfUser($this->data['login']);
-			}
-			
-			
-			$isWfUserElt = tao_helpers_form_FormFactory::getElement('acl', 'Checkbox');
-			$isWfUserElt->setDescription(__('User access'));
-			$isWfUserElt->addAttribute('class', 'acls');
-			$isWfUserElt->setOptions(array(
-				'wf' 	=> __('Enable access to the workflow engine'),
-				'tao'	=> __('Enable access to the tao admin tools')
-			));
-			
-			$acl = array();
-			if($this->options['mode'] == 'add'){
-				$acl[] = 'tao';
-			}
-			else{
-				if(isset($this->data['admin'])){
-					if($this->data['admin'] == '1'){
-						$acl[] = 'tao';
-					}
-				}
-				if(!is_null($wfUser)){
-					$acl[] = 'wf';
-				}
-			}
-			$isWfUserElt->setValues($acl);
-			$this->form->addElement($isWfUserElt);
-			
-			$roles = array();
-			foreach($wfUserService->getAllRoles() as $role){
-				$roles[tao_helpers_Uri::encode($role->uriResource)] = $role->getLabel();
-			}
-			
-			$roleList = tao_helpers_form_FormFactory::getElement('wfRole', 'Checkbox');
-			$roleList->setDescription(__('Workflow engine role'));
-			$roleList->addAttribute('class', 'wfRoles');
-			$roleList->setOptions($roles);
-			if(is_null($wfUser)){
-				$roleList->addAttribute('disabled', 'true');
-			}
-			else{
-				foreach($wfUser->getPropertyValues(new core_kernel_classes_Property(USER_ROLE)) as $role){
-					$roleList->addValue($role);
-				}
-			}
-			$this->form->addElement($roleList);
-			
-			$this->form->createGroup("acl_group", __("Access control list"), array('acl', 'wfRole'));
-		}
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC end
     }

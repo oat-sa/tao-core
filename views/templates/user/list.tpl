@@ -12,13 +12,18 @@
 		<span class="ui-state-default ui-corner-all"><a href="<?=_url('restore')?>"><img src="<?=BASE_WWW?>img/undo.png" alt="add" /> <?=__('Restore default user')?></a></span><br />
 
 <script type="text/javascript">
-function editUser(login){
+function editUser(uri){
 	index = getTabIndexByName('edit_user');
 	if(index && login){
-		editUrl = "<?=_url('edit', 'Users', 'tao')?>" + '?login=' + login;
+		editUrl = "<?=_url('edit', 'Users', 'tao')?>" + '?uri=' + uri;
 		UiBootstrap.tabs.tabs('url', index, editUrl);
 		UiBootstrap.tabs.tabs('enable', index);
 		selectTabByName('edit_user');
+	}
+}
+function removeUser(uri){
+	if(confirm("<?=__('Please confirm user deletion')?>")){ 
+		window.location = "<?=_url('delete', 'Users', 'tao')?>" + '?uri=' + uri;
 	}
 }
 $(function(){
@@ -26,14 +31,11 @@ $(function(){
 	$("#user-list").jqGrid({
 		url: "<?=_url('data', 'Users', 'tao')?>", 
 		datatype: "json", 
-		colNames:['', __('Login'), __('Name'), __('Email'), __('Company'), __('Permissions'), __('Data Language'), __('Interface Language'), __('Actions')], 
+		colNames:[ __('Login'), __('Name'), __('Email'), __('Data Language'), __('Interface Language'), __('Actions')], 
 		colModel:[ 
-			{name:'active',index:'active', width:25, align:"center", sortable: false},
 			{name:'login',index:'login', width:150}, 
 			{name:'name',index:'name', width:200}, 
 			{name:'email',index:'email',  width:250}, 
-			{name:'company',index:'company', width:150}, 
-			{name:'acl',index:'acl', width:100, align:"left", sortable: false}, 
 			{name:'deflg',index:'deflg', width:120, align:"center"},
 			{name:'uilg',index:'uilg', width:120, align:"center"},
 			{name:'actions',index:'actions', width:150, align:"center", sortable: false}

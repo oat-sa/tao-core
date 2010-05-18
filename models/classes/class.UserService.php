@@ -47,28 +47,20 @@ class tao_models_classes_UserService
     // --- ATTRIBUTES ---
 
     /**
-     * the database wrapper instance
+     * Short description of attribute generisUserService
      *
      * @access protected
-     * @var DbWrapper
+     * @var Service
      */
-    protected $dbWrapper = null;
+    protected $generisUserService = null;
 
     /**
-     * the key to retrieve the login in the presistent session
+     * Short description of attribute allowedRoles
      *
-     * @access public
-     * @var string
+     * @access protected
+     * @var array
      */
-    const LOGIN_KEY = 'user_login';
-
-    /**
-     * the key to retrieve the authentication token in the presistent session
-     *
-     * @access public
-     * @var string
-     */
-    const AUTH_TOKEN_KEY = 'auth_id';
+    protected $allowedRoles = array();
 
     // --- OPERATIONS ---
 
@@ -83,116 +75,26 @@ class tao_models_classes_UserService
     {
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D1E begin
 		
-		$this->dbWrapper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
+		$this->generisUserService = core_kernel_users_Service::singleton();
+		$this->initRoles();
 		
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D1E end
     }
 
     /**
-     * set the language for the user identified by the login in parameter
+     * Short description of method initRoles
      *
-     * @access public
+     * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string login
-     * @param  string lang
-     * @return boolean
+     * @return mixed
      */
-    public function setUserLanguage($login, $lang)
+    protected function initRoles()
     {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFC begin
-		
-		$lang = strtoupper($lang);
-		
-		if(!preg_match("/^[A-Z]{2,3}$/", $lang)){
-			throw new Exception("Invalid lang code $lang");
-		}
-		if(count($this->getCurrentUser($login)) == 0){
-			throw new Exception("Invalid user $login");
-		}
-		
-		$returnValue = $this->dbWrapper->execSql("UPDATE `user` SET `Deflg` = '".$lang."' WHERE `user`.`login`  = '$login' LIMIT 1 ");
-		
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFC end
-
-        return (bool) $returnValue;
-    }
-
-    /**
-     * get the language defined for the user identified by the login in
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string login
-     * @return string
-     */
-    public function getUserLanguage($login)
-    {
-        $returnValue = (string) '';
-
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D00 begin
-		
-		$result = $this->dbWrapper->execSql("SELECT `Deflg` FROM `user` WHERE `login`  = '$login'  LIMIT 1 ");
-		if (!$result->EOF){
-			$returnValue = $result->fields['Deflg'];
-		}
-		
-		if(empty($returnValue)){
-			$returnValue = $this->getDefaultLanguage();
-		}
-		
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D00 end
-
-        return (string) $returnValue;
-    }
-
-    /**
-     * get the language defined by default
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return string
-     */
-    public function getDefaultLanguage()
-    {
-        $returnValue = (string) '';
-
-        // section 127-0-1-1--56be7ee7:12579087097:-8000:0000000000001D16 begin
-		
-		$returnValue = strtoupper($this->dbWrapper->getSetting('Deflg'));
-		
-        // section 127-0-1-1--56be7ee7:12579087097:-8000:0000000000001D16 end
-
-        return (string) $returnValue;
-    }
-
-    /**
-     * retrieve the logged in user
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return array
-     */
-    public function getCurrentUser()
-    {
-        $returnValue = array();
-
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D03 begin
-		
-		if(Session::hasAttribute(self::LOGIN_KEY)){
-			$login = Session::getAttribute(self::LOGIN_KEY);
-			if(strlen($login) > 0){
-				$result = $this->dbWrapper->execSql("SELECT `user`.* FROM `user` WHERE `user`.`login` = '$login' LIMIT 1");
-				if (!$result->EOF){
-					$returnValue = $result->fields;
-				}
-			}
-		}
-		
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D03 end
-
-        return (array) $returnValue;
+        // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 begin
+        
+    	$this->allowedRoles = array(INSTANCE_ROLE_TAOMANAGER);
+    	
+        // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 end
     }
 
     /**
@@ -202,177 +104,105 @@ class tao_models_classes_UserService
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string login
      * @param  string password
-     * @param  boolean checkAdmin
      * @return boolean
      */
-    public function loginUser($login, $password, $checkAdmin = true)
+    public function loginUser($login, $password)
     {
         $returnValue = (bool) false;
 
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D05 begin
-		$query = "SELECT `user`.* FROM `user` 
-			 WHERE `user`.`login`  = '".addslashes($login)."' 
-			 AND `user`.`password` = '".md5($password)."' 
-			 AND `user`.`enabled` = 1 ";
-		if($checkAdmin){
-			$query .= " AND `user`.`admin` = '1' ";
-		}
-		$query .= " LIMIT 1 ";
 		
-		$result = $this->dbWrapper->execSql($query);
-		while (!$result->EOF){
-			$foundLogin = $result->fields['login'];
-			if(strlen($foundLogin) > 0){
-				Session::setAttribute(self::LOGIN_KEY, $result->fields['login']);
-				Session::setAttribute(self::AUTH_TOKEN_KEY, uniqid());
-				$returnValue = true;
-				break;
+        try{
+	        foreach($this->allowedRoles as $roleUri){
+	        	if($this->generisUserService->login($login, $password, $roleUri)){
+	        		$returnValue = true;
+	        		break;					//roles order is important, we loggin with the first found
+	        	}
 			}
-			$result->MoveNext();
-		}
+        }
+        catch(core_kernel_users_Exception $ue){
+        //	print $ue->getMessage();
+        }
+		
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D05 end
 
         return (bool) $returnValue;
     }
 
     /**
-     * check if a session is currently running
+     * Short description of method connectCurrentUser
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return boolean
      */
-    public static function isASessionOpened()
+    public function connectCurrentUser()
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--5f8e44a2:1258d8ab867:-8000:0000000000001D20 begin
-		if(Session::hasAttribute(self::AUTH_TOKEN_KEY) && Session::hasAttribute(self::LOGIN_KEY)){
-			if(preg_match("/^[0-9a-f]{12,13}$/", strtolower(Session::getAttribute(self::AUTH_TOKEN_KEY)))){
-				$returnValue = true;
+        // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001F88 begin
+        
+        //check if a user is in session
+        if($this->generisUserService->isASessionOpened()){
+        	
+        	$userUri = Session::getAttribute(core_kernel_users_Service::AUTH_TOKEN_KEY);
+			if(!empty($userUri)){
+				
+				//init the API with the login in session
+				if($this->generisUserService->loginApi($userUri)){
+				
+					$currentUser = $this->getCurrentUser();
+					if(!is_null($currentUser)){
+						try{
+							$defaultLang 	= core_kernel_classes_DbWrapper::singleton(DATABASE_NAME)->getSetting('Deflg');
+							$uiLang   		= $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
+							$dataLang 		= $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
+						}
+						catch(common_Exception $ce){
+							$defaultLang 	= $GLOBALS['default_lang'];
+							$dataLang 		= $GLOBALS['default_lang'];
+							$uiLang		 	= $GLOBALS['default_lang'];
+						}
+						
+						core_kernel_classes_Session::singleton()->defaultLg = $defaultLang;
+						core_kernel_classes_Session::singleton()->setLg($dataLang);
+						
+						if(in_array($uiLang, $GLOBALS['available_langs'])){
+							Session::setAttribute('ui_lang', $uiLang);
+						}
+					}
+				}
 			}
-		}
-        // section 127-0-1-1--5f8e44a2:1258d8ab867:-8000:0000000000001D20 end
+        }
+        
+        // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001F88 end
 
         return (bool) $returnValue;
     }
 
     /**
-     * Get the list of available users
+     * retrieve the logged in user
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  array options the user list options to order the list and paginate the results
-     * @return array
+     * @return core_kernel_classes_Resource
      */
-    public function getAllUsers($options = array())
+    public function getCurrentUser()
     {
-        $returnValue = array();
+        $returnValue = null;
 
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 begin
+        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D03 begin
 		
-		$query = "SELECT `user`.* FROM `user` WHERE `enabled` = 1 ";
-		if(isset($options['order'])){
-			$query .= " ORDER BY {$options['order']} ";
-			(isset($options['orderDir'])) ? $query .= $options['orderDir'] :  $query .= 'ASC';
-		}
-		if(isset($options['start']) && isset($options['end'])){
-			$query .= " LIMIT {$options['start']}, {$options['end']} ";
-		}
-		$result = $this->dbWrapper->execSql($query);
-		while (!$result->EOF){
-			$returnValue[] = $result->fields;
-			$result->MoveNext();
-		}
-		
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 end
-
-        return (array) $returnValue;
-    }
-
-    /**
-     * get a user by his login
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string login the user login is the unique identifier to retrieve him
-     * @return array
-     */
-    public function getOneUser($login)
-    {
-        $returnValue = array();
-
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D4E begin
-		
-		$result = $this->dbWrapper->execSql("SELECT `user`.* FROM `user` WHERE `user`.`login`  = '".addslashes($login)."' LIMIT 1 ");
-		if (!$result->EOF){
-			$returnValue = $result->fields;
-		}
-		
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D4E end
-
-        return (array) $returnValue;
-    }
-
-    /**
-     * Save (insert or update) the user in parameter
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  array user
-     * @return boolean
-     */
-    public function saveUser($user)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D53 begin
-		
-		if(isset($user['login'])){
-			$admin = '1';
-			if(isset($user['admin'])){
-				$admin = $user['admin'];
+    	if($this->generisUserService->isASessionOpened()){
+        	$userUri = Session::getAttribute(core_kernel_users_Service::AUTH_TOKEN_KEY);
+			if(!empty($userUri)){
+        		$returnValue = new core_kernel_classes_Resource($userUri);
 			}
-			if(count($this->getOneUser($user['login'])) == 0){
-				//insert
-				$returnValue = $this->dbWrapper->execSql(
-					"INSERT INTO `user` (login, password, admin, usergroup, LastName, FirstName, E_Mail, Company, Deflg, Uilg, enabled) 
-					VALUES ('{$user['login']}', '{$user['password']}', '{$admin}', 'admin', '{$user['LastName']}', '{$user['FirstName']}', '{$user['E_Mail']}', '{$user['Company']}', '{$user['Deflg']}', '{$user['Uilg']}', 1)"
-				);
-			}
-			else{
-				//update
-				$returnValue = $this->dbWrapper->execSql(
-					"UPDATE `user`  
-					SET password = '{$user['password']}', admin = '{$admin}', LastName = '{$user['LastName']}', FirstName='{$user['FirstName']}', E_Mail='{$user['E_Mail']}', Company='{$user['Company']}', Deflg='{$user['Deflg']}', Uilg='{$user['Uilg']}' 
-					WHERE login = '{$user['login']}'"
-				);
-			}
-		}
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D53 end
+    	}
+		
+        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D03 end
 
-        return (bool) $returnValue;
-    }
-
-    /**
-     * Short description of method removeUser
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string login
-     * @return boolean
-     */
-    public function removeUser($login)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D56 begin
-		if(strlen($login) > 0){
-			$returnValue = $this->dbWrapper->execSql("DELETE FROM `user` WHERE login = '{$login}' LIMIT 1");
-		}
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D56 end
-
-        return (bool) $returnValue;
+        return $returnValue;
     }
 
     /**
@@ -389,12 +219,7 @@ class tao_models_classes_UserService
 
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D54 begin
 		
-		$returnValue = true ;
-		
-		$result = $this->dbWrapper->execSql("SELECT COUNT(login) as number FROM `user` WHERE `user`.`login`  = '".addslashes($login)."' AND `user`.`enabled` = 1");
-		if (!$result->EOF){
-			($result->fields['number'] == 0) ? $returnValue = false : $returnValue = true ;
-		}
+		$returnValue = $this->generisUserService->loginExists($login);
 		
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D54 end
 
@@ -420,6 +245,157 @@ class tao_models_classes_UserService
 		}
 		
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D76 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * get a user by his login
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string login the user login is the unique identifier to retrieve him
+     * @return core_kernel_classes_Resource
+     */
+    public function getOneUser($login)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D4E begin
+		
+		if(!empty($login)){
+			$user = $this->generisUserService->getOneUser($login);
+			$userClass = $this->getClass($user);
+			if(in_array($userClass->uriResource, $this->allowedRoles)){
+				$returnValue = $user;
+			}
+			else{
+				foreach($userClass->getParentClasses(true) as $parent){
+					if(in_array($parent->uriResource, $this->allowedRoles)){
+						$returnValue = $user;
+						break;
+					}
+				}
+			}
+		}
+		
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D4E end
+
+        return $returnValue;
+    }
+
+    /**
+     * Get the list of available users
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  array options the user list options to order the list and paginate the results
+     * @return array
+     */
+    public function getAllUsers($options = array())
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 begin
+		
+        //the users we want are instances of the role
+        $users = array();
+       	foreach($this->allowedRoles as $roleUri){
+           $userClass = new core_kernel_classes_Class($roleUri);
+           foreach($userClass->getInstances(true) as $user){
+           		$users[$user->uriResource] = $user;
+           }
+       	}
+       	
+    	$keyProp = null;
+       	if(isset($options['order'])){
+        	switch($options['order']){
+        		case 'login'		: $prop = PROPERTY_USER_LOGIN; break;
+        		case 'password'		: $prop = PROPERTY_USER_PASSWORD; break;
+        		case 'uilg'			: $prop = PROPERTY_USER_UILG; break;
+        		case 'deflg'		: $prop = PROPERTY_USER_DEFLG; break;
+        		case 'mail'			: $prop = PROPERTY_USER_MAIL; break;
+        		case 'firstname'	: $prop = PROPERTY_USER_FIRTNAME; break;
+        		case 'lastname'		: $prop = PROPERTY_USER_LASTNAME; break;
+        	}
+        	$keyProp = new core_kernel_classes_Property($prop);
+        }
+       
+        $index = 0;
+        foreach($users as $user){
+        	$key = $index;
+        	if(!is_null($keyProp)){
+        		//$key = $user->getUniquePropertyValue($keyProp);
+        	}
+        	$returnValue[$key] = $user;
+        	$index++;
+        }
+       // var_dump($returnValue);
+    	if(isset($options['orderDir'])){
+   			if(strtolower($options['orderDir']) == 'asc'){
+   				sort($returnValue);
+   			}   
+   			else{
+   				rsort($returnValue);
+   			}  		
+        }
+        (isset($options['start'])) 	? $start = $options['start'] 	: $start = 0;
+        (isset($options['end']))	? $end	= $options['end']		: $end	= count($returnValue);
+        
+       $returnValue = array_slice($returnValue, $start, $end, true);
+        
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Save (insert or update) the user in parameter
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource user
+     * @param  array properties
+     * @return boolean
+     */
+    public function saveUser( core_kernel_classes_Resource $user = null, $properties = array())
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D53 begin
+		
+		if(is_null($user)){		//insert
+			if(count($this->allowedRoles) == 1){
+				$user = $this->createInstance(new core_kernel_classes_Class($this->allowedRoles[0]));
+			}
+		}
+		
+		if(!is_null($user)){
+			$returnValue = $this->bindProperties($user, $properties);
+		}
+		
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D53 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method removeUser
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource user
+     * @return boolean
+     */
+    public function removeUser( core_kernel_classes_Resource $user)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D56 begin
+        if(!is_null($user)){
+			$returnValue = $this->generisUserService->removeUser($user);
+		}
+        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D56 end
 
         return (bool) $returnValue;
     }

@@ -80,7 +80,7 @@ abstract class CommonModule extends Module {
 	 * @return boolean
 	 */
 	protected function _isAllowed(){
-		return tao_models_classes_UserService::isASessionOpened();	//if a user is logged in
+		return core_kernel_users_Service::singleton()->isASessionOpened();	//if a user is logged in
 	}
 	
 }

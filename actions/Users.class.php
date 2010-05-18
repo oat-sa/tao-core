@@ -19,12 +19,7 @@ class Users extends CommonModule {
 	public function __construct(){		
 		
 		$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');;
-    	if($taoService->isLoaded('wfEngine')){
-			$this->userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
-    	}
-    	else{
-    		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
-    	}
+    	$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 		$this->defaultData();
 	}
 
@@ -68,42 +63,39 @@ class Users extends CommonModule {
 			$page = $total_pages; 
 		}
 		
-		$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');;
-    	$enableWfUsers = $taoService->isLoaded('wfEngine');
-    	if($enableWfUsers){
-    		$wfUserService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
-    	}
+		$loginProperty 		= new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
+		$firstNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME);
+		$lastNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_LASTNAME);
+		$mailProperty 		= new core_kernel_classes_Property(PROPERTY_USER_MAIL);
+		$deflgProperty 		= new core_kernel_classes_Property(PROPERTY_USER_DEFLG);
+		$uilgProperty 		= new core_kernel_classes_Property(PROPERTY_USER_UILG);
 		
 		$response = new stdClass();
 		$response->page = $page; 
 		$response->total = $total_pages; 
 		$response->records = $count; 
-		foreach($users as $i => $user) { 
+		$i = 0; 
+		foreach($users as $user) { 
+			$login 		= (string)$user->getUniquePropertyValue($loginProperty);
+			$firstName 	= (string)$user->getOnePropertyValue($firstNameProperty);
+			$lastName 	= (string)$user->getOnePropertyValue($lastNameProperty);
+			$mail 		= (string)$user->getOnePropertyValue($mailProperty);
+			$defLg 		= (string)$user->getOnePropertyValue($deflgProperty);
+			$uiLg 		= (string)$user->getOnePropertyValue($uilgProperty);
 			
-			$acl = array();
-			if($user['admin'] == '1'){
-				$acl[] = "<img src='".BASE_WWW."img/tao_ico.png' title='".__('TAO Admin tools')."'  alt='".__('TAO Admin tools')."' />";
-			}
-			if($enableWfUsers){
-				$wfUser = $wfUserService->getOneWfUser($user['login']);
-				if(!is_null($wfUser)){
-					$acl[] = "<img src='".BASE_WWW."img/wf_ico.png' title='".__('Process engine')."'  alt='".__('Process engin')."' />";
-				}
-			}
-			
-			$response->rows[$i]['id']= $user['login']; 
+			$response->rows[$i]['id']= $login;
 			$response->rows[$i]['cell']= array(
-				"<img src='".BASE_WWW."img/user_go.png' alt='".__('Active user')."' />",
-				$user['login'],
-				$user['FirstName'].' '.$user['LastName'],
-				$user['E_Mail'],
-				$user['Company'],
-				implode(' | ', $acl),
-				__($user['Deflg']),
-				__($user['Uilg']),
-				"<a href='#' onclick='editUser(\"".$user['login']."\");'><img src='".BASE_WWW."img/pencil.png' alt='".__('Edit user')."' title='".__('edit')."' /></a>&nbsp;|&nbsp;" .
-				"<a href='#' onclick='if(confirm(\"".__('Please confirm user deletion')."\")){ window.location=\""._url('delete', 'Users', 'tao', array('login' => $user['login']))."\"; }' ><img src='".BASE_WWW."img/delete.png' alt='".__('Delete user')."' title='".__('delete')."' /></a>"
+				$login,
+				$firstName.' '.$lastName,
+				$mail,
+				'',
+				'',
+				__($defLg),
+				__($uiLg),
+				"<a href='#' onclick='editUser(\"".tao_helpers_Uri::encode($user->uriResource)."\");'><img src='".BASE_WWW."img/pencil.png' alt='".__('Edit user')."' title='".__('edit')."' /></a>&nbsp;|&nbsp;" .
+				"<a href='#' onclick='removeUser(\"".tao_helpers_Uri::encode($user->uriResource)."\");' ><img src='".BASE_WWW."img/delete.png' alt='".__('Delete user')."' title='".__('delete')."' /></a>"
 			);
+			$i++;
 		} 
 		echo json_encode($response); 
 	}
@@ -115,8 +107,9 @@ class Users extends CommonModule {
 	 */
 	public function delete(){
 		$message = __('An error occured during user deletion');
-		if($this->hasRequestParameter('login')){
-			if($this->userService->removeUser($this->getRequestParameter('login'))){
+		if($this->hasRequestParameter('uri')){
+			$user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+			if($this->userService->removeUser($user)){
 				$message = __('User deleted successfully');
 			}
 		}
@@ -162,12 +155,12 @@ class Users extends CommonModule {
 	 */
 	public function edit(){
 		
-		if(!$this->hasRequestParameter('login')){
-			throw new Exception('Please set the user login in request parameter');
+		if(!$this->hasRequestParameter('uri')){
+			throw new Exception('Please set the user uri in request parameter');
 		}
 		
 		$myFormContainer = new tao_actions_form_Users(
-			$this->userService->getOneUser($this->getRequestParameter('login')),
+			new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri'))),
 			array('mode' => 'edit')
 		);
 		$myForm = $myFormContainer->getForm();

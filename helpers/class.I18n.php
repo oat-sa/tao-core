@@ -60,6 +60,12 @@ class tao_helpers_I18n
         // section 127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7C begin
 		
 		self::$langCode = $langCode;
+		
+		
+		//only for backward compatibility
+		$_SESSION['lang'] = self::$langCode;
+
+		//init the ClearFw l10n tools
 		l10n::init();
 		l10n::set(BASE_PATH.'/locales/'.self::$langCode.'/messages');
 		
@@ -68,9 +74,27 @@ class tao_helpers_I18n
 			TAOBASE_WWW . 'js/i18n.js',
 		));
 		
-		$_SESSION['lang'] = self::$langCode;
-		
         // section 127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7C end
+    }
+
+    /**
+     * Short description of method getLangCode
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return string
+     */
+    public static function getLangCode()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FAA begin
+        
+        $returnValue = self::$langCode;
+        
+        // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FAA end
+
+        return (string) $returnValue;
     }
 
 } /* end of class tao_helpers_I18n */

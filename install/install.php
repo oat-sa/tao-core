@@ -15,6 +15,7 @@ if (isset($_SERVER['CONFIG_PATH'])) {
 require_once CONFIG_PATH.'/config.php.in';
 require_once INCLUDES_PATH.'/adodb/adodb-exceptions.inc.php';
 require_once INCLUDES_PATH.'/adodb/adodb.inc.php';
+require_once 'utils.php'; 
 
 if (empty($_POST))
 {
@@ -219,63 +220,4 @@ function install($param){
 	echo "<br/><center><a href='/tao'>Go to TAO</a></center>";
 }
 
-function writeConfigValue($name,$val,&$str)
-{
-	$val = str_replace("'","\'",$val);
-	$str = preg_replace('/(\''.$name.'\')(.*?)$/ms','$1,\''.$val.'\');',$str);
-}
-
-function loadSqlReplaceNS($pFile, $con,$namespace){
-	if ($file = @fopen($pFile, "r")){
-		$ch = "";
-
-		while (!feof ($file)){
-			$line = utf8_decode(fgets($file));
-
-			if (isset($line[0]) && ($line[0] != '#') && ($line[0] != '-')){
-				$ch = $ch.$line;
-			}
-		}
-
-		$requests = explode(";", $ch);
-		unset($requests[count($requests)-1]);
-		foreach($requests as $request){
-			$request = str_replace("##NAMESPACE",$namespace,$request);
-			$con->Execute($request);
-
-		}
-
-		fclose($file);
-	}
-	else{
-		die("File not found".$pFichier);
-	}
-}
-
-
-function loadSql($pFile, $con) {
-	if ($file = @fopen($pFile, "r")){
-		$ch = "";
-
-		while (!feof ($file)){
-			$line = utf8_decode(fgets($file));
-
-			if (isset($line[0]) && ($line[0] != '#') && ($line[0] != '-')){
-				$ch = $ch.$line;
-			}
-		}
-
-		$requests = explode(";", $ch);
-		unset($requests[count($requests)-1]);
-		foreach($requests as $request){
-			$con->Execute($request);
-
-		}
-
-		fclose($file);
-	}
-	else{
-		die("File not found".$pFichier);
-	}
-}
 ?>

@@ -50,7 +50,7 @@ class Main extends CommonModule {
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				if($this->userService->loginUser($myForm->getValue('login'), $myForm->getValue('password'))){
+				if($this->userService->loginUser($myForm->getValue('login'), md5($myForm->getValue('password')))){
 					$this->redirect(_url('index', 'Main'));	
 				}
 				else{
@@ -109,13 +109,7 @@ class Main extends CommonModule {
 		}
 		$this->setData('currentExtension', $currentExtension);
 		
-		$user = $this->userService->getCurrentUser();
-		if(isset($user['login'])){
-			$this->setData('user_lang', $this->userService->getUserLanguage($user['login']));
-		}
-		else{
-			$this->setData('user_lang', $this->userService->getDefaultLanguage());
-		}
+		$this->setData('user_lang', tao_helpers_I18n::getLangCode());
 		
 		$this->setView('layout.tpl');
 	}
