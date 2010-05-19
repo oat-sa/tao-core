@@ -49,6 +49,40 @@ class tao_actions_form_Users
     // --- OPERATIONS ---
 
     /**
+     * Short description of method __construct
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class clazz
+     * @param  Resource user
+     * @return mixed
+     */
+    public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $user = null)
+    {
+        // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F43 begin
+        
+    	if(is_null($clazz)){
+    		throw new Exception('Set the user class in the parameters');	
+    	}
+    	
+    	$options = array();
+    	$service = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
+    	if(!is_null($user)){
+			$options['mode'] = 'edit';
+    	}
+    	else{
+    		$user = $service->createInstance($clazz);
+			$options['mode'] = 'add';
+    	}
+    	tao_helpers_form_GenerisFormFactory::$topLevelClass = CLASS_GENERIS_USER;
+    	$this->form = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $user, 'users');
+    	
+    	parent::__construct(array(), $options);
+    	
+        // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F43 end
+    }
+
+    /**
      * Short description of method initForm
      *
      * @access protected
@@ -59,10 +93,6 @@ class tao_actions_form_Users
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFA begin
 		
-    	//check if the wfENgine extension is loaded
-    	$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');;
-    	
-		$this->form = tao_helpers_form_FormFactory::getForm('users');
 		$this->form->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFA end

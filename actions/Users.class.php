@@ -18,7 +18,6 @@ class Users extends CommonModule {
 	 */
 	public function __construct(){		
 		
-		$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');;
     	$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 		$this->defaultData();
 	}
@@ -88,8 +87,6 @@ class Users extends CommonModule {
 				$login,
 				$firstName.' '.$lastName,
 				$mail,
-				'',
-				'',
 				__($defLg),
 				__($uiLg),
 				"<a href='#' onclick='editUser(\"".tao_helpers_Uri::encode($user->uriResource)."\");'><img src='".BASE_WWW."img/pencil.png' alt='".__('Edit user')."' title='".__('edit')."' /></a>&nbsp;|&nbsp;" .
@@ -159,10 +156,9 @@ class Users extends CommonModule {
 			throw new Exception('Please set the user uri in request parameter');
 		}
 		
-		$myFormContainer = new tao_actions_form_Users(
-			new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri'))),
-			array('mode' => 'edit')
-		);
+		$user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+		
+		$myFormContainer = new tao_actions_form_Users($this->userService->getClass($user), $user);
 		$myForm = $myFormContainer->getForm();
 		
 		if($myForm->isSubmited()){
@@ -194,29 +190,6 @@ class Users extends CommonModule {
 		$this->setData('formTitle', __('Edit a user'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('user/form.tpl');
-	}
-	
-	/**
-	 * restore the default user
-	 * @return void
-	 */
-	public function restore(){
-		$defaultUser = array(
-				'login'		=> 'tao',
-				'password'	=> md5('tao'),
-				'LastName'	=> '',
-				'FirstName' => '',
-				'E_Mail'	=> '',
-				'Company'	=> '',
-				'Deflg'		=> 'EN'
-			);
-		
-		$message = __('Unable to restore default user');
-		if($this->userService->saveUser($defaultUser)){
-			$message = __('User restored successfully');
-		}
-		
-		$this->redirect(_url('index', 'Main', 'tao', array('extension' => 'users', 'message' => $message)));
 	}
 	
 }

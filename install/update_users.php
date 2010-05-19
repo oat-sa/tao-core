@@ -9,13 +9,6 @@
 if(PHP_SAPI == 'cli'){
 	$_SERVER['HTTP_HOST'] = 'http://localhost';
 	$_SERVER['DOCUMENT_ROOT'] = dirname(__FILE__).'/../..';
-	if(isset($_SERVER['argv'][1])){
-		$version = $_SERVER['argv'][1];
-	}
-}
-
-if(isset($_GET['version'])){
-	$version = $_GET['version'];
 }
 	
 require_once dirname(__FILE__).'/../../generis/common/inc.extension.php';	
@@ -24,11 +17,11 @@ require_once dirname(__FILE__).'/utils.php';
 
 $dbWrapper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
 
-$updateFiles = array();
-foreach(glob(dirname(__FILE__).'/update/'.$version.'/*') as $path){
-		$updateFiles[basename($path)] = $path;
-}
-ksort($updateFiles);	
+
+$updateFiles = array(
+	'00_generisUser.sql'	=> dirname(__FILE__).'/update/1.2/00_generisUser.sql',
+	'00_usersManagement.php'	=> dirname(__FILE__).'/update/1.2/00_usersManagement.php'
+);
 foreach($updateFiles as $file => $path){
 	if(preg_match("/\.php$/", $file)){
 		include $path;
@@ -36,5 +29,7 @@ foreach($updateFiles as $file => $path){
 	if(preg_match("/\.sql$/", $file)){
 		loadSql($path, $dbWrapper->dbConnector);
 	}
+
 }
+
 ?>

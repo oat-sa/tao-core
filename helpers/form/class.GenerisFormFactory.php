@@ -56,6 +56,14 @@ class tao_helpers_form_GenerisFormFactory
     const DEFAULT_TOP_LEVEL_CLASS = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject';
 
     /**
+     * Short description of attribute topLevelClass
+     *
+     * @access public
+     * @var string
+     */
+    public static $topLevelClass = '';
+
+    /**
      * a list of forms currently instanciated with the factory (can be used to
      * multiple forms)
      *
@@ -89,6 +97,31 @@ class tao_helpers_form_GenerisFormFactory
     protected static $mode = 2;
 
     // --- OPERATIONS ---
+
+    /**
+     * Short description of method getTopClass
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return core_kernel_classes_Class
+     */
+    public static function getTopClass()
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F68 begin
+        
+        if(!empty(self::$topLevelClass)){
+        	$returnValue = new core_kernel_classes_Class(self::$topLevelClass);
+        }
+        else{
+        	$returnValue = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
+        }
+        
+        // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F68 end
+
+        return $returnValue;
+    }
 
     /**
      * Create a form from a class of your ontology, the form data comes from the
@@ -130,7 +163,7 @@ class tao_helpers_form_GenerisFormFactory
 			$defaultProperties 	= self::getDefaultProperties();
 			
 			$editedProperties = $defaultProperties;
-			foreach(self::getClassProperties($clazz, new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS)) as $property){
+			foreach(self::getClassProperties($clazz, self::getTopClass()) as $property){
 				$found = false;
 				foreach($editedProperties as $editedProperty){
 					if($editedProperty->uriResource == $property->uriResource){
@@ -363,7 +396,7 @@ class tao_helpers_form_GenerisFormFactory
 		$filters[] = 'desc';
 		
 		$defaultProperties 	= self::getDefaultProperties();
-		$classProperties	= self::getClassProperties($clazz, new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS));
+		$classProperties	= self::getClassProperties($clazz, self::getTopClass());
 		
 		$properties = array_merge($defaultProperties, $classProperties);
 		
@@ -477,7 +510,7 @@ class tao_helpers_form_GenerisFormFactory
 			
 			//class properties edition: add a group form for each property
 			if(is_null($topClazz)){
-				$topClazz = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
+				$topClazz = self::getTopClass();
 			}
 			$i = 0;
 			foreach(self::getClassProperties($clazz, $topClazz) as $classProperty){

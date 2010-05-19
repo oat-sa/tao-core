@@ -133,7 +133,7 @@ function install($param){
 		
 
 	} catch (exception $e) {
-		$message .= urlencode("<b>Problem found </b> : <br/>". str_split($e->getMessage(),100) . "<br/>");
+		$message .= urlencode("<b>Problem found </b> : <br/>". substr($e->getMessage(),0 ,200) . "<br/>");
 		header('Location:http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].
 							'?message='.$message . 
 							'&dbhost='.urlencode($param["dbhost"]) .
@@ -152,6 +152,7 @@ function install($param){
 							'&email='. urlencode($param["email"])
 
 		);
+		exit;
 		var_dump($e);
 		adodb_backtrace($e->gettrace());
 	}
