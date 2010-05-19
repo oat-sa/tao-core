@@ -160,6 +160,7 @@ class Users extends CommonModule {
 		
 		$myFormContainer = new tao_actions_form_Users($this->userService->getClass($user), $user);
 		$myForm = $myFormContainer->getForm();
+		var_dump($myForm);
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){

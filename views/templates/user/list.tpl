@@ -20,7 +20,6 @@ function editUser(uri){
 	index = getTabIndexByName('edit_user');
 	if(index && uri){
 		editUrl = "<?=_url('edit', 'Users', 'tao')?>" + '?uri=' + uri;
-		console.log(editUrl);
 		UiBootstrap.tabs.tabs('url', index, editUrl);
 		UiBootstrap.tabs.tabs('enable', index);
 		selectTabByName('edit_user');

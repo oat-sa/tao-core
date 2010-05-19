@@ -152,8 +152,15 @@ class tao_models_classes_UserService
 				if($this->generisUserService->loginApi($userUri)){
 				
 					$currentUser = $this->getCurrentUser();
+					
+					
+					
 					if(!is_null($currentUser)){
 						try{
+							$login 			= (string)$currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
+	        				$password 		= (string)$currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD));
+							core_control_FrontController::connect($login, $password, DATABASE_NAME);
+							
 							$defaultLang 	= core_kernel_classes_DbWrapper::singleton(DATABASE_NAME)->getSetting('Deflg');
 							$uiLang   		= $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
 							$dataLang 		= $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
@@ -170,6 +177,7 @@ class tao_models_classes_UserService
 						if(in_array($uiLang, $GLOBALS['available_langs'])){
 							Session::setAttribute('ui_lang', $uiLang);
 						}
+						$returnValue = true;
 					}
 				}
 			}

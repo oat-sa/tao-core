@@ -27,7 +27,11 @@ $todefine = array(
 	'INSTANCE_BOOLEAN_FALSE'		=> 'http://www.tao.lu/Ontologies/generis.rdf#False',
 	'TAO_LIST_CLASS'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#List',
 	'TAO_LIST_LEVEL_PROP'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#level',
-	'INSTANCE_ROLE_TAOMANAGER'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole'
+	'INSTANCE_ROLE_TAOMANAGER'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
+	'INSTANCE_ROLE_BACKOFFICE'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice',
+	'INSTANCE_ROLE_FRONTOFFICE'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#FrontOffice',
+	'INSTANCE_ROLE_SUBJECT'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole'
+	
 );
 foreach($todefine as $constName => $constValue){
 	if(!defined($constName)){

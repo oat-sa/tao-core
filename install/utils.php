@@ -55,7 +55,7 @@ function loadSql($pFile, $con) {
 		fclose($file);
 	}
 	else{
-		die("File not found".$pFichier);
+		die("File not found".$pFile);
 	}
 }
 ?>
