@@ -162,13 +162,13 @@ class tao_models_classes_UserService
 							
 							$uiLang   		= $GLOBALS['default_lang'];
 							$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
-							if(!is_null($uiLg)){
+							if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource){
 								$uiLang = $uiLg->getLabel();
 							}
 							
 							$dataLang   		= $GLOBALS['default_lang'];
 							$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
-							if(!is_null($dataLg)){
+							if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
 								$dataLang = $dataLg->getLabel();
 							}
 						}
