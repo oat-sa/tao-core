@@ -75,32 +75,35 @@ class Users extends CommonModule {
 		$response->records = $count; 
 		$i = 0; 
 		foreach($users as $user) { 
-			$login 		= (string)$user->getUniquePropertyValue($loginProperty);
-			$firstName 	= (string)$user->getOnePropertyValue($firstNameProperty);
-			$lastName 	= (string)$user->getOnePropertyValue($lastNameProperty);
-			$email 		= (string)$user->getOnePropertyValue($mailProperty);
-			$defLg 		= $user->getOnePropertyValue($deflgProperty);
-			$uiLg 		= $user->getOnePropertyValue($uilgProperty);
-			
-			$defaultLang = '';
-			if(!is_null($defLg)){
-				$defaultLang = __($defLg->getLabel());
+			try{
+				$login 		= (string)$user->getUniquePropertyValue($loginProperty);
+				$firstName 	= (string)$user->getOnePropertyValue($firstNameProperty);
+				$lastName 	= (string)$user->getOnePropertyValue($lastNameProperty);
+				$email 		= (string)$user->getOnePropertyValue($mailProperty);
+				$defLg 		= $user->getOnePropertyValue($deflgProperty);
+				$uiLg 		= $user->getOnePropertyValue($uilgProperty);
+				
+				$defaultLang = '';
+				if(!is_null($defLg)){
+					$defaultLang = __($defLg->getLabel());
+				}
+				$uiLang = '';
+				if(!is_null($uiLg)){
+					$uiLang = __($uiLg->getLabel());
+				}
+				
+				$response->rows[$i]['id']= tao_helpers_Uri::encode($user->uriResource);
+				$response->rows[$i]['cell']= array(
+					$login,
+					$firstName.' '.$lastName,
+					$email,
+					$defaultLang,
+					$uiLang,
+					''
+				);
+				$i++;
 			}
-			$uiLang = '';
-			if(!is_null($uiLg)){
-				$uiLang = __($uiLg->getLabel());
-			}
-			
-			$response->rows[$i]['id']= tao_helpers_Uri::encode($user->uriResource);
-			$response->rows[$i]['cell']= array(
-				$login,
-				$firstName.' '.$lastName,
-				$email,
-				$defaultLang,
-				$uiLang,
-				''
-			);
-			$i++;
+			catch(common_Exception $ce){}
 		} 
 		echo json_encode($response); 
 	}
@@ -127,7 +130,7 @@ class Users extends CommonModule {
 	 */
 	public function add(){
 		
-		$myFormContainer = new tao_actions_form_Users(array(), array('mode' => 'add'));
+		$myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(INSTANCE_ROLE_TAOMANAGER));
 		$myForm = $myFormContainer->getForm();
 		
 		if($myForm->isSubmited()){

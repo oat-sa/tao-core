@@ -312,9 +312,7 @@ abstract class tao_helpers_form_Form
     {
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AE begin
 		
-		if($element->getLevel() == 1){
-			$element->setLevel(count($this->elements) + 2);
-		}
+		
 		$this->elements[] = $element;
 		
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AE end
@@ -586,16 +584,6 @@ abstract class tao_helpers_form_Form
     {
         // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4E begin
 		
-		$tosort = array();
-		foreach($this->elements as $i => $element){
-			$tosort['0'.$element->getLevel()] = $element;	//force string key
-		}
-		ksort($tosort);											//sort by key
-		$this->elements = array();							
-		foreach($tosort as $element){
-			array_push($this->elements, $element); 
-		}
-		unset($tosort);
 		
         // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4E end
     }

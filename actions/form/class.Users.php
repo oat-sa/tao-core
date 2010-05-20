@@ -110,13 +110,13 @@ class tao_actions_form_Users
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC begin
 		
     	
-    	/*
+    	
 		if(!isset($this->options['mode'])){
 			throw new Exception("Please set a mode into container options ");
 		}
 		
 		//login field
-		$loginElement = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
+		$loginElement = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));
 		$loginElement->setDescription(__('Login *'));
 		if($this->options['mode'] == 'add'){
 			$loginElement->addValidators(array(
@@ -131,7 +131,6 @@ class tao_actions_form_Users
 		else{
 			$loginElement->setAttributes(array('readonly' => 'true'));
 		}
-		$this->form->addElement($loginElement);
 		
 		//password field
 		if($this->options['mode'] == 'add'){
@@ -198,8 +197,7 @@ class tao_actions_form_Users
 			
 			$this->form->createGroup("pass_group", __("Change your password"), array('password0', 'password1', 'password2', 'password3'));
 		}
-		*/
-		
+		$this->form->removeElement(tao_helpers_Uri::encode(PROPERTY_USER_PASSWORD));
 		
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC end

@@ -159,10 +159,7 @@ class tao_helpers_form_GenerisFormFactory
 			}
 			$myForm->setActions($topActions, 'top');
 			
-			$level = 2;
 			$defaultProperties 	= self::getDefaultProperties();
-			
-			
 			$editedProperties = $defaultProperties;
 			foreach(self::getClassProperties($clazz, self::getTopClass()) as $property){
 				$found = false;
@@ -176,8 +173,6 @@ class tao_helpers_form_GenerisFormFactory
 					$editedProperties[] = $property;
 				}
 			}
-			
-			$maxLevel = count($editedProperties);
 			foreach($editedProperties as $property){
 				
 				$property->feed();
@@ -202,14 +197,6 @@ class tao_helpers_form_GenerisFormFactory
 							}
 						}
 					}
-					if(in_array($property, $defaultProperties)){
-						$element->setLevel($level);
-						$level++;
-					}
-					else{
-						$element->setLevel($maxLevel + $level);
-						$maxLevel++;
-					}
 					$myForm->addElement($element);
 				}
 			}
@@ -217,14 +204,12 @@ class tao_helpers_form_GenerisFormFactory
 			//add an hidden elt for the class uri
 			$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
 			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
-			$classUriElt->setLevel($level);
 			$myForm->addElement($classUriElt);
 			
 			if(!is_null($instance)){
 				//add an hidden elt for the instance Uri
 				$instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
 				$instanceUriElt->setValue(tao_helpers_Uri::encode($instance->uriResource));
-				$instanceUriElt->setLevel($level+1);
 				$myForm->addElement($instanceUriElt);
 			}
 			
@@ -283,10 +268,8 @@ class tao_helpers_form_GenerisFormFactory
 		$myTranslatedForm->createGroup('translation_info', __('Translation parameters'), array('current_lang', 'translate_lang'));
 		
 		$dataGroup = array();
-		$level = 5;
 		foreach($elements as $element){
 			
-			$element->setLevel($level);
 			if( $element instanceof tao_helpers_form_elements_Hidden ||
 				$element->getName() == 'uri' || $element->getName() == 'classUri'){
 					
@@ -317,14 +300,12 @@ class tao_helpers_form_GenerisFormFactory
 					
 					$translatedElt->setDescription(' ');
 					$translatedElt->setValue('');
-					$translatedElt->setLevel($level + 1);
 					$myTranslatedForm->addElement($translatedElt);
 					
 					$dataGroup[] = $name;
 					$dataGroup[] = $translatedElt->getName();
 				}
 			}
-			$level += 2;
 		}
 		
 		$myTranslatedForm->createGroup('translation_form', __('Translate'), $dataGroup);
@@ -421,7 +402,6 @@ class tao_helpers_form_GenerisFormFactory
 				
 				$myForm->addElement($element);
 				$filters[] = $element->getName();
-			
 			}
 		}
 		$myForm->createGroup('filters', __('Filters'), $filters);
@@ -504,7 +484,6 @@ class tao_helpers_form_GenerisFormFactory
 			$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
 			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
 			$myForm->addElement($classUriElt);
-			
 			
 			$session = core_kernel_classes_Session::singleton();
 			$localNamespace = $session->getNameSpace();
