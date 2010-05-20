@@ -75,35 +75,38 @@ class Users extends CommonModule {
 		$response->records = $count; 
 		$i = 0; 
 		foreach($users as $user) { 
+			$cellData = array();
 			try{
-				$login 		= (string)$user->getUniquePropertyValue($loginProperty);
-				$firstName 	= (string)$user->getOnePropertyValue($firstNameProperty);
-				$lastName 	= (string)$user->getOnePropertyValue($lastNameProperty);
-				$email 		= (string)$user->getOnePropertyValue($mailProperty);
-				$defLg 		= $user->getOnePropertyValue($deflgProperty);
-				$uiLg 		= $user->getOnePropertyValue($uilgProperty);
-				
-				$defaultLang = '';
-				if(!is_null($defLg)){
-					$defaultLang = __($defLg->getLabel());
-				}
-				$uiLang = '';
-				if(!is_null($uiLg)){
-					$uiLang = __($uiLg->getLabel());
-				}
-				
-				$response->rows[$i]['id']= tao_helpers_Uri::encode($user->uriResource);
-				$response->rows[$i]['cell']= array(
-					$login,
-					$firstName.' '.$lastName,
-					$email,
-					$defaultLang,
-					$uiLang,
-					''
-				);
-				$i++;
+				$cellData[0]		= (string)$user->getUniquePropertyValue($loginProperty);
 			}
-			catch(common_Exception $ce){}
+			catch(common_Exception $ce){
+				//Delete users without login!
+				$user->delete();
+				continue;
+			}
+			$firstName 		= (string)$user->getOnePropertyValue($firstNameProperty);
+			$lastName 		= (string)$user->getOnePropertyValue($lastNameProperty);
+			$cellData[1]	= $firstName.' '.$lastName;
+			
+			$cellData[2] 	= (string)$user->getOnePropertyValue($mailProperty);
+			
+			$defLg 			= $user->getOnePropertyValue($deflgProperty);
+			$cellData[3] 	= '';
+			if(!is_null($defLg)){
+				$cellData[3] = __($defLg->getLabel());
+			}
+			
+			$uiLg 			= $user->getOnePropertyValue($uilgProperty);
+			$cellData[4] 	= '';
+			if(!is_null($uiLg)){
+				$cellData[4] = __($uiLg->getLabel());
+			}
+			
+			$cellData[5]	= '';
+			
+			$response->rows[$i]['id']= tao_helpers_Uri::encode($user->uriResource);
+			$response->rows[$i]['cell'] = $cellData;
+			$i++;
 		} 
 		echo json_encode($response); 
 	}
@@ -137,20 +140,36 @@ class Users extends CommonModule {
 			
 			if($myForm->isValid()){
 				$values = $myForm->getValues();
-				$values['password'] = md5($values['password1']);
+				$values[PROPERTY_USER_PASSWORD] = md5($values['password1']);
 				unset($values['password1']);
 				unset($values['password2']);
-				
-				
-				if($this->userService->saveUser($values)){
+				var_dump($values);
+				if($this->userService->saveUser($myFormContainer->getUser(), $values)){
 					$this->setData('message', __('User added'));
 					$this->setData('exit', true);
 				}
 			}
 		}
+		$this->setData('loginUri', tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));
 		$this->setData('formTitle', __('Add a user'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('user/form.tpl');
+	}
+	
+	/**
+	 * action used to check if a login can be used
+	 * @return void
+	 */
+	public function checkLogin(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$data = array('available' => false);
+		if($this->hasRequestParameter('login')){
+			$data['available'] = $this->userService->loginAvailable($this->getRequestParameter('login'));
+		}
+		echo json_encode($data);
 	}
 	
 	/**
@@ -174,17 +193,15 @@ class Users extends CommonModule {
 				$values = $myForm->getValues();
 				
 				if(!empty($values['password1']) && !empty($values['password2'])){
-					$values['password'] = md5($values['password2']);
+					$values[PROPERTY_USER_PASSWORD] = md5($values['password2']);
 				}
-				else{
-					$values['password'] = $values['password0'];
-				}
+				
 				unset($values['password0']);
 				unset($values['password1']);
 				unset($values['password2']);
 				unset($values['password3']);
 				
-				if($this->userService->saveUser($values)){
+				if($this->userService->saveUser($user, $values)){
 					$this->setData('message', __('User saved'));
 					$this->setData('exit', true);
 				}

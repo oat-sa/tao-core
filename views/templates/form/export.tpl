@@ -17,13 +17,13 @@ $(document).ready(function(){
 		datatype: "json",
 		colNames: [__('Name'),__('File'), __('Date'), __('Actions')] ,
 		colModel: [
-			{name:'name',index:'name', width:200, align:"left"},
-			{name:'path',index:'path', width:350, align:"left"},
-			{name:'date',index:'date', width:200, align:"center"},
-			{name:'actions',index:'actions', width:300, align:"center", sortable: false}
+			{name:'name',index:'name',  align:"left"},
+			{name:'path',index:'path',  align:"left"},
+			{name:'date',index:'date',  align:"center"},
+			{name:'actions',index:'actions', align:"center", sortable: false}
 		], 
 		rowNum: 20, 
-		width: '100%', 
+		width: '', 
 		pager: '#files-list-pager', 
 		sortname: 'name', 
 		viewrecords: false, 

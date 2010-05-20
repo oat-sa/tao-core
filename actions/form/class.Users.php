@@ -46,6 +46,14 @@ class tao_actions_form_Users
 
     // --- ATTRIBUTES ---
 
+    /**
+     * Short description of attribute user
+     *
+     * @access protected
+     * @var Resource
+     */
+    protected $user = null;
+
     // --- OPERATIONS ---
 
     /**
@@ -68,18 +76,41 @@ class tao_actions_form_Users
     	$options = array();
     	$service = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
     	if(!is_null($user)){
+    		$this->user = $user;
 			$options['mode'] = 'edit';
     	}
     	else{
-    		$user = $service->createInstance($clazz);
+    		$this->user = $service->createInstance($clazz);
 			$options['mode'] = 'add';
     	}
+    	
     	tao_helpers_form_GenerisFormFactory::$topLevelClass = CLASS_GENERIS_USER;
-    	$this->form = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $user, 'users');
+    	$this->form = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $this->user, 'users');
+    	tao_helpers_form_GenerisFormFactory::$topLevelClass = '';
     	
     	parent::__construct(array(), $options);
     	
         // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F43 end
+    }
+
+    /**
+     * Short description of method getUser
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return core_kernel_classes_Resource
+     */
+    public function getUser()
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--65048268:128b57ca3f4:-8000:0000000000001F6B begin
+        
+        $returnValue = $this->user;
+        
+        // section 127-0-1-1--65048268:128b57ca3f4:-8000:0000000000001F6B end
+
+        return $returnValue;
     }
 
     /**
@@ -133,6 +164,9 @@ class tao_actions_form_Users
 		}
 		
 		//password field
+		
+		$this->form->removeElement(tao_helpers_Uri::encode(PROPERTY_USER_PASSWORD));
+		
 		if($this->options['mode'] == 'add'){
 			$pass1Element = tao_helpers_form_FormFactory::getElement('password1', 'Hiddenbox');
 			$pass1Element->setDescription(__('Password *'));
@@ -159,10 +193,16 @@ class tao_actions_form_Users
 				}
 			}
 			
+			
 			$pass0Element = tao_helpers_form_FormFactory::getElement('password0', 'Hidden');
-			if(isset($this->data['password'])){
-				$pass0Element->setValue($this->data['password']);
+			try{
+				$passwordValue = $this->user->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD));
 			}
+			catch(common_Exception $ce){
+				$passwordValue = md5('');
+			}
+			$pass0Element->setValue($passwordValue);
+			
 			$this->form->addElement($pass0Element);
 			
 			$pass1Element = tao_helpers_form_FormFactory::getElement('password1', 'Hiddenbox');
@@ -197,7 +237,7 @@ class tao_actions_form_Users
 			
 			$this->form->createGroup("pass_group", __("Change your password"), array('password0', 'password1', 'password2', 'password3'));
 		}
-		$this->form->removeElement(tao_helpers_Uri::encode(PROPERTY_USER_PASSWORD));
+		
 		
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC end

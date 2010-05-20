@@ -39,25 +39,31 @@ $(function(){
 		colModel:[ 
 			{name:'login',index:'login'}, 
 			{name:'name',index:'name'}, 
-			{name:'email',index:'email'}, 
+			{name:'email',index:'email', width: '200'}, 
 			{name:'deflg',index:'deflg', align:"center"},
 			{name:'uilg',index:'uilg', align:"center"},
 			{name:'actions',index:'actions', align:"center", sortable: false}
 		], 
 		rowNum:20, 
 		height:300, 
+		width:'',
 		pager: '#user-list-pager', 
 		sortname: 'login', 
 		viewrecords: false, 
 		sortorder: "asc", 
 		caption: __("Users"),
 		gridComplete: function(){
-			console.log(myGrid.getDataIDs());
 			$.each(myGrid.getDataIDs(), function(index, elt){
 				myGrid.setRowData(elt, {
-					actions: "<a href='#' onclick='editUser(\""+elt+"\");'><img src='<?=BASE_WWW?>img/pencil.png' alt='<?=__('Edit user')?>' title='<?=__('edit')?>' /></a>&nbsp;|&nbsp;" +
-					"<a href='#' onclick='removeUser(\""+elt+"\");' ><img src='<?=BASE_WWW?>img/delete.png' alt='<?=__('Delete user')?>' title='<?=__('delete')?>' /></a>"
+					actions: "<a id='user_editor_"+elt+"' href='#' class='user_editor nd' ><img class='icon' src='<?=BASE_WWW?>img/pencil.png' alt='<?=__('Edit user')?>' /><?=__('Edit')?></a>&nbsp;|&nbsp;" +
+					"<a id='user_deletor_"+elt+"' href='#' class='user_deletor nd' ><img class='icon' src='<?=BASE_WWW?>img/delete.png' alt='<?=__('Delete user')?>' /><?=__('Delete')?></a>"
 				});
+			});
+			$(".user_editor").click(function(){
+				editUser(this.id.replace('user_editor_', ''));
+			});
+			$(".user_deletor").click(function(){
+				removeUser(this.id.replace('user_deletor_', ''));
 			});
 		}
 	});
