@@ -162,8 +162,18 @@ class tao_models_classes_UserService
 							core_control_FrontController::connect($login, $password, DATABASE_NAME);
 							
 							$defaultLang 	= core_kernel_classes_DbWrapper::singleton(DATABASE_NAME)->getSetting('Deflg');
-							$uiLang   		= $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
-							$dataLang 		= $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
+							
+							$uiLang   		= $GLOBALS['default_lang'];
+							$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
+							if(!is_null($uiLg)){
+								$uiLang = $uiLg->getLabel();
+							}
+							
+							$dataLang   		= $GLOBALS['default_lang'];
+							$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
+							if(!is_null($dataLg)){
+								$dataLang = $dataLg->getLabel();
+							}
 						}
 						catch(common_Exception $ce){
 							$defaultLang 	= $GLOBALS['default_lang'];

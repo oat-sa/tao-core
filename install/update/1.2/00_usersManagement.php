@@ -33,8 +33,8 @@ while (!$result-> EOF){
 		$newUserInstance->setPropertyValue($lastNameProp,$result->fields['LastName']);
 		$newUserInstance->setPropertyValue($firstNameProp,$result->fields['FirstName']);
 		$newUserInstance->setPropertyValue($mailProp,$result->fields['E_Mail']);
-		$newUserInstance->setPropertyValue($defLgProp,$result->fields['Deflg']);
-	$newUserInstance->setPropertyValue($uiLgProp,$result->fields['Uilg']);
+		$newUserInstance->setPropertyValue($defLgProp,'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($result->fields['Deflg']));
+		$newUserInstance->setPropertyValue($uiLgProp, 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($result->fields['Uilg']));
 	}
 	$result->MoveNext();
 }

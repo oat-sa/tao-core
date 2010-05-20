@@ -32,7 +32,7 @@ function removeUser(uri){
 }
 $(function(){
 	UiBootstrap.tabs.tabs('disable', getTabIndexByName('edit_user'));
-	$("#user-list").jqGrid({
+	var myGrid = $("#user-list").jqGrid({
 		url: "<?=_url('data', 'Users', 'tao')?>", 
 		datatype: "json", 
 		colNames:[ __('Login'), __('Name'), __('Email'), __('Data Language'), __('Interface Language'), __('Actions')], 
@@ -50,9 +50,19 @@ $(function(){
 		sortname: 'login', 
 		viewrecords: false, 
 		sortorder: "asc", 
-		caption: __("Users")
+		caption: __("Users"),
+		gridComplete: function(){
+			console.log(myGrid.getDataIDs());
+			$.each(myGrid.getDataIDs(), function(index, elt){
+				myGrid.setRowData(elt, {
+					actions: "<a href='#' onclick='editUser(\""+elt+"\");'><img src='<?=BASE_WWW?>img/pencil.png' alt='<?=__('Edit user')?>' title='<?=__('edit')?>' /></a>&nbsp;|&nbsp;" +
+					"<a href='#' onclick='removeUser(\""+elt+"\");' ><img src='<?=BASE_WWW?>img/delete.png' alt='<?=__('Delete user')?>' title='<?=__('delete')?>' /></a>"
+				});
+			});
+		}
 	});
-	$("#user-list").jqGrid('navGrid','#user-list-pager',{edit:false, add:false, del:false});
+	myGrid.navGrid('#user-list-pager',{edit:false, add:false, del:false});
+	
 	_autoFx();
 });
 </script>

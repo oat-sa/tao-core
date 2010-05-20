@@ -162,6 +162,7 @@ class tao_helpers_form_GenerisFormFactory
 			$level = 2;
 			$defaultProperties 	= self::getDefaultProperties();
 			
+			
 			$editedProperties = $defaultProperties;
 			foreach(self::getClassProperties($clazz, self::getTopClass()) as $property){
 				$found = false;
@@ -813,7 +814,9 @@ class tao_helpers_form_GenerisFormFactory
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001937 begin
 		
 		//create the element from the right widget
-		$widgetResource = $property->getWidget();
+		$property->feed();
+		
+        $widgetResource = $property->getWidget();
 		if(is_null($widgetResource)){
 			return null;
 		}

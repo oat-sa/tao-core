@@ -78,19 +78,27 @@ class Users extends CommonModule {
 			$login 		= (string)$user->getUniquePropertyValue($loginProperty);
 			$firstName 	= (string)$user->getOnePropertyValue($firstNameProperty);
 			$lastName 	= (string)$user->getOnePropertyValue($lastNameProperty);
-			$mail 		= (string)$user->getOnePropertyValue($mailProperty);
-			$defLg 		= (string)$user->getOnePropertyValue($deflgProperty);
-			$uiLg 		= (string)$user->getOnePropertyValue($uilgProperty);
+			$email 		= (string)$user->getOnePropertyValue($mailProperty);
+			$defLg 		= $user->getOnePropertyValue($deflgProperty);
+			$uiLg 		= $user->getOnePropertyValue($uilgProperty);
 			
-			$response->rows[$i]['id']= $login;
+			$defaultLang = '';
+			if(!is_null($defLg)){
+				$defaultLang = __($defLg->getLabel());
+			}
+			$uiLang = '';
+			if(!is_null($uiLg)){
+				$uiLang = __($uiLg->getLabel());
+			}
+			
+			$response->rows[$i]['id']= tao_helpers_Uri::encode($user->uriResource);
 			$response->rows[$i]['cell']= array(
 				$login,
 				$firstName.' '.$lastName,
-				$mail,
-				__($defLg),
-				__($uiLg),
-				"<a href='#' onclick='editUser(\"".tao_helpers_Uri::encode($user->uriResource)."\");'><img src='".BASE_WWW."img/pencil.png' alt='".__('Edit user')."' title='".__('edit')."' /></a>&nbsp;|&nbsp;" .
-				"<a href='#' onclick='removeUser(\"".tao_helpers_Uri::encode($user->uriResource)."\");' ><img src='".BASE_WWW."img/delete.png' alt='".__('Delete user')."' title='".__('delete')."' /></a>"
+				$email,
+				$defaultLang,
+				$uiLang,
+				''
 			);
 			$i++;
 		} 
@@ -130,9 +138,6 @@ class Users extends CommonModule {
 				unset($values['password1']);
 				unset($values['password2']);
 				
-				if(isset($values['acl'])){
-					(in_array('tao', $values['acl'])) ? $values['admin'] = '1' : $values['admin'] = '0';
-				}
 				
 				if($this->userService->saveUser($values)){
 					$this->setData('message', __('User added'));
@@ -160,7 +165,6 @@ class Users extends CommonModule {
 		
 		$myFormContainer = new tao_actions_form_Users($this->userService->getClass($user), $user);
 		$myForm = $myFormContainer->getForm();
-		var_dump($myForm);
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
@@ -176,10 +180,6 @@ class Users extends CommonModule {
 				unset($values['password1']);
 				unset($values['password2']);
 				unset($values['password3']);
-				
-				if(isset($values['acl'])){
-					(in_array('tao', $values['acl'])) ? $values['admin'] = '1' : $values['admin'] = '0';
-				}
 				
 				if($this->userService->saveUser($values)){
 					$this->setData('message', __('User saved'));
