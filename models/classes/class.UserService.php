@@ -153,13 +153,10 @@ class tao_models_classes_UserService
 				
 					$currentUser = $this->getCurrentUser();
 					
-					
-					
 					if(!is_null($currentUser)){
 						try{
 							$login 			= (string)$currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
 	        				$password 		= (string)$currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD));
-							core_control_FrontController::connect($login, $password, DATABASE_NAME);
 							
 							$defaultLang 	= core_kernel_classes_DbWrapper::singleton(DATABASE_NAME)->getSetting('Deflg');
 							
