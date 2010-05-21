@@ -39,15 +39,15 @@
 					}
 					else{
 						$.postJson(
-							"<?=_url('checkLogin', 'Users')?>",
+							"<?=_url('checkLogin', 'Users', 'tao')?>",
 							{login: value},
 							function(data){
 								$('.login-info').remove();
 								if(data.available){
-									elt.after("<span class='login-info'><img src='<?=BASE_WWW?>img/tick.png' /></span>");
+									elt.after("<span class='login-info'><img src='<?=TAOBASE_WWW?>img/tick.png' /></span>");
 								}
 								else{
-									elt.after("<span class='login-info ui-state-error'><img src='<?=BASE_WWW?>img/exclamation.png' class='icon' /><?=__('Login not available')?></span>");
+									elt.after("<span class='login-info ui-state-error'><img src='<?=TAOBASE_WWW?>img/exclamation.png' class='icon' /><?=__('Login not available')?></span>");
 								}
 							}
 						);
@@ -56,9 +56,6 @@
 			}
 			
 		<?endif?>
-		
-		
-	
 		
 	});
 	</script>

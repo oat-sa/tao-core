@@ -161,6 +161,7 @@ class tao_helpers_form_GenerisFormFactory
 			
 			$defaultProperties 	= self::getDefaultProperties();
 			$editedProperties = $defaultProperties;
+	
 			foreach(self::getClassProperties($clazz, self::getTopClass()) as $property){
 				$found = false;
 				foreach($editedProperties as $editedProperty){

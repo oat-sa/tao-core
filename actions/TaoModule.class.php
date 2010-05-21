@@ -674,5 +674,31 @@ abstract class TaoModule extends CommonModule {
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
 		$this->setView('form/delete.tpl', true);
 	}
+	
+	/**
+	 * delete an instance or a class
+	 * called via ajax
+	 */
+	public function delete(){
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$deleted = false;
+		if($this->hasRequestParameter('uri')){
+			$instance = $this->getCurrentInstance();
+			if(!is_null($instance)){
+				$deleted = $instance->delete();
+			}
+		}
+		elseif($this->hasRequestParameter('classUri')){
+			$clazz = $this->getCurrentClass();
+			if(!is_null($clazz)){
+				$deleted = $clazz->delete();
+			}
+		}
+		
+		echo json_encode(array('deleted'	=> $deleted));
+	}
 }
 ?>
