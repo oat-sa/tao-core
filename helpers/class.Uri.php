@@ -311,6 +311,24 @@ class tao_helpers_Uri
         return (array) $returnValue;
     }
 
+    /**
+     * Short description of method getUniqueId
+     *
+     * @access public
+     * @author somsack.sipasseuth@tudor.lu
+     * @param  string uriResource
+     * @return string
+     */
+    public static function getUniqueId($uriResource)
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-2045fd08:128b9eb9c51:-8000:0000000000001F71 begin
+        // section 127-0-1-1-2045fd08:128b9eb9c51:-8000:0000000000001F71 end
+
+        return (string) $returnValue;
+    }
+
 } /* end of class tao_helpers_Uri */
 
 ?>
