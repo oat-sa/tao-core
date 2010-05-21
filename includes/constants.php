@@ -30,7 +30,10 @@ $todefine = array(
 	'INSTANCE_ROLE_TAOMANAGER'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
 	'INSTANCE_ROLE_BACKOFFICE'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice',
 	'INSTANCE_ROLE_FRONTOFFICE'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#FrontOffice',
-	'INSTANCE_ROLE_SUBJECT'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole'
+	'INSTANCE_ROLE_SUBJECT'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole',
+	'CLASS_ROLE_FRONTOFFICE'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#FrontOffice',
+	'CLASS_ROLE_BACKOFFICE' => 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice',
+	'INSTANCE_ROLE_WORKFLOWUSER'  => 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole'
 	
 );
 foreach($todefine as $constName => $constValue){
