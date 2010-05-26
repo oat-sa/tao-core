@@ -34,7 +34,7 @@
 					</fieldset>
 				</div>
 			</td>
-			<?if($i>0 and $i%4==0):?></tr><?endif?>
+			<?if($i>4 and $i%4==0):?></tr><?endif?>
 		<?endforeach?>
 		</table>
 		<br />

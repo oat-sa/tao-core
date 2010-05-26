@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>TAO Service</title>
-	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="<?=TAOBASE_WWW?>img/favicon.ico" type="image/x-icon" />
 	
 	<script type='text/javascript'>
 		var jsPath 	= '<?=BASE_WWW?>js/';

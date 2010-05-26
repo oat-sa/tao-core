@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri May 21 11:59:15 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed May 26 18:04:59 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.1(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -27718,6 +27718,202 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         <UML:Class xmi.idref = '127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFA'/>
                       </UML:Generalization.parent>
                     </UML:Generalization>
+                    <UML:Class xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5B'
+                      name = 'ActivityExecutionService' visibility = 'public' isSpecification = 'false'
+                      isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                      <UML:ModelElement.taggedValue>
+                        <UML:TaggedValue xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F73'
+                          isSpecification = 'false'>
+                          <UML:TaggedValue.dataValue>This service enables you to manage, control, restrict the process activities execution</UML:TaggedValue.dataValue>
+                          <UML:TaggedValue.type>
+                            <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                          </UML:TaggedValue.type>
+                        </UML:TaggedValue>
+                      </UML:ModelElement.taggedValue>
+                      <UML:GeneralizableElement.generalization>
+                        <UML:Generalization xmi.idref = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5C'/>
+                      </UML:GeneralizableElement.generalization>
+                      <UML:Classifier.feature>
+                        <UML:Operation xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F6B'
+                          name = 'getAclModes' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F75'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Get the list of available ACL modes</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F6C'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5D'
+                          name = 'setAcl' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F74'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Define the ACL mode of an activity</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5E'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5F'
+                              name = 'activity' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F60'
+                              name = 'mode' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F61'
+                              name = 'target' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F6A'
+                                  language = 'UML 1.4' body = 'null'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F78'
+                          name = 'bindExecution' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F7C'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Link an activity execution to the current user (it will enables you to retrieve the execution for that user or restrict it afterwhile)</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F79'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F7A'
+                              name = 'activityExecution' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F7B'
+                              name = 'currentUser' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F62'
+                          name = 'checkAcl' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F76'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Check the ACL of a user for a given activity.
+It returns false if the user cannot access the activity.</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F63'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F64'
+                              name = 'activityExecution' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F65'
+                              name = 'currentUser' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F6F'
+                          name = 'getProcessActivities' visibility = 'public' isSpecification = 'false'
+                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F77'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Get the list of available process execution for a user</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F70'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F71'
+                              name = 'process' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F72'
+                              name = 'currentUser' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                      </UML:Classifier.feature>
+                    </UML:Class>
+                    <UML:Generalization xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5C'
+                      isSpecification = 'false'>
+                      <UML:Generalization.child>
+                        <UML:Class xmi.idref = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5B'/>
+                      </UML:Generalization.child>
+                      <UML:Generalization.parent>
+                        <UML:Class xmi.idref = '10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834'/>
+                      </UML:Generalization.parent>
+                    </UML:Generalization>
                   </UML:Namespace.ownedElement>
                 </UML:Package>
               </UML:Namespace.ownedElement>
@@ -28873,6 +29069,14 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       language = '' body = 'kun'/>
     <UML:Expression xmi.id = '127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F4A'
       language = '' body = 'kkun'/>
+    <UML:Expression xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F66'
+      language = '' body = 'n'/>
+    <UML:Expression xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F67'
+      language = '' body = 'un'/>
+    <UML:Expression xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F68'
+      language = '' body = 'lun'/>
+    <UML:Expression xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F69'
+      language = '' body = 'llun'/>
     <UML:Multiplicity xmi.id = '127-0-1-1-506607cb:1249f78eef0:-8000:0000000000001AE5'>
       <UML:Multiplicity.range>
         <UML:MultiplicityRange xmi.id = '127-0-1-1-506607cb:1249f78eef0:-8000:0000000000001AE6'
@@ -55588,7 +55792,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <text name="Fig24.6.7"
         x="1481"
         y="2133"
-        width="995"
+        width="1020"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -57178,7 +57382,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <text name="Fig29.6.6"
         x="1713"
         y="2876"
-        width="554"
+        width="556"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -58264,7 +58468,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </group>
   </group>
   <group name="Fig41"
-       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[24, 2544, 584, 248]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
+       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[16, 2544, 704, 336]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
        href="127-0-1-1-951b66:128b0d3ece8:-8000:0000000000001F52"
        fill="1"
        fillcolor="white"
@@ -58275,10 +58479,10 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
     </private>
     
     <rectangle name="Fig41.0"
-      x="24"
+      x="16"
       y="2544"
-      width="584"
-      height="248"
+      width="704"
+      height="336"
       fill="0"
       fillcolor="white"
       stroke="0"
@@ -58291,25 +58495,25 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       stroke="0"
       strokecolor="black"
     >
-      <moveto x="24"
+      <moveto x="16"
               y="2544" />
-      <lineto x="558"
+      <lineto x="670"
               y="2544" />
-      <lineto x="558"
+      <lineto x="670"
               y="2567" />
-      <lineto x="607"
+      <lineto x="719"
               y="2567" />
-      <lineto x="607"
-              y="2791" />
-      <lineto x="24"
-              y="2791" />
-      <lineto x="24"
+      <lineto x="719"
+              y="2879" />
+      <lineto x="16"
+              y="2879" />
+      <lineto x="16"
               y="2544" />
     </path>
     <text name="Fig41.2"
-      x="24"
+      x="16"
       y="2544"
-      width="535"
+      width="655"
       height="24"
       fill="0"
       fillcolor="white"
@@ -58323,7 +58527,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       justification="Left"
     >wfEngine::models::classes</text>
     <group name="Fig41.3"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[24, 2544, 534, 1]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[16, 2544, 654, 1]"
          href="127-0-1-1-951b66:128b0d3ece8:-8000:0000000000001F52"
          fill="1"
          fillcolor="white"
@@ -58335,9 +58539,9 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       </private>
       
       <rectangle name="Fig41.3.0"
-        x="24"
+        x="16"
         y="2544"
-        width="534"
+        width="654"
         height="1"
         fill="1"
         fillcolor="white"
@@ -58346,10 +58550,10 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       />
     </group>
     <text name="Fig41.4"
-      x="24"
+      x="16"
       y="2567"
-      width="584"
-      height="225"
+      width="704"
+      height="313"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -58570,7 +58774,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         offset="-10" />
     </private>
     <path name="Fig44.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -58601,7 +58805,7 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                         offset="-10" />
     </private>
     <path name="Fig45.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -58610,6 +58814,243 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
       <moveto x="720"
               y="2128" />
       <lineto x="720"
+              y="1072" />
+    </path>
+  </group>
+  <group name="Fig46"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[232, 2720, 464, 133]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5B"
+       fill="1"
+       fillcolor="white"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig41"
+    </private>
+    
+    <rectangle name="Fig46.0"
+      x="232"
+      y="2720"
+      width="464"
+      height="133"
+      fill="1"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig46.1"
+      x="233"
+      y="2721"
+      width="462"
+      height="22"
+      fill="0"
+      fillcolor="white"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >wfEngine::models::classes::ActivityExecutionService</text>
+    <group name="Fig46.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[233, 2721, 302, 0]"
+         href="127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5B"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig46.2.0"
+        x="233"
+        y="2721"
+        width="302"
+        height="0"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig46.3"
+      x="232"
+      y="2743"
+      width="464"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig46.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[233, 2744, 462, 21]"
+         href="127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5B"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig46.4.0"
+        x="233"
+        y="2744"
+        width="462"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig46.5"
+      x="232"
+      y="2764"
+      width="464"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig46.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[233, 2765, 462, 88]"
+         href="127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5B"
+         fill="0"
+         fillcolor="white"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig46.6.0"
+        x="233"
+        y="2765"
+        width="462"
+        height="88"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig46.6.1"
+        x="233"
+        y="2765"
+        width="462"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >getAclModes() : array</text>
+      <text name="Fig46.6.2"
+        x="233"
+        y="2781"
+        width="462"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >setAcl(activity : Resource,mode : Resource,target : Resource = null) : Resource</text>
+      <text name="Fig46.6.3"
+        x="233"
+        y="2797"
+        width="462"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >bindExecution(activityExecution : Resource,currentUser : Resource) : boolean</text>
+      <text name="Fig46.6.4"
+        x="233"
+        y="2813"
+        width="462"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >checkAcl(activityExecution : Resource,currentUser : Resource) : boolean</text>
+      <text name="Fig46.6.5"
+        x="233"
+        y="2829"
+        width="462"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >getProcessActivities(process : Resource,currentUser : Resource) : array</text>
+    </group>
+  </group>
+  <group name="Fig47"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5C"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig46.0"
+      destPortFig="Fig2.0"
+      sourceFigNode="Fig46"
+      destFigNode="Fig2"
+      <argouml:pathitem figname="Fig47.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5C"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig47.0"
+      description="org.tigris.gef.presentation.FigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="517"
+              y="2720" />
+      <lineto x="517"
               y="1072" />
     </path>
   </group>
