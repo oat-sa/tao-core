@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu May 27 13:43:15 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu May 27 14:32:04 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.1(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -27899,7 +27899,13 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
                               </UML:Parameter.type>
                             </UML:Parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F64'
-                              name = 'activityExecution' isSpecification = 'false' kind = 'in'>
+                              name = 'activity' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-783f8541:128d9b3a1d7:-8000:0000000000001F83'
+                              name = 'currentUser' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
                               </UML:Parameter.type>
@@ -40507,7 +40513,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       justification="Center"
     >DynamicText</text>
     <group name="Fig89.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[817, 1129, 306, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[817, 1129, 259, 0]"
          href="10-13-1--99-b0c14c8:11c5165eb22:-8000:0000000000000E85"
          fill="0"
          fillcolor="0 255 255"
@@ -40521,7 +40527,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <rectangle name="Fig89.2.0"
         x="817"
         y="1129"
-        width="306"
+        width="259"
         height="0"
         fill="0"
         fillcolor="0 255 255"
@@ -58902,7 +58908,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       justification="Center"
     >wfEngine::models::classes::ActivityExecutionService</text>
     <group name="Fig46.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[233, 2721, 462, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[233, 2721, 470, 0]"
          href="127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5B"
          fill="0"
          fillcolor="white"
@@ -58916,7 +58922,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <rectangle name="Fig46.2.0"
         x="233"
         y="2721"
-        width="462"
+        width="470"
         height="0"
         fill="0"
         fillcolor="white"
@@ -59082,7 +59088,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         bold="false"
         textsize="12"
         justification="Left"
-      >checkAcl(activityExecution : Resource) : boolean</text>
+      >checkAcl(activity : Resource,currentUser : Resource) : boolean</text>
       <text name="Fig46.6.7"
         x="233"
         y="2861"
