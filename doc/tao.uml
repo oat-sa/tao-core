@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed May 26 18:04:59 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu May 27 13:43:15 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.1(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -6601,11 +6601,7 @@ Note:  An hyperObject creation is completed  by creating all nodes instances usi
                           isLeaf = 'false' isAbstract = 'false'>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '10-13-1--99-4de46d40:11c8a21981c:-8000:0000000000000EB9'
-                              name = 'return' isSpecification = 'false' kind = 'return'>
-                              <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--99-4de46d40:11c8a21981c:-8000:0000000000000EBA'/>
-                              </UML:Parameter.type>
-                            </UML:Parameter>
+                              name = 'return' isSpecification = 'false' kind = 'return'/>
                             <UML:Parameter xmi.id = '10-13-1--99--26c1ba5c:11cb3c48fba:-8000:0000000000000EEF'
                               name = 'variable' isSpecification = 'false'>
                               <UML:Parameter.defaultValue>
@@ -12278,9 +12274,6 @@ Note:  An hyperObject creation is completed  by creating all nodes instances usi
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:Class>
-        <UML:Class xmi.id = '10-13-1--99-4de46d40:11c8a21981c:-8000:0000000000000EBA'
-          name = 'striing' visibility = 'public' isSpecification = 'false' isRoot = 'false'
-          isLeaf = 'false' isAbstract = 'false' isActive = 'false'/>
         <UML:Stereotype xmi.id = '10-13-1--99-666b4abd:1205836518e:-8000:00000000000016DB'
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:Stereotype.baseClass>Operation</UML:Stereotype.baseClass>
@@ -27800,6 +27793,56 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                             </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F80'
+                          name = 'getExecution' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F81'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F82'
+                              name = 'activity' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F83'
+                              name = 'currentUser' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F7C'
+                          name = 'initExecution' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F7D'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F7E'
+                              name = 'activity' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F7F'
+                              name = 'currentUser' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
                         <UML:Operation xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F78'
                           name = 'bindExecution' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
@@ -27861,12 +27904,6 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
                                 <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
-                            <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F65'
-                              name = 'currentUser' isSpecification = 'false' kind = 'in'>
-                              <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
-                              </UML:Parameter.type>
-                            </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
                         </UML:Operation>
                         <UML:Operation xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F6F'
@@ -27892,7 +27929,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
                             <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F71'
                               name = 'process' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                                <UML:Class xmi.idref = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F7B'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F72'
@@ -28219,6 +28256,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:Stereotype.baseClass>Operation</UML:Stereotype.baseClass>
         </UML:Stereotype>
+        <UML:Class xmi.id = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F7B'
+          name = 'Process' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+          isLeaf = 'false' isAbstract = 'false' isActive = 'false'/>
       </UML:Namespace.ownedElement>
     </UML:Model>
     <UML:Expression xmi.id = '127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242F'
@@ -30043,6 +30083,12 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
           lower = '1' upper = '1'/>
       </UML:Multiplicity.range>
     </UML:Multiplicity>
+    <UML:Parameter xmi.id = '127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F65'
+      name = 'currentUser' isSpecification = 'false' kind = 'in'>
+      <UML:Parameter.type>
+        <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+      </UML:Parameter.type>
+    </UML:Parameter>
     <UML:Parameter xmi.id = '10-13-1-85-5a611d25:1213534f5a0:-8000:000000000000169C'
       name = 'inPlace' isSpecification = 'false'>
       <UML:Parameter.type>
@@ -40577,7 +40623,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         bold="false"
         textsize="12"
         justification="Left"
-      >getDisplayedText(variable : array = array()) : striing</text>
+      >getDisplayedText(variable : array = array())</text>
       <text name="Fig89.6.2"
         x="817"
         y="1195"
@@ -55792,7 +55838,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <text name="Fig24.6.7"
         x="1481"
         y="2133"
-        width="1020"
+        width="995"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -57382,7 +57428,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <text name="Fig29.6.6"
         x="1713"
         y="2876"
-        width="556"
+        width="554"
         height="16"
         fill="0"
         fillcolor="200 255 200"
@@ -58040,7 +58086,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     ></text>
   </group>
   <group name="Fig39"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[184, 1944, 344, 104]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[168, 1936, 344, 104]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B1"
        fill="1"
        fillcolor="white"
@@ -58052,8 +58098,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     </private>
     
     <rectangle name="Fig39.0"
-      x="184"
-      y="1944"
+      x="168"
+      y="1936"
       width="344"
       height="104"
       fill="1"
@@ -58062,8 +58108,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <text name="Fig39.1"
-      x="185"
-      y="1945"
+      x="169"
+      y="1937"
       width="342"
       height="22"
       fill="0"
@@ -58078,7 +58124,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       justification="Center"
     >ReviewerService</text>
     <group name="Fig39.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[185, 1945, 247, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[169, 1937, 247, 0]"
          href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B1"
          fill="0"
          fillcolor="white"
@@ -58090,8 +58136,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       </private>
       
       <rectangle name="Fig39.2.0"
-        x="185"
-        y="1945"
+        x="169"
+        y="1937"
         width="247"
         height="0"
         fill="0"
@@ -58101,8 +58147,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       />
     </group>
     <rectangle name="Fig39.3"
-      x="184"
-      y="1967"
+      x="168"
+      y="1959"
       width="344"
       height="1"
       fill="1"
@@ -58111,7 +58157,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <group name="Fig39.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[185, 1968, 342, 24]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[169, 1960, 342, 24]"
          href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B1"
          fill="0"
          fillcolor="white"
@@ -58122,8 +58168,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       </private>
       
       <rectangle name="Fig39.4.0"
-        x="185"
-        y="1968"
+        x="169"
+        y="1960"
         width="342"
         height="24"
         fill="0"
@@ -58132,8 +58178,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         strokecolor="black"
       />
       <text name="Fig39.4.1"
-        x="185"
-        y="1968"
+        x="169"
+        y="1960"
         width="342"
         height="22"
         fill="0"
@@ -58149,8 +58195,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       >reviewerClass : Class</text>
     </group>
     <rectangle name="Fig39.5"
-      x="184"
-      y="1991"
+      x="168"
+      y="1983"
       width="344"
       height="1"
       fill="1"
@@ -58159,7 +58205,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <group name="Fig39.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[185, 1992, 342, 56]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[169, 1984, 342, 56]"
          href="127-0-1-1--62b0224b:1286d165d62:-8000:00000000000024B1"
          fill="0"
          fillcolor="white"
@@ -58170,8 +58216,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       </private>
       
       <rectangle name="Fig39.6.0"
-        x="185"
-        y="1992"
+        x="169"
+        y="1984"
         width="342"
         height="56"
         fill="0"
@@ -58180,8 +58226,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         strokecolor="black"
       />
       <text name="Fig39.6.1"
-        x="185"
-        y="1992"
+        x="169"
+        y="1984"
         width="342"
         height="16"
         fill="0"
@@ -58196,8 +58242,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         justification="Left"
       >&lt;&lt;create&gt;&gt; __construct()</text>
       <text name="Fig39.6.2"
-        x="185"
-        y="2008"
+        x="169"
+        y="2000"
         width="342"
         height="16"
         fill="0"
@@ -58212,8 +58258,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         justification="Left"
       >initRoles()</text>
       <text name="Fig39.6.3"
-        x="185"
-        y="2024"
+        x="169"
+        y="2016"
         width="342"
         height="22"
         fill="0"
@@ -58230,7 +58276,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     </group>
   </group>
   <group name="Fig40"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[304, 2128, 446, 184]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[176, 2056, 472, 184]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0F"
        fill="1"
        fillcolor="white"
@@ -58242,9 +58288,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     </private>
     
     <rectangle name="Fig40.0"
-      x="304"
-      y="2128"
-      width="446"
+      x="176"
+      y="2056"
+      width="472"
       height="184"
       fill="1"
       fillcolor="white"
@@ -58252,9 +58298,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <text name="Fig40.1"
-      x="305"
-      y="2129"
-      width="444"
+      x="177"
+      y="2057"
+      width="470"
       height="22"
       fill="0"
       fillcolor="white"
@@ -58268,7 +58314,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       justification="Center"
     >ItemReviewingService</text>
     <group name="Fig40.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[305, 2129, 444, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[177, 2057, 444, 0]"
          href="127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0F"
          fill="0"
          fillcolor="white"
@@ -58280,8 +58326,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       </private>
       
       <rectangle name="Fig40.2.0"
-        x="305"
-        y="2129"
+        x="177"
+        y="2057"
         width="444"
         height="0"
         fill="0"
@@ -58291,9 +58337,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       />
     </group>
     <rectangle name="Fig40.3"
-      x="304"
-      y="2151"
-      width="446"
+      x="176"
+      y="2079"
+      width="472"
       height="1"
       fill="1"
       fillcolor="black"
@@ -58301,7 +58347,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <group name="Fig40.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[305, 2152, 444, 39]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[177, 2080, 470, 39]"
          href="127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0F"
          fill="0"
          fillcolor="white"
@@ -58312,9 +58358,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       </private>
       
       <rectangle name="Fig40.4.0"
-        x="305"
-        y="2152"
-        width="444"
+        x="177"
+        y="2080"
+        width="470"
         height="39"
         fill="0"
         fillcolor="white"
@@ -58322,9 +58368,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         strokecolor="black"
       />
       <text name="Fig40.4.1"
-        x="305"
-        y="2152"
-        width="444"
+        x="177"
+        y="2080"
+        width="470"
         height="22"
         fill="0"
         fillcolor="white"
@@ -58339,9 +58385,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       >itemReviewingClass : Class</text>
     </group>
     <rectangle name="Fig40.5"
-      x="304"
-      y="2191"
-      width="446"
+      x="176"
+      y="2119"
+      width="472"
       height="1"
       fill="1"
       fillcolor="black"
@@ -58349,7 +58395,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <group name="Fig40.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[305, 2192, 444, 119]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[177, 2120, 470, 119]"
          href="127-0-1-1-d12b371:128816e3a72:-8000:0000000000001F0F"
          fill="0"
          fillcolor="white"
@@ -58360,9 +58406,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       </private>
       
       <rectangle name="Fig40.6.0"
-        x="305"
-        y="2192"
-        width="444"
+        x="177"
+        y="2120"
+        width="470"
         height="119"
         fill="0"
         fillcolor="white"
@@ -58370,9 +58416,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         strokecolor="black"
       />
       <text name="Fig40.6.1"
-        x="305"
-        y="2192"
-        width="444"
+        x="177"
+        y="2120"
+        width="470"
         height="16"
         fill="0"
         fillcolor="white"
@@ -58386,9 +58432,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         justification="Left"
       >&lt;&lt;create&gt;&gt; __construct()</text>
       <text name="Fig40.6.2"
-        x="305"
-        y="2208"
-        width="444"
+        x="177"
+        y="2136"
+        width="470"
         height="16"
         fill="0"
         fillcolor="white"
@@ -58402,9 +58448,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         justification="Left"
       >getItemReviewingClass(uri : string = &apos;&apos;) : Class</text>
       <text name="Fig40.6.3"
-        x="305"
-        y="2224"
-        width="444"
+        x="177"
+        y="2152"
+        width="470"
         height="16"
         fill="0"
         fillcolor="white"
@@ -58418,9 +58464,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         justification="Left"
       >getRelatedItems(itemReviewing : Resource) : array</text>
       <text name="Fig40.6.4"
-        x="305"
-        y="2240"
-        width="444"
+        x="177"
+        y="2168"
+        width="470"
         height="16"
         fill="0"
         fillcolor="white"
@@ -58434,9 +58480,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         justification="Left"
       >setRelatedItems(itemReviewing : Resource,items : array = array()) : boolean</text>
       <text name="Fig40.6.5"
-        x="305"
-        y="2256"
-        width="444"
+        x="177"
+        y="2184"
+        width="470"
         height="16"
         fill="0"
         fillcolor="white"
@@ -58450,9 +58496,9 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         justification="Left"
       >bindItem(itemReview : Resource,item : Resource) : Resource</text>
       <text name="Fig40.6.6"
-        x="305"
-        y="2272"
-        width="444"
+        x="177"
+        y="2200"
+        width="470"
         height="22"
         fill="0"
         fillcolor="white"
@@ -58468,7 +58514,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     </group>
   </group>
   <group name="Fig41"
-       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[16, 2544, 704, 336]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
+       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[16, 2544, 720, 368]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
        href="127-0-1-1-951b66:128b0d3ece8:-8000:0000000000001F52"
        fill="1"
        fillcolor="white"
@@ -58481,8 +58527,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     <rectangle name="Fig41.0"
       x="16"
       y="2544"
-      width="704"
-      height="336"
+      width="720"
+      height="368"
       fill="0"
       fillcolor="white"
       stroke="0"
@@ -58497,23 +58543,23 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     >
       <moveto x="16"
               y="2544" />
-      <lineto x="670"
+      <lineto x="686"
               y="2544" />
-      <lineto x="670"
+      <lineto x="686"
               y="2567" />
-      <lineto x="719"
+      <lineto x="735"
               y="2567" />
-      <lineto x="719"
-              y="2879" />
+      <lineto x="735"
+              y="2911" />
       <lineto x="16"
-              y="2879" />
+              y="2911" />
       <lineto x="16"
               y="2544" />
     </path>
     <text name="Fig41.2"
       x="16"
       y="2544"
-      width="655"
+      width="671"
       height="24"
       fill="0"
       fillcolor="white"
@@ -58527,7 +58573,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       justification="Left"
     >wfEngine::models::classes</text>
     <group name="Fig41.3"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[16, 2544, 654, 1]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[16, 2544, 670, 1]"
          href="127-0-1-1-951b66:128b0d3ece8:-8000:0000000000001F52"
          fill="1"
          fillcolor="white"
@@ -58541,7 +58587,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <rectangle name="Fig41.3.0"
         x="16"
         y="2544"
-        width="654"
+        width="670"
         height="1"
         fill="1"
         fillcolor="white"
@@ -58552,8 +58598,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     <text name="Fig41.4"
       x="16"
       y="2567"
-      width="704"
-      height="313"
+      width="720"
+      height="345"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -58709,7 +58755,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <text name="Fig42.6.2"
         x="41"
         y="2653"
-        width="306"
+        width="305"
         height="22"
         fill="0"
         fillcolor="white"
@@ -58781,7 +58827,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       strokecolor="black"
     >
       <moveto x="216"
-              y="1944" />
+              y="1936" />
       <lineto x="216"
               y="1576" />
     </path>
@@ -58811,14 +58857,14 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="720"
-              y="2128" />
-      <lineto x="720"
+      <moveto x="640"
+              y="2056" />
+      <lineto x="640"
               y="1072" />
     </path>
   </group>
   <group name="Fig46"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[232, 2720, 464, 133]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[232, 2720, 472, 165]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5B"
        fill="1"
        fillcolor="white"
@@ -58832,8 +58878,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     <rectangle name="Fig46.0"
       x="232"
       y="2720"
-      width="464"
-      height="133"
+      width="472"
+      height="165"
       fill="1"
       fillcolor="white"
       stroke="1"
@@ -58842,7 +58888,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     <text name="Fig46.1"
       x="233"
       y="2721"
-      width="462"
+      width="470"
       height="22"
       fill="0"
       fillcolor="white"
@@ -58856,7 +58902,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       justification="Center"
     >wfEngine::models::classes::ActivityExecutionService</text>
     <group name="Fig46.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[233, 2721, 302, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[233, 2721, 462, 0]"
          href="127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5B"
          fill="0"
          fillcolor="white"
@@ -58870,7 +58916,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <rectangle name="Fig46.2.0"
         x="233"
         y="2721"
-        width="302"
+        width="462"
         height="0"
         fill="0"
         fillcolor="white"
@@ -58881,7 +58927,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     <rectangle name="Fig46.3"
       x="232"
       y="2743"
-      width="464"
+      width="472"
       height="1"
       fill="1"
       fillcolor="black"
@@ -58889,7 +58935,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <group name="Fig46.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[233, 2744, 462, 21]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[233, 2744, 470, 21]"
          href="127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5B"
          fill="0"
          fillcolor="white"
@@ -58902,7 +58948,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <rectangle name="Fig46.4.0"
         x="233"
         y="2744"
-        width="462"
+        width="470"
         height="21"
         fill="0"
         fillcolor="white"
@@ -58913,7 +58959,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
     <rectangle name="Fig46.5"
       x="232"
       y="2764"
-      width="464"
+      width="472"
       height="1"
       fill="1"
       fillcolor="black"
@@ -58921,7 +58967,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       strokecolor="black"
     />
     <group name="Fig46.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[233, 2765, 462, 88]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[233, 2765, 470, 120]"
          href="127-0-1-1--10e47d9e:128d54bbb0d:-8000:0000000000001F5B"
          fill="0"
          fillcolor="white"
@@ -58934,8 +58980,8 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <rectangle name="Fig46.6.0"
         x="233"
         y="2765"
-        width="462"
-        height="88"
+        width="470"
+        height="120"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -58944,7 +58990,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <text name="Fig46.6.1"
         x="233"
         y="2765"
-        width="462"
+        width="470"
         height="16"
         fill="0"
         fillcolor="white"
@@ -58960,7 +59006,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <text name="Fig46.6.2"
         x="233"
         y="2781"
-        width="462"
+        width="470"
         height="16"
         fill="0"
         fillcolor="white"
@@ -58976,7 +59022,39 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
       <text name="Fig46.6.3"
         x="233"
         y="2797"
-        width="462"
+        width="470"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >getExecution(activity : Resource,currentUser : Resource) : Resource</text>
+      <text name="Fig46.6.4"
+        x="233"
+        y="2813"
+        width="470"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >initExecution(activity : Resource,currentUser : Resource) : Resource</text>
+      <text name="Fig46.6.5"
+        x="233"
+        y="2829"
+        width="470"
         height="16"
         fill="0"
         fillcolor="white"
@@ -58989,10 +59067,10 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         textsize="12"
         justification="Left"
       >bindExecution(activityExecution : Resource,currentUser : Resource) : boolean</text>
-      <text name="Fig46.6.4"
+      <text name="Fig46.6.6"
         x="233"
-        y="2813"
-        width="462"
+        y="2845"
+        width="470"
         height="16"
         fill="0"
         fillcolor="white"
@@ -59004,11 +59082,11 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         bold="false"
         textsize="12"
         justification="Left"
-      >checkAcl(activityExecution : Resource,currentUser : Resource) : boolean</text>
-      <text name="Fig46.6.5"
+      >checkAcl(activityExecution : Resource) : boolean</text>
+      <text name="Fig46.6.7"
         x="233"
-        y="2829"
-        width="462"
+        y="2861"
+        width="470"
         height="22"
         fill="0"
         fillcolor="white"
@@ -59020,7 +59098,7 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
         bold="false"
         textsize="12"
         justification="Left"
-      >getProcessActivities(process : Resource,currentUser : Resource) : array</text>
+      >getProcessActivities(process : Process,currentUser : Resource) : array</text>
     </group>
   </group>
   <group name="Fig47"
@@ -59042,15 +59120,15 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
                         offset="-10" />
     </private>
     <path name="Fig47.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="517"
+      <moveto x="656"
               y="2720" />
-      <lineto x="517"
+      <lineto x="656"
               y="1072" />
     </path>
   </group>
