@@ -40,14 +40,6 @@ abstract class tao_models_classes_Service
 
     // --- ATTRIBUTES ---
 
-    /**
-     * The defaults ontologies to load
-     *
-     * @access protected
-     * @var array
-     */
-    protected $ontologies = array('http://www.tao.lu/Ontologies/generis.rdf','http://www.tao.lu/Ontologies/TAO.rdf');
-
     // --- OPERATIONS ---
 
     /**
@@ -64,12 +56,14 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Enable you to  load the RDF ontologies
+     * Enable you to  load the RDF ontologies.
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @deprecated
      * @param  array ontologies
      * @return mixed
+     * @see core_kernel_classes_Session::_construct
      */
     protected function loadOntologies($ontologies)
     {
