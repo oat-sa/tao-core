@@ -19,11 +19,12 @@
 			),
 			
 			'model' => array(
-							'http://www.w3.org/2000/01/rdf-schema',
-							'http://www.w3.org/1999/02/22-rdf-syntax-ns',
-							'http://www.tao.lu/datatypes/WidgetDefinitions.rdf',
-							'http://www.tao.lu/Ontologies/generis.rdf',
-							'http://www.tao.lu/Ontologies/TAO.rdf'
+				'http://www.w3.org/2000/01/rdf-schema',
+				'http://www.w3.org/1999/02/22-rdf-syntax-ns',
+				'http://www.tao.lu/datatypes/WidgetDefinitions.rdf',
+				'http://www.tao.lu/Ontologies/generis.rdf',
+				'http://www.tao.lu/Ontologies/TAO.rdf',
+				'http://www.tao.lu/middleware/hyperclass.rdf'
 			),
 			'classLoaderPackages' => array( 
 				dirname(__FILE__).'/actions/',

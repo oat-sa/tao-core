@@ -111,12 +111,19 @@ GenerisTreeFormClass.prototype.saveData = function(){
 			index++;
 		}
 	});
+	if(this.options.relatedFormId){
+		uriField = $("#" + this.options.relatedFormId + " :input[name=uri]");
+		classUriField = $("#" + this.options.relatedFormId + " :input[name=classUri]");
+	}
+	else{
+		uriField = $("input[name=uri]");
+		classUriField = $("input[name=classUri]");
+	}
 	
-	uriField = $("input[name=uri]");
 	if (uriField) {
 		toSend.uri = uriField.val();
 	}
-	classUriField = $("input[name=classUri]");
+	
 	if (classUriField) {
 		toSend.classUri = classUriField.val();
 	}
