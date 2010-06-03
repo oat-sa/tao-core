@@ -324,6 +324,12 @@ class tao_helpers_Uri
         $returnValue = (string) '';
 
         // section 127-0-1-1-2045fd08:128b9eb9c51:-8000:0000000000001F71 begin
+		
+		//TODO check format of the uri, preg_match()
+		if(stripos($uriResource,".rdf#")>0){
+			$returnValue = substr($uriResource,stripos($uriResource,".rdf#")+5);
+		}
+		
         // section 127-0-1-1-2045fd08:128b9eb9c51:-8000:0000000000001F71 end
 
         return (string) $returnValue;
