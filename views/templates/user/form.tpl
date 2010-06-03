@@ -21,42 +21,16 @@
 		<span class="ui-widget ui-state-default ui-corner-all" style="padding:5px;">
 			<a href="#" onclick="selectTabByName('list_users');"><?=__('Back')?></a>
 		</span>
+		
 	<script type="text/javascript">
 	var ctx_extension 	= "<?=get_data('extension')?>";
 	var ctx_module 		= "<?=get_data('module')?>";
 	var ctx_action 		= "<?=get_data('action')?>";
 	$(document).ready(function(){
-	
-		<?if(get_data('action') == 'add'):?>
+		if(ctx_action == 'add'){
 			UiBootstrap.tabs.tabs('disable', getTabIndexByName('edit_user'));
-
-			if($("input[id='<?=get_data('loginUri')?>']")){
-				$("input[id='<?=get_data('loginUri')?>']").blur(function(){
-					var elt = $(this);
-					value = elt.val().replace(' ', '');
-					if(value == ''){
-						$('.login-info').remove();
-					}
-					else{
-						$.postJson(
-							"<?=_url('checkLogin', 'Users', 'tao')?>",
-							{login: value},
-							function(data){
-								$('.login-info').remove();
-								if(data.available){
-									elt.after("<span class='login-info'><img src='<?=TAOBASE_WWW?>img/tick.png' /></span>");
-								}
-								else{
-									elt.after("<span class='login-info ui-state-error'><img src='<?=TAOBASE_WWW?>img/exclamation.png' class='icon' /><?=__('Login not available')?></span>");
-								}
-							}
-						);
-					}
-				});
-			}
-			
-		<?endif?>
-		
+			checkLogin("<?=get_data('loginUri')?>", "<?=_url('checkLogin', 'Users', 'tao')?>");
+		}
 	});
 	</script>
 <?endif?>

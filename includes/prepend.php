@@ -74,6 +74,7 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . 'js/generis.tree.js',
 		TAOBASE_WWW . 'js/generis.actions.js',
 		TAOBASE_WWW . 'js/generis.treeform.js',
+		TAOBASE_WWW . 'js/users.js',
 		TAOBASE_WWW . 'js/AsyncFileUpload.js'
 		
 	));

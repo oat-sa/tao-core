@@ -63,9 +63,10 @@ class tao_actions_form_Users
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
      * @param  Resource user
+     * @param  boolean forceAdd
      * @return mixed
      */
-    public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $user = null)
+    public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $user = null, $forceAdd = false)
     {
         // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F43 begin
         
@@ -82,6 +83,9 @@ class tao_actions_form_Users
     	else{
     		$this->user = $service->createInstance($clazz);
 			$options['mode'] = 'add';
+    	}
+    	if($forceAdd){
+    		$options['mode'] = 'add';
     	}
     	
     	tao_helpers_form_GenerisFormFactory::$topLevelClass = CLASS_GENERIS_USER;
@@ -235,7 +239,7 @@ class tao_actions_form_Users
 			}
 			$this->form->addElement($pass3Element);
 			
-			$this->form->createGroup("pass_group", __("Change your password"), array('password0', 'password1', 'password2', 'password3'));
+			$this->form->createGroup("pass_group", __("Change the password"), array('password0', 'password1', 'password2', 'password3'));
 		}
 		
 		

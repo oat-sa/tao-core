@@ -143,7 +143,7 @@ class Users extends CommonModule {
 				$values[PROPERTY_USER_PASSWORD] = md5($values['password1']);
 				unset($values['password1']);
 				unset($values['password2']);
-				var_dump($values);
+				
 				if($this->userService->saveUser($myFormContainer->getUser(), $values)){
 					$this->setData('message', __('User added'));
 					$this->setData('exit', true);
