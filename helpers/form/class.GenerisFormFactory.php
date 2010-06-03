@@ -392,12 +392,20 @@ class tao_helpers_form_GenerisFormFactory
 		foreach($properties as $property){
 	
 			$element = self::elementMap($property);
-			if(!is_null($element) && ! $element instanceof tao_helpers_form_elements_Authoring ){
+			if( ! is_null($element) && 
+				! $element instanceof tao_helpers_form_elements_Authoring && 
+				! $element instanceof tao_helpers_form_elements_Hiddenbox &&
+				! $element instanceof tao_helpers_form_elements_Hidden ){
 				
-				if($element instanceof tao_helpers_form_elements_Radiobox || $element instanceof tao_helpers_form_elements_Combobox){
+				if($element instanceof tao_helpers_form_elements_MultipleElement){
 					$newElement = tao_helpers_form_FormFactory::getElement($element->getName(), 'Checkbox');
 					$newElement->setDescription($element->getDescription());
 					$newElement->setOptions($element->getOptions());
+					$element = $newElement;
+				}
+				if($element instanceof tao_helpers_form_elements_Htmlarea){
+					$newElement = tao_helpers_form_FormFactory::getElement($element->getName(), 'Textarea');
+					$newElement->setDescription($element->getDescription());
 					$element = $newElement;
 				}
 				

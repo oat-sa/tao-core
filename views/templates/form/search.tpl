@@ -36,7 +36,7 @@ $(document).ready(function(){
 		colNames: properties , 
 		colModel: model, 
 		rowNum: 20, 
-		width: '100%', 
+		width:'', 
 		pager: '#result-list-pager', 
 		sortname: 'id', 
 		viewrecords: false, 
