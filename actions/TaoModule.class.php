@@ -607,8 +607,8 @@ abstract class TaoModule extends CommonModule {
 		if($this->hasRequestParameter('uri')){
 			$instance = $this->getCurrentInstance();
 			if(!is_null($instance)){
-				ServiceApi::save( array($kind.'Uri' => $instance->uriResource) );
-				$message = $instance->getLabel().' '.__($kind).' '.__('selected');
+				ServiceApi::save( array($this->getDataKind().'Uri' => $instance->uriResource) );
+				$message = $instance->getLabel().' '.__($this->getDataKind()).' '.__('selected');
 			}
 		}
 		$this->setData('message', $message);

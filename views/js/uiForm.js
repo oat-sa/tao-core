@@ -29,7 +29,7 @@ UiForm = function(){
 			
 			//initialize regarding the requested action
 			if(settings.dataType == 'html'){
-				if(/edit|add/.test(settings.url)){
+				if(/edit|Edit|add/.test(settings.url)){
 					formInstance.initElements();
 					formInstance.initOntoForms();
 				}

@@ -19,30 +19,38 @@ class UserTestCase extends UnitTestCase {
 	/**
 	 * @var array user data set
 	 */
-	protected $testUser = array(
-		'login'		=> 	'jdoe',
-		'password'	=>	'test123',
-		'LastName'	=>	'Doe',
-		'FirstName'	=>	'John',
-		'E_Mail'	=>	'jdoe@tao.lu',
-		'Company'	=>	'TAO inc',
-		'Deflg'		=>	'EN',
-		'Uilg'		=>	'EN'
+	protected $testUserData = array(
+		PROPERTY_USER_LOGIN		=> 	'tjdoe',
+		PROPERTY_USER_PASSWORD	=>	'test123',
+		PROPERTY_USER_LASTNAME	=>	'Doe',
+		PROPERTY_USER_FIRTNAME	=>	'John',
+		PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
+		PROPERTY_USER_DEFLG		=>	'EN',
+		PROPERTY_USER_UILG		=>	'EN'
 	);
 	
 	/**
 	 * @var array user data set with special chars
 	 */
-	protected $testUserUtf8 = array(
-		'login'		=> 	'f.lecé',
-		'password'	=>	'6crète!',
-		'LastName'	=>	'Lecéfranc',
-		'FirstName'	=>	'François',
-		'E_Mail'	=>	'',
-		'Company'	=>	'tao© &Co',
-		'Deflg'		=>	'EN',
-		'Uilg'		=>	'FR'
+	protected $testUserUtf8Data = array(
+		PROPERTY_USER_LOGIN		=> 	'f.lecé',
+		PROPERTY_USER_PASSWORD	=>	'6crète!',
+		PROPERTY_USER_LASTNAME	=>	'Lecéfranc',
+		PROPERTY_USER_FIRTNAME	=>	'François',
+		PROPERTY_USER_MAIL		=>	'f.lecé@tao.lu',
+		PROPERTY_USER_DEFLG		=>	'EN',
+		PROPERTY_USER_UILG		=>	'FR'
 	);
+	
+	/**
+	 * @var core_kernel_classes_Resource
+	 */
+	protected $testUser = null;
+	
+	/**
+	 * @var core_kernel_classes_Resource
+	 */
+	protected $testUserUtf8 = null;
 	
 	/**
 	 * tests initialization
@@ -50,8 +58,8 @@ class UserTestCase extends UnitTestCase {
 	public function setUp(){		
 		TestRunner::initTest();
 		
-		$this->testUser['password'] = md5($this->testUser['password']);
-		$this->testUserUtf8['password'] = md5($this->testUserUtf8['password']);
+		$this->testUserData[PROPERTY_USER_PASSWORD] = md5($this->testUserData[PROPERTY_USER_PASSWORD]);
+		$this->testUserUtf8Data[PROPERTY_USER_PASSWORD] = md5($this->testUserUtf8Data[PROPERTY_USER_PASSWORD]);
 	}
 	
 	/**
@@ -66,23 +74,27 @@ class UserTestCase extends UnitTestCase {
 		$this->userService = $userService;
 	}
 
-/**
+	/**
 	 * Test user insertion
 	 * @see tao_models_classes_UserService::saveUser
 	 */
 	public function testAddUser(){
 
 		//insert it
-		$this->assertTrue(	$this->userService->loginAvailable($this->testUser['login']) );
-		$this->assertTrue(	$this->userService->saveUser($this->testUser) );
-		$this->assertFalse(	$this->userService->loginAvailable($this->testUser['login']) );
+		$this->assertTrue(	$this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
+		$this->assertTrue(	$this->userService->saveUser($this->testUser, $this->testUserData) );
+		$this->assertFalse(	$this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
 		
 		//check inserted data
-		$insertedUser = $this->userService->getOneUser($this->testUser['login']);
-		$this->assertIsA($insertedUser, 'array');
-		foreach($this->testUser as $key => $value){
-			$this->assertTrue(isset($insertedUser[$key]));
-			$this->assertEqual($insertedUser[$key], $value);
+		$this->testUser = $this->userService->getOneUser($this->testUserData[PROPERTY_USER_LOGIN]);
+		$this->assertIsA($this->testUser, 'core_kernel_classes_Resource');
+		foreach($this->testUserData as $prop => $value){
+			try{
+				$this->assertEqual($value, $this->testUser->getUniquePropertyValue(new core_kernel_classes_Property($prop)));
+			}
+			catch(common_Exception $ce){ 
+				$this->fail($ce);
+			}
 		}
 	}
 	
@@ -92,19 +104,22 @@ class UserTestCase extends UnitTestCase {
 	 */
 	public function testAddUtf8User(){
 		
-		//insert it
-		$this->assertTrue(	$this->userService->loginAvailable($this->testUserUtf8['login']) );
-		$this->assertTrue(	$this->userService->saveUser($this->testUserUtf8) );
-		$this->assertFalse(	$this->userService->loginAvailable($this->testUserUtf8['login']) );
+	//insert it
+		$this->assertTrue(	$this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
+		$this->assertTrue(	$this->userService->saveUser($this->testUserUtf8, $this->testUserUtf8Data) );
+		$this->assertFalse(	$this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
 		
 		//check inserted data
-		$insertedUser = $this->userService->getOneUser($this->testUserUtf8['login']);
-		$this->assertIsA($insertedUser, 'array');
-		$this->assertTrue(isset($insertedUser['login']));
-		$this->assertEqual($insertedUser['login'], 		$this->testUserUtf8['login']);
-		$this->assertEqual($insertedUser['LastName'], 	$this->testUserUtf8['LastName']);
-		$this->assertEqual($insertedUser['FirstName'], 	$this->testUserUtf8['FirstName']);
-		$this->assertEqual($insertedUser['Company'], 	$this->testUserUtf8['Company']);
+		$this->testUserUtf8 = $this->userService->getOneUser($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
+		$this->assertIsA($this->testUserUtf8, 'core_kernel_classes_Resource');
+		foreach($this->testUserUtf8Data as $prop => $value){
+			try{
+				$this->assertEqual($value, $this->testUserUtf8->getUniquePropertyValue(new core_kernel_classes_Property($prop)));
+			}
+			catch(common_Exception $ce){ 
+				$this->fail($ce);
+			}
+		}
 	}
 	
 	/**
@@ -112,21 +127,16 @@ class UserTestCase extends UnitTestCase {
 	 * @see tao_models_classes_UserService::removeUser
 	 */
 	public function testDelete(){
-		$insertedUser = $this->userService->getOneUser($this->testUser['login']);
-		if(is_array($insertedUser)){
-			if(isset($insertedUser['login'])){
-				$this->assertTrue($this->userService->removeUser($insertedUser['login']));
-				$this->assertTrue($this->userService->loginAvailable($this->testUser['login']));
-			}
-		}
+		$this->testUser = $this->userService->getOneUser($this->testUserData[PROPERTY_USER_LOGIN]);
+		$this->assertIsA($this->testUser, 'core_kernel_classes_Resource');
+		$this->assertTrue($this->userService->removeUser($this->testUser));
+		$this->assertTrue($this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
 		
-		$insertedUser = $this->userService->getOneUser($this->testUserUtf8['login']);
-		if(is_array($insertedUser)){
-			if(isset($insertedUser['login'])){
-				$this->assertTrue($this->userService->removeUser($insertedUser['login']));
-				$this->assertTrue($this->userService->loginAvailable($this->testUserUtf8['login']));
-			}
-		}
+		
+		$this->testUserUtf8 = $this->userService->getOneUser($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
+		$this->assertIsA($this->testUserUtf8, 'core_kernel_classes_Resource');
+		$this->assertTrue($this->userService->removeUser($this->testUserUtf8));
+		$this->assertTrue($this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
 	}
 }
 ?>
