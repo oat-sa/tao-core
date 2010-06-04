@@ -32,12 +32,8 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 
 INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
 (6, 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole', 'http://www.w3.org/2000/01/rdf-schema#comment', 'Workflow User: default role assigned to every backend user, not deletable', 'EN', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(6, 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value', '', 'EN', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (6, 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole', 'http://www.w3.org/2000/01/rdf-schema#label', 'WfUser', 'EN', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(6, 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole', 'http://www.w3.org/2000/01/rdf-schema#seeAlso', '', 'EN', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(6, 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', ' ', 'EN', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(6, 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice', '', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(6, 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole', 'http://www.w3.org/2000/01/rdf-schema#subClassOf', 'http://www.tao.lu/Ontologies/generis.rdf#User', '', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
+(6, 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole', 'http://www.w3.org/2000/01/rdf-schema#subClassOf', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice', '', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
 INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
 (6, 'http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole', 'http://www.w3.org/2000/01/rdf-schema#comment', 'Tao Subject Role', 'EN', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
