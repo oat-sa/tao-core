@@ -77,5 +77,5 @@ else {
 // 	print "<br />".$resultCounter." / ".$counter." fields modified<br />";
  }
  
- mysql_close();
+// mysql_close();
 ?>
