@@ -101,7 +101,7 @@ class tao_models_classes_RoleService
     {
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F73 begin
         
-    	$this->roleClass = new core_kernel_classes_Class(INSTANCE_ROLE_TAOMANAGER);
+    	$this->roleClass = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
     	
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F73 end
     }

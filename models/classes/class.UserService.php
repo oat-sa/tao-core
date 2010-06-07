@@ -92,7 +92,7 @@ class tao_models_classes_UserService
     {
         // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 begin
         
-    	$this->allowedRoles = array(INSTANCE_ROLE_TAOMANAGER);
+    	$this->allowedRoles = array(CLASS_ROLE_TAOMANAGER);
     	
         // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 end
     }
@@ -332,6 +332,7 @@ class tao_models_classes_UserService
         		case 'mail'			: $prop = PROPERTY_USER_MAIL; break;
         		case 'firstname'	: $prop = PROPERTY_USER_FIRTNAME; break;
         		case 'lastname'		: $prop = PROPERTY_USER_LASTNAME; break;
+        		case 'name'			: $prop = PROPERTY_USER_FIRTNAME; break;
         	}
         	$keyProp = new core_kernel_classes_Property($prop);
         }
@@ -340,24 +341,46 @@ class tao_models_classes_UserService
         foreach($users as $user){
         	$key = $index;
         	if(!is_null($keyProp)){
-        		//$key = $user->getUniquePropertyValue($keyProp);
+        		try{
+        			$key = $user->getUniquePropertyValue($keyProp);
+        			if(!is_null($key)){
+        				if($key instanceof core_kernel_classes_Literal){
+        					$returnValue[(string)$key] = $user;
+        				}
+        				if($key instanceof core_kernel_classes_Resource){
+        					$returnValue[$key->getLabel()] = $user;
+        				}
+        				continue;
+        			}
+        		}
+        		catch(common_Exception $ce){}
         	}
         	$returnValue[$key] = $user;
         	$index++;
         }
-       // var_dump($returnValue);
+      	
     	if(isset($options['orderDir'])){
-   			if(strtolower($options['orderDir']) == 'asc'){
-   				sort($returnValue);
-   			}   
+    		if(isset($options['order'])){
+    			if(strtolower($options['orderDir']) == 'asc'){
+   					ksort($returnValue, SORT_STRING);
+    			}
+    			else{
+    				krsort($returnValue, SORT_STRING);
+    			}
+   			}
    			else{
-   				rsort($returnValue);
-   			}  		
+   				if(strtolower($options['orderDir']) == 'asc'){
+	   				sort($returnValue);
+	   			}   
+	   			else{
+	   				rsort($returnValue);
+	   			}  
+   			}
         }
         (isset($options['start'])) 	? $start = $options['start'] 	: $start = 0;
         (isset($options['end']))	? $end	= $options['end']		: $end	= count($returnValue);
         
-       $returnValue = array_slice($returnValue, $start, $end, true);
+      //$returnValue = array_slice($returnValue, $start, $end, true);
         
         // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 end
 

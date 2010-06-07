@@ -71,7 +71,7 @@ $wfUserMailProp = new core_kernel_classes_Property('http://www.tao.lu/middleware
 $wfUserRoleProp = new core_kernel_classes_Property('http://www.tao.lu/middleware/taoqual.rdf#i119012169222836');
 
 $backOfficeClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#BackOffice');
-
+$wfRoleTopClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser');
 	
 
 
@@ -80,7 +80,7 @@ foreach($wfUserInstancesArray as $wfUser){
 	$role = $wfUser->getOnePropertyValue($wfUserRoleProp); 
 
 	if($role instanceof core_kernel_classes_Resource) {
-		$role->setPropertyValue(new core_kernel_classes_Property(RDF_TYPE),$backOfficeClass->uriResource);
+		$role->setPropertyValue(new core_kernel_classes_Property(RDF_TYPE), $wfRoleTopClass->uriResource);
 	
 		$role->editPropertyValues(new core_kernel_classes_Property(RDF_SUBCLASSOF),CLASS_GENERIS_USER);
 		

@@ -27,13 +27,15 @@ $todefine = array(
 	'INSTANCE_BOOLEAN_FALSE'		=> 'http://www.tao.lu/Ontologies/generis.rdf#False',
 	'TAO_LIST_CLASS'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#List',
 	'TAO_LIST_LEVEL_PROP'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#level',
-	'INSTANCE_ROLE_TAOMANAGER'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
-	'INSTANCE_ROLE_BACKOFFICE'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice',
-	'INSTANCE_ROLE_FRONTOFFICE'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#FrontOffice',
-	'INSTANCE_ROLE_SUBJECT'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole',
+	'CLASS_ROLE_TAOMANAGER'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
+	'CLASS_ROLE_BACKOFFICE'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice',
 	'CLASS_ROLE_FRONTOFFICE'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#FrontOffice',
-	'CLASS_ROLE_BACKOFFICE' => 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice',
-	'INSTANCE_ROLE_WORKFLOWUSER'  => 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole'
+	'CLASS_ROLE_SUBJECT'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole',
+	'CLASS_ROLE_FRONTOFFICE'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#FrontOffice',
+	'CLASS_ROLE_BACKOFFICE' 		=> 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice',
+	'CLASS_ROLE_WORKFLOWUSER' 		=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser',
+	'CLASS_ROLE_WORKFLOWUSERROLE'  	=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole',
+
 	
 );
 foreach($todefine as $constName => $constValue){

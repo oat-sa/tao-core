@@ -4226,10 +4226,10 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (15, 'http://localhost/middleware/taoqual.rdf#127565939760310', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Property', '', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
 
-UPDATE `tao`.`extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'tao' LIMIT 1; 
-UPDATE `tao`.`extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'taoGroups' LIMIT 1;
-UPDATE `tao`.`extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'taoItems' LIMIT 1;
-UPDATE `tao`.`extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'taoResults' LIMIT 1; 
-UPDATE `tao`.`extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'taoTests' LIMIT 1; 
-UPDATE `tao`.`extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'taoDelivery' LIMIT 1; 
-UPDATE `tao`.`extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'wfEngine' LIMIT 1;
+UPDATE `extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'tao' LIMIT 1; 
+UPDATE `extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'taoGroups' LIMIT 1;
+UPDATE `extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'taoItems' LIMIT 1;
+UPDATE `extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'taoResults' LIMIT 1; 
+UPDATE `extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'taoTests' LIMIT 1; 
+UPDATE `extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'taoDelivery' LIMIT 1; 
+UPDATE `extensions` SET `version` = '1.2' WHERE `extensions`.`id` = 'wfEngine' LIMIT 1;

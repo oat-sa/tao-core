@@ -93,13 +93,22 @@ class Users extends CommonModule {
 			$defLg 			= $user->getOnePropertyValue($deflgProperty);
 			$cellData[3] 	= '';
 			if(!is_null($defLg)){
-				$cellData[3] = __($defLg->getLabel());
+				if($defLg instanceof core_kernel_classes_Literal){
+					$cellData[3] = __((string)$defLg);
+				}
+				if($defLg instanceof core_kernel_classes_Resource){
+					$cellData[3] = __($defLg->getLabel());
+				}
 			}
-			
 			$uiLg 			= $user->getOnePropertyValue($uilgProperty);
 			$cellData[4] 	= '';
 			if(!is_null($uiLg)){
-				$cellData[4] = __($uiLg->getLabel());
+				if($uiLg instanceof core_kernel_classes_Literal){
+					$cellData[4] = __((string)$uiLg);
+				}
+				if($uiLg instanceof core_kernel_classes_Resource){
+					$cellData[4] = __($uiLg->getLabel());
+				}
 			}
 			
 			$cellData[5]	= '';
@@ -108,6 +117,7 @@ class Users extends CommonModule {
 			$response->rows[$i]['cell'] = $cellData;
 			$i++;
 		} 
+		
 		echo json_encode($response); 
 	}
 	
@@ -133,11 +143,10 @@ class Users extends CommonModule {
 	 */
 	public function add(){
 		
-		$myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(INSTANCE_ROLE_TAOMANAGER));
+		$myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER));
 		$myForm = $myFormContainer->getForm();
 		
 		if($myForm->isSubmited()){
-			
 			if($myForm->isValid()){
 				$values = $myForm->getValues();
 				$values[PROPERTY_USER_PASSWORD] = md5($values['password1']);
