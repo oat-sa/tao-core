@@ -10,6 +10,14 @@ DELETE FROM `statements` WHERE `subject` ='http://www.tao.lu/middleware/Intervie
 DELETE FROM `statements` WHERE `subject` ='http://www.tao.lu/middleware/Interview.rdf#i122786664635240';
 DELETE FROM `statements` WHERE `subject` ='http://www.tao.lu/middleware/Interview.rdf#fteHeight';
 
+
+DELETE FROM `tao`.`statements` WHERE `statements`.`id` = 346 and `subject` = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject' LIMIT 1;
+DELETE FROM `tao`.`statements` WHERE `statements`.`id` = 347 and `subject` = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject' LIMIT 1;
+DELETE FROM `tao`.`statements` WHERE `statements`.`id` = 348 and `subject` = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject' LIMIT 1;
+DELETE FROM `tao`.`statements` WHERE `statements`.`id` = 355 and `subject` = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject' LIMIT 1;
+DELETE FROM `tao`.`statements` WHERE `statements`.`id` = 356 and `subject` = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject' LIMIT 1;
+DELETE FROM `tao`.`statements` WHERE `statements`.`id` = 357 and `subject` = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject' LIMIT 1;
+
 DELETE FROM `statements` WHERE `subject` ='http://www.tao.lu/middleware/taoqual.rdf#i1190121738750';
 
 
@@ -157,3 +165,23 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (8, 'http://localhost/middleware/tao.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#userDefLg', 'EN', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (8, 'http://localhost/middleware/tao.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#userUILg', 'EN', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (8, 'http://localhost/middleware/tao.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#password', 'b01a52f727b0810639526fe2c8188331', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
+
+
+INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+(17, 'http://www.tao.lu/middleware/Rules.rdf#RuleEngine', 'http://www.w3.org/2000/01/rdf-schema#comment', '', 'EN', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(17, 'http://www.tao.lu/middleware/Rules.rdf#RuleEngine', 'http://www.w3.org/2000/01/rdf-schema#label', 'Rule Engine', 'EN', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(17, 'http://www.tao.lu/middleware/Rules.rdf#RuleEngine', 'http://www.w3.org/2000/01/rdf-schema#seeAlso', '', 'EN', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(17, 'http://www.tao.lu/middleware/Rules.rdf#RuleEngine', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', ' ', 'EN', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(17, 'http://www.tao.lu/middleware/Rules.rdf#RuleEngine', 'http://www.w3.org/2000/01/rdf-schema#subClassOf', 'http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource', '', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
+
+UPDATE `tao`.`statements` SET `object` =  'http://www.tao.lu/middleware/Rules.rdf#RuleEngine'  WHERE `subject` = 'http://www.tao.lu/middleware/Rules.rdf#i123237201537938' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
+UPDATE `tao`.`statements` SET `object` =  'http://www.tao.lu/middleware/Rules.rdf#RuleEngine'  WHERE `subject` = 'http://www.tao.lu/middleware/Rules.rdf#i122174810828864' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
+UPDATE `tao`.`statements` SET `object` =  'http://www.tao.lu/middleware/Rules.rdf#RuleEngine'  WHERE `subject` = 'http://www.tao.lu/middleware/Rules.rdf#i121923538763258' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
+UPDATE `tao`.`statements` SET `object` =  'http://www.tao.lu/middleware/Rules.rdf#RuleEngine'  WHERE `subject` = 'http://www.tao.lu/middleware/Rules.rdf#i121923619228250' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
+UPDATE `tao`.`statements` SET `object` =  'http://www.tao.lu/middleware/Rules.rdf#RuleEngine'  WHERE `subject` = 'http://www.tao.lu/middleware/Rules.rdf#i121923706015022' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
+UPDATE `tao`.`statements` SET `object` =  'http://www.tao.lu/middleware/Rules.rdf#RuleEngine'  WHERE `subject` = 'http://www.tao.lu/middleware/Rules.rdf#i121924548064116' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
+UPDATE `tao`.`statements` SET `object` =  'http://www.tao.lu/middleware/Rules.rdf#RuleEngine'  WHERE `subject` = 'http://www.tao.lu/middleware/Rules.rdf#i121966663218078' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
+UPDATE `tao`.`statements` SET `object` =  'http://www.tao.lu/middleware/Rules.rdf#RuleEngine'  WHERE `subject` = 'http://www.tao.lu/middleware/Rules.rdf#i122113325919616' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#subClassOf';
+
+
+
