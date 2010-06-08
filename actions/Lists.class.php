@@ -76,7 +76,7 @@ class Lists extends CommonModule {
 		}
 		$data = array();
 		foreach($this->service->getLists() as $listClass){
-			array_push($data, $this->service->toTree($listClass, false, true));
+			array_push($data, $this->service->toTree($listClass, array('subclasses' => false)));
 		}
 		echo json_encode(array(
 			'data' 		=> __('Lists'),

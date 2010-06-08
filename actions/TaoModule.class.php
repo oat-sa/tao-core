@@ -230,22 +230,39 @@ abstract class TaoModule extends CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		$filter = '';
+		
+		$options = array(
+			'subclasses' => true, 
+			'instances' => true, 
+			'highlightUri' => '', 
+			'labelFilter' => '', 
+			'chunk' => false
+		);
+		
 		if($this->hasRequestParameter('filter')){
-			$filter = $this->getRequestParameter('filter');
+			$options['labelFilter'] = $this->getRequestParameter('filter');
 		}
-		$highlightUri = '';
+		
 		if($this->hasSessionAttribute("showNodeUri")){
-			$highlightUri = $this->getSessionAttribute("showNodeUri");
-			unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
+			$options['highlightUri'] = $this->getSessionAttribute("showNodeUri");
+			$this->removeSessionAttribute("showNodeUri");
 		}
-		$instances = true;
 		if($this->hasRequestParameter('hideInstances')){
 			if((bool)$this->getRequestParameter('hideInstances')){
-				$instances = false;
+				$options['instances'] = false;
 			}
 		}
-		echo json_encode( $this->service->toTree( $this->getRootClass(), true, $instances, $highlightUri, $filter));
+		
+		if($this->hasRequestParameter('classUri')){
+			$clazz = $this->getCurrentClass();
+			$options['chunk'] = true;
+		}
+		else{
+			$clazz = $this->getRootClass();
+		}
+		
+		
+		echo json_encode( $this->service->toTree($clazz, $options));
 	}
 	
 	

@@ -219,7 +219,6 @@ class Main extends CommonModule {
 				$openUri = false;
 				if($this->hasSessionAttribute("showNodeUri")){
 					$openUri = $this->getSessionAttribute("showNodeUri");
-					unset($_SESSION[SESSION_NAMESPACE]["showNodeUri"]);
 				}
 				$this->setData('openUri', $openUri);
 				

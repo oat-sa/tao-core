@@ -635,18 +635,22 @@ abstract class tao_models_classes_Service
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  Class clazz
-     * @param  boolean subclasses
-     * @param  boolean instances
-     * @param  string highlightUri
-     * @param  string labelFilter
+     * @param  array options
      * @return array
      */
-    public function toTree( core_kernel_classes_Class $clazz, $subclasses = true, $instances = true, $highlightUri = '', $labelFilter = '')
+    public function toTree( core_kernel_classes_Class $clazz, $options)
     {
         $returnValue = array();
 
         // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B begin
 		
+        (isset($options['subclasses'])) 	? $subclasses = $options['subclasses'] 		: $subclasses = true;
+        (isset($options['instances'])) 		? $instances = $options['instances'] 		: $instances = true;
+        (isset($options['highlightUri'])) 	? $highlightUri = $options['highlightUri'] 	: $highlightUri = '';
+        (isset($options['labelFilter'])) 	? $labelFilter = $options['labelFilter'] 	: $labelFilter = '';
+        (isset($options['recursive'])) 		? $recursive = $options['recursive'] 		: $recursive = false;
+        (isset($options['chunk'])) 			? $chunk = $options['chunk'] 				: $chunk = false;
+        
 		$instancesData = array();
 		if($instances){
 			foreach($clazz->getInstances(false) as $instance){
@@ -671,23 +675,50 @@ abstract class tao_models_classes_Service
 		$subclassesData = array();
 		if($subclasses){
 			foreach($clazz->getSubClasses(false) as $subclass){
-				$subclassesData[] = $this->toTree($subclass, $subclasses, $instances, $highlightUri, $labelFilter);
+				$options['recursive'] = true;
+				$options['chunk'] = false;
+				$subclassesData[] = $this->toTree($subclass, $options);
 			}
 		}
 		
 		//format classes for json tree datastore 
-		$data = array(
-				'data' 	=> tao_helpers_Display::textCutter($clazz->getLabel(), 16),
-				'attributes' => array(
-						'id' => tao_helpers_Uri::encode($clazz->uriResource),
-						'class' => 'node-class'
-					)
- 			);
+		$data = array();
+		if(!$chunk){
+			$data = array(
+					'data' 	=> tao_helpers_Display::textCutter($clazz->getLabel(), 16),
+					'attributes' => array(
+							'id' => tao_helpers_Uri::encode($clazz->uriResource),
+							'class' => 'node-class'
+						)
+	 			);
+		}
 		$children = array_merge($subclassesData, $instancesData);
 		if(count($children) > 0){
-			$data['children'] = $children;
+			if($highlightUri != '' && $recursive){
+				foreach($children as $child){
+					if($child['attributes']['id'] == $highlightUri){
+						$recursive = false;
+						break;
+					}
+				}
+			}
+			if($recursive) {
+				if(!$chunk){
+					$data['children'] = array();
+				}				
+				$data['state'] = 'closed';
+			}
+			else{
+				if($chunk){
+					$data = $children;
+				}
+				else{
+					$data['children'] = $children;
+				}
+			}
+			
 		}
-		if($highlightUri != ''){
+    	if($highlightUri != ''){
 			if($highlightUri == tao_helpers_Uri::encode($clazz->uriResource)){
 				if(count($clazz->getInstances()) > 0 || count($clazz->getSubClasses()) > 0){
 					$data['state'] = 'open';
@@ -700,7 +731,7 @@ abstract class tao_models_classes_Service
 						break;
 					}
 				}
-				$clazzChildren = $clazz->getSubClasses(true);
+				$clazzChildren = $clazz->getSubClasses(false);
 				foreach($clazzChildren as $clazzChild){
 					if($highlightUri == tao_helpers_Uri::encode($clazzChild->uriResource)){
 						$data['state'] = 'open';

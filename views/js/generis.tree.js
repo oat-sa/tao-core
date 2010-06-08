@@ -78,6 +78,13 @@ function GenerisTreeClass(selector, dataUrl, options){
 			callback : {
 				//data to send to the server
 				beforedata:function(NODE, TREE_OBJ) { 
+					if(NODE){
+						return { 
+							hideInstances : instance.options.hideInstances | false,
+							filter: $("#filter-content-" + options.actionId).val(),
+							classUri: $(NODE).attr('id')
+						};
+					}
 					return { 
 						hideInstances : instance.options.hideInstances | false,
 						filter: $("#filter-content-" + options.actionId).val()
@@ -96,20 +103,26 @@ function GenerisTreeClass(selector, dataUrl, options){
 				//when we receive the data
 				ondata: function(DATA, TREE_OBJ){
 					if(instance.options.instanceClass){
+						function addClassToNodes(nodes, clazz){
+							$.each(nodes, function(i, node){
+								if(/node\-instance/.test(node.attributes['class'])){
+									node.attributes['class'] = node.attributes['class'] + ' ' + clazz;
+								}
+								if(node.children){
+									addClassToNodes(node.children, clazz);
+								}
+							});
+						}
 						if(DATA.children){
-							function addClassToNodes(nodes, clazz){
-								$.each(nodes, function(i, node){
-									if(/node\-instance/.test(node.attributes['class'])){
-										node.attributes['class'] = node.attributes['class'] + ' ' + clazz;
-									}
-									if(node.children){
-										addClassToNodes(node.children, clazz);
-									}
-								});
-							}
 							addClassToNodes(DATA.children, instance.options.instanceClass);
 							if(instance.options.moveInstanceAction){
 								addClassToNodes(DATA.children, 'node-draggable');
+							}
+						}
+						else if(DATA.length == 1){
+							addClassToNodes(DATA, instance.options.instanceClass);
+							if(instance.options.moveInstanceAction){
+								addClassToNodes(DATA, 'node-draggable');
 							}
 						}
 					}
@@ -117,7 +130,13 @@ function GenerisTreeClass(selector, dataUrl, options){
 				},
 				//when a node is selected
 				onselect: function(NODE, TREE_OBJ){
-					if($(NODE).attr('id') == instance.options.selectNode){
+					var nodeId = $(NODE).attr('id');
+					$("a.clicked").each(function(){
+						if($(this).parent('li').attr('id') != nodeId){
+							$(this).removeClass('clicked');
+						}
+					});
+					if(nodeId == instance.options.selectNode){
 						return false;
 					}
 					if($(NODE).hasClass('node-class') && instance.options.editClassAction){
@@ -125,7 +144,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						//load the editClassAction into the formContainer
 						_load(instance.options.formContainer, 
 							instance.options.editClassAction,
-							{classUri:$(NODE).attr('id')}
+							{classUri:nodeId}
 						);
 					}
 					if($(NODE).hasClass('node-instance') && instance.options.editInstanceAction){
@@ -134,7 +153,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						PNODE = TREE_OBJ.parent(NODE);
 						_load(instance.options.formContainer, 
 							instance.options.editInstanceAction, 
-							{classUri: $(PNODE).attr('id'),  uri: $(NODE).attr('id')}
+							{classUri: $(PNODE).attr('id'),  uri: nodeId}
 						);
 					}
 					return false;
@@ -153,8 +172,21 @@ function GenerisTreeClass(selector, dataUrl, options){
 						}
 						//call the server with the new node position to save the new position
 						function moveNode(url, data){
-							$.postJson(url, data,
+							
+							var NODE 		= data.NODE;
+							var REF_NODE	= data.REF_NODE;
+							var RB 			= data.RB;
+							var TREE_OBJ 	= data.TREE_OBJ;
+							(data.confirmed === true) ? confirmed = true :  confirmed = false;
+							console.log(data);
+							
+							$.postJson(url, {
+								'uri': data.uri,
+								'destinationClassUri':  data.destinationClassUri,
+								'confirmed' : confirmed
+								},
 								function(response){
+									
 									if(response == null){
 										$.tree.rollback(RB);
 										return;
@@ -189,7 +221,11 @@ function GenerisTreeClass(selector, dataUrl, options){
 						}
 						moveNode(instance.options.moveInstanceAction, {
 								'uri': $(NODE).attr('id'),
-								'destinationClassUri': $(REF_NODE).attr('id')
+								'destinationClassUri': $(REF_NODE).attr('id'),
+								'NODE'		: NODE,
+								'REF_NODE'	: REF_NODE,
+								'RB'		: RB,
+								'TREE_OBJ'	: TREE_OBJ
 							});
 					}
 				}

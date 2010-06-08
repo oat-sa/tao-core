@@ -47,6 +47,12 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				theme_name : "checkbox"
 			},
 			callback : {
+				beforedata:function(NODE, TREE_OBJ) { 
+					if(NODE){
+						return {classUri: $(NODE).attr('id')};
+					}
+					return {};
+				},
 				onload: function(TREE_OBJ) {
 					if(instance.options.checkedNodes){
 						instance.check(instance.options.checkedNodes);
@@ -54,8 +60,17 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					if(instance.options.loadCallback){
 						instance.options.loadCallback();
 					}
-					instance.getTree().open_all();
-					
+				},
+				ondata: function(DATA, TREE_OBJ){
+					if(DATA.children){
+						DATA.state = 'open';
+						$.each(DATA.children, function(i, node){
+							if(node.children){
+								node.state = 'closed';
+							}
+						});
+					}
+					return DATA;
 				}
 			},
 			plugins : {

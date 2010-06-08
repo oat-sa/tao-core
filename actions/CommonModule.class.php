@@ -51,19 +51,19 @@ abstract class CommonModule extends Module {
 					$this->setSessionAttribute('uri', $this->getRequestParameter('uri'));
 				}
 				else{
-					unset($_SESSION[SESSION_NAMESPACE]['uri']);
+					$this->removeSessionAttribute('uri');
 				}
 				if($this->getRequestParameter('classUri')){
 					$this->setSessionAttribute('classUri', $this->getRequestParameter('classUri'));
 				}
 				else{
-					unset($_SESSION[SESSION_NAMESPACE]['classUri']);
+					$this->removeSessionAttribute('classUri');
 				}
 			}
 		}
 		else{
-			unset($_SESSION[SESSION_NAMESPACE]['uri']);
-			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
+			$this->removeSessionAttribute('uri');
+			$this->removeSessionAttribute('classUri');
 		}
 		
 		if($this->getRequestParameter('message')){
