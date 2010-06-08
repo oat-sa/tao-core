@@ -148,7 +148,7 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#127538512347998', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', ' ', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
 
-UPDATE `tao`.`statements` SET `object` =  'Process Execution Resource' WHERE `subject` = 'http://www.tao.lu/middleware/taoqual.rdf#i119969454940384' and `predicate` =  'http://www.w3.org/2000/01/rdf-schema#label' ;
+UPDATE `statements` SET `object` =  'Process Execution Resource' WHERE `subject` = 'http://www.tao.lu/middleware/taoqual.rdf#i119969454940384' and `predicate` =  'http://www.w3.org/2000/01/rdf-schema#label' ;
 
 INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#Token', 'http://www.w3.org/2000/01/rdf-schema#comment', '', 'EN', 'tao', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
