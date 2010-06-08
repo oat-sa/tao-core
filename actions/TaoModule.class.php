@@ -326,7 +326,8 @@ abstract class TaoModule extends CommonModule {
 			if(!empty($destinationUri) && $destinationUri != $clazz->uriResource){
 				$destinationClass = new core_kernel_classes_Class(tao_helpers_Uri::decode($destinationUri));
 				
-				if(!$this->hasRequestParameter('confirmed')){
+				$confirmed = $this->getRequestParameter('confirmed');
+				if($confirmed == 'false' || $confirmed ===  false){
 					
 					$diff = $this->service->getPropertyDiff($clazz, $destinationClass);
 				
@@ -339,6 +340,7 @@ abstract class TaoModule extends CommonModule {
 					}
 				}
 				
+				$this->setSessionAttribute('showNodeUri', tao_helpers_Uri::encode($instance->uriResource));
 				$status = $this->service->changeClass($instance, $destinationClass);
 				echo json_encode(array('status'	=> $status));
 			}

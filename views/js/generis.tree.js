@@ -128,6 +128,9 @@ function GenerisTreeClass(selector, dataUrl, options){
 					}
 					return DATA;
 				},
+				ondelete: function(){
+					GenerisTreeClass.instances[GenerisTreeClass.instances.length].remove();
+				},
 				//when a node is selected
 				onselect: function(NODE, TREE_OBJ){
 					var nodeId = $(NODE).attr('id');
@@ -165,6 +168,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 					}
 					if($(REF_NODE).hasClass('node-instance') && TYPE == 'inside'){
 						$.tree.rollback(RB);
+						return false;
 					}
 					else{
 						if(TYPE == 'after' || TYPE == 'before'){
@@ -177,8 +181,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							var REF_NODE	= data.REF_NODE;
 							var RB 			= data.RB;
 							var TREE_OBJ 	= data.TREE_OBJ;
-							(data.confirmed === true) ? confirmed = true :  confirmed = false;
-							console.log(data);
+							(data.confirmed == true) ? confirmed = true :  confirmed = false;
 							
 							$.postJson(url, {
 								'uri': data.uri,
@@ -209,24 +212,26 @@ function GenerisTreeClass(selector, dataUrl, options){
 										}
 									}
 									else if(response.status == true){
-										instance.options.selectNode = $(NODE).attr('id');
 										TREE_OBJ.refresh();
 										TREE_OBJ.open_branch(NODE);	
-										$('li.node-instance a.clicked').removeClass('clicked');
+										$('li a').removeClass('clicked');
 									}
 									else{
 										$.tree.rollback(RB);
 									}
 							});
 						}
-						moveNode(instance.options.moveInstanceAction, {
-								'uri': $(NODE).attr('id'),
-								'destinationClassUri': $(REF_NODE).attr('id'),
-								'NODE'		: NODE,
-								'REF_NODE'	: REF_NODE,
-								'RB'		: RB,
-								'TREE_OBJ'	: TREE_OBJ
-							});
+						/*indexUrl = root_url + '/' + ctx_extension + '/' + ctx_module +  '/index';
+						$(getMainContainerSelector(UiBootstrap.tabs)).load(indexUrl, null, function(){*/
+							moveNode(instance.options.moveInstanceAction, {
+									'uri': $(NODE).attr('id'),
+									'destinationClassUri': $(REF_NODE).attr('id'),
+									'NODE'		: NODE,
+									'REF_NODE'	: REF_NODE,
+									'RB'		: RB,
+									'TREE_OBJ'	: TREE_OBJ
+								});
+						//});
 					}
 				}
 			},
@@ -378,6 +383,12 @@ function GenerisTreeClass(selector, dataUrl, options){
 		if(this.options.selectNode){
 			this.treeOptions.selected = this.options.selectNode;
 		}
+		
+		tmpTree = $.tree.reference(selector);
+		if(tmpTree != null){
+			tmpTree.destroy();
+		}
+		tmpTree = null;
 		
 		/*
 		 * Create and initialize the tree here

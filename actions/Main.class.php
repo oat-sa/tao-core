@@ -95,13 +95,13 @@ class Main extends CommonModule {
 		
 		if($this->getRequestParameter('extension') != null){
 			if($this->getRequestParameter('extension') == 'none'){
-				unset($_SESSION[SESSION_NAMESPACE]['currentExtension']);
+				$this->removeSessionAttribute('currentExtension');
 			}
 			else{
 				$this->service->setCurrentExtension($this->getRequestParameter('extension'));
 			}
-			unset($_SESSION[SESSION_NAMESPACE]['uri']);
-			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
+			$this->removeSessionAttribute('uri');
+			$this->removeSessionAttribute('classUri');
 		}
 		
 		$this->setData('sections', false);

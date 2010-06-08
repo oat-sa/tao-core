@@ -52,7 +52,7 @@ if(!tao_helpers_Request::isAjax()){
 	tao_helpers_Scriptloader::addJsFiles(array(
 		TAOBASE_WWW . 'js/jquery-1.4.2.min.js',
 		TAOBASE_WWW . 'js/jquery-ui-1.8.custom.min.js',
-		TAOBASE_WWW . 'js/jsTree/jquery.tree.min.js',
+		TAOBASE_WWW . 'js/jsTree/jquery.tree.js',
 		TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
 		TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
 		TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
