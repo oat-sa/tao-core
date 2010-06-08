@@ -166,13 +166,13 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 
 
 INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
-(8, 'http://localhost/middleware/tao.rdf#installator', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(8, 'http://localhost/middleware/tao.rdf#installator', 'http://www.w3.org/2000/01/rdf-schema#label', 'installator', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(8, 'http://localhost/middleware/tao.rdf#installator', 'http://www.w3.org/2000/01/rdf-schema#comment', 'Generated during update from user table on2010-05-17T18:54:33+0200', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(8, 'http://localhost/middleware/tao.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#login', 'generis', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(8, 'http://localhost/middleware/tao.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#userDefLg', 'EN', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(8, 'http://localhost/middleware/tao.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#userUILg', 'EN', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(8, 'http://localhost/middleware/tao.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#password', 'b01a52f727b0810639526fe2c8188331', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
+(6, 'http://www.tao.lu/Ontologies/TAO.rdf#installator', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(6, 'http://www.tao.lu/Ontologies/TAO.rdf#installator', 'http://www.w3.org/2000/01/rdf-schema#label', 'installator', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(6, 'http://www.tao.lu/Ontologies/TAO.rdf#installator', 'http://www.w3.org/2000/01/rdf-schema#comment', 'Generated during update from user table on2010-05-17T18:54:33+0200', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(6, 'http://www.tao.lu/Ontologies/TAO.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#login', 'generis', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(6, 'http://www.tao.lu/Ontologies/TAO.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#userDefLg', 'EN', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(6, 'http://www.tao.lu/Ontologies/TAO.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#userUILg', 'EN', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(6, 'http://www.tao.lu/Ontologies/TAO.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#password', 'b01a52f727b0810639526fe2c8188331', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
 
 INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
