@@ -24,7 +24,7 @@ if (empty($_POST))
 	include_once 'index.php';
 }
 else {
-
+	session_start();
 	$param = $_POST["param"];
 	install($param);
 

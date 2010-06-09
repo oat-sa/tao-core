@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 04.06.2010, 14:02:53 with ArgoUML PHP module 
+ * Automatically generated on 09.06.2010, 12:05:07 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -243,10 +243,10 @@ class tao_models_classes_RoleService
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Resource role
+     * @param  Resource user
      * @return array
      */
-    public function getUserRoles( core_kernel_classes_Resource $role)
+    public function getUserRoles( core_kernel_classes_Resource $user)
     {
         $returnValue = array();
 
