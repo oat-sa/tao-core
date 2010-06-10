@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Jun 10 14:25:30 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Jun 10 15:56:10 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.1(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -28276,6 +28276,31 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                               </UML:Parameter.type>
                             </UML:Parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-2013ff6:1292105c669:-8000:0000000000001FD3'
+                              name = 'activityExecution' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1--44e2213d:12922223449:-8000:0000000000001FE0'
+                          name = 'dispatch' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                          isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                          isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--44e2213d:12922223449:-8000:0000000000001FE1'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--44e2213d:12922223449:-8000:0000000000001FE2'
+                              name = 'tokens' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1--44e2213d:12922223449:-8000:0000000000001FE3'
                               name = 'activityExecution' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
@@ -58948,7 +58973,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
   </group>
   <group name="Fig41"
-       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[16, 2576, 768, 768]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
+       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[16, 2576, 768, 816]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
        href="127-0-1-1-951b66:128b0d3ece8:-8000:0000000000001F52"
        fill="1"
        fillcolor="255 200 255"
@@ -58962,7 +58987,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       x="16"
       y="2576"
       width="768"
-      height="768"
+      height="816"
       fill="0"
       fillcolor="white"
       stroke="0"
@@ -58984,9 +59009,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <lineto x="783"
               y="2599" />
       <lineto x="783"
-              y="3343" />
+              y="3391" />
       <lineto x="16"
-              y="3343" />
+              y="3391" />
       <lineto x="16"
               y="2576" />
     </path>
@@ -59033,7 +59058,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       x="16"
       y="2599"
       width="768"
-      height="745"
+      height="793"
       fill="0"
       fillcolor="255 200 255"
       stroke="1"
@@ -59899,7 +59924,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </path>
   </group>
   <group name="Fig51"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 3016, 474, 312]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 3016, 474, 328]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-bf84135:12912b487a0:-8000:0000000000001F98"
        fill="1"
        fillcolor="255 200 255"
@@ -59914,7 +59939,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       x="40"
       y="3016"
       width="474"
-      height="312"
+      height="328"
       fill="1"
       fillcolor="255 200 255"
       stroke="1"
@@ -59937,7 +59962,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Center"
     >TokenService</text>
     <group name="Fig51.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 3017, 375, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 3017, 471, 0]"
          href="127-0-1-1-bf84135:12912b487a0:-8000:0000000000001F98"
          fill="0"
          fillcolor="255 200 255"
@@ -59951,7 +59976,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <rectangle name="Fig51.2.0"
         x="41"
         y="3017"
-        width="375"
+        width="471"
         height="0"
         fill="0"
         fillcolor="255 200 255"
@@ -60098,7 +60123,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig51.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 3144, 472, 184]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 3144, 472, 200]"
          href="127-0-1-1-bf84135:12912b487a0:-8000:0000000000001F98"
          fill="0"
          fillcolor="255 200 255"
@@ -60112,7 +60137,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         x="41"
         y="3144"
         width="472"
-        height="184"
+        height="200"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -60236,7 +60261,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="472"
         height="16"
         fill="0"
-        fillcolor="255 200 255"
+        fillcolor="white"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -60245,7 +60270,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >duplicate(token : Resource) : Resource</text>
+      >dispatch(tokens : array,activityExecution : Resource) : boolean</text>
       <text name="Fig51.6.9"
         x="41"
         y="3272"
@@ -60261,7 +60286,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >merge(tokens : array) : Resource</text>
+      >duplicate(token : Resource) : Resource</text>
       <text name="Fig51.6.10"
         x="41"
         y="3288"
@@ -60277,10 +60302,26 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >delete(token : Resource) : boolean</text>
+      >merge(tokens : array) : Resource</text>
       <text name="Fig51.6.11"
         x="41"
         y="3304"
+        width="472"
+        height="16"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >delete(token : Resource) : boolean</text>
+      <text name="Fig51.6.12"
+        x="41"
+        y="3320"
         width="472"
         height="22"
         fill="0"
