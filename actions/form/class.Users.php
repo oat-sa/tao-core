@@ -176,7 +176,7 @@ class tao_actions_form_Users
 			$pass1Element->setDescription(__('Password *'));
 			$pass1Element->addValidators(array(
 				tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-				tao_helpers_form_FormFactory::getValidator('Length', array('min' => 4))
+				tao_helpers_form_FormFactory::getValidator('Length', array('min' => 3))
 			));
 			$this->form->addElement($pass1Element);
 			
@@ -222,7 +222,7 @@ class tao_actions_form_Users
 			$pass2Element = tao_helpers_form_FormFactory::getElement('password2', 'Hiddenbox');
 			$pass2Element->setDescription(__('New password'));
 			$pass2Element->addValidators(array(
-				tao_helpers_form_FormFactory::getValidator('Length', array('min' => 4))
+				tao_helpers_form_FormFactory::getValidator('Length', array('min' => 3))
 			));
 			if(!$validatePasswords){
 				$pass2Element->setForcedValid();

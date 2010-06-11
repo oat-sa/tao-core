@@ -280,15 +280,17 @@ class tao_models_classes_UserService
 		
 		if(!empty($login)){
 			$user = $this->generisUserService->getOneUser($login);
-			$userClass = $this->getClass($user);
-			if(in_array($userClass->uriResource, $this->allowedRoles)){
-				$returnValue = $user;
-			}
-			else{
-				foreach($userClass->getParentClasses(true) as $parent){
-					if(in_array($parent->uriResource, $this->allowedRoles)){
-						$returnValue = $user;
-						break;
+			if(!is_null($user) && $user !== false){
+				$userClass = $this->getClass($user);
+				if(in_array($userClass->uriResource, $this->allowedRoles)){
+					$returnValue = $user;
+				}
+				else{
+					foreach($userClass->getParentClasses(true) as $parent){
+						if(in_array($parent->uriResource, $this->allowedRoles)){
+							$returnValue = $user;
+							break;
+						}
 					}
 				}
 			}
