@@ -617,7 +617,7 @@ abstract class TaoModule extends CommonModule {
 		if($this->hasRequestParameter('classUri')){
 			$clazz = $this->getCurrentClass();
 			if(!is_null($clazz)){
-				ServiceApi::save( array($this->getDataKind().'ClassUri' => $clazz->uriResource) );
+				wfEngine_models_classes_VariableService::save( array($this->getDataKind().'ClassUri' => $clazz->uriResource) );
 				$message = $clazz->getLabel().' '.__('class selected');
 			}
 		}
@@ -626,7 +626,7 @@ abstract class TaoModule extends CommonModule {
 		if($this->hasRequestParameter('uri')){
 			$instance = $this->getCurrentInstance();
 			if(!is_null($instance)){
-				ServiceApi::save( array($this->getDataKind().'Uri' => $instance->uriResource) );
+				wfEngine_models_classes_VariableService::save( array($this->getDataKind().'Uri' => $instance->uriResource) );
 				$message = $instance->getLabel().' '.__($this->getDataKind()).' '.__('selected');
 			}
 		}
@@ -645,7 +645,7 @@ abstract class TaoModule extends CommonModule {
 		$instance = $this->service->createInstance($clazz);
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			
-			ServiceApi::save( array($this->getDataKind().'Uri' => $instance->uriResource) );
+			wfEngine_models_classes_VariableService::save( array($this->getDataKind().'Uri' => $instance->uriResource) );
 			
 			$params = array(
 				'uri'		=> tao_helpers_Uri::encode($instance->uriResource),
