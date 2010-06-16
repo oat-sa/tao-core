@@ -147,7 +147,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						//load the editClassAction into the formContainer
 						_load(instance.options.formContainer, 
 							instance.options.editClassAction,
-							{classUri:nodeId}
+							instance.data(null, nodeId)
 						);
 					}
 					if($(NODE).hasClass('node-instance') && instance.options.editInstanceAction){
@@ -156,7 +156,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						PNODE = TREE_OBJ.parent(NODE);
 						_load(instance.options.formContainer, 
 							instance.options.editInstanceAction, 
-							{classUri: $(PNODE).attr('id'),  uri: nodeId}
+							instance.data(nodeId, $(PNODE).attr('id'))
 						);
 					}
 					return false;
@@ -418,6 +418,29 @@ function GenerisTreeClass(selector, dataUrl, options){
 	}
 	catch(exp){
 		console.log(exp);
+	}
+
+	/**
+	 * Formats sendable data with the defined options
+	 * ONLY USED FOR SELECT ACTION
+	 * @param {String} uri
+	 * @param {String} classUri
+	 * @return {Object}
+	 */
+	this.data = function(uri, classUri){
+		data = {};
+		
+		(this.options.instanceKey) 	? instanceKey = this.options.instanceKey :  instanceKey = 'uri';
+		(this.options.classKey) 	? classKey = this.options.classKey :  classKey = 'classUri';
+		
+		if(uri){
+			data[instanceKey] = uri;
+		}
+		if(classUri){
+			data[classKey] = classUri;
+		}
+		
+		return data;
 	}
 }
 

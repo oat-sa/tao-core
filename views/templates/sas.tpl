@@ -31,8 +31,17 @@
 		});
 	</script>
 	<style type="text/css">
+		body{
+			position:inherit;
+			width:inherit;
+			height:inherit;
+			min-height:inherit;
+			min-width:inherit;
+		}
 		div.main-container{
+			width:inherit;
 			height:100%;
+			min-height:250px;
 		}
 	</style>
 </head>
@@ -41,7 +50,7 @@
 		<img src="<?=TAOBASE_WWW?>img/ajax-loader.gif" alt="loading" />
 	</div>
 
-	<div class="main-container">
+	<div class="main-container" >
 	<? include(get_data('includedView')) ?>
 	</div>
 	

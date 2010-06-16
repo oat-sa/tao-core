@@ -1,5 +1,4 @@
 Options +FollowSymLinks
-Options +Indexes
 RewriteEngine On
 
 #rewrite the old item saving method 
