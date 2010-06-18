@@ -128,9 +128,6 @@ function GenerisTreeClass(selector, dataUrl, options){
 					}
 					return DATA;
 				},
-				ondelete: function(){
-					GenerisTreeClass.instances[GenerisTreeClass.instances.length].remove();
-				},
 				//when a node is selected
 				onselect: function(NODE, TREE_OBJ){
 					var nodeId = $(NODE).attr('id');
@@ -221,17 +218,14 @@ function GenerisTreeClass(selector, dataUrl, options){
 									}
 							});
 						}
-						/*indexUrl = root_url + '/' + ctx_extension + '/' + ctx_module +  '/index';
-						$(getMainContainerSelector(UiBootstrap.tabs)).load(indexUrl, null, function(){*/
-							moveNode(instance.options.moveInstanceAction, {
-									'uri': $(NODE).attr('id'),
-									'destinationClassUri': $(REF_NODE).attr('id'),
-									'NODE'		: NODE,
-									'REF_NODE'	: REF_NODE,
-									'RB'		: RB,
-									'TREE_OBJ'	: TREE_OBJ
-								});
-						//});
+						moveNode(instance.options.moveInstanceAction, {
+								'uri': $(NODE).attr('id'),
+								'destinationClassUri': $(REF_NODE).attr('id'),
+								'NODE'		: NODE,
+								'REF_NODE'	: REF_NODE,
+								'RB'		: RB,
+								'TREE_OBJ'	: TREE_OBJ
+							});
 					}
 				}
 			},
