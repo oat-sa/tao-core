@@ -132,6 +132,7 @@ GenerisAction.addProperty = function (uri, classUri, url){
 
 /**
  * Load the result table with the tree instances in parameter
+ * @deprecated
  * @param {String} uri
  * @param {String} classUri
  * @param {String} url
@@ -156,6 +157,7 @@ GenerisAction.resultTable = function (uri, classUri, url){
 	}
 	data = {};
 	instances = getInstances(TREE_OBJ, NODE);
+	
 	i=0;
 	while(i< instances.length){
 		data['uri_'+i] = instances[i];
