@@ -2,17 +2,27 @@
 require_once dirname(__FILE__) . '/TestRunner.php';
 require_once dirname(__FILE__) . '/../includes/common.php';
 
-/**
- * Custom reporter
- */
-class MyHtmlReporter extends HtmlReporter {
-    function paintPass($message) {
-        parent::paintPass($message);
-        print "<br />\n<span class=\"pass\">Pass:  ";
-        $breadcrumbs = $this->getTestList();
-        print $breadcrumbs[2]."::".$breadcrumbs[3];
-        print"</span><br />\n<span style='font-size:0.8em;'>$message</span><br />\n";
+class XmlTimeReporter extends XmlReporter {
+  var $pre;
+
+  function paintMethodStart($test_name) {
+    $this->pre = microtime();
+    parent::paintMethodStart($test_name);
+  }
+
+  function paintMethodEnd($test_name) {
+    $post = microtime();
+    if ($this->pre != null) {
+      $duration = $post - $this->pre;
+      // how can post time be less than pre?  assuming zero if this happens..
+      if ($post < $this->pre) $duration = 0;
+      print $this->_getIndent(1);
+      print "<time>$duration</time>\n";
     }
+    parent::paintMethodEnd($test_name);
+    $this->pre = null;
+  }
+
 }
 
 /**
@@ -44,7 +54,7 @@ if(PHP_SAPI == 'cli'){
 }
 else{
 	if(isset($_GET['verbose'])){
-		$reporter = new MyHtmlReporter();
+		$reporter = new XmlTimeReporter();
 	}
 	else{
 		$reporter = new HtmlReporter();
