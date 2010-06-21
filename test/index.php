@@ -50,11 +50,11 @@ foreach($tests as $testCase){
 
 //add the reporter regarding the context
 if(PHP_SAPI == 'cli'){
-	$reporter = new TextReporter();
+	$reporter = new XmlTimeReporter();
 }
 else{
 	if(isset($_GET['verbose'])){
-		$reporter = new XmlTimeReporter();
+		$reporter = new MyHtmlReporter();
 	}
 	else{
 		$reporter = new HtmlReporter();
