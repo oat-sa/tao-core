@@ -1,6 +1,9 @@
 <?php
+
+
 require_once dirname(__FILE__) . '/TestRunner.php';
 require_once dirname(__FILE__) . '/../includes/common.php';
+
 
 class XmlTimeReporter extends XmlReporter {
   var $pre;
@@ -31,7 +34,7 @@ class XmlTimeReporter extends XmlReporter {
  */
 $testedExtensions = array(
 	'tao',
-	'taoDelivery',
+	//'taoDelivery',
 	'taoGroups',
 	'taoItems',
 	'taoResults',
