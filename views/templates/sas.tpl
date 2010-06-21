@@ -43,6 +43,9 @@
 			height:100%;
 			min-height:250px;
 		}
+		div#footer{
+			position:inherit;
+		}
 	</style>
 </head>
 <body>

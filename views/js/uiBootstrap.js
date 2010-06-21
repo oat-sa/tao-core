@@ -99,17 +99,19 @@ UiBootstrap = function(options){
 	 */
 	this.initTrees = function(){
 		//left menu trees init by loading the tab content
-		$.ajax({
-			url: root_url + '/tao/Main/getSectionTrees',
-			type: "GET",
-			data: {
-				section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title')		//get the link text of the selected tab
-			},
-			dataType: 'html',
-			success: function(response){
-				$('#section-trees').html(response);
-			}
-		});
+		if(UiBootstrap.tabs.length > 0){
+			$.ajax({
+				url: root_url + '/tao/Main/getSectionTrees',
+				type: "GET",
+				data: {
+					section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title')		//get the link text of the selected tab
+				},
+				dataType: 'html',
+				success: function(response){
+					$('#section-trees').html(response);
+				}
+			});
+		}
 	}
 	
 	/**
@@ -117,17 +119,19 @@ UiBootstrap = function(options){
 	 */
 	this.initActions = function(){
 		//left menu actions init by loading the tab content
-		$.ajax({
-			url: root_url + '/tao/Main/getSectionActions',
-			type: "GET",
-			data: {
-				section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title')		//get the link text of the selected tab
-			},
-			dataType: 'html',
-			success: function(response){
-				$('#section-actions').html(response);
-			}
-		});
+		if(UiBootstrap.tabs.length > 0){
+			$.ajax({
+				url: root_url + '/tao/Main/getSectionActions',
+				type: "GET",
+				data: {
+					section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title')		//get the link text of the selected tab
+				},
+				dataType: 'html',
+				success: function(response){
+					$('#section-actions').html(response);
+				}
+			});
+		}
 	}
 	
 	/**
