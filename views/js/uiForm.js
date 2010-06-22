@@ -58,10 +58,14 @@ UiForm = function(){
 	
 	this.initElements = function(){
 
+		
 		//save form button
 		$(".form-submiter").click(function(){
-			myForm =  $(this).parents("form").get(0);
-			return formInstance.submitForm($(myForm));
+			myForm = $(this).parents("form");//.get(0);
+			if(formInstance.submitForm(myForm)){
+				myForm.submit();
+			}
+			return false;
 		});
 	
 		//revert form button
@@ -491,7 +495,7 @@ UiForm = function(){
 				return false;
 			}
 			else {
-				if (UiBootstrap.tabs.size() == 0) {
+				if(UiBootstrap.tabs.size() == 0){
 					return true;
 				}
 				if(!$(getMainContainerSelector(UiBootstrap.tabs))){
@@ -502,7 +506,7 @@ UiForm = function(){
 			window.location = '#form-title';
 		} 
 		catch (exp) {
-			//console.log(exp);
+			console.log(exp);
 			return false;
 		}
 		return false;

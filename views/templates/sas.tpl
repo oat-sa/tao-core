@@ -17,7 +17,7 @@
 		var ctx_module 		= '<?=get_data("module")?>';
 		var ctx_action 		= '<?=get_data("action")?>';
 		$(document).ready(function(){
-			if(/edit|add/.test(ctx_action)){
+			if(/edit|Edit|add/.test(ctx_action)){
 				uiForm.initElements();
 				uiForm.initOntoForms();
 			}
@@ -28,6 +28,7 @@
 				uiForm.initElements();
 				uiForm.initTranslationForm();
 			}
+			_autoFx();
 		});
 	</script>
 	<style type="text/css">
