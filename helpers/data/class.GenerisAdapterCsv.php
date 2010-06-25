@@ -188,6 +188,7 @@ class tao_helpers_data_GenerisAdapterCsv
 				
 				//create the instance with the label defined in the map 
 				$label = $this->options['map'][RDFS_LABEL];
+				
 				if($label != 'empty' && $label != 'null'){
 					if(isset($csvRow[$label])){
 						$resource = $destination->createInstance($csvRow[$label]);
@@ -195,8 +196,7 @@ class tao_helpers_data_GenerisAdapterCsv
 				}
 				if(is_null($resource)){
 					$resource = $destination->createInstance();
-				}
-				
+				}				
 				if($resource instanceof core_kernel_classes_Resource){
 					
 					//import the value of each column into the property defined in the map 
@@ -210,6 +210,11 @@ class tao_helpers_data_GenerisAdapterCsv
 									$resource->setPropertyValue(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn]);
 								}
 							}
+						}
+					}
+					foreach($this->options['staticMap'] as $propUri => $value){
+						if(!array_key_exists($propUri, $this->options['map'])){
+							$resource->setPropertyValue(new core_kernel_classes_Property($propUri), $value);
 						}
 					}
 					$createdResources++;

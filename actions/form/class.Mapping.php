@@ -99,18 +99,26 @@ class tao_actions_form_Mapping
     		$propElt = tao_helpers_form_FormFactory::getElement($propertyUri, 'Combobox');
     		$propElt->setDescription($propertyLabel);
     		$propElt->setOptions($columnsOptions);
-    		if(array_key_exists($i, $columnsOptions)){
-    			$propElt->setValue($i);
-    		}
-    		else{
-    			$propElt->setValue($this->options['csv_column'][$i]);
-    		}
+    		$propElt->setEmptyOption(' --- '.__('Select').' --- ');
     		
     		$this->form->addElement($propElt);
     		
     		$i++;
     	}
     	$this->form->createGroup('property_mapping', __('Map the properties to the CSV columns'), array_keys($this->options['class_properties']));
+    	
+    	$ranged = array();
+    	foreach($this->options['ranged_properties'] as $propertyUri => $propertyLabel){
+    		$property = new core_kernel_classes_Property(tao_helpers_Uri::decode($propertyUri));
+    		$propElt = tao_helpers_form_GenerisFormFactory::elementMap($property);
+    		if(!is_null($propElt)){
+    			$this->form->addElement($propElt);
+    			$ranged[] = $propElt->getName();
+    		}
+    	}
+    	if(count($ranged) > 0){
+    		$this->form->createGroup('ranged_property', __('Define the defaultt values'), $ranged);
+    	}
     	
         // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FF end
     }

@@ -74,18 +74,30 @@ class Import extends CommonModule {
 			//initialize the adapter
 			$adapter = new tao_helpers_data_GenerisAdapterCsv($importData['options']);
 			
-			
-			$service = tao_models_classes_ServiceFactory::get(str_replace('tao', '',$this->getSessionAttribute('currentExtension')));
+			$currentExtention = $this->getSessionAttribute('currentExtension');
+			$service = tao_models_classes_ServiceFactory::get(str_replace('tao', '',$currentExtention));
 			
 			//get the current class of properties
 			$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getSessionAttribute('classUri')));
-			$properties = array(RDFS_LABEL => __('Label'));
-			foreach($service->getClazzProperties($clazz) as $property){
+			$properties = array(tao_helpers_Uri::encode(RDFS_LABEL) => __('Label'));
+			$rangedProperties = array();
+			
+			if($currentExtention == 'taoSubjects'){
+				$topLevelClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+			}
+			else{
+				$topLevelClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+			}
+			
+			foreach($service->getClazzProperties($clazz, $topLevelClass) as $property){
 				
 				//@todo manage the properties with range
 				$range = $property->getRange();
 				if($range->uriResource == RDFS_LITERAL){	
 					$properties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
+				}
+				else{
+					$rangedProperties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
 				}
 				
 			}
@@ -96,6 +108,7 @@ class Import extends CommonModule {
 			//build the mapping form 
 			$myFormContainer = new tao_actions_form_Mapping(array(), array(
 				'class_properties'  => $properties,
+				'ranged_properties'	=> $rangedProperties,
 				'csv_column'		=> array_keys($csv_data[0])
 			));
 			$myForm = $myFormContainer->getForm();
@@ -104,7 +117,8 @@ class Import extends CommonModule {
 					
 					
 					//set the mapping to the adapter
-					$adapter->addOption('map', $myForm->getValues());
+					$adapter->addOption('map', $myForm->getValues('property_mapping'));
+					$adapter->addOption('staticMap', $myForm->getValues('ranged_property'));
 					
 					//import it!
 					if($adapter->import($importData['file'], $clazz)){

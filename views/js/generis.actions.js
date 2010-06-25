@@ -193,6 +193,7 @@ GenerisAction.loadMetaData = function(uri, classUri, url){
 						title: $("#comment-form-container-title").text(),
 						width: 330,
 						height: 220,
+						position: ['right','bottom'],
 						autoOpen: false
 					});
 					commentContainer.bind('dialogclose', function(event, ui){
