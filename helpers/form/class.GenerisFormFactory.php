@@ -201,7 +201,10 @@ class tao_helpers_form_GenerisFormFactory
 					
 					//set label validator
 					if($property->uriResource == RDFS_LABEL){
-						$element->addValidator(tao_helpers_form_FormFactory::getValidator('Label', array('class' => $clazz, 'uri' => $instance->uriResource)));
+						$element->addValidators(array(
+							tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+							tao_helpers_form_FormFactory::getValidator('Label', array('class' => $clazz, 'uri' => $instance->uriResource))
+						));
 					}
 					
 					$myForm->addElement($element);
@@ -1047,7 +1050,7 @@ class tao_helpers_form_GenerisFormFactory
 				'range'		=> null
 			),
 			'calendar' => array(
-				'title' 	=> __('A dynamic datepicker'),
+				'title' 	=> __('Dynamic date picker'),
 				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar',
 				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
 			)

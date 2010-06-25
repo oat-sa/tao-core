@@ -65,4 +65,4 @@
 .tree-custom-context a ins.create { background-position:0 -16px; }
 .tree-custom-context a ins.rename { background-position:-16px 0px; }
 .tree-custom-context a ins.remove { background-position:0 -32px; }
-.tree-custom-context li a.disabled span{ color:#c0c0c0;text-decoration:line-through;}
+.tree-custom-context li a.disabled span{ color:#b0b0b0;}

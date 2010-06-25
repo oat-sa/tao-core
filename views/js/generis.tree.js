@@ -99,6 +99,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 					else{
 						TREE_OBJ.open_branch($("li.node-class:first"));
 					}
+					$(".tree ")
 				},
 				//when we receive the data
 				ondata: function(DATA, TREE_OBJ){
@@ -236,7 +237,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 					items : {
 						//edit action
 						select: {
-							label: __("edit") + ' ' + __(instance.options.instanceName),
+							label: __("edit"),
 							icon: taobase_www +"img/pencil.png",
 							visible : function (NODE, TREE_OBJ) {
 								if( ($(NODE).hasClass('node-instance') &&  instance.options.editInstanceAction)  || 
@@ -303,7 +304,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						//move action
 						move:{
 							label	: __("move"),
-							icon	: "/tao/views/img/move.png",
+							icon	: taobase_www + "img/move.png",
 							visible	: function (NODE, TREE_OBJ) { 
 									if($(NODE).hasClass('node-instance')  && instance.options.moveInstanceAction){
 										return true;
@@ -324,7 +325,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						//clone action
 						duplicate:{
 							label	: __("duplicate"),
-							icon	: "/tao/views/img/duplicate.png",
+							icon	: taobase_www + "img/duplicate.png",
 							visible	: function (NODE, TREE_OBJ) { 
 									if($(NODE).hasClass('node-instance')  && instance.options.duplicateAction){
 										return true;
@@ -344,7 +345,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						//delete action
 						del:{
 							label	: __("delete"),
-							icon	: "/tao/views/img/delete.png",
+							icon	: taobase_www + "img/delete.png",
 							visible	: function (NODE, TREE_OBJ) { 
 								var ok = true; 
 								$.each(NODE, function () { 

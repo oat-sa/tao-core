@@ -47,7 +47,7 @@
 					else cnt ++;
 					if(opts.items[i].separator_before === true) str += "<li class='separator'><span>&nbsp;</span></li>";
 					str += '<li><a href="#" rel="' + i + '" class="' + i + ' ' + (r == 0 ? 'disabled' : '') + '">';
-					if(opts.items[i].icon) str += "<ins " + (opts.items[i].icon.indexOf("/") == -1 ? " class='" + opts.items[i].icon + "' " : " style='background-image:url(\"" + opts.items[i].icon + "\");' " ) + ">&nbsp;</ins>";
+					if(opts.items[i].icon) str += "<ins " + (opts.items[i].icon.indexOf("/") == -1 ? " class='" + opts.items[i].icon + "' " : " style='background-image:url(\"" + (r == 0 ? opts.items[i].icon.replace('.png', '_disabled.png') : opts.items[i].icon) + "\");' " ) + ">&nbsp;</ins>";
 					else str += "<ins>&nbsp;</ins>";
 					str += "<span>" + opts.items[i].label + '</span></a></li>';
 					if(opts.items[i].separator_after === true) str += "<li class='separator'><span>&nbsp;</span></li>";
