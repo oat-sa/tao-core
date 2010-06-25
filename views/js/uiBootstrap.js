@@ -28,9 +28,6 @@ UiBootstrap = function(options){
 		this.initNav();
 		this.initMenuBar();
 		
-		//fix ie6 bug with dialog z-index
-	//	$.ui.dialog.defaults.bgiframe = true;	
-		
 		//create tabs
 		UiBootstrap.tabs = $('#tabs').tabs({
 			load: function(){
@@ -142,13 +139,13 @@ UiBootstrap = function(options){
 		myPanel = $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')];
 		if(myPanel){
 			uiTab = myPanel.id;
-			if($('#section-actions').html() == '' && $('#section-trees').html()  == '' && $("div#"+uiTab).css('left') == '17.5%' ){
+			if($('#section-actions').html() == '' && $('#section-trees').html()  == '' && $("div#"+uiTab).css('left') == '19%' ){
 				$("div#"+uiTab).css('left', '0%');
 				$("div#"+uiTab).css('width', '99%');
 			}
 			if( $('#section-actions').html() != '' || $('#section-trees').html()  != '' ){
-				$("div#"+uiTab).css('left', '17.5%');
-				$("div#"+uiTab).css('width', '81%');
+				$("div#"+uiTab).css('left', '19%');
+				$("div#"+uiTab).css('width', '80%');
 			}
 		}
 	}

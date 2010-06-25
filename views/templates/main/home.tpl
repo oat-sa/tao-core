@@ -1,3 +1,4 @@
+<br />
 <div id="home" class="ui-widget ui-widget-content ui-corner-all">
 	<div id="home_title" class="ui-widget-header ui-corner-all"><?=__('TAO Backend Tool')?></div>
 	

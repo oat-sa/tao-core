@@ -162,8 +162,6 @@ class tao_helpers_form_GenerisFormFactory
 			$defaultProperties 	= self::getDefaultProperties();
 			$editedProperties = $defaultProperties;
 			
-		//	print_r(self::getClassProperties($clazz, self::getTopClass()));exit;
-	
 			foreach(self::getClassProperties($clazz, self::getTopClass()) as $property){
 				$found = false;
 				foreach($editedProperties as $editedProperty){
@@ -200,6 +198,12 @@ class tao_helpers_form_GenerisFormFactory
 							}
 						}
 					}
+					
+					//set label validator
+					if($property->uriResource == RDFS_LABEL){
+						$element->addValidator(tao_helpers_form_FormFactory::getValidator('Label', array('class' => $clazz, 'uri' => $instance->uriResource)));
+					}
+					
 					$myForm->addElement($element);
 				}
 			}

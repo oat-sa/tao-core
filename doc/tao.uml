@@ -26,7 +26,7 @@
       <fontname>Dialog</fontname>
       <fontsize>12</fontsize>
       <defaultstereotypeview>2</defaultstereotypeview>
-      <activediagram>transfer services</activediagram>
+      <activediagram>Forms</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Jun 18 11:55:42 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Jun 25 12:13:27 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.1(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -19428,6 +19428,59 @@ It&apos;s provide a model of validation and must be overriden.</UML:TaggedValue.
                           isSpecification = 'false'>
                           <UML:Generalization.child>
                             <UML:Class xmi.idref = '127-0-1-1-d42bee:127af842275:-8000:0000000000002380'/>
+                          </UML:Generalization.child>
+                          <UML:Generalization.parent>
+                            <UML:Class xmi.idref = '127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001B73'/>
+                          </UML:Generalization.parent>
+                        </UML:Generalization>
+                        <UML:Class xmi.id = '127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200A'
+                          name = 'Label' visibility = 'public' isSpecification = 'false' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                          <UML:GeneralizableElement.generalization>
+                            <UML:Generalization xmi.idref = '127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200B'/>
+                          </UML:GeneralizableElement.generalization>
+                          <UML:Classifier.feature>
+                            <UML:Operation xmi.id = '127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200C'
+                              name = '__construct' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                              isAbstract = 'false'>
+                              <UML:ModelElement.stereotype>
+                                <UML:Stereotype xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000AF1'/>
+                              </UML:ModelElement.stereotype>
+                              <UML:BehavioralFeature.parameter>
+                                <UML:Parameter xmi.id = '127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200D'
+                                  name = 'return' isSpecification = 'false' kind = 'return'/>
+                                <UML:Parameter xmi.id = '127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200E'
+                                  name = 'options' isSpecification = 'false' kind = 'in'>
+                                  <UML:Parameter.defaultValue>
+                                    <UML:Expression xmi.id = '127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200F'
+                                      language = 'UML 1.4' body = 'array()'/>
+                                  </UML:Parameter.defaultValue>
+                                  <UML:Parameter.type>
+                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                                  </UML:Parameter.type>
+                                </UML:Parameter>
+                              </UML:BehavioralFeature.parameter>
+                            </UML:Operation>
+                            <UML:Operation xmi.id = '127-0-1-1-112f6ae0:1296e7712be:-8000:0000000000002010'
+                              name = 'evaluate' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                              isAbstract = 'false'>
+                              <UML:BehavioralFeature.parameter>
+                                <UML:Parameter xmi.id = '127-0-1-1-112f6ae0:1296e7712be:-8000:0000000000002011'
+                                  name = 'return' isSpecification = 'false' kind = 'return'>
+                                  <UML:Parameter.type>
+                                    <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
+                                  </UML:Parameter.type>
+                                </UML:Parameter>
+                              </UML:BehavioralFeature.parameter>
+                            </UML:Operation>
+                          </UML:Classifier.feature>
+                        </UML:Class>
+                        <UML:Generalization xmi.id = '127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200B'
+                          isSpecification = 'false'>
+                          <UML:Generalization.child>
+                            <UML:Class xmi.idref = '127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200A'/>
                           </UML:Generalization.child>
                           <UML:Generalization.parent>
                             <UML:Class xmi.idref = '127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001B73'/>
@@ -60052,7 +60105,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="207"
         height="22"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -66832,9 +66885,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
   >
     <private>
       sourcePortFig="Fig45.0"
-      destPortFig="Fig79"
+      destPortFig="Fig77"
       sourceFigNode="Fig45"
-      destFigNode="Fig79"
+      destFigNode="Fig77"
       <argouml:pathitem figname="Fig43.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
@@ -66862,9 +66915,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig79.0"
+      sourcePortFig="Fig77.0"
       destPortFig="Fig9"
-      sourceFigNode="Fig79"
+      sourceFigNode="Fig77"
       destFigNode="Fig9"
       <argouml:pathitem figname="Fig44.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
@@ -69082,9 +69135,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig101.0"
+      sourcePortFig="Fig97.0"
       destPortFig="Fig60"
-      sourceFigNode="Fig101"
+      sourceFigNode="Fig97"
       destFigNode="Fig60"
       <argouml:pathitem figname="Fig62.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
@@ -69113,9 +69166,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig99.0"
+      sourcePortFig="Fig95.0"
       destPortFig="Fig60"
-      sourceFigNode="Fig99"
+      sourceFigNode="Fig95"
       destFigNode="Fig60"
       <argouml:pathitem figname="Fig63.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
@@ -69144,9 +69197,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig100.0"
+      sourcePortFig="Fig96.0"
       destPortFig="Fig60"
-      sourceFigNode="Fig100"
+      sourceFigNode="Fig96"
       destFigNode="Fig60"
       <argouml:pathitem figname="Fig64.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
@@ -69537,9 +69590,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig81.0"
+      sourcePortFig="Fig105.0"
       destPortFig="Fig60"
-      sourceFigNode="Fig81"
+      sourceFigNode="Fig105"
       destFigNode="Fig60"
       <argouml:pathitem figname="Fig69.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
@@ -69568,9 +69621,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig80.0"
+      sourcePortFig="Fig104.0"
       destPortFig="Fig60"
-      sourceFigNode="Fig80"
+      sourceFigNode="Fig104"
       destFigNode="Fig60"
       <argouml:pathitem figname="Fig70.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
@@ -69798,182 +69851,24 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </path>
   </group>
   <group name="Fig73"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[704, 1736, 300, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
-       href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D57"
-       fill="1"
-       fillcolor="255 200 255"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      enclosingFig="Fig0"
-    </private>
-    
-    <rectangle name="Fig73.0"
-      x="704"
-      y="1736"
-      width="300"
-      height="89"
-      fill="1"
-      fillcolor="255 200 255"
-      stroke="1"
-      strokecolor="black"
-    />
-    <text name="Fig73.1"
-      x="705"
-      y="1737"
-      width="298"
-      height="22"
-      fill="0"
-      fillcolor="255 200 255"
-      stroke="0"
-      strokecolor="black"
-      textcolor="black"
-      font="Dialog"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    >tao::helpers::form::validators::Password</text>
-    <group name="Fig73.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[705, 1737, 298, 0]"
-         href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D57"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-         visibility="0"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig73.2.0"
-        x="705"
-        y="1737"
-        width="298"
-        height="0"
-        fill="0"
-        fillcolor="255 200 255"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig73.3"
-      x="704"
-      y="1759"
-      width="300"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig73.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[705, 1760, 298, 22]"
-         href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D57"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig73.4.0"
-        x="705"
-        y="1760"
-        width="298"
-        height="22"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig73.5"
-      x="704"
-      y="1782"
-      width="300"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig73.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[705, 1783, 298, 41]"
-         href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D57"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig73.6.0"
-        x="705"
-        y="1783"
-        width="298"
-        height="41"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig73.6.1"
-        x="705"
-        y="1783"
-        width="298"
-        height="16"
-        fill="0"
-        fillcolor="255 200 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >&lt;&lt;create&gt;&gt; __construct(options : array = array())</text>
-      <text name="Fig73.6.2"
-        x="705"
-        y="1799"
-        width="298"
-        height="22"
-        fill="0"
-        fillcolor="255 200 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >evaluate() : boolean</text>
-    </group>
-  </group>
-  <group name="Fig74"
        description="org.argouml.uml.diagram.ui.FigGeneralization"
        href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D5A"
        stroke="1"
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig98.0"
+      sourcePortFig="Fig94.0"
       destPortFig="Fig60.0"
-      sourceFigNode="Fig98"
+      sourceFigNode="Fig94"
       destFigNode="Fig60"
-      <argouml:pathitem figname="Fig74.1"
+      <argouml:pathitem figname="Fig73.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D5A"
                         angle="270.0"
                         offset="-10" />
     </private>
-    <path name="Fig74.0"
+    <path name="Fig73.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -69986,25 +69881,25 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
               y="1309" />
     </path>
   </group>
-  <group name="Fig75"
+  <group name="Fig74"
        description="org.argouml.uml.diagram.ui.FigGeneralization"
        href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D5B"
        stroke="1"
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig73.0"
+      sourcePortFig="Fig106.0"
       destPortFig="Fig60.0"
-      sourceFigNode="Fig73"
+      sourceFigNode="Fig106"
       destFigNode="Fig60"
-      <argouml:pathitem figname="Fig75.1"
+      <argouml:pathitem figname="Fig74.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D5B"
                         angle="270.0"
                         offset="-10" />
     </private>
-    <path name="Fig75.0"
+    <path name="Fig74.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -70017,167 +69912,25 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
               y="1309" />
     </path>
   </group>
-  <group name="Fig76"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[704, 1848, 296, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
-       href="127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D71"
-       fill="1"
-       fillcolor="255 200 255"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      enclosingFig="Fig0"
-    </private>
-    
-    <rectangle name="Fig76.0"
-      x="704"
-      y="1848"
-      width="296"
-      height="73"
-      fill="1"
-      fillcolor="255 200 255"
-      stroke="1"
-      strokecolor="black"
-    />
-    <text name="Fig76.1"
-      x="705"
-      y="1849"
-      width="294"
-      height="22"
-      fill="0"
-      fillcolor="255 200 255"
-      stroke="0"
-      strokecolor="black"
-      textcolor="black"
-      font="Dialog"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    >tao::helpers::form::validators::Md5Password</text>
-    <group name="Fig76.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[705, 1849, 294, 0]"
-         href="127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D71"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-         visibility="0"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig76.2.0"
-        x="705"
-        y="1849"
-        width="294"
-        height="0"
-        fill="0"
-        fillcolor="255 200 255"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig76.3"
-      x="704"
-      y="1871"
-      width="296"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig76.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[705, 1872, 294, 22]"
-         href="127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D71"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig76.4.0"
-        x="705"
-        y="1872"
-        width="294"
-        height="22"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig76.5"
-      x="704"
-      y="1894"
-      width="296"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig76.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[705, 1895, 294, 25]"
-         href="127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D71"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig76.6.0"
-        x="705"
-        y="1895"
-        width="294"
-        height="25"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig76.6.1"
-        x="705"
-        y="1895"
-        width="294"
-        height="22"
-        fill="0"
-        fillcolor="255 200 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >getValue() : string</text>
-    </group>
-  </group>
-  <group name="Fig77"
+  <group name="Fig75"
        description="org.argouml.uml.diagram.ui.FigGeneralization"
        href="127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D72"
        stroke="1"
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig76.0"
-      destPortFig="Fig73.0"
-      sourceFigNode="Fig76"
-      destFigNode="Fig73"
-      <argouml:pathitem figname="Fig77.1"
+      sourcePortFig="Fig107.0"
+      destPortFig="Fig106.0"
+      sourceFigNode="Fig107"
+      destFigNode="Fig106"
+      <argouml:pathitem figname="Fig75.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D72"
                         angle="270.0"
                         offset="-10" />
     </private>
-    <path name="Fig77.0"
+    <path name="Fig75.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -70190,7 +69943,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
               y="1825" />
     </path>
   </group>
-  <group name="Fig78"
+  <group name="Fig76"
        description="org.argouml.uml.diagram.ui.FigGeneralization"
        href="127-0-1-1--5dde9503:124b4a68f24:-8000:0000000000001B11"
        stroke="1"
@@ -70201,14 +69954,14 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       destPortFig="Fig9"
       sourceFigNode="Fig47"
       destFigNode="Fig9"
-      <argouml:pathitem figname="Fig78.1"
+      <argouml:pathitem figname="Fig76.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="127-0-1-1--5dde9503:124b4a68f24:-8000:0000000000001B11"
                         angle="270.0"
                         offset="-10" />
     </private>
-    <path name="Fig78.0"
+    <path name="Fig76.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -70221,7 +69974,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
               y="800" />
     </path>
   </group>
-  <group name="Fig79"
+  <group name="Fig77"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[1072, 536, 264, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-43da7667:1249b43a7f8:-8000:0000000000001AC7"
        fill="1"
@@ -70233,7 +69986,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig1"
     </private>
     
-    <rectangle name="Fig79.0"
+    <rectangle name="Fig77.0"
       x="1072"
       y="536"
       width="264"
@@ -70243,7 +69996,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig79.1"
+    <text name="Fig77.1"
       x="1073"
       y="537"
       width="262"
@@ -70259,7 +70012,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::elements::Free</text>
-    <group name="Fig79.2"
+    <group name="Fig77.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1073, 537, 262, 0]"
          href="127-0-1-1-43da7667:1249b43a7f8:-8000:0000000000001AC7"
          fill="0"
@@ -70271,7 +70024,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig79.2.0"
+      <rectangle name="Fig77.2.0"
         x="1073"
         y="537"
         width="262"
@@ -70282,7 +70035,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig79.3"
+    <rectangle name="Fig77.3"
       x="1072"
       y="559"
       width="264"
@@ -70292,7 +70045,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig79.4"
+    <group name="Fig77.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1073, 560, 262, 22]"
          href="127-0-1-1-43da7667:1249b43a7f8:-8000:0000000000001AC7"
          fill="0"
@@ -70303,7 +70056,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig79.4.0"
+      <rectangle name="Fig77.4.0"
         x="1073"
         y="560"
         width="262"
@@ -70314,7 +70067,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig79.5"
+    <rectangle name="Fig77.5"
       x="1072"
       y="582"
       width="264"
@@ -70324,7 +70077,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig79.6"
+    <group name="Fig77.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1073, 583, 262, 25]"
          href="127-0-1-1-43da7667:1249b43a7f8:-8000:0000000000001AC7"
          fill="0"
@@ -70335,7 +70088,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig79.6.0"
+      <rectangle name="Fig77.6.0"
         x="1073"
         y="583"
         width="262"
@@ -70345,7 +70098,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig79.6.1"
+      <text name="Fig77.6.1"
         x="1073"
         y="583"
         width="262"
@@ -70363,323 +70116,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >render() : string</text>
     </group>
   </group>
-  <group name="Fig80"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[704, 1544, 296, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
-       href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDE"
-       fill="1"
-       fillcolor="255 200 255"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      enclosingFig="Fig0"
-    </private>
-    
-    <rectangle name="Fig80.0"
-      x="704"
-      y="1544"
-      width="296"
-      height="89"
-      fill="1"
-      fillcolor="255 200 255"
-      stroke="1"
-      strokecolor="black"
-    />
-    <text name="Fig80.1"
-      x="705"
-      y="1545"
-      width="294"
-      height="22"
-      fill="0"
-      fillcolor="255 200 255"
-      stroke="0"
-      strokecolor="black"
-      textcolor="black"
-      font="Dialog"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    >tao::helpers::form::validators::FileSize</text>
-    <group name="Fig80.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[705, 1545, 294, 0]"
-         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDE"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-         visibility="0"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig80.2.0"
-        x="705"
-        y="1545"
-        width="294"
-        height="0"
-        fill="0"
-        fillcolor="255 200 255"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig80.3"
-      x="704"
-      y="1567"
-      width="296"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig80.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[705, 1568, 294, 22]"
-         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDE"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig80.4.0"
-        x="705"
-        y="1568"
-        width="294"
-        height="22"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig80.5"
-      x="704"
-      y="1590"
-      width="296"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig80.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[705, 1591, 294, 41]"
-         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDE"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig80.6.0"
-        x="705"
-        y="1591"
-        width="294"
-        height="41"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig80.6.1"
-        x="705"
-        y="1591"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="255 200 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >&lt;&lt;create&gt;&gt; __construct(options : array)</text>
-      <text name="Fig80.6.2"
-        x="705"
-        y="1607"
-        width="294"
-        height="22"
-        fill="0"
-        fillcolor="255 200 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >evaluate() : boolean</text>
-    </group>
-  </group>
-  <group name="Fig81"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[704, 1640, 300, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
-       href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CCF"
-       fill="1"
-       fillcolor="255 200 255"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      enclosingFig="Fig0"
-    </private>
-    
-    <rectangle name="Fig81.0"
-      x="704"
-      y="1640"
-      width="300"
-      height="89"
-      fill="1"
-      fillcolor="255 200 255"
-      stroke="1"
-      strokecolor="black"
-    />
-    <text name="Fig81.1"
-      x="705"
-      y="1641"
-      width="298"
-      height="22"
-      fill="0"
-      fillcolor="255 200 255"
-      stroke="0"
-      strokecolor="black"
-      textcolor="black"
-      font="Dialog"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    >tao::helpers::form::validators::FileMimeType</text>
-    <group name="Fig81.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[705, 1641, 298, 0]"
-         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CCF"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-         visibility="0"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig81.2.0"
-        x="705"
-        y="1641"
-        width="298"
-        height="0"
-        fill="0"
-        fillcolor="255 200 255"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig81.3"
-      x="704"
-      y="1663"
-      width="300"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig81.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[705, 1664, 298, 22]"
-         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CCF"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig81.4.0"
-        x="705"
-        y="1664"
-        width="298"
-        height="22"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig81.5"
-      x="704"
-      y="1686"
-      width="300"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig81.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[705, 1687, 298, 41]"
-         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CCF"
-         fill="0"
-         fillcolor="255 200 255"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig81.6.0"
-        x="705"
-        y="1687"
-        width="298"
-        height="41"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig81.6.1"
-        x="705"
-        y="1687"
-        width="298"
-        height="16"
-        fill="0"
-        fillcolor="255 200 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >&lt;&lt;create&gt;&gt; __construct(options : array = array())</text>
-      <text name="Fig81.6.2"
-        x="705"
-        y="1703"
-        width="298"
-        height="22"
-        fill="0"
-        fillcolor="255 200 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >evaluate() : boolean</text>
-    </group>
-  </group>
-  <group name="Fig82"
+  <group name="Fig78"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[120, 1200, 428, 160]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCE"
        fill="1"
@@ -70691,7 +70128,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig2"
     </private>
     
-    <rectangle name="Fig82.0"
+    <rectangle name="Fig78.0"
       x="120"
       y="1200"
       width="428"
@@ -70701,7 +70138,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig82.1"
+    <text name="Fig78.1"
       x="121"
       y="1201"
       width="426"
@@ -70717,7 +70154,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::FormContainer</text>
-    <group name="Fig82.2"
+    <group name="Fig78.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[121, 1201, 426, 0]"
          href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCE"
          fill="0"
@@ -70729,7 +70166,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig82.2.0"
+      <rectangle name="Fig78.2.0"
         x="121"
         y="1201"
         width="426"
@@ -70740,7 +70177,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig82.3"
+    <rectangle name="Fig78.3"
       x="120"
       y="1223"
       width="428"
@@ -70750,7 +70187,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig82.4"
+    <group name="Fig78.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[121, 1224, 426, 59]"
          href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCE"
          fill="0"
@@ -70761,7 +70198,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig82.4.0"
+      <rectangle name="Fig78.4.0"
         x="121"
         y="1224"
         width="426"
@@ -70771,7 +70208,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig82.4.1"
+      <text name="Fig78.4.1"
         x="121"
         y="1224"
         width="426"
@@ -70787,7 +70224,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >form : Form</text>
-      <text name="Fig82.4.2"
+      <text name="Fig78.4.2"
         x="121"
         y="1240"
         width="426"
@@ -70803,7 +70240,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >data : array</text>
-      <text name="Fig82.4.3"
+      <text name="Fig78.4.3"
         x="121"
         y="1256"
         width="426"
@@ -70820,7 +70257,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         justification="Left"
       >options : array</text>
     </group>
-    <rectangle name="Fig82.5"
+    <rectangle name="Fig78.5"
       x="120"
       y="1283"
       width="428"
@@ -70830,7 +70267,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig82.6"
+    <group name="Fig78.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[121, 1284, 426, 75]"
          href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCE"
          fill="0"
@@ -70841,7 +70278,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig82.6.0"
+      <rectangle name="Fig78.6.0"
         x="121"
         y="1284"
         width="426"
@@ -70851,7 +70288,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig82.6.1"
+      <text name="Fig78.6.1"
         x="121"
         y="1284"
         width="426"
@@ -70867,7 +70304,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >&lt;&lt;create&gt;&gt; __construct(data : array = array(),options : array = array())</text>
-      <text name="Fig82.6.2"
+      <text name="Fig78.6.2"
         x="121"
         y="1300"
         width="426"
@@ -70883,7 +70320,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >getForm() : Form</text>
-      <text name="Fig82.6.3"
+      <text name="Fig78.6.3"
         x="121"
         y="1316"
         width="426"
@@ -70899,7 +70336,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >initForm()</text>
-      <text name="Fig82.6.4"
+      <text name="Fig78.6.4"
         x="121"
         y="1332"
         width="426"
@@ -70917,7 +70354,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >initElements()</text>
     </group>
   </group>
-  <group name="Fig83"
+  <group name="Fig79"
        description="org.argouml.uml.diagram.ui.FigAssociation"
        href="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCF"
        sourceConnector="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DD0"
@@ -70927,41 +70364,41 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
   >
     <private>
       sourcePortFig="Fig3"
-      destPortFig="Fig82"
+      destPortFig="Fig78"
       sourceFigNode="Fig3"
-      destFigNode="Fig82"
-      <argouml:pathitem figname="Fig83.1"
+      destFigNode="Fig78"
+      <argouml:pathitem figname="Fig79.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DCF"
                         angle="270.0"
                         offset="25" />
-      <argouml:pathitem figname="Fig83.2"
+      <argouml:pathitem figname="Fig79.2"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DD0"
                         angle="315.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig83.3"
+      <argouml:pathitem figname="Fig79.3"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DD0"
                         angle="45.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig83.4"
+      <argouml:pathitem figname="Fig79.4"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigMultiplicity"
                         ownerhref="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DD3"
                         angle="225.0"
                         offset="5" />
-      <argouml:pathitem figname="Fig83.5"
+      <argouml:pathitem figname="Fig79.5"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigAssociationEndAnnotation"
                         ownerhref="127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DD3"
                         angle="135.0"
                         offset="5" />
     </private>
-    <path name="Fig83.0"
+    <path name="Fig79.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -70974,7 +70411,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
               y="1200" />
     </path>
   </group>
-  <group name="Fig84"
+  <group name="Fig80"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[1072, 880, 264, 77]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000001DB9"
        fill="1"
@@ -70986,7 +70423,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig1"
     </private>
     
-    <rectangle name="Fig84.0"
+    <rectangle name="Fig80.0"
       x="1072"
       y="880"
       width="264"
@@ -70996,7 +70433,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig84.1"
+    <text name="Fig80.1"
       x="1073"
       y="881"
       width="262"
@@ -71012,7 +70449,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::elements::Calendar</text>
-    <group name="Fig84.2"
+    <group name="Fig80.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1073, 881, 262, 0]"
          href="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000001DB9"
          fill="0"
@@ -71024,7 +70461,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig84.2.0"
+      <rectangle name="Fig80.2.0"
         x="1073"
         y="881"
         width="262"
@@ -71035,7 +70472,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig84.3"
+    <rectangle name="Fig80.3"
       x="1072"
       y="903"
       width="264"
@@ -71045,7 +70482,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig84.4"
+    <group name="Fig80.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1073, 904, 262, 25]"
          href="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000001DB9"
          fill="0"
@@ -71056,7 +70493,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig84.4.0"
+      <rectangle name="Fig80.4.0"
         x="1073"
         y="904"
         width="262"
@@ -71066,7 +70503,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig84.4.1"
+      <text name="Fig80.4.1"
         x="1073"
         y="904"
         width="262"
@@ -71083,7 +70520,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         justification="Left"
       >widget : string</text>
     </group>
-    <rectangle name="Fig84.5"
+    <rectangle name="Fig80.5"
       x="1072"
       y="929"
       width="264"
@@ -71093,7 +70530,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig84.6"
+    <group name="Fig80.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1073, 930, 262, 25]"
          href="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000001DB9"
          fill="0"
@@ -71104,7 +70541,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig84.6.0"
+      <rectangle name="Fig80.6.0"
         x="1073"
         y="930"
         width="262"
@@ -71114,7 +70551,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig84.6.1"
+      <text name="Fig80.6.1"
         x="1073"
         y="930"
         width="262"
@@ -71132,25 +70569,25 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >render() : string</text>
     </group>
   </group>
-  <group name="Fig85"
+  <group name="Fig81"
        description="org.argouml.uml.diagram.ui.FigGeneralization"
        href="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000001E00"
        stroke="1"
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig84.0"
+      sourcePortFig="Fig80.0"
       destPortFig="Fig9"
-      sourceFigNode="Fig84"
+      sourceFigNode="Fig80"
       destFigNode="Fig9"
-      <argouml:pathitem figname="Fig85.1"
+      <argouml:pathitem figname="Fig81.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000001E00"
                         angle="270.0"
                         offset="-10" />
     </private>
-    <path name="Fig85.0"
+    <path name="Fig81.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -71163,7 +70600,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
               y="880" />
     </path>
   </group>
-  <group name="Fig86"
+  <group name="Fig82"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[1448, 880, 296, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000001E01"
        fill="1"
@@ -71175,7 +70612,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig5"
     </private>
     
-    <rectangle name="Fig86.0"
+    <rectangle name="Fig82.0"
       x="1448"
       y="880"
       width="296"
@@ -71185,7 +70622,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig86.1"
+    <text name="Fig82.1"
       x="1449"
       y="881"
       width="294"
@@ -71201,7 +70638,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::elements::xhtml::Calendar</text>
-    <group name="Fig86.2"
+    <group name="Fig82.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1449, 881, 294, 0]"
          href="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000001E01"
          fill="0"
@@ -71213,7 +70650,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig86.2.0"
+      <rectangle name="Fig82.2.0"
         x="1449"
         y="881"
         width="294"
@@ -71224,7 +70661,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig86.3"
+    <rectangle name="Fig82.3"
       x="1448"
       y="903"
       width="296"
@@ -71234,7 +70671,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig86.4"
+    <group name="Fig82.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1449, 904, 294, 22]"
          href="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000001E01"
          fill="0"
@@ -71245,7 +70682,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig86.4.0"
+      <rectangle name="Fig82.4.0"
         x="1449"
         y="904"
         width="294"
@@ -71256,7 +70693,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig86.5"
+    <rectangle name="Fig82.5"
       x="1448"
       y="926"
       width="296"
@@ -71266,7 +70703,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig86.6"
+    <group name="Fig82.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1449, 927, 294, 25]"
          href="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000001E01"
          fill="0"
@@ -71277,7 +70714,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig86.6.0"
+      <rectangle name="Fig82.6.0"
         x="1449"
         y="927"
         width="294"
@@ -71287,7 +70724,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig86.6.1"
+      <text name="Fig82.6.1"
         x="1449"
         y="927"
         width="294"
@@ -71305,25 +70742,25 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >render(uniqueId : string = &apos;&apos;) : string</text>
     </group>
   </group>
-  <group name="Fig87"
+  <group name="Fig83"
        description="org.argouml.uml.diagram.ui.FigGeneralization"
        href="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000003FEB"
        stroke="1"
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig86.0"
-      destPortFig="Fig84"
-      sourceFigNode="Fig86"
-      destFigNode="Fig84"
-      <argouml:pathitem figname="Fig87.1"
+      sourcePortFig="Fig82.0"
+      destPortFig="Fig80"
+      sourceFigNode="Fig82"
+      destFigNode="Fig80"
+      <argouml:pathitem figname="Fig83.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="10-13-1-39--1fd4bdcd:1264ade5709:-8000:0000000000003FEB"
                         angle="270.0"
                         offset="-10" />
     </private>
-    <path name="Fig87.0"
+    <path name="Fig83.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -71336,7 +70773,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
               y="904" />
     </path>
   </group>
-  <group name="Fig88"
+  <group name="Fig84"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[1072, 968, 264, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E4E"
        fill="1"
@@ -71348,7 +70785,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig1"
     </private>
     
-    <rectangle name="Fig88.0"
+    <rectangle name="Fig84.0"
       x="1072"
       y="968"
       width="264"
@@ -71358,7 +70795,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig88.1"
+    <text name="Fig84.1"
       x="1073"
       y="969"
       width="262"
@@ -71374,7 +70811,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::elements::Submit</text>
-    <group name="Fig88.2"
+    <group name="Fig84.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1073, 969, 262, 0]"
          href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E4E"
          fill="0"
@@ -71386,7 +70823,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig88.2.0"
+      <rectangle name="Fig84.2.0"
         x="1073"
         y="969"
         width="262"
@@ -71397,7 +70834,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig88.3"
+    <rectangle name="Fig84.3"
       x="1072"
       y="991"
       width="264"
@@ -71407,7 +70844,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig88.4"
+    <group name="Fig84.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1073, 992, 262, 22]"
          href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E4E"
          fill="0"
@@ -71418,7 +70855,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig88.4.0"
+      <rectangle name="Fig84.4.0"
         x="1073"
         y="992"
         width="262"
@@ -71429,7 +70866,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig88.5"
+    <rectangle name="Fig84.5"
       x="1072"
       y="1014"
       width="264"
@@ -71439,7 +70876,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig88.6"
+    <group name="Fig84.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1073, 1015, 262, 25]"
          href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E4E"
          fill="0"
@@ -71450,7 +70887,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig88.6.0"
+      <rectangle name="Fig84.6.0"
         x="1073"
         y="1015"
         width="262"
@@ -71460,9 +70897,357 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig88.6.1"
+      <text name="Fig84.6.1"
         x="1073"
         y="1015"
+        width="262"
+        height="22"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="true"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >render() : string</text>
+    </group>
+  </group>
+  <group name="Fig85"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E51"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig84.0"
+      destPortFig="Fig9"
+      sourceFigNode="Fig84"
+      destFigNode="Fig9"
+      <argouml:pathitem figname="Fig85.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E51"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig85.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="1072"
+              y="1016" />
+      <lineto x="968"
+              y="1016" />
+      <lineto x="968"
+              y="936" />
+    </path>
+  </group>
+  <group name="Fig86"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1448, 968, 296, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E52"
+       fill="1"
+       fillcolor="200 255 255"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig5"
+    </private>
+    
+    <rectangle name="Fig86.0"
+      x="1448"
+      y="968"
+      width="296"
+      height="73"
+      fill="1"
+      fillcolor="200 255 255"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig86.1"
+      x="1449"
+      y="969"
+      width="294"
+      height="22"
+      fill="0"
+      fillcolor="200 255 255"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >tao::helpers::form::elements::xhtml::Submit</text>
+    <group name="Fig86.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1449, 969, 294, 0]"
+         href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E52"
+         fill="0"
+         fillcolor="200 255 255"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig86.2.0"
+        x="1449"
+        y="969"
+        width="294"
+        height="0"
+        fill="0"
+        fillcolor="200 255 255"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig86.3"
+      x="1448"
+      y="991"
+      width="296"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig86.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1449, 992, 294, 22]"
+         href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E52"
+         fill="0"
+         fillcolor="200 255 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig86.4.0"
+        x="1449"
+        y="992"
+        width="294"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig86.5"
+      x="1448"
+      y="1014"
+      width="296"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig86.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1449, 1015, 294, 25]"
+         href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E52"
+         fill="0"
+         fillcolor="200 255 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig86.6.0"
+        x="1449"
+        y="1015"
+        width="294"
+        height="25"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig86.6.1"
+        x="1449"
+        y="1015"
+        width="294"
+        height="22"
+        fill="0"
+        fillcolor="200 255 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >render() : string</text>
+    </group>
+  </group>
+  <group name="Fig87"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E55"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig86.0"
+      destPortFig="Fig84"
+      sourceFigNode="Fig86"
+      destFigNode="Fig84"
+      <argouml:pathitem figname="Fig87.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E55"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig87.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="1448"
+              y="992" />
+      <lineto x="1336"
+              y="992" />
+    </path>
+  </group>
+  <group name="Fig88"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1072, 1056, 264, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC2"
+       fill="1"
+       fillcolor="255 255 200"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig1"
+    </private>
+    
+    <rectangle name="Fig88.0"
+      x="1072"
+      y="1056"
+      width="264"
+      height="73"
+      fill="1"
+      fillcolor="255 255 200"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig88.1"
+      x="1073"
+      y="1057"
+      width="262"
+      height="22"
+      fill="0"
+      fillcolor="255 255 200"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="true"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >tao::helpers::form::elements::Label</text>
+    <group name="Fig88.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1073, 1057, 262, 0]"
+         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC2"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig88.2.0"
+        x="1073"
+        y="1057"
+        width="262"
+        height="0"
+        fill="0"
+        fillcolor="255 255 200"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig88.3"
+      x="1072"
+      y="1079"
+      width="264"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig88.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1073, 1080, 262, 22]"
+         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC2"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig88.4.0"
+        x="1073"
+        y="1080"
+        width="262"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig88.5"
+      x="1072"
+      y="1102"
+      width="264"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig88.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1073, 1103, 262, 25]"
+         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC2"
+         fill="0"
+         fillcolor="255 255 200"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig88.6.0"
+        x="1073"
+        y="1103"
+        width="262"
+        height="25"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig88.6.1"
+        x="1073"
+        y="1103"
         width="262"
         height="22"
         fill="0"
@@ -71480,19 +71265,19 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
   </group>
   <group name="Fig89"
        description="org.argouml.uml.diagram.ui.FigGeneralization"
-       href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E51"
+       href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC5"
        stroke="1"
        strokecolor="black"
   >
     <private>
       sourcePortFig="Fig88.0"
-      destPortFig="Fig9"
+      destPortFig="Fig9.0"
       sourceFigNode="Fig88"
       destFigNode="Fig9"
       <argouml:pathitem figname="Fig89.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
-                        ownerhref="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E51"
+                        ownerhref="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC5"
                         angle="270.0"
                         offset="-10" />
     </private>
@@ -71504,16 +71289,16 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     >
       <moveto x="1072"
-              y="1016" />
-      <lineto x="968"
-              y="1016" />
-      <lineto x="968"
+              y="1064" />
+      <lineto x="960"
+              y="1064" />
+      <lineto x="960"
               y="936" />
     </path>
   </group>
   <group name="Fig90"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1448, 968, 296, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
-       href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E52"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1448, 1056, 296, 73]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC6"
        fill="1"
        fillcolor="200 255 255"
        stroke="1"
@@ -71525,7 +71310,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     
     <rectangle name="Fig90.0"
       x="1448"
-      y="968"
+      y="1056"
       width="296"
       height="73"
       fill="1"
@@ -71535,7 +71320,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     />
     <text name="Fig90.1"
       x="1449"
-      y="969"
+      y="1057"
       width="294"
       height="22"
       fill="0"
@@ -71548,10 +71333,10 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       bold="false"
       textsize="12"
       justification="Center"
-    >tao::helpers::form::elements::xhtml::Submit</text>
+    >Label</text>
     <group name="Fig90.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1449, 969, 294, 0]"
-         href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E52"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1449, 1057, 247, 0]"
+         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC6"
          fill="0"
          fillcolor="200 255 255"
          stroke="0"
@@ -71563,8 +71348,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig90.2.0"
         x="1449"
-        y="969"
-        width="294"
+        y="1057"
+        width="247"
         height="0"
         fill="0"
         fillcolor="200 255 255"
@@ -71574,7 +71359,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig90.3"
       x="1448"
-      y="991"
+      y="1079"
       width="296"
       height="1"
       fill="1"
@@ -71583,8 +71368,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig90.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1449, 992, 294, 22]"
-         href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E52"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1449, 1080, 294, 22]"
+         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC6"
          fill="0"
          fillcolor="200 255 255"
          stroke="0"
@@ -71595,7 +71380,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig90.4.0"
         x="1449"
-        y="992"
+        y="1080"
         width="294"
         height="22"
         fill="0"
@@ -71606,7 +71391,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig90.5"
       x="1448"
-      y="1014"
+      y="1102"
       width="296"
       height="1"
       fill="1"
@@ -71615,8 +71400,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig90.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1449, 1015, 294, 25]"
-         href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E52"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1449, 1103, 294, 25]"
+         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC6"
          fill="0"
          fillcolor="200 255 255"
          stroke="0"
@@ -71627,7 +71412,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig90.6.0"
         x="1449"
-        y="1015"
+        y="1103"
         width="294"
         height="25"
         fill="0"
@@ -71637,7 +71422,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig90.6.1"
         x="1449"
-        y="1015"
+        y="1103"
         width="294"
         height="22"
         fill="0"
@@ -71655,19 +71440,19 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
   </group>
   <group name="Fig91"
        description="org.argouml.uml.diagram.ui.FigGeneralization"
-       href="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E55"
+       href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC7"
        stroke="1"
        strokecolor="black"
   >
     <private>
       sourcePortFig="Fig90.0"
-      destPortFig="Fig88"
+      destPortFig="Fig88.0"
       sourceFigNode="Fig90"
       destFigNode="Fig88"
       <argouml:pathitem figname="Fig91.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
-                        ownerhref="127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E55"
+                        ownerhref="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC7"
                         angle="270.0"
                         offset="-10" />
     </private>
@@ -71679,360 +71464,12 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     >
       <moveto x="1448"
-              y="992" />
+              y="1088" />
       <lineto x="1336"
-              y="992" />
+              y="1088" />
     </path>
   </group>
   <group name="Fig92"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1072, 1056, 264, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
-       href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC2"
-       fill="1"
-       fillcolor="255 255 200"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      enclosingFig="Fig1"
-    </private>
-    
-    <rectangle name="Fig92.0"
-      x="1072"
-      y="1056"
-      width="264"
-      height="73"
-      fill="1"
-      fillcolor="255 255 200"
-      stroke="1"
-      strokecolor="black"
-    />
-    <text name="Fig92.1"
-      x="1073"
-      y="1057"
-      width="262"
-      height="22"
-      fill="0"
-      fillcolor="255 255 200"
-      stroke="0"
-      strokecolor="black"
-      textcolor="black"
-      font="Dialog"
-      italic="true"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    >tao::helpers::form::elements::Label</text>
-    <group name="Fig92.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1073, 1057, 262, 0]"
-         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC2"
-         fill="0"
-         fillcolor="255 255 200"
-         stroke="0"
-         strokecolor="black"
-         visibility="0"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig92.2.0"
-        x="1073"
-        y="1057"
-        width="262"
-        height="0"
-        fill="0"
-        fillcolor="255 255 200"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig92.3"
-      x="1072"
-      y="1079"
-      width="264"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig92.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1073, 1080, 262, 22]"
-         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC2"
-         fill="0"
-         fillcolor="255 255 200"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig92.4.0"
-        x="1073"
-        y="1080"
-        width="262"
-        height="22"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig92.5"
-      x="1072"
-      y="1102"
-      width="264"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig92.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1073, 1103, 262, 25]"
-         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC2"
-         fill="0"
-         fillcolor="255 255 200"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig92.6.0"
-        x="1073"
-        y="1103"
-        width="262"
-        height="25"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig92.6.1"
-        x="1073"
-        y="1103"
-        width="262"
-        height="22"
-        fill="0"
-        fillcolor="255 255 200"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="true"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >render() : string</text>
-    </group>
-  </group>
-  <group name="Fig93"
-       description="org.argouml.uml.diagram.ui.FigGeneralization"
-       href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC5"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      sourcePortFig="Fig92.0"
-      destPortFig="Fig9.0"
-      sourceFigNode="Fig92"
-      destFigNode="Fig9"
-      <argouml:pathitem figname="Fig93.1"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
-                        ownerhref="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC5"
-                        angle="270.0"
-                        offset="-10" />
-    </private>
-    <path name="Fig93.0"
-      description="org.argouml.gefext.ArgoFigPoly"
-      fill="0"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    >
-      <moveto x="1072"
-              y="1064" />
-      <lineto x="960"
-              y="1064" />
-      <lineto x="960"
-              y="936" />
-    </path>
-  </group>
-  <group name="Fig94"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1448, 1056, 296, 73]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
-       href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC6"
-       fill="1"
-       fillcolor="200 255 255"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      enclosingFig="Fig5"
-    </private>
-    
-    <rectangle name="Fig94.0"
-      x="1448"
-      y="1056"
-      width="296"
-      height="73"
-      fill="1"
-      fillcolor="200 255 255"
-      stroke="1"
-      strokecolor="black"
-    />
-    <text name="Fig94.1"
-      x="1449"
-      y="1057"
-      width="294"
-      height="22"
-      fill="0"
-      fillcolor="200 255 255"
-      stroke="0"
-      strokecolor="black"
-      textcolor="black"
-      font="Dialog"
-      italic="false"
-      bold="false"
-      textsize="12"
-      justification="Center"
-    >Label</text>
-    <group name="Fig94.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1449, 1057, 247, 0]"
-         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC6"
-         fill="0"
-         fillcolor="200 255 255"
-         stroke="0"
-         strokecolor="black"
-         visibility="0"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig94.2.0"
-        x="1449"
-        y="1057"
-        width="247"
-        height="0"
-        fill="0"
-        fillcolor="200 255 255"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig94.3"
-      x="1448"
-      y="1079"
-      width="296"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig94.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1449, 1080, 294, 22]"
-         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC6"
-         fill="0"
-         fillcolor="200 255 255"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig94.4.0"
-        x="1449"
-        y="1080"
-        width="294"
-        height="22"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-    </group>
-    <rectangle name="Fig94.5"
-      x="1448"
-      y="1102"
-      width="296"
-      height="1"
-      fill="1"
-      fillcolor="black"
-      stroke="1"
-      strokecolor="black"
-    />
-    <group name="Fig94.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1449, 1103, 294, 25]"
-         href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC6"
-         fill="0"
-         fillcolor="200 255 255"
-         stroke="0"
-         strokecolor="black"
-    >
-      <private>
-      </private>
-      
-      <rectangle name="Fig94.6.0"
-        x="1449"
-        y="1103"
-        width="294"
-        height="25"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-      />
-      <text name="Fig94.6.1"
-        x="1449"
-        y="1103"
-        width="294"
-        height="22"
-        fill="0"
-        fillcolor="200 255 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >render() : string</text>
-    </group>
-  </group>
-  <group name="Fig95"
-       description="org.argouml.uml.diagram.ui.FigGeneralization"
-       href="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC7"
-       stroke="1"
-       strokecolor="black"
-  >
-    <private>
-      sourcePortFig="Fig94.0"
-      destPortFig="Fig92.0"
-      sourceFigNode="Fig94"
-      destFigNode="Fig92"
-      <argouml:pathitem figname="Fig95.1"
-                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
-                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
-                        ownerhref="127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC7"
-                        angle="270.0"
-                        offset="-10" />
-    </private>
-    <path name="Fig95.0"
-      description="org.argouml.gefext.ArgoFigPoly"
-      fill="0"
-      fillcolor="white"
-      stroke="1"
-      strokecolor="black"
-    >
-      <moveto x="1448"
-              y="1088" />
-      <lineto x="1336"
-              y="1088" />
-    </path>
-  </group>
-  <group name="Fig96"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[392, 1944, 300, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-d42bee:127af842275:-8000:0000000000002380"
        fill="1"
@@ -72044,7 +71481,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig0"
     </private>
     
-    <rectangle name="Fig96.0"
+    <rectangle name="Fig92.0"
       x="392"
       y="1944"
       width="300"
@@ -72054,7 +71491,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig96.1"
+    <text name="Fig92.1"
       x="393"
       y="1945"
       width="298"
@@ -72070,7 +71507,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::validators::Integer</text>
-    <group name="Fig96.2"
+    <group name="Fig92.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[393, 1945, 298, 0]"
          href="127-0-1-1-d42bee:127af842275:-8000:0000000000002380"
          fill="0"
@@ -72082,7 +71519,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig96.2.0"
+      <rectangle name="Fig92.2.0"
         x="393"
         y="1945"
         width="298"
@@ -72093,7 +71530,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig96.3"
+    <rectangle name="Fig92.3"
       x="392"
       y="1967"
       width="300"
@@ -72103,7 +71540,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig96.4"
+    <group name="Fig92.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[393, 1968, 298, 22]"
          href="127-0-1-1-d42bee:127af842275:-8000:0000000000002380"
          fill="0"
@@ -72114,7 +71551,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig96.4.0"
+      <rectangle name="Fig92.4.0"
         x="393"
         y="1968"
         width="298"
@@ -72125,7 +71562,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig96.5"
+    <rectangle name="Fig92.5"
       x="392"
       y="1990"
       width="300"
@@ -72135,7 +71572,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig96.6"
+    <group name="Fig92.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[393, 1991, 298, 41]"
          href="127-0-1-1-d42bee:127af842275:-8000:0000000000002380"
          fill="0"
@@ -72146,7 +71583,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig96.6.0"
+      <rectangle name="Fig92.6.0"
         x="393"
         y="1991"
         width="298"
@@ -72156,7 +71593,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig96.6.1"
+      <text name="Fig92.6.1"
         x="393"
         y="1991"
         width="298"
@@ -72172,7 +71609,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >&lt;&lt;create&gt;&gt; __construct(options : array = array())</text>
-      <text name="Fig96.6.2"
+      <text name="Fig92.6.2"
         x="393"
         y="2007"
         width="298"
@@ -72190,25 +71627,25 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >evaluate() : boolean</text>
     </group>
   </group>
-  <group name="Fig97"
+  <group name="Fig93"
        description="org.argouml.uml.diagram.ui.FigGeneralization"
        href="127-0-1-1-d42bee:127af842275:-8000:0000000000002381"
        stroke="1"
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig96.0"
+      sourcePortFig="Fig92.0"
       destPortFig="Fig60.0"
-      sourceFigNode="Fig96"
+      sourceFigNode="Fig92"
       destFigNode="Fig60"
-      <argouml:pathitem figname="Fig97.1"
+      <argouml:pathitem figname="Fig93.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="127-0-1-1-d42bee:127af842275:-8000:0000000000002381"
                         angle="270.0"
                         offset="-10" />
     </private>
-    <path name="Fig97.0"
+    <path name="Fig93.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -72221,7 +71658,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
               y="1309" />
     </path>
   </group>
-  <group name="Fig98"
+  <group name="Fig94"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[392, 1840, 300, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D58"
        fill="1"
@@ -72233,7 +71670,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig0"
     </private>
     
-    <rectangle name="Fig98.0"
+    <rectangle name="Fig94.0"
       x="392"
       y="1840"
       width="300"
@@ -72243,7 +71680,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig98.1"
+    <text name="Fig94.1"
       x="393"
       y="1841"
       width="298"
@@ -72259,7 +71696,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::validators::Callback</text>
-    <group name="Fig98.2"
+    <group name="Fig94.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[393, 1841, 298, 0]"
          href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D58"
          fill="0"
@@ -72271,7 +71708,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig98.2.0"
+      <rectangle name="Fig94.2.0"
         x="393"
         y="1841"
         width="298"
@@ -72282,7 +71719,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig98.3"
+    <rectangle name="Fig94.3"
       x="392"
       y="1863"
       width="300"
@@ -72292,7 +71729,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig98.4"
+    <group name="Fig94.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[393, 1864, 298, 22]"
          href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D58"
          fill="0"
@@ -72303,7 +71740,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig98.4.0"
+      <rectangle name="Fig94.4.0"
         x="393"
         y="1864"
         width="298"
@@ -72314,7 +71751,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig98.5"
+    <rectangle name="Fig94.5"
       x="392"
       y="1886"
       width="300"
@@ -72324,7 +71761,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig98.6"
+    <group name="Fig94.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[393, 1887, 298, 41]"
          href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D58"
          fill="0"
@@ -72335,7 +71772,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig98.6.0"
+      <rectangle name="Fig94.6.0"
         x="393"
         y="1887"
         width="298"
@@ -72345,7 +71782,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig98.6.1"
+      <text name="Fig94.6.1"
         x="393"
         y="1887"
         width="298"
@@ -72361,7 +71798,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >&lt;&lt;create&gt;&gt; __construct(options : array = array())</text>
-      <text name="Fig98.6.2"
+      <text name="Fig94.6.2"
         x="393"
         y="1903"
         width="298"
@@ -72379,7 +71816,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >evaluate() : boolean</text>
     </group>
   </group>
-  <group name="Fig99"
+  <group name="Fig95"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[392, 1736, 300, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C08"
        fill="1"
@@ -72391,7 +71828,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig0"
     </private>
     
-    <rectangle name="Fig99.0"
+    <rectangle name="Fig95.0"
       x="392"
       y="1736"
       width="300"
@@ -72401,7 +71838,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig99.1"
+    <text name="Fig95.1"
       x="393"
       y="1737"
       width="298"
@@ -72417,7 +71854,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::validators::Regex</text>
-    <group name="Fig99.2"
+    <group name="Fig95.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[393, 1737, 298, 0]"
          href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C08"
          fill="0"
@@ -72429,7 +71866,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig99.2.0"
+      <rectangle name="Fig95.2.0"
         x="393"
         y="1737"
         width="298"
@@ -72440,7 +71877,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig99.3"
+    <rectangle name="Fig95.3"
       x="392"
       y="1759"
       width="300"
@@ -72450,7 +71887,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig99.4"
+    <group name="Fig95.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[393, 1760, 298, 22]"
          href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C08"
          fill="0"
@@ -72461,7 +71898,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig99.4.0"
+      <rectangle name="Fig95.4.0"
         x="393"
         y="1760"
         width="298"
@@ -72472,7 +71909,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig99.5"
+    <rectangle name="Fig95.5"
       x="392"
       y="1782"
       width="300"
@@ -72482,7 +71919,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig99.6"
+    <group name="Fig95.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[393, 1783, 298, 41]"
          href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C08"
          fill="0"
@@ -72493,7 +71930,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig99.6.0"
+      <rectangle name="Fig95.6.0"
         x="393"
         y="1783"
         width="298"
@@ -72503,7 +71940,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig99.6.1"
+      <text name="Fig95.6.1"
         x="393"
         y="1783"
         width="298"
@@ -72519,7 +71956,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >&lt;&lt;create&gt;&gt; __construct(options : array = array())</text>
-      <text name="Fig99.6.2"
+      <text name="Fig95.6.2"
         x="393"
         y="1799"
         width="298"
@@ -72537,7 +71974,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >evaluate() : boolean</text>
     </group>
   </group>
-  <group name="Fig100"
+  <group name="Fig96"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[392, 1640, 300, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C17"
        fill="1"
@@ -72549,7 +71986,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig0"
     </private>
     
-    <rectangle name="Fig100.0"
+    <rectangle name="Fig96.0"
       x="392"
       y="1640"
       width="300"
@@ -72559,7 +71996,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig100.1"
+    <text name="Fig96.1"
       x="393"
       y="1641"
       width="298"
@@ -72575,7 +72012,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::validators::Length</text>
-    <group name="Fig100.2"
+    <group name="Fig96.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[393, 1641, 298, 0]"
          href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C17"
          fill="0"
@@ -72587,7 +72024,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig100.2.0"
+      <rectangle name="Fig96.2.0"
         x="393"
         y="1641"
         width="298"
@@ -72598,7 +72035,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig100.3"
+    <rectangle name="Fig96.3"
       x="392"
       y="1663"
       width="300"
@@ -72608,7 +72045,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig100.4"
+    <group name="Fig96.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[393, 1664, 298, 22]"
          href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C17"
          fill="0"
@@ -72619,7 +72056,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig100.4.0"
+      <rectangle name="Fig96.4.0"
         x="393"
         y="1664"
         width="298"
@@ -72630,7 +72067,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig100.5"
+    <rectangle name="Fig96.5"
       x="392"
       y="1686"
       width="300"
@@ -72640,7 +72077,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig100.6"
+    <group name="Fig96.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[393, 1687, 298, 41]"
          href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C17"
          fill="0"
@@ -72651,7 +72088,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig100.6.0"
+      <rectangle name="Fig96.6.0"
         x="393"
         y="1687"
         width="298"
@@ -72661,7 +72098,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig100.6.1"
+      <text name="Fig96.6.1"
         x="393"
         y="1687"
         width="298"
@@ -72677,7 +72114,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >&lt;&lt;create&gt;&gt; __construct(options : array = array())</text>
-      <text name="Fig100.6.2"
+      <text name="Fig96.6.2"
         x="393"
         y="1703"
         width="298"
@@ -72695,7 +72132,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >evaluate() : boolean</text>
     </group>
   </group>
-  <group name="Fig101"
+  <group name="Fig97"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[392, 1544, 300, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCA"
        fill="1"
@@ -72707,7 +72144,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig0"
     </private>
     
-    <rectangle name="Fig101.0"
+    <rectangle name="Fig97.0"
       x="392"
       y="1544"
       width="300"
@@ -72717,7 +72154,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig101.1"
+    <text name="Fig97.1"
       x="393"
       y="1545"
       width="298"
@@ -72733,7 +72170,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::validators::NotEmpty</text>
-    <group name="Fig101.2"
+    <group name="Fig97.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[393, 1545, 298, 0]"
          href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCA"
          fill="0"
@@ -72745,7 +72182,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig101.2.0"
+      <rectangle name="Fig97.2.0"
         x="393"
         y="1545"
         width="298"
@@ -72756,7 +72193,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig101.3"
+    <rectangle name="Fig97.3"
       x="392"
       y="1567"
       width="300"
@@ -72766,7 +72203,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig101.4"
+    <group name="Fig97.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[393, 1568, 298, 22]"
          href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCA"
          fill="0"
@@ -72777,7 +72214,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig101.4.0"
+      <rectangle name="Fig97.4.0"
         x="393"
         y="1568"
         width="298"
@@ -72788,7 +72225,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig101.5"
+    <rectangle name="Fig97.5"
       x="392"
       y="1590"
       width="300"
@@ -72798,7 +72235,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig101.6"
+    <group name="Fig97.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[393, 1591, 298, 41]"
          href="127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCA"
          fill="0"
@@ -72809,7 +72246,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig101.6.0"
+      <rectangle name="Fig97.6.0"
         x="393"
         y="1591"
         width="298"
@@ -72819,7 +72256,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig101.6.1"
+      <text name="Fig97.6.1"
         x="393"
         y="1591"
         width="298"
@@ -72835,7 +72272,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >&lt;&lt;create&gt;&gt; __construct(options : array = array())</text>
-      <text name="Fig101.6.2"
+      <text name="Fig97.6.2"
         x="393"
         y="1607"
         width="298"
@@ -72853,7 +72290,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >evaluate() : boolean</text>
     </group>
   </group>
-  <group name="Fig102"
+  <group name="Fig98"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[1448, 696, 296, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023D9"
        fill="1"
@@ -72865,7 +72302,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig5"
     </private>
     
-    <rectangle name="Fig102.0"
+    <rectangle name="Fig98.0"
       x="1448"
       y="696"
       width="296"
@@ -72875,7 +72312,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig102.1"
+    <text name="Fig98.1"
       x="1449"
       y="697"
       width="294"
@@ -72891,7 +72328,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::elements::xhtml::AsyncFile</text>
-    <group name="Fig102.2"
+    <group name="Fig98.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1449, 697, 294, 0]"
          href="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023D9"
          fill="0"
@@ -72903,7 +72340,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig102.2.0"
+      <rectangle name="Fig98.2.0"
         x="1449"
         y="697"
         width="294"
@@ -72914,7 +72351,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig102.3"
+    <rectangle name="Fig98.3"
       x="1448"
       y="719"
       width="296"
@@ -72924,7 +72361,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig102.4"
+    <group name="Fig98.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1449, 720, 294, 22]"
          href="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023D9"
          fill="0"
@@ -72935,7 +72372,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig102.4.0"
+      <rectangle name="Fig98.4.0"
         x="1449"
         y="720"
         width="294"
@@ -72946,7 +72383,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig102.5"
+    <rectangle name="Fig98.5"
       x="1448"
       y="742"
       width="296"
@@ -72956,7 +72393,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig102.6"
+    <group name="Fig98.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1449, 743, 294, 41]"
          href="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023D9"
          fill="0"
@@ -72967,7 +72404,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig102.6.0"
+      <rectangle name="Fig98.6.0"
         x="1449"
         y="743"
         width="294"
@@ -72977,7 +72414,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig102.6.1"
+      <text name="Fig98.6.1"
         x="1449"
         y="743"
         width="294"
@@ -72993,7 +72430,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >getValue() : mixed</text>
-      <text name="Fig102.6.2"
+      <text name="Fig98.6.2"
         x="1449"
         y="759"
         width="294"
@@ -73011,7 +72448,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >render() : string</text>
     </group>
   </group>
-  <group name="Fig103"
+  <group name="Fig99"
        description="org.argouml.uml.diagram.static_structure.ui.FigClass[1072, 712, 273, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023D8"
        fill="1"
@@ -73023,7 +72460,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       enclosingFig="Fig1"
     </private>
     
-    <rectangle name="Fig103.0"
+    <rectangle name="Fig99.0"
       x="1072"
       y="712"
       width="273"
@@ -73033,7 +72470,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <text name="Fig103.1"
+    <text name="Fig99.1"
       x="1073"
       y="713"
       width="271"
@@ -73049,7 +72486,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       textsize="12"
       justification="Center"
     >tao::helpers::form::elements::AsyncFile</text>
-    <group name="Fig103.2"
+    <group name="Fig99.2"
          description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1073, 713, 271, 0]"
          href="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023D8"
          fill="0"
@@ -73061,7 +72498,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig103.2.0"
+      <rectangle name="Fig99.2.0"
         x="1073"
         y="713"
         width="271"
@@ -73072,7 +72509,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig103.3"
+    <rectangle name="Fig99.3"
       x="1072"
       y="735"
       width="273"
@@ -73082,7 +72519,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig103.4"
+    <group name="Fig99.4"
          description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1073, 736, 271, 22]"
          href="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023D8"
          fill="0"
@@ -73093,7 +72530,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig103.4.0"
+      <rectangle name="Fig99.4.0"
         x="1073"
         y="736"
         width="271"
@@ -73104,7 +72541,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         strokecolor="black"
       />
     </group>
-    <rectangle name="Fig103.5"
+    <rectangle name="Fig99.5"
       x="1072"
       y="758"
       width="273"
@@ -73114,7 +72551,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     />
-    <group name="Fig103.6"
+    <group name="Fig99.6"
          description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1073, 759, 271, 25]"
          href="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023D8"
          fill="0"
@@ -73125,7 +72562,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <private>
       </private>
       
-      <rectangle name="Fig103.6.0"
+      <rectangle name="Fig99.6.0"
         x="1073"
         y="759"
         width="271"
@@ -73135,7 +72572,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig103.6.1"
+      <text name="Fig99.6.1"
         x="1073"
         y="759"
         width="271"
@@ -73153,25 +72590,25 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >render() : string</text>
     </group>
   </group>
-  <group name="Fig104"
+  <group name="Fig100"
        description="org.argouml.uml.diagram.ui.FigGeneralization"
        href="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DA"
        stroke="1"
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig103.0"
+      sourcePortFig="Fig99.0"
       destPortFig="Fig9.0"
-      sourceFigNode="Fig103"
+      sourceFigNode="Fig99"
       destFigNode="Fig9"
-      <argouml:pathitem figname="Fig104.1"
+      <argouml:pathitem figname="Fig100.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DA"
                         angle="270.0"
                         offset="-10" />
     </private>
-    <path name="Fig104.0"
+    <path name="Fig100.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -73184,25 +72621,25 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
               y="728" />
     </path>
   </group>
-  <group name="Fig105"
+  <group name="Fig101"
        description="org.argouml.uml.diagram.ui.FigGeneralization"
        href="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DB"
        stroke="1"
        strokecolor="black"
   >
     <private>
-      sourcePortFig="Fig102.0"
-      destPortFig="Fig103.0"
-      sourceFigNode="Fig102"
-      destFigNode="Fig103"
-      <argouml:pathitem figname="Fig105.1"
+      sourcePortFig="Fig98.0"
+      destPortFig="Fig99.0"
+      sourceFigNode="Fig98"
+      destFigNode="Fig99"
+      <argouml:pathitem figname="Fig101.1"
                         classname="org.argouml.uml.diagram.ui.PathItemPlacement"
                         figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
                         ownerhref="127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DB"
                         angle="270.0"
                         offset="-10" />
     </private>
-    <path name="Fig105.0"
+    <path name="Fig101.0"
       description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
@@ -73214,6 +72651,811 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <lineto x="1345"
               y="728" />
     </path>
+  </group>
+  <group name="Fig102"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[712, 1944, 300, 88]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200A"
+       fill="1"
+       fillcolor="255 200 255"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig0"
+    </private>
+    
+    <rectangle name="Fig102.0"
+      x="712"
+      y="1944"
+      width="300"
+      height="88"
+      fill="1"
+      fillcolor="255 200 255"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig102.1"
+      x="713"
+      y="1945"
+      width="298"
+      height="22"
+      fill="0"
+      fillcolor="255 200 255"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >Label</text>
+    <group name="Fig102.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[713, 1945, 298, 0]"
+         href="127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200A"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig102.2.0"
+        x="713"
+        y="1945"
+        width="298"
+        height="0"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig102.3"
+      x="712"
+      y="1967"
+      width="300"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig102.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[713, 1968, 298, 21]"
+         href="127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200A"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig102.4.0"
+        x="713"
+        y="1968"
+        width="298"
+        height="21"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig102.5"
+      x="712"
+      y="1989"
+      width="300"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig102.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[713, 1990, 298, 40]"
+         href="127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200A"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig102.6.0"
+        x="713"
+        y="1990"
+        width="298"
+        height="40"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig102.6.1"
+        x="713"
+        y="1990"
+        width="298"
+        height="16"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >&lt;&lt;create&gt;&gt; __construct(options : array = array())</text>
+      <text name="Fig102.6.2"
+        x="713"
+        y="2006"
+        width="298"
+        height="22"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >evaluate() : boolean</text>
+    </group>
+  </group>
+  <group name="Fig103"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200B"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig102.0"
+      destPortFig="Fig60.0"
+      sourceFigNode="Fig102"
+      destFigNode="Fig60"
+      <argouml:pathitem figname="Fig103.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200B"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig103.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="864"
+              y="1944" />
+      <lineto x="864"
+              y="1309" />
+    </path>
+  </group>
+  <group name="Fig104"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[704, 1544, 296, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDE"
+       fill="1"
+       fillcolor="255 200 255"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig0"
+    </private>
+    
+    <rectangle name="Fig104.0"
+      x="704"
+      y="1544"
+      width="296"
+      height="89"
+      fill="1"
+      fillcolor="255 200 255"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig104.1"
+      x="705"
+      y="1545"
+      width="294"
+      height="22"
+      fill="0"
+      fillcolor="255 200 255"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >tao::helpers::form::validators::FileSize</text>
+    <group name="Fig104.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[705, 1545, 294, 0]"
+         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDE"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig104.2.0"
+        x="705"
+        y="1545"
+        width="294"
+        height="0"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig104.3"
+      x="704"
+      y="1567"
+      width="296"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig104.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[705, 1568, 294, 22]"
+         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDE"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig104.4.0"
+        x="705"
+        y="1568"
+        width="294"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig104.5"
+      x="704"
+      y="1590"
+      width="296"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig104.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[705, 1591, 294, 41]"
+         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDE"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig104.6.0"
+        x="705"
+        y="1591"
+        width="294"
+        height="41"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig104.6.1"
+        x="705"
+        y="1591"
+        width="294"
+        height="16"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >&lt;&lt;create&gt;&gt; __construct(options : array)</text>
+      <text name="Fig104.6.2"
+        x="705"
+        y="1607"
+        width="294"
+        height="22"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >evaluate() : boolean</text>
+    </group>
+  </group>
+  <group name="Fig105"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[704, 1640, 300, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CCF"
+       fill="1"
+       fillcolor="255 200 255"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig0"
+    </private>
+    
+    <rectangle name="Fig105.0"
+      x="704"
+      y="1640"
+      width="300"
+      height="89"
+      fill="1"
+      fillcolor="255 200 255"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig105.1"
+      x="705"
+      y="1641"
+      width="298"
+      height="22"
+      fill="0"
+      fillcolor="255 200 255"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >tao::helpers::form::validators::FileMimeType</text>
+    <group name="Fig105.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[705, 1641, 298, 0]"
+         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CCF"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig105.2.0"
+        x="705"
+        y="1641"
+        width="298"
+        height="0"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig105.3"
+      x="704"
+      y="1663"
+      width="300"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig105.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[705, 1664, 298, 22]"
+         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CCF"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig105.4.0"
+        x="705"
+        y="1664"
+        width="298"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig105.5"
+      x="704"
+      y="1686"
+      width="300"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig105.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[705, 1687, 298, 41]"
+         href="127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CCF"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig105.6.0"
+        x="705"
+        y="1687"
+        width="298"
+        height="41"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig105.6.1"
+        x="705"
+        y="1687"
+        width="298"
+        height="16"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >&lt;&lt;create&gt;&gt; __construct(options : array = array())</text>
+      <text name="Fig105.6.2"
+        x="705"
+        y="1703"
+        width="298"
+        height="22"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >evaluate() : boolean</text>
+    </group>
+  </group>
+  <group name="Fig106"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[704, 1736, 300, 89]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D57"
+       fill="1"
+       fillcolor="255 200 255"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig0"
+    </private>
+    
+    <rectangle name="Fig106.0"
+      x="704"
+      y="1736"
+      width="300"
+      height="89"
+      fill="1"
+      fillcolor="255 200 255"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig106.1"
+      x="705"
+      y="1737"
+      width="298"
+      height="22"
+      fill="0"
+      fillcolor="255 200 255"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >tao::helpers::form::validators::Password</text>
+    <group name="Fig106.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[705, 1737, 298, 0]"
+         href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D57"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig106.2.0"
+        x="705"
+        y="1737"
+        width="298"
+        height="0"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig106.3"
+      x="704"
+      y="1759"
+      width="300"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig106.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[705, 1760, 298, 22]"
+         href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D57"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig106.4.0"
+        x="705"
+        y="1760"
+        width="298"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig106.5"
+      x="704"
+      y="1782"
+      width="300"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig106.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[705, 1783, 298, 41]"
+         href="127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D57"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig106.6.0"
+        x="705"
+        y="1783"
+        width="298"
+        height="41"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig106.6.1"
+        x="705"
+        y="1783"
+        width="298"
+        height="16"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >&lt;&lt;create&gt;&gt; __construct(options : array = array())</text>
+      <text name="Fig106.6.2"
+        x="705"
+        y="1799"
+        width="298"
+        height="22"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >evaluate() : boolean</text>
+    </group>
+  </group>
+  <group name="Fig107"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[704, 1848, 296, 73]pathVisible=true;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       href="127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D71"
+       fill="1"
+       fillcolor="255 200 255"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      enclosingFig="Fig0"
+    </private>
+    
+    <rectangle name="Fig107.0"
+      x="704"
+      y="1848"
+      width="296"
+      height="73"
+      fill="1"
+      fillcolor="255 200 255"
+      stroke="1"
+      strokecolor="black"
+    />
+    <text name="Fig107.1"
+      x="705"
+      y="1849"
+      width="294"
+      height="22"
+      fill="0"
+      fillcolor="255 200 255"
+      stroke="0"
+      strokecolor="black"
+      textcolor="black"
+      font="Dialog"
+      italic="false"
+      bold="false"
+      textsize="12"
+      justification="Center"
+    >tao::helpers::form::validators::Md5Password</text>
+    <group name="Fig107.2"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[705, 1849, 294, 0]"
+         href="127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D71"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+         visibility="0"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig107.2.0"
+        x="705"
+        y="1849"
+        width="294"
+        height="0"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig107.3"
+      x="704"
+      y="1871"
+      width="296"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig107.4"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[705, 1872, 294, 22]"
+         href="127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D71"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig107.4.0"
+        x="705"
+        y="1872"
+        width="294"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+    </group>
+    <rectangle name="Fig107.5"
+      x="704"
+      y="1894"
+      width="296"
+      height="1"
+      fill="1"
+      fillcolor="black"
+      stroke="1"
+      strokecolor="black"
+    />
+    <group name="Fig107.6"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[705, 1895, 294, 25]"
+         href="127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D71"
+         fill="0"
+         fillcolor="255 200 255"
+         stroke="0"
+         strokecolor="black"
+    >
+      <private>
+      </private>
+      
+      <rectangle name="Fig107.6.0"
+        x="705"
+        y="1895"
+        width="294"
+        height="25"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+      />
+      <text name="Fig107.6.1"
+        x="705"
+        y="1895"
+        width="294"
+        height="22"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >getValue() : string</text>
+    </group>
   </group>
 </pgml>
 <pgml description="org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram|10-13-1--31-64e54c36:1190f0455d3:-8000:000000000000071E"
