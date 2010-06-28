@@ -246,23 +246,6 @@ function install($param){
 	}
 	echo "User created : <b>" . $login ."</b><br/>";
 	
-	$location='http://'.$_SERVER['HTTP_HOST']."/taoResults/models/ext/utrv1/classes/class.ResultModelBuilder.php";//?resultxml=".urlencode($xmlPath);
-    //send with curl
-    $url = $location;
-
-    $ch = curl_init();
-    //set options
-    curl_setopt($ch,CURLOPT_URL,$url);
-
-    curl_setopt($ch,CURLOPT_POST,1);
-    //curl_setopt($ch,CURLOPT_POSTFIELDS,$postFieldes);
-    curl_setopt($ch, CURLOPT_FAILONERROR, 1);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);// allow redirect
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); // return into a variable
-    curl_setopt($ch, CURLOPT_TIMEOUT, 60); // 
-    //close the cURL connexion
-
-    $result = curl_exec($ch);
 	echo '<hr/><b>Installation Complete</b><br/>';
 	echo "<br/><center><a href='/tao'>Go to TAO</a></center>";
 }
