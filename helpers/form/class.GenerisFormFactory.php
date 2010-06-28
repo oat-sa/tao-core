@@ -651,14 +651,15 @@ class tao_helpers_form_GenerisFormFactory
 		$typeElt->addAttribute('class', 'property-type');
 		$typeElt->setEmptyOption(' --- '.__('select').' --- ');
 		$options = array();
+		$checkRange = false;
 		foreach(self::getPropertyMap() as $typeKey => $map){
 			$options[$typeKey] = $map['title'];
 			if($property->getWidget()){
 				if($property->getWidget()->uriResource == $map['widget']){
 					$typeElt->setValue($typeKey);
+					$checkRange = is_null($map['range']);
 				}
 			}
-			
 		}
 		$typeElt->setOptions($options);
 		$form->addElement($typeElt);
@@ -680,6 +681,9 @@ class tao_helpers_form_GenerisFormFactory
 		}	
 		$listOptions['new'] = ' + '.__('Add / Edit lists');
 		$listElt->setOptions($listOptions);
+		if($checkRange){
+			$listElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		}
 		$form->addElement($listElt);
 		$elementNames[] = $listElt->getName();
 		
@@ -697,7 +701,8 @@ class tao_helpers_form_GenerisFormFactory
 		$elementNames[] = $modeElt->getName();
 		
 		if(count($elementNames) > 0){
-			$form->createGroup("property_{$index}", "<img src='".TAOBASE_WWW."img/prop_green.png' /> ".__('Property')." #".($index).": ".$property->getLabel(), $elementNames);
+			$groupTitle = "<img src='".TAOBASE_WWW."img/prop_green.png' /> ".__('Property')." #".($index).": ".$property->getLabel();
+			$form->createGroup("property_{$index}", $groupTitle, $elementNames, array('class' => 'form-group-opened'));
 		}
 			
 		$returnValue = $form;

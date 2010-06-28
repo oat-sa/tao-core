@@ -397,6 +397,7 @@ UiForm = function(){
 				
 				//load the instances and display them (the list items)
 				$(this).parent("div").children("ul.form-elt-list").remove();
+				$(this).parent("div").children("div.form-error").remove();
 				var classUri = $(this).val();
 				if(classUri != ''){
 					

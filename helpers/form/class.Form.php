@@ -23,14 +23,15 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_helpers_form_FormContainer
+ * This class provide a container for a specific form instance.
+ * It's subclasses instanciate a form and it's elements to be used as a
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 require_once('tao/helpers/form/class.FormContainer.php');
 
 /**
- * include tao_helpers_form_Decorator
+ * A decorator is an helper used for aspect oriented rendering.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
@@ -483,6 +484,15 @@ abstract class tao_helpers_form_Form
 		
 			if(!is_null($this->getDecorator('group'))){
 				$this->getDecorator('group')->setOption('id', tao_helpers_Display::textCleaner($groupName));
+				if(isset($group['options'])){
+					if(isset($group['options']['class'])){
+						$currentClasses = explode(' ',$this->getDecorator('group')->getOption('cssClass'));
+						if(!in_array($group['options']['class'], $currentClasses)){
+							$currentClasses[] = $group['options']['class'];
+							$this->getDecorator('group')->setOption('cssClass', implode(' ', $currentClasses));
+						}
+					}
+				}
 				$returnValue .= $this->getDecorator('group')->preRender();
 			}
 			$returnValue .= $group['title'];
@@ -741,14 +751,16 @@ abstract class tao_helpers_form_Form
      * @param  string groupName
      * @param  string groupTitle
      * @param  array elements
+     * @param  array options
      * @return mixed
      */
-    public function createGroup($groupName, $groupTitle = '', $elements = array())
+    public function createGroup($groupName, $groupTitle = '', $elements = array(), $options = array())
     {
         // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ABB begin
 		$this->groups[$groupName] = array(
 			'title' 	=> (empty($groupTitle)) ? $groupName : $groupTitle,
-			'elements'	=> $elements
+			'elements'	=> $elements,
+			'options'	=> $options
 		);
         // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ABB end
     }
