@@ -61,6 +61,11 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 						instance.options.loadCallback();
 					}
 				},
+				onopen: function(NODE, TREE_OBJ) {
+					if(instance.options.checkedNodes){
+						instance.check(instance.options.checkedNodes);
+					}
+				},
 				ondata: function(DATA, TREE_OBJ){
 					if(DATA.children){
 						DATA.state = 'open';
@@ -105,7 +110,7 @@ GenerisTreeFormClass.prototype.getTree = function(){
 GenerisTreeFormClass.prototype.check = function(elements){
 	$.each(elements, function(i, elt){
 		NODE = $("li[id="+elt+"]");
-		if(NODE){
+		if(NODE.length > 0){
 			$.tree.plugins.checkbox.check(NODE);
 		}
 	});
