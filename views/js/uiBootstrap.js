@@ -54,7 +54,9 @@ UiBootstrap = function(options){
 			if (settings.dataType == 'html') {
 				if(/authoring/i.test(settings.url)){
 					$("#section-trees").empty();
+					$('#section-trees').css({display: 'none'});
 					$("#section-actions").empty();
+					$('#section-actions').css({display: 'none'});
 				}
 				if(/add|edit|Instance|Class|search|getSectionTrees/.test(settings.url) && !/authoring/i.test(settings.url)){
 					bootInstance.initActions();
@@ -105,6 +107,12 @@ UiBootstrap = function(options){
 				},
 				dataType: 'html',
 				success: function(response){
+					if(response == ''){
+						$('#section-trees').css({display: 'none'});
+					}
+					else if($('#section-trees').css('display') == 'none'){
+						$('#section-trees').css({display: 'block'});
+					}
 					$('#section-trees').html(response);
 				}
 			});
@@ -125,6 +133,12 @@ UiBootstrap = function(options){
 				},
 				dataType: 'html',
 				success: function(response){
+					if(response == ''){
+						$('#section-actions').css({display: 'none'});
+					}
+					else if($('#section-actions').css('display') == 'none'){
+						$('#section-actions').css({display: 'block'});
+					}
 					$('#section-actions').html(response);
 				}
 			});
@@ -141,7 +155,7 @@ UiBootstrap = function(options){
 			uiTab = myPanel.id;
 			if($('#section-actions').html() == '' && $('#section-trees').html()  == '' && $("div#"+uiTab).css('left') == '19%' ){
 				$("div#"+uiTab).css('left', '0%');
-				$("div#"+uiTab).css('width', '99%');
+				$("div#"+uiTab).css('width', '99%');				
 			}
 			if( $('#section-actions').html() != '' || $('#section-trees').html()  != '' ){
 				$("div#"+uiTab).css('left', '19%');
