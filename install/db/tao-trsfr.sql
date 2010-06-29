@@ -4427,4 +4427,4 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (6, 'http://www.tao.lu/Ontologies/TAO.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#userUILg', 'EN', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (6, 'http://www.tao.lu/Ontologies/TAO.rdf#installator', 'http://www.tao.lu/Ontologies/generis.rdf#password', 'b01a52f727b0810639526fe2c8188331', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
-
+UPDATE `extensions` SET `ghost` = 1 WHERE `extensions`.`id` = 'wfEngine' LIMIT 1;
