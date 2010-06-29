@@ -26,7 +26,7 @@
       <fontname>Dialog</fontname>
       <fontsize>12</fontsize>
       <defaultstereotypeview>2</defaultstereotypeview>
-      <activediagram>Forms</activediagram>
+      <activediagram>transfer services</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Jun 28 14:47:27 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Jun 29 12:30:57 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.1(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -23452,6 +23452,44 @@ If the uri don&apos;t reference a subject subclass, it returns null </UML:Tagged
                               </UML:Parameter.defaultValue>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-56f8794f:129833f491d:-8000:0000000000002021'
+                          name = 'createInstance' visibility = 'public' isSpecification = 'false'
+                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-56f8794f:129833f491d:-8000:0000000000002026'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Create a new subject instance and link it to the tao subject role</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56f8794f:129833f491d:-8000:0000000000002022'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56f8794f:129833f491d:-8000:0000000000002023'
+                              name = 'clazz' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-56f8794f:129833f491d:-8000:0000000000002024'
+                              name = 'label' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.defaultValue>
+                                <UML:Expression xmi.id = '127-0-1-1-56f8794f:129833f491d:-8000:0000000000002025'
+                                  language = 'UML 1.4' body = '&apos;&apos;'/>
+                              </UML:Parameter.defaultValue>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
@@ -54585,7 +54623,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig15.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[857, 928, 512, 37]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[857, 928, 512, 29]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:00000000000017A5"
          fill="0"
          fillcolor="200 200 255"
@@ -54599,7 +54637,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         x="857"
         y="928"
         width="512"
-        height="37"
+        height="29"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -54624,7 +54662,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig15.5"
       x="856"
-      y="965"
+      y="957"
       width="514"
       height="1"
       fill="1"
@@ -54633,7 +54671,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig15.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[857, 966, 512, 181]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[857, 958, 512, 189]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:00000000000017A5"
          fill="0"
          fillcolor="200 200 255"
@@ -54645,9 +54683,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig15.6.0"
         x="857"
-        y="966"
+        y="958"
         width="512"
-        height="181"
+        height="189"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -54655,7 +54693,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig15.6.1"
         x="857"
-        y="966"
+        y="958"
         width="512"
         height="16"
         fill="0"
@@ -54671,7 +54709,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >&lt;&lt;create&gt;&gt; __construct()</text>
       <text name="Fig15.6.2"
         x="857"
-        y="982"
+        y="974"
         width="512"
         height="16"
         fill="0"
@@ -54687,7 +54725,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getSubject(identifier : string,mode : string = &apos;uri&apos;,clazz : Class = null) : Resource</text>
       <text name="Fig15.6.3"
         x="857"
-        y="998"
+        y="990"
         width="512"
         height="16"
         fill="0"
@@ -54703,7 +54741,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getSubjectClasses() : ContainerCollection</text>
       <text name="Fig15.6.4"
         x="857"
-        y="1014"
+        y="1006"
         width="512"
         height="16"
         fill="0"
@@ -54719,7 +54757,23 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getSubjectClass(uri : string = &apos;&apos;) : Class</text>
       <text name="Fig15.6.5"
         x="857"
-        y="1030"
+        y="1022"
+        width="512"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >createInstance(clazz : Class,label : string = &apos;&apos;) : Resource</text>
+      <text name="Fig15.6.6"
+        x="857"
+        y="1038"
         width="512"
         height="16"
         fill="0"
@@ -54733,9 +54787,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >createSubjectClass(clazz : Class = null,label : string,properties : array = array()) : Class</text>
-      <text name="Fig15.6.6"
+      <text name="Fig15.6.7"
         x="857"
-        y="1046"
+        y="1054"
         width="512"
         height="16"
         fill="0"
@@ -54749,9 +54803,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >deleteSubject(subject : Resource) : boolean</text>
-      <text name="Fig15.6.7"
+      <text name="Fig15.6.8"
         x="857"
-        y="1062"
+        y="1070"
         width="512"
         height="16"
         fill="0"
@@ -54765,9 +54819,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >deleteSubjectClass(clazz : Class) : boolean</text>
-      <text name="Fig15.6.8"
+      <text name="Fig15.6.9"
         x="857"
-        y="1078"
+        y="1086"
         width="512"
         height="16"
         fill="0"
@@ -54781,9 +54835,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >isSubjectClass(clazz : Class) : boolean</text>
-      <text name="Fig15.6.9"
+      <text name="Fig15.6.10"
         x="857"
-        y="1094"
+        y="1102"
         width="512"
         height="16"
         fill="0"
@@ -54797,9 +54851,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >getSubjectGroups(subject : Resource) : array</text>
-      <text name="Fig15.6.10"
+      <text name="Fig15.6.11"
         x="857"
-        y="1110"
+        y="1118"
         width="512"
         height="22"
         fill="0"
@@ -61791,7 +61845,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Center"
     >tao::helpers::form::Form</text>
     <group name="Fig3.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[17, 553, 483, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[17, 553, 627, 0]"
          href="10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A4"
          fill="0"
          fillcolor="255 255 200"
@@ -61805,7 +61859,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <rectangle name="Fig3.2.0"
         x="17"
         y="553"
-        width="483"
+        width="627"
         height="0"
         fill="0"
         fillcolor="255 255 200"

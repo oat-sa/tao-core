@@ -194,7 +194,6 @@ class tao_models_classes_RoleService
 			foreach($allUsers as $user){
 				//delete the current role
 				$returnValue = core_kernel_impl_ApiModelOO::singleton()->removeStatement($user, RDF_TYPE, $role->uriResource, '');
-				
 			}
 			
 			$done = 0;

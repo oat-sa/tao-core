@@ -213,7 +213,7 @@ abstract class tao_models_classes_Service
         
         if(!is_null($instance)){
         	if(!$instance->isClass() && !$instance->isProperty()){
-        		$resource = $instance->getUniquePropertyValue(new core_kernel_classes_Property(RDFS_TYPE));
+        		$resource = $instance->getOnePropertyValue(new core_kernel_classes_Property(RDFS_TYPE));
         		if($resource instanceof core_kernel_classes_Resource){
         			$returnValue = new core_kernel_classes_Class($resource->uriResource);
         		}
