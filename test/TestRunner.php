@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
+include_once dirname(__FILE__) .'/../includes/common.php';
 	
 /**
  * Help you to run the test into the TAO Context
@@ -56,6 +57,10 @@ class TestRunner{
 								}
 							}
 						}
+					}
+					$contFile = ROOT_PATH . '/' . $extension . '/includes/constants.php';
+					if(file_exists($contFile)){
+						require_once($contFile);
 					}
 				}
 			}

@@ -2,7 +2,6 @@
 
 
 require_once dirname(__FILE__) . '/TestRunner.php';
-require_once dirname(__FILE__) . '/../includes/common.php';
 
 
 class XmlTimeReporter extends XmlReporter {
@@ -32,15 +31,12 @@ class XmlTimeReporter extends XmlReporter {
  * the list of extensions to test
  * @var array
  */
-$testedExtensions = array(
-	'tao',
-	//'taoDelivery',
-	'taoGroups',
-	'taoItems',
-	'taoResults',
-	'taoSubjects',
-	'taoTests'
-);
+$testedExtensions = array_keys(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
+foreach($testedExtensions as $i => $testedExtension){
+	if($testedExtension == 'taoDelivery' || $testedExtension == 'wfEngine'){
+		unset($testedExtensions[$i]);
+	}
+}
 
 //get the test into each extensions
 $tests = TestRunner::getTests($testedExtensions);
