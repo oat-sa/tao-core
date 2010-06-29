@@ -8,6 +8,7 @@ AsyncFileUpload = function(elt, options){
 			"uploader"  : taobase_www + "js/jquery.uploadify-v2.1.0/uploadify.swf",
 			"cancelImg" : taobase_www + "img/cancel.png",
 			"buttonImg"	: taobase_www + "img/browse_btn.png",
+			"scriptAccess": 'always',
 			"width"		: 140,
 			"height"	: 40,
 			"auto"      : false,
