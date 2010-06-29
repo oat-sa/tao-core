@@ -1,32 +1,5 @@
-msgid "No account match the given login / password"
-msgstr "Login und Passwort passen zu keinem Account"
-
-msgid "settings updated"
-msgstr "Einstellungen aktualisiert"
-
 msgid "Access denied. Please renew your authentication!"
-msgstr "Zugriff verweigert. Bitte erneuern Sie Ihre Authentifizierung"
-
-msgid "Resource saved"
-msgstr "Ressource gespeichert"
-
-msgid "Edit"
-msgstr "Bearbeiten"
-
-msgid "CSV Options"
-msgstr "CSV-Optionen"
-
-msgid "Add the source file"
-msgstr "Quelldatei hinzufügen"
-
-msgid "Upload CSV File"
-msgstr "CSV-Datei uploaden"
-
-msgid "Data imported"
-msgstr "Daten wurden importiert"
-
-msgid "Import data"
-msgstr "Daten importieren"
+msgstr ""
 
 msgid "Export data to RDF"
 msgstr ""
@@ -49,6 +22,33 @@ msgstr "löschen"
 msgid "Delete"
 msgstr ""
 
+msgid "Import data"
+msgstr "Daten importieren"
+
+msgid "Label"
+msgstr ""
+
+msgid "Data imported successfully"
+msgstr ""
+
+msgid "Import into"
+msgstr ""
+
+msgid "element"
+msgstr ""
+
+msgid "List"
+msgstr "Auflisten"
+
+msgid "Lists"
+msgstr "Listen"
+
+msgid "No account match the given login / password"
+msgstr ""
+
+msgid "settings updated"
+msgstr "Einstellungen aktualisiert"
+
 msgid "Translation saved"
 msgstr "Übersetzung gespeichert"
 
@@ -58,29 +58,26 @@ msgstr "Übersetzen"
 msgid "Search"
 msgstr "Suchen"
 
-msgid "Lists"
-msgstr "Listen"
+msgid "Select"
+msgstr ""
 
-msgid "List"
-msgstr "Auflisten"
+msgid "Error"
+msgstr ""
 
-msgid "List item"
-msgstr "Items auflisten"
+msgid "class selected"
+msgstr ""
 
-msgid "Active user"
-msgstr "Aktiver User"
+msgid "selected"
+msgstr ""
 
-msgid "Edit user"
-msgstr "Benutzer bearbeiten"
+msgid "Resource saved"
+msgstr "Ressource gespeichert"
 
-msgid "edit"
-msgstr "bearbeiten"
+msgid "Edit"
+msgstr ""
 
-msgid "Please confirm user deletion"
-msgstr "Wollen Sie den Benutzer wirklich löschen?"
-
-msgid "Delete user"
-msgstr "Benutzer löschen"
+msgid "list the users"
+msgstr ""
 
 msgid "An error occured during user deletion"
 msgstr "Ein Fehler ist während dem Löschvorgang aufgetreten"
@@ -100,38 +97,71 @@ msgstr "Benutzer gespeichert"
 msgid "Edit a user"
 msgstr "Einen Benutzer bearbeiten"
 
-msgid "Unable to restore default user"
-msgstr "Wiederherstellen des Default-Benutzers nicht möglich"
-
-msgid "User restored successfully"
-msgstr "Benutzer erfolgreich wiederhergestellt"
-
 msgid "Export"
 msgstr ""
 
-msgid "Ontology"
+msgid "Content"
 msgstr ""
 
-msgid "All"
+msgid "All (model and data)"
 msgstr ""
 
-msgid "Current (model, dependancies and data)"
+msgid "Current (current model, data and dependancies)"
 msgstr ""
 
-msgid "Current (only data)"
+msgid "Only Data"
 msgstr ""
 
 msgid "File name"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "CSV Options"
+msgstr "CSV-Optionen"
+
+msgid "Add the source file"
+msgstr "Quelldatei hinzufügen"
+
+msgid "Upload CSV File"
+msgstr "CSV-Datei uploaden"
+
+msgid "Add"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Number of elements"
 msgstr ""
 
 msgid "Connect"
 msgstr "Verbinden"
 
 msgid "Login"
-msgstr "Login"
+msgstr ""
 
 msgid "Password"
 msgstr "Passwort"
+
+msgid "Import"
+msgstr ""
+
+msgid "Column"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
+msgid "Don't set"
+msgstr ""
+
+msgid "Map the properties to the CSV columns"
+msgstr ""
+
+msgid "Define the defaultt values"
+msgstr ""
 
 msgid "Interface language"
 msgstr "Interface-Sprache"
@@ -160,25 +190,7 @@ msgstr "Neues Passwort"
 msgid "Repeat new password"
 msgstr "Neues Passwort wiederholen"
 
-msgid "Change your password"
-msgstr "Passwort ändern"
-
-msgid "FirstName"
-msgstr "Vorname"
-
-msgid "LastName"
-msgstr "Nachname"
-
-msgid "Email"
-msgstr "E-Mail"
-
-msgid "Company"
-msgstr "Unternehmen"
-
-msgid "Data Language *"
-msgstr ""
-
-msgid "Interface Language *"
+msgid "Change the password"
 msgstr ""
 
 msgid "Users"
@@ -283,11 +295,17 @@ msgstr ""
 msgid "A multiple choice list"
 msgstr "Multiple-Choice liste"
 
-msgid "A dynamic datepicker"
-msgstr "Dynamische Datumsauswahl"
+msgid "Dynamic date picker"
+msgstr ""
 
-msgid "AUTHORING TOOL"
-msgstr "AUTORENWERKZEUG"
+msgid "Start upload"
+msgstr ""
+
+msgid "Allowed files types:"
+msgstr ""
+
+msgid "Authoring"
+msgstr ""
 
 msgid "Invalid file type!"
 msgstr "Ungültiger Dateityp"
@@ -297,6 +315,21 @@ msgstr "Ungültige Dateigröße"
 
 msgid "The uploaded file is too large"
 msgstr "Die hochgeladene Datei ist zu groß"
+
+msgid "The value of this field must be an integer"
+msgstr ""
+
+msgid "Invalid field range"
+msgstr ""
+
+msgid "minimum value:"
+msgstr ""
+
+msgid "maximum vallue:"
+msgstr ""
+
+msgid "Label already used"
+msgstr ""
 
 msgid "Invalid field length"
 msgstr "Ungültige Feldlänge"
@@ -316,8 +349,17 @@ msgstr "Ungültiges Passwort"
 msgid "The format of this field is not valid."
 msgstr "Das Format dieses Feldes ist ungültig"
 
+msgid "Element"
+msgstr ""
+
+msgid "Browse"
+msgstr ""
+
 msgid "Moving this element will remove the following properties:"
 msgstr ""
+
+msgid "edit"
+msgstr "bearbeiten"
 
 msgid "new class"
 msgstr "neue Klasse"
@@ -355,25 +397,22 @@ msgstr "Zur Verwaltung der Listen klicken Sie bitte mit der rechten Maustaste au
 msgid "Manage data list"
 msgstr "Daten-Liste verwalten"
 
-msgid "Remove"
-msgstr "Entfernen"
-
 msgid "Create"
 msgstr "Erstellen"
 
 msgid "Rename"
 msgstr "Umbenennen"
 
-msgid "Actions"
-msgstr "Aktionen"
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "Login not available"
+msgstr ""
 
 msgid "Confirm"
 msgstr ""
 
 msgid "has been deleted successfully"
-msgstr ""
-
-msgid "Name"
 msgstr ""
 
 msgid "File"
@@ -382,22 +421,10 @@ msgstr ""
 msgid "Date"
 msgstr "Datum"
 
-msgid "Exported files library"
+msgid "Actions"
 msgstr ""
 
-msgid "TAO Backend Tool"
-msgstr "TAO Backend Werkzueg"
-
-msgid "Javascript is required to run this software. Please activate it in your browser."
-msgstr "Diese Software benötigt Javascript. Bitte aktivieren Sie es in Ihrem Browser."
-
-msgid "Home"
-msgstr "Home"
-
-msgid "Settings"
-msgstr "Einstellungen"
-
-msgid "Logout"
+msgid "Exported files library"
 msgstr ""
 
 msgid "Meta Data"
@@ -407,7 +434,7 @@ msgid "User"
 msgstr "Benutzer"
 
 msgid "Comment"
-msgstr "Kommentar"
+msgstr ""
 
 msgid "Edit item comment"
 msgstr "Item-Kommentar bearbeiten"
@@ -421,8 +448,119 @@ msgstr "Öffnen"
 msgid "My settings"
 msgstr "Meine Einstellungen"
 
+msgid "Home"
+msgstr "Home"
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "Logout"
+msgstr ""
+
+msgid "Create a list"
+msgstr ""
+
+msgid "list saved"
+msgstr ""
+
+msgid "New element"
+msgstr ""
+
+msgid "Please confirm you want to delete this list element."
+msgstr ""
+
+msgid "element deleted"
+msgstr ""
+
+msgid "Please confirm you want to delete this list. This operation is not reversible."
+msgstr ""
+
+msgid "list deleted"
+msgstr ""
+
+msgid "TAO Backend Tool"
+msgstr "TAO Backend Werkzueg"
+
+msgid "Javascript is required to run this software. Please activate it in your browser."
+msgstr "Diese Software benötigt Javascript. Bitte aktivieren Sie es in Ihrem Browser."
+
+msgid "Please login"
+msgstr ""
+
 msgid "Filter"
 msgstr "Filter"
+
+msgid "Back"
+msgstr "Zurück"
+
+msgid "Please confirm user deletion"
+msgstr "Wollen Sie den Benutzer wirklich löschen?"
+
+msgid "Email"
+msgstr ""
+
+msgid "Data Language"
+msgstr ""
+
+msgid "Interface Language"
+msgstr ""
+
+msgid "Edit user"
+msgstr "Benutzer bearbeiten"
+
+msgid "Delete user"
+msgstr "Benutzer löschen"
+
+msgid "Data imported"
+msgstr "Daten wurden importiert"
+
+msgid "List item"
+msgstr "Items auflisten"
+
+msgid "Active user"
+msgstr "Aktiver User"
+
+msgid "Unable to restore default user"
+msgstr "Wiederherstellen des Default-Benutzers nicht möglich"
+
+msgid "User restored successfully"
+msgstr "Benutzer erfolgreich wiederhergestellt"
+
+msgid "Ontology"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Current (model, dependancies and data)"
+msgstr ""
+
+msgid "Current (only data)"
+msgstr ""
+
+msgid "Change your password"
+msgstr "Passwort ändern"
+
+msgid "FirstName"
+msgstr "Vorname"
+
+msgid "LastName"
+msgstr "Nachname"
+
+msgid "Company"
+msgstr "Unternehmen"
+
+msgid "Data Language *"
+msgstr ""
+
+msgid "Interface Language *"
+msgstr ""
+
+msgid "A dynamic datepicker"
+msgstr "Dynamische Datumsauswahl"
+
+msgid "AUTHORING TOOL"
+msgstr "AUTORENWERKZEUG"
 
 msgid "Open all"
 msgstr "Alles öffnen"
@@ -430,17 +568,8 @@ msgstr "Alles öffnen"
 msgid "Close all"
 msgstr "Alles schließen"
 
-msgid "Back"
-msgstr "Zurück"
-
 msgid "Restore default user"
 msgstr "Default-Benutzer wiederherstellen"
-
-msgid "Data Language"
-msgstr ""
-
-msgid "Interface Language"
-msgstr ""
 
 msgid "Language *"
 msgstr "Sprache *"
@@ -454,17 +583,14 @@ msgstr "Einfache lange Auswahlliste"
 msgid "Add subclass"
 msgstr "Subklasse hinzufügen"
 
-msgid "Add"
-msgstr "Hinzufügen"
-
 msgid "Duplicate"
 msgstr "Duplizieren"
 
 msgid "Campaign Class saved"
-msgstr "Klasse \"Kampagne\" gespeichert"
+msgstr "Klasse"
 
 msgid "Edit campaign class"
-msgstr "Klasse \"Kampagne\" bearbeiten"
+msgstr "Klasse"
 
 msgid "Campaign saved"
 msgstr "Kampagne gespeichert"
@@ -473,13 +599,13 @@ msgid "Edit Campaign"
 msgstr "Kampagne bearbeiten"
 
 msgid "Delivery Class saved"
-msgstr "Klasse \"Delivery\" gespeichert"
+msgstr "Klasse"
 
 msgid "Edit delivery class"
-msgstr "Klasse \"Delivery\" bearbeiten"
+msgstr "Klasse"
 
 msgid "Delivery saved"
-msgstr "Klasse \"Delivery\" gespeichert"
+msgstr "Klasse"
 
 msgid "Edit delivery"
 msgstr "Delivery bearbeiten"
@@ -488,10 +614,10 @@ msgid "saved"
 msgstr "gespeichert"
 
 msgid "Result Server class saved"
-msgstr "Klasse \"Ergebnis-Server\" gespeichert"
+msgstr "Klasse"
 
 msgid "Edit resultServer class"
-msgstr "Klasse \"Ergebnis-Server\" bearbeiten"
+msgstr "Klasse"
 
 msgid "Result Server saved"
 msgstr "Ergebnis-Server gespeichert"
@@ -561,9 +687,6 @@ msgstr "Ergebnis-Server bearbeiten"
 
 msgid "Delivery authoring"
 msgstr "Delivery-Authoring"
-
-msgid "Label"
-msgstr "Label"
 
 msgid "Service Definition"
 msgstr "Dienst-Definiton"
@@ -683,7 +806,7 @@ msgid "Class saved"
 msgstr "Klasse gespeichert"
 
 msgid "Edit group class"
-msgstr "Klasse \"Gruppe\" bearbeiten"
+msgstr "Klasse"
 
 msgid "Group saved"
 msgstr "Gruppe gespeichert"
@@ -779,7 +902,7 @@ msgid "Edit result"
 msgstr "Ergebnis bearbeiten"
 
 msgid "Edit result class"
-msgstr "Klasse \"Ergebnis\" speichern"
+msgstr "Klasse"
 
 msgid "Results"
 msgstr "Ergebnisse"
@@ -809,7 +932,7 @@ msgid "Edit subject"
 msgstr "Testperson bearbeiten"
 
 msgid "Edit subject class"
-msgstr "Klasse \"Testperson\" bearbeiten"
+msgstr "Klasse"
 
 msgid "Testees"
 msgstr "Testpersonen"
@@ -845,7 +968,7 @@ msgid "Edit test"
 msgstr "Test bearbeiten"
 
 msgid "Edit test class"
-msgstr "Klasse \"Test\" bearbeiten"
+msgstr "Klasse"
 
 msgid "test saved"
 msgstr "Test gespeichert"
@@ -1471,9 +1594,6 @@ msgstr ""
 msgid "Template saved"
 msgstr ""
 
-msgid "Next"
-msgstr ""
-
 msgid "List of context classes"
 msgstr ""
 
@@ -1561,9 +1681,6 @@ msgstr ""
 msgid "Save Table"
 msgstr ""
 
-msgid "Column"
-msgstr ""
-
 msgid "Operator"
 msgstr ""
 
@@ -1604,5 +1721,390 @@ msgid "px"
 msgstr ""
 
 msgid "Advanced parameters"
+msgstr ""
+
+msgid "Deliveries"
+msgstr ""
+
+msgid "rdf"
+msgstr ""
+
+msgid "import"
+msgstr ""
+
+msgid "Please confirm deletion.
+ Warning: related resources might be affected."
+msgstr ""
+
+msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
+msgstr ""
+
+msgid "the following item do not exist in or have not been translated into"
+msgstr ""
+
+msgid "Active Deliveries"
+msgstr ""
+
+msgid "Start/Resume the test"
+msgstr ""
+
+msgid "Drag and drop the tests to order them"
+msgstr ""
+
+msgid "TAO Delivery Server"
+msgstr ""
+
+msgid "A delivery must to be compiled before being executed. The compilation can be done here."
+msgstr ""
+
+msgid "lists"
+msgstr ""
+
+msgid "Related tests"
+msgstr ""
+
+msgid "Not yet available"
+msgstr ""
+
+msgid "Edit item"
+msgstr ""
+
+msgid "Problem content"
+msgstr ""
+
+msgid "Add a question"
+msgstr ""
+
+msgid "Question"
+msgstr ""
+
+msgid "File Manager"
+msgstr ""
+
+msgid "Template"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Save and close"
+msgstr ""
+
+msgid "inquiries"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "propositions"
+msgstr ""
+
+msgid "Are you sure ?"
+msgstr ""
+
+msgid "Sure ?"
+msgstr ""
+
+msgid "Your are editing an item"
+msgstr ""
+
+msgid "Insert"
+msgstr ""
+
+msgid "Wizard not complete : Please select a position for your new widget at Step 1"
+msgstr ""
+
+msgid "A question material element must have an ID, want you generate one automatically ?"
+msgstr ""
+
+msgid "Once you finished click on the continue button"
+msgstr ""
+
+msgid "Target a position for the new snipet"
+msgstr ""
+
+msgid "Wizard New Snipet"
+msgstr ""
+
+msgid "Are you sure you want save the document ?"
+msgstr ""
+
+msgid "Your are editing a widget"
+msgstr ""
+
+msgid "yes"
+msgstr ""
+
+msgid "no"
+msgstr ""
+
+msgid "Your are resizing an element"
+msgstr ""
+
+msgid "Target Radio Group"
+msgstr ""
+
+msgid "Target Button"
+msgstr ""
+
+msgid "Setting Button"
+msgstr ""
+
+msgid "What type of button ?"
+msgstr ""
+
+msgid "Text Button"
+msgstr ""
+
+msgid "Image Button"
+msgstr ""
+
+msgid "Setting Button text"
+msgstr ""
+
+msgid "What is the label of your button ?"
+msgstr ""
+
+msgid "Setting Button Image"
+msgstr ""
+
+msgid "What is the image of your button ?"
+msgstr ""
+
+msgid "Target Checkboxes"
+msgstr ""
+
+msgid "Setting Checkboxes"
+msgstr ""
+
+msgid "How Many Checkboxes ?"
+msgstr ""
+
+msgid "What orientation ?"
+msgstr ""
+
+msgid "What is the labels of your checkboxes ?"
+msgstr ""
+
+msgid "Target Grid"
+msgstr ""
+
+msgid "Setting Grid"
+msgstr ""
+
+msgid "How Many Rows ?"
+msgstr ""
+
+msgid "How Many Columns ?"
+msgstr ""
+
+msgid "Orient the grid by :"
+msgstr ""
+
+msgid "Target Image"
+msgstr ""
+
+msgid "Setting Image"
+msgstr ""
+
+msgid "What is the url of your image ?"
+msgstr ""
+
+msgid "Target Label"
+msgstr ""
+
+msgid "Setting Label"
+msgstr ""
+
+msgid "What is the text of your label ?"
+msgstr ""
+
+msgid "Setting Item"
+msgstr ""
+
+msgid "What is the identifier of your item ?"
+msgstr ""
+
+msgid "ex: myItemId (alphanumeric characters and _ are allowed)"
+msgstr ""
+
+msgid "The Right Answer"
+msgstr ""
+
+msgid "What is the right answer ?"
+msgstr ""
+
+msgid "Setting Radio Group"
+msgstr ""
+
+msgid "How Many Radio Button ?"
+msgstr ""
+
+msgid "What is the labels of your radio buttons ?"
+msgstr ""
+
+msgid "Target Select Box"
+msgstr ""
+
+msgid "Setting Select Box"
+msgstr ""
+
+msgid "How Many Options ?"
+msgstr ""
+
+msgid "What is the labels of the options ?"
+msgstr ""
+
+msgid "What type of widget ?"
+msgstr ""
+
+msgid "Step 1"
+msgstr ""
+
+msgid "Target a position for the new snipet ?"
+msgstr ""
+
+msgid "Step 2"
+msgstr ""
+
+msgid "Which Sound you want ?"
+msgstr ""
+
+msgid "Target SVG"
+msgstr ""
+
+msgid "Create your own SVG ?"
+msgstr ""
+
+msgid "Target Textbox"
+msgstr ""
+
+msgid "Setting Textbox"
+msgstr ""
+
+msgid "Teams"
+msgstr ""
+
+msgid "Which is the team 1 ?"
+msgstr ""
+
+msgid "Which is the team 2 ?"
+msgstr ""
+
+msgid "Item"
+msgstr ""
+
+msgid "Selection saved"
+msgstr ""
+
+msgid "Reviewing"
+msgstr ""
+
+msgid "Select an item to review"
+msgstr ""
+
+msgid "Comments saved"
+msgstr ""
+
+msgid "Report saved"
+msgstr ""
+
+msgid "reviewers selected"
+msgstr ""
+
+msgid "Reviewer added"
+msgstr ""
+
+msgid "Add a reviewer"
+msgstr ""
+
+msgid "Reviewer saved"
+msgstr ""
+
+msgid "Edit a reviewer"
+msgstr ""
+
+msgid "Reviewers"
+msgstr ""
+
+msgid "Selected items"
+msgstr ""
+
+msgid "Reviewer"
+msgstr ""
+
+msgid "Leave your comments"
+msgstr ""
+
+msgid "Coninue reviewing"
+msgstr ""
+
+msgid "Finish review"
+msgstr ""
+
+msgid "Select items to be reviewed"
+msgstr ""
+
+msgid "Request comments from a third part expert"
+msgstr ""
+
+msgid "Merged Items"
+msgstr ""
+
+msgid "Select item"
+msgstr ""
+
+msgid "Select 3 reviewers"
+msgstr ""
+
+msgid "No reviewer found"
+msgstr ""
+
+msgid "Validate"
+msgstr ""
+
+msgid "Confirm your choice"
+msgstr ""
+
+msgid "template manager"
+msgstr ""
+
+msgid "Filter & Search"
+msgstr ""
+
+msgid "Response of the test maker"
+msgstr ""
+
+msgid "Subject:"
+msgstr ""
+
+msgid "Test:"
+msgstr ""
+
+msgid "Item:"
+msgstr ""
+
+msgid "Response"
+msgstr ""
+
+msgid "Report on open review"
+msgstr ""
+
+msgid "Validate your review"
+msgstr ""
+
+msgid "Validate final review"
+msgstr ""
+
+msgid "Testee saved"
+msgstr ""
+
+msgid "Advanced sequence"
+msgstr ""
+
+msgid "Drag and drop the items to order them"
+msgstr ""
+
+msgid "Please select a test before!"
 msgstr ""
 
