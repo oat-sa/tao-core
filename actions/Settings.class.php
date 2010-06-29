@@ -35,10 +35,14 @@ class Settings extends CommonModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
-				$currentUser = $this->userService->getCurrentUser(Session::getAttribute(tao_models_classes_UserService::LOGIN_KEY));
-				$currentUser['Deflg'] = $myForm->getValue('data_lang');
-				$currentUser['Uilg'] = $myForm->getValue('ui_lang');
-				if($this->userService->saveUser($currentUser)){
+				$currentUser = $this->userService->getCurrentUser();
+				
+				if($this->userService->saveUser($currentUser, array(
+						PROPERTY_USER_UILG =>  $myForm->getValue('ui_lang'),
+						PROPERTY_USER_DEFLG => $myForm->getValue('data_lang')
+				))){
+					tao_helpers_I18n::init($myForm->getValue('ui_lang'));
+					core_kernel_classes_Session::singleton()->setLg($myForm->getValue('data_lang'));
 					$this->setData('message', __('settings updated'));
 					$this->setData('refresh', true);
 				}
@@ -54,18 +58,18 @@ class Settings extends CommonModule {
 	 */
 	private function getLangs(){
 		
-		$defaultLang = $this->userService->getDefaultLanguage();
-		$dataLang = $defaultLang;
-		$uiLang = $defaultLang;
+		$currentUser = $this->userService->getCurrentUser();
 		
-		$currentUser = $this->userService->getCurrentUser(Session::getAttribute(tao_models_classes_UserService::LOGIN_KEY));
-		if(!is_null($currentUser)){
-			if(isset($currentUser['Deflg'])){
-				$dataLang = $currentUser['Deflg'];
-			}
-			if(isset($currentUser['Uilg'])){
-				$uiLang = $currentUser['Uilg'];
-			}
+		$uiLang   		= $GLOBALS['default_lang'];
+		$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
+		if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource){
+			$uiLang = $uiLg->getLabel();
+		}
+							
+		$dataLang   		= $GLOBALS['default_lang'];
+		$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
+		if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
+			$dataLang = $dataLg->getLabel();
 		}
 		
 		return array('data_lang' => $dataLang, 'ui_lang' => $uiLang);

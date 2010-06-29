@@ -64,6 +64,7 @@ class tao_helpers_I18n
 		
 		//only for backward compatibility
 		$_SESSION['lang'] = self::$langCode;
+		$_SESSION['ui_lang'] = self::$langCode;
 
 		//init the ClearFw l10n tools
 		l10n::init();

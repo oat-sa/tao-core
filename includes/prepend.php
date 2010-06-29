@@ -18,7 +18,19 @@ $userService->connectCurrentUser();
 
 
 //initialize I18N
-(Session::hasAttribute('ui_lang')) ? $uiLang = Session::getAttribute('ui_lang') : $uiLang = $GLOBALS['default_lang'];
+
+if(Session::hasAttribute('ui_lang')){
+	$uiLang = Session::getAttribute('ui_lang') ;
+}
+else{
+	$currentUser = $userService->getCurrentUser();
+	$uiLg = null;
+	if($currentUser){
+		$uiLg  = $currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
+	}
+	(!is_null($uiLg)) ? $uiLang = $uiLg->getLabel() : $uiLang = $GLOBALS['default_lang'];
+	
+}
 tao_helpers_I18n::init($uiLang);
 
 //Scripts loader

@@ -111,7 +111,7 @@ class Main extends CommonModule {
 		}
 		$this->setData('currentExtension', $currentExtension);
 		
-		$this->setData('user_lang', tao_helpers_I18n::getLangCode());
+		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getLg());
 		
 		$this->setView('layout.tpl');
 	}
