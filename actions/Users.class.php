@@ -10,6 +10,9 @@
  */
 class Users extends CommonModule {
 
+	/**
+	 * @var tao_models_classes_UserService
+	 */
 	protected $userService = null;
 	
 	/**

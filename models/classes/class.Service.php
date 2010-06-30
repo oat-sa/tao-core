@@ -121,7 +121,7 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * serach the instances matching the filters in parameters
+     * search the instances matching the filters in parameters
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -348,7 +348,7 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method cloneClazz
+     * Clone a Class and move it under the newParentClazz
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -397,7 +397,7 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method changeClass
+     * Change the Class (RDFS_TYPE) of a resource
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -496,7 +496,7 @@ abstract class tao_models_classes_Service
     }
 
     /**
-     * Short description of method getPropertyDiff
+     * get the properties of the source class that are not in the destination
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

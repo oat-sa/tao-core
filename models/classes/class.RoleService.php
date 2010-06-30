@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/models/classes/class.RoleService.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 09.06.2010, 12:05:07 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ * This class provide service on user roles management
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -38,7 +31,7 @@ require_once('tao/models/classes/class.Service.php');
 // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F61-constants end
 
 /**
- * Short description of class tao_models_classes_RoleService
+ * This class provide service on user roles management
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -54,7 +47,7 @@ class tao_models_classes_RoleService
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute generisUserService
+     * the core user service
      *
      * @access public
      * @var Service
@@ -62,7 +55,7 @@ class tao_models_classes_RoleService
     public $generisUserService = null;
 
     /**
-     * Short description of attribute roleClass
+     * the class of the target role
      *
      * @access public
      * @var Class
@@ -72,7 +65,7 @@ class tao_models_classes_RoleService
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
+     * constructor, call initRole
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -91,7 +84,8 @@ class tao_models_classes_RoleService
     }
 
     /**
-     * Short description of method initRole
+     * Initialize the allowed role.
+     * To be overriden.
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -107,7 +101,7 @@ class tao_models_classes_RoleService
     }
 
     /**
-     * Short description of method getRole
+     * Get the Role matching the uri
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -130,7 +124,7 @@ class tao_models_classes_RoleService
     }
 
     /**
-     * Short description of method getRoleClass
+     * get the target role class
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -150,7 +144,7 @@ class tao_models_classes_RoleService
     }
 
     /**
-     * Short description of method deleteRole
+     * remove a role
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -173,7 +167,7 @@ class tao_models_classes_RoleService
     }
 
     /**
-     * Short description of method setRoleToUsers
+     * assign a role to a list of users
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -214,7 +208,7 @@ class tao_models_classes_RoleService
     }
 
     /**
-     * Short description of method getUsers
+     * get the users who have the role in parameter
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -238,7 +232,7 @@ class tao_models_classes_RoleService
     }
 
     /**
-     * Short description of method getUserRoles
+     * get the roles of a user
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -269,7 +263,7 @@ class tao_models_classes_RoleService
     }
 
     /**
-     * Short description of method checkUserRole
+     * check if a user has a role
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

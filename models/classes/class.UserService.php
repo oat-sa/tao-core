@@ -47,7 +47,7 @@ class tao_models_classes_UserService
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute generisUserService
+     * the core user service
      *
      * @access protected
      * @var Service
@@ -55,7 +55,7 @@ class tao_models_classes_UserService
     protected $generisUserService = null;
 
     /**
-     * Short description of attribute allowedRoles
+     * the list of allowed roles (ie. for login)
      *
      * @access protected
      * @var array
@@ -65,7 +65,7 @@ class tao_models_classes_UserService
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
+     * constructor, call initRoles
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -82,7 +82,8 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method initRoles
+     * Initialize the allowed roles.
+     * To be overriden.
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -130,7 +131,8 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method connectCurrentUser
+     * initialize the current user connection:
+     * connect to the API, initialize the session, etc.
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -221,7 +223,7 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Remove a user by a login
+     * Check if the login is already used
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -421,7 +423,7 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method removeUser
+     * Remove a user
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
