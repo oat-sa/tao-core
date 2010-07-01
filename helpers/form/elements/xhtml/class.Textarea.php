@@ -75,7 +75,7 @@ class tao_helpers_form_elements_xhtml_Textarea
 		}
 		$returnValue .= "<textarea name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= ">{$this->value}</textarea>";
+		$returnValue .= ">".htmlentities($this->value)."</textarea>";
         
 		// section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018EB end
 

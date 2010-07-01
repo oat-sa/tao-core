@@ -84,7 +84,7 @@ class tao_helpers_form_elements_xhtml_Calendar
 		
 		$returnValue .= "<input type='text' name='{$this->name}' id='$elementId' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'.$this->value.'"  />';
+		$returnValue .= ' value="'.htmlentities($this->value).'"  />';
 		
 		$returnValue .="<script type=\"text/javascript\">
 						$(function(){

@@ -72,7 +72,7 @@ class tao_helpers_form_elements_xhtml_Button
 		}
 		$returnValue .= "<input type='button' name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'.$this->value.'"  />';
+		$returnValue .= ' value="'.htmlentities($this->value).'"  />';
 		
         // section 127-0-1-1--5dde9503:124b4a68f24:-8000:0000000000001B13 end
 
