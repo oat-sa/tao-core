@@ -947,7 +947,7 @@ class tao_helpers_form_GenerisFormFactory
         // section 127-0-1-1--5ce810e0:1244ce713f8:-8000:0000000000001A43 begin
 
 		$defaultUris = array(
-			'http://www.w3.org/2000/01/rdf-schema#label'
+			RDFS_LABEL
 		);
 		
 		$resourceClass = new core_kernel_classes_Class('http://www.w3.org/2000/01/rdf-schema#Resource');

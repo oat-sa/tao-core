@@ -16,6 +16,20 @@ $GLOBALS['lang'] = $GLOBALS['default_lang'];
 $userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 $userService->connectCurrentUser();
 
+//initialize the contexts
+if(PHP_SAPI == 'cli'){
+	tao_helpers_Context::load('SCRIPT_MODE');
+}
+else{
+	tao_helpers_Context::load('APP_MODE');
+	
+	if( preg_macth("/^SaS/", Context::getInstance()->getActionName()) || 
+		preg_macth("/^SaS/", Context::getInstance()->getModuleName())){
+		
+		tao_helpers_Context::load('STANDALONE_MODE');
+	}
+}
+
 
 //initialize I18N
 

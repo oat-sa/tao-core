@@ -79,6 +79,14 @@ abstract class tao_helpers_form_FormContainer
      */
     protected $options = array();
 
+    /**
+     * list of all instanciated forms
+     *
+     * @access protected
+     * @var array
+     */
+    protected static $forms = array();
+
     // --- OPERATIONS ---
 
     /**
@@ -97,13 +105,23 @@ abstract class tao_helpers_form_FormContainer
 		$this->data = $data;
 		$this->options = $options;
 		
+		//initialize the form attribute
 		$this->initForm();
+		
+		if(!is_null($this->form)){
+			//let the refs of all the forms there 
+			self::$forms[$this->form->getName()] = $this->form;
+		}
+		
+		//initialize the elmements of the form
 		$this->initElements();
 		
+		//set the values in case of default values
 		if(count($this->data) > 0){
 			$this->form->setValues($this->data);
 		}
 		
+		//evaluate the form
 		if(!is_null($this->form)){
 			$this->form->evaluate();
 		}

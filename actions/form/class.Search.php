@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 30.04.2010, 17:08:58 with ArgoUML PHP module 
+ * Automatically generated on 05.07.2010, 15:31:28 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -22,11 +22,11 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_actions_form_Generis
+ * include tao_actions_form_Instance
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
-require_once('tao/actions/form/class.Generis.php');
+require_once('tao/actions/form/class.Instance.php');
 
 /* user defined includes */
 // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002494-includes begin
@@ -45,7 +45,7 @@ require_once('tao/actions/form/class.Generis.php');
  * @subpackage actions_form
  */
 class tao_actions_form_Search
-    extends tao_actions_form_Generis
+    extends tao_actions_form_Instance
 {
     // --- ASSOCIATIONS ---
 
