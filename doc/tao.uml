@@ -88,7 +88,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Jun 30 16:59:16 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Jul 05 11:02:53 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.1(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -27914,6 +27914,15 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                     <UML:Class xmi.id = '127-0-1-1-951b66:128b0d3ece8:-8000:0000000000001F53'
                       name = 'UserService' visibility = 'public' isSpecification = 'false' isRoot = 'false'
                       isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                      <UML:ModelElement.taggedValue>
+                        <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000203E'
+                          isSpecification = 'false'>
+                          <UML:TaggedValue.dataValue>Manage the user in the workflow engine</UML:TaggedValue.dataValue>
+                          <UML:TaggedValue.type>
+                            <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                          </UML:TaggedValue.type>
+                        </UML:TaggedValue>
+                      </UML:ModelElement.taggedValue>
                       <UML:GeneralizableElement.generalization>
                         <UML:Generalization xmi.idref = '127-0-1-1-951b66:128b0d3ece8:-8000:0000000000001F54'/>
                       </UML:GeneralizableElement.generalization>
@@ -27922,6 +27931,15 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           name = 'initRoles' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002040'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>initialize the roles</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-951b66:128b0d3ece8:-8000:0000000000001F56'
                               name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -27931,6 +27949,15 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           name = 'loginUser' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000203F'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>login a user</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-951b66:128b0d3ece8:-8000:0000000000001F5A'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -27956,6 +27983,15 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           name = 'getAllUsers' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002041'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>get all the users</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-718243b3:12912642ee4:-8000:0000000000001F89'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -27975,6 +28011,15 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           name = 'saveUser' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002042'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>save a user (the role is managed in addition)</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-718243b3:12912642ee4:-8000:0000000000001F8C'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28037,6 +28082,15 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           name = 'toTree' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002043'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>method to format the data</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-718243b3:12912642ee4:-8000:0000000000001F93'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28143,6 +28197,15 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           name = 'getExecution' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000204A'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>get the execution of this activity for the user</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F81'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28174,6 +28237,15 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           name = 'getExecutions' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002049'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>get the executions of this activity</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-6c2b28ea:1291bc8511a:-8000:0000000000001FB4'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28199,6 +28271,15 @@ If the uri don&apos;t reference a test  subclass, it returns null </UML:TaggedVa
                           name = 'initExecution' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002048'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>initialize the exectuion of that activity by the currentUser</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--11ec324e:128d9678eea:-8000:0000000000001F7D'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28353,6 +28434,15 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
                           name = 'getEstimatedExecutionCount' visibility = 'public' isSpecification = 'false'
                           ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
                           isLeaf = 'false' isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002047'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Get the estimated number of execution of this activity</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-6c2b28ea:1291bc8511a:-8000:0000000000001FB8'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28382,6 +28472,15 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
                     <UML:Class xmi.id = '127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F8B'
                       name = 'RoleService' visibility = 'public' isSpecification = 'false' isRoot = 'false'
                       isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                      <UML:ModelElement.taggedValue>
+                        <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000203C'
+                          isSpecification = 'false'>
+                          <UML:TaggedValue.dataValue>Manage the roles for the user workflow</UML:TaggedValue.dataValue>
+                          <UML:TaggedValue.type>
+                            <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                          </UML:TaggedValue.type>
+                        </UML:TaggedValue>
+                      </UML:ModelElement.taggedValue>
                       <UML:GeneralizableElement.generalization>
                         <UML:Generalization xmi.idref = '127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F8C'/>
                       </UML:GeneralizableElement.generalization>
@@ -28390,6 +28489,15 @@ It returns false if the user cannot access the activity.</UML:TaggedValue.dataVa
                           name = 'initRole' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000203D'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>initialize the roles of the service</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F8E'
                               name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -28431,9 +28539,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'CURRENT_KEY' visibility = 'public' isSpecification = 'false' ownerScope = 'classifier'
                           changeability = 'frozen' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
-                            <UML:Multiplicity xmi.id = '127-0-1-1--6657ec7c:129368db927:-8000:0000000000002006'>
+                            <UML:Multiplicity xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002060'>
                               <UML:Multiplicity.range>
-                                <UML:MultiplicityRange xmi.id = '127-0-1-1--6657ec7c:129368db927:-8000:0000000000002005'
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000205F'
                                   lower = '1' upper = '1'/>
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
@@ -28462,6 +28570,16 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'getTokens' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002061'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Get the tokens of the activity execution in parameter 
+(set checkUser to false in case you want the tokens independant of the user)</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-bf84135:12912b487a0:-8000:0000000000001F9B'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28491,6 +28609,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'getCurrent' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002062'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>get the token for this execution</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--5f764609:12927334c45:-8000:0000000000001FF3'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28510,6 +28637,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'getCurrents' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002063'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>get the current tokens of this process (their position in the process)</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-2013ff6:1292105c669:-8000:0000000000001FD9'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28529,6 +28665,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'getCurrentActivities' visibility = 'public' isSpecification = 'false'
                           ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
                           isLeaf = 'false' isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002064'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Get the current activities in the process</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--6657ec7c:129368db927:-8000:0000000000001FF6'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28548,6 +28693,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'setCurrents' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002065'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>set the current tokens</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-2013ff6:1292105c669:-8000:0000000000001FF4'
                               name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -28569,6 +28723,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'setCurrentActivities' visibility = 'public' isSpecification = 'false'
                           ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
                           isLeaf = 'false' isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002066'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>set the current activities</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--6657ec7c:129368db927:-8000:0000000000002000'
                               name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -28596,6 +28759,22 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'getVariables' visibility = 'protected' isSpecification = 'false'
                           ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
                           isLeaf = 'false' isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002067'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>get the variables in that token</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002068'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>wfEngine_models_classes_VariableService</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008CF'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-2013ff6:1292105c669:-8000:0000000000001FCB'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28615,6 +28794,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'create' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002069'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Create a new token for an activity</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-2013ff6:1292105c669:-8000:0000000000001FCE'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28634,6 +28822,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'assign' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000206A'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Assign a newly created token to an execution</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-2013ff6:1292105c669:-8000:0000000000001FD1'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28659,6 +28856,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'dispatch' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000206B'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue></UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--44e2213d:12922223449:-8000:0000000000001FE1'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28684,6 +28890,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'duplicate' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000206C'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Clone a token (and it&apos;s variables)</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-bf84135:12912b487a0:-8000:0000000000001FA3'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28703,6 +28918,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'merge' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000206D'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Merge somes tokens (and their variables)</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-bf84135:12912b487a0:-8000:0000000000001FA6'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28722,6 +28946,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'delete' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000206E'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Remove a token</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-bf84135:12912b487a0:-8000:0000000000001FA9'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28741,9 +28974,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'tokenClass' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
                           changeability = 'changeable' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
-                            <UML:Multiplicity xmi.id = '127-0-1-1-24bd84b1:1291d596dba:-8000:0000000000001FCC'>
+                            <UML:Multiplicity xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002054'>
                               <UML:Multiplicity.range>
-                                <UML:MultiplicityRange xmi.id = '127-0-1-1-24bd84b1:1291d596dba:-8000:0000000000001FCB'
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002053'
                                   lower = '1' upper = '1'/>
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
@@ -28756,9 +28989,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'tokenActivityProp' visibility = 'protected' isSpecification = 'false'
                           ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
-                            <UML:Multiplicity xmi.id = '127-0-1-1-24bd84b1:1291d596dba:-8000:0000000000001FF1'>
+                            <UML:Multiplicity xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000205C'>
                               <UML:Multiplicity.range>
-                                <UML:MultiplicityRange xmi.id = '127-0-1-1-24bd84b1:1291d596dba:-8000:0000000000001FF0'
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000205B'
                                   lower = '1' upper = '1'/>
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
@@ -28771,9 +29004,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'tokenActivityExecutionProp' visibility = 'protected' isSpecification = 'false'
                           ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
-                            <UML:Multiplicity xmi.id = '127-0-1-1-24bd84b1:1291d596dba:-8000:0000000000001FED'>
+                            <UML:Multiplicity xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002058'>
                               <UML:Multiplicity.range>
-                                <UML:MultiplicityRange xmi.id = '127-0-1-1-24bd84b1:1291d596dba:-8000:0000000000001FEC'
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002057'
                                   lower = '1' upper = '1'/>
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
@@ -28816,6 +29049,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'move' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000206F'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>move the tokens throught the activities during a transition</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-2013ff6:1292105c669:-8000:0000000000001FD5'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28878,6 +29120,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                     <UML:Class xmi.id = '-87--2--3--76--7eb229c2:12916be1ece:-8000:0000000000003C05'
                       name = 'VariableService' visibility = 'public' isSpecification = 'false'
                       isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                      <UML:ModelElement.taggedValue>
+                        <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000204B'
+                          isSpecification = 'false'>
+                          <UML:TaggedValue.dataValue>Enable you to manage the process variables</UML:TaggedValue.dataValue>
+                          <UML:TaggedValue.type>
+                            <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                          </UML:TaggedValue.type>
+                        </UML:TaggedValue>
+                      </UML:ModelElement.taggedValue>
                       <UML:GeneralizableElement.generalization>
                         <UML:Generalization xmi.idref = '-87--2--3--76--7eb229c2:12916be1ece:-8000:0000000000003C06'/>
                       </UML:GeneralizableElement.generalization>
@@ -28886,6 +29137,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'save' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000204C'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>save a list of process variable by key/value pair</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '-87--2--3--76--7eb229c2:12916be1ece:-8000:0000000000003C08'
                               name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -28901,6 +29161,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'remove' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000204D'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Remove the variables in parameter (list the keys)</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '-87--2--3--76--7eb229c2:12916be1ece:-8000:0000000000003C0C'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28920,6 +29189,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'get' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000204E'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>get the variable matching the key</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '-87--2--3--76--7eb229c2:12916be1ece:-8000:0000000000003C0F'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28939,6 +29217,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'getAll' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:000000000000204F'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Get all the v ariables</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '-87--2--3--76--7eb229c2:12916be1ece:-8000:0000000000003C12'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -28952,6 +29239,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'push' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002050'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>add a variable (different of save in case of multiple values)</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--55065e1d:1294a729605:-8000:0000000000002007'
                               name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -28983,6 +29279,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                     <UML:Class xmi.id = '127-0-1-1--2bba7ca5:129262ff3bb:-8000:0000000000001FE7'
                       name = 'ProcessExecutionService' visibility = 'public' isSpecification = 'false'
                       isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                      <UML:ModelElement.taggedValue>
+                        <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002044'
+                          isSpecification = 'false'>
+                          <UML:TaggedValue.dataValue>Manage the particular executions of a process definition</UML:TaggedValue.dataValue>
+                          <UML:TaggedValue.type>
+                            <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                          </UML:TaggedValue.type>
+                        </UML:TaggedValue>
+                      </UML:ModelElement.taggedValue>
                       <UML:GeneralizableElement.generalization>
                         <UML:Generalization xmi.idref = '127-0-1-1--2bba7ca5:129262ff3bb:-8000:0000000000001FE8'/>
                       </UML:GeneralizableElement.generalization>
@@ -28991,6 +29296,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'checkAcl' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                           isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002045'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Check the ACL of a user for the given process</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--2bba7ca5:129262ff3bb:-8000:0000000000001FEA'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -29016,6 +29330,15 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'initCurrentExecution' visibility = 'public' isSpecification = 'false'
                           ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
                           isLeaf = 'false' isAbstract = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1-2575494d:129a1c44fe7:-8000:0000000000002046'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>Initialize the current process execution</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1--2bba7ca5:129262ff3bb:-8000:0000000000001FEE'
                               name = 'return' isSpecification = 'false' kind = 'return'>
@@ -60031,7 +60354,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
   </group>
   <group name="Fig50"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[584, 2616, 168, 120]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[584, 2616, 192, 72]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F8B"
        fill="1"
        fillcolor="255 200 255"
@@ -60045,8 +60368,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     <rectangle name="Fig50.0"
       x="584"
       y="2616"
-      width="168"
-      height="120"
+      width="192"
+      height="72"
       fill="1"
       fillcolor="255 200 255"
       stroke="1"
@@ -60055,7 +60378,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     <text name="Fig50.1"
       x="585"
       y="2617"
-      width="166"
+      width="190"
       height="22"
       fill="0"
       fillcolor="255 200 255"
@@ -60094,7 +60417,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     <rectangle name="Fig50.3"
       x="584"
       y="2639"
-      width="168"
+      width="192"
       height="1"
       fill="1"
       fillcolor="black"
@@ -60102,7 +60425,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig50.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[585, 2640, 166, 45]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[585, 2640, 190, 21]"
          href="127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F8B"
          fill="0"
          fillcolor="255 200 255"
@@ -60115,8 +60438,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <rectangle name="Fig50.4.0"
         x="585"
         y="2640"
-        width="166"
-        height="45"
+        width="190"
+        height="21"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -60125,8 +60448,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig50.5"
       x="584"
-      y="2685"
-      width="168"
+      y="2661"
+      width="192"
       height="1"
       fill="1"
       fillcolor="black"
@@ -60134,7 +60457,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig50.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[585, 2686, 166, 48]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[585, 2662, 190, 24]"
          href="127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F8B"
          fill="0"
          fillcolor="255 200 255"
@@ -60146,9 +60469,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig50.6.0"
         x="585"
-        y="2686"
-        width="166"
-        height="48"
+        y="2662"
+        width="190"
+        height="24"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -60156,8 +60479,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig50.6.1"
         x="585"
-        y="2686"
-        width="166"
+        y="2662"
+        width="190"
         height="22"
         fill="0"
         fillcolor="255 200 255"
@@ -60315,7 +60638,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <text name="Fig51.6.2"
         x="97"
         y="2909"
-        width="559"
+        width="560"
         height="22"
         fill="0"
         fillcolor="255 200 255"

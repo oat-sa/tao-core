@@ -1,5 +1,5 @@
 <!-- services root tag -->
-<!ELEMENT services (service*)>
+<!ELEMENT services (description?, service*)>
 
 	<!-- the service tag contains a service -->
 	<!ELEMENT service (name,description,location,return?)>
@@ -25,5 +25,5 @@
 		<!-- the name of the service -->
 		<!ELEMENT name (#PCDATA)>
 		
-		<!-- the description of the service -->
+		<!-- the description  -->
 		<!ELEMENT description (#PCDATA)>
