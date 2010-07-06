@@ -130,6 +130,25 @@ abstract class tao_helpers_form_FormContainer
     }
 
     /**
+     * Short description of method __destruct
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return mixed
+     */
+    public function __destruct()
+    {
+        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:0000000000002090 begin
+        
+    	if(!is_null($this->form)){
+			//remove the refs of the contained form
+			unset(self::$forms[$this->form->getName()]);
+		}
+    	
+        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:0000000000002090 end
+    }
+
+    /**
      * get the form instance
      *
      * @access public

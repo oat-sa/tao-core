@@ -81,8 +81,8 @@ abstract class TaoModule extends CommonModule {
 	 */
 	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource){
 	
-		
-		$myForm = tao_helpers_form_GenerisFormFactory::classEditor($clazz, $resource);
+		$formContainer = new tao_actions_form_Clazz($clazz, $resource);
+		$myForm = $formContainer->getForm();
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
@@ -326,7 +326,9 @@ abstract class TaoModule extends CommonModule {
 	public function translateInstance(){
 		
 		$instance = $this->getCurrentInstance();
-		$myForm = tao_helpers_form_GenerisFormFactory::translateInstanceEditor($this->getCurrentClass(), $instance);
+		
+		$formContainer = new tao_actions_form_Translate($this->getCurrentClass(), $instance);
+		$myForm = $formContainer->getForm();
 		
 		if($this->hasRequestParameter('target_lang')){
 			
@@ -400,7 +402,10 @@ abstract class TaoModule extends CommonModule {
 	public function search(){
 		$found = false;
 		$clazz = $this->getRootClass();
-		$myForm = tao_helpers_form_GenerisFormFactory::searchInstancesEditor($clazz, true);
+		
+		$formContainer = new tao_actions_form_Search($clazz, null, array('recursive' => true));
+		$myForm = $formContainer->getForm();
+		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
@@ -415,6 +420,7 @@ abstract class TaoModule extends CommonModule {
 					}
 				}
 				$this->setData('properties', $properties);
+				
 				$instances = $this->service->searchInstances($filters, $clazz, $myForm->getValues('params'));
 				if(count($instances) > 0 ){
 					$found = array();
@@ -444,14 +450,15 @@ abstract class TaoModule extends CommonModule {
 					}
 				}
 			}
+			$this->setData('openAction', 'GenerisAction.select');
+			if(tao_helpers_Context::check('STANDALONE_MODE')){
+				$this->setData('openAction', 'alert');
+			}
+			$this->setData('foundNumber', count($found));
+			$this->setData('found', $found);
 		}
 		
-		$this->setData('openAction', 'GenerisAction.select');
-		if(tao_helpers_Context::check('STANDALONE_MODE')){
-			$this->setData('openAction', 'alert');
-		}
 		
-		$this->setData('found', $found);
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Search'));
 		$this->setView('form/search.tpl', true);

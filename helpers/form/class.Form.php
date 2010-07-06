@@ -462,6 +462,7 @@ abstract class tao_helpers_form_Form
 			 	if(!is_null($this->getDecorator('error'))){
 			 		$returnValue .= $this->getDecorator('error')->preRender();
 			 	}
+			 	
 			 	$returnValue .= $element->getError();
 				if(!is_null($this->getDecorator('error'))){
 			 		$returnValue .= $this->getDecorator('error')->postRender();
@@ -741,6 +742,43 @@ abstract class tao_helpers_form_Form
         // section 127-0-1-1--6132c277:1244e864521:-8000:0000000000001A59 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getGroups
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return array
+     */
+    public function getGroups()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:000000000000208B begin
+        
+        $returnValue = $this->groups;
+        
+        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:000000000000208B end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method setGroups
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  array groups
+     * @return mixed
+     */
+    public function setGroups($groups)
+    {
+        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:000000000000208D begin
+        
+    	$this->groups = $groups;
+    	
+        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:000000000000208D end
     }
 
     /**

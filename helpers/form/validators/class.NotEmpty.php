@@ -86,6 +86,7 @@ class tao_helpers_form_validators_NotEmpty
 
         // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCB begin
 		
+        
 		$values = $this->values;
 		if(count($values) > 1){
 			$returnValue = true;

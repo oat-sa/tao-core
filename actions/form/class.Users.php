@@ -15,12 +15,11 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * This class provide a container for a specific form instance.
- * It's subclasses instanciate a form and it's elements to be used as a
+ * include tao_actions_form_Instance
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
-require_once('tao/helpers/form/class.FormContainer.php');
+require_once('tao/actions/form/class.Instance.php');
 
 /* user defined includes */
 // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF8-includes begin
@@ -39,7 +38,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
  * @subpackage actions_form
  */
 class tao_actions_form_Users
-    extends tao_helpers_form_FormContainer
+    extends tao_actions_form_Instance
 {
     // --- ASSOCIATIONS ---
 
@@ -88,11 +87,9 @@ class tao_actions_form_Users
     		$options['mode'] = 'add';
     	}
     	
-    	tao_helpers_form_GenerisFormFactory::$topLevelClass = CLASS_GENERIS_USER;
-    	$this->form = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $this->user, 'users');
-    	tao_helpers_form_GenerisFormFactory::$topLevelClass = '';
+    	$options['topClazz'] = CLASS_GENERIS_USER;
     	
-    	parent::__construct(array(), $options);
+    	parent::__construct($clazz, $this->user, $options);
     	
         // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F43 end
     }
@@ -128,6 +125,8 @@ class tao_actions_form_Users
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFA begin
 		
+    	parent::initForm();
+    	
 		$this->form->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFA end
@@ -149,6 +148,8 @@ class tao_actions_form_Users
 		if(!isset($this->options['mode'])){
 			throw new Exception("Please set a mode into container options ");
 		}
+		
+		parent::initElements();
 		
 		//login field
 		$loginElement = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));

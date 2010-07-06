@@ -1,8 +1,12 @@
 <?include(TAO_TPL_PATH .'header.tpl')?>
 
 <?if(get_data('found')):?>
-	<table id="result-list"></table>
-	<div id="result-list-pager"></div> 
+	<?if(get_data('foundNumber') > 0):?>
+		<table id="result-list"></table>
+		<div id="result-list-pager"></div> 
+	<?else:?>
+		<div class="ui-state-error"><?=__('No result found')?></div>
+	<?endif?>
 	<br />
 <?endif?>
 
