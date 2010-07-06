@@ -17,7 +17,7 @@
 		<img src="<?=BASE_WWW?>img/ajax-loader.gif" alt="loading" />
 	</div>
 
-	<div id="main-menu" class="ui-state-default">&nbsp;</div>
+	<div id="main-menu" class="ui-state-default" style="height:34px;">&nbsp;</div>
 	
 	<img src="<?=BASE_WWW?>img/logo_tao.png" alt="TAO" id="logo" />
 	

@@ -47,7 +47,7 @@ span.elt-info{
 div#tabs, div#home{
 	top:15px;
 	min-height:600px;
-	width:98%;
+	width:99%;
 	margin:auto;
 }
 /* --- */
@@ -56,9 +56,9 @@ div#tabs div.ui-tabs-panel{
 	position:relative;
 	left:0%;
 	width:99%;
-	padding-top:0.5%;
+	padding-top:0;
 	padding-left:0.5%;
-	padding-right:0;
+	padding-right:0.5%;
 }
 /* --- */
 div.main-container{
@@ -66,15 +66,16 @@ div.main-container{
 }
 img#logo{
 	position: absolute; 
-	right:10px; 
-	top: 4px;
+	right:5px; 
+	top: 2px;
 	z-index:1000;
 }
 /* Layout -> Menu */
 div#main-menu{
 	padding:10px 4px 0px 45px;
-	border-bottom-style:none;
-	border-top-width: 0px;
+	border:none;
+	border-width: 0px;
+	height:16px;
 }
 div#main-menu img#menu-button{
 	position:absolute;
@@ -293,7 +294,7 @@ div#footer{
 /* Home Page */
 div#home_title{
 	margin:5px;
-	margin-bottom:30px;
+	margin-bottom:10px;
 	padding:5px;
 	text-align:center;
 }

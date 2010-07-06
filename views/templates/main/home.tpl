@@ -15,7 +15,7 @@
 			<tr>
 				<?foreach(get_data('extensions') as $i => $extension):?>
 				<?if($extension['extension'] != 'users'):?>
-				<?if($i%3==0 && $i > 0):?>
+				<?if($i%4==0 && $i > 0):?>
 					</tr>
 					<tr>
 				<?endif?>
