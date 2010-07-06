@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/actions/form/class.Search.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 06.07.2010, 11:24:26 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ * Create a form to search the resources of the ontology
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -22,7 +15,8 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_actions_form_Instance
+ * Create a form from a  resource of your ontology. 
+ * Each property will be a field, regarding it's widget.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
@@ -37,7 +31,7 @@ require_once('tao/actions/form/class.Instance.php');
 // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002494-constants end
 
 /**
- * Short description of class tao_actions_form_Search
+ * Create a form to search the resources of the ontology
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -55,7 +49,7 @@ class tao_actions_form_Search
     // --- OPERATIONS ---
 
     /**
-     * Short description of method initForm
+     * Initialize the form
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -86,7 +80,7 @@ class tao_actions_form_Search
     }
 
     /**
-     * Short description of method initElements
+     * Initialize the form elements
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -121,7 +115,7 @@ class tao_actions_form_Search
 		$this->form->addElement($descElt);
 		$filters[] = 'desc';
 		
-		$defaultProperties 	= $this->getDefaultProperties();
+		$defaultProperties 	= tao_helpers_form_GenerisFormFactory::getDefaultProperties();
 		$classProperties	= tao_helpers_form_GenerisFormFactory::getClassProperties($this->clazz, $this->getTopClazz());
 		
 		$properties = array_merge($defaultProperties, $classProperties);

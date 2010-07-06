@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/actions/form/class.Property.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 06.07.2010, 14:18:42 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ * Enable you to edit a property
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -22,7 +15,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_actions_form_Generis
+ * This container enables gives you tools to create a form from ontology
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
@@ -37,7 +30,7 @@ require_once('tao/actions/form/class.Generis.php');
 // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002492-constants end
 
 /**
- * Short description of class tao_actions_form_Property
+ * Enable you to edit a property
  *
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -55,7 +48,7 @@ class tao_actions_form_Property
     // --- OPERATIONS ---
 
     /**
-     * Short description of method initForm
+     * Initialize the form
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -77,7 +70,7 @@ class tao_actions_form_Property
     }
 
     /**
-     * Short description of method initElements
+     * Initialize the form elements
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -92,7 +85,7 @@ class tao_actions_form_Property
     	(isset($this->options['index'])) ? $index = $this->options['index'] : $index = 1;
     	
 		$propertyProperties = array_merge(
-			$this->getDefaultProperties(), 
+			tao_helpers_form_GenerisFormFactory::getDefaultProperties(), 
 			tao_helpers_form_GenerisFormFactory::getPropertyProperties('simple')
 		);
     	

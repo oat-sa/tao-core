@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/actions/form/class.Generis.php
- *
- * $Id$
- *
- * This file is part of Generis Object Oriented API.
- *
- * Automatically generated on 05.07.2010, 16:04:35 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ * This container enables gives you tools to create a form from ontology
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -38,7 +31,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
 // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248A-constants end
 
 /**
- * Short description of class tao_actions_form_Generis
+ * This container enables gives you tools to create a form from ontology
  *
  * @abstract
  * @access public
@@ -55,7 +48,8 @@ abstract class tao_actions_form_Generis
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute DEFAULT_TOP_CLASS
+     * The uri of the default top level class
+     * used by default to limit the recursivity level in the ontology
      *
      * @access protected
      * @var string
@@ -63,7 +57,7 @@ abstract class tao_actions_form_Generis
     const DEFAULT_TOP_CLASS = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject';
 
     /**
-     * Short description of attribute topClazz
+     * used to define a top level class
      *
      * @access protected
      * @var Class
@@ -71,7 +65,7 @@ abstract class tao_actions_form_Generis
     protected $topClazz = null;
 
     /**
-     * Short description of attribute clazz
+     * the class resource to create the form from
      *
      * @access protected
      * @var Class
@@ -79,7 +73,7 @@ abstract class tao_actions_form_Generis
     protected $clazz = null;
 
     /**
-     * Short description of attribute instance
+     * the resource to create the form from
      *
      * @access protected
      * @var Resource
@@ -89,7 +83,7 @@ abstract class tao_actions_form_Generis
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
+     * constructor, set the ontology's class, resource and the form options
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -109,13 +103,13 @@ abstract class tao_actions_form_Generis
     		$this->topClazz = new core_kernel_classes_Class($options['topClazz']);
     		unset($options['topClazz']);
     	}
-    	parent::__construct(array(), $options);
+    	$returnValue = parent::__construct(array(), $options);
     	
         // section 127-0-1-1-ed0d875:129a2b8fa60:-8000:0000000000002060 end
     }
 
     /**
-     * Short description of method getClazz
+     * get the class
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -135,7 +129,7 @@ abstract class tao_actions_form_Generis
     }
 
     /**
-     * Short description of method getInstance
+     * get the resource
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -155,29 +149,7 @@ abstract class tao_actions_form_Generis
     }
 
     /**
-     * Short description of method getDefaultProperties
-     *
-     * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return array
-     */
-    protected static function getDefaultProperties()
-    {
-        $returnValue = array();
-
-        // section 127-0-1-1--7978326a:129a2dd1980:-8000:0000000000002070 begin
-        
-        $returnValue = array(
-			new core_kernel_classes_Property(RDFS_LABEL)
-		);
-        
-        // section 127-0-1-1--7978326a:129a2dd1980:-8000:0000000000002070 end
-
-        return (array) $returnValue;
-    }
-
-    /**
-     * Short description of method getTopClazz
+     * get the current top level class (the defined or the default)
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

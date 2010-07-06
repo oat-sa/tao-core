@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of Generis Object Oriented API.
  *
- * Automatically generated on 06.07.2010, 11:24:26 with ArgoUML PHP module 
+ * Automatically generated on 06.07.2010, 15:23:17 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -22,7 +22,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_actions_form_Generis
+ * This container enables gives you tools to create a form from ontology
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
@@ -55,7 +55,7 @@ class tao_actions_form_Clazz
     // --- OPERATIONS ---
 
     /**
-     * Short description of method initForm
+     * Initialize the form
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -92,7 +92,7 @@ class tao_actions_form_Clazz
     }
 
     /**
-     * Short description of method initElements
+     * Initialize the form elements
      *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -106,7 +106,7 @@ class tao_actions_form_Clazz
 
     	//add a group form for the class edition 
 		$elementNames = array();
-		foreach($this->getDefaultProperties()  as $property){
+		foreach(tao_helpers_form_GenerisFormFactory::getDefaultProperties()  as $property){
 			
 			//map properties widgets to form elments 
 			$element = tao_helpers_form_GenerisFormFactory::elementMap($property);

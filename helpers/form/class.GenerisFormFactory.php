@@ -47,735 +47,7 @@ class tao_helpers_form_GenerisFormFactory
 
     // --- ATTRIBUTES ---
 
-    /**
-     * the default top level (to stop the recursivity look up) class commly used
-     *
-     * @access public
-     * @var string
-     */
-    const DEFAULT_TOP_LEVEL_CLASS = 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject';
-
-    /**
-     * Short description of attribute topLevelClass
-     *
-     * @access public
-     * @var string
-     */
-    public static $topLevelClass = '';
-
-    /**
-     * a list of forms currently instanciated with the factory (can be used to
-     * multiple forms)
-     *
-     * @access protected
-     * @var array
-     */
-    protected static $forms = array();
-
     // --- OPERATIONS ---
-
-    /**
-     * Short description of method getTopClass
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return core_kernel_classes_Class
-     */
-    public static function getTopClass()
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F68 begin
-        
-        if(!empty(self::$topLevelClass)){
-        	$returnValue = new core_kernel_classes_Class(self::$topLevelClass);
-        }
-        else{
-        	$returnValue = new core_kernel_classes_Class(self::DEFAULT_TOP_LEVEL_CLASS);
-        }
-        
-        // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F68 end
-
-        return $returnValue;
-    }
-
-    /**
-     * Create a form from a class of your ontology, the form data comes from the
-     * The default rendering is in xhtml
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class clazz
-     * @param  Resource instance
-     * @param  string name
-     * @param  array options
-     * @return tao_helpers_form_Form
-     */
-    public static function instanceEditor( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $instance = null, $name = '', $options = array())
-    {
-        $returnValue = null;
-
-        // section 10-13-1-45--70bace43:123ffff90e9:-8000:00000000000018CD begin
-		
-		
-		if(!is_null($clazz)){
-			
-			if(empty($name)){
-				$name = 'form_'.(count(self::$forms)+1);
-			}
-			
-			$myForm = tao_helpers_form_FormFactory::getForm($name, $options);
-			
-			//add translate action in toolbar
-			$topActions = tao_helpers_form_FormFactory::getCommonActions('top');
-			if(tao_helpers_Context::check('APP_MODE')){
-				$translateELt = tao_helpers_form_FormFactory::getElement('translate', 'Free');
-				$translateELt->setValue(" | <a href='#' class='form-translator' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
-				$topActions[] = $translateELt;
-			}
-			$myForm->setActions($topActions, 'top');
-			
-			$defaultProperties 	= self::getDefaultProperties();
-			$editedProperties = $defaultProperties;
-			
-			foreach(self::getClassProperties($clazz, self::getTopClass()) as $property){
-				$found = false;
-				foreach($editedProperties as $editedProperty){
-					if($editedProperty->uriResource == $property->uriResource){
-						$found = true;
-						break;
-					}
-				}
-				if(!$found){
-					$editedProperties[] = $property;
-				}
-			}
-			foreach($editedProperties as $property){
-				
-				$property->feed();
-				
-				//map properties widgets to form elments 
-				$element = self::elementMap($property);
-				
-				if(!is_null($element)){
-					
-					//take instance values to populate the form
-					if(!is_null($instance)){
-						
-						$values = $instance->getPropertyValuesCollection($property);
-						foreach($values->getIterator() as $value){
-							if(!is_null($value)){
-								if($value instanceof core_kernel_classes_Resource){
-									$element->setValue($value->uriResource);
-								}
-								if($value instanceof core_kernel_classes_Literal){
-									$element->setValue((string)$value);
-								}
-							}
-						}
-					}
-					
-					//set label validator
-					if($property->uriResource == RDFS_LABEL){
-						$element->addValidators(array(
-							tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-							tao_helpers_form_FormFactory::getValidator('Label', array('class' => $clazz, 'uri' => $instance->uriResource))
-						));
-					}
-					
-					$myForm->addElement($element);
-				}
-			}
-			
-			//add an hidden elt for the class uri
-			$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
-			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
-			$myForm->addElement($classUriElt);
-			
-			if(!is_null($instance)){
-				//add an hidden elt for the instance Uri
-				$instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
-				$instanceUriElt->setValue(tao_helpers_Uri::encode($instance->uriResource));
-				$myForm->addElement($instanceUriElt);
-			}
-			
-			//form data evaluation
-			$myForm->evaluate();
-				
-			self::$forms[$name] = $myForm;
-			$returnValue = self::$forms[$name];
-		}
-		
-        // section 10-13-1-45--70bace43:123ffff90e9:-8000:00000000000018CD end
-
-        return $returnValue;
-    }
-
-    /**
-     * Create a translation form from an instance of your ontology.
-     * Only text widgets are now supported
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class clazz
-     * @param  Resource instance
-     * @return tao_helpers_form_Form
-     * @see tao_helpers_form_GenerisFormFactory::isntanceEditor
-     */
-    public static function translateInstanceEditor( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $instance)
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1--442e4448:1269d8ce833:-8000:0000000000001E7E begin
-		
-		$myForm = self::instanceEditor($clazz, $instance);
-		$elements = $myForm->getElements();
-		
-		$myTranslatedForm = tao_helpers_form_FormFactory::getForm('translate_'.$myForm->getName());
-		$myTranslatedForm->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
-		
-		$currentLangElt = tao_helpers_form_FormFactory::getElement('current_lang', 'Textbox');
-		$currentLangElt->setDescription(__('Current language'));
-		$currentLangElt->setAttributes(array('readonly' => 'true'));
-		$currentLangElt->setValue(__(core_kernel_classes_Session::singleton()->getLg()));
-		$myTranslatedForm->addElement($currentLangElt);
-		
-		$options = array();
-		foreach($GLOBALS['available_langs'] as $langCode){
-			$options[$langCode] = __($langCode);
-		}
-		$dataLangElement = tao_helpers_form_FormFactory::getElement('translate_lang', 'Combobox');
-		$dataLangElement->setDescription(__('Translate to'));
-		$dataLangElement->setOptions($options);
-		$dataLangElement->setEmptyOption(__('Select a language'));
-		$dataLangElement->addValidator( tao_helpers_form_FormFactory::getValidator('NotEmpty') );
-		$myTranslatedForm->addElement($dataLangElement);
-		
-		$myTranslatedForm->createGroup('translation_info', __('Translation parameters'), array('current_lang', 'translate_lang'));
-		
-		$dataGroup = array();
-		foreach($elements as $element){
-			
-			if( $element instanceof tao_helpers_form_elements_Hidden ||
-				$element->getName() == 'uri' || $element->getName() == 'classUri'){
-					
-				$myTranslatedForm->addElement($element);
-				
-			}
-			else{
-				
-				$propertyUri = tao_helpers_Uri::decode($element->getName());
-				$property = new core_kernel_classes_Property($propertyUri);
-				
-				//translate only language dependent properties or Labels
-				//supported widget are: Textbox, TextArea, HtmlArea
-				//@todo support other widgets
-				if(	( $property->isLgDependent() && 
-					  ($element instanceof tao_helpers_form_elements_Textbox ||
-					   $element instanceof tao_helpers_form_elements_TextArea ||
-					   $element instanceof tao_helpers_form_elements_HtmlArea
-					  ) ) ||
-					$propertyUri == RDFS_LABEL){	
-				
-					$translatedElt = clone $element;
-					
-					$name = 'view_'.$element->getName();
-					$element->setName($name);
-					$element->setAttributes(array('readonly' => 'true'));
-					$myTranslatedForm->addElement($element);
-					
-					$translatedElt->setDescription(' ');
-					$translatedElt->setValue('');
-					$myTranslatedForm->addElement($translatedElt);
-					
-					$dataGroup[] = $name;
-					$dataGroup[] = $translatedElt->getName();
-				}
-			}
-		}
-		
-		$myTranslatedForm->createGroup('translation_form', __('Translate'), $dataGroup);
-		
-		//form data evaluation
-		$myTranslatedForm->evaluate();
-			
-		$returnValue = $myTranslatedForm;
-		
-        // section 127-0-1-1--442e4448:1269d8ce833:-8000:0000000000001E7E end
-
-        return $returnValue;
-    }
-
-    /**
-     * Create a form to search instances of the Class in parameter.
-     * The form is composed by the Class properties (and subclasses if recursive
-     * set)
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class clazz
-     * @param  boolean recursive
-     * @return tao_helpers_form_Form
-     */
-    public static function searchInstancesEditor( core_kernel_classes_Class $clazz, $recursive = false)
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1-22aa168e:126ae36f293:-8000:0000000000001E8D begin
-		
-		if(empty($name)){
-			$name = 'form_'.(count(self::$forms)+1);
-		}
-			
-		$myForm = tao_helpers_form_FormFactory::getForm($name);
-			
-		//search action in toolbar
-		$searchELt = tao_helpers_form_FormFactory::getElement('search', 'Free');
-		$searchELt->setValue("<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/search.png'  /> ".__('Search')."</a>");
-		$myForm->setActions(array($searchELt), 'top');
-		
-		$searchBtnElt = tao_helpers_form_FormFactory::getElement('search-button', 'Submit');
-		$searchBtnElt->setValue(__('Search'));
-		$myForm->setActions(array($searchBtnElt), 'bottom');
-		
-		$chainingElt = tao_helpers_form_FormFactory::getElement('chaining', 'Radiobox');
-		$chainingElt->setDescription(__('Filtering mode'));
-		$chainingElt->setOptions(array('and' => __('Exclusive (AND)'), 'or' =>  __('Inclusive (OR)')));
-		$chainingElt->setValue('and');
-		$myForm->addElement($chainingElt);
-		
-		$options = array();
-		foreach($GLOBALS['available_langs'] as $langCode){
-			$options[$langCode] = __($langCode);
-		}
-		$langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
-		$langElt->setDescription(__('Language'));
-		$langElt->setOptions($options);
-		$myForm->addElement($langElt);
-		
-		$myForm->createGroup('params', __('Options'), array('chaining', 'lang'));
-		
-		
-		$filters = array();
-		
-		$descElt = tao_helpers_form_FormFactory::getElement('desc', 'Label');
-		$descElt->setValue(__('Use the * character to replace any string'));
-		$myForm->addElement($descElt);
-		$filters[] = 'desc';
-		
-		$defaultProperties 	= self::getDefaultProperties();
-		$classProperties	= self::getClassProperties($clazz, self::getTopClass());
-		
-		$properties = array_merge($defaultProperties, $classProperties);
-		
-		if($recursive){
-			foreach($clazz->getSubClasses(true) as $subClass){
-				$properties = array_merge(self::getClassProperties($subClass, $subClass), $properties);
-			}
-		}
-		
-		foreach($properties as $property){
-	
-			$element = self::elementMap($property);
-			if( ! is_null($element) && 
-				! $element instanceof tao_helpers_form_elements_Authoring && 
-				! $element instanceof tao_helpers_form_elements_Hiddenbox &&
-				! $element instanceof tao_helpers_form_elements_Hidden ){
-				
-				if($element instanceof tao_helpers_form_elements_MultipleElement){
-					$newElement = tao_helpers_form_FormFactory::getElement($element->getName(), 'Checkbox');
-					$newElement->setDescription($element->getDescription());
-					$newElement->setOptions($element->getOptions());
-					$element = $newElement;
-				}
-				if($element instanceof tao_helpers_form_elements_Htmlarea){
-					$newElement = tao_helpers_form_FormFactory::getElement($element->getName(), 'Textarea');
-					$newElement->setDescription($element->getDescription());
-					$element = $newElement;
-				}
-				
-				$myForm->addElement($element);
-				$filters[] = $element->getName();
-			}
-		}
-		$myForm->createGroup('filters', __('Filters'), $filters);
-		
-		$myForm->evaluate();
-		
-		$returnValue = $myForm;
-		
-        // section 127-0-1-1-22aa168e:126ae36f293:-8000:0000000000001E8D end
-
-        return $returnValue;
-    }
-
-    /**
-     * create a Form to add a subclass to the rdfs:Class clazz
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class clazz
-     * @param  Class topClazz
-     * @return tao_helpers_form_xhtml_Form
-     */
-    public static function classEditor( core_kernel_classes_Class $clazz,  core_kernel_classes_Class $topClazz = null)
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1-173d16:124524d2e59:-8000:0000000000001A5D begin
-		
-		if(!is_null($clazz)){
-			
-			$name = 'form_'.(count(self::$forms)+1);
-			
-			$myForm = tao_helpers_form_FormFactory::getForm($name);
-			
-			//add property action in toolbar
-			$topActions = tao_helpers_form_FormFactory::getCommonActions('top');
-			$propertyElt = tao_helpers_form_FormFactory::getElement('property', 'Free');
-			$propertyElt->setValue(" | <a href='#' class='property-adder'><img src='".TAOBASE_WWW."/img/prop_add.png'  /> ".__('Add property')."</a>");
-			$topActions[] = $propertyElt;
-			$myForm->setActions($topActions, 'top');
-			
-			//set bottom property actions
-			$bottomActions = tao_helpers_form_FormFactory::getCommonActions('bottom');
-			$addPropElement = tao_helpers_form_FormFactory::getElement('propertyAdder', 'Button');
-			$addPropElement->addAttribute('class', 'property-adder');
-			$addPropElement->setValue(__('Add a new property'));
-			$bottomActions[] = $addPropElement;
-			$myForm->setActions($bottomActions, 'bottom');
-			
-			//add a group form for the class edition 
-			$elementNames = array();
-			foreach(self::getDefaultProperties()  as $property){
-				
-				//map properties widgets to form elments 
-				$element = self::elementMap($property);
-				if(!is_null($element)){
-					
-					//take property values to populate the form
-					$values = $clazz->getPropertyValuesCollection($property);
-					foreach($values->getIterator() as $value){
-						if(!is_null($value)){
-							if($value instanceof core_kernel_classes_Resource){
-								$element->setValue($value->uriResource);
-							}
-							if($value instanceof core_kernel_classes_Literal){
-								$element->setValue((string)$value);
-							}
-						}
-					}
-					$element->setName('class_'.$element->getName());
-					$myForm->addElement($element);
-					$elementNames[] = $element->getName();
-				}
-			}
-			if(count($elementNames) > 0){
-				$myForm->createGroup('class', "<img src='".TAOBASE_WWW."img/class.png' /> ".__('Class').": ".$clazz->getLabel(), $elementNames);
-			}
-			
-			//add an hidden elt for the class uri
-			$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
-			$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
-			$myForm->addElement($classUriElt);
-			
-			$session = core_kernel_classes_Session::singleton();
-			$localNamespace = $session->getNameSpace();
-			
-			//class properties edition: add a group form for each property
-			if(is_null($topClazz)){
-				$topClazz = self::getTopClass();
-			}
-			$i = 0;
-			foreach(self::getClassProperties($clazz, $topClazz) as $classProperty){
-				$i++;
-				$useEditor = false;
-				$parentProp = true;
-				$domains = $classProperty->getDomain();
-				foreach($domains->getIterator() as $domain){
-					if($domain->uriResource == $clazz->uriResource){
-						$parentProp = false;
-						
-						//@todo use the getPrivileges method once implemented
-						if(preg_match("/^".preg_quote($localNamespace, '/')."/", $classProperty->uriResource)){
-							$useEditor = true;
-						}
-						break;
-					}
-				}
-				
-				if($useEditor){
-					self::propertyEditor($classProperty, $myForm, $i, true);
-				}
-				else if($parentProp){
-					$domainElement = tao_helpers_form_FormFactory::getElement('parentProperty'.$i, 'Free');
-					$value = __("Edit property into parent class ");
-					foreach($domains->getIterator() as $domain){
-						$value .= "<a  href='#' onclick='GenerisTreeClass.selectTreeNode(\"".tao_helpers_Uri::encode($domain->uriResource)."\");' >".$domain->getLabel()."</a> ";
-					}
-					$domainElement->setValue($value);
-					$myForm->addElement($domainElement);
-					
-					$myForm->createGroup("parent_property_{$i}", "<img src='".TAOBASE_WWW."img/prop_orange.png' /> ".__('Property')." #".($i).": ".$classProperty->getLabel(), array('parentProperty'.$i));
-				}
-				else{
-					$roElement = tao_helpers_form_FormFactory::getElement('roProperty'.$i, 'Free');
-					$roElement->setValue(__("You cannot modify this property"));
-					$myForm->addElement($roElement);
-					
-					$myForm->createGroup("ro_property_{$i}", "<img src='".TAOBASE_WWW."img/prop_red.png' /> ".__('Property')." #".($i).": ".$classProperty->getLabel(), array('roProperty'.$i));
-				}
-			}
-			
-			//form data evaluation
-			$myForm->evaluate();		
-				
-			self::$forms[$name] = $myForm;
-			$returnValue = self::$forms[$name];
-		}
-		
-        // section 127-0-1-1-173d16:124524d2e59:-8000:0000000000001A5D end
-
-        return $returnValue;
-    }
-
-    /**
-     * Create a form from a Property
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Property property
-     * @param  Form form
-     * @param  int index
-     * @param  boolean simpleMode
-     * @return tao_helpers_form_xhtml_Form
-     */
-    public static function propertyEditor( core_kernel_classes_Property $property,  tao_helpers_form_xhtml_Form $form, $index = 0, $simpleMode = false)
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1-397f707b:124b59ea33f:-8000:0000000000001B0E begin
-		
-		if(is_null($form)){
-			throw new Exception("tao_helpers_form_Form parameter must be a valid form instance");
-		}
-		
-		if($simpleMode){
-			$returnValue = self::simplePropertyEditor($property, $form, $index);
-		}
-		else{
-			$returnValue = self::advancedPropertyEditor($property, $form, $index);
-		}
-		
-		//add an hidden elt for the property uri
-		$propUriElt = tao_helpers_form_FormFactory::getElement("propertyUri{$index}", 'Hidden');
-		$propUriElt->addAttribute('class', 'property-uri');
-		$propUriElt->setValue(tao_helpers_Uri::encode($property->uriResource));
-		$returnValue->addElement($propUriElt);
-		
-        // section 127-0-1-1-397f707b:124b59ea33f:-8000:0000000000001B0E end
-
-        return $returnValue;
-    }
-
-    /**
-     * Edit a property with some shortcuts for the range, the widgets, etc.
-     * It creates an easy to use form, but it's limited in terms of features
-     *
-     * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Property property
-     * @param  Form form
-     * @param  int index
-     * @return tao_helpers_form_Form
-     */
-    protected static function simplePropertyEditor( core_kernel_classes_Property $property,  tao_helpers_form_Form $form, $index = 0)
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B39 begin
-		
-		$elementNames = array();
-		
-		foreach(array_merge(self::getDefaultProperties(), self::getPropertyProperties('simple')) as $propertyProperty){
-		
-			//map properties widgets to form elments 
-			$element = self::elementMap($propertyProperty);
-			
-			if(!is_null($element)){
-				//take property values to populate the form
-				$values = $property->getPropertyValuesCollection($propertyProperty);
-				foreach($values->getIterator() as $value){
-					if(!is_null($value)){
-						if($value instanceof core_kernel_classes_Resource){
-							$element->setValue($value->uriResource);
-						}
-						if($value instanceof core_kernel_classes_Literal){
-							$element->setValue((string)$value);
-						}
-					}
-				}
-				$element->setName("property_{$index}_{$element->getName()}");
-				$form->addElement($element);
-				$elementNames[] = $element->getName();
-			}
-		}
-		
-		//build the type list from the "widget/range to type" map
-		$typeElt = tao_helpers_form_FormFactory::getElement("property_{$index}_type", 'Combobox');
-		$typeElt->setDescription(__('Type'));
-		$typeElt->addAttribute('class', 'property-type');
-		$typeElt->setEmptyOption(' --- '.__('select').' --- ');
-		$options = array();
-		$checkRange = false;
-		foreach(self::getPropertyMap() as $typeKey => $map){
-			$options[$typeKey] = $map['title'];
-			if($property->getWidget()){
-				if($property->getWidget()->uriResource == $map['widget']){
-					$typeElt->setValue($typeKey);
-					$checkRange = is_null($map['range']);
-				}
-			}
-		}
-		$typeElt->setOptions($options);
-		$form->addElement($typeElt);
-		$elementNames[] = $typeElt->getName();
-		
-		//list drop down
-		$listService = tao_models_classes_ServiceFactory::get("tao_models_classes_ListService");
-			
-		$listElt = tao_helpers_form_FormFactory::getElement("property_{$index}_range", 'Combobox');
-		$listElt->setDescription(__('List values'));
-		$listElt->addAttribute('class', 'property-listvalues');
-		$listElt->setEmptyOption(' --- '.__('select').' --- ');
-		$listOptions = array();
-		foreach($listService->getLists() as $list){
-			$listOptions[tao_helpers_Uri::encode($list->uriResource)] = $list->getLabel();
-			if($property->getRange()->uriResource == $list->uriResource){
-				$listElt->setValue($list->uriResource);
-			}
-		}	
-		$listOptions['new'] = ' + '.__('Add / Edit lists');
-		$listElt->setOptions($listOptions);
-		if($checkRange){
-			$listElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		}
-		$form->addElement($listElt);
-		$elementNames[] = $listElt->getName();
-		
-		//add a delete button 
-		$deleteElt = tao_helpers_form_FormFactory::getElement("propertyDeleter{$index}", 'Button');
-		$deleteElt->addAttribute('class', 'property-deleter');
-		$deleteElt->setValue(__('Delete property'));
-		$form->addElement($deleteElt);
-		$elementNames[] = $deleteElt->getName();
-		
-		//add an hidden element with the mode (simple)
-		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$index}", 'Hidden');
-		$modeElt->setValue('simple');
-		$form->addElement($modeElt);
-		$elementNames[] = $modeElt->getName();
-		
-		if(count($elementNames) > 0){
-			$groupTitle = "<img src='".TAOBASE_WWW."img/prop_green.png' /> ".__('Property')." #".($index).": ".$property->getLabel();
-			$form->createGroup("property_{$index}", $groupTitle, $elementNames, array('class' => 'form-group-opened'));
-		}
-			
-		$returnValue = $form;
-		
-        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B39 end
-
-        return $returnValue;
-    }
-
-    /**
-     * Edit a property. It creates a form with all the attributes to edit a
-     * the domain, the range, the widget, etc.
-     * This editor is more flexible because you can edit the Property
-     *
-     * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Property property
-     * @param  Form form
-     * @param  int index
-     * @return tao_helpers_form_Form
-     */
-    protected static function advancedPropertyEditor( core_kernel_classes_Property $property,  tao_helpers_form_Form $form, $index = 0)
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B40 begin
-		
-		$level = ($index * 10) + 1;
-		$elementNames = array();
-		
-		foreach(array_merge(self::getDefaultProperties(), self::getPropertyProperties('advanced')) as $propertyProperty){
-			
-			//map properties widgets to form elments 
-			$element = self::elementMap($propertyProperty);
-			
-			//add range mannually because it's widget is not implemented
-			if(is_null($element) && $propertyProperty->uriResource == 'http://www.w3.org/2000/01/rdf-schema#range'){
-				$propertyProperty->feed();
-				$element = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($propertyProperty->uriResource), 'Combobox');
-				$element->setDescription(__('Range'));
-				
-				$range = $propertyProperty->getRange();
-				if($range != null){
-					$options = array();
-					foreach($range->getInstances(true) as $rangeInstance){
-						$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
-					}
-					$element->setOptions($options);
-				}
-			}
-			
-			if(!is_null($element)){
-				
-				//take property values to populate the form
-				$values = $property->getPropertyValuesCollection($propertyProperty);
-				foreach($values->getIterator() as $value){
-					if(!is_null($value)){
-						if($value instanceof core_kernel_classes_Resource){
-							$element->setValue($value->uriResource);
-						}
-						if($value instanceof core_kernel_classes_Literal){
-							$element->setValue((string)$value);
-						}
-					}
-				}
-				$element->setName("property_{$index}_{$element->getName()}");
-				$form->addElement($element);
-				$elementNames[] = $element->getName();
-				$level++;
-			}
-		}
-		
-		//add a delete button 
-		$deleteElt = tao_helpers_form_FormFactory::getElement("propertyDeleter{$index}", 'Button');
-		$deleteElt->addAttribute('class', 'property-deleter');
-		$deleteElt->setValue(__('Delete property'));
-		$form->addElement($deleteElt);
-		$elementNames[] = $deleteElt->getName();
-		$level++;
-		
-		//add an hidden element with the mode (simple)
-		$modeElt = tao_helpers_form_FormFactory::getElement("propertyMode{$index}", 'Hidden');
-		$modeElt->setValue('advanced');
-		$form->addElement($modeElt);
-		$elementNames[] = $modeElt->getName();
-		$level++;
-		
-		if(count($elementNames) > 0){
-			$form->createGroup("property_{$index}", "Property #".($index+1).": ".$property->getLabel(), $elementNames);
-		}
-		
-		$returnValue = $form;
-		
-        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B40 end
-
-        return $returnValue;
-    }
 
     /**
      * Enable you to map an rdf property to a form element using the Widget
@@ -912,26 +184,19 @@ class tao_helpers_form_GenerisFormFactory
     /**
      * get the default properties to add to every forms
      *
-     * @access protected
+     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
-    protected static function getDefaultProperties()
+    public static function getDefaultProperties()
     {
         $returnValue = array();
 
         // section 127-0-1-1--5ce810e0:1244ce713f8:-8000:0000000000001A43 begin
 
-		$defaultUris = array(
-			RDFS_LABEL
+		 $returnValue = array(
+			new core_kernel_classes_Property(RDFS_LABEL)
 		);
-		
-		$resourceClass = new core_kernel_classes_Class('http://www.w3.org/2000/01/rdf-schema#Resource');
-		foreach($resourceClass->getProperties() as $property){
-			if(in_array($property->uriResource, $defaultUris)){
-				array_push($returnValue, $property);
-			}
-		}
 		
         // section 127-0-1-1--5ce810e0:1244ce713f8:-8000:0000000000001A43 end
 
@@ -954,21 +219,19 @@ class tao_helpers_form_GenerisFormFactory
 		
 		switch($mode){
 			case 'simple':
-				$defaultUris = array(
-					'http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent'
-				);
+				$defaultUris = array(PROPERTY_IS_LG_DEPENDENT);
 				break;
 			case 'advanced':
 			default:	
 				$defaultUris = array(
-					'http://www.w3.org/2000/01/rdf-schema#label',
-					'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget',
-					'http://www.w3.org/2000/01/rdf-schema#range',
-					'http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent'
+					RDFS_LABEL,
+					PROPERTY_WIDGET,
+					RDFS_RANGE,
+					PROPERTY_IS_LG_DEPENDENT
 				);
 				break;
 		} 
-		$resourceClass = new core_kernel_classes_Class('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property');
+		$resourceClass = new core_kernel_classes_Class(RDF_PROPERTY);
 		foreach($resourceClass->getProperties() as $property){
 			if(in_array($property->uriResource, $defaultUris)){
 				array_push($returnValue, $property);
@@ -997,43 +260,43 @@ class tao_helpers_form_GenerisFormFactory
 		$returnValue = array(
 			'text' => array(
 				'title' 	=> __('A short text'),
-				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
-				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
+				'widget'	=> PROPERTY_WIDGET_TEXTBOX,
+				'range'		=> RDFS_LITERAL
 			),
 			'longtext' => array(
 				'title' 	=> __('A long text'),
-				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
-				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
+				'widget'	=> PROPERTY_WIDGET_TEXTAREA,
+				'range'		=> RDFS_LITERAL
 			),
 			'html' => array(
 				'title' 	=> __('A formated text'),
-				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea',
-				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
+				'widget'	=> PROPERTY_WIDGET_HTMLAREA,
+				'range'		=> RDFS_LITERAL
 			),
 			'password' => array(
 				'title' 	=> __('A password'),
-				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
-				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
+				'widget'	=> PROPERTY_WIDGET_HIDDENBOX,
+				'range'		=> RDFS_LITERAL
+			),
+			'calendar' => array(
+				'title' 	=> __('Dynamic date picker'),
+				'widget'	=> PROPERTY_WIDGET_CALENDAR,
+				'range'		=> RDFS_LITERAL
 			),
 			'list' => array(
 				'title' 	=> __('A single choice list'),
-				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox',
+				'widget'	=> PROPERTY_WIDGET_RADIOBOX,
 				'range'		=> null
 			),
 			'longlist' => array(
 				'title' 	=> __('A single choice long list'),
-				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
+				'widget'	=> PROPERTY_WIDGET_COMBOBOX,
 				'range'		=> null
 			),
 			'multilist' => array(
 				'title' 	=> __('A multiple choice list'),
-				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
+				'widget'	=> PROPERTY_WIDGET_CHECKBOX,
 				'range'		=> null
-			),
-			'calendar' => array(
-				'title' 	=> __('Dynamic date picker'),
-				'widget'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar',
-				'range'		=> 'http://www.w3.org/2000/01/rdf-schema#Literal'
 			)
 		);
 		

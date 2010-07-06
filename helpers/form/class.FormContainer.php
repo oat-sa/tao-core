@@ -56,7 +56,7 @@ abstract class tao_helpers_form_FormContainer
     // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute form
+     * the form instance contained
      *
      * @access protected
      * @var Form
@@ -64,7 +64,7 @@ abstract class tao_helpers_form_FormContainer
     protected $form = null;
 
     /**
-     * Short description of attribute data
+     * the data of the form
      *
      * @access protected
      * @var array
@@ -72,7 +72,7 @@ abstract class tao_helpers_form_FormContainer
     protected $data = array();
 
     /**
-     * Short description of attribute options
+     * the form options
      *
      * @access protected
      * @var array
@@ -80,7 +80,7 @@ abstract class tao_helpers_form_FormContainer
     protected $options = array();
 
     /**
-     * list of all instanciated forms
+     * static list of all instanciated forms
      *
      * @access protected
      * @var array
@@ -90,7 +90,9 @@ abstract class tao_helpers_form_FormContainer
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
+     * The constructor, initialize and build the form 
+     * regarding the initForm and initElements methods
+     * to be overriden
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -126,11 +128,13 @@ abstract class tao_helpers_form_FormContainer
 			$this->form->evaluate();
 		}
 		
+		$returnValue = $this;
+		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DDD end
     }
 
     /**
-     * Short description of method __destruct
+     * Destructor (remove the current form in the static list)
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>

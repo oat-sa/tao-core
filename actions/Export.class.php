@@ -29,8 +29,9 @@ class Export extends CommonModule {
 				throw new Exception("Unable to create  " .EXPORT_PATH.". Check your filesystem!");
 			}
 		}
-		$myFormContainer = new tao_actions_form_Export();
-		$myForm = $myFormContainer->getForm();
+		$formContainer = new tao_actions_form_Export();
+		$myForm = $formContainer->getForm();
+		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 			

@@ -35,7 +35,14 @@ $todefine = array(
 	'CLASS_ROLE_BACKOFFICE' 		=> 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice',
 	'CLASS_ROLE_WORKFLOWUSER' 		=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser',
 	'CLASS_ROLE_WORKFLOWUSERROLE'  	=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole',
-
+	'PROPERTY_WIDGET_CALENDAR'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar',
+	'PROPERTY_WIDGET_TEXTBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
+	'PROPERTY_WIDGET_TEXTAREA'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
+	'PROPERTY_WIDGET_HTMLAREA'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea',
+	'PROPERTY_WIDGET_HIDDENBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
+	'PROPERTY_WIDGET_RADIOBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox',
+	'PROPERTY_WIDGET_COMBOBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
+	'PROPERTY_WIDGET_CHECKBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox'
 	
 );
 foreach($todefine as $constName => $constValue){

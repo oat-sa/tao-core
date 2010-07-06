@@ -73,7 +73,7 @@ abstract class TaoModule extends CommonModule {
 	protected abstract function getRootClass();
 
 	/**
-	 * Edit a class using the GenerisFormFactory::classEditor
+	 * Edit a class 
 	 * Manage the form submit by saving the class
 	 * @param core_kernel_classes_Class    $clazz
 	 * @param core_kernel_classes_Resource $resource
@@ -163,10 +163,19 @@ abstract class TaoModule extends CommonModule {
 						$this->service->bindProperties($property, $properties);
 						
 						$myForm->removeGroup("property_".$propNum);
-						tao_helpers_form_GenerisFormFactory::propertyEditor($property, $myForm, $propNum, $simpleMode );
+						
+						//instanciate a property form
+						$propFormContainer = new tao_actions_form_Property($clazz, $property, array('index' => $propNum));
+						$propForm = $propFormContainer->getForm();
+						
+						//and get its elements and groups
+						$myForm->setElements(array_merge($myForm->getElements(), $propForm->getElements()));
+						$myForm->setGroups(array_merge($myForm->getGroups(), $propForm->getGroups()));
+						
+						unset($propForm);
+						unset($propFormContainer);
 					}
 					//reload form
-					//$myForm = tao_helpers_form_GenerisFormFactory::classEditor($clazz, $resource);
 				}
 			}
 		}
@@ -483,12 +492,8 @@ abstract class TaoModule extends CommonModule {
 			$index = count($clazz->getProperties(false)) + 1;
 		}
 		
-		$myForm = tao_helpers_form_GenerisFormFactory::propertyEditor(
-			$clazz->createProperty('Property_'.$index),
-			tao_helpers_form_FormFactory::getForm('property_'.$index),
-			$index,
-			true
-		);
+		$propFormContainer = new tao_actions_form_Property($clazz, $clazz->createProperty('Property_'.$index), array('index' => $index));
+		$myForm = $propFormContainer->getForm();
 		
 		$this->setData('data', $myForm->renderElements());
 		$this->setView('blank.tpl', true);
@@ -643,7 +648,9 @@ abstract class TaoModule extends CommonModule {
 		$clazz = $this->getCurrentClass();
 		$instance = $this->getCurrentInstance();
 		
-		$myForm = tao_helpers_form_GenerisFormFactory::instanceEditor($clazz, $instance);
+		$formContainer = new tao_actions_form_Instance($clazz, $instance);
+		$myForm = $formContainer->getForm();
+		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$instance = $this->service->bindProperties($instance, $myForm->getValues());
