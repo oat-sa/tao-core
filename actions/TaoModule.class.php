@@ -14,34 +14,6 @@ require_once('wfEngine/actions/ServicesApi.class.php');
  */
 abstract class TaoModule extends CommonModule {
 
-	/**
-	 * when the action is called inside the application
-	 * @var int
-	 */
-	const MODE_APP = 0;
-
-	/**
-	 * when the action is called in standalone mode
-	 * @var int
-	 */
-	const MODE_STANDALONE = 1;
-	
-	/**
-	 * define the current calling mode
-	 * @var int
-	 */
-	protected $mode;
-	
-	/**
-	 * Check the authentication
-	 */
-	public function __construct(){
-		
-		parent::__construct();
-		
-		(preg_match("/^SaS/", get_class($this))) ? $this->mode = self::MODE_STANDALONE : $this->mode = self::MODE_APP;
-	}
-	
 	
 	
 	/**
@@ -475,7 +447,7 @@ abstract class TaoModule extends CommonModule {
 		}
 		
 		$this->setData('openAction', 'GenerisAction.select');
-		if($this->mode == self::MODE_STANDALONE){
+		if(tao_helpers_Context::check('STANDALONE_MODE')){
 			$this->setData('openAction', 'alert');
 		}
 		

@@ -72,30 +72,6 @@ class tao_helpers_form_GenerisFormFactory
      */
     protected static $forms = array();
 
-    /**
-     * Software mode: when the form is used as a component of the application
-     *
-     * @access public
-     * @var int
-     */
-    const MODE_SOFT = 2;
-
-    /**
-     * Standalone mode: when the form is used as a standalone component
-     *
-     * @access public
-     * @var int
-     */
-    const MODE_STANDALONE = 3;
-
-    /**
-     * the form mode (MODE_SOFT or MODE_STANDALONE)
-     *
-     * @access protected
-     * @var int
-     */
-    protected static $mode = 2;
-
     // --- OPERATIONS ---
 
     /**
@@ -152,7 +128,7 @@ class tao_helpers_form_GenerisFormFactory
 			
 			//add translate action in toolbar
 			$topActions = tao_helpers_form_FormFactory::getCommonActions('top');
-			if(self::$mode == self::MODE_SOFT){
+			if(tao_helpers_Context::check('APP_MODE')){
 				$translateELt = tao_helpers_form_FormFactory::getElement('translate', 'Free');
 				$translateELt->setValue(" | <a href='#' class='form-translator' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
 				$topActions[] = $translateELt;
@@ -825,7 +801,7 @@ class tao_helpers_form_GenerisFormFactory
 		$widget = ucfirst(strtolower(substr($widgetResource->uriResource, strrpos($widgetResource->uriResource, '#') + 1 )));
 		
 		//authoring widget is not used in standalone mode
-		if($widget == 'Authoring' && self::$mode == self::MODE_STANDALONE){
+		if($widget == 'Authoring' && tao_helpers_Context::check('STANDALONE_MODE')){
 			return null;
 		}
 		
@@ -1064,27 +1040,6 @@ class tao_helpers_form_GenerisFormFactory
         // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B31 end
 
         return (array) $returnValue;
-    }
-
-    /**
-     * Define the app mode
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  int mode
-     * @return mixed
-     */
-    public static function setMode($mode)
-    {
-        // section 127-0-1-1-4e0e5d33:126dbe320ca:-8000:0000000000001EAB begin
-		
-		if($mode != self::MODE_SOFT && $mode != self::MODE_STANDALONE){
-			throw new Exception("Unknown mode");
-		}
-		
-		self::$mode = $mode;
-        
-        // section 127-0-1-1-4e0e5d33:126dbe320ca:-8000:0000000000001EAB end
     }
 
 } /* end of class tao_helpers_form_GenerisFormFactory */
