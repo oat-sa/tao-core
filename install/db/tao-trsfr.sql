@@ -3807,7 +3807,7 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery', 'http://www.w3.org/2000/01/rdf-schema#subClassOf', 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Property', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
-(14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec', 'http://www.w3.org/2000/01/rdf-schema#label', 'MaxExec', 'EN', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
+(14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec', 'http://www.w3.org/2000/01/rdf-schema#label', 'Max. number of execution (default: unlimited)', 'EN', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec', 'http://www.w3.org/2000/01/rdf-schema#comment', 'Maximum Times of Execution per subject', 'EN', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec', 'http://www.w3.org/2000/01/rdf-schema#domain', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Maxexec', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
@@ -4176,6 +4176,15 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#127538512347998', 'http://www.w3.org/2000/01/rdf-schema#label', 'init restricted role', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#127538512347998', 'http://www.w3.org/2000/01/rdf-schema#seeAlso', '', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#127538512347998', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', ' ', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
+
+INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+(15, 'http://www.tao.lu/middleware/taoqual.rdf#diagramData', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Property', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(15, 'http://www.tao.lu/middleware/taoqual.rdf#diagramData', 'http://www.w3.org/2000/01/rdf-schema#domain', 'http://www.tao.lu/middleware/taoqual.rdf#i118588753722590', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(15, 'http://www.tao.lu/middleware/taoqual.rdf#diagramData', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(15, 'http://www.tao.lu/middleware/taoqual.rdf#diagramData', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(15, 'http://www.tao.lu/middleware/taoqual.rdf#diagramData', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value', '', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(15, 'http://www.tao.lu/middleware/taoqual.rdf#diagramData', 'http://www.w3.org/2000/01/rdf-schema#comment', '', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(15, 'http://www.tao.lu/middleware/taoqual.rdf#diagramData', 'http://www.w3.org/2000/01/rdf-schema#label', 'diagramData', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
 ALTER TABLE `user` ADD `Uilg` VARCHAR( 2 ) NOT NULL DEFAULT 'EN' AFTER `Deflg` ;
 
