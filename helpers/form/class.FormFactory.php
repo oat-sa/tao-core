@@ -92,8 +92,8 @@ class tao_helpers_form_FormFactory
 					'element'			=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
 					'group'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')),
 					'error'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')),
-					'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-actions')),
-					'actions-top'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
+					'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar')),
+					'actions-top'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
 				));
 				
 				$myForm->setActions(self::getCommonActions(), 'bottom');
@@ -131,7 +131,9 @@ class tao_helpers_form_FormFactory
 		switch(self::$renderMode){
 			case 'xhtml':
 				$eltClass = "tao_helpers_form_elements_xhtml_{$type}";
+				
 				if(!class_exists($eltClass)){
+					var_dump($eltClass);
 					//throw new Exception("type $type not yet supported");
 					return null;
 				}
@@ -195,13 +197,12 @@ class tao_helpers_form_FormFactory
 		switch($context){
 			
 			case 'top':
+			case 'bottom':
+			default:
 				$actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
 				$value = '';
 				if($save){
 					$value .=  "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/save.png' /> ".__('Save')."</a>";
-					if($revert){
-						$value .=  " | ";
-					}
 				}
 				if($revert){
 					$value .=  "<a href='#' class='form-reverter'><img src='".TAOBASE_WWW."/img/revert.png'  /> ".__('Revert')."</a>";
@@ -209,21 +210,6 @@ class tao_helpers_form_FormFactory
 					
 				$actions->setValue($value);
 				$returnValue[] = $actions;
-				break;
-				
-			case 'bottom':
-			default:
-				if($save){
-					$saveAction = self::getElement('save', 'Submit');
-					$saveAction->setValue(__('Save'));
-					$returnValue[] = $saveAction;
-				}
-				if($revert){
-					$revertAction = self::getElement('revert', 'Button');
-					$revertAction->setValue(__('Revert'));
-					$revertAction->setAttributes(array('class' => 'form-reverter'));
-					$returnValue[] = $revertAction;
-				}
 				break;
 		}
 		

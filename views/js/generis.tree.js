@@ -99,7 +99,6 @@ function GenerisTreeClass(selector, dataUrl, options){
 					else{
 						TREE_OBJ.open_branch($("li.node-class:first"));
 					}
-					$(".tree ")
 				},
 				//when we receive the data
 				ondata: function(DATA, TREE_OBJ){

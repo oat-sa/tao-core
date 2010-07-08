@@ -61,9 +61,10 @@ class tao_actions_form_Export
 		
 		$this->form = tao_helpers_form_FormFactory::getForm('login');
 		
-		$exportElt = tao_helpers_form_FormFactory::getElement('export', 'Submit');
-		$exportElt->setValue(__('Export'));
+    	$exportElt = tao_helpers_form_FormFactory::getElement('export', 'Free');
+		$exportElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/export.png' /> ".__('Export')."</a>");
 		$this->form->setActions(array($exportElt), 'bottom');
+		$this->form->setActions(array(), 'top');
 		
         // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 end
     }
@@ -95,6 +96,7 @@ class tao_actions_form_Export
 			$nameElt->setValue(Session::getAttribute('currentExtension'));
 		}
 		$this->form->addElement($nameElt);
+		$this->form->createGroup('options', __('Export Options'), array('name', 'ontology'));
 		
         // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED7 end
     }

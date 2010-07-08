@@ -61,7 +61,10 @@ class tao_actions_form_Translate
         
     	parent::initForm();
     	$this->form->setName('translate_'.$this->form->getName());
-		$this->form->setActions(tao_helpers_form_FormFactory::getCommonActions('top'), 'top');
+		
+    	$actions = tao_helpers_form_FormFactory::getCommonActions('top');
+		$this->form->setActions($actions, 'top');
+		$this->form->setActions($actions, 'bottom');
     	
         // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249A end
     }

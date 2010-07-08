@@ -79,7 +79,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				}
 			},
 			plugins : {
-				checkbox : { }
+				checkbox : { three_state : true }
 			}
 		};
 		

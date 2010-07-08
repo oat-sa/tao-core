@@ -68,13 +68,10 @@ class tao_actions_form_Search
 		$this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
 		
 		//search action in toolbar
-		$searchELt = tao_helpers_form_FormFactory::getElement('search', 'Free');
-		$searchELt->setValue("<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/search.png'  /> ".__('Search')."</a>");
-		$this->form->setActions(array($searchELt), 'top');
-		
-		$searchBtnElt = tao_helpers_form_FormFactory::getElement('search-button', 'Submit');
-		$searchBtnElt->setValue(__('Search'));
-		$this->form->setActions(array($searchBtnElt), 'bottom');
+		$searchElt = tao_helpers_form_FormFactory::getElement('search', 'Free');
+		$searchElt->setValue("<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/search.png'  /> ".__('Search')."</a>");
+		$this->form->setActions(array($searchElt), 'top');
+		$this->form->setActions(array($searchElt), 'bottom');
     	
         // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249F end
     }

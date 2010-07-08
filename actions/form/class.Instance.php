@@ -69,15 +69,16 @@ class tao_actions_form_Instance
 		$this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
     	
 		//add translate action in toolbar
-		$topActions = tao_helpers_form_FormFactory::getCommonActions('top');
+		$actions = tao_helpers_form_FormFactory::getCommonActions();
 		
 		if(!tao_helpers_Context::check('STANDALONE_MODE')){
 			$translateELt = tao_helpers_form_FormFactory::getElement('translate', 'Free');
-			$translateELt->setValue(" | <a href='#' class='form-translator' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
-			$topActions[] = $translateELt;
+			$translateELt->setValue("<a href='#' class='form-translator' ><img src='".TAOBASE_WWW."/img/translate.png'  /> ".__('Translate')."</a>");
+			$actions[] = $translateELt;
 		}
 		
-		$this->form->setActions($topActions, 'top');
+		$this->form->setActions($actions, 'top');
+		$this->form->setActions($actions, 'bottom');
 		
         // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002496 end
     }

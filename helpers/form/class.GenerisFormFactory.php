@@ -90,15 +90,26 @@ class tao_helpers_form_GenerisFormFactory
 			//multi elements use the property range as options
 			if(method_exists($element, 'setOptions')){
 				$range = $property->getRange();
+				
 				if($range != null){
 					$options = array();
-					foreach($range->getInstances(true) as $rangeInstance){
-						$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
-					}
 					
-					//set the default value to an empty space
-					if(method_exists($element, 'setEmptyOption')){
-						$element->setEmptyOption(' ');
+					if($element instanceof tao_helpers_form_elements_Treeview){
+						if($property->uriResource == RDFS_RANGE){
+							$options = self::rangeToTree(new core_kernel_classes_Class(RDF_RESOURCE));
+						}
+						else{
+							$options = self::rangeToTree($range);
+						}
+					}
+					else{
+						foreach($range->getInstances(true) as $rangeInstance){
+							$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
+						}
+						//set the default value to an empty space
+						if(method_exists($element, 'setEmptyOption')){
+							$element->setEmptyOption(' ');
+						}
 					}
 					
 					//complete the options listing
@@ -301,6 +312,89 @@ class tao_helpers_form_GenerisFormFactory
 		);
 		
         // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B31 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method rangeToTree
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class range
+     * @param  boolean recursive
+     * @return array
+     */
+    protected static function rangeToTree( core_kernel_classes_Class $range, $recursive = false)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--21f2413d:129b116aefd:-8000:00000000000021F1 begin
+        
+        
+        $data = array();
+    	foreach($range->getSubClasses(false) as $rangeClass){
+			$classData = array(
+				'data' => $rangeClass->getLabel(),
+				'attributes' => array(
+					'id' => tao_helpers_Uri::encode($rangeClass->uriResource), 
+					'class' => 'node-class'
+				)
+			);
+			$children = self::rangeToTree($rangeClass, true);
+			if(count($children) > 0){
+				$classData['state'] = 'closed';
+				$classData['children'] = $children;
+			}
+			
+			$data[] = $classData;
+		}
+		if(!$recursive){
+        	$returnValue = array(
+				'data' => $range->getLabel(),
+				'attributes' => array(
+					'id' => tao_helpers_Uri::encode($range->uriResource), 
+					'class' => 'node-root'
+				),
+				'children' => $data
+			);
+        }
+        else{
+        	$returnValue = $data;
+        }
+        
+        // section 127-0-1-1--21f2413d:129b116aefd:-8000:00000000000021F1 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method extractTreeData
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  array data
+     * @param  boolean recursive
+     * @return array
+     */
+    public static function extractTreeData($data, $recursive = false)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--65f085c2:129b27ea381:-8000:0000000000002206 begin
+        
+        
+        if(isset($data['data'])){
+        	$data = array($data);
+        }
+        foreach($data as $node){
+        	$returnValue[$node['attributes']['id']] = $node['data'];
+        	if(isset($node['children'])){
+        		$returnValue = array_merge($returnValue, self::extractTreeData($node['children'], true));
+        	}
+        }
+        
+        // section 127-0-1-1--65f085c2:129b27ea381:-8000:0000000000002206 end
 
         return (array) $returnValue;
     }

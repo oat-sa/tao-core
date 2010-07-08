@@ -69,7 +69,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
 		
 		$i = 0;
 		if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<span class='form_desc'>".$this->getDescription()."</span><br />";
+			$returnValue .= "<span class='form_desc'>".$this->getDescription()."</span>";
 		}
 		else{
 			unset($this->attributes['noLabel']);

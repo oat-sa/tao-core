@@ -72,21 +72,27 @@ class tao_actions_form_Clazz
 		unset($this->options['name']);
 			
 		$this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
+		
+		(isset($this->options['property_mode'])) ? $propMode = $this->options['property_mode'] : $propMode = 'simple';
 			
 		//add property action in toolbar
-		$topActions = tao_helpers_form_FormFactory::getCommonActions('top');
+		$actions = tao_helpers_form_FormFactory::getCommonActions();
 		$propertyElt = tao_helpers_form_FormFactory::getElement('property', 'Free');
-		$propertyElt->setValue(" | <a href='#' class='property-adder'><img src='".TAOBASE_WWW."/img/prop_add.png'  /> ".__('Add property')."</a>");
-		$topActions[] = $propertyElt;
-		$this->form->setActions($topActions, 'top');
+		$propertyElt->setValue("<a href='#' class='property-adder'><img src='".TAOBASE_WWW."/img/prop_add.png'  /> ".__('Add property')."</a>");
+		$actions[] = $propertyElt;
 		
-		//set bottom property actions
-		$bottomActions = tao_helpers_form_FormFactory::getCommonActions('bottom');
-		$addPropElement = tao_helpers_form_FormFactory::getElement('propertyAdder', 'Button');
-		$addPropElement->addAttribute('class', 'property-adder');
-		$addPropElement->setValue(__('Add a new property'));
-		$bottomActions[] = $addPropElement;
-		$this->form->setActions($bottomActions, 'bottom');
+		//property mode
+		$propModeELt = tao_helpers_form_FormFactory::getElement('propMode', 'Free');
+		if($propMode == 'advanced'){
+			$propModeELt->setValue("<a href='#' class='property-mode property-mode-simple' ><img src='".TAOBASE_WWW."/img/table_refresh.png'  /> ".__('Simple Mode')."</a>");
+		}
+		else{
+			$propModeELt->setValue("<a href='#' class='property-mode property-mode-advanced' ><img src='".TAOBASE_WWW."/img/table_refresh.png'  /> ".__('Advanced Mode')."</a>");
+		}
+		$actions[] = $propModeELt;
+		
+		$this->form->setActions($actions, 'top');
+ 		$this->form->setActions($actions, 'bottom');
     	
         // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A7 end
     }
@@ -103,6 +109,8 @@ class tao_actions_form_Clazz
         // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A9 begin
         
     	$clazz = $this->getClazz();
+    	
+    	(isset($this->options['property_mode'])) ? $propMode = $this->options['property_mode'] : $propMode = 'simple';
 
     	//add a group form for the class edition 
 		$elementNames = array();
@@ -164,7 +172,13 @@ class tao_actions_form_Clazz
 			if($useEditor){
 
 				//instanciate a property form
-				$propFormContainer = new tao_actions_form_Property($clazz, $classProperty, array('index' => $i));
+
+				$propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
+				if(!class_exists($propFormClass)){
+					$propFormClass = 'tao_actions_form_SimpleProperty';
+				}
+				
+				$propFormContainer = new $propFormClass($clazz, $classProperty, array('index' => $i));
 				$propForm = $propFormContainer->getForm();
 				
 				//and get its elements and groups

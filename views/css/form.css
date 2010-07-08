@@ -15,6 +15,11 @@ div.xhtml_form{
 div.xhtml_form div{
 	position:relative;
 	padding:3px;
+	margin:2px 2px 3px 2px;
+	border: solid 1px #FDD5DF;
+}
+div.xhtml_form div div div{
+	border:none;	
 }
 
 /* Form label */
@@ -22,6 +27,7 @@ div.xhtml_form div .form_desc{
 	position:absolute;
 	text-transform:capitalize;
 	font-size:1em;
+	width:30%;
 }
 
 /* Form elements */
@@ -72,7 +78,7 @@ div.xhtml_form div span.file-uploader{
 
 /* Form group */
 div.xhtml_form div.form-group{
-	border: solid 1px #ddd;
+	border: solid 1px #ccc;
 	background-color: #ddd;
 	margin:5px;
 	padding:3px;
@@ -84,6 +90,14 @@ div.xhtml_form div.form-group div{
 	padding:3px;
 	color:#444;
 	font-size:0.9em;
+	border: solid 1px #ddd;
+}
+div.xhtml_form div.form-group div div{
+	border: solid 1px #FDD5DF;
+}
+
+div.xhtml_form div.form-group div div div{
+	border:none;	
 }
 
 /* Form error message */
@@ -120,6 +134,7 @@ input[type=button], input[type=submit]{
 }
 div.xhtml_form div.form-actions{
 	padding-left:30%;
+	border:none;
 }
 div.xhtml_form div.form-actions input{
 	margin-left:0px;
@@ -127,17 +142,24 @@ div.xhtml_form div.form-actions input{
 }
 div.xhtml_form div.form-toolbar{
 	color:#AAA;
-	position:absolute;
-	right:10px;
-	top:-28px;
+	position:relative;
+	right:0%;
 	z-index:1000;
+	margin:5px 5px 5px 2px;
+	padding-left:1px;
+	border:none;
 }
 div.xhtml_form div.form-toolbar a img{
 	vertical-align:text-bottom;	
 }
 div.xhtml_form div.form-toolbar a{
 	text-decoration:none;
-	padding: 1px;
+	padding: 3px 6px 3px 6px;
+	margin-right:5px; 
+	margin-left:0px; 
+	border: solid 1px #ccc;
+	border-bottom-color:#aaa;
+	border-right-color:#aaa;
 }
 div.xhtml_form div.form-toolbar a:hover{
 	color:#D00239;	

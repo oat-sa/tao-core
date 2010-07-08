@@ -81,7 +81,12 @@ abstract class TaoModule extends CommonModule {
 	 */
 	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource){
 	
-		$formContainer = new tao_actions_form_Clazz($clazz, $resource);
+		$propMode = 'simple';
+		if($this->hasSessionAttribute('property_mode')){
+			$propMode = $this->getSessionAttribute('property_mode');
+		}
+		
+		$formContainer = new tao_actions_form_Clazz($clazz, $resource, array('property_mode' => $propMode));
 		$myForm = $formContainer->getForm();
 		
 		if($myForm->isSubmited()){
@@ -100,6 +105,7 @@ abstract class TaoModule extends CommonModule {
 					}
 				}
 				
+				
 				//create a table of property models
 				foreach($myForm->getValues() as $key => $value){
 					if(preg_match("/^class_/", $key)){
@@ -107,13 +113,28 @@ abstract class TaoModule extends CommonModule {
 						$classValues[$classKey] =  tao_helpers_Uri::decode($value);
 					}
 					if(preg_match("/^property_/", $key)){
+						
+						$posted = false;
 						if(isset($_POST[$key])){
+							$posted = true;
+						}
+						else{
+							$expression = "/^".preg_quote($key, "/")."_[0-9]+/";
+							foreach($_POST as $postKey => $postValue){
+								if(preg_match($expression, $postKey)){
+									$posted = true;
+									break;
+								}
+							}
+						}
+						if($posted){
 							$pkey = str_replace('property_', '', $key);
 							$propNum = substr($pkey, 0, strpos($pkey, '_') );
 							$propKey = tao_helpers_Uri::decode(str_replace($propNum.'_', '', $pkey));
 							$propertyValues[$propNum][$propKey] = tao_helpers_Uri::decode($value);
 						}
 						else{
+							
 							$pkey = str_replace('property_', '', $key);
 							$propNum = substr($pkey, 0, strpos($pkey, '_') );
 							if(!isset($propertyValues[$propNum])){
@@ -139,23 +160,20 @@ abstract class TaoModule extends CommonModule {
 						}
 					}
 					else{
-						$simpleMode = false;
-						if($_POST["propertyMode{$propNum}"] == 'simple'){
-							$simpleMode = true;
-						}
-						if($simpleMode){
+						
+						if($propMode == 'simple'){
 							$type = $properties['type'];
 							$range = $properties['range'];
 							unset($properties['type']);
 							unset($properties['range']);
 							
 							if(isset($propertyMap[$type])){
-								$properties['http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget'] = $propertyMap[$type]['widget'];
+								$properties[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
 								if(is_null($propertyMap[$type]['range'])){
-									$properties['http://www.w3.org/2000/01/rdf-schema#range'] = $range;
+									$properties[RDFS_RANGE] = $range;
 								}
 								else{
-									$properties['http://www.w3.org/2000/01/rdf-schema#range'] = $propertyMap[$type]['range'];
+									$properties[RDFS_RANGE] = $propertyMap[$type]['range'];
 								}
 							}
 						}
@@ -165,7 +183,12 @@ abstract class TaoModule extends CommonModule {
 						$myForm->removeGroup("property_".$propNum);
 						
 						//instanciate a property form
-						$propFormContainer = new tao_actions_form_Property($clazz, $property, array('index' => $propNum));
+						$propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
+						if(!class_exists($propFormClass)){
+							$propFormClass = 'tao_actions_form_SimpleProperty';
+						}
+						
+						$propFormContainer = new $propFormClass($clazz, $property, array('index' => $propNum));
 						$propForm = $propFormContainer->getForm();
 						
 						//and get its elements and groups

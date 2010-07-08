@@ -147,12 +147,15 @@ UiForm = function(){
 			if(/property\_[0-9]+$/.test(formGroup.attr('id'))){
 				var child = formGroup.children("div:first");
 				
+				toggelerClass = 'ui-icon-circle-minus';
 				if(!formGroup.hasClass('form-group-opened')){
 					child.hide();
+					toggelerClass = 'ui-icon-circle-plus';
 				}
 				
 				//toggle controls: plus/minus icon
-				toggeler = $("<span class='form-group-control ui-icon ui-icon-circle-plus' title='expand' style='right:48px;'></span>");			
+				toggeler = $("<span class='form-group-control ui-icon' title='expand' style='right:48px;'></span>");			
+				toggeler.addClass(toggelerClass);
 				toggeler.click(function(){
 					var control = $(this);
 					if(child.css('display') == 'none'){
@@ -190,6 +193,20 @@ UiForm = function(){
 			 url += 'addClassProperty';
 			 
 			 GenerisAction.addProperty (null,  $("#classUri").val(), url);
+		 });
+		 $(".property-mode").click(function(){
+			 mode = 'simple';
+			 if($(this).hasClass('property-mode-advanced')){
+				mode = 'advanced';
+			}
+			url = $(this).parents('form').attr('action');
+			console.log(url);
+			$(getMainContainerSelector(UiBootstrap.tabs)).load(url, {
+				'property_mode': mode,
+				'uri': $("#uri").val(),
+				'classUri': $("#classUri").val()
+			});
+			return false;
 		 });
 		 
 		 /**

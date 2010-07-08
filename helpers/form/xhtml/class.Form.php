@@ -86,6 +86,15 @@ class tao_helpers_form_xhtml_Form
 			if($element instanceof tao_helpers_form_elements_xhtml_Checkbox){
 				$returnValue[tao_helpers_Uri::decode($element->getName())] = array_map("tao_helpers_Uri::decode", $element->getValues());
 			}
+			if($element instanceof tao_helpers_form_elements_xhtml_Treeview){
+				$values = array_map("tao_helpers_Uri::decode", $element->getValues());
+				if(count($values) == 1){
+					$returnValue[tao_helpers_Uri::decode($element->getName())] = $values[0];
+				}
+				else{
+					$returnValue[tao_helpers_Uri::decode($element->getName())] = $values;
+				}
+			}
 			elseif($element instanceof tao_helpers_form_elements_xhtml_File || $element instanceof tao_helpers_form_elements_xhtml_AsyncFile){
 				$returnValue[$element->getName()] = $element->getValue();
 			}
@@ -128,14 +137,13 @@ class tao_helpers_form_xhtml_Form
 						);
 					}
 				}
-				if($element instanceof tao_helpers_form_elements_xhtml_Checkbox){
+				else if($element instanceof tao_helpers_form_elements_xhtml_Checkbox || $element instanceof tao_helpers_form_elements_xhtml_Treeview){
+					$expression = "/^".preg_quote($element->getName(), "/")."(.)*[0-9]+$/";
 					$this->elements[$id]->setValues(array());
-					$i = 0;
-					foreach($element->getOptions() as $option){
-						if(isset($_POST[$element->getName().'_'.$i])){
-							$this->elements[$id]->addValue(tao_helpers_Uri::decode($_POST[$element->getName().'_'.$i]));
+					foreach($_POST as $key => $value){
+						if(preg_match($expression, $key)){
+							$this->elements[$id]->addValue(tao_helpers_Uri::decode($value));
 						}
-						$i++;
 					}
 				}
 				else{
@@ -148,7 +156,6 @@ class tao_helpers_form_xhtml_Form
 					}
 				}
 			}
-			
 			$this->validate();
 		}
 			

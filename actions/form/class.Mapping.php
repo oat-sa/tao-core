@@ -61,9 +61,10 @@ class tao_actions_form_Mapping
         
     	$this->form = tao_helpers_form_FormFactory::getForm('mapping');
     	
-    	$importElt = tao_helpers_form_FormFactory::getElement('import', 'Submit');
-		$importElt->setValue(__('Import'));
+    	$importElt = tao_helpers_form_FormFactory::getElement('export', 'Free');
+		$importElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/import.png' /> ".__('Import')."</a>");
 		$this->form->setActions(array($importElt), 'bottom');
+		$this->form->setActions(array($importElt), 'top');
     	
         // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FD end
     }

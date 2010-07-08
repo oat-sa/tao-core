@@ -37,7 +37,7 @@ require_once('tao/actions/form/class.Generis.php');
  * @package tao
  * @subpackage actions_form
  */
-class tao_actions_form_Property
+class tao_actions_form_SimpleProperty
     extends tao_actions_form_Generis
 {
     // --- ASSOCIATIONS ---
@@ -86,7 +86,7 @@ class tao_actions_form_Property
     	
 		$propertyProperties = array_merge(
 			tao_helpers_form_GenerisFormFactory::getDefaultProperties(), 
-			tao_helpers_form_GenerisFormFactory::getPropertyProperties('simple')
+			array(new core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT))
 		);
     	
     	$elementNames = array();
@@ -179,10 +179,10 @@ class tao_actions_form_Property
 		$propUriElt->addAttribute('class', 'property-uri');
 		$propUriElt->setValue(tao_helpers_Uri::encode($property->uriResource));
 		$this->form->addElement($propUriElt);
-				
+    	
         // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A5 end
     }
 
-} /* end of class tao_actions_form_Property */
+} /* end of class tao_actions_form_SimpleProperty */
 
 ?>

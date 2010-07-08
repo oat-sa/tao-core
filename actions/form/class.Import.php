@@ -61,9 +61,10 @@ class tao_actions_form_Import
         
     	$this->form = tao_helpers_form_FormFactory::getForm('import');
     	
-    	$nextElt = tao_helpers_form_FormFactory::getElement('next', 'Submit');
-		$nextElt->setValue(__('Next'));
+		$nextElt = tao_helpers_form_FormFactory::getElement('next', 'Free');
+		$nextElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/next.png' /> ".__('Next')."</a>");
 		$this->form->setActions(array($nextElt), 'bottom');
+		$this->form->setActions(array(), 'top');
     	
         // section 127-0-1-1--5823ae53:12820f19957:-8000:00000000000023CF end
     }
