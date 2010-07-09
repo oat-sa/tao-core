@@ -131,14 +131,17 @@ function GenerisTreeClass(selector, dataUrl, options){
 				//when a node is selected
 				onselect: function(NODE, TREE_OBJ){
 					var nodeId = $(NODE).attr('id');
+					console.log(nodeId);
 					$("a.clicked").each(function(){
 						if($(this).parent('li').attr('id') != nodeId){
 							$(this).removeClass('clicked');
 						}
 					});
-					if(nodeId == instance.options.selectNode){
+					
+					if($("input:hidden[name='uri']").val() == nodeId && nodeId == instance.options.selectNode){
 						return false;
 					}
+					
 					if($(NODE).hasClass('node-class') && instance.options.editClassAction){
 						
 						//load the editClassAction into the formContainer

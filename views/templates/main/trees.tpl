@@ -15,13 +15,6 @@
 <script type="text/javascript">
 	
 	$(function(){
-		/*$(".ui-accordion").accordion({
-			fillSpace: false,
-			autoHeight: false,
-			collapsible: true,
-			active: 0,
-			icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' }
-		});*/
 		
 		<?foreach(get_data('trees') as $i => $tree):?>
 		new GenerisTreeClass('#tree-<?=$i?>', "<?=$tree['dataUrl']?>", {
