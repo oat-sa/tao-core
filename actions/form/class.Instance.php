@@ -118,6 +118,10 @@ class tao_actions_form_Instance
 		foreach($editedProperties as $property){
 				
 			$property->feed();
+			
+			if($property->getWidget()->uriResource == WIDGET_TREEVIEW){
+				continue;
+			}
 				
 			//map properties widgets to form elments 
 			$element = tao_helpers_form_GenerisFormFactory::elementMap($property);

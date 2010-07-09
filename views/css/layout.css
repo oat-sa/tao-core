@@ -43,6 +43,10 @@ span.elt-info{
 	font-style:italic;
 	color:#D00239;
 }
+div.breaker{
+	clear:both;	
+}
+
 /* Layout */
 div#tabs, div#home{
 	top:15px;
@@ -56,7 +60,7 @@ div#tabs div.ui-tabs-panel{
 	position:relative;
 	left:0%;
 	width:99%;
-	padding-top:0;
+	padding-top:0.5%;
 	padding-left:0.5%;
 	padding-right:0.5%;
 }
@@ -268,9 +272,9 @@ div#preview-container{
 }
 div.data-container{
 	width:22%;
-	overflow-y:auto;
 	float:left;
-	margin-right:5px;
+	margin-right:0.5%;
+	margin-bottom:0.5%;
 }
 div.container-title{
 	padding:4px;
@@ -278,6 +282,9 @@ div.container-title{
 }
 div.container-content{
 	font-size:1em;
+	overflow-y: auto;
+	min-height:200px;
+	max-height:400px;
 }
 div.main-container{
 	overflow-y:auto;
@@ -312,7 +319,7 @@ div.home-box a{
 	color:#D00239;
 	text-decoration:none;
 }
-div.home-box a:hover{
+div.home-box a:hover, div.home-box:hover a{
 	color:#FA648C;
 }
 div.home-box-right{

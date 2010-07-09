@@ -515,7 +515,18 @@ abstract class TaoModule extends CommonModule {
 			$index = count($clazz->getProperties(false)) + 1;
 		}
 		
-		$propFormContainer = new tao_actions_form_Property($clazz, $clazz->createProperty('Property_'.$index), array('index' => $index));
+		$propMode = 'simple';
+		if($this->hasSessionAttribute('property_mode')){
+			$propMode = $this->getSessionAttribute('property_mode');
+		}
+		
+		//instanciate a property form
+		$propFormClass = 'tao_actions_form_'.ucfirst(strtolower($propMode)).'Property';
+		if(!class_exists($propFormClass)){
+			$propFormClass = 'tao_actions_form_SimpleProperty';
+		}
+		
+		$propFormContainer = new $propFormClass($clazz, $clazz->createProperty('Property_'.$index), array('index' => $index));
 		$myForm = $propFormContainer->getForm();
 		
 		$this->setData('data', $myForm->renderElements());
