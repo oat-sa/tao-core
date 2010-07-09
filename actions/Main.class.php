@@ -89,7 +89,6 @@ class Main extends CommonModule {
 				);
 			}
 		}
-		
 		ksort($extensions);
 		$this->setData('extensions', $extensions);
 		
