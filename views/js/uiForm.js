@@ -58,6 +58,7 @@ UiForm = function(){
 	
 	this.initElements = function(){
 
+		$(getMainContainerSelector(UiBootstrap.tabs)+ " form :input:not(:hidden):not(button):first").focus();
 		
 		//save form button
 		$(".form-submiter").click(function(){
@@ -147,10 +148,10 @@ UiForm = function(){
 			if(/property\_[0-9]+$/.test(formGroup.attr('id'))){
 				var child = formGroup.children("div:first");
 				
-				toggelerClass = 'ui-icon-circle-minus';
+				toggelerClass = 'ui-icon-circle-triangle-s';
 				if(!formGroup.hasClass('form-group-opened')){
 					child.hide();
-					toggelerClass = 'ui-icon-circle-plus';
+					toggelerClass = 'ui-icon-circle-triangle-e';
 				}
 				
 				//toggle controls: plus/minus icon
@@ -160,14 +161,14 @@ UiForm = function(){
 					var control = $(this);
 					if(child.css('display') == 'none'){
 						child.show('slow');
-						control.removeClass('ui-icon-circle-plus');
-						control.addClass('ui-icon-circle-minus');
+						control.removeClass('ui-icon-circle-triangle-e');
+						control.addClass('ui-icon-circle-triangle-s');
 						control.attr('title', 'hide property');
 					}
 					else{
 						child.hide('slow');
-						control.removeClass('ui-icon-circle-minus');
-						control.addClass('ui-icon-circle-plus');
+						control.removeClass('ui-icon-circle-triangle-s');
+						control.addClass('ui-icon-circle-triangle-e');
 						control.attr('title', 'show property');
 					}
 				});
