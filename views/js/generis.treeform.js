@@ -62,8 +62,13 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					}
 				},
 				onopen: function(NODE, TREE_OBJ) {
-					if(instance.options.checkedNodes){
-						instance.check(instance.options.checkedNodes);
+					toCheck = instance.options.checkedNodes;
+					nodeIndex = $.inArray($(NODE).attr('id'), instance.options.checkedNodes);
+					if(nodeIndex > -1){
+						toCheck[nodeIndex] = null;
+					}
+					if(toCheck.length > 0){
+						instance.check(toCheck);
 					}
 				},
 				ondata: function(DATA, TREE_OBJ){
@@ -109,9 +114,11 @@ GenerisTreeFormClass.prototype.getTree = function(){
  */
 GenerisTreeFormClass.prototype.check = function(elements){
 	$.each(elements, function(i, elt){
-		NODE = $("li[id="+elt+"]");
-		if(NODE.length > 0){
-			$.tree.plugins.checkbox.check(NODE);
+		if(elt != null){
+			NODE = $("li[id="+elt+"]");
+			if(NODE.length > 0){
+				$.tree.plugins.checkbox.check(NODE);
+			}
 		}
 	});
 }
