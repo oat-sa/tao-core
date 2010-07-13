@@ -315,7 +315,7 @@ abstract class tao_helpers_form_FormElement
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A25 begin
 
 		if(empty($this->description)){
-			$returnValue = ucfirst($this->name);
+			$returnValue = ucfirst(strtolower($this->name));
 		}
 		else{
 			$returnValue = $this->description;

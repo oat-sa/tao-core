@@ -25,7 +25,6 @@ div.xhtml_form div div div{
 /* Form label */
 div.xhtml_form div .form_desc{
 	position:absolute;
-	text-transform:capitalize;
 	font-size:1em;
 	width:30%;
 }

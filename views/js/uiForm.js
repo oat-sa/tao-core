@@ -29,7 +29,7 @@ UiForm = function(){
 			
 			//initialize regarding the requested action
 			if(settings.dataType == 'html'){
-				if(/edit|Edit|add/.test(settings.url)){
+				if(/edit|add/i.test(settings.url)){
 					formInstance.initElements();
 					formInstance.initOntoForms();
 				}
@@ -62,7 +62,7 @@ UiForm = function(){
 		
 		//save form button
 		$(".form-submiter").click(function(){
-			myForm = $(this).parents("form");//.get(0);
+			myForm = $(this).parents("form");
 			if(formInstance.submitForm(myForm)){
 				myForm.submit();
 			}
@@ -95,7 +95,7 @@ UiForm = function(){
 		//map the wysiwyg editor to the html-area fields
 		$('.html-area').each(function(){
 			if ($(this).css('display') != 'none') {
-				$(this).wysiwyg();
+				$(this).wysiwyg({'css' : taobase_www + 'css/layout.css'});
 			}
 		});
 		
