@@ -52,11 +52,4 @@ define('TAO_TPL_PATH', DIR_VIEWS . $GLOBALS['dir_theme']);
 #export resources path
 define('EXPORT_PATH', 	TAOVIEW_PATH . 'export');
 define('EXPORT_URL', 	BASE_URL  . '/views/export');
-
-#mail config
-define('SMTP_HOST', 'localhost');
-define('SMTP_PORT', 25);
-define('SMTP_AUTH', false);
-define('SMTP_USER', '');
-define('SMTP_PASS', '');
 ?>

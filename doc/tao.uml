@@ -76,7 +76,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Jul 13 13:32:11 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Jul 14 16:10:53 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.2(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -30055,7 +30055,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                             <UML:Parameter xmi.id = '127-0-1-1-1609ec43:129caf00b07:-8000:000000000000223D'
                               name = 'return' isSpecification = 'false' kind = 'return'>
                               <UML:Parameter.type>
-                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
+                                <UML:DataType xmi.idref = '10-13-1--99-2f1559da:11a15934f36:-8000:0000000000000BB5'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-1609ec43:129caf00b07:-8000:000000000000223E'
@@ -30108,9 +30108,69 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'notificationSentProp' visibility = 'protected' isSpecification = 'false'
                           ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
-                            <UML:Multiplicity xmi.id = '127-0-1-1-598df554:129cb920976:-8000:0000000000002298'>
+                            <UML:Multiplicity xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022C8'>
                               <UML:Multiplicity.range>
-                                <UML:MultiplicityRange xmi.id = '127-0-1-1-598df554:129cb920976:-8000:0000000000002297'
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022C7'
+                                  lower = '1' upper = '1'/>
+                              </UML:Multiplicity.range>
+                            </UML:Multiplicity>
+                          </UML:StructuralFeature.multiplicity>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000769'/>
+                          </UML:StructuralFeature.type>
+                        </UML:Attribute>
+                        <UML:Attribute xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:0000000000002295'
+                          name = 'notificationToProp' visibility = 'protected' isSpecification = 'false'
+                          ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+                          <UML:StructuralFeature.multiplicity>
+                            <UML:Multiplicity xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022C4'>
+                              <UML:Multiplicity.range>
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022C3'
+                                  lower = '1' upper = '1'/>
+                              </UML:Multiplicity.range>
+                            </UML:Multiplicity>
+                          </UML:StructuralFeature.multiplicity>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000769'/>
+                          </UML:StructuralFeature.type>
+                        </UML:Attribute>
+                        <UML:Attribute xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:000000000000229C'
+                          name = 'notificationConnectorProp' visibility = 'protected' isSpecification = 'false'
+                          ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+                          <UML:StructuralFeature.multiplicity>
+                            <UML:Multiplicity xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022C0'>
+                              <UML:Multiplicity.range>
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022BF'
+                                  lower = '1' upper = '1'/>
+                              </UML:Multiplicity.range>
+                            </UML:Multiplicity>
+                          </UML:StructuralFeature.multiplicity>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000769'/>
+                          </UML:StructuralFeature.type>
+                        </UML:Attribute>
+                        <UML:Attribute xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022A3'
+                          name = 'notificationDateProp' visibility = 'protected' isSpecification = 'false'
+                          ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+                          <UML:StructuralFeature.multiplicity>
+                            <UML:Multiplicity xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022BC'>
+                              <UML:Multiplicity.range>
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022BB'
+                                  lower = '1' upper = '1'/>
+                              </UML:Multiplicity.range>
+                            </UML:Multiplicity>
+                          </UML:StructuralFeature.multiplicity>
+                          <UML:StructuralFeature.type>
+                            <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000769'/>
+                          </UML:StructuralFeature.type>
+                        </UML:Attribute>
+                        <UML:Attribute xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022AA'
+                          name = 'notificationProcessExecProp' visibility = 'protected' isSpecification = 'false'
+                          ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+                          <UML:StructuralFeature.multiplicity>
+                            <UML:Multiplicity xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022B8'>
+                              <UML:Multiplicity.range>
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1--47efeaa1:129cbffb9d2:-8000:00000000000022B7'
                                   lower = '1' upper = '1'/>
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
@@ -57280,7 +57340,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <text name="Fig47.6.2"
         x="25"
         y="1709"
-        width="559"
+        width="560"
         height="22"
         fill="0"
         fillcolor="255 200 255"
@@ -58698,7 +58758,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </path>
   </group>
   <group name="Fig55"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[24, 2368, 411, 168]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[24, 2368, 412, 224]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002233"
        fill="1"
        fillcolor="255 200 255"
@@ -58712,8 +58772,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     <rectangle name="Fig55.0"
       x="24"
       y="2368"
-      width="411"
-      height="168"
+      width="412"
+      height="224"
       fill="1"
       fillcolor="255 200 255"
       stroke="1"
@@ -58722,7 +58782,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     <text name="Fig55.1"
       x="25"
       y="2369"
-      width="409"
+      width="410"
       height="22"
       fill="0"
       fillcolor="255 200 255"
@@ -58761,7 +58821,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     <rectangle name="Fig55.3"
       x="24"
       y="2391"
-      width="411"
+      width="412"
       height="1"
       fill="1"
       fillcolor="black"
@@ -58769,7 +58829,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig55.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 2392, 409, 55]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[25, 2392, 410, 115]"
          href="127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002233"
          fill="0"
          fillcolor="255 200 255"
@@ -58782,8 +58842,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <rectangle name="Fig55.4.0"
         x="25"
         y="2392"
-        width="409"
-        height="55"
+        width="410"
+        height="115"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -58792,7 +58852,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <text name="Fig55.4.1"
         x="25"
         y="2392"
-        width="409"
+        width="410"
         height="16"
         fill="0"
         fillcolor="255 200 255"
@@ -58808,10 +58868,10 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <text name="Fig55.4.2"
         x="25"
         y="2408"
-        width="409"
-        height="22"
+        width="410"
+        height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -58821,11 +58881,75 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >notificationSentProp : Property</text>
+      <text name="Fig55.4.3"
+        x="25"
+        y="2424"
+        width="410"
+        height="16"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >notificationToProp : Property</text>
+      <text name="Fig55.4.4"
+        x="25"
+        y="2440"
+        width="410"
+        height="16"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >notificationConnectorProp : Property</text>
+      <text name="Fig55.4.5"
+        x="25"
+        y="2456"
+        width="410"
+        height="16"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >notificationDateProp : Property</text>
+      <text name="Fig55.4.6"
+        x="25"
+        y="2472"
+        width="410"
+        height="22"
+        fill="0"
+        fillcolor="255 200 255"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >notificationProcessExecProp : Property</text>
     </group>
     <rectangle name="Fig55.5"
       x="24"
-      y="2447"
-      width="411"
+      y="2507"
+      width="412"
       height="1"
       fill="1"
       fillcolor="black"
@@ -58833,7 +58957,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig55.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 2448, 409, 87]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[25, 2508, 410, 83]"
          href="127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002233"
          fill="0"
          fillcolor="255 200 255"
@@ -58845,9 +58969,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig55.6.0"
         x="25"
-        y="2448"
-        width="409"
-        height="87"
+        y="2508"
+        width="410"
+        height="83"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -58855,8 +58979,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig55.6.1"
         x="25"
-        y="2448"
-        width="409"
+        y="2508"
+        width="410"
         height="16"
         fill="0"
         fillcolor="255 200 255"
@@ -58871,8 +58995,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >&lt;&lt;create&gt;&gt; __construct()</text>
       <text name="Fig55.6.2"
         x="25"
-        y="2464"
-        width="409"
+        y="2524"
+        width="410"
         height="16"
         fill="0"
         fillcolor="255 200 255"
@@ -58884,11 +59008,11 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >trigger(connector : Resource,processExecution : Resource) : Resource</text>
+      >trigger(connector : Resource,processExecution : Resource) : int</text>
       <text name="Fig55.6.3"
         x="25"
-        y="2480"
-        width="409"
+        y="2540"
+        width="410"
         height="16"
         fill="0"
         fillcolor="255 200 255"
@@ -58903,8 +59027,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getNotificationsToSend() : array</text>
       <text name="Fig55.6.4"
         x="25"
-        y="2496"
-        width="409"
+        y="2556"
+        width="410"
         height="22"
         fill="0"
         fillcolor="255 200 255"
@@ -58944,7 +59068,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="435"
+      <moveto x="436"
               y="2416" />
       <lineto x="672"
               y="2416" />
