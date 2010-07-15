@@ -12,10 +12,6 @@
 	require_once dirname(__FILE__). '/includes/common.php';
 	
 
-	// internationalisation
-	//l10n::init();
-	//l10n::set(dirname(__FILE__).'/locales/'.$GLOBALS['lang'].'/messages');
-	
 	// helpers
 	// Here are imported all core helpers
 	require_once DIR_CORE_HELPERS . 'Core.php';

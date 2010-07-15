@@ -8,11 +8,15 @@
  * @todo create a proper class to bootstrap by context
  */
 session_start();
-
+/*
+common_Config::load(dirname(__FILE__).'/config.xml', true);
+common_Config::extract();
+*/
 require_once dirname(__FILE__). "/config.php";
-require_once dirname(__FILE__). "/constants.php";
+
 set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH);
 
+require_once dirname(__FILE__). "/constants.php";
 include_once dirname(__FILE__). '/prepend.php';
 
 require_once(BASE_PATH.'/helpers/class.Uri.php');

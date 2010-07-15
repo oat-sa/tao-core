@@ -80,7 +80,8 @@ class tao_helpers_transfert_MailAdapter
     	
     	if(defined('SMTP_HOST')){
 	    	$this->mailer->IsSMTP(); 	
-			//$mail->SMTPDebug  = 2;                    
+	    	$this->mailer->SMTPKeepAlive = true;
+			$this->mailer->SMTPDebug  = DEBUG_MODE;                    
 			$this->mailer->SMTPAuth   = SMTP_AUTH; 
 			$this->mailer->Host       = SMTP_HOST; 
 			$this->mailer->Port       = SMTP_PORT;
@@ -118,17 +119,29 @@ class tao_helpers_transfert_MailAdapter
 				
 				$this->mailer->AddAddress($message->getTo());
 				
-				if($this->mailer->Send()) {
-					$message->setStatus(tao_helpers_transfert_Message::STATUS_SENT);
-					$returnValue++;
+				try{
+					if($this->mailer->Send()) {
+						$message->setStatus(tao_helpers_transfert_Message::STATUS_SENT);
+						$returnValue++;
+					}
+					if($this->mailer->IsError()){
+						if(DEBUG_MODE){
+							echo $this->mailer->ErrorInfo."<br>";
+						}
+						$message->setStatus(tao_helpers_transfert_Message::STATUS_ERROR);
+					}
 				}
-				else if($this->mailer->IsError()){
-					$message->setStatus(tao_helpers_transfert_Message::STATUS_ERROR);
+				catch(phpmailerException $pe){
+					if(DEBUG_MODE){
+						print $pe;
+					}
 				}
 		    }
 		    $this->mailer->ClearReplyTos();
 		    $this->mailer->ClearAllRecipients();
         }
+        
+        $this->mailer->SmtpClose();
         // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000228A end
 
         return (int) $returnValue;

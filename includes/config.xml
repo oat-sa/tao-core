@@ -3,26 +3,25 @@
 <config>
 	<mode>development</mode>
 	<params>
-		
-		<param key="DIR_PLUGIN"><![CDATA[{_DIRNAME}/../plugins/]]></param>
-		<param key="DIR_ACTIONS"><![CDATA[{_DIRNAME}/../actions/]]></param>
-		<param key="DIR_MODELS"><![CDATA[{_DIRNAME}/../models/]]></param>
-		<param key="DIR_PLUGINS"><![CDATA[{_DIRNAME}/../plugins/]]></param>
-		<param key="DIR_VIEWS"><![CDATA[{_DIRNAME}/../views/]]></param>
-		<param key="DIR_HELPERS"><![CDATA[{_DIRNAME}/../helpers/]]></param>
-		<param key="DIR_THEME"><![CDATA[templates/]]></param>
+		<param key="DIR_PLUGIN">{_DIRNAME}/../plugins/</param>
+		<param key="DIR_ACTIONS">{_DIRNAME}/../actions/</param>
+		<param key="DIR_MODELS">/../models/</param>
+		<param key="DIR_PLUGINS">/../plugins/</param>
+		<param key="DIR_VIEWS">{_DIRNAME}/../views/</param>
+		<param key="DIR_HELPERS">{_DIRNAME}/../helpers/</param>
+		<param key="DIR_THEME">templates/</param>
 		
 		<param key="DEFAULT_MODULE_NAME" value="Main" />
 		<param key="DEFAULT_ACTION_NAME" value="index" />
 		
-		<param key="BASE_PATH"><![CDATA[{ROOT_PATH}/tao]]></param>
-		<param key="TAOVIEW_PATH"><![CDATA[{DIR_VIEWS}]]></param>
-		<param key="BASE_URL"><![CDATA[{ROOT_URL}/tao]]></param>
-		<param key="BASE_WWW"><![CDATA[{BASE_URL}/views/]]></param>
-		<param key="TAOBASE_WWW"><![CDATA[{BASE_WWW}]]></param>
-		<param key="TAO_TPL_PATH"><![CDATA[{DIR_VIEWS}{DIR_THEME}]]></param>
+		<param key="BASE_PATH">{ROOT_PATH}/tao</param>
+		<param key="TAOVIEW_PATH">{DIR_VIEWS}</param>
+		<param key="BASE_URL">{ROOT_URL}/tao</param>
+		<param key="BASE_WWW">{BASE_URL}/views/</param>
+		<param key="TAOBASE_WWW">{BASE_WWW}</param>
+		<param key="TAO_TPL_PATH">{DIR_VIEWS}{DIR_THEME}</param>
 		
-		<param key="EXPORT_PATH"><![CDATA[{TAOVIEW_PATH}export]]></param>
-		<param key="EXPORT_URL"><![CDATA[{BASE_URL}/views/export]]></param>
+		<param key="EXPORT_PATH">{TAOVIEW_PATH}export</param>
+		<param key="EXPORT_URL">{BASE_URL}</param>
 	</params>
 </config>
