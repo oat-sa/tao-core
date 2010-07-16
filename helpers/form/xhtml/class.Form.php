@@ -86,7 +86,7 @@ class tao_helpers_form_xhtml_Form
 			if($element instanceof tao_helpers_form_elements_xhtml_Checkbox){
 				$returnValue[tao_helpers_Uri::decode($element->getName())] = array_map("tao_helpers_Uri::decode", $element->getValues());
 			}
-			if($element instanceof tao_helpers_form_elements_xhtml_Treeview){
+			else if($element instanceof tao_helpers_form_elements_xhtml_Treeview){
 				$values = array_map("tao_helpers_Uri::decode", $element->getValues());
 				if(count($values) == 1){
 					$returnValue[tao_helpers_Uri::decode($element->getName())] = $values[0];
