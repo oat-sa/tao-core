@@ -20,12 +20,6 @@ if(PHP_SAPI == 'cli'){
 }
 else{
 	tao_helpers_Context::load('APP_MODE');
-	
-	if( preg_match("/^SaS/", Context::getInstance()->getActionName()) || 
-		preg_match("/^SaS/", Context::getInstance()->getModuleName())){
-		
-		tao_helpers_Context::load('STANDALONE_MODE');
-	}
 }
 
 
