@@ -194,7 +194,7 @@ class tao_actions_form_Users
 		else{
 			
 			$validatePasswords = true;
-			if(isset($_POST['users_sent']) && isset($_POST['password1'])){
+			if(isset($_POST['password1'])){
 				if(empty($_POST['password1'])) {
 					$validatePasswords = false;
 				}
@@ -205,9 +205,7 @@ class tao_actions_form_Users
 			try{
 				$passwordValue = $this->user->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD));
 			}
-			catch(common_Exception $ce){
-				$passwordValue = md5('');
-			}
+			catch(common_Exception $ce){}
 			$pass0Element->setValue($passwordValue);
 			
 			$this->form->addElement($pass0Element);
