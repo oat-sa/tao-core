@@ -131,7 +131,6 @@ function GenerisTreeClass(selector, dataUrl, options){
 				//when a node is selected
 				onselect: function(NODE, TREE_OBJ){
 					var nodeId = $(NODE).attr('id');
-					console.log(nodeId);
 					$("a.clicked").each(function(){
 						if($(this).parent('li').attr('id') != nodeId){
 							$(this).removeClass('clicked');
