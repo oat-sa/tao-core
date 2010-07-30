@@ -201,7 +201,7 @@ UiForm = function(){
 				mode = 'advanced';
 			}
 			url = $(this).parents('form').attr('action');
-			console.log(url);
+		
 			$(getMainContainerSelector(UiBootstrap.tabs)).load(url, {
 				'property_mode': mode,
 				'uri': $("#uri").val(),
@@ -524,7 +524,7 @@ UiForm = function(){
 			window.location = '#form-title';
 		} 
 		catch (exp) {
-			console.log(exp);
+			//console.log(exp);
 			return false;
 		}
 		return false;
@@ -565,7 +565,7 @@ UiForm = function(){
 				}
 			}
 			catch(exp){
-				console.log(exp);
+				//console.log(exp);
 			}
 			return false;
 		});
