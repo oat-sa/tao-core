@@ -76,7 +76,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Aug 02 12:58:10 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Aug 02 13:10:25 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.1(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -31000,9 +31000,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'OPTION4' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           changeability = 'frozen' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
-                            <UML:Multiplicity xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:0000000000004823'>
+                            <UML:Multiplicity xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:0000000000004898'>
                               <UML:Multiplicity.range>
-                                <UML:MultiplicityRange xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:0000000000004822'
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:0000000000004897'
                                   lower = '1' upper = '1'/>
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
@@ -31017,11 +31017,11 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                         </UML:Attribute>
                         <UML:Attribute xmi.id = '127-0-1-1-55168b5b:12a23667c68:-8000:0000000000006C40'
                           name = 'OPTION5' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                          changeability = 'changeable' targetScope = 'instance'>
+                          changeability = 'frozen' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
-                            <UML:Multiplicity xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:0000000000004827'>
+                            <UML:Multiplicity xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:0000000000004894'>
                               <UML:Multiplicity.range>
-                                <UML:MultiplicityRange xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:0000000000004826'
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:0000000000004893'
                                   lower = '1' upper = '1'/>
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
@@ -31132,16 +31132,16 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           name = 'OPTION3' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                           changeability = 'frozen' targetScope = 'instance'>
                           <UML:StructuralFeature.multiplicity>
-                            <UML:Multiplicity xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:000000000000486E'>
+                            <UML:Multiplicity xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:000000000000489C'>
                               <UML:Multiplicity.range>
-                                <UML:MultiplicityRange xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:000000000000486D'
+                                <UML:MultiplicityRange xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:000000000000489B'
                                   lower = '1' upper = '1'/>
                               </UML:Multiplicity.range>
                             </UML:Multiplicity>
                           </UML:StructuralFeature.multiplicity>
                           <UML:Attribute.initialValue>
-                            <UML:Expression xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:000000000000486F'
-                              language = '' body = '#ResponseOptionFD'/>
+                            <UML:Expression xmi.id = '127-0-1-1-a1900d5:12a326517ee:-8000:000000000000489F'
+                              language = '' body = '#ResponseOptionN'/>
                           </UML:Attribute.initialValue>
                           <UML:StructuralFeature.type>
                             <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
