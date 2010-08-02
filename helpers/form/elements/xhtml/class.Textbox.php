@@ -75,7 +75,7 @@ class tao_helpers_form_elements_xhtml_Textbox
 		}
 		$returnValue .= "\n<input type='text' name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'.htmlentities($this->value).'"  />';
+		$returnValue .= ' value="'.htmlentities($this->value, ENT_COMPAT, 'UTF-8').'"  />';
 		
 		if(!empty($this->unit)){
 			$returnValue .= " " . $this->unit;

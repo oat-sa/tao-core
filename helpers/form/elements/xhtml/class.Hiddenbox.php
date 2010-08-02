@@ -75,7 +75,7 @@ class tao_helpers_form_elements_xhtml_Hiddenbox
 		}
 		$returnValue .= "<input type='password' name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'.htmlentities($this->value).'"  />';
+		$returnValue .= ' value="'.htmlentities($this->value, ENT_COMPAT, 'UTF-8').'"  />';
         
 		// section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F8 end
 

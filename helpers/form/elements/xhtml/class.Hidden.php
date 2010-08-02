@@ -68,7 +68,7 @@ class tao_helpers_form_elements_xhtml_Hidden
         // section 127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A4C begin
 		 $returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' ";
 		 $returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'.htmlentities($this->value).'"  />';
+		$returnValue .= ' value="'.htmlentities($this->value, ENT_COMPAT, 'UTF-8').'"  />';
         // section 127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A4C end
 
         return (string) $returnValue;
