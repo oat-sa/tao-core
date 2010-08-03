@@ -33,15 +33,12 @@ UiForm = function(){
 					formInstance.initElements();
 					formInstance.initOntoForms();
 				}
-				else if (/search|authoring|itemSequence/.test(settings.url)) {
+				else if (/search|authoring|itemSequence|Import/.test(settings.url)) {
 					formInstance.initElements();
 				}
 				else if(/translate/.test(settings.url)){
 					formInstance.initElements();
 					formInstance.initTranslationForm();
-				}
-				else if(/Import/.test(settings.url)){
-					formInstance.initFileUploadForm();
 				}
 			}
 		});
@@ -524,51 +521,9 @@ UiForm = function(){
 			window.location = '#form-title';
 		} 
 		catch (exp) {
-			//console.log(exp);
 			return false;
 		}
 		return false;
-	};
-	
-	/**
-	 * special initialization for file upload forms
-	 */
-	this.initFileUploadForm = function (){
-	
-		$("form[enctype='multipart/form-data']").each(function(){
-			var myForm = $(this);
-			try{
-				if (myForm.find(".file-uploader")) {
-					uploaderId = $(".file-uploader:first").attr('id');
-					
-			/*		var myAjaxUploader = new AjaxUpload(uploaderId, {
-						action: 	myForm.attr('action'),
-						name: 		uploaderId,
-						responseType: 'text/html',
-						autoSubmit: true,
-						onSubmit : function(file, extension){
-							this.disable();
-							loading();
-							formData = myForm.serializeArray();
-							data = {};
-							for (i in formData){
-								data[formData[i]['name']] = formData[i]['value']; 
-							}
-							myAjaxUploader.setData(data);
-						},
-						onComplete: function(file, response) {
-							$(getMainContainerSelector(uiBootstrap.tabs)).html(response);
-							this.enable();
-							loaded();
-						}
-					});*/
-				}
-			}
-			catch(exp){
-				//console.log(exp);
-			}
-			return false;
-		});
 	};
 	
 	this._init();

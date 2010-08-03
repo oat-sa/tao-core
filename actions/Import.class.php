@@ -15,6 +15,9 @@ class Import extends CommonModule {
 	 * @return void
 	 */
 	public function index(){
+		if($this->hasRequestParameter('classUri')){
+			$this->setSessionAttribute('classUri', $this->getRequestParameter('classUri'));
+		}
 		$this->forward('Import', 'upload');
 	}
 	
