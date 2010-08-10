@@ -20,7 +20,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
-require_once('tao/models/classes/class.Service.php');
+require_once('tao/models/classes/class.GenerisService.php');
 
 /* user defined includes */
 // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822-includes begin
@@ -39,7 +39,7 @@ require_once('tao/models/classes/class.Service.php');
  * @subpackage models_classes
  */
 class tao_models_classes_TaoService
-    extends tao_models_classes_Service
+    extends tao_models_classes_GenerisService
 {
     // --- ASSOCIATIONS ---
 
