@@ -1,48 +1,11 @@
 <?php
-
-
 require_once dirname(__FILE__) . '/TestRunner.php';
 
-
-class XmlTimeReporter extends XmlReporter {
-  var $pre;
-
-  function paintMethodStart($test_name) {
-    $this->pre = microtime();
-    parent::paintMethodStart($test_name);
-  }
-
-  function paintMethodEnd($test_name) {
-    $post = microtime();
-    if ($this->pre != null) {
-      $duration = $post - $this->pre;
-      // how can post time be less than pre?  assuming zero if this happens..
-      if ($post < $this->pre) $duration = 0;
-      print $this->_getIndent(1);
-      print "<time>$duration</time>\n";
-    }
-    parent::paintMethodEnd($test_name);
-    $this->pre = null;
-  }
-
-}
-
-/**
- * the list of extensions to test
- * @var array
- */
-$testedExtensions = array_keys(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
-foreach($testedExtensions as $i => $testedExtension){
-	if($testedExtension == 'taoDelivery' || $testedExtension == 'wfEngine'){
-		unset($testedExtensions[$i]);
-	}
-}
-
 //get the test into each extensions
-$tests = TestRunner::getTests($testedExtensions);
+$tests = TestRunner::getTests(array('tao'));
 
 //create the test sutie
-$testSuite = new TestSuite('TAO extensions tests<br />('.implode(', ', $testedExtensions).')');
+$testSuite = new TestSuite('TAO extensions tests');
 foreach($tests as $testCase){
 	$testSuite->addTestFile($testCase);
 }    
@@ -52,14 +15,8 @@ if(PHP_SAPI == 'cli'){
 	$reporter = new XmlTimeReporter();
 }
 else{
-	if(isset($_GET['verbose'])){
-		$reporter = new MyHtmlReporter();
-	}
-	else{
-		$reporter = new HtmlReporter();
-	}
+	$reporter = new HtmlReporter();
 }
 //run the unit test suite
 $testSuite->run($reporter);
-
 ?>

@@ -2,7 +2,8 @@
 
 require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
-include_once dirname(__FILE__) .'/../includes/common.php';
+require_once dirname(__FILE__) .'/XmlTimeReporter.php';
+
 	
 /**
  * Help you to run the test into the TAO Context
@@ -35,6 +36,7 @@ class TestRunner{
 	 * @return array
 	 */
 	public static function getTests($extensions = null){
+		
 		$tests = array();
 		foreach(scandir(ROOT_PATH) as $extension){
 			if(!preg_match("/^\./", $extension)){
@@ -53,14 +55,10 @@ class TestRunner{
 						if(is_dir($extTestPath)){
 							foreach(scandir($extTestPath) as $file){
 								if(preg_match("/TestCase\.php$/", $file)){
-									$tests[] = "$extension/test/$file";
+									$tests[] = $extTestPath."/".$file;
 								}
 							}
 						}
-					}
-					$contFile = ROOT_PATH . '/' . $extension . '/includes/constants.php';
-					if(file_exists($contFile)){
-						require_once($contFile);
 					}
 				}
 			}
