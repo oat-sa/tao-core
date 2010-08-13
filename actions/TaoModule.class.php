@@ -370,6 +370,7 @@ abstract class TaoModule extends CommonModule {
 			if(in_array($targetLang, $GLOBALS['available_langs'])){
 				$langElt = $myForm->getElement('translate_lang');
 				$langElt->setValue($targetLang);
+				$langElt->setAttribute('readonly', 'true');
 				
 				$trData = $this->service->getTranslatedProperties($instance, $targetLang);
 				foreach($trData as $key => $value){
