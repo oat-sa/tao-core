@@ -26,7 +26,7 @@
       <fontname>Dialog</fontname>
       <fontsize>12</fontsize>
       <defaultstereotypeview>2</defaultstereotypeview>
-      <activediagram>QTI Items</activediagram>
+      <activediagram>TAO Services</activediagram>
     </settings>
     <searchpath href="PROJECT_DIR" />
     <members>
@@ -80,7 +80,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Aug 12 17:13:20 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Aug 13 10:45:27 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.2(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -13037,8 +13037,8 @@ Used to centralize the behavior related to every servcie instances. </UML:Tagged
                             <UML:Parameter xmi.id = '10-13-1-45--135fece8:123b76cb3ff:-8000:000000000000189B'
                               name = 'label' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.defaultValue>
-                                <UML:Expression xmi.id = '10-13-1-45-2836570e:123bd13e69b:-8000:000000000000187F'
-                                  language = '' body = ''/>
+                                <UML:Expression xmi.id = '127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002486'
+                                  language = 'UML 1.4' body = '&apos;&apos;'/>
                               </UML:Parameter.defaultValue>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
@@ -13426,6 +13426,25 @@ If the top level class is not defined, we used the TAOObject class.</UML:TaggedV
                               name = 'data' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                          </UML:BehavioralFeature.parameter>
+                        </UML:Operation>
+                        <UML:Operation xmi.id = '127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002487'
+                          name = 'createUniqueLabel' visibility = 'public' isSpecification = 'false'
+                          ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                          isLeaf = 'false' isAbstract = 'false'>
+                          <UML:BehavioralFeature.parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002488'
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
+                            <UML:Parameter xmi.id = '127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002489'
+                              name = 'clazz' isSpecification = 'false' kind = 'in'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000767'/>
                               </UML:Parameter.type>
                             </UML:Parameter>
                           </UML:BehavioralFeature.parameter>
@@ -33302,6 +33321,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         </UML:Stereotype>
       </UML:Namespace.ownedElement>
     </UML:Model>
+    <UML:Expression xmi.id = '10-13-1-45-2836570e:123bd13e69b:-8000:000000000000187F'
+      language = '' body = ''/>
     <UML:Expression xmi.id = '127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001AC0'
       language = '' body = '&apos;&apos;'/>
     <UML:Expression xmi.id = '127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001AC9'
@@ -52600,7 +52621,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig2.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[513, 576, 750, 57]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[513, 576, 750, 49]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834"
          fill="0"
          fillcolor="white"
@@ -52614,7 +52635,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         x="513"
         y="576"
         width="750"
-        height="57"
+        height="49"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -52623,7 +52644,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig2.5"
       x="512"
-      y="633"
+      y="625"
       width="752"
       height="1"
       fill="1"
@@ -52632,7 +52653,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig2.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[513, 634, 750, 332]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[513, 626, 750, 340]"
          href="10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834"
          fill="0"
          fillcolor="white"
@@ -52644,9 +52665,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig2.6.0"
         x="513"
-        y="634"
+        y="626"
         width="750"
-        height="332"
+        height="340"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -52654,7 +52675,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig2.6.1"
         x="513"
-        y="634"
+        y="626"
         width="750"
         height="16"
         fill="0"
@@ -52670,7 +52691,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >&lt;&lt;create&gt;&gt; __construct() : void</text>
       <text name="Fig2.6.2"
         x="513"
-        y="650"
+        y="642"
         width="750"
         height="16"
         fill="0"
@@ -52686,7 +52707,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >loadOntologies(ontologies : array)</text>
       <text name="Fig2.6.3"
         x="513"
-        y="666"
+        y="658"
         width="750"
         height="16"
         fill="0"
@@ -52702,7 +52723,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getOneInstanceBy(clazz : Class,identifier : string,mode : string = &apos;uri&apos;,ignoreCase : boolean = false) : Resource</text>
       <text name="Fig2.6.4"
         x="513"
-        y="682"
+        y="674"
         width="750"
         height="16"
         fill="0"
@@ -52718,7 +52739,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >searchInstances(propertyFilters : array = array(),topClazz : Class = null,options : array = array()) : array</text>
       <text name="Fig2.6.5"
         x="513"
-        y="698"
+        y="690"
         width="750"
         height="16"
         fill="0"
@@ -52734,7 +52755,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getPropertyByLabel(clazz : Class,label : string) : Property</text>
       <text name="Fig2.6.6"
         x="513"
-        y="714"
+        y="706"
         width="750"
         height="16"
         fill="0"
@@ -52747,10 +52768,10 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >createInstance(clazz : Class,label : string) : Resource</text>
+      >createInstance(clazz : Class,label : string = &apos;&apos;) : Resource</text>
       <text name="Fig2.6.7"
         x="513"
-        y="730"
+        y="722"
         width="750"
         height="16"
         fill="0"
@@ -52766,7 +52787,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getClass(instance : Resource) : Class</text>
       <text name="Fig2.6.8"
         x="513"
-        y="746"
+        y="738"
         width="750"
         height="16"
         fill="0"
@@ -52782,7 +52803,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >createSubClass(parentClazz : Class,label : string = &apos;&apos;) : Class</text>
       <text name="Fig2.6.9"
         x="513"
-        y="762"
+        y="754"
         width="750"
         height="16"
         fill="0"
@@ -52798,7 +52819,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >bindProperties(instance : Resource,properties : array = array()) : Resource</text>
       <text name="Fig2.6.10"
         x="513"
-        y="778"
+        y="770"
         width="750"
         height="16"
         fill="0"
@@ -52814,7 +52835,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >cloneInstance(instance : Resource,clazz : Class = null) : Resource</text>
       <text name="Fig2.6.11"
         x="513"
-        y="794"
+        y="786"
         width="750"
         height="16"
         fill="0"
@@ -52830,7 +52851,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >cloneClazz(sourceClazz : Class,newParentClazz : Class = null,topLevelClazz : Class = null) : Class</text>
       <text name="Fig2.6.12"
         x="513"
-        y="810"
+        y="802"
         width="750"
         height="16"
         fill="0"
@@ -52846,7 +52867,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >changeClass(instance : Resource,destinationClass : Class) : boolean</text>
       <text name="Fig2.6.13"
         x="513"
-        y="826"
+        y="818"
         width="750"
         height="16"
         fill="0"
@@ -52862,7 +52883,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getClazzProperties(clazz : Class,topLevelClazz : Class = null) : array</text>
       <text name="Fig2.6.14"
         x="513"
-        y="842"
+        y="834"
         width="750"
         height="16"
         fill="0"
@@ -52878,7 +52899,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getPropertyDiff(sourceClass : Class,destinationClass : Class) : array</text>
       <text name="Fig2.6.15"
         x="513"
-        y="858"
+        y="850"
         width="750"
         height="16"
         fill="0"
@@ -52894,7 +52915,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getTranslatedProperties(instance : Resource,lang : string) : array</text>
       <text name="Fig2.6.16"
         x="513"
-        y="874"
+        y="866"
         width="750"
         height="16"
         fill="0"
@@ -52910,7 +52931,23 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >setTranslatedProperties(instance : Resource,lang : string,data : array) : boolean</text>
       <text name="Fig2.6.17"
         x="513"
-        y="890"
+        y="882"
+        width="750"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >createUniqueLabel(clazz : Class) : string</text>
+      <text name="Fig2.6.18"
+        x="513"
+        y="898"
         width="750"
         height="16"
         fill="0"
@@ -52924,9 +52961,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >toArray(clazz : Class) : array</text>
-      <text name="Fig2.6.18"
+      <text name="Fig2.6.19"
         x="513"
-        y="906"
+        y="914"
         width="750"
         height="22"
         fill="0"
@@ -86325,7 +86362,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Center"
     >ParerFactory</text>
     <group name="Fig18.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[313, 177, 377, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[313, 177, 321, 0]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023E9"
          fill="0"
          fillcolor="252 229 252"
@@ -86339,7 +86376,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <rectangle name="Fig18.2.0"
         x="313"
         y="177"
-        width="377"
+        width="321"
         height="0"
         fill="0"
         fillcolor="252 229 252"

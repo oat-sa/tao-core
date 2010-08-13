@@ -280,10 +280,11 @@ abstract class TaoModule extends CommonModule {
 			throw new Exception("wrong request mode");
 		}
 		$clazz = $this->getCurrentClass();
-		$instance = $this->service->createInstance($clazz);
+		$label = $this->service->createUniqueLabel($clazz);
+		$instance = $this->service->createInstance($clazz, $label);
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			echo json_encode(array(
-				'label'	=> $instance->getLabel(),
+				'label'	=> $label,
 				'uri' 	=> tao_helpers_Uri::encode($instance->uriResource)
 			));
 		}
@@ -660,6 +661,7 @@ abstract class TaoModule extends CommonModule {
 	 */
 	public function sasAddInstance(){
 		$clazz = $this->getCurrentClass();
+		$label = $this->service->createUniqueInstance($clazz);
 		$instance = $this->service->createInstance($clazz);
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			

@@ -200,19 +200,7 @@ abstract class tao_models_classes_GenerisService
         // section 10-13-1-45--135fece8:123b76cb3ff:-8000:0000000000001897 begin
         
         if( empty($label) ){
-        	$labelBase = $clazz->getLabel() . ' ' ;
-        	$count = count($clazz->getInstances()) +1;
-        	
-        	$api = core_kernel_impl_ApiModelOO::singleton();
-        	$exist = false;
-			do{
-				$label =  $labelBase . $count;
-				$result = $api->getSubject(RDFS_LABEL, $label);
-				if($result->count() > 0){
-					$exist = true;
-					$count ++;
-				}
-			} while($exist);
+			$label =  $clazz->getLabel() . ' ' . (count($clazz->getInstances()) +1);
 		}
 		
 		$returnValue = core_kernel_classes_ResourceFactory::create($clazz, $label, '');
@@ -616,6 +604,39 @@ abstract class tao_models_classes_GenerisService
         // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E88 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method createUniqueLabel
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Class clazz
+     * @return string
+     */
+    public function createUniqueLabel( core_kernel_classes_Class $clazz)
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002487 begin
+        
+        $labelBase = $clazz->getLabel() . ' ' ;
+        $count = count($clazz->getInstances()) +1;
+        
+        $api = core_kernel_impl_ApiModelOO::singleton();
+        $exist = false;
+		do{
+			$label =  $labelBase . $count;
+			$result = $api->getSubject(RDFS_LABEL, $label);
+			if($result->count() > 0){
+				$exist = true;
+				$count ++;
+			}
+		} while($exist);
+        
+        // section 127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002487 end
+
+        return (string) $returnValue;
     }
 
     /**

@@ -80,7 +80,8 @@ class tao_actions_form_Users
 			$options['mode'] = 'edit';
     	}
     	else{
-    		$this->user = $service->createInstance($clazz);
+    		$label = $service->createUniqueLabel($clazz);
+    		$this->user = $service->createInstance($clazz, $label);
 			$options['mode'] = 'add';
     	}
     	if($forceAdd){

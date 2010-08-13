@@ -408,7 +408,8 @@ class tao_models_classes_UserService
 		
 		if(is_null($user)){		//insert
 			if(count($this->allowedRoles) == 1){
-				$user = $this->createInstance(new core_kernel_classes_Class($this->allowedRoles[0]));
+				$clazz = new core_kernel_classes_Class($this->allowedRoles[0]);
+				$user = $this->createInstance($clazz, $this->createUniqueLabel($clazz));
 				
 			}
 		}
