@@ -92,7 +92,7 @@ class tao_helpers_form_validators_Label
         // section 127-0-1-1-112f6ae0:1296e7712be:-8000:0000000000002010 begin
         
         $returnValue = true;
-        
+     
         if(isset($this->options['class'])){
         	$clazz = $this->options['class'];
         	foreach($clazz->getInstances() as $instance){
@@ -102,7 +102,8 @@ class tao_helpers_form_validators_Label
         			}
         		}
         		if($instance->getLabel() == $this->getValue()){
-        			 $returnValue = false;
+        			var_dump($instance);
+        			$returnValue = false;
         			 break;
         		}
         	}

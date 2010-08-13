@@ -284,7 +284,7 @@ abstract class TaoModule extends CommonModule {
 		$instance = $this->service->createInstance($clazz, $label);
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			echo json_encode(array(
-				'label'	=> $label,
+				'label'	=> $instance->getLabel(),
 				'uri' 	=> tao_helpers_Uri::encode($instance->uriResource)
 			));
 		}

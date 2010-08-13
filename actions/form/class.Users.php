@@ -15,7 +15,8 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_actions_form_Instance
+ * Create a form from a  resource of your ontology. 
+ * Each property will be a field, regarding it's widget.
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
@@ -53,6 +54,14 @@ class tao_actions_form_Users
      */
     protected $user = null;
 
+    /**
+     * Short description of attribute formName
+     *
+     * @access protected
+     * @var string
+     */
+    protected $formName = '';
+
     // --- OPERATIONS ---
 
     /**
@@ -73,6 +82,8 @@ class tao_actions_form_Users
     		throw new Exception('Set the user class in the parameters');	
     	}
     	
+    	$this->formName = 'users';
+    	
     	$options = array();
     	$service = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
     	if(!is_null($user)){
@@ -80,9 +91,13 @@ class tao_actions_form_Users
 			$options['mode'] = 'edit';
     	}
     	else{
-    		$label = $service->createUniqueLabel($clazz);
-    		$this->user = $service->createInstance($clazz, $label);
-			$options['mode'] = 'add';
+    		if(isset($_POST[$this->formName.'_sent']) && isset($_POST['uri'])){
+    			$this->user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($_POST['uri']));
+    		}
+    		else{
+    			$this->user = $service->createInstance($clazz, $service->createUniqueLabel($clazz));
+    		}
+    		$options['mode'] = 'add';
     	}
     	if($forceAdd){
     		$options['mode'] = 'add';
@@ -128,6 +143,8 @@ class tao_actions_form_Users
 		
     	parent::initForm();
     	
+    	$this->form->setName($this->formName);
+    	
 		$actions = tao_helpers_form_FormFactory::getCommonActions('top');
 		$this->form->setActions($actions, 'top');
 		$this->form->setActions($actions, 'bottom');
@@ -146,8 +163,6 @@ class tao_actions_form_Users
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC begin
 		
-    	
-    	
 		if(!isset($this->options['mode'])){
 			throw new Exception("Please set a mode into container options ");
 		}
@@ -169,6 +184,26 @@ class tao_actions_form_Users
 		}
 		else{
 			$loginElement->setAttributes(array('readonly' => 'true'));
+		}
+		
+		
+		//set default lang to the languages fields
+		$dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_DEFLG));
+		
+		foreach($dataLangElt->getOptions() as $key => $value){
+			if($value == tao_helpers_I18n::getLangCode()){
+				$dataLangElt->setValue(tao_helpers_Uri::decode($key));
+				break;
+			}
+		}
+		
+		
+		$uiLangElt	= $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_UILG));
+   		foreach($uiLangElt->getOptions() as $key => $value){
+			if($value == tao_helpers_I18n::getLangCode()){
+				$uiLangElt->setValue(tao_helpers_Uri::decode($key));
+				break;
+			}
 		}
 		
 		//password field

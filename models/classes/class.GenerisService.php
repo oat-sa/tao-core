@@ -633,6 +633,8 @@ abstract class tao_models_classes_GenerisService
 				$count ++;
 			}
 		} while($exist);
+		
+		$returnValue = $label;
         
         // section 127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002487 end
 
