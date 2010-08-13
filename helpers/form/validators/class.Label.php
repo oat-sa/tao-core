@@ -102,7 +102,6 @@ class tao_helpers_form_validators_Label
         			}
         		}
         		if($instance->getLabel() == $this->getValue()){
-        			var_dump($instance);
         			$returnValue = false;
         			 break;
         		}

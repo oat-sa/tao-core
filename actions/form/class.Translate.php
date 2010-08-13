@@ -132,7 +132,8 @@ class tao_actions_form_Translate
 					$translatedElt = clone $element;
 					
 					$element->setName('view_'.$element->getName());
-					$element->setAttributes(array('readonly' => 'true'));
+					$element->setAttributes(array('readonly' => 'true', 'disabled' => 'true'));
+					$element->setForcedValid();
 					$this->form->addElement($element);
 					
 					$translatedElt->setDescription(' ');

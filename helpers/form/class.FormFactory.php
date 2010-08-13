@@ -133,7 +133,6 @@ class tao_helpers_form_FormFactory
 				$eltClass = "tao_helpers_form_elements_xhtml_{$type}";
 				
 				if(!class_exists($eltClass)){
-					var_dump($eltClass);
 					//throw new Exception("type $type not yet supported");
 					return null;
 				}
