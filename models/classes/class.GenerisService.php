@@ -200,7 +200,19 @@ abstract class tao_models_classes_GenerisService
         // section 10-13-1-45--135fece8:123b76cb3ff:-8000:0000000000001897 begin
         
         if( empty($label) ){
-			$label = $clazz->getLabel() . '_' . (count($clazz->getInstances()) + 1);
+        	$labelBase = $clazz->getLabel() . ' ' ;
+        	$count = count($clazz->getInstances()) +1;
+        	
+        	$api = core_kernel_impl_ApiModelOO::singleton();
+        	$exist = false;
+			do{
+				$label =  $labelBase . $count;
+				$result = $api->getSubject(RDFS_LABEL, $label);
+				if($result->count() > 0){
+					$exist = true;
+					$count ++;
+				}
+			} while($exist);
 		}
 		
 		$returnValue = core_kernel_classes_ResourceFactory::create($clazz, $label, '');
