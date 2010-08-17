@@ -119,7 +119,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 								addClassToNodes(DATA.children, 'node-draggable');
 							}
 						}
-						else if(DATA.length == 1){
+						else if(DATA.length > 0){
 							addClassToNodes(DATA, instance.options.instanceClass);
 							if(instance.options.moveInstanceAction){
 								addClassToNodes(DATA, 'node-draggable');
@@ -618,7 +618,7 @@ GenerisTreeClass.cloneNode = function(options){
 						data: response.label,
 						attributes: {
 							id: response.uri,
-							'class': 'node-instance'
+							'class': $(NODE).attr('class')
 						}
 					},
 					TREE_OBJ.get_node(PNODE)

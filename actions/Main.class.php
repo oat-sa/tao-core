@@ -101,6 +101,7 @@ class Main extends CommonModule {
 			}
 			$this->removeSessionAttribute('uri');
 			$this->removeSessionAttribute('classUri');
+			$this->removeSessionAttribute('showNodeUri');
 		}
 		
 		$this->setData('sections', false);

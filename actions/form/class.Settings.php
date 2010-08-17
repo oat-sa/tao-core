@@ -79,10 +79,7 @@ class tao_actions_form_Settings
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF5 begin
 		
-		$options = array();
-		foreach($GLOBALS['available_langs'] as $langCode){
-			$options[$langCode] = __($langCode);
-		}
+		$options = tao_helpers_I18n::getAvailableLangs(true);
 		
 		$uiLangElement = tao_helpers_form_FormFactory::getElement('ui_lang', 'Combobox');
 		$uiLangElement->setDescription(__('Interface language'));

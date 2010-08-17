@@ -49,9 +49,12 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 			callback : {
 				beforedata:function(NODE, TREE_OBJ) { 
 					if(NODE){
-						return {classUri: $(NODE).attr('id')};
+						return {
+							classUri: $(NODE).attr('id'),
+							selected: instance.options.checkedNodes
+						};
 					}
-					return {};
+					return {selected: instance.options.checkedNodes};
 				},
 				onload: function(TREE_OBJ) {
 					if(instance.options.checkedNodes){

@@ -92,13 +92,9 @@ class tao_actions_form_Translate
 		$currentLangElt->setValue(__(core_kernel_classes_Session::singleton()->getLg()));	//API lang /data lang
 		$this->form->addElement($currentLangElt);
 		
-		$options = array();
-		foreach($GLOBALS['available_langs'] as $langCode){
-			$options[$langCode] = __($langCode);
-		}
 		$dataLangElement = tao_helpers_form_FormFactory::getElement('translate_lang', 'Combobox');
 		$dataLangElement->setDescription(__('Translate to'));
-		$dataLangElement->setOptions($options);
+		$dataLangElement->setOptions(tao_helpers_I18n::getAvailableLangs(true));
 		$dataLangElement->setEmptyOption(__('Select a language'));
 		$dataLangElement->addValidator( tao_helpers_form_FormFactory::getValidator('NotEmpty') );
 		$this->form->addElement($dataLangElement);

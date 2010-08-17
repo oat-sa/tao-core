@@ -82,7 +82,7 @@ class tao_actions_form_Users
     		throw new Exception('Set the user class in the parameters');	
     	}
     	
-    	$this->formName = 'users';
+    	$this->formName = 'user_form';
     	
     	$options = array();
     	$service = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
@@ -189,22 +189,19 @@ class tao_actions_form_Users
 		
 		//set default lang to the languages fields
 		$dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_DEFLG));
-		
-		foreach($dataLangElt->getOptions() as $key => $value){
-			if($value == tao_helpers_I18n::getLangCode()){
-				$dataLangElt->setValue(tao_helpers_Uri::decode($key));
-				break;
-			}
+		$options = $dataLangElt->getOptions();
+		foreach($options as $key => $value){
+			$options[$key] = __($value);
 		}
+		$dataLangElt->setOptions($options);
 		
 		
 		$uiLangElt	= $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_UILG));
-   		foreach($uiLangElt->getOptions() as $key => $value){
-			if($value == tao_helpers_I18n::getLangCode()){
-				$uiLangElt->setValue(tao_helpers_Uri::decode($key));
-				break;
-			}
+   		$options = $uiLangElt->getOptions();
+		foreach($options as $key => $value){
+			$options[$key] = __($value);
 		}
+		$uiLangElt->setOptions($options);
 		
 		//password field
 		

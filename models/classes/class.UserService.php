@@ -183,7 +183,7 @@ class tao_models_classes_UserService
 						core_kernel_classes_Session::singleton()->defaultLg = $defaultLang;
 						core_kernel_classes_Session::singleton()->setLg($dataLang);
 						
-						if(in_array($uiLang, $GLOBALS['available_langs'])){
+						if(in_array($uiLang, tao_helpers_I18n::getAvailableLangs())){
 							Session::setAttribute('ui_lang', $uiLang);
 						}
 						$returnValue = true;

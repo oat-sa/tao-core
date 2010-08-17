@@ -700,6 +700,7 @@ abstract class tao_models_classes_GenerisService
         (isset($options['labelFilter'])) 	? $labelFilter = $options['labelFilter'] 	: $labelFilter = '';
         (isset($options['recursive'])) 		? $recursive = $options['recursive'] 		: $recursive = false;
         (isset($options['chunk'])) 			? $chunk = $options['chunk'] 				: $chunk = false;
+         (isset($options['browse']))		? $browse = $options['browse'] 				: $browse = array();
         
 		$instancesData = array();
 		if($instances){
@@ -744,7 +745,7 @@ abstract class tao_models_classes_GenerisService
 		}
 		$children = array_merge($subclassesData, $instancesData);
 		if(count($children) > 0){
-			if($highlightUri != '' && $recursive){
+			if(($highlightUri != '' && $recursive)){
 				foreach($children as $child){
 					if($child['attributes']['id'] == $highlightUri){
 						$recursive = false;
@@ -757,6 +758,15 @@ abstract class tao_models_classes_GenerisService
 					$data['children'] = array();
 				}				
 				$data['state'] = 'closed';
+				/*if(count($browse) > 0){
+					foreach($children as $child){
+						if(in_array($child['attributes']['id'], $browse)){
+							$data['state'] = 'open';
+							$data['children'] = $children;
+							break;
+						}
+					}
+				}*/
 			}
 			else{
 				if($chunk){
@@ -766,31 +776,26 @@ abstract class tao_models_classes_GenerisService
 					$data['children'] = $children;
 				}
 			}
-			
 		}
     	if($highlightUri != ''){
-			if($highlightUri == tao_helpers_Uri::encode($clazz->uriResource)){
-				if(count($clazz->getInstances()) > 0 || count($clazz->getSubClasses()) > 0){
-					$data['state'] = 'open';
-				} 
-			}
-			else{
-				foreach($clazz->getInstances() as $childInstance){
-					if($highlightUri == tao_helpers_Uri::encode($childInstance->uriResource)){
-						$data['state'] = 'open';
-						break;
-					}
+			$highlightedResource = new core_kernel_classes_Resource(tao_helpers_Uri::decode($highlightUri));
+			if(!$highlightedResource->isClass()){
+				$parentClassUris = array();
+				foreach($resourceClasses = $highlightedResource->getPropertyValues(new core_kernel_classes_Property(RDFS_TYPE)) as $resourceClassUri){
+					$resourceClass = new core_kernel_classes_Class($resourceClassUri);
+					$parentClassUris = array_merge(
+						$parentClassUris,
+						tao_helpers_Uri::encodeArray(array_keys($resourceClass->getParentClasses(true)), tao_helpers_Uri::ENCODE_ARRAY_VALUES)
+					);
 				}
-				$clazzChildren = $clazz->getSubClasses(false);
-				foreach($clazzChildren as $clazzChild){
-					if($highlightUri == tao_helpers_Uri::encode($clazzChild->uriResource)){
-						$data['state'] = 'open';
-						break;
-					}
-					foreach($clazzChild->getInstances() as $childInstance){
-						if($highlightUri == tao_helpers_Uri::encode($childInstance->uriResource)){
-							$data['state'] = 'open';
-							break;
+				if(in_array($data['attributes']['id'], $parentClassUris)){
+					$data['state'] = 'open';
+					$data['children'] = $children;
+				}
+				if(isset($data['children'])){
+					foreach($data['children'] as $index => $child){
+						if(in_array($child['attributes']['id'], $parentClassUris)){
+							$data['children'][$index]['state'] = 'open';
 						}
 					}
 				}

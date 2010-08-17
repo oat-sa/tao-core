@@ -405,24 +405,25 @@ ol.sortable-list li{
 	 padding: 4px; 
 	 padding-left: 25px; 
 	 height: 18px;
+	 position:relative;
 }
 ul.sortable-list li:hover,
 ol.sortable-list li:hover{
 	color:#D00239;
 	cursor: pointer;
 }
-ul.sortable-list li span,
-ol.sortable-list li span { 
-	position: absolute; 
+ul.sortable-list li span.ui-icon,
+ol.sortable-list li span.ui-icon { 
+	position:absolute;
 }
 ul.sortable-list li span.ui-icon-arrowthick-2-n-s,
 ol.sortable-list li span.ui-icon-arrowthick-2-n-s{
-	margin-left: -15px;
+	margin:0px 0px 0px -15px;
 	z-index: 50;
 }
 ul.sortable-list li span.ui-icon-grip-dotted-vertical,
 ol.sortable-list li span.ui-icon-grip-dotted-vertical{
-	margin-left: -25px;
+	margin:0px 0px 0px -25px;
 	z-index: 50;
 }
 ul.sortable-list li span.ui-icon-circle-close,

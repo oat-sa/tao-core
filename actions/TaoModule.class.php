@@ -367,7 +367,7 @@ abstract class TaoModule extends CommonModule {
 			
 			$targetLang = $this->getRequestParameter('target_lang');
 		
-			if(in_array($targetLang, $GLOBALS['available_langs'])){
+			if(in_array($targetLang, tao_helpers_I18n::getAvailableLangs())){
 				$langElt = $myForm->getElement('translate_lang');
 				$langElt->setValue($targetLang);
 				$langElt->setAttribute('readonly', 'true');

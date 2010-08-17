@@ -7,6 +7,7 @@
  * 
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */ 
+var counter = 0;
 UiForm = function(){
 	
 	/**
@@ -27,16 +28,24 @@ UiForm = function(){
 		
 		$("body").ajaxComplete(function(event, request, settings){
 			
-			//initialize regarding the requested action
-			if(settings.dataType == 'html'){
-				if(/edit|add/i.test(settings.url)){
+			//initialize regarding the requested action 
+			
+			//async request waiting for html or not defined
+			if(settings.dataType == 'html' || settings.dataType == undefined){
+				if(settings.url.indexOf('?') != -1 ){
+					testedUrl = settings.url.substr(0, settings.url.indexOf('?'));
+				}
+				else{
+					testedUrl = settings.url;
+				}
+				if(/edit|add/i.test(testedUrl)){
 					formInstance.initElements();
 					formInstance.initOntoForms();
 				}
-				else if (/search|authoring|itemSequence|Import/.test(settings.url)) {
+				else if (/search|authoring|itemSequence|Import/.test(testedUrl)) {
 					formInstance.initElements();
 				}
-				else if(/translate/.test(settings.url)){
+				else if(/translate/.test(testedUrl)){
 					formInstance.initElements();
 					formInstance.initTranslationForm();
 				}
@@ -57,8 +66,10 @@ UiForm = function(){
 
 		$(getMainContainerSelector(UiBootstrap.tabs)+ " form :input:not(:hidden):not(button):first").focus();
 		
+		
 		//save form button
 		$(".form-submiter").click(function(){
+			
 			myForm = $(this).parents("form");
 			if(formInstance.submitForm(myForm)){
 				myForm.submit();

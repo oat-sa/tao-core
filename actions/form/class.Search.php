@@ -93,13 +93,9 @@ class tao_actions_form_Search
 		$chainingElt->setValue('and');
 		$this->form->addElement($chainingElt);
 		
-		$options = array();
-		foreach($GLOBALS['available_langs'] as $langCode){
-			$options[$langCode] = __($langCode);
-		}
 		$langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
 		$langElt->setDescription(__('Language'));
-		$langElt->setOptions($options);
+		$langElt->setOptions(tao_helpers_I18n::getAvailableLangs(true));
 		$this->form->addElement($langElt);
 		
 		$this->form->createGroup('params', __('Options'), array('chaining', 'lang'));

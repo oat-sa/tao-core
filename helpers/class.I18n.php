@@ -45,6 +45,14 @@ class tao_helpers_I18n
      */
     private static $langCode = '';
 
+    /**
+     * Short description of attribute availableLangs
+     *
+     * @access protected
+     * @var array
+     */
+    protected static $availableLangs = array();
+
     // --- OPERATIONS ---
 
     /**
@@ -75,6 +83,7 @@ class tao_helpers_I18n
 			TAOBASE_WWW . 'js/i18n.js',
 		));
 		
+		
         // section 127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7C end
     }
 
@@ -96,6 +105,71 @@ class tao_helpers_I18n
         // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FAA end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method getLangResourceByCode
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string code
+     * @return core_kernel_classes_Resource
+     */
+    public static function getLangResourceByCode($code)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-3cbd0a97:12a8039803a:-8000:0000000000002491 begin
+        
+        if(!empty($code)){
+	        $langClass = new core_kernel_classes_Class(CLASS_LANGUAGES); 
+			foreach($langClass->getInstances() as $lang){
+				if(trim($lang->getLabel()) == trim($code)){
+					$returnValue = $lang;
+					break;
+				}
+			}
+        }
+        
+        // section 127-0-1-1-3cbd0a97:12a8039803a:-8000:0000000000002491 end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method getAvailableLangs
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  boolean langName
+     * @return array
+     */
+    public static function getAvailableLangs($langName = false)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-3cbd0a97:12a8039803a:-8000:0000000000002494 begin
+        
+        //get it into the api only once 
+        if(count(self::$availableLangs) == 0){
+			$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES); 
+			foreach($langClass->getInstances() as $lang){
+				self::$availableLangs[] = $lang->getLabel();
+			}
+        }
+	
+        if($langName) {
+        	foreach(self::$availableLangs as $code){
+       			$returnValue[$code] = __($code); 
+        	}
+        }
+        else{
+       		$returnValue = self::$availableLangs;
+        }
+        
+        // section 127-0-1-1-3cbd0a97:12a8039803a:-8000:0000000000002494 end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_helpers_I18n */

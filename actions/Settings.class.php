@@ -37,20 +37,37 @@ class Settings extends CommonModule {
 				
 				$currentUser = $this->userService->getCurrentUser();
 				
-				if($this->userService->saveUser($currentUser, array(
-						PROPERTY_USER_UILG =>  $myForm->getValue('ui_lang'),
-						PROPERTY_USER_DEFLG => $myForm->getValue('data_lang')
-				))){
-					tao_helpers_I18n::init($myForm->getValue('ui_lang'));
-					core_kernel_classes_Session::singleton()->setLg($myForm->getValue('data_lang'));
+				$uiLangCode 	= $myForm->getValue('ui_lang');
+				$dataLangCode 	= $myForm->getValue('data_lang');
+				
+				$userSettings = array();
+				
+				$uiLangResource = tao_helpers_I18n::getLangResourceByCode($uiLangCode);
+				if(!is_null($uiLangResource)){
+					$userSettings[PROPERTY_USER_UILG] = $uiLangResource->uriResource;
+				}
+				$dataLangResource = tao_helpers_I18n::getLangResourceByCode($dataLangCode);
+				if(!is_null($dataLangResource)){
+					$userSettings[PROPERTY_USER_DEFLG] = $dataLangResource->uriResource;
+				}
+				
+				if($this->userService->saveUser($currentUser, $userSettings)){
+					
+					tao_helpers_I18n::init($uiLangCode);
+					
+					core_kernel_classes_Session::singleton()->setLg($dataLangCode);
+					
 					$this->setData('message', __('settings updated'));
-					$this->setData('refresh', true);
+					
+					//$this->setData('refresh', true);
 				}
 			}
 		}
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form/settings.tpl');
 	}
+	
+	
 	
 	/**
 	 * get the langage of the current user
@@ -74,6 +91,7 @@ class Settings extends CommonModule {
 		
 		return array('data_lang' => $dataLang, 'ui_lang' => $uiLang);
 	}
+	
 	
 }
 ?>
