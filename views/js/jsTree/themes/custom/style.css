@@ -5,7 +5,8 @@
 .tree-custom .locked li a { color:gray; }
 /* DOTS */
 .tree-custom ul { background-position:6px 1px; background-repeat:repeat-y; background-image:url(data:image/gif;base64,R0lGODlhAgACAIAAAB4dGf///yH5BAEAAAEALAAAAAACAAIAAAICRF4AOw==); _background-image:url("dot_for_ie.gif"); *background-image:url("dot_for_ie.gif"); }
-.tree-custom li { background-position:-64px -16px; background-repeat:no-repeat; background-image:url("icons.png"); }
+.tree-custom li { background-position:-64px -18px; background-repeat:no-repeat; background-image:url("icons.png"); }
+.tree-custom ul li { padding-left:12px; }
 /* NO DOTS */
 .tree-custom .no_dots, .tree-custom .no_dots ul { background:transparent; }
 .tree-custom .no_dots li.leaf { background-image:none; background-color:transparent; }
@@ -58,6 +59,7 @@
 .tree-custom li a ins.forbidden { background-position:-16px -16px; }
 .tree-custom .locked li a ins { background-position:0 -48px; }
 .tree-custom li span ins { background-position:-16px 0; }
+.tree li span.cutted {padding: 0px;}
 #jstree-dragged.tree-custom ins { background:url("icons.png") -16px -32px no-repeat; }
 #jstree-dragged.tree-custom ins.forbidden { background:url("icons.png") -16px -16px no-repeat; }
 /* CONTEXT MENU */

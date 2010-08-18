@@ -64,24 +64,9 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 						instance.options.loadCallback();
 					}
 				},
-				onopen: function(NODE, TREE_OBJ) {
-					toCheck = instance.options.checkedNodes;
-					nodeIndex = $.inArray($(NODE).attr('id'), instance.options.checkedNodes);
-					if(nodeIndex > -1){
-						toCheck[nodeIndex] = null;
-					}
-					if(toCheck.length > 0){
-						instance.check(toCheck);
-					}
-				},
 				ondata: function(DATA, TREE_OBJ){
 					if(DATA.children){
 						DATA.state = 'open';
-						$.each(DATA.children, function(i, node){
-							if(node.children){
-								node.state = 'closed';
-							}
-						});
 					}
 					return DATA;
 				}
@@ -120,7 +105,8 @@ GenerisTreeFormClass.prototype.check = function(elements){
 		if(elt != null){
 			NODE = $("li[id="+elt+"]");
 			if(NODE.length > 0){
-				$.tree.plugins.checkbox.check(NODE);
+				if($(NODE).hasClass('node-instance'))
+					$.tree.plugins.checkbox.check(NODE);
 			}
 		}
 	});

@@ -353,7 +353,15 @@ abstract class tao_models_classes_GenerisService
 					$returnValue->setPropertyValue($property, $propertyValue);
 				}
 			}
-			$returnValue->setLabel($instance->getLabel()." bis");
+			$label = $instance->getLabel();
+			$cloneLabel = "$label bis";
+			if(preg_match("/bis/", $label)){
+				$cloneNumber = (int)preg_replace("/^(.?)*bis/", "", $label);
+				$cloneNumber++;
+				$cloneLabel = preg_replace("/bis(.?)*$/", "", $label)." bis $cloneNumber" ;
+			}
+			
+			$returnValue->setLabel($cloneLabel);
 		}
         
         // section 127-0-1-1-50de96c6:1266ae198e7:-8000:0000000000001E30 end
@@ -700,7 +708,7 @@ abstract class tao_models_classes_GenerisService
         (isset($options['labelFilter'])) 	? $labelFilter = $options['labelFilter'] 	: $labelFilter = '';
         (isset($options['recursive'])) 		? $recursive = $options['recursive'] 		: $recursive = false;
         (isset($options['chunk'])) 			? $chunk = $options['chunk'] 				: $chunk = false;
-         (isset($options['browse']))		? $browse = $options['browse'] 				: $browse = array();
+        (isset($options['browse']))			? $browse = $options['browse'] 				: $browse = array();
         
 		$instancesData = array();
 		if($instances){
@@ -758,15 +766,6 @@ abstract class tao_models_classes_GenerisService
 					$data['children'] = array();
 				}				
 				$data['state'] = 'closed';
-				/*if(count($browse) > 0){
-					foreach($children as $child){
-						if(in_array($child['attributes']['id'], $browse)){
-							$data['state'] = 'open';
-							$data['children'] = $children;
-							break;
-						}
-					}
-				}*/
 			}
 			else{
 				if($chunk){
@@ -788,9 +787,11 @@ abstract class tao_models_classes_GenerisService
 						tao_helpers_Uri::encodeArray(array_keys($resourceClass->getParentClasses(true)), tao_helpers_Uri::ENCODE_ARRAY_VALUES)
 					);
 				}
-				if(in_array($data['attributes']['id'], $parentClassUris)){
-					$data['state'] = 'open';
-					$data['children'] = $children;
+				if(isset($data['attributes'])){
+					if(in_array($data['attributes']['id'], $parentClassUris)){
+						$data['state'] = 'open';
+						$data['children'] = $children;
+					}
 				}
 				if(isset($data['children'])){
 					foreach($data['children'] as $index => $child){
@@ -798,6 +799,14 @@ abstract class tao_models_classes_GenerisService
 							$data['children'][$index]['state'] = 'open';
 						}
 					}
+				}
+			}
+		}
+		if(count($browse) > 0){
+			if(isset($data['attributes'])){
+				if(in_array($data['attributes']['id'], $browse)){
+					$data['state'] = 'open';
+					$data['children'] = $children;
 				}
 			}
 		}
