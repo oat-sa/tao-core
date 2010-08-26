@@ -96,7 +96,7 @@ class tao_helpers_form_validators_Integer
         		
 	        	if(isset($this->options['min']) && isset($this->options['max'])){
 	        		
-					$this->message .= ' (' . __('minimum value: ').$this->options['min'] . ', ' .  __('maximum vallue: ').$this->options['max'].')';
+					$this->message .= ' (' . __('minimum value: ').$this->options['min'] . ', ' .  __('maximum value: ').$this->options['max'].')';
 	        		
 					if($this->options['min'] <=  $value && $value <= $this->options['max']){
 						$returnValue = true;
@@ -112,7 +112,7 @@ class tao_helpers_form_validators_Integer
 	        	}
         		if(!isset($this->options['min']) && isset($this->options['max'])){
 					
-        			$this->message .= ' (' . __('maximum vallue: ').$this->options['max'].')';
+        			$this->message .= ' (' . __('maximum value: ').$this->options['max'].')';
 	        		
 					if($value <= $this->options['max']){
 						$returnValue = true;
