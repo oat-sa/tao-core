@@ -80,7 +80,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Sep 01 12:49:12 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Sep 01 13:09:57 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.2(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -25330,11 +25330,37 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                         <UML:Class xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023E9'
                           name = 'ParserFactory' visibility = 'public' isSpecification = 'false' isRoot = 'false'
                           isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002565'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>The ParserFactory provides some methods to build the QTI_Data objects from an XML element. 
+SimpleXML is used as source to build the model.</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:Classifier.feature>
                             <UML:Operation xmi.id = '127-0-1-1--12a4f8d3:12a37dedffb:-8000:000000000000248E'
                               name = 'buildItem' visibility = 'public' isSpecification = 'false' ownerScope = 'classifier'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002566'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Build a QTI_Item from a SimpleXMLElement (the root tag of this element is &apos;assessmentItem&apos;)</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000256B'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10010</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008CF'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--12a4f8d3:12a37dedffb:-8000:000000000000248F'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -25354,6 +25380,22 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'buildInteraction' visibility = 'public' isSpecification = 'false'
                               ownerScope = 'classifier' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
                               isLeaf = 'false' isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002567'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Build a QTI_Interaction from a SimpleXMLElement (the root tag of this element is an &apos;interaction&apos; node)</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000256A'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10247</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008CF'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--12a4f8d3:12a37dedffb:-8000:0000000000002492'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -25373,6 +25415,22 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'buildChoice' visibility = 'public' isSpecification = 'false' ownerScope = 'classifier'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002568'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Build a QTI_Choice from a SimpleXMLElement (the root tag of this element is an &apos;choice&apos; node)</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002569'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10254</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008CF'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--12a4f8d3:12a37dedffb:-8000:0000000000002495'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -25392,6 +25450,22 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'buildResponse' visibility = 'public' isSpecification = 'false' ownerScope = 'classifier'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000256C'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue></UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000256D'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10074</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008CF'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--12a4f8d3:12a37dedffb:-8000:0000000000002498'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -25934,6 +26008,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                         <UML:Class xmi.id = '127-0-1-1-25600304:12a5c17a5ca:-8000:00000000000024A8'
                           name = 'Service' visibility = 'public' isSpecification = 'false' isRoot = 'false'
                           isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000256E'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>The QTI_Service gives you a central access to the managment methods of the QTI objects</UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:GeneralizableElement.generalization>
                             <UML:Generalization xmi.idref = '127-0-1-1-25600304:12a5c17a5ca:-8000:00000000000024BA'/>
                           </UML:GeneralizableElement.generalization>
@@ -25942,6 +26025,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'getItemById' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000256F'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Retrive a QTI_Item instance by it&apos;s id</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1-25600304:12a5c17a5ca:-8000:00000000000024AA'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -25961,6 +26053,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'getInteractionById' visibility = 'public' isSpecification = 'false'
                               ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
                               isLeaf = 'false' isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002570'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Retrive a QTI_Interaction instance by it&apos;s id</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1-25600304:12a5c17a5ca:-8000:00000000000024C4'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -25980,6 +26081,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'getResponseById' visibility = 'public' isSpecification = 'false'
                               ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
                               isLeaf = 'false' isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002571'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Retrive a QTI_Response instance by it&apos;s id</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--272f4da0:12a899718bf:-8000:00000000000024D2'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -25999,6 +26109,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'getDataById' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002572'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Retrive a QTI_Data child instance by it&apos;s id</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--272f4da0:12a899718bf:-8000:00000000000024E2'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
