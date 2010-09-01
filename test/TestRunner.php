@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 
 require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
