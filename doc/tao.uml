@@ -80,7 +80,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Sep 03 11:57:32 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Sep 03 14:05:25 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.2(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -23904,18 +23904,49 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                         <UML:Class xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000022FE'
                           name = 'Data' visibility = 'public' isSpecification = 'false' isRoot = 'false'
                           isLeaf = 'false' isAbstract = 'true' isActive = 'false'>
+                          <UML:ModelElement.taggedValue>
+                            <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:0000000000002578'
+                              isSpecification = 'false'>
+                              <UML:TaggedValue.dataValue>The QTI_Data class represent the abstract model for all the QTI objects.
+It contains all the attributes of the different kind of QTI objects.
+It manages the identifiers and serial creation.
+It provides the serialisation and persistance methods.
+And give the interface for the rendering.  </UML:TaggedValue.dataValue>
+                              <UML:TaggedValue.type>
+                                <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                              </UML:TaggedValue.type>
+                            </UML:TaggedValue>
+                          </UML:ModelElement.taggedValue>
                           <UML:Classifier.feature>
                             <UML:Attribute xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000022FF'
-                              name = 'id' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
+                              name = 'identifier' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
                               changeability = 'changeable' targetScope = 'instance'>
                               <UML:StructuralFeature.multiplicity>
-                                <UML:Multiplicity xmi.id = '127-0-1-1-59bfe477:12ad17bec82:-8000:000000000000254D'>
+                                <UML:Multiplicity xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025B9'>
                                   <UML:Multiplicity.range>
-                                    <UML:MultiplicityRange xmi.id = '127-0-1-1-59bfe477:12ad17bec82:-8000:000000000000254C'
+                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025B8'
                                       lower = '1' upper = '1'/>
                                   </UML:Multiplicity.range>
                                 </UML:Multiplicity>
                               </UML:StructuralFeature.multiplicity>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000257D'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>It repesents the  QTI  identifier. 
+It&apos;s a unique string. 
+It can be generated if it hasn&apos;t been set.</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000257E'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>http://www.imsglobal.org/question/qti_v2p0/imsqti_infov2p0.html#element10541</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008CF'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:StructuralFeature.type>
                                 <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
                               </UML:StructuralFeature.type>
@@ -23924,9 +23955,34 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'serial' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
                               changeability = 'changeable' targetScope = 'instance'>
                               <UML:StructuralFeature.multiplicity>
-                                <UML:Multiplicity xmi.id = '127-0-1-1-59bfe477:12ad17bec82:-8000:0000000000002555'>
+                                <UML:Multiplicity xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:0000000000002587'>
                                   <UML:Multiplicity.range>
-                                    <UML:MultiplicityRange xmi.id = '127-0-1-1-59bfe477:12ad17bec82:-8000:0000000000002554'
+                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:0000000000002586'
+                                      lower = '1' upper = '1'/>
+                                  </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                              </UML:StructuralFeature.multiplicity>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:0000000000002583'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>The serial number is a INTERNAL auto-generated unique key to identify formerly the instance.
+It has no consequence on the in/output format and is generated again at each new instanciation and is kept during the persisting session.</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
+                              <UML:StructuralFeature.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                              </UML:StructuralFeature.type>
+                            </UML:Attribute>
+                            <UML:Attribute xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025BA'
+                              name = 'type' visibility = 'protected' isSpecification = 'false' ownerScope = 'classifier'
+                              changeability = 'changeable' targetScope = 'instance'>
+                              <UML:StructuralFeature.multiplicity>
+                                <UML:Multiplicity xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025C4'>
+                                  <UML:Multiplicity.range>
+                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025C3'
                                       lower = '1' upper = '1'/>
                                   </UML:Multiplicity.range>
                                 </UML:Multiplicity>
@@ -23939,30 +23995,24 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'data' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
                               changeability = 'changeable' targetScope = 'instance'>
                               <UML:StructuralFeature.multiplicity>
-                                <UML:Multiplicity xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002406'>
+                                <UML:Multiplicity xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000258B'>
                                   <UML:Multiplicity.range>
-                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002405'
+                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000258A'
                                       lower = '1' upper = '1'/>
                                   </UML:Multiplicity.range>
                                 </UML:Multiplicity>
                               </UML:StructuralFeature.multiplicity>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000258C'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>represents the element data as a document with {tag} to place the contained elements.</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:StructuralFeature.type>
                                 <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                              </UML:StructuralFeature.type>
-                            </UML:Attribute>
-                            <UML:Attribute xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002311'
-                              name = 'options' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
-                              changeability = 'changeable' targetScope = 'instance'>
-                              <UML:StructuralFeature.multiplicity>
-                                <UML:Multiplicity xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:000000000000240A'>
-                                  <UML:Multiplicity.range>
-                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002409'
-                                      lower = '1' upper = '1'/>
-                                  </UML:Multiplicity.range>
-                                </UML:Multiplicity>
-                              </UML:StructuralFeature.multiplicity>
-                              <UML:StructuralFeature.type>
-                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
                               </UML:StructuralFeature.type>
                             </UML:Attribute>
                             <UML:Operation xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002318'
@@ -23972,11 +24022,20 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               <UML:ModelElement.stereotype>
                                 <UML:Stereotype xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000AF1'/>
                               </UML:ModelElement.stereotype>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000259C'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>The constructor initialize the instance with the given identifier (if null a human readable identifier will be created)</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002319'
                                   name = 'return' isSpecification = 'false' kind = 'return'/>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002325'
-                                  name = 'id' isSpecification = 'false' kind = 'in'>
+                                  name = 'identifier' isSpecification = 'false' kind = 'in'>
                                   <UML:Parameter.defaultValue>
                                     <UML:Expression xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002326'
                                       language = 'UML 1.4' body = 'null'/>
@@ -24004,6 +24063,16 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               <UML:ModelElement.stereotype>
                                 <UML:Stereotype xmi.idref = '10-13-1--31-5c77d5ee:119187ec9d2:-8000:0000000000000957'/>
                               </UML:ModelElement.stereotype>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000259D'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>if the persistance is set to on, the instance is saved, just before the destruction.
+Be carefull to the assignment in the loops!!!</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--272f4da0:12a899718bf:-8000:00000000000024D0'
                                   name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -24013,6 +24082,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = '__sleep' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000259E'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Gives the list of attributes to serialize by reflection. </UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--272f4da0:12a899718bf:-8000:00000000000024D5'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -24022,6 +24100,30 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                                 </UML:Parameter>
                               </UML:BehavioralFeature.parameter>
                             </UML:Operation>
+                            <UML:Attribute xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002311'
+                              name = 'options' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
+                              changeability = 'changeable' targetScope = 'instance'>
+                              <UML:StructuralFeature.multiplicity>
+                                <UML:Multiplicity xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:0000000000002590'>
+                                  <UML:Multiplicity.range>
+                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000258F'
+                                      lower = '1' upper = '1'/>
+                                  </UML:Multiplicity.range>
+                                </UML:Multiplicity>
+                              </UML:StructuralFeature.multiplicity>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:0000000000002591'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>the options of the element</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
+                              <UML:StructuralFeature.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                              </UML:StructuralFeature.type>
+                            </UML:Attribute>
                             <UML:Operation xmi.id = '127-0-1-1--272f4da0:12a899718bf:-8000:00000000000024D7'
                               name = '__wakeup' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
@@ -24035,6 +24137,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'setPersistance' visibility = 'public' isSpecification = 'false'
                               ownerScope = 'classifier' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
                               isLeaf = 'false' isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000259F'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Enable or disable the persistance mode.</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--272f4da0:12a899718bf:-8000:00000000000024F7'
                                   name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -24050,6 +24161,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'getSerial' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025A0'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>get the serial number</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1-59bfe477:12ad17bec82:-8000:0000000000002549'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -24060,9 +24180,18 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               </UML:BehavioralFeature.parameter>
                             </UML:Operation>
                             <UML:Operation xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002320'
-                              name = 'getId' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                              name = 'getIdentifier' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025A1'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>get the identifier</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002321'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -24073,9 +24202,20 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               </UML:BehavioralFeature.parameter>
                             </UML:Operation>
                             <UML:Operation xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000250F'
-                              name = 'setId' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                              name = 'setIdentifier' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025A2'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Set a unique identifier.
+If the parameter already exists a InvalidArgumentException is thrown.
+</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002510'
                                   name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -24088,9 +24228,18 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               </UML:BehavioralFeature.parameter>
                             </UML:Operation>
                             <UML:Operation xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002328'
-                              name = 'createId' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
-                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
-                              isAbstract = 'false'>
+                              name = 'createIdentifier' visibility = 'protected' isSpecification = 'false'
+                              ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
+                              isLeaf = 'false' isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025A3'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Create a unique identifier, based on the kind of instance.</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002329'
                                   name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -24100,15 +24249,61 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'createSerial' visibility = 'protected' isSpecification = 'false'
                               ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential' isRoot = 'false'
                               isLeaf = 'false' isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025A4'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>create a unique serial number</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1-59bfe477:12ad17bec82:-8000:0000000000002557'
                                   name = 'return' isSpecification = 'false' kind = 'return'/>
+                              </UML:BehavioralFeature.parameter>
+                            </UML:Operation>
+                            <UML:Operation xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025C5'
+                              name = 'getType' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                              isAbstract = 'false'>
+                              <UML:BehavioralFeature.parameter>
+                                <UML:Parameter xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025C6'
+                                  name = 'return' isSpecification = 'false' kind = 'return'>
+                                  <UML:Parameter.type>
+                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                                  </UML:Parameter.type>
+                                </UML:Parameter>
+                              </UML:BehavioralFeature.parameter>
+                            </UML:Operation>
+                            <UML:Operation xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025C7'
+                              name = 'setType' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                              isAbstract = 'false'>
+                              <UML:BehavioralFeature.parameter>
+                                <UML:Parameter xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025C8'
+                                  name = 'return' isSpecification = 'false' kind = 'return'/>
+                                <UML:Parameter xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025C9'
+                                  name = 'type' isSpecification = 'false' kind = 'in'>
+                                  <UML:Parameter.type>
+                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                                  </UML:Parameter.type>
+                                </UML:Parameter>
                               </UML:BehavioralFeature.parameter>
                             </UML:Operation>
                             <UML:Operation xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:000000000000232A'
                               name = 'getData' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025A5'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>get the data</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:000000000000232B'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -24122,6 +24317,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'setData' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025A6'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>set the data</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:000000000000232D'
                                   name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -24137,6 +24341,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'getOptions' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025A7'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>get the options</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002330'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -24150,6 +24363,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'setOptions' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025A8'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>set the options</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002332'
                                   name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -24165,6 +24387,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'getOption' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025A9'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>get an options by it&apos;s name</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002335'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -24184,6 +24415,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'setOption' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'false'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025AA'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>set an option</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002338'
                                   name = 'return' isSpecification = 'false' kind = 'return'/>
@@ -24205,6 +24445,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'toXHTML' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'true'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025AB'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Rendering to XHTML format.</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:000000000000233C'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -24218,6 +24467,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'toQTI' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'true'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025AC'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Renddering to QTI format.</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:000000000000233E'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -24231,6 +24489,22 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'toForm' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
                               isAbstract = 'true'>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025AD'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>Output to a tao_helpers_form_Form instance.</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025B1'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>tao_helpers_form_Form</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025AE'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:BehavioralFeature.parameter>
                                 <UML:Parameter xmi.id = '127-0-1-1-25600304:12a5c17a5ca:-8000:0000000000002492'
                                   name = 'return' isSpecification = 'false' kind = 'return'>
@@ -24244,9 +24518,9 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'persist' visibility = 'public' isSpecification = 'false' ownerScope = 'classifier'
                               changeability = 'changeable' targetScope = 'instance'>
                               <UML:StructuralFeature.multiplicity>
-                                <UML:Multiplicity xmi.id = '127-0-1-1-40f01b76:12a8eb865fb:-8000:00000000000024DF'>
+                                <UML:Multiplicity xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:0000000000002595'>
                                   <UML:Multiplicity.range>
-                                    <UML:MultiplicityRange xmi.id = '127-0-1-1-40f01b76:12a8eb865fb:-8000:00000000000024DE'
+                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:0000000000002594'
                                       lower = '1' upper = '1'/>
                                   </UML:Multiplicity.range>
                                 </UML:Multiplicity>
@@ -24255,6 +24529,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                                 <UML:Expression xmi.id = '127-0-1-1--272f4da0:12a899718bf:-8000:00000000000024F5'
                                   language = '' body = 'true'/>
                               </UML:Attribute.initialValue>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:0000000000002596'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>It defines if the instance should be kept after destruction</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:StructuralFeature.type>
                                 <UML:DataType xmi.idref = '10-13-1--31--647ec317:119141cd117:-8000:000000000000091C'/>
                               </UML:StructuralFeature.type>
@@ -24263,9 +24546,9 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                               name = 'PREFIX' visibility = 'public' isSpecification = 'false' ownerScope = 'classifier'
                               changeability = 'frozen' targetScope = 'instance'>
                               <UML:StructuralFeature.multiplicity>
-                                <UML:Multiplicity xmi.id = '127-0-1-1-59bfe477:12ad17bec82:-8000:000000000000253F'>
+                                <UML:Multiplicity xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000259A'>
                                   <UML:Multiplicity.range>
-                                    <UML:MultiplicityRange xmi.id = '127-0-1-1-59bfe477:12ad17bec82:-8000:000000000000253E'
+                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:0000000000002599'
                                       lower = '1' upper = '1'/>
                                   </UML:Multiplicity.range>
                                 </UML:Multiplicity>
@@ -24274,6 +24557,15 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                                 <UML:Expression xmi.id = '127-0-1-1-59bfe477:12ad17bec82:-8000:0000000000002537'
                                   language = '' body = 'qti_'/>
                               </UML:Attribute.initialValue>
+                              <UML:ModelElement.taggedValue>
+                                <UML:TaggedValue xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:000000000000259B'
+                                  isSpecification = 'false'>
+                                  <UML:TaggedValue.dataValue>String prefix used in session, keys and ids management</UML:TaggedValue.dataValue>
+                                  <UML:TaggedValue.type>
+                                    <UML:TagDefinition xmi.idref = '10-13-1--31--231466ec:119133bcedb:-8000:00000000000008C9'/>
+                                  </UML:TaggedValue.type>
+                                </UML:TaggedValue>
+                              </UML:ModelElement.taggedValue>
                               <UML:StructuralFeature.type>
                                 <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
                               </UML:StructuralFeature.type>
@@ -24761,34 +25053,6 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                                 </UML:Parameter>
                               </UML:BehavioralFeature.parameter>
                             </UML:Operation>
-                            <UML:Attribute xmi.id = '127-0-1-1-25600304:12a5c17a5ca:-8000:0000000000002481'
-                              name = 'type' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
-                              changeability = 'changeable' targetScope = 'instance'>
-                              <UML:StructuralFeature.multiplicity>
-                                <UML:Multiplicity xmi.id = '127-0-1-1-25600304:12a5c17a5ca:-8000:0000000000002487'>
-                                  <UML:Multiplicity.range>
-                                    <UML:MultiplicityRange xmi.id = '127-0-1-1-25600304:12a5c17a5ca:-8000:0000000000002486'
-                                      lower = '1' upper = '1'/>
-                                  </UML:Multiplicity.range>
-                                </UML:Multiplicity>
-                              </UML:StructuralFeature.multiplicity>
-                              <UML:StructuralFeature.type>
-                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                              </UML:StructuralFeature.type>
-                            </UML:Attribute>
-                            <UML:Operation xmi.id = '127-0-1-1-25600304:12a5c17a5ca:-8000:000000000000248F'
-                              name = 'getType' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
-                              isAbstract = 'false'>
-                              <UML:BehavioralFeature.parameter>
-                                <UML:Parameter xmi.id = '127-0-1-1-25600304:12a5c17a5ca:-8000:0000000000002490'
-                                  name = 'return' isSpecification = 'false' kind = 'return'>
-                                  <UML:Parameter.type>
-                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                                  </UML:Parameter.type>
-                                </UML:Parameter>
-                              </UML:BehavioralFeature.parameter>
-                            </UML:Operation>
                             <UML:Operation xmi.id = '127-0-1-1--424d5b00:12ad69af5de:-8000:0000000000002573'
                               name = 'getPrompt' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
@@ -24904,120 +25168,6 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                             <UML:Generalization xmi.idref = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002346'/>
                           </UML:GeneralizableElement.generalization>
                           <UML:Classifier.feature>
-                            <UML:Attribute xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023CD'
-                              name = 'name' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
-                              changeability = 'changeable' targetScope = 'instance'>
-                              <UML:StructuralFeature.multiplicity>
-                                <UML:Multiplicity xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:0000000000002413'>
-                                  <UML:Multiplicity.range>
-                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:0000000000002412'
-                                      lower = '1' upper = '1'/>
-                                  </UML:Multiplicity.range>
-                                </UML:Multiplicity>
-                              </UML:StructuralFeature.multiplicity>
-                              <UML:StructuralFeature.type>
-                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                              </UML:StructuralFeature.type>
-                            </UML:Attribute>
-                            <UML:Attribute xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023D8'
-                              name = 'value' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
-                              changeability = 'changeable' targetScope = 'instance'>
-                              <UML:StructuralFeature.multiplicity>
-                                <UML:Multiplicity xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:0000000000002405'>
-                                  <UML:Multiplicity.range>
-                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:0000000000002404'
-                                      lower = '1' upper = '1'/>
-                                  </UML:Multiplicity.range>
-                                </UML:Multiplicity>
-                              </UML:StructuralFeature.multiplicity>
-                              <UML:StructuralFeature.type>
-                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                              </UML:StructuralFeature.type>
-                            </UML:Attribute>
-                            <UML:Operation xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:0000000000002406'
-                              name = 'getName' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
-                              isAbstract = 'false'>
-                              <UML:BehavioralFeature.parameter>
-                                <UML:Parameter xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:0000000000002407'
-                                  name = 'return' isSpecification = 'false' kind = 'return'>
-                                  <UML:Parameter.type>
-                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                                  </UML:Parameter.type>
-                                </UML:Parameter>
-                              </UML:BehavioralFeature.parameter>
-                            </UML:Operation>
-                            <UML:Operation xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:0000000000002408'
-                              name = 'setName' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
-                              isAbstract = 'false'>
-                              <UML:BehavioralFeature.parameter>
-                                <UML:Parameter xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:0000000000002409'
-                                  name = 'return' isSpecification = 'false' kind = 'return'/>
-                                <UML:Parameter xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:000000000000240A'
-                                  name = 'name' isSpecification = 'false' kind = 'in'>
-                                  <UML:Parameter.type>
-                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                                  </UML:Parameter.type>
-                                </UML:Parameter>
-                              </UML:BehavioralFeature.parameter>
-                            </UML:Operation>
-                            <UML:Operation xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:000000000000240B'
-                              name = 'getValue' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
-                              isAbstract = 'false'>
-                              <UML:BehavioralFeature.parameter>
-                                <UML:Parameter xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:000000000000240C'
-                                  name = 'return' isSpecification = 'false' kind = 'return'>
-                                  <UML:Parameter.type>
-                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                                  </UML:Parameter.type>
-                                </UML:Parameter>
-                              </UML:BehavioralFeature.parameter>
-                            </UML:Operation>
-                            <UML:Operation xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:000000000000240D'
-                              name = 'setValue' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
-                              isAbstract = 'false'>
-                              <UML:BehavioralFeature.parameter>
-                                <UML:Parameter xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:000000000000240E'
-                                  name = 'return' isSpecification = 'false' kind = 'return'/>
-                                <UML:Parameter xmi.id = '127-0-1-1--4be859a6:12a33452171:-8000:000000000000240F'
-                                  name = 'value' isSpecification = 'false' kind = 'in'>
-                                  <UML:Parameter.type>
-                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                                  </UML:Parameter.type>
-                                </UML:Parameter>
-                              </UML:BehavioralFeature.parameter>
-                            </UML:Operation>
-                            <UML:Operation xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002506'
-                              name = 'getType' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
-                              isAbstract = 'false'>
-                              <UML:BehavioralFeature.parameter>
-                                <UML:Parameter xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002507'
-                                  name = 'return' isSpecification = 'false' kind = 'return'>
-                                  <UML:Parameter.type>
-                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                                  </UML:Parameter.type>
-                                </UML:Parameter>
-                              </UML:BehavioralFeature.parameter>
-                            </UML:Operation>
-                            <UML:Operation xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000250C'
-                              name = 'setType' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
-                              isAbstract = 'false'>
-                              <UML:BehavioralFeature.parameter>
-                                <UML:Parameter xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000250D'
-                                  name = 'return' isSpecification = 'false' kind = 'return'/>
-                                <UML:Parameter xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000250E'
-                                  name = 'type' isSpecification = 'false' kind = 'in'>
-                                  <UML:Parameter.type>
-                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                                  </UML:Parameter.type>
-                                </UML:Parameter>
-                              </UML:BehavioralFeature.parameter>
-                            </UML:Operation>
                             <UML:Operation xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023DF'
                               name = 'toXHTML' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
@@ -25057,21 +25207,6 @@ If the uri don&apos;t reference an item subclass, it returns null </UML:TaggedVa
                                 </UML:Parameter>
                               </UML:BehavioralFeature.parameter>
                             </UML:Operation>
-                            <UML:Attribute xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:00000000000024FF'
-                              name = 'type' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
-                              changeability = 'changeable' targetScope = 'instance'>
-                              <UML:StructuralFeature.multiplicity>
-                                <UML:Multiplicity xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000250B'>
-                                  <UML:Multiplicity.range>
-                                    <UML:MultiplicityRange xmi.id = '127-0-1-1--398d1ef5:12acc40a46b:-8000:000000000000250A'
-                                      lower = '1' upper = '1'/>
-                                  </UML:Multiplicity.range>
-                                </UML:Multiplicity>
-                              </UML:StructuralFeature.multiplicity>
-                              <UML:StructuralFeature.type>
-                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                              </UML:StructuralFeature.type>
-                            </UML:Attribute>
                           </UML:Classifier.feature>
                         </UML:Class>
                         <UML:Generalization xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002346'
@@ -26370,21 +26505,6 @@ SimpleXML is used as source to build the model.</UML:TaggedValue.dataValue>
                             <UML:Generalization xmi.idref = '127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002547'/>
                           </UML:GeneralizableElement.generalization>
                           <UML:Classifier.feature>
-                            <UML:Attribute xmi.id = '127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002548'
-                              name = 'name' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
-                              changeability = 'changeable' targetScope = 'instance'>
-                              <UML:StructuralFeature.multiplicity>
-                                <UML:Multiplicity xmi.id = '127-0-1-1-7bfc492a:12ad2946c72:-8000:000000000000254E'>
-                                  <UML:Multiplicity.range>
-                                    <UML:MultiplicityRange xmi.id = '127-0-1-1-7bfc492a:12ad2946c72:-8000:000000000000254D'
-                                      lower = '1' upper = '1'/>
-                                  </UML:Multiplicity.range>
-                                </UML:Multiplicity>
-                              </UML:StructuralFeature.multiplicity>
-                              <UML:StructuralFeature.type>
-                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                              </UML:StructuralFeature.type>
-                            </UML:Attribute>
                             <UML:Attribute xmi.id = '127-0-1-1-7bfc492a:12ad2946c72:-8000:000000000000254F'
                               name = 'choices' visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
                               changeability = 'changeable' targetScope = 'instance'>
@@ -26400,34 +26520,6 @@ SimpleXML is used as source to build the model.</UML:TaggedValue.dataValue>
                                 <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
                               </UML:StructuralFeature.type>
                             </UML:Attribute>
-                            <UML:Operation xmi.id = '127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002573'
-                              name = 'getName' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
-                              isAbstract = 'false'>
-                              <UML:BehavioralFeature.parameter>
-                                <UML:Parameter xmi.id = '127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002574'
-                                  name = 'return' isSpecification = 'false' kind = 'return'>
-                                  <UML:Parameter.type>
-                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                                  </UML:Parameter.type>
-                                </UML:Parameter>
-                              </UML:BehavioralFeature.parameter>
-                            </UML:Operation>
-                            <UML:Operation xmi.id = '127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002575'
-                              name = 'setName' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
-                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
-                              isAbstract = 'false'>
-                              <UML:BehavioralFeature.parameter>
-                                <UML:Parameter xmi.id = '127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002576'
-                                  name = 'return' isSpecification = 'false' kind = 'return'/>
-                                <UML:Parameter xmi.id = '127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002577'
-                                  name = 'name' isSpecification = 'false' kind = 'in'>
-                                  <UML:Parameter.type>
-                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
-                                  </UML:Parameter.type>
-                                </UML:Parameter>
-                              </UML:BehavioralFeature.parameter>
-                            </UML:Operation>
                             <UML:Operation xmi.id = '127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002578'
                               name = 'getChoices' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
@@ -34611,6 +34703,17 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
           isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
           <UML:Stereotype.baseClass>Operation</UML:Stereotype.baseClass>
         </UML:Stereotype>
+        <UML:TagDefinition xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025AE'
+          name = 'since' isSpecification = 'false'>
+          <UML:TagDefinition.multiplicity>
+            <UML:Multiplicity xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025AF'>
+              <UML:Multiplicity.range>
+                <UML:MultiplicityRange xmi.id = '127-0-1-1--182be7ee:12ad75ec1c8:-8000:00000000000025B0'
+                  lower = '0' upper = '1'/>
+              </UML:Multiplicity.range>
+            </UML:Multiplicity>
+          </UML:TagDefinition.multiplicity>
+        </UML:TagDefinition>
       </UML:Namespace.ownedElement>
     </UML:Model>
     <UML:Expression xmi.id = '127-0-1-1-50de96c6:1266ae198e7:-8000:0000000000001E37'
@@ -85662,7 +85765,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     ></text>
   </group>
   <group name="Fig1"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[784, 40, 456, 440]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[784, 40, 456, 488]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000022FE"
        fill="1"
        fillcolor="white"
@@ -85677,7 +85780,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       x="784"
       y="40"
       width="456"
-      height="440"
+      height="488"
       fill="1"
       fillcolor="white"
       stroke="1"
@@ -85733,7 +85836,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig1.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[785, 64, 454, 104]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[785, 64, 454, 120]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000022FE"
          fill="0"
          fillcolor="white"
@@ -85747,7 +85850,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         x="785"
         y="64"
         width="454"
-        height="104"
+        height="120"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -85768,7 +85871,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >id : string</text>
+      >identifier : string</text>
       <text name="Fig1.4.2"
         x="785"
         y="80"
@@ -85800,7 +85903,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >data : string</text>
+      >type : string</text>
       <text name="Fig1.4.4"
         x="785"
         y="112"
@@ -85816,7 +85919,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >options : array</text>
+      >data : string</text>
       <text name="Fig1.4.5"
         x="785"
         y="128"
@@ -85832,10 +85935,26 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >persist : boolean</text>
+      >options : array</text>
       <text name="Fig1.4.6"
         x="785"
         y="144"
+        width="454"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >persist : boolean</text>
+      <text name="Fig1.4.7"
+        x="785"
+        y="160"
         width="454"
         height="22"
         fill="0"
@@ -85852,7 +85971,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig1.5"
       x="784"
-      y="167"
+      y="183"
       width="456"
       height="1"
       fill="1"
@@ -85861,7 +85980,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig1.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[785, 168, 454, 312]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[785, 184, 454, 344]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000022FE"
          fill="0"
          fillcolor="white"
@@ -85873,9 +85992,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig1.6.0"
         x="785"
-        y="168"
+        y="184"
         width="454"
-        height="312"
+        height="344"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -85883,7 +86002,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig1.6.1"
         x="785"
-        y="168"
+        y="184"
         width="454"
         height="16"
         fill="0"
@@ -85896,10 +86015,10 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >&lt;&lt;create&gt;&gt; __construct(id : string = null,options : array = array())</text>
+      >&lt;&lt;create&gt;&gt; __construct(identifier : string = null,options : array = array())</text>
       <text name="Fig1.6.2"
         x="785"
-        y="184"
+        y="200"
         width="454"
         height="16"
         fill="0"
@@ -85915,7 +86034,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >&lt;&lt;destroy&gt;&gt; __destruct()</text>
       <text name="Fig1.6.3"
         x="785"
-        y="200"
+        y="216"
         width="454"
         height="16"
         fill="0"
@@ -85931,7 +86050,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >__sleep() : array</text>
       <text name="Fig1.6.4"
         x="785"
-        y="216"
+        y="232"
         width="454"
         height="16"
         fill="0"
@@ -85947,7 +86066,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >__wakeup()</text>
       <text name="Fig1.6.5"
         x="785"
-        y="232"
+        y="248"
         width="454"
         height="16"
         fill="0"
@@ -85963,7 +86082,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >setPersistance(enabled : boolean)</text>
       <text name="Fig1.6.6"
         x="785"
-        y="248"
+        y="264"
         width="454"
         height="16"
         fill="0"
@@ -85979,22 +86098,6 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getSerial() : string</text>
       <text name="Fig1.6.7"
         x="785"
-        y="264"
-        width="454"
-        height="16"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >getId() : string</text>
-      <text name="Fig1.6.8"
-        x="785"
         y="280"
         width="454"
         height="16"
@@ -86008,8 +86111,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >setId(id : string)</text>
-      <text name="Fig1.6.9"
+      >getIdentifier() : string</text>
+      <text name="Fig1.6.8"
         x="785"
         y="296"
         width="454"
@@ -86024,10 +86127,26 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >createId()</text>
-      <text name="Fig1.6.10"
+      >setIdentifier(id : string)</text>
+      <text name="Fig1.6.9"
         x="785"
         y="312"
+        width="454"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >createIdentifier()</text>
+      <text name="Fig1.6.10"
+        x="785"
+        y="328"
         width="454"
         height="16"
         fill="0"
@@ -86043,22 +86162,6 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >createSerial()</text>
       <text name="Fig1.6.11"
         x="785"
-        y="328"
-        width="454"
-        height="16"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >getData() : string</text>
-      <text name="Fig1.6.12"
-        x="785"
         y="344"
         width="454"
         height="16"
@@ -86072,8 +86175,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >setData(data : string)</text>
-      <text name="Fig1.6.13"
+      >getType() : string</text>
+      <text name="Fig1.6.12"
         x="785"
         y="360"
         width="454"
@@ -86088,8 +86191,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >getOptions() : array</text>
-      <text name="Fig1.6.14"
+      >setType(type : string)</text>
+      <text name="Fig1.6.13"
         x="785"
         y="376"
         width="454"
@@ -86104,8 +86207,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >setOptions(options : array)</text>
-      <text name="Fig1.6.15"
+      >getData() : string</text>
+      <text name="Fig1.6.14"
         x="785"
         y="392"
         width="454"
@@ -86120,8 +86223,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >getOption(name : string) : string</text>
-      <text name="Fig1.6.16"
+      >setData(data : string)</text>
+      <text name="Fig1.6.15"
         x="785"
         y="408"
         width="454"
@@ -86136,10 +86239,58 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >setOption(name : string,value : string)</text>
-      <text name="Fig1.6.17"
+      >getOptions() : array</text>
+      <text name="Fig1.6.16"
         x="785"
         y="424"
+        width="454"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >setOptions(options : array)</text>
+      <text name="Fig1.6.17"
+        x="785"
+        y="440"
+        width="454"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >getOption(name : string) : string</text>
+      <text name="Fig1.6.18"
+        x="785"
+        y="456"
+        width="454"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >setOption(name : string,value : string)</text>
+      <text name="Fig1.6.19"
+        x="785"
+        y="472"
         width="454"
         height="16"
         fill="0"
@@ -86153,9 +86304,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >toXHTML() : string</text>
-      <text name="Fig1.6.18"
+      <text name="Fig1.6.20"
         x="785"
-        y="440"
+        y="488"
         width="454"
         height="16"
         fill="0"
@@ -86169,9 +86320,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >toQTI() : string</text>
-      <text name="Fig1.6.19"
+      <text name="Fig1.6.21"
         x="785"
-        y="456"
+        y="504"
         width="454"
         height="22"
         fill="0"
@@ -86709,32 +86860,16 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >type : string</text>
+      >groups : array</text>
       <text name="Fig4.4.4"
         x="457"
         y="624"
         width="486"
-        height="16"
+        height="22"
         fill="0"
         fillcolor="200 200 255"
         stroke="0"
         strokecolor="192 192 192"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >groups : array</text>
-      <text name="Fig4.4.5"
-        x="457"
-        y="640"
-        width="486"
-        height="22"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
         textcolor="black"
         font="Dialog"
         italic="false"
@@ -86997,32 +87132,16 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >getType() : string</text>
+      >getPrompt() : string</text>
       <text name="Fig4.6.15"
         x="457"
         y="900"
         width="486"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="200 200 255"
         stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >getPrompt() : string</text>
-      <text name="Fig4.6.16"
-        x="457"
-        y="916"
-        width="486"
-        height="16"
-        fill="0"
-        fillcolor="white"
-        stroke="0"
-        strokecolor="black"
+        strokecolor="192 192 192"
         textcolor="black"
         font="Dialog"
         italic="false"
@@ -87030,6 +87149,22 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >setPrompt(text : string)</text>
+      <text name="Fig4.6.16"
+        x="457"
+        y="916"
+        width="486"
+        height="16"
+        fill="0"
+        fillcolor="200 200 255"
+        stroke="0"
+        strokecolor="192 192 192"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >toXHTML() : string</text>
       <text name="Fig4.6.17"
         x="457"
         y="932"
@@ -87045,26 +87180,10 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >toXHTML() : string</text>
+      >toQTI() : string</text>
       <text name="Fig4.6.18"
         x="457"
         y="948"
-        width="486"
-        height="16"
-        fill="0"
-        fillcolor="200 200 255"
-        stroke="0"
-        strokecolor="192 192 192"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >toQTI() : string</text>
-      <text name="Fig4.6.19"
-        x="457"
-        y="964"
         width="486"
         height="22"
         fill="0"
@@ -87114,7 +87233,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </path>
   </group>
   <group name="Fig6"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1024, 712, 296, 232]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1024, 800, 320, 101]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002345"
        fill="1"
        fillcolor="218 218 255"
@@ -87127,9 +87246,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     
     <rectangle name="Fig6.0"
       x="1024"
-      y="712"
-      width="296"
-      height="232"
+      y="800"
+      width="320"
+      height="101"
       fill="1"
       fillcolor="218 218 255"
       stroke="1"
@@ -87137,8 +87256,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     />
     <text name="Fig6.1"
       x="1025"
-      y="713"
-      width="294"
+      y="801"
+      width="318"
       height="22"
       fill="0"
       fillcolor="218 218 255"
@@ -87152,7 +87271,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Center"
     >Choice</text>
     <group name="Fig6.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1025, 713, 226, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1025, 801, 226, 0]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002345"
          fill="0"
          fillcolor="218 218 255"
@@ -87165,7 +87284,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig6.2.0"
         x="1025"
-        y="713"
+        y="801"
         width="226"
         height="0"
         fill="0"
@@ -87176,8 +87295,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig6.3"
       x="1024"
-      y="735"
-      width="296"
+      y="823"
+      width="320"
       height="1"
       fill="1"
       fillcolor="black"
@@ -87185,7 +87304,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig6.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1025, 736, 294, 56]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1025, 824, 318, 21]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002345"
          fill="0"
          fillcolor="218 218 255"
@@ -87197,67 +87316,19 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig6.4.0"
         x="1025"
-        y="736"
-        width="294"
-        height="56"
+        y="824"
+        width="318"
+        height="21"
         fill="0"
         fillcolor="white"
         stroke="0"
         strokecolor="black"
       />
-      <text name="Fig6.4.1"
-        x="1025"
-        y="736"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >name : string</text>
-      <text name="Fig6.4.2"
-        x="1025"
-        y="752"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >value : string</text>
-      <text name="Fig6.4.3"
-        x="1025"
-        y="768"
-        width="294"
-        height="22"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >type : string</text>
     </group>
     <rectangle name="Fig6.5"
       x="1024"
-      y="791"
-      width="296"
+      y="844"
+      width="320"
       height="1"
       fill="1"
       fillcolor="black"
@@ -87265,7 +87336,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig6.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1025, 792, 294, 152]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1025, 845, 318, 56]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002345"
          fill="0"
          fillcolor="218 218 255"
@@ -87277,9 +87348,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig6.6.0"
         x="1025"
-        y="792"
-        width="294"
-        height="152"
+        y="845"
+        width="318"
+        height="56"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -87287,104 +87358,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig6.6.1"
         x="1025"
-        y="792"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >getName() : string</text>
-      <text name="Fig6.6.2"
-        x="1025"
-        y="808"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >setName(name : string)</text>
-      <text name="Fig6.6.3"
-        x="1025"
-        y="824"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >getValue() : string</text>
-      <text name="Fig6.6.4"
-        x="1025"
-        y="840"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >setValue(value : string)</text>
-      <text name="Fig6.6.5"
-        x="1025"
-        y="856"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >getType() : string</text>
-      <text name="Fig6.6.6"
-        x="1025"
-        y="872"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >setType(type : string)</text>
-      <text name="Fig6.6.7"
-        x="1025"
-        y="888"
-        width="294"
+        y="845"
+        width="318"
         height="16"
         fill="0"
         fillcolor="218 218 255"
@@ -87397,10 +87372,10 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >toXHTML() : string</text>
-      <text name="Fig6.6.8"
+      <text name="Fig6.6.2"
         x="1025"
-        y="904"
-        width="294"
+        y="861"
+        width="318"
         height="16"
         fill="0"
         fillcolor="218 218 255"
@@ -87413,10 +87388,10 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >toQTI() : string</text>
-      <text name="Fig6.6.9"
+      <text name="Fig6.6.3"
         x="1025"
-        y="920"
-        width="294"
+        y="877"
+        width="318"
         height="22"
         fill="0"
         fillcolor="218 218 255"
@@ -87456,7 +87431,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="1320"
+      <moveto x="1344"
               y="880" />
       <lineto x="1384"
               y="880" />
@@ -88724,7 +88699,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
   </group>
   <group name="Fig19"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1024, 504, 319, 200]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1024, 544, 319, 200]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--4be859a6:12a33452171:-8000:000000000000241D"
        fill="1"
        fillcolor="255 200 255"
@@ -88737,7 +88712,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     
     <rectangle name="Fig19.0"
       x="1024"
-      y="504"
+      y="544"
       width="319"
       height="200"
       fill="1"
@@ -88747,7 +88722,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     />
     <text name="Fig19.1"
       x="1025"
-      y="505"
+      y="545"
       width="317"
       height="22"
       fill="0"
@@ -88762,7 +88737,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Center"
     >Response</text>
     <group name="Fig19.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1025, 505, 244, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1025, 545, 244, 0]"
          href="127-0-1-1--4be859a6:12a33452171:-8000:000000000000241D"
          fill="0"
          fillcolor="255 200 255"
@@ -88775,7 +88750,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig19.2.0"
         x="1025"
-        y="505"
+        y="545"
         width="244"
         height="0"
         fill="0"
@@ -88786,7 +88761,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig19.3"
       x="1024"
-      y="527"
+      y="567"
       width="319"
       height="1"
       fill="1"
@@ -88795,7 +88770,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig19.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1025, 528, 317, 47]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1025, 568, 317, 47]"
          href="127-0-1-1--4be859a6:12a33452171:-8000:000000000000241D"
          fill="0"
          fillcolor="255 200 255"
@@ -88807,7 +88782,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig19.4.0"
         x="1025"
-        y="528"
+        y="568"
         width="317"
         height="47"
         fill="0"
@@ -88817,7 +88792,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig19.4.1"
         x="1025"
-        y="528"
+        y="568"
         width="317"
         height="16"
         fill="0"
@@ -88833,7 +88808,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >score : Score</text>
       <text name="Fig19.4.2"
         x="1025"
-        y="544"
+        y="584"
         width="317"
         height="22"
         fill="0"
@@ -88850,7 +88825,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig19.5"
       x="1024"
-      y="575"
+      y="615"
       width="319"
       height="1"
       fill="1"
@@ -88859,7 +88834,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig19.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1025, 576, 317, 127]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1025, 616, 317, 127]"
          href="127-0-1-1--4be859a6:12a33452171:-8000:000000000000241D"
          fill="0"
          fillcolor="255 200 255"
@@ -88871,7 +88846,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig19.6.0"
         x="1025"
-        y="576"
+        y="616"
         width="317"
         height="127"
         fill="0"
@@ -88881,7 +88856,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig19.6.1"
         x="1025"
-        y="576"
+        y="616"
         width="317"
         height="16"
         fill="0"
@@ -88897,7 +88872,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getScore() : Score</text>
       <text name="Fig19.6.2"
         x="1025"
-        y="592"
+        y="632"
         width="317"
         height="16"
         fill="0"
@@ -88913,7 +88888,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >setScore(score : Score)</text>
       <text name="Fig19.6.3"
         x="1025"
-        y="608"
+        y="648"
         width="317"
         height="16"
         fill="0"
@@ -88929,7 +88904,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getCorrectResponses() : array</text>
       <text name="Fig19.6.4"
         x="1025"
-        y="624"
+        y="664"
         width="317"
         height="16"
         fill="0"
@@ -88945,7 +88920,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >setCorrectResponses(responses : array)</text>
       <text name="Fig19.6.5"
         x="1025"
-        y="640"
+        y="680"
         width="317"
         height="16"
         fill="0"
@@ -88961,7 +88936,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >toXHTML() : string</text>
       <text name="Fig19.6.6"
         x="1025"
-        y="656"
+        y="696"
         width="317"
         height="16"
         fill="0"
@@ -88977,7 +88952,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >toQTI() : string</text>
       <text name="Fig19.6.7"
         x="1025"
-        y="672"
+        y="712"
         width="317"
         height="22"
         fill="0"
@@ -89019,7 +88994,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     >
       <moveto x="1304"
-              y="504" />
+              y="544" />
       <lineto x="1304"
               y="456" />
       <lineto x="1240"
@@ -89706,7 +89681,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </path>
   </group>
   <group name="Fig26"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1024, 960, 296, 184]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1024, 936, 296, 144]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002546"
        fill="1"
        fillcolor="218 218 255"
@@ -89719,9 +89694,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     
     <rectangle name="Fig26.0"
       x="1024"
-      y="960"
+      y="936"
       width="296"
-      height="184"
+      height="144"
       fill="1"
       fillcolor="218 218 255"
       stroke="1"
@@ -89729,7 +89704,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     />
     <text name="Fig26.1"
       x="1025"
-      y="961"
+      y="937"
       width="294"
       height="22"
       fill="0"
@@ -89744,7 +89719,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Center"
     >Group</text>
     <group name="Fig26.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1025, 961, 224, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1025, 937, 224, 0]"
          href="127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002546"
          fill="0"
          fillcolor="218 218 255"
@@ -89757,7 +89732,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig26.2.0"
         x="1025"
-        y="961"
+        y="937"
         width="224"
         height="0"
         fill="0"
@@ -89768,7 +89743,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig26.3"
       x="1024"
-      y="983"
+      y="959"
       width="296"
       height="1"
       fill="1"
@@ -89777,7 +89752,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig26.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1025, 984, 294, 40]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1025, 960, 294, 27]"
          href="127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002546"
          fill="0"
          fillcolor="218 218 255"
@@ -89789,9 +89764,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig26.4.0"
         x="1025"
-        y="984"
+        y="960"
         width="294"
-        height="40"
+        height="27"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -89799,23 +89774,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig26.4.1"
         x="1025"
-        y="984"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >name : string</text>
-      <text name="Fig26.4.2"
-        x="1025"
-        y="1000"
+        y="960"
         width="294"
         height="22"
         fill="0"
@@ -89832,7 +89791,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig26.5"
       x="1024"
-      y="1023"
+      y="987"
       width="296"
       height="1"
       fill="1"
@@ -89841,7 +89800,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig26.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1025, 1024, 294, 120]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1025, 988, 294, 91]"
          href="127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002546"
          fill="0"
          fillcolor="218 218 255"
@@ -89853,9 +89812,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig26.6.0"
         x="1025"
-        y="1024"
+        y="988"
         width="294"
-        height="120"
+        height="91"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -89863,39 +89822,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig26.6.1"
         x="1025"
-        y="1024"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >getName() : string</text>
-      <text name="Fig26.6.2"
-        x="1025"
-        y="1040"
-        width="294"
-        height="16"
-        fill="0"
-        fillcolor="218 218 255"
-        stroke="0"
-        strokecolor="black"
-        textcolor="black"
-        font="Dialog"
-        italic="false"
-        bold="false"
-        textsize="12"
-        justification="Left"
-      >setName(name : string)</text>
-      <text name="Fig26.6.3"
-        x="1025"
-        y="1056"
+        y="988"
         width="294"
         height="16"
         fill="0"
@@ -89909,9 +89836,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >getChoices() : array</text>
-      <text name="Fig26.6.4"
+      <text name="Fig26.6.2"
         x="1025"
-        y="1072"
+        y="1004"
         width="294"
         height="16"
         fill="0"
@@ -89925,9 +89852,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >setChoices(choices : array)</text>
-      <text name="Fig26.6.5"
+      <text name="Fig26.6.3"
         x="1025"
-        y="1088"
+        y="1020"
         width="294"
         height="16"
         fill="0"
@@ -89941,9 +89868,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >toXHTML() : string</text>
-      <text name="Fig26.6.6"
+      <text name="Fig26.6.4"
         x="1025"
-        y="1104"
+        y="1036"
         width="294"
         height="16"
         fill="0"
@@ -89957,9 +89884,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >toQTI() : string</text>
-      <text name="Fig26.6.7"
+      <text name="Fig26.6.5"
         x="1025"
-        y="1120"
+        y="1052"
         width="294"
         height="22"
         fill="0"
