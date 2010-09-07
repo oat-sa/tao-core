@@ -80,7 +80,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Sep 06 16:00:40 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Sep 07 17:36:03 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.2(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -25514,6 +25514,9 @@ If the parameter already exists a InvalidArgumentException is thrown.
                               <UML:ModelElement.clientDependency>
                                 <UML:Abstraction xmi.idref = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A3'/>
                               </UML:ModelElement.clientDependency>
+                              <UML:GeneralizableElement.generalization>
+                                <UML:Generalization xmi.idref = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:000000000000259E'/>
+                              </UML:GeneralizableElement.generalization>
                               <UML:Classifier.feature>
                                 <UML:Attribute xmi.id = '127-0-1-1--12a4f8d3:12a37dedffb:-8000:0000000000002443'
                                   name = 'MATCH_CORRECT' visibility = 'public' isSpecification = 'false' ownerScope = 'classifier'
@@ -25603,8 +25606,6 @@ If the parameter already exists a InvalidArgumentException is thrown.
                                         <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
                                       </UML:Parameter.type>
                                     </UML:Parameter>
-                                    <UML:Parameter xmi.id = '127-0-1-1-22b8f30e:12a6107e2bc:-8000:0000000000002492'
-                                      name = 'arg3' isSpecification = 'false' kind = 'in'/>
                                   </UML:BehavioralFeature.parameter>
                                 </UML:Operation>
                                 <UML:Attribute xmi.id = '127-0-1-1--12a4f8d3:12a37dedffb:-8000:0000000000002419'
@@ -25622,6 +25623,45 @@ If the parameter already exists a InvalidArgumentException is thrown.
                                     <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
                                   </UML:StructuralFeature.type>
                                 </UML:Attribute>
+                                <UML:Operation xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025A6'
+                                  name = 'toXHTML' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                                  isAbstract = 'false'>
+                                  <UML:BehavioralFeature.parameter>
+                                    <UML:Parameter xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025A7'
+                                      name = 'return' isSpecification = 'false' kind = 'return'>
+                                      <UML:Parameter.type>
+                                        <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                                      </UML:Parameter.type>
+                                    </UML:Parameter>
+                                  </UML:BehavioralFeature.parameter>
+                                </UML:Operation>
+                                <UML:Operation xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025A8'
+                                  name = 'toQTI' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                                  isAbstract = 'false'>
+                                  <UML:BehavioralFeature.parameter>
+                                    <UML:Parameter xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025A9'
+                                      name = 'return' isSpecification = 'false' kind = 'return'>
+                                      <UML:Parameter.type>
+                                        <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                                      </UML:Parameter.type>
+                                    </UML:Parameter>
+                                  </UML:BehavioralFeature.parameter>
+                                </UML:Operation>
+                                <UML:Operation xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025AA'
+                                  name = 'toForm' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                                  isAbstract = 'false'>
+                                  <UML:BehavioralFeature.parameter>
+                                    <UML:Parameter xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025AB'
+                                      name = 'return' isSpecification = 'false' kind = 'return'>
+                                      <UML:Parameter.type>
+                                        <UML:Class xmi.idref = '10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A4'/>
+                                      </UML:Parameter.type>
+                                    </UML:Parameter>
+                                  </UML:BehavioralFeature.parameter>
+                                </UML:Operation>
                               </UML:Classifier.feature>
                             </UML:Class>
                             <UML:Class xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A2'
@@ -25630,6 +25670,50 @@ If the parameter already exists a InvalidArgumentException is thrown.
                               <UML:ModelElement.clientDependency>
                                 <UML:Abstraction xmi.idref = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A5'/>
                               </UML:ModelElement.clientDependency>
+                              <UML:GeneralizableElement.generalization>
+                                <UML:Generalization xmi.idref = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:000000000000259F'/>
+                              </UML:GeneralizableElement.generalization>
+                              <UML:Classifier.feature>
+                                <UML:Operation xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025A0'
+                                  name = 'toXHTML' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                                  isAbstract = 'false'>
+                                  <UML:BehavioralFeature.parameter>
+                                    <UML:Parameter xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025A1'
+                                      name = 'return' isSpecification = 'false' kind = 'return'>
+                                      <UML:Parameter.type>
+                                        <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                                      </UML:Parameter.type>
+                                    </UML:Parameter>
+                                  </UML:BehavioralFeature.parameter>
+                                </UML:Operation>
+                                <UML:Operation xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025A2'
+                                  name = 'toQTI' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                                  isAbstract = 'false'>
+                                  <UML:BehavioralFeature.parameter>
+                                    <UML:Parameter xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025A3'
+                                      name = 'return' isSpecification = 'false' kind = 'return'>
+                                      <UML:Parameter.type>
+                                        <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                                      </UML:Parameter.type>
+                                    </UML:Parameter>
+                                  </UML:BehavioralFeature.parameter>
+                                </UML:Operation>
+                                <UML:Operation xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025A4'
+                                  name = 'toForm' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                                  isAbstract = 'false'>
+                                  <UML:BehavioralFeature.parameter>
+                                    <UML:Parameter xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:00000000000025A5'
+                                      name = 'return' isSpecification = 'false' kind = 'return'>
+                                      <UML:Parameter.type>
+                                        <UML:Class xmi.idref = '10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A4'/>
+                                      </UML:Parameter.type>
+                                    </UML:Parameter>
+                                  </UML:BehavioralFeature.parameter>
+                                </UML:Operation>
+                              </UML:Classifier.feature>
                             </UML:Class>
                             <UML:Abstraction xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A3'
                               isSpecification = 'false'>
@@ -25676,13 +25760,17 @@ If the parameter already exists a InvalidArgumentException is thrown.
                                       </UML:Parameter.type>
                                     </UML:Parameter>
                                     <UML:Parameter xmi.id = '127-0-1-1-5ae00f6b:12a36da0066:-8000:0000000000002424'
-                                      name = 'correctResponses' isSpecification = 'false' kind = 'in'>
+                                      name = 'response' isSpecification = 'false' kind = 'in'>
                                       <UML:Parameter.type>
-                                        <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                                        <UML:Class xmi.idref = '127-0-1-1--4be859a6:12a33452171:-8000:000000000000241D'/>
                                       </UML:Parameter.type>
                                     </UML:Parameter>
                                     <UML:Parameter xmi.id = '127-0-1-1-5ae00f6b:12a36da0066:-8000:0000000000002425'
                                       name = 'score' isSpecification = 'false' kind = 'in'>
+                                      <UML:Parameter.defaultValue>
+                                        <UML:Expression xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:000000000000259D'
+                                          language = 'UML 1.4' body = 'null'/>
+                                      </UML:Parameter.defaultValue>
                                       <UML:Parameter.type>
                                         <UML:Class xmi.idref = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002347'/>
                                       </UML:Parameter.type>
@@ -25691,6 +25779,24 @@ If the parameter already exists a InvalidArgumentException is thrown.
                                 </UML:Operation>
                               </UML:Classifier.feature>
                             </UML:Interface>
+                            <UML:Generalization xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:000000000000259E'
+                              isSpecification = 'false'>
+                              <UML:Generalization.child>
+                                <UML:Class xmi.idref = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A1'/>
+                              </UML:Generalization.child>
+                              <UML:Generalization.parent>
+                                <UML:Class xmi.idref = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000022FE'/>
+                              </UML:Generalization.parent>
+                            </UML:Generalization>
+                            <UML:Generalization xmi.id = '127-0-1-1--5fc6d28e:12aec61bbe9:-8000:000000000000259F'
+                              isSpecification = 'false'>
+                              <UML:Generalization.child>
+                                <UML:Class xmi.idref = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A2'/>
+                              </UML:Generalization.child>
+                              <UML:Generalization.parent>
+                                <UML:Class xmi.idref = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000022FE'/>
+                              </UML:Generalization.parent>
+                            </UML:Generalization>
                           </UML:Namespace.ownedElement>
                         </UML:Package>
                         <UML:Class xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023E9'
@@ -85967,7 +86073,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Left"
     >taoItems::models::classes::QTI</text>
     <group name="Fig0.3"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[16, 0, 183, 1]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[16, 8, 183, 1]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000022FD"
          fill="1"
          fillcolor="white"
@@ -85980,7 +86086,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig0.3.0"
         x="16"
-        y="0"
+        y="8"
         width="183"
         height="1"
         fill="1"
@@ -86742,9 +86848,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="344"
         height="22"
         fill="0"
-        fillcolor="white"
+        fillcolor="211 211 211"
         stroke="0"
-        strokecolor="black"
+        strokecolor="64 64 64"
         textcolor="black"
         font="Dialog"
         italic="false"
@@ -86934,9 +87040,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="344"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="211 211 211"
         stroke="0"
-        strokecolor="black"
+        strokecolor="64 64 64"
         textcolor="black"
         font="Dialog"
         italic="false"
@@ -86950,9 +87056,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="344"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="211 211 211"
         stroke="0"
-        strokecolor="black"
+        strokecolor="64 64 64"
         textcolor="black"
         font="Dialog"
         italic="false"
@@ -86966,9 +87072,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="344"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="211 211 211"
         stroke="0"
-        strokecolor="black"
+        strokecolor="64 64 64"
         textcolor="black"
         font="Dialog"
         italic="false"
@@ -86982,9 +87088,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="344"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="211 211 211"
         stroke="0"
-        strokecolor="black"
+        strokecolor="64 64 64"
         textcolor="black"
         font="Dialog"
         italic="false"
@@ -87834,7 +87940,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Center"
     >Outcome</text>
     <group name="Fig8.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[33, 985, 219, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[33, 985, 239, 0]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002347"
          fill="0"
          fillcolor="white"
@@ -87848,7 +87954,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <rectangle name="Fig8.2.0"
         x="33"
         y="985"
-        width="219"
+        width="239"
         height="0"
         fill="0"
         fillcolor="white"
@@ -88161,13 +88267,13 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="192 192 192"
     >
       <moveto x="944"
-              y="848" />
+              y="872" />
       <lineto x="1048"
-              y="848" />
+              y="872" />
     </path>
   </group>
   <group name="Fig12"
-       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[16, 1152, 520, 336]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
+       description="org.argouml.uml.diagram.static_structure.ui.FigPackage[16, 1168, 528, 376]pathVisible=true;stereotypeView=2;stereotypeVisible=true;visibilityVisible=false"
        href="127-0-1-1--56c234f4:12a31c89cc3:-8000:000000000000239F"
        fill="1"
        fillcolor="255 215 255"
@@ -88179,9 +88285,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     
     <rectangle name="Fig12.0"
       x="16"
-      y="1152"
-      width="520"
-      height="336"
+      y="1168"
+      width="528"
+      height="376"
       fill="0"
       fillcolor="white"
       stroke="0"
@@ -88195,24 +88301,24 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     >
       <moveto x="16"
-              y="1152" />
-      <lineto x="486"
-              y="1152" />
-      <lineto x="486"
-              y="1175" />
-      <lineto x="535"
-              y="1175" />
-      <lineto x="535"
-              y="1487" />
+              y="1168" />
+      <lineto x="494"
+              y="1168" />
+      <lineto x="494"
+              y="1191" />
+      <lineto x="543"
+              y="1191" />
+      <lineto x="543"
+              y="1543" />
       <lineto x="16"
-              y="1487" />
+              y="1543" />
       <lineto x="16"
-              y="1152" />
+              y="1168" />
     </path>
     <text name="Fig12.2"
       x="16"
-      y="1152"
-      width="471"
+      y="1168"
+      width="479"
       height="24"
       fill="0"
       fillcolor="255 215 255"
@@ -88226,7 +88332,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Left"
     >taoItems::models::classes::QTI::response</text>
     <group name="Fig12.3"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[16, 1152, 470, 1]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[16, 1168, 478, 1]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:000000000000239F"
          fill="1"
          fillcolor="255 215 255"
@@ -88239,8 +88345,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig12.3.0"
         x="16"
-        y="1152"
-        width="470"
+        y="1168"
+        width="478"
         height="1"
         fill="1"
         fillcolor="255 215 255"
@@ -88250,9 +88356,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <text name="Fig12.4"
       x="16"
-      y="1175"
-      width="520"
-      height="313"
+      y="1191"
+      width="528"
+      height="353"
       fill="0"
       fillcolor="255 215 255"
       stroke="1"
@@ -88266,7 +88372,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     ></text>
   </group>
   <group name="Fig13"
-       description="org.argouml.uml.diagram.static_structure.ui.FigInterface[96, 1192, 376, 67]pathVisible=false;stereotypeView=2;operationsVisible=true;operationsVisible=true"
+       description="org.argouml.uml.diagram.static_structure.ui.FigInterface[96, 1208, 377, 67]pathVisible=false;stereotypeView=2;operationsVisible=true;operationsVisible=true"
        href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A0"
        fill="1"
        fillcolor="255 200 255"
@@ -88279,8 +88385,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     
     <rectangle name="Fig13.0"
       x="96"
-      y="1192"
-      width="376"
+      y="1208"
+      width="377"
       height="67"
       fill="1"
       fillcolor="255 200 255"
@@ -88289,8 +88395,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     />
     <text name="Fig13.1"
       x="97"
-      y="1193"
-      width="374"
+      y="1209"
+      width="375"
       height="41"
       fill="0"
       fillcolor="255 200 255"
@@ -88304,7 +88410,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Center"
     >ResponseProcessing</text>
     <group name="Fig13.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[97, 1193, 374, 19]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[97, 1209, 375, 19]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A0"
          fill="0"
          fillcolor="255 200 255"
@@ -88316,8 +88422,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig13.2.0"
         x="97"
-        y="1193"
-        width="374"
+        y="1209"
+        width="375"
         height="19"
         fill="0"
         fillcolor="255 200 255"
@@ -88326,8 +88432,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig13.2.1"
         x="97"
-        y="1193"
-        width="374"
+        y="1209"
+        width="375"
         height="17"
         fill="0"
         fillcolor="255 200 255"
@@ -88343,8 +88449,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig13.3"
       x="96"
-      y="1234"
-      width="376"
+      y="1250"
+      width="377"
       height="1"
       fill="1"
       fillcolor="black"
@@ -88352,7 +88458,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig13.4"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[97, 1235, 374, 24]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[97, 1251, 375, 24]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A0"
          fill="0"
          fillcolor="255 200 255"
@@ -88364,8 +88470,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig13.4.0"
         x="97"
-        y="1235"
-        width="374"
+        y="1251"
+        width="375"
         height="24"
         fill="0"
         fillcolor="white"
@@ -88374,8 +88480,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig13.4.1"
         x="97"
-        y="1235"
-        width="374"
+        y="1251"
+        width="375"
         height="22"
         fill="0"
         fillcolor="255 200 255"
@@ -88387,11 +88493,11 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >process(correctResponses : array,score : Outcome) : boolean</text>
+      >process(response : Response,score : Outcome = null) : boolean</text>
     </group>
   </group>
   <group name="Fig14"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 1328, 272, 136]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[40, 1344, 272, 184]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A1"
        fill="1"
        fillcolor="255 200 255"
@@ -88404,9 +88510,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     
     <rectangle name="Fig14.0"
       x="40"
-      y="1328"
+      y="1344"
       width="272"
-      height="136"
+      height="184"
       fill="1"
       fillcolor="255 200 255"
       stroke="1"
@@ -88414,7 +88520,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     />
     <text name="Fig14.1"
       x="41"
-      y="1329"
+      y="1345"
       width="270"
       height="22"
       fill="0"
@@ -88429,7 +88535,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Center"
     >Template</text>
     <group name="Fig14.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 1329, 304, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[41, 1345, 304, 0]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A1"
          fill="0"
          fillcolor="255 200 255"
@@ -88442,7 +88548,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig14.2.0"
         x="41"
-        y="1329"
+        y="1345"
         width="304"
         height="0"
         fill="0"
@@ -88453,7 +88559,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig14.3"
       x="40"
-      y="1351"
+      y="1367"
       width="272"
       height="1"
       fill="1"
@@ -88462,7 +88568,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig14.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 1352, 270, 88]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[41, 1368, 270, 88]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A1"
          fill="0"
          fillcolor="255 200 255"
@@ -88474,7 +88580,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig14.4.0"
         x="41"
-        y="1352"
+        y="1368"
         width="270"
         height="88"
         fill="0"
@@ -88484,7 +88590,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig14.4.1"
         x="41"
-        y="1352"
+        y="1368"
         width="270"
         height="16"
         fill="0"
@@ -88500,7 +88606,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >MATCH_CORRECT : string</text>
       <text name="Fig14.4.2"
         x="41"
-        y="1368"
+        y="1384"
         width="270"
         height="16"
         fill="0"
@@ -88516,7 +88622,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >MAP_RESPONSE : string</text>
       <text name="Fig14.4.3"
         x="41"
-        y="1384"
+        y="1400"
         width="270"
         height="16"
         fill="0"
@@ -88532,7 +88638,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >MAP_RESPONSE_POINT : string</text>
       <text name="Fig14.4.4"
         x="41"
-        y="1400"
+        y="1416"
         width="270"
         height="16"
         fill="0"
@@ -88548,7 +88654,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >uri : string</text>
       <text name="Fig14.4.5"
         x="41"
-        y="1416"
+        y="1432"
         width="270"
         height="22"
         fill="0"
@@ -88565,7 +88671,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig14.5"
       x="40"
-      y="1439"
+      y="1455"
       width="272"
       height="1"
       fill="1"
@@ -88574,7 +88680,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig14.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 1440, 270, 24]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[41, 1456, 270, 72]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A1"
          fill="0"
          fillcolor="255 200 255"
@@ -88586,9 +88692,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig14.6.0"
         x="41"
-        y="1440"
+        y="1456"
         width="270"
-        height="24"
+        height="72"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -88596,9 +88702,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig14.6.1"
         x="41"
-        y="1440"
+        y="1456"
         width="270"
-        height="22"
+        height="16"
         fill="0"
         fillcolor="255 200 255"
         stroke="0"
@@ -88609,11 +88715,59 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >&lt;&lt;create&gt;&gt; __construct(uri : string,arg3)</text>
+      >&lt;&lt;create&gt;&gt; __construct(uri : string)</text>
+      <text name="Fig14.6.2"
+        x="41"
+        y="1472"
+        width="270"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >toXHTML() : string</text>
+      <text name="Fig14.6.3"
+        x="41"
+        y="1488"
+        width="270"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >toQTI() : string</text>
+      <text name="Fig14.6.4"
+        x="41"
+        y="1504"
+        width="270"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >toForm() : Form</text>
     </group>
   </group>
   <group name="Fig15"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[328, 1328, 184, 66]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[344, 1344, 184, 101]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A2"
        fill="1"
        fillcolor="255 200 255"
@@ -88625,18 +88779,18 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </private>
     
     <rectangle name="Fig15.0"
-      x="328"
-      y="1328"
+      x="344"
+      y="1344"
       width="184"
-      height="66"
+      height="101"
       fill="1"
       fillcolor="255 200 255"
       stroke="1"
       strokecolor="black"
     />
     <text name="Fig15.1"
-      x="329"
-      y="1329"
+      x="345"
+      y="1345"
       width="182"
       height="22"
       fill="0"
@@ -88651,7 +88805,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Center"
     >CustomRule</text>
     <group name="Fig15.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[329, 1329, 317, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[345, 1345, 317, 0]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A2"
          fill="0"
          fillcolor="255 200 255"
@@ -88663,8 +88817,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       </private>
       
       <rectangle name="Fig15.2.0"
-        x="329"
-        y="1329"
+        x="345"
+        y="1345"
         width="317"
         height="0"
         fill="0"
@@ -88674,8 +88828,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
     </group>
     <rectangle name="Fig15.3"
-      x="328"
-      y="1351"
+      x="344"
+      y="1367"
       width="184"
       height="1"
       fill="1"
@@ -88684,7 +88838,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig15.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[329, 1352, 182, 21]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[345, 1368, 182, 21]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A2"
          fill="0"
          fillcolor="255 200 255"
@@ -88695,8 +88849,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       </private>
       
       <rectangle name="Fig15.4.0"
-        x="329"
-        y="1352"
+        x="345"
+        y="1368"
         width="182"
         height="21"
         fill="0"
@@ -88706,8 +88860,8 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
     </group>
     <rectangle name="Fig15.5"
-      x="328"
-      y="1372"
+      x="344"
+      y="1388"
       width="184"
       height="1"
       fill="1"
@@ -88716,7 +88870,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig15.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[329, 1373, 182, 21]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[345, 1389, 182, 56]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023A2"
          fill="0"
          fillcolor="255 200 255"
@@ -88727,15 +88881,63 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       </private>
       
       <rectangle name="Fig15.6.0"
-        x="329"
-        y="1373"
+        x="345"
+        y="1389"
         width="182"
-        height="21"
+        height="56"
         fill="0"
         fillcolor="white"
         stroke="0"
         strokecolor="black"
       />
+      <text name="Fig15.6.1"
+        x="345"
+        y="1389"
+        width="182"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >toXHTML() : string</text>
+      <text name="Fig15.6.2"
+        x="345"
+        y="1405"
+        width="182"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >toQTI() : string</text>
+      <text name="Fig15.6.3"
+        x="345"
+        y="1421"
+        width="182"
+        height="22"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >toForm() : Form</text>
     </group>
   </group>
   <group name="Fig16"
@@ -88763,10 +88965,10 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="136"
-              y="1336" />
-      <lineto x="136"
-              y="1267" />
+      <moveto x="184"
+              y="1344" />
+      <lineto x="184"
+              y="1275" />
     </path>
   </group>
   <group name="Fig17"
@@ -88794,10 +88996,10 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="336"
-              y="1336" />
-      <lineto x="336"
-              y="1267" />
+      <moveto x="360"
+              y="1344" />
+      <lineto x="360"
+              y="1275" />
     </path>
   </group>
   <group name="Fig18"
@@ -89136,7 +89338,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="317"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -89152,7 +89354,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="317"
         height="22"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -89232,7 +89434,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="317"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -89248,7 +89450,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="317"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -89264,7 +89466,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="317"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -89280,7 +89482,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="317"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="255 200 255"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -89944,7 +90146,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
        sourceConnector="127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002522"
        destConnector="127-0-1-1--398d1ef5:12acc40a46b:-8000:0000000000002525"
        stroke="1"
-       strokecolor="black"
+       strokecolor="192 192 192"
   >
     <private>
       sourcePortFig="Fig2"
@@ -89987,12 +90189,12 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       fill="0"
       fillcolor="white"
       stroke="1"
-      strokecolor="black"
+      strokecolor="192 192 192"
     >
       <moveto x="320"
               y="936" />
       <lineto x="320"
-              y="1192" />
+              y="1208" />
     </path>
   </group>
   <group name="Fig25"
@@ -90034,7 +90236,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       justification="Center"
     >Group</text>
     <group name="Fig25.2"
-         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1049, 977, 224, 0]"
+         description="org.argouml.uml.diagram.ui.FigStereotypesGroup[1041, 977, 224, 0]"
          href="127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002546"
          fill="0"
          fillcolor="218 218 255"
@@ -90046,7 +90248,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       </private>
       
       <rectangle name="Fig25.2.0"
-        x="1049"
+        x="1041"
         y="977"
         width="224"
         height="0"
@@ -90505,7 +90707,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
        sourceConnector="127-0-1-1--a2bd9f7:12ae6efc8e9:-8000:0000000000002598"
        destConnector="127-0-1-1--a2bd9f7:12ae6efc8e9:-8000:000000000000259B"
        stroke="1"
-       strokecolor="black"
+       strokecolor="192 192 192"
   >
     <private>
       sourcePortFig="Fig2"
@@ -90544,16 +90746,90 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                         offset="5" />
     </private>
     <path name="Fig29.0"
+      description="org.argouml.gefext.ArgoFigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="192 192 192"
+    >
+      <moveto x="184"
+              y="936" />
+      <lineto x="184"
+              y="984" />
+    </path>
+  </group>
+  <group name="Fig30"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1--5fc6d28e:12aec61bbe9:-8000:000000000000259E"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig14.0"
+      destPortFig="Fig1.0"
+      sourceFigNode="Fig14"
+      destFigNode="Fig1"
+      <argouml:pathitem figname="Fig30.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1--5fc6d28e:12aec61bbe9:-8000:000000000000259E"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig30.0"
       description="org.tigris.gef.presentation.FigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
       strokecolor="black"
     >
-      <moveto x="184"
-              y="936" />
-      <lineto x="184"
-              y="984" />
+      <moveto x="72"
+              y="1344" />
+      <lineto x="72"
+              y="1152" />
+      <lineto x="424"
+              y="1152" />
+      <lineto x="424"
+              y="528" />
+      <lineto x="784"
+              y="528" />
+    </path>
+  </group>
+  <group name="Fig31"
+       description="org.argouml.uml.diagram.ui.FigGeneralization"
+       href="127-0-1-1--5fc6d28e:12aec61bbe9:-8000:000000000000259F"
+       stroke="1"
+       strokecolor="black"
+  >
+    <private>
+      sourcePortFig="Fig15.0"
+      destPortFig="Fig1.0"
+      sourceFigNode="Fig15"
+      destFigNode="Fig1"
+      <argouml:pathitem figname="Fig31.1"
+                        classname="org.argouml.uml.diagram.ui.PathItemPlacement"
+                        figclassname="org.argouml.uml.diagram.ui.FigTextGroup"
+                        ownerhref="127-0-1-1--5fc6d28e:12aec61bbe9:-8000:000000000000259F"
+                        angle="270.0"
+                        offset="-10" />
+    </private>
+    <path name="Fig31.0"
+      description="org.tigris.gef.presentation.FigPoly"
+      fill="0"
+      fillcolor="white"
+      stroke="1"
+      strokecolor="black"
+    >
+      <moveto x="480"
+              y="1344" />
+      <lineto x="480"
+              y="1152" />
+      <lineto x="424"
+              y="1152" />
+      <lineto x="424"
+              y="528" />
+      <lineto x="784"
+              y="528" />
     </path>
   </group>
 </pgml>
