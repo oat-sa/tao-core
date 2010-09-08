@@ -26,6 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @param  string action
  * @param  string module
+ * @param  string extension
  * @param  array params
  * @return 
  */
