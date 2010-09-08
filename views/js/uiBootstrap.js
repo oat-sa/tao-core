@@ -140,6 +140,7 @@ UiBootstrap = function(options){
 						$('#section-actions').css({display: 'block'});
 					}
 					$('#section-actions').html(response);
+					EventMgr.trigger('actionInitiated', [response]);
 				}
 			});
 		}
