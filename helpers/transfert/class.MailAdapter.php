@@ -113,7 +113,7 @@ class tao_helpers_transfert_MailAdapter
 				
 				$this->mailer->Subject    = $message->getTitle();
 				
-				$this->mailer->AltBody    = strip_tags(preg_replace("/<br.*>/ig", "\n", $message->getBody()));
+				$this->mailer->AltBody    = strip_tags(preg_replace("/<br.*>/i", "\n", $message->getBody()));
 				
 				$this->mailer->MsgHTML($message->getBody());
 				
