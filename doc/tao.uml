@@ -80,7 +80,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Sep 08 19:28:50 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Sep 08 19:45:11 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.1(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -34109,7 +34109,11 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                           isAbstract = 'false'>
                           <UML:BehavioralFeature.parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-55168b5b:12a23667c68:-8000:0000000000006BEA'
-                              name = 'return' isSpecification = 'false' kind = 'return'/>
+                              name = 'return' isSpecification = 'false' kind = 'return'>
+                              <UML:Parameter.type>
+                                <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B11'/>
+                              </UML:Parameter.type>
+                            </UML:Parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-55168b5b:12a23667c68:-8000:0000000000006BEB'
                               name = 'subject' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.type>
@@ -34161,7 +34165,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
                               </UML:Parameter.type>
                             </UML:Parameter>
                             <UML:Parameter xmi.id = '127-0-1-1-6453c157:12af25fa095:-8000:00000000000023F9'
-                              name = 'resource' isSpecification = 'false' kind = 'in'>
+                              name = 'subject' isSpecification = 'false' kind = 'in'>
                               <UML:Parameter.type>
                                 <UML:Class xmi.idref = '10-13-1--31-64e54c36:1190f0455d3:-8000:0000000000000765'/>
                               </UML:Parameter.type>
@@ -64018,14 +64022,14 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >score(subject : Resource,delivery : Resource)</text>
+      >score(subject : Resource,delivery : Resource) : array</text>
       <text name="Fig61.6.5"
         x="2065"
         y="514"
         width="447"
         height="15"
         fill="0"
-        fillcolor="white"
+        fillcolor="192 192 192"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -64041,7 +64045,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="447"
         height="21"
         fill="0"
-        fillcolor="white"
+        fillcolor="192 192 192"
         stroke="0"
         strokecolor="black"
         textcolor="black"
@@ -64050,7 +64054,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         bold="false"
         textsize="12"
         justification="Left"
-      >endSurvey(resource : Resource,delivery : Resource) : boolean</text>
+      >endSurvey(subject : Resource,delivery : Resource) : boolean</text>
     </group>
   </group>
   <group name="Fig62"
