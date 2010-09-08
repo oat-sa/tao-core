@@ -46,6 +46,9 @@ abstract class tao_models_classes_Service
     // --- ATTRIBUTES ---
 
     // --- OPERATIONS ---
+    public function __construct(){
+        
+    }
 
 } /* end of abstract class tao_models_classes_Service */
 
