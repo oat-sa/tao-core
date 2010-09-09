@@ -42,7 +42,7 @@ UiForm = function(){
 					formInstance.initElements();
 					formInstance.initOntoForms();
 				}
-				else if (/search|authoring|itemSequence|Import/.test(testedUrl)) {
+				else if (/search|authoring|itemSequence|Import|IO/.test(testedUrl)) {
 					formInstance.initElements();
 				}
 				else if(/translate/.test(testedUrl)){
