@@ -8,19 +8,19 @@
 	
 if(PHP_SAPI == 'cli'){
 	$_SERVER['HTTP_HOST'] = 'http://localhost';
-	$_SERVER['DOCUMENT_ROOT'] = dirname(__FILE__).'/../..';
+	$_SERVER['DOCUMENT_ROOT'] = dirname(__FILE__).'/../../..';
 }
 	
-require_once dirname(__FILE__).'/../../generis/common/inc.extension.php';	
-require_once dirname(__FILE__).'/../includes/common.php';
-require_once dirname(__FILE__).'/utils.php';
+require_once dirname(__FILE__).'/../../../generis/common/inc.extension.php';	
+require_once dirname(__FILE__).'/../../includes/common.php';
+require_once dirname(__FILE__).'/../utils.php';
 
 $dbWrapper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
 
 
 $updateFiles = array(
-	'00_generisUser.sql'	=> dirname(__FILE__).'/update/1.2/00_generisUser.sql',
-	'00_usersManagement.php'	=> dirname(__FILE__).'/update/1.2/00_usersManagement.php'
+	'00_generisUser.sql'	=> dirname(__FILE__).'/../update/1.2/00_generisUser.sql',
+	'00_usersManagement.php'	=> dirname(__FILE__).'/../update/1.2/00_usersManagement.php'
 );
 foreach($updateFiles as $file => $path){
 	if(preg_match("/\.php$/", $file)){
@@ -29,7 +29,6 @@ foreach($updateFiles as $file => $path){
 	if(preg_match("/\.sql$/", $file)){
 		loadSql($path, $dbWrapper->dbConnector);
 	}
-
 }
 
 ?>

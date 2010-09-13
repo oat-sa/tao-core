@@ -1,12 +1,9 @@
 ## Configuration ##
 
-Apache server configuration:
+Apache web server configuration:
  - rewrite module enabled 
  - php5 module enabled 
  - "Allowoverride All" instruction on the DOCUMENT_ROOT 
- - Allow www-data user write permission to taoDelivery/compiled, 
- taoDelivery/views/deliveryServer/resultServer/partialResults and 
- taoDelivery/views/deliveryServer/resultServer/received
  
  PHP server configuration:
   - required version >= 5.2.6, < 5.3 
@@ -17,3 +14,54 @@ Apache server configuration:
   
  MySql server cofiguration:
   - version >= 5.0  
+  
+ 
+  
+## INSTALL TAO ##
+ - copy TAO distribution in your web folder (the DOCUMENT ROOT of your virtual host is recommended)
+ - check the web sever permission.
+ 	For Apache the usual user www-data should be able to read, execute (and write for some folders listed at the end of this file)
+ - In your web browser open the page http://your-host/tao/install/ and fill out the form
+ 
+ 
+ 
+## UPDATE AN EXISTING TAO ##
+  - backup the files from the folders listed at the end this file.
+  - copy the TAO distribution over the previous.
+  - copy the backed-up files in their respectives folders 
+  - from the command line: 
+  $ cd tao/install && php update.php version 
+   where "version" is version to update to, for example to update from version 1.2 to 1.3 :
+  $ cd tao/install && php update.php 1.3
+   the process should repeated for each intermediate version, for example to update from version 1.1 to 1.3 :
+  $ cd tao/install && php update.php 1.2
+  $ cd tao/install && php update.php 1.3
+  
+  - form the web browser(beta), you can do the same process as bellow but call the script:
+  http://your-host/tao/install/update.php?version=version
+   where "version" is version to update to, for example to update from version 1.2 to 1.3 :
+  http://your-host/tao/install/update.php?version=1.3
+   
+ 
+ 
+ ## FOLDERS needs the write permission ##
+ 
+  - During the install the config file is created inside them (you can change the permissions once the install is finished) 
+ generis/common
+ filemanager/includes
+ tao/includes
+ taoDelivery/includes
+ taoGroups/includes
+ taoItems/includes
+ taoSubjects/includes
+ taoTests/includes
+ wfEngine/includes
+ 
+ - The following folder contains data created by the user or by the system. 
+   (In case of an update, backup and then copy the content of the following folders inside their updated directory)
+ filemanager/views/data
+ tao/views/export
+ taoItems/data
+ taoDElivery/compiled
+ taoDelivery/views/deliveryServer/resultServer/partialResults 
+ taoDelivery/views/deliveryServer/resultServer/received

@@ -61,6 +61,56 @@ class tao_helpers_Request
         return (bool) $returnValue;
     }
 
+    /**
+     * Perform an HTTP Request on the defined url and return the content
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string url
+     * @param  boolean useSession if you want to use the same session in the remotre server
+     * @return string
+     */
+    public static function load($url, $useSession = false)
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-673d6215:12afb9a0b0f:-8000:00000000000025A1 begin
+        
+        if(!empty($url)){
+	        if($useSession){
+	   			session_write_close();
+	        }
+			
+	        $curlHandler = curl_init();
+			
+	        //if there is an http auth, it's mandatory to connect with curl
+			if(USE_HTTP_AUTH){
+				curl_setopt($curlHandler, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+	            curl_setopt($curlHandler, CURLOPT_USERPWD, USE_HTTP_USER.":".USE_HTTP_PASS);
+			}
+			curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
+			
+			//to keep the session
+	        if($useSession){
+				if(!preg_match("/&$/", $url)){
+					$url .= '&';
+				}
+				$url .= 'session_id=' . session_id();
+				curl_setopt($curlHandler, CURLOPT_COOKIE, session_name(). '=' . $_COOKIE[session_name()] . '; path=/'); 
+	        }
+	        
+			curl_setopt($curlHandler, CURLOPT_URL, $url);
+				
+			$returnValue = curl_exec($curlHandler);
+			
+			curl_close($curlHandler);  
+        }
+        
+        // section 127-0-1-1-673d6215:12afb9a0b0f:-8000:00000000000025A1 end
+
+        return (string) $returnValue;
+    }
+
 } /* end of class tao_helpers_Request */
 
 ?>

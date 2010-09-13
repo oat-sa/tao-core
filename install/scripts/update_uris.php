@@ -8,13 +8,14 @@
 	
 if(PHP_SAPI == 'cli'){
 	$_SERVER['HTTP_HOST'] = 'http://localhost';
-	$_SERVER['DOCUMENT_ROOT'] = dirname(__FILE__).'/../..';
+	$_SERVER['DOCUMENT_ROOT'] = dirname(__FILE__).'/../../..';
 }
 	
-require_once dirname(__FILE__).'/../../generis/common/inc.extension.php';	
-require_once dirname(__FILE__).'/../includes/common.php';
+require_once dirname(__FILE__).'/../../../generis/common/inc.extension.php';	
+require_once dirname(__FILE__).'/../../includes/common.php';
 
 define('UPDATE_URI_SOURCE', true);
 define('UPDATE_URI_DB', true);
-include_once dirname(__FILE__).'/update/1.1/04_uri.php';
+
+include_once dirname(__FILE__).'/../update/1.1/04_uri.php';
 ?>
