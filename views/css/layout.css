@@ -46,7 +46,17 @@ span.elt-info{
 div.breaker{
 	clear:both;	
 }
+a.blink{
+	text-decoration:none;
+	font-size : 1.1em;
+	font-weight:bold;
+	color:#444;
+}
+a.blink:hover{
+	color:#D00239;
+}	
 
+	
 /* Layout */
 div#tabs, div#home{
 	top:15px;

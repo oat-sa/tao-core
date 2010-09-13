@@ -77,8 +77,8 @@ div.xhtml_form div span.file-uploader{
 
 /* Form group */
 div.xhtml_form div.form-group{
-	border: solid 1px #ccc;
-	background-color: #ddd;
+	border: solid 1px #cfcfcf;
+	background-color: #e3e3e3;
 	margin:5px;
 	padding:3px;
 	color:#D00239;

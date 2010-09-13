@@ -46,6 +46,7 @@ AsyncFileUpload = function(elt, options){
 	(options.starter) ? starter = options.starter : starter = elt + '_starter';
 	$(starter).click(function(){
 	 	$(elt).uploadifyUpload();
+	 	return false;
 	 });
 	
 };
