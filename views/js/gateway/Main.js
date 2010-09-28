@@ -15,7 +15,7 @@ TaoGateway.addInstance = function (url, classUri){
 		dataType: 'json',
 		success: function(response){
 			if (response.uri) {
-				EventMgr.trigger('instanceAdd', [response]);
+				EventMgr.trigger('instanceAdded', [response]);
 			}
 		}
 	});
