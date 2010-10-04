@@ -84,7 +84,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Fri Oct 01 12:00:07 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Mon Oct 04 13:04:07 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.2(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -25289,6 +25289,19 @@ If the parameter already exists a InvalidArgumentException is thrown.
                             <UML:Generalization xmi.idref = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002346'/>
                           </UML:GeneralizableElement.generalization>
                           <UML:Classifier.feature>
+                            <UML:Operation xmi.id = '127-0-1-1--752f08b1:12b76dcf1f2:-8000:00000000000025B4'
+                              name = 'toXHTML' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                              isAbstract = 'false'>
+                              <UML:BehavioralFeature.parameter>
+                                <UML:Parameter xmi.id = '127-0-1-1--752f08b1:12b76dcf1f2:-8000:00000000000025B5'
+                                  name = 'return' isSpecification = 'false' kind = 'return'>
+                                  <UML:Parameter.type>
+                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
+                                  </UML:Parameter.type>
+                                </UML:Parameter>
+                              </UML:BehavioralFeature.parameter>
+                            </UML:Operation>
                             <UML:Operation xmi.id = '127-0-1-1--56c234f4:12a31c89cc3:-8000:00000000000023E1'
                               name = 'toQTI' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
                               isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
@@ -87955,9 +87968,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         width="506"
         height="16"
         fill="0"
-        fillcolor="white"
+        fillcolor="200 200 255"
         stroke="0"
-        strokecolor="black"
+        strokecolor="192 192 192"
         textcolor="black"
         font="Dialog"
         italic="false"
@@ -88177,7 +88190,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </path>
   </group>
   <group name="Fig6"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1040, 800, 328, 85]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1040, 800, 328, 101]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002345"
        fill="1"
        fillcolor="218 218 255"
@@ -88192,7 +88205,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       x="1040"
       y="800"
       width="328"
-      height="85"
+      height="101"
       fill="1"
       fillcolor="218 218 255"
       stroke="1"
@@ -88280,7 +88293,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig6.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1041, 845, 326, 40]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1041, 845, 326, 56]"
          href="127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002345"
          fill="0"
          fillcolor="218 218 255"
@@ -88294,7 +88307,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         x="1041"
         y="845"
         width="326"
-        height="40"
+        height="56"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -88303,6 +88316,22 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       <text name="Fig6.6.1"
         x="1041"
         y="845"
+        width="326"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >toXHTML() : string</text>
+      <text name="Fig6.6.2"
+        x="1041"
+        y="861"
         width="326"
         height="16"
         fill="0"
@@ -88316,9 +88345,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >toQTI() : string</text>
-      <text name="Fig6.6.2"
+      <text name="Fig6.6.3"
         x="1041"
-        y="861"
+        y="877"
         width="326"
         height="22"
         fill="0"
