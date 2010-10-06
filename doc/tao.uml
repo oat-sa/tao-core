@@ -84,7 +84,7 @@
 			UML 1.4
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Tue Oct 05 17:10:40 CEST 2010'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Wed Oct 06 10:37:47 CEST 2010'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.30.2(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -26476,6 +26476,19 @@ SimpleXML is used as source to build the model.</UML:TaggedValue.dataValue>
                                   name = 'choice' isSpecification = 'false' kind = 'in'>
                                   <UML:Parameter.type>
                                     <UML:Class xmi.idref = '127-0-1-1--56c234f4:12a31c89cc3:-8000:0000000000002345'/>
+                                  </UML:Parameter.type>
+                                </UML:Parameter>
+                              </UML:BehavioralFeature.parameter>
+                            </UML:Operation>
+                            <UML:Operation xmi.id = '127-0-1-1-2f988aef:12b80ad1e72:-8000:00000000000025BE'
+                              name = 'toXHTML' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                              isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                              isAbstract = 'false'>
+                              <UML:BehavioralFeature.parameter>
+                                <UML:Parameter xmi.id = '127-0-1-1-2f988aef:12b80ad1e72:-8000:00000000000025BF'
+                                  name = 'return' isSpecification = 'false' kind = 'return'>
+                                  <UML:Parameter.type>
+                                    <UML:Class xmi.idref = '10-13-1--31--63d751b4:11914bbbbc4:-8000:0000000000000B0E'/>
                                   </UML:Parameter.type>
                                 </UML:Parameter>
                               </UML:BehavioralFeature.parameter>
@@ -90438,7 +90451,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </path>
   </group>
   <group name="Fig25"
-       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1040, 920, 328, 157]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
+       description="org.argouml.uml.diagram.static_structure.ui.FigClass[1040, 920, 328, 168]pathVisible=false;stereotypeView=2;operationsVisible=true;attributesVisible=true;"
        href="127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002546"
        fill="1"
        fillcolor="218 218 255"
@@ -90453,7 +90466,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       x="1040"
       y="920"
       width="328"
-      height="157"
+      height="168"
       fill="1"
       fillcolor="218 218 255"
       stroke="1"
@@ -90509,7 +90522,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig25.4"
-         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1041, 944, 326, 25]"
+         description="org.argouml.uml.diagram.ui.FigAttributesCompartment[1041, 944, 326, 24]"
          href="127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002546"
          fill="0"
          fillcolor="218 218 255"
@@ -90523,7 +90536,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         x="1041"
         y="944"
         width="326"
-        height="25"
+        height="24"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -90548,7 +90561,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
     </group>
     <rectangle name="Fig25.5"
       x="1040"
-      y="969"
+      y="967"
       width="328"
       height="1"
       fill="1"
@@ -90557,7 +90570,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       strokecolor="black"
     />
     <group name="Fig25.6"
-         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1041, 970, 326, 105]"
+         description="org.argouml.uml.diagram.ui.FigOperationsCompartment[1041, 968, 326, 120]"
          href="127-0-1-1-7bfc492a:12ad2946c72:-8000:0000000000002546"
          fill="0"
          fillcolor="218 218 255"
@@ -90569,9 +90582,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       
       <rectangle name="Fig25.6.0"
         x="1041"
-        y="970"
+        y="968"
         width="326"
-        height="105"
+        height="120"
         fill="0"
         fillcolor="white"
         stroke="0"
@@ -90579,7 +90592,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       />
       <text name="Fig25.6.1"
         x="1041"
-        y="970"
+        y="968"
         width="326"
         height="16"
         fill="0"
@@ -90595,7 +90608,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >getChoices() : array</text>
       <text name="Fig25.6.2"
         x="1041"
-        y="986"
+        y="984"
         width="326"
         height="16"
         fill="0"
@@ -90611,7 +90624,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >setChoices(choices : array)</text>
       <text name="Fig25.6.3"
         x="1041"
-        y="1002"
+        y="1000"
         width="326"
         height="16"
         fill="0"
@@ -90627,7 +90640,7 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >addChoices(choices : array)</text>
       <text name="Fig25.6.4"
         x="1041"
-        y="1018"
+        y="1016"
         width="326"
         height="16"
         fill="0"
@@ -90643,7 +90656,23 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
       >removeChoice(choice : Choice) : boolean</text>
       <text name="Fig25.6.5"
         x="1041"
-        y="1034"
+        y="1032"
+        width="326"
+        height="16"
+        fill="0"
+        fillcolor="white"
+        stroke="0"
+        strokecolor="black"
+        textcolor="black"
+        font="Dialog"
+        italic="false"
+        bold="false"
+        textsize="12"
+        justification="Left"
+      >toXHTML() : string</text>
+      <text name="Fig25.6.6"
+        x="1041"
+        y="1048"
         width="326"
         height="16"
         fill="0"
@@ -90657,9 +90686,9 @@ to know the current state of a process execution. </UML:TaggedValue.dataValue>
         textsize="12"
         justification="Left"
       >toQTI() : string</text>
-      <text name="Fig25.6.6"
+      <text name="Fig25.6.7"
         x="1041"
-        y="1050"
+        y="1064"
         width="326"
         height="22"
         fill="0"
