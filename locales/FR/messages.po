@@ -634,13 +634,13 @@ msgstr "Créer la table"
 msgid "export"
 msgstr "exporter"
 
-msgid "The Group module allows to groupe Testees according to global features and classifications."
+msgid "The Group module allows to groupe Test takers according to global features and classifications."
 msgstr "Le module Groupe vous permet de rassembler des Sujets par rapport à des fonctions globales et des classifications."
 
 msgid "The main objective of the Group module is to assign the test(s) to the appointed group, thus establishing the basis for running a test."
 msgstr "L'objectif principal du module Groupe est d'attribuer le(s) test(s) au groupe désigné, en établissant ainsi la base de l'exécution du test."
 
-msgid "Select group testees"
+msgid "Select group test takers"
 msgstr "Choisissez les sujets du groupe"
 
 msgid "Select group test"
@@ -748,13 +748,13 @@ msgstr "Modifier le sujet"
 msgid "Edit subject class"
 msgstr "Modifier la classe sujet"
 
-msgid "Testees"
+msgid "Test takers"
 msgstr "Sujets"
 
-msgid "Manage testees"
+msgid "Manage test takers"
 msgstr "Gérer les sujets"
 
-msgid "Testees library"
+msgid "Test takers library"
 msgstr "Librairie de sujets"
 
 msgid "new subject"
@@ -766,13 +766,13 @@ msgstr "modifier un sujet"
 msgid "Add to group"
 msgstr "Ajouter au groupe"
 
-msgid "The Testees module allows to record and manage  testees."
+msgid "The Test takers module allows to record and manage  test takers."
 msgstr "Le module des sujets vous permet d'ajouter et de gérer les sujets des tests."
 
 msgid "Its flexibility allows the design of datasheets (e.g. name, address, date of birth, gender etc.)."
 msgstr "Sa flexibilité permet la conception des structures de données (ex : nom, adresse, date de naissance, genre… etc.)."
 
-msgid "Testees may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
+msgid "Test takers may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
 msgstr "Les sujets peuvent être assignés à des ensembles selon le contexte d’évaluation (Gestion des ressources humaine, éducation, contrôle d'édumétrie, etc.)"
 
 msgid "Test saved"
@@ -1090,7 +1090,7 @@ msgstr "Recharger"
 msgid "cancel"
 msgstr "Annuler"
 
-msgid "Select testees to be <b>excluded</b>"
+msgid "Select test takers to be <b>excluded</b>"
 msgstr "Sélectionner les sujets de tests à <b>exclure</b>"
 
 msgid "EN"

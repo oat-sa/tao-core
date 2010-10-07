@@ -1000,7 +1000,7 @@ msgstr ""
 msgid "please choose another one"
 msgstr ""
 
-msgid "Select testees to be <b>excluded</b>"
+msgid "Select test takers to be <b>excluded</b>"
 msgstr ""
 
 msgid "Class saved"
@@ -1036,13 +1036,13 @@ msgstr ""
 msgid "Show delvery tests"
 msgstr ""
 
-msgid "The Group module allows to groupe Testees according to global features and classifications."
+msgid "The Group module allows to groupe Test takers according to global features and classifications."
 msgstr ""
 
 msgid "The main objective of the Group module is to assign the test(s) to the appointed group, thus establishing the basis for running a test."
 msgstr ""
 
-msgid "Select group testees"
+msgid "Select group test takers"
 msgstr ""
 
 msgid "Select group test"
@@ -1385,42 +1385,42 @@ msgid "This module constitutes the final step."
 msgstr ""
 
 msgid "All results of passed Tests with their referring Subject, Group and Item specific data, as well as the individual data collected during Test execution are stored and managed here."
-msgstr "All results of passed Tests with their referring Testees, Group and Item specific data, as well as the individual data collected during Test execution are stored and managed here."
+msgstr "All results of passed Tests with their referring Test takers, Group and Item specific data, as well as the individual data collected during Test execution are stored and managed here."
 
 msgid "Subject saved"
-msgstr "Testee saved"
+msgstr "Test taker saved"
 
 msgid "Edit subject"
-msgstr "Edit testee"
+msgstr "Edit test taker"
 
 msgid "Edit subject class"
-msgstr "Edit testee class"
+msgstr "Edit test taker class"
 
-msgid "Testees"
+msgid "Test takers"
 msgstr ""
 
-msgid "Manage testees"
+msgid "Manage test takers"
 msgstr ""
 
-msgid "Testees library"
+msgid "Test takers library"
 msgstr ""
 
 msgid "new subject"
-msgstr "new testee"
+msgstr "new test taker"
 
 msgid "edit subject"
-msgstr "edit testee"
+msgstr "edit test taker"
 
 msgid "Add to group"
 msgstr ""
 
-msgid "The Testees module allows to record and manage  testees."
+msgid "The Test takers module allows to record and manage  test takers."
 msgstr ""
 
 msgid "Its flexibility allows the design of datasheets (e.g. name, address, date of birth, gender etc.)."
 msgstr ""
 
-msgid "Testees may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
+msgid "Test takers may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
 msgstr ""
 
 msgid "Test saved"
@@ -1664,16 +1664,16 @@ msgid "Compiling test"
 msgstr ""
 
 msgid "subject"
-msgstr "testee"
+msgstr "test taker"
 
 msgid "subjects"
-msgstr "testees"
+msgstr "test takers"
 
 msgid "Subject"
-msgstr "Testee"
+msgstr "Test taker"
 
 msgid "Subjects"
-msgstr "Testees"
+msgstr "Test takers"
 
 msgid "Deliveries"
 msgstr ""
@@ -2051,7 +2051,7 @@ msgstr ""
 msgid "Validate final review"
 msgstr ""
 
-msgid "Testee saved"
+msgid "Test taker saved"
 msgstr ""
 
 msgid "Advanced sequence"

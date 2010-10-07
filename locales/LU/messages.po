@@ -811,7 +811,7 @@ msgstr "nei lueden"
 msgid "cancel"
 msgstr "ofbriechen"
 
-msgid "Select testees to be <b>excluded</b>"
+msgid "Select test takers to be <b>excluded</b>"
 msgstr "Wielt d'Testkandidaten déi <b>ausgeschloss</b> solle ginn"
 
 msgid "Class saved"
@@ -841,13 +841,13 @@ msgstr "Grupp editéiren"
 msgid "meta data"
 msgstr "Metadaten"
 
-msgid "The Group module allows to groupe Testees according to global features and classifications."
+msgid "The Group module allows to groupe Test takers according to global features and classifications."
 msgstr "Den Gruppen Modul erlabt Testpersounen ze gruppéiren no globalen Charakteristiken an Klassifikatiounen."
 
 msgid "The main objective of the Group module is to assign the test(s) to the appointed group, thus establishing the basis for running a test."
 msgstr "d'Haaptziel vum Gruppen Modul besteht dran fier Tester mat hiirem entspriechenden Grupp ze verbannen an esou een Test ze erméiglechen."
 
-msgid "Select group testees"
+msgid "Select group test takers"
 msgstr "Gruppen Testpersounen eraussichen"
 
 msgid "Select group test"
@@ -946,13 +946,13 @@ msgstr "Testpersoun editéiren"
 msgid "Edit subject class"
 msgstr "Testpersounen Klass editéiren"
 
-msgid "Testees"
+msgid "Test takers"
 msgstr "Testpersounen"
 
-msgid "Manage testees"
+msgid "Manage test takers"
 msgstr "Testpersounen verwalten"
 
-msgid "Testees library"
+msgid "Test takers library"
 msgstr "Testpersounen Sammlung"
 
 msgid "new subject"
@@ -964,13 +964,13 @@ msgstr "Testpersoun editéiren"
 msgid "Add to group"
 msgstr "Bei e Grupp derbeisetzen"
 
-msgid "The Testees module allows to record and manage  testees."
+msgid "The Test takers module allows to record and manage  test takers."
 msgstr "Den Testpersounen Modul erlaabt et fier Testpersounen opzehuelen an ze verwalten."
 
 msgid "Its flexibility allows the design of datasheets (e.g. name, address, date of birth, gender etc.)."
 msgstr "Seng Flexibilitéit erlaabt d'Erstellen vun Datensätz (z.b. Numm, Adress, Gebuertsdatum, Geschlecht, etc.)."
 
-msgid "Testees may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
+msgid "Test takers may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
 msgstr "Testpersounen kënnen zesummengefaasst gin opgrond vun dem entspriechenden Assessment Kontext (Personalverwaltung, Educatioun, Schoulmonitoring, etc.)."
 
 msgid "Test saved"
@@ -2096,7 +2096,7 @@ msgstr ""
 msgid "Validate final review"
 msgstr ""
 
-msgid "Testee saved"
+msgid "Test taker saved"
 msgstr ""
 
 msgid "Advanced sequence"

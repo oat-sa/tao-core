@@ -614,7 +614,7 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (9, 'http://www.tao.lu/Ontologies/TAOTest.rdf#TestContent', 'http://www.w3.org/2000/01/rdf-schema#domain', 'http://www.tao.lu/Ontologies/TAOTest.rdf#Test', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (9, 'http://www.tao.lu/Ontologies/TAOTest.rdf#TestContent', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (9, 'http://www.tao.lu/Ontologies/TAOTest.rdf#TestContent', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
-(12, 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject', 'http://www.w3.org/2000/01/rdf-schema#label', 'Testee', 'EN', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
+(12, 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject', 'http://www.w3.org/2000/01/rdf-schema#label', 'Test taker', 'EN', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (12, 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject', 'http://www.w3.org/2000/01/rdf-schema#comment', 'Specifies the form interface widget', 'EN', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (12, 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject', 'http://www.w3.org/2000/01/rdf-schema#subClassOf', 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (12, 'http://www.tao.lu/Ontologies/TAOSubject.rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.tao.lu/Ontologies/generis.rdf#Model', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
