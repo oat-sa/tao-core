@@ -137,7 +137,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						}
 					});
 					
-					if($("input:hidden[name='uri']").val() == nodeId && nodeId == instance.options.selectNode){
+					if( ($("input:hidden[name='uri']").val() == nodeId || $("input:hidden[name='classUri']").val() == nodeId) && nodeId == instance.options.selectNode){
 						return false;
 					}
 					

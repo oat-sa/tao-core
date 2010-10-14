@@ -32,7 +32,12 @@ UiBootstrap = function(options){
 		UiBootstrap.tabs = $('#tabs').tabs({
 			load: function(){
 				bootInstance.initTrees();
+				bootInstance.initActions();
 			}, 
+			select: function(event, ui) {
+				$("#section-trees").hide().empty();
+				$("#section-actions").hide().empty();
+			},
 			collapsible: true
 		});
 	}
@@ -52,12 +57,6 @@ UiBootstrap = function(options){
 			loaded();
 			_autoFx();
 			if (settings.dataType == 'html') {
-				if(/authoring/i.test(settings.url)){
-					$("#section-trees").empty();
-					$('#section-trees').css({display: 'none'});
-					$("#section-actions").empty();
-					$('#section-actions').css({display: 'none'});
-				}
 				if(/add|edit|Instance|Class|search|getSectionTrees/.test(settings.url) && !/authoring/i.test(settings.url)){
 					bootInstance.initActions();
 				}
@@ -188,18 +187,18 @@ UiBootstrap = function(options){
 			else{
 				this.src = this.src.replace('_left.png', '_right.png');
 			}
-		})
+		});
 		
 		//initialize the settings menu
 		$(".settings-loader").click(function(){
 			_load(getMainContainerSelector(UiBootstrap.tabs), this.href);
 			return false;
 		});
-	}
+	};
 	
 	//run the manual constructor
 	this._init();
-}
+};
 
 
 /**

@@ -54,8 +54,15 @@ a.blink{
 }
 a.blink:hover{
 	color:#D00239;
-}	
-
+}
+iframe{
+	position:relative;
+	border-width:0px;
+	width:100%;
+	height:100%;
+	overflow-y:auto;
+	min-height:500px;
+}
 	
 /* Layout */
 div#tabs, div#home{
@@ -76,7 +83,7 @@ div#tabs div.ui-tabs-panel{
 }
 /* --- */
 div.main-container{
-	margin-left:0.5%;
+	margin-left:0.25%;
 }
 img#logo{
 	position: absolute; 
@@ -183,7 +190,7 @@ div#section-trees div.tree-custom{
 /* Layout -> Actions */
 div#section-actions{
 	left:0%;
-	top:340px;
+	top:342px;
 	margin:0% 0.5% 0.5% 0.5%;
 	padding:0px;
 	text-align:left;
