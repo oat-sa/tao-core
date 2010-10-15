@@ -6,6 +6,12 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  *
  */
+ 
+#the name to display
+define('TAO_NAME', 		'TAO');
+
+#the current version. 
+define('TAO_VERSION', 	'1.3');
 
 # plugins directory
 define("DIR_PLUGIN"			, dirname(__FILE__). "/../plugins/");

@@ -46,6 +46,14 @@ class tao_actions_form_Import
 
     // --- ATTRIBUTES ---
 
+    /**
+     * Short description of attribute formats
+     *
+     * @access protected
+     * @var array
+     */
+    protected $formats = array('csv');
+
     // --- OPERATIONS ---
 
     /**
@@ -80,6 +88,54 @@ class tao_actions_form_Import
     {
         // section 127-0-1-1--5823ae53:12820f19957:-8000:00000000000023D1 begin
         
+    	//create the element to select the import format
+    	$formatElt = tao_helpers_form_FormFactory::getElement('format', 'Radiobox');
+    	$formatElt->setDescription(__('Please select the input data format to import'));
+    	
+    	//mandatory field
+    	$formatElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+    	
+    	$options = array();
+    	foreach($this->formats as $format){
+    		$options[$format] = strtoupper($format);
+    	}
+    	$formatElt->setOptions($options);
+
+    	//shortcut: add the default value here to load the first time the form is defined
+		if(count($this->formats) == 1){
+			$formatElt->setValue($this->formats[0]);
+		}
+		if(isset($_POST['formats'])){
+			if(array_key_exists($_POST['formats'], $options)){
+				$formatElt->setValue($_POST['formats']);
+			}
+		}
+		
+    	$this->form->addElement($formatElt);
+    	$this->form->createGroup('formats', __('Supported formats to import'), array('format'));
+    	
+    	//load dynamically the method regarding the selected format 
+    	if(!is_null($formatElt->getValue())){
+    		$method = "init".$formatElt->getValue()."Elements";
+    		if(method_exists($this, $method)){
+    			$this->$method();
+    		}
+    	}
+    	
+        // section 127-0-1-1--5823ae53:12820f19957:-8000:00000000000023D1 end
+    }
+
+    /**
+     * Short description of method initCSVElements
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return mixed
+     */
+    protected function initCSVElements()
+    {
+        // section 127-0-1-1-2993bc96:12baebd89c3:-8000:0000000000002671 begin
+        
     	$adapter = new tao_helpers_data_GenerisAdapterCsv();
 		$options = $adapter->getOptions();
 		
@@ -113,13 +169,13 @@ class tao_actions_form_Import
 		$fileElt->setDescription(__("Add the source file"));
 		$fileElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/plain', 'text/csv',  'application/csv-tab-delimited-table'), 'extension' => array('csv', 'txt'))),
+			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/plain', 'text/csv', 'text/comma-separated-values', 'application/csv', 'application/csv-tab-delimited-table'), 'extension' => array('csv', 'txt'))),
 			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => 2000000))
 		));
 		$this->form->addElement($fileElt);
 		$this->form->createGroup('file', __('Upload CSV File'), array('source'));
     	
-        // section 127-0-1-1--5823ae53:12820f19957:-8000:00000000000023D1 end
+        // section 127-0-1-1-2993bc96:12baebd89c3:-8000:0000000000002671 end
     }
 
 } /* end of class tao_actions_form_Import */

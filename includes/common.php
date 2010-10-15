@@ -8,10 +8,7 @@
  * @todo create a proper class to bootstrap by context
  */
 session_start();
-/*
-common_Config::load(dirname(__FILE__).'/config.xml', true);
-common_Config::extract();
-*/
+
 require_once dirname(__FILE__). "/config.php";
 
 set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH);

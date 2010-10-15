@@ -33,6 +33,19 @@ abstract class CommonModule extends Module {
 	}
 	
 	/**
+     * @see Module::setView()
+     * @param string $identifier view identifier
+     * @param boolean set to true if you want to use the views in the tao extension instead of the current extension 
+     */
+    public function setView($identifier, $useMetaExtensionView = false) {
+        parent::setView($identifier);
+		if($useMetaExtensionView){
+			Renderer::setViewsBasePath(TAOVIEW_PATH);
+		}
+		return;
+	}
+	
+	/**
 	 * Retrieve the data from the url and make the base initialization
 	 * @return void
 	 */

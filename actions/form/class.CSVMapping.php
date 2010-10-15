@@ -38,7 +38,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
  * @package tao
  * @subpackage actions_form
  */
-class tao_actions_form_Mapping
+class tao_actions_form_CSVMapping
     extends tao_helpers_form_FormContainer
 {
     // --- ASSOCIATIONS ---
@@ -80,7 +80,7 @@ class tao_actions_form_Mapping
     {
         // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FF begin
         
-    	if(!isset($this->options['class_properties'])){
+    if(!isset($this->options['class_properties'])){
     		throw new Exception('No class properties found');
     	}
     	if(!isset($this->options['csv_column'])){
@@ -124,6 +124,6 @@ class tao_actions_form_Mapping
         // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FF end
     }
 
-} /* end of class tao_actions_form_Mapping */
+} /* end of class tao_actions_form_CSVMapping */
 
 ?>

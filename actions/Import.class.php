@@ -18,7 +18,7 @@ class Import extends CommonModule {
 		if($this->hasRequestParameter('classUri')){
 			$this->setSessionAttribute('classUri', $this->getRequestParameter('classUri'));
 		}
-		$this->forward('Import', 'upload');
+		$this->upload();
 	}
 	
 	/**
@@ -36,27 +36,42 @@ class Import extends CommonModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
-				//init import options
-				
-				$importData = array();
-				$importData['options'] = array(
-					'field_delimiter' 			=> $myForm->getValue('field_delimiter'),
-					'field_encloser' 			=> $myForm->getValue('field_encloser'),
-					'line_break' 				=> $myForm->getValue('line_break'),
-					'multi_values_delimiter' 	=> $myForm->getValue('multi_values_delimiter'),
-					'first_row_column_names' 	=> $myForm->getValue('first_row_column_names'),
-					'column_order' 				=> $myForm->getValue('column_order')
-				);
-				$fileData = $myForm->getValue('source');
-				$importData['file'] = $fileData['uploaded_file'];
-				
-				$this->setSessionAttribute('import', $importData);
-				$this->redirect(_url('mapping'));
+				//import method for the given format
+				if(!is_null($myForm->getValue('format'))){
+					$importMethod = 'import'.strtoupper($myForm->getValue('format')).'File';
+					if(method_exists($this, $importMethod)){
+						
+						//apply the matching method
+						$this->$importMethod($myForm->getValues());
+					}
+				}
 			}
 		}
 		$this->setData('myForm', $myForm->render());
-		$this->setData('formTitle', __('Import data'));
+		$this->setData('formTitle', __('Import'));
 		$this->setView('form/import.tpl', true);
+	}
+	
+	/**
+	 * action to perform on a posted CSV file
+	 * @param array $formValues the posted data
+	 */
+	protected function importCSVFile($formValues){
+		//import for CSV
+		$importData = array();
+		$importData['options'] = array(
+			'field_delimiter' 			=> $formValues['field_delimiter'],
+			'field_encloser' 			=> $formValues['field_encloser'],
+			'line_break' 				=> $formValues['line_break'],
+			'multi_values_delimiter' 	=> $formValues['multi_values_delimiter'],
+			'first_row_column_names' 	=> $formValues['first_row_column_names'],
+			'column_order' 				=> $formValues['column_order']
+		);
+		$fileData = $formValues['source'];
+		$importData['file'] = $fileData['uploaded_file'];
+		
+		$this->setSessionAttribute('import', $importData);
+		$this->redirect(_url('mapping'));
 	}
 	
 	
@@ -109,7 +124,7 @@ class Import extends CommonModule {
 			$csv_data = $adapter->load($importData['file']);
 			
 			//build the mapping form 
-			$myFormContainer = new tao_actions_form_Mapping(array(), array(
+			$myFormContainer = new tao_actions_form_CSVMapping(array(), array(
 				'class_properties'  => $properties,
 				'ranged_properties'	=> $rangedProperties,
 				'csv_column'		=> array_keys($csv_data[0])

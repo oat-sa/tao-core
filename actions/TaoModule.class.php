@@ -15,20 +15,6 @@ require_once('wfEngine/actions/ServicesApi.class.php');
 abstract class TaoModule extends CommonModule {
 
 	
-	
-	/**
-     * @see Module::setView()
-     * @param string $identifier view identifier
-     * @param boolean set to true if you want to use the views in the tao extension instead of the current extension 
-     */
-    public function setView($identifier, $useMetaExtensionView = false) {
-        parent::setView($identifier);
-		if($useMetaExtensionView){
-			Renderer::setViewsBasePath(TAOVIEW_PATH);
-		}
-		return;
-	}
-	
 /*
  * Shared Methods
  */
