@@ -6,6 +6,12 @@
  *
  */
 
+#the name to display
+define('TAO_NAME', 		'TAO');
+
+#the current version. 
+define('TAO_VERSION', 	'1.3');
+
 $todefine = array(
 	'TAO_OBJECT_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject',
 	'TAO_GROUP_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group',

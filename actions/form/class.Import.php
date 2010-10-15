@@ -105,9 +105,9 @@ class tao_actions_form_Import
 		if(count($this->formats) == 1){
 			$formatElt->setValue($this->formats[0]);
 		}
-		if(isset($_POST['formats'])){
-			if(array_key_exists($_POST['formats'], $options)){
-				$formatElt->setValue($_POST['formats']);
+		if(isset($_POST['format'])){
+			if(array_key_exists($_POST['format'], $options)){
+				$formatElt->setValue($_POST['format']);
 			}
 		}
 		
@@ -116,7 +116,8 @@ class tao_actions_form_Import
     	
     	//load dynamically the method regarding the selected format 
     	if(!is_null($formatElt->getValue())){
-    		$method = "init".$formatElt->getValue()."Elements";
+    		$method = "init".strtoupper($formatElt->getValue())."Elements";
+    		
     		if(method_exists($this, $method)){
     			$this->$method();
     		}

@@ -4,12 +4,29 @@
 	<?=get_data('formTitle')?>
 </div>
 <div id="form-container" class="ui-widget-content ui-corner-bottom">
+	<?if(count(get_data('importErrors')) > 0):?>
+		<fieldset class='ui-state-error'>
+			<legend><strong><?=(get_data('importErrorTitle'))?get_data('importErrorTitle'):__('Error during file import')?></strong></legend>
+			<ul id='error-details'>
+			<?foreach(get_data('importErrors') as $ierror):?>
+				<li><?=$ierror['message']?></li>
+			<?endforeach?>
+			</ul>
+		</fieldset>
+	<?endif?>
+
+
 	<?=get_data('myForm')?>
 </div>
 
 <script type="text/javascript">
 $(document).ready(function(){
 
+	//by changing the format, the form is sent
+	$(":radio[name='format']").change(function(){
+		$(this).parents('form').find('.form-submiter').click();
+	});
+	
 	//for the csv import options
 	$("#first_row_column_names_0").click(function(){
 		$("#column_order").attr('disabled', this.checked);

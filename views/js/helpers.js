@@ -138,10 +138,10 @@ $.postJson = function(url, data, callback) {
 function _autoFx(){
 	setTimeout(function(){
 		$(".auto-highlight").effect("highlight", {color: "#9FC9FF"}, 2500);
-	}, 750);
+	}, 1000);
 	setTimeout(function(){
 		$(".auto-hide").fadeOut("slow");
-	}, 2000);
+	}, 4000);
 	setTimeout(function(){
 		$(".auto-slide").slideUp(1500);
 	}, 7000);

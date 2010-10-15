@@ -12,6 +12,17 @@ class Import extends CommonModule {
 
 	
 	/**
+	 * to be overriden if needed
+	 * @var tao_actions_form_Import
+	 */
+	protected $formContainer;
+	
+	public function __construct(){
+		parent::__construct();
+		$this->formContainer = new tao_actions_form_Import();
+	}
+	
+	/**
 	 * @return void
 	 */
 	public function index(){
@@ -29,8 +40,7 @@ class Import extends CommonModule {
 		
 		$this->removeSessionAttribute('import');
 		
-		$myFormContainer = new tao_actions_form_Import();
-		$myForm = $myFormContainer->getForm();
+		$myForm = $this->formContainer->getForm();
 		
 		//if the form is submited and valid
 		if($myForm->isSubmited()){
@@ -38,11 +48,13 @@ class Import extends CommonModule {
 				
 				//import method for the given format
 				if(!is_null($myForm->getValue('format'))){
+					
 					$importMethod = 'import'.strtoupper($myForm->getValue('format')).'File';
 					if(method_exists($this, $importMethod)){
 						
 						//apply the matching method
 						$this->$importMethod($myForm->getValues());
+						
 					}
 				}
 			}

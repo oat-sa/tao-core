@@ -32,7 +32,6 @@ UiBootstrap = function(options){
 		UiBootstrap.tabs = $('#tabs').tabs({
 			load: function(){
 				bootInstance.initTrees();
-				bootInstance.initActions();
 			}, 
 			select: function(event, ui) {
 				$("#section-trees").hide().empty();
