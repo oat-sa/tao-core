@@ -19,7 +19,7 @@ class File extends CommonModule{
 	 * constructor. Initialize the context
 	 */
 	public function __construct(){
-		$this->rootFolder = TAOVIEW_PATH .'/tmp';
+		$this->rootFolder = sys_get_temp_dir();
 	}
 	
 	/**
@@ -36,7 +36,7 @@ class File extends CommonModule{
 				if(!file_exists($targetPath)){
 					mkdir($targetPath);
 				}
-				$targetFile =  tao_helpers_File::concat(array($targetPath, $_FILES['Filedata']['name']));
+				$targetFile =  tao_helpers_File::concat(array($targetPath, uniqid().'_'.$_FILES['Filedata']['name']));
 				if(move_uploaded_file($tempFile, $targetFile)){
 					$response['uploaded'] = true;
 					$data = $_FILES['Filedata'];

@@ -159,8 +159,9 @@ class Import extends CommonModule {
 						$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
 						$this->removeSessionAttribute('classUri');
 						$this->setData('reload', true);
+						
+						@unlink($importData['file']);
 					}
-					
 				}
 			}
 			
