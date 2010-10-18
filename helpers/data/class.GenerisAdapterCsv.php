@@ -69,7 +69,7 @@ class tao_helpers_data_GenerisAdapterCsv
 			$this->options['field_delimiter'] = ';';
 		}				
 		if(!isset($this->options['field_encloser'])){
-			$this->options['field_encloser'] = "&#34;";		//double quote
+			$this->options['field_encloser'] = '"';		//double quote
 		}
 		if(!isset($this->options['line_break'])){
 			$this->options['line_break'] = '\n';			// only to display use PHP_EOL in the code for a multi-os compat
@@ -108,6 +108,7 @@ class tao_helpers_data_GenerisAdapterCsv
         if(!file_exists($csvFile)){
         	throw new Exception("$csvFile not found");
         }   
+        $fields = array();
         
         //more readable vars
     	$WRAP  = preg_quote($this->options['field_encloser'], '/');
@@ -130,6 +131,9 @@ class tao_helpers_data_GenerisAdapterCsv
 		}
 		else if(isset($this->options['column_order'])){
 			$fields = $this->options['column_order'];
+		}
+		if(count($fields) == 0){
+			throw new Exception("No column is identified by the 1st row or by the column order field");
 		}
 		
 		$lineNumber = 0;

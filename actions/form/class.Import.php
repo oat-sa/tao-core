@@ -143,6 +143,7 @@ class tao_actions_form_Import
 		//create import options form
 		foreach($options as $optName => $optValue){
 			(is_bool($optValue))  ? $eltType = 'Checkbox' : $eltType = 'Textbox';
+			
 			$optElt = tao_helpers_form_FormFactory::getElement($optName, $eltType);
 			$optElt->setDescription(tao_helpers_Display::textCleaner($optName, ' '));
 			$optElt->setValue(addslashes($optValue));
@@ -168,13 +169,23 @@ class tao_actions_form_Import
 		//create file upload form box
 		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
 		$fileElt->setDescription(__("Add the source file"));
+  	  	if(isset($_POST['import_sent_csv'])){
+			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		}
+		else{
+			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty', array('message' => '')));
+		}
 		$fileElt->addValidators(array(
-			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/plain', 'text/csv', 'text/comma-separated-values', 'application/csv', 'application/csv-tab-delimited-table'), 'extension' => array('csv', 'txt'))),
 			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => 2000000))
 		));
+		
 		$this->form->addElement($fileElt);
 		$this->form->createGroup('file', __('Upload CSV File'), array('source'));
+		
+		$csvSentElt = tao_helpers_form_FormFactory::getElement('import_sent_csv', 'Hidden');
+		$csvSentElt->setValue(1);
+		$this->form->addElement($csvSentElt);
     	
         // section 127-0-1-1-2993bc96:12baebd89c3:-8000:0000000000002671 end
     }

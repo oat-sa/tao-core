@@ -69,6 +69,7 @@ class Import extends CommonModule {
 	 * @param array $formValues the posted data
 	 */
 	protected function importCSVFile($formValues){
+		
 		//import for CSV
 		$importData = array();
 		$importData['options'] = array(
@@ -76,9 +77,11 @@ class Import extends CommonModule {
 			'field_encloser' 			=> $formValues['field_encloser'],
 			'line_break' 				=> $formValues['line_break'],
 			'multi_values_delimiter' 	=> $formValues['multi_values_delimiter'],
-			'first_row_column_names' 	=> $formValues['first_row_column_names'],
-			'column_order' 				=> $formValues['column_order']
+			'first_row_column_names' 	=> isset($formValues['first_row_column_names'][0])
 		);
+		if(!empty($formValues['column_orde'])){
+			$formValues['column_order'] = $formValues['column_order'];
+		}
 		$fileData = $formValues['source'];
 		$importData['file'] = $fileData['uploaded_file'];
 		
@@ -153,8 +156,9 @@ class Import extends CommonModule {
 					//import it!
 					if($adapter->import($importData['file'], $clazz)){
 						$this->setData('message', __('Data imported successfully'));
+						$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
+						$this->removeSessionAttribute('classUri');
 						$this->setData('reload', true);
-						$this->forward('Import', 'upload');
 					}
 					
 				}

@@ -68,7 +68,7 @@ class tao_helpers_form_validators_NotEmpty
 		
 		parent::__construct($options);
 		
-		$this->message = __('This field must not be empty');
+		(isset($options['message'])) ? $this->message = $options['message'] : $this->message = __('This field must not be empty');
 		
         // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BEA end
     }
