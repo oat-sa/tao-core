@@ -102,26 +102,26 @@ class tao_models_classes_Parser
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string xmlSource
+     * @param  string source
      * @return mixed
      */
-    public function __construct($xmlSource)
+    public function __construct($source)
     {
         // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025B8 begin
         
-    	if(preg_match("/^<\?xml(.*)?/m", trim($xmlSource))){
+    	if(preg_match("/^<\?xml(.*)?/m", trim($source))){
     		$this->sourceType = self::SOURCE_STRING;
     	}
-    	else if(preg_match("/^http/", $xmlSource)){
+    	else if(preg_match("/^http/", $source)){
     		$this->sourceType = self::SOURCE_URL;
     	}
-    	else if(is_file($xmlSource)){
+    	else if(is_file($source)){
     		$this->sourceType = self::SOURCE_FILE;
     	}
     	else{
     		throw new Exception("Only regular file, HTTP(s) url or XML strings are allowed");
     	}
-    	$this->source = $xmlSource;
+    	$this->source = $source;
     	
         // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025B8 end
     }
