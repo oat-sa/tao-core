@@ -155,7 +155,7 @@ class tao_models_classes_Parser
 			    		throw new Exception("Unable to read file {$this->source}.");
 			    	}
 			   		if(!preg_match("/\.xml$/", basename($this->source))){
-			    		throw new Exception("Wrong file extension in {$this->source}, xml extension is expected");
+			    		throw new Exception("Wrong file extension in ".basename($this->source).", xml extension is expected");
 			    	}
 			   		if(!tao_helpers_File::securityCheck($this->source)){
 			    		throw new Exception("{$this->source} seems to contain some security issues");
