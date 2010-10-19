@@ -140,7 +140,7 @@ class tao_models_classes_Parser
 
         // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025BB begin
         
-         $forced = $this->valid;
+        $forced = $this->valid;
         
         $this->valid = true;
         
