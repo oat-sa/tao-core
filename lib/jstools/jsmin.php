@@ -630,7 +630,7 @@ class JSMin {
      *      respectively STDIN and/or STDOUT are not available (ie, script is not being used in CLI).
      */
 
-    public function __construct($inFileName = '-', $outFileName = '-', $comments = NULL) {
+    public function __construct($inFileName = '-', $outFileName = '-', $comments = NULL, $truncateFile=true) {
 
         // Recuperate input and output streams.
         // Use STDIN and STDOUT by default, if they are defined (CLI mode) and no file names are provided
@@ -639,7 +639,6 @@ class JSMin {
         if ($outFileName == '-') $outFileName = 'php://stdout';
 
         try {
-
             $this -> in = new SplFileObject($inFileName, 'rb', TRUE);
         }
         catch (Exception $e) {
@@ -650,8 +649,8 @@ class JSMin {
         }
 
         try {
-
-            $this -> out = new SplFileObject($outFileName, 'wb', TRUE);
+        	$openMode = $truncateFile ? "wb" : "ab";
+            $this -> out = new SplFileObject($outFileName, $openMode, TRUE);
         }
         catch (Exception $e) {
 
@@ -742,99 +741,114 @@ define('EXIT_FAILURE', 1);
 // Examine command-line parameters
 // First shift off the first parameter, the executable's name
 
-array_shift($argv);
-
-$inFileName = NULL;
-$outFileName = NULL;
-
-$haveCommentParams = FALSE;
-$comments = array();
-
-foreach ($argv as $arg) {
-
-    // Bypass the rest if we are now considering initial comments
-
-    if ($haveCommentParams) {
-
-        $comments[] = $arg;
-        continue;
-    }
-
-    // else
-    // Look for an option (length > 1 because of '-' for indicating stdin or
-    // stdout)
-
-    if ($arg[0] == '-' && strlen($arg) > 1) {
-
-        switch ($arg) {
-
-            case '-c' : case '--comm' :
-
-                // Following parameters will be initial comments
-
-                $haveCommentParams = TRUE;
-
-            break;
-            case '-h' : case '--help' :
-
-                // Display inline help and exit normally
-
-                printHelp();
-                exit(EXIT_SUCCESS);
-
-            case '-v' : case '--version' :
-
-                // Display short version information and exit normally
-
-                printVersion();
-                exit(EXIT_SUCCESS);
-
-            default :
-
-                // Reject any other (unknown) option
-
-                echo "\n";
-                echo "ERROR : unknown option \"$arg\", sorry.\n";
-
-                printHelp();
-                exit(EXIT_FAILURE);
-        }
-
-        continue;
-    }
-
-    // else
-    // At this point, parameter is neither to be considered as an initial
-    // comment, nor is it an option. It is an input or output file.
-
-    if ($inFileName === NULL) {
-
-        // No input file yet, this is it
-
-        $inFileName = $arg;
-    }
-    else if ($outFileName === NULL) {
-
-        // An input file but no output file yet, this is it
-
-        $outFileName = $arg;
-    }
-    else {
-
-        // Already have input and output file, this is a first initial comment
-
-        $haveCommentParams = TRUE;
-        $comments[] = $arg;
-    }
+// hack to ensure that the script is running from command line.
+if (!empty($argc) && strstr($argv[0], basename(__FILE__)))
+{
+	echo $argc;
+	echo $argv;
+	array_shift($argv);
+	
+	$inFileName = NULL;
+	$outFileName = NULL;
+	
+	$haveCommentParams = FALSE;
+	$comments = array();
+	
+	foreach ($argv as $arg) {
+	
+	    // Bypass the rest if we are now considering initial comments
+	
+	    if ($haveCommentParams) {
+	
+	        $comments[] = $arg;
+	        continue;
+	    }
+	
+	    // else
+	    // Look for an option (length > 1 because of '-' for indicating stdin or
+	    // stdout)
+	
+	    if ($arg[0] == '-' && strlen($arg) > 1) {
+	
+	        switch ($arg) {
+	
+	            case '-c' : case '--comm' :
+	
+	                // Following parameters will be initial comments
+	
+	                $haveCommentParams = TRUE;
+	
+	            break;
+	            case '-h' : case '--help' :
+	
+	                // Display inline help and exit normally
+	
+	                printHelp();
+	                exit(EXIT_SUCCESS);
+	
+	            case '-v' : case '--version' :
+	
+	                // Display short version information and exit normally
+	
+	                printVersion();
+	                exit(EXIT_SUCCESS);
+	
+	            default :
+	
+	                // Reject any other (unknown) option
+	
+	                echo "\n";
+	                echo "ERROR : unknown option \"$arg\", sorry.\n";
+	
+	                printHelp();
+	                exit(EXIT_FAILURE);
+	        }
+	
+	        continue;
+	    }
+	
+	    // else
+	    // At this point, parameter is neither to be considered as an initial
+	    // comment, nor is it an option. It is an input or output file.
+	
+	    if ($inFileName === NULL) {
+	
+	        // No input file yet, this is it
+	
+	        $inFileName = $arg;
+	    }
+	    else if ($outFileName === NULL) {
+	
+	        // An input file but no output file yet, this is it
+	
+	        $outFileName = $arg;
+	    }
+	    else {
+	
+	        // Already have input and output file, this is a first initial comment
+	
+	        $haveCommentParams = TRUE;
+	        $comments[] = $arg;
+	    }
+	}
+	
+	if ($inFileName === NULL)  $inFileName  = '-';
+	if ($outFileName === NULL) $outFileName = '-';
+	
+	// Prepare and run the JSMin application
+	// If pathnames are not provided or '-', standard input/output streams are used
+	
+	$jsMin = new JSMin($inFileName, $outFileName, $comments);
+	$jsMin -> minify();
 }
-
-if ($inFileName === NULL)  $inFileName  = '-';
-if ($outFileName === NULL) $outFileName = '-';
-
-// Prepare and run the JSMin application
-// If pathnames are not provided or '-', standard input/output streams are used
-
-$jsMin = new JSMin($inFileName, $outFileName, $comments);
-$jsMin -> minify();
+	
+function minify_files ($files, $outputFileName) {
+	$i = 0;
+	foreach ($files as $file){
+		$jsMin = new JSMin($file, $outputFileName, null, !$i);
+		$jsMin -> minify();
+		$i++;	
+	}
+}
 
 ?>
