@@ -98,7 +98,9 @@ class tao_actions_form_Import
 
     	//shortcut: add the default value here to load the first time the form is defined
 		if(count($this->formats) == 1){
-			$formatElt->setValue($this->formats[0]);
+			foreach($this->formats as $format){
+				$formatElt->setValue($format);
+			}
 		}
 		if(isset($_POST['format'])){
 			if(array_key_exists($_POST['format'], $this->formats)){
@@ -160,6 +162,11 @@ class tao_actions_form_Import
 			$this->form->addElement($optElt);
 		}
 		$this->form->createGroup('options', __('CSV Options'), array_keys($options));
+		
+
+		$descElt = tao_helpers_form_FormFactory::getElement('qti_desc', 'Label');
+		$descElt->setValue(__('Please upload a CSV file formated as defined by the options above.'));
+		$this->form->addElement($descElt);
 		
 		//create file upload form box
 		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');

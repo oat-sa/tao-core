@@ -220,8 +220,10 @@ class tao_helpers_File
         }
         else if($recursive){
         	if(is_dir($path)){
-				foreach (new DirectoryIterator($path) as $fileinfo) {
+        		$iterator = new DirectoryIterator($path);
+				foreach ($iterator as $fileinfo) {
 				    if (!$fileinfo->isDot()) {
+				    	echo "trying to remove ".$fileinfo->getPathname()."<br>";
 				        self::remove($fileinfo->getPathname(), true);
 				    }
 				}
@@ -230,6 +232,38 @@ class tao_helpers_File
         }
         
         // section 127-0-1-1--12179ab4:12bca1f1def:-8000:00000000000026E9 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method copy
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string source
+     * @param  string destination
+     * @param  boolean recursive
+     * @return boolean
+     */
+    public static function copy($source, $destination, $recursive = true)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 begin
+        
+        if(file_exists($source)){
+        	if(is_dir(dirname($destination))){
+        		$returnValue = copy($source, $destination);
+        	}
+        	else if($recursive){
+        		if(mkdir(dirname($destination), 0775, true)){
+        			$returnValue = self::copy($source, $destination, false);
+        		}
+        	}
+        }
+        
+        // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 end
 
         return (bool) $returnValue;
     }
