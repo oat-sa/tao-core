@@ -52,7 +52,7 @@ class tao_actions_form_Import
      * @access protected
      * @var array
      */
-    protected $formats = array('csv');
+    protected $formats = array('csv' => 'CSV');
 
     // --- OPERATIONS ---
 
@@ -94,19 +94,14 @@ class tao_actions_form_Import
     	
     	//mandatory field
     	$formatElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-    	
-    	$options = array();
-    	foreach($this->formats as $format){
-    		$options[$format] = strtoupper($format);
-    	}
-    	$formatElt->setOptions($options);
+    	$formatElt->setOptions($this->formats);
 
     	//shortcut: add the default value here to load the first time the form is defined
 		if(count($this->formats) == 1){
 			$formatElt->setValue($this->formats[0]);
 		}
 		if(isset($_POST['format'])){
-			if(array_key_exists($_POST['format'], $options)){
+			if(array_key_exists($_POST['format'], $this->formats)){
 				$formatElt->setValue($_POST['format']);
 			}
 		}
