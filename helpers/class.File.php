@@ -200,6 +200,40 @@ class tao_helpers_File
         return (string) $returnValue;
     }
 
+    /**
+     * Short description of method remove
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string path
+     * @param  boolean recursive
+     * @return boolean
+     */
+    public static function remove($path, $recursive = false)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--12179ab4:12bca1f1def:-8000:00000000000026E9 begin
+        
+        if(is_file($path)){
+        	$returnValue = @unlink($path);
+        }
+        else if($recursive){
+        	if(is_dir($path)){
+				foreach (new DirectoryIterator($path) as $fileinfo) {
+				    if (!$fileinfo->isDot()) {
+				        self::remove($fileinfo->getPathname(), true);
+				    }
+				}
+				$returnValue = @rmdir($path);
+        	}
+        }
+        
+        // section 127-0-1-1--12179ab4:12bca1f1def:-8000:00000000000026E9 end
+
+        return (bool) $returnValue;
+    }
+
 } /* end of class tao_helpers_File */
 
 ?>
