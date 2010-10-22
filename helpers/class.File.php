@@ -223,7 +223,6 @@ class tao_helpers_File
         		$iterator = new DirectoryIterator($path);
 				foreach ($iterator as $fileinfo) {
 				    if (!$fileinfo->isDot()) {
-				    	echo "trying to remove ".$fileinfo->getPathname()."<br>";
 				        self::remove($fileinfo->getPathname(), true);
 				    }
 				}
@@ -264,6 +263,36 @@ class tao_helpers_File
         }
         
         // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method move
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string source
+     * @param  string destination
+     * @return boolean
+     */
+    public static function move($source, $destination)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--44542511:12bd37d6416:-8000:0000000000002718 begin
+        
+        if(file_exists($source) && file_exists($destination)){
+        	$returnValue = rename($source, $destination);
+        }
+        else{
+        	$returnValue = self::copy($source, $destination, true);
+        }
+        if($returnValue){
+        	$returnValue = ($returnValue && self::remove($source));
+        }
+        
+        // section 127-0-1-1--44542511:12bd37d6416:-8000:0000000000002718 end
 
         return (bool) $returnValue;
     }
