@@ -286,10 +286,9 @@ class tao_helpers_File
         	$returnValue = rename($source, $destination);
         }
         else{
-        	$returnValue = self::copy($source, $destination, true);
-        }
-        if($returnValue){
-        	$returnValue = ($returnValue && self::remove($source));
+        	if(self::copy($source, $destination, true)){
+        		$returnValue = self::remove($source);
+        	}
         }
         
         // section 127-0-1-1--44542511:12bd37d6416:-8000:0000000000002718 end
