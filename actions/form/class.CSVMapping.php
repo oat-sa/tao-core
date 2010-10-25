@@ -61,7 +61,7 @@ class tao_actions_form_CSVMapping
         
     	$this->form = tao_helpers_form_FormFactory::getForm('mapping');
     	
-    	$importElt = tao_helpers_form_FormFactory::getElement('export', 'Free');
+    	$importElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
 		$importElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/import.png' /> ".__('Import')."</a>");
 		$this->form->setActions(array($importElt), 'bottom');
 		$this->form->setActions(array($importElt), 'top');
