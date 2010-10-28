@@ -8,27 +8,136 @@
  */
 class Api extends CommonModule {
 
-
 	/**
-	 * @return void
+	 * @var tao_models_classes_UserService
 	 */
-	public function index(){
-		
+	protected $userService;
+	
+	/**
+	 * Name of the variable used for the execution environment 
+	 * @var string
+	 */
+	const ENV_VAR_NAME = 'taoEnv';
+	
+	public function __construct(){
+		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 	}
 	
 	/**
-	 * @return void
+	 * create a unique token that will be exchanged during the communications
+	 * @return string the token
 	 */
-	public function getContext(){
-		
+	protected function createToken(){
+		//get the sum of a unique token to identify the content
+		return sha1( uniqid(self::ENV_VAR_NAME, true) );		//the env var is just used as a SALT
 	}
 	
 	/**
-	 * @return void
+	 * Build and load the item execution environment.
+	 * 
+	 * @param core_kernel_classes_Resource $processExecution
+	 * @param core_kernel_classes_Resource $item
+	 * @param core_kernel_classes_Resource $test
+	 * @param core_kernel_classes_Resource $delivery
+	 * @param core_kernel_classes_Resource $user
+	 * 
+	 * @return array
 	 */
-	public function save(){
+	protected function createExecutionEnvironment(core_kernel_classes_Resource $processExecution, 
+													core_kernel_classes_Resource $item, 
+													core_kernel_classes_Resource $test, 
+													core_kernel_classes_Resource $delivery, 
+													core_kernel_classes_Resource $user){
+		$executionEnvironment = array();
 		
-	}
+		foreach(func_get_args() as $arg){
+			if(is_null($arg)){
+				return $executionEnvironment;
+			}
+		}
+		
+		//we build the data to give to the item
+		$executionEnvironment = array(
 
+			'token'			=> $this->createToken(),
+			'localNamespace' => core_kernel_classes_Session::singleton()->getNameSpace(),
+		
+			CLASS_PROCESS_EXECUTIONS => array(
+				'uri'		=> $processExecution->uriResource,
+				RDFS_LABEL	=> $processExecution->getLabel()
+			),
+			
+			TAO_ITEM_CLASS	=> array(
+				'uri'		=> $item->uriResource,
+				RDFS_LABEL	=> $item->getLabel()
+			),
+			TAO_TEST_CLASS	=> array(
+				'uri'		=> $test->uriResource,
+				RDFS_LABEL	=> $test->getLabel()
+			),
+			TAO_DELIVERY_CLASS	=> array(
+				'uri'		=> $delivery->uriResource,
+				RDFS_LABEL	=> $delivery->getLabel()
+			),
+			TAO_SUBJECT_CLASS => array(
+				'uri'					=> $user->uriResource,
+				RDFS_LABEL				=> $user->getLabel(),
+				PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
+				PROPERTY_USER_FIRTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME)),
+				PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
+			)
+		);
+		
+		Session::setAttribute(self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->uriResource), $executionEnvironment);
+		
+		return $executionEnvironment;
+	} 
+	
+	/**
+	 * Get the data of the current execution
+	 * @return array
+	 */
+	protected function getExecutionEnvironment(){
+		$currentUser = $this->userService->getCurrentUser();
+		if(!is_null($currentUser)){
+			$sessionKey =  self::ENV_VAR_NAME . '_' . tao_helpers_Uri::encode($currentUser->uriResource);
+			
+			if(Session::hasAttribute($sessionKey)){
+				$executionEnvironment = Session::getAttribute($sessionKey);
+				
+				if(isset($executionEnvironment['token'])){
+					return $executionEnvironment;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Enbales you to authenticate a communication based on the token
+	 * @param string $token
+	 * @return boolean
+	 */
+	protected function authenticate($token){
+		
+		if(!empty($token)){
+			
+			$currentUser = $this->userService->getCurrentUser();
+			if(!is_null($currentUser)){
+				$sessionKey =  self::ENV_VAR_NAME . '_' . tao_helpers_Uri::encode($currentUser->uriResource);
+				
+				if(Session::hasAttribute($sessionKey)){
+					$executionData = Session::getAttribute($sessionKey);
+					
+					if(isset($executionData['token'])){
+						if($executionData['token'] == $token){
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 }
 ?>
