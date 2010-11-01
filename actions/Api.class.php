@@ -112,6 +112,7 @@ class Api extends CommonModule {
 		}
 	}
 	
+	
 	/**
 	 * Enbales you to authenticate a communication based on the token
 	 * @param string $token
