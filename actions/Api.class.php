@@ -110,8 +110,40 @@ class Api extends CommonModule {
 				}
 			}
 		}
+		return array();
 	}
 	
+	/**
+	 * Get the folder where is the current compiled item
+	 * @param array $executionEnvironment
+	 * @return string
+	 */
+	protected function getCompiledFolder($executionEnvironment){
+		
+		$folder = '';
+		
+		if( isset($executionEnvironment[TAO_ITEM_CLASS]['uri']) && 
+		 	isset($executionEnvironment[TAO_TEST_CLASS]['uri']) &&
+		 	isset($executionEnvironment[TAO_DELIVERY_CLASS]['uri'])
+		 	){
+					
+			$item 		= new core_kernel_classes_Resource($executionEnvironment[TAO_ITEM_CLASS]['uri']);
+			$test 		= new core_kernel_classes_Resource($executionEnvironment[TAO_TEST_CLASS]['uri']);
+			$delivery 	= new core_kernel_classes_Resource($executionEnvironment[TAO_DELIVERY_CLASS]['uri']);
+			
+			$deliveryFolder = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
+			$testFolder 	= substr($test->uriResource, strpos($test->uriResource, '#') + 1);
+			$itemFolder 	= substr($item->uriResource, strpos($item->uriResource, '#') + 1);
+			
+			$compiledFolder = BASE_PATH. "/compiled/{$deliveryFolder}/{$testFolder}/{$itemFolder}/";
+			
+			if(is_dir($compiledFolder)){
+				return $compiledFolder;
+			}
+		}
+		
+		return $folder;
+	}
 	
 	/**
 	 * Enbales you to authenticate a communication based on the token
