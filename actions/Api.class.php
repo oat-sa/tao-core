@@ -19,7 +19,14 @@ class Api extends CommonModule {
 	 */
 	const ENV_VAR_NAME = 'taoEnv';
 	
+	/**
+	 * Constructor
+	 * initialize the user service
+	 */
 	public function __construct(){
+		
+		parent::__construct();
+		
 		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 	}
 	
