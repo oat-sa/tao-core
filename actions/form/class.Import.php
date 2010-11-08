@@ -54,6 +54,14 @@ class tao_actions_form_Import
      */
     protected $formats = array('csv' => 'CSV');
 
+    /**
+     * Short description of attribute UPLOAD_MAX
+     *
+     * @access protected
+     * @var int
+     */
+    const UPLOAD_MAX = 3000000;
+
     // --- OPERATIONS ---
 
     /**
@@ -191,7 +199,7 @@ class tao_actions_form_Import
 		}
 		$fileElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/plain', 'text/csv', 'text/comma-separated-values', 'application/csv', 'application/csv-tab-delimited-table'), 'extension' => array('csv', 'txt'))),
-			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => 2000000))
+			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => self::UPLOAD_MAX))
 		));
 		
 		$this->form->addElement($fileElt);
