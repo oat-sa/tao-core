@@ -19,16 +19,31 @@ class Export extends CommonModule {
 	}
 	
 	/**
+	 * get the path to save and retrieve the exported files regarding the current extension
+	 * @return string the path
+	 */
+	protected function getExportPath(){
+		$exportPath = BASE_PATH . EXPORT_PATH;
+		if($this->hasSessionAttribute('currentExtension')){
+			$exportPath = ROOT_PATH . '/' .$this->getSessionAttribute('currentExtension') .EXPORT_PATH;
+		}
+		
+		if(!is_dir($exportPath)){
+			if(!mkdir($exportPath)){
+				throw new Exception("Unable to create {$exportPath}. Check your filesystem!");
+			}
+		}
+		return $exportPath;
+	}
+	
+	/**
 	 * Export the selected class instance in a flat CSV file
 	 * download header sent
 	 * @return void
 	 */
 	public function index(){
-		if(!file_exists(EXPORT_PATH)){
-			if(!mkdir(EXPORT_PATH)){
-				throw new Exception("Unable to create  " .EXPORT_PATH.". Check your filesystem!");
-			}
-		}
+		$exportPath = $this->getExportPath();
+		
 		$formContainer = new tao_actions_form_Export();
 		$myForm = $formContainer->getForm();
 		
@@ -59,7 +74,7 @@ class Export extends CommonModule {
 						default: 		$rdf = ''; break;
 					}
 					if(!empty($rdf)){
-						$path = EXPORT_PATH."/".$myForm->getValue('name').'_'.time().'.rdf';
+						$path = $exportPath."/".$myForm->getValue('name').'_'.time().'.rdf';
 						file_put_contents($path, $rdf);
 					}
 				}
@@ -83,13 +98,16 @@ class Export extends CommonModule {
 	 * @return void
 	 */
 	public function getExportedFiles(){
+		
+		$exportPath = $this->getExportPath();
+		
 		$exportedFiles = array();
-		foreach(scandir(EXPORT_PATH) as $file){
-			$path = EXPORT_PATH.'/'.$file;
+		foreach(scandir($exportPath) as $file){
+			$path = $exportPath.'/'.$file;
 			if(preg_match("/\.rdf$/", $file) && !is_dir($path)){
 				$exportedFiles[] = array(
 					'path'		=> $path,
-					'url'		=> EXPORT_URL.'/'.$file,
+					'url'		=> str_replace(ROOT_PATH, ROOT_URL, $path),
 					'name'		=> substr($file, 0, strrpos($file, '_')),
 					'date'		=> date('Y-m-d H:i:s', ((int)substr(str_replace('.rdf', '', $file), strrpos($file, '_') + 1)))
 				);
@@ -149,7 +167,7 @@ class Export extends CommonModule {
 	public function deleteExportedFiles(){
 		if($this->hasRequestParameter('filePath')){
 			$path = urldecode($this->getRequestParameter('filePath'));
-			if(preg_match("/^".preg_quote(EXPORT_PATH, '/')."/", $path)){
+			if(preg_match("/^".preg_quote($this->getExportPath(), '/')."/", $path)){
 				unlink($path);
 			}
 		}
@@ -163,7 +181,7 @@ class Export extends CommonModule {
 	public function downloadExportedFiles(){
 		if($this->hasRequestParameter('filePath')){
 			$path = urldecode($this->getRequestParameter('filePath'));
-			if(preg_match("/^".preg_quote(EXPORT_PATH, '/')."/", $path) && file_exists($path)){
+			if(preg_match("/^".preg_quote($this->getExportPath(), '/')."/", $path) && file_exists($path)){
 				
 				header('Content-Type: text/xml');
 				header('Content-Disposition: attachment; fileName="'.basename($path).'"');

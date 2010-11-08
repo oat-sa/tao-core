@@ -15,6 +15,15 @@ UiForm = function(){
 	 */
 	var formInstance = this;
 	
+	/*
+	 * Patterns used to initialize the form   
+	 */
+	
+	this.initFormPattern = new RegExp(['search', 'authoring', 'itemSequence', 'Import', 'Export', 'IO'].join('|'));
+	this.initGenerisFormPattern =  new RegExp(['add', 'edit'].join('|'), 'i');
+	this.initTranslationFormPattern = /translate/;
+	
+	
 	/**
 	 * manual contructor
 	 */
@@ -38,14 +47,14 @@ UiForm = function(){
 				else{
 					testedUrl = settings.url;
 				}
-				if(/edit|add/i.test(testedUrl)){
+				if(formInstance.initGenerisFormPattern.test(testedUrl)){
 					formInstance.initElements();
 					formInstance.initOntoForms();
 				}
-				else if (/search|authoring|itemSequence|Import|IO/.test(testedUrl)) {
+				else if (formInstance.initFormPattern.test(testedUrl)) {
 					formInstance.initElements();
 				}
-				else if(/translate/.test(testedUrl)){
+				else if(formInstance.initTranslationFormPattern.test(testedUrl)){
 					formInstance.initElements();
 					formInstance.initTranslationForm();
 				}
