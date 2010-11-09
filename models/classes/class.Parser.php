@@ -72,6 +72,14 @@ class tao_models_classes_Parser
     protected $valid = false;
 
     /**
+     * Short description of attribute fileExtension
+     *
+     * @access protected
+     * @var string
+     */
+    protected $fileExtension = 'xml';
+
+    /**
      * Short description of attribute SOURCE_FILE
      *
      * @access public
@@ -103,9 +111,10 @@ class tao_models_classes_Parser
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string source
+     * @param  array options
      * @return mixed
      */
-    public function __construct($source)
+    public function __construct($source, $options = array())
     {
         // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025B8 begin
         
@@ -122,6 +131,10 @@ class tao_models_classes_Parser
     		throw new Exception("Only regular file, HTTP(s) url or XML strings are allowed");
     	}
     	$this->source = $source;
+    	
+    	if(isset($options['extension'])){
+    		$this->fileExtension = $options['extension'];
+    	}
     	
         // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025B8 end
     }
@@ -154,8 +167,8 @@ class tao_models_classes_Parser
 			    	if(!is_readable($this->source)){
 			    		throw new Exception("Unable to read file {$this->source}.");
 			    	}
-			   		if(!preg_match("/\.xml$/", basename($this->source))){
-			    		throw new Exception("Wrong file extension in ".basename($this->source).", xml extension is expected");
+			   		if(!preg_match("/\.{$this->fileExtension}$/", basename($this->source))){
+			    		throw new Exception("Wrong file extension in ".basename($this->source).", {$this->fileExtension} extension is expected");
 			    	}
 			   		if(!tao_helpers_File::securityCheck($this->source)){
 			    		throw new Exception("{$this->source} seems to contain some security issues");

@@ -282,15 +282,40 @@ class tao_helpers_File
 
         // section 127-0-1-1--44542511:12bd37d6416:-8000:0000000000002718 begin
         
-        if(file_exists($source) && file_exists($destination)){
-        	$returnValue = rename($source, $destination);
-        }
-        else{
-        	if(self::copy($source, $destination, true)){
-        		$returnValue = self::remove($source);
-        	}
-        }
-        
+		if(is_dir($source)){
+			if(!file_exists($destination)){
+				mkdir($destination);
+			}
+			$error = false;
+			foreach(scandir($source) as $file){
+				if($file != '.' && $file != '..'){
+					if(is_dir($source.'/'.$file)){
+						if(!self::move($source.'/'.$file, $destination.'/'.$file, true)){
+							$error = true;
+						}
+					}
+					else{
+						if(!self::copy($source.'/'.$file, $destination.'/'.$file, true)){
+							$error = true;
+						}
+					}
+				}
+			}
+			if(!$error){
+				$returnValue = true;
+			}
+			self::remove($source, true);
+		}
+		else{
+	        if(file_exists($source) && file_exists($destination)){
+	        	$returnValue = rename($source, $destination);
+	        }
+	        else{
+	        	if(self::copy($source, $destination, true)){
+	        		$returnValue = self::remove($source);
+	        	}
+	        }
+		}
         // section 127-0-1-1--44542511:12bd37d6416:-8000:0000000000002718 end
 
         return (bool) $returnValue;
