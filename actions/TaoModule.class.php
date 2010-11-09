@@ -538,7 +538,7 @@ abstract class TaoModule extends CommonModule {
 			$date = $instance->getLastModificationDate();
 			$this->setData('date', $date->format('d/m/Y H:i:s'));
 			$this->setData('user', $instance->getLastModificationUser());
-			$this->setData('comment', $instance->comment);
+			$this->setData('comment', $instance->getComment());
 			
 			$this->setData('uri', $this->getRequestParameter('uri'));
 			$this->setData('classUri', $this->getRequestParameter('classUri'));
@@ -567,9 +567,9 @@ abstract class TaoModule extends CommonModule {
 			if($this->getRequestParameter('comment')){
 				$instance = $this->getCurrentInstance();
 				$instance->setComment($this->getRequestParameter('comment'));
-				if($instance->comment == $this->getRequestParameter('comment')){
+				if($instance->getComment() == $this->getRequestParameter('comment')){
 					$response['saved'] = true;
-					$response['comment'] = $instance->comment;
+					$response['comment'] = $instance->getComment();
 				}
 			}
 		}
