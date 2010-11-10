@@ -1,6 +1,5 @@
 INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#XHTML', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModels', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#XHTML', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value', '', 'EN ', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#XHTML', 'http://www.w3.org/2000/01/rdf-schema#comment', 'XHTML Items model', 'EN ', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#XHTML', 'http://www.w3.org/2000/01/rdf-schema#label', 'XHTML', 'EN ', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),

@@ -205,7 +205,7 @@ function install($param){
 	include_once 'update/1.1/01_database.php';
 	
 
-		
+	include_once 'update/1.3/12_item_content_to_file.php';
 
 	core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
 

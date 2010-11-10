@@ -1,4 +1,6 @@
 <?php 
+session_start();
+session_destroy();
 if(version_compare(PHP_VERSION, '5.3') > 0 || version_compare(PHP_VERSION, '5.2.6') < 0) {
 	die('TAO do not support your version of PHP : ' . PHP_VERSION . ' . We recommend PHP 5.2.11');
 }
