@@ -711,6 +711,7 @@ abstract class tao_models_classes_GenerisService
         (isset($options['browse']))			? $browse = $options['browse'] 				: $browse = array();
         
 		$instancesData = array();
+		
 		if($instances){
 			foreach($clazz->getInstances(false) as $instance){
 				$instanceData = array(
@@ -721,16 +722,16 @@ abstract class tao_models_classes_GenerisService
 						)
 					);
 				if(strlen($labelFilter) > 0){
-					if(preg_match("/^".str_replace('*', '(.*)', $labelFilter."$/"), $instance->getLabel())){
+					if(preg_match("/^".str_replace('*', '(.*)', $labelFilter."$/mi"), trim($instance->getLabel()))){
 						$instancesData[] = $instanceData;
 					}
 				}
 				else{
 					$instancesData[] = $instanceData;
 				}
-				
 			}
 		}
+		
 		$subclassesData = array();
 		if($subclasses){
 			foreach($clazz->getSubClasses(false) as $subclass){
