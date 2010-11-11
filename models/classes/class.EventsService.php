@@ -214,7 +214,6 @@ class tao_models_classes_EventsService
 						// </event>
 						
 						$event_name = json_decode($event_row, true);
-						
 						if(isset($eventFilter['type'])){
 							if($eventFilter['type'] == 'catch'
 								&& !in_array($event_name['type'], $event_type)) continue;
