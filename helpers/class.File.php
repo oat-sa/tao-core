@@ -252,13 +252,22 @@ class tao_helpers_File
         // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 begin
         
         if(file_exists($source)){
-        	if(is_dir(dirname($destination))){
-        		$returnValue = copy($source, $destination);
-        	}
-        	else if($recursive){
-        		if(mkdir(dirname($destination), 0775, true)){
-        			$returnValue = self::copy($source, $destination, false);
+        	if(is_dir($source) && $recursive){
+        		foreach(scandir($source) as $file){
+        			if($file != '.' && $file != '..'){
+        				self::copy($source.'/'.$file, $destination.'/'.$file, true);
+        			}
         		}
+        	}
+        	else {
+        		if(is_dir(dirname($destination))){
+	        		$returnValue = copy($source, $destination);
+	        	}
+	        	else if($recursive){
+	        		if(mkdir(dirname($destination), 0775, true)){
+	        			$returnValue = self::copy($source, $destination, false);
+	        		}
+	        	}
         	}
         }
         
