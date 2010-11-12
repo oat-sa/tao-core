@@ -841,14 +841,5 @@ if (!empty($argc) && strstr($argv[0], basename(__FILE__)))
 	$jsMin = new JSMin($inFileName, $outFileName, $comments);
 	$jsMin -> minify();
 }
-	
-function minify_files ($files, $outputFileName) {
-	$i = 0;
-	foreach ($files as $file){
-		$jsMin = new JSMin($file, $outputFileName, null, !$i);
-		$jsMin -> minify();
-		$i++;	
-	}
-}
 
 ?>
