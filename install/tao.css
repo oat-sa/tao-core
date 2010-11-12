@@ -20,8 +20,11 @@
 	font-size: small;
 	font-style: italic;
 	display: block;
-	
-
-	
-	
+}
+.message{
+	border: solid #666 1px;
+	padding:5px;
+	width:90%;
+	margin:15px auto 15px auto;
+	color:red;
 }

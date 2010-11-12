@@ -136,8 +136,8 @@ function install($param){
 		$con->Close();
 
 	} catch (exception $e) {
-		$message .= urlencode("<b>Problem found </b> : <br/>". substr($e->getMessage(),0 ,200) . "<br/>");
-		header('Location:http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].
+		$message .= urlencode("<b>Problem found </b> : <br/>". substr($e->getMessage(),0 ,500) . " ...<br/>");
+		echo("<script type='text/javascript'>window.location = 'http://{$_SERVER['HTTP_HOST']}{$_SERVER['PHP_SELF']}".
 							'?message='.$message . 
 							'&dbhost='.urlencode($param["dbhost"]) .
 							'&dbname='. urlencode($param["moduleName"]) .
@@ -152,8 +152,8 @@ function install($param){
 							'&lastName='. urlencode($param["lastName"]).
 							'&firstName='. urlencode($param["firstName"]).
 							'&lg='. urlencode($param["lg"]).
-							'&email='. urlencode($param["email"])
-
+							'&email='. urlencode($param["email"])."';".
+		"</script>"
 		);
 		exit;
 		var_dump($e);
