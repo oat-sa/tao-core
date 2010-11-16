@@ -206,7 +206,26 @@ function install($param){
 	
 
 	include_once 'update/1.3/12_item_content_to_file.php';
-
+	
+	
+	/* config waterPhoenix */
+	$wpUrl 			= "{$_SERVER['HTTP_HOST']}/taoItems/models/ext/itemAuthoring/waterphenix/";
+	$wpConfigFile	= '../../taoItems/models/ext/itemAuthoring/waterphenix/config/config.js';
+	$wpConfigLines 	= file($wpConfigFile);
+	if($wpConfigLines !== false){
+		foreach($wpConfigLines as $line){
+			if(preg_match("/^VAR\s?URL\s?=\s?/i", trim($line))){
+				$data = file_get_contents($wpConfigFile);
+				$data = str_replace($line, "VAR URL='$wpUrl';", $data);
+				if(file_put_contents($wpConfigFile, $data) > 0){
+					echo "WaterPhoenix auto-configured at <b></b><br/>"; 
+				}
+				break;
+			}
+		}
+	}
+	
+	
 	core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
 
 	
@@ -243,7 +262,7 @@ function install($param){
 			 
 	}
 	else{
-		echo "<b>DEBUG MODE ENABLED  SYS_USER created <br/>"; 
+		echo "<b>DEBUG MODE ENABLED</b><br /><b>SYS_USER created</b> <br/>"; 
 	}
 	echo "User created : <b>" . $login ."</b><br/>";
 	
