@@ -1,8 +1,8 @@
 
 AsyncFileUpload = function(elt, options){
-	
-	//(options.basePath) ? basePath = options.basePath : basePath = '';
-	
+
+	var elt = elt;	
+	console.log("ok");
 	this.settings = {
 			"script"    : root_url + "/tao/File/upload",
 			"uploader"  : taobase_www + "js/jquery.uploadify-v2.1.0/uploadify.swf",
@@ -11,26 +11,21 @@ AsyncFileUpload = function(elt, options){
 			"scriptAccess": 'always',
 			"width"		: 140,
 			"height"	: 40,
-			"auto"      : false,
-			"buttonText": "'.__('Browse').'",
+			"auto"      : true,
+			"multiple"	: false,
+			"buttonText": __('Browse'),
 			"folder"    : "/"
 	};
 	
-	if(options.fileDesc){
-		this.settings.fileDesc = options.fileDesc;
-	}
-	if(options.fileExt){
-		this.settings.fileExt = options.fileExt;
-	}
-	if(options.sizeLimit){
-		this.settings.sizeLimit = options.sizeLimit;
-	}
-	if(options.folder){
-		this.settings.folder = options.folder;
-	}
-	
+	this.settings = $.extend(true, this.settings, options);
+	console.log(this.settings);
+	var target = false;
 	if(options.target){
 		var target = $(options.target);
+	}
+	(options.starter) ? starter = options.starter : starter = elt + '_starter';
+
+	if(target){
 		this.settings.onComplete = function(event, queueID, fileObj, response, data){
 			response = $.parseJSON(response);
 			if(response.uploaded){
@@ -40,10 +35,11 @@ AsyncFileUpload = function(elt, options){
 		};
 	}
 	
-	var elt = elt;	
+	
+	
 	$(elt).uploadify(this.settings);
 	
-	(options.starter) ? starter = options.starter : starter = elt + '_starter';
+	
 	$(starter).click(function(){
 	 	$(elt).uploadifyUpload();
 	 	return false;

@@ -4,7 +4,8 @@
 	<?=get_data('formTitle')?>
 </div>
 <div id="form-container" class="ui-widget-content ui-corner-bottom">
-	<?if(count(get_data('importErrors')) > 0):?>
+
+	<?if(get_data('importErrors')):?>
 		<fieldset class='ui-state-error'>
 			<legend><strong><?=(get_data('importErrorTitle'))?get_data('importErrorTitle'):__('Error during file import')?></strong></legend>
 			<ul id='error-details'>

@@ -141,6 +141,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 		//initialize the AsyncFileUpload Js component
 		$returnValue .= '<script type="text/javascript">
 			$(document).ready(function(){
+				
 				new AsyncFileUpload("#'.$widgetName.'", {
 					"basePath"  : "'.TAOBASE_WWW.'",
 					"sizeLimit"	: '.$fileSize.',';
@@ -152,8 +153,10 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 		$returnValue .='
 					"starter"   : "#'.$widgetName.'_starter",
 					"target"	: "#'.$this->name.'",
+					"submiter"	: ".form-submiter",
 					"folder"    : "/"
 				});
+				
 			});
 			</script>';
         $returnValue .= "</div>";
