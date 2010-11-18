@@ -17,6 +17,8 @@ class Import extends CommonModule {
 	 */
 	protected $formContainer;
 	
+	protected $staticData = array();
+	
 	public function __construct(){
 		parent::__construct();
 		$this->formContainer = new tao_actions_form_Import();
@@ -151,7 +153,7 @@ class Import extends CommonModule {
 					
 					//set the mapping to the adapter
 					$adapter->addOption('map', $myForm->getValues('property_mapping'));
-					$adapter->addOption('staticMap', $myForm->getValues('ranged_property'));
+					$adapter->addOption('staticMap', array_merge($myForm->getValues('ranged_property'), $this->staticData));
 					
 					//import it!
 					if($adapter->import($importData['file'], $clazz)){
