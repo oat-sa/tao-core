@@ -2,7 +2,7 @@
 AsyncFileUpload = function(elt, options){
 
 	var elt = elt;	
-	console.log("ok");
+	
 	this.settings = {
 			"script"    : root_url + "/tao/File/upload",
 			"uploader"  : taobase_www + "js/jquery.uploadify-v2.1.0/uploadify.swf",
@@ -18,7 +18,7 @@ AsyncFileUpload = function(elt, options){
 	};
 	
 	this.settings = $.extend(true, this.settings, options);
-	console.log(this.settings);
+	
 	var target = false;
 	if(options.target){
 		var target = $(options.target);
