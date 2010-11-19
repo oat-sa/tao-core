@@ -101,6 +101,40 @@ class Api extends CommonModule {
 	} 
 	
 	/**
+	 * create an execution environnement only for the authentication
+	 * @return array the executionEnvironment
+	 */
+	public static function createAuthEnvironment(){
+		$context = Context::getInstance();
+		if($context->getAction() == 'createAuthEnvironment'){
+			throw new Exception('Action denied, only servers side call are allowed');
+		}
+		$processExecution = new core_kernel_classes_Resource(tao_helpers_Uri::decode(Session::getAttribute('processUri')));
+		$user = $this->userService->getCurrentUser();
+			if(is_null($user)){
+				throw new Exception(__('No user is logged in'));
+			}
+			
+		$executionEnvironment = array(
+			'token' => $this->createToken(),
+			CLASS_PROCESS_EXECUTIONS => array(
+				'uri'		=> $processExecution->uriResource,
+				RDFS_LABEL	=> $processExecution->getLabel()
+			),
+			TAO_SUBJECT_CLASS => array(
+				'uri'					=> $user->uriResource,
+				RDFS_LABEL				=> $user->getLabel(),
+				PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
+				PROPERTY_USER_FIRTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME)),
+				PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
+			)
+		);
+		Session::setAttribute(self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->uriResource), $executionEnvironment);
+		
+		return  $executionEnvironment;
+	}
+	
+	/**
 	 * Get the data of the current execution
 	 * @return array
 	 */
