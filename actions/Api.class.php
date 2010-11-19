@@ -105,6 +105,7 @@ class Api extends CommonModule {
 	 * @return array the executionEnvironment
 	 */
 	public static function createAuthEnvironment(){
+		
 		$context = Context::getInstance();
 		if(strtolower($context->getActionName()) == 'createauthenvironment'){
 			throw new Exception('Action denied, only servers side call are allowed');
@@ -119,23 +120,33 @@ class Api extends CommonModule {
 		if(is_null($user)){
 			throw new Exception('No user is logged in');
 		}
-			
-		$executionEnvironment = array(
-			'token' => self::createToken(),
-			CLASS_PROCESS_EXECUTIONS => array(
-				'uri'		=> $processExecution->uriResource,
-				RDFS_LABEL	=> $processExecution->getLabel()
-			),
-			TAO_SUBJECT_CLASS => array(
-				'uri'					=> $user->uriResource,
-				RDFS_LABEL				=> $user->getLabel(),
-				PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
-				PROPERTY_USER_FIRTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME)),
-				PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
-			)
-		);
-		Session::setAttribute(self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->uriResource), $executionEnvironment);
 		
+		$found = false;
+		$sessionKey = self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->uriResource);
+		if(Session::hasAttribute($sessionKey)){
+			$executionEnvironment = Session::getAttribute($sessionKey);
+			if(isset($executionEnvironment['token']) && $executionEnvironment[CLASS_PROCESS_EXECUTIONS]['uri'] == $processExecution->uriResource ){
+				return $executionEnvironment;
+			}
+		}
+			
+		if(!$found){	
+			$executionEnvironment = array(
+				'token' => self::createToken(),
+				CLASS_PROCESS_EXECUTIONS => array(
+					'uri'		=> $processExecution->uriResource,
+					RDFS_LABEL	=> $processExecution->getLabel()
+				),
+				TAO_SUBJECT_CLASS => array(
+					'uri'					=> $user->uriResource,
+					RDFS_LABEL				=> $user->getLabel(),
+					PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
+					PROPERTY_USER_FIRTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME)),
+					PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
+				)
+			);
+			Session::setAttribute($sessionKey, $executionEnvironment);
+		}
 		return  $executionEnvironment;
 	}
 	
