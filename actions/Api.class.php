@@ -121,7 +121,6 @@ class Api extends CommonModule {
 			throw new Exception('No user is logged in');
 		}
 		
-		$found = false;
 		$sessionKey = self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->uriResource);
 		if(Session::hasAttribute($sessionKey)){
 			$executionEnvironment = Session::getAttribute($sessionKey);
@@ -130,23 +129,21 @@ class Api extends CommonModule {
 			}
 		}
 			
-		if(!$found){	
-			$executionEnvironment = array(
-				'token' => self::createToken(),
-				CLASS_PROCESS_EXECUTIONS => array(
-					'uri'		=> $processExecution->uriResource,
-					RDFS_LABEL	=> $processExecution->getLabel()
-				),
-				TAO_SUBJECT_CLASS => array(
-					'uri'					=> $user->uriResource,
-					RDFS_LABEL				=> $user->getLabel(),
-					PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
-					PROPERTY_USER_FIRTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME)),
-					PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
-				)
-			);
-			Session::setAttribute($sessionKey, $executionEnvironment);
-		}
+		$executionEnvironment = array(
+			'token' => self::createToken(),
+			CLASS_PROCESS_EXECUTIONS => array(
+				'uri'		=> $processExecution->uriResource,
+				RDFS_LABEL	=> $processExecution->getLabel()
+			),
+			TAO_SUBJECT_CLASS => array(
+				'uri'					=> $user->uriResource,
+				RDFS_LABEL				=> $user->getLabel(),
+				PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
+				PROPERTY_USER_FIRTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME)),
+				PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
+			)
+		);
+		Session::setAttribute($sessionKey, $executionEnvironment);
 		return  $executionEnvironment;
 	}
 	
