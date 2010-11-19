@@ -106,17 +106,22 @@ class Api extends CommonModule {
 	 */
 	public static function createAuthEnvironment(){
 		$context = Context::getInstance();
-		if($context->getAction() == 'createAuthEnvironment'){
+		if(strtolower($context->getActionName()) == 'createauthenvironment'){
 			throw new Exception('Action denied, only servers side call are allowed');
 		}
+		if(!Session::hasAttribute('processUri')){
+			throw new Exception('Envirnoment can be create only in a workfow context');
+		}
 		$processExecution = new core_kernel_classes_Resource(tao_helpers_Uri::decode(Session::getAttribute('processUri')));
-		$user = $this->userService->getCurrentUser();
-			if(is_null($user)){
-				throw new Exception(__('No user is logged in'));
-			}
+		
+		$userService = tao_models_classes_ServiceFactory::get("tao_models_classes_UserService");
+		$user = $userService->getCurrentUser();
+		if(is_null($user)){
+			throw new Exception('No user is logged in');
+		}
 			
 		$executionEnvironment = array(
-			'token' => $this->createToken(),
+			'token' => self::createToken(),
 			CLASS_PROCESS_EXECUTIONS => array(
 				'uri'		=> $processExecution->uriResource,
 				RDFS_LABEL	=> $processExecution->getLabel()
