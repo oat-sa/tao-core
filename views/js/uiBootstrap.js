@@ -31,11 +31,13 @@ UiBootstrap = function(options){
 		//create tabs
 		UiBootstrap.tabs = $('#tabs').tabs({
 			load: function(){
+				$("#section-trees").empty().css({display: 'none'});
+				$("#section-actions").empty().css({display: 'none'});
 				bootInstance.initTrees();
 			}, 
 			select: function(event, ui) {
-				$("#section-trees").hide().empty();
-				$("#section-actions").hide().empty();
+				$("#section-trees").empty().css({display: 'none'});
+				$("#section-actions").empty().css({display: 'none'});
 			},
 			collapsible: true
 		});
