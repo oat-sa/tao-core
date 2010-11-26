@@ -49,7 +49,6 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . 'js/jquery.jqGrid-3.7.1/css/ui.jqgrid.css',
 		TAOBASE_WWW . 'css/layout.css',
 		TAOBASE_WWW . 'css/form.css',
-		
 		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/uploadify.css'
 	));
 	
@@ -84,17 +83,13 @@ if(!tao_helpers_Request::isAjax()){
 		
 		TAOBASE_WWW . 'js/EventMgr.js',
 		TAOBASE_WWW . 'js/gateway/Main.js',
-		ROOT_URL    . '/wfEngine/views/js/gateway/ProcessAuthoring.js',
-		
 		TAOBASE_WWW . 'js/helpers.js',
 		TAOBASE_WWW . 'js/uiBootstrap.js',
 		TAOBASE_WWW . 'js/uiForm.js',
 		TAOBASE_WWW . 'js/generis.tree.js',
 		TAOBASE_WWW . 'js/generis.actions.js',
 		TAOBASE_WWW . 'js/generis.treeform.js',
-		TAOBASE_WWW . 'js/users.js',
 		TAOBASE_WWW . 'js/AsyncFileUpload.js'
-		
 	));
 }
 ?>

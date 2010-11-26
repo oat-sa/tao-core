@@ -20,7 +20,6 @@ class Users extends CommonModule {
 	 * @return void
 	 */
 	public function __construct(){		
-		
     	$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 		$this->defaultData();
 	}

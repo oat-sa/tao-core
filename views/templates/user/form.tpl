@@ -3,6 +3,7 @@
 		window.location = "<?=_url('index', 'Main', 'tao', array('extension' => 'users', 'message' => get_data('message')))?>";
 	</script>
 <?else:?>
+	<script type="text/javascript" src='<?=TAOBASE_WWW?>js/users.js'></script>
 	<?if(get_data('message')):?>
 		<div id="info-box" class="ui-widget-header ui-corner-all auto-slide">
 			<span><?=get_data('message')?></span>
