@@ -19,7 +19,7 @@ UiForm = function(){
 	 * Patterns used to initialize the form   
 	 */
 	
-	this.initFormPattern = new RegExp(['search', 'authoring', 'itemSequence', 'Import', 'Export', 'IO'].join('|'));
+	this.initFormPattern = new RegExp(['search', 'authoring', 'itemSequence', 'Import', 'Export', 'IO', 'preview'].join('|'));
 	this.initGenerisFormPattern =  new RegExp(['add', 'edit'].join('|'), 'i');
 	this.initTranslationFormPattern = /translate/;
 	
@@ -47,6 +47,9 @@ UiForm = function(){
 				else{
 					testedUrl = settings.url;
 				}
+				
+				formInstance.initRendering();
+				
 				if(formInstance.initGenerisFormPattern.test(testedUrl)){
 					formInstance.initElements();
 					formInstance.initOntoForms();
@@ -60,6 +63,7 @@ UiForm = function(){
 				}
 			}
 		});
+		this.initRendering();
 	};
 	
 	/**
@@ -68,6 +72,19 @@ UiForm = function(){
 	this.initNav = function(){
 		$("form").live('submit', function(){
 			return formInstance.submitForm($(this));
+		});
+	};
+	
+	/**
+	 * make some adjustment on the forms
+	 */
+	this.initRendering = function(){
+		$("span.form_desc").each(function(){
+			var myHeight = parseInt($(this).height());
+			var parentHeight = parseInt($(this).parent().height());
+			if(myHeight > parentHeight){
+				$(this).parent().height(myHeight +'px');
+			}
 		});
 	};
 	
@@ -536,6 +553,7 @@ UiForm = function(){
 				if(!$(getMainContainerSelector(UiBootstrap.tabs))){
 					return true;
 				}
+				console.log(getMainContainerSelector(UiBootstrap.tabs));
 				$(getMainContainerSelector(UiBootstrap.tabs)).load(myForm.attr('action'), myForm.serializeArray());
 			}
 			window.location = '#form-title';

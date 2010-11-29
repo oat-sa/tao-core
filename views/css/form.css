@@ -14,7 +14,7 @@ div.xhtml_form{
 }
 div.xhtml_form div{
 	position:relative;
-	padding:3px;
+	padding:4px 3px 4px 3px;
 	margin:2px 2px 3px 2px;
 	border: solid 1px #FDD5DF;
 }
