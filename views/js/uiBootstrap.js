@@ -41,7 +41,7 @@ UiBootstrap = function(options){
 			},
 			collapsible: true
 		});
-	}
+	};
 	
 	/**
 	 * initialize common ajavx behavior

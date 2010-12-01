@@ -47,9 +47,10 @@ class tao_helpers_File
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string path
+     * @param  boolean traversalSafe
      * @return boolean
      */
-    public static function securityCheck($path)
+    public static function securityCheck($path, $traversalSafe = false)
     {
         $returnValue = (bool) false;
 
@@ -58,14 +59,19 @@ class tao_helpers_File
    		$returnValue = true;
         
         //security check: detect directory traversal (deny the ../)
-		/*if(preg_match("/\.\.\//", $path)){
-			$returnValue = false;
-		}*/
+		if($traversalSafe){
+	   		if(preg_match("/\.\.\//", $path)){
+				$returnValue = false;
+			}
+		}
 		
 		//security check:  detect the null byte poison by finding the null char injection
-		for($i = 0; $i < strlen($path); $i++){
-			if(ord($path[$i]) === 0){
-				$returnValue = false;
+		if($returnValue){
+			for($i = 0; $i < strlen($path); $i++){
+				if(ord($path[$i]) === 0){
+					$returnValue = false;
+					break;
+				}
 			}
 		}
         
