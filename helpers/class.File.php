@@ -189,7 +189,7 @@ class tao_helpers_File
             $mimetype = finfo_file($finfo, $path);
             finfo_close($finfo);
         }
-		if (array_key_exists($ext, $mime_types) && empty($$mimetype)) {
+		if (array_key_exists($ext, $mime_types) && empty($mimetype)) {
             $mimetype =  $mime_types[$ext];
         }
 
