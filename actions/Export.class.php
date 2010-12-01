@@ -10,12 +10,20 @@
  */
 class Export extends CommonModule {
 
+	
+	/**
+	 * to be overriden if needed
+	 * @var tao_actions_form_Import
+	 */
+	protected $formContainer;
+	
 	/**
 	 * Constructor performs initializations actions
 	 * @return void
 	 */
 	public function __construct(){		
-		$this->defaultData();
+		parent::__construct();
+		$this->formContainer = new tao_actions_form_Export();
 	}
 	
 	/**
@@ -42,55 +50,73 @@ class Export extends CommonModule {
 	 * @return void
 	 */
 	public function index(){
-		$exportPath = $this->getExportPath();
 		
-		$formContainer = new tao_actions_form_Export();
-		$myForm = $formContainer->getForm();
+		$myForm = $this->formContainer->getForm();
 		
+		//if the form is submited and valid
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-			
-				$refClass = null;
-				$localClass = null;
-				try{
-					if($this->hasSessionAttribute('currentExtension')){
-						$extension = str_replace('tao', '', $this->getSessionAttribute('currentExtension'));
-						$service =  tao_models_classes_ServiceFactory::get($extension);
-						if(!is_null($service)){
-							$method = 'get'.ucfirst(preg_replace("/s$/", '',$extension)).'Class';
-							if(method_exists($service, $method)){
-								$refClass = $service->$method();
-								if($refClass instanceof core_kernel_classes_Class){
-									$localClass = $service->createSubClass($refClass, $extension.' exporter');
-								}
-							}
-						}
+				
+				//import method for the given format
+				if(!is_null($myForm->getValue('format'))){
+					
+					$exportMethod = 'export'.strtoupper($myForm->getValue('format')).'Data';
+					if(method_exists($this, $exportMethod)){
+						
+						//apply the matching method
+						$this->$exportMethod($myForm->getValues());
+						
 					}
-					$adapter = new tao_helpers_data_GenerisAdapterRdf();
-					switch($myForm->getValue('ontology')){
-						case 'data':	$rdf =  $adapter->export($localClass); break;
-						case 'current':	$rdf =  $adapter->export($refClass); break;
-						case 'all':		$rdf =  $adapter->export(); break;
-						default: 		$rdf = ''; break;
-					}
-					if(!empty($rdf)){
-						$path = $exportPath."/".$myForm->getValue('name').'_'.time().'.rdf';
-						file_put_contents($path, $rdf);
-					}
-				}
-				catch(Exception $e){
-					print $e;
-				}
-				if($localClass instanceof core_kernel_classes_Class){
-					$localClass->delete();
 				}
 			}
 		}
-		
-		$this->setData('formTitle', __('Export data to RDF'));
 		$this->setData('myForm', $myForm->render());
+		$this->setData('formTitle', __('Export'));
 		$this->setView('form/export.tpl', true);
 		
+	}
+	
+	public function exportRDFData($formValues){
+		if($this->hasRequestParameter('ontology')){
+			$exportPath = $this->getExportPath();
+			
+			$refClass = null;
+			$localClass = null;
+			if($this->hasSessionAttribute('currentExtension')){
+				$extension = str_replace('tao', '', $this->getSessionAttribute('currentExtension'));
+				$service =  tao_models_classes_ServiceFactory::get($extension);
+				if(!is_null($service)){
+					$method = 'get'.ucfirst(preg_replace("/s$/", '',$extension)).'Class';
+					if(method_exists($service, $method)){
+						$refClass = $service->$method();
+						if($refClass instanceof core_kernel_classes_Class){
+							$localClass = $service->createSubClass($refClass, $extension.' exporter');
+						}
+					}
+				}
+			}
+			$adapter = new tao_helpers_data_GenerisAdapterRdf();
+			switch($formValues['ontology']){
+				case 'data':	$rdf =  $adapter->export($localClass); break;
+				case 'current':	$rdf =  $adapter->export($refClass); break;
+				case 'all':		$rdf =  $adapter->export(); break;
+				default: 		$rdf = ''; break;
+			}
+			if(!empty($rdf)){
+				$name = $formValues['name'].'_'.time().'.rdf';
+				$path = tao_helpers_File::concat(array($exportPath, $name));
+				if(!tao_helpers_File::securityCheck($path, true)){
+					throw new Exception('Unauthorized file name');
+				}
+				if(file_put_contents($path, $rdf)){
+					$this->setData('message', $name.' '.__('exported successfully'));
+				}
+			}
+			
+			if($localClass instanceof core_kernel_classes_Class){
+				$localClass->delete();
+			}
+		}
 	}
 	
 	/**
@@ -171,7 +197,7 @@ class Export extends CommonModule {
 				unlink($path);
 			}
 		}
-		$this->redirect(tao_helpers_Uri::url('index'));
+		$this->redirect(_url('index', get_class($this), Session::getAttribute('currentExtension')));
 	}
 	
 	/**

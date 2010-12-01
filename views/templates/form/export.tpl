@@ -12,6 +12,12 @@
 <br />
 <script type="text/javascript">
 $(document).ready(function(){
+
+	//by changing the format, the form is sent
+	$(":radio[name='format']").change(function(){
+		$(this).parents('form').find('.form-submiter').click();
+	});
+	
 	$("#files-list").jqGrid({
 		url: "<?=_url('getExportedFiles', 'Export', 'tao')?>", 
 		datatype: "json",

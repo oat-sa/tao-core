@@ -553,7 +553,6 @@ UiForm = function(){
 				if(!$(getMainContainerSelector(UiBootstrap.tabs))){
 					return true;
 				}
-				console.log(getMainContainerSelector(UiBootstrap.tabs));
 				$(getMainContainerSelector(UiBootstrap.tabs)).load(myForm.attr('action'), myForm.serializeArray());
 			}
 			window.location = '#form-title';

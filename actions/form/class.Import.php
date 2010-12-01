@@ -118,8 +118,8 @@ class tao_actions_form_Import
 
     	//shortcut: add the default value here to load the first time the form is defined
 		if(count($this->formats) == 1){
-			foreach($this->formats as $format){
-				$formatElt->setValue($format);
+			foreach($this->formats as $formatKey => $format){
+				$formatElt->setValue($formatKey);
 			}
 		}
 		if(isset($_POST['format'])){

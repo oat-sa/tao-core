@@ -77,6 +77,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
 		foreach($this->options as $optionId => $optionLabel){
 			 $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}_{$i}' id='{$this->name}_{$i}' ";
 			 $returnValue .= $this->renderAttributes();
+			
 			 if(in_array($optionId, $this->values)){
 			 	$returnValue .= " checked='checked' ";	
 			 }

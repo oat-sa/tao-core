@@ -139,10 +139,19 @@ class tao_helpers_form_xhtml_Form
 				}
 				else if($element instanceof tao_helpers_form_elements_xhtml_Checkbox || $element instanceof tao_helpers_form_elements_xhtml_Treeview){
 					$expression = "/^".preg_quote($element->getName(), "/")."(.)*[0-9]+$/";
-					$this->elements[$id]->setValues(array());
+					$found = false;
 					foreach($_POST as $key => $value){
 						if(preg_match($expression, $key)){
-							$this->elements[$id]->addValue(tao_helpers_Uri::decode($value));
+							$found = true;
+							break;
+						}
+					}
+					if($found){
+						$this->elements[$id]->setValues(array());
+						foreach($_POST as $key => $value){
+							if(preg_match($expression, $key)){
+								$this->elements[$id]->addValue(tao_helpers_Uri::decode($value));
+							}
 						}
 					}
 				}
