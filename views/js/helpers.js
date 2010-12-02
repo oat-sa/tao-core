@@ -183,3 +183,18 @@ function createInfoMessage(message){
 	$("body").append("<div id='info-box' class='ui-widget-header ui-corner-all auto-slide' >"+message+"</div>")
 	_autoFx();
 }
+
+/**
+ * Check if a flahs player is found in the plugins list
+ * @return {boolean}
+ */
+function isFlashPluginEnabled(){
+	if(navigator.plugins != null && navigator.plugins.length > 0){
+		for(i in navigator.plugins){
+			if(/(Shockwave|Flash)/i.test(navigator.plugins[i]['name'])){
+				return true;
+			}
+		}
+	}
+	return false;
+}

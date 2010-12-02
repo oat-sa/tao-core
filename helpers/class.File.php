@@ -131,7 +131,8 @@ class tao_helpers_File
             'css' => 'text/css',
             'js' => 'application/javascript',
             'json' => 'application/json',
-            'xml' => 'application/xml',
+            'xml' => 'text/xml',
+    		'rdf' => 'text/xml',
             'swf' => 'application/x-shockwave-flash',
             'flv' => 'video/x-flv',
     		'csv' => 'text/csv',
@@ -180,24 +181,24 @@ class tao_helpers_File
         );
 
         $ext = strtolower(array_pop(explode('.',$path)));
-        
-		if (function_exists('mime_content_type')) {
-			$mime_type = mime_content_type($path);
-		}
-		if (function_exists('finfo_open') && empty($mimetype)) {
-            $finfo = finfo_open(FILEINFO_MIME);
-            $mimetype = finfo_file($finfo, $path);
-            finfo_close($finfo);
+        if(file_exists($path)){
+			if (function_exists('finfo_open')) {
+	            $finfo = finfo_open(FILEINFO_MIME);
+	            $mimetype = finfo_file($finfo, $path);
+	            finfo_close($finfo);
+	        }
+	        else if (function_exists('mime_content_type')) {
+				$mimetype = mime_content_type($path);
+			}
         }
-		if (array_key_exists($ext, $mime_types) && empty($mimetype)) {
-            $mimetype =  $mime_types[$ext];
+        if(empty($mimetype)){
+			if (array_key_exists($ext, $mime_types)) {
+	            $mimetype =  $mime_types[$ext];
+	        }
         }
-
         if(empty($mimetype)){
             $mimetype =  'application/octet-stream';
         }
-        
-        error_log($mimetype);
         
         $returnValue =  $mimetype;
         

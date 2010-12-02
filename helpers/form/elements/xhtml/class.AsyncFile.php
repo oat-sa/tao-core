@@ -143,6 +143,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 			$(document).ready(function(){
 				
 				new AsyncFileUpload("#'.$widgetName.'", {
+					"scriptData"	: {"session_id": "'.session_id().'"},
 					"basePath"  : "'.TAOBASE_WWW.'",
 					"sizeLimit"	: '.$fileSize.',';
 		if(count($extensions) > 0){

@@ -48,9 +48,9 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
 		TAOBASE_WWW . 'js/jquery.jqGrid-3.7.1/css/ui.jqgrid.css',
 		TAOBASE_WWW . 'css/layout.css',
-		TAOBASE_WWW . 'css/form.css',
-		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/uploadify.css'
+		TAOBASE_WWW . 'css/form.css'
 	));
+	
 	
 	//js golbal vars to export
 	tao_helpers_Scriptloader::addJsVars(array(
@@ -78,9 +78,6 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . 'js/jquery.numeric.js',
 		ROOT_URL 	. '/filemanager/views/js/fmRunner.js',
 		ROOT_URL 	. '/filemanager/views/js/jquery.fmRunner.js',
-		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/jquery.uploadify.v2.1.0.min.js',
-		TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/swfobject.js',
-		
 		TAOBASE_WWW . 'js/EventMgr.js',
 		TAOBASE_WWW . 'js/gateway/Main.js',
 		TAOBASE_WWW . 'js/helpers.js',
@@ -91,5 +88,16 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . 'js/generis.treeform.js',
 		TAOBASE_WWW . 'js/AsyncFileUpload.js'
 	));
+	
+	//ajax file upload works only without HTTP_AUTH
+	if(!USE_HTTP_AUTH){
+		tao_helpers_Scriptloader::addCssFile(
+			TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/uploadify.css'
+		);
+		tao_helpers_Scriptloader::addJsFiles(array(
+			TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/jquery.uploadify.v2.1.0.min.js',
+			TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/swfobject.js'
+		));
+	}
 }
 ?>
