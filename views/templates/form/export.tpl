@@ -18,7 +18,7 @@ $(document).ready(function(){
 		$(this).parents('form').find('.form-submiter').click();
 	});
 	
-	$("#files-list").jqGrid({
+	var myGrid = $("#files-list").jqGrid({
 		url: "<?=_url('getExportedFiles', 'Export', 'tao')?>", 
 		datatype: "json",
 		colNames: [__('Name'),__('File'), __('Date'), __('Actions')] ,
@@ -34,7 +34,51 @@ $(document).ready(function(){
 		sortname: 'name', 
 		viewrecords: false, 
 		sortorder: "asc", 
-		caption: __("Exported files library")
+		caption: __("Exported files library"),
+		gridComplete: function(){
+			$.each(myGrid.getDataIDs(), function(index, elt){
+				var rowData = myGrid.getRowData(elt);
+				var actionsUris = rowData.actions.split(',');
+				var actions = $('<span></span>');
+				var separator = '&nbsp;|&nbsp;';
+				
+				if(! /\.zip$/.test(actionsUris[0])){
+					var viewAction = $("<a class='nd' target='_blank' ><img src='"+taobase_www+"img/search.png' class='icon'  title='"+__('View') +"' />" +__('View') + "</a>");
+					viewAction.attr('href', actionsUris[0]);
+					actions.append(viewAction);
+					
+					actions.append(separator);
+				}
+				var downloadAction = $("<a class='nd'><img src='"+taobase_www+"img/bullet_go.png' class='icon'  title='"+__('download')+"' />"+__('Download')+"</a>");
+				downloadAction.attr('href', actionsUris[1]);
+				actions.append(downloadAction);
+				
+				actions.append(separator);
+
+				var deleteAction = $("<a class='nd export-deleter'><img src='"+taobase_www+"img/delete.png' class='icon'  title='"+__('delete')+"' />"+__('Delete')+"</a>");
+				deleteAction.attr('href', actionsUris[2]);
+				actions.append(deleteAction);
+				
+				myGrid.setRowData(elt, {actions: actions.html()});
+			});
+
+			$("#files-list td[aria-describedby='files-list_actions']").attr('title', __('actions'));
+			$("a.export-deleter").click(function(){
+
+				$.ajax({
+					url: $(this).attr('href'),
+					dataType: 'json',
+					success: function(response){
+						if(response.deleted){
+							myGrid.trigger("reloadGrid");
+							createInfoMessage(__("File deleted successfully"));
+						}
+					}	
+				}); 
+				
+				return false;
+			});
+		}
 	});
 	$("#files-list").jqGrid('navGrid','#files-list-pager',{edit:false, add:false, del:false});
 	

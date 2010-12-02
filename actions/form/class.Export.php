@@ -149,7 +149,7 @@ class tao_actions_form_Export
 		$formatElt->setValue('current');
 		$this->form->addElement($formatElt);
 		
-		$nameElt = tao_helpers_form_FormFactory::getElement('name', 'Textbox');
+		$nameElt = tao_helpers_form_FormFactory::getElement('filename', 'Textbox');
 		$nameElt->setDescription(__('File name'));
 		$nameElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		if(Session::hasAttribute('currentExtension')){
