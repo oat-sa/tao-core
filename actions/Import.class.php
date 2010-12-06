@@ -17,14 +17,22 @@ class Import extends CommonModule {
 	 */
 	protected $formContainer;
 	
+	/**
+	 * to set static data that will be used during the import
+	 * @var array
+	 */
 	protected $staticData = array();
 	
+	/**
+	 * initialize the formContainer
+	 */
 	public function __construct(){
 		parent::__construct();
 		$this->formContainer = new tao_actions_form_Import();
 	}
 	
 	/**
+	 * initialize the classUri and execute the upload action
 	 * @return void
 	 */
 	public function index(){
@@ -35,7 +43,7 @@ class Import extends CommonModule {
 	}
 	
 	/**
-	 * display the import form: csv options and file upload
+	 * Main method, select the format and display the right form
 	 * @return void
 	 */
 	public function upload(){
@@ -67,6 +75,47 @@ class Import extends CommonModule {
 	}
 	
 	/**
+	 * action to perform on a posted RDF file
+	 * @param array $formValues the posted data
+	 */
+	protected function importRDFFile($formValues){
+		if(isset($formValues['source'])){
+			
+			//get the item parent class
+			$uploadedFile = $formValues['source']['uploaded_file'];
+			
+			//validate the file to import
+			$parser = new tao_models_classes_Parser($uploadedFile, array('extension' => 'rdf'));
+			
+			$parser->validate();
+			if(!$parser->isValid()){
+				echo "not valid";
+				$this->setData('importErrorTitle', __('Validation of the imported file has failed'));
+				$this->setData('importErrors', $parser->getErrors());
+			}
+			else{
+			
+				//initialize the adapter
+				$adapter = new tao_helpers_data_GenerisAdapterRdf();
+				if($adapter->import($uploadedFile, null)){
+					
+					$this->removeSessionAttribute('classUri');
+					$this->setData('message', __('Data imported successfully'));
+					$this->setData('reload', true);
+					
+					@unlink($uploadedFile);
+								
+					return true;
+				}		
+				else{
+					$this->setData('message', __('Nothing imported'));
+				}	
+			}
+			
+		}
+	}
+	
+	/**
 	 * action to perform on a posted CSV file
 	 * @param array $formValues the posted data
 	 */
@@ -81,8 +130,8 @@ class Import extends CommonModule {
 			'multi_values_delimiter' 	=> $formValues['multi_values_delimiter'],
 			'first_row_column_names' 	=> isset($formValues['first_row_column_names'][0])
 		);
-		if(!empty($formValues['column_orde'])){
-			$formValues['column_order'] = $formValues['column_order'];
+		if(!empty($formValues['column_order'])){
+			$importData['options']['column_order'] = $formValues['column_order'];
 		}
 		$fileData = $formValues['source'];
 		$importData['file'] = $fileData['uploaded_file'];
@@ -93,7 +142,7 @@ class Import extends CommonModule {
 	
 	
 	/**
-	 * display the mapping form
+	 * display the mapping form, after a CSV file import
 	 * @return void
 	 */
 	public function mapping(){

@@ -170,7 +170,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * @param  Class destination
      * @return boolean
      */
-    public function import($source,  core_kernel_classes_Class $destination)
+    public function import($source,  core_kernel_classes_Class $destination = null)
     {
         $returnValue = (bool) false;
 

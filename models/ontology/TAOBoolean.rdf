@@ -3,13 +3,16 @@
 	 <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
 	 <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
 	 <!ENTITY local 'http://www.tao.lu/Ontologies/TAO.rdf#'>
-	
+	 <!ENTITY subject 'http://www.tao.lu/Ontologies/TAOSubject.rdf#'>
+	 <!ENTITY widget 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#'>	
 	 <!ENTITY xmls 'http://www.w3.org/2000/01/rdf-schema#'>]>
 	  
 <rdf:RDF
 xmlns="&local;"
 xmlns:rdf="&rdf;"
-xmlns:rdfs="&rdfs;" >
+xmlns:rdfs="&rdfs;"
+xmlns:subject="&subject;"
+xmlns:widget="&widget;" >
 
 <rdf:Description rdf:ID="TAOObject">
   <rdfs:subClassOf rdf:resource="&rdfs;Resource"/>

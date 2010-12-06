@@ -217,6 +217,9 @@ class tao_models_classes_Parser
 		    		if(!empty($schema)){
 		    			$this->valid = $dom->schemaValidate($schema);
 		    		}
+		    		else{
+		    			$this->valid = true;	//only well-formed
+		    		}
 		    	}
 		    	
 		    	if(!$this->valid){

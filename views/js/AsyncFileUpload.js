@@ -43,11 +43,15 @@ AsyncFileUpload = function(elt, options){
 	
 		$(elt).uploadify(this.settings);
 		
-		$(starter).click(function(){
-		 	$(elt).uploadifyUpload();
-		 	return false;
-		 });
-	
+		if(this.settings.auto == true){
+			$(starter).parent().hide();
+		}
+		else{
+			$(starter).click(function(){
+			 	$(elt).uploadifyUpload();
+			 	return false;
+			 });
+		}
 	}
 	else{
 		//fallback if no flash or if uploadify is not loaded

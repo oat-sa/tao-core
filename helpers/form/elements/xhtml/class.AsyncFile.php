@@ -103,9 +103,10 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= " value='{$this->value}'  />";
 		
-		$returnValue .= "<br />";
+		$returnValue .= "<br /><span>";
 		$returnValue .= "<img src='".TAOBASE_WWW."img/file_upload.png' class='icon' />";
 		$returnValue .= "<a href='#' id='{$widgetName}_starter' >".__('Start upload')."</a>";
+		$returnValue .= "</span>";
 
 		//get the upload max size (the min of those 3 directives)
 		$max_upload = (int)(ini_get('upload_max_filesize'));

@@ -134,7 +134,7 @@ abstract class tao_helpers_data_GenerisAdapter
      * @param  Class destination
      * @return boolean
      */
-    public abstract function import($source,  core_kernel_classes_Class $destination);
+    public abstract function import($source,  core_kernel_classes_Class $destination = null);
 
     /**
      * export prototype: export the source class

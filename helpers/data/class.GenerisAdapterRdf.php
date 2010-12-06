@@ -75,11 +75,25 @@ class tao_helpers_data_GenerisAdapterRdf
      * @param  Class destination
      * @return boolean
      */
-    public function import($source,  core_kernel_classes_Class $destination)
+    public function import($source,  core_kernel_classes_Class $destination = null)
     {
         $returnValue = (bool) false;
 
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EBC begin
+        
+        $api = core_kernel_impl_ApiModelOO::singleton();
+        $session = core_kernel_classes_Session::singleton();
+		$localModel = $session->getNameSpace();
+			
+    	if(!is_null($destination) && file_exists($source)){
+			
+			$destModel = substr($destination->uriResource, 0, strpos($destination->uriResource, '#'));
+			$returnValue = $api->importXmlRdf($destModel, $source);
+		}
+		else{
+			$returnValue = $api->importXmlRdf($localModel, $source);
+		}
+        
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EBC end
 
         return (bool) $returnValue;

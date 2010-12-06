@@ -52,7 +52,7 @@ class tao_actions_form_Import
      * @access protected
      * @var array
      */
-    protected $formats = array('csv' => 'CSV');
+    protected $formats = array('csv' => 'CSV', 'rdf' => 'RDF');
 
     /**
      * Short description of attribute UPLOAD_MAX
@@ -210,6 +210,45 @@ class tao_actions_form_Import
 		$this->form->addElement($csvSentElt);
     	
         // section 127-0-1-1-2993bc96:12baebd89c3:-8000:0000000000002671 end
+    }
+
+    /**
+     * Short description of method initRDFElements
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return mixed
+     */
+    protected function initRDFElements()
+    {
+        // section 127-0-1-1--2a1722e0:12cbb421f9c:-8000:0000000000002939 begin
+        
+    	$descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
+		$descElt->setValue(__('Please upload a RDF file.'));
+		$this->form->addElement($descElt);
+		
+		//create file upload form box
+		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
+		$fileElt->setDescription(__("Add the source file"));
+  	  	if(isset($_POST['import_sent_rdf'])){
+			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		}
+		else{
+			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty', array('message' => '')));
+		}
+		$fileElt->addValidators(array(
+			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/xml', 'application/rdf+xml'), 'extension' => array('rdf', 'rdfs'))),
+			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => self::UPLOAD_MAX))
+		));
+		
+		$this->form->addElement($fileElt);
+		$this->form->createGroup('file', __('Upload RDF File'), array('rdf_desc', 'source'));
+		
+		$rdfSentElt = tao_helpers_form_FormFactory::getElement('import_sent_rdf', 'Hidden');
+		$rdfSentElt->setValue(1);
+		$this->form->addElement($rdfSentElt);
+    	
+        // section 127-0-1-1--2a1722e0:12cbb421f9c:-8000:0000000000002939 end
     }
 
 } /* end of class tao_actions_form_Import */
