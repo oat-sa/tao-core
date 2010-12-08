@@ -45,7 +45,7 @@ function parcoursRepertoire($pRoot, $pExtension) {
     		# parcours des fichiers et dossiers
     		foreach($liste_fichiers_dossiers as $fd) {
 
-   		 		if ($fd !== "." && $fd !== ".." && $fd !== ".svn" && $fd !== ".settings") {
+   		 		if (!preg_match("/^\./",$fd) &&  $fd != "ext") {
    		 			# si c'est un dossier
    		 			if (is_dir($pRoot. $fd."/")) {
 	    				$liste_chaine	= array_merge($liste_chaine, parcoursRepertoire($pRoot.$fd."/", $pExtension));

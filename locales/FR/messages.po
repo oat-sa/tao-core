@@ -1,5 +1,5 @@
-msgid "A formated text"
-msgstr "Un texte formatté"
+msgid ""
+msgstr ""
 
 msgid "A long text"
 msgstr "Un texte long"
@@ -29,7 +29,7 @@ msgid "Add / Edit lists"
 msgstr "Ajouter / Modifier les listes"
 
 msgid "Add a user"
-msgstr ""
+msgstr "Ajouter un utilisateur"
 
 msgid "Add property"
 msgstr "Ajouter une propriété"
@@ -38,16 +38,16 @@ msgid "Add the source file"
 msgstr "Ajouter le fichier source"
 
 msgid "Advanced Authoring Tool"
-msgstr ""
+msgstr "Editeur avancé"
 
 msgid "Allowed files types:"
-msgstr ""
+msgstr "Fichiers autorisés:"
 
 msgid "An error occured during user deletion"
 msgstr "Une erreur est survenue durant la suppression de l'utilisateur"
 
 msgid "Authoring"
-msgstr ""
+msgstr "Editeur"
 
 msgid "Browse"
 msgstr "Naviguer"
@@ -56,7 +56,7 @@ msgid "CSV Options"
 msgstr "Options CSV"
 
 msgid "Campaigns library"
-msgstr ""
+msgstr "Bibliothèque des campagnes"
 
 msgid "Cancel"
 msgstr "Annuler"
@@ -116,7 +116,7 @@ msgid "Delete user"
 msgstr "Supprimer l'utilisateur"
 
 msgid "Deliveries library"
-msgstr ""
+msgstr "Bibliothèque des passations"
 
 msgid "Don't set"
 msgstr "Ne pas insérer"
@@ -134,13 +134,13 @@ msgid "Edit"
 msgstr "Editer"
 
 msgid "Edit a user"
-msgstr ""
+msgstr "Editer un utilisateur"
 
 msgid "Edit item comment"
 msgstr "Modifier les commentaires de l'item"
 
 msgid "Edit property into parent class"
-msgstr ""
+msgstr "Editer la propriété dans la classe parente"
 
 msgid "Edit user"
 msgstr "Modifier l'utilisateur"
@@ -185,10 +185,10 @@ msgid "Filters"
 msgstr "Filtres"
 
 msgid "Groups"
-msgstr ""
+msgstr "Groupes"
 
 msgid "Groups library"
-msgstr ""
+msgstr "Bibliothèque des groupes"
 
 msgid "HU"
 msgstr "Hongrois"
@@ -200,7 +200,7 @@ msgid "Import"
 msgstr "Import"
 
 msgid "Import into"
-msgstr ""
+msgstr "Importer dans"
 
 msgid "Inclusive (OR)"
 msgstr "OU"
@@ -224,10 +224,10 @@ msgid "Invalid file type!"
 msgstr "Type de fichier invalide"
 
 msgid "Item library"
-msgstr ""
+msgstr "Bibliothèque d'items"
 
 msgid "Items"
-msgstr ""
+msgstr "Items"
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr "Javascript est requis pour utiliser ce logiciel. Veuillez l'activer dans votre naviguateur."
@@ -269,25 +269,25 @@ msgid "Manage data list"
 msgstr "Gestion des listes"
 
 msgid "Manage deliveries"
-msgstr ""
+msgstr "Gérer les passations"
 
 msgid "Manage groups"
-msgstr ""
+msgstr "Gérer les groupes"
 
 msgid "Manage items"
-msgstr ""
+msgstr "Gérer les items"
 
 msgid "Manage results"
-msgstr ""
+msgstr "Gérer les résultats"
 
 msgid "Manage test takers"
-msgstr ""
+msgstr "Gérer les sujets"
 
 msgid "Manage tests"
-msgstr ""
+msgstr "Gérer les tests"
 
 msgid "Manage users"
-msgstr ""
+msgstr "Gérer les utilisateurs"
 
 msgid "Map the properties to the CSV columns"
 msgstr "Choisissez les propriétés relatives aux colonnes CSV"
@@ -359,7 +359,7 @@ msgid "Please login"
 msgstr "Veuilez vous identifier"
 
 msgid "Preview"
-msgstr ""
+msgstr "Prévisualisation"
 
 msgid "Property"
 msgstr "Propriété"
@@ -380,13 +380,13 @@ msgid "Resource saved"
 msgstr "Ressource enregistrée"
 
 msgid "Result Servers library"
-msgstr ""
+msgstr "Bibliothèque des serveurs de résultats"
 
 msgid "Results"
-msgstr ""
+msgstr "Résultats"
 
 msgid "Results library"
-msgstr ""
+msgstr "Bibliothèque des résultats"
 
 msgid "Revert"
 msgstr "Annuler"
@@ -425,16 +425,16 @@ msgid "TAO Backend Tool"
 msgstr "TAO Outils d'administration"
 
 msgid "Test takers"
-msgstr ""
+msgstr "Testés"
 
 msgid "Test takers library"
-msgstr ""
+msgstr "Bibliothèque des sujets"
 
 msgid "Tests"
-msgstr ""
+msgstr "Tests"
 
 msgid "Tests library"
-msgstr ""
+msgstr "Bibliothèque des tests"
 
 msgid "The format of this field is not valid."
 msgstr "Le format de ce champ est invalide"
@@ -500,19 +500,19 @@ msgid "class selected"
 msgstr "classe sélectionnée"
 
 msgid "compile"
-msgstr ""
+msgstr "compiler"
 
 msgid "create table"
-msgstr ""
+msgstr "créer un tableau"
 
 msgid "delete"
-msgstr ""
+msgstr "supprimer"
 
 msgid "download"
 msgstr "télécharger"
 
 msgid "duplicate"
-msgstr ""
+msgstr "dupliquer"
 
 msgid "edit"
 msgstr "modifier"
@@ -524,13 +524,13 @@ msgid "element deleted"
 msgstr "élément supprimé"
 
 msgid "export"
-msgstr ""
+msgstr "exporter"
 
 msgid "has been deleted successfully"
-msgstr ""
+msgstr "a été supprimé avec succès"
 
 msgid "import"
-msgstr ""
+msgstr "importer"
 
 msgid "list deleted"
 msgstr "liste supprimée"
@@ -545,55 +545,55 @@ msgid "login already exist"
 msgstr "Cet identifiant existe déjà"
 
 msgid "meta data"
-msgstr ""
+msgstr "meta-donnée"
 
 msgid "minimum value:"
-msgstr ""
+msgstr "valuer minimum:"
 
 msgid "move"
-msgstr ""
+msgstr "déplacer"
 
 msgid "new"
 msgstr "nouveau"
 
 msgid "new campaign"
-msgstr ""
+msgstr "nouvelle campagne"
 
 msgid "new class"
-msgstr ""
+msgstr "nouvelle classe"
 
 msgid "new delivery"
-msgstr ""
+msgstr "nouvelle passation"
 
 msgid "new group"
-msgstr ""
+msgstr "nouveau groupe"
 
 msgid "new item"
-msgstr ""
+msgstr "nouvel item"
 
 msgid "new property"
-msgstr ""
+msgstr "nouvelle propriété"
 
 msgid "new result"
-msgstr ""
+msgstr "nouveau résultat"
 
 msgid "new result server"
-msgstr ""
+msgstr "nouveau serveur de résultats"
 
 msgid "new subject"
-msgstr ""
+msgstr "nouveau sujet"
 
 msgid "new test"
-msgstr ""
+msgstr "nouveau test"
 
 msgid "preview"
-msgstr ""
+msgstr "prévisualisation"
 
 msgid "rdf"
-msgstr ""
+msgstr "rdf"
 
 msgid "search"
-msgstr ""
+msgstr "recherche"
 
 msgid "select"
 msgstr "choisir"
@@ -605,143 +605,140 @@ msgid "settings updated"
 msgstr "Préférences mise à jour"
 
 msgid "Access denied. Please renew your authentication!"
-msgstr ""
+msgstr "Accès interdit. Veuillez renouveller votre authentification!"
 
 msgid "Advanced Mode"
-msgstr ""
+msgstr "Mode avancé"
 
 msgid "All (the complete TAO Module)"
-msgstr ""
+msgstr "Tout (le module TAO au complet)"
 
 msgid "Current (the current extension, the local data and their dependancies)"
-msgstr ""
+msgstr "Courant (l'extension courante, les données locales et leur depéndances)"
 
 msgid "Deliveries"
-msgstr ""
+msgstr "Passations"
 
 msgid "Enable your to export an RDF file containing the selected namespaces"
-msgstr ""
+msgstr "Vous pouvez exporter in fichier au format RDF comprenant les espaces de noms sélectionnés"
 
 msgid "Error during file import"
-msgstr ""
+msgstr "Erreur pendant l'import du fichier"
 
 msgid "Export Options"
-msgstr ""
+msgstr "Options d'export"
 
 msgid "File deleted successfully"
-msgstr ""
+msgstr "Le fichier a été supprimé avec succès"
 
 msgid "List Options"
-msgstr ""
+msgstr "Options de la liste"
 
 msgid "Local Data (the local namespace containing only the data inserted by the users)"
-msgstr ""
+msgstr "Donnée locales (l'espace de nom local comprenant seulement les données insérées par les utilisateurs)"
 
 msgid "Manage campaigns"
-msgstr ""
+msgstr "Gérer les campagnes"
 
 msgid "Manage processes"
-msgstr ""
+msgstr "Gérer les processus"
 
 msgid "Manage result servers"
-msgstr ""
+msgstr "Gérer les serveurs de résultats"
 
 msgid "Manage roles"
-msgstr ""
+msgstr "Gérer les rôles"
 
 msgid "Namespaces"
-msgstr ""
+msgstr "Espaces de nom"
 
 msgid "No result found"
-msgstr ""
+msgstr "Aucun résultat n'a été trouvé"
 
 msgid "Nothing imported"
-msgstr ""
+msgstr "Acune donnée n'a été importée"
 
 msgid "Please select the input data format to import"
-msgstr ""
+msgstr "Veuillez sélectionner le format des données d'entrée à importer"
 
 msgid "Please select the way to export the data"
-msgstr ""
+msgstr "Veuillez choisir la manière d'exporter les données"
 
 msgid "Please upload a CSV file formated as defined by the options above."
-msgstr ""
+msgstr "Veuillez télécharger un fichier au format CSV, définit par les options ci-dessous."
 
 msgid "Please upload a RDF file."
-msgstr ""
+msgstr "Veuillez télécharger un fichier RDF."
 
 msgid "Process authoring"
-msgstr ""
+msgstr "Editeur de processus"
 
 msgid "Process library"
-msgstr ""
+msgstr "Bibliothèque de processus"
 
 msgid "Processes"
-msgstr ""
+msgstr "Processus"
 
 msgid "Role library"
-msgstr ""
+msgstr "Bibliothèque des rôles"
 
 msgid "Selected file:"
-msgstr ""
+msgstr "Fichier sélectioné:"
 
 msgid "Simple Mode"
-msgstr ""
+msgstr "Mode simple"
 
 msgid "Supported export formats"
-msgstr ""
+msgstr "Formats d'export supportés"
 
 msgid "Supported formats to import"
-msgstr ""
+msgstr "Formats d'import supportés"
 
 msgid "TAO Back Office"
-msgstr ""
+msgstr "TAO: Outils d'administration"
 
 msgid "Test view"
-msgstr ""
+msgstr "Vue test"
 
 msgid "Upload"
-msgstr ""
+msgstr "Télécharger"
 
 msgid "Upload File"
-msgstr ""
+msgstr "Téléchargez un fichier"
 
 msgid "Upload RDF File"
-msgstr ""
+msgstr "Téléchargez un fichier RDF"
 
 msgid "Validation of the imported file has failed"
-msgstr ""
-
-msgid "Younes"
-msgstr ""
+msgstr "Le fichier téléchargé n'est pas valide"
 
 msgid "actions"
-msgstr ""
+msgstr "actions"
 
 msgid "advanced mode"
-msgstr ""
+msgstr "mode avancé"
 
 msgid "create Score table"
-msgstr ""
+msgstr "créer un tableau de score"
 
 msgid "create Simple table"
-msgstr ""
+msgstr "créer un tableau simple"
 
 msgid "exported successfully"
-msgstr ""
+msgstr "exporté avec succès"
 
 msgid "lists"
-msgstr ""
+msgstr "listes"
 
 msgid "maximum value:"
-msgstr ""
+msgstr "valeur maximum:"
 
 msgid "new process"
-msgstr ""
+msgstr "nouveau processus"
 
 msgid "new role"
-msgstr ""
+msgstr "nouveau rôle"
 
 msgid "simple mode"
-msgstr ""
+msgstr "mode simple"
 

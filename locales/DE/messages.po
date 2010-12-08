@@ -673,9 +673,6 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-msgid "Younes"
-msgstr ""
-
 msgid "actions"
 msgstr ""
 

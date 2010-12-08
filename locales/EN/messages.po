@@ -610,9 +610,6 @@ msgstr ""
 msgid "You cannot modify this property"
 msgstr ""
 
-msgid "Younes"
-msgstr ""
-
 msgid "actions"
 msgstr ""
 
