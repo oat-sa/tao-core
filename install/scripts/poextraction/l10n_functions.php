@@ -20,6 +20,16 @@
 # ***** END LICENSE BLOCK *****
 
 	
+function getAllStrings($directories, $poFile, $extensions){
+	$existingStrings	= getPoFile($poFile);
+
+	$fileStrings = array();
+	foreach ($directories as $dir){
+		$fileStrings = array_merge($fileStrings, parcoursRepertoire($dir, $extensions));
+	}
+	return array_merge($fileStrings, $existingStrings);
+}
+
 /**
  * Parcours d'un répertoire
  * @param	string		$pRoot			Répértoire à parcourir
@@ -80,7 +90,7 @@ function parcoursRepertoire($pRoot, $pExtension) {
 	
 	if ($extOk)
 	{
-		echo "Récupération chaines dans fichier ${pFichier}\n"; 
+		//echo "Loading strings in ${pFichier}\n"; 
 		$liste_chaine = array();
 	
 	 	# lecture du fichier

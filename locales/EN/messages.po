@@ -1,289 +1,40 @@
-msgid "Access denied. Please renew your authentication!"
-msgstr ""
-
-msgid "Export data to RDF"
-msgstr ""
-
-msgid "view"
-msgstr ""
-
-msgid "View"
-msgstr ""
-
-msgid "download"
-msgstr ""
-
-msgid "Download"
-msgstr ""
-
-msgid "delete"
-msgstr ""
-
-msgid "Delete"
-msgstr ""
-
-msgid "Import data"
-msgstr ""
-
-msgid "Label"
-msgstr ""
-
-msgid "Data imported successfully"
-msgstr ""
-
-msgid "Import into"
-msgstr ""
-
-msgid "element"
-msgstr ""
-
-msgid "List"
-msgstr ""
-
-msgid "Lists"
-msgstr ""
-
-msgid "No account match the given login / password"
-msgstr ""
-
-msgid "settings updated"
-msgstr ""
-
-msgid "Translation saved"
-msgstr ""
-
-msgid "Translate"
-msgstr ""
-
-msgid "Search"
-msgstr ""
-
-msgid "Select"
-msgstr ""
-
-msgid "Error"
-msgstr ""
-
-msgid "class selected"
-msgstr ""
-
-msgid "selected"
-msgstr ""
-
-msgid "Resource saved"
-msgstr ""
-
-msgid "Edit"
-msgstr ""
-
-msgid "list the users"
-msgstr ""
-
-msgid "An error occured during user deletion"
-msgstr ""
-
-msgid "User deleted successfully"
-msgstr ""
-
-msgid "User added"
-msgstr ""
-
-msgid "Add a user"
-msgstr ""
-
-msgid "User saved"
-msgstr ""
-
-msgid "Edit a user"
-msgstr ""
-
-msgid "Export"
-msgstr ""
-
-msgid "Content"
-msgstr ""
-
-msgid "All (model and data)"
-msgstr ""
-
-msgid "Current (current model, data and dependancies)"
-msgstr ""
-
-msgid "Only Data"
-msgstr ""
-
-msgid "File name"
-msgstr ""
-
-msgid "Next"
-msgstr ""
-
-msgid "CSV Options"
-msgstr ""
-
-msgid "Add the source file"
-msgstr ""
-
-msgid "Upload CSV File"
-msgstr ""
-
-msgid "Add"
-msgstr ""
-
-msgid "Name"
-msgstr ""
+msgid "DE"
+msgstr "German"
 
-msgid "Number of elements"
-msgstr ""
-
-msgid "Connect"
-msgstr ""
-
-msgid "Login"
-msgstr ""
-
-msgid "Password"
-msgstr ""
-
-msgid "Import"
-msgstr ""
-
-msgid "Column"
-msgstr ""
-
-msgid "Empty"
-msgstr ""
-
-msgid "Don't set"
-msgstr ""
-
-msgid "Map the properties to the CSV columns"
-msgstr ""
-
-msgid "Define the defaultt values"
-msgstr ""
-
-msgid "Interface language"
-msgstr ""
-
-msgid "Data language"
-msgstr ""
-
-msgid "Login *"
-msgstr ""
-
-msgid "login already exist"
-msgstr ""
-
-msgid "Password *"
-msgstr ""
-
-msgid "Repeat password *"
-msgstr ""
-
-msgid "Old Password"
-msgstr ""
-
-msgid "New password"
-msgstr ""
-
-msgid "Repeat new password"
-msgstr ""
-
-msgid "Change the password"
-msgstr ""
-
-msgid "Users"
-msgstr ""
-
-msgid "Manage users"
-msgstr ""
-
-msgid "Save"
-msgstr ""
-
-msgid "Revert"
-msgstr ""
-
-msgid "Current language"
-msgstr ""
-
-msgid "Translate to"
-msgstr ""
-
-msgid "Select a language"
-msgstr ""
-
-msgid "Translation parameters"
-msgstr ""
-
-msgid "Filtering mode"
-msgstr ""
-
-msgid "Exclusive (AND)"
-msgstr ""
-
-msgid "Inclusive (OR)"
-msgstr ""
-
-msgid "Language"
-msgstr ""
-
-msgid "Options"
-msgstr ""
-
-msgid "Use the * character to replace any string"
-msgstr ""
-
-msgid "Filters"
-msgstr ""
-
-msgid "Add property"
-msgstr ""
-
-msgid "Add a new property"
-msgstr ""
-
-msgid "Class"
-msgstr ""
-
-msgid "Edit property into parent class"
-msgstr ""
+msgid "EN"
+msgstr "English"
 
-msgid "Property"
-msgstr ""
-
-msgid "You cannot modify this property"
-msgstr ""
-
-msgid "Type"
-msgstr ""
-
-msgid "select"
-msgstr ""
-
-msgid "List values"
-msgstr ""
+msgid "FR"
+msgstr "French"
 
-msgid "Add / Edit lists"
-msgstr ""
+msgid "HU"
+msgstr "Hungarian"
 
-msgid "Delete property"
-msgstr ""
+msgid "LU"
+msgstr "Luxemburgish"
 
-msgid "Range"
-msgstr ""
+msgid "Password are not matching"
+msgstr "Passwords are not matching"
 
-msgid "A short text"
+msgid "new subject"
 msgstr ""
 
-msgid "A long text"
+msgid "has been deleted successfully"
 msgstr ""
 
 msgid "A formated text"
 msgstr ""
 
+msgid "A long text"
+msgstr ""
+
+msgid "A multiple choice list"
+msgstr ""
+
 msgid "A password"
+msgstr ""
+
+msgid "A short text"
 msgstr ""
 
 msgid "A single choice list"
@@ -292,25 +43,502 @@ msgstr ""
 msgid "A single choice long list"
 msgstr ""
 
-msgid "A multiple choice list"
+msgid "Access denied. Please renew your authentication!"
 msgstr ""
 
-msgid "Dynamic date picker"
+msgid "Actions"
 msgstr ""
 
-msgid "Start upload"
+msgid "Add"
+msgstr ""
+
+msgid "Add / Edit lists"
+msgstr ""
+
+msgid "Add a user"
+msgstr ""
+
+msgid "Add property"
+msgstr ""
+
+msgid "Add the source file"
+msgstr ""
+
+msgid "Advanced Authoring Tool"
+msgstr ""
+
+msgid "Advanced Mode"
+msgstr ""
+
+msgid "All (the complete TAO Module)"
 msgstr ""
 
 msgid "Allowed files types:"
 msgstr ""
 
+msgid "An error occured during user deletion"
+msgstr ""
+
 msgid "Authoring"
+msgstr ""
+
+msgid "Browse"
+msgstr ""
+
+msgid "CSV Options"
+msgstr ""
+
+msgid "Campaigns library"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Change the password"
+msgstr ""
+
+msgid "Class"
+msgstr ""
+
+msgid "Column"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Connect"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Create a list"
+msgstr ""
+
+msgid "Current (the current extension, the local data and their dependancies)"
+msgstr ""
+
+msgid "Current language"
+msgstr ""
+
+msgid "Data Language"
+msgstr ""
+
+msgid "Data imported successfully"
+msgstr ""
+
+msgid "Data language"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Define the defaultt values"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Delete property"
+msgstr ""
+
+msgid "Delete user"
+msgstr ""
+
+msgid "Deliveries"
+msgstr ""
+
+msgid "Deliveries library"
+msgstr ""
+
+msgid "Don't set"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Dynamic date picker"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit a user"
+msgstr ""
+
+msgid "Edit item comment"
+msgstr ""
+
+msgid "Edit property into parent class"
+msgstr ""
+
+msgid "Edit user"
+msgstr ""
+
+msgid "Element"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
+msgid "Enable your to export an RDF file containing the selected namespaces"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Error during file import"
+msgstr ""
+
+msgid "Exclusive (AND)"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Export Options"
+msgstr ""
+
+msgid "Exported files library"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "File deleted successfully"
+msgstr ""
+
+msgid "File name"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Filtering mode"
+msgstr ""
+
+msgid "Filters"
+msgstr ""
+
+msgid "Groups"
+msgstr ""
+
+msgid "Groups library"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import into"
+msgstr ""
+
+msgid "Inclusive (OR)"
+msgstr ""
+
+msgid "Interface Language"
+msgstr ""
+
+msgid "Interface language"
+msgstr ""
+
+msgid "Invalid field length"
+msgstr ""
+
+msgid "Invalid field range"
+msgstr ""
+
+msgid "Invalid file size"
 msgstr ""
 
 msgid "Invalid file type!"
 msgstr ""
 
-msgid "Invalid file size"
+msgid "Item library"
+msgstr ""
+
+msgid "Items"
+msgstr ""
+
+msgid "Javascript is required to run this software. Please activate it in your browser."
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Label already used"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "List"
+msgstr ""
+
+msgid "List Options"
+msgstr ""
+
+msgid "List values"
+msgstr ""
+
+msgid "Lists"
+msgstr ""
+
+msgid "Local Data (the local namespace containing only the data inserted by the users)"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Login *"
+msgstr ""
+
+msgid "Login not available"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Manage campaigns"
+msgstr ""
+
+msgid "Manage data list"
+msgstr ""
+
+msgid "Manage deliveries"
+msgstr ""
+
+msgid "Manage groups"
+msgstr ""
+
+msgid "Manage items"
+msgstr ""
+
+msgid "Manage processes"
+msgstr ""
+
+msgid "Manage result servers"
+msgstr ""
+
+msgid "Manage results"
+msgstr ""
+
+msgid "Manage roles"
+msgstr ""
+
+msgid "Manage test takers"
+msgstr ""
+
+msgid "Manage tests"
+msgstr ""
+
+msgid "Manage users"
+msgstr ""
+
+msgid "Map the properties to the CSV columns"
+msgstr ""
+
+msgid "Meta Data"
+msgstr ""
+
+msgid "Move to"
+msgstr ""
+
+msgid "Moving this element will remove the following properties:"
+msgstr ""
+
+msgid "My settings"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Namespaces"
+msgstr ""
+
+msgid "New element"
+msgstr ""
+
+msgid "New password"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "No account match the given login / password"
+msgstr ""
+
+msgid "No result found"
+msgstr ""
+
+msgid "Nothing imported"
+msgstr ""
+
+msgid "Number of elements"
+msgstr ""
+
+msgid "Old Password"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Password *"
+msgstr ""
+
+msgid "Please confirm deletion"
+msgstr ""
+
+msgid "Please confirm property deletion!"
+msgstr ""
+
+msgid "Please confirm user deletion"
+msgstr ""
+
+msgid "Please confirm you want to delete this list element."
+msgstr ""
+
+msgid "Please confirm you want to delete this list. This operation is not reversible."
+msgstr ""
+
+msgid "Please login"
+msgstr ""
+
+msgid "Please select the input data format to import"
+msgstr ""
+
+msgid "Please select the way to export the data"
+msgstr ""
+
+msgid "Please upload a CSV file formated as defined by the options above."
+msgstr ""
+
+msgid "Please upload a RDF file."
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Process authoring"
+msgstr ""
+
+msgid "Process library"
+msgstr ""
+
+msgid "Processes"
+msgstr ""
+
+msgid "Property"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Rename"
+msgstr ""
+
+msgid "Repeat new password"
+msgstr ""
+
+msgid "Repeat password *"
+msgstr ""
+
+msgid "Resource saved"
+msgstr ""
+
+msgid "Result Servers library"
+msgstr ""
+
+msgid "Results"
+msgstr ""
+
+msgid "Results library"
+msgstr ""
+
+msgid "Revert"
+msgstr ""
+
+msgid "Right click the tree to manage your lists"
+msgstr ""
+
+msgid "Role library"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Search results"
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+msgid "Select a language"
+msgstr ""
+
+msgid "Select the element destination"
+msgstr ""
+
+msgid "Selected file:"
+msgstr ""
+
+msgid "Selection saved successfully"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Simple Mode"
+msgstr ""
+
+msgid "Start upload"
+msgstr ""
+
+msgid "Supported export formats"
+msgstr ""
+
+msgid "Supported formats to import"
+msgstr ""
+
+msgid "TAO Back Office"
+msgstr ""
+
+msgid "TAO Backend Tool"
+msgstr ""
+
+msgid "Test takers"
+msgstr ""
+
+msgid "Test takers library"
+msgstr ""
+
+msgid "Test view"
+msgstr ""
+
+msgid "Tests"
+msgstr ""
+
+msgid "Tests library"
+msgstr ""
+
+msgid "The format of this field is not valid."
 msgstr ""
 
 msgid "The uploaded file is too large"
@@ -319,1747 +547,201 @@ msgstr ""
 msgid "The value of this field must be an integer"
 msgstr ""
 
-msgid "Invalid field range"
-msgstr ""
-
-msgid "minimum value:"
-msgstr ""
-
-msgid "maximum vallue:"
-msgstr ""
-
-msgid "Label already used"
-msgstr ""
-
-msgid "Invalid field length"
+msgid "This field is too long"
 msgstr ""
 
 msgid "This field is too short"
 msgstr ""
 
-msgid "This field is too long"
-msgstr ""
-
 msgid "This field must not be empty"
 msgstr ""
 
-msgid "Password are not matching"
-msgstr "Passwords are not matching"
-
-msgid "The format of this field is not valid."
+msgid "Translate"
 msgstr ""
 
-msgid "Element"
+msgid "Translate to"
 msgstr ""
 
-msgid "Browse"
+msgid "Translation parameters"
 msgstr ""
 
-msgid "Moving this element will remove the following properties:"
+msgid "Translation saved"
 msgstr ""
 
-msgid "edit"
+msgid "Type"
 msgstr ""
 
-msgid "new class"
+msgid "Upload"
 msgstr ""
 
-msgid "new"
+msgid "Upload CSV File"
 msgstr ""
 
-msgid "move"
+msgid "Upload File"
 msgstr ""
 
-msgid "duplicate"
+msgid "Upload RDF File"
 msgstr ""
 
-msgid "Please confirm deletion"
-msgstr ""
-
-msgid "Select the element destination"
-msgstr ""
-
-msgid "Cancel"
-msgstr ""
-
-msgid "Move to"
-msgstr ""
-
-msgid "Selection saved successfully"
-msgstr ""
-
-msgid "Please confirm property deletion!"
-msgstr ""
-
-msgid "Right click the tree to manage your lists"
-msgstr ""
-
-msgid "Manage data list"
-msgstr ""
-
-msgid "Create"
-msgstr ""
-
-msgid "Rename"
-msgstr ""
-
-msgid "Remove"
-msgstr ""
-
-msgid "Login not available"
-msgstr ""
-
-msgid "Confirm"
-msgstr ""
-
-msgid "has been deleted successfully"
-msgstr ""
-
-msgid "File"
-msgstr ""
-
-msgid "Date"
-msgstr ""
-
-msgid "Actions"
-msgstr ""
-
-msgid "Exported files library"
-msgstr ""
-
-msgid "Meta Data"
+msgid "Use the * character to replace any string"
 msgstr ""
 
 msgid "User"
 msgstr ""
 
-msgid "Comment"
+msgid "User added"
 msgstr ""
 
-msgid "Edit item comment"
+msgid "User deleted successfully"
 msgstr ""
 
-msgid "Search results"
+msgid "User saved"
 msgstr ""
 
-msgid "Open"
+msgid "Users"
 msgstr ""
 
-msgid "My settings"
+msgid "Validation of the imported file has failed"
 msgstr ""
 
-msgid "Home"
+msgid "View"
 msgstr ""
 
-msgid "Settings"
+msgid "You cannot modify this property"
 msgstr ""
 
-msgid "Logout"
+msgid "Younes"
 msgstr ""
 
-msgid "Create a list"
+msgid "actions"
 msgstr ""
 
-msgid "list saved"
+msgid "advanced mode"
 msgstr ""
 
-msgid "New element"
-msgstr ""
-
-msgid "Please confirm you want to delete this list element."
-msgstr ""
-
-msgid "element deleted"
-msgstr ""
-
-msgid "Please confirm you want to delete this list. This operation is not reversible."
-msgstr ""
-
-msgid "list deleted"
-msgstr ""
-
-msgid "TAO Backend Tool"
-msgstr ""
-
-msgid "Javascript is required to run this software. Please activate it in your browser."
-msgstr ""
-
-msgid "Please login"
-msgstr ""
-
-msgid "Filter"
-msgstr ""
-
-msgid "Back"
-msgstr ""
-
-msgid "Please confirm user deletion"
-msgstr ""
-
-msgid "Email"
-msgstr ""
-
-msgid "Data Language"
-msgstr ""
-
-msgid "Interface Language"
-msgstr ""
-
-msgid "Edit user"
-msgstr ""
-
-msgid "Delete user"
-msgstr ""
-
-msgid ""
-msgstr ""
-
-msgid "Data imported"
-msgstr ""
-
-msgid "List items"
-msgstr ""
-
-msgid "Active user"
-msgstr ""
-
-msgid "Unable to restore default user"
-msgstr ""
-
-msgid "User restored successfully"
-msgstr ""
-
-msgid "Change your password"
-msgstr ""
-
-msgid "FirstName"
-msgstr ""
-
-msgid "LastName"
-msgstr ""
-
-msgid "Company"
-msgstr ""
-
-msgid "Language *"
-msgstr ""
-
-msgid "A simple choice list"
-msgstr ""
-
-msgid "A simple choice long list"
-msgstr ""
-
-msgid "A dynamic datepicker"
-msgstr ""
-
-msgid "AUTHORING TOOL"
-msgstr ""
-
-msgid "Add subclass"
-msgstr ""
-
-msgid "Duplicate"
-msgstr ""
-
-msgid "Open all"
-msgstr ""
-
-msgid "Close all"
-msgstr ""
-
-msgid "Restore default user"
-msgstr ""
-
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "DE"
-msgstr "German"
-
-msgid "LU"
-msgstr "Luxemburgish"
-
-msgid "Campaign Class saved"
-msgstr ""
-
-msgid "Edit campaign class"
-msgstr ""
-
-msgid "Campaign saved"
-msgstr ""
-
-msgid "Edit Campaign"
-msgstr ""
-
-msgid "Delivery Class saved"
-msgstr ""
-
-msgid "Edit delivery class"
-msgstr ""
-
-msgid "Delivery saved"
-msgstr ""
-
-msgid "Edit delivery"
-msgstr ""
-
-msgid "The test"
-msgstr ""
-
-msgid "is not active so cannot be compiled"
-msgstr ""
-
-msgid "The test collection for the language"
-msgstr ""
-
-msgid "must not be empty"
-msgstr ""
-
-msgid "Sorry, the test seems not to be compiled.<br/> Please compile it then try again."
-msgstr ""
-
-msgid "wrong login or/and password,<br/> please try again"
-msgstr ""
-
-msgid "saved"
-msgstr ""
-
-msgid "Result Server class saved"
-msgstr ""
-
-msgid "Edit resultServer class"
-msgstr ""
-
-msgid "Result Server saved"
-msgstr ""
-
-msgid "Edit ResultServer"
-msgstr ""
-
-msgid "Delivery"
-msgstr ""
-
-msgid "Manage Deliveries"
-msgstr ""
-
-msgid "Deliveries library"
-msgstr ""
-
-msgid "search"
-msgstr ""
-
-msgid "new delivery"
-msgstr ""
-
-msgid "new property"
-msgstr ""
-
-msgid "create table"
-msgstr ""
-
-msgid "export"
+msgid "class selected"
 msgstr ""
 
 msgid "compile"
 msgstr ""
 
-msgid "Advanced Authoring Tool"
+msgid "create Score table"
 msgstr ""
 
-msgid "Manage Campaigns"
+msgid "create Simple table"
 msgstr ""
 
-msgid "Campaigns library"
+msgid "create table"
 msgstr ""
 
-msgid "new campaign"
+msgid "delete"
 msgstr ""
 
-msgid "edit campaign"
+msgid "download"
 msgstr ""
 
-msgid "Manage Result Servers"
+msgid "duplicate"
 msgstr ""
 
-msgid "Result Servers library"
+msgid "edit"
 msgstr ""
 
-msgid "new result server"
+msgid "element"
 msgstr ""
 
-msgid "edit result server"
+msgid "element deleted"
 msgstr ""
 
-msgid "Service Definition"
+msgid "export"
 msgstr ""
 
-msgid "Formal Parameter IN"
-msgstr ""
-
-msgid "Formal Parameter OUT"
-msgstr ""
-
-msgid "Connector Type"
-msgstr ""
-
-msgid "IF"
-msgstr ""
-
-msgid "THEN"
-msgstr ""
-
-msgid "Assignment"
-msgstr ""
-
-msgid "ELSE"
-msgstr ""
-
-msgid "Another Inference Rule"
-msgstr ""
-
-msgid "No thanks"
-msgstr ""
-
-msgid "create new activity"
-msgstr ""
-
-msgid "create new connector"
-msgstr ""
-
-msgid "Activity or Connector"
-msgstr ""
-
-msgid "Activity"
-msgstr ""
-
-msgid "Connector"
-msgstr ""
-
-msgid "Process Activities"
-msgstr ""
-
-msgid "undefined"
-msgstr ""
-
-msgid "If"
-msgstr ""
-
-msgid "Then"
-msgstr ""
-
-msgid "Else"
-msgstr ""
-
-msgid "type??"
-msgstr ""
-
-msgid "(still undefined)"
-msgstr ""
-
-msgid "Please confirm deletion? warning: the related connectors may be affected"
-msgstr ""
-
-msgid "compiling..."
-msgstr ""
-
-msgid "ok"
-msgstr ""
-
-msgid "compiled with warning"
-msgstr ""
-
-msgid "compilation failed"
-msgstr ""
-
-msgid "the following file(s) could not be copied for the test"
-msgstr ""
-
-msgid "the following file(s) could not be created for the test"
-msgstr ""
-
-msgid "Recompile the delivery"
-msgstr ""
-
-msgid "the delivery has been successfully compiled but an issue happened with the delivery status update"
-msgstr ""
-
-msgid "stand by"
-msgstr ""
-
-msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
-msgstr ""
-
-msgid "failed!"
-msgstr ""
-
-msgid "the following item(s) has not been translated into"
-msgstr ""
-
-msgid "complete with warning"
-msgstr ""
-
-msgid "complete!"
-msgstr ""
-
-msgid "Select a test"
-msgstr ""
-
-msgid "Go to"
-msgstr ""
-
-msgid "Close (Esc)"
-msgstr ""
-
-msgid "Suppress"
-msgstr ""
-
-msgid "Question (Ctrl-Q)"
-msgstr ""
-
-msgid "Type (Ctrl-T)"
-msgstr ""
-
-msgid "Add (Ctrl-A)"
-msgstr ""
-
-msgid "Enter remark text here"
-msgstr ""
-
-msgid "(Ctrl-C)"
-msgstr ""
-
-msgid "Export - Debug only (Ctrl-E)"
-msgstr ""
-
-msgid "Select delivery"
-msgstr ""
-
-msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
-
-msgid "User Id."
-msgstr ""
-
-msgid "Active Tests"
-msgstr ""
-
-msgid "Status"
-msgstr ""
-
-msgid "Test"
-msgstr ""
-
-msgid "Start/Resume the case"
-msgstr ""
-
-msgid "Finished Test"
-msgstr ""
-
-msgid "Initialize new test"
-msgstr ""
-
-msgid "New Test"
-msgstr ""
-
-msgid "the login must not be empty"
-msgstr ""
-
-msgid "the password must not be empty"
-msgstr ""
-
-msgid "Select delivery campaign"
-msgstr ""
-
-msgid "Compilation of the delivery"
-msgstr ""
-
-msgid "A delviery must to be compiled before being executed. The compilation can be done here."
-msgstr ""
-
-msgid "A recompilation is also required after modification on the tests composing a delivery."
-msgstr ""
-
-msgid "The delivery was last compiled on"
-msgstr ""
-
-msgid "Recompile"
-msgstr ""
-
-msgid "Compile"
-msgstr ""
-
-msgid "Select delivery tests"
-msgstr ""
-
-msgid "Tests sequence"
-msgstr ""
-
-msgid "Sequence saved successfully"
-msgstr ""
-
-msgid "Compilation"
-msgstr ""
-
-msgid "The delivery is not compiled yet"
-msgstr ""
-
-msgid "The Delivery module allows users to define tests delivery parameters."
-msgstr ""
-
-msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
-msgstr ""
-
-msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
-msgstr ""
-
-msgid "Campaign"
-msgstr ""
-
-msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
-msgstr ""
-
-msgid "For instance, it is a way to organize deliveries with a common objectives."
-msgstr ""
-
-msgid "Result Server"
-msgstr ""
-
-msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "The Result Server Management section allows to add, edit and assign Delivery Result Servers to Deliveries."
-
-msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
-msgstr ""
-
-msgid "Please select a delivery before authoring it!"
-msgstr ""
-
-msgid "Formal Parameter"
-msgstr ""
-
-msgid "Role"
-msgstr ""
-
-msgid "Process Variables"
-msgstr ""
-
-msgid "Activity Editor"
-msgstr ""
-
-msgid "Process Property"
-msgstr ""
-
-msgid "loading..."
-msgstr ""
-
-msgid "Pause"
-msgstr ""
-
-msgid "Forward"
-msgstr ""
-
-msgid "Edit error"
-msgstr ""
-
-msgid "Compilation of the Process"
-msgstr ""
-
-msgid "Sure?"
-msgstr ""
-
-msgid "reloading form..."
-msgstr ""
-
-msgid "interactive service saved"
-msgstr ""
-
-msgid "save"
-msgstr ""
-
-msgid "reload"
-msgstr ""
-
-msgid "cancel"
-msgstr ""
-
-msgid "Browse Tests"
-msgstr ""
-
-msgid "check code"
-msgstr ""
-
-msgid "checking the code..."
-msgstr ""
-
-msgid "the chosen code has already been used for the process variable"
-msgstr ""
-
-msgid "please choose another one"
-msgstr ""
-
-msgid "Select test takers to be <b>excluded</b>"
-msgstr ""
-
-msgid "Class saved"
-msgstr ""
-
-msgid "Edit group class"
-msgstr ""
-
-msgid "Group saved"
-msgstr ""
-
-msgid "Groups"
-msgstr ""
-
-msgid "Manage groups"
-msgstr ""
-
-msgid "Groups library"
-msgstr ""
-
-msgid "new group"
-msgstr ""
-
-msgid "edit group"
-msgstr ""
-
-msgid "meta data"
-msgstr ""
-
-msgid "Select group deliveries"
-msgstr ""
-
-msgid "Show delvery tests"
-msgstr ""
-
-msgid "The Group module allows to groupe Test takers according to global features and classifications."
-msgstr ""
-
-msgid "The main objective of the Group module is to assign the test(s) to the appointed group, thus establishing the basis for running a test."
-msgstr ""
-
-msgid "Select group test takers"
-msgstr ""
-
-msgid "Select group test"
-msgstr ""
-
-msgid "Item saved"
-msgstr ""
-
-msgid "Preview not yet available"
-msgstr ""
-
-msgid "Edit Item"
-msgstr ""
-
-msgid "Edit a class"
-msgstr ""
-
-msgid "An error occured while saving the item"
-msgstr ""
-
-msgid "Item saved successfully"
-msgstr ""
-
-msgid "Items"
-msgstr ""
-
-msgid "Manage items"
-msgstr ""
-
-msgid "Item library"
-msgstr ""
-
-msgid "new item"
-msgstr ""
-
-msgid "edit item"
-msgstr ""
-
-msgid "preview"
-msgstr ""
-
-msgid "Item authoring"
-msgstr ""
-
-msgid "TAO Authoring Tool"
-msgstr ""
-
-msgid "Browser incompatibility"
-msgstr ""
-
-msgid "Browser compatibility"
-msgstr ""
-
-msgid "Authoring Tool has been developped especially for"
-msgstr ""
-
-msgid "You can download the latest version of"
-msgstr ""
-
-msgid "here"
-msgstr ""
-
-msgid "Thank you for your understanding,"
-msgstr ""
-
-msgid "TAO Team"
-msgstr ""
-
-msgid "Document has been updated with success"
-msgstr ""
-
-msgid "Your document contains errors"
-msgstr ""
-
-msgid "Document has been edited"
-msgstr ""
-
-msgid "Your are inserting a new item, follow the wizard"
-msgstr ""
-
-msgid "Item has been inserted with success"
-msgstr ""
-
-msgid "Attribute deleted with success"
-msgstr ""
-
-msgid "Attribute inserted with success"
-msgstr ""
-
-msgid "Attribute updated with success"
-msgstr ""
-
-msgid "Item has been updated with success"
-msgstr ""
-
-msgid "Target a position for the new element"
-msgstr ""
-
-msgid "Use the Workspace View or the Hierarchical View"
-msgstr ""
-
-msgid "For more information about positionning, go to the"
-msgstr ""
-
-msgid "wiki"
-msgstr ""
-
-msgid "Step 1 ok. Continue to Step2 or validate the wizard without attributes"
-msgstr ""
-
-msgid "New Element"
-msgstr ""
-
-msgid "has been inserted with success"
-msgstr ""
-
-msgid "Your are inserting a new element, follow the wizard"
-msgstr ""
-
-msgid "Target a question material"
-msgstr ""
-
-msgid "For more information about question material, go to the"
-msgstr ""
-
-msgid "A question material element must have an ID"
-msgstr ""
-
-msgid "Target an anwser proposition"
-msgstr ""
-
-msgid "For more information about answer proposition, go to the"
-msgstr ""
-
-msgid "An answer proposition element must have an ID"
-msgstr ""
-
-msgid "you can not access this feature as long as you do not finish the current process"
-msgstr ""
-
-msgid "Document has been saved with success"
-msgstr ""
-
-msgid "Element removed with success"
-msgstr ""
-
-msgid "You are in selection mode, click to select a node"
-msgstr ""
-
-msgid "Select mode disabled"
-msgstr ""
-
-msgid "You could enable it by clicking on the button at the right of the main menu"
-msgstr ""
-
-msgid "Select mode enabled"
-msgstr ""
-
-msgid "You could disable it by clicking on the button at the right of the main menu"
-msgstr ""
-
-msgid "Your are moving an element"
-msgstr ""
-
-msgid "Click to select the node :"
-msgstr ""
-
-msgid "Please select an item before!"
-msgstr ""
-
-msgid "Preview"
-msgstr ""
-
-msgid "PREVIEW BOX"
-msgstr ""
-
-msgid "The Item module enables the creation and design of items and exercises."
-msgstr ""
-
-msgid "A series of different templates are provided to the Item authors such as multiple choice questions, puzzle design, text with gaps, etc."
-msgstr ""
-
-msgid "Result saved"
-msgstr ""
-
-msgid "Edit result"
-msgstr ""
-
-msgid "Edit result class"
-msgstr ""
-
-msgid "Results"
-msgstr ""
-
-msgid "Manage results"
-msgstr ""
-
-msgid "Results library"
-msgstr ""
-
-msgid "new result"
-msgstr ""
-
-msgid "Build your table"
-msgstr ""
-
-msgid "Add colomn wizard"
-msgstr ""
-
-msgid "Remove rows"
-msgstr ""
-
-msgid "Template manager"
-msgstr ""
-
-msgid "Filter and search"
-msgstr ""
-
-msgid "Add new filter"
-msgstr ""
-
-msgid "Delete filter"
-msgstr ""
-
-msgid "Apply filter"
-msgstr ""
-
-msgid "Ok"
-msgstr ""
-
-msgid "Yes"
-msgstr ""
-
-msgid "No"
-msgstr ""
-
-msgid "Template saved"
-msgstr ""
-
-msgid "List of context classes"
-msgstr ""
-
-msgid "Root classes"
-msgstr ""
-
-msgid "List of properties"
-msgstr ""
-
-msgid "UTR Builder"
-msgstr ""
-
-msgid "Chose a property"
-msgstr ""
-
-msgid "Column name"
-msgstr ""
-
-msgid "Extraction method"
-msgstr ""
-
-msgid "Query"
-msgstr ""
-
-msgid "Exit"
-msgstr ""
-
-msgid "Info"
-msgstr ""
-
-msgid "Columns"
-msgstr ""
-
-msgid "Do you want to delete this column ?"
-msgstr ""
-
-msgid "Do you want to delete these rows ?"
-msgstr ""
-
-msgid "Error in loading table"
-msgstr ""
-
-msgid "Thank you for using UTR"
-msgstr ""
-
-msgid "Error, action failed !"
-msgstr ""
-
-msgid "Select a property"
-msgstr ""
-
-msgid "With UTR, you can"
-msgstr ""
-
-msgid "Build a flexible table to extract information"
-msgstr ""
-
-msgid "Build a complex table with no unlimited depth"
-msgstr ""
-
-msgid "You can dynamically Add, remove column"
-msgstr ""
-
-msgid "Calculate the percentage of columns and rows"
-msgstr ""
-
-msgid "Create save your own Template of tables"
-msgstr ""
-
-msgid "Get a direct chart diagram on your columns ans rows"
-msgstr ""
-
-msgid "Welcome to UTR Builder"
-msgstr ""
-
-msgid "coco"
-msgstr ""
-
-msgid "Choose a property"
-msgstr ""
-
-msgid "Add column wizard"
-msgstr ""
-
-msgid "Save Table"
-msgstr ""
-
-msgid "Operator"
-msgstr ""
-
-msgid "Value"
-msgstr ""
-
-msgid "Do you want to delete column ?"
-msgstr ""
-
-msgid "Name exists"
-msgstr ""
-
-msgid "This module constitutes the final step."
-msgstr ""
-
-msgid "All results of passed Tests with their referring Subject, Group and Item specific data, as well as the individual data collected during Test execution are stored and managed here."
-msgstr "All results of passed Tests with their referring Test takers, Group and Item specific data, as well as the individual data collected during Test execution are stored and managed here."
-
-msgid "Subject saved"
-msgstr "Test taker saved"
-
-msgid "Edit subject"
-msgstr "Edit test taker"
-
-msgid "Edit subject class"
-msgstr "Edit test taker class"
-
-msgid "Test takers"
-msgstr ""
-
-msgid "Manage test takers"
-msgstr ""
-
-msgid "Test takers library"
-msgstr ""
-
-msgid "new subject"
-msgstr "new test taker"
-
-msgid "edit subject"
-msgstr "edit test taker"
-
-msgid "Add to group"
-msgstr ""
-
-msgid "The Test takers module allows to record and manage  test takers."
-msgstr ""
-
-msgid "Its flexibility allows the design of datasheets (e.g. name, address, date of birth, gender etc.)."
-msgstr ""
-
-msgid "Test takers may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
-msgstr ""
-
-msgid "Test saved"
-msgstr ""
-
-msgid "Edit test"
-msgstr ""
-
-msgid "Edit test class"
-msgstr ""
-
-msgid "test saved"
-msgstr ""
-
-msgid "Test parameters"
-msgstr ""
-
-msgid "An error occured while saving the test"
-msgstr ""
-
-msgid "Test saved successfully"
-msgstr ""
-
-msgid "Maximum time allowed"
-msgstr ""
-
-msgid "seconds"
-msgstr ""
-
-msgid "Password for administrator"
-msgstr ""
-
-msgid "Test award"
-msgstr ""
-
-msgid "Sequence mode"
-msgstr ""
-
-msgid "Sequential"
-msgstr ""
-
-msgid "Random"
-msgstr ""
-
-msgid "Maxfisher"
-msgstr ""
-
-msgid "Delay"
-msgstr ""
-
-msgid "items"
-msgstr ""
-
-msgid "Scoring method"
-msgstr ""
-
-msgid "Classical ratio"
-msgstr ""
-
-msgid "Maximum likelihood"
-msgstr ""
-
-msgid "Maximum a posteriori"
-msgstr ""
-
-msgid "Expected a posteriori"
-msgstr ""
-
-msgid "QMIN"
-msgstr ""
-
-msgid "QMAX"
-msgstr ""
-
-msgid "QITER"
-msgstr ""
-
-msgid "Cumul model"
-msgstr ""
-
-msgid "Classical"
-msgstr ""
-
-msgid "Likelihood"
-msgstr ""
-
-msgid "Log-likelihood"
-msgstr ""
-
-msgid "Scoring"
-msgstr ""
-
-msgid "Halt criteria"
-msgstr ""
-
-msgid "DELTASCORE"
-msgstr ""
-
-msgid "DELTASE"
-msgstr ""
-
-msgid "Threshold"
-msgstr ""
-
-msgid "Max"
-msgstr ""
-
-msgid "Threshold 1"
-msgstr ""
-
-msgid "Threshold 2"
-msgstr ""
-
-msgid "Threshold 3"
-msgstr ""
-
-msgid "Scoring threshold"
-msgstr ""
-
-msgid "Display"
-msgstr ""
-
-msgid "Display items list during the test"
-msgstr ""
-
-msgid "Show a progress bar during the test"
-msgstr ""
-
-msgid "Display label"
-msgstr ""
-
-msgid "Display comments"
-msgstr ""
-
-msgid "Deactivate back button"
-msgstr ""
-
-msgid "Test content (top position)"
-msgstr ""
-
-msgid "px"
-msgstr ""
-
-msgid "Test content (left position)"
-msgstr ""
-
-msgid "Navigation buttons (top position)"
-msgstr ""
-
-msgid "Navigation buttons (left position)"
-msgstr ""
-
-msgid "Progressbar (top position)"
-msgstr ""
-
-msgid "Progressbar (left position)"
-msgstr ""
-
-msgid "Left button image"
-msgstr ""
-
-msgid "Right button image"
-msgstr ""
-
-msgid "Tests"
-msgstr ""
-
-msgid "Manage tests"
-msgstr ""
-
-msgid "Tests library"
-msgstr ""
-
-msgid "new test"
-msgstr ""
-
-msgid "edit test"
-msgstr ""
-
-msgid "Advanced parameters"
-msgstr ""
-
-msgid "Items Sequence"
-msgstr ""
-
-msgid "Please select an test before!"
-msgstr ""
-
-msgid "The Test module allows to combine a selection of Items to a Test."
-msgstr ""
-
-msgid "The Test mode (sequencing, scoring, cumulating, etc.) and layout are also configured here."
-msgstr ""
-
-msgid "Select related items"
-msgstr ""
-
-msgid "Items sequence"
-msgstr ""
-
-msgid "sequence"
-msgstr ""
-
-msgid "uri"
-msgstr ""
-
-msgid "label"
-msgstr ""
-
-msgid "weight"
-msgstr ""
-
-msgid "difficulty"
-msgstr ""
-
-msgid "discrimination"
-msgstr ""
-
-msgid "guessing"
-msgstr ""
-
-msgid "model"
-msgstr ""
-
-msgid "Numeric value"
-msgstr ""
-
-msgid "Sequence saved"
-msgstr ""
-
-msgid "An error occured while saving the sequence"
-msgstr ""
-
-msgid "Test Preview"
-msgstr ""
-
-msgid "compiled"
-msgstr ""
-
-msgid "Compiling test"
-msgstr ""
-
-msgid "subject"
-msgstr "test taker"
-
-msgid "subjects"
-msgstr "test takers"
-
-msgid "Subject"
-msgstr "Test taker"
-
-msgid "Subjects"
-msgstr "Test takers"
-
-msgid "Deliveries"
-msgstr ""
-
-msgid "rdf"
+msgid "exported successfully"
 msgstr ""
 
 msgid "import"
 msgstr ""
 
-msgid "Please confirm deletion.
- Warning: related resources might be affected."
+msgid "list deleted"
 msgstr ""
 
-msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
+msgid "list saved"
 msgstr ""
 
-msgid "the following item do not exist in or have not been translated into"
-msgstr ""
-
-msgid "Active Deliveries"
-msgstr ""
-
-msgid "Start/Resume the test"
-msgstr ""
-
-msgid "Drag and drop the tests to order them"
-msgstr ""
-
-msgid "TAO Delivery Server"
-msgstr ""
-
-msgid "A delivery must to be compiled before being executed. The compilation can be done here."
+msgid "list the users"
 msgstr ""
 
 msgid "lists"
 msgstr ""
 
-msgid "Related tests"
+msgid "login already exist"
 msgstr ""
 
-msgid "Not yet available"
+msgid "maximum value:"
 msgstr ""
 
-msgid "Edit item"
+msgid "meta data"
 msgstr ""
 
-msgid "Problem content"
+msgid "minimum value:"
 msgstr ""
 
-msgid "Add a question"
+msgid "move"
 msgstr ""
 
-msgid "Question"
+msgid "new"
 msgstr ""
 
-msgid "File Manager"
+msgid "new campaign"
 msgstr ""
 
-msgid "Template"
+msgid "new class"
 msgstr ""
 
-msgid "Parameters"
+msgid "new delivery"
 msgstr ""
 
-msgid "Apply"
+msgid "new group"
 msgstr ""
 
-msgid "Save and close"
+msgid "new item"
 msgstr ""
 
-msgid "inquiries"
+msgid "new process"
 msgstr ""
 
-msgid "and"
+msgid "new property"
 msgstr ""
 
-msgid "propositions"
+msgid "new result"
 msgstr ""
 
-msgid "Are you sure ?"
+msgid "new result server"
 msgstr ""
 
-msgid "Sure ?"
+msgid "new role"
 msgstr ""
 
-msgid "Your are editing an item"
+msgid "new test"
 msgstr ""
 
-msgid "Insert"
+msgid "preview"
 msgstr ""
 
-msgid "Wizard not complete : Please select a position for your new widget at Step 1"
+msgid "rdf"
 msgstr ""
 
-msgid "A question material element must have an ID, want you generate one automatically ?"
+msgid "search"
 msgstr ""
 
-msgid "Once you finished click on the continue button"
+msgid "select"
 msgstr ""
 
-msgid "Target a position for the new snipet"
+msgid "selected"
 msgstr ""
 
-msgid "Wizard New Snipet"
+msgid "settings updated"
 msgstr ""
 
-msgid "Are you sure you want save the document ?"
-msgstr ""
-
-msgid "Your are editing a widget"
-msgstr ""
-
-msgid "yes"
-msgstr ""
-
-msgid "no"
-msgstr ""
-
-msgid "Your are resizing an element"
-msgstr ""
-
-msgid "Target Radio Group"
-msgstr ""
-
-msgid "Target Button"
-msgstr ""
-
-msgid "Setting Button"
-msgstr ""
-
-msgid "What type of button ?"
-msgstr ""
-
-msgid "Text Button"
-msgstr ""
-
-msgid "Image Button"
-msgstr ""
-
-msgid "Setting Button text"
-msgstr ""
-
-msgid "What is the label of your button ?"
-msgstr ""
-
-msgid "Setting Button Image"
-msgstr ""
-
-msgid "What is the image of your button ?"
-msgstr ""
-
-msgid "Target Checkboxes"
-msgstr ""
-
-msgid "Setting Checkboxes"
-msgstr ""
-
-msgid "How Many Checkboxes ?"
-msgstr ""
-
-msgid "What orientation ?"
-msgstr ""
-
-msgid "What is the labels of your checkboxes ?"
-msgstr ""
-
-msgid "Target Grid"
-msgstr ""
-
-msgid "Setting Grid"
-msgstr ""
-
-msgid "How Many Rows ?"
-msgstr ""
-
-msgid "How Many Columns ?"
-msgstr ""
-
-msgid "Orient the grid by :"
-msgstr ""
-
-msgid "Target Image"
-msgstr ""
-
-msgid "Setting Image"
-msgstr ""
-
-msgid "What is the url of your image ?"
-msgstr ""
-
-msgid "Target Label"
-msgstr ""
-
-msgid "Setting Label"
-msgstr ""
-
-msgid "What is the text of your label ?"
-msgstr ""
-
-msgid "Setting Item"
-msgstr ""
-
-msgid "What is the identifier of your item ?"
-msgstr ""
-
-msgid "ex: myItemId (alphanumeric characters and _ are allowed)"
-msgstr ""
-
-msgid "The Right Answer"
-msgstr ""
-
-msgid "What is the right answer ?"
-msgstr ""
-
-msgid "Setting Radio Group"
-msgstr ""
-
-msgid "How Many Radio Button ?"
-msgstr ""
-
-msgid "What is the labels of your radio buttons ?"
-msgstr ""
-
-msgid "Target Select Box"
-msgstr ""
-
-msgid "Setting Select Box"
-msgstr ""
-
-msgid "How Many Options ?"
-msgstr ""
-
-msgid "What is the labels of the options ?"
-msgstr ""
-
-msgid "What type of widget ?"
-msgstr ""
-
-msgid "Step 1"
-msgstr ""
-
-msgid "Target a position for the new snipet ?"
-msgstr ""
-
-msgid "Step 2"
-msgstr ""
-
-msgid "Which Sound you want ?"
-msgstr ""
-
-msgid "Target SVG"
-msgstr ""
-
-msgid "Create your own SVG ?"
-msgstr ""
-
-msgid "Target Textbox"
-msgstr ""
-
-msgid "Setting Textbox"
-msgstr ""
-
-msgid "Teams"
-msgstr ""
-
-msgid "Which is the team 1 ?"
-msgstr ""
-
-msgid "Which is the team 2 ?"
-msgstr ""
-
-msgid "Item"
-msgstr ""
-
-msgid "Selection saved"
-msgstr ""
-
-msgid "Reviewing"
-msgstr ""
-
-msgid "Select an item to review"
-msgstr ""
-
-msgid "Comments saved"
-msgstr ""
-
-msgid "Report saved"
-msgstr ""
-
-msgid "reviewers selected"
-msgstr ""
-
-msgid "Reviewer added"
-msgstr ""
-
-msgid "Add a reviewer"
-msgstr ""
-
-msgid "Reviewer saved"
-msgstr ""
-
-msgid "Edit a reviewer"
-msgstr ""
-
-msgid "Reviewers"
-msgstr ""
-
-msgid "Selected items"
-msgstr ""
-
-msgid "Reviewer"
-msgstr ""
-
-msgid "Leave your comments"
-msgstr ""
-
-msgid "Coninue reviewing"
-msgstr ""
-
-msgid "Finish review"
-msgstr ""
-
-msgid "Select items to be reviewed"
-msgstr ""
-
-msgid "Request comments from a third part expert"
-msgstr ""
-
-msgid "Merged Items"
-msgstr ""
-
-msgid "Select item"
-msgstr ""
-
-msgid "Select 3 reviewers"
-msgstr ""
-
-msgid "No reviewer found"
-msgstr ""
-
-msgid "Validate"
-msgstr ""
-
-msgid "Confirm your choice"
-msgstr ""
-
-msgid "template manager"
-msgstr ""
-
-msgid "Filter & Search"
-msgstr ""
-
-msgid "Response of the test maker"
-msgstr ""
-
-msgid "Subject:"
-msgstr ""
-
-msgid "Test:"
-msgstr ""
-
-msgid "Item:"
-msgstr ""
-
-msgid "Response"
-msgstr ""
-
-msgid "Report on open review"
-msgstr ""
-
-msgid "Validate your review"
-msgstr ""
-
-msgid "Validate final review"
-msgstr ""
-
-msgid "Test taker saved"
-msgstr ""
-
-msgid "Advanced sequence"
-msgstr ""
-
-msgid "Drag and drop the items to order them"
-msgstr ""
-
-msgid "Please select a test before!"
+msgid "simple mode"
 msgstr ""
 

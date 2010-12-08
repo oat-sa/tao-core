@@ -1,290 +1,398 @@
-msgid "Access denied. Please renew your authentication!"
-msgstr ""
-
-msgid "Export data to RDF"
-msgstr ""
-
-msgid "view"
-msgstr ""
-
-msgid "View"
-msgstr ""
-
-msgid "download"
-msgstr ""
-
-msgid "Download"
-msgstr ""
-
-msgid "delete"
-msgstr "läschen"
-
-msgid "Delete"
-msgstr ""
-
-msgid "Import data"
-msgstr "Daten importéiren"
-
-msgid "Label"
-msgstr ""
-
-msgid "Data imported successfully"
-msgstr ""
-
-msgid "Import into"
-msgstr ""
-
-msgid "element"
-msgstr ""
-
-msgid "List"
-msgstr "Lëscht"
-
-msgid "Lists"
-msgstr "Lëschten"
-
-msgid "No account match the given login / password"
-msgstr ""
-
-msgid "settings updated"
-msgstr "Astellungen aktualiséiert"
-
-msgid "Translation saved"
-msgstr "Iwersetzung gespaichert"
-
-msgid "Translate"
-msgstr "Iwersetzen"
-
-msgid "Search"
-msgstr "Sichen"
-
-msgid "Select"
-msgstr ""
-
-msgid "Error"
-msgstr ""
-
-msgid "class selected"
-msgstr ""
-
-msgid "selected"
-msgstr ""
-
-msgid "Resource saved"
-msgstr "Ressource gespaichert"
-
-msgid "Edit"
-msgstr ""
-
-msgid "list the users"
-msgstr ""
-
-msgid "An error occured during user deletion"
-msgstr "Während dem Läschen vum User gouf et e Fehler"
-
-msgid "User deleted successfully"
-msgstr "User erfollegraich geläscht"
-
-msgid "User added"
-msgstr "User dobeigesaat"
-
-msgid "Add a user"
-msgstr "User dobeisetzen"
-
-msgid "User saved"
-msgstr "User gespaichert"
-
-msgid "Edit a user"
-msgstr "User editéiren"
-
-msgid "Export"
-msgstr ""
-
-msgid "Content"
-msgstr ""
-
-msgid "All (model and data)"
-msgstr ""
-
-msgid "Current (current model, data and dependancies)"
-msgstr ""
-
-msgid "Only Data"
-msgstr ""
-
-msgid "File name"
-msgstr ""
-
-msgid "Next"
-msgstr ""
-
-msgid "CSV Options"
-msgstr "CSV optiounen"
-
-msgid "Add the source file"
-msgstr "Quellfichier unhaenken"
-
-msgid "Upload CSV File"
-msgstr "CSF Fichier eroplueden"
-
-msgid "Add"
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Number of elements"
-msgstr ""
-
-msgid "Connect"
-msgstr "Verbannen"
-
-msgid "Login"
-msgstr ""
-
-msgid "Password"
-msgstr "PAsswuert"
-
-msgid "Import"
-msgstr ""
-
-msgid "Column"
-msgstr ""
-
-msgid "Empty"
-msgstr ""
-
-msgid "Don't set"
-msgstr ""
-
-msgid "Map the properties to the CSV columns"
-msgstr ""
-
-msgid "Define the defaultt values"
-msgstr ""
-
-msgid "Interface language"
-msgstr "Interface Sprooch"
-
-msgid "Data language"
-msgstr "Daten Sprooch"
-
-msgid "Login *"
-msgstr "Login *"
-
-msgid "login already exist"
-msgstr "Den Login get et schons"
-
-msgid "Password *"
-msgstr "Passwuert *"
-
-msgid "Repeat password *"
-msgstr "Passwuert * wiederhuelen"
-
-msgid "Old Password"
-msgstr "Aalt Passwuert"
-
-msgid "New password"
-msgstr "Neit Passwuert"
-
-msgid "Repeat new password"
-msgstr "Neit Passwuert widerhuelen"
-
-msgid "Change the password"
-msgstr ""
-
-msgid "Users"
-msgstr "Useren"
-
-msgid "Manage users"
-msgstr "Useren verwalten"
-
-msgid "Save"
-msgstr "Späicheren"
-
-msgid "Revert"
-msgstr "Zréckgoen"
-
-msgid "Current language"
-msgstr "Aktuell Sprooch"
-
-msgid "Translate to"
-msgstr "Iwersetzen no"
-
-msgid "Select a language"
-msgstr "Sprooch auswielen"
-
-msgid "Translation parameters"
-msgstr "Iwersetzungsparameter"
-
-msgid "Filtering mode"
-msgstr "Filtermodus"
-
-msgid "Exclusive (AND)"
-msgstr "Exklusiv (AN)"
-
-msgid "Inclusive (OR)"
-msgstr "Inklusiv (ODER)"
-
-msgid "Language"
-msgstr "Sprooch"
-
-msgid "Options"
-msgstr "Optiounen"
-
-msgid "Use the * character to replace any string"
-msgstr "Benotzt den * fir eng Zeecheketten ze ersetzen"
-
-msgid "Filters"
-msgstr "Filteren"
-
-msgid "Add property"
-msgstr "Proprietéit dobeisetzen"
-
-msgid "Add a new property"
-msgstr "Nei Proprietéit dobeisetzen"
-
-msgid "Class"
-msgstr "Klass"
-
-msgid "Edit property into parent class"
-msgstr "Iwergeuerdnet Proprietéit editéiren"
-
-msgid "Property"
-msgstr "Propriétéit"
-
-msgid "You cannot modify this property"
-msgstr "Dir kënnt des Proprietéit net änneren"
-
-msgid "Type"
-msgstr "Typ"
-
-msgid "select"
-msgstr "auswielen"
-
-msgid "List values"
-msgstr "Werter uweisen"
-
-msgid "Add / Edit lists"
-msgstr "Lëschten dobeisetzen / editéiren"
-
-msgid "Delete property"
-msgstr "Proprietéit läschen"
-
-msgid "Range"
-msgstr "Beraich"
-
-msgid "A short text"
-msgstr "Ee kuerze Text"
+msgid "A formated text"
+msgstr "Ee formatéierte Text"
 
 msgid "A long text"
 msgstr "Ee lange Text"
 
-msgid "A formated text"
-msgstr "Ee formatéierte Text"
+msgid "A multiple choice list"
+msgstr "Eng multiple choice Lëscht"
 
 msgid "A password"
 msgstr "Ee Passwuert"
+
+msgid "A short text"
+msgstr "Ee kuerze Text"
+
+msgid "Add / Edit lists"
+msgstr "Lëschten dobeisetzen / editéiren"
+
+msgid "Add a user"
+msgstr ""
+
+msgid "Add property"
+msgstr "Proprietéit dobeisetzen"
+
+msgid "Add the source file"
+msgstr "Quellfichier unhaenken"
+
+msgid "An error occured during user deletion"
+msgstr "Während dem Läschen vum User gouf et e Fehler"
+
+msgid "CSV Options"
+msgstr "CSV optiounen"
+
+msgid "Campaigns library"
+msgstr ""
+
+msgid "Class"
+msgstr "Klass"
+
+msgid "Connect"
+msgstr "Verbannen"
+
+msgid "Create"
+msgstr "Erstellen"
+
+msgid "Current language"
+msgstr "Aktuell Sprooch"
+
+msgid "DE"
+msgstr "Däitsch"
+
+msgid "Data language"
+msgstr "Daten Sprooch"
+
+msgid "Date"
+msgstr "Meta Daten"
+
+msgid "Delete property"
+msgstr "Proprietéit läschen"
+
+msgid "Delete user"
+msgstr "User läschen"
+
+msgid "Deliveries library"
+msgstr ""
+
+msgid "EN"
+msgstr "Englesch"
+
+msgid "Edit a user"
+msgstr ""
+
+msgid "Edit item comment"
+msgstr "Item Bemierkung editéiren"
+
+msgid "Edit property into parent class"
+msgstr ""
+
+msgid "Edit user"
+msgstr "User editéiren"
+
+msgid "Exclusive (AND)"
+msgstr "Exklusiv (AN)"
+
+msgid "FR"
+msgstr "Franséich"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Filtering mode"
+msgstr "Filtermodus"
+
+msgid "Filters"
+msgstr "Filteren"
+
+msgid "Groups"
+msgstr ""
+
+msgid "Groups library"
+msgstr ""
+
+msgid "Home"
+msgstr "Heem"
+
+msgid "Inclusive (OR)"
+msgstr "Inklusiv (ODER)"
+
+msgid "Interface language"
+msgstr "Interface Sprooch"
+
+msgid "Invalid field length"
+msgstr "Ongëlteg Datenfeld Längt"
+
+msgid "Invalid file size"
+msgstr "Ongëlteg Dateigréisst"
+
+msgid "Invalid file type!"
+msgstr "Ongëltegen Dateityp!"
+
+msgid "Item library"
+msgstr ""
+
+msgid "Items"
+msgstr ""
+
+msgid "Javascript is required to run this software. Please activate it in your browser."
+msgstr "Javascript get fier desen Programm gebraucht. Aktivéiert en w.e.g. an aerem Browser."
+
+msgid "LU"
+msgstr "Lëtzebuergesch"
+
+msgid "Language"
+msgstr "Sprooch"
+
+msgid "List"
+msgstr "Lëscht"
+
+msgid "List values"
+msgstr "Werter uweisen"
+
+msgid "Lists"
+msgstr "Lëschten"
+
+msgid "Login *"
+msgstr "Login *"
+
+msgid "Manage data list"
+msgstr "Daten Lëschten verwalten"
+
+msgid "Manage deliveries"
+msgstr ""
+
+msgid "Manage groups"
+msgstr ""
+
+msgid "Manage items"
+msgstr ""
+
+msgid "Manage results"
+msgstr ""
+
+msgid "Manage test takers"
+msgstr ""
+
+msgid "Manage tests"
+msgstr ""
+
+msgid "Manage users"
+msgstr ""
+
+msgid "Meta Data"
+msgstr "Logout"
+
+msgid "My settings"
+msgstr "Meng Astellungen"
+
+msgid "New password"
+msgstr "Neit Passwuert"
+
+msgid "Old Password"
+msgstr "Aalt Passwuert"
+
+msgid "Open"
+msgstr "Opmachen"
+
+msgid "Options"
+msgstr "Optiounen"
+
+msgid "Password"
+msgstr "PAsswuert"
+
+msgid "Password *"
+msgstr "Passwuert *"
+
+msgid "Password are not matching"
+msgstr "Passwierder stëmmen nit iwerteneen"
+
+msgid "Please confirm deletion"
+msgstr "Wirklech Läschen?"
+
+msgid "Please confirm property deletion!"
+msgstr "W.e.g. konfirméiert d'Läschen vun der Proprietéit"
+
+msgid "Please confirm user deletion"
+msgstr "W.e.g. konfirméiert Läschen vum User"
+
+msgid "Property"
+msgstr "Propriétéit"
+
+msgid "Remove"
+msgstr "Ewech huelen"
+
+msgid "Rename"
+msgstr "Embenennen"
+
+msgid "Repeat new password"
+msgstr "Neit Passwuert widerhuelen"
+
+msgid "Repeat password *"
+msgstr "Passwuert * wiederhuelen"
+
+msgid "Resource saved"
+msgstr "Ressource gespaichert"
+
+msgid "Result Servers library"
+msgstr ""
+
+msgid "Results"
+msgstr ""
+
+msgid "Results library"
+msgstr ""
+
+msgid "Revert"
+msgstr "Zréckgoen"
+
+msgid "Right click the tree to manage your lists"
+msgstr "Macht een Rietsklick op den Baam fier aer Lëschten ze verwalten"
+
+msgid "Save"
+msgstr "Späicheren"
+
+msgid "Search"
+msgstr "Sichen"
+
+msgid "Search results"
+msgstr "An den Resultater sichen"
+
+msgid "Select a language"
+msgstr "Sprooch auswielen"
+
+msgid "Selection saved successfully"
+msgstr "Auswiel erfollegraich gespaichert"
+
+msgid "Settings"
+msgstr "Astellungen"
+
+msgid "TAO Backend Tool"
+msgstr "TAO Backend Instrument"
+
+msgid "Test takers"
+msgstr ""
+
+msgid "Test takers library"
+msgstr ""
+
+msgid "Tests"
+msgstr ""
+
+msgid "Tests library"
+msgstr ""
+
+msgid "The format of this field is not valid."
+msgstr "Den Format vun desem Datenfeld as nit valid."
+
+msgid "The uploaded file is too large"
+msgstr "De ropgeluedene Fichier as ze grouss"
+
+msgid "This field is too long"
+msgstr "Dëst Datenfeld as ze laang"
+
+msgid "This field is too short"
+msgstr "Dëst Datenfeld as ze kuerz"
+
+msgid "This field must not be empty"
+msgstr "Dëst Datenfeld dierf nit eidel sin"
+
+msgid "Translate"
+msgstr "Iwersetzen"
+
+msgid "Translate to"
+msgstr "Iwersetzen no"
+
+msgid "Translation parameters"
+msgstr "Iwersetzungsparameter"
+
+msgid "Translation saved"
+msgstr "Iwersetzung gespaichert"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Upload CSV File"
+msgstr "CSF Fichier eroplueden"
+
+msgid "Use the * character to replace any string"
+msgstr "Benotzt den * fir eng Zeecheketten ze ersetzen"
+
+msgid "User"
+msgstr "User"
+
+msgid "User added"
+msgstr "User dobeigesaat"
+
+msgid "User deleted successfully"
+msgstr "User erfollegraich geläscht"
+
+msgid "User saved"
+msgstr "User gespaichert"
+
+msgid "Users"
+msgstr "Useren"
+
+msgid "You cannot modify this property"
+msgstr "Dir kënnt des Proprietéit net änneren"
+
+msgid "compile"
+msgstr ""
+
+msgid "create table"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "duplicate"
+msgstr ""
+
+msgid "edit"
+msgstr "editéiren"
+
+msgid "export"
+msgstr ""
+
+msgid "login already exist"
+msgstr "Den Login get et schons"
+
+msgid "meta data"
+msgstr ""
+
+msgid "new campaign"
+msgstr ""
+
+msgid "new class"
+msgstr ""
+
+msgid "new delivery"
+msgstr ""
+
+msgid "new group"
+msgstr ""
+
+msgid "new item"
+msgstr ""
+
+msgid "new property"
+msgstr ""
+
+msgid "new result"
+msgstr ""
+
+msgid "new result server"
+msgstr ""
+
+msgid "new subject"
+msgstr ""
+
+msgid "new test"
+msgstr ""
+
+msgid "preview"
+msgstr ""
+
+msgid "search"
+msgstr ""
+
+msgid "select"
+msgstr "auswielen"
+
+msgid "settings updated"
+msgstr "Astellungen aktualiséiert"
+
+msgid "has been deleted successfully"
+msgstr ""
 
 msgid "A single choice list"
 msgstr ""
@@ -292,13 +400,22 @@ msgstr ""
 msgid "A single choice long list"
 msgstr ""
 
-msgid "A multiple choice list"
-msgstr "Eng multiple choice Lëscht"
-
-msgid "Dynamic date picker"
+msgid "Access denied. Please renew your authentication!"
 msgstr ""
 
-msgid "Start upload"
+msgid "Actions"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Advanced Authoring Tool"
+msgstr ""
+
+msgid "Advanced Mode"
+msgstr ""
+
+msgid "All (the complete TAO Module)"
 msgstr ""
 
 msgid "Allowed files types:"
@@ -307,1804 +424,324 @@ msgstr ""
 msgid "Authoring"
 msgstr ""
 
-msgid "Invalid file type!"
-msgstr "Ongëltegen Dateityp!"
-
-msgid "Invalid file size"
-msgstr "Ongëlteg Dateigréisst"
-
-msgid "The uploaded file is too large"
-msgstr "De ropgeluedene Fichier as ze grouss"
-
-msgid "The value of this field must be an integer"
-msgstr ""
-
-msgid "Invalid field range"
-msgstr ""
-
-msgid "minimum value:"
-msgstr ""
-
-msgid "maximum vallue:"
-msgstr ""
-
-msgid "Label already used"
-msgstr ""
-
-msgid "Invalid field length"
-msgstr "Ongëlteg Datenfeld Längt"
-
-msgid "This field is too short"
-msgstr "Dëst Datenfeld as ze kuerz"
-
-msgid "This field is too long"
-msgstr "Dëst Datenfeld as ze laang"
-
-msgid "This field must not be empty"
-msgstr "Dëst Datenfeld dierf nit eidel sin"
-
-msgid "Password are not matching"
-msgstr "Passwierder stëmmen nit iwerteneen"
-
-msgid "The format of this field is not valid."
-msgstr "Den Format vun desem Datenfeld as nit valid."
-
-msgid "Element"
-msgstr ""
-
 msgid "Browse"
-msgstr ""
-
-msgid "Moving this element will remove the following properties:"
-msgstr ""
-
-msgid "edit"
-msgstr "editéiren"
-
-msgid "new class"
-msgstr "nei Klass"
-
-msgid "new"
-msgstr ""
-
-msgid "move"
-msgstr ""
-
-msgid "duplicate"
-msgstr "duplizéieren"
-
-msgid "Please confirm deletion"
-msgstr "Wirklech Läschen?"
-
-msgid "Select the element destination"
 msgstr ""
 
 msgid "Cancel"
 msgstr ""
 
-msgid "Move to"
+msgid "Change the password"
 msgstr ""
 
-msgid "Selection saved successfully"
-msgstr "Auswiel erfollegraich gespaichert"
+msgid "Column"
+msgstr ""
 
-msgid "Please confirm property deletion!"
-msgstr "W.e.g. konfirméiert d'Läschen vun der Proprietéit"
-
-msgid "Right click the tree to manage your lists"
-msgstr "Macht een Rietsklick op den Baam fier aer Lëschten ze verwalten"
-
-msgid "Manage data list"
-msgstr "Daten Lëschten verwalten"
-
-msgid "Create"
-msgstr "Erstellen"
-
-msgid "Rename"
-msgstr "Embenennen"
-
-msgid "Remove"
-msgstr "Ewech huelen"
-
-msgid "Login not available"
+msgid "Comment"
 msgstr ""
 
 msgid "Confirm"
 msgstr ""
 
-msgid "has been deleted successfully"
-msgstr ""
-
-msgid "File"
-msgstr ""
-
-msgid "Date"
-msgstr "Meta Daten"
-
-msgid "Actions"
-msgstr ""
-
-msgid "Exported files library"
-msgstr ""
-
-msgid "Meta Data"
-msgstr "Logout"
-
-msgid "User"
-msgstr "User"
-
-msgid "Comment"
-msgstr ""
-
-msgid "Edit item comment"
-msgstr "Item Bemierkung editéiren"
-
-msgid "Search results"
-msgstr "An den Resultater sichen"
-
-msgid "Open"
-msgstr "Opmachen"
-
-msgid "My settings"
-msgstr "Meng Astellungen"
-
-msgid "Home"
-msgstr "Heem"
-
-msgid "Settings"
-msgstr "Astellungen"
-
-msgid "Logout"
-msgstr ""
-
 msgid "Create a list"
 msgstr ""
 
-msgid "list saved"
-msgstr ""
-
-msgid "New element"
-msgstr ""
-
-msgid "Please confirm you want to delete this list element."
-msgstr ""
-
-msgid "element deleted"
-msgstr ""
-
-msgid "Please confirm you want to delete this list. This operation is not reversible."
-msgstr ""
-
-msgid "list deleted"
-msgstr ""
-
-msgid "TAO Backend Tool"
-msgstr "TAO Backend Instrument"
-
-msgid "Javascript is required to run this software. Please activate it in your browser."
-msgstr "Javascript get fier desen Programm gebraucht. Aktivéiert en w.e.g. an aerem Browser."
-
-msgid "Please login"
-msgstr ""
-
-msgid "Filter"
-msgstr "Filter"
-
-msgid "Back"
-msgstr "Zréck"
-
-msgid "Please confirm user deletion"
-msgstr "W.e.g. konfirméiert Läschen vum User"
-
-msgid "Email"
+msgid "Current (the current extension, the local data and their dependancies)"
 msgstr ""
 
 msgid "Data Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Data imported successfully"
 msgstr ""
 
-msgid "Edit user"
-msgstr "User editéiren"
-
-msgid "Delete user"
-msgstr "User läschen"
-
-msgid "Data imported"
-msgstr "Daten importéiert"
-
-msgid "List item"
-msgstr "Item uweisen"
-
-msgid "Active user"
-msgstr "Aktiven User"
-
-msgid "Unable to restore default user"
-msgstr "Standarduser kann net retabléiert gin"
-
-msgid "User restored successfully"
-msgstr "User erfollegraich retabléiert"
-
-msgid "Ontology"
-msgstr ""
-
-msgid "All"
-msgstr ""
-
-msgid "Current (model, dependancies and data)"
-msgstr ""
-
-msgid "Current (only data)"
-msgstr ""
-
-msgid "Change your password"
-msgstr "Passwuert änneren"
-
-msgid "FirstName"
-msgstr "Viirnumm"
-
-msgid "LastName"
-msgstr "Familjenumm"
-
-msgid "Company"
-msgstr "Firma"
-
-msgid "Data Language *"
-msgstr ""
-
-msgid "Interface Language *"
-msgstr ""
-
-msgid "A dynamic datepicker"
-msgstr "Een dynameschen Kalenner"
-
-msgid "AUTHORING TOOL"
-msgstr "Entwéckler Instrument"
-
-msgid "Open all"
-msgstr "All opmaachen"
-
-msgid "Close all"
-msgstr "All zoumaachen"
-
-msgid "Restore default user"
-msgstr "Standarduser retabléiren"
-
-msgid "Language *"
-msgstr "Sprooch *"
-
-msgid "A simple choice list"
-msgstr "Eng einfach Auswiel Lëscht"
-
-msgid "A simple choice long list"
-msgstr "Eng laang einfach Auswiel Lëscht"
-
-msgid "Add subclass"
-msgstr "Subkategorie dobeisetzen"
-
-msgid "Duplicate"
-msgstr "Duplizéiren"
-
-msgid "EN"
-msgstr "Englesch"
-
-msgid "FR"
-msgstr "Franséich"
-
-msgid "DE"
-msgstr "Däitsch"
-
-msgid "LU"
-msgstr "Lëtzebuergesch"
-
-msgid "Campaign Class saved"
-msgstr "Campagne Klass gespäichert"
-
-msgid "Edit campaign class"
-msgstr "Editéier Campagne Klass"
-
-msgid "Campaign saved"
-msgstr "Campagne gespäichert"
-
-msgid "Edit Campaign"
-msgstr "Editéier Campagne"
-
-msgid "Delivery Class saved"
-msgstr "Ausliwwerungsklass gespäichert"
-
-msgid "Edit delivery class"
-msgstr "Editéier Ausliwwerungsklass"
-
-msgid "Delivery saved"
-msgstr "Ausliwwerung gespäichert"
-
-msgid "Edit delivery"
-msgstr "Editéier Ausliwwerung"
-
-msgid "saved"
-msgstr "gespäichert"
-
-msgid "Result Server class saved"
-msgstr "Resultatserver Klass gespäichert"
-
-msgid "Edit resultServer class"
-msgstr "Editéier Resultatserver Klass"
-
-msgid "Result Server saved"
-msgstr "Resultatserver gespäichert"
-
-msgid "Edit ResultServer"
-msgstr "Editéier Resultatserver"
-
-msgid "Delivery"
-msgstr "Ausliwwerung"
-
-msgid "Manage deliveries"
-msgstr "Ausliwwerungen managen"
-
-msgid "Deliveries library"
-msgstr "Ausliwwerungs Sammlung"
-
-msgid "search"
-msgstr "duerchsichen"
-
-msgid "new delivery"
-msgstr "nei Ausliwwerung"
-
-msgid "edit delivery"
-msgstr "editéier Ausliwwerung"
-
-msgid "new property"
-msgstr "nei Propriétéit"
-
-msgid "create table"
-msgstr "Tabell erschafen"
-
-msgid "export"
-msgstr "exportéieren"
-
-msgid "compile"
-msgstr "kompiléieren"
-
-msgid "cache"
-msgstr "Cache"
-
-msgid "view history"
-msgstr "Log uweisen"
-
-msgid "Manage Campaigns"
-msgstr "Campagnen managen"
-
-msgid "Campaigns library"
-msgstr "Campagne Sammlung"
-
-msgid "new campaign"
-msgstr "nei Campagne"
-
-msgid "edit campaign"
-msgstr "editéier Campagne"
-
-msgid "Manage Result Servers"
-msgstr "Resultatserver managen"
-
-msgid "Result Servers library"
-msgstr "Resultatserver Sammlung"
-
-msgid "new result server"
-msgstr "neie Resultatserver"
-
-msgid "edit result server"
-msgstr "editéier Resultatserver"
-
-msgid "Delivery authoring"
-msgstr "Ausliwwerungs Editioun"
-
-msgid "Service Definition"
-msgstr "Service Définitioun"
-
-msgid "Formal Parameter IN"
-msgstr "Formalen Agangsparameter"
-
-msgid "Formal Parameter OUT"
-msgstr "Formalen Ausgangsparameter"
-
-msgid "Connector Type"
-msgstr "Konnektiounstyp"
-
-msgid "IF"
-msgstr "WANN"
-
-msgid "create new activity"
-msgstr "erschaf nei Aktivitéit"
-
-msgid "create new connector"
-msgstr "erschaf nei Konnektioun"
-
-msgid "Activity or Connector"
-msgstr "Aktivitéit oder Konnektioun"
-
-msgid "Activity"
-msgstr "Aktivitéit"
-
-msgid "Connector"
-msgstr "Konnektioun"
-
-msgid "Process Activities"
-msgstr "Aktivitéieten beschaffen"
-
-msgid "undefined"
-msgstr "ondéfinéiert"
-
-msgid "If"
-msgstr "Wann"
-
-msgid "Then"
-msgstr "Dann"
-
-msgid "Else"
-msgstr "Soss"
-
-msgid "type??"
-msgstr "Typ??"
-
-msgid "(still undefined)"
-msgstr "(nach ëmmer ondéfinéiert)"
-
-msgid "Please confirm deletion? warning: the related connectors may be affected"
-msgstr "Wirklech Läschen? Achtung: déi verbonne Konnektioune kënnen betraff sinn"
-
-msgid "Select delivery campaign"
-msgstr "Ausliwwerungs Campagne wielen"
-
-msgid "Select delivery"
-msgstr "Ausliwwerung wielen"
-
-msgid "The Delivery module allows users to define tests delivery parameters."
-msgstr "Den Ausliwwerungsmodul erlaabt de Benotzer Test Ausliwwerungs Parameter ze définéieren"
-
-msgid "This Delivery Management Section allows to add and delete deliveries and to edit their property values."
-msgstr "Des Ausliwwerungs Management Sektioun erlaabt Ausliwwerungen bäizefügen oder ze läschen an hir Propriétéiten ze veränneren"
-
-msgid "Campaign"
-msgstr "Campagne"
-
-msgid "The Campaign Management Section allows to add, edit and assign Delieveries to Delivery Campaigns."
-msgstr "D'Campagne Management Sektioun erlaabt Ausliwwerungen bäizefügen, ze editéieren a matt Ausliwwerungs Campagnen ze verbannen."
-
-msgid "Result Server"
-msgstr "Resultatserver"
-
-msgid "The Result Server Management section allows to add, edit and assign Delivery Result Server to Deliveries."
-msgstr "D'Resultatserver Management Sektioun erlaabt Ausliwwerungs Resultat Serveren bäizefügen, ze editéieren oder matt Ausliwwerungen ze verbannen."
-
-msgid "Please select a delivery before authoring it!"
-msgstr "W.e.g. wielt eng Ausliwwerung aus virun der Editioun"
-
-msgid "Formal Parameter"
-msgstr "Formal Parameter"
-
-msgid "Role"
-msgstr "Roll"
-
-msgid "Process Variables"
-msgstr "Prozess Variablen"
-
-msgid "Activity Editor"
-msgstr "Aktivitéits Editor"
-
-msgid "Process Property"
-msgstr "Prozess Propriétéit"
-
-msgid "loading..."
-msgstr "lueden..."
-
-msgid "Sure?"
-msgstr "Sëcher?"
-
-msgid "save"
-msgstr "späicheren"
-
-msgid "reload"
-msgstr "nei lueden"
-
-msgid "cancel"
-msgstr "ofbriechen"
-
-msgid "Select test takers to be <b>excluded</b>"
-msgstr "Wielt d'Testkandidaten déi <b>ausgeschloss</b> solle ginn"
-
-msgid "Class saved"
-msgstr "Klass gespäichert"
-
-msgid "Edit group class"
-msgstr "Gruppen Klass editéiren"
-
-msgid "Group saved"
-msgstr "Grupp gespaichert"
-
-msgid "Groups"
-msgstr "Gruppen"
-
-msgid "Manage groups"
-msgstr "Gruppen verwalten"
-
-msgid "Groups library"
-msgstr "Gruppensammlung"
-
-msgid "new group"
-msgstr "Nei Grupp"
-
-msgid "edit group"
-msgstr "Grupp editéiren"
-
-msgid "meta data"
-msgstr "Metadaten"
-
-msgid "The Group module allows to groupe Test takers according to global features and classifications."
-msgstr "Den Gruppen Modul erlabt Testpersounen ze gruppéiren no globalen Charakteristiken an Klassifikatiounen."
-
-msgid "The main objective of the Group module is to assign the test(s) to the appointed group, thus establishing the basis for running a test."
-msgstr "d'Haaptziel vum Gruppen Modul besteht dran fier Tester mat hiirem entspriechenden Grupp ze verbannen an esou een Test ze erméiglechen."
-
-msgid "Select group test takers"
-msgstr "Gruppen Testpersounen eraussichen"
-
-msgid "Select group test"
-msgstr "Gruppen Test eraussichen"
-
-msgid "Item saved"
-msgstr "Item gespaichert"
-
-msgid "Preview not yet available"
-msgstr "Viirbléck nat net verfügbar"
-
-msgid "Edit Item"
-msgstr "Item editéiren"
-
-msgid "Edit a class"
-msgstr "Klass editéiren"
-
-msgid "An error occured while saving the item"
-msgstr "Beim Spaicheren vum Item gouf et e Fehler"
-
-msgid "Item saved successfully"
-msgstr "Item erfollegraich gespaichert"
-
-msgid "Items"
-msgstr "Itemen"
-
-msgid "Manage items"
-msgstr "Itemen verwalten"
-
-msgid "Item library"
-msgstr "Item Sammlung"
-
-msgid "new item"
-msgstr "neien Item"
-
-msgid "edit item"
-msgstr "Item editéiren"
-
-msgid "preview"
-msgstr "Virschau"
-
-msgid "Item authoring"
-msgstr "Item Entwécklung"
-
-msgid "Please select an item before!"
-msgstr "W.e.g. sicht fier d'éischt een Item eraus!"
-
-msgid "Preview"
-msgstr ""
-
-msgid "PREVIEW BOX"
-msgstr "Viirbléck Këscht"
-
-msgid "The Item module enables the creation and design of items and exercises."
-msgstr "Den Item Modul erlaabt d'Erstellen an formatéiren vun Itemen an Aufgaben"
-
-msgid "A series of different templates are provided to the Item authors such as multiple choice questions, puzzle design, text with gaps, etc."
-msgstr "D'Item Ersteller kënnen op eng Lëscht vun Viirlagen zréckgraifen wéi z.B. mutliple choice Froen, Puzzle Froen, Lückentext, asw."
-
-msgid "Result saved"
-msgstr "Resultat gespaichert"
-
-msgid "Edit result"
-msgstr "Resultat editéiren"
-
-msgid "Edit result class"
-msgstr "Resultat Klass editéiren"
-
-msgid "Results"
-msgstr "Resultater"
-
-msgid "Manage results"
-msgstr "Resultater verwalten"
-
-msgid "Results library"
-msgstr "Resultater Sammlung"
-
-msgid "new result"
-msgstr "neit Resultat"
-
-msgid "edit result"
-msgstr "Resultat editéiren"
-
-msgid "This module constitutes the final step."
-msgstr "Desen Modul stellt den letzen Schrack duer."
-
-msgid "All results of passed Tests with their referring Subject, Group and Item specific data, as well as the individual data collected during Test execution are stored and managed here."
-msgstr "All Resultater vun duerchgefouerten Tester, mat hieren entspriechenden Testpersounen, Gruppen, Item Daten an och all individeull Daten déi während der Testpassatioun gesammelt goufen, gin hei gespaichert"
-
-msgid "Subject saved"
-msgstr "Testpersoun gespaichert"
-
-msgid "Edit subject"
-msgstr "Testpersoun editéiren"
-
-msgid "Edit subject class"
-msgstr "Testpersounen Klass editéiren"
-
-msgid "Test takers"
-msgstr "Testpersounen"
-
-msgid "Manage test takers"
-msgstr "Testpersounen verwalten"
-
-msgid "Test takers library"
-msgstr "Testpersounen Sammlung"
-
-msgid "new subject"
-msgstr "nei Testpersoun"
-
-msgid "edit subject"
-msgstr "Testpersoun editéiren"
-
-msgid "Add to group"
-msgstr "Bei e Grupp derbeisetzen"
-
-msgid "The Test takers module allows to record and manage  test takers."
-msgstr "Den Testpersounen Modul erlaabt et fier Testpersounen opzehuelen an ze verwalten."
-
-msgid "Its flexibility allows the design of datasheets (e.g. name, address, date of birth, gender etc.)."
-msgstr "Seng Flexibilitéit erlaabt d'Erstellen vun Datensätz (z.b. Numm, Adress, Gebuertsdatum, Geschlecht, etc.)."
-
-msgid "Test takers may be assigned to sets according to the relevant assessment context (Human resources management, education, edumetric monitoring, etc.)."
-msgstr "Testpersounen kënnen zesummengefaasst gin opgrond vun dem entspriechenden Assessment Kontext (Personalverwaltung, Educatioun, Schoulmonitoring, etc.)."
-
-msgid "Test saved"
-msgstr "Test gespäichert"
-
-msgid "Edit test"
-msgstr "Editéier Test"
-
-msgid "Edit test class"
-msgstr "Test Klass editéieren"
-
-msgid "test saved"
-msgstr "Test gespäichert"
-
-msgid "Test parameters"
-msgstr "Test Parameter"
-
-msgid "An error occured while saving the test"
-msgstr "Beim Späicher vum Test ass e Feeler virkomm"
-
-msgid "Test saved successfully"
-msgstr "Test erfollechräich gespäichert"
-
-msgid "Maximum time allowed"
-msgstr "Maximum erlaabten Zäit"
-
-msgid "g1"
-msgstr "g1"
-
-msgid "Sequence mode"
-msgstr "Sequenz Modus"
-
-msgid "Sequencial"
-msgstr "Sequenzial"
-
-msgid "Random"
-msgstr "Zoufälleg"
-
-msgid "Maxfisher"
-msgstr "Maxfisher"
-
-msgid "Delay"
-msgstr "Délai"
-
-msgid "g2"
-msgstr "g2"
-
-msgid "Scoring method"
-msgstr "Bewertungs Method"
-
-msgid "Classical ratio"
-msgstr "Klassesch Ratio"
-
-msgid "Maximum likelihood"
-msgstr "Maximal Wahrscheinlechkeet"
-
-msgid "Maximum a posteriori"
-msgstr "Maximum a posteriori"
-
-msgid "Expected a posteriori"
-msgstr "Erwaarten a posteriori"
-
-msgid "QMIN"
-msgstr "QMIN"
-
-msgid "QMAX"
-msgstr "QMAX"
-
-msgid "QITER"
-msgstr "QITER"
-
-msgid "g3"
-msgstr "g3"
-
-msgid "Cumul model"
-msgstr "Cumul Modell"
-
-msgid "Classical"
-msgstr "Klassesch"
-
-msgid "Likelihood"
-msgstr "Wahrscheinlechkeet"
-
-msgid "Log-likelihood"
-msgstr "Log-Wahrscheinlechkeet"
-
-msgid "g4"
-msgstr "g4"
-
-msgid "Halt criteria"
-msgstr "Stop Critère"
-
-msgid "DELTASCORE"
-msgstr "DELTASCORE"
-
-msgid "DELTASE"
-msgstr "DELTASE"
-
-msgid "Threshold"
-msgstr "Schwell"
-
-msgid "Max"
-msgstr "Max"
-
-msgid "g5"
-msgstr "g5"
-
-msgid "Threshold 1"
-msgstr "Schwell 1"
-
-msgid "Threshold 2"
-msgstr "Schwell 2"
-
-msgid "Threshold 3"
-msgstr "Schwell 3"
-
-msgid "g6"
-msgstr "g6"
-
-msgid "Display"
-msgstr "Uweisen"
-
-msgid "Display items list during the test"
-msgstr "Itemlëscht während dem Test uweisen"
-
-msgid "Show a progress bar during the test"
-msgstr "Eng Progressbar während dem Test weisen"
-
-msgid "Display label"
-msgstr "Etiquette uweisen"
-
-msgid "Display comments"
-msgstr "Kommentar uweisen"
-
-msgid "Deactivate back button"
-msgstr ""
-
-msgid "Test content (top position)"
-msgstr "Test Contenu (iewescht Positioun)"
-
-msgid "Test content (left position)"
-msgstr "Test Contenu (lenks Positioun)"
-
-msgid "Navigation buttons (top position)"
-msgstr "Navigatioun (iewescht Positioun)"
-
-msgid "Navigation buttons (left position)"
-msgstr "Navigatioun (lenks Positioun)"
-
-msgid "Progressbar (top position)"
-msgstr "Progressbar (iewescht Positioun)"
-
-msgid "Progressbar (left position)"
-msgstr "Progressbar (lenks Positioun)"
-
-msgid "Left button image"
-msgstr "Bild fir Lenks-Knäppchen"
-
-msgid "Right button image"
-msgstr "Bild fir Riets-Knäppchen"
-
-msgid "Tests"
-msgstr "Tester"
-
-msgid "Manage tests"
-msgstr "Testermanagen"
-
-msgid "Tests library"
-msgstr "Test Sammlung"
-
-msgid "new test"
-msgstr "neien Test"
-
-msgid "edit test"
-msgstr "Test editéieren"
-
-msgid "Parameters"
-msgstr "Parameter"
-
-msgid "Items Sequence"
-msgstr "Itemsequenz"
-
-msgid "Please select an test before!"
-msgstr "Wielt w.e.g als éischt en Test"
-
-msgid "The Test module allows to combine a selection of Items to a Test."
-msgstr "Den Test Modul erlaabt eng Selektioun vun Itemen matt engem Test ze verbannen."
-
-msgid "The Test mode (sequencing, scoring, cumulating, etc.) and layout are also configured here."
-msgstr "Den Test Modus (Sequenzéieren, Bewerten, Sammelen, etc.) an de Layout gin och hei konfiguréiert."
-
-msgid "Select related items"
-msgstr "Verwandten Itemen wielen"
-
-msgid "Items sequence"
-msgstr "Itemsequenz"
-
-msgid "Sequence saved successfully"
-msgstr "Sequenz erfollechräich gespäichert"
-
-msgid "sequence"
-msgstr "Sequenz"
-
-msgid "uri"
-msgstr "uri"
-
-msgid "label"
-msgstr "Etiquette"
-
-msgid "weight"
-msgstr "Gewiicht"
-
-msgid "difficulty"
-msgstr "Schwieregkeet"
-
-msgid "discrimination"
-msgstr "Diskriminatioun"
-
-msgid "guessing"
-msgstr "roden"
-
-msgid "model"
-msgstr "Modell"
-
-msgid "Numeric value"
-msgstr "Numeresche Wert"
-
-msgid "Sequence saved"
-msgstr "Sequenz gespäichert"
-
-msgid "An error occured while saving the sequence"
-msgstr "Beim Späichere vun der Sequenz ass e Feeler passéiert"
-
-msgid "Test Preview"
-msgstr "Test Virschau"
-
-msgid "compiled"
-msgstr "compiléiert"
-
-msgid "compiled with warning"
-msgstr "matt enger Warnung compiléiert"
-
-msgid "compilation failed"
-msgstr "Compilatioun feelgeschloen"
-
-msgid "Compiling test"
-msgstr "Test gëtt compiléiert"
-
-msgid "The test"
-msgstr ""
-
-msgid "is not active so cannot be compiled"
-msgstr ""
-
-msgid "The test collection for the language"
-msgstr ""
-
-msgid "must not be empty"
-msgstr ""
-
-msgid "Sorry, the test seems not to be compiled.<br/> Please compile it then try again."
-msgstr ""
-
-msgid "wrong login or/and password,<br/> please try again"
-msgstr ""
-
-msgid "Manage Deliveries"
-msgstr ""
-
-msgid "Advanced Authoring Tool"
-msgstr ""
-
-msgid "THEN"
-msgstr ""
-
-msgid "Assignment"
-msgstr ""
-
-msgid "ELSE"
-msgstr ""
-
-msgid "Another Inference Rule"
-msgstr ""
-
-msgid "No thanks"
-msgstr ""
-
-msgid "compiling..."
-msgstr ""
-
-msgid "ok"
-msgstr ""
-
-msgid "the following file(s) could not be copied for the test"
-msgstr ""
-
-msgid "the following file(s) could not be created for the test"
-msgstr ""
-
-msgid "Recompile the delivery"
-msgstr ""
-
-msgid "the delivery has been successfully compiled but an issue happened with the delivery status update"
-msgstr ""
-
-msgid "stand by"
-msgstr ""
-
-msgid "No valid wsdl contract found for the defined result server.<br/> Please select a valid one in the delivery editing section then try again."
-msgstr ""
-
-msgid "failed!"
-msgstr ""
-
-msgid "the following item(s) has not been translated into"
-msgstr ""
-
-msgid "complete with warning"
-msgstr ""
-
-msgid "complete!"
-msgstr ""
-
-msgid "Select a test"
-msgstr ""
-
-msgid "Go to"
-msgstr ""
-
-msgid "Close (Esc)"
-msgstr ""
-
-msgid "Suppress"
-msgstr ""
-
-msgid "Question (Ctrl-Q)"
-msgstr ""
-
-msgid "Type (Ctrl-T)"
-msgstr ""
-
-msgid "Add (Ctrl-A)"
-msgstr ""
-
-msgid "Enter remark text here"
-msgstr ""
-
-msgid "(Ctrl-C)"
-msgstr ""
-
-msgid "Export - Debug only (Ctrl-E)"
-msgstr ""
-
-msgid "TAO - An Open and Versatile Computer-Based Assessment Platform"
-msgstr ""
-
-msgid "User Id."
-msgstr ""
-
-msgid "Active Tests"
-msgstr ""
-
-msgid "Status"
-msgstr ""
-
-msgid "Test"
-msgstr ""
-
-msgid "Start/Resume the case"
-msgstr ""
-
-msgid "Finished Test"
-msgstr ""
-
-msgid "Initialize new test"
-msgstr ""
-
-msgid "New Test"
-msgstr ""
-
-msgid "the login must not be empty"
-msgstr ""
-
-msgid "the password must not be empty"
-msgstr ""
-
-msgid "Compilation of the delivery"
-msgstr ""
-
-msgid "A delviery must to be compiled before being executed. The compilation can be done here."
-msgstr ""
-
-msgid "A recompilation is also required after modification on the tests composing a delivery."
-msgstr ""
-
-msgid "The delivery was last compiled on"
-msgstr ""
-
-msgid "Recompile"
-msgstr ""
-
-msgid "Compile"
-msgstr ""
-
-msgid "Select delivery tests"
-msgstr ""
-
-msgid "Tests sequence"
-msgstr ""
-
-msgid "Compilation"
-msgstr ""
-
-msgid "The delivery is not compiled yet"
-msgstr ""
-
-msgid "Editing a delivery involves setting the tests composing the delivery and their sequence, as well as the delivery executing parameters: the maximum number of execution per subject, the delivery period, the result server."
-msgstr ""
-
-msgid "The Campaign Management Section allows to add, edit and assign Deliveries to Delivery Campaigns."
-msgstr ""
-
-msgid "For instance, it is a way to organize deliveries with a common objectives."
-msgstr ""
-
-msgid "A delivery server is required for every delivery, it defines where the results of that delivery will be uploaded."
-msgstr ""
-
-msgid "Pause"
-msgstr ""
-
-msgid "Forward"
-msgstr ""
-
-msgid "Edit error"
-msgstr ""
-
-msgid "Compilation of the Process"
-msgstr ""
-
-msgid "reloading form..."
-msgstr ""
-
-msgid "interactive service saved"
-msgstr ""
-
-msgid "Browse Tests"
-msgstr ""
-
-msgid "check code"
-msgstr ""
-
-msgid "checking the code..."
-msgstr ""
-
-msgid "the chosen code has already been used for the process variable"
-msgstr ""
-
-msgid "please choose another one"
-msgstr ""
-
-msgid "Select group deliveries"
-msgstr ""
-
-msgid "Show delvery tests"
-msgstr ""
-
-msgid "TAO Authoring Tool"
-msgstr ""
-
-msgid "Browser incompatibility"
-msgstr ""
-
-msgid "Browser compatibility"
-msgstr ""
-
-msgid "Authoring Tool has been developped especially for"
-msgstr ""
-
-msgid "You can download the latest version of"
-msgstr ""
-
-msgid "here"
-msgstr ""
-
-msgid "Thank you for your understanding,"
-msgstr ""
-
-msgid "TAO Team"
-msgstr ""
-
-msgid "Document has been updated with success"
-msgstr ""
-
-msgid "Your document contains errors"
-msgstr ""
-
-msgid "Document has been edited"
-msgstr ""
-
-msgid "Your are inserting a new item, follow the wizard"
-msgstr ""
-
-msgid "Item has been inserted with success"
-msgstr ""
-
-msgid "Attribute deleted with success"
-msgstr ""
-
-msgid "Attribute inserted with success"
-msgstr ""
-
-msgid "Attribute updated with success"
-msgstr ""
-
-msgid "Item has been updated with success"
-msgstr ""
-
-msgid "Target a position for the new element"
-msgstr ""
-
-msgid "Use the Workspace View or the Hierarchical View"
-msgstr ""
-
-msgid "For more information about positionning, go to the"
-msgstr ""
-
-msgid "wiki"
-msgstr ""
-
-msgid "Step 1 ok. Continue to Step2 or validate the wizard without attributes"
-msgstr ""
-
-msgid "New Element"
-msgstr ""
-
-msgid "has been inserted with success"
-msgstr ""
-
-msgid "Your are inserting a new element, follow the wizard"
-msgstr ""
-
-msgid "Target a question material"
-msgstr ""
-
-msgid "For more information about question material, go to the"
-msgstr ""
-
-msgid "A question material element must have an ID"
-msgstr ""
-
-msgid "Target an anwser proposition"
-msgstr ""
-
-msgid "For more information about answer proposition, go to the"
-msgstr ""
-
-msgid "An answer proposition element must have an ID"
-msgstr ""
-
-msgid "you can not access this feature as long as you do not finish the current process"
-msgstr ""
-
-msgid "Document has been saved with success"
-msgstr ""
-
-msgid "Element removed with success"
-msgstr ""
-
-msgid "You are in selection mode, click to select a node"
-msgstr ""
-
-msgid "Select mode disabled"
-msgstr ""
-
-msgid "You could enable it by clicking on the button at the right of the main menu"
-msgstr ""
-
-msgid "Select mode enabled"
-msgstr ""
-
-msgid "You could disable it by clicking on the button at the right of the main menu"
-msgstr ""
-
-msgid "Your are moving an element"
-msgstr ""
-
-msgid "Click to select the node :"
-msgstr ""
-
-msgid "Build your table"
-msgstr ""
-
-msgid "Add colomn wizard"
-msgstr ""
-
-msgid "Remove rows"
-msgstr ""
-
-msgid "Template manager"
-msgstr ""
-
-msgid "Filter and search"
-msgstr ""
-
-msgid "Add new filter"
-msgstr ""
-
-msgid "Delete filter"
-msgstr ""
-
-msgid "Apply filter"
-msgstr ""
-
-msgid "Ok"
-msgstr ""
-
-msgid "Yes"
-msgstr ""
-
-msgid "No"
-msgstr ""
-
-msgid "Template saved"
-msgstr ""
-
-msgid "List of context classes"
-msgstr ""
-
-msgid "Root classes"
-msgstr ""
-
-msgid "List of properties"
-msgstr ""
-
-msgid "UTR Builder"
-msgstr ""
-
-msgid "Chose a property"
-msgstr ""
-
-msgid "Column name"
-msgstr ""
-
-msgid "Extraction method"
-msgstr ""
-
-msgid "Query"
-msgstr ""
-
-msgid "Exit"
-msgstr ""
-
-msgid "Info"
-msgstr ""
-
-msgid "Columns"
-msgstr ""
-
-msgid "Do you want to delete this column ?"
-msgstr ""
-
-msgid "Do you want to delete these rows ?"
-msgstr ""
-
-msgid "Error in loading table"
-msgstr ""
-
-msgid "Thank you for using UTR"
-msgstr ""
-
-msgid "Error, action failed !"
-msgstr ""
-
-msgid "Select a property"
-msgstr ""
-
-msgid "With UTR, you can"
-msgstr ""
-
-msgid "Build a flexible table to extract information"
-msgstr ""
-
-msgid "Build a complex table with no unlimited depth"
-msgstr ""
-
-msgid "You can dynamically Add, remove column"
-msgstr ""
-
-msgid "Calculate the percentage of columns and rows"
-msgstr ""
-
-msgid "Create save your own Template of tables"
-msgstr ""
-
-msgid "Get a direct chart diagram on your columns ans rows"
-msgstr ""
-
-msgid "Welcome to UTR Builder"
-msgstr ""
-
-msgid "coco"
-msgstr ""
-
-msgid "Choose a property"
-msgstr ""
-
-msgid "Add column wizard"
-msgstr ""
-
-msgid "Save Table"
-msgstr ""
-
-msgid "Operator"
-msgstr ""
-
-msgid "Value"
-msgstr ""
-
-msgid "Do you want to delete column ?"
-msgstr ""
-
-msgid "Name exists"
-msgstr ""
-
-msgid "seconds"
-msgstr ""
-
-msgid "Password for administrator"
-msgstr ""
-
-msgid "Test award"
-msgstr ""
-
-msgid "Sequential"
-msgstr ""
-
-msgid "items"
-msgstr ""
-
-msgid "Scoring"
-msgstr ""
-
-msgid "Scoring threshold"
-msgstr ""
-
-msgid "px"
+msgid "Define the defaultt values"
 msgstr ""
 
-msgid "Advanced parameters"
+msgid "Delete"
 msgstr ""
 
 msgid "Deliveries"
 msgstr ""
 
-msgid "rdf"
+msgid "Don't set"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Dynamic date picker"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Element"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
+msgid "Enable your to export an RDF file containing the selected namespaces"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Error during file import"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Export Options"
+msgstr ""
+
+msgid "Exported files library"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "File deleted successfully"
+msgstr ""
+
+msgid "File name"
+msgstr ""
+
+msgid "HU"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import into"
+msgstr ""
+
+msgid "Interface Language"
+msgstr ""
+
+msgid "Invalid field range"
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Label already used"
+msgstr ""
+
+msgid "List Options"
+msgstr ""
+
+msgid "Local Data (the local namespace containing only the data inserted by the users)"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Login not available"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Manage campaigns"
+msgstr ""
+
+msgid "Manage processes"
+msgstr ""
+
+msgid "Manage result servers"
+msgstr ""
+
+msgid "Manage roles"
+msgstr ""
+
+msgid "Map the properties to the CSV columns"
+msgstr ""
+
+msgid "Move to"
+msgstr ""
+
+msgid "Moving this element will remove the following properties:"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Namespaces"
+msgstr ""
+
+msgid "New element"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "No account match the given login / password"
+msgstr ""
+
+msgid "No result found"
+msgstr ""
+
+msgid "Nothing imported"
+msgstr ""
+
+msgid "Number of elements"
+msgstr ""
+
+msgid "Please confirm you want to delete this list element."
+msgstr ""
+
+msgid "Please confirm you want to delete this list. This operation is not reversible."
+msgstr ""
+
+msgid "Please login"
+msgstr ""
+
+msgid "Please select the input data format to import"
+msgstr ""
+
+msgid "Please select the way to export the data"
+msgstr ""
+
+msgid "Please upload a CSV file formated as defined by the options above."
+msgstr ""
+
+msgid "Please upload a RDF file."
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Process authoring"
+msgstr ""
+
+msgid "Process library"
+msgstr ""
+
+msgid "Processes"
+msgstr ""
+
+msgid "Role library"
+msgstr ""
+
+msgid "Select"
+msgstr ""
+
+msgid "Select the element destination"
+msgstr ""
+
+msgid "Selected file:"
+msgstr ""
+
+msgid "Simple Mode"
+msgstr ""
+
+msgid "Start upload"
+msgstr ""
+
+msgid "Supported export formats"
+msgstr ""
+
+msgid "Supported formats to import"
+msgstr ""
+
+msgid "TAO Back Office"
+msgstr ""
+
+msgid "Test view"
+msgstr ""
+
+msgid "The value of this field must be an integer"
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "Upload File"
+msgstr ""
+
+msgid "Upload RDF File"
+msgstr ""
+
+msgid "Validation of the imported file has failed"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Younes"
+msgstr ""
+
+msgid "actions"
+msgstr ""
+
+msgid "advanced mode"
+msgstr ""
+
+msgid "class selected"
+msgstr ""
+
+msgid "create Score table"
+msgstr ""
+
+msgid "create Simple table"
+msgstr ""
+
+msgid "download"
+msgstr ""
+
+msgid "element"
+msgstr ""
+
+msgid "element deleted"
+msgstr ""
+
+msgid "exported successfully"
 msgstr ""
 
 msgid "import"
 msgstr ""
 
-msgid "Please confirm deletion.
- Warning: related resources might be affected."
+msgid "list deleted"
 msgstr ""
 
-msgid "Please select a valid result server in the delivery editing section then try again.<br/>(No valid wsdl contract found for the defined result server)"
+msgid "list saved"
 msgstr ""
 
-msgid "the following item do not exist in or have not been translated into"
-msgstr ""
-
-msgid "Active Deliveries"
-msgstr ""
-
-msgid "Start/Resume the test"
-msgstr ""
-
-msgid "Drag and drop the tests to order them"
-msgstr ""
-
-msgid "TAO Delivery Server"
-msgstr ""
-
-msgid "A delivery must to be compiled before being executed. The compilation can be done here."
+msgid "list the users"
 msgstr ""
 
 msgid "lists"
 msgstr ""
 
-msgid "Related tests"
+msgid "maximum value:"
 msgstr ""
 
-msgid "Not yet available"
+msgid "minimum value:"
 msgstr ""
 
-msgid "Edit item"
+msgid "move"
 msgstr ""
 
-msgid "Problem content"
+msgid "new"
 msgstr ""
 
-msgid "Add a question"
+msgid "new process"
 msgstr ""
 
-msgid "Question"
+msgid "new role"
 msgstr ""
 
-msgid "File Manager"
+msgid "rdf"
 msgstr ""
 
-msgid "Template"
+msgid "selected"
 msgstr ""
 
-msgid "Apply"
-msgstr ""
-
-msgid "Save and close"
-msgstr ""
-
-msgid "inquiries"
-msgstr ""
-
-msgid "and"
-msgstr ""
-
-msgid "propositions"
-msgstr ""
-
-msgid "Are you sure ?"
-msgstr ""
-
-msgid "Sure ?"
-msgstr ""
-
-msgid "Your are editing an item"
-msgstr ""
-
-msgid "Insert"
-msgstr ""
-
-msgid "Wizard not complete : Please select a position for your new widget at Step 1"
-msgstr ""
-
-msgid "A question material element must have an ID, want you generate one automatically ?"
-msgstr ""
-
-msgid "Once you finished click on the continue button"
-msgstr ""
-
-msgid "Target a position for the new snipet"
-msgstr ""
-
-msgid "Wizard New Snipet"
-msgstr ""
-
-msgid "Are you sure you want save the document ?"
-msgstr ""
-
-msgid "Your are editing a widget"
-msgstr ""
-
-msgid "yes"
-msgstr ""
-
-msgid "no"
-msgstr ""
-
-msgid "Your are resizing an element"
-msgstr ""
-
-msgid "Target Radio Group"
-msgstr ""
-
-msgid "Target Button"
-msgstr ""
-
-msgid "Setting Button"
-msgstr ""
-
-msgid "What type of button ?"
-msgstr ""
-
-msgid "Text Button"
-msgstr ""
-
-msgid "Image Button"
-msgstr ""
-
-msgid "Setting Button text"
-msgstr ""
-
-msgid "What is the label of your button ?"
-msgstr ""
-
-msgid "Setting Button Image"
-msgstr ""
-
-msgid "What is the image of your button ?"
-msgstr ""
-
-msgid "Target Checkboxes"
-msgstr ""
-
-msgid "Setting Checkboxes"
-msgstr ""
-
-msgid "How Many Checkboxes ?"
-msgstr ""
-
-msgid "What orientation ?"
-msgstr ""
-
-msgid "What is the labels of your checkboxes ?"
-msgstr ""
-
-msgid "Target Grid"
-msgstr ""
-
-msgid "Setting Grid"
-msgstr ""
-
-msgid "How Many Rows ?"
-msgstr ""
-
-msgid "How Many Columns ?"
-msgstr ""
-
-msgid "Orient the grid by :"
-msgstr ""
-
-msgid "Target Image"
-msgstr ""
-
-msgid "Setting Image"
-msgstr ""
-
-msgid "What is the url of your image ?"
-msgstr ""
-
-msgid "Target Label"
-msgstr ""
-
-msgid "Setting Label"
-msgstr ""
-
-msgid "What is the text of your label ?"
-msgstr ""
-
-msgid "Setting Item"
-msgstr ""
-
-msgid "What is the identifier of your item ?"
-msgstr ""
-
-msgid "ex: myItemId (alphanumeric characters and _ are allowed)"
-msgstr ""
-
-msgid "The Right Answer"
-msgstr ""
-
-msgid "What is the right answer ?"
-msgstr ""
-
-msgid "Setting Radio Group"
-msgstr ""
-
-msgid "How Many Radio Button ?"
-msgstr ""
-
-msgid "What is the labels of your radio buttons ?"
-msgstr ""
-
-msgid "Target Select Box"
-msgstr ""
-
-msgid "Setting Select Box"
-msgstr ""
-
-msgid "How Many Options ?"
-msgstr ""
-
-msgid "What is the labels of the options ?"
-msgstr ""
-
-msgid "What type of widget ?"
-msgstr ""
-
-msgid "Step 1"
-msgstr ""
-
-msgid "Target a position for the new snipet ?"
-msgstr ""
-
-msgid "Step 2"
-msgstr ""
-
-msgid "Which Sound you want ?"
-msgstr ""
-
-msgid "Target SVG"
-msgstr ""
-
-msgid "Create your own SVG ?"
-msgstr ""
-
-msgid "Target Textbox"
-msgstr ""
-
-msgid "Setting Textbox"
-msgstr ""
-
-msgid "Teams"
-msgstr ""
-
-msgid "Which is the team 1 ?"
-msgstr ""
-
-msgid "Which is the team 2 ?"
-msgstr ""
-
-msgid "Item"
-msgstr ""
-
-msgid "Selection saved"
-msgstr ""
-
-msgid "Reviewing"
-msgstr ""
-
-msgid "Select an item to review"
-msgstr ""
-
-msgid "Comments saved"
-msgstr ""
-
-msgid "Report saved"
-msgstr ""
-
-msgid "reviewers selected"
-msgstr ""
-
-msgid "Reviewer added"
-msgstr ""
-
-msgid "Add a reviewer"
-msgstr ""
-
-msgid "Reviewer saved"
-msgstr ""
-
-msgid "Edit a reviewer"
-msgstr ""
-
-msgid "Reviewers"
-msgstr ""
-
-msgid "Selected items"
-msgstr ""
-
-msgid "Reviewer"
-msgstr ""
-
-msgid "Leave your comments"
-msgstr ""
-
-msgid "Coninue reviewing"
-msgstr ""
-
-msgid "Finish review"
-msgstr ""
-
-msgid "Select items to be reviewed"
-msgstr ""
-
-msgid "Request comments from a third part expert"
-msgstr ""
-
-msgid "Merged Items"
-msgstr ""
-
-msgid "Select item"
-msgstr ""
-
-msgid "Select 3 reviewers"
-msgstr ""
-
-msgid "No reviewer found"
-msgstr ""
-
-msgid "Validate"
-msgstr ""
-
-msgid "Confirm your choice"
-msgstr ""
-
-msgid "template manager"
-msgstr ""
-
-msgid "Filter & Search"
-msgstr ""
-
-msgid "Response of the test maker"
-msgstr ""
-
-msgid "Subject:"
-msgstr ""
-
-msgid "Test:"
-msgstr ""
-
-msgid "Item:"
-msgstr ""
-
-msgid "Response"
-msgstr ""
-
-msgid "Report on open review"
-msgstr ""
-
-msgid "Validate your review"
-msgstr ""
-
-msgid "Validate final review"
-msgstr ""
-
-msgid "Test taker saved"
-msgstr ""
-
-msgid "Advanced sequence"
-msgstr ""
-
-msgid "Drag and drop the items to order them"
-msgstr ""
-
-msgid "Please select a test before!"
+msgid "simple mode"
 msgstr ""
 

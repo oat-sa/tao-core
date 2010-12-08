@@ -53,46 +53,65 @@ foreach($extensions as $extensionName => $extensionData){
 		$extensionData['path'] . '/models/',
 		$extensionData['path'] . '/views/'
 	);
-	$extension	= array('php', 'tpl', 'js', 'xml');
-	$fichier	= PO_FILE_NAME;
-	$empLoc		= $extensionData['path'] . '/' . LOCAL_DIR_NAME . '/';
+	$exts	= array('php', 'tpl', 'js', 'xml');
 	
-	foreach(array_keys($extensionData['langs']) as $langue){
+	foreach(array_keys($extensionData['langs']) as $lang){
 		
-		echo "\n => Extract $langue for $extensionName\n";
+		$poFile = $extensionData['path'] . '/' . LOCAL_DIR_NAME . '/' . $lang .'/'.PO_FILE_NAME;
 		
-		include 'poextraction/l10n_update.php';
+		echo "\n => Extract $lang for $extensionName\n";
 		
-		echo "\n------\n";
-	}
-}
-
-echo "\n => Rebuild tao extension \n";
-$taoConcats = array();
-foreach($extensions as $extensionName => $extensionData){
-	if(preg_match("/^tao/", $extensionName)){
-		foreach(array_keys($extensionData['langs']) as $lang){
-			if(!isset($taoConcats[$lang])){
-				$taoConcats[$lang] = array();
-			} 
-			$poFile =  $extensionData['path'] . '/' . LOCAL_DIR_NAME . '/'.$lang.'/'.PO_FILE_NAME;
-			if(file_exists($poFile)){
-				$taoConcats[$lang] = array_merge($taoConcats[$lang], getPoFile($poFile));
+		$strings = getAllStrings($directories, $poFile, $exts);
+		
+		$empties = array();
+		foreach($strings as $key => $value){
+			if(empty($value)){
+				$empties[$key] = $value;
+				unset($strings[$key]);
 			}
 		}
+		if(count($empties) > 0){
+			ksort($strings);
+			ksort($empties);
+			foreach($empties as $key => $value){
+				$strings[$key] = $value;
+			}
+			
+			if(writePoFile($poFile, $strings)){
+				echo "$poFile updated\n";
+			}
+		}
+		
+		echo "------\n";
 	}
+	
 }
 
-$taoPath = ROOT_PATH . 'tao/' . LOCAL_DIR_NAME . '/';
-foreach($taoConcats as $lang => $strings){
-	if(writePoFile($taoPath . $lang .'/' .PO_FILE_NAME, $strings)){
-		echo $taoPath . $lang .'/' .PO_FILE_NAME. " rebuild\n";
+if(isset($extensions['tao'])){
+	echo "\n => Rebuild tao extension \n";
+	
+	$taoConcats = array();
+	foreach($extensions as $extensionName => $extensionData){
+		$structureFile = $extensionData['path'] . '/actions/structure.xml';
+		if(file_exists($structureFile)){
+			$taoConcats = array_merge($taoConcats, getXmlStrings($structureFile));
+		}
 	}
+	
+	foreach(array_keys($extensions['tao']['langs']) as $lang){
+		$poFile = $extensions['tao']['path']. '/' . LOCAL_DIR_NAME . '/' . $lang .'/'.PO_FILE_NAME;
+		$existingStrings = getPoFile($poFile);
+	
+		$strings = array_merge($existingStrings, $taoConcats);
+		if(writePoFile($poFile, $strings)){
+			echo "$poFile updated\n";
+		}
+	}
+	
+	echo "------\n";
 }
-echo "\n------\n";
 
 //UTR
-
 $utrPath = ROOT_PATH .'taoResults/models/ext/utrv1';
 if(file_exists($utrPath)){
 	
@@ -100,10 +119,8 @@ if(file_exists($utrPath)){
 		$utrPath . '/classes/',
 		$utrPath . '/view/'
 	);
-	$extension	= array('php', 'js');
-	$fichier	= PO_FILE_NAME;
-	$localDir	= $utrPath . '/view/' . LOCAL_DIR_NAME . '/';
-	$empLoc 	= $localDir;
+	$exts	= array('php', 'js');
+	$localDir = $utrPath . '/view/' . LOCAL_DIR_NAME;
 	$langs = array();
 	foreach(scandir($localDir) as $localFile){
 		if(is_dir($localDir . '/' . $localFile)){
@@ -112,11 +129,32 @@ if(file_exists($utrPath)){
 			}
 		}
 	}
-	foreach(array_keys($langs) as $langue){
+	foreach(array_keys($langs) as $lang){
 		
-		echo "\n => Extract $langue for UTR\n";
+		$poFile = $utrPath . '/view/' . LOCAL_DIR_NAME . '/' . $lang .'/'.PO_FILE_NAME;
 		
-		include 'poextraction/l10n_update.php';
+		echo "\n => Extract $lang for UTR\n";
+		
+		$strings = getAllStrings($directories, $poFile, $exts);
+		
+		$empties = array();
+		foreach($strings as $key => $value){
+			if(empty($value)){
+				$empties[$key] = $value;
+				unset($strings[$key]);
+			}
+		}
+		if(count($empties) > 0){
+			ksort($strings);
+			ksort($empties);
+			foreach($empties as $key => $value){
+				$strings[$key] = $value;
+			}
+			
+			if(writePoFile($poFile, $strings)){
+				echo "$poFile updated";
+			}
+		}
 		
 		echo "\n------\n";
 	}
@@ -131,10 +169,8 @@ if(file_exists($wpPath)){
 		$wpPath . '/js/',
 		$wpPath . '/view/'
 	);
-	$extension	= array('php', 'js', 'ejs');
-	$fichier	= PO_FILE_NAME;
-	$localDir	= $wpPath . '/' . LOCAL_DIR_NAME . '/';
-	$empLoc 	= $localDir;
+	$exts	= array('php', 'js', 'ejs');
+	$localDir = $wpPath . '/' . LOCAL_DIR_NAME;
 	$langs = array();
 	foreach(scandir($localDir) as $localFile){
 		if(is_dir($localDir . '/' . $localFile)){
@@ -143,11 +179,32 @@ if(file_exists($wpPath)){
 			}
 		}
 	}
-	foreach(array_keys($langs) as $langue){
+	foreach(array_keys($langs) as $lang){
+		
+		$poFile = $wpPath . '/' . LOCAL_DIR_NAME . '/' . $lang .'/'.PO_FILE_NAME;
 		
 		echo "\n => Extract $langue for WATER PHENIX\n";
 		
-		include 'poextraction/l10n_update.php';
+		$strings = getAllStrings($directories, $poFile, $exts);
+		
+		$empties = array();
+		foreach($strings as $key => $value){
+			if(empty($value)){
+				$empties[$key] = $value;
+				unset($strings[$key]);
+			}
+		}
+		if(count($empties) > 0){
+			ksort($strings);
+			ksort($empties);
+			foreach($empties as $key => $value){
+				$strings[$key] = $value;
+			}
+			
+			if(writePoFile($poFile, $strings)){
+				echo "$poFile updated";
+			}
+		}
 		
 		echo "\n------\n";
 	}
