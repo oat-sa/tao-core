@@ -368,6 +368,8 @@ abstract class TaoModule extends CommonModule {
 			}
 		}
 		
+		$datalang = core_kernel_classes_Session::singleton()->getLg();
+		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
@@ -377,8 +379,15 @@ abstract class TaoModule extends CommonModule {
 					
 					$translated = 0;
 					foreach($values as $key => $value){
-						if(preg_match("/^http/", $key) && !empty($value)){
-							if($instance->editPropertyValueByLg(new core_kernel_classes_Property($key), $value, $lang)){
+						if(preg_match("/^http/", $key)){
+							$value = trim($value);
+							$property = new core_kernel_classes_Property($key);
+							if(empty($value)){
+								if($datalang != $lang && $lang != ''){
+									$instance->removePropertyValueByLg($property, $lang);
+								}
+							}
+							else if($instance->editPropertyValueByLg($property, $value, $lang)){
 								$translated++;
 							}
 						}

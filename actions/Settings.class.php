@@ -59,7 +59,7 @@ class Settings extends CommonModule {
 					
 					$this->setData('message', __('settings updated'));
 					
-					//$this->setData('refresh', true);
+					$this->setData('reload', true);
 				}
 			}
 		}

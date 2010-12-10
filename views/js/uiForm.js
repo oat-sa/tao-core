@@ -527,7 +527,14 @@ UiForm = function(){
 					{uri: $("#uri").val(), classUri: $("#classUri").val(), lang: trLang},
 					function(response){
 						for(index in response){
-							$(":input[name='"+index+"']").val(response[index]);
+							var formElt = $(":input[name='"+index+"']");
+							if(formElt.hasClass('html-area')){
+								formElt.wysiwyg('setContent', response[index]);
+							}
+							else{
+								formElt.val(response[index]);
+							}
+							
 						}
 					},
 					'json'

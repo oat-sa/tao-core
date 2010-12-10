@@ -127,16 +127,23 @@ class tao_actions_form_Translate
 				
 					$translatedElt = clone $element;
 					
-					$element->setName('view_'.$element->getName());
-					$element->setAttributes(array('readonly' => 'true', 'disabled' => 'true'));
-					$element->setForcedValid();
-					$this->form->addElement($element);
+					$viewElt = tao_helpers_form_FormFactory::getElement('view_'.$element->getName(), 'Label');
+					$viewElt->setDescription($element->getDescription());
+					$viewElt->setValue($element->getValue());
+					$viewElt->setAttribute('no-format', true);
+					
+					$this->form->addElement($viewElt);
+					
+					$dataGroup[] = $viewElt->getName();
 					
 					$translatedElt->setDescription(' ');
 					$translatedElt->setValue('');
+					if($propertyUri == RDFS_LABEL){
+						$translatedElt->setForcedValid();
+					}
+				
 					$this->form->addElement($translatedElt);
 					
-					$dataGroup[] = $element->getName();
 					$dataGroup[] = $translatedElt->getName();
 				}
 			}

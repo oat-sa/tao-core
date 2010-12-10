@@ -69,8 +69,10 @@ class tao_helpers_form_elements_xhtml_Label
 		
 		if(isset($this->attributes['class'])){
 			$classes = explode(' ', $this->attributes['class']);
-			if(!in_array('form-elt-info', $classes)){
-				$classes[] = 'form-elt-info';
+			if(!isset($this->attributes['no-format'])){
+				if(!in_array('form-elt-info', $classes)){
+					$classes[] = 'form-elt-info';
+				}
 			}
 			if(!in_array('form-elt-container', $classes)){
 				$classes[] = 'form-elt-container';
@@ -78,8 +80,14 @@ class tao_helpers_form_elements_xhtml_Label
 			$this->attributes['class'] = implode(' ', $classes);
 		}
 		else{
-			$this->attributes['class'] = 'form-elt-info form-elt-container';
+			if(isset($this->attributes['no-format'])){
+				$this->attributes['class'] = 'form-elt-container';
+			}
+			else{
+				$this->attributes['class'] = 'form-elt-info form-elt-container';
+			}
 		}
+		unset($this->attributes['no-format']);
 		
 		$returnValue .= "<span class='form_desc'>";
 		if(!empty($this->description)){
