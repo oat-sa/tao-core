@@ -100,13 +100,17 @@ div.xhtml_form div.form-group div div div{
 }
 
 /* Form error message */
-div.xhtml_form div.form-error,
-div.xhtml_form div.form-group div.form-error{
+div#form-container div.xhtml_form div.form-error,
+div#form-container div.xhtml_form div.form-group div.form-error{
 	font-size:0.9em;
 	font-weight:bold;
 	padding:4px;
 	margin:5px;
 	margin-bottom:25px;
+	border:1px solid #CD0A0A;
+	color:#CD0A0A;
+	margin-left:30%;
+	width:250px;
 }
 div#form-container div.xhtml_form div.form-elt-highlight{
 	background-color:#DAE6F8;

@@ -265,15 +265,21 @@ abstract class TaoModule extends CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
+		
+		$response = array();
+		
 		$clazz = $this->getCurrentClass();
 		$label = $this->service->createUniqueLabel($clazz);
+		
 		$instance = $this->service->createInstance($clazz, $label);
+		
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
-			echo json_encode(array(
+			$response = array(
 				'label'	=> $instance->getLabel(),
 				'uri' 	=> tao_helpers_Uri::encode($instance->uriResource)
-			));
+			);
 		}
+		echo json_encode($response);
 	}
 	
 	/**

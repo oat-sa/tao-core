@@ -155,6 +155,34 @@ abstract class tao_models_classes_GenerisService
     }
 
     /**
+     * Get the class of the resource in parameter (the rdfs type property)
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  Resource instance
+     * @return core_kernel_classes_Class
+     */
+    public function getClass( core_kernel_classes_Resource $instance)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--519643a:127850ba1cf:-8000:000000000000233B begin
+        
+     	if(!is_null($instance)){
+        	if(!$instance->isClass() && !$instance->isProperty()){
+        		$resource = $instance->getOnePropertyValue(new core_kernel_classes_Property(RDFS_TYPE));
+        		if($resource instanceof core_kernel_classes_Resource){
+        			$returnValue = new core_kernel_classes_Class($resource->uriResource);
+        		}
+        	}
+        }
+        
+        // section 127-0-1-1--519643a:127850ba1cf:-8000:000000000000233B end
+
+        return $returnValue;
+    }
+
+    /**
      * Retrieve a property
      *
      * @access public
@@ -200,7 +228,7 @@ abstract class tao_models_classes_GenerisService
         // section 10-13-1-45--135fece8:123b76cb3ff:-8000:0000000000001897 begin
         
         if( empty($label) ){
-			$label =  $clazz->getLabel() . ' ' . (count($clazz->getInstances()) +1);
+			$label =  $this->createUniqueLabel($clazz);
 		}
 		
 		$returnValue = core_kernel_classes_ResourceFactory::create($clazz, $label, '');
@@ -211,31 +239,46 @@ abstract class tao_models_classes_GenerisService
     }
 
     /**
-     * Get the class of the resource in parameter (the rdfs type property)
+     * Short description of method createUniqueLabel
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Resource instance
-     * @return core_kernel_classes_Class
+     * @param  Class clazz
+     * @param  boolean subClassing
+     * @return string
      */
-    public function getClass( core_kernel_classes_Resource $instance)
+    public function createUniqueLabel( core_kernel_classes_Class $clazz, $subClassing = false)
     {
-        $returnValue = null;
+        $returnValue = (string) '';
 
-        // section 127-0-1-1--519643a:127850ba1cf:-8000:000000000000233B begin
+        // section 127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002487 begin
         
-     	if(!is_null($instance)){
-        	if(!$instance->isClass() && !$instance->isProperty()){
-        		$resource = $instance->getOnePropertyValue(new core_kernel_classes_Property(RDFS_TYPE));
-        		if($resource instanceof core_kernel_classes_Resource){
-        			$returnValue = new core_kernel_classes_Class($resource->uriResource);
-        		}
-        	}
+        
+        if($subClassing){
+        	$labelBase = $clazz->getLabel() . '_' ;
+        	$count = count($clazz->getSubClasses()) +1;
+        }
+        else{
+        	$labelBase = $clazz->getLabel() . ' ' ;
+        	$count = count($clazz->getInstances()) +1;
         }
         
-        // section 127-0-1-1--519643a:127850ba1cf:-8000:000000000000233B end
+        $api = core_kernel_impl_ApiModelOO::singleton();
+		do{
+			$exist = false;
+			$label =  $labelBase . $count;
+			$result = $api->getSubject(RDFS_LABEL, $label);
+			if($result->count() > 0){
+				$exist = true;
+				$count ++;
+			}
+		} while($exist);
+		
+		$returnValue = $label;
+        
+        // section 127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002487 end
 
-        return $returnValue;
+        return (string) $returnValue;
     }
 
     /**
@@ -254,7 +297,7 @@ abstract class tao_models_classes_GenerisService
         // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AB5 begin
         
         if( empty($label) ){
-			$label = $parentClazz->getLabel() . '_' . (count($parentClazz->getInstances()) + 1);
+			$label = $this->createUniqueLabel($parentClazz, true);
 		}
 		$returnValue = $parentClazz->createSubClass($label, '');
         
@@ -612,41 +655,6 @@ abstract class tao_models_classes_GenerisService
         // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E88 end
 
         return (bool) $returnValue;
-    }
-
-    /**
-     * Short description of method createUniqueLabel
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  Class clazz
-     * @return string
-     */
-    public function createUniqueLabel( core_kernel_classes_Class $clazz)
-    {
-        $returnValue = (string) '';
-
-        // section 127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002487 begin
-        
-        $labelBase = $clazz->getLabel() . ' ' ;
-        $count = count($clazz->getInstances()) +1;
-        
-        $api = core_kernel_impl_ApiModelOO::singleton();
-        $exist = false;
-		do{
-			$label =  $labelBase . $count;
-			$result = $api->getSubject(RDFS_LABEL, $label);
-			if($result->count() > 0){
-				$exist = true;
-				$count ++;
-			}
-		} while($exist);
-		
-		$returnValue = $label;
-        
-        // section 127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002487 end
-
-        return (string) $returnValue;
     }
 
     /**

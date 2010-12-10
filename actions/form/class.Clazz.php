@@ -134,6 +134,15 @@ class tao_actions_form_Clazz
 				}
 				$element->setName('class_'.$element->getName());
 				$this->form->addElement($element);
+				
+				//set label validator
+				if($property->uriResource == RDFS_LABEL){
+					$element->addValidators(array(
+						tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+						tao_helpers_form_FormFactory::getValidator('Label', array('uri' => $clazz->uriResource))
+					));
+				}
+				
 				$elementNames[] = $element->getName();
 			}
 		}

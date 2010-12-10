@@ -69,10 +69,8 @@ class tao_helpers_form_validators_Label
         
     	parent::__construct($options);
     	
-    	if(isset($this->options['class'])){
-    		if($this->options['class'] instanceof core_kernel_classes_Class){
-    			$this->message = __("Label already used");
-    		}
+    	if(isset($this->options['uri'])){
+    		$this->message = __("Label already used");
     	}
     	
         // section 127-0-1-1-112f6ae0:1296e7712be:-8000:000000000000200C end
@@ -106,6 +104,19 @@ class tao_helpers_form_validators_Label
         			 break;
         		}
         	}
+        }
+        else if(isset($this->options['uri'])){
+        	
+        	$api = core_kernel_impl_ApiModelOO::singleton();
+			$result = $api->getSubject(RDFS_LABEL, $this->getValue());
+			if($result->count() > 0){
+				foreach($result->getIterator() as $subject){
+					if($subject->uriResource != $this->options['uri']){
+						$returnValue = false;
+						break;
+					}
+				}
+			}
         }
         
         // section 127-0-1-1-112f6ae0:1296e7712be:-8000:0000000000002010 end
