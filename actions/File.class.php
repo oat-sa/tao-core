@@ -23,14 +23,6 @@ class File extends CommonModule{
 		$this->rootFolder = sys_get_temp_dir();
 	}
 	
-	protected function _isAllowed(){
-		$context = Context::getInstance();
-		if($context->getActionName() == 'upload'){
-			return true;
-		}
-		return parent::_isAllowed();
-	}
-	
 	
 	/**
 	 * Upload a file using http and copy it from the tmp dir to the target folder

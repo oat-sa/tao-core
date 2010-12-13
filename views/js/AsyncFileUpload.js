@@ -9,6 +9,7 @@ AsyncFileUpload = function(elt, options){
 	
 	this.settings = {
 			"script"    : root_url + "/tao/File/upload",
+			"popupUrl"	: root_url + "/tao/File/htmlUpload",
 			"uploader"  : taobase_www + "js/jquery.uploadify-v2.1.0/uploadify.swf",
 			"cancelImg" : taobase_www + "img/cancel.png",
 			"buttonImg"	: taobase_www + "img/browse_btn.png",
@@ -70,7 +71,7 @@ AsyncFileUpload = function(elt, options){
 			
 			$(this).attr('disabled', true);
 			
-			var url = root_url + '/tao/File/htmlUpload?' + $.param(params);
+			var url = this.settings.popupUrl + '?' + $.param(params);
 			var popupOpts = "width=350px,height=100px,menubar=no,resizable=yes,status=no,toolbar=no,dependent=yes,left="+e.pageX+",top="+e.pageY;
 			
 			self.window = window.open(url, 'fileuploader', popupOpts);
@@ -83,6 +84,5 @@ AsyncFileUpload = function(elt, options){
 		
 		$(elt).hide();
 		$(starter).hide();
-		
 	}
 };
