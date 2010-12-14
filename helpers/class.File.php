@@ -108,106 +108,6 @@ class tao_helpers_File
     }
 
     /**
-     * get the mime-type of the file in parameter.
-     * different methods are used regarding the configuration.
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string path
-     * @return string
-     */
-    public static function getMimeType($path)
-    {
-        $returnValue = (string) '';
-
-        // section 127-0-1-1--5cd35ad1:1283edec322:-8000:00000000000023F5 begin
-        
-    	$mime_types = array(
-
-            'txt' => 'text/plain',
-            'htm' => 'text/html',
-            'html' => 'text/html',
-            'php' => 'text/html',
-            'css' => 'text/css',
-            'js' => 'application/javascript',
-            'json' => 'application/json',
-            'xml' => 'text/xml',
-    		'rdf' => 'text/xml',
-            'swf' => 'application/x-shockwave-flash',
-            'flv' => 'video/x-flv',
-    		'csv' => 'text/csv',
-
-            // images
-            'png' => 'image/png',
-            'jpe' => 'image/jpeg',
-            'jpeg' => 'image/jpeg',
-            'jpg' => 'image/jpeg',
-            'gif' => 'image/gif',
-            'bmp' => 'image/bmp',
-            'ico' => 'image/vnd.microsoft.icon',
-            'tiff' => 'image/tiff',
-            'tif' => 'image/tiff',
-            'svg' => 'image/svg+xml',
-            'svgz' => 'image/svg+xml',
-
-            // archives
-            'zip' => 'application/zip',
-            'rar' => 'application/x-rar-compressed',
-            'exe' => 'application/x-msdownload',
-            'msi' => 'application/x-msdownload',
-            'cab' => 'application/vnd.ms-cab-compressed',
-
-            // audio/video
-            'mp3' => 'audio/mpeg',
-            'qt' => 'video/quicktime',
-            'mov' => 'video/quicktime',
-
-            // adobe
-            'pdf' => 'application/pdf',
-            'psd' => 'image/vnd.adobe.photoshop',
-            'ai' => 'application/postscript',
-            'eps' => 'application/postscript',
-            'ps' => 'application/postscript',
-
-            // ms office
-            'doc' => 'application/msword',
-            'rtf' => 'application/rtf',
-            'xls' => 'application/vnd.ms-excel',
-            'ppt' => 'application/vnd.ms-powerpoint',
-
-            // open office
-            'odt' => 'application/vnd.oasis.opendocument.text',
-            'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-        );
-
-        $ext = strtolower(array_pop(explode('.',$path)));
-        if(file_exists($path)){
-			if (function_exists('finfo_open')) {
-	            $finfo = finfo_open(FILEINFO_MIME);
-	            $mimetype = finfo_file($finfo, $path);
-	            finfo_close($finfo);
-	        }
-	        else if (function_exists('mime_content_type')) {
-				$mimetype = mime_content_type($path);
-			}
-        }
-        if(empty($mimetype)){
-			if (array_key_exists($ext, $mime_types)) {
-	            $mimetype =  $mime_types[$ext];
-	        }
-        }
-        if(empty($mimetype)){
-            $mimetype =  'application/octet-stream';
-        }
-        
-        $returnValue =  $mimetype;
-        
-        // section 127-0-1-1--5cd35ad1:1283edec322:-8000:00000000000023F5 end
-
-        return (string) $returnValue;
-    }
-
-    /**
      * Short description of method remove
      *
      * @access public
@@ -335,6 +235,154 @@ class tao_helpers_File
         // section 127-0-1-1--44542511:12bd37d6416:-8000:0000000000002718 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getMimeTypes
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return array
+     */
+    protected static function getMimeTypes()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293A begin
+        
+        $returnValue = array(
+
+            'txt' => 'text/plain',
+            'htm' => 'text/html',
+            'html' => 'text/html',
+            'php' => 'text/html',
+            'css' => 'text/css',
+            'js' => 'application/javascript',
+            'json' => 'application/json',
+            'xml' => 'text/xml',
+    		'rdf' => 'text/xml',
+            'swf' => 'application/x-shockwave-flash',
+            'flv' => 'video/x-flv',
+    		'csv' => 'text/csv',
+
+            // images
+            'png' => 'image/png',
+            'jpe' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'jpg' => 'image/jpeg',
+            'gif' => 'image/gif',
+            'bmp' => 'image/bmp',
+            'ico' => 'image/vnd.microsoft.icon',
+            'tiff' => 'image/tiff',
+            'tif' => 'image/tiff',
+            'svg' => 'image/svg+xml',
+            'svgz' => 'image/svg+xml',
+
+            // archives
+            'zip' => 'application/zip',
+            'rar' => 'application/x-rar-compressed',
+            'exe' => 'application/x-msdownload',
+            'msi' => 'application/x-msdownload',
+            'cab' => 'application/vnd.ms-cab-compressed',
+
+            // audio/video
+            'mp3' => 'audio/mpeg',
+            'qt' => 'video/quicktime',
+            'mov' => 'video/quicktime',
+
+            // adobe
+            'pdf' => 'application/pdf',
+            'psd' => 'image/vnd.adobe.photoshop',
+            'ai' => 'application/postscript',
+            'eps' => 'application/postscript',
+            'ps' => 'application/postscript',
+
+            // ms office
+            'doc' => 'application/msword',
+            'rtf' => 'application/rtf',
+            'xls' => 'application/vnd.ms-excel',
+            'ppt' => 'application/vnd.ms-powerpoint',
+
+            // open office
+            'odt' => 'application/vnd.oasis.opendocument.text',
+            'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+        );
+        
+        // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293A end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method getExtention
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string mimeType
+     * @return string
+     */
+    public static function getExtention($mimeType)
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293C begin
+        
+        $mime_types = self::getMimeTypes();
+        
+        foreach($mime_types as $key => $value){
+        	if($value == trim($mimeType)){
+        		$returnValue = $key;
+        		break;
+        	}
+        }
+        
+        // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293C end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * get the mime-type of the file in parameter.
+     * different methods are used regarding the configuration.
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string path
+     * @return string
+     */
+    public static function getMimeType($path)
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1--5cd35ad1:1283edec322:-8000:00000000000023F5 begin
+        
+    	$mime_types = self::getMimeTypes();
+
+        $ext = strtolower(array_pop(explode('.',$path)));
+        if(file_exists($path)){
+			if (function_exists('finfo_open')) {
+	            $finfo = finfo_open(FILEINFO_MIME);
+	            $mimetype = finfo_file($finfo, $path);
+	            finfo_close($finfo);
+	        }
+	        else if (function_exists('mime_content_type')) {
+				$mimetype = mime_content_type($path);
+			}
+        }
+        if(empty($mimetype)){
+			if (array_key_exists($ext, $mime_types)) {
+	            $mimetype =  $mime_types[$ext];
+	        }
+        }
+        if(empty($mimetype)){
+            $mimetype =  'application/octet-stream';
+        }
+        
+        $returnValue =  $mimetype;
+        
+        // section 127-0-1-1--5cd35ad1:1283edec322:-8000:00000000000023F5 end
+
+        return (string) $returnValue;
     }
 
 } /* end of class tao_helpers_File */

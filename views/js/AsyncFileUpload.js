@@ -71,12 +71,11 @@ AsyncFileUpload = function(elt, options){
 			
 			$(this).attr('disabled', true);
 			
-			var url = this.settings.popupUrl + '?' + $.param(params);
+			var url = self.settings.popupUrl + '?' + $.param(params);
 			var popupOpts = "width=350px,height=100px,menubar=no,resizable=yes,status=no,toolbar=no,dependent=yes,left="+e.pageX+",top="+e.pageY;
 			
 			self.window = window.open(url, 'fileuploader', popupOpts);
 			self.window.focus();
-			
 			
 			return false;
 		});

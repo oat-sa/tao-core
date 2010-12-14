@@ -39,6 +39,9 @@ class File extends CommonModule{
 		return;
 	}
 	
+	/**
+	 * Produce a simple view use to display a file upload form in a popup
+	 */
 	public function htmlUpload(){
 		
 		
@@ -66,9 +69,10 @@ class File extends CommonModule{
 		}
 		
 		$response = array(
-			'uploaded' 	=> false,
-			'data'		=> '',
-			'name'=> ''
+			'uploaded' 		=> false,
+			'data'			=> '',
+			'name'			=> '',
+			'uploaded_file' => ''
 		);
 		if (isset($_FILES) && isset($_POST['upload_sent'])) {
 			if(isset($_FILES['Filedata'])){
@@ -76,14 +80,32 @@ class File extends CommonModule{
 			}
 		}
 		
+		$setLinear = true;
+		if($this->hasRequestParameter('format')){
+			if($this->getRequestParameter('format') != 'linear'){
+				$setLinear = false;
+			}
+		}
+		
+		$this->setData('setLinear', $setLinear);
 		$this->setData('uploaded', ($response['uploaded'] === true));
 		$this->setData('uploadData', $response['data']);
 		$this->setData('uploadFile', $response['name']);
+		$this->setData('uploadFilePath', $response['uploaded_file']);
 		$this->setView('form/html_upload.tpl');	
 	}
 	
+	
+	/**
+	 * Get, check and move the file uploaded (described in the posetedFile parameter)
+	 * 
+	 * @param array $postedFile
+	 * @param string $folder
+	 * @return array $data
+	 */
 	protected function uploadFile($postedFile, $folder){
 		$returnValue = array();
+		
 		if(isset($postedFile['tmp_name']) && isset($postedFile['name'])){
 			$tempFile = $postedFile['tmp_name'];
 			$targetPath = tao_helpers_File::concat(array($this->rootFolder,$folder));

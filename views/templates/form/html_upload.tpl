@@ -11,7 +11,12 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
+			<?if(get_data('setLinear')):?>
 			var fileData = '<?=get_data('uploadData')?>';
+			<?else:?>
+			var fileData = '<?=get_data('uploadFilePath')?>';
+			<?endif?>
+			
 			$("<?=get_data('target')?>", window.opener.document).val(fileData);
 
 			var desc = "<?=__('Selected file:')?> <?=get_data('uploadFile')?>";
