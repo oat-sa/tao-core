@@ -24,3 +24,6 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryProcess', 'http://www.w3.org/2000/01/rdf-schema#domain', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryProcess', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.tao.lu/middleware/taoqual.rdf#i118588753722590', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryProcess', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]');
+
+UPDATE `statements` SET `object` = 'http://www.tao.lu/middleware/taoqual.rdf#Role' WHERE `subject` = 'http://www.tao.lu/middleware/taoqual.rdf#127488515463210' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#range' and `modelID` = 15 LIMIT 1;
+UPDATE `statements` SET `object` = 'http://www.tao.lu/middleware/taoqual.rdf#Role' WHERE `subject` = 'http://www.tao.lu/middleware/taoqual.rdf#127538512347998' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#range' and `modelID` = 15 LIMIT 1;
