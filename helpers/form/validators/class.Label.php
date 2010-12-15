@@ -107,11 +107,50 @@ class tao_helpers_form_validators_Label
         }
         else if(isset($this->options['uri'])){
         	
-        	$api = core_kernel_impl_ApiModelOO::singleton();
-			$result = $api->getSubject(RDFS_LABEL, $this->getValue());
-			if($result->count() > 0){
-				foreach($result->getIterator() as $subject){
-					if($subject->uriResource != $this->options['uri']){
+        	
+        	$apiSearch = new core_kernel_impl_ApiSearchI();
+			$options = array(
+				'lang' => core_kernel_classes_Session::singleton()->getLg(),
+				'like' => false
+			);
+			
+			$resource = new core_kernel_classes_Resource($this->options['uri']);
+			if($resource->isClass()){
+				$classes = $resource->getPropertyValues(new core_kernel_classes_Property(RDF_SUBCLASSOF));
+			}
+			else if($resource->isProperty()){
+				$classes = $resource->getPropertyValues(new core_kernel_classes_Property(RDF_DOMAIN));
+			}
+			else{
+				$classes = $resource->getPropertyValues(new core_kernel_classes_Property(RDFS_TYPE));
+			}
+			foreach($classes as $classUri){
+				
+				$clazz = new core_kernel_classes_Class($classUri);
+				
+				if($resource->isClass()){
+					$matchingUris = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), null, $options);
+					$checkResources = $clazz->getSubClasses(true);
+					foreach($matchingUris as $matchingUri){
+						if(array_key_exists($matchingUri, $checkResources)){
+							$returnValue = false;
+							break;
+						}
+					}
+				}
+				else if($resource->isProperty()){
+					$matchingUris = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), null, $options);
+					$checkResources = $clazz->getProperties(true);
+					foreach($matchingUris as $matchingUri){
+						if(array_key_exists($matchingUri, $checkResources)){
+							$returnValue = false;
+							break;
+						}
+					}
+				}
+				else{
+					$results = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), $clazz, $options);
+					if(count($results) > 0){
 						$returnValue = false;
 						break;
 					}

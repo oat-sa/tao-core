@@ -50,7 +50,6 @@ if(file_exists($pattern) && is_dir($pattern)){
 	}
 	ksort($updateFiles);	//sort them by number
 	
-	
 	foreach($updateFiles as $file => $path){
 		
 		//execute php files

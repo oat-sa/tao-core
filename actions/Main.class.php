@@ -32,7 +32,6 @@ class Main extends CommonModule {
 		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 		$this->defaultData();
 		
-		
 	}
 	
 	/**
@@ -45,7 +44,6 @@ class Main extends CommonModule {
 		if($this->getData('errorMessage')){
 			session_destroy();
 		}
-		
 		
 		$myLoginFormContainer = new tao_actions_form_Login();
 		$myForm = $myLoginFormContainer->getForm();

@@ -6,11 +6,15 @@
  *
  */
 
-#the name to display
-define('TAO_NAME', 		'TAO');
 
-#the current version. 
-define('TAO_VERSION', 	'1.3');
+#TAO version number
+define('TAO_VERSION', '1.3');
+
+#TAO version label
+define('TAO_VERSION_NAME', 'v1.3');
+
+#the name to display
+define('PRODUCT_NAME', 	'TAO');
 
 $todefine = array(
 	'TAO_OBJECT_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject',

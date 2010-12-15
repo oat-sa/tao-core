@@ -14,6 +14,7 @@ $GLOBALS['lang'] = $GLOBALS['default_lang'];
 $userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 $userService->connectCurrentUser();
 
+
 //initialize the contexts
 if(PHP_SAPI == 'cli'){
 	tao_helpers_Context::load('SCRIPT_MODE');
@@ -29,9 +30,9 @@ if(Session::hasAttribute('ui_lang')){
 	$uiLang = Session::getAttribute('ui_lang') ;
 }
 else{
-	$currentUser = $userService->getCurrentUser();
 	$uiLg = null;
-	if($currentUser){
+	$currentUser = $userService->getCurrentUser(); 
+	if(!is_null($currentUser)){
 		$uiLg  = $currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
 	}
 	(!is_null($uiLg)) ? $uiLang = $uiLg->getLabel() : $uiLang = $GLOBALS['default_lang'];

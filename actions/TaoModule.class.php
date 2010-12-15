@@ -14,6 +14,26 @@ require_once('wfEngine/actions/ServicesApi.class.php');
  */
 abstract class TaoModule extends CommonModule {
 
+	/**
+	 * Check if the current user is allowed to acces the request
+	 * Override this method to allow/deny a request
+	 * @return boolean
+	 */
+	protected function _isAllowed(){
+		//if a user is logged in
+		if( parent::_isAllowed()){
+		
+			//check the user role again, to prevent login with a session from a privileged extension
+	        $roleService = tao_models_classes_ServiceFactory::get('tao_models_classes_RoleService');
+	        $userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
+        	
+	        if($roleService->checkUserRole($userService->getCurrentUser())){
+        		return true;
+        	}
+        
+		}
+		return false;
+	}
 	
 /*
  * Shared Methods

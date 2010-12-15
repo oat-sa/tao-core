@@ -8,9 +8,11 @@
  * @todo create a proper class to bootstrap by context
  */
 
-$request = new Request();
-if($request->hasParameter('session_id')){
- 	session_id($request->getParameter('session_id'));
+if(PHP_SAPI != 'cli'){
+	$request = new Request();
+	if($request->hasParameter('session_id')){
+	 	session_id($request->getParameter('session_id'));
+	}
 }
 session_start();
 
