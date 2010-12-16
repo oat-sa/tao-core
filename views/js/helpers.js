@@ -70,9 +70,14 @@ function updateTabUrl(tabObj, tabName, url){
  * - disable the submit buttons
  */
 function loading(){
+	$(window).bind('click', function(e){
+		e.stopPropagation();
+		e.preventDefault();
+		return false;
+	});
 	$("#ajax-loading").show('fast');
-	$("input[type='submit']").attr('disabled', 'true');
-	$("input[type='button']").attr('disabled', 'true');
+	$(":submit, :button, a").attr('disabled', true).css('cursor', 'default');
+	
 }
 
 /**
@@ -81,9 +86,9 @@ function loading(){
  *  - enable back the submit buttons
  */
 function loaded(){
+	$(window).unbind('click');
 	$("#ajax-loading").hide('fast');
-	$("input[type='submit']").attr('disabled', false);
-	$("input[type='button']").attr('disabled', false);
+	$(":submit, :button, a").attr('disabled', false).css('cursor', 'pointer');
 }
 
 /**

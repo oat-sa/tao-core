@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>TAO</title>
+	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?></title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 	
 	<script type='text/javascript'>
@@ -14,11 +14,9 @@
 	
 	<script type='text/javascript'>
 		$(function(){
-		
 		<?if(get_data('errorMessage')):?>
 			createErrorMessage("<?=get_data('errorMessage')?>");
 		<?endif?>
-		
 		});
 	</script>
 </head>
@@ -31,10 +29,11 @@
 	<div id="ajax-loading">
 		<img src="<?=BASE_WWW?>img/ajax-loader.gif" alt="loading" />
 	</div>
-	<div id="menu-popup" style="display:none;">
+	<div id="menu-popup">
 		<ul>
 			<li><a href="<?=_url('index', null, null, array('extension' => 'none'))?>"><img src="<?=BASE_WWW?>img/home.png" class="icon" /><?=__('Home')?></a></li>
 			<li><a href="<?=_url('index', null, null, array('extension' => 'users'))?>"><img src="<?=BASE_WWW?>img/user_edit.png" class="icon" /><?=__('Users')?></a></li>
+			<li><a class="file-manager" href="#"><img src="<?=BASE_WWW?>img/filemanager.png" class="icon" /><?=__('Media manager')?></a></li>
 		<?if(get_data('currentExtension') && get_data('currentExtension') != 'users'):?>
 			<li><a href="<?=_url('index', 'Settings')?>" class="settings-loader"><img src="<?=BASE_WWW?>img/settings.png" class="icon" /><?=__('Settings')?></a></li>
 		<?else:?>
@@ -45,7 +44,7 @@
 	</div>
 	
 	<div id="main-menu" class="ui-state-default" >
-		<img id="menu-button" src='<?=BASE_WWW?>img/tao_button.png' alt='tao' />
+		<img id="menu-button" src='<?=BASE_WWW?>img/tao_button.png' alt='open menu' />
 		
 		<span class="ghost-menu"><a href="<?=_url('index', null, null, array('extension' => 'none'))?>"><?=__('Home')?></a></span>
 	<?foreach(get_data('extensions') as $extension):?>

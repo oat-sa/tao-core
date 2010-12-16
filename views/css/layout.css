@@ -135,6 +135,7 @@ div#main-menu span.ghost-menu{
 	display:none;
 }
 div#menu-popup{
+	display:none;
 	position:absolute;
 	top:40px;
 	left:0px;
