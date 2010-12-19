@@ -100,5 +100,8 @@ if(!tao_helpers_Request::isAjax()){
 			TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/swfobject.js'
 		));
 	}
+	tao_helpers_Scriptloader::addJsFiles(array(
+	//	ROOT_URL 	. '/taiItems/views/js/taoApi/taoApi.min.js',
+	));
 }
 ?>

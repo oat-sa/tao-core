@@ -54,11 +54,13 @@ if(file_exists($pattern) && is_dir($pattern)){
 		
 		//execute php files
 		if(preg_match("/\.php$/", $file)){
+			echo "running $file\n";
 			include $path;
 		}
 		
 		//execute SQL queries
 		if(preg_match("/\.sql$/", $file)){
+			echo "loading $file";
 			loadSql($path, $dbWrapper->dbConnector);
 		}
 	}
