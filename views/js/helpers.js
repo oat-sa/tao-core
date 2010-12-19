@@ -194,10 +194,24 @@ function createInfoMessage(message){
  * @return {boolean}
  */
 function isFlashPluginEnabled(){
-	if(navigator.plugins != null && navigator.plugins.length > 0){
-		for(i in navigator.plugins){
-			if(/(Shockwave|Flash)/i.test(navigator.plugins[i]['name'])){
-				return true;
+	if($.browser.msie){
+		var hasFlash = false; 
+		try {   
+			var fo = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');   
+			if(fo) hasFlash = true; 
+		}
+		catch(e){   
+			if(navigator.mimeTypes ["application/x-shockwave-flash"] != undefined) hasFlash = true; 
+		} 
+		return hasFlash;
+	}
+	else{
+		if(navigator.plugins != null && navigator.plugins.length > 0){
+			for(i in navigator.plugins){
+				console.log(navigator.plugins);
+				if(/(Shockwave|Flash)/i.test(navigator.plugins[i]['name'])){
+					return true;
+				}
 			}
 		}
 	}
