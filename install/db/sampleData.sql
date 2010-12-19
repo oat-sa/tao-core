@@ -368,3 +368,17 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (8, '##NAMESPACE#ITEMBEHAVIOR', 'http://www.w3.org/2000/01/rdf-schema#range', '##NAMESPACE#ITEMBEHAVIOR_CLASS', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (8, '##NAMESPACE#SUBJECT_ID', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (8, '##NAMESPACE#ID_TEST', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.tao.lu/Ontologies/TAOTest.rdf#Test', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
+
+
+
+INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+(8, '##NAMESPACE#i1292796232039301700', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(8, '##NAMESPACE#i1292796232039301700', 'http://www.w3.org/2000/01/rdf-schema#label', 'QTI Item', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(8, '##NAMESPACE#i1292796232039301700', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModel', 'http://www.tao.lu/Ontologies/TAOItem.rdf#QTI', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(8, '##NAMESPACE#i1292796232039301700', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent', '##NAMESPACE#i1292796235055825700', 'EN', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
+INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+(8, '##NAMESPACE#i1292796235055825700', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.tao.lu/Ontologies/generis.rdf#File', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(8, '##NAMESPACE#i1292796235055825700', 'http://www.w3.org/2000/01/rdf-schema#label', 'File : {ROOT_PATH}/taoItems/data/i1292796232039301700/qti.xml', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(8, '##NAMESPACE#i1292796235055825700', 'http://www.w3.org/2000/01/rdf-schema#comment', 'File : {ROOT_PATH}/taoItems/data/i1292796232039301700/qti.xml', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(8, '##NAMESPACE#i1292796235055825700', 'http://www.tao.lu/Ontologies/generis.rdf#FilePath', '{ROOT_PATH}/taoItems/data/i1292796232039301700/', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(8, '##NAMESPACE#i1292796235055825700', 'http://www.tao.lu/Ontologies/generis.rdf#FileName', 'qti.xml', '', '', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');

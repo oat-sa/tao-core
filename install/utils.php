@@ -20,7 +20,8 @@ function loadSqlReplaceNS($pFile, $con,$namespace){
 		$requests = explode(";", $ch);
 		unset($requests[count($requests)-1]);
 		foreach($requests as $request){
-			$request = str_replace("##NAMESPACE",$namespace,$request);
+			$request = str_replace("##NAMESPACE", $namespace,$request);
+			$request = str_replace("{ROOT_PATH}", $_SERVER['DOCUMENT_ROOT'], $request);
 			$con->Execute($request);
 
 		}

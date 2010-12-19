@@ -18,6 +18,14 @@ foreach($itemClass->getInstances(true) as $item){
 		if($itemModel instanceof core_kernel_classes_Resource){
 			
 			$itemContent = $item->getOnePropertyValue($itemContentProperty);
+			
+			try{
+				if(core_kernel_classes_File::isFile($itemContent)){
+					continue;
+				}
+			}
+			catch(Exception $e){}
+			
 			if(!is_null($itemContent)){
 				$itemShortUri = substr($item->uriResource, strpos($item->uriResource, '#') + 1);
 				switch($itemModel->uriResource){
