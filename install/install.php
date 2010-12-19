@@ -130,9 +130,9 @@ function install($param){
 		loadSqlReplaceNS('db/sampleData.sql',$con,$nameSpace);
 		loadSqlReplaceNS('../../wfEngine/install/db/services.sql',$con,$nameSpace);
 		
-		$fileContent = file_get_contents('db/qcmContent.sql');
-		$fileContent = str_replace("##NAMESPACE",$nameSpace,$fileContent);
-		$con->Execute($fileContent); 
+//		$fileContent = file_get_contents('db/qcmContent.sql');
+//		$fileContent = str_replace("##NAMESPACE",$nameSpace,$fileContent);
+//		$con->Execute($fileContent); 
 		$con->Close();
 
 	} catch (exception $e) {
