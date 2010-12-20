@@ -215,35 +215,33 @@ function install($param){
 	
 	/* config waterPhoenix */
 	$wpDone 		= 0;
-	$wpUrl 			= "http://{$_SERVER['HTTP_HOST']}/taoItems/models/ext/itemAuthoring/waterphenix/";
-	$wpConfigJsFile	= '../../taoItems/models/ext/itemAuthoring/waterphenix/config/config.js';
+    $wpPath         = "/taoItems/models/ext/itemAuthoring/waterphenix/";
+	$wpUrl 			= "http://{$_SERVER['HTTP_HOST']}{$wpPath}";
+    
+    $wpConfigSampleFile = "../..".$wpPath.'config/config.sample';
+	$wpConfigJsFile	= "../..".$wpPath.'config/config.js';
+	copy ($wpConfigSampleFile, $wpConfigJsFile);
+        
 	$wpConfigLines 	= file($wpConfigJsFile);
 	if($wpConfigLines !== false){
 		foreach($wpConfigLines as $line){
 			if(preg_match("/^var\s?URL\s?=\s?/i", trim($line))){
 				$data = file_get_contents($wpConfigJsFile);
-				$data = str_replace(trim($line), "var URL='$wpUrl';", $data);
+				$data = str_replace(trim($line), "var URL = 'http://{$_SERVER['HTTP_HOST']}';", $data);
 				if(file_put_contents($wpConfigJsFile, $data) > 0){
 					$wpDone++;
 				}
-				break;
-			}
+			} else 
+            if(preg_match("/^var\s?PATH\s?=\s?/i", trim($line))){
+                $data = file_get_contents($wpConfigJsFile);
+                $data = str_replace(trim($line), "var PATH = '{$wpPath}';", $data);
+                if(file_put_contents($wpConfigJsFile, $data) > 0){
+                    $wpDone++;
+                }
+            }
 		}
 	}
-	$wpConfigPhpFile	= '../../taoItems/models/ext/itemAuthoring/waterphenix/config/config.php';
-	$wpConfigLines 	= file($wpConfigPhpFile);
-	if($wpConfigLines !== false){
-		foreach($wpConfigLines as $line){
-			if(preg_match("/^define\s?\(\s?['\"]+URL['\"]+\s?/i", trim($line))){
-				$data = file_get_contents($wpConfigPhpFile);
-				$data = str_replace(trim($line), "define('URL','$wpUrl');", $data);
-				if(file_put_contents($wpConfigPhpFile, $data) > 0){
-					$wpDone++;
-				}
-				break;
-			}
-		}
-	}
+	
 	if($wpDone > 1){
 		echo "WaterPhoenix auto-configured for <b>$wpUrl</b><br/>"; 
 	}
