@@ -133,6 +133,11 @@ function install($param){
 //		$fileContent = file_get_contents('db/qcmContent.sql');
 //		$fileContent = str_replace("##NAMESPACE",$nameSpace,$fileContent);
 //		$con->Execute($fileContent); 
+		
+		//remove old result model
+		$con->Execute("DELETE FROM `statements` WHERE (`subject`  like '%TEST_CLASS%' OR `subject`  like '%CITEM_CLASS%' OR `subject` like '%ITEMBEHAVIOR_CLASS%') and `predicate` like '%subClassOf%'"); 
+	
+		
 		$con->Close();
 
 	} catch (exception $e) {

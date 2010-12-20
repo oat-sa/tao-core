@@ -4793,5 +4793,5 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#i1267866417009087900', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#matchingUrl', '/taoDelivery/ResultDelivery/evaluate', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#i1267866417009087900', 'http://www.tao.lu/Ontologies/TAODelivery.rdf#matchingServerSide', 'http://www.tao.lu/Ontologies/generis.rdf#True', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
-DELETE FROM `statements` WHERE (`subject`  like '%TEST_CLASS%' OR `subject`  like '%CITEM_CLASS%' OR `subject` like '%ITEMBEHAVIOR_CLASS%') and `predicate` like '%subClassOf%';
+
 
