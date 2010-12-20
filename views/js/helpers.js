@@ -208,7 +208,6 @@ function isFlashPluginEnabled(){
 	else{
 		if(navigator.plugins != null && navigator.plugins.length > 0){
 			for(i in navigator.plugins){
-				console.log(navigator.plugins);
 				if(/(Shockwave|Flash)/i.test(navigator.plugins[i]['name'])){
 					return true;
 				}
