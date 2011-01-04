@@ -15,7 +15,7 @@ var GenerisAction = {};
  */
 GenerisAction.select = function(uri){
 	GenerisTreeClass.selectTreeNode(uri);
-}
+};
 
 /**
  * conveniance method to subclass
@@ -30,7 +30,7 @@ GenerisAction.subClass = function(uri, classUri, url){
 		options.url = url;
 		GenerisTreeClass.addClass(options);
 	}
-}
+};
 
 /**
  * conveniance method to instanciate
@@ -45,7 +45,7 @@ GenerisAction.instanciate = function (uri, classUri, url){
 		options.url = url;
 		GenerisTreeClass.addInstance(options);
 	}
-}
+};
 
 /**
  * conveniance method to instanciate
@@ -62,7 +62,7 @@ GenerisAction.removeNode = function (uri, classUri, url){
 		options.url = url;
 		GenerisTreeClass.removeNode(options);
 	}
-}
+};
 
 /**
  * conveniance method to clone
@@ -76,7 +76,7 @@ GenerisAction.duplicateNode = function (uri, classUri, url){
 		options.url = url;
 		GenerisTreeClass.cloneNode(options);
 	}
-}
+};
 
 /**
  * move a selected node
@@ -90,7 +90,7 @@ GenerisAction.moveNode = function (uri, classUri, url){
 		options.url = url;
 		GenerisTreeClass.moveInstance(options);
 	}
-}
+};
 
 /**
  * Open a popup
@@ -100,8 +100,31 @@ GenerisAction.moveNode = function (uri, classUri, url){
  */
 GenerisAction.fullScreen = function (uri, classUri, url){
 	url += '?uri='+uri+'&classUri='+classUri;
-	window.open(url, 'tao', 'width=800,height=600,menubar=no,toolbar=no');
-}
+	var width = parseInt($(window).width());
+	if(width < 800){
+		width = 800;
+	}
+	var height = parseInt($(window).height()) + 50;
+	if(height < 600){
+		height = 600;
+	}
+	var windowOptions = {
+		'width' 	: width,
+		'height'	: height,
+		'menubar'	: 'no',
+		'resizable'	: 'yes',
+		'status'	: 'no',
+		'toolbar'	: 'no',
+		'dependent' : 'yes',
+		'scrollbar' : 'yes'
+	};
+	var params = '';
+	for (key in windowOptions) {
+		params += key + '=' + windowOptions[key] + ',';
+	}
+	params = params.replace(/,$/, '');
+	window.open(url, 'preview', params);
+};
 
 /**
  * Add a new property

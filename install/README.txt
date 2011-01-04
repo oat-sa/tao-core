@@ -33,7 +33,7 @@ Apache web server configuration:
   $ cd tao/install && php update.php version 
    where "version" is version to update to, for example to update from version 1.2 to 1.3 :
   $ cd tao/install && php update.php 1.3
-   the process should repeated for each intermediate version, for example to update from version 1.1 to 1.3 :
+   the process should be repeated for each intermediate version, for example to update from version 1.1 to 1.3 :
   $ cd tao/install && php update.php 1.2
   $ cd tao/install && php update.php 1.3
   
@@ -55,13 +55,21 @@ Apache web server configuration:
  taoItems/includes
  taoSubjects/includes
  taoTests/includes
+ taoResults/includes
  wfEngine/includes
  
  - The following folder contains data created by the user or by the system. 
    (In case of an update, backup and then copy the content of the following folders inside their updated directory)
  filemanager/views/data
- tao/views/export
  taoItems/data
- taoDElivery/compiled
- taoDelivery/views/deliveryServer/resultServer/partialResults 
- taoDelivery/views/deliveryServer/resultServer/received
+ taoDelivery/compiled
+ tao/views/export
+ taoDelivery/views/export
+ taoGroups/views/export
+ taoItems/views/export
+ taoSubjects/views/export
+ taoTests/views/export
+ taoResults/views/export
+
+
+ 
