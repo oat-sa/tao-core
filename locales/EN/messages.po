@@ -1,5 +1,5 @@
-msgid "DE"
-msgstr "German"
+msgid ""
+msgstr ""
 
 msgid "EN"
 msgstr "English"
@@ -17,7 +17,7 @@ msgid "Password are not matching"
 msgstr "Passwords are not matching"
 
 msgid "new subject"
-msgstr ""
+msgstr "new test taker"
 
 msgid "has been deleted successfully"
 msgstr ""
@@ -742,3 +742,8 @@ msgstr ""
 msgid "simple mode"
 msgstr ""
 
+msgid "subject"
+msgstr "test taker"
+
+msgid "Subject"
+msgstr "Test taker"
