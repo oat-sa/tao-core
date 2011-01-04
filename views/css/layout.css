@@ -421,8 +421,12 @@ ol.sortable-list li{
 	 margin: 0 3px 3px 3px; 
 	 padding: 4px; 
 	 padding-left: 25px; 
-	 height: 18px;
+	 line-height: 18px;
 	 position:relative;
+}
+ul.sortable-list li.ui-state-error,
+ol.sortable-list li.ui-state-error{
+	height:20px;
 }
 ul.sortable-list li:hover,
 ol.sortable-list li:hover{
