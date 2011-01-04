@@ -224,7 +224,7 @@ class tao_actions_form_Import
         // section 127-0-1-1--2a1722e0:12cbb421f9c:-8000:0000000000002939 begin
         
     	$descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
-		$descElt->setValue(__('Please upload a RDF file.'));
+		$descElt->setValue(__('Please upload an RDF file.'));
 		$this->form->addElement($descElt);
 		
 		//create file upload form box

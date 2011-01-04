@@ -136,7 +136,7 @@ class tao_actions_form_Export
         // section 127-0-1-1-70b2308e:12ca2398ae8:-8000:000000000000291A begin
         
     	$descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
-		$descElt->setValue(__('Enable your to export an RDF file containing the selected namespaces'));
+		$descElt->setValue(__('Enables you to export an RDF file containing the selected namespaces'));
 		$this->form->addElement($descElt);
     	
     	$formatElt = tao_helpers_form_FormFactory::getElement('ontology', 'Radiobox');

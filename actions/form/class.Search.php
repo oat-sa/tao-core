@@ -89,7 +89,7 @@ class tao_actions_form_Search
         
     	$chainingElt = tao_helpers_form_FormFactory::getElement('chaining', 'Radiobox');
 		$chainingElt->setDescription(__('Filtering mode'));
-		$chainingElt->setOptions(array('and' => __('Exclusive (AND)'), 'or' =>  __('Inclusive (OR)')));
+		$chainingElt->setOptions(array('and' => __('Inclusive (AND)'), 'or' =>  __('Exclusive (OR)')));
 		$chainingElt->setValue('and');
 		$this->form->addElement($chainingElt);
 		
