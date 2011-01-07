@@ -29,7 +29,7 @@ function loadSqlReplaceNS($pFile, $con,$namespace){
 		fclose($file);
 	}
 	else{
-		die("File not found".$pFichier);
+		die("File not found".$pFile);
 	}
 }
 
