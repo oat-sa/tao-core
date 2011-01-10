@@ -85,22 +85,15 @@ class tao_helpers_form_elements_xhtml_Htmlarea
 		}
 		 
 		 if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
+			$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
 		}
 		else{
 			unset($this->attributes['noLabel']);
 		}
 		$returnValue .= "<textarea name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= ">{$this->value}</textarea>";
+		$returnValue .= ">"._dh($this->value)."</textarea>";
 		
-		//initialize the jwysiwyg component on the textarea
-	/*	$returnValue .= "<script type='text/javascript'>
-							$(document).ready(function(){
-								$('#{$this->name}').wysiwyg();
-							});
-						</script>";*/
-		 
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F4 end
 
         return (string) $returnValue;

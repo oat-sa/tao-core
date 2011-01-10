@@ -73,7 +73,7 @@ class tao_helpers_form_elements_xhtml_Calendar
 		
 		
 		if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<label class='form_desc calendar' for='{$this->name}'>".$this->getDescription()."</label>";
+			$returnValue .= "<label class='form_desc calendar' for='{$this->name}'>"._dh($this->getDescription())."</label>";
 		}
 		else{
 			unset($this->attributes['noLabel']);
@@ -84,7 +84,7 @@ class tao_helpers_form_elements_xhtml_Calendar
 		
 		$returnValue .= "<input type='text' name='{$this->name}' id='$elementId' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'.htmlentities($this->value, ENT_COMPAT, 'UTF-8').'"  />';
+		$returnValue .= ' value="'._dh($this->value).'"  />';
 		
 		$returnValue .="<script type=\"text/javascript\">
 						$(function(){

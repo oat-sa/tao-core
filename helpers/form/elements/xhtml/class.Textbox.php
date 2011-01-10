@@ -68,17 +68,17 @@ class tao_helpers_form_elements_xhtml_Textbox
         // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018E8 begin
 		
 		if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
+			$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
 		}
 		else{
 			unset($this->attributes['noLabel']);
 		}
 		$returnValue .= "\n<input type='text' name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'.htmlentities($this->value, ENT_COMPAT, 'UTF-8').'"  />';
+		$returnValue .= ' value="'._dh($this->value).'"  />';
 		
 		if(!empty($this->unit)){
-			$returnValue .= " " . $this->unit;
+			$returnValue .= " " . _dh($this->unit);
 		}
 		
         // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018E8 end

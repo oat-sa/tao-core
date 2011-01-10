@@ -72,7 +72,7 @@ class tao_helpers_form_elements_xhtml_Submit
 		}
 		$returnValue = "<input type='submit' id='{$this->name}' name='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'.htmlentities($this->value, ENT_COMPAT, 'UTF-8').'"  />';
+		$returnValue .= ' value="'._dh($this->value).'"  />';
 		
         // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E53 end
 

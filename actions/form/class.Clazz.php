@@ -147,7 +147,8 @@ class tao_actions_form_Clazz
 			}
 		}
 		if(count($elementNames) > 0){
-			$this->form->createGroup('class', "<img src='".TAOBASE_WWW."img/class.png' /> ".__('Class').": ".$clazz->getLabel(), $elementNames);
+			$groupTitle = "<img src='".TAOBASE_WWW."img/class.png' /> ".__('Class').": "._dh($clazz->getLabel());
+			$this->form->createGroup('class', $groupTitle, $elementNames);
 		}
 		
 		//add an hidden elt for the class uri
@@ -206,14 +207,16 @@ class tao_actions_form_Clazz
 				$domainElement->setValue($value);
 				$this->form->addElement($domainElement);
 				
-				$this->form->createGroup("parent_property_{$i}", "<img src='".TAOBASE_WWW."img/prop_orange.png' /> ".__('Property')." #".($i).": ".$classProperty->getLabel(), array('parentProperty'.$i));
+				$groupTitle = "<img src='".TAOBASE_WWW."img/prop_orange.png' /> ".__('Property')." #".($i).": "._dh($classProperty->getLabel());
+				$this->form->createGroup("parent_property_{$i}", $groupTitle, array('parentProperty'.$i));
 			}
 			else{
 				$roElement = tao_helpers_form_FormFactory::getElement('roProperty'.$i, 'Free');
 				$roElement->setValue(__("You cannot modify this property"));
 				$this->form->addElement($roElement);
 				
-				$this->form->createGroup("ro_property_{$i}", "<img src='".TAOBASE_WWW."img/prop_red.png' /> ".__('Property')." #".($i).": ".$classProperty->getLabel(), array('roProperty'.$i));
+				$groupTitle = "<img src='".TAOBASE_WWW."img/prop_red.png' /> ".__('Property')." #".($i).": "._dh($classProperty->getLabel());
+				$this->form->createGroup("ro_property_{$i}", $groupTitle, array('roProperty'.$i));
 			}
 			
 		}

@@ -95,7 +95,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
         
         $widgetName = $this->name.'-AsyncFileUploader';
         
-        $returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
+        $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
 		
         $returnValue .= "<div class='form-elt-container file-uploader'>";
         $returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";

@@ -20,6 +20,24 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 
 /* user defined constants */
 // section 127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF8-constants begin
+
+/**
+ * Conveniance function
+ * of Display::htmlize
+ * 
+ * @param  string $input
+ * @return string $output
+ */
+function _dh($input){
+	return tao_helpers_Display::htmlize($input);
+}
+
+/**
+ * Conveniance function
+ * clean the input string (replace all no alphanum chars)
+ * @param  string $input
+ * @return string $output
+ */
 function _clean($input){
 	return tao_helpers_Display::textCleaner($input);
 }
@@ -94,6 +112,27 @@ class tao_helpers_Display
 			$i++;
 		}
         // section 127-0-1-1-3f9c691f:124c3973fb8:-8000:0000000000001B28 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method htmlize
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string input Central acces to display cleanly and more securly text into an  HTML page.
+     * @return string
+     */
+    public static function htmlize($input)
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-eaea962:12d70d06717:-8000:0000000000002BB8 begin
+        
+        $returnValue = htmlentities($input, ENT_COMPAT, 'UTF-8');
+        
+        // section 127-0-1-1-eaea962:12d70d06717:-8000:0000000000002BB8 end
 
         return (string) $returnValue;
     }

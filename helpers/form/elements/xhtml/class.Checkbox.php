@@ -69,7 +69,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
 		
 		$i = 0;
 		if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<span class='form_desc'>".$this->getDescription()."</span>";
+			$returnValue .= "<span class='form_desc'>"._dh($this->getDescription())."</span>";
 		}
 		else{
 			unset($this->attributes['noLabel']);
@@ -81,7 +81,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
 			 if(in_array($optionId, $this->values)){
 			 	$returnValue .= " checked='checked' ";	
 			 }
-			 $returnValue .= " />&nbsp;<span class='elt_desc'>{$optionLabel}</span><br />";
+			 $returnValue .= " />&nbsp;<span class='elt_desc'>"._dh($optionLabel)."</span><br />";
 			 $i++;
 		}
 		

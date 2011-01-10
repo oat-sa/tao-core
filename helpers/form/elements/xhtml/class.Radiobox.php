@@ -70,7 +70,7 @@ class tao_helpers_form_elements_xhtml_Radiobox
 		$i = 0;
 		
 		if(!isset($this->attributes['noLabel'])){
-			$returnValue .= "<span class='form_desc'>".$this->getDescription()."</span>";
+			$returnValue .= "<span class='form_desc'>". _dh($this->getDescription())."</span>";
 		}
 		else{
 			unset($this->attributes['noLabel']);
@@ -81,7 +81,7 @@ class tao_helpers_form_elements_xhtml_Radiobox
 			 if($this->value == $optionId){
 			 	$returnValue .= " checked='checked' ";
 			 }
-			 $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>{$optionLabel}</label><br />";
+			 $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>"._dh($this->unit)."</label><br />";
 			 $i++;
 		}
 		

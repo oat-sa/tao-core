@@ -170,7 +170,7 @@ class tao_actions_form_SimpleProperty
 		$elementNames[] = $modeElt->getName();
 		
 		if(count($elementNames) > 0){
-			$groupTitle = "<img src='".TAOBASE_WWW."img/prop_green.png' /> ".__('Property')." #".($index).": ".$property->getLabel();
+			$groupTitle = "<img src='".TAOBASE_WWW."img/prop_green.png' /> ".__('Property')." #".($index).": "._dh($property->getLabel());
 			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames, array('class' => 'form-group-opened'));
 		}
     	

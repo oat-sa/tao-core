@@ -116,7 +116,7 @@ class tao_helpers_form_elements_xhtml_Treeview
         $widgetTreeName  = $this->name.'-TreeBox';
         $widgetValueName = $this->name.'-TreeValues';
         
-        $returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
+        $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
 		
         $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
         $returnValue .= "<div id='{$widgetValueName}'></div>";

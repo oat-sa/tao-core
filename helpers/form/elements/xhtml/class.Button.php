@@ -68,11 +68,11 @@ class tao_helpers_form_elements_xhtml_Button
         // section 127-0-1-1--5dde9503:124b4a68f24:-8000:0000000000001B13 begin
 		
 		if(!empty($this->description)){
-			$returnValue .= "<label class='form_desc' for='{$this->name}'>".$this->getDescription()."</label>";
+			$returnValue .= "<label class='form_desc' for='{$this->name}'>"._dh($this->getDescription())."</label>";
 		}
 		$returnValue .= "<input type='button' name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= ' value="'.htmlentities($this->value, ENT_COMPAT, 'UTF-8').'"  />';
+		$returnValue .= ' value="'._dh($this->value).'"  />';
 		
         // section 127-0-1-1--5dde9503:124b4a68f24:-8000:0000000000001B13 end
 

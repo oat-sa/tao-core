@@ -127,7 +127,7 @@ class tao_actions_form_AdvancedProperty
 		
 		if(count($elementNames) > 0){
 			$groupTitle = "<img src='".TAOBASE_WWW."img/prop_green.png' /> ".__('Property')." #".($index).": ".$property->getLabel();
-			$this->form->createGroup("property_{$index}", $groupTitle, $elementNames, array('class' => 'form-group-opened'));
+			$this->form->createGroup("property_{$index}", _dh($groupTitle), $elementNames, array('class' => 'form-group-opened'));
 		}
     	
 		//add an hidden elt for the property uri
