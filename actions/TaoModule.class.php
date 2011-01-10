@@ -1,7 +1,5 @@
 <?php
 
-require_once('wfEngine/actions/ServicesApi.class.php');
-
 /**
  * The TaoModule is an abstract controller, 
  * the tao children extensions Modules should extends the TaoModule to beneficiate the shared methods.
