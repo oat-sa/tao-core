@@ -132,7 +132,7 @@ class tao_helpers_form_validators_Label
 					$matchingUris = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), null, $options);
 					$checkResources = $clazz->getSubClasses(true);
 					foreach($matchingUris as $matchingUri){
-						if(array_key_exists($matchingUri, $checkResources)){
+						if(array_key_exists($matchingUri, $checkResources) && $matchingUri != $this->options['uri']){
 							$returnValue = false;
 							break;
 						}
@@ -142,7 +142,7 @@ class tao_helpers_form_validators_Label
 					$matchingUris = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), null, $options);
 					$checkResources = $clazz->getProperties(true);
 					foreach($matchingUris as $matchingUri){
-						if(array_key_exists($matchingUri, $checkResources)){
+						if(array_key_exists($matchingUri, $checkResources)  && $matchingUri != $this->options['uri']){
 							$returnValue = false;
 							break;
 						}
