@@ -81,7 +81,7 @@ class tao_helpers_form_elements_xhtml_Radiobox
 			 if($this->value == $optionId){
 			 	$returnValue .= " checked='checked' ";
 			 }
-			 $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>"._dh($this->unit)."</label><br />";
+			 $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>"._dh($optionLabel)."</label><br />";
 			 $i++;
 		}
 		

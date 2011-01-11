@@ -457,6 +457,20 @@ abstract class tao_helpers_form_Form
 			 //render element
 			 $returnValue .= $element->render();
 			 
+			 //render element help
+			 $help = trim($element->getHelp());
+			 if(!empty($help)){
+				 if(!is_null($this->getDecorator('help'))){
+			 		$returnValue .= $this->getDecorator('help')->preRender();
+			 	}
+			 	
+			 	$returnValue .= $help;
+			 	
+				if(!is_null($this->getDecorator('help'))){
+			 		$returnValue .= $this->getDecorator('help')->postRender();
+			 	}
+			 }
+			 
 			 //render error message
 			 if(!$this->isValid() && $element->getError() != ''){
 			 	if(!is_null($this->getDecorator('error'))){
@@ -464,6 +478,7 @@ abstract class tao_helpers_form_Form
 			 	}
 			 	
 			 	$returnValue .= $element->getError();
+			 	
 				if(!is_null($this->getDecorator('error'))){
 			 		$returnValue .= $this->getDecorator('error')->postRender();
 			 	}
@@ -511,6 +526,20 @@ abstract class tao_helpers_form_Form
 					 //render element
 					 $returnValue .= $element->render();
 					 
+					 //render element help
+					 $help = trim($element->getHelp());
+					 if(!empty($help)){
+						 if(!is_null($this->getDecorator('help'))){
+					 		$returnValue .= $this->getDecorator('help')->preRender();
+					 	}
+					 	
+					 	$returnValue .= $help;
+					 	
+						if(!is_null($this->getDecorator('help'))){
+					 		$returnValue .= $this->getDecorator('help')->postRender();
+					 	}
+					 }
+					 
 					 //render error message
 					 if(!$this->isValid() && $element->getError() != ''){
 					 	if(!is_null($this->getDecorator('error'))){
@@ -525,7 +554,6 @@ abstract class tao_helpers_form_Form
 					 if(!is_null($this->getDecorator()) && !($element instanceof tao_helpers_form_elements_Hidden) ){
 					 	$returnValue .= $this->getDecorator()->postRender();
 					 }
-				 
 				 }
 			}
 			if(!is_null($subGroupDecorator)){
@@ -594,8 +622,6 @@ abstract class tao_helpers_form_Form
     protected function initElements()
     {
         // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4E begin
-		
-		
         // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4E end
     }
 

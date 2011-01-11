@@ -133,6 +133,14 @@ abstract class tao_helpers_form_FormElement
      */
     protected $unit = '';
 
+    /**
+     * Short description of attribute help
+     *
+     * @access protected
+     * @var string
+     */
+    protected $help = '';
+
     // --- OPERATIONS ---
 
     /**
@@ -426,6 +434,20 @@ abstract class tao_helpers_form_FormElement
     }
 
     /**
+     * Short description of method setForcedValid
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return mixed
+     */
+    public function setForcedValid()
+    {
+        // section 127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D7D begin
+		$this->forcedValid = true;
+        // section 127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D7D end
+    }
+
+    /**
      * Short description of method validate
      *
      * @access public
@@ -477,17 +499,40 @@ abstract class tao_helpers_form_FormElement
     }
 
     /**
-     * Short description of method setForcedValid
+     * Short description of method setHelp
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string help
      * @return mixed
      */
-    public function setForcedValid()
+    public function setHelp($help)
     {
-        // section 127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D7D begin
-		$this->forcedValid = true;
-        // section 127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D7D end
+        // section 127-0-1-1-435f81db:12d74b851ea:-8000:0000000000002BDB begin
+
+    	$this->help = $help;
+    	
+        // section 127-0-1-1-435f81db:12d74b851ea:-8000:0000000000002BDB end
+    }
+
+    /**
+     * Short description of method getHelp
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return string
+     */
+    public function getHelp()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-435f81db:12d74b851ea:-8000:0000000000002BDE begin
+        
+        $returnValue = $this->help;
+        
+        // section 127-0-1-1-435f81db:12d74b851ea:-8000:0000000000002BDE end
+
+        return (string) $returnValue;
     }
 
 } /* end of abstract class tao_helpers_form_FormElement */

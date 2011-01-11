@@ -102,7 +102,9 @@ class tao_helpers_Request
 			curl_setopt($curlHandler, CURLOPT_URL, $url);
 				
 			$returnValue = curl_exec($curlHandler);
-			
+			if(curl_errno($curlHandler) > 0){
+				throw new Exception("Request error ".curl_errno($curlHandler).": ".  curl_error($curlHandler));
+			}
 			curl_close($curlHandler);  
         }
         
