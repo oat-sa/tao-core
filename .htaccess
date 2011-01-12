@@ -1,4 +1,5 @@
 Options +FollowSymLinks
+<IfModule mod_rewrite.c>
 RewriteEngine On
 
 #rewrite the old item saving method 
@@ -21,4 +22,4 @@ RewriteCond %{REQUEST_URI} 	!/locales/  	[NC]
 #call entry point for url resolving and framework bootstrap
 RewriteRule ^(.*)$ index.php [L]
 
-
+</IfModule>
