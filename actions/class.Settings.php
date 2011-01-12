@@ -8,7 +8,7 @@
  * @subpackage action
  *
  */
-class Settings extends CommonModule {
+class tao_actions_Settings extends tao_actions_CommonModule {
 
 	/**
 	 * @access protected

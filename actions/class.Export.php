@@ -8,7 +8,7 @@
  * @subpackage action
  *
  */
-class Export extends CommonModule {
+class tao_actions_Export extends tao_actions_CommonModule {
 
 	
 	/**

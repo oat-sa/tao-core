@@ -8,7 +8,7 @@
  * @package tao
  * @subpackage action
  */
-class File extends CommonModule{
+class tao_actions_File extends tao_actions_CommonModule{
 	
 	/**
 	 * @var string $rootFolder root folder of the copyed files

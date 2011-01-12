@@ -8,7 +8,7 @@
  * @subpackage action
  *
  */
-class Lists extends CommonModule {
+class tao_actions_Lists extends tao_actions_CommonModule {
 
 	/**
 	 * Constructor performs initializations actions

@@ -6,7 +6,7 @@
  * @subpackage action
  *
  */
-class Main extends CommonModule {
+class tao_actions_Main extends tao_actions_CommonModule {
 
 	/**
 	 * @access protected

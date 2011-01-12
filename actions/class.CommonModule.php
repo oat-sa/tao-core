@@ -8,7 +8,7 @@
  * @package tao
  * @subpackage action
  */
-abstract class CommonModule extends Module {
+abstract class tao_actions_CommonModule extends Module {
 
 	/**
 	 * The Modules access the models throught the service instance

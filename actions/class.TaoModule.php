@@ -10,7 +10,7 @@
  * @package tao
  * @subpackage action
  */
-abstract class TaoModule extends CommonModule {
+abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
 	/**
 	 * Check if the current user is allowed to acces the request

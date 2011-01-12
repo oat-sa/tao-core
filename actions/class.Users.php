@@ -8,7 +8,7 @@
  * @subpackage action
  *
  */
-class Users extends CommonModule {
+class tao_actions_Users extends tao_actions_CommonModule {
 
 	/**
 	 * @var tao_models_classes_UserService

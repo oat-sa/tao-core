@@ -6,7 +6,7 @@
  * @subpackage action
  *
  */
-class Api extends CommonModule {
+class tao_actions_Api extends tao_actions_CommonModule {
 
 	/**
 	 * @var tao_models_classes_UserService
