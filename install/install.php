@@ -30,7 +30,6 @@ else {
 
 }
 
-
 function install($param){
 	$message = '';
 	if(!isset($param['dbhost']) || $param['dbhost'] == ''){
@@ -130,9 +129,14 @@ function install($param){
 		loadSqlReplaceNS('db/sampleData.sql',$con,$nameSpace);
 		loadSqlReplaceNS('../../wfEngine/install/db/services.sql',$con,$nameSpace);
 		
-		$fileContent = file_get_contents('db/qcmContent.sql');
-		$fileContent = str_replace("##NAMESPACE",$nameSpace,$fileContent);
-		$con->Execute($fileContent); 
+//		$fileContent = file_get_contents('db/qcmContent.sql');
+//		$fileContent = str_replace("##NAMESPACE",$nameSpace,$fileContent);
+//		$con->Execute($fileContent); 
+		
+		//remove old result model
+		$con->Execute("DELETE FROM `statements` WHERE (`subject`  like '%TEST_CLASS%' OR `subject`  like '%CITEM_CLASS%' OR `subject` like '%ITEMBEHAVIOR_CLASS%') and `predicate` like '%subClassOf%'"); 
+	
+		
 		$con->Close();
 
 	} catch (exception $e) {
@@ -169,12 +173,7 @@ function install($param){
 	writeConfigValue('DATABASE_URL', $param["dbhost"],$config);
 	writeConfigValue('SGBD_DRIVER', $param["dbdriver"],$config);
 	writeConfigValue('DATABASE_NAME', $param["moduleName"],$config);
-    // for a clean url
-	$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-	$url = substr($url, 0,strrpos($url, '/'));
-	$url = substr($url, 0,strrpos($url, '/'));
-	$url = substr($url, 0,strrpos($url, '/'));
-    writeConfigValue('ROOT_URL', $url,$config);
+
 
 	//TODO
 	$filename = CONFIG_PATH.'/config.php';
@@ -215,35 +214,33 @@ function install($param){
 	
 	/* config waterPhoenix */
 	$wpDone 		= 0;
-	$wpUrl 			= "http://{$_SERVER['HTTP_HOST']}/taoItems/models/ext/itemAuthoring/waterphenix/";
-	$wpConfigJsFile	= '../../taoItems/models/ext/itemAuthoring/waterphenix/config/config.js';
+    $wpPath         = "/taoItems/models/ext/itemAuthoring/waterphenix/";
+	$wpUrl 			= "http://{$_SERVER['HTTP_HOST']}{$wpPath}";
+    
+    $wpConfigSampleFile = "../..".$wpPath.'config/config.sample';
+	$wpConfigJsFile	= "../..".$wpPath.'config/config.js';
+	copy ($wpConfigSampleFile, $wpConfigJsFile);
+        
 	$wpConfigLines 	= file($wpConfigJsFile);
 	if($wpConfigLines !== false){
 		foreach($wpConfigLines as $line){
 			if(preg_match("/^var\s?URL\s?=\s?/i", trim($line))){
 				$data = file_get_contents($wpConfigJsFile);
-				$data = str_replace(trim($line), "var URL='$wpUrl';", $data);
+				$data = str_replace(trim($line), "var URL = 'http://{$_SERVER['HTTP_HOST']}';", $data);
 				if(file_put_contents($wpConfigJsFile, $data) > 0){
 					$wpDone++;
 				}
-				break;
-			}
+			} else 
+            if(preg_match("/^var\s?PATH\s?=\s?/i", trim($line))){
+                $data = file_get_contents($wpConfigJsFile);
+                $data = str_replace(trim($line), "var PATH = '{$wpPath}';", $data);
+                if(file_put_contents($wpConfigJsFile, $data) > 0){
+                    $wpDone++;
+                }
+            }
 		}
 	}
-	$wpConfigPhpFile	= '../../taoItems/models/ext/itemAuthoring/waterphenix/config/config.php';
-	$wpConfigLines 	= file($wpConfigPhpFile);
-	if($wpConfigLines !== false){
-		foreach($wpConfigLines as $line){
-			if(preg_match("/^define\s?\(\s?['\"]+URL['\"]+\s?/i", trim($line))){
-				$data = file_get_contents($wpConfigPhpFile);
-				$data = str_replace(trim($line), "define('URL','$wpUrl');", $data);
-				if(file_put_contents($wpConfigPhpFile, $data) > 0){
-					$wpDone++;
-				}
-				break;
-			}
-		}
-	}
+	
 	if($wpDone > 1){
 		echo "WaterPhoenix auto-configured for <b>$wpUrl</b><br/>"; 
 	}
@@ -291,7 +288,6 @@ function install($param){
 	
 	echo '<hr/><b>Installation Complete</b><br/>';
 	echo "<br/><center><a href='/tao'>Go to TAO</a></center>";
-	echo '<script>document.location.replace("../../osq/install/install.php")</script>';
 }
 
 ?>
