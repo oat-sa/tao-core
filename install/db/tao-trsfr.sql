@@ -4849,3 +4849,21 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#kohs', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModelStatus', 'http://www.tao.lu/Ontologies/TAOItem.rdf#StatusStable', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#Ctest', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModelStatus', 'http://www.tao.lu/Ontologies/TAOItem.rdf#StatusStable', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#campus', 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModelStatus', 'http://www.tao.lu/Ontologies/TAOItem.rdf#StatusDeprecated', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
+
+DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/Ontologies/TAODelivery.rdf#SubjectCache' LIMIT 5;
+DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedGroups' LIMIT 2;
+
+DELETE FROM  statements WHERE subject =	'http://www.tao.lu/Ontologies/TAOItem.rdf#QCM' AND predicate = 'SWFFile' AND object = 'tao_item.swf';
+
+UPDATE statements SET subject = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemRuntime' WHERE subject = 'http://www.tao.lu/Ontologies/TAOItem.rdf#SWFFile';
+UPDATE statements SET predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemRuntime' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#SWFFile';
+UPDATE statements SET object = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemRuntime' WHERE object = 'http://www.tao.lu/Ontologies/TAOItem.rdf#SWFFile';
+
+UPDATE statements SET subject = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemAuthoring' WHERE subject = 'http://www.tao.lu/Ontologies/TAOItem.rdf#i12580164649880';
+UPDATE statements SET predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemAuthoring' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#i12580164649880';
+UPDATE statements SET object = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemAuthoring' WHERE object = 'http://www.tao.lu/Ontologies/TAOItem.rdf#i12580164649880';
+
+UPDATE statements SET subject = 'http://www.tao.lu/Ontologies/TAOItem.rdf#Hawai' WHERE subject = 'http://www.tao.lu/Ontologies/TAOItem.rdf#i125933161031263';
+UPDATE statements SET predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#Hawai' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#i125933161031263';
+UPDATE statements SET object = 'http://www.tao.lu/Ontologies/TAOItem.rdf#Hawai' WHERE object = 'http://www.tao.lu/Ontologies/TAOItem.rdf#i125933161031263';
+
