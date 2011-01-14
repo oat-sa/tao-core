@@ -18,13 +18,13 @@ EventMgr = function() {
 		instance.single.eventTarget = $(document);
 		
 		instance.single.bind = function(eventType, callback){
-			instance.single.eventTarget.bind(eventType, callback);
+			return instance.single.eventTarget.bind(eventType, callback);
 		}
 		instance.single.trigger = function(eventType, params){
 			instance.single.eventTarget.trigger(eventType, params);
 		}
 		instance.single.unbind = function(eventType, params){
-			instance.single.eventTarget.unbind(eventType, params);
+			return instance.single.eventTarget.unbind(eventType, params);
 		}
 	}
 	else{
@@ -38,7 +38,7 @@ EventMgr = function() {
  * @return
  */
 EventMgr.bind = function(eventType, callback){
-	new EventMgr().bind(eventType, callback);
+	return new EventMgr().bind(eventType, callback);
 }
 
 /**
@@ -58,9 +58,9 @@ EventMgr.trigger = function(eventType, params){
  * @return
  */
 EventMgr.unbind = function(eventType, params){
-	new EventMgr().unbind(eventType);
+	return new EventMgr().unbind(eventType);
 }
 
 EventMgr.unbindAll = function(params){
-	new EventMgr().unbind();
+	return new EventMgr().unbind();
 }
