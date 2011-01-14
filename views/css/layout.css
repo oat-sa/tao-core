@@ -260,22 +260,32 @@ div#section-meta{
 }
 div#meta-title{
 	padding:3px;
-	font-weight:normal;
 }
 div#meta-content table{
 	border-collapse:collapse;
 }
 div#meta-content table th,
 div#meta-content table td{
-	width:33%;
 	border: solid 1px #ccc;
 	font-size:0.9em;
 	color:#444;
 	padding:3px;
+	margin:0;
 }
 div#meta-content table td{
 	font-weight:normal;
 }
+div#meta-content table td,
+div#meta-content table th{
+	width:20%;	
+}
+div#meta-content table .first{
+	width:30%;	
+}
+div#meta-content table .last{
+	width:50%;	
+}
+
 /* Layout -> Main container */
 div#preview-container{
 	width:59%;

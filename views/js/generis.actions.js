@@ -151,7 +151,7 @@ GenerisAction.addProperty = function (uri, classUri, url){
 			window.location = '#propertyAdder';
 		}
 	});
-}
+};
 
 /**
  * Load the result table with the tree instances in parameter
@@ -188,7 +188,7 @@ GenerisAction.resultTable = function (uri, classUri, url){
 	}
 	data.classUri = classUri;
 	_load(getMainContainerSelector(UiBootstrap.tabs), url, data);
-}
+};
 
 /**
  * init and load the meta data component
@@ -211,40 +211,43 @@ GenerisAction.loadMetaData = function(uri, classUri, url){
 			if (commentContainer) {
 				
 				$("#comment-editor").click(function(){
-					
-					commentContainer.dialog({
-						title: $("#comment-form-container-title").text(),
-						width: 330,
-						height: 220,
-						position: ['right','bottom'],
-						autoOpen: false
-					});
-					commentContainer.bind('dialogclose', function(event, ui){
-						commentContainer.dialog('destroy');
-						//commentContainer.remove();
-					});
-					commentContainer.dialog('open');
-					$("#comment-saver").click(function(){
-						if (ctx_extension) {
-							url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
-						}
-						url += 'saveComment';
-						$.ajax({
-							url: url,
-							type: "POST",
-							data: $("#comment-form").serializeArray(),
-							dataType: 'json',
-							success: function(response){
-								if (response.saved) {
-									commentContainer.dialog('close');
-									$("#comment-field").text(response.comment);
+					var commentContainer = $(this).parents('td');
+					if($(':textarea.comment-area', commentContainer).length == 0){
+						
+						var commentArea = $("<textarea id='comment-area'></textarea>");
+						var commentField = $('span#comment-field', commentContainer);
+						commentArea.val(commentField.html())
+									.width(parseInt(commentContainer.width()) - 5)
+										.height(parseInt(commentContainer.height()));
+						commentField.empty();
+						commentArea.bind('keypress blur' , function(event){
+							if(event.type == 'keypress'){
+								if (event.which != '13') {
+									return true;
 								}
+								event.preventDefault();
 							}
+							if (ctx_extension) {
+								url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
+							}
+							url += 'saveComment';
+							$.ajax({
+								url: url,
+								type: "POST",
+								data: {comment: $(this).val(), uri: $('#uri').val(), classUri:$('#classUri').val() },
+								dataType: 'json',
+								success: function(response){
+									if (response.saved) {
+										commentArea.remove();
+										commentField.text(response.comment);
+									}
+								}
+							});
 						});
-					});
-					return false;
-				})
+						commentContainer.prepend(commentArea);
+					}
+				});
 			}
 		}
 	});
-}
+};

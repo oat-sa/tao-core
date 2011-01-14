@@ -223,8 +223,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	public function index(){
 		
 		if($this->getData('reload') == true){
-			unset($_SESSION[SESSION_NAMESPACE]['uri']);
-			unset($_SESSION[SESSION_NAMESPACE]['classUri']);
+			$this->removeSessionAttribute('uri');
+			$this->removeSessionAttribute('classUri');
 		}
 		$this->setView('index.tpl', false);
 	}
@@ -571,7 +571,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$date = $instance->getLastModificationDate();
 			$this->setData('date', $date->format('d/m/Y H:i:s'));
 			$this->setData('user', $instance->getLastModificationUser());
-			$this->setData('comment', $instance->getComment());
+			$this->setData('comment', _dh($instance->getComment()));
 			
 			$this->setData('uri', $this->getRequestParameter('uri'));
 			$this->setData('classUri', $this->getRequestParameter('classUri'));
@@ -602,7 +602,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				$instance->setComment($this->getRequestParameter('comment'));
 				if($instance->getComment() == $this->getRequestParameter('comment')){
 					$response['saved'] = true;
-					$response['comment'] = $instance->getComment();
+					$response['comment'] = _dh($instance->getComment());
 				}
 			}
 		}

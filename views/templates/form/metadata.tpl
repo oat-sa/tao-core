@@ -2,29 +2,30 @@
 <div id="meta-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=__('Meta Data')?>
 </div>
-<div id="meta-content" class="ui-widget-content ui-state-default">
+<div id="meta-content" class="ui-widget-content">
 	<table>
 		<thead>
 			<tr>
-				<th><?=__('Date')?></th>
+				<th class="first"><?=__('Date')?></th>
 				<th><?=__('User')?></th>
-				<th><?=__('Comment')?></th>
+				<th class="last"><?=__('Comment')?></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td><?=get_data('date')?></td>
+				<td class="first"><?=get_data('date')?></td>
 				<td><?=get_data('user')?></td>
-				<td>
+				<td class="last">
 					<span id="comment-field"><?=get_data('comment')?></span>
-					<a href="#" id="comment-editor">
-						<img src="../views/img/edit.png" />
+					<a href="#" id="comment-editor" title="<?=__('Edit Comment')?>">
+						<img src="../views/img/edit.png" alt="<?=__('Edit Comment')?>" />
 					</a>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 </div>
+<!--  
 <span id="comment-form-container-title" style="display:none;"><?=__("Edit item comment")?></span>
 <div id="comment-form-container" style="display:none;">
 	<form method="post" id="comment-form">
@@ -34,4 +35,5 @@
 		<input id="comment-saver" type="button" value="<?=__('Save')?>" />
 	</form>
 </div>
+-->
 <?endif?>
