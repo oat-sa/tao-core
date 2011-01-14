@@ -105,6 +105,11 @@ class tao_install_utils_ConfigTester{
 				$this->message = 'PHP extension CURL is strongly recomended';
 				(extension_loaded('curl')) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
 				break;
+			case 'suhosin':
+				$this->message 	= "Suhosin patch is optionnal. But if you use it, ".
+								"set the directives suhosin.request.max_varname_length and suhosin.post.max_name_length to 128.";
+				(extension_loaded('suhosin')) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
+				break;
 			case 'mysql':
 			case 'mysqli':
 			case 'pdo':

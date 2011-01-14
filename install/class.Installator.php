@@ -9,6 +9,7 @@ class tao_install_Installator{
 		0 => array(
 			'type'	=> 'PHP_VERSION',
 			'title'	=> 'PHP version check',
+			'displayMsg'	=> true,
 			'min'	=> '5.2.6'
 		),
 		1 => array(
@@ -41,6 +42,12 @@ class tao_install_Installator{
 			)
 		),
 		6 => array(
+			'type'			=> 'PHP_EXTENSION',
+			'title'			=> 'Suhosin patch check',
+			'displayMsg'	=> true,
+			'name'			=> 'suhosin'
+		),
+		7 => array(
 			'type'	=> 'APACHE_MOD',
 			'title'	=> 'Apache mod rewrite check',
 			'name'	=> 'rewrite'
@@ -95,11 +102,15 @@ class tao_install_Installator{
 				$parameters = $test;
 				unset($parameters['type']);
 				unset($parameters['title']);
+				unset($parameters['displayMsg']);
 				try{
 					$tester = new tao_install_utils_ConfigTester($test['type'], $parameters);
 					switch($tester->getStatus()){
 						case tao_install_utils_ConfigTester::STATUS_VALID:
 							$result['valid'] = true;
+							if(isset($test['displayMsg'])){
+								$result['message'] = $tester->getMessage();
+							}
 							break;
 						case tao_install_utils_ConfigTester::STATUS_INVALID:
 							$result['message'] = $tester->getMessage();
