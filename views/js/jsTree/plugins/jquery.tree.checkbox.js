@@ -21,11 +21,16 @@
 				if(!n) return false;
 				var t = $.tree.reference(n);
 				n = t.get_node(n);
+				if(n.hasClass('node-class') && n.hasClass('closed')){
+					t.open_branch(n);
+					return false;
+				}
 				if(n.children("a").hasClass("checked")) return true;
-
 				var opts = $.extend(true, {}, $.tree.plugins.checkbox.defaults, t.settings.plugins.checkbox);
 				if(opts.three_state) {
+					
 					n.find("li").andSelf().children("a").removeClass("unchecked undetermined").addClass("checked");
+					
 					n.parents("li").each(function () { 
 						if($(this).children("ul").find("a:not(.checked):eq(0)").size() > 0) {
 							$(this).parents("li").andSelf().children("a").removeClass("unchecked checked").addClass("undetermined");
@@ -34,7 +39,9 @@
 						else $(this).children("a").removeClass("unchecked undetermined").addClass("checked");
 					});
 				}
-				else n.children("a").removeClass("unchecked").addClass("checked");
+				else if(!n.hasClass('node-class')){
+					n.children("a").removeClass("unchecked").addClass("checked");
+				}
 				return true;
 			},
 			uncheck : function (n) {

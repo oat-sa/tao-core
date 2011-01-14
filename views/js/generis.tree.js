@@ -143,6 +143,10 @@ function GenerisTreeClass(selector, dataUrl, options){
 					
 					if($(NODE).hasClass('node-class') && instance.options.editClassAction){
 						
+						if($(NODE).hasClass('closed')){
+							TREE_OBJ.open_branch(NODE);
+						}
+						
 						//load the editClassAction into the formContainer
 						_load(instance.options.formContainer, 
 							instance.options.editClassAction,
