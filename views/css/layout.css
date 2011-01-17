@@ -67,7 +67,7 @@ iframe{
 /* Layout */
 div#tabs, div#home{
 	top:15px;
-	min-height:600px;
+	min-height:625px;
 	width:99%;
 	margin:auto;
 }
@@ -319,11 +319,12 @@ div.main-container{
 /* Layout -> footer */
 div#footer{
 	font-size:10px;
-	width:60%;
+	width:100%;
 	text-align:center;
-	position:relative;
+	position:absolute;
 	bottom:0%;
 	margin:0px auto 0px auto;
+	padding-bottom:0px;
 }
 /* Home Page */
 div#home_title{
