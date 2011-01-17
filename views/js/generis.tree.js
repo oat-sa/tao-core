@@ -215,9 +215,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 										}
 									}
 									else if(response.status == true){
-										TREE_OBJ.refresh();
-										TREE_OBJ.open_branch(NODE);	
 										$('li a').removeClass('clicked');
+										TREE_OBJ.open_branch(NODE);	
 									}
 									else{
 										$.tree.rollback(RB);
