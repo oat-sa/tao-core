@@ -15,6 +15,7 @@
 	exit(1);
  }
  
+ 
  /**
   * 
   * @param string $uri
@@ -63,7 +64,7 @@ if(defined("UPDATE_URI_SOURCE")){
 	 echo "\nParse source code\n";
 	 
 	 $extensions = array('filemanager', 'generis', 'tao', 'taoDelivery', 'taoGroups', 'taoItems', 'taoResults', 'taoSubjects', 'taoTests', 'wfEngine');
-	 $filesEXt = array('php', 'tpl', 'html', 'xml', 'black', 'js', 'epl', 'sql');
+	 $filesEXt = array('php', 'tpl', 'xml', 'black', 'sql');
 	 $files = array();
 	 foreach($extensions as $extension){
 	 	$files = array_merge($files, getFiles(ROOT_PATH.'/'.$extension, $filesEXt));
@@ -73,18 +74,28 @@ if(defined("UPDATE_URI_SOURCE")){
 	 	if(preg_match("/http(.*)\#[1-9]+/m",file_get_contents($file))) {
 	 		$matching_files[] = $file;
 	 	}
+	 	else{
+	 		if(basename($file) == 'constants.php'){
+	 			if(preg_match("/\#[1-9]+/m",file_get_contents($file))) {
+			 		$matching_files[] = $file;
+			 	}
+	 		}
+	 	}
 	 }
 	 echo "\nFound ".count($matching_files)." on ".count($files)." files tested\n";
 	 unset($files);
 	 
 	 foreach($matching_files as $file){
-//		echo $file."\n";	 	
+		
+	 	
+	 	
 		$uris = array();
 		$fileContent = file_get_contents($file);
 		preg_match_all("/(\#[0-9]{4,})/m", $fileContent, $uris);
 		
 		$replaced = 0;
 		foreach($uris[0] as $uri){
+			//echo $uri."\n";
 			if(preg_match("/".preg_quote($uri, '/')."/", $fileContent)){
 				$newUri = str_replace('#', '#i', $uri);
 				$fileContent = str_replace($uri, $newUri, $fileContent);
