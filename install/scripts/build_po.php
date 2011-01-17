@@ -162,7 +162,7 @@ if(file_exists($utrPath)){
 }
 
 //WATER PHENIX
-$wpPath =  ROOT_PATH .'taoItems/models/ext/itemAuthoring/waterphenix';
+$wpPath =  ROOT_PATH .'taoItems/models/ext/itemAuthoring/waterphenix/core';
 if(file_exists($wpPath)){
 	
 	$directories	= array(
@@ -183,7 +183,7 @@ if(file_exists($wpPath)){
 		
 		$poFile = $wpPath . '/' . LOCAL_DIR_NAME . '/' . $lang .'/'.PO_FILE_NAME;
 		
-		echo "\n => Extract $langue for WATER PHENIX\n";
+		echo "\n => Extract $lang for WATER PHENIX\n";
 		
 		$strings = getAllStrings($directories, $poFile, $exts);
 		

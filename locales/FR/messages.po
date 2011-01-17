@@ -1,9 +1,6 @@
 msgid ""
 msgstr ""
 
-msgid "A long text"
-msgstr "Un texte long"
-
 msgid "A multiple choice list"
 msgstr "Une liste à choix multiple"
 
@@ -19,6 +16,9 @@ msgstr "Une liste à choix"
 msgid "A single choice long list"
 msgstr "Une longue liste à choix"
 
+msgid "Access denied. Please renew your authentication!"
+msgstr "Accès interdit. Veuillez renouveller votre authentification!"
+
 msgid "Actions"
 msgstr "Actions"
 
@@ -28,35 +28,26 @@ msgstr "Ajouter"
 msgid "Add / Edit lists"
 msgstr "Ajouter / Modifier les listes"
 
-msgid "Add a user"
-msgstr "Ajouter un utilisateur"
-
 msgid "Add property"
 msgstr "Ajouter une propriété"
 
 msgid "Add the source file"
 msgstr "Ajouter le fichier source"
 
-msgid "Advanced Authoring Tool"
-msgstr "Editeur avancé"
+msgid "Advanced Mode"
+msgstr "Mode avancé"
 
-msgid "Allowed files types:"
-msgstr "Fichiers autorisés:"
+msgid "All (the complete TAO Module)"
+msgstr "Tout (le module TAO au complet)"
 
 msgid "An error occured during user deletion"
 msgstr "Une erreur est survenue durant la suppression de l'utilisateur"
-
-msgid "Authoring"
-msgstr "Editeur"
 
 msgid "Browse"
 msgstr "Naviguer"
 
 msgid "CSV Options"
 msgstr "Options CSV"
-
-msgid "Campaigns library"
-msgstr "Bibliothèque des campagnes"
 
 msgid "Cancel"
 msgstr "Annuler"
@@ -84,6 +75,9 @@ msgstr "Créer"
 
 msgid "Create a list"
 msgstr "Créer une liste"
+
+msgid "Current (the current extension, the local data and their dependancies)"
+msgstr "Courant (l'extension courante, les données locales et leur depéndances)"
 
 msgid "Current language"
 msgstr "Langue courante"
@@ -115,9 +109,6 @@ msgstr "Supprimer la propriété"
 msgid "Delete user"
 msgstr "Supprimer l'utilisateur"
 
-msgid "Deliveries library"
-msgstr "Bibliothèque des passations"
-
 msgid "Don't set"
 msgstr "Ne pas insérer"
 
@@ -133,14 +124,8 @@ msgstr "Anglais"
 msgid "Edit"
 msgstr "Editer"
 
-msgid "Edit a user"
-msgstr "Editer un utilisateur"
-
 msgid "Edit item comment"
 msgstr "Modifier les commentaires de l'item"
-
-msgid "Edit property into parent class"
-msgstr "Editer la propriété dans la classe parente"
 
 msgid "Edit user"
 msgstr "Modifier l'utilisateur"
@@ -154,14 +139,23 @@ msgstr "Email"
 msgid "Empty"
 msgstr "Vide"
 
+msgid "Enables you to export an RDF file containing the selected namespaces"
+msgstr "Vous pouvez exporter un fichier au format RDF comprenant les espaces de noms sélectionnés"
+
 msgid "Error"
 msgstr "Erreur"
+
+msgid "Error during file import"
+msgstr "Erreur pendant l'import du fichier"
 
 msgid "Exclusive (AND)"
 msgstr "ET"
 
 msgid "Export"
 msgstr "Exporter"
+
+msgid "Export Options"
+msgstr "Options d'export"
 
 msgid "Exported files library"
 msgstr "Bibliothèque de fichiers exportés"
@@ -171,6 +165,9 @@ msgstr "Français"
 
 msgid "File"
 msgstr "Fichier"
+
+msgid "File deleted successfully"
+msgstr "Le fichier a été supprimé avec succès"
 
 msgid "File name"
 msgstr "Nom du fichier"
@@ -184,12 +181,6 @@ msgstr "Mode de filtrage"
 msgid "Filters"
 msgstr "Filtres"
 
-msgid "Groups"
-msgstr "Groupes"
-
-msgid "Groups library"
-msgstr "Bibliothèque des groupes"
-
 msgid "HU"
 msgstr "Hongrois"
 
@@ -198,9 +189,6 @@ msgstr "Accueil"
 
 msgid "Import"
 msgstr "Import"
-
-msgid "Import into"
-msgstr "Importer dans"
 
 msgid "Inclusive (OR)"
 msgstr "OU"
@@ -223,12 +211,6 @@ msgstr "Taille du fichier invalide"
 msgid "Invalid file type!"
 msgstr "Type de fichier invalide"
 
-msgid "Item library"
-msgstr "Bibliothèque d'items"
-
-msgid "Items"
-msgstr "Items"
-
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr "Javascript est requis pour utiliser ce logiciel. Veuillez l'activer dans votre naviguateur."
 
@@ -247,11 +229,17 @@ msgstr "Langue"
 msgid "List"
 msgstr "Liste"
 
+msgid "List Options"
+msgstr "Options de la liste"
+
 msgid "List values"
 msgstr "Liste des valeurs"
 
 msgid "Lists"
 msgstr "Listes"
+
+msgid "Local Data (the local namespace containing only the data inserted by the users)"
+msgstr "Donnée locales (l'espace de nom local comprenant seulement les données insérées par les utilisateurs)"
 
 msgid "Login"
 msgstr "Connection"
@@ -267,27 +255,6 @@ msgstr "Déconnexion"
 
 msgid "Manage data list"
 msgstr "Gestion des listes"
-
-msgid "Manage deliveries"
-msgstr "Gérer les passations"
-
-msgid "Manage groups"
-msgstr "Gérer les groupes"
-
-msgid "Manage items"
-msgstr "Gérer les items"
-
-msgid "Manage results"
-msgstr "Gérer les résultats"
-
-msgid "Manage test takers"
-msgstr "Gérer les sujets"
-
-msgid "Manage tests"
-msgstr "Gérer les tests"
-
-msgid "Manage users"
-msgstr "Gérer les utilisateurs"
 
 msgid "Map the properties to the CSV columns"
 msgstr "Choisissez les propriétés relatives aux colonnes CSV"
@@ -307,6 +274,9 @@ msgstr "Préférences"
 msgid "Name"
 msgstr "Nom"
 
+msgid "Namespaces"
+msgstr "Espaces de nom"
+
 msgid "New element"
 msgstr "Nouvel élément"
 
@@ -318,6 +288,12 @@ msgstr "Suivant"
 
 msgid "No account match the given login / password"
 msgstr "Aucun compte ne correspond à ces identifiants"
+
+msgid "No result found"
+msgstr "Aucun résultat n'a été trouvé"
+
+msgid "Nothing imported"
+msgstr "Acune donnée n'a été importée"
 
 msgid "Number of elements"
 msgstr "Nombre d'éléments"
@@ -358,8 +334,17 @@ msgstr "Veuillez confirmer que vous voulez supprimer cette liste. Cette opérati
 msgid "Please login"
 msgstr "Veuilez vous identifier"
 
-msgid "Preview"
-msgstr "Prévisualisation"
+msgid "Please select the input data format to import"
+msgstr "Veuillez sélectionner le format des données d'entrée à importer"
+
+msgid "Please select the way to export the data"
+msgstr "Veuillez choisir la manière d'exporter les données"
+
+msgid "Please upload a CSV file formated as defined by the options above."
+msgstr "Veuillez télécharger un fichier au format CSV, définit par les options ci-dessous."
+
+msgid "Please upload a RDF file."
+msgstr "Veuillez télécharger un fichier RDF."
 
 msgid "Property"
 msgstr "Propriété"
@@ -378,15 +363,6 @@ msgstr "Répéter le mot de passe"
 
 msgid "Resource saved"
 msgstr "Ressource enregistrée"
-
-msgid "Result Servers library"
-msgstr "Bibliothèque des serveurs de résultats"
-
-msgid "Results"
-msgstr "Résultats"
-
-msgid "Results library"
-msgstr "Bibliothèque des résultats"
 
 msgid "Revert"
 msgstr "Annuler"
@@ -412,29 +388,35 @@ msgstr "Sélectionner un langage"
 msgid "Select the element destination"
 msgstr "Choisir l'élément de destination"
 
+msgid "Selected file:"
+msgstr "Fichier sélectioné:"
+
 msgid "Selection saved successfully"
 msgstr "La sélection est sauvegardée correctement"
 
 msgid "Settings"
 msgstr "Paramètres"
 
+msgid "Simple Mode"
+msgstr "Mode simple"
+
 msgid "Start upload"
 msgstr "Démarrer le téléchargement"
+
+msgid "Supported export formats"
+msgstr "Formats d'export supportés"
+
+msgid "Supported formats to import"
+msgstr "Formats d'import supportés"
+
+msgid "TAO Back Office"
+msgstr "TAO: Outils d'administration"
 
 msgid "TAO Backend Tool"
 msgstr "TAO Outils d'administration"
 
-msgid "Test takers"
-msgstr "Testés"
-
-msgid "Test takers library"
-msgstr "Bibliothèque des sujets"
-
-msgid "Tests"
-msgstr "Tests"
-
-msgid "Tests library"
-msgstr "Bibliothèque des tests"
+msgid "Test view"
+msgstr "Vue test"
 
 msgid "The format of this field is not valid."
 msgstr "Le format de ce champ est invalide"
@@ -469,8 +451,17 @@ msgstr "Traduction sauvegardée"
 msgid "Type"
 msgstr "Type"
 
+msgid "Upload"
+msgstr "Télécharger"
+
 msgid "Upload CSV File"
 msgstr "Télécharger le fichier CSV"
+
+msgid "Upload File"
+msgstr "Téléchargez un fichier"
+
+msgid "Upload RDF File"
+msgstr "Téléchargez un fichier RDF"
 
 msgid "Use the * character to replace any string"
 msgstr "Utiliser le caractère * pour remplacer toutes les chaines de caractères"
@@ -490,29 +481,26 @@ msgstr "L'utilisateur a été sauvé"
 msgid "Users"
 msgstr "Utilisateurs"
 
+msgid "Validation of the imported file has failed"
+msgstr "Le fichier téléchargé n'est pas valide"
+
 msgid "View"
 msgstr "Voire"
 
 msgid "You cannot modify this property"
 msgstr "Cette propriété ne peut pas être modifié"
 
+msgid "actions"
+msgstr "actions"
+
 msgid "class selected"
 msgstr "classe sélectionnée"
 
-msgid "compile"
-msgstr "compiler"
-
-msgid "create table"
-msgstr "créer un tableau"
-
-msgid "delete"
-msgstr "supprimer"
+msgid "create Simple table"
+msgstr "créer un tableau simple"
 
 msgid "download"
 msgstr "télécharger"
-
-msgid "duplicate"
-msgstr "dupliquer"
 
 msgid "edit"
 msgstr "modifier"
@@ -523,14 +511,8 @@ msgstr "élément"
 msgid "element deleted"
 msgstr "élément supprimé"
 
-msgid "export"
-msgstr "exporter"
-
-msgid "has been deleted successfully"
-msgstr "a été supprimé avec succès"
-
-msgid "import"
-msgstr "importer"
+msgid "exported successfully"
+msgstr "exporté avec succès"
 
 msgid "list deleted"
 msgstr "liste supprimée"
@@ -544,17 +526,203 @@ msgstr "lister les utilisateurs"
 msgid "login already exist"
 msgstr "Cet identifiant existe déjà"
 
+msgid "new"
+msgstr "nouveau"
+
+msgid "new property"
+msgstr "nouvelle propriété"
+
+msgid "new result"
+msgstr "nouveau résultat"
+
+msgid "new subject"
+msgstr "nouveau sujet"
+
+msgid "rdf"
+msgstr "rdf"
+
+msgid "select"
+msgstr "choisir"
+
+msgid "selected"
+msgstr "sélectionné"
+
+msgid "settings updated"
+msgstr "Préférences mise à jour"
+
+msgid "has been deleted successfully"
+msgstr "a été supprimé avec succès"
+
+msgid "A formated text"
+msgstr "un texte formaté"
+
+msgid "Add a user"
+msgstr "Ajouter un utilisateur"
+
+msgid "Advanced Authoring Tool"
+msgstr "Edtieur avancé"
+
+msgid "Allowed files types:"
+msgstr "Types de fichier autorisés: "
+
+msgid "Authoring"
+msgstr "Editeur"
+
+msgid "Campaigns library"
+msgstr "Bibliothèque de campagnes"
+
+msgid "Deliveries"
+msgstr "Passations"
+
+msgid "Deliveries library"
+msgstr "Bibliothèque de passation"
+
+msgid "Edit Comment"
+msgstr "Editer le commentaire"
+
+msgid "Edit a user"
+msgstr "Editer un utilisateur"
+
+msgid "Edit property into parent class"
+msgstr "Editer la propriété depuis la classe parente"
+
+msgid "Exclusive (OR)"
+msgstr "Exclusif (OU)"
+
+msgid "Groups"
+msgstr "Groupes"
+
+msgid "Groups library"
+msgstr "Bibliothèque de groupes"
+
+msgid "Import into"
+msgstr "Impoter vers"
+
+msgid "Inclusive (AND)"
+msgstr "Inclusif (ET)"
+
+msgid "Item library"
+msgstr "Bibliothèque d'item"
+
+msgid "Items"
+msgstr "Items"
+
+msgid "Manage campaigns"
+msgstr "Gérer les campagnes"
+
+msgid "Manage deliveries"
+msgstr "Gérer les passations"
+
+msgid "Manage groups"
+msgstr "Gérer les groupes"
+
+msgid "Manage items"
+msgstr "Gérer les items"
+
+msgid "Manage processes"
+msgstr "Gérer les processus"
+
+msgid "Manage result servers"
+msgstr "Gérer les serveurs de résultats"
+
+msgid "Manage results"
+msgstr "Gérer les résultats"
+
+msgid "Manage roles"
+msgstr "Gérer les roles"
+
+msgid "Manage test takers"
+msgstr "Gérer les sujets"
+
+msgid "Manage tests"
+msgstr "Gérer les tests"
+
+msgid "Manage users"
+msgstr "Gérer les utilisateurs"
+
+msgid "Media manager"
+msgstr "Médiathèque"
+
+msgid "Please upload an RDF file."
+msgstr "Veuillez télécharger un fichier RDF."
+
+msgid "Preview"
+msgstr "Prévisualisation"
+
+msgid "Process authoring"
+msgstr "Editeur de processus"
+
+msgid "Process library"
+msgstr "Bibliothèque de processus"
+
+msgid "Processes"
+msgstr "Processus"
+
+msgid "Result Servers library"
+msgstr "Bibliothèque de serveurs de résultats"
+
+msgid "Results"
+msgstr "Résultats"
+
+msgid "Results library"
+msgstr "Bibliothèque de résultats"
+
+msgid "Role library"
+msgstr "Bibliothèque de rôles"
+
+msgid "Test takers"
+msgstr "Sujets"
+
+msgid "Test takers library"
+msgstr "Bibliothèque des sujets"
+
+msgid "Tests"
+msgstr "Tests"
+
+msgid "Tests library"
+msgstr "Bibliothèque de tests"
+
+msgid "advanced mode"
+msgstr "mode avancé"
+
+msgid "compile"
+msgstr "compiler"
+
+msgid "create Score table"
+msgstr "créer un tableau de score"
+
+msgid "create direct table"
+msgstr "création de tableau Directe"
+
+msgid "create table"
+msgstr "créer un tableau"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "duplicate"
+msgstr "dupliquer"
+
+msgid "export"
+msgstr "exporter"
+
+msgid "import"
+msgstr "importer"
+
+msgid "lists"
+msgstr "listes"
+
+msgid "maximum value:"
+msgstr "valeur maximum:"
+
 msgid "meta data"
-msgstr "meta-donnée"
+msgstr "méta-données"
 
 msgid "minimum value:"
-msgstr "valuer minimum:"
+msgstr "valeur minimum:"
 
 msgid "move"
 msgstr "déplacer"
-
-msgid "new"
-msgstr "nouveau"
 
 msgid "new campaign"
 msgstr "nouvelle campagne"
@@ -571,173 +739,26 @@ msgstr "nouveau groupe"
 msgid "new item"
 msgstr "nouvel item"
 
-msgid "new property"
-msgstr "nouvelle propriété"
-
-msgid "new result"
-msgstr "nouveau résultat"
+msgid "new process"
+msgstr "nouveau processus"
 
 msgid "new result server"
-msgstr "nouveau serveur de résultats"
+msgstr "nouveau serveur de résultat"
 
-msgid "new subject"
-msgstr "nouveau sujet"
+msgid "new role"
+msgstr "nouveau role"
 
 msgid "new test"
 msgstr "nouveau test"
 
+msgid "new test taker"
+msgstr "nouveau sujet"
+
 msgid "preview"
 msgstr "prévisualisation"
 
-msgid "rdf"
-msgstr "rdf"
-
 msgid "search"
 msgstr "recherche"
-
-msgid "select"
-msgstr "choisir"
-
-msgid "selected"
-msgstr "sélectionné"
-
-msgid "settings updated"
-msgstr "Préférences mise à jour"
-
-msgid "Access denied. Please renew your authentication!"
-msgstr "Accès interdit. Veuillez renouveller votre authentification!"
-
-msgid "Advanced Mode"
-msgstr "Mode avancé"
-
-msgid "All (the complete TAO Module)"
-msgstr "Tout (le module TAO au complet)"
-
-msgid "Current (the current extension, the local data and their dependancies)"
-msgstr "Courant (l'extension courante, les données locales et leur depéndances)"
-
-msgid "Deliveries"
-msgstr "Passations"
-
-msgid "Enable your to export an RDF file containing the selected namespaces"
-msgstr "Vous pouvez exporter in fichier au format RDF comprenant les espaces de noms sélectionnés"
-
-msgid "Error during file import"
-msgstr "Erreur pendant l'import du fichier"
-
-msgid "Export Options"
-msgstr "Options d'export"
-
-msgid "File deleted successfully"
-msgstr "Le fichier a été supprimé avec succès"
-
-msgid "List Options"
-msgstr "Options de la liste"
-
-msgid "Local Data (the local namespace containing only the data inserted by the users)"
-msgstr "Donnée locales (l'espace de nom local comprenant seulement les données insérées par les utilisateurs)"
-
-msgid "Manage campaigns"
-msgstr "Gérer les campagnes"
-
-msgid "Manage processes"
-msgstr "Gérer les processus"
-
-msgid "Manage result servers"
-msgstr "Gérer les serveurs de résultats"
-
-msgid "Manage roles"
-msgstr "Gérer les rôles"
-
-msgid "Namespaces"
-msgstr "Espaces de nom"
-
-msgid "No result found"
-msgstr "Aucun résultat n'a été trouvé"
-
-msgid "Nothing imported"
-msgstr "Acune donnée n'a été importée"
-
-msgid "Please select the input data format to import"
-msgstr "Veuillez sélectionner le format des données d'entrée à importer"
-
-msgid "Please select the way to export the data"
-msgstr "Veuillez choisir la manière d'exporter les données"
-
-msgid "Please upload a CSV file formated as defined by the options above."
-msgstr "Veuillez télécharger un fichier au format CSV, définit par les options ci-dessous."
-
-msgid "Please upload a RDF file."
-msgstr "Veuillez télécharger un fichier RDF."
-
-msgid "Process authoring"
-msgstr "Editeur de processus"
-
-msgid "Process library"
-msgstr "Bibliothèque de processus"
-
-msgid "Processes"
-msgstr "Processus"
-
-msgid "Role library"
-msgstr "Bibliothèque des rôles"
-
-msgid "Selected file:"
-msgstr "Fichier sélectioné:"
-
-msgid "Simple Mode"
-msgstr "Mode simple"
-
-msgid "Supported export formats"
-msgstr "Formats d'export supportés"
-
-msgid "Supported formats to import"
-msgstr "Formats d'import supportés"
-
-msgid "TAO Back Office"
-msgstr "TAO: Outils d'administration"
-
-msgid "Test view"
-msgstr "Vue test"
-
-msgid "Upload"
-msgstr "Télécharger"
-
-msgid "Upload File"
-msgstr "Téléchargez un fichier"
-
-msgid "Upload RDF File"
-msgstr "Téléchargez un fichier RDF"
-
-msgid "Validation of the imported file has failed"
-msgstr "Le fichier téléchargé n'est pas valide"
-
-msgid "actions"
-msgstr "actions"
-
-msgid "advanced mode"
-msgstr "mode avancé"
-
-msgid "create Score table"
-msgstr "créer un tableau de score"
-
-msgid "create Simple table"
-msgstr "créer un tableau simple"
-
-msgid "exported successfully"
-msgstr "exporté avec succès"
-
-msgid "lists"
-msgstr "listes"
-
-msgid "maximum value:"
-msgstr "valeur maximum:"
-
-msgid "new process"
-msgstr "nouveau processus"
-
-msgid "new role"
-msgstr "nouveau rôle"
 
 msgid "simple mode"
 msgstr "mode simple"

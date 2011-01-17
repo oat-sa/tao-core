@@ -16,9 +16,6 @@ msgstr "Ee kuerze Text"
 msgid "Add / Edit lists"
 msgstr "Lëschten dobeisetzen / editéiren"
 
-msgid "Add a user"
-msgstr ""
-
 msgid "Add property"
 msgstr "Proprietéit dobeisetzen"
 
@@ -30,9 +27,6 @@ msgstr "Während dem Läschen vum User gouf et e Fehler"
 
 msgid "CSV Options"
 msgstr "CSV optiounen"
-
-msgid "Campaigns library"
-msgstr ""
 
 msgid "Class"
 msgstr "Klass"
@@ -61,20 +55,11 @@ msgstr "Proprietéit läschen"
 msgid "Delete user"
 msgstr "User läschen"
 
-msgid "Deliveries library"
-msgstr ""
-
 msgid "EN"
 msgstr "Englesch"
 
-msgid "Edit a user"
-msgstr ""
-
 msgid "Edit item comment"
 msgstr "Item Bemierkung editéiren"
-
-msgid "Edit property into parent class"
-msgstr ""
 
 msgid "Edit user"
 msgstr "User editéiren"
@@ -94,12 +79,6 @@ msgstr "Filtermodus"
 msgid "Filters"
 msgstr "Filteren"
 
-msgid "Groups"
-msgstr ""
-
-msgid "Groups library"
-msgstr ""
-
 msgid "Home"
 msgstr "Heem"
 
@@ -117,12 +96,6 @@ msgstr "Ongëlteg Dateigréisst"
 
 msgid "Invalid file type!"
 msgstr "Ongëltegen Dateityp!"
-
-msgid "Item library"
-msgstr ""
-
-msgid "Items"
-msgstr ""
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr "Javascript get fier desen Programm gebraucht. Aktivéiert en w.e.g. an aerem Browser."
@@ -147,27 +120,6 @@ msgstr "Login *"
 
 msgid "Manage data list"
 msgstr "Daten Lëschten verwalten"
-
-msgid "Manage deliveries"
-msgstr ""
-
-msgid "Manage groups"
-msgstr ""
-
-msgid "Manage items"
-msgstr ""
-
-msgid "Manage results"
-msgstr ""
-
-msgid "Manage test takers"
-msgstr ""
-
-msgid "Manage tests"
-msgstr ""
-
-msgid "Manage users"
-msgstr ""
 
 msgid "Meta Data"
 msgstr "Logout"
@@ -223,15 +175,6 @@ msgstr "Passwuert * wiederhuelen"
 msgid "Resource saved"
 msgstr "Ressource gespaichert"
 
-msgid "Result Servers library"
-msgstr ""
-
-msgid "Results"
-msgstr ""
-
-msgid "Results library"
-msgstr ""
-
 msgid "Revert"
 msgstr "Zréckgoen"
 
@@ -258,18 +201,6 @@ msgstr "Astellungen"
 
 msgid "TAO Backend Tool"
 msgstr "TAO Backend Instrument"
-
-msgid "Test takers"
-msgstr ""
-
-msgid "Test takers library"
-msgstr ""
-
-msgid "Tests"
-msgstr ""
-
-msgid "Tests library"
-msgstr ""
 
 msgid "The format of this field is not valid."
 msgstr "Den Format vun desem Datenfeld as nit valid."
@@ -325,65 +256,11 @@ msgstr "Useren"
 msgid "You cannot modify this property"
 msgstr "Dir kënnt des Proprietéit net änneren"
 
-msgid "compile"
-msgstr ""
-
-msgid "create table"
-msgstr ""
-
-msgid "delete"
-msgstr ""
-
-msgid "duplicate"
-msgstr ""
-
 msgid "edit"
 msgstr "editéiren"
 
-msgid "export"
-msgstr ""
-
 msgid "login already exist"
 msgstr "Den Login get et schons"
-
-msgid "meta data"
-msgstr ""
-
-msgid "new campaign"
-msgstr ""
-
-msgid "new class"
-msgstr ""
-
-msgid "new delivery"
-msgstr ""
-
-msgid "new group"
-msgstr ""
-
-msgid "new item"
-msgstr ""
-
-msgid "new property"
-msgstr ""
-
-msgid "new result"
-msgstr ""
-
-msgid "new result server"
-msgstr ""
-
-msgid "new subject"
-msgstr ""
-
-msgid "new test"
-msgstr ""
-
-msgid "preview"
-msgstr ""
-
-msgid "search"
-msgstr ""
 
 msgid "select"
 msgstr "auswielen"
@@ -409,6 +286,9 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
+msgid "Add a user"
+msgstr ""
+
 msgid "Advanced Authoring Tool"
 msgstr ""
 
@@ -425,6 +305,9 @@ msgid "Authoring"
 msgstr ""
 
 msgid "Browse"
+msgstr ""
+
+msgid "Campaigns library"
 msgstr ""
 
 msgid "Cancel"
@@ -463,6 +346,9 @@ msgstr ""
 msgid "Deliveries"
 msgstr ""
 
+msgid "Deliveries library"
+msgstr ""
+
 msgid "Don't set"
 msgstr ""
 
@@ -473,6 +359,15 @@ msgid "Dynamic date picker"
 msgstr ""
 
 msgid "Edit"
+msgstr ""
+
+msgid "Edit Comment"
+msgstr ""
+
+msgid "Edit a user"
+msgstr ""
+
+msgid "Edit property into parent class"
 msgstr ""
 
 msgid "Element"
@@ -487,10 +382,16 @@ msgstr ""
 msgid "Enable your to export an RDF file containing the selected namespaces"
 msgstr ""
 
+msgid "Enables you to export an RDF file containing the selected namespaces"
+msgstr ""
+
 msgid "Error"
 msgstr ""
 
 msgid "Error during file import"
+msgstr ""
+
+msgid "Exclusive (OR)"
 msgstr ""
 
 msgid "Export"
@@ -511,6 +412,12 @@ msgstr ""
 msgid "File name"
 msgstr ""
 
+msgid "Groups"
+msgstr ""
+
+msgid "Groups library"
+msgstr ""
+
 msgid "HU"
 msgstr ""
 
@@ -520,10 +427,19 @@ msgstr ""
 msgid "Import into"
 msgstr ""
 
+msgid "Inclusive (AND)"
+msgstr ""
+
 msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid field range"
+msgstr ""
+
+msgid "Item library"
+msgstr ""
+
+msgid "Items"
 msgstr ""
 
 msgid "Label"
@@ -550,16 +466,40 @@ msgstr ""
 msgid "Manage campaigns"
 msgstr ""
 
+msgid "Manage deliveries"
+msgstr ""
+
+msgid "Manage groups"
+msgstr ""
+
+msgid "Manage items"
+msgstr ""
+
 msgid "Manage processes"
 msgstr ""
 
 msgid "Manage result servers"
 msgstr ""
 
+msgid "Manage results"
+msgstr ""
+
 msgid "Manage roles"
 msgstr ""
 
+msgid "Manage test takers"
+msgstr ""
+
+msgid "Manage tests"
+msgstr ""
+
+msgid "Manage users"
+msgstr ""
+
 msgid "Map the properties to the CSV columns"
+msgstr ""
+
+msgid "Media manager"
 msgstr ""
 
 msgid "Move to"
@@ -613,6 +553,9 @@ msgstr ""
 msgid "Please upload a RDF file."
 msgstr ""
 
+msgid "Please upload an RDF file."
+msgstr ""
+
 msgid "Preview"
 msgstr ""
 
@@ -623,6 +566,15 @@ msgid "Process library"
 msgstr ""
 
 msgid "Processes"
+msgstr ""
+
+msgid "Result Servers library"
+msgstr ""
+
+msgid "Results"
+msgstr ""
+
+msgid "Results library"
 msgstr ""
 
 msgid "Role library"
@@ -652,7 +604,19 @@ msgstr ""
 msgid "TAO Back Office"
 msgstr ""
 
+msgid "Test takers"
+msgstr ""
+
+msgid "Test takers library"
+msgstr ""
+
 msgid "Test view"
+msgstr ""
+
+msgid "Tests"
+msgstr ""
+
+msgid "Tests library"
 msgstr ""
 
 msgid "The value of this field must be an integer"
@@ -682,19 +646,37 @@ msgstr ""
 msgid "class selected"
 msgstr ""
 
+msgid "compile"
+msgstr ""
+
 msgid "create Score table"
 msgstr ""
 
 msgid "create Simple table"
 msgstr ""
 
+msgid "create direct table"
+msgstr ""
+
+msgid "create table"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
 msgid "download"
+msgstr ""
+
+msgid "duplicate"
 msgstr ""
 
 msgid "element"
 msgstr ""
 
 msgid "element deleted"
+msgstr ""
+
+msgid "export"
 msgstr ""
 
 msgid "exported successfully"
@@ -718,6 +700,9 @@ msgstr ""
 msgid "maximum value:"
 msgstr ""
 
+msgid "meta data"
+msgstr ""
+
 msgid "minimum value:"
 msgstr ""
 
@@ -727,13 +712,52 @@ msgstr ""
 msgid "new"
 msgstr ""
 
+msgid "new campaign"
+msgstr ""
+
+msgid "new class"
+msgstr ""
+
+msgid "new delivery"
+msgstr ""
+
+msgid "new group"
+msgstr ""
+
+msgid "new item"
+msgstr ""
+
 msgid "new process"
+msgstr ""
+
+msgid "new property"
+msgstr ""
+
+msgid "new result"
+msgstr ""
+
+msgid "new result server"
 msgstr ""
 
 msgid "new role"
 msgstr ""
 
+msgid "new subject"
+msgstr ""
+
+msgid "new test"
+msgstr ""
+
+msgid "new test taker"
+msgstr ""
+
+msgid "preview"
+msgstr ""
+
 msgid "rdf"
+msgstr ""
+
+msgid "search"
 msgstr ""
 
 msgid "selected"

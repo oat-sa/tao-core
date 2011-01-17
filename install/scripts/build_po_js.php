@@ -44,7 +44,7 @@ foreach(scandir(ROOT_PATH) as $file){
 	}
 }
 
-function buildPoJs($langCode, $path){
+function buildPoJs($langCode, $path, $extensionName = ''){
 	$strings = array();
 		
 	$content = file_get_contents($path . '/' . PO_FILE_NAME);
@@ -77,7 +77,7 @@ function buildPoJs($langCode, $path){
 foreach($extensions as $extensionName => $extensionData){
 
 	foreach($extensionData['langs'] as $code => $path){
-		buildPoJs($code, $path);
+		buildPoJs($code, $path, $extensionName);
 	}
 }
 //UTR
@@ -93,7 +93,7 @@ if(file_exists($utrPath)){
 		}
 	}
 	foreach($langs as $code => $path){
-		buildPoJs($code, $path);
+		buildPoJs($code, $path, 'utr');
 	}
 }
 //WATER-PHOENIX
@@ -109,7 +109,7 @@ if(file_exists($wpPath)){
 		}
 	}
 	foreach($langs as $code => $path){
-		buildPoJs($code, $path);
+		buildPoJs($code, $path, 'waterphoenix');
 	}
 }
 ?>

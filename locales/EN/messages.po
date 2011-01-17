@@ -1,5 +1,5 @@
-msgid ""
-msgstr ""
+msgid "DE"
+msgstr "German"
 
 msgid "EN"
 msgstr "English"
@@ -16,8 +16,17 @@ msgstr "Luxemburgish"
 msgid "Password are not matching"
 msgstr "Passwords are not matching"
 
+msgid "Subject"
+msgstr "Test taker"
+
 msgid "new subject"
 msgstr "new test taker"
+
+msgid "subject"
+msgstr "test taker"
+
+msgid ""
+msgstr ""
 
 msgid "has been deleted successfully"
 msgstr ""
@@ -166,6 +175,9 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
+msgid "Edit Comment"
+msgstr ""
+
 msgid "Edit a user"
 msgstr ""
 
@@ -190,6 +202,9 @@ msgstr ""
 msgid "Enable your to export an RDF file containing the selected namespaces"
 msgstr ""
 
+msgid "Enables you to export an RDF file containing the selected namespaces"
+msgstr ""
+
 msgid "Error"
 msgstr ""
 
@@ -197,6 +212,9 @@ msgid "Error during file import"
 msgstr ""
 
 msgid "Exclusive (AND)"
+msgstr ""
+
+msgid "Exclusive (OR)"
 msgstr ""
 
 msgid "Export"
@@ -239,6 +257,9 @@ msgid "Import"
 msgstr ""
 
 msgid "Import into"
+msgstr ""
+
+msgid "Inclusive (AND)"
 msgstr ""
 
 msgid "Inclusive (OR)"
@@ -346,6 +367,9 @@ msgstr ""
 msgid "Map the properties to the CSV columns"
 msgstr ""
 
+msgid "Media manager"
+msgstr ""
+
 msgid "Meta Data"
 msgstr ""
 
@@ -428,6 +452,9 @@ msgid "Please upload a CSV file formated as defined by the options above."
 msgstr ""
 
 msgid "Please upload a RDF file."
+msgstr ""
+
+msgid "Please upload an RDF file."
 msgstr ""
 
 msgid "Preview"
@@ -628,6 +655,9 @@ msgstr ""
 msgid "create Simple table"
 msgstr ""
 
+msgid "create direct table"
+msgstr ""
+
 msgid "create table"
 msgstr ""
 
@@ -721,6 +751,9 @@ msgstr ""
 msgid "new test"
 msgstr ""
 
+msgid "new test taker"
+msgstr ""
+
 msgid "preview"
 msgstr ""
 
@@ -742,8 +775,3 @@ msgstr ""
 msgid "simple mode"
 msgstr ""
 
-msgid "subject"
-msgstr "test taker"
-
-msgid "Subject"
-msgstr "Test taker"
