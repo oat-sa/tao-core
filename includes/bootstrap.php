@@ -52,8 +52,10 @@ if(!tao_helpers_Request::isAjax()){
 		TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
 		TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
 		TAOBASE_WWW . 'js/jquery.jqGrid-3.7.1/css/ui.jqgrid.css',
+		TAOBASE_WWW . 'css/style.css',
 		TAOBASE_WWW . 'css/layout.css',
-		TAOBASE_WWW . 'css/form.css'
+		TAOBASE_WWW . 'css/form.css',
+		TAOBASE_WWW . 'css/widgets.css'
 	));
 	
 	

@@ -1,11 +1,13 @@
 <!-- Root Tag -->
-<!ELEMENT extension  ( sections )>
+<!ELEMENT extension  ( (description)? ,sections )>
 	<!-- The name of the extension -->
 	<!ATTLIST extension name CDATA #REQUIRED>
 	<!-- The main/index action URL for that extension  -->
 	<!ATTLIST extension url CDATA #REQUIRED>
 	<!-- The level of that extension regarding the others (to order them)  -->
 	<!ATTLIST extension level CDATA #REQUIRED>
+	
+	<!ELEMENT description (#PCDATA)>
 
 	<!-- sub division, each section of the extension will be displayed in a separated tab -->
 	<!ELEMENT sections  ( section )*>

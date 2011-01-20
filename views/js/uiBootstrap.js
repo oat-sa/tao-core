@@ -171,33 +171,11 @@ UiBootstrap = function(options){
 	};
 	
 	this.initMenuBar = function(){
-		//menu button
-		$("#menu-button")
-			.mouseover(function(){ this.src = this.src.replace('.png', '_high.png');})
-			.mouseout (function(){ this.src = this.src.replace('_high.png', '.png'); })
-			.click(function(){
-				$("#menu-popup").show("slide", { direction: "up" }, 800);
-				var hideMenuPopup = function(){
-					if($("#menu-popup").css('display') != 'none'){
-						$("#menu-popup").hide("slide", { direction: "up" }, 800);
-					}
-				}
-				$("#menu-popup li a").click(hideMenuPopup);
-				setTimeout(hideMenuPopup, 6000);
-			});
-		$("#menu-popup .file-manager").fmload({type: 'file'});
-		$("#menu-expander").click(function(){
-			$('.ghost-menu').toggle();
-			if(/arrow_right\.png$/.test(this.src)){
-				this.src = this.src.replace('_right.png', '_left.png');
-			}
-			else{
-				this.src = this.src.replace('_left.png', '_right.png');
-			}
-		});
+		//initialize the media manager menu
+		$("#main-menu .file-manager").fmload({type: 'file'});
 		
 		//initialize the settings menu
-		$(".settings-loader").click(function(){
+		$("#main-menu .settings-loader").click(function(){
 			_load(getMainContainerSelector(UiBootstrap.tabs), this.href);
 			return false;
 		});

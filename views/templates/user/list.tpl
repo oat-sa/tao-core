@@ -1,9 +1,6 @@
-<?if(get_data('message')):?>
-	<div id="info-box" class="ui-widget-header ui-corner-all auto-slide">
-		<span><?=get_data('message')?></span>
-	</div>
-<?endif?>
-	<div class="main-container"></div>
+<? include TAO_TPL_PATH .'header.tpl' ?>
+
+<div class="main-container">
 	<table id="user-list"></table>
 	<div id="user-list-pager"></div> 
 	<br />
@@ -14,7 +11,7 @@
 	</span>
 	<br />
 	<br />
-
+</div>
 <script type="text/javascript">
 function editUser(uri){
 	index = getTabIndexByName('edit_user');

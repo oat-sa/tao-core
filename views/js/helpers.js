@@ -10,6 +10,9 @@ function getMainContainerSelector(tabObj){
 		tabObj = UiBootstrap.tabs;	//backward compat by using the global object
 	}
 	if(tabObj.size() == 0) {
+		if($("div.main-container").length > 0){
+			return "div.main-container";
+		}
 		return false;
 	}
 	var uiTab = $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')].id;

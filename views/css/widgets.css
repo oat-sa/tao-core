@@ -1,0 +1,51 @@
+@CHARSET "UTF-8";
+
+/* Styles of widgets */
+
+/* Sortable lists */
+ul.sortable-list{
+ 	 list-style-type: none; 
+	 margin: 0; 
+	 padding: 0; 
+}
+ol.sortable-list{
+	margin: 0px 0px 0px 20px; 
+	padding: 0px 0px 0px 10px;
+}
+ul.sortable-list li,
+ol.sortable-list li{
+	 margin: 0 3px 3px 3px; 
+	 padding: 4px; 
+	 padding-left: 25px; 
+	 line-height: 18px;
+	 position:relative;
+}
+ul.sortable-list li.ui-state-error,
+ol.sortable-list li.ui-state-error{
+	height:20px;
+}
+ul.sortable-list li:hover,
+ol.sortable-list li:hover{
+	color:#D00239;
+	cursor: pointer;
+}
+ul.sortable-list li span.ui-icon,
+ol.sortable-list li span.ui-icon { 
+	position:absolute;
+}
+ul.sortable-list li span.ui-icon-arrowthick-2-n-s,
+ol.sortable-list li span.ui-icon-arrowthick-2-n-s{
+	margin:0px 0px 0px -15px;
+	z-index: 50;
+}
+ul.sortable-list li span.ui-icon-grip-dotted-vertical,
+ol.sortable-list li span.ui-icon-grip-dotted-vertical{
+	margin:0px 0px 0px -25px;
+	z-index: 50;
+}
+ul.sortable-list li span.ui-icon-circle-close,
+ol.sortable-list li span.ui-icon-circle-close{
+	right: 10px;
+	margin-top:-20px;
+	z-index: 1000;
+}

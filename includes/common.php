@@ -21,6 +21,6 @@ require_once dirname(__FILE__). "/config.php";
 set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH);
 
 require_once dirname(__FILE__). "/constants.php";
-include_once dirname(__FILE__). '/prepend.php';
+include_once dirname(__FILE__). '/bootstrap.php';
 
 ?>

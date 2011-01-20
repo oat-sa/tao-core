@@ -45,6 +45,9 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			session_destroy();
 		}
 		
+		//add the login stylesheet
+		tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/login.css');
+		
 		$myLoginFormContainer = new tao_actions_form_Login();
 		$myForm = $myLoginFormContainer->getForm();
 		
@@ -81,9 +84,11 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		$extensions = array();
 		foreach($this->service->getStructure() as $i => $structure){
 			if($structure['extension'] != 'users'){
+				$data = $structure['data'];
 				$extensions[$i] = array(
-					'name' 		=> (string)$structure['data']['name'],
-					'extension'	=> $structure['extension']
+					'name' 			=> (string)$data['name'],
+					'extension'		=> $structure['extension'],
+					'description'	=> (string)$data->description
 				);
 			}
 		}
@@ -107,7 +112,13 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		if($currentExtension){
 			$this->setData('sections', $this->service->getStructure($currentExtension)->sections[0]);
 		}
+		else{
+			//add home page stylesheet
+			tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/home.css');
+		}
 		$this->setData('currentExtension', $currentExtension);
+		
+		
 		
 		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getLg());
 		

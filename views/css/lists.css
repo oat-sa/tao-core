@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+
+/* Style specifiq to the List interface */
+
+div#list-container{
+	height:500px;	
+}
+div#list-container table {
+	width:auto;	
+}
+div#list-container table td{
+	width:240px;
+}
+div#list-container table a{
+	text-decoration:none;	
+}
+div#list-container table a:hover{
+	color: #D00239
+}
+div#list-container fieldset{
+	width:220px;
+	padding:10px;
+	background-color:#fff;
+}
+div#list-container fieldset legend{
+	font-weight:bold;
+}
+div#list-container fieldset div.list-elements{
+	background-color:#fff;
+	border: solid #777 1px;
+	border-bottom-color:#bbb;
+	border-right-color:#bbb;
+	height:200px;
+	overflow-y:scroll;
+	width:220px;
+	position: relative;
+}
+div#list-container fieldset div.list-controls{
+	text-align:right;
+	color:#999;
+}
+div#list-container li input{
+	width: 100px;
+	height:15px;
+	padding:0px;
+}

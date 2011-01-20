@@ -358,7 +358,7 @@ class tao_helpers_File
         
     	$mime_types = self::getMimeTypes();
 
-        $ext = strtolower(array_pop(explode('.',$path)));
+        $mimetype = '';
         if(file_exists($path)){
 			if (function_exists('finfo_open')) {
 	            $finfo = finfo_open(FILEINFO_MIME);
@@ -368,8 +368,16 @@ class tao_helpers_File
 	        else if (function_exists('mime_content_type')) {
 				$mimetype = mime_content_type($path);
 			}
+			if(!empty($mimetype)){
+				if(preg_match("/; charset/", $mimetype)){
+					$mimetypeInfos = explode(';', $mimetype);
+					$mimetype = $mimetypeInfos[0];
+				}
+			}
+		
         }
         if(empty($mimetype)){
+        	 $ext = strtolower(array_pop(explode('.',$path)));
 			if (array_key_exists($ext, $mime_types)) {
 	            $mimetype =  $mime_types[$ext];
 	        }

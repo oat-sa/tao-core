@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+@import url('home.css');
+
+div#login-box { width: 600px; margin:auto; margin-top:50px; position:relative;}
+div#login-box #login-lpanel  {position:relative; width: 300px; text-align:center; }
+div#login-box #login-rpanel {position:absolute; width: 300px; left:300px; top: 0px;}
+div#login-form,  div#login-title { width: 300px; padding:5px; }
+div#login-title { font-weight:bold;  }
