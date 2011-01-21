@@ -23,12 +23,9 @@ abstract class tao_actions_CommonModule extends Module {
 	public function __construct(){
 		$errorMessage = __('Access denied. Please renew your authentication!');
 		if(!$this->_isAllowed()){
-			if(tao_helpers_Request::isAjax()){
-				header("HTTP/1.0 403 Forbidden");
-				echo $errorMessage;
-				return;
-			}
-			throw new Exception($errorMessage);
+			header("HTTP/1.0 403 Forbidden");
+			echo $errorMessage;
+			exit;
 		}
 	}
 	

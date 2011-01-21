@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/TestRunner.php';
-require_once dirname(__FILE__) . '/../includes/common.php';
+require_once dirname(__FILE__) . '/bootstrap.php';
 
 /**
  * This class enable you to test the models managment of the tao extension
