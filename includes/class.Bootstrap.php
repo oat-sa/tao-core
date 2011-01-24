@@ -1,32 +1,101 @@
 <?php
+/*
+ * The generis extension loader is included there ONCE!
+ *  1. Load and initialize the API and so the database
+ *  2. Initialize the autoloaders
+ *  3. Initialize the extension manager
+ */
 require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
 require_once DIR_CORE_HELPERS . 'Core.php';
 
+/**
+ * The Bootstrap Class enables you to drive the application flow for a given extenstion.
+ * A bootstrap instance initialize the context and starts all the services:
+ * 	- session
+ *  - config
+ *  - database
+ *  - user
+ *  - i18n
+ * 
+ * And it's used to disptach the Control Loop 
+ * 
+ * @author Bertrand CHEVRIER <bertrand.chevrier@tudor.lu>
+ * @package tao
+ * @subpackage install
+ * @example 
+ * <code>
+ *  $bootStrap = new BootStrap('tao');	//create the Bootstrap isntance
+ *  $bootStrap->start();				//start all the services
+ *  $bootStrap->dispatch();				//dispatch the http request into the control loop
+ * </code>
+ */
 class Bootstrap{
 	
+	/**
+	 * @var string the contextual path
+	 */
 	protected $ctxPath = "";
 	
+	/**
+	 * @var array misc options
+	 */
+	protected $options;
+	
+	/**
+	 * @var boolean if the context has been started
+	 */
 	protected static $isStarted = false;
+	
+	/**
+	 * @var boolean if the context has been dispatched
+	 */
 	protected static $isDispatched = false;
 	
-	public function __construct($extension){
+	
+	/**
+	 * Initialize the context
+	 * @param string $extension
+	 * @param array $options
+	 */
+	public function __construct($extension, $options = array()){
+		
 		$this->ctxPath = ROOT_PATH . '/' . $extension;
+		
 		if(PHP_SAPI == 'cli'){
-			tao_helpers_Context::load('SCRIPT_MODE');
+			tao_helpers_Context::load('SCRIPT_MODE');		
 		}
 		else{
 			tao_helpers_Context::load('APP_MODE');
 		}
+		
+		$this->options = $options;
 	}
 	
+	/**
+	 * Check if the current context has been started
+	 * @return boolean
+	 */
 	public static function isStarted(){
 		return self::$isStarted;
 	} 
 	
+	/**
+	 * Check if the current context has been dispatched
+	 * @return boolean
+	 */
 	public static function isDispatched(){
 		return self::$isDispatched;
 	}
 	
+	/**
+	 * Start all the services:
+	 *  1. Start the session
+	 *  2. Load the config
+	 *  3. Update the include path
+	 *  4. Include the global helpers
+	 *  5. Connect the current user to the generis API
+	 *  6. Initialize the internationalization
+	 */
 	public function start(){
 		if(!self::$isStarted){
 			$this->session();
@@ -39,6 +108,11 @@ class Bootstrap{
 		}
 	}
 	
+	/**
+	 * Dispatch the current http request into the control loop:
+	 *  1. Load the ressources
+	 *  2. Start the MVC Loop from the ClearFW
+	 */
 	public function dispatch(){
 		if(!self::$isDispatched){
 			if(tao_helpers_Context::check('APP_MODE')){
@@ -51,6 +125,9 @@ class Bootstrap{
 		}
 	}
 	
+	/**
+	 * Start the session
+	 */
 	protected function session(){
 		if(tao_helpers_Context::check('APP_MODE')){
 			$request = new Request();
@@ -61,20 +138,55 @@ class Bootstrap{
 		session_start();
 	}
 	
+	/**
+	 * Load the config and constants
+	 */
 	protected function config(){
 		require_once $this->ctxPath. "/includes/config.php";
-		require_once $this->ctxPath. "/includes/constants.php";
+		if(file_exists($this->ctxPath. "/includes/constants.php")){
+			require_once $this->ctxPath. "/includes/constants.php";
+		}
+		
+		//load additionals constants files
+		if(isset($this->options['constants'])){
+			if(is_string($this->options['constants'])){
+				$this->options['constants'] = array($this->options['constants']);
+			}
+			if(is_array($this->options['constants'])){
+				foreach($this->options['constants'] as $constantExt){
+					$constantFile = ROOT_PATH .'/'.$constantExt.'/includes/constants.php';
+					if(file_exists($constantFile)){
+						require_once $constantFile;
+					}
+				}
+			}
+		}
 	}
 	
+	/**
+	 * Update the include path
+	 */
 	protected function includePath(){
 		set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH);
 	}
 	
+	/**
+	 * Include the global helpers 
+	 * because of the shortcuts function like 
+	 * _url() or _dh()  
+	 * that are not loaded with the autoloader
+	 */
 	protected function globalHelpers(){
 		require_once 'tao/helpers/class.Uri.php';
 		require_once 'tao/helpers/class.Display.php';
 	}
 	
+	/**
+	 *  Start the MVC Loop from the ClearFW
+	 *  @throws ActionEnforcingException in case of wrong module or action, send an HTTP CODE 404
+	 *  @throws tao_models_classes_UserException when a request try to acces a protected area, it send and HTTP CODE 403
+	 *  @throws Exception all exceptions not catched send an HTTP CODE 500
+	 */
 	protected function mvc(){
 		
 		try {
@@ -88,30 +200,34 @@ class Bootstrap{
 				$message .= "Called module :".$ae->getModuleName()."<br />";
 				$message .= "Called action :".$ae->getActtionName()."<br />";
 			}
-			require_once TAOVIEW_PATH . $GLOBALS['dir_theme'] . 'error404.tpl';
+			require_once TAO_TPL_PATH . 'error/error404.tpl';
 		}
-		catch(ActionEnforcingException $ae){
-			$message	= $ae->getMessage();
-			if(DEBUG_MODE){
-				$message .= "Called module :".$ae->getModuleName()."<br />";
-				$message .= "Called action :".$ae->getActtionName()."<br />";
-			}
-			require_once TAOVIEW_PATH . $GLOBALS['dir_theme'] . 'error404.tpl';
+		catch(tao_models_classes_UserException $ue){
+			$message	= $ue->getMessage();
+			require_once TAO_TPL_PATH . 'error/error403.tpl';
 		}
 		catch (Exception $e) {
 			$message	= $e->getMessage();
 			if(DEBUG_MODE){
-				$message .= "<pre>".$e->getTraceAsString()."</pre>";
+				$trace = $e->getTraceAsString();
 			}
-			require_once TAOVIEW_PATH . $GLOBALS['dir_theme'] . 'error404.tpl';
+			require_once TAO_TPL_PATH . 'error/error500.tpl';
 		}
 	}
 	
+	/**
+	 * Connect the current user to the generis API
+	 * @see tao_models_classes_UserService::connectCurrentUser
+	 */
 	protected function connect(){
 		$userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 		$userService->connectCurrentUser();
 	}
 	
+	/**
+	 * Initialize the internationalization
+	 * @see tao_helpers_I18n
+	 */
 	protected function i18n(){
 		$userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 		if(Session::hasAttribute('ui_lang')){
@@ -132,7 +248,12 @@ class Bootstrap{
 		$GLOBALS['lang'] = $uiLang;
 	}
 	
+	/**
+	 * Load external resources for the current context
+	 * @see tao_helpers_Scriptloader
+	 */
 	protected function scripts(){
+		
 		//stylesheets to load
 		tao_helpers_Scriptloader::addCssFiles(array(
 			TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',

@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/TestRunner.php';
-require_once dirname(__FILE__) . '/bootstrap.php';
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * Test the user management 

@@ -12,7 +12,6 @@ if (isset($_SERVER['CONFIG_PATH'])) {
 	define('CONFIG_PATH',dirname(__FILE__).'/../../generis/common');
 }
 define('DEBUG_MODE_ENABLED', true);
-//require_once CONFIG_PATH.'/config.php.in';
 $include_path = CONFIG_PATH.'/../includes';
 
 require_once $include_path.'/adodb/adodb-exceptions.inc.php';
@@ -117,11 +116,6 @@ function install($param){
 		echo 'Moduletype  configured : <b>resource</b><br/>';
 
 
-//		$query = "	INSERT INTO `user` ( `login` , `password` , `admin` , `usergroup` , `LastName` , `FirstName` , 
-//				`E_Mail` , `Company` , `Deflg` , `enabled` ) VALUES ('$login', '$pass', '1', 'admin', '$lastName', 
-//				'$firstName', '$email', '$company', '$lg', '1')";
-//		$con->Execute($query) or die("User configuration error");
-//		echo "User created : <b>" . $login ."</b><br/>";
 
 		$con->Execute("INSERT INTO `models` VALUES ('8', '".$nameSpace."', '".$nameSpace."#')");
 
@@ -129,9 +123,6 @@ function install($param){
 		loadSqlReplaceNS('db/sampleData.sql',$con,$nameSpace);
 		loadSqlReplaceNS('../../wfEngine/install/db/services.sql',$con,$nameSpace);
 		
-//		$fileContent = file_get_contents('db/qcmContent.sql');
-//		$fileContent = str_replace("##NAMESPACE",$nameSpace,$fileContent);
-//		$con->Execute($fileContent); 
 		
 		//remove old result model
 		$con->Execute("DELETE FROM `statements` WHERE (`subject`  like '%TEST_CLASS%' OR `subject`  like '%CITEM_CLASS%' OR `subject` like '%ITEMBEHAVIOR_CLASS%') and `predicate` like '%subClassOf%'"); 
@@ -206,7 +197,7 @@ function install($param){
 		require_once CONFIG_PATH.'/inc.extension.php';	
 
 	define('INSTALL_DATABASE_NAME' , $param["moduleName"]);
-	include_once 'update/1.1/01_database.php';
+//	include_once 'update/1.1/01_database.php';
 	
 
 	include_once 'update/1.3/12_item_content_to_file.php';
@@ -264,10 +255,7 @@ function install($param){
 	$uiLgProp = new core_kernel_classes_Property(PROPERTY_USER_UILG);
 	
 	
-//	$dbWarpper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
-//	$dbWarpper->dbConnector->debug = true;	
 	$newUserInstance = $classTaoManager->createInstance('User_'.$login,'Generated during update from user table on'. date(DATE_ISO8601));
-//	$dbWarpper->dbConnector->debug = false;	
 	$newUserInstance->setPropertyValue($loginProp,$login);
 	$newUserInstance->setPropertyValue($passProp,$pass);
 	$newUserInstance->setPropertyValue($lastNameProp,$lastName);

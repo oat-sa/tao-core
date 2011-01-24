@@ -9,16 +9,12 @@
 if(PHP_SAPI == 'cli'){
 
 	//from command line
-	
-	$_SERVER['HTTP_HOST'] = 'http://localhost';
-	$_SERVER['DOCUMENT_ROOT'] = dirname(__FILE__).'/../..';
 	(isset($_SERVER['argv'][1])) ? $version = $_SERVER['argv'][1] : $version = false;
 	(isset($_SERVER['argv'][2])) ? $scriptNumber = $_SERVER['argv'][2] : $scriptNumber = false;
 }
 else{
 	
 	//from a browser
-	
 	(isset($_GET['version'])) ? $version = $_GET['version'] : $version = false;
 	(isset($_GET['scriptNUmber'])) ? $scriptNumber = $_GET['scriptNUmber'] : $scriptNumber = false;
 }
@@ -27,13 +23,12 @@ if(!$version){
 	echo "Please specify the version to update to";
 	exit;
 }
-	
-require_once dirname(__FILE__).'/../../generis/common/inc.extension.php';	
-require_once dirname(__FILE__).'/../includes/common.php';
+require_once dirname(__FILE__).'/../includes/raw_start.php';
 require_once dirname(__FILE__).'/utils.php';
 
-$dbWrapper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
+echo "\nUpdating ".DATABASE_NAME."\n";
 
+$dbWrapper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
 
 //get the files to update
 $pattern = dirname(__FILE__).'/update/'.$version .'/';
@@ -60,7 +55,7 @@ if(file_exists($pattern) && is_dir($pattern)){
 		
 		//execute SQL queries
 		if(preg_match("/\.sql$/", $file)){
-			echo "loading $file";
+			echo "loading $file\n";
 			loadSql($path, $dbWrapper->dbConnector);
 		}
 	}

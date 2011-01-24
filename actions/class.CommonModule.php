@@ -21,11 +21,8 @@ abstract class tao_actions_CommonModule extends Module {
 	 * If you don't want this check, please override the  _isAllowed method to return true
 	 */
 	public function __construct(){
-		$errorMessage = __('Access denied. Please renew your authentication!');
 		if(!$this->_isAllowed()){
-			header("HTTP/1.0 403 Forbidden");
-			echo $errorMessage;
-			exit;
+			throw new tao_models_classes_UserException(__('Access denied. Please renew your authentication!'));
 		}
 	}
 	

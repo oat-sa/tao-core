@@ -13,6 +13,8 @@
  	echo "\nPlease configure me!\n";
 	exit(1);
  }
+
+define('SHOW_OUTPUT', false);
  
 if(DATABASE_NAME == '') {
 	$database = INSTALL_DATABASE_NAME; 
@@ -38,12 +40,13 @@ else {
  		$counter++;
  		if(mysql_query($alterQuery)){
  			$resultCounter++;
-// 			print "<br />".$table." change collation to utf8_general_ci";
+ 			if(SHOW_OUTPUT)
+				print "\n".$table." change collation to utf8_general_ci";
  		}
  	}
  }
-  if($counter > 0){
-// 	print "<br />".$resultCounter." / ".$counter." tables modified<br />";
+  if($counter > 0 && SHOW_OUTPUT){
+ 	print "\n".$resultCounter." / ".$counter." tables modified\n";
  }
  
  
@@ -66,15 +69,16 @@ else {
  				$alterQuery = "ALTER TABLE ".$table." MODIFY ".$field." ".$type." CHARACTER SET utf8 COLLATE utf8_general_ci";
  				if(mysql_query($alterQuery)){
  					$resultCounter++;
-// 					print "<br />".$table.".".$field." : from ".$collation." to utf8_general_ci";
+ 					if(SHOW_OUTPUT)
+						print "\n".$table.".".$field." : from ".$collation." to utf8_general_ci";
  				}
  			}
  		}
  	}
  }
  
- if($counter > 0){
-// 	print "<br />".$resultCounter." / ".$counter." fields modified<br />";
+ if($counter > 0 && SHOW_OUTPUT){
+ 	print "\n".$resultCounter." / ".$counter." fields modified\n";
  }
  
 // mysql_close();

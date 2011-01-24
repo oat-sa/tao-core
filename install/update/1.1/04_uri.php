@@ -14,7 +14,8 @@
  	echo "\nPlease configure me!\n";
 	exit(1);
  }
- 
+
+ define('SHOW_OUTPUT', true); 
  
  /**
   * 
@@ -98,6 +99,9 @@ if(defined("UPDATE_URI_SOURCE")){
 			//echo $uri."\n";
 			if(preg_match("/".preg_quote($uri, '/')."/", $fileContent)){
 				$newUri = str_replace('#', '#i', $uri);
+			 	if(SHOW_OUTPUT){
+					echo "Replace $uri by $newUri \n";
+				}
 				$fileContent = str_replace($uri, $newUri, $fileContent);
 				$replaced++;
 			}
@@ -124,18 +128,24 @@ if(defined("UPDATE_URI_DB")){
 		$replaced = 0;
 		
 		$query = "SELECT * FROM `statements` WHERE `subject` LIKE '%#%' OR `predicate` LIKE '%#%' OR `object` LIKE '%#%'";
-	 	echo "\n$query\n";
+//	 	echo "\n$query\n";
 		$result = mysql_query($query);
 	 	while($row = mysql_fetch_assoc($result)){
 		
 			$updateSet = array();
 			if(preg_match("/\#[1-9]+/", $row['subject'])){
+				if(SHOW_OUTPUT)
+					echo "Replace  {$row['subject']} by ".str_replace('#', '#i', $row['subject'])." \n";
 				$updateSet[] = " `subject` = '".str_replace('#', '#i', $row['subject'])."' ";
 			}
 			if(preg_match("/\#[1-9]+/", $row['predicate'])){
+				 if(SHOW_OUTPUT)
+                                        echo "Replace  {$row['predicate']} by ".str_replace('#', '#i', $row['predicate'])." \n";
 				$updateSet[] = " `predicate` = '".str_replace('#', '#i', $row['predicate'])."' ";
 			}	
 			if(preg_match("/\#[1-9]+/", $row['object'])){
+				if(SHOW_OUTPUT)
+					echo "Replace  {$row['object']} by ".str_replace('#', '#i', $row['object'])." \n";
 				$updateSet[] = " `object` = '".str_replace('#', '#i', $row['object'])."' ";
 			}	
 			if(count($updateSet) > 0){

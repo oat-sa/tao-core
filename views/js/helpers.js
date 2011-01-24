@@ -149,10 +149,10 @@ function _autoFx(){
 	}, 1000);
 	setTimeout(function(){
 		$(".auto-hide").fadeOut("slow");
-	}, 4000);
+	}, 3000);
 	setTimeout(function(){
 		$(".auto-slide").slideUp(1500);
-	}, 7000);
+	}, 11000);
 }
 
 /**

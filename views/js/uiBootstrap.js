@@ -61,8 +61,8 @@ UiBootstrap = function(options){
 		//when an ajax request complete
 		$("body").ajaxComplete(function(event,request, settings){
 			loaded();
-			_autoFx();
 			if (settings.dataType == 'html') {
+				_autoFx();
 				if(/add|edit|Instance|Class|search|getSectionTrees/.test(settings.url) && !/authoring/i.test(settings.url)){
 					bootInstance.initActions();
 				}
@@ -75,7 +75,7 @@ UiBootstrap = function(options){
 		
 		//intercept errors
 		$("body").ajaxError(function(event, request, settings){
-		 	if(request.status == 404){
+		 	if(request.status == 404 || request.status == 500){
 				createErrorMessage(request.responseText);
 			}
 			if(request.status == 403){

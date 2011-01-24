@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/TestRunner.php';
-require_once dirname(__FILE__) . '/bootstrap.php';
 
 //get the test into each extensions
 $tests = TestRunner::getTests(array('tao'));

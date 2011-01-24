@@ -1,8 +1,7 @@
 <?php
 set_time_limit(0);
 
-
-require_once dirname(__FILE__).'/../../tao/includes/class.Bootstrap.php';
+require_once dirname(__FILE__).'/../includes/class.Bootstrap.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
 require_once dirname(__FILE__) .'/XmlTimeReporter.php';
 

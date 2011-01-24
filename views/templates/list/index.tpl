@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/lists.css" />
 <div class="main-container">
 	<div id="list-container">
 	
