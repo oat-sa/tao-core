@@ -32,7 +32,7 @@ DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoq
 DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i124653558221396' AND `modelID`=15 LIMIT 20;
 DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i12429977703072' AND `modelID`=15 LIMIT 20;
 DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i124299711659490' AND `modelID`=15 LIMIT 20;
-DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i12429950482224' AND `modelID`=15 LIMIT 20;
+DELETE FROM `statements` WHERE (`subject` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i12429950482224' OR `object` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i12429950482224') AND `modelID`=15 LIMIT 20;
 DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i1242827641005433300' AND `modelID`=15 LIMIT 20;
 DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i124326462812324' AND `modelID`=15 LIMIT 20;
 DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i12445408585808' AND `modelID`=15 LIMIT 20;
@@ -115,6 +115,27 @@ DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoq
 DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i119012711429320' AND `modelID`=15 LIMIT 20;
 DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i121930140334810' AND `modelID`=15 LIMIT 20;
 DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/middleware/taoqual.rdf#i122182427816968' AND `modelID`=15 LIMIT 20;
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i118589023027962";
+
+/*delete lost triple*/
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i12060200274450";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i121198326831640";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i121198326840416";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i121198336924166";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i121198336931864";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i121198348562024";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i121198354729830";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i121198354735124";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i121198356947740";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i121198357028748";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i121863605145680";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i121939361643054";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i122242072421522";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i122242080914638";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i122242110258000";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i12224215471064";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i122242180013038";
+DELETE FROM statements WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i124299894119474";
 
 
 /*renaming uris*/
@@ -438,10 +459,6 @@ UPDATE statements SET subject = "http://www.tao.lu/middleware/wfEngine.rdf#Prope
 UPDATE statements SET predicate = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersProcessVariable" WHERE predicate = "http://www.tao.lu/middleware/taoqual.rdf#i11858901499008";
 UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersProcessVariable" WHERE object = "http://www.tao.lu/middleware/taoqual.rdf#i11858901499008";
 
-UPDATE statements SET subject = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersQualityMetric" WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i118589023027962";
-UPDATE statements SET predicate = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersQualityMetric" WHERE predicate = "http://www.tao.lu/middleware/taoqual.rdf#i118589023027962";
-UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersQualityMetric" WHERE object = "http://www.tao.lu/middleware/taoqual.rdf#i118589023027962";
-
 UPDATE statements SET subject = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersConstantValue" WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i1185890127346";
 UPDATE statements SET predicate = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersConstantValue" WHERE predicate = "http://www.tao.lu/middleware/taoqual.rdf#i1185890127346";
 UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersConstantValue" WHERE object = "http://www.tao.lu/middleware/taoqual.rdf#i1185890127346";
@@ -502,15 +519,9 @@ UPDATE statements SET subject = "http://www.tao.lu/middleware/wfEngine.rdf#Prope
 UPDATE statements SET predicate = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensVariable" WHERE `predicate` = "http://www.tao.lu/middleware/taoqual.rdf#i127565965852576";
 UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensVariable" WHERE `object` = "http://www.tao.lu/middleware/taoqual.rdf#i127565965852576";
 
-UPDATE statements SET subject = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity" WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#TokenActivity";
-UPDATE statements SET predicate = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity" WHERE predicate = "http://www.tao.lu/middleware/taoqual.rdf#TokenActivity";
-UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity" WHERE object = "http://www.tao.lu/middleware/taoqual.rdf#TokenActivity";
-
 UPDATE statements SET subject = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivityExecution" WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i127565960419850";
 UPDATE statements SET predicate = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivityExecution" WHERE predicate = "http://www.tao.lu/middleware/taoqual.rdf#i127565960419850";
 UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivityExecution" WHERE object = "http://www.tao.lu/middleware/taoqual.rdf#i127565960419850";
-
-
 
 UPDATE statements SET subject = "http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfservicesResources" WHERE subject = "http://www.tao.lu/middleware/taoqual.rdf#i119969519057014";
 UPDATE statements SET predicate = "http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfservicesResources" WHERE predicate = "http://www.tao.lu/middleware/taoqual.rdf#i119969519057014";
@@ -569,8 +580,6 @@ UPDATE statements SET subject = "http://www.tao.lu/middleware/wfEngine.rdf#Prope
 UPDATE statements SET predicate = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecution" WHERE predicate = "http://localhost/middleware/taoqual.rdf#i127565960419850";
 UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecution" WHERE object = "http://localhost/middleware/taoqual.rdf#i127565960419850";
 
-UPDATE statements SET subject = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivity" WHERE subject = "http://localhost/middleware/taoqual.rdf#TokenActivity";
-UPDATE statements SET predicate = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivity" WHERE predicate = "http://localhost/middleware/taoqual.rdf#TokenActivity";
-UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivity" WHERE object = "http://localhost/middleware/taoqual.rdf#TokenActivity";
-
-
+UPDATE statements SET subject = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity" WHERE subject = "http://localhost/middleware/taoqual.rdf#TokenActivity";
+UPDATE statements SET predicate = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity" WHERE predicate = "http://localhost/middleware/taoqual.rdf#TokenActivity";
+UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity" WHERE object = "http://localhost/middleware/taoqual.rdf#TokenActivity";
