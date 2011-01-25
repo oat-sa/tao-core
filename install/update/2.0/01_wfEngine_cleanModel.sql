@@ -664,3 +664,7 @@ UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#Proper
 UPDATE statements SET subject = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity" WHERE subject = "http://localhost/middleware/taoqual.rdf#TokenActivity";
 UPDATE statements SET predicate = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity" WHERE predicate = "http://localhost/middleware/taoqual.rdf#TokenActivity";
 UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity" WHERE object = "http://localhost/middleware/taoqual.rdf#TokenActivity";
+
+/*correct the range of the restricted role properties*/
+UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#ClassRole" WHERE subject = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivitiesRestrictedRole" AND predicate = "http://www.w3.org/2000/01/rdf-schema#range" LIMIT 1;
+UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#ClassRole" WHERE subject = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyProcessInitRestrictedRole" AND predicate = "http://www.w3.org/2000/01/rdf-schema#range" LIMIT 1;
