@@ -80,7 +80,8 @@ CREATE TABLE `models` (
   KEY `idx_models_modelURI` (`modelURI`)
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
-INSERT INTO `models` VALUES (3,'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#','http://www.tao.lu/datatypes/WidgetDefinitions.rdf#'),
+INSERT INTO `models` VALUES 
+(3,'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#','http://www.tao.lu/datatypes/WidgetDefinitions.rdf#'),
 (4,'http://www.w3.org/1999/02/22-rdf-syntax-ns#','http://www.w3.org/1999/02/22-rdf-syntax-ns#'),
 (5,'http://www.w3.org/2000/01/rdf-schema#','http://www.w3.org/2000/01/rdf-schema#'),
 (7,'http://www.tao.lu/Ontologies/generis.rdf#','http://www.tao.lu/Ontologies/generis.rdf#'),
@@ -91,9 +92,8 @@ INSERT INTO `models` VALUES (3,'http://www.tao.lu/datatypes/WidgetDefinitions.rd
 (9,'http://www.tao.lu/Ontologies/TAOTest.rdf#','http://www.tao.lu/Ontologies/TAOTest.rdf#'),
 (12,'http://www.tao.lu/Ontologies/TAOSubject.rdf#','http://www.tao.lu/Ontologies/TAOSubject.rdf#'),
 (14,'http://www.tao.lu/Ontologies/TAODelivery.rdf#','http://www.tao.lu/Ontologies/TAODelivery.rdf#'),
-(15,'http://www.tao.lu/middleware/taoqual.rdf#','http://www.tao.lu/middleware/taoqual.rdf#'),
-(17,'http://www.tao.lu/middleware/Rules.rdf#','http://www.tao.lu/middleware/Rules.rdf#'),
-(16,'http://www.tao.lu/middleware/Interview.rdf#','http://www.tao.lu/middleware/Interview.rdf#');
+(15,'http://www.tao.lu/middleware/wfEngine.rdf#','http://www.tao.lu/middleware/wfEngine.rdf#'),
+(17,'http://www.tao.lu/middleware/Rules.rdf#','http://www.tao.lu/middleware/Rules.rdf#');
 
 DROP TABLE IF EXISTS `settings`;
 CREATE TABLE `settings` (
