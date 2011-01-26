@@ -119,7 +119,7 @@ class tao_actions_form_Instance
 				
 			$property->feed();
 			
-			if($property->getWidget()->uriResource == WIDGET_TREEVIEW){
+			if($property->getWidget() == null || $property->getWidget()->uriResource == WIDGET_TREEVIEW){
 				continue;
 			}
 				

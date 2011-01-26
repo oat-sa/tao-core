@@ -26,14 +26,16 @@ CREATE TABLE `extensions` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `extensions` VALUES ('tao','tao','1.2',1,1,0),
-('taoGroups','Tao Groups','1.2',1,1,0),
-('taoItems','Tao Items','1.2',1,1,0),
-('taoResults','Tao Results','1.2',1,1,0),
-('taoSubjects','Tao Subjects','1.0',1,1,0),
-('taoTests','Tao Test','1.2',1,1,0),
-('taoDelivery','taoDelivery','1.2',1,1,0),
-('wfEngine','Workflow Engine Extension','1.2',1,1,0);
+INSERT INTO `extensions` VALUES 
+('generis','generis','2.0',1,1,0),
+('tao','tao','2.0',1,1,0),
+('taoGroups','Tao Groups','2.0',1,1,0),
+('taoItems','Tao Items','2.0',1,1,0),
+('taoResults','Tao Results','2.0',1,1,0),
+('taoSubjects','Tao Subjects','2.0',1,1,0),
+('taoTests','Tao Test','2.0',1,1,0),
+('taoDelivery','taoDelivery','2.0',1,1,0),
+('wfEngine','Workflow Engine Extension','2.0',1,1,0);
 
 DROP TABLE IF EXISTS `grouplocaluser`;
 CREATE TABLE `grouplocaluser` (
