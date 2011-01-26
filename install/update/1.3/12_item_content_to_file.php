@@ -9,7 +9,7 @@ $itemModelProperty 		= new core_kernel_classes_Property('http://www.tao.lu/Ontol
 $itemContentProperty 	= new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent');
 $itemClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAOItem.rdf#Item');
 
-$folder = dirname(__FILE__) . '/../../../../taoItems/data/';
+$folder = realpath(dirname(__FILE__) . '/../../../../taoItems/data/').'/';
 
 foreach($itemClass->getInstances(true) as $item){
 	try{
