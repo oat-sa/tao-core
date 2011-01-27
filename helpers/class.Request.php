@@ -113,6 +113,92 @@ class tao_helpers_Request
         return (string) $returnValue;
     }
 
+    /**
+     * Check if a value is contained in the current request.
+     * The value can be found in one the follwing types: extension, module,
+     * paramKey, paramValue
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string type
+     * @param  string value
+     * @return boolean
+     */
+    public static function contains($type, $value)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--11252040:12dc6d37693:-8000:0000000000002CE6 begin
+        
+        $resolver = new Resolver();
+		$action	= $resolver->getAction();
+    	$module	= $resolver->getModule();
+        
+        switch($type){
+        	case 'extension': 
+        		//get the token before the module
+        		if(strpos('?', $_SERVER['REQUEST_URI']) > -1){
+        			$baseUrl = substr($_SERVER['REQUEST_URI'], 0, strpos('?', $_SERVER['REQUEST_URI']));
+        			$tokens = explode('/', $baseUrl);
+        		}
+        		else{
+        			$tokens = explode('/', $_SERVER['REQUEST_URI']);
+        		}
+        		$extension = '';
+        		foreach($tokens as $index => $token){
+        			if($token == $module){
+        				if(isset($tokens[$index - 1])){
+        					$extension = $tokens[$index - 1];
+        					break;
+        				}
+        			}
+        		}
+        		if(!empty($extension)){
+        			if(trim($extension) == trim($value)){
+        				$returnValue = true;
+        			}
+        		}
+        		break;
+        	case 'module': 
+        		if(!empty($module)){
+        			if(trim($module) == trim($value)){
+        				$returnValue = true;
+        			}
+        		}
+        		break;
+        	case 'action': 
+        		if(!empty($action)){
+        			if(trim($action) == trim($value)){
+        				$returnValue = true;
+        			}
+        		}
+        		break;
+        	case 'paramKey': 
+        	case 'paramValue': 
+        		$tokens = explode('&', $_SERVER['QUERY_STRING']);
+        		foreach($tokens as $token){
+        			$paramTokens = explode('=', $token);
+        			if($type == 'paramKey' && isset($paramTokens[0])){
+        				if(trim($paramTokens[0]) == trim($value)){
+        					$returnValue = true;
+        					break;
+        				}
+        			}
+        			if($type == 'paramValue' && isset($paramTokens[1])){
+        				if(trim($paramTokens[1]) == trim($value)){
+        					$returnValue = true;
+        					break;
+        				}
+        			}
+        		}
+        		break;
+        }
+        
+        // section 127-0-1-1--11252040:12dc6d37693:-8000:0000000000002CE6 end
+
+        return (bool) $returnValue;
+    }
+
 } /* end of class tao_helpers_Request */
 
 ?>

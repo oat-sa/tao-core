@@ -31,6 +31,8 @@ require_once DIR_CORE_HELPERS . 'Core.php';
  */
 class Bootstrap{
 	
+	const SESSION_NAME = 'TAO_BCK_SESSION';
+	
 	/**
 	 * @var string the contextual path
 	 */
@@ -51,6 +53,10 @@ class Bootstrap{
 	 */
 	protected static $isDispatched = false;
 	
+	/**
+	 * @var common_ext_SimpleExtension
+	 */
+	protected $extension = null;
 	
 	/**
 	 * Initialize the context
@@ -67,6 +73,8 @@ class Bootstrap{
 		else{
 			tao_helpers_Context::load('APP_MODE');
 		}
+		
+		$this->extension = new common_ext_SimpleExtension($extension);
 		
 		$this->options = $options;
 	}
@@ -135,6 +143,13 @@ class Bootstrap{
 			 	session_id($request->getParameter('session_id'));
 			}
 		}
+		if(isset($this->options['session_name']) && !empty($this->options['session_name'])){
+			session_name($this->options['session_name']);
+		}
+		else{
+			session_name(self::SESSION_NAME);
+		}
+		
 		session_start();
 	}
 	
@@ -143,6 +158,7 @@ class Bootstrap{
 	 */
 	protected function config(){
 		require_once $this->ctxPath. "/includes/config.php";
+		
 		if(file_exists($this->ctxPath. "/includes/constants.php")){
 			require_once $this->ctxPath. "/includes/constants.php";
 		}
