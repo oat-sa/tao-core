@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF 
+	xml:base="LOCAL_NAMESPACE##"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"  
+	xmlns:local="LOCAL_NAMESPACE#"
+	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#">
+	
+	<rdf:Description rdf:about="superUser">
+	    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole "/>
+	    <rdfs:label xml:lang="EN"><![CDATA[SuperUser]]></rdfs:label>
+	    <rdfs:comment xml:lang="EN"><![CDATA[super user created during the TAO install]]></rdfs:comment>
+	    <generis:login></generis:login>
+	    <generis:password></generis:password>
+	    <generis:userLastName></generis:userLastName>
+	    <generis:userFirstName></generis:userFirstName>
+	    <generis:userMail></generis:userMail>
+	    <generis:userDefLg></generis:userDefLg>
+	    <generis:userUILg></generis:userUILg>
+	</rdf:Description>
+</rdf:RDF>

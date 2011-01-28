@@ -37,7 +37,8 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleNameElt =  tao_helpers_form_FormFactory::getElement('module_name', 'Textbox');
 		$moduleNameElt->setDescription('Name');
 		$moduleNameElt->setHelp("The name of the module will be used to identifiate this instance of TAO from the others. " . 
-								"The module name will be used as the database name and is usually the suffix of the module's namespace (http://host/MODULE NAME.rdf#).");
+								"The module name will be used as the database name and is usually the suffix of " .
+								"the module's namespace (http://host/MODULE NAME.rdf#).");
 		$moduleNameElt->setValue('tao1');
 		$this->form->addElement($moduleNameElt);
 		
@@ -52,7 +53,8 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleNSElt =  tao_helpers_form_FormFactory::getElement('module_namespace', 'Textbox');
 		$moduleNSElt->setDescription('Namespace');
 		$moduleNSElt->setHelp("The module's namespace will be used to identify the data of your module. ".
-								"Each data collected by tao is identified uniquely by an URI composed by the namespace followed by the resource identifier (NAMESPACE#resource) ");
+								"Each data collected by tao is identified uniquely by an URI composed by ".
+								"the namespace followed by the resource identifier (NAMESPACE#resource) ");
 		$moduleNSElt->setValue('http://'.$moduleHostElt->getValue().'/'.$moduleNameElt->getValue().'.rdf');
 		$this->form->addElement($moduleNSElt);
 		
@@ -165,12 +167,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$userPass0Elt->setDescription('Email');
 		$this->form->addElement($userEmailElt);
 		
-		//Super User Company
-		$userCompanyElt	= tao_helpers_form_FormFactory::getElement('user_company', 'Textbox');
-		$userCompanyElt->setDescription('Company');
-		$this->form->addElement($userCompanyElt);
-		
-		$this->form->createGroup('user', 'Super User', array('user_lastname', 'user_firstname', 'user_login', 'user_pass1', 'user_pass2', 'user_email', 'user_company'));
+		$this->form->createGroup('user', 'Super User', array('user_lastname', 'user_firstname', 'user_login', 'user_pass1', 'user_pass2', 'user_email'));
 	}
 	
 }

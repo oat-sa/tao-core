@@ -15,6 +15,23 @@ $installator = new tao_install_Installator();
 $configTests = $installator->processTests();
 
 $container = new tao_install_form_Settings();
+$myForm = $container->getForm();
+if($myForm->isSubmited() && $myForm->isValid()){
+	
+	$formValues = $myForm->getValues();
+	
+	$userData = array();
+	$userData['login'] 			= $formValues['user_login'];
+	$userData['password'] 		= $formValues['user_pass1'];
+	$userData['userLastName']	= $formValues['user_lastname'];
+	$userData['userFirstName']	= $formValues['user_firstname'];
+	$userData['userMail']		= $formValues['user_email'];
+	$userData['userDefLg']		= $formValues['module_lang'];
+	$userData['userUILg']		= $formValues['module_lang'];
+	
+	$modelCreator = new tao_install_utils_ModelCreator();
+	$modelCreator->insertSuperUser($userData);
+}
 ?>
 <h2>Work in progress...</h2>
 <style>

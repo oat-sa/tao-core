@@ -42,7 +42,10 @@ class tao_install_utils_ConfigTester{
 			throw new tao_install_utils_Exception('Unknow config type : '.$type);
 		}
 		switch($type){
-			case 'PHP_VERSION'	: $this->checkPhpVersion($options['min'], $options['max']); break;
+			case 'PHP_VERSION'	: 
+				isset($options['max']) ? $max = $options['max'] : $max = null;
+				$this->checkPhpVersion($options['min'], $max); 
+				break;
 			case 'APACHE_MOD'	: $this->checkApacheMod($options['name']); 		break;
 			case 'PHP_EXTENSION': $this->checkPhpExtension($options['name']); 	break;
 		}
