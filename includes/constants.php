@@ -5,8 +5,6 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  *
  */
-
-
 #TAO version number
 define('TAO_VERSION', '2.0');
 
@@ -57,10 +55,4 @@ $todefine = array(
     'CLASS_PROCESS_EXECUTIONS'		=> 'http://www.tao.lu/middleware/taoqual.rdf#i119010455660544'
 	
 );
-foreach($todefine as $constName => $constValue){
-	if(!defined($constName)){
-		define($constName, $constValue);
-	}
-}
-unset($todefine);
 ?>

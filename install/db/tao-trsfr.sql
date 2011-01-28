@@ -9,12 +9,6 @@ CREATE TABLE `_mask` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `cache`;
-CREATE TABLE `cache` (
-  `identifier` varchar(512) default NULL,
-  `value` varchar(8192) default NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `extensions`;
 CREATE TABLE `extensions` (
   `id` varchar(25) NOT NULL default '',
@@ -36,42 +30,6 @@ INSERT INTO `extensions` VALUES
 ('taoTests','Tao Test','2.0',1,1,0),
 ('taoDelivery','taoDelivery','2.0',1,1,0),
 ('wfEngine','Workflow Engine Extension','2.0',1,1,0);
-
-DROP TABLE IF EXISTS `grouplocaluser`;
-CREATE TABLE `grouplocaluser` (
-  `Name` varchar(32) NOT NULL default '',
-  PRIMARY KEY  (`Name`),
-  KEY `Name` (`Name`),
-  KEY `Name_2` (`Name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-INSERT INTO `grouplocaluser` VALUES ('admin');
-
-DROP TABLE IF EXISTS `log_action_descr`;
-CREATE TABLE `log_action_descr` (
-  `id` int(11) NOT NULL auto_increment,
-  `description` varchar(255) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `idx_logactiondescr_description` (`description`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `log_actions`;
-CREATE TABLE `log_actions` (
-  `id` int(11) NOT NULL auto_increment,
-  `parent_id` int(11) default NULL,
-  `model_id` int(11) NOT NULL default '0',
-  `user` varchar(255) default NULL,
-  `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `descr_id` int(11) NOT NULL default '0',
-  `subject` varchar(255) default NULL,
-  `details` longblob,
-  PRIMARY KEY  (`id`),
-  KEY `idx_logactions_modelid` (`model_id`),
-  KEY `idx_logactions_parentid` (`parent_id`),
-  KEY `idx_logactions_user` (`user`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
-
 
 DROP TABLE IF EXISTS `models`;
 CREATE TABLE `models` (
@@ -2260,49 +2218,6 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (10,'http://www.tao.lu/Ontologies/TAOItem.rdf#campus','http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModelStatus','http://www.tao.lu/Ontologies/TAOItem.rdf#StatusDeprecated','','generis','yyy[admin,administrators,authors]','yyy[admin,administrators,authors]','yyy[admin,administrators,authors]');
 UNLOCK TABLES;
 
-
-DROP TABLE IF EXISTS `subscribee`;
-CREATE TABLE `subscribee` (
-  `Login` varchar(32) default NULL,
-  `Password` varchar(32) default NULL,
-  `URL` varchar(255) default NULL,
-  `Type` varchar(255) default NULL,
-  `IdSub` int(32) NOT NULL auto_increment,
-  `DatabaseName` varchar(128) default NULL,
-  PRIMARY KEY  (`IdSub`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `subscriber`;
-CREATE TABLE `subscriber` (
-  `Id` int(32) NOT NULL auto_increment,
-  `Login` varchar(32) default NULL,
-  `Password` varchar(32) default NULL,
-  `LastVisit` varchar(32) default NULL,
-  `enabled` tinyint(1) NOT NULL default '0',
-  `ismember` int(32) NOT NULL default '0',
-  `DatabaseName` varchar(128) default NULL,
-  PRIMARY KEY  (`Id`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
-
-INSERT INTO `subscriber` VALUES (21,'47072','e3d23b257cd19c27ca38fb7a8eeb9cd1','',1,1,''),
-(22,'29200','fec73528cd9681706631f08c0f166dae','',1,1,''),
-(25,'56078','b4fcb370c237271d1e9453614862944f','',1,1,''),
-(24,'22100','0b47657d6bcf28d3ea29ccea75dec4bc','',1,1,'');
-
-DROP TABLE IF EXISTS `subscribersgroup`;
-CREATE TABLE `subscribersgroup` (
-  `ID` int(32) NOT NULL auto_increment,
-  `subgroupof` int(32) NOT NULL default '0',
-  `Name` varchar(32) default NULL,
-  PRIMARY KEY  (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-INSERT INTO `subscribersgroup` VALUES (1,0,'ROOT'),
-(2,1,'ROOTA'),
-(3,1,'ROOTB'),
-(4,2,'C'),
-(5,3,'D');
-
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `login` varchar(32) NOT NULL default '',
@@ -2324,4 +2239,3 @@ CREATE TABLE `user` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `user` VALUES ('generis','b01a52f727b0810639526fe2c8188331',1,'admin','','','','','','EN',0);
-

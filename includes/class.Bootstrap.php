@@ -157,24 +157,54 @@ class Bootstrap{
 	 * Load the config and constants
 	 */
 	protected function config(){
+		
+		//include the config file
 		require_once $this->ctxPath. "/includes/config.php";
 		
-		if(file_exists($this->ctxPath. "/includes/constants.php")){
-			require_once $this->ctxPath. "/includes/constants.php";
-		}
+		//we will load the constant file of the current extension and all it's dependancies
 		
-		//load additionals constants files
+		//get the dependancies
+		$extensionManager = common_ext_ExtensionsManager::singleton();
+		$extensions = $extensionManager->getDependancies($this->extension);
+		
+		//merge them with the additional constants (defined in the options)
 		if(isset($this->options['constants'])){
 			if(is_string($this->options['constants'])){
 				$this->options['constants'] = array($this->options['constants']);
 			}
-			if(is_array($this->options['constants'])){
-				foreach($this->options['constants'] as $constantExt){
-					$constantFile = ROOT_PATH .'/'.$constantExt.'/includes/constants.php';
-					if(file_exists($constantFile)){
-						require_once $constantFile;
+			$extensions = array_merge($extensions, $this->options['constants']);
+		}
+		//add the current extension (as well !)
+		$extensions = array_merge(array($this->extension->id), $extensions);
+		
+		foreach($extensions as $extension){
+			
+			if($extension == 'generis') continue; //generis constants are already loaded
+			
+			//loadt the config of the extension
+			self::loadConstants($extension);
+		}
+	}
+	
+	/**
+	 * Load the constant file of the extension
+	 * @param string $extension
+	 */
+	public static function loadConstants($extension){
+		$constantFile = ROOT_PATH . '/' . $extension . '/includes/constants.php';
+		if(file_exists($constantFile)){
+			
+			//include the constant file
+			include_once $constantFile;
+			
+			//this variable comes from the constant file and contain the const definition
+			if(isset($todefine)){
+				foreach($todefine as $constName => $constValue){
+					if(!defined($constName)){
+						define($constName, $constValue);	//constants are defined there!
 					}
 				}
+				unset($todefine);
 			}
 		}
 	}

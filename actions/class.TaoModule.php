@@ -627,17 +627,20 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
 		$kind = $this->getDataKind();
 		
+		$context = Context::getInstance();
+		$module = $context->getModuleName();
+		
 		$this->setData('treeName', __('Select'));
-		$this->setData('dataUrl', tao_helpers_Uri::url('getOntologyData', get_class($this)));
-		$this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', get_class($this)));
+		$this->setData('dataUrl', tao_helpers_Uri::url('getOntologyData', $module));
+		$this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', $module));
 		
 		if($this->getRequestParameter('selectInstance') == 'true'){
-			$this->setData('editInstanceUrl', tao_helpers_Uri::url('sasSet', get_class($this)));
+			$this->setData('editInstanceUrl', tao_helpers_Uri::url('sasSet', $module));
 			$this->setData('editClassUrl', false);
 		}
 		else{
 			$this->setData('editInstanceUrl', false);
-			$this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', get_class($this)));
+			$this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', $module));
 		}
 		
 		$this->setData('instanceName', $kind);
