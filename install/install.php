@@ -99,24 +99,6 @@ function install($param){
 		$pass = md5($param['pass']);
 		$lg = $param["lg"];
 		
-		$sql = "INSERT INTO `settings` (`key`, `value`) VALUES ('NameSpace', '$nameSpace');";
-		$con->Execute($sql) or die("NameSpace configuration error");
-		echo 'Namespace configured : <b>'. $nameSpace .'</b><br/>';
-		
-		$sql = "INSERT INTO `settings` (`key`, `value`) VALUES ('Deflg', '$lg');";
-		$con->Execute($sql) or die("Deflg configuration error");
-		echo 'Default Language configured : <b>'. $lg .'</b><br/>';
-		
-		$sql = "INSERT INTO `settings` (`key`, `value`) VALUES ('Timeout', '99');";
-		$con->Execute($sql) or die("Timeout configuration error");
-		echo 'Timeout  configured : <b>99 </b><br/>';
-		
-		$sql = "INSERT INTO `settings` (`key`, `value`) VALUES ('Moduletype', 'resource');";
-		$con->Execute($sql) or die("Moduletype configuration error");
-		echo 'Moduletype  configured : <b>resource</b><br/>';
-
-
-
 		$con->Execute("INSERT INTO `models` VALUES ('8', '".$nameSpace."', '".$nameSpace."#')");
 
 		
@@ -164,7 +146,11 @@ function install($param){
 	writeConfigValue('DATABASE_URL', $param["dbhost"],$config);
 	writeConfigValue('SGBD_DRIVER', $param["dbdriver"],$config);
 	writeConfigValue('DATABASE_NAME', $param["moduleName"],$config);
-
+	writeConfigValue('LOCAL_NAMESPACE', $nameSpace,$config);
+	writeConfigValue('DEFAULT_LANG', $lg,$config);
+	writeConfigValue('ROOT_PATH', $_SERVER['DOCUMENT_ROOT'],$config);
+	writeConfigValue('ROOT_URL', "http://".$_SERVER['HTTP_HOST'],$config);
+	
 
 	//TODO
 	$filename = CONFIG_PATH.'/config.php';

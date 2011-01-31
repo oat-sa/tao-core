@@ -184,6 +184,7 @@ class Bootstrap{
 			//loadt the config of the extension
 			self::loadConstants($extension);
 		}
+		
 	}
 	
 	/**
@@ -285,7 +286,7 @@ class Bootstrap{
 			if(!is_null($currentUser)){
 				$uiLg  = $currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
 			}
-			(!is_null($uiLg)) ? $uiLang = $uiLg->getLabel() : $uiLang = $GLOBALS['default_lang'];
+			(!is_null($uiLg)) ? $uiLang = $uiLg->getLabel() : $uiLang = DEFAULT_LANG;
 			
 		}
 		tao_helpers_I18n::init($uiLang);

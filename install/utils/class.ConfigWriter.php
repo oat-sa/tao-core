@@ -40,14 +40,17 @@ class tao_install_utils_ConfigWriter{
 		
 		//common checks
 		if(!is_writable(dirname($this->file))){
-			throw new tao_install_utils_Exception('Unable to create config file. Please set write permission to '.dirname($this->file));
+			throw new tao_install_utils_Exception('Unable to create configuration file. Please set write permission to : '.dirname($this->file));
+		}
+		if(file_exists($this->file) && !is_writable($this->file)){
+			throw new tao_install_utils_Exception('Unable to create configuration file. Please set the write permissions to : '.$this->file);
 		}
 		if(!is_readable($this->sample)){
-			throw new tao_install_utils_Exception('Unable to read sample config :'.$this->sample);
+			throw new tao_install_utils_Exception('Unable to read sample configuration. Please set the read permissions to : '.$this->sample);
 		}
 		
 		if(!copy($this->sample, $this->file)){
-			throw new tao_install_utils_Exception('Unable to create configuration file :'.$this->file);
+			throw new tao_install_utils_Exception('Unable to copy configuration sample to : '.$this->file);
 		}
 	}
 	
@@ -69,8 +72,18 @@ class tao_install_utils_ConfigWriter{
 		$content = file_get_contents($this->file);
 		if(!empty($content)){
 			foreach($constants as $name => $val){
-				$val = addslashes((string)$val);
-				$content = preg_replace('/(\''.$name.'\')(.*?)$/ms','$1,\''.$val.'\');',$content);
+				
+				if(is_string($val)){
+					$val = addslashes((string)$val);
+					$content = preg_replace('/(\''.$name.'\')(.*?)$/ms','$1,\''.$val.'\');',$content);
+				}
+				else if(is_bool($val)){
+					($val === true) ? $val = 'true' : $val = 'false';
+					$content = preg_replace('/(\''.$name.'\')(.*?)$/ms','$1, '.$val.');',$content);
+				}
+				else if(is_numeric($val)){
+					$content = preg_replace('/(\''.$name.'\')(.*?)$/ms','$1, '.$val.');',$content);
+				}
 			}
 			file_put_contents($this->file, $content);
 		}

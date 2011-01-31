@@ -9,19 +9,30 @@ function out($msg = ''){
 out();
 out("Running ".basename(__FILE__));
 
-$exportDir = sys_get_temp_dir();
-
+$exportDir = '';
+$nameMode  = 'short';
 if(PHP_SAPI == 'cli'){	//from command line
 	
+	if($_SERVER['argc'] < 1){
+		echo "\nUsage : php {$_SERVER['argv'][0]} /dir/to/export short|long\n";
+		echo "Example: php  {$_SERVER['argv'][0]} /tmp/export long\n";
+	}
+
 	if(isset($_SERVER['argv'][1])){
 		$exportDir = $_SERVER['argv'][1]; 
 	}
+	if(isset($_SERVER['argv'][2])){
+                 ($_SERVER['argv'][2] == 'long') ? $nameMode = 'long' :  $nameMode = 'short'; 
+        }
 }
 else{					//from a browser
 	
 	if(isset($_GET['exportDir'])){
 		$exportDir = $_GET['exportDir']; 
 	}
+	if(isset($_GET['nameMode'])){
+                 ($_GET['nameMode'] == 'long') ? $nameMode = 'long' :  $nameMode = 'short';
+        }
 }
 if(!is_dir($exportDir)){
 	out("$exportDir is not a directory");
@@ -40,7 +51,12 @@ foreach($namespaces as $namespace){
 		out("Nothing exported!");
 		continue;
 	}
-	$filename = str_replace('/', '_', str_replace('#', '', $namespace));
+	if($nameMode == 'long'){
+		$filename = str_replace('/', '_', str_replace('#', '', $namespace));
+	}
+	else{
+		$filename = str_replace('#', '', strtolower(basename($namespace))); 
+	}
 	if(!preg_match("/\.rdf$/", $filename)){
 		$filename .= '.rdf';
 	}

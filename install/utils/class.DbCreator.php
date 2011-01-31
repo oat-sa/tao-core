@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/../../includes/adodb/adodb-exceptions.inc.php';
-require_once dirname(__FILE__).'/../../includes/adodb/adodb.inc.php';
+require_once 'generis/includes/adodb/adodb-exceptions.inc.php';
+require_once 'generis/includes/adodb/adodb.inc.php';
 
 /**
  * Dedicated database wrapper used for database installation
@@ -25,9 +25,11 @@ class tao_install_utils_DbCreator{
 	 * @throws tao_install_utils_Exception
 	 */
 	public function __construct( $host = 'localhost', $user = 'root', $pass = '', $driver = 'mysql'){
-		
-		$this->adoConnection = &NewADOConnection($driver);
-		if(!$this->adoConnection->Connect($host, $user, $pass)){
+		try{
+			$this->adoConnection = &NewADOConnection($driver);
+			$this->adoConnection->Connect($host, $user, $pass);
+		}
+		catch(ADODB_Exception $ae){
 			$this->adoConnection = null;
 			throw new tao_install_utils_Exception("Unable to connect to the database with the provided credentials.");
 		}
@@ -39,15 +41,19 @@ class tao_install_utils_DbCreator{
 	 * Load an SQL file into the current database
 	 * Use it to load the database schema
 	 * @param string $file path to the SQL file
+	 * @param array repalce variable to replace into the file: array keys are search with {} around
 	 * @throws tao_install_utils_Exception
 	 */
-	public function load($file){
+	public function load($file, $replace = array()){
 		
+		//common file checks
 		if(!file_exists($file) || !is_readable($file) || !preg_match("/\.sql$/", basename($file))){
 			throw new tao_install_utils_Exception("Wrong SQL file: $file . CHECK IT!");
 		}
 		
 		if ($handler = fopen($file, "r")){
+			
+			//parse file and get only usefull lines
 			$ch = "";
 			while (!feof ($handler)){
 				$line = utf8_decode(fgets($handler));
@@ -56,7 +62,13 @@ class tao_install_utils_DbCreator{
 					$ch = $ch.$line;
 				}
 			}
-	
+			
+			//make replacements
+			foreach($replace as $key => $value){
+				$ch = str_replace('{'.strtoupper($key).'}', $value, $ch);
+			}
+			
+			//explode and execute
 			$requests = explode(";", $ch);
 			unset($requests[count($requests)-1]);
 			try{
@@ -92,7 +104,7 @@ class tao_install_utils_DbCreator{
 	 */
 	public function __destruct(){
 		if(!is_null($this->adoConnection)){
-			$this->adoConnectio->Close();
+			$this->adoConnection->Close();
 		}
 	}
 	

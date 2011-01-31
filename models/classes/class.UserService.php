@@ -160,16 +160,16 @@ class tao_models_classes_UserService
 							$login 			= (string)$currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
 	        				$password 		= (string)$currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD));
 							
+	        				$defaultLang 	= DEFAUL_LANG;
+	        				
 	        				//set the user languages
-							$defaultLang 	= core_kernel_classes_DbWrapper::singleton(DATABASE_NAME)->getSetting('Deflg');
-							
-							$uiLang   		= $GLOBALS['default_lang'];
+							$uiLang  = DEFAUL_LANG;
 							$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
 							if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource){
 								$uiLang = $uiLg->getLabel();
 							}
 							
-							$dataLang   		= $GLOBALS['default_lang'];
+							$dataLang  = DEFAUL_LANG;
 							$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
 							if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
 								$dataLang = $dataLg->getLabel();
@@ -177,9 +177,9 @@ class tao_models_classes_UserService
 		        			
 						}
 						catch(common_Exception $ce){
-							$defaultLang 	= $GLOBALS['default_lang'];
-							$dataLang 		= $GLOBALS['default_lang'];
-							$uiLang		 	= $GLOBALS['default_lang'];
+							$defaultLang 	= DEFAUL_LANG;
+							$dataLang 		= DEFAUL_LANG;
+							$uiLang		 	= DEFAUL_LANG;
 						}
 						
 						core_kernel_classes_Session::singleton()->defaultLg = $defaultLang;

@@ -113,7 +113,8 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$this->form->addElement($dbHostElt);
 		
 		//Database Name
-		$dbNameElt =  tao_helpers_form_FormFactory::getElement('db_name', 'Label');
+	//	$dbNameElt =  tao_helpers_form_FormFactory::getElement('db_name', 'Label');
+	$dbNameElt =  tao_helpers_form_FormFactory::getElement('db_name', 'Textbox');
 		$dbNameElt->setDescription('Name');
 		$dbNameElt->setValue($moduleNameElt->getValue());
 		$this->form->addElement($dbNameElt);
