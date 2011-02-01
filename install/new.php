@@ -1,4 +1,5 @@
 <?php
+// install bootstrap
 $rootDir = dir(dirname(__FILE__).'/../../');
 $root = realpath($rootDir->path).'/';
 set_include_path(get_include_path() . PATH_SEPARATOR . $root);
@@ -11,16 +12,25 @@ function __autoload($class_name) {
 require_once('tao/helpers/class.Display.php');
 require_once('tao/helpers/class.Uri.php');
 
+
+// Process the system configuration tests 
 $installator = new tao_install_Installator();
 $configTests = $installator->processTests();
 
+//instantiate the settings form
 $container = new tao_install_form_Settings();
 $myForm = $container->getForm();
+
+//once the form is posted and valid
 if($myForm->isSubmited() && $myForm->isValid()){
+	
+	//WE CAN INSTALL TAO
 	
 	$formValues = $myForm->getValues();
 	
-	try{
+	try{	//if there is any issue a tao_install_utils_Exception is thrown
+		
+		
 		// 1 Test DB connection (done by the constructor)
 		$dbCreator = new tao_install_utils_DbCreator(
 			$formValues['db_host'],
@@ -69,18 +79,42 @@ if($myForm->isSubmited() && $myForm->isValid()){
 			$myConfigWriter->createConfig();
 		}
 		
+		$modelCreator = new tao_install_utils_ModelCreator($formValues['module_namespace']);
 		
 		// 6 Insert the extensions models
 		$models = tao_install_utils_ModelCreator::getModelsFromExtensions($extensions);
-		
-		$modelCreator = new tao_install_utils_ModelCreator($formValues['module_namespace']);
-		//$modelCreator->insertModelFile("http://www.tao.lu/Ontologies/TAO.rdf#", $root.'tao/models/ontology/tao.rdf');
 		foreach($models as $ns => $modelFile){
-			echo  "trying to insert $modelFile into $ns <br>";
-			if($modelCreator->insertModelFile($ns, $modelFile)){
-				echo  " $modelFile inserted<br><br>";
-			}
+			$modelCreator->insertModelFile($ns, $modelFile);
 		}
+		
+		// 7 Insert Sample Data
+		$modelCreator->insertLocalModelFile(dirname(__FILE__).'/ontology/sample.rdf');
+		
+		// 8 Insert Super User
+		$modelCreator->insertSuperUser(array(
+			'login'			=> $formValues['user_login'],
+			'password'		=> md5($formValues['user_pass1']),
+			'userLastName'	=> $formValues['user_lastname'],
+			'userFirstName'	=> $formValues['user_firstname'],
+			'userMail'		=> $formValues['user_email'],
+			'userDefLg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($formValues['module_lang']),
+			'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($formValues['module_lang'])
+		));
+		
+		// 9 Secure the install for production mode
+		if($formValues['module_mode'] == 'production'){
+			
+			// 9.1 Remove Generis User
+			$dbCreator->execute("DELETE FROM statements WHERE subject = 'http://www.tao.lu/Ontologies/TAO.rdf#installator' AND modelID=6");
+			
+			// 9.2 Protect TAO dist
+ 			$shield = new tao_install_utils_Shield(array_keys($extensions));
+ 			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
+ 			$shield->protectInstall();
+		}
+		
+		echo "<h1 style='color:green;'>DONE</h1>";
+		exit;
 		
 	}
 	catch(tao_install_utils_Exception $ie){
@@ -92,20 +126,10 @@ if($myForm->isSubmited() && $myForm->isValid()){
 		echo "</pre><br />";
 	}
 	
-//	$userData = array();
-//	$userData['login'] 			= $formValues['user_login'];
-//	$userData['password'] 		= $formValues['user_pass1'];
-//	$userData['userLastName']	= $formValues['user_lastname'];
-//	$userData['userFirstName']	= $formValues['user_firstname'];
-//	$userData['userMail']		= $formValues['user_email'];
-//	$userData['userDefLg']		= $formValues['module_lang'];
-//	$userData['userUILg']		= $formValues['module_lang'];
 //	
-//	$modelCreator = new tao_install_utils_ModelCreator();
-//	$modelCreator->insertSuperUser($userData);
 }
 ?>
-<h2>Work in progress...</h2>
+<h2>TAO Install</h2>
 <style>
 div{
 	margin-bottom:15px;
@@ -128,8 +152,16 @@ input, .form-elt-container, select{
 	font-size:11px;
 	font-style:italic;
 }
+table{
+	border-collapse: collapse;
+}
+table td, table th{
+	border: solid 1px #aaa;
+	padding:3px;
+}
 </style>
-<table border='1'>
+<h3> 1 - System Configuration</h3>
+<table>
 	<thead>
 		<tr>
 			<th>Test</th>
@@ -147,6 +179,6 @@ input, .form-elt-container, select{
 	<?endforeach?>
 	</tbody>
 </table>
-<br />
-<hr />
+
+<h3> 2 - Installation Form</h3>
 <?=$container->getForm()->render()?>

@@ -19,7 +19,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 * @return void
 	 */
 	public function __construct(){
-		
 		//check if user is authenticated
 		$context = Context::getInstance();
 		if(!$this->_isAllowed() &&  $context->getActionName() != 'login'){
@@ -80,7 +79,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 * @return void
 	 */
 	public function index(){
-		
 		$extensions = array();
 		foreach($this->service->getStructure() as $i => $structure){
 			if($structure['extension'] != 'users'){
@@ -117,8 +115,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/home.css');
 		}
 		$this->setData('currentExtension', $currentExtension);
-		
-		
 		
 		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getLg());
 		

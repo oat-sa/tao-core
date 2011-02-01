@@ -3,7 +3,7 @@
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 	xml:base="LOCAL_NAMESPACE#"
-	xmlns:loc="LOCAL_NAMESPACE"
+	xmlns:ns8="LOCAL_NAMESPACE"
 	xmlns:item="http://www.tao.lu/Ontologies/TAOItem.rdf#"
 	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
 	xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#"
@@ -17,9 +17,9 @@
   </rdf:Description>
   <rdf:Description rdf:about="LOCAL_NAMESPACE#i1296490050062615400">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#File"/>
-    <rdfs:label><![CDATA[File : /home/crp/workspace/transferAll/taoItems/data/i1261565165029846800/kohs.xml]]></rdfs:label>
-    <rdfs:comment><![CDATA[File : /home/crp/workspace/transferAll/taoItems/data/i1261565165029846800/kohs.xml]]></rdfs:comment>
-    <generis:FilePath><![CDATA[/home/crp/workspace/transferAll/taoItems/data/i1261565165029846800/]]></generis:FilePath>
+    <rdfs:label><![CDATA[File : {ROOT_PATH}taoItems/data/i1261565165029846800/kohs.xml]]></rdfs:label>
+    <rdfs:comment><![CDATA[File : {ROOT_PATH}taoItems/data/i1261565165029846800/kohs.xml]]></rdfs:comment>
+    <generis:FilePath><![CDATA[{ROOT_PATH}taoItems/data/i1261565165029846800/]]></generis:FilePath>
     <generis:FileName><![CDATA[kohs.xml]]></generis:FileName>
   </rdf:Description>
   <rdf:Description rdf:about="LOCAL_NAMESPACE#i1261565165029846800">
@@ -30,9 +30,9 @@
   </rdf:Description>
   <rdf:Description rdf:about="LOCAL_NAMESPACE#i1296490050068099900">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#File"/>
-    <rdfs:label><![CDATA[File : /home/crp/workspace/transferAll/taoItems/data/i1261572123013289000/ctest.xml]]></rdfs:label>
-    <rdfs:comment><![CDATA[File : /home/crp/workspace/transferAll/taoItems/data/i1261572123013289000/ctest.xml]]></rdfs:comment>
-    <generis:FilePath><![CDATA[/home/crp/workspace/transferAll/taoItems/data/i1261572123013289000/]]></generis:FilePath>
+    <rdfs:label><![CDATA[File : {ROOT_PATH}taoItems/data/i1261572123013289000/ctest.xml]]></rdfs:label>
+    <rdfs:comment><![CDATA[File : {ROOT_PATH}taoItems/data/i1261572123013289000/ctest.xml]]></rdfs:comment>
+    <generis:FilePath><![CDATA[{ROOT_PATH}taoItems/data/i1261572123013289000/]]></generis:FilePath>
     <generis:FileName><![CDATA[ctest.xml]]></generis:FileName>
   </rdf:Description>
   <rdf:Description rdf:about="LOCAL_NAMESPACE#i1261572123013289000">
@@ -49,16 +49,16 @@
   </rdf:Description>
   <rdf:Description rdf:about="LOCAL_NAMESPACE#i1292796235055825700">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#File"/>
-    <rdfs:label><![CDATA[File : /home/crp/workspace/transferAll/taoItems/data/i1292796232039301700/qti.xml]]></rdfs:label>
-    <rdfs:comment><![CDATA[File : /home/crp/workspace/transferAll/taoItems/data/i1292796232039301700/qti.xml]]></rdfs:comment>
-    <generis:FilePath><![CDATA[/home/crp/workspace/transferAll/taoItems/data/i1292796232039301700/]]></generis:FilePath>
+    <rdfs:label><![CDATA[File : {ROOT_PATH}taoItems/data/i1292796232039301700/qti.xml]]></rdfs:label>
+    <rdfs:comment><![CDATA[File : {ROOT_PATH}taoItems/data/i1292796232039301700/qti.xml]]></rdfs:comment>
+    <generis:FilePath><![CDATA[{ROOT_PATH}taoItems/data/i1292796232039301700/]]></generis:FilePath>
     <generis:FileName><![CDATA[qti.xml]]></generis:FileName>
   </rdf:Description>
   <rdf:Description rdf:about="LOCAL_NAMESPACE#i1296490050055730300">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#File"/>
-    <rdfs:label><![CDATA[File : /home/crp/workspace/transferAll/taoItems/data/i1261571812010328500/black.xml]]></rdfs:label>
-    <rdfs:comment><![CDATA[File : /home/crp/workspace/transferAll/taoItems/data/i1261571812010328500/black.xml]]></rdfs:comment>
-    <generis:FilePath><![CDATA[/home/crp/workspace/transferAll/taoItems/data/i1261571812010328500/]]></generis:FilePath>
+    <rdfs:label><![CDATA[File : {ROOT_PATH}taoItems/data/i1261571812010328500/black.xml]]></rdfs:label>
+    <rdfs:comment><![CDATA[File : {ROOT_PATH}taoItems/data/i1261571812010328500/black.xml]]></rdfs:comment>
+    <generis:FilePath><![CDATA[{ROOT_PATH}taoItems/data/i1261571812010328500/]]></generis:FilePath>
     <generis:FileName><![CDATA[black.xml]]></generis:FileName>
   </rdf:Description>
 </rdf:RDF>

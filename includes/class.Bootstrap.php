@@ -277,6 +277,7 @@ class Bootstrap{
 	 */
 	protected function i18n(){
 		$userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
+		$uiLang = DEFAULT_LANG;
 		if(Session::hasAttribute('ui_lang')){
 			$uiLang = Session::getAttribute('ui_lang') ;
 		}
@@ -286,8 +287,9 @@ class Bootstrap{
 			if(!is_null($currentUser)){
 				$uiLg  = $currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
 			}
-			(!is_null($uiLg)) ? $uiLang = $uiLg->getLabel() : $uiLang = DEFAULT_LANG;
-			
+			if(!is_null($uiLg)){
+				$uiLang = $uiLg->getLabel();
+			}
 		}
 		tao_helpers_I18n::init($uiLang);
 		

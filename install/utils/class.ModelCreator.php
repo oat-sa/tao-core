@@ -80,6 +80,7 @@ class tao_install_utils_ModelCreator{
 	 */
 	public function insertLocalModel($model){
 		$model = str_replace('LOCAL_NAMESPACE#', $this->localNs, $model);
+		$model = str_replace('{ROOT_PATH}', ROOT_PATH, $model);
 		return $this->insertModel($this->localNs, $model);
 	}
 	
@@ -125,7 +126,7 @@ class tao_install_utils_ModelCreator{
 		$size = $memModel->size();
 		while ($it->hasNext()) {
 			$statement = $it->next();
-			if($dbModel->add($statement) === true){
+			if($dbModel->add($statement, 'generis') === true){
 				$added++;
 			}
 		}
