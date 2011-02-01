@@ -54,6 +54,27 @@ class tao_install_Installator{
 		)
 	);
 
+	protected $options = array();
+	
+	public function __construct($options){
+		if(!isset($options['root_path'])){
+			throw new tao_install_utils_Exception("root path options must be defined");
+		}
+		if(!isset($options['install_path'])){
+			throw new tao_install_utils_Exception("install path options must be defined");
+		}
+		
+		$this->options = $options;
+		
+		if(!preg_match("/\/$/", $this->options['root_path'])){
+			$this->options['root_path'] .= '/';
+		}
+		if(!preg_match("/\/$/", $this->options['install_path'])){
+			$this->options['install_path'] .= '/';
+		}
+	}
+	
+	
 	/**
 	 * Run the tests defined in self::$tests
 	 */
@@ -131,5 +152,153 @@ class tao_install_Installator{
 		return $testResults;
 	}
 	
+
+	/**
+	 * Run the TAO install from the given data
+	 * @throws tao_install_utils_Exception 
+	 * @param $installData data coming from the install form
+	 * @see tao_install_form_Settings
+	 */
+	public function install(array $installData){
+		
+		/*
+		 *  1 - Test DB connection (done by the constructor)
+		 */ 
+		$dbCreator = new tao_install_utils_DbCreator(
+			$installData['db_host'],
+			$installData['db_user'],
+			$installData['db_pass'],
+			$installData['db_driver']
+		);
+		
+		
+		/*
+		 *   2 - Load the database schema
+		 */
+		$dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
+		
+		
+		/*
+		 *  3 - Create the local namespace
+		 */
+		$dbCreator->execute("INSERT INTO `models` VALUES ('8', '{$installData['module_namespace']}', '{$installData['module_namespace']}#')");
+		
+		
+		/*
+		 *  4 - Create the generis config file
+		 */
+		$generisConfigWriter = new tao_install_utils_ConfigWriter(
+			$this->options['root_path'].'generis/common/config.php.in',
+			$this->options['root_path'].'generis/common/config.php'
+		);
+		$generisConfigWriter->createConfig();
+		$generisConfigWriter->writeConstants(array(
+			'DATABASE_LOGIN'	=> $installData['db_user'],
+			'DATABASE_PASS' 	=> $installData['db_pass'],
+			'DATABASE_URL'	 	=> $installData['db_host'],
+			'SGBD_DRIVER' 		=> $installData['db_driver'],
+			'DATABASE_NAME' 	=> $installData['db_name'],
+			'LOCAL_NAMESPACE'	=> $installData['module_namespace'],
+			'ROOT_PATH'			=> $this->options['root_path'],
+			'ROOT_URL'			=> $installData['module_url'],
+			'DEFAULT_LANG'		=> $installData['module_lang'],
+			'DEBUG_MODE'		=> ($installData['module_mode'] == 'debug') ? true : false
+		));
+		//now we can run the extensions bootstrap
+		require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
+		
+		
+		/*
+		 *  5 - Create the configuration files for the loaded extensions
+		 */
+		$extensionManager = common_ext_ExtensionsManager::singleton();
+		$extensions = $extensionManager->getInstalledExtensions();
+		foreach($extensions as $extensionId => $extension){
+			if($extensionId == 'generis') continue; 	//generis is the root and has been installed above 
+			
+			$myConfigWriter = new tao_install_utils_ConfigWriter(
+				$this->options['root_path'] . $extensionId . '/includes/config.php.sample',
+				$this->options['root_path'] . $extensionId . '/includes/config.php'
+			);
+			$myConfigWriter->createConfig();
+		}
+		
+		
+		$modelCreator = new tao_install_utils_ModelCreator($installData['module_namespace']);
+
+		
+		/*
+		 *  6 - Insert the extensions models
+		 */
+		$models = tao_install_utils_ModelCreator::getModelsFromExtensions($extensions);
+		foreach($models as $ns => $modelFile){
+			$modelCreator->insertModelFile($ns, $modelFile);
+		}
+		
+		
+		/*
+		 *  7 - Insert Local Data by extensions (can be samples data too)
+		 */
+		foreach($extensions as $extensionId => $extension){
+			if($extensionId == 'generis') continue; 	//generis is the root and has been installed above 
+			$localData = $this->options['root_path'] . $extensionId . '/models/ontology/local.rdf';
+			if(file_exists($localData)){
+				$modelCreator->insertLocalModelFile($localData);
+			}
+		}
+		
+		
+		/*
+		 *  8 - Insert Super User
+		 */
+		$modelCreator->insertSuperUser(array(
+			'login'			=> $installData['user_login'],
+			'password'		=> md5($installData['user_pass1']),
+			'userLastName'	=> $installData['user_lastname'],
+			'userFirstName'	=> $installData['user_firstname'],
+			'userMail'		=> $installData['user_email'],
+			'userDefLg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($installData['module_lang']),
+			'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($installData['module_lang'])
+		));
+		
+		
+		/*
+		 *  9 - Secure the install for production mode
+		 */
+		if($installData['module_mode'] == 'production'){
+			
+			// 9.1 Remove Generis User
+			$dbCreator->execute("DELETE FROM statements WHERE subject = 'http://www.tao.lu/Ontologies/TAO.rdf#installator' AND modelID=6");
+			
+			// 9.2 Protect TAO dist
+ 			$shield = new tao_install_utils_Shield(array_keys($extensions));
+ 			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
+ 			$shield->protectInstall();
+		}
+	}
+	
+	/**
+	 * Run the TAO install from the given data
+	 * @throws tao_install_utils_Exception 
+	 * @param array $installData
+	 */
+	public function configWaterPhoenix(array $installData){
+		
+		$waterPhoenixPath = 'taoItems/models/ext/itemAuthoring/waterphenix/';
+		$url = trim($installData['module_url']);
+		if(!preg_match("/\/$/", $url)){
+			$url .= '/';
+		}
+		
+		$configWriter = new tao_install_utils_ConfigWriter(
+			$this->options['root_path'] . $waterPhoenixPath . 'config/config.sample',
+			$this->options['root_path'] . $waterPhoenixPath . 'config/config.js'
+		);
+		$configWriter->createConfig();
+		$configWriter->writeJsVariable(array(
+			'URL'	=> $url . $waterPhoenixPath,
+			'PATH'	=> $waterPhoenixPath
+		));
+	}
 }
 ?>

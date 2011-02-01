@@ -43,14 +43,14 @@ class tao_install_utils_ConfigWriter{
 			throw new tao_install_utils_Exception('Unable to create configuration file. Please set write permission to : '.dirname($this->file));
 		}
 		if(file_exists($this->file) && !is_writable($this->file)){
-			throw new tao_install_utils_Exception('Unable to create configuration file. Please set the write permissions to : '.$this->file);
+			throw new tao_install_utils_Exception('Unable to create the configuration file. Please set the write permissions to : '.$this->file);
 		}
 		if(!is_readable($this->sample)){
-			throw new tao_install_utils_Exception('Unable to read sample configuration. Please set the read permissions to : '.$this->sample);
+			throw new tao_install_utils_Exception('Unable to read the sample configuration. Please set the read permissions to : '.$this->sample);
 		}
 		
 		if(!copy($this->sample, $this->file)){
-			throw new tao_install_utils_Exception('Unable to copy configuration sample to : '.$this->file);
+			throw new tao_install_utils_Exception('Unable to copy the sample configuration to : '.$this->file);
 		}
 	}
 	
@@ -63,10 +63,10 @@ class tao_install_utils_ConfigWriter{
 		
 		//common checks
 		if(!file_exists($this->file)){
-			throw new tao_install_utils_Exception("Unable to write the constants: $this->file don't exists!");
+			throw new tao_install_utils_Exception("Unable to write constants: $this->file don't exists!");
 		}
 		if(!is_readable($this->file) || !is_writable($this->file)){
-			throw new tao_install_utils_Exception("Unable to write the constants: $this->file must have read and write permissions!");
+			throw new tao_install_utils_Exception("Unable to write constants: $this->file must have read and write permissions!");
 		}
 		
 		$content = file_get_contents($this->file);
@@ -86,6 +86,44 @@ class tao_install_utils_ConfigWriter{
 				}
 			}
 			file_put_contents($this->file, $content);
+		}
+	}
+	
+	/**
+	 * Write the constants into a Javascript config file
+	 * @param array $variables the list of variables to write (the key is the name of the var)
+	 * @throws tao_install_utils_Exception
+	 */
+	public function writeJsVariable(array $variables){
+		//common checks
+		if(!file_exists($this->file)){
+			throw new tao_install_utils_Exception("Unable to write variables: $this->file don't exists!");
+		}
+		if(!is_readable($this->file) || !is_writable($this->file)){
+			throw new tao_install_utils_Exception("Unable to write variables: $this->file must have read and write permissions!");
+		}
+		
+		$lines 	= file($this->file);
+		if($lines !== false){
+			$data = file_get_contents($this->file);
+			$changes = 0;
+			foreach($lines as $line){
+				foreach($variables as $key => $value){
+					if(preg_match("/^\s?var\s?$key\s?=\s?/i", trim($line))){
+						if(is_string($value)){
+							$value = "'$value'";
+						}
+						else if(is_bool($value)){
+							($value === true) ? $value = 'true' : $value = 'false';
+						}
+						$data = str_replace(trim($line), "var $key = $value;", $data);
+						$changes++;
+					}
+				}
+			}
+			if($changes > 0){
+				file_put_contents($this->file, $data);
+			}
 		}
 	}
 	
