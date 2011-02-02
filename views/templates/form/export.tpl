@@ -29,7 +29,7 @@ $(document).ready(function(){
 			{name:'actions',index:'actions', align:"center", sortable: false}
 		], 
 		rowNum: 20, 
-		width: '', 
+		width: parseInt($("#files-list").width()) - 2, 
 		pager: '#files-list-pager', 
 		sortname: 'name', 
 		viewrecords: false, 

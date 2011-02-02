@@ -42,13 +42,14 @@ $(function(){
 			{name:'actions',index:'actions', align:"center", sortable: false}
 		], 
 		rowNum:20, 
-		height:300, 
-		width:'',
+		height:350, 
+		width: (parseInt($("#user-list").width()) - 2),
 		pager: '#user-list-pager', 
 		sortname: 'login', 
 		viewrecords: false, 
 		sortorder: "asc", 
-		caption: __("Users"),
+		caption: __("Users")
+		,
 		gridComplete: function(){
 			$.each(myGrid.getDataIDs(), function(index, elt){
 				myGrid.setRowData(elt, {

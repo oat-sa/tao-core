@@ -212,7 +212,7 @@ GenerisAction.loadMetaData = function(uri, classUri, url){
 				
 				$("#comment-editor").click(function(){
 					var commentContainer = $(this).parents('td');
-					if($(':textarea.comment-area', commentContainer).length == 0){
+					if($('.comment-area', commentContainer).length == 0){
 						
 						var commentArea = $("<textarea id='comment-area'></textarea>");
 						var commentField = $('span#comment-field', commentContainer);
