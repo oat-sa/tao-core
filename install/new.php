@@ -14,7 +14,6 @@ require_once('tao/helpers/class.Display.php');
 require_once('tao/helpers/class.Uri.php');
 // --
 
-
 //instantiate the installator
 $installator = new tao_install_Installator(array(
 	'root_path' 	=> $root,

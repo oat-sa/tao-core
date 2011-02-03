@@ -27,12 +27,17 @@ class tao_install_Installator{
 			'title'	=> 'PHP Tidy extension check',
 			'name'	=> 'tidy'
 		),
-		4 => array(
+		45 => array(
 			'type'	=> 'PHP_EXTENSION',
 			'title'	=> 'PHP GD extension check',
 			'name'	=> 'gd'
 		),
-		5 => array(
+		6 => array(
+			'type'	=> 'PHP_EXTENSION',
+			'title'	=> 'PHP Json extension check',
+			'name'	=> 'json'
+		),
+		7 => array(
 			'type'	=> 'MULTI',
 			'title'	=> 'PHP mysql driver extension check',
 			'tests'	=> array(
@@ -41,13 +46,13 @@ class tao_install_Installator{
 				array('type'	=> 'PHP_EXTENSION', 'name' =>  'pdo_mysql')
 			)
 		),
-		6 => array(
+		8 => array(
 			'type'			=> 'PHP_EXTENSION',
 			'title'			=> 'Suhosin patch check',
 			'displayMsg'	=> true,
 			'name'			=> 'suhosin'
 		),
-		7 => array(
+		9 => array(
 			'type'	=> 'APACHE_MOD',
 			'title'	=> 'Apache mod rewrite check',
 			'name'	=> 'rewrite'

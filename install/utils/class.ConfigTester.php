@@ -92,21 +92,19 @@ class tao_install_utils_ConfigTester{
 	 */
 	protected function checkPhpExtension($extensionName){
 		switch(strtolower($extensionName)){
+			case 'json':
+				$this->message = 'PHP extension '.strtoupper($extensionName).' is required';
+				(extension_loaded(strtolower($extensionName))) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
+				break;
+			case 'zip':
+			case 'tidy': 
+			case 'curl': 
+				$this->message = 'PHP extension '.strtoupper($extensionName).' is strongly recomended';
+				(extension_loaded(strtolower($extensionName))) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
+				break;
 			case 'gd':
 				$this->message = 'PHP extension GD is optionnal';
 				(extension_loaded('gd')) ? $this->status  = self::STATUS_VALID : $this->status  = self::STATUS_INVALID;
-				break;
-			case 'zip':
-				$this->message = 'PHP extension ZIP is strongly recomended';
-				(extension_loaded('zip')) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
-				break;
-			case 'tidy': 
-				$this->message = 'PHP extension Tidy is strongly recomended';
-				(extension_loaded('tidy')) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
-				break;
-			case 'curl': 
-				$this->message = 'PHP extension CURL is strongly recomended';
-				(extension_loaded('curl')) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
 				break;
 			case 'suhosin':
 				$this->message 	= "Suhosin patch is optionnal. But if you use it, ".

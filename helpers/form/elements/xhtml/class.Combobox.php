@@ -78,16 +78,16 @@ class tao_helpers_form_elements_xhtml_Combobox
 		$returnValue .= ">";
 		if(!empty($this->emptyOption)){
 			$this->options = array_merge(
-				array('' => $this->emptyOption),
+				array(' ' => $this->emptyOption),
 				$this->options
 			);
 		}
 		foreach($this->options as $optionId => $optionLabel){
 			 $returnValue .= "<option value='{$optionId}' ";
 			 if($this->value == $optionId){
-			 	$returnValue .= " selected='selected' ";
+			 	$returnValue .= " selected ";
 			 }
-			 $returnValue .= ">"._dh($optionLabel)."</option>";
+			 $returnValue .= ">"._dh($optionLabel)."</option>\n";
 		}
 		$returnValue .= "</select>";
 		

@@ -108,6 +108,9 @@ function _load(selector, url, data){
 		data = {nc: new Date().getTime()}
 	}
 	loading();
+	if($.browser.msie){
+		$(selector).empty();
+	}
 	if(url.indexOf('?') == -1){
 		$(selector).load(url, data, loaded());
 	}
