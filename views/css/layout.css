@@ -155,7 +155,7 @@ div.tree-actions{
 	border-left:1px solid #AAAAAA;
 	border-right:1px solid #AAAAAA;
 }
-div#section-trees div.tree-custom{
+div#section-trees div.tree-custom {
 	overflow-y:auto;
 }
 /* Actions box */

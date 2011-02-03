@@ -15,11 +15,13 @@
 .tree-custom li.closed, #jstree-dragged.tree-custom li li.open { background:url("icons.png") -48px -32px no-repeat; }
 #jstree-marker { background-image:url("icons.png"); }
 /* DEFAULT, HOVER, CLICKED, LOADING STATES */
+.tree-custom li.node-class a{margin: 1px 0px 1px 0px;border:solid 1px white;}
 .tree-custom li a { border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; }
 .tree-custom li.node-draggable a {background:#eee; border:1px solid #ddd;}
-.tree-custom li a:hover, .tree-custom li a.hover { background:#FDD5DF; border:1px solid #D00239; padding:0px 3px 0px 3px; font-size:15px;}
-.tree-custom li a {font-size:15px; padding:0px 3px 0px 3px;}
-.tree-custom li a.clicked, .tree-custom li a.clicked:hover, .tree-custom li span.clicked { background:#FDD5DF; border:1px solid #E7698C; padding:0px 3px 0px 3px; }
+.tree-custom li a:hover, .tree-custom li a.hover { background:#FDD5DF; border:1px solid #D00239; padding:0px; font-size:15px;}
+.tree-custom li a {font-size:15px; padding:0px;}
+.tree-custom li a.clicked, .tree-custom li a.clicked:hover, .tree-custom li span.clicked { background:#FDD5DF; border:1px solid #E7698C; padding:0px; }
+
 
 /* ICONS, don't change the order (the priority is used to override icon) */
 .tree-custom ins { background-image:url("icons.png"); background-position:0 0; background-repeat:no-repeat; }
