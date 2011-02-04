@@ -29,12 +29,12 @@ AsyncFileUpload = function(elt, options){
 		var target = $(options.target);
 	}
 	(options.starter) ? starter = options.starter : starter = elt + '_starter';
-
+	
 	if(target){
 		this.settings.onComplete = function(event, queueID, fileObj, response, data){
-			response = $.parseJSON(response);
-			if(response.uploaded){
-				target.val(response.data);
+			var myResponse = $.parseJSON($.trim(response));
+			if(myResponse.uploaded){
+				target.val(myResponse.data);
 			}
 			return false;
 		};

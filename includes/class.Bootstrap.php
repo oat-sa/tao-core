@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
  * The generis extension loader is included there ONCE!
  *  1. Load and initialize the API and so the database
@@ -362,8 +362,6 @@ class Bootstrap{
 				TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/swfobject.js'
 			));
 		}
-		
-		
 	}
 }
 ?>

@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * 
+ * Enter description here ...
+ * @author crp
+ *
+ */
 class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 	
 	public function initForm(){
@@ -35,11 +40,17 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		
 		//Module Name
 		$moduleNameElt =  tao_helpers_form_FormFactory::getElement('module_name', 'Textbox');
-		$moduleNameElt->setDescription('Name');
+		$moduleNameElt->setDescription('Name *');
 		$moduleNameElt->setHelp("The name of the module will be used to identifiate this instance of TAO from the others. " . 
 								"The module name will be used as the database name and is usually the suffix of " .
 								"the module's namespace (http://host/MODULE NAME.rdf#).");
-		$moduleNameElt->setValue('tao1');
+		$moduleNameElt->setValue('mytao');
+		$moduleNameElt->addValidators(array(
+			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+		//	tao_helpers_form_FormFactory::getValidator('AlphaNum', array('allow_punctuation' => true)),
+			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 4, 'max' => 15))
+		));
+		
 		$this->form->addElement($moduleNameElt);
 		
 		//Module Host
@@ -47,10 +58,15 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleHostElt->setDescription('Host');
 		$moduleHostElt->setHelp("The host will be used in the module's namespace http://HOST/module name.rdf#)");
 		$moduleHostElt->setValue($_SERVER['HTTP_HOST']);
+		$moduleHostElt->addValidators(array(
+			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+			tao_helpers_form_FormFactory::getValidator('Url'),
+			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 4, 'max' => 254))
+		));
 		$this->form->addElement($moduleHostElt);
 		
 		//Module Namespace
-		$moduleNSElt =  tao_helpers_form_FormFactory::getElement('module_namespace', 'Textbox');
+		$moduleNSElt =  tao_helpers_form_FormFactory::getElement('module_namespace', 'Label');
 		$moduleNSElt->setDescription('Namespace');
 		$moduleNSElt->setHelp("The module's namespace will be used to identify the data of your module. ".
 								"Each data collected by tao is identified uniquely by an URI composed by ".
@@ -62,6 +78,12 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleUrlElt =  tao_helpers_form_FormFactory::getElement('module_url', 'Textbox');
 		$moduleUrlElt->setDescription('Url');
 		$moduleUrlElt->setHelp("The url to access to the module.");
+		$moduleUrlElt->setValue($_SERVER['HTTP_HOST']);
+		$moduleUrlElt->addValidators(array(
+			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+			tao_helpers_form_FormFactory::getValidator('Url'),
+			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 12, 'max' => 254))
+		));
 		$this->form->addElement($moduleUrlElt);
 
 		//Module default language
@@ -114,7 +136,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		
 		//Database Name
 	//	$dbNameElt =  tao_helpers_form_FormFactory::getElement('db_name', 'Label');
-	$dbNameElt =  tao_helpers_form_FormFactory::getElement('db_name', 'Textbox');
+		$dbNameElt =  tao_helpers_form_FormFactory::getElement('db_name', 'Textbox');
 		$dbNameElt->setDescription('Name');
 		$dbNameElt->setValue($moduleNameElt->getValue());
 		$this->form->addElement($dbNameElt);

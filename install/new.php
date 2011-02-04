@@ -12,6 +12,8 @@ function __autoload($class_name) {
 }
 require_once('tao/helpers/class.Display.php');
 require_once('tao/helpers/class.Uri.php');
+if(!function_exists('__')){function __($m){return $m;}}
+
 // --
 
 //instantiate the installator
@@ -19,7 +21,6 @@ $installator = new tao_install_Installator(array(
 	'root_path' 	=> $root,
 	'install_path'	=> dirname(__FILE__)
 ));
-
 
 // Process the system configuration tests 
 $configTests = $installator->processTests();
@@ -83,6 +84,9 @@ input, .form-elt-container, select{
 	display:block;
 	font-size:11px;
 	font-style:italic;
+}
+.form-error{
+	color:red;
 }
 table{
 	border-collapse: collapse;
