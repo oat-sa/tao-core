@@ -338,7 +338,7 @@ class tao_helpers_form_GenerisFormFactory
 				'data' => $rangeClass->getLabel(),
 				'attributes' => array(
 					'id' => tao_helpers_Uri::encode($rangeClass->uriResource), 
-					'class' => 'node-class'
+					'class' => 'node-instance'
 				)
 			);
 			$children = self::rangeToTree($rangeClass, true);
