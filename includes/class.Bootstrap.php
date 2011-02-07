@@ -245,7 +245,7 @@ class Bootstrap{
 			$message	= $ae->getMessage();
 			if(DEBUG_MODE){
 				$message .= "Called module :".$ae->getModuleName()."<br />";
-				$message .= "Called action :".$ae->getActtionName()."<br />";
+				$message .= "Called action :".$ae->getActionName()."<br />";
 			}
 			require_once TAO_TPL_PATH . 'error/error404.tpl';
 		}
