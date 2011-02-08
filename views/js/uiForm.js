@@ -19,7 +19,7 @@ UiForm = function(){
 	 * Patterns used to initialize the form   
 	 */
 	
-	this.initFormPattern = new RegExp(['search', 'authoring', 'itemSequence', 'Import', 'Export', 'IO', 'preview'].join('|'));
+	this.initFormPattern = new RegExp(['search', 'authoring', 'Import', 'Export', 'IO', 'preview'].join('|'));
 	this.initGenerisFormPattern =  new RegExp(['add', 'edit'].join('|'), 'i');
 	this.initTranslationFormPattern = /translate/;
 	
@@ -131,6 +131,33 @@ UiForm = function(){
 			if ($(this).css('display') != 'none') {
 				$(this).wysiwyg({'css' : taobase_www + 'css/layout.css'});
 			}
+		});
+		
+		$('.box-checker').click(function(){
+			
+			var checker  = $(this);
+			var regexpId = new RegExp('^'+checker.attr('id').replace('_checker', ''), 'i');
+			
+			if(checker.hasClass('box-checker-uncheck')){
+				$(":checkbox").each(function(){
+					if(regexpId.test(this.id)){
+						this.checked = false;
+					}
+				});
+				checker.removeClass('box-checker-uncheck');
+				checker.text(__('Check all'));
+			}
+			else{
+				$(":checkbox").each(function(){
+					if(regexpId.test(this.id)){
+						this.checked = true;
+					}
+				});
+				checker.addClass('box-checker-uncheck');
+				checker.text(__('Uncheck all'));
+			}
+			
+			return false;
 		});
 		
 		//map the imageable / fileable elements to the filemanager plugin

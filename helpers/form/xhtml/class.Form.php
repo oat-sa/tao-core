@@ -3,14 +3,14 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/xhtml/class.Form.php
+ * TAO - tao/helpers/form/xhtml/class.Form.php
  *
  * $Id$
  *
- * This file is part of Generis Object Oriented API.
+ * This file is part of TAO.
  *
- * Automatically generated on 09.02.2010, 15:57:12 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * Automatically generated on 08.02.2011, 17:25:47 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -214,11 +214,11 @@ class tao_helpers_form_xhtml_Form
     /**
      * Short description of method validate
      *
-     * @access private
+     * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return boolean
      */
-    private function validate()
+    protected function validate()
     {
         $returnValue = (bool) false;
 

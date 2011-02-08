@@ -74,15 +74,32 @@ class tao_helpers_form_elements_xhtml_Checkbox
 		else{
 			unset($this->attributes['noLabel']);
 		}
+		$checkAll = false;
+		if(isset($this->attributes['checkAll'])){
+			$checkAll = (bool)$this->attributes['checkAll'];
+			unset($this->attributes['checkAll']);
+		}
+		$checked = 0;
 		foreach($this->options as $optionId => $optionLabel){
 			 $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}_{$i}' id='{$this->name}_{$i}' ";
 			 $returnValue .= $this->renderAttributes();
 			
 			 if(in_array($optionId, $this->values)){
 			 	$returnValue .= " checked='checked' ";	
+			 	$checked++;
 			 }
 			 $returnValue .= " />&nbsp;<span class='elt_desc'>"._dh($optionLabel)."</span><br />";
 			 $i++;
+		}
+		
+		//add a small link 
+		if($checkAll){
+			if($checked == count($this->options)){
+				$returnValue .= "<span class='checker-container'><a id='{$this->name}_checker' class='box-checker box-checker-uncheck' href='#'>".__('Uncheck All')."</a></span>";
+			}
+			else{
+				$returnValue .= "<span class='checker-container'><a id='{$this->name}_checker' class='box-checker' href='#'>".__('Check All')."</a></span>";
+			}
 		}
 		
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019FC end

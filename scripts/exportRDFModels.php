@@ -41,10 +41,10 @@ if(!is_dir($exportDir)){
 
 $api = core_kernel_impl_ApiModelOO::singleton();
 
-//$nsManager = common_ext_NamespaceManager::singleton();
-//$namespaces = $nsManager->getAllNamespaces();
+$nsManager = common_ext_NamespaceManager::singleton();
+$namespaces = $nsManager->getAllNamespaces();
 
-$namespaces = array(LOCAL_NAMESPACE);
+//$namespaces = array(LOCAL_NAMESPACE);
 
 foreach($namespaces as $namespace){
 	out("Exporting $namespace");
