@@ -28,26 +28,23 @@ $(document).ready(function(){
 	];
 	
 	var model = [
-		{name:'id',index:'id', width:25, align:"center"},
+		{name:'id',index:'id', width: 25, align:"center", sortable: false},
 	<?for($i = 0; $i < count(get_data('properties')); $i++):?>
 		 {name:'property_<?=$i?>',index:'property_<?=$i?>'},
 	<?endfor?>
-		{name:'actions',index:'actions', width:150, align:"center", sortable: false},
+		{name:'actions',index:'actions', align:"center", sortable: false},
 	];
-	
+
+	var size = <?=count(get_data('found'))?>;
 	$("#result-list").jqGrid({
 		datatype: "local", 
 		colNames: properties , 
 		colModel: model, 
-		rowNum: 20, 
-		width:'', 
-		pager: '#result-list-pager', 
+		width: parseInt($("#result-list").parent().width()) - 15, 
 		sortname: 'id', 
-		viewrecords: false, 
 		sortorder: "asc", 
 		caption: __("Search results")
 	});
-	$("#result-list").jqGrid('navGrid','#result-list-pager',{edit:false, add:false, del:false});
 	
 <?foreach(get_data('found') as $i => $row):?>
 	

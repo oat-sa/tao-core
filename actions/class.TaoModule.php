@@ -454,7 +454,13 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 */
 	public function search(){
 		$found = false;
-		$clazz = $this->getRootClass();
+		
+		try{
+			$clazz = $this->getCurrentClass();
+		}
+		catch(Exception $e){
+			$clazz = $this->getRootClass();
+		}
 		
 		$formContainer = new tao_actions_form_Search($clazz, null, array('recursive' => true));
 		$myForm = $formContainer->getForm();
@@ -465,12 +471,23 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				$filters = $myForm->getValues('filters');
 				$properties = array();
 				foreach($filters as $propUri => $filter){
-					if(preg_match("/^http/", $propUri)){
+					if(preg_match("/^http/", $propUri) && !empty($filter)){
 						$properties[] = new core_kernel_classes_Property($propUri);
 					}
 					else{
 						unset($filters[$propUri]);
 					}
+				}
+				
+				$hasLabel = false;
+				foreach($properties as $property){
+					if($property->uriResource == RDFS_LABEL){
+						$hasLabel = true;
+						break;
+					}
+				}
+				if(!$hasLabel){
+					$properties=array_merge(array(new core_kernel_classes_Property(RDFS_LABEL)), $properties);
 				}
 				$this->setData('properties', $properties);
 				
