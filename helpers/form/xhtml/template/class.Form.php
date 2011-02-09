@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 08.02.2011, 17:24:17 with ArgoUML PHP module 
+ * Automatically generated on 09.02.2011, 11:57:18 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -53,6 +53,33 @@ class tao_helpers_form_xhtml_template_Form
     // --- ATTRIBUTES ---
 
     // --- OPERATIONS ---
+
+    /**
+     * Short description of method getValues
+     *
+     * @access public
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @param  string groupName
+     * @return array
+     */
+    public function getValues($groupName = '')
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-34f10d1c:12e0a0f28d8:-8000:0000000000004F7C begin
+        
+        $returnValue = parent::getValues($groupName);
+        
+        foreach($this->elements as $element){
+        	if($element instanceof tao_helpers_form_elements_Template){
+        		$returnValue[tao_helpers_Uri::decode($element->getName())] = $element->getValues();
+        	}
+        }
+        
+        // section 127-0-1-1-34f10d1c:12e0a0f28d8:-8000:0000000000004F7C end
+
+        return (array) $returnValue;
+    }
 
     /**
      * Short description of method evaluate
@@ -105,7 +132,7 @@ class tao_helpers_form_xhtml_template_Form
 					$prefix = preg_quote($element->getPrefix(), '/');
 					foreach($_POST as $key => $value){
 						if(preg_match("/^$prefix/", $key)){
-							$values[$key] = $value;
+							$values[str_replace($element->getPrefix(), '', $key)] = $value;
 						}
 					}
 					$element->setValues($values);

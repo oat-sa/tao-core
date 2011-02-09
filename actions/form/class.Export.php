@@ -67,13 +67,22 @@ class tao_actions_form_Export
     {
         // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 begin
 		
-		$this->form = tao_helpers_form_FormFactory::getForm('export');
+		$this->form = new tao_helpers_form_xhtml_template_Form('export');
+				
+		$this->form->setDecorators(array(
+			'element'			=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
+			'group'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')),
+			'error'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')),
+			'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar')),
+			'actions-top'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
+		));
+				
 		
     	$exportElt = tao_helpers_form_FormFactory::getElement('export', 'Free');
 		$exportElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/export.png' /> ".__('Export')."</a>");
 		
 		$this->form->setActions(array($exportElt), 'bottom');
-		$this->form->setActions(array(), 'top');
+		
 		
         // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 end
     }
@@ -121,6 +130,25 @@ class tao_actions_form_Export
     		}
     	}
 		
+    	if(isset($this->data['instance'])){
+    		$item = $this->data['instance'];
+    		if($item instanceof core_kernel_classes_Resource){
+				//add an hidden elt for the instance Uri
+				$uriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
+				$uriElt->setValue($item->uriResource);
+				$this->form->addElement($uriElt);
+    		}	
+    	}
+    	if(isset($this->data['class'])){
+    		$class = $this->data['class'];
+    		if($class instanceof core_kernel_classes_Class){
+    			//add an hidden elt for the class uri
+				$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
+				$classUriElt->setValue($class->uriResource);
+				$this->form->addElement($classUriElt);
+    		}	
+    	}
+    	
         // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED7 end
     }
 
@@ -135,29 +163,66 @@ class tao_actions_form_Export
     {
         // section 127-0-1-1-70b2308e:12ca2398ae8:-8000:000000000000291A begin
         
-    	$descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
-		$descElt->setValue(__('Enables you to export an RDF file containing the selected namespaces'));
-		$this->form->addElement($descElt);
+    	(isset($this->data['currentExtension'])) ? $fileName = $this->data['currentExtension'] : $fileName = '';
+    	$instances = array();
+    	if(isset($this->data['instance'])){
+    		$instance = $this->data['instance'];
+    		if($instance instanceof core_kernel_classes_Resource){
+    			$fileName = strtolower(tao_helpers_Display::textCleaner($instance->getLabel()));
+    			$instances[$instance->uriResource] = $instance->getLabel();
+    		}
+    	}
+    	else {
+    		if(isset($this->data['class'])){
+	    		$class = $this->data['class'];
+	    		if($class instanceof core_kernel_classes_Class){
+					$fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel()));
+					foreach($class->getInstances() as $instance){
+						$instances[$instance->uriResource] = $instance->getLabel();
+					}
+	    		}
+    		}
+    	}
+    	$instances = tao_helpers_Uri::encodeArray($instances, tao_helpers_Uri::ENCODE_ARRAY_KEYS);
     	
-    	$formatElt = tao_helpers_form_FormFactory::getElement('ontology', 'Radiobox');
-		$formatElt->setDescription(__('Namespaces'));
-		$formatElt->setOptions(array(
-			'all'			=> __('All (the complete TAO Module)'),
-			'current'		=> __('Current (the current extension, the local data and their dependancies)'),
-			'data'			=> __('Local Data (the local namespace containing only the data inserted by the users)')
-		));
-		$formatElt->setValue('current');
-		$this->form->addElement($formatElt);
+    	$descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
+		$descElt->setValue(__('Enables you to export an RDF file containing the selected namespaces or instances'));
+		$this->form->addElement($descElt);
 		
 		$nameElt = tao_helpers_form_FormFactory::getElement('filename', 'Textbox');
 		$nameElt->setDescription(__('File name'));
 		$nameElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		if(Session::hasAttribute('currentExtension')){
-			$nameElt->setValue(Session::getAttribute('currentExtension'));
-		}
+		$nameElt->setValue($fileName);
 		$nameElt->setUnit(".rdf");
 		$this->form->addElement($nameElt);
-		$this->form->createGroup('options', __('Export Options'), array('rdf_desc',  'ontology', 'name'));
+		
+		//get the current Namespaces and dependancies
+		$currentNs = array();
+		if( isset($this->data['currentExtension'])){
+			$currentExtentsion = new common_ext_SimpleExtension($this->data['currentExtension']);
+			$currentNs =  $currentExtentsion->model;
+			
+			$extManager = common_ext_ExtensionsManager::singleton();
+			foreach($extManager->getDependancies($currentExtentsion) as $dependancy){
+				$ext = new common_ext_SimpleExtension($dependancy);
+				$currentNs =  array_merge($currentNs, $ext->model);
+			}
+		}
+		
+		$nsManager = common_ext_NamespaceManager::singleton();
+		
+		$tplElt = new tao_helpers_form_elements_template_Template('rdftpl');
+		$tplElt->setPath(TAO_TPL_PATH . '/form/rdfexport.tpl.php');
+		$tplElt->setVariables(array(
+			'namespaces' 	=> $nsManager->getAllNamespaces(),
+			'localNs'		=> $nsManager->getLocalNamespace()->getModelId(),
+			'currentNs'		=> $currentNs,
+			'instances'		=> $instances
+		));
+		$this->form->addElement($tplElt);
+    	
+		
+		$this->form->createGroup('options', __('Export Options'), array('rdf_desc', 'filename', 'rdftpl'));
     	
         // section 127-0-1-1-70b2308e:12ca2398ae8:-8000:000000000000291A end
     }

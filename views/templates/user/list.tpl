@@ -63,6 +63,9 @@ $(function(){
 			$(".user_deletor").click(function(){
 				removeUser(this.id.replace('user_deletor_', ''));
 			});
+			$(window).unbind('resize').bind('resize', function(){
+				myGrid.jqGrid('setGridWidth', (parseInt($("#user-list").width()) - 2));
+			});
 		}
 	});
 	myGrid.navGrid('#user-list-pager',{edit:false, add:false, del:false});

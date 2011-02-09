@@ -18,12 +18,31 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	protected $formContainer;
 	
 	/**
+	 * @var array the data to set to the formContainer
+	 */
+	protected $formData = array();
+	
+	/**
 	 * Constructor performs initializations actions
 	 * @return void
 	 */
 	public function __construct(){		
 		parent::__construct();
-		$this->formContainer = new tao_actions_form_Export();
+		
+		if($this->hasSessionAttribute('currentExtension')){
+			$this->formData['currentExtension'] = $this->getSessionAttribute('currentExtension');
+		}
+		if($this->hasRequestParameter('classUri')){
+			if(trim($this->getRequestParameter('classUri')) != ''){
+				$this->formData['class'] = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+			}
+		}
+		if($this->hasRequestParameter('uri') && $this->hasRequestParameter('classUri')){
+			if(trim($this->getRequestParameter('uri')) != ''){
+				$this->formData['instance'] = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+			}
+		}
+		$this->formContainer = new tao_actions_form_Export($this->formData);
 	}
 	
 	/**
@@ -80,44 +99,94 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 * @param array $formValues the posted data
 	 */
 	protected function exportRDFData($formValues){
-		if($this->hasRequestParameter('ontology') && $this->hasRequestParameter('filename')){
-			$exportPath = $this->getExportPath();
+		if(isset($formValues['rdftpl']) && isset($formValues['filename'])){
 			
-			$refClass = null;
-			$localClass = null;
-			if($this->hasSessionAttribute('currentExtension')){
-				$extension = str_replace('tao', '', $this->getSessionAttribute('currentExtension'));
-				$service =  tao_models_classes_ServiceFactory::get($extension);
-				if(!is_null($service)){
-					$method = 'get'.ucfirst(preg_replace("/s$/", '',$extension)).'Class';
-					if(method_exists($service, $method)){
-						$refClass = $service->$method();
-						if($refClass instanceof core_kernel_classes_Class){
-							$localClass = $service->createSubClass($refClass, $extension.' exporter');
+			$rdf = '';
+			
+			//file where we export
+			$exportPath = $this->getExportPath();
+			$name = $formValues['filename'].'_'.time().'.rdf';
+			$path = tao_helpers_File::concat(array($exportPath, $name));
+			if(!tao_helpers_File::securityCheck($path, true)){
+				throw new Exception('Unauthorized file name');
+			}
+			
+			$api = core_kernel_impl_ApiModelOO::singleton();
+			
+			//export by namespace
+			if($formValues['rdftpl']['mode'] == 'namespaces'){
+				
+				$nsManager = common_ext_NamespaceManager::singleton();
+				
+				$namespaces = array();
+				foreach($formValues['rdftpl'] as $key => $value){
+					if(preg_match("/^ns_/", $key)){
+						$modelID = (int)str_replace('ns_', '', $key);
+						if($modelID > 0){
+							$ns = $nsManager->getNamespace($modelID);
+							if($ns instanceof common_ext_Namespace){
+								$namespaces[] = (string)$ns;
+							}
 						}
 					}
 				}
-			}
-			$adapter = new tao_helpers_data_GenerisAdapterRdf();
-			switch($formValues['ontology']){
-				case 'data':	$rdf =  $adapter->export($localClass); break;
-				case 'current':	$rdf =  $adapter->export($refClass); break;
-				case 'all':		$rdf =  $adapter->export(); break;
-				default: 		$rdf = ''; break;
-			}
-			if(!empty($rdf)){
-				$name = $formValues['filename'].'_'.time().'.rdf';
-				$path = tao_helpers_File::concat(array($exportPath, $name));
-				if(!tao_helpers_File::securityCheck($path, true)){
-					throw new Exception('Unauthorized file name');
-				}
-				if(file_put_contents($path, $rdf)){
-					$this->setData('message', $name.' '.__('exported successfully'));
+				if(count($namespaces) > 0){
+					$rdf = $api->exportXmlRdf($namespaces);
 				}
 			}
 			
-			if($localClass instanceof core_kernel_classes_Class){
-				$localClass->delete();
+			//export by instances
+			if($formValues['rdftpl']['mode'] == 'instances'){
+				
+				$instances = array();
+				foreach($formValues['rdftpl'] as $key => $value){
+					if(preg_match("/^instance_/", $key)){
+						$instances[] = tao_helpers_Uri::decode(str_replace('instance_', '', $key));
+					}
+				}
+				if(count($instances) > 0){
+					$xmls = array();
+					foreach($instances as $instanceUri){
+						$xmls[] = $api->getResourceDescriptionXML($instanceUri);
+					}
+					
+					if(count($xmls) == 1){
+						$rdf = $xmls[0];
+					}
+					else if(count($xmls) > 1){
+						
+						//merge the xml of each instances...
+						
+						$baseDom = new DomDocument();
+						$baseDom->formatOutput = true;
+						$baseDom->loadXML($xmls[0]);
+						
+						for($i = 1; $i < count($xmls); $i++){
+							
+							$xmlDoc = new SimpleXMLElement($xmls[$i]);
+							foreach($xmlDoc->getNamespaces() as $nsName => $nsUri){
+								if(!$baseDom->documentElement->hasAttribute('xmlns:'.$nsName)){
+									$baseDom->documentElement->setAttribute('xmlns:'.$nsName, $nsUri);
+								}
+							}
+							$newDom = new DOMDocument();
+							$newDom->loadXml($xmls[$i]);
+							foreach($newDom->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', "Description") as $desc){
+								$newNode = $baseDom->importNode($desc, true);
+								$baseDom->documentElement->appendChild($newNode);
+							}
+						}
+						
+						$rdf = $baseDom->saveXml();
+					}
+				}
+			}
+			
+			//save it
+			if(!empty($rdf)){
+				if(file_put_contents($path, $rdf)){
+					$this->setData('message', $name.' '.__('exported successfully'));
+				}
 			}
 		}
 	}

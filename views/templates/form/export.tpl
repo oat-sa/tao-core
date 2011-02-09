@@ -15,7 +15,9 @@ $(document).ready(function(){
 
 	//by changing the format, the form is sent
 	$(":radio[name='format']").change(function(){
-		$(this).parents('form').find('.form-submiter').click();
+		var form = $(this).parents('form');
+		$(":input[name='"+form.attr('name')+"_sent']").remove();
+		form.find('.form-submiter').click();
 	});
 	
 	var myGrid = $("#files-list").jqGrid({
@@ -29,7 +31,7 @@ $(document).ready(function(){
 			{name:'actions',index:'actions', align:"center", sortable: false}
 		], 
 		rowNum: 20, 
-		width: parseInt($("#files-list").width()) - 2, 
+		width: parseInt($("#files-list").width()) - 5, 
 		pager: '#files-list-pager', 
 		sortname: 'name', 
 		viewrecords: false, 
@@ -77,6 +79,9 @@ $(document).ready(function(){
 				}); 
 				
 				return false;
+			});
+			$(window).unbind('resize').bind('resize', function(){
+				myGrid.jqGrid('setGridWidth', parseInt($("#files-list").width()) - 5);
 			});
 		}
 	});

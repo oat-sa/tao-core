@@ -172,3 +172,10 @@ div.xhtml_form div.form-toolbar a{
 div.xhtml_form div.form-toolbar a:hover{
 	color:#D00239;	
 }
+
+div#form-container div.xhtml_form div table.form-elt-container{
+	margin:5px 0 5px 30%;
+	padding:5px;
+	width:70%;	
+	vertical-align: middle;
+}
