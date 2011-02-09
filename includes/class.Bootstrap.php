@@ -355,11 +355,11 @@ class Bootstrap{
 		//ajax file upload works only without HTTP_AUTH
 		if(!USE_HTTP_AUTH){
 			tao_helpers_Scriptloader::addCssFile(
-				TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/uploadify.css'
+				TAOBASE_WWW . 'js/jquery.uploadify/uploadify.css'
 			);
 			tao_helpers_Scriptloader::addJsFiles(array(
-				TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/jquery.uploadify.v2.1.0.min.js',
-				TAOBASE_WWW . 'js/jquery.uploadify-v2.1.0/swfobject.js'
+				TAOBASE_WWW . 'js/jquery.uploadify/jquery.uploadify.v2.1.4.min.js',
+				TAOBASE_WWW . 'js/jquery.uploadify/swfobject.js'
 			));
 		}
 	}

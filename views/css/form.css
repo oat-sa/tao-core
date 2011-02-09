@@ -66,13 +66,9 @@ div.xhtml_form div .form-elt-container{
 	margin-top:5px;
 	margin-bottom:5px;
 }
-div.xhtml_form div span.file-uploader{
-	cursor:pointer;
+div.xhtml_form div .file-uploader{
 	z-index:10000;
-	padding:5px;
-	top:15px;
-	margin-bottom:15px;
-	font-size:1.1em;
+	
 }
 div.xhtml_form div span.checker-container{
 	margin-left:28%;

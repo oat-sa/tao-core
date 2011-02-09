@@ -10,7 +10,7 @@ AsyncFileUpload = function(elt, options){
 	this.settings = {
 			"script"    : root_url + "/tao/File/upload",
 			"popupUrl"	: root_url + "/tao/File/htmlUpload",
-			"uploader"  : taobase_www + "js/jquery.uploadify-v2.1.0/uploadify.swf",
+			"uploader"  : taobase_www + "js/jquery.uploadify/uploadify.swf",
 			"cancelImg" : taobase_www + "img/cancel.png",
 			"buttonImg"	: taobase_www + "img/browse_btn.png",
 			"scriptAccess": 'sameDomain',
