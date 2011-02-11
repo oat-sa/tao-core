@@ -10,9 +10,10 @@ function __autoload($class_name) {
 	$file =  'class.' . basename($path). '.php';
     require_once  dirname($path) . '/' . $file;
 }
-require_once('tao/helpers/class.Display.php');
-require_once('tao/helpers/class.Uri.php');
-if(!function_exists('__')){function __($m){return $m;}}
+require_once ('tao/helpers/class.Display.php');
+require_once ('tao/helpers/class.Uri.php');
+require_once ('generis/includes/ClearFw/clearbricks/common/lib.l10n.php');
+
 
 // --
 

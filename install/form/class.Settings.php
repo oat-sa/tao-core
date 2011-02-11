@@ -78,7 +78,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleUrlElt =  tao_helpers_form_FormFactory::getElement('module_url', 'Textbox');
 		$moduleUrlElt->setDescription('Url');
 		$moduleUrlElt->setHelp("The url to access to the module.");
-		$moduleUrlElt->setValue($_SERVER['HTTP_HOST']);
+		$moduleUrlElt->setValue('http://'.$_SERVER['HTTP_HOST']);
 		$moduleUrlElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 			tao_helpers_form_FormFactory::getValidator('Url'),

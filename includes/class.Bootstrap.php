@@ -358,7 +358,7 @@ class Bootstrap{
 				TAOBASE_WWW . 'js/jquery.uploadify/uploadify.css'
 			);
 			tao_helpers_Scriptloader::addJsFiles(array(
-				TAOBASE_WWW . 'js/jquery.uploadify/jquery.uploadify.v2.1.4.min.js',
+				TAOBASE_WWW . 'js/jquery.uploadify/jquery.uploadify.v2.1.4.js',
 				TAOBASE_WWW . 'js/jquery.uploadify/swfobject.js'
 			));
 		}

@@ -41,6 +41,28 @@ class tao_actions_File extends tao_actions_CommonModule{
 		return;
 	}
 	
+	public function cancelUpload(){
+		$removed = 0;
+		if($this->hasRequestParameter('filename')){
+			$filename = trim($this->getRequestParameter('filename'));
+				if(!empty($filename)){
+					$pattern = "/^[0-9a-f]*_".preg_quote($filename, "/")."$/";
+				
+				$targetPath = tao_helpers_File::concat(array($this->rootFolder,$_REQUEST['folder']));
+				foreach(scandir($targetPath) as $file){
+					if(preg_match($pattern, $file)){
+						if(tao_helpers_File::remove(
+							$targetPath.'/'.$file
+						)){
+							$removed++;
+						}
+					}
+				}
+			}
+		}
+		echo json_encode(array('removed' => $removed));
+	}
+	
 	/**
 	 * Produce a simple view use to display a file upload form in a popup
 	 */

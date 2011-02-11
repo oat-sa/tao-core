@@ -132,6 +132,7 @@ if(jQuery)(
 							queue = '#' + event.data.queueID;
 						}
 						jQuery(queue).append('<div id="' + jQuery(this).attr('id') + ID + '" class="uploadifyQueueItem">\
+								<span class="fileObj" style="display:none;">'+fileObj.name+'</span>\
 								<div class="cancel">\
 									<a href="javascript:jQuery(\'#' + jQuery(this).attr('id') + '\').uploadifyCancel(\'' + ID + '\')"><img src="' + settings.cancelImg + '" border="0" /></a>\
 								</div>\

@@ -38,6 +38,11 @@ class tao_install_Installator{
 			'name'	=> 'json'
 		),
 		7 => array(
+                        'type'  => 'PHP_EXTENSION',
+                        'title' => 'PHP Dom extension check',
+                        'name'  => 'dom'
+                ),
+		8 => array(
 			'type'	=> 'MULTI',
 			'title'	=> 'PHP mysql driver extension check',
 			'tests'	=> array(
@@ -46,13 +51,13 @@ class tao_install_Installator{
 				array('type'	=> 'PHP_EXTENSION', 'name' =>  'pdo_mysql')
 			)
 		),
-		8 => array(
+		9 => array(
 			'type'			=> 'PHP_EXTENSION',
 			'title'			=> 'Suhosin patch check',
 			'displayMsg'	=> true,
 			'name'			=> 'suhosin'
 		),
-		9 => array(
+		10 => array(
 			'type'	=> 'APACHE_MOD',
 			'title'	=> 'Apache mod rewrite check',
 			'name'	=> 'rewrite'
@@ -205,7 +210,7 @@ class tao_install_Installator{
 			'DATABASE_NAME' 	=> $installData['db_name'],
 			'LOCAL_NAMESPACE'	=> $installData['module_namespace'],
 			'ROOT_PATH'			=> $this->options['root_path'],
-			'ROOT_URL'			=> $installData['module_url'],
+			'ROOT_URL'			=> preg_replace("/\/$/", '', $installData['module_url']),
 			'DEFAULT_LANG'		=> $installData['module_lang'],
 			'DEBUG_MODE'		=> ($installData['module_mode'] == 'debug') ? true : false
 		));
