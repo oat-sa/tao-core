@@ -52,12 +52,12 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	catch(tao_install_utils_Exception $ie){
 
 		//we display the exception message to the user
-		echo "<h3 style='color:red;'>";
-		echo $ie->getMessage();
-		echo "</h3>";
-		echo "<pre>";
-		echo $ie->getTraceAsString();
-		echo "</pre><br />";
+		?>
+		<div id="error">
+			<div><?= $ie->getMessage(); ?></div>
+			<pre><?= trim($ie->getTraceAsString()); ?></pre>
+		</div>
+		<?
 	}
 	
 //	
@@ -76,7 +76,6 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	<link rel="stylesheet" type="text/css" media="screen" href="newtao.css"/> 
 </head>
 <body>
-<div id="main-menu" class="ui-state-default"></div>
 <div id="content" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 	<div id="title" class="ui-widget-header ui-corner-all">TAO Install</div>
 	<div class="section">

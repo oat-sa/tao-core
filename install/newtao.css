@@ -1,6 +1,16 @@
-#content {
-	margin: 0 auto 40px auto;
+#content , #error{
+	margin: 40px auto 40px auto;
 	width: 800px;
+}
+
+#error > div {
+	color: red;
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+#error > pre {
+	font-size: 0.8em;
 }
 
 #title {
@@ -12,6 +22,11 @@
 
 .section {
 	margin: 20px;
+	font-size: 12px;
+}
+
+.section table {
+	font-size: 1em;
 }
 
 .form-group {
