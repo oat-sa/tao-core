@@ -63,59 +63,52 @@ if($myForm->isSubmited() && $myForm->isValid()){
 //	
 }
 ?>
-<h2>TAO Install</h2>
-<style>
-div{
-	margin-bottom:15px;
-}
-div.form-group{
-	border:solid grey 1px;
-	font-weight:bold;
-}
-div.form-group > div{
-	font-weight:normal;
-	margin-top:5px;
-}
-input, .form-elt-container, select{
-	position:absolute;
-	left:200px;
-}
-.form-help{
-	margin-top:5px;
-	display:block;
-	font-size:11px;
-	font-style:italic;
-}
-.form-error{
-	color:red;
-}
-table{
-	border-collapse: collapse;
-}
-table td, table th{
-	border: solid 1px #aaa;
-	padding:3px;
-}
-</style>
-<h3> 1 - System Configuration</h3>
-<table>
-	<thead>
-		<tr>
-			<th>Test</th>
-			<th>Valid</th>
-			<th>Message</th>
-		</tr>
-	</thead>
-	<tbody>
-	<?foreach($configTests as $test):?>
-		<tr>
-			<td><?=$test['title']?></td>
-			<td><?=($test['valid'])?'yes':(($test['unknow'] === true)?'unknow':'no')?></td>
-			<td><?=$test['message']?></td>
-		</tr>
-	<?endforeach?>
-	</tbody>
-</table>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<h3> 2 - Installation Form</h3>
-<?=$container->getForm()->render()?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>TAO Install</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/custom-theme/jquery-ui-1.8.custom.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/style.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/layout.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/form.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="newtao.css"/> 
+</head>
+<body>
+<div id="main-menu" class="ui-state-default"></div>
+<div id="content" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+	<div id="title" class="ui-widget-header ui-corner-all">TAO Install</div>
+	<div class="section">
+	<div class="ui-widget ui-widget-header ui-state-default  ui-corner-top">1 - System Configuration</div>
+	<div class="ui-widget ui-widget-content ui-corner-bottom">
+		<table>
+			<thead>
+				<tr>
+					<th class="ui-state-default ui-th-column ui-th-ltr leading test">Test</th>
+					<th class="ui-state-default ui-th-column ui-th-ltr validity">Valid</th>
+					<th class="ui-state-default ui-th-column ui-th-ltr trailing message">Message</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?foreach($configTests as $test):?>
+				<? $isOptional = !($test['title'] != 'Suhosin patch check') ?>
+				<tr class="<?= ($test['valid']) ? 'valid' : (($isOptional) ? 'optional' : 'invalid'); ?>">
+					<td><?=$test['title']?></td>
+					<td class="validity"><img src="img/<?= ($test['valid'])?'accept' : (($test['unknow'] === true) ? 'unknown' : (($isOptional) ? 'warning' : 'exclamation'))?>.png"/></td>
+					<td><?=$test['message']?></td>
+				</tr>
+			<?endforeach?>
+			</tbody>
+		</table>
+	</div>
+	</div>
+	<div class="section">
+		<div class="ui-widget ui-widget-header ui-state-default  ui-corner-top">2 - Installation Form</div>
+		<div id="install-form" class="ui-widget ui-widget-content ui-corner-bottom">
+			<?=$container->getForm()->render()?>
+		</div>
+	</div>
+	</body>
+</div>
+</html>

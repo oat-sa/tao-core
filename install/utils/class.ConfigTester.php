@@ -108,7 +108,7 @@ class tao_install_utils_ConfigTester{
 				(extension_loaded('gd')) ? $this->status  = self::STATUS_VALID : $this->status  = self::STATUS_INVALID;
 				break;
 			case 'suhosin':
-				$this->message 	= "Suhosin patch is optionnal. But if you use it, ".
+				$this->message 	= "Suhosin patch is optionnal but is not installed on your web server. If you use it, ".
 								"set the directives suhosin.request.max_varname_length and suhosin.post.max_name_length to 128.";
 				(extension_loaded('suhosin')) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
 				break;
