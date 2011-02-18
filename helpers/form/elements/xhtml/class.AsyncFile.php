@@ -139,11 +139,18 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 			}
 		}
 		
+		//default value for 'auto' is 'true':
+		$auto = 'true';
+		if(isset($this->attributes['auto'])){
+			if(!$this->attributes['auto'] || $this->attributes['auto'] === 'false') $auto = 'false'; 
+			unset($this->attributes['auto']);
+		}
+		
 		//initialize the AsyncFileUpload Js component
 		$returnValue .= '<script type="text/javascript">
 			$(document).ready(function(){
 				
-				new AsyncFileUpload("#'.$widgetName.'", {
+				myUploader = new AsyncFileUpload("#'.$widgetName.'", {
 					"scriptData"	: {"session_id": "'.session_id().'"},
 					"basePath"  : "'.TAOBASE_WWW.'",
 					"sizeLimit"	: '.$fileSize.',';
@@ -156,6 +163,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 					"starter"   : "#'.$widgetName.'_starter",
 					"target"	: "#'.$this->name.'",
 					"submiter"	: ".form-submiter",
+					"auto"      : '.$auto.',
 					"folder"    : "/"
 				});
 				
