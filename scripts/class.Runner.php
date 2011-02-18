@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 17.02.2011, 15:21:40 with ArgoUML PHP module 
+ * Automatically generated on 18.02.2011, 16:19:24 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -76,13 +76,26 @@ abstract class tao_scripts_Runner
     {
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B begin
         
-    	self::out("Running {$_SERVER['argv'][0]}", array('color' => 'green'));
+    	self::out("Running {$_SERVER['argv'][0]}", array('color' => 'white'));
     	
     	$this->inputFormat = $inputFormat;
-    	
+
+    	//check if help is needed
+    	$helpTokens = array('-h', 'help', '-help', '--help)');
+    	foreach( $helpTokens as $helpToken){
+    		 if(in_array($helpToken, $_SERVER['argv'])){
+    		 	$this->help();
+    		 	exit(0);
+    		 }
+    	}
+
+    	//validate the input parameters
     	if(!$this->validateInput()){
+    		$this->help();
     		self::err("Scripts stopped!", true);
     	}
+    	
+    	//script run loop
     	
     	$this->preRun();
     	
@@ -143,15 +156,17 @@ abstract class tao_scripts_Runner
         	$i++;
         }
         
-		//replaces shortcuts by their orginal names
-		if(isset($this->inputFormat['shortcuts']) && is_array($this->inputFormat['shortcuts'])){
-			foreach($this->inputFormat['shortcuts'] as $long => $short){
-				if(array_key_exists($short, $this->parameters) && !array_key_exists($long, $this->parameters)){
+        //replaces shortcuts by their original names
+        foreach($this->inputFormat['parameters'] as $parameter){
+        	if(isset($parameter['shortcut'])){
+        		$short = $parameter['shortcut'];
+        		$long = $parameter['name'];
+        		if(array_key_exists($short, $this->parameters) && !array_key_exists($long, $this->parameters)){
 					$this->parameters[$long] = $this->parameters[$short];
 					unset($this->parameters[$short]);
 				}
-			}
-		}
+        	}
+        }
         
         //one we have the parameters, we can validate it
         if(isset($this->inputFormat['min'])){
@@ -163,45 +178,50 @@ abstract class tao_scripts_Runner
         	}
         }
         
-        if(isset($this->inputFormat['required'])){
-        	
-        	if(!is_array($this->inputFormat['required'])){
-        		$required = array($this->inputFormat['required']);
+        if(isset($this->inputFormat['required']) && is_array($this->inputFormat['required'])){
+        	if(!is_array($this->inputFormat['required'][0])){
+        		$requireds = array($this->inputFormat['required']);
         	}
         	else{
-        		$required = $this->inputFormat['required'];
+        		$requireds = $this->inputFormat['required'];
         	}
         	
-        	foreach($required as $parameter){
-        		if(!array_key_exists($parameter, $this->parameters)){
-        			self::err("Unable to find required argument: $parameter");
-        			$returnValue = false;
-        		}
+        	$found = false;
+        	foreach($requireds as $required){
+        		
+        		$matched = 0;
+	        	foreach($required as $parameter){
+	        		if(array_key_exists($parameter, $this->parameters)){
+	        			$matched++;
+	        		}
+	        	}
+	        	if($matched == count($required)){
+        			$found = true;
+        			break;
+	        	}
         	}
         	
-        	if(!$returnValue){
-        		$usage = "Usage:php \n{$_SERVER['argv'][0]}";
-        		foreach($required as $parameter){
-        			$usage .= " --{$parameter}={$parameter}Value";
-        		}
-        		self::err($usage);
+        	if(!$found){
+        		self::err("Unable to find required arguments");
+        		$returnValue = false;
         	}
         }
         
-        if($returnValue && isset($this->inputFormat['types']) && is_array($this->inputFormat['types'])){
-        	foreach($this->inputFormat['types'] as $paramName => $type){
-        		if(isset($this->parameters[$paramName])){
-        			$parameter = $this->parameters[$paramName];
-	        		switch($type){
-	        			case 'file': 
-	        				if( !is_file($parameter) || 
-	        					!file_exists($parameter) || 
-	        					!is_readable($parameter))
-	        				{
-	        					self::err("Unable to access to the file: $parameter");
-	        					$returnValue = false;
-	        				}
-	        				break;
+        if($returnValue){
+        	
+        	 foreach($this->inputFormat['parameters'] as $parameter){
+        		if(isset($this->parameters[$parameter['name']])){
+	        	 	$parameter = $this->parameters[$parameter['name']];
+		        	switch($parameter['type']){
+		        		case 'file': 
+		       				if( !is_file($parameter) || 
+		       					!file_exists($parameter) || 
+		       					!is_readable($parameter))
+		       				{
+		       					self::err("Unable to access to the file: $parameter");
+		       					$returnValue = false;
+		       				}
+		       				break;
 	        			case 'dir': 
 	        				if( !is_dir($parameter) || 
 	        					!is_readable($parameter))
@@ -220,24 +240,30 @@ abstract class tao_scripts_Runner
 	        			case 'int':
 	        			case 'float':
 	        			case 'double':
-	        				self::err("$parameter is not a valid $type");
 	        				if(!is_numeric($parameter)){
+	        					self::err("$parameter is not a valid $type");
 	        					$returnValue = false;
 	        				}
 	        				break;
 	        			case 'string':
-	        				self::err("$parameter is not a valid $type");
 	        				if(!is_string($parameter)){
+	        					self::err("$parameter is not a valid $type");
 	        					$returnValue = false;
 	        				}
 	        				break;
+	        			case 'boolean':
+	        				if(!is_bool($parameter) && $parameter != 'true' && $parameter != 'false' ){
+	        					self::err("$parameter is not a valid $type");
+	        					$returnValue = false;
+	        				}
+	        				break;
+	        				
 	        		}
-	        	}
+        		}
         	}
-        	
         }
         
-      
+ 
         
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D63 end
 
@@ -301,7 +327,7 @@ abstract class tao_scripts_Runner
         	$colorized = true;
         	$returnValue .= "\033[{$color}m";
         }
-        isset($options['background']) ?  $bg = $options['background'] : $bg = 'black';
+        isset($options['background']) ?  $bg = $options['background'] : $bg = '';
         $bg = trim(tao_helpers_Cli::getBgColor($bg));
         if(!empty($bg)){
         	$colorized = true;
@@ -335,13 +361,50 @@ abstract class tao_scripts_Runner
     {
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D5B begin
         
-        echo self::out($message, array('color' => 'red', 'background' => 'black'));
+        echo self::out($message, array('color' => 'light_red'));
         
         if($stopExec == true){
         	exit(1);	//exit the program with an error
         }
         
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D5B end
+    }
+
+    /**
+     * Short description of method help
+     *
+     * @access protected
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @return mixed
+     */
+    protected function help()
+    {
+        // section 127-0-1-1--5d5119d4:12e3924f2ec:-8000:0000000000002D86 begin
+        
+    	$usage = "Usage:php {$_SERVER['argv'][0]} [arguments]\n";
+    	$usage .= "\nArguments list:\n";
+		foreach($this->inputFormat['parameters'] as $parameter){
+       		if(isset($parameter['required'])){
+       			if($parameter['required'] == true){
+       				$usage .= "Required";
+       			}
+       			else{
+       				$usage .= "Optional";
+       			}
+       		}
+       		else{
+       			$usage .= "\t";
+       		}
+			$usage .= "\t--{$parameter['name']}";
+       		if(isset($parameter['shortcut'])){
+       			$usage .= "|-{$parameter['shortcut']}";
+       		}
+       		$usage .= "\t\t{$parameter['description']}";
+       		$usage .= "\n";
+       	}
+  		self::out($usage, array('color' => 'light_blue'));
+    	
+        // section 127-0-1-1--5d5119d4:12e3924f2ec:-8000:0000000000002D86 end
     }
 
 } /* end of abstract class tao_scripts_Runner */
