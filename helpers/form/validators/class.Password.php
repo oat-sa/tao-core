@@ -68,7 +68,7 @@ class tao_helpers_form_validators_Password
 		
 		parent::__construct($options);
 		
-		$this->message = __('Password are not matching');
+		$this->message = __('Passwords are not matching');
 		
 		$elementSet = true;
 		if(!isset($this->options['password2_ref'])){
