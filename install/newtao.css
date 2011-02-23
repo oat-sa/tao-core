@@ -97,6 +97,21 @@ div.xhtml_form div input, div.xhtml_form div select, .form-elt-container {
 	width: 100px;
 }
 
+#success {
+	margin: 0 auto 10px auto;
+	width: 500px;
+}
+
+#success img {
+	margin: 20px auto;
+	display: block;
+}
+
+#success h1 {
+	font-size: 1.3em;
+	text-align: center;
+}
+
 /*tr.optional td {
 	background-color: #ffc193;
 	color: #d55b01;

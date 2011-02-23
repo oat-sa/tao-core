@@ -56,13 +56,25 @@ $myForm = $container->getForm();
 			
 			
 			$installator->install($formValues);
-			
-			
 			$installator->configWaterPhoenix($formValues);
+			$moduleUrl = $myForm->getValue('module_url');
+			$backendLink = tao_install_utils_Links::buildBackendLink($moduleUrl);
+			$frontendLink = tao_install_utils_Links::buildFrontendLink($moduleUrl);
 			
 			//DONE if no exception has been thrown
-			echo "<h1 style='color:green;'>DONE</h1>";
-			exit;
+			?>
+			<div id="success">
+			  <h1>Installation successfuly completed!</h1>
+			  <a href="<?= $backendLink ?>" title="TAO backend"><img src="img/logo.png" title="Access to the TAO platform" alt="Access to the TAO platform"/></a>
+			  <p>
+		 	  Click on the logo above to access the TAO platform. Use the login and password that corresponds to the previously
+			  created Super User.</p>
+			  <ul>
+			    <li>Link to the backend (administrators): <a href="<?= $backendLink ?>" title="TAO backend"><?= $backendLink ?></a></li>
+				<li>Link to the frontend (test takers): <a href="<?= $frontendLink ?>" title="TAO frontend"><?= $frontendLink ?></a></li>
+			  </ul>
+			</div>
+			<?
 			
 		}
 		catch(tao_install_utils_Exception $ie){

@@ -111,7 +111,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 			'debug' 		=> 'Test / Development',
 			'production'	=> 'Production'
 		));
-		$moduleModeElt->setValue('production');
+		$moduleModeElt->setValue('debug');
 		$this->form->addElement($moduleModeElt);
 		
 		$this->form->createGroup('module', 'Module', array('module_name', 'module_host', 'module_namespace', 'module_url', 'module_lang', 'module_mode'));
