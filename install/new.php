@@ -29,39 +29,6 @@ $configTests = $installator->processTests();
 //get the settings form
 $container = new tao_install_form_Settings();
 $myForm = $container->getForm();
-
-//once the form is posted and valid
-if($myForm->isSubmited() && $myForm->isValid()){
-	
-	//get the posted values 	
-	$formValues = $myForm->getValues();
-	
-	try{	//if there is any issue during the install, a tao_install_utils_Exception is thrown
-		
-		
-		$installator->install($formValues);
-		
-		
-		$installator->configWaterPhoenix($formValues);
-		
-		//DONE if no exception has been thrown
-		echo "<h1 style='color:green;'>DONE</h1>";
-		exit;
-		
-	}
-	catch(tao_install_utils_Exception $ie){
-
-		//we display the exception message to the user
-		?>
-		<div id="error">
-			<div><?= $ie->getMessage(); ?></div>
-			<pre><?= trim($ie->getTraceAsString()); ?></pre>
-		</div>
-		<?
-	}
-	
-//	
-}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -74,9 +41,41 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/layout.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/form.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="newtao.css"/> 
+	<script type="text/javascript" src="../views/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="newtao.js"></script>
 </head>
 <body>
 <div id="content" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+	<? //once the form is posted and valid
+	if($myForm->isSubmited() && $myForm->isValid()):
+	
+		//get the posted values 	
+		$formValues = $myForm->getValues();
+		
+		try{	//if there is any issue during the install, a tao_install_utils_Exception is thrown
+			
+			
+			$installator->install($formValues);
+			
+			
+			$installator->configWaterPhoenix($formValues);
+			
+			//DONE if no exception has been thrown
+			echo "<h1 style='color:green;'>DONE</h1>";
+			exit;
+			
+		}
+		catch(tao_install_utils_Exception $ie){
+
+			//we display the exception message to the user
+			?>
+			<div id="error">
+				<div><?= $ie->getMessage(); ?></div>
+				<pre><?= trim($ie->getTraceAsString()); ?></pre>
+			</div>
+			<?
+		}
+	else: ?>
 	<div id="title" class="ui-widget-header ui-corner-all">TAO Install</div>
 	<div class="section">
 	<div class="ui-widget ui-widget-header ui-state-default  ui-corner-top">1 - System Configuration</div>
@@ -108,6 +107,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 			<?=$container->getForm()->render()?>
 		</div>
 	</div>
+	<? endif; ?>
 	</body>
 </div>
 </html>

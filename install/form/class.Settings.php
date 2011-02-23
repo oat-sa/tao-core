@@ -42,8 +42,8 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleNameElt =  tao_helpers_form_FormFactory::getElement('module_name', 'Textbox');
 		$moduleNameElt->setDescription('Name *');
 		$moduleNameElt->setHelp("The name of the module will be used to identifiate this instance of TAO from the others. " . 
-								"The module name will be used as the database name and is usually the suffix of " .
-								"the module's namespace (http://host/MODULE NAME.rdf#).");
+								"The module name will be used as the database name and is the suffix of " .
+								"the module namespace (http://host/MODULE NAME.rdf#).");
 		$moduleNameElt->setValue('mytao');
 		$moduleNameElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
@@ -55,8 +55,9 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		
 		//Module Host
 		$moduleHostElt =  tao_helpers_form_FormFactory::getElement('module_host', 'Textbox');
-		$moduleHostElt->setDescription('Host');
-		$moduleHostElt->setHelp("The host will be used in the module's namespace http://HOST/module name.rdf#)");
+		$moduleHostElt->setDescription('Host *');
+		$moduleHostElt->setHelp("The host will be used in the module namespace http://HOST/module name.rdf#)." .  
+													 "It must not be necessarily the host name of your web server.");
 		$moduleHostElt->setValue($_SERVER['HTTP_HOST']);
 		$moduleHostElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
@@ -68,16 +69,17 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		//Module Namespace
 		$moduleNSElt =  tao_helpers_form_FormFactory::getElement('module_namespace', 'Label');
 		$moduleNSElt->setDescription('Namespace');
-		$moduleNSElt->setHelp("The module's namespace will be used to identify the data of your module. ".
+		$moduleNSElt->setHelp("The module's namespace will be used to identify the data stored by your module. ".
 								"Each data collected by tao is identified uniquely by an URI composed by ".
-								"the namespace followed by the resource identifier (NAMESPACE#resource) ");
+								"the module namespace followed by the resource identifier (NAMESPACE#resource) ");
 		$moduleNSElt->setValue('http://'.$moduleHostElt->getValue().'/'.$moduleNameElt->getValue().'.rdf');
+		$moduleNSElt->setAttribute('id', 'module_namespace');
 		$this->form->addElement($moduleNSElt);
 		
 		//Module URL
 		$moduleUrlElt =  tao_helpers_form_FormFactory::getElement('module_url', 'Textbox');
-		$moduleUrlElt->setDescription('Url');
-		$moduleUrlElt->setHelp("The url to access to the module.");
+		$moduleUrlElt->setDescription('URL *');
+		$moduleUrlElt->setHelp("The URL to access the module from a web browser.");
 		$moduleUrlElt->setValue('http://'.$_SERVER['HTTP_HOST']);
 		$moduleUrlElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
@@ -130,28 +132,34 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		
 		//Database Host
 		$dbHostElt =  tao_helpers_form_FormFactory::getElement('db_host', 'Textbox');
-		$dbHostElt->setDescription('Host');
+		$dbHostElt->setDescription('Host *');
 		$dbHostElt->setValue('localhost');
+		$dbHostElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($dbHostElt);
 		
 		//Database Name
-	//	$dbNameElt =  tao_helpers_form_FormFactory::getElement('db_name', 'Label');
-		$dbNameElt =  tao_helpers_form_FormFactory::getElement('db_name', 'Textbox');
-		$dbNameElt->setDescription('Name');
+		$dbNameLblElt =  tao_helpers_form_FormFactory::getElement('db_name_lbl', 'Label');
+		$dbNameLblElt->setDescription('Database name');
+		$dbNameLblElt->setValue($moduleNameElt->getValue());
+		$dbNameLblElt->setHelp('The Database name corresponds to the Module name.');
+		$dbNameLblElt->setAttribute('id', 'db_name_lbl');
+		$this->form->addElement($dbNameLblElt);
+		$dbNameElt = tao_helpers_form_FormFactory::getElement('db_name', 'Hidden');
 		$dbNameElt->setValue($moduleNameElt->getValue());
 		$this->form->addElement($dbNameElt);
 		
 		//Database User
 		$dbUserElt =  tao_helpers_form_FormFactory::getElement('db_user', 'Textbox');
-		$dbUserElt->setDescription('User');
+		$dbUserElt->setDescription('User *');
+		$dbUserElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($dbUserElt);
 		
 		//Database Password
 		$dbPassElt =  tao_helpers_form_FormFactory::getElement('db_pass', 'Hiddenbox');
-		$dbPassElt->setDescription('Password');
+		$dbPassElt->setDescription('Password ');
 		$this->form->addElement($dbPassElt);
 		
-		$this->form->createGroup('db', 'Database', array('db_driver', 'db_host', 'db_name', 'db_user', 'db_pass'));
+		$this->form->createGroup('db', 'Database', array('db_driver', 'db_host', 'db_name_lbl', 'db_name', 'db_user', 'db_pass'));
 	
 		
 		/*
@@ -160,17 +168,18 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		
 		//Super User LastName
 		$userLNameElt	= tao_helpers_form_FormFactory::getElement('user_lastname', 'Textbox');
-		$userLNameElt->setDescription('LastName');
+		$userLNameElt->setDescription('Last name');
 		$this->form->addElement($userLNameElt);
 		
 		//Super User FirstName
 		$userFNameElt	= tao_helpers_form_FormFactory::getElement('user_firstname', 'Textbox');
-		$userFNameElt->setDescription('FirstName');
+		$userFNameElt->setDescription('First name');
 		$this->form->addElement($userFNameElt);
 		
 		//Super User Login
 		$userLoginElt	= tao_helpers_form_FormFactory::getElement('user_login', 'Textbox');
-		$userLoginElt->setDescription('Login');
+		$userLoginElt->setDescription('Login *');
+		$userLoginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($userLoginElt);
 		
 		//Super User password
@@ -178,15 +187,19 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$this->form->addElement($userPass0Elt);
 		
 		$userPass1Elt	= tao_helpers_form_FormFactory::getElement('user_pass1', 'Hiddenbox');
-		$userPass1Elt->setDescription('Password');
+		$userPass1Elt->setDescription('Password *');
+		$userPass1Elt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($userPass1Elt);
 		
 		$userPass2Elt	= tao_helpers_form_FormFactory::getElement('user_pass2', 'Hiddenbox');
-		$userPass2Elt->setDescription('Confirm password');
+		$userPass2Elt->setDescription('Confirm password *');
+		$userPass2Elt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		$userPass2Elt->addValidator(tao_helpers_form_FormFactory::getValidator('Password', array('password2_ref' => $userPass1Elt)));
 		$this->form->addElement($userPass2Elt);
 		
 		//Super User Email
 		$userEmailElt	= tao_helpers_form_FormFactory::getElement('user_email', 'Textbox');
+		$userEmailElt->setDescription('Email');
 		$userPass0Elt->setDescription('Email');
 		$this->form->addElement($userEmailElt);
 		

@@ -75,15 +75,26 @@ tr.invalid td {
 	text-align: center;
 }
 
-#submit {
-	margin: 0;
-}
-
 .form-help {
 	display: block;
 	font-size: 10px;
 	margin: 5px 0 5px 205px;
 	font-style: italic;
+}
+
+.form-error {
+	color: red!important;
+	font-weight: bold;
+}
+
+div.xhtml_form div input, div.xhtml_form div select, .form-elt-container {
+	margin-left: 205px!important;
+	width: 200px;
+}
+
+#submit {
+	margin: 0!important;
+	width: 100px;
 }
 
 /*tr.optional td {
