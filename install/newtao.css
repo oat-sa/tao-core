@@ -98,7 +98,7 @@ div.xhtml_form div input, div.xhtml_form div select, .form-elt-container {
 }
 
 #success {
-	margin: 0 auto 10px auto;
+	margin: 10px auto 10px auto;
 	width: 500px;
 }
 
