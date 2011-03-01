@@ -1,5 +1,5 @@
 DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/Ontologies/TAODelivery.rdf#SubjectCache' LIMIT 5;
-DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedGroups' LIMIT 2;
+DELETE FROM `statements` WHERE `subject` LIKE 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedGroups' LIMIT 10;
 
 UPDATE statements SET subject = "http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeSimple" WHERE subject = "http://www.tao.lu/Ontologies/TAODelivery.rdf#i1268049036038811802";
 UPDATE statements SET predicate = "http://www.tao.lu/Ontologies/TAODelivery.rdf#AuthoringModeSimple" WHERE predicate = "http://www.tao.lu/Ontologies/TAODelivery.rdf#i1268049036038811802";
