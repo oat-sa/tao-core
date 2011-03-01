@@ -265,8 +265,9 @@ abstract class tao_models_classes_GenerisService
         
         $apiSearch = new core_kernel_impl_ApiSearchI();
 		$options = array(
-			'lang' => core_kernel_classes_Session::singleton()->getLg(),
-			'like' => false
+			'lang' 				=> core_kernel_classes_Session::singleton()->getLg(),
+			'like' 				=> false,
+			'checkSubclasses'   => false
 		);
        
 		do{
