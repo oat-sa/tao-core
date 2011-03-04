@@ -76,7 +76,8 @@ CREATE TABLE `statements` (
   PRIMARY KEY  (`id`),
   KEY `idx_statements_modelID` (`modelID`),
   KEY `idx_statements_subject` (`subject`),
-  KEY `idx_statements_predicate` (`predicate`)
+  KEY `idx_statements_predicate` (`predicate`),
+  KEY `idx_statements_object` (`object` (128) )
 ) ENGINE=MyISAM AUTO_INCREMENT=4337 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `user`;

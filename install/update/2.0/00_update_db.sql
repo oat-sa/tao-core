@@ -6,3 +6,4 @@ DROP TABLE subscribee;
 DROP TABLE subscriber;
 DROP TABLE subscribersgroup;
 DROP TABLE settings;
+ALTER TABLE statements ADD INDEX `idx_statements_object` ( `object` ( 128 ) );
