@@ -33,7 +33,7 @@ class tao_actions_File extends tao_actions_CommonModule{
 
 		if (!empty($_FILES)) {
 			if(isset($_FILES['Filedata'])){
-				$response = array_merge($response, $this->uploadFile($_FILES['Filedata'], $_REQUEST['folder'] . '/'));
+				$response = array_merge($response, $this->uploadFile($_FILES['Filedata'], $_POST['folder'] . '/'));
 			}
 		}
 		$response = json_encode($response);
