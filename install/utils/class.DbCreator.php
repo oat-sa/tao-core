@@ -38,6 +38,22 @@ class tao_install_utils_DbCreator{
 	}
 	
 	/**
+	 * Set up the database name
+	 * @param string $name
+	 * @throws tao_install_utils_Exception
+	 */
+	public function setDatabase($name){
+		if(!is_null($this->adoConnection)){
+			try{
+				$this->adoConnection->SelectDB($name);
+			}
+			catch(ADODB_Exception $ae){
+				throw new tao_install_utils_Exception("Unable to connect to the database $name");
+			}
+		}
+	}
+	
+	/**
 	 * Load an SQL file into the current database
 	 * Use it to load the database schema
 	 * @param string $file path to the SQL file

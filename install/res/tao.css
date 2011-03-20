@@ -112,8 +112,7 @@ div.xhtml_form div input, div.xhtml_form div select, .form-elt-container {
 	text-align: center;
 }
 
-/*tr.optional td {
-	background-color: #ffc193;
-	color: #d55b01;
-	font-weight: bold;
-}*/
+span.status img{
+	vertical-align: middle;
+	margin:0px 2px;
+}

@@ -5,7 +5,6 @@
     * 2. checkout the right version id
     * 3. execute the php scripts and run the sql instructions from the last version to the current version
     */
-	
 if(PHP_SAPI == 'cli'){
 
 	//from command line
@@ -24,16 +23,18 @@ if(!$version){
 	exit;
 }
 require_once dirname(__FILE__).'/../includes/raw_start.php';
-require_once dirname(__FILE__).'/utils.php';
 
-echo "\nUpdating ".DATABASE_NAME."\n";
 
-$dbWrapper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
+echo "\nUpdating to $version\n";
+
 
 //get the files to update
 $pattern = dirname(__FILE__).'/update/'.$version .'/';
 if(file_exists($pattern) && is_dir($pattern)){
-
+	
+	$dbCreator = new tao_install_utils_DbCreator(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS, SGBD_DRIVER);
+	$dbCreator->setDatabase(DATABASE_NAME);
+	
 	if($scriptNumber !== false){
 		$pattern .= $scriptNumber;
 	}
@@ -56,7 +57,7 @@ if(file_exists($pattern) && is_dir($pattern)){
 		//execute SQL queries
 		if(preg_match("/\.sql$/", $file)){
 			echo "loading $file\n";
-			loadSql($path, $dbWrapper->dbConnector);
+			$dbCreator->load($path);
 		}
 	}
 }

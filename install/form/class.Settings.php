@@ -47,7 +47,6 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleNameElt->setValue('mytao');
 		$moduleNameElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-		//	tao_helpers_form_FormFactory::getValidator('AlphaNum', array('allow_punctuation' => true)),
 			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 4, 'max' => 15))
 		));
 		
@@ -159,7 +158,12 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$dbPassElt->setDescription('Password ');
 		$this->form->addElement($dbPassElt);
 		
-		$this->form->createGroup('db', 'Database', array('db_driver', 'db_host', 'db_name_lbl', 'db_name', 'db_user', 'db_pass'));
+		$dbTestElt = tao_helpers_form_FormFactory::getElement('db_test', 'Button');
+		$dbTestElt->setDescription(' ');
+		$dbTestElt->setValue('Test connection ...');
+		$this->form->addElement($dbTestElt);
+		
+		$this->form->createGroup('db', 'Database', array('db_driver', 'db_host', 'db_name_lbl', 'db_name', 'db_user', 'db_pass', 'db_test'));
 	
 		
 		/*
@@ -180,6 +184,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$userLoginElt	= tao_helpers_form_FormFactory::getElement('user_login', 'Textbox');
 		$userLoginElt->setDescription('Login *');
 		$userLoginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		$userLoginElt->addValidator(tao_helpers_form_FormFactory::getValidator('Length', array('min' => 3)));
 		$this->form->addElement($userLoginElt);
 		
 		//Super User password
@@ -189,6 +194,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$userPass1Elt	= tao_helpers_form_FormFactory::getElement('user_pass1', 'Hiddenbox');
 		$userPass1Elt->setDescription('Password *');
 		$userPass1Elt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		$userPass1Elt->addValidator(tao_helpers_form_FormFactory::getValidator('Length', array('min' => 3)));
 		$this->form->addElement($userPass1Elt);
 		
 		$userPass2Elt	= tao_helpers_form_FormFactory::getElement('user_pass2', 'Hiddenbox');
@@ -200,7 +206,6 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		//Super User Email
 		$userEmailElt	= tao_helpers_form_FormFactory::getElement('user_email', 'Textbox');
 		$userEmailElt->setDescription('Email');
-		$userPass0Elt->setDescription('Email');
 		$this->form->addElement($userEmailElt);
 		
 		$this->form->createGroup('user', 'Super User', array('user_lastname', 'user_firstname', 'user_login', 'user_pass1', 'user_pass2', 'user_email'));
