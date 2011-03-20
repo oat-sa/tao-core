@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>TAO Service</title>
-	<link rel="shortcut icon" href="<?=TAOBASE_WWW?>img/favicon.ico" type="image/x-icon" />
+	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?> Service</title>
+	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 	
 	<script type='text/javascript'>
 		var jsPath 	= '<?=BASE_WWW?>js/';
@@ -31,6 +31,13 @@
 			_autoFx();
 		});
 	</script>
+	<script type='text/javascript'>
+		$(function(){
+		<?if(get_data('errorMessage')):?>
+			createErrorMessage("<?=get_data('errorMessage')?>");
+		<?endif?>
+		});
+	</script>
 	<style type="text/css">
 		body{
 			position:inherit;
@@ -50,6 +57,12 @@
 	</style>
 </head>
 <body>
+
+	<?if(get_data('message')):?>
+	<div id="info-box" class="ui-widget-header ui-corner-all auto-slide">
+		<span><?=get_data('message')?></span>
+	</div>
+	<?endif?>
 	<div id="ajax-loading">
 		<img src="<?=TAOBASE_WWW?>img/ajax-loader.gif" alt="loading" />
 	</div>
@@ -58,8 +71,6 @@
 	<? include(get_data('includedView')) ?>
 	</div>
 	
-	<div id="footer">
-		TAO<sup>&reg;</sup> - 2009 - A joint initiative of CRP Henri Tudor and the University of Luxembourg
-	</div>
+
 </body>
 </html>

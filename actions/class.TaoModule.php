@@ -701,7 +701,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 */
 	public function sasAddInstance(){
 		$clazz = $this->getCurrentClass();
-		$label = $this->service->createUniqueInstance($clazz);
+		$label = $this->service->createUniqueLabel($clazz);
 		$instance = $this->service->createInstance($clazz);
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			
