@@ -780,7 +780,9 @@ abstract class tao_models_classes_GenerisService
 				if(!$chunk){
 					$data['children'] = array();
 				}				
-				$data['state'] = 'closed';
+				if(count($children) > 0){
+					$data['state'] = 'closed';
+				}
 			}
 			else{
 				if($chunk){

@@ -440,7 +440,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 		}
 		
 		return data;
-	}
+	};
 }
 
 /**
@@ -707,21 +707,33 @@ GenerisTreeClass.moveInstance = function(options){
 			callback: {
 				//add the type param to the server request to get only the classes
 				beforedata:function(NODE, TREE_OBJ) { 
+					if(NODE){
+						return { 
+							hideInstances : true,
+							subclasses: true,
+							classUri: $(NODE).attr('id')
+						};
+					}
 					return { 
-						hideInstances :true
+						hideInstances :true,
+						subclasses: true
 					};
 				},
 				
 				//expand the tree on load
 				onload: function(TREE_OBJ){
-					TREE_OBJ.open_all();
+					TREE_OBJ.open_branch($("li.node-class:first", $("#tmp-moving-tree")));//TREE_OBJ.open_branch($("li.node-class:first"));
+				},
+				ondata: function(DATA, TREE_OBJ){
+					return DATA;
 				},
 				
 				//call the tree onmove callback by selecting a class
 				onselect: function(NODE, TREE_OBJ){
 					var rollback = {};
-					rollback[$(myTREE_OBJ.container).attr('id')] = myTREE_OBJ.get_rollback()
+					rollback[$(myTREE_OBJ.container).attr('id')] = myTREE_OBJ.get_rollback();
 					myTREE_OBJ.settings.callback.onmove(myNODE, NODE, 'inside', myTREE_OBJ, rollback);
+					myTREE_OBJ.refresh();
 					$("#tmp-moving").dialog('close');
 				}
 			}
