@@ -94,7 +94,7 @@ class tao_install_utils_ConfigWriter{
 	 * @param array $variables the list of variables to write (the key is the name of the var)
 	 * @throws tao_install_utils_Exception
 	 */
-	public function writeJsVariable(array $variables){
+	public function writeJsVariable(array $variables, $lineBeginWith = "var"){
 		//common checks
 		if(!file_exists($this->file)){
 			throw new tao_install_utils_Exception("Unable to write variables: $this->file don't exists!");
@@ -109,14 +109,15 @@ class tao_install_utils_ConfigWriter{
 			$changes = 0;
 			foreach($lines as $line){
 				foreach($variables as $key => $value){
-					if(preg_match("/^\s?var\s?$key\s?=\s?/i", trim($line))){
-						if(is_string($value)){
-							$value = "'$value'";
-						}
-						else if(is_bool($value)){
-							($value === true) ? $value = 'true' : $value = 'false';
-						}
-						$data = str_replace(trim($line), "var $key = $value;", $data);
+					if(is_string($value)){
+						$value = "'$value'";
+					}
+					else if(is_bool($value)){
+						($value === true) ? $value = 'true' : $value = 'false';
+					}
+					
+					if(preg_match("/^\s?$lineBeginWith\s?$key\s?=\s?/i", trim($line))){
+						$data = str_replace(trim($line), "$lineBeginWith $key = $value;", $data);
 						$changes++;
 					}
 				}

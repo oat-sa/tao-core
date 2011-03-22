@@ -306,9 +306,8 @@ class tao_install_Installator{
 		);
 		$configWriter->createConfig();
 		$configWriter->writeJsVariable(array(
-			'URL'	=> $url . $waterPhoenixPath,
-			'PATH'	=> $waterPhoenixPath
-		));
+			'Wx.Config.URL'	=> $url . $waterPhoenixPath
+		), "");
 	}
 }
 ?>
