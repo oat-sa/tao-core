@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+div#portal-box { 
+	width: 650px; 
+	margin:auto; 
+	margin-top:50px; 
+	background-color:#fff;
+	height:180px;
+	padding:5px;
+	border: solid 1px #ccc;
+}
+div#portal-box img{
+	float:left;
+	margin-right:5px;
+}
+div#portal-box ul{
+	position:relative;
+	left:30px;
+}
+div#portal-box ul li{
+	font-size:1.1em;
+	padding:3px 0px;
+}
+div#footer{
+	position: fixed; clear: both; width: 100%; height: 30px; bottom: 0; border: none;
+}
