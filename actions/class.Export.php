@@ -80,7 +80,6 @@ class tao_actions_Export extends tao_actions_CommonModule {
 				if(!is_null($myForm->getValue('format'))){
 					
 					$exportMethod = 'export'.strtoupper($myForm->getValue('format')).'Data';
-					
 					if(method_exists($this, $exportMethod)){
 						
 						//apply the matching method
