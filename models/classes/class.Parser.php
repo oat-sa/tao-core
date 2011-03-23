@@ -128,7 +128,7 @@ class tao_models_classes_Parser
     		$this->sourceType = self::SOURCE_FILE;
     	}
     	else{
-    		throw new Exception("Only regular file, HTTP(s) url or XML strings are allowed");
+    		throw new Exception("Denied content in the source parameter! ".get_class($this)." accepts either XML content, a URL to an XML Content or the path to a file.");
     	}
     	$this->source = $source;
     	
