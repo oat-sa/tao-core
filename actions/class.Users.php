@@ -212,6 +212,13 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				unset($values['password2']);
 				unset($values['password3']);
 				
+				if(!preg_match("/[A-Z]{2,4}$/", trim($values[PROPERTY_USER_UILG]))){
+					unset($values[PROPERTY_USER_UILG]);
+				}
+				if(!preg_match("/[A-Z]{2,4}$/", trim($values[PROPERTY_USER_DEFLG]))){
+					unset($values[PROPERTY_USER_DEFLG]);
+				}
+				
 				if($this->userService->saveUser($user, $values)){
 					$this->setData('message', __('User saved'));
 					$this->setData('exit', true);

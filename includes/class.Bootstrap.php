@@ -282,13 +282,17 @@ class Bootstrap{
 			$uiLang = Session::getAttribute('ui_lang') ;
 		}
 		else{
+			
 			$uiLg = null;
 			$currentUser = $userService->getCurrentUser(); 
+			
 			if(!is_null($currentUser)){
 				$uiLg  = $currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
 			}
 			if(!is_null($uiLg)){
-				$uiLang = $uiLg->getLabel();
+				if($uiLg instanceof core_kernel_classes_Resource){
+					$uiLang = $uiLg->getLabel();
+				}
 			}
 		}
 		tao_helpers_I18n::init($uiLang);
