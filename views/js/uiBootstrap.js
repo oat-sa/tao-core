@@ -171,8 +171,18 @@ UiBootstrap = function(options){
 	};
 	
 	this.initMenuBar = function(){
+		//add a focus selector
+		var lastFocussed = null;
+		$(':text').live('focus',function(){
+			lastFocussed = this;
+		});
+		
 		//initialize the media manager menu
-		$("#main-menu .file-manager").fmload({type: 'file'});
+		$("#main-menu .file-manager").fmload({type: 'file'}, lastFocussed, function(element, url){
+			if(lastFocussed != null){
+				$(lastFocussed).val($(lastFocussed).val() + url);
+			}
+		});
 		
 		//initialize the settings menu
 		$("#main-menu .settings-loader").click(function(){
