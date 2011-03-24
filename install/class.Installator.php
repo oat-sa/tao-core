@@ -300,6 +300,14 @@ class tao_install_Installator{
 			$url .= '/';
 		}
 		
+		$contentSkeletonUrl = $this->options['root_path'].$waterPhoenixPath.'xt/xhtml/data/units/xhtml.skeleton.xhtml';
+		$contentSkeleton = file_get_contents($contentSkeletonUrl);
+		if(!empty($contentSkeleton)){
+			$contentSkeleton = str_replace('http://waterphoenix.local/', $url.$waterPhoenixPath, $contentSkeleton);
+			$contentSkeleton = str_replace('http://tao.local/', $url, $contentSkeleton);
+			file_put_contents($contentSkeletonUrl, $contentSkeleton);
+		}
+		
 		$configWriter = new tao_install_utils_ConfigWriter(
 			$this->options['root_path'] . $waterPhoenixPath . 'config/config.sample',
 			$this->options['root_path'] . $waterPhoenixPath . 'config/config.js'
