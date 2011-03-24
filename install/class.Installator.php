@@ -300,14 +300,19 @@ class tao_install_Installator{
 			$url .= '/';
 		}
 		
+		//Update the HAWAI XHTL skeleton sample
+		$contentSkeletonUrlSample = $this->options['root_path'].$waterPhoenixPath.'xt/xhtml/data/units/xhtml.skeleton.xhtml.sample';
 		$contentSkeletonUrl = $this->options['root_path'].$waterPhoenixPath.'xt/xhtml/data/units/xhtml.skeleton.xhtml';
-		$contentSkeleton = file_get_contents($contentSkeletonUrl);
-		if(!empty($contentSkeleton)){
-			$contentSkeleton = str_replace('http://waterphoenix.local/', $url.$waterPhoenixPath, $contentSkeleton);
-			$contentSkeleton = str_replace('http://tao.local/', $url, $contentSkeleton);
-			file_put_contents($contentSkeletonUrl, $contentSkeleton);
+		$contentSkeleton = file_get_contents($contentSkeletonUrlSample);
+		if (file_exists($contentSkeletonUrlSample)){
+			if(!empty($contentSkeleton)){
+				$contentSkeleton = str_replace('{WX_URL}', $url.$waterPhoenixPath, $contentSkeleton);
+				$contentSkeleton = str_replace('{ROOT_URL}', $url, $contentSkeleton);
+				file_put_contents($contentSkeletonUrl, $contentSkeleton);
+			}
 		}
 		
+		//update the HAWAI config file
 		$configWriter = new tao_install_utils_ConfigWriter(
 			$this->options['root_path'] . $waterPhoenixPath . 'config/config.sample',
 			$this->options['root_path'] . $waterPhoenixPath . 'config/config.js'
