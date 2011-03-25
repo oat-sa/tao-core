@@ -139,20 +139,19 @@ class tao_install_utils_ConfigTester{
 				$this->message = '';
 				//check if the url rewriting is enabled by sending a cUrl request
 				if(function_exists('curl_init')){
-					$url = tao_helpers_File::concat(array($infos['host'],$infos['folder'], '/test'));
+					$url = tao_helpers_File::concat(array($infos['host'], $infos['folder'], '/test'));
 					
 					$curlHandler = curl_init();
 					curl_setopt($curlHandler, CURLOPT_URL, $url);
 					curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
 					curl_exec($curlHandler);
 					if(curl_errno($curlHandler) == 0){
-						$this->status =  self::STATUS_INVALID;
 						$code = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE);
 						if($code == 302){
 							$this->status =  self::STATUS_VALID;
 						}
 						else{
-							$this->message = "You need to activate mod_rewrite on your apache instance.";
+							$this->message = "Please make sure the mod_rewrite is available on your apache instance. Code $code received on by trying a rewrite on URL: $url";
 						}
 					}
 					else{
