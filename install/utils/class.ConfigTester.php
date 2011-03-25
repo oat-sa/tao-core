@@ -139,7 +139,8 @@ class tao_install_utils_ConfigTester{
 				$this->message = '';
 				//check if the url rewriting is enabled by sending a cUrl request
 				if(function_exists('curl_init')){
-					$url = tao_helpers_File::concat(array($infos['host'], $infos['folder'], '/test'));
+					($infos['https']) ? $url = 'http://': $url = 'https://';
+					$url .= tao_helpers_File::concat(array($infos['host'], $infos['folder'], '/test'));
 					
 					$curlHandler = curl_init();
 					curl_setopt($curlHandler, CURLOPT_URL, $url);
