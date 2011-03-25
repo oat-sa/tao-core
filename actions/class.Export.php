@@ -252,8 +252,8 @@ class tao_actions_Export extends tao_actions_CommonModule {
 				basename($file['path']),
 				$file['date'],
 				array($file['url'],
-					_url('downloadExportedFiles', null, null, array('filePath' => urlencode($file['path']))),
-					_url('deleteExportedFiles', null, null, array('filePath' => urlencode($file['path'])))
+					_url('downloadExportedFiles', null, null, array('filePath' => urlencode(addslashes($file['path'])))),
+					_url('deleteExportedFiles', null, null, array('filePath' => urlencode(addslashes($file['path']))))
 				)
 			);
 		} 
