@@ -233,6 +233,12 @@ class tao_install_Installator{
 			$myConfigWriter->createConfig();
 		}
 		
+		$myConfigWriter = new tao_install_utils_ConfigWriter(
+			$this->options['root_path'] . '/filemanager/includes/config.php.sample',
+			$this->options['root_path'] . '/filemanager/includes/config.php'
+		);
+		$myConfigWriter->createConfig();
+		
 		
 		$modelCreator = new tao_install_utils_ModelCreator($installData['module_namespace']);
 
