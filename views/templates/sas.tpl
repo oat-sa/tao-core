@@ -21,12 +21,12 @@
 				uiForm.initElements();
 				uiForm.initOntoForms();
 			}
-			else if (/search|authoring|itemSequence/.test(ctx_action)) {
-				uiForm.initElements();
-			}
 			else if(/translate/.test(ctx_action)){
 				uiForm.initElements();
 				uiForm.initTranslationForm();
+			}
+			else{
+				uiForm.initElements();
 			}
 			_autoFx();
 		});

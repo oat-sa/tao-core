@@ -23,12 +23,17 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 			//check the user role again, to prevent login with a session from a privileged extension
 	        $roleService = tao_models_classes_ServiceFactory::get('tao_models_classes_RoleService');
-	        $userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
-        	
+	        $userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
+	        if(tao_helpers_Context::check('STANDALONE_MODE')){
+	        	if($roleService->checkUserRole($userService->getCurrentUser(), new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSERROLE))){
+	        		return true;
+	        	}
+	        }
+	       	
 	        if($roleService->checkUserRole($userService->getCurrentUser())){
         		return true;
         	}
-        
+	       	
 		}
 		return false;
 	}

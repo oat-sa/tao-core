@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * This class provide service on user management
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -34,7 +34,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  * This class provide service on user management
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -68,7 +68,7 @@ class tao_models_classes_UserService
      * constructor, call initRoles
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
     public function __construct()
@@ -86,7 +86,7 @@ class tao_models_classes_UserService
      * To be overriden.
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
     protected function initRoles()
@@ -102,7 +102,7 @@ class tao_models_classes_UserService
      * authenticate a user
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
      * @param  string login
      * @param  string password
      * @return boolean
@@ -135,7 +135,7 @@ class tao_models_classes_UserService
      * connect to the API, initialize the session, etc.
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
      * @return boolean
      */
     public function connectCurrentUser()
@@ -204,7 +204,7 @@ class tao_models_classes_UserService
      * retrieve the logged in user
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
      * @return core_kernel_classes_Resource
      */
     public function getCurrentUser()
@@ -229,7 +229,7 @@ class tao_models_classes_UserService
      * Check if the login is already used
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
      * @param  string login
      * @return boolean
      */
@@ -250,7 +250,7 @@ class tao_models_classes_UserService
      * Check if the login is available (because it's unique)
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
      * @param  string login
      * @return boolean
      */
@@ -273,7 +273,7 @@ class tao_models_classes_UserService
      * get a user by his login
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
      * @param  string login the user login is the unique identifier to retrieve him
      * @return core_kernel_classes_Resource
      */
@@ -310,7 +310,7 @@ class tao_models_classes_UserService
      * Get the list of available users
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
      * @param  array options the user list options to order the list and paginate the results
      * @return array
      */
@@ -398,7 +398,7 @@ class tao_models_classes_UserService
      * Save (insert or update) the user in parameter
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
      * @param  Resource user
      * @param  array properties
      * @return boolean
@@ -429,7 +429,7 @@ class tao_models_classes_UserService
      * Remove a user
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
      * @param  Resource user
      * @return boolean
      */
@@ -444,6 +444,23 @@ class tao_models_classes_UserService
         // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D56 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method addAllowedRole
+     *
+     * @access public
+     * @author Bertrand CHEVRIER, <bertrand.chevrier@tudor.lu>
+     * @param  string role
+     * @return mixed
+     */
+    public function addAllowedRole($role)
+    {
+        // section 127-0-1-1-6426161e:12f0225bbdf:-8000:0000000000002D40 begin
+        
+    	$this->allowedRoles[] = $role;
+    	
+        // section 127-0-1-1-6426161e:12f0225bbdf:-8000:0000000000002D40 end
     }
 
 } /* end of class tao_models_classes_UserService */
