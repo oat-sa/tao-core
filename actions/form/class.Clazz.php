@@ -159,8 +159,17 @@ class tao_actions_form_Clazz
 		$session = core_kernel_classes_Session::singleton();
 		$localNamespace = $session->getNameSpace();
 		
+    		
 		//class properties edition: add a group form for each property
 		$classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
+		
+     	/**
+		 * @todo override it in the taoSubject module instead of having this crapy IF here
+		 */
+		if(Session::getAttribute('currentExtension') == 'taoSubjects'){
+			$classProperties = array_merge($classProperties, tao_helpers_form_GenerisFormFactory::getClassProperties(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT), new core_kernel_classes_Class(CLASS_GENERIS_USER)));
+		}
+			
 		$i = 0;
 		foreach($classProperties as $classProperty){
 			$i++;

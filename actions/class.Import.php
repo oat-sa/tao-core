@@ -166,14 +166,18 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			$properties = array(tao_helpers_Uri::encode(RDFS_LABEL) => __('Label'));
 			$rangedProperties = array();
 			
+			$topLevelClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+			
+			
+			$classProperties = $service->getClazzProperties($clazz, $topLevelClass);
+			/**
+			 * @todo override it in the taoSubject module instead of having this crapy IF here
+			 */
 			if($currentExtention == 'taoSubjects'){
-				$topLevelClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-			}
-			else{
-				$topLevelClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+				$classProperties = array_merge($classProperties, $service->getClazzProperties(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT), new core_kernel_classes_Class(CLASS_GENERIS_USER)));
 			}
 			
-			foreach($service->getClazzProperties($clazz, $topLevelClass) as $property){
+			foreach($classProperties as $property){
 				
 				//@todo manage the properties with range
 				$range = $property->getRange();
