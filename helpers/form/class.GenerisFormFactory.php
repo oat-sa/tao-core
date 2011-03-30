@@ -171,7 +171,7 @@ class tao_helpers_form_GenerisFormFactory
 					break;
 				}
 				if($aParent->uriResource == RDF_CLASS){
-					//$top = true; 
+					$top = true; 
 					continue;
 				}
 				

@@ -102,7 +102,16 @@ class tao_actions_form_Instance
     	$defaultProperties 	= tao_helpers_form_GenerisFormFactory::getDefaultProperties();
 		$editedProperties = $defaultProperties;
 		
-		foreach(tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz()) as $property){
+		
+		$classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
+    	/**
+		 * @todo override it in the taoSubject module instead of having this crapy IF here
+		 */
+		if(Session::getAttribute('currentExtension') == 'taoSubjects'){
+			$classProperties = array_merge($classProperties, tao_helpers_form_GenerisFormFactory::getClassProperties(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT), new core_kernel_classes_Class(CLASS_GENERIS_USER)));
+		}
+		
+		foreach($classProperties as $property){
 			$found = false;
 			foreach($editedProperties as $editedProperty){
 				if($editedProperty->uriResource == $property->uriResource){
