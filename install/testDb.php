@@ -1,5 +1,4 @@
 <?php
-
 include_once('init.php');
 
 $response = array(

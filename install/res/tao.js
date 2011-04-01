@@ -27,7 +27,12 @@ changeDatabaseName = function () {
 
 testDatabaseConnection = function(){
 	if($('#db_test').data('testable') != true){
-		$('#db_test').click(function(){
+		$('#db_test').click(function(e){
+			e.preventDefault();
+			
+			$('#db_test').parent().find('span.status').remove();
+			$('#db_test').after('<span class="status"><img src="img/throbber.gif" alt="testing" /></span>');
+
 			var credentials = $('input,select', $('#db')).serializeArray();
 			$.post('testDb.php', credentials, function(response){
 				$('#db_test').parent().find('span.status').remove();
@@ -43,18 +48,9 @@ testDatabaseConnection = function(){
 };
 
 checkDatabaseCredentials = function(){
-	var credentials = $('input', $('#db')).serializeArray();
-	for(i in credentials){
-		if(credentials[i]['name'] == 'db_user' && !credentials[i]['value']){
-			$('#db_test').attr('disabled', true);
-			return false;
-			break;
-		}
-		if(credentials[i]['name'] == 'db_pass' && !credentials[i]['value']){
-			$('#db_test').attr('disabled', true);
-			return false;
-			break;
-		}
+	if($('#db_user').val().trim() == ''){
+		$('#db_test').attr('disabled', true);
+		return false;
 	}
 	$('#db_test').attr('disabled', false);
 	return true;
