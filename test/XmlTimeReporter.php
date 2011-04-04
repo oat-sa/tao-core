@@ -13,13 +13,15 @@ class XmlTimeReporter extends XmlReporter {
   	}
 
   	function paintMethodEnd($test_name) {
-    	$post = microtime();
+    	
 	    if ($this->pre != null) {
-	      $duration = $post - $this->pre;
-	      // how can post time be less than pre?  assuming zero if this happens..
-	      if ($post < $this->pre) $duration = 0;
-	      print $this->getIndent(1);
-	     print "<time>$duration</time>\n";
+	    	 
+	    	  print $this->getIndent(1);
+	    	  $post = microtime();
+		      $duration = $post - $this->pre;
+		      // how can post time be less than pre?  assuming zero if this happens..
+		      if ($post < $this->pre) $duration = 0;
+	     	  print "<time>$duration</time>\n";
 	    }
 	    parent::paintMethodEnd($test_name);
 	    $this->pre = null;
