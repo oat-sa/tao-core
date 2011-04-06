@@ -79,7 +79,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
  	  Click on the logo above to access the TAO platform. Use the login and password that corresponds to the previously
 	  created Super User.</p>
 	  <ul>
-	    <li>Link to the back office(administrators): <a href="<?= $backendLink ?>" title="TAO back office"><?= $backendLink ?></a></li>
+	    <li>Link to the back office (test creators): <a href="<?= $backendLink ?>" title="TAO back office"><?= $backendLink ?></a></li>
 		<li>Link to the test front office (test takers): <a href="<?= $frontendLink ?>" title="TAO front office"><?= $frontendLink ?></a></li>
 	  </ul>
 	</div>
