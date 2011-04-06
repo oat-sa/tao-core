@@ -14,7 +14,7 @@ $attendeds = array(
 );
 $found = 0;
 foreach($attendeds as $attended){
-	if(!isset($_POST[$attended]) || trim($_POST[$attended]) == ''){
+	if($attended != 'db_pass' && (!isset($_POST[$attended]) || trim($_POST[$attended]) == '')){
 		echo json_encode($response);
 		exit();
 	}
@@ -42,7 +42,6 @@ try{
 	set_error_handler('customError');
 	new tao_install_utils_DbCreator($_POST['db_host'], $_POST['db_user'], $_POST['db_pass'], $_POST['db_driver']);
 	restore_error_handler();
-	
 	$response['connected'] = true;
 }
 catch(Exception $e){
