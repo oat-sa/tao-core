@@ -65,7 +65,9 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/form.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="./res/tao.css"/> 
 	<script type="text/javascript" src="../views/js/jquery-1.4.2.min.js"></script>
+	<? if(!$installed): ?>
 	<script type="text/javascript" src="./res/tao.js"></script>
+	<? endif; ?>
 </head>
 <body>
 <div id="content" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
