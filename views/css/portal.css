@@ -1,26 +1,34 @@
 @CHARSET "UTF-8";
 
+h1 {
+	font-size: 1.3em;
+	text-align: left;
+	margin-bottom: 40px;
+}
+
 div#portal-box { 
-	width: 650px; 
+	width: 400px; 
 	margin:auto; 
 	margin-top:50px; 
 	background-color:#fff;
 	height:180px;
-	padding:5px;
+	padding: 5px 5px 5px 240px;
 	border: solid 1px #ccc;
+	background-image: url("../img/tao_logo_big.png");
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
 }
-div#portal-box img{
-	float:left;
-	margin-right:5px;
+
+div#portal-box ul {
+	margin: 0;
+	padding: 0;
+	margin-left: 20px;
 }
-div#portal-box ul{
-	position:relative;
-	left:30px;
-}
+
 div#portal-box ul li{
-	font-size:1.1em;
 	padding:3px 0px;
 }
 div#footer{
 	position: fixed; clear: both; width: 100%; height: 30px; bottom: 0; border: none;
 }
+
