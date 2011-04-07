@@ -47,7 +47,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleNameElt->setValue('mytao');
 		$moduleNameElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 4, 'max' => 15))
+			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 1, 'max' => 15))
 		));
 		
 		$this->form->addElement($moduleNameElt);
@@ -61,7 +61,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleHostElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 			tao_helpers_form_FormFactory::getValidator('Url'),
-			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 4, 'max' => 254))
+			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 1, 'max' => 254))
 		));
 		$this->form->addElement($moduleHostElt);
 		
@@ -83,7 +83,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleUrlElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 			tao_helpers_form_FormFactory::getValidator('Url'),
-			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 12, 'max' => 254))
+			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 8, 'max' => 254))
 		));
 		$this->form->addElement($moduleUrlElt);
 
