@@ -21,7 +21,7 @@
 					<td>
 						<div class="home-box ui-corner-all ui-widget ui-widget-header" style="cursor:pointer;">
 							<img src="<?=BASE_WWW?>img/<?=$extension['extension']?>.png" /><br />
-							<a class="extension-nav" href="<?=_url('index', null, null, array('extension' => $extension['extension']))?>"><?=__($extension['name'])?></a>
+							<a id="extension-nav-<?=$extension['extension']?>" class="extension-nav" href="<?=_url('index', null, null, array('extension' => $extension['extension']))?>"><?=__($extension['name'])?></a>
 							<span class='extension-desc' style="display:none;"><?=$extension['description']?></span>
 						</div>
 					</td>
