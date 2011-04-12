@@ -5,7 +5,6 @@ require_once dirname(__FILE__).'/../includes/class.Bootstrap.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
 require_once dirname(__FILE__) .'/XmlTimeReporter.php';
 
-	
 /**
  * Help you to run the test into the TAO Context
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -34,9 +33,10 @@ class TestRunner{
 	/**
 	 * get the list of unit tests
 	 * @param null|array $extensions if null all extension, else the list of extensions to look for the tests
-	 * @return array
+	 * @param boolean $recursive if true it checks the subfoldfer
+	 * @return array he list of test cases paths
 	 */
-	public static function getTests($extensions = null){
+	public static function getTests($extensions = null, $recursive = false){
 		
 		$tests = array();
 		foreach(scandir(ROOT_PATH) as $extension){
@@ -52,13 +52,30 @@ class TestRunner{
 				}
 				if($getTests){
 					$extTestPath = ROOT_PATH . '/' . $extension . '/test';
-					if(file_exists($extTestPath)){
-						if(is_dir($extTestPath)){
-							foreach(scandir($extTestPath) as $file){
-								if(preg_match("/TestCase\.php$/", $file)){
-									$tests[] = $extTestPath."/".$file;
-								}
-							}
+					$tests = array_merge($tests, self::findTest($extTestPath, $recursive));
+				}
+			}
+		}
+		return $tests;
+	}
+	
+	/**
+	 * Search and find test case into a directory
+	 * @param string $path to folder to search in
+	 * @param boolean $recursive if true it checks the subfoldfer
+	 * @return array the list of test cases paths
+	 */
+	public static function findTest($path, $recursive = false){
+		$tests = array();
+		if(file_exists($path)){
+			if(is_dir($path)){
+				foreach(scandir($path) as $file){
+					if(!preg_match("/^\./",$file)){
+						if(is_dir($path."/".$file) && $recursive){
+							$tests = array_merge($tests, self::findTest($path."/".$file, true));
+						}
+						if(preg_match("/TestCase\.php$/", $file)){
+							$tests[] = $path."/".$file;
 						}
 					}
 				}
