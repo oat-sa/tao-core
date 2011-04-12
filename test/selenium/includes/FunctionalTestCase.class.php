@@ -1,6 +1,6 @@
 <?php
 require_once('PHPUnit/Extensions/SeleniumTestCase.php');
-require_once('config.php');
+require_once(dirname(__FILE__) . '/config.php');
 
 class FunctionalTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 	
@@ -33,6 +33,14 @@ class FunctionalTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 	
 	public function logout() {
 		$this->click("xpath=//a[@title='Logout']");
+	}
+	
+	public function taoApiLogin() {
+		core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
+	}
+	
+	public function taoApiLogout() {
+		core_control_FrontController::logOff();
 	}
 }
 ?>
