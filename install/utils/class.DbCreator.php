@@ -1,6 +1,6 @@
 <?php
-require_once 'generis/includes/adodb/adodb-exceptions.inc.php';
-require_once 'generis/includes/adodb/adodb.inc.php';
+require_once 'generis/includes/adodb5/adodb-exceptions.inc.php';
+require_once 'generis/includes/adodb5/adodb.inc.php';
 
 /**
  * Dedicated database wrapper used for database installation
@@ -26,7 +26,7 @@ class tao_install_utils_DbCreator{
 	 */
 	public function __construct( $host = 'localhost', $user = 'root', $pass = '', $driver = 'mysql'){
 		try{
-			$this->adoConnection = &NewADOConnection($driver);
+			$this->adoConnection = NewADOConnection($driver);
 			$this->adoConnection->Connect($host, $user, $pass);
 		}
 		catch(ADODB_Exception $ae){
