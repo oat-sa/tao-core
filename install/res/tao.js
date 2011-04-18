@@ -58,7 +58,9 @@ checkDatabaseCredentials = function(){
 
 
 changeNamespace = function () {
-	$('#module_namespace').text(buildNamespace());
+	var namespace = buildNamespace();
+	$('#module_namespace_lbl').text(namespace);
+	$('#module_namespace').val(namespace);
 };
 
 getModuleName = function () {

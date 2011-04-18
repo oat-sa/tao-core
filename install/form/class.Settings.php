@@ -65,14 +65,20 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		));
 		$this->form->addElement($moduleHostElt);
 		
-		//Module Namespace
-		$moduleNSElt =  tao_helpers_form_FormFactory::getElement('module_namespace', 'Label');
-		$moduleNSElt->setDescription('Namespace');
-		$moduleNSElt->setHelp("The module's namespace will be used to identify the data stored by your module. ".
+		//Module Namespace Label
+		// ($moduleNsLblElt esigned only to show information to user)
+		$NSValue = 'http://'.$moduleHostElt->getValue().'/'.$moduleNameElt->getValue().'.rdf';
+		$moduleNSLblElt =  tao_helpers_form_FormFactory::getElement('module_namespace_lbl', 'Label');
+		$moduleNSLblElt->setDescription('Namespace');
+		$moduleNSLblElt->setHelp("The module's namespace will be used to identify the data stored by your module. ".
 								"Each data collected by tao is identified uniquely by an URI composed by ".
 								"the module namespace followed by the resource identifier (NAMESPACE#resource) ");
-		$moduleNSElt->setValue('http://'.$moduleHostElt->getValue().'/'.$moduleNameElt->getValue().'.rdf');
-		$moduleNSElt->setAttribute('id', 'module_namespace');
+		$moduleNSLblElt->setValue($NSValue);
+		$moduleNSLblElt->setAttribute('id', 'module_namespace_lbl');
+		$this->form->addElement($moduleNSLblElt);
+		
+		$moduleNSElt = tao_helpers_form_FormFactory::getElement('module_namespace', 'Hidden');
+		$moduleNSElt->setValue($NSValue);
 		$this->form->addElement($moduleNSElt);
 		
 		//Module URL
@@ -113,7 +119,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleModeElt->setValue('debug');
 		$this->form->addElement($moduleModeElt);
 		
-		$this->form->createGroup('module', 'Module', array('module_name', 'module_host', 'module_namespace', 'module_url', 'module_lang', 'module_mode'));
+		$this->form->createGroup('module', 'Module', array('module_name', 'module_host', 'module_namespace_lbl', 'module_namespace', 'module_url', 'module_lang', 'module_mode'));
 	
 		
 		/*
@@ -137,12 +143,14 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$this->form->addElement($dbHostElt);
 		
 		//Database Name
+		// ($dbNameLblElt designed only to show information to user)
 		$dbNameLblElt =  tao_helpers_form_FormFactory::getElement('db_name_lbl', 'Label');
 		$dbNameLblElt->setDescription('Database name');
 		$dbNameLblElt->setValue($moduleNameElt->getValue());
 		$dbNameLblElt->setHelp('The Database name corresponds to the Module name.');
 		$dbNameLblElt->setAttribute('id', 'db_name_lbl');
 		$this->form->addElement($dbNameLblElt);
+		
 		$dbNameElt = tao_helpers_form_FormFactory::getElement('db_name', 'Hidden');
 		$dbNameElt->setValue($moduleNameElt->getValue());
 		$this->form->addElement($dbNameElt);
