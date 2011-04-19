@@ -129,20 +129,20 @@ class tao_helpers_form_validators_Label
 				$clazz = new core_kernel_classes_Class($classUri);
 				
 				if($resource->isClass()){
-					$matchingUris = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), null, $options);
+					$matchingResources = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), null, $options);
 					$checkResources = $clazz->getSubClasses(true);
-					foreach($matchingUris as $matchingUri){
-						if(array_key_exists($matchingUri, $checkResources) && $matchingUri != $this->options['uri']){
+					foreach($matchingResources as $matchingResource){
+						if(array_key_exists($matchingResource->uriResource, $checkResources) && $matchingResource->uriResource != $this->options['uri']){
 							$returnValue = false;
 							break;
 						}
 					}
 				}
 				else if($resource->isProperty()){
-					$matchingUris = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), null, $options);
+					$matchingResources = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), null, $options);
 					$checkResources = $clazz->getProperties(true);
-					foreach($matchingUris as $matchingUri){
-						if(array_key_exists($matchingUri, $checkResources)  && $matchingUri != $this->options['uri']){
+					foreach($matchingResources as $matchingResource){
+						if(array_key_exists($matchingResource->uriResource, $checkResources)  && $matchingResource->uriResource != $this->options['uri']){
 							$returnValue = false;
 							break;
 						}
@@ -151,8 +151,12 @@ class tao_helpers_form_validators_Label
 				else{
 					$results = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), $clazz, $options);
 					if(count($results) > 0){
-						$returnValue = false;
-						break;
+						foreach($matchingResources as  $matchingResource){
+							if($matchingResource->uriResource != $this->options['uri']){
+								$returnValue = false;
+								break;
+							}
+						}
 					}
 				}
 			}
