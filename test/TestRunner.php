@@ -1,5 +1,5 @@
 <?php
-set_time_limit(0);
+set_time_limit(900);	//a suite must never takes more than 15minutes!
 
 require_once dirname(__FILE__).'/../includes/class.Bootstrap.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
