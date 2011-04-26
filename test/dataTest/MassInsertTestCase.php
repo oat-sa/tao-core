@@ -23,7 +23,7 @@ class MassInsertTestCase extends UnitTestCase {
 	/**
 	 * @var core_kernel_classes_Resource
 	 */
-	protected $currentUser = null;
+	protected $subjectService = null;
 
 	/**
 	 * @var array
@@ -75,6 +75,7 @@ class MassInsertTestCase extends UnitTestCase {
 
 		$this->testService = tao_models_classes_ServiceFactory::get('Tests');
 		$this->deliveryService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
+		$this->subjectService = tao_models_classes_ServiceFactory::get('taoSubjects_models_classes_SubjectsService');
 	}
 
 
@@ -106,8 +107,9 @@ class MassInsertTestCase extends UnitTestCase {
 
 	public function testCreateGroups(){
 		$this->assertTrue(defined('TAO_GROUP_CLASS'));
-		$TopGroupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-		$groupClass = $TopGroupClass->createSubClass("AutoInsert", "AutoInsert Group Sub Class");
+//		$TopGroupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+//		$groupClass = $TopGroupClass->createSubClass("AutoInsert", "AutoInsert Group Sub Class");
+		$groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
 		$this->assertIsA($groupClass, 'core_kernel_classes_Class');
 
 		$i=1;
@@ -146,8 +148,10 @@ class MassInsertTestCase extends UnitTestCase {
 
 		// Create the subject class
 		$this->assertTrue(defined('TAO_SUBJECT_CLASS'));
-		$TopSubjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
-		$subjectClass = $TopSubjectClass->createSubClass("AutoInsert", "AutoInsert Subject Sub Class");
+//		$TopSubjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
+//		$subjectClass = $TopSubjectClass->createSubClass("AutoInsert", "AutoInsert Subject Sub Class");
+		$subjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
+//		$subjectClass = new core_kernel_classes_Resource(CLASS_ROLE_WORKFLOWUSERROLE);
 		$this->assertIsA($subjectClass, 'core_kernel_classes_Class');
 
 		$i=1;
@@ -162,6 +166,7 @@ class MassInsertTestCase extends UnitTestCase {
 		$propertyUserUILgProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userUILg');
 		$propertyLabel = new core_kernel_classes_Property(RDFS_LABEL);
 		$propertyComment = new core_kernel_classes_Property(RDFS_COMMENT);
+		$propertyRdfType = new core_kernel_classes_Property(RDF_TYPE);
 
 		// Create N subjects
 		while ($i<=$n){
@@ -185,6 +190,7 @@ class MassInsertTestCase extends UnitTestCase {
 			$subjectInstance->setPropertyValue ($propertyLastNameProp, $lastName);
 			$subjectInstance->setPropertyValue ($propertyUserDefLgProp, $languageUri);
 			$subjectInstance->setPropertyValue ($propertyUserUILgProp, $languageUri);
+        	$subjectInstance->setPropertyValue ($propertyRdfType, CLASS_ROLE_SUBJECT);
 
 			// Commpliant with the new minimal API
 			//			$properties = array(
@@ -240,9 +246,10 @@ class MassInsertTestCase extends UnitTestCase {
 		
 		// Get the test class
 		$this->assertTrue(defined('TAO_TEST_CLASS'));
-		$TopTestClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-		$testClass = $TopTestClass->createSubClass("AutoInsert", "AutoInsert Test Sub Class");
-			
+//		$TopTestClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
+//		$testClass = $TopTestClass->createSubClass("AutoInsert", "AutoInsert Test Sub Class");
+		$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);;
+		
 		for ($i=0; $i<$this->testNumber; $i++){
 
 			// Create a test instance
@@ -261,14 +268,13 @@ class MassInsertTestCase extends UnitTestCase {
 		// Create a delivery
 		$delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'AutoInsert Delivery');
 		// Set the groups
-		$groupsParam = array(); foreach($this->groups as $group) $groupsParam[]= $group;
+		$groupsParam = array(); foreach($this->groups as $group) $groupsParam[]= $group->uriResource;
 		$this->deliveryService->setDeliveryGroups($delivery, $groupsParam);
 		// Set the tests
-		$testsParam = array(); foreach($tests as $test) $testsParam[]= $test;
+		$testsParam = array(); foreach($this->tests as $t) $testsParam[]= $t;
 		$this->deliveryService->setDeliveryTests($delivery, $testsParam);
 		// Generate the process
-		$generationResult = $this->deliveryService->generateProcess($delivery);
-
+		//$generationResult = $this->deliveryService->generateProcess($delivery);
 	}
 
 
