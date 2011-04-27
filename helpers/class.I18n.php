@@ -66,7 +66,12 @@ class tao_helpers_I18n
     public static function init($langCode)
     {
         // section 127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7C begin
-		
+		   	
+    	// if the langCode is empty do nothing
+    	if (empty($langCode)){
+    		return;
+    	}
+    	
 		self::$langCode = $langCode;
 		
 		
