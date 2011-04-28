@@ -57,7 +57,11 @@ if(file_exists($pattern) && is_dir($pattern)){
 		//execute SQL queries
 		if(preg_match("/\.sql$/", $file)){
 			echo "loading $file\n";
-			$dbCreator->load($path);
+			try{
+				$dbCreator->load($path);
+			}catch(tao_install_utils_Exception $e){
+				echo $e->getMessage().'\n';
+			}
 		}
 	}
 }
