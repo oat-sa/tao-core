@@ -515,6 +515,62 @@ abstract class tao_models_classes_GenerisService
 
         // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 begin
         
+        
+        if(is_null($topLevelClazz)){
+			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+		}
+		
+		if($clazz->uriResource == $topLevelClazz->uriResource){
+			$returnValue = $clazz->getProperties(false);
+			return (array) $returnValue;
+		}
+		
+		//determine the parent path
+		$parents = array();
+		$top = false;
+		do{
+			if(!isset($lastLevelParents)){
+				$parentClasses = $clazz->getParentClasses(false);
+			}
+			else{
+				$parentClasses = array();
+				foreach($lastLevelParents as $parent){
+					$parentClasses = array_merge($parentClasses, $parent->getParentClasses(false));
+				}
+			}
+			if(count($parentClasses) == 0){
+				break;
+			}
+			$lastLevelParents = array();
+			foreach($parentClasses as $parentClass){
+				if($parentClass->uriResource == $topLevelClazz->uriResource ) {
+					$parents[$parentClass->uriResource] = $parentClass;	
+					$top = true;
+					break;
+				}
+				if($parentClass->uriResource == RDF_CLASS){
+					continue;
+				}
+				
+				$allParentClasses = $parentClass->getParentClasses(true);
+				if(array_key_exists($topLevelClazz->uriResource, $allParentClasses)){
+					 $parents[$parentClass->uriResource] = $parentClass;
+				}
+				$lastLevelParents[$parentClass->uriResource] = $parentClass;
+			}
+		}while(!$top);
+		
+		/*$returnValue = array_merge(
+			array(RDFS_LABEL => new core_kernel_classes_Property(RDFS_LABEL)),
+			$clazz->getProperties(false)
+		);*/
+		foreach($parents as $parent){
+			$returnValue = array_merge($returnValue, $parent->getProperties(false));
+    	}
+    	
+        
+    	//////////////////
+    	/*
         if(is_null($topLevelClazz)){
 			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
 		}
@@ -558,7 +614,7 @@ abstract class tao_models_classes_GenerisService
 				
 			}
 		}while($top === false);
-		
+		*/
 		$returnValue = array_merge($returnValue, $clazz->getProperties(false));
 		
         // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 end

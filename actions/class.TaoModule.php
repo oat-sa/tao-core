@@ -88,14 +88,18 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * @param core_kernel_classes_Resource $resource
 	 * @return tao_helpers_form_Form the generated form
 	 */
-	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource){
+	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topClass = null){
 	
 		$propMode = 'simple';
 		if($this->hasSessionAttribute('property_mode')){
 			$propMode = $this->getSessionAttribute('property_mode');
 		}
 		
-		$formContainer = new tao_actions_form_Clazz($clazz, $resource, array('property_mode' => $propMode));
+		$options = array('property_mode' => $propMode);
+		if(!is_null($topClass)){
+			$options['topClazz'] = $topClass->uriResource;
+		}
+		$formContainer = new tao_actions_form_Clazz($clazz, $resource, $options);
 		$myForm = $formContainer->getForm();
 		
 		if($myForm->isSubmited()){

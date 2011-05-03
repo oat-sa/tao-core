@@ -146,46 +146,53 @@ class tao_helpers_form_GenerisFormFactory
 			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
 		}
 		
+		
 		if($clazz->uriResource == $topLevelClazz->uriResource){
 			$returnValue = $clazz->getProperties(false);
 			return (array) $returnValue;
 		}
+		
+		//determine the parent path
+		$parents = array();
 		$top = false;
-		$parent = null;
 		do{
-			if(is_null($parent)){
-				$parents = $clazz->getParentClasses(false);
+			if(!isset($lastLevelParents)){
+				$parentClasses = $clazz->getParentClasses(false);
 			}
 			else{
-				$parents = $parent->getParentClasses(false);
+				$parentClasses = array();
+				foreach($lastLevelParents as $parent){
+					$parentClasses = array_merge($parentClasses, $parent->getParentClasses(false));
+				}
 			}
-			if(count($parents) == 0){
+			if(count($parentClasses) == 0){
 				break;
 			}
-			
-			foreach($parents as $aParent){
-				
-				
-				if( !($aParent instanceof core_kernel_classes_Class) || is_null($aParent)){
-					$top = true; 
-					break;
-				}
-				if($aParent->uriResource == RDF_CLASS){
-					//$top = true; 
+			$lastLevelParents = array();
+			foreach($parentClasses as $parentClass){
+				if($parentClass->uriResource == RDF_CLASS){
 					continue;
 				}
-				
-				$returnValue = array_merge($returnValue, $aParent->getProperties(false));
-				
-				if($aParent->uriResource == $topLevelClazz->uriResource){
-					$top = true; 
+				if($parentClass->uriResource == $topLevelClazz->uriResource ) {
+					$parents[$parentClass->uriResource] = $parentClass;	
+					$top = true;
+					break;
 				}
 				
-				$parent = $aParent;
+				
+				$allParentClasses = $parentClass->getParentClasses(true);
+				if(array_key_exists($topLevelClazz->uriResource, $allParentClasses)){
+					 $parents[$parentClass->uriResource] = $parentClass;
+				}
+				
+				$lastLevelParents[$parentClass->uriResource] = $parentClass;
 			}
-		} while ($top === false);
+		}while(!$top);
 		
-		$returnValue = array_merge($returnValue, $clazz->getProperties(false));
+		foreach($parents as $parent){
+			$returnValue = array_merge($returnValue, $parent->getProperties(false));
+    	}
+    	$returnValue = array_merge($returnValue, $clazz->getProperties(false));
 		
         // section 127-0-1-1-2db84171:12476b7fa3b:-8000:0000000000001AAB end
 
