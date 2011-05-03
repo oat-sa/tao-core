@@ -69,7 +69,7 @@ class tao_helpers_I18n
 		   	
     	// if the langCode is empty do nothing
     	if (empty($langCode)){
-    		return;
+    		throw new Exception("Language is not defined");
     	}
     	
 		self::$langCode = $langCode;
