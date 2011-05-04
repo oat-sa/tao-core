@@ -239,9 +239,9 @@ class tao_models_classes_UserService
 
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D54 begin
 		
-		$returnValue = $this->generisUserService->loginExists($login);
-		
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D54 end
+        $returnValue = $this->generisUserService->loginExists($login);
+        
+		// section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D54 end
 
         return (bool) $returnValue;
     }
