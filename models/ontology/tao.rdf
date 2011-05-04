@@ -7,6 +7,9 @@
 	xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#" 
 	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
 >
+  <rdf:Description rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#type">
+    <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
+  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource"/>
     <rdfs:label xml:lang="EN"><![CDATA[TAO Object]]></rdfs:label>
