@@ -149,8 +149,8 @@ class tao_helpers_form_validators_Label
 					}
 				}
 				else{
-					$results = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), $clazz, $options);
-					if(count($results) > 0){
+					$matchingResources = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), $clazz, $options);
+					if(count($matchingResources) > 0){
 						foreach($matchingResources as  $matchingResource){
 							if($matchingResource->uriResource != $this->options['uri']){
 								$returnValue = false;

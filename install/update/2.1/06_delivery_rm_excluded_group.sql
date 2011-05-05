@@ -1,0 +1,1 @@
+DELETE FROM statements WHERE subject='http://www.tao.lu/Ontologies/TAODelivery.rdf#ExcludedGroups';
