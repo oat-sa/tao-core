@@ -185,15 +185,21 @@ class tao_models_classes_RoleService
 	    	//get all users who have the following role:
 	    	$allUsers = $this->getUsers($role);
 			
-			foreach($allUsers as $user){
+			foreach($allUsers as $userUri){
+				$userInstance = new core_kernel_classes_Resource($userUri);
+				
 				//delete the current role
-				$returnValue = core_kernel_impl_ApiModelOO::singleton()->removeStatement($user, RDF_TYPE, $role->uriResource, '');
+				foreach($this->getUserRoles($userInstance) as $userRole){
+					$userInstance->removeType(new core_kernel_classes_Class($userRole->uriResource));
+				}
 			}
+			
+			$roleClass = new core_kernel_classes_Class($role->uriResource);
 			
 			$done = 0;
 			foreach($users as $userUri){
 				$userInstance = new core_kernel_classes_Resource($userUri);
-				if($userInstance->setPropertyValue(new core_kernel_classes_Property(RDF_TYPE), $role->uriResource)){
+				if($userInstance->setType($roleClass)){
 					$done++;
 				}
 			}
@@ -248,10 +254,8 @@ class tao_models_classes_RoleService
    		if(!is_null($user)){
 			
 			$allowedRoles = $this->roleClass->getInstances(true);
-			
-			$roles = $user->getPropertyValues(new core_kernel_classes_Property(RDFS_TYPE));
-			foreach($roles as $role){
-				if(array_key_exists($role, $allowedRoles)){
+			foreach($user->getType() as $role){
+				if(array_key_exists($role->uriResource, $allowedRoles)){
 					$returnValue[] = new core_kernel_classes_Resource($role);
 				}
 			}
@@ -283,10 +287,10 @@ class tao_models_classes_RoleService
 	        	$role = $this->roleClass;
 	        }
 	        
-			$userRoleCollection = $user->getPropertyValuesCollection(new core_kernel_classes_Property(RDF_TYPE));
+			$userRoles = $user->getType();
 			
 			$acceptedRole =  array_merge(array($role->uriResource) , array_keys($role->getInstances(true))); 
-			foreach ($userRoleCollection->getIterator()  as $userRole){
+			foreach ($userRoles  as $userRole){
 				$returnValue = in_array($userRole->uriResource, $acceptedRole);
 				if($returnValue){
 					break;

@@ -170,9 +170,9 @@ abstract class tao_models_classes_GenerisService
         
      	if(!is_null($instance)){
         	if(!$instance->isClass() && !$instance->isProperty()){
-        		$resource = $instance->getOnePropertyValue(new core_kernel_classes_Property(RDFS_TYPE));
-        		if($resource instanceof core_kernel_classes_Resource){
-        			$returnValue = new core_kernel_classes_Class($resource->uriResource);
+        		foreach($instances->getType() as $type){
+        			$returnValue = $type;
+        			break;
         		}
         	}
         }
@@ -329,6 +329,19 @@ abstract class tao_models_classes_GenerisService
         
         foreach($properties as $propertyUri => $propertyValue){
 			
+        	if($propertyUri == RDF_TYPE){
+        		foreach($instance->getType() as $type){
+        			$instance->removeType($type);
+        		}
+        		if(!is_array($propertyValue)){
+        			$types = array($propertyValue) ;
+        		}
+        		foreach($types as $type){
+        			$instance->setType(new core_kernel_classes_Class($type));
+        		}
+        		continue;
+        	}
+        	
 			$prop = new core_kernel_classes_Property( $propertyUri );
 			$values = $instance->getPropertyValuesCollection($prop);
 			if($values->count() > 0){
@@ -468,7 +481,7 @@ abstract class tao_models_classes_GenerisService
     }
 
     /**
-     * Change the Class (RDFS_TYPE) of a resource
+     * Change the Class  of a resource
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -483,10 +496,16 @@ abstract class tao_models_classes_GenerisService
         // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331 begin
         
    		try{
-        	$returnValue = $instance->editPropertyValues(
-        		new core_kernel_classes_Property(RDFS_TYPE), 
-        		$destinationClass->uriResource
-        	);
+        	foreach($instance->getType() as $type){
+        		$instance->removeType($type);
+        	}
+        	$instance->setType($destinationClass);
+        	foreach($instance->getType() as $type){
+        		if($type->uriResource == $destinationClass->uriResource){
+        			$returnValue = true;
+        			break;
+        		}
+        	}
         }
         catch(common_Exception $ce){
         	print $ce;
@@ -667,24 +686,23 @@ abstract class tao_models_classes_GenerisService
         // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E84 begin
         
     	try{
-			$type = $instance->getUniquePropertyValue(new core_kernel_classes_Property(RDFS_TYPE));
-			$clazz = new core_kernel_classes_Class($type->uriResource);
-			
-			foreach($clazz->getProperties(true) as $property){
-				
-				if($property->isLgDependent() || $property->uriResource == RDFS_LABEL){
-					$collection = $instance->getPropertyValuesByLg($property, $lang);
-					if($collection->count() > 0 ){
-						
-						if($collection->count() == 1){
-							$returnValue[$property->uriResource] = (string)$collection->get(0);
-						}
-						else{
-							$propData = array();
-							foreach($collection->getIterator() as $collectionItem){
-								$propData[] = (string)$collectionItem;
+			foreach($instance->getType() as $clazz){
+				foreach($clazz->getProperties(true) as $property){
+					
+					if($property->isLgDependent() || $property->uriResource == RDFS_LABEL){
+						$collection = $instance->getPropertyValuesByLg($property, $lang);
+						if($collection->count() > 0 ){
+							
+							if($collection->count() == 1){
+								$returnValue[$property->uriResource] = (string)$collection->get(0);
 							}
-							$returnValue[$property->uriResource] = $propData;
+							else{
+								$propData = array();
+								foreach($collection->getIterator() as $collectionItem){
+									$propData[] = (string)$collectionItem;
+								}
+								$returnValue[$property->uriResource] = $propData;
+							}
 						}
 					}
 				}
@@ -853,7 +871,7 @@ abstract class tao_models_classes_GenerisService
 			$highlightedResource = new core_kernel_classes_Resource(tao_helpers_Uri::decode($highlightUri));
 			if(!$highlightedResource->isClass()){
 				$parentClassUris = array();
-				foreach($resourceClasses = $highlightedResource->getPropertyValues(new core_kernel_classes_Property(RDFS_TYPE)) as $resourceClassUri){
+				foreach($resourceClasses = $highlightedResource->getType() as $resourceClassUri){
 					$resourceClass = new core_kernel_classes_Class($resourceClassUri);
 					$parentClassUris = array_merge(
 						$parentClassUris,

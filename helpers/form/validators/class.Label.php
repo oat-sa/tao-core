@@ -122,7 +122,10 @@ class tao_helpers_form_validators_Label
 				$classes = $resource->getPropertyValues(new core_kernel_classes_Property(RDF_DOMAIN));
 			}
 			else{
-				$classes = $resource->getPropertyValues(new core_kernel_classes_Property(RDFS_TYPE));
+				$classes = array();
+				foreach($resource->getType() as $type){
+					$classes[] = $type->uriResource;
+				}
 			}
 			foreach($classes as $classUri){
 				

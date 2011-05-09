@@ -218,7 +218,12 @@ class tao_helpers_data_GenerisAdapterCsv
 					}
 					foreach($this->options['staticMap'] as $propUri => $value){
 						if(!array_key_exists($propUri, $this->options['map'])){
-							$resource->setPropertyValue(new core_kernel_classes_Property($propUri), $value);
+							if($propUri == RDF_TYPE){
+								$resource->setType(new core_kernel_classes_Class($value));
+							}
+							else{
+								$resource->setPropertyValue(new core_kernel_classes_Property($propUri), $value);
+							}
 						}
 					}
 					$createdResources++;
