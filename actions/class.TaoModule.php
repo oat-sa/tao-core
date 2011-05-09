@@ -790,5 +790,14 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		echo json_encode(array('deleted'	=> $deleted));
 	}
+	
+	/**
+	 * display the optimize interface
+	 * @return void
+	 */
+	public function optimize(){
+		$clazz = $this->getRootClass();
+		$classes = $clazz->getSubClasses(true);
+	}
 }
 ?>
