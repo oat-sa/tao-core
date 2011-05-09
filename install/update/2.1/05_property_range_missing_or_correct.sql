@@ -1,4 +1,4 @@
-UPDATE statements SET object = "http://www.w3.org/1999/02/22-rdf-syntax-ns#ClassProcessVariables" WHERE 
+UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables" WHERE 
     subject="http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersProcessVariable" 
     AND predicate = "http://www.w3.org/2000/01/rdf-schema#range";
 
