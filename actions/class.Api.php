@@ -190,7 +190,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 			$itemFolder 	= substr($item->uriResource, strpos($item->uriResource, '#') + 1);
 			
 			$compiledFolder = BASE_PATH. "/compiled/{$deliveryFolder}/{$testFolder}/{$itemFolder}/";
-		
+			
 			if(is_dir($compiledFolder)){
 				return $compiledFolder;
 			}
