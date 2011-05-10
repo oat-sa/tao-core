@@ -170,7 +170,7 @@ abstract class tao_models_classes_GenerisService
         
      	if(!is_null($instance)){
         	if(!$instance->isClass() && !$instance->isProperty()){
-        		foreach($instances->getType() as $type){
+        		foreach($instance->getType() as $type){
         			$returnValue = $type;
         			break;
         		}
@@ -578,62 +578,11 @@ abstract class tao_models_classes_GenerisService
 				$lastLevelParents[$parentClass->uriResource] = $parentClass;
 			}
 		}while(!$top);
-		
-		/*$returnValue = array_merge(
-			array(RDFS_LABEL => new core_kernel_classes_Property(RDFS_LABEL)),
-			$clazz->getProperties(false)
-		);*/
+
 		foreach($parents as $parent){
 			$returnValue = array_merge($returnValue, $parent->getProperties(false));
     	}
     	
-        
-    	//////////////////
-    	/*
-        if(is_null($topLevelClazz)){
-			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
-		}
-		
-		if($clazz->uriResource == $topLevelClazz->uriResource){
-			$returnValue = $clazz->getProperties(false);
-			return (array) $returnValue;
-		}
-		$top = false;
-		$parent = null;
-		do{
-			if(is_null($parent)){
-				$parents = $clazz->getParentClasses(false);
-			}
-			else{
-				$parents = $parent->getParentClasses(false);
-			}
-			if(count($parents) == 0){
-				break;
-			}
-			
-			foreach($parents as $aParent){
-				
-				
-				if( !($aParent instanceof core_kernel_classes_Class) || is_null($aParent)){
-					$top = true; 
-					break;
-				}
-				if($aParent->uriResource == RDFS_CLASS){
-					//$top = true; 
-					continue;
-				}
-				
-				$returnValue = array_merge($returnValue, $aParent->getProperties(false));
-				if($aParent->uriResource == $topLevelClazz->uriResource){
-					$top = true; 
-				}
-				
-				$parent = $aParent;
-				
-				
-			}
-		}while($top === false);
-		*/
 		$returnValue = array_merge($returnValue, $clazz->getProperties(false));
 		
         // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 end
