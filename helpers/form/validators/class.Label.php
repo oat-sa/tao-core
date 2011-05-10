@@ -107,11 +107,13 @@ class tao_helpers_form_validators_Label
         }
         else if(isset($this->options['uri'])){
         	
-        	
-        	$apiSearch = new core_kernel_impl_ApiSearchI();
 			$options = array(
-				'lang' => core_kernel_classes_Session::singleton()->getLg(),
-				'like' => false
+				'lang' 		=> core_kernel_classes_Session::singleton()->getLg(),
+				'like' 		=> false,
+				'recursive' => false
+			);
+			$propertyFilter = array(
+				RDFS_LABEL => $this->getValue()
 			);
 			
 			$resource = new core_kernel_classes_Resource($this->options['uri']);
@@ -130,35 +132,12 @@ class tao_helpers_form_validators_Label
 			foreach($classes as $classUri){
 				
 				$clazz = new core_kernel_classes_Class($classUri);
-				
-				if($resource->isClass()){
-					$matchingResources = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), null, $options);
-					$checkResources = $clazz->getSubClasses(true);
-					foreach($matchingResources as $matchingResource){
-						if(array_key_exists($matchingResource->uriResource, $checkResources) && $matchingResource->uriResource != $this->options['uri']){
+				$matchingResources = $clazz->searchInstances($propertyFilter, $options);
+				if(count($matchingResources) > 0){
+					foreach($matchingResources as  $matchingResource){
+						if($matchingResource->uriResource != $this->options['uri']){
 							$returnValue = false;
 							break;
-						}
-					}
-				}
-				else if($resource->isProperty()){
-					$matchingResources = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), null, $options);
-					$checkResources = $clazz->getProperties(true);
-					foreach($matchingResources as $matchingResource){
-						if(array_key_exists($matchingResource->uriResource, $checkResources)  && $matchingResource->uriResource != $this->options['uri']){
-							$returnValue = false;
-							break;
-						}
-					}
-				}
-				else{
-					$matchingResources = $apiSearch->searchInstances(array(RDFS_LABEL => $this->getValue()), $clazz, $options);
-					if(count($matchingResources) > 0){
-						foreach($matchingResources as  $matchingResource){
-							if($matchingResource->uriResource != $this->options['uri']){
-								$returnValue = false;
-								break;
-							}
 						}
 					}
 				}

@@ -146,8 +146,10 @@ abstract class tao_models_classes_GenerisService
 
         // section 127-0-1-1-106f2734:126b2f503d0:-8000:0000000000001E96 begin
         
-        $apiSearch = new core_kernel_impl_ApiSearchI();
-		$returnValue = $apiSearch->searchInstances($propertyFilters, $topClazz, $options);
+        if(!is_null($topClazz)){
+        	$returnValue = $topClazz->searchInstances($propertyFilters, $options);
+        }
+		
         
         // section 127-0-1-1-106f2734:126b2f503d0:-8000:0000000000001E96 end
 
