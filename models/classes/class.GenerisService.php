@@ -265,17 +265,16 @@ abstract class tao_models_classes_GenerisService
         	$count = count($clazz->getInstances()) +1;
         }
         
-        $apiSearch = new core_kernel_impl_ApiSearchI();
 		$options = array(
 			'lang' 				=> core_kernel_classes_Session::singleton()->getLg(),
 			'like' 				=> false,
-			'checkSubclasses'   => false
+			'recursive'  		=> false
 		);
        
 		do{
 			$exist = false;
 			$label =  $labelBase . $count;
-			$result = $apiSearch->searchInstances(array(RDFS_LABEL => $label), $clazz, $options);
+			$result = $clazz->searchInstances(array(RDFS_LABEL => $label), $options);
 			if(count($result) > 0){
 				$exist = true;
 				$count ++;

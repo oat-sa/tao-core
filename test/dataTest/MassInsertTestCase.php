@@ -63,15 +63,13 @@ class MassInsertTestCase extends UnitTestCase {
 
 		// Get available languages
 
-		$apiSearch = new core_kernel_impl_ApiSearchI();
-
 		// Get all the languages referenced in the TAO platform
 		$filters = array(
-		RDFS_TYPE => CLASS_LANGUAGES
+			RDFS_TYPE => CLASS_LANGUAGES
 		);
 		$clazz = new core_kernel_classes_Class(CLASS_LANGUAGES);
-		$options = array('checkSubclasses'	=> false, 'like' => false);
-		$this->languages = $apiSearch->searchInstances($filters, $clazz, $options);
+		$options = array('recursive'	=> false, 'like' => false);
+		$this->languages = $clazz->searchInstances($filters, $options);
 
 		$this->testService = tao_models_classes_ServiceFactory::get('Tests');
 		$this->deliveryService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
