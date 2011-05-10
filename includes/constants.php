@@ -26,6 +26,7 @@ $todefine = array(
 	'TAO_DELIVERY_CAMPAIGN_CLASS'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign',	
 	'TAO_DELIVERY_RESULTSERVER_CLASS'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer',
 	'TAO_DELIVERY_HISTORY_CLASS'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#History',
+	'TAO_GROUP_MEMBERS_PROP'		=> 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Members',
 	'RDFS_LABEL'					=> 'http://www.w3.org/2000/01/rdf-schema#label',
 	'RDFS_CLASS'					=> 'http://www.w3.org/2000/01/rdf-schema#Class',
 	'RDFS_TYPE'						=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
