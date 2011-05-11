@@ -173,7 +173,8 @@ class MassInsertTestCase extends UnitTestCase {
 			$password = "pass{$i}";
 			$firstName = "first name{$i}";
 			$lastName = "last name{$i}";
-			$languageUri = $this->languages[$i%count($this->languages)]->uriResource;
+			
+			$languageUri = 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN';//all in english
 
 			// create a Subject
 			$subjectInstanceLabel = "subject {$i}";
