@@ -320,6 +320,10 @@ abstract class tao_scripts_Runner
         
     	$returnValue = '';
     	
+    	if(isset($options['prefix'])){
+    		$returnValue = $options['prefix'];
+    	}
+    	
         $colorized = false;
         isset($options['color']) ?  $color = $options['color'] : $color = 'grey';
         $color = trim(tao_helpers_Cli::getFgColor($color));
