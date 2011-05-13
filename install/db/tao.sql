@@ -64,8 +64,8 @@ CREATE TABLE `statements` (
   `epoch` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   KEY `idx_statements_modelID` (`modelID`),
-  KEY k_sp (subject(156), predicate(156)),
-  KEY k_po (predicate(156), object(156))
+  KEY k_sp (subject(164), predicate(164)),
+  KEY k_po (predicate(164), object(164))
 )DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `class_to_table`;
