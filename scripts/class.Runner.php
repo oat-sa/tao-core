@@ -76,7 +76,7 @@ abstract class tao_scripts_Runner
     {
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B begin
         
-    	self::out("Running {$_SERVER['argv'][0]}", array('color' => 'white'));
+    	self::out("\n * Running {$_SERVER['argv'][0]} *\n", array('color' => 'white'));
     	
     	$this->inputFormat = $inputFormat;
 
@@ -102,6 +102,8 @@ abstract class tao_scripts_Runner
     	$this->run();
     	
     	$this->postRun();
+    	
+    	self::out("\n");
     	
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B end
     }
