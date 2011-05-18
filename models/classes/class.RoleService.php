@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * This class provide service on user roles management
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -34,7 +34,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  * This class provide service on user roles management
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -68,7 +68,7 @@ class tao_models_classes_RoleService
      * constructor, call initRole
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return mixed
      */
     public function __construct()
@@ -88,7 +88,7 @@ class tao_models_classes_RoleService
      * To be overriden.
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return mixed
      */
     protected function initRole()
@@ -104,7 +104,7 @@ class tao_models_classes_RoleService
      * Get the Role matching the uri
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string uri
      * @return core_kernel_classes_Resource
      */
@@ -127,7 +127,7 @@ class tao_models_classes_RoleService
      * get the target role class
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return core_kernel_classes_Class
      */
     public function getRoleClass()
@@ -147,7 +147,7 @@ class tao_models_classes_RoleService
      * remove a role
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Resource role
      * @return boolean
      */
@@ -170,7 +170,7 @@ class tao_models_classes_RoleService
      * assign a role to a list of users
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Resource role
      * @param  array users
      * @return boolean
@@ -217,7 +217,7 @@ class tao_models_classes_RoleService
      * get the users who have the role in parameter
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Resource role
      * @return array
      */
@@ -241,7 +241,7 @@ class tao_models_classes_RoleService
      * get the roles of a user
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Resource user
      * @return array
      */
@@ -270,7 +270,7 @@ class tao_models_classes_RoleService
      * check if a user has a role
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Resource user
      * @param  Class role
      * @return boolean
@@ -301,6 +301,28 @@ class tao_models_classes_RoleService
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F83 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method createInstance
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @param  Class clazz
+     * @param  string label
+     * @return core_kernel_classes_Resource
+     */
+    public function createInstance( core_kernel_classes_Class $clazz, $label = '')
+    {
+        $returnValue = null;
+
+        // section 10-13-1--128-2f4f67cd:13003c0785f:-8000:0000000000002E3B begin
+		$returnValue = parent::createInstance($clazz, $label);
+		$roleClass = new core_kernel_classes_Class($returnValue->uriResource);
+		$roleClass->setSubClassOf(new core_kernel_classes_Class(CLASS_GENERIS_USER));
+        // section 10-13-1--128-2f4f67cd:13003c0785f:-8000:0000000000002E3B end
+
+        return $returnValue;
     }
 
 } /* end of class tao_models_classes_RoleService */
