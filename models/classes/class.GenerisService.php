@@ -821,8 +821,7 @@ abstract class tao_models_classes_GenerisService
 			$highlightedResource = new core_kernel_classes_Resource(tao_helpers_Uri::decode($highlightUri));
 			if(!$highlightedResource->isClass()){
 				$parentClassUris = array();
-				foreach($resourceClasses = $highlightedResource->getType() as $resourceClassUri){
-					$resourceClass = new core_kernel_classes_Class($resourceClassUri);
+				foreach($resourceClasses = $highlightedResource->getType() as $resourceClass){
 					$parentClassUris = array_merge(
 						$parentClassUris,
 						tao_helpers_Uri::encodeArray(array_keys($resourceClass->getParentClasses(true)), tao_helpers_Uri::ENCODE_ARRAY_VALUES)

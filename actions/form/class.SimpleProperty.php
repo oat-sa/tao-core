@@ -144,10 +144,14 @@ class tao_actions_form_SimpleProperty
 		$listOptions = array();
 		foreach($listService->getLists() as $list){
 			$listOptions[tao_helpers_Uri::encode($list->uriResource)] = $list->getLabel();
-			if($property->getRange()->uriResource == $list->uriResource){
-				$listElt->setValue($list->uriResource);
+			$range = $property->getRange();
+			if(!is_null($range)){
+				if($range->uriResource == $list->uriResource){
+					$listElt->setValue($list->uriResource);
+				}
 			}
-		}	
+		}
+		
 		$listOptions['new'] = ' + '.__('Add / Edit lists');
 		$listElt->setOptions($listOptions);
 		if($checkRange){
