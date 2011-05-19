@@ -147,7 +147,11 @@ class tao_actions_form_Instance
 					foreach($values->getIterator() as $value){
 						if(!is_null($value)){
 							if($value instanceof core_kernel_classes_Resource){
-								$element->setValue($value->uriResource);
+								if($element instanceof tao_helpers_form_elements_Readonly){
+									$element->setValue($value->getLabel());
+								}else{
+									$element->setValue($value->uriResource);
+								}
 							}
 							if($value instanceof core_kernel_classes_Literal){
 								$element->setValue((string)$value);
