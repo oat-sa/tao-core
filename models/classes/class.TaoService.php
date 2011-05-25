@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * This class provide the services for the Tao extension
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -34,7 +34,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  * This class provide the services for the Tao extension
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -68,7 +68,7 @@ class tao_models_classes_TaoService
      * Get the list of TAO's children extension available in the current context
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return array
      */
     public function getLoadedExtensions()
@@ -99,7 +99,7 @@ class tao_models_classes_TaoService
      * Check if an extension is loaded
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string extension
      * @return boolean
      */
@@ -118,7 +118,7 @@ class tao_models_classes_TaoService
      * define the current extension
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string extension
      * @return mixed
      */
@@ -136,7 +136,7 @@ class tao_models_classes_TaoService
      * get the current extension
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     public function getCurrentExtension()
@@ -158,7 +158,7 @@ class tao_models_classes_TaoService
      * Return the SimpleXmlElement object (don't forget to cast it)
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string extension
      * @return SimpleXMLElement
      */
@@ -187,7 +187,7 @@ class tao_models_classes_TaoService
      * Get the structure for the extension/section in parameters
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string extension
      * @param  string section
      * @return array
@@ -234,7 +234,7 @@ class tao_models_classes_TaoService
      * Check if an extension is an extension loaded inside the TAO GUI
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string extension
      * @return boolean
      */
@@ -253,6 +253,34 @@ class tao_models_classes_TaoService
         // section 127-0-1-1-34cc9151:127a8ee40c4:-8000:000000000000233E end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getExtensionVersion
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @param  string extension
+     * @return string
+     */
+    public function getExtensionVersion($extension = 'tao')
+    {
+        $returnValue = (string) '';
+
+        // section 10-13-1--128--497eb3f9:1302667dfd7:-8000:0000000000003B78 begin
+		
+		$extensionsManager = common_ext_ExtensionsManager::singleton();
+		$extensions = $extensionsManager->getInstalledExtensions();
+		if(isset($extensions[$extension])){
+			$extensionConfig = $extensions[$extension]->configuration;
+			if($extensionConfig->loaded && !$extensionConfig->ghost){
+				$returnValue = $extensionConfig->version;
+			}
+		}
+		
+        // section 10-13-1--128--497eb3f9:1302667dfd7:-8000:0000000000003B78 end
+
+        return (string) $returnValue;
     }
 
 } /* end of class tao_models_classes_TaoService */

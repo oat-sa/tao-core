@@ -1,5 +1,5 @@
-DROP TABLE `_mask`;
-DROP TABLE `user`;
+DROP TABLE IF EXISTS `_mask`;
+DROP TABLE IF EXISTS `user`;
 
 ALTER TABLE `statements` DROP INDEX `idx_statements_subject` ;
 ALTER TABLE `statements` DROP INDEX `idx_statements_predicate`;

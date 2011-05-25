@@ -2,7 +2,7 @@
    /*
     * @todo implement this script in a real update process
     * 1. go to update dir
-    * 2. checkout the right version id
+    * 2. check the right version id, display warning if executing update script <= current version
     * 3. execute the php scripts and run the sql instructions from the last version to the current version
     */
 $n = '';
@@ -25,6 +25,7 @@ if(!$version){
 	echo "Please specify the version to update to";
 	exit;
 }
+
 require_once dirname(__FILE__).'/../includes/raw_start.php';
 
 
