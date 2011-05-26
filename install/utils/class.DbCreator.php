@@ -86,10 +86,13 @@ class tao_install_utils_DbCreator{
 			
 			//explode and execute
 			$requests = explode(";\n", $ch);
-			unset($requests[count($requests)-1]);
+			
 			try{
 				foreach($requests as $index => $request){
-					$this->adoConnection->Execute($request);
+					$requestTrim = trim($request);
+					if(!empty($requestTrim)){
+						$this->adoConnection->Execute($request);
+					}
 				}
 			}
 			catch(Exception $e){
