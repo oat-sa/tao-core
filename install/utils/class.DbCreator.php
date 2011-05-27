@@ -85,7 +85,7 @@ class tao_install_utils_DbCreator{
 			}
 			
 			//explode and execute
-			$requests = explode(";\n", $ch);
+			$requests = explode(";", $ch);
 			
 			try{
 				foreach($requests as $index => $request){
