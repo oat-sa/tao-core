@@ -2,6 +2,7 @@ CREATE TABLE `class_to_table`(
 	`id` int NOT NULL auto_increment,
 	`uri` VARCHAR(255) NOT NULL,
 	`table` VARCHAR(64) NOT NULL,
+	`topClass` VARCHAR(255) NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `idx_class_to_table_uri` (`uri`)
 )DEFAULT CHARSET=utf8;
