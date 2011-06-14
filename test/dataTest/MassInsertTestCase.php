@@ -35,11 +35,11 @@ class MassInsertTestCase extends UnitTestCase {
 	 */
 
 	// Number of subjects to create
-	protected $subjectNumber = 0;
+	protected $subjectNumber = 100;
 	// Number of groups to create
-	protected $groupNumber = 0;
+	protected $groupNumber = 10;
 	// Number of languages to create
-	protected $testNumber = 0;
+	protected $testNumber = 1;
 
 	// Languages available in the TAO platform
 	protected $languages = array();
@@ -267,7 +267,13 @@ class MassInsertTestCase extends UnitTestCase {
 			$test = $this->testService->createInstance($testClass, "AutoInsert Test {$i}");
 
 			// Associate an item to the test
-			$item = new core_kernel_classes_Resource ('http://tao.local/mytao.rdf#i1292796232039301700');
+			$item = new core_kernel_classes_Resource (common_ext_NamespaceManager::singleton()->getLocalNamespace().'i1292796232039301700');
+			$this->testService->setTestItems ($test, array ($item));
+			// Associate an item to the test
+			$item = new core_kernel_classes_Resource (common_ext_NamespaceManager::singleton()->getLocalNamespace().'i1292796232039301700');
+			$this->testService->setTestItems ($test, array ($item));
+			// Associate an item to the test
+			$item = new core_kernel_classes_Resource (common_ext_NamespaceManager::singleton()->getLocalNamespace().'i1292796232039301700');
 			$this->testService->setTestItems ($test, array ($item));
 			
 			// Active the test
