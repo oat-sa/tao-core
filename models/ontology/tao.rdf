@@ -57,6 +57,12 @@
     <rdfs:comment xml:lang="EN"><![CDATA[Luxemburgish]]></rdfs:comment>
     <tao:level><![CDATA[4]]></tao:level>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LangSE">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
+    <rdfs:label xml:lang="EN"><![CDATA[SE]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[Swedish]]></rdfs:comment>
+    <tao:level><![CDATA[5]]></tao:level>
+  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
     <rdf:value xml:lang="EN"/>
     <rdfs:comment xml:lang="EN"><![CDATA[Tao Manager]]></rdfs:comment>
