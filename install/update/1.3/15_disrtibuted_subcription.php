@@ -16,4 +16,4 @@ $maskPredicateProp = core_kernel_classes_ClassFactory::createProperty($maskClass
 $maskPredicateProp->setRange(new core_kernel_classes_Class(RDF_PROPERTY));
 $maskObjectProp = core_kernel_classes_ClassFactory::createProperty($maskClass,'Object', 'Allowed Object by the mask',false,PROPERTY_MASK_PREDICATE);
 $maskObjectProp->setRange(new core_kernel_classes_Class(RDF_RESOURCE));
-echo 'ok';
+
