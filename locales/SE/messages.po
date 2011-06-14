@@ -1,0 +1,777 @@
+msgid "DE"
+msgstr "Tyska"
+
+msgid "EN"
+msgstr "Engelska"
+
+msgid "FR"
+msgstr "Franska"
+
+msgid "HU"
+msgstr "Ungerska"
+
+msgid "LU"
+msgstr "Luxemburgska"
+
+msgid "Password are not matching"
+msgstr "Lösenorden överensstämmer ej"
+
+msgid "Subject"
+msgstr "Testtagare"
+
+msgid "new subject"
+msgstr "ny testtagare"
+
+msgid "subject"
+msgstr "testtagare"
+
+msgid ""
+msgstr ""
+
+msgid "has been deleted successfully"
+msgstr "har framgångsrikt raderats"
+
+msgid "A formated text"
+msgstr "En formaterad text"
+
+msgid "A long text"
+msgstr "En lång text"
+
+msgid "A multiple choice list"
+msgstr "En flervalsfrågelista"
+
+msgid "A password"
+msgstr "Ett lösenord"
+
+msgid "A short text"
+msgstr "En kort text"
+
+msgid "A single choice list"
+msgstr "En envalslista"
+
+msgid "A single choice long list"
+msgstr "En lång envalsfrågelista"
+
+msgid "Access denied. Please renew your authentication!"
+msgstr "Åtkomst nekad"
+
+msgid "Actions"
+msgstr "Funktioner"
+
+msgid "Add"
+msgstr "Lägg till"
+
+msgid "Add / Edit lists"
+msgstr "Lägg till/redigera listor"
+
+msgid "Add a user"
+msgstr "Lägg till en användare"
+
+msgid "Add property"
+msgstr "Lägg till egenskap"
+
+msgid "Add the source file"
+msgstr "Lägg till källfilen"
+
+msgid "Advanced Authoring Tool"
+msgstr "Avancerat författarverktyg"
+
+msgid "Advanced Mode"
+msgstr "Avancerad metod"
+
+msgid "All (the complete TAO Module)"
+msgstr "Alla (hela TAO-modulen)"
+
+msgid "Allowed files types:"
+msgstr "Beviljade filtyper"
+
+msgid "An error occured during user deletion"
+msgstr "Ett fel uppstod när användare skulle tas bort"
+
+msgid "Authoring"
+msgstr "Författa"
+
+msgid "Browse"
+msgstr "Bläddra"
+
+msgid "CSV Options"
+msgstr "CVS Val"
+
+msgid "Campaigns library"
+msgstr "Kampanjarkiv"
+
+msgid "Cancel"
+msgstr "Avsluta"
+
+msgid "Change the password"
+msgstr "Ändra lösenord"
+
+msgid "Class"
+msgstr "Klass"
+
+msgid "Column"
+msgstr "Kolumn"
+
+msgid "Comment"
+msgstr "Kommentar"
+
+msgid "Confirm"
+msgstr "Bekräfta"
+
+msgid "Connect"
+msgstr "Anslut"
+
+msgid "Create"
+msgstr "Skapa"
+
+msgid "Create a list"
+msgstr "Skapa en lista"
+
+msgid "Current (the current extension, the local data and their dependancies)"
+msgstr "Aktuell (det aktuella komplementet, den lokala datan samt deras beroenden"
+
+msgid "Current language"
+msgstr "Aktuellt språk"
+
+msgid "Data Language"
+msgstr "Dataspråk"
+
+msgid "Data imported successfully"
+msgstr "Data framgångsrikt importerat"
+
+msgid "Data language"
+msgstr "Dataspråk"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Define the defaultt values"
+msgstr "Definera felvärdena"
+
+msgid "Delete"
+msgstr "Radera"
+
+msgid "Delete property"
+msgstr "Radera egenskap"
+
+msgid "Delete user"
+msgstr "Ta bort användare"
+
+msgid "Deliveries"
+msgstr "Leveranser"
+
+msgid "Deliveries library"
+msgstr "Leveransarkiv"
+
+msgid "Don't set"
+msgstr "Fastställ ej"
+
+msgid "Download"
+msgstr "Ladda ner"
+
+msgid "Dynamic date picker"
+msgstr "Dynamisk datumväljare"
+
+msgid "Edit"
+msgstr "Redigera"
+
+msgid "Edit Comment"
+msgstr "Redigera kommentar"
+
+msgid "Edit a user"
+msgstr "Redigera en användare"
+
+msgid "Edit item comment"
+msgstr "Redigera modulinnehåll"
+
+msgid "Edit property into parent class"
+msgstr "Redigera egenskap till upphovsklass"
+
+msgid "Edit user"
+msgstr "Redigera användare"
+
+msgid "Element"
+msgstr "Beståndsdel"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Empty"
+msgstr "Tom"
+
+msgid "Enable your to export an RDF file containing the selected namespaces"
+msgstr "Låter dig exportera en RDF-fil innehållandes valda namnområden"
+
+msgid "Enables you to export an RDF file containing the selected namespaces"
+msgstr "Låter dig exportera en RDF-fil innehållandes valda namnområden"
+
+msgid "Error"
+msgstr "Fel"
+
+msgid "Error during file import"
+msgstr "Fel under filimport"
+
+msgid "Exclusive (AND)"
+msgstr "Exklusive (OCH)"
+
+msgid "Exclusive (OR)"
+msgstr "Exklusive (ELLER)"
+
+msgid "Export"
+msgstr "Exportera"
+
+msgid "Export Options"
+msgstr "Val för export"
+
+msgid "Exported files library"
+msgstr "Arkiv för exporterade filer"
+
+msgid "File"
+msgstr "Fil"
+
+msgid "File deleted successfully"
+msgstr "Fil framgångsrikt raderad"
+
+msgid "File name"
+msgstr "Filnamn"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Filtering mode"
+msgstr "Filtreringsmetod"
+
+msgid "Filters"
+msgstr "Filter"
+
+msgid "Groups"
+msgstr "Grupper"
+
+msgid "Groups library"
+msgstr "Grupparkiv"
+
+msgid "Home"
+msgstr "Hem"
+
+msgid "Import"
+msgstr "Import"
+
+msgid "Import into"
+msgstr "Importera till"
+
+msgid "Inclusive (AND)"
+msgstr "Inklusive (OCH)"
+
+msgid "Inclusive (OR)"
+msgstr "Inklusive (ELLER)"
+
+msgid "Interface Language"
+msgstr "Gränssnittsspråk"
+
+msgid "Interface language"
+msgstr "Gränssnittsspråk"
+
+msgid "Invalid field length"
+msgstr "Ogilitigt fältlängd"
+
+msgid "Invalid field range"
+msgstr "Ogiltig radlängd"
+
+msgid "Invalid file size"
+msgstr "Ogiltig filstorlek"
+
+msgid "Invalid file type!"
+msgstr "Ogiltig filtyp"
+
+msgid "Item library"
+msgstr "Modularkiv"
+
+msgid "Items"
+msgstr "Moduler"
+
+msgid "Javascript is required to run this software. Please activate it in your browser."
+msgstr "Javascript krävs för att köra denna mjukvara. Var vänlig aktivera detta i din webbläsare"
+
+msgid "Label"
+msgstr "Etikett"
+
+msgid "Label already used"
+msgstr "Etikett används redan"
+
+msgid "Language"
+msgstr "Språk"
+
+msgid "List"
+msgstr "Lista"
+
+msgid "List Options"
+msgstr "Listalternativ"
+
+msgid "List values"
+msgstr "Listvärden"
+
+msgid "Lists"
+msgstr "Listor"
+
+msgid "Local Data (the local namespace containing only the data inserted by the users)"
+msgstr "Lokal data (det lokala namnområdet endast innehållande data inskrivet av användare"
+
+msgid "Login"
+msgstr "Inloggning"
+
+msgid "Login *"
+msgstr "Inloggning *"
+
+msgid "Login not available"
+msgstr "Inloggning inte tillgängligt"
+
+msgid "Logout"
+msgstr "Logga ut"
+
+msgid "Manage campaigns"
+msgstr "Hantera kampanjer"
+
+msgid "Manage data list"
+msgstr "Hantera datalista"
+
+msgid "Manage deliveries"
+msgstr "Hantera leveranser"
+
+msgid "Manage groups"
+msgstr "Hantera grupper"
+
+msgid "Manage items"
+msgstr "Hantera moment"
+
+msgid "Manage processes"
+msgstr "Hantera processer"
+
+msgid "Manage result servers"
+msgstr "Hantera resultatservrar"
+
+msgid "Manage results"
+msgstr "Hantera resultat"
+
+msgid "Manage roles"
+msgstr "Hantera roller"
+
+msgid "Manage test takers"
+msgstr "Hantera testtagare"
+
+msgid "Manage tests"
+msgstr "Hantera test"
+
+msgid "Manage users"
+msgstr "Hantera användare"
+
+msgid "Map the properties to the CSV columns"
+msgstr "Kartlägg egenskaper hos CSV-kolumner"
+
+msgid "Media manager"
+msgstr "Mediehanterare"
+
+msgid "Meta Data"
+msgstr "Metadata"
+
+msgid "Move to"
+msgstr "Flytta till"
+
+msgid "Moving this element will remove the following properties:"
+msgstr "Att flytta denna beståndsdel kommer att flytta följande egenskaper:"
+
+msgid "My settings"
+msgstr "Mina inställningar"
+
+msgid "Name"
+msgstr "Namn"
+
+msgid "Namespaces"
+msgstr "Namnområden"
+
+msgid "New element"
+msgstr "Ny beståndsdel"
+
+msgid "New password"
+msgstr "Nytt lösenord"
+
+msgid "Next"
+msgstr "Nästa"
+
+msgid "No account match the given login / password"
+msgstr "Inget konto matchar den angivna inloggningen/lösenordet"
+
+msgid "No result found"
+msgstr "Inget resultat funnet"
+
+msgid "Nothing imported"
+msgstr "Inget importerat"
+
+msgid "Number of elements"
+msgstr "Antal beståndsdelar"
+
+msgid "Old Password"
+msgstr "Gammalt lösenord"
+
+msgid "Open"
+msgstr "Öppna"
+
+msgid "Options"
+msgstr "Valmöjligheter"
+
+msgid "Password"
+msgstr "Lösenord"
+
+msgid "Password *"
+msgstr "Lösenord *"
+
+msgid "Please confirm deletion"
+msgstr "Vill du verkligen radera?"
+
+msgid "Please confirm property deletion!"
+msgstr "Vill du verkligen radera egenskap?"
+
+msgid "Please confirm user deletion"
+msgstr "Vill du verkligen radera användare?"
+
+msgid "Please confirm you want to delete this list element."
+msgstr "Vill du verkligen radera listenheten?"
+
+msgid "Please confirm you want to delete this list. This operation is not reversible."
+msgstr "Vill du verkligen radera listan? Den går inte att återställa"
+
+msgid "Please login"
+msgstr "Var vänlig logga in"
+
+msgid "Please select the input data format to import"
+msgstr "Var vänlig välj inmatningsdataformat för att importera"
+
+msgid "Please select the way to export the data"
+msgstr "Var vänlig välj metod för att importera data"
+
+msgid "Please upload a CSV file formated as defined by the options above."
+msgstr "Var vänlig ladda upp en CVS-fil formaterad enligt alternativen ovan"
+
+msgid "Please upload a RDF file."
+msgstr "Var vänlig ladda upp en RDF-fil"
+
+msgid "Please upload an RDF file."
+msgstr "Var vänlig ladda upp en RDF-fil"
+
+msgid "Preview"
+msgstr "Förhandsvisning"
+
+msgid "Process authoring"
+msgstr "Processskapande"
+
+msgid "Process library"
+msgstr "Processarkiv"
+
+msgid "Processes"
+msgstr "Processer"
+
+msgid "Property"
+msgstr "Egenskaper"
+
+msgid "Remove"
+msgstr "Ta bort"
+
+msgid "Rename"
+msgstr "Döp om"
+
+msgid "Repeat new password"
+msgstr "Upprepa det nya lösenordet"
+
+msgid "Repeat password *"
+msgstr "Upprepa lösenordet *"
+
+msgid "Resource saved"
+msgstr "Resurs sparad"
+
+msgid "Result Servers library"
+msgstr "Resultatserverarkiv"
+
+msgid "Results"
+msgstr "Resultat"
+
+msgid "Results library"
+msgstr "Resultatarkiv"
+
+msgid "Revert"
+msgstr "Gå tillbaka"
+
+msgid "Right click the tree to manage your lists"
+msgstr "Högerklicka på trädstrukturen för att hantera din lista"
+
+msgid "Role library"
+msgstr "Rollarkiv"
+
+msgid "Save"
+msgstr "Spara"
+
+msgid "Search"
+msgstr "Sök"
+
+msgid "Search results"
+msgstr "Sökresultat"
+
+msgid "Select"
+msgstr "Välj"
+
+msgid "Select a language"
+msgstr "Välj språk"
+
+msgid "Select the element destination"
+msgstr "Välj destination för elementetet"
+
+msgid "Selected file:"
+msgstr "Vald fil"
+
+msgid "Selection saved successfully"
+msgstr "Urval framgångsrikt sparat"
+
+msgid "Settings"
+msgstr "Inställningar"
+
+msgid "Simple Mode"
+msgstr "Enkel metod"
+
+msgid "Start upload"
+msgstr "Starta uppladdning"
+
+msgid "Supported export formats"
+msgstr "Stödda exportformat"
+
+msgid "Supported formats to import"
+msgstr "Stödda importformat"
+
+msgid "TAO Back Office"
+msgstr "TAO Styrning"
+
+msgid "TAO Backend Tool"
+msgstr "TAO Basbearbetningsverktyg"
+
+msgid "Test takers"
+msgstr "Testtagare"
+
+msgid "Test takers library"
+msgstr "Testtagararkiv"
+
+msgid "Test view"
+msgstr "Testvy"
+
+msgid "Tests"
+msgstr "Tester"
+
+msgid "Tests library"
+msgstr "Testarkiv"
+
+msgid "The format of this field is not valid."
+msgstr "Formatet hos detta fält är ogiltigt"
+
+msgid "The uploaded file is too large"
+msgstr "Den upladdade filen är för stor"
+
+msgid "The value of this field must be an integer"
+msgstr "Värdet i detta fält måste vara ett heltal"
+
+msgid "This field is too long"
+msgstr "Fältet är för långt"
+
+msgid "This field is too short"
+msgstr "Fältet ät för kort"
+
+msgid "This field must not be empty"
+msgstr "Fältet får inte vara tomt"
+
+msgid "Translate"
+msgstr "Översätt"
+
+msgid "Translate to"
+msgstr "Översätt till"
+
+msgid "Translation parameters"
+msgstr "Översätt parametrar"
+
+msgid "Translation saved"
+msgstr "Översättnig sparad"
+
+msgid "Type"
+msgstr "Skriv"
+
+msgid "Upload"
+msgstr "Ladda upp"
+
+msgid "Upload CSV File"
+msgstr "Ladda upp CSV-fil"
+
+msgid "Upload File"
+msgstr "Ladda upp fil"
+
+msgid "Upload RDF File"
+msgstr "Ladda upp RDF-fil"
+
+msgid "Use the * character to replace any string"
+msgstr "Använd * tecknet för att ersätta en tråd"
+
+msgid "User"
+msgstr "Användare"
+
+msgid "User added"
+msgstr "Användare tillagd"
+
+msgid "User deleted successfully"
+msgstr "Användare framgångsrikt borttagen"
+
+msgid "User saved"
+msgstr "Användare sparad"
+
+msgid "Users"
+msgstr "Användare"
+
+msgid "Validation of the imported file has failed"
+msgstr "Den importerade filen har inte kunnat valideras"
+
+msgid "View"
+msgstr "Visning"
+
+msgid "You cannot modify this property"
+msgstr "Det går inte att förändra denna egenskap"
+
+msgid "actions"
+msgstr "handlingar"
+
+msgid "advanced mode"
+msgstr "avancerad metod"
+
+msgid "class selected"
+msgstr "klass vald"
+
+msgid "compile"
+msgstr "sammanställ"
+
+msgid "create Score table"
+msgstr "skapa poängtabell"
+
+msgid "create Simple table"
+msgstr "skapa enkel tabell"
+
+msgid "create direct table"
+msgstr "skapa direkt tabell"
+
+msgid "create table"
+msgstr "skapa tabell"
+
+msgid "delete"
+msgstr "ta bort"
+
+msgid "download"
+msgstr "ladda ner"
+
+msgid "duplicate"
+msgstr "dublett"
+
+msgid "edit"
+msgstr "redigera"
+
+msgid "element"
+msgstr "element"
+
+msgid "element deleted"
+msgstr "element raderat"
+
+msgid "export"
+msgstr "exportera"
+
+msgid "exported successfully"
+msgstr "framgångsrikt exporterat"
+
+msgid "import"
+msgstr "importera"
+
+msgid "list deleted"
+msgstr "lista raderad"
+
+msgid "list saved"
+msgstr "lista sparad"
+
+msgid "list the users"
+msgstr "lista användarna"
+
+msgid "lists"
+msgstr "listor"
+
+msgid "login already exist"
+msgstr "login existerar redan"
+
+msgid "maximum value:"
+msgstr "maximalt värde"
+
+msgid "meta data"
+msgstr "metadata"
+
+msgid "minimum value:"
+msgstr "minimalt värde"
+
+msgid "move"
+msgstr "flytta"
+
+msgid "new"
+msgstr "ny"
+
+msgid "new campaign"
+msgstr "ny kampanj"
+
+msgid "new class"
+msgstr "ny klass"
+
+msgid "new delivery"
+msgstr "ny leverans"
+
+msgid "new group"
+msgstr "ny grupp"
+
+msgid "new item"
+msgstr "ny fråga"
+
+msgid "new process"
+msgstr "ny process"
+
+msgid "new property"
+msgstr "ny egenskap"
+
+msgid "new result"
+msgstr "nytt resultat"
+
+msgid "new result server"
+msgstr "ny resultatserver"
+
+msgid "new role"
+msgstr "ny roll"
+
+msgid "new test"
+msgstr "nytt test"
+
+msgid "new test taker"
+msgstr "ny testtagare"
+
+msgid "preview"
+msgstr "förhandsvisning"
+
+msgid "rdf"
+msgstr "rdf"
+
+msgid "search"
+msgstr "sök"
+
+msgid "select"
+msgstr "välj"
+
+msgid "selected"
+msgstr "vald"
+
+msgid "settings updated"
+msgstr "inställningar uppdaterade"
+
+msgid "simple mode"
+msgstr "enkel metod"
+
