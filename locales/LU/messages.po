@@ -184,6 +184,9 @@ msgstr "Macht een Rietsklick op den Baam fier aer Lëschten ze verwalten"
 msgid "Save"
 msgstr "Späicheren"
 
+msgid "SE"
+msgstr "Swedish"
+
 msgid "Search"
 msgstr "Sichen"
 

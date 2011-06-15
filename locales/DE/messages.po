@@ -190,6 +190,9 @@ msgstr "Zur Verwaltung der Listen klicken Sie bitte mit der rechten Maustaste au
 msgid "Save"
 msgstr "Speichern"
 
+msgid "SE"
+msgstr "Swedish"
+
 msgid "Search"
 msgstr "Suchen"
 

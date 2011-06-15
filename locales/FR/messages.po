@@ -487,6 +487,9 @@ msgstr "Bibliothèque de rôles"
 msgid "Save"
 msgstr "Enregistrer"
 
+msgid "SE"
+msgstr "Swedish"
+
 msgid "Search"
 msgstr "Rechercher"
 

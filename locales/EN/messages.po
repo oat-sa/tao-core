@@ -13,6 +13,9 @@ msgstr "Hungarian"
 msgid "LU"
 msgstr "Luxemburgish"
 
+msgid "SE"
+msgstr "Swedish"
+
 msgid "Password are not matching"
 msgstr "Passwords are not matching"
 

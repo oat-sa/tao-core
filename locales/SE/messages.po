@@ -493,6 +493,9 @@ msgstr "Rollarkiv"
 msgid "Save"
 msgstr "Spara"
 
+msgid "SE"
+msgstr "Swedish"
+
 msgid "Search"
 msgstr "Sök"
 
