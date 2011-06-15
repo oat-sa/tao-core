@@ -81,7 +81,7 @@ function parcoursRepertoire($pRoot, $pExtension) {
 	$extOk = false;
 	foreach ($pExtension as $exp)
 	{
-		if (ereg("\.${exp}$", $pFichier))
+		if (@preg_match("\.${exp}$", $pFichier))
 		{
 			$extOk = true;
 			break;

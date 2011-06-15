@@ -102,8 +102,15 @@ if(isset($extensions['tao'])){
 		$poFile = $extensions['tao']['path']. '/' . LOCAL_DIR_NAME . '/' . $lang .'/'.PO_FILE_NAME;
 		$existingStrings = getPoFile($poFile);
 	
-		$strings = array_merge($existingStrings, $taoConcats);
-		if(writePoFile($poFile, $strings)){
+		// We should look here if these entries are not already set from a previous translation !
+		foreach ($taoConcats as $k => $s) {
+			if (!array_key_exists($k, $existingStrings)) {
+				$existingStrings[$k] = $s;
+			}
+		}
+		
+		//$strings = array_merge($existingStrings, $taoConcats);
+		if(writePoFile($poFile, $existingStrings)){
 			echo "$poFile updated\n";
 		}
 	}
