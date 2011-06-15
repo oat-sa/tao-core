@@ -1,36 +1,3 @@
-msgid "DE"
-msgstr "Tyska"
-
-msgid "EN"
-msgstr "Engelska"
-
-msgid "FR"
-msgstr "Franska"
-
-msgid "HU"
-msgstr "Ungerska"
-
-msgid "LU"
-msgstr "Luxemburgska"
-
-msgid "Password are not matching"
-msgstr "Lösenorden överensstämmer ej"
-
-msgid "Subject"
-msgstr "Testtagare"
-
-msgid "new subject"
-msgstr "ny testtagare"
-
-msgid "subject"
-msgstr "testtagare"
-
-msgid ""
-msgstr ""
-
-msgid "has been deleted successfully"
-msgstr "har framgångsrikt raderats"
-
 msgid "A formated text"
 msgstr "En formaterad text"
 
@@ -133,6 +100,9 @@ msgstr "Aktuell (det aktuella komplementet, den lokala datan samt deras beroende
 msgid "Current language"
 msgstr "Aktuellt språk"
 
+msgid "DE"
+msgstr "Tyska"
+
 msgid "Data Language"
 msgstr "Dataspråk"
 
@@ -171,6 +141,9 @@ msgstr "Ladda ner"
 
 msgid "Dynamic date picker"
 msgstr "Dynamisk datumväljare"
+
+msgid "EN"
+msgstr "Engelska"
 
 msgid "Edit"
 msgstr "Redigera"
@@ -226,6 +199,9 @@ msgstr "Val för export"
 msgid "Exported files library"
 msgstr "Arkiv för exporterade filer"
 
+msgid "FR"
+msgstr "Franska"
+
 msgid "File"
 msgstr "Fil"
 
@@ -249,6 +225,9 @@ msgstr "Grupper"
 
 msgid "Groups library"
 msgstr "Grupparkiv"
+
+msgid "HU"
+msgstr "Ungerska"
 
 msgid "Home"
 msgstr "Hem"
@@ -291,6 +270,9 @@ msgstr "Moduler"
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr "Javascript krävs för att köra denna mjukvara. Var vänlig aktivera detta i din webbläsare"
+
+msgid "LU"
+msgstr "Luxemburgska"
 
 msgid "Label"
 msgstr "Etikett"
@@ -424,6 +406,9 @@ msgstr "Lösenord"
 msgid "Password *"
 msgstr "Lösenord *"
 
+msgid "Password are not matching"
+msgstr "Lösenorden överensstämmer ej"
+
 msgid "Please confirm deletion"
 msgstr "Vill du verkligen radera?"
 
@@ -537,6 +522,9 @@ msgstr "Enkel metod"
 
 msgid "Start upload"
 msgstr "Starta uppladdning"
+
+msgid "Subject"
+msgstr "Testtagare"
 
 msgid "Supported export formats"
 msgstr "Stödda exportformat"
@@ -685,6 +673,9 @@ msgstr "exportera"
 msgid "exported successfully"
 msgstr "framgångsrikt exporterat"
 
+msgid "has been deleted successfully"
+msgstr "har framgångsrikt raderats"
+
 msgid "import"
 msgstr "importera"
 
@@ -748,6 +739,9 @@ msgstr "ny resultatserver"
 msgid "new role"
 msgstr "ny roll"
 
+msgid "new subject"
+msgstr "ny testtagare"
+
 msgid "new test"
 msgstr "nytt test"
 
@@ -774,4 +768,16 @@ msgstr "inställningar uppdaterade"
 
 msgid "simple mode"
 msgstr "enkel metod"
+
+msgid "subject"
+msgstr "testtagare"
+
+msgid ""
+msgstr ""
+
+msgid "Full preview"
+msgstr ""
+
+msgid "create score table"
+msgstr ""
 

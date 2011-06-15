@@ -1,5 +1,5 @@
-msgid ""
-msgstr ""
+msgid "A formated text"
+msgstr "un texte formaté"
 
 msgid "A multiple choice list"
 msgstr "Une liste à choix multiple"
@@ -28,11 +28,17 @@ msgstr "Ajouter"
 msgid "Add / Edit lists"
 msgstr "Ajouter / Modifier les listes"
 
+msgid "Add a user"
+msgstr "Ajouter un utilisateur"
+
 msgid "Add property"
 msgstr "Ajouter une propriété"
 
 msgid "Add the source file"
 msgstr "Ajouter le fichier source"
+
+msgid "Advanced Authoring Tool"
+msgstr "Edtieur avancé"
 
 msgid "Advanced Mode"
 msgstr "Mode avancé"
@@ -40,14 +46,23 @@ msgstr "Mode avancé"
 msgid "All (the complete TAO Module)"
 msgstr "Tout (le module TAO au complet)"
 
+msgid "Allowed files types:"
+msgstr "Types de fichier autorisés:"
+
 msgid "An error occured during user deletion"
 msgstr "Une erreur est survenue durant la suppression de l'utilisateur"
+
+msgid "Authoring"
+msgstr "Editeur"
 
 msgid "Browse"
 msgstr "Naviguer"
 
 msgid "CSV Options"
 msgstr "Options CSV"
+
+msgid "Campaigns library"
+msgstr "Bibliothèque de campagnes"
 
 msgid "Cancel"
 msgstr "Annuler"
@@ -109,6 +124,12 @@ msgstr "Supprimer la propriété"
 msgid "Delete user"
 msgstr "Supprimer l'utilisateur"
 
+msgid "Deliveries"
+msgstr "Passations"
+
+msgid "Deliveries library"
+msgstr "Bibliothèque de passation"
+
 msgid "Don't set"
 msgstr "Ne pas insérer"
 
@@ -124,8 +145,17 @@ msgstr "Anglais"
 msgid "Edit"
 msgstr "Editer"
 
+msgid "Edit Comment"
+msgstr "Editer le commentaire"
+
+msgid "Edit a user"
+msgstr "Editer un utilisateur"
+
 msgid "Edit item comment"
 msgstr "Modifier les commentaires de l'item"
+
+msgid "Edit property into parent class"
+msgstr "Editer la propriété depuis la classe parente"
 
 msgid "Edit user"
 msgstr "Modifier l'utilisateur"
@@ -150,6 +180,9 @@ msgstr "Erreur pendant l'import du fichier"
 
 msgid "Exclusive (AND)"
 msgstr "ET"
+
+msgid "Exclusive (OR)"
+msgstr "Exclusif (OU)"
 
 msgid "Export"
 msgstr "Exporter"
@@ -181,6 +214,12 @@ msgstr "Mode de filtrage"
 msgid "Filters"
 msgstr "Filtres"
 
+msgid "Groups"
+msgstr "Groupes"
+
+msgid "Groups library"
+msgstr "Bibliothèque de groupes"
+
 msgid "HU"
 msgstr "Hongrois"
 
@@ -189,6 +228,12 @@ msgstr "Accueil"
 
 msgid "Import"
 msgstr "Import"
+
+msgid "Import into"
+msgstr "Impoter vers"
+
+msgid "Inclusive (AND)"
+msgstr "Inclusif (ET)"
 
 msgid "Inclusive (OR)"
 msgstr "OU"
@@ -210,6 +255,12 @@ msgstr "Taille du fichier invalide"
 
 msgid "Invalid file type!"
 msgstr "Type de fichier invalide"
+
+msgid "Item library"
+msgstr "Bibliothèque d'item"
+
+msgid "Items"
+msgstr "Items"
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr "Javascript est requis pour utiliser ce logiciel. Veuillez l'activer dans votre naviguateur."
@@ -253,11 +304,47 @@ msgstr "Identifiant non disponible"
 msgid "Logout"
 msgstr "Déconnexion"
 
+msgid "Manage campaigns"
+msgstr "Gérer les campagnes"
+
 msgid "Manage data list"
 msgstr "Gestion des listes"
 
+msgid "Manage deliveries"
+msgstr "Gérer les passations"
+
+msgid "Manage groups"
+msgstr "Gérer les groupes"
+
+msgid "Manage items"
+msgstr "Gérer les items"
+
+msgid "Manage processes"
+msgstr "Gérer les processus"
+
+msgid "Manage result servers"
+msgstr "Gérer les serveurs de résultats"
+
+msgid "Manage results"
+msgstr "Gérer les résultats"
+
+msgid "Manage roles"
+msgstr "Gérer les roles"
+
+msgid "Manage test takers"
+msgstr "Gérer les sujets"
+
+msgid "Manage tests"
+msgstr "Gérer les tests"
+
+msgid "Manage users"
+msgstr "Gérer les utilisateurs"
+
 msgid "Map the properties to the CSV columns"
 msgstr "Choisissez les propriétés relatives aux colonnes CSV"
+
+msgid "Media manager"
+msgstr "Médiathèque"
 
 msgid "Meta Data"
 msgstr "Meta-données"
@@ -346,6 +433,21 @@ msgstr "Veuillez télécharger un fichier au format CSV, définit par les option
 msgid "Please upload a RDF file."
 msgstr "Veuillez télécharger un fichier RDF."
 
+msgid "Please upload an RDF file."
+msgstr "Veuillez télécharger un fichier RDF."
+
+msgid "Preview"
+msgstr "Prévisualisation"
+
+msgid "Process authoring"
+msgstr "Editeur de processus"
+
+msgid "Process library"
+msgstr "Bibliothèque de processus"
+
+msgid "Processes"
+msgstr "Processus"
+
 msgid "Property"
 msgstr "Propriété"
 
@@ -364,11 +466,23 @@ msgstr "Répéter le mot de passe"
 msgid "Resource saved"
 msgstr "Ressource enregistrée"
 
+msgid "Result Servers library"
+msgstr "Bibliothèque de serveurs de résultats"
+
+msgid "Results"
+msgstr "Résultats"
+
+msgid "Results library"
+msgstr "Bibliothèque de résultats"
+
 msgid "Revert"
 msgstr "Annuler"
 
 msgid "Right click the tree to manage your lists"
 msgstr "Utilisez le click droit pour gérer vos listes"
+
+msgid "Role library"
+msgstr "Bibliothèque de rôles"
 
 msgid "Save"
 msgstr "Enregistrer"
@@ -415,8 +529,20 @@ msgstr "TAO: Outils d'administration"
 msgid "TAO Backend Tool"
 msgstr "TAO Outils d'administration"
 
+msgid "Test takers"
+msgstr "Sujets"
+
+msgid "Test takers library"
+msgstr "Bibliothèque des sujets"
+
 msgid "Test view"
 msgstr "Vue test"
+
+msgid "Tests"
+msgstr "Tests"
+
+msgid "Tests library"
+msgstr "Bibliothèque de tests"
 
 msgid "The format of this field is not valid."
 msgstr "Le format de ce champ est invalide"
@@ -493,203 +619,20 @@ msgstr "Cette propriété ne peut pas être modifié"
 msgid "actions"
 msgstr "actions"
 
-msgid "class selected"
-msgstr "classe sélectionnée"
-
-msgid "create Simple table"
-msgstr "créer un tableau simple"
-
-msgid "download"
-msgstr "télécharger"
-
-msgid "edit"
-msgstr "modifier"
-
-msgid "element"
-msgstr "élément"
-
-msgid "element deleted"
-msgstr "élément supprimé"
-
-msgid "exported successfully"
-msgstr "exporté avec succès"
-
-msgid "list deleted"
-msgstr "liste supprimée"
-
-msgid "list saved"
-msgstr "liste sauvegardée"
-
-msgid "list the users"
-msgstr "lister les utilisateurs"
-
-msgid "login already exist"
-msgstr "Cet identifiant existe déjà"
-
-msgid "new"
-msgstr "nouveau"
-
-msgid "new property"
-msgstr "nouvelle propriété"
-
-msgid "new result"
-msgstr "nouveau résultat"
-
-msgid "new subject"
-msgstr "nouveau sujet"
-
-msgid "rdf"
-msgstr "rdf"
-
-msgid "select"
-msgstr "choisir"
-
-msgid "selected"
-msgstr "sélectionné"
-
-msgid "settings updated"
-msgstr "Préférences mise à jour"
-
-msgid "has been deleted successfully"
-msgstr "a été supprimé avec succès"
-
-msgid "A formated text"
-msgstr "un texte formaté"
-
-msgid "Add a user"
-msgstr "Ajouter un utilisateur"
-
-msgid "Advanced Authoring Tool"
-msgstr "Edtieur avancé"
-
-msgid "Allowed files types:"
-msgstr "Types de fichier autorisés: "
-
-msgid "Authoring"
-msgstr "Editeur"
-
-msgid "Campaigns library"
-msgstr "Bibliothèque de campagnes"
-
-msgid "Deliveries"
-msgstr "Passations"
-
-msgid "Deliveries library"
-msgstr "Bibliothèque de passation"
-
-msgid "Edit Comment"
-msgstr "Editer le commentaire"
-
-msgid "Edit a user"
-msgstr "Editer un utilisateur"
-
-msgid "Edit property into parent class"
-msgstr "Editer la propriété depuis la classe parente"
-
-msgid "Exclusive (OR)"
-msgstr "Exclusif (OU)"
-
-msgid "Groups"
-msgstr "Groupes"
-
-msgid "Groups library"
-msgstr "Bibliothèque de groupes"
-
-msgid "Import into"
-msgstr "Impoter vers"
-
-msgid "Inclusive (AND)"
-msgstr "Inclusif (ET)"
-
-msgid "Item library"
-msgstr "Bibliothèque d'item"
-
-msgid "Items"
-msgstr "Items"
-
-msgid "Manage campaigns"
-msgstr "Gérer les campagnes"
-
-msgid "Manage deliveries"
-msgstr "Gérer les passations"
-
-msgid "Manage groups"
-msgstr "Gérer les groupes"
-
-msgid "Manage items"
-msgstr "Gérer les items"
-
-msgid "Manage processes"
-msgstr "Gérer les processus"
-
-msgid "Manage result servers"
-msgstr "Gérer les serveurs de résultats"
-
-msgid "Manage results"
-msgstr "Gérer les résultats"
-
-msgid "Manage roles"
-msgstr "Gérer les roles"
-
-msgid "Manage test takers"
-msgstr "Gérer les sujets"
-
-msgid "Manage tests"
-msgstr "Gérer les tests"
-
-msgid "Manage users"
-msgstr "Gérer les utilisateurs"
-
-msgid "Media manager"
-msgstr "Médiathèque"
-
-msgid "Please upload an RDF file."
-msgstr "Veuillez télécharger un fichier RDF."
-
-msgid "Preview"
-msgstr "Prévisualisation"
-
-msgid "Process authoring"
-msgstr "Editeur de processus"
-
-msgid "Process library"
-msgstr "Bibliothèque de processus"
-
-msgid "Processes"
-msgstr "Processus"
-
-msgid "Result Servers library"
-msgstr "Bibliothèque de serveurs de résultats"
-
-msgid "Results"
-msgstr "Résultats"
-
-msgid "Results library"
-msgstr "Bibliothèque de résultats"
-
-msgid "Role library"
-msgstr "Bibliothèque de rôles"
-
-msgid "Test takers"
-msgstr "Sujets"
-
-msgid "Test takers library"
-msgstr "Bibliothèque des sujets"
-
-msgid "Tests"
-msgstr "Tests"
-
-msgid "Tests library"
-msgstr "Bibliothèque de tests"
-
 msgid "advanced mode"
 msgstr "mode avancé"
+
+msgid "class selected"
+msgstr "classe sélectionnée"
 
 msgid "compile"
 msgstr "compiler"
 
 msgid "create Score table"
 msgstr "créer un tableau de score"
+
+msgid "create Simple table"
+msgstr "créer un tableau simple"
 
 msgid "create direct table"
 msgstr "création de tableau Directe"
@@ -700,17 +643,47 @@ msgstr "créer un tableau"
 msgid "delete"
 msgstr "supprimer"
 
+msgid "download"
+msgstr "télécharger"
+
 msgid "duplicate"
 msgstr "dupliquer"
+
+msgid "edit"
+msgstr "modifier"
+
+msgid "element"
+msgstr "élément"
+
+msgid "element deleted"
+msgstr "élément supprimé"
 
 msgid "export"
 msgstr "exporter"
 
+msgid "exported successfully"
+msgstr "exporté avec succès"
+
+msgid "has been deleted successfully"
+msgstr "a été supprimé avec succès"
+
 msgid "import"
 msgstr "importer"
 
+msgid "list deleted"
+msgstr "liste supprimée"
+
+msgid "list saved"
+msgstr "liste sauvegardée"
+
+msgid "list the users"
+msgstr "lister les utilisateurs"
+
 msgid "lists"
 msgstr "listes"
+
+msgid "login already exist"
+msgstr "Cet identifiant existe déjà"
 
 msgid "maximum value:"
 msgstr "valeur maximum:"
@@ -723,6 +696,9 @@ msgstr "valeur minimum:"
 
 msgid "move"
 msgstr "déplacer"
+
+msgid "new"
+msgstr "nouveau"
 
 msgid "new campaign"
 msgstr "nouvelle campagne"
@@ -742,11 +718,20 @@ msgstr "nouvel item"
 msgid "new process"
 msgstr "nouveau processus"
 
+msgid "new property"
+msgstr "nouvelle propriété"
+
+msgid "new result"
+msgstr "nouveau résultat"
+
 msgid "new result server"
 msgstr "nouveau serveur de résultat"
 
 msgid "new role"
 msgstr "nouveau role"
+
+msgid "new subject"
+msgstr "nouveau sujet"
 
 msgid "new test"
 msgstr "nouveau test"
@@ -757,9 +742,30 @@ msgstr "nouveau sujet"
 msgid "preview"
 msgstr "prévisualisation"
 
+msgid "rdf"
+msgstr "rdf"
+
 msgid "search"
 msgstr "recherche"
 
+msgid "select"
+msgstr "choisir"
+
+msgid "selected"
+msgstr "sélectionné"
+
+msgid "settings updated"
+msgstr "Préférences mise à jour"
+
 msgid "simple mode"
 msgstr "mode simple"
+
+msgid ""
+msgstr ""
+
+msgid "Full preview"
+msgstr ""
+
+msgid "create score table"
+msgstr ""
 

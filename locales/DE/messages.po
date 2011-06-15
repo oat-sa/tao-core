@@ -274,9 +274,6 @@ msgstr "Auswählen"
 msgid "settings updated"
 msgstr "Einstellungen aktualisiert"
 
-msgid "has been deleted successfully"
-msgstr ""
-
 msgid "A single choice list"
 msgstr ""
 
@@ -682,6 +679,9 @@ msgstr ""
 msgid "exported successfully"
 msgstr ""
 
+msgid "has been deleted successfully"
+msgstr ""
+
 msgid "import"
 msgstr ""
 
@@ -764,5 +764,11 @@ msgid "selected"
 msgstr ""
 
 msgid "simple mode"
+msgstr ""
+
+msgid "Full preview"
+msgstr ""
+
+msgid "create score table"
 msgstr ""
 

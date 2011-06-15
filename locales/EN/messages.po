@@ -28,9 +28,6 @@ msgstr "test taker"
 msgid ""
 msgstr ""
 
-msgid "has been deleted successfully"
-msgstr ""
-
 msgid "A formated text"
 msgstr ""
 
@@ -685,6 +682,9 @@ msgstr ""
 msgid "exported successfully"
 msgstr ""
 
+msgid "has been deleted successfully"
+msgstr ""
+
 msgid "import"
 msgstr ""
 
@@ -773,5 +773,11 @@ msgid "settings updated"
 msgstr ""
 
 msgid "simple mode"
+msgstr ""
+
+msgid "Full preview"
+msgstr ""
+
+msgid "create score table"
 msgstr ""
 
