@@ -37,30 +37,35 @@
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
     <rdfs:label xml:lang="EN"><![CDATA[EN]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[English]]></rdfs:comment>
+    <rdf:value><![CDATA[EN]]></rdf:value>
     <tao:level><![CDATA[1]]></tao:level>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LangFR">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
     <rdfs:label xml:lang="EN"><![CDATA[FR]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[French]]></rdfs:comment>
+    <rdf:value><![CDATA[FR]]></rdf:value>
     <tao:level><![CDATA[2]]></tao:level>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LangDE">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
     <rdfs:label xml:lang="EN"><![CDATA[DE]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[German]]></rdfs:comment>
+    <rdf:value><![CDATA[DE]]></rdf:value>
     <tao:level><![CDATA[3]]></tao:level>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LangLU">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
     <rdfs:label xml:lang="EN"><![CDATA[LU]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[Luxemburgish]]></rdfs:comment>
+    <rdf:value><![CDATA[LU]]></rdf:value>
     <tao:level><![CDATA[4]]></tao:level>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LangSE">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
     <rdfs:label xml:lang="EN"><![CDATA[SE]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[Swedish]]></rdfs:comment>
+    <rdf:value><![CDATA[SE]]></rdf:value>
     <tao:level><![CDATA[5]]></tao:level>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
