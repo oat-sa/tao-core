@@ -415,6 +415,9 @@ msgstr ""
 msgid "File name"
 msgstr ""
 
+msgid "Full preview"
+msgstr ""
+
 msgid "Groups"
 msgstr ""
 
@@ -655,6 +658,9 @@ msgstr ""
 msgid "create direct table"
 msgstr ""
 
+msgid "create score table"
+msgstr ""
+
 msgid "create table"
 msgstr ""
 
@@ -764,11 +770,5 @@ msgid "selected"
 msgstr ""
 
 msgid "simple mode"
-msgstr ""
-
-msgid "Full preview"
-msgstr ""
-
-msgid "create score table"
 msgstr ""
 

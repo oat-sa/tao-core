@@ -241,6 +241,9 @@ msgstr ""
 msgid "Filters"
 msgstr ""
 
+msgid "Full preview"
+msgstr ""
+
 msgid "Groups"
 msgstr ""
 
@@ -655,6 +658,9 @@ msgstr ""
 msgid "create direct table"
 msgstr ""
 
+msgid "create score table"
+msgstr ""
+
 msgid "create table"
 msgstr ""
 
@@ -773,11 +779,5 @@ msgid "settings updated"
 msgstr ""
 
 msgid "simple mode"
-msgstr ""
-
-msgid "Full preview"
-msgstr ""
-
-msgid "create score table"
 msgstr ""
 
