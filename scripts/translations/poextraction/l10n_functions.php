@@ -81,7 +81,7 @@ function parcoursRepertoire($pRoot, $pExtension) {
 	$extOk = false;
 	foreach ($pExtension as $exp)
 	{
-		if (@preg_match("\.${exp}$", $pFichier))
+		if (@preg_match("/\.${exp}$/", $pFichier))
 		{
 			$extOk = true;
 			break;
@@ -101,7 +101,7 @@ function parcoursRepertoire($pRoot, $pExtension) {
 			
 	 		if (!empty($chaine[1])) {
 	 			foreach($chaine[1] as $c) {
-	 				$liste_chaine[$c]	= "";
+	 				$liste_chaine[addcslashes($c, '"')]	= "";
 	 			}
 	 		}
 	 	}
@@ -121,7 +121,7 @@ function parcoursRepertoire($pRoot, $pExtension) {
  */
 function getPoFile($file) {
 	if (!file_exists($file)) {
-		echo 'The file does not exist\n';
+		echo "The file '${file}' does not exist\n";
 		return false;
 	}
 	
