@@ -317,7 +317,7 @@ class Bootstrap{
 		tao_helpers_Scriptloader::addCssFiles(array(
 			TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
 			TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
-			TAOBASE_WWW . 'js/jquery.jqGrid-3.7.1/css/ui.jqgrid.css',
+			TAOBASE_WWW . 'js/jquery.jqGrid-4.1.0/css/ui.jqgrid.css',
 			TAOBASE_WWW . 'css/style.css',
 			TAOBASE_WWW . 'css/layout.css',
 			TAOBASE_WWW . 'css/form.css',
@@ -333,9 +333,9 @@ class Bootstrap{
 			'base_www'		=> BASE_WWW					// -> the resources URL of the current extension (http://www.domain.com/taoItems/views/)
 		));
 		
-		$gridi18nFile = 'js/jquery.jqGrid-3.7.1/js/i18n/grid.locale-'.strtolower(tao_helpers_I18n::getLangCode()).'.js';
+		$gridi18nFile = 'js/jquery.jqGrid-4.1.0/js/i18n/grid.locale-'.strtolower(tao_helpers_I18n::getLangCode()).'.js';
 		if(!file_exists(BASE_PATH. '/views' . $gridi18nFile)){
-			$gridi18nFile = 'js/jquery.jqGrid-3.7.1/js/i18n/grid.locale-en.js';
+			$gridi18nFile = 'js/jquery.jqGrid-4.1.0/js/i18n/grid.locale-en.js';
 		}
 		
 		//scripts to load
@@ -347,7 +347,7 @@ class Bootstrap{
 			TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
 			TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
 			TAOBASE_WWW . $gridi18nFile,
-			TAOBASE_WWW . 'js/jquery.jqGrid-3.7.1/js/jquery.jqGrid.min.js',
+			TAOBASE_WWW . 'js/jquery.jqGrid-4.1.0/js/jquery.jqGrid.min.js',
 			TAOBASE_WWW . 'js/jquery.numeric.js',
 			ROOT_URL 	. '/filemanager/views/js/fmRunner.js',
 			ROOT_URL 	. '/filemanager/views/js/jquery.fmRunner.js',

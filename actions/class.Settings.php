@@ -177,8 +177,10 @@ class tao_actions_Settings extends tao_actions_CommonModule {
                         $count = isset($hardenedClasses[$class->uriResource])?$hardenedClasses[$class->uriResource]:0;
                         $relatedClasses = array();
                         foreach($hardenedClasses as $relatedClassUri => $nb){
-                                $relatedClass = new core_kernel_classes_Class($relatedClassUri);
-                                $relatedClasses[$relatedClass->getLabel()] = $nb;
+                                if($relatedClassUri != $class->uriResource){
+                                        $relatedClass = new core_kernel_classes_Class($relatedClassUri);
+                                        $relatedClasses[$relatedClass->getLabel()] = $nb;
+                                }
                         }
                         
                         $result = array(
@@ -189,7 +191,6 @@ class tao_actions_Settings extends tao_actions_CommonModule {
                         
                         unset($switcher);
                 }
-                
                 
                 echo json_encode($result);
                 
