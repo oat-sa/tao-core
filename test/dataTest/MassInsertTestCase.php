@@ -35,11 +35,11 @@ class MassInsertTestCase extends UnitTestCase {
 	 */
 
 	// Number of subjects to create
-	protected $subjectNumber = 100;
+	protected $subjectNumber = 1000;
 	// Number of groups to create
-	protected $groupNumber = 10;
+	protected $groupNumber = 1;
 	// Number of languages to create
-	protected $testNumber = 1;
+	protected $testNumber = 0;
 
 	// Languages available in the TAO platform
 	protected $languages = array();
