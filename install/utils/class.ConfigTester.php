@@ -28,7 +28,8 @@ class tao_install_utils_ConfigTester{
 	private static $_types = array(
 		'PHP_VERSION',
 		'APACHE_MOD',
-		'PHP_EXTENSION'
+		'PHP_EXTENSION',
+		'WRITABLE_DIRECTORIES'
 	);
 	
 	/**
@@ -48,6 +49,7 @@ class tao_install_utils_ConfigTester{
 				break;
 			case 'APACHE_MOD'	: $this->checkApacheMod($options['name']); 		break;
 			case 'PHP_EXTENSION': $this->checkPhpExtension($options['name']); 	break;
+			case 'WRITABLE_DIRECTORIES': $this->checkWritableDirectories($options['directories']); 	break;
 		}
 	}
 	
@@ -63,6 +65,24 @@ class tao_install_utils_ConfigTester{
 	 */
 	public function getMessage(){
 		return $this->message;
+	}
+	
+	/**
+	 * Check that some directories are writable for the apache user (default : www-data)
+	 * @params array $params (key:(string)extension name, value:(array)list of directories)
+	 */
+	protected function checkWritableDirectories ($params=array()){
+		//$installedExtensions = $extensionManager = common_ext_ExtensionsManager::singleton();
+		foreach ($params as $extensionName => $directories){
+			foreach ($directories as $directory) {
+				if (!is_writable(REL_PATH.$directory)){
+					$this->message .= $directory." should be writable for the user ".exec('whoami')."<br/>";
+					($this->status==null) ? $this->status = self::STATUS_INVALID : null;
+				}else {
+					($this->status==null) ? $this->status = self::STATUS_VALID : null;
+				}
+			}
+		}
 	}
 	
 	/**

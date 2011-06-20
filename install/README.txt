@@ -75,6 +75,4 @@ Apache web server configuration:
  taoSubjects/views/export
  taoTests/views/export
  taoResults/views/export
-
-
- 
+ generis/data/cache

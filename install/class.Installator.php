@@ -61,9 +61,56 @@ class tao_install_Installator{
 			'type'	=> 'APACHE_MOD',
 			'title'	=> 'Apache mod rewrite check',
 			'name'	=> 'rewrite'
+		),
+		11 => array(
+			'type'	=> 'WRITABLE_DIRECTORIES',
+			'title'	=> 'Writable directories',
+			'directories'	=> array(
+				'generis'		=> array (
+					'generis/data/cache'
+					, 'generis/common'
+				)
+		 		, 'filemanager' => array (
+		 			'filemanager/views/data'
+		 			, 'filemanager/includes'
+		 		)
+		 		, 'tao'			=> array (
+		 			'tao/views/export'
+		 			, 'tao/includes'
+		 		)
+		 		, 'taoItems'	=> array (
+		 			'taoItems/data'
+		 			, 'taoItems/views/export'
+		 			, 'taoItems/includes'
+		 		)
+		 		, 'taoDelivery'	=> array (
+		 			'taoDelivery/compiled'
+		 			, 'taoDelivery/views/export'
+		 			, 'taoDelivery/includes'
+		 		)
+		 		, 'taoGroups'	=> array (
+		 			'taoGroups/views/export'
+		 			, 'taoGroups/includes'
+		 		)
+		 		, 'taoSubjects'	=> array (
+		 			'taoSubjects/views/export'
+		 			, 'taoSubjects/includes'
+		 		)
+		 		, 'taoTests'	=> array (
+		 			'taoTests/views/export'
+		 			, 'taoTests/includes'
+		 		)
+		 		, 'taoResults'	=> array (
+		 			'taoResults/views/export'
+		 			, 'taoResults/includes'
+		 		)
+		 		, 'wfEngine' 	=> array (
+		 			'wfEngine/includes'
+		 		)
+			)
 		)
 	);
-
+	
 	protected $options = array();
 	
 	public function __construct($options){
