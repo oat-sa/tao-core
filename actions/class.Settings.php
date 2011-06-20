@@ -168,7 +168,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
                         $userDefinedOptions = array();
                         $options = array_merge($optimizableClasses[$class->uriResource], $userDefinedOptions);
                         
-                        $switcher = new core_kernel_persistence_Switcher(array(CLASS_PROCESSVARIABLES));
+                        $switcher = new core_kernel_persistence_Switcher(array('http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables'));
                         $switcher->hardify($class, $options);
                         
                         
