@@ -1,15 +1,24 @@
 switcherClass.instances = [];
 
 //create a grid, and update it after each hardification:
-function switcherClass(tableElementId){
+function switcherClass(tableElementId, userOptions){
         
 //        if(switcherClass.instances[tableElementId]){
 //                return switcherClass.instances[tableElementId]
 //        }
+        this.options = {
+                onStart:function(){},
+                onStartEmpty:function(){},
+                onComplete:function(){}
+        };
+        if(userOptions){
+                this.options = $.extend(this.options, userOptions);
+        }
         
         this.$grid = $('#'+tableElementId);
         this.theData = [];
         this.currentIndex = -1;
+        this.forcedStart = false;
         
         switcherClass.instances[tableElementId] = this;
 }
@@ -28,7 +37,7 @@ switcherClass.prototype.getActionUrl = function(action){
 switcherClass.prototype.init = function(forcedMode){
         
         var __this = this;
-        var forced = false;
+        this.forcedStart = false;
         if(forcedMode){
                 //check if there is already a compilation running:
                 for(i in this.theData){
@@ -37,9 +46,9 @@ switcherClass.prototype.init = function(forcedMode){
                         }
                 }
                 
-                forced = true;
+                this.forcedStart = true;
         }else{
-                //check if already inited:
+                //check if already initialized:
                 if(this.theData.length){
                         return false;
                 }
@@ -53,26 +62,37 @@ switcherClass.prototype.init = function(forcedMode){
                 dataType: 'json',
                 success: function(r){
                         
+                        if(r.length == 0){
+                                if(__this.options.onStartEmpty) __this.options.onStartEmpty(__this);
+                                return false;
+                        }
+                        
                         var gridOptions = {
                                 datatype: "local", 
                                 colNames: [ __('Classes'), __('Status'), __('Action')], 
                                 colModel: [ 
-                                        {name:'class',index:'class'},
-                                        {name:'status',index:'status', align:"center"}, 
-                                        {name:'actions',index:'actions', align:"center", sortable: false}
+                                        {name:'class',index:'class',width:200},
+                                        {name:'status',index:'status', align:"center",width:300}, 
+                                        {name:'actions',index:'actions', align:"center",width:150,sortable: false}
                                 ], 
-                                rowNum:10, 
+                                rowNum:15, 
                                 height: 'auto', 
-                                autowidth:true,
+                                autowidth: true,
+                                width:(parseInt(__this.$grid.width()) - 2),
                                 sortname: 'status', 
                                 viewrecords: false, 
                                 sortorder: "asc", 
                                 caption: __("Optimizable Classes"),
                                 subGrid: true,
+                                subGridOptions:{
+                                        plusicon: "ui-icon-triangle-1-e",
+                                        minusicon: "ui-icon-triangle-1-s",
+                                        openicon: "ui-icon-arrowreturn-1-e"
+                                },
                                 subGridModel:[
                                         {
                                                 name: [__('related classes'), __('compiled instances')],
-                                                width:[200, 50],
+                                                width:[200, 200],
                                                 align: ['left', 'center']
                                         }
                                 ],
@@ -96,20 +116,20 @@ switcherClass.prototype.init = function(forcedMode){
                                                         datatype: "local",
                                                         colNames: [__('Related Classes'), __('Compiled Instances')],
                                                         colModel: [
-                                                        {
-                                                                name:"class",
-                                                                index:"class",
-                                                                width:200,
-                                                                key:true
-                                                        },
-
-                                                        {
-                                                                name:"count",
-                                                                index:"count",
-                                                                width:50
-                                                        }
+                                                                {
+                                                                        name:"class",
+                                                                        index:"class",
+                                                                        width:200,
+                                                                        key:true
+                                                                },
+                                                                {
+                                                                        name:"count",
+                                                                        index:"count",
+                                                                        align:"center",
+                                                                        width:150
+                                                                }
                                                         ],
-                                                        width:250,
+                                                        width:350,
                                                         height: '100%',
                                                         rowNum:20,
                                                         sortname: 'class',
@@ -135,7 +155,7 @@ switcherClass.prototype.init = function(forcedMode){
                         
 			for(var j=0; j<r.length; j++){
 				__this.setRowData(j, r[j]);
-                                if(forced){
+                                if(__this.forcedStart){
                                        __this.currentIndex = 0;  
                                 }else{
                                       if(__this.currentIndex < 0 && __this.theData[j].status != __('compiled')){
@@ -144,11 +164,8 @@ switcherClass.prototype.init = function(forcedMode){
                                 }
 			}
                         
-                        if(__this.currentIndex >= 0){
-                                __this.startCompilation();
-                        }
+                        __this.startCompilation();
 
-                                
                 }
         });
         
@@ -156,7 +173,13 @@ switcherClass.prototype.init = function(forcedMode){
 }
 
 switcherClass.prototype.startCompilation = function(){
-        this.nextStep();
+        if(this.options.onStart){
+                this.options.onStart(this);
+        }
+        this.$grid.hideCol('subgrid');
+        if(this.currentIndex >= 0){
+                this.nextStep();
+        }
 }
 
 switcherClass.prototype.addRowData = function(rowId, data){
@@ -199,7 +222,6 @@ switcherClass.prototype.getRowIdByUri = function(classUri){
 }
 
 switcherClass.prototype.nextStep = function(){
-        
         if(this.currentIndex < this.theData.length){
 		this.compileClass(this.theData[this.currentIndex].classUri);
 	}else{
@@ -230,6 +252,11 @@ switcherClass.prototype.compileClass = function(classUri){
                                 }
                                 var count = ' (' + eval(selfCount+relatedCount) + ' ' + __('instances') + ': '+selfCount+' self / '+relatedCount+' related)';
                                 __this.setCellData(rowId, 'status', __('compiled') + count);
+                                
+                                if(selfCount){
+                                        //enable subgrid
+                                        __this.$grid.showCol('subgrid');
+                                }
                         }else{
                                 __this.setCellData(rowId, 'status', __('fail'));
                         }
@@ -241,5 +268,7 @@ switcherClass.prototype.compileClass = function(classUri){
 }
 
 switcherClass.prototype.end = function(){
-        alert("compilation completed");
+        if(this.options.onComplete){
+                this.options.onComplete(this);
+        }
 }

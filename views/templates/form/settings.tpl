@@ -9,11 +9,11 @@
 </div>
 <div id="form-container" class="ui-widget-content ui-corner-bottom">
 	<?=get_data('myForm')?>
-        
-        <?if(get_data('optimizable')):?>
-        <?include('optimize.tpl');?>
-        <?endif;?>        
 </div>
+
+<?if(get_data('optimizable')):?>
+<?include('optimize.tpl');?>
+<?endif;?>  
 
 <script type="text/javascript">
 $(function(){
