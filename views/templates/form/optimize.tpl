@@ -17,6 +17,7 @@
                 </div>
                 <div id="compilation-recompile-button-container">
                         <input type="button" value="force recompilation" id="recompileButton"/>
+                        <input type="button" value="decompile" id="decompileButton"/>
                 </div>
         </div>
         
@@ -32,6 +33,9 @@
                      onStartEmpty:function(){
                              $('#compilation-grid-results').show().html('<?=__('There is no class available for optimization for the current extension')?>');
                      },
+                     onStartDecompile:function(){
+                             $('#compilation-grid-container').show();
+                     },
                      beforeComplete: function(){
                              $('#compilation-grid-results').show().html('<?=__('Rebuilding indexes, it may take a while.')?>');
                      },
@@ -42,6 +46,9 @@
                                       $('#compilation-grid-results').show().html('<?=__('Cannot successfully build the optimized table indexes')?>');
                              }
                              
+                     },
+                     onCompleteDecompile:function(){
+                                $('#compilation-grid-results').show().html('<?=__('Decompilation completed')?>');
                      }
              }
              
@@ -56,5 +63,11 @@
                         $('#compilation-grid-results').hide();
              });
              
+             $('#decompileButton').click(function(){
+                        if(confirm('This action will reset the optimization, are you sure?')){
+                                mySwitcher.init(true, true);
+                                $('#compilation-grid-results').hide();
+                        }
+             });
         });
 </script>
