@@ -9,6 +9,7 @@ function switcherClass(tableElementId, userOptions){
         this.options = {
                 onStart:function(){},
                 onStartEmpty:function(){},
+                beforeComplete:function(){},
                 onComplete:function(){}
         };
         if(userOptions){
@@ -268,7 +269,23 @@ switcherClass.prototype.compileClass = function(classUri){
 }
 
 switcherClass.prototype.end = function(){
-        if(this.options.onComplete){
-                this.options.onComplete(this);
+        
+        var __this = this;
+        if(this.options.beforeComplete){
+                this.options.beforeComplete(this);
         }
+        
+        //send the ending request: index the properties:
+         $.ajax({
+		type: "POST",
+		url: __this.getActionUrl('createPropertyIndex'),
+		data: {},
+		dataType: "json",
+		success: function(r){
+                        if(__this.options.onComplete){
+                                __this.options.onComplete(this, r.success);
+                        }
+                }
+        });
+        
 }

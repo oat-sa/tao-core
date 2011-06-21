@@ -155,6 +155,40 @@ class tao_actions_Settings extends tao_actions_CommonModule {
                 return $returnValue;
         }
         
+        /*
+         * get list of properties to be indexes
+         * it need to be overwriten by inherited classes to give the right list of classes 
+         */
+        protected function getOptimizableProperties(){
+                
+                $returnValue = array();
+                
+                $returnValue = array(
+                        'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersFormalParameter',
+	    		'http://www.tao.lu/middleware/wfEngine.rdf#PropertySupportServicesUrl',
+	    		'http://www.tao.lu/middleware/wfEngine.rdf#PropertyConnectorsType',
+		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyConnectorsActivityReference',
+		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyProcessInstancesStatus',
+		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyProcessInstancesExecutionOf',
+		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsFinished',
+		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsExecutionOf',
+		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsCurrentUser',
+	    		'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsProcessExecution',
+	    		'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivityExecution',
+		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity',
+		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensCurrentUser',
+		    	'http://www.tao.lu/Ontologies/generis.rdf#login',
+		    	'http://www.tao.lu/Ontologies/generis.rdf#password',
+		    	'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_PROCESS_EXEC_ID',
+	    		'http://www.tao.lu/Ontologies/TAOResult.rdf#AO_DELIVERY_ID',
+	    		'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_TEST_ID',
+	    		'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_ITEM_ID',
+	    		'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_SUBJECT_ID'
+                );
+                
+                return $returnValue;
+        }
+        
         public function compileClass(){
                 
                 $result = array('success' => false);
@@ -194,6 +228,16 @@ class tao_actions_Settings extends tao_actions_CommonModule {
                 
                 echo json_encode($result);
                 
+        }
+        
+        public function createPropertyIndex(){
+                
+                $properties = $this->getOptimizableProperties();
+                $result = array(
+                    'success' => core_kernel_persistence_Switcher::createIndex($properties)
+                );
+                
+                echo json_encode($result);
         }
 	
 }

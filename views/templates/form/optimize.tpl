@@ -30,10 +30,18 @@
                              $('#compilation-grid-container').show();
                      },
                      onStartEmpty:function(){
-                             $('#compilation-grid-results').show().html(__('There is no class available for optimization for the current extension'));
+                             $('#compilation-grid-results').show().html('<?=__('There is no class available for optimization for the current extension')?>');
                      },
-                     onComplete:function(){
-                             $('#compilation-grid-results').show().html(__('Compilation completed'));
+                     beforeComplete: function(){
+                             $('#compilation-grid-results').show().html('<?=__('Rebuilding indexes, it may take a while.')?>');
+                     },
+                     onComplete:function(switcher, success){
+                             if(success){
+                                     $('#compilation-grid-results').show().html('<?=__('Compilation completed')?>');
+                             }else{
+                                      $('#compilation-grid-results').show().html('<?=__('Cannot successfully build the optimized table indexes')?>');
+                             }
+                             
                      }
              }
              
