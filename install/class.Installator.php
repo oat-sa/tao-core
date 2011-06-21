@@ -38,10 +38,10 @@ class tao_install_Installator{
 			'name'	=> 'json'
 		),
 		7 => array(
-                        'type'  => 'PHP_EXTENSION',
-                        'title' => 'PHP Dom extension check',
-                        'name'  => 'dom'
-                ),
+             'type'  => 'PHP_EXTENSION',
+             'title' => 'PHP Dom extension check',
+             'name'  => 'dom'
+        ),
 		8 => array(
 			'type'	=> 'MULTI',
 			'title'	=> 'PHP mysql driver extension check',

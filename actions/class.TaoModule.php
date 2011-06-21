@@ -594,8 +594,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		try{
 			$instance = $this->getCurrentInstance();
 			
-			$date = $instance->getLastModificationDate();
-			$this->setData('date', $date->format('d/m/Y H:i:s'));
+			//$date = $instance->getLastModificationDate();
+			//$this->setData('date', $date->format('d/m/Y H:i:s'));
 			$this->setData('user', $instance->getLastModificationUser());
 			$this->setData('comment', _dh($instance->getComment()));
 			
