@@ -64,7 +64,7 @@ class tao_install_Installator{
 		),
 		11 => array(
 			'type'	=> 'WRITABLE_DIRECTORIES',
-			'title'	=> 'Writable directories',
+			'title'	=> 'System Rights',
 			'directories'	=> array(
 				'generis'		=> array (
 					'generis/data/cache'
