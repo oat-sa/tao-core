@@ -82,6 +82,7 @@ class tao_install_Installator{
 		 			'taoItems/data'
 		 			, 'taoItems/views/export'
 		 			, 'taoItems/includes'
+		 			, '/taoItems/test/samples/tmp'
 		 		)
 		 		, 'taoDelivery'	=> array (
 		 			'taoDelivery/compiled'
