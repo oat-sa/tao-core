@@ -12,7 +12,7 @@ CREATE TABLE `extensions` (
   `loadAtStartUp` tinyint(1) NOT NULL,
   `ghost` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) DEFAULT CHARSET=utf8;
+) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
 
 INSERT INTO `extensions` VALUES 
 ('generis','generis','2.1',1,1,0),
@@ -32,7 +32,7 @@ CREATE TABLE `models` (
   `baseURI` varchar(255) default NULL,
   PRIMARY KEY  (`modelID`),
   KEY `idx_models_modelURI` (`modelURI`)
-)DEFAULT CHARSET=utf8;
+) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
 
 INSERT INTO `models` VALUES 
 (3,'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#','http://www.tao.lu/datatypes/WidgetDefinitions.rdf#'),
@@ -66,7 +66,7 @@ CREATE TABLE `statements` (
   KEY `idx_statements_modelID` (`modelID`),
   KEY k_sp (subject(164), predicate(164)),
   KEY k_po (predicate(164), object(164))
-)DEFAULT CHARSET=utf8;
+) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `class_to_table`;
 CREATE TABLE `class_to_table` (
@@ -76,7 +76,7 @@ CREATE TABLE `class_to_table` (
 	`topClass` VARCHAR(255) NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `idx_class_to_table_uri` (`uri`) 
-)DEFAULT CHARSET=utf8;
+) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `resource_to_table`;
 CREATE TABLE `resource_to_table` (
@@ -85,11 +85,11 @@ CREATE TABLE `resource_to_table` (
 	`table` VARCHAR(64) NOT NULL,
 	PRIMARY KEY (`id`) ,
 	KEY `idx_resource_to_table_uri` (`uri`)
-)DEFAULT CHARSET=utf8;
+) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `resource_has_class`;
 CREATE TABLE `resource_has_class` (
 	`resource_id` int NOT NULL,
 	`class_id` int NOT NULL,
 	PRIMARY KEY (`resource_id`, `class_id`) 
-)DEFAULT CHARSET=utf8;
+) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
