@@ -22,7 +22,7 @@ foreach(scandir(ROOT_PATH) as $file){
 	$extDir = ROOT_PATH . $file;
 	
 	if(is_dir($extDir)){
-		if(file_exists($extDir . '/' . MANIFEST_FILE_NAME)){
+		if(file_exists($extDir . '/' . MANIFEST_FILE_NAME) && $file != 'generis'){
 			
 			$localDir = $extDir. '/' . LOCAL_DIR_NAME;
 			
@@ -110,6 +110,7 @@ if(isset($extensions['tao'])){
 		}
 		
 		//$strings = array_merge($existingStrings, $taoConcats);
+		ksort($existingStrings);
 		if(writePoFile($poFile, $existingStrings)){
 			echo "$poFile updated\n";
 		}

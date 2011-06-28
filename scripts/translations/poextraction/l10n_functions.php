@@ -213,4 +213,16 @@ function writePoFile($file, $strings){
 	}
 	return file_put_contents($file, $buffer);
 }
+
+function getExtensionNames($rootPath, $manifestFileName, array $excludedNames){
+	$directories = scandir($rootPath);
+	$extensions = array();
+	foreach ($directories as $dir) {
+		if (is_file($rootPath . $dir . '/' . $manifestFileName) && !in_array($dir, $excludedNames)) {
+			$extensions[] = $dir;
+		}
+	}
+	
+	return $extensions;
+}
 ?>
