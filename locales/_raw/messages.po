@@ -22,6 +22,9 @@ msgstr ""
 msgid "Access denied. Please renew your authentication!"
 msgstr ""
 
+msgid "Action"
+msgstr ""
+
 msgid "Actions"
 msgstr ""
 
@@ -73,6 +76,9 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+msgid "Cannot successfully build the optimized table indexes"
+msgstr ""
+
 msgid "Change the password"
 msgstr ""
 
@@ -85,10 +91,19 @@ msgstr ""
 msgid "Class"
 msgstr ""
 
+msgid "Classes"
+msgstr ""
+
 msgid "Column"
 msgstr ""
 
 msgid "Comment"
+msgstr ""
+
+msgid "Compilation completed"
+msgstr ""
+
+msgid "Compiled Instances"
 msgstr ""
 
 msgid "Confirm"
@@ -122,6 +137,12 @@ msgid "Data language"
 msgstr ""
 
 msgid "Date"
+msgstr ""
+
+msgid "Decompilation completed"
+msgstr ""
+
+msgid "Decompiled Instances"
 msgstr ""
 
 msgid "Define the defaultt values"
@@ -394,6 +415,12 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
+msgid "Optimizable Classes"
+msgstr ""
+
+msgid "Optimize your TAO when you are ready for test delivery"
+msgstr ""
+
 msgid "Options"
 msgstr ""
 
@@ -446,6 +473,12 @@ msgid "Processes"
 msgstr ""
 
 msgid "Property"
+msgstr ""
+
+msgid "Rebuilding indexes, it may take a while."
+msgstr ""
+
+msgid "Related Classes"
 msgstr ""
 
 msgid "Remove"
@@ -514,6 +547,9 @@ msgstr ""
 msgid "Start upload"
 msgstr ""
 
+msgid "Status"
+msgstr ""
+
 msgid "Supported export formats"
 msgstr ""
 
@@ -521,6 +557,9 @@ msgid "Supported formats to import"
 msgstr ""
 
 msgid "TAO Back Office"
+msgstr ""
+
+msgid "TAO optimizer"
 msgstr ""
 
 msgid "Test takers"
@@ -542,6 +581,9 @@ msgid "The uploaded file is too large"
 msgstr ""
 
 msgid "The value of this field must be an integer"
+msgstr ""
+
+msgid "There is no class available for optimization for the current extension"
 msgstr ""
 
 msgid "This field is too long"
@@ -625,6 +667,15 @@ msgstr ""
 msgid "compile"
 msgstr ""
 
+msgid "compiled"
+msgstr ""
+
+msgid "compiled instances"
+msgstr ""
+
+msgid "compiling"
+msgstr ""
+
 msgid "create direct table"
 msgstr ""
 
@@ -632,6 +683,12 @@ msgid "create score table"
 msgstr ""
 
 msgid "create table"
+msgstr ""
+
+msgid "decompiled"
+msgstr ""
+
+msgid "decompiling"
 msgstr ""
 
 msgid "delete"
@@ -658,10 +715,16 @@ msgstr ""
 msgid "exported successfully"
 msgstr ""
 
+msgid "failed"
+msgstr ""
+
 msgid "has been deleted successfully"
 msgstr ""
 
 msgid "import"
+msgstr ""
+
+msgid "instances"
 msgstr ""
 
 msgid "list deleted"
@@ -727,6 +790,9 @@ msgstr ""
 msgid "preview"
 msgstr ""
 
+msgid "related classes"
+msgstr ""
+
 msgid "search"
 msgstr ""
 
@@ -740,5 +806,11 @@ msgid "settings updated"
 msgstr ""
 
 msgid "simple mode"
+msgstr ""
+
+msgid "stand by"
+msgstr ""
+
+msgid "uncompiled"
 msgstr ""
 

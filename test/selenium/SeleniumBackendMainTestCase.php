@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__) . '/includes/FunctionalTestCase.class.php');
+require_once(dirname(__FILE__) . '/includes/start.php');
 
 class SeleniumBackendMainTestCase extends FunctionalTestCase {
 
@@ -10,7 +10,7 @@ class SeleniumBackendMainTestCase extends FunctionalTestCase {
  
     public function testMainView()
     {
-    	$this->login();
+    	$this->guiBackendLogin();
     	
     	// Test if links to all generic extensions are available.
     	$this->assertElementPresent("xpath=//a[@id='extension-nav-taoItems']");
@@ -21,7 +21,7 @@ class SeleniumBackendMainTestCase extends FunctionalTestCase {
     	$this->assertElementPresent("xpath=//a[@id='extension-nav-taoResults']");
     	$this->assertElementPresent("xpath=//a[@id='extension-nav-wfEngine']");
     	
-    	$this->logout();
+    	$this->guiBackendLogout();
     }
 }
 ?>
