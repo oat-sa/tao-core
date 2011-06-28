@@ -18,4 +18,7 @@ define('TAO_SELENIUM_HOST', 'localhost');
 
 // Selenium RC server port.
 define('TAO_SELENIUM_PORT', 4444);
+
+// Relative path from EXTENSION/Selenium to the RDF directory.
+define('TAO_SELENIUM_RDF_DIR', '/rdf');
 ?>
