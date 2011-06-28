@@ -29,7 +29,7 @@ foreach(scandir(ROOT_PATH) as $file){
 			$langs = array();
 			foreach(scandir($localDir) as $localFile){
 				if(is_dir($localDir . '/' . $localFile)){
-					if(file_exists($localDir . '/' . $localFile . '/' . PO_FILE_NAME)){
+					if(file_exists($localDir . '/' . $localFile . '/' . PO_FILE_NAME) && $localFile != '_raw'){
 						$langs[$localFile] = $localDir . '/' . $localFile;
 					}
 				}
