@@ -31,6 +31,10 @@
 .tree-custom li.node-item ins{background-image:url("item.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-test ins{background-image:url("test.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-subject ins{background-image:url("subject.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.paginate{padding-left:12px; background-image:none !important; display:inline !important;}
+.tree-custom li.paginate ins{display:none;}
+.tree-custom li.paginate a:hover, .tree-custom li.paginate a.hover { background:#91c7ff; border:1px solid blue; padding:0px; font-size:15px;}
+.tree-custom li.paginate a.clicked, .tree-custom li.paginate a.clicked:hover, .tree-custom li.paginate span.clicked { background:none; border:none; }
 .tree-custom li.node-group ins{background-image:url("group.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-result ins{background-image:url("result.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-delivery ins{background-image:url("delivery.png"); background-position:0 0; background-repeat:no-repeat;}

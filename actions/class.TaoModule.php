@@ -253,7 +253,9 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			'instances' => true, 
 			'highlightUri' => '', 
 			'labelFilter' => '', 
-			'chunk' => false
+			'chunk' => false,
+			'offset' => 0,
+			'limit' => 0
 		);
 		
 		if($this->hasRequestParameter('filter')){
@@ -269,7 +271,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				$options['instances'] = false;
 			}
 		}
-		
 		if($this->hasRequestParameter('classUri')){
 			$clazz = $this->getCurrentClass();
 			$options['chunk'] = true;
@@ -277,7 +278,15 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		else{
 			$clazz = $this->getRootClass();
 		}
-		
+		if($this->hasRequestParameter('offset')){
+			$options['offset'] = $this->getRequestParameter('offset');
+		}
+		if($this->hasRequestParameter('limit')){
+			$options['limit'] = $this->getRequestParameter('limit');
+		}
+		if($this->hasRequestParameter('subclasses')){
+			$options['subclasses'] = $this->getRequestParameter('subclasses');
+		}
 		
 		echo json_encode( $this->service->toTree($clazz, $options));
 	}

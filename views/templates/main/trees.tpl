@@ -28,7 +28,8 @@
 			deleteAction: 			"<?=$tree['deleteUrl']?>",
 			duplicateAction: 		"<?=$tree['duplicateUrl']?>",
 			instanceClass:			"node-<?=get_data('instanceName')?>",
-			instanceName:			"<?=get_data('instanceName')?>"
+			instanceName:			"<?=get_data('instanceName')?>",
+			paginate:				3
 			<?if(get_data('openUri')):?>
 			,selectNode:			"<?=get_data('openUri')?>"
 			<?endif?>

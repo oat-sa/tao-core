@@ -6,7 +6,7 @@
  * @see GenerisTreeClass.defaultOptions for options example
  * 
  * @require jquery >= 1.3.2 [http://jquery.com/]
- * @require jstree >= 0.9.9 [http://jstree.com/]
+ * @require jstree = 0.9.9 [http://jstree.com/]
  * 
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */ 

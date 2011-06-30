@@ -747,13 +747,22 @@ abstract class tao_models_classes_GenerisService
         (isset($options['recursive'])) 		? $recursive = $options['recursive'] 		: $recursive = false;
         (isset($options['chunk'])) 			? $chunk = $options['chunk'] 				: $chunk = false;
         (isset($options['browse']))			? $browse = $options['browse'] 				: $browse = array();
+        (isset($options['offset']))			? $offset = $options['offset'] 				: $offset = 0;
+        (isset($options['limit']))			? $limit = $options['limit'] 				: $limit = 0;
         
 		$instancesData = array();
 		
 		if($instances){
-			foreach($clazz->getInstances(false) as $instance){
+			$getInstancesOptions = array ();
+			$getInstancesOptions = array_merge ($getInstancesOptions, array(
+				'limit'  => $limit,
+				'offset' => $offset
+			));
+			
+			foreach($clazz->getInstances(false, $getInstancesOptions) as $instance){
 				$instanceData = array(
 						'data' 	=> tao_helpers_Display::textCutter($instance->getLabel(), 16),
+						'type'	=> 'instance',
 						'attributes' => array(
 							'id' => tao_helpers_Uri::encode($instance->uriResource),
 							'class' => 'node-instance'
@@ -784,6 +793,8 @@ abstract class tao_models_classes_GenerisService
 		if(!$chunk){
 			$data = array(
 					'data' 	=> tao_helpers_Display::textCutter($clazz->getLabel(), 16),
+					'type'	=> 'class',
+					'count' => $clazz->countInstances(),
 					'attributes' => array(
 							'id' => tao_helpers_Uri::encode($clazz->uriResource),
 							'class' => 'node-class'
