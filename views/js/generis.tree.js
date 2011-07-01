@@ -180,13 +180,14 @@ function GenerisTreeClass(selector, dataUrl, options){
 							}
 						}
 					}
-
+					
+					//Add Pagination actions if required
 					if (instance.metaClasses[currentNodeId].displayed < instance.metaClasses[currentNodeId].length){
 						DATA.children.push([{	
 							data : '/ &nbsp;&nbsp;&nbsp;all'
 							, attributes : { 'class':'paginate paginate-all' }
 						},{	
-							data : '10 more'
+							data : instance.paginate+' more'
 							, attributes : { 'class':'paginate paginate-more' }
 						}]);
 					}
@@ -219,7 +220,6 @@ function GenerisTreeClass(selector, dataUrl, options){
 						);
 					}
 					if($(NODE).hasClass('node-instance') && instance.options.editInstanceAction){
-						
 						//load the editInstanceAction into the formContainer
 						PNODE = TREE_OBJ.parent(NODE);
 						_load(instance.options.formContainer, 
@@ -525,13 +525,15 @@ GenerisTreeClass.prototype.getTree = function(){
  * Paginate function, display more instances
  */
 GenerisTreeClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOptions){
+	var instance = this;
+	
 	// Show paginate options
 	function showPaginate (NODE, TREE_OBJ){
 		var DATA = [{	
 			data : '/ &nbsp;&nbsp;&nbsp;all'
 			, attributes : { 'class':'paginate paginate-all' }
 		},{	
-			data : '10 more'
+			data : instance.paginate+' more'
 			, attributes : { 'class':'paginate paginate-more' }
 		}];
 		for (var i=0; i<DATA.length; i++){
@@ -541,11 +543,11 @@ GenerisTreeClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOptions
 	// hide paginate options
 	function hidePaginate (NODE, TREE_OBJ){
 		$(NODE).find('.paginate').each(function(){
-			TREE_OBJ.remove(this);
+			$(this).remove();
+			//TREE_OBJ.remove(this);
 		});
 	}
 	
-	var instance = this;
 	var nodeId = NODE[0].id;
 	var options = {
 		"classUri":		nodeId,
