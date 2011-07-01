@@ -47,6 +47,9 @@ div#main-menu #menu-bullet{
 	height:40px;
 	background: transparent url("../img/tao_icon.png") no-repeat;
 }
+div#main-menu #menu-bullet:hover{
+        opacity:0.8;
+}
 #main-menu span a{
 	font-size:1.2em;
 	font-weight:bold;
