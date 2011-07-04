@@ -142,6 +142,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							}
 						}
 					}
+					//Function display instances
 					
 					//Extract meta data from server return
 					//If data is an array -> The user open a branch (reverse engeeniring, maybe not the reality, take care)
@@ -183,13 +184,21 @@ function GenerisTreeClass(selector, dataUrl, options){
 					
 					//Add Pagination actions if required
 					if (instance.metaClasses[currentNodeId].displayed < instance.metaClasses[currentNodeId].length){
-						DATA.children.push([{	
-							data : '/ &nbsp;&nbsp;&nbsp;all'
-							, attributes : { 'class':'paginate paginate-all' }
-						},{	
-							data : instance.paginate+' more'
-							, attributes : { 'class':'paginate paginate-more' }
-						}]);
+						var paginateNodes = [{	
+								data : '/ &nbsp;&nbsp;&nbsp;'+__('all')
+								, attributes : { 'class':'paginate paginate-all' }
+							},{	
+								data : instance.paginate+' '+__('more')
+								, attributes : { 'class':'paginate paginate-more' }
+							}];
+						//Receive a node
+						if (DATA.children){
+							DATA.children.push(paginateNodes);
+						} 
+						//Receive an array of node
+						else {
+							DATA.push (paginateNodes);
+						}
 					}
 					
 					return DATA;
@@ -530,10 +539,10 @@ GenerisTreeClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOptions
 	// Show paginate options
 	function showPaginate (NODE, TREE_OBJ){
 		var DATA = [{	
-			data : '/ &nbsp;&nbsp;&nbsp;all'
+			data : '/ &nbsp;&nbsp;&nbsp;'+__('all')
 			, attributes : { 'class':'paginate paginate-all' }
 		},{	
-			data : instance.paginate+' more'
+			data : instance.paginate+' '+__('more')
 			, attributes : { 'class':'paginate paginate-more' }
 		}];
 		for (var i=0; i<DATA.length; i++){
