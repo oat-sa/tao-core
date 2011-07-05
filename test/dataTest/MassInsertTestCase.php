@@ -35,11 +35,11 @@ class MassInsertTestCase extends UnitTestCase {
 	 */
 
 	// Number of subjects to create
-	protected $subjectNumber = 1000;
+	protected $subjectNumber = 50;
 	// Number of groups to create
-	protected $groupNumber = 1;
+	protected $groupNumber = 10;
 	// Number of languages to create
-	protected $testNumber = 0;
+	protected $testNumber = 1;
 
 	// Languages available in the TAO platform
 	protected $languages = array();
@@ -187,16 +187,16 @@ class MassInsertTestCase extends UnitTestCase {
 			$this->assertIsA($subjectInstance, 'core_kernel_classes_Resource');
 
 			// Use setProperty to be compliant with the old API
-//			$subjectInstance->setPropertyValue ($propertyLoginProp, $login);
-//			$subjectInstance->setPropertyValue ($propertyPasswordProp, md5($password));
-//			$subjectInstance->setPropertyValue ($propertyFirstNameProp, $firstName);
-//			$subjectInstance->setPropertyValue ($propertyLastNameProp, $lastName);
-//			$subjectInstance->setPropertyValue ($propertyUserDefLgProp, $languageUri);
-//			$subjectInstance->setPropertyValue ($propertyUserUILgProp, $languageUri);
-//        	$subjectInstance->setPropertyValue ($propertyRdfTypeProp, CLASS_ROLE_SUBJECT);
+			$subjectInstance->setPropertyValue ($propertyLoginProp, $login);
+			$subjectInstance->setPropertyValue ($propertyPasswordProp, md5($password));
+			$subjectInstance->setPropertyValue ($propertyFirstNameProp, $firstName);
+			$subjectInstance->setPropertyValue ($propertyLastNameProp, $lastName);
+			$subjectInstance->setPropertyValue ($propertyUserDefLgProp, $languageUri);
+			$subjectInstance->setPropertyValue ($propertyUserUILgProp, $languageUri);
+        	$subjectInstance->setType (new core_kernel_classes_Class(CLASS_ROLE_SUBJECT));
 
 			// Commpliant with the new minimal API
-			$properties = array(
+/*			$properties = array(
 				$propertyLoginProp->uriResource			=>$login
 				, $propertyPasswordProp->uriResource 	=>md5($password)
 				, $propertyFirstNameProp->uriResource 	=>$firstName
@@ -205,7 +205,7 @@ class MassInsertTestCase extends UnitTestCase {
 				, $propertyUserUILgProp->uriResource 	=>$languageUri
 				, $propertyRdfTypeProp->uriResource		=>CLASS_ROLE_SUBJECT
 			);
-                        $subjectInstance->setPropertiesValues ($properties);                       
+                        $subjectInstance->setPropertiesValues ($properties);    */                   
                         
 
 			// Add label and comment properties functions of the languages available on the TAO platform
