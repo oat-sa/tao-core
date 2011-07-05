@@ -217,7 +217,7 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
 		hidePaginate(NODE, TREE_OBJ);
 		//Display instances
 		for (var i=0; i<DATA.length; i++){
-			DATA[i].attributes.class = instance.options.instanceClass+" node-instance node-draggable";
+			DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
 			TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
 		}
 		instance.metaClasses[nodeId].displayed += DATA.length;

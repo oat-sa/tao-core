@@ -287,7 +287,7 @@ switcherClass.prototype.compileClass = function(classUri){
                                 var count = ' (' + eval(selfCount+relatedCount) + ' ' + __('instances') + ': '+selfCount+' self / '+relatedCount+' related)';
                                 __this.setCellData(rowId, 'status', __('compiled') + count);
                                 
-                                if(selfCount){
+                                if(relatedCount){
                                         //enable subgrid
                                         __this.$grid.showCol('subgrid');
                                 }
