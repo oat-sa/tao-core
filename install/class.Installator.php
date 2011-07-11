@@ -239,6 +239,7 @@ class tao_install_Installator{
 		}
 		// Create the database
 		$dbCreator->load($this->options['install_path'].'db/db_create.sql', array('DATABASE_NAME' => $installData['db_name']));
+		
 		// If the target Sgbd is mysql select the database after creating it
 		if ($dbCreator->setDatabase ($installData['db_name']) == 'mysql'){
 			$dbCreator->setDatabase ($installData['db_name']);
