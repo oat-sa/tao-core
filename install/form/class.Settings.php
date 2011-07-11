@@ -130,7 +130,8 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$dbDriverElt =  tao_helpers_form_FormFactory::getElement('db_driver', 'Combobox');
 		$dbDriverElt->setDescription('Driver');
 		$dbDriverElt->setOptions(array(
-			'mysql'	=> 'MySql'
+			'mysql'	=> 'MySql',
+			'postgres8'	=> 'PostgreSql 8.*'
 		));
 		$dbDriverElt->setValue('mysql');
 		$this->form->addElement($dbDriverElt);

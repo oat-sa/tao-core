@@ -1,20 +1,15 @@
-DROP DATABASE IF EXISTS {DATABASE_NAME};
-CREATE DATABASE {DATABASE_NAME};
-USE {DATABASE_NAME};
-SET NAMES UTF8;
+DROP TABLE IF EXISTS "extensions";
+CREATE TABLE "extensions" (
+  "id" varchar(25) NOT NULL default '',
+  "name" varchar(150) default NULL,
+  "version" varchar(4) default NULL,
+  "loaded" int NOT NULL,
+  "loadAtStartUp" int NOT NULL,
+  "ghost" int NOT NULL default 0,
+  PRIMARY KEY ("id")
+);
 
-DROP TABLE IF EXISTS `extensions`;
-CREATE TABLE `extensions` (
-  `id` varchar(25) NOT NULL default '',
-  `name` varchar(150) default NULL,
-  `version` varchar(4) default NULL,
-  `loaded` tinyint(1) NOT NULL,
-  `loadAtStartUp` tinyint(1) NOT NULL,
-  `ghost` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
-) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
-
-INSERT INTO `extensions` VALUES 
+INSERT INTO "extensions" VALUES 
 ('generis','generis','2.1',1,1,0),
 ('tao','tao','2.1',1,1,0),
 ('taoGroups','Tao Groups','2.1',1,1,0),
@@ -25,16 +20,16 @@ INSERT INTO `extensions` VALUES
 ('taoDelivery','taoDelivery','2.1',1,1,0),
 ('wfEngine','Workflow Engine Extension','2.1',1,1,0);
 
-DROP TABLE IF EXISTS `models`;
-CREATE TABLE `models` (
-  `modelID` int(11) NOT NULL auto_increment,
-  `modelURI` varchar(255) default NULL,
-  `baseURI` varchar(255) default NULL,
-  PRIMARY KEY  (`modelID`),
-  KEY `idx_models_modelURI` (`modelURI`)
-) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS "models";
+CREATE TABLE "models" (
+  "modelID" serial,
+  "modelURI" varchar(255) default NULL,
+  "baseURI" varchar(255) default NULL,
+  PRIMARY KEY  ("modelID")
+);
+CREATE INDEX "idx_models_modelURI" ON "models" ("modelURI");
 
-INSERT INTO `models` VALUES 
+INSERT INTO "models" VALUES 
 (3,'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#','http://www.tao.lu/datatypes/WidgetDefinitions.rdf#'),
 (4,'http://www.w3.org/1999/02/22-rdf-syntax-ns#','http://www.w3.org/1999/02/22-rdf-syntax-ns#'),
 (5,'http://www.w3.org/2000/01/rdf-schema#','http://www.w3.org/2000/01/rdf-schema#'),
@@ -49,47 +44,47 @@ INSERT INTO `models` VALUES
 (15,'http://www.tao.lu/middleware/wfEngine.rdf#','http://www.tao.lu/middleware/wfEngine.rdf#'),
 (17,'http://www.tao.lu/middleware/Rules.rdf#','http://www.tao.lu/middleware/Rules.rdf#');
 
-DROP TABLE IF EXISTS `statements`;
-CREATE TABLE `statements` (
-  `modelID` int(11) NOT NULL default '0',
-  `subject` varchar(255) default NULL,
-  `predicate` varchar(255) default NULL,
-  `object` longtext,
-  `l_language` varchar(255) default NULL,
-  `id` int(11) NOT NULL auto_increment,
-  `author` varchar(255) default NULL,
-  `stread` varchar(255) default NULL,
-  `stedit` varchar(255) default NULL,
-  `stdelete` varchar(255) default NULL,
-  `epoch` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`id`),
-  KEY `idx_statements_modelID` (`modelID`),
-  KEY k_sp (subject(164), predicate(164)),
-  KEY k_po (predicate(164), object(164))
-) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS "statements";
+CREATE TABLE "statements" (
+  "modelID" int NOT NULL default 0,
+  "subject" varchar(255) default NULL,
+  "predicate" varchar(255) default NULL,
+  "object" text,
+  "l_language" varchar(255) default NULL,
+  "id" serial,
+  "author" varchar(255) default NULL,
+  "stread" varchar(255) default NULL,
+  "stedit" varchar(255) default NULL,
+  "stdelete" varchar(255) default NULL,
+  "epoch" timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  ("id")
+);
+CREATE INDEX "idx_statements_modelID" ON "statements" ("modelID");
+CREATE INDEX "k_sp" ON "statements" ("subject", "predicate");
+CREATE INDEX "k_po" ON "statements" ("predicate", "object"/*!(255)*/);
 
-DROP TABLE IF EXISTS `class_to_table`;
-CREATE TABLE `class_to_table` (
-	`id` int NOT NULL auto_increment,
-	`uri` VARCHAR(255) NOT NULL,
-	`table` VARCHAR(64) NOT NULL,
-	`topClass` VARCHAR(255) NOT NULL,
-	PRIMARY KEY (`id`),
-	KEY `idx_class_to_table_uri` (`uri`) 
-) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS "class_to_table";
+CREATE TABLE "class_to_table" (
+	"id" serial,
+	"uri" VARCHAR(255) NOT NULL,
+	"table" VARCHAR(64) NOT NULL,
+	"topClass" VARCHAR(255) NOT NULL,
+	PRIMARY KEY ("id") 
+);
+CREATE INDEX "idx_class_to_table_uri" ON "class_to_table" ("uri");
 
-DROP TABLE IF EXISTS `resource_to_table`;
-CREATE TABLE `resource_to_table` (
-	`id` int NOT NULL auto_increment,
-	`uri` VARCHAR(255) NOT NULL,
-	`table` VARCHAR(64) NOT NULL,
-	PRIMARY KEY (`id`) ,
-	KEY `idx_resource_to_table_uri` (`uri`)
-) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS "resource_to_table";
+CREATE TABLE "resource_to_table" (
+	"id" serial,
+	"uri" VARCHAR(255) NOT NULL,
+	"table" VARCHAR(64) NOT NULL,
+	PRIMARY KEY ("id")
+);
+CREATE INDEX "idx_resource_to_table_uri" ON "resource_to_table" ("uri");
 
-DROP TABLE IF EXISTS `resource_has_class`;
-CREATE TABLE `resource_has_class` (
-	`resource_id` int NOT NULL,
-	`class_id` int NOT NULL,
-	PRIMARY KEY (`resource_id`, `class_id`) 
-) ENGINE = MYISAM, DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS "resource_has_class";
+CREATE TABLE "resource_has_class" (
+	"resource_id" int NOT NULL,
+	"class_id" int NOT NULL,
+	PRIMARY KEY ("resource_id", "class_id") 
+);

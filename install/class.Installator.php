@@ -233,13 +233,24 @@ class tao_install_Installator{
 		/*
 		 *   2 - Load the database schema
 		 */
+		// If the target Sgbd is mysql, force the engine to work with the standard identifier escape
+		if ($dbCreator->setDatabase ($installData['db_name']) == 'mysql'){
+			$dbCreator->execute ('SET SQL_MODE="ANSI_QUOTES"');
+		}
+		// Create the database
+		$dbCreator->load($this->options['install_path'].'db/db_create.sql', array('DATABASE_NAME' => $installData['db_name']));
+		// If the target Sgbd is mysql select the database after creating it
+		if ($dbCreator->setDatabase ($installData['db_name']) == 'mysql'){
+			$dbCreator->setDatabase ($installData['db_name']);
+		}
+		// Create tao tables
 		$dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
 		
 		
 		/*
 		 *  3 - Create the local namespace
 		 */
-		$dbCreator->execute("INSERT INTO `models` VALUES ('8', '{$installData['module_namespace']}', '{$installData['module_namespace']}#')");
+		$dbCreator->execute("INSERT INTO models VALUES ('8', '{$installData['module_namespace']}', '{$installData['module_namespace']}#')");
 		
 		
 		/*
@@ -332,7 +343,7 @@ class tao_install_Installator{
 		if($installData['module_mode'] == 'production'){
 			
 			// 9.1 Remove Generis User
-			$dbCreator->execute("DELETE FROM statements WHERE subject = 'http://www.tao.lu/Ontologies/TAO.rdf#installator' AND modelID=6");
+			$dbCreator->execute('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelID"=6');
 			
 			// 9.2 Protect TAO dist
  			$shield = new tao_install_utils_Shield(array_keys($extensions));
