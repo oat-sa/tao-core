@@ -127,6 +127,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					if (DATA instanceof Array) {
 						currentNodeId = instance.lastOpened.id;
 						extractMetaFromChildren (currentNodeId, DATA);
+						
 					} 
 					else {
 						currentNodeId = DATA.attributes.id;
@@ -140,7 +141,8 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					
 					//Add Pagination actions if required
 					if (instance.metaClasses[currentNodeId].displayed < instance.metaClasses[currentNodeId].length){
-						DATA.children.push([{	
+						var obj = DATA instanceof Array ? DATA : DATA.children;
+						obj.push([{	
 							data : '/ &nbsp;&nbsp;&nbsp;all'
 							, attributes : { 'class':'paginate paginate-all' }
 						},{	
