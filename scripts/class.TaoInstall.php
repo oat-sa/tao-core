@@ -65,7 +65,7 @@ class tao_scripts_TaoInstall
         // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E76 begin
         
     	$this->options = array (
-			"db_driver"	=>			"postgres8"
+			"db_driver"	=>			"mysql"
 			, "db_host"	=>			"localhost"
 			, "db_name"	=>			"mytao"
 			, "db_pass"	=>			"tao"

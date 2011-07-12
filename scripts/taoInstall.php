@@ -2,7 +2,7 @@
 require_once '../install/init.php';
 
 new tao_scripts_TaoInstall(array(
-	
+	'min'		=> 5,
 	'parameters' => array(
 		array(
 			'name' 			=> 'db_driver',
@@ -26,12 +26,14 @@ new tao_scripts_TaoInstall(array(
 			'name'			=> 'db_pass',
 			'type' 			=> 'string',
 			'shortcut'		=> 'p',
+			'required'		=> true,
 			'description'	=> 'Password to access to the database'
 		),
 		array(
 			'name'			=> 'db_user',
 			'type' 			=> 'string',
 			'shortcut'		=> 'u',
+			'required'		=> true,
 			'description'	=> 'Login to access to the database'
 		),
 		array(
@@ -70,16 +72,19 @@ new tao_scripts_TaoInstall(array(
 		array(
 			'name'			=> 'module_url',
 			'type' 			=> 'string',
+			'required'		=> true,
 			'description'	=> 'The URL to access the module from a web browser.'
 		),
 		array(
 			'name'			=> 'user_login',
 			'type' 			=> 'string',
+			'required'		=> true,
 			'description'	=> 'The login of the tao backend user'
 		),
 		array(
 			'name'			=> 'user_pass',
 			'type' 			=> 'string',
+			'required'		=> true,
 			'description'	=> 'The password of the tao backend user'
 		)
 	)
