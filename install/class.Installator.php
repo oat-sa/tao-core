@@ -234,14 +234,14 @@ class tao_install_Installator{
 		 *   2 - Load the database schema
 		 */
 		// If the target Sgbd is mysql, force the engine to work with the standard identifier escape
-		if ($dbCreator->setDatabase ($installData['db_name']) == 'mysql'){
+		if ($installData['db_driver'] == 'mysql'){
 			$dbCreator->execute ('SET SQL_MODE="ANSI_QUOTES"');
 		}
 		// Create the database
 		$dbCreator->load($this->options['install_path'].'db/db_create.sql', array('DATABASE_NAME' => $installData['db_name']));
 		
 		// If the target Sgbd is mysql select the database after creating it
-		if ($dbCreator->setDatabase ($installData['db_name']) == 'mysql'){
+		if ($installData['db_driver'] == 'mysql'){
 			$dbCreator->setDatabase ($installData['db_name']);
 		}
 		// Create tao tables
