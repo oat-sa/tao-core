@@ -75,18 +75,22 @@ class tao_scripts_TaoInstall
 			, "module_lang"	=>		"EN"
 			, "module_mode"	=>		"debug"
 			, "module_name"	=>		"mytao"
-			, "module_namespace" =>	"http://tao.local/mytao.rdf"
-			, "module_url"	=>		"http://tao.local"
+			, "module_namespace" =>	""
+			, "module_url"	=>		""
 			, "submit"	=>			"Install"
 			, "user_email"	=>		""
 			, "user_firstname"	=>	""	
 			, "user_lastname"	=>	""
-			, "user_login"	=>		"tao"
-			, "user_pass0"	=>		""
-			, "user_pass1"	=>		"tao"
-			, "user_pass2"	=>		"tao"
+			, "user_login"	=>		""
 		);
     	$this->options = array_merge($this->options, $this->parameters);
+    	
+    	// user password treatment
+    	$this->options["user_pass1"] = $this->options['user_pass'];
+    	// module namespace generation
+    	if (empty ($this->options["module_namespace"])){
+    		$this->options['module_namespace'] = 'http://'.$this->options['module_host'].'/'.$this->options['module_name'].'.rdf';
+    	}
     	
         // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E76 end
     }

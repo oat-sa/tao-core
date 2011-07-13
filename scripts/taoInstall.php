@@ -7,13 +7,11 @@ new tao_scripts_TaoInstall(array(
 		array(
 			'name' 			=> 'db_driver',
 			'type' 			=> 'string',
-			'shortcut'		=> 'd',
 			'description'	=> 'Target available sgbd : postgres7, mysql'
 		),
 		array(
 			'name' 			=> 'db_host',
 			'type' 			=> 'string',
-			'shortcut'		=> 'h',
 			'description'	=> 'Database location'
 		),
 		array(
@@ -25,27 +23,24 @@ new tao_scripts_TaoInstall(array(
 		array(
 			'name'			=> 'db_pass',
 			'type' 			=> 'string',
-			'shortcut'		=> 'p',
 			'required'		=> true,
 			'description'	=> 'Password to access to the database'
 		),
 		array(
 			'name'			=> 'db_user',
 			'type' 			=> 'string',
-			'shortcut'		=> 'u',
 			'required'		=> true,
 			'description'	=> 'Login to access to the database'
 		),
 		array(
 			'name'			=> 'install_sent',
 			'type' 			=> 'integer',
-			'shortcut'		=> 'u',
 			'description'	=> ''
 		),
 		array(
 			'name'			=> 'module_host',
 			'type' 			=> 'string',
-			'shortcut'		=> 'm',
+			'shortcut'		=> 'h',
 			'description'	=> 'The host will be used in the module namespace http://HOST/module name.rdf#).It must not be necessarily the host name of your web server.'
 		),
 		array(
@@ -72,18 +67,21 @@ new tao_scripts_TaoInstall(array(
 		array(
 			'name'			=> 'module_url',
 			'type' 			=> 'string',
+			'shortcut'		=> 'url',
 			'required'		=> true,
 			'description'	=> 'The URL to access the module from a web browser.'
 		),
 		array(
 			'name'			=> 'user_login',
 			'type' 			=> 'string',
+			'shortcut'		=> 'u',
 			'required'		=> true,
 			'description'	=> 'The login of the tao backend user'
 		),
 		array(
 			'name'			=> 'user_pass',
 			'type' 			=> 'string',
+			'shortcut'		=> 'p',
 			'required'		=> true,
 			'description'	=> 'The password of the tao backend user'
 		)
