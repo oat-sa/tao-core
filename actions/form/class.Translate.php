@@ -131,6 +131,9 @@ class tao_actions_form_Translate
 					$viewElt->setDescription($element->getDescription());
 					$viewElt->setValue($element->getValue());
 					$viewElt->setAttribute('no-format', true);
+					if ($element instanceof tao_helpers_form_elements_HtmlArea){
+						$viewElt->setAttribute('htmlentities', false);
+					}
 					
 					$this->form->addElement($viewElt);
 					

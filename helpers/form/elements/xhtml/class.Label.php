@@ -96,7 +96,9 @@ class tao_helpers_form_elements_xhtml_Label
 		$returnValue .= "</span>";
 		$returnValue .= "<span ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= " >"._dh($this->value)."</span>";
+		$returnValue .= " >";
+		$returnValue .= isset($this->attributes['htmlentities']) && !$this->attributes['htmlentities'] ? $this->value : _dh($this->value); 
+		$returnValue .= "</span>";
 		
         // section 127-0-1-1-32598abc:126ff43e5cc:-8000:0000000000001EC8 end
 

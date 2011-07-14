@@ -17,7 +17,6 @@ new tao_scripts_TaoInstall(array(
 		array(
 			'name'			=> 'db_name',
 			'type' 			=> 'string',
-			'shortcut'		=> 'n',
 			'description'	=> 'The Database name corresponds to the Module name.'
 		),
 		array(
