@@ -535,7 +535,6 @@ abstract class tao_models_classes_GenerisService
 
         // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 begin
         
-        
         if(is_null($topLevelClazz)){
 			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
 		}

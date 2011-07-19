@@ -552,6 +552,101 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$this->setView('form/search.tpl', true);
 	}
 
+	/**
+	 * filter class' instances
+	 */
+	public function filter(){
+		$found = false;
+		
+		try{
+			$clazz = $this->getCurrentClass();
+		}
+		catch(Exception $e){
+			$clazz = $this->getRootClass();
+		}
+		
+		$this->setData('clazz', $clazz);
+		//Get properties used to filter the class
+		$properties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz);
+		$this->setData('properties', $properties);
+		
+		$this->setData('formTitle', __('Filter'));
+		$this->setView('form/filter.tpl', true);
+	}
+	
+	public function getBrol () {
+		$data = array ();
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		// The filter option
+		$filter = array ();
+		
+		// Get the target property
+		if($this->hasRequestParameter('propertyUri')){
+			$property = new core_kernel_classes_Property($this->getRequestParameter('propertyUri'));
+		} else {
+			$property = new core_kernel_classes_Property(RDFS_LABEL);
+		}
+		
+		// Get the class paramater
+		if($this->hasRequestParameter('classUri')){
+			$clazz = $this->getCurrentClass();
+		}
+		else{
+			$clazz = $this->getRootClass();
+		}
+		// Get filter parameter
+		if($this->hasRequestParameter('filter')){
+			$filterParam = $this->getRequestParameter('filter');
+			foreach ($filterParam as $key=>$value){
+				$propertyUri = tao_helpers_Uri::decode($value['property_uri']);
+				$propertyValue = !common_Utils::isUri(tao_helpers_Uri::decode($value['value'])) ? $value['value'] : tao_helpers_Uri::decode($value['value']);
+				if (!isset($filter[$propertyUri])) $filter[$propertyUri] = array();
+				array_push($filter[$propertyUri], $propertyValue);
+			}
+		}
+		
+		// Get used property values for a class functions of the given filter
+		$propertyValues = $clazz->getInstancesPropertyValues ($property, $filter, array ("distinct"=>true));
+		
+		$propertyValuesFormated = array ();
+		foreach($propertyValues as $propertyValue){
+			$value = "";
+			$id = "";
+			if ($propertyValue instanceof core_kernel_classes_Resource){
+				$value = $propertyValue->getLabel();
+				$id = tao_helpers_Uri::encode($propertyValue->uriResource);
+			} else {
+				$value = (string)$propertyValue;
+				$id = $value;
+			}
+			$propertyValueFormated = array(
+				'data' 	=> $value,
+				'type'	=> 'instance',
+				'attributes' => array(
+					'id' => $id,
+					'class' => 'node-instance'
+				)
+			);
+			$propertyValuesFormated[] = $propertyValueFormated;
+		}
+		
+		//
+		$data = array(
+			'data' 	=> tao_helpers_Display::textCutter($property->getLabel(), 16),
+			'type'	=> 'class',
+			'count' => count($propertyValuesFormated),
+			'attributes' => array(
+				'id' => tao_helpers_Uri::encode($property->uriResource),
+				'class' => 'node-class'
+			),
+			'children' => $propertyValuesFormated
+ 		);
+		
+		echo json_encode($data);
+	}
 	
 	/**
 	 * Render the add property sub form.

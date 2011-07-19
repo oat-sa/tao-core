@@ -20,7 +20,9 @@
  */
 function GenerisTreeFormClass(selector, dataUrl, options){
 	try{
+		//jsquery selector of the tree
 		this.selector = selector;
+		//options
 		this.options = options;
 		//Url used to get tree data
 		this.dataUrl = dataUrl;
@@ -28,12 +30,20 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 		this.metaClasses = new Array();
 		//Keep a reference of the last opened node
 		this.lastOpened = null;
-		//Get paginate options
-		if (typeof options.paginate != 'undefined'){
-			this.paginate = options.paginate;
-		} else {
-			this.paginate = 0;
-		}
+		//Checked nodes memory
+		this.checkedNodes = (typeof options.checkedNodes != "undefined") ? options.checkedNodes : new Array ();
+		//Paginate the tree or not
+		this.paginate = typeof options.paginate != 'undefined' ? options.paginate : 0;
+		//Options to pass to the server
+		this.serverParameters = (typeof options.serverParameters != "undefined") ? options.serverParameters : new Array ();
+		//Default server parameters
+		this.defaultServerParameters = {
+			hideInstances:  this.options.hideInstances | false,
+			filter: 		$("#filter-content-" + options.actionId).val(),
+			offset:			0,
+			limit:			this.options.paginate
+		};		
+		// Global access of the instance in the sub scopes
 		var instance = this;
 		
 		this.treeOptions = {
@@ -42,8 +52,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				async : true,
 				opts: {
 					method : "POST",
-					url: instance.dataUrl,
-					paginate: this.paginate
+					url: instance.dataUrl
 				}
 			},
 			types: {
@@ -62,26 +71,28 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				beforeopen:function(NODE, TREE_OBJ){
 					instance.lastOpened = NODE;
 				},
-				//Before get data from server
-				beforedata:function(NODE, TREE_OBJ) { 
+				//Before receive data from server, return the POST parameters
+				beforedata:function(NODE, TREE_OBJ) {
+					var returnValue = instance.defaultServerParameters;
+					// If a NODE is given, send its identifier to the server
 					if(NODE){
-						return {
-							classUri: $(NODE).attr('id'),
-							selected: instance.options.checkedNodes,
-							offset:			0,
-							limit:			instance.options.paginate
-						};
+						returnValue['classUri'] = $(NODE).attr('id');
 					}
-					return {
-						selected: instance.options.checkedNodes,
-						offset:			0,
-						limit:			instance.options.paginate
-					};
+					//Get the selected nodes, and store them
+					instance.checkedNodes = instance.getChecked();
+					//Pass them to the server
+					returnValue['selected'] = instance.checkedNodes;
+					// Augment with the serverParameters
+					for (var key in instance.serverParameters){
+						returnValue[key] = instance.serverParameters[key];
+					}
+					
+					return returnValue;
 				},
 				//
 				onload: function(TREE_OBJ) {
-					if(instance.options.checkedNodes){
-						instance.check(instance.options.checkedNodes);
+					if(instance.checkedNodes){
+						instance.check(instance.checkedNodes);
 					}
 					if(instance.options.loadCallback){
 						instance.options.loadCallback();
@@ -127,7 +138,6 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					if (DATA instanceof Array) {
 						currentNodeId = instance.lastOpened.id;
 						extractMetaFromChildren (currentNodeId, DATA);
-						
 					} 
 					else {
 						currentNodeId = DATA.attributes.id;
@@ -142,13 +152,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					//Add Pagination actions if required
 					if (instance.metaClasses[currentNodeId].displayed < instance.metaClasses[currentNodeId].length){
 						var obj = DATA instanceof Array ? DATA : DATA.children;
-						obj.push([{	
-							data : '/ &nbsp;&nbsp;&nbsp;all'
-							, attributes : { 'class':'paginate paginate-all' }
-						},{	
-							data : instance.paginate+' more'
-							, attributes : { 'class':'paginate paginate-more' }
-						}]);
+						obj.push(instance.getPaginateActionNodes());
 					}
 					
 					return DATA;
@@ -159,6 +163,11 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 			}
 		};
 		
+		//Add server parameters to the treeOptions variable
+		for (var i in this.serverParameters){
+			this.treeOptions.data.opts[i] = this.serverParameters[i];
+		}
+		
 		//create the tree
 		$(selector).tree(this.treeOptions);
 		
@@ -167,7 +176,21 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 		});
 	}
 	catch(exp){
-	//	console.log(exp);
+		console.log(exp);
+	}
+}
+
+/**
+ * Set a server parameter
+ * @param {string} key
+ * @param {string} value
+ * @param {boolean} reload Reload the tree after parameter updated
+ */
+GenerisTreeFormClass.prototype.setServerParameter = function (key, value, reload){
+
+	this.serverParameters[key] = value;
+	if (typeof (reload)!='undefined' && reload){
+		this.getTree().refresh();
 	}
 }
 
@@ -176,7 +199,23 @@ function GenerisTreeFormClass(selector, dataUrl, options){
  * @return tree
  */
 GenerisTreeFormClass.prototype.getTree = function(){
+	
 	return $.tree.reference(this.selector);
+}
+
+/**
+ * Get paginate nodes
+ * @return {array}
+ */
+GenerisTreeFormClass.prototype.getPaginateActionNodes = function () {
+	returnValue = [{	
+		'data' : '/ &nbsp;&nbsp;&nbsp;all'
+			, 'attributes' : { 'class':'paginate paginate-all' }
+		},{	
+			'data' : this.paginate+' more'
+			, 'attributes' : { 'class':'paginate paginate-more' }
+		}];
+	return returnValue;
 }
 
 /**
@@ -185,27 +224,30 @@ GenerisTreeFormClass.prototype.getTree = function(){
 GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOptions){
 	var instance = this;
 	
-	// Show paginate options
+	/**
+	 * Show paginate options
+	 * @param NODE
+	 * @param TREE_OBJ
+	 * @private
+	 */
 	function showPaginate (NODE, TREE_OBJ){
-		var DATA = [{	
-			data : '/ &nbsp;&nbsp;&nbsp;all'
-			, attributes : { 'class':'paginate paginate-all' }
-		},{	
-			data : instance.paginate+' more'
-			, attributes : { 'class':'paginate paginate-more' }
-		}];
+		var DATA = instance.getPaginateActionNodes();
 		for (var i=0; i<DATA.length; i++){
 			TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
 		}
 	}
-	// hide paginate options
+	/**
+	 * Hide paginate options
+	 * @param NODE
+	 * @param TREE_OBJ
+	 * @private
+	 */
 	function hidePaginate (NODE, TREE_OBJ){
 		$(NODE).find('.paginate').each(function(){
-			//TREE_OBJ.remove(this);
 			$(this).remove();
 		});
 	}
-	
+
 	var nodeId = NODE[0].id;
 	var options = {
 		"classUri":		nodeId,
@@ -227,7 +269,7 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
 		if (instance.metaClasses[nodeId].displayed < instance.metaClasses[nodeId].length){
 			showPaginate(NODE, TREE_OBJ);
 		}
-		instance.check(instance.options.checkedNodes);
+		instance.check(instance.checkedNodes);
 	}, "json");
 };
 
@@ -236,6 +278,7 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
  * @param {Array} elements the list of ids of instances to check
  */
 GenerisTreeFormClass.prototype.check = function(elements){
+	
 	$.each(elements, function(i, elt){
 		if(elt != null){
 			NODE = $("li[id="+elt+"]");
@@ -246,6 +289,22 @@ GenerisTreeFormClass.prototype.check = function(elements){
 		}
 	});
 }
+
+/**
+ * Get the checked nodes
+ * @return {array}
+ */
+GenerisTreeFormClass.prototype.getChecked = function () {
+	
+	var returnValue = new Array ();
+	$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE){
+		if ($(NODE).hasClass('node-instance')) {
+			returnValue.push( $(NODE).attr('id') );
+		}
+	});
+	return returnValue;
+}
+
 
 /**
  * save the checked instances in the tree by sending the ids using an ajax request

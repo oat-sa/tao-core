@@ -30,28 +30,36 @@ function GenerisTreeClass(selector, dataUrl, options){
 			options = GenerisTreeClass.defaultOptions;
 		}
 		this.selector = selector;
+		//Generis Tree options
 		this.options = options;
+		//Default server parameters
+		this.defaultServerParameters = new Array ();
 		//Url used to get tree data
 		this.dataUrl = dataUrl;
 		//Store meta data of opened classes
 		this.metaClasses = new Array();
 		//Keep a reference of the last opened node
 		this.lastOpened = null;
-		
-		/**
-		 * global access into sub scopes
-		 */
-		var instance = this;
-		
+		//
 		if(!options.instanceName){
 			options.instanceName = 'instance';
 		}
-		if (typeof options.paginate != 'undefined'){
-			this.paginate = options.paginate;
-		} else {
-			this.paginate = 0;
-		}
+		//Paginate the tree or not
+		this.paginate = typeof options.paginate != 'undefined' ? options.paginate : 0;
+		//Options to pass to the server
+		this.serverParameters = (typeof options.serverParameters != "undefined") ? options.serverParameters : new Array ();
+		//Default server parameters
+		this.defaultServerParameters = {
+			hideInstances:  this.options.hideInstances | false,
+			filter: 		$("#filter-content-" + options.actionId).val(),
+			offset:			0,
+			limit:			this.options.paginate
+		};
+
+		// Global access of the instance in the sub scopes
+		var instance = this;
 		
+		// Add the instance to the global storage of instances
 		GenerisTreeClass.instances[GenerisTreeClass.instances.length + 1] = instance;
 		
 		/**
@@ -86,23 +94,21 @@ function GenerisTreeClass(selector, dataUrl, options){
 				theme_name : "custom"
 			},
 			callback : {
-				//data to send to the server
+				//Before receive data from server, return the POST parameters
 				beforedata:function(NODE, TREE_OBJ) {
+					var returnValue = instance.defaultServerParameters;
+					// If a NODE is given, send its identifier to the server
 					if(NODE){
-						return {
-							hideInstances:  instance.options.hideInstances | false,
-							filter: 		$("#filter-content-" + options.actionId).val(),
-							classUri: 		$(NODE).attr('id'),
-							offset:			0,
-							limit:			instance.options.paginate
-						};
+						returnValue['classUri'] = $(NODE).attr('id');
 					}
-					return {
-						hideInstances: 	instance.options.hideInstances | false,
-						filter: 		$("#filter-content-" + options.actionId).val(),
-						offset:			0,
-						limit:			instance.options.paginate
-					};
+					// Augment with the serverParameters
+					for (var key in instance.serverParameters){
+						returnValue[key] = instance.serverParameters[key];
+					}
+					// Add selected nodes
+					returnValue['selected'] = instance.options.checkedNodes;
+					
+					return returnValue;
 				},
 				//once the tree is loaded
 				onload: function(TREE_OBJ){
@@ -184,21 +190,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 					
 					//Add Pagination actions if required
 					if (instance.metaClasses[currentNodeId].displayed < instance.metaClasses[currentNodeId].length){
-						var paginateNodes = [{	
-								data : '/ &nbsp;&nbsp;&nbsp;'+__('all')
-								, attributes : { 'class':'paginate paginate-all' }
-							},{	
-								data : instance.paginate+' '+__('more')
-								, attributes : { 'class':'paginate paginate-more' }
-							}];
-						//Receive a node
-						if (DATA.children){
-							DATA.children.push(paginateNodes);
-						} 
-						//Receive an array of node
-						else {
-							DATA.push (paginateNodes);
-						}
+						var obj = DATA.children ? DATA.children : DATA;
+						obj.push(instance.getPaginateActionNodes());
 					}
 					
 					return DATA;
@@ -523,6 +516,13 @@ function GenerisTreeClass(selector, dataUrl, options){
 	};
 }
 
+GenerisTreeClass.prototype.setServerParameter = function (key, value, reload){
+	this.serverParameters[key] = value;
+	if (typeof (reload)!='undefined' && reload){
+		this.getTree().refresh();
+	}
+}
+
 /**
  * @return {Object} the tree instance
  */
@@ -531,29 +531,46 @@ GenerisTreeClass.prototype.getTree = function(){
 };
 
 /**
+ * Get paginate nodes
+ * @return {array}
+ */
+GenerisTreeClass.prototype.getPaginateActionNodes = function () {
+	returnValue = [{	
+		'data' : '/ &nbsp;&nbsp;&nbsp;all'
+			, 'attributes' : { 'class':'paginate paginate-all' }
+		},{	
+			'data' : this.paginate+' more'
+			, 'attributes' : { 'class':'paginate paginate-more' }
+		}];
+	return returnValue;
+}
+
+/**
  * Paginate function, display more instances
  */
 GenerisTreeClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOptions){
 	var instance = this;
-	
-	// Show paginate options
+	/**
+	 * Show paginate options
+	 * @param NODE
+	 * @param TREE_OBJ
+	 * @private
+	 */
 	function showPaginate (NODE, TREE_OBJ){
-		var DATA = [{	
-			data : '/ &nbsp;&nbsp;&nbsp;'+__('all')
-			, attributes : { 'class':'paginate paginate-all' }
-		},{	
-			data : instance.paginate+' '+__('more')
-			, attributes : { 'class':'paginate paginate-more' }
-		}];
+		var DATA = instance.getPaginateActionNodes();
 		for (var i=0; i<DATA.length; i++){
 			TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
 		}
 	}
-	// hide paginate options
+	/**
+	 * Hide paginate options
+	 * @param NODE
+	 * @param TREE_OBJ
+	 * @private
+	 */
 	function hidePaginate (NODE, TREE_OBJ){
 		$(NODE).find('.paginate').each(function(){
 			$(this).remove();
-			//TREE_OBJ.remove(this);
 		});
 	}
 	
