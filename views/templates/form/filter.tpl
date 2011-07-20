@@ -1,3 +1,7 @@
+<?php 
+// md5 is used to create a hash of the tree id, because uri are not valid XML ID
+?>
+
 <?include(dirname(__FILE__).'/../header.tpl')?>
 
 <link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/form_delivery.css" />

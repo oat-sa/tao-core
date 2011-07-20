@@ -132,23 +132,28 @@ function GenerisTreeClass(selector, dataUrl, options){
 					//Create meta from class node
 					function createMeta (DATA) {
 						instance.metaClasses[DATA.attributes.id] = {
-							displayed : 0
-							, length : DATA.count
+							displayed :  0			// Total of elements displayed
+							, count :    DATA.count	// Total of elements in the class
+							, position : 0			// Position of the last element displayed
 						};
 					}
 					//Extract meta from class' children
 					function extractMetaFromChildren (id, children){
 						if (children) {
+							//Number of classes found
+							var countClass =0;
 							for (var i=0; i<children.length; i++) {
+								// if the children is a class, create associated meta data
 								if (children[i].type == 'class'){
 									createMeta (children[i]);
-								} else {
-									instance.metaClasses[id].displayed ++;
+									countClass++;
 								}
 							}
+							var countInstances = children.length - countClass;
+							instance.metaClasses[id].position = countInstances; // Position of the last element displayed
+							instance.metaClasses[id].displayed = countInstances; // Total of elements displayed
 						}
 					}
-					//Function display instances
 					
 					//Extract meta data from server return
 					//If data is an array -> The user open a branch (reverse engeeniring, maybe not the reality, take care)
@@ -189,7 +194,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 					}
 					
 					//Add Pagination actions if required
-					if (instance.metaClasses[currentNodeId].displayed < instance.metaClasses[currentNodeId].length){
+					if (instance.metaClasses[currentNodeId].displayed < instance.metaClasses[currentNodeId].count){
 						var obj = DATA.children ? DATA.children : DATA;
 						obj.push(instance.getPaginateActionNodes());
 					}
@@ -199,6 +204,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 				//when a node is selected
 				onselect: function(NODE, TREE_OBJ){
 					var nodeId = $(NODE).attr('id');
+					var parentNodeId = $(NODE).parent().parent().attr('id');
 					$("a.clicked").each(function(){
 						if($(this).parent('li').attr('id') != nodeId){
 							$(this).removeClass('clicked');
@@ -233,7 +239,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ);
 					}
 					if($(NODE).hasClass('paginate-all')) {
-						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ, {limit:0});
+						var limit = instance.metaClasses[parentNodeId].count - instance.metaClasses[parentNodeId].displayed;
+						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ, {'limit':limit});
 					}
 					return false;
 				},
@@ -369,11 +376,9 @@ function GenerisTreeClass(selector, dataUrl, options){
 							action: function (NODE, TREE_OBJ) { 
 								
 								//add a new instance of the selected class
-								GenerisTreeClass.addInstance({
+								instance.addInstance(NODE, TREE_OBJ, {
 									url: instance.options.createInstanceAction,
 									id: $(NODE).attr('id'),
-									NODE: NODE,
-									TREE_OBJ: TREE_OBJ,
 									cssClass: instance.options.instanceClass
 								});
 							}
@@ -412,10 +417,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 							action	: function (NODE, TREE_OBJ) { 
 									
 								//clone the node
-								GenerisTreeClass.cloneNode({
-									url: instance.options.duplicateAction,
-									NODE: NODE,
-									TREE_OBJ: TREE_OBJ
+								instance.cloneNode(NODE, TREE_OBJ, {
+									url: instance.options.duplicateAction
 								});
 							}
 						},
@@ -435,10 +438,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 							action	: function (NODE, TREE_OBJ) { 
 									
 								//remove the node
-								GenerisTreeClass.removeNode({
-									url: instance.options.deleteAction,
-									NODE: NODE,
-									TREE_OBJ: TREE_OBJ
+								instance.removeNode(NODE, TREE_OBJ, {
+									url: instance.options.deleteAction
 								});
 								return false;
 							} 
@@ -516,6 +517,9 @@ function GenerisTreeClass(selector, dataUrl, options){
 	};
 }
 
+/**
+ * Set a variable to send to the server
+ */
 GenerisTreeClass.prototype.setServerParameter = function (key, value, reload){
 	this.serverParameters[key] = value;
 	if (typeof (reload)!='undefined' && reload){
@@ -529,6 +533,20 @@ GenerisTreeClass.prototype.setServerParameter = function (key, value, reload){
 GenerisTreeClass.prototype.getTree = function(){
 	return $.tree.reference(this.selector);
 };
+
+/**
+ * Get node's meta data
+ */
+GenerisTreeClass.prototype.getMeta = function (classId, metaName, value) {
+	return this.metaClasses[classId][metaName];
+}
+
+/**
+ * Set node's meta data
+ */
+GenerisTreeClass.prototype.setMeta = function (classId, metaName, value) {
+	this.metaClasses[classId][metaName] = value;
+}
 
 /**
  * Get paginate nodes
@@ -546,55 +564,67 @@ GenerisTreeClass.prototype.getPaginateActionNodes = function () {
 }
 
 /**
+ * Show paginate options
+ * @param NODE
+ * @param TREE_OBJ
+ * @private
+ */
+GenerisTreeClass.prototype.showPaginate = function (NODE, TREE_OBJ){
+	var DATA = this.getPaginateActionNodes();
+	for (var i=0; i<DATA.length; i++){
+		TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
+	}
+}
+/**
+ * Hide paginate options
+ * @param NODE
+ * @param TREE_OBJ
+ * @private
+ */
+GenerisTreeClass.prototype.hidePaginate  = function (NODE, TREE_OBJ){
+	$(NODE).find('.paginate').each(function(){
+		$(this).remove();
+	});
+}
+/**
+ * Refresh pagination, hide and show if required
+ * @param NODE
+ * @param TREE_OBJ
+ * @private
+ */
+GenerisTreeClass.prototype.refreshPaginate  = function (NODE, TREE_OBJ){
+	var nodeId = $(NODE)[0].id;
+	this.hidePaginate (NODE, TREE_OBJ);
+	if (this.getMeta(nodeId, "displayed") < this.getMeta(nodeId, "count")){
+		this.showPaginate (NODE, TREE_OBJ);
+	}
+}
+
+/**
  * Paginate function, display more instances
  */
 GenerisTreeClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOptions){
 	var instance = this;
-	/**
-	 * Show paginate options
-	 * @param NODE
-	 * @param TREE_OBJ
-	 * @private
-	 */
-	function showPaginate (NODE, TREE_OBJ){
-		var DATA = instance.getPaginateActionNodes();
-		for (var i=0; i<DATA.length; i++){
-			TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
-		}
-	}
-	/**
-	 * Hide paginate options
-	 * @param NODE
-	 * @param TREE_OBJ
-	 * @private
-	 */
-	function hidePaginate (NODE, TREE_OBJ){
-		$(NODE).find('.paginate').each(function(){
-			$(this).remove();
-		});
-	}
 	
-	var nodeId = NODE[0].id;
+	var nodeId = $(NODE).attr('id');	
+	var instancesLeft = instance.getMeta(nodeId, "count") - instance.getMeta(nodeId, "displayed");
 	var options = {
 		"classUri":		nodeId,
 		"subclasses": 	0,
-		"offset": 		this.metaClasses[nodeId].displayed,
-		"limit":		this.options.paginate
+		"offset": 		instance.getMeta(nodeId, "position"),
+		"limit":		instancesLeft < this.paginate ? instancesLeft : this.paginate
 	};
 	options = $.extend(options, pOptions);
 	$.post(this.dataUrl, options, function(DATA){
-		//Hide paginate options
-		hidePaginate(NODE, TREE_OBJ);
 		//Display instances
 		for (var i=0; i<DATA.length; i++){
 			DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
 			TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
 		}
-		instance.metaClasses[nodeId].displayed += DATA.length;
-		//If it rests some instances, show paginate options
-		if (instance.metaClasses[nodeId].displayed < instance.metaClasses[nodeId].length){
-			showPaginate(NODE, TREE_OBJ);
-		}
+		instance.setMeta(nodeId, "displayed", instance.getMeta(nodeId, "displayed")+DATA.length);
+		instance.setMeta(nodeId, "position", instance.getMeta(nodeId, "position")+DATA.length);
+		//refresh pagination options
+		instance.refreshPaginate(NODE, TREE_OBJ);
 	}, "json");
 };
 
@@ -686,10 +716,9 @@ GenerisTreeClass.addClass = function(options){
  * add an instance
  * @param {Object} options
  */
-GenerisTreeClass.addInstance = function(options){
-	var TREE_OBJ = options.TREE_OBJ;
-	var NODE = options.NODE;
-	var  cssClass = 'node-instance';
+GenerisTreeClass.prototype.addInstance = function(NODE, TREE_OBJ, options){
+	var cssClass = 'node-instance node-draggable';
+	var instance = this;
 	if(options.cssClass){
 		 cssClass += ' ' + options.cssClass;
 	}
@@ -708,9 +737,17 @@ GenerisTreeClass.addInstance = function(options){
 						'class': cssClass
 					}
 				}, TREE_OBJ.get_node(NODE[0])));
+
+				// refresh pagination if required
+				var classId = $(NODE).attr('id');
+				instance.setMeta (classId, 'displayed', instance.getMeta(classId, 'displayed') + 1);
+				instance.setMeta (classId, 'count', instance.getMeta(classId, 'count') + 1);
+				instance.refreshPaginate(NODE, instance.getTree());
 			}
 		}
 	});
+	
+	return true;
 };
 
 
@@ -718,9 +755,9 @@ GenerisTreeClass.addInstance = function(options){
  * remove a resource
  * @param {Object} options
  */
-GenerisTreeClass.removeNode = function(options){
-	var TREE_OBJ = options.TREE_OBJ;
-	var NODE = options.NODE;
+GenerisTreeClass.prototype.removeNode = function(NODE, TREE_OBJ, options){
+	var instance = this;
+
 	if(confirm(__("Please confirm deletion"))){
 		$.each(NODE, function () { 
 			data = false;
@@ -740,6 +777,12 @@ GenerisTreeClass.removeNode = function(options){
 					dataType: 'json',
 					success: function(response){
 						if(response.deleted){
+							// refresh pagination if required
+							var classId = $(NODE).parent().parent().attr('id');
+							instance.setMeta (classId, 'displayed', instance.getMeta(classId, 'displayed') -1);
+							instance.setMeta (classId, 'count', instance.getMeta(classId, 'count') -1);
+							instance.setMeta (classId, 'position', instance.getMeta(classId, 'position') -1);
+							
 							TREE_OBJ.remove(selectedNode); 
 						}
 					}
@@ -753,9 +796,8 @@ GenerisTreeClass.removeNode = function(options){
  * clone a resource
  * @param {Object} options
  */
-GenerisTreeClass.cloneNode = function(options){
-	var TREE_OBJ = options.TREE_OBJ;
-	var NODE = options.NODE;
+GenerisTreeClass.prototype.cloneNode = function(NODE, TREE_OBJ, options){
+	var instance = this;
 	var PNODE = TREE_OBJ.parent(NODE);
 	$.ajax({
 		url: options.url,
@@ -775,6 +817,12 @@ GenerisTreeClass.cloneNode = function(options){
 					TREE_OBJ.get_node(PNODE)
 					)
 				);
+
+				// refresh pagination if required
+				var classId = $(PNODE).attr('id');
+				instance.setMeta (classId, 'displayed', instance.getMeta(classId, 'displayed') + 1);
+				instance.setMeta (classId, 'count', instance.getMeta(classId, 'count') + 1);
+				instance.refreshPaginate(PNODE, instance.getTree());
 			}
 		}
 	});

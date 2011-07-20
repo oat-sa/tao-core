@@ -411,8 +411,13 @@ abstract class tao_models_classes_GenerisService
         
    		$returnValue = $this->createInstance($clazz);
 		if(!is_null($returnValue)){
-			foreach($clazz->getProperties(true) as $property){
+			$properties = $clazz->getProperties(true);
+			foreach($properties as $property){
 				foreach($instance->getPropertyValues($property) as $propertyValue){
+					// Avoid doublons, the RDF TYPE property will be set by the implementation layer
+					if ($property->uriResource == RDF_TYPE && $propertyValue == $clazz->uriResource){
+						continue;
+					}
 					$returnValue->setPropertyValue($property, $propertyValue);
 				}
 			}
@@ -793,7 +798,7 @@ abstract class tao_models_classes_GenerisService
 			$data = array(
 					'data' 	=> tao_helpers_Display::textCutter($clazz->getLabel(), 16),
 					'type'	=> 'class',
-					'count' => $clazz->countInstances(),
+					'count' => (int)$clazz->countInstances(),
 					'attributes' => array(
 							'id' => tao_helpers_Uri::encode($clazz->uriResource),
 							'class' => 'node-class'

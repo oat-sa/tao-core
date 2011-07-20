@@ -18,8 +18,9 @@
 			},
 
 			check : function (n) {
-				if(!n) return false;
 				var t = $.tree.reference(n);
+				if (t.callback("beforecheck", [n, t]) === false) return false;
+				if(!n) return false;
 				n = t.get_node(n);
 				if(n.hasClass('node-class') && n.hasClass('closed')){
 					t.open_branch(n);
@@ -47,6 +48,7 @@
 			uncheck : function (n) {
 				if(!n) return false;
 				var t = $.tree.reference(n);
+				if (t.callback("beforeuncheck", [n, t]) === false) return false;
 				n = t.get_node(n);
 				if(n.children("a").hasClass("unchecked")) return true;
 

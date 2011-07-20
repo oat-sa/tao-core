@@ -67,6 +67,28 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				theme_name : "checkbox"
 			},
 			callback : {
+				//before check
+				beforecheck:function(NODE, TREE_OBJ){
+					if(NODE.hasClass('node-class')){
+						if (instance.metaClasses['displayed']!= instance.metaClasses['length']){
+							instance.paginateInstances (NODE, TREE_OBJ, {limit:0, checkedNodes:"*"});
+							return false;
+						}
+					} else {
+						instance.checkedNodes.push($(NODE).attr('id'));
+					}
+					return true;
+				},
+				//before check
+				beforeuncheck:function(NODE, TREE_OBJ){
+					var nodeId = $(NODE).attr('id');
+					for (var i in instance.checkedNodes){
+						if (instance.checkedNodes[i] == nodeId){
+							delete instance.checkedNodes[i];
+						}
+					}
+					return true;
+				},
 				//before open a branch
 				beforeopen:function(NODE, TREE_OBJ){
 					instance.lastOpened = NODE;
@@ -79,7 +101,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 						returnValue['classUri'] = $(NODE).attr('id');
 					}
 					//Get the selected nodes, and store them
-					instance.checkedNodes = instance.getChecked();
+					//instance.checkedNodes = instance.getChecked();
 					//Pass them to the server
 					returnValue['selected'] = instance.checkedNodes;
 					// Augment with the serverParameters
@@ -103,7 +125,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					if($(NODE).hasClass('paginate-more')) {
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ);
 					}
-					if($(NODE).hasClass('paginate-all')) {
+					else if($(NODE).hasClass('paginate-all')) {
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ, {limit:0});
 					}
 					return false;
@@ -221,7 +243,7 @@ GenerisTreeFormClass.prototype.getPaginateActionNodes = function () {
 /**
  * Paginate function, display more instances
  */
-GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOptions){
+GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOptions, callback){
 	var instance = this;
 	
 	/**
@@ -259,17 +281,38 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
 	$.post(this.dataUrl, options, function(DATA){
 		//Hide paginate options
 		hidePaginate(NODE, TREE_OBJ);
-		//Display instances
+		//Display incoming nodes
 		for (var i=0; i<DATA.length; i++){
 			DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
 			TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
+			// If the check all options. Add the incoming nodes to the list of node to check
+			if (options.checkedNodes == "*"){
+				instance.checkedNodes.push (DATA[i].attributes.id);
+			}
 		}
+		// Update meta data
 		instance.metaClasses[nodeId].displayed += DATA.length;
 		//If it rests some instances, show paginate options
 		if (instance.metaClasses[nodeId].displayed < instance.metaClasses[nodeId].length){
 			showPaginate(NODE, TREE_OBJ);
 		}
+		//If options checked nodes
+		if (options.checkedNodes){
+			// If options check all
+			if (options.checkedNodes == "*"){
+				$.tree.plugins.checkbox.get_unchecked(instance.getTree()).each(function(){
+					instance.checkedNodes.push(this.id); // Add unchecked nodes to the nodes to check
+				});
+			} else {
+				instance.checkedNodes = options.checkedNodes;
+			}
+		}
 		instance.check(instance.checkedNodes);
+		
+		//Execute callback;
+		if (callback){
+			callback (NODE, TREE_OBJ);
+		}
 	}, "json");
 };
 
