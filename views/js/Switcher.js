@@ -58,8 +58,10 @@ switcherClass.prototype.init = function(forcedMode, decompile){
         }
         
         if(decompile){
-                this.decompile = decompile;
+                this.decompile = true;
                 actionUrl = this.getActionUrl('decompileClasses');
+        }else{
+                this.decompile = false;//reset the decompile value to "false"
         }
         
         $.ajax({
