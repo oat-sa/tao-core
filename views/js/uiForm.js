@@ -582,7 +582,11 @@ UiForm = function(){
 			}
 			else {
 				if(UiBootstrap.tabs.size() == 0){
-                                        $('div.main-container').load(myForm.attr('action'), myForm.serializeArray());
+                                        if($('div.main-container').length){
+                                                $('div.main-container').load(myForm.attr('action'), myForm.serializeArray());
+                                        }else{
+                                                return true;//go to the link
+                                        }
 				}else if(!$(getMainContainerSelector(UiBootstrap.tabs))){
 					return true;//go to the link
 				}
