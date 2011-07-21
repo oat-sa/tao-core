@@ -159,10 +159,10 @@ class tao_helpers_I18n
         
         //get it into the api only once 
         if(count(self::$availableLangs) == 0){
-			$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES); 
-			foreach($langClass->getInstances() as $lang){
-				self::$availableLangs[] = $lang->getLabel();
-			}
+                $langClass = new core_kernel_classes_Class(CLASS_LANGUAGES); 
+                foreach($langClass->getInstances() as $lang){
+                        self::$availableLangs[] = $lang->getLabel();
+                }
         }
 	
         if($langName) {

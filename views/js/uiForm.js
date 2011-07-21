@@ -582,10 +582,9 @@ UiForm = function(){
 			}
 			else {
 				if(UiBootstrap.tabs.size() == 0){
-					return true;
-				}
-				if(!$(getMainContainerSelector(UiBootstrap.tabs))){
-					return true;
+                                        $('div.main-container').load(myForm.attr('action'), myForm.serializeArray());
+				}else if(!$(getMainContainerSelector(UiBootstrap.tabs))){
+					return true;//go to the link
 				}
 				$(getMainContainerSelector(UiBootstrap.tabs)).load(myForm.attr('action'), myForm.serializeArray());
 			}
