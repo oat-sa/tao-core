@@ -226,24 +226,36 @@ class tao_install_Installator{
 			$installData['db_host'],
 			$installData['db_user'],
 			$installData['db_pass'],
-			$installData['db_driver']
+			$installData['db_driver'],
+			$installData['db_name']
 		);
-		
 		
 		/*
 		 *   2 - Load the database schema
 		 */
+	
 		// If the target Sgbd is mysql, force the engine to work with the standard identifier escape
 		if ($installData['db_driver'] == 'mysql'){
-			$dbCreator->execute ('SET SQL_MODE="ANSI_QUOTES"');
+			$dbCreator->execute ('SET SESSION SQL_MODE="ANSI_QUOTES"');
 		}
-		// Create the database
-		$dbCreator->load($this->options['install_path'].'db/db_create.sql', array('DATABASE_NAME' => $installData['db_name']));
 		
-		// If the target Sgbd is mysql select the database after creating it
-		if ($installData['db_driver'] == 'mysql'){
-			$dbCreator->setDatabase ($installData['db_name']);
+		// If the database already exists, drop all tables
+		if ($dbCreator->dbExists($installData['db_name'])) {
+			$dbCreator->cleanDb ($installData['db_name']);
+		} 
+		// Else create it
+		else {
+			try {
+				$dbCreator->execute ('CREATE DATABASE "'.$installData['db_name'].'"');
+			} catch (Exception $e){
+				throw new tao_install_utils_Exception('Unable to create the database, make sure that '.$installData['db_user'].' is granted to create databases. Otherwise create the database with your super user and give to  '.$installData['db_user'].' the right to use it.');
+			}
+			// If the target Sgbd is mysql select the database after creating it
+			if ($installData['db_driver'] == 'mysql'){
+				$dbCreator->setDatabase ($installData['db_name']);
+			}
 		}
+		
 		// Create tao tables
 		$dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
 		

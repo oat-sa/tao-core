@@ -24,10 +24,16 @@ class tao_install_utils_DbCreator{
 	 * @param string $driver
 	 * @throws tao_install_utils_Exception
 	 */
-	public function __construct( $host = 'localhost', $user = 'root', $pass = '', $driver = 'mysql'){
+	public function __construct( $host = 'localhost', $user = 'root', $pass = '', $driver = 'mysql', $dbName = ""){
 		try{
 			$this->adoConnection = NewADOConnection($driver);
 			$this->adoConnection->Connect($host, $user, $pass);
+			
+			//if the database exists already, connect to it
+			if ($this->dbExists($dbName)){
+				$this->adoConnection->Close();
+				$this->adoConnection->Connect($host, $user, $pass, $dbName);
+			}
 		}
 		catch(ADODB_Exception $ae){
 			$this->adoConnection = null;
@@ -35,6 +41,28 @@ class tao_install_utils_DbCreator{
 		}
 		if($driver == 'mysql')
 			$this->adoConnection->Execute('SET NAMES utf8');
+	}
+	
+	/**
+	 * Check if the database exists already
+	 * @param string $name
+	 */
+	public function dbExists ($dbName) {
+		$databases = $this->adoConnection->MetaDatabases();
+		if (in_array($dbName, $databases)){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Clean database by droping all tables
+	 * @param string $name
+	 */
+	public function cleanDb ($dbName){
+		foreach ($this->adoConnection->MetaTables() as $table){
+			$this->execute('DROP TABLE "'.$table.'";');
+		}
 	}
 	
 	/**
