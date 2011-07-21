@@ -129,15 +129,13 @@ class tao_helpers_I18n
         if(!empty($code)){
 	        $langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
 	        $valueProperty = new core_kernel_classes_Property(RDF_VALUE);
-	        
-			foreach($langClass->getInstances() as $lang){
-				
-				$lgPropertyValue = $lang->getUniquePropertyValue($valueProperty);
-				if(trim($lgPropertyValue) == trim($code)){
-					$returnValue = $lang;
-					break;
-				}
-			}
+                foreach($langClass->getInstances() as $lang){
+                        $lgPropertyValue = $lang->getUniquePropertyValue($valueProperty);
+                        if(trim($lgPropertyValue) == trim($code)){
+                                $returnValue = $lang;
+                                break;
+                        }
+                }
         }
         
         // section 127-0-1-1-3cbd0a97:12a8039803a:-8000:0000000000002491 end

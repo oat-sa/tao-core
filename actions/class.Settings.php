@@ -83,13 +83,13 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		
 		$currentUser = $this->userService->getCurrentUser();
 		
-		$uiLang   		= $GLOBALS['default_lang'];
+		$uiLang = $GLOBALS['default_lang'];
 		$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
 		if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource){
 			$uiLang = $uiLg->getLabel();
 		}
 							
-		$dataLang   		= $GLOBALS['default_lang'];
+		$dataLang = $GLOBALS['default_lang'];
 		$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
 		if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
 			$dataLang = $dataLg->getLabel();
@@ -164,49 +164,30 @@ class tao_actions_Settings extends tao_actions_CommonModule {
                         'removeForeigns'        => true				
                 );
                 
+                $defaultOptions = array(
+                        'compile' => $optionsCompile,
+                        'decompile' => $optionsDecompile
+                    );
+                
                 $userClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#User');
                 
+                
                 $returnValue = array(
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices' => array(
-                                'compile' => $optionsCompile,
-                                'decompile' => $optionsDecompile
-                            ),
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfservicesResources' => array(
-                                'compile' => $optionsCompile,
-                                'decompile' => $optionsDecompile
-                            ),
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitionResources' => array(
-                                'compile' => $optionsCompile,
-                                'decompile' => $optionsDecompile
-                            ),
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassServicesResources' => array(
-                                'compile' => $optionsCompile,
-                                'decompile' => $optionsDecompile
-                            ),
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassConnectors' => array(
-                                'compile' => $optionsCompile,
-                                'decompile' => $optionsDecompile
-                            ),
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassTokens' => array(
-                                'compile' => $optionsCompile,
-                                'decompile' => $optionsDecompile
-                            ),
+                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices' => $defaultOptions,
+                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfservicesResources' => $defaultOptions,
+                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitionResources' => $defaultOptions,
+                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassServicesResources' => $defaultOptions,
+                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassConnectors' => $defaultOptions,
+                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassTokens' => $defaultOptions,
                         'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject' => array(
                                 'compile' => array_merge($optionsCompile, array('topClass' => $userClass)),
                                 'decompile' => $optionsDecompile
                             ),
-                        'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group' => array(
-                                'compile' => $optionsCompile,
-                                'decompile' => $optionsDecompile
-                            ),
+                        'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group' => $defaultOptions,
                         'http://www.tao.lu/Ontologies/TAODelivery.rdf#History' => array(
                                 'compile' => array_merge($optionsCompile, array('createForeigns' => false)),
                                 'decompile' => $optionsDecompile
-                            ),
-                        'http://www.tao.lu/Ontologies/TAOResult.rdf#Result' => array(
-                                'compile' => array_merge($optionsCompile, array('createForeigns' => false)),
-                                'decompile' =>  array_merge($optionsDecompile, array('removeForeigns' => false))
-                            )
+                        )    
                 );
                 
                 return $returnValue;

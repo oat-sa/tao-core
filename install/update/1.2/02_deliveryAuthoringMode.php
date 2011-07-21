@@ -20,7 +20,6 @@ foreach($deliveryMainClass->getInstances(true) as $delivery){
 	}
 }
 
-// var_dump($updatedDelivery);
 echo 'done';
 
 ?>

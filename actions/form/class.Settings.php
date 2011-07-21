@@ -79,19 +79,19 @@ class tao_actions_form_Settings
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF5 begin
 		
-		$options = tao_helpers_I18n::getAvailableLangs(true);
-		
-		$uiLangElement = tao_helpers_form_FormFactory::getElement('ui_lang', 'Combobox');
-		$uiLangElement->setDescription(__('Interface language'));
-		$uiLangElement->setOptions($options);
-		
-		$this->form->addElement($uiLangElement);
-		
-		$dataLangElement = tao_helpers_form_FormFactory::getElement('data_lang', 'Combobox');
-		$dataLangElement->setDescription(__('Data language'));
-		$dataLangElement->setOptions($options);
-		
-		$this->form->addElement($dataLangElement);
+        $options = tao_helpers_I18n::getAvailableLangs(true);
+
+        $uiLangElement = tao_helpers_form_FormFactory::getElement('ui_lang', 'Combobox');
+        $uiLangElement->setDescription(__('Interface language'));
+        $uiLangElement->setOptions($options);
+
+        $this->form->addElement($uiLangElement);
+
+        $dataLangElement = tao_helpers_form_FormFactory::getElement('data_lang', 'Combobox');
+        $dataLangElement->setDescription(__('Data language'));
+        $dataLangElement->setOptions($options);
+
+        $this->form->addElement($dataLangElement);
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF5 end
     }
