@@ -14,7 +14,10 @@ var GenerisAction = {};
  * @param {String} uri
  */
 GenerisAction.select = function(uri){
-	GenerisTreeClass.selectTreeNode(uri);
+	var options = getTreeOptions(classUri);
+	if(options){
+		options.instance.selectTreeNode(uri);
+	}
 };
 
 /**
@@ -28,7 +31,7 @@ GenerisAction.subClass = function(uri, classUri, url){
 	if(options){
 		options.id = classUri;
 		options.url = url;
-		GenerisTreeClass.addClass(options);
+		options.instance.addClass(options.NODE, options.TREE_OBJ, options);
 	}
 };
 
@@ -43,7 +46,7 @@ GenerisAction.instanciate = function (uri, classUri, url){
 	if(options){
 		options.id = classUri;
 		options.url = url;
-		GenerisTreeClass.addInstance(options);
+		options.instance.addInstance(options.NODE, options.TREE_OBJ, options);
 	}
 };
 
@@ -60,7 +63,7 @@ GenerisAction.removeNode = function (uri, classUri, url){
 	}
 	if(options){
 		options.url = url;
-		GenerisTreeClass.removeNode(options);
+		options.instance.removeNode(options.NODE, options.TREE_OBJ, options);
 	}
 };
 
@@ -74,7 +77,7 @@ GenerisAction.duplicateNode = function (uri, classUri, url){
 	var options = getTreeOptions(uri);
 	if(options){
 		options.url = url;
-		GenerisTreeClass.cloneNode(options);
+		options.instance.cloneNode(options.NODE, options.TREE_OBJ, options);
 	}
 };
 
@@ -87,8 +90,7 @@ GenerisAction.duplicateNode = function (uri, classUri, url){
 GenerisAction.moveNode = function (uri, classUri, url){
 	var options = getTreeOptions(uri);
 	if(options){
-		options.url = url;
-		GenerisTreeClass.moveInstance(options);
+		options.instance.moveInstance(options.NODE, options.TREE_OBJ);
 	}
 };
 

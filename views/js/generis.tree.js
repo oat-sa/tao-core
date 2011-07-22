@@ -246,6 +246,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 				},
 				//when a node is move by drag n'drop
 				onmove: function(NODE, REF_NODE, TYPE, TREE_OBJ, RB){
+					
 					if(!instance.options.moveInstanceAction){
 						return false;
 					}
@@ -351,11 +352,9 @@ function GenerisTreeClass(selector, dataUrl, options){
 							action  : function(NODE, TREE_OBJ){
 								
 								//specialize the selected class
-								GenerisTreeClass.addClass({
+								instance.addClass(NODE, TREE_OBJ, {
 									id: $(NODE).attr('id'),
-									url: instance.options.subClassAction,
-									NODE: NODE,
-									TREE_OBJ: TREE_OBJ
+									url: instance.options.subClassAction
 								});
 							},
 		                    separator_before : true
@@ -396,11 +395,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							action	: function (NODE, TREE_OBJ) { 
 								
 								//move the node
-								GenerisTreeClass.moveInstance({
-										url: instance.options.moveInstanceAction,
-										NODE: NODE,
-										TREE_OBJ: TREE_OBJ
-									});
+								instance.moveInstance(NODE, TREE_OBJ);
 							},
 		                    separator_before : true
 						},
@@ -672,9 +667,10 @@ function getTreeOptions(uri){
 				if (aJsTree) {
 					if (aJsTree.get_node($("li[id='" + uri + "']"))) {
 						return {
-							NODE: aJsTree.get_node($("li[id='" + uri + "']")),
-							TREE_OBJ: aJsTree,
-							cssClass: aGenerisTree.options.instanceClass
+							instance: 	aGenerisTree,
+							NODE: 		aJsTree.get_node($("li[id='" + uri + "']")),
+							TREE_OBJ: 	aJsTree,
+							cssClass: 	aGenerisTree.options.instanceClass
 						};
 					}
 				}
@@ -687,11 +683,11 @@ function getTreeOptions(uri){
 
 /**
  * Sub class action
+ * @param {Node} NODE Target node
+ * @param {Tree} TREE_OBJ Target Tree object
  * @param {Object} options
  */
-GenerisTreeClass.addClass = function(options){
-	var TREE_OBJ = options.TREE_OBJ;
-	var NODE = options.NODE;
+GenerisTreeClass.prototype.addClass = function(NODE, TREE_OBJ, options){
 	$.ajax({
 		url: options.url,
 		type: "POST",
@@ -714,6 +710,8 @@ GenerisTreeClass.addClass = function(options){
 
 /**
  * add an instance
+ * @param {Node} NODE Target node
+ * @param {Tree} TREE_OBJ Target Tree object
  * @param {Object} options
  */
 GenerisTreeClass.prototype.addInstance = function(NODE, TREE_OBJ, options){
@@ -753,6 +751,8 @@ GenerisTreeClass.prototype.addInstance = function(NODE, TREE_OBJ, options){
 
 /**
  * remove a resource
+ * @param {Node} NODE Target node
+ * @param {Tree} TREE_OBJ Target Tree object
  * @param {Object} options
  */
 GenerisTreeClass.prototype.removeNode = function(NODE, TREE_OBJ, options){
@@ -794,6 +794,8 @@ GenerisTreeClass.prototype.removeNode = function(NODE, TREE_OBJ, options){
 
 /**
  * clone a resource
+ * @param {Node} NODE Target node
+ * @param {Tree} TREE_OBJ Target Tree object
  * @param {Object} options
  */
 GenerisTreeClass.prototype.cloneNode = function(NODE, TREE_OBJ, options){
@@ -857,13 +859,13 @@ GenerisTreeClass.renameNode = function(options){
 
 /**
  * Move an instance node
- * @param {Object} options
+ * @param {Node} NODE Target node
+ * @param {Tree} TREE_OBJ Target Tree object
  */
-GenerisTreeClass.moveInstance = function(options){
+GenerisTreeClass.prototype.moveInstance = function(myNODE, myTREE_OBJ){
 
 	//to prevent scope crossing
-	var myTREE_OBJ = options.TREE_OBJ;
-	var myNODE = options.NODE;
+	var instance = this;
 	
 	//create the dialog content 
 	$('body').append(
@@ -926,10 +928,14 @@ GenerisTreeClass.moveInstance = function(options){
 				
 				//call the tree onmove callback by selecting a class
 				onselect: function(NODE, TREE_OBJ){
-					var rollback = {};
-					rollback[$(myTREE_OBJ.container).attr('id')] = myTREE_OBJ.get_rollback();
-					myTREE_OBJ.settings.callback.onmove(myNODE, NODE, 'inside', myTREE_OBJ, rollback);
-					myTREE_OBJ.refresh();
+					var myREF_NODE = $(instance.selector).find('li[id="'+$(NODE).attr('id')+'"]');
+					// copy / past seems to reproduce the tree behavior -> more efficient
+					myTREE_OBJ.cut (myNODE);
+					myTREE_OBJ.paste (myREF_NODE, "inside");
+					//var rollback = {};
+					//rollback[$(myTREE_OBJ.container).attr('id')] = myTREE_OBJ.get_rollback();
+					//myTREE_OBJ.settings.callback.onmove(myNODE, NODE, 'inside', myTREE_OBJ, rollback);
+					//myTREE_OBJ.refresh();
 					$("#tmp-moving").dialog('close');
 				}
 			}

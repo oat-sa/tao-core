@@ -368,6 +368,13 @@ UiForm = function(){
 									PNODE = TREE_OBJ.parent(NODE);
 									options.classUri = $(PNODE).attr('id');
 								}
+								
+								/**
+								 * Model changed, the function are not anymore static.
+								 * please call renameNode on the instance of Generis Class
+								 * Note : Use a GenerisTree function on a JQuery Tree ... 
+								 */
+								
 								GenerisTreeClass.renameNode(options);
 							},
 							ondestroy: function(TREE_OBJ){
