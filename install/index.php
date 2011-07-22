@@ -33,14 +33,9 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	$formValues = $myForm->getValues();
 	
 	try{	//if there is any issue during the install, a tao_install_utils_Exception is thrown
-		
-		
 		$installator->install($formValues);
 		$installator->configWaterPhoenix($formValues);
 		$moduleUrl = $myForm->getValue('module_url');
-		$backendLink = tao_install_utils_Links::buildBackendLink($moduleUrl);
-		$frontendLink = tao_install_utils_Links::buildFrontendLink($moduleUrl);
-		
 		$installed = true;
 	}
 	catch(tao_install_utils_Exception $ie){
@@ -74,13 +69,14 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	<? if($installed):?>
 	<div id="success">
 	  <h1>Installation successfuly completed!</h1>
-	  <a href="<?= $backendLink ?>" title="TAO backend"><img src="../views/img/tao_logo_big.png" title="Access to the TAO platform" alt="Access to the TAO platform"/></a>
+	  <a href="<?= _url('index', 'Main', 'tao') ?>" title="TAO backend"><img src="../views/img/tao_logo_big.png" title="Access to the TAO platform" alt="Access to the TAO platform"/></a>
 	  <p>
  	  Click on the logo above to access the TAO platform. Use the login and password that corresponds to the previously
 	  created Super User.</p>
 	  <ul>
-	    <li>Link to the back office (test creators): <a href="<?= $backendLink ?>" title="TAO back office"><?= $backendLink ?></a></li>
-		<li>Link to the test front office (test takers): <a href="<?= $frontendLink ?>" title="TAO front office"><?= $frontendLink ?></a></li>
+                  <li><?= __('Back Office (test creator)') ?>: <a href="<?= _url('index', 'Main', 'tao') ?>" title="<?= __('TAO back office') ?>"><?= __('TAO Back Office') ?></a></li>
+                  <li><?= __('Test Front Office (test takers)') ?>: <a href="<?= _url('index', 'DeliveryServerAuthentification', 'taoDelivery') ?>" title="<?= __('TAO front office') ?>"><?= __('TAO Delivery Server') ?></a></li>
+                  <li><?= __('Process Front Office') ?>: <a href="<?= _url('index', 'Authentication', 'wfEngine') ?>" title="<?= __('TAO front office') ?>" title="<?= __('TAO workflow engine') ?>"><?= __('TAO Workflow Engine') ?></a></li>
 	  </ul>
 	</div>
 	<?else: ?>

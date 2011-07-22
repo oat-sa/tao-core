@@ -1,5 +1,5 @@
-<script type="text/javascript" src="<?=get_data('ROOT_URL')?>/tao/views/js/Switcher.js"></script>
-<link rel="stylesheet" href="<?=get_data('ROOT_URL')?>/tao/views/css/optimize.css" type="text/css" />
+<script type="text/javascript" src="<?=ROOT_URL?>/tao/views/js/Switcher.js"></script>
+<link rel="stylesheet" href="<?=ROOT_URL?>/tao/views/css/optimize.css" type="text/css" />
 
 <div id="compilation-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=__("TAO optimizer")?>

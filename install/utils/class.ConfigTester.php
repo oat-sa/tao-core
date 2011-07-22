@@ -154,14 +154,16 @@ class tao_install_utils_ConfigTester{
 		
 		switch(strtolower($moduleName)){
 			case 'rewrite' : 
-				$infos = tao_install_utils_System::getInfos();
+				
 				$this->status  = self::STATUS_UNKNOW;
 				$this->message = '';
 				//check if the url rewriting is enabled by sending a cUrl request
 				if(function_exists('curl_init')){
-					($infos['https']) ? $url = 'https://': $url = 'http://';
+                                        //building test url:
+					$infos = tao_install_utils_System::getInfos();
+                                        ($infos['https']) ? $url = 'https://': $url = 'http://';
 					$url .= tao_helpers_File::concat(array($infos['host'], $infos['folder'], '/test'));
-					
+                                        
 					$curlHandler = curl_init();
 					curl_setopt($curlHandler, CURLOPT_URL, $url);
 					curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, 1);
@@ -187,7 +189,6 @@ class tao_install_utils_ConfigTester{
 			default :
 				$this->message 	= "Unable to determine the status of apache module {$moduleName}.";
 				$this->status	= self::STATUS_UNKNOW;
-				break;
 		}
 	}
 	

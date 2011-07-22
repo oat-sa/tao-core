@@ -57,7 +57,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleHostElt->setDescription('Host *');
 		$moduleHostElt->setHelp("The host will be used in the module namespace http://HOST/module name.rdf#)." .  
 													 "It must not be necessarily the host name of your web server.");
-		$moduleHostElt->setValue($_SERVER['HTTP_HOST']);
+                $moduleHostElt->setValue($_SERVER['HTTP_HOST']);
 		$moduleHostElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 			tao_helpers_form_FormFactory::getValidator('Url'),
@@ -82,10 +82,14 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$this->form->addElement($moduleNSElt);
 		
 		//Module URL
+                $url = str_replace('/tao/install/index.php', '', $_SERVER['SCRIPT_URI']);//detect installing in subdirectory of the document root
+                if(!strpos($url, $_SERVER['HTTP_HOST'])){
+                        $url = 'http://'.$_SERVER['HTTP_HOST'];
+                }
 		$moduleUrlElt =  tao_helpers_form_FormFactory::getElement('module_url', 'Textbox');
 		$moduleUrlElt->setDescription('URL *');
 		$moduleUrlElt->setHelp("The URL to access the module from a web browser.");
-		$moduleUrlElt->setValue('http://'.$_SERVER['HTTP_HOST']);
+		$moduleUrlElt->setValue($url);
 		$moduleUrlElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 			tao_helpers_form_FormFactory::getValidator('Url'),
@@ -101,7 +105,8 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 			'EN'	=> 'English',
 			'FR'	=> 'French',
 			'DE'	=> 'German',
-			'LU'	=> 'Luxemburgish'
+			'LU'	=> 'Luxemburgish',
+                        'SE'	=> 'Swedish'
 		));
 		$moduleLangElt->setValue('EN');
 		$this->form->addElement($moduleLangElt);
