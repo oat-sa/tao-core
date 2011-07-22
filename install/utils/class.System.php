@@ -7,9 +7,11 @@ class tao_install_utils_System{
 	 */
 	public static function getInfos(){
                 
+                
 		//subfolder shall be detected as /SUBFLODERS/tao/install/index.php so we remove the "/extension/module/action" part:
-                $subfolder = preg_replace('/^\//', '', $_SERVER['SCRIPT_URL']);
+                $subfolder = $_SERVER['REQUEST_URI'];
                 $subfolder = preg_replace('/\/(([^\/]*)\/){2}([^\/]*)$/', '', $subfolder);
+                $subfolder = preg_replace('/^\//', '', $subfolder);
                 
                 return array(
 			'folder'	=> $subfolder,
