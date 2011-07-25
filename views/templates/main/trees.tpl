@@ -29,7 +29,7 @@
 			duplicateAction: 		"<?=$tree['duplicateUrl']?>",
 			instanceClass:			"node-<?=get_data('instanceName')?>",
 			instanceName:			"<?=get_data('instanceName')?>",
-			paginate:				5
+			paginate:				10
 			<?if(get_data('openUri')):?>
 			,selectNode:			"<?=get_data('openUri')?>"
 			<?endif?>
