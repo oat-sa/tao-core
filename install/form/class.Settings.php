@@ -41,7 +41,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		//Module Name
 		$moduleNameElt =  tao_helpers_form_FormFactory::getElement('module_name', 'Textbox');
 		$moduleNameElt->setDescription('Name *');
-		$moduleNameElt->setHelp("The name of the module will be used to identifiate this instance of TAO from the others. " . 
+		$moduleNameElt->setHelp("The name of the module will be used to identify this instance of TAO from the others. " . 
 								"The module name will be used as the database name and is the suffix of " .
 								"the module namespace (http://host/MODULE NAME.rdf#).");
 		$moduleNameElt->setValue('mytao');
