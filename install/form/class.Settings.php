@@ -82,10 +82,9 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$this->form->addElement($moduleNSElt);
 		
 		//Module URL
-                
-                $url = 'http://'.$_SERVER['HTTP_HOST'];
-                $subfolder = str_replace('/tao/install/index.php', '', $_SERVER['REQUEST_URI']);//detect installing in subdirectory of the document root
-                $url .= $subfolder;
+                $systemInfo = tao_install_utils_System::getInfos();
+                $url = 'http://'.$systemInfo['host'];
+                if(isset($systemInfo['folder']) && !empty($systemInfo['folder'])) $url .= '/'.$systemInfo['folder'];
                 
 		$moduleUrlElt =  tao_helpers_form_FormFactory::getElement('module_url', 'Textbox');
 		$moduleUrlElt->setDescription('URL *');
