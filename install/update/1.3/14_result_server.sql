@@ -1,6 +1,6 @@
-DELETE FROM `statements` WHERE (`subject` = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl' OR `predicate` = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl' OR `object` = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl') and `modelID` = 14;
+DELETE FROM "statements" WHERE ("subject" = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl' OR "predicate" = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl' OR "object" = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#ResultServerUrl') and "modelID" = 14;
 
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#saveResultUrl', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#saveResultUrl', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#saveResultUrl', 'http://www.w3.org/2000/01/rdf-schema#comment', 'The url where we push the results of an item', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),

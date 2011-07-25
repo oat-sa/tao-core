@@ -1,7 +1,4 @@
-<?php 
-core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
-
-
+<?php
 $controlProperty = new core_kernel_classes_Property('http://www.tao.lu/middleware/taoqual.rdf#ActivityControl');
 
 $activityClazz = new core_kernel_classes_Class('http://www.tao.lu/middleware/taoqual.rdf#i118588757437650');

@@ -1,2 +1,2 @@
-UPDATE statements SET l_language = "" WHERE predicate = "http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivitiesInitial";
-DELETE FROM statements WHERE subject="http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivitiesInitial" AND predicate="http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent" LIMIT 1;
+UPDATE statements SET l_language = '' WHERE predicate = 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivitiesInitial';
+DELETE FROM statements WHERE subject='http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivitiesInitial' AND predicate='http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent' LIMIT 1;

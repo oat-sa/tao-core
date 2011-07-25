@@ -1,8 +1,8 @@
-UPDATE statements SET object = "http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables" WHERE 
-    subject="http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersProcessVariable" 
-    AND predicate = "http://www.w3.org/2000/01/rdf-schema#range";
+UPDATE statements SET object = 'http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables' WHERE 
+    subject='http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersProcessVariable' 
+    AND predicate = 'http://www.w3.org/2000/01/rdf-schema#range';
 
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 
 (15, 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersConstantValue', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '',  'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParameterDataType', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '',  'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
@@ -20,6 +20,6 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (15, 'http://www.tao.lu/middleware/wfEngine.rdf#PropertySupportServicesUrl', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '',  'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyWebServicesWsdlUrl', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '',  'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (13, 'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_ITEM_VARIABLE_ID', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '',  'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (13, 'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_ITEM_VARIABLE_VALUE', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', '',  'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');

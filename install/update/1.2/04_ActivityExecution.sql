@@ -1,4 +1,4 @@
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#i127488483924334', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', '', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#i127488483924334', 'http://www.w3.org/2000/01/rdf-schema#seeAlso', '', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#i127488483924334', 'http://www.w3.org/2000/01/rdf-schema#label', 'isFinished', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
@@ -116,7 +116,7 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#i127488521314416', 'http://www.w3.org/2000/01/rdf-schema#seeAlso', '', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#i127488521314416', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', '', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#i127538492619476', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Property', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#i127538492619476', 'http://www.w3.org/2000/01/rdf-schema#domain', 'http://www.tao.lu/middleware/taoqual.rdf#i118588753722590', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#i127538492619476', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
@@ -148,16 +148,16 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#i127538512347998', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', ' ', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
 
-UPDATE `statements` SET `object` =  'Process Execution Resource' WHERE `subject` = 'http://www.tao.lu/middleware/taoqual.rdf#i119969454940384' and `predicate` =  'http://www.w3.org/2000/01/rdf-schema#label' ;
+UPDATE "statements" SET "object" =  'Process Execution Resource' WHERE "subject" = 'http://www.tao.lu/middleware/taoqual.rdf#i119969454940384' and "predicate" =  'http://www.w3.org/2000/01/rdf-schema#label' ;
 
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#Token', 'http://www.w3.org/2000/01/rdf-schema#comment', '', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#Token', 'http://www.w3.org/2000/01/rdf-schema#label', 'Activity Token', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#Token', 'http://www.w3.org/2000/01/rdf-schema#seeAlso', '', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#Token', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', ' ', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#Token', 'http://www.w3.org/2000/01/rdf-schema#subClassOf', 'http://www.tao.lu/middleware/taoqual.rdf#i119969454940384', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (15, 'http://localhost/middleware/taoqual.rdf#i127565965852576', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://localhost/middleware/taoqual.rdf#i127565965852576', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://localhost/middleware/taoqual.rdf#i127565965852576', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value', '', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),

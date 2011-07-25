@@ -73,6 +73,13 @@ CREATE TABLE "class_to_table" (
 );
 CREATE INDEX "idx_class_to_table_uri" ON "class_to_table" ("uri");
 
+DROP TABLE IF EXISTS "class_additional_properties";
+CREATE TABLE "class_additional_properties" (
+  	"class_id" int NOT NULL,
+  	"property_uri" varchar(255) NOT NULL,
+  	PRIMARY KEY ("class_id","property_uri")
+);
+
 DROP TABLE IF EXISTS "resource_to_table";
 CREATE TABLE "resource_to_table" (
 	"id" serial,

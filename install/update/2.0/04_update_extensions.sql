@@ -1,5 +1,5 @@
-TRUNCATE TABLE `extensions`;
-INSERT INTO `extensions` (`id`, `name`, `version`, `loaded`, `loadAtStartUp`, `ghost`) VALUES 
+TRUNCATE TABLE "extensions";
+INSERT INTO "extensions" ("id", "name", "version", "loaded", "loadAtStartUp", "ghost") VALUES 
 ('generis','generis','2.0',1,1,0),
 ('tao','tao','2.0',1,1,0),
 ('taoGroups','Tao Groups','2.0',1,1,0),

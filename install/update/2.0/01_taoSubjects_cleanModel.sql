@@ -1,1 +1,1 @@
-DELETE FROM statements WHERE subject = "http://www.tao.lu/Ontologies/TAOSubject.rdf";
+DELETE FROM statements WHERE subject = 'http://www.tao.lu/Ontologies/TAOSubject.rdf';

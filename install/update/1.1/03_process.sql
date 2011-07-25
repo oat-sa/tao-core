@@ -1,4 +1,4 @@
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `id`, `author`, `stread`, `stedit`, `stdelete`, `epoch`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "id", "author", "stread", "stedit", "stdelete", "epoch") VALUES
 (3, 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass', '', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (3, 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar', 'http://www.w3.org/2000/01/rdf-schema#label', 'Calendar', 'en', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),
 (3, 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar', 'http://www.w3.org/2000/01/rdf-schema#comment', 'Dynamic Calendar for easy date selecting', 'en', null, 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]', null),

@@ -1,4 +1,4 @@
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (9, 'http://www.tao.lu/Ontologies/TAOTest.rdf#AuthoringMode', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Property', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (9, 'http://www.tao.lu/Ontologies/TAOTest.rdf#AuthoringMode', 'http://www.w3.org/2000/01/rdf-schema#label', 'Authoring Mode', 'EN', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (9, 'http://www.tao.lu/Ontologies/TAOTest.rdf#AuthoringMode', 'http://www.w3.org/2000/01/rdf-schema#comment', 'AuthoringMode', 'EN', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
@@ -25,5 +25,5 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryProcess', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.tao.lu/middleware/taoqual.rdf#i118588753722590', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (14, 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryProcess', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]');
 
-UPDATE `statements` SET `object` = 'http://www.tao.lu/middleware/taoqual.rdf#Role' WHERE `subject` = 'http://www.tao.lu/middleware/taoqual.rdf#i127488515463210' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#range' and `modelID` = 15 LIMIT 1;
-UPDATE `statements` SET `object` = 'http://www.tao.lu/middleware/taoqual.rdf#Role' WHERE `subject` = 'http://www.tao.lu/middleware/taoqual.rdf#i127538512347998' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#range' and `modelID` = 15 LIMIT 1;
+UPDATE "statements" SET "object" = 'http://www.tao.lu/middleware/taoqual.rdf#Role' WHERE "subject" = 'http://www.tao.lu/middleware/taoqual.rdf#i127488515463210' and "predicate" = 'http://www.w3.org/2000/01/rdf-schema#range' and "modelID" = 15 LIMIT 1;
+UPDATE "statements" SET "object" = 'http://www.tao.lu/middleware/taoqual.rdf#Role' WHERE "subject" = 'http://www.tao.lu/middleware/taoqual.rdf#i127538512347998' and "predicate" = 'http://www.w3.org/2000/01/rdf-schema#range' and "modelID" = 15 LIMIT 1;

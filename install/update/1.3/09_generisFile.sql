@@ -1,10 +1,10 @@
 
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (7, 'http://www.tao.lu/Ontologies/generis.rdf#File', 'http://www.w3.org/2000/01/rdf-schema#subClassOf', 'http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource', '', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (7, 'http://www.tao.lu/Ontologies/generis.rdf#File', 'http://www.w3.org/2000/01/rdf-schema#label', 'generis_File', 'EN', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]'),
 (7, 'http://www.tao.lu/Ontologies/generis.rdf#File', 'http://www.w3.org/2000/01/rdf-schema#comment', 'generis_File', 'EN', 'generis', 'yyy[]', 'yy-[]', 'y--[Administrators]');
 
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (7, 'http://www.tao.lu/Ontologies/generis.rdf#FilePath', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', ' ', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (7, 'http://www.tao.lu/Ontologies/generis.rdf#FilePath', 'http://www.w3.org/2000/01/rdf-schema#seeAlso', '', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (7, 'http://www.tao.lu/Ontologies/generis.rdf#FilePath', 'http://www.w3.org/2000/01/rdf-schema#label', 'FilePath', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
@@ -14,7 +14,7 @@ INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_langua
 (7, 'http://www.tao.lu/Ontologies/generis.rdf#FilePath', 'http://www.w3.org/2000/01/rdf-schema#domain', 'http://www.tao.lu/Ontologies/generis.rdf#File', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (7, 'http://www.tao.lu/Ontologies/generis.rdf#FilePath', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Property', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]');
 
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (7, 'http://www.tao.lu/Ontologies/generis.rdf#FileName', 'http://www.w3.org/2000/01/rdf-schema#isDefinedBy', ' ', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (7, 'http://www.tao.lu/Ontologies/generis.rdf#FileName', 'http://www.w3.org/2000/01/rdf-schema#seeAlso', '', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (7, 'http://www.tao.lu/Ontologies/generis.rdf#FileName', 'http://www.w3.org/2000/01/rdf-schema#label', 'FileName', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),

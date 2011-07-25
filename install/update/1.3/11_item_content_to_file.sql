@@ -1,6 +1,6 @@
-UPDATE `statements` SET `object` = 'http://www.tao.lu/Ontologies/generis.rdf#File' WHERE `subject` = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent' and `predicate` = 'http://www.w3.org/2000/01/rdf-schema#range' and `modelID` = 10 LIMIT 1;
+UPDATE "statements" SET "object" = 'http://www.tao.lu/Ontologies/generis.rdf#File' WHERE "subject" = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent' and "predicate" = 'http://www.w3.org/2000/01/rdf-schema#range' and "modelID" = 10 LIMIT 1;
 
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#DataFileName', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.w3.org/2000/01/rdf-schema#Literal', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#DataFileName', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#DataFileName', 'http://www.w3.org/2000/01/rdf-schema#comment', 'The name of the file were are saved the data of items of this model', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),

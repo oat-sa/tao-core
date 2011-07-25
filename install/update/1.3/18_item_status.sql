@@ -1,4 +1,4 @@
-INSERT INTO `statements` (`modelID`, `subject`, `predicate`, `object`, `l_language`, `author`, `stread`, `stedit`, `stdelete`) VALUES
+INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_language", "author", "stread", "stedit", "stdelete") VALUES
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#ModelStatus', 'http://www.w3.org/2000/01/rdf-schema#comment', '', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#ModelStatus', 'http://www.w3.org/2000/01/rdf-schema#label', 'Model Status', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (10, 'http://www.tao.lu/Ontologies/TAOItem.rdf#ModelStatus', 'http://www.w3.org/2000/01/rdf-schema#subClassOf', 'http://www.tao.lu/Ontologies/generis.rd#generis_Ressource', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
