@@ -69,13 +69,14 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 			callback : {
 				//before check
 				beforecheck:function(NODE, TREE_OBJ){
+					var nodeId = $(NODE).attr('id');
 					if(NODE.hasClass('node-class')){
-						if (instance.metaClasses['displayed']!= instance.metaClasses['length']){
+						if (instance.getMeta (nodeId, 'displayed')!=instance.getMeta (nodeId, 'count')){
 							instance.paginateInstances (NODE, TREE_OBJ, {limit:0, checkedNodes:"*"});
 							return false;
 						}
 					} else {
-						instance.checkedNodes.push($(NODE).attr('id'));
+						instance.checkedNodes.push(nodeId);
 					}
 					return true;
 				},
@@ -96,18 +97,16 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				//Before receive data from server, return the POST parameters
 				beforedata:function(NODE, TREE_OBJ) {
 					var returnValue = instance.defaultServerParameters;
-					// If a NODE is given, send its identifier to the server
+					//If a NODE is given, send its identifier to the server
 					if(NODE){
 						returnValue['classUri'] = $(NODE).attr('id');
 					}
-					//Get the selected nodes, and store them
-					//instance.checkedNodes = instance.getChecked();
-					//Pass them to the server
-					returnValue['selected'] = instance.checkedNodes;
-					// Augment with the serverParameters
+					//Augment with the serverParameters
 					for (var key in instance.serverParameters){
 						returnValue[key] = instance.serverParameters[key];
 					}
+					//Augment with the selected nodes
+					returnValue['selected'] = instance.checkedNodes;
 					
 					return returnValue;
 				},
@@ -125,58 +124,22 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					if($(NODE).hasClass('paginate-more')) {
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ);
 					}
-					else if($(NODE).hasClass('paginate-all')) {
-						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ, {limit:0});
+					if($(NODE).hasClass('paginate-all')) {
+						var limit = instance.getMeta (parentNodeId, 'count') - instance.getMeta (parentNodeId, 'displayed');
+						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ, {'limit':limit});
 					}
 					return false;
 				},
 				//
 				ondata: function(DATA, TREE_OBJ){
-					// current node
+					//current node
 					var currentNodeId = null;
-					
-					//Create meta from class node
-					function createMeta (DATA) {
-						instance.metaClasses[DATA.attributes.id] = {
-							displayed : 0
-							, length : DATA.count
-						};
-					}
-					//Extract meta from class' children
-					function extractMetaFromChildren (id, children){
-						if (children) {
-							for (var i=0; i<children.length; i++) {
-								if (children[i].type == 'class'){
-									createMeta (children[i]);
-								} else {
-									instance.metaClasses[id].displayed ++;
-								}
-							}
-						}
-					}
-					
-					//Extract meta data from server return
-					//If data is an array -> The user open a branch (reverse engeeniring, maybe not the reality, take care)
-					if (DATA instanceof Array) {
-						currentNodeId = instance.lastOpened.id;
-						extractMetaFromChildren (currentNodeId, DATA);
-					} 
-					else {
-						currentNodeId = DATA.attributes.id;
-						createMeta (DATA);
-						extractMetaFromChildren (DATA.attributes.id, DATA.children);
-					}
-					
+					//automatically open the children of the received node
 					if(DATA.children){
 						DATA.state = 'open';
 					}
-					
-					//Add Pagination actions if required
-					if (instance.metaClasses[currentNodeId].displayed < instance.metaClasses[currentNodeId].length){
-						var obj = DATA instanceof Array ? DATA : DATA.children;
-						obj.push(instance.getPaginateActionNodes());
-					}
-					
+					//extract meta data from children
+					instance.extractMeta (DATA);
 					return DATA;
 				}
 			},
@@ -199,6 +162,71 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 	}
 	catch(exp){
 		console.log(exp);
+	}
+}
+
+/**
+ * Extract meta data from received data
+ */
+GenerisTreeFormClass.prototype.extractMeta = function(DATA) {
+	var nodes = new Array ();
+	var nodeId = null;
+	var instance = this;
+	
+	/**
+	 * Create meta from class node
+	 * @private
+	 */
+	function createMeta (meta) {
+		instance.metaClasses[meta.id] = {
+			displayed :  meta.displayed ? meta.displayed :0			// Total of elements displayed
+			, count :     meta.count ? meta.count :0				// Total of elements in the class
+			, position :  meta.position ? meta.position :0			// Position of the last element displayed
+		};
+	}
+	
+	//An object is received
+	if ( !(DATA instanceof Array) ){
+		nodeId = DATA.attributes.id;
+		if (typeof DATA.children != 'undefined'){
+			nodes = DATA.children;
+		}
+		createMeta ({id:DATA.attributes.id, count:DATA.count});
+	}
+	//An array of nodes is received
+	else {
+		// Get the last opened node
+		if (this.lastOpened){
+			nodeId = this.lastOpened.id;
+		} else {
+			nodeId = "DEFAULT_ROOT";
+			createMeta ({id:nodeId, count:0});
+		}
+		nodes = DATA;
+	}
+	
+	//Extract meta from children
+	if (nodes) {
+		//Number of classes found
+		var countClass =0;
+		for (var i=0; i<nodes.length; i++) {
+			// if the children is a class, create meta for this class
+			if (nodes[i].type == 'class'){
+				this.extractMeta (nodes[i]);
+				countClass++;
+			}
+		}
+		var countInstances = nodes.length - countClass;
+		this.setMeta (nodeId, 'position', countInstances); // Position of the last element displayed
+		this.setMeta (nodeId, 'displayed',countInstances); // Total of elements displayed
+		
+		if (!(DATA instanceof Array) && DATA.state && DATA.state != 'closed'){
+			if (this.getMeta(nodeId, 'displayed') < this.getMeta(nodeId, 'count')){
+				nodes.push(instance.getPaginateActionNodes());
+			}
+		} else if ((DATA instanceof Array) && this.getMeta(nodeId, 'displayed') < this.getMeta(nodeId, 'count')){
+			nodes.push(instance.getPaginateActionNodes());
+		}
 	}
 }
 
@@ -226,6 +254,74 @@ GenerisTreeFormClass.prototype.getTree = function(){
 }
 
 /**
+ * Get node's meta data
+ */
+GenerisTreeFormClass.prototype.getMeta = function (classId, metaName, value) {
+	return this.metaClasses[classId][metaName];
+}
+
+/**
+ * Set node's meta data
+ */
+GenerisTreeFormClass.prototype.setMeta = function (classId, metaName, value) {
+	this.metaClasses[classId][metaName] = value;
+}
+
+/**
+ * Get paginate nodes
+ * @return {array}
+ */
+GenerisTreeFormClass.prototype.getPaginateActionNodes = function () {
+	returnValue = [{	
+		'data' : '/ &nbsp;&nbsp;&nbsp;all'
+			, 'attributes' : { 'class':'paginate paginate-all' }
+		},{	
+			'data' : this.paginate+' more'
+			, 'attributes' : { 'class':'paginate paginate-more' }
+		}];
+	return returnValue;
+}
+
+/**
+ * Show paginate options
+ * @param NODE
+ * @param TREE_OBJ
+ * @private
+ */
+GenerisTreeFormClass.prototype.showPaginate = function (NODE, TREE_OBJ){
+	var DATA = this.getPaginateActionNodes();
+	for (var i=0; i<DATA.length; i++){
+		TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
+	}
+}
+
+/**
+ * Hide paginate options
+ * @param NODE
+ * @param TREE_OBJ
+ * @private
+ */
+GenerisTreeFormClass.prototype.hidePaginate  = function (NODE, TREE_OBJ){
+	$(NODE).find('.paginate').each(function(){
+		$(this).remove();
+	});
+}
+
+/**
+ * Refresh pagination, hide and show if required
+ * @param NODE
+ * @param TREE_OBJ
+ * @private
+ */
+GenerisTreeFormClass.prototype.refreshPaginate  = function (NODE, TREE_OBJ){
+	var nodeId = $(NODE)[0].id;
+	this.hidePaginate (NODE, TREE_OBJ);
+	if (this.getMeta(nodeId, "displayed") < this.getMeta(nodeId, "count")){
+		this.showPaginate (NODE, TREE_OBJ);
+	}
+}
+
+/**
  * Get paginate nodes
  * @return {array}
  */
@@ -245,42 +341,18 @@ GenerisTreeFormClass.prototype.getPaginateActionNodes = function () {
  */
 GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOptions, callback){
 	var instance = this;
-	
-	/**
-	 * Show paginate options
-	 * @param NODE
-	 * @param TREE_OBJ
-	 * @private
-	 */
-	function showPaginate (NODE, TREE_OBJ){
-		var DATA = instance.getPaginateActionNodes();
-		for (var i=0; i<DATA.length; i++){
-			TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
-		}
-	}
-	/**
-	 * Hide paginate options
-	 * @param NODE
-	 * @param TREE_OBJ
-	 * @private
-	 */
-	function hidePaginate (NODE, TREE_OBJ){
-		$(NODE).find('.paginate').each(function(){
-			$(this).remove();
-		});
-	}
-
 	var nodeId = NODE[0].id;
+	var instancesLeft = instance.getMeta(nodeId, "count") - instance.getMeta(nodeId, "displayed");
 	var options = {
 		"classUri":		nodeId,
 		"subclasses": 	0,
-		"offset": 		this.metaClasses[nodeId].displayed,
-		"limit":		this.options.paginate
+		"offset": 		instance.getMeta(nodeId, "position"),
+		"limit":		instancesLeft < this.paginate ? instancesLeft : this.paginate
 	};
 	options = $.extend(options, pOptions);
 	$.post(this.dataUrl, options, function(DATA){
 		//Hide paginate options
-		hidePaginate(NODE, TREE_OBJ);
+		instance.hidePaginate(NODE, TREE_OBJ);
 		//Display incoming nodes
 		for (var i=0; i<DATA.length; i++){
 			DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
@@ -291,17 +363,21 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
 			}
 		}
 		// Update meta data
-		instance.metaClasses[nodeId].displayed += DATA.length;
-		//If it rests some instances, show paginate options
-		if (instance.metaClasses[nodeId].displayed < instance.metaClasses[nodeId].length){
-			showPaginate(NODE, TREE_OBJ);
-		}
+		instance.setMeta(nodeId, "displayed", instance.getMeta(nodeId, "displayed")+DATA.length);
+		instance.setMeta(nodeId, "position", instance.getMeta(nodeId, "position")+DATA.length);
+		//refresh pagination options
+		instance.refreshPaginate(NODE, TREE_OBJ);
+		
 		//If options checked nodes
 		if (options.checkedNodes){
-			// If options check all
+			// If options check all, check not checked nodes
 			if (options.checkedNodes == "*"){
-				$.tree.plugins.checkbox.get_unchecked(instance.getTree()).each(function(){
-					instance.checkedNodes.push(this.id); // Add unchecked nodes to the nodes to check
+				$(NODE).find('ul:first').children().each(function(){
+					if ($(this).hasClass('node-instance')) {
+						$(this).find("a:not(.checked, .undetermined)").each (function () {
+							instance.checkedNodes.push($(this).parent().attr('id'));
+						});
+					}					
 				});
 			} else {
 				instance.checkedNodes = options.checkedNodes;

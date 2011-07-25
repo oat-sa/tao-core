@@ -150,8 +150,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 								}
 							}
 							var countInstances = children.length - countClass;
-							instance.metaClasses[id].position = countInstances; // Position of the last element displayed
-							instance.metaClasses[id].displayed = countInstances; // Total of elements displayed
+							instance.setMeta (id, 'position', countInstances); // Position of the last element displayed
+							instance.setMeta (id, 'displayed',countInstances); // Total of elements displayed
 						}
 					}
 					
@@ -239,7 +239,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ);
 					}
 					if($(NODE).hasClass('paginate-all')) {
-						var limit = instance.metaClasses[parentNodeId].count - instance.metaClasses[parentNodeId].displayed;
+						var limit = instance.getMeta (parentNodeId, 'count') - instance.getMeta (parentNodeId, 'displayed');
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ, {'limit':limit});
 					}
 					return false;
@@ -570,6 +570,7 @@ GenerisTreeClass.prototype.showPaginate = function (NODE, TREE_OBJ){
 		TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
 	}
 }
+
 /**
  * Hide paginate options
  * @param NODE
@@ -581,6 +582,7 @@ GenerisTreeClass.prototype.hidePaginate  = function (NODE, TREE_OBJ){
 		$(this).remove();
 	});
 }
+
 /**
  * Refresh pagination, hide and show if required
  * @param NODE
