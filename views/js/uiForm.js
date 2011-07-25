@@ -337,7 +337,7 @@ UiForm = function(){
 					removeListEltUrl= url + 'removeListElement';
 					
 					//create tree to manage lists
-					$("#"+treeId).tree({
+					var generisTreeInstance = $("#"+treeId).tree({
 						data: {
 							type: "json",
 							async : true,
@@ -372,7 +372,7 @@ UiForm = function(){
 								/**
 								 * Model changed, the function are not anymore static.
 								 * please call renameNode on the instance of Generis Class
-								 * Note : Use a GenerisTree function on a JQuery Tree ... 
+								 * Note : Use a GenerisTree function on a JQuery Tree ... strange
 								 */
 								
 								GenerisTreeClass.renameNode(options);
@@ -409,21 +409,45 @@ UiForm = function(){
 										},
 										action  : function(NODE, TREE_OBJ){
 											if ($(NODE).hasClass('node-class')) {
-												//create item
-												GenerisTreeClass.addInstance({
-													url: createUrl,
-													id: $(NODE).attr('id'),
-													NODE: NODE,
-													TREE_OBJ: TREE_OBJ
+												
+												var cssClass = 'node-instance';
+												$.ajax({
+													url: 	createUrl,
+													type: 	"POST",
+													data: 	{classUri: $(NODE).attr('id'), type: 'instance'},
+													dataType: 'json',
+													success: function(response){
+														if (response.uri) {
+															TREE_OBJ.select_branch(TREE_OBJ.create({
+																data: response.label,
+																attributes: {
+																	id: response.uri,
+																	'class': cssClass
+																}
+															}, TREE_OBJ.get_node(NODE[0])));
+														}
+													}
 												});
 											}
 											if ($(NODE).hasClass('node-root')) {
 												//create list
-												GenerisTreeClass.addClass({
-													id: 'root',
+												$.ajax({
 													url: createUrl,
-													NODE: NODE,
-													TREE_OBJ: TREE_OBJ
+													type: "POST",
+													data: {classUri: 'root', type: 'class'},
+													dataType: 'json',
+													success: function(response){
+														if(response.uri){
+															TREE_OBJ.select_branch(
+																TREE_OBJ.create({
+																	data: response.label,
+																	attributes: {
+																		id: response.uri,
+																		'class': 'node-class'
+																	}
+																}, TREE_OBJ.get_node(NODE[0])));
+														}
+													}
 												});
 											}
 											return false;
