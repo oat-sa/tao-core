@@ -764,8 +764,15 @@ abstract class tao_models_classes_GenerisService
 			));
 			
 			foreach($clazz->getInstances(false, $getInstancesOptions) as $instance){
+                                
+                                $label = $instance->getLabel();
+//                                
+                                if(empty($label)){
+                                        $label = $instance->uriResource;
+                                }
+                                
 				$instanceData = array(
-						'data' 	=> tao_helpers_Display::textCutter($instance->getLabel(), 16),
+						'data' 	=> tao_helpers_Display::textCutter($label, 16),
 						'type'	=> 'instance',
 						'attributes' => array(
 							'id' => tao_helpers_Uri::encode($instance->uriResource),
@@ -773,7 +780,7 @@ abstract class tao_models_classes_GenerisService
 						)
 					);
 				if(strlen($labelFilter) > 0){
-					if(preg_match("/^".str_replace('*', '(.*)', $labelFilter."$/mi"), trim($instance->getLabel()))){
+					if(preg_match("/^".str_replace('*', '(.*)', $labelFilter."$/mi"), trim($label))){
 						$instancesData[] = $instanceData;
 					}
 				}
