@@ -71,7 +71,7 @@ msgid "Authoring"
 msgstr ""
 
 msgid "AR"
-msgstr ""
+msgstr "Arabic"
 
 msgid "Browse"
 msgstr ""
