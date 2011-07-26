@@ -549,10 +549,10 @@ GenerisTreeClass.prototype.setMeta = function (classId, metaName, value) {
  */
 GenerisTreeClass.prototype.getPaginateActionNodes = function () {
 	returnValue = [{	
-		'data' : '/ &nbsp;&nbsp;&nbsp;all'
+		'data' : __('all')
 			, 'attributes' : { 'class':'paginate paginate-all' }
 		},{	
-			'data' : this.paginate+' more'
+			'data' : this.paginate+__(' next')
 			, 'attributes' : { 'class':'paginate paginate-more' }
 		}];
 	return returnValue;

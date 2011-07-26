@@ -111,6 +111,12 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					return returnValue;
 				},
 				//
+				onopen: function (NODE, TREE_OBJ){
+					if(instance.checkedNodes){
+						instance.check(instance.checkedNodes);
+					}
+				},
+				//
 				onload: function(TREE_OBJ) {
 					if(instance.checkedNodes){
 						instance.check(instance.checkedNodes);
@@ -273,10 +279,10 @@ GenerisTreeFormClass.prototype.setMeta = function (classId, metaName, value) {
  */
 GenerisTreeFormClass.prototype.getPaginateActionNodes = function () {
 	returnValue = [{	
-		'data' : '/ &nbsp;&nbsp;&nbsp;all'
+		'data' : __('all')
 			, 'attributes' : { 'class':'paginate paginate-all' }
 		},{	
-			'data' : this.paginate+' more'
+			'data' : this.paginate+__(' next')
 			, 'attributes' : { 'class':'paginate paginate-more' }
 		}];
 	return returnValue;
@@ -319,21 +325,6 @@ GenerisTreeFormClass.prototype.refreshPaginate  = function (NODE, TREE_OBJ){
 	if (this.getMeta(nodeId, "displayed") < this.getMeta(nodeId, "count")){
 		this.showPaginate (NODE, TREE_OBJ);
 	}
-}
-
-/**
- * Get paginate nodes
- * @return {array}
- */
-GenerisTreeFormClass.prototype.getPaginateActionNodes = function () {
-	returnValue = [{	
-		'data' : '/ &nbsp;&nbsp;&nbsp;all'
-			, 'attributes' : { 'class':'paginate paginate-all' }
-		},{	
-			'data' : this.paginate+' more'
-			, 'attributes' : { 'class':'paginate paginate-more' }
-		}];
-	return returnValue;
 }
 
 /**
