@@ -67,6 +67,9 @@ msgstr ""
 msgid "An error occured during user deletion"
 msgstr "Ett fel uppstod när användare skulle tas bort"
 
+msgid "AR"
+msgstr ""
+
 msgid "Authoring"
 msgstr "Författa"
 

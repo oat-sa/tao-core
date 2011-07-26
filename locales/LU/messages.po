@@ -64,6 +64,9 @@ msgstr ""
 msgid "An error occured during user deletion"
 msgstr "Während dem Läschen vum User gouf et e Fehler"
 
+msgid "AR"
+msgstr ""
+
 msgid "Authoring"
 msgstr ""
 
