@@ -14,10 +14,7 @@ var GenerisAction = {};
  * @param {String} uri
  */
 GenerisAction.select = function(uri){
-	var options = getTreeOptions(classUri);
-	if(options){
-		options.instance.selectTreeNode(uri);
-	}
+        GenerisTreeClass.selectTreeNode(uri);
 };
 
 /**
