@@ -802,8 +802,15 @@ abstract class tao_models_classes_GenerisService
 		//format classes for json tree datastore 
 		$data = array();
 		if(!$chunk){
+                        $label = $clazz->getLabel();
+                        if(empty($label)){
+                                $label = $instance->uriResource;
+                        }else{
+                                $label = tao_helpers_Display::textCutter($label, 16);
+                        }
+                        
 			$data = array(
-					'data' 	=> tao_helpers_Display::textCutter($clazz->getLabel(), 16),
+					'data' 	=> $label,
 					'type'	=> 'class',
 					'count' => (int)$clazz->countInstances(),
 					'attributes' => array(
