@@ -1,6 +1,3 @@
-msgid ""
-msgstr ""
-
 msgid "A formated text"
 msgstr "un texte formaté"
 
@@ -872,7 +869,7 @@ msgid "selected"
 msgstr "sélectionné"
 
 msgid "settings updated"
-msgstr "Préférences mise à jour"
+msgstr "Préférences mises à jour"
 
 msgid "simple mode"
 msgstr "mode simple"
