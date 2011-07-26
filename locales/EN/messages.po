@@ -1,33 +1,3 @@
-msgid "DE"
-msgstr "German"
-
-msgid "EN"
-msgstr "English"
-
-msgid "FR"
-msgstr "French"
-
-msgid "HU"
-msgstr "Hungarian"
-
-msgid "LU"
-msgstr "Luxemburgish"
-
-msgid "SE"
-msgstr "Swedish"
-
-msgid "Password are not matching"
-msgstr "Passwords are not matching"
-
-msgid "Subject"
-msgstr "Test taker"
-
-msgid "new subject"
-msgstr "new test taker"
-
-msgid "subject"
-msgstr "test taker"
-
 msgid ""
 msgstr ""
 
@@ -55,6 +25,9 @@ msgstr ""
 msgid "Access denied. Please renew your authentication!"
 msgstr ""
 
+msgid "Action"
+msgstr ""
+
 msgid "Actions"
 msgstr ""
 
@@ -73,10 +46,16 @@ msgstr ""
 msgid "Add the source file"
 msgstr ""
 
+msgid "Add to group"
+msgstr ""
+
 msgid "Advanced Authoring Tool"
 msgstr ""
 
 msgid "Advanced Mode"
+msgstr ""
+
+msgid "All"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -103,16 +82,34 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+msgid "Cannot successfully build the optimized table indexes"
+msgstr ""
+
 msgid "Change the password"
 msgstr ""
 
+msgid "Check All"
+msgstr ""
+
+msgid "Check all"
+msgstr ""
+
 msgid "Class"
+msgstr ""
+
+msgid "Classes"
 msgstr ""
 
 msgid "Column"
 msgstr ""
 
 msgid "Comment"
+msgstr ""
+
+msgid "Compilation completed"
+msgstr ""
+
+msgid "Compiled Instances"
 msgstr ""
 
 msgid "Confirm"
@@ -127,11 +124,17 @@ msgstr ""
 msgid "Create a list"
 msgstr ""
 
+msgid "Current"
+msgstr ""
+
 msgid "Current (the current extension, the local data and their dependancies)"
 msgstr ""
 
 msgid "Current language"
 msgstr ""
+
+msgid "DE"
+msgstr "German"
 
 msgid "Data Language"
 msgstr ""
@@ -143,6 +146,12 @@ msgid "Data language"
 msgstr ""
 
 msgid "Date"
+msgstr ""
+
+msgid "Decompilation completed"
+msgstr ""
+
+msgid "Decompiled Instances"
 msgstr ""
 
 msgid "Define the defaultt values"
@@ -171,6 +180,9 @@ msgstr ""
 
 msgid "Dynamic date picker"
 msgstr ""
+
+msgid "EN"
+msgstr "English"
 
 msgid "Edit"
 msgstr ""
@@ -205,6 +217,9 @@ msgstr ""
 msgid "Enables you to export an RDF file containing the selected namespaces"
 msgstr ""
 
+msgid "Enables you to export an RDF file containing the selected namespaces or instances"
+msgstr ""
+
 msgid "Error"
 msgstr ""
 
@@ -225,6 +240,9 @@ msgstr ""
 
 msgid "Exported files library"
 msgstr ""
+
+msgid "FR"
+msgstr "French"
 
 msgid "File"
 msgstr ""
@@ -253,6 +271,9 @@ msgstr ""
 msgid "Groups library"
 msgstr ""
 
+msgid "HU"
+msgstr "Hungarian"
+
 msgid "Home"
 msgstr ""
 
@@ -266,6 +287,9 @@ msgid "Inclusive (AND)"
 msgstr ""
 
 msgid "Inclusive (OR)"
+msgstr ""
+
+msgid "Instances"
 msgstr ""
 
 msgid "Interface Language"
@@ -295,6 +319,9 @@ msgstr ""
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr ""
 
+msgid "LU"
+msgstr "Luxemburgish"
+
 msgid "Label"
 msgstr ""
 
@@ -314,6 +341,9 @@ msgid "List values"
 msgstr ""
 
 msgid "Lists"
+msgstr ""
+
+msgid "Local"
 msgstr ""
 
 msgid "Local Data (the local namespace containing only the data inserted by the users)"
@@ -418,6 +448,12 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
+msgid "Optimizable Classes"
+msgstr ""
+
+msgid "Optimize your TAO when you are ready for test delivery"
+msgstr ""
+
 msgid "Options"
 msgstr ""
 
@@ -425,6 +461,12 @@ msgid "Password"
 msgstr ""
 
 msgid "Password *"
+msgstr ""
+
+msgid "Password are not matching"
+msgstr "Passwords are not matching"
+
+msgid "Passwords are not matching"
 msgstr ""
 
 msgid "Please confirm deletion"
@@ -475,6 +517,12 @@ msgstr ""
 msgid "Property"
 msgstr ""
 
+msgid "Rebuilding indexes, it may take a while."
+msgstr ""
+
+msgid "Related Classes"
+msgstr ""
+
 msgid "Remove"
 msgstr ""
 
@@ -507,6 +555,9 @@ msgstr ""
 
 msgid "Role library"
 msgstr ""
+
+msgid "SE"
+msgstr "Swedish"
 
 msgid "Save"
 msgstr ""
@@ -541,6 +592,12 @@ msgstr ""
 msgid "Start upload"
 msgstr ""
 
+msgid "Status"
+msgstr ""
+
+msgid "Subject"
+msgstr "Test taker"
+
 msgid "Supported export formats"
 msgstr ""
 
@@ -551,6 +608,12 @@ msgid "TAO Back Office"
 msgstr ""
 
 msgid "TAO Backend Tool"
+msgstr ""
+
+msgid "TAO Home"
+msgstr ""
+
+msgid "TAO optimizer"
 msgstr ""
 
 msgid "Test takers"
@@ -577,6 +640,9 @@ msgstr ""
 msgid "The value of this field must be an integer"
 msgstr ""
 
+msgid "There is no class available for optimization for the current extension"
+msgstr ""
+
 msgid "This field is too long"
 msgstr ""
 
@@ -599,6 +665,12 @@ msgid "Translation saved"
 msgstr ""
 
 msgid "Type"
+msgstr ""
+
+msgid "Uncheck All"
+msgstr ""
+
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Upload"
@@ -652,6 +724,15 @@ msgstr ""
 msgid "compile"
 msgstr ""
 
+msgid "compiled"
+msgstr ""
+
+msgid "compiled instances"
+msgstr ""
+
+msgid "compiling"
+msgstr ""
+
 msgid "create Score table"
 msgstr ""
 
@@ -665,6 +746,12 @@ msgid "create score table"
 msgstr ""
 
 msgid "create table"
+msgstr ""
+
+msgid "decompiled"
+msgstr ""
+
+msgid "decompiling"
 msgstr ""
 
 msgid "delete"
@@ -691,10 +778,16 @@ msgstr ""
 msgid "exported successfully"
 msgstr ""
 
+msgid "failed"
+msgstr ""
+
 msgid "has been deleted successfully"
 msgstr ""
 
 msgid "import"
+msgstr ""
+
+msgid "instances"
 msgstr ""
 
 msgid "list deleted"
@@ -757,6 +850,9 @@ msgstr ""
 msgid "new role"
 msgstr ""
 
+msgid "new subject"
+msgstr "new test taker"
+
 msgid "new test"
 msgstr ""
 
@@ -767,6 +863,9 @@ msgid "preview"
 msgstr ""
 
 msgid "rdf"
+msgstr ""
+
+msgid "related classes"
 msgstr ""
 
 msgid "search"
@@ -782,5 +881,14 @@ msgid "settings updated"
 msgstr ""
 
 msgid "simple mode"
+msgstr ""
+
+msgid "stand by"
+msgstr ""
+
+msgid "subject"
+msgstr "test taker"
+
+msgid "uncompiled"
 msgstr ""
 

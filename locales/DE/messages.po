@@ -13,270 +13,6 @@ msgstr "Passwort"
 msgid "A short text"
 msgstr "Textzeile"
 
-msgid "Add / Edit lists"
-msgstr "Listen hinzufügen/bearbeiten"
-
-msgid "Add property"
-msgstr "Eigenschaft hinzufügen"
-
-msgid "Add the source file"
-msgstr "Quelldatei hinzufügen"
-
-msgid "An error occured during user deletion"
-msgstr "Ein Fehler ist während dem Löschvorgang aufgetreten"
-
-msgid "CSV Options"
-msgstr "CSV-Optionen"
-
-msgid "Class"
-msgstr "Klasse"
-
-msgid "Connect"
-msgstr "Verbinden"
-
-msgid "Create"
-msgstr "Erstellen"
-
-msgid "Current language"
-msgstr "Aktuelle Sprache"
-
-msgid "DE"
-msgstr "Deutsch"
-
-msgid "Data language"
-msgstr "Daten-Sprache"
-
-msgid "Date"
-msgstr "Datum"
-
-msgid "Delete property"
-msgstr "Eigenschaft löschen"
-
-msgid "Delete user"
-msgstr "Benutzer löschen"
-
-msgid "EN"
-msgstr "Englisch"
-
-msgid "Edit item comment"
-msgstr "Item-Kommentar bearbeiten"
-
-msgid "Edit user"
-msgstr "Benutzer bearbeiten"
-
-msgid "Exclusive (AND)"
-msgstr "Exklusiv (UND)"
-
-msgid "FR"
-msgstr "Französisch"
-
-msgid "Filter"
-msgstr "Filter"
-
-msgid "Filtering mode"
-msgstr "Filtermodus"
-
-msgid "Filters"
-msgstr "Filter"
-
-msgid "HU"
-msgstr "Ungarisch"
-
-msgid "Home"
-msgstr "Home"
-
-msgid "Inclusive (OR)"
-msgstr "Inklusiv (OR)"
-
-msgid "Interface language"
-msgstr "Interface-Sprache"
-
-msgid "Invalid field length"
-msgstr "Ungültige Feldlänge"
-
-msgid "Invalid file size"
-msgstr "Ungültige Dateigröße"
-
-msgid "Invalid file type!"
-msgstr "Ungültiger Dateityp"
-
-msgid "Javascript is required to run this software. Please activate it in your browser."
-msgstr "Diese Software benötigt Javascript. Bitte aktivieren Sie es in Ihrem Browser."
-
-msgid "LU"
-msgstr "Luxemburgisch"
-
-msgid "Label"
-msgstr "Label"
-
-msgid "Language"
-msgstr "Sprachen"
-
-msgid "List"
-msgstr "Auflisten"
-
-msgid "List values"
-msgstr "Werte auflisten"
-
-msgid "Lists"
-msgstr "Listen"
-
-msgid "Login *"
-msgstr "Login *"
-
-msgid "Manage data list"
-msgstr "Daten-Liste verwalten"
-
-msgid "Meta Data"
-msgstr "Meta-Daten"
-
-msgid "My settings"
-msgstr "Meine Einstellungen"
-
-msgid "New password"
-msgstr "Neues Passwort"
-
-msgid "Old Password"
-msgstr "Altes Passwort"
-
-msgid "Open"
-msgstr "Öffnen"
-
-msgid "Options"
-msgstr "Optionen"
-
-msgid "Password"
-msgstr "Passwort"
-
-msgid "Password *"
-msgstr "Passwort *"
-
-msgid "Password are not matching"
-msgstr "Ungültiges Passwort"
-
-msgid "Please confirm deletion"
-msgstr "Wollen Sie wirklich löschen?"
-
-msgid "Please confirm property deletion!"
-msgstr "Möchten Sie die Eigenschaft wirklich löschen?"
-
-msgid "Please confirm user deletion"
-msgstr "Wollen Sie den Benutzer wirklich löschen?"
-
-msgid "Property"
-msgstr "Eigenschaften"
-
-msgid "Remove"
-msgstr "Entfernen"
-
-msgid "Rename"
-msgstr "Umbenennen"
-
-msgid "Repeat new password"
-msgstr "Neues Passwort wiederholen"
-
-msgid "Repeat password *"
-msgstr "Passwort wiederholen *"
-
-msgid "Resource saved"
-msgstr "Ressource gespeichert"
-
-msgid "Revert"
-msgstr "Rückgängig"
-
-msgid "Right click the tree to manage your lists"
-msgstr "Zur Verwaltung der Listen klicken Sie bitte mit der rechten Maustaste auf den Baum"
-
-msgid "Save"
-msgstr "Speichern"
-
-msgid "SE"
-msgstr "Swedish"
-
-msgid "Search"
-msgstr "Suchen"
-
-msgid "Search results"
-msgstr "Ergebnisse suchen"
-
-msgid "Select a language"
-msgstr "Sprache auswählen"
-
-msgid "Selection saved successfully"
-msgstr "Auswahl erfolgreich gespeichert"
-
-msgid "Settings"
-msgstr "Einstellungen"
-
-msgid "TAO Backend Tool"
-msgstr "TAO Backend Werkzueg"
-
-msgid "The format of this field is not valid."
-msgstr "Das Format dieses Feldes ist ungültig"
-
-msgid "The uploaded file is too large"
-msgstr "Die hochgeladene Datei ist zu groß"
-
-msgid "This field is too long"
-msgstr "Dieses Feld ist zu lang"
-
-msgid "This field is too short"
-msgstr "Dieses Feld ist zu klein"
-
-msgid "This field must not be empty"
-msgstr "Dieses Feld darf nicht leer sein"
-
-msgid "Translate"
-msgstr "Übersetzen"
-
-msgid "Translate to"
-msgstr "Übersetzen auf"
-
-msgid "Translation parameters"
-msgstr "Übersetzungsparameter"
-
-msgid "Translation saved"
-msgstr "Übersetzung gespeichert"
-
-msgid "Type"
-msgstr "Typ"
-
-msgid "Upload CSV File"
-msgstr "CSV-Datei uploaden"
-
-msgid "Use the * character to replace any string"
-msgstr "Benutzen Sie bitten das Zeichen * zur Ersetzung eienr Zeichenfolge"
-
-msgid "User"
-msgstr "Benutzer"
-
-msgid "User added"
-msgstr "Benutzer hinzugefügt"
-
-msgid "User deleted successfully"
-msgstr "Benutzer erfolgreich gelöscht"
-
-msgid "User saved"
-msgstr "Benutzer gespeichert"
-
-msgid "Users"
-msgstr "Benutzer"
-
-msgid "You cannot modify this property"
-msgstr "Sie können diese Eigenschaft nicht ändern"
-
-msgid "edit"
-msgstr "bearbeiten"
-
-msgid "login already exist"
-msgstr "das Login existiert bereits"
-
-msgid "select"
-msgstr "Auswählen"
-
-msgid "settings updated"
-msgstr "Einstellungen aktualisiert"
-
 msgid "A single choice list"
 msgstr ""
 
@@ -286,13 +22,28 @@ msgstr ""
 msgid "Access denied. Please renew your authentication!"
 msgstr ""
 
+msgid "Action"
+msgstr ""
+
 msgid "Actions"
 msgstr ""
 
 msgid "Add"
 msgstr ""
 
+msgid "Add / Edit lists"
+msgstr "Listen hinzufügen/bearbeiten"
+
 msgid "Add a user"
+msgstr ""
+
+msgid "Add property"
+msgstr "Eigenschaft hinzufügen"
+
+msgid "Add the source file"
+msgstr "Quelldatei hinzufügen"
+
+msgid "Add to group"
 msgstr ""
 
 msgid "Advanced Authoring Tool"
@@ -301,11 +52,17 @@ msgstr ""
 msgid "Advanced Mode"
 msgstr ""
 
+msgid "All"
+msgstr ""
+
 msgid "All (the complete TAO Module)"
 msgstr ""
 
 msgid "Allowed files types:"
 msgstr ""
+
+msgid "An error occured during user deletion"
+msgstr "Ein Fehler ist während dem Löschvorgang aufgetreten"
 
 msgid "Authoring"
 msgstr ""
@@ -313,13 +70,31 @@ msgstr ""
 msgid "Browse"
 msgstr ""
 
+msgid "CSV Options"
+msgstr "CSV-Optionen"
+
 msgid "Campaigns library"
 msgstr ""
 
 msgid "Cancel"
 msgstr ""
 
+msgid "Cannot successfully build the optimized table indexes"
+msgstr ""
+
 msgid "Change the password"
+msgstr ""
+
+msgid "Check All"
+msgstr ""
+
+msgid "Check all"
+msgstr ""
+
+msgid "Class"
+msgstr "Klasse"
+
+msgid "Classes"
 msgstr ""
 
 msgid "Column"
@@ -328,14 +103,35 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
+msgid "Compilation completed"
+msgstr ""
+
+msgid "Compiled Instances"
+msgstr ""
+
 msgid "Confirm"
 msgstr ""
+
+msgid "Connect"
+msgstr "Verbinden"
+
+msgid "Create"
+msgstr "Erstellen"
 
 msgid "Create a list"
 msgstr ""
 
+msgid "Current"
+msgstr ""
+
 msgid "Current (the current extension, the local data and their dependancies)"
 msgstr ""
+
+msgid "Current language"
+msgstr "Aktuelle Sprache"
+
+msgid "DE"
+msgstr "Deutsch"
 
 msgid "Data Language"
 msgstr ""
@@ -343,11 +139,29 @@ msgstr ""
 msgid "Data imported successfully"
 msgstr ""
 
+msgid "Data language"
+msgstr "Daten-Sprache"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Decompilation completed"
+msgstr ""
+
+msgid "Decompiled Instances"
+msgstr ""
+
 msgid "Define the defaultt values"
 msgstr ""
 
 msgid "Delete"
 msgstr ""
+
+msgid "Delete property"
+msgstr "Eigenschaft löschen"
+
+msgid "Delete user"
+msgstr "Benutzer löschen"
 
 msgid "Deliveries"
 msgstr ""
@@ -364,6 +178,9 @@ msgstr ""
 msgid "Dynamic date picker"
 msgstr ""
 
+msgid "EN"
+msgstr "Englisch"
+
 msgid "Edit"
 msgstr ""
 
@@ -373,8 +190,14 @@ msgstr ""
 msgid "Edit a user"
 msgstr ""
 
+msgid "Edit item comment"
+msgstr "Item-Kommentar bearbeiten"
+
 msgid "Edit property into parent class"
 msgstr ""
+
+msgid "Edit user"
+msgstr "Benutzer bearbeiten"
 
 msgid "Element"
 msgstr ""
@@ -391,11 +214,17 @@ msgstr ""
 msgid "Enables you to export an RDF file containing the selected namespaces"
 msgstr ""
 
+msgid "Enables you to export an RDF file containing the selected namespaces or instances"
+msgstr ""
+
 msgid "Error"
 msgstr ""
 
 msgid "Error during file import"
 msgstr ""
+
+msgid "Exclusive (AND)"
+msgstr "Exklusiv (UND)"
 
 msgid "Exclusive (OR)"
 msgstr ""
@@ -409,6 +238,9 @@ msgstr ""
 msgid "Exported files library"
 msgstr ""
 
+msgid "FR"
+msgstr "Französisch"
+
 msgid "File"
 msgstr ""
 
@@ -417,6 +249,15 @@ msgstr ""
 
 msgid "File name"
 msgstr ""
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Filtering mode"
+msgstr "Filtermodus"
+
+msgid "Filters"
+msgstr "Filter"
 
 msgid "Full preview"
 msgstr ""
@@ -427,6 +268,12 @@ msgstr ""
 msgid "Groups library"
 msgstr ""
 
+msgid "HU"
+msgstr "Ungarisch"
+
+msgid "Home"
+msgstr "Home"
+
 msgid "Import"
 msgstr ""
 
@@ -436,11 +283,29 @@ msgstr ""
 msgid "Inclusive (AND)"
 msgstr ""
 
+msgid "Inclusive (OR)"
+msgstr "Inklusiv (OR)"
+
+msgid "Instances"
+msgstr ""
+
 msgid "Interface Language"
 msgstr ""
 
+msgid "Interface language"
+msgstr "Interface-Sprache"
+
+msgid "Invalid field length"
+msgstr "Ungültige Feldlänge"
+
 msgid "Invalid field range"
 msgstr ""
+
+msgid "Invalid file size"
+msgstr "Ungültige Dateigröße"
+
+msgid "Invalid file type!"
+msgstr "Ungültiger Dateityp"
 
 msgid "Item library"
 msgstr ""
@@ -448,10 +313,34 @@ msgstr ""
 msgid "Items"
 msgstr ""
 
+msgid "Javascript is required to run this software. Please activate it in your browser."
+msgstr "Diese Software benötigt Javascript. Bitte aktivieren Sie es in Ihrem Browser."
+
+msgid "LU"
+msgstr "Luxemburgisch"
+
+msgid "Label"
+msgstr "Label"
+
 msgid "Label already used"
 msgstr ""
 
+msgid "Language"
+msgstr "Sprachen"
+
+msgid "List"
+msgstr "Auflisten"
+
 msgid "List Options"
+msgstr ""
+
+msgid "List values"
+msgstr "Werte auflisten"
+
+msgid "Lists"
+msgstr "Listen"
+
+msgid "Local"
 msgstr ""
 
 msgid "Local Data (the local namespace containing only the data inserted by the users)"
@@ -459,6 +348,9 @@ msgstr ""
 
 msgid "Login"
 msgstr ""
+
+msgid "Login *"
+msgstr "Login *"
 
 msgid "Login not available"
 msgstr ""
@@ -468,6 +360,9 @@ msgstr ""
 
 msgid "Manage campaigns"
 msgstr ""
+
+msgid "Manage data list"
+msgstr "Daten-Liste verwalten"
 
 msgid "Manage deliveries"
 msgstr ""
@@ -505,11 +400,17 @@ msgstr ""
 msgid "Media manager"
 msgstr ""
 
+msgid "Meta Data"
+msgstr "Meta-Daten"
+
 msgid "Move to"
 msgstr ""
 
 msgid "Moving this element will remove the following properties:"
 msgstr ""
+
+msgid "My settings"
+msgstr "Meine Einstellungen"
 
 msgid "Name"
 msgstr ""
@@ -519,6 +420,9 @@ msgstr ""
 
 msgid "New element"
 msgstr ""
+
+msgid "New password"
+msgstr "Neues Passwort"
 
 msgid "Next"
 msgstr ""
@@ -534,6 +438,42 @@ msgstr ""
 
 msgid "Number of elements"
 msgstr ""
+
+msgid "Old Password"
+msgstr "Altes Passwort"
+
+msgid "Open"
+msgstr "Öffnen"
+
+msgid "Optimizable Classes"
+msgstr ""
+
+msgid "Optimize your TAO when you are ready for test delivery"
+msgstr ""
+
+msgid "Options"
+msgstr "Optionen"
+
+msgid "Password"
+msgstr "Passwort"
+
+msgid "Password *"
+msgstr "Passwort *"
+
+msgid "Password are not matching"
+msgstr "Ungültiges Passwort"
+
+msgid "Passwords are not matching"
+msgstr ""
+
+msgid "Please confirm deletion"
+msgstr "Wollen Sie wirklich löschen?"
+
+msgid "Please confirm property deletion!"
+msgstr "Möchten Sie die Eigenschaft wirklich löschen?"
+
+msgid "Please confirm user deletion"
+msgstr "Wollen Sie den Benutzer wirklich löschen?"
 
 msgid "Please confirm you want to delete this list element."
 msgstr ""
@@ -571,6 +511,30 @@ msgstr ""
 msgid "Processes"
 msgstr ""
 
+msgid "Property"
+msgstr "Eigenschaften"
+
+msgid "Rebuilding indexes, it may take a while."
+msgstr ""
+
+msgid "Related Classes"
+msgstr ""
+
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "Rename"
+msgstr "Umbenennen"
+
+msgid "Repeat new password"
+msgstr "Neues Passwort wiederholen"
+
+msgid "Repeat password *"
+msgstr "Passwort wiederholen *"
+
+msgid "Resource saved"
+msgstr "Ressource gespeichert"
+
 msgid "Result Servers library"
 msgstr ""
 
@@ -580,11 +544,32 @@ msgstr ""
 msgid "Results library"
 msgstr ""
 
+msgid "Revert"
+msgstr "Rückgängig"
+
+msgid "Right click the tree to manage your lists"
+msgstr "Zur Verwaltung der Listen klicken Sie bitte mit der rechten Maustaste auf den Baum"
+
 msgid "Role library"
 msgstr ""
 
+msgid "SE"
+msgstr "Swedish"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Search"
+msgstr "Suchen"
+
+msgid "Search results"
+msgstr "Ergebnisse suchen"
+
 msgid "Select"
 msgstr ""
+
+msgid "Select a language"
+msgstr "Sprache auswählen"
 
 msgid "Select the element destination"
 msgstr ""
@@ -592,10 +577,19 @@ msgstr ""
 msgid "Selected file:"
 msgstr ""
 
+msgid "Selection saved successfully"
+msgstr "Auswahl erfolgreich gespeichert"
+
+msgid "Settings"
+msgstr "Einstellungen"
+
 msgid "Simple Mode"
 msgstr ""
 
 msgid "Start upload"
+msgstr ""
+
+msgid "Status"
 msgstr ""
 
 msgid "Supported export formats"
@@ -605,6 +599,15 @@ msgid "Supported formats to import"
 msgstr ""
 
 msgid "TAO Back Office"
+msgstr ""
+
+msgid "TAO Backend Tool"
+msgstr "TAO Backend Werkzueg"
+
+msgid "TAO Home"
+msgstr ""
+
+msgid "TAO optimizer"
 msgstr ""
 
 msgid "Test takers"
@@ -622,11 +625,53 @@ msgstr ""
 msgid "Tests library"
 msgstr ""
 
+msgid "The format of this field is not valid."
+msgstr "Das Format dieses Feldes ist ungültig"
+
+msgid "The uploaded file is too large"
+msgstr "Die hochgeladene Datei ist zu groß"
+
 msgid "The value of this field must be an integer"
+msgstr ""
+
+msgid "There is no class available for optimization for the current extension"
+msgstr ""
+
+msgid "This field is too long"
+msgstr "Dieses Feld ist zu lang"
+
+msgid "This field is too short"
+msgstr "Dieses Feld ist zu klein"
+
+msgid "This field must not be empty"
+msgstr "Dieses Feld darf nicht leer sein"
+
+msgid "Translate"
+msgstr "Übersetzen"
+
+msgid "Translate to"
+msgstr "Übersetzen auf"
+
+msgid "Translation parameters"
+msgstr "Übersetzungsparameter"
+
+msgid "Translation saved"
+msgstr "Übersetzung gespeichert"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Uncheck All"
+msgstr ""
+
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Upload"
 msgstr ""
+
+msgid "Upload CSV File"
+msgstr "CSV-Datei uploaden"
 
 msgid "Upload File"
 msgstr ""
@@ -634,11 +679,32 @@ msgstr ""
 msgid "Upload RDF File"
 msgstr ""
 
+msgid "Use the * character to replace any string"
+msgstr "Benutzen Sie bitten das Zeichen * zur Ersetzung eienr Zeichenfolge"
+
+msgid "User"
+msgstr "Benutzer"
+
+msgid "User added"
+msgstr "Benutzer hinzugefügt"
+
+msgid "User deleted successfully"
+msgstr "Benutzer erfolgreich gelöscht"
+
+msgid "User saved"
+msgstr "Benutzer gespeichert"
+
+msgid "Users"
+msgstr "Benutzer"
+
 msgid "Validation of the imported file has failed"
 msgstr ""
 
 msgid "View"
 msgstr ""
+
+msgid "You cannot modify this property"
+msgstr "Sie können diese Eigenschaft nicht ändern"
 
 msgid "actions"
 msgstr ""
@@ -650,6 +716,15 @@ msgid "class selected"
 msgstr ""
 
 msgid "compile"
+msgstr ""
+
+msgid "compiled"
+msgstr ""
+
+msgid "compiled instances"
+msgstr ""
+
+msgid "compiling"
 msgstr ""
 
 msgid "create Score table"
@@ -667,6 +742,12 @@ msgstr ""
 msgid "create table"
 msgstr ""
 
+msgid "decompiled"
+msgstr ""
+
+msgid "decompiling"
+msgstr ""
+
 msgid "delete"
 msgstr ""
 
@@ -675,6 +756,9 @@ msgstr ""
 
 msgid "duplicate"
 msgstr ""
+
+msgid "edit"
+msgstr "bearbeiten"
 
 msgid "element"
 msgstr ""
@@ -688,10 +772,16 @@ msgstr ""
 msgid "exported successfully"
 msgstr ""
 
+msgid "failed"
+msgstr ""
+
 msgid "has been deleted successfully"
 msgstr ""
 
 msgid "import"
+msgstr ""
+
+msgid "instances"
 msgstr ""
 
 msgid "list deleted"
@@ -705,6 +795,9 @@ msgstr ""
 
 msgid "lists"
 msgstr ""
+
+msgid "login already exist"
+msgstr "das Login existiert bereits"
 
 msgid "maximum value:"
 msgstr ""
@@ -766,12 +859,27 @@ msgstr ""
 msgid "rdf"
 msgstr ""
 
+msgid "related classes"
+msgstr ""
+
 msgid "search"
 msgstr ""
+
+msgid "select"
+msgstr "Auswählen"
 
 msgid "selected"
 msgstr ""
 
+msgid "settings updated"
+msgstr "Einstellungen aktualisiert"
+
 msgid "simple mode"
+msgstr ""
+
+msgid "stand by"
+msgstr ""
+
+msgid "uncompiled"
 msgstr ""
 
