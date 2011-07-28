@@ -41,8 +41,6 @@
     <rdfs:label xml:lang="LU"><![CDATA[EN]]></rdfs:label>
     <rdfs:label xml:lang="SE"><![CDATA[EN]]></rdfs:label>
     <rdfs:label xml:lang="SE"><![CDATA[EN]]></rdfs:label>
-
-    
     <rdfs:comment xml:lang="EN"><![CDATA[Englishss]]></rdfs:comment>
     <rdf:value><![CDATA[EN]]></rdf:value>
     <tao:level><![CDATA[1]]></tao:level>
@@ -55,7 +53,6 @@
     <rdfs:label xml:lang="LU"><![CDATA[FR]]></rdfs:label>
     <rdfs:label xml:lang="SE"><![CDATA[FR]]></rdfs:label>
     <rdfs:label xml:lang="AR"><![CDATA[FR]]></rdfs:label>
-    
     <rdfs:comment xml:lang="EN"><![CDATA[French]]></rdfs:comment>
     <rdf:value><![CDATA[FR]]></rdf:value>
     <tao:level><![CDATA[2]]></tao:level>
@@ -68,7 +65,6 @@
     <rdfs:label xml:lang="LU"><![CDATA[DE]]></rdfs:label>
     <rdfs:label xml:lang="SE"><![CDATA[DE]]></rdfs:label>
     <rdfs:label xml:lang="AR"><![CDATA[DE]]></rdfs:label>
-
     <rdfs:comment xml:lang="EN"><![CDATA[German]]></rdfs:comment>
     <rdf:value><![CDATA[DE]]></rdf:value>
     <tao:level><![CDATA[3]]></tao:level>
@@ -81,7 +77,6 @@
     <rdfs:label xml:lang="LU"><![CDATA[LU]]></rdfs:label>
     <rdfs:label xml:lang="SE"><![CDATA[LU]]></rdfs:label>
     <rdfs:label xml:lang="AR"><![CDATA[LU]]></rdfs:label>
-    
     <rdfs:comment xml:lang="EN"><![CDATA[Luxemburgish]]></rdfs:comment>
     <rdf:value><![CDATA[LU]]></rdf:value>
     <tao:level><![CDATA[4]]></tao:level>
@@ -94,29 +89,10 @@
     <rdfs:label xml:lang="LU"><![CDATA[SE]]></rdfs:label>
     <rdfs:label xml:lang="SE"><![CDATA[SE]]></rdfs:label>
     <rdfs:label xml:lang="AR"><![CDATA[SE]]></rdfs:label>
-    
-    
     <rdfs:comment xml:lang="EN"><![CDATA[Swedish]]></rdfs:comment>
     <rdf:value><![CDATA[SE]]></rdf:value>
     <tao:level><![CDATA[5]]></tao:level>
   </rdf:Description>
-
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LangAR">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
-    <rdfs:label xml:lang="EN"><![CDATA[AR]]></rdfs:label>
-    <rdfs:label xml:lang="FR"><![CDATA[AR]]></rdfs:label>
-    <rdfs:label xml:lang="DE"><![CDATA[AR]]></rdfs:label>
-    <rdfs:label xml:lang="LU"><![CDATA[AR]]></rdfs:label>
-    <rdfs:label xml:lang="SE"><![CDATA[AR]]></rdfs:label>
-    <rdfs:label xml:lang="AR"><![CDATA[AR]]></rdfs:label>
-    
-    
-    <rdfs:comment xml:lang="EN"><![CDATA[Arabic]]></rdfs:comment>
-    <rdf:value><![CDATA[AR]]></rdf:value>
-    <tao:level><![CDATA[6]]></tao:level>
-  </rdf:Description>
-    
-  
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
     <rdf:value xml:lang="EN"/>
     <rdfs:comment xml:lang="EN"><![CDATA[Tao Manager]]></rdfs:comment>
