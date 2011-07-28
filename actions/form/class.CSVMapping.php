@@ -118,7 +118,7 @@ class tao_actions_form_CSVMapping
     		}
     	}
     	if(count($ranged) > 0){
-    		$this->form->createGroup('ranged_property', __('Define the defaultt values'), $ranged);
+    		$this->form->createGroup('ranged_property', __('Define the default values'), $ranged);
     	}
     	
         // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FF end

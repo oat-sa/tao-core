@@ -211,7 +211,22 @@ class tao_helpers_data_GenerisAdapterCsv
 									$resource->setPropertyValue(new core_kernel_classes_Property($propUri), '');
 								}
 								if(isset($csvRow[$csvColumn])){
-									$resource->setPropertyValue(new core_kernel_classes_Property($propUri), $csvRow[$csvColumn]);
+									$theValue = $csvRow[$csvColumn];
+									if(isset($this->options['callbacks'])){
+										
+										foreach(array('*', $propUri) as $key){
+											if(isset($this->options['callbacks'][$key]) && is_array($this->options['callbacks'][$key])){
+												foreach ($this->options['callbacks'][$key] as $callback) {
+													if(function_exists($callback)){
+														$theValue = $callback($theValue);
+													}
+												}
+											}
+										}
+										
+									}
+									
+									$resource->setPropertyValue(new core_kernel_classes_Property($propUri), $theValue);
 								}
 							}
 						}

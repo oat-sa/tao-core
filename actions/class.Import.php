@@ -24,6 +24,19 @@ class tao_actions_Import extends tao_actions_CommonModule {
 	protected $staticData = array();
 	
 	/**
+	 * to exclude some properties from the import process
+	 * @var array
+	 */
+	protected $excludedProperties = array();
+	
+	/**
+	 * add constant adapter options according to the class of import
+	 * @var array
+	 */
+	protected $additionalAdapterOptions = array();
+	
+	
+	/**
 	 * initialize the formContainer
 	 */
 	public function __construct(){
@@ -156,7 +169,8 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			$importData = $this->getSessionAttribute('import');
 			
 			//initialize the adapter
-			$adapter = new tao_helpers_data_GenerisAdapterCsv($importData['options']);
+			$adapterOptions = array_merge($this->additionalAdapterOptions, $importData['options']);
+			$adapter = new tao_helpers_data_GenerisAdapterCsv($adapterOptions);
 			
 			$currentExtention = $this->getSessionAttribute('currentExtension');
 			$service = tao_models_classes_ServiceFactory::get(str_replace('tao', '',$currentExtention));
@@ -178,16 +192,16 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			}
 			
 			foreach($classProperties as $property){
-				
-				//@todo manage the properties with range
-				$range = $property->getRange();
-				if($range->uriResource == RDFS_LITERAL){	
-					$properties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
+				if(!in_array($property->uriResource, $this->excludedProperties)){
+					//@todo manage the properties with range
+					$range = $property->getRange();
+					if($range->uriResource == RDFS_LITERAL){	
+						$properties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
+					}
+					else{
+						$rangedProperties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
+					}
 				}
-				else{
-					$rangedProperties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
-				}
-				
 			}
 			
 			//load the csv data from the file (uploaded in the upload form) to get the columns
@@ -202,7 +216,6 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			$myForm = $myFormContainer->getForm();
 			if($myForm->isSubmited()){
 				if($myForm->isValid()){
-					
 					
 					//set the mapping to the adapter
 					$adapter->addOption('map', $myForm->getValues('property_mapping'));

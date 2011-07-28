@@ -238,6 +238,7 @@ class tao_actions_form_Users
                         }
 			
 			$pass0Element = tao_helpers_form_FormFactory::getElement('password0', 'Hidden');
+			$passwordValue = '';
 			try{
 				$passwordValue = $this->user->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD));
 			}
