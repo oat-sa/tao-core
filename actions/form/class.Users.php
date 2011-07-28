@@ -227,12 +227,15 @@ class tao_actions_form_Users
 		else{
 			
 			$validatePasswords = true;
-			if(isset($_POST['password1'])){
-				if(empty($_POST['password1'])) {
-					$validatePasswords = false;
-				}
-			}
-			
+                        $validateOldPassword = true;
+			if(!isset($_POST['password0']) && !isset($_POST['password1'])){
+                                $validateOldPassword = false;
+                                if (isset($_POST['password2']) && empty($_POST['password3'])) {
+                                        $validatePasswords = false;
+                                }
+			}else if(isset($_POST['password1']) && empty($_POST['password1'])){
+                                $validatePasswords = false;
+                        }
 			
 			$pass0Element = tao_helpers_form_FormFactory::getElement('password0', 'Hidden');
 			try{
@@ -248,7 +251,7 @@ class tao_actions_form_Users
 			$pass1Element->addValidators(array(
 				tao_helpers_form_FormFactory::getValidator('Md5Password', array('password2_ref' => $pass0Element)),
 			));
-			if(!$validatePasswords){
+			if(!$validatePasswords || !$validateOldPassword){
 				$pass1Element->setForcedValid();
 			}
 			$this->form->addElement($pass1Element);
