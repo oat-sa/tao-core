@@ -12,6 +12,9 @@ return array(
 		'author' => 'CRP Henri Tudor',
 		'dependances' => array('generis'),
 		'models' => 'http://www.tao.lu/Ontologies/TAO.rdf',
+		'modelsRight' => array (
+			LOCAL_NAMESPACE => '7'
+		),
 		'install' => array( 
 			'php' => dirname(__FILE__). '/install/install.php',
 			'rdf' => dirname(__FILE__). '/models/ontology/tao.rdf'
