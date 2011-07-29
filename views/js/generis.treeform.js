@@ -131,6 +131,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ);
 					}
 					if($(NODE).hasClass('paginate-all')) {
+						var parentNodeId = $(NODE).parent().parent().attr('id');
 						var limit = instance.getMeta (parentNodeId, 'count') - instance.getMeta (parentNodeId, 'displayed');
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ, {'limit':limit});
 					}
