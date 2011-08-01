@@ -70,10 +70,12 @@ $(document).ready(function(){
 			listContainer.find('legend span').replaceWith(function(){
 				return "<input type='text' name='label' value='"+$(this).text()+" />";  
 			});
-	
-			listContainer.find('.list-element').replaceWith(function(){
-				return "<input type='text' name='" + $(this).attr('id') + "' value='"+$(this).text()+"' />";  
-			});
+
+			if (listContainer.find('.list-element').length){
+				listContainer.find('.list-element').replaceWith(function(){
+					return "<input type='text' name='" + $(this).attr('id') + "' value='"+$(this).text()+"' />";  
+				});
+			}
 			
 			elementList = listContainer.find('ol');
 			elementList.addClass('sortable-list');
