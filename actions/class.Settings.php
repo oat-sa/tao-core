@@ -103,44 +103,44 @@ class tao_actions_Settings extends tao_actions_CommonModule {
          * return a view the list of optimizable classes for the current extension
          */
         public function optimizeClasses(){
-                $optimizableClasses = $this->getOptimizableClasses();
-                
-                $classes = array();
-                $referencer = core_kernel_persistence_hardapi_ResourceReferencer::singleton();
-                foreach($optimizableClasses as $optimizableClassUri => $options){
-                        $optimizableClass = new core_kernel_classes_Class($optimizableClassUri);
-                        $classes[] = array(
-                            'class'     =>      $optimizableClass->getLabel(),
-                            'classUri'  =>      $optimizableClassUri,
-                            'status'    =>      $referencer->isClassReferenced($optimizableClass)?__('compiled'):__('stand by'),
-                            'action'    => ''
-                        );
-                }
-                
-                
-                echo json_encode($classes);
+			
+			$optimizableClasses = $this->getOptimizableClasses();
+
+			$classes = array();
+			$referencer = core_kernel_persistence_hardapi_ResourceReferencer::singleton();
+			foreach($optimizableClasses as $optimizableClassUri => $options){
+					$optimizableClass = new core_kernel_classes_Class($optimizableClassUri);
+					$classes[] = array(
+						'class'     =>      $optimizableClass->getLabel(),
+						'classUri'  =>      $optimizableClassUri,
+						'status'    =>      $referencer->isClassReferenced($optimizableClass)?__('compiled'):__('stand by'),
+						'action'    => ''
+					);
+			}
+
+			echo json_encode($classes);
         }
         
         /*
          * return a view the list of optimizable classes for the current extension
          */
         public function decompileClasses(){
-                $optimizableClasses = $this->getOptimizableClasses();
-                
-                $classes = array();
-                $referencer = core_kernel_persistence_hardapi_ResourceReferencer::singleton();
-                foreach($optimizableClasses as $optimizableClassUri => $options){
-                        $optimizableClass = new core_kernel_classes_Class($optimizableClassUri);
-                        $classes[] = array(
-                            'class'     =>      $optimizableClass->getLabel(),
-                            'classUri'  =>      $optimizableClassUri,
-                            'status'    =>      $referencer->isClassReferenced($optimizableClass)?__('compiled'):__('uncompiled'),
-                            'action'    => ''
-                        );
-                }
-                
-                
-                echo json_encode($classes);
+			$optimizableClasses = $this->getOptimizableClasses();
+
+			$classes = array();
+			$referencer = core_kernel_persistence_hardapi_ResourceReferencer::singleton();
+			foreach($optimizableClasses as $optimizableClassUri => $options){
+					$optimizableClass = new core_kernel_classes_Class($optimizableClassUri);
+					$classes[] = array(
+						'class'     =>      $optimizableClass->getLabel(),
+						'classUri'  =>      $optimizableClassUri,
+						'status'    =>      $referencer->isClassReferenced($optimizableClass)?__('compiled'):__('uncompiled'),
+						'action'    => ''
+					);
+			}
+
+
+			echo json_encode($classes);
         }
         
         /*
@@ -149,56 +149,62 @@ class tao_actions_Settings extends tao_actions_CommonModule {
          */
         protected function getOptimizableClasses(){
                 
-                $returnValue = array();
-                
-                $optionsCompile = array(
-                        'recursive'             => true,
-                        'append'                => true,
-                        'createForeigns'        => true,
-                        'referencesAllTypes'	=> true,
-                        'rmSources'             => true
-                );
-                
-                $optionsDecompile = array(
-                        'recursive'             => true,
-                        'removeForeigns'        => true				
-                );
-                
-                $defaultOptions = array(
-                        'compile' => $optionsCompile,
-                        'decompile' => $optionsDecompile
-                    );
-                
-                $userClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#User');
-                
-                
-                $returnValue = array(
-                        'http://www.tao.lu/Ontologies/TAO.rdf#Languages' => array(
-                                'compile' => array_merge($optionsCompile, array(
-                                        'additionalProperties'  => array(new core_kernel_classes_Property('http://www.w3.org/1999/02/22-rdf-syntax-ns#value')),
-                                        'createForeigns'        => false
-                                        )
-                                ),
-                                'decompile' => $optionsDecompile
-                            ),
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices' => $defaultOptions,
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfservicesResources' => $defaultOptions,
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitionResources' => $defaultOptions,
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassServicesResources' => $defaultOptions,
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassConnectors' => $defaultOptions,
-                        'http://www.tao.lu/middleware/wfEngine.rdf#ClassTokens' => $defaultOptions,
-                        'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject' => array(
-                                'compile' => array_merge($optionsCompile, array('topClass' => $userClass)),
-                                'decompile' => $optionsDecompile
-                            ),
-                        'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group' => $defaultOptions,
-                        'http://www.tao.lu/Ontologies/TAODelivery.rdf#History' => array(
-                                'compile' => array_merge($optionsCompile, array('createForeigns' => false)),
-                                'decompile' => $optionsDecompile
-                        )    
-                );
-                
-                return $returnValue;
+			$returnValue = array();
+
+			$optionsCompile = array(
+					'recursive'             => true,
+					'append'                => true,
+					'createForeigns'        => true,
+					'referencesAllTypes'	=> true,
+					'rmSources'             => true
+			);
+
+			$optionsDecompile = array(
+					'recursive'             => true,
+					'removeForeigns'        => true				
+			);
+
+			$defaultOptions = array(
+					'compile' => $optionsCompile,
+					'decompile' => $optionsDecompile
+				);
+
+			$userClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#User');
+			$taoSubjectRoleClass =  new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole');
+
+			$returnValue = array(
+					'http://www.tao.lu/Ontologies/TAO.rdf#Languages' => array(
+							'compile' => array_merge($optionsCompile, array(
+									'additionalProperties'  => array(new core_kernel_classes_Property('http://www.w3.org/1999/02/22-rdf-syntax-ns#value')),
+									'createForeigns'        => false
+									)
+							),
+							'decompile' => $optionsDecompile
+						),
+					'http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices' => $defaultOptions,
+					'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfservicesResources' => $defaultOptions,
+					'http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitionResources' => $defaultOptions,
+					'http://www.tao.lu/middleware/wfEngine.rdf#ClassServicesResources' => $defaultOptions,
+					'http://www.tao.lu/middleware/wfEngine.rdf#ClassConnectors' => $defaultOptions,
+					'http://www.tao.lu/middleware/wfEngine.rdf#ClassTokens' => $defaultOptions,
+					'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject' => array(
+							'compile' => array_merge(
+								$optionsCompile, 
+								array(
+									'topClass' => $userClass, 
+									'forceReferencing' => array($taoSubjectRoleClass)
+									)
+								),
+							'decompile' => $optionsDecompile
+						),
+					'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group' => $defaultOptions,
+					'http://www.tao.lu/Ontologies/TAODelivery.rdf#History' => array(
+							'compile' => array_merge($optionsCompile, array('createForeigns' => false)),
+							'decompile' => $optionsDecompile
+					)    
+			);
+
+			return $returnValue;
         }
         
         /*
@@ -207,124 +213,142 @@ class tao_actions_Settings extends tao_actions_CommonModule {
          */
         protected function getOptimizableProperties(){
                 
-                $returnValue = array();
-                
-                $returnValue = array(
-                        'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersFormalParameter',
-	    		'http://www.tao.lu/middleware/wfEngine.rdf#PropertySupportServicesUrl',
-	    		'http://www.tao.lu/middleware/wfEngine.rdf#PropertyConnectorsType',
-		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyConnectorsActivityReference',
-		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyProcessInstancesStatus',
-		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyProcessInstancesExecutionOf',
-		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsFinished',
-		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsExecutionOf',
-		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsCurrentUser',
-	    		'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsProcessExecution',
-	    		'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivityExecution',
-		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity',
-		    	'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensCurrentUser',
-		    	'http://www.tao.lu/Ontologies/generis.rdf#login',
-		    	'http://www.tao.lu/Ontologies/generis.rdf#password',
-		    	'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_PROCESS_EXEC_ID',
-	    		'http://www.tao.lu/Ontologies/TAOResult.rdf#AO_DELIVERY_ID',
-	    		'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_TEST_ID',
-	    		'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_ITEM_ID',
-	    		'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_SUBJECT_ID'
-                );
-                
-                return $returnValue;
+			$returnValue = array();
+
+			$returnValue = array(
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersFormalParameter',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertySupportServicesUrl',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyConnectorsType',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyConnectorsActivityReference',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyProcessInstancesStatus',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyProcessInstancesExecutionOf',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsFinished',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsExecutionOf',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsCurrentUser',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsProcessExecution',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivityExecution',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensCurrentUser',
+				'http://www.tao.lu/Ontologies/generis.rdf#login',
+				'http://www.tao.lu/Ontologies/generis.rdf#password',
+				'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_PROCESS_EXEC_ID',
+				'http://www.tao.lu/Ontologies/TAOResult.rdf#AO_DELIVERY_ID',
+				'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_TEST_ID',
+				'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_ITEM_ID',
+				'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_SUBJECT_ID'
+			);
+
+			return $returnValue;
         }
         
         public function compileClass(){
                 
-                $result = array('success' => false);
-                
-                $class = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
-                $optimizableClasses = $this->getOptimizableClasses();
-                if(isset($optimizableClasses[$class->uriResource]) && isset($optimizableClasses[$class->uriResource]['compile'])){
-                        
-                        
-                        //build the option array and launch the compilation:
-                        $userDefinedOptions = array();
-                        $options = array_merge($optimizableClasses[$class->uriResource]['compile'], $userDefinedOptions);
-                        
-                        $switcher = new core_kernel_persistence_Switcher(array('http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables'));
-                        $switcher->hardify($class, $options);
-                        
-                        
-                        //prepare return value
-                        $hardenedClasses = $switcher->getHardenedClasses();
-                        $count = isset($hardenedClasses[$class->uriResource])?$hardenedClasses[$class->uriResource]:0;
-                        $relatedClasses = array();
-                        foreach($hardenedClasses as $relatedClassUri => $nb){
-                                if($relatedClassUri != $class->uriResource){
-                                        $relatedClass = new core_kernel_classes_Class($relatedClassUri);
-                                        $relatedClasses[$relatedClass->getLabel()] = $nb;
-                                }
-                        }
-                        
-                        $result = array(
-                            'success'    => true,
-                            'count'     => $count,
-                            'relatedClasses' => $relatedClasses
-                        );
-                        
-                        unset($switcher);
-                }
-                
-                echo json_encode($result);
+			$result = array('success' => false);
+
+			$class = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+			$optimizableClasses = $this->getOptimizableClasses();
+			if(isset($optimizableClasses[$class->uriResource]) && isset($optimizableClasses[$class->uriResource]['compile'])){
+
+				//build the option array and launch the compilation:
+				$userDefinedOptions = array();
+				$options = array_merge($optimizableClasses[$class->uriResource]['compile'], $userDefinedOptions);
+
+				$switcher = new core_kernel_persistence_Switcher(array('http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables'));
+				$switcher->hardify($class, $options);
+
+				//force referencing:
+				if(isset($options['forceReferencing']) && is_array($options['forceReferencing'])){
+
+					$resourceReferencer = core_kernel_persistence_hardapi_ResourceReferencer::singleton();
+
+					foreach($options['forceReferencing'] as $additionalReferencingClass){
+						if(!is_null($additionalReferencingClass) && $additionalReferencingClass instanceof core_kernel_classes_Class){
+							if(!$resourceReferencer->isClassReferenced($additionalReferencingClass)){
+
+								$referencingOptions = array('table' => '_'.core_kernel_persistence_hardapi_Utils::getShortName($class));
+								if($options['topClass']){
+									$referencingOptions['topClass'] = $options['topClass'];
+								}
+
+								$resourceReferencer->referenceClass($additionalReferencingClass, $referencingOptions);
+
+							}
+						}
+					}
+				}
+
+				//prepare return value
+				$hardenedClasses = $switcher->getHardenedClasses();
+				$count = isset($hardenedClasses[$class->uriResource])?$hardenedClasses[$class->uriResource]:0;
+				$relatedClasses = array();
+				foreach($hardenedClasses as $relatedClassUri => $nb){
+						if($relatedClassUri != $class->uriResource){
+								$relatedClass = new core_kernel_classes_Class($relatedClassUri);
+								$relatedClasses[$relatedClass->getLabel()] = $nb;
+						}
+				}
+
+				$result = array(
+					'success'    => true,
+					'count'     => $count,
+					'relatedClasses' => $relatedClasses
+				);
+
+				unset($switcher);
+			}
+
+			echo json_encode($result);
                 
         }
         
         public function decompileClass(){
                 
-                $result = array('success' => false);
-                
-                $class = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
-                $optimizableClasses = $this->getOptimizableClasses();
-                if(isset($optimizableClasses[$class->uriResource]) && isset($optimizableClasses[$class->uriResource]['decompile'])){
-                        
-                        
-                        //build the option array and launch the compilation:
-                        $userDefinedOptions = array();
-                        $options = array_merge($optimizableClasses[$class->uriResource]['decompile'], $userDefinedOptions);
-                        
-                        $switcher = new core_kernel_persistence_Switcher(array('http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables'));
-                        $switcher->unhardify($class, $options);
-                        
-                        
-                        //prepare return value
-                        $decompiledClass = $switcher->getDecompiledClasses();
-                        $count = isset($decompiledClass[$class->uriResource])?$decompiledClass[$class->uriResource]:0;
-                        $relatedClasses = array();
-                        foreach($decompiledClass as $relatedClassUri => $nb){
-                                if($relatedClassUri != $class->uriResource){
-                                        $relatedClass = new core_kernel_classes_Class($relatedClassUri);
-                                        $relatedClasses[$relatedClass->getLabel()] = $nb;
-                                }
-                        }
-                        
-                        $result = array(
-                            'success'    => true,
-                            'count'     => $count,
-                            'relatedClasses' => $relatedClasses
-                        );
-                        
-                        unset($switcher);
-                }
-                
-                echo json_encode($result);
+			$result = array('success' => false);
+
+			$class = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+			$optimizableClasses = $this->getOptimizableClasses();
+			if(isset($optimizableClasses[$class->uriResource]) && isset($optimizableClasses[$class->uriResource]['decompile'])){
+
+				//build the option array and launch the compilation:
+				$userDefinedOptions = array();
+				$options = array_merge($optimizableClasses[$class->uriResource]['decompile'], $userDefinedOptions);
+
+				$switcher = new core_kernel_persistence_Switcher(array('http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables'));
+				$switcher->unhardify($class, $options);
+
+
+				//prepare return value
+				$decompiledClass = $switcher->getDecompiledClasses();
+				$count = isset($decompiledClass[$class->uriResource])?$decompiledClass[$class->uriResource]:0;
+				$relatedClasses = array();
+				foreach($decompiledClass as $relatedClassUri => $nb){
+						if($relatedClassUri != $class->uriResource){
+								$relatedClass = new core_kernel_classes_Class($relatedClassUri);
+								$relatedClasses[$relatedClass->getLabel()] = $nb;
+						}
+				}
+
+				$result = array(
+					'success'    => true,
+					'count'     => $count,
+					'relatedClasses' => $relatedClasses
+				);
+
+				unset($switcher);
+			}
+
+			echo json_encode($result);
                 
         }
         
         public function createPropertyIndex(){
                 
-                $properties = $this->getOptimizableProperties();
-                $result = array(
-                    'success' => core_kernel_persistence_Switcher::createIndex($properties)
-                );
-                
-                echo json_encode($result);
+			$properties = $this->getOptimizableProperties();
+			$result = array(
+				'success' => core_kernel_persistence_Switcher::createIndex($properties)
+			);
+
+			echo json_encode($result);
         }
 	
 }

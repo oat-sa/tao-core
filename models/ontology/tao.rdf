@@ -142,10 +142,10 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#installator">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole"/>
     <rdfs:label><![CDATA[installator]]></rdfs:label>
-    <rdfs:comment><![CDATA[Generated during update from user table on2010-05-17T18:54:33+0200]]></rdfs:comment>
+    <rdfs:comment><![CDATA[User created for install system tasks]]></rdfs:comment>
     <generis:login><![CDATA[generis]]></generis:login>
-    <generis:userDefLg><![CDATA[EN]]></generis:userDefLg>
-    <generis:userUILg><![CDATA[EN]]></generis:userUILg>
+    <generis:userDefLg rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LangEN"/>
+	<generis:userUILg rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LangEN"/>
     <generis:password><![CDATA[b01a52f727b0810639526fe2c8188331]]></generis:password>
   </rdf:Description>
 </rdf:RDF>
