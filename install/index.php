@@ -37,12 +37,13 @@ if($myForm->isSubmited() && $myForm->isValid()){
 		$installator->configWaterPhoenix($formValues);
 		$moduleUrl = $myForm->getValue('module_url');
 		$installed = true;
+		$taoUrl =   _url('index', 'Main', 'tao'); 
 	}
 	catch(tao_install_utils_Exception $ie){
 	
 		//we display the exception message to the user
 		$error = $ie->getMessage(); 
-		$errorTrace= trim($ie->getTraceAsString()); 
+
 	}
 }
 
@@ -60,7 +61,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/form.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="./res/tao.css"/> 
 	<script type="text/javascript" src="../views/js/jquery-1.4.2.min.js"></script>
-	<? if(!$installed): ?>
+	<?php if(!$installed): ?>
 	<script type="text/javascript" src="./res/tao.js"></script>
 	<? endif; ?>
 </head>
@@ -69,7 +70,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	<? if($installed):?>
 	<div id="success">
 	  <h1>Installation successfuly completed!</h1>
-	  <a href="<?= _url('index', 'Main', 'tao') ?>" title="TAO backend"><img src="../views/img/tao_logo_big.png" title="Access to the TAO platform" alt="Access to the TAO platform"/></a>
+	  <a href="<?=  $taoUrl ?>" title="TAO backend"><img src="../views/img/tao_logo_big.png" title="Access to the TAO platform" alt="Access to the TAO platform"/></a>
 	  <p>
  	  Click on the logo above to access the TAO platform. Use the login and password that corresponds to the previously
 	  created Super User.</p>
