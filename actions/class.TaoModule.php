@@ -165,7 +165,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						//delete property mode
 						foreach($clazz->getProperties() as $classProperty){
 							if($classProperty->uriResource == tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])){
-								var_dump($classProperty);
+								
 								if($classProperty->delete(true)){
 									$myForm->removeGroup("property_".$propNum);
 									break;
