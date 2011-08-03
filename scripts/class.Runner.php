@@ -75,10 +75,8 @@ abstract class tao_scripts_Runner
     public function __construct($inputFormat = array(), $options = array())
     {
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B begin
-        
-    	ob_start();
     	
-    	if(PHP_SAPI == 'cli'){
+    	if(PHP_SAPI == 'cli' && !isset($options['argv'])){
 			$this->argv = $_SERVER['argv'];
 		}
 		else{
@@ -113,8 +111,6 @@ abstract class tao_scripts_Runner
     	$this->postRun();
     	
     	self::out("\n");
-    	
-    	ob_end_clean();
     	
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B end
     }
