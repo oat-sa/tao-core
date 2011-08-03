@@ -31,7 +31,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 		//Keep a reference of the last opened node
 		this.lastOpened = null;
 		//Checked nodes memory
-		this.checkedNodes = (typeof options.checkedNodes != "undefined") ? options.checkedNodes : new Array ();
+		this.checkedNodes = (typeof options.checkedNodes != "undefined") ? options.checkedNodes.slice(0) : new Array ();
 		//Paginate the tree or not
 		this.paginate = typeof options.paginate != 'undefined' ? options.paginate : 0;
 		//Options to pass to the server
