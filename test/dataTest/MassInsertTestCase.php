@@ -35,9 +35,9 @@ class MassInsertTestCase extends UnitTestCase {
 	 */
 
 	// Number of subjects to create
-	protected $subjectNumber = 50;
+	protected $subjectNumber = 100;
 	// Number of groups to create
-	protected $groupNumber = 10;
+	protected $groupNumber = 2;
 	// Number of languages to create
 	protected $testNumber = 1;
 
@@ -61,206 +61,155 @@ class MassInsertTestCase extends UnitTestCase {
 		Bootstrap::loadConstants ('wfEngine');
 		Bootstrap::loadConstants ('taoDelivery');
 
-		// Get available languages
-
-		// Get all the languages referenced in the TAO platform
-		//$filters = array(
-		//	RDFS_TYPE => CLASS_LANGUAGES
-		//);
-		//$clazz = new core_kernel_classes_Class(CLASS_LANGUAGES);
-		//$options = array('recursive'	=> false, 'like' => false);
-		//$this->languages = $clazz->searchInstances($filters, $options);
-
+		$classLanguage = new core_kernel_classes_Class(CLASS_LANGUAGES);
+		$this->languages = $classLanguage->getInstances();
 		$this->testService = tao_models_classes_ServiceFactory::get('Tests');
 		$this->deliveryService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
 		$this->subjectService = tao_models_classes_ServiceFactory::get('taoSubjects_models_classes_SubjectsService');
 	}
 
-
-	//	public function testCreateLanguages(){
-	//		return;
-	//
-	//		if (!$this->createLanguages){
-	//			return;
-	//		}
-	//
-	//		/* Créer n languages */
-	//
-	////		$this->assertTrue(defined('CLASS_LANGUAGES'));
-	//		$class = new core_kernel_classes_Class(CLASS_LANGUAGES,__METHOD__);
-	////		$this->assertIsA($class, 'core_kernel_classes_Class');
-	//
-	//		$propertyLevel = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAO.rdf#level');
-	//		for ($i=0; $i<$this->languagesNumber; $i++){
-	//
-	//			$languageLabel = "LG {$i}";
-	//			$instance = $class->createInstance($languageLabel, "COMMENT {$languageLabel}");
-	//			$instance->setPropertyValue($propertyLevel, $i+1);
-	////			$this->assertIsA($instance, 'core_kernel_classes_Resource');
-	////			$this->assertEqual($languageLabel, $instance->getLabel());
-	//
-	//		}
-	//
-	//	}
-
 	public function testCreateGroups(){
-                if($this->groupNumber){
-                        $this->assertTrue(defined('TAO_GROUP_CLASS'));
-        //		$TopGroupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-        //		$groupClass = $TopGroupClass->createSubClass("AutoInsert", "AutoInsert Group Sub Class");
-                        $groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
-                        $this->assertIsA($groupClass, 'core_kernel_classes_Class');
 
-                        $i=1;
-                        $n = $this->groupNumber;
+		if ($this->groupNumber){
 
-                        // Define the properties used during this process
-                        $propertyLabel = new core_kernel_classes_Property(RDFS_LABEL);
-                        $propertyComment = new core_kernel_classes_Property(RDFS_COMMENT);
+			//$groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+			$TopGroupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
+			$groupClass = $TopGroupClass->createSubClass("Simulated (TC)", "Simulated Test Case Group Class", LOCAL_NAMESPACE."#SimulatedTestCaseGroupClass");
 
-                        // Create N subjects
-                        while ($i<=$n){
-                                // create a Subject
-                                $groupInstanceLabel = "Group {$i}";
-                                $groupInstanceComment = "Group {$i} comment";
-                                $groupInstance = $groupClass->createInstance($groupInstanceLabel, $groupInstanceComment);
-                                $this->assertIsA($groupInstance, 'core_kernel_classes_Resource');
+			$propertyLabel = new core_kernel_classes_Property(RDFS_LABEL);
+			$propertyComment = new core_kernel_classes_Property(RDFS_COMMENT);
 
-        //			// Add label and comment properties functions of the languages available on the TAO platform
-        //			for ($j=0; $j<count($this->languages); $j++){
-        //				$lg = $this->languages[$j]->getLabel();
-        //				$groupInstance->setPropertyValueByLg ($propertyLabel, "Group label{$i} {$lg}", $lg);
-        //				$groupInstance->setPropertyValueByLg ($propertyComment, "Group {$i} Comment {$lg}", $lg);
-        //			}
+			for ($i=1; $i<=$this->groupNumber; $i++){
 
-                                $i++;
-                        }
+				// create a Subject
+				//$groupInstanceLabel = "Group {$i}";
+				//$groupInstanceComment = "Group {$i} comment";
+				$groupInstance = $groupClass->createInstance();
 
-                        $this->groups = $groupClass->getInstances ();
-                }
+				// Add label and comment properties functions of the languages available on the TAO platform
+				foreach ($this->languages as $lg){
+					$lgLabel = $lg->getLabel();
+					$groupInstance->setPropertyValueByLg ($propertyLabel, "Group label{$i} {$lgLabel}", $lgLabel);
+					$groupInstance->setPropertyValueByLg ($propertyComment, "Group {$i} Comment {$lgLabel}", $lgLabel);
+				}
+			}
+
+			$this->groups = $groupClass->getInstances ();
+		}
 	}
 
 	public function testCreateSubjects(){
 
-		if (!$this->subjectNumber){
-			return;
+		if ($this->subjectNumber){
+
+			// Create the subject class
+			//$subjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
+			$TopSubjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
+			$subjectClass = $TopSubjectClass->createSubClass("Simulated (TC)", "Simulated Test Case Subject Class", LOCAL_NAMESPACE."#SimulatedTestCaseSubjectClass");
+
+			// Define usefull properties
+			$propertyLoginProp = new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
+			$propertyPasswordProp = new core_kernel_classes_Property(PROPERTY_USER_PASSWORD);
+			$propertyFirstNameProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userFirstName');
+			$propertyLastNameProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userLastName');
+			$propertyUserDefLgProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userDefLg');
+			$propertyUserUILgProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userUILg');
+			$propertyLabel = new core_kernel_classes_Property(RDFS_LABEL);
+			$propertyComment = new core_kernel_classes_Property(RDFS_COMMENT);
+			$propertyRdfTypeProp = new core_kernel_classes_Property(RDF_TYPE);
+
+			// Create N subjects
+			for ($i=1; $i <= $this->subjectNumber; $i++){
+
+				//if($i<=10) {$i++;continue;}
+
+				$login = "s{$i}";
+				$password = "123456";
+				$firstName = "first name {$i}";
+				$lastName = "last name {$i}";
+
+				$languageUri = 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN';//all in english
+
+				// create a Subject
+				//$subjectInstanceLabel = "subject {$i}";
+				//$subjectInstanceComment = "subject {$i} comment";
+				$subjectInstance = $subjectClass->createInstance();
+
+				// Use setProperty to be compliant with the old API
+				$subjectInstance->setPropertyValue ($propertyLoginProp, $login);
+				$subjectInstance->setPropertyValue ($propertyPasswordProp, md5($password));
+				$subjectInstance->setPropertyValue ($propertyFirstNameProp, $firstName);
+				$subjectInstance->setPropertyValue ($propertyLastNameProp, $lastName);
+				$subjectInstance->setPropertyValue ($propertyUserDefLgProp, $languageUri);
+				$subjectInstance->setPropertyValue ($propertyUserUILgProp, $languageUri);
+				$subjectInstance->setType (new core_kernel_classes_Class(CLASS_ROLE_SUBJECT));
+
+				// Commpliant with the new minimal API
+				/*
+				$properties = array(
+					$propertyLoginProp->uriResource			=>$login
+					, $propertyPasswordProp->uriResource 	=>md5($password)
+					, $propertyFirstNameProp->uriResource 	=>$firstName
+					, $propertyLastNameProp->uriResource 	=>$lastName
+					, $propertyUserDefLgProp->uriResource 	=>$languageUri
+					, $propertyUserUILgProp->uriResource 	=>$languageUri
+					, $propertyRdfTypeProp->uriResource		=>CLASS_ROLE_SUBJECT
+				);
+				$subjectInstance->setPropertiesValues ($properties);
+				*/
+
+				// Add label and comment properties functions of the languages available on the TAO platform
+				foreach ($this->languages as $lg){
+					$lgLabel = $lg->getLabel();
+					$subjectInstance->setPropertyValueByLg ($propertyLabel, "Subject label{$i} {$lgLabel}", $lgLabel);
+					$subjectInstance->setPropertyValueByLg ($propertyComment, "Subject {$i} Comment {$lgLabel}", $lgLabel);
+				}
+
+			}
+
+			$this->subjects = $subjectClass->getInstances ();
 		}
-
-		// Create the subject class
-		$this->assertTrue(defined('TAO_SUBJECT_CLASS'));
-//		$TopSubjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
-//		$subjectClass = $TopSubjectClass->createSubClass("AutoInsert", "AutoInsert Subject Sub Class");
-		$subjectClass = new core_kernel_classes_Class(TAO_SUBJECT_CLASS);
-//		$subjectClass = new core_kernel_classes_Resource(CLASS_ROLE_WORKFLOWUSERROLE);
-		$this->assertIsA($subjectClass, 'core_kernel_classes_Class');
-
-		$i=1;
-		$n = $this->subjectNumber;
-
-		// Define usefull properties
-		$propertyLoginProp = new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
-		$propertyPasswordProp = new core_kernel_classes_Property(PROPERTY_USER_PASSWORD);
-		$propertyFirstNameProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userFirstName');
-		$propertyLastNameProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userLastName');
-		$propertyUserDefLgProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userDefLg');
-		$propertyUserUILgProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userUILg');
-		$propertyLabel = new core_kernel_classes_Property(RDFS_LABEL);
-		$propertyComment = new core_kernel_classes_Property(RDFS_COMMENT);
-		$propertyRdfTypeProp = new core_kernel_classes_Property(RDF_TYPE);
-
-		// Create N subjects
-		while ($i<=$n){
-                                
-                        //if($i<=10) {$i++;continue;}
-                        
-			$login = "s{$i}";
-			$password = "123456";
-			$firstName = "first name {$i}";
-			$lastName = "last name {$i}";
-			
-			$languageUri = 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN';//all in english
-
-			// create a Subject
-			$subjectInstanceLabel = "subject {$i}";
-			$subjectInstanceComment = "subject {$i} comment";
-			$subjectInstance = $subjectClass->createInstance($subjectInstanceLabel, $subjectInstanceComment);
-			$this->assertIsA($subjectInstance, 'core_kernel_classes_Resource');
-
-			// Use setProperty to be compliant with the old API
-			$subjectInstance->setPropertyValue ($propertyLoginProp, $login);
-			$subjectInstance->setPropertyValue ($propertyPasswordProp, md5($password));
-			$subjectInstance->setPropertyValue ($propertyFirstNameProp, $firstName);
-			$subjectInstance->setPropertyValue ($propertyLastNameProp, $lastName);
-			$subjectInstance->setPropertyValue ($propertyUserDefLgProp, $languageUri);
-			$subjectInstance->setPropertyValue ($propertyUserUILgProp, $languageUri);
-        	$subjectInstance->setType (new core_kernel_classes_Class(CLASS_ROLE_SUBJECT));
-
-			// Commpliant with the new minimal API
-/*			$properties = array(
-				$propertyLoginProp->uriResource			=>$login
-				, $propertyPasswordProp->uriResource 	=>md5($password)
-				, $propertyFirstNameProp->uriResource 	=>$firstName
-				, $propertyLastNameProp->uriResource 	=>$lastName
-				, $propertyUserDefLgProp->uriResource 	=>$languageUri
-				, $propertyUserUILgProp->uriResource 	=>$languageUri
-				, $propertyRdfTypeProp->uriResource		=>CLASS_ROLE_SUBJECT
-			);
-                        $subjectInstance->setPropertiesValues ($properties);    */                   
-                        
-
-			// Add label and comment properties functions of the languages available on the TAO platform
-//			for ($j=0; $j<count($this->languages); $j++){
-//				$lg = $this->languages[$j]->getLabel();
-//				$subjectInstance->setPropertyValueByLg ($propertyLabel, "Subject label{$i} {$lg}", $lg);
-//				$subjectInstance->setPropertyValueByLg ($propertyComment, "Subject {$i} Comment {$lg}", $lg);
-//			}
-
-			$i++;
-		}
-
-		$this->subjects = $subjectClass->getInstances ();
 	}
 
 
 	public function testAssociateSubjectGroup (){
-                if(count($this->groups)){
-                        
-                        // Define usefull properties
-                        $groupMemberProperty = new core_kernel_classes_Property (TAO_GROUP_MEMBERS_PROP);
+		if(count($this->groups)){
 
-                        // How many subjects by group
-                        $step = 1;
-                        $slice = count($this->subjects)/count($this->groups);
-                        $i = 0;
+			// Define usefull properties
+			$groupMemberProperty = new core_kernel_classes_Property (TAO_GROUP_MEMBERS_PROP);
 
-                        $group = current($this->groups);
-                        foreach ($this->subjects as $subject){
-                                $group->setPropertyValue ($groupMemberProperty, $subject->uriResource);
+			// How many subjects by group
+			$step = 1;
+			$slice = count($this->subjects)/count($this->groups);
+			$i = 0;
 
-                                $i++;
-                                if ($i>($step*$slice)-1){
-                                        $group = next($this->groups);
-                                        $step++;
-                                }
-                        }
-                }
+			$group = current($this->groups);
+			foreach ($this->subjects as $subject){
+				$group->setPropertyValue ($groupMemberProperty, $subject->uriResource);
+
+				$i++;
+				if ($i>($step*$slice)-1){
+					$group = next($this->groups);
+					$step++;
+				}
+			}
+		}
 	}
 
 	public function testCreateTests () {
-                       
-                if (!$this->testNumber){
+
+		if (!$this->testNumber){
 			return;
 		}
-                
+
 		// Define usefull properties
 		$testActiveProperty = new core_kernel_classes_Property(TEST_ACTIVE_PROP);
-		
+
 		// Get the test class
-		$this->assertTrue(defined('TAO_TEST_CLASS'));
-//		$TopTestClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-//		$testClass = $TopTestClass->createSubClass("AutoInsert", "AutoInsert Test Sub Class");
-		$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
-		
+		//$testClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
+		$TopTestClass = new core_kernel_classes_Class(TAO_TEST_CLASS);
+		$testClass = $TopTestClass->createSubClass("Simulated (TC)", "Simulated Test Case Test Class", LOCAL_NAMESPACE."#SimulatedTestCaseTestClass");
+
 		for ($i=0; $i<$this->testNumber; $i++){
 
 			// Create a test instance
@@ -268,22 +217,18 @@ class MassInsertTestCase extends UnitTestCase {
 
 			// Associate an item to the test
 			$item = new core_kernel_classes_Resource (common_ext_NamespaceManager::singleton()->getLocalNamespace().'i1292796232039301700');
-			$this->testService->setTestItems ($test, array ($item));
-			// Associate an item to the test
-			$item = new core_kernel_classes_Resource (common_ext_NamespaceManager::singleton()->getLocalNamespace().'i1292796232039301700');
-			$this->testService->setTestItems ($test, array ($item));
-			// Associate an item to the test
-			$item = new core_kernel_classes_Resource (common_ext_NamespaceManager::singleton()->getLocalNamespace().'i1292796232039301700');
-			$this->testService->setTestItems ($test, array ($item));
-			
+			$this->testService->setTestItems ($test, array ($item, $item, $item));
+
 			// Active the test
 			$test->setPropertyValue($testActiveProperty, GENERIS_TRUE);
 		}
 
 		$this->tests = $testClass->getInstances ();
-		
+
 		// Create a delivery
-		$delivery = $this->deliveryService->createInstance(new core_kernel_classes_Class(TAO_DELIVERY_CLASS), 'AutoInsert Delivery');
+		$topDeliveryClass = new core_kernel_classes_Class(TAO_DELIVERY_CLASS);
+		$deliveryClass = $topDeliveryClass->createSubClass("Simulated (TC)", "Simulated Test Case Test Class", LOCAL_NAMESPACE."#SimulatedTestCaseDeliveryClass");
+		$delivery = $this->deliveryService->createInstance($deliveryClass, 'AutoInsert Delivery');
 		// Set the groups
 		$groupsParam = array(); foreach($this->groups as $group) $groupsParam[]= $group->uriResource;
 		$this->deliveryService->setDeliveryGroups($delivery, $groupsParam);
@@ -291,7 +236,6 @@ class MassInsertTestCase extends UnitTestCase {
 		$testsParam = array(); foreach($this->tests as $t) $testsParam[]= $t;
 		$this->deliveryService->setDeliveryTests($delivery, $testsParam);
 	}
-
 
 }
 ?>

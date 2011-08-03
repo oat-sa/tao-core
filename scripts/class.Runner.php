@@ -76,14 +76,23 @@ abstract class tao_scripts_Runner
     {
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B begin
         
-    	self::out("\n * Running {$_SERVER['argv'][0]} *\n", array('color' => 'white'));
+    	ob_start();
+    	
+    	if(PHP_SAPI == 'cli'){
+			$this->argv = $_SERVER['argv'];
+		}
+		else{
+			$this->argv = $options['argv'];
+		}
+    	
+    	self::out("\n * Running {$this->argv[0]} *\n", array('color' => 'white'));
     	
     	$this->inputFormat = $inputFormat;
 
     	//check if help is needed
     	$helpTokens = array('-h', 'help', '-help', '--help)');
     	foreach( $helpTokens as $helpToken){
-    		 if(in_array($helpToken, $_SERVER['argv'])){
+    		 if(in_array($helpToken, $this->argv)){
     		 	$this->help();
     		 	exit(0);
     		 }
@@ -104,6 +113,8 @@ abstract class tao_scripts_Runner
     	$this->postRun();
     	
     	self::out("\n");
+    	
+    	ob_end_clean();
     	
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B end
     }
@@ -136,8 +147,8 @@ abstract class tao_scripts_Runner
          * </code>
          */
         $i = 1;
-        while($i < count($_SERVER['argv'])){
-        	$arg = trim($_SERVER['argv'][$i]);
+        while($i < count($this->argv)){
+        	$arg = trim($this->argv[$i]);
         	if(!empty($arg)){
         		if(preg_match("/^[\-]{1,2}\w+=(.*)+$/", $arg)){
 	        		$sequence = explode('=', preg_replace("/^[\-]{1,}/", '', $arg));
@@ -146,9 +157,9 @@ abstract class tao_scripts_Runner
 	        		}
 	        	}
         		else if(preg_match("/^[\-]{1,2}\w+$/", $arg)){
-        			if(isset($_SERVER['argv'][$i + 1])){
+        			if(isset($this->argv[$i + 1])){
 	        			$key = preg_replace("/^[\-]{1,}/", '', $arg);
-	        			$this->parameters[$key] = trim($_SERVER['argv'][++$i]);
+	        			$this->parameters[$key] = trim($this->argv[++$i]);
         			}
 	        	}
 	        	else{
@@ -387,7 +398,7 @@ abstract class tao_scripts_Runner
     {
         // section 127-0-1-1--5d5119d4:12e3924f2ec:-8000:0000000000002D86 begin
         
-    	$usage = "Usage:php {$_SERVER['argv'][0]} [arguments]\n";
+    	$usage = "Usage:php {$this->argv[0]} [arguments]\n";
     	$usage .= "\nArguments list:\n";
 		foreach($this->inputFormat['parameters'] as $parameter){
        		if(isset($parameter['required'])){

@@ -24,7 +24,7 @@ require_once DIR_CORE_HELPERS . 'Core.php';
  * @subpackage install
  * @example 
  * <code>
- *  $bootStrap = new BootStrap('tao');	//create the Bootstrap isntance
+ *  $bootStrap = new BootStrap('tao');	//create the Bootstrap instance
  *  $bootStrap->start();				//start all the services
  *  $bootStrap->dispatch();				//dispatch the http request into the control loop
  * </code>
@@ -181,7 +181,7 @@ class Bootstrap{
 			
 			if($extension == 'generis') continue; //generis constants are already loaded
 			
-			//loadt the config of the extension
+			//load the config of the extension
 			self::loadConstants($extension);
 		}
 		
