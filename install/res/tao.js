@@ -48,7 +48,7 @@ testDatabaseConnection = function(){
 };
 
 checkDatabaseCredentials = function(){
-	if($('#db_user').val().trim() == ''){
+	if($.trim($('#db_user').val()) == ''){
 		$('#db_test').attr('disabled', true);
 		return false;
 	}
