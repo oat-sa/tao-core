@@ -79,7 +79,7 @@ function loading(){
 		return false;
 	});
 	$("#ajax-loading").show('fast');
-	$(":submit, :button, a").attr('disabled', true).css('cursor', 'default');
+	$("input:submit, input:button, a").attr('disabled', true).css('cursor', 'default');
 	
 }
 
@@ -91,7 +91,7 @@ function loading(){
 function loaded(){
 	$(window).unbind('click');
 	$("#ajax-loading").hide('fast');
-	$(":submit, :button, a").attr('disabled', false).css('cursor', 'pointer');
+	$("input:submit, input:button, a").attr('disabled', false).css('cursor', 'pointer');
 }
 
 /**
