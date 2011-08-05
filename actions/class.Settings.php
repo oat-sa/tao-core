@@ -197,6 +197,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 								),
 							'decompile' => $optionsDecompile
 						),
+					'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery' => $defaultOptions,
 					'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group' => $defaultOptions,
 					'http://www.tao.lu/Ontologies/TAODelivery.rdf#History' => array(
 							'compile' => array_merge($optionsCompile, array('createForeigns' => false)),
