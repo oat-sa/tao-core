@@ -89,16 +89,25 @@ class tao_actions_form_Search
         
     	$chainingElt = tao_helpers_form_FormFactory::getElement('chaining', 'Radiobox');
 		$chainingElt->setDescription(__('Filtering mode'));
-		$chainingElt->setOptions(array('and' => __('Inclusive (AND)'), 'or' =>  __('Exclusive (OR)')));
-		$chainingElt->setValue('and');
+		$chainingElt->setOptions(array('or' =>  __('Exclusive (OR)'), 'and' => __('Inclusive (AND)')));
+		$chainingElt->setValue('or');
 		$this->form->addElement($chainingElt);
+		
+		$recursiveElt = tao_helpers_form_FormFactory::getElement('recursive', 'Radiobox');
+		$recursiveElt->setDescription(__('Recursive'));
+		$recursiveElt->setOptions(array('0' => __('Current class only'), '10' =>  __('Current class + Subclasses')));
+		$recursiveElt->setValue('current');
+		$this->form->addElement($recursiveElt);
 		
 		$langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
 		$langElt->setDescription(__('Language'));
-		$langElt->setOptions(tao_helpers_I18n::getAvailableLangs(true));
+		
+		$languages = array_merge(array('  '), tao_helpers_I18n::getAvailableLangs(true));
+		$langElt->setOptions($languages);
+		$langElt->setValue(0);
 		$this->form->addElement($langElt);
 		
-		$this->form->createGroup('params', __('Options'), array('chaining', 'lang'));
+		$this->form->createGroup('params', __('Options'), array('chaining', 'recursive', 'lang'));
 		
 		
 		$filters = array();

@@ -110,7 +110,7 @@ class tao_helpers_form_validators_Label
 			$options = array(
 				'lang' 		=> core_kernel_classes_Session::singleton()->getLg(),
 				'like' 		=> false,
-				'recursive' => false
+				'recursive' => 0
 			);
 			$propertyFilter = array(
 				RDFS_LABEL => $this->getValue()
