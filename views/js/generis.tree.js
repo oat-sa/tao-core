@@ -638,11 +638,11 @@ GenerisTreeClass.defaultOptions = {
  * @return {Boolean}
  */
 GenerisTreeClass.selectTreeNode = function(id){
-	i=0;
+	var i=0;
 	while(i < GenerisTreeClass.instances.length){
-		aGenerisTree = GenerisTreeClass.instances[i];
+		var aGenerisTree = GenerisTreeClass.instances[i];
 		if(aGenerisTree){
-			aJsTree = aGenerisTree.getTree();
+			var aJsTree = aGenerisTree.getTree();
 			if(aJsTree){
 				if(aJsTree.select_branch($("li[id='"+id+"']"))){
 					return true;
@@ -661,11 +661,11 @@ GenerisTreeClass.selectTreeNode = function(id){
  */
 function getTreeOptions(uri){
 	if (uri) {
-		i = 0;
+		var i = 0;
 		while (i < GenerisTreeClass.instances.length) {
-			aGenerisTree = GenerisTreeClass.instances[i];
+			var aGenerisTree = GenerisTreeClass.instances[i];
 			if (aGenerisTree) {
-				aJsTree = aGenerisTree.getTree();
+				var aJsTree = aGenerisTree.getTree();
 				if (aJsTree) {
 					if (aJsTree.get_node($("li[id='" + uri + "']"))) {
 						return {
