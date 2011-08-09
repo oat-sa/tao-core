@@ -227,15 +227,15 @@ class tao_actions_form_Users
 		else{
 			
 			$validatePasswords = true;
-                        $validateOldPassword = true;
+            $validateOldPassword = true;
 			if(!isset($_POST['password0']) && !isset($_POST['password1'])){
-                                $validateOldPassword = false;
-                                if (isset($_POST['password2']) && empty($_POST['password3'])) {
-                                        $validatePasswords = false;
-                                }
+			$validateOldPassword = false;
+			if (isset($_POST['password2']) && empty($_POST['password3'])) {
+				$validatePasswords = false;
+			}
 			}else if(isset($_POST['password1']) && empty($_POST['password1'])){
-                                $validatePasswords = false;
-                        }
+				$validatePasswords = false;
+			}
 			
 			$pass0Element = tao_helpers_form_FormFactory::getElement('password0', 'Hidden');
 			$passwordValue = '';

@@ -89,9 +89,10 @@ class tao_actions_form_List
 		$sizeElt->setDescription(__('Number of elements'));
 		$sizeElt->setAttribute('size', '4');
 		$sizeElt->setValue(0);
-		$sizeElt->addValidator(
+		$sizeElt->addValidators(array(
+			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 			tao_helpers_form_FormFactory::getValidator('Integer', array('min' => 1))
-		);
+		));
 		$this->form->addElement($sizeElt);
 		
 		$this->form->createGroup('options', __('List Options'), array('label', 'size'));

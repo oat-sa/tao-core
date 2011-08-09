@@ -312,9 +312,19 @@ abstract class tao_helpers_form_Form
     public function addElement( tao_helpers_form_FormElement $element)
     {
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AE begin
+		$elementPosition = -1;
+		foreach($this->elements as $i => $elt){
+			if($elt->getName() == $element->getName()){
+				$elementPosition = $i;
+				break;
+			}
+		}
 		
-		
-		$this->elements[] = $element;
+		if($elementPosition >= 0){
+			$this->elements[$elementPosition] = $element;
+		}else{
+			$this->elements[] = $element;
+		}
 		
         // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AE end
     }
