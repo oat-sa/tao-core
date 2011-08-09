@@ -66,11 +66,12 @@ $(document).ready(function(){
 
 			listContainer.wrap("<form />");
 			listContainer.prepend("<input type='hidden' name='uri' value='"+uri+"' />");
-
-			listContainer.find('legend span').replaceWith(function(){
-				return "<input type='text' name='label' value='"+$(this).text()+" />";  
+			
+//			listContainer.find('div.list-elements').prepend("<input type='text' name='label' value='"+listContainer.find('legend span').text()+"'/>");
+			$("<input type='text' name='label' value='"+listContainer.find('legend span').text()+"'/>").prependTo(listContainer.find('div.list-elements')).keyup(function(){
+				listContainer.find('legend span').text($(this).val());
 			});
-
+			
 			if (listContainer.find('.list-element').length){
 				listContainer.find('.list-element').replaceWith(function(){
 					return "<input type='text' name='" + $(this).attr('id') + "' value='"+$(this).text()+"' />";  
