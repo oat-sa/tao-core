@@ -148,11 +148,15 @@ div.xhtml_form div.form-toolbar{
 	color:#AAA;
 	position:relative;
 	right:0%;
-	z-index:1000;
+	z-index:1;
 	margin:5px 5px 5px 2px;
 	padding-left:1px;
 	border:none;
 }
+div.xhtml_form div.form-toolbar:hover{
+	z-index:1000;
+}
+
 div.xhtml_form div.form-toolbar a img{
 	vertical-align:text-bottom;	
 }

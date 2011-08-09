@@ -88,7 +88,12 @@ class tao_helpers_form_elements_xhtml_Calendar
 		
 		$returnValue .="<script type=\"text/javascript\">
 						$(function(){
-							$(\"#$elementId\").datepicker({ dateFormat: 'yy-mm-dd' });
+							$(\"#$elementId\").datepicker({ 
+								dateFormat: 'yy-mm-dd',
+								beforeShow: function(input, inst) {
+									inst.dpDiv.css('z-index', 1001);
+								}
+							});
 						});
 						</script>";
 
