@@ -67,7 +67,6 @@ $(document).ready(function(){
 			listContainer.wrap("<form />");
 			listContainer.prepend("<input type='hidden' name='uri' value='"+uri+"' />");
 			
-//			listContainer.find('div.list-elements').prepend("<input type='text' name='label' value='"+listContainer.find('legend span').text()+"'/>");
 			$("<input type='text' name='label' value='"+listContainer.find('legend span').text()+"'/>").prependTo(listContainer.find('div.list-elements')).keyup(function(){
 				listContainer.find('legend span').text($(this).val());
 			});
