@@ -30,7 +30,7 @@
 		if(ctx_extension){
 			url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
 		}
-		var getUrl = url + 'http://tao.local/taoItems/items/getFilteredInstancesPropertiesValues';
+		var getUrl = root_url + 'taoItems/items/getFilteredInstancesPropertiesValues';
 		<?foreach($properties as $property):?>
 		filterTrees['<?= tao_helpers_Uri::encode($property->uriResource) ?>'] = new GenerisTreeFormClass('#tree-<?= md5($property->uriResource) ?>', getUrl, {
 			'actionId': 'filter',
@@ -60,7 +60,7 @@
 				filterTrees[treeId].setServerParameter('filter', filter, true);
 			}
 			//Refresh the result brol
-			$.getJSON ('http://tao.local/taoItems/items/searchInstances'
+			$.getJSON (root_url+'taoItems/items/searchInstances'
 				,{
 					'classUri' : '<?= $clazz->uriResource ?>'
 					, 'filter' : filter
