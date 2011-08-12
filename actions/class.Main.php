@@ -44,25 +44,37 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			session_destroy();
 		}
 		
-		//add the login stylesheet
-		tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/login.css');
-		
-		$myLoginFormContainer = new tao_actions_form_Login();
-		$myForm = $myLoginFormContainer->getForm();
-		
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				if($this->userService->loginUser($myForm->getValue('login'), md5($myForm->getValue('password')))){
-					$this->redirect(_url('index', 'Main'));	
+		if(!tao_helpers_Request::isAjax()){
+			
+			//add the login stylesheet
+			tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/login.css');
+			
+			$myLoginFormContainer = new tao_actions_form_Login();
+			$myForm = $myLoginFormContainer->getForm();
+			
+			if($myForm->isSubmited()){
+				if($myForm->isValid()){
+					if($this->userService->loginUser($myForm->getValue('login'), md5($myForm->getValue('password')))){
+						$this->redirect(_url('index', 'Main'));	
+					}
+					else{
+						$this->setData('errorMessage', __('No account match the given login / password'));
+					}
 				}
-				else{
-					$this->setData('errorMessage', __('No account match the given login / password'));
+			}
+			
+			$this->setData('form', $myForm->render());
+			$this->setView('main/login.tpl');
+		} else {
+			if($this->hasRequestParameter('login') && $this->hasRequestParameter('password')){
+				$returnValue = false;
+				if ($this->userService->loginUser($this->getRequestParameter('login'), md5($this->getRequestParameter('password')))){
+					$returnValue = true;
 				}
+				echo json_encode ((object)array('success'=>$returnValue));
 			}
 		}
 		
-		$this->setData('form', $myForm->render());
-		$this->setView('main/login.tpl');
 	}
 
 	/**

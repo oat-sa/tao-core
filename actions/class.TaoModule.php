@@ -568,16 +568,90 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		
 		$this->setData('clazz', $clazz);
-		//Get properties used to filter the class
+		//Get properties which will be used to filter the class
 		$properties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz);
 		$this->setData('properties', $properties);
+		
+		//Get instances for fun$
+		$instances = $clazz->getInstances();
+		$index = 0;
+		foreach ($instances as $instance){
+			$found[$index]['uri'] = $instance->uriResource;
+			$found[$index]['properties'] = array();
+			$found[$index]['properties'] = array($instance->getLabel());
+			$index++;
+		}
+		$this->setData('foundNumber', count($found));
+		$this->setData('found', $found);
 		
 		$this->setData('formTitle', __('Filter'));
 		$this->setView('form/filter.tpl', true);
 	}
 	
-	public function getBrol () {
+	public function searchInstances () {
+		$returnValue = array ();
+		$filter = array ();
+		$properties = array ();
+		
+		if(!tao_helpers_Request::isAjax()){
+			//throw new Exception("wrong request mode");
+		}
+		
+		// Get the properties to return
+		if ($this->hasRequestParameter('properties')){
+			$properties = $this->getRequestParameter('properties');
+		}
+		// Get the class paramater
+		if($this->hasRequestParameter('classUri')){
+			$clazz = $this->getCurrentClass();
+		} else {
+			$clazz = $this->getRootClass();
+		}
+		// Get filter parameter
+		$filterParam = array();
+		if($this->hasRequestParameter('filter')){
+			$filterParam = $this->getRequestParameter('filter');
+			foreach ($filterParam as $key=>$value){
+				$propertyUri = tao_helpers_Uri::decode($value['property_uri']);
+				$propertyValue = !common_Utils::isUri(tao_helpers_Uri::decode($value['value'])) ? $value['value'] : tao_helpers_Uri::decode($value['value']);
+				if (!isset($filter[$propertyUri])) $filter[$propertyUri] = array();
+				array_push($filter[$propertyUri], $propertyValue);
+			}
+		}
+		
+		$properties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz);
+		$instances = $this->service->searchInstances($filter, $clazz, array ('recursive'=>true));
+		$index = 0;
+		foreach ($instances as $instance){
+			$returnValue [$index]['uri'] = $instance->uriResource;
+			$formatedProperties = array ();
+			foreach ($properties as $property){
+				//$formatedProperties[] = (string)$instance->getOnePropertyValue (new core_kernel_classes_Property($property));
+				$value = $instance->getOnePropertyValue ($property);
+				if ($value instanceof core_kernel_classes_Resource) {
+					$value = $value->getLabel();
+				}else{
+					$value = (string)$value;
+				}
+				$formatedProperties[] = $value;
+			}
+			$returnValue [$index]['properties'] = (Object)$formatedProperties;
+			$index++;
+		}
+		
+		echo json_encode ($returnValue);
+	}
+	
+	/**
+	 * Get property values for a sub set of filtered instances
+	 * @param {RequestParameter|string} propertyUri Uri of the target property
+	 * @param {RequestParameter|string} classUri Uri of the target class
+	 * @param {RequestParameter|array} filter Array of propertyUri/propertyValue used to filter instances of the target class
+	 * @return {array} formated for tree 
+	 */
+	public function getFilteredInstancesPropertiesValues () {
 		$data = array ();
+		
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
@@ -611,7 +685,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		
 		// Get used property values for a class functions of the given filter
-		$propertyValues = $clazz->getInstancesPropertyValues ($property, $filter, array ("distinct"=>true));
+		$propertyValues = $clazz->getInstancesPropertyValues ($property, $filter, array ("distinct"=>true, "recursive"=>true));
 		
 		$propertyValuesFormated = array ();
 		foreach($propertyValues as $propertyValue){
