@@ -125,6 +125,11 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 						instance.options.loadCallback();
 					}
 				},
+				onchange: function(NODE, TREE_OBJ){
+					if(instance.options.onChangeCallback ){
+						 instance.options.onChangeCallback(NODE, TREE_OBJ);
+					}
+				},
 				//when a node is selected
 				onselect: function(NODE, TREE_OBJ){
 					if($(NODE).hasClass('paginate-more')) {

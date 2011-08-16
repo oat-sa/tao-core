@@ -9,6 +9,17 @@
 	<link href="<?=ROOT_URL?>/tao/views/css/form.css" type="text/css" rel="stylesheet" />
 	<link href="<?=ROOT_URL?>/tao/views/css/widgets.css" type="text/css" rel="stylesheet" />
 
+	<script src="<?=ROOT_URL?>/tao/views/js/jquery-1.4.2.min.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/jquery-ui-1.8.custom.min.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/jsTree/jquery.tree.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/jsTree/plugins/jquery.tree.checkbox.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/jquery.jqGrid-4.1.0/js/i18n/grid.locale-en.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/jquery.jqGrid-4.1.0/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/generis.tree.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/generis.treeform.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/locales/EN/messages_po.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/i18n.js" type="text/javascript"></script>
+	
 	<script type="text/javascript">
 	var root_url 		= "<?=ROOT_URL?>/";
 	var ctx_extension 	= "<?=get_data('extension')?>";
@@ -23,16 +34,5 @@
 	
 	});
 	</script>
-
-	<script src="<?=ROOT_URL?>/tao/views/js/jquery-1.4.2.min.js" type="text/javascript"></script>
-	<script src="<?=ROOT_URL?>/tao/views/js/jquery-ui-1.8.custom.min.js" type="text/javascript"></script>
-	<script src="<?=ROOT_URL?>/tao/views/js/jsTree/jquery.tree.js" type="text/javascript"></script>
-	<script src="<?=ROOT_URL?>/tao/views/js/jsTree/plugins/jquery.tree.checkbox.js" type="text/javascript"></script>
-	<script src="<?=ROOT_URL?>/tao/views/js/jquery.jqGrid-4.1.0/js/i18n/grid.locale-en.js" type="text/javascript"></script>
-	<script src="<?=ROOT_URL?>/tao/views/js/jquery.jqGrid-4.1.0/js/jquery.jqGrid.min.js" type="text/javascript"></script>
-	<script src="<?=ROOT_URL?>/tao/views/js/generis.tree.js" type="text/javascript"></script>
-	<script src="<?=ROOT_URL?>/tao/views/js/generis.treeform.js" type="text/javascript"></script>
-	<script src="<?=ROOT_URL?>/tao/locales/EN/messages_po.js" type="text/javascript"></script>
-	<script src="<?=ROOT_URL?>/tao/views/js/i18n.js" type="text/javascript"></script>
    </head>
 <body>

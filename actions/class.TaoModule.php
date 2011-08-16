@@ -570,9 +570,14 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$this->setData('clazz', $clazz);
 		//Get properties which will be used to filter the class
 		$properties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz);
+		// Remove item content property
+		if (array_key_exists(TAO_ITEM_CONTENT_PROPERTY, $properties)){
+			unset ($properties[TAO_ITEM_CONTENT_PROPERTY]);
+		}
 		$this->setData('properties', $properties);
 		
 		//Get instances for fun$
+		/*
 		$instances = $clazz->getInstances();
 		$index = 0;
 		foreach ($instances as $instance){
@@ -583,7 +588,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		$this->setData('foundNumber', count($found));
 		$this->setData('found', $found);
-		
+		*/
 		$this->setData('formTitle', __('Filter'));
 		$this->setView('form/filter.tpl', true);
 	}
@@ -598,9 +603,11 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		
 		// Get the properties to return
+		// @deprecated see what to do with this parma
 		if ($this->hasRequestParameter('properties')){
 			$properties = $this->getRequestParameter('properties');
 		}
+		
 		// Get the class paramater
 		if($this->hasRequestParameter('classUri')){
 			$clazz = $this->getCurrentClass();
@@ -620,6 +627,17 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		
 		$properties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz);
+		// ADD Label property
+		if (!array_key_exists(RDFS_LABEL, $properties)){
+			$new_properties = array();
+			$new_properties[RDFS_LABEL] = new core_kernel_classes_Property(RDFS_LABEL);
+			$properties = array_merge($new_properties, $properties);
+		}
+		// Remove item content property
+		if (array_key_exists(TAO_ITEM_CONTENT_PROPERTY, $properties)){
+			unset ($properties[TAO_ITEM_CONTENT_PROPERTY]);
+		}
+		
 		$instances = $this->service->searchInstances($filter, $clazz, array ('recursive'=>true));
 		$index = 0;
 		foreach ($instances as $instance){
