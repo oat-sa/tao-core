@@ -131,10 +131,11 @@ function GenerisTreeClass(selector, dataUrl, options){
 					
 					//Create meta from class node
 					function createMeta (DATA) {
+						var displayed = typeof DATA.children != 'undefined' ? DATA.children.length : 0;
 						instance.metaClasses[DATA.attributes.id] = {
-							displayed :  0			// Total of elements displayed
+							displayed :  displayed	// Total of elements displayed
 							, count :    DATA.count	// Total of elements in the class
-							, position : 0			// Position of the last element displayed
+							, position : displayed	// Position of the last element displayed
 						};
 					}
 					//Extract meta from class' children
