@@ -63,7 +63,8 @@ class Bootstrap{
 	 * @param string $extension
 	 * @param array $options
 	 */
-	public function __construct($extension, $options = array()){
+	public function __construct($extension, $options = array())
+	{
 		
 		$this->ctxPath = ROOT_PATH . '/' . $extension;
 		
@@ -83,7 +84,8 @@ class Bootstrap{
 	 * Check if the current context has been started
 	 * @return boolean
 	 */
-	public static function isStarted(){
+	public static function isStarted()
+	{
 		return self::$isStarted;
 	} 
 	
@@ -91,7 +93,8 @@ class Bootstrap{
 	 * Check if the current context has been dispatched
 	 * @return boolean
 	 */
-	public static function isDispatched(){
+	public static function isDispatched()
+	{
 		return self::$isDispatched;
 	}
 	
@@ -104,7 +107,8 @@ class Bootstrap{
 	 *  5. Connect the current user to the generis API
 	 *  6. Initialize the internationalization
 	 */
-	public function start(){
+	public function start()
+	{
 		if(!self::$isStarted){
 			$this->session();
 			$this->config();
@@ -121,7 +125,8 @@ class Bootstrap{
 	 *  1. Load the ressources
 	 *  2. Start the MVC Loop from the ClearFW
 	 */
-	public function dispatch(){
+	public function dispatch()
+	{
 		if(!self::$isDispatched){
 			if(tao_helpers_Context::check('APP_MODE')){
 				if(!tao_helpers_Request::isAjax()){
@@ -136,7 +141,8 @@ class Bootstrap{
 	/**
 	 * Start the session
 	 */
-	protected function session(){
+	protected function session()
+	{
 		if(tao_helpers_Context::check('APP_MODE')){
 			$request = new Request();
 			if($request->hasParameter('session_id')){
@@ -156,7 +162,8 @@ class Bootstrap{
 	/**
 	 * Load the config and constants
 	 */
-	protected function config(){
+	protected function config()
+	{
 		
 		//include the config file
 		require_once $this->ctxPath. "/includes/config.php";
@@ -179,7 +186,9 @@ class Bootstrap{
 		
 		foreach($extensions as $extension){
 			
-			if($extension == 'generis') continue; //generis constants are already loaded
+			if($extension == 'generis') {
+			    continue; //generis constants are already loaded
+			}
 			
 			//load the config of the extension
 			self::loadConstants($extension);
@@ -191,7 +200,8 @@ class Bootstrap{
 	 * Load the constant file of the extension
 	 * @param string $extension
 	 */
-	public static function loadConstants($extension){
+	public static function loadConstants($extension)
+	{
 		$constantFile = ROOT_PATH . '/' . $extension . '/includes/constants.php';
 		if(file_exists($constantFile)){
 			
@@ -213,7 +223,8 @@ class Bootstrap{
 	/**
 	 * Update the include path
 	 */
-	protected function includePath(){
+	protected function includePath()
+	{
 		set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH);
 	}
 	
@@ -223,7 +234,8 @@ class Bootstrap{
 	 * _url() or _dh()  
 	 * that are not loaded with the autoloader
 	 */
-	protected function globalHelpers(){
+	protected function globalHelpers()
+	{
 		require_once 'tao/helpers/class.Uri.php';
 		require_once 'tao/helpers/class.Display.php';
 	}
@@ -234,7 +246,8 @@ class Bootstrap{
 	 *  @throws tao_models_classes_UserException when a request try to acces a protected area, it send and HTTP CODE 403
 	 *  @throws Exception all exceptions not catched send an HTTP CODE 500
 	 */
-	protected function mvc(){
+	protected function mvc()
+	{
 		
 		try {
 			$re		= new HttpRequest();
@@ -266,7 +279,8 @@ class Bootstrap{
 	 * Connect the current user to the generis API
 	 * @see tao_models_classes_UserService::connectCurrentUser
 	 */
-	protected function connect(){
+	protected function connect()
+	{
 		$userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 		$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
 		$taoVersion = $taoService->getExtensionVersion('tao');
@@ -281,11 +295,12 @@ class Bootstrap{
 	 * Initialize the internationalization
 	 * @see tao_helpers_I18n
 	 */
-	protected function i18n(){
+	protected function i18n()
+	{
 		$userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
 		$uiLang = DEFAULT_LANG;
 		if(Session::hasAttribute('ui_lang')){
-			$uiLang = Session::getAttribute('ui_lang') ;
+			$uiLang = Session::getAttribute('ui_lang');
 		}
 		else{
 			
@@ -293,7 +308,8 @@ class Bootstrap{
 			$currentUser = $userService->getCurrentUser(); 
 			
 			if(!is_null($currentUser)){
-				$uiLg  = $currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
+			    $lgProp = new core_kernel_classes_Property(PROPERTY_USER_UILG);
+				$uiLg  = $currentUser->getOnePropertyValue($lgProp);
 			}
 			if(!is_null($uiLg)){
 				if($uiLg instanceof core_kernel_classes_Resource){
@@ -311,27 +327,32 @@ class Bootstrap{
 	 * Load external resources for the current context
 	 * @see tao_helpers_Scriptloader
 	 */
-	protected function scripts(){
+	protected function scripts()
+	{
 		
 		//stylesheets to load
-		tao_helpers_Scriptloader::addCssFiles(array(
-			TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
-			TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
-			TAOBASE_WWW . 'js/jquery.jqGrid-4.1.0/css/ui.jqgrid.css',
-			TAOBASE_WWW . 'css/style.css',
-			TAOBASE_WWW . 'css/layout.css',
-			TAOBASE_WWW . 'css/form.css',
-			TAOBASE_WWW . 'css/widgets.css'
-		));
+		tao_helpers_Scriptloader::addCssFiles(
+		    array(
+    			TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
+    			TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
+    			TAOBASE_WWW . 'js/jquery.jqGrid-4.1.0/css/ui.jqgrid.css',
+    			TAOBASE_WWW . 'css/style.css',
+    			TAOBASE_WWW . 'css/layout.css',
+    			TAOBASE_WWW . 'css/form.css',
+    			TAOBASE_WWW . 'css/widgets.css'
+    			)
+		);
 		
 		
 		//js golbal vars to export
-		tao_helpers_Scriptloader::addJsVars(array(
+		tao_helpers_Scriptloader::addJsVars(
+		    array(
 			'root_url'		=> ROOT_URL,				// -> the app URL (http://www.domain.com or (http://www.domain.com/app)
 			'base_url'		=> BASE_URL,				// -> the current extension URL (http://www.domain.com/tao, http://www.domain.com/taoItems)
 			'taobase_www'	=> TAOBASE_WWW,				// -> the resources URL of meta extension tao (http://www.domain.com/tao/views/)
 			'base_www'		=> BASE_WWW					// -> the resources URL of the current extension (http://www.domain.com/taoItems/views/)
-		));
+		    )
+		);
 		
 		$gridi18nFile = 'js/jquery.jqGrid-4.1.0/js/i18n/grid.locale-'.strtolower(tao_helpers_I18n::getLangCode()).'.js';
 		if(!file_exists(BASE_PATH. '/views' . $gridi18nFile)){
@@ -339,7 +360,8 @@ class Bootstrap{
 		}
 		
 		//scripts to load
-		tao_helpers_Scriptloader::addJsFiles(array(
+		tao_helpers_Scriptloader::addJsFiles(
+		    array(
 			TAOBASE_WWW . 'js/jquery-1.4.2.min.js',
 			TAOBASE_WWW . 'js/jquery-ui-1.8.custom.min.js',
 			TAOBASE_WWW . 'js/jsTree/jquery.tree.js',
@@ -360,17 +382,20 @@ class Bootstrap{
 			TAOBASE_WWW . 'js/generis.actions.js',
 			TAOBASE_WWW . 'js/generis.treeform.js',
 			TAOBASE_WWW . 'js/AsyncFileUpload.js'
-		));
+			)
+		);
 		
 		//ajax file upload works only without HTTP_AUTH
 		if(!USE_HTTP_AUTH){
 			tao_helpers_Scriptloader::addCssFile(
-				TAOBASE_WWW . 'js/jquery.uploadify/uploadify.css'
+				   TAOBASE_WWW . 'js/jquery.uploadify/uploadify.css'
 			);
-			tao_helpers_Scriptloader::addJsFiles(array(
+			tao_helpers_Scriptloader::addJsFiles(
+			    array(
 				TAOBASE_WWW . 'js/jquery.uploadify/jquery.uploadify.v2.1.4.js',
 				TAOBASE_WWW . 'js/jquery.uploadify/swfobject.js'
-			));
+			)
+			);
 		}
 	}
 }
