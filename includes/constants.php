@@ -12,7 +12,7 @@ define('TAO_VERSION', '2.1.1');
 define('TAO_VERSION_NAME', 'v2.1.1');
 
 #the name to display
-define('PRODUCT_NAME', 	'TAO');
+define('PRODUCT_NAME', 'TAO');
 
 $todefine = array(
 	'TAO_OBJECT_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject',

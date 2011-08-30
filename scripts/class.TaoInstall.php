@@ -82,6 +82,7 @@ class tao_scripts_TaoInstall
 			, "user_firstname"	=>	""	
 			, "user_lastname"	=>	""
 			, "user_login"	=>		""
+			, "user_pass"	=>		""
 		);
     	$this->options = array_merge($this->options, $this->parameters);
     	
