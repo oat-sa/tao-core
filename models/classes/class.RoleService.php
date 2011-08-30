@@ -181,20 +181,22 @@ class tao_models_classes_RoleService
 
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F78 begin
         
-        if(!is_null($role)){
+        if(!is_null($role) && !in_array($role->uriResource, array(CLASS_ROLE_WORKFLOWUSERROLE, CLASS_ROLE_TAOMANAGER))){//security: do not allow altering the default user role
+			
 	    	//get all users who have the following role:
 	    	$allUsers = $this->getUsers($role);
+			
+			$roleClass = new core_kernel_classes_Class($role->uriResource);
 			
 			foreach($allUsers as $userUri){
 				$userInstance = new core_kernel_classes_Resource($userUri);
 				
-				//delete the current role
-				foreach($this->getUserRoles($userInstance) as $userRole){
-					$userInstance->removeType(new core_kernel_classes_Class($userRole->uriResource));
-				}
+				//delete the current role only
+				$userInstance->removeType($roleClass);
+
 			}
 			
-			$roleClass = new core_kernel_classes_Class($role->uriResource);
+			
 			
 			$done = 0;
 			foreach($users as $userUri){
