@@ -164,10 +164,10 @@ class Bootstrap{
 	 */
 	protected function config()
 	{
-		
 		//include the config file
-		require_once $this->ctxPath. "/includes/config.php";
-		
+		if ($this->extension->id != "generis"){
+			require_once $this->ctxPath. "/includes/config.php";
+		}
 		//we will load the constant file of the current extension and all it's dependancies
 		
 		//get the dependancies
