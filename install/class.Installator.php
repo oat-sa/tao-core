@@ -67,6 +67,9 @@ class tao_install_Installator{
 			'type'	=> 'WRITABLE_DIRECTORIES',
 			'title'	=> 'System Rights',
 			'directories'	=> array(
+				'./'			=> array (
+					'version'
+				),
 				'generis'		=> array (
 					'generis/data/cache'
 					, 'generis/common'
@@ -79,12 +82,14 @@ class tao_install_Installator{
 		 			'tao/views/export'
 		 			, 'tao/includes'
 		 			, 'tao/update/patches'
+		 			, 'tao/update/bash'
 		 		)
 		 		, 'taoItems'	=> array (
 		 			'taoItems/data'
 		 			, 'taoItems/views/export'
 		 			, 'taoItems/includes'
-		 			, '/taoItems/test/samples/tmp'
+		 			, 'taoItems/models/ext/itemAuthoring/waterphenix/xt/xhtml/data/units/'
+		 			, 'taoItems/models/ext/itemAuthoring/waterphenix/config'
 		 		)
 		 		, 'taoDelivery'	=> array (
 		 			'taoDelivery/compiled'

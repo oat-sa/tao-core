@@ -66,7 +66,7 @@ Apache web server configuration:
  - The following folder contains data created by the user or by the system. 
    (In case of an update, backup and then copy the content of the following folders inside their updated directory)
  filemanager/views/data
- taoItems/data
+ taoItems/data (Recursively)
  taoDelivery/compiled
  tao/views/export
  tao/update/patches
