@@ -24,7 +24,8 @@ class tao_install_utils_DbCreator{
 	 * @param string $driver
 	 * @throws tao_install_utils_Exception
 	 */
-	public function __construct( $host = 'localhost', $user = 'root', $pass = '', $driver = 'mysql', $dbName = ""){
+	public function __construct( $host = 'localhost', $user = 'root', $pass = '', $driver = 'mysql', $dbName = "")
+	{
 		try{
 			$this->adoConnection = NewADOConnection($driver);
 			$this->adoConnection->Connect($host, $user, $pass);
@@ -39,15 +40,19 @@ class tao_install_utils_DbCreator{
 			$this->adoConnection = null;
 			throw new tao_install_utils_Exception("Unable to connect to the database with the provided credentials.");
 		}
-		if($driver == 'mysql')
+		if($driver == 'mysql'){
 			$this->adoConnection->Execute('SET NAMES utf8');
+			// If the target Sgbd is mysql, force the engine to work with the standard identifier escape
+			$this->adoConnection->Execute('SET SESSION SQL_MODE="ANSI_QUOTES"');
+		}
 	}
 	
 	/**
 	 * Check if the database exists already
 	 * @param string $name
 	 */
-	public function dbExists ($dbName) {
+	public function dbExists($dbName)
+	{
 		$databases = $this->adoConnection->MetaDatabases();
 		if (in_array($dbName, $databases)){
 			return true;
@@ -59,7 +64,8 @@ class tao_install_utils_DbCreator{
 	 * Clean database by droping all tables
 	 * @param string $name
 	 */
-	public function cleanDb ($dbName){
+	public function cleanDb()
+	{
 		foreach ($this->adoConnection->MetaTables() as $table){
 			$this->execute('DROP TABLE "'.$table.'";');
 		}
@@ -70,7 +76,8 @@ class tao_install_utils_DbCreator{
 	 * @param string $name
 	 * @throws tao_install_utils_Exception
 	 */
-	public function setDatabase($name){
+	public function setDatabase($name)
+	{
 		if(!is_null($this->adoConnection)){
 			try{
 				$this->adoConnection->SelectDB($name);
@@ -88,7 +95,8 @@ class tao_install_utils_DbCreator{
 	 * @param array repalce variable to replace into the file: array keys are search with {} around
 	 * @throws tao_install_utils_Exception
 	 */
-	public function load($file, $replace = array()){
+	public function load($file, $replace = array())
+	{
 		
 		//common file checks
 		if(!file_exists($file) || !is_readable($file) || !preg_match("/\.sql$/", basename($file))){
@@ -135,7 +143,8 @@ class tao_install_utils_DbCreator{
 	 * @param string $query
 	 * @throws tao_install_utils_Exception
 	 */
-	public function execute($query){
+	public function execute($query)
+	{
 		if(!empty($query)){
 			try{
 				$this->adoConnection->Execute($query);
@@ -149,7 +158,8 @@ class tao_install_utils_DbCreator{
 	/**
 	 * Close the connection when the wrapper is destructed
 	 */
-	public function __destruct(){
+	public function __destruct()
+	{
 		if(!is_null($this->adoConnection)){
 			$this->adoConnection->Close();
 		}

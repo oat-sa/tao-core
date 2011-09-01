@@ -7,7 +7,8 @@
  */
 class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 	
-	public function initForm(){
+	public function initForm()
+	{ 
 		
 		$this->form = new tao_helpers_form_xhtml_Form('install');
 				
@@ -32,7 +33,8 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 	 *  - Super User
 	 *  - Extra
 	 */
-	public function initElements(){
+	public function initElements()
+	{
 		
 		/*
 		 * Module settings elements
@@ -84,7 +86,9 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		//Module URL
                 $systemInfo = tao_install_utils_System::getInfos();
                 $url = 'http://'.$systemInfo['host'];
-                if(isset($systemInfo['folder']) && !empty($systemInfo['folder'])) $url .= '/'.$systemInfo['folder'];
+                if(isset($systemInfo['folder']) && !empty($systemInfo['folder'])){
+                	$url .= '/'.$systemInfo['folder'];
+                }
                 
 		$moduleUrlElt =  tao_helpers_form_FormFactory::getElement('module_url', 'Textbox');
 		$moduleUrlElt->setDescription('URL *');

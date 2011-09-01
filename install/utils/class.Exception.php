@@ -10,7 +10,8 @@ class tao_install_utils_Exception extends Exception{
 	/**
 	 * @return string the exception message
 	 */
-	public function __toString(){
+	public function __toString()
+	{
         return $this->message;
     }
 	

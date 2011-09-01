@@ -13,7 +13,9 @@
 
 <?if(get_data('optimizable')):?>
 <?include('optimize.tpl');?>
-<?endif;?>  
+<?endif;?> 
+
+<?include('update.tpl');?>  
 
 <script type="text/javascript">
 $(function(){

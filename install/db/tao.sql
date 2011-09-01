@@ -7,7 +7,7 @@ CREATE TABLE "extensions" (
   "loadAtStartUp" int NOT NULL,
   "ghost" int NOT NULL default 0,
   PRIMARY KEY ("id")
-) /*!DEFAULT CHARSET=utf8*/;
+) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 
 INSERT INTO "extensions" VALUES 
 ('generis','generis','2.1',1,1,0),
@@ -26,7 +26,7 @@ CREATE TABLE "models" (
   "modelURI" varchar(255) default NULL,
   "baseURI" varchar(255) default NULL,
   PRIMARY KEY  ("modelID")
-) /*!DEFAULT CHARSET=utf8*/;
+) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 CREATE INDEX "idx_models_modelURI" ON "models" ("modelURI");
 
 INSERT INTO "models" VALUES 
@@ -58,7 +58,7 @@ CREATE TABLE "statements" (
   "stdelete" varchar(255) default NULL,
   "epoch" timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  ("id")
-) /*!DEFAULT CHARSET=utf8*/;
+) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 CREATE INDEX "idx_statements_modelID" ON "statements" ("modelID");
 CREATE INDEX "k_sp" ON "statements" ("subject"/*!(164)*/, "predicate"/*!(164)*/);
 CREATE INDEX "k_po" ON "statements" ("predicate"/*!(164)*/, "object"/*!(164)*/);
@@ -70,7 +70,7 @@ CREATE TABLE "class_to_table" (
 	"table" VARCHAR(64) NOT NULL,
 	"topClass" VARCHAR(255) NOT NULL,
 	PRIMARY KEY ("id")
-) /*!DEFAULT CHARSET=utf8*/;
+) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 CREATE INDEX "idx_class_to_table_uri" ON "class_to_table" ("uri");
 
 DROP TABLE IF EXISTS "class_additional_properties";
@@ -78,7 +78,7 @@ CREATE TABLE "class_additional_properties" (
   	"class_id" int NOT NULL,
   	"property_uri" varchar(255) NOT NULL,
   	PRIMARY KEY ("class_id","property_uri")
-) /*!DEFAULT CHARSET=utf8*/;
+) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 
 DROP TABLE IF EXISTS "resource_to_table";
 CREATE TABLE "resource_to_table" (
@@ -86,7 +86,7 @@ CREATE TABLE "resource_to_table" (
 	"uri" VARCHAR(255) NOT NULL,
 	"table" VARCHAR(64) NOT NULL,
 	PRIMARY KEY ("id")
-) /*!DEFAULT CHARSET=utf8*/;
+) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 CREATE INDEX "idx_resource_to_table_uri" ON "resource_to_table" ("uri");
 
 DROP TABLE IF EXISTS "resource_has_class";
@@ -94,5 +94,5 @@ CREATE TABLE "resource_has_class" (
 	"resource_id" int NOT NULL,
 	"class_id" int NOT NULL,
 	PRIMARY KEY ("resource_id", "class_id") 
-) /*!DEFAULT CHARSET=utf8*/;
+) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 

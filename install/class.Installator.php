@@ -1,4 +1,5 @@
 <?php
+
 class tao_install_Installator{
 	
 	/**
@@ -77,6 +78,7 @@ class tao_install_Installator{
 		 		, 'tao'			=> array (
 		 			'tao/views/export'
 		 			, 'tao/includes'
+		 			, 'tao/update/patches'
 		 		)
 		 		, 'taoItems'	=> array (
 		 			'taoItems/data'
@@ -114,7 +116,8 @@ class tao_install_Installator{
 	
 	protected $options = array();
 	
-	public function __construct($options){
+	public function __construct($options)
+	{
 		if(!isset($options['root_path'])){
 			throw new tao_install_utils_Exception("root path options must be defined");
 		}
@@ -136,7 +139,8 @@ class tao_install_Installator{
 	/**
 	 * Run the tests defined in self::$tests
 	 */
-	public function processTests(){
+	public function processTests()
+	{
 		
 		$testResults = array();
 		
@@ -217,8 +221,8 @@ class tao_install_Installator{
 	 * @param $installData data coming from the install form
 	 * @see tao_install_form_Settings
 	 */
-	public function install(array $installData){
-		
+	public function install(array $installData)
+	{
 		/*
 		 *  1 - Test DB connection (done by the constructor)
 		 */ 
@@ -233,11 +237,6 @@ class tao_install_Installator{
 		/*
 		 *   2 - Load the database schema
 		 */
-	
-		// If the target Sgbd is mysql, force the engine to work with the standard identifier escape
-		if ($installData['db_driver'] == 'mysql'){
-			$dbCreator->execute ('SET SESSION SQL_MODE="ANSI_QUOTES"');
-		}
 		
 		// If the database already exists, drop all tables
 		if ($dbCreator->dbExists($installData['db_name'])) {
@@ -288,7 +287,8 @@ class tao_install_Installator{
 		));
 		//now we can run the extensions bootstrap
 		require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
-		
+		// Usefull to get version number from TAO constants
+		require_once(ROOT_PATH.'tao/includes/constants.php');
 		
 		/*
 		 *  5 - Create the configuration files for the loaded extensions
@@ -296,7 +296,9 @@ class tao_install_Installator{
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$extensions = $extensionManager->getInstalledExtensions();
 		foreach($extensions as $extensionId => $extension){
-			if($extensionId == 'generis') continue; 	//generis is the root and has been installed above 
+			if($extensionId == 'generis') {
+				continue; 	//generis is the root and has been installed above 
+			}
 			
 			$myConfigWriter = new tao_install_utils_ConfigWriter(
 				$this->options['root_path'] . $extensionId . '/includes/config.php.sample',
@@ -328,7 +330,9 @@ class tao_install_Installator{
 		 *  7 - Insert Local Data by extensions (can be samples data too)
 		 */
 		foreach($extensions as $extensionId => $extension){
-			if($extensionId == 'generis') continue; 	//generis is the root and has been installed above 
+			if($extensionId == 'generis') {
+				continue; 	//generis is the root and has been installed above 
+			}
 			$localData = $this->options['root_path'] . $extensionId . '/models/ontology/local.rdf';
 			if(file_exists($localData)){
 				$modelCreator->insertLocalModelFile($localData);
@@ -363,6 +367,11 @@ class tao_install_Installator{
  			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
  			$shield->protectInstall();
 		}
+		
+		/*
+		 *  10 - Create the version file
+		 */
+		file_put_contents(ROOT_PATH.'version', TAO_VERSION);
 	}
 	
 	/**
@@ -370,8 +379,8 @@ class tao_install_Installator{
 	 * @throws tao_install_utils_Exception 
 	 * @param array $installData
 	 */
-	public function configWaterPhoenix(array $installData){
-		
+	public function configWaterPhoenix(array $installData)
+	{	
 		$waterPhoenixPath = 'taoItems/models/ext/itemAuthoring/waterphenix/';
 		$url = trim($installData['module_url']);
 		if(!preg_match("/\/$/", $url)){

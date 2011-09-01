@@ -1,0 +1,75 @@
+diff -aurN TAO_2.1.1_build/taoItems/actions/class.ItemImport.php TAO_2.1.2_build/taoItems/actions/class.ItemImport.php
+--- TAO_2.1.1_build/taoItems/actions/class.ItemImport.php	2011-08-29 17:36:56.000000000 +0200
++++ TAO_2.1.2_build/taoItems/actions/class.ItemImport.php	2011-08-29 19:28:32.000000000 +0200
+@@ -51,7 +51,7 @@
+ 			$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getSessionAttribute('classUri')));
+ 		
+ 			//get the services instances we will need
+-			$itemService	= tao_models_classes_ServiceFactory::get('items');
++			$itemService	= tao_models_classes_ServiceFactory::get('Items');
+ 			$qtiService 	= tao_models_classes_ServiceFactory::get('taoItems_models_classes_QTI_Service');
+ 		
+ 			$uploadedFile = $formValues['source']['uploaded_file'];
+@@ -119,7 +119,7 @@
+ 			$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getSessionAttribute('classUri')));
+ 			
+ 			//get the services instances we will need
+-			$itemService	= tao_models_classes_ServiceFactory::get('items');
++			$itemService	= tao_models_classes_ServiceFactory::get('Items');
+ 			$qtiService 	= tao_models_classes_ServiceFactory::get('taoItems_models_classes_QTI_Service');
+ 			
+ 			$uploadedFile = $formValues['source']['uploaded_file'];
+@@ -267,7 +267,7 @@
+ 			$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getSessionAttribute('classUri')));
+ 			
+ 			//get the services instances we will need
+-			$itemService	= tao_models_classes_ServiceFactory::get('items');
++			$itemService	= tao_models_classes_ServiceFactory::get('Items');
+ 			
+ 			$uploadedFile = $formValues['source']['uploaded_file'];
+ 			
+diff -aurN TAO_2.1.1_build/taoItems/models/classes/QTI/class.Service.php TAO_2.1.2_build/taoItems/models/classes/QTI/class.Service.php
+--- TAO_2.1.1_build/taoItems/models/classes/QTI/class.Service.php	2011-08-29 17:37:00.000000000 +0200
++++ TAO_2.1.2_build/taoItems/models/classes/QTI/class.Service.php	2011-08-29 19:28:36.000000000 +0200
+@@ -89,7 +89,7 @@
+         	
+         	try{
+         		
+-        		$itemService = tao_models_classes_ServiceFactory::get('items');
++        		$itemService = tao_models_classes_ServiceFactory::get('Items');
+         		
+         		//check if the item is QTI item
+         		if($itemService->hasItemModel($item, array(TAO_ITEM_MODEL_QTI))){
+diff -aurN TAO_2.1.1_build/taoItems/scripts/class.MigrateLegacyItems.php TAO_2.1.2_build/taoItems/scripts/class.MigrateLegacyItems.php
+--- TAO_2.1.1_build/taoItems/scripts/class.MigrateLegacyItems.php	2011-08-29 17:37:04.000000000 +0200
++++ TAO_2.1.2_build/taoItems/scripts/class.MigrateLegacyItems.php	2011-08-29 19:28:40.000000000 +0200
+@@ -230,7 +230,7 @@
+         if(is_null($clazz)){
+         	$clazz = new core_kernel_classes_Class(TAO_ITEM_CLASS);
+         }
+-        $itemService = tao_models_classes_ServiceFactory::get("items");
++        $itemService = tao_models_classes_ServiceFactory::get("Items");
+         if($itemService->isItemClass($clazz)){
+         	$returnValue = $clazz->createInstance();
+         }
+@@ -253,7 +253,7 @@
+ 
+         // section 127-0-1-1--5d5119d4:12e3924f2ec:-8000:0000000000002D7E begin
+         
+-        $itemService = tao_models_classes_ServiceFactory::get("items");
++        $itemService = tao_models_classes_ServiceFactory::get("Items");
+      
+         $returnValue = new core_kernel_classes_Resource($uri);
+         
+diff -aurN TAO_2.1.1_build/taoItems/test/QTIioTestCase.php TAO_2.1.2_build/taoItems/test/QTIioTestCase.php
+--- TAO_2.1.1_build/taoItems/test/QTIioTestCase.php	2011-08-29 17:37:04.000000000 +0200
++++ TAO_2.1.2_build/taoItems/test/QTIioTestCase.php	2011-08-29 19:28:40.000000000 +0200
+@@ -40,7 +40,7 @@
+ 	public function setUp(){		
+ 		TestRunner::initTest();
+ 		$this->qtiService  = tao_models_classes_ServiceFactory::get("taoItems_models_classes_QTI_Service");
+-		$this->itemService = tao_models_classes_ServiceFactory::get("items");
++		$this->itemService = tao_models_classes_ServiceFactory::get("Items");
+ 	}
+ 	
+ 	

@@ -17,8 +17,9 @@ RewriteRule ^(.*)$ 		../taoItems/models/ext/itemRuntime/eXULiS.swf 	[L]
 RewriteCond %{REQUEST_URI} 	!/views/  	[NC]
 RewriteCond %{REQUEST_URI} 	!/test/ 	[NC]
 RewriteCond %{REQUEST_URI} 	!/doc/ 	 	[NC]
-RewriteCond %{REQUEST_URI} 	!/install/  	[NC]
-RewriteCond %{REQUEST_URI} 	!/locales/  	[NC]
+RewriteCond %{REQUEST_URI} 	!/update/	[NC]
+RewriteCond %{REQUEST_URI} 	!/install/	[NC]
+RewriteCond %{REQUEST_URI} 	!/locales/	[NC]
 #call entry point for url resolving and framework bootstrap
 RewriteRule ^(.*)$ index.php [L]
 

@@ -78,6 +78,7 @@ switcherClass.prototype.init = function(forcedMode, decompile){
                         
                         var gridOptions = {
                                 datatype: "local", 
+                    			hidegrid : false,
                                 colNames: [ __('Classes'), __('Status'), __('Action')], 
                                 colModel: [ 
                                         {name:'class',index:'class',width:200},

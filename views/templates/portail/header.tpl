@@ -17,7 +17,7 @@
 	<script src="<?=ROOT_URL?>/tao/views/js/jquery.jqGrid-4.1.0/js/jquery.jqGrid.min.js" type="text/javascript"></script>
 	<script src="<?=ROOT_URL?>/tao/views/js/generis.tree.js" type="text/javascript"></script>
 	<script src="<?=ROOT_URL?>/tao/views/js/generis.treeform.js" type="text/javascript"></script>
-	<script src="<?=ROOT_URL?>/tao/locales/EN/messages_po.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/locales/<?= DEFAULT_LANG ?>/messages_po.js" type="text/javascript"></script>
 	<script src="<?=ROOT_URL?>/tao/views/js/i18n.js" type="text/javascript"></script>
 	
 	<script type="text/javascript">

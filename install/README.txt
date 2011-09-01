@@ -69,6 +69,8 @@ Apache web server configuration:
  taoItems/data
  taoDelivery/compiled
  tao/views/export
+ tao/update/patches
+ tao/update/bash
  taoDelivery/views/export
  taoGroups/views/export
  taoItems/views/export
@@ -76,3 +78,4 @@ Apache web server configuration:
  taoTests/views/export
  taoResults/views/export
  generis/data/cache
+ version

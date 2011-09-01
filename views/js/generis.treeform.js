@@ -144,8 +144,6 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				},
 				//
 				ondata: function(DATA, TREE_OBJ){
-					//current node
-					var currentNodeId = null;
 					//automatically open the children of the received node
 					if(DATA.children){
 						DATA.state = 'open';
@@ -181,6 +179,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
  * Extract meta data from received data
  */
 GenerisTreeFormClass.prototype.extractMeta = function(DATA) {
+	console.log (DATA);
 	var nodes = new Array ();
 	var nodeId = null;
 	var instance = this;

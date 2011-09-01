@@ -126,55 +126,21 @@ function GenerisTreeClass(selector, dataUrl, options){
 				},
 				//when we receive the data
 				ondata: function(DATA, TREE_OBJ){
-					// current node
-					var currentNodeId = null;
-					
-					//Create meta from class node
-					function createMeta (DATA) {
-						var displayed = typeof DATA.children != 'undefined' ? DATA.children.length : 0;
-						instance.metaClasses[DATA.attributes.id] = {
-							displayed :  displayed	// Total of elements displayed
-							, count :    DATA.count	// Total of elements in the class
-							, position : displayed	// Position of the last element displayed
-						};
+					//automatically open the children of the received node
+					if(DATA.children){
+						DATA.state = 'open';
 					}
-					//Extract meta from class' children
-					function extractMetaFromChildren (id, children){
-						if (children) {
-							//Number of classes found
-							var countClass =0;
-							for (var i=0; i<children.length; i++) {
-								// if the children is a class, create associated meta data
-								if (children[i].type == 'class'){
-									createMeta (children[i]);
-									countClass++;
-								}
-							}
-							var countInstances = children.length - countClass;
-							instance.setMeta (id, 'position', countInstances); // Position of the last element displayed
-							instance.setMeta (id, 'displayed',countInstances); // Total of elements displayed
-						}
-					}
-					
-					//Extract meta data from server return
-					//If data is an array -> The user open a branch (reverse engeeniring, maybe not the reality, take care)
-					if (DATA instanceof Array) {
-						currentNodeId = instance.lastOpened.id;
-						extractMetaFromChildren (currentNodeId, DATA);
-					} 
-					else {
-						currentNodeId = DATA.attributes.id;
-						createMeta (DATA);
-						extractMetaFromChildren (DATA.attributes.id, DATA.children);
-					}
-					
+					//extract meta data from children
+					instance.extractMeta (DATA);
+					//add specific classes to nodes
 					if(instance.options.instanceClass){
 						function addClassToNodes(nodes, clazz){
 							$.each(nodes, function(i, node){
-								if(/node\-instance/.test(node.attributes['class'])){
+								if(node.attributes 
+										&& node.attributes['class'] 
+										&& /node\-instance/.test(node.attributes['class'])){
 									node.attributes['class'] = node.attributes['class'] + ' ' + clazz;
 								}
-								
 								if(node.children){
 									addClassToNodes(node.children, clazz);
 								}
@@ -192,12 +158,6 @@ function GenerisTreeClass(selector, dataUrl, options){
 								addClassToNodes(DATA, 'node-draggable');
 							}
 						}
-					}
-					
-					//Add Pagination actions if required
-					if (instance.metaClasses[currentNodeId].displayed < instance.metaClasses[currentNodeId].count){
-						var obj = DATA.children ? DATA.children : DATA;
-						obj.push(instance.getPaginateActionNodes());
 					}
 					
 					return DATA;
@@ -511,6 +471,71 @@ function GenerisTreeClass(selector, dataUrl, options){
 		
 		return data;
 	};
+}
+
+/**
+ * Extract meta data from received data
+ */
+GenerisTreeClass.prototype.extractMeta = function(DATA) {
+	var nodes = new Array ();
+	var nodeId = null;
+	var instance = this;
+	
+	/**
+	 * Create meta from class node
+	 * @private
+	 */
+	function createMeta (meta) {
+		instance.metaClasses[meta.id] = {
+			displayed :  meta.displayed ? meta.displayed :0			// Total of elements displayed
+			, count :     meta.count ? meta.count :0				// Total of elements in the class
+			, position :  meta.position ? meta.position :0			// Position of the last element displayed
+		};
+	}
+	
+	//An object is received
+	if ( !(DATA instanceof Array) ){
+		nodeId = DATA.attributes.id;
+		if (typeof DATA.children != 'undefined'){
+			nodes = DATA.children;
+		}
+		createMeta ({id:DATA.attributes.id, count:DATA.count});
+	}
+	//An array of nodes is received
+	else {
+		// Get the last opened node
+		if (this.lastOpened){
+			nodeId = this.lastOpened.id;
+		} else {
+			nodeId = "DEFAULT_ROOT";
+			createMeta ({id:nodeId, count:0});
+		}
+		nodes = DATA;
+	}
+	
+	//Extract meta from children
+	if (nodes) {
+		//Number of classes found
+		var countClass =0;
+		for (var i=0; i<nodes.length; i++) {
+			// if the children is a class, create meta for this class
+			if (nodes[i].type == 'class'){
+				this.extractMeta (nodes[i]);
+				countClass++;
+			}
+		}
+		var countInstances = nodes.length - countClass;
+		this.setMeta (nodeId, 'position', countInstances); // Position of the last element displayed
+		this.setMeta (nodeId, 'displayed',countInstances); // Total of elements displayed
+		
+		if (!(DATA instanceof Array) && DATA.state && DATA.state != 'closed'){
+			if (this.getMeta(nodeId, 'displayed') < this.getMeta(nodeId, 'count')){
+				nodes.push(instance.getPaginateActionNodes());
+			}
+		} else if ((DATA instanceof Array) && this.getMeta(nodeId, 'displayed') < this.getMeta(nodeId, 'count')){
+			nodes.push(instance.getPaginateActionNodes());
+		}
+	}
 }
 
 /**

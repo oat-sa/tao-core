@@ -143,9 +143,8 @@ class MassInsertTestCase extends UnitTestCase {
 				$subjectInstance->setPropertyValue ($propertyUserDefLgProp, $languageUri);
 				$subjectInstance->setPropertyValue ($propertyUserUILgProp, $languageUri);
 				$subjectInstance->setType (new core_kernel_classes_Class(CLASS_ROLE_SUBJECT));
-
+/*
 				// Commpliant with the new minimal API
-				/*
 				$properties = array(
 					$propertyLoginProp->uriResource			=>$login
 					, $propertyPasswordProp->uriResource 	=>md5($password)
@@ -153,11 +152,10 @@ class MassInsertTestCase extends UnitTestCase {
 					, $propertyLastNameProp->uriResource 	=>$lastName
 					, $propertyUserDefLgProp->uriResource 	=>$languageUri
 					, $propertyUserUILgProp->uriResource 	=>$languageUri
-					, $propertyRdfTypeProp->uriResource		=>CLASS_ROLE_SUBJECT
 				);
 				$subjectInstance->setPropertiesValues ($properties);
-				*/
-
+				$subjectInstance->setType (new core_kernel_classes_Class(CLASS_ROLE_SUBJECT));
+*/
 				// Add label and comment properties functions of the languages available on the TAO platform
 				foreach ($this->languages as $lg){
 					$lgLabel = $lg->getLabel();
