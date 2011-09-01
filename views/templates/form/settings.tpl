@@ -15,7 +15,7 @@
 <?include('optimize.tpl');?>
 <?endif;?> 
 
-<?include('update.tpl');?>  
+<? //include('update.tpl');?>  
 
 <script type="text/javascript">
 $(function(){
