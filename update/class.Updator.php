@@ -1,62 +1,143 @@
 <?php
 
+error_reporting(E_ALL);
+
+/**
+ * TAO - tao/update/class.Updator.php
+ *
+ * $Id$
+ *
+ * This file is part of TAO.
+ *
+ * Automatically generated on 06.09.2011, 10:30:52 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ *
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @package tao
+ * @subpackage update
+ */
+
+if (0 > version_compare(PHP_VERSION, '5')) {
+    die('This file was generated for PHP 5');
+}
+
+/**
+ * include tao_update_utils_Patcher
+ *
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ */
+require_once('tao/update/utils/class.Patcher.php');
+
+/* user defined includes */
+// section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F0A-includes begin
+// section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F0A-includes end
+
+/* user defined constants */
+// section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F0A-constants begin
 if (!defined('UPDATE_URL')){
 	define ('UPDATE_URL', 'http://demo.tao.lu/updates/');
 }
-
 define ('UPDATE_BASH_PATH', ROOT_PATH.'/tao/update/bash/');
 define ('WINDOWS_PATCH_URL', 'http://downloads.sourceforge.net/project/gnuwin32/patch/2.5.9-7/patch-2.5.9-7-bin.zip?r=http%3A%2F%2Fgnuwin32.sourceforge.net%2Fpackages%2Fpatch.htm&ts=1314694863&use_mirror=dfn');
 define ('WINDOWS_PATCH_CMD_PATH', UPDATE_BASH_PATH.'patch.exe');
 define ('UNIX_PATCH_CMD_PATH', 'patch');
 define ('PATCHES_PATH', ROOT_PATH.'/tao/update/patches/');
+// section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F0A-constants end
+
+/**
+ * Short description of class tao_update_Updator
+ *
+ * @access public
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @package tao
+ * @subpackage update
+ */
+class tao_update_Updator
+{
+    // --- ASSOCIATIONS ---
 
 
-class tao_update_Updator{
-	
-	/**
-	 * Output of the update function
-	 * @var array
-	 */
-	protected $output = array ();
+    // --- ATTRIBUTES ---
 
-	/**
-	 * Update static version number
-	 * @throws tao_update_utils_Exception
-	 */
-	private function updateVersionNumber($version)
-	{
-		if (!file_put_contents(ROOT_PATH.'version', $version)){
+    /**
+     * Short description of attribute output
+     *
+     * @access protected
+     * @var array
+     */
+    protected $output = array();
+
+    /**
+     * Short description of attribute error
+     *
+     * @access public
+     * @var array
+     */
+    public $error = array();
+
+    // --- OPERATIONS ---
+
+    /**
+     * Update the version number of the TAO install
+     *
+     * @access private
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @param  string version
+     * @return mixed
+     */
+    private function updateVersionNumber($version)
+    {
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F0E begin
+    	
+    	if (!file_put_contents(ROOT_PATH.'version', $version)){
 			$message = __("Unable to write the verson file located at ").ROOT_PATH.__('. Be sure the file is writable.');
 			$this->output[] = $message;
 			throw new tao_update_utils_Exception($message);
 		}
-	}
-	
-	/**
-	 * Get version number of the installed TAO
-	 * return {string}
-	 */
-	public function getCurrentVersion()
-	{
-		$versionFileContent = @file_get_contents(ROOT_PATH.'version');
+    	
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F0E end
+    }
+
+    /**
+     * Get the current version identifier
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @return string
+     */
+    public function getCurrentVersion()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F11 begin
+        
+        $versionFileContent = @file_get_contents(ROOT_PATH.'version');
 		if (empty($versionFileContent)){
 			$this->updateVersionNumber(TAO_VERSION);
 			$returnValue = TAO_VERSION;
 		}else{
 			$returnValue = $versionFileContent;
 		}
-		return $returnValue;
-	}
+        
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F11 end
 
-	/**
-	 * Get available versions of TAO
-	 * @return {array}
-	 */
-	public function getVersions()
-	{
-		$returnValue = array ();
-		
-		// Get releases details from tao update service
+        return (string) $returnValue;
+    }
+
+    /**
+     * Get all the versions of TAO
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @return array
+     */
+    public function getVersions()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F13 begin
+        
+    	// Get releases details from tao update service
 		$xml = @simplexml_load_file(UPDATE_URL.'releases.xml');
 		if (!$xml){
 			$message = __("Unable to reach the update server located at ").UPDATE_URL;
@@ -73,19 +154,26 @@ class tao_update_Updator{
 				, 'comment'	=> (string) trim($commentNode[0])
 			);
 		}
-	
-		return $returnValue;
-	}
-	
-	/**
-	 * Get id of the current TAO revision
-	 * @return {int}
-	 */
-	private function getIdCrtVersion()
-	{
-		$returnValue = null;
-		
-		$versions = $this->getVersions();
+        
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F13 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method getIdCrtVersion
+     *
+     * @access private
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @return tao_helpers_form_validators_Integer
+     */
+    private function getIdCrtVersion()
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F15 begin
+        
+    	$versions = $this->getVersions();
 		$countVersions = count($versions);
 		$crtVersion = $this->getCurrentVersion();
 		for ($i=0;$i<$countVersions; $i++){
@@ -94,196 +182,71 @@ class tao_update_Updator{
 				break;
 			}
 		}
-		
-		return $returnValue;
-	}
-	
-	/**
-	 * Get updates' details
-	 * @return {array}
-	 */
-	public function getUpdatesDetails()
-	{
-		$returnValue = false;
-		
-		$versions = $this->getVersions();
+        
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F15 end
+
+        return $returnValue;
+    }
+
+    /**
+     * Get details about the available updates
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @return array
+     */
+    public function getUpdatesDetails()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F18 begin
+        
+        $versions = $this->getVersions();
 		$idCrtVersions = $this->getIdCrtVersion();
 		$returnValue = array_slice($versions, $idCrtVersions+1);
-		
-		return $returnValue;
-	}
-	
-	
-	/**
-	 * Check if the current version of TAO is updatable
-	 * @return {boolean}
-	 */
-	public function checkUpdate()
-	{
-		$returnValue = false;
-		
-		$versions = $this->getVersions();
+        
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F18 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Check if the current version requires updates
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @return boolean
+     */
+    public function checkUpdate()
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F1A begin
+        
+    	$versions = $this->getVersions();
 		$idCrtVersion = $this->getIdCrtVersion();
 		if ($idCrtVersion<count($versions)-1){
 			$returnValue = true;
 		}
-		
-		return $returnValue;
-	}
-	
-	/**
-	 * Reverse patch
-	 * @param {string} version 
-	 * @throws tao_update_utils_Exception
-	 */
-	private function unpatch($version)
-	{
-		$patchCommand = $this->getPatchCommand();
-		$patchPath = PATCHES_PATH.'TAO_'.$version.'_build.patch';
-		$this->output[] = $patchCommand.' -R -d /../../ -p1 < '.$patchPath;
-	    exec($patchCommand.' -R -d '.ROOT_PATH.' -p1 < '.$patchPath, $this->output);
-	}
-	
-	
-	/**
-	 * Patch Tao to the given version
-	 * @param {string} version
-	 * @throws tao_update_utils_Exception
-	 */
-	private function patch($version)
-	{
-		$patchCommand = $this->getPatchCommand();
-		$patchContent = @file_get_contents(UPDATE_URL.'TAO_'.$version.'_build.patch');
-		$patchOutput = array();
-			
-		if ($patchContent !== false){
-			
-			// Copy locally the patch
-		    $this->output[] = __('patch found for the version : ').$version;
-			$patchPath = PATCHES_PATH.'TAO_'.$version.'_build.patch';
-			file_put_contents($patchPath, $patchContent);
-			
-			// Patch TAO
-			$this->output[] = $patchCommand.' -d /../../ -p1 < '.$patchPath;
-		    exec($patchCommand.' -d '.ROOT_PATH.' -p1 < '.$patchPath, $patchOutput);
-		    
-		}else{
-			
-			$message = __('patch not found for the version : ').$version;
-		    $this->output[] = $message;
-			throw new tao_update_utils_Exception($message);
-		}
-		
-		return $patchOutput;
-	}
-	
-	/**
-	 * Download windows patch commande
-	 * @throws tao_update_utils_Exception
-	 */
-	private function downloadWinPatchCommand()
-	{
-		// Download it
-		$winPatchUrl = '';				
-		$zipFile = ROOT_PATH.'tao/update/bash/windows_patch.zip';
-		$dest = @fopen($zipFile, 'w');
-		if (!$dest){
-			
-			$message = __('Unable to create the file ').$zipFile.__('. Be sure that the http user is allowed to write in ').ROOT_PATH.'/tao/update/bash/';
-			$this->output[] = $message;
-			throw new tao_update_utils_Exception($message);
-		}
-		$src = @fopen(WINDOWS_PATCH_URL, 'r');
-		if (!$src){
-			
-			$message = __('Unable to get the file ').$winPatchUrl;
-			$this->output[] = $message;
-			throw new tao_update_utils_Exception($message);
-		}
-		while ($content=fread($src, 1024)){
-			fwrite($dest, $content);
-		}
-		fclose($src);
-		fclose($dest);
-		
-		// Unzip it
-		$zip = new ZipArchive();
-		if ($zip->open($zipFile) === TRUE) {
-		    $zip->extractTo(UPDATE_BASH_PATH, 'bin/patch.exe');
-		    $zip->close();
-		} else {
-			$message = __('unable to unzip patch archive for windows');
-    		$this->output[] = $message;
-			throw new tao_update_utils_Exception($message);
-		}
-		
-		// Get the patch command, drop the rest
-		rename(UPDATE_BASH_PATH.'bin/patch.exe', WINDOWS_PATCH_CMD_PATH);
-		rmdir(UPDATE_BASH_PATH.'bin/');
-		unlink($zipFile);
-	}
-	
-	/**
-	 * Check if the patch command exists
-	 * @throws tao_update_utils_Exception
-	 * @return {boolean}
-	 */
-	private function getPatchCommand()
-	{
-		$returnValue = null;
-		
-		// IF SAFE MODE Throw an exception
-		$safe_mode = ini_get('safe_mode');
-		if (!empty($safe_mode) && $safe_mode=='1'){
-			
-			$message = __('Unable to update TAO if php safe mode is enabled');
-		    $this->output[] = $message;
-			throw new tao_update_utils_Exception($message);
-		}else{
-			
-			if (PHP_OS == 'WINNT'){
-				
-				// Check if the patch executable is available for the windows platform
-				if (!file_exists(WINDOWS_PATCH_CMD_PATH)){
-					$this->downloadWinPatchCommand();
-					$returnValue = WINDOWS_PATCH_CMD_PATH.' --binary ';
-				}else {
-					$returnValue = WINDOWS_PATCH_CMD_PATH.' --binary ';
-				}
-			}else{
-				
-				$returnValue = 'patch';
-			}
-		}
-		
-		return $returnValue;
-	}
-	
-	/**
-	 * Analyse patch output
-	 * @param {string} patchOutput
-	 * @throw tao_update_utils_Exception
-	 */
-	private function analysePatchOutput($data)
-	{
-		// analyse patch output
-	    foreach($data as $line){
-	    	// Check if some files have been skipped
-	    	if (preg_match('/Skipping patch\./i', $line)){
-				throw new tao_update_utils_Exception('Some file have been skipped during the update process. The process update has been aborded.');
-	    	}
-	    }
-	}
-	
-	/**
-	 * Run the TAO update from the given data
-	 * @throws tao_update_utils_Exception 							// TODO
-	 * @param $updateData data coming from the update script		// TODO
-	 * @see tao_update_form_Settings								// TODO
-	 */
-	public function update($version=null)
-	{
-		$dbCreator = new tao_install_utils_DbCreator(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS, SGBD_DRIVER);
+        
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000002F1A end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Update TAO
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @param  string version
+     * @return mixed
+     */
+    public function update($version)
+    {
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:00000000000055E8 begin
+        
+    	$dbCreator = new tao_install_utils_DbCreator(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS, SGBD_DRIVER);
 		$dbCreator->setDatabase(DATABASE_NAME);
 		
 		if (empty($version)){
@@ -295,7 +258,6 @@ class tao_update_Updator{
 		/*
 		 *  0 - Perform some check before update
 		 */
-		
 		// patches directory is writable
 		if (!is_writable(PATCHES_PATH)){
 			$message = __('The directory ').PATCHES_PATH.__(' has to be writable');
@@ -306,13 +268,18 @@ class tao_update_Updator{
 		/*
 		 *  1 - Apply a patch on the code if it is existing
 		 */
+		// Download the patch to apply
+		$patchPath = $this->getPatch($version);
+		$patcher = new tao_update_utils_Patcher($patchPath, dirname(__FILE__).'/../../', array('p1'=>''));
+		
 		try {
-			$patchOutput = $this->patch($version);
-			$this->output = array_merge($this->output, $patchOutput);
-			$this->analysePatchOutput($patchOutput);
+			$patcher->patch();
+			$this->output = array_merge($this->output, $patcher->getOutput());
 		}
 		catch (tao_update_utils_Exception $e){
 			$this->unpatch($version);
+			$this->output = array_merge($this->output, $patcher->getOutput());
+			$error = $patcher->getError();
 			throw $e;
 		}
 		
@@ -410,17 +377,95 @@ class tao_update_Updator{
 		 *  5 - Update version number
 		 */
 		$this->updateVersionNumber($version);
-		
-	}
+    	
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:00000000000055E8 end
+    }
 
-	/**
-	 * Get output
-	 * @return {string} 
-	 */
-	public function getOutput ()
-	{
-		return $this->output;
-	}
-}
+    /**
+     * Get outputs
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @return array
+     */
+    public function getOutput()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000005608 begin
+        
+        $returnValue = $this->output;
+        
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:0000000000005608 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Get errors
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @return array
+     */
+    public function getError()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:000000000000560D begin
+        
+        $returnValue = $this->error;
+        
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:000000000000560D end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Get the patch file to apply function of a version identifier
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @param  string version
+     * @return string
+     */
+    public function getPatch($version)
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:000000000000560F begin
+        
+		$patchPath = PATCHES_PATH.'TAO_'.$version.'_build.patch';
+
+		// The patch exists in the local patch repository
+		if (file_exists($patchPath)){
+			
+			$returnValue = $patchPath;
+		}
+		// Else download it
+		else {
+			
+			$patchContent = @file_get_contents(UPDATE_URL.'TAO_'.$version.'_build.patch');
+			if ($patchContent !== false){
+				
+				// Copy locally the patch
+			    $this->output[] = __('patch found for the version : ').$version;
+				file_put_contents($patchPath, $patchContent);
+				$returnValue = $patchPath;
+			} 
+			else {
+				
+				$message = __('patch not found for the version : ').$version;
+			    $this->output[] = $message;
+				throw new tao_update_utils_Exception ($message);
+			}
+		}
+			
+        // section 127-0-1-1-170ecba2:13229fe0c97:-8000:000000000000560F end
+
+        return (string) $returnValue;
+    }
+
+} /* end of class tao_update_Updator */
 
 ?>

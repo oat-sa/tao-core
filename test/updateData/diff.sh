@@ -1,2 +1,2 @@
 #!/bin/sh
-diff -aurN ./old ./new > patch.patch
+diff -aurN old new -x .svn > patch.patch
