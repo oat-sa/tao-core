@@ -179,7 +179,6 @@ function GenerisTreeFormClass(selector, dataUrl, options){
  * Extract meta data from received data
  */
 GenerisTreeFormClass.prototype.extractMeta = function(DATA) {
-	console.log (DATA);
 	var nodes = new Array ();
 	var nodeId = null;
 	var instance = this;
