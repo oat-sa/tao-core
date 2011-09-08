@@ -6,7 +6,7 @@ $HTTP["referer"] !~ "(^|\.)tao\.local" {
   
   url.rewrite = ( 
     # TAO EXTENSION
-     "^/tao/([^(views/)|(test/)|(doc/)|(install/)|(locales/)]{1})([^\?]+)([?]?(.*))" => "/tao/index.php$3"
+     "^/tao/([^(views/)|(test/)|(doc/)|(install/)|(update/)|(locales/)]{1})([^\?]+)([?]?(.*))" => "/tao/index.php$3"
     
     # TAO DELIVERY
     , "^/taoDelivery/([^(views/)|(test/)|(models/ext/)|(compiled/)|(locales/)]{1})([^\?]+)([?]?(.*))" => "/taoDelivery/index.php$3"
