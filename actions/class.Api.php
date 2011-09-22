@@ -111,7 +111,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 			throw new Exception('Action denied, only servers side call are allowed');
 		}
 		if(!Session::hasAttribute('processUri')){
-			throw new Exception('Envirnoment can be create only in a workfow context');
+			throw new Exception('Envirnoment can be create only in a workflow context');
 		}
 		$processExecution = new core_kernel_classes_Resource(tao_helpers_Uri::decode(Session::getAttribute('processUri')));
 		
