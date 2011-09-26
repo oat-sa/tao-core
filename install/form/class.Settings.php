@@ -1,7 +1,8 @@
 <?php
+
 /**
  * 
- * Enter description here ...
+ * The Installation form of TAO.
  * @author crp
  *
  */
@@ -68,7 +69,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$this->form->addElement($moduleHostElt);
 		
 		//Module Namespace Label
-		// ($moduleNsLblElt esigned only to show information to user)
+		// ($moduleNsLblElt designed only to show information to user)
 		$NSValue = 'http://'.$moduleHostElt->getValue().'/'.$moduleNameElt->getValue().'.rdf';
 		$moduleNSLblElt =  tao_helpers_form_FormFactory::getElement('module_namespace_lbl', 'Label');
 		$moduleNSLblElt->setDescription('Namespace');
@@ -180,6 +181,13 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$dbTestElt->setDescription(' ');
 		$dbTestElt->setValue('Test connection ...');
 		$this->form->addElement($dbTestElt);
+		
+		// Initialize db validator
+		$dbNameLblElt->addValidator(new tao_install_form_validators_DatabaseValidator(array('db_host' => $dbHostElt,
+																							'db_driver' => $dbDriverElt,
+																							'db_name' => $dbNameElt,
+																							'db_user' => $dbUserElt,
+																							'db_password' => $dbPassElt)));
 		
 		$this->form->createGroup('db', 'Database', array('db_driver', 'db_host', 'db_name_lbl', 'db_name', 'db_user', 'db_pass', 'db_test'));
 	
