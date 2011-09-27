@@ -186,7 +186,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 					'http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitionResources' => $defaultOptions,
 					'http://www.tao.lu/middleware/wfEngine.rdf#ClassServicesResources' => $defaultOptions,
 					'http://www.tao.lu/middleware/wfEngine.rdf#ClassConnectors' => $defaultOptions,
-					'http://www.tao.lu/middleware/wfEngine.rdf#ClassTokens' => $defaultOptions,
+					'http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessInstances' => $defaultOptions,
 					'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject' => array(
 							'compile' => array_merge(
 								$optionsCompile, 
@@ -223,13 +223,10 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyConnectorsActivityReference',
 				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyProcessInstancesStatus',
 				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyProcessInstancesExecutionOf',
-				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsFinished',
+				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsStatus',
 				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsExecutionOf',
 				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsCurrentUser',
 				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsProcessExecution',
-				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivityExecution',
-				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensActivity',
-				'http://www.tao.lu/middleware/wfEngine.rdf#PropertyTokensCurrentUser',
 				'http://www.tao.lu/Ontologies/generis.rdf#login',
 				'http://www.tao.lu/Ontologies/generis.rdf#password',
 				'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_PROCESS_EXEC_ID',
