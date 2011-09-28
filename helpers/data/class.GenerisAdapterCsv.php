@@ -176,7 +176,7 @@ class tao_helpers_data_GenerisAdapterCsv
 
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CAE begin
         
-        if(!isset($this->options['map'])){
+    	if(!isset($this->options['map'])){
         	throw new Exception("import map not set");
         }
         if(is_null($destination)){
@@ -186,6 +186,8 @@ class tao_helpers_data_GenerisAdapterCsv
         $csvData = $this->load($source);
         
         $createdResources = 0;
+        $rangeProperty = new core_kernel_classes_Property(RDFS_RANGE);
+    
 		foreach($csvData as $csvRow){
 			if(is_array($csvRow)){
 				$resource = null;
@@ -205,42 +207,32 @@ class tao_helpers_data_GenerisAdapterCsv
 					
 					//import the value of each column into the property defined in the map 
 					foreach($this->options['map'] as $propUri => $csvColumn){
-						if($propUri != RDFS_LABEL){		//already set 
-							if($csvColumn != 'null'){
-								if($csvColumn == 'empty'){
-									$resource->setPropertyValue(new core_kernel_classes_Property($propUri), '');
-								}
-								if(isset($csvRow[$csvColumn])){
-									$theValue = $csvRow[$csvColumn];
-									if(isset($this->options['callbacks'])){
-										
-										foreach(array('*', $propUri) as $key){
-											if(isset($this->options['callbacks'][$key]) && is_array($this->options['callbacks'][$key])){
-												foreach ($this->options['callbacks'][$key] as $callback) {
-													if(function_exists($callback)){
-														$theValue = $callback($theValue);
-													}
-												}
-											}
-										}
-										
-									}
-									
-									$resource->setPropertyValue(new core_kernel_classes_Property($propUri), $theValue);
-								}
-							}
+						
+						$targetProperty = new core_kernel_classes_Property($propUri);
+						$ranges = $targetProperty->getPropertyValues($rangeProperty);
+						if (count($ranges) > 0) {
+							// @todo support multi-valued ranges in CSV import.
+							$range = new core_kernel_classes_Resource($ranges[0]);
+						} 
+						else {
+							$range = null;	
+						}
+						
+						$targetProperty = new core_kernel_classes_Property($propUri);
+						
+						if ($range = null || $range->uriResource = RDFS_LITERAL) {
+							// Deal with the column value as a literal.
+							$this->importLiteral($targetProperty, $resource, $csvRow, $csvColumn);
+						}
+						else {
+							// Deal with the column value as a resource existing in the Knowledge Base.
+							$this->importResource($targetProperty, $resource, $csvRow, $csvColumn, $this->options['staticMap']);
 						}
 					}
-					foreach($this->options['staticMap'] as $propUri => $value){
-						if(!array_key_exists($propUri, $this->options['map'])){
-							if($propUri == RDF_TYPE){
-								$resource->setType(new core_kernel_classes_Class($value));
-							}
-							else{
-								$resource->setPropertyValue(new core_kernel_classes_Property($propUri), $value);
-							}
-						}
-					}
+					
+					// Deal with default values.
+					$this->importStaticData($this->options['staticMap'], $this->options['map'], $resource);
+					
 					$createdResources++;
 				}
 			}
