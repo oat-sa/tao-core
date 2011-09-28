@@ -129,7 +129,8 @@ class tao_actions_Import extends tao_actions_CommonModule {
 	}
 	
 	/**
-	 * action to perform on a posted CSV file
+	 * action to perform on a posted CSV file. This is the first form
+	 * a user sees when importing a CSV file.
 	 * @param array $formValues the posted data
 	 */
 	protected function importCSVFile($formValues){
@@ -155,7 +156,8 @@ class tao_actions_Import extends tao_actions_CommonModule {
 	
 	
 	/**
-	 * display the mapping form, after a CSV file import
+	 * display the mapping form, after a CSV file import. This is the second (and last) form
+	 * the users sees to import a CSV file.
 	 * @return void
 	 */
 	public function mapping(){
@@ -195,10 +197,9 @@ class tao_actions_Import extends tao_actions_CommonModule {
 				if(!in_array($property->uriResource, $this->excludedProperties)){
 					//@todo manage the properties with range
 					$range = $property->getRange();
-					if($range->uriResource == RDFS_LITERAL){	
-						$properties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
-					}
-					else{
+					$properties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
+					
+					if($range->uriResource != RDFS_LITERAL){
 						$rangedProperties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
 					}
 				}

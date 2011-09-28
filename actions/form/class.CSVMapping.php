@@ -113,12 +113,14 @@ class tao_actions_form_CSVMapping
     		$property = new core_kernel_classes_Property(tao_helpers_Uri::decode($propertyUri));
     		$propElt = tao_helpers_form_GenerisFormFactory::elementMap($property);
     		if(!is_null($propElt)){
+    			$defName = tao_helpers_Uri::encode($property->uriResource) . TEMP_SUFFIX_CSV;
+    			$propElt->setName($defName);
     			$this->form->addElement($propElt);
-    			$ranged[] = $propElt->getName();
+    			$ranged[$defName] = $propElt;
     		}
     	}
-    	if(count($ranged) > 0){
-    		$this->form->createGroup('ranged_property', __('Define the default values'), $ranged);
+    	if(count($this->options['ranged_properties']) > 0){
+    		$this->form->createGroup('ranged_property', __('Define the default values'), array_keys($ranged));
     	}
     	
         // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FF end

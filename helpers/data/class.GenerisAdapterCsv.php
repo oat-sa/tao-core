@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Adapter for CSV format
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author firstname and lastname of author, <author@example.org>
  * @deprecated
  * @package tao
  * @subpackage helpers_data
@@ -20,7 +20,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * It provides the default prototype to adapt the data import/export from/to any
  * format.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author firstname and lastname of author, <author@example.org>
  */
 require_once('tao/helpers/data/class.GenerisAdapter.php');
 
@@ -36,7 +36,7 @@ require_once('tao/helpers/data/class.GenerisAdapter.php');
  * Adapter for CSV format
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author firstname and lastname of author, <author@example.org>
  * @deprecated
  * @package tao
  * @subpackage helpers_data
@@ -55,7 +55,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  array options
      * @return mixed
      */
@@ -95,7 +95,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * the options
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string csvFile
      * @return array
      */
@@ -165,7 +165,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * The map should be set in the options before executing it.
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string source
      * @param  Class destination
      * @return boolean
@@ -262,7 +262,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * Short description of method export
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  Class source
      * @return string
      */
@@ -272,6 +272,146 @@ class tao_helpers_data_GenerisAdapterCsv
 
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CB2 begin
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CB2 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method importLiteral
+     *
+     * @access private
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  Property targetProperty
+     * @param  Resource targetResource
+     * @param  string csvRow
+     * @param  string csvColumn
+     * @return mixed
+     */
+    private function importLiteral( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
+    {
+        // section 10-13-1-85--45c07818:132af6d7560:-8000:00000000000033C2 begin
+        
+    	if ($csvColumn == 'empty') {
+    		// We do not use the value contained in $literal but an empty string.
+    		$targetResource->setPropertyValue($targetProperty, '');
+    	}
+    	else if ($csvColumn != 'null' && $csvRow[$csvColumn] !== null) {
+    		
+    		$literal = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
+    		$targetResource->setPropertyValue($targetProperty, $literal);
+    	}
+    	
+        // section 10-13-1-85--45c07818:132af6d7560:-8000:00000000000033C2 end
+    }
+
+    /**
+     * Short description of method importResource
+     *
+     * @access private
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  Property targetProperty
+     * @param  Resource targetResource
+     * @param  string csvRow
+     * @param  string csvColumn
+     * @return mixed
+     */
+    private function importResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
+    {
+        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033C8 begin
+        
+    	$useDefault = false;
+    	
+    	if ($csvColumn != 'empty' && $csvColumn != 'null') {
+    		// We have to import the cell value as a resource for the target property.
+    		$value = $csvRow[$csvColumn];
+    		
+    		if ($value != null) {
+    			$value = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
+    			$targetResource->setPropertyValue($targetProperty, $value);
+    		}
+    		else {
+    			// No value for this cell. We should try to set a default value for this property.
+    			$useDefault = true;
+    		}
+    	}
+    	else {
+    		// 
+    		$useDefault = true;
+    	}
+    	
+    	if ($useDefault) {
+	    	$propUri = $targetProperty->uriResource;
+	    	if (isset($staticMap[$propUri])) { // Do it only if a default value is provided.
+	    		$value = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
+	    		$targetResource->setPropertyValue($targetProperty, $value);
+	    	}
+    	}
+    	
+        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033C8 end
+    }
+
+    /**
+     * Short description of method importStaticData
+     *
+     * @access private
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  array staticMap
+     * @param  array map
+     * @param  Resource resource
+     * @return mixed
+     */
+    private function importStaticData($staticMap, $map,  core_kernel_classes_Resource $resource)
+    {
+        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033CE begin
+        
+    	foreach($this->options['staticMap'] as $propUri => $value){
+			$cleanUri = str_replace(TEMP_SUFFIX_CSV, '', $propUri);
+			
+			// If the property was not included in the original CSV file...
+			if(!array_key_exists($cleanUri, $map)){
+				if($propUri == RDF_TYPE){
+					$resource->setType(new core_kernel_classes_Class($value));
+				}
+				else{
+					$resource->setPropertyValue(new core_kernel_classes_Property($cleanUri), $value);
+				}
+			}
+		}
+    	
+        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033CE end
+    }
+
+    /**
+     * Short description of method applyCallbacks
+     *
+     * @access private
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  string value
+     * @param  array options
+     * @param  Property targetProperty
+     * @return string
+     */
+    private function applyCallbacks($value, $options,  core_kernel_classes_Property $targetProperty)
+    {
+        $returnValue = (string) '';
+
+        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033D3 begin
+        
+    	if(isset($options['callbacks'])){
+			foreach(array('*', $targetProperty->uriResource) as $key){
+				if(isset($options['callbacks'][$key]) && is_array($options['callbacks'][$key])){
+					foreach ($options['callbacks'][$key] as $callback) {
+						if(function_exists($callback)){
+							$value = $callback($value);
+						}
+					}
+				}
+			}
+		}
+		
+		$returnValue = $value;
+        
+        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033D3 end
 
         return (string) $returnValue;
     }

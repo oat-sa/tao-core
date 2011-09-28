@@ -14,6 +14,9 @@ define('TAO_VERSION_NAME', 'v2.1.1');
 #the name to display
 define('PRODUCT_NAME', 'TAO');
 
+#the temporary suffix of property URIs at CSV import.
+define('TEMP_SUFFIX_CSV', '-taocsvdef');
+
 $todefine = array(
 	'TAO_OBJECT_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject',
 	'TAO_GROUP_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group',
