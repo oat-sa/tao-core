@@ -218,8 +218,24 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			if($myForm->isSubmited()){
 				if($myForm->isValid()){
 					
-					//set the mapping to the adapter
-					$adapter->addOption('map', $myForm->getValues('property_mapping'));
+					// set the mapping to the adapter
+					// Clean "select" values from form view.
+					// Transform any "select" in "null" in order to
+					// have the same importation behaviour for both because
+					// semantics are the same.
+					$map = $myForm->getValues('property_mapping');
+					$newMap = array();
+					
+					foreach($map as $k => $m) {
+						if ($m !== 'select') {
+							$newMap[$k] = $map[$k];
+						}
+						else {
+							$newMap[$k] = 'null';
+						}
+					}
+					
+					$adapter->addOption('map', $newMap);
 					$adapter->addOption('staticMap', array_merge($myForm->getValues('ranged_property'), $this->staticData));
 					
 					//import it!

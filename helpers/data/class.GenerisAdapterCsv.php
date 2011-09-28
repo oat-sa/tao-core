@@ -195,7 +195,7 @@ class tao_helpers_data_GenerisAdapterCsv
 				//create the instance with the label defined in the map 
 				$label = $this->options['map'][RDFS_LABEL];
 				
-				if($label != 'empty' && $label != 'null'){
+				if($label != 'empty' && $label != null){
 					if(isset($csvRow[$label])){
 						$resource = $destination->createInstance($csvRow[$label]);
 					}
@@ -208,25 +208,28 @@ class tao_helpers_data_GenerisAdapterCsv
 					//import the value of each column into the property defined in the map 
 					foreach($this->options['map'] as $propUri => $csvColumn){
 						
-						$targetProperty = new core_kernel_classes_Property($propUri);
-						$ranges = $targetProperty->getPropertyValues($rangeProperty);
-						if (count($ranges) > 0) {
-							// @todo support multi-valued ranges in CSV import.
-							$range = new core_kernel_classes_Resource($ranges[0]);
-						} 
-						else {
-							$range = null;	
-						}
+						if ($propUri != RDFS_LABEL) { // Already set at resource instantiation
 						
-						$targetProperty = new core_kernel_classes_Property($propUri);
-						
-						if ($range = null || $range->uriResource = RDFS_LITERAL) {
-							// Deal with the column value as a literal.
-							$this->importLiteral($targetProperty, $resource, $csvRow, $csvColumn);
-						}
-						else {
-							// Deal with the column value as a resource existing in the Knowledge Base.
-							$this->importResource($targetProperty, $resource, $csvRow, $csvColumn, $this->options['staticMap']);
+							$targetProperty = new core_kernel_classes_Property($propUri);
+							$ranges = $targetProperty->getPropertyValues($rangeProperty);
+							if (count($ranges) > 0) {
+								// @todo support multi-valued ranges in CSV import.
+								$range = new core_kernel_classes_Resource($ranges[0]);
+							} 
+							else {
+								$range = null;	
+							}
+							
+							$targetProperty = new core_kernel_classes_Property($propUri);
+							
+							if ($range = null || $range->uriResource = RDFS_LITERAL) {
+								// Deal with the column value as a literal.
+								$this->importLiteral($targetProperty, $resource, $csvRow, $csvColumn);
+							}
+							else {
+								// Deal with the column value as a resource existing in the Knowledge Base.
+								$this->importResource($targetProperty, $resource, $csvRow, $csvColumn, $this->options['staticMap']);
+							}
 						}
 					}
 					
@@ -287,7 +290,7 @@ class tao_helpers_data_GenerisAdapterCsv
     		// We do not use the value contained in $literal but an empty string.
     		$targetResource->setPropertyValue($targetProperty, '');
     	}
-    	else if ($csvColumn != 'null' && $csvRow[$csvColumn] !== null) {
+    	else if ($csvColumn != 'null' && isset($csvRow[$csvColumn])) {
     		
     		$literal = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
     		$targetResource->setPropertyValue($targetProperty, $literal);
@@ -360,7 +363,7 @@ class tao_helpers_data_GenerisAdapterCsv
 			$cleanUri = str_replace(TEMP_SUFFIX_CSV, '', $propUri);
 			
 			// If the property was not included in the original CSV file...
-			if(!array_key_exists($cleanUri, $map)){
+			if(!array_key_exists($cleanUri, $map) || $map[$cleanUri] == 'null'){
 				if($propUri == RDF_TYPE){
 					$resource->setType(new core_kernel_classes_Class($value));
 				}
