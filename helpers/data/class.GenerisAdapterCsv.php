@@ -336,7 +336,7 @@ class tao_helpers_data_GenerisAdapterCsv
     	
     	if ($useDefault) {
 	    	$propUri = $targetProperty->uriResource;
-	    	if (isset($staticMap[$propUri])) { // Do it only if a default value is provided.
+	    	if (isset($staticMap[str_replace(TEMP_SUFFIX_CSV, '', $propUri)])) { // Do it only if a default value is provided.
 	    		$value = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
 	    		$targetResource->setPropertyValue($targetProperty, $value);
 	    	}
