@@ -322,7 +322,7 @@ class tao_helpers_data_GenerisAdapterCsv
     		
     		if ($value != null) {
     			$value = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
-    			$targetResource->setPropertyValue($targetProperty, $value);
+    			$this->attachResource($targetProperty, $targetResource, $value);
     		}
     		else {
     			// No value for this cell. We should try to set a default value for this property.
@@ -338,7 +338,7 @@ class tao_helpers_data_GenerisAdapterCsv
 	    	$propUri = $targetProperty->uriResource;
 	    	if (isset($staticMap[str_replace(TEMP_SUFFIX_CSV, '', $propUri)])) { // Do it only if a default value is provided.
 	    		$value = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
-	    		$targetResource->setPropertyValue($targetProperty, $value);
+	    		$this->attachResource($targetProperty, $targetResource, $value);
 	    	}
     	}
     	
@@ -424,6 +424,10 @@ class tao_helpers_data_GenerisAdapterCsv
     public function attachResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $value)
     {
         // section -64--88-1-7-8ffecec:132b9750df2:-8000:000000000000306C begin
+        // We have to check if the resource identified by value exists in the Ontology.
+        
+    	
+        $targetResource->setPropertyValue($targetProperty, $value);
         // section -64--88-1-7-8ffecec:132b9750df2:-8000:000000000000306C end
     }
 
