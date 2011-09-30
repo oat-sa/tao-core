@@ -418,11 +418,10 @@ class tao_helpers_data_GenerisAdapterCsv
      * @author firstname and lastname of author, <author@example.org>
      * @param  Property targetProperty
      * @param  Resource targetResource
-     * @param  string csvRow
-     * @param  string csvColumn
+     * @param  string value
      * @return mixed
      */
-    public function attachResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
+    public function attachResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $value)
     {
         // section -64--88-1-7-8ffecec:132b9750df2:-8000:000000000000306C begin
         // section -64--88-1-7-8ffecec:132b9750df2:-8000:000000000000306C end
