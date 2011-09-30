@@ -411,6 +411,23 @@ class tao_helpers_data_GenerisAdapterCsv
         return (string) $returnValue;
     }
 
+    /**
+     * Short description of method attachResource
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  Property targetProperty
+     * @param  Resource targetResource
+     * @param  string csvRow
+     * @param  string csvColumn
+     * @return mixed
+     */
+    public function attachResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
+    {
+        // section -64--88-1-7-8ffecec:132b9750df2:-8000:000000000000306C begin
+        // section -64--88-1-7-8ffecec:132b9750df2:-8000:000000000000306C end
+    }
+
 } /* end of class tao_helpers_data_GenerisAdapterCsv */
 
 ?>
