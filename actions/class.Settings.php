@@ -187,6 +187,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 					'http://www.tao.lu/middleware/wfEngine.rdf#ClassServicesResources' => $defaultOptions,
 					'http://www.tao.lu/middleware/wfEngine.rdf#ClassConnectors' => $defaultOptions,
 					'http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessInstances' => $defaultOptions,
+					'http://www.tao.lu/middleware/wfEngine.rdf#ClassActivityCardinality'=> $defaultOptions,
 					'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject' => array(
 							'compile' => array_merge(
 								$optionsCompile, 
