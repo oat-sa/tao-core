@@ -12,6 +12,7 @@ class tao_install_form_validators_DatabaseValidator
 	}
 	
 	public function evaluate() {
+		$returnValue = true;
 		
 		$value = $this->getValue();
 		
@@ -34,13 +35,20 @@ class tao_install_form_validators_DatabaseValidator
 				$password = $this->options['db_password']->getValue();
 				$dbCreator = new tao_install_utils_DbCreator($host, $user, $password, $driver);
 				
-				return !$dbCreator->dbExists($dbname);
+				// If the user does not want to override databases, check if the wonder database is already existing
+				if(!in_array('on', $this->options['db_override']->getValues())){
+					$returnValue = !$dbCreator->dbExists($dbname);
+				}
+				
+				
 			}
 			catch (tao_install_utils_Exception $e) {
 				// We cannot get connected to the database.
 				// We assume the db is still not in use.
 				return true;
 			}
+			
+			return $returnValue;
 		}
 	}
 }

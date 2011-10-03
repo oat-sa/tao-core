@@ -147,7 +147,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$this->form->addElement($dbDriverElt);
 		
 		//Database Host
-		$dbHostElt =  tao_helpers_form_FormFactory::getElement('db_host', 'Textbox');
+		$dbHostElt = tao_helpers_form_FormFactory::getElement('db_host', 'Textbox');
 		$dbHostElt->setDescription('Host *');
 		$dbHostElt->setValue('localhost');
 		$dbHostElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
@@ -155,7 +155,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		
 		//Database Name
 		// ($dbNameLblElt designed only to show information to user)
-		$dbNameLblElt =  tao_helpers_form_FormFactory::getElement('db_name_lbl', 'Label');
+		$dbNameLblElt = tao_helpers_form_FormFactory::getElement('db_name_lbl', 'Label');
 		$dbNameLblElt->setDescription('Database name');
 		$dbNameLblElt->setValue($moduleNameElt->getValue());
 		$dbNameLblElt->setHelp('The Database name corresponds to the Module name.');
@@ -165,6 +165,14 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$dbNameElt = tao_helpers_form_FormFactory::getElement('db_name', 'Hidden');
 		$dbNameElt->setValue($moduleNameElt->getValue());
 		$this->form->addElement($dbNameElt);
+		
+		//Delete database if it is existing
+		$dbOverrideDbElt = tao_helpers_form_FormFactory::getElement('db_override', 'Checkbox');
+		$dbOverrideDbElt->setDescription('Override');
+		//$dbOverrideDbElt->setHelp('Override database if existing');
+		//$dbOverrideDbElt->setAttribute('id', 'db_override');
+		$dbOverrideDbElt->setOptions(array("on" => "Override database if existing"));
+		$this->form->addElement($dbOverrideDbElt);
 		
 		//Database User
 		$dbUserElt =  tao_helpers_form_FormFactory::getElement('db_user', 'Textbox');
@@ -187,9 +195,10 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 																							'db_driver' => $dbDriverElt,
 																							'db_name' => $dbNameElt,
 																							'db_user' => $dbUserElt,
-																							'db_password' => $dbPassElt)));
+																							'db_password' => $dbPassElt,
+																							'db_override' => $dbOverrideDbElt)));
 		
-		$this->form->createGroup('db', 'Database', array('db_driver', 'db_host', 'db_name_lbl', 'db_name', 'db_user', 'db_pass', 'db_test'));
+		$this->form->createGroup('db', 'Database', array('db_driver', 'db_host', 'db_name_lbl', 'db_override', 'db_name', 'db_user', 'db_pass', 'db_test'));
 	
 		
 		/*

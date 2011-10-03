@@ -415,11 +415,12 @@ class tao_install_Installator{
 		), "");
 		
 		//update the HAWAI sample
-		$sample = $this->options['root_path'] . 'taoItems/data/i1261571812010328500/index.xhtml';
+		$sample = $this->options['root_path'] . 'taoItems/data/i1261571812010328500/index.xhtml.sample';
+		$destFile = $this->options['root_path'] . 'taoItems/data/i1261571812010328500/index.xhtml';
 		if(file_exists($sample)){
 			$sampleContent = file_get_contents($sample);
 			$sampleContent = str_replace('{ROOT_URL}', $url, $sampleContent);
-			file_put_contents($sample, $sampleContent);
+			file_put_contents($destFile, $sampleContent);
 		}
 	}
 }
