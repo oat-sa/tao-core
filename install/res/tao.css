@@ -112,7 +112,11 @@ div.xhtml_form div input, div.xhtml_form div select, .form-elt-container {
 	text-align: center;
 }
 
-span.status img{
+span.status img {
 	vertical-align: middle;
-	margin:0px 2px;
+	margin: 0px 2px;
+}
+
+#db_override_0 {
+	width: 20px;
 }

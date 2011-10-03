@@ -167,12 +167,10 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$this->form->addElement($dbNameElt);
 		
 		//Delete database if it is existing
-		$dbOverrideDbElt = tao_helpers_form_FormFactory::getElement('db_override', 'Checkbox');
-		$dbOverrideDbElt->setDescription('Override');
-		//$dbOverrideDbElt->setHelp('Override database if existing');
-		//$dbOverrideDbElt->setAttribute('id', 'db_override');
-		$dbOverrideDbElt->setOptions(array("on" => "Override database if existing"));
-		$this->form->addElement($dbOverrideDbElt);
+		$dbOverwriteDbElt = tao_helpers_form_FormFactory::getElement('db_override', 'Checkbox');
+		$dbOverwriteDbElt->setDescription('Override');
+		$dbOverwriteDbElt->setOptions(array("on" => "Overwrite database if it exists"));
+		$this->form->addElement($dbOverwriteDbElt);
 		
 		//Database User
 		$dbUserElt =  tao_helpers_form_FormFactory::getElement('db_user', 'Textbox');
@@ -196,7 +194,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 																							'db_name' => $dbNameElt,
 																							'db_user' => $dbUserElt,
 																							'db_password' => $dbPassElt,
-																							'db_override' => $dbOverrideDbElt)));
+																							'db_override' => $dbOverwriteDbElt)));
 		
 		$this->form->createGroup('db', 'Database', array('db_driver', 'db_host', 'db_name_lbl', 'db_override', 'db_name', 'db_user', 'db_pass', 'db_test'));
 	
