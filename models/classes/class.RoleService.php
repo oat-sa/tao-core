@@ -196,8 +196,6 @@ class tao_models_classes_RoleService
 
 			}
 			
-			
-			
 			$done = 0;
 			foreach($users as $userUri){
 				$userInstance = new core_kernel_classes_Resource($userUri);
