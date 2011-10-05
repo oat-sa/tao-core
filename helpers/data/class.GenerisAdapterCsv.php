@@ -317,6 +317,7 @@ class tao_helpers_data_GenerisAdapterCsv
     	$useDefault = false;
     	
     	if ($csvColumn != 'empty' && $csvColumn != 'null') {
+    		
     		// We have to import the cell value as a resource for the target property.
     		$value = $csvRow[$csvColumn];
     		
@@ -363,7 +364,7 @@ class tao_helpers_data_GenerisAdapterCsv
 			$cleanUri = str_replace(TEMP_SUFFIX_CSV, '', $propUri);
 			
 			// If the property was not included in the original CSV file...
-			if(!array_key_exists($cleanUri, $map) || $map[$cleanUri] == 'null'){
+			if(!array_key_exists($cleanUri, $map) || $map[$cleanUri] == 'null' || $map[$cleanUri] == 'empty'){
 				if($propUri == RDF_TYPE){
 					$resource->setType(new core_kernel_classes_Class($value));
 				}
@@ -425,9 +426,27 @@ class tao_helpers_data_GenerisAdapterCsv
     {
         // section -64--88-1-7-8ffecec:132b9750df2:-8000:000000000000306C begin
         // We have to check if the resource identified by value exists in the Ontology.
-        
-    	
-        $targetResource->setPropertyValue($targetProperty, $value);
+        $resource = new core_kernel_classes_Resource($value);
+        if ($resource->exists()) {
+        	// Is the range correct ?
+        	$valueType = $resource->getType();
+        	$targetPropertyRange = $targetProperty->getPropertyValuesCollection(new core_kernel_classes_Property(RDFS_RANGE));
+        	$rangeCompliance = true;
+        	
+        	// If $targetPropertyRange->count = 0, we consider that the resouce
+        	// may be attached because $rangeCompliance = true.
+        	foreach ($targetPropertyRange->getIterator() as $r) {
+        		// Check all classes in target property's range.
+        		if (!array_key_exists($r->uriResource, $valueType)) {
+        			$rangeCompliance = false;
+        			break;
+        		}
+        	}
+        	
+        	if (true == $rangeCompliance) {
+        		$targetResource->setPropertyValue($targetProperty, $resource->uriResource);
+        	}
+        }
         // section -64--88-1-7-8ffecec:132b9750df2:-8000:000000000000306C end
     }
 
