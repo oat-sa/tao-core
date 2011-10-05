@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 15.09.2011, 15:52:13 with ArgoUML PHP module 
+ * Automatically generated on 05.10.2011, 11:06:28 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -53,7 +53,7 @@ interface tao_models_classes_ServiceCacheInterface
      * @param  array value
      * @return boolean
      */
-    public function setCache($methodName, $args, $value);
+    public function setCache($methodName, $args = array(), $value = array());
 
     /**
      * Short description of method getCache
