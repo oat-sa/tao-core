@@ -70,7 +70,7 @@ class tao_helpers_form_validators_Url
     		unset($options['format']);	//the pattern cannot be overriden
     	}
     	
-    	$pattern = "(https?:\/\/)?(www\.)?([a-zA-Z0-9_\-.\/]){2,}";
+    	$pattern = "(https?:\/\/)?(www\.)?([a-zA-Z0-9_\-.\/]){2,}(:[0-9]{1,5})?";
     	if(isset($options['allow_parameters'])){
     		$pattern .= "(\?(.*)+)?"; 
     	}
