@@ -121,6 +121,7 @@ class tao_install_utils_ConfigTester{
 		switch(strtolower($extensionName)){
 			case 'json':
 			case 'dom':
+			case 'spl':
 				$this->message = 'PHP extension '.strtoupper($extensionName).' is required';
 				(extension_loaded(strtolower($extensionName))) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
 				break;

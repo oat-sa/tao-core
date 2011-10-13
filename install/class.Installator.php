@@ -28,7 +28,7 @@ class tao_install_Installator{
 			'title'	=> 'PHP Tidy extension check',
 			'name'	=> 'tidy'
 		),
-		45 => array(
+		4 => array(
 			'type'	=> 'PHP_EXTENSION',
 			'title'	=> 'PHP GD extension check',
 			'name'	=> 'gd'
@@ -40,10 +40,15 @@ class tao_install_Installator{
 		),
 		7 => array(
              'type'  => 'PHP_EXTENSION',
+             'title' => 'PHP SPL extension check',
+             'name'  => 'spl'
+        ),
+        8 => array(
+             'type'  => 'PHP_EXTENSION',
              'title' => 'PHP Dom extension check',
              'name'  => 'dom'
         ),
-		8 => array(
+		9 => array(
 			'type'	=> 'MULTI',
 			'title'	=> 'PHP mysql driver extension check',
 			'tests'	=> array(
@@ -52,18 +57,18 @@ class tao_install_Installator{
 				array('type'	=> 'PHP_EXTENSION', 'name' =>  'pdo_mysql')
 			)
 		),
-		9 => array(
+		10 => array(
 			'type'			=> 'PHP_EXTENSION',
 			'title'			=> 'Suhosin patch check',
 			'displayMsg'	=> true,
 			'name'			=> 'suhosin'
 		),
-		10 => array(
+		11 => array(
 			'type'	=> 'APACHE_MOD',
 			'title'	=> 'Apache mod rewrite check',
 			'name'	=> 'rewrite'
 		),
-		11 => array(
+		12 => array(
 			'type'	=> 'WRITABLE_DIRECTORIES',
 			'title'	=> 'System Rights',
 			'displayMsg' => true,

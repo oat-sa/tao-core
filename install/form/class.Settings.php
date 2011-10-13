@@ -58,7 +58,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		//Module Host
 		$moduleHostElt =  tao_helpers_form_FormFactory::getElement('module_host', 'Textbox');
 		$moduleHostElt->setDescription('Host *');
-		$moduleHostElt->setHelp("The host will be used in the module namespace http://HOST/module name.rdf#)." .  
+		$moduleHostElt->setHelp("The host will be used in the module's namespace (http://HOST/module name.rdf#)." .  
 													 "It must not be necessarily the host name of your web server.");
                 $moduleHostElt->setValue($_SERVER['HTTP_HOST']);
 		$moduleHostElt->addValidators(array(
@@ -74,8 +74,8 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleNSLblElt =  tao_helpers_form_FormFactory::getElement('module_namespace_lbl', 'Label');
 		$moduleNSLblElt->setDescription('Namespace');
 		$moduleNSLblElt->setHelp("The module's namespace will be used to identify the data stored by your module. ".
-								"Each data collected by tao is identified uniquely by an URI composed by ".
-								"the module namespace followed by the resource identifier (NAMESPACE#resource) ");
+								"Each data collected by tao is identified uniquely by a URI (Uniform Resource Identifier) composed by ".
+								"the module namespace followed by the resource identifier (NAMESPACE#resource-identifier) ");
 		$moduleNSLblElt->setValue($NSValue);
 		$moduleNSLblElt->setAttribute('id', 'module_namespace_lbl');
 		$this->form->addElement($moduleNSLblElt);
@@ -85,15 +85,15 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$this->form->addElement($moduleNSElt);
 		
 		//Module URL
-                $systemInfo = tao_install_utils_System::getInfos();
-                $url = 'http://'.$systemInfo['host'];
-                if(isset($systemInfo['folder']) && !empty($systemInfo['folder'])){
-                	$url .= '/'.$systemInfo['folder'];
-                }
+        $systemInfo = tao_install_utils_System::getInfos();
+        $url = 'http://'.$systemInfo['host'];
+        if(isset($systemInfo['folder']) && !empty($systemInfo['folder'])){
+        	$url .= '/'.$systemInfo['folder'];
+        }
                 
 		$moduleUrlElt =  tao_helpers_form_FormFactory::getElement('module_url', 'Textbox');
 		$moduleUrlElt->setDescription('URL *');
-		$moduleUrlElt->setHelp("The URL to access the module from a web browser.");
+		$moduleUrlElt->setHelp("The URL to access your TAO instance with a Web Browser.");
 		$moduleUrlElt->setValue($url);
 		$moduleUrlElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
@@ -105,13 +105,13 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		//Module default language
 		$moduleLangElt =  tao_helpers_form_FormFactory::getElement('module_lang', 'Combobox');
 		$moduleLangElt->setDescription('Default language');
-		$moduleLangElt->setHelp('The default language will be used when the language parameters are not specified for the graphical interface and the data.');
+		$moduleLangElt->setHelp('The default language will be used when the language parameters are not specified for the Graphical User Interface and the data.');
 		$moduleLangElt->setOptions(array(
 			'EN'	=> 'English',
 			'FR'	=> 'French',
 			'DE'	=> 'German',
 			'LU'	=> 'Luxemburgish',
-                        'SE'	=> 'Swedish'
+			'SE'	=> 'Swedish'
 		));
 		$moduleLangElt->setValue('EN');
 		$this->form->addElement($moduleLangElt);
@@ -119,9 +119,9 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		//Module Deployment mode
 		$moduleModeElt =  tao_helpers_form_FormFactory::getElement('module_mode', 'Combobox');
 		$moduleModeElt->setDescription('Deployment mode');
-		$moduleModeElt->setHelp("The deployment mode allow and deny access to resources regarding the needs of the pltaform.".
-									"The test & development mode will enables the debugs tools, the unit tests, and the access to all the resources.".
-									"the production mode is focused on the security and allow only the required resources to run TAO.");
+		$moduleModeElt->setHelp("The deployment mode allows and denies access to resources regarding the needs of the platform.".
+									"The Test & Development mode will enable the debuging tools, unit tests, and a free access to every resources.".
+									"the Production mode is focused on the security and allows to run TAO in a production environment.");
 		$moduleModeElt->setOptions(array(
 			'debug' 		=> 'Test / Development',
 			'production'	=> 'Production'
@@ -168,7 +168,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		
 		//Delete database if it is existing
 		$dbOverwriteDbElt = tao_helpers_form_FormFactory::getElement('db_override', 'Checkbox');
-		$dbOverwriteDbElt->setDescription('Override');
+		$dbOverwriteDbElt->setDescription('Overwrite');
 		$dbOverwriteDbElt->setOptions(array("on" => "Overwrite database if it exists"));
 		$this->form->addElement($dbOverwriteDbElt);
 		
