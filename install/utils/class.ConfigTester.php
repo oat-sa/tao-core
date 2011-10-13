@@ -73,15 +73,22 @@ class tao_install_utils_ConfigTester{
 	 */
 	protected function checkWritableDirectories ($params=array()){
 		//$installedExtensions = $extensionManager = common_ext_ExtensionsManager::singleton();
+		$errorCount = 0;
 		foreach ($params as $extensionName => $directories){
 			foreach ($directories as $directory) {
 				if (!is_writable(REL_PATH.$directory)){
+					// @todo whoami is not a recognized command in MS Windows!
 					$this->message .= $directory." should be writable for the user ".exec('whoami')."<br/>";
-					($this->status==null) ? $this->status = self::STATUS_INVALID : null;
-				}else {
-					($this->status==null) ? $this->status = self::STATUS_VALID : null;
+					$errorCount++;
 				}
 			}
+		}
+		if ($errorCount == 0){
+			$this->status = self::STATUS_VALID;
+			$this->message = 'Read/Write system rights are correctly set.';
+		}
+		else{
+			$this->status = self::STATUS_INVALID;
 		}
 	}
 	

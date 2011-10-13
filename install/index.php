@@ -95,7 +95,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 			<thead>
 				<tr>
 					<th class="ui-state-default ui-th-column ui-th-ltr leading test">Test</th>
-					<th class="ui-state-default ui-th-column ui-th-ltr validity">Valid</th>
+					<th class="ui-state-default ui-th-column ui-th-ltr validity">Validity</th>
 					<th class="ui-state-default ui-th-column ui-th-ltr trailing message">Message</th>
 				</tr>
 			</thead>

@@ -66,6 +66,7 @@ class tao_install_Installator{
 		11 => array(
 			'type'	=> 'WRITABLE_DIRECTORIES',
 			'title'	=> 'System Rights',
+			'displayMsg' => true,
 			'directories'	=> array(
 				'./'			=> array (
 					'version'
