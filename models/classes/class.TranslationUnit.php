@@ -83,6 +83,7 @@ class tao_models_classes_TranslationUnit
         $returnValue = (string) '';
 
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000347F begin
+        $returnValue = $this->source;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000347F end
 
         return (string) $returnValue;
@@ -100,6 +101,7 @@ class tao_models_classes_TranslationUnit
         $returnValue = (string) '';
 
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003481 begin
+        $returnValue = $this->target;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003481 end
 
         return (string) $returnValue;
@@ -116,6 +118,7 @@ class tao_models_classes_TranslationUnit
     public function setSource($source)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003483 begin
+        $this->source = $source;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003483 end
     }
 
@@ -130,6 +133,7 @@ class tao_models_classes_TranslationUnit
     public function setTarget($target)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003486 begin
+        $this->target = $target:
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003486 end
     }
 
@@ -145,6 +149,8 @@ class tao_models_classes_TranslationUnit
     public function __construct($source, $target = "")
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003489 begin
+        $this->source = $source;
+        $this->target = $target;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003489 end
     }
 

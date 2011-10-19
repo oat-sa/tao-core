@@ -71,9 +71,9 @@ class tao_models_classes_TranslationFile
      * Short description of attribute translationUnits
      *
      * @access private
-     * @var string
+     * @var array
      */
-    private $translationUnits = '';
+    private $translationUnits = array();
 
     // --- OPERATIONS ---
 
