@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 19.10.2011, 13:07:41 with ArgoUML PHP module 
+ * Automatically generated on 19.10.2011, 16:48:42 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -20,13 +20,6 @@ error_reporting(E_ALL);
 if (0 > version_compare(PHP_VERSION, '5')) {
     die('This file was generated for PHP 5');
 }
-
-/**
- * include Exception
- *
- * @author firstname and lastname of author, <author@example.org>
- */
-require_once('class.Exception.php');
 
 /* user defined includes */
 // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034E7-includes begin

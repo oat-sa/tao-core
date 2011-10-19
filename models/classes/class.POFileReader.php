@@ -110,6 +110,7 @@ class tao_models_classes_POFileReader
 		}
 		
 		$this->setTranslationFile($tf);
+		var_dump($tf);
 		
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034CA end
     }

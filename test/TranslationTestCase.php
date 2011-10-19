@@ -63,5 +63,12 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tu3->getSource() == 'Lando Calrician is a great pilot.');
 		$this->assertTrue($tu3->getTarget() == 'A great pilot Lando Calrician is.');
 	}
+	
+	public function testRawTranslationReading() {
+		$po = new tao_models_classes_POFileReader(dirname(__FILE__) . '/samples/sample_raw.po');
+		$po->read();
+		$tf = $po->getTranslationFile();
+		$tus = $tf->getTranslationUnits();
+	}
 }
 ?>

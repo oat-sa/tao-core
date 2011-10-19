@@ -96,15 +96,15 @@ abstract class tao_models_classes_TranslationFileReader
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
-     * @return TranslationFile
+     * @return tao_models_classes_TranslationFile
      */
     public function getTranslationFile()
     {
         $returnValue = null;
 
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034BC begin
-        if ($this->getTranslationFile() != null) {
-        	return $this->getTranslationFile();
+        if ($this->translationFile != null) {
+        	return $this->translationFile;
         }
         else {
         	throw new tao_models_classes_TranslationException('No TranslationFile to retrieve.');
@@ -155,9 +155,10 @@ abstract class tao_models_classes_TranslationFileReader
      * @param  TranslationFile translationFile
      * @return mixed
      */
-    protected function setTranslationFile( TranslationFile $translationFile)
+    protected function setTranslationFile( tao_models_classes_TranslationFile $translationFile)
     {
         // section 10-13-1-85-39553493:1331c604ede:-8000:0000000000003542 begin
+        $this->translationFile = $translationFile;
         // section 10-13-1-85-39553493:1331c604ede:-8000:0000000000003542 end
     }
 
