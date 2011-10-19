@@ -87,7 +87,7 @@ class tao_models_classes_TranslationFile
      * @param  string targetLanguage
      * @return mixed
      */
-    public function __construct($sourceLanguage, $targetLanguage)
+    public function __construct($sourceLanguage = "en-US", $targetLanguage = "en-US")
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003497 begin
         $this->sourceLanguage = $sourceLanguage;
@@ -207,7 +207,7 @@ class tao_models_classes_TranslationFile
     public function addTranslationUnit( tao_models_classes_TranslationUnit $translationUnit)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034AA begin
-        array_push($this->getTranslationUnits(), $translationUnit);
+        array_push($this->translationUnits, $translationUnit);
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034AA end
     }
 

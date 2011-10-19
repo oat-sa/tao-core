@@ -69,6 +69,22 @@ class tao_models_classes_TranslationUnit
      */
     private $target = '';
 
+    /**
+     * Short description of attribute sourceLanguage
+     *
+     * @access private
+     * @var string
+     */
+    private $sourceLanguage = '';
+
+    /**
+     * Short description of attribute targetLanguage
+     *
+     * @access private
+     * @var string
+     */
+    private $targetLanguage = '';
+
     // --- OPERATIONS ---
 
     /**
@@ -151,7 +167,78 @@ class tao_models_classes_TranslationUnit
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003489 begin
         $this->source = $source;
         $this->target = $target;
+        
+        // Default values for source and target languages are en-US.
+        $this->setSourceLanguage('en-US');
+        $this->setTargetLanguage('en-US');
+        
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003489 end
+    }
+
+    /**
+     * Short description of method setSourceLanguage
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  string sourceLanguage
+     * @return mixed
+     */
+    public function setSourceLanguage($sourceLanguage)
+    {
+        // section 10-13-1-85-4b6473d:1331c301495:-8000:000000000000351D begin
+        $this->sourceLanguage = $sourceLanguage;
+        // section 10-13-1-85-4b6473d:1331c301495:-8000:000000000000351D end
+    }
+
+    /**
+     * Short description of method setTargetLanguage
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  string targetLanguage
+     * @return mixed
+     */
+    public function setTargetLanguage($targetLanguage)
+    {
+        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003520 begin
+        $this->targetLanguage = $targetLanguage;
+        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003520 end
+    }
+
+    /**
+     * Short description of method getSourceLanguage
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @return string
+     */
+    public function getSourceLanguage()
+    {
+        $returnValue = (string) '';
+
+        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003523 begin
+        $returnValue = $this->sourceLanguage;
+        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003523 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method getTargetLanguage
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @return string
+     */
+    public function getTargetLanguage()
+    {
+        $returnValue = (string) '';
+
+        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003525 begin
+        $returnValue = $this->targetLanguage;
+        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003525 end
+
+        return (string) $returnValue;
     }
 
 } /* end of class tao_models_classes_TranslationUnit */
