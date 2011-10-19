@@ -133,7 +133,7 @@ class tao_models_classes_TranslationUnit
     public function setTarget($target)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003486 begin
-        $this->target = $target:
+        $this->target = $target;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003486 end
     }
 

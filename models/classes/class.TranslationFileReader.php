@@ -75,6 +75,7 @@ abstract class tao_models_classes_TranslationFileReader
     public function __construct($filePath)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034B7 begin
+        $this->filePath = $filePath;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034B7 end
     }
 
@@ -102,6 +103,12 @@ abstract class tao_models_classes_TranslationFileReader
         $returnValue = null;
 
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034BC begin
+        if ($this->getTranslationFile() != null) {
+        	return $this->getTranslationFile();
+        }
+        else {
+        	throw new tao_models_classes_TranslationException('No TranslationFile to retrieve.');
+        }
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034BC end
 
         return $returnValue;
@@ -119,6 +126,7 @@ abstract class tao_models_classes_TranslationFileReader
         $returnValue = (string) '';
 
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034BE begin
+        return $this->filePath;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034BE end
 
         return (string) $returnValue;
@@ -135,6 +143,7 @@ abstract class tao_models_classes_TranslationFileReader
     public function setFilePath($filePath)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034C0 begin
+        $this->filePath = $filePath;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034C0 end
     }
 

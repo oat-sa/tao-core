@@ -90,6 +90,9 @@ class tao_models_classes_TranslationFile
     public function __construct($sourceLanguage, $targetLanguage)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003497 begin
+        $this->sourceLanguage = $sourceLanguage;
+        $this->targetLanguage = $targetLanguage;
+        $this->translationUnits = array();
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003497 end
     }
 
@@ -105,6 +108,7 @@ class tao_models_classes_TranslationFile
         $returnValue = (string) '';
 
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000349B begin
+        return $this->sourceLanguage;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000349B end
 
         return (string) $returnValue;
@@ -122,6 +126,7 @@ class tao_models_classes_TranslationFile
         $returnValue = (string) '';
 
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000349D begin
+        return $this->targetLanguage;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000349D end
 
         return (string) $returnValue;
@@ -139,6 +144,7 @@ class tao_models_classes_TranslationFile
         $returnValue = array();
 
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000349F begin
+        return $this->translationUnits;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000349F end
 
         return (array) $returnValue;
@@ -155,6 +161,7 @@ class tao_models_classes_TranslationFile
     public function setSourceLanguage($sourceLanguage)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034A1 begin
+        $this->sourceLanguage = $sourceLanguage;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034A1 end
     }
 
@@ -169,6 +176,7 @@ class tao_models_classes_TranslationFile
     public function setTargetLanguage($targetLanguage)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034A4 begin
+        $this->targetLanguage = $targetLanguage;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034A4 end
     }
 
@@ -183,6 +191,7 @@ class tao_models_classes_TranslationFile
     public function setTranslationUnits($translationUnits)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034A7 begin
+        $this->translationUnits = $translationUnits;
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034A7 end
     }
 
@@ -198,6 +207,7 @@ class tao_models_classes_TranslationFile
     public function addTranslationUnit( tao_models_classes_TranslationUnit $translationUnit)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034AA begin
+        array_push($this->getTranslationUnits(), $translationUnit);
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034AA end
     }
 
@@ -213,6 +223,15 @@ class tao_models_classes_TranslationFile
     public function removeTranslationUnit( tao_models_classes_TranslationUnit $translationUnit)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034AD begin
+        $tus = $this->getTranslationUnits();
+        for ($i = 0; $i < count($tus); $i++) {
+        	if ($tus[$i] === $translationUnit) {
+        		unset($tus[$i]);
+        		break;
+        	}
+        }
+        
+        throw new tao_models_classes_TranslationException('Cannot remove Translation Unit. Not Found.');
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034AD end
     }
 
