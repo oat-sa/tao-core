@@ -24,11 +24,11 @@ class TranslationTestCase extends UnitTestCase {
 	public function testTranslationModel() {
 		
 		// en-US (American English) to en-YA (Yoda English) translation units.
-		$tu1 = new tao_models_classes_TranslationUnit('May the force be with you.',
+		$tu1 = new tao_helpers_translation_TranslationUnit('May the force be with you.',
 													  'The force with you may be.');
-		$tu2 = new tao_models_classes_TranslationUnit('The dark side smells hate.',
+		$tu2 = new tao_helpers_translation_TranslationUnit('The dark side smells hate.',
 													  'Hate the dark side smells.');
-		$tu3 = new tao_models_classes_TranslationUnit('Leia Organa of Alderaan is beautiful.',
+		$tu3 = new tao_helpers_translation_TranslationUnit('Leia Organa of Alderaan is beautiful.',
 													  'Beautiful Leia Organa of Alderaan is.');
 		
 		// Default source and target languages of translation units is en-US.
@@ -46,7 +46,7 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tu2->getSourceLanguage() == 'en-US');
 		$this->assertTrue($tu3->getTargetLanguage() == 'en-YA');
 		
-		$tf = new tao_models_classes_TranslationFile('en-US', 'en-YA');
+		$tf = new tao_helpers_translation_TranslationFile('en-US', 'en-YA');
 		$this->assertTrue($tf->getSourceLanguage() == 'en-US');
 		$this->assertTrue($tf->getTargetLanguage() == 'en-YA');
 		
@@ -71,7 +71,7 @@ class TranslationTestCase extends UnitTestCase {
 	}
 	
 	public function testTranslationReading() {
-		$po = new tao_models_classes_POFileReader(dirname(__FILE__) . self::RAW_PO);
+		$po = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::RAW_PO);
 		$po->read();
 		$tf = $po->getTranslationFile();
 		$tus = $tf->getTranslationUnits();
@@ -112,13 +112,13 @@ class TranslationTestCase extends UnitTestCase {
 	
 	public function testTranslationWriting(){
 		// -- First test
-		$pr = new tao_models_classes_POFileReader(dirname(__FILE__) . self::RAW_PO);
+		$pr = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::RAW_PO);
 		$pr->read();
 		$tf1 = $pr->getTranslationFile();
 		
 		// We serialize the TranslationFile and read it again to check equivalence.
 		$filePath = tempnam('/tmp', self::TEMP_PO); // Will try in the correct folder automatically for Win32 c.f. PHP website.
-		$pw = new tao_models_classes_POFileWriter($filePath, $tf1);
+		$pw = new tao_helpers_translation_POFileWriter($filePath, $tf1);
 		$pw->write();
 		
 		$pr->setFilePath($filePath);
