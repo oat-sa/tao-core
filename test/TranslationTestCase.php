@@ -6,11 +6,16 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * This test case aims at testing the Translation classes of TAO, the reading and
  * the writing processes, ...
  * 
+ * IMPORTANT: SAVE THIS FILE AS UTF-8. IT CONTAINS CROSS-CULTURAL CONSTANTS !
+ * 
  * @author Jerome Bogaerts <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage test
  */
 class TranslationTestCase extends UnitTestCase {
+	
+	const RAW_PO = '/samples/sample_raw.po';
+	const ESCAPING_PO = '/samples/sample_escaping.po';
 	
 	/**
 	 * Test of the different classes composing the Translation Model.
@@ -65,10 +70,43 @@ class TranslationTestCase extends UnitTestCase {
 	}
 	
 	public function testRawTranslationReading() {
-		$po = new tao_models_classes_POFileReader(dirname(__FILE__) . '/samples/sample_raw.po');
+		$po = new tao_models_classes_POFileReader(dirname(__FILE__) . self::RAW_PO);
 		$po->read();
 		$tf = $po->getTranslationFile();
 		$tus = $tf->getTranslationUnits();
+		
+		// Test default values of TranslationFile. PO files does not
+		// contain language information AFAIK.
+		$this->assertTrue($tf->getSourceLanguage() == 'en-US');
+		$this->assertTrue($tf->getTargetLanguage() == 'en-US');
+		
+		$this->assertTrue(count($tus) == 4);
+		$this->assertTrue($tus[0]->getSource() == 'First Try');
+		$this->assertTrue($tus[0]->getTarget() == '');
+		$this->assertTrue($tus[1]->getSource() == 'Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N');
+		$this->assertTrue($tus[1]->getTarget() == '');
+		$this->assertTrue($tus[2]->getSource() == 'This translation will be a very long text');
+		$this->assertTrue($tus[2]->getTarget() == '');
+		$this->assertTrue($tus[3]->getSource() == 'And this one will contain escaping characters');
+		$this->assertTrue($tus[3]->getTarget() == '');
+		
+		// We can test here the change of file while keeping the same instance
+		// of FileReader.
+		$po->setFilePath(dirname(__FILE__) . self::ESCAPING_PO);
+		$po->read();
+		$tf = $po->getTranslationFile();
+		$tus = $tf->getTranslationUnits();
+		
+		$this->assertTrue(count($tus) == 4);
+		$this->assertTrue($tus[0]->getSource() == 'The blackboard of Lena is full of "Shakespeare" quotes.');
+		$this->assertTrue($tus[0]->getTarget() == 'L\'ardoise de Léna est pleine de citations de "Shakespeare".');
+		$this->assertTrue($tus[1]->getSource() == 'Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N');
+		$this->assertTrue($tus[1]->getTarget() == 'Ce téxtê cÖntîEn$ de drÔlés dE çÄrÂctÈres @ cAµ$£ dé l\'I18N');
+		$this->assertTrue($tus[2]->getSource() == 'This translation will be a very long text');
+		// Reading logic trims the retrieved strings so that the trailing space you can find in the po file is not compared.
+		$this->assertTrue($tus[2]->getTarget() == 'C\'est en effet un texte très très long car j\'aime parler. Grâce à ce test, je vais pouvoir vérifier si les msgstr multilignes sont correctement interpretés par');
+		$this->assertTrue($tus[3]->getSource() == 'And this one will contain escaping characters');
+		$this->assertTrue($tus[3]->getTarget() == "Alors je vais passer une ligne \net aussi faire des tabulations \t car c'est très cool.");
 	}
 }
 ?>

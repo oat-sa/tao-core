@@ -20,4 +20,3 @@ msgstr ""
 
 msgid "And this one will contain escaping characters"
 msgstr ""
-
