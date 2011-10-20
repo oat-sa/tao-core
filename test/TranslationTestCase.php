@@ -16,6 +16,7 @@ class TranslationTestCase extends UnitTestCase {
 	
 	const RAW_PO = '/samples/sample_raw.po';
 	const ESCAPING_PO = '/samples/sample_escaping.po';
+	const TEMP_PO = 'tao.test.translation.writing';
 	
 	/**
 	 * Test of the different classes composing the Translation Model.
@@ -69,7 +70,7 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tu3->getTarget() == 'A great pilot Lando Calrician is.');
 	}
 	
-	public function testRawTranslationReading() {
+	public function testTranslationReading() {
 		$po = new tao_models_classes_POFileReader(dirname(__FILE__) . self::RAW_PO);
 		$po->read();
 		$tf = $po->getTranslationFile();
@@ -107,6 +108,45 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tus[2]->getTarget() == 'C\'est en effet un texte très très long car j\'aime parler. Grâce à ce test, je vais pouvoir vérifier si les msgstr multilignes sont correctement interpretés par');
 		$this->assertTrue($tus[3]->getSource() == 'And this one will contain escaping characters');
 		$this->assertTrue($tus[3]->getTarget() == "Alors je vais passer une ligne \net aussi faire des tabulations \t car c'est très cool.");
+	}
+	
+	public function testTranslationWriting(){
+		// -- First test
+		$pr = new tao_models_classes_POFileReader(dirname(__FILE__) . self::RAW_PO);
+		$pr->read();
+		$tf1 = $pr->getTranslationFile();
+		
+		// We serialize the TranslationFile and read it again to check equivalence.
+		$filePath = tempnam('/tmp', self::TEMP_PO); // Will try in the correct folder automatically for Win32 c.f. PHP website.
+		$pw = new tao_models_classes_POFileWriter($filePath, $tf1);
+		$pw->write();
+		
+		$pr->setFilePath($filePath);
+		$pr->read();
+		$tf2 = $pr->getTranslationFile();
+		
+		// We can now compare them.
+		$this->assertTrue('' . $tf1 == '' . $tf2);
+		unlink($filePath);
+		
+		// -- Second test
+		$pr->setFilePath(dirname(__FILE__) . self::ESCAPING_PO);
+		$pr->read();
+		$tf1 = $pr->getTranslationFile();
+		
+		// Serialize and compare later.
+		$filePath = tempnam('/tmp', self::TEMP_PO);
+		$pw->setFilePath($filePath);
+		$pw->setTranslationFile($tf1);
+		$pw->write();
+		
+		$pr->setFilePath($filePath);
+		$pr->read();
+		$tf2 = $pr->getTranslationFile();
+		
+		// We compare ...
+		$this->assertTrue('' . $tf1 == '' . $tf2);
+		unlink($filePath);
 	}
 }
 ?>

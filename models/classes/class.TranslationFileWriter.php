@@ -141,6 +141,24 @@ abstract class tao_models_classes_TranslationFileWriter
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034DE end
     }
 
+    /**
+     * Short description of method getTranslationFile
+     *
+     * @access protected
+     * @author firstname and lastname of author, <author@example.org>
+     * @return tao_models_classes_TranslationFile
+     */
+    protected function getTranslationFile()
+    {
+        $returnValue = null;
+
+        // section 10-13-1-85--1e5948f4:133212a9225:-8000:000000000000354D begin
+        $returnValue = $this->translationFile;
+        // section 10-13-1-85--1e5948f4:133212a9225:-8000:000000000000354D end
+
+        return $returnValue;
+    }
+
 } /* end of abstract class tao_models_classes_TranslationFileWriter */
 
 ?>

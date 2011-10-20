@@ -65,6 +65,15 @@ class tao_models_classes_POFileWriter
     public function write()
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034E3 begin
+        $buffer = '';
+		foreach($this->getTranslationFile()->getTranslationUnits() as $tu) {
+			$s = tao_models_classes_POUtils::sanitize($tu->getSource(), true);
+			$t = tao_models_classes_POUtils::sanitize($tu->getTarget(), true);
+			$buffer .=  "msgid \"{$s}\"\n";
+			$buffer .=  "msgstr \"{$t}\"\n";
+			$buffer .=  "\n";
+		}
+		return file_put_contents($this->getFilePath(), $buffer);
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034E3 end
     }
 

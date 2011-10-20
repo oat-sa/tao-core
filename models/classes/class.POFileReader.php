@@ -86,13 +86,13 @@ class tao_models_classes_POFileReader
 				$msgid = preg_replace('/\s*msgid\s*"(.*)"\s*/s','\\1',$matches[1][$i]);
 				$msgstr= preg_replace('/\s*msgstr\s*"(.*)"\s*/s','\\1',$matches[4][$i]);
 				
-				$msgstr = $this->poString($msgstr);
+				$msgstr = tao_models_classes_POUtils::sanitize($msgstr);
 				
 				if ($msgstr) {
-					$res[$this->poString($msgid)] = $msgstr;
+					$res[tao_models_classes_POUtils::sanitize($msgid)] = $msgstr;
 				}
 				else {
-					$res[$this->poString($msgid)] = '';
+					$res[tao_models_classes_POUtils::sanitize($msgid)] = '';
 				}
 			}
 			
@@ -112,34 +112,6 @@ class tao_models_classes_POFileReader
 		$this->setTranslationFile($tf);
 		
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034CA end
-    }
-
-    /**
-     * Utility method to sanitize/unsanitze a PO string.
-     *
-     * @access private
-     * @author firstname and lastname of author, <author@example.org>
-     * @param  string string
-     * @param  boolean reverse
-     * @return string
-     */
-    private function poString($string, $reverse = false)
-    {
-        $returnValue = (string) '';
-
-        // section 10-13-1-85-4a5a42ca:1331c4d8dc7:-8000:0000000000003527 begin
-	    if ($reverse) {
-			$smap = array('"', "\n", "\t", "\r");
-			$rmap = array('\\"', '\\n"' . "\n" . '"', '\\t', '\\r');
-			$returnValue = trim((string) str_replace($smap, $rmap, $string));
-		} else {
-			$smap = array('/"\s+"/', '/\\\\n/', '/\\\\r/', '/\\\\t/', '/\\\"/');
-			$rmap = array('', "\n", "\r", "\t", '"');
-			$returnValue = trim((string) preg_replace($smap, $rmap, $string));
-		}
-        // section 10-13-1-85-4a5a42ca:1331c4d8dc7:-8000:0000000000003527 end
-
-        return (string) $returnValue;
     }
 
 } /* end of class tao_models_classes_POFileReader */

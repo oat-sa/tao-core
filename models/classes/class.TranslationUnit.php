@@ -241,6 +241,25 @@ class tao_models_classes_TranslationUnit
         return (string) $returnValue;
     }
 
+    /**
+     * Short description of method __toString
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @return string
+     */
+    public function __toString()
+    {
+        $returnValue = (string) '';
+
+        // section 10-13-1-85--248fc0f4:133211c8937:-8000:0000000000003549 begin
+        $returnValue = $this->getSourceLanguage() . '->' . $this->getTargetLanguage() . ':' .
+        			   $this->getSource() . '-' . $this->getTarget();
+        // section 10-13-1-85--248fc0f4:133211c8937:-8000:0000000000003549 end
+
+        return (string) $returnValue;
+    }
+
 } /* end of class tao_models_classes_TranslationUnit */
 
 ?>
