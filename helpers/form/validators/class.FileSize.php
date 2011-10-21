@@ -104,7 +104,11 @@ class tao_helpers_form_validators_FileSize
 				if($value['size'] >= $this->options['min'] && $value['size'] <= $this->options['max']){
 					$returnValue = true;
 				}
+			}else{
+				$returnValue = true;
 			}
+		}else{
+			$returnValue = true;
 		}
 		
         // section 127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CE3 end
