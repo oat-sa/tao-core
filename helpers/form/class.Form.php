@@ -13,7 +13,7 @@ error_reporting(E_ALL);
  * )
  * 3. render form
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -26,14 +26,14 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * This class provide a container for a specific form instance.
  * It's subclasses instanciate a form and it's elements to be used as a
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  */
 require_once('tao/helpers/form/class.FormContainer.php');
 
 /**
  * A decorator is an helper used for aspect oriented rendering.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  */
 require_once('tao/helpers/form/interface.Decorator.php');
 
@@ -58,14 +58,14 @@ require_once('tao/helpers/form/interface.Decorator.php');
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
 abstract class tao_helpers_form_Form
 {
     // --- ASSOCIATIONS ---
-    // generateAssociationEnd :     // generateAssociationEnd : 
+    // generateAssociationEnd :     // generateAssociationEnd :     // generateAssociationEnd :     // generateAssociationEnd : 1    // generateAssociationEnd :     // generateAssociationEnd : 
 
     // --- ATTRIBUTES ---
 
@@ -96,10 +96,10 @@ abstract class tao_helpers_form_Form
     /**
      * if the form is valid or not
      *
-     * @access protected
+     * @access public
      * @var boolean
      */
-    protected $valid = false;
+    public $valid = false;
 
     /**
      * if the form has been submited or not
@@ -133,13 +133,21 @@ abstract class tao_helpers_form_Form
      */
     protected $options = array();
 
+    /**
+     * Global form error message
+     *
+     * @access public
+     * @var string
+     */
+    public $error = '';
+
     // --- OPERATIONS ---
 
     /**
      * the form constructor
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string name
      * @param  array options
      * @return mixed
@@ -156,7 +164,7 @@ abstract class tao_helpers_form_Form
      * set the form name
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string name
      * @return mixed
      */
@@ -173,7 +181,7 @@ abstract class tao_helpers_form_Form
      * Get the form name
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return string
      */
     public function getName()
@@ -193,7 +201,7 @@ abstract class tao_helpers_form_Form
      * set the form options
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -210,7 +218,7 @@ abstract class tao_helpers_form_Form
      * get an element of the form identified by it's name
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string name
      * @return tao_helpers_form_FormElement
      */
@@ -236,7 +244,7 @@ abstract class tao_helpers_form_Form
      * get all the form elements
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return array
      */
     public function getElements()
@@ -256,7 +264,7 @@ abstract class tao_helpers_form_Form
      * Define the list of form elements
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array elements
      * @return mixed
      */
@@ -273,7 +281,7 @@ abstract class tao_helpers_form_Form
      * Remove an element identified by it's name.
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string name
      * @return boolean
      */
@@ -305,7 +313,7 @@ abstract class tao_helpers_form_Form
      * Add an element to the form
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  FormElement element
      * @return mixed
      */
@@ -334,7 +342,7 @@ abstract class tao_helpers_form_Form
      * The different contexts are top and bottom.
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array actions
      * @param  string context
      * @return mixed
@@ -359,7 +367,7 @@ abstract class tao_helpers_form_Form
      * Get the defined actions for a context
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string context
      * @return array
      */
@@ -384,7 +392,7 @@ abstract class tao_helpers_form_Form
      * By default it uses the element decorator.
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  Decorator decorator
      * @param  string type
      * @return mixed
@@ -402,7 +410,7 @@ abstract class tao_helpers_form_Form
      * Set the form decorators
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array decorators
      * @return mixed
      */
@@ -423,7 +431,7 @@ abstract class tao_helpers_form_Form
      * By default it uses the element decorator.
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string type
      * @return tao_helpers_form_Decorator
      */
@@ -446,7 +454,7 @@ abstract class tao_helpers_form_Form
      * render all the form elements
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return string
      */
     public function renderElements()
@@ -583,7 +591,7 @@ abstract class tao_helpers_form_Form
      * render the form actions by context
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string context
      * @return string
      */
@@ -626,7 +634,7 @@ abstract class tao_helpers_form_Form
      * initialize the elements set
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return mixed
      */
     protected function initElements()
@@ -639,7 +647,7 @@ abstract class tao_helpers_form_Form
      * Check if the form contains a file upload element
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return boolean
      */
     public function hasFileUpload()
@@ -664,7 +672,7 @@ abstract class tao_helpers_form_Form
      * Enables you to know if the form is valid
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return boolean
      */
     public function isValid()
@@ -682,7 +690,7 @@ abstract class tao_helpers_form_Form
      * Enables you to know if the form has been submited
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return boolean
      */
     public function isSubmited()
@@ -700,7 +708,7 @@ abstract class tao_helpers_form_Form
      * Update manually the values of the form
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array values
      * @return mixed
      */
@@ -731,7 +739,7 @@ abstract class tao_helpers_form_Form
      * Get the current values of the form
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string groupName
      * @return array
      */
@@ -761,7 +769,7 @@ abstract class tao_helpers_form_Form
      * get the current value of the element identified by the name in parameter
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string name
      * @return boolean
      */
@@ -784,7 +792,7 @@ abstract class tao_helpers_form_Form
      * Short description of method getGroups
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return array
      */
     public function getGroups()
@@ -804,7 +812,7 @@ abstract class tao_helpers_form_Form
      * Short description of method setGroups
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array groups
      * @return mixed
      */
@@ -821,7 +829,7 @@ abstract class tao_helpers_form_Form
      * Create a logical group of elements
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string groupName
      * @param  string groupTitle
      * @param  array elements
@@ -843,7 +851,7 @@ abstract class tao_helpers_form_Form
      * add an element to a group
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string groupName
      * @param  string elementName
      * @return mixed
@@ -867,7 +875,7 @@ abstract class tao_helpers_form_Form
      * get the group where is an element
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string elementName
      * @return string
      */
@@ -891,7 +899,7 @@ abstract class tao_helpers_form_Form
      * remove the group identified by the name in parameter
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string grouName
      * @return boolean
      */
@@ -920,7 +928,7 @@ abstract class tao_helpers_form_Form
      *
      * @abstract
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return mixed
      */
     public abstract function evaluate();
@@ -930,7 +938,7 @@ abstract class tao_helpers_form_Form
      *
      * @abstract
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return string
      */
     public abstract function render();

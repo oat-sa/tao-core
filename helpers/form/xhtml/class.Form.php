@@ -199,6 +199,10 @@ class tao_helpers_form_xhtml_Form
 		
 		$returnValue .= $this->renderActions('top');
 		
+		if(!empty($this->error)){
+			$returnValue .= '<div class="xhtml_form_error ui-state-error ui-corner-all">'.$this->error.'</div>';
+		}
+		
 		$returnValue .= $this->renderElements();
 		
 		$returnValue .= $this->renderActions('bottom');

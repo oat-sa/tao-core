@@ -6,7 +6,7 @@ error_reporting(E_ALL);
  * This class provide a container for a specific form instance.
  * It's subclasses instanciate a form and it's elements to be used as a
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -26,7 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * )
  * 3. render form
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  */
 require_once('tao/helpers/form/class.Form.php');
 
@@ -44,7 +44,7 @@ require_once('tao/helpers/form/class.Form.php');
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -95,7 +95,7 @@ abstract class tao_helpers_form_FormContainer
      * to be overriden
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array data
      * @param  array options
      * @return mixed
@@ -128,6 +128,11 @@ abstract class tao_helpers_form_FormContainer
 			$this->form->evaluate();
 		}
 		
+		//validate global form rules
+		if(!is_null($this->form)){
+			$this->validate();
+		}
+		
 		$returnValue = $this;
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DDD end
@@ -137,7 +142,7 @@ abstract class tao_helpers_form_FormContainer
      * Destructor (remove the current form in the static list)
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return mixed
      */
     public function __destruct()
@@ -156,7 +161,7 @@ abstract class tao_helpers_form_FormContainer
      * get the form instance
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return tao_helpers_form_Form
      */
     public function getForm()
@@ -178,7 +183,7 @@ abstract class tao_helpers_form_FormContainer
      *
      * @abstract
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return mixed
      */
     protected abstract function initForm();
@@ -188,10 +193,31 @@ abstract class tao_helpers_form_FormContainer
      *
      * @abstract
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return mixed
      */
     protected abstract function initElements();
+
+    /**
+     * Allow global form validation.
+     * Override this function to do it.
+     *
+     * @access protected
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @return boolean
+     */
+    protected function validate()
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--485428cc:133267d2802:-8000:0000000000004096 begin
+        
+        $returnValue = true;
+        
+        // section 127-0-1-1--485428cc:133267d2802:-8000:0000000000004096 end
+
+        return (bool) $returnValue;
+    }
 
 } /* end of abstract class tao_helpers_form_FormContainer */
 
