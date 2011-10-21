@@ -41,6 +41,7 @@ AsyncFileUpload = function(elt, options){
 			if(myResponse.uploaded){
 				target.val(myResponse.data);
 			}
+			target.trigger('async_file_uploaded', myResponse);
 			return false;
 		};
 	}
