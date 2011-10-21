@@ -153,9 +153,15 @@ abstract class tao_scripts_Runner
 	        		}
 	        	}
         		else if(preg_match("/^[\-]{1,2}\w+$/", $arg)){
+		        	$key = preg_replace("/^[\-]{1,}/", '', $arg);
         			if(isset($this->argv[$i + 1])){
-	        			$key = preg_replace("/^[\-]{1,}/", '', $arg);
-	        			$this->parameters[$key] = trim($this->argv[++$i]);
+        				if(substr(trim($this->argv[$i + 1]),0,1)=='-'){
+        					$this->parameters[$key] = '';
+        				}else{
+		        			$this->parameters[$key] = trim($this->argv[++$i]);
+        				} 
+        			}else{
+        				$this->parameters[$key] = '';
         			}
 	        	}
 	        	else{
@@ -217,53 +223,62 @@ abstract class tao_scripts_Runner
         }
         
         if($returnValue){
-        	
         	 foreach($this->inputFormat['parameters'] as $parameter){
         		if(isset($this->parameters[$parameter['name']])){
-	        	 	$parameter = $this->parameters[$parameter['name']];
+	        	 	$input = $this->parameters[$parameter['name']];
 		        	switch($parameter['type']){
 		        		case 'file': 
-		       				if( !is_file($parameter) || 
-		       					!file_exists($parameter) || 
-		       					!is_readable($parameter))
+		       				if( !is_file($input) || 
+		       					!file_exists($input) || 
+		       					!is_readable($input))
 		       				{
-		       					self::err("Unable to access to the file: $parameter");
+		       					self::err("Unable to access to the file: $input");
 		       					$returnValue = false;
 		       				}
 		       				break;
 	        			case 'dir': 
-	        				if( !is_dir($parameter) || 
-	        					!is_readable($parameter))
+	        				if( !is_dir($input) || 
+	        					!is_readable($input))
 	        				{
-	        					self::err("Unable to access to the directory: $parameter");
+	        					self::err("Unable to access to the directory: $input");
 	        					$returnValue = false;
 	        				}
 	        				break;
 	        			case 'path': 
-	        				if( !is_dir(dirname($parameter)) )
+	        				if( !is_dir(dirname($input)) )
 	        				{
-	        					self::err("Wrong path given: $parameter");
+	        					self::err("Wrong path given: $input");
 	        					$returnValue = false;
 	        				}
 	        				break;
 	        			case 'int':
 	        			case 'float':
 	        			case 'double':
-	        				if(!is_numeric($parameter)){
-	        					self::err("$parameter is not a valid $type");
+	        				if(!is_numeric($input)){
+	        					self::err("$input is not a valid ".$parameter['type']);
 	        					$returnValue = false;
 	        				}
 	        				break;
 	        			case 'string':
-	        				if(!is_string($parameter)){
-	        					self::err("$parameter is not a valid $type");
+	        				if(!is_string($input)){
+	        					self::err("$input is not a valid ".$parameter['type']);
 	        					$returnValue = false;
 	        				}
 	        				break;
 	        			case 'boolean':
-	        				if(!is_bool($parameter) && $parameter != 'true' && $parameter != 'false' ){
-	        					self::err("$parameter is not a valid $type");
+	        				if(!is_bool($input) && strtolower($input) != 'true' && strtolower($input) != 'false' && !empty($input)){
+	        					self::err("$input is not a valid ".$parameter['type']);
 	        					$returnValue = false;
+	        				}else{
+	        					if(is_bool($input)){
+	        						$this->parameters[$parameter['name']] = $input;
+	        					}
+	        					else if(!empty($input)){
+	        						strtolower($input) == 'true' ? $this->parameters[$parameter['name']] = true : false;
+	        					}
+	        					else{
+	        						$this->parameters[$parameter['name']] = true;
+	        					}
 	        				}
 	        				break;
 	        				
