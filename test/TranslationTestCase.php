@@ -70,7 +70,7 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tu3->getTarget() == 'A great pilot Lando Calrician is.');
 	}
 	
-	public function testTranslationReading() {
+	public function testPOTranslationReading() {
 		$po = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::RAW_PO);
 		$po->read();
 		$tf = $po->getTranslationFile();
@@ -110,7 +110,8 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tus[3]->getTarget() == "Alors je vais passer une ligne \net aussi faire des tabulations \t car c'est très cool.");
 	}
 	
-	public function testTranslationWriting(){
+	
+	public function testPOTranslationWriting(){
 		// -- First test
 		$pr = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::RAW_PO);
 		$pr->read();
@@ -147,6 +148,27 @@ class TranslationTestCase extends UnitTestCase {
 		// We compare ...
 		$this->assertTrue('' . $tf1 == '' . $tf2);
 		unlink($filePath);
+	}
+	
+	public function testJavaScriptTranslationWriting() {
+		$jsFilePath = tempnam('/tmp', self::TEMP_PO);
+		$pr = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::RAW_PO);
+		$pr->read();
+		$tf = $pr->getTranslationFile();
+		$tw = new tao_helpers_translation_JSFileWriter($jsFilePath, $tf);
+		$tw->write();
+		$this->assertTrue(file_exists($jsFilePath));
+		unlink($jsFilePath);
+		
+		$jsFilePath = tempnam('/tmp', self::TEMP_PO);
+		$pr->setFilePath(dirname(__FILE__) . self::ESCAPING_PO);
+		$pr->read();
+		$tf = $pr->getTranslationFile();
+		$tw->setFilePath($jsFilePath);
+		$tw->setTranslationFile($tf);
+		$tw->write();
+		$this->assertTrue(file_exists($jsFilePath));
+		unlink($jsFilePath);
 	}
 }
 ?>
