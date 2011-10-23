@@ -3,18 +3,13 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao\helpers\translation\class.TranslationException.php
+ * An Exception related to translations.
  *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 23.10.2011, 23:52:40 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts
  * @package tao
+ * @since 2.2
  * @subpackage helpers_translation
+ * @version 1.0
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -26,6 +21,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  *
  * @author firstname and lastname of author, <author@example.org>
  */
+//require_once('class.Exception.php');
 
 /* user defined includes */
 // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034E7-includes begin
@@ -36,12 +32,14 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034E7-constants end
 
 /**
- * Short description of class tao_helpers_translation_TranslationException
+ * An Exception related to translations.
  *
  * @access public
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts
  * @package tao
+ * @since 2.2
  * @subpackage helpers_translation
+ * @version 1.0
  */
 class tao_helpers_translation_TranslationException
     extends Exception

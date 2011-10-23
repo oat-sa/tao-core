@@ -3,18 +3,14 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao\helpers\translation\class.JSFileWriter.php
+ * An implementation of TranslationFileWriter aiming at writing JavaScript
+ * files.
  *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 23.10.2011, 23:58:10 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts
  * @package tao
+ * @since 2.2
  * @subpackage helpers_translation
+ * @version 1.0
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -41,12 +37,15 @@ require_once('tao/helpers/translation/class.TranslationFileWriter.php');
 // section -64--88-1-7-60bf53a7:13332a8c400:-8000:00000000000031D0-constants end
 
 /**
- * Short description of class tao_helpers_translation_JSFileWriter
+ * An implementation of TranslationFileWriter aiming at writing JavaScript
+ * files.
  *
  * @access public
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts
  * @package tao
+ * @since 2.2
  * @subpackage helpers_translation
+ * @version 1.0
  */
 class tao_helpers_translation_JSFileWriter
     extends tao_helpers_translation_TranslationFileWriter

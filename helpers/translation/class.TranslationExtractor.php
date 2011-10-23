@@ -3,18 +3,14 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao\helpers\translation\class.TranslationExtractor.php
+ * A TranslationExtractor instance extracts TranslationUnits from a given source
+ * as an Item, source code, ...
  *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 23.10.2011, 23:47:06 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts
  * @package tao
+ * @since 2.2
  * @subpackage helpers_translation
+ * @version 1.0
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -30,13 +26,16 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031E0-constants end
 
 /**
- * Short description of class tao_helpers_translation_TranslationExtractor
+ * A TranslationExtractor instance extracts TranslationUnits from a given source
+ * as an Item, source code, ...
  *
  * @abstract
  * @access public
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts
  * @package tao
+ * @since 2.2
  * @subpackage helpers_translation
+ * @version 1.0
  */
 abstract class tao_helpers_translation_TranslationExtractor
 {
@@ -64,7 +63,7 @@ abstract class tao_helpers_translation_TranslationExtractor
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
+     * Creates a new Instance of TranslationExtractor.
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
@@ -74,11 +73,14 @@ abstract class tao_helpers_translation_TranslationExtractor
     public function __construct($paths)
     {
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031E7 begin
+        $this->setPaths($paths);
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031E7 end
     }
 
     /**
-     * Short description of method extract
+     * Any subclass of TranslationExtractor must implement this method aiming at
+     * TranslationUnits from a given source and set the translationUnit member
+     * the class.
      *
      * @abstract
      * @access public
@@ -88,7 +90,7 @@ abstract class tao_helpers_translation_TranslationExtractor
     public abstract function extract();
 
     /**
-     * Short description of method setPaths
+     * Sets an array of paths where the translations have to be extracted.
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
@@ -98,11 +100,12 @@ abstract class tao_helpers_translation_TranslationExtractor
     public function setPaths($paths)
     {
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031F1 begin
+        $this->paths = $paths;
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031F1 end
     }
 
     /**
-     * Short description of method getPaths
+     * Gets an array of paths where the translations have to be extracted
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
@@ -113,13 +116,15 @@ abstract class tao_helpers_translation_TranslationExtractor
         $returnValue = array();
 
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031F4 begin
+        $returnValue = $this->paths;
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031F4 end
 
         return (array) $returnValue;
     }
 
     /**
-     * Short description of method getTranslationUnits
+     * Gets an array of TranslationUnit instances that were generated during the
+     * of the TranslationExtractor::extract method.
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
@@ -130,13 +135,15 @@ abstract class tao_helpers_translation_TranslationExtractor
         $returnValue = array();
 
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031F6 begin
+        $returnValue = $this->translationUnits;
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031F6 end
 
         return (array) $returnValue;
     }
 
     /**
-     * Short description of method setTranslationUnits
+     * Sets an array of TranslationUnit instances that will be generated during
+     * invokation of the TranslationExtractor::extract method.
      *
      * @access protected
      * @author firstname and lastname of author, <author@example.org>
@@ -146,6 +153,7 @@ abstract class tao_helpers_translation_TranslationExtractor
     protected function setTranslationUnits($translationUnits)
     {
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031FE begin
+        $this->translationUnits = $translationUnits;
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031FE end
     }
 
