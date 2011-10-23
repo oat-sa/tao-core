@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 23.10.2011, 23:47:06 with ArgoUML PHP module 
+ * Automatically generated on 23.10.2011, 23:58:10 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -49,20 +49,7 @@ require_once('tao/helpers/translation/class.TranslationFileWriter.php');
  * @subpackage helpers_translation
  */
 class tao_helpers_translation_JSFileWriter
-    /* multiple generalisations not supported by PHP: */
-    /* extends tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter,
-            tao_helpers_translation_TranslationFileWriter */
+    extends tao_helpers_translation_TranslationFileWriter
 {
     // --- ASSOCIATIONS ---
 
