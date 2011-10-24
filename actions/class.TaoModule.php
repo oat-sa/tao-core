@@ -17,7 +17,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Override this method to allow/deny a request
 	 * @return boolean
 	 */
-	protected function _isAllowed(){
+	protected function _isAllowed()
+	{ 
 		//if a user is logged in
 		if( parent::_isAllowed()){
 		
@@ -318,6 +319,238 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			);
 		}
 		echo json_encode($response);
+	}
+	
+	/**
+	 * Edit property instance
+	 * @return void
+	 */
+	public function editPropertyInstance()
+	{
+		if(!$this->hasRequestParameter('ownerUri') || !$this->hasRequestParameter('ownerClassUri')
+			|| !$this->hasRequestParameter('propertyUri'))
+		{
+			var_dump('variables missing');
+		} 
+		else{
+			
+			$ownerClassUri = tao_helpers_Uri::decode($this->getRequestParameter('ownerClassUri'));
+			$ownerUri = tao_helpers_Uri::decode($this->getRequestParameter('ownerUri'));
+			$propertyUri = tao_helpers_Uri::decode($this->getRequestParameter('propertyUri'));
+			
+			$ownerInstance = new core_kernel_classes_Resource($ownerUri);
+			$ownerClass = new core_kernel_classes_Class($ownerClassUri);
+			$property = new core_kernel_classes_Property($propertyUri);
+			$propertyRange = $property->getRange();
+			
+			// If the file does not exist, create it
+			$instance = $ownerInstance->getOnePropertyValue($property);
+			if(is_null($instance)){
+				$instance = $propertyRange->createInstance();
+				$ownerInstance->setPropertyValue($property, $instance->uriResource);
+			}
+			
+			$formContainer = new tao_actions_form_Instance($propertyRange, $instance);
+			$myForm = $formContainer->getForm();
+			
+			// Add hidden elements to the form
+			$ownerClassUriElt = tao_helpers_form_FormFactory::getElement("ownerClassUri", "Hidden");
+			$ownerClassUriElt->setValue(tao_helpers_Uri::encode($ownerClassUri));
+			$myForm->addElement($ownerClassUriElt);
+			
+			$ownerUriElt = tao_helpers_form_FormFactory::getElement("ownerUri", "Hidden");
+			$ownerUriElt->setValue(tao_helpers_Uri::encode($ownerUri));
+			$myForm->addElement($ownerUriElt);
+			
+			$propertyUriElt = tao_helpers_form_FormFactory::getElement("propertyUri", "Hidden");
+			$propertyUriElt->setValue(tao_helpers_Uri::encode($propertyUri));
+			$myForm->addElement($propertyUriElt);
+			
+			//add an hidden elt for the instance Uri
+			//usefull to render the revert action
+			$instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
+			$instanceUriElt->setValue(tao_helpers_Uri::encode($ownerInstance->uriResource));
+			$myForm->addElement($instanceUriElt);
+			
+			if($myForm->isSubmited()){
+				if($myForm->isValid()){
+					
+					$properties = $myForm->getValues();
+					$versionedContentInstance = $this->service->bindProperties($instance, $properties);
+					
+					$this->setData('message', __($propertyRange->getLabel().' saved'));
+					$this->setData('reload', true);
+				}
+			}
+		}
+		
+		$this->setData('formTitle', __('Manage item versioned content'));
+		$this->setData('myForm', $myForm->render());
+		
+		$this->setView('form_content.tpl');
+	}
+	
+	/**
+	 * Download versioned file
+	 * @param resourceUri {uri} Uri of the resource to download
+	 */
+	public function downloadVersionedFile()
+	{
+		if($this->hasRequestParameter('uri')){
+			
+			$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+			$file = new core_kernel_versioning_File($uri);
+			$fileName = $file->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
+			if(core_kernel_versioning_File::isVersionedFile($file)){
+				
+				$content = $file->getFileContent();
+				$size = strlen($content);
+				$mimeType = tao_helpers_File::getMimeType($file->getAbsolutePath());
+				$this->setContentHeader($mimeType);
+				header("Content-Length: $size");
+				header("Content-Disposition: attachment; filename=\"{$fileName}\"");
+				header("Expires: 0");
+				header("Cache-Control: no-cache, must-revalidate");
+				header("Pragma: no-cache");
+				print $content;
+				return;
+			}
+		}
+		return;
+	}
+	
+	/**
+	 * Edit a versioned file
+	 * @todo refactor
+	 */
+	public function editVersionedFile()
+	{
+		if(!$this->hasRequestParameter('uri'))
+		{
+			var_dump('variables missing');
+		} 
+		else{
+			
+			$ownerUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+			$propertyUri = tao_helpers_Uri::decode($this->getRequestParameter('propertyUri'));
+			
+			$ownerInstance = new core_kernel_classes_Resource($ownerUri);
+			$property = new core_kernel_classes_Property($propertyUri);
+			$propertyRange = $property->getRange();
+			
+			//get the versioned file resource
+			$versionedFileResource = $ownerInstance->getOnePropertyValue($property);
+			//if it does not exist already, create a new versioned file resource
+			if(is_null($versionedFileResource)){
+				//if the file resource does not exist, create it
+				$versionedFileResource = $propertyRange->createInstance();
+				$ownerInstance->setPropertyValue($property, $versionedFileResource->uriResource);
+			}
+			$versionedFile = new core_kernel_versioning_File($versionedFileResource->uriResource);
+			
+			//create the form
+			$formContainer = new tao_actions_form_VersionedFile(null
+				, array(
+					'instanceUri' => $versionedFile->uriResource,
+					'ownerUri' => $ownerInstance->uriResource,
+					'propertyUri' => $propertyUri
+				)
+			);
+			$myForm = $formContainer->getForm();
+			
+			//if the form was sent successfully
+			if($myForm->isSubmited()){
+				
+				if($myForm->isValid()){
+					
+					// Extract data from form
+					$data = $myForm->getValues();
+					// Extracted values
+					$content = '';
+					$fileName = $data[PROPERTY_FILE_FILENAME];
+					$filePath = $data[PROPERTY_VERSIONEDFILE_FILEPATH];
+					$repositoryUri = $data[PROPERTY_VERSIONEDFILE_REPOSITORY];
+					$version = isset($data['file_version']) ? $data['file_version'] : null;
+					
+					//get the content
+					if(isset($data['file_import']['uploaded_file'])){
+						if(file_exists($data['file_import']['uploaded_file'])){
+							$content = file_get_contents($data['file_import']['uploaded_file']);
+						}
+						else{
+							throw new Exception(__('the file was not uploaded successfully'));
+						}
+					}
+					
+					//the file is already versioned
+					if($versionedFile->isVersioned()){
+						
+						/*
+						//move or rename the file
+						$renamed = $moved = false;
+						if($fileName != $versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME))){
+							$renamed = true;
+						}
+						if($filePath != $versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_FILEPATH))){
+							$moved = true;
+						}
+						
+						if($renamed || $moved){
+							$versionedFile->move();
+						}*/
+						
+						//revert to a version
+						$history = $versionedFile->getHistory();
+						if(count($history) != $version){
+							$id = count($history) - $version;
+							$versionedFile->revert($history[$id]['rev'], 'Revert to version '.$version);
+						}
+						
+						//a new content was sent
+						if(!empty($content)){
+							$versionedFile->setContent($content);
+						}
+					} 
+					
+					//the file is not already versioned
+					else{
+						//create the versioned file
+						$versionedFile = core_kernel_versioning_File::create(
+							$fileName,
+							$filePath,
+							new core_kernel_classes_Resource($repositoryUri),
+							$versionedFile->uriResource
+					    );
+					    					    
+						//a content was sent
+						if(!empty($content)){
+							$versionedFile->setContent($content);
+						}
+						
+						//add the file to the repository
+						$versionedFile->add();
+					}
+					
+				    //commit the file
+				    $versionedFile->commit();
+					
+					$this->setData('message', __($propertyRange->getLabel().' saved'));
+					$this->setData('reload', true);
+					
+					//reload the form to take in account the changes
+					$ctx = Context::getInstance();
+					$this->redirect(_url($ctx->getActionName(), $ctx->getModuleName(), $this->getSessionAttribute('currentExtension'), array(
+						'uri'			=> tao_helpers_Uri::encode($ownerUri),
+						'propertyUri'	=> tao_helpers_Uri::encode($propertyUri)
+					)));
+				}
+			}
+		}
+		
+		$this->setData('formTitle', __('Manage item versioned content'));
+		$this->setData('myForm', $myForm->render());
+		
+		$this->setView('form/versioned_file.tpl', true);
 	}
 	
 	/**

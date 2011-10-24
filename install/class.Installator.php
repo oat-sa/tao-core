@@ -49,6 +49,11 @@ class tao_install_Installator{
              'name'  => 'dom'
         ),
 		9 => array(
+			'type'	=> 'PHP_EXTENSION',
+			'title'	=> 'PHP SVN extension check',
+			'name'	=> 'svn'
+		),
+		10 => array(
 			'type'	=> 'MULTI',
 			'title'	=> 'PHP mysql driver extension check',
 			'tests'	=> array(
@@ -57,18 +62,18 @@ class tao_install_Installator{
 				array('type'	=> 'PHP_EXTENSION', 'name' =>  'pdo_mysql')
 			)
 		),
-		10 => array(
+		11 => array(
 			'type'			=> 'PHP_EXTENSION',
 			'title'			=> 'Suhosin patch check',
 			'displayMsg'	=> true,
 			'name'			=> 'suhosin'
 		),
-		11 => array(
+		12 => array(
 			'type'	=> 'APACHE_MOD',
 			'title'	=> 'Apache mod rewrite check',
 			'name'	=> 'rewrite'
 		),
-		12 => array(
+		13 => array(
 			'type'	=> 'WRITABLE_DIRECTORIES',
 			'title'	=> 'System Rights',
 			'displayMsg' => true,
