@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Utilities on URL/URI
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -40,7 +40,7 @@ function _url($action = null, $module = null, $extension = null, $params = array
  * Utilities on URL/URI
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -97,7 +97,7 @@ class tao_helpers_Uri
      * get the project base url
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return string
      */
     public static function getBaseUrl()
@@ -123,7 +123,7 @@ class tao_helpers_Uri
      * Short description of method getRootUrl
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return string
      */
     public static function getRootUrl()
@@ -150,7 +150,7 @@ class tao_helpers_Uri
      * it for the used kind of url resolving
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string action
      * @param  string module
      * @param  string extension
@@ -198,7 +198,7 @@ class tao_helpers_Uri
      * format propertly an ol style url
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string url
      * @param  array params
      * @return string
@@ -217,7 +217,7 @@ class tao_helpers_Uri
      * encode an URI
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string uri
      * @param  boolean dotMode
      * @return string
@@ -250,7 +250,7 @@ class tao_helpers_Uri
      * decode an URI
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string uri
      * @param  boolean dotMode
      * @return string
@@ -283,13 +283,14 @@ class tao_helpers_Uri
      * Encode the uris composing either the keys or the values of the array in
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array uris
      * @param  int encodeMode
      * @param  boolean dotMode
+     * @param  boolean uniqueMode
      * @return array
      */
-    public static function encodeArray($uris, $encodeMode = 3, $dotMode = true)
+    public static function encodeArray($uris, $encodeMode = 3, $dotMode = true, $uniqueMode = false)
     {
         $returnValue = array();
 
@@ -305,6 +306,10 @@ class tao_helpers_Uri
         		}
         		$returnValue[$key] = $value;
         	}
+        }
+        
+        if($uniqueMode){
+        	$returnValue = array_unique($returnValue);
         }
         
         // section 127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242B end
