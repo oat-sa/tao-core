@@ -132,6 +132,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				},
 				//when a node is selected
 				onselect: function(NODE, TREE_OBJ){
+					
 					if($(NODE).hasClass('paginate-more')) {
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ);
 					}
@@ -140,6 +141,24 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 						var limit = instance.getMeta (parentNodeId, 'count') - instance.getMeta (parentNodeId, 'displayed');
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ, {'limit':limit});
 					}
+
+					var nodeId = $(NODE).attr('id');
+					
+					var l = instance.checkedNodes.length;
+					var found = false;
+					for(var i = 0; i < l; i++) {
+				        if(instance.checkedNodes[i] == nodeId) {
+				        	instance.checkedNodes[i] = null;
+				        	delete instance.checkedNodes[i];
+				        	found = true;
+				        	break;
+				        }
+				    }
+					
+					if(!found && nodeId!=''){
+						instance.checkedNodes.push(nodeId);
+					}
+					
 					return false;
 				},
 				//
@@ -174,6 +193,24 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 		console.log(exp);
 	}
 }
+
+/*
+ * 
+ * DEFINE CONSTANT
+ *
+ */
+
+/**
+ * Display priority DISPLAY_SELECTED.
+ * Display in priority the previously selected instances ..
+ */
+GenerisTreeFormClass.DISPLAY_SELECTED = 1;
+
+/*
+ * 
+ * DEFINE GENERIS TREE FORM CLASS FUNCTIONS
+ * 
+ */
 
 /**
  * Extract meta data from received data
@@ -429,12 +466,17 @@ GenerisTreeFormClass.prototype.saveData = function(){
 	var instance = this;
 	var toSend = {};
 	var index = 0;
-	$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE){
+	/*$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE){
 		if ($(NODE).hasClass('node-instance')) {
-			toSend['instance_' + index] = $(NODE).attr('id');
-			index++;
+			toSend2['instance_' + index2] = $(NODE).attr('id');
+			index2++;
 		}
-	});
+	});*/
+	for(var i in instance.checkedNodes){
+		toSend['instance_'+index] = instance.checkedNodes[i];
+		index++;
+	}
+	
 	if(this.options.relatedFormId){
 		uriField = $("#" + this.options.relatedFormId + " :input[name=uri]");
 		classUriField = $("#" + this.options.relatedFormId + " :input[name=classUri]");
