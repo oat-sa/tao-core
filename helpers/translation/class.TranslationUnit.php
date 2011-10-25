@@ -259,6 +259,42 @@ class tao_helpers_translation_TranslationUnit
         return (string) $returnValue;
     }
 
+    /**
+     * Short description of method hasSameTranslationUnitSource
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  TranslationUnit translationUnit
+     * @return boolean
+     */
+    public function hasSameTranslationUnitSource( tao_helpers_translation_TranslationUnit $translationUnit)
+    {
+        $returnValue = (bool) false;
+
+        // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:000000000000322F begin
+        // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:000000000000322F end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method hasSameTranslationUnitTarget
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  TranslationUnit translationUnit
+     * @return boolean
+     */
+    public function hasSameTranslationUnitTarget( tao_helpers_translation_TranslationUnit $translationUnit)
+    {
+        $returnValue = (bool) false;
+
+        // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:0000000000003232 begin
+        // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:0000000000003232 end
+
+        return (bool) $returnValue;
+    }
+
 } /* end of class tao_helpers_translation_TranslationUnit */
 
 ?>

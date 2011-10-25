@@ -76,6 +76,9 @@ class tao_helpers_translation_SourceCodeExtractor
     public function extract()
     {
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:0000000000003209 begin
+        foreach ($this->getPaths() as $dir) {
+        	$this->recursiveSearch($dir);
+        }
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:0000000000003209 end
     }
 
@@ -85,16 +88,34 @@ class tao_helpers_translation_SourceCodeExtractor
      * @access private
      * @author firstname and lastname of author, <author@example.org>
      * @param  string directory
-     * @return array
      */
     private function recursiveSearch($directory)
     {
-        $returnValue = array();
-
         // section -64--88-1-7-23b3662f:133330291f8:-8000:000000000000322E begin
+        $pExtension = $this->getFileTypes();
+	
+		if (is_dir($directory)) {	
+	    	// We get the list of files and directories.
+	    	if (($files = scandir($directory)) !== false) {
+	    		
+	    		foreach($files as $fd) {
+	
+	   		 		if (!preg_match("/^\./", $fd) &&  $fd != "ext") {
+	   		 			// If it is a directory ...
+	   		 			if (is_dir($directory . $fd. "/")) {
+	   		 				$this->recursiveSearch($directory . $fd . "/");
+		    			// If it is a file ...
+	    				} else {
+	    					// Retrieve from the file ...
+	    					$this->getTranslationsInFile($directory . $fd);
+	    				}
+	   		 		}
+	    			
+	    		}
+	    	}   	
+		}
+		
         // section -64--88-1-7-23b3662f:133330291f8:-8000:000000000000322E end
-
-        return (array) $returnValue;
     }
 
     /**
@@ -110,6 +131,8 @@ class tao_helpers_translation_SourceCodeExtractor
     public function __construct($paths, $fileTypes)
     {
         // section -64--88-1-7-23b3662f:133330291f8:-8000:0000000000003234 begin
+        parent::__construct($paths);
+        $this->setFileTypes($fileTypes);
         // section -64--88-1-7-23b3662f:133330291f8:-8000:0000000000003234 end
     }
 
@@ -125,6 +148,7 @@ class tao_helpers_translation_SourceCodeExtractor
         $returnValue = array();
 
         // section -64--88-1-7-23b3662f:133330291f8:-8000:000000000000323E begin
+        $returnValue = $this->filesTypes;
         // section -64--88-1-7-23b3662f:133330291f8:-8000:000000000000323E end
 
         return (array) $returnValue;
@@ -142,7 +166,48 @@ class tao_helpers_translation_SourceCodeExtractor
     public function setFileTypes($fileTypes)
     {
         // section -64--88-1-7-23b3662f:133330291f8:-8000:0000000000003240 begin
+        $this->filesTypes = $fileTypes;
         // section -64--88-1-7-23b3662f:133330291f8:-8000:0000000000003240 end
+    }
+
+    /**
+     * Short description of method getTranslationsInFile
+     *
+     * @access private
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  string filePath
+     * @return mixed
+     */
+    private function getTranslationsInFile($filePath)
+    {
+        // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:000000000000323B begin
+	 	// File extension ?
+		$extOk = false;
+		foreach ($this->getFileTypes() as $exp) {
+			if (@preg_match("/\.${exp}$/", $filePath)) {
+				$extOk = true;
+				break;
+			}
+		}
+		
+		if ($extOk) {
+		 	// We read the file.
+		 	$lines = file($filePath);
+		 	foreach ($lines as $line_num => $line) {
+		 		$string	= array();
+		 		preg_match_all("/__\(['\"](.*?)['\"]\)/u", $line, $string);
+				
+		 		if (!empty($string[1])) {
+		 			foreach($string[1] as $s) {
+		 				$tu = new tao_helpers_translation_TranslationUnit($s);
+		 				$tus = $this->getTranslationUnits();
+		 				array_push($tus, $tu);
+		 				$this->setTranslationUnits($tus);
+		 			}
+		 		}
+		 	}
+		}
+        // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:000000000000323B end
     }
 
 } /* end of class tao_helpers_translation_SourceCodeExtractor */

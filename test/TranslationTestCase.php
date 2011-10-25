@@ -20,6 +20,7 @@ class TranslationTestCase extends UnitTestCase {
 	const TAO_MANIFEST = '/samples/structures/tao';
 	const GROUPS_MANIFEST = '/samples/structures/groups';
 	const ITEMS_MANIFEST = '/samples/structures/items';
+	const FAKE_ACTIONS = '/samples/fakeSourceCode/actions/';
 	
 	/**
 	 * Test of the different classes composing the Translation Model.
@@ -218,6 +219,14 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tus[6]->getSource() == 'delete');
 		$this->assertTrue($tus[14]->getSource() == 'Items');
 		$this->assertTrue($tus[20]->getSource() == 'Full preview');
+	}
+	
+	public function testSourceExtraction() {
+		$sourceCodePaths = array(dirname(__FILE__) . self::FAKE_ACTIONS);
+		$extensions = array('php');
+		$extractor = new tao_helpers_translation_SourceCodeExtractor($sourceCodePaths, $extensions);
+		$extractor->extract();
+		$tus = $extractor->getTranslationUnits();
 	}
 }
 ?>
