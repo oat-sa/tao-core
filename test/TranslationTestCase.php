@@ -69,6 +69,24 @@ class TranslationTestCase extends UnitTestCase {
 		
 		$this->assertTrue($tu3->getSource() == 'Lando Calrician is a great pilot.');
 		$this->assertTrue($tu3->getTarget() == 'A great pilot Lando Calrician is.');
+		
+		$tu4 = new tao_helpers_translation_TranslationUnit('There is another Skywalker.',
+														   'Another Skywalker there is.');
+		$tf->addTranslationUnit($tu4);
+		$tus = $tf->getTranslationUnits();
+		$tu4 = $tus[3];
+		
+		$this->assertTrue($tu4->getTargetLanguage() == 'en-YA');
+		
+		$newTu = new tao_helpers_translation_TranslationUnit('Lando Calrician is a great pilot.',
+															 'Han Solo is a great pilot.');
+		$tf->addTranslationUnit($newTu);
+		$tus = $tf->getTranslationUnits();
+		$tu3 = $tus[2];
+		
+		$this->assertTrue(count($tus) == 4);
+		$this->assertTrue($tu3->getSource() == 'Lando Calrician is a great pilot.');
+		$this->assertTrue($tu3->getTarget() == 'Han Solo is a great pilot.');
 	}
 	
 	public function testPOTranslationReading() {

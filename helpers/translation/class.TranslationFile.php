@@ -216,6 +216,8 @@ class tao_helpers_translation_TranslationFile
         }
         
         // If we are here, it means that this TU does not exist.
+        $translationUnit->setSourceLanguage($this->getSourceLanguage());
+        $translationUnit->setTargetLanguage($this->getTargetLanguage());
         array_push($this->translationUnits, $translationUnit);
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034AA end
     }
