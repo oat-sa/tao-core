@@ -18,6 +18,8 @@ class TranslationTestCase extends UnitTestCase {
 	const ESCAPING_PO = '/samples/sample_escaping.po';
 	const TEMP_PO = 'tao.test.translation.writing';
 	const TAO_MANIFEST = '/samples/structures/tao';
+	const GROUPS_MANIFEST = '/samples/structures/groups';
+	const ITEMS_MANIFEST = '/samples/structures/items';
 	
 	/**
 	 * Test of the different classes composing the Translation Model.
@@ -201,6 +203,21 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tus[1]->getSource() == 'Manage users');
 		$this->assertTrue($tus[2]->getSource() == 'Add a user');
 		$this->assertTrue($tus[3]->getSource() == 'Edit a user');
+	}
+	
+	public function testMultipleManfiestExtraction() {
+		$taoManifestPaths = array(dirname(__FILE__) . self::GROUPS_MANIFEST,
+								  dirname(__FILE__) . self::ITEMS_MANIFEST);
+							  
+		$extractor = new tao_helpers_translation_ManifestExtractor($taoManifestPaths);
+		$extractor->extract();
+		$tus = $extractor->getTranslationUnits();
+		
+		$this->assertTrue(count($tus) == 21);
+		$this->assertTrue($tus[3]->getSource() == 'search');
+		$this->assertTrue($tus[6]->getSource() == 'delete');
+		$this->assertTrue($tus[14]->getSource() == 'Items');
+		$this->assertTrue($tus[20]->getSource() == 'Full preview');
 	}
 }
 ?>
