@@ -755,12 +755,10 @@ abstract class tao_models_classes_GenerisService
         (isset($options['limit']))			? $limit = $options['limit'] 				: $limit = 0;        
         
 		$instancesData = array();
-		if($labelFilter!='*'){
+		$isFiltering = false;
+		if(!empty($labelFilter) && $labelFilter!='*'){
+			$isFiltering = true;
 			$subclasses = false;
-			//Alors on fait un traitement particulier
-			//A. recherche récursivement dans toutes les sous classes
-			//B. on aligne tout au même niveau et on propose ça au user
-			//C. c'est tout bon
 		}
 		
 		if($instances){
@@ -771,8 +769,7 @@ abstract class tao_models_classes_GenerisService
 			));
 			
 			// Make a recursive search if a filter has been given => the result will be a one dimension array
-			$getInstancesRecursive = $labelFilter!='*';
-			foreach($clazz->getInstances($getInstancesRecursive, $getInstancesOptions) as $instance){
+			foreach($clazz->getInstances($isFiltering, $getInstancesOptions) as $instance){
                                 
             	$label = $instance->getLabel();                  
                 if(empty($label)){
