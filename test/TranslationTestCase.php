@@ -17,6 +17,7 @@ class TranslationTestCase extends UnitTestCase {
 	const RAW_PO = '/samples/sample_raw.po';
 	const ESCAPING_PO = '/samples/sample_escaping.po';
 	const TEMP_PO = 'tao.test.translation.writing';
+	const TAO_MANIFEST = '/samples/structures/tao';
 	
 	/**
 	 * Test of the different classes composing the Translation Model.
@@ -169,6 +170,19 @@ class TranslationTestCase extends UnitTestCase {
 		$tw->write();
 		$this->assertTrue(file_exists($jsFilePath));
 		unlink($jsFilePath);
+	}
+	
+	public function testManifestExtraction() {
+		$taoManifestPath = dirname(__FILE__) . self::TAO_MANIFEST;
+		$extractor = new tao_helpers_translation_ManifestExtractor(array($taoManifestPath));
+		$extractor->extract();
+		$tus = $extractor->getTranslationUnits();
+		
+		$this->assertTrue(count($tus) == 4);
+		$this->assertTrue($tus[0]->getSource() == 'Users');
+		$this->assertTrue($tus[1]->getSource() == 'Manage users');
+		$this->assertTrue($tus[2]->getSource() == 'Add a user');
+		$this->assertTrue($tus[3]->getSource() == 'Edit a user');
 	}
 }
 ?>

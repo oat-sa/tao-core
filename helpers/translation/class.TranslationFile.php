@@ -207,6 +207,15 @@ class tao_helpers_translation_TranslationFile
     public function addTranslationUnit( tao_helpers_translation_TranslationUnit $translationUnit)
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034AA begin
+        // If the translation unit exists, we replace the target with the new one if it exists.
+        foreach($this->getTranslationUnits() as $tu) {
+        	if ($tu->getSource() === $translationUnit->getSource() && $translationUnit->getTarget() != '') {
+        		$tu->setTarget($translationUnit->getTarget());
+        		return;
+        	}
+        }
+        
+        // If we are here, it means that this TU does not exist.
         array_push($this->translationUnits, $translationUnit);
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034AA end
     }
@@ -254,6 +263,25 @@ class tao_helpers_translation_TranslationFile
         // section 10-13-1-85--248fc0f4:133211c8937:-8000:000000000000354B end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Adds a set of TranslationUnits to the existing set of TranslationUnits
+     * in the TranslationFile. No duplicate entries will be made based on the
+     * of the translation units.
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  array translationUnits
+     * @return mixed
+     */
+    public function addTranslationUnits($translationUnits)
+    {
+        // section -64--88-1-7-1ba4abca:133388e2ec4:-8000:000000000000322B begin
+        foreach ($translationUnits as $tu) {
+        	$this->addTranslationUnit($tu);
+        }
+        // section -64--88-1-7-1ba4abca:133388e2ec4:-8000:000000000000322B end
     }
 
 } /* end of class tao_helpers_translation_TranslationFile */

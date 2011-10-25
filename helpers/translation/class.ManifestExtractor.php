@@ -67,6 +67,39 @@ class tao_helpers_translation_ManifestExtractor
     public function extract()
     {
         // section -64--88-1-7-508c7beb:133385c71af:-8000:0000000000003241 begin
+        $paths = $this->getPaths();
+        $translationUnits = array();
+        
+        foreach ($paths as $path) {
+        	// Search for a filename containing 'structure.xml'.
+        	if (is_dir($path)) {
+        		$files = scandir($path);
+        		
+        		foreach ($files as $file) {
+        			$fullPath = $path . '/' . $file;
+        			if (is_file($fullPath) && mb_strpos($file, 'structure.xml') !== false) {
+						// Translations must be extracted from this tao manifest file.
+						try{
+							$xml = new SimpleXMLElement(trim(file_get_contents($fullPath)));
+							if($xml instanceof SimpleXMLElement){
+								$nodes = $xml->xpath("//*[@name]");
+								foreach($nodes as $node){
+									if(isset($node['name'])){
+										$nodeName = (string)$node['name'];
+										$translationUnits[$nodeName] = new tao_helpers_translation_TranslationUnit($nodeName, '');
+									}
+								}
+							}
+						}
+						catch(Exception $e){}
+        			}
+        		}
+        	} else {
+        		throw new tao_helpers_translation_TranslationException("'${path}' is not a directory.");
+        	}
+        }
+        
+        $this->setTranslationUnits(array_values($translationUnits));
         // section -64--88-1-7-508c7beb:133385c71af:-8000:0000000000003241 end
     }
 
