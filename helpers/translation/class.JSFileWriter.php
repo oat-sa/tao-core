@@ -77,7 +77,7 @@ class tao_helpers_translation_JSFileWriter
         }
         
 		$buffer  = "/* auto generated content */\n";
-		$buffer .= "/* extension: unknown, lang: $langCode */\n";
+		$buffer .= "/* lang: $langCode */\n";
 		$buffer .= "var langCode = '$langCode';\n";
 		$buffer .= "var i18n_tr = " . json_encode($strings) . ";";
 		if(!file_put_contents($path, $buffer)){
