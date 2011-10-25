@@ -47,13 +47,28 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * get the current item class regarding the classUri' request parameter
 	 * @return core_kernel_classes_Class the item class
 	 */
-	protected function getCurrentClass(){
+	protected function getCurrentClass()
+	{
 		$classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
 		if(is_null($classUri) || empty($classUri)){
-			throw new Exception("No valid class uri found");
+			
+			$clazz = null;
+			$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+			$resource = new core_kernel_classes_Resource($uri);
+			foreach($resource->getType() as $type){
+				$clazz = $type;
+				break;
+			}
+			if(is_null($clazz)){
+				throw new Exception("No valid class uri found");
+			}
+			$returnValue = $clazz;
+		}
+		else{
+			$returnValue = new core_kernel_classes_Class($classUri);
 		}
 		
-		return  new core_kernel_classes_Class($classUri);
+		return $returnValue;
 	}
 	
 	/**
@@ -61,14 +76,15 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * get the current instance regarding the uri and classUri in parameter
 	 * @return core_kernel_classes_Resource
 	 */
-	protected function getCurrentInstance(){
+	protected function getCurrentInstance()
+	{
 		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
 		if(is_null($uri) || empty($uri)){
 			throw new Exception("No valid uri found");
 		}
 		
 		$clazz = $this->getCurrentClass();
-		$instance = $this->service->getOneInstanceBy( $clazz, $uri, 'uri');
+		$instance = $this->service->getOneInstanceBy($clazz, $uri, 'uri');
 		if(is_null($instance)){
 			throw new Exception("No instance found for the uri {$uri}");
 		}
@@ -89,7 +105,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * @param core_kernel_classes_Resource $resource
 	 * @return tao_helpers_form_Form the generated form
 	 */
-	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topClass = null){
+	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topClass = null)
+	{
 	
 		$propMode = 'simple';
 		if($this->hasSessionAttribute('property_mode')){
@@ -143,14 +160,14 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						}
 						if($posted){
 							$pkey = str_replace('property_', '', $key);
-							$propNum = substr($pkey, 0, strpos($pkey, '_') );
+							$propNum = substr($pkey, 0, strpos($pkey, '_'));
 							$propKey = tao_helpers_Uri::decode(str_replace($propNum.'_', '', $pkey));
 							$propertyValues[$propNum][$propKey] = tao_helpers_Uri::decode($value);
 						}
 						else{
 							
 							$pkey = str_replace('property_', '', $key);
-							$propNum = substr($pkey, 0, strpos($pkey, '_') );
+							$propNum = substr($pkey, 0, strpos($pkey, '_'));
 							if(!isset($propertyValues[$propNum])){
 								$propertyValues[$propNum] = array();
 							}
@@ -232,7 +249,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Main action
 	 * @return void
 	 */
-	public function index(){
+	public function index()
+	{
 		
 		if($this->getData('reload') == true){
 			$this->removeSessionAttribute('uri');
@@ -245,7 +263,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Render json data from the current ontology root class
 	 * @return void
 	 */
-	public function getOntologyData(){
+	public function getOntologyData()
+	{
 		
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
@@ -291,7 +310,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$options['subclasses'] = $this->getRequestParameter('subclasses');
 		}
 		
-		echo json_encode( $this->service->toTree($clazz, $options));
+		echo json_encode($this->service->toTree($clazz, $options));
 	}
 	
 	
@@ -300,7 +319,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Add an instance of the selected class
 	 * @return void
 	 */
-	public function addInstance(){
+	public function addInstance()
+	{
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
@@ -558,7 +578,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * render a JSON response
 	 * @return void
 	 */
-	public function cloneInstance(){
+	public function cloneInstance()
+	{
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
@@ -576,7 +597,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Move an instance from a class to another
 	 * @return void
 	 */
-	public function moveInstance(){
+	public function moveInstance()
+	{
 		
 		if($this->hasRequestParameter('destinationClassUri')){
 			
@@ -619,7 +641,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Render the  form to translate a Resource instance
 	 * @return void
 	 */
-	public function translateInstance(){
+	public function translateInstance()
+	{
 		
 		$instance = $this->getCurrentInstance();
 		
@@ -685,7 +708,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * load the translated data of an instance regarding the given lang 
 	 * @return void
 	 */
-	public function getTranslatedData(){
+	public function getTranslatedData()
+	{
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
@@ -705,7 +729,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * search the instances of an ontology
 	 * @return 
 	 */
-	public function search(){
+	public function search()
+	{
 		$found = false;
 		
 		try{
@@ -756,7 +781,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 							$propertyValues = $instance->getPropertyValuesCollection($property);
 							foreach($propertyValues->getIterator() as $j => $propertyValue){
 								if($propertyValue instanceof core_kernel_classes_Literal){
-									$value .= (string)$propertyValue;
+									$value .= (string) $propertyValue;
 								}
 								if($propertyValue instanceof core_kernel_classes_Resource){
 									$value .= $propertyValue->getLabel();
@@ -790,7 +815,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	/**
 	 * filter class' instances
 	 */
-	public function filter(){
+	public function filter()
+	{
 		$found = false;
 		
 		try{
@@ -826,7 +852,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$this->setView('form/filter.tpl', true);
 	}
 	
-	public function searchInstances () {
+	public function searchInstances()
+	{
 		$returnValue = array ();
 		$filter = array ();
 		$properties = array ();
@@ -900,7 +927,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * @param {RequestParameter|array} filter Array of propertyUri/propertyValue used to filter instances of the target class
 	 * @return {array} formated for tree 
 	 */
-	public function getFilteredInstancesPropertiesValues () {
+	public function getFilteredInstancesPropertiesValues()
+	{
 		$data = array ();
 		
 		if(!tao_helpers_Request::isAjax()){
@@ -979,7 +1007,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Render the add property sub form.
 	 * @return void
 	 */
-	public function addClassProperty(){
+	public function addClassProperty()
+	{
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
@@ -1016,7 +1045,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Display the metadata. 
 	 * @return void
 	 */
-	public function getMetaData(){
+	public function getMetaData()
+	{
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
@@ -1045,7 +1075,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * save the comment field of the selected resource
 	 * @return json response {saved: true, comment: text of the comment to refresh it}
 	 */
-	public function saveComment(){
+	public function saveComment()
+	{
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
@@ -1063,7 +1094,9 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				}
 			}
 		}
-		catch(Exception $e){}
+		catch(Exception $e){
+			// empty
+		}
 		echo json_encode($response);
 	}
 	
@@ -1072,7 +1105,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
  * Services actions methods
  */
 	
-	protected function getDataKind(){
+	protected function getDataKind()
+	{
 		return Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
 	}
 	
@@ -1080,7 +1114,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Service of class or instance selection with a tree.
 	 * @return void
 	 */
-	public function sasSelect(){
+	public function sasSelect()
+	{
 
 		$kind = $this->getDataKind();
 		
@@ -1109,7 +1144,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Save the uri or the classUri in parameter into the workflow engine by using the dedicated seervice
 	 * @return void
 	 */
-	public function sasSet(){
+	public function sasSet()
+	{
 		$message = __('Error');
 		
 		//init variable service:
@@ -1119,7 +1155,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if($this->hasRequestParameter('classUri')){
 			$clazz = $this->getCurrentClass();
 			if(!is_null($clazz)){
-				$variableService->save( array($this->getDataKind().'ClassUri' => $clazz->uriResource) );
+				$variableService->save(array($this->getDataKind().'ClassUri' => $clazz->uriResource));
 				$message = $clazz->getLabel().' '.__('class selected');
 			}
 		}
@@ -1128,7 +1164,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if($this->hasRequestParameter('uri')){
 			$instance = $this->getCurrentInstance();
 			if(!is_null($instance)){
-				$variableService->save( array($this->getDataKind().'Uri' => $instance->uriResource) );
+				$variableService->save(array($this->getDataKind().'Uri' => $instance->uriResource));
 				$message = $instance->getLabel().' '.__($this->getDataKind()).' '.__('selected');
 			}
 		}
@@ -1142,7 +1178,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Add a new instance
 	 * @return void
 	 */
-	public function sasAddInstance(){
+	public function sasAddInstance()
+	{
 		$clazz = $this->getCurrentClass();
 		$label = $this->service->createUniqueLabel($clazz);
 		$instance = $this->service->createInstance($clazz);
@@ -1150,7 +1187,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			
 			//init variable service:
 			$variableService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_VariableService');
-			$variableService->save( array($this->getDataKind().'Uri' => $instance->uriResource) );
+			$variableService->save(array($this->getDataKind().'Uri' => $instance->uriResource));
 			
 			$params = array(
 				'uri'		=> tao_helpers_Uri::encode($instance->uriResource),
@@ -1165,7 +1202,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Edit an instances 
 	 * @return void
 	 */
-	public function sasEditInstance(){
+	public function sasEditInstance()
+	{
 		$clazz = $this->getCurrentClass();
 		$instance = $this->getCurrentInstance();
 		
@@ -1190,7 +1228,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * Delete an instance
 	 * @return void
 	 */
-	public function sasDeleteInstance(){
+	public function sasDeleteInstance()
+	{
 		$clazz = $this->getCurrentClass();
 		$instance = $this->getCurrentInstance();
 		
@@ -1205,7 +1244,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * delete an instance or a class
 	 * called via ajax
 	 */
-	public function delete(){
+	public function delete()
+	{
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
@@ -1231,7 +1271,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * display the optimize interface
 	 * @return void
 	 */
-	public function optimize(){
+	public function optimize()
+	{
 		$clazz = $this->getRootClass();
 		$classes = $clazz->getSubClasses(true);
 	}
