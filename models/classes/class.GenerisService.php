@@ -752,24 +752,32 @@ abstract class tao_models_classes_GenerisService
         (isset($options['chunk'])) 			? $chunk = $options['chunk'] 				: $chunk = false;
         (isset($options['browse']))			? $browse = $options['browse'] 				: $browse = array();
         (isset($options['offset']))			? $offset = $options['offset'] 				: $offset = 0;
-        (isset($options['limit']))			? $limit = $options['limit'] 				: $limit = 0;
+        (isset($options['limit']))			? $limit = $options['limit'] 				: $limit = 0;        
         
 		$instancesData = array();
+		if($labelFilter!='*'){
+			$subclasses = false;
+			//Alors on fait un traitement particulier
+			//A. recherche récursivement dans toutes les sous classes
+			//B. on aligne tout au même niveau et on propose ça au user
+			//C. c'est tout bon
+		}
 		
 		if($instances){
 			$getInstancesOptions = array ();
-			$getInstancesOptions = array_merge ($getInstancesOptions, array(
+			$getInstancesOptions = array_merge($getInstancesOptions, array(
 				'limit'  => $limit,
 				'offset' => $offset
 			));
 			
-			foreach($clazz->getInstances(false, $getInstancesOptions) as $instance){
+			// Make a recursive search if a filter has been given => the result will be a one dimension array
+			$getInstancesRecursive = $labelFilter!='*';
+			foreach($clazz->getInstances($getInstancesRecursive, $getInstancesOptions) as $instance){
                                 
-                                $label = $instance->getLabel();
-//                                
-                                if(empty($label)){
-                                        $label = $instance->uriResource;
-                                }
+            	$label = $instance->getLabel();                  
+                if(empty($label)){
+                	$label = $instance->uriResource;
+                }
                                 
 				$instanceData = array(
 						'data' 	=> tao_helpers_Display::textCutter($label, 16),
@@ -802,22 +810,22 @@ abstract class tao_models_classes_GenerisService
 		//format classes for json tree datastore 
 		$data = array();
 		if(!$chunk){
-                        $label = $clazz->getLabel();
-                        if(empty($label)){
-                                $label = $instance->uriResource;
-                        }else{
-                                $label = tao_helpers_Display::textCutter($label, 16);
-                        }
+        	$label = $clazz->getLabel();
+            if(empty($label)){
+            	$label = $instance->uriResource;
+            }else{
+            	$label = tao_helpers_Display::textCutter($label, 16);
+            }
                         
 			$data = array(
-					'data' 	=> $label,
-					'type'	=> 'class',
-					'count' => (int)$clazz->countInstances(),
-					'attributes' => array(
-							'id' => tao_helpers_Uri::encode($clazz->uriResource),
-							'class' => 'node-class'
-						)
-	 			);
+				'data' 	=> $label,
+				'type'	=> 'class',
+				'count' => (int) $clazz->countInstances(),
+				'attributes' => array(
+						'id' => tao_helpers_Uri::encode($clazz->uriResource),
+						'class' => 'node-class'
+					)
+ 			);
 		}
 		$children = array_merge($subclassesData, $instancesData);
 		if(count($children) > 0){

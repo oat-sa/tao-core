@@ -24,12 +24,17 @@ GenerisTreeClass.instances = [];
  * 							editClassAction, editInstanceAction, createInstanceAction,  
  * 							moveInstanceAction, subClassAction, deleteAction, duplicateAction}
  */
-function GenerisTreeClass(selector, dataUrl, options){
+function GenerisTreeClass(selector, dataUrl, options)
+{
 	try{
 		if(!options){
 			options = GenerisTreeClass.defaultOptions;
 		}
 		this.selector = selector;
+		//Generis tree class state, by default browsing
+		this.state = GenerisTreeClass.STATE_BROWSING;
+		//filter to apply to the result (by default get all)
+		this.filter = '*';
 		//Generis Tree options
 		this.options = options;
 		//Default server parameters
@@ -98,8 +103,13 @@ function GenerisTreeClass(selector, dataUrl, options){
 				beforedata:function(NODE, TREE_OBJ) {
 					var returnValue = instance.defaultServerParameters;
 					// If a NODE is given, send its identifier to the server
-					if(NODE){
+					// and the user does not want to filter the data
+					if(NODE && instance.filter=='*'){
 						returnValue['classUri'] = $(NODE).attr('id');
+					}
+					// else destroy the class uri field to get filter on the whole instances
+					else if(typeof returnValue['classUri'] != 'undefined'){
+						delete returnValue['classUri'];
 					}
 					// Augment with the serverParameters
 					for (var key in instance.serverParameters){
@@ -107,6 +117,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 					}
 					// Add selected nodes
 					returnValue['selected'] = instance.options.checkedNodes;
+					// Add the filter parameter
+					returnValue['filter'] = instance.filter;
 					
 					return returnValue;
 				},
@@ -196,10 +208,10 @@ function GenerisTreeClass(selector, dataUrl, options){
 							instance.data(nodeId, $(PNODE).attr('id'))
 						);
 					}
-					if($(NODE).hasClass('paginate-more')) {
+					if($(NODE).hasClass('paginate-more')){
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ);
 					}
-					if($(NODE).hasClass('paginate-all')) {
+					if($(NODE).hasClass('paginate-all')){
 						var limit = instance.getMeta (parentNodeId, 'count') - instance.getMeta (parentNodeId, 'displayed');
 						instance.paginateInstances ($(NODE).parent().parent(), TREE_OBJ, {'limit':limit});
 					}
@@ -436,11 +448,11 @@ function GenerisTreeClass(selector, dataUrl, options){
 		
 		//filter action
 		$("#filter-action-" + options.actionId).click(function(){
-			$.tree.reference(instance.selector).refresh();
+			instance.enableFilter();
 		});
 		$("#filter-content-" + options.actionId).bind('keypress', function(e) {
 	        if(e.keyCode==13 && this.value.length > 0){
-				$.tree.reference(instance.selector).refresh();
+				instance.enableFilter();
 	        }
 		});
 
@@ -465,12 +477,66 @@ function GenerisTreeClass(selector, dataUrl, options){
 		if(uri){
 			data[instanceKey] = uri;
 		}
-		if(classUri){
-			data[classKey] = classUri;
+		// If the tree is filtering it does not know the class of each instance
+		if(this.state != GenerisTreeClass.STATE_FILTERING){
+			if(classUri){
+				data[classKey] = classUri;
+			}
 		}
 		
 		return data;
 	};
+}
+
+/*
+ * DEFINE CONSTANTS
+ */
+
+GenerisTreeClass.STATE_BROWSING = 0;
+GenerisTreeClass.STATE_FILTERING = 1;
+
+/*
+ * DEFINE FUNCTIONS  
+ */
+
+/**
+ * Enable the filter
+ */
+GenerisTreeClass.prototype.enableFilter = function()
+{
+	var instance = this;
+	
+	instance.state = GenerisTreeClass.STATE_FILTERING;
+	instance.filter = $.trim($("#filter-content-" + instance.options.actionId).val());
+	
+	if(instance.filter != '*'){
+		$cancelBtn = $("#filter-cancel-" + instance.options.actionId);
+		if($cancelBtn.hasClass("ui-helper-hidden")){
+			$($cancelBtn).
+				removeClass("ui-helper-hidden").
+				one('click', function(){
+					instance.disableFilter();
+				});
+		}
+		$.tree.reference(instance.selector).refresh();
+	}
+	else{
+		instance.disableFilter();
+	}
+}
+
+/**
+ * Disable the filter
+ */
+GenerisTreeClass.prototype.disableFilter = function()
+{
+	var instance = this;
+	instance.state = GenerisTreeClass.STATE_BROWSING;
+	$cancelBtn = $("#filter-cancel-" + instance.options.actionId);
+	instance.filter = "*";
+	$("#filter-content-" + instance.options.actionId).val(instance.filter);
+	$cancelBtn.addClass("ui-helper-hidden");
+	$.tree.reference(instance.selector).refresh();
 }
 
 /**
@@ -504,7 +570,7 @@ GenerisTreeClass.prototype.extractMeta = function(DATA) {
 	//An array of nodes is received
 	else {
 		// Get the last opened node
-		if (this.lastOpened){
+		if (this.lastOpened && this.state != GenerisTreeClass.STATE_FILTERING){
 			nodeId = this.lastOpened.id;
 		} else {
 			nodeId = "DEFAULT_ROOT";
@@ -528,11 +594,11 @@ GenerisTreeClass.prototype.extractMeta = function(DATA) {
 		this.setMeta (nodeId, 'position', countInstances); // Position of the last element displayed
 		this.setMeta (nodeId, 'displayed',countInstances); // Total of elements displayed
 		
-		if (!(DATA instanceof Array) && DATA.state && DATA.state != 'closed'){
-			if (this.getMeta(nodeId, 'displayed') < this.getMeta(nodeId, 'count')){
+		if(!(DATA instanceof Array) && DATA.state && DATA.state != 'closed'){
+			if(this.getMeta(nodeId, 'displayed') < this.getMeta(nodeId, 'count')){
 				nodes.push(instance.getPaginateActionNodes());
 			}
-		} else if ((DATA instanceof Array) && this.getMeta(nodeId, 'displayed') < this.getMeta(nodeId, 'count')){
+		} else if((DATA instanceof Array) && this.getMeta(nodeId, 'displayed') < this.getMeta(nodeId, 'count')){
 			nodes.push(instance.getPaginateActionNodes());
 		}
 	}
