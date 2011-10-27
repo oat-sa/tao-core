@@ -132,6 +132,7 @@ class tao_scripts_TaoVersioning
 				if(!$repository->authenticate()){
 					self::out("Unable to reach the remote versioning repository ".$constants['GENERIS_VERSIONED_REPOSITORY_URL']." ".$constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'].":".$constants['GENERIS_VERSIONED_REPOSITORY_PASSWORD'], array('color' => 'light_red'));
 					self::out("Please check your configuration");
+					return;
 				}
 				else {
 					if($repository->checkout()){
@@ -139,6 +140,7 @@ class tao_scripts_TaoVersioning
 						self::out("local directory : ".$constants['GENERIS_VERSIONED_REPOSITORY_PATH']);
 					} else {
 						self::out('Unable to checkout the remote repository '.$constants['GENERIS_VERSIONED_REPOSITORY_URL'], array('color' => 'red'));
+						return;
 					}
 					
 				}
