@@ -66,7 +66,12 @@ class tao_scripts_TaoVersioning
         // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F58 begin
         $this->options = array (
     		'enable'	=> false,
-    		'disable'	=> false
+    		'disable'	=> false,
+        	'login'		=> null,
+        	'password'	=> null,
+        	'type'		=> null,
+        	'url'		=> null,
+        	'path'		=> null
     	);
     	$this->options = array_merge($this->options, $this->parameters);
         // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F58 end
@@ -85,15 +90,22 @@ class tao_scripts_TaoVersioning
         
     	$repositoryType = '';
         if($this->options['enable']){
+        	
+        	//check if some config constants have to be overrided
+        	$constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'] 	= !is_null($this->options['login']) 	? $this->options['login'] 	: GENERIS_VERSIONED_REPOSITORY_LOGIN;
+        	$constants['GENERIS_VERSIONED_REPOSITORY_PASSWORD'] = !is_null($this->options['password']) 	? $this->options['password']: GENERIS_VERSIONED_REPOSITORY_PASSWORD;
+        	$constants['GENERIS_VERSIONED_REPOSITORY_TYPE'] 	= !is_null($this->options['type']) 		? $this->options['type'] 	: GENERIS_VERSIONED_REPOSITORY_TYPE;
+        	$constants['GENERIS_VERSIONED_REPOSITORY_URL'] 		= !is_null($this->options['url']) 		? $this->options['url'] 	: GENERIS_VERSIONED_REPOSITORY_URL;
+        	$constants['GENERIS_VERSIONED_REPOSITORY_PATH'] 	= !is_null($this->options['path']) 		? $this->options['path'] 	: GENERIS_VERSIONED_REPOSITORY_PATH;
+        	$constants['GENERIS_VERSIONING_ENABLED'] 			= true;
+        	
         	// 
-        	switch(GENERIS_VERSIONED_REPOSITORY_TYPE){
+        	switch($constants['GENERIS_VERSIONED_REPOSITORY_TYPE']){
         		case 'svn':
-        			
         			$repositoryType = 'http://www.tao.lu/Ontologies/TAOItem.rdf#VersioningRepositoryTypeSubversion';
         			break;
         		default:
-        			
-					self::out("Unable to recognize the given type ".$this->options['type'], array('color' => 'red'));
+					self::out("Unable to recognize the given type ".$constants['GENERIS_VERSIONED_REPOSITORY_TYPE'], array('color' => 'red'));
         			return;
         	}
         	
@@ -106,10 +118,10 @@ class tao_scripts_TaoVersioning
         	// Instantiate the repository in the ontology
 	        $repository = core_kernel_versioning_Repository::create(
 				new core_kernel_classes_Resource($repositoryType),
-				GENERIS_VERSIONED_REPOSITORY_URL,
-				GENERIS_VERSIONED_REPOSITORY_LOGIN,
-				GENERIS_VERSIONED_REPOSITORY_PASSWORD,
-				GENERIS_VERSIONED_REPOSITORY_PATH,
+				$constants['GENERIS_VERSIONED_REPOSITORY_URL'],
+				$constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'],
+				$constants['GENERIS_VERSIONED_REPOSITORY_PASSWORD'],
+				$constants['GENERIS_VERSIONED_REPOSITORY_PATH'],
 				GENERIS_VERSIONED_REPOSITORY_LABEL,
 				GENERIS_VERSIONED_REPOSITORY_COMMENT,
 				'http://www.tao.lu/Ontologies/generis.rdf#DefaultRepository'
@@ -118,21 +130,24 @@ class tao_scripts_TaoVersioning
 			// Checkout the repository
 			if (!is_null($repository)){
 				if(!$repository->authenticate()){
-					self::out("Unable to reach the remote versioning repository ".GENERIS_VERSIONED_REPOSITORY_URL, array('color' => 'light_red'));
+					self::out("Unable to reach the remote versioning repository ".$constants['GENERIS_VERSIONED_REPOSITORY_URL']." ".$constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'].":".$constants['GENERIS_VERSIONED_REPOSITORY_PASSWORD'], array('color' => 'light_red'));
 					self::out("Please check your configuration");
 				}
 				else {
 					if($repository->checkout()){
-						self::out("The remote versioning repository ".GENERIS_VERSIONED_REPOSITORY_URL." is bound to TAO", array('color' => 'light_blue'));
-						self::out("local directory : ".GENERIS_VERSIONED_REPOSITORY_PATH);
+						self::out("The remote versioning repository ".$constants['GENERIS_VERSIONED_REPOSITORY_URL']." is bound to TAO", array('color' => 'light_blue'));
+						self::out("local directory : ".$constants['GENERIS_VERSIONED_REPOSITORY_PATH']);
 					} else {
-						self::out('Unable to checkout the remote repository '.GENERIS_VERSIONED_REPOSITORY_URL, array('color' => 'red'));
+						self::out('Unable to checkout the remote repository '.$constants['GENERIS_VERSIONED_REPOSITORY_URL'], array('color' => 'red'));
 					}
 					
 				}
 			}
-        	
         }
+        	
+        //update the generis config file with the new constants
+        $configWriter = new tao_install_utils_ConfigWriter(GENERIS_BASE_PATH.'/common/config.php', GENERIS_BASE_PATH.'/common/config.php');
+        $configWriter->writeConstants($constants);
     	
         // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F5A end
     }

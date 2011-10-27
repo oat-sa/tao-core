@@ -24,7 +24,8 @@ class tao_install_utils_ConfigWriter{
 	 * @param string $file
 	 * @throws tao_install_utils_Exception
 	 */
-	public function __construct($sample, $file){
+	public function __construct($sample, $file)
+	{
 		if(!file_exists($sample)){
 			throw new tao_install_utils_Exception('Unable to find sample config '.$sample);
 		}
@@ -36,7 +37,8 @@ class tao_install_utils_ConfigWriter{
 	 * Create the config file from the sample
 	 * @throws tao_install_utils_Exception
 	 */
-	public function createConfig(){
+	public function createConfig()
+	{
 		
 		//common checks
 		if(!is_writable(dirname($this->file))){
@@ -59,7 +61,8 @@ class tao_install_utils_ConfigWriter{
 	 * @param array $constants the list of constants to write (the key is the name of the constant)
 	 * @throws tao_install_utils_Exception
 	 */
-	public function writeConstants(array $constants){
+	public function writeConstants(array $constants)
+	{
 		
 		//common checks
 		if(!file_exists($this->file)){
@@ -94,7 +97,8 @@ class tao_install_utils_ConfigWriter{
 	 * @param array $variables the list of variables to write (the key is the name of the var)
 	 * @throws tao_install_utils_Exception
 	 */
-	public function writeJsVariable(array $variables, $lineBeginWith = "var"){
+	public function writeJsVariable(array $variables, $lineBeginWith = "var")
+	{
 		//common checks
 		if(!file_exists($this->file)){
 			throw new tao_install_utils_Exception("Unable to write variables: $this->file don't exists!");
