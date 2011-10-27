@@ -348,8 +348,26 @@ class tao_update_Updator
 			}
 			//sort them by number
 			ksort($updateFiles);
-			
 			foreach($updateFiles as $file => $path){
+				
+				//import rdf files
+				if(preg_match("/\.rdf$/", $file)){
+					try{
+						$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
+						//extract namespace from the file
+						$xml = simplexml_load_file($path);
+						$attrs = $xml->attributes('xml', true);
+						if(!isset($attrs['base']) || empty($attrs['base'])){
+							throw new Exception('The namespace of the rdf file to import has to be defined with the "xml:base" attribute of the ROOT node');
+						}
+						$ns = (string) $attrs['base'];
+						//import the model in the ontology
+						$modelCreator->insertModelFile($ns, $path);
+					}
+					catch(Exception $e){
+						$this->output[] = $e->getMessage();
+					}
+				}
 				
 				//execute php files
 				if(preg_match("/\.php$/", $file)){
