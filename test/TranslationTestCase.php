@@ -21,6 +21,7 @@ class TranslationTestCase extends UnitTestCase {
 	const GROUPS_MANIFEST = '/samples/structures/groups';
 	const ITEMS_MANIFEST = '/samples/structures/items';
 	const FAKE_ACTIONS = '/samples/fakeSourceCode/actions/';
+	const FAKE_VIEWS = '/samples/fakeSourceCode/views/';
 	
 	/**
 	 * Test of the different classes composing the Translation Model.
@@ -126,8 +127,7 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tus[1]->getSource() == 'Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N');
 		$this->assertTrue($tus[1]->getTarget() == 'Ce téxtê cÖntîEn$ de drÔlés dE çÄrÂctÈres @ cAµ$£ dé l\'I18N');
 		$this->assertTrue($tus[2]->getSource() == 'This translation will be a very long text');
-		// Reading logic trims the retrieved strings so that the trailing space you can find in the po file is not compared.
-		$this->assertTrue($tus[2]->getTarget() == 'C\'est en effet un texte très très long car j\'aime parler. Grâce à ce test, je vais pouvoir vérifier si les msgstr multilignes sont correctement interpretés par');
+		$this->assertTrue($tus[2]->getTarget() == 'C\'est en effet un texte très très long car j\'aime parler. Grâce à ce test, je vais pouvoir vérifier si les msgstr multilignes sont correctement interpretés par ');
 		$this->assertTrue($tus[3]->getSource() == 'And this one will contain escaping characters');
 		$this->assertTrue($tus[3]->getTarget() == "Alors je vais passer une ligne \net aussi faire des tabulations \t car c'est très cool.");
 	}
@@ -222,11 +222,27 @@ class TranslationTestCase extends UnitTestCase {
 	}
 	
 	public function testSourceExtraction() {
+		// Test with only PHP Actions.
 		$sourceCodePaths = array(dirname(__FILE__) . self::FAKE_ACTIONS);
 		$extensions = array('php');
 		$extractor = new tao_helpers_translation_SourceCodeExtractor($sourceCodePaths, $extensions);
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
+		$this->assertTrue(count($tus) == 21);
+		
+		// Complete test.
+		$extensions = array('php', 'tpl', 'js');
+		$sourceCodePaths = array(dirname(__FILE__) . self::FAKE_ACTIONS,
+								 dirname(__FILE__) . self::FAKE_VIEWS);
+		$extractor->setFileTypes($extensions);
+		$extractor->setPaths($sourceCodePaths);
+		$extractor->extract();
+		$tus = $extractor->getTranslationUnits();
+		$this->assertTrue(count($tus) == 56);
+		$this->assertTrue($tus[1]->getSource() == 'Import');
+		$this->assertTrue($tus[2]->getSource() == ' Please select the input data format to import ');
+		$this->assertTrue($tus[5]->getSource() == 'Please upload a CSV file formated as "defined" %min by %max the options above.');
+		$this->assertTrue($tus[8]->getsource() == "Please upload \t an RDF file.\n\n");
 	}
 }
 ?>

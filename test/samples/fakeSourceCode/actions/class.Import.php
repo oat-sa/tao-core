@@ -89,7 +89,7 @@ class tao_actions_form_Import
 			$submitElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/next.png' /> ".__('Next')."</a>");
     	}
     	else{
-			$submitElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/import.png' /> ".__('Import')."</a>");
+			$submitElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/import.png' /> ".__("Import")."</a>");
     	}
 		$this->form->setActions(array($submitElt), 'bottom');
 		$this->form->setActions(array(), 'top');
@@ -110,7 +110,7 @@ class tao_actions_form_Import
         
     	//create the element to select the import format
     	$formatElt = tao_helpers_form_FormFactory::getElement('format', 'Radiobox');
-    	$formatElt->setDescription(__('Please select the input data format to import'));
+    	$formatElt->setDescription(__(' Please select the input data format to import '));
     	
     	//mandatory field
     	$formatElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
@@ -185,7 +185,7 @@ class tao_actions_form_Import
 		
 
 		$descElt = tao_helpers_form_FormFactory::getElement('csv_desc', 'Label');
-		$descElt->setValue(__('Please upload a CSV file formated as defined by the options above.'));
+		$descElt->setValue(__("Please upload a CSV file formated as \"defined\" %min by %max the options above."));
 		$this->form->addElement($descElt);
 		
 		//create file upload form box
@@ -224,7 +224,7 @@ class tao_actions_form_Import
         // section 127-0-1-1--2a1722e0:12cbb421f9c:-8000:0000000000002939 begin
         
     	$descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
-		$descElt->setValue(__('Please upload an RDF file.'));
+		$descElt->setValue(__("Please upload \t an RDF file.\n\n"));
 		$this->form->addElement($descElt);
 		
 		//create file upload form box

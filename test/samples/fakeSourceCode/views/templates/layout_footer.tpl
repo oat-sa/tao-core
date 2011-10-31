@@ -1,6 +1,6 @@
 		
 		<div id="footer">
-			<?if(get_data('user_lang')):?>
+			<?if(get_data('Upload RDF File')):?>
 				<div id="section-lg">
 					<?=__('Data language')?>: <strong><?=__(get_data('user_lang'))?></strong> 
 				</div>

@@ -76,6 +76,7 @@ class tao_helpers_translation_SourceCodeExtractor
     public function extract()
     {
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:0000000000003209 begin
+        $this->setTranslationUnits(array());
         foreach ($this->getPaths() as $dir) {
         	$this->recursiveSearch($dir);
         }
@@ -199,10 +200,23 @@ class tao_helpers_translation_SourceCodeExtractor
 				
 		 		if (!empty($string[1])) {
 		 			foreach($string[1] as $s) {
-		 				$tu = new tao_helpers_translation_TranslationUnit($s);
+		 				$tu = new tao_helpers_translation_TranslationUnit(tao_helpers_translation_POUtils::sanitize($s));
 		 				$tus = $this->getTranslationUnits();
-		 				array_push($tus, $tu);
-		 				$this->setTranslationUnits($tus);
+		 				$found = false;
+		 				
+		 				// We must add the string as a new TranslationUnit only
+		 				// if a similiar source does not exist.
+		 				foreach ($tus as $t) {
+		 					if ($tu->getSource() == $t->getSource()) {
+		 						$found = true;
+		 						break;
+		 					}
+		 				}
+		 				
+		 				if (!$found) {
+		 					array_push($tus, $tu);
+		 					$this->setTranslationUnits($tus);
+		 				}
 		 			}
 		 		}
 		 	}

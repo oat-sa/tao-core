@@ -63,11 +63,11 @@ class tao_helpers_translation_POUtils
 		if ($reverse) {
 			$smap = array('"', "\n", "\t", "\r");
 			$rmap = array('\\"', '\\n"' . "\n" . '"', '\\t', '\\r');
-			$returnValue = trim((string) str_replace($smap, $rmap, $string));
+			$returnValue = (string) str_replace($smap, $rmap, $string);
 		} else {
 			$smap = array('/"\s+"/', '/\\\\n/', '/\\\\r/', '/\\\\t/', '/\\\"/');
 			$rmap = array('', "\n", "\r", "\t", '"');
-			$returnValue = trim((string) preg_replace($smap, $rmap, $string));
+			$returnValue = (string) preg_replace($smap, $rmap, $string);
 		}
         // section 10-13-1-85--20e08ece:13320c7798f:-8000:0000000000003546 end
 
