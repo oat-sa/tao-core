@@ -99,7 +99,11 @@ class tao_scripts_TaoVersioning
         	$constants['GENERIS_VERSIONED_REPOSITORY_PATH'] 	= !is_null($this->options['path']) 		? $this->options['path'] 	: GENERIS_VERSIONED_REPOSITORY_PATH;
         	$constants['GENERIS_VERSIONING_ENABLED'] 			= true;
         	
-        	// 
+	        //update the generis config file with the new constants
+	        $configWriter = new tao_install_utils_ConfigWriter(GENERIS_BASE_PATH.'/common/config.php', GENERIS_BASE_PATH.'/common/config.php');
+	        $configWriter->writeConstants($constants);
+        	
+        	//Regarding to the versioning sytem type
         	switch($constants['GENERIS_VERSIONED_REPOSITORY_TYPE']){
         		case 'svn':
         			$repositoryType = 'http://www.tao.lu/Ontologies/TAOItem.rdf#VersioningRepositoryTypeSubversion';
@@ -129,13 +133,15 @@ class tao_scripts_TaoVersioning
 			
 			// Checkout the repository
 			if (!is_null($repository)){
-				if(!$repository->authenticate()){
+				
+				//bypass the repository object because of loaded constants
+				if(!core_kernel_versioning_RepositoryProxy::singleton()->authenticate($repository, $constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'], $constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'])){
 					self::out("Unable to reach the remote versioning repository ".$constants['GENERIS_VERSIONED_REPOSITORY_URL']." ".$constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'].":".$constants['GENERIS_VERSIONED_REPOSITORY_PASSWORD'], array('color' => 'light_red'));
 					self::out("Please check your configuration");
 					return;
 				}
 				else {
-					if($repository->checkout()){
+					if(core_kernel_versioning_RepositoryProxy::singleton()->checkout($repository, $constants['GENERIS_VERSIONED_REPOSITORY_URL'], $constants['GENERIS_VERSIONED_REPOSITORY_PASSWORD'])){
 						self::out("The remote versioning repository ".$constants['GENERIS_VERSIONED_REPOSITORY_URL']." is bound to TAO", array('color' => 'light_blue'));
 						self::out("local directory : ".$constants['GENERIS_VERSIONED_REPOSITORY_PATH']);
 					} else {
@@ -146,10 +152,6 @@ class tao_scripts_TaoVersioning
 				}
 			}
         }
-        	
-        //update the generis config file with the new constants
-        $configWriter = new tao_install_utils_ConfigWriter(GENERIS_BASE_PATH.'/common/config.php', GENERIS_BASE_PATH.'/common/config.php');
-        $configWriter->writeConstants($constants);
     	
         // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F5A end
     }
