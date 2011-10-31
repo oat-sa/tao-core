@@ -131,6 +131,7 @@ class tao_scripts_TaoVersioning
 				'http://www.tao.lu/Ontologies/generis.rdf#DefaultRepository'
 			);
 			
+			var_dump($constants);
 			// Checkout the repository
 			if (!is_null($repository)){
 				
@@ -141,7 +142,7 @@ class tao_scripts_TaoVersioning
 					return;
 				}
 				else {
-					if(core_kernel_versioning_RepositoryProxy::singleton()->checkout($repository, $constants['GENERIS_VERSIONED_REPOSITORY_URL'], $constants['GENERIS_VERSIONED_REPOSITORY_PASSWORD'])){
+					if(core_kernel_versioning_RepositoryProxy::singleton()->checkout($repository, $constants['GENERIS_VERSIONED_REPOSITORY_URL'], $constants['GENERIS_VERSIONED_REPOSITORY_PATH'])){
 						self::out("The remote versioning repository ".$constants['GENERIS_VERSIONED_REPOSITORY_URL']." is bound to TAO", array('color' => 'light_blue'));
 						self::out("local directory : ".$constants['GENERIS_VERSIONED_REPOSITORY_PATH']);
 					} else {
