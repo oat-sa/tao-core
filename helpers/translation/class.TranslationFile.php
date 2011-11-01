@@ -75,6 +75,38 @@ class tao_helpers_translation_TranslationFile
      */
     private $translationUnits = array();
 
+    /**
+     * Ascending sort case-sensitive
+     *
+     * @access public
+     * @var int
+     */
+    const SORT_ASC = 1;
+
+    /**
+     * Descending sort case-sensitive
+     *
+     * @access public
+     * @var int
+     */
+    const SORT_DESC = 2;
+
+    /**
+     * Ascending sort case-insensitive
+     *
+     * @access public
+     * @var int
+     */
+    const SORT_ASC_I = 3;
+
+    /**
+     * Descending sort case-insensitive.
+     *
+     * @access public
+     * @var int
+     */
+    const SORT_DESC_I = 4;
+
     // --- OPERATIONS ---
 
     /**
@@ -320,6 +352,62 @@ class tao_helpers_translation_TranslationFile
         // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:0000000000003238 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Sorts and returns the TranslationUnits by Source with a specified sorting
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  int sortingType
+     * @return array
+     */
+    public function sortBySource($sortingType)
+    {
+        $returnValue = array();
+
+        // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003266 begin
+        $returnValue = $this->getTranslationUnits();
+        switch ($sortingType) {
+        	case self::SORT_ASC:
+        	case self::SORT_ASC_I:
+        		// Ascending algorithm.
+        		$aCode = (($sortingType == self::SORT_ASC_I) ? 'mb_strtolower($a->getSource(), "UTF-8")' : '$a->getSource()');
+        		$bCode = (($sortingType == self::SORT_ASC_I) ? 'mb_strtolower($b->getSource(), "UTF-8")' : '$b->getSource()');
+        		$cmpFunction = create_function('$a,$b', 'return strcmp(' . $aCode . ', ' . $bCode . ');');
+        		usort($returnValue, $cmpFunction);
+        	break;
+        	
+        	case self::SORT_DESC:
+        	case self::SORT_DESC_I:
+        		// Ascending algorithm.
+        		$aCode = (($sortingType == self::SORT_DESC_I) ? 'mb_strtolower($a->getSource(), "UTF-8")' : '$a->getSource()');
+        		$bCode = (($sortingType == self::SORT_DESC_I) ? 'mb_strtolower($b->getSource(), "UTF-8")' : '$b->getSource()');
+        		$cmpFunction = create_function('$a,$b', 'return -1 * strcmp(' . $aCode . ', ' . $bCode . ');');
+        		usort($returnValue, $cmpFunction);
+        	break;
+        }
+        // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003266 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Sorts and returns the TranslationUnits by Target with a specified sorting
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  int sortingType
+     * @return array
+     */
+    public function sortByTarget($sortingType)
+    {
+        $returnValue = array();
+
+        // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003269 begin
+        // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003269 end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_helpers_translation_TranslationFile */

@@ -16,6 +16,7 @@ class TranslationTestCase extends UnitTestCase {
 	
 	const RAW_PO = '/samples/sample_raw.po';
 	const ESCAPING_PO = '/samples/sample_escaping.po';
+	const SORTING_PO = '/samples/sample_sort.po';
 	const TEMP_PO = 'tao.test.translation.writing';
 	const TAO_MANIFEST = '/samples/structures/tao';
 	const GROUPS_MANIFEST = '/samples/structures/groups';
@@ -130,6 +131,34 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tus[2]->getTarget() == 'C\'est en effet un texte très très long car j\'aime parler. Grâce à ce test, je vais pouvoir vérifier si les msgstr multilignes sont correctement interpretés par ');
 		$this->assertTrue($tus[3]->getSource() == 'And this one will contain escaping characters');
 		$this->assertTrue($tus[3]->getTarget() == "Alors je vais passer une ligne \net aussi faire des tabulations \t car c'est très cool.");
+	}
+	
+	public function testPOTranslationSorting() {
+		$pr = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::SORTING_PO);
+		$pr->read();
+		$tf = $pr->getTranslationFile();
+		$unsortedTus = $tf->getTranslationUnits();
+		
+		// Ascending case-insensitive.
+		$sortedTus = $tf->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC);
+		$this->assertTrue($sortedTus[0]->getSource() == ' This begins with a white space');
+		$this->assertTrue($sortedTus[8]->getSource() == 'kings are great');
+		$this->assertTrue($sortedTus[10]->getSource() == 'öhïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N');
+		
+		$sortedTus = $tf->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC_I);
+		$this->assertTrue($sortedTus[3]->getSource() == '12 is also a number');
+		$this->assertTrue($sortedTus[6]->getSource() == 'kings are great');
+		$this->assertTrue($sortedTus[8]->getSource() == 'Zapata');
+		
+		$sortedTus = $tf->sortBySource(tao_helpers_translation_TranslationFile::SORT_DESC);
+		$this->assertTrue($sortedTus[4]->getSource() == 'Koalas are great');
+		$this->assertTrue($sortedTus[7]->getSource() == '12 is also a number');
+		$this->assertTrue($sortedTus[9]->getSource() == '- List1');
+		
+		$sortedTus = $tf->sortBySource(tao_helpers_translation_TranslationFile::SORT_DESC_I);
+		$this->assertTrue($sortedTus[2]->getSource() == 'Zapata');
+		$this->assertTrue($sortedTus[5]->getSource() == 'Ahloa');
+		$this->assertTrue($sortedTus[10]->getSource() == ' This begins with a white space');
 	}
 	
 	
