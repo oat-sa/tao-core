@@ -94,6 +94,8 @@ abstract class tao_helpers_grid_GridContainer
 		$this->data = $data;
 		$this->options = $options;
 		$this->grid = new tao_helpers_grid_Grid($options);
+		$this->initGrid();
+		
 		foreach($data as $rowId => $cells){
 			if(is_array($cells)){
 				$this->grid->addRow($rowId, $cells);
@@ -101,6 +103,9 @@ abstract class tao_helpers_grid_GridContainer
 				$this->grid->addRow($cells);
 			}
 		}
+		
+		$this->initColumns();
+		
         // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000337D end
     }
 

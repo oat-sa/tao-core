@@ -258,6 +258,8 @@ class tao_helpers_grid_Column
 		//allow returning to type "string" or "Grid" only
 		if($returnValue instanceof tao_helpers_grid_Grid){
 			$returnValue = $returnValue->toArray();
+		}else if($returnValue instanceof tao_helpers_grid_GridContainer){
+			$returnValue = $returnValue->toArray();
 		}else{
 			$returnValue = (string) $returnValue;
 		}

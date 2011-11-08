@@ -35,7 +35,7 @@ class MassInsertTestCase extends UnitTestCase {
 	 */
 
 	// Number of subjects to create
-	protected $subjectNumber = 100;
+	protected $subjectNumber = 10;
 	// Number of groups to create
 	protected $groupNumber = 2;
 	// Number of languages to create

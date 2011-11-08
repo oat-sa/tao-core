@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 08.11.2011, 11:06:27 with ArgoUML PHP module 
+ * Automatically generated on 08.11.2011, 12:18:40 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -71,10 +71,10 @@ abstract class tao_helpers_grid_Cell_Adapter
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string rowId
      * @param  string columnId
-     * @param  mixed data
+     * @param  string data
      * @return mixed
      */
-    public abstract function getValue($rowId, $columnId,  mixed $data = null);
+    public abstract function getValue($rowId, $columnId, $data = null);
 
     /**
      * Short description of method __construct
