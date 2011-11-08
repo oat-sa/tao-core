@@ -131,7 +131,6 @@ class tao_scripts_TaoVersioning
 				'http://www.tao.lu/Ontologies/generis.rdf#DefaultRepository'
 			);
 			
-			var_dump($constants);
 			// Checkout the repository
 			if (!is_null($repository)){
 				
