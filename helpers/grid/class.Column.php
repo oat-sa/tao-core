@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 07.11.2011, 11:51:18 with ArgoUML PHP module 
+ * Automatically generated on 08.11.2011, 11:06:27 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -71,18 +71,18 @@ class tao_helpers_grid_Column
     /**
      * Short description of attribute order
      *
-     * @access public
+     * @access protected
      * @var int
      */
-    public $order = 0;
+    protected $order = 0;
 
     /**
      * Short description of attribute adapter
      *
-     * @access public
+     * @access protected
      * @var Adapter
      */
-    public $adapter = null;
+    protected $adapter = null;
 
     // --- OPERATIONS ---
 
@@ -232,7 +232,7 @@ class tao_helpers_grid_Column
 
         // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003318 begin
 		$returnValue = ($this->adapter instanceof tao_helpers_grid_Cell_Adapter);
-		// section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003318 end
+        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003318 end
 
         return (bool) $returnValue;
     }
@@ -246,7 +246,7 @@ class tao_helpers_grid_Column
      * @param  mixed cellValue
      * @return mixed
      */
-    public function getAdapterValue($rowId, $cellValue = null)
+    public function getAdapterValue($rowId,  mixed $cellValue = null)
     {
         $returnValue = null;
 

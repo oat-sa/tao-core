@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 07.11.2011, 11:51:18 with ArgoUML PHP module 
+ * Automatically generated on 08.11.2011, 11:06:27 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -63,10 +63,10 @@ class tao_helpers_grid_Grid
     /**
      * Short description of attribute options
      *
-     * @access public
+     * @access protected
      * @var array
      */
-    public $options = array();
+    protected $options = array();
 
     // --- OPERATIONS ---
 
@@ -92,14 +92,15 @@ class tao_helpers_grid_Grid
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string id
      * @param  string title
+     * @param  boolean replace
      * @return tao_helpers_grid_Column
      */
-    public function addColumn($id, $title)
+    public function addColumn($id, $title, $replace = false)
     {
         $returnValue = null;
 
         // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032A7 begin
-		if(isset($this->columns[$id])){
+		if(!$replace && isset($this->columns[$id])){
 			throw new common_Exception('the column with the id '.$id.' already exists');
 		}else{
 			$this->columns[$id] = new tao_helpers_grid_Column($id, $title);
@@ -139,14 +140,15 @@ class tao_helpers_grid_Grid
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string id
      * @param  array cells
+     * @param  boolean replace
      * @return boolean
      */
-    public function addRow($id, $cells = array())
+    public function addRow($id, $cells = array(), $replace = false)
     {
         $returnValue = (bool) false;
 
         // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032B2 begin
-		if(isset($this->rows[$id])){
+		if(!$replace && isset($this->rows[$id])){
 			throw new common_Exception('the row with the id '.$id.' already exists');
 		}else{
 			$this->rows[$id] = $cells;
@@ -208,7 +210,7 @@ class tao_helpers_grid_Grid
     }
 
     /**
-     * Short description of method setColumnAdapter
+     * Short description of method setColumnsAdapter
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -216,7 +218,7 @@ class tao_helpers_grid_Grid
      * @param  Adapter adapter
      * @return boolean
      */
-    public function setColumnAdapter($columnIds,  tao_helpers_transfert_Adapter $adapter)
+    public function setColumnsAdapter($columnIds,  tao_helpers_transfert_Adapter $adapter)
     {
         $returnValue = (bool) false;
 

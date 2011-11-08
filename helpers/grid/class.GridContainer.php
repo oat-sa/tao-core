@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 07.11.2011, 16:30:32 with ArgoUML PHP module 
+ * Automatically generated on 08.11.2011, 11:06:27 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -64,18 +64,18 @@ abstract class tao_helpers_grid_GridContainer
     /**
      * Short description of attribute options
      *
-     * @access public
+     * @access protected
      * @var array
      */
-    public $options = array();
+    protected $options = array();
 
     /**
      * Short description of attribute data
      *
-     * @access public
+     * @access protected
      * @var array
      */
-    public $data = array();
+    protected $data = array();
 
     // --- OPERATIONS ---
 
@@ -94,10 +94,13 @@ abstract class tao_helpers_grid_GridContainer
 		$this->data = $data;
 		$this->options = $options;
 		$this->grid = new tao_helpers_grid_Grid($options);
-		foreach($data as $rowId){
-			$this->grid->addRow($rowId);
+		foreach($data as $rowId => $cells){
+			if(is_array($cells)){
+				$this->grid->addRow($rowId, $cells);
+			}else if(is_string($cells)){
+				$this->grid->addRow($cells);
+			}
 		}
-		
         // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000337D end
     }
 
@@ -168,7 +171,7 @@ abstract class tao_helpers_grid_GridContainer
         $returnValue = array();
 
         // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000339E begin
-		$returnValue = $this->getGrid()->toArray();
+		$returnValue = $this->grid->toArray();
         // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000339E end
 
         return (array) $returnValue;
