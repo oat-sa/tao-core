@@ -100,7 +100,7 @@ class tao_helpers_File
         	}
         	$returnValue .= $path;
         }
-        $returnValue = str_replace('//','/', $returnValue);
+        $returnValue = str_replace('//', '/', $returnValue);
         
         // section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023F2 end
 
@@ -379,7 +379,7 @@ class tao_helpers_File
 		
         }
         if(empty($mimetype)){
-        	 $ext = strtolower(array_pop(explode('.',$path)));
+        	 $ext = strtolower(array_pop(explode('.', $path)));
 			if (array_key_exists($ext, $mime_types)) {
 	            $mimetype =  $mime_types[$ext];
 	        }
