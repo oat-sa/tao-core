@@ -486,10 +486,15 @@ UiForm = function(){
 											if($(NODE).hasClass('node-instance')) {
 												removeUrl = removeListEltUrl;
 											}
-											GenerisTreeClass.removeNode({
+											//remove list
+											$.ajax({
 												url: removeUrl,
-												NODE: NODE,
-												TREE_OBJ: TREE_OBJ
+												type: "POST",
+												data: {uri: $(NODE).attr('id')},
+												dataType: 'json',
+												success: function(response){
+													if (response.deleted) TREE_OBJ.remove(NODE);
+												}
 											});
 											return false;
 										}
