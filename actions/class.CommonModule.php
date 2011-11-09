@@ -20,7 +20,8 @@ abstract class tao_actions_CommonModule extends Module {
 	 * constructor checks if a user is logged in
 	 * If you don't want this check, please override the  _isAllowed method to return true
 	 */
-	public function __construct(){
+	public function __construct()
+	{
 		if(!$this->_isAllowed()){
 			throw new tao_models_classes_UserException(__('Access denied. Please renew your authentication!'));
 		}
@@ -31,7 +32,8 @@ abstract class tao_actions_CommonModule extends Module {
      * @param string $identifier view identifier
      * @param boolean set to true if you want to use the views in the tao extension instead of the current extension 
      */
-    public function setView($identifier, $useMetaExtensionView = false) {
+    public function setView($identifier, $useMetaExtensionView = false)
+    {
         parent::setView($identifier);
 		if($useMetaExtensionView){
 			Renderer::setViewsBasePath(TAOVIEW_PATH);
@@ -43,12 +45,13 @@ abstract class tao_actions_CommonModule extends Module {
 	 * Retrieve the data from the url and make the base initialization
 	 * @return void
 	 */
-	protected function defaultData(){
+	protected function defaultData()
+	{
 		$context = Context::getInstance();
 		if($this->hasSessionAttribute('currentExtension')){
 			$this->setData('extension', $this->getSessionAttribute('currentExtension'));
-			$this->setData('module',  $context->getModuleName());
-			$this->setData('action',  $context->getActionName());
+			$this->setData('module', $context->getModuleName());
+			$this->setData('action', $context->getActionName());
 			
 			if($this->getRequestParameter('showNodeUri')){
 				$this->setSessionAttribute("showNodeUri", $this->getRequestParameter('showNodeUri'));
@@ -86,7 +89,8 @@ abstract class tao_actions_CommonModule extends Module {
 	 * Override this method to allow/deny a request
 	 * @return boolean
 	 */
-	protected function _isAllowed(){
+	protected function _isAllowed()
+	{
 		//if a user is logged in
 		return core_kernel_users_Service::singleton()->isASessionOpened();
 	}

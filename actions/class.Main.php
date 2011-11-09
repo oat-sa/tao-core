@@ -18,7 +18,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 * Constructor performs initializations actions
 	 * @return void
 	 */
-	public function __construct(){
+	public function __construct()
+	{
 		//check if user is authenticated
 		$context = Context::getInstance();
 		if(!$this->_isAllowed() &&  $context->getActionName() != 'login'){
@@ -38,7 +39,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 * default page, main entry point to the user
 	 * @return void
 	 */
-	public function login(){
+	public function login()
+	{
 		
 		if($this->getData('errorMessage')){
 			session_destroy();
@@ -72,7 +74,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 				if ($this->userService->loginUser($this->getRequestParameter('login'), md5($this->getRequestParameter('password')))){
 					$returnValue = true;
 				}
-				echo json_encode ((object)array('success'=>$returnValue));
+				echo json_encode((object) array('success'=>$returnValue));
 			}
 		}
 		
@@ -82,7 +84,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 * Logout, destroy the session and back to the login page
 	 * @return 
 	 */
-	public function logout(){
+	public function logout()
+	{
 		session_destroy();
 		$this->redirect(_url('login', 'Main'));	
 	}
@@ -91,15 +94,16 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 * The main action, load the layout
 	 * @return void
 	 */
-	public function index(){
+	public function index()
+	{
 		$extensions = array();
 		foreach($this->service->getStructure() as $i => $structure){
 			if($structure['extension'] != 'users'){
 				$data = $structure['data'];
 				$extensions[$i] = array(
-					'name' 			=> (string)$data['name'],
+					'name' 			=> (string) $data['name'],
 					'extension'		=> $structure['extension'],
-					'description'	=> (string)$data->description
+					'description'	=> (string) $data->description
 				);
 			}
 		}
@@ -138,7 +142,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 * Load the actions for the current section and the current data context
 	 * @return void
 	 */
-	public function getSectionActions(){
+	public function getSectionActions()
+	{
 		
 		$uri = $this->hasSessionAttribute('uri');
 		$classUri = $this->hasSessionAttribute('classUri');
@@ -154,23 +159,23 @@ class tao_actions_Main extends tao_actions_CommonModule {
 				$actionNodes =  $structure->actions[0];
 				$actions = array();
 				foreach($actionNodes as $actionNode){
-					$display = __((string)$actionNode['name']);
+					$display = __((string) $actionNode['name']);
 					if(strlen($display) > 15){
 						$display = str_replace(' ', "<br>", $display);
 					} 
 					$action = array(
-						'js'		=> (isset($actionNode['js'])) ? (string)$actionNode['js'] : false,
-						'url' 		=> ROOT_URL.(string)$actionNode['url'],
+						'js'		=> (isset($actionNode['js'])) ? (string) $actionNode['js'] : false,
+						'url' 		=> ROOT_URL.(string) $actionNode['url'],
 						'display'	=> $display,
-						'rowName'	=> (string)$actionNode['name'],
-						'name'		=> _clean((string)$actionNode['name']),
+						'rowName'	=> (string) $actionNode['name'],
+						'name'		=> _clean((string) $actionNode['name']),
 						'uri'		=> ($uri) ? $this->getSessionAttribute('uri') : false,
 						'classUri'	=> ($classUri) ? $this->getSessionAttribute('classUri') : false,
 						'reload'	=> (isset($actionNode['reload'])) ? true : false
 					);
 					
 					$action['disabled'] = true;
-					switch((string)$actionNode['context']){
+					switch((string) $actionNode['context']){
 						case 'resource':
 							if($classUri || $uri) {
 								$action['disabled'] = false; break;
@@ -208,10 +213,28 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	}
 
 	/**
+	 * Load the filter section
+	 * @return html
+	 */
+	public function getSectionFilters()
+	{
+		$this->setData('filters', false);
+		$currentExtension = $this->service->getCurrentExtension();
+		if($currentExtension){
+			//Filter by query
+			//Filter by text
+			//Filter by facet
+			
+		}
+		$this->setView('main/filters.tpl');
+	}
+	
+	/**
 	 * Load the section trees
 	 * @return void
 	 */
-	public function getSectionTrees(){
+	public function getSectionTrees()
+	{
 		
 		$this->setData('trees', false);
 		$currentExtension = $this->service->getCurrentExtension();
@@ -222,14 +245,14 @@ class tao_actions_Main extends tao_actions_CommonModule {
 				$trees = array();
 				foreach($structure->trees[0] as $tree){
 					foreach($tree->attributes() as $attrName => $attrValue){
-						if(preg_match("/^\//", (string)$attrValue)){
-							$tree[$attrName] = ROOT_URL.(string)$attrValue;
+						if(preg_match("/^\//", (string) $attrValue)){
+							$tree[$attrName] = ROOT_URL.(string) $attrValue;
 						}
 						else{
-							$tree[$attrName] = (string)$attrValue;
+							$tree[$attrName] = (string) $attrValue;
 						}
 					}
-					$treeId = tao_helpers_Display::textCleaner((string)$tree['name'], '_');
+					$treeId = tao_helpers_Display::textCleaner((string) $tree['name'], '_');
 					$trees[$treeId] = $tree;
 				}
 				$this->setData('trees', $trees);
