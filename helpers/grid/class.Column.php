@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 08.11.2011, 11:06:27 with ArgoUML PHP module 
+ * Automatically generated on 09.11.2011, 16:58:16 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -238,31 +238,41 @@ class tao_helpers_grid_Column
     }
 
     /**
-     * Short description of method getAdapterValue
+     * Short description of method getAdapterData
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string rowId
-     * @param  mixed cellValue
+     * @param  mixed cellValue (tao_helpers_grid_Grid, tao_helpers_grid_GridContainer or string)
      * @return mixed
      */
-    public function getAdapterValue($rowId,  mixed $cellValue = null)
+    public function getAdapterData($rowId = '', $cellValue = null)
     {
         $returnValue = null;
 
         // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000331A begin
-		if($this->hasAdapter()){
-			$returnValue = $this->adapter->getValue($rowId, $this->id, $cellValue);
+		
+		if(empty($rowId)){
+			
+			$returnValue = $this->adapter->getData();
+			
+		}else{
+			
+			if($this->hasAdapter()){
+				$returnValue = $this->adapter->getValue($rowId, $this->id, $cellValue);
+			}
+
+			//allow returning to type "string" or "Grid" only
+			if ($returnValue instanceof tao_helpers_grid_Grid) {
+				$returnValue = $returnValue->toArray();
+			} else if ($returnValue instanceof tao_helpers_grid_GridContainer) {
+				$returnValue = $returnValue->toArray();
+			} else {
+				$returnValue = (string) $returnValue;
+			}
+			
 		}
 		
-		//allow returning to type "string" or "Grid" only
-		if($returnValue instanceof tao_helpers_grid_Grid){
-			$returnValue = $returnValue->toArray();
-		}else if($returnValue instanceof tao_helpers_grid_GridContainer){
-			$returnValue = $returnValue->toArray();
-		}else{
-			$returnValue = (string) $returnValue;
-		}
         // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000331A end
 
         return $returnValue;
