@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 08.11.2011, 12:21:32 with ArgoUML PHP module 
+ * Automatically generated on 09.11.2011, 16:23:42 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -299,6 +299,24 @@ class tao_helpers_grid_Grid
         // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003316 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getColumns
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @return array
+     */
+    public function getColumns()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--3aed8f55:13388eba496:-8000:0000000000003366 begin
+		$returnValue = $this->columns;
+        // section 127-0-1-1--3aed8f55:13388eba496:-8000:0000000000003366 end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_helpers_grid_Grid */
