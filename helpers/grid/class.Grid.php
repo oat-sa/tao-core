@@ -371,26 +371,8 @@ class tao_helpers_grid_Grid
 					'type' => $column->getType()
 				);
 				
-				if($column->hasAdapter()){
-					foreach ($this->rows as $rowId => $cells) {
-						
-						$subgridColumnModel = array();
-						$value = $column->getAdapterData($rowId, isset($cells[$rowId])?$cells[$rowId]:null, false);
-						var_dump($value);
-						if ($value instanceof tao_helpers_grid_Grid) {
-							$subgridColumnModel = $value->getColumnsModel();
-						} else if ($value instanceof tao_helpers_grid_GridContainer){
-							$subgridColumnModel = $value->getGrid()->getColumnsModel();
-						}
-						
-						if(!empty($subgridColumnModel)){
-							if (!isset($returnValue[$column->getId()]['subgrids'])){
-								$returnValue[$column->getId()]['subgrids'] = array();
-							}
-							$returnValue[$column->getId()]['subgrids'][$rowId] = $subgridColumnModel;
-						}
-						
-					}
+				if($column->hasAdapter('tao_helpers_grid_Cell_SubgridAdapter')){
+					$returnValue[$column->getId()]['subgrids'] = $column->getAdapter()->getSubgridColumnModel();
 				}
 			}
 			

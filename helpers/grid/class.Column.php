@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 09.11.2011, 16:58:16 with ArgoUML PHP module 
+ * Automatically generated on 10.11.2011, 15:45:05 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -224,14 +224,20 @@ class tao_helpers_grid_Column
      *
      * @access public
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @param  string type (to check if the adaptor is of a certain type)
      * @return boolean
      */
-    public function hasAdapter()
+    public function hasAdapter($type = '')
     {
         $returnValue = (bool) false;
 
         // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003318 begin
-		$returnValue = ($this->adapter instanceof tao_helpers_grid_Cell_Adapter);
+		if(empty($type)){
+			$returnValue = ($this->adapter instanceof tao_helpers_grid_Cell_Adapter);
+		}else{
+			$returnValue = ($this->adapter instanceof $type);
+		}
+		
         // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003318 end
 
         return (bool) $returnValue;
@@ -244,9 +250,10 @@ class tao_helpers_grid_Column
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string rowId
      * @param  mixed cellValue (tao_helpers_grid_Grid, tao_helpers_grid_GridContainer or string)
+     * @param  bool evaluateData
      * @return mixed
      */
-    public function getAdapterData($rowId = '', $cellValue = null)
+    public function getAdapterData($rowId = '',  mixed $cellValue = null, $evaluateData = true)
     {
         $returnValue = null;
 
@@ -261,19 +268,39 @@ class tao_helpers_grid_Column
 			if($this->hasAdapter()){
 				$returnValue = $this->adapter->getValue($rowId, $this->id, $cellValue);
 			}
-
-			//allow returning to type "string" or "Grid" only
-			if ($returnValue instanceof tao_helpers_grid_Grid) {
-				$returnValue = $returnValue->toArray();
-			} else if ($returnValue instanceof tao_helpers_grid_GridContainer) {
-				$returnValue = $returnValue->toArray();
-			} else {
-				$returnValue = (string) $returnValue;
+			
+			if($evaluateData){
+				//allow returning to type "string" or "Grid" only
+				if ($returnValue instanceof tao_helpers_grid_Grid) {
+					$returnValue = $returnValue->toArray();
+				} else if ($returnValue instanceof tao_helpers_grid_GridContainer) {
+					$returnValue = $returnValue->toArray();
+				} else {
+					$returnValue = (string) $returnValue;
+				}
 			}
 			
 		}
 		
         // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000331A end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method getAdapter
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @return tao_helpers_grid_Cell_Adapter
+     */
+    public function getAdapter()
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-72bb438:1338cba5f73:-8000:00000000000033D6 begin
+		$returnValue = $this->adapter;
+        // section 127-0-1-1-72bb438:1338cba5f73:-8000:00000000000033D6 end
 
         return $returnValue;
     }
