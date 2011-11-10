@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 09.11.2011, 16:58:16 with ArgoUML PHP module 
+ * Automatically generated on 10.11.2011, 11:09:27 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -67,6 +67,14 @@ class tao_helpers_grid_Grid
      * @var array
      */
     protected $options = array();
+
+    /**
+     * Short description of attribute columnsModel
+     *
+     * @access protected
+     * @var array
+     */
+    protected $columnsModel = array();
 
     // --- OPERATIONS ---
 
@@ -338,6 +346,59 @@ class tao_helpers_grid_Grid
         // section 127-0-1-1-3d16f06:13388f94a40:-8000:000000000000336B end
 
         return $returnValue;
+    }
+
+    /**
+     * Short description of method getColumnsModel
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @param  boolean rebuild
+     * @return array
+     */
+    public function getColumnsModel($rebuild = false)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-72bb438:1338cba5f73:-8000:0000000000003370 begin
+		foreach($this->columns as $column){
+			
+			if($column instanceof tao_helpers_grid_Column){
+				
+				$returnValue[$column->getId()] = array(
+					'id' => $column->getId(),
+					'title' => $column->getTitle(),
+					'type' => $column->getType()
+				);
+				
+				if($column->hasAdapter()){
+					foreach ($this->rows as $rowId => $cells) {
+						
+						$subgridColumnModel = array();
+						$value = $column->getAdapterData($rowId, isset($cells[$rowId])?$cells[$rowId]:null, false);
+						var_dump($value);
+						if ($value instanceof tao_helpers_grid_Grid) {
+							$subgridColumnModel = $value->getColumnsModel();
+						} else if ($value instanceof tao_helpers_grid_GridContainer){
+							$subgridColumnModel = $value->getGrid()->getColumnsModel();
+						}
+						
+						if(!empty($subgridColumnModel)){
+							if (!isset($returnValue[$column->getId()]['subgrids'])){
+								$returnValue[$column->getId()]['subgrids'] = array();
+							}
+							$returnValue[$column->getId()]['subgrids'][$rowId] = $subgridColumnModel;
+						}
+						
+					}
+				}
+			}
+			
+		}
+		
+        // section 127-0-1-1-72bb438:1338cba5f73:-8000:0000000000003370 end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_helpers_grid_Grid */
