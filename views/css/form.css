@@ -24,9 +24,9 @@ div.xhtml_form div div div{
 
 /* Form label */
 div.xhtml_form div .form_desc{
-	position:absolute;
 	font-size:1em;
 	width:30%;
+	display: inline-block;
 }
 
 /* Form elements */
@@ -36,7 +36,7 @@ div.xhtml_form div textarea,
 div.xhtml_form div.wysiwyg,
 div.xhtml_form ul.form-elt-list,
 div.xhtml_form div .form-elt-container{
-	margin-left:30%;
+	//margin-left:30%;
 }
 div.xhtml_form div input.form-reverter{
 	margin-left:5%;
@@ -98,6 +98,14 @@ div.xhtml_form div.form-group div div{
 
 div.xhtml_form div.form-group div div div{
 	border:none;	
+}
+
+div.xhtml_form div .form_radlst {
+  border: 0;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
 }
 
 /* Form error message */

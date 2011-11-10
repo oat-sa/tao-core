@@ -75,15 +75,17 @@ class tao_helpers_form_elements_xhtml_Radiobox
 		else{
 			unset($this->attributes['noLabel']);
 		}
+		$returnValue .= '<div class="form_radlst">';
 		foreach($this->options as $optionId => $optionLabel){
 			 $returnValue .= "<input type='radio' name='{$this->name}' id='{$this->name}_{$i}' value='{$optionId}' ";
 			 $returnValue .= $this->renderAttributes();
 			 if($this->value == $optionId){
 			 	$returnValue .= " checked='checked' ";
 			 }
-			 $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>"._dh($optionLabel)."</label><br />";
+			 $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>"._dh($optionLabel)."</label><br />";
 			 $i++;
 		}
+		$returnValue .= "</div>";
 		
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F6 end
 
