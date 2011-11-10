@@ -135,7 +135,7 @@ class tao_scripts_TaoVersioning
 			if (!is_null($repository)){
 				
 				//bypass the repository object because of loaded constants
-				if(!core_kernel_versioning_RepositoryProxy::singleton()->authenticate($repository, $constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'], $constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'])){
+				if(!core_kernel_versioning_RepositoryProxy::singleton()->authenticate($repository, $constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'], $constants['GENERIS_VERSIONED_REPOSITORY_PASSWORD'])){
 					self::out("Unable to reach the remote versioning repository ".$constants['GENERIS_VERSIONED_REPOSITORY_URL']." ".$constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'].":".$constants['GENERIS_VERSIONED_REPOSITORY_PASSWORD'], array('color' => 'light_red'));
 					self::out("Please check your configuration");
 					return;
