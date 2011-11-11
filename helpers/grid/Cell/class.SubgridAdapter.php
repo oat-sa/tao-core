@@ -179,11 +179,12 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter
         $returnValue = array();
 
         // section 127-0-1-1-72bb438:1338cba5f73:-8000:00000000000033D0 begin
-		foreach($this->data as $aGrid){
-			if($aGrid instanceof $this->subgridClass){
-				$returnValue = $aGrid->getGrid()->getColumnsModel();
-				break;
-			}
+		$subgridClass = $this->subgridClass;
+		$subgrid = new $subgridClass(array());//create empty subgrid to get its column model:
+		if(is_a($subgrid, $this->subgridClass) && is_a($subgrid, 'tao_helpers_grid_GridContainer')){
+			$returnValue = $subgrid->getGrid()->getColumnsModel();
+		}else{
+			throw new common_Exception('invalid subgrid class : '.$this->subgridClass);
 		}
 		
         // section 127-0-1-1-72bb438:1338cba5f73:-8000:00000000000033D0 end
