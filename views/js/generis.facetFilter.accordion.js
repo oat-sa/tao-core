@@ -10,8 +10,6 @@
 
 /**
  * The GenerisFacetFilterAccordionAdapter constructor
- * @param {String} selector the jquery selector of the tree container
- * @param {Object} options {}
  */
 function GenerisFacetFilterAccordionAdapter(){}
 

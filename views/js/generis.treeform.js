@@ -1,5 +1,5 @@
 /**
- * GenerisTreeFormClass is a easy to use container for the checkbox tree widget, 
+ * GenerisTreeFormClass is an easy to use container for the checkbox tree widget, 
  * it provides the common behavior for a selectable Class/Instance Rdf resource tree
  * 
  * @example new GenerisTreeClass('#tree-container', 'myData.php', {});

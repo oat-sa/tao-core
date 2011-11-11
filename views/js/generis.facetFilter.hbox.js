@@ -1,6 +1,6 @@
 /**
- * This class is used to render the generis facet filter widget in box mode
- * Horizontal or vertical
+ * This class is used to render the generis facet filter widget in horizontal 
+ * box mode
 
  * @see GenerisFacetFilterClass
  * 
@@ -11,8 +11,6 @@
 
 /**
  * The GenerisFacetFilterHboxAdapter constructor
- * @param {String} selector the jquery selector of the tree container
- * @param {Object} options {}
  */
 function GenerisFacetFilterHboxAdapter(){}
 
