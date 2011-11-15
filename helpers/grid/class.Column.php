@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 14.11.2011, 17:26:17 with ArgoUML PHP module 
+ * Automatically generated on 15.11.2011, 12:15:38 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_grid
  */
@@ -33,7 +33,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Short description of class tao_helpers_grid_Column
  *
  * @access public
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_grid
  */
@@ -77,12 +77,12 @@ class tao_helpers_grid_Column
     protected $order = 0;
 
     /**
-     * Short description of attribute adapter
+     * Short description of attribute adapters
      *
      * @access protected
-     * @var Adapter
+     * @var array
      */
-    protected $adapter = null;
+    protected $adapters = array();
 
     /**
      * Short description of attribute options
@@ -98,7 +98,7 @@ class tao_helpers_grid_Column
      * Short description of method __construct
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string id
      * @param  string title
      * @param  array options
@@ -117,7 +117,7 @@ class tao_helpers_grid_Column
      * Short description of method setType
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string type
      * @return boolean
      */
@@ -137,7 +137,7 @@ class tao_helpers_grid_Column
      * Short description of method getType
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     public function getType()
@@ -155,7 +155,7 @@ class tao_helpers_grid_Column
      * Short description of method setTitle
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string title
      * @return boolean
      */
@@ -175,7 +175,7 @@ class tao_helpers_grid_Column
      * Short description of method getTitle
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     public function getTitle()
@@ -193,7 +193,7 @@ class tao_helpers_grid_Column
      * Short description of method getId
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     public function getId()
@@ -211,7 +211,7 @@ class tao_helpers_grid_Column
      * Short description of method setAdapter
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Adapter adapter
      * @return boolean
      */
@@ -221,7 +221,7 @@ class tao_helpers_grid_Column
 
         // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003312 begin
 		if(!is_null($adapter)){
-			$this->adapter = $adapter;
+			$this->adapters[] = $adapter;
 			$returnValue = true;
 		}
         // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003312 end
@@ -233,7 +233,7 @@ class tao_helpers_grid_Column
      * Short description of method hasAdapter
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string type (to check if the adaptor is of a certain type)
      * @return boolean
      */
@@ -242,10 +242,12 @@ class tao_helpers_grid_Column
         $returnValue = (bool) false;
 
         // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003318 begin
-		if(empty($type)){
-			$returnValue = ($this->adapter instanceof tao_helpers_grid_Cell_Adapter);
-		}else{
-			$returnValue = ($this->adapter instanceof $type);
+		$adapterClass = empty($type)?'tao_helpers_grid_Cell_Adapter':$type;
+		foreach($this->adapters as $adapter){
+			if($adapter instanceof $adapterClass){
+				$returnValue = true;
+				break;
+			}
 		}
 		
         // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003318 end
@@ -254,42 +256,39 @@ class tao_helpers_grid_Column
     }
 
     /**
-     * Short description of method getAdapterData
+     * Short description of method getAdaptersData
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string rowId
-     * @param  mixed cellValue (tao_helpers_grid_Grid, tao_helpers_grid_GridContainer or string)
+     * @param  string cellValue (tao_helpers_grid_Grid, tao_helpers_grid_GridContainer or string)
      * @param  bool evaluateData
      * @return mixed
      */
-    public function getAdapterData($rowId = '',  $cellValue = null, $evaluateData = true)
+    public function getAdaptersData($rowId, $cellValue = null, $evaluateData = true)
     {
         $returnValue = null;
 
         // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000331A begin
 		
-		if(empty($rowId)){
-			
-			$returnValue = $this->adapter->getData();
-			
-		}else{
-			
-			if($this->hasAdapter()){
-				$returnValue = $this->adapter->getValue($rowId, $this->id, $cellValue);
-			}
-			
-			if($evaluateData){
-				//allow returning to type "string" or "Grid" only
-				if ($returnValue instanceof tao_helpers_grid_Grid) {
-					$returnValue = $returnValue->toArray();
-				} else if ($returnValue instanceof tao_helpers_grid_GridContainer) {
-					$returnValue = $returnValue->toArray();
-				} else {
-					$returnValue = (string) $returnValue;
+		if($this->hasAdapter()){
+			foreach($this->adapters as $adapter){
+				if($adapter instanceof tao_helpers_grid_Cell_Adapter){
+					$cellValue = $adapter->getValue($rowId, $this->id, $cellValue);
 				}
 			}
-			
+			$returnValue = $cellValue;
+		}
+
+		if($evaluateData){
+			//allow returning to type "string" or "Grid" only
+			if ($returnValue instanceof tao_helpers_grid_Grid) {
+				$returnValue = $returnValue->toArray();
+			} else if ($returnValue instanceof tao_helpers_grid_GridContainer) {
+				$returnValue = $returnValue->toArray();
+			} else {
+				$returnValue = (string) $returnValue;
+			}
 		}
 		
         // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000331A end
@@ -301,15 +300,21 @@ class tao_helpers_grid_Column
      * Short description of method getAdapter
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @return tao_helpers_grid_Cell_Adapter
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @param  type
+     * @return tao_helpers_transfert_Adapter
      */
-    public function getAdapter()
+    public function getAdapter($type)
     {
         $returnValue = null;
 
         // section 127-0-1-1-72bb438:1338cba5f73:-8000:00000000000033D6 begin
-		$returnValue = $this->adapter;
+		foreach($this->adapters as $adapter){
+			if($adapter instanceof $type){
+				$returnValue = $adapter;
+				break;
+			}
+		}
         // section 127-0-1-1-72bb438:1338cba5f73:-8000:00000000000033D6 end
 
         return $returnValue;
@@ -319,7 +324,7 @@ class tao_helpers_grid_Column
      * Short description of method getOptions
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return array
      */
     public function getOptions()
@@ -337,12 +342,13 @@ class tao_helpers_grid_Column
      * Short description of method setOptions
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  array options
      */
     public function setOptions($options)
     {
         // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033BF begin
+		$this->options = array_merge($this->options, $options);
         // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033BF end
     }
 
@@ -350,7 +356,7 @@ class tao_helpers_grid_Column
      * Short description of method getOption
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  name
      * @return core_kernel_classes_object
      */
@@ -369,7 +375,7 @@ class tao_helpers_grid_Column
      * Short description of method setOption
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  name
      * @param  value
      */
@@ -378,6 +384,42 @@ class tao_helpers_grid_Column
         // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C6 begin
         $this->options[$name] = $value;
         // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C6 end
+    }
+
+    /**
+     * Short description of method removeAdapter
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @param  string type
+     * @return boolean
+     */
+    public function removeAdapter($type = '')
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-648bde17:133a6d54b9f:-8000:00000000000033ED begin
+        // section 127-0-1-1-648bde17:133a6d54b9f:-8000:00000000000033ED end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getAdapters
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @return array
+     */
+    public function getAdapters()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-648bde17:133a6d54b9f:-8000:00000000000033F6 begin
+		$returnValue = $this->adapters;
+        // section 127-0-1-1-648bde17:133a6d54b9f:-8000:00000000000033F6 end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_helpers_grid_Column */

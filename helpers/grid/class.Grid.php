@@ -282,7 +282,7 @@ class tao_helpers_grid_Grid
 					}else if(isset($cells[$columnId])){
 						$data = $cells[$columnId];
 					}
-					$returnValue[$rowId][$columnId] = $column->getAdapterData($rowId, $data);
+					$returnValue[$rowId][$columnId] = $column->getAdaptersData($rowId, $data);
 					
 				}else if(isset($cells[$columnId])){
 					
@@ -387,7 +387,7 @@ class tao_helpers_grid_Grid
 				}
 				
 				if($column->hasAdapter('tao_helpers_grid_Cell_SubgridAdapter')){
-					$returnValue[$column->getId()]['subgrids'] = $column->getAdapter()->getSubgridColumnModel();
+					$returnValue[$column->getId()]['subgrids'] = $column->getAdapter('tao_helpers_grid_Cell_SubgridAdapter')->getSubgridColumnModel();
 				}
 			}
 			
