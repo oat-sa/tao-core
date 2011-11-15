@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 14.11.2011, 17:14:46 with ArgoUML PHP module 
+ * Automatically generated on 15.11.2011, 14:51:02 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
@@ -88,6 +88,26 @@ abstract class tao_helpers_grid_GridContainer
     // --- OPERATIONS ---
 
     /**
+     * Short description of method __clone
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @return tao_helpers_grid_GridContainer
+     */
+    public function __clone()
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:00000000000033FF begin
+        
+         $this->grid = clone $this->grid;
+        
+        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:00000000000033FF end
+
+        return $returnValue;
+    }
+
+    /**
      * Short description of method __construct
      *
      * @access public
@@ -104,15 +124,10 @@ abstract class tao_helpers_grid_GridContainer
 		$this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : array();
 		
 		$this->grid = new tao_helpers_grid_Grid($options);
+		//init columns ...
 		$this->initGrid();
-		
-		foreach($data as $rowId => $cells){
-			if(is_array($cells)){
-				$this->grid->addRow($rowId, $cells);
-			}else if(is_string($cells)){
-				$this->grid->addRow($cells);
-			}
-		}
+		//set data if data given
+		$this->grid->setData($data);
 		
 		$this->initColumns();
 		$this->initOptions();
@@ -209,6 +224,18 @@ abstract class tao_helpers_grid_GridContainer
         if(isset($this->options['columns'])){
         	foreach($this->options['columns'] as $columnId=>$columnOptions){
         		foreach($columnOptions as $optionsName=>$optionsValue){
+        			
+        			if($optionsName=='columns'){
+        				$columns = $this->grid->getColumns();
+        				$subGridColumns = $columns[$columnId]->getAdapter()->getGridContainer()->getGrid()->getColumns();
+        				
+        				foreach($optionsValue as $subGridColumnId=>$subGridColumnOptions){
+        					foreach($subGridColumnOptions as $subGridOptionsName=>$subGridOptionsValue){
+        						$subGridColumns[$subGridColumnId]->setOption($subGridOptionsName, $subGridOptionsValue);
+        					}
+        				}
+        				continue;
+        			}
         			$columns[$columnId]->setOption($optionsName, $optionsValue);
         		}
         	}

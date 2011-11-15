@@ -116,7 +116,7 @@ TaoGridClass.prototype.initGrid = function()
 		},
 		height 		: this.options.height - 54,
 		onSelectRow: function(id){
-		    if(self.options.callback.onSelectRow != 'null'){
+		    if(self.options.callback.onSelectRow != null){
 		    	self.options.callback.onSelectRow(id);
 		    }
 		}
@@ -173,4 +173,7 @@ TaoGridClass.defaultOptions = {
 	'height' 	: null
 	, 'width'	: null
 	, 'title'	: 'GRID'
+	, 'callback' : {
+		'onSelectRow' : null
+	}
 };

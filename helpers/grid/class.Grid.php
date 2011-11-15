@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 14.11.2011, 15:40:44 with ArgoUML PHP module 
+ * Automatically generated on 15.11.2011, 14:54:48 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
@@ -77,6 +77,24 @@ class tao_helpers_grid_Grid
     protected $columnsModel = array();
 
     // --- OPERATIONS ---
+
+    /**
+     * Short description of method __clone
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @return tao_helpers_grid_Grid
+     */
+    public function __clone()
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:0000000000003401 begin
+        
+        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:0000000000003401 end
+
+        return $returnValue;
+    }
 
     /**
      * Short description of method __construct
@@ -387,7 +405,7 @@ class tao_helpers_grid_Grid
 				}
 				
 				if($column->hasAdapter('tao_helpers_grid_Cell_SubgridAdapter')){
-					$returnValue[$column->getId()]['subgrids'] = $column->getAdapter('tao_helpers_grid_Cell_SubgridAdapter')->getSubgridColumnModel();
+					$returnValue[$column->getId()]['subgrids'] = $column->getAdapter()->getGridContainer()->getGrid()->getColumnsModel();
 				}
 			}
 			
@@ -396,6 +414,32 @@ class tao_helpers_grid_Grid
         // section 127-0-1-1-72bb438:1338cba5f73:-8000:0000000000003370 end
 
         return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method setData
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @param  array data
+     * @return mixed
+     */
+    public function setData($data = array())
+    {
+        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:00000000000033F7 begin
+    
+    	//empty local data
+    	$this->rows = array();
+    	//fill the local data
+		foreach($data as $rowId => $cells){
+			if(is_array($cells)){
+				$this->addRow($rowId, $cells);
+			}else if(is_string($cells)){
+				$this->addRow($cells);
+			}
+		}
+    	
+        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:00000000000033F7 end
     }
 
 } /* end of class tao_helpers_grid_Grid */

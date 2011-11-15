@@ -383,9 +383,9 @@ class Bootstrap{
 			TAOBASE_WWW . 'js/generis.facetFilter.hbox.js',
 			TAOBASE_WWW . 'js/generis.facetFilter.accordion.js',
 			TAOBASE_WWW . 'js/tao.tabs.js',
-			TAOBASE_WWW . 'js/tao.grid.js',
+			TAOBASE_WWW . 'js/grid/tao.grid.js',
 			TAOBASE_WWW . 'js/tao.grid.currentActivities.js',
-			TAOBASE_WWW . 'js/tao.grid.download.js',
+			TAOBASE_WWW . 'js/grid/tao.grid.downloadFileResource.js',
 			TAOBASE_WWW . 'js/generis.actions.js',
 			TAOBASE_WWW . 'js/generis.treeform.js',
 			TAOBASE_WWW . 'js/AsyncFileUpload.js'
