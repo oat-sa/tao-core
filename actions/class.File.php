@@ -18,7 +18,8 @@ class tao_actions_File extends tao_actions_CommonModule{
 	/**
 	 * constructor. Initialize the context
 	 */
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		$this->rootFolder = sys_get_temp_dir();
 	}
@@ -28,10 +29,11 @@ class tao_actions_File extends tao_actions_CommonModule{
 	 * Upload a file using http and copy it from the tmp dir to the target folder
 	 * @return void
 	 */
-	public function upload(){
+	public function upload()
+	{
 		$response = array('uploaded' => false);
 
-		if (!empty($_FILES)) {
+		if (!empty($_FILES)){
 			if(isset($_FILES['Filedata'])){
 				$response = array_merge($response, $this->uploadFile($_FILES['Filedata'], $_POST['folder'] . '/'));
 			}
@@ -41,19 +43,18 @@ class tao_actions_File extends tao_actions_CommonModule{
 		return;
 	}
 	
-	public function cancelUpload(){
+	public function cancelUpload()
+	{
 		$removed = 0;
 		if($this->hasRequestParameter('filename')){
 			$filename = trim($this->getRequestParameter('filename'));
 				if(!empty($filename)){
 					$pattern = "/^[0-9a-f]*_".preg_quote($filename, "/")."$/";
 				
-				$targetPath = tao_helpers_File::concat(array($this->rootFolder,$_REQUEST['folder']));
+				$targetPath = tao_helpers_File::concat(array($this->rootFolder, $_REQUEST['folder']));
 				foreach(scandir($targetPath) as $file){
 					if(preg_match($pattern, $file)){
-						if(tao_helpers_File::remove(
-							$targetPath.'/'.$file
-						)){
+						if(tao_helpers_File::remove($targetPath.'/'.$file)){
 							$removed++;
 						}
 					}
@@ -66,14 +67,13 @@ class tao_actions_File extends tao_actions_CommonModule{
 	/**
 	 * Produce a simple view use to display a file upload form in a popup
 	 */
-	public function htmlUpload(){
-		
-		
+	public function htmlUpload()
+	{	
 		if($this->hasRequestParameter('sizeLimit')){
-			$this->setData('sizeLimit', (int)($this->getRequestParameter('sizeLimit')));
+			$this->setData('sizeLimit', (int) $this->getRequestParameter('sizeLimit'));
 		}
 		else{
-			$this->setData('sizeLimit', (int)(ini_get('upload_max_filesize')));
+			$this->setData('sizeLimit', (int) ini_get('upload_max_filesize'));
 		}
 		if($this->hasRequestParameter('target')){
 			$this->setData('target', $this->getRequestParameter('target'));
@@ -127,7 +127,8 @@ class tao_actions_File extends tao_actions_CommonModule{
 	 * @param string $folder
 	 * @return array $data
 	 */
-	protected function uploadFile($postedFile, $folder){
+	protected function uploadFile($postedFile, $folder)
+	{
 		$returnValue = array();
 		
 		if(isset($postedFile['tmp_name']) && isset($postedFile['name'])){
@@ -150,6 +151,38 @@ class tao_actions_File extends tao_actions_CommonModule{
 			}
 		}
 		return $returnValue;
+	}
+	
+	/**
+	 * Download a resource file content
+	 * @param {String} uri Uri of the resource file
+	 */
+	public function downloadFile()
+	{
+		if($this->hasRequestParameter('uri')){
+			$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+			$resource = new core_kernel_classes_Resource($uri);
+			if(core_kernel_versioning_File::isVersionedFile($resource) || core_kernel_classes_File::isFile($resource)){
+				
+				$file = new core_kernel_classes_File($uri);
+				$fileName = $file->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
+				$content = $file->getFileContent();
+				$size = strlen($content);
+				$mimeType = tao_helpers_File::getMimeType($file->getAbsolutePath());
+				$this->setContentHeader($mimeType);
+				
+				header("Content-Length: $size");
+				header("Content-Disposition: attachment; filename=\"{$fileName}\"");
+				header("Expires: 0");
+				header("Cache-Control: no-cache, must-revalidate");
+				header("Pragma: no-cache");
+				print $content;
+				return;
+			}
+		}
+		else{
+			throw new Exception(__('The resource ('.$uri.') is not a valid file resource'));
+		}
 	}
 }
 ?>
