@@ -42,7 +42,7 @@ class MassInsertTestCase extends UnitTestCase {
 	protected $testNumber = 1;
 		
 	// Number of wf User to create
-	protected $wfUserNumber = 1 ;
+	protected $wfUserNumber = 100 ;
 
 	// Languages available in the TAO platform
 	protected $languages = array();
@@ -201,14 +201,16 @@ class MassInsertTestCase extends UnitTestCase {
 	    
 	    $userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
 	    
-	
 	    for ($i=1; $i<=$this->wfUserNumber; $i++){
 	        $properties = array(
 	                        PROPERTY_USER_LOGIN => 'wf'. $i,
-	                        PROPERTY_USER_PASSWORD => "123456"
+	                        PROPERTY_USER_PASSWORD => "123456",
+	                        PROPERTY_USER_FIRTNAME => "Generated",
+	                        PROPERTY_USER_LASTNAME => "Generated"
 	                        
-	        );
-	        $userService->saveUser(null,$properties,null);
+	                        
+	                        );
+	    $userService->saveUser(null,$properties,null);
 	        
 	    }
 	    

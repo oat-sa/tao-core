@@ -44,6 +44,24 @@ class CleanMassInsertTestCase extends UnitTestCase {
 			$this->deliveryService->deleteDelivery($delivery);
 		}
 		$deliveryClass->delete (true);
+		
+		$userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
+		$users = $userService->getAllUsers(array());
+		$systemUsers = array(LOCAL_NAMESPACE.'#superUser', 'http://www.tao.lu/Ontologies/TAO.rdf#installator');
+		foreach($users as $user){
+		   
+		    if(in_array($user->uriResource,$systemUsers)){
+		        continue;
+		    }
+		    $firstnameProp = new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME);
+		    $lastnameProp = new core_kernel_classes_Property(PROPERTY_USER_LASTNAME );
+		    $firstname = $user->getOnePropertyValue($firstnameProp);
+		    $lastname = $user->getOnePropertyValue($lastnameProp);
+		    
+		    if($firstname == 'Generated'&& $lastname== 'Generated'){
+		        $user->delete();
+		    }
+		}
 	}
 
 }
