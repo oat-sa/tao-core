@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 10.11.2011, 15:45:05 with ArgoUML PHP module 
+ * Automatically generated on 14.11.2011, 17:26:17 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers_grid
  */
@@ -33,7 +33,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Short description of class tao_helpers_grid_Column
  *
  * @access public
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers_grid
  */
@@ -84,22 +84,32 @@ class tao_helpers_grid_Column
      */
     protected $adapter = null;
 
+    /**
+     * Short description of attribute options
+     *
+     * @access public
+     * @var array
+     */
+    public $options = array();
+
     // --- OPERATIONS ---
 
     /**
      * Short description of method __construct
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string id
      * @param  string title
+     * @param  array options
      * @return mixed
      */
-    public function __construct($id, $title)
+    public function __construct($id, $title, $options = array())
     {
         // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:0000000000003295 begin
 		$this->id = $id;
 		$this->title = $title;
+		$this->options = $options;
         // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:0000000000003295 end
     }
 
@@ -107,7 +117,7 @@ class tao_helpers_grid_Column
      * Short description of method setType
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string type
      * @return boolean
      */
@@ -127,7 +137,7 @@ class tao_helpers_grid_Column
      * Short description of method getType
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return string
      */
     public function getType()
@@ -145,7 +155,7 @@ class tao_helpers_grid_Column
      * Short description of method setTitle
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string title
      * @return boolean
      */
@@ -165,7 +175,7 @@ class tao_helpers_grid_Column
      * Short description of method getTitle
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return string
      */
     public function getTitle()
@@ -183,7 +193,7 @@ class tao_helpers_grid_Column
      * Short description of method getId
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return string
      */
     public function getId()
@@ -201,7 +211,7 @@ class tao_helpers_grid_Column
      * Short description of method setAdapter
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  Adapter adapter
      * @return boolean
      */
@@ -223,7 +233,7 @@ class tao_helpers_grid_Column
      * Short description of method hasAdapter
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string type (to check if the adaptor is of a certain type)
      * @return boolean
      */
@@ -247,13 +257,13 @@ class tao_helpers_grid_Column
      * Short description of method getAdapterData
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string rowId
      * @param  mixed cellValue (tao_helpers_grid_Grid, tao_helpers_grid_GridContainer or string)
      * @param  bool evaluateData
      * @return mixed
      */
-    public function getAdapterData($rowId = '',  mixed $cellValue = null, $evaluateData = true)
+    public function getAdapterData($rowId = '',  $cellValue = null, $evaluateData = true)
     {
         $returnValue = null;
 
@@ -291,7 +301,7 @@ class tao_helpers_grid_Column
      * Short description of method getAdapter
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return tao_helpers_grid_Cell_Adapter
      */
     public function getAdapter()
@@ -303,6 +313,71 @@ class tao_helpers_grid_Column
         // section 127-0-1-1-72bb438:1338cba5f73:-8000:00000000000033D6 end
 
         return $returnValue;
+    }
+
+    /**
+     * Short description of method getOptions
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @return array
+     */
+    public function getOptions()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033BD begin
+        $returnValue = $this->options;
+        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033BD end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method setOptions
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @param  array options
+     */
+    public function setOptions($options)
+    {
+        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033BF begin
+        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033BF end
+    }
+
+    /**
+     * Short description of method getOption
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @param  name
+     * @return core_kernel_classes_object
+     */
+    public function getOption($name)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C3 begin
+        $returnValue = $this->options[$name];
+        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C3 end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method setOption
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @param  name
+     * @param  value
+     */
+    public function setOption($name, $value)
+    {
+        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C6 begin
+        $this->options[$name] = $value;
+        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C6 end
     }
 
 } /* end of class tao_helpers_grid_Column */

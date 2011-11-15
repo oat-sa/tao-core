@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 10.11.2011, 11:09:27 with ArgoUML PHP module 
+ * Automatically generated on 14.11.2011, 15:40:44 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers_grid
  */
@@ -33,7 +33,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Short description of class tao_helpers_grid_Grid
  *
  * @access public
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers_grid
  */
@@ -82,7 +82,7 @@ class tao_helpers_grid_Grid
      * Short description of method __construct
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -97,21 +97,26 @@ class tao_helpers_grid_Grid
      * Short description of method addColumn
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string id
      * @param  string title
-     * @param  boolean replace
+     * @param  array options
      * @return tao_helpers_grid_Column
      */
-    public function addColumn($id, $title, $replace = false)
+    public function addColumn($id, $title, $options = array())
     {
         $returnValue = null;
 
         // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032A7 begin
+        $replace = false;
+        if(isset($options['replace'])){
+        	$replace = $options['replace'];
+        	unset($options['replace']);
+        }
 		if(!$replace && isset($this->columns[$id])){
 			throw new common_Exception('the column with the id '.$id.' already exists');
 		}else{
-			$this->columns[$id] = new tao_helpers_grid_Column($id, $title);
+			$this->columns[$id] = new tao_helpers_grid_Column($id, $title, $options);
 			//set order as well:
 			
 			$returnValue = true;
@@ -125,7 +130,7 @@ class tao_helpers_grid_Grid
      * Short description of method removeColumn
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string id
      * @return boolean
      */
@@ -145,7 +150,7 @@ class tao_helpers_grid_Grid
      * Short description of method addRow
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string id
      * @param  array cells
      * @param  boolean replace
@@ -173,7 +178,7 @@ class tao_helpers_grid_Grid
      * Short description of method removeRow
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string id
      * @return boolean
      */
@@ -193,7 +198,7 @@ class tao_helpers_grid_Grid
      * Short description of method setCellValue
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string columnId
      * @param  string rowId
      * @param  string content string or Grid
@@ -221,7 +226,7 @@ class tao_helpers_grid_Grid
      * Short description of method setColumnsAdapter
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array columnIds
      * @param  Adapter adapter
      * @return boolean
@@ -252,7 +257,7 @@ class tao_helpers_grid_Grid
      * Short description of method toArray
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return array
      */
     public function toArray()
@@ -271,7 +276,13 @@ class tao_helpers_grid_Grid
 				if($column->hasAdapter()){
 					
 					//fill content with adapter:
-					$returnValue[$rowId][$columnId] = $column->getAdapterData($rowId, isset($cells[$columnId])?$cells[$columnId]:null);
+					$data = null;
+					if(isset($returnValue[$rowId][$columnId])){
+						$data = $returnValue[$rowId][$columnId];
+					}else if(isset($cells[$columnId])){
+						$data = $cells[$columnId];
+					}
+					$returnValue[$rowId][$columnId] = $column->getAdapterData($rowId, $data);
 					
 				}else if(isset($cells[$columnId])){
 					
@@ -296,7 +307,7 @@ class tao_helpers_grid_Grid
      * Short description of method sortColumns
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return boolean
      */
     public function sortColumns()
@@ -313,7 +324,7 @@ class tao_helpers_grid_Grid
      * Short description of method getColumns
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return array
      */
     public function getColumns()
@@ -331,7 +342,7 @@ class tao_helpers_grid_Grid
      * Short description of method getColumn
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string id
      * @return tao_helpers_grid_Column
      */
@@ -352,7 +363,7 @@ class tao_helpers_grid_Grid
      * Short description of method getColumnsModel
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  boolean rebuild
      * @return array
      */
@@ -370,6 +381,10 @@ class tao_helpers_grid_Grid
 					'title' => $column->getTitle(),
 					'type' => $column->getType()
 				);
+				
+				foreach($column->getOptions() as $optionsName=>$optionValue){
+					$returnValue[$column->getId()][$optionsName] = $optionValue;
+				}
 				
 				if($column->hasAdapter('tao_helpers_grid_Cell_SubgridAdapter')){
 					$returnValue[$column->getId()]['subgrids'] = $column->getAdapter()->getSubgridColumnModel();
