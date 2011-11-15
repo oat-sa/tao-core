@@ -227,7 +227,19 @@ abstract class tao_helpers_grid_GridContainer
         			
         			if($optionsName=='columns'){
         				$columns = $this->grid->getColumns();
-        				$subGridColumns = $columns[$columnId]->getAdapter()->getGridContainer()->getGrid()->getColumns();
+        				$subGridAdapter = null;
+        				$adapters = $columns[$columnId]->getAdapters();
+        				$adaptersLength = count($adapters);
+        				for($i=$adaptersLength-1; $i>=0; $i--){
+        					if($adapters[$i] instanceof tao_helpers_grid_Cell_SubgridAdapter){
+        						$subGridAdapter = $adapters[$i];
+        						break;
+        					}
+        				}
+        				if(is_null($subGridAdapter)){
+        					throw new Exception(__('The column ').$columnId.__(' requires a subgrid adapter'));
+        				}
+        				$subGridColumns = $subGridAdapter->getGridContainer()->getGrid()->getColumns();
         				
         				foreach($optionsValue as $subGridColumnId=>$subGridColumnOptions){
         					foreach($subGridColumnOptions as $subGridOptionsName=>$subGridOptionsValue){

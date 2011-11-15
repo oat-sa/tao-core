@@ -405,7 +405,16 @@ class tao_helpers_grid_Grid
 				}
 				
 				if($column->hasAdapter('tao_helpers_grid_Cell_SubgridAdapter')){
-					$returnValue[$column->getId()]['subgrids'] = $column->getAdapter()->getGridContainer()->getGrid()->getColumnsModel();
+        			$subGridAdapter = null;
+					$adapters = $column->getAdapters();
+        			$adaptersLength = count($adapters);
+        			for($i=$adaptersLength-1; $i>=0; $i--){
+        				if($adapters[$i] instanceof tao_helpers_grid_Cell_SubgridAdapter){
+        					$subGridAdapter = $adapters[$i];
+        					break;
+        				}
+        			}
+					$returnValue[$column->getId()]['subgrids'] = $subGridAdapter->getGridContainer()->getGrid()->getColumnsModel();
 				}
 			}
 			
