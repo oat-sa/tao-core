@@ -94,7 +94,6 @@ GenerisFacetFilterClass.prototype.addFilterNode = function(filterNode)
  */
 GenerisFacetFilterClass.prototype.propagateChoice = function()
 {
-	console.log('PROPAGATE CHOICE');
 	var self = this;
 	var filter = {};
 	
@@ -103,7 +102,6 @@ GenerisFacetFilterClass.prototype.propagateChoice = function()
 		var checked = this.trees[treeId].getChecked();
 		filter[treeId] = checked;
 	}
-	console.dir(filter);
 	//refresh all trees with the new filter
 	for (var treeId in this.trees){
 		// Set the server parameter

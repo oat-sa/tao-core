@@ -21,11 +21,21 @@
 function TaoGridClass(selector, model, dataUrl, options)
 {
 	this.selector = selector;
+	this.jqGrid = null;
 	this.model = model;
 	this.dataUrl = dataUrl;
 	this.jqGridModel = new Array();
 	this.jqGridColumns = new Array();
+	this.adapters = new Array();		//adapters used in this grid
 	this.options = $.extend([], TaoGridClass.defaultOptions, options);
+	
+	//Default dimension
+	if(this.options.height==null){
+		this.options.height = $(this.selector).parent().height();
+	}
+	if(this.options.width == null){
+		this.options.width = $(this.selector).parent().width();
+	}
 	
 	this.initModel();
 	this.initGrid();
@@ -37,7 +47,7 @@ function TaoGridClass(selector, model, dataUrl, options)
 TaoGridClass.prototype.initModel = function()
 {
 	var columnsWeight = 0;
-	var gridWidth = $(this.selector).parent().width() - 42;
+	var gridWidth = this.options.width - 42;
 	
 	//pre model analysis
 	for(var id in this.model){
@@ -60,14 +70,18 @@ TaoGridClass.prototype.initModel = function()
 
 		//a specific formatter has to be applied to the column
 		if(typeof this.model[id]['widget'] != 'undefined' && this.model[id]['widget']!='Label'){
-			this.jqGridModel[i]['formatter'] = this.getAdapterFunction(this.model[id]['widget']);
+			//get adapter for the given widget
+			var adapter = this.getAdapter(this.model[id]['widget']);
+			//reference the adapter
+			this.adapters[this.model[id]['id']] = adapter;
+			//add adapter function to the column model options
+			this.jqGridModel[i]['formatter'] = adapter.formatter;
 		}
 
 		//fix the width of the column functions of its weight
 		var weight = typeof this.model[id]['weight'] != 'undefined' ? this.model[id]['weight'] : 1;
 		var width = gridWidth * weight / columnsWeight;
 		this.jqGridModel[i]['width'] = width;
-		console.log(columnsWeight);
 		i++;
 	}
 }
@@ -77,8 +91,6 @@ TaoGridClass.prototype.initModel = function()
  */
 TaoGridClass.prototype.initGrid = function()
 {
-	console.log(this.selector);
-	console.log(this.jqGridModel);
 	//if data url, data have to be formated to fit the following sample
 	//	$test = array(
 	//		"page"		=> 1
@@ -87,7 +99,7 @@ TaoGridClass.prototype.initGrid = function()
 	//		, "rows" 	=> $returnValue
 	//	);
 	var self = this;
-	var myGrid = $(this.selector).jqGrid({
+	this.jqGrid = $(this.selector).jqGrid({
 		url			: this.dataUrl,
 	    datatype	: "json",
 	    mtype		: 'GET',
@@ -97,7 +109,7 @@ TaoGridClass.prototype.initGrid = function()
 		//width		: parseInt($("#result-list").parent().width()) - 15, 
 		//sortname	: 'id', 
 		//sortorder	: "asc", 
-		caption		: __("Monitoring Processes"),
+		caption		: this.options.title,
 		jsonReader: {
 			repeatitems : false,
 			id: "0"
@@ -108,18 +120,19 @@ TaoGridClass.prototype.initGrid = function()
 		    	self.options.callback.onSelectRow(id);
 		    }
 		}
+		
 	});
 }
 
 /**
- * Get formatter function
+ * Get formatter relative to a widget
  */
-TaoGridClass.prototype.getAdapterFunction = function(widget)
+TaoGridClass.prototype.getAdapter = function(widget)
 {
 	var returnValue = null;
 	var adapterClassName = 'TaoGrid'+widget+'Adapter';
 	var adapterClass = window[adapterClassName];
-	returnValue = adapterClass.formatter;
+	returnValue = adapterClass;
 	
 	return returnValue;
 }
@@ -136,11 +149,20 @@ TaoGridClass.prototype.empty = function()
 
 /**
  * Add data to the grid
+ * @param {Array} data 
  */
 TaoGridClass.prototype.add = function(data)
 {
-	for(var i in data) {
-		jQuery(this.selector).jqGrid('addRowData', i, data[i]);
+	var crtLine = 0;
+	for(var id in data) {
+		jQuery(this.selector).jqGrid('addRowData', id, data[id]);
+		for(var columnId in this.adapters){
+			if(typeof this.adapters[columnId].postCellFormat != 'undefined'){
+				var cell = $('td[aria-describedby="'+this.selector.slice(1)+'_'+columnId+'"]').get(crtLine);
+				this.adapters[columnId].postCellFormat(this, cell, crtLine, columnId);
+			}
+		}
+		crtLine ++;
 	}
 }
 
@@ -148,5 +170,7 @@ TaoGridClass.prototype.add = function(data)
  * TaoGridClass default options
  */
 TaoGridClass.defaultOptions = {
-	'height' : ''
+	'height' 	: null
+	, 'width'	: null
+	, 'title'	: 'GRID'
 };

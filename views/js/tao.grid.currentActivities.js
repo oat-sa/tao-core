@@ -15,12 +15,18 @@ function TaoGridCurrentActivitiesAdapter(){}
 
 TaoGridCurrentActivitiesAdapter.formatter = function(cellvalue, options, rowObject){
 	var returnValue = '';
-	
+
 	for(var i in cellvalue){
 		returnValue += cellvalue[i]['http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsCurrentUser'] 
 			+ ' - ' + cellvalue[i]['http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsExecutionOf'] + '<br/>' ;
 	}
 	returnValue += '</a>';
 	
+	returnValue+='<span class"download">myUri</span>';
 	return returnValue;
+}
+
+TaoGridCurrentActivitiesAdapter.postCellFormat = function(grid, cell, rowId, columnId)
+{
+	$(cell).find('span').hide();
 }
