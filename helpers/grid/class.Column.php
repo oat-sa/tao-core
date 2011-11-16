@@ -286,7 +286,9 @@ class tao_helpers_grid_Column
 				$returnValue = $returnValue->toArray();
 			} else if ($returnValue instanceof tao_helpers_grid_GridContainer) {
 				$returnValue = $returnValue->toArray();
-			} else {
+			} else if(is_array($returnValue)){
+				//ok; authorize array type
+			}else{
 				$returnValue = (string) $returnValue;
 			}
 		}

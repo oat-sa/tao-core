@@ -69,11 +69,13 @@ class tao_helpers_grid_Cell_ResourceLabelAdapter
         $returnValue = null;
 
         // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003331 begin
-		if(!empty($data) && common_Utils::isUri($data)){
+		if(!empty($data) && is_string($data) && common_Utils::isUri($data)){
 			$data = new core_kernel_classes_Resource($data);
 		}
 		if($data instanceof core_kernel_classes_Resource){
 			$returnValue = $data->getLabel();
+		}else{
+			$returnValue = $data;//return the data, unaltered
 		}
         // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003331 end
 
