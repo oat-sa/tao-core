@@ -279,7 +279,7 @@ class tao_helpers_grid_Column
 			}
 			$returnValue = $cellValue;
 		}
-
+		
 		if($evaluateData){
 			//allow returning to type "string" or "Grid" only
 			if ($returnValue instanceof tao_helpers_grid_Grid) {
