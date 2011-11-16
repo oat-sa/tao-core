@@ -21,9 +21,10 @@ TaoGridDownloadFileResourceAdapter.formatter = function(cellvalue, options, rowO
 	var returnValue = '';
 	
 	var downloadUrl = root_url+'/tao/File/downloadFile?uri='+encodeURIComponent(cellvalue)+"&amp;";
-	returnValue = '<a target="_blank" \
-			href="'+downloadUrl+'" \
-			disabled="false" style="cursor: pointer;"><span class="ui-icon ui-icon-document" style="float:left;"></span><span>'+__('Download')+'</span></a>';
+	returnValue = '<a target="_blank" href="'+downloadUrl+'" disabled="false" style="cursor: pointer;">'
+			+'<span class="ui-icon ui-icon-document" style="float:left;"></span>'
+			+'<span>'+__('Download')+'</span>'
+		+'</a>';
 	
 	return returnValue;
 }

@@ -47,7 +47,7 @@ function TaoGridClass(selector, model, dataUrl, options)
 TaoGridClass.prototype.initModel = function()
 {
 	var columnsWeight = 0;
-	var gridWidth = this.options.width - 42;
+	var gridWidth = this.options.width;
 	
 	//pre model analysis
 	for(var id in this.model){
@@ -77,11 +77,19 @@ TaoGridClass.prototype.initModel = function()
 			//add adapter function to the column model options
 			this.jqGridModel[i]['formatter'] = adapter.formatter;
 		}
+		
+		// @todo DEVEL CODE
+		if(this.model[id]['title'] == 'variables'){
+			var adapterClass = window['TaoGridActivityVariablesAdapter'];
+			this.jqGridModel[i]['formatter'] = adapterClass.formatter;
+		}
 
 		//fix the width of the column functions of its weight
 		var weight = typeof this.model[id]['weight'] != 'undefined' ? this.model[id]['weight'] : 1;
-		var width = gridWidth * weight / columnsWeight;
+		var width = ((gridWidth * weight) / columnsWeight) - 4; /* -5 padding margin of the cell container */
+		//console.log('Et alors la width ca donne quoi '+gridWidth+" "+width);
 		this.jqGridModel[i]['width'] = width;
+		
 		i++;
 	}
 }
@@ -98,6 +106,8 @@ TaoGridClass.prototype.initGrid = function()
 	//		, "records"	=> 10
 	//		, "rows" 	=> $returnValue
 	//	);
+	console.log('this.options');
+	console.log(this.options);
 	var self = this;
 	this.jqGrid = $(this.selector).jqGrid({
 		url			: this.dataUrl,
@@ -115,6 +125,7 @@ TaoGridClass.prototype.initGrid = function()
 			id: "0"
 		},
 		height 		: this.options.height - 54,
+		witdh 		: this.options.width,
 		onSelectRow: function(id){
 		    if(self.options.callback.onSelectRow != null){
 		    	self.options.callback.onSelectRow(id);
@@ -159,7 +170,7 @@ TaoGridClass.prototype.add = function(data)
 		for(var columnId in this.adapters){
 			if(typeof this.adapters[columnId].postCellFormat != 'undefined'){
 				var cell = $('td[aria-describedby="'+this.selector.slice(1)+'_'+columnId+'"]').get(crtLine);
-				this.adapters[columnId].postCellFormat(this, cell, crtLine, columnId);
+				this.adapters[columnId].postCellFormat(this, cell, id, columnId);
 			}
 		}
 		crtLine ++;
