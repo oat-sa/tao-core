@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 15.11.2011, 14:51:02 with ArgoUML PHP module 
+ * Automatically generated on 16.11.2011, 10:43:11 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_grid
  */
@@ -34,7 +34,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  *
  * @abstract
  * @access public
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_grid
  */
@@ -88,30 +88,10 @@ abstract class tao_helpers_grid_GridContainer
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __clone
-     *
-     * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @return tao_helpers_grid_GridContainer
-     */
-    public function __clone()
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:00000000000033FF begin
-        
-         $this->grid = clone $this->grid;
-        
-        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:00000000000033FF end
-
-        return $returnValue;
-    }
-
-    /**
      * Short description of method __construct
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  array data
      * @param  array options
      * @return mixed
@@ -119,16 +99,14 @@ abstract class tao_helpers_grid_GridContainer
     public function __construct($data = array(), $options = array())
     {
         // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000337D begin
+		
 		$this->data = $data;
 		$this->options = $options;
 		$this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : array();
-		
 		$this->grid = new tao_helpers_grid_Grid($options);
+		
 		//init columns ...
 		$this->initGrid();
-		//set data if data given
-		$this->grid->setData($data);
-		
 		$this->initColumns();
 		$this->initOptions();
 		
@@ -139,7 +117,7 @@ abstract class tao_helpers_grid_GridContainer
      * Short description of method __destruct
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return mixed
      */
     public function __destruct()
@@ -156,7 +134,7 @@ abstract class tao_helpers_grid_GridContainer
      * Short description of method getGrid
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return tao_helpers_grid_Grid
      */
     public function getGrid()
@@ -173,19 +151,30 @@ abstract class tao_helpers_grid_GridContainer
     /**
      * Short description of method initGrid
      *
-     * @abstract
      * @access protected
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return boolean
      */
-    protected abstract function initGrid();
+    protected function initGrid()
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003395 begin
+		
+		//set data if data given
+		$returnValue = $this->grid->setData($this->data);
+		
+        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003395 end
+
+        return (bool) $returnValue;
+    }
 
     /**
      * Short description of method initColumns
      *
      * @abstract
      * @access protected
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return boolean
      */
     protected abstract function initColumns();
@@ -194,7 +183,7 @@ abstract class tao_helpers_grid_GridContainer
      * Short description of method toArray
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return array
      */
     public function toArray()
@@ -212,7 +201,7 @@ abstract class tao_helpers_grid_GridContainer
      * Short description of method initOptions
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return boolean
      */
     public function initOptions()
@@ -255,6 +244,20 @@ abstract class tao_helpers_grid_GridContainer
         // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C1 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method __clone
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @return mixed
+     */
+    public function __clone()
+    {
+        // section 127-0-1-1-1e2308e2:133abaa95c2:-8000:0000000000003408 begin
+		$this->grid = clone $this->grid;
+        // section 127-0-1-1-1e2308e2:133abaa95c2:-8000:0000000000003408 end
     }
 
 } /* end of abstract class tao_helpers_grid_GridContainer */
