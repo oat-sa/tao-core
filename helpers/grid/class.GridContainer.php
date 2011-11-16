@@ -108,7 +108,7 @@ abstract class tao_helpers_grid_GridContainer
 		//init columns ...
 		$this->initGrid();
 		$this->initColumns();
-		$this->initOptions();
+		$this->initOptions($options);
 		
         // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000337D end
     }
@@ -204,19 +204,22 @@ abstract class tao_helpers_grid_GridContainer
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return boolean
      */
-    public function initOptions()
+    public function initOptions($options = array())
     {
         $returnValue = (bool) false;
 
         // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C1 begin
+        
         $columns = $this->grid->getColumns();
-        if(isset($this->options['columns'])){
-        	foreach($this->options['columns'] as $columnId=>$columnOptions){
+        if(isset($options['columns'])){
+        	foreach($options['columns'] as $columnId=>$columnOptions){
         		foreach($columnOptions as $optionsName=>$optionsValue){
         			
         			if($optionsName=='columns'){
+        				//if the options is columns, the options will be used to augment the subgrid model
         				$columns = $this->grid->getColumns();
         				$subGridAdapter = null;
+        				//get the last subgrid adapter which defines the column
         				$adapters = $columns[$columnId]->getAdapters();
         				$adaptersLength = count($adapters);
         				for($i=$adaptersLength-1; $i>=0; $i--){
@@ -228,15 +231,13 @@ abstract class tao_helpers_grid_GridContainer
         				if(is_null($subGridAdapter)){
         					throw new Exception(__('The column ').$columnId.__(' requires a subgrid adapter'));
         				}
-        				$subGridColumns = $subGridAdapter->getGridContainer()->getGrid()->getColumns();
+        				//init options of the subgrid
+        				$subGridAdapter->getGridContainer()->initOptions($columnOptions);
         				
-        				foreach($optionsValue as $subGridColumnId=>$subGridColumnOptions){
-        					foreach($subGridColumnOptions as $subGridOptionsName=>$subGridOptionsValue){
-        						$subGridColumns[$subGridColumnId]->setOption($subGridOptionsName, $subGridOptionsValue);
-        					}
-        				}
         				continue;
         			}
+        			
+        			//var_dump($columnId.' '.$optionsName.' '.$optionsValue);
         			$columns[$columnId]->setOption($optionsName, $optionsValue);
         		}
         	}
