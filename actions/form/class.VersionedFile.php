@@ -127,7 +127,7 @@ class tao_actions_form_VersionedFile
 		// if the file is yet versioned add a way to download it
 		
 		if($versioned){
-			$downloadUrl = _url('downloadVersionedFile', 'Items', 'taoItems', array(
+			$downloadUrl = _url('downloadFile', 'File', 'tao', array(
 					'uri' 		=> tao_helpers_Uri::encode($instance->uriResource),
 					//'classUri' 	=> tao_helpers_Uri::encode($this->clazz->uriResource)
 			));

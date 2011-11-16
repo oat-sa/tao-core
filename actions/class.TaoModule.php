@@ -412,35 +412,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	}
 	
 	/**
-	 * Download versioned file
-	 * @param resourceUri {uri} Uri of the resource to download
-	 */
-	public function downloadVersionedFile()
-	{
-		if($this->hasRequestParameter('uri')){
-			
-			$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-			$file = new core_kernel_versioning_File($uri);
-			$fileName = $file->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
-			if(core_kernel_versioning_File::isVersionedFile($file)){
-				
-				$content = $file->getFileContent();
-				$size = strlen($content);
-				$mimeType = tao_helpers_File::getMimeType($file->getAbsolutePath());
-				$this->setContentHeader($mimeType);
-				header("Content-Length: $size");
-				header("Content-Disposition: attachment; filename=\"{$fileName}\"");
-				header("Expires: 0");
-				header("Cache-Control: no-cache, must-revalidate");
-				header("Pragma: no-cache");
-				print $content;
-				return;
-			}
-		}
-		return;
-	}
-	
-	/**
 	 * Edit a versioned file
 	 * @todo refactor
 	 */
