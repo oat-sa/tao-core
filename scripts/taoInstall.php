@@ -1,5 +1,5 @@
 <?php
-require_once '../install/init.php';
+require_once dirname(__FILE__) . '/../install/init.php';
 
 new tao_scripts_TaoInstall(array(
 	'min'		=> 5,
