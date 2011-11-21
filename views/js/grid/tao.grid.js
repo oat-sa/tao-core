@@ -23,6 +23,7 @@ function TaoGridClass(selector, model, dataUrl, options)
 	this.selector = selector;
 	this.jqGrid = null;
 	this.model = model;
+	this.data = new Array(); 			//displayed data (before preformating)
 	this.dataUrl = dataUrl;
 	this.jqGridModel = new Array();
 	this.jqGridColumns = new Array();
@@ -66,6 +67,7 @@ TaoGridClass.prototype.initModel = function()
 		this.jqGridModel[i] = {
 			name		:this.model[id]['id']
 			, index		:this.model[id]['id']
+			, align		:typeof this.model[id]['align'] != 'undefined' ? this.model[id]['align'] : 'left'
 		};
 
 		//a specific formatter has to be applied to the column
@@ -106,8 +108,7 @@ TaoGridClass.prototype.initGrid = function()
 	//		, "records"	=> 10
 	//		, "rows" 	=> $returnValue
 	//	);
-	console.log('this.options');
-	console.log(this.options);
+	
 	var self = this;
 	this.jqGrid = $(this.selector).jqGrid({
 		url			: this.dataUrl,
@@ -137,16 +138,40 @@ TaoGridClass.prototype.initGrid = function()
 
 /**
  * Get formatter relative to a widget
+ * @param {String} widget Name of the widget
  */
 TaoGridClass.prototype.getAdapter = function(widget)
 {
 	var returnValue = null;
+	
 	var adapterClassName = 'TaoGrid'+widget+'Adapter';
 	var adapterClass = window[adapterClassName];
+	if(!adapterClass){
+		throw new Error('Tao grid adapter (TaoGrid'+widget+'Adapter) does not exist');
+	}
 	returnValue = adapterClass;
 	
 	return returnValue;
 }
+
+/**
+ * Get formatters relative to a column
+ * @param {String|Array} widget Array of widgets or widget
+ */
+/*TaoGridClass.prototype.getAdapters = function(widgets)
+{
+	var returnValue = new Array();
+	
+	if(widgets instanceof Array){
+		for(var i in widget){
+			returnValue.push(this.getAdapter(widgets[i]));
+		}
+	}else{
+		returnValue.push(this.getAdapter(widgets));
+	}
+	
+	return returnValue;
+}*/
 
 /**
  * Empty the grid
@@ -156,6 +181,7 @@ TaoGridClass.prototype.empty = function()
 	var gridBody = $(this.selector).children("tbody");
 	var firstRow = gridBody.children("tr.jqgfirstrow");
 	gridBody.empty().append(firstRow);
+	this.data = new Array();
 }
 
 /**
@@ -165,16 +191,84 @@ TaoGridClass.prototype.empty = function()
 TaoGridClass.prototype.add = function(data)
 {
 	var crtLine = 0;
-	for(var id in data) {
-		jQuery(this.selector).jqGrid('addRowData', id, data[id]);
+	//this.data = this.data.concat(data); // does not work with associative array
+	for(var i in data){
+		this.data[i] = data[i];
+	}
+	
+	for(var rowId in data){
+		//Pre rendering adapt data
+		for(var columnId in this.adapters){
+			if(typeof this.adapters[columnId].preFormatter != 'undefined'){
+				this.data[rowId][columnId] = this.adapters[columnId].preFormatter(this, this.data[rowId], rowId, columnId);
+			}
+		}
+		/*for(var columnId in this.jqGridModel){
+			console.log(this.jqGridModel[columnId]);
+			if(typeof this.j)
+			if(typeof this.jqGridModel[columnId].empty && this.jqGridModel[columnId].empty){
+				console.log('empty');
+				data[rowId][columnId] = null;
+			}
+		}*/
+		//Render data
+		jQuery(this.selector).jqGrid('addRowData', rowId, data[rowId]);
+		//Post rendering adapt content
 		for(var columnId in this.adapters){
 			if(typeof this.adapters[columnId].postCellFormat != 'undefined'){
-				var cell = $('td[aria-describedby="'+this.selector.slice(1)+'_'+columnId+'"]').get(crtLine);
-				this.adapters[columnId].postCellFormat(this, cell, id, columnId);
+				var cell = this.getCell(rowId, columnId);
+				this.adapters[columnId].postCellFormat(this, cell, rowId, columnId);
 			}
 		}
 		crtLine ++;
 	}
+}
+
+/**
+ * Get row
+ * @param {String} rowId
+ */
+TaoGridClass.prototype.getRow = function(rowId)
+{
+	return $(this.selector).find('tr[id="'+rowId+'"]');
+}
+
+/**
+ * Get cell
+ * @param {String} rowId
+ * @param {String} columnId
+ */
+TaoGridClass.prototype.getCell = function(rowId, columnId)
+{
+	return $(this.selector).find('tr[id="'+rowId+'"]').find('td[aria-describedby="'+this.selector.slice(1)+'_'+columnId+'"]');
+}
+
+/**
+ * Get row data
+ * @param {String} rowId
+ */
+TaoGridClass.prototype.getRowData = function(rowId)
+{
+	if(typeof this.data[rowId] != 'undefined'){
+		return this.data[rowId];
+	}
+}
+
+/**
+ * Get row data
+ * @param {String} rowId
+ * @param {String} columnId
+ */
+TaoGridClass.prototype.getCellData = function(rowId, columnId)
+{
+	var returnValue = null;
+	var rowData = this.getRowData(rowId);
+	if(rowData){
+		if(typeof rowData[columnId] != 'undefined'){
+			returnValue = rowData[columnId];
+		}
+	}
+	return returnValue;
 }
 
 /**
