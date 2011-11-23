@@ -105,6 +105,7 @@ class tao_actions_form_Instance
 		$additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties']))?$this->options['additionalProperties']:array();
     	$uniqueLabel = isset($this->options['uniqueLabel'])?$this->options['uniqueLabel']:true;
 		
+		$classProperties = array();
 		/**
 		 * @todo override it in the taoSubject module instead of having this crapy IF here
 		 */
