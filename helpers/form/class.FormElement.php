@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Represents a FormElement entity
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -25,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * )
  * 3. render form
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  */
 require_once('tao/helpers/form/class.Form.php');
 
@@ -42,7 +42,7 @@ require_once('tao/helpers/form/class.Form.php');
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -147,7 +147,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string name
      * @return mixed
      */
@@ -162,7 +162,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getName
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     public function getName()
@@ -180,7 +180,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setName
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string name
      * @return mixed
      */
@@ -195,7 +195,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getValue
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return mixed
      */
     public function getValue()
@@ -213,7 +213,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setValue
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string value
      * @return mixed
      */
@@ -228,7 +228,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addAttribute
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string key
      * @param  string value
      * @return mixed
@@ -244,7 +244,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setAttribute
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string key
      * @param  string value
      * @return mixed
@@ -260,7 +260,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setAttributes
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  array attributes
      * @return mixed
      */
@@ -275,7 +275,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method renderAttributes
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     protected function renderAttributes()
@@ -295,7 +295,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getWidget
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     public function getWidget()
@@ -313,7 +313,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getDescription
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     public function getDescription()
@@ -338,7 +338,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setDescription
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string description
      * @return mixed
      */
@@ -353,7 +353,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setUnit
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string unit
      * @return mixed
      */
@@ -368,7 +368,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getLevel
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return int
      */
     public function getLevel()
@@ -386,7 +386,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setLevel
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  int level
      * @return mixed
      */
@@ -401,7 +401,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addValidator
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  Validator validator
      * @return mixed
      */
@@ -418,7 +418,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addValidators
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  array validators
      * @return mixed
      */
@@ -437,7 +437,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setForcedValid
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return mixed
      */
     public function setForcedValid()
@@ -451,7 +451,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method validate
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return boolean
      */
     public function validate()
@@ -482,7 +482,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getError
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     public function getError()
@@ -502,7 +502,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setHelp
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string help
      * @return mixed
      */
@@ -519,7 +519,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getHelp
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     public function getHelp()
@@ -533,6 +533,33 @@ abstract class tao_helpers_form_FormElement
         // section 127-0-1-1-435f81db:12d74b851ea:-8000:0000000000002BDE end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method removeValidator
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @param  string name
+     * @return boolean
+     */
+    public function removeValidator($name)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--1c42fdef:133c68cec06:-8000:0000000000003423 begin
+		$name = (string) $name;
+		if(strpos($name, 'tao_helpers_form_validators_') === 0){
+			$name = str_replace('tao_helpers_form_validators_', '', $name);
+		}
+		if(isset($this->validators[$name])){
+			unset($this->validators[$name]);
+			$returnValue = true;
+		}
+		
+        // section 127-0-1-1--1c42fdef:133c68cec06:-8000:0000000000003423 end
+
+        return (bool) $returnValue;
     }
 
 } /* end of abstract class tao_helpers_form_FormElement */

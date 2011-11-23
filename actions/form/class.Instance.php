@@ -101,10 +101,11 @@ class tao_actions_form_Instance
     	//get the list of properties to set in the form
     	$defaultProperties 	= tao_helpers_form_GenerisFormFactory::getDefaultProperties();
 		$editedProperties = $defaultProperties;
+		$excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties']))?$this->options['excludedProperties']:array();
+		$additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties']))?$this->options['additionalProperties']:array();
+    	$uniqueLabel = isset($this->options['uniqueLabel'])?$this->options['uniqueLabel']:true;
 		
-		
-		
-    	/**
+		/**
 		 * @todo override it in the taoSubject module instead of having this crapy IF here
 		 */
 		if(Session::getAttribute('currentExtension') == 'taoSubjects'){
@@ -113,17 +114,14 @@ class tao_actions_form_Instance
 		}
 		else{
 			$classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
-		}
-		foreach($classProperties as $property){
-			$found = false;
-			foreach($editedProperties as $editedProperty){
-				if($editedProperty->uriResource == $property->uriResource){
-					$found = true;
-					break;
-				}
+			if(!empty($additionalProperties)){
+				$classProperties = array_merge($classProperties, $additionalProperties);
 			}
-			if(!$found){
-				$editedProperties[] = $property;
+		}
+		
+		foreach($classProperties as $property){
+			if(!isset($editedProperties[$property->uriResource]) && !in_array($property->uriResource, $excludedProperties)){
+				$editedProperties[$property->uriResource] = $property;
 			}
 		}
 			
@@ -165,10 +163,10 @@ class tao_actions_form_Instance
 					
 				//set label validator
 				if($property->uriResource == RDFS_LABEL){
-					$element->addValidators(array(
-						tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-						tao_helpers_form_FormFactory::getValidator('Label', array('class' => $clazz, 'uri' => $instance->uriResource))
-					));
+					if($uniqueLabel){
+						$element->addValidator(tao_helpers_form_FormFactory::getValidator('Label', array('class' => $clazz, 'uri' => $instance->uriResource)));
+					}
+					$element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 				}
 					
 				$this->form->addElement($element);
