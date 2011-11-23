@@ -60,11 +60,19 @@ TaoGridClass.prototype.initModel = function()
 	var i = 0;
 	for(var id in this.model){
 
+		//position of the column
+		var position = typeof this.model[id].position != 'undefined' ? this.model[id].position: i;
+		//create elements in tabs
+		if(position!=i){
+			this.jqGridColumns.splice(position,0,null);
+			this.jqGridModel.splice(position,0,null);
+		}
+		
 		//add a column
-		this.jqGridColumns[i] = this.model[id]['title']
+		this.jqGridColumns[position] = this.model[id]['title']
 
 		//add the model relative to the column
-		this.jqGridModel[i] = {
+		this.jqGridModel[position] = {
 			name		:this.model[id]['id']
 			, index		:this.model[id]['id']
 			, align		:typeof this.model[id]['align'] != 'undefined' ? this.model[id]['align'] : 'left'
@@ -77,20 +85,20 @@ TaoGridClass.prototype.initModel = function()
 			//reference the adapter
 			this.adapters[this.model[id]['id']] = adapter;
 			//add adapter function to the column model options
-			this.jqGridModel[i]['formatter'] = adapter.formatter;
+			this.jqGridModel[position]['formatter'] = adapter.formatter;
 		}
 		
 		// @todo DEVEL CODE
 		if(this.model[id]['title'] == 'variables'){
 			var adapterClass = window['TaoGridActivityVariablesAdapter'];
-			this.jqGridModel[i]['formatter'] = adapterClass.formatter;
+			this.jqGridModel[position]['formatter'] = adapterClass.formatter;
 		}
 
 		//fix the width of the column functions of its weight
 		var weight = typeof this.model[id]['weight'] != 'undefined' ? this.model[id]['weight'] : 1;
 		var width = ((gridWidth * weight) / columnsWeight) - 4; /* -5 padding margin of the cell container */
 		//console.log('Et alors la width ca donne quoi '+gridWidth+" "+width);
-		this.jqGridModel[i]['width'] = width;
+		this.jqGridModel[position]['width'] = width;
 		
 		i++;
 	}
@@ -126,7 +134,8 @@ TaoGridClass.prototype.initGrid = function()
 			id: "0"
 		},
 		height 		: this.options.height - 54,
-		witdh 		: this.options.width,
+		//witdh 		: this.options.width,
+		autowidth	: true,
 		onSelectRow: function(id){
 		    if(self.options.callback.onSelectRow != null){
 		    	self.options.callback.onSelectRow(id);
@@ -190,6 +199,8 @@ TaoGridClass.prototype.empty = function()
  */
 TaoGridClass.prototype.add = function(data)
 {
+	console.log('MY MODEL');
+	console.log(this.model);
 	var crtLine = 0;
 	//this.data = this.data.concat(data); // does not work with associative array
 	for(var i in data){
@@ -203,16 +214,30 @@ TaoGridClass.prototype.add = function(data)
 				this.data[rowId][columnId] = this.adapters[columnId].preFormatter(this, this.data[rowId], rowId, columnId);
 			}
 		}
-		/*for(var columnId in this.jqGridModel){
-			console.log(this.jqGridModel[columnId]);
-			if(typeof this.j)
-			if(typeof this.jqGridModel[columnId].empty && this.jqGridModel[columnId].empty){
-				console.log('empty');
-				data[rowId][columnId] = null;
+		//Pre rendering adapt data functions of predefined macros
+		for(var modelId in this.model){
+			var columnId = this.model[modelId]['id'];
+			console.log('my column Id '+columnId);
+			if(typeof this.model[columnId] == 'undefined'){
+				console.log('undefined '+columnId);
+				console.log(this.model);
 			}
-		}*/
+			if(typeof this.model[modelId].preFormatter != 'undefined' && this.model[modelId].preFormatter){
+				switch(this.model[modelId].preFormatter){
+					case 'empty':
+//						console.log('empty');
+						this.data[rowId][columnId] = null;
+						break;
+					case 'rowId':
+//						console.log('ROWWWW ID '+rowId);
+						this.data[rowId][columnId] = rowId;
+						break;
+				}
+			}
+		}
 		//Render data
-		jQuery(this.selector).jqGrid('addRowData', rowId, data[rowId]);
+		console.log('add row data', this.data[rowId]);
+		jQuery(this.selector).jqGrid('addRowData', rowId, this.data[rowId]);
 		//Post rendering adapt content
 		for(var columnId in this.adapters){
 			if(typeof this.adapters[columnId].postCellFormat != 'undefined'){

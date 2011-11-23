@@ -185,7 +185,7 @@ $.jgrid.extend({
                 
                 var perm = [];
 				//fixedCols.slice(0);
-                $('option[selected]',select).each(function() { perm.push(parseInt(this.value,10)); });
+                $('option:selected',select).each(function() { perm.push(parseInt(this.value,10)); });
                 $.each(perm, function() { delete colMap[colModel[parseInt(this,10)].name]; });
                 $.each(colMap, function() {
 					var ti = parseInt(this,10);
@@ -308,8 +308,8 @@ $.jgrid.extend({
 				opts.update = function (ev,ui) {
 					$(ui.item).css("border-width","");
 					if($t.p.rownumbers === true) {
-						$("td.jqgrid-rownum",$t.rows).each(function(i){
-							$(this).html(i+1);
+						$("td.jqgrid-rownum",$t.rows).each(function( i ){
+							$(this).html( i+1+(parseInt($t.p.page,10)-1)*parseInt($t.p.rowNum,10) );
 						});
 					}
 					if(opts._update_) {
@@ -368,7 +368,7 @@ $.jgrid.extend({
 						if(opts.onstart && $.isFunction(opts.onstart) ) { opts.onstart.call($($t),ev,ui); }
 					},
 					stop :function(ev,ui) {
-						if(ui.helper.dropped) {
+						if(ui.helper.dropped && !opts.dragcopy) {
 							var ids = $(ui.helper).attr("id");
 							$($t).jqGrid('delRowData',ids );
 						}
@@ -447,6 +447,7 @@ $.jgrid.extend({
 				"appendTo" : "#jqgrid_dnd",
 				"zIndex": 5000
 			},
+			"dragcopy": false,
 			"dropbyname" : false,
 			"droppos" : "first",
 			"autoid" : true,

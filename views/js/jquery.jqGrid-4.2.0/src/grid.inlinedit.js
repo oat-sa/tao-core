@@ -20,7 +20,8 @@ $.jgrid.extend({
 			"aftersavefunc" : aftersavefunc || null,
 			"errorfunc": errorfunc || null,
 			"afterrestorefunc" : afterrestorefunc|| null,
-			"restoreAfterErorr" : true
+			"restoreAfterError" : true,
+			"mtype" : "POST"
 		},
 		args = $.makeArray(arguments).slice(1), o;
 
@@ -64,7 +65,7 @@ $.jgrid.extend({
 							if(treeg) { $("span:first",this).append(elc); }
 							else { $(this).append(elc); }
 							//Again IE
-							if(cm[i].edittype == "select" && cm[i].editoptions.multiple===true && $.browser.msie) {
+							if(cm[i].edittype == "select" && typeof(cm[i].editoptions)!=="undefined" && cm[i].editoptions.multiple===true  && typeof(cm[i].editoptions.dataUrl)==="undefined" && $.browser.msie) {
 								$(elc).width($(elc).width());
 							}
 							cnt++;
@@ -101,7 +102,8 @@ $.jgrid.extend({
 			"aftersavefunc" : aftersavefunc || null,
 			"errorfunc": errorfunc || null,
 			"afterrestorefunc" : afterrestorefunc|| null,
-			"restoreAfterErorr" : true
+			"restoreAfterError" : true,
+			"mtype" : "POST"
 		},
 		args = $.makeArray(arguments).slice(1), o;
 
@@ -130,7 +132,7 @@ $.jgrid.extend({
 							if(cm.editoptions ) {
 								cbv = cm.editoptions.value.split(":");
 							}
-							tmp[nm]=  $("input",this).attr("checked") ? cbv[0] : cbv[1]; 
+							tmp[nm]=  $("input",this).is(":checked") ? cbv[0] : cbv[1]; 
 							break;
 						case 'text':
 						case 'password':
@@ -140,13 +142,13 @@ $.jgrid.extend({
 							break;
 						case 'select':
 							if(!cm.editoptions.multiple) {
-								tmp[nm] = $("select>option:selected",this).val();
-								tmp2[nm] = $("select>option:selected", this).text();
+								tmp[nm] = $("select option:selected",this).val();
+								tmp2[nm] = $("select option:selected", this).text();
 							} else {
 								var sel = $("select",this), selectedText = [];
 								tmp[nm] = $(sel).val();
 								if(tmp[nm]) { tmp[nm]= tmp[nm].join(","); } else { tmp[nm] =""; }
-								$("select > option:selected",this).each(
+								$("select option:selected",this).each(
 									function(i,selected){
 										selectedText[i] = $(selected).text();
 									}
@@ -190,11 +192,11 @@ $.jgrid.extend({
 				}
 				return success;
 			}
+			var idname, opers, oper;
+			opers = $t.p.prmNames;
+			oper = opers.oper;
+			idname = opers.id;
 			if(tmp) {
-				var idname, opers, oper;
-				opers = $t.p.prmNames;
-				oper = opers.oper;
-				idname = opers.id;
 				tmp[oper] = opers.editoper;
 				tmp[idname] = rowid;
 				if(typeof($t.p.inlineData) == 'undefined') { $t.p.inlineData ={}; }
@@ -215,13 +217,15 @@ $.jgrid.extend({
 				if(fr >= 0) { $t.p.savedRow.splice(fr,1); }
 				if( $.isFunction(o.aftersavefunc) ) { o.aftersavefunc.call($t, rowid,resp); }
 				success = true;
+				$(ind).unbind("keydown");
 			} else {
 				$("#lui_"+$t.p.id).show();
 				tmp3 = $.extend({},tmp,tmp3);
+				tmp3[idname] = $.jgrid.stripPref($t.p.idPrefix, tmp3[idname]);
 				$.ajax($.extend({
 					url:o.url,
 					data: $.isFunction($t.p.serializeRowData) ? $t.p.serializeRowData.call($t, tmp3) : tmp3,
-					type: "POST",
+					type: o.mtype,
 					async : false, //?!?
 					complete: function(res,stat){
 						$("#lui_"+$t.p.id).hide();
@@ -244,6 +248,7 @@ $.jgrid.extend({
 								if(fr >= 0) { $t.p.savedRow.splice(fr,1); }
 								if( $.isFunction(o.aftersavefunc) ) { o.aftersavefunc.call($t, rowid,res); }
 								success = true;
+								$(ind).unbind("keydown");
 							} else {
 								if($.isFunction(o.errorfunc) ) {
 									o.errorfunc.call($t, rowid, res, stat);
@@ -272,7 +277,6 @@ $.jgrid.extend({
 					}
 				}, $.jgrid.ajaxOptions, $t.p.ajaxRowOptions || {}));
 			}
-			$(ind).unbind("keydown");
 		}
 		return success;
 	},

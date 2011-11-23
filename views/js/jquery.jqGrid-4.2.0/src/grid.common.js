@@ -160,6 +160,7 @@ $.extend($.jgrid,{
 			toTop: true,
 			overlay: 10,
 			modal: false,
+			overlayClass : 'ui-widget-overlay',
 			onShow: this.showModal,
 			onHide: this.closeModal,
 			gbox: '',
@@ -289,7 +290,7 @@ $.extend($.jgrid,{
 			});
 			if(!atr.hasOwnProperty('id')) {
 				$(elm).attr('id', $.jgrid.randId());
-		}
+			}
 		}
 		switch (eltype)
 		{
@@ -382,12 +383,12 @@ $.extend($.jgrid,{
 					},ajaxso || {}));
 				} else if(options.value) {
 					var i;
+					if(typeof options.size === 'undefined') {
+						options.size = msl ? 3 : 1;
+					}
 					if(msl) {
 						ovm = vl.split(",");
 						ovm = $.map(ovm,function(n){return $.trim(n);});
-						if(typeof options.size === 'undefined') {options.size = 3;}
-					} else {
-						options.size = 1;
 					}
 					if(typeof options.value === 'function') { options.value = options.value(); }
 					var so,sv, ov;
@@ -396,14 +397,14 @@ $.extend($.jgrid,{
 						for(i=0; i<so.length;i++){
 							sv = so[i].split(":");
 							if(sv.length > 2 ) {
-								sv[1] = $.map(sv,function(n,i){if(i>0) { return n;} }).join(":");
+								sv[1] = $.map(sv,function(n,ii){if(ii>0) { return n;} }).join(":");
 							}
 							ov = document.createElement("option");
 							ov.setAttribute("role","option");
 							ov.value = sv[0]; ov.innerHTML = sv[1];
+							elem.appendChild(ov);
 							if (!msl &&  ($.trim(sv[0]) == $.trim(vl) || $.trim(sv[1]) == $.trim(vl))) { ov.selected ="selected"; }
 							if (msl && ($.inArray($.trim(sv[1]), ovm)>-1 || $.inArray($.trim(sv[0]), ovm)>-1)) {ov.selected ="selected";}
-							elem.appendChild(ov);
 						}
 					} else if (typeof options.value === 'object') {
 						var oSv = options.value;
@@ -412,9 +413,9 @@ $.extend($.jgrid,{
 								ov = document.createElement("option");
 								ov.setAttribute("role","option");
 								ov.value = key; ov.innerHTML = oSv[key];
+								elem.appendChild(ov);
 								if (!msl &&  ( $.trim(key) == $.trim(vl) || $.trim(oSv[key]) == $.trim(vl)) ) { ov.selected ="selected"; }
 								if (msl && ($.inArray($.trim(oSv[key]),ovm)>-1 || $.inArray($.trim(key),ovm)>-1)) { ov.selected ="selected"; }
-								elem.appendChild(ov);
 							}
 						}
 					}

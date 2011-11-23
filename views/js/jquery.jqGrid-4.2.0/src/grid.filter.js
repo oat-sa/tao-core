@@ -44,6 +44,7 @@ $.fn.jqFilter = function( arg ) {
 		filter: null,
 		columns: [],
 		onChange : null,
+		afterRedraw : null,
 		checkValues : null,
 		error: false,
 		errmsg : "",
@@ -72,7 +73,9 @@ $.fn.jqFilter = function( arg ) {
 		stropts : ['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni'],
 		_gridsopt : [], // grid translated strings, do not tuch
 		groupOps : ["AND", "OR"],
-		groupButton : true
+		groupButton : true,
+		ruleButtons : true,
+		direction : "ltr"
 	}, arg || {});
 	return this.each( function() {
 		if (this.filter) {return;}
@@ -132,7 +135,7 @@ $.fn.jqFilter = function( arg ) {
 
 		}
 		if(this.p.showQuery) {
-			$(this).append("<table class='queryresult ui-widget ui-widget-content' style='display:block;max-width:440px;border:0px none;'><tbody><tr><td class='query'></td></tr></tbody></table>");
+			$(this).append("<table class='queryresult ui-widget ui-widget-content' style='display:block;max-width:440px;border:0px none;' dir='"+this.p.direction+"'><tbody><tr><td class='query'></td></tr></tbody></table>");
 		}
 		/*
 		 *Perform checking.
@@ -165,13 +168,16 @@ $.fn.jqFilter = function( arg ) {
 			return $.isFunction(this.p.onChange) ? this.p.onChange.call( this, this.p ) : false;
 		};
 		/*
-		 * Redrow the filter every time when new field is added/deleted
+		 * Redraw the filter every time when new field is added/deleted
 		 * and field is  changed
 		 */
 		this.reDraw = function() {
 			$("table.group:first",this).remove();
 			var t = this.createTableForGroup(p.filter, null);
 			$(this).append(t);
+			if($.isFunction(this.p.afterRedraw) ) {
+				this.p.afterRedraw.call(this, this.p);
+			}
 		};
 		/*
 		 * Creates a grouping data for the filter
@@ -182,19 +188,25 @@ $.fn.jqFilter = function( arg ) {
 			var that = this,  i;
 
 			// this table will hold all the group (tables) and rules (rows)
-			var table = $("<table class='group ui-widget ui-widget-content' style='border:0px none;'><tbody></tbody></table>");
+			var table = $("<table class='group ui-widget ui-widget-content' style='border:0px none;'><tbody></tbody></table>"),
 			// create error message row
+			align = "left";
+			if(this.p.direction == "rtl") {
+				align = "right";
+				table.attr("dir","rtl");
+			}
 			if(parentgroup === null) {
-				$(table).append("<tr class='error' style='display:none;'><th colspan='5' class='ui-state-error' align='left'></th></tr>");
+				table.append("<tr class='error' style='display:none;'><th colspan='5' class='ui-state-error' align='"+align+"'></th></tr>");
 			}
 
 			var tr = $("<tr></tr>");
-			$(table).append(tr);
+			table.append(tr);
 			// this header will hold the group operator type and group action buttons for
 			// creating subgroup "+ {}", creating rule "+" or deleting the group "-"
-			var th = $("<th colspan='5' align='left'></th>");
+			var th = $("<th colspan='5' align='"+align+"'></th>");
 			tr.append(th);
 
+			if(this.p.ruleButtons === true) {
 			// dropdown for: choosing group operator type
 			var groupOpSelect = $("<select class='opsel'></select>");
 			th.append(groupOpSelect);
@@ -211,7 +223,7 @@ $.fn.jqFilter = function( arg ) {
 				group.groupOp = $(groupOpSelect).val();
 				that.onchange(); // signals that the filter has changed
 			});
-
+			}
 			// button for adding a new subgroup
 			var inputAddSubgroup ="<span></span>";
 			if(this.p.groupButton) {
@@ -234,7 +246,7 @@ $.fn.jqFilter = function( arg ) {
 				});
 			}
 			th.append(inputAddSubgroup);
-
+			if(this.p.ruleButtons === true) {
 			// button for adding a new rule
 			var inputAddRule = $("<input type='button' value='+' title='Add rule' class='add-rule ui-add'/>"), cm;
 			inputAddRule.bind('click',function() {
@@ -270,6 +282,7 @@ $.fn.jqFilter = function( arg ) {
 				return false;
 			});
 			th.append(inputAddRule);
+			}
 
 			// button for delete the group
 			if (parentgroup !== null) { // ignore the first group
@@ -371,22 +384,26 @@ $.fn.jqFilter = function( arg ) {
 				else if  (cm.searchtype === 'string') {op = that.p.stropts;}
 				else {op = that.p.numopts;}
 				// operators
-				var s ="",so="";
+				var s ="", so = 0;
 				aoprs = [];
 				$.each(that.p.ops, function() { aoprs.push(this.name) });
 				for ( i = 0 ; i < op.length; i++) {
 					ina = $.inArray(op[i],aoprs);
 					if(ina !== -1) {
-						so ="";
-						if(i===0) {
+						if(so===0) {
 							rule.op = that.p.ops[ina].name;
-							so = " selected='selected'";
 						}
-						s += "<option value='"+that.p.ops[ina].name+"'"+ so+">"+that.p.ops[ina].description+"</option>";
+						s += "<option value='"+that.p.ops[ina].name+"'>"+that.p.ops[ina].description+"</option>";
+						so++;
 					}
 				}
 				$(".selectopts",trpar).empty().append( s );
-
+				$(".selectopts",trpar)[0].selectedIndex = 0;
+				if( $.browser.msie && $.browser.version < 9) {
+					var sw = parseInt($("select.selectopts",trpar)[0].offsetWidth) + 1;
+					$(".selectopts",trpar).width( sw );
+					$(".selectopts",trpar).css("width","auto");
+				}
 				// data
 				$(".data",trpar).empty().append( elm );
 				$(".input-elm",trpar).bind('change',function() {
@@ -488,6 +505,7 @@ $.fn.jqFilter = function( arg ) {
 			tr.append(ruleDeleteTd);
 
 			// create button for: delete rule
+			if(this.p.ruleButtons === true) {
 			var ruleDeleteInput = $("<input type='button' value='-' title='Delete rule' class='delete-rule ui-del'/>");
 			ruleDeleteTd.append(ruleDeleteInput);
 			//$(ruleDeleteInput).html("").height(20).width(30).button({icons: {  primary: "ui-icon-minus", text:false}});
@@ -505,7 +523,7 @@ $.fn.jqFilter = function( arg ) {
 				that.onchange(); // signals that the filter has changed
 				return false;
 			});
-
+			}
 			return tr;
 		};
 
