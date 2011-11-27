@@ -119,8 +119,8 @@ TaoGridClass.prototype.initGrid = function()
 	
 	var self = this;
 	this.jqGrid = $(this.selector).jqGrid({
-		url			: this.dataUrl,
-	    datatype	: "json",
+		//url			: this.dataUrl,
+		datatype	: "local",
 	    mtype		: 'GET',
 		colNames	: this.jqGridColumns, 
 		colModel	: this.jqGridModel, 
