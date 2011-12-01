@@ -67,7 +67,7 @@ class UserTestCase extends UnitTestCase {
 	 * @see tao_models_classes_ServiceFactory::get
 	 */
 	public function testService(){
-		$userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
+		$userService = tao_models_classes_UserService::singleton();
 		$this->assertIsA($userService, 'tao_models_classes_Service');
 		$this->assertIsA($userService, 'tao_models_classes_UserService');
 		

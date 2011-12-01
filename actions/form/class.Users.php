@@ -85,7 +85,7 @@ class tao_actions_form_Users
     	$this->formName = 'user_form';
     	
     	$options = array();
-    	$service = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
+    	$service = tao_models_classes_UserService::singleton();
     	if(!is_null($user)){
     		$this->user = $user;
 			$options['mode'] = 'edit';

@@ -15,8 +15,8 @@ class CleanMassInsertTestCase extends UnitTestCase {
 		Bootstrap::loadConstants ('wfEngine');
 		Bootstrap::loadConstants ('taoDelivery');
 		
-		$this->testService = tao_models_classes_ServiceFactory::get('Tests');
-		$this->deliveryService = tao_models_classes_ServiceFactory::get('taoDelivery_models_classes_DeliveryService');
+		$this->testService = taoTests_models_classes_TestsService::singleton();
+		$this->deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
 	}
 
 	public function testRemoveAll(){
@@ -45,7 +45,7 @@ class CleanMassInsertTestCase extends UnitTestCase {
 		}
 		$deliveryClass->delete (true);
 		
-		$userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
+		$userService = wfEngine_models_classes_UserService::singleton();
 		$users = $userService->getAllUsers(array());
 		$systemUsers = array(LOCAL_NAMESPACE.'#superUser', 'http://www.tao.lu/Ontologies/TAO.rdf#installator');
 		foreach($users as $user){

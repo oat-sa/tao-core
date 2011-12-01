@@ -27,7 +27,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 		
 		parent::__construct();
 		
-		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
+		$this->userService = tao_models_classes_UserService::singleton();
 	}
 	
 	/**
@@ -115,7 +115,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 		}
 		$processExecution = new core_kernel_classes_Resource(tao_helpers_Uri::decode(Session::getAttribute('processUri')));
 		
-		$userService = tao_models_classes_ServiceFactory::get("tao_models_classes_UserService");
+		$userService = tao_models_classes_UserService::singleton();
 		$user = $userService->getCurrentUser();
 		if(is_null($user)){
 			throw new Exception('No user is logged in');

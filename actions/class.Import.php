@@ -175,7 +175,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			$adapter = new tao_helpers_data_GenerisAdapterCsv($adapterOptions);
 			
 			$currentExtention = $this->getSessionAttribute('currentExtension');
-			$service = tao_models_classes_ServiceFactory::get(str_replace('tao', '',$currentExtention));
+			$service = tao_models_classes_Service::getServiceByName(str_replace('tao', '',$currentExtention));
 			
 			//get the current class of properties
 			$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getSessionAttribute('classUri')));

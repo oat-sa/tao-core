@@ -281,8 +281,8 @@ class Bootstrap{
 	 */
 	protected function connect()
 	{
-		$userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
-		$taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
+		$userService = tao_models_classes_UserService::singleton();
+		$taoService = tao_models_classes_TaoService::singleton();
 		$taoVersion = $taoService->getExtensionVersion('tao');
 		if(empty($taoVersion) || floatval($taoVersion)<2.1){
 			//force smooth mode!
@@ -297,7 +297,7 @@ class Bootstrap{
 	 */
 	protected function i18n()
 	{
-		$userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
+		$userService = tao_models_classes_UserService::singleton();
 		$uiLang = DEFAULT_LANG;
 		if(Session::hasAttribute('ui_lang')){
 			$uiLang = Session::getAttribute('ui_lang');

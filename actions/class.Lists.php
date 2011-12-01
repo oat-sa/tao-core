@@ -19,7 +19,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 		//add List stylesheet
 		tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/lists.css');
 		
-		$this->service = tao_models_classes_ServiceFactory::get('tao_models_classes_ListService');
+		$this->service = tao_models_classes_ListService::singleton();
 		$this->defaultData();
 	}
 

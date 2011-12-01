@@ -48,7 +48,7 @@ class AuthTestCase extends UnitTestCase {
 		$this->clearPassword = $this->testUserData[PROPERTY_USER_PASSWORD];
 		$this->testUserData[PROPERTY_USER_PASSWORD] = md5($this->testUserData[PROPERTY_USER_PASSWORD]);
 		
-		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
+		$this->userService = tao_models_classes_UserService::singleton();
 		$this->assertTrue($this->userService->saveUser($this->testUser, $this->testUserData));
 		$createdUser = $this->userService->getOneUser('jane.doe');
 		$this->assertNotNull($createdUser);

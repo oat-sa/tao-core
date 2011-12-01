@@ -33,7 +33,7 @@ class EventsServiceTestCase extends UnitTestCase {
 	 */
 	public function testService(){
 		
-		$eventsService = tao_models_classes_ServiceFactory::get('tao_models_classes_EventsService');
+		$eventsService = tao_models_classes_EventsService::singleton();
 		$this->assertIsA($eventsService, 'tao_models_classes_Service');
 		$this->assertIsA($eventsService, 'tao_models_classes_EventsService');
 		

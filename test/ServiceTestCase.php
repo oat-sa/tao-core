@@ -34,13 +34,16 @@ class ServiceTestCase extends UnitTestCase {
 		$this->assertNull($this->taoService);
 		
 		//test factory instantiation
-		$this->taoService = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
+		$this->taoService = tao_models_classes_TaoService::singleton();
 		$this->assertIsA($this->taoService, 'tao_models_classes_TaoService');
 		
+		$userService = tao_models_classes_UserService::singleton();
+		$this->assertIsA($userService, 'tao_models_classes_UserService');
+		
+		$taoService2 = tao_models_classes_TaoService::singleton();
+		$this->assertIsA($taoService2, 'tao_models_classes_TaoService');
+		
 		//test factory singleton
-		$taoService2 = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
-		$this->assertIdentical($this->taoService, new tao_models_classes_TaoService());
-		$this->assertIdentical($taoService2, new tao_models_classes_TaoService());
 		$this->assertReference($this->taoService, $taoService2);
 		
 	}

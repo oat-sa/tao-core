@@ -28,8 +28,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		}
 		
 		//initialize service
-		$this->service = tao_models_classes_ServiceFactory::get('tao_models_classes_TaoService');
-		$this->userService = tao_models_classes_ServiceFactory::get('tao_models_classes_UserService');
+		$this->service = tao_models_classes_TaoService::singleton();
+		$this->userService = tao_models_classes_UserService::singleton();
 		$this->defaultData();
 		
 	}

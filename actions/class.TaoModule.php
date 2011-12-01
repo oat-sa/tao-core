@@ -23,8 +23,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if( parent::_isAllowed()){
 		
 			//check the user role again, to prevent login with a session from a privileged extension
-	        $roleService = tao_models_classes_ServiceFactory::get('tao_models_classes_RoleService');
-	        $userService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_UserService');
+	        $roleService = tao_models_classes_RoleService::singleton();
+	        $userService = wfEngine_models_classes_UserService::singleton();
 	        if(tao_helpers_Context::check('STANDALONE_MODE')){
 	        	if($roleService->checkUserRole($userService->getCurrentUser(), new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSERROLE))){
 	        		return true;
@@ -1133,7 +1133,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$message = __('Error');
 		
 		//init variable service:
-		$variableService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_VariableService');
+		$variableService = wfEngine_models_classes_VariableService::singleton();
 		
 		//set the class uri
 		if($this->hasRequestParameter('classUri')){
@@ -1170,7 +1170,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			
 			//init variable service:
-			$variableService = tao_models_classes_ServiceFactory::get('wfEngine_models_classes_VariableService');
+			$variableService = wfEngine_models_classes_VariableService::singleton();
 			$variableService->save(array($this->getDataKind().'Uri' => $instance->uriResource));
 			
 			$params = array(

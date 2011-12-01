@@ -135,7 +135,7 @@ class tao_actions_form_SimpleProperty
 		$elementNames[] = $typeElt->getName();
 		
 		//list drop down
-		$listService = tao_models_classes_ServiceFactory::get("tao_models_classes_ListService");
+		$listService = tao_models_classes_ListService::singleton();
 			
 		$listElt = tao_helpers_form_FormFactory::getElement("property_{$index}_range", 'Combobox');
 		$listElt->setDescription(__('List values'));
