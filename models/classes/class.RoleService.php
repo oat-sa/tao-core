@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * This class provide service on user roles management
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -34,7 +34,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  * This class provide service on user roles management
  *
  * @access public
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -67,11 +67,11 @@ class tao_models_classes_RoleService
     /**
      * constructor, call initRole
      *
-     * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @access protected
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
-    public function __construct()
+    protected function __construct()
     {
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F71 begin
         
@@ -88,7 +88,7 @@ class tao_models_classes_RoleService
      * To be overriden.
      *
      * @access protected
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     protected function initRole()
@@ -104,7 +104,7 @@ class tao_models_classes_RoleService
      * Get the Role matching the uri
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string uri
      * @return core_kernel_classes_Resource
      */
@@ -127,7 +127,7 @@ class tao_models_classes_RoleService
      * get the target role class
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return core_kernel_classes_Class
      */
     public function getRoleClass()
@@ -147,7 +147,7 @@ class tao_models_classes_RoleService
      * remove a role
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource role
      * @return boolean
      */
@@ -170,7 +170,7 @@ class tao_models_classes_RoleService
      * assign a role to a list of users
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource role
      * @param  array users
      * @return boolean
@@ -217,7 +217,7 @@ class tao_models_classes_RoleService
      * get the users who have the role in parameter
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource role
      * @return array
      */
@@ -242,7 +242,7 @@ class tao_models_classes_RoleService
      * get the roles of a user
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource user
      * @return array
      */
@@ -271,7 +271,7 @@ class tao_models_classes_RoleService
      * check if a user has a role
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource user
      * @param  Class role
      * @return boolean
@@ -308,7 +308,7 @@ class tao_models_classes_RoleService
      * Short description of method createInstance
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @param  string label
      * @return core_kernel_classes_Resource

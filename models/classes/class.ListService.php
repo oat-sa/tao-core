@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * This class provides the services on the list management
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -34,7 +34,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  * This class provides the services on the list management
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -59,11 +59,11 @@ class tao_models_classes_ListService
     /**
      * initialize the service
      *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @access protected
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
-    public function __construct()
+    protected function __construct()
     {
         // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002364 begin
         
@@ -76,7 +76,7 @@ class tao_models_classes_ListService
      * get all the lists class
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return array
      */
     public function getLists()
@@ -102,7 +102,7 @@ class tao_models_classes_ListService
      * Get a list class from the uri in parameter
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string uri
      * @return core_kernel_classes_Class
      */
@@ -129,7 +129,7 @@ class tao_models_classes_ListService
      * in parameter
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class listClass
      * @param  string uri
      * @return core_kernel_classes_Resource
@@ -158,7 +158,7 @@ class tao_models_classes_ListService
      * get all the elements of the list
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class listClass
      * @param  boolean sort
      * @return array
@@ -211,7 +211,7 @@ class tao_models_classes_ListService
      * remove a list and it's elements
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class listClass
      * @return boolean
      */
@@ -237,7 +237,7 @@ class tao_models_classes_ListService
      * remove a list element
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource element
      * @return boolean
      */
@@ -260,7 +260,7 @@ class tao_models_classes_ListService
      * create a new list class
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string label
      * @return core_kernel_classes_Class
      */
@@ -284,7 +284,7 @@ class tao_models_classes_ListService
      * add a new element to a list
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class listClass
      * @param  string label
      * @return core_kernel_classes_Resource
