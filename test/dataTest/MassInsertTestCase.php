@@ -67,8 +67,8 @@ class MassInsertTestCase extends UnitTestCase {
 		$classLanguage = new core_kernel_classes_Class(CLASS_LANGUAGES);
 		$this->languages = $classLanguage->getInstances();
 		$this->testService = taoTests_models_classes_TestsService::singleton();
-		$this->deliveryService = taoDelivery_models_classes_DeliveryService::get();
-		$this->subjectService = taoSubjects_models_classes_SubjectsService::get();
+		$this->deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
+		$this->subjectService = taoSubjects_models_classes_SubjectsService::singleton();
 	}
 
 	public function testCreateGroups(){
@@ -199,7 +199,7 @@ class MassInsertTestCase extends UnitTestCase {
 	
 	public function testCreateWfUsers(){
 	    
-	    $userService = wfEngine_models_classes_UserService::get();
+	    $userService = wfEngine_models_classes_UserService::singleton();
 	    
 	    for ($i=1; $i<=$this->wfUserNumber; $i++){
 	        $properties = array(
