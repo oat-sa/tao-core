@@ -113,6 +113,7 @@ class Bootstrap{
 			$this->session();
 			$this->config();
 			$this->includePath();
+			$this->registerErrorhandler();
 			$this->globalHelpers();
 			$this->connect();
 			$this->i18n();
@@ -218,6 +219,14 @@ class Bootstrap{
 				unset($todefine);
 			}
 		}
+	}
+	
+	/**
+	 * register a custom Errorhandler
+	 */
+	protected function registerErrorhandler()
+	{
+		set_error_handler('common_Logger::handlerPHPErrors');
 	}
 	
 	/**
