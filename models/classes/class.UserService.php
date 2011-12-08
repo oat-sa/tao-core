@@ -321,6 +321,18 @@ class tao_models_classes_UserService
         // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 begin
 
         //the users we want are instances of the role
+		$fields = array('login' => PROPERTY_USER_LOGIN,
+						'password' => PROPERTY_USER_PASSWORD,
+						'uilg' => PROPERTY_USER_UILG,
+						'deflg' => PROPERTY_USER_DEFLG,
+						'mail' => PROPERTY_USER_MAIL,
+						'firstname' => PROPERTY_USER_FIRTNAME,
+						'lastname' => PROPERTY_USER_LASTNAME,
+						'name' => PROPERTY_USER_FIRTNAME);
+		$ops = array('eq' => "%s",
+					 'bw' => "%s*",
+					 'ew' => "*%s",
+					 'cn' => "*%s*");
 		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 		$users = array();
 		$types = array();
@@ -333,23 +345,17 @@ class tao_models_classes_UserService
 		if (isset($options['start'])) $opts['limit_start'] = $options['start'];
 		if (isset($options['end'])) $opts['limit_length'] = $options['end'];
 
-		foreach ($userClass->searchInstances(array(RDF_TYPE => $types, PROPERTY_USER_LOGIN => '*'), $opts) as $user) {
+		$crits = array(RDF_TYPE => $types, PROPERTY_USER_LOGIN => '*');
+		if (isset($options['search']) && !is_null($options['search']) && isset($options['search']['string']) && isset($ops[$options['search']['op']])) {
+			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
+		}
+		foreach ($userClass->searchInstances($crits, $opts) as $user) {
 			$users[$user->uriResource] = $user;
 		}
-       	
+
     	$keyProp = null;
-       	if(isset($options['order'])){
-        	switch($options['order']){
-        		case 'login'		: $prop = PROPERTY_USER_LOGIN; break;
-        		case 'password'		: $prop = PROPERTY_USER_PASSWORD; break;
-        		case 'uilg'			: $prop = PROPERTY_USER_UILG; break;
-        		case 'deflg'		: $prop = PROPERTY_USER_DEFLG; break;
-        		case 'mail'			: $prop = PROPERTY_USER_MAIL; break;
-        		case 'firstname'	: $prop = PROPERTY_USER_FIRTNAME; break;
-        		case 'lastname'		: $prop = PROPERTY_USER_LASTNAME; break;
-        		case 'name'			: $prop = PROPERTY_USER_FIRTNAME; break;
-        	}
-        	$keyProp = new core_kernel_classes_Property($prop);
+       	if (isset($options['order'])) {
+        	$keyProp = new core_kernel_classes_Property($fields[$options['order']]);
         }
        
         $index = 0;

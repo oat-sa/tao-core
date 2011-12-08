@@ -38,20 +38,30 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	 * @return void
 	 */
 	public function data(){
-		$page = $this->getRequestParameter('page'); 
-		$limit = $this->getRequestParameter('rows'); 
-		$sidx = $this->getRequestParameter('sidx');  
-		$sord = $this->getRequestParameter('sord'); 
-		$start = $limit * $page - $limit; 
+		$page = $this->getRequestParameter('page');
+		$limit = $this->getRequestParameter('rows');
+		$sidx = $this->getRequestParameter('sidx');
+		$sord = $this->getRequestParameter('sord');
+		$searchField = $this->getRequestParameter('searchField');
+		$searchOper = $this->getRequestParameter('searchOper');
+		$searchString = $this->getRequestParameter('searchString');
+		$start = $limit * $page - $limit;
 		
-		if(!$sidx) $sidx =1; 
-		
-		$users = $this->userService->getAllUsers(array(
+		if (!$sidx) $sidx = 1; 
+		$gau = array(
 			'order' 	=> $sidx,
 			'orderDir'	=> $sord,
 			'start'		=> $start,
 			'end'		=> $limit
-		));
+		);
+		if (!is_null($searchField)) {
+		  $gau['search'] = array(
+		      'field' => $searchField,
+			  'op' => $searchOper,
+			  'string' => $searchString
+		  );
+		}
+		$users = $this->userService->getAllUsers($gau);
 		
 		$count = count($users); 
 		if( $count >0 ) { 
@@ -72,20 +82,12 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		$uilgProperty 		= new core_kernel_classes_Property(PROPERTY_USER_UILG);
 		
 		$response = new stdClass();
-		$response->page = $page; 
-		$response->total = $total_pages; 
-		$response->records = $count; 
 		$i = 0; 
 		foreach($users as $user) { 
 			$cellData = array();
-			try{
-				$cellData[0]		= (string)$user->getUniquePropertyValue($loginProperty);
-			}
-			catch(common_Exception $ce){
-				//Delete users without login!
-				$user->delete();
-				continue;
-			}
+
+			$cellData[0]		= (string)$user->getUniquePropertyValue($loginProperty);
+
 			$firstName 		= (string)$user->getOnePropertyValue($firstNameProperty);
 			$lastName 		= (string)$user->getOnePropertyValue($lastNameProperty);
 			$cellData[1]	= $firstName.' '.$lastName;
@@ -118,8 +120,24 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$response->rows[$i]['id']= tao_helpers_Uri::encode($user->uriResource);
 			$response->rows[$i]['cell'] = $cellData;
 			$i++;
-		} 
-		
+		}
+
+		//Like class.UserService.php:130 (getAllUsers)
+		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+		$types = array();
+		foreach ($this->userService->getAllowedRoles() as $roleUri) {
+			$types[] = $roleUri;
+		}
+
+		$opts = array('recursive' => 0, 'like' => false);
+		$opts['limit_start'] = $start;
+		$opts['limit_length'] = $limit;
+		$counti = $userClass->countInstances(array(RDF_TYPE => $types, PROPERTY_USER_LOGIN => '*'), $opts);
+
+		$response->page = $page;
+		$response->total = ceil($counti / $limit);//$total_pages;
+		$response->records = count($users);
+
 		echo json_encode($response); 
 	}
 	

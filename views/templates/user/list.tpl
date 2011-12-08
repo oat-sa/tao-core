@@ -48,8 +48,7 @@ $(function(){
 		sortname: 'login', 
 		viewrecords: false, 
 		sortorder: "asc", 
-		caption: __("Users")
-		,
+		caption: __("Users"),
 		gridComplete: function(){
 			$.each(myGrid.getDataIDs(), function(index, elt){
 				myGrid.setRowData(elt, {
