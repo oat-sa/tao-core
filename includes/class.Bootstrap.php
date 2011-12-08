@@ -226,7 +226,8 @@ class Bootstrap{
 	 */
 	protected function registerErrorhandler()
 	{
-		set_error_handler('common_Logger::handlerPHPErrors');
+		set_error_handler('common_Logger::handlePHPErrors');
+		register_shutdown_function('common_Logger::handlePHPShutdown');
 	}
 	
 	/**
