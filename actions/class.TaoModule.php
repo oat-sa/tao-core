@@ -740,7 +740,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					$properties=array_merge(array(new core_kernel_classes_Property(RDFS_LABEL)), $properties);
 				}
 				$this->setData('properties', $properties);
-				
+
 				$instances = $this->service->searchInstances($filters, $clazz, $myForm->getValues('params'));
 				if(count($instances) > 0 ){
 					$found = array();
