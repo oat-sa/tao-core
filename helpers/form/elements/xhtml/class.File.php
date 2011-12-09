@@ -67,6 +67,19 @@ class tao_helpers_form_elements_xhtml_File
 
         // section 127-0-1-1-3453b76:1254af40027:-8000:0000000000001CCA begin
 		
+		if(!empty($this->value)){
+			if(common_Utils::isUri($this->value)){
+				$file = new core_kernel_classes_File($this->value);
+				if($file->fileExists()){
+					$fileInfo = $file->getFileInfo();
+					$fileInfo->getFilename();
+					var_dump($fileInfo);
+				}else{
+					$file->delete();
+				}
+			}
+		}
+		
 		$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
 		$returnValue .= "<input type='hidden' name='MAX_FILE_SIZE' value='".tao_helpers_form_elements_File::MAX_FILE_SIZE."' />";
 		$returnValue .= "<input type='file' name='{$this->name}' id='{$this->name}' ";

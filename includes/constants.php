@@ -27,7 +27,7 @@ $todefine = array(
 	'TAO_TEST_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAOTest.rdf#Test',
 	'TAO_DELIVERY_CLASS' 			=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery',
 	'TAO_DELIVERY_CAMPAIGN_CLASS'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryCampaign',	
-	'TAO_DELIVERY_RESULTSERVER_CLASS'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer',
+	'TAO_DELIVERY_RESULTSERVER_CLASS'=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer',
 	'TAO_DELIVERY_HISTORY_CLASS'	=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#History',
 	'TAO_GROUP_MEMBERS_PROP'		=> 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Members',
 	'RDFS_LABEL'					=> 'http://www.w3.org/2000/01/rdf-schema#label',
@@ -56,6 +56,7 @@ $todefine = array(
 	'PROPERTY_WIDGET_RADIOBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox',
 	'PROPERTY_WIDGET_COMBOBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
 	'PROPERTY_WIDGET_CHECKBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
+	'PROPERTY_WIDGET_FILE'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#File',
     'CLASS_PROCESS_EXECUTIONS'		=> 'http://www.tao.lu/middleware/taoqual.rdf#i119010455660544'
 	
 );

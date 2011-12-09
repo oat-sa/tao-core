@@ -315,6 +315,11 @@ class tao_helpers_form_GenerisFormFactory
 				'title' 	=> __('A multiple choice list'),
 				'widget'	=> PROPERTY_WIDGET_CHECKBOX,
 				'range'		=> null
+			),
+			'file' => array(
+				'title' 	=> __('A file'),
+				'widget'	=> PROPERTY_WIDGET_FILE,
+				'range'		=> null
 			)
 		);
 		

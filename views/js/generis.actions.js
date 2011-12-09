@@ -142,12 +142,12 @@ GenerisAction.addProperty = function (uri, classUri, url){
 		},
 		dataType: 'html',
 		success: function(response){
-			/*$(".form-group:last").after(response);
+			$(".form-group:last").after(response);
 			formGroupElt = $("#property_" + index);
 			if(formGroupElt){
 				formGroupElt.addClass('form-group-opened');
 			}
-			window.location = '#propertyAdder';*/console.log('on success');
+			window.location = '#propertyAdder';
 		}
 	});
 };

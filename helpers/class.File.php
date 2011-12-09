@@ -264,7 +264,9 @@ class tao_helpers_File
             'swf' => 'application/x-shockwave-flash',
             'flv' => 'video/x-flv',
     		'csv' => 'text/csv',
-
+			'rtx' => 'text/richtext',
+			'rtf' => 'text/rtf',
+			
             // images
             'png' => 'image/png',
             'jpe' => 'image/jpeg',
