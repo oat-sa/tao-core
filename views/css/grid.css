@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+
+.grid-row-edited { }
+
+.grid-row-actions { white-space:inherit; white-space:nowrap !important; margin-bottom:7px; }
+.grid-row-actions img { margin-top:3px; } 
+.grid-row-actions a.grid-row-action { border-color:#CCCCCC #AAAAAA #AAAAAA #CCCCCC; border-width:1px; border-style:solid; padding:3px 6px; cursor:pointer; margin-right:5px; text-decoration:none; }

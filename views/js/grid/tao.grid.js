@@ -40,7 +40,12 @@ function TaoGridClass(selector, model, dataUrl, options)
 	
 	this.initModel();
 	this.initGrid();
-}
+};
+
+/**
+ * TaoGrid Class constants
+ */
+TaoGridClass.__NEW_ROW__ = '__NEW_ROW__';
 
 /**
  * Init the jqGridModel
@@ -102,7 +107,7 @@ TaoGridClass.prototype.initModel = function()
 		
 		i++;
 	}
-}
+};
 
 /**
  * Init the grid
@@ -143,7 +148,7 @@ TaoGridClass.prototype.initGrid = function()
 		}
 		
 	});
-}
+};
 
 /**
  * Get formatter relative to a widget
@@ -161,7 +166,7 @@ TaoGridClass.prototype.getAdapter = function(widget)
 	returnValue = adapterClass;
 	
 	return returnValue;
-}
+};
 
 /**
  * Get formatters relative to a column
@@ -191,7 +196,7 @@ TaoGridClass.prototype.empty = function()
 	var firstRow = gridBody.children("tr.jqgfirstrow");
 	gridBody.empty().append(firstRow);
 	this.data = new Array();
-}
+};
 
 
 /**
@@ -201,7 +206,7 @@ TaoGridClass.prototype.empty = function()
 TaoGridClass.prototype.delete = function(rowId)
 {
 	jQuery(this.selector).jqGrid('delRowData', rowId);
-}
+};
 
 /**
  * Refresh data
@@ -219,8 +224,6 @@ TaoGridClass.prototype.refresh = function(data)
 			}
 		}
 		
-		console.log(jQuery(this.selector));
-		console.dir(this.data[rowId]);
 		jQuery(this.selector).jqGrid('setRowData', rowId, this.data[rowId]);
 		
 		for(var columnId in this.adapters){
@@ -230,7 +233,7 @@ TaoGridClass.prototype.refresh = function(data)
 			}
 		}
 	}
-}
+};
 
 /**
  * Get the position of a row
@@ -248,7 +251,111 @@ TaoGridClass.prototype.getPosition = function(rowId)
 		i++;
 	});
 	return returnValue;
-}
+};
+
+/**
+ * Edit a row
+ * @param {integer} rowId Id of the row to edit
+ */
+TaoGridClass.prototype.editRow = function(rowId)
+{
+	var self = this;
+	var actionsHtml = '<div class="grid-row-actions"> \
+		<a href="#" class="grid-row-action grid-row-save"><img src="/tao/views/img/save.png"/> Save</a> \
+		<a href="#" class="grid-row-action grid-row-cancel"><img src="/tao/views/img/revert.png"/> Cancel</a> \
+	</div>';
+	var row = this.getRow(rowId);
+	
+	//add actions
+	var $actionContainer = $(actionsHtml).insertAfter($(row));
+	//apply the edit formatter of each cells
+	for(var columnId in this.adapters){
+		if(typeof this.adapters[columnId].editFormatter != 'undefined'){
+			var cell = this.getCell(rowId, columnId);
+			this.adapters[columnId].editFormatter(this, cell, rowId, columnId);
+		}
+	}
+	
+	//bind new row actions
+	//bind the save action
+	$actionContainer.find('.grid-row-save').one('click', function(){
+		var rowData = [];
+		for(var columnId in self.adapters){
+			if(typeof self.adapters[columnId].getEditedValue != 'undefined'){
+				var cell = self.getCell(rowId, columnId);
+				rowData[columnId] = self.adapters[columnId].getEditedValue(self, cell, rowId, columnId);
+			}else{
+				rowData[columnId] = self.data[rowId];
+			}
+		}
+		$actionContainer.remove();
+		if(self.options.callback.saveEditedRow != null){
+	    	self.options.callback.saveEditedRow(rowId, rowData);
+	    }
+	});
+	
+	//bind the cancel action
+	$actionContainer.find('.grid-row-cancel').one('click', function(){
+		var dataToRefresh = [];
+		dataToRefresh[rowId] = self.getRowData(rowId);
+		self.refresh(dataToRefresh);
+		$actionContainer.remove();
+	});
+};
+
+/**
+ * Add new row to the grid, and let the user edit it
+ */
+TaoGridClass.prototype.newRow = function(data)
+{
+	var self = this;
+	var defaultRowData = {
+		'code':'', value:[]
+	};
+	var rowId = TaoGridClass.__NEW_ROW__;
+	var actionsHtml = '<div class="grid-row-actions"> \
+		<a href="#" class="grid-row-action grid-row-save"><img src="/tao/views/img/save.png"/> Save</a> \
+		<a href="#" class="grid-row-action grid-row-cancel"><img src="/tao/views/img/revert.png"/> Cancel</a> \
+	</div>';
+	var row = null;
+	
+	//add new row with default row values
+	jQuery(this.selector).jqGrid('addRowData', rowId, defaultRowData);
+	row = this.getRow(rowId);
+	//add actions
+	var $actionContainer = $(actionsHtml).insertAfter($(row));
+	//apply the edit formatter of each cells
+	for(var columnId in this.adapters){
+		if(typeof this.adapters[columnId].editFormatter != 'undefined'){
+			var cell = this.getCell(rowId, columnId);
+			this.adapters[columnId].editFormatter(this, cell, rowId, columnId);
+		}
+	}
+	
+	//bind new row actions
+	//bind the save action
+	$actionContainer.find('.grid-row-save').click(function(){
+		var rowData = [];
+		for(var columnId in self.adapters){
+			if(typeof self.adapters[columnId].getEditedValue != 'undefined'){
+				var cell = self.getCell(rowId, columnId);
+				rowData[columnId] = self.adapters[columnId].getEditedValue(self, cell, rowId, columnId);
+			}else{
+				rowData[columnId] = self.data[rowId];
+			}
+		}
+		$actionContainer.remove();
+		if(self.options.callback.saveNewRow != null){
+	    	self.options.callback.saveNewRow(rowId, rowData);
+	    }
+	});
+	
+	//bind the cancel action
+	$actionContainer.find('.grid-row-cancel').click(function(){
+		jQuery(self.selector).jqGrid('delRowData', rowId);
+		$actionContainer.remove();
+	});
+};
 
 /**
  * Add data to the grid
@@ -256,6 +363,7 @@ TaoGridClass.prototype.getPosition = function(rowId)
  */
 TaoGridClass.prototype.add = function(data)
 {
+	var self = this;
 	var crtLine = 0;
 	//this.data = this.data.concat(data); // does not work with associative array
 	for(var i in data){
@@ -291,7 +399,6 @@ TaoGridClass.prototype.add = function(data)
 			}
 		}*/
 		//Render data
-//		console.log('add row data', this.data[rowId]);
 		jQuery(this.selector).jqGrid('addRowData', rowId, this.data[rowId]);
 		//Post rendering adapt content
 		for(var columnId in this.adapters){
@@ -301,9 +408,15 @@ TaoGridClass.prototype.add = function(data)
 			}
 		}
 		crtLine ++;
-		//return;
+
+		//bind actions
+		var row = this.getRow(rowId);
+		$(row).find('> td').dblclick(function(){
+			var cellIdentifier = self.getCellIdentifier(this);
+			self.editRow(cellIdentifier.rowId);
+		});
 	}
-}
+};
 
 /**
  * Get row
@@ -311,8 +424,13 @@ TaoGridClass.prototype.add = function(data)
  */
 TaoGridClass.prototype.getRow = function(rowId)
 {
-	return $(this.selector).find('tr[id="'+rowId+'"]');
-}
+	var returnValue = null;
+	var $row = $(this.selector).find('tr[id="'+rowId+'"]');
+	if($row.length > 0){
+		returnValue = $row.get(0);
+	}
+	return returnValue;
+};
 
 /**
  * Get cell
@@ -321,8 +439,13 @@ TaoGridClass.prototype.getRow = function(rowId)
  */
 TaoGridClass.prototype.getCell = function(rowId, columnId)
 {
-	return $(this.selector).find('tr[id="'+rowId+'"]').find('td[aria-describedby="'+this.selector.slice(1)+'_'+columnId+'"]');
-}
+	var returnValue = null;
+	$cell = $(this.selector).find('tr[id="'+rowId+'"]').find('td[aria-describedby="'+this.selector.slice(1)+'_'+columnId+'"]');
+	if($cell.length > 0){
+		returnValue = $cell.get(0);
+	}
+	return returnValue;
+};
 
 /**
  * Get row data
@@ -333,7 +456,7 @@ TaoGridClass.prototype.getRowData = function(rowId)
 	if(typeof this.data[rowId] != 'undefined'){
 		return this.data[rowId];
 	}
-}
+};
 
 /**
  * Get row data
@@ -350,7 +473,28 @@ TaoGridClass.prototype.getCellData = function(rowId, columnId)
 		}
 	}
 	return returnValue;
-}
+};
+
+/**
+ * Get position of a cell
+ * {columnId} & {rowId}
+ * @param {HtmlElement} cell
+ */
+TaoGridClass.prototype.getCellIdentifier = function(cell)
+{
+	var returnValue = {rowId:null, columnId:null};
+	var columnTmp = $(cell).attr('aria-describedby');
+	if(columnTmp){
+		columnTmp = columnTmp.substr(this.selector.length);
+		returnValue.columnId = columnTmp;
+	}
+	var $row = $(cell).parent('tr');
+	var rowTmp = $row.attr('id');
+	if(rowTmp){
+		returnValue.rowId = rowTmp;
+	}
+	return returnValue;
+};
 
 /**
  * TaoGridClass default options
