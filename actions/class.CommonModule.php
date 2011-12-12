@@ -58,7 +58,10 @@ abstract class tao_actions_CommonModule extends Module {
 			}
 			if($this->getRequestParameter('uri') || $this->getRequestParameter('classUri')){
 				if($this->getRequestParameter('uri')){
-					$this->setSessionAttribute('uri', $this->getRequestParameter('uri'));
+					if ($this->getRequestParameter('uri') != 'undefined')
+						$this->setSessionAttribute('uri', $this->getRequestParameter('uri'));
+					else
+						common_Logger::w('parameter uri was send but undefined');
 				}
 				else{
 					$this->removeSessionAttribute('uri');
