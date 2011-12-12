@@ -176,7 +176,7 @@ class tao_actions_form_Users
 			$loginElement->addValidators(array(
 				tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 				tao_helpers_form_FormFactory::getValidator('Callback', array(
-					'class' => 'tao_models_classes_UserService', 
+					'object' => tao_models_classes_UserService::singleton(), 
 					'method' => 'loginAvailable', 
 					'message' => __('login already exist') 
 				))

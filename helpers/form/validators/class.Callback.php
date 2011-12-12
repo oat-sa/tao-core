@@ -70,7 +70,10 @@ class tao_helpers_form_validators_Callback
 		
 		$this->message = $this->options['message'];
 		
-		if(!isset($this->options['function']) && !isset($this->options['class']) && !isset($this->options['method'])){
+		if(!isset($this->options['function']) 
+			&& !((isset($this->options['class']) || isset($this->options['object'])) 
+				&& isset($this->options['method']))
+			){
 			throw new Exception("Please define a callback function or method");
 		}
 		
@@ -96,7 +99,7 @@ class tao_helpers_form_validators_Callback
 				$returnValue = (bool)$callback($this->getValue());
 			}
 		}
-		else{
+		else if(isset($this->options['class'])){
 			$class = $this->options['class'];
 			$method = $this->options['method'];
 			if(class_exists($class)){
@@ -104,6 +107,13 @@ class tao_helpers_form_validators_Callback
 				if(method_exists($callback, $method)){
 					$returnValue = (bool)$callback->$method($this->getValue());
 				}
+			}
+		}
+		else if(isset($this->options['object'])){
+			$object = $this->options['object'];
+			$method = $this->options['method'];
+			if(method_exists($object, $method)){
+				$returnValue = (bool)$object->$method($this->getValue());
 			}
 		}
 		
