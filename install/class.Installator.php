@@ -83,6 +83,7 @@ class tao_install_Installator{
 				),
 				'generis'		=> array (
 					'generis/data/cache'
+                                        , 'generis/data/versioning'
 					, 'generis/common'
 				)
 		 		, 'filemanager' => array (

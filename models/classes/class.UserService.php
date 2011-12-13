@@ -342,8 +342,8 @@ class tao_models_classes_UserService
 		}
 
 		$opts = array('recursive' => 0, 'like' => false);
-		if (isset($options['start'])) $opts['limit_start'] = $options['start'];
-		if (isset($options['end'])) $opts['limit_length'] = $options['end'];
+		if (isset($options['start'])) $opts['offset'] = $options['start'];
+		if (isset($options['end'])) $opts['limit'] = $options['end'];
 
 		$crits = array(RDF_TYPE => $types, PROPERTY_USER_LOGIN => '*');
 		if (isset($options['search']) && !is_null($options['search']) && isset($options['search']['string']) && isset($ops[$options['search']['op']])) {
