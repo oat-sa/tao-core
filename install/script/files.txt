@@ -1,0 +1,16 @@
+version
+generis/data/cache
+filemanager/views/data
+tao/views/export
+tao/update/patches
+tao/update/bash
+taoItems/data
+taoItems/views/export
+taoItems/models/ext/itemAuthoring/waterphenix/xt/xhtml/data/units/
+taoItems/models/ext/itemAuthoring/waterphenix/config
+taoDelivery/compiled
+taoDelivery/views/export
+taoGroups/views/export
+taoSubjects/views/export
+taoTests/views/export
+taoResults/views/export
