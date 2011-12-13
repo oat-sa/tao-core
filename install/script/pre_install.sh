@@ -8,4 +8,4 @@ CONFIG_FILES=`cat ./tao/install/script/config_files.txt`
 FILES=`cat ./tao/install/script/files.txt`
 
 chown "$(whoami)":www-data $CONFIG_FILES $FILES
-chmod ug+rw $CONFIG_FILES $FILES
+chmod ug+rwx $CONFIG_FILES $FILES

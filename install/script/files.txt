@@ -1,5 +1,7 @@
 version
+generis/data
 generis/data/cache
+generis/data/versioning
 filemanager/views/data
 tao/views/export
 tao/update/patches
