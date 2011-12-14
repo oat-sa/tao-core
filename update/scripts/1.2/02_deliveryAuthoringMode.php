@@ -2,7 +2,7 @@
 core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
 error_reporting(E_ALL);
 
-$dbWarpper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
+$dbWarpper = core_kernel_classes_DbWrapper::singleton();
 
 
 //get all instance of deliveries:

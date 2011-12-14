@@ -3,7 +3,7 @@
 core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
 error_reporting(E_ALL);
 
-$dbWarpper = core_kernel_classes_DbWrapper::singleton(DATABASE_NAME);
+$dbWarpper = core_kernel_classes_DbWrapper::singleton();
 
 $generisUserClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 $classRole = new core_kernel_classes_Class(CLASS_ROLE);
