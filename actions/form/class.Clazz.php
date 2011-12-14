@@ -121,8 +121,13 @@ class tao_actions_form_Clazz
 			if(!is_null($element)){
 				
 				//take property values to populate the form
-				$values = $clazz->getPropertyValuesCollection($property);
-				foreach($values->getIterator() as $value){
+                $values = $clazz->getAllPropertyValues($property);
+                if(!$property->isMultiple()){
+                    if(count($values)>1){
+                        $values = array_slice($values, 0, 1);
+                    }
+                }
+				foreach($values as $value){
 					if(!is_null($value)){
 						if($value instanceof core_kernel_classes_Resource){
 							$element->setValue($value->uriResource);
