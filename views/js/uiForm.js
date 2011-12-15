@@ -275,14 +275,16 @@ UiForm = function(){
 		  * display or not the list regarding the property type
 		  */
 		 function showPropertyList(){
-		 	elt = $(this).parent("div").next("div");
+		 	var elt = $(this).parent("div").next("div");
 			if(/list$/.test($(this).val())){
 				if(elt.css('display') == 'none'){
 					elt.show();
+					elt.find('select').removeAttr('disabled');
 				}
 			}
 			else if(elt.css('display') != 'none'){
 				elt.css('display', 'none');
+				elt.find('select').attr('disabled', "disabled");
 			}
 		 }
 		 
@@ -613,16 +615,16 @@ UiForm = function(){
 	 */
 	this.submitForm = function(myForm){
 		try {
-			if (myForm.attr('enctype') == 'multipart/form-data' && myForm.find(".file-uploader")) {
+			if(myForm.attr('enctype') == 'multipart/form-data' && myForm.find(".file-uploader").length) {
 				return false;
 			}
 			else {
 				if(UiBootstrap.tabs.size() == 0){
-                                        if($('div.main-container').length){
-                                                $('div.main-container').load(myForm.attr('action'), myForm.serializeArray());
-                                        }else{
-                                                return true;//go to the link
-                                        }
+					if($('div.main-container').length){
+							$('div.main-container').load(myForm.attr('action'), myForm.serializeArray());
+					}else{
+							return true;//go to the link
+					}
 				}else if(!$(getMainContainerSelector(UiBootstrap.tabs))){
 					return true;//go to the link
 				}

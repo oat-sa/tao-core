@@ -122,7 +122,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				
+			
 				$classValues = array();
 				$propertyValues = array();
 				
@@ -135,7 +135,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						}
 					}
 				}
-				
 				
 				//create a table of property models
 				foreach($myForm->getValues() as $key => $value){
@@ -177,7 +176,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				
 				$clazz = $this->service->bindProperties($clazz, $classValues);
 				$propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
-				
 				foreach($propertyValues as $propNum => $properties){
 					if(isset($_POST['propertyUri'.$propNum]) && count($properties) == 0){
 						

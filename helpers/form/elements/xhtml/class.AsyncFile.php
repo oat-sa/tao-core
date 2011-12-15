@@ -93,11 +93,11 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 
         // section 127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DE begin
         
-        $widgetName = $this->name.'-AsyncFileUploader';
-        
-        $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
+        $widgetName = 'AsyncFileUploader_'.md5($this->name);
 		
-        $returnValue .= "<div class='form-elt-container file-uploader'>";
+        $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
+        
+		$returnValue .= "<div id='{$widgetName}_container' class='form-elt-container file-uploader'>";
         $returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
         $returnValue .= "<input type='file' name='{$widgetName}' id='{$widgetName}' ";
 		$returnValue .= $this->renderAttributes();
@@ -147,10 +147,10 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 		}
 		
 		//initialize the AsyncFileUpload Js component
+		$id = md5($this->name);
 		$returnValue .= '<script type="text/javascript">
 			$(document).ready(function(){
-				
-				myUploader = new AsyncFileUpload("#'.$widgetName.'", {
+				myUploader_'.$id.' = new AsyncFileUpload("#'.$widgetName.'", {
 					"scriptData"	: {"session_id": "'.session_id().'"},
 					"basePath"  : "'.TAOBASE_WWW.'",
 					"sizeLimit"	: '.$fileSize.',';
@@ -161,7 +161,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 		}
 		$returnValue .='
 					"starter"   : "#'.$widgetName.'_starter",
-					"target"	: "#'.$this->name.'",
+					"target"	: "#'.$widgetName.'_container input[id=\''.$this->name.'\']",
 					"submiter"	: ".form-submiter",
 					"auto"      : '.$auto.',
 					"folder"    : "/"

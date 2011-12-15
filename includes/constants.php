@@ -56,7 +56,7 @@ $todefine = array(
 	'PROPERTY_WIDGET_RADIOBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox',
 	'PROPERTY_WIDGET_COMBOBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
 	'PROPERTY_WIDGET_CHECKBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
-	'PROPERTY_WIDGET_FILE'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#File',
+	'PROPERTY_WIDGET_FILE'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile',
     'CLASS_PROCESS_EXECUTIONS'		=> 'http://www.tao.lu/middleware/taoqual.rdf#i119010455660544'
 	
 );

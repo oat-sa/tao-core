@@ -178,11 +178,11 @@ class tao_actions_File extends tao_actions_CommonModule{
 				header("Pragma: no-cache");
 				print $content;
 				return;
+			}else{
+				throw new Exception(__('The resource ('.$uri.') is not a valid file resource'));
 			}
 		}
-		else{
-			throw new Exception(__('The resource ('.$uri.') is not a valid file resource'));
-		}
+		
 	}
 }
 ?>

@@ -169,6 +169,10 @@ class tao_actions_form_Instance
 					}
 					$element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 				}
+				//set file element validator:
+				if($element instanceof tao_helpers_form_elements_AsyncFile){
+					
+				}
 					
 				$this->form->addElement($element);
 			}

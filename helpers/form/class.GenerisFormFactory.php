@@ -70,7 +70,13 @@ class tao_helpers_form_GenerisFormFactory
 		if(is_null($widgetResource)){
 			return null;
 		}
-		$widget = ucfirst(strtolower(substr($widgetResource->uriResource, strrpos($widgetResource->uriResource, '#') + 1 )));
+		
+		
+		$widget = substr($widgetResource->uriResource, strrpos($widgetResource->uriResource, '#') + 1 );
+		if($widget != 'AsyncFile'){
+			//@TODO: quick fix to make AsyncFile work, need to clean that!!
+			$widget = ucfirst(strtolower($widget));
+		}
 		
 		//authoring widget is not used in standalone mode
 		if($widget == 'Authoring' && tao_helpers_Context::check('STANDALONE_MODE')){
@@ -82,7 +88,7 @@ class tao_helpers_form_GenerisFormFactory
 			if($element->getWidget() != $widgetResource->uriResource){
 				return null;
 			}
-	
+			
 			//use the property label as element description
 			$propDesc = (strlen(trim($property->getLabel())) > 0) ? _dh($property->getLabel()) : str_replace(LOCAL_NAMESPACE, '', $property->uriResource);
 			$element->setDescription($propDesc);
@@ -319,7 +325,7 @@ class tao_helpers_form_GenerisFormFactory
 			'file' => array(
 				'title' 	=> __('A file'),
 				'widget'	=> PROPERTY_WIDGET_FILE,
-				'range'		=> null
+				'range'		=> RDFS_LITERAL
 			)
 		);
 		

@@ -73,7 +73,6 @@ class tao_helpers_form_elements_xhtml_File
 				if($file->fileExists()){
 					$fileInfo = $file->getFileInfo();
 					$fileInfo->getFilename();
-					var_dump($fileInfo);
 				}else{
 					$file->delete();
 				}
