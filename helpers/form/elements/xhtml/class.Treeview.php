@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API -
+ * TAO - tao/helpers/form/elements/xhtml/class.Treeview.php
  *
  * $Id$
  *
- * This file is part of Generis Object Oriented API.
+ * This file is part of TAO.
  *
- * Automatically generated on 08.07.2010, 17:34:20 with ArgoUML PHP module 
+ * Automatically generated on 16.12.2011, 11:52:46 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_xhtml
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_form_elements_Treeview
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  */
 require_once('tao/helpers/form/elements/class.Treeview.php');
 
@@ -40,7 +40,7 @@ require_once('tao/helpers/form/elements/class.Treeview.php');
  * Short description of class tao_helpers_form_elements_xhtml_Treeview
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_xhtml
  */
@@ -58,7 +58,7 @@ class tao_helpers_form_elements_xhtml_Treeview
      * Short description of method getOptions
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string format
      * @return array
      */
@@ -87,7 +87,7 @@ class tao_helpers_form_elements_xhtml_Treeview
      * Short description of method setValue
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @param  string value
      * @return mixed
      */
@@ -104,7 +104,7 @@ class tao_helpers_form_elements_xhtml_Treeview
      * Short description of method render
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
     public function render()
@@ -177,6 +177,35 @@ class tao_helpers_form_elements_xhtml_Treeview
         // section 127-0-1-1-1a593a5d:129ad6a35a4:-8000:000000000000204C end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method evaluate
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @return mixed
+     */
+    public function evaluate()
+    {
+        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003484 begin
+		$expression = "/^" . preg_quote($this->name, "/") . "(.)*[0-9]+$/";
+		$found = false;
+		foreach ($_POST as $key => $value) {
+			if (preg_match($expression, $key)) {
+				$found = true;
+				break;
+			}
+		}
+		if ($found) {
+			$this->setValues(array());
+			foreach ($_POST as $key => $value) {
+				if (preg_match($expression, $key)) {
+					$this->addValue(tao_helpers_Uri::decode($value));
+				}
+			}
+		}
+        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003484 end
     }
 
 } /* end of class tao_helpers_form_elements_xhtml_Treeview */

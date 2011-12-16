@@ -469,7 +469,7 @@ abstract class tao_helpers_form_FormElement
 					$this->error = $validator->getMessage();
 					$returnValue = false;
 					break;
-				}			
+				}
 			}
 		}
 		
@@ -560,6 +560,23 @@ abstract class tao_helpers_form_FormElement
         // section 127-0-1-1--1c42fdef:133c68cec06:-8000:0000000000003423 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method evaluate
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     */
+    public function evaluate()
+    {
+        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:000000000000347E begin
+		if (isset($_POST[$this->name])) {
+			if ($this->name != 'uri' && $this->name != 'classUri') {
+				$this->setValue(tao_helpers_Uri::decode($_POST[$this->name]));
+			}
+		}
+        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:000000000000347E end
     }
 
 } /* end of abstract class tao_helpers_form_FormElement */

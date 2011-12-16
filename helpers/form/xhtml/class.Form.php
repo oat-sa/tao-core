@@ -128,44 +128,11 @@ class tao_helpers_form_xhtml_Form
 			
 			//set posted values
 			foreach($this->elements as $id => $element){
-				
-				if($element instanceof tao_helpers_form_elements_xhtml_File){
-					
-					if(isset($_FILES[$element->getName()])){
-						$this->elements[$id]->setValue( 
-							$_FILES[$element->getName()]
-						);
-					}
-				}
-				else if($element instanceof tao_helpers_form_elements_xhtml_Checkbox || $element instanceof tao_helpers_form_elements_xhtml_Treeview){
-					$expression = "/^".preg_quote($element->getName(), "/")."(.)*[0-9]+$/";
-					$found = false;
-					foreach($_POST as $key => $value){
-						if(preg_match($expression, $key)){
-							$found = true;
-							break;
-						}
-					}
-					if($found){
-						$this->elements[$id]->setValues(array());
-						foreach($_POST as $key => $value){
-							if(preg_match($expression, $key)){
-								$this->elements[$id]->addValue(tao_helpers_Uri::decode($value));
-							}
-						}
-					}
-				}
-				else{
-					if(isset($_POST[$element->getName()])){
-						if($element->getName() != 'uri' && $element->getName() != 'classUri'){
-							$this->elements[$id]->setValue( 
-								tao_helpers_Uri::decode($_POST[$element->getName()]) 
-							);
-						}
-					}
-				}
+				$this->elements[$id]->evaluate();
 			}
+			
 			$this->validate();
+			
 		}
 			
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A33 end
