@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 08.02.2011, 16:22:19 with ArgoUML PHP module 
+ * Automatically generated on 19.12.2011, 14:29:19 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_template
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_form_elements_Template
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/elements/class.Template.php');
 
@@ -40,7 +40,7 @@ require_once('tao/helpers/form/elements/class.Template.php');
  * Short description of class tao_helpers_form_elements_template_Template
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_template
  */
@@ -58,7 +58,7 @@ class tao_helpers_form_elements_template_Template
      * Short description of method render
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
     public function render()
@@ -72,6 +72,8 @@ class tao_helpers_form_elements_template_Template
 	        extract($this->variables);
 	      
 	        ob_start();
+	        
+	        common_Logger::i('including \''.$this->path.'\' into form', array('TAO'));
 	        
 	       include $this->path;
 	        
@@ -89,6 +91,27 @@ class tao_helpers_form_elements_template_Template
         // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F35 end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method evaluate
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @return mixed
+     */
+    public function evaluate()
+    {
+        // section 127-0-1-1-1ee974ce:13456771564:-8000:000000000000348A begin
+    	$values = array();
+    	$prefix = preg_quote($this->getPrefix(), '/');
+    	foreach($_POST as $key => $value){
+    		if(preg_match("/^$prefix/", $key)){
+    			$values[str_replace($this->getPrefix(), '', $key)] = $value;
+    		}
+    	}
+    	$this->setValues($values);
+        // section 127-0-1-1-1ee974ce:13456771564:-8000:000000000000348A end
     }
 
 } /* end of class tao_helpers_form_elements_template_Template */

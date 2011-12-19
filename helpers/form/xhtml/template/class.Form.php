@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 09.02.2011, 11:57:18 with ArgoUML PHP module 
+ * Automatically generated on 19.12.2011, 14:51:55 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_xhtml_template
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_form_xhtml_Form
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/xhtml/class.Form.php');
 
@@ -40,7 +40,7 @@ require_once('tao/helpers/form/xhtml/class.Form.php');
  * Short description of class tao_helpers_form_xhtml_template_Form
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_xhtml_template
  */
@@ -58,7 +58,7 @@ class tao_helpers_form_xhtml_template_Form
      * Short description of method getValues
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string groupName
      * @return array
      */
@@ -79,78 +79,6 @@ class tao_helpers_form_xhtml_template_Form
         // section 127-0-1-1-34f10d1c:12e0a0f28d8:-8000:0000000000004F7C end
 
         return (array) $returnValue;
-    }
-
-    /**
-     * Short description of method evaluate
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
-     */
-    public function evaluate()
-    {
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004EFD begin
-        
-    	$this->initElements();
-		
-		if(isset($_POST["{$this->name}_sent"])){
-			
-			$this->submited = true;
-			
-			//set posted values
-			foreach($this->elements as $id => $element){
-				
-				if($element instanceof tao_helpers_form_elements_xhtml_File){
-					
-					if(isset($_FILES[$element->getName()])){
-						$this->elements[$id]->setValue( 
-							$_FILES[$element->getName()]
-						);
-					}
-				}
-				else if($element instanceof tao_helpers_form_elements_xhtml_Checkbox || $element instanceof tao_helpers_form_elements_xhtml_Treeview){
-					$expression = "/^".preg_quote($element->getName(), "/")."(.)*[0-9]+$/";
-					$found = false;
-					foreach($_POST as $key => $value){
-						if(preg_match($expression, $key)){
-							$found = true;
-							break;
-						}
-					}
-					if($found){
-						$this->elements[$id]->setValues(array());
-						foreach($_POST as $key => $value){
-							if(preg_match($expression, $key)){
-								$this->elements[$id]->addValue(tao_helpers_Uri::decode($value));
-							}
-						}
-					}
-				}
-				else if($element instanceof tao_helpers_form_elements_Template){
-					$values = array();
-					$prefix = preg_quote($element->getPrefix(), '/');
-					foreach($_POST as $key => $value){
-						if(preg_match("/^$prefix/", $key)){
-							$values[str_replace($element->getPrefix(), '', $key)] = $value;
-						}
-					}
-					$element->setValues($values);
-				}
-				else{
-					if(isset($_POST[$element->getName()])){
-						if($element->getName() != 'uri' && $element->getName() != 'classUri'){
-							$this->elements[$id]->setValue( 
-								tao_helpers_Uri::decode($_POST[$element->getName()]) 
-							);
-						}
-					}
-				}
-			}
-			$this->validate();
-		}
-    	
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004EFD end
     }
 
 } /* end of class tao_helpers_form_xhtml_template_Form */

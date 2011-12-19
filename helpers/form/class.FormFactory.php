@@ -131,8 +131,9 @@ class tao_helpers_form_FormFactory
 		switch(self::$renderMode){
 			case 'xhtml':
 				$eltClass = "tao_helpers_form_elements_xhtml_{$type}";
-				
+
 				if(!class_exists($eltClass)){
+					common_Logger::w("type ".$type." not yet supported", array('FORM'));
 					//throw new Exception("type $type not yet supported");
 					return null;
 				}
@@ -143,10 +144,10 @@ class tao_helpers_form_FormFactory
 		if($eltClass){
 			$returnValue = new $eltClass($name);
 			if(!$returnValue instanceof tao_helpers_form_FormElement){
-				throw new Exception("$eltClass must be a tao_helpers_form_FormElement");
+				throw new common_Exception("$eltClass must be a tao_helpers_form_FormElement");
 			}
 		}
-		
+
         // section 127-0-1-1--35d6051a:124bac7a23e:-8000:0000000000001B21 end
 
         return $returnValue;

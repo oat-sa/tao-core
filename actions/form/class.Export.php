@@ -67,7 +67,7 @@ class tao_actions_form_Export
     {
         // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 begin
 		
-		$this->form = new tao_helpers_form_xhtml_template_Form('export');
+    	$this->form = new tao_helpers_form_xhtml_template_Form('export');
 				
 		$this->form->setDecorators(array(
 			'element'			=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
@@ -83,8 +83,8 @@ class tao_actions_form_Export
 		
 		$this->form->setActions(array($exportElt), 'bottom');
 		
-		
-        // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 end
+		common_Logger::d('Export Form initialised', array('TAO'));
+		// section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 end
     }
 
     /**
