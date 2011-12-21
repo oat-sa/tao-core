@@ -335,17 +335,12 @@ class tao_models_classes_UserService
 					 'cn' => "*%s*");
 		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 		$users = array();
-		$types = array();
 
-		foreach ($this->allowedRoles as $roleUri) {
-			$types[] = $roleUri;
-		}
-
-		$opts = array('recursive' => 0, 'like' => false);
+		$opts = array('recursive' => 0, 'like' => false, 'additionalClasses' => $this->allowedRoles);
 		if (isset($options['start'])) $opts['offset'] = $options['start'];
 		if (isset($options['end'])) $opts['limit'] = $options['end'];
 
-		$crits = array(RDF_TYPE => $types, PROPERTY_USER_LOGIN => '*');
+		$crits = array(PROPERTY_USER_LOGIN => '*');
 		if (isset($options['search']) && !is_null($options['search']) && isset($options['search']['string']) && isset($ops[$options['search']['op']])) {
 			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
 		}
