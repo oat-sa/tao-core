@@ -106,7 +106,7 @@ class tao_install_utils_ConfigTester{
 			}
 		}
 		else{
-			$this->message = "Required PHP version is greater than $min and leater than $max. Your version is ".PHP_VERSION.".";
+			$this->message = "Required PHP version is greater than $min and less than $max. Your version is ".PHP_VERSION.".";
 			if(version_compare(PHP_VERSION, $max, 'lt') && version_compare(PHP_VERSION, $min, 'gt')){
 				$this->status = self::STATUS_VALID;
 			}
@@ -144,8 +144,15 @@ class tao_install_utils_ConfigTester{
 			case 'mysqli':
 			case 'pdo':
 			case 'pdo_mysql':
-				$this->message = 'PHP extension mysql, mysqli or pdo is required';
-				(extension_loaded(strtolower($extensionName))) ? $this->status  = self::STATUS_VALID : $this->status  = self::STATUS_INVALID;
+			case 'pgsql':
+				if (extension_loaded(strtolower($extensionName))) {
+					$dbsystem = $extensionName == 'pgsql' ? 'PostgreSQL' : 'MySQL';
+					$this->message = 'PHP extension for '.$dbsystem.' is available.';
+					$this->status  = self::STATUS_VALID;
+				} else {
+					$this->message = 'PHP extension mysql, mysqli, pdo or pgsql is required';
+					$this->status  = self::STATUS_INVALID;
+				}
 				break;
 			case 'svn':
 				$this->message = 'PHP extension svn is optionnal but it is recommended to version resources';

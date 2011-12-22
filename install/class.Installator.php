@@ -55,12 +55,14 @@ class tao_install_Installator{
 		),
 		10 => array(
 			'type'	=> 'MULTI',
-			'title'	=> 'PHP mysql driver extension check',
+			'title'	=> 'PHP db driver extension check',
 			'tests'	=> array(
 				array('type'	=> 'PHP_EXTENSION', 'name' =>  'mysql'),
 				array('type'	=> 'PHP_EXTENSION', 'name' =>  'mysqli'),
-				array('type'	=> 'PHP_EXTENSION', 'name' =>  'pdo_mysql')
-			)
+				array('type'	=> 'PHP_EXTENSION', 'name' =>  'pdo_mysql'),
+				array('type'	=> 'PHP_EXTENSION', 'name' =>  'pgsql'),
+			),
+			'displayMsg'	=> true
 		),
 		11 => array(
 			'type'			=> 'PHP_EXTENSION',
@@ -173,6 +175,8 @@ class tao_install_Installator{
 			
 			//in case one of the test is sufficient: only one of the tests must be valid 
 			if($test['type'] == 'MULTI'){
+				$successMessages = array();
+				$failureMessages = array();
 				foreach($test['tests'] as $subTest){
 					$parameters = $subTest;
 					unset($parameters['type']);
@@ -180,20 +184,25 @@ class tao_install_Installator{
 						$tester = new tao_install_utils_ConfigTester($subTest['type'], $parameters);
 						if($tester->getStatus() ==  tao_install_utils_ConfigTester::STATUS_VALID){
 							$result['valid'] = true;
-						}
-						else{
-							if($result['message'] != $tester->getMessage()){
-								$result['message'] .= $tester->getMessage();
-							}
+							$successMessages[] = $tester->getMessage(); 
+						} else {
+							$failureMessages[] = $tester->getMessage(); 
 						}
 					}
 					catch(tao_install_utils_Exception $ie){
 						$result['unkown'] = true;
 					}
 				}
+				$result['message'] = implode('<br />', array_unique($successMessages));
 				if($result['valid']){
-					$result['message'] = '';
+					if (isset($test['displayMsg']) && $test['displayMsg'] === true) {
+						$result['message'] = implode('<br />', array_unique($successMessages));
+					} else {
+						$result['message'] = '';
+					}
 					$result['unkown'] = false;
+				} else {
+					$result['message'] = implode('<br />', array_unique($failureMessages));
 				}
 			}
 			else{
