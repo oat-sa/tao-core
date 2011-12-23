@@ -6,7 +6,7 @@ error_reporting(E_ALL);
  * The validators enable you to perform a validation callback on a form element.
  * It's provide a model of validation and must be overriden.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * Represents a FormElement entity
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/class.FormElement.php');
 
@@ -36,7 +36,7 @@ require_once('tao/helpers/form/class.FormElement.php');
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form
  */
@@ -56,14 +56,6 @@ abstract class tao_helpers_form_Validator
     protected $options = array();
 
     /**
-     * Short description of attribute values
-     *
-     * @access protected
-     * @var array
-     */
-    protected $values = array();
-
-    /**
      * Short description of attribute message
      *
      * @access protected
@@ -77,7 +69,7 @@ abstract class tao_helpers_form_Validator
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -94,7 +86,7 @@ abstract class tao_helpers_form_Validator
      * Short description of method getName
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
     public function getName()
@@ -114,7 +106,7 @@ abstract class tao_helpers_form_Validator
      * Short description of method getOptions
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return array
      */
     public function getOptions()
@@ -131,66 +123,10 @@ abstract class tao_helpers_form_Validator
     }
 
     /**
-     * Short description of method setValue
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string value
-     * @return mixed
-     */
-    public function setValue($value)
-    {
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001B9A begin
-		
-		$this->values[] = $value;
-		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001B9A end
-    }
-
-    /**
-     * Short description of method getValue
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return string
-     */
-    public function getValue()
-    {
-        $returnValue = (string) '';
-
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BD0 begin
-		
-		if(count($this->values) == 1){
-			 $returnValue = $this->values[0];
-		}
-		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BD0 end
-
-        return (string) $returnValue;
-    }
-
-    /**
-     * Short description of method setValues
-     *
-     * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  array values
-     * @return mixed
-     */
-    public function setValues($values)
-    {
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001B9D begin
-		
-		$this->values = $values;
-		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001B9D end
-    }
-
-    /**
      * Short description of method getMessage
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
     public function getMessage()
@@ -211,10 +147,11 @@ abstract class tao_helpers_form_Validator
      *
      * @abstract
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  values
      * @return boolean
      */
-    public abstract function evaluate();
+    public abstract function evaluate($values);
 
 } /* end of abstract class tao_helpers_form_Validator */
 

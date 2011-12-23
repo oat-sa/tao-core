@@ -4,6 +4,7 @@ set_time_limit(900);	//a suite must never takes more than 15minutes!
 require_once dirname(__FILE__).'/../includes/class.Bootstrap.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
 require_once dirname(__FILE__) .'/XmlTimeReporter.php';
+require_once dirname(__FILE__) .'/TaoTestCase.php';
 
 /**
  * Help you to run the test into the TAO Context

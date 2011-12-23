@@ -72,6 +72,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 				//import method for the given format
 				if(!is_null($myForm->getValue('format'))){
 					
+					common_Logger::i('Starting import with format: '.$myForm->getValue('format'), array('TAO'));
 					$importMethod = 'import'.strtoupper($myForm->getValue('format')).'File';
 					if(method_exists($this, $importMethod)){
 						

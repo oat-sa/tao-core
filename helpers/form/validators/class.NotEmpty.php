@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/validators/class.NotEmpty.php
+ * TAO - tao/helpers/form/validators/class.NotEmpty.php
  *
  * $Id$
  *
- * This file is part of Generis Object Oriented API.
+ * This file is part of TAO.
  *
- * Automatically generated on 22.12.2009, 16:53:44 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * Automatically generated on 22.12.2011, 14:51:41 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_validators
  */
@@ -22,9 +22,10 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_helpers_form_Validator
+ * The validators enable you to perform a validation callback on a form element.
+ * It's provide a model of validation and must be overriden.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/class.Validator.php');
 
@@ -40,7 +41,7 @@ require_once('tao/helpers/form/class.Validator.php');
  * Short description of class tao_helpers_form_validators_NotEmpty
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_validators
  */
@@ -58,7 +59,7 @@ class tao_helpers_form_validators_NotEmpty
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -77,26 +78,24 @@ class tao_helpers_form_validators_NotEmpty
      * Short description of method evaluate
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  values
      * @return boolean
      */
-    public function evaluate()
+    public function evaluate($values)
     {
         $returnValue = (bool) false;
 
         // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCB begin
-		
-		$values = $this->values;
 		if(count($values) > 1){
 			$returnValue = true;
 		}
 		else{
-			$value = trim($this->getValue());
+			$value = trim($values);
 			if(!empty($value)){
 				$returnValue = true;
 			}
 		}
-		
         // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCB end
 
         return (bool) $returnValue;

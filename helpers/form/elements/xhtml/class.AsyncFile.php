@@ -63,15 +63,15 @@ class tao_helpers_form_elements_xhtml_AsyncFile
     public function evaluate()
     {
         // section 127-0-1-1-3ba812e2:1284379704f:-8000:00000000000023F8 begin
-        
-        if(!is_null($this->value)){
-        	$struct = @unserialize($this->value);
+        common_Logger::t('Evaluating AsyncFile '.$this->getName(), array('TAO'));
+        if (isset($_POST[$this->name])) {
+        	$struct = @unserialize($_POST[$this->name]);
         	if($struct !== false){
-        		$this->value = $struct;
+        		$this->setValue($struct);
+        	} else {
+        		common_Logger::w('Could not unserialise AsyncFile field '.$this->getName(), array('TAO'));
         	}
         }
-        $returnValue = $this->value;
-        
         // section 127-0-1-1-3ba812e2:1284379704f:-8000:00000000000023F8 end
     }
 

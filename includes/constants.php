@@ -52,6 +52,7 @@ $todefine = array(
 	'PROPERTY_WIDGET_TEXTBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
 	'PROPERTY_WIDGET_TEXTAREA'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
 	'PROPERTY_WIDGET_HTMLAREA'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea',
+	'PROPERTY_WIDGET_PASSWORD'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Password',
 	'PROPERTY_WIDGET_HIDDENBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
 	'PROPERTY_WIDGET_RADIOBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox',
 	'PROPERTY_WIDGET_COMBOBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',

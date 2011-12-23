@@ -464,10 +464,10 @@ abstract class tao_helpers_form_FormElement
 		
 		if(!$this->forcedValid){
 			foreach($this->validators as $validator){
-				$validator->setValue($this->getValue());
-				if(!$validator->evaluate()){
+				if(!$validator->evaluate($this->getValue())){
 					$this->error = $validator->getMessage();
 					$returnValue = false;
+					common_Logger::d(get_class($this).' is invalid for '.get_class($validator), array('TAO'));
 					break;
 				}
 			}

@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/validators/class.Callback.php
+ * TAO - tao/helpers/form/validators/class.Callback.php
  *
  * $Id$
  *
- * This file is part of Generis Object Oriented API.
+ * This file is part of TAO.
  *
- * Automatically generated on 22.12.2009, 16:53:44 with ArgoUML PHP module 
- * (last revised $Date: 2009-04-11 21:57:46 +0200 (Sat, 11 Apr 2009) $)
+ * Automatically generated on 22.12.2011, 14:51:41 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_validators
  */
@@ -22,9 +22,10 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_helpers_form_Validator
+ * The validators enable you to perform a validation callback on a form element.
+ * It's provide a model of validation and must be overriden.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/class.Validator.php');
 
@@ -40,7 +41,7 @@ require_once('tao/helpers/form/class.Validator.php');
  * Short description of class tao_helpers_form_validators_Callback
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_validators
  */
@@ -58,7 +59,7 @@ class tao_helpers_form_validators_Callback
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -68,7 +69,9 @@ class tao_helpers_form_validators_Callback
 		
 		parent::__construct($options);
 		
-		$this->message = $this->options['message'];
+		if(isset($this->options['message'])) {
+			$this->message = $this->options['message'];
+		}
 		
 		if(!isset($this->options['function']) 
 			&& !((isset($this->options['class']) || isset($this->options['object'])) 
@@ -84,10 +87,11 @@ class tao_helpers_form_validators_Callback
      * Short description of method evaluate
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  values
      * @return boolean
      */
-    public function evaluate()
+    public function evaluate($values)
     {
         $returnValue = (bool) false;
 
@@ -96,7 +100,9 @@ class tao_helpers_form_validators_Callback
 		if(isset($this->options['function'])){
 			$callback = $this->options['function'];
 			if(function_exists($callback)){
-				$returnValue = (bool)$callback($this->getValue());
+				$returnValue = (bool)$callback($values);
+			} else {
+				throw new common_Exception("callback function does not exist");
 			}
 		}
 		else if(isset($this->options['class'])){
@@ -105,7 +111,9 @@ class tao_helpers_form_validators_Callback
 			if(class_exists($class)){
 				$callback = new $class();
 				if(method_exists($callback, $method)){
-					$returnValue = (bool)$callback->$method($this->getValue());
+					$returnValue = (bool)$callback->$method($values);
+				} else {
+					throw new common_Exception("callback methode does not exist");
 				}
 			}
 		}
@@ -113,7 +121,9 @@ class tao_helpers_form_validators_Callback
 			$object = $this->options['object'];
 			$method = $this->options['method'];
 			if(method_exists($object, $method)){
-				$returnValue = (bool)$object->$method($this->getValue());
+				$returnValue = (bool)$object->$method($values);
+			} else {
+				throw new common_Exception("callback methode does not exist");
 			}
 		}
 		
