@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Utilities on files
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -26,7 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Utilities on files
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -37,6 +37,22 @@ class tao_helpers_File
 
     // --- ATTRIBUTES ---
 
+    /**
+     * Short description of attribute FILE
+     *
+     * @access public
+     * @var int
+     */
+    public static $FILE = 1;
+
+    /**
+     * Short description of attribute DIR
+     *
+     * @access public
+     * @var int
+     */
+    public static $DIR = 2;
+
     // --- OPERATIONS ---
 
     /**
@@ -45,7 +61,7 @@ class tao_helpers_File
      * Use it when the path may be build from a user variable
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string path
      * @param  boolean traversalSafe
      * @return boolean
@@ -84,7 +100,7 @@ class tao_helpers_File
      * clean concat paths
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  array paths
      * @return string
      */
@@ -111,7 +127,7 @@ class tao_helpers_File
      * Short description of method remove
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string path
      * @param  boolean recursive
      * @return boolean
@@ -146,7 +162,7 @@ class tao_helpers_File
      * Short description of method copy
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string source
      * @param  string destination
      * @param  boolean recursive
@@ -187,7 +203,7 @@ class tao_helpers_File
      * Short description of method move
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string source
      * @param  string destination
      * @return boolean
@@ -241,7 +257,7 @@ class tao_helpers_File
      * Short description of method getMimeTypes
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @return array
      */
     protected static function getMimeTypes()
@@ -321,7 +337,7 @@ class tao_helpers_File
      * Short description of method getExtention
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string mimeType
      * @return string
      */
@@ -350,7 +366,7 @@ class tao_helpers_File
      * different methods are used regarding the configuration.
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string path
      * @return string
      */
@@ -395,6 +411,53 @@ class tao_helpers_File
         // section 127-0-1-1--5cd35ad1:1283edec322:-8000:00000000000023F5 end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Scan a directory and return the files it contains
+     *
+     * @access public
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @param  string path
+     * @param  array options
+     * @return array
+     */
+    public static function scandir($path, $options = array())
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--45b111d8:1345bd4833c:-8000:00000000000044E8 begin
+        
+        $recursive = isset($options['recursive']) ? $options['recursive'] : false;
+        $only = isset($options['only']) ? $options['only'] : null;
+        
+        if(is_dir($path)){
+            $iterator = new DirectoryIterator($path);
+            foreach ($iterator as $fileinfo) {
+                if (!$fileinfo->isDot()){
+                    if(!is_null($only)){
+                        if($only==self::$DIR && $fileinfo->isDir()){
+                            array_push($returnValue, $fileinfo->getFilename());
+                        }
+                        else if($only==self::$FILE && $fileinfo->isFile()){
+                            array_push($returnValue, $fileinfo->getFilename());
+                        }
+                    }else{
+                        array_push($returnValue, $fileinfo->getFilename());
+                    }
+                    
+                    if($fileinfo->isDir() && $recursive){
+                        $returnValue = array_merge($returnValue, self::scandir(realpath($fileinfo->getPathname()), $options));
+                    }
+                }
+            }
+        }else{
+            throw new common_Exception("An error occured : The function (".__METHOD__.") of the class (".__CLASS__.") is expecting a directory path as first parameter");
+        }
+        
+        // section 127-0-1-1--45b111d8:1345bd4833c:-8000:00000000000044E8 end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_helpers_File */
