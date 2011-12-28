@@ -903,7 +903,9 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$filterNodesOptions = array();
 		// The filter
 		$filter = array();
-		
+        // Filter itself ?
+        $filterItself = $this->hasRequestParameter('filterItself') ? ($this->getRequestParameter('filterItself')=='false'?false:true) : false;
+        
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
@@ -911,10 +913,11 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		// Get the target property
 		if($this->hasRequestParameter('propertyUri')){
-			$property = new core_kernel_classes_Property($this->getRequestParameter('propertyUri'));
+            $propertyUri = $this->getRequestParameter('propertyUri');
 		} else {
-			$property = new core_kernel_classes_Property(RDFS_LABEL);
+            $propertyUri = RDFS_LABEL;
 		}
+		$property = new core_kernel_classes_Property($propertyUri);
 		
 		// Get the class paramater
 		if($this->hasRequestParameter('classUri')){
@@ -927,22 +930,24 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		// Get filter nodes parameters
 		if($this->hasRequestParameter('filterNodesOptions')){
 			$filterNodesOptions = $this->getRequestParameter('filterNodesOptions');
-			//var_dump($filterNodesOptions);
 		}
 		// Get filter parameter
 		if($this->hasRequestParameter('filter')){
 			$filterParam = $this->getRequestParameter('filter');
 			//foreach filter nodes
 			foreach ($filterParam as $key=>$values){
+                
+				$filterNodePropertyUri = $filterNodesOptions[$key]['propertyUri'];
+                if(!$filterItself && $filterNodePropertyUri == $propertyUri){
+                    continue;
+                }
 				
-				$propertyUri = $filterNodesOptions[$key]['propertyUri'];
-				
-				if (!isset($filter[$propertyUri])){
-					$filter[$propertyUri] = array();
+				if (!isset($filter[$filterNodePropertyUri])){
+					$filter[$filterNodePropertyUri] = array();
 				}
 				foreach($values as $value){
 					$propertyValue = !common_Utils::isUri(tao_helpers_Uri::decode($value)) ? $value : tao_helpers_Uri::decode($value);
-					array_push($filter[$propertyUri], $propertyValue);
+					array_push($filter[$filterNodePropertyUri], $propertyValue);
 				}
 			}
 		}
