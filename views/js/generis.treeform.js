@@ -70,9 +70,9 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				//before check
 				beforecheck:function(NODE, TREE_OBJ)
 				{
-					console.log('BEFORE CHECK '+instance.selector);
+//					console.log('BEFORE CHECK '+instance.selector);
 					var nodeId = $(NODE).attr('id');
-					console.log('checked node '+nodeId);
+//					console.log('checked node '+nodeId);
 					if(instance.isRefreshing){
 						if($.inArray(nodeId, instance.checkedNodes) == -1){
 							return false;
@@ -87,14 +87,14 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					else {
 						var indice = $.inArray(nodeId, instance.checkedNodes);
 						if(indice == -1){
-							console.log("ADD "+nodeId)
+//							console.log("ADD "+nodeId)
 							instance.checkedNodes.push(nodeId);
 						}else{
 							// The widget should stop the propagation
-							console.log('should stop the event propagation for this node');
+//							console.log('should stop the event propagation for this node');
 							return true;
 						}
-						console.log(instance.checkedNodes);
+//						console.log(instance.checkedNodes);
 					}
 					return true;
 				},
@@ -102,12 +102,12 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				beforeuncheck:function(NODE, TREE_OBJ)
 				{
 					var nodeId = $(NODE).attr('id');
-					console.log('BEFORE UNCHECK '+nodeId);
+//					console.log('BEFORE UNCHECK '+nodeId);
 					var indice = $.inArray(nodeId, instance.checkedNodes);
 					if(indice != -1){
-						console.log(instance.checkedNodes);
+//						console.log(instance.checkedNodes);
 						instance.checkedNodes.splice(indice,1);
-						console.log(instance.checkedNodes);
+//						console.log(instance.checkedNodes);
 						//delete instance.checkedNodes[indice];
 					}
 					return true;
@@ -115,13 +115,13 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				//before open a branch
 				beforeopen:function(NODE, TREE_OBJ)
 				{
-					console.log('BEFORE OPEN');
+//					console.log('BEFORE OPEN');
 					instance.lastOpened = NODE;
 				},
 				//Before receive data from server, return the POST parameters
 				beforedata:function(NODE, TREE_OBJ)
 				{
-					console.log('BEFORE DATA');
+//					console.log('BEFORE DATA');
 					var returnValue = instance.defaultServerParameters;
 					//If a NODE is given, send its identifier to the server
 					if(NODE){
@@ -140,33 +140,29 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				//
 				onopen: function (NODE, TREE_OBJ)
 				{
-					console.log('ON OPEN');
+//					console.log('ON OPEN');
 					if(instance.checkedNodes){
-						console.log('CHECK NODES ON OPEN');
+//						console.log('CHECK NODES ON OPEN');
 						instance.check(instance.checkedNodes);
 					}
 				},
 				//
 				onload: function(TREE_OBJ)
 				{
-					console.log('ONLOAD '+instance.selector);
-					//console.log(instance.checkedNodes);
-					if(instance.checkedNodes.length){
-						console.log('CHECK NODES ON LOAD');
-						console.log(instance.checkedNodes);
-						instance.check(instance.checkedNodes);
-					}
+//					console.log('ONLOAD '+instance.selector);
+					////console.log(instance.checkedNodes);
+                    instance.check(instance.checkedNodes);
 					if(instance.options.loadCallback){
 						instance.options.loadCallback();
 					}
-					console.log('LOADED '+instance.selector)
+//					console.log('LOADED '+instance.selector)
 
 					instance.isRefreshing = false;
 					
 				},
 				onchange: function(NODE, TREE_OBJ)
 				{
-					console.log('ON CHANGE '+instance.isRefreshing);
+//					console.log('ON CHANGE '+instance.isRefreshing);
 					if(instance.options.onChangeCallback && !instance.isRefreshing){
 						instance.options.onChangeCallback(NODE, TREE_OBJ);
 					}
@@ -186,16 +182,16 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 					}
 
 					var nodeId = $(NODE).attr('id');
-					console.log('ON SELECT '+nodeId+' IN '+instance.selector);
+//					console.log('ON SELECT '+nodeId+' IN '+instance.selector);
 /*
-					console.log('SELECT '+nodeId);
+//					console.log('SELECT '+nodeId);
 					
 					var indice = $.inArray(nodeId, instance.checkedNodes);
 					if(indice == -1){
-						console.log('ADD TO VARS 2');
+//						console.log('ADD TO VARS 2');
 						instance.checkedNodes.push(nodeId);
 					}else{
-						console.log('DEL TO VARS 2');
+//						console.log('DEL TO VARS 2');
 						delete instance.checkedNodes[indice];
 					}
 */
@@ -204,8 +200,8 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				//
 				ondata: function(DATA, TREE_OBJ)
 				{
-					console.log('ON DATA '+instance.selector);
-					console.log(DATA);
+//					console.log('ON DATA '+instance.selector);
+//					console.log(DATA);
 					//automatically open the children of the received node
 					if(DATA.children){
 						DATA.state = 'open';
@@ -233,7 +229,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 		});
 	}
 	catch(exp){
-		console.log(exp);
+//		console.log(exp);
 	}
 }
 
@@ -244,12 +240,12 @@ function GenerisTreeFormClass(selector, dataUrl, options){
  */
 
 function trace(){
-	console.log('TRACE '+
-			arguments.callee.caller
-			.arguments.callee.caller
-			.arguments.callee.caller
-			.arguments.callee.caller
-	);
+//	console.log('TRACE '+
+//			arguments.callee.caller
+//			.arguments.callee.caller
+//			.arguments.callee.caller
+//			.arguments.callee.caller
+//	);
 }
 
 /**
@@ -432,7 +428,7 @@ GenerisTreeFormClass.prototype.refreshPaginate  = function (NODE, TREE_OBJ)
  */
 GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOptions, callback)
 {
-	console.log('CA PAGINATE LA');
+//	console.log('CA PAGINATE LA');
 	var instance = this;
 	var nodeId = NODE[0].id;
 	var instancesLeft = instance.getMeta(nodeId, "count") - instance.getMeta(nodeId, "displayed");
@@ -452,7 +448,7 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
 			TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
 			// If the check all options. Add the incoming nodes to the list of node to check
 			if (options.checkedNodes == "*"){
-				console.log('check nodes on paginate *');
+//				console.log('check nodes on paginate *');
 				instance.checkedNodes.push (DATA[i].attributes.id);
 			}
 		}
@@ -469,7 +465,7 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
 				$(NODE).find('ul:first').children().each(function(){
 					if ($(this).hasClass('node-instance')) {
 						$(this).find("a:not(.checked, .undetermined)").each (function () {
-							console.log('check nodes on paginate');
+//							console.log('check nodes on paginate');
 							instance.checkedNodes.push($(this).parent().attr('id'));
 						});
 					}					
@@ -478,7 +474,7 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
 				instance.checkedNodes = options.checkedNodes;
 			}
 		}
-		console.log('CA CHECK ENCORE LA');
+//		console.log('CA CHECK ENCORE LA');
 		instance.check(instance.checkedNodes);
 		
 		//Execute callback;
@@ -494,16 +490,22 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
  */
 GenerisTreeFormClass.prototype.check = function(elements)
 {
-	console.log('LE MANUEL CHECK DE LA MORTE');
+//	console.log('LE MANUEL CHECK DE LA MORTE');
 	var self = this;
 	$.each(elements, function(i, elt){
 		if(elt != null){
 			NODE = $(self.selector).find("li[id="+elt+"]");
 			if(NODE.length > 0){
 				if($(NODE).hasClass('node-instance'))
-					console.log('le roublard de chck '+elt);
+//					console.log('le roublard de chck '+elt);
 					$.tree.plugins.checkbox.check(NODE);
-			}
+			}else{
+                for(var i in self.checkedNodes){
+                    if(self.checkedNodes[i] == elt){
+                        delete(self.checkedNodes[i]);
+                    }
+                }
+            }
 		}
 	});
 }
@@ -523,13 +525,12 @@ GenerisTreeFormClass.prototype.getChecked = function ()
 	return returnValue;
 }
 
-
 /**
  * save the checked instances in the tree by sending the ids using an ajax request
  */
 GenerisTreeFormClass.prototype.saveData = function()
 {
-	console.log('SAVE');
+//	console.log('SAVE');
 	loading();
 	var instance = this;
 	var toSend = {};
