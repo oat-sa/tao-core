@@ -153,6 +153,10 @@ class tao_models_classes_Parser
 
         // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025BB begin
         
+        //You know sometimes you think you have enough time, but it is not always true ...
+        //(timeout in hudson with the generis-hard test suite)
+        set_time_limit(30);
+        
         $forced = $this->valid;
         
         $this->valid = true;
