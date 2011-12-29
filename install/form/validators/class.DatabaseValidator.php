@@ -5,16 +5,18 @@ require_once 'generis/includes/adodb5/adodb.inc.php';
 class tao_install_form_validators_DatabaseValidator 
 	extends tao_helpers_form_Validator {
 	
-	public function __construct($options = array()) {
+	public function __construct($options = array())
+    {
 		parent::__construct($options);
 		
 		$this->message = __('Database name already in use');
 	}
 	
-	public function evaluate() {
+	public function evaluate($values)
+    {
 		$returnValue = true;
 		
-		$value = $this->getValue();
+		//$values = $this->getValue();
 		
 		if (!isset($this->options['db_host']) || !isset($this->options['db_driver']) ||
 			!isset($this->options['db_name']) || !isset($this->options['db_user']) ||
@@ -39,13 +41,11 @@ class tao_install_form_validators_DatabaseValidator
 				if(!in_array('on', $this->options['db_override']->getValues())){
 					$returnValue = !$dbCreator->dbExists($dbname);
 				}
-				
-				
 			}
 			catch (tao_install_utils_Exception $e) {
 				// We cannot get connected to the database.
 				// We assume the db is still not in use.
-				return true;
+				$returnValue = true;
 			}
 			
 			return $returnValue;
