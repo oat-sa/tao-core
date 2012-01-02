@@ -99,7 +99,7 @@ class tao_helpers_form_validators_DateTime
 			if(!empty($this->options['comparator']) && $this->options['datetime2_ref'] instanceof tao_helpers_form_FormElement){
 				//try comparison:
 				try{
-					$dateTime2 = new DateTime($this->options['datetime2_ref']->getValue());
+					$dateTime2 = new DateTime($this->options['datetime2_ref']->getRawValue());
 				}catch(Exception $e){}
 				
 				if($dateTime2 instanceof DateTime){

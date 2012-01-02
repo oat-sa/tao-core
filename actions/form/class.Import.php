@@ -132,8 +132,8 @@ class tao_actions_form_Import
     	$this->form->createGroup('formats', __('Supported formats to import'), array('format'));
     	
     	//load dynamically the method regarding the selected format 
-    	if(!is_null($formatElt->getValue())){
-    		$method = "init".strtoupper($formatElt->getValue())."Elements";
+    	if(!is_null($this->form->getValue('format')) && strlen($this->form->getValue('format')) > 0){
+    		$method = "init".strtoupper($this->form->getValue('format'))."Elements";
     		
     		if(method_exists($this, $method)){
     			$this->$method();

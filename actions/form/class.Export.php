@@ -67,7 +67,7 @@ class tao_actions_form_Export
     {
         // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 begin
 		
-    	$this->form = new tao_helpers_form_xhtml_template_Form('export');
+    	$this->form = new tao_helpers_form_xhtml_Form('export');
 				
 		$this->form->setDecorators(array(
 			'element'			=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
@@ -122,11 +122,13 @@ class tao_actions_form_Export
     	$this->form->createGroup('formats', __('Supported export formats'), array('format'));
     	
     	//load dynamically the method regarding the selected format 
-    	if(!is_null($formatElt->getValue())){
-    		$method = "init".strtoupper($formatElt->getValue())."Elements";
+    	if(!is_null($this->form->getValue('format')) && strlen($this->form->getValue('format')) > 0){
+    		$method = "init".strtoupper($this->form->getValue('format'))."Elements";
     		
     		if(method_exists($this, $method)){
     			$this->$method();
+    		} else {
+    			common_Logger::w('Methode \''.$method.'\' not found for the export format \''.$this->form->getValue('format').'\'', array('TAO'));
     		}
     	}
 		

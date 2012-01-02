@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 16.12.2011, 11:52:46 with ArgoUML PHP module 
+ * Automatically generated on 02.01.2012, 11:12:09 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_xhtml
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_form_elements_Checkbox
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/elements/class.Checkbox.php');
 
@@ -40,7 +40,7 @@ require_once('tao/helpers/form/elements/class.Checkbox.php');
  * Short description of class tao_helpers_form_elements_xhtml_Checkbox
  *
  * @access public
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_xhtml
  */
@@ -55,10 +55,39 @@ class tao_helpers_form_elements_xhtml_Checkbox
     // --- OPERATIONS ---
 
     /**
+     * Short description of method feed
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @return mixed
+     */
+    public function feed()
+    {
+        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003486 begin
+		$expression = "/^".preg_quote($this->name, "/")."(.)*[0-9]+$/";
+		$found = false;
+		foreach($_POST as $key => $value){
+			if(preg_match($expression, $key)){
+				$found = true;
+				break;
+			}
+		}
+		if($found){
+			$this->setValues(array());
+			foreach($_POST as $key => $value){
+				if(preg_match($expression, $key)){
+					$this->addValue(tao_helpers_Uri::decode($value));
+				}
+			}
+		}
+        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003486 end
+    }
+
+    /**
      * Short description of method render
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
     public function render()
@@ -111,7 +140,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
      * Short description of method setValue
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string value
      * @return mixed
      */
@@ -123,32 +152,17 @@ class tao_helpers_form_elements_xhtml_Checkbox
     }
 
     /**
-     * Short description of method evaluate
+     * Short description of method getEvaluatedValue
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
-    public function evaluate()
+    public function getEvaluatedValue()
     {
-        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003486 begin
-		$expression = "/^".preg_quote($this->name, "/")."(.)*[0-9]+$/";
-		$found = false;
-		foreach($_POST as $key => $value){
-			if(preg_match($expression, $key)){
-				$found = true;
-				break;
-			}
-		}
-		if($found){
-			$this->setValues(array());
-			foreach($_POST as $key => $value){
-				if(preg_match($expression, $key)){
-					$this->addValue(tao_helpers_Uri::decode($value));
-				}
-			}
-		}
-        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003486 end
+        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:000000000000349E begin
+        return array_map("tao_helpers_Uri::decode", $this->getRawValue());
+        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:000000000000349E end
     }
 
 } /* end of class tao_helpers_form_elements_xhtml_Checkbox */

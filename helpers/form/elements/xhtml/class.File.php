@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 16.12.2011, 11:52:46 with ArgoUML PHP module 
+ * Automatically generated on 02.01.2012, 11:12:09 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_xhtml
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_form_elements_File
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/elements/class.File.php');
 
@@ -40,7 +40,7 @@ require_once('tao/helpers/form/elements/class.File.php');
  * Short description of class tao_helpers_form_elements_xhtml_File
  *
  * @access public
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_xhtml
  */
@@ -55,10 +55,27 @@ class tao_helpers_form_elements_xhtml_File
     // --- OPERATIONS ---
 
     /**
+     * Short description of method feed
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     */
+    public function feed()
+    {
+        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003482 begin
+		if(isset($_FILES[$this->getName()])){
+			$this->setValue($_FILES[$this->getName()]);
+		}else{
+			throw new tao_helpers_form_Exception('cannot evaluate the element '.__CLASS__);
+		}
+        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003482 end
+    }
+
+    /**
      * Short description of method render
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
     public function render()
@@ -91,20 +108,17 @@ class tao_helpers_form_elements_xhtml_File
     }
 
     /**
-     * Short description of method evaluate
+     * Short description of method getEvaluatedValue
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @return mixed
      */
-    public function evaluate()
+    public function getEvaluatedValue()
     {
-        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003482 begin
-		if(isset($_FILES[$this->getName()])){
-			$this->setValue($_FILES[$this->getName()]);
-		}else{
-			throw new tao_helpers_form_Exception('cannot evaluate the element '.__CLASS__);
-		}
-        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003482 end
+        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A2 begin
+        return $this->getRawValue();
+        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A2 end
     }
 
 } /* end of class tao_helpers_form_elements_xhtml_File */

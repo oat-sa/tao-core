@@ -279,7 +279,7 @@ class tao_actions_form_Users
 			
 			$this->form->createGroup("pass_group", __("Change the password"), array('password0', 'password1', 'password2', 'password3'));
 		}
-		
+		/**/
 		
 		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC end

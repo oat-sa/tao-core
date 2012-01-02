@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 16.12.2011, 11:52:46 with ArgoUML PHP module 
+ * Automatically generated on 02.01.2012, 11:12:09 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_xhtml
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_form_elements_AsyncFile
  *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/elements/class.AsyncFile.php');
 
@@ -40,7 +40,7 @@ require_once('tao/helpers/form/elements/class.AsyncFile.php');
  * Short description of class tao_helpers_form_elements_xhtml_AsyncFile
  *
  * @access public
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_xhtml
  */
@@ -55,12 +55,12 @@ class tao_helpers_form_elements_xhtml_AsyncFile
     // --- OPERATIONS ---
 
     /**
-     * Short description of method evaluate
+     * Short description of method feed
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      */
-    public function evaluate()
+    public function feed()
     {
         // section 127-0-1-1-3ba812e2:1284379704f:-8000:00000000000023F8 begin
         common_Logger::t('Evaluating AsyncFile '.$this->getName(), array('TAO'));
@@ -79,7 +79,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
      * Short description of method render
      *
      * @access public
-     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
     public function render()
@@ -169,6 +169,20 @@ class tao_helpers_form_elements_xhtml_AsyncFile
         // section 127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DE end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method getEvaluatedValue
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @return mixed
+     */
+    public function getEvaluatedValue()
+    {
+        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A0 begin
+    	return $this->getRawValue();
+        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A0 end
     }
 
 } /* end of class tao_helpers_form_elements_xhtml_AsyncFile */

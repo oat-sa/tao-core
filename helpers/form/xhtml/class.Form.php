@@ -76,30 +76,11 @@ class tao_helpers_form_xhtml_Form
 
         // section 127-0-1-1-4c3c2ff9:1242ef00aa7:-8000:0000000000001A1A begin
 		foreach($this->elements as $element){
-			if(!empty($groupName)){
-				if(isset($this->groups[$groupName])){
-					if(!in_array($element->getName(), $this->groups[$groupName]['elements'])){
-						continue;
-					}
-				}
-			}
-			if($element instanceof tao_helpers_form_elements_xhtml_Checkbox){
-				$returnValue[tao_helpers_Uri::decode($element->getName())] = array_map("tao_helpers_Uri::decode", $element->getValues());
-			}
-			else if($element instanceof tao_helpers_form_elements_xhtml_Treeview){
-				$values = array_map("tao_helpers_Uri::decode", $element->getValues());
-				if(count($values) == 1){
-					$returnValue[tao_helpers_Uri::decode($element->getName())] = $values[0];
-				}
-				else{
-					$returnValue[tao_helpers_Uri::decode($element->getName())] = $values;
-				}
-			}
-			elseif($element instanceof tao_helpers_form_elements_xhtml_File || $element instanceof tao_helpers_form_elements_xhtml_AsyncFile){
-				$returnValue[$element->getName()] = $element->getValue();
-			}
-			else{
-				$returnValue[tao_helpers_Uri::decode($element->getName())] = tao_helpers_Uri::decode($element->getValue());
+			if(empty($groupName)
+					|| !isset($this->groups[$groupName])
+					|| in_array($element->getName(), $this->groups[$groupName]['elements'])) {
+				
+				$returnValue[tao_helpers_Uri::decode($element->getName())] = $element->getEvaluatedValue();
 			}
 		}
 		unset($returnValue['uri']);
@@ -128,7 +109,7 @@ class tao_helpers_form_xhtml_Form
 			
 			//set posted values
 			foreach($this->elements as $id => $element){
-				$this->elements[$id]->evaluate();
+				$this->elements[$id]->feed();
 			}
 			
 			$this->validate();

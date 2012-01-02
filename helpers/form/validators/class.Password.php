@@ -71,19 +71,20 @@ class tao_helpers_form_validators_Password
 		
 		$this->message = __('Passwords are not matching');
 		
-		$elementSet = true;
-		if(!isset($this->options['password2_ref'])){
-			$elementSet = false;
-		}
-		else{
-			if(is_null($this->options['password2_ref']) || !($this->options['password2_ref'] instanceof tao_helpers_form_FormElement)){
-				$elementSet = false;
-			}
-		}
+		// Moved check to evaluate to accomodate for an array variable
+// 		$elementSet = true;
+// 		if(!isset($this->options['password2_ref'])){
+// 			$elementSet = false;
+// 		}
+// 		else{
+// 			if(is_null($this->options['password2_ref']) || !($this->options['password2_ref'] instanceof tao_helpers_form_FormElement)){
+// 				$elementSet = false;
+// 			}
+// 		}
 		
-		if(!$elementSet){
-			throw new Exception("Please set the reference of the second password element");
-		}
+// 		if(!$elementSet){
+// 			throw new Exception("Please set the reference of the second password element");
+// 		}
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D5C end
     }
 
@@ -100,11 +101,19 @@ class tao_helpers_form_validators_Password
         $returnValue = (bool) false;
 
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D66 begin
-		
-		$secondElement = $this->options['password2_ref'];
-		if($values == $secondElement->getValue() && trim($values) != ''){
-			$returnValue = true;
-		}
+        if (is_array($values) && count($values) == 2) {
+        	list($first, $second) = $values;
+        	$returnValue = $first == $second;
+        	
+        } elseif (isset($this->options['password2_ref'])) {
+			$secondElement = $this->options['password2_ref'];
+			if (is_null($secondElement) || ! $secondElement instanceof tao_helpers_form_FormElement) {
+				throw new common_Exception("Please set the reference of the second password element");
+			}
+			if($values == $secondElement->getRawValue() && trim($values) != ''){
+				$returnValue = true;
+			}
+        }
 		
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D66 end
 

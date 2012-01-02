@@ -68,7 +68,7 @@ class tao_helpers_form_validators_Md5Password
 
         // section 127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D73 begin
 		
-		$returnValue = md5(parent::getValue());
+		$returnValue = md5(parent::getRawValue());
 		
         // section 127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D73 end
 

@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 19.12.2011, 14:29:19 with ArgoUML PHP module 
+ * Automatically generated on 02.01.2012, 11:53:23 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -55,6 +55,27 @@ class tao_helpers_form_elements_template_Template
     // --- OPERATIONS ---
 
     /**
+     * Short description of method feed
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @return mixed
+     */
+    public function feed()
+    {
+        // section 127-0-1-1-1ee974ce:13456771564:-8000:000000000000348A begin
+    	$values = array();
+    	$prefix = preg_quote($this->getPrefix(), '/');
+    	foreach($_POST as $key => $value){
+    		if(preg_match("/^$prefix/", $key)){
+    			$values[str_replace($this->getPrefix(), '', $key)] = $value;
+    		}
+    	}
+    	$this->setValues($values);
+        // section 127-0-1-1-1ee974ce:13456771564:-8000:000000000000348A end
+    }
+
+    /**
      * Short description of method render
      *
      * @access public
@@ -94,24 +115,17 @@ class tao_helpers_form_elements_template_Template
     }
 
     /**
-     * Short description of method evaluate
+     * Short description of method getEvaluatedValue
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
-    public function evaluate()
+    public function getEvaluatedValue()
     {
-        // section 127-0-1-1-1ee974ce:13456771564:-8000:000000000000348A begin
-    	$values = array();
-    	$prefix = preg_quote($this->getPrefix(), '/');
-    	foreach($_POST as $key => $value){
-    		if(preg_match("/^$prefix/", $key)){
-    			$values[str_replace($this->getPrefix(), '', $key)] = $value;
-    		}
-    	}
-    	$this->setValues($values);
-        // section 127-0-1-1-1ee974ce:13456771564:-8000:000000000000348A end
+        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A4 begin
+        return $this->getValues();
+        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A4 end
     }
 
 } /* end of class tao_helpers_form_elements_template_Template */

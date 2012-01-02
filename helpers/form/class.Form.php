@@ -780,7 +780,7 @@ abstract class tao_helpers_form_Form
         // section 127-0-1-1--6132c277:1244e864521:-8000:0000000000001A59 begin
 		foreach($this->elements as $element){
 			if($element->getName() == $name){
-				return  $element->getValue();
+				return  $element->getEvaluatedValue();
 			}
 		}
         // section 127-0-1-1--6132c277:1244e864521:-8000:0000000000001A59 end

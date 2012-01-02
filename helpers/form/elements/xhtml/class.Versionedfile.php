@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 11.10.2011, 14:01:52 with ArgoUML PHP module 
+ * Automatically generated on 02.01.2012, 15:52:53 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_xhtml
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_form_elements_Versionedfile
  *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/elements/class.Versionedfile.php');
 
@@ -40,7 +40,7 @@ require_once('tao/helpers/form/elements/class.Versionedfile.php');
  * Short description of class tao_helpers_form_elements_xhtml_Versionedfile
  *
  * @access public
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements_xhtml
  */
@@ -52,45 +52,56 @@ class tao_helpers_form_elements_xhtml_Versionedfile
 
     // --- ATTRIBUTES ---
 
+    /**
+     * Short description of attribute evaluatedValue
+     *
+     * @access private
+     * @var mixed
+     */
+    private $evaluatedValue = null;
+
     // --- OPERATIONS ---
 
-    public function getValue()
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1-3ba812e2:1284379704f:-8000:00000000000023F8 begin
-        
-        if(!is_null($this->value)){
-        	$struct = @unserialize($this->value);
-        	if($struct !== false){
-        		$this->value = $struct;
-        	}
-        }
-        $returnValue = $this->value;
-        
-        // section 127-0-1-1-3ba812e2:1284379704f:-8000:00000000000023F8 end
-
-        return $returnValue;
-    }
-	
     /**
      * Short description of method render
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
     public function render()
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-1ae05cc0:132f22f86c1:-8000:0000000000003F53 begin	
+        // section 127-0-1-1-1ae05cc0:132f22f86c1:-8000:0000000000003F53 begin
 
         $returnValue .= '<button value="click me" />';
         
         // section 127-0-1-1-1ae05cc0:132f22f86c1:-8000:0000000000003F53 end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method getEvaluatedValue
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @return mixed
+     */
+    public function getEvaluatedValue()
+    {
+        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000060F3 begin
+    	if(is_null($this->evaluatedValue) && !is_null($this->value)) {
+    		$struct = @unserialize($this->value);
+    		if($struct !== false){
+    			$this->evaluatedValue = $struct;
+    		} else {
+    			common_Logger::w('Error unserialising VersionedFile Value', array(TAO));
+    		}
+    	}
+    	return $this->evaluatedValue;
+        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000060F3 end
     }
 
 } /* end of class tao_helpers_form_elements_xhtml_Versionedfile */
