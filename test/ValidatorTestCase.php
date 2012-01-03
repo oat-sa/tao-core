@@ -252,6 +252,14 @@ class ValidatorTestCase extends TaoTestCase {
 	}
 	
 	public function testLength(){
+		$alphanum		= new tao_helpers_form_validators_Length(array('min' => 3));
+		$umls = iconv("UTF-8", mb_internal_encoding(), 'ää');
+		$this->exec($alphanum,
+				array('abc', '1234', '___', '   '),
+				array(null, 50, '!', $umls, "qc", "  ", ""),
+				'Length with min 3'
+		);
+		
 		//@todo implement test cases
 	}
 	

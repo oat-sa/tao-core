@@ -103,8 +103,12 @@ class tao_helpers_form_validators_Length
 		$values = is_array($values) ? $values : array($values);
 		foreach ($values as $value) {
 			if (isset($this->options['min']) && strlen($value) < $this->options['min']) {
-				$returnValue = false;
-				break;
+				if (isset($this->options['allowEmpty']) &&  $this->options['allowEmpty'] && empty($value)) {
+					continue;
+				} else {
+					$returnValue = false;
+					break;
+				}
 			}
 			if (isset($this->options['max']) && strlen($value) > $this->options['max']) {
 				$returnValue = false;

@@ -126,7 +126,7 @@ class tao_models_classes_TaoService
     {
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A66 begin
 		if(!$this->isLoaded($extension)){
-			throw new Exception("$extension is not a valid extension");
+			throw new common_Exception("$extension is not a valid extension");
 		}
 		Session::setAttribute('currentExtension', $extension);
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A66 end

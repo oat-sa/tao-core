@@ -258,7 +258,6 @@ class Bootstrap{
 	 */
 	protected function mvc()
 	{
-		
 		try {
 			$re		= new HttpRequest();
 			$fc		= new AdvancedFC($re);
@@ -266,6 +265,7 @@ class Bootstrap{
 		} 
 		catch(ActionEnforcingException $ae){
 			$message	= $ae->getMessage();
+			common_Logger::w("Called module ".$ae->getModuleName().', action '.$ae->getActionName().' not found.', array('TAO', 'BOOT'));
 			if(DEBUG_MODE){
 				$message .= "Called module :".$ae->getModuleName()."<br />";
 				$message .= "Called action :".$ae->getActionName()."<br />";

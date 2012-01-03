@@ -116,6 +116,7 @@ class tao_models_classes_UserService
         try{
 	        foreach($this->allowedRoles as $roleUri){
 	        	if($this->generisUserService->login($login, $password, $roleUri)){
+	        		common_Logger::i('User '.$login.' logged in', array('TAO'));
 	        		$returnValue = true;
 	        		break;					//roles order is important, we loggin with the first found
 	        	}
