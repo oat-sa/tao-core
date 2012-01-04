@@ -252,15 +252,30 @@ class ValidatorTestCase extends TaoTestCase {
 	}
 	
 	public function testLength(){
-		$alphanum		= new tao_helpers_form_validators_Length(array('min' => 3));
-		$umls = iconv("UTF-8", mb_internal_encoding(), 'ää');
-		$this->exec($alphanum,
+		$minlenght = new tao_helpers_form_validators_Length(array('min' => 3));
+		$this->exec($minlenght,
 				array('abc', '1234', '___', '   '),
-				array(null, 50, '!', $umls, "qc", "  ", ""),
+				array('!', "qc", "  ", ""),
 				'Length with min 3'
 		);
 		
-		//@todo implement test cases
+		$maxlenght = new tao_helpers_form_validators_Length(array('max' => 3));
+		$this->exec($maxlenght,
+				array('abc', '12', '_', '   ', '','!'),
+				array("qcde",'    '),
+				'Length with max 3'
+		);
+		
+		$minmaxlenght = new tao_helpers_form_validators_Length(array('min' => 2, 'max' => 4));
+		$this->exec($minmaxlenght,
+				array('ab', '123', '____', '   '),
+				array('!', "q", "qq  q", ""),
+				'Length with min 2 max 4'
+		);
+		
+		$utf8 = 'ää';
+		$umls = iconv("UTF-8", mb_internal_encoding(), $utf8);
+		$this->assertFalse($minlenght->evaluate($umls), 'Error during length validation of special characters \''.$utf8.'\' using encoding '.mb_internal_encoding());
 	}
 	
 	public function testNotEmpty(){
