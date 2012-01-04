@@ -161,7 +161,8 @@ class tao_helpers_form_elements_xhtml_Checkbox
     public function getEvaluatedValue()
     {
         // section 127-0-1-1--19ea91f3:1349db91b83:-8000:000000000000349E begin
-        return array_map("tao_helpers_Uri::decode", $this->getRawValue());
+        return array_map("tao_helpers_Uri::decode", $this->getValues());
+        //return array_map("tao_helpers_Uri::decode", $this->getRawValue());
         // section 127-0-1-1--19ea91f3:1349db91b83:-8000:000000000000349E end
     }
 
