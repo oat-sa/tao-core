@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Represents a FormElement entity
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author firstname and lastname of author, <author@example.org>
  * @package tao
  * @subpackage helpers_form
  */
@@ -25,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * )
  * 3. render form
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author firstname and lastname of author, <author@example.org>
  */
 require_once('tao/helpers/form/class.Form.php');
 
@@ -42,7 +42,7 @@ require_once('tao/helpers/form/class.Form.php');
  *
  * @abstract
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author firstname and lastname of author, <author@example.org>
  * @package tao
  * @subpackage helpers_form
  */
@@ -147,7 +147,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method __construct
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string name
      * @return mixed
      */
@@ -162,7 +162,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getName
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return string
      */
     public function getName()
@@ -180,7 +180,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setName
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string name
      * @return mixed
      */
@@ -195,7 +195,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getRawValue
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return mixed
      */
     public function getRawValue()
@@ -213,7 +213,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setValue
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string value
      * @return mixed
      */
@@ -228,7 +228,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addAttribute
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string key
      * @param  string value
      * @return mixed
@@ -244,7 +244,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setAttribute
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string key
      * @param  string value
      * @return mixed
@@ -260,7 +260,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setAttributes
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  array attributes
      * @return mixed
      */
@@ -275,7 +275,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method renderAttributes
      *
      * @access protected
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return string
      */
     protected function renderAttributes()
@@ -295,7 +295,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getWidget
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return string
      */
     public function getWidget()
@@ -313,7 +313,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getDescription
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return string
      */
     public function getDescription()
@@ -338,7 +338,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setDescription
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string description
      * @return mixed
      */
@@ -353,7 +353,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setUnit
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string unit
      * @return mixed
      */
@@ -368,7 +368,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getLevel
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return int
      */
     public function getLevel()
@@ -386,7 +386,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setLevel
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  int level
      * @return mixed
      */
@@ -401,7 +401,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addValidator
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  Validator validator
      * @return mixed
      */
@@ -418,7 +418,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method addValidators
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  array validators
      * @return mixed
      */
@@ -437,7 +437,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setForcedValid
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return mixed
      */
     public function setForcedValid()
@@ -451,7 +451,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method validate
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return boolean
      */
     public function validate()
@@ -482,7 +482,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getError
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return string
      */
     public function getError()
@@ -502,7 +502,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method setHelp
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string help
      * @return mixed
      */
@@ -519,7 +519,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getHelp
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return string
      */
     public function getHelp()
@@ -539,7 +539,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method removeValidator
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string name
      * @return boolean
      */
@@ -566,7 +566,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method feed
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      */
     public function feed()
     {
@@ -583,7 +583,7 @@ abstract class tao_helpers_form_FormElement
      * Short description of method getEvaluatedValue
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return mixed
      */
     public function getEvaluatedValue()
@@ -593,6 +593,29 @@ abstract class tao_helpers_form_FormElement
         // section 127-0-1-1--78214b38:13447752615:-8000:0000000000003486 begin
         $returnValue = tao_helpers_Uri::decode($this->getRawValue());
         // section 127-0-1-1--78214b38:13447752615:-8000:0000000000003486 end
+
+        return $returnValue;
+    }
+
+    /**
+     * Legacy code compliance method. When the getRawValue and the
+     * methods were added, the fact that the getValue method was still invoked
+     * TAO was not taken into account. To solve the problem, the getValue method
+     * added to this class. Its implementation will call the getRawValue method
+     * it has the same behaviour as the old getValue.
+     *
+     * @access public
+     * @author Jérôme Bogaerts
+     * @deprecated
+     * @return mixed
+     */
+    public function getValue()
+    {
+        $returnValue = null;
+
+        // section 10-13-1-85--61757c92:134a803677f:-8000:0000000000003835 begin
+        return $this->getRawValue();
+        // section 10-13-1-85--61757c92:134a803677f:-8000:0000000000003835 end
 
         return $returnValue;
     }
