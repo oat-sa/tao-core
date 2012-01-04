@@ -70,7 +70,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		
 		//Module Namespace Label
 		// ($moduleNsLblElt designed only to show information to user)
-		$NSValue = 'http://'.$moduleHostElt->getValue().'/'.$moduleNameElt->getValue().'.rdf';
+		$NSValue = 'http://'.$this->form->getValue('module_host').'/'.$this->form->getValue('module_name').'.rdf';
 		$moduleNSLblElt =  tao_helpers_form_FormFactory::getElement('module_namespace_lbl', 'Label');
 		$moduleNSLblElt->setDescription('Namespace');
 		$moduleNSLblElt->setHelp("The module's namespace will be used to identify the data stored by your module. ".
@@ -157,13 +157,13 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		// ($dbNameLblElt designed only to show information to user)
 		$dbNameLblElt = tao_helpers_form_FormFactory::getElement('db_name_lbl', 'Label');
 		$dbNameLblElt->setDescription('Database name');
-		$dbNameLblElt->setValue($moduleNameElt->getValue());
+		$dbNameLblElt->setValue($this->form->getValue('module_name'));
 		$dbNameLblElt->setHelp('The Database name corresponds to the Module name.');
 		$dbNameLblElt->setAttribute('id', 'db_name_lbl');
 		$this->form->addElement($dbNameLblElt);
 		
 		$dbNameElt = tao_helpers_form_FormFactory::getElement('db_name', 'Hidden');
-		$dbNameElt->setValue($moduleNameElt->getValue());
+		$dbNameElt->setValue($this->form->getValue('module_name'));
 		$this->form->addElement($dbNameElt);
 		
 		//Delete database if it is existing
@@ -195,7 +195,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 																							'db_user' => $dbUserElt,
 																							'db_password' => $dbPassElt,
 																							'db_override' => $dbOverwriteDbElt)));
-		
+				
 		$this->form->createGroup('db', 'Database', array('db_driver', 'db_host', 'db_name_lbl', 'db_override', 'db_name', 'db_user', 'db_pass', 'db_test'));
 	
 		

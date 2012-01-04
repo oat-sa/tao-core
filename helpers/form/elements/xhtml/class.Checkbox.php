@@ -65,19 +65,10 @@ class tao_helpers_form_elements_xhtml_Checkbox
     {
         // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003486 begin
 		$expression = "/^".preg_quote($this->name, "/")."(.)*[0-9]+$/";
-		$found = false;
+    	$this->setValues(array());
 		foreach($_POST as $key => $value){
 			if(preg_match($expression, $key)){
-				$found = true;
-				break;
-			}
-		}
-		if($found){
-			$this->setValues(array());
-			foreach($_POST as $key => $value){
-				if(preg_match($expression, $key)){
-					$this->addValue(tao_helpers_Uri::decode($value));
-				}
+				$this->addValue(tao_helpers_Uri::decode($value));
 			}
 		}
         // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003486 end

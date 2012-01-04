@@ -30,7 +30,7 @@ if(count($attendeds) != $found){
 
 function customError($severity, $message, $file, $line){
 	if($severity == E_WARNING){
-		if(preg_match("/mysql_connect/", $message)){
+		if(preg_match("/mysql_connect/", $message) || preg_match("/pg_connect/", $message)){
 			return true;
 		}
 	}

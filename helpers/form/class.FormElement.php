@@ -605,7 +605,7 @@ abstract class tao_helpers_form_FormElement
      * it has the same behaviour as the old getValue.
      *
      * @access public
-     * @author Jérôme Bogaerts
+     * @author Jï¿½rï¿½me Bogaerts
      * @deprecated
      * @return mixed
      */
@@ -614,6 +614,7 @@ abstract class tao_helpers_form_FormElement
         $returnValue = null;
 
         // section 10-13-1-85--61757c92:134a803677f:-8000:0000000000003835 begin
+        common_Logger::d('deprecated function getValue() called', array('TAO', 'DEPRECATED'));
         return $this->getRawValue();
         // section 10-13-1-85--61757c92:134a803677f:-8000:0000000000003835 end
 

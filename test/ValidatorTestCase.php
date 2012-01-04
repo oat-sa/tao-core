@@ -17,9 +17,7 @@ class ValidatorTestCase extends TaoTestCase {
 	public function setUp(){		
 		TestRunner::initTest();
 	}
-	
-	
-	
+
 	/**
 	 * Test the service factory: dynamical instantiation and single instance serving  
 	 * @see tao_models_classes_ServiceFactory::get

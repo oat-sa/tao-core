@@ -30,11 +30,11 @@ class tao_install_form_validators_DatabaseValidator
 
 			// try to connect to the database.
 			try {
-				$host = $this->options['db_host']->getValue();
-				$driver = $this->options['db_driver']->getValue();
-				$dbname = $this->options['db_name']->getValue();
-				$user = $this->options['db_user']->getValue();
-				$password = $this->options['db_password']->getValue();
+				$host = $this->options['db_host']->getRawValue();
+				$driver = $this->options['db_driver']->getRawValue();
+				$dbname = $this->options['db_name']->getRawValue();
+				$user = $this->options['db_user']->getRawValue();
+				$password = $this->options['db_password']->getRawValue();
 				$dbCreator = new tao_install_utils_DbCreator($host, $user, $password, $driver);
 				
 				// If the user does not want to override databases, check if the wonder database is already existing
