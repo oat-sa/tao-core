@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 02.01.2012, 11:12:09 with ArgoUML PHP module 
+ * Automatically generated on 05.01.2012, 12:00:53 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -67,7 +67,7 @@ class tao_helpers_form_elements_xhtml_Password
     	if (isset($_POST[$this->name]) && is_array($_POST[$this->name])) {
     		$this->setValue(array_values($_POST[$this->name]));
 		}
-		// section 127-0-1-1-750eebc6:13440d254e0:-8000:0000000000006086 end
+        // section 127-0-1-1-750eebc6:13440d254e0:-8000:0000000000006086 end
     }
 
     /**
@@ -103,7 +103,7 @@ class tao_helpers_form_elements_xhtml_Password
     }
 
     /**
-     * Short description of method getEvaluatedValue
+     * returns the md5 hash of the password
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
