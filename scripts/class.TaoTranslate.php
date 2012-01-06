@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 06.01.2012, 14:10:43 with ArgoUML PHP module 
+ * Automatically generated on 06.01.2012, 14:30:33 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -58,7 +58,7 @@ class tao_scripts_TaoTranslate
      * @access public
      * @var string
      */
-    const DEF_INPUT_DIR = '.';
+    const DEF_INPUT_DIR = 'locales';
 
     /**
      * Short description of attribute DEF_OUTPUT_DIR
@@ -129,7 +129,14 @@ class tao_scripts_TaoTranslate
     public function run()
     {
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 begin
-        self::out('GG');
+        $inputs = '';
+    	foreach ($this->options as $k => $o) {
+        	echo "${k}: \t $o\n";
+        }
+        
+        
+        
+        
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 end
     }
 
@@ -358,8 +365,73 @@ class tao_scripts_TaoTranslate
     protected function debug($string)
     {
         // section 10-13-1-85--13eeb565:134b31f90c6:-8000:0000000000003861 begin
-        
+        self::out($string);
         // section 10-13-1-85--13eeb565:134b31f90c6:-8000:0000000000003861 end
+    }
+
+    /**
+     * Short description of method actionCreate
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @return void
+     */
+    public function actionCreate()
+    {
+        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 begin
+        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 end
+    }
+
+    /**
+     * Short description of method actionUpdate
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @return void
+     */
+    public function actionUpdate()
+    {
+        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 begin
+        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 end
+    }
+
+    /**
+     * Short description of method actionUpdateAll
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @return void
+     */
+    public function actionUpdateAll()
+    {
+        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003868 begin
+        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003868 end
+    }
+
+    /**
+     * Short description of method actionDelete
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @return void
+     */
+    public function actionDelete()
+    {
+        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386A begin
+        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386A end
+    }
+
+    /**
+     * Short description of method actionDeleteAll
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @return void
+     */
+    public function actionDeleteAll()
+    {
+        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386C begin
+        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386C end
     }
 
 } /* end of class tao_scripts_TaoTranslate */
