@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 06.01.2012, 14:30:33 with ArgoUML PHP module 
+ * Automatically generated on 06.01.2012, 15:14:06 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -58,7 +58,7 @@ class tao_scripts_TaoTranslate
      * @access public
      * @var string
      */
-    const DEF_INPUT_DIR = 'locales';
+    const DEF_INPUT_DIR = '.';
 
     /**
      * Short description of attribute DEF_OUTPUT_DIR
@@ -131,12 +131,34 @@ class tao_scripts_TaoTranslate
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 begin
         $inputs = '';
     	foreach ($this->options as $k => $o) {
-        	echo "${k}: \t $o\n";
+        	$inputs .= "${k}: \t $o\n";
         }
+        $this->debug($inputs);
         
         
-        
-        
+        // Select the action to perform depending on the 'action' parameter.
+        // Verification of the value of 'action' performed in self::preRun().
+        switch ($this->options['action']) {
+        	case 'create':
+				$this->actionCreate();
+        	break;
+        	
+        	case 'update':
+        		$this->actionUpdate();
+        	break;
+        	
+        	case 'updateAll':
+        		$this->actionUpdateAll();
+        	break;
+        	
+        	case 'delete':
+        		$this->actionDelete();
+        	break;
+        	
+        	case 'deleteAll':
+        		$this->actionDeleteAll();
+        	break;
+        }
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 end
     }
 
@@ -203,15 +225,26 @@ class tao_scripts_TaoTranslate
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003842 begin
         $defaults = array('language' => null,
+        				  'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
         				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
         				  'build' => true,
-        				  'force' => true);
+        				  'force' => false);
         
         $this->options = array_merge($defaults, $this->options);
     	
     	if (is_null($this->options['language'])) {
         	self::err("Please provide a 'language' identifier such as en-US, fr-CA, IT, ...", true);
         } else {
+        	// The input 'parameter' is optional.
+        	// (and only used if the 'build' parameter is set to true)
+        	if (!is_null($this->options['input'])) {
+        		if (!is_dir($this->options['input'])) {
+        			self::err("The 'input' parameter you provided is not a directory.", true);
+        		} else if (!is_readable($this->options['input'])) {
+        			self::err("The 'input' directory is not readable.", true);
+        		}
+        	}
+        	
         	// The 'output' parameter is optional.
         	if (!is_null($this->options['output'])) {
         		if (!is_dir($this->options['output'])) {
@@ -379,6 +412,8 @@ class tao_scripts_TaoTranslate
     public function actionCreate()
     {
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 begin
+        // We first create the directory where locale files will go.
+        
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 end
     }
 
@@ -432,6 +467,25 @@ class tao_scripts_TaoTranslate
     {
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386C begin
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386C end
+    }
+
+    /**
+     * Short description of method buildLanguagePath
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  string extension
+     * @param  string language
+     * @return string
+     */
+    public function buildLanguagePath($extension, $language)
+    {
+        $returnValue = (string) '';
+
+        // section 10-13-1-85-6cb6330f:134b35c8bda:-8000:0000000000003870 begin
+        // section 10-13-1-85-6cb6330f:134b35c8bda:-8000:0000000000003870 end
+
+        return (string) $returnValue;
     }
 
 } /* end of class tao_scripts_TaoTranslate */

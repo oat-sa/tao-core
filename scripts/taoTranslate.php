@@ -26,13 +26,13 @@ new tao_scripts_TaoTranslate(array(
 			'name' => 'output',
 			'type' => 'string',
 			'shortcut' => 'o',
-			'description' => 'An output directory'
+			'description' => 'An output directory (PO and JS files)'
 		),
 		array(
 			'name' => 'input',
 			'type' => 'string',
 			'shortcut' => 'i',
-			'description' => 'An input directory'
+			'description' => 'An input directory (source code)'
 		),
 		array(
 			'name' => 'build',
