@@ -431,13 +431,23 @@ class tao_scripts_TaoTranslate
         	// Let's populate the language with raw PO files containing sources but no targets.
         	// Source code extraction.
         	$fileExtensions = array('php', 'tpl', 'js');
-        	$filePaths = array($this->options['input'] . '/actions',
-        					   $this->options['input'] . '/helpers',
-        					   $this->options['input'] . '/models',
-        					   $this->options['input'] . '/views');
+        	$filePaths = array($this->options['input'] . '/actions/',
+        					   $this->options['input'] . '/helpers/',
+        					   $this->options['input'] . '/models/',
+        					   $this->options['input'] . '/views/');
         					   
         	$sourceExtractor = new tao_helpers_translation_SourceCodeExtractor($filePaths, $fileExtensions);
         	$sourceExtractor->extract();
+        	
+        	$manifestExtractor = new tao_helpers_translation_ManifestExtractor($this->options['input'] . '/actions/');
+        	$manifestExtractor->extract();
+        	
+        	$translationFile = new tao_helpers_translation_TranslationFile('en-US', $this->options['language']);
+        	$translationFile->addTranslationUnits($sourceExtractor->getTranslationUnits());
+        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
+        	$translationFile->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC_I);
+        	
+        	self::out("Unit count: " . count($translationFile->getTranslationUnits()));
         }
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 end
     }
@@ -526,7 +536,26 @@ class tao_scripts_TaoTranslate
         $returnValue = null;
 
         // section 10-13-1-85-49a3b43f:134b39b4ede:-8000:0000000000003874 begin
+        $actionsDir = $this->options['input'] . '/actions';
+        $dirEntries = scandir($actionsDir);
         
+        if ($dirEntries === false) {
+        	$returnValue = false;	
+        } else {
+        	$structureFile = null;
+        	foreach ($dirEntries as $f) {
+				if (preg_match("/(.*)structure\.xml$/", $f)) {
+					$structureFile = $f;
+					break;
+				}
+        	}
+        	
+        	if ($structureFile === null) {
+        		$returnValue = false;
+        	} else {
+        		$returnValue = $structureFile;
+        	}
+        }
         // section 10-13-1-85-49a3b43f:134b39b4ede:-8000:0000000000003874 end
 
         return $returnValue;
