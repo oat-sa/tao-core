@@ -45,6 +45,12 @@ new tao_scripts_TaoTranslate(array(
 			'type' => 'boolean',
 			'shortcut' => 'f',
 			'description' => 'Force to erase an existing language if you use the create action'
+		),
+		array(
+			'name' => 'extension',
+			'type' => 'string',
+			'shortcut' => 'e',
+			'description' => 'The TAO extension for which the script will apply'
 		)
 	)
 ));

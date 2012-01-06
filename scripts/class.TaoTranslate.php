@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 06.01.2012, 11:17:41 with ArgoUML PHP module 
+ * Automatically generated on 06.01.2012, 14:10:43 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -58,7 +58,7 @@ class tao_scripts_TaoTranslate
      * @access public
      * @var string
      */
-    const DEF_INPUT_DIR = 'locales';
+    const DEF_INPUT_DIR = '.';
 
     /**
      * Short description of attribute DEF_OUTPUT_DIR
@@ -75,13 +75,14 @@ class tao_scripts_TaoTranslate
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
+     * @return void
      */
     public function preRun()
     {
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003287 begin
     	$this->options = array('verbose' => false,
-        					   'action' => null);
+        					   'action' => null,
+    						   'extension' => null);
         
         $this->options = array_merge($this->options, $this->parameters);
         
@@ -105,7 +106,14 @@ class tao_scripts_TaoTranslate
         	if (!in_array($this->options['action'], $allowedActions)) {
         		self::err("Please enter a valid 'action' parameter.", true);
         	} else {
-        		$this->checkInput();
+        		// The 'action' parameter is ok. But what about the 'extension' parameter?
+        		if ($this->options['extension'] == null) {
+        			self::err("Please enter the extension on wich the script will apply.", true);
+        		} else {
+        			// Everything is fine for the 'action' and 'extension' parameters.
+        			// Let's check additional inputs depending on the value of the 'action' parameter.
+        			$this->checkInput();	
+        		}
         	}
         }
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003287 end
@@ -116,7 +124,7 @@ class tao_scripts_TaoTranslate
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
+     * @return void
      */
     public function run()
     {
@@ -130,7 +138,7 @@ class tao_scripts_TaoTranslate
      *
      * @access public
      * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
+     * @return void
      */
     public function postRun()
     {
@@ -143,7 +151,7 @@ class tao_scripts_TaoTranslate
      *
      * @access private
      * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
+     * @return void
      */
     private function checkInput()
     {
@@ -182,13 +190,13 @@ class tao_scripts_TaoTranslate
      *
      * @access private
      * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
+     * @return void
      */
     private function checkCreateInput()
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003842 begin
         $defaults = array('language' => null,
-        				  'output' => 'defaultoutputdir',
+        				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
         				  'build' => true,
         				  'force' => true);
         
@@ -214,14 +222,14 @@ class tao_scripts_TaoTranslate
      *
      * @access private
      * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
+     * @return void
      */
     private function checkUpdateInput()
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003844 begin
         $defaults = array('language' => null,
-        				  'input' => 'defaultinputdir',
-        				  'output' => 'defaultoutputdir');
+        				  'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
+        				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR);
         
         $this->options = array_merge($defaults, $this->options);
         
@@ -254,13 +262,13 @@ class tao_scripts_TaoTranslate
      *
      * @access private
      * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
+     * @return void
      */
     private function checkUpdateAllInput()
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003846 begin
-        $defaults = array('input' => 'defaultinputdir',
-        				  'output' => 'defaultoutputdir');
+        $defaults = array('input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
+        				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR);
         
         $this->options = array_merge($defaults, $this->options);
         
@@ -289,13 +297,13 @@ class tao_scripts_TaoTranslate
      *
      * @access private
      * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
+     * @return void
      */
     private function checkDeleteInput()
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003848 begin
         $defaults = array('language' => null,
-        				  'input' => 'defaultinputdir');
+        				  'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR);
         
         $this->options = array_merge($defaults, $this->options);
         
@@ -319,12 +327,12 @@ class tao_scripts_TaoTranslate
      *
      * @access private
      * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
+     * @return void
      */
     private function checkDeleteAllInput()
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:000000000000384A begin
-     	$defaults = array('input' => 'defaultinputdir');
+     	$defaults = array('input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR);
         
         $this->options = array_merge($defaults, $this->options);
         
@@ -337,6 +345,21 @@ class tao_scripts_TaoTranslate
         	}
         }
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:000000000000384A end
+    }
+
+    /**
+     * Short description of method debug
+     *
+     * @access protected
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  string string
+     * @return void
+     */
+    protected function debug($string)
+    {
+        // section 10-13-1-85--13eeb565:134b31f90c6:-8000:0000000000003861 begin
+        
+        // section 10-13-1-85--13eeb565:134b31f90c6:-8000:0000000000003861 end
     }
 
 } /* end of class tao_scripts_TaoTranslate */
