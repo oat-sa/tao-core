@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 06.01.2012, 15:14:06 with ArgoUML PHP module 
+ * Automatically generated on 06.01.2012, 16:22:16 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -413,7 +413,32 @@ class tao_scripts_TaoTranslate
     {
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 begin
         // We first create the directory where locale files will go.
+        $dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
         
+        if (file_exists($dir) && is_dir($dir) && $this->options['force'] == true) {
+        	// Clean it up.
+        	if (!tao_helpers_File::remove($dir, true)) {
+        		self::err("Unable to clean up 'language' directory '" . $this->options['language'] . "'.", true);
+        	}
+        } else if (file_exists($dir) && is_dir($dir) && $this->options['force'] == false) {
+        	self::err("This 'language' already exists.", true);
+        }
+        
+        // If we are still here... it means that we have to create the language directory.
+        if (!@mkdir($dir)) {
+        	self::err("Unable to create 'language' directory '" . $this->options['language'] . "'.", true);	
+        } else {
+        	// Let's populate the language with raw PO files containing sources but no targets.
+        	// Source code extraction.
+        	$fileExtensions = array('php', 'tpl', 'js');
+        	$filePaths = array($this->options['input'] . '/actions',
+        					   $this->options['input'] . '/helpers',
+        					   $this->options['input'] . '/models',
+        					   $this->options['input'] . '/views');
+        					   
+        	$sourceExtractor = new tao_helpers_translation_SourceCodeExtractor($filePaths, $fileExtensions);
+        	$sourceExtractor->extract();
+        }
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 end
     }
 
@@ -483,9 +508,28 @@ class tao_scripts_TaoTranslate
         $returnValue = (string) '';
 
         // section 10-13-1-85-6cb6330f:134b35c8bda:-8000:0000000000003870 begin
+        $returnValue = $this->options['output'] . '/' . $language;
         // section 10-13-1-85-6cb6330f:134b35c8bda:-8000:0000000000003870 end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method findStructureManifest
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @return mixed
+     */
+    public function findStructureManifest()
+    {
+        $returnValue = null;
+
+        // section 10-13-1-85-49a3b43f:134b39b4ede:-8000:0000000000003874 begin
+        
+        // section 10-13-1-85-49a3b43f:134b39b4ede:-8000:0000000000003874 end
+
+        return $returnValue;
     }
 
 } /* end of class tao_scripts_TaoTranslate */
