@@ -351,7 +351,7 @@ abstract class tao_scripts_Runner
         $colorized = false;
         isset($options['color']) ?  $color = $options['color'] : $color = 'grey';
         $color = trim(tao_helpers_Cli::getFgColor($color));
-        if(!empty($color)){
+        if(!empty($color) && substr(strtoupper(PHP_OS),0,3) != 'WIN'){
         	$colorized = true;
         	$returnValue .= "\033[{$color}m";
         }
