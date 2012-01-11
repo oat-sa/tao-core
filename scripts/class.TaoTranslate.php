@@ -249,6 +249,7 @@ class tao_scripts_TaoTranslate
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003842 begin
         $defaults = array('language' => null,
+        				  'extension' => null,
         				  'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
         				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
         				  'build' => true,
@@ -259,22 +260,36 @@ class tao_scripts_TaoTranslate
     	if (is_null($this->options['language'])) {
         	self::err("Please provide a 'language' identifier such as en-US, fr-CA, IT, ...", true);
         } else {
-        	// The input 'parameter' is optional.
-        	// (and only used if the 'build' parameter is set to true)
-        	if (!is_null($this->options['input'])) {
-        		if (!is_dir($this->options['input'])) {
-        			self::err("The 'input' parameter you provided is not a directory.", true);
-        		} else if (!is_readable($this->options['input'])) {
-        			self::err("The 'input' directory is not readable.", true);
-        		}
-        	}
-        	
-        	// The 'output' parameter is optional.
-        	if (!is_null($this->options['output'])) {
-        		if (!is_dir($this->options['output'])) {
-        			self::err("The 'output' parameter you provided is not a directory.", true);
-        		} else if (!is_writable($this->options['output'])) {
-        			self::err("The 'output' directory is not writable.", true);
+        	if (is_null($this->options['extension'])) {
+        		self::err("Please provide an 'extension' for which the 'language' will be created", true);
+        	} else {
+        		// Check if the extension exists.
+        		$extensionDir = dirname(__FILE__) . '/../../' . $this->options['extension'];
+        		if (!is_dir($extensionDir)) {
+        			self::err("The extension '" . $this->options['extension'] . "' does not exist.", true);
+        		} else if (!is_readable($extensionDir)) {
+        			self::err("The '" . $this->options['extension'] . "' directory cannot be read. Please check permissions on this directory.", true);
+        		} else if (!is_writable($extensionDir)) {
+        			self::err("The '" . $this->options['extension'] . "' directory cannot be written. Please check permissions on this directory.", true);
+        		} else {
+        			// The input 'parameter' is optional.
+		        	// (and only used if the 'build' parameter is set to true)
+		        	if (!is_null($this->options['input'])) {
+		        		if (!is_dir($this->options['input'])) {
+		        			self::err("The 'input' parameter you provided is not a directory.", true);
+		        		} else if (!is_readable($this->options['input'])) {
+		        			self::err("The 'input' directory is not readable.", true);
+		        		}
+		        	}
+		        	
+		        	// The 'output' parameter is optional.
+		        	if (!is_null($this->options['output'])) {
+		        		if (!is_dir($this->options['output'])) {
+		        			self::err("The 'output' parameter you provided is not a directory.", true);
+		        		} else if (!is_writable($this->options['output'])) {
+		        			self::err("The 'output' directory is not writable.", true);
+		        		}
+		        	}
         		}
         	}
         }
