@@ -153,11 +153,11 @@ class tao_scripts_TaoTranslate
     public function run()
     {
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 begin
-        $inputs = '';
-    	foreach ($this->options as $k => $o) {
-        	$inputs .= "${k}: \t $o\n";
-        }
-        $this->debug($inputs);
+//        $inputs = '';
+//    	foreach ($this->options as $k => $o) {
+//        	$inputs .= "${k}: \t $o\n";
+//        }
+//        $this->debug($inputs);
         
         
         // Select the action to perform depending on the 'action' parameter.
@@ -436,12 +436,16 @@ class tao_scripts_TaoTranslate
     public function actionCreate()
     {
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 begin
+        $this->outVerbose("Creating language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' ...");
+    	
         // We first create the directory where locale files will go.
         $dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
         $dirExists = false;
         
         if (file_exists($dir) && is_dir($dir) && $this->options['force'] == true) {
         	$dirExists = true;
+        	$this->outVerbose("Language '" . $this->options['language'] . "' exists for extension '" . $this->options['extension'] . "'. " .
+        					  "Creation will be forced.");
         	
         	// Clean it up.
         	foreach (scandir($dir) as $d) {
@@ -460,6 +464,7 @@ class tao_scripts_TaoTranslate
         	self::err("Unable to create 'language' directory '" . $this->options['language'] . "'.", true);	
         } else {
         	if ($this->options['build'] == true) {
+        		$this->outVerbose("Building language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' ...");
 	        	// Let's populate the language with raw PO files containing sources but no targets.
 	        	// Source code extraction.
 	        	$fileExtensions = array('php', 'tpl', 'js', 'ejs');
@@ -488,6 +493,9 @@ class tao_scripts_TaoTranslate
 	        	$writer = new tao_helpers_translation_JSFileWriter($dir . '/' . self::DEF_JS_FILENAME,
 	        													   $sortedTranslationFile);
 	        	$writer->write();
+	        	
+	        	$this->outVerbose("Language '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "' " .
+	        					  "(" . count($sortedTranslationFile->getTranslationUnits()) . " entries).");
         	} else {
         		// Only build virgin files.
         		// (Like a virgin... woot !)
@@ -498,9 +506,11 @@ class tao_scripts_TaoTranslate
         		$writer = new tao_helpers_translation_JSFileWriter($dir . '/' . self::DEF_JS_FILENAME,
         														   $translationFile);
         		$writer->write();
+        		
+        		$this->outVerbose("Language '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "'.");
         	}
         	
-        	self::out("Unit count: " . count($translationFile->getTranslationUnits()));
+        	
         }
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 end
     }

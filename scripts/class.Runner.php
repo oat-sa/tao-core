@@ -447,7 +447,9 @@ abstract class tao_scripts_Runner
     public function outVerbose($message, $options = array())
     {
         // section 10-13-1-85-2583e310:134ccc56ba1:-8000:00000000000038B7 begin
-        
+        if (isset($this->parameters['verbose']) && $this->parameters['verbose'] === true) {
+        	self::out($message, $options);
+        }
         // section 10-13-1-85-2583e310:134ccc56ba1:-8000:00000000000038B7 end
     }
 
