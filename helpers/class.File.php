@@ -148,7 +148,10 @@ class tao_helpers_File
 				    if (!$fileinfo->isDot()) {
 				        self::remove($fileinfo->getPathname(), true);
 				    }
+				    unset($fileinfo);
 				}
+				unset($iterator);
+				
 				$returnValue = @rmdir($path);
         	}
         }
