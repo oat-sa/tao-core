@@ -323,7 +323,7 @@ class tao_scripts_TaoTranslate
         	} else if (!is_readable($languageDir)) {
         		self::err("The 'language' directory ${languageDir} is not readable. Please check permissions on this directory.");	
         	} else if (!is_writable($languageDir)) {
-        		self::err("The 'language' directory ${languageDir} is not writable. Please check permissions on this director.");	
+        		self::err("The 'language' directory ${languageDir} is not writable. Please check permissions on this directory.");	
         	} else {
 	        	if (is_null($this->options['extension'])) {
 	        		self::err("Please provide an 'extension' for which the 'language' will be created", true);
