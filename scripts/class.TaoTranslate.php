@@ -268,9 +268,9 @@ class tao_scripts_TaoTranslate
         		if (!is_dir($extensionDir)) {
         			self::err("The extension '" . $this->options['extension'] . "' does not exist.", true);
         		} else if (!is_readable($extensionDir)) {
-        			self::err("The '" . $this->options['extension'] . "' directory cannot be read. Please check permissions on this directory.", true);
+        			self::err("The '" . $this->options['extension'] . "' directory is not readable. Please check permissions on this directory.", true);
         		} else if (!is_writable($extensionDir)) {
-        			self::err("The '" . $this->options['extension'] . "' directory cannot be written. Please check permissions on this directory.", true);
+        			self::err("The '" . $this->options['extension'] . "' directory is not writable. Please check permissions on this directory.", true);
         		} else {
         			// The input 'parameter' is optional.
 		        	// (and only used if the 'build' parameter is set to true)
