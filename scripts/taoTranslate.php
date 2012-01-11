@@ -38,7 +38,7 @@ new tao_scripts_TaoTranslate(array(
 			'name' => 'build',
 			'type' => 'boolean',
 			'shortcut' => 'b',
-			'description' => 'Sets if the language has to built when created or not'
+			'description' => 'Sets if the language has to be built when created or not'
 		),
 		array(
 			'name' => 'force',

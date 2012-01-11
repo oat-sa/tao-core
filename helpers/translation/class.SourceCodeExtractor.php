@@ -78,6 +78,12 @@ class tao_helpers_translation_SourceCodeExtractor
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:0000000000003209 begin
         $this->setTranslationUnits(array());
         foreach ($this->getPaths() as $dir) {
+        	// Directories should come with a trailing slash.
+        	$d = strrev($dir);
+        	if ($d[0] !== '/') {
+        		$dir = $dir . '/';	
+        	}
+        	
         	$this->recursiveSearch($dir);
         }
         // section -64--88-1-7-3ec47102:13332ada7cb:-8000:0000000000003209 end

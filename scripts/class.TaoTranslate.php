@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 06.01.2012, 16:22:16 with ArgoUML PHP module 
+ * Automatically generated on 11.01.2012, 11:00:55 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -67,6 +67,30 @@ class tao_scripts_TaoTranslate
      * @var string
      */
     const DEF_OUTPUT_DIR = 'locales';
+
+    /**
+     * Short description of attribute DEF_PO_FILENAME
+     *
+     * @access public
+     * @var string
+     */
+    const DEF_PO_FILENAME = 'messages.po';
+
+    /**
+     * Short description of attribute DEF_JS_FILENAME
+     *
+     * @access public
+     * @var string
+     */
+    const DEF_JS_FILENAME = 'messages_po.js';
+
+    /**
+     * Short description of attribute options
+     *
+     * @access protected
+     * @var array
+     */
+    protected $options = array();
 
     // --- OPERATIONS ---
 
@@ -418,7 +442,7 @@ class tao_scripts_TaoTranslate
         if (file_exists($dir) && is_dir($dir) && $this->options['force'] == true) {
         	// Clean it up.
         	if (!tao_helpers_File::remove($dir, true)) {
-        		self::err("Unable to clean up 'language' directory '" . $this->options['language'] . "'.", true);
+        		self::err("Unable to clean up 'language' directory '" . $dir . "'.", true);
         	}
         } else if (file_exists($dir) && is_dir($dir) && $this->options['force'] == false) {
         	self::err("This 'language' already exists.", true);
@@ -428,24 +452,46 @@ class tao_scripts_TaoTranslate
         if (!@mkdir($dir)) {
         	self::err("Unable to create 'language' directory '" . $this->options['language'] . "'.", true);	
         } else {
-        	// Let's populate the language with raw PO files containing sources but no targets.
-        	// Source code extraction.
-        	$fileExtensions = array('php', 'tpl', 'js');
-        	$filePaths = array($this->options['input'] . '/actions/',
-        					   $this->options['input'] . '/helpers/',
-        					   $this->options['input'] . '/models/',
-        					   $this->options['input'] . '/views/');
-        					   
-        	$sourceExtractor = new tao_helpers_translation_SourceCodeExtractor($filePaths, $fileExtensions);
-        	$sourceExtractor->extract();
-        	
-        	$manifestExtractor = new tao_helpers_translation_ManifestExtractor($this->options['input'] . '/actions/');
-        	$manifestExtractor->extract();
-        	
-        	$translationFile = new tao_helpers_translation_TranslationFile('en-US', $this->options['language']);
-        	$translationFile->addTranslationUnits($sourceExtractor->getTranslationUnits());
-        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
-        	$translationFile->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC_I);
+        	if ($this->options['build'] == true) {
+	        	// Let's populate the language with raw PO files containing sources but no targets.
+	        	// Source code extraction.
+	        	$fileExtensions = array('php', 'tpl', 'js');
+	        	$filePaths = array($this->options['input'] . '/actions',
+	        					   $this->options['input'] . '/helpers',
+	        					   $this->options['input'] . '/models',
+	        					   $this->options['input'] . '/views');
+	        					   
+	        	$sourceExtractor = new tao_helpers_translation_SourceCodeExtractor($filePaths, $fileExtensions);
+	        	$sourceExtractor->extract();
+	        	
+	        	$manifestExtractor = new tao_helpers_translation_ManifestExtractor($this->options['input'] . '/actions');
+	        	$manifestExtractor->extract();
+	        	
+	        	$translationFile = new tao_helpers_translation_TranslationFile('en-US', $this->options['language']);
+	        	$translationFile->addTranslationUnits($sourceExtractor->getTranslationUnits());
+	        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
+	        	$sortedTus = $translationFile->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC_I);
+	        	
+	        	$sortedTranslationFile = new tao_helpers_translation_TranslationFile('en-US', $this->options['language']);
+	        	$sortedTranslationFile->addTranslationUnits($sortedTus);
+	        	
+	        	$writer = new tao_helpers_translation_POFileWriter($dir . '/' . 'messages.po',
+	        													   $sortedTranslationFile);
+	        	$writer->write();
+	        	$writer = new tao_helpers_translation_JSFileWriter($dir . '/' . 'messages_po.js',
+	        													   $sortedTranslationFile);
+	        	$writer->write();
+        	} else {
+        		// Only build virgin files.
+        		// (Like a virgin... woot !)
+        		$translationFile = new tao_helpers_translation_TranslationFile('en-US', $this->options['language']);
+        		$writer = new tao_helpers_translation_POFileWriter($dir . '/' . 'messages.po',
+        														   $translationFile);
+        		$writer->write();
+        		$writer = new tao_helpers_translation_JSFileWriter($dir . '/' . 'messages_po.js',
+        														   $translationFile);
+        		$writer->write();
+        	}
         	
         	self::out("Unit count: " . count($translationFile->getTranslationUnits()));
         }

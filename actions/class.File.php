@@ -179,7 +179,7 @@ class tao_actions_File extends tao_actions_CommonModule{
 				print $content;
 				return;
 			}else{
-				throw new Exception(__('The resource ('.$uri.') is not a valid file resource'));
+				throw new Exception('The resource ('.$uri.') is not a valid file resource');
 			}
 		}
 		
