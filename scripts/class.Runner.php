@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao/scripts/class.Runner.php
+ * TAO - tao\scripts\class.Runner.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 18.02.2011, 16:19:24 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ * Automatically generated on 11.01.2012, 13:40:30 with ArgoUML PHP module 
+ * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author firstname and lastname of author, <author@example.org>
  * @package tao
  * @subpackage scripts
  */
@@ -34,7 +34,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author firstname and lastname of author, <author@example.org>
  * @package tao
  * @subpackage scripts
  */
@@ -67,7 +67,7 @@ abstract class tao_scripts_Runner
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  array inputFormat
      * @param  array options
      * @return mixed
@@ -119,7 +119,7 @@ abstract class tao_scripts_Runner
      * Short description of method validateInput
      *
      * @access private
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return boolean
      */
     private function validateInput()
@@ -298,7 +298,7 @@ abstract class tao_scripts_Runner
      * Short description of method preRun
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return mixed
      */
     protected function preRun()
@@ -312,7 +312,7 @@ abstract class tao_scripts_Runner
      *
      * @abstract
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return mixed
      */
     protected abstract function run();
@@ -321,7 +321,7 @@ abstract class tao_scripts_Runner
      * Short description of method postRun
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return mixed
      */
     protected function postRun()
@@ -334,7 +334,7 @@ abstract class tao_scripts_Runner
      * Short description of method out
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string message
      * @param  array options
      */
@@ -381,7 +381,7 @@ abstract class tao_scripts_Runner
      * Short description of method err
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string message
      * @param  boolean stopExec
      */
@@ -402,7 +402,7 @@ abstract class tao_scripts_Runner
      * Short description of method help
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return mixed
      */
     protected function help()
@@ -433,6 +433,21 @@ abstract class tao_scripts_Runner
   		self::out($usage, array('color' => 'light_blue'));
     	
         // section 127-0-1-1--5d5119d4:12e3924f2ec:-8000:0000000000002D86 end
+    }
+
+    /**
+     * Short description of method outVerbose
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  string message
+     * @param  array options
+     * @return mixed
+     */
+    public static function outVerbose($message, $options = array())
+    {
+        // section 10-13-1-85-2583e310:134ccc56ba1:-8000:00000000000038B7 begin
+        // section 10-13-1-85-2583e310:134ccc56ba1:-8000:00000000000038B7 end
     }
 
 } /* end of abstract class tao_scripts_Runner */
