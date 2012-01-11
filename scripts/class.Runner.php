@@ -271,10 +271,10 @@ abstract class tao_scripts_Runner
 	        					$returnValue = false;
 	        				}else{
 	        					if(is_bool($input)){
-	        						$this->parameters[$parameter['name']] = $input;
+	        						$this->parameters[$parameter['name']] = $input = settype($input, 'boolean');
 	        					}
 	        					else if(!empty($input)){
-	        						strtolower($input) == 'true' ? $this->parameters[$parameter['name']] = true : false;
+	        						$this->parameters[$parameter['name']] = ((strtolower($input) == 'true') ? true : false);
 	        					}
 	        					else{
 	        						$this->parameters[$parameter['name']] = true;
