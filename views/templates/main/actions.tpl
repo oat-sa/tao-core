@@ -9,13 +9,13 @@
 					<td>
 						<div id="action_<?=$action['name']?>">
 							<?if($action['disabled']):?>
-								
+
 									<img src="<?=BASE_WWW?>img/actions/<?=$action['name']?>_disabled.png"  />
 									<br />
 									<span><?=$action['display']?></span>
-								
+
 							<?else:?>
-							
+
 								<?if($action['js']):?>
 									<a href="#" onclick="<?=$action['js']?>('<?=$action["uri"]?>', '<?=$action["classUri"]?>', '<?=$action["url"]?>')" title="<?=$action['rowName']?>"><img src="<?=BASE_WWW?>img/actions/<?=$action['name']?>.png"  /></a>
 									<br />
@@ -25,7 +25,7 @@
 									<br />
 									<a class="<?if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>"><?=$action['display']?></a>
 								<?endif?>
-							
+
 							<?endif?>
 						</div>
 					</td>

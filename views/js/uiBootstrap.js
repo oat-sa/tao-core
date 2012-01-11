@@ -1,40 +1,40 @@
 /**
- * UiBootstrap class enable you to run the naviguation mode, 
+ * UiBootstrap class enable you to run the naviguation mode,
  * bind the events on the main components and initialize handlers
- * 
- * 
+ *
+ *
  * @require jquery >= 1.3.2 [http://jquery.com/]
  * @require [helpers.js]
- * 
+ *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- */ 
+ */
 
 /**
  * @var tabs access the tabs instance globally
  */
 UiBootstrap = function(options){
-	
+
 	/**
-	 * to access the context 
+	 * to access the context
 	 */
 	var bootInstance = this;
-	
+
 	/**
 	 * manual constructor
 	 */
 	this._init = function(){
-		
+
 		this.initAjax();
 		this.initNav();
 		this.initMenuBar();
-		
+
 		//create tabs
 		UiBootstrap.tabs = $('#tabs').tabs({
 			load: function(){
 				$("#section-trees").empty().css({display: 'none'});
 				$("#section-actions").empty().css({display: 'none'});
 				bootInstance.initTrees();
-			}, 
+			},
 			select: function(event, ui) {
 				$("#section-trees").empty().css({display: 'none'});
 				$("#section-actions").empty().css({display: 'none'});
@@ -47,17 +47,17 @@ UiBootstrap = function(options){
 			collapsible: true
 		});
 	};
-	
+
 	/**
 	 * initialize common ajavx behavior
 	 */
 	this.initAjax = function(){
-		
+
 		//just before an ajax request
 		$("body").ajaxSend(function(event,request, settings){
 			loading();
 		});
-		
+
 		//when an ajax request complete
 		$("body").ajaxComplete(function(event,request, settings){
 			loaded();
@@ -72,7 +72,7 @@ UiBootstrap = function(options){
 				bootInstance.initSize();
 			}
 		});
-		
+
 		//intercept errors
 		$("body").ajaxError(function(event, request, settings){
 		 	if(request.status == 404 || request.status == 500){
@@ -83,13 +83,13 @@ UiBootstrap = function(options){
 			}
 		});
 	}
-	
+
 	/**
 	 * initialize common naviguation
 	 */
 	this.initNav = function(){
 		//load the links target into the main container instead of loading a new page
-		$('a.nav').live('click', function() { 	
+		$('a.nav').live('click', function() {
 			try{
 				_load(getMainContainerSelector(UiBootstrap.tabs), this.href);
 			}
@@ -97,7 +97,7 @@ UiBootstrap = function(options){
 			return false;
 		});
 	}
-	
+
 	/**
 	 * initialize the tree component
 	 */
@@ -123,7 +123,7 @@ UiBootstrap = function(options){
 			});
 		}
 	}
-	
+
 	/**
 	 * initialize the actions component
 	 */
@@ -150,7 +150,7 @@ UiBootstrap = function(options){
 			});
 		}
 	}
-	
+
 	/**
 	 * re-calculate the container size regarding the components content
 	 */
@@ -159,38 +159,36 @@ UiBootstrap = function(options){
 		myPanel = $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')];
 		if(myPanel){
 			uiTab = myPanel.id;
-			if($('#section-actions').html() == '' && $('#section-trees').html()  == '' && $("div#"+uiTab).css('left') == '19%' ){
-				$("div#"+uiTab).css('left', '0%');
-				$("div#"+uiTab).css('width', '99%');				
+			if($('#section-actions').html() == '' && $('#section-trees').html()  == '' && $("div#"+uiTab).css('width') == '79.5%' ){
+				$("div#"+uiTab).css({'width': '100%', 'left': 0});
 			}
 			if( $('#section-actions').html() != '' || $('#section-trees').html()  != '' ){
-				$("div#"+uiTab).css('left', '19%');
-				$("div#"+uiTab).css('width', '80%');
+				$("div#"+uiTab).css({'width': '79.5%', 'float': 'right'});
 			}
 		}
 	};
-	
+
 	this.initMenuBar = function(){
 		//add a focus selector
 		var lastFocussed = null;
 		$(':text').live('focus',function(){
 			lastFocussed = this;
 		});
-		
+
 		//initialize the media manager menu
 		$("#main-menu .file-manager").fmload({type: 'file'}, lastFocussed, function(element, url){
 			if(lastFocussed != null){
 				$(lastFocussed).val($(lastFocussed).val() + url);
 			}
 		});
-		
+
 		//initialize the settings menu
 		$("#main-menu .settings-loader").click(function(){
 			_load(getMainContainerSelector(UiBootstrap.tabs), this.href);
 			return false;
 		});
 	};
-	
+
 	//run the manual constructor
 	this._init();
 };

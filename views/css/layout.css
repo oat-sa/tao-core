@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 html body{
-	height:100%;	
+	height:100%;
 	position:relative;
 }
 /* Layout specific stylesheet, used for elements positioning */
@@ -20,11 +20,9 @@ div#tabs .ui-tabs-nav{
 /* don't change it ! (used by scripting) */
 div#tabs div.ui-tabs-panel{
 	position:relative;
-	left:0%;
-	width:99%;
-	padding-top:0.5%;
-	padding-left:0.5%;
-	padding-right:0.5%;
+	/*left:0%;
+	width: 100%;*/
+	padding: 5px 0
 }
 /* --- */
 
@@ -69,13 +67,13 @@ div#main-menu .right-menu span a:hover{
 	opacity:0.8;
 }
 div#main-menu .left-menu{
-	margin-top:8px;	
+	margin-top:8px;
 	color:#BBB;
 	font-size:14px;
 }
 div#main-menu .left-menu span{
 	padding-left:4px;
-	padding-right:4px; 
+	padding-right:4px;
 	font-size:12px;
 }
 #main-menu .left-menu a:hover{
@@ -135,14 +133,19 @@ div.ext-home-container{
 	font-size:1.1em;
 }
 
+/* Section aside */
+div#sections-aside {
+	float: left;
+	width: 20%;
+}
 /* Tree panel */
 div#section-trees{
-	position:absolute;
+	/*position:absolute;
 	width:19%;
 	left:0%;
 	top:40px;
-	height:290px;
-	margin:0.5%;
+	height:290px;*/
+	margin: 5px 0;
 }
 div#section-trees div.ui-widget-content{
 	height:230px;
@@ -159,27 +162,32 @@ div.tree-actions{
 }
 div#section-trees div.tree-custom {
 	overflow-y:auto;
+	height: 100%;
+}
+div.tree-block {
+	margin: 5px 0;
 }
 /* Actions box */
 div#section-actions{
-	left:0%;
+	/*left:0%;
 	top:342px;
 	margin:0% 0.5% 0.5% 0.5%;
 	padding:0px;
 	text-align:left;
 	width:19%;
 	z-index:100;
-	position:absolute;
+	position:absolute;*/
+	margin: 5px 0;
 }
 div#section-actions div#action-title{
 	padding: 3px;
 }
-div#section-actions div#action-items{ 
+div#section-actions div#action-items{
 }
 div#section-actions div#action-items td{
 	text-align:center;
-	vertical-align:bottom;
-	padding:5px 0px 5px 0px;	
+	vertical-align:top;
+	padding:5px 0px 5px 0px;
 	width:33%;
 }
 div#section-actions div#action-items{
@@ -189,7 +197,7 @@ div#section-actions div#action-items{
 }
 div#section-actions div#action-items a img{
 	text-decoration:none;
-	border-width: 0px;	
+	border-width: 0px;
 }
 div#section-actions div#action-items a{
 	text-decoration:none;
@@ -239,13 +247,13 @@ div#meta-content table td{
 }
 div#meta-content table td,
 div#meta-content table th{
-	width:20%;	
+	width:20%;
 }
 div#meta-content table .first{
-	width:30%;	
+	width:30%;
 }
 div#meta-content table .last{
-	width:50%;	
+	width:50%;
 }
 
 /* Footer */
@@ -278,4 +286,97 @@ div#ajax-loading{
 	top:45%;
 	left:45%;
 	z-index:1000;
+}
+
+
+/* Results Manual Scoring Conciliation */
+
+.results_msc_navigations {
+	width: 20%;
+	float: left;
+	vertical-align: top;
+	margin-right: 1%;
+	margin-left: 1%;
+}
+.results_msc_itemsgroups,
+.results_msc_testtakers,
+.results_msc_item {
+	margin-bottom: 20px;
+	border: 1px solid #aaa;
+}
+.results_msc_itemsgroups .ui-widget-header,
+.results_msc_testtakers .ui-widget-header,
+.results_msc_item .ui-widget-header {
+	padding: 5px;
+	border-width: 0 0 1px 0;
+}
+.results_msc_evalboard {
+	width: 78%;
+	float: left;
+	vertical-align: top;
+}
+.results_msc_render {
+	float: left;
+	width: 60%;
+}
+.results_msc_vars {
+	float: left;
+	width: 40%;
+}
+.results_msc_interaction {
+	border-bottom: 1px solid #aaa;
+}
+.results_msc_interaction:last-child {
+	border-bottom-width: 0;
+}
+.results_msc_evaluation {
+
+}
+.results_msc_guidelines {
+
+}
+.results_msc_itemsgroups ul,
+.results_msc_testtakers ul {
+	margin: 0;
+	padding: 0;
+}
+.results_msc_itemsgroups li,
+.results_msc_testtakers li {
+	list-style-type: none;
+	border-bottom: 1px solid #aaa;
+}
+.results_msc_itemsgroups li:hover,
+.results_msc_testtakers li:hover {
+	background-color: #eee;
+}
+.results_msc_itemsgroups li a,
+.results_msc_testtakers li a {
+	display: block;
+	padding: 3px 5px;
+	text-decoration: none;
+}
+.results_msc_itemsgroups li:last-child,
+.results_msc_testtakers li:last-child {
+	border-bottom: 0;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+html[xmlns] .clearfix {
+	display: block;
+}
+
+* html .clearfix {
+	height: 1%;
 }

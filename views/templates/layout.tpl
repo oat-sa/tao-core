@@ -14,7 +14,7 @@
 				<?if($i < (count(get_data('extensions')) - 1)):?>|<?endif?>
 			<?endforeach?>
 		</div>
-		
+
 		<div class="right-menu">
 			<span>
 				<a href="<?=_url('index', null, null, array('extension' => 'none'))?>" title="<?=__('Home')?>">
@@ -43,7 +43,7 @@
 		  	</span>
 		</div>
 	</div>
-	
+
 <?if(get_data('sections')):?>
 
 	<div id="tabs">
@@ -52,15 +52,18 @@
 			<li><a id="<?=(string)$section['id']?>" href="<?=ROOT_URL.(string)$section['url']?>" title="<?=(string)$section['name']?>"><?=__((string)$section['name'])?></a></li>
 		<?endforeach?>
 		</ul>
-		
-		<div id="section-trees"></div>
-		<div id="section-actions" ></div>
+
+		<div id="sections-aside">
+			<div id="section-trees"></div>
+			<div id="section-actions" ></div>
+		</div>
+		<div class="clearfix"></div>
 		<div id="section-meta"></div>
 	</div>
 
 <?else:?>
 
-	<?include('main/home.tpl');?> 
+	<?include('main/home.tpl');?>
 
 <?endif?>
 
