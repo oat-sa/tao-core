@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 11.01.2012, 13:40:30 with ArgoUML PHP module 
+ * Automatically generated on 11.01.2012, 13:44:17 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -444,9 +444,10 @@ abstract class tao_scripts_Runner
      * @param  array options
      * @return mixed
      */
-    public static function outVerbose($message, $options = array())
+    public function outVerbose($message, $options = array())
     {
         // section 10-13-1-85-2583e310:134ccc56ba1:-8000:00000000000038B7 begin
+        
         // section 10-13-1-85-2583e310:134ccc56ba1:-8000:00000000000038B7 end
     }
 
