@@ -438,24 +438,31 @@ class tao_scripts_TaoTranslate
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 begin
         // We first create the directory where locale files will go.
         $dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
+        $dirExists = false;
         
         if (file_exists($dir) && is_dir($dir) && $this->options['force'] == true) {
+        	$dirExists = true;
+        	
         	// Clean it up.
-        	if (!tao_helpers_File::remove($dir, true)) {
-        		self::err("Unable to clean up 'language' directory '" . $dir . "'.", true);
+        	foreach (scandir($dir) as $d) {
+        		if ($d !== '.' && $d !== '..' && $d !== '.svn') {
+		        	if (!tao_helpers_File::remove($dir . '/' . $d, true)) {
+		        		self::err("Unable to clean up 'language' directory '" . $dir . "'.", true);
+		        	}        			
+        		}
         	}
         } else if (file_exists($dir) && is_dir($dir) && $this->options['force'] == false) {
-        	self::err("This 'language' already exists.", true);
+        	self::err("The 'language' " . $this->options['language'] . " already exists.", true);
         }
         
         // If we are still here... it means that we have to create the language directory.
-        if (!@mkdir($dir)) {
+        if (!@mkdir($dir) && !$dirExists) {
         	self::err("Unable to create 'language' directory '" . $this->options['language'] . "'.", true);	
         } else {
         	if ($this->options['build'] == true) {
 	        	// Let's populate the language with raw PO files containing sources but no targets.
 	        	// Source code extraction.
-	        	$fileExtensions = array('php', 'tpl', 'js');
+	        	$fileExtensions = array('php', 'tpl', 'js', 'ejs');
 	        	$filePaths = array($this->options['input'] . '/actions',
 	        					   $this->options['input'] . '/helpers',
 	        					   $this->options['input'] . '/models',
@@ -475,20 +482,20 @@ class tao_scripts_TaoTranslate
 	        	$sortedTranslationFile = new tao_helpers_translation_TranslationFile('en-US', $this->options['language']);
 	        	$sortedTranslationFile->addTranslationUnits($sortedTus);
 	        	
-	        	$writer = new tao_helpers_translation_POFileWriter($dir . '/' . 'messages.po',
+	        	$writer = new tao_helpers_translation_POFileWriter($dir . '/' . self::DEF_PO_FILENAME,
 	        													   $sortedTranslationFile);
 	        	$writer->write();
-	        	$writer = new tao_helpers_translation_JSFileWriter($dir . '/' . 'messages_po.js',
+	        	$writer = new tao_helpers_translation_JSFileWriter($dir . '/' . self::DEF_JS_FILENAME,
 	        													   $sortedTranslationFile);
 	        	$writer->write();
         	} else {
         		// Only build virgin files.
         		// (Like a virgin... woot !)
         		$translationFile = new tao_helpers_translation_TranslationFile('en-US', $this->options['language']);
-        		$writer = new tao_helpers_translation_POFileWriter($dir . '/' . 'messages.po',
+        		$writer = new tao_helpers_translation_POFileWriter($dir . '/' . self::DEF_PO_FILENAME,
         														   $translationFile);
         		$writer->write();
-        		$writer = new tao_helpers_translation_JSFileWriter($dir . '/' . 'messages_po.js',
+        		$writer = new tao_helpers_translation_JSFileWriter($dir . '/' . self::DEF_JS_FILENAME,
         														   $translationFile);
         		$writer->write();
         	}
