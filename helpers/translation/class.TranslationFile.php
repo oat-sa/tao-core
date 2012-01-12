@@ -241,8 +241,10 @@ class tao_helpers_translation_TranslationFile
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034AA begin
         // If the translation unit exists, we replace the target with the new one if it exists.
         foreach($this->getTranslationUnits() as $tu) {
-        	if ($tu->getSource() === $translationUnit->getSource() && $translationUnit->getTarget() != '') {
-        		$tu->setTarget($translationUnit->getTarget());
+        	if ($tu->getSource() == $translationUnit->getSource()) {
+        		if ($translationUnit->getTarget() != '') {
+        			$tu->setTarget($translationUnit->getTarget());
+        		}
         		return;
         	}
         }
@@ -331,6 +333,12 @@ class tao_helpers_translation_TranslationFile
         $returnValue = (bool) false;
 
         // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:0000000000003235 begin
+        foreach ($this->getTranslationUnits() as $tu) {
+        	if ($tu->hasSameTranslationUnitSource($translationUnit)) {
+        		$returnValue = true;
+        		break;
+        	}
+        }
         // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:0000000000003235 end
 
         return (bool) $returnValue;
@@ -349,6 +357,12 @@ class tao_helpers_translation_TranslationFile
         $returnValue = (bool) false;
 
         // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:0000000000003238 begin
+        foreach ($this->getTranslationUnits() as $tu) {
+        	if ($tu->hasSameTranslationUnitTarget($translationUnit)) {
+        		$returnValue = true;
+        		break;
+        	}
+        }
         // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:0000000000003238 end
 
         return (bool) $returnValue;
@@ -405,6 +419,7 @@ class tao_helpers_translation_TranslationFile
         $returnValue = array();
 
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003269 begin
+        throw new tao_helpers_translation_TranslationException("Not yet implemtented.");
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003269 end
 
         return (array) $returnValue;
@@ -423,6 +438,12 @@ class tao_helpers_translation_TranslationFile
         $returnValue = null;
 
         // section 10-13-1-85--13b80d44:134d2807fdc:-8000:00000000000038F1 begin
+        foreach ($this->getTranslationUnits() as $tu) {
+        	if ($tu->hasSameTranslationUnitSource($translationUnit)) {
+        		$returnValue = $tu;
+        		break;
+        	}
+        }
         // section 10-13-1-85--13b80d44:134d2807fdc:-8000:00000000000038F1 end
 
         return $returnValue;
@@ -441,6 +462,12 @@ class tao_helpers_translation_TranslationFile
         $returnValue = null;
 
         // section 10-13-1-85--13b80d44:134d2807fdc:-8000:00000000000038F4 begin
+    	foreach ($this->getTranslationUnits() as $tu) {
+        	if ($tu->hasSameTranslationUnitTarget($translationUnit)) {
+        		$returnValue = $tu;
+        		break;
+        	}
+        }
         // section 10-13-1-85--13b80d44:134d2807fdc:-8000:00000000000038F4 end
 
         return $returnValue;

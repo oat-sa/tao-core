@@ -341,7 +341,7 @@ class tao_scripts_TaoTranslate
 	        			// And can we read the messages.po file ?
 	        			if (!file_exists($languageDir . '/' . self::DEF_PO_FILENAME)) {
 	        				self::err("Cannot find " . self::DEF_PO_FILENAME . " for extension '" . $this->options['extension'] . "' and language '" . $this->options['language'] . "'.", true);	
-	        			} else if (!is_readable($languadeDir . '/' . self::DEF_PO_FILENAME)) {
+	        			} else if (!is_readable($languageDir . '/' . self::DEF_PO_FILENAME)) {
 	        				self::err(self::DEF_PO_FILENAME . " is not readable for '" . $this->options['extension'] . "' and language '" . $this->options['language'] . "'. Please check permissions for this file." , true);
 	        			} else {
 		        			// The input 'parameter' is optional.
@@ -586,6 +586,8 @@ class tao_scripts_TaoTranslate
     public function actionUpdate()
     {
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 begin
+        $this->outVerbose("Updating language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' ...");
+    	
        	// Get virgin translations from the source code and manifest.
        	$filePaths = array($this->options['input'] . '/actions',
 	        			   $this->options['input'] . '/helpers',
@@ -593,7 +595,7 @@ class tao_scripts_TaoTranslate
 	        			   $this->options['input'] . '/views');
        	$extensions = array('php', 'tpl', 'js', 'ejs');
        	$sourceCodeExtractor = new tao_helpers_translation_SourceCodeExtractor($filePaths, $extensions);
-       	$manifestExtractor = new tao_helpers_translation_ManifestExtractor(array($this->options['input'] . 'actions'));
+       	$manifestExtractor = new tao_helpers_translation_ManifestExtractor($this->options['input'] . '/actions');
        	$sourceCodeExtractor->extract();
        	$manifestExtractor->extract();
     	
@@ -608,17 +610,42 @@ class tao_scripts_TaoTranslate
        	
        	// For each TU that was recovered, have a look in an older version
        	// of the translations.
-       	$oldFilePath = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
+       	$oldFilePath = $this->buildLanguagePath($this->options['extension'], $this->options['language']) . '/' .self::DEF_PO_FILENAME;
        	$translationFileReader = new tao_helpers_translation_POFileReader($oldFilePath);
        	$translationFileReader->read();
        	$oldTranslationFile = $translationFileReader->getTranslationFile();
+       	$this->outVerbose(count($translationFile->getTranslationUnits()) . " entries in raw translation file.");
+       	$this->outVerbose(count($oldTranslationFile->getTranslationUnits()) . " entries in old translation file.");
        	
-       	foreach ($translationFile->getTranslationUnits() as $tu) {
-       		if ($oldTranslationFile->hasSameSource($tu)) {
-       			
+       	$addedCount = count($oldTranslationFile->getTranslationUnits()) - count($translationFile->getTranslationUnits());
+       	$neutralCount = 0;
+       	
+       	foreach ($oldTranslationFile->getTranslationUnits() as $oldTu) {
+       		if ($translationFile->hasSameSource($oldTu)) {
+       			$neutralCount++;
+       			// No duplicates in TFs so I simply add it whatever happens.
+       			$translationFile->addTranslationUnit($oldTu);
        		}
        	}
        	
+       	$sortedTranslationFile = new tao_helpers_translation_POFile($translationFile->getSourceLanguage(),
+       																$translationFile->getTargetLanguage());
+       	$sortedTranslationFile->addTranslationUnits($translationFile->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC_I));
+       	$this->preparePOFile($sortedTranslationFile);
+       	
+       	// Remove old files.
+       	$oldJsFilePath = $this->buildLanguagePath($this->options['extension'], $this->options['language']) . '/' . self::DEF_JS_FILENAME;
+       	tao_helpers_File::remove($oldFilePath);
+       	tao_helpers_File::remove($oldJsFilePath);
+       	
+       	// Write the new ones.
+       	$poFileWriter = new tao_helpers_translation_POFileWriter($oldFilePath, $sortedTranslationFile);
+       	$jsFileWriter = new tao_helpers_translation_JSFileWriter($oldJsFilePath, $sortedTranslationFile);
+       	$poFileWriter->write();
+       	$jsFileWriter->write();
+       	
+       	$this->outVerbose("Language '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' " .
+	        					  "(" . count($sortedTranslationFile->getTranslationUnits()) . " entries, mod=" . $addedCount . ").");
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 end
     }
 
