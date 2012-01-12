@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 12.01.2012, 13:53:26 with ArgoUML PHP module 
+ * Automatically generated on 12.01.2012, 14:15:26 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -524,6 +524,14 @@ class tao_scripts_TaoTranslate
 	        	$translationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
 	        	$translationFile->addTranslationUnits($sourceExtractor->getTranslationUnits());
 	        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
+	        	
+	        	// If it is the TAO Extension, get all TUs from all manifest files found
+	        	// in other extensions. I do not like it but we need it because some translations related
+	        	// to extensions are handled by the TAO extensions (e.g. Action panel in the BackOffice GUI).
+	        	if ($this->options['extension'] == 'tao') {
+	        		$this->addManifestsTranslations($translationFile);	
+	        	}
+	        	
 	        	$sortedTus = $translationFile->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC_I);
 	        	
 	        	$sortedTranslationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
@@ -645,7 +653,12 @@ class tao_scripts_TaoTranslate
         $returnValue = null;
 
         // section 10-13-1-85-49a3b43f:134b39b4ede:-8000:0000000000003874 begin
-        $actionsDir = $this->options['input'] . '/actions';
+        if ($directory == null) {
+        	$actionsDir = $this->options['input'] . '/actions';	
+        } else {
+        	$actionsDir = $directory . '/actions';
+        }
+        
         $dirEntries = scandir($actionsDir);
         
         if ($dirEntries === false) {
@@ -699,11 +712,12 @@ class tao_scripts_TaoTranslate
      * @param  string directory
      * @return boolean
      */
-    public static function isExtension($directory)
+    public function isExtension($directory)
     {
         $returnValue = (bool) false;
 
         // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E3 begin
+        $returnValue = $this->findStructureManifest($directory) !== false;
         // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E3 end
 
         return (bool) $returnValue;
@@ -730,14 +744,18 @@ class tao_scripts_TaoTranslate
         	self::err("The TAO root directory is not readable. Please check permissions on this directory.", true);	
         } else {
         	foreach ($directories as $dir) {
-				if (is_dir($dir) && !in_array($dir, $exceptions)) {
+				if (is_dir($rootDir . $dir) && !in_array($dir, $exceptions)) {
 					// Maybe it should be read.
-					if (in_array('.*', $exceptions) && $dir[] == '.') {
+					if (in_array('.*', $exceptions) && $dir[0] == '.') {
 						continue;	
 					} else {
 						// Is this a TAO extension ?
-						if (self::isExtension($rootDir . $dir)) {
+						if (self::isExtension($rootDir . $dir)) {							
+							$manifestReader = new tao_helpers_translation_ManifestExtractor(array($rootDir . $dir));
+							$manifestReader->extract();
+							$poFile->addTranslationUnits($manifestReader->getTranslationUnits());
 							
+							$this->outVerbose("Translation Units of extension '" . $dir . "' added to extension '" . $this->options['extension'] . "'.");
 						}
 					}
 				}
