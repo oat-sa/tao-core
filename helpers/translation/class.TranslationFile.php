@@ -114,7 +114,7 @@ class tao_helpers_translation_TranslationFile
      * language.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string sourceLanguage
      * @param  string targetLanguage
      * @return mixed
@@ -132,7 +132,7 @@ class tao_helpers_translation_TranslationFile
      * Gets the source language.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public function getSourceLanguage()
@@ -150,7 +150,7 @@ class tao_helpers_translation_TranslationFile
      * Gets the target language.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public function getTargetLanguage()
@@ -168,7 +168,7 @@ class tao_helpers_translation_TranslationFile
      * Gets the collection of Translation Units representing the
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return array
      */
     public function getTranslationUnits()
@@ -186,7 +186,7 @@ class tao_helpers_translation_TranslationFile
      * Sets the source language.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string sourceLanguage
      * @return mixed
      */
@@ -201,7 +201,7 @@ class tao_helpers_translation_TranslationFile
      * Sets the target language.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string targetLanguage
      * @return mixed
      */
@@ -216,7 +216,7 @@ class tao_helpers_translation_TranslationFile
      * Sets the collection of TranslationUnits representing the file.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array translationUnits
      * @return mixed
      */
@@ -232,7 +232,7 @@ class tao_helpers_translation_TranslationFile
      * collection.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  TranslationUnit translationUnit
      * @return mixed
      */
@@ -259,7 +259,7 @@ class tao_helpers_translation_TranslationFile
      * the file.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  TranslationUnit translationUnit
      * @return mixed
      */
@@ -282,7 +282,7 @@ class tao_helpers_translation_TranslationFile
      * Short description of method __toString
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public function __toString()
@@ -305,7 +305,7 @@ class tao_helpers_translation_TranslationFile
      * of the translation units.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array translationUnits
      * @return mixed
      */
@@ -322,7 +322,7 @@ class tao_helpers_translation_TranslationFile
      * Short description of method hasSameSource
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  TranslationUnit translationUnit
      * @return boolean
      */
@@ -340,7 +340,7 @@ class tao_helpers_translation_TranslationFile
      * Short description of method hasSameTarget
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  TranslationUnit translationUnit
      * @return boolean
      */
@@ -358,7 +358,7 @@ class tao_helpers_translation_TranslationFile
      * Sorts and returns the TranslationUnits by Source with a specified sorting
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  int sortingType
      * @return array
      */
@@ -396,7 +396,7 @@ class tao_helpers_translation_TranslationFile
      * Sorts and returns the TranslationUnits by Target with a specified sorting
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  int sortingType
      * @return array
      */
@@ -408,6 +408,42 @@ class tao_helpers_translation_TranslationFile
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003269 end
 
         return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method getBySource
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  TranslationUnit translationUnit
+     * @return tao_helpers_translation_TranslationUnit
+     */
+    public function getBySource( tao_helpers_translation_TranslationUnit $translationUnit)
+    {
+        $returnValue = null;
+
+        // section 10-13-1-85--13b80d44:134d2807fdc:-8000:00000000000038F1 begin
+        // section 10-13-1-85--13b80d44:134d2807fdc:-8000:00000000000038F1 end
+
+        return $returnValue;
+    }
+
+    /**
+     * Short description of method getByTarget
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  TranslationUnit translationUnit
+     * @return tao_helpers_translation_TranslationUnit
+     */
+    public function getByTarget( tao_helpers_translation_TranslationUnit $translationUnit)
+    {
+        $returnValue = null;
+
+        // section 10-13-1-85--13b80d44:134d2807fdc:-8000:00000000000038F4 begin
+        // section 10-13-1-85--13b80d44:134d2807fdc:-8000:00000000000038F4 end
+
+        return $returnValue;
     }
 
 } /* end of class tao_helpers_translation_TranslationFile */

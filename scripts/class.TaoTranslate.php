@@ -337,23 +337,31 @@ class tao_scripts_TaoTranslate
 	        		} else if (!is_writable($extensionDir)) {
 	        			self::err("The '" . $this->options['extension'] . "' directory is not writable. Please check permissions on this directory.", true);
 	        		} else {
-	        			// The input 'parameter' is optional.
-			        	if (!is_null($this->options['input'])) {
-			        		if (!is_dir($this->options['input'])) {
-			        			self::err("The 'input' parameter you provided is not a directory.", true);
-			        		} else if (!is_readable($this->options['input'])) {
-			        			self::err("The 'input' directory is not readable.", true);
-			        		}
-			        	}
-			        	
-			        	// The output 'parameter' is optional.
-			        	if (!is_null($this->options['output'])) {
-			        		if (!is_dir($this->options['output'])) {
-			        			self::err("The 'output' parameter you provided is not a directory.", true);
-			        		} else if (!is_writable($this->options['output'])) {
-			        			self::err("The 'output' directory is not writable.", true);
-			        		}
-			        	}
+	        			
+	        			// And can we read the messages.po file ?
+	        			if (!file_exists($languageDir . '/' . self::DEF_PO_FILENAME)) {
+	        				self::err("Cannot find " . self::DEF_PO_FILENAME . " for extension '" . $this->options['extension'] . "' and language '" . $this->options['language'] . "'.", true);	
+	        			} else if (!is_readable($languadeDir . '/' . self::DEF_PO_FILENAME)) {
+	        				self::err(self::DEF_PO_FILENAME . " is not readable for '" . $this->options['extension'] . "' and language '" . $this->options['language'] . "'. Please check permissions for this file." , true);
+	        			} else {
+		        			// The input 'parameter' is optional.
+				        	if (!is_null($this->options['input'])) {
+				        		if (!is_dir($this->options['input'])) {
+				        			self::err("The 'input' parameter you provided is not a directory.", true);
+				        		} else if (!is_readable($this->options['input'])) {
+				        			self::err("The 'input' directory is not readable.", true);
+				        		}
+				        	}
+				        	
+				        	// The output 'parameter' is optional.
+				        	if (!is_null($this->options['output'])) {
+				        		if (!is_dir($this->options['output'])) {
+				        			self::err("The 'output' parameter you provided is not a directory.", true);
+				        		} else if (!is_writable($this->options['output'])) {
+				        			self::err("The 'output' directory is not writable.", true);
+				        		}
+				        	}	
+	        			}
 	        		}
 	        	}
         	}
@@ -578,6 +586,39 @@ class tao_scripts_TaoTranslate
     public function actionUpdate()
     {
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 begin
+       	// Get virgin translations from the source code and manifest.
+       	$filePaths = array($this->options['input'] . '/actions',
+	        			   $this->options['input'] . '/helpers',
+	        			   $this->options['input'] . '/models',
+	        			   $this->options['input'] . '/views');
+       	$extensions = array('php', 'tpl', 'js', 'ejs');
+       	$sourceCodeExtractor = new tao_helpers_translation_SourceCodeExtractor($filePaths, $extensions);
+       	$manifestExtractor = new tao_helpers_translation_ManifestExtractor(array($this->options['input'] . 'actions'));
+       	$sourceCodeExtractor->extract();
+       	$manifestExtractor->extract();
+    	
+       	$translationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
+       	$translationFile->addTranslationUnits($sourceCodeExtractor->getTranslationUnits());
+       	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
+       	
+       	// If it is TAO extension, get TUs from all manifests.
+       	if ($this->options['extension'] == 'tao') {
+       		$this->addManifestsTranslations($translationFile);
+       	}
+       	
+       	// For each TU that was recovered, have a look in an older version
+       	// of the translations.
+       	$oldFilePath = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
+       	$translationFileReader = new tao_helpers_translation_POFileReader($oldFilePath);
+       	$translationFileReader->read();
+       	$oldTranslationFile = $translationFileReader->getTranslationFile();
+       	
+       	foreach ($translationFile->getTranslationUnits() as $tu) {
+       		if ($oldTranslationFile->hasSameSource($tu)) {
+       			
+       		}
+       	}
+       	
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 end
     }
 
