@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 12.01.2012, 11:51:33 with ArgoUML PHP module 
+ * Automatically generated on 12.01.2012, 13:42:31 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage scripts
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_scripts_Runner
  *
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  */
 require_once('tao/scripts/class.Runner.php');
 
@@ -40,7 +40,7 @@ require_once('tao/scripts/class.Runner.php');
  * Short description of class tao_scripts_TaoTranslate
  *
  * @access public
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage scripts
  */
@@ -98,7 +98,7 @@ class tao_scripts_TaoTranslate
      * Short description of method preRun
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     public function preRun()
@@ -147,7 +147,7 @@ class tao_scripts_TaoTranslate
      * Short description of method run
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     public function run()
@@ -190,7 +190,7 @@ class tao_scripts_TaoTranslate
      * Short description of method postRun
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     public function postRun()
@@ -203,7 +203,7 @@ class tao_scripts_TaoTranslate
      * Short description of method checkInput
      *
      * @access private
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     private function checkInput()
@@ -242,7 +242,7 @@ class tao_scripts_TaoTranslate
      * Short description of method checkCreateInput
      *
      * @access private
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     private function checkCreateInput()
@@ -300,7 +300,7 @@ class tao_scripts_TaoTranslate
      * Short description of method checkUpdateInput
      *
      * @access private
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     private function checkUpdateInput()
@@ -367,7 +367,7 @@ class tao_scripts_TaoTranslate
      * Short description of method checkUpdateAllInput
      *
      * @access private
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     private function checkUpdateAllInput()
@@ -402,7 +402,7 @@ class tao_scripts_TaoTranslate
      * Short description of method checkDeleteInput
      *
      * @access private
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     private function checkDeleteInput()
@@ -432,7 +432,7 @@ class tao_scripts_TaoTranslate
      * Short description of method checkDeleteAllInput
      *
      * @access private
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     private function checkDeleteAllInput()
@@ -457,7 +457,7 @@ class tao_scripts_TaoTranslate
      * Short description of method debug
      *
      * @access protected
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string string
      * @return void
      */
@@ -472,7 +472,7 @@ class tao_scripts_TaoTranslate
      * Short description of method actionCreate
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     public function actionCreate()
@@ -564,7 +564,7 @@ class tao_scripts_TaoTranslate
      * Short description of method actionUpdate
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     public function actionUpdate()
@@ -577,7 +577,7 @@ class tao_scripts_TaoTranslate
      * Short description of method actionUpdateAll
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     public function actionUpdateAll()
@@ -590,7 +590,7 @@ class tao_scripts_TaoTranslate
      * Short description of method actionDelete
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     public function actionDelete()
@@ -603,7 +603,7 @@ class tao_scripts_TaoTranslate
      * Short description of method actionDeleteAll
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     public function actionDeleteAll()
@@ -616,7 +616,7 @@ class tao_scripts_TaoTranslate
      * Short description of method buildLanguagePath
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string extension
      * @param  string language
      * @return string
@@ -636,7 +636,7 @@ class tao_scripts_TaoTranslate
      * Short description of method findStructureManifest
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return mixed
      */
     public function findStructureManifest()
@@ -673,7 +673,7 @@ class tao_scripts_TaoTranslate
      * Short description of method preparePOFile
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  POFile poFile
      * @return void
      */
@@ -694,10 +694,11 @@ class tao_scripts_TaoTranslate
      * Short description of method isExtension
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string directory
      * @return boolean
      */
-    public static function isExtension()
+    public static function isExtension($directory)
     {
         $returnValue = (bool) false;
 
@@ -711,13 +712,31 @@ class tao_scripts_TaoTranslate
      * Short description of method addManifestsTranslations
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  POFile poFile
      * @return void
      */
     public function addManifestsTranslations( tao_helpers_translation_POFile $poFile)
     {
         // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E5 begin
+        $rootDir = dirname(__FILE__) . '/../../';
+        $directories = scandir($rootDir);
+        $exceptions = array('generis', 'tao', '.*');
+        
+        if (false === $directories) {
+        	self::err("The TAO root directory is not readable. Please check permissions on this directory.", true);	
+        } else {
+        	foreach ($directories as $dir) {
+				if (is_dir($dir) && !in_array($dir, $exceptions)) {
+					// Maybe it should be read.
+					if (in_array('.*', $exceptions) && $dir[] == '.') {
+						continue;	
+					} else {
+						// Is this a tao extension ?
+					}
+				}
+        	}
+        }
         // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E5 end
     }
 
@@ -725,7 +744,7 @@ class tao_scripts_TaoTranslate
      * Short description of method addLanguageOntology
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string languageName
      * @return boolean
      */
@@ -734,6 +753,7 @@ class tao_scripts_TaoTranslate
         $returnValue = (bool) false;
 
         // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E8 begin
+        throw new tao_helpers_translation_TranslationException("Not yet implemented.");
         // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E8 end
 
         return (bool) $returnValue;
