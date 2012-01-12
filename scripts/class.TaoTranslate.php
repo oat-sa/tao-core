@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 12.01.2012, 13:42:31 with ArgoUML PHP module 
+ * Automatically generated on 12.01.2012, 13:53:26 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -637,9 +637,10 @@ class tao_scripts_TaoTranslate
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string directory
      * @return mixed
      */
-    public function findStructureManifest()
+    public function findStructureManifest($directory = null)
     {
         $returnValue = null;
 
