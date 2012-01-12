@@ -11,7 +11,7 @@ msgstr ""
 "Language-Team: \n"
 
 msgid "The blackboard of Lena is full of \"Shakespeare\" quotes."
-msgstr "L'ardoise de Léna est pleine de citations de \"Shakespeare\" et c'est très cool !."
+msgstr "L'ardoise de Léna est pleine de citations de \"Shakespeare\"."
 
 msgid "Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N"
 msgstr "Ce téxtê cÖntîEn$ de drÔlés dE çÄrÂctÈres @ cAµ$£ dé l'I18N"

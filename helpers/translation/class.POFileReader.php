@@ -105,8 +105,11 @@ class tao_helpers_translation_POFileReader
 		// Create the translation file.
 		$tf = new tao_helpers_translation_TranslationFile();
 		foreach ($res as $msgid => $msgstr) {
-			$tu = new tao_helpers_translation_TranslationUnit($msgid, $msgstr);
-			$tf->addTranslationUnit($tu);
+			// Avoid to register first empty translation in some files (e.g. POEdit processed).
+			if ($msgid !== '') {
+				$tu = new tao_helpers_translation_TranslationUnit($msgid, $msgstr);
+				$tf->addTranslationUnit($tu);
+			}
 		}
 		
 		$this->setTranslationFile($tf);

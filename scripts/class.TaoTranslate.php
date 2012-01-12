@@ -751,11 +751,12 @@ class tao_scripts_TaoTranslate
 					} else {
 						// Is this a TAO extension ?
 						if (self::isExtension($rootDir . $dir)) {							
-							$manifestReader = new tao_helpers_translation_ManifestExtractor(array($rootDir . $dir));
+							$manifestReader = new tao_helpers_translation_ManifestExtractor(array($rootDir . $dir . '/actions'));
 							$manifestReader->extract();
+							$newTranslationsCount = count($manifestReader->getTranslationUnits());
 							$poFile->addTranslationUnits($manifestReader->getTranslationUnits());
 							
-							$this->outVerbose("Translation Units of extension '" . $dir . "' added to extension '" . $this->options['extension'] . "'.");
+							$this->outVerbose("Manifest of extension '" . $dir . "' added to extension '" . $this->options['extension'] . "' (" . $newTranslationsCount . " entries).");
 						}
 					}
 				}
