@@ -112,6 +112,7 @@ class tao_helpers_translation_POFile
         $returnValue = array();
 
         // section 10-13-1-85--53f40a93:134d16b5c93:-8000:00000000000038E1 begin
+        $returnValue = $this->headers;
         // section 10-13-1-85--53f40a93:134d16b5c93:-8000:00000000000038E1 end
 
         return (array) $returnValue;

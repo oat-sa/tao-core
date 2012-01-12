@@ -528,6 +528,7 @@ class tao_scripts_TaoTranslate
 	        	
 	        	$sortedTranslationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
 	        	$sortedTranslationFile->addTranslationUnits($sortedTus);
+	        	$this->preparePOFile($sortedTranslationFile);
 	        	
 	        	$writer = new tao_helpers_translation_POFileWriter($dir . '/' . self::DEF_PO_FILENAME,
 	        													   $sortedTranslationFile);
@@ -542,6 +543,8 @@ class tao_scripts_TaoTranslate
         		// Only build virgin files.
         		// (Like a virgin... woot !)
         		$translationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
+        		$this->preparePOFile($translationFile);
+        		
         		$writer = new tao_helpers_translation_POFileWriter($dir . '/' . self::DEF_PO_FILENAME,
         														   $translationFile);
         		$writer->write();
