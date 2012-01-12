@@ -66,19 +66,22 @@ class tao_helpers_translation_POFileWriter
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034E3 begin
         $buffer = '';
+        $file = $this->getTranslationFile();
         
         // Add PO Headers.
         $buffer .= 'msgid ""' . "\n";
         $buffer .= 'msgstr ""' . "\n";
-        $buffer .= '"Project-Id-Version: ' . PRODUCT_NAME . ' ' . TAO_VERSION_NAME . '\n"' . "\n";
-        $buffer .= '"PO-Revision-Date: ' . date('Y-m-d') . 'T' . date('H:i:s') . '\n"' . "\n";
-        $buffer .= '"Last-Translator: TAO Translation Team <translation@tao.lu>\n"' . "\n";
-        $buffer .= '"MIME-Version: 1.0\n"' . "\n";
-        $buffer .= '"Language: ' . $this->getTranslationFile()->getTargetLanguage() . '\n"' . "\n";
-        $buffer .= '"Content-Type: text/plain; charset=utf-8\n"' . "\n";
-        $buffer .= '"Content-Transfer-Encoding: 8bit\n"' . "\n\n";
+        
+        // If the TranslationFile is a specific POFile instance, we add PO Headers
+        // to the output.
+        if (get_class($this->getTranslationFile()) == 'tao_helpers_translation_POFile') {
+        	foreach ($file->getHeaders() as $name => $value) {
+        		$buffer .= '"' . $name . ': ' . $value . '\n"' . "\n";
+        	}
+        }
         
         // Write all Translation Units.
+        $buffer .= "\n";
 		foreach($this->getTranslationFile()->getTranslationUnits() as $tu) {
 			$s = tao_helpers_translation_POUtils::sanitize($tu->getSource(), true);
 			$t = tao_helpers_translation_POUtils::sanitize($tu->getTarget(), true);
@@ -86,6 +89,7 @@ class tao_helpers_translation_POFileWriter
 			$buffer .=  "msgstr \"{$t}\"\n";
 			$buffer .=  "\n";
 		}
+		
 		return file_put_contents($this->getFilePath(), $buffer);
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034E3 end
     }

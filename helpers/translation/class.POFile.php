@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 12.01.2012, 10:51:57 with ArgoUML PHP module 
+ * Automatically generated on 12.01.2012, 11:17:36 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -81,6 +81,7 @@ class tao_helpers_translation_POFile
     public function addHeader($name, $value)
     {
         // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038DA begin
+        $this->headers[$name] = $value;
         // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038DA end
     }
 
@@ -95,7 +96,25 @@ class tao_helpers_translation_POFile
     public function removeHeader($name)
     {
         // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038DE begin
+        unset($this->headers[$name]);
         // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038DE end
+    }
+
+    /**
+     * Short description of method getHeaders
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @return array
+     */
+    public function getHeaders()
+    {
+        $returnValue = array();
+
+        // section 10-13-1-85--53f40a93:134d16b5c93:-8000:00000000000038E1 begin
+        // section 10-13-1-85--53f40a93:134d16b5c93:-8000:00000000000038E1 end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_helpers_translation_POFile */

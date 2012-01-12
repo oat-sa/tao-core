@@ -521,12 +521,12 @@ class tao_scripts_TaoTranslate
 	        	$manifestExtractor = new tao_helpers_translation_ManifestExtractor($this->options['input'] . '/actions');
 	        	$manifestExtractor->extract();
 	        	
-	        	$translationFile = new tao_helpers_translation_TranslationFile('en-US', $this->options['language']);
+	        	$translationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
 	        	$translationFile->addTranslationUnits($sourceExtractor->getTranslationUnits());
 	        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
 	        	$sortedTus = $translationFile->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC_I);
 	        	
-	        	$sortedTranslationFile = new tao_helpers_translation_TranslationFile('en-US', $this->options['language']);
+	        	$sortedTranslationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
 	        	$sortedTranslationFile->addTranslationUnits($sortedTus);
 	        	
 	        	$writer = new tao_helpers_translation_POFileWriter($dir . '/' . self::DEF_PO_FILENAME,
@@ -541,7 +541,7 @@ class tao_scripts_TaoTranslate
         	} else {
         		// Only build virgin files.
         		// (Like a virgin... woot !)
-        		$translationFile = new tao_helpers_translation_TranslationFile('en-US', $this->options['language']);
+        		$translationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
         		$writer = new tao_helpers_translation_POFileWriter($dir . '/' . self::DEF_PO_FILENAME,
         														   $translationFile);
         		$writer->write();
@@ -677,6 +677,13 @@ class tao_scripts_TaoTranslate
     public function preparePOFile( tao_helpers_translation_POFile $poFile)
     {
         // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038C3 begin
+        $poFile->addHeader('Project-Id-Version', PRODUCT_NAME . ' ' . TAO_VERSION_NAME);
+        $poFile->addHeader('PO-Revision-Date', date('Y-m-d') . 'T' . date('H:i:s'));
+        $poFile->addHeader('Last-Translator', 'TAO Translation Team <translation@tao.lu>');
+        $poFile->addHeader('MIME-Version', '1.0');
+        $poFile->addHeader('Language', $poFile->getTargetLanguage());
+        $poFile->addHeader('Content-Type', 'text/plain; charset=utf-8');
+        $poFile->addHeader('Content-Transfer-Encoding', '8bit');
         // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038C3 end
     }
 
