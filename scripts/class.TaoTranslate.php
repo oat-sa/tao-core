@@ -719,6 +719,8 @@ class tao_scripts_TaoTranslate
     public function addManifestsTranslations( tao_helpers_translation_POFile $poFile)
     {
         // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E5 begin
+        $this->outVerbose("Adding all manifests entries to extension '" . $this->options['extension'] . "'");
+    	
         $rootDir = dirname(__FILE__) . '/../../';
         $directories = scandir($rootDir);
         $exceptions = array('generis', 'tao', '.*');
@@ -732,7 +734,10 @@ class tao_scripts_TaoTranslate
 					if (in_array('.*', $exceptions) && $dir[] == '.') {
 						continue;	
 					} else {
-						// Is this a tao extension ?
+						// Is this a TAO extension ?
+						if (self::isExtension($rootDir . $dir)) {
+							
+						}
 					}
 				}
         	}
