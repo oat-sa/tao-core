@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 11.01.2012, 13:42:49 with ArgoUML PHP module 
+ * Automatically generated on 12.01.2012, 10:51:20 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -664,6 +664,20 @@ class tao_scripts_TaoTranslate
         // section 10-13-1-85-49a3b43f:134b39b4ede:-8000:0000000000003874 end
 
         return $returnValue;
+    }
+
+    /**
+     * Short description of method preparePOFile
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  POFile poFile
+     * @return void
+     */
+    public function preparePOFile( tao_helpers_translation_POFile $poFile)
+    {
+        // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038C3 begin
+        // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038C3 end
     }
 
 } /* end of class tao_scripts_TaoTranslate */
