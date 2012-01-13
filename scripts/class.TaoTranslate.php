@@ -412,7 +412,8 @@ class tao_scripts_TaoTranslate
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003848 begin
         $defaults = array('language' => null,
-        				  'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR);
+        				  'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
+        				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR);
         
         $this->options = array_merge($defaults, $this->options);
         
@@ -441,7 +442,8 @@ class tao_scripts_TaoTranslate
     private function checkDeleteAllInput()
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:000000000000384A begin
-     	$defaults = array('input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR);
+     	$defaults = array('input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
+     					  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR);
         
         $this->options = array_merge($defaults, $this->options);
         
