@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 12.01.2012, 14:15:26 with ArgoUML PHP module 
+ * Automatically generated on 13.01.2012, 10:58:06 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -153,12 +153,6 @@ class tao_scripts_TaoTranslate
     public function run()
     {
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 begin
-//        $inputs = '';
-//    	foreach ($this->options as $k => $o) {
-//        	$inputs .= "${k}: \t $o\n";
-//        }
-//        $this->debug($inputs);
-        
         
         // Select the action to perform depending on the 'action' parameter.
         // Verification of the value of 'action' performed in self::preRun().
@@ -460,21 +454,6 @@ class tao_scripts_TaoTranslate
         	}
         }
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:000000000000384A end
-    }
-
-    /**
-     * Short description of method debug
-     *
-     * @access protected
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string string
-     * @return void
-     */
-    protected function debug($string)
-    {
-        // section 10-13-1-85--13eeb565:134b31f90c6:-8000:0000000000003861 begin
-        self::out($string);
-        // section 10-13-1-85--13eeb565:134b31f90c6:-8000:0000000000003861 end
     }
 
     /**
