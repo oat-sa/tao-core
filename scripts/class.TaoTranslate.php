@@ -171,7 +171,7 @@ class tao_scripts_TaoTranslate
         		$this->actionUpdate();
         	break;
         	
-        	case 'updateAll':
+        	case 'updateall':
         		$this->actionUpdateAll();
         	break;
         	
@@ -179,7 +179,7 @@ class tao_scripts_TaoTranslate
         		$this->actionDelete();
         	break;
         	
-        	case 'deleteAll':
+        	case 'deleteall':
         		$this->actionDeleteAll();
         	break;
         }
@@ -218,7 +218,7 @@ class tao_scripts_TaoTranslate
         		$this->checkUpdateInput();
         	break;
         	
-        	case 'updateAll':
+        	case 'updateall':
         		$this->checkUpdateAllInput();
         	break;
         	
@@ -226,7 +226,7 @@ class tao_scripts_TaoTranslate
         		$this->checkDeleteInput();
         	break;
         	
-        	case 'deleteAll':
+        	case 'deleteall':
         		$this->checkDeleteAllInput();
         	break;
         	
@@ -382,7 +382,8 @@ class tao_scripts_TaoTranslate
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003846 begin
         $defaults = array('input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
-        				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR);
+        				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
+        				  'extension' => null);
         
         $this->options = array_merge($defaults, $this->options);
         
@@ -614,10 +615,10 @@ class tao_scripts_TaoTranslate
        	$translationFileReader = new tao_helpers_translation_POFileReader($oldFilePath);
        	$translationFileReader->read();
        	$oldTranslationFile = $translationFileReader->getTranslationFile();
-       	$this->outVerbose(count($translationFile->getTranslationUnits()) . " entries in raw translation file.");
-       	$this->outVerbose(count($oldTranslationFile->getTranslationUnits()) . " entries in old translation file.");
        	
-       	$addedCount = count($oldTranslationFile->getTranslationUnits()) - count($translationFile->getTranslationUnits());
+       	$oldCount = count($oldTranslationFile->getTranslationUnits());
+       	$newCount = count($translationFile->getTranslationUnits());
+       	$addedCount = $oldCount - $newCount;
        	$neutralCount = 0;
        	
        	foreach ($oldTranslationFile->getTranslationUnits() as $oldTu) {
@@ -645,7 +646,7 @@ class tao_scripts_TaoTranslate
        	$jsFileWriter->write();
        	
        	$this->outVerbose("Language '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' " .
-	        					  "(" . count($sortedTranslationFile->getTranslationUnits()) . " entries, mod=" . $addedCount . ").");
+	        					  "(old=" . $oldCount . ", new=" . $newCount .", mod=" . $addedCount . ").");
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 end
     }
 
@@ -659,6 +660,36 @@ class tao_scripts_TaoTranslate
     public function actionUpdateAll()
     {
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003868 begin
+        // Scan the locales folder for languages in the wwextension and
+        // launch actionUpdate for each of them.
+
+    	// Get the list of languages that will be updated.
+    	$rootDir = dirname(__FILE__) . '/../..';
+    	$extensionDir = $rootDir . '/' . $this->options['extension'];
+    	$localesDir = $extensionDir . '/locales';
+    	$locales = array();
+    	
+    	$directories = scandir($localesDir);
+    	if ($directories === false) {
+    		self::err("The locales directory of extension '" . $this->options['extension'] . "' cannot be read.", true);	
+    	} else {
+    		foreach ($directories as $dir) {
+    			if ($dir[0] !== '.') {
+    				// It is a language directory.
+    				$locales[] = $dir;
+    			}
+    		}
+    	}
+    	
+    	// We now identified locales to be updated.
+    	$this->outVerbose("Languages '" . implode(',', $locales) . "' will be updated for extension '" . $this->options['extension'] . "'.");
+    	foreach ($locales as $l) {
+    		$this->options['language'] = $l;
+    		$this->checkUpdateInput();
+    		$this->actionUpdate();
+    		
+    		$this->outVerbose("");
+    	}
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003868 end
     }
 
