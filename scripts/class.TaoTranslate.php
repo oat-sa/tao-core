@@ -795,7 +795,21 @@ class tao_scripts_TaoTranslate
         $returnValue = (bool) false;
 
         // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E3 begin
-        $returnValue = $this->findStructureManifest($directory) !== false;
+        $hasStructure = $this->findStructureManifest($directory) !== false;
+        $hasPHPManifest = false;
+        
+        $files = scandir($this->options['input']);
+        if ($files !== false) {
+        	foreach ($files as $f) {
+				if (is_file($this->options['input'] . '/' .$f) && is_readable($this->options['input'] . '/' . $f)) {
+					if ($f == 'manifest.php') {
+						$hasPHPManifest = true;
+					}
+				}
+        	}
+        }
+        
+        $returnValue = $hasStructure || $hasPHPManifest;
         // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E3 end
 
         return (bool) $returnValue;
