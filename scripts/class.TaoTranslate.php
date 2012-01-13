@@ -682,6 +682,14 @@ class tao_scripts_TaoTranslate
     public function actionDelete()
     {
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386A begin
+        $this->outVerbose("Deleting language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' ...");
+    	
+    	$dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
+        if (!tao_helpers_File::remove($dir, true)) {
+        	self::err("Could not delete language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "'.", true);	
+        }
+        
+        $this->outVerbose("Language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' successfuly deleted.");
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386A end
     }
 
@@ -695,6 +703,33 @@ class tao_scripts_TaoTranslate
     public function actionDeleteAll()
     {
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386C begin
+    	// Get the list of languages that will be deleted.
+    	$this->outVerbose("Deleting all languages for extension '" . $this->options['extension'] . "' ...");
+    	
+    	$rootDir = dirname(__FILE__) . '/../..';
+    	$extensionDir = $rootDir . '/' . $this->options['extension'];
+    	$localesDir = $extensionDir . '/locales';
+    	$locales = array();
+    	
+    	$directories = scandir($localesDir);
+    	if ($directories === false) {
+    		self::err("The locales directory of extension '" . $this->options['extension'] . "' cannot be read.", true);	
+    	} else {
+    		foreach ($directories as $dir) {
+    			if ($dir[0] !== '.') {
+    				// It is a language directory.
+    				$locales[] = $dir;
+    			}
+    		}
+    	}
+    	
+    	foreach ($locales as $l) {
+    		$this->options['language'] = $dir;
+    		$this->checkDeleteInput();
+    		$this->actionDelete();
+    		
+    		$this->outVerbose("");
+    	}
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386C end
     }
 
