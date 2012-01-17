@@ -290,74 +290,19 @@ div#ajax-loading{
 
 
 /* Results Manual Scoring Conciliation */
-
-.results_msc_navigations {
-	width: 20%;
-	float: left;
-	vertical-align: top;
-	margin-right: 1%;
-	margin-left: 1%;
-}
-.results_msc_itemsgroups,
-.results_msc_testtakers,
-.results_msc_item {
-	margin-bottom: 20px;
-	border: 1px solid #aaa;
-}
-.results_msc_itemsgroups .ui-widget-header,
-.results_msc_testtakers .ui-widget-header,
-.results_msc_item .ui-widget-header {
-	padding: 5px;
-	border-width: 0 0 1px 0;
-}
-.results_msc_evalboard {
-	width: 78%;
-	float: left;
-	vertical-align: top;
-}
-.results_msc_render {
-	float: left;
-	width: 60%;
-}
-.results_msc_vars {
-	float: left;
-	width: 40%;
-}
-.results_msc_interaction {
-	border-bottom: 1px solid #aaa;
-}
-.results_msc_interaction:last-child {
-	border-bottom-width: 0;
-}
-.results_msc_evaluation {
+div#selectors {
 
 }
-.results_msc_guidelines {
-
+div#testsitems {
+	width: 19.5%;
+	float: left;
 }
-.results_msc_itemsgroups ul,
-.results_msc_testtakers ul {
-	margin: 0;
-	padding: 0;
+div#evalitems {
+	width: 80%;
+	float: right;
 }
-.results_msc_itemsgroups li,
-.results_msc_testtakers li {
-	list-style-type: none;
-	border-bottom: 1px solid #aaa;
-}
-.results_msc_itemsgroups li:hover,
-.results_msc_testtakers li:hover {
-	background-color: #eee;
-}
-.results_msc_itemsgroups li a,
-.results_msc_testtakers li a {
-	display: block;
-	padding: 3px 5px;
-	text-decoration: none;
-}
-.results_msc_itemsgroups li:last-child,
-.results_msc_testtakers li:last-child {
-	border-bottom: 0;
+div#controls {
+	clear: both
 }
 
 .clearfix:after {
