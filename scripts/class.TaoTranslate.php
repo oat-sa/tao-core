@@ -599,7 +599,7 @@ class tao_scripts_TaoTranslate
        	
        	$oldCount = count($oldTranslationFile->getTranslationUnits());
        	$newCount = count($translationFile->getTranslationUnits());
-       	$addedCount = $oldCount - $newCount;
+       	$addedCount = $newCount - $oldCount;
        	$neutralCount = 0;
        	
        	foreach ($oldTranslationFile->getTranslationUnits() as $oldTu) {
