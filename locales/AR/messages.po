@@ -1,5 +1,24 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: TAO v2.2-alpha\n"
+"PO-Revision-Date: 2012-01-18T15:49:34\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: AR\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid " has been deleted successfully"
+msgstr ""
+
+msgid " next"
+msgstr ""
+
+msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "A file"
+msgstr ""
 
 msgid "A formated text"
 msgstr "نص منسق"
@@ -16,6 +35,9 @@ msgstr "كلمة المرور"
 msgid "A short text"
 msgstr "نص قصير"
 
+msgid "A similar resource has already been versioned"
+msgstr ""
+
 msgid "A single choice list"
 msgstr "قائمة خيار واحد"
 
@@ -29,6 +51,9 @@ msgid "Action"
 msgstr ""
 
 msgid "Actions"
+msgstr "الأعمال"
+
+msgid "actions"
 msgstr "الأعمال"
 
 msgid "Add"
@@ -46,14 +71,17 @@ msgstr "إضافة خاصية"
 msgid "Add the source file"
 msgstr "إضافة الملف المصدر"
 
-msgid "Add to group"
-msgstr ""
-
 msgid "Advanced Authoring Tool"
 msgstr "محرر متقدم"
 
+msgid "advanced mode"
+msgstr "الطريقة المتقدمة"
+
 msgid "Advanced Mode"
 msgstr "طريقة متقدمة"
+
+msgid "all"
+msgstr ""
 
 msgid "All"
 msgstr ""
@@ -61,14 +89,11 @@ msgstr ""
 msgid "All (the complete TAO Module)"
 msgstr "الكل"
 
-msgid "Allowed files types:"
+msgid "Allowed files types: "
 msgstr ""
 
 msgid "An error occured during user deletion"
 msgstr "حدث خطأ أثناء حذف المستخدم"
-
-msgid "AR"
-msgstr ""
 
 msgid "Authoring"
 msgstr "محرر"
@@ -76,8 +101,8 @@ msgstr "محرر"
 msgid "Browse"
 msgstr "تصفح"
 
-msgid "CSV Options"
-msgstr "CSV خيارات"
+msgid "Build processes to drive activities into a workflow."
+msgstr ""
 
 msgid "Campaigns library"
 msgstr "Bibliothèque de campagnes"
@@ -91,14 +116,20 @@ msgstr ""
 msgid "Change the password"
 msgstr "تغيير كلمة المرور"
 
+msgid "Check all"
+msgstr ""
+
 msgid "Check All"
 msgstr ""
 
-msgid "Check all"
+msgid "Check if updates are available for your version of TAO"
 msgstr ""
 
 msgid "Class"
 msgstr "الصنف"
+
+msgid "class selected"
+msgstr "classe sélectionnée"
 
 msgid "Classes"
 msgstr ""
@@ -106,13 +137,28 @@ msgstr ""
 msgid "Column"
 msgstr "عمود"
 
+msgid "Combine a selection of items into tests."
+msgstr ""
+
 msgid "Comment"
 msgstr "تعليق"
 
 msgid "Compilation completed"
 msgstr ""
 
+msgid "compile"
+msgstr "ترجم"
+
+msgid "compiled"
+msgstr ""
+
+msgid "compiled instances"
+msgstr ""
+
 msgid "Compiled Instances"
+msgstr ""
+
+msgid "compiling"
 msgstr ""
 
 msgid "Confirm"
@@ -127,25 +173,43 @@ msgstr "إنشاء"
 msgid "Create a list"
 msgstr "إنشاء قائمة"
 
+msgid "Create and design items and exercises."
+msgstr ""
+
+msgid "create direct table"
+msgstr "إنشاء جدول بسيط"
+
+msgid "create score table"
+msgstr ""
+
+msgid "create table"
+msgstr "إنشاء جدول"
+
+msgid "CSV Options"
+msgstr "CSV خيارات"
+
 msgid "Current"
 msgstr ""
 
 msgid "Current (the current extension, the local data and their dependancies)"
 msgstr "(الحالي(الملحق الحالي,البيانات المحلية وتوابعها"
 
+msgid "Current class + Subclasses"
+msgstr ""
+
+msgid "Current class only"
+msgstr ""
+
 msgid "Current language"
 msgstr "اللغة الحالية"
-
-msgid "DE"
-msgstr "الالمانية"
-
-msgid "Data Language"
-msgstr "لغة البيانات"
 
 msgid "Data imported successfully"
 msgstr "البيانات التي تم استيرادها بنجاح"
 
 msgid "Data language"
+msgstr "لغة البيانات"
+
+msgid "Data Language"
 msgstr "لغة البيانات"
 
 msgid "Date"
@@ -154,11 +218,20 @@ msgstr "التاريخ"
 msgid "Decompilation completed"
 msgstr ""
 
+msgid "decompiled"
+msgstr ""
+
 msgid "Decompiled Instances"
 msgstr ""
 
-msgid "Define the defaultt values"
-msgstr "تعريف القيم الافتراضية"
+msgid "decompiling"
+msgstr ""
+
+msgid "Define the default values"
+msgstr ""
+
+msgid "delete"
+msgstr "حذف"
 
 msgid "Delete"
 msgstr "حذف"
@@ -181,41 +254,53 @@ msgstr "لا تدرج"
 msgid "Download"
 msgstr "تحميل"
 
+msgid "download"
+msgstr "تحميل"
+
+msgid "Download content"
+msgstr ""
+
+msgid "duplicate"
+msgstr "تكرار"
+
 msgid "Dynamic date picker"
 msgstr "روزنامة"
 
-msgid "EN"
-msgstr "الانجليزية"
+msgid "edit"
+msgstr "تحرير"
 
 msgid "Edit"
 msgstr "تحرير"
 
-msgid "Edit Comment"
-msgstr "تحرير تعليق"
-
 msgid "Edit a user"
 msgstr "تحرير مستخدم"
+
+msgid "Edit Comment"
+msgstr "تحرير تعليق"
 
 msgid "Edit item comment"
 msgstr "تحرير تعليق"
 
-msgid "Edit property into parent class"
+msgid "Edit property into parent class "
 msgstr ""
 
 msgid "Edit user"
 msgstr "تحرير مستخدم"
 
+msgid "element"
+msgstr "عنصر"
+
 msgid "Element"
 msgstr "العنصر"
+
+msgid "element deleted"
+msgstr "عنصر محذوف"
 
 msgid "Email"
 msgstr "البريد الإلكتروني"
 
 msgid "Empty"
 msgstr "فارغ"
-
-msgid "Enables you to export an RDF file containing the selected namespaces"
-msgstr "Vous pouvez exporter un fichier au format RDF comprenant les espaces de noms sélectionnés"
 
 msgid "Enables you to export an RDF file containing the selected namespaces or instances"
 msgstr ""
@@ -226,13 +311,13 @@ msgstr "خطأ"
 msgid "Error during file import"
 msgstr "خطأ أثناء استيراد الملف"
 
-msgid "Exclusive (AND)"
-msgstr ""
-
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
 
 msgid "Export"
+msgstr "تصدير"
+
+msgid "export"
 msgstr "تصدير"
 
 msgid "Export Options"
@@ -241,8 +326,11 @@ msgstr "خيارات التصدير"
 msgid "Exported files library"
 msgstr "مكتبة الملفات المصدرة"
 
-msgid "FR"
-msgstr "الفرنسية"
+msgid "exported successfully"
+msgstr "تصدير بنجاح"
+
+msgid "failed"
+msgstr ""
 
 msgid "File"
 msgstr "ملف"
@@ -253,8 +341,20 @@ msgstr "حذف الملف بنجاح"
 msgid "File name"
 msgstr "اسم الملف"
 
+msgid "File path"
+msgstr ""
+
+msgid "File repository"
+msgstr ""
+
+msgid "File revision"
+msgstr ""
+
 msgid "Filter"
 msgstr "تصفية"
+
+msgid "Filter results"
+msgstr ""
 
 msgid "Filtering mode"
 msgstr "طريقة التصفية"
@@ -262,7 +362,13 @@ msgstr "طريقة التصفية"
 msgid "Filters"
 msgstr "Filtres"
 
+msgid "Finish"
+msgstr ""
+
 msgid "Full preview"
+msgstr ""
+
+msgid "Group test takers according to global features and classifications."
 msgstr ""
 
 msgid "Groups"
@@ -271,23 +377,23 @@ msgstr "المجموعات"
 msgid "Groups library"
 msgstr "مكتبة المجموعات"
 
-msgid "HU"
-msgstr "المجرية"
-
 msgid "Home"
 msgstr "الصفحة الرئيسية"
+
+msgid "import"
+msgstr "استيراد"
 
 msgid "Import"
 msgstr "استيراد"
 
-msgid "Import into"
+msgid "Import into "
 msgstr ""
 
 msgid "Inclusive (AND)"
 msgstr "Inclusif (ET)"
 
-msgid "Inclusive (OR)"
-msgstr "OU"
+msgid "instances"
+msgstr ""
 
 msgid "Instances"
 msgstr ""
@@ -297,6 +403,9 @@ msgstr "لغة الواجهة"
 
 msgid "Interface language"
 msgstr "لغة الواجهة"
+
+msgid "Invalid date range"
+msgstr ""
 
 msgid "Invalid field length"
 msgstr "طول الحقل غير صحيح"
@@ -319,9 +428,6 @@ msgstr "الاسئلة"
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr ".مطلوب جافا سكريبت لتشغيل هذا البرنامج ، يرجى تفعيلها في المتصفح"
 
-msgid "LU"
-msgstr "اللكسمبورجية"
-
 msgid "Label"
 msgstr "تسمية"
 
@@ -334,13 +440,25 @@ msgstr "اللغة"
 msgid "List"
 msgstr "قائمة"
 
+msgid "list deleted"
+msgstr "حذف القائمة"
+
 msgid "List Options"
 msgstr "خيارات القائمة"
+
+msgid "list saved"
+msgstr "تم حفظ القائمة"
+
+msgid "list the users"
+msgstr "lister les utilisateurs"
 
 msgid "List values"
 msgstr "قيم القائمة"
 
 msgid "Lists"
+msgstr "القوائم"
+
+msgid "lists"
 msgstr "القوائم"
 
 msgid "Local"
@@ -355,11 +473,17 @@ msgstr "الدخول"
 msgid "Login *"
 msgstr "*تسجيل الدخول"
 
+msgid "login already exist"
+msgstr "المعرف قيد الاستخدام"
+
 msgid "Login not available"
 msgstr "الدخول غير متوفر"
 
 msgid "Logout"
 msgstr "الخروج"
+
+msgid "Maintenance"
+msgstr ""
 
 msgid "Manage campaigns"
 msgstr "Gérer les campagnes"
@@ -372,6 +496,9 @@ msgstr "Gérer les passations"
 
 msgid "Manage groups"
 msgstr "ادارة المجموعات"
+
+msgid "Manage item versioned content"
+msgstr ""
 
 msgid "Manage items"
 msgstr "تسيير الاسئلة"
@@ -400,17 +527,38 @@ msgstr "إدارة المستخدمين"
 msgid "Map the properties to the CSV columns"
 msgstr "CSV اختر الخصائص المتعلقة بالاعمدة"
 
+msgid "maximum value: "
+msgstr ""
+
 msgid "Media manager"
 msgstr "Médiathèque"
 
 msgid "Meta Data"
 msgstr "بيانات التعريف"
 
+msgid "meta data"
+msgstr "بيانات التعريف"
+
+msgid "minimum value: "
+msgstr ""
+
+msgid "Monitor processes"
+msgstr ""
+
+msgid "move"
+msgstr "حرك"
+
 msgid "Move to"
 msgstr "حرك الى"
 
 msgid "Moving this element will remove the following properties:"
 msgstr ":تحريك هذا العنصر سوف يحذف الخصائص التالية"
+
+msgid "must be after: "
+msgstr ""
+
+msgid "must be before: "
+msgstr ""
 
 msgid "My settings"
 msgstr "الإعدادات"
@@ -421,11 +569,44 @@ msgstr "الاسم"
 msgid "Namespaces"
 msgstr "مساحة الاسم"
 
+msgid "new"
+msgstr "جديد"
+
+msgid "new campaign"
+msgstr "nouvelle campagne"
+
+msgid "new class"
+msgstr "صنف جديد"
+
+msgid "new delivery"
+msgstr "nouvelle passation"
+
 msgid "New element"
 msgstr "عنصر جديد"
 
+msgid "new group"
+msgstr "مجموعة جديدة"
+
+msgid "new item"
+msgstr "سؤال جديد"
+
 msgid "New password"
 msgstr "كلمة مرور جديدة"
+
+msgid "new process"
+msgstr "عملية جديدة"
+
+msgid "new result server"
+msgstr "خادم نتيجة جديد"
+
+msgid "new role"
+msgstr "دور جديد"
+
+msgid "new test"
+msgstr "اختبار جديد"
+
+msgid "new test taker"
+msgstr "مترشح جديد"
 
 msgid "Next"
 msgstr "التالي"
@@ -435,6 +616,9 @@ msgstr "لا يتطابق مع حساب معين الدخول / كلمة الس�
 
 msgid "No result found"
 msgstr "لم يتم العثور على نتائج"
+
+msgid "No update available"
+msgstr ""
 
 msgid "Nothing imported"
 msgstr "لا شيء مستورد"
@@ -454,6 +638,15 @@ msgstr ""
 msgid "Optimize your TAO when you are ready for test delivery"
 msgstr ""
 
+msgid "Option instanceUri is not an option !!"
+msgstr ""
+
+msgid "Option ownerUri is not an option !!"
+msgstr ""
+
+msgid "Option propertyUri is not an option !!"
+msgstr ""
+
 msgid "Options"
 msgstr "خيارات"
 
@@ -462,9 +655,6 @@ msgstr "كلمة السر"
 
 msgid "Password *"
 msgstr "*كلمة السر"
-
-msgid "Password are not matching"
-msgstr "كلمة السر غير مطابقة"
 
 msgid "Passwords are not matching"
 msgstr ""
@@ -491,20 +681,23 @@ msgid "Please select the input data format to import"
 msgstr "الرجاء حدد نسق بيانات الدخول المراد تصديرها"
 
 msgid "Please select the way to export the data"
-msgstr "الرجاء حدد طريقة لتصدير البيانات
-
-msgid"
+msgstr "الرجاء حدد طريقة لتصدير البيانات\n"
+"\n"
+"msgid"
 
 msgid "Please upload a CSV file formated as defined by the options above."
 msgstr ""
 
-msgid "Please upload a RDF file."
-msgstr ".RDF الرجاء تحميل ملف"
-
 msgid "Please upload an RDF file."
 msgstr ".RDF الرجاء تحميل ملف"
 
-msgid "Preview"
+msgid "Please wait a moment or contact your administrator"
+msgstr ""
+
+msgid "Prepare, publish deliveries sessions and campaigns."
+msgstr ""
+
+msgid "preview"
 msgstr "معاينة"
 
 msgid "Process authoring"
@@ -520,6 +713,15 @@ msgid "Property"
 msgstr "خاصية"
 
 msgid "Rebuilding indexes, it may take a while."
+msgstr ""
+
+msgid "Record and manage test takers."
+msgstr ""
+
+msgid "Recursive"
+msgstr ""
+
+msgid "related classes"
 msgstr ""
 
 msgid "Related Classes"
@@ -564,17 +766,26 @@ msgstr "حفظ"
 msgid "Search"
 msgstr "بحث"
 
+msgid "search"
+msgstr "البحث"
+
 msgid "Search results"
 msgstr "البحث عن النتائج"
 
 msgid "Select"
 msgstr "حدد"
 
+msgid "select"
+msgstr "اختر"
+
 msgid "Select a language"
 msgstr "حدد اللغة"
 
 msgid "Select the element destination"
 msgstr "حدد العنصر المستقبل"
+
+msgid "selected"
+msgstr "محدد"
 
 msgid "Selected file:"
 msgstr ":الملف المحدد"
@@ -585,8 +796,17 @@ msgstr "تم حفظ التحديد بنجاح"
 msgid "Settings"
 msgstr "الإعدادات"
 
+msgid "settings updated"
+msgstr "تحديث الاعدادات"
+
+msgid "simple mode"
+msgstr "الطريقة البسيطة"
+
 msgid "Simple Mode"
 msgstr "الطريقة البسيطة"
+
+msgid "stand by"
+msgstr ""
 
 msgid "Start upload"
 msgstr "بدء التحميل"
@@ -603,13 +823,13 @@ msgstr "صيغ التصدير المعتمدة"
 msgid "TAO Back Office"
 msgstr "TAO: Outils d'administration"
 
-msgid "TAO Backend Tool"
-msgstr "TAO Outils d'administration"
-
 msgid "TAO Home"
 msgstr ""
 
 msgid "TAO optimizer"
+msgstr ""
+
+msgid "TAO updater"
 msgstr ""
 
 msgid "Test takers"
@@ -618,20 +838,29 @@ msgstr "المترشحون"
 msgid "Test takers library"
 msgstr "مكتبة المتقدمين للاختبار"
 
-msgid "Test view"
-msgstr "عرض الاختبار"
-
 msgid "Tests"
 msgstr "الاختبارات"
 
 msgid "Tests library"
 msgstr "مكتبة الاختبارات"
 
+msgid "The column "
+msgstr ""
+
+msgid "the file was not uploaded successfully"
+msgstr ""
+
 msgid "The format of this field is not valid."
 msgstr "تنسيق هذا الحقل غير صالح"
 
+msgid "The TAO platform is in maintenance"
+msgstr ""
+
 msgid "The uploaded file is too large"
 msgstr "الملف المحمول كبير جدا"
+
+msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD HH:MM:SS"
+msgstr ""
 
 msgid "The value of this field must be an integer"
 msgstr "يجب أن تكون قيمة هذا الحقل عدد صحيح"
@@ -639,14 +868,14 @@ msgstr "يجب أن تكون قيمة هذا الحقل عدد صحيح"
 msgid "There is no class available for optimization for the current extension"
 msgstr ""
 
+msgid "This field is required"
+msgstr ""
+
 msgid "This field is too long"
 msgstr "هذا الحقل طويل جدا"
 
 msgid "This field is too short"
 msgstr "هذا الحقل قصير جدا"
-
-msgid "This field must not be empty"
-msgstr "يجب أن لا يكون هذا الحقل فارغ"
 
 msgid "Translate"
 msgstr "ترجم"
@@ -663,14 +892,23 @@ msgstr "حفظ الترجمة"
 msgid "Type"
 msgstr "نوع"
 
+msgid "Uncheck all"
+msgstr ""
+
 msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "uncompiled"
+msgstr ""
+
+msgid "Updates are available. Click on update to update your version of TAO"
 msgstr ""
 
 msgid "Upload"
 msgstr "تحميل"
+
+msgid "Upload a new content"
+msgstr ""
 
 msgid "Upload CSV File"
 msgstr "CSV تحميل ملف"
@@ -680,6 +918,9 @@ msgstr "تحميل الملف"
 
 msgid "Upload RDF File"
 msgstr "RDF تحميل ملف"
+
+msgid "Upload the file to version"
+msgstr ""
 
 msgid "Use the * character to replace any string"
 msgstr "استعمل الحرف* لتعويض اي مجموعة من الاشكال"
@@ -705,183 +946,12 @@ msgstr "لقد فشل التحقق من صحة  الملف المستورد"
 msgid "View"
 msgstr "عرض"
 
+msgid "View and format the collected results."
+msgstr ""
+
 msgid "You cannot modify this property"
 msgstr "لا يمكنك تعديل هذه الخاصية"
 
-msgid "actions"
-msgstr "الأعمال"
-
-msgid "advanced mode"
-msgstr "الطريقة المتقدمة"
-
-msgid "class selected"
-msgstr "classe sélectionnée"
-
-msgid "compile"
-msgstr "ترجم"
-
-msgid "compiled"
-msgstr ""
-
-msgid "compiled instances"
-msgstr ""
-
-msgid "compiling"
-msgstr ""
-
-msgid "create Score table"
-msgstr "إنشاء جدول نقاط"
-
-msgid "create Simple table"
-msgstr "إنشاء جدول بسيط"
-
-msgid "create direct table"
-msgstr "إنشاء جدول بسيط"
-
-msgid "create score table"
-msgstr ""
-
-msgid "create table"
-msgstr "إنشاء جدول"
-
-msgid "decompiled"
-msgstr ""
-
-msgid "decompiling"
-msgstr ""
-
-msgid "delete"
-msgstr "حذف"
-
-msgid "download"
-msgstr "تحميل"
-
-msgid "duplicate"
-msgstr "تكرار"
-
-msgid "edit"
-msgstr "تحرير"
-
-msgid "element"
-msgstr "عنصر"
-
-msgid "element deleted"
-msgstr "عنصر محذوف"
-
-msgid "export"
-msgstr "تصدير"
-
-msgid "exported successfully"
-msgstr "تصدير بنجاح"
-
-msgid "failed"
-msgstr ""
-
-msgid "has been deleted successfully"
-msgstr ""
-
-msgid "import"
-msgstr "استيراد"
-
-msgid "instances"
-msgstr ""
-
-msgid "list deleted"
-msgstr "حذف القائمة"
-
-msgid "list saved"
-msgstr "تم حفظ القائمة"
-
-msgid "list the users"
-msgstr "lister les utilisateurs"
-
-msgid "lists"
-msgstr "القوائم"
-
-msgid "login already exist"
-msgstr "المعرف قيد الاستخدام"
-
-msgid "maximum value:"
-msgstr ""
-
-msgid "meta data"
-msgstr "بيانات التعريف"
-
-msgid "minimum value:"
-msgstr ""
-
-msgid "move"
-msgstr "حرك"
-
-msgid "new"
-msgstr "جديد"
-
-msgid "new campaign"
-msgstr "nouvelle campagne"
-
-msgid "new class"
-msgstr "صنف جديد"
-
-msgid "new delivery"
-msgstr "nouvelle passation"
-
-msgid "new group"
-msgstr "مجموعة جديدة"
-
-msgid "new item"
-msgstr "سؤال جديد"
-
-msgid "new process"
-msgstr "عملية جديدة"
-
-msgid "new property"
-msgstr "خاصية جديدة"
-
-msgid "new result"
-msgstr "نتيجة جديدة"
-
-msgid "new result server"
-msgstr "خادم نتيجة جديد"
-
-msgid "new role"
-msgstr "دور جديد"
-
-msgid "new subject"
-msgstr "موضوع جديد"
-
-msgid "new test"
-msgstr "اختبار جديد"
-
-msgid "new test taker"
-msgstr "مترشح جديد"
-
-msgid "preview"
-msgstr "معاينة"
-
-msgid "rdf"
-msgstr "rdf"
-
-msgid "related classes"
-msgstr ""
-
-msgid "search"
-msgstr "البحث"
-
-msgid "select"
-msgstr "اختر"
-
-msgid "selected"
-msgstr "محدد"
-
-msgid "settings updated"
-msgstr "تحديث الاعدادات"
-
-msgid "simple mode"
-msgstr "الطريقة البسيطة"
-
-msgid "stand by"
-msgstr ""
-
-msgid "uncompiled"
+msgid "You will be redirected when the platform will be ready again"
 msgstr ""
 

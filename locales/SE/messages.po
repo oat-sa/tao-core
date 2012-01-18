@@ -1,5 +1,24 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: TAO v2.2-alpha\n"
+"PO-Revision-Date: 2012-01-18T15:49:56\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: SE\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid " has been deleted successfully"
+msgstr ""
+
+msgid " next"
+msgstr ""
+
+msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "A file"
+msgstr ""
 
 msgid "A formated text"
 msgstr "En formaterad text"
@@ -16,6 +35,9 @@ msgstr "Ett lösenord"
 msgid "A short text"
 msgstr "En kort text"
 
+msgid "A similar resource has already been versioned"
+msgstr ""
+
 msgid "A single choice list"
 msgstr "En envalslista"
 
@@ -30,6 +52,9 @@ msgstr ""
 
 msgid "Actions"
 msgstr "Funktioner"
+
+msgid "actions"
+msgstr "handlingar"
 
 msgid "Add"
 msgstr "Lägg till"
@@ -46,14 +71,17 @@ msgstr "Lägg till egenskap"
 msgid "Add the source file"
 msgstr "Lägg till källfilen"
 
-msgid "Add to group"
-msgstr ""
-
 msgid "Advanced Authoring Tool"
 msgstr "Avancerat författarverktyg"
 
+msgid "advanced mode"
+msgstr "avancerad metod"
+
 msgid "Advanced Mode"
 msgstr "Avancerad metod"
+
+msgid "all"
+msgstr ""
 
 msgid "All"
 msgstr ""
@@ -61,14 +89,11 @@ msgstr ""
 msgid "All (the complete TAO Module)"
 msgstr "Alla (hela TAO-modulen)"
 
-msgid "Allowed files types:"
+msgid "Allowed files types: "
 msgstr ""
 
 msgid "An error occured during user deletion"
 msgstr "Ett fel uppstod när användare skulle tas bort"
-
-msgid "AR"
-msgstr ""
 
 msgid "Authoring"
 msgstr "Författa"
@@ -76,8 +101,8 @@ msgstr "Författa"
 msgid "Browse"
 msgstr "Bläddra"
 
-msgid "CSV Options"
-msgstr "CVS Val"
+msgid "Build processes to drive activities into a workflow."
+msgstr ""
 
 msgid "Campaigns library"
 msgstr "Kampanjarkiv"
@@ -91,14 +116,20 @@ msgstr ""
 msgid "Change the password"
 msgstr "Ändra lösenord"
 
+msgid "Check all"
+msgstr ""
+
 msgid "Check All"
 msgstr ""
 
-msgid "Check all"
+msgid "Check if updates are available for your version of TAO"
 msgstr ""
 
 msgid "Class"
 msgstr "Klass"
+
+msgid "class selected"
+msgstr "klass vald"
 
 msgid "Classes"
 msgstr ""
@@ -106,13 +137,28 @@ msgstr ""
 msgid "Column"
 msgstr "Kolumn"
 
+msgid "Combine a selection of items into tests."
+msgstr ""
+
 msgid "Comment"
 msgstr "Kommentar"
 
 msgid "Compilation completed"
 msgstr ""
 
+msgid "compile"
+msgstr "sammanställ"
+
+msgid "compiled"
+msgstr ""
+
+msgid "compiled instances"
+msgstr ""
+
 msgid "Compiled Instances"
+msgstr ""
+
+msgid "compiling"
 msgstr ""
 
 msgid "Confirm"
@@ -127,25 +173,43 @@ msgstr "Skapa"
 msgid "Create a list"
 msgstr "Skapa en lista"
 
+msgid "Create and design items and exercises."
+msgstr ""
+
+msgid "create direct table"
+msgstr "skapa direkt tabell"
+
+msgid "create score table"
+msgstr ""
+
+msgid "create table"
+msgstr "skapa tabell"
+
+msgid "CSV Options"
+msgstr "CVS Val"
+
 msgid "Current"
 msgstr ""
 
 msgid "Current (the current extension, the local data and their dependancies)"
 msgstr "Aktuell (det aktuella komplementet, den lokala datan samt deras beroenden"
 
+msgid "Current class + Subclasses"
+msgstr ""
+
+msgid "Current class only"
+msgstr ""
+
 msgid "Current language"
 msgstr "Aktuellt språk"
-
-msgid "DE"
-msgstr "Tyska"
-
-msgid "Data Language"
-msgstr "Dataspråk"
 
 msgid "Data imported successfully"
 msgstr "Data framgångsrikt importerat"
 
 msgid "Data language"
+msgstr "Dataspråk"
+
+msgid "Data Language"
 msgstr "Dataspråk"
 
 msgid "Date"
@@ -154,11 +218,20 @@ msgstr "Datum"
 msgid "Decompilation completed"
 msgstr ""
 
+msgid "decompiled"
+msgstr ""
+
 msgid "Decompiled Instances"
 msgstr ""
 
-msgid "Define the defaultt values"
-msgstr "Definera felvärdena"
+msgid "decompiling"
+msgstr ""
+
+msgid "Define the default values"
+msgstr ""
+
+msgid "delete"
+msgstr "ta bort"
 
 msgid "Delete"
 msgstr "Radera"
@@ -181,44 +254,53 @@ msgstr "Fastställ ej"
 msgid "Download"
 msgstr "Ladda ner"
 
+msgid "download"
+msgstr "ladda ner"
+
+msgid "Download content"
+msgstr ""
+
+msgid "duplicate"
+msgstr "dublett"
+
 msgid "Dynamic date picker"
 msgstr "Dynamisk datumväljare"
 
-msgid "EN"
-msgstr "Engelska"
+msgid "edit"
+msgstr "redigera"
 
 msgid "Edit"
 msgstr "Redigera"
 
-msgid "Edit Comment"
-msgstr "Redigera kommentar"
-
 msgid "Edit a user"
 msgstr "Redigera en användare"
+
+msgid "Edit Comment"
+msgstr "Redigera kommentar"
 
 msgid "Edit item comment"
 msgstr "Redigera modulinnehåll"
 
-msgid "Edit property into parent class"
+msgid "Edit property into parent class "
 msgstr ""
 
 msgid "Edit user"
 msgstr "Redigera användare"
 
+msgid "element"
+msgstr "element"
+
 msgid "Element"
 msgstr "Beståndsdel"
+
+msgid "element deleted"
+msgstr "element raderat"
 
 msgid "Email"
 msgstr "E-mail"
 
 msgid "Empty"
 msgstr "Tom"
-
-msgid "Enable your to export an RDF file containing the selected namespaces"
-msgstr "Låter dig exportera en RDF-fil innehållandes valda namnområden"
-
-msgid "Enables you to export an RDF file containing the selected namespaces"
-msgstr "Låter dig exportera en RDF-fil innehållandes valda namnområden"
 
 msgid "Enables you to export an RDF file containing the selected namespaces or instances"
 msgstr ""
@@ -229,14 +311,14 @@ msgstr "Fel"
 msgid "Error during file import"
 msgstr "Fel under filimport"
 
-msgid "Exclusive (AND)"
-msgstr "Exklusive (OCH)"
-
 msgid "Exclusive (OR)"
 msgstr "Exklusive (ELLER)"
 
 msgid "Export"
 msgstr "Exportera"
+
+msgid "export"
+msgstr "exportera"
 
 msgid "Export Options"
 msgstr "Val för export"
@@ -244,8 +326,11 @@ msgstr "Val för export"
 msgid "Exported files library"
 msgstr "Arkiv för exporterade filer"
 
-msgid "FR"
-msgstr "Franska"
+msgid "exported successfully"
+msgstr "framgångsrikt exporterat"
+
+msgid "failed"
+msgstr ""
 
 msgid "File"
 msgstr "Fil"
@@ -256,8 +341,20 @@ msgstr "Fil framgångsrikt raderad"
 msgid "File name"
 msgstr "Filnamn"
 
+msgid "File path"
+msgstr ""
+
+msgid "File repository"
+msgstr ""
+
+msgid "File revision"
+msgstr ""
+
 msgid "Filter"
 msgstr "Filter"
+
+msgid "Filter results"
+msgstr ""
 
 msgid "Filtering mode"
 msgstr "Filtreringsmetod"
@@ -265,7 +362,13 @@ msgstr "Filtreringsmetod"
 msgid "Filters"
 msgstr "Filter"
 
+msgid "Finish"
+msgstr ""
+
 msgid "Full preview"
+msgstr ""
+
+msgid "Group test takers according to global features and classifications."
 msgstr ""
 
 msgid "Groups"
@@ -274,23 +377,23 @@ msgstr "Grupper"
 msgid "Groups library"
 msgstr "Grupparkiv"
 
-msgid "HU"
-msgstr "Ungerska"
-
 msgid "Home"
 msgstr "Hem"
+
+msgid "import"
+msgstr "importera"
 
 msgid "Import"
 msgstr "Import"
 
-msgid "Import into"
+msgid "Import into "
 msgstr ""
 
 msgid "Inclusive (AND)"
 msgstr "Inklusive (OCH)"
 
-msgid "Inclusive (OR)"
-msgstr "Inklusive (ELLER)"
+msgid "instances"
+msgstr ""
 
 msgid "Instances"
 msgstr ""
@@ -300,6 +403,9 @@ msgstr "Gränssnittsspråk"
 
 msgid "Interface language"
 msgstr "Gränssnittsspråk"
+
+msgid "Invalid date range"
+msgstr ""
 
 msgid "Invalid field length"
 msgstr "Ogilitigt fältlängd"
@@ -322,9 +428,6 @@ msgstr "Moduler"
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr "Javascript krävs för att köra denna mjukvara. Var vänlig aktivera detta i din webbläsare"
 
-msgid "LU"
-msgstr "Luxemburgska"
-
 msgid "Label"
 msgstr "Etikett"
 
@@ -337,14 +440,26 @@ msgstr "Språk"
 msgid "List"
 msgstr "Lista"
 
+msgid "list deleted"
+msgstr "lista raderad"
+
 msgid "List Options"
 msgstr "Listalternativ"
+
+msgid "list saved"
+msgstr "lista sparad"
+
+msgid "list the users"
+msgstr "lista användarna"
 
 msgid "List values"
 msgstr "Listvärden"
 
 msgid "Lists"
 msgstr "Listor"
+
+msgid "lists"
+msgstr "listor"
 
 msgid "Local"
 msgstr ""
@@ -358,11 +473,17 @@ msgstr "Inloggning"
 msgid "Login *"
 msgstr "Inloggning *"
 
+msgid "login already exist"
+msgstr "login existerar redan"
+
 msgid "Login not available"
 msgstr "Inloggning inte tillgängligt"
 
 msgid "Logout"
 msgstr "Logga ut"
+
+msgid "Maintenance"
+msgstr ""
 
 msgid "Manage campaigns"
 msgstr "Hantera kampanjer"
@@ -375,6 +496,9 @@ msgstr "Hantera leveranser"
 
 msgid "Manage groups"
 msgstr "Hantera grupper"
+
+msgid "Manage item versioned content"
+msgstr ""
 
 msgid "Manage items"
 msgstr "Hantera moment"
@@ -403,17 +527,38 @@ msgstr "Hantera användare"
 msgid "Map the properties to the CSV columns"
 msgstr "Kartlägg egenskaper hos CSV-kolumner"
 
+msgid "maximum value: "
+msgstr ""
+
 msgid "Media manager"
 msgstr "Mediehanterare"
 
 msgid "Meta Data"
 msgstr "Metadata"
 
+msgid "meta data"
+msgstr "metadata"
+
+msgid "minimum value: "
+msgstr ""
+
+msgid "Monitor processes"
+msgstr ""
+
+msgid "move"
+msgstr "flytta"
+
 msgid "Move to"
 msgstr "Flytta till"
 
 msgid "Moving this element will remove the following properties:"
 msgstr "Att flytta denna beståndsdel kommer att flytta följande egenskaper:"
+
+msgid "must be after: "
+msgstr ""
+
+msgid "must be before: "
+msgstr ""
 
 msgid "My settings"
 msgstr "Mina inställningar"
@@ -424,11 +569,44 @@ msgstr "Namn"
 msgid "Namespaces"
 msgstr "Namnområden"
 
+msgid "new"
+msgstr "ny"
+
+msgid "new campaign"
+msgstr "ny kampanj"
+
+msgid "new class"
+msgstr "ny klass"
+
+msgid "new delivery"
+msgstr "ny leverans"
+
 msgid "New element"
 msgstr "Ny beståndsdel"
 
+msgid "new group"
+msgstr "ny grupp"
+
+msgid "new item"
+msgstr "ny fråga"
+
 msgid "New password"
 msgstr "Nytt lösenord"
+
+msgid "new process"
+msgstr "ny process"
+
+msgid "new result server"
+msgstr "ny resultatserver"
+
+msgid "new role"
+msgstr "ny roll"
+
+msgid "new test"
+msgstr "nytt test"
+
+msgid "new test taker"
+msgstr "ny testtagare"
 
 msgid "Next"
 msgstr "Nästa"
@@ -438,6 +616,9 @@ msgstr "Inget konto matchar den angivna inloggningen/lösenordet"
 
 msgid "No result found"
 msgstr "Inget resultat funnet"
+
+msgid "No update available"
+msgstr ""
 
 msgid "Nothing imported"
 msgstr "Inget importerat"
@@ -457,6 +638,15 @@ msgstr ""
 msgid "Optimize your TAO when you are ready for test delivery"
 msgstr ""
 
+msgid "Option instanceUri is not an option !!"
+msgstr ""
+
+msgid "Option ownerUri is not an option !!"
+msgstr ""
+
+msgid "Option propertyUri is not an option !!"
+msgstr ""
+
 msgid "Options"
 msgstr "Valmöjligheter"
 
@@ -465,9 +655,6 @@ msgstr "Lösenord"
 
 msgid "Password *"
 msgstr "Lösenord *"
-
-msgid "Password are not matching"
-msgstr "Lösenorden överensstämmer ej"
 
 msgid "Passwords are not matching"
 msgstr ""
@@ -499,14 +686,17 @@ msgstr "Var vänlig välj metod för att importera data"
 msgid "Please upload a CSV file formated as defined by the options above."
 msgstr "Var vänlig ladda upp en CVS-fil formaterad enligt alternativen ovan"
 
-msgid "Please upload a RDF file."
-msgstr "Var vänlig ladda upp en RDF-fil"
-
 msgid "Please upload an RDF file."
 msgstr "Var vänlig ladda upp en RDF-fil"
 
-msgid "Preview"
-msgstr "Förhandsvisning"
+msgid "Please wait a moment or contact your administrator"
+msgstr ""
+
+msgid "Prepare, publish deliveries sessions and campaigns."
+msgstr ""
+
+msgid "preview"
+msgstr "förhandsvisning"
 
 msgid "Process authoring"
 msgstr "Processskapande"
@@ -521,6 +711,15 @@ msgid "Property"
 msgstr "Egenskaper"
 
 msgid "Rebuilding indexes, it may take a while."
+msgstr ""
+
+msgid "Record and manage test takers."
+msgstr ""
+
+msgid "Recursive"
+msgstr ""
+
+msgid "related classes"
 msgstr ""
 
 msgid "Related Classes"
@@ -559,14 +758,14 @@ msgstr "Högerklicka på trädstrukturen för att hantera din lista"
 msgid "Role library"
 msgstr "Rollarkiv"
 
-msgid "SE"
-msgstr "Swedish"
-
 msgid "Save"
 msgstr "Spara"
 
 msgid "Search"
 msgstr "Sök"
+
+msgid "search"
+msgstr "sök"
 
 msgid "Search results"
 msgstr "Sökresultat"
@@ -574,11 +773,17 @@ msgstr "Sökresultat"
 msgid "Select"
 msgstr "Välj"
 
+msgid "select"
+msgstr "välj"
+
 msgid "Select a language"
 msgstr "Välj språk"
 
 msgid "Select the element destination"
 msgstr "Välj destination för elementetet"
+
+msgid "selected"
+msgstr "vald"
 
 msgid "Selected file:"
 msgstr "Vald fil"
@@ -589,17 +794,23 @@ msgstr "Urval framgångsrikt sparat"
 msgid "Settings"
 msgstr "Inställningar"
 
+msgid "settings updated"
+msgstr "inställningar uppdaterade"
+
+msgid "simple mode"
+msgstr "enkel metod"
+
 msgid "Simple Mode"
 msgstr "Enkel metod"
+
+msgid "stand by"
+msgstr ""
 
 msgid "Start upload"
 msgstr "Starta uppladdning"
 
 msgid "Status"
 msgstr ""
-
-msgid "Subject"
-msgstr "Testtagare"
 
 msgid "Supported export formats"
 msgstr "Stödda exportformat"
@@ -610,13 +821,13 @@ msgstr "Stödda importformat"
 msgid "TAO Back Office"
 msgstr "TAO Styrning"
 
-msgid "TAO Backend Tool"
-msgstr "TAO Basbearbetningsverktyg"
-
 msgid "TAO Home"
 msgstr ""
 
 msgid "TAO optimizer"
+msgstr ""
+
+msgid "TAO updater"
 msgstr ""
 
 msgid "Test takers"
@@ -625,20 +836,29 @@ msgstr "Testtagare"
 msgid "Test takers library"
 msgstr "Testtagararkiv"
 
-msgid "Test view"
-msgstr "Testvy"
-
 msgid "Tests"
 msgstr "Tester"
 
 msgid "Tests library"
 msgstr "Testarkiv"
 
+msgid "The column "
+msgstr ""
+
+msgid "the file was not uploaded successfully"
+msgstr ""
+
 msgid "The format of this field is not valid."
 msgstr "Formatet hos detta fält är ogiltigt"
 
+msgid "The TAO platform is in maintenance"
+msgstr ""
+
 msgid "The uploaded file is too large"
 msgstr "Den upladdade filen är för stor"
+
+msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD HH:MM:SS"
+msgstr ""
 
 msgid "The value of this field must be an integer"
 msgstr "Värdet i detta fält måste vara ett heltal"
@@ -646,14 +866,14 @@ msgstr "Värdet i detta fält måste vara ett heltal"
 msgid "There is no class available for optimization for the current extension"
 msgstr ""
 
+msgid "This field is required"
+msgstr ""
+
 msgid "This field is too long"
 msgstr "Fältet är för långt"
 
 msgid "This field is too short"
 msgstr "Fältet ät för kort"
-
-msgid "This field must not be empty"
-msgstr "Fältet får inte vara tomt"
 
 msgid "Translate"
 msgstr "Översätt"
@@ -670,14 +890,23 @@ msgstr "Översättnig sparad"
 msgid "Type"
 msgstr "Skriv"
 
+msgid "Uncheck all"
+msgstr ""
+
 msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "uncompiled"
+msgstr ""
+
+msgid "Updates are available. Click on update to update your version of TAO"
 msgstr ""
 
 msgid "Upload"
 msgstr "Ladda upp"
+
+msgid "Upload a new content"
+msgstr ""
 
 msgid "Upload CSV File"
 msgstr "Ladda upp CSV-fil"
@@ -687,6 +916,9 @@ msgstr "Ladda upp fil"
 
 msgid "Upload RDF File"
 msgstr "Ladda upp RDF-fil"
+
+msgid "Upload the file to version"
+msgstr ""
 
 msgid "Use the * character to replace any string"
 msgstr "Använd * tecknet för att ersätta en tråd"
@@ -712,186 +944,12 @@ msgstr "Den importerade filen har inte kunnat valideras"
 msgid "View"
 msgstr "Visning"
 
+msgid "View and format the collected results."
+msgstr ""
+
 msgid "You cannot modify this property"
 msgstr "Det går inte att förändra denna egenskap"
 
-msgid "actions"
-msgstr "handlingar"
-
-msgid "advanced mode"
-msgstr "avancerad metod"
-
-msgid "class selected"
-msgstr "klass vald"
-
-msgid "compile"
-msgstr "sammanställ"
-
-msgid "compiled"
-msgstr ""
-
-msgid "compiled instances"
-msgstr ""
-
-msgid "compiling"
-msgstr ""
-
-msgid "create Score table"
-msgstr "skapa poängtabell"
-
-msgid "create Simple table"
-msgstr "skapa enkel tabell"
-
-msgid "create direct table"
-msgstr "skapa direkt tabell"
-
-msgid "create score table"
-msgstr ""
-
-msgid "create table"
-msgstr "skapa tabell"
-
-msgid "decompiled"
-msgstr ""
-
-msgid "decompiling"
-msgstr ""
-
-msgid "delete"
-msgstr "ta bort"
-
-msgid "download"
-msgstr "ladda ner"
-
-msgid "duplicate"
-msgstr "dublett"
-
-msgid "edit"
-msgstr "redigera"
-
-msgid "element"
-msgstr "element"
-
-msgid "element deleted"
-msgstr "element raderat"
-
-msgid "export"
-msgstr "exportera"
-
-msgid "exported successfully"
-msgstr "framgångsrikt exporterat"
-
-msgid "failed"
-msgstr ""
-
-msgid "has been deleted successfully"
-msgstr ""
-
-msgid "import"
-msgstr "importera"
-
-msgid "instances"
-msgstr ""
-
-msgid "list deleted"
-msgstr "lista raderad"
-
-msgid "list saved"
-msgstr "lista sparad"
-
-msgid "list the users"
-msgstr "lista användarna"
-
-msgid "lists"
-msgstr "listor"
-
-msgid "login already exist"
-msgstr "login existerar redan"
-
-msgid "maximum value:"
-msgstr ""
-
-msgid "meta data"
-msgstr "metadata"
-
-msgid "minimum value:"
-msgstr ""
-
-msgid "move"
-msgstr "flytta"
-
-msgid "new"
-msgstr "ny"
-
-msgid "new campaign"
-msgstr "ny kampanj"
-
-msgid "new class"
-msgstr "ny klass"
-
-msgid "new delivery"
-msgstr "ny leverans"
-
-msgid "new group"
-msgstr "ny grupp"
-
-msgid "new item"
-msgstr "ny fråga"
-
-msgid "new process"
-msgstr "ny process"
-
-msgid "new property"
-msgstr "ny egenskap"
-
-msgid "new result"
-msgstr "nytt resultat"
-
-msgid "new result server"
-msgstr "ny resultatserver"
-
-msgid "new role"
-msgstr "ny roll"
-
-msgid "new subject"
-msgstr "ny testtagare"
-
-msgid "new test"
-msgstr "nytt test"
-
-msgid "new test taker"
-msgstr "ny testtagare"
-
-msgid "preview"
-msgstr "förhandsvisning"
-
-msgid "rdf"
-msgstr "rdf"
-
-msgid "related classes"
-msgstr ""
-
-msgid "search"
-msgstr "sök"
-
-msgid "select"
-msgstr "välj"
-
-msgid "selected"
-msgstr "vald"
-
-msgid "settings updated"
-msgstr "inställningar uppdaterade"
-
-msgid "simple mode"
-msgstr "enkel metod"
-
-msgid "stand by"
-msgstr ""
-
-msgid "subject"
-msgstr "testtagare"
-
-msgid "uncompiled"
+msgid "You will be redirected when the platform will be ready again"
 msgstr ""
 
