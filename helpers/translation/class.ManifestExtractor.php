@@ -81,12 +81,21 @@ class tao_helpers_translation_ManifestExtractor
 						// Translations must be extracted from this tao manifest file.
 						try{
 							$xml = new SimpleXMLElement(trim(file_get_contents($fullPath)));
-							if($xml instanceof SimpleXMLElement){
+							if ($xml instanceof SimpleXMLElement){
+								// look up for "name" attributes.
 								$nodes = $xml->xpath("//*[@name]");
-								foreach($nodes as $node){
-									if(isset($node['name'])){
+								foreach ($nodes as $node) {
+									if (isset($node['name'])) {
 										$nodeName = (string)$node['name'];
 										$translationUnits[$nodeName] = new tao_helpers_translation_TranslationUnit($nodeName, '');
+									}
+								}
+								
+								// look up for "description" elements.
+								$nodes = $xml->xpath("//description");
+								foreach ($nodes as $node) {
+									if ((string)$node != '') {
+										$translationUnits[(string)$node] = new tao_helpers_translation_TranslationUnit((string)$node, '');
 									}
 								}
 							}
