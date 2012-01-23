@@ -221,6 +221,7 @@ class tao_models_classes_TaoService
 					return $structure['data'];
 				}
 			}
+			throw new common_Exception('No structure found for extension '.$extension);
 		}
 		
 		$returnValue = self::$structure;

@@ -72,7 +72,7 @@ class ServiceTestCase extends UnitTestCase {
 			if($this->taoService->isTaoChildExtension($extension)){
 				$this->assertTrue( in_array($extension, $foundExtensions) );		//the service should return it
 				$structure = $this->taoService->getStructure($extension);
-				$this->assertIsA($structure, 'SimpleXMLElement');
+				$this->assertIsA($structure, 'SimpleXMLElement', 'Extention '.$extension.' :%s');
 
 				$this->assertTrue(isset($structure->sections));
 				foreach($structure->sections->section as $section){
