@@ -24,12 +24,6 @@
 			</div>
 			
 		</div>
-
-		<div class="ui-state-highlight ui-corner-all" style="width:500px; margin: 50px auto 20px auto; padding:5px;text-align:center; font-weight:bold;">
-                        <img src="<?=BASE_WWW?>img/warning.png" alt="!" /><h2>Alpha version</h2>
-                        Please report bugs, ideas, comments, any feedback on the <a href="http://forge.tao.lu" target="_blank">TAO Forge</a><br /><br />
-                        
-                </div>
 		
 	</div>
 

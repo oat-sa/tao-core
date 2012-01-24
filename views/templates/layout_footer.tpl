@@ -1,11 +1,1 @@
-		
-		<div id="footer">
-			<?if(get_data('user_lang')):?>
-				<div id="section-lg">
-					<?=__('Data language')?>: <strong><?=__(get_data('user_lang'))?></strong> 
-				</div>
-			<?endif?>
-			TAO<sup>&reg;</sup> - <?=date('Y')?> - A joint initiative of CRP Henri Tudor and the University of Luxembourg
-		</div>
-	</body>
-</html>
+<? include TAO_TPL_PATH .'footer/layout_footer_'.TAO_RELEASE_STATUS.'.tpl' ?>
