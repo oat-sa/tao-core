@@ -37,7 +37,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @package tao
  * @subpackage update_utils
  */
-class tao_update_utils_Exception
+class tao_update_utils_Exception extends Exception
 {
     // --- ASSOCIATIONS ---
 
