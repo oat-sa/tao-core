@@ -40,8 +40,8 @@
     <rdfs:label xml:lang="DE"><![CDATA[EN]]></rdfs:label>
     <rdfs:label xml:lang="LU"><![CDATA[EN]]></rdfs:label>
     <rdfs:label xml:lang="SE"><![CDATA[EN]]></rdfs:label>
-    <rdfs:label xml:lang="SE"><![CDATA[EN]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"><![CDATA[Englishss]]></rdfs:comment>
+    <rdfs:label xml:lang="AR"><![CDATA[EN]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[English]]></rdfs:comment>
     <rdf:value><![CDATA[EN]]></rdf:value>
     <tao:level><![CDATA[1]]></tao:level>
   </rdf:Description>
