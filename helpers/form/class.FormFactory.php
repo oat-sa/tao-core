@@ -101,7 +101,7 @@ class tao_helpers_form_FormFactory
 				break;
 			
 			default: 
-				throw new Exception("render mode {self::$renderMode} not yet supported");
+				throw new common_Exception("render mode {self::$renderMode} not yet supported");
 		}
 		
 		$returnValue = $myForm;
