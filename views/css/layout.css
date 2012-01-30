@@ -121,7 +121,7 @@ div.container-content{
 	max-height:400px;
 }
 div.main-container{
-	overflow-y:auto;
+	/*overflow-y:auto;*/
 }
 div#authoring-container{
 	left:0px;
@@ -290,19 +290,24 @@ div#ajax-loading{
 
 
 /* Results Manual Scoring Conciliation */
-div#selectors {
-
-}
-div#testsitems {
+form#coding_scoreconcil div#selectors {
 	width: 19.5%;
 	float: left;
 }
-div#evalitems {
+form#coding_scoreconcil div#evalitems {
 	width: 80%;
 	float: right;
 }
-div#controls {
-	clear: both
+form#coding_scoreconcil div#navigation {
+	float: left;
+}
+
+form#coding_scoreconcil div.history {
+
+}
+
+form#coding_scoreconcil fieldset {
+
 }
 
 .clearfix:after {
