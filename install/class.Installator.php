@@ -351,9 +351,22 @@ class tao_install_Installator{
 			$modelCreator->insertModelFile($ns, $modelFile);
 		}
 		
+		/*
+		 * 7 - Insert translation extensions models (messages.rdf)
+		 */
+		foreach($extensions as $ext) {
+			if($ext->id != 'generis') {
+				$models = tao_install_utils_ModelCreator::getTranslationModelsFromExtension($ext);
+				foreach($models as $ns => $modelFile){
+					foreach($modelFile as $mF) {
+						$modelCreator->insertModelFile($ns, $mF);
+					}
+				}
+			}
+		}
 		
 		/*
-		 *  7 - Insert Local Data by extensions (can be samples data too)
+		 *  8 - Insert Local Data by extensions (can be samples data too)
 		 */
 		foreach($extensions as $extensionId => $extension){
 			if($extensionId == 'generis') {
@@ -367,7 +380,7 @@ class tao_install_Installator{
 		
 		
 		/*
-		 *  8 - Insert Super User
+		 *  9 - Insert Super User
 		 */
 		$modelCreator->insertSuperUser(array(
 			'login'			=> $installData['user_login'],

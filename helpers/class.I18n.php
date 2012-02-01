@@ -159,15 +159,17 @@ class tao_helpers_I18n
         
         //get it into the api only once 
         if(count(self::$availableLangs) == 0){
-                $langClass = new core_kernel_classes_Class(CLASS_LANGUAGES); 
-                foreach($langClass->getInstances() as $lang){
-                        self::$availableLangs[] = $lang->getLabel();
-                }
+        	$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
+        	$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+        	foreach($langClass->getInstances() as $lang){
+               	self::$availableLangs[] = $lang->getUniquePropertyValue($valueProperty)->literal;
+        	}
         }
 	
         if($langName) {
         	foreach(self::$availableLangs as $code){
-       			$returnValue[$code] = __($code); 
+        		$lang = self::getLangResourceByCode($code);
+       			$returnValue[$code] = $lang->getLabel(); 
         	}
         }
         else{
