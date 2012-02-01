@@ -184,25 +184,57 @@ class tao_install_utils_ModelCreator{
 	 */
 	public static function getTranslationModelsFromExtension(common_ext_SimpleExtension $simpleExtension) {
 		$models = array();
-		$extensionPath = dirname(__FILE__) . '/../../../' . $simpleExtension->name;
-		$localesPath = $extensionPath . '/locales/';
+		$extensionPath = dirname(__FILE__) . '/../../../' . $simpleExtension->id;
+		$localesPath = $extensionPath . '/locales';
+		
+		// Get the target model.
+		if (!isset($simpleExtension->model) || empty($simpleExtension->model)) {
+			throw new tao_install_utils_Exception("No ontology target model for extension '" . $simpleExtension->name . "'.");	
+		}
+		
+		$extModel = $simpleExtension->model;
+		if (is_array($extModel)) {
+			$extModel = $extModel[0];	
+		}
 		
 		if (@is_dir($localesPath) && is_readable($localesPath)) {
 			// Locales directory exists and is readable.
 			$directories = scandir($localesPath);
+			
 			if ($directories !== false) {
+				
 				foreach ($directories as $dir) {
 					if ($dir[0] != '.') {
-						// This should be a language directory. Process it.
+						// Let's scan each language directory to find the messages.rdf file.
+						$files = scandir($localesPath . '/' . $dir);
 						
+						if ($files !== false) {
+							
+							foreach ($files as $file) {
+								if ($file[0] != '.' && $file == 'messages.rdf') {
+									
+									// Add this file to the return results.
+									if (!isset($models[$extModel])) {
+										$models[$extModel] = array();	
+									}
+									
+									$models[$extModel][] = $localesPath . '/' . $dir . '/messages.rdf'; 
+								}
+							}
+						} else {
+							throw new tao_install_utils_Exception("Uable to list files from language directory ' ${dir}'.");
+						}
 					}
 				}
+				
 			} else {
 				throw new tao_install_utils_Exception("Unable to read 'locales' from extension '" . $simpleExtension->name . "'");
 			}
 		} else {
-			throw new tao_install_utils_Exception("Cannot read 'locales' directory for extension '" . $simpleExtension->name . "'.");
+			throw new tao_install_utils_Exception("Cannot read 'locales' directory in extension '" . $simpleExtension->name . "'.");
 		}
+		
+		return $models;
 	}
 }
 ?>
