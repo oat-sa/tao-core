@@ -242,12 +242,11 @@ class TranslationTestCase extends UnitTestCase {
 		$extractor = new tao_helpers_translation_ManifestExtractor($taoManifestPaths);
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
-		
-		$this->assertTrue(count($tus) == 21);
+		$this->assertTrue(count($tus) == 23);
 		$this->assertTrue($tus[3]->getSource() == 'search');
 		$this->assertTrue($tus[6]->getSource() == 'delete');
-		$this->assertTrue($tus[14]->getSource() == 'Items');
-		$this->assertTrue($tus[20]->getSource() == 'Full preview');
+		$this->assertTrue($tus[15]->getSource() == 'Items');
+		$this->assertTrue($tus[21]->getSource() == 'Full preview');
 	}
 	
 	public function testSourceExtraction() {
