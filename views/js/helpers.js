@@ -68,11 +68,17 @@ function updateTabUrl(tabObj, tabName, url){
  */
 
 /**
+ * How many loading have been load
+ */
+var parallelLoading = 0;
+
+/**
  * Begin an async request, while loading:
  * - show the loader img
  * - disable the submit buttons
  */
 function loading(){
+    parallelLoading += 1;
 	$(window).bind('click', function(e){
 		e.stopPropagation();
 		e.preventDefault();
@@ -89,6 +95,8 @@ function loading(){
  *  - enable back the submit buttons
  */
 function loaded(){
+    parallelLoading--;
+    if(parallelLoading>0) return;
 	$(window).unbind('click');
 	$("#ajax-loading").hide('fast');
 	$("input:submit, input:button, a").attr('disabled', false).css('cursor', 'pointer');
