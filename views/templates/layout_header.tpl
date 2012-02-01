@@ -4,14 +4,14 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?></title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
-	
+
 	<script type='text/javascript'>
 		var jsPath 	= '<?=BASE_WWW?>js/';
 		var imgPath = '<?=BASE_WWW?>img/';
 	</script>
-	
+
 	<?=tao_helpers_Scriptloader::render()?>
-	
+
 	<script type='text/javascript'>
 		$(function(){
 		<?if(get_data('errorMessage')):?>
@@ -21,9 +21,9 @@
 	</script>
 </head>
 <body>
-	
+
 	<? include 'header.tpl' ?>
-	
-	<div id="ajax-loading">
-		<img src="<?=BASE_WWW?>img/ajax-loader.gif" alt="loading" />
+
+	<div id="ajax-loading" class="ui-widget-overlay">
+		<img src="<?=BASE_WWW?>img/ajax-loader.gif" alt="Loading..." />
 	</div>

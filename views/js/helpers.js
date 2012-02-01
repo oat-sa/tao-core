@@ -52,7 +52,7 @@ function getTabIndexByName(name){
 }
 
 /**
- * Add parameters to a tab 
+ * Add parameters to a tab
  * @param {Object} tabObj
  * @param {String} tabName
  * @param {Object} parameters
@@ -78,15 +78,15 @@ var parallelLoading = 0;
  * - disable the submit buttons
  */
 function loading(){
-    parallelLoading += 1;
+    parallelLoading++;
+	if (parallelLoading > 1) return; //Need once
 	$(window).bind('click', function(e){
 		e.stopPropagation();
 		e.preventDefault();
 		return false;
 	});
-	$("#ajax-loading").show('fast');
-	$("input:submit, input:button, a").attr('disabled', true).css('cursor', 'default');
-	
+	$("#ajax-loading").show();
+	//$("input:submit, input:button, a").attr('disabled', true).css('cursor', 'default');
 }
 
 /**
@@ -96,10 +96,10 @@ function loading(){
  */
 function loaded(){
     parallelLoading--;
-    if(parallelLoading>0) return;
+    if (parallelLoading > 0) return; //Need once
 	$(window).unbind('click');
-	$("#ajax-loading").hide('fast');
-	$("input:submit, input:button, a").attr('disabled', false).css('cursor', 'pointer');
+	$("#ajax-loading").hide();
+	//$("input:submit, input:button, a").attr('disabled', false).css('cursor', 'pointer');
 }
 
 /**
@@ -108,7 +108,7 @@ function loaded(){
  * @param {String} url
  */
 function _load(selector, url, data){
-	
+
 	if(data){
 		data.nc = new Date().getTime();
 	}
@@ -133,11 +133,11 @@ function _load(selector, url, data){
  * @param {String} ref
  */
 function _href(ref){
-	return  (ref.indexOf('?') > -1) ? ref + '&nc='+new Date().getTime() : ref + '?nc='+new Date().getTime(); 
+	return  (ref.indexOf('?') > -1) ? ref + '&nc='+new Date().getTime() : ref + '?nc='+new Date().getTime();
 }
 
 /**
- * EXtends the JQuery post method for conveniance use with Json 
+ * EXtends the JQuery post method for conveniance use with Json
  * @param {String} url
  * @param {Object} data
  * @param {Function} callback
@@ -169,11 +169,11 @@ function _autoFx(){
 /**
  * Check and cut the text of the selector container only if the text is longer than the maxLength parameter
  * @param {String} selector JQuery selector
- * @param {int} maxLength  
+ * @param {int} maxLength
  */
 function textCutter(selector, maxLength){
 	if(!maxLength){
-		maxLength = 100; 
+		maxLength = 100;
 	}
 	$(selector).each(function(){
 		if($(this).text().length > maxLength && !$(this).hasClass("text-cutted")){
@@ -209,14 +209,14 @@ function createInfoMessage(message){
  */
 function isFlashPluginEnabled(){
 	if($.browser.msie){
-		var hasFlash = false; 
-		try {   
-			var fo = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');   
-			if(fo) hasFlash = true; 
+		var hasFlash = false;
+		try {
+			var fo = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+			if(fo) hasFlash = true;
 		}
-		catch(e){   
-			if(navigator.mimeTypes ["application/x-shockwave-flash"] != undefined) hasFlash = true; 
-		} 
+		catch(e){
+			if(navigator.mimeTypes ["application/x-shockwave-flash"] != undefined) hasFlash = true;
+		}
 		return hasFlash;
 	}
 	else{

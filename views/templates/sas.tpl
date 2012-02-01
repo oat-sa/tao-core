@@ -4,14 +4,14 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?> Service</title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
-	
+
 	<script type='text/javascript'>
 		var jsPath 	= '<?=BASE_WWW?>js/';
 		var imgPath = '<?=BASE_WWW?>img/';
 	</script>
-	
+
 	<?=tao_helpers_Scriptloader::render()?>
-	
+
 	<script type='text/javascript'>
 		var ctx_extension 	= '<?=get_data("extension")?>';
 		var ctx_module 		= '<?=get_data("module")?>';
@@ -63,14 +63,14 @@
 		<span><?=get_data('message')?></span>
 	</div>
 	<?endif?>
-	<div id="ajax-loading">
-		<img src="<?=TAOBASE_WWW?>img/ajax-loader.gif" alt="loading" />
+	<div id="ajax-loading" class="ui-widget-overlay">
+		<img src="<?=TAOBASE_WWW?>img/ajax-loader.gif" alt="Loading..." />
 	</div>
 
 	<div class="main-container" >
 	<? include(get_data('includedView')) ?>
 	</div>
-	
+
 
 </body>
 </html>
