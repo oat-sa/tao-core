@@ -119,3 +119,28 @@ span.status img {
 #db_override_0 {
 	width: 20px;
 }
+
+#optional-system-config {
+	margin-top: 20px;
+}
+
+tr.optional td {
+	background-color: rgb(255, 224, 206);
+	color: rgb(220, 80, 0);
+}
+
+#optional-config-header {
+	position: relative;
+	bottom-margin: 10px;	
+}
+
+.expander {
+	position: absolute;
+	right: 5px;
+	top: 4px;
+	display: block;
+}
+
+#optional-config-list {
+	display:none;
+}

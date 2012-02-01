@@ -100,11 +100,44 @@ if($myForm->isSubmited() && $myForm->isValid()){
 				</tr>
 			</thead>
 			<tbody>
+			<?$optionalTestsTitles = array('Suhosin patch check',
+										   'PHP SVN extension check'); ?>
+			<?$optionalests = array(); ?>
 			<?foreach($configTests as $test):?>
-				<? $isOptional = !($test['title'] != 'Suhosin patch check') ?>
-				<tr class="<?= ($test['valid']) ? 'valid' : (($isOptional) ? 'optional' : 'invalid'); ?>">
+				<? if (!in_array($test['title'], $optionalTestsTitles)): ?>
+				<tr class="<?= ($test['valid']) ? 'valid' : 'invalid'; ?>">
 					<td><?=$test['title']?></td>
 					<td class="validity"><img src="img/<?= ($test['valid'])?'accept' : (($test['unknow'] === true) ? 'unknown' : (($isOptional) ? 'warning' : 'exclamation'))?>.png"/></td>
+					<td><?=$test['message']?></td>
+				</tr>
+				<?php else: ?>
+				<?php $optionalTests[] = $test; ?>
+				<?php endif; ?>
+			<?endforeach?>
+			</tbody>
+		</table>
+	</div>
+	</div>
+	
+	<div class="section">
+	<div id="optional-config-header" class="ui-widget ui-widget-header ui-state-default ui-corner-top ui-corner-bottom">
+		2 - Optional System Configuration
+		<img src="res/unfold.png" class="expander" alt="More..." title="More..."/>
+	</div>
+	<div id="optional-config-list" class="ui-widget ui-widget-content ui-corner-bottom">
+		<table>
+			<thead>
+				<tr>
+					<th class="ui-state-default ui-th-column ui-th-ltr leading test">Test</th>
+					<th class="ui-state-default ui-th-column ui-th-ltr validity">Validity</th>
+					<th class="ui-state-default ui-th-column ui-th-ltr trailing message">Message</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?foreach($optionalTests as $test):?>
+				<tr class="<?= ($test['valid']) ? 'valid' : 'invalid optional'; ?>">
+					<td><?=$test['title']?></td>
+					<td class="validity"><img src="img/<?= ($test['valid'])?'accept' : (($test['unknow'] === true) ? 'unknown' : 'warning')?>.png"/></td>
 					<td><?=$test['message']?></td>
 				</tr>
 			<?endforeach?>
@@ -112,8 +145,9 @@ if($myForm->isSubmited() && $myForm->isValid()){
 		</table>
 	</div>
 	</div>
+	
 	<div class="section">
-		<div class="ui-widget ui-widget-header ui-state-default  ui-corner-top">2 - Installation Form</div>
+		<div class="ui-widget ui-widget-header ui-state-default  ui-corner-top">3 - Installation Form</div>
 		<div id="install-form" class="ui-widget ui-widget-content ui-corner-bottom">
 			<?=$container->getForm()->render()?>
 		</div>

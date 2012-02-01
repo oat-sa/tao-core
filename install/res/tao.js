@@ -4,6 +4,9 @@ $(document).ready(function () {
 	$('#module_name, #module_host, #db_user, #db_pass').bind('keyup change', function () {
 		updateForm();
 	});
+	
+	$('.expander').click(foldUnfold)
+				  .hover(function() { $(this).css('cursor', 'pointer'); });
 });
 
 updateForm = function () {
@@ -67,3 +70,17 @@ getModuleName = function () {
 	return $('#module_name').val();
 };
 
+foldUnfold = function () {
+	$configList = $('#optional-config-list');
+	$configListHeader = $('#optional-config-header');
+	
+	if($configList.css('display') == 'none') {
+		$configList.css('display', 'block');
+		$configListHeader.removeClass('ui-corner-bottom')
+		$(this).attr('src', 'res/fold.png');
+	} else {
+		$configList.css('display', 'none');
+		$(this).attr('src', 'res/unfold.png');
+		$configListHeader.addClass('ui-corner-bottom');
+	}
+}

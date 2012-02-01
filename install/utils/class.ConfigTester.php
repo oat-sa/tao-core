@@ -155,7 +155,7 @@ class tao_install_utils_ConfigTester{
 				}
 				break;
 			case 'svn':
-				$this->message = 'PHP extension svn is optionnal but it is recommended to version resources';
+				$this->message = 'PHP extension svn is optionnal but it is recommended to version resources.';
 				(extension_loaded(strtolower($extensionName))) ? $this->status  = self::STATUS_VALID : $this->status  = self::STATUS_INVALID;
 				break;
 			default :
