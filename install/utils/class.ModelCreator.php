@@ -116,7 +116,7 @@ class tao_install_utils_ModelCreator{
 		
 		$memModel 	= ModelFactory::getMemModel($namespace);
 		$dbModel	= ModelFactory::getDefaultDbModel($namespace);
-		$dbModel->getDbConn()->execute('SET NAMES utf8');
+		$dbModel->getDbConn()->execute('SET NAMES UTF8');
 		
 		// Load and parse the model
 		$memModel->loadFromString($model, 'rdf');
@@ -175,6 +175,34 @@ class tao_install_utils_ModelCreator{
 			}
 		}
 		return $models;
+	}
+	
+	/**
+	 * Convenience method to get the models to install from extension's locales.
+	 * @param common_ext_SimpleExtension a common_ext_SimpleExtension instance.
+	 * @return array of ns=>file
+	 */
+	public static function getTranslationModelsFromExtension(common_ext_SimpleExtension $simpleExtension) {
+		$models = array();
+		$extensionPath = dirname(__FILE__) . '/../../../' . $simpleExtension->name;
+		$localesPath = $extensionPath . '/locales/';
+		
+		if (@is_dir($localesPath) && is_readable($localesPath)) {
+			// Locales directory exists and is readable.
+			$directories = scandir($localesPath);
+			if ($directories !== false) {
+				foreach ($directories as $dir) {
+					if ($dir[0] != '.') {
+						// This should be a language directory. Process it.
+						
+					}
+				}
+			} else {
+				throw new tao_install_utils_Exception("Unable to read 'locales' from extension '" . $simpleExtension->name . "'");
+			}
+		} else {
+			throw new tao_install_utils_Exception("Cannot read 'locales' directory for extension '" . $simpleExtension->name . "'.");
+		}
 	}
 }
 ?>
