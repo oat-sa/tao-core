@@ -71,8 +71,8 @@ getModuleName = function () {
 };
 
 foldUnfold = function () {
-	$configList = $('#optional-config-list');
-	$configListHeader = $('#optional-config-header');
+	$configList = $(this).parent().next();
+	$configListHeader = $(this).parent();
 	
 	if($configList.css('display') == 'none') {
 		$configList.css('display', 'block');

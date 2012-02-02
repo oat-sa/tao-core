@@ -89,8 +89,11 @@ if($myForm->isSubmited() && $myForm->isValid()){
 		<?endif?>
 	<div id="title" class="ui-widget-header ui-corner-all">TAO Install</div>
 	<div class="section">
-	<div class="ui-widget ui-widget-header ui-state-default  ui-corner-top">1 - System Configuration</div>
-	<div class="ui-widget ui-widget-content ui-corner-bottom">
+	<div id="mandatory-config-header"  class="ui-widget ui-widget-header ui-state-default ui-corner-top">
+		1 - System Configuration
+		<img src="res/fold.png" class="expander" alt="More..." title="More..."/>
+	</div>
+	<div id="mandatory-config-list" class="ui-widget ui-widget-content ui-corner-bottom">
 		<table>
 			<thead>
 				<tr>
