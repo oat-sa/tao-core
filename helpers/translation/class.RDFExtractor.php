@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 02.02.2012, 09:43:22 with ArgoUML PHP module 
+ * Automatically generated on 02.02.2012, 14:37:21 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -54,6 +54,14 @@ class tao_helpers_translation_RDFExtractor
 
 
     // --- ATTRIBUTES ---
+
+    /**
+     * Short description of attribute translatableProperties
+     *
+     * @access private
+     * @var array
+     */
+    private $translatableProperties = array();
 
     // --- OPERATIONS ---
 
@@ -143,6 +151,55 @@ class tao_helpers_translation_RDFExtractor
         	}
         }
         // section 10-13-1-85--4f943509:1353d309872:-8000:00000000000067ED end
+    }
+
+    /**
+     * Short description of method addTranslatableProperty
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string propertyUri
+     * @return mixed
+     */
+    public function addTranslatableProperty($propertyUri)
+    {
+        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A7E begin
+        $this->translatableProperties[] = $propertyUri;
+        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A7E end
+    }
+
+    /**
+     * Short description of method removeTranslatableProperty
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string propertyUri
+     * @return mixed
+     */
+    public function removeTranslatableProperty($propertyUri)
+    {
+        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A81 begin
+        foreach ($this->translatableProperties as $prop){
+        	if ($prop == $propertyUri){
+        		unset($prop);
+        	}
+        }
+        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A81 end
+    }
+
+    /**
+     * Short description of method setTranslatableProperties
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  array propertyUris
+     * @return mixed
+     */
+    public function setTranslatableProperties($propertyUris)
+    {
+        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A84 begin
+        $this->translatableProperties = $propertyUris;
+        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A84 end
     }
 
 } /* end of class tao_helpers_translation_RDFExtractor */
