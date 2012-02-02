@@ -26,7 +26,7 @@
             });
         }
         $(function(){
-            var timer=setInterval("isReady()", 1000);
+            var timer=setInterval("isReady()", 10000);
         });
     </script>
 </head>
