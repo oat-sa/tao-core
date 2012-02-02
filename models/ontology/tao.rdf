@@ -18,12 +18,10 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#List">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
     <rdfs:label xml:lang="EN"><![CDATA[List]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#level">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="EN"><![CDATA[level]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"/>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
     <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
@@ -31,7 +29,6 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Languages">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
     <rdfs:label xml:lang="EN"><![CDATA[Languages]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
     <rdf:value xml:lang="EN"/>
@@ -69,14 +66,12 @@
     <rdfs:isDefinedBy xml:lang="EN"/>
     <rdfs:seeAlso xml:lang="EN"/>
     <rdfs:label xml:lang="EN"><![CDATA[FrontOffice]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"/>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassRole"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BackOffice">
     <rdfs:isDefinedBy xml:lang="EN"/>
     <rdfs:seeAlso xml:lang="EN"/>
     <rdfs:label xml:lang="EN"><![CDATA[BackOffice]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"/>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassRole"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#installator">

@@ -14,7 +14,6 @@
     <rdfs:label xml:lang="DE"><![CDATA[Letzeburgisch]]></rdfs:label>
     <rdfs:label xml:lang="LU"><![CDATA[Lëtzebuergesch]]></rdfs:label>
     <rdfs:label xml:lang="SE"><![CDATA[Lxemburgish]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"/>
     <rdf:value><![CDATA[LU]]></rdf:value>
     <tao:level><![CDATA[4]]></tao:level>
   </rdf:Description>
