@@ -72,7 +72,7 @@ tao.ajaxWrapper.successCallback = function(result, successCallback, errorCallbac
  * The tao ajax default success callback
  */
 tao.ajaxWrapper.defaultSuccessCallback = function (){
-    console.log('DEFAULT SUCCESS CALLBACK');
+    //console.log('DEFAULT SUCCESS CALLBACK');
 };
 
 /**
