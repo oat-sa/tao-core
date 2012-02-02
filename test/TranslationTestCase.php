@@ -279,10 +279,10 @@ class TranslationTestCase extends UnitTestCase {
 		$rdfExtractor = new tao_helpers_translation_RDFExtractor($paths);
 		$rdfExtractor->extract();
 		$tus = $rdfExtractor->getTranslationUnits();
+
+		$this->assertTrue(count($tus) == 6);
 		
-		$this->assertTrue(count($tus) == 5);
-		
-		// Test 2 Translation Units at random.
+		// Test 3 Translation Units at random.
 		$this->assertTrue($tus[1]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
 		$this->assertTrue($tus[1]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#label');
 		$this->assertTrue($tus[1]->getSource() == 'unknown');
@@ -295,6 +295,12 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tus[2]->getTarget() == 'Deutsch');
 		$this->assertTrue($tus[2]->getSourceLanguage() == 'unknown');
 		$this->assertTrue($tus[2]->getTargetLanguage() == 'DE');
+		$this->assertTrue($tus[5]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
+		$this->assertTrue($tus[5]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#comment');
+		$this->assertTrue($tus[5]->getSource() == 'unknown');
+		$this->assertTrue($tus[5]->getTarget() == 'The German language.');
+		$this->assertTrue($tus[5]->getSourceLanguage() == 'unknown');
+		$this->assertTrue($tus[5]->getTargetLanguage() == 'EN');
 	}
 }
 ?>

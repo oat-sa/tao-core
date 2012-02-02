@@ -82,6 +82,8 @@ class tao_helpers_translation_RDFExtractor
 	        		$rdfsNS = 'http://www.w3.org/2000/01/rdf-schema#';
 	        		$xmlNS = 'http://www.w3.org/XML/1998/namespace'; // http://www.w3.org/TR/REC-xml-names/#NT-NCName
 	        		
+	        		$translatableProperties = array('http://www.w3.org/2000/01/rdf-schema#label',
+	        										'http://www.w3.org/2000/01/rdf-schema#comment');
 	        		
 	        		// Try to parse the file as a DOMDocument.
 	        		$doc = new DOMDocument('1.0', 'UTF-8');
@@ -93,9 +95,22 @@ class tao_helpers_translation_RDFExtractor
 	        				$about = $description->getAttributeNodeNS($rdfNS, 'about')->value;
 	        				
 	        				// At the moment only get rdfs:label and rdfs:comment
+	        				// c.f. array $translatableProperties
 	        				// In the future, this should be configured in the constructor
 	        				// or by methods.
-	        				$children = $description->getElementsByTagNameNS($rdfsNS, 'label');
+	        				$children = array();
+	        				foreach ($translatableProperties as $prop){
+	        					$uri = explode('#', $prop);
+	        					if (count($uri) == 2){
+	        						$uri[0] .= '#';
+	        						$nodeList = $description->getElementsByTagNameNS($uri[0], $uri[1]);
+	        						
+	        						for ($i = 0; $i < $nodeList->length; $i++) {
+	        							$children[] = $nodeList->item($i);
+	        						}
+	        					}
+	        				}
+	        				
 	        				foreach ($children as $child) {
 	        					// Only process if it has a language attribute.
 	        					if ($child->hasAttributeNS($xmlNS, 'lang')){
@@ -108,12 +123,14 @@ class tao_helpers_translation_RDFExtractor
 	        						$tu->setSourceLanguage($sourceLanguage);
 	        						$tu->setTargetLanguage($targetLanguage);
 	        						$tu->setSubject($about);
-	        						$tu->setPredicate($rdfsNS . 'label');
+	        						$tu->setPredicate($child->namespaceURI . $child->localName);
+	        						
 	        						$tus[] = $tu;
 	        					}
 	        				}
 	        			}
 	        			else{
+	        				// Description about nothing.
 	        				continue;	
 	        			}
 	        		}
