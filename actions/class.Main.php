@@ -138,6 +138,13 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		$this->setView('layout.tpl');
 	}
 
+    /**
+     * Check if the system is ready
+     */
+    public function isReady(){
+        $ajaxResponse = new common_AjaxResponse();
+    }
+    
 	/**
 	 * Load the actions for the current section and the current data context
 	 * @return void

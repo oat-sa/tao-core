@@ -54,6 +54,11 @@ class Bootstrap{
 	protected static $isDispatched = false;
 	
 	/**
+	 * @var boolean if the application is ready to answer
+	 */
+	protected static $isReady = false;
+	
+	/**
 	 * @var common_ext_SimpleExtension
 	 */
 	protected $extension = null;
@@ -98,6 +103,15 @@ class Bootstrap{
 		return self::$isDispatched;
 	}
 	
+    /**
+     * Check if the application is ready
+     * @return {boolean} Return true if the application is ready
+     */
+    protected function isReady()
+    {
+        return defined('SYS_READY') ? SYS_READY : true;
+    }
+	
 	/**
 	 * Start all the services:
 	 *  1. Start the session
@@ -106,6 +120,7 @@ class Bootstrap{
 	 *  4. Include the global helpers
 	 *  5. Connect the current user to the generis API
 	 *  6. Initialize the internationalization
+	 *  7. Check the application' state
 	 */
 	public function start()
 	{
@@ -120,25 +135,71 @@ class Bootstrap{
 			self::$isStarted = true;
 		}
 	}
-	
+    
 	/**
 	 * Dispatch the current http request into the control loop:
 	 *  1. Load the ressources
 	 *  2. Start the MVC Loop from the ClearFW
+     *  manage Exception:
 	 */
 	public function dispatch()
 	{
 		if(!self::$isDispatched){
+            $isAjax = tao_helpers_Request::isAjax();
+            
 			if(tao_helpers_Context::check('APP_MODE')){
-				if(!tao_helpers_Request::isAjax()){
+				if(!$isAjax){
 					$this->scripts();
 				}
 			}
-			$this->mvc();
+            
+            //Catch all exceptions
+            try{
+                //the app is ready
+                if($this->isReady()){
+                    $this->mvc();
+                }
+                //the app is not ready
+                else{
+                    //the request is not an ajax request, redirect the user to the maintenance page
+                    if(!$isAjax){
+                        $from = ROOT_URL.$_SERVER['REQUEST_URI'];
+                        require_once TAO_TPL_PATH . 'error/maintenance.tpl';
+                    //else throw an exception, this exception will be send to the client properly
+                    }else{
+                        throw new Exception(__('TAO is in maintenance'));
+                    }
+                }
+            }
+            catch(Exception $e){
+                $this->catchError($e);
+            }
 			self::$isDispatched = true;
 		}
 	}
-	
+    
+    /**
+     * Catch any errors
+     * If the request is an ajax request, return to the client a formated object.
+     * 
+     * @param Exception $exception 
+     */
+    private function catchError(Exception $exception)
+    {
+        if(tao_helpers_Request::isAjax()){
+            new common_AjaxResponse(
+                false
+                , 'Exception'
+                , array('ExceptionType' => get_class($exception))
+                , $exception->getMessage()
+            );
+        }
+        else{
+            common_Logger::notCatchedException($exception);
+            throw $exception;
+        }
+    }
+    
 	/**
 	 * Start the session
 	 */
@@ -351,7 +412,7 @@ class Bootstrap{
     			TAOBASE_WWW . 'css/form.css',
     			TAOBASE_WWW . 'css/grid.css',
     			TAOBASE_WWW . 'css/widgets.css'
-    			)
+    		)
 		);
 		
 		
@@ -382,6 +443,7 @@ class Bootstrap{
 			TAOBASE_WWW . $gridi18nFile,
 			TAOBASE_WWW . 'js/jquery.jqGrid-4.2.0/js/jquery.jqGrid.min.js',
 			TAOBASE_WWW . 'js/jquery.numeric.js',
+			TAOBASE_WWW . 'js/tao.ajaxWrapper.js',
 			ROOT_URL 	. '/filemanager/views/js/fmRunner.js',
 			ROOT_URL 	. '/filemanager/views/js/jquery.fmRunner.js',
 			TAOBASE_WWW . 'js/EventMgr.js',
