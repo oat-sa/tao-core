@@ -67,6 +67,25 @@ class tao_helpers_translation_RDFExtractor
     public function extract()
     {
         // section 10-13-1-85--4f943509:1353d309872:-8000:00000000000067ED begin
+        foreach ($this->getPaths() as $path){
+        	// In the RDFExtractor, we expect the paths to points directly to the file.
+        	if (!file_exists($path)){
+        		throw new tao_helpers_translation_TranslationException("No RDF file to parse at '${path}'.");	
+        	}
+        	else if (!is_readable($path)){
+        		throw new tao_helpers_translation_TranslationException("'${path}' is not readable. Please check file system rights.");	
+        	}
+        	else{
+	        	try{
+	        		// Try to parse the file as a DOMDocument.
+	        		$doc = new DOMDocument('1.0', 'UTF-8');
+	        		$doc->load(realpath($path));
+	        		
+	        	} catch (DOMException $e){
+	        		throw new tao_helpers_translation_TranslationException("Unable to parse RDF file at '${path}'. DOM returns '" . $e->getMessage() . "'.");
+	        	}	
+        	}
+        }
         // section 10-13-1-85--4f943509:1353d309872:-8000:00000000000067ED end
     }
 
