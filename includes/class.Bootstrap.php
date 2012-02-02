@@ -21,7 +21,7 @@ require_once DIR_CORE_HELPERS . 'Core.php';
  * 
  * @author Bertrand CHEVRIER <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage install
+ * @subpackage includes
  * @example 
  * <code>
  *  $bootStrap = new BootStrap('tao');	//create the Bootstrap instance
