@@ -279,7 +279,23 @@ class TranslationTestCase extends UnitTestCase {
 		$rdfExtractor = new tao_helpers_translation_RDFExtractor($paths);
 		$rdfExtractor->extract();
 		$tus = $rdfExtractor->getTranslationUnits();
+		
+		// Nothing should be extracted because no translatable properties
+		// are set in the the extractor instance.
+		$this->assertTrue(count($tus) == 0);
 
+		// Add a single translatable property and extract again.
+		$rdfExtractor->addTranslatableProperty('http://www.w3.org/2000/01/rdf-schema#label');
+		$rdfExtractor->extract();
+		$tus = $rdfExtractor->getTranslationUnits();
+		$this->assertTrue(count($tus) == 5);
+		
+		// Add two translatable properties.
+		$rdfExtractor->removeTranslatableProperty('http://www.w3.org/2000/01/rdf-schema#label');
+		$rdfExtractor->setTranslatableProperties(array('http://www.w3.org/2000/01/rdf-schema#label',
+													   'http://www.w3.org/2000/01/rdf-schema#comment'));
+		$rdfExtractor->extract();
+		$tus = $rdfExtractor->getTranslationUnits();
 		$this->assertTrue(count($tus) == 6);
 		
 		// Test 3 Translation Units at random.

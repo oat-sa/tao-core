@@ -90,8 +90,7 @@ class tao_helpers_translation_RDFExtractor
 	        		$rdfsNS = 'http://www.w3.org/2000/01/rdf-schema#';
 	        		$xmlNS = 'http://www.w3.org/XML/1998/namespace'; // http://www.w3.org/TR/REC-xml-names/#NT-NCName
 	        		
-	        		$translatableProperties = array('http://www.w3.org/2000/01/rdf-schema#label',
-	        										'http://www.w3.org/2000/01/rdf-schema#comment');
+	        		$translatableProperties = $this->translatableProperties;
 	        		
 	        		// Try to parse the file as a DOMDocument.
 	        		$doc = new DOMDocument('1.0', 'UTF-8');
