@@ -94,6 +94,14 @@ div#main-menu span.disabled-extension{
 div.main-container{
 	margin-left:0.25%;
 }
+div.main-container .medium {
+	width: 49.75%;
+	float: right;
+}
+div.main-container .large {
+	width: 74.75%;
+	float: right;
+}
 div#preview-container{
 	width:59%;
 	height:100%;
@@ -105,10 +113,10 @@ div#preview-container{
 	margin-right:5px;
 }
 div.data-container{
-	width:22%;
+	width:24%;
 	float:left;
-	margin-right:0.5%;
-	margin-bottom:0.5%;
+	margin-right:1%;
+	margin-bottom:1%;
 }
 div.container-title{
 	padding:4px;
@@ -120,9 +128,7 @@ div.container-content{
 	min-height:200px;
 	max-height:400px;
 }
-div.main-container{
-	/*overflow-y:auto;*/
-}
+div.container-content .elt-info { display: block; padding: 0 5px }
 div#authoring-container{
 	left:0px;
 	width:100%;
