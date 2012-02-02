@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 02.02.2012, 10:09:38 with ArgoUML PHP module 
+ * Automatically generated on 02.02.2012, 11:08:15 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -63,18 +63,18 @@ class tao_helpers_translation_RDFTranslationUnit
     /**
      * Short description of attribute subject
      *
-     * @access public
+     * @access private
      * @var string
      */
-    public $subject = '';
+    private $subject = '';
 
     /**
      * Short description of attribute predicate
      *
-     * @access public
+     * @access private
      * @var string
      */
-    public $predicate = '';
+    private $predicate = '';
 
     // --- OPERATIONS ---
 
@@ -110,6 +110,34 @@ class tao_helpers_translation_RDFTranslationUnit
         // section 10-13-1-85-6e73505d:1353d49e194:-8000:0000000000003A5B end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method setSubject
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string subject
+     * @return mixed
+     */
+    public function setSubject($subject)
+    {
+        // section 10-13-1-85--1df98728:1353d86f548:-8000:0000000000003A60 begin
+        // section 10-13-1-85--1df98728:1353d86f548:-8000:0000000000003A60 end
+    }
+
+    /**
+     * Short description of method setPredicate
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string predicate
+     * @return mixed
+     */
+    public function setPredicate($predicate)
+    {
+        // section 10-13-1-85--1df98728:1353d86f548:-8000:0000000000003A63 begin
+        // section 10-13-1-85--1df98728:1353d86f548:-8000:0000000000003A63 end
     }
 
 } /* end of class tao_helpers_translation_RDFTranslationUnit */

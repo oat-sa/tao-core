@@ -77,9 +77,43 @@ class tao_helpers_translation_RDFExtractor
         	}
         	else{
 	        	try{
+	        		$rdfNS = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+	        		$rdfsNS = 'http://www.w3.org/2000/01/rdf-schema#';
+	        		$xmlNS = 'http://www.w3.org/XML/1998/namespace'; // http://www.w3.org/TR/REC-xml-names/#NT-NCName
+	        		
+	        		
 	        		// Try to parse the file as a DOMDocument.
 	        		$doc = new DOMDocument('1.0', 'UTF-8');
 	        		$doc->load(realpath($path));
+	        		
+	        		$descriptions = $doc->getElementsByTagNameNS($rdfNS, 'Description');
+	        		foreach ($descriptions as $description){
+	        			if ($description->hasAttributeNS($rdfNS, 'about')){
+	        				$about = $description->getAttributeNodeNS($rdfNS, 'about')->value;
+	        				
+	        				// At the moment only get rdfs:label and rdfs:comment
+	        				// In the future, this should be configured in the constructor
+	        				// or by methods.
+	        				$children = $description->getElementsByTagNameNS($rdfsNS, 'label');
+	        				foreach ($children as $child) {
+	        					// Only process if it has a language attribute.
+	        					if ($child->hasAttributeNS($xmlNS, 'lang')){
+	        						$sourceLanguage = 'unknown';
+	        						$targetLanguage = $child->getAttributeNodeNS($xmlNS, 'lang')->value;
+	        						$source = 'unknown';
+	        						$target = $child->nodeValue;
+	        						
+	        						$tu = new tao_helpers_translation_RDFTranslationUnit($source, $target);
+	        						$tu->setSourceLanguage($sourceLanguage);
+	        						$tu->setTargetLanguage($targetLanguage);
+	        						
+	        					}
+	        				}
+	        			}
+	        			else{
+	        				continue;	
+	        			}
+	        		}
 	        		
 	        	} catch (DOMException $e){
 	        		throw new tao_helpers_translation_TranslationException("Unable to parse RDF file at '${path}'. DOM returns '" . $e->getMessage() . "'.");
