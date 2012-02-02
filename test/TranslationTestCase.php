@@ -23,6 +23,7 @@ class TranslationTestCase extends UnitTestCase {
 	const ITEMS_MANIFEST = '/samples/structures/items';
 	const FAKE_ACTIONS = '/samples/fakeSourceCode/actions/';
 	const FAKE_VIEWS = '/samples/fakeSourceCode/views/';
+	const FAKE_RDF_LOCALE = '/samples/rdf/tao_messages_DE.rdf';
 	
 	/**
 	 * Test of the different classes composing the Translation Model.
@@ -271,6 +272,29 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tus[2]->getSource() == ' Please select the input data format to import ');
 		$this->assertTrue($tus[5]->getSource() == 'Please upload a CSV file formated as "defined" %min by %max the options above.');
 		$this->assertTrue($tus[8]->getsource() == "Please upload \t an RDF file.\n\n");
+	}
+	
+	public function testRDFTranslationModel() {
+		$paths = array(dirname(__FILE__) . self::FAKE_RDF_LOCALE);
+		$rdfExtractor = new tao_helpers_translation_RDFExtractor($paths);
+		$rdfExtractor->extract();
+		$tus = $rdfExtractor->getTranslationUnits();
+		
+		$this->assertTrue(count($tus) == 5);
+		
+		// Test 2 Translation Units at random.
+		$this->assertTrue($tus[1]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
+		$this->assertTrue($tus[1]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#label');
+		$this->assertTrue($tus[1]->getSource() == 'unknown');
+		$this->assertTrue($tus[1]->getTarget() == 'Allemand');
+		$this->assertTrue($tus[1]->getSourceLanguage() == 'unknown');
+		$this->assertTrue($tus[1]->getTargetLanguage() == 'FR');
+		$this->assertTrue($tus[2]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
+		$this->assertTrue($tus[2]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#label');
+		$this->assertTrue($tus[2]->getSource() == 'unknown');
+		$this->assertTrue($tus[2]->getTarget() == 'Deutsch');
+		$this->assertTrue($tus[2]->getSourceLanguage() == 'unknown');
+		$this->assertTrue($tus[2]->getTargetLanguage() == 'DE');
 	}
 }
 ?>

@@ -77,6 +77,7 @@ class tao_helpers_translation_RDFExtractor
         	}
         	else{
 	        	try{
+	        		$tus = array();
 	        		$rdfNS = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 	        		$rdfsNS = 'http://www.w3.org/2000/01/rdf-schema#';
 	        		$xmlNS = 'http://www.w3.org/XML/1998/namespace'; // http://www.w3.org/TR/REC-xml-names/#NT-NCName
@@ -106,7 +107,9 @@ class tao_helpers_translation_RDFExtractor
 	        						$tu = new tao_helpers_translation_RDFTranslationUnit($source, $target);
 	        						$tu->setSourceLanguage($sourceLanguage);
 	        						$tu->setTargetLanguage($targetLanguage);
-	        						
+	        						$tu->setSubject($about);
+	        						$tu->setPredicate($rdfsNS . 'label');
+	        						$tus[] = $tu;
 	        					}
 	        				}
 	        			}
@@ -114,6 +117,8 @@ class tao_helpers_translation_RDFExtractor
 	        				continue;	
 	        			}
 	        		}
+	        		
+	        		$this->setTranslationUnits($tus);
 	        		
 	        	} catch (DOMException $e){
 	        		throw new tao_helpers_translation_TranslationException("Unable to parse RDF file at '${path}'. DOM returns '" . $e->getMessage() . "'.");

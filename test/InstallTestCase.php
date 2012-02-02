@@ -19,9 +19,9 @@ class InstallTestCase extends UnitTestCase {
 		
 		$files = tao_install_utils_ModelCreator::getTranslationModelsFromExtension($extensions['tao']);
 		$ns = 'http://www.tao.lu/Ontologies/TAO.rdf';
-		assert(is_array($files));
-		assert(array_key_exists($ns, $files));
-		assert(count($files) == 1);
+		$this->assertTrue(is_array($files));
+		$this->assertTrue(array_key_exists($ns, $files));
+		$this->assertTrue(count($files) == 1);
 	}
 }
 ?>
