@@ -5,38 +5,17 @@
 <head>
 	<title>TAO</title>
 	<script type="text/javascript" src="<?=ROOT_URL?>/tao/views/js/jquery-1.4.2.min.js"></script>
-	<script type="text/javascript" src="<?=ROOT_URL?>/tao/views/js/tao.ajaxWrapper.js"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/custom-theme/jquery-ui-1.8.custom.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/style.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/layout.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/portal.css"/>
-    <script type="text/javascript">
-        function isReady(){
-            var from = '<?= $from ?>';
-            tao.ajaxWrapper.ajax({
-                'url' : '<?=ROOT_URL?>/tao/Main/isReady'
-                , type: 'GET'
-                ,'success' : function(data){
-                    window.location = from;
-                }
-                ,'error' : function(data){
-                    // the system is still in maintenance...
-                    // we should test the exception type
-                }
-            });
-        }
-        $(function(){
-            var timer=setInterval("isReady()", 10000);
-        });
-    </script>
 </head>
 <body>
 	<div id="content">
 		<div id="portal-box" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 			<h1><?=__('Maintenance')?></h1>
-			<?=__('The TAO platform is in maintenance')?>
-            <br/><br/><?=__('Please wait a moment or contact your administrator')?>
-            <br/><?=__('You will be redirected when the platform will be ready again')?>
+			<?=__('The TAO platform is under maintenance.')?>
+            <br/><br/><?=__('Please wait a moment or contact your administrator.')?>
 		</div>
 	</div>
 	<div id="footer">
