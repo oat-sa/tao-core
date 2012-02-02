@@ -1,16 +1,27 @@
-#content , #error{
+#content{
 	margin: 40px auto 40px auto;
 	width: 800px;
 }
 
+#error {
+	margin: 20px;
+	border: 1px solid #D00239;
+	padding: 10px;
+	width: 740px;
+	background-color: #ffdcdc;
+}
+
 #error > div {
-	color: red;
+	color: #D00239;
 	font-weight: bold;
-	font-size: 1.2em;
+	font-size: 1.0em;
+	background-color: transparent;
 }
 
 #error > pre {
+	color: #D00239;
 	font-size: 0.8em;
+	background-color: transparent;
 }
 
 #title {

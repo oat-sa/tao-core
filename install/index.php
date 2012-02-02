@@ -22,7 +22,7 @@ $error = null;
 $errorTrace = '';
 
 if(!$myForm->isSubmited() && tao_install_utils_System::isTAOInstalled()){
-	$error = "TAO already installed! If you continue, you will reinstall TAO and erase your data.";
+	$error = "TAO already installed! If you continue, you will reinstall TAO and maybe erase your data.";
 }
 
 //once the form is posted and valid
@@ -82,9 +82,11 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	</div>
 	<?else: ?>
 		<?if(!is_null($error)):?>
-			<div id="error">
+			<div id="error" class="ui-widget ui-corner-all">
 				<div><?= $error?></div>
-				<pre><?=$errorTrace?></pre>
+				<?if(isset($errorTrace) && !empty($errorTrace)): ?>
+					<pre><?=$errorTrace?></pre>
+				<?endif; ?>
 			</div>
 		<?endif?>
 	<div id="title" class="ui-widget-header ui-corner-all">TAO Install</div>
