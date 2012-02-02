@@ -107,7 +107,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 				<? if (!in_array($test['title'], $optionalTestsTitles)): ?>
 				<tr class="<?= ($test['valid']) ? 'valid' : 'invalid'; ?>">
 					<td><?=$test['title']?></td>
-					<td class="validity"><img src="img/<?= ($test['valid'])?'accept' : (($test['unknow'] === true) ? 'unknown' : (($isOptional) ? 'warning' : 'exclamation'))?>.png"/></td>
+					<td class="validity"><img src="img/<?= ($test['valid'])?'accept' : (($test['unknow'] === true) ? 'unknown' : 'exclamation')?>.png"/></td>
 					<td><?=$test['message']?></td>
 				</tr>
 				<?php else: ?>

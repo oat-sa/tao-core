@@ -48,12 +48,17 @@ class tao_install_Installator{
              'title' => 'PHP Dom extension check',
              'name'  => 'dom'
         ),
-		9 => array(
+        9 => array(
+             'type'  => 'PHP_EXTENSION',
+             'title' => 'PHP Multibyte String extension check',
+             'name'  => 'mbstring'
+        ),
+		10 => array(
 			'type'	=> 'PHP_EXTENSION',
 			'title'	=> 'PHP SVN extension check',
 			'name'	=> 'svn'
 		),
-		10 => array(
+		11 => array(
 			'type'	=> 'MULTI',
 			'title'	=> 'PHP db driver extension check',
 			'tests'	=> array(
@@ -64,18 +69,18 @@ class tao_install_Installator{
 			),
 			'displayMsg'	=> true
 		),
-		11 => array(
+		12 => array(
 			'type'			=> 'PHP_EXTENSION',
 			'title'			=> 'Suhosin patch check',
 			'displayMsg'	=> true,
 			'name'			=> 'suhosin'
 		),
-		12 => array(
+		13 => array(
 			'type'	=> 'APACHE_MOD',
 			'title'	=> 'Apache mod rewrite check',
 			'name'	=> 'rewrite'
 		),
-		13 => array(
+		14 => array(
 			'type'	=> 'WRITABLE_DIRECTORIES',
 			'title'	=> 'System Rights',
 			'displayMsg' => true,

@@ -122,17 +122,18 @@ class tao_install_utils_ConfigTester{
 			case 'json':
 			case 'dom':
 			case 'spl':
-				$this->message = 'PHP extension '.strtoupper($extensionName).' is required';
+				$this->message = 'PHP extension '.strtoupper($extensionName).' is required.';
 				(extension_loaded(strtolower($extensionName))) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
 				break;
 			case 'zip':
 			case 'tidy': 
 			case 'curl': 
-				$this->message = 'PHP extension '.strtoupper($extensionName).' is strongly recomended';
+			case 'mbstring':
+				$this->message = 'PHP extension '.strtoupper($extensionName).' is strongly recomended.';
 				(extension_loaded(strtolower($extensionName))) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
 				break;
 			case 'gd':
-				$this->message = 'PHP extension GD is optionnal';
+				$this->message = 'PHP extension GD is optionnal.';
 				(extension_loaded('gd')) ? $this->status  = self::STATUS_VALID : $this->status  = self::STATUS_INVALID;
 				break;
 			case 'suhosin':
