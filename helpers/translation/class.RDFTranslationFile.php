@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 02.02.2012, 10:09:38 with ArgoUML PHP module 
+ * Automatically generated on 03.02.2012, 16:25:41 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -22,18 +22,11 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * A translation file represents the translation of a file, software, item, ...
- * contains a list of Translation Units a source language and a target language.
- * File can be read and written by TranslationFileReader & TranslationFileWriter
+ * A TranslationFile aiming at translating a TAO Component
  *
- * @author Jerome Bogaerts
- * @see tao_model_classes_TranslationUnit
-tao_model_classes_TranslationFileReader
-tao_model_classes_TranslationFileWriter
- * @since 2.2
- * @version 1.0
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  */
-require_once('tao/helpers/translation/class.TranslationFile.php');
+require_once('tao/helpers/translation/class.TaoTranslationFile.php');
 
 /* user defined includes */
 // section 10-13-1-85-6e73505d:1353d49e194:-8000:0000000000003A5D-includes begin
@@ -52,7 +45,7 @@ require_once('tao/helpers/translation/class.TranslationFile.php');
  * @subpackage helpers_translation
  */
 class tao_helpers_translation_RDFTranslationFile
-    extends tao_helpers_translation_TranslationFile
+    extends tao_helpers_translation_TaoTranslationFile
 {
     // --- ASSOCIATIONS ---
 
