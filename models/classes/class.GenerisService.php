@@ -763,6 +763,7 @@ abstract class tao_models_classes_GenerisService
 		}
 		
 		if($instances){
+			
 			$getInstancesOptions = array ();
 			$getInstancesOptions = array_merge($getInstancesOptions, array(
 				'limit'  => $limit,
@@ -770,8 +771,11 @@ abstract class tao_models_classes_GenerisService
 			));
 			
 			// Make a recursive search if a filter has been given => the result will be a one dimension array
-			foreach($clazz->getInstances($isFiltering, $getInstancesOptions) as $instance){
-                                
+			$searchResult = $clazz->getInstances($isFiltering, $getInstancesOptions);
+			common_Logger::d("GenerisService - " . count($searchResult) . " instances of " . $clazz->uriResource . " found.");
+			
+			foreach($searchResult as $instance){
+				
             	$label = $instance->getLabel();
             	/*
             	$session = core_kernel_classes_Session::singleton();
@@ -831,7 +835,7 @@ abstract class tao_models_classes_GenerisService
 		if(!$chunk){
         	$label = $clazz->getLabel();
             if(empty($label)){
-            	$label = $instance->uriResource;
+            	$label = $clazz->uriResource;
             }else{
             	$label = tao_helpers_Display::textCutter($label, 16);
             }
