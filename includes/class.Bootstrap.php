@@ -287,6 +287,12 @@ class Bootstrap{
 	 */
 	protected function registerErrorhandler()
 	{
+		// initialize the logger to prevent fatal errors that occure if:
+		// while autoloading any class
+		// an error gets thrown
+		// the logger initializes to handle this error
+		// and failes to autoload his files 
+		common_Logger::singleton();
 		set_error_handler('common_Logger::handlePHPErrors');
 		register_shutdown_function('common_Logger::handlePHPShutdown');
 	}
