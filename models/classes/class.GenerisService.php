@@ -772,31 +772,10 @@ abstract class tao_models_classes_GenerisService
 			
 			// Make a recursive search if a filter has been given => the result will be a one dimension array
 			$searchResult = $clazz->getInstances($isFiltering, $getInstancesOptions);
-			common_Logger::d("GenerisService - " . count($searchResult) . " instances of " . $clazz->uriResource . " found.");
 			
 			foreach($searchResult as $instance){
 				
             	$label = $instance->getLabel();
-            	/*
-            	$session = core_kernel_classes_Session::singleton();
-            	($session->getLg() != '') ? $lang = $session->getLg() : $lang = $session->defaultLg;
-				$defaultLg = ' OR "l_language" = \''.$session->defaultLg.'\' ';
-				
-				$dbWrapper = core_kernel_classes_DbWrapper::singleton();
-            	$query =  'SELECT "object", "l_language"
-        			FROM "statements" 
-		    		WHERE "subject" = ? 
-		    		AND "predicate" = ?
-					AND ( "l_language" = ? OR "l_language" = \'\' '.$defaultLg.')';
-            	
-            	var_dump($instance->uriResource);
-            	$labelProp = new core_kernel_classes_Property(RDFS_LABEL);
-				$result = $dbWrapper->execSql($query, array(
-					$instance->uriResource
-					, $labelProp->uriResource
-					, $lang
-				));
-				*/
 				
                 if(empty($label)){
                 	$label = $instance->uriResource;
