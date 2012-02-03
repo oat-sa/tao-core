@@ -117,6 +117,7 @@ abstract class tao_models_classes_GenerisService
 				}
 				if($ignoreCase){
 					$comparator = strtolower($comparator);
+					$identifier = strtolower($identifier);
 				}
 				
 				if( $identifier == $comparator && $comparator !== false ){
