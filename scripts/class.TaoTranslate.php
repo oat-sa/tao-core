@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 13.01.2012, 10:58:06 with ArgoUML PHP module 
+ * Automatically generated on 03.02.2012, 16:38:28 with ArgoUML PHP module 
  * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -895,24 +895,51 @@ class tao_scripts_TaoTranslate
     }
 
     /**
-     * Short description of method addLanguageOntology
+     * Add the requested language in the ontology. It will used the parameters
+     * the command line for logic.
+     *
+     * @access protected
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return void
+     */
+    protected function addLanguageToOntology()
+    {
+        // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A88 begin
+        // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A88 end
+    }
+
+    /**
+     * Updates a language in the Ontology according to messages.rdf. Will use
+     * line parameters for logic.
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string languageName
-     * @return boolean
+     * @return void
      */
-    public function addLanguageOntology($languageName)
+    public function updateLanguageInOntology()
     {
-        $returnValue = (bool) false;
+        // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A8B begin
+        // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A8B end
+    }
 
-        // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E8 begin
-        throw new tao_helpers_translation_TranslationException("Not yet implemented.");
-        // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E8 end
-
-        return (bool) $returnValue;
+    /**
+     * Removes a language from the Ontology and all triples with the related
+     * tag. Will use command line parameters for logic.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return void
+     */
+    public function removeLanguageFromOntology()
+    {
+        // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A8E begin
+        // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A8E end
     }
 
 } /* end of class tao_scripts_TaoTranslate */
 
-?>
+?>/* lost code following: 
+    // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E8 begin
+        throw new tao_helpers_translation_TranslationException("Not yet implemented.");
+    // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E8 end
+*/
