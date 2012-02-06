@@ -3,14 +3,14 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao\helpers\translation\class.RDFTranslationFile.php
+ * TAO - tao/helpers/translation/class.RDFTranslationFile.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 03.02.2012, 16:25:41 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 06.02.2012, 23:02:19 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
@@ -52,6 +52,22 @@ class tao_helpers_translation_RDFTranslationFile
 
     // --- ATTRIBUTES ---
 
+    /**
+     * Short description of attribute namespaces
+     *
+     * @access private
+     * @var array
+     */
+    private $namespaces = array();
+
+    /**
+     * The namespace to which the translations belongs to.
+     *
+     * @access private
+     * @var string
+     */
+    private $base = '';
+
     // --- OPERATIONS ---
 
     /**
@@ -83,6 +99,103 @@ class tao_helpers_translation_RDFTranslationFile
 		$translationUnit->setSourceLanguage($this->getSourceLanguage());
 		array_push($this->getTranslationUnits(), $translationUnit);
         // section 10-13-1-85-6e73505d:1353d49e194:-8000:0000000000003A5F end
+    }
+
+    /**
+     * Sets the namespaces list of the TranslationFile. The namespace array must
+     * an array of array formated like this: array(array('nsprefix' => 'URI'),
+     * Former namespaces will be removed.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  array namespaces
+     * @return void
+     */
+    public function setNamespaces($namespaces)
+    {
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:000000000000371D begin
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:000000000000371D end
+    }
+
+    /**
+     * Adds a namespace to the namespaces list. The $namespace array must be
+     * like array('nsprefix' => 'uri'). If the 'nsprefix' value matches an
+     * set namespace, it will be updated with the new 'uri'.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  array namespace
+     * @return void
+     */
+    public function addNamespace($namespace)
+    {
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003721 begin
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003721 end
+    }
+
+    /**
+     * Removes a namespace in the list of namespaces. The $namespace array must
+     * formatted like array('nsprefix' => 'uri'). If the 'nsprefix' cannot be
+     * nothing happens. If found, the related namespace will be removed from the
+     * namespace list.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  array namespace
+     * @return void
+     */
+    public function removeNamespace($namespace)
+    {
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003725 begin
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003725 end
+    }
+
+    /**
+     * Gets the current namespaces list.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return array
+     */
+    public function getNamespaces()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:000000000000372D begin
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:000000000000372D end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Sets the base namespace to which the RDFTranslationUnits belong to.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string base
+     * @return void
+     */
+    public function setBase($base)
+    {
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003731 begin
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003731 end
+    }
+
+    /**
+     * Gets the current base namespace to which the RDFTranslationUnits belong
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return string
+     */
+    public function getBase()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003738 begin
+        // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003738 end
+
+        return (string) $returnValue;
     }
 
 } /* end of class tao_helpers_translation_RDFTranslationFile */
