@@ -50,7 +50,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleNameElt->setValue('mytao');
 		$moduleNameElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 1, 'max' => 15))
+			tao_helpers_form_FormFactory::getValidator('Length', array('min' => 1, 'max' => 63))
 		));
 		
 		$this->form->addElement($moduleNameElt);
@@ -60,7 +60,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleHostElt->setDescription('Host *');
 		$moduleHostElt->setHelp("The host will be used in the module's namespace (http://HOST/module name.rdf#)." .  
 													 "It must not be necessarily the host name of your web server.");
-                $moduleHostElt->setValue($_SERVER['HTTP_HOST']);
+        $moduleHostElt->setValue($_SERVER['HTTP_HOST']);
 		$moduleHostElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 			tao_helpers_form_FormFactory::getValidator('Url'),
