@@ -3,14 +3,14 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao\helpers\translation\class.RDFTranslationUnit.php
+ * TAO - tao/helpers/translation/class.RDFTranslationUnit.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 02.02.2012, 11:08:15 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 06.02.2012, 22:30:42 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
@@ -142,6 +142,46 @@ class tao_helpers_translation_RDFTranslationUnit
         // section 10-13-1-85--1df98728:1353d86f548:-8000:0000000000003A63 begin
         $this->predicate = $predicate;
         // section 10-13-1-85--1df98728:1353d86f548:-8000:0000000000003A63 end
+    }
+
+    /**
+     * Checks whether or not a given RDFTranslationUnit has the same subject
+     * value as the current instance.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  RDFTranslationUnit translationUnit
+     * @return boolean
+     */
+    public function hasSameTranslationUnitSubject( tao_helpers_translation_RDFTranslationUnit $translationUnit)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--60155064:1355488bb4c:-8000:0000000000003707 begin
+        $returnValue = $this->getSubject() == $translationUnit->getSubject();
+        // section 127-0-1-1--60155064:1355488bb4c:-8000:0000000000003707 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Checks whether or not a given RDFTranslationUnit has the same predicate
+     * value as the current instance.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  RDFTranslationUnit translationUnit
+     * @return boolean
+     */
+    public function hasSameTranslationUnitPredicate( tao_helpers_translation_RDFTranslationUnit $translationUnit)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--60155064:1355488bb4c:-8000:000000000000370E begin
+        $returnValue = $this->getPredicate() == $translationUnit->getPredicate();
+        // section 127-0-1-1--60155064:1355488bb4c:-8000:000000000000370E end
+
+        return (bool) $returnValue;
     }
 
 } /* end of class tao_helpers_translation_RDFTranslationUnit */

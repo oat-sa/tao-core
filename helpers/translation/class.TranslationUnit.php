@@ -91,7 +91,7 @@ class tao_helpers_translation_TranslationUnit
      * Gets the source text.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public function getSource()
@@ -109,7 +109,7 @@ class tao_helpers_translation_TranslationUnit
      * Gets the target text.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public function getTarget()
@@ -127,7 +127,7 @@ class tao_helpers_translation_TranslationUnit
      * Sets the source text.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string source
      * @return mixed
      */
@@ -142,7 +142,7 @@ class tao_helpers_translation_TranslationUnit
      * Sets the target text.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string target
      * @return mixed
      */
@@ -157,7 +157,7 @@ class tao_helpers_translation_TranslationUnit
      * Creates a new instance of Translation Unit with specific source & target.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string source
      * @param  string target
      * @return mixed
@@ -178,7 +178,7 @@ class tao_helpers_translation_TranslationUnit
      * Short description of method setSourceLanguage
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string sourceLanguage
      * @return mixed
      */
@@ -193,7 +193,7 @@ class tao_helpers_translation_TranslationUnit
      * Short description of method setTargetLanguage
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string targetLanguage
      * @return mixed
      */
@@ -208,7 +208,7 @@ class tao_helpers_translation_TranslationUnit
      * Short description of method getSourceLanguage
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public function getSourceLanguage()
@@ -226,7 +226,7 @@ class tao_helpers_translation_TranslationUnit
      * Short description of method getTargetLanguage
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public function getTargetLanguage()
@@ -244,7 +244,7 @@ class tao_helpers_translation_TranslationUnit
      * Short description of method __toString
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public function __toString()
@@ -263,7 +263,7 @@ class tao_helpers_translation_TranslationUnit
      * Short description of method hasSameTranslationUnitSource
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  TranslationUnit translationUnit
      * @return boolean
      */
@@ -282,7 +282,7 @@ class tao_helpers_translation_TranslationUnit
      * Short description of method hasSameTranslationUnitTarget
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  TranslationUnit translationUnit
      * @return boolean
      */
@@ -293,6 +293,46 @@ class tao_helpers_translation_TranslationUnit
         // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:0000000000003232 begin
         $returnValue = $this->getTarget() == $translationUnit->getTarget();
         // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:0000000000003232 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Checks whether or not a given TranslationUnit has the same source
+     * than the current instance.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  TranslationUnit translationUnit
+     * @return boolean
+     */
+    public function hasSameTranslationUnitSourceLanguage( tao_helpers_translation_TranslationUnit $translationUnit)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--60155064:1355488bb4c:-8000:0000000000003712 begin
+        $returnValue = $this->getSourceLanguage() == $translationUnit->getSourceLanguage();
+        // section 127-0-1-1--60155064:1355488bb4c:-8000:0000000000003712 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Checks whether or not a given TranslationUnit has the same target
+     * than the current instance.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  TranslationUnit translationUnit
+     * @return boolean
+     */
+    public function hasSameTranslationUnitTargetLanguage( tao_helpers_translation_TranslationUnit $translationUnit)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1--60155064:1355488bb4c:-8000:0000000000003715 begin
+        $returnValue = $this->getTargetLanguage() == $translationUnit->getTargetLanguage();
+        // section 127-0-1-1--60155064:1355488bb4c:-8000:0000000000003715 end
 
         return (bool) $returnValue;
     }

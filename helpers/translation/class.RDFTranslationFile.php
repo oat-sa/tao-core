@@ -65,6 +65,23 @@ class tao_helpers_translation_RDFTranslationFile
     public function addTranslationUnit( tao_helpers_translation_TranslationUnit $translationUnit)
     {
         // section 10-13-1-85-6e73505d:1353d49e194:-8000:0000000000003A5F begin
+        // We override the default behaviour because for RDFTranslationFiles, TranslationUnits are
+        // unique by concatening the following attributes:
+        // - RDFTranslationUnit::subject
+        // - RDFTranslationUnit::predicate
+        // - RDFTranslationUnit::targetLanguage
+        foreach ($this->getTranslationUnits() as $tu) {
+        	if ($tu->hasSameTranslationUnitSubject($translationUnit) && 
+        		$tu->hasSameTranslationUnitPredicate($translationUnit) &&
+				$tu->hasSameTranslationUnitTargetLanguage($translationUnit)) {
+					// Dismissed.
+					return;
+				}
+        }
+		
+		// If we are executing this, we can add the TranslationUnit to this TranslationFile.
+		$translationUnit->setSourceLanguage($this->getSourceLanguage());
+		array_push($this->getTranslationUnits(), $translationUnit);
         // section 10-13-1-85-6e73505d:1353d49e194:-8000:0000000000003A5F end
     }
 

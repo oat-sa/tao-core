@@ -946,6 +946,17 @@ class tao_scripts_TaoTranslate
     protected function checkAuthInput()
     {
         // section 127-0-1-1-3599ab3f:135546c24af:-8000:0000000000003704 begin
+        $defaults = array('login' => null,
+						  'password' => null);
+						  
+		$this->options = array_merge($defaults, $this->options);
+		
+		if ($this->options['login'] == null) {
+			$this->err("Please provide a value for the 'login' parameter.", true);
+		}
+		else if ($this->options['password'] == null) {
+			$this->err("Please provide a value for the 'password' parameter.", true);
+		}
         // section 127-0-1-1-3599ab3f:135546c24af:-8000:0000000000003704 end
     }
 
