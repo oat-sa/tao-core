@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 06.02.2012, 23:02:19 with ArgoUML PHP module 
+ * Automatically generated on 06.02.2012, 23:12:45 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -58,7 +58,7 @@ class tao_helpers_translation_RDFTranslationFile
      * @access private
      * @var array
      */
-    private $namespaces = array();
+    private $namespaces = array(array('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'));
 
     /**
      * The namespace to which the translations belongs to.
@@ -114,6 +114,7 @@ class tao_helpers_translation_RDFTranslationFile
     public function setNamespaces($namespaces)
     {
         // section 127-0-1-1-3e81866c:13554a02309:-8000:000000000000371D begin
+        $this->namespaces = $namespaces;
         // section 127-0-1-1-3e81866c:13554a02309:-8000:000000000000371D end
     }
 
@@ -130,6 +131,14 @@ class tao_helpers_translation_RDFTranslationFile
     public function addNamespace($namespace)
     {
         // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003721 begin
+        foreach ($this->getNamespaces() as $ns) {
+        	if ($ns['prefix'] == $namespace['prefix']) {
+        		// This namespace is already registered.
+        		return;
+        	}
+        }
+		
+		array_push($this->namespaces, $namespace);
         // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003721 end
     }
 
@@ -147,6 +156,12 @@ class tao_helpers_translation_RDFTranslationFile
     public function removeNamespace($namespace)
     {
         // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003725 begin
+        foreach ($this->getNamespaces() as $ns) {
+        	if ($ns['prefix'] == $namespace['prefix']) {
+        		unset($ns);
+				break;
+        	}
+        }
         // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003725 end
     }
 
@@ -162,6 +177,7 @@ class tao_helpers_translation_RDFTranslationFile
         $returnValue = array();
 
         // section 127-0-1-1-3e81866c:13554a02309:-8000:000000000000372D begin
+        $returnValue = $this->namespaces;
         // section 127-0-1-1-3e81866c:13554a02309:-8000:000000000000372D end
 
         return (array) $returnValue;
@@ -178,6 +194,7 @@ class tao_helpers_translation_RDFTranslationFile
     public function setBase($base)
     {
         // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003731 begin
+        $this->base = $base;
         // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003731 end
     }
 
@@ -193,6 +210,7 @@ class tao_helpers_translation_RDFTranslationFile
         $returnValue = (string) '';
 
         // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003738 begin
+        $returnValue = $this->base;
         // section 127-0-1-1-3e81866c:13554a02309:-8000:0000000000003738 end
 
         return (string) $returnValue;
