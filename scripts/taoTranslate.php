@@ -51,6 +51,18 @@ new tao_scripts_TaoTranslate(array(
 			'type' => 'string',
 			'shortcut' => 'e',
 			'description' => 'The TAO extension for which the script will apply'
+		),
+		array(
+			'name' => 'login',
+			'type' => 'string',
+			'shortcut' => 'l',
+			'description' => 'TAO API login when the action you invoke needs authentication. This login must be bound to a super-user account'
+		),
+		array(
+			'name' => 'password',
+			'type' => 'string',
+			'shorcut' => 'p',
+			'description' => 'TAO API password when the action you invoke needs authentication.'
 		)
 	)
 ));
