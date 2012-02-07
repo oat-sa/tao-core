@@ -20,7 +20,7 @@ AsyncFileUpload = function(elt, options){
 			"multiple"	: false,
 			"buttonText": __('Browse'),
 			"folder"    : "/",
-			onCancel	: function(event, ID, fileObj, data){
+			"onCancel"	: function(event, ID, fileObj, data){
 				var name = $('#' + $(elt).attr('id') + ID).find('span.fileObj:first').text();
 				$.post(root_url + "/tao/File/cancelUpload", {filename: name, folder: "/"});
 				return true;
