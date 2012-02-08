@@ -9,8 +9,8 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 08.02.2012, 14:08:58 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 08.02.2012, 15:20:59 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
@@ -151,11 +151,11 @@ class tao_helpers_data_CsvFile
     /**
      * Short description of method getColumnMapping
      *
-     * @access protected
+     * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return array
      */
-    protected function getColumnMapping()
+    public function getColumnMapping()
     {
         $returnValue = array();
 
@@ -177,15 +177,64 @@ class tao_helpers_data_CsvFile
     public function load($path)
     {
         // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AE7 begin
-        if (!is_file($path)) {
+        if (!is_file($path)){
         	throw new InvalidArgumentException("Expected CSV file '${path}' could not be open.");
         }
-        else if (!is_readable($path)) {
+        else if (!is_readable($path)){
         	throw new InvalidArgumentException("CSV file '${path}' is not readable.");	
         }
-        else {
+        else{
         	// Let's try to read this !
-        		
+	        $fields = array();
+	        $data = array();
+	        
+	        // More readable variables
+	    	$WRAP  = preg_quote($this->options['field_encloser'], '/');
+			$DELIM = $this->options['field_delimiter'];
+			$BREAK = PHP_EOL;
+			$MULTI = $this->options['multi_values_delimiter'];
+			
+			
+			$rows = explode($BREAK, file_get_contents($path));
+			
+			if ($this->options['first_row_column_names']){
+				
+				$fields = explode($DELIM, $rows[0]);
+				foreach($fields as $i => $field){
+					$fieldData = preg_replace("/^$WRAP/", '', $field);
+					$fieldData = preg_replace("/$WRAP$/", '', $fieldData);
+					$fields[$i] = $fieldData;
+				}
+				
+				// We got the column mapping.
+				$this->setColumnMapping($fields);
+				unset($rows[0]); // Unset to avoid processing below.
+			}
+			else if (isset($this->options['column_order'])){
+				$fields = $this->options['column_order'];
+			}
+			
+			$lineNumber = 0;
+			foreach ($rows as  $row){
+				if (trim($row) != ''){
+					$data[$lineNumber] = array();
+					
+					$rowFields = explode($DELIM, $row);
+					for ($i = 0; $i < count($rowFields); $i++){
+						$fieldData = preg_replace("/^$WRAP/", '', $rowFields[$i]);
+						$fieldData = preg_replace("/$WRAP$/", '', $fieldData);
+						// If there is nothing in the cell, replace by null for
+						// abstraction consistency.
+						if ($fieldData == ''){
+							$fieldData = null;	
+						}
+						$data[$lineNumber][$i] = $fieldData;
+					}	
+					$lineNumber++;
+				}
+			}
+			
+			$this->setData($data);
         }
         // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AE7 end
     }
@@ -238,17 +287,28 @@ class tao_helpers_data_CsvFile
 
         // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B02 begin
         $data = $this->getData();
-        if (isset($data[$index])) {
+        if (isset($data[$index])){
         	if ($associative == false) {
         		$returnValue = $data[$index];	
         	}
-        	else {
-        		if (count($this->columnMapping)) {
+        	else{
+        		$mapping = $this->getColumnMapping();
+        	
+        		if (!count($mapping)){
+        			// Trying to access by column name but no mapping detected.
         			throw new InvalidArgumentException("Cannot access column mapping for this CSV file.");	
+        		}
+        		else{
+        			$mappedRow = array();
+        			for ($i = 0; $i < count($mapping); $i++){
+        				$mappedRow[$mapping[$i]] = $data[$index][$i];
+        			}
+        			
+        			$returnValue = $mappedRow;
         		}
         	}
         }
-        else {
+        else{
         	throw new InvalidArgumentException("No row at index ${index}.");	
         }
         // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B02 end
@@ -289,15 +349,15 @@ class tao_helpers_data_CsvFile
 
         // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B2D begin
         $data = $this->getData();
-        if (isset($data[$row][$col])) {
+        if (isset($data[$row][$col])){
         	$returnValue = $data[$row][$col];	
         }
-        else if (isset($data[$row]) && is_string($col)) {
+        else if (isset($data[$row]) && is_string($col)){
         	// try to access by col name.
         	$mapping = $this->getColumnMapping();
-        	for ($i = 0; $i < count($mapping); $i++) {
+        	for ($i = 0; $i < count($mapping); $i++){
         		
-        		if ($mapping[$i] == $col && isset($data[$row][$col])) {
+        		if ($mapping[$i] == $col && isset($data[$row][$col])){
         			// Column with name $col extists.
         			$returnValue = $data[$row][$col];
         		}
@@ -325,14 +385,14 @@ class tao_helpers_data_CsvFile
     {
         // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B33 begin
         $data = $this->getData();
-        if (isset($data[$row][$col])) {
+        if (isset($data[$row][$col])){
         	$this->data[$row][$col] = $value;	
-        } else if (isset($data[$row]) && is_string($col)) {
+        } else if (isset($data[$row]) && is_string($col)){
         	// try to access by col name.
         	$mapping = $this->getColumnMapping();
-        	for ($i = 0; $i < count($mapping); $i++) {
+        	for ($i = 0; $i < count($mapping); $i++){
         		
-        		if ($mapping[$i] == $col && isset($data[$row][$col])) {
+        		if ($mapping[$i] == $col && isset($data[$row][$col])){
         			// Column with name $col extists.
         			$this->data[$row][$col] = $value;
         		}
@@ -341,7 +401,7 @@ class tao_helpers_data_CsvFile
         	// Not found.
         	throw new InvalidArgumentException("Unknown column ${col}");
         }
-        else {
+        else{
         	throw new InvalidArgumentException("No value at ${row},${col}.");	
         }
         // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B33 end

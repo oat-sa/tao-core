@@ -49,6 +49,14 @@ class tao_helpers_data_GenerisAdapterCsv
 
     // --- ATTRIBUTES ---
 
+    /**
+     * Short description of attribute loadedFile
+     *
+     * @access private
+     * @var CsvFile
+     */
+    private $loadedFile = null;
+
     // --- OPERATIONS ---
 
     /**
@@ -104,71 +112,24 @@ class tao_helpers_data_GenerisAdapterCsv
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string csvFile
-     * @return array
+     * @return tao_helpers_data_CsvFile
      */
     public function load($csvFile)
     {
-        $returnValue = array();
+        $returnValue = null;
 
         // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002401 begin
-        
-        if(!file_exists($csvFile)){
-        	throw new Exception("$csvFile not found");
-        }   
-        $fields = array();
-        
-        //more readable vars
-    	$WRAP  = preg_quote($this->options['field_encloser'], '/');
-		$DELIM = $this->options['field_delimiter'];
-		$BREAK = PHP_EOL;
-		$MULTI = $this->options['multi_values_delimiter'];
-		
-		
-		$rows = explode($BREAK, file_get_contents($csvFile));
-		
-		if($this->options['first_row_column_names']){
-			
-			$fields = explode($DELIM, $rows[0]);
-			foreach($fields as $i => $field){
-				$fieldData = preg_replace("/^$WRAP/", '', $field);
-				$fieldData = preg_replace("/$WRAP$/", '', $fieldData);
-				$fields[$i] = $fieldData;
-			}
-			unset($rows[0]);
-		}
-		else if(isset($this->options['column_order'])){
-			$fields = $this->options['column_order'];
-		}
-		if(count($fields) == 0){
-			throw new Exception("No column is identified by the 1st row or by the column order field");
-		}
-		
-		$lineNumber = 0;
-		foreach($rows as  $row){
-			if(trim($row) != ''){
-				$returnValue[$lineNumber] = array();
-				
-				$rowFields = explode($DELIM, $row);
-				$i = 0;
-				foreach($fields as $field){
-					$fieldData = preg_replace("/^$WRAP/", '', $rowFields[$i]);
-					$fieldData = preg_replace("/$WRAP$/", '', $fieldData);
-					$returnValue[$lineNumber][$field] = $fieldData;
-					$i++;
-				}	
-				$lineNumber++;
-			}
-		}
-        
-		
+		$csv = new tao_helpers_data_CsvFile($this->options);
+		$csv->load($csvFile);
+		$this->loadedFile = $csv;
+		$returnValue = $this->loadedFile;
         // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002401 end
 
-        return (array) $returnValue;
+        return $returnValue;
     }
 
     /**
-     * Import a csv file (the source is the path of the file) into the
-     * Class.
+     * Imports the currently loaded CsvFile into the destination Class.
      * The map should be set in the options before executing it.
      *
      * @access public
@@ -184,67 +145,67 @@ class tao_helpers_data_GenerisAdapterCsv
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CAE begin
         
     	if(!isset($this->options['map'])){
-        	throw new Exception("import map not set");
+        	throw new BadFunctionCallException("import map not set");
         }
         if(is_null($destination)){
-        	throw new Exception("$destination must be a valid core_kernel_classes_Class");
+        	throw new InvalidArgumentException("${destination} must be a valid core_kernel_classes_Class");
         }
-        
+
         $csvData = $this->load($source);
         
         $createdResources = 0;
         $rangeProperty = new core_kernel_classes_Property(RDFS_RANGE);
-    
-		foreach($csvData as $csvRow){
-			if(is_array($csvRow)){
-				$resource = null;
-				
-				//create the instance with the label defined in the map 
-				$label = $this->options['map'][RDFS_LABEL];
-				
-				if($label != 'empty' && $label != null){
-					if(isset($csvRow[$label])){
-						$resource = $destination->createInstance($csvRow[$label]);
-					}
+        
+    	for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++){
+		//foreach($csvData as $csvRow){
+			$resource = null;
+			$csvRow = $csvData->getRow($rowIterator, true);
+			
+			//create the instance with the label defined in the map 
+			$label = $this->options['map'][RDFS_LABEL];
+			
+			if($label != 'empty' && $label != null){
+				if(isset($csvRow[$label])){
+					$resource = $destination->createInstance($csvRow[$label]);
 				}
-				if(is_null($resource)){
-					$resource = $destination->createInstance();
-				}				
-				if($resource instanceof core_kernel_classes_Resource){
+			}
+			if(is_null($resource)){
+				$resource = $destination->createInstance();
+			}				
+			if($resource instanceof core_kernel_classes_Resource){
+				
+				//import the value of each column into the property defined in the map 
+				foreach($this->options['map'] as $propUri => $csvColumn){
 					
-					//import the value of each column into the property defined in the map 
-					foreach($this->options['map'] as $propUri => $csvColumn){
+					if ($propUri != RDFS_LABEL) { // Already set at resource instantiation
+					
+						$targetProperty = new core_kernel_classes_Property($propUri);
+						$ranges = $targetProperty->getPropertyValues($rangeProperty);
+						if (count($ranges) > 0) {
+							// @todo support multi-valued ranges in CSV import.
+							$range = new core_kernel_classes_Resource($ranges[0]);
+						} 
+						else {
+							$range = null;	
+						}
 						
-						if ($propUri != RDFS_LABEL) { // Already set at resource instantiation
+						$targetProperty = new core_kernel_classes_Property($propUri);
 						
-							$targetProperty = new core_kernel_classes_Property($propUri);
-							$ranges = $targetProperty->getPropertyValues($rangeProperty);
-							if (count($ranges) > 0) {
-								// @todo support multi-valued ranges in CSV import.
-								$range = new core_kernel_classes_Resource($ranges[0]);
-							} 
-							else {
-								$range = null;	
-							}
-							
-							$targetProperty = new core_kernel_classes_Property($propUri);
-							
-							if ($range = null || $range->uriResource = RDFS_LITERAL) {
-								// Deal with the column value as a literal.
-								$this->importLiteral($targetProperty, $resource, $csvRow, $csvColumn);
-							}
-							else {
-								// Deal with the column value as a resource existing in the Knowledge Base.
-								$this->importResource($targetProperty, $resource, $csvRow, $csvColumn, $this->options['staticMap']);
-							}
+						if ($range = null || $range->uriResource = RDFS_LITERAL) {
+							// Deal with the column value as a literal.
+							$this->importLiteral($targetProperty, $resource, $csvRow, $csvColumn);
+						}
+						else {
+							// Deal with the column value as a resource existing in the Knowledge Base.
+							$this->importResource($targetProperty, $resource, $csvRow, $csvColumn, $this->options['staticMap']);
 						}
 					}
-					
-					// Deal with default values.
-					$this->importStaticData($this->options['staticMap'], $this->options['map'], $resource);
-					
-					$createdResources++;
 				}
+				
+				// Deal with default values.
+				$this->importStaticData($this->options['staticMap'], $this->options['map'], $resource);
+				
+				$createdResources++;
 			}
 		}
         
@@ -266,16 +227,16 @@ class tao_helpers_data_GenerisAdapterCsv
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class source
-     * @return string
+     * @return boolean
      */
     public function export( core_kernel_classes_Class $source = null)
     {
-        $returnValue = (string) '';
+        $returnValue = (bool) false;
 
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CB2 begin
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CB2 end
 
-        return (string) $returnValue;
+        return (bool) $returnValue;
     }
 
     /**
@@ -455,6 +416,37 @@ class tao_helpers_data_GenerisAdapterCsv
         	}
         }
         // section -64--88-1-7-8ffecec:132b9750df2:-8000:000000000000306C end
+    }
+
+    /**
+     * Sets the currently loaded CsvFile.
+     *
+     * @access protected
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  CsvFile csvFile
+     * @return void
+     */
+    protected function setCsvFile( tao_helpers_data_CsvFile $csvFile)
+    {
+        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AC9 begin
+        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AC9 end
+    }
+
+    /**
+     * Gets the currently loaded CsvFile.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return tao_helpers_data_CsvFile
+     */
+    public function getCsvFile()
+    {
+        $returnValue = null;
+
+        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003ACC begin
+        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003ACC end
+
+        return $returnValue;
     }
 
 } /* end of class tao_helpers_data_GenerisAdapterCsv */

@@ -210,50 +210,58 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			$csv_data = $adapter->load($importData['file']);
 			
 			//build the mapping form 
-			$myFormContainer = new tao_actions_form_CSVMapping(array(), array(
-				'class_properties'  => $properties,
-				'ranged_properties'	=> $rangedProperties,
-				'csv_column'		=> array_keys($csv_data[0])
-			));
-			$myForm = $myFormContainer->getForm();
-			if($myForm->isSubmited()){
-				if($myForm->isValid()){
+			if ($csv_data->count()) {
+				$myFormContainer = new tao_actions_form_CSVMapping(array(), array(
+					'class_properties'  => $properties,
+					'ranged_properties'	=> $rangedProperties,
+					'csv_column'		=> $csv_data->getColumnMapping()
+				));
+				
+				$myForm = $myFormContainer->getForm();
+				if($myForm->isSubmited()){
 					
-					// set the mapping to the adapter
-					// Clean "select" values from form view.
-					// Transform any "select" in "null" in order to
-					// have the same importation behaviour for both because
-					// semantics are the same.
-					$map = $myForm->getValues('property_mapping');
-					$newMap = array();
-					
-					foreach($map as $k => $m) {
-						if ($m !== 'select') {
-							$newMap[$k] = $map[$k];
-						}
-						else {
-							$newMap[$k] = 'null';
-						}
-					}
-					
-					$adapter->addOption('map', $newMap);
-					$adapter->addOption('staticMap', array_merge($myForm->getValues('ranged_property'), $this->staticData));
-					
-					//import it!
-					if($adapter->import($importData['file'], $clazz)){
-						$this->setData('message', __('Data imported successfully'));
-						$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
-						$this->removeSessionAttribute('classUri');
-						$this->setData('reload', true);
+					if($myForm->isValid()){
 						
-						@unlink($importData['file']);
+						// set the mapping to the adapter
+						// Clean "select" values from form view.
+						// Transform any "select" in "null" in order to
+						// have the same importation behaviour for both because
+						// semantics are the same.
+						$map = $myForm->getValues('property_mapping');
+						$newMap = array();
+						
+						foreach($map as $k => $m) {
+							if ($m !== 'select') {
+								$newMap[$k] = $map[$k];
+							}
+							else {
+								$newMap[$k] = 'null';
+							}
+						}
+						
+						$adapter->addOption('map', $newMap);
+						$adapter->addOption('staticMap', array_merge($myForm->getValues('ranged_property'), $this->staticData));
+						
+						//import it!
+						if($adapter->import($importData['file'], $clazz)){
+							$this->setData('message', __('Data imported successfully'));
+							$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
+							$this->removeSessionAttribute('classUri');
+							$this->setData('reload', true);
+							
+							@unlink($importData['file']);
+						}
 					}
 				}
+				
+				$this->setData('myForm', $myForm->render());
+				$this->setData('formTitle', __('Import into ').$clazz->getLabel());
+				$this->setView('form.tpl', true);
 			}
-			
-			$this->setData('myForm', $myForm->render());
-			$this->setData('formTitle', __('Import into ').$clazz->getLabel());
-			$this->setView('form.tpl', true);
+			else {
+				// Nothing was retrieved.
+				$this->redirect('index');
+			}
 		}
 	}
 }
