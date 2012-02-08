@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Adapter for CSV format
  *
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @deprecated
  * @package tao
  * @subpackage helpers_data
@@ -20,7 +20,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * It provides the default prototype to adapt the data import/export from/to any
  * format.
  *
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  */
 require_once('tao/helpers/data/class.GenerisAdapter.php');
 
@@ -36,7 +36,7 @@ require_once('tao/helpers/data/class.GenerisAdapter.php');
  * Adapter for CSV format
  *
  * @access public
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @deprecated
  * @package tao
  * @subpackage helpers_data
@@ -52,10 +52,17 @@ class tao_helpers_data_GenerisAdapterCsv
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
+     * Instantiates a new tao_helpers_data_GenerisAdapterCSV. The $options array
+     * an associative array formated like this:
+     * array('field_delimiter' => 'a delimiter char', default is ;,
+     * 'field_encloser' => 'a field encloser char, default is "',
+     * 'line_break' => 'linebreak escaping sequence, default is \n',
+     * 'multi_values_delimiter' => 'a multi values delimiter, default is |',
+     * 'first_row_column_names' => 'boolean value describing if the first row
+     * column names').
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -95,7 +102,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * the options
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string csvFile
      * @return array
      */
@@ -165,7 +172,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * The map should be set in the options before executing it.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string source
      * @param  Class destination
      * @return boolean
@@ -257,7 +264,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * Short description of method export
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class source
      * @return string
      */
@@ -275,7 +282,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * Short description of method importLiteral
      *
      * @access private
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Property targetProperty
      * @param  Resource targetResource
      * @param  string csvRow
@@ -303,7 +310,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * Short description of method importResource
      *
      * @access private
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Property targetProperty
      * @param  Resource targetResource
      * @param  string csvRow
@@ -350,7 +357,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * Short description of method importStaticData
      *
      * @access private
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array staticMap
      * @param  array map
      * @param  Resource resource
@@ -381,7 +388,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * Short description of method applyCallbacks
      *
      * @access private
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string value
      * @param  array options
      * @param  Property targetProperty
@@ -416,7 +423,7 @@ class tao_helpers_data_GenerisAdapterCsv
      * Short description of method attachResource
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Property targetProperty
      * @param  Resource targetResource
      * @param  string value
