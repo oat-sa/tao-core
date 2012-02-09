@@ -84,7 +84,7 @@ class tao_helpers_form_elements_xhtml_Combobox
 		}
 		foreach($this->options as $optionId => $optionLabel){
 			 $returnValue .= "<option value='{$optionId}' ";
-			 if($this->value == $optionId){
+			 if($this->value === $optionId){
 			 	$returnValue .= " selected='selected' ";
 			 }
 			 $returnValue .= ">"._dh($optionLabel)."</option>";

@@ -210,13 +210,37 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			
 			//build the mapping form 
 			if ($csv_data->count()) {
+				
+				// 'class properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel') describing properties belonging to the target class.
+				// 'ranged properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel')  describing properties belonging to the target class and that have a range.
+				// 'csv_column' contains an array(int:columnIndex => 'str:columnLabel') that will be used to create the selection of possible CSV column to map in views.
+				// 'csv_column' might have NULL values for 'str:columnLabel' meaning that there was no header row with column names in the CSV file. 
+				
+				// Format the column mapping option for the form.
+				$csvColMapping = array();
+				if (true == $importData['options']['first_row_column_names'] && null != $csv_data->getColumnMapping()){
+					// set the column label for each entry.
+					// $csvColMapping = array('label', 'comment', ...)
+					$csvColMapping = $csv_data->getColumnMapping();
+				}
+				else{
+					// set an empty value for each entry of the array
+					// to describe that column names are unknown.
+					// $csvColMapping = array(null, null, ...)
+					for ($i = 0; $i < $csv_data->getColumnCount(); $i++) {
+						$csvColMapping[$i] = null;
+					}
+				}
+				
 				$myFormContainer = new tao_actions_form_CSVMapping(array(), array(
-					'class_properties'  => $properties,
-					'ranged_properties'	=> $rangedProperties,
-					'csv_column'		=> $csv_data->getColumnMapping()
+					'class_properties'  		=> $properties,
+					'ranged_properties'			=> $rangedProperties,
+					'csv_column'				=> $csvColMapping,
+					'first_row_column_names'	=> $importData['options']['first_row_column_names']
 				));
 				
 				$myForm = $myFormContainer->getForm();
+				
 				if($myForm->isSubmited()){
 					
 					if($myForm->isValid()){

@@ -89,8 +89,20 @@ class tao_actions_form_CSVMapping
     	
     	$columnsOptions =  array();
     	$columnsOptions['select'] = ' --- '.__('Select').' --- ';
-    	foreach($this->options['csv_column'] as $i => $column){
-    		$columnsOptions[$column] = __('Column')." $i : ".$column;
+    	
+    	// We build the list of CSV columns that can be mapped to
+    	// the target class properties. 
+    	if ($this->options['first_row_column_names']){
+	    	foreach($this->options['csv_column'] as $i => $column){
+	    		$columnsOptions[$i] = __('Column') . ' ' . ($i + 1) . ' : ' . $column;
+	    	}
+    	}
+    	else{
+    		// We do not know column so we display more neutral information
+    		// about columns to the end user.
+    		for ($i = 0; $i < count($this->options['csv_column']); $i++){
+	    		$columnsOptions[$i] = __('Column') . ' ' . ($i + 1);
+	    	}
     	}
     	$columnsOptions['empty'] = __('Empty');
     	$columnsOptions['null']  = __("Don't set");
@@ -101,6 +113,7 @@ class tao_actions_form_CSVMapping
     		$propElt = tao_helpers_form_FormFactory::getElement($propertyUri, 'Combobox');
     		$propElt->setDescription($propertyLabel);
     		$propElt->setOptions($columnsOptions);
+    		$propElt->setValue('select');
     		
     		$this->form->addElement($propElt);
     		

@@ -28,6 +28,7 @@ class AdaptersTestCase extends UnitTestCase {
 								 'UserDefLg');
 		$this->assertEqual($expectedMapping, $csvFile->getColumnMapping(), 'The column mapping should be ' . var_export($expectedMapping, true) . '.');
 		$this->assertEqual($csvFile->count(), 16, 'The CSV file contains ' . $csvFile->count() . ' rows instead of 16.');
+		$this->assertEqual($csvFile->getColumnCount(), 8, 'The CSV file contains ' . $csvFile->getColumnCount() . ' columns instead of 8.');
 		
 		// - test some row retrievals.
 		$expectedRow = array('TAO Jérôme Bogaerts',
@@ -61,6 +62,7 @@ class AdaptersTestCase extends UnitTestCase {
 		$expectedMapping = array();
 		$this->assertEqual($expectedMapping, $csvFile->getColumnMapping(), 'The column mapping should be ' . var_export($expectedMapping, true) . '.');
 		$this->assertEqual($csvFile->count(), 16, 'The CSV file contains ' . $csvFile->count() . ' rows instead of 16.');
+		$this->assertEqual($csvFile->getColumnCount(), 8, 'The CSV file contains ' . $csvFile->getColumnCount() . ' columns instead of 8.');
 		
 		// - test some row retrievals.
 		$expectedRow = array('TAO Jérôme Bogaerts',

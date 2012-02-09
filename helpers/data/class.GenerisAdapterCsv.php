@@ -157,9 +157,10 @@ class tao_helpers_data_GenerisAdapterCsv
         $rangeProperty = new core_kernel_classes_Property(RDFS_RANGE);
         
     	for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++){
-		//foreach($csvData as $csvRow){
+    		common_Logger::t("CSV - Importing CSV row ${rowIterator}.");
+    		
 			$resource = null;
-			$csvRow = $csvData->getRow($rowIterator, true);
+			$csvRow = $csvData->getRow($rowIterator);
 			
 			//create the instance with the label defined in the map 
 			$label = $this->options['map'][RDFS_LABEL];
@@ -167,13 +168,16 @@ class tao_helpers_data_GenerisAdapterCsv
 			if($label != 'empty' && $label != null){
 				if(isset($csvRow[$label])){
 					$resource = $destination->createInstance($csvRow[$label]);
+					common_Logger::t("CSV - Resource creation with label");
 				}
 			}
 			if(is_null($resource)){
 				$resource = $destination->createInstance();
-			}				
+				common_Logger::t("CSV - Resource creation without label");
+			}
+							
 			if($resource instanceof core_kernel_classes_Resource){
-				
+				common_Logger::t("CSV - Resource successfuly created");
 				//import the value of each column into the property defined in the map 
 				foreach($this->options['map'] as $propUri => $csvColumn){
 					
