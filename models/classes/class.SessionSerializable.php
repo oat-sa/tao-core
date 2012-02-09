@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 03.02.2012, 11:06:37 with ArgoUML PHP module 
+ * Automatically generated on 09.02.2012, 11:27:25 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -123,31 +123,29 @@ abstract class tao_models_classes_SessionSerializable
         $this->serializedProperties = array();
         $reflection = new ReflectionClass($this);
 		foreach($reflection->getProperties() as $property){
-			if(!$property->isStatic()){
+			//assuming that private properties don't contain serializables
+			if(!$property->isStatic() && !$property->isPrivate()) {
 				$propertyName = $property->getName();
 				$containsSerializable = false;
-				//assuming that private properties don't contain serializables
-				if (!$property->isPrivate()) {
-					$value = $this->$propertyName;
-					if (is_array($value)) {
-						$containsNonSerializable = false;
-						$serials = array();
-						foreach ($value as $key => $subvalue) {
-							if (is_object($subvalue) && $subvalue instanceof self) {
-								$containsSerializable = true; 
-								$serials[$key] = $subvalue->getSerial();
-							} else {
-								$containsNonSerializable = true;
-							}
+				$value = $this->$propertyName;
+				if (is_array($value)) {
+					$containsNonSerializable = false;
+					$serials = array();
+					foreach ($value as $key => $subvalue) {
+						if (is_object($subvalue) && $subvalue instanceof self) {
+							$containsSerializable = true; 
+							$serials[$key] = $subvalue->getSerial();
+						} else {
+							$containsNonSerializable = true;
 						}
-						if ($containsNonSerializable && $containsSerializable) {
-							throw new common_exception_Error('Serializable instances may not mix serializable and non serializable values in properties');
-						}
-					} else {
-						if (is_object($value) && $value instanceof self) {
-							$containsSerializable = true;
-							$serials = $value->getSerial();
-						}
+					}
+					if ($containsNonSerializable && $containsSerializable) {
+						throw new common_exception_Error('Serializable '.$this->getSerial().' mixed serializable and non serializable values in property '.$propertyName);
+					}
+				} else {
+					if (is_object($value) && $value instanceof self) {
+						$containsSerializable = true;
+						$serials = $value->getSerial();
 					}
 				}
 				if ($containsSerializable) {
@@ -201,22 +199,67 @@ abstract class tao_models_classes_SessionSerializable
 		if(!is_null($this->getCache())){
 			//clean session
 			$this->getCache()->remove($this);
-			$this->onRemove();
 		}
         // section 127-0-1-1-17e76cf9:1353916dbea:-8000:00000000000036CA end
     }
 
     /**
-     * Short description of method onRemove
+     * Short description of method getSuccessors
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return mixed
+     * @return array
      */
-    public function onRemove()
+    public function getSuccessors()
     {
-        // section 127-0-1-1-17e76cf9:1353916dbea:-8000:00000000000036E4 begin
-        // section 127-0-1-1-17e76cf9:1353916dbea:-8000:00000000000036E4 end
+        $returnValue = array();
+
+        // section 127-0-1-1-3c671cea:1355e11f1c8:-8000:00000000000037BA begin
+     	$reflection = new ReflectionClass($this);
+		foreach($reflection->getProperties() as $property){
+			if(!$property->isStatic() && !$property->isPrivate()){
+				$propertyName = $property->getName();
+				$value = $this->$propertyName;
+				if (is_array($value)) {
+					foreach ($value as $key => $subvalue) {
+						if (is_object($subvalue) && $subvalue instanceof self) {
+								$returnValue[] = $subvalue;
+						}
+					}
+				} elseif (is_object($value) && $value instanceof self) {
+						$returnValue[] = $value;
+					}
+				}
+		}
+        // section 127-0-1-1-3c671cea:1355e11f1c8:-8000:00000000000037BA end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method getPredecessors
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  string classFilter
+     * @return array
+     */
+    public function getPredecessors($classFilter = null)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--275ea774:1356198dc72:-8000:00000000000037BC begin
+		foreach ($this->getCache()->getAll() as $serial => $instance) {
+			
+			if (($classFilter == null || $instance instanceof $classFilter)
+				&& in_array($this, $instance->getSuccessors())) {
+				$returnValue[] = $instance;
+				break;
+			}
+		}
+        // section 127-0-1-1--275ea774:1356198dc72:-8000:00000000000037BC end
+
+        return (array) $returnValue;
     }
 
     /**
