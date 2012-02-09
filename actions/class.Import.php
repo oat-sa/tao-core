@@ -103,7 +103,6 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			
 			$parser->validate();
 			if(!$parser->isValid()){
-				echo "not valid";
 				$this->setData('importErrorTitle', __('Validation of the imported file has failed'));
 				$this->setData('importErrors', $parser->getErrors());
 			}
