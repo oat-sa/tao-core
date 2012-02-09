@@ -289,13 +289,9 @@ div#section-lg{
 div#ajax-loading{
 	z-index: 1000;
 	display: none;
+    opacity: 0.5;
+    background: #FFF url(/tao/views/img/ajax-loader.gif) no-repeat center center;
 }
-div#ajax-loading img{
-	position: absolute;
-	top: 45%;
-	left: 45%;
-}
-
 
 /* Results Manual Scoring Conciliation */
 form#coding_scoreconcil div#selectors {

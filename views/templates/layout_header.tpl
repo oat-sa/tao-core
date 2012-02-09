@@ -24,6 +24,4 @@
 
 	<? include 'header.tpl' ?>
 
-	<div id="ajax-loading" class="ui-widget-overlay">
-		<img src="<?=BASE_WWW?>img/ajax-loader.gif" alt="Loading..." />
-	</div>
+	<div id="ajax-loading" class="ui-widget-overlay"></div>
