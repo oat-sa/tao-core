@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 08.02.2012, 15:20:59 with ArgoUML PHP module 
+ * Automatically generated on 09.02.2012, 14:40:08 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -76,6 +76,15 @@ class tao_helpers_data_CsvFile
      */
     private $options = array();
 
+    /**
+     * The count of columns in the CsvFile. Will be updated at each row
+     * The largest count will be taken into account.
+     *
+     * @access private
+     * @var Integer
+     */
+    private $columnCount = null;
+
     // --- OPERATIONS ---
 
     /**
@@ -97,6 +106,7 @@ class tao_helpers_data_CsvFile
         				  'column_order' => null);
         
         $this->setOptions(array_merge($defaults, $options));
+        $this->setColumnCount(0);
         // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AD8 end
     }
 
@@ -229,7 +239,14 @@ class tao_helpers_data_CsvFile
 							$fieldData = null;	
 						}
 						$data[$lineNumber][$i] = $fieldData;
-					}	
+					}
+
+					// Update the column count.
+					$currentRowColumnCount = count($rowFields);
+					if ($this->getColumnCount() < $currentRowColumnCount){
+						$this->setColumnCount($currentRowColumnCount);
+					}
+					
 					$lineNumber++;
 				}
 			}
@@ -405,6 +422,39 @@ class tao_helpers_data_CsvFile
         	throw new InvalidArgumentException("No value at ${row},${col}.");	
         }
         // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B33 end
+    }
+
+    /**
+     * Gets the count of columns contained in the CsvFile.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return int
+     */
+    public function getColumnCount()
+    {
+        $returnValue = (int) 0;
+
+        // section 10-13-1-85-529882dc:13562475a8a:-8000:00000000000037C1 begin
+        $returnValue = $this->columnCount;
+        // section 10-13-1-85-529882dc:13562475a8a:-8000:00000000000037C1 end
+
+        return (int) $returnValue;
+    }
+
+    /**
+     * Sets the column count.
+     *
+     * @access protected
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  int count The column count.
+     * @return void
+     */
+    protected function setColumnCount($count)
+    {
+        // section 10-13-1-85-529882dc:13562475a8a:-8000:00000000000037C9 begin
+        $this->columnCount = $count;
+        // section 10-13-1-85-529882dc:13562475a8a:-8000:00000000000037C9 end
     }
 
 } /* end of class tao_helpers_data_CsvFile */
