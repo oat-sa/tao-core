@@ -16,13 +16,13 @@ require_once DIR_CORE_HELPERS . 'Core.php';
  *  - database
  *  - user
  *  - i18n
- * 
- * And it's used to disptach the Control Loop 
- * 
+ *
+ * And it's used to disptach the Control Loop
+ *
  * @author Bertrand CHEVRIER <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage includes
- * @example 
+ * @example
  * <code>
  *  $bootStrap = new BootStrap('tao');	//create the Bootstrap instance
  *  $bootStrap->start();				//start all the services
@@ -30,39 +30,39 @@ require_once DIR_CORE_HELPERS . 'Core.php';
  * </code>
  */
 class Bootstrap{
-	
+
 	const SESSION_NAME = 'TAO_BCK_SESSION';
-	
+
 	/**
 	 * @var string the contextual path
 	 */
 	protected $ctxPath = "";
-	
+
 	/**
 	 * @var array misc options
 	 */
 	protected $options;
-	
+
 	/**
 	 * @var boolean if the context has been started
 	 */
 	protected static $isStarted = false;
-	
+
 	/**
 	 * @var boolean if the context has been dispatched
 	 */
 	protected static $isDispatched = false;
-	
+
 	/**
 	 * @var boolean if the application is ready to answer
 	 */
 	protected static $isReady = false;
-	
+
 	/**
 	 * @var common_ext_SimpleExtension
 	 */
 	protected $extension = null;
-	
+
 	/**
 	 * Initialize the context
 	 * @param string $extension
@@ -70,21 +70,21 @@ class Bootstrap{
 	 */
 	public function __construct($extension, $options = array())
 	{
-		
+
 		$this->ctxPath = ROOT_PATH . '/' . $extension;
-		
+
 		if(PHP_SAPI == 'cli'){
-			tao_helpers_Context::load('SCRIPT_MODE');		
+			tao_helpers_Context::load('SCRIPT_MODE');
 		}
 		else{
 			tao_helpers_Context::load('APP_MODE');
 		}
-		
+
 		$this->extension = new common_ext_SimpleExtension($extension);
-		
+
 		$this->options = $options;
 	}
-	
+
 	/**
 	 * Check if the current context has been started
 	 * @return boolean
@@ -92,8 +92,8 @@ class Bootstrap{
 	public static function isStarted()
 	{
 		return self::$isStarted;
-	} 
-	
+	}
+
 	/**
 	 * Check if the current context has been dispatched
 	 * @return boolean
@@ -102,7 +102,7 @@ class Bootstrap{
 	{
 		return self::$isDispatched;
 	}
-	
+
     /**
      * Check if the application is ready
      * @return {boolean} Return true if the application is ready
@@ -111,7 +111,7 @@ class Bootstrap{
     {
         return defined('SYS_READY') ? SYS_READY : true;
     }
-	
+
 	/**
 	 * Start all the services:
 	 *  1. Start the session
@@ -135,7 +135,7 @@ class Bootstrap{
 			self::$isStarted = true;
 		}
 	}
-    
+
 	/**
 	 * Dispatch the current http request into the control loop:
 	 *  1. Load the ressources
@@ -146,13 +146,13 @@ class Bootstrap{
 	{
 		if(!self::$isDispatched){
             $isAjax = tao_helpers_Request::isAjax();
-            
+
 			if(tao_helpers_Context::check('APP_MODE')){
 				if(!$isAjax){
 					$this->scripts();
 				}
 			}
-            
+
             //Catch all exceptions
             try{
                 //the app is ready
@@ -177,12 +177,12 @@ class Bootstrap{
 			self::$isDispatched = true;
 		}
 	}
-    
+
     /**
      * Catch any errors
      * If the request is an ajax request, return to the client a formated object.
-     * 
-     * @param Exception $exception 
+     *
+     * @param Exception $exception
      */
     private function catchError(Exception $exception)
     {
@@ -199,7 +199,7 @@ class Bootstrap{
             throw $exception;
         }
     }
-    
+
 	/**
 	 * Start the session
 	 */
@@ -217,10 +217,10 @@ class Bootstrap{
 		else{
 			session_name(self::SESSION_NAME);
 		}
-		
+
 		session_start();
 	}
-	
+
 	/**
 	 * Load the config and constants
 	 */
@@ -231,11 +231,11 @@ class Bootstrap{
 			require_once $this->ctxPath. "/includes/config.php";
 		}
 		//we will load the constant file of the current extension and all it's dependancies
-		
+
 		//get the dependancies
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$extensions = $extensionManager->getDependancies($this->extension);
-		
+
 		//merge them with the additional constants (defined in the options)
 		if(isset($this->options['constants'])){
 			if(is_string($this->options['constants'])){
@@ -245,19 +245,19 @@ class Bootstrap{
 		}
 		//add the current extension (as well !)
 		$extensions = array_merge(array($this->extension->id), $extensions);
-		
+
 		foreach($extensions as $extension){
-			
+
 			if($extension == 'generis') {
 			    continue; //generis constants are already loaded
 			}
-			
+
 			//load the config of the extension
 			self::loadConstants($extension);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Load the constant file of the extension
 	 * @param string $extension
@@ -266,10 +266,10 @@ class Bootstrap{
 	{
 		$constantFile = ROOT_PATH . '/' . $extension . '/includes/constants.php';
 		if(file_exists($constantFile)){
-			
+
 			//include the constant file
 			include_once $constantFile;
-			
+
 			//this variable comes from the constant file and contain the const definition
 			if(isset($todefine)){
 				foreach($todefine as $constName => $constValue){
@@ -281,7 +281,7 @@ class Bootstrap{
 			}
 		}
 	}
-	
+
 	/**
 	 * register a custom Errorhandler
 	 */
@@ -291,12 +291,12 @@ class Bootstrap{
 		// while autoloading any class
 		// an error gets thrown
 		// the logger initializes to handle this error
-		// and failes to autoload his files 
+		// and failes to autoload his files
 		common_Logger::singleton();
 		set_error_handler('common_Logger::handlePHPErrors');
 		register_shutdown_function('common_Logger::handlePHPShutdown');
 	}
-	
+
 	/**
 	 * Update the include path
 	 */
@@ -304,11 +304,11 @@ class Bootstrap{
 	{
 		set_include_path(get_include_path() . PATH_SEPARATOR . ROOT_PATH);
 	}
-	
+
 	/**
-	 * Include the global helpers 
-	 * because of the shortcuts function like 
-	 * _url() or _dh()  
+	 * Include the global helpers
+	 * because of the shortcuts function like
+	 * _url() or _dh()
 	 * that are not loaded with the autoloader
 	 */
 	protected function globalHelpers()
@@ -316,7 +316,7 @@ class Bootstrap{
 		require_once 'tao/helpers/class.Uri.php';
 		require_once 'tao/helpers/class.Display.php';
 	}
-	
+
 	/**
 	 *  Start the MVC Loop from the ClearFW
 	 *  @throws ActionEnforcingException in case of wrong module or action, send an HTTP CODE 404
@@ -329,7 +329,7 @@ class Bootstrap{
 			$re		= new HttpRequest();
 			$fc		= new AdvancedFC($re);
 			$fc->loadModule();
-		} 
+		}
 		catch(ActionEnforcingException $ae){
 			$message	= $ae->getMessage();
 			common_Logger::w("Called module ".$ae->getModuleName().', action '.$ae->getActionName().' not found.', array('TAO', 'BOOT'));
@@ -351,7 +351,7 @@ class Bootstrap{
 			require_once TAO_TPL_PATH . 'error/error500.tpl';
 		}
 	}
-	
+
 	/**
 	 * Connect the current user to the generis API
 	 * @see tao_models_classes_UserService::connectCurrentUser
@@ -367,7 +367,7 @@ class Bootstrap{
 		}
 		$userService->connectCurrentUser();
 	}
-	
+
 	/**
 	 * Initialize the internationalization
 	 * @see tao_helpers_I18n
@@ -380,10 +380,10 @@ class Bootstrap{
 			$uiLang = Session::getAttribute('ui_lang');
 		}
 		else{
-			
+
 			$uiLg = null;
-			$currentUser = $userService->getCurrentUser(); 
-			
+			$currentUser = $userService->getCurrentUser();
+
 			if(!is_null($currentUser)){
 			    $lgProp = new core_kernel_classes_Property(PROPERTY_USER_UILG);
 				$uiLg  = $currentUser->getOnePropertyValue($lgProp);
@@ -395,18 +395,18 @@ class Bootstrap{
 			}
 		}
 		tao_helpers_I18n::init($uiLang);
-		
+
 		//only for legacy
 		$GLOBALS['lang'] = $uiLang;
 	}
-	
+
 	/**
 	 * Load external resources for the current context
 	 * @see tao_helpers_Scriptloader
 	 */
 	protected function scripts()
 	{
-		
+
 		//stylesheets to load
 		tao_helpers_Scriptloader::addCssFiles(
 		    array(
@@ -420,8 +420,8 @@ class Bootstrap{
     			TAOBASE_WWW . 'css/widgets.css'
     		)
 		);
-		
-		
+
+
 		//js golbal vars to export
 		tao_helpers_Scriptloader::addJsVars(
 		    array(
@@ -431,17 +431,17 @@ class Bootstrap{
 			'base_www'		=> BASE_WWW					// -> the resources URL of the current extension (http://www.domain.com/taoItems/views/)
 		    )
 		);
-		
+
 		$gridi18nFile = 'js/jquery.jqGrid-4.2.0/js/i18n/grid.locale-'.strtolower(tao_helpers_I18n::getLangCode()).'.js';
 		if(!file_exists(BASE_PATH. '/views' . $gridi18nFile)){
 			$gridi18nFile = 'js/jquery.jqGrid-4.2.0/js/i18n/grid.locale-en.js';
 		}
-		
+
 		//scripts to load
 		tao_helpers_Scriptloader::addJsFiles(
 		    array(
 			TAOBASE_WWW . 'js/jquery-1.4.2.min.js',
-			TAOBASE_WWW . 'js/jquery-ui-1.8.custom.min.js',
+			TAOBASE_WWW . 'js/jquery-ui-1.8.17.custom.min.js',
 			TAOBASE_WWW . 'js/jsTree/jquery.tree.js',
 			TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
 			TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
@@ -470,7 +470,7 @@ class Bootstrap{
 			TAOBASE_WWW . 'js/AsyncFileUpload.js'
 			)
 		);
-		
+
 		//ajax file upload works only without HTTP_AUTH
 		if(!USE_HTTP_AUTH){
 			tao_helpers_Scriptloader::addCssFile(
