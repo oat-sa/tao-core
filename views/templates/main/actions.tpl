@@ -9,19 +9,37 @@
 					<td>
 						<div id="action_<?=$action['name']?>">
 							<?if($action['disabled']):?>
-
-									<img src="<?=BASE_WWW?>img/actions/<?=$action['name']?>_disabled.png"  />
-									<br />
-									<span><?=$action['display']?></span>
+								
+								<?
+								// Snippet: determine what is the action icon depending on the current extension.
+								if ($currentExtensionId !== false && file_exists(ROOT_PATH . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '_disabled.png')){
+									$actionIcon = ROOT_PATH . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '.png';
+								}
+								else{
+									$actionIcon = BASE_WWW . '/img/actions/' . $action['name'] . '_disabled.png';
+								}
+								?>
+								
+								<img src="<?=$actionIcon?>"  />
+								<br />
+								<span><?=$action['display']?></span>
 
 							<?else:?>
-
+								<?
+								// Snippet: determine what is the action icon depending on the current extension.
+								if ($currentExtensionId !== false && file_exists(ROOT_PATH . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '.png')){
+									$actionIcon = ROOT_PATH . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '.png';
+								}
+								else{
+									$actionIcon = BASE_WWW . '/img/actions/' . $action['name'] . '.png';
+								}
+								?>
 								<?if($action['js']):?>
-									<a href="#" onclick="<?=$action['js']?>('<?=$action["uri"]?>', '<?=$action["classUri"]?>', '<?=$action["url"]?>')" title="<?=$action['rowName']?>"><img src="<?=BASE_WWW?>img/actions/<?=$action['name']?>.png"  /></a>
+									<a href="#" onclick="<?=$action['js']?>('<?=$action["uri"]?>', '<?=$action["classUri"]?>', '<?=$action["url"]?>')" title="<?=$action['rowName']?>"><img src="<?=$actionIcon?>"  /></a>
 									<br />
 									<a href="#" onclick="<?=$action['js']?>('<?=$action["uri"]?>', '<?=$action["classUri"]?>', '<?=$action["url"]?>')"><?=$action['display']?></a>
 								<?else:?>
-									<a class="<?if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>" title="<?=$action['display']?>"><img src="<?=BASE_WWW?>img/actions/<?=$action['name']?>.png"  /></a>
+									<a class="<?if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>" title="<?=$action['display']?>"><img src="<?=$actionIcon?>"  /></a>
 									<br />
 									<a class="<?if(!$action['reload']){?>nav<?}?>" href="<?=$action['url']?>?uri=<?=$action['uri']?>&classUri=<?=$action['classUri']?>"><?=$action['display']?></a>
 								<?endif?>
