@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Adapter for RDF/RDFS format
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers_data
  */
@@ -19,7 +19,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * It provides the default prototype to adapt the data import/export from/to any
  * format.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  */
 require_once('tao/helpers/data/class.GenerisAdapter.php');
 
@@ -35,7 +35,7 @@ require_once('tao/helpers/data/class.GenerisAdapter.php');
  * Adapter for RDF/RDFS format
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers_data
  */
@@ -53,7 +53,7 @@ class tao_helpers_data_GenerisAdapterRdf
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array options
      * @return mixed
      */
@@ -70,12 +70,13 @@ class tao_helpers_data_GenerisAdapterRdf
      * Short description of method import
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string source
      * @param  Class destination
+     * @param  string namespace
      * @return boolean
      */
-    public function import($source,  core_kernel_classes_Class $destination = null)
+    public function import($source,  core_kernel_classes_Class $destination = null, $namespace = null)
     {
         $returnValue = (bool) false;
 
@@ -104,7 +105,7 @@ class tao_helpers_data_GenerisAdapterRdf
      * All the ontologies are exported if the class is not set
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class source
      * @return string
      * @see core_kernel_impl_ApiModelOO::exportXmlRdf

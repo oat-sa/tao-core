@@ -23,6 +23,12 @@ new tao_scripts_TaoRDFImport(array(
 			'description' => 'Generis Password'
 		),
 		array(
+			'name' => 'namespace',
+			'type' => 'string',
+			'shortcut' => 'n',
+			'description' => 'The target namespace.'
+		),
+		array(
 			'name' => 'input',
 			'type' => 'file',
 			'shortcut' => 'i',
