@@ -492,7 +492,7 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Logs the current user out.
+     * Short description of method logout
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -502,9 +502,9 @@ class tao_models_classes_UserService
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85--4ea696b7:1358633f902:-8000:00000000000037D5 begin
+        // section 10-13-1-85-4bfc518d:13586bdbc87:-8000:00000000000037E7 begin
         $returnValue = $this->generisUserService->logout();
-        // section 10-13-1-85--4ea696b7:1358633f902:-8000:00000000000037D5 end
+        // section 10-13-1-85-4bfc518d:13586bdbc87:-8000:00000000000037E7 end
 
         return (bool) $returnValue;
     }
