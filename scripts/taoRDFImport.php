@@ -14,7 +14,7 @@ new tao_scripts_TaoRDFImport(array(
 			'name' => 'user',
 			'type' => 'string',
 			'shortcut' => 'u',
-			'description' => 'Generis User'
+			'description' => 'Generis User (must be a TAO Manager)'
 		),
 		array(
 			'name' => 'password',
@@ -24,7 +24,7 @@ new tao_scripts_TaoRDFImport(array(
 		),
 		array(
 			'name' => 'input',
-			'type' => 'string',
+			'type' => 'file',
 			'shortcut' => 'i',
 			'description' => 'The canonical path to the RDF input file to import'
 		)
