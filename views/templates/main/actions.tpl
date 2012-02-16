@@ -13,7 +13,7 @@
 								<?
 								// Snippet: determine what is the action icon depending on the current extension.
 								if ($currentExtensionId !== false && file_exists(ROOT_PATH . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '_disabled.png')){
-									$actionIcon = ROOT_PATH . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '.png';
+									$actionIcon = ROOT_URL . '/' . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '_disabled.png';
 								}
 								else{
 									$actionIcon = BASE_WWW . '/img/actions/' . $action['name'] . '_disabled.png';
@@ -28,7 +28,7 @@
 								<?
 								// Snippet: determine what is the action icon depending on the current extension.
 								if ($currentExtensionId !== false && file_exists(ROOT_PATH . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '.png')){
-									$actionIcon = ROOT_PATH . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '.png';
+									$actionIcon = ROOT_URL . '/' . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '.png';
 								}
 								else{
 									$actionIcon = BASE_WWW . '/img/actions/' . $action['name'] . '.png';
