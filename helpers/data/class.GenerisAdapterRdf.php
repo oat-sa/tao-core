@@ -91,7 +91,10 @@ class tao_helpers_data_GenerisAdapterRdf
 			$destModel = substr($destination->uriResource, 0, strpos($destination->uriResource, '#'));
 			$returnValue = $api->importXmlRdf($destModel, $source);
 		}
-		else{
+		else if (file_exists($source) && !is_null($namespace)){
+			$returnValue = $api->importXmlRdf($namespace, $source);
+		}
+		else if (file_exists($source)){
 			$returnValue = $api->importXmlRdf($localModel, $source);
 		}
         
