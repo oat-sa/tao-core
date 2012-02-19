@@ -100,6 +100,13 @@ class tao_scripts_TaoRDFImport
         if ($userService->loginUser($this->options['user'], md5($this->options['password']))){
         	$this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
         	
+        	//get the session & determine the target namespace.
+        	$session = core_kernel_classes_Session::singleton();
+        	$targetNamespace = $session->getNameSpace();
+        	if (isset($this->options['namespace']) && !is_null($this->options['namespace'])){
+        		$targetNamespace = $this->options['namespace'];
+        	}
+			
         	//validate the file to import
 			$parser = new tao_models_classes_Parser($this->options['input'],
 													array('extension' => 'rdf'));
@@ -115,9 +122,9 @@ class tao_scripts_TaoRDFImport
 			}
 			else{
 			
-				//initialize the adapter
+				//initialize the adapter (no target class but a target namespace)
 				$adapter = new tao_helpers_data_GenerisAdapterRdf();
-				if($adapter->import($this->options['input'], null)){
+				if($adapter->import($this->options['input'], null, $targetNamespace)){
 					$this->outVerbose("RDF 'input' file successfuly imported.");
 					$userService->logout();
 				}		

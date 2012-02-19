@@ -26,7 +26,7 @@ new tao_scripts_TaoRDFImport(array(
 			'name' => 'namespace',
 			'type' => 'string',
 			'shortcut' => 'n',
-			'description' => 'The target namespace.'
+			'description' => 'The target namespace. If not provided, the target namespace will be the local one'
 		),
 		array(
 			'name' => 'input',
