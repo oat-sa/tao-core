@@ -115,6 +115,7 @@ abstract class tao_helpers_form_elements_MultipleElement
     public function setValue($value)
     {
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A2C begin
+        parent::setValue($value);
 		$this->value = tao_helpers_Uri::encode($value);
         // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A2C end
     }
