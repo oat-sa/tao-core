@@ -77,10 +77,10 @@ foldUnfold = function () {
 	if($configList.css('display') == 'none') {
 		$configList.css('display', 'block');
 		$configListHeader.removeClass('ui-corner-bottom')
-		$(this).attr('src', 'res/fold.png');
+		$(this).attr('src', 'img/fold.png');
 	} else {
 		$configList.css('display', 'none');
-		$(this).attr('src', 'res/unfold.png');
+		$(this).attr('src', 'img/unfold.png');
 		$configListHeader.addClass('ui-corner-bottom');
 	}
 }

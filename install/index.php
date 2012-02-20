@@ -93,7 +93,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	<div class="section">
 	<div id="mandatory-config-header"  class="ui-widget ui-widget-header ui-state-default ui-corner-top">
 		1 - System Configuration
-		<img src="res/fold.png" class="expander" alt="More..." title="More..."/>
+		<img src="img/fold.png" class="expander" alt="Fold/Unfold" title="Fold/Unfold"/>
 	</div>
 	<div id="mandatory-config-list" class="ui-widget ui-widget-content ui-corner-bottom">
 		<table>
@@ -127,7 +127,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	<div class="section">
 	<div id="optional-config-header" class="ui-widget ui-widget-header ui-state-default ui-corner-top ui-corner-bottom">
 		2 - Optional System Configuration
-		<img src="res/unfold.png" class="expander" alt="More..." title="More..."/>
+		<img src="img/unfold.png" class="expander" alt="Fold/Unfold" title="Fold/Unfold"/>
 	</div>
 	<div id="optional-config-list" class="ui-widget ui-widget-content ui-corner-bottom">
 		<table>
