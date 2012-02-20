@@ -89,7 +89,6 @@ abstract class tao_models_classes_Service
         // section 127-0-1-1--196c75a3:133f5095367:-8000:000000000000343C begin
 		
         if( !class_exists($serviceName) || !preg_match("/^(tao|wf)/", $serviceName) ){
-        	common_Logger::w('Failed to load service '.$serviceName, array('TAO'));
         	//in case the parameter is the interface name we load the default dataSource implementation
         	$serviceName = sprintf(self::namePattern, ucfirst(strtolower($serviceName)));
         }
