@@ -161,11 +161,10 @@ class ServiceTestCase extends UnitTestCase {
 		else{
 			$testClass =$itemClass;
 		}
-		$foundProp = $this->taoService->getClazzProperties(
-			$testClass, 
-			new core_kernel_classes_Class(TAO_OBJECT_CLASS)
-		);
-		$this->assertIsA( $foundProp, 'array');
+		$foundProp = $this->taoService->getClazzProperties($testClass);
+		$this->assertIsA($foundProp, 'array');
+        $this->assertTrue(count($foundProp) == 3);
+        
 		//delete the item class in case it has been created if it was not in the model
 		$localNamspace = core_kernel_classes_Session::singleton()->getNamespace();
 		if(preg_match("/^".preg_quote($localNamspace, "/")."/", $itemClass->uriResource)){
