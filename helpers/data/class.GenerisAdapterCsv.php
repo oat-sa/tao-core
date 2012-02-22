@@ -282,8 +282,6 @@ class tao_helpers_data_GenerisAdapterCsv
     private function importResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
     {
         // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033C8 begin
-        
-    	$useDefault = false;
     	
     	if ($csvColumn != 'csv_select' && $csvColumn != 'csv_null') {
     		
@@ -295,6 +293,12 @@ class tao_helpers_data_GenerisAdapterCsv
     			$value = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
     			$this->attachResource($targetProperty, $targetResource, $value);
     		}
+            else {
+                // We have here an exception. The column mapped related to $targetProperty
+                // is mapped but not value was found for the current cell. If an entry
+                // in the static data map corresponds to the current property, the default
+                // value should be used to set the property value.
+            }
     	}
         else{
             common_Logger::d("CSV - A default value will be affected.");
