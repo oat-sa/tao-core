@@ -88,6 +88,7 @@ class tao_helpers_Environment
         $returnValue = (string) '';
 
         // section 10-13-1-85--245f9798:135a41f7e17:-8000:0000000000003832 begin
+        $returnValue = PHP_OS;
         // section 10-13-1-85--245f9798:135a41f7e17:-8000:0000000000003832 end
 
         return (string) $returnValue;
