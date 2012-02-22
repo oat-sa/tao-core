@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Utilities on files
  *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -26,7 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Utilities on files
  *
  * @access public
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -61,7 +61,7 @@ class tao_helpers_File
      * Use it when the path may be build from a user variable
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string path
      * @param  boolean traversalSafe
      * @return boolean
@@ -100,7 +100,7 @@ class tao_helpers_File
      * clean concat paths
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array paths
      * @return string
      */
@@ -127,7 +127,7 @@ class tao_helpers_File
      * Short description of method remove
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string path
      * @param  boolean recursive
      * @return boolean
@@ -165,13 +165,14 @@ class tao_helpers_File
      * Short description of method copy
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string source
      * @param  string destination
      * @param  boolean recursive
+     * @param  boolean ignoreSystemFiles Ignore system files ('.svn', ...)
      * @return boolean
      */
-    public static function copy($source, $destination, $recursive = true)
+    public static function copy($source, $destination, $recursive = true, $ignoreSystemFiles = true)
     {
         $returnValue = (bool) false;
 
@@ -206,7 +207,7 @@ class tao_helpers_File
      * Short description of method move
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string source
      * @param  string destination
      * @return boolean
@@ -260,7 +261,7 @@ class tao_helpers_File
      * Short description of method getMimeTypes
      *
      * @access protected
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return array
      */
     protected static function getMimeTypes()
@@ -340,7 +341,7 @@ class tao_helpers_File
      * Short description of method getExtention
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string mimeType
      * @return string
      */
@@ -369,7 +370,7 @@ class tao_helpers_File
      * different methods are used regarding the configuration.
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string path
      * @return string
      */
@@ -420,7 +421,7 @@ class tao_helpers_File
      * Scan a directory and return the files it contains
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string path
      * @param  array options
      * @return array
