@@ -182,17 +182,22 @@ class tao_helpers_File
         	if(is_dir($source) && $recursive){
         		foreach(scandir($source) as $file){
         			if($file != '.' && $file != '..'){
-        				self::copy($source.'/'.$file, $destination.'/'.$file, true);
+        				if(!$ignoreSystemFiles && $file[0] == '.'){
+        					continue;
+        				}
+        				else{
+        					self::copy($source.'/'.$file, $destination.'/'.$file, true, $ignoreSystemFiles);
+        				}
         			}
         		}
         	}
         	else {
         		if(is_dir(dirname($destination))){
-	        		$returnValue = copy($source, $destination);
+        			$returnValue = copy($source, $destination);
 	        	}
 	        	else if($recursive){
 	        		if(mkdir(dirname($destination), 0775, true)){
-	        			$returnValue = self::copy($source, $destination, false);
+	        			$returnValue = self::copy($source, $destination, false, $ignoreSystemFiles);
 	        		}
 	        	}
         	}
