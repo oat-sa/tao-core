@@ -24,11 +24,10 @@ class AdaptersTestCase extends UnitTestCase {
 		
 		// - test column mapping.
 		$expectedMapping = array('label', 'First Name', 'Last Name',
-								 'Login', 'Mail', 'password', 'UserUILg',
-								 'UserDefLg');
+								 'Login', 'Mail', 'password', 'UserUILg');
 		$this->assertEqual($expectedMapping, $csvFile->getColumnMapping(), 'The column mapping should be ' . var_export($expectedMapping, true) . '.');
 		$this->assertEqual($csvFile->count(), 16, 'The CSV file contains ' . $csvFile->count() . ' rows instead of 16.');
-		$this->assertEqual($csvFile->getColumnCount(), 8, 'The CSV file contains ' . $csvFile->getColumnCount() . ' columns instead of 8.');
+		$this->assertEqual($csvFile->getColumnCount(), 7, 'The CSV file contains ' . $csvFile->getColumnCount() . ' columns instead of 7.');
 		
 		// - test some row retrievals.
 		$expectedRow = array('TAO Jérôme Bogaerts',
@@ -37,7 +36,6 @@ class AdaptersTestCase extends UnitTestCase {
 							 'jbogaerts',
 							 'jerome.bogaerts@tudor.lu',
 							 'jbogaerts',
-							 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN',
 							 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN');
 		$this->assertEqual($csvFile->getRow(0), $expectedRow);
 		
@@ -47,8 +45,7 @@ class AdaptersTestCase extends UnitTestCase {
 							 'Login' => 'ijars',
 							 'Mail' => 'isabelle.jars@tudor.lu',
 							 'password' => 'ijars',
-							 'UserUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN',
-							 'UserDefLg' => 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN');
+							 'UserUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN');
 		$this->assertEqual($csvFile->getRow(4, true), $expectedRow);
 		
 		
@@ -62,7 +59,7 @@ class AdaptersTestCase extends UnitTestCase {
 		$expectedMapping = array();
 		$this->assertEqual($expectedMapping, $csvFile->getColumnMapping(), 'The column mapping should be ' . var_export($expectedMapping, true) . '.');
 		$this->assertEqual($csvFile->count(), 16, 'The CSV file contains ' . $csvFile->count() . ' rows instead of 16.');
-		$this->assertEqual($csvFile->getColumnCount(), 8, 'The CSV file contains ' . $csvFile->getColumnCount() . ' columns instead of 8.');
+		$this->assertEqual($csvFile->getColumnCount(), 7, 'The CSV file contains ' . $csvFile->getColumnCount() . ' columns instead of 7.');
 		
 		// - test some row retrievals.
 		$expectedRow = array('TAO Jérôme Bogaerts',
@@ -71,7 +68,6 @@ class AdaptersTestCase extends UnitTestCase {
 							 'jbogaerts',
 							 'jerome.bogaerts@tudor.lu',
 							 'jbogaerts',
-							 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN',
 							 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN');
 		$this->assertEqual($csvFile->getRow(0), $expectedRow);
 		
@@ -81,7 +77,6 @@ class AdaptersTestCase extends UnitTestCase {
 							 'mmellis',
 							 'matteo.mellis@tudor.lu',
 							 'mmellis',
-							 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN',
 							 'http://www.tao.lu/Ontologies/TAO.rdf#LangEN');
 		$this->assertEqual($csvFile->getRow(15), $expectedRow);
 	}
