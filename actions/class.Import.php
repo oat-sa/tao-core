@@ -157,7 +157,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 	
 	/**
 	 * display the mapping form, after a CSV file import. This is the second (and last) form
-	 * the users sees to import a CSV file.
+	 * the users see to import a CSV file.
 	 * @return void
 	 */
 	public function mapping(){
@@ -246,19 +246,19 @@ class tao_actions_Import extends tao_actions_CommonModule {
 					if($myForm->isValid()){
 						
 						// set the mapping to the adapter
-						// Clean "select" values from form view.
-						// Transform any "select" in "null" in order to
+						// Clean "csv_select" values from form view.
+						// Transform any "csv_select" in "csv_null" in order to
 						// have the same importation behaviour for both because
 						// semantics are the same.
 						$map = $myForm->getValues('property_mapping');
 						$newMap = array();
 						
 						foreach($map as $k => $m) {
-							if ($m !== 'select') {
+							if ($m !== 'csv_select') {
 								$newMap[$k] = $map[$k];
 							}
 							else {
-								$newMap[$k] = 'null';
+								$newMap[$k] = 'csv_null';
 							}
 						}
 						

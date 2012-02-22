@@ -102,8 +102,7 @@ class tao_helpers_data_CsvFile
         				  'field_encloser' => '"',
         				  'line_break' => "\n",
         				  'multi_values_delimiter' => '|',
-        				  'first_row_column_names' => true,
-        				  'column_order' => null);
+        				  'first_row_column_names' => true);
         
         $this->setOptions(array_merge($defaults, $options));
         $this->setColumnCount(0);
@@ -219,9 +218,6 @@ class tao_helpers_data_CsvFile
 				// We got the column mapping.
 				$this->setColumnMapping($fields);
 				unset($rows[0]); // Unset to avoid processing below.
-			}
-			else if (isset($this->options['column_order'])){
-				$fields = $this->options['column_order'];
 			}
 			
 			$lineNumber = 0;

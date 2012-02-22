@@ -95,12 +95,6 @@ class tao_helpers_data_GenerisAdapterCsv
 		if(!isset($this->options['first_row_column_names'])){
 			$this->options['first_row_column_names'] = true;
 		}
-		if(isset($this->options['column_order'])){
-			$this->options['first_row_column_names'] = false;
-		}
-		else{
-			$this->options['column_order'] = null;
-		}
     	
         // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CDC end
     }
@@ -157,7 +151,7 @@ class tao_helpers_data_GenerisAdapterCsv
         $rangeProperty = new core_kernel_classes_Property(RDFS_RANGE);
         
     	for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++){
-    		common_Logger::t("CSV - Importing CSV row ${rowIterator}.");
+    		common_Logger::d("CSV - Importing CSV row ${rowIterator}.");
     		
 			$resource = null;
 			$csvRow = $csvData->getRow($rowIterator);
@@ -165,7 +159,7 @@ class tao_helpers_data_GenerisAdapterCsv
 			//create the instance with the label defined in the map 
 			$label = $this->options['map'][RDFS_LABEL];
 			
-			if($label != 'empty' && $label != null){
+			if($label != 'csv_select' && $label !='csv_null'){
 				if(isset($csvRow[$label])){
 					$resource = $destination->createInstance($csvRow[$label]);
 					common_Logger::t("CSV - Resource creation with label");
@@ -187,21 +181,23 @@ class tao_helpers_data_GenerisAdapterCsv
 						$ranges = $targetProperty->getPropertyValues($rangeProperty);
 						if (count($ranges) > 0) {
 							// @todo support multi-valued ranges in CSV import.
+							common_Logger::d("CSV - Target property has " . $ranges[0] . " for range");
 							$range = new core_kernel_classes_Resource($ranges[0]);
 						} 
 						else {
+						    common_Logger::d("CSV - Target property has no range");
 							$range = null;	
 						}
 						
-						$targetProperty = new core_kernel_classes_Property($propUri);
-						
-						if ($range = null || $range->uriResource = RDFS_LITERAL) {
+						if ($range == null || $range->uriResource == RDFS_LITERAL) {
 							// Deal with the column value as a literal.
+							common_Logger::d("CSV - Importing Literal from CSV");
 							$this->importLiteral($targetProperty, $resource, $csvRow, $csvColumn);
 						}
 						else {
 							// Deal with the column value as a resource existing in the Knowledge Base.
-							$this->importResource($targetProperty, $resource, $csvRow, $csvColumn, $this->options['staticMap']);
+							common_Logger::d("CSV - Importing Resource from CSV");
+							$this->importResource($targetProperty, $resource, $csvRow, $csvColumn);
 						}
 					}
 				}
@@ -258,13 +254,14 @@ class tao_helpers_data_GenerisAdapterCsv
     {
         // section 10-13-1-85--45c07818:132af6d7560:-8000:00000000000033C2 begin
         
-    	if ($csvColumn == 'empty') {
+    	if ($csvColumn == 'csv_null' || $csvColumn == 'csv_select') {
     		// We do not use the value contained in $literal but an empty string.
+    		common_Logger::d("CSV - Importing an empty string");
     		$targetResource->setPropertyValue($targetProperty, '');
     	}
-    	else if ($csvColumn != 'null' && isset($csvRow[$csvColumn])) {
-    		
+    	else if (isset($csvRow[$csvColumn]) && $csvRow[$csvColumn] != null) {
     		$literal = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
+            common_Logger::d("CSV - Importing ${literal}");
     		$targetResource->setPropertyValue($targetProperty, $literal);
     	}
     	
@@ -288,32 +285,20 @@ class tao_helpers_data_GenerisAdapterCsv
         
     	$useDefault = false;
     	
-    	if ($csvColumn != 'empty' && $csvColumn != 'null') {
+    	if ($csvColumn != 'csv_select' && $csvColumn != 'csv_null') {
     		
     		// We have to import the cell value as a resource for the target property.
     		$value = $csvRow[$csvColumn];
     		
     		if ($value != null) {
+    		    common_Logger::d("CSV - Importing a resource");
     			$value = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
     			$this->attachResource($targetProperty, $targetResource, $value);
     		}
-    		else {
-    			// No value for this cell. We should try to set a default value for this property.
-    			$useDefault = true;
-    		}
     	}
-    	else {
-    		// 
-    		$useDefault = true;
-    	}
-    	
-    	if ($useDefault) {
-	    	$propUri = $targetProperty->uriResource;
-	    	if (isset($staticMap[str_replace(TEMP_SUFFIX_CSV, '', $propUri)])) { // Do it only if a default value is provided.
-	    		$value = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
-	    		$this->attachResource($targetProperty, $targetResource, $value);
-	    	}
-    	}
+        else{
+            common_Logger::d("CSV - A default value will be affected.");
+        }
     	
         // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033C8 end
     }
@@ -336,7 +321,7 @@ class tao_helpers_data_GenerisAdapterCsv
 			$cleanUri = str_replace(TEMP_SUFFIX_CSV, '', $propUri);
 			
 			// If the property was not included in the original CSV file...
-			if(!array_key_exists($cleanUri, $map) || $map[$cleanUri] == 'null' || $map[$cleanUri] == 'empty'){
+			if(!array_key_exists($cleanUri, $map) || $map[$cleanUri] == 'csv_null' || $map[$cleanUri] == 'csv_select'){
 				if($propUri == RDF_TYPE){
 					$resource->setType(new core_kernel_classes_Class($value));
 				}

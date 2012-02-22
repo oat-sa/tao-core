@@ -79,16 +79,21 @@ class tao_actions_form_CSVMapping
     public function initElements()
     {
         // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FF begin
-        
-    if(!isset($this->options['class_properties'])){
+        if(!isset($this->options['class_properties'])){
     		throw new Exception('No class properties found');
     	}
     	if(!isset($this->options['csv_column'])){
     		throw new Exception('No csv columns found');
     	}
     	
-    	$columnsOptions =  array();
-    	$columnsOptions['select'] = ' --- '.__('Select').' --- ';
+        $columnsOptions = array();
+    	$columnsOptionsLiteral =  array();
+    	$columnsOptionsLiteral['csv_select'] = ' --- ' . __('Select') . ' --- ';
+    	$columnsOptionsLiteral['csv_null']  = ' --- ' . __("Don't set");
+        
+        $columnsOptionsRanged = array();
+        $columnsOptionsRanged['csv_select'] = ' --- ' . __('Select') . ' --- ';
+        $columnsOptionsRanged['csv_null'] = ' --- ' . __('Use default value');
     	
     	// We build the list of CSV columns that can be mapped to
     	// the target class properties. 
@@ -104,16 +109,22 @@ class tao_actions_form_CSVMapping
 	    		$columnsOptions[$i] = __('Column') . ' ' . ($i + 1);
 	    	}
     	}
-    	$columnsOptions['empty'] = __('Empty');
-    	$columnsOptions['null']  = __("Don't set");
     	
     	$i = 0;
     	foreach($this->options['class_properties'] as $propertyUri => $propertyLabel){
     		
     		$propElt = tao_helpers_form_FormFactory::getElement($propertyUri, 'Combobox');
     		$propElt->setDescription($propertyLabel);
-    		$propElt->setOptions($columnsOptions);
-    		$propElt->setValue('select');
+            
+            // literal or ranged?
+            if (array_key_exists($propertyUri, $this->options['ranged_properties'])){
+                $propElt->setOptions(array_merge($columnsOptionsRanged, $columnsOptions));
+            }
+            else{
+                $propElt->setOptions(array_merge($columnsOptionsLiteral, $columnsOptions));
+            }
+            
+    		$propElt->setValue('csv_select');
     		
     		$this->form->addElement($propElt);
     		
