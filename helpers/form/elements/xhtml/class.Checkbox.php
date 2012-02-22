@@ -100,6 +100,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
 			unset($this->attributes['checkAll']);
 		}
 		$checked = 0;
+		$returnValue .= '<div class="form_radlst">';
 		foreach($this->options as $optionId => $optionLabel){
 			 $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}_{$i}' id='{$this->name}_{$i}' ";
 			 $returnValue .= $this->renderAttributes();
@@ -111,6 +112,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
 			 $returnValue .= " />&nbsp;<span class='elt_desc'>"._dh($optionLabel)."</span><br />";
 			 $i++;
 		}
+		$returnValue .= "</div>";
 		
 		//add a small link 
 		if($checkAll){
