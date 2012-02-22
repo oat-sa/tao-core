@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Utility class for server environment retrieval
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -26,7 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Utility class for server environment retrieval
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -43,7 +43,7 @@ class tao_helpers_Environment
      * Returns the maximum size for fileuploads in bytes
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return int
      */
     public static function getFileUploadLimit()
@@ -74,6 +74,23 @@ class tao_helpers_Environment
         // section 127-0-1-1--19cc545a:133f9dd1f55:-8000:0000000000003443 end
 
         return (int) $returnValue;
+    }
+
+    /**
+     * Returns the Operating System running TAO as a String.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return string
+     */
+    public function getOperatingSystem()
+    {
+        $returnValue = (string) '';
+
+        // section 10-13-1-85--245f9798:135a41f7e17:-8000:0000000000003832 begin
+        // section 10-13-1-85--245f9798:135a41f7e17:-8000:0000000000003832 end
+
+        return (string) $returnValue;
     }
 
 } /* end of class tao_helpers_Environment */
