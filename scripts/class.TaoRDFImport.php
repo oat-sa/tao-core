@@ -67,7 +67,7 @@ class tao_scripts_TaoRDFImport
         $this->options = array('verbose' => false,
         					   'user' => null,
         					   'password' => null,
-        					   'targetNamespace' => null,
+        					   'namespace' => null,
         					   'input' => null);
         
         $this->options = array_merge($this->options, $this->parameters);
