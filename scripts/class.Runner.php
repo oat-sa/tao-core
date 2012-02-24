@@ -373,7 +373,7 @@ abstract class tao_scripts_Runner
         }
         
         echo $returnValue;
-        common_logger::i($message, array('SCRIPTS_RUNNER'));
+        common_Logger::i($message, array('SCRIPTS_RUNNER'));
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D56 end
     }
 
