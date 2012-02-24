@@ -187,12 +187,12 @@ class Bootstrap{
     private function catchError(Exception $exception)
     {
         if(tao_helpers_Request::isAjax()){
-            new common_AjaxResponse(
-                false
-                , 'Exception'
-                , array('ExceptionType' => get_class($exception))
-                , $exception->getMessage()
-            );
+            new common_AjaxResponse(array(
+                "success"   => false
+                , "type"    => 'Exception'
+                , "data"    => array('ExceptionType' => get_class($exception))
+                , "message" => $exception->getMessage()
+            ));
         }
         else{
             common_Logger::notCatchedException($exception);

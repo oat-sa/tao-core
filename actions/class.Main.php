@@ -142,7 +142,13 @@ class tao_actions_Main extends tao_actions_CommonModule {
      * Check if the system is ready
      */
     public function isReady(){
-        $ajaxResponse = new common_AjaxResponse();
+		if(tao_helpers_Request::isAjax()){
+            // the default ajax response is successfull style rastafarai
+            $ajaxResponse = new common_AjaxResponse();
+        }
+        else{
+            throw new common_exception_IsAjaxAction(__CLASS__.'::'.__METHOD__.'()');
+        }
     }
     
 	/**
