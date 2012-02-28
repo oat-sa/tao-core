@@ -290,7 +290,7 @@ div#ajax-loading{
 	z-index: 1000;
 	display: none;
     opacity: 0.5;
-    background: #FFF url(/tao/views/img/ajax-loader.gif) no-repeat center center;
+    background: #FFF url(../img/ajax-loader.gif) no-repeat center center;
 }
 
 /* Results Manual Scoring Conciliation */
