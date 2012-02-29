@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	updateForm();
 	
-	$('#module_name, #module_host, #db_user, #db_pass').bind('keyup change', function () {
+	$('#module_name, #module_host, #db_user, #db_pass').bind('keyup change input', function () {
 		updateForm();
 	});
 	
