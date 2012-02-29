@@ -86,7 +86,8 @@ class tao_actions_form_SimpleProperty
     	
 		$propertyProperties = array_merge(
 			tao_helpers_form_GenerisFormFactory::getDefaultProperties(), 
-			array(new core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT))
+			array(new core_kernel_classes_Property(PROPERTY_IS_LG_DEPENDENT),
+				  new core_kernel_classes_Property(TAO_GUIORDER_PROP))
 		);
     	
     	$elementNames = array();

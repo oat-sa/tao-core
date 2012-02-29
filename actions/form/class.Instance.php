@@ -181,32 +181,26 @@ class tao_actions_form_Instance
 					// be always first.
 					array_splice($finalElements, 0, 0, array(array($element, 1)));
 				}
-				else if (!array_key_exists(TAO_PROP, $property->getType())){
+				else if (count($guiOrderPropertyValues = $property->getPropertyValues($guiOrderProperty))){
+					
+					// get position of this property if it has one.
+					$position = intval($guiOrderPropertyValues[0]);
+					
+					// insert the element at the right place.
+					$i = 0;
+					while ($i < count($finalElements) && ($position >= $finalElements[$i][1] && $finalElements[$i][1] !== null)){
+						$i++;
+					}
+					
+					array_splice($finalElements, $i, 0, array(array($element, $position)));
+				}
+				else{
 					// Unordered properties will go at the end of the form.
 					$finalElements[] = array($element, null);
 				}
-				else{
-					// get position of this property if it has one.
-					$guiOrderPropertyValues = $property->getPropertyValues($guiOrderProperty);
-					if (count($guiOrderPropertyValues)){
-						$position = intval($guiOrderPropertyValues[0]);
-						
-						// insert the element at the right place.
-						$i = 0;
-						while ($i < count($finalElements) && ($position >= $finalElements[$i][1] && $finalElements[$i][1] !== null)){
-							$i++;
-						}
-						
-						array_splice($finalElements, $i, 0, array(array($element, $position)));
-					}
-					else{
-						// Unknown position. It will go at the end of the form.
-						$finalElements[] = array($element, null);
-					}
-				}
 			}
 		}
-
+		
 		// Add elements related to class properties to the form.
 		foreach ($finalElements as $element){
 			$this->form->addElement($element[0]);

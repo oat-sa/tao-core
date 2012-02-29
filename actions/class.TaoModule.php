@@ -195,7 +195,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						
 						if($propMode == 'simple'){
 							$type = $properties['type'];
-							$range = $properties['range'];
+							$range = (isset($properties['range']) ? $properties['range'] : RDFS_LABEL);
 							unset($properties['type']);
 							unset($properties['range']);
 							
