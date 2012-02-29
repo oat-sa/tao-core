@@ -42,6 +42,8 @@ $todefine = array(
 	'INSTANCE_BOOLEAN_FALSE'		=> 'http://www.tao.lu/Ontologies/generis.rdf#False',
 	'TAO_LIST_CLASS'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#List',
 	'TAO_LIST_LEVEL_PROP'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#level',
+	'TAO_PROP'						=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOProperty',
+	'TAO_GUIORDER_PROP'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder',
 	'CLASS_LANGUAGES'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
 	'CLASS_ROLE_TAOMANAGER'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
 	'CLASS_ROLE_BACKOFFICE'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice',
@@ -61,6 +63,7 @@ $todefine = array(
 	'PROPERTY_WIDGET_COMBOBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
 	'PROPERTY_WIDGET_CHECKBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
 	'PROPERTY_WIDGET_FILE'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile',
+	'PROPERTY_TAO_PROPERTY'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOProperty',
     'CLASS_PROCESS_EXECUTIONS'		=> 'http://www.tao.lu/middleware/taoqual.rdf#i119010455660544'
 	
 );

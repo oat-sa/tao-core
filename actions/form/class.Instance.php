@@ -97,6 +97,7 @@ class tao_actions_form_Instance
     	
     	$clazz = $this->getClazz();
     	$instance = $this->getInstance();
+    	$guiOrderProperty = new core_kernel_classes_Property(TAO_GUIORDER_PROP);
     	
     	//get the list of properties to set in the form
     	$defaultProperties 	= tao_helpers_form_GenerisFormFactory::getDefaultProperties();
@@ -104,7 +105,8 @@ class tao_actions_form_Instance
 		$excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties']))?$this->options['excludedProperties']:array();
 		$additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties']))?$this->options['additionalProperties']:array();
     	$uniqueLabel = isset($this->options['uniqueLabel'])?$this->options['uniqueLabel']:true;
-		
+		$finalElements = array();
+    	
 		$classProperties = array();
 		/**
 		 * @todo override it in the taoSubject module instead of having this crapy IF here
@@ -127,7 +129,7 @@ class tao_actions_form_Instance
 		}
 			
 		foreach($editedProperties as $property){
-				
+
 			$property->feed();
 			$widget = $property->getWidget();
 			if($widget == null || $widget instanceof core_kernel_classes_Literal) {
@@ -173,11 +175,43 @@ class tao_actions_form_Instance
 				if($element instanceof tao_helpers_form_elements_AsyncFile){
 					
 				}
-					
-				$this->form->addElement($element);
+				
+				if ($property->uriResource == RDFS_LABEL){
+					// Label will not be a TAO Property. However, it should
+					// be always first.
+					array_splice($finalElements, 0, 0, array(array($element, 1)));
+				}
+				else if (!array_key_exists(TAO_PROP, $property->getType())){
+					// Unordered properties will go at the end of the form.
+					$finalElements[] = array($element, null);
+				}
+				else{
+					// get position of this property if it has one.
+					$guiOrderPropertyValues = $property->getPropertyValues($guiOrderProperty);
+					if (count($guiOrderPropertyValues)){
+						$position = intval($guiOrderPropertyValues[0]);
+						
+						// insert the element at the right place.
+						$i = 0;
+						while ($i < count($finalElements) && ($position >= $finalElements[$i][1] && $finalElements[$i][1] !== null)){
+							$i++;
+						}
+						
+						array_splice($finalElements, $i, 0, array(array($element, $position)));
+					}
+					else{
+						// Unknown position. It will go at the end of the form.
+						$finalElements[] = array($element, null);
+					}
+				}
 			}
 		}
-			
+
+		// Add elements related to class properties to the form.
+		foreach ($finalElements as $element){
+			$this->form->addElement($element[0]);
+		}
+		
 		//add an hidden elt for the class uri
 		$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
 		$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
@@ -189,7 +223,6 @@ class tao_actions_form_Instance
 			$instanceUriElt->setValue(tao_helpers_Uri::encode($instance->uriResource));
 			$this->form->addElement($instanceUriElt);
 		}
-			
         
         // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002498 end
     }
