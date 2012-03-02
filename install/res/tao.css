@@ -138,8 +138,7 @@ tr.optional td {
 }
 
 #optional-config-header, #mandatory-config-header {
-	position: relative;
-	bottom-margin: 10px;	
+	position: relative;	
 }
 
 .expander {
