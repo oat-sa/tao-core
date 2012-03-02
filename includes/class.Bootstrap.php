@@ -194,7 +194,8 @@ class Bootstrap{
             ));
         }
         else{
-            common_Logger::notCatchedException($exception);
+            common_Logger::singleton()->e('The system encountered a problem, not catched exception ('
+                    .get_class($exception).') in ('.$exception->getFile().') at line '.$exception->getLine().': '.$exception->getMessage());
             throw $exception;
         }
     }
