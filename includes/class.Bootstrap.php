@@ -18,6 +18,9 @@ require_once DIR_CORE_HELPERS . 'Core.php';
  *  - i18n
  *
  * And it's used to disptach the Control Loop
+ *  - control the platform status (redirect to the maintenance page if it is required)
+ *  - dispatch to the convenient action
+ *  - control code exceptions
  *
  * @author Bertrand CHEVRIER <bertrand.chevrier@tudor.lu>
  * @package tao
@@ -52,11 +55,6 @@ class Bootstrap{
 	 * @var boolean if the context has been dispatched
 	 */
 	protected static $isDispatched = false;
-
-	/**
-	 * @var boolean if the application is ready to answer
-	 */
-	protected static $isReady = false;
 
 	/**
 	 * @var common_ext_SimpleExtension
@@ -166,8 +164,9 @@ class Bootstrap{
                         $from = ROOT_URL.$_SERVER['REQUEST_URI'];
                         require_once TAO_TPL_PATH . 'error/maintenance.tpl';
                     //else throw an exception, this exception will be send to the client properly
-                    }else{
-                        throw new Exception(__('TAO is in maintenance'));
+                    }
+                    else{
+                        throw new common_exception_SystemUnderMaintenance();
                     }
                 }
             }
