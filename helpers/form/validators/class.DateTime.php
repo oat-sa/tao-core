@@ -118,6 +118,14 @@ class tao_helpers_form_validators_DateTime
 							}
 							break;
 						}
+                        case '>=':{
+                            if ($dateTime >= $dateTime2){
+                                $returnValue = true;
+                            }else{
+                                $this->message .= ' (' . __('must be after or the same as: ').$dateTime2->format('Y-m-d').')';
+                            }
+                            break;
+                        }
 						case 'before':
 						case 'earlier':
 						case 'inf':
@@ -125,11 +133,19 @@ class tao_helpers_form_validators_DateTime
 							if($dateTime < $dateTime2){
 								$returnValue = true;
 							}else{
-								$this->message .= ' (' . __('must be before: ').$dateTime2->format('Y-m-d H:i:s').')';
+								$this->message .= ' (' . __('must be before: ').$dateTime2->format('Y-m-d').')';
 								//TODO should add supprot of time: H:i:s
 							}
 							break;
 						}
+                        case '<=':{
+                            if($dateTime <= $dateTime2){
+                                $returnValue = true;
+                            }else{
+                                $this->message .= ' (' . __('must be before or the same as: ').$dateTime2->format('Y-m-d').')';
+                            }
+                            break;
+                        }
 						default:
 							throw new common_Exception('Usuported comparator in DateTime Validator: '.$this->options['comparator']);
 					}
@@ -139,7 +155,7 @@ class tao_helpers_form_validators_DateTime
 				$returnValue = true; 
 			}
 		}catch(Exception $e){
-			$this->message = __('The value of this field must be a valide date format, e.g. YYYY-MM-DD HH:MM:SS');
+			$this->message = __('The value of this field must be a valide date format, e.g. YYYY-MM-DD');
 			$returnValue = false;
 		}
 		
