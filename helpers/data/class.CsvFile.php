@@ -200,7 +200,7 @@ class tao_helpers_data_CsvFile
 	        // More readable variables
 	    	$WRAP  = preg_quote($this->options['field_encloser'], '/');
 			$DELIM = $this->options['field_delimiter'];
-			$BREAK = PHP_EOL;
+			$BREAK = $this->options['line_break'];
 			$MULTI = $this->options['multi_values_delimiter'];
 			
 			
@@ -208,7 +208,7 @@ class tao_helpers_data_CsvFile
 			
 			if ($this->options['first_row_column_names']){
 				
-				$fields = explode($DELIM, $rows[0]);
+				$fields = array_map('rtrim', explode($DELIM, $rows[0]));
 				foreach($fields as $i => $field){
 					$fieldData = preg_replace("/^$WRAP/", '', $field);
 					$fieldData = preg_replace("/$WRAP$/", '', $fieldData);
@@ -225,7 +225,7 @@ class tao_helpers_data_CsvFile
 				if (trim($row) != ''){
 					$data[$lineNumber] = array();
 					
-					$rowFields = explode($DELIM, $row);
+					$rowFields = array_map('rtrim', explode($DELIM, $row));
 					for ($i = 0; $i < count($rowFields); $i++){
 						$fieldData = preg_replace("/^$WRAP/", '', $rowFields[$i]);
 						$fieldData = preg_replace("/$WRAP$/", '', $fieldData);
