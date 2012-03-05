@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xml:base="http://www.tao.lu/Ontologies/TAO.rdf#"
+	xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
+	xmlns:wf="http://www.tao.lu/middleware/wfEngine.rdf#"
+	xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#"
+	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
+>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Action">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+    <rdfs:label xml:lang="EN"><![CDATA[an action]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[an action]]></rdfs:comment>
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Module">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+    <rdfs:label xml:lang="EN"><![CDATA[a module]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[a module]]></rdfs:comment>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#grantAccessAction">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:domain rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassRole"/>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[give access to a action]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[give access to a action]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#grantAccessModule">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:domain rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassRole"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label xml:lang="EN"><![CDATA[give access to a module]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[give access to a module]]></rdfs:comment>
+  </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#actionIdentifier">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Identifier]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[Identifier of the action]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Action"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#actionMemberOf">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#member"/>
+    <rdfs:label xml:lang="EN"><![CDATA[member of]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[member of a module]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Action"/>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Module"/>
+  </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#moduleIdentifier">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Identifier]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[Identifier of the module]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Module"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOItem.rdf#moduleExtension">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="EN"><![CDATA[extension]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[extension of the module]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Module"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+  </rdf:Description>
+</rdf:RDF>
