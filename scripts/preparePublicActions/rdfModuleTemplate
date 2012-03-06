@@ -1,0 +1,7 @@
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_{name}">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
+    <rdfs:label xml:lang="EN"><![CDATA[module {name}]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[module {name}]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[{name}]]></funcacl:moduleIdentifier>
+		<funcacl:moduleExtension xml:lang="EN"><![CDATA[{extension}]]></funcacl:moduleExtension>
+  </rdf:Description>
