@@ -218,7 +218,7 @@ class tao_helpers_form_elements_xhtml_Treeview
     public function getEvaluatedValue()
     {
         // section 127-0-1-1--19ea91f3:1349db91b83:-8000:000000000000349C begin
-    	$values = array_map("tao_helpers_Uri::decode", $this->getRawValues());
+    	$values = array_map("tao_helpers_Uri::decode", $this->getValues());
     	if(count($values) == 1){
 			return $values[0];
     	} else{
