@@ -96,8 +96,8 @@ class tao_scripts_TaoPreparePublicActions
 						//Add the module
 						//http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_{name}
 						$module = substr($action, 6, -4);
-						$rdf .= "\n".str_replace("{name}", $module, str_replace("{extension}", $dir, $rdf_modtpl))."\n";
-						$ext = "http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_".$module;
+						$rdf .= "\n".str_replace("{name}", $dir.'_'.$module, str_replace("{extension}", $dir, $rdf_modtpl))."\n";
+						$ext = "http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_".$dir.'_'.$module;
 
 						$class = $dir.'_actions_'.$module;
 
@@ -107,8 +107,7 @@ class tao_scripts_TaoPreparePublicActions
 							$methods = $reflector->getMethods(ReflectionMethod::IS_PUBLIC);
 							foreach ($methods as $m) {
 								if (!$m->isConstructor() && !$m->isDestructor() && $m->class == $class) {
-									//$rdf .= '<>'.$m->name.'<>'."\n";
-									$rdf .= "\n".str_replace("{name}", $m->name, str_replace("{member}", $ext, $rdf_acttpl));
+									$rdf .= "\n".str_replace("{name}", $dir.'_'.$module.' '.$m->name, str_replace("{member}", $ext, $rdf_acttpl));
 								}
 							}
 						}
