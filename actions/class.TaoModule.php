@@ -161,7 +161,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 							$pkey = str_replace('property_', '', $key);
 							$propNum = substr($pkey, 0, strpos($pkey, '_'));
 							$propKey = tao_helpers_Uri::decode(str_replace($propNum.'_', '', $pkey));
-							$propertyValues[$propNum][$propKey] = tao_helpers_Uri::decode($value);
+							$propertyValues[$propNum][$propKey] = ((is_array($value)) ? array_map(array('tao_helpers_Uri', 'decode'), $value) : tao_helpers_Uri::decode($value));
 						}
 						else{
 							
