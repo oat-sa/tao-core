@@ -121,7 +121,7 @@ class tao_scripts_TaoPreparePublicActions
 
 				//Save the RDF
 				$rdf .= "\n".$rdf_footer;
-				file_put_contents(ROOT_PATH.$dir.'/models/ontology/funcACL.rdf', $rdf);
+				file_put_contents(ROOT_PATH.$dir.'/models/ontology/funcacl.rdf', $rdf);
 			}
 		}
         // section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684E end

@@ -11,15 +11,22 @@ return array(
 		'version' => '2.0',
 		'author' => 'CRP Henri Tudor',
 		'dependances' => array('generis'),
-		'models' => 'http://www.tao.lu/Ontologies/TAO.rdf',
+		'models' => array(
+			'http://www.tao.lu/Ontologies/TAO.rdf',
+			'http://www.tao.lu/Ontologies/taoFuncACL.rdf'
+		),
 		'modelsRight' => array (
 			LOCAL_NAMESPACE => '7'
 		),
-		'install' => array( 
+		'install' => array(
 			'php' => dirname(__FILE__). '/install/install.php',
-			'rdf' => dirname(__FILE__). '/models/ontology/tao.rdf'
+			'rdf' => array(
+					array('ns' => 'http://www.tao.lu/Ontologies/TAO.rdf', 'file' => dirname(__FILE__). '/models/ontology/tao.rdf'),
+					array('ns' => 'http://www.tao.lu/Ontologies/taoFuncACL.rdf', 'file' => dirname(__FILE__). '/models/ontology/taofuncacl.rdf'),
+					array('ns' => 'http://www.tao.lu/Ontologies/taoFuncACL.rdf', 'file' => dirname(__FILE__). '/models/ontology/funcacl.rdf')
+			)
 		),
-		'classLoaderPackages' => array( 
+		'classLoaderPackages' => array(
 			dirname(__FILE__).'/actions/',
 			dirname(__FILE__).'/helpers/',
 			dirname(__FILE__).'/helpers/form'

@@ -1,7 +1,7 @@
 <?php
 
 class tao_install_Installator{
-	
+
 	/**
 	 * What/How to test the config
 	 * @var array tests parameters
@@ -137,9 +137,9 @@ class tao_install_Installator{
 			)
 		)
 	);
-	
+
 	protected $options = array();
-	
+
 	public function __construct($options)
 	{
 		if(!isset($options['root_path'])){
@@ -148,9 +148,9 @@ class tao_install_Installator{
 		if(!isset($options['install_path'])){
 			throw new tao_install_utils_Exception("install path options must be defined");
 		}
-		
+
 		$this->options = $options;
-		
+
 		if(!preg_match("/\/$/", $this->options['root_path'])){
 			$this->options['root_path'] .= '/';
 		}
@@ -158,18 +158,18 @@ class tao_install_Installator{
 			$this->options['install_path'] .= '/';
 		}
 	}
-	
-	
+
+
 	/**
 	 * Run the tests defined in self::$tests
 	 */
 	public function processTests()
 	{
-		
+
 		$testResults = array();
-		
+
 		foreach(self::$tests as $test){
-			
+
 			//structure of teh results for each test
 			$result = array(
 				'title' 	=> $test['title'],
@@ -177,8 +177,8 @@ class tao_install_Installator{
 				'unknow'	=> false,
 				'message'	=> ''
 			);
-			
-			//in case one of the test is sufficient: only one of the tests must be valid 
+
+			//in case one of the test is sufficient: only one of the tests must be valid
 			if($test['type'] == 'MULTI'){
 				$successMessages = array();
 				$failureMessages = array();
@@ -189,9 +189,9 @@ class tao_install_Installator{
 						$tester = new tao_install_utils_ConfigTester($subTest['type'], $parameters);
 						if($tester->getStatus() ==  tao_install_utils_ConfigTester::STATUS_VALID){
 							$result['valid'] = true;
-							$successMessages[] = $tester->getMessage(); 
+							$successMessages[] = $tester->getMessage();
 						} else {
-							$failureMessages[] = $tester->getMessage(); 
+							$failureMessages[] = $tester->getMessage();
 						}
 					}
 					catch(tao_install_utils_Exception $ie){
@@ -212,7 +212,7 @@ class tao_install_Installator{
 			}
 			else{
 				//the test must be valid
-				
+
 				$parameters = $test;
 				unset($parameters['type']);
 				unset($parameters['title']);
@@ -244,11 +244,11 @@ class tao_install_Installator{
 		}
 		return $testResults;
 	}
-	
+
 
 	/**
 	 * Run the TAO install from the given data
-	 * @throws tao_install_utils_Exception 
+	 * @throws tao_install_utils_Exception
 	 * @param $installData data coming from the install form
 	 * @see tao_install_form_Settings
 	 */
@@ -256,7 +256,7 @@ class tao_install_Installator{
 	{
 		/*
 		 *  1 - Test DB connection (done by the constructor)
-		 */ 
+		 */
 		$dbCreator = new tao_install_utils_DbCreator(
 			$installData['db_host'],
 			$installData['db_user'],
@@ -264,15 +264,15 @@ class tao_install_Installator{
 			$installData['db_driver'],
 			$installData['db_name']
 		);
-		
+
 		/*
 		 *   2 - Load the database schema
 		 */
-		
+
 		// If the database already exists, drop all tables
 		if ($dbCreator->dbExists($installData['db_name'])) {
 			$dbCreator->cleanDb ($installData['db_name']);
-		} 
+		}
 		// Else create it
 		else {
 			try {
@@ -285,17 +285,17 @@ class tao_install_Installator{
 				$dbCreator->setDatabase ($installData['db_name']);
 			}
 		}
-		
+
 		// Create tao tables
 		$dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
-		
-		
+
+
 		/*
 		 *  3 - Create the local namespace
 		 */
 		$dbCreator->execute("INSERT INTO models VALUES ('8', '{$installData['module_namespace']}', '{$installData['module_namespace']}#')");
-		
-		
+
+
 		/*
 		 *  4 - Create the generis config file
 		 */
@@ -320,7 +320,7 @@ class tao_install_Installator{
 		require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
 		// Usefull to get version number from TAO constants
 		require_once(ROOT_PATH.'tao/includes/constants.php');
-		
+
 		/*
 		 *  5 - Create the configuration files for the loaded extensions
 		 */
@@ -328,34 +328,34 @@ class tao_install_Installator{
 		$extensions = $extensionManager->getInstalledExtensions();
 		foreach($extensions as $extensionId => $extension){
 			if($extensionId == 'generis') {
-				continue; 	//generis is the root and has been installed above 
+				continue; 	//generis is the root and has been installed above
 			}
-			
+
 			$myConfigWriter = new tao_install_utils_ConfigWriter(
 				$this->options['root_path'] . $extensionId . '/includes/config.php.sample',
 				$this->options['root_path'] . $extensionId . '/includes/config.php'
 			);
 			$myConfigWriter->createConfig();
 		}
-		
+
 		$myConfigWriter = new tao_install_utils_ConfigWriter(
 			$this->options['root_path'] . '/filemanager/includes/config.php.sample',
 			$this->options['root_path'] . '/filemanager/includes/config.php'
 		);
 		$myConfigWriter->createConfig();
-		
-		
+
+
 		$modelCreator = new tao_install_utils_ModelCreator($installData['module_namespace']);
 
-		
+
 		/*
 		 *  6 - Insert the extensions models
 		 */
 		$models = tao_install_utils_ModelCreator::getModelsFromExtensions($extensions);
-		foreach($models as $ns => $modelFile){
-			$modelCreator->insertModelFile($ns, $modelFile);
+		foreach($models as $ns => $modelFiles){
+			foreach($modelFiles as $file) $modelCreator->insertModelFile($ns, $file);
 		}
-		
+
 		/*
 		 * 7 - Insert translation extensions models (messages.rdf)
 		 */
@@ -369,21 +369,21 @@ class tao_install_Installator{
 				}
 			}
 		}
-		
+
 		/*
 		 *  8 - Insert Local Data by extensions (can be samples data too)
 		 */
 		foreach($extensions as $extensionId => $extension){
 			if($extensionId == 'generis') {
-				continue; 	//generis is the root and has been installed above 
+				continue; 	//generis is the root and has been installed above
 			}
 			$localData = $this->options['root_path'] . $extensionId . '/models/ontology/local.rdf';
 			if(file_exists($localData)){
 				$modelCreator->insertLocalModelFile($localData);
 			}
 		}
-		
-		
+
+
 		/*
 		 *  9 - Insert Super User
 		 */
@@ -396,41 +396,41 @@ class tao_install_Installator{
 			'userDefLg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($installData['module_lang']),
 			'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($installData['module_lang'])
 		));
-		
-		
+
+
 		/*
 		 *  9 - Secure the install for production mode
 		 */
 		if($installData['module_mode'] == 'production'){
-			
+
 			// 9.1 Remove Generis User
 			$dbCreator->execute('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelID"=6');
-			
+
 			// 9.2 Protect TAO dist
  			$shield = new tao_install_utils_Shield(array_keys($extensions));
  			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
  			$shield->protectInstall();
 		}
-		
+
 		/*
 		 *  10 - Create the version file
 		 */
 		file_put_contents(ROOT_PATH.'version', TAO_VERSION);
 	}
-	
+
 	/**
 	 * Run the TAO install from the given data
-	 * @throws tao_install_utils_Exception 
+	 * @throws tao_install_utils_Exception
 	 * @param array $installData
 	 */
 	public function configWaterPhoenix(array $installData)
-	{	
+	{
 		$waterPhoenixPath = 'taoItems/models/ext/itemAuthoring/waterphenix/';
 		$url = trim($installData['module_url']);
 		if(!preg_match("/\/$/", $url)){
 			$url .= '/';
 		}
-		
+
 		//Update the HAWAI XHTL skeleton sample
 		$contentSkeletonUrlSample = $this->options['root_path'].$waterPhoenixPath.'xt/xhtml/data/units/xhtml.skeleton.xhtml.sample';
 		$contentSkeletonUrl = $this->options['root_path'].$waterPhoenixPath.'xt/xhtml/data/units/xhtml.skeleton.xhtml';
@@ -442,7 +442,7 @@ class tao_install_Installator{
 				file_put_contents($contentSkeletonUrl, $contentSkeleton);
 			}
 		}
-		
+
 		//update the HAWAI config file
 		$configWriter = new tao_install_utils_ConfigWriter(
 			$this->options['root_path'] . $waterPhoenixPath . 'config/config.sample',
@@ -452,7 +452,7 @@ class tao_install_Installator{
 		$configWriter->writeJsVariable(array(
 			'Wx.Config.URL'	=> $url . $waterPhoenixPath
 		), "");
-		
+
 		//update the HAWAI sample
 		$sample = $this->options['root_path'] . 'taoItems/data/i1261571812010328500/index.xhtml.sample';
 		$destFile = $this->options['root_path'] . 'taoItems/data/i1261571812010328500/index.xhtml';
