@@ -140,7 +140,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 		$importData['options'] = array(
 			'field_delimiter' 			=> $formValues['field_delimiter'],
 			'field_encloser' 			=> $formValues['field_encloser'],
-			'line_break' 				=> $formValues['line_break'],
+			'line_break' 				=> "\n",
 			'multi_values_delimiter' 	=> $formValues['multi_values_delimiter'],
 			'first_row_column_names' 	=> isset($formValues['first_row_column_names'][0])
 		);
