@@ -977,9 +977,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$propertyValuesFormated[] = $propertyValueFormated;
 		}
 		
-		//
 		$data = array(
-			'data' 	=> tao_helpers_Display::textCutter($property->getLabel(), 16),
+			'data' 	=> $this->hasRequestParameter('rootNodeName') ? $this->getRequestParameter('rootNodeName') : tao_helpers_Display::textCutter($property->getLabel(), 16),
 			'type'	=> 'class',
 			'count' => count($propertyValuesFormated),
 			'attributes' => array(
