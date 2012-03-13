@@ -9,11 +9,11 @@
 >
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LangLU">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
-    <rdfs:label xml:lang="EN"><![CDATA[Lxembourgish]]></rdfs:label>
-    <rdfs:label xml:lang="FR"><![CDATA[Lxembourgeois]]></rdfs:label>
+    <rdfs:label xml:lang="EN"><![CDATA[Luxembourgish]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Luxembourgeois]]></rdfs:label>
     <rdfs:label xml:lang="DE"><![CDATA[Letzeburgisch]]></rdfs:label>
     <rdfs:label xml:lang="LU"><![CDATA[Lëtzebuergesch]]></rdfs:label>
-    <rdfs:label xml:lang="SE"><![CDATA[Lxemburgish]]></rdfs:label>
+    <rdfs:label xml:lang="SE"><![CDATA[Luxemburgish]]></rdfs:label>
     <rdf:value><![CDATA[LU]]></rdf:value>
     <tao:level><![CDATA[4]]></tao:level>
   </rdf:Description>
