@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 24.01.2011, 11:51:47 with ArgoUML PHP module 
+ * Automatically generated on 13.03.2012, 11:53:25 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -20,6 +20,13 @@ error_reporting(E_ALL);
 if (0 > version_compare(PHP_VERSION, '5')) {
     die('This file was generated for PHP 5');
 }
+
+/**
+ * include common_Exception
+ *
+ * @author Joel Bout, <joel.bout@tudor.lu>
+ */
+require_once('common/class.Exception.php');
 
 /* user defined includes */
 // section 127-0-1-1-235ad9e5:12db7a01f69:-8000:0000000000002D13-includes begin
@@ -33,12 +40,12 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Short description of class tao_models_classes_UserException
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
 class tao_models_classes_UserException
-    extends Exception
+    extends common_Exception
 {
     // --- ASSOCIATIONS ---
 
@@ -51,7 +58,7 @@ class tao_models_classes_UserException
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string message
      * @return mixed
      */
