@@ -106,7 +106,7 @@ class tao_models_grids_adaptors_UserProperty
 				foreach($propertyUris as $propertyUri){
 					
 					$value = null;
-					if(count($propertiesValues[$propertyUri])){
+					if(isset($propertiesValues[$propertyUri]) && count($propertiesValues[$propertyUri])){
 						$value = reset($propertiesValues[$propertyUri]);
 					}
 					
@@ -132,6 +132,8 @@ class tao_models_grids_adaptors_UserProperty
 						if ($role instanceof core_kernel_classes_Resource) {
 							if($i){
 								$this->data[$rowId]['roles'] .= ', ';
+							}else{
+								$this->data[$rowId]['roles'] = '';
 							}
 							$this->data[$rowId]['roles'] .= $role->getLabel();
 						}
