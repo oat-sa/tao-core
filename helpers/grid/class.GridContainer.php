@@ -213,33 +213,34 @@ abstract class tao_helpers_grid_GridContainer
         $columns = $this->grid->getColumns();
         if(isset($options['columns'])){
         	foreach($options['columns'] as $columnId=>$columnOptions){
-        		foreach($columnOptions as $optionsName=>$optionsValue){
-        			
-        			if($optionsName=='columns'){
-        				//if the options is columns, the options will be used to augment the subgrid model
-        				$columns = $this->grid->getColumns();
-        				$subGridAdapter = null;
-        				//get the last subgrid adapter which defines the column
-        				$adapters = $columns[$columnId]->getAdapters();
-        				$adaptersLength = count($adapters);
-        				for($i=$adaptersLength-1; $i>=0; $i--){
-        					if($adapters[$i] instanceof tao_helpers_grid_Cell_SubgridAdapter){
-        						$subGridAdapter = $adapters[$i];
-        						break;
-        					}
-        				}
-        				if(is_null($subGridAdapter)){
-        					throw new Exception(__('The column ').$columnId.__(' requires a subgrid adapter'));
-        				}
-        				//init options of the subgrid
-        				$subGridAdapter->getGridContainer()->initOptions($columnOptions);
-        				
-        				continue;
-        			}
-        			
-        			//var_dump($columnId.' '.$optionsName.' '.$optionsValue);
-        			$columns[$columnId]->setOption($optionsName, $optionsValue);
-        		}
+				
+				if(isset($columns[$columnId])){
+					foreach($columnOptions as $optionsName=>$optionsValue){
+						if($optionsName=='columns'){
+							//if the options is columns, the options will be used to augment the subgrid model
+							$columns = $this->grid->getColumns();
+							$subGridAdapter = null;
+							//get the last subgrid adapter which defines the column
+							$adapters = $columns[$columnId]->getAdapters();
+							$adaptersLength = count($adapters);
+							for($i=$adaptersLength-1; $i>=0; $i--){
+								if($adapters[$i] instanceof tao_helpers_grid_Cell_SubgridAdapter){
+									$subGridAdapter = $adapters[$i];
+									break;
+								}
+							}
+							if(is_null($subGridAdapter)){
+								throw new Exception(__('The column ').$columnId.__(' requires a subgrid adapter'));
+							}
+							//init options of the subgrid
+							$subGridAdapter->getGridContainer()->initOptions($columnOptions);
+
+							continue;
+						}
+						$columns[$columnId]->setOption($optionsName, $optionsValue);
+					}
+				}
+				
         	}
         }
         // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C1 end

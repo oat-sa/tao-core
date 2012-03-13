@@ -75,29 +75,29 @@ class tao_models_grids_Users
 			$adapterOptions['excludedProperties'] = $excludedProperties;
 		}
 		
-		$activityProperties = array(
+		$userProperties = array(
 			RDFS_LABEL => __('Label'),
 			PROPERTY_USER_LOGIN => __('Login'),
 			PROPERTY_USER_FIRTNAME => __('First Name'),
 			PROPERTY_USER_LASTNAME => __('Last Name'),
-			PROPERTY_USER_MAIL => __('Restricted to'),
-			PROPERTY_USER_UILG => __('Interface Language'),
-			PROPERTY_USER_DEFLG => __('Data Language'),
+			PROPERTY_USER_MAIL => __('e-mail'),
+			PROPERTY_USER_UILG => __('UI Lang.'),
+			PROPERTY_USER_DEFLG => __('Data Lang.'),
 			'roles' => __('Roles')
 		);
 		
 		$propertyUris = array();
 		
-		foreach($activityProperties as $activityPropertyUri => $label){
-			if(!isset($excludedProperties[$activityPropertyUri])){
-				if(isset($columnNames[$activityPropertyUri]) && !empty($columnNames[$activityPropertyUri])){
-					$label = $columnNames[$activityPropertyUri];
+		foreach($userProperties as $userPropertyUri => $label){
+			if(!in_array($userPropertyUri, $excludedProperties)){
+				if(isset($columnNames[$userPropertyUri]) && !empty($columnNames[$userPropertyUri])){
+					$label = $columnNames[$userPropertyUri];
 				}
-				$this->grid->addColumn($activityPropertyUri, $label);
-				$propertyUris[] = $activityPropertyUri;
+				$this->grid->addColumn($userPropertyUri, $label);
+				$propertyUris[] = $userPropertyUri;
 			}
 		}
-        
+		
 		$returnValue = $this->grid->setColumnsAdapter(
 			$propertyUris,
 			new tao_models_grids_adaptors_UserProperty($adapterOptions)

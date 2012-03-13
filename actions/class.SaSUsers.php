@@ -22,7 +22,17 @@ class tao_actions_SaSUsers extends tao_actions_Users {
         $this->setSessionAttribute('currentExtension', 'taoDelivery');
 		parent::__construct();
 		
-		$this->userGridOptions = array();
+		$this->userGridOptions = array(
+			'columns' => array(
+				'country' => array('position' => 2, 'weight'=>0.5),
+				'roles' => array('weight'=>2),
+				PROPERTY_USER_UILG => array('weight'=>0.6),
+				PROPERTY_USER_DEFLG => array('weight'=>0.6)
+			),
+			'excludedProperties' => array(
+				PROPERTY_USER_UILG
+			)
+		);
     }
 	
 	public function setView($identifier, $useMetaExtensionView = false) {
@@ -43,7 +53,7 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 	 */
 	public function viewGrid(){
 		
-		$userGrid = new tao_models_grids_Users(array(), $this->userGridOptions);
+		$userGrid = new tao_models_grids_CustomUsers(array(), $this->userGridOptions);
 		$model = $userGrid->getGrid()->getColumnsModel();
 		$this->setData('model', json_encode($model));
 		$this->setData('data', $userGrid->getGrid()->toArray());
@@ -88,7 +98,7 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 			$users = $userClass->getInstances();
 		}
 		
-		$userGrid = new tao_models_grids_Users(array_keys($users), $this->userGridOptions);
+		$userGrid = new tao_models_grids_CustomUsers(array_keys($users), $this->userGridOptions);
 		$data = $userGrid->toArray();
 		$returnValue = $data;
 		
