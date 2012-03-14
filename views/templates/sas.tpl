@@ -38,23 +38,6 @@
 		<?endif?>
 		});
 	</script>
-	<style type="text/css">
-		body{
-			position:inherit;
-			width:inherit;
-			height:inherit;
-			min-height:inherit;
-			min-width:inherit;
-		}
-		div.main-container{
-			width:inherit;
-			height:100%;
-			min-height:250px;
-		}
-		div#footer{
-			position:inherit;
-		}
-	</style>
 </head>
 <body>
 
@@ -63,14 +46,16 @@
 		<span><?=get_data('message')?></span>
 	</div>
 	<?endif?>
+	
 	<div id="ajax-loading" class="ui-widget-overlay">
 		<img src="<?=TAOBASE_WWW?>img/ajax-loader.gif" alt="Loading..." />
 	</div>
 
-	<div class="main-container" >
-	<? include(get_data('includedView')) ?>
+	<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all ui-tabs-collapsible">
+		<div id="sas-widget" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+			<? include(get_data('includedView')); ?>
+		</div>
 	</div>
-
 
 </body>
 </html>

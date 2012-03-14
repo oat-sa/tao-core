@@ -138,8 +138,8 @@ TaoGridClass.prototype.initGrid = function()
 			repeatitems : false,
 			id: "0"
 		},
-		height		: '100%',
-		width		: '100%',
+		height		: this.options.height - 54,
+//		width		: '100%',
 		autowidth	: true,
 		onSelectRow: function(id){
 		    if(self.options.callback.onSelectRow != null){
