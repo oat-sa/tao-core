@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 03.02.2012, 11:06:37 with ArgoUML PHP module 
+ * Automatically generated on 15.03.2012, 16:47:09 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -79,19 +79,27 @@ class tao_models_classes_SessionCache
     // --- OPERATIONS ---
 
     /**
-     * Short description of method put
+     * puts "something" into the cache,
+     * If this is an object and implements Serializable,
+     * we use the serial provided bu the object
+     * else a serial must be provided
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Serializable item
+     * @param  mixed
+     * @param  string serial
      * @return mixed
      */
-    public function put( tao_models_classes_Serializable $item)
+    public function put($mixed, $serial = null)
     {
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003703 begin
-    	if(!is_null($item)){
-			$this->items[$item->getSerial()] = $item; 
-    	}
+        if ($mixed instanceof tao_models_classes_Serializable) {
+        	if (!is_null($serial) && $serial != $mixed->getSerial()) {
+        		throw new common_exception_Error('Serial mismatch for Serializable '.$mixed->getSerial());
+        	}
+        	$serial = $mixed->getSerial();
+        }
+        $this->items[$serial] = $mixed;
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003703 end
     }
 
@@ -136,14 +144,14 @@ class tao_models_classes_SessionCache
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Serializable item
+     * @param  string serial
      * @return mixed
      */
-    public function remove( tao_models_classes_Serializable $item)
+    public function remove($serial)
     {
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003700 begin
-        unset($this->items[$item->getSerial()]);
-        unset($_SESSION[SESSION_NAMESPACE][static::SESSION_KEY][$item->getSerial()]);
+        unset($this->items[$serial]);
+        unset($_SESSION[SESSION_NAMESPACE][static::SESSION_KEY][$serial]);
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003700 end
     }
 

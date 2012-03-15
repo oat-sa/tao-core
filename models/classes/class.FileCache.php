@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 15.03.2012, 15:37:16 with ArgoUML PHP module 
+ * Automatically generated on 15.03.2012, 17:57:40 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -61,14 +61,6 @@ class tao_models_classes_FileCache
 
     // --- ATTRIBUTES ---
 
-    /**
-     * Short description of attribute data
-     *
-     * @access public
-     * @var array
-     */
-    public $data = array();
-
     // --- OPERATIONS ---
 
     /**
@@ -92,9 +84,8 @@ class tao_models_classes_FileCache
         	}
         	$serial = $mixed->getSerial();
         }
-        $this->data[$serial] = $mixed;
 		$handle = fopen($this->getFilePath($serial), 'w');
-		fwrite($handle, "<? return ".$this->buildPHPVariableString($this->data_cache).";?>");
+		fwrite($handle, "<? return ".$this->buildPHPVariableString($mixed).";?>");
 		fclose($handle);
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003703 end
     }
@@ -112,10 +103,11 @@ class tao_models_classes_FileCache
         $returnValue = null;
 
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003706 begin
-        if (is_null($this->data[$serial])) {
-        	$this->data[$serial] = include $this->getFilePath($serial);
+        try {
+        	$returnValue  = include $this->getFilePath($serial);
+        } catch (Exception $e) {
+        	common_Logger::d('Exception while reading cache entry for '.$serial);
         }
-        $returnValue = $this->data[$serial];
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003706 end
 
         return $returnValue;
@@ -132,8 +124,7 @@ class tao_models_classes_FileCache
     public function remove($serial)
     {
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003700 begin
-        // delete file
-        // empty chache
+        unlink($this->getFilePath($serial));
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003700 end
     }
 
@@ -147,6 +138,11 @@ class tao_models_classes_FileCache
     public function purge()
     {
         // section 127-0-1-1--18485ef3:13542665222:-8000:00000000000065B1 begin
+	    if ($handle = opendir('/path/to/files')) {
+		    while (false !== ($entry = readdir($handle))) {
+		        unlink($entry);
+		    }
+	    }
         // section 127-0-1-1--18485ef3:13542665222:-8000:00000000000065B1 end
     }
 
@@ -186,8 +182,8 @@ class tao_models_classes_FileCache
         		$returnValue = null;
 				break;
         	case "object" :
-				$returnValue = 'unserialize('.serialize($mixed).')';
-				break;
+        		$returnValue = 'unserialize(\''.serialize($mixed).'\')';
+        		break;
         	default:
     			// ressource and unexpected types
         		common_Logger:w("Could not store variable of type ".gettype($mixed)." in ".get_called_class());

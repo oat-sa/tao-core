@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 03.02.2012, 11:06:37 with ArgoUML PHP module 
+ * Automatically generated on 15.03.2012, 16:28:23 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -44,14 +44,18 @@ interface tao_models_classes_Cache
     // --- OPERATIONS ---
 
     /**
-     * Short description of method put
+     * puts "something" into the cache,
+     * If this is an object and implements Serializable,
+     * we use the serial provided bu the object
+     * else a serial must be provided
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Serializable item
+     * @param  mixed
+     * @param  string serial
      * @return mixed
      */
-    public function put( tao_models_classes_Serializable $item);
+    public function put($mixed, $serial = null);
 
     /**
      * Short description of method get
@@ -68,10 +72,10 @@ interface tao_models_classes_Cache
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Serializable item
+     * @param  string serial
      * @return mixed
      */
-    public function remove( tao_models_classes_Serializable $item);
+    public function remove($serial);
 
     /**
      * Short description of method purge

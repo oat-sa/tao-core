@@ -198,7 +198,7 @@ abstract class tao_models_classes_SessionSerializable
 		//usefull only when persistance is enabled
 		if(!is_null($this->getCache())){
 			//clean session
-			$this->getCache()->remove($this);
+			$this->getCache()->remove($this->getSerial());
 		}
         // section 127-0-1-1-17e76cf9:1353916dbea:-8000:00000000000036CA end
     }

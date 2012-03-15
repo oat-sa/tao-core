@@ -18,7 +18,7 @@ define("DIR_VIEWS"			, dirname(__FILE__) . '/../views/');
 # helpers directory
 define("DIR_HELPERS"		, dirname(__FILE__) . "/../helpers/");
 
-define('CACHE_PATH'			, dirname(__FILE__) . '/data/cache/');
+define('CACHE_PATH'			, dirname(__FILE__) . '/../data/cache/');
 
 
 # default module name

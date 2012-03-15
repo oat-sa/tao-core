@@ -177,6 +177,42 @@ class ServiceTestCase extends UnitTestCase {
 		$testProperty->delete();
 		$testModelClass->delete();
 	}
-
+	
+	public function testFileCacheService(){
+		$fc = tao_models_classes_FileCache::singleton();
+		
+		$fc->put("string1", 'testcase1');
+		$fromCache = $fc->get('testcase1');
+		$this->assertTrue(is_string($fromCache), 'string is not returned as string from FileCache');
+		$this->assertEqual($fromCache,  "string1");
+		$fc->remove('testcase1');
+		
+		$fc->put(42, 'testcase2');
+		$fromCache = $fc->get('testcase2');
+		$this->assertTrue(is_numeric($fromCache), 'numeric is not returned as numeric from FileCache');
+		$this->assertEqual($fromCache,  42);
+		$fc->remove('testcase2');
+		
+		$testarr = array(
+			'a' => 'astring',
+			'b' => 3.1415
+		);
+		$fc->put($testarr, 'testcase3');
+		$fromCache = $fc->get('testcase3');
+		$this->assertTrue(is_array($fromCache), 'array is not returned as array from FileCache');
+		$this->assertEqual($fromCache,  $testarr);
+		$fc->remove('testcase3');
+		
+		
+		$e = new Exception('message');
+		$fc->put($e, 'testcase4');
+		$fromCache = $fc->get('testcase4');
+		$this->assertTrue(is_object($fromCache), 'object is not returned as object from FileCache');
+		$this->assertIsA($fromCache, 'Exception');
+		$this->assertEqual($e->getMessage(),  $fromCache->getMessage());
+		$fc->remove('testcase4');
+		
+	}
+	
 }
 ?>
