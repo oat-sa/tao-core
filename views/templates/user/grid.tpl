@@ -1,9 +1,5 @@
-<script type="text/javascript" src="<?=ROOT_URL?>/taoLgItems/views/js/grid/wfengine.grid.runActivity.js"></script>
-<script type="text/javascript" src="<?=ROOT_URL?>/taoLgItems/views/js/grid/wfengine.grid.previewTranslation.js"></script>
-<script type="text/javascript" src="<?=ROOT_URL?>/wfEngine/views/js/wfApi/wfApi.min.js"></script>
-
 <!--<div id="main-container" class="main-container">-->
-<div>
+<div class="main-container">
 	<div id="monitoring-processes-container">
 		<table id="monitoring-processes-grid" />
 	</div>	

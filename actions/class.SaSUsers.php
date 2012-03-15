@@ -19,7 +19,7 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 	public function __construct() {
 		
     	tao_helpers_Context::load('STANDALONE_MODE');
-        $this->setSessionAttribute('currentExtension', 'taoDelivery');
+        $this->setSessionAttribute('currentExtension', 'tao');
 		parent::__construct();
 		
 		$this->userGridOptions = array(

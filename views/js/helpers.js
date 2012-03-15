@@ -9,16 +9,23 @@ function getMainContainerSelector(tabObj){
 	if(tabObj == undefined){
 		tabObj = UiBootstrap.tabs;	//backward compat by using the global object
 	}
+	
 	if(tabObj.size() == 0) {
 		if($("div.main-container").length > 0){
 			return "div.main-container";
 		}
 		return false;
 	}
-	var uiTab = $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')].id;
+	
+	var uiTab = $('.ui-tabs-panel').attr('id');
+	if(typeof $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')] != 'undefined'){
+		uiTab = $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')].id;
+	}
+	
 	if($("div#"+uiTab+" div.main-container").css('display') == 'none'){
 		return "div#"+uiTab;
 	}
+	
 	return "div#"+uiTab+" div.main-container";
 }
 
