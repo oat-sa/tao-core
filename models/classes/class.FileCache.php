@@ -104,7 +104,9 @@ class tao_models_classes_FileCache
 
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003706 begin
         try {
-        	$returnValue  = include $this->getFilePath($serial);
+        	if (file_exists($this->getFilePath($serial))) {
+	        	$returnValue = include $this->getFilePath($serial);
+        	}
         } catch (Exception $e) {
         	common_Logger::d('Exception while reading cache entry for '.$serial);
         }
@@ -135,7 +137,7 @@ class tao_models_classes_FileCache
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
-    public function purge()
+    public function purge() 
     {
         // section 127-0-1-1--18485ef3:13542665222:-8000:00000000000065B1 begin
 	    if ($handle = opendir('/path/to/files')) {
