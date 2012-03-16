@@ -1,4 +1,4 @@
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_{name}">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_{base}_{name}">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[module {name}]]></rdfs:label>
 		<rdfs:comment xml:lang="EN"><![CDATA[module {name}]]></rdfs:comment>
