@@ -255,7 +255,7 @@ class tao_models_classes_RoleService
    		if(!is_null($user)){
 			
 			$allowedRoles = $this->roleClass->getInstances(true);
-			foreach($user->getType() as $role){
+			foreach($user->getTypes() as $role){
 				if(array_key_exists($role->uriResource, $allowedRoles)){
 					$returnValue[] = new core_kernel_classes_Resource($role->uriResource);
 				}
@@ -288,7 +288,7 @@ class tao_models_classes_RoleService
 	        	$role = $this->roleClass;
 	        }
 	        
-			$userRoles = $user->getType();
+			$userRoles = $user->getTypes();
 			
 			$acceptedRole =  array_merge(array($role->uriResource) , array_keys($role->getInstances(true))); 
 			foreach ($userRoles  as $userRole){
