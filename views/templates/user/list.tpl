@@ -32,7 +32,7 @@ $(function(){
 	var myGrid = $("#user-list").jqGrid({
 		url: "<?=_url('data', 'Users', 'tao')?>", 
 		datatype: "json", 
-		colNames:[ __('Login'), __('Name'), __('Email'), __('Data Language'), __('Interface Language'), __('Actions')], 
+		colNames:[ __('Login'), __('Name'), __('Mail'), __('Data Language'), __('Interface Language'), __('Actions')], 
 		colModel:[ 
 			{name:'login',index:'login'}, 
 			{name:'name',index:'name'}, 

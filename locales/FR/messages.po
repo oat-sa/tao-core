@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-01-18T15:49:47\n"
+"PO-Revision-Date: 2012-03-16T15:20:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
@@ -50,11 +50,11 @@ msgstr "Accès interdit. Veuillez renouveller votre authentification!"
 msgid "Action"
 msgstr ""
 
-msgid "Actions"
-msgstr "Actions"
-
 msgid "actions"
 msgstr "actions"
+
+msgid "Actions"
+msgstr "Actions"
 
 msgid "Add"
 msgstr "Ajouter"
@@ -74,11 +74,11 @@ msgstr "Ajouter le fichier source"
 msgid "Advanced Authoring Tool"
 msgstr "Edtieur avancé"
 
-msgid "advanced mode"
-msgstr "mode avancé"
-
 msgid "Advanced Mode"
 msgstr "Mode avancé"
+
+msgid "advanced mode"
+msgstr "mode avancé"
 
 msgid "all"
 msgstr ""
@@ -116,10 +116,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -152,10 +152,10 @@ msgstr "compiler"
 msgid "compiled"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
 msgid "compiling"
@@ -166,6 +166,9 @@ msgstr "Confirmer"
 
 msgid "Connect"
 msgstr "S'identifier"
+
+msgid "Country"
+msgstr ""
 
 msgid "Create"
 msgstr "Créer"
@@ -206,6 +209,9 @@ msgstr "Langue courante"
 msgid "Data imported successfully"
 msgstr "Les données ont été importées avec succès"
 
+msgid "Data Lang."
+msgstr ""
+
 msgid "Data language"
 msgstr "Langue des données"
 
@@ -230,11 +236,11 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "delete"
-msgstr "supprimer"
-
 msgid "Delete"
 msgstr "Supprimer"
+
+msgid "delete"
+msgstr "supprimer"
 
 msgid "Delete property"
 msgstr "Supprimer la propriété"
@@ -266,6 +272,9 @@ msgstr "dupliquer"
 msgid "Dynamic date picker"
 msgstr "Un calendrier"
 
+msgid "e-mail"
+msgstr ""
+
 msgid "edit"
 msgstr "modifier"
 
@@ -296,12 +305,6 @@ msgstr "Element"
 msgid "element deleted"
 msgstr "élément supprimé"
 
-msgid "Email"
-msgstr "Email"
-
-msgid "Empty"
-msgstr "Vide"
-
 msgid "Enables you to export an RDF file containing the selected namespaces or instances"
 msgstr ""
 
@@ -314,11 +317,11 @@ msgstr "Erreur pendant l'import du fichier"
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
 
-msgid "Export"
-msgstr "Exporter"
-
 msgid "export"
 msgstr "exporter"
+
+msgid "Export"
+msgstr "Exporter"
 
 msgid "Export Options"
 msgstr "Options d'export"
@@ -365,6 +368,9 @@ msgstr "Filtres"
 msgid "Finish"
 msgstr ""
 
+msgid "First Name"
+msgstr ""
+
 msgid "Full preview"
 msgstr ""
 
@@ -398,10 +404,10 @@ msgstr ""
 msgid "Instances"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid date range"
@@ -436,6 +442,9 @@ msgstr "Label déjà utilisé"
 
 msgid "Language"
 msgstr "Langue"
+
+msgid "Last Name"
+msgstr ""
 
 msgid "List"
 msgstr "Liste"
@@ -481,6 +490,9 @@ msgstr "Identifiant non disponible"
 
 msgid "Logout"
 msgstr "Déconnexion"
+
+msgid "Mail"
+msgstr ""
 
 msgid "Maintenance"
 msgstr ""
@@ -533,11 +545,11 @@ msgstr ""
 msgid "Media manager"
 msgstr "Médiathèque"
 
-msgid "Meta Data"
-msgstr "Meta-données"
-
 msgid "meta data"
 msgstr "méta-données"
+
+msgid "Meta Data"
+msgstr "Meta-données"
 
 msgid "minimum value: "
 msgstr ""
@@ -554,7 +566,13 @@ msgstr "Déplacer vers"
 msgid "Moving this element will remove the following properties:"
 msgstr "Le déplacement de cet élément va supprimer les propriétés suivantes:"
 
+msgid "must be after or the same as: "
+msgstr ""
+
 msgid "must be after: "
+msgstr ""
+
+msgid "must be before or the same as: "
 msgstr ""
 
 msgid "must be before: "
@@ -689,7 +707,7 @@ msgstr "Veuillez télécharger un fichier au format CSV, définit par les option
 msgid "Please upload an RDF file."
 msgstr "Veuillez télécharger un fichier RDF."
 
-msgid "Please wait a moment or contact your administrator"
+msgid "Please wait a moment or contact your administrator."
 msgstr ""
 
 msgid "Prepare, publish deliveries sessions and campaigns."
@@ -719,10 +737,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
 msgid "Remove"
@@ -758,6 +776,9 @@ msgstr "Utilisez le click droit pour gérer vos listes"
 msgid "Role library"
 msgstr "Bibliothèque de rôles"
 
+msgid "Roles"
+msgstr ""
+
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -770,11 +791,11 @@ msgstr "recherche"
 msgid "Search results"
 msgstr "Recherche des résultats"
 
-msgid "Select"
-msgstr "Choisir"
-
 msgid "select"
 msgstr "choisir"
+
+msgid "Select"
+msgstr "Choisir"
 
 msgid "Select a language"
 msgstr "Sélectionner un langage"
@@ -797,11 +818,11 @@ msgstr "Paramètres"
 msgid "settings updated"
 msgstr "Préférences mises à jour"
 
-msgid "simple mode"
-msgstr "mode simple"
-
 msgid "Simple Mode"
 msgstr "Mode simple"
+
+msgid "simple mode"
+msgstr "mode simple"
 
 msgid "stand by"
 msgstr ""
@@ -851,13 +872,13 @@ msgstr ""
 msgid "The format of this field is not valid."
 msgstr "Le format de ce champ est invalide"
 
-msgid "The TAO platform is in maintenance"
+msgid "The TAO platform is under maintenance."
 msgstr ""
 
 msgid "The uploaded file is too large"
 msgstr "Le fichier téléchargé est trop volumineux"
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD HH:MM:SS"
+msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
 msgstr ""
 
 msgid "The value of this field must be an integer"
@@ -890,6 +911,9 @@ msgstr "Traduction sauvegardée"
 msgid "Type"
 msgstr "Type"
 
+msgid "UI Lang."
+msgstr ""
+
 msgid "Uncheck all"
 msgstr ""
 
@@ -918,6 +942,9 @@ msgid "Upload RDF File"
 msgstr "Téléchargez un fichier RDF"
 
 msgid "Upload the file to version"
+msgstr ""
+
+msgid "Use default value"
 msgstr ""
 
 msgid "Use the * character to replace any string"
@@ -949,7 +976,4 @@ msgstr ""
 
 msgid "You cannot modify this property"
 msgstr "Cette propriété ne peut pas être modifié"
-
-msgid "You will be redirected when the platform will be ready again"
-msgstr ""
 

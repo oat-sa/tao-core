@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-01-18T15:49:34\n"
+"PO-Revision-Date: 2012-03-16T15:20:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: AR\n"
@@ -50,10 +50,10 @@ msgstr "!تم رفض الوصول. يرجى تجديد المصادقة الخا
 msgid "Action"
 msgstr ""
 
-msgid "Actions"
+msgid "actions"
 msgstr "الأعمال"
 
-msgid "actions"
+msgid "Actions"
 msgstr "الأعمال"
 
 msgid "Add"
@@ -74,11 +74,11 @@ msgstr "إضافة الملف المصدر"
 msgid "Advanced Authoring Tool"
 msgstr "محرر متقدم"
 
-msgid "advanced mode"
-msgstr "الطريقة المتقدمة"
-
 msgid "Advanced Mode"
 msgstr "طريقة متقدمة"
+
+msgid "advanced mode"
+msgstr "الطريقة المتقدمة"
 
 msgid "all"
 msgstr ""
@@ -116,10 +116,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "تغيير كلمة المرور"
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -152,10 +152,10 @@ msgstr "ترجم"
 msgid "compiled"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
 msgid "compiling"
@@ -166,6 +166,9 @@ msgstr "تأكيد"
 
 msgid "Connect"
 msgstr "الاتصال"
+
+msgid "Country"
+msgstr ""
 
 msgid "Create"
 msgstr "إنشاء"
@@ -206,6 +209,9 @@ msgstr "اللغة الحالية"
 msgid "Data imported successfully"
 msgstr "البيانات التي تم استيرادها بنجاح"
 
+msgid "Data Lang."
+msgstr ""
+
 msgid "Data language"
 msgstr "لغة البيانات"
 
@@ -230,10 +236,10 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr "حذف"
 
-msgid "Delete"
+msgid "delete"
 msgstr "حذف"
 
 msgid "Delete property"
@@ -266,6 +272,9 @@ msgstr "تكرار"
 msgid "Dynamic date picker"
 msgstr "روزنامة"
 
+msgid "e-mail"
+msgstr ""
+
 msgid "edit"
 msgstr "تحرير"
 
@@ -296,12 +305,6 @@ msgstr "العنصر"
 msgid "element deleted"
 msgstr "عنصر محذوف"
 
-msgid "Email"
-msgstr "البريد الإلكتروني"
-
-msgid "Empty"
-msgstr "فارغ"
-
 msgid "Enables you to export an RDF file containing the selected namespaces or instances"
 msgstr ""
 
@@ -314,10 +317,10 @@ msgstr "خطأ أثناء استيراد الملف"
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
 
-msgid "Export"
+msgid "export"
 msgstr "تصدير"
 
-msgid "export"
+msgid "Export"
 msgstr "تصدير"
 
 msgid "Export Options"
@@ -365,6 +368,9 @@ msgstr "Filtres"
 msgid "Finish"
 msgstr ""
 
+msgid "First Name"
+msgstr ""
+
 msgid "Full preview"
 msgstr ""
 
@@ -398,10 +404,10 @@ msgstr ""
 msgid "Instances"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "لغة الواجهة"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "لغة الواجهة"
 
 msgid "Invalid date range"
@@ -436,6 +442,9 @@ msgstr "تسمية قيد الاستعمال"
 
 msgid "Language"
 msgstr "اللغة"
+
+msgid "Last Name"
+msgstr ""
 
 msgid "List"
 msgstr "قائمة"
@@ -481,6 +490,9 @@ msgstr "الدخول غير متوفر"
 
 msgid "Logout"
 msgstr "الخروج"
+
+msgid "Mail"
+msgstr ""
 
 msgid "Maintenance"
 msgstr ""
@@ -533,10 +545,10 @@ msgstr ""
 msgid "Media manager"
 msgstr "Médiathèque"
 
-msgid "Meta Data"
+msgid "meta data"
 msgstr "بيانات التعريف"
 
-msgid "meta data"
+msgid "Meta Data"
 msgstr "بيانات التعريف"
 
 msgid "minimum value: "
@@ -554,7 +566,13 @@ msgstr "حرك الى"
 msgid "Moving this element will remove the following properties:"
 msgstr ":تحريك هذا العنصر سوف يحذف الخصائص التالية"
 
+msgid "must be after or the same as: "
+msgstr ""
+
 msgid "must be after: "
+msgstr ""
+
+msgid "must be before or the same as: "
 msgstr ""
 
 msgid "must be before: "
@@ -691,7 +709,7 @@ msgstr ""
 msgid "Please upload an RDF file."
 msgstr ".RDF الرجاء تحميل ملف"
 
-msgid "Please wait a moment or contact your administrator"
+msgid "Please wait a moment or contact your administrator."
 msgstr ""
 
 msgid "Prepare, publish deliveries sessions and campaigns."
@@ -721,10 +739,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
 msgid "Remove"
@@ -760,6 +778,9 @@ msgstr "استعمل زر النقر اليمين لادارة قوائمك"
 msgid "Role library"
 msgstr "مكتبة الادوار"
 
+msgid "Roles"
+msgstr ""
+
 msgid "Save"
 msgstr "حفظ"
 
@@ -772,11 +793,11 @@ msgstr "البحث"
 msgid "Search results"
 msgstr "البحث عن النتائج"
 
-msgid "Select"
-msgstr "حدد"
-
 msgid "select"
 msgstr "اختر"
+
+msgid "Select"
+msgstr "حدد"
 
 msgid "Select a language"
 msgstr "حدد اللغة"
@@ -799,10 +820,10 @@ msgstr "الإعدادات"
 msgid "settings updated"
 msgstr "تحديث الاعدادات"
 
-msgid "simple mode"
+msgid "Simple Mode"
 msgstr "الطريقة البسيطة"
 
-msgid "Simple Mode"
+msgid "simple mode"
 msgstr "الطريقة البسيطة"
 
 msgid "stand by"
@@ -853,13 +874,13 @@ msgstr ""
 msgid "The format of this field is not valid."
 msgstr "تنسيق هذا الحقل غير صالح"
 
-msgid "The TAO platform is in maintenance"
+msgid "The TAO platform is under maintenance."
 msgstr ""
 
 msgid "The uploaded file is too large"
 msgstr "الملف المحمول كبير جدا"
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD HH:MM:SS"
+msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
 msgstr ""
 
 msgid "The value of this field must be an integer"
@@ -892,6 +913,9 @@ msgstr "حفظ الترجمة"
 msgid "Type"
 msgstr "نوع"
 
+msgid "UI Lang."
+msgstr ""
+
 msgid "Uncheck all"
 msgstr ""
 
@@ -920,6 +944,9 @@ msgid "Upload RDF File"
 msgstr "RDF تحميل ملف"
 
 msgid "Upload the file to version"
+msgstr ""
+
+msgid "Use default value"
 msgstr ""
 
 msgid "Use the * character to replace any string"
@@ -951,7 +978,4 @@ msgstr ""
 
 msgid "You cannot modify this property"
 msgstr "لا يمكنك تعديل هذه الخاصية"
-
-msgid "You will be redirected when the platform will be ready again"
-msgstr ""
 
