@@ -71,10 +71,15 @@ class tao_helpers_funcACL_funcACL
         $returnValue = (bool) false;
 
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B begin
-		$resolver = new Resolver();
-		if (is_null($module)) $module	= $resolver->getModule();
-		if (is_null($action)) $action	= $resolver->getAction();
-
+        if (is_null($module) || is_null($action)) {
+			$resolver = new Resolver();
+			if (is_null($module)) {
+				$module	= $resolver->getModule();
+			}
+			if (is_null($action)) {
+				$action	= $resolver->getAction();
+			}
+	    }
 		//Let access to Main
 		if (in_array(strtolower($module), array('main'))) return true;
 
@@ -85,7 +90,6 @@ class tao_helpers_funcACL_funcACL
 		$search = $userClass->searchInstances(array(PROPERTY_USER_LOGIN => $user), array('recursive' => true));
 		$userRes = new core_kernel_classes_Resource(key($search));
 		var_dump($userRes->getTypes());
-
 		$reverse_access = self::getRolesByActions();
 
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B end
@@ -106,10 +110,13 @@ class tao_helpers_funcACL_funcACL
         $returnValue = array();
 
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B begin
-		if (!is_null(self::$rolesByActions)) $returnValue = self::$rolesByActions;
-		else {
+		if (!is_null(self::$rolesByActions)) {
+			$returnValue = self::$rolesByActions;
+		} else {
 			$returnValue = tao_models_classes_FileCache::singleton()->get('RolesByActions');
-			if (is_null($returnValue)) $returnValue = self::buildRolesByActions();
+			if (is_null($returnValue)) {
+				$returnValue = self::buildRolesByActions();
+			}
 			self::$rolesByActions = $returnValue;
 		}
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B end
@@ -129,7 +136,7 @@ class tao_helpers_funcACL_funcACL
     {
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389D begin
 		$reverse_access = array();
-		unset(self::$rolesByActions);
+		self::$rolesByActions = null;
 
 		$roles = new core_kernel_classes_Class(CLASS_ROLE_BACKOFFICE);
 		foreach ($roles->getInstances() as $roleuri => $r) {

@@ -176,7 +176,7 @@ class tao_models_classes_FileCache
         	case "array" :
 				$string = "";
 				foreach ($mixed as $key => $val) {
-					$string .= "\"".$key."\" => ".$this->buildPHPVariableString($val).",";
+					$string .= $this->buildPHPVariableString($key)." => ".$this->buildPHPVariableString($val).",";
 				}
 				$returnValue = "array(".substr($string, 0, -1).")";
 				break;

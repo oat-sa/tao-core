@@ -174,7 +174,7 @@ abstract class tao_models_classes_GenerisService
         
      	if(!is_null($instance)){
         	if(!$instance->isClass() && !$instance->isProperty()){
-        		foreach($instance->getType() as $type){
+        		foreach($instance->getTypes() as $type){
         			$returnValue = $type;
         			break;
         		}
@@ -333,7 +333,7 @@ abstract class tao_models_classes_GenerisService
         foreach($properties as $propertyUri => $propertyValue){
 			
         	if($propertyUri == RDF_TYPE){
-        		foreach($instance->getType() as $type){
+        		foreach($instance->getTypes() as $type){
         			$instance->removeType($type);
         		}
         		if(!is_array($propertyValue)){
@@ -504,11 +504,11 @@ abstract class tao_models_classes_GenerisService
         // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331 begin
         
    		try{
-        	foreach($instance->getType() as $type){
+        	foreach($instance->getTypes() as $type){
         		$instance->removeType($type);
         	}
         	$instance->setType($destinationClass);
-        	foreach($instance->getType() as $type){
+        	foreach($instance->getTypes() as $type){
         		if($type->uriResource == $destinationClass->uriResource){
         			$returnValue = true;
         			break;
@@ -642,7 +642,7 @@ abstract class tao_models_classes_GenerisService
         // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E84 begin
         
     	try{
-			foreach($instance->getType() as $clazz){
+			foreach($instance->getTypes() as $clazz){
 				foreach($clazz->getProperties(true) as $property){
 					
 					if($property->isLgDependent() || $property->uriResource == RDFS_LABEL){
@@ -861,7 +861,7 @@ abstract class tao_models_classes_GenerisService
 			$highlightedResource = new core_kernel_classes_Resource(tao_helpers_Uri::decode($highlightUri));
 			if(!$highlightedResource->isClass()){
 				$parentClassUris = array();
-				foreach($resourceClasses = $highlightedResource->getType() as $resourceClass){
+				foreach($resourceClasses = $highlightedResource->getTypes() as $resourceClass){
 					$parentClassUris = array_merge(
 						$parentClassUris,
 						tao_helpers_Uri::encodeArray(array_keys($resourceClass->getParentClasses(true)), tao_helpers_Uri::ENCODE_ARRAY_VALUES)
