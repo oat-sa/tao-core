@@ -97,7 +97,7 @@ CREATE TABLE "resource_has_class" (
 ) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 
 DROP TABLE IF EXISTS "sequence_uri_provider";
-CREATE TABLE IF NOT EXISTS "sequence_uri_provider" (
+CREATE TABLE "sequence_uri_provider" (
   "uri_sequence" serial,
   PRIMARY KEY "uri_sequence" ("uri_sequence")
 ) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
