@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-03-16T15:20:33\n"
+"PO-Revision-Date: 2012-03-21T09:37:04\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
@@ -425,11 +425,11 @@ msgstr "Taille du fichier invalide"
 msgid "Invalid file type!"
 msgstr "Type de fichier invalide"
 
-msgid "Item library"
-msgstr "Bibliothèque d'item"
-
 msgid "Items"
 msgstr "Items"
+
+msgid "Items library"
+msgstr ""
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr "Javascript est requis pour utiliser ce logiciel. Veuillez l'activer dans votre naviguateur."
