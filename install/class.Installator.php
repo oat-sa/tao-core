@@ -289,7 +289,12 @@ class tao_install_Installator{
 		// Create tao tables
 		$dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
 
-
+		// Insert stored procedures for the selected driver if they are found.
+		$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_'.$installData['db_driver'].'.sql';
+		if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
+			//$dbCreator->execute(file_get_contents($storedProcedureFile));
+		}
+		
 		/*
 		 *  3 - Create the local namespace
 		 */
