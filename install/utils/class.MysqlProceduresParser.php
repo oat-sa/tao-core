@@ -38,7 +38,7 @@ class tao_install_utils_MysqlProceduresParser extends tao_install_utils_SQLParse
 			$patterns = array(	'DROP\s+FUNCTION\s+IF\s+EXISTS\s*\w+\s*;',
 								'DROP\s+PROCEDURE\s+IF\s+EXISTS\s*\w+\s*;',
 								'CREATE\s+PROCEDURE\s+\w+\s*\(.*\)\s*(?:(?:NOT\s+){0,1}DETERMINISTIC){0,1}\s*BEGIN\s+(?:.*\s*;\s*)*END\s*;',
-								'CREATE\s+FUNCTION\s+\w+\s*\(.*\)\s*RETURNS\s+(?:.*)\s*(?:(?:NOT\s+){0,1}DETERMINISTIC){0,1}\s*BEGIN\s+(?:.*\s*;\s*)*END\s*;');
+								'CREATE\s+FUNCTION\s+\w+\s*\(.*\)\s*RETURNS\s+(?:.*)\s*(?:(?:NOT\s+){0,1}DETERMINISTIC){0,1}\s*(?:CONTAINS SQL|NO SQL|READS SQL DATA|MODIFIES SQL DATA){0,1}\s*BEGIN\s+(?:.*\s*;\s*)*END\s*;');
 							
 			if (preg_match_all('/' . implode($patterns, '|') . '/i', $content, $matches)){
 				foreach ($matches[0] as $match){
