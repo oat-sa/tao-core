@@ -90,7 +90,7 @@ class tao_install_Installator{
 				),
 				'generis'		=> array (
 					'generis/data/cache'
-                                        , 'generis/data/versioning'
+                    , 'generis/data/versioning'
 					, 'generis/common'
 				)
 		 		, 'filemanager' => array (
@@ -292,7 +292,9 @@ class tao_install_Installator{
 		// Insert stored procedures for the selected driver if they are found.
 		$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_'.$installData['db_driver'].'.sql';
 		if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
-			//$dbCreator->execute(file_get_contents($storedProcedureFile));
+			$sqlParserClassName = 'tao_install_utils_' . ucfirst($installData['db_driver']) . 'ProceduresParser';
+			$dbCreator->setSQLParser(new $sqlParserClassName());
+			$dbCreator->load($storedProcedureFile);
 		}
 		
 		/*
