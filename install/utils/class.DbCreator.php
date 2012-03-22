@@ -3,12 +3,9 @@
 /**
  * Dedicated database wrapper used for database creation.
  * Its purpose is to establish a connection with a database
- * and load a given SQL file containing simple statements.
+ * and load a given SQL file containing with an appropriate
+ * implementation of SQLParser.
  * 
- * Please note that this Database Creator does not support
- * complex SQL statements such as Stored Procedure or Functions
- * creations. If you need to load complex statements such as
- * Stored Procedure or Function declarations, use tao_install_utils_SpCreator.
  * 
  * @see ADOConnection
  * @see tao_install_utils_SpConnector
