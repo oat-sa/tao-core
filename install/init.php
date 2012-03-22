@@ -3,6 +3,7 @@
 $rootDir = dir(dirname(__FILE__).'/../../');
 $root = realpath($rootDir->path).'/';
 set_include_path(get_include_path() . PATH_SEPARATOR . $root);
+define('TAO_INSTALL_PATH', $root);
 
 function __autoload($class_name) {
 	//check if we have a pseudo implementation in /stub
@@ -15,7 +16,17 @@ function __autoload($class_name) {
 		// include normaly
 		$path = str_replace('_', '/', $class_name);
 		$file =  'class.' . basename($path). '.php';
-	    require_once  dirname($path) . '/' . $file;
+		$filePath = TAO_INSTALL_PATH . dirname($path) . '/' . $file;
+		if (file_exists($filePath)){
+			require_once  $filePath;	
+		}
+		else{
+			$file = 'interface.' . basename($path). '.php';
+			$filePath = TAO_INSTALL_PATH . dirname($path) . '/' . $file;
+			if (file_exists($filePath)){
+				require_once $filePath;
+			}
+		}
 	}
 }
 
