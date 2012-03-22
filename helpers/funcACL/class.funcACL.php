@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 16.03.2012, 12:16:45 with ArgoUML PHP module
+ * Automatically generated on 19.03.2012, 08:02:29 with ArgoUML PHP module
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jehan Bihin
@@ -61,36 +61,47 @@ class tao_helpers_funcACL_funcACL
      *
      * @access public
      * @author Jehan Bihin
+     * @param  string extension
      * @param  string module
      * @param  string action
      * @return boolean
      * @since 2.2
      */
-    public static function hasAccess($module, $action)
+    public static function hasAccess($extension, $module, $action)
     {
         $returnValue = (bool) false;
 
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B begin
-        if (is_null($module) || is_null($action)) {
-			$resolver = new Resolver();
-			if (is_null($module)) {
-				$module	= $resolver->getModule();
-			}
-			if (is_null($action)) {
-				$action	= $resolver->getAction();
-			}
-	    }
+		$resolver = new Resolver();
+		//if (is_null($extension)) $extension = tao_models_classes_TaoService::singleton()->getCurrentExtension();
+		if (is_null($extension)) {
+			$b = basename(ROOT_URL);
+			$triple = explode('/', substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], $b) + strlen($b) + 1));
+			$extension = $triple[0];
+		}
+		if (is_null($module)) $module	= $resolver->getModule();
+		if (is_null($action)) $action	= $resolver->getAction();
+
 		//Let access to Main
 		if (in_array(strtolower($module), array('main'))) return true;
 
-		//get the User
+		//Get the Roles of the current User
 		$s = core_kernel_classes_Session::singleton();
-		$user = $s->getUser();
 		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-		$search = $userClass->searchInstances(array(PROPERTY_USER_LOGIN => $user), array('recursive' => true));
+		$search = $userClass->searchInstances(array(PROPERTY_USER_LOGIN => $s->getUser()), array('recursive' => true));
 		$userRes = new core_kernel_classes_Resource(key($search));
-		var_dump($userRes->getTypes());
+
+		//Get the access list (reversed)
 		$reverse_access = self::getRolesByActions();
+
+		//Find the Module and, if necessary, the Action
+		$ns = "http://www.tao.lu/Ontologies/taoFuncACL.rdf#";
+		var_dump($reverse_access);
+
+		//Test if we have a role giving access
+		foreach ($userRes->getTypes() as $uri => $t) {
+			//var_dump($uri);
+		}
 
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B end
 
@@ -110,13 +121,10 @@ class tao_helpers_funcACL_funcACL
         $returnValue = array();
 
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B begin
-		if (!is_null(self::$rolesByActions)) {
-			$returnValue = self::$rolesByActions;
-		} else {
+		if (!is_null(self::$rolesByActions)) $returnValue = self::$rolesByActions;
+		else {
 			$returnValue = tao_models_classes_FileCache::singleton()->get('RolesByActions');
-			if (is_null($returnValue)) {
-				$returnValue = self::buildRolesByActions();
-			}
+			if (is_null($returnValue)) $returnValue = self::buildRolesByActions();
 			self::$rolesByActions = $returnValue;
 		}
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B end
