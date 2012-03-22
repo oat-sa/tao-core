@@ -1,7 +1,11 @@
-DROP PROCEDURE IF EXISTS generis_proc_sequence_uri_provider;
-CREATE PROCEDURE generis_proc_sequence_uri_provider(IN modelUri VARCHAR(255), OUT uri VARCHAR(255))
+DROP FUNCTION IF EXISTS generis_sequence_uri_provider;
+CREATE FUNCTION generis_sequence_uri_provider (modelUri VARCHAR(255))
+RETURNS VARCHAR(255)
+DETERMINISTIC
 BEGIN
+	DECLARE uri VARCHAR(255);
 	INSERT INTO sequence_uri_provider (uri_sequence) VALUES ('');
-	SELECT CONCAT(modelUri, UNIX_TIMESTAMP(), FLOOR(RAND() * 1000), LAST_INSERT_ID()) INTO uri;
+	SELECT CONCAT(modelUri, UNIX_TIMESTAMP(), FLOOR(RAND() * 10000), LAST_INSERT_ID()) INTO uri;
 	DELETE FROM sequence_uri_provider;
+	RETURN uri;
 END;
