@@ -1,6 +1,4 @@
 <?php
-require_once 'generis/includes/adodb5/adodb-exceptions.inc.php';
-require_once 'generis/includes/adodb5/adodb.inc.php';
 
 /**
  * Dedicated database wrapper used for database creation.
@@ -19,7 +17,22 @@ require_once 'generis/includes/adodb5/adodb.inc.php';
  *
  */
 class tao_install_utils_DbCreator extends tao_install_utils_DbConnector{
-
+	
+	private $sqlParser;
+	
+	public function __construct( $host = 'localhost', $user = 'root', $pass = '', $driver = 'mysql', $dbName = ""){
+		parent::__construct($host, $user, $pass, $driver, $dbName);
+		$this->setSQLParser(new tao_install_utils_SimpleSQLParser());
+	}
+	
+	public function getSQLParser(){
+		return $this->sqlParser;
+	}
+	
+	public function setSQLParser($sqlParser){
+		$this->sqlParser = $sqlParser;
+	}
+	
 	/**
 	 * Load a given SQL file containing simple statements.
 	 * SQL files containing Stored Procedure or Function declarations
@@ -31,44 +44,19 @@ class tao_install_utils_DbCreator extends tao_install_utils_DbConnector{
 	 */
 	public function load($file, $replace = array())
 	{
+		$parser = $this->getSQLParser();
+		$parser->setFile($file);
+		$parser->parse();
 		
-		//common file checks
-		if(!file_exists($file) || !is_readable($file) || !preg_match("/\.sql$/", basename($file))){
-			throw new tao_install_utils_Exception("Wrong SQL file: $file . CHECK IT!");
-		}
-		
-		if ($handler = fopen($file, "r")){
-			
-			//parse file and get only usefull lines
-			$ch = "";
-			while (!feof ($handler)){
-				$line = utf8_decode(fgets($handler));
-		
-				if (isset($line[0]) && ($line[0] != '#') && ($line[0] != '-')){
-					$ch = $ch.$line;
-				}
-			}
-			
+		//make replacements
+		foreach ($parser->getStatements() as $statement){
 			//make replacements
+			$finalStatement = $statement;
 			foreach($replace as $key => $value){
-				$ch = str_replace('{'.strtoupper($key).'}', $value, $ch);
+				$finalStatement = str_replace('{'.strtoupper($key).'}', $value, $statement);
 			}
 			
-			//explode and execute
-			$requests = explode(";", $ch);
-			
-			try{
-				foreach($requests as $index => $request){
-					$requestTrim = trim($request);
-					if(!empty($requestTrim)){
-						$this->adoConnection->Execute($request);
-					}
-				}
-			}
-			catch(Exception $e){
-				throw new tao_install_utils_Exception("Error executing query #$index : $request . ".$e->getMessage());
-			}
-			fclose($handler);
+			$this->adoConnection->Execute($finalStatement);
 		}
 	}
 }
