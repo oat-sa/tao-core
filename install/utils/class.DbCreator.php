@@ -71,33 +71,5 @@ class tao_install_utils_DbCreator extends tao_install_utils_DbConnector{
 			fclose($handler);
 		}
 	}
-	
-	/**
-	 * Execute an SQL query
-	 * @param string $query
-	 * @throws tao_install_utils_Exception
-	 */
-	public function execute($query)
-	{
-		if(!empty($query)){
-			try{
-				$this->adoConnection->Execute($query);
-			}
-			catch(Exception $e){
-				throw new tao_install_utils_Exception("Error executing query : $query . ".$e->getMessage());
-			}
-		}
-	}
-	
-	/**
-	 * Close the connection when the wrapper is destructed
-	 */
-	public function __destruct()
-	{
-		if(!is_null($this->adoConnection)){
-			$this->adoConnection->Close();
-		}
-	}
-	
 }
 ?>
