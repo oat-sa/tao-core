@@ -76,8 +76,8 @@ class tao_helpers_Display
 
         // section 127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF9 begin
 		
-		if(strlen($input) > $maxLength){
-			$input = "<span title='$input' class='cutted' style='cursor:pointer;'>".substr($input, 0, $maxLength)."[...]</span>";
+		if(mb_strlen($input) > $maxLength){
+			$input = "<span title='$input' class='cutted' style='cursor:pointer;'>".mb_substr($input, 0, $maxLength, 'UTF-8')."[...]</span>";
 		}
 		$returnValue = $input;
 		
