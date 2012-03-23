@@ -119,19 +119,18 @@ class tao_install_utils_ConfigTester{
 	 */
 	protected function checkPhpExtension($extensionName){
 		switch(strtolower($extensionName)){
+			// Mandatory PHP extensions.
 			case 'json':
 			case 'dom':
 			case 'spl':
-				$this->message = 'PHP extension '.strtoupper($extensionName).' is required.';
-				(extension_loaded(strtolower($extensionName))) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
-				break;
 			case 'zip':
 			case 'tidy': 
 			case 'curl': 
 			case 'mbstring':
-				$this->message = 'PHP extension '.strtoupper($extensionName).' is strongly recomended.';
+				$this->message = 'PHP extension '.strtoupper($extensionName).' is mandatory.';
 				(extension_loaded(strtolower($extensionName))) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
 				break;
+			// Optionnal PHP extensions.
 			case 'gd':
 				$this->message = 'PHP extension GD is optionnal.';
 				(extension_loaded('gd')) ? $this->status  = self::STATUS_VALID : $this->status  = self::STATUS_INVALID;
