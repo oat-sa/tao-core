@@ -123,7 +123,7 @@ class tao_helpers_funcACL_funcACL
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B begin
 		if (!is_null(self::$rolesByActions)) $returnValue = self::$rolesByActions;
 		else {
-			$returnValue = tao_models_classes_FileCache::singleton()->get('RolesByActions');
+			$returnValue = tao_models_classes_cache_FileCache::singleton()->get('RolesByActions');
 			if (is_null($returnValue)) $returnValue = self::buildRolesByActions();
 			self::$rolesByActions = $returnValue;
 		}
@@ -158,7 +158,7 @@ class tao_helpers_funcACL_funcACL
 			}
 		}
 
-		tao_models_classes_FileCache::singleton()->put($reverse_access, 'RolesByActions');
+		tao_models_classes_cache_FileCache::singleton()->put($reverse_access, 'RolesByActions');
 		return $reverse_access;
 
 		//var_dump($reverse_access);

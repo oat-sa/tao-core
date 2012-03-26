@@ -179,7 +179,7 @@ class ServiceTestCase extends UnitTestCase {
 	}
 	
 	public function testFileCacheService(){
-		$fc = tao_models_classes_FileCache::singleton();
+		$fc = tao_models_classes_cache_FileCache::singleton();
 		
 		$fc->put("string1", 'testcase1');
 		$fromCache = $fc->get('testcase1');
