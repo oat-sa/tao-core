@@ -124,11 +124,11 @@ class tao_models_classes_cache_SessionCache
 	
 		        	$data = @unserialize($storage[$serial]);
 		        
-		        	if($data === false || !$data instanceof tao_models_classes_Serializable){
+		        	// check if serialize successfull, see http://lu.php.net/manual/en/function.unserialize.php
+		        	if ($data === false && $storage[$serial] !== serialize(false)){
 		        		throw new common_exception_Error("Unable to unserialize session entry identified by \"".$serial.'"');
 		        	}
 		        	$this->items[$serial] = $data;
-		        	$returnValue = $data;
 		        } else {
 		        	throw new tao_models_classes_cache_NotFoundException('Failed to get ('.$serial.')');
 		        }
@@ -188,10 +188,10 @@ class tao_models_classes_cache_SessionCache
     public function __destruct()
     {
         // section 127-0-1-1--18485ef3:13542665222:-8000:00000000000065AF begin
-        foreach ($this->items as $item) {
+        foreach ($this->items as $key => $value) {
 			// not clean put reading the session and then adding data to the session causses concurrency problems
 			// therefore this DOES NOT WORK: session::setAttribute(static::SESSION_KEY, $storage)
-        	$_SESSION[SESSION_NAMESPACE][static::SESSION_KEY][$item->getSerial()] = serialize($item);
+        	$_SESSION[SESSION_NAMESPACE][static::SESSION_KEY][$key] = serialize($value);
     	}
         // section 127-0-1-1--18485ef3:13542665222:-8000:00000000000065AF end
     }
@@ -210,17 +210,9 @@ class tao_models_classes_cache_SessionCache
         // section 127-0-1-1--66865e2:1353e542706:-8000:000000000000370B begin
     	if (Session::hasAttribute(static::SESSION_KEY)) {
     		foreach (Session::getAttribute(static::SESSION_KEY) as $serial => $raw) {
-    			if (!isset($this->items[$serial])) {
-    				$data = @unserialize($raw);
-    				if ($data !== false) {
-    					$this->items[$serial] = $data;
-    				} else {
-    					common_Logger::w('Error while unserializing ('.$serial.')');
-    				}
-    			}
+    			$returnValue[$serial] = $this->get($serial);
 	        }
     	}
-		$returnValue = $this->items;
         // section 127-0-1-1--66865e2:1353e542706:-8000:000000000000370B end
 
         return (array) $returnValue;
@@ -243,7 +235,7 @@ class tao_models_classes_cache_SessionCache
         	$returnValue = true;
         } elseif (!empty($serial) && Session::hasAttribute(static::SESSION_KEY)){
         	$storage = Session::getAttribute(static::SESSION_KEY);
-	        $returnValue = isset($storage[$serial]);
+        	$returnValue = isset($storage[$serial]);
         }
         // section 127-0-1-1-5c662a7:1364f362602:-8000:00000000000038CB end
 
