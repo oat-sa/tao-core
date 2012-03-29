@@ -208,12 +208,17 @@ class tao_models_classes_cache_SessionCache
         $returnValue = array();
 
         // section 127-0-1-1--66865e2:1353e542706:-8000:000000000000370B begin
-    	if (Session::hasAttribute(static::SESSION_KEY)) {
+        // unserialize missing elements
+        if (Session::hasAttribute(static::SESSION_KEY)) {
     		foreach (Session::getAttribute(static::SESSION_KEY) as $serial => $raw) {
-    			$returnValue[$serial] = $this->get($serial);
+    			if (!isset($this->items[$serial])) {
+    				// loads the serial to the item
+    				$this->get($serial);
+    			}
 	        }
     	}
-        // section 127-0-1-1--66865e2:1353e542706:-8000:000000000000370B end
+    	$returnValue = $this->items;
+    	// section 127-0-1-1--66865e2:1353e542706:-8000:000000000000370B end
 
         return (array) $returnValue;
     }
