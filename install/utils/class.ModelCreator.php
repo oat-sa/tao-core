@@ -114,8 +114,10 @@ class tao_install_utils_ModelCreator{
 			error_reporting(E_ALL & ~E_DEPRECATED);
 		}
 
-		$memModel 	= ModelFactory::getMemModel($namespace);
-		$dbModel	= ModelFactory::getDefaultDbModel($namespace);
+		// Init RDF API for PHP.
+		$modFactory = new ModelFactory();
+		$memModel 	= $modFactory->getMemModel($namespace);
+		$dbModel	= $modFactory->getDefaultDbModel($namespace);
 		$dbModel->getDbConn()->execute("SET NAMES 'UTF8'");
 
 		// Load and parse the model
