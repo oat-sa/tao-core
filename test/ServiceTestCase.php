@@ -212,6 +212,11 @@ class ServiceTestCase extends UnitTestCase {
 		$this->assertEqual($e->getMessage(),  $fromCache->getMessage());
 		$fc->remove('testcase4');
 		
+		$badstring = 'abc\'abc\'\'abc"abc""abc\\abc\\\\abc'."abc\n\nabc\l\nabc\l\nabc".'_NULL_é_NUL_'.chr(0).'_';
+		$fc->put($badstring, 'testcase5');
+		$fromCache = $fc->get('testcase5');
+		$this->assertEqual($fromCache, $badstring);
+		$fc->remove('testcase5');
 	}
 	
 }
