@@ -72,7 +72,7 @@ msgid "Add the source file"
 msgstr "Ajouter le fichier source"
 
 msgid "Advanced Authoring Tool"
-msgstr "Edtieur avancé"
+msgstr "Editeur avancé"
 
 msgid "Advanced Mode"
 msgstr "Mode avancé"
@@ -693,7 +693,7 @@ msgid "Please confirm you want to delete this list. This operation is not revers
 msgstr "Veuillez confirmer que vous voulez supprimer cette liste. Cette opération est irréversible."
 
 msgid "Please login"
-msgstr "Veuilez vous identifier"
+msgstr "Veuillez vous identifier"
 
 msgid "Please select the input data format to import"
 msgstr "Veuillez sélectionner le format des données d'entrée à importer"
