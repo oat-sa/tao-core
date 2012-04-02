@@ -546,12 +546,23 @@ GenerisTreeFormClass.prototype.saveData = function()
 		index++;
 	}
 	
+	var uriField, classUriField = null;
 	if(this.options.relatedFormId){
-		uriField = $("#" + this.options.relatedFormId + " :input[name=uri]");
-		classUriField = $("#" + this.options.relatedFormId + " :input[name=classUri]");
+		var uriEltSelector = "#" + this.options.relatedFormId + " :input[name=uri]"
+		if($(uriEltSelector).length){
+			uriField = $(uriEltSelector);
+		}
+		
+		var classUriEltSelector = "#" + this.options.relatedFormId + " :input[name=classUri]"
+		if($(classUriEltSelector).length){
+			classUriField = $(classUriEltSelector);
+		}
 	}
-	else{
+	
+	if (!uriField) {
 		uriField = $("input[name=uri]");
+	}
+	if (!classUriField) {
 		classUriField = $("input[name=classUri]");
 	}
 	
