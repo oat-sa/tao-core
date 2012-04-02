@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Internationalization helper: init the translators for the right language
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -26,7 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Internationalization helper: init the translators for the right language
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -36,6 +36,14 @@ class tao_helpers_I18n
 
 
     // --- ATTRIBUTES ---
+
+    /**
+     * Short description of attribute AVAILABLE_LANGS_CACHEKEY
+     *
+     * @access private
+     * @var string
+     */
+    const AVAILABLE_LANGS_CACHEKEY = 'i18n_available_langs';
 
     /**
      * Short description of attribute langCode
@@ -59,7 +67,7 @@ class tao_helpers_I18n
      * Short description of method init
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string langCode
      * @return mixed
      */
@@ -96,7 +104,7 @@ class tao_helpers_I18n
      * Short description of method getLangCode
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
     public static function getLangCode()
@@ -116,7 +124,7 @@ class tao_helpers_I18n
      * Short description of method getLangResourceByCode
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string code
      * @return core_kernel_classes_Resource
      */
@@ -147,7 +155,7 @@ class tao_helpers_I18n
      * Short description of method getAvailableLangs
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  boolean langName
      * @return array
      */
@@ -159,10 +167,15 @@ class tao_helpers_I18n
         
         //get it into the api only once 
         if(count(self::$availableLangs) == 0){
-        	$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
-        	$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
-        	foreach($langClass->getInstances() as $lang){
-               	self::$availableLangs[] = $lang->getUniquePropertyValue($valueProperty)->literal;
+        	try {
+        		self::$availableLangs = tao_models_classes_cache_FileCache::singleton()->get(self::AVAILABLE_LANGS_CACHEKEY);
+        	} catch (tao_models_classes_cache_NotFoundException $e) {
+	        	$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
+	        	$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+	        	foreach($langClass->getInstances() as $lang){
+	               	self::$availableLangs[] = $lang->getUniquePropertyValue($valueProperty)->literal;
+	        	}
+	        	tao_models_classes_cache_FileCache::singleton()->put(self::$availableLangs, self::AVAILABLE_LANGS_CACHEKEY);
         	}
         }
 	

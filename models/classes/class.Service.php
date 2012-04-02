@@ -44,10 +44,10 @@ abstract class tao_models_classes_Service
      * Contains the references of each service instance. 
      * The service name is used as key.
      *
-     * @access public
+     * @access private
      * @var array
      */
-    public static $instances = array();
+    private static $instances = array();
 
     /**
      * pattern to create service dynamically.
@@ -79,6 +79,7 @@ abstract class tao_models_classes_Service
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
+     * @deprecated
      * @param  string serviceName
      * @return tao_models_classes_Service
      */

@@ -103,15 +103,15 @@ class tao_models_classes_cache_FileCache
         $returnValue = null;
 
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003706 begin
-        try {
-        	if (file_exists($this->getFilePath($serial))) {
+        if (file_exists($this->getFilePath($serial))) {
+	        try {
 	        	$returnValue = include $this->getFilePath($serial);
-        	} else {
-        		throw new tao_models_classes_cache_NotFoundException('Failed to get ('.$serial.') from filecache');
-        	}
-        } catch (Exception $e) {
-        	common_Logger::d('Exception while reading cache entry for '.$serial);
-        	
+	        } catch (Exception $e) {
+	        	common_Logger::d('Exception while reading cache entry for '.$serial);
+	        	
+	        }
+        } else {
+        	throw new tao_models_classes_cache_NotFoundException('Failed to get ('.$serial.') from filecache');
         }
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003706 end
 
