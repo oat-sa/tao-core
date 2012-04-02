@@ -254,6 +254,8 @@ class tao_install_Installator{
 	 */
 	public function install(array $installData)
 	{
+	    set_time_limit(300);
+        
 		/*
 		 *  1 - Test DB connection (done by the constructor)
 		 */
@@ -290,9 +292,16 @@ class tao_install_Installator{
 		$dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
 
 		// Insert stored procedures for the selected driver if they are found.
-		$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_'.$installData['db_driver'].'.sql';
+		if(stripos($installData['db_driver'], 'postgres') !== false) {
+		    // postgres driver can be postgres, postgres7, postgres8, ...
+		    $procDbDriver = 'postgres';    
+		}else{
+		    $procDbDriver = $installData['db_driver'];
+		}
+        
+		$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_'.$procDbDriver.'.sql';
 		if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
-			$sqlParserClassName = 'tao_install_utils_' . ucfirst($installData['db_driver']) . 'ProceduresParser';
+			$sqlParserClassName = 'tao_install_utils_' . ucfirst($procDbDriver) . 'ProceduresParser';
 			$dbCreator->setSQLParser(new $sqlParserClassName());
 			$dbCreator->load($storedProcedureFile);
 		}

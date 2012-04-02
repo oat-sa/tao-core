@@ -6,7 +6,7 @@
  * @author Jerome BOGAERTS <jerome.bogaerts@tudor.lu>
  *
  */
-class tao_install_utils_Postgres8ProceduresParser extends tao_install_utils_SQLParser{
+class tao_install_utils_PostgresProceduresParser extends tao_install_utils_SQLParser{
 	
 	/**
 	 * Parse a SQL file containing mySQL compliant Procedures or Functions.
