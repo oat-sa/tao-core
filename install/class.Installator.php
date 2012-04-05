@@ -300,7 +300,7 @@ class tao_install_Installator{
 		}
         
 		$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_'.$procDbDriver.'.sql';
-		if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
+		if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile) && $procDbDriver != 'postgres'){
 			$sqlParserClassName = 'tao_install_utils_' . ucfirst($procDbDriver) . 'ProceduresParser';
 			$dbCreator->setSQLParser(new $sqlParserClassName());
 			$dbCreator->load($storedProcedureFile);
