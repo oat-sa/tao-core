@@ -61,7 +61,9 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 			$lists[] = array(
 				'uri'		=> tao_helpers_Uri::encode($listClass->uriResource),
 				'label'		=> $listClass->getLabel(),
-				'editable'	=> $listClass->isSubClassOf(new core_kernel_classes_Class(TAO_LIST_CLASS)),
+				// The Language list should not be editable.
+				// @todo Make two different kind of lists: system list that are not editable and usual list.
+				'editable'	=> $listClass->isSubClassOf(new core_kernel_classes_Class(TAO_LIST_CLASS)) && $listClass->getUri() !== CLASS_LANGUAGES,
 				'elements'	=> $elements
 			);
 		}
