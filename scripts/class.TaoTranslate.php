@@ -154,28 +154,37 @@ class tao_scripts_TaoTranslate
     {
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 begin
         
-        // Select the action to perform depending on the 'action' parameter.
-        // Verification of the value of 'action' performed in self::preRun().
-        switch ($this->options['action']) {
-        	case 'create':
-				$this->actionCreate();
-        	break;
-        	
-        	case 'update':
-        		$this->actionUpdate();
-        	break;
-        	
-        	case 'updateall':
-        		$this->actionUpdateAll();
-        	break;
-        	
-        	case 'delete':
-        		$this->actionDelete();
-        	break;
-        	
-        	case 'deleteall':
-        		$this->actionDeleteAll();
-        	break;
+        // Connect to the TAO API.
+        $userService = tao_models_classes_UserService::singleton();
+        $this->outVerbose("Connecting to TAO as '" . $this->options['user'] . "' ...");
+        if ($userService->loginUser($this->options['user'], md5($this->options['password']))){
+            $this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
+        
+            // Select the action to perform depending on the 'action' parameter.
+            // Verification of the value of 'action' performed in self::preRun().
+            switch ($this->options['action']) {
+            	case 'create':
+    				$this->actionCreate();
+            	break;
+            	
+            	case 'update':
+            		$this->actionUpdate();
+            	break;
+            	
+            	case 'updateall':
+            		$this->actionUpdateAll();
+            	break;
+            	
+            	case 'delete':
+            		$this->actionDelete();
+            	break;
+            	
+            	case 'deleteall':
+            		$this->actionDeleteAll();
+            	break;
+            }
+        } else {
+            self::err("Unable to connect to TAO as '" . $this->options['user'] . "'.", true);
         }
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 end
     }
@@ -203,6 +212,8 @@ class tao_scripts_TaoTranslate
     private function checkInput()
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003840 begin
+        $this->checkAuthInput();
+        
         switch ($this->options['action']) {
         	case 'create':
         		$this->checkCreateInput();
@@ -243,11 +254,13 @@ class tao_scripts_TaoTranslate
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003842 begin
         $defaults = array('language' => null,
+                          'languageLabel' => null,
         				  'extension' => null,
         				  'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
         				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
         				  'build' => true,
-        				  'force' => false);
+        				  'force' => false,
+                          'ontology' => true);
         
         $this->options = array_merge($defaults, $this->options);
     	
@@ -488,7 +501,7 @@ class tao_scripts_TaoTranslate
         		}
         	}
         } else if (file_exists($dir) && is_dir($dir) && $this->options['force'] == false) {
-        	self::err("The 'language' " . $this->options['language'] . " already exists.", true);
+        	self::err("The 'language' " . $this->options['language'] . " already exists in the file system. Use the 'force' parameter to overwrite it.", true);
         }
         
         // If we are still here... it means that we have to create the language directory.
@@ -553,7 +566,10 @@ class tao_scripts_TaoTranslate
         		$this->outVerbose("Language '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "'.");
         	}
         	
-        	
+        	// We manage the language in the ontology.
+            if ($this->options['ontology'] == true) {
+                $this->addLanguageToOntology();
+            }
         }
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 end
     }
@@ -905,6 +921,34 @@ class tao_scripts_TaoTranslate
     protected function addLanguageToOntology()
     {
         // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A88 begin
+        $this->outVerbose("Adding language '" . $this->options['language'] . "' to ontology for extension '" . $this->options['extension'] . "'...");
+        
+        $languageClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
+        $languages = $languageClass->searchInstances(array(RDF_VALUE => $this->options['language']), 
+                                                     array('like' => false));
+                                                     
+        // If we find something we remove the language first to make sure
+        // it is up to date.
+        if (count($languages)){
+            // We should only get one language but its defensive...
+            foreach ($languages as $language){
+                $language->delete();
+            }
+        }
+        
+        // We create the language in the ontology.
+        $newLanguageLabel = (($this->options['languageLabel'] == null) ? 'unknown' : $this->options['languageLabel']);
+        $newLanguageComment = "The '${newLanguageLabel}' language.";
+        $newLanguageUri = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $this->options['language']; 
+        $newLanguage = core_kernel_classes_ClassFactory::createInstance($languageClass, $newLanguageLabel, $newLanguageComment, $newLanguageUri);
+        $newLanguage->setPropertyValue(new core_kernel_classes_Property(RDF_VALUE), $this->options['language']);
+        $newLanguage->setPropertyValue(new core_kernel_classes_Property('TAO_LIST_LEVEL_PROP'), 10);
+        
+        // Invalidate language cache.
+        $cache = tao_models_classes_cache_FileCache::singleton();
+        $cache->remove(tao_helpers_I18n::AVAILABLE_LANGS_CACHEKEY);
+        
+        $this->outVerbose("Language '" . $this->options['language'] . "' added to ontology for extension '" . $this->options['extension'] . "'.");
         // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A88 end
     }
 
@@ -946,13 +990,13 @@ class tao_scripts_TaoTranslate
     protected function checkAuthInput()
     {
         // section 127-0-1-1-3599ab3f:135546c24af:-8000:0000000000003704 begin
-        $defaults = array('login' => null,
+        $defaults = array('user' => null,
 						  'password' => null);
 						  
 		$this->options = array_merge($defaults, $this->options);
 		
-		if ($this->options['login'] == null) {
-			$this->err("Please provide a value for the 'login' parameter.", true);
+		if ($this->options['user'] == null) {
+			$this->err("Please provide a value for the 'user' parameter.", true);
 		}
 		else if ($this->options['password'] == null) {
 			$this->err("Please provide a value for the 'password' parameter.", true);

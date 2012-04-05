@@ -53,17 +53,29 @@ new tao_scripts_TaoTranslate(array(
 			'description' => 'The TAO extension for which the script will apply'
 		),
 		array(
-			'name' => 'login',
-			'type' => 'string',
-			'shortcut' => 'l',
-			'description' => 'TAO API login when the action you invoke needs authentication. This login must be bound to a super-user account'
-		),
+            'name' => 'ontology',
+            'type' => 'boolean',
+            'shortcut' => 'o',
+            'description' => 'Tells to the script if it should deal with the language in the ontology'
+        ),
+        array(
+            'name' => 'languageLabel',
+            'type' => 'string',
+            'shortcut' => 'll',
+            'description' => 'Language label to use when creating a new language'
+        ),
 		array(
-			'name' => 'password',
-			'type' => 'string',
-			'shorcut' => 'p',
-			'description' => 'TAO API password when the action you invoke needs authentication.'
-		)
+            'name' => 'user',
+            'type' => 'string',
+            'shortcut' => 'u',
+            'description' => 'Generis User (must be a TAO Manager)'
+        ),
+        array(
+            'name' => 'password',
+            'type' => 'string',
+            'shortcut' => 'p',
+            'description' => 'Generis Password'
+        )
 	)
 ));
 ?>
