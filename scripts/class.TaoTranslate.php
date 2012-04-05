@@ -942,7 +942,6 @@ class tao_scripts_TaoTranslate
         $newLanguageUri = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $this->options['language']; 
         $newLanguage = core_kernel_classes_ClassFactory::createInstance($languageClass, $newLanguageLabel, $newLanguageComment, $newLanguageUri);
         $newLanguage->setPropertyValue(new core_kernel_classes_Property(RDF_VALUE), $this->options['language']);
-        $newLanguage->setPropertyValue(new core_kernel_classes_Property('TAO_LIST_LEVEL_PROP'), 10);
         
         // Invalidate language cache.
         $cache = tao_models_classes_cache_FileCache::singleton();
