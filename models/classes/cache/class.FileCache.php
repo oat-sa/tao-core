@@ -130,7 +130,7 @@ class tao_models_classes_cache_FileCache
     public function remove($serial)
     {
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003700 begin
-        unlink($this->getFilePath($serial));
+        @unlink($this->getFilePath($serial));
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003700 end
     }
 
