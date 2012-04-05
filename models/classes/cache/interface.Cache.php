@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 26.03.2012, 17:31:32 with ArgoUML PHP module 
+ * Automatically generated on 05.04.2012, 15:45:14 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -69,7 +69,6 @@ interface tao_models_classes_cache_Cache
 
     /**
      * removes an entry from the cache
-     * throws an exception iif not found
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
