@@ -17,7 +17,7 @@ INSERT INTO "statements" ("modelID", "subject", "predicate", "object", "l_langua
 
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#NotifyGroup', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', 'http://www.tao.lu/middleware/taoqual.rdf#NotificationMode', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#NotifyGroup', 'http://www.w3.org/2000/01/rdf-schema#comment', '', 'EN ', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
-(15, 'http://www.tao.lu/middleware/taoqual.rdf#NotifyGroup', 'http://www.w3.org/2000/01/rdf-schema#label', 'Notifiy Role', 'EN ', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
+(15, 'http://www.tao.lu/middleware/taoqual.rdf#NotifyGroup', 'http://www.w3.org/2000/01/rdf-schema#label', 'Notify Role', 'EN ', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#Notify', 'http://www.w3.org/2000/01/rdf-schema#range', 'http://www.tao.lu/middleware/taoqual.rdf#NotificationMode', 'EN', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
 (15, 'http://www.tao.lu/middleware/taoqual.rdf#Notify', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget', 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox', '', 'generis', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]', 'yyy[admin,administrators,authors]'),
