@@ -5,7 +5,7 @@
  * 
  * @author Bertrand CHEVRIER <bertrand.chevrier@tudor.lu>
  */
-class tao_install_utils_Exception extends Exception{
+class tao_install_utils_Exception extends common_Exception{
 	
 	/**
 	 * @return string the exception message

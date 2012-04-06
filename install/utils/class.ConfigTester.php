@@ -51,6 +51,9 @@ class tao_install_utils_ConfigTester{
 			case 'PHP_EXTENSION': $this->checkPhpExtension($options['name']); 	break;
 			case 'WRITABLE_DIRECTORIES': $this->checkWritableDirectories($options['directories']); 	break;
 		}
+		if ($this->getStatus() == self::STATUS_INVALID) {
+			common_Logger::w("Test failed: ".$this->getMessage(), 'INSTALL');
+		}
 	}
 	
 	/**
