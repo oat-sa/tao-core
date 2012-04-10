@@ -461,7 +461,7 @@ class tao_helpers_File
                 }
             }
         }else{
-            throw new common_Exception("An error occured : The function (".__METHOD__.") of the class (".__CLASS__.") is expecting a directory path as first parameter");
+            throw new common_Exception("An error occured : The function (".__METHOD__.") of the class (".__CLASS__.") is expecting a directory path as first parameter : ".$path);
         }
         
         // section 127-0-1-1--45b111d8:1345bd4833c:-8000:00000000000044E8 end
