@@ -72,15 +72,18 @@ class tao_helpers_funcACL_funcACL
         $returnValue = (bool) false;
 
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B begin
-		$resolver = new Resolver();
-		//if (is_null($extension)) $extension = tao_models_classes_TaoService::singleton()->getCurrentExtension();
-		if (is_null($extension)) {
-			$b = basename(ROOT_URL);
-			$triple = explode('/', substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], $b) + strlen($b) + 1));
-			$extension = $triple[0];
+return true;
+		if (is_null($extension) || is_null($module) || is_null($action)) {
+			$resolver = new Resolver();
+			//if (is_null($extension)) $extension = tao_models_classes_TaoService::singleton()->getCurrentExtension();
+			if (is_null($extension)) {
+				$b = basename(ROOT_URL);
+				$triple = explode('/', substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], $b) + strlen($b) + 1));
+				$extension = $triple[0];
+			}
+			if (is_null($module)) $module	= $resolver->getModule();
+			if (is_null($action)) $action	= $resolver->getAction();
 		}
-		if (is_null($module)) $module	= $resolver->getModule();
-		if (is_null($action)) $action	= $resolver->getAction();
 
 		//Let access to Main
 		if (in_array(strtolower($module), array('main'))) return true;
@@ -95,12 +98,18 @@ class tao_helpers_funcACL_funcACL
 		$reverse_access = self::getRolesByActions();
 
 		//Find the Module and, if necessary, the Action
-		$ns = "http://www.tao.lu/Ontologies/taoFuncACL.rdf#";
-		var_dump($reverse_access);
+		/*$ns = "http://www.tao.lu/Ontologies/taoFuncACL.rdf#"; //m_taoItems_Items
+		$nsa = $ns.'a_'.$extension.'_'.$module.'_'.$action;
+		$nsm = $ns.'m_'.$extension.'_'.$module;*/
 
 		//Test if we have a role giving access
 		foreach ($userRes->getTypes() as $uri => $t) {
-			//var_dump($uri);
+			if (isset($reverse_access[$extension]) && isset($reverse_access[$extension][$module])) {
+				if (in_array($uri, $reverse_access[$extension][$module]['roles']) || (isset($reverse_access[$extension][$module]['actions'][$action]) && in_array($uri, $reverse_access[$extension][$module]['actions'][$action]))) {
+					$returnValue = true;
+					break;
+				}
+			}
 		}
 
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B end
@@ -123,9 +132,13 @@ class tao_helpers_funcACL_funcACL
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B begin
 		if (!is_null(self::$rolesByActions)) $returnValue = self::$rolesByActions;
 		else {
-			$returnValue = tao_models_classes_cache_FileCache::singleton()->get('RolesByActions');
-			if (is_null($returnValue)) $returnValue = self::buildRolesByActions();
-			self::$rolesByActions = $returnValue;
+			try {
+				$returnValue = tao_models_classes_cache_FileCache::singleton()->get('RolesByActions');
+			}
+			catch (tao_models_classes_cache_NotFoundException $e) {
+				$returnValue = self::buildRolesByActions();
+				self::$rolesByActions = $returnValue;
+			}
 		}
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B end
 
@@ -146,14 +159,35 @@ class tao_helpers_funcACL_funcACL
 		$reverse_access = array();
 		self::$rolesByActions = null;
 
+		$modc = new core_kernel_classes_Class(CLASS_ACL_MODULE);
+		$actc = new core_kernel_classes_Class(CLASS_ACL_ACTION);
+		$cp = new core_kernel_classes_Property(CLASS_ACL_MODULE);
+		$ap = new core_kernel_classes_Property(CLASS_ACL_ACTION);
 		$roles = new core_kernel_classes_Class(CLASS_ROLE_BACKOFFICE);
-		foreach ($roles->getInstances() as $roleuri => $r) {
-			$role = new core_kernel_classes_Resource($roleuri);
-			$access = $role->getPropertiesValues(array(new core_kernel_classes_Property("http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessModule"), new core_kernel_classes_Property("http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction")));
-			foreach ($access as $uri => $as) {
-				foreach ($as as $a) {
-					if (!isset($reverse_access[$a->uriResource])) $reverse_access[$a->uriResource] = array($roleuri);
-					else if (!in_array($roleuri, $reverse_access[$a->uriResource])) $reverse_access[$a->uriResource][] = $roleuri;
+
+		foreach ($modc->getInstances() as $id => $m) {
+			$mod = new core_kernel_classes_Class($id);
+			$label = $mod->getPropertiesValues(array($cp, new core_kernel_classes_Property("http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleIdentifier")));
+			$extension = $mod->getPropertiesValues(array($cp, new core_kernel_classes_Property("http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleExtension")));
+			$modules[] = array('id' => $id, 'label' => current(current(current($label))), 'extension' => current(current(current($extension))));
+			$label = array_pop(explode('_', current(current(current($label)))));
+			$extension = current(current(current($extension)));
+			if (!isset($reverse_access[$extension])) $reverse_access[$extension] = array();
+			if (!isset($reverse_access[$extension][$label])) $reverse_access[$extension][$label] = array('actions' => array(), 'roles' => array());
+
+			//Roles
+			foreach ($roles->searchInstances(array("http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessModule" => $id)) as $r) {
+				$reverse_access[$extension][$label]['roles'][] = $r->getUri();
+			}
+
+			//Actions
+			foreach ($actc->searchInstances(array("http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionMemberOf" => $id), array()) as $act) {
+				$labela = $act->getPropertiesValues(array($ap, new core_kernel_classes_Property("http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionIdentifier")));
+				$labela = array_pop(explode('_', current(current(current($labela)))));
+				$reverse_access[$extension][$label]['actions'][$labela] = array();
+
+				foreach ($roles->searchInstances(array("http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction" => $id)) as $r) {
+					$reverse_access[$extension][$label]['actions'][$labela][] = $r->getUri();
 				}
 			}
 		}
