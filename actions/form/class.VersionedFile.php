@@ -110,9 +110,23 @@ class tao_actions_form_VersionedFile
 		// File Content
 		
     	$contentGroup = array();
-    	
+    	function return_bytes($val) {
+			$val = trim($val);
+			$last = strtolower($val[strlen($val)-1]);
+			switch($last) {
+				// Le modifieur 'G' est disponible depuis PHP 5.1.0
+				case 'g':
+					$val *= 1024;
+				case 'm':
+					$val *= 1024;
+				case 'k':
+					$val *= 1024;
+			}
+
+			return $val;
+		}
 		$browseElt = tao_helpers_form_FormFactory::getElement("file_import", "AsyncFile");
-		$browseElt->addValidator(tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => 3000000)));
+		$browseElt->addValidator(tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => return_bytes(ini_get('post_max_size')))));
     	//make the content compulsory if it does not exist already
 		if(!$versioned){
 			$browseElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
@@ -145,14 +159,16 @@ class tao_actions_form_VersionedFile
     	
     	$fileNameElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_FILE_FILENAME), $versioned ? 'Label' : 'Textbox');
 		$fileNameElt->setDescription(__("File name"));
-		$fileNameElt->addValidators(array(
-			tao_helpers_form_FormFactory::getValidator('FileName')
-		));
+		if(!$versioned){ 
+			$fileNameElt->addValidator(tao_helpers_form_FormFactory::getValidator('FileName'));
+		}
 		$this->form->addElement($fileNameElt);
 		
 		$filePathElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_FILEPATH), $versioned ? 'Label' : 'Textbox');
 		$filePathElt->setDescription(__("File path"));
-		$filePathElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		if(!$versioned){
+			$filePathElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		}
 		$this->form->addElement($filePathElt);
 		
 		$versionedRepositoryClass = new core_kernel_classes_Class(CLASS_GENERIS_VERSIONEDREPOSITORY);

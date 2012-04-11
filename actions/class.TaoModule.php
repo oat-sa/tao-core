@@ -460,7 +460,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					$fileName = $data[PROPERTY_FILE_FILENAME];
 					$filePath = $data[PROPERTY_VERSIONEDFILE_FILEPATH];
 					$repositoryUri = $data[PROPERTY_VERSIONEDFILE_REPOSITORY];
-					$version = isset($data['file_version']) ? $data['file_version'] : null;
+					$version = isset($data['file_version']) ? $data['file_version'] : 0;
 					
 					//get the content
 					if(isset($data['file_import']['uploaded_file'])){
@@ -475,25 +475,13 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					//the file is already versioned
 					if($versionedFile->isVersioned()){
 						
-						/*
-						//move or rename the file
-						$renamed = $moved = false;
-						if($fileName != $versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME))){
-							$renamed = true;
-						}
-						if($filePath != $versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_FILEPATH))){
-							$moved = true;
-						}
-						
-						if($renamed || $moved){
-							$versionedFile->move();
-						}*/
-						
-						//revert to a version
-						$history = $versionedFile->getHistory();
-						if(count($history) != $version){
-							$id = count($history) - $version;
-							$versionedFile->revert($history[$id]['rev'], 'Revert to version '.$version);
+						if($version){//version = [1..n]
+							//revert to a version
+//							$history = $versionedFile->getHistory();
+							$topRevision = count($myForm->getElement('file_version')->getOptions());
+							if($version < $topRevision){
+								$versionedFile->revert($version, 'Revert to TAO version ' . $version);
+							}
 						}
 						
 						//a new content was sent
@@ -508,7 +496,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						$versionedFile = core_kernel_versioning_File::create(
 							$fileName,
 							$filePath,
-							new core_kernel_classes_Resource($repositoryUri),
+							new core_kernel_versioning_Repository($repositoryUri),
 							$versionedFile->uriResource
 					    );
 					    					    
