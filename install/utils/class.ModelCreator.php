@@ -176,9 +176,9 @@ class tao_install_utils_ModelCreator{
 	/**
 	 * Convenience method to get the models to install from extension's locales.
 	 * @param common_ext_SimpleExtension a common_ext_SimpleExtension instance.
-	 * @return array of ns=>file
+	 * @return array of ns => files
 	 */
-	public static function getTranslationModelsFromExtension(common_ext_SimpleExtension $simpleExtension) {
+	public static function getTranslationModelsFromExtension(common_ext_SimpleExtension $simpleExtension){
 		$models = array();
 		$extensionPath = dirname(__FILE__) . '/../../../' . $simpleExtension->id;
 		$localesPath = $extensionPath . '/locales';
@@ -188,9 +188,11 @@ class tao_install_utils_ModelCreator{
 			throw new tao_install_utils_Exception("No ontology target model for extension '" . $simpleExtension->name . "'.");
 		}
 
-		$extModel = $simpleExtension->model;
-		if (is_array($extModel)) {
-			$extModel = $extModel[0];
+        // Detect the models that are installed with the extension
+        // to look for similar rdf file names in locales.
+        $installModelsBaseNames = array();
+		foreach ($simpleExtension->installFiles['rdf'] as $installFile){
+		    $installModelsBaseNames[$installFile['ns']] = basename($installFile['file']);
 		}
 
 		if (@is_dir($localesPath) && is_readable($localesPath)) {
@@ -204,21 +206,21 @@ class tao_install_utils_ModelCreator{
 						// Let's scan each language directory to find the messages.rdf file.
 						$files = scandir($localesPath . '/' . $dir);
 
-						if ($files !== false) {
+						if ($files !== false){
 
 							foreach ($files as $file) {
-								if ($file[0] != '.' && $file == 'messages.rdf') {
+								if ($file[0] != '.' && ($search = array_search($file, $installModelsBaseNames)) !== false){
 
 									// Add this file to the return results.
-									if (!isset($models[$extModel])) {
-										$models[$extModel] = array();
+									if (!isset($models[$search])) {
+										$models[$search] = array();
 									}
 
-									$models[$extModel][] = $localesPath . '/' . $dir . '/messages.rdf';
+									$models[$extModel][] = $localesPath . '/' . $dir . '/' . $file;
 								}
 							}
 						} else {
-							throw new tao_install_utils_Exception("Uable to list files from language directory ' ${dir}'.");
+							throw new tao_install_utils_Exception("Unable to list files from language directory ' ${dir}'.");
 						}
 					}
 				}
@@ -232,5 +234,44 @@ class tao_install_utils_ModelCreator{
 
 		return $models;
 	}
+
+    /**
+     * Convenience method that returns available language descriptions to be inserted in the
+     * knowledge base.
+     * 
+     * @return array of ns => files
+     */
+    public static function getLanguageModels() {
+        $models = array();
+        $ns = 'http://www.tao.lu/Ontologies/TAO.rdf#';
+        
+        $extensionPath = dirname(__FILE__) . '/../../../tao';
+        $localesPath = $extensionPath . '/locales';
+        
+        if (@is_dir($localesPath) && @is_readable($localesPath)) {
+            $localeDirectories = scandir($localesPath);
+            
+            foreach ($localeDirectories as $localeDir) {
+                $path = $localesPath . '/' . $localeDir;
+                if ($localeDir[0] != '.' && @is_dir($path)){
+                    // Look if the lang.rdf can be read.
+                    $languageModelFile = $path . '/lang.rdf';
+                    if (@file_exists($languageModelFile) && @is_readable($languageModelFile)){
+                        // Add this file to the returned values.
+                        if (!isset($models[$ns])){
+                            $models[$ns] = array();
+                        }
+                        
+                        $models[$ns][] = $languageModelFile;
+                    }
+                }
+            }
+        
+            return $models;
+        }
+        else{
+            throw new tao_install_utils_Exception("Cannot read 'locales' directory in extenstion 'tao'.");
+        }
+    }
 }
 ?>

@@ -381,30 +381,41 @@ class tao_install_Installator{
 		 *  6 - Insert the extensions models
 		 */
 		$models = tao_install_utils_ModelCreator::getModelsFromExtensions($extensions);
-		foreach($models as $ns => $modelFiles){
-			foreach($modelFiles as $file) {
+		foreach ($models as $ns => $modelFiles){
+			foreach ($modelFiles as $file) {
 				$modelCreator->insertModelFile($ns, $file);
 				common_Logger::d('inserted for NS '.$ns.' model '.basename($file), 'INSTALL');
 			}
 		}
+        
+        /*
+         * 7 - Insert available languages in ontology.
+         */
+        $models = tao_install_utils_ModelCreator::getLanguageModels();
+        foreach ($models as $ns => $modelFiles){
+            foreach ($modelFiles as $file){
+                $modelCreator->insertModelFile($ns, $file);
+                common_Logger::d("language description model inserted in NS '${ns}'", 'INSTALL');
+            }
+        }
 
 		/*
-		 * 7 - Insert translation extensions models (messages.rdf)
+		 * 8 - Insert translation extensions models
 		 */
-		foreach($extensions as $ext) {
-			if($ext->id != 'generis') {
+		foreach ($extensions as $ext){
+			if ($ext->id != 'generis'){
 				$models = tao_install_utils_ModelCreator::getTranslationModelsFromExtension($ext);
 				foreach($models as $ns => $modelFile){
 					foreach($modelFile as $mF) {
 						$modelCreator->insertModelFile($ns, $mF);
-						common_Logger::d('inserted translation for extension '.$ext->id, 'INSTALL');
+						common_Logger::d('inserted translation of model ' . basename($mF) . ' for extension '.$ext->id, 'INSTALL');
 					}
 				}
 			}
 		}
 
 		/*
-		 *  8 - Insert Local Data by extensions (can be samples data too)
+		 *  9 - Insert Local Data by extensions (can be samples data too)
 		 */
 		foreach($extensions as $extensionId => $extension){
 			if($extensionId == 'generis') {
@@ -419,7 +430,7 @@ class tao_install_Installator{
 
 
 		/*
-		 *  9 - Insert Super User
+		 *  10 - Insert Super User
 		 */
 		$modelCreator->insertSuperUser(array(
 			'login'			=> $installData['user_login'],
@@ -434,7 +445,7 @@ class tao_install_Installator{
 		
 
 		/*
-		 *  9 - Secure the install for production mode
+		 *  11 - Secure the install for production mode
 		 */
 		if($installData['module_mode'] == 'production'){
 
@@ -449,7 +460,7 @@ class tao_install_Installator{
 		}
 
 		/*
-		 *  10 - Create the version file
+		 *  12 - Create the version file
 		 */
 		file_put_contents(ROOT_PATH.'version', TAO_VERSION);
 		common_Logger::d('Created version file for TAO', 'INSTALL');

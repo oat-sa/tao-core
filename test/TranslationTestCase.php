@@ -18,6 +18,7 @@ class TranslationTestCase extends UnitTestCase {
 	const ESCAPING_PO = '/samples/sample_escaping.po';
 	const SORTING_PO = '/samples/sample_sort.po';
 	const TEMP_PO = 'tao.test.translation.writing';
+    const TEMP_RDF = 'tao.test.translation.writing';
 	const TAO_MANIFEST = '/samples/structures/tao';
 	const GROUPS_MANIFEST = '/samples/structures/groups';
 	const ITEMS_MANIFEST = '/samples/structures/items';
@@ -318,5 +319,56 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tus[5]->getSourceLanguage() == 'unknown');
 		$this->assertTrue($tus[5]->getTargetLanguage() == 'EN');
 	}
+
+    public function testRDFTranslationReading(){
+        $paths = array(dirname(__FILE__) . self::FAKE_RDF_LOCALE);
+        $rdfExtractor = new tao_helpers_translation_RDFExtractor($paths);
+        
+        $rdfExtractor->setTranslatableProperties(array('http://www.w3.org/2000/01/rdf-schema#label',
+                                                       'http://www.w3.org/2000/01/rdf-schema#comment'));
+        $rdfExtractor->extract();
+        $tus = $rdfExtractor->getTranslationUnits();
+        $this->assertTrue(count($tus) == 6);
+        
+        // Test 3 Translation Units at random.
+        $this->assertTrue($tus[1]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
+        $this->assertTrue($tus[1]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#label');
+        $this->assertTrue($tus[1]->getSource() == 'unknown');
+        $this->assertTrue($tus[1]->getTarget() == 'Allemand');
+        $this->assertTrue($tus[1]->getSourceLanguage() == 'unknown');
+        $this->assertTrue($tus[1]->getTargetLanguage() == 'FR');
+        $this->assertTrue($tus[2]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
+        $this->assertTrue($tus[2]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#label');
+        $this->assertTrue($tus[2]->getSource() == 'unknown');
+        $this->assertTrue($tus[2]->getTarget() == 'Deutsch');
+        $this->assertTrue($tus[2]->getSourceLanguage() == 'unknown');
+        $this->assertTrue($tus[2]->getTargetLanguage() == 'DE');
+        $this->assertTrue($tus[5]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
+        $this->assertTrue($tus[5]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#comment');
+        $this->assertTrue($tus[5]->getSource() == 'unknown');
+        $this->assertTrue($tus[5]->getTarget() == 'The German language.');
+        $this->assertTrue($tus[5]->getSourceLanguage() == 'unknown');
+        $this->assertTrue($tus[5]->getTargetLanguage() == 'EN');
+    }
+    
+    public function testRDFTranslationWriting(){
+        $rdfFilePath = tempnam('/tmp', self::TEMP_RDF);
+        $rdfFile = new tao_helpers_translation_RDFTranslationFile('en-US', 'multiple');
+        $rdfFile->setBase('http://www.tao.lu/Ontologies/TAO.rdf#');
+        
+        $writer = new tao_helpers_translation_RDFFileWriter($rdfFilePath, $rdfFile);
+        
+        $tu1 = new tao_helpers_translation_RDFTranslationUnit("This is a test");
+        $tu1->setSourceLanguage('en-US');
+        $tu1->setTargetLanguage('fr-FR');
+        $tu1->setSubject('http://www.tao.lu#target1');
+        $tu1->setPredicate('http://www.w3.org/2000/01/rdf-schema#label');
+        $rdfFile->addTranslationUnit($tu1);
+        
+        $writer->write();
+        
+        $this->assertTrue(file_exists($rdfFilePath));
+        unlink($rdfFilePath);
+    }
 }
 ?>
