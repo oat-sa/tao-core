@@ -163,7 +163,7 @@ class ServiceTestCase extends UnitTestCase {
 		}
 		$foundProp = $this->taoService->getClazzProperties($testClass);
 		$this->assertIsA($foundProp, 'array');
-        $this->assertTrue(count($foundProp) == 3);
+        $this->assertTrue(count($foundProp) >= 3, 'the class item or one of is subclasses has less then three properties');
         
 		//delete the item class in case it has been created if it was not in the model
 		$localNamspace = core_kernel_classes_Session::singleton()->getNamespace();
