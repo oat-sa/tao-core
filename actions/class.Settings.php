@@ -86,13 +86,13 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		$uiLang = $GLOBALS['default_lang'];
 		$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
 		if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource){
-			$uiLang = $uiLg->getLabel();
+			$uiLang = $uiLg->getUniquePropertyValue(new core_kernel_classes_Property(RDF_VALUE))->literal;
 		}
 							
 		$dataLang = $GLOBALS['default_lang'];
 		$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
 		if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
-			$dataLang = $dataLg->getLabel();
+			$dataLang = $dataLg->getUniquePropertyValue(new core_kernel_classes_Property(RDF_VALUE))->literal;
 		}
 		
                 
