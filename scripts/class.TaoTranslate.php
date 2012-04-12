@@ -580,7 +580,9 @@ class tao_scripts_TaoTranslate
             }
             
             // Create the language manifest in RDF.
-            
+            $langDescription = tao_helpers_translation_RDFUtils::createLanguageDescription($this->options['language'],
+                                                                                           $this->options['languageLabel']);
+            $langDescription->save($dir . '/' . self::DEF_LANG_FILENAME);
         }
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 end
     }
