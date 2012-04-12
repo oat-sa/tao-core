@@ -22,6 +22,15 @@
 				$fileNameField.val(fileName.replace(' ', '_'));
 			}
 		});
+		
+		
+		$('#delete-versioned-file').unbind('click').one('click', function(){
+			if(confirm('<?=__()?>')){
+				$(this).siblings('input[name=delete]').val(1);
+				$('a.form-submiter:first').click();
+			}
+			return false;
+		});
 	});
 	</script>
 </div>

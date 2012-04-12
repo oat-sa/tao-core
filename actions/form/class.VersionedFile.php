@@ -145,15 +145,17 @@ class tao_actions_form_VersionedFile
     	
 		// if the file is already versioned add a way to download it
 		if($versioned){
-			$downloadUrl = _url('downloadFile', 'File', 'tao', array(
-					'uri' 		=> tao_helpers_Uri::encode($instance->uriResource)
-			));
+			$downloadUrl = _url('downloadFile', 'File', 'tao', array('uri'=> tao_helpers_Uri::encode($instance->uriResource)));
 			
 			$downloadFileElt = tao_helpers_form_FormFactory::getElement("file_download", 'Free');
-			$downloadFileElt->setValue("<a href='$downloadUrl' class='blink' target='_blank'><img src='".TAOBASE_WWW."img/document-save.png' alt='xml' class='icon'  /> ".__('Download content')."</a>");
+			$downloadFileElt->setValue("<a href='$downloadUrl' class='blink' target='_blank'><img src='".TAOBASE_WWW."img/document-save.png' alt='Download versioned file' class='icon'  /> ".__('Download content')."</a>");
 			$this->form->addElement($downloadFileElt);
-			
 			array_push($contentGroup, $downloadFileElt->getName());
+			
+			$deleteFileElt = tao_helpers_form_FormFactory::getElement("file_delete", 'Free');
+			$deleteFileElt->setValue("<a id='delete-versioned-file' href='#' class='blink' target='_blank'><img src='".TAOBASE_WWW."img/edit-delete.png' alt='Delete versioned file' class='icon'  /> ".__('Remove content')."</a><input name='delete' value='0' type='hidden'/>");
+			$this->form->addElement($deleteFileElt);
+			array_push($contentGroup, $deleteFileElt->getName());
 		}
 		
 		$this->form->createGroup('file', 'Content', $contentGroup);

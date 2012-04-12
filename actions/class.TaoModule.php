@@ -415,11 +415,11 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 */
 	public function editVersionedFile()
 	{
-		if(!$this->hasRequestParameter('uri'))
-		{
-			var_dump('variables missing');
-		} 
-		else{
+		if(!$this->hasRequestParameter('uri') || !$this->hasRequestParameter('propertyUri')){
+			
+			throw new Exception('Required variables missing');
+			
+		}else{
 			
 			$ownerUri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
 			$propertyUri = tao_helpers_Uri::decode($this->getRequestParameter('propertyUri'));
@@ -430,6 +430,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			
 			//get the versioned file resource
 			$versionedFileResource = $ownerInstance->getOnePropertyValue($property);
+			
 			//if it does not exist already, create a new versioned file resource
 			if(is_null($versionedFileResource)){
 				//if the file resource does not exist, create it
@@ -459,7 +460,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					$content = '';
 					$fileName = $data[PROPERTY_FILE_FILENAME];
 					$filePath = tao_helpers_Uri::getUniqueId($ownerInstance->uriResource).'/'.tao_helpers_Uri::getUniqueId($propertyUri);
-					
+					$delete = isset($data['file_delete'])?(bool)$data['file_delete']:false;
 					$repositoryUri = $data[PROPERTY_VERSIONEDFILE_REPOSITORY];
 					$version = isset($data['file_version']) ? $data['file_version'] : 0;
 					
@@ -476,22 +477,32 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					//the file is already versioned
 					if($versionedFile->isVersioned()){
 						
-						if($version){//version = [1..n]
-							//revert to a version
-//							$history = $versionedFile->getHistory();
-							$topRevision = count($myForm->getElement('file_version')->getOptions());
-							if($version < $topRevision){
-								$versionedFile->revert($version, 'Revert to TAO version ' . $version);
+						if($delete){
+							
+							$versionedFile->delete();//no need to commit here (already done in the funciton implementation
+							$ownerInstance->removePropertyValues($property);
+							
+						}else{
+							
+							if ($version) {//version = [1..n]
+								//revert to a version
+								$topRevision = count($myForm->getElement('file_version')->getOptions());
+								if ($version < $topRevision) {
+									$versionedFile->revert($version, 'Revert to TAO version ' . $version);
+								}
 							}
+
+							//a new content was sent
+							if (!empty($content)) {
+								$versionedFile->setContent($content);
+							}
+							
+							//commit the file
+							$versionedFile->commit();
 						}
 						
-						//a new content was sent
-						if(!empty($content)){
-							$versionedFile->setContent($content);
-						}
 					} 
-					
-					//the file is not already versioned
+					//the file is already versioned
 					else{
 						//create the versioned file
 						$versionedFile = core_kernel_versioning_File::create(
@@ -508,10 +519,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						
 						//add the file to the repository
 						$versionedFile->add();
+						
+						//commit the file
+						$versionedFile->commit();
 					}
-					
-				    //commit the file
-				    $versionedFile->commit();
 					
 					$this->setData('message', __($propertyRange->getLabel().' saved'));
 					$this->setData('reload', true);
