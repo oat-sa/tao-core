@@ -3,13 +3,13 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao/scripts/class.TaoTranslate.php
+ * TAO - tao\scripts\class.TaoTranslate.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 06.02.2012, 21:56:48 with ArgoUML PHP module 
+ * Automatically generated on 12.04.2012, 17:27:06 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -91,6 +91,14 @@ class tao_scripts_TaoTranslate
      * @var array
      */
     protected $options = array();
+
+    /**
+     * Short description of attribute DEF_LANG_FILENAME
+     *
+     * @access public
+     * @var string
+     */
+    const DEF_LANG_FILENAME = 'lang.rdf';
 
     // --- OPERATIONS ---
 
@@ -258,9 +266,9 @@ class tao_scripts_TaoTranslate
         				  'extension' => null,
         				  'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
         				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
-        				  'build' => true,
-        				  'force' => false,
-                          'ontology' => true);
+        				  'build' => true, // Build translation files by having a look in source code, models.
+        				  'force' => false, // Do not force rebuild if locale already exist.
+                          'ontology' => false); // Do not force the language to be referenced in the ontology.
         
         $this->options = array_merge($defaults, $this->options);
     	
@@ -570,6 +578,9 @@ class tao_scripts_TaoTranslate
             if ($this->options['ontology'] == true) {
                 $this->addLanguageToOntology();
             }
+            
+            // Create the language manifest in RDF.
+            
         }
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 end
     }
