@@ -372,7 +372,39 @@ class TranslationTestCase extends UnitTestCase {
     }
     
     public function testRDFUtils(){
+        // Instantiate a new RDF language description.
+        // Yoda English is a reversed form of english, spoken a long time ago, in a far away galaxy.    
+        $languageDescription = tao_helpers_translation_RDFUtils::createLanguageDescription('en-YO', 'Yoda English');
+        $this->assertTrue(get_class($languageDescription) == 'DOMDocument');
         
+        // Test with XPath if the resulting DOM tree is fine.
+        $xPath = new DOMXPath($languageDescription);
+        $xPath->registerNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
+        $xPath->registerNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
+        
+        // Check for the Language en-YO resource.
+        $result = $xPath->query("//rdf:Description[@rdf:about='http://www.tao.lu/Ontologies/TAO.rdf#Langen-YO']");
+        $this->assertTrue($result->length == 1);
+        
+        // Check for the Language rdf:type.
+        $result = $xPath->query("//rdf:Description/rdf:type[@rdf:resource='" . CLASS_LANGUAGES . "']");
+        $this->assertTrue($result->length == 1);
+        
+        // Check for the Language rdfs:label.
+        $result = $xPath->query("//rdf:Description/rdfs:label/text()");
+        $this->assertTrue($result->length == 1);
+        $this->assertTrue($result->item(0)->nodeValue == 'Yoda English');
+        
+        // Check for the Language rdf:value.
+        $result = $xPath->query("//rdf:Description/rdf:value/text()");
+        $this->assertTrue($result->length == 1);
+        $this->assertTrue($result->item(0)->nodeValue == 'en-YO');
+        
+        $savePath = tempnam('/tmp', self::TEMP_RDF);
+        $languageDescription->save($savePath);
+        $this->assertTrue(file_exists($savePath));
+        
+        //unlink($savePath);
     }
 }
 ?>
