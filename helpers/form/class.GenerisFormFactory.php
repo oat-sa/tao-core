@@ -83,6 +83,11 @@ class tao_helpers_form_GenerisFormFactory
 			return null;
 		}
 		
+		//enable versionedFile widget if versioning enabled only
+		if($widget == 'VersionedFile' && !GENERIS_VERSIONING_ENABLED){
+			return null;
+		}
+		
 		$element = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($property->uriResource), $widget);
 		if(!is_null($element)){
 			if($element->getWidget() != $widgetResource->uriResource){
@@ -329,6 +334,13 @@ class tao_helpers_form_GenerisFormFactory
 			)
 		);
 		
+		if(GENERIS_VERSIONING_ENABLED){
+			$returnValue['versionedFile'] = array(
+				'title' 	=> __('A versioned file'),
+				'widget'	=> PROPERTY_WIDGET_VERSIONEDFILE,
+				'range'		=> RDFS_LITERAL
+			);
+		}
         // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B31 end
 
         return (array) $returnValue;

@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 11.10.2011, 14:01:52 with ArgoUML PHP module 
+ * Automatically generated on 12.04.2012, 12:31:20 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * Represents a FormElement entity
  *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  */
 require_once('tao/helpers/form/class.FormElement.php');
 
@@ -40,7 +40,7 @@ require_once('tao/helpers/form/class.FormElement.php');
  * Short description of class tao_helpers_form_elements_Versionedfile
  *
  * @access public
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements
  */
@@ -58,7 +58,7 @@ class tao_helpers_form_elements_Versionedfile
      * @access public
      * @var string
      */
-    public $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Versionedfile';
+    public $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile';
 
     // --- OPERATIONS ---
 

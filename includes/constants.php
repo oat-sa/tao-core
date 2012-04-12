@@ -62,6 +62,7 @@ $todefine = array(
 	'PROPERTY_WIDGET_COMBOBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
 	'PROPERTY_WIDGET_CHECKBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
 	'PROPERTY_WIDGET_FILE'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile',
+	'PROPERTY_WIDGET_VERSIONEDFILE'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile',
 	'PROPERTY_TAO_PROPERTY'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOProperty',
     'CLASS_PROCESS_EXECUTIONS'		=> 'http://www.tao.lu/middleware/taoqual.rdf#i119010455660544'
 	

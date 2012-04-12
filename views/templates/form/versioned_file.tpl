@@ -19,7 +19,7 @@
 			// Catch the file upload and fill the file name field, if it is empty
 			if($.trim($fileNameField.val()) == ''){
 				//fill the file name field
-				$fileNameField.val(fileName);
+				$fileNameField.val(fileName.replace(' ', '_'));
 			}
 		});
 	});

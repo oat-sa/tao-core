@@ -68,9 +68,14 @@ class tao_actions_form_VersionedFile
         
     	$this->form = tao_helpers_form_FormFactory::getForm('versioned_file');
     	
-    	$actions = tao_helpers_form_FormFactory::getCommonActions();
-    	$this->form->setActions($actions, 'top');
-    	$this->form->setActions($actions, 'bottom');
+		$actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
+		$value = '';
+		$value .=  "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/save.png' /> ".__('Save')."</a>";
+		$value .=  "<a href='#' class='form-reverter'><img src='".TAOBASE_WWW."/img/revert.png' /> ".__('Return')."</a>";
+		$actions->setValue($value);
+		
+    	$this->form->setActions(array($actions), 'top');
+    	$this->form->setActions(array($actions), 'bottom');
     	
         // section 127-0-1-1-234d8e6a:13300ee5308:-8000:0000000000003F7E end
     }
@@ -138,16 +143,14 @@ class tao_actions_form_VersionedFile
 		$this->form->addElement($browseElt);
 		array_push($contentGroup, $browseElt->getName());
     	
-		// if the file is yet versioned add a way to download it
-		
+		// if the file is already versioned add a way to download it
 		if($versioned){
 			$downloadUrl = _url('downloadFile', 'File', 'tao', array(
-					'uri' 		=> tao_helpers_Uri::encode($instance->uriResource),
-					//'classUri' 	=> tao_helpers_Uri::encode($this->clazz->uriResource)
+					'uri' 		=> tao_helpers_Uri::encode($instance->uriResource)
 			));
 			
 			$downloadFileElt = tao_helpers_form_FormFactory::getElement("file_download", 'Free');
-			$downloadFileElt->setValue("<a href='$downloadUrl' class='blink' target='_blank'><img src='".BASE_WWW."/img/text-xml-file.png' alt='xml' class='icon'  /> ".__('Download content')."</a>");
+			$downloadFileElt->setValue("<a href='$downloadUrl' class='blink' target='_blank'><img src='".TAOBASE_WWW."img/document-save.png' alt='xml' class='icon'  /> ".__('Download content')."</a>");
 			$this->form->addElement($downloadFileElt);
 			
 			array_push($contentGroup, $downloadFileElt->getName());
@@ -156,7 +159,6 @@ class tao_actions_form_VersionedFile
 		$this->form->createGroup('file', 'Content', $contentGroup);
 		
     	//File Meta
-    	
     	$fileNameElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_FILE_FILENAME), $versioned ? 'Label' : 'Textbox');
 		$fileNameElt->setDescription(__("File name"));
 		if(!$versioned){ 
@@ -164,11 +166,8 @@ class tao_actions_form_VersionedFile
 		}
 		$this->form->addElement($fileNameElt);
 		
-		$filePathElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_FILEPATH), $versioned ? 'Label' : 'Textbox');
+		$filePathElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_FILEPATH), 'Label');
 		$filePathElt->setDescription(__("File path"));
-		if(!$versioned){
-			$filePathElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		}
 		$this->form->addElement($filePathElt);
 		
 		$versionedRepositoryClass = new core_kernel_classes_Class(CLASS_GENERIS_VERSIONEDREPOSITORY);
@@ -191,7 +190,6 @@ class tao_actions_form_VersionedFile
 		));
     	
 		// File Revision
-		
 		if($versioned){
 			$fileVersionOptions = array();
 			if($versioned){
@@ -263,7 +261,6 @@ class tao_actions_form_VersionedFile
 			$versionElt = $this->form->getElement('file_version');
 			$versionElt->setValue(count($history));
     	} 
-    	
     	// DEFAULT VALUE
     	else {
     		$filePathElt->setValue('/');

@@ -191,6 +191,26 @@ UiForm = function(){
 			}
 		});
 		
+		$('.editVersionedFile').click(function(){
+			var url = '';
+			if(ctx_extension){
+				url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
+			}
+			url += 'editVersionedFile';
+			var data = {
+				'uri':$("#uri").val(),
+				'propertyUri':$(this).siblings('label.form_desc').attr('for')
+			};
+			
+			if(UiBootstrap.tabs.size() == 0){
+				if($('div.main-container').length){
+						$('div.main-container').load(url, data);
+				}else{
+						return false;//go to the link
+				}
+			}
+			$(getMainContainerSelector(UiBootstrap.tabs)).load(url, data);
+		});
 		/**
 		 * remove a form group, ie. a property
 		 */

@@ -458,7 +458,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					// Extracted values
 					$content = '';
 					$fileName = $data[PROPERTY_FILE_FILENAME];
-					$filePath = $data[PROPERTY_VERSIONEDFILE_FILEPATH];
+					$filePath = tao_helpers_Uri::getUniqueId($ownerInstance->uriResource).'/'.tao_helpers_Uri::getUniqueId($propertyUri);
+					
 					$repositoryUri = $data[PROPERTY_VERSIONEDFILE_REPOSITORY];
 					$version = isset($data['file_version']) ? $data['file_version'] : 0;
 					
