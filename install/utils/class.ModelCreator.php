@@ -185,7 +185,7 @@ class tao_install_utils_ModelCreator{
 
 		// Get the target model.
 		if (!isset($simpleExtension->model) || empty($simpleExtension->model)) {
-			throw new tao_install_utils_Exception("No ontology target model for extension '" . $simpleExtension->name . "'.");
+			return $models;
 		}
 
         // Detect the models that are installed with the extension

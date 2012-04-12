@@ -18,7 +18,8 @@ INSERT INTO "extensions" VALUES
 ('taoSubjects','Tao Subjects','2.1',1,1,0),
 ('taoTests','Tao Test','2.1',1,1,0),
 ('taoDelivery','taoDelivery','2.1',1,1,0),
-('wfEngine','Workflow Engine Extension','2.1',1,1,0);
+('wfEngine','Workflow Engine Extension','2.1',1,1,0),
+('filemanager','File Manager Extension','2.1',1,1,1);
 
 DROP TABLE IF EXISTS "models";
 CREATE TABLE "models" (

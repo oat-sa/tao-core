@@ -257,7 +257,7 @@ class tao_install_Installator{
 	{
 	    set_time_limit(300);
 		common_Logger::i('Starting TAO install', 'INSTALL');
-	    
+        
 		/*
 		 *  1 - Test DB connection (done by the constructor)
 		 */
@@ -358,27 +358,33 @@ class tao_install_Installator{
 				continue; 	//generis is the root and has been installed above
 			}
 
+            $sampleFile = $this->options['root_path'] . $extensionId . '/includes/config.php.sample';
+            $finalFile = $this->options['root_path'] . $extensionId . '/includes/config.php';
+
 			$myConfigWriter = new tao_install_utils_ConfigWriter(
-				$this->options['root_path'] . $extensionId . '/includes/config.php.sample',
-				$this->options['root_path'] . $extensionId . '/includes/config.php'
+				$sampleFile,
+				$finalFile
 			);
 			$myConfigWriter->createConfig();
+            
+            // Include 'tao' meta extension configuration file if it's its turn.
+            if ($extensionId == 'tao'){
+                require_once($finalFile);    
+            }
+			
 			common_Logger::d('Wrote '.$extensionId.' config', 'INSTALL');
 		}
-
-		$myConfigWriter = new tao_install_utils_ConfigWriter(
-			$this->options['root_path'] . '/filemanager/includes/config.php.sample',
-			$this->options['root_path'] . '/filemanager/includes/config.php'
-		);
-		$myConfigWriter->createConfig();
-		common_Logger::d('Wrote Filemanager config', 'INSTALL');
 		
+        /*
+         * 6 - Flush File Cache
+         */
+        tao_models_classes_cache_FileCache::singleton()->purge();
+        common_Logger::i("File Cache purged", 'INSTALL');
 
 		$modelCreator = new tao_install_utils_ModelCreator($installData['module_namespace']);
-
-
+        
 		/*
-		 *  6 - Insert the extensions models
+		 *  7 - Insert the extensions models
 		 */
 		$models = tao_install_utils_ModelCreator::getModelsFromExtensions($extensions);
 		foreach ($models as $ns => $modelFiles){
@@ -449,10 +455,10 @@ class tao_install_Installator{
 		 */
 		if($installData['module_mode'] == 'production'){
 
-			// 9.1 Remove Generis User
+			// 11.1 Remove Generis User
 			$dbCreator->execute('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelID"=6');
 
-			// 9.2 Protect TAO dist
+			// 11.2 Protect TAO dist
  			$shield = new tao_install_utils_Shield(array_keys($extensions));
  			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
  			$shield->protectInstall();

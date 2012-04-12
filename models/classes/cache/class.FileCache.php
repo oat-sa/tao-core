@@ -143,11 +143,15 @@ class tao_models_classes_cache_FileCache
     public function purge()
     {
         // section 127-0-1-1--18485ef3:13542665222:-8000:00000000000065B1 begin
-	    if ($handle = opendir(CACHE_PATH)) {
-		    while (false !== ($entry = readdir($handle))) {
-		        unlink($entry);
-		    }
-	    }
+        if (false !== ($files = scandir(CACHE_PATH))){
+            foreach ($files as $f) {
+                $filePath = CACHE_PATH . $f;
+                if ($f != '.' && $f != '..' && file_exists($filePath)){
+                    @unlink($filePath);
+                }
+            }
+        }
+        
         // section 127-0-1-1--18485ef3:13542665222:-8000:00000000000065B1 end
     }
 
