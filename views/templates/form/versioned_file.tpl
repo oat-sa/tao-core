@@ -25,7 +25,7 @@
 		
 		
 		$('#delete-versioned-file').unbind('click').one('click', function(){
-			if(confirm('<?=__()?>')){
+			if(confirm('<?=__('Are you sure to delete the versioned resource?\nThe history will be lost as well.')?>')){
 				$(this).siblings('input[name=delete]').val(1);
 				$('a.form-submiter:first').click();
 			}
