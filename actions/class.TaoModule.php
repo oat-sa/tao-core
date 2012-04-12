@@ -347,8 +347,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	public function editPropertyInstance()
 	{
 		if(!$this->hasRequestParameter('ownerUri') || !$this->hasRequestParameter('ownerClassUri')
-			|| !$this->hasRequestParameter('propertyUri'))
-		{
+			|| !$this->hasRequestParameter('propertyUri')){
 			var_dump('variables missing');
 		} 
 		else{
@@ -401,12 +400,13 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					$this->setData('reload', true);
 				}
 			}
+			
+			$this->setData('formTitle', __('Manage content of the property ').$property->getLabel().__(' of the instance ').$ownerInstance->getLabel());
+			$this->setData('myForm', $myForm->render());
+		
+			$this->setView('form_content.tpl');
 		}
 		
-		$this->setData('formTitle', __('Manage item versioned content'));
-		$this->setData('myForm', $myForm->render());
-		
-		$this->setView('form_content.tpl');
 	}
 	
 	/**
@@ -460,7 +460,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					$content = '';
 					$fileName = $data[PROPERTY_FILE_FILENAME];
 					$filePath = tao_helpers_Uri::getUniqueId($ownerInstance->uriResource).'/'.tao_helpers_Uri::getUniqueId($propertyUri);
-					$delete = isset($data['file_delete'])?(bool)$data['file_delete']:false;
+					$delete = isset($data['file_delete']) && $data['file_delete'] == '1'?true:false;
 					$repositoryUri = $data[PROPERTY_VERSIONEDFILE_REPOSITORY];
 					$version = isset($data['file_version']) ? $data['file_version'] : 0;
 					
@@ -478,7 +478,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					if($versionedFile->isVersioned()){
 						
 						if($delete){
-							
+							var_dump('deleting!');exit;
 							$versionedFile->delete();//no need to commit here (already done in the funciton implementation
 							$ownerInstance->removePropertyValues($property);
 							
@@ -535,12 +535,13 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					)));
 				}
 			}
+			
+			$this->setData('formTitle', __('Manage the versioned content : ').$ownerInstance->getLabel().' > '.$property->getLabel());
+			$this->setData('myForm', $myForm->render());
+			
+			$this->setView('form/versioned_file.tpl', true);
 		}
 		
-		$this->setData('formTitle', __('Manage item versioned content'));
-		$this->setData('myForm', $myForm->render());
-		
-		$this->setView('form/versioned_file.tpl', true);
 	}
 	
 	/**

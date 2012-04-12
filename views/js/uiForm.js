@@ -191,6 +191,26 @@ UiForm = function(){
 			}
 		});
 		
+		$('.editVersionedFile').each(function(){
+			
+			var infoUrl = root_url + '/tao/File/getPropertyFileInfo';
+			var data = {
+				'uri':$("#uri").val(),
+				'propertyUri':$(this).siblings('label.form_desc').attr('for')
+			};
+			var $_this = $(this);
+			$.ajax({
+			   type: "GET",
+			   url: infoUrl,
+			   data: data,
+			   dataType: 'json',
+			   success: function(r){
+					$_this.parent('div').append('<span>'+r.name+'</span>');
+			   }
+			});
+			
+		});
+		
 		$('.editVersionedFile').click(function(){
 			var url = '';
 			if(ctx_extension){
@@ -205,11 +225,10 @@ UiForm = function(){
 			if(UiBootstrap.tabs.size() == 0){
 				if($('div.main-container').length){
 						$('div.main-container').load(url, data);
-				}else{
-						return false;//go to the link
 				}
 			}
 			$(getMainContainerSelector(UiBootstrap.tabs)).load(url, data);
+			return false;
 		});
 		/**
 		 * remove a form group, ie. a property

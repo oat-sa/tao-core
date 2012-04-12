@@ -168,6 +168,7 @@ class tao_actions_form_VersionedFile
 		}
 		$this->form->addElement($fileNameElt);
 		
+		//file path element to be added or not:
 		$filePathElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_FILEPATH), 'Label');
 		$filePathElt->setDescription(__("File path"));
 		$this->form->addElement($filePathElt);
@@ -244,7 +245,7 @@ class tao_actions_form_VersionedFile
 			$filePathValue = $instance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_FILEPATH));
 			if(!empty($filePathValue)){
 				$filePathElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_FILEPATH));
-				$filePathElt->setValue($filePathValue);
+				$filePathElt->setValue('{REPOSITORY_ROOT}/'.$filePathValue);
 			}
 		
 			$repositoryValue = $instance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_REPOSITORY));
@@ -253,19 +254,13 @@ class tao_actions_form_VersionedFile
 				$repositoryElt->setValue($repositoryValue->uriResource);
 			}
 			
-			/*$versionValue = $instance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_VERSION));
-			if(!empty($versionValue)){
-				$versionElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_VERSION));
-				$versionElt->setValue($versionValue);
-			}*/
-		
 			$history = $instance->gethistory();
 			$versionElt = $this->form->getElement('file_version');
 			$versionElt->setValue(count($history));
     	} 
     	// DEFAULT VALUE
     	else {
-    		$filePathElt->setValue('/');
+			$this->form->removeElement($filePathElt->getName());
     	}
     	
         // section 127-0-1-1-234d8e6a:13300ee5308:-8000:0000000000003F80 end

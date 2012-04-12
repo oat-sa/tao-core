@@ -184,5 +184,62 @@ class tao_actions_File extends tao_actions_CommonModule{
 		}
 		
 	}
+	
+	public function getFileInfo($uri){
+		
+		$returnValue = array(
+			'name' => __('no file')
+		);
+		
+		$fileResource = null;
+		if(!is_null($uri)){
+			$fileResource = new core_kernel_classes_File($uri);
+		}else if(is_null($uri) && $this->hasRequestParameter('uri')){
+			$fileResource = new core_kernel_classes_File(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+		}
+		
+		if(is_null($fileResource)){
+			throw new Exception('no file uri given');
+		}
+		
+		
+		$returnValue['name'] = (string) $fileResource->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
+		
+		if(!is_null($uri)){
+			return $returnValue;
+		}else{
+			echo json_encode($returnValue);
+			
+		}
+	}
+	
+	public function getPropertyFileInfo(){
+		
+		$data = array('name' => __('(empty)'));
+		if($this->hasRequestParameter('uri') && $this->hasRequestParameter('propertyUri')){
+			$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+			$propertyUri = tao_helpers_Uri::decode($this->getRequestParameter('propertyUri'));
+			$instance = new core_kernel_classes_Resource($uri);
+			$file = $instance->getOnePropertyValue(new core_kernel_classes_Property($propertyUri));
+			
+			if(!is_null($file) && $file instanceof core_kernel_classes_Resource){
+				
+				$availableFileTypes = array(
+					CLASS_GENERIS_FILE,
+					CLASS_GENERIS_VERSIONEDFILE
+				);
+
+				foreach ($file->getType() as $typeClass) {
+					if (in_array($typeClass->uriResource, $availableFileTypes)) {
+						$data = $this->getFileInfo($file->uriResource);
+						break;
+					}
+				}
+			}
+		}
+		
+		echo json_encode($data);
+		
+	}
 }
 ?>
