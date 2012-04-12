@@ -404,7 +404,7 @@ class TranslationTestCase extends UnitTestCase {
         $languageDescription->save($savePath);
         $this->assertTrue(file_exists($savePath));
         
-        //unlink($savePath);
+        unlink($savePath);
     }
 }
 ?>
