@@ -370,5 +370,9 @@ class TranslationTestCase extends UnitTestCase {
         $this->assertTrue(file_exists($rdfFilePath));
         unlink($rdfFilePath);
     }
+    
+    public function testRDFUtils(){
+        
+    }
 }
 ?>
