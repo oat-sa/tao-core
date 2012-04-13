@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 13.04.2012, 15:43:17 with ArgoUML PHP module 
+ * Automatically generated on 13.04.2012, 15:46:21 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -1022,7 +1022,7 @@ class tao_scripts_TaoTranslate
     }
 
     /**
-     * Get the ontology file paths for a given extension, sorted by target
+     * Get the ontology file paths for a given extension, sorted by target name
      *
      * @access private
      * @author firstname and lastname of author, <author@example.org>
