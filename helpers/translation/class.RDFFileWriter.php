@@ -98,7 +98,7 @@ class tao_helpers_translation_RDFFileWriter
                         // Check if an rdf:Description exists for
                         // the target of the TranslationUnit.
                         $subject = $tu->getSubject();
-                        $result = $xPath->query("//rdf:Description[rdf:about='${subject}']");
+                        $result = $xPath->query("//rdf:Description[@rdf:about='${subject}']");
                 
                         if ($result->length > 0){
                             // Append to the existing rdf:Description.

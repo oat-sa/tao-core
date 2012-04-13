@@ -558,8 +558,25 @@ class tao_scripts_TaoTranslate
                 
                 // Now that PO files & JS files are created, we can create the translation models
                 // if we find RDF models to load for this extension.
-                $modelExtractor = new tao_helpers_translation_RDFExtractor();
-                $pathToModels = $dir . '/models/ontology';
+                $modelFiles = $this->getOntologyFiles($this->options['extension']);
+                $translatableProperties = array(RDFS_LABEL, RDFS_COMMENT);
+                
+                foreach ($modelFiles as $ns => $files){
+                    foreach ($files as $f) {
+                        $modelExtractor = new tao_helpers_translation_RDFExtractor($f);
+                        $modelExtractor->setTranslatableProperties($translatableProperties);
+                        $modelExtractor->extract();
+                        
+                        $rdfTranslationFile = new tao_helpers_translation_RDFTranslationFile('en-US', $this->options['language']);
+                        $rdfTranslationFile->addTranslationUnits($modelExtractor->getTranslationUnits());
+                        $rdfTranslationFile->setExtensionId($this->options['extension']);
+                        $rdfTranslationFile->setBase($ns);
+                        
+                        $writer = new tao_helpers_translation_RDFFileWriter($dir . '/' . basename($f),
+                                                                            $rdfTranslationFile); 
+                        $writer->write();      
+                    }
+                }
 	        	
 	        	$this->outVerbose("Language '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "' " .
 	        					  "(" . count($sortedTranslationFile->getTranslationUnits()) . " entries).");
@@ -1034,6 +1051,18 @@ class tao_scripts_TaoTranslate
         $returnValue = array();
 
         // section -64--88-56-1--acd0dae:136abeb190f:-8000:000000000000390D begin
+        $ext = new common_ext_SimpleExtension($extension);
+        if (isset($ext->installFiles['rdf'])){
+            foreach ($ext->installFiles['rdf'] as $f){
+                $ns = $f['ns'];
+                
+                if (!isset($returnValue[$ns])){
+                    $returnValue[$ns] = array();
+                }
+                
+                $returnValue[$ns][] = $f['file'];
+            }
+        }
         // section -64--88-56-1--acd0dae:136abeb190f:-8000:000000000000390D end
 
         return (array) $returnValue;

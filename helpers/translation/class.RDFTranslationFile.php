@@ -97,6 +97,7 @@ class tao_helpers_translation_RDFTranslationFile
 		
 		// If we are executing this, we can add the TranslationUnit to this TranslationFile.
 		$translationUnit->setSourceLanguage($this->getSourceLanguage());
+        $translationUnit->setTargetLanguage($this->getTargetLanguage());
         $tus = $this->getTranslationUnits();
 		array_push($tus, $translationUnit);
         $this->setTranslationUnits($tus);
