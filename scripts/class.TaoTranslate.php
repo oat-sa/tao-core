@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 12.04.2012, 17:27:06 with ArgoUML PHP module 
+ * Automatically generated on 13.04.2012, 15:43:17 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author firstname and lastname of author, <author@example.org>
@@ -555,6 +555,11 @@ class tao_scripts_TaoTranslate
 	        	$writer = new tao_helpers_translation_JSFileWriter($dir . '/' . self::DEF_JS_FILENAME,
 	        													   $sortedTranslationFile);
 	        	$writer->write();
+                
+                // Now that PO files & JS files are created, we can create the translation models
+                // if we find RDF models to load for this extension.
+                $modelExtractor = new tao_helpers_translation_RDFExtractor();
+                $pathToModels = $dir . '/models/ontology';
 	        	
 	        	$this->outVerbose("Language '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "' " .
 	        					  "(" . count($sortedTranslationFile->getTranslationUnits()) . " entries).");
@@ -767,13 +772,13 @@ class tao_scripts_TaoTranslate
     /**
      * Short description of method buildLanguagePath
      *
-     * @access public
+     * @access private
      * @author firstname and lastname of author, <author@example.org>
      * @param  string extension
      * @param  string language
      * @return string
      */
-    public function buildLanguagePath($extension, $language)
+    private function buildLanguagePath($extension, $language)
     {
         $returnValue = (string) '';
 
@@ -1014,6 +1019,24 @@ class tao_scripts_TaoTranslate
 			$this->err("Please provide a value for the 'password' parameter.", true);
 		}
         // section 127-0-1-1-3599ab3f:135546c24af:-8000:0000000000003704 end
+    }
+
+    /**
+     * Get the ontology file paths for a given extension, sorted by target
+     *
+     * @access private
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  string extension The extension where you want to find the related ontology files (.rdf).
+     * @return array
+     */
+    private function getOntologyFiles($extension)
+    {
+        $returnValue = array();
+
+        // section -64--88-56-1--acd0dae:136abeb190f:-8000:000000000000390D begin
+        // section -64--88-56-1--acd0dae:136abeb190f:-8000:000000000000390D end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_scripts_TaoTranslate */
