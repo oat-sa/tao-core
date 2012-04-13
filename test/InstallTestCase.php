@@ -16,15 +16,12 @@ class InstallTestCase extends UnitTestCase {
 	public function testModelCreator() {
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$extensions = $extensionManager->getInstalledExtensions();
-		
 		$files = tao_install_utils_ModelCreator::getTranslationModelsFromExtension($extensions['tao']);
-		$ns = 'http://www.tao.lu/Ontologies/TAO.rdf';
 		$this->assertTrue(is_array($files));
-		//$this->assertTrue(array_key_exists($ns, $files));
+		//$this->assertTrue(array_key_exists($taoNs, $files));
 		//$this->assertTrue(count($files) == 1);
 		
 		// - Test the existence of language descriptions.
-		$taoNs = 'http://www.tao.lu/Ontologies/TAO.rdf#';
 		$langs = tao_install_utils_ModelCreator::getLanguageModels();
         $this->assertTrue(isset($langs[$taoNs]), "No language descriptions available for model '${taoNs}'.");
         // We should have at least english described.
