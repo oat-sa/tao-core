@@ -401,7 +401,7 @@ class tao_install_Installator{
         foreach ($models as $ns => $modelFiles){
             foreach ($modelFiles as $file){
                 $modelCreator->insertModelFile($ns, $file);
-                common_Logger::d("language description model inserted in NS '${ns}'", 'INSTALL');
+                common_Logger::d("inserted language description model '".$file."'", 'INSTALL');
             }
         }
 
