@@ -21,6 +21,7 @@ class LanguagesTestCase extends UnitTestCase {
         // Check for lang.rdf in /tao locales and query the KB to see if it exists or not.
         $languageClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
         $taoLocalesDir = ROOT_PATH . '/tao/locales';
+        $expectedUriPrefix = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
         if(false !== ($locales = scandir($taoLocalesDir))){
             foreach ($locales as $l){
                 $localePath = $taoLocalesDir . '/' . $l;
@@ -31,6 +32,9 @@ class LanguagesTestCase extends UnitTestCase {
                         // Check for this language in Ontology.
                         $kbLangs = $languageClass->searchInstances(array(RDF_VALUE => $l), array('like' => false));
                         $this->assertEqual(count($kbLangs), 1);
+                        
+                        // Check if the language has the correct URI.
+                        $this->assertTrue(isset($kbLangs[$expectedUriPrefix . $l]), "Malformed URI scheme for language resource '${l}'.");
                     }
                 }
             }    
