@@ -14,6 +14,7 @@ class InstallTestCase extends UnitTestCase {
 	 * Test the Installation Model Creator.
 	 */
 	public function testModelCreator() {
+	    // - Test the existence of translations for models in tao meta extension.
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$extensions = $extensionManager->getInstalledExtensions();
 		$taoNs = 'http://www.tao.lu/Ontologies/TAO.rdf#';
