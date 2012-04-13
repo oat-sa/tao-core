@@ -10,6 +10,8 @@
 	
 	<script type="text/javascript">
 	$(function(){
+		$('#commit_message').parent().hide();
+		
 		var $fileImport = $("#file_import"); 
 		$fileImport.bind("async_file_uploaded", function(event, data){
 
@@ -21,6 +23,9 @@
 				//fill the file name field
 				$fileNameField.val(fileName.replace(/[^A-Za-z_0-9\.]/ig, '_'));
 			}
+		});
+		$fileImport.bind('async_file_selected', function(){
+			$('#commit_message').parent().show('clip');
 		});
 		
 		

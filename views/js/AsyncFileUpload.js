@@ -44,6 +44,10 @@ AsyncFileUpload = function(elt, options){
 			target.trigger('async_file_uploaded', myResponse);
 			return false;
 		};
+		
+		this.settings.onSelect = function(event, queueID, fileObj){
+			target.trigger('async_file_selected', fileObj);
+		};
 	}
 	
 	if(isFlashPluginEnabled() && typeof(jQuery.fn.uploadify) != 'undefined'){

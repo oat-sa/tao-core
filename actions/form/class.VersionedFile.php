@@ -143,6 +143,11 @@ class tao_actions_form_VersionedFile
 		$this->form->addElement($browseElt);
 		array_push($contentGroup, $browseElt->getName());
     	
+		$commitMessageElt = tao_helpers_form_FormFactory::getElement("commit_message", "Textarea");
+		$commitMessageElt->setDescription(__("Commit message : "));
+		$this->form->addElement($commitMessageElt);
+		array_push($contentGroup, $commitMessageElt->getName());
+		
 		// if the file is already versioned add a way to download it
 		if($versioned){
 			$downloadUrl = _url('downloadFile', 'File', 'tao', array('uri'=> tao_helpers_Uri::encode($instance->uriResource)));

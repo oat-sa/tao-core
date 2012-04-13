@@ -456,9 +456,11 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					
 					// Extract data from form
 					$data = $myForm->getValues();
+					
 					// Extracted values
 					$content = '';
 					$delete = isset($data['file_delete']) && $data['file_delete'] == '1'?true:false;
+					$message = isset($data['commit_message'])?$data['commit_message']:'';
 					$fileName = $data[PROPERTY_FILE_FILENAME];
 					$filePath = $data[PROPERTY_VERSIONEDFILE_FILEPATH];
 					$repositoryUri = $data[PROPERTY_VERSIONEDFILE_REPOSITORY];
@@ -488,7 +490,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 								//revert to a version
 								$topRevision = count($myForm->getElement('file_version')->getOptions());
 								if ($version < $topRevision) {
-									$versionedFile->revert($version, 'Revert to TAO version ' . $version);
+									$versionedFile->revert($version, empty($message)?'Revert to TAO version '.$version : $message);
 								}
 							}
 
@@ -498,7 +500,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 							}
 							
 							//commit the file
-							$versionedFile->commit();
+							$versionedFile->commit($message);
 						}
 						
 					} 
@@ -521,7 +523,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						$versionedFile->add();
 						
 						//commit the file
-						$versionedFile->commit();
+						$versionedFile->commit($message);
 					}
 					
 					$this->setData('message', __($propertyRange->getLabel().' saved'));
