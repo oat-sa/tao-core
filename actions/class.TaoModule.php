@@ -458,9 +458,9 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					$data = $myForm->getValues();
 					// Extracted values
 					$content = '';
-					$fileName = $data[PROPERTY_FILE_FILENAME];
-					$filePath = tao_helpers_Uri::getUniqueId($ownerInstance->uriResource).'/'.tao_helpers_Uri::getUniqueId($propertyUri);
 					$delete = isset($data['file_delete']) && $data['file_delete'] == '1'?true:false;
+					$fileName = $data[PROPERTY_FILE_FILENAME];
+					$filePath = $data[PROPERTY_VERSIONEDFILE_FILEPATH];
 					$repositoryUri = $data[PROPERTY_VERSIONEDFILE_REPOSITORY];
 					$version = isset($data['file_version']) ? $data['file_version'] : 0;
 					

@@ -105,7 +105,7 @@ class tao_actions_form_VersionedFile
     	$property = new core_kernel_classes_Property($this->options['propertyUri']);
     	$instance = new core_kernel_versioning_File($this->options['instanceUri']);
     	$versioned = $instance->isVersioned();
-    	
+		$freeFilePath = isset($this->options['freeFilePath'])?(bool)$this->options['freeFilePath']:false;
     	/*
 		 * 
 		 * 1. BUILD FORM
@@ -169,7 +169,7 @@ class tao_actions_form_VersionedFile
 		$this->form->addElement($fileNameElt);
 		
 		//file path element to be added or not:
-		$filePathElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_FILEPATH), 'Label');
+		$filePathElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_FILEPATH), $freeFilePath?'Textbox':'Hidden');
 		$filePathElt->setDescription(__("File path"));
 		$this->form->addElement($filePathElt);
 		
@@ -195,13 +195,11 @@ class tao_actions_form_VersionedFile
 		// File Revision
 		if($versioned){
 			$fileVersionOptions = array();
-			if($versioned){
-				$history = $instance->gethistory();
-				$countHistory = count($history);
-				foreach($history as $i => $revision){
-					$date = new DateTime($revision['date']);
-					$fileVersionOptions[$countHistory-$i] = $countHistory-$i . '. ' . $revision['msg'] . ' [' . $revision['author'] .' / ' . $date->format('Y-m-d H:i:s') . '] ';
-				}
+			$history = $instance->gethistory();
+			$countHistory = count($history);
+			foreach($history as $i => $revision){
+				$date = new DateTime($revision['date']);
+				$fileVersionOptions[$countHistory-$i] = $countHistory-$i . '. ' . $revision['msg'] . ' [' . $revision['author'] .' / ' . $date->format('Y-m-d H:i:s') . '] ';
 			}
 			
 			$fileRevisionElt = tao_helpers_form_FormFactory::getElement('file_version', 'Radiobox');
@@ -238,30 +236,32 @@ class tao_actions_form_VersionedFile
     		
 			$fileNameValue = $instance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
 			if(!empty($fileNameValue)){
-				$fileNameElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_FILE_FILENAME));
-				$fileNameElt->setValue($fileNameValue);
+				$fileNameElt->setValue((string) $fileNameValue);
 			}
 		
 			$filePathValue = $instance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_FILEPATH));
 			if(!empty($filePathValue)){
-				$filePathElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_FILEPATH));
-				$filePathElt->setValue('{REPOSITORY_ROOT}/'.$filePathValue);
+				$filePathElt->setValue((string) $filePathValue);
 			}
 		
 			$repositoryValue = $instance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_REPOSITORY));
 			if(!empty($repositoryValue)){
-				$repositoryElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_REPOSITORY));
-				$repositoryElt->setValue($repositoryValue->uriResource);
+				$fileRepositoryElt->setValue($repositoryValue->uriResource);
 			}
 			
 			$history = $instance->gethistory();
 			$versionElt = $this->form->getElement('file_version');
 			$versionElt->setValue(count($history));
-    	} 
-    	// DEFAULT VALUE
-    	else {
-			$this->form->removeElement($filePathElt->getName());
-    	}
+			
+    	}else{
+			
+			if(!$freeFilePath){
+				$filePathElt->setValue(tao_helpers_Uri::getUniqueId($ownerInstance->uriResource).'/'.tao_helpers_Uri::getUniqueId($property->uriResource));
+			}else{
+				$filePathElt->setValue('/');
+			}
+			
+		}
     	
         // section 127-0-1-1-234d8e6a:13300ee5308:-8000:0000000000003F80 end
     }
