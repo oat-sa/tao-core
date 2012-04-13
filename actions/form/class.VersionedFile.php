@@ -152,8 +152,13 @@ class tao_actions_form_VersionedFile
 			$this->form->addElement($downloadFileElt);
 			array_push($contentGroup, $downloadFileElt->getName());
 			
-			$deleteFileElt = tao_helpers_form_FormFactory::getElement("file_delete", 'Free');
-			$deleteFileElt->setValue("<a id='delete-versioned-file' href='#' class='blink' target='_blank'><img src='".TAOBASE_WWW."img/edit-delete.png' alt='Delete versioned file' class='icon'  /> ".__('Remove content')."</a><input name='delete' value='0' type='hidden'/>");
+			$deleteFileElt0 = tao_helpers_form_FormFactory::getElement("file_delete0", 'Free');
+			$deleteFileElt0->setValue("<a id='delete-versioned-file' href='#' class='blink' target='_blank'><img src='".TAOBASE_WWW."img/edit-delete.png' alt='Delete versioned file' class='icon'  /> ".__('Remove content')."</a>");
+			$this->form->addElement($deleteFileElt0);
+			array_push($contentGroup, $deleteFileElt0->getName());
+			
+			$deleteFileElt = tao_helpers_form_FormFactory::getElement("file_delete", 'Hidden');
+			$deleteFileElt->setValue(0);
 			$this->form->addElement($deleteFileElt);
 			array_push($contentGroup, $deleteFileElt->getName());
 		}

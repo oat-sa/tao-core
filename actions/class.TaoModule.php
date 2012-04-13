@@ -478,7 +478,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					if($versionedFile->isVersioned()){
 						
 						if($delete){
-							var_dump('deleting!');exit;
+							
 							$versionedFile->delete();//no need to commit here (already done in the funciton implementation
 							$ownerInstance->removePropertyValues($property);
 							
