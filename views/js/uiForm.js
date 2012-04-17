@@ -175,7 +175,7 @@ UiForm = function(){
 	this.initOntoForms = function (){
 		
 		//open the authoring tool on the authoringOpener button
-		$('.authoringOpener').click(function(){
+		$('input.authoringOpener').click(function(){
 			if(ctx_extension){
 			 	url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
 				tabName = ctx_module.toLowerCase() + '_authoring';
@@ -191,7 +191,7 @@ UiForm = function(){
 			}
 		});
 		
-		$('.editVersionedFile').each(function(){
+		$('input.editVersionedFile').each(function(){
 			
 			var infoUrl = root_url + '/tao/File/getPropertyFileInfo';
 			var data = {
@@ -205,13 +205,13 @@ UiForm = function(){
 			   data: data,
 			   dataType: 'json',
 			   success: function(r){
-					$_this.parent('div').append('<span>'+r.name+'</span>');
+					$_this.after('<span>'+r.name+'</span>');
 			   }
 			});
 			
 		});
 		
-		$('.editVersionedFile').click(function(){
+		$('input.editVersionedFile').click(function(){
 			var url = '';
 			if(ctx_extension){
 				url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';

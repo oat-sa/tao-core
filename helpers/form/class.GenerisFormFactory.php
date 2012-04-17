@@ -83,11 +83,6 @@ class tao_helpers_form_GenerisFormFactory
 			return null;
 		}
 		
-		//enable versionedFile widget if versioning enabled only
-		if($widget == 'VersionedFile' && !GENERIS_VERSIONING_ENABLED){
-			return null;
-		}
-		
 		$element = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($property->uriResource), $widget);
 		if(!is_null($element)){
 			if($element->getWidget() != $widgetResource->uriResource){
