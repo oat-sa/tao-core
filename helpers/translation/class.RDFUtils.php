@@ -83,7 +83,7 @@ class tao_helpers_translation_RDFUtils
         $descriptionNode->appendChild($typeNode);
         
         $labelNode = $doc->createElementNS($rdfsNs, 'rdfs:label');
-        $labelNode->setAttributeNS($xmlNs, 'xml:lang', $code);
+        $labelNode->setAttributeNS($xmlNs, 'EN', $code);
         $labelNode->appendChild($doc->createCDATASection($label));
         $descriptionNode->appendChild($labelNode);
         
