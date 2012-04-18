@@ -201,8 +201,7 @@ class tao_helpers_translation_RDFTranslationUnit
 
         // section -64--88-56-1-f4cfebb:136c5b476f3:-8000:000000000000391A begin
         $returnValue = $this->hasSameTranslationUnitPredicate($translationUnit) &&
-                       $this->hasSameTranslationUnitSubject($translationUnit) &&
-                       $this->hasSameTranslationUnitTargetLanguage($translationUnit);
+                       $this->hasSameTranslationUnitSubject($translationUnit);
         // section -64--88-56-1-f4cfebb:136c5b476f3:-8000:000000000000391A end
 
         return (bool) $returnValue;
