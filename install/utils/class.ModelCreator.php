@@ -216,7 +216,7 @@ class tao_install_utils_ModelCreator{
 										$models[$search] = array();
 									}
 
-									$models[$extModel][] = $localesPath . '/' . $dir . '/' . $file;
+									$models[$search][] = $localesPath . '/' . $dir . '/' . $file;
 								}
 							}
 						} else {
