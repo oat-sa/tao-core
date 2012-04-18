@@ -53,6 +53,7 @@ class InstallTestCase extends UnitTestCase {
         $this->assertTrue(in_array('FR', $locales), "Locale 'FR' should be found.");
         $this->assertTrue(in_array('LU', $locales), "Locale 'LU' should be found.");
         $this->assertTrue(in_array('SE', $locales), "Locale 'SE' should be found.");
+        $this->assertTrue(in_array('en-YO', $locales), "Locale 'en-YO' should be found.");
     }
 }
 ?>
