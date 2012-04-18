@@ -87,10 +87,12 @@ class tao_helpers_translation_RDFTranslationFile
         // - RDFTranslationUnit::predicate
         // - RDFTranslationUnit::targetLanguage
         foreach ($this->getTranslationUnits() as $tu) {
-        	if ($tu->hasSameTranslationUnitSubject($translationUnit) && 
-        		$tu->hasSameTranslationUnitPredicate($translationUnit) &&
-				$tu->hasSameTranslationUnitTargetLanguage($translationUnit)) {
-					// Dismissed.
+        	if ($tu->hasSameTranslationUnitSource($translationUnit)) {
+					// This TU already exists. We change its target if the new one
+					// has one.
+					if ($translationUnit->getTarget() != ''){
+					    $tu->setTarget($translationUnit->getTarget());
+					}
 					return;
 				}
         }

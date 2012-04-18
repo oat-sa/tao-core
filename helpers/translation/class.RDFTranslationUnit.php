@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao/helpers/translation/class.RDFTranslationUnit.php
+ * TAO - tao\helpers\translation\class.RDFTranslationUnit.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 06.02.2012, 22:30:42 with ArgoUML PHP module 
+ * Automatically generated on 18.04.2012, 16:03:04 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+ * @author firstname and lastname of author, <author@example.org>
  * @package tao
  * @subpackage helpers_translation
  */
@@ -48,7 +48,7 @@ require_once('tao/helpers/translation/class.TranslationUnit.php');
  * Short description of class tao_helpers_translation_RDFTranslationUnit
  *
  * @access public
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+ * @author firstname and lastname of author, <author@example.org>
  * @package tao
  * @subpackage helpers_translation
  */
@@ -82,7 +82,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * Short description of method getSubject
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return string
      */
     public function getSubject()
@@ -100,7 +100,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * Short description of method getPredicate
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @return string
      */
     public function getPredicate()
@@ -118,7 +118,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * Short description of method setSubject
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string subject
      * @return mixed
      */
@@ -133,7 +133,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * Short description of method setPredicate
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  string predicate
      * @return mixed
      */
@@ -149,7 +149,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * value as the current instance.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  RDFTranslationUnit translationUnit
      * @return boolean
      */
@@ -169,7 +169,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * value as the current instance.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author firstname and lastname of author, <author@example.org>
      * @param  RDFTranslationUnit translationUnit
      * @return boolean
      */
@@ -180,6 +180,30 @@ class tao_helpers_translation_RDFTranslationUnit
         // section 127-0-1-1--60155064:1355488bb4c:-8000:000000000000370E begin
         $returnValue = $this->getPredicate() == $translationUnit->getPredicate();
         // section 127-0-1-1--60155064:1355488bb4c:-8000:000000000000370E end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Checks wether or not that the current translation unit has the same
+     * than another one. For RDFTranslationUnits, we consider that two
+     * units have the same source if their source, subject, predicate and target
+     * are identical.
+     *
+     * @access public
+     * @author firstname and lastname of author, <author@example.org>
+     * @param  TranslationUnit translationUnit A translation unit to compare.
+     * @return boolean
+     */
+    public function hasSameTranslationUnitSource( tao_helpers_translation_TranslationUnit $translationUnit)
+    {
+        $returnValue = (bool) false;
+
+        // section -64--88-56-1-f4cfebb:136c5b476f3:-8000:000000000000391A begin
+        $returnValue = $this->hasSameTranslationUnitPredicate($translationUnit) &&
+                       $this->hasSameTranslationUnitSubject($translationUnit) &&
+                       $this->hasSameTranslationUnitTargetLanguage($translationUnit);
+        // section -64--88-56-1-f4cfebb:136c5b476f3:-8000:000000000000391A end
 
         return (bool) $returnValue;
     }
