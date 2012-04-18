@@ -48,12 +48,18 @@ class InstallTestCase extends UnitTestCase {
         // - Check if tao platform locales can be correctly retrieved.
         $locales = tao_install_utils_System::getAvailableLocales(dirname(__FILE__) . self::SAMPLE_LOCALES);
         $this->assertTrue(is_array($locales), 'Locales should be returned as an array of strings.');
-        $this->assertTrue(in_array('EN', $locales), "Locale 'EN' should be found.");
-        $this->assertTrue(in_array('DE', $locales), "Locale 'DE' should be found.");
-        $this->assertTrue(in_array('FR', $locales), "Locale 'FR' should be found.");
-        $this->assertTrue(in_array('LU', $locales), "Locale 'LU' should be found.");
-        $this->assertTrue(in_array('SE', $locales), "Locale 'SE' should be found.");
-        $this->assertTrue(in_array('en-YO', $locales), "Locale 'en-YO' should be found.");
+        $this->assertTrue(array_key_exists('EN', $locales), "Locale 'EN' should be found.");
+        $this->assertTrue($locales['EN'] == 'English', "Wrong label for locale 'EN'.");
+        $this->assertTrue(array_key_exists('DE', $locales), "Locale 'DE' should be found.");
+        $this->assertTrue($locales['DE'] == 'German', "Wrong label for locale 'DE'.");
+        $this->assertTrue(array_key_exists('FR', $locales), "Locale 'FR' should be found.");
+        $this->assertTrue($locales['FR'] == 'French', "Wrong label for locale 'FR'.");
+        $this->assertTrue(array_key_exists('LU', $locales), "Locale 'LU' should be found.");
+        $this->assertTrue($locales['LU'] == 'Luxembourgish', "Wrong label for locale 'LU'.");
+        $this->assertTrue(array_key_exists('SE', $locales), "Locale 'SE' should be found.");
+        $this->assertTrue($locales['SE'] == 'Swedish', "Wrong label for locale 'SE'.");
+        $this->assertTrue(array_key_exists('en-YO', $locales), "Locale 'en-YO' should be found.");
+        $this->assertTrue($locales['en-YO'] == 'Yoda English', "Wrong label for locale 'en-YO'.");
     }
 }
 ?>

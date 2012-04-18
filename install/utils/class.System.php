@@ -47,7 +47,7 @@ class tao_install_utils_System{
      * file is found.
      * 
      * @param string $path The location of the /locales folder to inspect.
-     * @return array An array of strings containing the folder names contained in the /locales folder of an extension.
+     * @return array An array of strings where keys are the language code and values the language label.
      * @throws UnexpectedValueException
      */
     public static function getAvailableLocales($path){
@@ -65,11 +65,19 @@ class tao_install_utils_System{
                             $doc->load($langFilePath);
                             $xpath = new DOMXPath($doc);
                             $xpath->registerNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
+                            $xpath->registerNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
+                            $expectedUri = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $l;
                             
                             // Look for an rdf:value equals to the folder name.
-                            $rdfValues = $xpath->query("//rdf:value");
+                            $rdfValues = $xpath->query("//rdf:Description[@rdf:about='${expectedUri}']/rdf:value");
                             if ($rdfValues->length == 1 && $rdfValues->item(0)->nodeValue == $l){
-                                $returnValue[] = $l;
+                                $key = $l;
+                                
+                                $rdfsLabels = $xpath->query("//rdf:Description[@rdf:about='${expectedUri}']/rdfs:label[@xml:lang='EN']");
+                                if ($rdfsLabels->length == 1){
+                                    $value = $rdfsLabels->item(0)->nodeValue;
+                                    $returnValue[$l] = $value;
+                                }
                             }
                         }
                         catch (DOMException $e){
