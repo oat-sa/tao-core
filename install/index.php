@@ -69,7 +69,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 <div id="content" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 	<? if($installed):?>
 	<div id="success">
-	  <h1>Installation successfuly completed!</h1>
+	  <h1>Installation successfully completed!</h1>
 	  <a href="<?=  $taoUrl ?>" title="TAO backend"><img src="../views/img/tao_logo_big.png" title="Access to the TAO platform" alt="Access to the TAO platform"/></a>
 	  <p>
  	  Click on the logo above to access the TAO platform. Use the login and password that corresponds to the previously
