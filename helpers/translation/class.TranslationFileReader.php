@@ -68,7 +68,7 @@ abstract class tao_helpers_translation_TranslationFileReader
      * Creates a new instance of TranslationFileReader.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string filePath
      * @return mixed
      */
@@ -86,7 +86,7 @@ abstract class tao_helpers_translation_TranslationFileReader
      *
      * @abstract
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return mixed
      */
     public abstract function read();
@@ -95,7 +95,7 @@ abstract class tao_helpers_translation_TranslationFileReader
      * Gets the TranslationFile instance resulting of the reading of the file.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return tao_helpers_translation_TranslationFile
      */
     public function getTranslationFile()
@@ -118,7 +118,7 @@ abstract class tao_helpers_translation_TranslationFileReader
      * Gets the location where the file has to be read.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public function getFilePath()
@@ -136,7 +136,7 @@ abstract class tao_helpers_translation_TranslationFileReader
      * Sets the location where the file has to be read.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string filePath
      * @return mixed
      */
@@ -150,12 +150,12 @@ abstract class tao_helpers_translation_TranslationFileReader
     /**
      * Short description of method setTranslationFile
      *
-     * @access protected
-     * @author firstname and lastname of author, <author@example.org>
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  TranslationFile translationFile
      * @return mixed
      */
-    protected function setTranslationFile( tao_helpers_translation_TranslationFile $translationFile)
+    public function setTranslationFile( tao_helpers_translation_TranslationFile $translationFile)
     {
         // section 10-13-1-85-39553493:1331c604ede:-8000:0000000000003542 begin
         $this->translationFile = $translationFile;
