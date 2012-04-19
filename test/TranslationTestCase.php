@@ -277,48 +277,7 @@ class TranslationTestCase extends UnitTestCase {
 	}
 	
 	public function testRDFTranslationModel() {
-		$paths = array(dirname(__FILE__) . self::FAKE_RDF_LANG_DESC);
-		$rdfExtractor = new tao_helpers_translation_RDFExtractor($paths);
-		$rdfExtractor->extract();
-		$tus = $rdfExtractor->getTranslationUnits();
 		
-		// Nothing should be extracted because no translatable properties
-		// are set in the the extractor instance.
-		$this->assertTrue(count($tus) == 0);
-
-		// Add a single translatable property and extract again.
-		$rdfExtractor->addTranslatableProperty('http://www.w3.org/2000/01/rdf-schema#label');
-		$rdfExtractor->extract();
-		$tus = $rdfExtractor->getTranslationUnits();
-		$this->assertTrue(count($tus) == 5);
-		
-		// Add two translatable properties.
-		$rdfExtractor->removeTranslatableProperty('http://www.w3.org/2000/01/rdf-schema#label');
-		$rdfExtractor->setTranslatableProperties(array('http://www.w3.org/2000/01/rdf-schema#label',
-													   'http://www.w3.org/2000/01/rdf-schema#comment'));
-		$rdfExtractor->extract();
-		$tus = $rdfExtractor->getTranslationUnits();
-		$this->assertTrue(count($tus) == 6);
-		
-		// Test 3 Translation Units at random.
-		$this->assertTrue($tus[1]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
-		$this->assertTrue($tus[1]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#label');
-		$this->assertTrue($tus[1]->getSource() == '');
-		$this->assertTrue($tus[1]->getTarget() == 'Allemand');
-		$this->assertTrue($tus[1]->getSourceLanguage() == 'en-US');
-		$this->assertTrue($tus[1]->getTargetLanguage() == 'FR');
-		$this->assertTrue($tus[2]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
-		$this->assertTrue($tus[2]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#label');
-		$this->assertTrue($tus[2]->getSource() == '');
-		$this->assertTrue($tus[2]->getTarget() == 'Deutsch');
-		$this->assertTrue($tus[2]->getSourceLanguage() == 'en-US');
-		$this->assertTrue($tus[2]->getTargetLanguage() == 'DE');
-		$this->assertTrue($tus[5]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
-		$this->assertTrue($tus[5]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#comment');
-		$this->assertTrue($tus[5]->getSource() == '');
-		$this->assertTrue($tus[5]->getTarget() == 'The German language.');
-		$this->assertTrue($tus[5]->getSourceLanguage() == 'en-US');
-		$this->assertTrue($tus[5]->getTargetLanguage() == 'EN');
 	}
 
     public function testRDFTranslationExtraction(){
@@ -334,19 +293,19 @@ class TranslationTestCase extends UnitTestCase {
         // Test 3 Translation Units at random.
         $this->assertTrue($tus[1]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
         $this->assertTrue($tus[1]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#label');
-        $this->assertTrue($tus[1]->getSource() == '');
+        $this->assertTrue($tus[1]->getSource() == 'Allemand');
         $this->assertTrue($tus[1]->getTarget() == 'Allemand');
         $this->assertTrue($tus[1]->getSourceLanguage() == 'en-US');
         $this->assertTrue($tus[1]->getTargetLanguage() == 'FR');
         $this->assertTrue($tus[2]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
         $this->assertTrue($tus[2]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#label');
-        $this->assertTrue($tus[2]->getSource() == '');
+        $this->assertTrue($tus[2]->getSource() == 'Deutsch');
         $this->assertTrue($tus[2]->getTarget() == 'Deutsch');
         $this->assertTrue($tus[2]->getSourceLanguage() == 'en-US');
         $this->assertTrue($tus[2]->getTargetLanguage() == 'DE');
         $this->assertTrue($tus[5]->getSubject() == 'http://www.tao.lu/Ontologies/TAO.rdf#LangDE');
         $this->assertTrue($tus[5]->getPredicate() == 'http://www.w3.org/2000/01/rdf-schema#comment');
-        $this->assertTrue($tus[5]->getSource() == '');
+        $this->assertTrue($tus[5]->getSource() == 'The German language.');
         $this->assertTrue($tus[5]->getTarget() == 'The German language.');
         $this->assertTrue($tus[5]->getSourceLanguage() == 'en-US');
         $this->assertTrue($tus[5]->getTargetLanguage() == 'EN');

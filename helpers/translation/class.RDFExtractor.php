@@ -123,7 +123,7 @@ class tao_helpers_translation_RDFExtractor
 	        					if ($child->hasAttributeNS($xmlNS, 'lang')){
 	        						$sourceLanguage = 'en-US';
 	        						$targetLanguage = $child->getAttributeNodeNS($xmlNS, 'lang')->value;
-	        						$source = '';
+	        						$source = $child->nodeValue;
 	        						$target = $child->nodeValue;
 	        						
 	        						$tu = new tao_helpers_translation_RDFTranslationUnit($source, $target);

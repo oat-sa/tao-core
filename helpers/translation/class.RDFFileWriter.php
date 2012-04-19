@@ -112,6 +112,35 @@ class tao_helpers_translation_RDFFileWriter
                             $descriptionNode->appendChild($tuNode);
                             $rdfNode->appendChild($descriptionNode);
                         }
+                        
+                        // Finally add annotations.
+                        $annotations = array();
+                        $indent = '    ';
+                        if ($tu->getSource() != ''){
+                            $annotations[] = $indent . '@source ' . $tu->getSource();
+                        }
+                        
+                        if ($tu->getSourceLanguage() != ''){
+                            $annotations[] = $indent . '@sourceLanguage ' . $tu->getSourceLanguage();
+                        }
+                        
+                        if ($tu->getTargetLanguage() != ''){
+                            $annotations[] = $indent . '@targetLanguage ' . $tu->getTargetLanguage();
+                        }
+                        
+                        if ($tu->getSubject() != ''){
+                            $annotations[] = $indent . '@subject ' . $tu->getSubject();
+                        }
+                        
+                        if ($tu->getSubject() != ''){
+                            $annotations[] = $indent . '@predicate ' . $tu->getPredicate();
+                        }
+                        
+                        if (count($annotations) > 0){
+                            $annotationString = implode("\n", $annotations);
+                            $annotationNode = $targetFile->createComment("\n${annotationString}\n${indent}");
+                            $tuNode->parentNode->insertBefore($annotationNode, $tuNode);
+                        }
                     }
                 }
             }
