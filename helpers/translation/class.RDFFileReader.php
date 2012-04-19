@@ -61,6 +61,77 @@ class tao_helpers_translation_RDFFileReader
     public function read()
     {
         // section -64--88-56-1--508090e5:136c5d740c9:-8000:0000000000003922 begin
+        $translationUnits = array();
+        
+        try{
+            $translationFile = $this->getTranslationFile();
+        }
+        catch (tao_helpers_translation_TranslationException $e){
+            $translationFile = new tao_helpers_translation_RDFTranslationFile();
+        }
+        
+        $this->setTranslationFile($translationFile);
+        $inputFile = $this->getFilePath();
+        
+        if (file_exists($inputFile)){
+            if (is_file($inputFile)){
+                if (is_readable($inputFile)){
+                    
+                    try{
+                        $doc = new DOMDocument('1.0', 'UTF-8');
+                        $doc->load($inputFile);
+                        $xpath = new DOMXPath($doc);
+                        $rdfNS = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+                        $xmlNS = 'http://www.w3.org/XML/1998/namespace';
+                        $xpath->registerNamespace('rdf', $rdfNS);
+                        
+                        $descriptions = $xpath->query('//rdf:Description');
+                        foreach ($descriptions as $description){
+                            if ($description->hasAttributeNS($rdfNS, 'about')){
+                                $subject = $description->getAttributeNS($rdfNS, 'about');
+                                
+                                // Let's retrieve properties.
+                                foreach ($description->childNodes as $property){
+                                    if ($property->nodeType == XML_ELEMENT_NODE){
+                                        // Retrieve namespace uri of this node.
+                                        if ($property->namespaceURI != null){
+                                            $predicate = $property->namespaceURI . $property->localName;
+                                            
+                                            // Retrieve an hypothetic target language.
+                                            $lang = 'en-US';
+                                            if ($property->hasAttributeNS($xmlNS, 'lang')){
+                                                $lang = $property->getAttributeNS($xmlNS, 'lang');
+                                            }
+                                            
+                                            $object = $property->nodeValue;
+                                            
+                                            $tu = new tao_helpers_translation_RDFTranslationUnit('');
+                                            $tu->setTargetLanguage($lang);
+                                            $tu->setTarget($object);
+                                            $tu->setSubject($subject);
+                                            $tu->setPredicate($predicate);
+                                            $translationUnits[] = $tu;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        $this->getTranslationFile()->addTranslationUnits($translationUnits);
+                    }
+                    catch (DOMException $e){
+                        throw new tao_helpers_translation_TranslationException("'${inputFile}' cannot be parsed.");
+                    }
+                    
+                }else{
+                    throw new tao_helpers_translation_TranslationException("'${inputFile}' cannot be read. Check your system permissions.");
+                }
+            }else{
+                throw new tao_helpers_translation_TranslationException("'${inputFile}' is not a file.");
+            }
+        }else{
+            throw new tao_helpers_translation_TranslationException("The file '${inputFile}' does not exist.");
+        }
         // section -64--88-56-1--508090e5:136c5d740c9:-8000:0000000000003922 end
     }
 

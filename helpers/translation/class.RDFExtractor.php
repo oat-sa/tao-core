@@ -121,9 +121,9 @@ class tao_helpers_translation_RDFExtractor
 	        				foreach ($children as $child) {
 	        					// Only process if it has a language attribute.
 	        					if ($child->hasAttributeNS($xmlNS, 'lang')){
-	        						$sourceLanguage = 'unknown';
+	        						$sourceLanguage = 'en-US';
 	        						$targetLanguage = $child->getAttributeNodeNS($xmlNS, 'lang')->value;
-	        						$source = 'unknown';
+	        						$source = '';
 	        						$target = $child->nodeValue;
 	        						
 	        						$tu = new tao_helpers_translation_RDFTranslationUnit($source, $target);

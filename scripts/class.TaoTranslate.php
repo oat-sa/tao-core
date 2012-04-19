@@ -529,10 +529,10 @@ class tao_scripts_TaoTranslate
 	        	$sourceExtractor = new tao_helpers_translation_SourceCodeExtractor($filePaths, $fileExtensions);
 	        	$sourceExtractor->extract();
 	        	
-	        	$manifestExtractor = new tao_helpers_translation_ManifestExtractor($this->options['input'] . '/actions');
+	        	$manifestExtractor = new tao_helpers_translation_ManifestExtractor(array($this->options['input'] . '/actions'));
 	        	$manifestExtractor->extract();
 	        	
-	        	$translationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
+	        	$translationFile = new tao_helpers_translation_POFile('EN', $this->options['language']);
 	        	$translationFile->addTranslationUnits($sourceExtractor->getTranslationUnits());
 	        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
 	        	
@@ -545,7 +545,7 @@ class tao_scripts_TaoTranslate
 	        	
 	        	$sortedTus = $translationFile->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC_I);
 	        	
-	        	$sortedTranslationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
+	        	$sortedTranslationFile = new tao_helpers_translation_POFile('EN', $this->options['language']);
 	        	$sortedTranslationFile->addTranslationUnits($sortedTus);
 	        	$this->preparePOFile($sortedTranslationFile);
 	        	
@@ -562,12 +562,12 @@ class tao_scripts_TaoTranslate
                 $translatableProperties = array(RDFS_LABEL, RDFS_COMMENT);
                 
                 foreach ($modelFiles as $ns => $files){
-                    foreach ($files as $f) {
-                        $modelExtractor = new tao_helpers_translation_RDFExtractor($f);
+                    foreach ($files as $f){
+                        $modelExtractor = new tao_helpers_translation_RDFExtractor(array($f));
                         $modelExtractor->setTranslatableProperties($translatableProperties);
                         $modelExtractor->extract();
                         
-                        $rdfTranslationFile = new tao_helpers_translation_RDFTranslationFile('en-US', $this->options['language']);
+                        $rdfTranslationFile = new tao_helpers_translation_RDFTranslationFile('EN', $this->options['language']);
                         $rdfTranslationFile->addTranslationUnits($modelExtractor->getTranslationUnits());
                         $rdfTranslationFile->setExtensionId($this->options['extension']);
                         $rdfTranslationFile->setBase($ns);
@@ -583,7 +583,7 @@ class tao_scripts_TaoTranslate
         	} else {
         		// Only build virgin files.
         		// (Like a virgin... woot !)
-        		$translationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
+        		$translationFile = new tao_helpers_translation_POFile('EN', $this->options['language']);
         		$this->preparePOFile($translationFile);
         		
         		$writer = new tao_helpers_translation_POFileWriter($dir . '/' . self::DEF_PO_FILENAME,
@@ -592,7 +592,20 @@ class tao_scripts_TaoTranslate
         		$writer = new tao_helpers_translation_JSFileWriter($dir . '/' . self::DEF_JS_FILENAME,
         														   $translationFile);
         		$writer->write();
-        		
+                
+                $modelFiles = $this->getOntologyFiles($this->options['extension']);
+                foreach ($modelFiles as $ns => $files){
+                    foreach ($files as $f){
+                        $translationFile = new tao_helpers_translation_RDFTranslationFile('EN', $this->options['language']);
+                        $translationFile->setExtensionId($this->options['extension']);
+                        $translationFile->setBase($ns);
+                        
+                        $writer = new tao_helpers_translation_RDFFileWriter($dir . '/' . basename($f),
+                                                                            $translationFile);
+                        $writer->write();
+                    }
+                }
+                
         		$this->outVerbose("Language '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "'.");
         	}
         	
@@ -628,11 +641,11 @@ class tao_scripts_TaoTranslate
 	        			   $this->options['input'] . '/views');
        	$extensions = array('php', 'tpl', 'js', 'ejs');
        	$sourceCodeExtractor = new tao_helpers_translation_SourceCodeExtractor($filePaths, $extensions);
-       	$manifestExtractor = new tao_helpers_translation_ManifestExtractor($this->options['input'] . '/actions');
+       	$manifestExtractor = new tao_helpers_translation_ManifestExtractor(array($this->options['input'] . '/actions'));
        	$sourceCodeExtractor->extract();
        	$manifestExtractor->extract();
     	
-       	$translationFile = new tao_helpers_translation_POFile('en-US', $this->options['language']);
+       	$translationFile = new tao_helpers_translation_POFile('EN', $this->options['language']);
        	$translationFile->addTranslationUnits($sourceCodeExtractor->getTranslationUnits());
        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
        	
@@ -648,15 +661,10 @@ class tao_scripts_TaoTranslate
        	$translationFileReader->read();
        	$oldTranslationFile = $translationFileReader->getTranslationFile();
        	
-       	$oldCount = count($oldTranslationFile->getTranslationUnits());
-       	$newCount = count($translationFile->getTranslationUnits());
-       	$addedCount = $newCount - $oldCount;
-       	$neutralCount = 0;
-       	
        	foreach ($oldTranslationFile->getTranslationUnits() as $oldTu) {
        		if ($translationFile->hasSameSource($oldTu)) {
-       			$neutralCount++;
        			// No duplicates in TFs so I simply add it whatever happens.
+       			// If it already has the same one, it means we will update it.
        			$translationFile->addTranslationUnit($oldTu);
        		}
        	}
@@ -675,10 +683,61 @@ class tao_scripts_TaoTranslate
        	$poFileWriter = new tao_helpers_translation_POFileWriter($oldFilePath, $sortedTranslationFile);
        	$jsFileWriter = new tao_helpers_translation_JSFileWriter($oldJsFilePath, $sortedTranslationFile);
        	$poFileWriter->write();
+        $poCount = count($sortedTranslationFile->getTranslationUnits());
+        $this->outVerbose("PO translation file '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' (${poCount} entries).");
+        
        	$jsFileWriter->write();
-       	
-       	$this->outVerbose("Language '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' " .
-	        					  "(old=" . $oldCount . ", new=" . $newCount .", mod=" . $addedCount . ").");
+        $jsCount = $poCount;
+        $this->outVerbose("JS translation file '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' (${jsCount} entries).");
+        
+        
+        
+        // We now deal with RDF models.
+        $models = $this->getOntologyFiles($this->options['extension']);
+        foreach ($models as $ns => $files){
+            foreach ($files as $f){
+                // Loop on 'master' models.
+                $rdfExtractor = new tao_helpers_translation_RDFExtractor(array($f));
+                $rdfExtractor->addTranslatableProperty('http://www.w3.org/2000/01/rdf-schema#label');
+                $rdfExtractor->addTranslatableProperty('http://www.w3.org/2000/01/rdf-schema#comment');
+                $rdfExtractor->extract();
+                
+                // The master RDF file is the ontology itself, non-translated that we find in /extId/models/ontology.
+                $masterRDFFile = new tao_helpers_translation_RDFTranslationFile('EN', $this->options['language']);
+                $masterRDFFile->addTranslationUnits($rdfExtractor->getTranslationUnits());
+                $masterRDFFile->setBase($ns);
+                $masterRDFFile->setExtensionId($this->options['extension']);
+                
+                // The slave RDF file is the translation of the ontology that we find in /extId/Locales/langCode.
+                $slaveRDFFilePath = $this->buildLanguagePath($this->options['extension'], $this->options['language']) . '/' . basename($f);
+                if (file_exists($slaveRDFFilePath)){
+                    // Read the existing RDF Translation file for this RDF model.
+                    $rdfReader = new tao_helpers_translation_RDFFileReader($slaveRDFFilePath);
+                    $rdfReader->read();
+                    $slaveRDFFile = $rdfReader->getTranslationFile();
+                    
+                    // Try to update translation units found in the master RDF file with
+                    // targets found in the old translation of the ontology.
+                    foreach ($slaveRDFFile->getTranslationUnits() as $oTu){
+                        if ($masterRDFFile->hasSameSource($oTu)){
+                            $masterRDFFile->addTranslationUnit($oTu);
+                        }
+                    }
+                    
+                    // Remove Slave RDF file. It will be overriden by the
+                    // modified Master RDF file.
+                    tao_helpers_File::remove($slaveRDFFilePath);
+                }
+                
+                // Write Master RDF file as the new Slave RDF file.
+                $rdfWriter = new tao_helpers_translation_RDFFileWriter($slaveRDFFilePath, $masterRDFFile);
+                $rdfWriter->write();
+                $rdfCount = count($masterRDFFile->getTranslationUnits());
+                $this->outVerbose("RDF Translation model '" . basename($f) . "' in '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' (${rdfCount} entries).");
+            }
+        }
+        
+       	$this->outVerbose("Language '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "'.");
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 end
     }
 
