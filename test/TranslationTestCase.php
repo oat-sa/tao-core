@@ -95,6 +95,32 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue(count($tus) == 4);
 		$this->assertTrue($tu3->getSource() == 'Lando Calrician is a great pilot.');
 		$this->assertTrue($tu3->getTarget() == 'Han Solo is a great pilot.');
+        
+        
+        // Test Annotable implementation for translationUnit & translationFile.
+        $tf = new tao_helpers_translation_TranslationFile();
+        $this->assertTrue(is_array($tf->getAnnotations()), "Annotations for a newly instantiated translation file should be an array.");
+        $this->assertTrue(count($tf->getAnnotations()) == 0);
+        $tf->addAnnotation('context', 'Unit Testing');
+        $tf->addAnnotation('author', 'Jane Doe');
+        $this->assertTrue($tf->getAnnotation('context') == array('name' => 'context', 'value' => 'Unit Testing'));
+        $this->assertTrue($tf->getAnnotation('author') == array('name' => 'author', 'value' => 'Jane Doe'));
+        $this->assertEqual($tf->getAnnotations(), array('context' => 'Unit Testing', 'author' => 'Jane Doe'));
+        $tf->removeAnnotation('author');
+        $this->assertTrue($tf->getAnnotation('author') == null);
+        $this->assertEqual($tf->getAnnotations(), array('context' => 'Unit Testing'));
+        
+        $tu = new tao_helpers_translation_TranslationUnit('test', 'test');
+        $this->assertTrue(is_array($tu->getAnnotations()), "Annotations for a newly instantiated translation unit should be an array.");
+        $this->assertTrue(count($tu->getAnnotations()) == 0);
+        $tu->addAnnotation('context', 'Unit Testing');
+        $tu->addAnnotation('author', 'Jane Doe');
+        $this->assertTrue($tu->getAnnotation('context') == array('name' => 'context', 'value' => 'Unit Testing'));
+        $this->assertTrue($tu->getAnnotation('author') == array('name' => 'author', 'value' => 'Jane Doe'));
+        $this->assertEqual($tu->getAnnotations(), array('context' => 'Unit Testing', 'author' => 'Jane Doe'));
+        $tu->removeAnnotation('author');
+        $this->assertTrue($tu->getAnnotation('author') == null);
+        $this->assertEqual($tu->getAnnotations(), array('context' => 'Unit Testing'));
 	}
 	
 	public function testPOTranslationReading() {

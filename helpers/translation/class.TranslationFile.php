@@ -193,6 +193,30 @@ class tao_helpers_translation_TranslationFile
     }
 
     /**
+     * Get an annotation for a given annotation name. Returns an associative
+     * where keys are 'name' and 'value'.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string name
+     * @return array
+     */
+    public function getAnnotation($name)
+    {
+        $returnValue = array();
+
+        // section -64--88-56-1--1ef43195:136cfde50f6:-8000:0000000000003971 begin
+        if (isset($this->annotations[$name])){
+            $returnValue = array('name' => $name, 'value' => $this->annotations[$name]);
+        }else{
+            $returnValue = null;
+        }
+        // section -64--88-56-1--1ef43195:136cfde50f6:-8000:0000000000003971 end
+
+        return (array) $returnValue;
+    }
+
+    /**
      * Creates a new instance of TranslationFile for a specific source and
      * language.
      *

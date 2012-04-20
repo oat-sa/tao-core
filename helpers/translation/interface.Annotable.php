@@ -77,6 +77,17 @@ interface tao_helpers_translation_Annotable
      */
     public function removeAnnotation($name);
 
+    /**
+     * Get an annotation for a given annotation name. Returns an associative
+     * where keys are 'name' and 'value'.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string name
+     * @return array
+     */
+    public function getAnnotation($name);
+
 } /* end of interface tao_helpers_translation_Annotable */
 
 ?>
