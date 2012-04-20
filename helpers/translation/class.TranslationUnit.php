@@ -265,11 +265,9 @@ class tao_helpers_translation_TranslationUnit
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string source
-     * @param  string target
      * @return mixed
      */
-    public function __construct($source, $target = "")
+    public function __construct()
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003489 begin
         $this->source = $source;

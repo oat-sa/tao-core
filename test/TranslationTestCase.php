@@ -121,6 +121,9 @@ class TranslationTestCase extends UnitTestCase {
         $tu->removeAnnotation('author');
         $this->assertTrue($tu->getAnnotation('author') == null);
         $this->assertEqual($tu->getAnnotations(), array('context' => 'Unit Testing'));
+        
+        // Test utils.
+        $this->assertEqual(tao_helpers_translation_Utils::getDefaultLanguage(), 'EN');
 	}
 	
 	public function testPOTranslationReading() {
