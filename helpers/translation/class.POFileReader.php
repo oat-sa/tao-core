@@ -107,7 +107,9 @@ class tao_helpers_translation_POFileReader
 		foreach ($res as $msgid => $msgstr) {
 			// Avoid to register first empty translation in some files (e.g. POEdit processed).
 			if ($msgid !== '') {
-				$tu = new tao_helpers_translation_TranslationUnit($msgid, $msgstr);
+				$tu = new tao_helpers_translation_TranslationUnit();
+				$tu->setSource($msgid);
+                $tu->setTarget($msgstr);
 				$tf->addTranslationUnit($tu);
 			}
 		}

@@ -33,16 +33,19 @@ class TranslationTestCase extends UnitTestCase {
 	public function testTranslationModel() {
 		
 		// en-US (American English) to en-YA (Yoda English) translation units.
-		$tu1 = new tao_helpers_translation_TranslationUnit('May the force be with you.',
-													  'The force with you may be.');
-		$tu2 = new tao_helpers_translation_TranslationUnit('The dark side smells hate.',
-													  'Hate the dark side smells.');
-		$tu3 = new tao_helpers_translation_TranslationUnit('Leia Organa of Alderaan is beautiful.',
-													  'Beautiful Leia Organa of Alderaan is.');
+		$tu1 = new tao_helpers_translation_TranslationUnit();
+        $tu1->setSource('May the force be with you.');
+        $tu1->setTarget('The force with you may be.');
+		$tu2 = new tao_helpers_translation_TranslationUnit();
+        $tu2->setSource('The dark side smells hate.');
+        $tu2->setTarget('Hate the dark side smells.');
+		$tu3 = new tao_helpers_translation_TranslationUnit();
+        $tu3->setSource('Leia Organa of Alderaan is beautiful.');
+        $tu3->setTarget('Beautiful Leia Organa of Alderaan is.');
 		
 		// Default source and target languages of translation units is en-US.
-		$this->assertTrue($tu1->getSourceLanguage() == 'en-US');
-		$this->assertTrue($tu2->getTargetLanguage() == 'en-US');
+		$this->assertTrue($tu1->getSourceLanguage() == tao_helpers_translation_Utils::getDefaultLanguage());
+		$this->assertTrue($tu2->getTargetLanguage() == tao_helpers_translation_Utils::getDefaultLanguage());
 		
 		$tu1->setSourceLanguage('en-US');
 		$tu1->setTargetLanguage('en-YA');
@@ -55,7 +58,9 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tu2->getSourceLanguage() == 'en-US');
 		$this->assertTrue($tu3->getTargetLanguage() == 'en-YA');
 		
-		$tf = new tao_helpers_translation_TranslationFile('en-US', 'en-YA');
+		$tf = new tao_helpers_translation_TranslationFile();
+        $tf->setSourceLanguage('en-US');
+        $tf->setTargetLanguage('en-YA');
 		$this->assertTrue($tf->getSourceLanguage() == 'en-US');
 		$this->assertTrue($tf->getTargetLanguage() == 'en-YA');
 		
@@ -78,16 +83,18 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tu3->getSource() == 'Lando Calrician is a great pilot.');
 		$this->assertTrue($tu3->getTarget() == 'A great pilot Lando Calrician is.');
 		
-		$tu4 = new tao_helpers_translation_TranslationUnit('There is another Skywalker.',
-														   'Another Skywalker there is.');
+		$tu4 = new tao_helpers_translation_TranslationUnit();
+        $tu4->setSource('There is another Skywalker.');
+        $tu4->setTarget('Another Skywalker there is.');
 		$tf->addTranslationUnit($tu4);
 		$tus = $tf->getTranslationUnits();
 		$tu4 = $tus[3];
 		
 		$this->assertTrue($tu4->getTargetLanguage() == 'en-YA');
 		
-		$newTu = new tao_helpers_translation_TranslationUnit('Lando Calrician is a great pilot.',
-															 'Han Solo is a great pilot.');
+		$newTu = new tao_helpers_translation_TranslationUnit();
+        $newTu->setSource('Lando Calrician is a great pilot.');
+        $newTu->setTarget('Han Solo is a great pilot.');
 		$tf->addTranslationUnit($newTu);
 		$tus = $tf->getTranslationUnits();
 		$tu3 = $tus[2];
@@ -134,8 +141,8 @@ class TranslationTestCase extends UnitTestCase {
 		
 		// Test default values of TranslationFile. PO files does not
 		// contain language information AFAIK.
-		$this->assertTrue($tf->getSourceLanguage() == 'en-US');
-		$this->assertTrue($tf->getTargetLanguage() == 'en-US');
+		$this->assertTrue($tf->getSourceLanguage() == tao_helpers_translation_Utils::getDefaultLanguage());
+		$this->assertTrue($tf->getTargetLanguage() == tao_helpers_translation_Utils::getDefaultLanguage());
 		
 		$this->assertTrue(count($tus) == 4);
 		$this->assertTrue($tus[0]->getSource() == 'First Try');

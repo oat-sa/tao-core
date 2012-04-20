@@ -227,8 +227,8 @@ class tao_helpers_translation_TranslationFile
     public function __construct()
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003497 begin
-        $this->sourceLanguage = $sourceLanguage;
-        $this->targetLanguage = $targetLanguage;
+        $this->sourceLanguage = tao_helpers_translation_Utils::getDefaultLanguage();
+        $this->targetLanguage = tao_helpers_translation_Utils::getDefaultLanguage();
         $this->translationUnits = array();
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003497 end
     }

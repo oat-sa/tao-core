@@ -126,7 +126,9 @@ class tao_helpers_translation_RDFExtractor
 	        						$source = $child->nodeValue;
 	        						$target = $child->nodeValue;
 	        						
-	        						$tu = new tao_helpers_translation_RDFTranslationUnit($source, $target);
+	        						$tu = new tao_helpers_translation_RDFTranslationUnit();
+                                    $tu->setSource($source);
+                                    $tu->setTarget($target);
 	        						$tu->setSourceLanguage($sourceLanguage);
 	        						$tu->setTargetLanguage($targetLanguage);
 	        						$tu->setSubject($about);

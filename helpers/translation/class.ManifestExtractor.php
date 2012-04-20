@@ -87,7 +87,9 @@ class tao_helpers_translation_ManifestExtractor
 								foreach ($nodes as $node) {
 									if (isset($node['name'])) {
 										$nodeName = (string)$node['name'];
-										$translationUnits[$nodeName] = new tao_helpers_translation_TranslationUnit($nodeName, '');
+                                        $newTranslationUnit = new tao_helpers_translation_TranslationUnit();
+                                        $newTranslationUnit->setSource($nodeName);
+										$translationUnits[$nodeName] = $newTranslationUnit;
 									}
 								}
 								
@@ -95,7 +97,9 @@ class tao_helpers_translation_ManifestExtractor
 								$nodes = $xml->xpath("//description");
 								foreach ($nodes as $node) {
 									if ((string)$node != '') {
-										$translationUnits[(string)$node] = new tao_helpers_translation_TranslationUnit((string)$node, '');
+									    $newTranslationUnit = new tao_helpers_translation_TranslationUnit();
+                                        $newTranslationUnit->setSource((string)$node);
+										$translationUnits[(string)$node] = $newTranslationUnit;
 									}
 								}
 							}

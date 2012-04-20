@@ -206,7 +206,8 @@ class tao_helpers_translation_SourceCodeExtractor
 				
 		 		if (!empty($string[1])) {
 		 			foreach($string[1] as $s) {
-		 				$tu = new tao_helpers_translation_TranslationUnit(tao_helpers_translation_POUtils::sanitize($s));
+		 				$tu = new tao_helpers_translation_TranslationUnit();
+                        $tu->setSource(tao_helpers_translation_POUtils::sanitize($s));
 		 				$tus = $this->getTranslationUnits();
 		 				$found = false;
 		 				

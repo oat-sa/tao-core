@@ -270,12 +270,9 @@ class tao_helpers_translation_TranslationUnit
     public function __construct()
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003489 begin
-        $this->source = $source;
-        $this->target = $target;
-        
         // Default values for source and target languages are en-US.
-        $this->setSourceLanguage('en-US');
-        $this->setTargetLanguage('en-US');
+        $this->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+        $this->setTargetLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003489 end
     }
 
