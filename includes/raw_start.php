@@ -12,6 +12,6 @@ if(PHP_SAPI == 'cli'){
 
 require_once 'class.Bootstrap.php';
 
-$bootStrap = new BootStrap('tao');
+$bootStrap = new BootStrap('tao', array('session_name' => TestRunner::SESSION_KEY));
 $bootStrap->start();
 ?>

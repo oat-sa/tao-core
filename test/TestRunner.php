@@ -14,6 +14,8 @@ require_once dirname(__FILE__) .'/TaoTestCase.php';
  */
 class TestRunner{
 	
+	const SESSION_KEY = 'TAO_TEST_SESSION';
+	
 	/**
 	 * 
 	 * @var boolean
