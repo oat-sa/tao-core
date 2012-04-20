@@ -131,6 +131,7 @@ class tao_helpers_translation_TranslationUnit
         $returnValue = array();
 
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003952 begin
+        $returnValue = $this->annotations;
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003952 end
 
         return (array) $returnValue;
@@ -148,6 +149,7 @@ class tao_helpers_translation_TranslationUnit
     public function addAnnotation($name, $value)
     {
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003955 begin
+        $this->annotations[$name] = $value;
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003955 end
     }
 
@@ -162,6 +164,9 @@ class tao_helpers_translation_TranslationUnit
     public function removeAnnotation($name)
     {
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:000000000000395C begin
+        if (isset($this->annotations[$name])){
+            unset($this->annotations[$name]);
+        }
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:000000000000395C end
     }
 
