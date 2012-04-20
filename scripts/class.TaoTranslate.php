@@ -567,7 +567,9 @@ class tao_scripts_TaoTranslate
                         $modelExtractor->setTranslatableProperties($translatableProperties);
                         $modelExtractor->extract();
                         
-                        $rdfTranslationFile = new tao_helpers_translation_RDFTranslationFile('EN', $this->options['language']);
+                        $rdfTranslationFile = new tao_helpers_translation_RDFTranslationFile();
+                        $rdfTranslationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+                        $rdfTranslationFile->setTargetLanguage($this->options['language']);
                         $rdfTranslationFile->addTranslationUnits($modelExtractor->getTranslationUnits());
                         $rdfTranslationFile->setExtensionId($this->options['extension']);
                         $rdfTranslationFile->setBase($ns);
@@ -596,7 +598,9 @@ class tao_scripts_TaoTranslate
                 $modelFiles = $this->getOntologyFiles($this->options['extension']);
                 foreach ($modelFiles as $ns => $files){
                     foreach ($files as $f){
-                        $translationFile = new tao_helpers_translation_RDFTranslationFile('EN', $this->options['language']);
+                        $translationFile = new tao_helpers_translation_RDFTranslationFile();
+                        $translationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+                        $translationFile->setTargetLanguage($this->options['language']);
                         $translationFile->setExtensionId($this->options['extension']);
                         $translationFile->setBase($ns);
                         
@@ -703,7 +707,9 @@ class tao_scripts_TaoTranslate
                 $rdfExtractor->extract();
                 
                 // The master RDF file is the ontology itself, non-translated that we find in /extId/models/ontology.
-                $masterRDFFile = new tao_helpers_translation_RDFTranslationFile('EN', $this->options['language']);
+                $masterRDFFile = new tao_helpers_translation_RDFTranslationFile();
+                $masterRDFFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+                $masterRDFFile->setTargetLanguage($this->options['language']);
                 $masterRDFFile->addTranslationUnits($rdfExtractor->getTranslationUnits());
                 $masterRDFFile->setBase($ns);
                 $masterRDFFile->setExtensionId($this->options['extension']);
