@@ -97,9 +97,9 @@ class tao_helpers_translation_TranslationUnit
      * The annotations bound to this translation unit.
      *
      * @access private
-     * @var string
+     * @var array
      */
-    private $annotations = '';
+    private $annotations = array();
 
     // --- OPERATIONS ---
 
@@ -114,6 +114,7 @@ class tao_helpers_translation_TranslationUnit
     public function setAnnotations($annotations)
     {
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003948 begin
+        $this->annotations = $annotations;
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003948 end
     }
 
