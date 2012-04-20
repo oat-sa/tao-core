@@ -153,7 +153,7 @@ class tao_helpers_translation_TranslationFile
         $returnValue = array();
 
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003952 begin
-        $returnValue = $this->getAnnotations();
+        $returnValue = $this->annotations;
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003952 end
 
         return (array) $returnValue;
