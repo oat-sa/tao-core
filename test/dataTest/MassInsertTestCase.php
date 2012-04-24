@@ -78,7 +78,7 @@ class MassInsertTestCase extends UnitTestCase {
 			//$groupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
 			$TopGroupClass = new core_kernel_classes_Class(TAO_GROUP_CLASS);
 			$groupClass = $TopGroupClass->createSubClass("Simulated (TC)", "Simulated Test Case Group Class", LOCAL_NAMESPACE."#SimulatedTestCaseGroupClass");
-
+			$valueProp = new core_kernel_classes_Property(RDF_VALUE);
 			$propertyLabel = new core_kernel_classes_Property(RDFS_LABEL);
 			$propertyComment = new core_kernel_classes_Property(RDFS_COMMENT);
 
@@ -91,13 +91,40 @@ class MassInsertTestCase extends UnitTestCase {
 
 				// Add label and comment properties functions of the languages available on the TAO platform
 				foreach ($this->languages as $lg){
+					$lgCode = $lg->getOnePropertyValue($valueProp);
 					$lgLabel = $lg->getLabel();
-					$groupInstance->setPropertyValueByLg ($propertyLabel, "Group label{$i} {$lgLabel}", $lgLabel);
-					$groupInstance->setPropertyValueByLg ($propertyComment, "Group {$i} Comment {$lgLabel}", $lgLabel);
+					$groupInstance->setPropertyValueByLg ($propertyLabel, "Group label{$i} {$lgLabel}={$lgCode}", $lgCode);
+					$groupInstance->setPropertyValueByLg ($propertyComment, "Group {$i} Comment {$lgLabel}={$lgCode}", $lgCode);
+					
 				}
 			}
 
 			$this->groups = $groupClass->getInstances ();
+			$groupLabels = array();
+			
+			//check groups for language dependent properties.		
+
+			$expectedArray = array(	'DE' => 'German=DE',
+					'FR' => 'French=FR',
+					'LU' => 'Luxembourgish=LU',
+					'SE' => 'Swedish=SE',
+					'EN' => 'English=EN');
+			
+			//foreach on $this->groups seem to create trouble with
+			//testAssociateSubjectGroup test case.
+			
+			$groupsToTest = $this->groups;
+			foreach ($groupsToTest as $group){
+				$usedLgs = $group->getUsedLanguages($propertyLabel);
+				foreach ($usedLgs as $lg) {
+					$result[$lg] = $group->getPropertyValuesByLg($propertyLabel,$lg)->get(0);
+				}
+
+				
+				foreach ($expectedArray as $k => $v){
+					$this->assertTrue(strpos($result[$k], $v));
+				}
+			}
 		}
 	}
 
@@ -120,6 +147,7 @@ class MassInsertTestCase extends UnitTestCase {
 			$propertyLabel = new core_kernel_classes_Property(RDFS_LABEL);
 			$propertyComment = new core_kernel_classes_Property(RDFS_COMMENT);
 			$propertyRdfTypeProp = new core_kernel_classes_Property(RDF_TYPE);
+			$valueProp = new core_kernel_classes_Property(RDF_VALUE);
 
 			// Create N subjects
 			for ($i=1; $i <= $this->subjectNumber; $i++){
@@ -160,15 +188,40 @@ class MassInsertTestCase extends UnitTestCase {
 				$subjectInstance->setType (new core_kernel_classes_Class(CLASS_ROLE_SUBJECT));
 */
 				// Add label and comment properties functions of the languages available on the TAO platform
+				
 				foreach ($this->languages as $lg){
+					$lgCode = $lg->getOnePropertyValue($valueProp);
 					$lgLabel = $lg->getLabel();
-					$subjectInstance->setPropertyValueByLg ($propertyLabel, "Subject label{$i} {$lgLabel}", $lgLabel);
-					$subjectInstance->setPropertyValueByLg ($propertyComment, "Subject {$i} Comment {$lgLabel}", $lgLabel);
+					$subjectInstance->setPropertyValueByLg ($propertyLabel, "Subject label{$i} {$lgLabel}={$lgCode}", $lgCode);
+					$subjectInstance->setPropertyValueByLg ($propertyComment, "Subject {$i} Comment {$lgLabel}={$lgCode}", $lgCode);
 				}
 
 			}
 
 			$this->subjects = $subjectClass->getInstances ();
+			
+			//check subjects for language dependent properties.
+			$expectedArray = array(	'DE' => 'German=DE',
+					'FR' => 'French=FR',
+					'LU' => 'Luxembourgish=LU',
+					'SE' => 'Swedish=SE',
+					'EN' => 'English=EN');
+			
+			//foreach on $this->subjects seem to create trouble with
+			//testAssociateSubjectGroup test case.
+			
+			$subjectToTest = $this->subjects;
+			foreach ($subjectToTest as $subject){
+				$usedLgs = $subject->getUsedLanguages($propertyLabel);
+				foreach ($usedLgs as $lg) {
+					$result[$lg] = $subject->getPropertyValuesByLg($propertyLabel,$lg)->get(0);
+				}
+			
+			
+				foreach ($expectedArray as $k => $v){
+					$this->assertTrue(strpos($result[$k], $v));
+				}
+			}
 		}
 	}
 
