@@ -125,7 +125,7 @@ class tao_helpers_translation_RDFFileWriter
                         $annotations = $tu->getAnnotations();
                         
                         if (count($annotations) > 0){
-                            $annotationString = "\n" . tao_helpers_translation_RDFUtils::serializeAnnotations($annotations) . "\n     ";
+                            $annotationString = "\n" . tao_helpers_translation_RDFUtils::serializeAnnotations($annotations) . "\n    ";
                             $annotationNode = $targetFile->createComment($annotationString);
                             $tuNode->parentNode->insertBefore($annotationNode, $tuNode);
                         }
