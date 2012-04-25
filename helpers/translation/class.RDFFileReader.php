@@ -98,7 +98,7 @@ class tao_helpers_translation_RDFFileReader
                                             $predicate = $property->namespaceURI . $property->localName;
                                             
                                             // Retrieve an hypothetic target language.
-                                            $lang = 'en-US';
+                                            $lang = tao_helpers_translation_Utils::getDefaultLanguage();
                                             if ($property->hasAttributeNS($xmlNS, 'lang')){
                                                 $lang = $property->getAttributeNS($xmlNS, 'lang');
                                             }
@@ -110,6 +110,9 @@ class tao_helpers_translation_RDFFileReader
                                             $tu->setTarget($object);
                                             $tu->setSubject($subject);
                                             $tu->setPredicate($predicate);
+                                            
+                                            // Try to get the sourceLanguage 
+                                            
                                             $translationUnits[] = $tu;
                                         }
                                     }

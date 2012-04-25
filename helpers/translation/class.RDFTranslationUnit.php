@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 18.04.2012, 16:03:04 with ArgoUML PHP module 
+ * Automatically generated on 25.04.2012, 14:31:12 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers_translation
  */
@@ -48,7 +48,7 @@ require_once('tao/helpers/translation/class.TranslationUnit.php');
  * Short description of class tao_helpers_translation_RDFTranslationUnit
  *
  * @access public
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers_translation
  */
@@ -82,7 +82,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * Short description of method getSubject
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public function getSubject()
@@ -100,7 +100,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * Short description of method getPredicate
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public function getPredicate()
@@ -118,7 +118,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * Short description of method setSubject
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string subject
      * @return mixed
      */
@@ -134,7 +134,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * Short description of method setPredicate
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string predicate
      * @return mixed
      */
@@ -151,7 +151,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * value as the current instance.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  RDFTranslationUnit translationUnit
      * @return boolean
      */
@@ -171,7 +171,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * value as the current instance.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  RDFTranslationUnit translationUnit
      * @return boolean
      */
@@ -193,7 +193,7 @@ class tao_helpers_translation_RDFTranslationUnit
      * are identical.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  TranslationUnit translationUnit A translation unit to compare.
      * @return boolean
      */
@@ -208,6 +208,22 @@ class tao_helpers_translation_RDFTranslationUnit
         // section -64--88-56-1-f4cfebb:136c5b476f3:-8000:000000000000391A end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method setSource
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string source
+     * @return mixed
+     */
+    public function setSource($source)
+    {
+        // section -64--88-56-1-4a13a1bb:136e97954f2:-8000:0000000000003997 begin
+        parent::setSource($source);
+        $this->addAnnotation('source', $source)
+;        // section -64--88-56-1-4a13a1bb:136e97954f2:-8000:0000000000003997 end
     }
 
 } /* end of class tao_helpers_translation_RDFTranslationUnit */
