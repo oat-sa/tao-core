@@ -3,14 +3,11 @@
 error_reporting(E_ALL);
 
 /**
- * This class aims at providing utility methods for handling RDF files for
- * and internationalization.
+ * Aims at providing utility methods for RDF Translation models.
  *
- * @author Jerome Bogaerts
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @since 2.2
  * @subpackage helpers_translation
- * @version 1.0
  */
 
 if (0 > version_compare(PHP_VERSION, '5')) {
@@ -18,23 +15,20 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /* user defined includes */
-// section -64--88-56-1-52e480ce:136a58c45e6:-8000:00000000000038F7-includes begin
-// section -64--88-56-1-52e480ce:136a58c45e6:-8000:00000000000038F7-includes end
+// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003939-includes begin
+// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003939-includes end
 
 /* user defined constants */
-// section -64--88-56-1-52e480ce:136a58c45e6:-8000:00000000000038F7-constants begin
-// section -64--88-56-1-52e480ce:136a58c45e6:-8000:00000000000038F7-constants end
+// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003939-constants begin
+// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003939-constants end
 
 /**
- * This class aims at providing utility methods for handling RDF files for
- * and internationalization.
+ * Aims at providing utility methods for RDF Translation models.
  *
  * @access public
- * @author Jerome Bogaerts
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @since 2.2
  * @subpackage helpers_translation
- * @version 1.0
  */
 class tao_helpers_translation_RDFUtils
 {
@@ -46,19 +40,58 @@ class tao_helpers_translation_RDFUtils
     // --- OPERATIONS ---
 
     /**
+     * Unserialize an RDFTranslationUnit annotation and returns an associative
+     * where keys are annotation names, and values are the annotation values.
+     * Throws TranslationException.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string annotations The annotations string.
+     * @return array
+     */
+    public static function unserializeAnnotations($annotations)
+    {
+        $returnValue = array();
+
+        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:000000000000393A begin
+        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:000000000000393A end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Serializes an associative array of annotations where keys are annotation
+     * and values are annotation values.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  array annotations An associative array that represents a collection of annotations, where keys are the annotation names and values the annotation values.
+     * @return string
+     */
+    public static function serializeAnnotations($annotations)
+    {
+        $returnValue = (string) '';
+
+        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003941 begin
+        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003941 end
+
+        return (string) $returnValue;
+    }
+
+    /**
      * Creates a language description file for TAO using the RDF-XML language.
      *
      * @access public
-     * @author firstname and lastname of author, <author@example.org>
-     * @param  string code The language code e.g. fr-FR.
-     * @param  string label The language label e.g. French in english.
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string code string code The language code e.g. fr-FR.
+     * @param  string label string label The language label e.g. French in english.
      * @return DomDocument
      */
     public static function createLanguageDescription($code, $label)
     {
         $returnValue = null;
 
-        // section -64--88-56-1-52e480ce:136a58c45e6:-8000:00000000000038FC begin
+        // section -64--88-56-1--791b33a3:136e8a84490:-8000:000000000000398B begin
         $languageType = CLASS_LANGUAGES;
         $languagePrefix = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
         $rdfNs = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
@@ -92,7 +125,7 @@ class tao_helpers_translation_RDFUtils
         $descriptionNode->appendChild($valueNode);
         
         $returnValue = $doc;
-        // section -64--88-56-1-52e480ce:136a58c45e6:-8000:00000000000038FC end
+        // section -64--88-56-1--791b33a3:136e8a84490:-8000:000000000000398B end
 
         return $returnValue;
     }
