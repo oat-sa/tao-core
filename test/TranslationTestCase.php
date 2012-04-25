@@ -26,6 +26,7 @@ class TranslationTestCase extends UnitTestCase {
 	const FAKE_VIEWS = '/samples/fakeSourceCode/views/';
 	const FAKE_RDF_LANG_DESC = '/samples/rdf/tao_messages_DE.rdf';
     const FAKE_RDF_TRANSLATION_MODEL = '/samples/locales/en-YO/tao.rdf';
+    const FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS = '/samples/rdf/translation_model_with_annotations.rdf';
 	
 	/**
 	 * Test of the different classes composing the Translation Model.
@@ -473,6 +474,22 @@ class TranslationTestCase extends UnitTestCase {
                                                                                     "targetLanguage" => "fr-CA",
                                                                                     "predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
         $this->assertEqual($annotations, "@source This is a source test.\n    @sourceLanguage en-US\n    @targetLanguage fr-CA\n    @predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
+        
+        
+        // - Test Annotations parsing while reading with RDFFileWriter.
+        $reader = new tao_helpers_translation_RDFFileReader(dirname(__FILE__) . self::FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS);
+        $reader->read();
+        $tf = $reader->getTranslationFile();
+        $this->assertEqual($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                        'targetLanguage' => 'es'));
+        $tus = $tf->getTranslationUnits();
+        $this->assertEqual($tus[0]->getSourceLanguage(), tao_helpers_translation_Utils::getDefaultLanguage());
+        $this->assertEqual($tus[0]->getTargetLanguage(), 'es');
+        $this->assertEqual($tus[0]->getSource(), 'TAO Object');
+        $this->assertEqual($tus[0]->getTarget(), 'TAO objeto');
+        $this->assertEqual($tus[0]->getAnnotation('sourceLanguage'), array('name' => 'sourceLanguage', 'value' => tao_helpers_translation_Utils::getDefaultLanguage()));
+        $this->assertEqual($tus[0]->getAnnotation('targetLanguage'), array('name' => 'targetLanguage', 'value' => 'es'));
+        $this->assertEqual($tus[10]->getTarget(), 'Función de usuario de flujo de trabajo: el papel asignado por defecto a todos los usuarios backend, no eliminable');
     }
 }
 ?>

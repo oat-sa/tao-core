@@ -85,42 +85,83 @@ class tao_helpers_translation_RDFFileReader
                         $xmlNS = 'http://www.w3.org/XML/1998/namespace';
                         $xpath->registerNamespace('rdf', $rdfNS);
                         
-                        $descriptions = $xpath->query('//rdf:Description');
-                        foreach ($descriptions as $description){
-                            if ($description->hasAttributeNS($rdfNS, 'about')){
-                                $subject = $description->getAttributeNS($rdfNS, 'about');
+                        $rootNodes = $xpath->query('//rdf:RDF');
+                        if ($rootNodes->length == 1){
+                            // Try to get annotations from the root node.
+                            $sibling = $rootNodes->item(0)->previousSibling;
+                            while ($sibling !== null){
+                                if ($sibling instanceof DOMNode && $sibling->nodeType == XML_COMMENT_NODE){
+                                    $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations($sibling->data);
+                                    $translationFile->setAnnotations($annotations);
+                                    
+                                    if (isset($annotations['sourceLanguage'])){
+                                        $translationFile->setSourceLanguage($annotations['sourceLanguage']);
+                                    }
+                                    
+                                    if (isset($annotations['targetLanguage'])){
+                                        $translationFile->setTargetLanguage($annotations['targetLanguage']);
+                                    }
+                                    
+                                    break;
+                                }
                                 
-                                // Let's retrieve properties.
-                                foreach ($description->childNodes as $property){
-                                    if ($property->nodeType == XML_ELEMENT_NODE){
-                                        // Retrieve namespace uri of this node.
-                                        if ($property->namespaceURI != null){
-                                            $predicate = $property->namespaceURI . $property->localName;
-                                            
-                                            // Retrieve an hypothetic target language.
-                                            $lang = tao_helpers_translation_Utils::getDefaultLanguage();
-                                            if ($property->hasAttributeNS($xmlNS, 'lang')){
-                                                $lang = $property->getAttributeNS($xmlNS, 'lang');
+                                $sibling = $sibling->previousSibling;
+                            }
+                            
+                            $descriptions = $xpath->query('//rdf:Description');
+                            foreach ($descriptions as $description){
+                                if ($description->hasAttributeNS($rdfNS, 'about')){
+                                    $subject = $description->getAttributeNS($rdfNS, 'about');
+                                    
+                                    // Let's retrieve properties.
+                                    foreach ($description->childNodes as $property){
+                                        if ($property->nodeType == XML_ELEMENT_NODE){
+                                            // Retrieve namespace uri of this node.
+                                            if ($property->namespaceURI != null){
+                                                $predicate = $property->namespaceURI . $property->localName;
+                                                
+                                                // Retrieve an hypothetic target language.
+                                                $lang = tao_helpers_translation_Utils::getDefaultLanguage();
+                                                if ($property->hasAttributeNS($xmlNS, 'lang')){
+                                                    $lang = $property->getAttributeNS($xmlNS, 'lang');
+                                                }
+                                                
+                                                $object = $property->nodeValue;
+                                                
+                                                $tu = new tao_helpers_translation_RDFTranslationUnit('');
+                                                $tu->setTargetLanguage($lang);
+                                                $tu->setTarget($object);
+                                                $tu->setSubject($subject);
+                                                $tu->setPredicate($predicate);
+                                                
+                                                // Try to get annotations.
+                                                $sibling = $property->previousSibling;
+                                                while ($sibling !== null){
+                                                    if ($sibling instanceof DOMNode && $sibling->nodeType == XML_COMMENT_NODE){
+                                                        // We should have the annotations we are looking for.
+                                                        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations($sibling->data);
+                                                        $tu->setAnnotations($annotations);
+                                                        
+                                                        // Set the found sources and sourcelanguages if found.
+                                                        if (isset($annotations['source'])){
+                                                            $tu->setSource($annotations['source']);
+                                                        }
+                                                    }
+                                                    
+                                                    $sibling = $sibling->previousSibling;
+                                                }
+                                                
+                                                $translationUnits[] = $tu;
                                             }
-                                            
-                                            $object = $property->nodeValue;
-                                            
-                                            $tu = new tao_helpers_translation_RDFTranslationUnit('');
-                                            $tu->setTargetLanguage($lang);
-                                            $tu->setTarget($object);
-                                            $tu->setSubject($subject);
-                                            $tu->setPredicate($predicate);
-                                            
-                                            // Try to get the sourceLanguage 
-                                            
-                                            $translationUnits[] = $tu;
                                         }
                                     }
                                 }
                             }
+    
+                            $this->getTranslationFile()->addTranslationUnits($translationUnits);
+                        }else{
+                            throw new tao_helpers_translation_TranslationException("'${inputFile}' has no rdf:RDF root node or more than one rdf:RDF root node.");
                         }
-
-                        $this->getTranslationFile()->addTranslationUnits($translationUnits);
                     }
                     catch (DOMException $e){
                         throw new tao_helpers_translation_TranslationException("'${inputFile}' cannot be parsed.");
