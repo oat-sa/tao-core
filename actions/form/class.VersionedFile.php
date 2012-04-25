@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 21.10.2011, 16:55:38 with ArgoUML PHP module 
+ * Automatically generated on 23.04.2012, 15:51:09 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage actions_form
  */
@@ -25,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * This class provide a container for a specific form instance.
  * It's subclasses instanciate a form and it's elements to be used as a
  *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  */
 require_once('tao/helpers/form/class.FormContainer.php');
 
@@ -41,7 +41,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
  * Short description of class tao_actions_form_VersionedFile
  *
  * @access public
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage actions_form
  */
@@ -53,19 +53,57 @@ class tao_actions_form_VersionedFile
 
     // --- ATTRIBUTES ---
 
+    /**
+     * Short description of attribute ownerInstance
+     *
+     * @access protected
+     * @var Resource
+     */
+    protected $ownerInstance = null;
+
+    /**
+     * Short description of attribute property
+     *
+     * @access protected
+     * @var Property
+     */
+    protected $property = null;
+
+    /**
+     * Short description of attribute versionedFile
+     *
+     * @access public
+     * @var File
+     */
+    public $versionedFile = null;
+
     // --- OPERATIONS ---
 
     /**
      * Short description of method initForm
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return mixed
      */
     public function initForm()
     {
         // section 127-0-1-1-234d8e6a:13300ee5308:-8000:0000000000003F7E begin
         
+		if(!isset($this->options['instanceUri'])){
+    		throw new Exception(__('Option instanceUri is not an option !!'));
+    	}
+    	if(!isset($this->options['ownerUri'])){
+    		throw new Exception(__('Option ownerUri is not an option !!'));
+    	}
+    	if(!isset($this->options['propertyUri'])){
+    		throw new Exception(__('Option propertyUri is not an option !!'));
+    	}
+    	
+    	$this->ownerInstance = new core_kernel_versioning_File($this->options['ownerUri']);
+    	$this->property = new core_kernel_classes_Property($this->options['propertyUri']);
+    	$this->versionedFile = new core_kernel_versioning_File($this->options['instanceUri']);
+		
     	$this->form = tao_helpers_form_FormFactory::getForm('versioned_file');
     	
 		$actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
@@ -84,36 +122,21 @@ class tao_actions_form_VersionedFile
      * Short description of method initElements
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return mixed
      */
     public function initElements()
     {
         // section 127-0-1-1-234d8e6a:13300ee5308:-8000:0000000000003F80 begin
-    
-    	if(!isset($this->options['instanceUri'])){
-    		throw new Exception(__('Option instanceUri is not an option !!'));
-    	}
-    	if(!isset($this->options['ownerUri'])){
-    		throw new Exception(__('Option ownerUri is not an option !!'));
-    	}
-    	if(!isset($this->options['propertyUri'])){
-    		throw new Exception(__('Option propertyUri is not an option !!'));
-    	}
     	
-    	$ownerInstance = new core_kernel_versioning_File($this->options['ownerUri']);
-    	$property = new core_kernel_classes_Property($this->options['propertyUri']);
-    	$instance = new core_kernel_versioning_File($this->options['instanceUri']);
-    	$versioned = $instance->isVersioned();
+    	$versioned = $this->versionedFile->isVersioned();
 		$freeFilePath = isset($this->options['freeFilePath'])?(bool)$this->options['freeFilePath']:false;
-    	/*
-		 * 
+    	
+		/*
 		 * 1. BUILD FORM
-		 *
 		 */
     	
 		// File Content
-		
     	$contentGroup = array();
     	function return_bytes($val) {
 			$val = trim($val);
@@ -150,7 +173,8 @@ class tao_actions_form_VersionedFile
 		
 		// if the file is already versioned add a way to download it
 		if($versioned){
-			$downloadUrl = _url('downloadFile', 'File', 'tao', array('uri'=> tao_helpers_Uri::encode($instance->uriResource)));
+			
+			$downloadUrl = $this->getDownloadUrl($this->versionedFile);
 			
 			$downloadFileElt = tao_helpers_form_FormFactory::getElement("file_download", 'Free');
 			$downloadFileElt->setValue("<a href='$downloadUrl' class='blink' target='_blank'><img src='".TAOBASE_WWW."img/document-save.png' alt='Download versioned file' class='icon'  /> ".__('Download content')."</a>");
@@ -205,7 +229,7 @@ class tao_actions_form_VersionedFile
 		// File Revision
 		if($versioned){
 			$fileVersionOptions = array();
-			$history = $instance->gethistory();
+			$history = $this->versionedFile->gethistory();
 			$countHistory = count($history);
 			foreach($history as $i => $revision){
 				$date = new DateTime($revision['date']);
@@ -220,53 +244,52 @@ class tao_actions_form_VersionedFile
 		}
 		
 		/*
-		 * 
 		 * 2. HIDDEN FIELDS
-		 *
 		 */
-		
 		//add an hidden elt for the property uri (Property associated to the owner instance)
 		$propertyUriElt = tao_helpers_form_FormFactory::getElement("propertyUri", "Hidden");
-		$propertyUriElt->setValue(tao_helpers_Uri::encode($property->uriResource));
+		$propertyUriElt->setValue(tao_helpers_Uri::encode($this->property->uriResource));
 		$this->form->addElement($propertyUriElt);
 		
 		//add an hidden elt for the instance Uri
 		//usefull to render the revert action
 		$instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
-		$instanceUriElt->setValue(tao_helpers_Uri::encode($ownerInstance->uriResource));
+		$instanceUriElt->setValue(tao_helpers_Uri::encode($this->ownerInstance->uriResource));
 		$this->form->addElement($instanceUriElt);
 		
 		/*
-		 * 
 		 * 3. FILL THE FORM
-		 *
 		 */
-		
     	if($versioned){
     		
-			$fileNameValue = $instance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
+			$fileNameValue = $this->versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
 			if(!empty($fileNameValue)){
 				$fileNameElt->setValue((string) $fileNameValue);
 			}
 		
-			$filePathValue = $instance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_FILEPATH));
+			$filePathValue = $this->versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_FILEPATH));
 			if(!empty($filePathValue)){
 				$filePathElt->setValue((string) $filePathValue);
 			}
 		
-			$repositoryValue = $instance->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_REPOSITORY));
+			$repositoryValue = $this->versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_REPOSITORY));
 			if(!empty($repositoryValue)){
 				$fileRepositoryElt->setValue($repositoryValue->uriResource);
+			}else{
+				$defaultRepo = $this->getDefaultRepository();
+				if(!is_null($defaultRepo)){
+					$fileRepositoryElt->setValue($defaultRepo->uriResource);
+				}
 			}
 			
-			$history = $instance->gethistory();
+			$history = $this->versionedFile->gethistory();
 			$versionElt = $this->form->getElement('file_version');
 			$versionElt->setValue(count($history));
 			
     	}else{
 			
 			if(!$freeFilePath){
-				$filePathElt->setValue(tao_helpers_Uri::getUniqueId($ownerInstance->uriResource).'/'.tao_helpers_Uri::getUniqueId($property->uriResource));
+				$filePathElt->setValue($this->getDefaultFilePath());
 			}else{
 				$filePathElt->setValue('/');
 			}
@@ -281,7 +304,7 @@ class tao_actions_form_VersionedFile
      * linked elements
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return boolean
      */
     public function validate()
@@ -291,13 +314,13 @@ class tao_actions_form_VersionedFile
         // section 127-0-1-1--485428cc:133267d2802:-8000:000000000000409D begin
         
     	if($this->form->isSubmited()){
-    		$instance = new core_kernel_versioning_File($this->options['instanceUri']);
-    		if($instance->isVersioned()){
+			
+    		if($this->versionedFile->isVersioned()){
     			return true;
     		}
     		
 	    	$fileNameElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_FILE_FILENAME));
-	    	$fileName = $fileNameElt->getValue();
+	    	$fileName = !is_null($fileNameElt)?$fileNameElt->getValue():'';
 	    	
 	    	$filePathElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_FILEPATH));
 	    	$filePath = $filePathElt->getValue();
@@ -326,6 +349,65 @@ class tao_actions_form_VersionedFile
         // section 127-0-1-1--485428cc:133267d2802:-8000:000000000000409D end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getDownloadUrl
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @return string
+     */
+    public function getDownloadUrl()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF2 begin
+		
+		if(!is_null($this->ownerInstance)){
+			$returnValue = _url('downloadFile', 'File', 'tao', array('uri' => tao_helpers_Uri::encode($this->ownerInstance->uriResource)));
+		}
+		
+        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF2 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method getDefaultFilePath
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @return string
+     */
+    public function getDefaultFilePath()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF4 begin
+		
+		$returnValue = tao_helpers_Uri::getUniqueId($this->ownerInstance->uriResource).'/'.tao_helpers_Uri::getUniqueId($this->property->uriResource);
+			
+        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF4 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method getDefaultRepository
+     *
+     * @access public
+     * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
+     * @return core_kernel_versioning_Repository
+     */
+    public function getDefaultRepository()
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF6 begin
+        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF6 end
+
+        return $returnValue;
     }
 
 } /* end of class tao_actions_form_VersionedFile */

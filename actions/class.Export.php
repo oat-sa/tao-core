@@ -50,9 +50,9 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 * @return string the path
 	 */
 	protected function getExportPath(){
-		$exportPath = BASE_PATH . EXPORT_PATH;
+		$exportPath = tao_helpers_File::concat(array(ROOT_PATH,EXPORT_PATH));
 		if($this->hasSessionAttribute('currentExtension')){
-			$exportPath = ROOT_PATH . '/' .$this->getSessionAttribute('currentExtension') .EXPORT_PATH;
+			$exportPath = tao_helpers_File::concat(array(ROOT_PATH, $this->getSessionAttribute('currentExtension'), EXPORT_PATH));
 		}
 		
 		if(!is_dir($exportPath)){
@@ -281,18 +281,20 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 * download the exported files in parameters
 	 * @return void
 	 */
-	public function downloadExportedFiles(){
-		if($this->hasRequestParameter('filePath')){
-			
+	public function downloadExportedFiles($filePath){
+		
+		$path = !empty($filePath)?$filePath:'';
+		
+		if(empty($path) && $this->hasRequestParameter('filePath')){
 			$path = urldecode($this->getRequestParameter('filePath'));
-			if(preg_match("/^".preg_quote($this->getExportPath(), '/')."/", $path) && file_exists($path)){
-				$this->setContentHeader(tao_helpers_File::getMimeType(basename($path)));
-				header('Content-Disposition: attachment; fileName="'.basename($path).'"');
-				echo file_get_contents($path);
-				
-				return;
-			}
 		}
+			
+		if(!empty($path) && preg_match("/^".preg_quote($this->getExportPath(), '/')."(.*)/", $path) && file_exists($path)){
+			$this->setContentHeader(tao_helpers_File::getMimeType(basename($path)));
+			header('Content-Disposition: attachment; fileName="'.basename($path).'"');
+			echo file_get_contents($path);
+		}
+		
 		return;
 	}
 }

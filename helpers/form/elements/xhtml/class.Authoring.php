@@ -85,7 +85,7 @@ class tao_helpers_form_elements_xhtml_Authoring
 		}
 		
 		$returnValue .= "<label class='form_desc' for='{$this->name}'>"._dh($this->getDescription())."</label>";
-		$returnValue .= "<input type='button' value='".__('Authoring')."' ";
+		$returnValue .= "<input name='{$this->name}' type='button' value='".__('Authoring')."' ";
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= " />";
 		
