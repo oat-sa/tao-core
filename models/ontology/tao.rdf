@@ -13,7 +13,7 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource"/>
     <rdfs:label xml:lang="EN"><![CDATA[TAO Object]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"><![CDATA[Any ressource related to etesting]]></rdfs:comment>
+    <rdfs:comment xml:lang="EN"><![CDATA[Any resource related to etesting]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#List">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
