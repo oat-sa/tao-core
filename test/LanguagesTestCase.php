@@ -29,12 +29,16 @@ class LanguagesTestCase extends UnitTestCase {
                     $langPath = $localePath . '/lang.rdf';
                     
                     if (file_exists($langPath)){
+                        $lgResource = new core_kernel_classes_Resource($expectedUriPrefix . $l);
+                        
                         // Check for this language in Ontology.
-                        $kbLangs = $languageClass->searchInstances(array(RDF_VALUE => $l), array('like' => false));
-                        $this->assertEqual(count($kbLangs), 1);
+                        $kbLangs = $lgResource->getPropertyValues(new core_kernel_classes_Property(RDF_VALUE));
+                        $this->assertEqual(count($kbLangs), 1, "Number of languages retrieved for language '${l}' is '" . count($kbLangs) . "'.");
                         
                         // Check if the language has the correct URI.
-                        $this->assertTrue(isset($kbLangs[$expectedUriPrefix . $l]), "Malformed URI scheme for language resource '${l}'.");
+                        if ($kbLangs[0] instanceof core_kernel_classes_Resource){
+                            $this->assertTrue($kbLangs[0]->uriResource == $expectedUriPrefix . $l, "Malformed URI scheme for language resource '${l}'.");
+                        }
                     }
                 }
             }    
