@@ -79,7 +79,7 @@ class tao_helpers_translation_RDFFileWriter
             $rootAnnotations = $this->getTranslationFile()->getAnnotations();
             if (count($rootAnnotations)){
                 $annotationsString = tao_helpers_translation_RDFUtils::serializeAnnotations($rootAnnotations);
-                $annotationsNode = $targetFile->createComment("\n" . $annotationsString . "\n");
+                $annotationsNode = $targetFile->createComment("\n    " . $annotationsString . "\n");
                 $targetFile->insertBefore($annotationsNode, $rdfNode);
             }
             
@@ -125,7 +125,7 @@ class tao_helpers_translation_RDFFileWriter
                         $annotations = $tu->getAnnotations();
                         
                         if (count($annotations) > 0){
-                            $annotationString = "\n" . tao_helpers_translation_RDFUtils::serializeAnnotations($annotations) . "\n    ";
+                            $annotationString = "\n    " . tao_helpers_translation_RDFUtils::serializeAnnotations($annotations) . "\n    ";
                             $annotationNode = $targetFile->createComment($annotationString);
                             $tuNode->parentNode->insertBefore($annotationNode, $tuNode);
                         }

@@ -85,18 +85,24 @@ class tao_helpers_translation_RDFUtils
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array annotations An associative array that represents a collection of annotations, where keys are the annotation names and values the annotation values.
+     * @param  string glue Indicates what is the glue between serialized annotations.
      * @return string
      */
-    public static function serializeAnnotations($annotations)
+    public static function serializeAnnotations($annotations, $glue = '')
     {
         $returnValue = (string) '';
 
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003941 begin
+        // Set default glue.
+        if ($glue == ''){
+            $glue = "\n    ";
+        }
+        
         $a = array();
         foreach ($annotations as $n => $v){
-            $a[] = '    @' . trim($n) . " ${v}";
+            $a[] = '@' . trim($n) . " ${v}";
         }
-        $returnValue = implode("\n", $a);
+        $returnValue = implode($glue, $a);
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003941 end
 
         return (string) $returnValue;

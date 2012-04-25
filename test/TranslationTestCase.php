@@ -472,7 +472,7 @@ class TranslationTestCase extends UnitTestCase {
                                                                                     "sourceLanguage" => "en-US",
                                                                                     "targetLanguage" => "fr-CA",
                                                                                     "predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
-        $this->assertEqual($annotations, "    @source This is a source test.\n    @sourceLanguage en-US\n    @targetLanguage fr-CA\n    @predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
+        $this->assertEqual($annotations, "@source This is a source test.\n    @sourceLanguage en-US\n    @targetLanguage fr-CA\n    @predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
     }
 }
 ?>
