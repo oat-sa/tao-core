@@ -107,27 +107,37 @@ class TranslationTestCase extends UnitTestCase {
         // Test Annotable implementation for translationUnit & translationFile.
         $tf = new tao_helpers_translation_TranslationFile();
         $this->assertTrue(is_array($tf->getAnnotations()), "Annotations for a newly instantiated translation file should be an array.");
-        $this->assertTrue(count($tf->getAnnotations()) == 0);
+        $this->assertTrue(count($tf->getAnnotations()) == 2);
         $tf->addAnnotation('context', 'Unit Testing');
         $tf->addAnnotation('author', 'Jane Doe');
         $this->assertTrue($tf->getAnnotation('context') == array('name' => 'context', 'value' => 'Unit Testing'));
         $this->assertTrue($tf->getAnnotation('author') == array('name' => 'author', 'value' => 'Jane Doe'));
-        $this->assertEqual($tf->getAnnotations(), array('context' => 'Unit Testing', 'author' => 'Jane Doe'));
+        $this->assertEqual($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                        'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                        'context' => 'Unit Testing', 
+                                                        'author' => 'Jane Doe'));
         $tf->removeAnnotation('author');
         $this->assertTrue($tf->getAnnotation('author') == null);
-        $this->assertEqual($tf->getAnnotations(), array('context' => 'Unit Testing'));
+        $this->assertEqual($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                        'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                        'context' => 'Unit Testing'));
         
         $tu = new tao_helpers_translation_TranslationUnit('test', 'test');
         $this->assertTrue(is_array($tu->getAnnotations()), "Annotations for a newly instantiated translation unit should be an array.");
-        $this->assertTrue(count($tu->getAnnotations()) == 0);
+        $this->assertTrue(count($tu->getAnnotations()) == 2);
         $tu->addAnnotation('context', 'Unit Testing');
         $tu->addAnnotation('author', 'Jane Doe');
         $this->assertTrue($tu->getAnnotation('context') == array('name' => 'context', 'value' => 'Unit Testing'));
         $this->assertTrue($tu->getAnnotation('author') == array('name' => 'author', 'value' => 'Jane Doe'));
-        $this->assertEqual($tu->getAnnotations(), array('context' => 'Unit Testing', 'author' => 'Jane Doe'));
+        $this->assertEqual($tu->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                        'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                        'context' => 'Unit Testing', 
+                                                        'author' => 'Jane Doe'));
         $tu->removeAnnotation('author');
         $this->assertTrue($tu->getAnnotation('author') == null);
-        $this->assertEqual($tu->getAnnotations(), array('context' => 'Unit Testing'));
+        $this->assertEqual($tu->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                        'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                        'context' => 'Unit Testing'));
         
         // Test utils.
         $this->assertEqual(tao_helpers_translation_Utils::getDefaultLanguage(), 'EN');
@@ -462,7 +472,7 @@ class TranslationTestCase extends UnitTestCase {
                                                                                     "sourceLanguage" => "en-US",
                                                                                     "targetLanguage" => "fr-CA",
                                                                                     "predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
-        $this->assertEqual($annotations, "@source This is a source test.\n@sourceLanguage en-US\n@targetLanguage fr-CA\n@predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
+        $this->assertEqual($annotations, "    @source This is a source test.\n    @sourceLanguage en-US\n    @targetLanguage fr-CA\n    @predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
     }
 }
 ?>

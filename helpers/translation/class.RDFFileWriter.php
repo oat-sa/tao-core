@@ -72,8 +72,16 @@ class tao_helpers_translation_RDFFileWriter
         try {
             $targetFile = new DOMDocument('1.0', 'UTF-8');
             $targetFile->formatOutput = true;
+            
+            // Create the RDF root node and annotate if possible.
             $rdfNode = $targetFile->createElementNS($semanticNamespaces['rdf'], 'rdf:RDF');
             $targetFile->appendChild($rdfNode);
+            $rootAnnotations = $this->getTranslationFile()->getAnnotations();
+            if (count($rootAnnotations)){
+                $annotationsString = tao_helpers_translation_RDFUtils::serializeAnnotations($rootAnnotations);
+                $annotationsNode = $targetFile->createComment("\n" . $annotationsString . "\n");
+                $targetFile->insertBefore($annotationsNode, $rdfNode);
+            }
             
             $rdfNode->setAttributeNS($xmlNS, 'xml:base', $file->getBase());
             $rdfNode->setAttributeNS($xmlnsNS, 'xmlns:rdfs', $semanticNamespaces['rdfs']);
@@ -114,31 +122,11 @@ class tao_helpers_translation_RDFFileWriter
                         }
                         
                         // Finally add annotations.
-                        $annotations = array();
-                        $indent = '    ';
-                        if ($tu->getSource() != ''){
-                            $annotations[] = $indent . '@source ' . $tu->getSource();
-                        }
-                        
-                        if ($tu->getSourceLanguage() != ''){
-                            $annotations[] = $indent . '@sourceLanguage ' . $tu->getSourceLanguage();
-                        }
-                        
-                        if ($tu->getTargetLanguage() != ''){
-                            $annotations[] = $indent . '@targetLanguage ' . $tu->getTargetLanguage();
-                        }
-                        
-                        if ($tu->getSubject() != ''){
-                            $annotations[] = $indent . '@subject ' . $tu->getSubject();
-                        }
-                        
-                        if ($tu->getSubject() != ''){
-                            $annotations[] = $indent . '@predicate ' . $tu->getPredicate();
-                        }
+                        $annotations = $tu->getAnnotations();
                         
                         if (count($annotations) > 0){
-                            $annotationString = implode("\n", $annotations);
-                            $annotationNode = $targetFile->createComment("\n${annotationString}\n${indent}");
+                            $annotationString = "\n" . tao_helpers_translation_RDFUtils::serializeAnnotations($annotations) . "\n     ";
+                            $annotationNode = $targetFile->createComment($annotationString);
                             $tuNode->parentNode->insertBefore($annotationNode, $tuNode);
                         }
                     }

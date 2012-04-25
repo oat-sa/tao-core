@@ -288,6 +288,7 @@ class tao_helpers_translation_TranslationUnit
     {
         // section 10-13-1-85-4b6473d:1331c301495:-8000:000000000000351D begin
         $this->sourceLanguage = $sourceLanguage;
+        $this->addAnnotation('sourceLanguage', $sourceLanguage);
         // section 10-13-1-85-4b6473d:1331c301495:-8000:000000000000351D end
     }
 
@@ -303,6 +304,7 @@ class tao_helpers_translation_TranslationUnit
     {
         // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003520 begin
         $this->targetLanguage = $targetLanguage;
+        $this->addAnnotation('targetLanguage', $targetLanguage);
         // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003520 end
     }
 

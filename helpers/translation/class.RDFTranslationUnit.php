@@ -126,6 +126,7 @@ class tao_helpers_translation_RDFTranslationUnit
     {
         // section 10-13-1-85--1df98728:1353d86f548:-8000:0000000000003A60 begin
         $this->subject = $subject;
+        $this->addAnnotation('subject', $subject);
         // section 10-13-1-85--1df98728:1353d86f548:-8000:0000000000003A60 end
     }
 
@@ -141,6 +142,7 @@ class tao_helpers_translation_RDFTranslationUnit
     {
         // section 10-13-1-85--1df98728:1353d86f548:-8000:0000000000003A63 begin
         $this->predicate = $predicate;
+        $this->addAnnotation('predicate', $predicate);
         // section 10-13-1-85--1df98728:1353d86f548:-8000:0000000000003A63 end
     }
 

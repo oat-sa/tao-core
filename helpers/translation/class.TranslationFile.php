@@ -227,9 +227,9 @@ class tao_helpers_translation_TranslationFile
     public function __construct()
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003497 begin
-        $this->sourceLanguage = tao_helpers_translation_Utils::getDefaultLanguage();
-        $this->targetLanguage = tao_helpers_translation_Utils::getDefaultLanguage();
-        $this->translationUnits = array();
+        $this->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+        $this->setTargetLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+        $this->setTranslationUnits(array());
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003497 end
     }
 
@@ -299,6 +299,7 @@ class tao_helpers_translation_TranslationFile
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034A1 begin
         $this->sourceLanguage = $sourceLanguage;
+        $this->addAnnotation('sourceLanguage', $sourceLanguage);
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034A1 end
     }
 
@@ -314,6 +315,7 @@ class tao_helpers_translation_TranslationFile
     {
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034A4 begin
         $this->targetLanguage = $targetLanguage;
+        $this->addAnnotation('targetLanguage', $targetLanguage);
         // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034A4 end
     }
 

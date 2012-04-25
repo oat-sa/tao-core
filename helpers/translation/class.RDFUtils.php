@@ -94,7 +94,7 @@ class tao_helpers_translation_RDFUtils
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003941 begin
         $a = array();
         foreach ($annotations as $n => $v){
-            $a[] = '@' . trim($n) . " ${v}";
+            $a[] = '    @' . trim($n) . " ${v}";
         }
         $returnValue = implode("\n", $a);
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003941 end
