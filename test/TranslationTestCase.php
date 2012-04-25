@@ -421,5 +421,41 @@ class TranslationTestCase extends UnitTestCase {
         
         unlink($savePath);
     }
+
+    /*
+     * This test aims at testing RDF Translation Model Annotations.
+     */
+    public function testRDFAnnotations(){
+        // - Test parsing from source code.
+        // 1. Defensive tests.
+        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("");
+        $this->assertEqual($annotations, array());
+        
+        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("sd@eipredicate%\nblu");
+        $this->assertEqual($annotations, array());
+        
+        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@fake FUBAR");
+        $this->assertEqual($annotations, array());
+        
+        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate ");
+        $this->assertEqual($annotations, array());
+        
+        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate\n@subject");
+        $this->assertEqual($annotations, array());
+        
+        // 2. Other tests.
+        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment\n@fake FUBAR");
+        $this->assertEqual($annotations, array("predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
+        
+        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source This is a source test.");
+        $this->assertEqual($annotations, array("source" => "This is a source test."));
+        
+        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source This is a source test.\n@sourceLanguage en-US");
+        $this->assertEqual($annotations, array("source" => "This is a source test.",
+                                               "sourceLanguage" => "en-US"));
+                                               
+        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source بعض النصوص في اللغة العربية");
+        $this->assertEqual($annotations, array("source" => "بعض النصوص في اللغة العربية"));
+    }
 }
 ?>

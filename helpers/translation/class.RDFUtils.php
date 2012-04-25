@@ -54,6 +54,25 @@ class tao_helpers_translation_RDFUtils
         $returnValue = array();
 
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:000000000000393A begin
+        $reg = "/\s*@(subject|predicate|sourceLanguage|targetLanguage|source)[\t ]+(.+)(?:\s*|$)/u";
+        $matches = array();
+        if (false !== preg_match_all($reg, $annotations, $matches)){
+            // No problems with $reg.
+            if (isset($matches[1])){
+                // We got some annotations.
+                for ($i = 0; $i < count($matches[1]); $i++){
+                    // Annotation name $i processing. Do we have a value for it?
+                    $name = $matches[1][$i];
+                    if (isset($matches[2][$i])){
+                        // We have an annotation with a name and a value.
+                        $value = $matches[2][$i];
+                        $returnValue[$name] = $value;
+                    }
+                }
+            }
+        }else{
+            throw new tao_helpers_translation_TranslationException("A fatal error occured while parsing annotations '${annotations}.'");
+        }
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:000000000000393A end
 
         return (array) $returnValue;
