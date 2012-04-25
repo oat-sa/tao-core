@@ -456,6 +456,13 @@ class TranslationTestCase extends UnitTestCase {
                                                
         $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source بعض النصوص في اللغة العربية");
         $this->assertEqual($annotations, array("source" => "بعض النصوص في اللغة العربية"));
+        
+        // - Test serialization from array.
+        $annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(array("source" => "This is a source test.",
+                                                                                    "sourceLanguage" => "en-US",
+                                                                                    "targetLanguage" => "fr-CA",
+                                                                                    "predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
+        $this->assertEqual($annotations, "@source This is a source test.\n@sourceLanguage en-US\n@targetLanguage fr-CA\n@predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
     }
 }
 ?>
