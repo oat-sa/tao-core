@@ -52,29 +52,11 @@ new tao_scripts_TaoTranslate(array(
 			'shortcut' => 'e',
 			'description' => 'The TAO extension for which the script will apply'
 		),
-		array(
-            'name' => 'ontology',
-            'type' => 'boolean',
-            'shortcut' => 'o',
-            'description' => 'Tells to the script if it should deal with the language in the ontology'
-        ),
         array(
             'name' => 'languageLabel',
             'type' => 'string',
             'shortcut' => 'll',
             'description' => 'Language label to use when creating a new language'
-        ),
-		array(
-            'name' => 'user',
-            'type' => 'string',
-            'shortcut' => 'u',
-            'description' => 'Generis User (must be a TAO Manager)'
-        ),
-        array(
-            'name' => 'password',
-            'type' => 'string',
-            'shortcut' => 'p',
-            'description' => 'Generis Password'
         )
 	)
 ));
