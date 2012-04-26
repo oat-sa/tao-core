@@ -14,13 +14,13 @@ new tao_scripts_TaoTranslate(array(
 			'name' => 'action',
 			'type' => 'string',
 			'shortcut' => 'a',
-			'description' => 'Action to undertake. Available actions are create, update, updateAll, delete, deleteAll'
+			'description' => 'Action to undertake. Available actions are create, update, updateAll, delete, deleteAll, enable, disable'
 		),
 		array(
 			'name' => 'language',
 			'type' => 'string',
 			'shortcut' => 'l',
-			'description' => 'A language identifier like en-US, be-NL, FR, ...'
+			'description' => 'A language identifier like en-US, be-NL, fr, ...'
 		),
 		array(
 			'name' => 'output',
@@ -57,6 +57,18 @@ new tao_scripts_TaoTranslate(array(
             'type' => 'string',
             'shortcut' => 'll',
             'description' => 'Language label to use when creating a new language'
+        ),
+        array(
+            'name' => 'user',
+            'type' => 'string',
+            'shortcut' => 'u',
+            'description' => 'TAO user (TaoManager Role)'
+        ),
+        array(
+            'name' => 'password',
+            'type' => 'string',
+            'shortcut' => 'p',
+            'description' => 'TAO password'
         )
 	)
 ));

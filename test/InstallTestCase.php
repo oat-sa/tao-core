@@ -19,18 +19,19 @@ class InstallTestCase extends UnitTestCase {
 	    // - Test the existence of translations for models in tao meta extension.
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$extensions = $extensionManager->getInstalledExtensions();
-		$taoNs = 'http://www.tao.lu/Ontologies/TAO.rdf#';
+		$taoNs = LOCAL_NAMESPACE;
 		$files = tao_install_utils_ModelCreator::getTranslationModelsFromExtension($extensions['tao']);
 		$this->assertTrue(is_array($files));
 		//$this->assertTrue(array_key_exists($taoNs, $files));
 		//$this->assertTrue(count($files) == 1);
 		
 		// - Test the existence of language descriptions.
-		$langs = tao_install_utils_ModelCreator::getLanguageModels();
-        $this->assertTrue(isset($langs[$taoNs]), "No language descriptions available for model '${taoNs}'.");
+		$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
+		$langs = $modelCreator->getLanguageModels();
+        $this->assertTrue(isset($langs[$taoNs . '#']), "No language descriptions available for model '${taoNs}'.");
         // We should have at least english described.
         $enFound = false;
-        $languageDescriptionFiles = $langs[$taoNs];
+        $languageDescriptionFiles = $langs[$taoNs . '#'];
         foreach ($languageDescriptionFiles as $f){
             if(preg_match('/locales\/EN\/lang.rdf/i', $f)){
                 $enFound = true;

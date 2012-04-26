@@ -241,9 +241,9 @@ class tao_install_utils_ModelCreator{
      * 
      * @return array of ns => files
      */
-    public static function getLanguageModels() {
+    public function getLanguageModels() {
         $models = array();
-        $ns = 'http://www.tao.lu/Ontologies/TAO.rdf#';
+        $ns = $this->localNs;
         
         $extensionPath = dirname(__FILE__) . '/../../../tao';
         $localesPath = $extensionPath . '/locales';

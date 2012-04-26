@@ -130,19 +130,16 @@ class tao_scripts_TaoTranslate
         							'update',
         							'delete',
         							'updateall',
-        							'deleteall');
+        							'deleteall',
+                                    'enable',
+                                    'disable');
         	
         	if (!in_array($this->options['action'], $allowedActions)) {
         		self::err("Please enter a valid 'action' parameter.", true);
         	} else {
-        		// The 'action' parameter is ok. But what about the 'extension' parameter?
-        		if ($this->options['extension'] == null) {
-        			self::err("Please enter the extension on wich the script will apply.", true);
-        		} else {
-        			// Everything is fine for the 'action' and 'extension' parameters.
-        			// Let's check additional inputs depending on the value of the 'action' parameter.
-        			$this->checkInput();	
-        		}
+        		// The 'action' parameter is ok.
+        		// Let's check additional inputs depending on the value of the 'action' parameter.
+        		$this->checkInput();	
         	}
         }
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003287 end
@@ -158,12 +155,6 @@ class tao_scripts_TaoTranslate
     public function run()
     {
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 begin
-        
-        // Connect to the TAO API.
-        //$userService = tao_models_classes_UserService::singleton();
-        //$this->outVerbose("Connecting to TAO as '" . $this->options['user'] . "' ...");
-        //if ($userService->loginUser($this->options['user'], md5($this->options['password']))){
-        //    $this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
         
         // Select the action to perform depending on the 'action' parameter.
         // Verification of the value of 'action' performed in self::preRun().
@@ -187,10 +178,15 @@ class tao_scripts_TaoTranslate
         	case 'deleteall':
         		$this->actionDeleteAll();
         	break;
+            
+            case 'enable':
+                $this->actionEnable();
+            break;
+            
+            case 'disable':
+                $this->actionDisable();
+            break;
         }
-        //} else {
-        //    self::err("Unable to connect to TAO as '" . $this->options['user'] . "'.", true);
-        //}
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 end
     }
 
@@ -217,7 +213,6 @@ class tao_scripts_TaoTranslate
     private function checkInput()
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003840 begin
-        //$this->checkAuthInput();
         
         switch ($this->options['action']) {
         	case 'create':
@@ -239,6 +234,14 @@ class tao_scripts_TaoTranslate
         	case 'deleteall':
         		$this->checkDeleteAllInput();
         	break;
+            
+            case 'enable':
+                $this->checkEnableInput();
+            break;
+            
+            case 'disable':
+                $this->checkDisableInput();
+            break;
         	
         	default:
         		// Should not happen.
@@ -430,21 +433,26 @@ class tao_scripts_TaoTranslate
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003848 begin
         $defaults = array('language' => null,
         				  'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
-        				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR);
+        				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
+                          'extension' => null);
         
         $this->options = array_merge($defaults, $this->options);
         
-    	if (is_null($this->options['language'])) {
-        	self::err("Please provide a 'language' identifier such as en-US, fr-CA, IT, ...", true);
-        } else {
-        	// The input 'parameter' is optional.
-        	if (!is_null($this->options['input'])) {
-        		if (!is_dir($this->options['input'])) {
-        			self::err("The 'input' parameter you provided is not a directory.", true);
-        		} else if (!is_readable($this->options['input'])) {
-        			self::err("The 'input' directory is not readable.", true);
-        		}
-        	}
+        if (is_null($this->options['extension'])){
+        	self::err("Please provide an 'extension' identifier.", true);
+        }else{
+            if (is_null($this->options['language'])) {
+                self::err("Please provide a 'language' identifier such as en-US, fr-CA, IT, ...", true);
+            } else {
+                // The input 'parameter' is optional.
+                if (!is_null($this->options['input'])) {
+                    if (!is_dir($this->options['input'])) {
+                        self::err("The 'input' parameter you provided is not a directory.", true);
+                    } else if (!is_readable($this->options['input'])) {
+                        self::err("The 'input' directory is not readable.", true);
+                    }
+                }
+            }
         }
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003848 end
     }
@@ -460,17 +468,22 @@ class tao_scripts_TaoTranslate
     {
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:000000000000384A begin
      	$defaults = array('input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
-     					  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR);
+     					  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
+                          'extension' => null);
         
         $this->options = array_merge($defaults, $this->options);
         
     	// The input 'parameter' is optional.
-        if (!is_null($this->options['input'])) {
-        	if (!is_dir($this->options['input'])) {
-        		self::err("The 'input' parameter you provided is not a directory.", true);
-        	} else if (!is_readable($this->options['input'])) {
-        		self::err("The 'input' directory is not readable.", true);
-        	}
+    	if (!is_null($this->options['extension'])){
+            if (!is_null($this->options['input'])) {
+            	if (!is_dir($this->options['input'])) {
+            		self::err("The 'input' parameter you provided is not a directory.", true);
+            	} else if (!is_readable($this->options['input'])) {
+            		self::err("The 'input' directory is not readable.", true);
+            	}
+            }
+        }else{
+            self::err("Please provide an 'extension' identifier.", true);
         }
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:000000000000384A end
     }
@@ -867,7 +880,11 @@ class tao_scripts_TaoTranslate
         $returnValue = (string) '';
 
         // section 10-13-1-85-6cb6330f:134b35c8bda:-8000:0000000000003870 begin
-        $returnValue = $this->options['output'] . '/' . $language;
+        if (isset($this->options['extension']) && !is_null($this->options['extension'])){
+            $returnValue = $this->options['output'] . '/' . $language;
+        }else{
+            $returnValue = dirname(__FILE__) . '/../../' . $extension . '/' . self::DEF_OUTPUT_DIR . '/' . $language;
+        }
         // section 10-13-1-85-6cb6330f:134b35c8bda:-8000:0000000000003870 end
 
         return (string) $returnValue;
@@ -1024,33 +1041,40 @@ class tao_scripts_TaoTranslate
     protected function addLanguageToOntology()
     {
         // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A88 begin
-        $this->outVerbose("Adding language '" . $this->options['language'] . "' to ontology for extension '" . $this->options['extension'] . "'...");
+        $this->outVerbose("Importing RDF language description '" . $this->options['language'] . "' to ontology...");
         
-        $languageClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
-        $languages = $languageClass->searchInstances(array(RDF_VALUE => $this->options['language']), 
-                                                     array('like' => false));
-                                                     
-        // If we find something we remove the language first to make sure
-        // it is up to date.
-        if (count($languages)){
-            // We should only get one language but its defensive...
-            foreach ($languages as $language){
-                $language->delete();
+        // RDF Language Descriptions are stored in the tao meta-extension locales.
+        $expectedDescriptionPath = $this->buildLanguagePath('tao', $this->options['language']) . '/lang.rdf';
+        
+        if (file_exists($expectedDescriptionPath)){
+            if (is_readable($expectedDescriptionPath)){
+                
+                // Let's remove any instance of the language description before inserting the new one.
+                $taoNS = 'http://www.tao.lu/Ontologies/TAO.rdf#';
+                $expectedLangUri = $taoNS . 'Lang' . $this->options['language'];
+                $lgDescription = new core_kernel_classes_Resource($expectedLangUri);
+                
+                if ($lgDescription->exists()){
+                    $lgDescription->delete();
+                    $this->outVerbose("Existing RDF Description language '" . $this->options['language'] . "' deleted.");
+                }
+                
+                $generisAdapterRdf = new tao_helpers_data_GenerisAdapterRdf();
+                if (true === $generisAdapterRdf->import($expectedDescriptionPath, null, LOCAL_NAMESPACE)){
+                    $this->outVerbose("RDF language description '" . $this->options['language'] . "' successfully imported.");
+                }else{
+                    self::err("An error occured while importing the RDF language description '" . $this->options['language'] . "'.", true);
+                }
+                
+            }else{
+                self::err("RDF language description (lang.rdf) cannot be read in meta-extension 'tao' for language '" . $this->options['language'] . "'.", true);
             }
+        }else{
+            self::err("RDF language description (lang.rdf) not found in meta-extension 'tao' for language '" . $this->options['language'] . "'.", true);
         }
         
-        // We create the language in the ontology.
-        $newLanguageLabel = (($this->options['languageLabel'] == null) ? 'unknown' : $this->options['languageLabel']);
-        $newLanguageComment = "The '${newLanguageLabel}' language.";
-        $newLanguageUri = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $this->options['language']; 
-        $newLanguage = core_kernel_classes_ClassFactory::createInstance($languageClass, $newLanguageLabel, $newLanguageComment, $newLanguageUri);
-        $newLanguage->setPropertyValue(new core_kernel_classes_Property(RDF_VALUE), $this->options['language']);
         
-        // Invalidate language cache.
-        $cache = tao_models_classes_cache_FileCache::singleton();
-        $cache->remove(tao_helpers_I18n::AVAILABLE_LANGS_CACHEKEY);
-        
-        $this->outVerbose("Language '" . $this->options['language'] . "' added to ontology for extension '" . $this->options['extension'] . "'.");
+        $this->outVerbose("RDF language description '" . $this->options['language'] . "' added to ontology.");
         // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A88 end
     }
 
@@ -1065,6 +1089,17 @@ class tao_scripts_TaoTranslate
     protected function removeLanguageFromOntology()
     {
         // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A8E begin
+        $this->outVerbose("Removing RDF language description '" . $this->options['language'] . "' from ontology...");
+        $taoNS = 'http://www.tao.lu/Ontologies/TAO.rdf#';
+        $expectedDescriptionUri = $taoNS . 'Lang' . $this->options['language'];
+        $lgResource = new core_kernel_classes_Resource($expectedDescriptionUri);
+        
+        if (true === $lgResource->exists()) {
+            $lgResource->delete();
+            $this->outVerbose("RDF language description '" . $this->options['language'] . "' successfully removed.");
+        }else{
+            $this->outVerbose("RDF language description '" . $this->options['language'] . "' not found but considered removed.");
+        }
         // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A8E end
     }
 
@@ -1132,6 +1167,16 @@ class tao_scripts_TaoTranslate
     private function checkEnableInput()
     {
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:000000000000399C begin
+        $this->checkAuthInput();
+        $defaults = array('language' => null,
+                          'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
+                          'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR);
+                          
+        $this->options = array_merge($defaults, $this->options);
+        
+        if ($this->options['language'] == null){
+            self::err("Please provide the 'language' parameter.", true);
+        }
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:000000000000399C end
     }
 
@@ -1145,6 +1190,12 @@ class tao_scripts_TaoTranslate
     private function checkDisableInput()
     {
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039B5 begin
+        $this->checkAuthInput();
+        $defaults = array('language' => null);
+        $this->options = array_merge($defaults, $this->options);
+        if ($this->options['language'] == null){
+            self::err("Please provide the 'language' parameter.", true);
+        }
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039B5 end
     }
 
@@ -1158,6 +1209,15 @@ class tao_scripts_TaoTranslate
     public function actionEnable()
     {
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039B8 begin
+        $userService = tao_models_classes_UserService::singleton();
+        $this->outVerbose("Connecting to TAO as '" . $this->options['user'] . "' ...");
+        if ($userService->loginUser($this->options['user'], md5($this->options['password']))){
+            $this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
+            $this->addLanguageToOntology();
+            $userService->logout();
+        }else{
+            self::err("Unable to connect to TAO as '" . $this->options['user'] . "'. Please check user name and password.", true);
+        }
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039B8 end
     }
 
@@ -1176,6 +1236,15 @@ class tao_scripts_TaoTranslate
     public function actionDisable()
     {
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039BB begin
+        $userService = tao_models_classes_UserService::singleton();
+        $this->outVerbose("Connecting to TAO as '" . $this->options['user'] . "' ...");
+        if ($userService->loginUser($this->options['user'], md5($this->options['password']))){
+            $this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
+            $this->removeLanguageFromOntology();
+            $userService->logout();
+        }else{
+            self::err("Unable to connect to TAO as '" . $this->options['user'] . "'. Please check user name and password.", true);
+        }
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039BB end
     }
 

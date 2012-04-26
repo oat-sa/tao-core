@@ -396,11 +396,15 @@ class tao_install_Installator{
         
         /*
          * 7 - Insert available languages in ontology.
+         * They are inserted in the local model because
+         * they must be updatable. Indeed, an administrator
+         * might want to add/update/delete language description
+         * after installation.
          */
-        $models = tao_install_utils_ModelCreator::getLanguageModels();
+        $models = $modelCreator->getLanguageModels();
         foreach ($models as $ns => $modelFiles){
             foreach ($modelFiles as $file){
-                $modelCreator->insertModelFile($ns, $file);
+                $modelCreator->insertLocalModel($file);
                 common_Logger::d("inserted language description model '".$file."'", 'INSTALL');
             }
         }
