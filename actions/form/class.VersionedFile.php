@@ -100,7 +100,7 @@ class tao_actions_form_VersionedFile
     		throw new Exception(__('Option propertyUri is not an option !!'));
     	}
     	
-    	$this->ownerInstance = new core_kernel_versioning_File($this->options['ownerUri']);
+    	$this->ownerInstance = new core_kernel_classes_Resource($this->options['ownerUri']);
     	$this->property = new core_kernel_classes_Property($this->options['propertyUri']);
     	$this->versionedFile = new core_kernel_versioning_File($this->options['instanceUri']);
 		
@@ -275,11 +275,6 @@ class tao_actions_form_VersionedFile
 			$repositoryValue = $this->versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_REPOSITORY));
 			if(!empty($repositoryValue)){
 				$fileRepositoryElt->setValue($repositoryValue->uriResource);
-			}else{
-				$defaultRepo = $this->getDefaultRepository();
-				if(!is_null($defaultRepo)){
-					$fileRepositoryElt->setValue($defaultRepo->uriResource);
-				}
 			}
 			
 			$history = $this->versionedFile->gethistory();
@@ -294,6 +289,10 @@ class tao_actions_form_VersionedFile
 				$filePathElt->setValue('/');
 			}
 			
+			$defaultRepo = $this->getDefaultRepository();
+			if(!is_null($defaultRepo)){
+				$fileRepositoryElt->setValue($defaultRepo->uriResource);
+			}
 		}
     	
         // section 127-0-1-1-234d8e6a:13300ee5308:-8000:0000000000003F80 end
@@ -318,7 +317,7 @@ class tao_actions_form_VersionedFile
     		if($this->versionedFile->isVersioned()){
     			return true;
     		}
-    		
+			
 	    	$fileNameElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_FILE_FILENAME));
 	    	$fileName = !is_null($fileNameElt)?$fileNameElt->getValue():'';
 	    	
