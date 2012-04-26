@@ -1215,6 +1215,7 @@ class tao_scripts_TaoTranslate
             $this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
             $this->addLanguageToOntology();
             $userService->logout();
+            $this->outVerbose("Disconnected from TAO.");
         }else{
             self::err("Unable to connect to TAO as '" . $this->options['user'] . "'. Please check user name and password.", true);
         }
@@ -1242,6 +1243,7 @@ class tao_scripts_TaoTranslate
             $this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
             $this->removeLanguageFromOntology();
             $userService->logout();
+            $this->outVerbose("Disconnected from TAO.");
         }else{
             self::err("Unable to connect to TAO as '" . $this->options['user'] . "'. Please check user name and password.", true);
         }
