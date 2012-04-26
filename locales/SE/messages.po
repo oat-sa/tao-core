@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-03-21T09:37:13\n"
+"PO-Revision-Date: 2012-04-26T15:37:09\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: SE\n"
+"Language: EN\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
@@ -14,7 +14,13 @@ msgstr ""
 msgid " next"
 msgstr ""
 
+msgid " of the instance "
+msgstr ""
+
 msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "(empty)"
 msgstr ""
 
 msgid "A file"
@@ -44,6 +50,9 @@ msgstr "En envalslista"
 msgid "A single choice long list"
 msgstr "En lång envalsfrågelista"
 
+msgid "A versioned file"
+msgstr ""
+
 msgid "Access denied. Please renew your authentication!"
 msgstr "Åtkomst nekad"
 
@@ -61,6 +70,9 @@ msgstr "Lägg till"
 
 msgid "Add / Edit lists"
 msgstr "Lägg till/redigera listor"
+
+msgid "Add a role"
+msgstr ""
 
 msgid "Add a user"
 msgstr "Lägg till en användare"
@@ -95,6 +107,10 @@ msgstr ""
 msgid "An error occured during user deletion"
 msgstr "Ett fel uppstod när användare skulle tas bort"
 
+msgid "Are you sure to delete the versioned resource?\n"
+"The history will be lost as well."
+msgstr ""
+
 msgid "Authoring"
 msgstr "Författa"
 
@@ -125,6 +141,9 @@ msgstr ""
 msgid "Check if updates are available for your version of TAO"
 msgstr ""
 
+msgid "Children"
+msgstr ""
+
 msgid "Class"
 msgstr "Klass"
 
@@ -143,6 +162,9 @@ msgstr ""
 msgid "Comment"
 msgstr "Kommentar"
 
+msgid "Commit message : "
+msgstr ""
+
 msgid "Compilation completed"
 msgstr ""
 
@@ -152,10 +174,10 @@ msgstr "sammanställ"
 msgid "compiled"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
 msgid "compiling"
@@ -212,10 +234,10 @@ msgstr "Data framgångsrikt importerat"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Dataspråk"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Dataspråk"
 
 msgid "Date"
@@ -404,10 +426,10 @@ msgstr ""
 msgid "Instances"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Gränssnittsspråk"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Gränssnittsspråk"
 
 msgid "Invalid date range"
@@ -500,6 +522,9 @@ msgstr ""
 msgid "Manage campaigns"
 msgstr "Hantera kampanjer"
 
+msgid "Manage content of the property "
+msgstr ""
+
 msgid "Manage data list"
 msgstr "Hantera datalista"
 
@@ -508,9 +533,6 @@ msgstr "Hantera leveranser"
 
 msgid "Manage groups"
 msgstr "Hantera grupper"
-
-msgid "Manage item versioned content"
-msgstr ""
 
 msgid "Manage items"
 msgstr "Hantera moment"
@@ -533,8 +555,14 @@ msgstr "Hantera testtagare"
 msgid "Manage tests"
 msgstr "Hantera test"
 
+msgid "Manage the versioned content : "
+msgstr ""
+
 msgid "Manage users"
 msgstr "Hantera användare"
+
+msgid "Manage Versioned File"
+msgstr ""
 
 msgid "Map the properties to the CSV columns"
 msgstr "Kartlägg egenskaper hos CSV-kolumner"
@@ -545,13 +573,16 @@ msgstr ""
 msgid "Media manager"
 msgstr "Mediehanterare"
 
-msgid "meta data"
-msgstr "metadata"
-
 msgid "Meta Data"
 msgstr "Metadata"
 
+msgid "meta data"
+msgstr "metadata"
+
 msgid "minimum value: "
+msgstr ""
+
+msgid "Modules"
 msgstr ""
 
 msgid "Monitor processes"
@@ -632,6 +663,9 @@ msgstr "Nästa"
 msgid "No account match the given login / password"
 msgstr "Inget konto matchar den angivna inloggningen/lösenordet"
 
+msgid "no file"
+msgstr ""
+
 msgid "No result found"
 msgstr "Inget resultat funnet"
 
@@ -667,6 +701,9 @@ msgstr ""
 
 msgid "Options"
 msgstr "Valmöjligheter"
+
+msgid "Parents"
+msgstr ""
 
 msgid "Password"
 msgstr "Lösenord"
@@ -746,6 +783,9 @@ msgstr ""
 msgid "Remove"
 msgstr "Ta bort"
 
+msgid "Remove content"
+msgstr ""
+
 msgid "Rename"
 msgstr "Döp om"
 
@@ -767,6 +807,9 @@ msgstr "Resultat"
 msgid "Results library"
 msgstr "Resultatarkiv"
 
+msgid "Return"
+msgstr ""
+
 msgid "Revert"
 msgstr "Gå tillbaka"
 
@@ -777,6 +820,9 @@ msgid "Role library"
 msgstr "Rollarkiv"
 
 msgid "Roles"
+msgstr ""
+
+msgid "Roles affected"
 msgstr ""
 
 msgid "Save"
@@ -791,11 +837,11 @@ msgstr "sök"
 msgid "Search results"
 msgstr "Sökresultat"
 
-msgid "select"
-msgstr "välj"
-
 msgid "Select"
 msgstr "Välj"
+
+msgid "select"
+msgstr "välj"
 
 msgid "Select a language"
 msgstr "Välj språk"
@@ -967,6 +1013,9 @@ msgstr "Användare"
 
 msgid "Validation of the imported file has failed"
 msgstr "Den importerade filen har inte kunnat valideras"
+
+msgid "Versioning disabled"
+msgstr ""
 
 msgid "View"
 msgstr "Visning"

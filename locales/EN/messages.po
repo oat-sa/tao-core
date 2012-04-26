@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-03-21T09:36:59\n"
+"PO-Revision-Date: 2012-04-26T15:36:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: EN\n"
@@ -14,7 +14,13 @@ msgstr ""
 msgid " next"
 msgstr ""
 
+msgid " of the instance "
+msgstr ""
+
 msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "(empty)"
 msgstr ""
 
 msgid "A file"
@@ -44,6 +50,9 @@ msgstr ""
 msgid "A single choice long list"
 msgstr ""
 
+msgid "A versioned file"
+msgstr ""
+
 msgid "Access denied. Please renew your authentication!"
 msgstr ""
 
@@ -60,6 +69,9 @@ msgid "Add"
 msgstr ""
 
 msgid "Add / Edit lists"
+msgstr ""
+
+msgid "Add a role"
 msgstr ""
 
 msgid "Add a user"
@@ -95,6 +107,10 @@ msgstr ""
 msgid "An error occured during user deletion"
 msgstr ""
 
+msgid "Are you sure to delete the versioned resource?\n"
+"The history will be lost as well."
+msgstr ""
+
 msgid "Authoring"
 msgstr ""
 
@@ -125,6 +141,9 @@ msgstr ""
 msgid "Check if updates are available for your version of TAO"
 msgstr ""
 
+msgid "Children"
+msgstr ""
+
 msgid "Class"
 msgstr ""
 
@@ -143,6 +162,9 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
+msgid "Commit message : "
+msgstr ""
+
 msgid "Compilation completed"
 msgstr ""
 
@@ -152,10 +174,10 @@ msgstr ""
 msgid "compiled"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
 msgid "compiling"
@@ -212,10 +234,10 @@ msgstr ""
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
 msgid "Date"
@@ -404,10 +426,10 @@ msgstr ""
 msgid "Instances"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid date range"
@@ -500,6 +522,9 @@ msgstr ""
 msgid "Manage campaigns"
 msgstr ""
 
+msgid "Manage content of the property "
+msgstr ""
+
 msgid "Manage data list"
 msgstr ""
 
@@ -507,9 +532,6 @@ msgid "Manage deliveries"
 msgstr ""
 
 msgid "Manage groups"
-msgstr ""
-
-msgid "Manage item versioned content"
 msgstr ""
 
 msgid "Manage items"
@@ -533,7 +555,13 @@ msgstr ""
 msgid "Manage tests"
 msgstr ""
 
+msgid "Manage the versioned content : "
+msgstr ""
+
 msgid "Manage users"
+msgstr ""
+
+msgid "Manage Versioned File"
 msgstr ""
 
 msgid "Map the properties to the CSV columns"
@@ -545,13 +573,16 @@ msgstr ""
 msgid "Media manager"
 msgstr ""
 
-msgid "meta data"
-msgstr ""
-
 msgid "Meta Data"
 msgstr ""
 
+msgid "meta data"
+msgstr ""
+
 msgid "minimum value: "
+msgstr ""
+
+msgid "Modules"
 msgstr ""
 
 msgid "Monitor processes"
@@ -632,6 +663,9 @@ msgstr ""
 msgid "No account match the given login / password"
 msgstr ""
 
+msgid "no file"
+msgstr ""
+
 msgid "No result found"
 msgstr ""
 
@@ -666,6 +700,9 @@ msgid "Option propertyUri is not an option !!"
 msgstr ""
 
 msgid "Options"
+msgstr ""
+
+msgid "Parents"
 msgstr ""
 
 msgid "Password"
@@ -746,6 +783,9 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
+msgid "Remove content"
+msgstr ""
+
 msgid "Rename"
 msgstr ""
 
@@ -767,6 +807,9 @@ msgstr ""
 msgid "Results library"
 msgstr ""
 
+msgid "Return"
+msgstr ""
+
 msgid "Revert"
 msgstr ""
 
@@ -777,6 +820,9 @@ msgid "Role library"
 msgstr ""
 
 msgid "Roles"
+msgstr ""
+
+msgid "Roles affected"
 msgstr ""
 
 msgid "Save"
@@ -791,10 +837,10 @@ msgstr ""
 msgid "Search results"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
 msgid "Select a language"
@@ -966,6 +1012,9 @@ msgid "Users"
 msgstr ""
 
 msgid "Validation of the imported file has failed"
+msgstr ""
+
+msgid "Versioning disabled"
 msgstr ""
 
 msgid "View"

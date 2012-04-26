@@ -202,7 +202,7 @@ class tao_install_utils_ModelCreator{
 			if ($directories !== false) {
 
 				foreach ($directories as $dir) {
-					if ($dir[0] != '.') {
+					if ($dir[0] != '.' && $dir != '_raw') {
 						// Let's scan each language directory to find the messages.rdf file.
 						$files = scandir($localesPath . '/' . $dir);
 
