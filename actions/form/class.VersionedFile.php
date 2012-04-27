@@ -239,6 +239,7 @@ class tao_actions_form_VersionedFile
 			$fileRevisionElt = tao_helpers_form_FormFactory::getElement('file_version', 'Radiobox');
 			$fileRevisionElt->setDescription(__("File revision"));
 			$fileRevisionElt->setOptions($fileVersionOptions);
+			$fileRevisionElt->setValue($countHistory);
 			$this->form->addElement($fileRevisionElt);
 			$this->form->createGroup('revision', 'Version', array($fileRevisionElt->getName()));
 		}
