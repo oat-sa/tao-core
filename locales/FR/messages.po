@@ -9,28 +9,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid " has been deleted successfully"
-msgstr ""
+msgstr " a été mis à jour avec succès"
 
 msgid " next"
-msgstr ""
+msgstr " suivant"
 
 msgid " of the instance "
-msgstr ""
+msgstr " de l'instance"
 
 msgid " requires a subgrid adapter"
-msgstr ""
+msgstr " requiert un adaptateur de sous-grille"
 
 msgid "(empty)"
-msgstr ""
+msgstr "(vide)"
 
 msgid "A file"
-msgstr ""
+msgstr "Un fichier"
 
 msgid "A formated text"
-msgstr "un texte formaté"
+msgstr "Un texte formaté"
 
 msgid "A long text"
-msgstr ""
+msgstr "Un texte long"
 
 msgid "A multiple choice list"
 msgstr "Une liste à choix multiple"
@@ -42,7 +42,7 @@ msgid "A short text"
 msgstr "Un texte court"
 
 msgid "A similar resource has already been versioned"
-msgstr ""
+msgstr "Une ressource similaire est déjà versionnée"
 
 msgid "A single choice list"
 msgstr "Une liste à choix"
@@ -51,13 +51,13 @@ msgid "A single choice long list"
 msgstr "Une longue liste à choix"
 
 msgid "A versioned file"
-msgstr ""
+msgstr "Un fichier versionné"
 
 msgid "Access denied. Please renew your authentication!"
 msgstr "Accès interdit. Veuillez renouveller votre authentification!"
 
 msgid "Action"
-msgstr ""
+msgstr "Action"
 
 msgid "actions"
 msgstr "actions"
@@ -72,7 +72,7 @@ msgid "Add / Edit lists"
 msgstr "Ajouter / Modifier les listes"
 
 msgid "Add a role"
-msgstr ""
+msgstr "Ajouter un rôle"
 
 msgid "Add a user"
 msgstr "Ajouter un utilisateur"
@@ -93,23 +93,24 @@ msgid "advanced mode"
 msgstr "mode avancé"
 
 msgid "all"
-msgstr ""
+msgstr "tout"
 
 msgid "All"
-msgstr ""
+msgstr "Tout"
 
 msgid "All (the complete TAO Module)"
 msgstr "Tout (le module TAO au complet)"
 
 msgid "Allowed files types: "
-msgstr ""
+msgstr "Types de fichiers acceptés: "
 
 msgid "An error occured during user deletion"
 msgstr "Une erreur est survenue durant la suppression de l'utilisateur"
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir supprimer la ressource versionnée?\n"
+"L'historique sera également perdu."
 
 msgid "Authoring"
 msgstr "Editeur"
@@ -118,7 +119,7 @@ msgid "Browse"
 msgstr "Naviguer"
 
 msgid "Build processes to drive activities into a workflow."
-msgstr ""
+msgstr "Construire un processus pour conduire les activités d'un processus."
 
 msgid "Campaigns library"
 msgstr "Bibliothèque de campagnes"
@@ -127,22 +128,22 @@ msgid "Cancel"
 msgstr "Annuler"
 
 msgid "Cannot successfully build the optimized table indexes"
-msgstr ""
+msgstr "Impossible de construire les indexes de table optimisés"
 
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
 msgid "Check All"
-msgstr ""
+msgstr "Tout Sélectionner"
 
 msgid "Check all"
-msgstr ""
+msgstr "Tout sélectionner"
 
 msgid "Check if updates are available for your version of TAO"
-msgstr ""
+msgstr "Vérifier si des mises à jour sont disponibles pour votre version de TAO"
 
 msgid "Children"
-msgstr ""
+msgstr "Enfants"
 
 msgid "Class"
 msgstr "Classe"
@@ -151,37 +152,37 @@ msgid "class selected"
 msgstr "classe sélectionnée"
 
 msgid "Classes"
-msgstr ""
+msgstr "Classes"
 
 msgid "Column"
 msgstr "Colonne"
 
 msgid "Combine a selection of items into tests."
-msgstr ""
+msgstr "Combiner des items en tant que tests."
 
 msgid "Comment"
 msgstr "Commentaire"
 
 msgid "Commit message : "
-msgstr ""
+msgstr "Message de modification : "
 
 msgid "Compilation completed"
-msgstr ""
+msgstr "Compilation terminée"
 
 msgid "compile"
 msgstr "compiler"
 
 msgid "compiled"
-msgstr ""
+msgstr "compilé"
 
 msgid "compiled instances"
-msgstr ""
+msgstr "instances compilées"
 
 msgid "Compiled Instances"
-msgstr ""
+msgstr "Instances compilées"
 
 msgid "compiling"
-msgstr ""
+msgstr "compilation"
 
 msgid "Confirm"
 msgstr "Confirmer"
@@ -190,7 +191,7 @@ msgid "Connect"
 msgstr "S'identifier"
 
 msgid "Country"
-msgstr ""
+msgstr "Pays"
 
 msgid "Create"
 msgstr "Créer"
@@ -199,13 +200,13 @@ msgid "Create a list"
 msgstr "Créer une liste"
 
 msgid "Create and design items and exercises."
-msgstr ""
+msgstr "Créer des items et exercices."
 
 msgid "create direct table"
 msgstr "création de tableau Directe"
 
 msgid "create score table"
-msgstr ""
+msgstr "création de tableau de Score"
 
 msgid "create table"
 msgstr "créer un tableau"
@@ -214,16 +215,16 @@ msgid "CSV Options"
 msgstr "Options CSV"
 
 msgid "Current"
-msgstr ""
+msgstr "Courant"
 
 msgid "Current (the current extension, the local data and their dependancies)"
 msgstr "Courant (l'extension courante, les données locales et leur depéndances)"
 
 msgid "Current class + Subclasses"
-msgstr ""
+msgstr "Classes et Sous-classes courantes"
 
 msgid "Current class only"
-msgstr ""
+msgstr "Classe courante seulement"
 
 msgid "Current language"
 msgstr "Langue courante"
@@ -232,7 +233,7 @@ msgid "Data imported successfully"
 msgstr "Les données ont été importées avec succès"
 
 msgid "Data Lang."
-msgstr ""
+msgstr "Langue des données"
 
 msgid "Data Language"
 msgstr "Langue des données"
@@ -244,19 +245,19 @@ msgid "Date"
 msgstr "Date"
 
 msgid "Decompilation completed"
-msgstr ""
+msgstr "Décompilation terminée"
 
 msgid "decompiled"
-msgstr ""
+msgstr "décompilé"
 
 msgid "Decompiled Instances"
-msgstr ""
+msgstr "Instances décompilées"
 
 msgid "decompiling"
-msgstr ""
+msgstr "décompilation"
 
 msgid "Define the default values"
-msgstr ""
+msgstr "Définir les valeurs par défaut"
 
 msgid "Delete"
 msgstr "Supprimer"
@@ -286,7 +287,7 @@ msgid "download"
 msgstr "télécharger"
 
 msgid "Download content"
-msgstr ""
+msgstr "Télécharger le contenu"
 
 msgid "duplicate"
 msgstr "dupliquer"
@@ -295,7 +296,7 @@ msgid "Dynamic date picker"
 msgstr "Un calendrier"
 
 msgid "e-mail"
-msgstr ""
+msgstr "courriel"
 
 msgid "edit"
 msgstr "modifier"
@@ -313,7 +314,7 @@ msgid "Edit item comment"
 msgstr "Modifier les commentaires de l'item"
 
 msgid "Edit property into parent class "
-msgstr ""
+msgstr "Editer une propriété dans la classe parente "
 
 msgid "Edit user"
 msgstr "Modifier l'utilisateur"
@@ -328,7 +329,7 @@ msgid "element deleted"
 msgstr "élément supprimé"
 
 msgid "Enables you to export an RDF file containing the selected namespaces or instances"
-msgstr ""
+msgstr "Vous permet d'exporter un fichier RDF contenant les espaces de noms sélectionnés ou des instances"
 
 msgid "Error"
 msgstr "Erreur"
@@ -355,7 +356,7 @@ msgid "exported successfully"
 msgstr "exporté avec succès"
 
 msgid "failed"
-msgstr ""
+msgstr "échoué"
 
 msgid "File"
 msgstr "Fichier"
@@ -367,19 +368,19 @@ msgid "File name"
 msgstr "Nom du fichier"
 
 msgid "File path"
-msgstr ""
+msgstr "Chemin du fichier"
 
 msgid "File repository"
-msgstr ""
+msgstr "Dépot de fichiers"
 
 msgid "File revision"
-msgstr ""
+msgstr "Révision du fichier"
 
 msgid "Filter"
 msgstr "Filtrer"
 
 msgid "Filter results"
-msgstr ""
+msgstr "Filtrer les résultats"
 
 msgid "Filtering mode"
 msgstr "Mode de filtrage"
@@ -388,16 +389,16 @@ msgid "Filters"
 msgstr "Filtres"
 
 msgid "Finish"
-msgstr ""
+msgstr "Finir"
 
 msgid "First Name"
-msgstr ""
+msgstr "Prénom"
 
 msgid "Full preview"
-msgstr ""
+msgstr "Aperçu complet"
 
 msgid "Group test takers according to global features and classifications."
-msgstr ""
+msgstr "Grouper les sujets par rapport aux propriétés globales et aux classifications."
 
 msgid "Groups"
 msgstr "Groupes"
@@ -415,16 +416,16 @@ msgid "Import"
 msgstr "Import"
 
 msgid "Import into "
-msgstr ""
+msgstr "Importer dans"
 
 msgid "Inclusive (AND)"
 msgstr "Inclusif (ET)"
 
 msgid "instances"
-msgstr ""
+msgstr "instances"
 
 msgid "Instances"
-msgstr ""
+msgstr "Instances"
 
 msgid "Interface Language"
 msgstr "Langue de l'interface"
@@ -433,7 +434,7 @@ msgid "Interface language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid date range"
-msgstr ""
+msgstr "Période invalide"
 
 msgid "Invalid field length"
 msgstr "La longueur du champ est invalide"
@@ -451,7 +452,7 @@ msgid "Items"
 msgstr "Items"
 
 msgid "Items library"
-msgstr ""
+msgstr "Librairie d'items"
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr "Javascript est requis pour utiliser ce logiciel. Veuillez l'activer dans votre naviguateur."
@@ -466,7 +467,7 @@ msgid "Language"
 msgstr "Langue"
 
 msgid "Last Name"
-msgstr ""
+msgstr "Nom"
 
 msgid "List"
 msgstr "Liste"
@@ -493,7 +494,7 @@ msgid "lists"
 msgstr "listes"
 
 msgid "Local"
-msgstr ""
+msgstr "Local"
 
 msgid "Local Data (the local namespace containing only the data inserted by the users)"
 msgstr "Donnée locales (l'espace de nom local comprenant seulement les données insérées par les utilisateurs)"
@@ -514,16 +515,16 @@ msgid "Logout"
 msgstr "Déconnexion"
 
 msgid "Mail"
-msgstr ""
+msgstr "Courriel"
 
 msgid "Maintenance"
-msgstr ""
+msgstr "Maintenance"
 
 msgid "Manage campaigns"
 msgstr "Gérer les campagnes"
 
 msgid "Manage content of the property "
-msgstr ""
+msgstr "Gérer le contenu de la propriété "
 
 msgid "Manage data list"
 msgstr "Gestion des listes"
@@ -556,19 +557,19 @@ msgid "Manage tests"
 msgstr "Gérer les tests"
 
 msgid "Manage the versioned content : "
-msgstr ""
+msgstr "Gérer le contenu versionné : "
 
 msgid "Manage users"
 msgstr "Gérer les utilisateurs"
 
 msgid "Manage Versioned File"
-msgstr ""
+msgstr "Gérer les fichiers versionnés"
 
 msgid "Map the properties to the CSV columns"
 msgstr "Choisissez les propriétés relatives aux colonnes CSV"
 
 msgid "maximum value: "
-msgstr ""
+msgstr "Valeur maximale:"
 
 msgid "Media manager"
 msgstr "Médiathèque"
@@ -580,13 +581,13 @@ msgid "meta data"
 msgstr "méta-données"
 
 msgid "minimum value: "
-msgstr ""
+msgstr "Valeur minimale:"
 
 msgid "Modules"
-msgstr ""
+msgstr "Modules"
 
 msgid "Monitor processes"
-msgstr ""
+msgstr "Surveiller les processus"
 
 msgid "move"
 msgstr "déplacer"
@@ -598,16 +599,16 @@ msgid "Moving this element will remove the following properties:"
 msgstr "Le déplacement de cet élément va supprimer les propriétés suivantes:"
 
 msgid "must be after or the same as: "
-msgstr ""
+msgstr "doit être après ou la même que:"
 
 msgid "must be after: "
-msgstr ""
+msgstr "doit être après:"
 
 msgid "must be before or the same as: "
-msgstr ""
+msgstr "doit être avant ou la même que"
 
 msgid "must be before: "
-msgstr ""
+msgstr "doit être avant:"
 
 msgid "My settings"
 msgstr "Préférences"
@@ -664,13 +665,13 @@ msgid "No account match the given login / password"
 msgstr "Aucun compte ne correspond à ces identifiants"
 
 msgid "no file"
-msgstr ""
+msgstr "pas de fichier"
 
 msgid "No result found"
 msgstr "Aucun résultat n'a été trouvé"
 
 msgid "No update available"
-msgstr ""
+msgstr "Pas de mise à jour disponible"
 
 msgid "Nothing imported"
 msgstr "Acune donnée n'a été importée"
@@ -685,25 +686,25 @@ msgid "Open"
 msgstr "Ouvrir"
 
 msgid "Optimizable Classes"
-msgstr ""
+msgstr "Classes optimisables"
 
 msgid "Optimize your TAO when you are ready for test delivery"
-msgstr ""
+msgstr "Optimier votre TAO lorsque vous êtes prêt à délivrer les tests"
 
 msgid "Option instanceUri is not an option !!"
-msgstr ""
+msgstr "L'option instanceUri n'est pas une option !!"
 
 msgid "Option ownerUri is not an option !!"
-msgstr ""
+msgstr "L'option ownerUri n'est pas une option !!"
 
 msgid "Option propertyUri is not an option !!"
-msgstr ""
+msgstr "Option propertyuri is not an option !!"
 
 msgid "Options"
 msgstr "Options"
 
 msgid "Parents"
-msgstr ""
+msgstr "Parents"
 
 msgid "Password"
 msgstr "Mot de passe"
@@ -712,7 +713,7 @@ msgid "Password *"
 msgstr "Mot de passe *"
 
 msgid "Passwords are not matching"
-msgstr ""
+msgstr "Les mots de passe ne correspondent pas"
 
 msgid "Please confirm deletion"
 msgstr "Veuillez confirmer la suppression"
@@ -745,13 +746,13 @@ msgid "Please upload an RDF file."
 msgstr "Veuillez télécharger un fichier RDF."
 
 msgid "Please wait a moment or contact your administrator."
-msgstr ""
+msgstr "Veuillez attendre un moment ou contacter votre administrateur."
 
 msgid "Prepare, publish deliveries sessions and campaigns."
-msgstr ""
+msgstr "Préparer, publier des sessions de test et des campagnes."
 
 msgid "preview"
-msgstr "prévisualisation"
+msgstr "aperçu"
 
 msgid "Process authoring"
 msgstr "Editeur de processus"
@@ -766,25 +767,25 @@ msgid "Property"
 msgstr "Propriété"
 
 msgid "Rebuilding indexes, it may take a while."
-msgstr ""
+msgstr "Création des indexs, cela peut prendre du temps."
 
 msgid "Record and manage test takers."
-msgstr ""
+msgstr "Enregistrer et gérer les sujets."
 
 msgid "Recursive"
-msgstr ""
+msgstr "Récursif"
 
 msgid "Related Classes"
-msgstr ""
+msgstr "Classes liées"
 
 msgid "related classes"
-msgstr ""
+msgstr "classes liées"
 
 msgid "Remove"
 msgstr "Supprimer"
 
 msgid "Remove content"
-msgstr ""
+msgstr "Supprimer le contenu"
 
 msgid "Rename"
 msgstr "Renommer"
@@ -808,7 +809,7 @@ msgid "Results library"
 msgstr "Bibliothèque de résultats"
 
 msgid "Return"
-msgstr ""
+msgstr "Retour"
 
 msgid "Revert"
 msgstr "Annuler"
@@ -820,10 +821,10 @@ msgid "Role library"
 msgstr "Bibliothèque de rôles"
 
 msgid "Roles"
-msgstr ""
+msgstr "Rôles"
 
 msgid "Roles affected"
-msgstr ""
+msgstr "Rôles affectés"
 
 msgid "Save"
 msgstr "Enregistrer"
@@ -871,13 +872,13 @@ msgid "simple mode"
 msgstr "mode simple"
 
 msgid "stand by"
-msgstr ""
+msgstr "en arrêt"
 
 msgid "Start upload"
 msgstr "Démarrer le téléchargement"
 
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
 msgid "Supported export formats"
 msgstr "Formats d'export supportés"
@@ -889,13 +890,13 @@ msgid "TAO Back Office"
 msgstr "TAO: Outils d'administration"
 
 msgid "TAO Home"
-msgstr ""
+msgstr "TAO Menu principal"
 
 msgid "TAO optimizer"
-msgstr ""
+msgstr "TAO optimiseur"
 
 msgid "TAO updater"
-msgstr ""
+msgstr "TAO gestionnaire de mises à jour"
 
 msgid "Test takers"
 msgstr "Sujets"
@@ -910,31 +911,31 @@ msgid "Tests library"
 msgstr "Bibliothèque de tests"
 
 msgid "The column "
-msgstr ""
+msgstr "La colonne "
 
 msgid "the file was not uploaded successfully"
-msgstr ""
+msgstr "le fichier n'a pas été téléversé correctement"
 
 msgid "The format of this field is not valid."
 msgstr "Le format de ce champ est invalide"
 
 msgid "The TAO platform is under maintenance."
-msgstr ""
+msgstr "La plateforme TAO est en maintenance."
 
 msgid "The uploaded file is too large"
 msgstr "Le fichier téléchargé est trop volumineux"
 
 msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
-msgstr ""
+msgstr "La valeur de ce champs doit être formatée telle une date valide, ex. AAAA-MM-JJ"
 
 msgid "The value of this field must be an integer"
 msgstr "La valeur de ce champ doit être un entier"
 
 msgid "There is no class available for optimization for the current extension"
-msgstr ""
+msgstr "Il n'y a aucune classe disponible à l'optimisation pour cette extension"
 
 msgid "This field is required"
-msgstr ""
+msgstr "Ce champs est requis"
 
 msgid "This field is too long"
 msgstr "Ce champ  est trop long"
@@ -946,7 +947,7 @@ msgid "Translate"
 msgstr "Traduire"
 
 msgid "Translate to"
-msgstr "Traduire à"
+msgstr "Traduire en"
 
 msgid "Translation parameters"
 msgstr "Paramètres de la traductions"
@@ -958,25 +959,25 @@ msgid "Type"
 msgstr "Type"
 
 msgid "UI Lang."
-msgstr ""
+msgstr "Langue Interface"
 
 msgid "Uncheck all"
-msgstr ""
+msgstr "Tout déselectionner"
 
 msgid "Uncheck All"
-msgstr ""
+msgstr "Tout sélectionné"
 
 msgid "uncompiled"
-msgstr ""
+msgstr "non compilé"
 
 msgid "Updates are available. Click on update to update your version of TAO"
-msgstr ""
+msgstr "Des mises à jour sont disponibles. Cliquez sur mettre à jour pour mettre à niveau votre version de TAO"
 
 msgid "Upload"
-msgstr "Télécharger"
+msgstr "Téléverser"
 
 msgid "Upload a new content"
-msgstr ""
+msgstr "Téléverser un nouveau contenu"
 
 msgid "Upload CSV File"
 msgstr "Télécharger le fichier CSV"
@@ -988,10 +989,10 @@ msgid "Upload RDF File"
 msgstr "Téléchargez un fichier RDF"
 
 msgid "Upload the file to version"
-msgstr ""
+msgstr "Téléverser le ficher à la version"
 
 msgid "Use default value"
-msgstr ""
+msgstr "Utiliser la valeur par défaut"
 
 msgid "Use the * character to replace any string"
 msgstr "Utiliser le caractère * pour remplacer toutes les chaines de caractères"
@@ -1015,13 +1016,13 @@ msgid "Validation of the imported file has failed"
 msgstr "Le fichier téléchargé n'est pas valide"
 
 msgid "Versioning disabled"
-msgstr ""
+msgstr "Versioning désactivé"
 
 msgid "View"
-msgstr "Voire"
+msgstr "Voir"
 
 msgid "View and format the collected results."
-msgstr ""
+msgstr "Visualiser et formater les données collectées."
 
 msgid "You cannot modify this property"
 msgstr "Cette propriété ne peut pas être modifié"
