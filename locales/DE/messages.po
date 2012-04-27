@@ -271,7 +271,7 @@ msgid "Delete user"
 msgstr "Benutzer löschen"
 
 msgid "Deliveries"
-msgstr ""
+msgstr "Durchführungen"
 
 msgid "Deliveries library"
 msgstr ""
@@ -400,7 +400,7 @@ msgid "Group test takers according to global features and classifications."
 msgstr ""
 
 msgid "Groups"
-msgstr ""
+msgstr "Gruppen"
 
 msgid "Groups library"
 msgstr ""
@@ -448,7 +448,7 @@ msgid "Invalid file type!"
 msgstr "Ungültiger Dateityp"
 
 msgid "Items"
-msgstr ""
+msgstr "Einheiten"
 
 msgid "Items library"
 msgstr ""
@@ -760,7 +760,7 @@ msgid "Process library"
 msgstr ""
 
 msgid "Processes"
-msgstr ""
+msgstr "Prozesse"
 
 msgid "Property"
 msgstr "Eigenschaften"
@@ -802,7 +802,7 @@ msgid "Result Servers library"
 msgstr ""
 
 msgid "Results"
-msgstr ""
+msgstr "Ergebnisse"
 
 msgid "Results library"
 msgstr ""
@@ -898,13 +898,13 @@ msgid "TAO updater"
 msgstr ""
 
 msgid "Test takers"
-msgstr ""
+msgstr "Testpersonen"
 
 msgid "Test takers library"
 msgstr ""
 
 msgid "Tests"
-msgstr ""
+msgstr "Tests"
 
 msgid "Tests library"
 msgstr ""
