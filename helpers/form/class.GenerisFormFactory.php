@@ -90,7 +90,7 @@ class tao_helpers_form_GenerisFormFactory
 			}
 			
 			//use the property label as element description
-			$propDesc = (strlen(trim($property->getLabel())) > 0) ? _dh($property->getLabel()) : str_replace(LOCAL_NAMESPACE, '', $property->uriResource);
+			$propDesc = (strlen(trim($property->getLabel())) > 0) ? $property->getLabel() : str_replace(LOCAL_NAMESPACE, '', $property->uriResource);
 			$element->setDescription($propDesc);
 			
 			//multi elements use the property range as options
