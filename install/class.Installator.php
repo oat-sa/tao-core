@@ -261,6 +261,7 @@ class tao_install_Installator{
 		/*
 		 *  1 - Test DB connection (done by the constructor)
 		 */
+		common_Logger::i("Spawning DbCreator", 'INSTALL');
 		$dbCreator = new tao_install_utils_DbCreator(
 			$installData['db_host'],
 			$installData['db_user'],
@@ -268,8 +269,6 @@ class tao_install_Installator{
 			$installData['db_driver'],
 			$installData['db_name']
 		);
-		common_Logger::i("DbCreator spawned successful", 'INSTALL');
-		
 
 		/*
 		 *   2 - Load the database schema
@@ -308,22 +307,22 @@ class tao_install_Installator{
         
 		$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_'.$procDbDriver.'.sql';
 		if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
+			common_Logger::i('Installing stored procedures for '.$procDbDriver, 'INSTALL');
 			$sqlParserClassName = 'tao_install_utils_' . ucfirst($procDbDriver) . 'ProceduresParser';
 			$dbCreator->setSQLParser(new $sqlParserClassName());
 			$dbCreator->load($storedProcedureFile);
-			common_Logger::i('Installed stored procedures for '.$procDbDriver, 'INSTALL');
 		}
 		
 		/*
 		 *  3 - Create the local namespace
 		 */
+		common_Logger::i('Creating local namespace', 'INSTALL');
 		$dbCreator->execute("INSERT INTO models VALUES ('8', '{$installData['module_namespace']}', '{$installData['module_namespace']}#')");
-		common_Logger::i('Created local namespace', 'INSTALL');
-		
 
 		/*
 		 *  4 - Create the generis config file
 		 */
+		common_Logger::d('Writing generis config', 'INSTALL');
 		$generisConfigWriter = new tao_install_utils_ConfigWriter(
 			$this->options['root_path'].'generis/common/config.php.in',
 			$this->options['root_path'].'generis/common/config.php'
@@ -341,7 +340,6 @@ class tao_install_Installator{
 			'DEFAULT_LANG'		=> $installData['module_lang'],
 			'DEBUG_MODE'		=> ($installData['module_mode'] == 'debug') ? true : false
 		));
-		common_Logger::d('Wrote generis config', 'INSTALL');
 		
 		//now we can run the extensions bootstrap
 		require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
@@ -357,7 +355,8 @@ class tao_install_Installator{
 			if($extensionId == 'generis') {
 				continue; 	//generis is the root and has been installed above
 			}
-
+			common_Logger::d('Writing '.$extensionId.' config', 'INSTALL');
+			
             $sampleFile = $this->options['root_path'] . $extensionId . '/includes/config.php.sample';
             $finalFile = $this->options['root_path'] . $extensionId . '/includes/config.php';
 
@@ -371,15 +370,13 @@ class tao_install_Installator{
             if ($extensionId == 'tao'){
                 require_once($finalFile);    
             }
-			
-			common_Logger::d('Wrote '.$extensionId.' config', 'INSTALL');
 		}
 		
         /*
          * 6 - Flush File Cache
          */
-        tao_models_classes_cache_FileCache::singleton()->purge();
-        common_Logger::i("File Cache purged", 'INSTALL');
+        common_Logger::i("Purging filecache ", 'INSTALL');
+		tao_models_classes_cache_FileCache::singleton()->purge();
 
 		$modelCreator = new tao_install_utils_ModelCreator($installData['module_namespace']);
         
@@ -389,8 +386,8 @@ class tao_install_Installator{
 		$models = tao_install_utils_ModelCreator::getModelsFromExtensions($extensions);
 		foreach ($models as $ns => $modelFiles){
 			foreach ($modelFiles as $file) {
+				common_Logger::d('Inserting for NS '.$ns.' model '.basename($file), 'INSTALL');
 				$modelCreator->insertModelFile($ns, $file);
-				common_Logger::d('inserted for NS '.$ns.' model '.basename($file), 'INSTALL');
 			}
 		}
         
@@ -404,8 +401,8 @@ class tao_install_Installator{
         $models = $modelCreator->getLanguageModels();
         foreach ($models as $ns => $modelFiles){
             foreach ($modelFiles as $file){
-                $modelCreator->insertLocalModel($file);
-                common_Logger::d("inserted language description model '".$file."'", 'INSTALL');
+                common_Logger::d("Inserting language description model '".$file."'", 'INSTALL');
+            	$modelCreator->insertLocalModel($file);
             }
         }
 
@@ -417,8 +414,8 @@ class tao_install_Installator{
 				$models = tao_install_utils_ModelCreator::getTranslationModelsFromExtension($ext);
 				foreach($models as $ns => $modelFile){
 					foreach($modelFile as $mF) {
+						common_Logger::d('Inserting translation of model ' . basename($mF) . ' for extension '.$ext->id, 'INSTALL');
 						$modelCreator->insertModelFile($ns, $mF);
-						common_Logger::d('inserted translation of model ' . basename($mF) . ' for extension '.$ext->id, 'INSTALL');
 					}
 				}
 			}
@@ -433,8 +430,8 @@ class tao_install_Installator{
 			}
 			$localData = $this->options['root_path'] . $extensionId . '/models/ontology/local.rdf';
 			if(file_exists($localData)){
+				common_Logger::d('Inserting localdata for '.$extensionId, 'INSTALL');
 				$modelCreator->insertLocalModelFile($localData);
-				common_Logger::d('inserted localdata for '.$extensionId, 'INSTALL');
 			}
 		}
 
@@ -442,6 +439,7 @@ class tao_install_Installator{
 		/*
 		 *  10 - Insert Super User
 		 */
+		common_Logger::i('Spawning SuperUser '.$installData['user_login'], 'INSTALL');
 		$modelCreator->insertSuperUser(array(
 			'login'			=> $installData['user_login'],
 			'password'		=> md5($installData['user_pass1']),
@@ -451,14 +449,13 @@ class tao_install_Installator{
 			'userDefLg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($installData['module_lang']),
 			'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($installData['module_lang'])
 		));
-		common_Logger::i('spawned SuperUser '.$installData['user_login'], 'INSTALL');
-		
 
 		/*
 		 *  11 - Secure the install for production mode
 		 */
 		if($installData['module_mode'] == 'production'){
-
+			common_Logger::i('Securing tao for production', 'INSTALL');
+			
 			// 11.1 Remove Generis User
 			$dbCreator->execute('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelID"=6');
 
@@ -466,14 +463,13 @@ class tao_install_Installator{
  			$shield = new tao_install_utils_Shield(array_keys($extensions));
  			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
  			$shield->protectInstall();
-			common_Logger::i('Secured tao for production', 'INSTALL');
 		}
 
 		/*
 		 *  12 - Create the version file
 		 */
+		common_Logger::d('Creating version file for TAO', 'INSTALL');
 		file_put_contents(ROOT_PATH.'version', TAO_VERSION);
-		common_Logger::d('Created version file for TAO', 'INSTALL');
 		
 		common_Logger::i('Instalation completed', 'INSTALL');
 	}
