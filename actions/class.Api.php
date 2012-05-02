@@ -175,6 +175,13 @@ class tao_actions_Api extends tao_actions_CommonModule {
 	protected function getCompiledFolder($executionEnvironment){
 		
 		$folder = '';
+		$userService = $this->userService;
+		$user = $userService->getCurrentUser();
+		$session = core_kernel_classes_Session::singleton();
+		$langProperty = new core_kernel_classes_Property(PROPERTY_USER_UILG);
+		$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+		$currentLanguage = $user->getOnePropertyValue($langProperty);
+		$currentLanguageCode = $currentLanguage->getOnePropertyValue($valueProperty);
 		
 		if( isset($executionEnvironment[TAO_ITEM_CLASS]['uri']) && 
 		 	isset($executionEnvironment[TAO_TEST_CLASS]['uri']) &&
@@ -185,14 +192,20 @@ class tao_actions_Api extends tao_actions_CommonModule {
 			$test 		= new core_kernel_classes_Resource($executionEnvironment[TAO_TEST_CLASS]['uri']);
 			$delivery 	= new core_kernel_classes_Resource($executionEnvironment[TAO_DELIVERY_CLASS]['uri']);
 			
-			$deliveryFolder = substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
-			$testFolder 	= substr($test->uriResource, strpos($test->uriResource, '#') + 1);
-			$itemFolder 	= substr($item->uriResource, strpos($item->uriResource, '#') + 1);
+			$deliveryFolder 	= substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
+			$testFolder 		= substr($test->uriResource, strpos($test->uriResource, '#') + 1);
+			$itemFolder 		= substr($item->uriResource, strpos($item->uriResource, '#') + 1);
+			$langFolder 		= $currentLanguageCode->literal;
+			$defaultLangFolder 	= $session->defaultLg;
 			
-			$compiledFolder = BASE_PATH. "/compiled/{$deliveryFolder}/{$testFolder}/{$itemFolder}/";
+			$expectedFolderi18n = BASE_PATH. "/compiled/${deliveryFolder}/${testFolder}/${itemFolder}/${langFolder}/";
+			$compiledFolderDefault = BASE_PATH. "/compiled/${deliveryFolder}/${testFolder}/${itemFolder}/${defaultLangFolder}/";
+			if (!is_dir($expectedFolderi18n)){
+				$expectedFolderi18n = $compiledFolderDefault;
+			}
 			
-			if(is_dir($compiledFolder)){
-				return $compiledFolder;
+			if(is_dir($expectedFolderi18n)){
+				return $expectedFolderi18n;
 			}
 		}
 		
