@@ -70,21 +70,6 @@ class tao_helpers_form_validators_Password
 		parent::__construct($options);
 		
 		$this->message = __('Passwords are not matching');
-		
-		// Moved check to evaluate to accomodate for an array variable
-// 		$elementSet = true;
-// 		if(!isset($this->options['password2_ref'])){
-// 			$elementSet = false;
-// 		}
-// 		else{
-// 			if(is_null($this->options['password2_ref']) || !($this->options['password2_ref'] instanceof tao_helpers_form_FormElement)){
-// 				$elementSet = false;
-// 			}
-// 		}
-		
-// 		if(!$elementSet){
-// 			throw new Exception("Please set the reference of the second password element");
-// 		}
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D5C end
     }
 
