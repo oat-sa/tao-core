@@ -113,8 +113,8 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		//Module Deployment mode
 		$moduleModeElt =  tao_helpers_form_FormFactory::getElement('module_mode', 'Combobox');
 		$moduleModeElt->setDescription('Deployment mode');
-		$moduleModeElt->setHelp("The deployment mode allows and denies access to resources regarding the needs of the platform.".
-									"The Test & Development mode will enable the debuging tools, unit tests, and a free access to every resources.".
+		$moduleModeElt->setHelp("The deployment mode restricts access to TAO functionalities and settings that are not relevant in production context like for example debugging features. ".
+									"The Test & Development mode will enable the debuging tools, unit tests, and a free access to every resources. ".
 									"the Production mode is focused on the security and allows to run TAO in a production environment.");
 		$moduleModeElt->setOptions(array(
 			'debug' 		=> 'Test / Development',
