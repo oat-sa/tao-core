@@ -96,18 +96,23 @@ class tao_scripts_TaoPreparePublicActions
 						//Add the module
 						//http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_{name}
 						$module = substr($action, 6, -4);
-						$rdf .= "\n".str_replace("{base}", $dir, str_replace("{name}", $module, str_replace("{extension}", $dir, $rdf_modtpl)))."\n";
 						$ext = "http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_".$dir.'_'.$module;
-
 						$class = $dir.'_actions_'.$module;
 
 						//Introspection, get public method
 						try {
 							$reflector = new ReflectionClass($class);
 							$methods = $reflector->getMethods(ReflectionMethod::IS_PUBLIC);
-							foreach ($methods as $m) {
-								if (!$m->isConstructor() && !$m->isDestructor() && $m->class == $class) {
-									$rdf .= "\n".str_replace("{base}", $dir.'_'.$module, str_replace("{name}", $m->name, str_replace("{member}", $ext, $rdf_acttpl)));
+							if (count($methods)) {
+								$rdft = '';
+								foreach ($methods as $m) {
+									if (!$m->isConstructor() && !$m->isDestructor() && $m->class == $class) {
+										$rdft .= "\n".str_replace("{base}", $dir.'_'.$module, str_replace("{name}", $m->name, str_replace("{member}", $ext, $rdf_acttpl)));
+									}
+								}
+								if ($rdft != '') {
+									//Add only if has method
+									$rdf .= "\n".str_replace("{base}", $dir, str_replace("{name}", $module, str_replace("{extension}", $dir, $rdf_modtpl)))."\n".$rdft;
 								}
 							}
 						}

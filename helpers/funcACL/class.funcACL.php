@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 19.03.2012, 08:02:29 with ArgoUML PHP module
+ * Automatically generated on 13.04.2012, 13:59:01 with ArgoUML PHP module
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jehan Bihin
@@ -161,32 +161,35 @@ return true;
 
 		$modc = new core_kernel_classes_Class(CLASS_ACL_MODULE);
 		$actc = new core_kernel_classes_Class(CLASS_ACL_ACTION);
-		$cp = new core_kernel_classes_Property(CLASS_ACL_MODULE);
-		$ap = new core_kernel_classes_Property(CLASS_ACL_ACTION);
 		$roles = new core_kernel_classes_Class(CLASS_ROLE_BACKOFFICE);
 
 		foreach ($modc->getInstances() as $id => $m) {
 			$mod = new core_kernel_classes_Class($id);
-			$label = $mod->getPropertiesValues(array($cp, new core_kernel_classes_Property("http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleIdentifier")));
-			$extension = $mod->getPropertiesValues(array($cp, new core_kernel_classes_Property("http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleExtension")));
-			$modules[] = array('id' => $id, 'label' => current(current(current($label))), 'extension' => current(current(current($extension))));
-			$label = array_pop(explode('_', current(current(current($label)))));
-			$extension = current(current(current($extension)));
+			$values = $mod->getPropertiesValues(array(
+        new core_kernel_classes_Property(PROPERTY_ACL_MODULE_ID),
+        new core_kernel_classes_Property(PROPERTY_ACL_MODULE_EXTENSION)
+      ));
+			$label = (string)array_pop($values[PROPERTY_ACL_MODULE_ID]);
+			$extension = (string)array_pop($values[PROPERTY_ACL_MODULE_EXTENSION]);
+			$modules[] = array('id' => $id, 'label' => $label, 'extension' => $extension);
+			$lbla = explode('_', $label);
+			$label = array_pop($lbla);
 			if (!isset($reverse_access[$extension])) $reverse_access[$extension] = array();
 			if (!isset($reverse_access[$extension][$label])) $reverse_access[$extension][$label] = array('actions' => array(), 'roles' => array());
 
 			//Roles
-			foreach ($roles->searchInstances(array("http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessModule" => $id)) as $r) {
+			foreach ($roles->searchInstances(array(PROPERTY_ACL_MODULE_GRANTACCESS => $id), array('recursive' => true)) as $r) {
 				$reverse_access[$extension][$label]['roles'][] = $r->getUri();
 			}
 
 			//Actions
-			foreach ($actc->searchInstances(array("http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionMemberOf" => $id), array()) as $act) {
-				$labela = $act->getPropertiesValues(array($ap, new core_kernel_classes_Property("http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionIdentifier")));
-				$labela = array_pop(explode('_', current(current(current($labela)))));
+			foreach ($actc->searchInstances(array(PROPERTY_ACL_ACTION_MEMBEROF => $id), array('recursive' => true)) as $act) {
+				$labela = $act->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_ID))->__toString();
+				$lbla = explode('_', $labela);
+				$labela = array_pop($lbla);
 				$reverse_access[$extension][$label]['actions'][$labela] = array();
 
-				foreach ($roles->searchInstances(array("http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction" => $id)) as $r) {
+				foreach ($roles->searchInstances(array(PROPERTY_ACL_ACTION_GRANTACCESS => $act->getUri())) as $r) {
 					$reverse_access[$extension][$label]['actions'][$labela][] = $r->getUri();
 				}
 			}
@@ -197,6 +200,21 @@ return true;
 
 		//var_dump($reverse_access);
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389D end
+    }
+
+    /**
+     * Clear Cache
+     *
+     * @access public
+     * @author Jehan Bihin
+     * @return mixed
+     * @since 2.2
+     */
+    public static function removeRolesByActions()
+    {
+        // section 127-0-1-1-5382e8cb:136ab734ff6:-8000:0000000000003908 begin
+			tao_models_classes_cache_FileCache::singleton()->remove('RolesByActions');
+        // section 127-0-1-1-5382e8cb:136ab734ff6:-8000:0000000000003908 end
     }
 
 } /* end of class tao_helpers_funcACL_funcACL */

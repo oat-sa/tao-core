@@ -1,0 +1,14 @@
+#aclRoles, #aclModules, #aclActions, #aclRolesAffected {
+	width: 24.3%;
+	vertical-align: top;
+	display: inline-block;
+}
+
+.actions {
+	margin-bottom: 10px;
+	margin-top: 5px;
+}
+
+#aclRoles form { margin-bottom: 20px }
+
+#aclRoles select { width: 100% }
