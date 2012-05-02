@@ -406,82 +406,104 @@ class Bootstrap{
 	 */
 	protected function scripts()
 	{
-
-		//stylesheets to load
-		tao_helpers_Scriptloader::addCssFiles(
-		    array(
-    			TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
-    			TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
-    			TAOBASE_WWW . 'js/jquery.jqGrid-4.2.0/css/ui.jqgrid.css',
-    			TAOBASE_WWW . 'css/style.css',
-    			TAOBASE_WWW . 'css/layout.css',
-    			TAOBASE_WWW . 'css/form.css',
-    			TAOBASE_WWW . 'css/grid.css',
-    			TAOBASE_WWW . 'css/widgets.css'
-    		)
-		);
-
-
-		//js golbal vars to export
-		tao_helpers_Scriptloader::addJsVars(
-		    array(
-			'root_url'		=> ROOT_URL,				// -> the app URL (http://www.domain.com or (http://www.domain.com/app)
-			'base_url'		=> BASE_URL,				// -> the current extension URL (http://www.domain.com/tao, http://www.domain.com/taoItems)
-			'taobase_www'	=> TAOBASE_WWW,				// -> the resources URL of meta extension tao (http://www.domain.com/tao/views/)
-			'base_www'		=> BASE_WWW					// -> the resources URL of the current extension (http://www.domain.com/taoItems/views/)
-		    )
-		);
-
-		$gridi18nFile = 'js/jquery.jqGrid-4.2.0/js/i18n/grid.locale-'.strtolower(tao_helpers_I18n::getLangCode()).'.js';
-		if(!file_exists(BASE_PATH. '/views' . $gridi18nFile)){
-			$gridi18nFile = 'js/jquery.jqGrid-4.2.0/js/i18n/grid.locale-en.js';
-		}
-
-		//scripts to load
-		tao_helpers_Scriptloader::addJsFiles(
-		    array(
-			TAOBASE_WWW . 'js/jquery-1.4.2.min.js',
-			TAOBASE_WWW . 'js/jquery-ui-1.8.17.custom.min.js',
-			TAOBASE_WWW . 'js/jsTree/jquery.tree.js',
-			TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
-			TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
-			TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
-			TAOBASE_WWW . $gridi18nFile,
-			TAOBASE_WWW . 'js/jquery.jqGrid-4.2.0/js/jquery.jqGrid.min.js',
-			TAOBASE_WWW . 'js/jquery.numeric.js',
-			TAOBASE_WWW . 'js/tao.ajaxWrapper.js',
-			ROOT_URL 	. '/filemanager/views/js/fmRunner.js',
-			ROOT_URL 	. '/filemanager/views/js/jquery.fmRunner.js',
-			TAOBASE_WWW . 'js/EventMgr.js',
-			TAOBASE_WWW . 'js/gateway/Main.js',
-			TAOBASE_WWW . 'js/helpers.js',
-			TAOBASE_WWW . 'js/uiBootstrap.js',
-			TAOBASE_WWW . 'js/uiForm.js',
-			TAOBASE_WWW . 'js/generis.tree.js',
-			TAOBASE_WWW . 'js/generis.facetFilter.js',
-			TAOBASE_WWW . 'js/generis.facetFilter.hbox.js',
-			TAOBASE_WWW . 'js/generis.facetFilter.accordion.js',
-			TAOBASE_WWW . 'js/tao.tabs.js',
-			TAOBASE_WWW . 'js/grid/tao.grid.js',
-			TAOBASE_WWW . 'js/grid/tao.grid.downloadFileResource.js',
-			TAOBASE_WWW . 'js/grid/tao.grid.rowId.js',
-			TAOBASE_WWW . 'js/generis.actions.js',
-			TAOBASE_WWW . 'js/generis.treeform.js',
-			TAOBASE_WWW . 'js/AsyncFileUpload.js'
-			)
-		);
-
-		//ajax file upload works only without HTTP_AUTH
-		if(!USE_HTTP_AUTH){
-			tao_helpers_Scriptloader::addCssFile(
-				   TAOBASE_WWW . 'js/jquery.uploadify/uploadify.css'
-			);
-			tao_helpers_Scriptloader::addJsFiles(
-			    array(
-				TAOBASE_WWW . 'js/jquery.uploadify/jquery.uploadify.v2.1.4.js',
-				TAOBASE_WWW . 'js/jquery.uploadify/swfobject.js'
-			)
-			);
+		switch ($this->extension->id){
+			case 'filemanager':
+				tao_helpers_Scriptloader::addCssFiles(array(
+						BASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
+						BASE_WWW . 'js/jqueryFileTree/jqueryFileTree.css',
+						BASE_WWW . 'css/style.css'
+					)
+				);
+				
+				tao_helpers_Scriptloader::addJsFiles(array(
+						BASE_WWW . 'js/jquery-1.4.2.min.js',
+						BASE_WWW . 'js/jquery-ui-1.8.custom.min.js',
+						BASE_WWW . 'js/jquery.easing.1.3.js',
+						BASE_WWW . 'js/jqueryFileTree/jqueryFileTree.js',
+						BASE_WWW . 'js/jquery.zclip.js',
+						BASE_WWW . 'js/filemanager.js'
+					)
+				);
+			break;
+			
+			default:
+				//stylesheets to load
+				tao_helpers_Scriptloader::addCssFiles(
+				    array(
+		    			TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
+		    			TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
+		    			TAOBASE_WWW . 'js/jquery.jqGrid-4.2.0/css/ui.jqgrid.css',
+		    			TAOBASE_WWW . 'css/style.css',
+		    			TAOBASE_WWW . 'css/layout.css',
+		    			TAOBASE_WWW . 'css/form.css',
+		    			TAOBASE_WWW . 'css/grid.css',
+		    			TAOBASE_WWW . 'css/widgets.css'
+		    		)
+				);
+		
+		
+				//js golbal vars to export
+				tao_helpers_Scriptloader::addJsVars(
+				    array(
+					'root_url'		=> ROOT_URL,				// -> the app URL (http://www.domain.com or (http://www.domain.com/app)
+					'base_url'		=> BASE_URL,				// -> the current extension URL (http://www.domain.com/tao, http://www.domain.com/taoItems)
+					'taobase_www'	=> TAOBASE_WWW,				// -> the resources URL of meta extension tao (http://www.domain.com/tao/views/)
+					'base_www'		=> BASE_WWW					// -> the resources URL of the current extension (http://www.domain.com/taoItems/views/)
+				    )
+				);
+		
+				$gridi18nFile = 'js/jquery.jqGrid-4.2.0/js/i18n/grid.locale-'.strtolower(tao_helpers_I18n::getLangCode()).'.js';
+				if(!file_exists(BASE_PATH. '/views' . $gridi18nFile)){
+					$gridi18nFile = 'js/jquery.jqGrid-4.2.0/js/i18n/grid.locale-en.js';
+				}
+		
+				//scripts to load
+				tao_helpers_Scriptloader::addJsFiles(
+				    array(
+					TAOBASE_WWW . 'js/jquery-1.4.2.min.js',
+					TAOBASE_WWW . 'js/jquery-ui-1.8.17.custom.min.js',
+					TAOBASE_WWW . 'js/jsTree/jquery.tree.js',
+					TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
+					TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
+					TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
+					TAOBASE_WWW . $gridi18nFile,
+					TAOBASE_WWW . 'js/jquery.jqGrid-4.2.0/js/jquery.jqGrid.min.js',
+					TAOBASE_WWW . 'js/jquery.numeric.js',
+					TAOBASE_WWW . 'js/tao.ajaxWrapper.js',
+					ROOT_URL 	. '/filemanager/views/js/fmRunner.js',
+					ROOT_URL 	. '/filemanager/views/js/jquery.fmRunner.js',
+					TAOBASE_WWW . 'js/EventMgr.js',
+					TAOBASE_WWW . 'js/gateway/Main.js',
+					TAOBASE_WWW . 'js/helpers.js',
+					TAOBASE_WWW . 'js/uiBootstrap.js',
+					TAOBASE_WWW . 'js/uiForm.js',
+					TAOBASE_WWW . 'js/generis.tree.js',
+					TAOBASE_WWW . 'js/generis.facetFilter.js',
+					TAOBASE_WWW . 'js/generis.facetFilter.hbox.js',
+					TAOBASE_WWW . 'js/generis.facetFilter.accordion.js',
+					TAOBASE_WWW . 'js/tao.tabs.js',
+					TAOBASE_WWW . 'js/grid/tao.grid.js',
+					TAOBASE_WWW . 'js/grid/tao.grid.downloadFileResource.js',
+					TAOBASE_WWW . 'js/grid/tao.grid.rowId.js',
+					TAOBASE_WWW . 'js/generis.actions.js',
+					TAOBASE_WWW . 'js/generis.treeform.js',
+					TAOBASE_WWW . 'js/AsyncFileUpload.js'
+					)
+				);
+		
+				//ajax file upload works only without HTTP_AUTH
+				if(!USE_HTTP_AUTH){
+					tao_helpers_Scriptloader::addCssFile(
+						   TAOBASE_WWW . 'js/jquery.uploadify/uploadify.css'
+					);
+					tao_helpers_Scriptloader::addJsFiles(
+					    array(
+						TAOBASE_WWW . 'js/jquery.uploadify/jquery.uploadify.v2.1.4.js',
+						TAOBASE_WWW . 'js/jquery.uploadify/swfobject.js'
+					)
+					);
+				}
+			break;
 		}
 	}
 }
