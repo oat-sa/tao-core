@@ -31,7 +31,6 @@
     <rdfs:label xml:lang="EN"><![CDATA[Languages]]></rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
-    <rdf:value xml:lang="EN"/>
     <rdfs:comment xml:lang="EN"><![CDATA[Tao Manager]]></rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#User"/>
     <rdfs:isDefinedBy xml:lang="EN"/>
@@ -46,7 +45,6 @@
     <rdfs:isDefinedBy xml:lang="EN"/>
     <rdfs:seeAlso xml:lang="EN"/>
     <rdfs:label xml:lang="EN"><![CDATA[TaoSubjectRole]]></rdfs:label>
-    <rdf:value xml:lang="EN"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#User"/>
@@ -55,7 +53,6 @@
     <rdfs:seeAlso xml:lang="EN"/>
     <rdfs:label xml:lang="EN"><![CDATA[Workflow User Role]]></rdfs:label>
     <rdfs:comment xml:lang="EN"><![CDATA[Workflow User Role: default role assigned to every backend user, not deletable]]></rdfs:comment>
-    <rdf:value xml:lang="EN"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser">
     <rdfs:comment xml:lang="EN"><![CDATA[Workflow User: sub class to group the workflow user, not deletable]]></rdfs:comment>
