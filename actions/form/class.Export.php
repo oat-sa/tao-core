@@ -168,7 +168,7 @@ class tao_actions_form_Export
     	if(isset($this->data['instance'])){
     		$instance = $this->data['instance'];
     		if($instance instanceof core_kernel_classes_Resource){
-    			$fileName = strtolower(tao_helpers_Display::textCleaner($instance->getLabel()));
+    			$fileName = strtolower(tao_helpers_Display::textCleaner($instance->getLabel(), '*'));
     			$instances[$instance->uriResource] = $instance->getLabel();
     		}
     	}
@@ -176,7 +176,7 @@ class tao_actions_form_Export
     		if(isset($this->data['class'])){
 	    		$class = $this->data['class'];
 	    		if($class instanceof core_kernel_classes_Class){
-					$fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel()));
+					$fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel(), '*'));
 					foreach($class->getInstances() as $instance){
 						$instances[$instance->uriResource] = $instance->getLabel();
 					}

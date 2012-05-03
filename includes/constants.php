@@ -20,6 +20,9 @@ define('TAO_RELEASE_STATUS', 'beta');
 #the temporary suffix of property URIs at CSV import.
 define('TEMP_SUFFIX_CSV', '-taocsvdef');
 
+#TAO default character encoding (mainly used with multi-byte string functions).
+define('TAO_DEFAULT_ENCODING', 'UTF-8');
+
 $todefine = array(
 	'TAO_OBJECT_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject',
 	'TAO_GROUP_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group',

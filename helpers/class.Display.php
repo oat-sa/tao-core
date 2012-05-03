@@ -101,13 +101,20 @@ class tao_helpers_Display
         $returnValue = (string) '';
 
         // section 127-0-1-1-3f9c691f:124c3973fb8:-8000:0000000000001B28 begin
-		$i=0;
-		while($i < strlen($input)){
-			if(preg_match("/^[a-zA-Z0-9]{1}$/", $input[$i])){
+        $randJoker = ($joker == '*');
+        
+		$i = 0;
+		while($i < mb_strlen($input, TAO_DEFAULT_ENCODING)){
+			if(preg_match("/^[a-zA-Z0-9]{1}$/u", $input[$i])){
 				$returnValue .= $input[$i];
 			}
 			else{
-				$returnValue .= $joker;
+				if ($input[$i] == ' '){
+					$returnValue .= '_';
+				}
+				else{
+					$returnValue .= ((true === $randJoker) ? chr(rand(97, 122)) : $joker);
+				}
 			}
 			$i++;
 		}
