@@ -133,13 +133,13 @@ class tao_install_utils_ConfigTester{
 				$this->message = 'PHP extension '.strtoupper($extensionName).' is mandatory.';
 				(extension_loaded(strtolower($extensionName))) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
 				break;
-			// Optionnal PHP extensions.
+			// optional PHP extensions.
 			case 'gd':
-				$this->message = 'PHP extension GD is optionnal.';
+				$this->message = 'PHP extension GD is optional.';
 				(extension_loaded('gd')) ? $this->status  = self::STATUS_VALID : $this->status  = self::STATUS_INVALID;
 				break;
 			case 'suhosin':
-				$this->message 	= "Suhosin patch is optionnal but is not installed on your web server. If you use it, ".
+				$this->message 	= "Suhosin patch is optional but is not installed on your web server. If you use it, ".
 								"set the directives suhosin.request.max_varname_length and suhosin.post.max_name_length to 128.";
 				(extension_loaded('suhosin')) ? $this->status = self::STATUS_VALID : $this->status = self::STATUS_INVALID;
 				break;
@@ -158,7 +158,7 @@ class tao_install_utils_ConfigTester{
 				}
 				break;
 			case 'svn':
-				$this->message = 'PHP extension svn is optionnal but it is recommended to version resources.';
+				$this->message = 'PHP extension svn is optional but is needed if resource versioning is activated.';
 				(extension_loaded(strtolower($extensionName))) ? $this->status  = self::STATUS_VALID : $this->status  = self::STATUS_INVALID;
 				break;
 			default :
