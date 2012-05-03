@@ -65,7 +65,11 @@ class tao_helpers_translation_RDFUtils
                     $name = $matches[1][$i];
                     if (isset($matches[2][$i])){
                         // We have an annotation with a name and a value.
+                        // Do not forget to unescape '--' that is not accepted in XML comments (see spec).
+                        // (str_replace is unicode safe ;)!)
                         $value = $matches[2][$i];
+                        $value = str_replace("\\-\\-", '--', $value);
+                        $value = str_replace("\\\\", "\\", $value);
                         $returnValue[$name] = $value;
                     }
                 }
@@ -100,6 +104,8 @@ class tao_helpers_translation_RDFUtils
         
         $a = array();
         foreach ($annotations as $n => $v){
+            $v = str_replace("\\", "\\\\", $v);
+            $v = str_replace('--', "\\-\\-", $v);
             $a[] = '@' . trim($n) . " ${v}";
         }
         $returnValue = implode($glue, $a);

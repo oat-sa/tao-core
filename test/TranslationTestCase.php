@@ -468,6 +468,15 @@ class TranslationTestCase extends UnitTestCase {
         $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source بعض النصوص في اللغة العربية");
         $this->assertEqual($annotations, array("source" => "بعض النصوص في اللغة العربية"));
         
+        // 3. Test escaping.
+        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source lorem \\-\\- ipsum \\\\ dolomet.\n@sourceLanguage fr-CA");
+        $this->assertEqual($annotations, array("source" => "lorem -- ipsum \\ dolomet.",
+        									   "sourceLanguage" => "fr-CA"));
+        
+        $annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(array("source" => "lorem -- ipsum \\ \n dolomet.",
+        																			"sourceLanguage" => "fr-CA"));
+        $this->assertEqual($annotations, "@source lorem \\-\\- ipsum \\\\ \n dolomet.\n    @sourceLanguage fr-CA");
+        
         // - Test serialization from array.
         $annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(array("source" => "This is a source test.",
                                                                                     "sourceLanguage" => "en-US",
