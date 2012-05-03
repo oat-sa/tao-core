@@ -104,7 +104,7 @@ class tao_helpers_Display
         $randJoker = ($joker == '*');
         
 		$i = 0;
-		while($i < mb_strlen($input, TAO_DEFAULT_ENCODING)){
+		while($i < ((defined('TAO_DEFAULT_ENCODING')) ? mb_strlen($input, TAO_DEFAULT_ENCODING) : mb_strlen($input))){
 			if(preg_match("/^[a-zA-Z0-9]{1}$/u", $input[$i])){
 				$returnValue .= $input[$i];
 			}
