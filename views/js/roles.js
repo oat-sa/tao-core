@@ -13,11 +13,88 @@
 $(function() {
 	//Change role
 	$('#roles').change(function() {
+		if ($('#roles').val() == '') $('#roleactions').hide();
+		else $('#roleactions').show();
 		loadModules($('#roles').val());
+	}).change();
+	$('#addrole a').click(function(e) {
+		e.preventDefault();
+		$('#addroleform input').val('');
+		$('#addroleform').dialog({
+			buttons: [
+				{
+					text: __('Add'),
+					click: function() {
+						$.ajax({
+							type: "POST",
+							url: root_url + "/tao/Roles/addRole?extension=users",
+							data: 'name='+$('#addrole_name').val(),
+							dataType: 'json',
+							async: false,
+							success: function(data) {
+								if (data.success) {
+									$('#roles').append('<option value="'+data.uri+'" selected="selected">'+data.name+'</option>').change();
+								}
+							}
+						});
+						$(this).dialog('close');
+					}
+				}
+			]
+		});
 	});
+	$('#editrole a').click(function(e) {
+		e.preventDefault();
+		$('#editroleform input').val($('#roles :selected').text());
+		$('#editroleform').dialog({
+			buttons: [
+				{
+					text: __('Save'),
+					click: function() {
+						$.ajax({
+							type: "POST",
+							url: root_url + "/tao/Roles/editRole?extension=users",
+							data: 'name='+$('#editrole_name').val()+'&uri='+$('#roles').val(),
+							dataType: 'json',
+							async: false,
+							success: function(data) {
+								if (data.success) {
+									$('#roles :selected').text(data.name);
+								}
+							}
+						});
+						$(this).dialog('close');
+					}
+				}
+			]
+		});
+	});
+	$('#deleterole a').click(function(e) {
+		e.preventDefault();
+		if (confirm(__('Do you really want to delete this role ?'))) {
+			$.ajax({
+				type: "POST",
+				url: root_url + "/tao/Roles/deleteRole?extension=users",
+				data: 'uri='+$('#roles').val(),
+				dataType: 'json',
+				async: false,
+				success: function(data) {
+					if (data.success) {
+						$('#roles :selected').remove();
+						$('#roles').change();
+					}
+				}
+			});
+		}
+	});
+	$('#addroleform, #editroleform').hide();
 });
 
 function loadModules(role) {
+	$('#aclModules ul.group-list').empty();
+	$('#aclActions ul.group-list').empty();
+	if (role == '') return;
+
 	$.ajax({
 		type: "POST",
 		url: root_url + "/tao/Roles/getModules?extension=users",
@@ -25,8 +102,6 @@ function loadModules(role) {
 		dataType: 'json',
 		async: false,
 		success: function(data) {
-			$('#aclModules ul.group-list').empty();
-			$('#aclActions ul.group-list').empty();
 			for (e in data) {
 				ext = data[e];
 				extra = '';

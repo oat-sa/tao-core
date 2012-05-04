@@ -25,6 +25,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Api" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Api" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_CommonModule">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module CommonModule]]></rdfs:label>
@@ -40,6 +45,11 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[setView]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_CommonModule" />
   </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_CommonModule" />
+	</rdf:Description>
+
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Export">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
@@ -78,6 +88,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Export" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Export" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_File">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module File]]></rdfs:label>
@@ -114,6 +129,25 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[downloadFile]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_File" />
   </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_File_getFileInfo">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action getFileInfo]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action getFileInfo]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getFileInfo]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_File" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_File_getPropertyFileInfo">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action getPropertyFileInfo]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action getPropertyFileInfo]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getPropertyFileInfo]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_File" />
+  </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_File" />
+	</rdf:Description>
+
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Import">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
@@ -144,6 +178,11 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[mapping]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Import" />
   </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Import" />
+	</rdf:Description>
+
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Lists">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
@@ -210,6 +249,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Lists" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Lists" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Main">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module Main]]></rdfs:label>
@@ -268,6 +312,32 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Main" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Main" />
+	</rdf:Description>
+
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Resource">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Module Resource]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Module Resource]]></rdfs:comment>
+		<funcacl:moduleIdentifier xml:lang="EN"><![CDATA[Resource]]></funcacl:moduleIdentifier>
+		<funcacl:moduleExtension xml:lang="EN"><![CDATA[tao]]></funcacl:moduleExtension>
+  </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Resource_data">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action data]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action data]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[data]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Resource" />
+  </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Resource" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module Roles]]></rdfs:label>
@@ -325,6 +395,137 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getActions]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
   </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_getAttachedModuleRoles">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action getAttachedModuleRoles]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action getAttachedModuleRoles]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getAttachedModuleRoles]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_getAttachedActionRoles">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action getAttachedActionRoles]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action getAttachedActionRoles]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getAttachedActionRoles]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_removeExtensionAccess">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action removeExtensionAccess]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action removeExtensionAccess]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[removeExtensionAccess]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_addExtensionAccess">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action addExtensionAccess]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action addExtensionAccess]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[addExtensionAccess]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_removeModuleAccess">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action removeModuleAccess]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action removeModuleAccess]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[removeModuleAccess]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_addModuleAccess">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action addModuleAccess]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action addModuleAccess]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[addModuleAccess]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_removeActionAccess">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action removeActionAccess]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action removeActionAccess]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[removeActionAccess]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_addActionAccess">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action addActionAccess]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action addActionAccess]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[addActionAccess]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_moduleToActionAccess">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action moduleToActionAccess]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action moduleToActionAccess]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[moduleToActionAccess]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_moduleToActionsAccess">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action moduleToActionsAccess]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action moduleToActionsAccess]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[moduleToActionsAccess]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_actionsToModuleAccess">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action actionsToModuleAccess]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action actionsToModuleAccess]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[actionsToModuleAccess]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_getRoles">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action getRoles]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action getRoles]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getRoles]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_setRoles">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action setRoles]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action setRoles]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[setRoles]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_attachRole">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action attachRole]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action attachRole]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[attachRole]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_unattachRole">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action unattachRole]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action unattachRole]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[unattachRole]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_addRole">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action addRole]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action addRole]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[addRole]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_editRole">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action editRole]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action editRole]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[editRole]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_deleteRole">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Action deleteRole]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Action deleteRole]]></rdfs:comment>
+		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[deleteRole]]></funcacl:actionIdentifier>
+		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+  </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles" />
+	</rdf:Description>
+
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_SaSUsers">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
@@ -355,6 +556,11 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getGridData]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_SaSUsers" />
   </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_SaSUsers" />
+	</rdf:Description>
+
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Settings">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
@@ -406,6 +612,11 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[createPropertyIndex]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Settings" />
   </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Settings" />
+	</rdf:Description>
+
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_TaoModule">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
@@ -577,6 +788,11 @@
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_TaoModule" />
   </rdf:Description>
 
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_TaoModule" />
+	</rdf:Description>
+
+
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Updater">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Module Updater]]></rdfs:label>
@@ -599,6 +815,11 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[getUpdatesDetails]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Updater" />
   </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Updater" />
+	</rdf:Description>
+
 
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Users">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
@@ -650,5 +871,10 @@
 		<funcacl:actionIdentifier xml:lang="EN"><![CDATA[edit]]></funcacl:actionIdentifier>
 		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Users" />
   </rdf:Description>
+
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Users" />
+	</rdf:Description>
+
 
 </rdf:RDF>

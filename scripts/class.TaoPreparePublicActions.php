@@ -82,6 +82,7 @@ class tao_scripts_TaoPreparePublicActions
 		$rdf_footer = file_get_contents(dirname(__FILE__).'/preparePublicActions/rdfFooter');
 		$rdf_modtpl = file_get_contents(dirname(__FILE__).'/preparePublicActions/rdfModuleTemplate');
 		$rdf_acttpl = file_get_contents(dirname(__FILE__).'/preparePublicActions/rdfActionTemplate');
+		$rdf_taomanager = file_get_contents(dirname(__FILE__).'/preparePublicActions/rdfTaoManager');
 
 		//From the root, look actions for all subdir
 		$dirs = array_diff(scandir(ROOT_PATH), array('..', '.', '.svn', '.htaccess', 'generis'));
@@ -113,6 +114,8 @@ class tao_scripts_TaoPreparePublicActions
 								if ($rdft != '') {
 									//Add only if has method
 									$rdf .= "\n".str_replace("{base}", $dir, str_replace("{name}", $module, str_replace("{extension}", $dir, $rdf_modtpl)))."\n".$rdft;
+									//Add taoManager rights
+									$rdf .= "\n\n".str_replace("{uri}", $ext, $rdf_taomanager)."\n";
 								}
 							}
 						}
