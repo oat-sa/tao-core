@@ -8,7 +8,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Api
+    @source Module Api
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Api
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -16,7 +16,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Api
+    @source Module Api
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Api
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -26,7 +26,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action createAuthEnvironment
+    @source Action createAuthEnvironment
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Api_createAuthEnvironment
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -34,7 +34,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action createAuthEnvironment
+    @source Action createAuthEnvironment
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Api_createAuthEnvironment
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -44,7 +44,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module CommonModule
+    @source Module CommonModule
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_CommonModule
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -52,7 +52,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module CommonModule
+    @source Module CommonModule
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_CommonModule
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -62,7 +62,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action setView
+    @source Action setView
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_CommonModule_setView
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -70,7 +70,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action setView
+    @source Action setView
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_CommonModule_setView
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -80,7 +80,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Export
+    @source Module Export
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Export
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -88,7 +88,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Export
+    @source Module Export
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Export
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -98,7 +98,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Export_index
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -106,7 +106,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Export_index
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -116,7 +116,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getExportedFiles
+    @source Action getExportedFiles
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Export_getExportedFiles
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -124,7 +124,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getExportedFiles
+    @source Action getExportedFiles
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Export_getExportedFiles
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -134,7 +134,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action deleteExportedFiles
+    @source Action deleteExportedFiles
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Export_deleteExportedFiles
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -142,7 +142,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action deleteExportedFiles
+    @source Action deleteExportedFiles
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Export_deleteExportedFiles
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -152,7 +152,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action downloadExportedFiles
+    @source Action downloadExportedFiles
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Export_downloadExportedFiles
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -160,7 +160,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action downloadExportedFiles
+    @source Action downloadExportedFiles
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Export_downloadExportedFiles
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -170,7 +170,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module File
+    @source Module File
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_File
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -178,7 +178,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module File
+    @source Module File
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_File
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -188,7 +188,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action upload
+    @source Action upload
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_File_upload
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -196,7 +196,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action upload
+    @source Action upload
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_File_upload
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -206,7 +206,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action cancelUpload
+    @source Action cancelUpload
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_File_cancelUpload
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -214,7 +214,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action cancelUpload
+    @source Action cancelUpload
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_File_cancelUpload
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -224,7 +224,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action htmlUpload
+    @source Action htmlUpload
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_File_htmlUpload
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -232,7 +232,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action htmlUpload
+    @source Action htmlUpload
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_File_htmlUpload
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -242,7 +242,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action downloadFile
+    @source Action downloadFile
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_File_downloadFile
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -250,7 +250,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action downloadFile
+    @source Action downloadFile
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_File_downloadFile
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -260,7 +260,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Import
+    @source Module Import
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Import
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -268,7 +268,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Import
+    @source Module Import
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Import
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -278,7 +278,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Import_index
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -286,7 +286,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Import_index
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -296,7 +296,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action upload
+    @source Action upload
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Import_upload
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -304,7 +304,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action upload
+    @source Action upload
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Import_upload
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -314,7 +314,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action mapping
+    @source Action mapping
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Import_mapping
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -322,7 +322,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action mapping
+    @source Action mapping
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Import_mapping
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -332,7 +332,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Lists
+    @source Module Lists
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Lists
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -340,7 +340,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Lists
+    @source Module Lists
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Lists
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -350,7 +350,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_index
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -358,7 +358,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_index
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -368,7 +368,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getListsData
+    @source Action getListsData
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_getListsData
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -376,7 +376,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getListsData
+    @source Action getListsData
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_getListsData
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -386,7 +386,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getListElements
+    @source Action getListElements
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_getListElements
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -394,7 +394,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getListElements
+    @source Action getListElements
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_getListElements
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -404,7 +404,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action saveLists
+    @source Action saveLists
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_saveLists
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -412,7 +412,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action saveLists
+    @source Action saveLists
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_saveLists
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -422,7 +422,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action create
+    @source Action create
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_create
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -430,7 +430,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action create
+    @source Action create
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_create
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -440,7 +440,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action rename
+    @source Action rename
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_rename
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -448,7 +448,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action rename
+    @source Action rename
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_rename
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -458,7 +458,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action removeList
+    @source Action removeList
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_removeList
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -466,7 +466,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action removeList
+    @source Action removeList
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_removeList
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -476,7 +476,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action removeListElement
+    @source Action removeListElement
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_removeListElement
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -484,7 +484,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action removeListElement
+    @source Action removeListElement
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Lists_removeListElement
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -494,7 +494,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Main
+    @source Module Main
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Main
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -502,7 +502,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Main
+    @source Module Main
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Main
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -512,7 +512,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action login
+    @source Action login
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_login
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -520,7 +520,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action login
+    @source Action login
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_login
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -530,7 +530,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action logout
+    @source Action logout
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_logout
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -538,7 +538,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action logout
+    @source Action logout
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_logout
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -548,7 +548,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_index
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -556,7 +556,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_index
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -566,7 +566,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action isReady
+    @source Action isReady
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_isReady
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -574,7 +574,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action isReady
+    @source Action isReady
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_isReady
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -584,7 +584,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getSectionActions
+    @source Action getSectionActions
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_getSectionActions
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -592,7 +592,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getSectionActions
+    @source Action getSectionActions
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_getSectionActions
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -602,7 +602,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getSectionFilters
+    @source Action getSectionFilters
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_getSectionFilters
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -610,7 +610,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getSectionFilters
+    @source Action getSectionFilters
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_getSectionFilters
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -620,7 +620,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getSectionTrees
+    @source Action getSectionTrees
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_getSectionTrees
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -628,7 +628,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getSectionTrees
+    @source Action getSectionTrees
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_getSectionTrees
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -638,7 +638,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Roles
+    @source Module Roles
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -646,7 +646,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Roles
+    @source Module Roles
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Roles
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -656,7 +656,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_index
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -664,7 +664,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_index
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -674,7 +674,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action data
+    @source Action data
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_data
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -682,7 +682,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action data
+    @source Action data
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_data
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -692,7 +692,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action delete
+    @source Action delete
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_delete
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -700,7 +700,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action delete
+    @source Action delete
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_delete
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -710,7 +710,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action add
+    @source Action add
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_add
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -718,7 +718,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action add
+    @source Action add
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_add
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -728,7 +728,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action edit
+    @source Action edit
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_edit
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -736,7 +736,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action edit
+    @source Action edit
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_edit
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -746,7 +746,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getModules
+    @source Action getModules
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_getModules
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -754,7 +754,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getModules
+    @source Action getModules
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_getModules
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -764,7 +764,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getActions
+    @source Action getActions
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_getActions
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -772,7 +772,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getActions
+    @source Action getActions
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Roles_getActions
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -782,7 +782,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module SaSUsers
+    @source Module SaSUsers
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_SaSUsers
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -790,7 +790,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module SaSUsers
+    @source Module SaSUsers
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_SaSUsers
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -800,7 +800,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action setView
+    @source Action setView
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_SaSUsers_setView
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -808,7 +808,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action setView
+    @source Action setView
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_SaSUsers_setView
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -818,7 +818,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action viewGrid
+    @source Action viewGrid
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_SaSUsers_viewGrid
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -826,7 +826,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action viewGrid
+    @source Action viewGrid
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_SaSUsers_viewGrid
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -836,7 +836,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getGridData
+    @source Action getGridData
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_SaSUsers_getGridData
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -844,7 +844,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getGridData
+    @source Action getGridData
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_SaSUsers_getGridData
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -854,7 +854,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Settings
+    @source Module Settings
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Settings
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -862,7 +862,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Settings
+    @source Module Settings
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Settings
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -872,7 +872,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_index
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -880,7 +880,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_index
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -890,7 +890,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action optimizeClasses
+    @source Action optimizeClasses
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_optimizeClasses
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -898,7 +898,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action optimizeClasses
+    @source Action optimizeClasses
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_optimizeClasses
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -908,7 +908,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action decompileClasses
+    @source Action decompileClasses
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_decompileClasses
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -916,7 +916,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action decompileClasses
+    @source Action decompileClasses
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_decompileClasses
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -926,7 +926,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action compileClass
+    @source Action compileClass
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_compileClass
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -934,7 +934,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action compileClass
+    @source Action compileClass
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_compileClass
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -944,7 +944,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action decompileClass
+    @source Action decompileClass
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_decompileClass
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -952,7 +952,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action decompileClass
+    @source Action decompileClass
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_decompileClass
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -962,7 +962,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action createPropertyIndex
+    @source Action createPropertyIndex
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_createPropertyIndex
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -970,7 +970,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action createPropertyIndex
+    @source Action createPropertyIndex
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Settings_createPropertyIndex
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -980,7 +980,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module TaoModule
+    @source Module TaoModule
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_TaoModule
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -988,7 +988,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module TaoModule
+    @source Module TaoModule
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_TaoModule
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -998,7 +998,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_index
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1006,7 +1006,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_index
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1016,7 +1016,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getOntologyData
+    @source Action getOntologyData
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_getOntologyData
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1024,7 +1024,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getOntologyData
+    @source Action getOntologyData
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_getOntologyData
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1034,7 +1034,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action addInstance
+    @source Action addInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_addInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1042,7 +1042,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action addInstance
+    @source Action addInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_addInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1052,7 +1052,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action editPropertyInstance
+    @source Action editPropertyInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_editPropertyInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1060,7 +1060,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action editPropertyInstance
+    @source Action editPropertyInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_editPropertyInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1070,7 +1070,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action editVersionedFile
+    @source Action editVersionedFile
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_editVersionedFile
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1078,7 +1078,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action editVersionedFile
+    @source Action editVersionedFile
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_editVersionedFile
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1088,7 +1088,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action cloneInstance
+    @source Action cloneInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_cloneInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1096,7 +1096,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action cloneInstance
+    @source Action cloneInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_cloneInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1106,7 +1106,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action moveInstance
+    @source Action moveInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_moveInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1114,7 +1114,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action moveInstance
+    @source Action moveInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_moveInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1124,7 +1124,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action translateInstance
+    @source Action translateInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_translateInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1132,7 +1132,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action translateInstance
+    @source Action translateInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_translateInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1142,7 +1142,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getTranslatedData
+    @source Action getTranslatedData
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_getTranslatedData
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1150,7 +1150,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getTranslatedData
+    @source Action getTranslatedData
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_getTranslatedData
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1160,7 +1160,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action search
+    @source Action search
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_search
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1168,7 +1168,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action search
+    @source Action search
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_search
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1178,7 +1178,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action filter
+    @source Action filter
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_filter
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1186,7 +1186,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action filter
+    @source Action filter
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_filter
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1196,7 +1196,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action searchInstances
+    @source Action searchInstances
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_searchInstances
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1204,7 +1204,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action searchInstances
+    @source Action searchInstances
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_searchInstances
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1214,7 +1214,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getFilteredInstancesPropertiesValues
+    @source Action getFilteredInstancesPropertiesValues
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_getFilteredInstancesPropertiesValues
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1222,7 +1222,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getFilteredInstancesPropertiesValues
+    @source Action getFilteredInstancesPropertiesValues
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_getFilteredInstancesPropertiesValues
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1232,7 +1232,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action addClassProperty
+    @source Action addClassProperty
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_addClassProperty
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1240,7 +1240,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action addClassProperty
+    @source Action addClassProperty
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_addClassProperty
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1250,7 +1250,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getMetaData
+    @source Action getMetaData
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_getMetaData
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1258,7 +1258,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getMetaData
+    @source Action getMetaData
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_getMetaData
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1268,7 +1268,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action saveComment
+    @source Action saveComment
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_saveComment
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1276,7 +1276,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action saveComment
+    @source Action saveComment
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_saveComment
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1286,7 +1286,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action sasSelect
+    @source Action sasSelect
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_sasSelect
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1294,7 +1294,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action sasSelect
+    @source Action sasSelect
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_sasSelect
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1304,7 +1304,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action sasSet
+    @source Action sasSet
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_sasSet
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1312,7 +1312,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action sasSet
+    @source Action sasSet
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_sasSet
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1322,7 +1322,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action sasAddInstance
+    @source Action sasAddInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_sasAddInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1330,7 +1330,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action sasAddInstance
+    @source Action sasAddInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_sasAddInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1340,7 +1340,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action sasEditInstance
+    @source Action sasEditInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_sasEditInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1348,7 +1348,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action sasEditInstance
+    @source Action sasEditInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_sasEditInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1358,7 +1358,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action sasDeleteInstance
+    @source Action sasDeleteInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_sasDeleteInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1366,7 +1366,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action sasDeleteInstance
+    @source Action sasDeleteInstance
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_sasDeleteInstance
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1376,7 +1376,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action delete
+    @source Action delete
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_delete
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1384,7 +1384,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action delete
+    @source Action delete
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_delete
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1394,7 +1394,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action optimize
+    @source Action optimize
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_optimize
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1402,7 +1402,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action optimize
+    @source Action optimize
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_TaoModule_optimize
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1412,7 +1412,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Updater
+    @source Module Updater
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Updater
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1420,7 +1420,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Updater
+    @source Module Updater
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Updater
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1430,7 +1430,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action checkUpdate
+    @source Action checkUpdate
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Updater_checkUpdate
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1438,7 +1438,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action checkUpdate
+    @source Action checkUpdate
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Updater_checkUpdate
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1448,7 +1448,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getUpdatesDetails
+    @source Action getUpdatesDetails
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Updater_getUpdatesDetails
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1456,7 +1456,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action getUpdatesDetails
+    @source Action getUpdatesDetails
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Updater_getUpdatesDetails
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1466,7 +1466,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Users
+    @source Module Users
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Users
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1474,7 +1474,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source module Users
+    @source Module Users
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_Users
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1484,7 +1484,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_index
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1492,7 +1492,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action index
+    @source Action index
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_index
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1502,7 +1502,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action data
+    @source Action data
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_data
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1510,7 +1510,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action data
+    @source Action data
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_data
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1520,7 +1520,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action delete
+    @source Action delete
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_delete
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1528,7 +1528,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action delete
+    @source Action delete
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_delete
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1538,7 +1538,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action add
+    @source Action add
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_add
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1546,7 +1546,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action add
+    @source Action add
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_add
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1556,7 +1556,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action checkLogin
+    @source Action checkLogin
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_checkLogin
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1564,7 +1564,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action checkLogin
+    @source Action checkLogin
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_checkLogin
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -1574,7 +1574,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action edit
+    @source Action edit
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_edit
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -1582,7 +1582,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage LU
-    @source action edit
+    @source Action edit
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_edit
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->

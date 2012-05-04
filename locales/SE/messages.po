@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-04-27T15:12:40\n"
+"Project-Id-Version: TAO v2.2-beta\n"
+"PO-Revision-Date: 2012-05-04T11:56:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: EN\n"
@@ -77,6 +77,9 @@ msgstr ""
 msgid "Add a user"
 msgstr "Lägg till en användare"
 
+msgid "Add all"
+msgstr ""
+
 msgid "Add property"
 msgstr "Lägg till egenskap"
 
@@ -92,10 +95,10 @@ msgstr "Avancerad metod"
 msgid "advanced mode"
 msgstr "avancerad metod"
 
-msgid "all"
+msgid "All"
 msgstr ""
 
-msgid "All"
+msgid "all"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -113,6 +116,9 @@ msgstr ""
 
 msgid "Authoring"
 msgstr "Författa"
+
+msgid "Auto. add new"
+msgstr ""
 
 msgid "Browse"
 msgstr "Bläddra"
@@ -132,10 +138,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "Ändra lösenord"
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -174,10 +180,10 @@ msgstr "sammanställ"
 msgid "compiled"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
 msgid "compiling"
@@ -279,11 +285,11 @@ msgstr "Leveransarkiv"
 msgid "Don't set"
 msgstr "Fastställ ej"
 
-msgid "Download"
-msgstr "Ladda ner"
-
 msgid "download"
 msgstr "ladda ner"
+
+msgid "Download"
+msgstr "Ladda ner"
 
 msgid "Download content"
 msgstr ""
@@ -318,11 +324,11 @@ msgstr ""
 msgid "Edit user"
 msgstr "Redigera användare"
 
-msgid "element"
-msgstr "element"
-
 msgid "Element"
 msgstr "Beståndsdel"
+
+msgid "element"
+msgstr "element"
 
 msgid "element deleted"
 msgstr "element raderat"
@@ -408,11 +414,11 @@ msgstr "Grupparkiv"
 msgid "Home"
 msgstr "Hem"
 
-msgid "import"
-msgstr "importera"
-
 msgid "Import"
 msgstr "Import"
+
+msgid "import"
+msgstr "importera"
 
 msgid "Import into "
 msgstr ""
@@ -480,17 +486,20 @@ msgstr "Listalternativ"
 msgid "list saved"
 msgstr "lista sparad"
 
+msgid "list the roles"
+msgstr ""
+
 msgid "list the users"
 msgstr "lista användarna"
 
 msgid "List values"
 msgstr "Listvärden"
 
-msgid "Lists"
-msgstr "Listor"
-
 msgid "lists"
 msgstr "listor"
+
+msgid "Lists"
+msgstr "Listor"
 
 msgid "Local"
 msgstr ""
@@ -837,11 +846,11 @@ msgstr "sök"
 msgid "Search results"
 msgstr "Sökresultat"
 
-msgid "Select"
-msgstr "Välj"
-
 msgid "select"
 msgstr "välj"
+
+msgid "Select"
+msgstr "Välj"
 
 msgid "Select a language"
 msgstr "Välj språk"

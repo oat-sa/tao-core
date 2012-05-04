@@ -8,7 +8,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source an action
+    @source An action
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -16,7 +16,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source an action
+    @source An action
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -26,7 +26,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source a module
+    @source A module
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -34,7 +34,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source a module
+    @source A module
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -44,7 +44,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source give access to a action
+    @source Give access to an action
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -52,7 +52,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source give access to a action
+    @source Give access to an action
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -62,7 +62,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source give access to a module
+    @source Give access to a module
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessModule
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -70,7 +70,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source give access to a module
+    @source Give access to a module
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessModule
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -98,7 +98,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source member of
+    @source Member of
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionMemberOf
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -106,7 +106,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source member of a module
+    @source Member of a module
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionMemberOf
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -134,7 +134,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source extension
+    @source Extension
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleExtension
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -142,7 +142,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FR
-    @source extension of the module
+    @source Extension of the module
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleExtension
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->

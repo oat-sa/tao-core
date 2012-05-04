@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-04-27T15:12:26\n"
+"Project-Id-Version: TAO v2.2-beta\n"
+"PO-Revision-Date: 2012-05-04T11:56:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: EN\n"
@@ -77,6 +77,9 @@ msgstr "Ajouter un rôle"
 msgid "Add a user"
 msgstr "Ajouter un utilisateur"
 
+msgid "Add all"
+msgstr ""
+
 msgid "Add property"
 msgstr "Ajouter une propriété"
 
@@ -92,11 +95,11 @@ msgstr "Mode avancé"
 msgid "advanced mode"
 msgstr "mode avancé"
 
-msgid "all"
-msgstr "tout"
-
 msgid "All"
 msgstr "Tout"
+
+msgid "all"
+msgstr "tout"
 
 msgid "All (the complete TAO Module)"
 msgstr "Tout (le module TAO au complet)"
@@ -114,6 +117,9 @@ msgstr "Êtes-vous sûr de vouloir supprimer la ressource versionnée?\n"
 
 msgid "Authoring"
 msgstr "Editeur"
+
+msgid "Auto. add new"
+msgstr ""
 
 msgid "Browse"
 msgstr "Naviguer"
@@ -133,11 +139,11 @@ msgstr "Impossible de construire les indexes de table optimisés"
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
-msgid "Check All"
-msgstr "Tout Sélectionner"
-
 msgid "Check all"
 msgstr "Tout sélectionner"
+
+msgid "Check All"
+msgstr "Tout Sélectionner"
 
 msgid "Check if updates are available for your version of TAO"
 msgstr "Vérifier si des mises à jour sont disponibles pour votre version de TAO"
@@ -175,11 +181,11 @@ msgstr "compiler"
 msgid "compiled"
 msgstr "compilé"
 
-msgid "compiled instances"
-msgstr "instances compilées"
-
 msgid "Compiled Instances"
 msgstr "Instances compilées"
+
+msgid "compiled instances"
+msgstr "instances compilées"
 
 msgid "compiling"
 msgstr "compilation"
@@ -280,11 +286,11 @@ msgstr "Bibliothèque de passation"
 msgid "Don't set"
 msgstr "Ne pas insérer"
 
-msgid "Download"
-msgstr "Télécharger"
-
 msgid "download"
 msgstr "télécharger"
+
+msgid "Download"
+msgstr "Télécharger"
 
 msgid "Download content"
 msgstr "Télécharger le contenu"
@@ -319,11 +325,11 @@ msgstr "Editer une propriété dans la classe parente "
 msgid "Edit user"
 msgstr "Modifier l'utilisateur"
 
-msgid "element"
-msgstr "élément"
-
 msgid "Element"
 msgstr "Element"
+
+msgid "element"
+msgstr "élément"
 
 msgid "element deleted"
 msgstr "élément supprimé"
@@ -409,11 +415,11 @@ msgstr "Bibliothèque de groupes"
 msgid "Home"
 msgstr "Accueil"
 
-msgid "import"
-msgstr "importer"
-
 msgid "Import"
 msgstr "Import"
+
+msgid "import"
+msgstr "importer"
 
 msgid "Import into "
 msgstr "Importer dans"
@@ -481,17 +487,20 @@ msgstr "Options de la liste"
 msgid "list saved"
 msgstr "liste sauvegardée"
 
+msgid "list the roles"
+msgstr ""
+
 msgid "list the users"
 msgstr "lister les utilisateurs"
 
 msgid "List values"
 msgstr "Liste des valeurs"
 
-msgid "Lists"
-msgstr "Listes"
-
 msgid "lists"
 msgstr "listes"
+
+msgid "Lists"
+msgstr "Listes"
 
 msgid "Local"
 msgstr "Local"
@@ -500,7 +509,7 @@ msgid "Local Data (the local namespace containing only the data inserted by the 
 msgstr "Donnée locales (l'espace de nom local comprenant seulement les données insérées par les utilisateurs)"
 
 msgid "Login"
-msgstr "Connection"
+msgstr "Identifiant"
 
 msgid "Login *"
 msgstr "Identifiant *"
@@ -838,11 +847,11 @@ msgstr "recherche"
 msgid "Search results"
 msgstr "Recherche des résultats"
 
-msgid "Select"
-msgstr "Choisir"
-
 msgid "select"
 msgstr "choisir"
+
+msgid "Select"
+msgstr "Choisir"
 
 msgid "Select a language"
 msgstr "Sélectionner un langage"

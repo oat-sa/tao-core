@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-04-27T15:12:18\n"
+"Project-Id-Version: TAO v2.2-beta\n"
+"PO-Revision-Date: 2012-05-04T11:56:08\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: EN\n"
@@ -77,6 +77,9 @@ msgstr ""
 msgid "Add a user"
 msgstr ""
 
+msgid "Add all"
+msgstr ""
+
 msgid "Add property"
 msgstr ""
 
@@ -92,10 +95,10 @@ msgstr ""
 msgid "advanced mode"
 msgstr ""
 
-msgid "all"
+msgid "All"
 msgstr ""
 
-msgid "All"
+msgid "all"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -112,6 +115,9 @@ msgid "Are you sure to delete the versioned resource?\n"
 msgstr ""
 
 msgid "Authoring"
+msgstr ""
+
+msgid "Auto. add new"
 msgstr ""
 
 msgid "Browse"
@@ -132,10 +138,10 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -174,10 +180,10 @@ msgstr ""
 msgid "compiled"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
 msgid "compiling"
@@ -279,10 +285,10 @@ msgstr ""
 msgid "Don't set"
 msgstr ""
 
-msgid "Download"
+msgid "download"
 msgstr ""
 
-msgid "download"
+msgid "Download"
 msgstr ""
 
 msgid "Download content"
@@ -318,10 +324,10 @@ msgstr ""
 msgid "Edit user"
 msgstr ""
 
-msgid "element"
+msgid "Element"
 msgstr ""
 
-msgid "Element"
+msgid "element"
 msgstr ""
 
 msgid "element deleted"
@@ -408,10 +414,10 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-msgid "import"
+msgid "Import"
 msgstr ""
 
-msgid "Import"
+msgid "import"
 msgstr ""
 
 msgid "Import into "
@@ -480,16 +486,19 @@ msgstr ""
 msgid "list saved"
 msgstr ""
 
+msgid "list the roles"
+msgstr ""
+
 msgid "list the users"
 msgstr ""
 
 msgid "List values"
 msgstr ""
 
-msgid "Lists"
+msgid "lists"
 msgstr ""
 
-msgid "lists"
+msgid "Lists"
 msgstr ""
 
 msgid "Local"
@@ -837,10 +846,10 @@ msgstr ""
 msgid "Search results"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
 msgid "Select a language"

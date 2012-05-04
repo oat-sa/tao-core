@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-alpha\n"
-"PO-Revision-Date: 2012-04-27T15:12:02\n"
+"Project-Id-Version: TAO v2.2-beta\n"
+"PO-Revision-Date: 2012-05-04T11:55:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: EN\n"
@@ -77,6 +77,9 @@ msgstr ""
 msgid "Add a user"
 msgstr "اضافة مستخدم"
 
+msgid "Add all"
+msgstr ""
+
 msgid "Add property"
 msgstr "إضافة خاصية"
 
@@ -92,10 +95,10 @@ msgstr "طريقة متقدمة"
 msgid "advanced mode"
 msgstr "الطريقة المتقدمة"
 
-msgid "all"
+msgid "All"
 msgstr ""
 
-msgid "All"
+msgid "all"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -113,6 +116,9 @@ msgstr ""
 
 msgid "Authoring"
 msgstr "محرر"
+
+msgid "Auto. add new"
+msgstr ""
 
 msgid "Browse"
 msgstr "تصفح"
@@ -132,10 +138,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "تغيير كلمة المرور"
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -174,10 +180,10 @@ msgstr "ترجم"
 msgid "compiled"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
 msgid "compiling"
@@ -279,10 +285,10 @@ msgstr "Bibliothèque de passation"
 msgid "Don't set"
 msgstr "لا تدرج"
 
-msgid "Download"
+msgid "download"
 msgstr "تحميل"
 
-msgid "download"
+msgid "Download"
 msgstr "تحميل"
 
 msgid "Download content"
@@ -318,11 +324,11 @@ msgstr ""
 msgid "Edit user"
 msgstr "تحرير مستخدم"
 
-msgid "element"
-msgstr "عنصر"
-
 msgid "Element"
 msgstr "العنصر"
+
+msgid "element"
+msgstr "عنصر"
 
 msgid "element deleted"
 msgstr "عنصر محذوف"
@@ -408,10 +414,10 @@ msgstr "مكتبة المجموعات"
 msgid "Home"
 msgstr "الصفحة الرئيسية"
 
-msgid "import"
+msgid "Import"
 msgstr "استيراد"
 
-msgid "Import"
+msgid "import"
 msgstr "استيراد"
 
 msgid "Import into "
@@ -480,16 +486,19 @@ msgstr "خيارات القائمة"
 msgid "list saved"
 msgstr "تم حفظ القائمة"
 
+msgid "list the roles"
+msgstr ""
+
 msgid "list the users"
 msgstr "lister les utilisateurs"
 
 msgid "List values"
 msgstr "قيم القائمة"
 
-msgid "Lists"
+msgid "lists"
 msgstr "القوائم"
 
-msgid "lists"
+msgid "Lists"
 msgstr "القوائم"
 
 msgid "Local"
@@ -839,11 +848,11 @@ msgstr "البحث"
 msgid "Search results"
 msgstr "البحث عن النتائج"
 
-msgid "Select"
-msgstr "حدد"
-
 msgid "select"
 msgstr "اختر"
+
+msgid "Select"
+msgstr "حدد"
 
 msgid "Select a language"
 msgstr "حدد اللغة"
