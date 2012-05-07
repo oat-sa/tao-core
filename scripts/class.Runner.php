@@ -193,11 +193,12 @@ abstract class tao_scripts_Runner
         	}
         }
         
-        if(isset($this->inputFormat['required']) && is_array($this->inputFormat['required'])){
-        	if(!is_array($this->inputFormat['required'][0])){
+        if(isset($this->inputFormat['required']) && is_array($this->inputFormat['required']) && count($this->inputFormat['required'])){
+        	
+			$requireds = array();
+			if(!is_array($this->inputFormat['required'][0])){
         		$requireds = array($this->inputFormat['required']);
-        	}
-        	else{
+        	}else{
         		$requireds = $this->inputFormat['required'];
         	}
         	
