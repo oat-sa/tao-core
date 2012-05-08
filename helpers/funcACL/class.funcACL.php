@@ -72,7 +72,7 @@ class tao_helpers_funcACL_funcACL
         $returnValue = (bool) false;
 
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B begin
-return true;
+
 		if (is_null($extension) || is_null($module) || is_null($action)) {
 			$resolver = new Resolver();
 			//if (is_null($extension)) $extension = tao_models_classes_TaoService::singleton()->getCurrentExtension();
