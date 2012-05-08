@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-08T17:55:47\n"
+"PO-Revision-Date: 2012-05-08T22:48:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
@@ -416,7 +416,7 @@ msgid "Full preview"
 msgstr "Aperçu complet"
 
 msgid "Group test takers according to global features and classifications."
-msgstr "Grouper les sujets par rapport aux propriétés globales et aux classifications."
+msgstr "Grouper les participants par rapport aux propriétés globales et aux classifications."
 
 msgid "Groups"
 msgstr "Groupes"
@@ -572,7 +572,7 @@ msgid "Manage roles"
 msgstr "Gérer les roles"
 
 msgid "Manage test takers"
-msgstr "Gérer les sujets"
+msgstr "Gérer les participants"
 
 msgid "Manage tests"
 msgstr "Gérer les tests"
@@ -677,7 +677,7 @@ msgid "new test"
 msgstr "nouveau test"
 
 msgid "new test taker"
-msgstr "nouveau sujet"
+msgstr "nouveau participant"
 
 msgid "Next"
 msgstr "Suivant"
@@ -791,7 +791,7 @@ msgid "Rebuilding indexes, it may take a while."
 msgstr "Création des indexs, cela peut prendre du temps."
 
 msgid "Record and manage test takers."
-msgstr "Enregistrer et gérer les sujets."
+msgstr "Enregistrer et gérer les participants."
 
 msgid "Recursive"
 msgstr "Récursif"
@@ -920,10 +920,10 @@ msgid "TAO updater"
 msgstr "TAO gestionnaire de mises à jour"
 
 msgid "Test takers"
-msgstr "Sujets"
+msgstr "Participants"
 
 msgid "Test takers library"
-msgstr "Bibliothèque des sujets"
+msgstr "Bibliothèque des participants"
 
 msgid "Tests"
 msgstr "Tests"
