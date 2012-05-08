@@ -180,8 +180,11 @@ class tao_models_classes_RoleService
         $returnValue = (bool) false;
 
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F78 begin
+        if (is_null($role)) {
+        	throw new common_exception_Error('Tried to set Users to a NULL role');
+        }
         
-        if(!is_null($role) && !in_array($role->uriResource, array(CLASS_ROLE_WORKFLOWUSERROLE, CLASS_ROLE_TAOMANAGER))){//security: do not allow altering the default user role
+        if(!in_array($role->uriResource, array(CLASS_ROLE_WORKFLOWUSERROLE, CLASS_ROLE_TAOMANAGER))){//security: do not allow altering the default user role
 			
 	    	//get all users who have the following role:
 	    	$allUsers = $this->getUsers($role);
@@ -206,8 +209,9 @@ class tao_models_classes_RoleService
 			if($done == count($users)){
 				$returnValue = true;
 			}
+        } else {
+        	throw new common_exception_Error('Cannot alter reserved role '.$role->getLabel());
         }
-        
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F78 end
 
         return (bool) $returnValue;
