@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-04T11:56:31\n"
+"PO-Revision-Date: 2012-05-08T17:56:03\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: EN\n"
+"Language: SE\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
@@ -59,11 +59,11 @@ msgstr "Åtkomst nekad"
 msgid "Action"
 msgstr ""
 
-msgid "actions"
-msgstr "handlingar"
-
 msgid "Actions"
 msgstr "Funktioner"
+
+msgid "actions"
+msgstr "handlingar"
 
 msgid "Add"
 msgstr "Lägg till"
@@ -95,10 +95,10 @@ msgstr "Avancerad metod"
 msgid "advanced mode"
 msgstr "avancerad metod"
 
-msgid "All"
+msgid "all"
 msgstr ""
 
-msgid "all"
+msgid "All"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -138,10 +138,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "Ändra lösenord"
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -180,10 +180,10 @@ msgstr "sammanställ"
 msgid "compiled"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
 msgid "compiling"
@@ -273,6 +273,9 @@ msgstr "ta bort"
 msgid "Delete property"
 msgstr "Radera egenskap"
 
+msgid "Delete role"
+msgstr ""
+
 msgid "Delete user"
 msgstr "Ta bort användare"
 
@@ -281,6 +284,9 @@ msgstr "Leveranser"
 
 msgid "Deliveries library"
 msgstr "Leveransarkiv"
+
+msgid "Do you really want to delete this role ?"
+msgstr ""
 
 msgid "Don't set"
 msgstr "Fastställ ej"
@@ -309,6 +315,9 @@ msgstr "redigera"
 msgid "Edit"
 msgstr "Redigera"
 
+msgid "Edit a role"
+msgstr ""
+
 msgid "Edit a user"
 msgstr "Redigera en användare"
 
@@ -319,6 +328,9 @@ msgid "Edit item comment"
 msgstr "Redigera modulinnehåll"
 
 msgid "Edit property into parent class "
+msgstr ""
+
+msgid "Edit role"
 msgstr ""
 
 msgid "Edit user"
@@ -345,11 +357,11 @@ msgstr "Fel under filimport"
 msgid "Exclusive (OR)"
 msgstr "Exklusive (ELLER)"
 
-msgid "export"
-msgstr "exportera"
-
 msgid "Export"
 msgstr "Exportera"
+
+msgid "export"
+msgstr "exportera"
 
 msgid "Export Options"
 msgstr "Val för export"
@@ -414,11 +426,11 @@ msgstr "Grupparkiv"
 msgid "Home"
 msgstr "Hem"
 
-msgid "Import"
-msgstr "Import"
-
 msgid "import"
 msgstr "importera"
+
+msgid "Import"
+msgstr "Import"
 
 msgid "Import into "
 msgstr ""
@@ -426,10 +438,10 @@ msgstr ""
 msgid "Inclusive (AND)"
 msgstr "Inklusive (OCH)"
 
-msgid "instances"
+msgid "Instances"
 msgstr ""
 
-msgid "Instances"
+msgid "instances"
 msgstr ""
 
 msgid "Interface Language"
@@ -846,11 +858,11 @@ msgstr "sök"
 msgid "Search results"
 msgstr "Sökresultat"
 
-msgid "select"
-msgstr "välj"
-
 msgid "Select"
 msgstr "Välj"
+
+msgid "select"
+msgstr "välj"
 
 msgid "Select a language"
 msgstr "Välj språk"
@@ -969,10 +981,10 @@ msgstr "Skriv"
 msgid "UI Lang."
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "uncompiled"

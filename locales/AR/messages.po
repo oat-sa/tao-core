@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-04T11:55:51\n"
+"PO-Revision-Date: 2012-05-08T17:55:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: EN\n"
+"Language: AR\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
@@ -59,10 +59,10 @@ msgstr "!تم رفض الوصول. يرجى تجديد المصادقة الخا
 msgid "Action"
 msgstr ""
 
-msgid "actions"
+msgid "Actions"
 msgstr "الأعمال"
 
-msgid "Actions"
+msgid "actions"
 msgstr "الأعمال"
 
 msgid "Add"
@@ -95,10 +95,10 @@ msgstr "طريقة متقدمة"
 msgid "advanced mode"
 msgstr "الطريقة المتقدمة"
 
-msgid "All"
+msgid "all"
 msgstr ""
 
-msgid "all"
+msgid "All"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -138,10 +138,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "تغيير كلمة المرور"
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -180,10 +180,10 @@ msgstr "ترجم"
 msgid "compiled"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
 msgid "compiling"
@@ -273,6 +273,9 @@ msgstr "حذف"
 msgid "Delete property"
 msgstr "حذف الخاصية"
 
+msgid "Delete role"
+msgstr ""
+
 msgid "Delete user"
 msgstr "حذف المستخدم"
 
@@ -281,6 +284,9 @@ msgstr "Passations"
 
 msgid "Deliveries library"
 msgstr "Bibliothèque de passation"
+
+msgid "Do you really want to delete this role ?"
+msgstr ""
 
 msgid "Don't set"
 msgstr "لا تدرج"
@@ -309,6 +315,9 @@ msgstr "تحرير"
 msgid "Edit"
 msgstr "تحرير"
 
+msgid "Edit a role"
+msgstr ""
+
 msgid "Edit a user"
 msgstr "تحرير مستخدم"
 
@@ -319,6 +328,9 @@ msgid "Edit item comment"
 msgstr "تحرير تعليق"
 
 msgid "Edit property into parent class "
+msgstr ""
+
+msgid "Edit role"
 msgstr ""
 
 msgid "Edit user"
@@ -345,10 +357,10 @@ msgstr "خطأ أثناء استيراد الملف"
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
 
-msgid "export"
+msgid "Export"
 msgstr "تصدير"
 
-msgid "Export"
+msgid "export"
 msgstr "تصدير"
 
 msgid "Export Options"
@@ -414,10 +426,10 @@ msgstr "مكتبة المجموعات"
 msgid "Home"
 msgstr "الصفحة الرئيسية"
 
-msgid "Import"
+msgid "import"
 msgstr "استيراد"
 
-msgid "import"
+msgid "Import"
 msgstr "استيراد"
 
 msgid "Import into "
@@ -426,10 +438,10 @@ msgstr ""
 msgid "Inclusive (AND)"
 msgstr "Inclusif (ET)"
 
-msgid "instances"
+msgid "Instances"
 msgstr ""
 
-msgid "Instances"
+msgid "instances"
 msgstr ""
 
 msgid "Interface Language"
@@ -848,11 +860,11 @@ msgstr "البحث"
 msgid "Search results"
 msgstr "البحث عن النتائج"
 
-msgid "select"
-msgstr "اختر"
-
 msgid "Select"
 msgstr "حدد"
+
+msgid "select"
+msgstr "اختر"
 
 msgid "Select a language"
 msgstr "حدد اللغة"
@@ -971,10 +983,10 @@ msgstr "نوع"
 msgid "UI Lang."
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "uncompiled"

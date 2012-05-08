@@ -91,12 +91,21 @@ class tao_helpers_I18n
 		l10n::init();
 		l10n::set(BASE_PATH.'/locales/'.self::$langCode.'/messages');
 		
-		tao_helpers_Scriptloader::addJsFiles(array(
-			BASE_URL . '/locales/'.self::$langCode.'/messages_po.js',
-			TAOBASE_WWW . 'js/i18n.js',
-		));
-		
-		
+        if (PHP_SAPI != 'cli') {
+            $mvcContext = Context::getInstance();
+            $mvcRequest = $mvcContext->getRequest();
+            if ($mvcRequest->hasParameter('extension') && ($ext = $mvcRequest->getParameter('extension')) != 'none'){
+                $jsI18nPath = ROOT_URL . '/' . $ext;
+            }
+            else{
+                $jsI18nPath = BASE_URL;
+            }
+            
+    		tao_helpers_Scriptloader::addJsFiles(array(
+    			$jsI18nPath . '/locales/'.self::$langCode.'/messages_po.js',
+    			TAOBASE_WWW . 'js/i18n.js',
+    		));
+        }
         // section 127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7C end
     }
 

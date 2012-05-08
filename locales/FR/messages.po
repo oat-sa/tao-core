@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-04T11:56:16\n"
+"PO-Revision-Date: 2012-05-08T17:55:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: EN\n"
+"Language: FR\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
@@ -59,11 +59,11 @@ msgstr "Accès interdit. Veuillez renouveller votre authentification!"
 msgid "Action"
 msgstr "Action"
 
-msgid "actions"
-msgstr "actions"
-
 msgid "Actions"
 msgstr "Actions"
+
+msgid "actions"
+msgstr "actions"
 
 msgid "Add"
 msgstr "Ajouter"
@@ -95,11 +95,11 @@ msgstr "Mode avancé"
 msgid "advanced mode"
 msgstr "mode avancé"
 
-msgid "All"
-msgstr "Tout"
-
 msgid "all"
 msgstr "tout"
+
+msgid "All"
+msgstr "Tout"
 
 msgid "All (the complete TAO Module)"
 msgstr "Tout (le module TAO au complet)"
@@ -139,11 +139,11 @@ msgstr "Impossible de construire les indexes de table optimisés"
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
-msgid "Check all"
-msgstr "Tout sélectionner"
-
 msgid "Check All"
 msgstr "Tout Sélectionner"
+
+msgid "Check all"
+msgstr "Tout sélectionner"
 
 msgid "Check if updates are available for your version of TAO"
 msgstr "Vérifier si des mises à jour sont disponibles pour votre version de TAO"
@@ -181,11 +181,11 @@ msgstr "compiler"
 msgid "compiled"
 msgstr "compilé"
 
-msgid "Compiled Instances"
-msgstr "Instances compilées"
-
 msgid "compiled instances"
 msgstr "instances compilées"
+
+msgid "Compiled Instances"
+msgstr "Instances compilées"
 
 msgid "compiling"
 msgstr "compilation"
@@ -274,6 +274,9 @@ msgstr "supprimer"
 msgid "Delete property"
 msgstr "Supprimer la propriété"
 
+msgid "Delete role"
+msgstr ""
+
 msgid "Delete user"
 msgstr "Supprimer l'utilisateur"
 
@@ -282,6 +285,9 @@ msgstr "Passations"
 
 msgid "Deliveries library"
 msgstr "Bibliothèque de passation"
+
+msgid "Do you really want to delete this role ?"
+msgstr ""
 
 msgid "Don't set"
 msgstr "Ne pas insérer"
@@ -310,6 +316,9 @@ msgstr "modifier"
 msgid "Edit"
 msgstr "Editer"
 
+msgid "Edit a role"
+msgstr ""
+
 msgid "Edit a user"
 msgstr "Editer un utilisateur"
 
@@ -321,6 +330,9 @@ msgstr "Modifier les commentaires de l'item"
 
 msgid "Edit property into parent class "
 msgstr "Editer une propriété dans la classe parente "
+
+msgid "Edit role"
+msgstr ""
 
 msgid "Edit user"
 msgstr "Modifier l'utilisateur"
@@ -346,11 +358,11 @@ msgstr "Erreur pendant l'import du fichier"
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
 
-msgid "export"
-msgstr "exporter"
-
 msgid "Export"
 msgstr "Exporter"
+
+msgid "export"
+msgstr "exporter"
 
 msgid "Export Options"
 msgstr "Options d'export"
@@ -415,11 +427,11 @@ msgstr "Bibliothèque de groupes"
 msgid "Home"
 msgstr "Accueil"
 
-msgid "Import"
-msgstr "Import"
-
 msgid "import"
 msgstr "importer"
+
+msgid "Import"
+msgstr "Import"
 
 msgid "Import into "
 msgstr "Importer dans"
@@ -427,11 +439,11 @@ msgstr "Importer dans"
 msgid "Inclusive (AND)"
 msgstr "Inclusif (ET)"
 
-msgid "instances"
-msgstr "instances"
-
 msgid "Instances"
 msgstr "Instances"
+
+msgid "instances"
+msgstr "instances"
 
 msgid "Interface Language"
 msgstr "Langue de l'interface"
@@ -847,11 +859,11 @@ msgstr "recherche"
 msgid "Search results"
 msgstr "Recherche des résultats"
 
-msgid "select"
-msgstr "choisir"
-
 msgid "Select"
 msgstr "Choisir"
+
+msgid "select"
+msgstr "choisir"
 
 msgid "Select a language"
 msgstr "Sélectionner un langage"
@@ -970,11 +982,11 @@ msgstr "Type"
 msgid "UI Lang."
 msgstr "Langue Interface"
 
-msgid "Uncheck all"
-msgstr "Tout déselectionner"
-
 msgid "Uncheck All"
 msgstr "Tout sélectionné"
+
+msgid "Uncheck all"
+msgstr "Tout déselectionner"
 
 msgid "uncompiled"
 msgstr "non compilé"

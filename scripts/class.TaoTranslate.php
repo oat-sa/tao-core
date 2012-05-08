@@ -527,6 +527,7 @@ class tao_scripts_TaoTranslate
         } else {
         	if ($this->options['build'] == true) {
         	    $tuCount = 0;
+                $sortingMethod = tao_helpers_translation_TranslationFile::SORT_ASC_I;
         		$this->outVerbose("Building language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' ...");
 	        	// Let's populate the language with raw PO files containing sources but no targets.
 	        	// Source code extraction.
@@ -542,7 +543,9 @@ class tao_scripts_TaoTranslate
 	        	$manifestExtractor = new tao_helpers_translation_ManifestExtractor(array($this->options['input'] . '/actions'));
 	        	$manifestExtractor->extract();
 	        	
-	        	$translationFile = new tao_helpers_translation_POFile('EN', $this->options['language']);
+	        	$translationFile = new tao_helpers_translation_POFile();
+                $translationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+                $translationFile->setTargetLanguage($this->options['language']);
 	        	$translationFile->addTranslationUnits($sourceExtractor->getTranslationUnits());
 	        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
 	        	
@@ -553,20 +556,43 @@ class tao_scripts_TaoTranslate
 	        		$this->addManifestsTranslations($translationFile);	
 	        	}
 	        	
-	        	$sortedTus = $translationFile->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC_I);
+	        	$sortedTus = $translationFile->sortBySource($sortingMethod);
 	        	
-	        	$sortedTranslationFile = new tao_helpers_translation_POFile('EN', $this->options['language']);
+	        	$sortedTranslationFile = new tao_helpers_translation_POFile();
+                $sortedTranslationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+                $sortedTranslationFile->setTargetLanguage($this->options['language']);
 	        	$sortedTranslationFile->addTranslationUnits($sortedTus);
 	        	$this->preparePOFile($sortedTranslationFile);
 	        	
-	        	$writer = new tao_helpers_translation_POFileWriter($dir . '/' . self::DEF_PO_FILENAME,
+                $poPath = $dir . '/' . self::DEF_PO_FILENAME;
+	        	$writer = new tao_helpers_translation_POFileWriter($poPath,
 	        													   $sortedTranslationFile);
 	        	$writer->write();
-                $tuCount += count($sortedTranslationFile->getTranslationUnits());
                 
-	        	$writer = new tao_helpers_translation_JSFileWriter($dir . '/' . self::DEF_JS_FILENAME,
+                $poCount = count($sortedTranslationFile->getTranslationUnits());
+                $tuCount += $poCount;
+                $this->outVerbose("PO Translation file '" . basename($poPath) . "' in '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "(${poCount} messages)");
+                
+                $jsPath = $dir . '/' . self::DEF_JS_FILENAME;
+	        	$writer = new tao_helpers_translation_JSFileWriter($jsPath,
 	        													   $sortedTranslationFile);
+                                                                   
+                // JS Translation file must contain the tao meta-extension's messages.
+                if ($this->options['extension'] !== 'tao'){
+                    $taoMessagesPath = ROOT_PATH . '/tao/locales/' . $this->options['language'] . '/' . self::DEF_PO_FILENAME;
+                    $poReader = new tao_helpers_translation_POFileReader($taoMessagesPath);
+                    $poReader->read();
+                    
+                    $rawTus = $sortedTranslationFile->getTranslationUnits();
+                    $sortedTranslationFile->setTranslationUnits($poReader->getTranslationFile()->getTranslationUnits());
+                    $sortedTranslationFile->addTranslationUnits($rawTus);
+                    $sortedTranslationFile->setTranslationUnits($sortedTranslationFile->sortBySource($sortingMethod));
+                }
+                                                                   
 	        	$writer->write();
+                
+                $jsCount = count($sortedTranslationFile->getTranslationUnits());
+                $this->outVerbose("JS Translation file '" . basename($jsPath) . "' in '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "(${jsCount} messages)");
                 
                 // Now that PO files & JS files are created, we can create the translation models
                 // if we find RDF models to load for this extension.
@@ -592,16 +618,18 @@ class tao_scripts_TaoTranslate
                         $rdfCount = count($rdfTranslationFile->getTranslationUnits());
                         $tuCount += $rdfCount;
                         
-                        $this->outVerbose("RDF Translation model '" . basename($f) . "' in '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "' (${rdfCount} entries).");      
+                        $this->outVerbose("RDF Translation model '" . basename($f) . "' in '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "' (${rdfCount} messages).");      
                     }
                 }
 	        	
 	        	$this->outVerbose("Language '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "' " .
-	        					  "(${tuCount} entries).");
+	        					  "(${tuCount} messages).");
         	} else {
         		// Only build virgin files.
         		// (Like a virgin... woot !)
-        		$translationFile = new tao_helpers_translation_POFile('EN', $this->options['language']);
+        		$translationFile = new tao_helpers_translation_POFile();
+                $translationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+                $translationFile->setTargetLanguage($this->options['language']);
         		$this->preparePOFile($translationFile);
         		
         		$writer = new tao_helpers_translation_POFileWriter($dir . '/' . self::DEF_PO_FILENAME,
@@ -649,6 +677,7 @@ class tao_scripts_TaoTranslate
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 begin
         $this->outVerbose("Updating language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' ...");
     	$tuCount = 0;
+        $sortingMethod = tao_helpers_translation_TranslationFile::SORT_ASC_I;
         
        	// Get virgin translations from the source code and manifest.
        	$filePaths = array($this->options['input'] . '/actions',
@@ -661,7 +690,9 @@ class tao_scripts_TaoTranslate
        	$sourceCodeExtractor->extract();
        	$manifestExtractor->extract();
     	
-       	$translationFile = new tao_helpers_translation_POFile('EN', $this->options['language']);
+       	$translationFile = new tao_helpers_translation_POFile();
+        $translationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+        $translationFile->setTargetLanguage($this->options['language']);
        	$translationFile->addTranslationUnits($sourceCodeExtractor->getTranslationUnits());
        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
        	
@@ -685,9 +716,10 @@ class tao_scripts_TaoTranslate
        		}
        	}
        	
-       	$sortedTranslationFile = new tao_helpers_translation_POFile($translationFile->getSourceLanguage(),
-       																$translationFile->getTargetLanguage());
-       	$sortedTranslationFile->addTranslationUnits($translationFile->sortBySource(tao_helpers_translation_TranslationFile::SORT_ASC_I));
+       	$sortedTranslationFile = new tao_helpers_translation_POFile();
+        $sortedTranslationFile->setSourceLanguage($translationFile->getSourceLanguage());
+        $sortedTranslationFile->setTargetLanguage($translationFile->getTargetLanguage());
+       	$sortedTranslationFile->addTranslationUnits($translationFile->sortBySource($sortingMethod));
        	$this->preparePOFile($sortedTranslationFile);
        	
        	// Remove old files.
@@ -697,17 +729,27 @@ class tao_scripts_TaoTranslate
        	
        	// Write the new ones.
        	$poFileWriter = new tao_helpers_translation_POFileWriter($oldFilePath, $sortedTranslationFile);
-       	$jsFileWriter = new tao_helpers_translation_JSFileWriter($oldJsFilePath, $sortedTranslationFile);
        	$poFileWriter->write();
         $poCount = count($sortedTranslationFile->getTranslationUnits());
         $tuCount += $poCount;
-        $this->outVerbose("PO translation file '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' (${poCount} entries).");
+        $this->outVerbose("PO translation file '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' (${poCount} messages).");
         
+        // JS Files must be compiled with tao meta-extension messages.
+        if ($this->options['extension'] !== 'tao'){
+            $taoMessagesPath = ROOT_PATH . '/tao/locales/' . $this->options['language'] . '/' . self::DEF_PO_FILENAME;
+            $poReader = new tao_helpers_translation_POFileReader($taoMessagesPath);
+            $poReader->read();
+            
+            $rawTus = $sortedTranslationFile->getTranslationUnits();
+            $sortedTranslationFile->setTranslationUnits($poReader->getTranslationFile()->getTranslationUnits());
+            $sortedTranslationFile->addTranslationUnits($rawTus);
+            $sortedTranslationFile->setTranslationUnits($sortedTranslationFile->sortBySource($sortingMethod));
+        }
+        
+        $jsFileWriter = new tao_helpers_translation_JSFileWriter($oldJsFilePath, $sortedTranslationFile);
        	$jsFileWriter->write();
-        $jsCount = $poCount;
-        $this->outVerbose("JS translation file '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' (${jsCount} entries).");
-        
-        
+        $jsCount = count($sortedTranslationFile->getTranslationUnits());
+        $this->outVerbose("JS translation file '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' (${jsCount} messages).");
         
         // We now deal with RDF models.
         $models = $this->getOntologyFiles($this->options['extension']);
@@ -719,7 +761,7 @@ class tao_scripts_TaoTranslate
                 $rdfExtractor->addTranslatableProperty('http://www.w3.org/2000/01/rdf-schema#comment');
                 $rdfExtractor->extract();
                 
-                // The master RDF file is the ontology itself, non-translated that we find in /extId/models/ontology.
+                // The master RDF file is the ontology itself but non-translated that we find in /extId/models/ontology.
                 $masterRDFFile = new tao_helpers_translation_RDFTranslationFile();
                 $masterRDFFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
                 $masterRDFFile->setTargetLanguage($this->options['language']);
@@ -753,11 +795,11 @@ class tao_scripts_TaoTranslate
                 $rdfWriter->write();
                 $rdfCount = count($masterRDFFile->getTranslationUnits());
                 $tuCount += $rdfCount;
-                $this->outVerbose("RDF Translation model '" . basename($f) . "' in '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' (${rdfCount} entries).");
+                $this->outVerbose("RDF Translation model '" . basename($f) . "' in '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' (${rdfCount} messages).");
             }
         }
         
-       	$this->outVerbose("Language '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' (${tuCount} entries).");
+       	$this->outVerbose("Language '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "' (${tuCount} messages).");
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 end
     }
 
@@ -999,7 +1041,7 @@ class tao_scripts_TaoTranslate
     public function addManifestsTranslations( tao_helpers_translation_POFile $poFile)
     {
         // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E5 begin
-        $this->outVerbose("Adding all manifests entries to extension '" . $this->options['extension'] . "'");
+        $this->outVerbose("Adding all manifests messages to extension '" . $this->options['extension'] . "'");
     	
         $rootDir = dirname(__FILE__) . '/../../';
         $directories = scandir($rootDir);
@@ -1021,7 +1063,7 @@ class tao_scripts_TaoTranslate
 							$newTranslationsCount = count($manifestReader->getTranslationUnits());
 							$poFile->addTranslationUnits($manifestReader->getTranslationUnits());
 							
-							$this->outVerbose("Manifest of extension '" . $dir . "' added to extension '" . $this->options['extension'] . "' (" . $newTranslationsCount . " entries).");
+							$this->outVerbose("Manifest of extension '" . $dir . "' added to extension '" . $this->options['extension'] . "' (" . $newTranslationsCount . " messages).");
 						}
 					}
 				}

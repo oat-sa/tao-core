@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-04T11:56:39\n"
+"PO-Revision-Date: 2012-05-08T17:56:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: EN\n"
+"Language: _raw\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
@@ -59,10 +59,10 @@ msgstr ""
 msgid "Action"
 msgstr ""
 
-msgid "actions"
+msgid "Actions"
 msgstr ""
 
-msgid "Actions"
+msgid "actions"
 msgstr ""
 
 msgid "Add"
@@ -95,10 +95,10 @@ msgstr ""
 msgid "advanced mode"
 msgstr ""
 
-msgid "All"
+msgid "all"
 msgstr ""
 
-msgid "all"
+msgid "All"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -138,10 +138,10 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -180,10 +180,10 @@ msgstr ""
 msgid "compiled"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
 msgid "compiling"
@@ -273,6 +273,9 @@ msgstr ""
 msgid "Delete property"
 msgstr ""
 
+msgid "Delete role"
+msgstr ""
+
 msgid "Delete user"
 msgstr ""
 
@@ -280,6 +283,9 @@ msgid "Deliveries"
 msgstr ""
 
 msgid "Deliveries library"
+msgstr ""
+
+msgid "Do you really want to delete this role ?"
 msgstr ""
 
 msgid "Don't set"
@@ -309,6 +315,9 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
+msgid "Edit a role"
+msgstr ""
+
 msgid "Edit a user"
 msgstr ""
 
@@ -319,6 +328,9 @@ msgid "Edit item comment"
 msgstr ""
 
 msgid "Edit property into parent class "
+msgstr ""
+
+msgid "Edit role"
 msgstr ""
 
 msgid "Edit user"
@@ -345,10 +357,10 @@ msgstr ""
 msgid "Exclusive (OR)"
 msgstr ""
 
-msgid "export"
+msgid "Export"
 msgstr ""
 
-msgid "Export"
+msgid "export"
 msgstr ""
 
 msgid "Export Options"
@@ -414,10 +426,10 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-msgid "Import"
+msgid "import"
 msgstr ""
 
-msgid "import"
+msgid "Import"
 msgstr ""
 
 msgid "Import into "
@@ -426,10 +438,10 @@ msgstr ""
 msgid "Inclusive (AND)"
 msgstr ""
 
-msgid "instances"
+msgid "Instances"
 msgstr ""
 
-msgid "Instances"
+msgid "instances"
 msgstr ""
 
 msgid "Interface Language"
@@ -846,10 +858,10 @@ msgstr ""
 msgid "Search results"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
 msgid "Select a language"
@@ -969,10 +981,10 @@ msgstr ""
 msgid "UI Lang."
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "uncompiled"
