@@ -389,7 +389,7 @@ abstract class tao_scripts_Runner
     protected static function err($message, $stopExec = false)
     {
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D5B begin
-        
+        common_Logger::e($message);
         echo self::out($message, array('color' => 'light_red'));
         
         if($stopExec == true){
@@ -448,6 +448,7 @@ abstract class tao_scripts_Runner
     public function outVerbose($message, $options = array())
     {
         // section 10-13-1-85-2583e310:134ccc56ba1:-8000:00000000000038B7 begin
+        common_Logger::i($message);
         if (isset($this->parameters['verbose']) && $this->parameters['verbose'] === true) {
         	self::out($message, $options);
         }
