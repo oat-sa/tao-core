@@ -192,7 +192,12 @@ class tao_install_utils_ModelCreator{
         // to look for similar rdf file names in locales.
         $installModelsBaseNames = array();
 		foreach ($simpleExtension->installFiles['rdf'] as $installFile){
-		    $installModelsBaseNames[$installFile['ns']] = basename($installFile['file']);
+		    
+            if (!isset($installModelsBaseNames[$installFile['ns']])){
+                $installModelsBaseNames[$installFile['ns']] = array();
+            }
+            
+		    $installModelsBaseNames[$installFile['ns']][] = basename($installFile['file']);
 		}
 
 		if (@is_dir($localesPath) && is_readable($localesPath)) {
@@ -207,18 +212,19 @@ class tao_install_utils_ModelCreator{
 						$files = scandir($localesPath . '/' . $dir);
 
 						if ($files !== false){
-
 							foreach ($files as $file) {
-								if ($file[0] != '.' && ($search = array_search($file, $installModelsBaseNames)) !== false){
-
-									// Add this file to the return results.
-									if (!isset($models[$search])) {
-										$models[$search] = array();
-									}
-
-									$models[$search][] = $localesPath . '/' . $dir . '/' . $file;
-								}
-							}
+							    foreach ($installModelsBaseNames as $ns => $rdfFiles){
+    								if ($file[0] != '.' && in_array($file, $rdfFiles)){
+    
+    									// Add this file to the return results.
+    									if (!isset($models[$ns])) {
+    										$models[$ns] = array();
+    									}
+    
+    									$models[$ns][] = $localesPath . '/' . $dir . '/' . $file;
+    								}
+    							}
+                            }
 						} else {
 							throw new tao_install_utils_Exception("Unable to list files from language directory ' ${dir}'.");
 						}
