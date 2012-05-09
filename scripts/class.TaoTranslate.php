@@ -588,9 +588,9 @@ class tao_scripts_TaoTranslate
 	                    $sortedTranslationFile->setTranslationUnits($poReader->getTranslationFile()->getTranslationUnits());
 	                    $sortedTranslationFile->addTranslationUnits($rawTus);
 	                    $sortedTranslationFile->setTranslationUnits($sortedTranslationFile->sortBySource($sortingMethod));
-	                    $this->outVerbose('Added tao meta-extension messages for language '.$this->options['language']);
+	                    $this->outVerbose("Added tao meta-extension messages for language '" . $this->options['language'] . "'.");
                     } else {
-	                    $this->outVerbose('Could not find tao meta-extension messages for language '.$this->options['language']);
+	                    $this->outVerbose("Could not find tao meta-extension messages for language '" . $this->options['language'] . "'.");
                     }
                 }
                                                                    
@@ -742,13 +742,19 @@ class tao_scripts_TaoTranslate
         // JS Files must be compiled with tao meta-extension messages.
         if ($this->options['extension'] !== 'tao'){
             $taoMessagesPath = ROOT_PATH . '/tao/locales/' . $this->options['language'] . '/' . self::DEF_PO_FILENAME;
-            $poReader = new tao_helpers_translation_POFileReader($taoMessagesPath);
-            $poReader->read();
             
-            $rawTus = $sortedTranslationFile->getTranslationUnits();
-            $sortedTranslationFile->setTranslationUnits($poReader->getTranslationFile()->getTranslationUnits());
-            $sortedTranslationFile->addTranslationUnits($rawTus);
-            $sortedTranslationFile->setTranslationUnits($sortedTranslationFile->sortBySource($sortingMethod));
+            if (file_exists($taoMessagesPath)){
+                $poReader = new tao_helpers_translation_POFileReader($taoMessagesPath);
+                $poReader->read();
+                
+                $rawTus = $sortedTranslationFile->getTranslationUnits();
+                $sortedTranslationFile->setTranslationUnits($poReader->getTranslationFile()->getTranslationUnits());
+                $sortedTranslationFile->addTranslationUnits($rawTus);
+                $sortedTranslationFile->setTranslationUnits($sortedTranslationFile->sortBySource($sortingMethod));
+                $this->outVerbose("Added tao meta-extension messages for language '" . $this->options['language'] . "'.");
+            } else {
+                $this->outVerbose("Could not find tao meta-extension messages for language '" . $this->options['language'] . "'.");
+            }
         }
         
         $jsFileWriter = new tao_helpers_translation_JSFileWriter($oldJsFilePath, $sortedTranslationFile);
