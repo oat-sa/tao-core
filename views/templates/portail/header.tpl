@@ -20,6 +20,10 @@
 	<script src="<?=ROOT_URL?>/tao/locales/<?= DEFAULT_LANG ?>/messages_po.js" type="text/javascript"></script>
 	<script src="<?=ROOT_URL?>/tao/views/js/i18n.js" type="text/javascript"></script>
 	
+	<script src="<?=ROOT_URL?>/tao/views/js/generis.facetFilter.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/generis.facetFilter.hbox.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/generis.facetFilter.accordion.js" type="text/javascript"></script>
+
 	<script type="text/javascript">
 	var root_url 		= "<?=ROOT_URL?>/";
 	var ctx_extension 	= "<?=get_data('extension')?>";
