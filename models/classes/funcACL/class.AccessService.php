@@ -64,6 +64,13 @@ class tao_models_classes_funcACL_AccessService
         $returnValue = (string) '';
 
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A0B begin
+		$returnValue = 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#';
+		if (!is_null($act)) $type = 'a';
+		else if (!is_null($mod)) $type = 'm';
+		else $type = 'e';
+		$returnValue .= $type.'_'.$ext;
+		if (!is_null($mod)) $returnValue .= '_'.$mod;
+		if (!is_null($act)) $returnValue .= '_'.$act;
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A0B end
 
         return (string) $returnValue;

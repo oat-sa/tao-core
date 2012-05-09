@@ -55,12 +55,20 @@ class tao_models_classes_funcACL_RoleService
      * @access public
      * @author Jehan Bihin, <jehan.bihin@tudor.lu>
      * @param  string name
-     * @return mixed
+     * @return string
      */
     public function add($name)
     {
+        $returnValue = (string) '';
+
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:00000000000039F1 begin
+		$class = new core_kernel_classes_Class(CLASS_ROLE_BACKOFFICE);
+		$instance = $class->createInstance($name, '');
+		$instance->setPropertyValue(new core_kernel_classes_Property(RDF_SUBCLASSOF), CLASS_GENERIS_USER);
+		//return $instance->uriResource
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:00000000000039F1 end
+
+        return (string) $returnValue;
     }
 
     /**
@@ -75,6 +83,8 @@ class tao_models_classes_funcACL_RoleService
     public function edit($uri, $name)
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:00000000000039F4 begin
+		$instance = new core_kernel_classes_Resource($uri);
+		$instance->setLabel($name);
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:00000000000039F4 end
     }
 
@@ -89,6 +99,8 @@ class tao_models_classes_funcACL_RoleService
     public function remove($uri)
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:00000000000039F8 begin
+		$instance = new core_kernel_classes_Resource($uri);
+		$instance->delete();
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:00000000000039F8 end
     }
 
@@ -97,12 +109,15 @@ class tao_models_classes_funcACL_RoleService
      *
      * @access public
      * @author Jehan Bihin, <jehan.bihin@tudor.lu>
-     * @param  string uri
+     * @param  string userUri
+     * @param  string roleUri
      * @return mixed
      */
-    public function attachUser($uri)
+    public function attachUser($userUri, $roleUri)
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A01 begin
+		$userRes = new core_kernel_classes_Resource($userUri);
+		$userRes->setPropertyValue(new core_kernel_classes_Property(RDF_TYPE), $roleUri);
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A01 end
     }
 
@@ -111,12 +126,15 @@ class tao_models_classes_funcACL_RoleService
      *
      * @access public
      * @author Jehan Bihin, <jehan.bihin@tudor.lu>
-     * @param  string uri
+     * @param  string userUri
+     * @param  string roleUri
      * @return mixed
      */
-    public function unattachUser($uri)
+    public function unattachUser($userUri, $roleUri)
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A04 begin
+		$userRes = new core_kernel_classes_Resource($userUri);
+		$userRes->removePropertyValues(new core_kernel_classes_Property(RDF_TYPE), array('pattern' => $roleUri));
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A04 end
     }
 
@@ -132,6 +150,22 @@ class tao_models_classes_funcACL_RoleService
         $returnValue = array();
 
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A07 begin
+		//Get the Roles of the current User (duplicate src : class.funcACL.php)
+		$s = core_kernel_classes_Session::singleton();
+		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+		$search = $userClass->searchInstances(array(PROPERTY_USER_LOGIN => $s->getUser()), array('recursive' => true));
+		$userRes = new core_kernel_classes_Resource(key($search));
+
+		$rolesc = new core_kernel_classes_Class(CLASS_ROLE_BACKOFFICE);
+		foreach ($rolesc->getInstances(true) as $id => $r) {
+			//$label = explode('#', $id);
+			$nrole = array('id' => $id, 'label' => $r->getLabel(), 'selected' => false);
+			//Selected
+			foreach ($userRes->getTypes() as $uri => $t) {
+				if ($uri == $id) $nrole['selected'] = true;
+			}
+			$returnValue[] = $nrole;
+		}
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A07 end
 
         return (array) $returnValue;
