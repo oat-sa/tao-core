@@ -52,7 +52,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	protected function getExportPath(){
 		$exportPath = tao_helpers_File::concat(array(ROOT_PATH,EXPORT_PATH));
 		if($this->hasSessionAttribute('currentExtension')){
-			$exportPath = tao_helpers_File::concat(array(ROOT_PATH, $this->getSessionAttribute('currentExtension'), EXPORT_PATH));
+			$exportPath = tao_helpers_File::concat(array(ROOT_PATH,$this->getSessionAttribute('currentExtension'), EXPORT_PATH));
 		}
 		
 		if(!is_dir($exportPath)){
@@ -206,7 +206,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 			if(preg_match("/\.(rdf|zip)$/", $file) && !is_dir($path)){
 				$exportedFiles[] = array(
 					'path'		=> $path,
-					'url'		=> str_replace(ROOT_PATH, ROOT_URL, $path),
+					'url'		=> str_replace(ROOT_PATH, ROOT_URL.'/', $path),
 					'name'		=> substr($file, 0, strrpos($file, '_')),
 					'date'		=> date('Y-m-d H:i:s', ((int)substr(preg_replace("/\.(rdf|zip)$/", '', $file), strrpos($file, '_') + 1)))
 				);
