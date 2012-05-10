@@ -94,7 +94,9 @@ class tao_helpers_I18n
         if (PHP_SAPI != 'cli') {
             $mvcContext = Context::getInstance();
             $mvcRequest = $mvcContext->getRequest();
-            if ($mvcRequest->hasParameter('extension') && ($ext = $mvcRequest->getParameter('extension')) != 'none'){
+            if ($mvcRequest->hasParameter('extension') &&
+                ($ext = $mvcRequest->getParameter('extension')) != 'none' &&
+                $ext != 'users'){
                 $jsI18nPath = ROOT_URL . '/' . $ext;
             }
             else{
