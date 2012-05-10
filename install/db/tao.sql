@@ -9,7 +9,7 @@ CREATE TABLE "extensions" (
   PRIMARY KEY ("id")
 ) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 
-INSERT INTO "extensions" VALUES 
+INSERT INTO "extensions" VALUES
 ('generis','generis','2.1',1,1,0),
 ('tao','tao','2.1',1,1,0),
 ('taoGroups','Tao Groups','2.1',1,1,0),
@@ -19,7 +19,8 @@ INSERT INTO "extensions" VALUES
 ('taoTests','Tao Test','2.1',1,1,0),
 ('taoDelivery','taoDelivery','2.1',1,1,0),
 ('wfEngine','Workflow Engine Extension','2.1',1,1,0),
-('filemanager','File Manager Extension','2.1',1,1,1);
+('filemanager','File Manager Extension','2.1',1,1,1),
+('taoCoding','Tao Coding','2.1',1,1,1);
 
 DROP TABLE IF EXISTS "models";
 CREATE TABLE "models" (
@@ -30,7 +31,7 @@ CREATE TABLE "models" (
 ) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 CREATE INDEX "idx_models_modelURI" ON "models" ("modelURI");
 
-INSERT INTO "models" VALUES 
+INSERT INTO "models" VALUES
 (3,'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#','http://www.tao.lu/datatypes/WidgetDefinitions.rdf#'),
 (4,'http://www.w3.org/1999/02/22-rdf-syntax-ns#','http://www.w3.org/1999/02/22-rdf-syntax-ns#'),
 (5,'http://www.w3.org/2000/01/rdf-schema#','http://www.w3.org/2000/01/rdf-schema#'),
@@ -94,7 +95,7 @@ DROP TABLE IF EXISTS "resource_has_class";
 CREATE TABLE "resource_has_class" (
 	"resource_id" int NOT NULL,
 	"class_id" int NOT NULL,
-	PRIMARY KEY ("resource_id", "class_id") 
+	PRIMARY KEY ("resource_id", "class_id")
 ) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 
 DROP TABLE IF EXISTS "sequence_uri_provider";
