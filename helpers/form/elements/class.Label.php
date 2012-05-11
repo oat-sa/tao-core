@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/elements/class.Label.php
+ * TAO - tao/helpers/form/elements/class.Label.php
  *
  * $Id$
  *
- * This file is part of Generis Object Oriented API.
+ * This file is part of TAO.
  *
- * Automatically generated on 06.07.2010, 17:45:45 with ArgoUML PHP module 
+ * Automatically generated on 11.05.2012, 17:19:58 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * Represents a FormElement entity
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/class.FormElement.php');
 
@@ -41,7 +41,7 @@ require_once('tao/helpers/form/class.FormElement.php');
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements
  */
@@ -52,6 +52,14 @@ abstract class tao_helpers_form_elements_Label
 
 
     // --- ATTRIBUTES ---
+
+    /**
+     * Short description of attribute widget
+     *
+     * @access public
+     * @var string
+     */
+    public $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label';
 
     // --- OPERATIONS ---
 
