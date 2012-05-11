@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * This container initialize the import form.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage actions_form
  */
@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * This class provide a container for a specific form instance.
  * It's subclasses instanciate a form and it's elements to be used as a
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/class.FormContainer.php');
 
@@ -34,7 +34,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
  * This container initialize the import form.
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage actions_form
  */
@@ -45,14 +45,6 @@ class tao_actions_form_Import
 
 
     // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute formats
-     *
-     * @access protected
-     * @var array
-     */
-    protected $formats = array('csv' => 'CSV', 'rdf' => 'RDF');
 
     /**
      * Short description of attribute UPLOAD_MAX
@@ -68,7 +60,7 @@ class tao_actions_form_Import
      * Short description of method initForm
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     public function initForm()
@@ -101,7 +93,7 @@ class tao_actions_form_Import
      * Short description of method initElements
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     public function initElements()
@@ -114,16 +106,16 @@ class tao_actions_form_Import
     	
     	//mandatory field
     	$formatElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-    	$formatElt->setOptions($this->formats);
+    	$formatElt->setOptions($this->getFormats());
 
     	//shortcut: add the default value here to load the first time the form is defined
-		if(count($this->formats) == 1){
-			foreach($this->formats as $formatKey => $format){
+		if(count($this->getFormats()) == 1){
+			foreach($this->getFormats() as $formatKey => $format){
 				$formatElt->setValue($formatKey);
 			}
 		}
 		if(isset($_POST['format'])){
-			if(array_key_exists($_POST['format'], $this->formats)){
+			if(array_key_exists($_POST['format'], $this->getFormats())){
 				$formatElt->setValue($_POST['format']);
 			}
 		}
@@ -147,7 +139,7 @@ class tao_actions_form_Import
      * Short description of method initCSVElements
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     protected function initCSVElements()
@@ -216,7 +208,7 @@ class tao_actions_form_Import
      * Short description of method initRDFElements
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     protected function initRDFElements()
@@ -249,6 +241,27 @@ class tao_actions_form_Import
 		$this->form->addElement($rdfSentElt);
     	
         // section 127-0-1-1--2a1722e0:12cbb421f9c:-8000:0000000000002939 end
+    }
+
+    /**
+     * Short description of method getFormats
+     *
+     * @access protected
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @return array
+     */
+    protected function getFormats()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--4252657e:1373c83a2a6:-8000:0000000000003A4E begin
+        $returnValue = array(
+        	'csv' => 'CSV',
+        	'rdf' => 'RDF'
+        );
+        // section 127-0-1-1--4252657e:1373c83a2a6:-8000:0000000000003A4E end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_actions_form_Import */
