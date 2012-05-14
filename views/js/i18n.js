@@ -8,11 +8,13 @@
  * @return {String} translated message 
  */
 var __ = function(message){
-	if(!i18n_tr){
+	if(typeof(i18n_tr) == 'undefined'){
 		return message;
 	}
-	if(i18n_tr[message]){
+	else if(i18n_tr[message]){
 		return i18n_tr[message];
 	}
-	return message;
+	else{
+		return message;
+	}
 }
