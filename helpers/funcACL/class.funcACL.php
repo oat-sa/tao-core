@@ -130,16 +130,15 @@ class tao_helpers_funcACL_funcACL
         $returnValue = array();
 
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B begin
-		if (!is_null(self::$rolesByActions)) $returnValue = self::$rolesByActions;
-		else {
+		if (is_null(self::$rolesByActions)) {
 			try {
-				$returnValue = tao_models_classes_cache_FileCache::singleton()->get('RolesByActions');
+				self::$rolesByActions = tao_models_classes_cache_FileCache::singleton()->get('RolesByActions');
 			}
 			catch (tao_models_classes_cache_NotFoundException $e) {
-				$returnValue = self::buildRolesByActions();
-				self::$rolesByActions = $returnValue;
+				self::$rolesByActions = self::buildRolesByActions();
 			}
 		}
+		$returnValue = self::$rolesByActions;
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B end
 
         return (array) $returnValue;
@@ -214,6 +213,7 @@ class tao_helpers_funcACL_funcACL
     {
         // section 127-0-1-1-5382e8cb:136ab734ff6:-8000:0000000000003908 begin
 			tao_models_classes_cache_FileCache::singleton()->remove('RolesByActions');
+			self::$rolesByActions = null;
         // section 127-0-1-1-5382e8cb:136ab734ff6:-8000:0000000000003908 end
     }
 
