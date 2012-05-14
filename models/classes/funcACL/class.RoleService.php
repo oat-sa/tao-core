@@ -156,7 +156,7 @@ class tao_models_classes_funcACL_RoleService
 		$search = $userClass->searchInstances(array(PROPERTY_USER_LOGIN => $s->getUser()), array('recursive' => true));
 		$userRes = new core_kernel_classes_Resource(key($search));
 
-		$rolesc = new core_kernel_classes_Class(CLASS_ROLE_BACKOFFICE);
+		$rolesc = new core_kernel_classes_Class(CLASS_ROLE);
 		foreach ($rolesc->getInstances(true) as $id => $r) {
 			//$label = explode('#', $id);
 			$nrole = array('id' => $id, 'label' => $r->getLabel(), 'selected' => false);

@@ -85,9 +85,6 @@ class tao_helpers_funcACL_funcACL
 			if (is_null($action)) $action	= $resolver->getAction();
 		}
 
-		//Let access to Main
-		if (in_array(strtolower($module), array('main'))) return true;
-
 		//Get the Roles of the current User
 		$s = core_kernel_classes_Session::singleton();
 		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
@@ -103,7 +100,9 @@ class tao_helpers_funcACL_funcACL
 		$nsm = $ns.'m_'.$extension.'_'.$module;*/
 
 		//Test if we have a role giving access
-		foreach ($userRes->getTypes() as $uri => $t) {
+		$roles = $userRes->getTypes();
+		$roles[CLASS_ROLE_BASEACCESS] = new core_kernel_classes_Resource(CLASS_ROLE_BASEACCESS);
+		foreach ($roles as $uri => $t) {
 			if (isset($reverse_access[$extension]) && isset($reverse_access[$extension][$module])) {
 				if (in_array($uri, $reverse_access[$extension][$module]['roles']) || (isset($reverse_access[$extension][$module]['actions'][$action]) && in_array($uri, $reverse_access[$extension][$module]['actions'][$action]))) {
 					$returnValue = true;
@@ -160,7 +159,7 @@ class tao_helpers_funcACL_funcACL
 
 		$modc = new core_kernel_classes_Class(CLASS_ACL_MODULE);
 		$actc = new core_kernel_classes_Class(CLASS_ACL_ACTION);
-		$roles = new core_kernel_classes_Class(CLASS_ROLE_BACKOFFICE);
+		$roles = new core_kernel_classes_Class(CLASS_ROLE); //before : CLASS_ROLE_BACKOFFICE
 
 		foreach ($modc->getInstances() as $id => $m) {
 			$mod = new core_kernel_classes_Class($id);
