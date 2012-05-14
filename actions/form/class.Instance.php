@@ -135,7 +135,7 @@ class tao_actions_form_Instance
 			if($widget == null || $widget instanceof core_kernel_classes_Literal) {
 				continue;
 			}
-			else if ($widget instanceof core_kernel_classes_Resource &&	$widget->uriResource == WIDGET_TREEVIEW){
+			else if ($widget instanceof core_kernel_classes_Resource &&	$widget->getUri() == WIDGET_TREEVIEW){
 			    continue;
 			}
 			
@@ -171,6 +171,12 @@ class tao_actions_form_Instance
 					}
 					$element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 				}
+
+				// don't show empty labels
+				if($element instanceof tao_helpers_form_elements_Label && strlen($element->getRawValue()) == 0) {
+					continue;
+				}
+				
 				//set file element validator:
 				if($element instanceof tao_helpers_form_elements_AsyncFile){
 					
