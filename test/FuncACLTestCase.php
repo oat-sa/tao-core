@@ -5,16 +5,20 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
 class FuncACLTestCase extends UnitTestCase {
 	public function testFuncACL() {
 		//Create role
-		$suUri = "http://localhost/mytao.rdf#superUser";
-		$tmroleUri = "http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole";
+		$suUri = LOCAL_NAMESPACE."#superUser";
+		$tmroleUri = CLASS_ROLE_TAOMANAGER;
 		$name = 'testcase';
 		$roleUri = tao_models_classes_funcACL_RoleService::singleton()->add($name);
 		$testRole = new core_kernel_classes_Resource($roleUri);
 		$this->assertEqual($name, $testRole->getLabel());
 		//Login
 		$suRes = new core_kernel_classes_Resource($suUri);
-		$login = $suRes->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN))->__toString();
-		$pw = $suRes->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD))->__toString();
+		$login = $suRes->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
+		$this->assertTrue(!is_null($login));
+		$login = $login->__toString();
+		$pw = $suRes->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD));
+		$this->assertTrue(!is_null($pw));
+		$pw = $pw->__toString();
 		$srv = tao_models_classes_UserService::singleton();
 		$srv->loginUser($login, $pw);
 		//Attach role to superuser
@@ -33,7 +37,7 @@ class FuncACLTestCase extends UnitTestCase {
 			if ($r['label'] == $tmRole->getLabel()) $this->assertFalse($r['selected']);
 		}
 		//Test uri creation
-		$emauri = "http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoTests_Tests_editTest";
+		$emauri = FUNCACL_NS."#a_taoTests_Tests_editTest";
 		$makeemauri = tao_models_classes_funcACL_AccessService::singleton()->makeEMAUri('taoTests', 'Tests', 'editTest');
 		$makeemaurimod = tao_models_classes_funcACL_AccessService::singleton()->makeEMAUri('taoTests', 'Tests');
 		$this->assertEqual($emauri, $makeemauri);
@@ -42,7 +46,9 @@ class FuncACLTestCase extends UnitTestCase {
 		//Add access for an actions
 		tao_models_classes_funcACL_ActionAccessService::singleton()->add($roleUri, $makeemauri);
 		//Test the action with the access
+		var_dump($roleUri, $makeemauri);
 		$this->assertTrue(tao_helpers_funcACL_funcACL::hasAccess('taoTests', 'Tests', 'editTest'));
+exit;
 		//Remove access for the actions
 		tao_models_classes_funcACL_ActionAccessService::singleton()->remove($roleUri, $makeemauri);
 		//Test access without access
