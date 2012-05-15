@@ -97,7 +97,7 @@ class tao_scripts_TaoPreparePublicActions
 						//Add the module
 						//http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_{name}
 						$module = substr($action, 6, -4);
-						$ext = "http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_".$dir.'_'.$module;
+						$ext = FUNCACL_NS."#m_".$dir.'_'.$module;
 						$class = $dir.'_actions_'.$module;
 
 						//Introspection, get public method
