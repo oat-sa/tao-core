@@ -46,9 +46,8 @@ class FuncACLTestCase extends UnitTestCase {
 		//Add access for an actions
 		tao_models_classes_funcACL_ActionAccessService::singleton()->add($roleUri, $makeemauri);
 		//Test the action with the access
-		var_dump($roleUri, $makeemauri);
 		$this->assertTrue(tao_helpers_funcACL_funcACL::hasAccess('taoTests', 'Tests', 'editTest'));
-exit;
+
 		//Remove access for the actions
 		tao_models_classes_funcACL_ActionAccessService::singleton()->remove($roleUri, $makeemauri);
 		//Test access without access

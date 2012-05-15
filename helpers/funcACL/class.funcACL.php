@@ -132,10 +132,14 @@ class tao_helpers_funcACL_funcACL
 		if (is_null(self::$rolesByActions)) {
 			try {
 				self::$rolesByActions = tao_models_classes_cache_FileCache::singleton()->get('RolesByActions');
+				common_Logger::d('read roles by action from file');
 			}
 			catch (tao_models_classes_cache_NotFoundException $e) {
+				common_Logger::d('read roles by action failed, recalculating');
 				self::$rolesByActions = self::buildRolesByActions();
 			}
+		} else {
+			common_Logger::d('read roles by action from memory');
 		}
 		$returnValue = self::$rolesByActions;
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B end
@@ -161,33 +165,36 @@ class tao_helpers_funcACL_funcACL
 		$actc = new core_kernel_classes_Class(CLASS_ACL_ACTION);
 		$roles = new core_kernel_classes_Class(CLASS_ROLE); //before : CLASS_ROLE_BACKOFFICE
 
-		foreach ($modc->getInstances() as $id => $m) {
-			$mod = new core_kernel_classes_Class($id);
+		foreach ($modc->getInstances() as $mod) {
 			$values = $mod->getPropertiesValues(array(
-        new core_kernel_classes_Property(PROPERTY_ACL_MODULE_ID),
-        new core_kernel_classes_Property(PROPERTY_ACL_MODULE_EXTENSION)
-      ));
+				new core_kernel_classes_Property(PROPERTY_ACL_MODULE_ID),
+				new core_kernel_classes_Property(PROPERTY_ACL_MODULE_EXTENSION)
+			));
 			$label = (string)array_pop($values[PROPERTY_ACL_MODULE_ID]);
 			$extension = (string)array_pop($values[PROPERTY_ACL_MODULE_EXTENSION]);
-			$modules[] = array('id' => $id, 'label' => $label, 'extension' => $extension);
+			$modules[] = array('id' => $mod->getUri(), 'label' => $label, 'extension' => $extension);
 			$lbla = explode('_', $label);
 			$label = array_pop($lbla);
-			if (!isset($reverse_access[$extension])) $reverse_access[$extension] = array();
-			if (!isset($reverse_access[$extension][$label])) $reverse_access[$extension][$label] = array('actions' => array(), 'roles' => array());
+			if (!isset($reverse_access[$extension])) {
+				$reverse_access[$extension] = array();
+			}
+			if (!isset($reverse_access[$extension][$label])) {
+				$reverse_access[$extension][$label] = array('actions' => array(), 'roles' => array());
+			}
 
 			//Roles
-			foreach ($roles->searchInstances(array(PROPERTY_ACL_MODULE_GRANTACCESS => $id), array('recursive' => true)) as $r) {
+			foreach ($roles->searchInstances(array(PROPERTY_ACL_MODULE_GRANTACCESS => $mod->getUri()), array('like' => false, 'recursive' => true)) as $r) {
 				$reverse_access[$extension][$label]['roles'][] = $r->getUri();
 			}
 
 			//Actions
-			foreach ($actc->searchInstances(array(PROPERTY_ACL_ACTION_MEMBEROF => $id), array('recursive' => true)) as $act) {
+			foreach ($actc->searchInstances(array(PROPERTY_ACL_ACTION_MEMBEROF => $mod->getUri()), array('like' => false, 'recursive' => true)) as $act) {
 				$labela = $act->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_ID))->__toString();
 				$lbla = explode('_', $labela);
 				$labela = array_pop($lbla);
 				$reverse_access[$extension][$label]['actions'][$labela] = array();
 
-				foreach ($roles->searchInstances(array(PROPERTY_ACL_ACTION_GRANTACCESS => $act->getUri())) as $r) {
+				foreach ($roles->searchInstances(array(PROPERTY_ACL_ACTION_GRANTACCESS => $act->getUri()), array('like' => false, 'recursive' => true)) as $r) {
 					$reverse_access[$extension][$label]['actions'][$labela][] = $r->getUri();
 				}
 			}
