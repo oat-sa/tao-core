@@ -99,6 +99,10 @@ class tao_scripts_TaoPreparePublicActions
 						$module = substr($action, 6, -4);
 						$ext = FUNCACL_NS."#m_".$dir.'_'.$module;
 						$class = $dir.'_actions_'.$module;
+						$topclass = 'Module';
+						if (!is_subclass_of($class, $topclass)) {
+							$this->out($class.' does not inherit '.$topclass);
+						}
 
 						//Introspection, get public method
 						try {
@@ -107,7 +111,7 @@ class tao_scripts_TaoPreparePublicActions
 							if (count($methods)) {
 								$rdft = '';
 								foreach ($methods as $m) {
-									if (!$m->isConstructor() && !$m->isDestructor() && $m->class == $class) {
+									if (!$m->isConstructor() && !$m->isDestructor() && is_subclass_of($m->class,$topclass) && $m->name != 'setView') {
 										$rdft .= "\n".str_replace("{base}", $dir.'_'.$module, str_replace("{name}", $m->name, str_replace("{member}", $ext, $rdf_acttpl)));
 									}
 								}
