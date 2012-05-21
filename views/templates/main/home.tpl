@@ -1,6 +1,6 @@
 <div id="home" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 	<div id="home-title" class="ui-widget-header ui-corner-all"><?=__('TAO Back Office')?> <?=TAO_VERSION_NAME?></div>
-	
+
 	<!-- JS CHECK -->
 	<div id="no-js-box" class="ui-state-error">
 		<?=__('Javascript is required to run this software. Please activate it in your browser.')?>
@@ -19,9 +19,13 @@
 						<tr>
 					<?endif?>
 					<td>
-						<div class="home-box ui-corner-all ui-widget ui-widget-header" style="cursor:pointer;">
+						<div class="home-box ui-corner-all ui-widget ui-widget-header<?php if (!$extension['disabled']) echo ' disabled' ?>" style="<?php if ($extension['disabled']) echo 'cursor:pointer;' ?>">
 							<img src="<?=ROOT_URL?>/<?=$extension['extension']?>/views/img/extension.png" /><br />
+<?php if ($extension['disabled']): ?>
 							<a id="extension-nav-<?=$extension['extension']?>" class="extension-nav" href="<?=_url('index', null, null, array('extension' => $extension['extension']))?>"><?=__($extension['name'])?></a>
+<?php else: ?>
+							<span><?=__($extension['name'])?></span>
+<?php endif; ?>
 							<span class='extension-desc' style="display:none;"><?=__($extension['description']);?></span>
 						</div>
 					</td>
@@ -41,11 +45,11 @@ $(document).ready(function(){
 		});
 	});
 	$('.home-box').mouseover(function(){
-		if($('.extension-desc', this).css('display') == 'none') { 
-			$('.extension-desc', this).show(); 
+		if($('.extension-desc', this).css('display') == 'none') {
+			$('.extension-desc', this).show();
 		}
 	}).mouseout(function(){
-		if($('.extension-desc', this).css('display') != 'none') { 
+		if($('.extension-desc', this).css('display') != 'none') {
 			$('.extension-desc', this).hide();
 		}
 	});

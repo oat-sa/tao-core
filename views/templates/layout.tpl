@@ -4,12 +4,12 @@
 		<a href="<?=_url('index', null, null, array('extension' => 'none'))?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
 		<div class="left-menu">
 			<?foreach(get_data('extensions') as $i => $extension):?>
-				<?if(get_data('currentExtension') == $extension['extension']):?>
-					<span class="current-extension">
-				<?else:?>
-					<span>
-				<?endif?>
+				<span class="<? if (get_data('currentExtension') == $extension['extension']) echo 'current-extension'; if (!$extension['disabled']) echo ' disabled' ?>">
+<?php if ($extension['disabled']): ?>
 						<a href="<?=_url('index', null, null, array('extension' => $extension['extension']))?>" title="<?=__($extension['description'])?>"><?=__($extension['name'])?></a>
+<?php else: ?>
+						<?=__($extension['name'])?>
+<?php endif; ?>
 					</span>
 				<?if($i < (count(get_data('extensions')) - 1)):?>|<?endif?>
 			<?endforeach?>
@@ -21,26 +21,26 @@
 					<img src="<?=BASE_WWW?>img/home.png" alt="<?=__('Home')?>" />
 				</a>
 			</span>
-		  	<span>
-		  		<a href="<?=_url('index', null, null, array('extension' => 'users'))?>" title="<?=__('Users')?>">
-		  			<img src="<?=BASE_WWW?>img/users.png" alt="<?=__('Users')?>" />
-		  		</a>
-		  	</span>
-		  	<span>
-		  		<a href="<?=_url('index', 'Settings')?>" class="settings-loader" title="<?=__('Settings')?>">
-		  			<img src="<?=BASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />
-		  		</a>
-		  	</span>
 			<span>
-				<a href="#" class="file-manager" title="<?=__('Media manager')?>">
-					<img src="<?=BASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" />
+				<a href="<?=_url('index', null, null, array('extension' => 'users'))?>" title="<?=__('Users')?>">
+					<img src="<?=BASE_WWW?>img/users.png" alt="<?=__('Users')?>" />
 				</a>
 			</span>
-		  	<span>
-		  		<a href="<?=_url('logout')?>" title="<?=__('Logout')?>">
-		  			<img src="<?=BASE_WWW?>img/logout.png" alt="<?=__('Logout')?>" />
-		  		</a>
-		  	</span>
+			<span>
+				<a href="<?=_url('index', 'Settings')?>" class="settings-loader" title="<?=__('Settings')?>">
+					<img src="<?=BASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />
+				</a>
+			</span>
+			<span>
+			<a href="#" class="file-manager" title="<?=__('Media manager')?>">
+				<img src="<?=BASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" />
+			</a>
+			</span>
+			<span>
+				<a href="<?=_url('logout')?>" title="<?=__('Logout')?>">
+					<img src="<?=BASE_WWW?>img/logout.png" alt="<?=__('Logout')?>" />
+				</a>
+			</span>
 		</div>
 	</div>
 

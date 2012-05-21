@@ -1,7 +1,7 @@
 
 /**
  * Enable you to check if the login contained in the field identified by id is unique
- * An ajax request is sent to the url with the login and a JSON response <code>{"available": "true"}</code> 
+ * An ajax request is sent to the url with the login and a JSON response <code>{"available": "true"}</code>
  * @param id
  * @param url
  * @return void

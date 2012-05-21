@@ -91,9 +91,7 @@ div#main-menu span.disabled-extension{
 
 /* Main containers */
 
-div.main-container{
-	margin-left:0.25%;
-}
+div.main-container { margin-left: 0/*0.25%*/ }
 div.main-container .medium {
 	width: 49.75%;
 	float: right;
@@ -334,3 +332,87 @@ html[xmlns] .clearfix {
 * html .clearfix {
 	height: 1%;
 }
+
+
+.containerDisplay {
+  border: 1px solid #999;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	position: relative;
+}
+.containerDisplay > .title {
+  border-bottom: 1px solid #999;
+	padding: 5px 7px;
+	font-weight: bold;
+	background-color: #ccc;
+	display: block;
+	font-size: 14px;
+}
+.containerDisplay .title a { font-size: 10px }
+
+
+ul.group-list, ul.group-list ul {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	width: 100%;
+}
+
+ul.group-list li {
+	list-style: none;
+	padding-left: 13px;
+	border-bottom: 1px solid #999;
+}
+ul.group-list li span.label,
+ul.group-list .group-title .title {
+	width: 90%;
+	padding: 5px 0;
+	display: inline-block;
+}
+ul.group-list li span.selector,
+ul.group-list .group-title .selector {
+	width: 10%;
+	height: 27px;
+	vertical-align: top;
+	display: inline-block;
+}
+ul.group-list li:last-child { border-bottom: 0 }
+ul.group-list .group-title { font-weight: bold; padding-left: 7px }
+ul.group-list li:hover:not(.group) { background-color: #ccc }
+ul.group-list .group-title:hover { background-color: #ddd }
+ul.group-list li.selectable { cursor: pointer }
+ul.group-list li.selected { background-color: #9f9 }
+ul.group-list li.selected:hover { background-color: #9c9 }
+ul.group-list li.group { padding: 0 }
+ul.group-list li .group-title { background-color: #999; cursor: pointer }
+ul.group-list li span.title { background-color: inherit }
+ul.group-list li.expendable.closed ul { display: none; }
+ul.group-list li.expendable.closed { margin-bottom: 1px }
+ul.group-list li.expendable.closed:last-child { margin-bottom: 0 }
+ul.group-list .selector {
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+ul.group-list li > .checkable,
+ul.group-list li .group-title > .checkable { background-image: url(../img/checkbox.png) }
+ul.group-list .have-access > .selector,
+ul.group-list .have-access .group-title > .selector,
+ul.group-list .have-access:hover > .selector,
+ul.group-list .have-access:hover .group-title > .selector { background-image: url(../img/checkbox_partial.png) }
+ul.group-list .have-allaccess > .selector,
+ul.group-list .have-allaccess .group-title > .selector,
+ul.group-list .have-allaccess:hover > .selector,
+ul.group-list .have-allaccess:hover .group-title > .selector { background-image: url(../img/checkbox_checked.png) }
+ul.group-list .autoadd > .selector,
+ul.group-list .autoadd .group-title > .selector,
+ul.group-list .autoadd:hover > .selector,
+ul.group-list .autoadd:hover .group-title > .selector { background-image: url(../img/autoadd.png) }
+ul.group-list .autoadd.checked > .selector,
+ul.group-list .autoadd.checked .group-title > .selector,
+ul.group-list .autoadd.checked:hover > .selector,
+ul.group-list .autoadd.checked:hover .group-title > .selector { background-image: url(../img/autoadd_checked.png) }
+
+ul.group-list .selector { background-color: white }
+.selector.checkable { cursor: pointer }

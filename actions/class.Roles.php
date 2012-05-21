@@ -24,11 +24,11 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 	 */
 	public function index(){
 		//$this->setData('data', __('list the roles'));
-		$rolesc = new core_kernel_classes_Class(CLASS_ROLE_BACKOFFICE);
+		$rolesc = new core_kernel_classes_Class(CLASS_ROLE);
 		$roles = array();
 		foreach ($rolesc->getInstances(true) as $id => $r) {
-			$label = explode('#', $id);
-			$roles[] = array('id' => $id, 'label' => $label[1]);
+			//$label = explode('#', $id);
+			$roles[] = array('id' => $id, 'label' => $r->getLabel());
 		}
 
 		$this->setData('roles', $roles);
@@ -112,7 +112,7 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 		$allaccess = false;
 		if (in_array($role, $rba[$ext][$mod]['roles'])) $rban['bymodule'] = true;
 		foreach ($rba[$ext][$mod]['actions'] as $anom => $r) {
-			$rban['actions'][$anom] = array('have-access' => false, 'uri' => $this->makeEMAUri($ext, $mod, $anom));
+			$rban['actions'][$anom] = array('have-access' => false, 'uri' => tao_models_classes_funcACL_AccessService::singleton()->makeEMAUri($ext, $mod, $anom));
 			if (in_array($role, $r)) $rban['actions'][$anom]['have-access'] = true;
 		}
 		echo json_encode($rban);
@@ -150,142 +150,63 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 	public function removeExtensionAccess() {
 		$role = $this->getRequestParameter('role');
 		$uri = explode('#', $this->getRequestParameter('uri'));
-		list($type, $ext) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$roler = new core_kernel_classes_Class($role);
-		foreach ($rba[$ext] as $modn => $mod) {
-			$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $modn)));
-			//Delete roles for actions
-			foreach ($rba[$ext][$modn]['actions'] as $actn => $roles) {
-				$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $modn, $actn)));
-			}
-		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		tao_models_classes_funcACL_ExtensionAccessService::singleton()->remove($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function addExtensionAccess() {
 		$role = $this->getRequestParameter('role');
 		$uri = explode('#', $this->getRequestParameter('uri'));
-		list($type, $ext) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$roler = new core_kernel_classes_Class($role);
-		foreach ($rba[$ext] as $modn => $mod) {
-			$roler->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), $this->makeEMAUri($ext, $modn));
-			//Delete roles for actions
-			foreach ($rba[$ext][$modn]['actions'] as $actn => $roles) {
-				$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $modn, $actn)));
-			}
-		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		tao_models_classes_funcACL_ExtensionAccessService::singleton()->add($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function removeModuleAccess() {
 		$role = $this->getRequestParameter('role');
 		$uri = explode('#', $this->getRequestParameter('uri'));
-		list($type, $ext, $mod) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$roler = new core_kernel_classes_Class($role);
-		$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), array('pattern' => $this->getRequestParameter('uri')));
-		//Delete roles for actions
-		foreach ($rba[$ext][$mod]['actions'] as $actn => $roles) {
-			$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $mod, $actn)));
-		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		tao_models_classes_funcACL_ModuleAccessService::singleton()->remove($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function addModuleAccess() {
 		$role = $this->getRequestParameter('role');
 		$uri = explode('#', $this->getRequestParameter('uri'));
-		list($type, $ext, $mod) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$roler = new core_kernel_classes_Class($role);
-		$roler->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), $this->getRequestParameter('uri'));
-		//Delete roles for actions
-		foreach ($rba[$ext][$mod]['actions'] as $actn => $roles) {
-			$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $mod, $actn)));
-		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		tao_models_classes_funcACL_ModuleAccessService::singleton()->add($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function removeActionAccess() {
 		$role = $this->getRequestParameter('role');
 		$uri = explode('#', $this->getRequestParameter('uri'));
-		list($type, $ext, $mod, $act) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$roler = new core_kernel_classes_Class($role);
-		$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->getRequestParameter('uri')));
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		tao_models_classes_funcACL_ActionAccessService::singleton()->remove($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function addActionAccess() {
 		$role = $this->getRequestParameter('role');
 		$uri = explode('#', $this->getRequestParameter('uri'));
-		list($type, $ext, $mod, $act) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$roler = new core_kernel_classes_Class($role);
-		$roler->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), $this->getRequestParameter('uri'));
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		tao_models_classes_funcACL_ActionAccessService::singleton()->add($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function moduleToActionAccess() {
 		$role = $this->getRequestParameter('role');
 		$uri = explode('#', $this->getRequestParameter('uri'));
-		list($type, $ext, $mod, $act) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$roler = new core_kernel_classes_Class($role);
-		$propa = new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS);
-		$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $mod)));
-		foreach ($rba[$ext][$mod]['actions'] as $actn => $roles) {
-			if ($act != $actn) $roler->setPropertyValue($propa, $this->makeEMAUri($ext, $mod, $actn));
-		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		tao_models_classes_funcACL_ActionAccessService::singleton()->moduleToActionAccess($role, $uri);
 		echo json_encode(array('uri' => $uri));
-	}
-
-	private function makeEMAUri($ext, $mod = null, $act = null) {
-		$uri = 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#';
-		if (!is_null($act)) $type = 'a';
-		else if (!is_null($mod)) $type = 'm';
-		else $type = 'e';
-		$uri .= $type.'_'.$ext;
-		if (!is_null($mod)) $uri .= '_'.$mod;
-		if (!is_null($act)) $uri .= '_'.$act;
-		return $uri;
 	}
 
 	public function moduleToActionsAccess() {
 		$role = $this->getRequestParameter('role');
 		$uri = explode('#', $this->getRequestParameter('uri'));
-		list($type, $ext, $mod) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$roler = new core_kernel_classes_Class($role);
-		$propa = new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS);
-		$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $mod)));
-		foreach ($rba[$ext][$mod]['actions'] as $actn => $roles) {
-			$roler->setPropertyValue($propa, $this->makeEMAUri($ext, $mod, $actn));
-		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		tao_models_classes_funcACL_ActionAccessService::singleton()->moduleToActionsAccess($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function actionsToModuleAccess() {
 		$role = $this->getRequestParameter('role');
 		$uri = explode('#', $this->getRequestParameter('uri'));
-		list($type, $ext, $mod) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$roler = new core_kernel_classes_Class($role);
-		$propa = new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS);
-		$roler->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), $this->makeEMAUri($ext, $mod));
-		foreach ($rba[$ext][$mod]['actions'] as $actn => $roles) {
-			$roler->removePropertyValues($propa, array('pattern' => $this->makeEMAUri($ext, $mod, $actn)));
-		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		tao_models_classes_funcACL_ModuleAccessService::singleton()->actionsToModuleAccess($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
@@ -293,31 +214,8 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		//Get the Roles of the current User (duplicate src : class.funcACL.php)
-		$s = core_kernel_classes_Session::singleton();
-		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-		$search = $userClass->searchInstances(array(PROPERTY_USER_LOGIN => $s->getUser()), array('recursive' => true));
-		$userRes = new core_kernel_classes_Resource(key($search));
-
-		$rolesc = new core_kernel_classes_Class(CLASS_ROLE_BACKOFFICE);
-		$roles = array();
-		foreach ($rolesc->getInstances(true) as $id => $r) {
-			$label = explode('#', $id);
-			$nrole = array('id' => $id, 'label' => $label[1], 'selected' => false);
-			//Selected
-			foreach ($userRes->getTypes() as $uri => $t) {
-				if ($uri == $id) $nrole['selected'] = true;
-			}
-			$roles[] = $nrole;
-		}
+		$roles = tao_models_classes_funcACL_RoleService::singleton()->getRoles();
 		echo json_encode($roles);
-	}
-
-	public function setRoles() {
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		echo json_encode("");
 	}
 
 	public function attachRole() {
@@ -326,8 +224,7 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 		}
 		$roleuri = $this->getRequestParameter('roleuri');
 		$useruri = tao_helpers_Uri::decode($this->getRequestParameter('useruri'));
-		$userRes = new core_kernel_classes_Resource($useruri);
-		$userRes->setPropertyValue(new core_kernel_classes_Property(RDF_TYPE), $roleuri);
+		tao_models_classes_funcACL_RoleService::singleton()->attachUser($useruri, $roleuri);
 		echo json_encode(array('success' => true));
 	}
 
@@ -337,9 +234,36 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 		}
 		$roleuri = $this->getRequestParameter('roleuri');
 		$useruri = tao_helpers_Uri::decode($this->getRequestParameter('useruri'));
-		$userRes = new core_kernel_classes_Resource($useruri);
-		$userRes->removePropertyValues(new core_kernel_classes_Property(RDF_TYPE), array('pattern' => $roleuri));
+		tao_models_classes_funcACL_RoleService::singleton()->unattachUser($useruri, $roleuri);
 		echo json_encode(array('success' => true));
+	}
+
+	public function addRole() {
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$name = $this->getRequestParameter('name');
+		$uri = tao_models_classes_funcACL_RoleService::singleton()->add($name);
+		echo json_encode(array('success' => true, 'name' => $name, 'uri' => $uri));
+	}
+
+	public function editRole() {
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$name = $this->getRequestParameter('name');
+		$uri = $this->getRequestParameter('uri');
+		tao_models_classes_funcACL_RoleService::singleton()->edit($uri, $name);
+		echo json_encode(array('success' => true, 'name' => $name, 'uri' => $uri));
+	}
+
+	public function deleteRole() {
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		$uri = $this->getRequestParameter('uri');
+		tao_models_classes_funcACL_RoleService::singleton()->remove($uri);
+		echo json_encode(array('success' => true, 'uri' => $uri));
 	}
 }
 ?>

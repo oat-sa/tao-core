@@ -174,6 +174,7 @@ class Bootstrap{
                 $this->catchError($e);
             }
 			self::$isDispatched = true;
+			common_Logger::d(core_kernel_classes_DbWrapper::singleton()->getNrOfQueries().' queries for this request');
 		}
 	}
 
@@ -328,7 +329,11 @@ class Bootstrap{
 		try {
 			$re		= new HttpRequest();
 			$fc		= new AdvancedFC($re);
-			$fc->loadModule();
+			if (tao_helpers_funcACL_funcACL::hasAccess(null, $re->getModule(), $re->getAction())) {
+				$fc->loadModule();
+			} else {
+				throw new tao_helpers_funcACL_funcACLException(__('No access to this Module or Action !'));
+			}
 		}
 		catch(ActionEnforcingException $ae){
 			$message	= $ae->getMessage();
@@ -338,6 +343,10 @@ class Bootstrap{
 				$message .= "Called action :".$ae->getActionName()."<br />";
 			}
 			require_once TAO_TPL_PATH . 'error/error404.tpl';
+		}
+		catch(tao_helpers_funcACL_funcACLException $facle) {
+			$message	= $facle->getMessage();
+			require_once TAO_TPL_PATH . 'error/error403.tpl';
 		}
 		catch(tao_models_classes_UserException $ue){
 			$message	= $ue->getMessage();

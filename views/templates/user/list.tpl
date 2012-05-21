@@ -2,7 +2,7 @@
 
 <div class="main-container">
 	<table id="user-list"></table>
-	<div id="user-list-pager"></div> 
+	<div id="user-list-pager"></div>
 	<br />
 	<span class="ui-state-default ui-corner-all">
 		<a href="#" onclick="selectTabByName('add_user');">
@@ -23,31 +23,31 @@ function editUser(uri){
 	}
 }
 function removeUser(uri){
-	if(confirm("<?=__('Please confirm user deletion')?>")){ 
+	if(confirm("<?=__('Please confirm user deletion')?>")){
 		window.location = "<?=_url('delete', 'Users', 'tao')?>" + '?uri=' + uri;
 	}
 }
 $(function(){
 	UiBootstrap.tabs.tabs('disable', getTabIndexByName('edit_user'));
 	var myGrid = $("#user-list").jqGrid({
-		url: "<?=_url('data', 'Users', 'tao')?>", 
-		datatype: "json", 
-		colNames:[ __('Login'), __('Name'), __('Mail'), __('Data Language'), __('Interface Language'), __('Actions')], 
-		colModel:[ 
-			{name:'login',index:'login'}, 
-			{name:'name',index:'name'}, 
-			{name:'email',index:'email', width: '200'}, 
+		url: "<?=_url('data', 'Users', 'tao')?>",
+		datatype: "json",
+		colNames:[ __('Login'), __('Name'), __('Mail'), __('Data Language'), __('Interface Language'), __('Actions')],
+		colModel:[
+			{name:'login',index:'login'},
+			{name:'name',index:'name'},
+			{name:'email',index:'email', width: '200'},
 			{name:'deflg',index:'deflg', align:"center"},
 			{name:'uilg',index:'uilg', align:"center"},
 			{name:'actions',index:'actions', align:"center", sortable: false}
-		], 
-		rowNum:20, 
-		height:350, 
+		],
+		rowNum:20,
+		height:350,
 		width: (parseInt($("#user-list").width()) - 2),
-		pager: '#user-list-pager', 
-		sortname: 'login', 
-		viewrecords: false, 
-		sortorder: "asc", 
+		pager: '#user-list-pager',
+		sortname: 'login',
+		viewrecords: false,
+		sortorder: "asc",
 		caption: __("Users"),
 		gridComplete: function(){
 			$.each(myGrid.getDataIDs(), function(index, elt){
@@ -68,7 +68,7 @@ $(function(){
 		}
 	});
 	myGrid.navGrid('#user-list-pager',{edit:false, add:false, del:false});
-	
+
 	_autoFx();
 });
 </script>
