@@ -329,7 +329,7 @@ class Bootstrap{
 		try {
 			$re		= new HttpRequest();
 			$fc		= new AdvancedFC($re);
-			if (tao_helpers_funcACL_funcACL::hasAccess($this->extension->name, $re->getModule(), $re->getAction())) {
+			if (tao_helpers_funcACL_funcACL::hasAccess($this->extension->id, $re->getModule(), $re->getAction())) {
 				$fc->loadModule();
 			} else {
 				throw new tao_helpers_funcACL_funcACLException(__('No access to this Module or Action !'));
