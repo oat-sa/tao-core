@@ -471,6 +471,9 @@ class tao_install_Installator{
 		common_Logger::d('Creating version file for TAO', 'INSTALL');
 		file_put_contents(ROOT_PATH.'version', TAO_VERSION);
 		
+		common_Logger::d('Precalculkating funcACL role accesses', 'INSTALL');
+		tao_helpers_funcACL_funcACL::buildRolesByActions();
+		
 		common_Logger::i('Instalation completed', 'INSTALL');
 	}
 

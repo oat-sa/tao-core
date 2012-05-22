@@ -134,14 +134,11 @@ class tao_helpers_funcACL_funcACL
 		if (is_null(self::$rolesByActions)) {
 			try {
 				self::$rolesByActions = tao_models_classes_cache_FileCache::singleton()->get('RolesByActions');
-				common_Logger::d('read roles by action from file');
 			}
 			catch (tao_models_classes_cache_NotFoundException $e) {
-				common_Logger::d('read roles by action failed, recalculating');
+				common_Logger::i('read roles by action failed, recalculating');
 				self::$rolesByActions = self::buildRolesByActions();
 			}
-		} else {
-			common_Logger::d('read roles by action from memory');
 		}
 		$returnValue = self::$rolesByActions;
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B end
