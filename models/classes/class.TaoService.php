@@ -225,7 +225,13 @@ class tao_models_classes_TaoService
 					return $structure['data'];
 				}
 			}
-			throw new common_Exception('No structure found for extension '.$extension);
+			common_logger::w('No structure found for extension '.$extension);
+			
+			if (empty($section)) {
+				throw new common_Exception('No structure found for extension '.$extension);
+			} else {
+				throw new common_Exception('No structure found for extension '.$extension.' and section '.$section);
+			}
 		}
 
 		$returnValue = self::$structure;

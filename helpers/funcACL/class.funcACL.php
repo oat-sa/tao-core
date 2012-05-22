@@ -77,12 +77,14 @@ class tao_helpers_funcACL_funcACL
 			$resolver = new Resolver();
 			//if (is_null($extension)) $extension = tao_models_classes_TaoService::singleton()->getCurrentExtension();
 			if (is_null($extension)) {
-				$b = basename(ROOT_URL);
-				$triple = explode('/', substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], $b) + strlen($b) + 1));
-				$extension = $triple[0];
+				$extension = common_ext_ExtensionsManager::singleton()->getCurrentExtensionName();
 			}
-			if (is_null($module)) $module	= $resolver->getModule();
-			if (is_null($action)) $action	= $resolver->getAction();
+			if (is_null($module)) {
+				$module	= $resolver->getModule();
+			}
+			if (is_null($action)) {
+				$action	= $resolver->getAction();
+			}
 		}
 
 		//Get the Roles of the current User

@@ -125,7 +125,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		$this->setData('sections', false);
 		$currentExtension = $this->service->getCurrentExtension();
-		if($currentExtension){
+		if($currentExtension && $this->service->isTaoChildExtension($currentExtension)){
 			$this->setData('sections', $this->service->getStructure($currentExtension)->sections[0]);
 		}
 		else{
