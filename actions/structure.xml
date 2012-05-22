@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE extension SYSTEM "../doc/structure.dtd">
+<extension name="Tao" url="/tao/Main/index" level="8">
+	<description />
+	<sections>
+	</sections>
+</extension>
