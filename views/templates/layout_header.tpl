@@ -8,6 +8,7 @@
 	<script type='text/javascript'>
 		var jsPath 	= '<?=BASE_WWW?>js/';
 		var imgPath = '<?=BASE_WWW?>img/';
+		var currentExtension = '<?= common_ext_ExtensionsManager::singleton()->getCurrentExtensionName(); ?>';
 	</script>
 
 	<?=tao_helpers_Scriptloader::render()?>

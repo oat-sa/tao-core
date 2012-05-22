@@ -108,7 +108,8 @@ UiBootstrap = function(options){
 				url: root_url + '/tao/Main/getSectionTrees',
 				type: "GET",
 				data: {
-					section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title')		//get the link text of the selected tab
+					section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title'),		//get the link text of the selected tab
+					extension: currentExtension
 				},
 				dataType: 'html',
 				success: function(response){
@@ -134,7 +135,8 @@ UiBootstrap = function(options){
 				url: root_url + '/tao/Main/getSectionActions',
 				type: "GET",
 				data: {
-					section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title')		//get the link text of the selected tab
+					section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title'),		//get the link text of the selected tab
+					extension: currentExtension
 				},
 				dataType: 'html',
 				success: function(response){

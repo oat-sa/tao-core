@@ -15,7 +15,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * The Service class is an abstraction of each service instance. 
+ * The Service class is an abstraction of each service instance.
  * Used to centralize the behavior related to every servcie instances.
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -76,9 +76,9 @@ class tao_models_classes_TaoService
         $returnValue = array();
 
         // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001820 begin
-		
+
 		if( count(self::$extensions) == 0 ){		//check it only once
-			
+
 			$extensionsManager = common_ext_ExtensionsManager::singleton();
 			foreach($extensionsManager->getInstalledExtensions() as $extension){
 				if($extension->configuration->loaded && !$extension->configuration->ghost){
@@ -87,9 +87,9 @@ class tao_models_classes_TaoService
 			}
 			self::$extensions[] = 'users';
 		}
-		
+
 		$returnValue = self::$extensions;
-		
+
         // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001820 end
 
         return (array) $returnValue;
@@ -125,10 +125,11 @@ class tao_models_classes_TaoService
     public function setCurrentExtension($extension)
     {
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A66 begin
-		if(!$this->isLoaded($extension)){
+		/*if(!$this->isLoaded($extension)){
 			throw new common_Exception("$extension is not a valid extension");
 		}
-		Session::setAttribute('currentExtension', $extension);
+		Session::setAttribute('currentExtension', $extension);*/
+		common_ext_ExtensionsManager::singleton()->setCurrentExtension($extension);
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A66 end
     }
 
@@ -144,10 +145,11 @@ class tao_models_classes_TaoService
         $returnValue = (string) '';
 
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6A begin
-		if(!Session::hasAttribute('currentExtension')){
+		/*if(!Session::hasAttribute('currentExtension')){
 			return false;
 		}
-		$returnValue = Session::getAttribute('currentExtension');
+		$returnValue = Session::getAttribute('currentExtension');*/
+		$returnValue = common_ext_ExtensionsManager::singleton()->getCurrentExtensionName();
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6A end
 
         return (string) $returnValue;
@@ -167,14 +169,14 @@ class tao_models_classes_TaoService
         $returnValue = null;
 
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6C begin
-		
+
 		if($extension == 'users'){
 			$structureFilePath = ROOT_PATH.'/tao/actions/users-structure.xml';
 		}
 		else{
 			$structureFilePath = ROOT_PATH.'/'.$extension.'/actions/structure.xml';
 		}
-		
+
 		if(file_exists($structureFilePath)){
 			return new SimpleXMLElement($structureFilePath, null, true);
 		}
@@ -197,7 +199,7 @@ class tao_models_classes_TaoService
         $returnValue = array();
 
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A79 begin
-		
+
 		if( count(self::$structure) == 0 ){
 			$structure = array();
 			foreach($this->getLoadedExtensions() as $loadedExtension){
@@ -223,9 +225,9 @@ class tao_models_classes_TaoService
 			}
 			throw new common_Exception('No structure found for extension '.$extension);
 		}
-		
+
 		$returnValue = self::$structure;
-		
+
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A79 end
 
         return (array) $returnValue;
@@ -244,13 +246,13 @@ class tao_models_classes_TaoService
         $returnValue = (bool) false;
 
         // section 127-0-1-1-34cc9151:127a8ee40c4:-8000:000000000000233E begin
-        
+
         if(!empty($extension)){
         	if(file_exists(ROOT_PATH.'/'.$extension.'/actions/structure.xml')){
         		 $returnValue = true;
         	}
         }
-        
+
         // section 127-0-1-1-34cc9151:127a8ee40c4:-8000:000000000000233E end
 
         return (bool) $returnValue;
@@ -269,7 +271,7 @@ class tao_models_classes_TaoService
         $returnValue = (string) '';
 
         // section 10-13-1--128--497eb3f9:1302667dfd7:-8000:0000000000003B78 begin
-		
+
 		$extensionsManager = common_ext_ExtensionsManager::singleton();
 		$extensions = $extensionsManager->getInstalledExtensions();
 		if(isset($extensions[$extension])){
@@ -278,7 +280,7 @@ class tao_models_classes_TaoService
 				$returnValue = $extensionConfig->version;
 			}
 		}
-		
+
         // section 10-13-1--128--497eb3f9:1302667dfd7:-8000:0000000000003B78 end
 
         return (string) $returnValue;
