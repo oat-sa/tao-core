@@ -179,6 +179,8 @@ class tao_models_classes_TaoService
 
 		if(file_exists($structureFilePath)){
 			return new SimpleXMLElement($structureFilePath, null, true);
+		} else {
+			common_Logger::w('Structure file not found for extension '.$extension);
 		}
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6C end
 
