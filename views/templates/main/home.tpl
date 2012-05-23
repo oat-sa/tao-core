@@ -22,7 +22,7 @@
 						<div class="home-box ui-corner-all ui-widget ui-widget-header<?php if (!$extension['disabled']) echo ' disabled' ?>" style="<?php if ($extension['disabled']) echo 'cursor:pointer;' ?>">
 							<img src="<?=ROOT_URL?>/<?=$extension['extension']?>/views/img/extension.png" /><br />
 <?php if ($extension['disabled']): ?>
-							<a id="extension-nav-<?=$extension['extension']?>" class="extension-nav" href="<?=_url('index', null, null, array('extension' => $extension['extension']))?>"><?=__($extension['name'])?></a>
+							<a id="extension-nav-<?=$extension['extension']?>" class="extension-nav" href="<?=_url('index', 'Main', $extension['extension'], array('structure' => $extension['id']))?>"><?=__($extension['name'])?></a>
 <?php else: ?>
 							<span><?=__($extension['name'])?></span>
 <?php endif; ?>
