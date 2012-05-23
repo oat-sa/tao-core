@@ -105,7 +105,9 @@ class tao_scripts_TaoExtensions
     }
 
     /**
-     * Short description of method checkInput
+     * Checks the input parameters when the script is called from the CLI. It
+     * check parameters common to any action (user, password, action) and
+     * to the appropriate checking method for the other parameters.
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -129,6 +131,7 @@ class tao_scripts_TaoExtensions
         $returnValue = (string) '';
 
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A5D begin
+        $returnValue = $this->currentAction;
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A5D end
 
         return (string) $returnValue;
@@ -145,13 +148,15 @@ class tao_scripts_TaoExtensions
     public function setCurrentAction($currentAction)
     {
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A60 begin
+        $this->currentAction = $currentAction;
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A60 end
     }
 
     /**
      * Sets a configuration parameter of an extension. The configuration
-     * to change is provided with the 'parameter' CLI argument. The extension on
-     * you want to change a parameter value is provided with the 'extension' CLI
+     * to change is provided with the 'configParameter' CLI argument and its
+     * is provided with the 'configValue' CLI argument. The extension on which
+     * want to change a parameter value is provided with the 'extension' CLI
      *
      * Parameters that can be changed are:
      * - loaded (boolean)
@@ -169,7 +174,9 @@ class tao_scripts_TaoExtensions
     }
 
     /**
-     * Short description of method __construct
+     * Create a new instance of the TaoExtensions script and executes it. If the
+     * inputFormat parameter is not provided, the script configures itself
+     * to foster code reuse.
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -180,7 +187,60 @@ class tao_scripts_TaoExtensions
     public function __construct($inputFormat = array(), $options = array())
     {
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A6C begin
+        if (count($inputFormat) == 0){
+            // Autoconfigure the script.
+            $inputFormat = array('min' => 2,
+                                 'parameters' => array(
+                                                        array('name' => 'verbose',
+                                                              'type' => 'boolean',
+                                                              'shortcut' => 'v',
+                                                              'description' => 'Verbose mode'
+                                                              ),
+                                                        array('name' => 'user',
+                                                              'type' => 'string',
+                                                              'shortcut' => 'u',
+                                                              'description' => 'Generis user (must be a TAO Manager)'
+                                                              ),
+                                                        array('name' => 'password',
+                                                              'type' => 'string',
+                                                              'shortcut' => 'p',
+                                                              'description' => 'Generis password'
+                                                             ),
+                                                        array('name' => 'action',
+                                                              'type' => 'string',
+                                                              'shortcut' => 'a',
+                                                              'description' => 'Action to perform'
+                                                             ),
+                                                        array('name' => 'configParameter',
+                                                              'type' => 'string',
+                                                              'shortcut' => 'cP',
+                                                              'description' => "Configuration parameter (loaded|loadedAtStartup|ghost) to change when the 'setConfig' action is called"
+                                                             ),
+                                                        array('name' => 'configValue',
+                                                              'type' => 'boolean',
+                                                              'shortcut' => 'cV',
+                                                              'description' => "Configuration value to set when the 'setConfig' action is called"
+                                                             )
+                                                       )
+                                );
+        }
+        
+        parent::__construct($inputFormat, $construct);
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A6C end
+    }
+
+    /**
+     * Short description of method checkSetConfigInput
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return void
+     */
+    public function checkSetConfigInput()
+    {
+        // section -64--88-56-1--62742a90:13778cdce7f:-8000:0000000000003A8A begin
+        
+        // section -64--88-56-1--62742a90:13778cdce7f:-8000:0000000000003A8A end
     }
 
 } /* end of class tao_scripts_TaoExtensions */
