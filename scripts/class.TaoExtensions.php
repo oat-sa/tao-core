@@ -97,12 +97,13 @@ class tao_scripts_TaoExtensions
     public function run()
     {
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4E begin
-        $this->outVerbose("Connecting to TAO API...");
+        $this->outVerbose("Connecting...");
         if ($this->connect($this->options['user'], $this->options['password'])){
             $this->outVerbose("Connected to TAO API.");
             
-            switch ($this->options){
+            switch ($this->options['action']){
                 case 'setConfig':
+                    $this->setCurrentAction($this->options['action']);
                     $this->actionSetConfig();
                 break;
             }
@@ -170,9 +171,6 @@ class tao_scripts_TaoExtensions
                             $this->error("Please provide a valid 'action' parameter.", true);
                         break;
                     }
-                    
-                    // If we are here, it means that input is correct for the current action.
-                    $this->setCurrentAction($this->options['action']);
                 }    
             }
         }
@@ -220,7 +218,7 @@ class tao_scripts_TaoExtensions
      *
      * Parameters that can be changed are:
      * - loaded (boolean)
-     * - loadedAtStartup (boolean)
+     * - loadAtStartup (boolean)
      * - ghost (boolean)
      *
      * @access public
@@ -230,7 +228,26 @@ class tao_scripts_TaoExtensions
     public function actionSetConfig()
     {
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A65 begin
-        $this->outVerbose($this->options);
+        $dbWrapper = core_kernel_classes_DbWrapper::singleton();
+        
+        // The values accepted in the 'loaded', 'loadAtStartup' and 'ghost' columns of
+        // the extensions table are 0 | 1.
+        $configValue = (($this->options['configValue'] == true) ? 1 : 0);
+        $configParam = $this->options['configParameter'];
+        $extensionId = $this->options['extension'];
+        
+        // Update the value for the targeted extension in the relational database.
+        $query = "UPDATE extensions SET ${configParam} = ? WHERE id = ?";
+        $result = $dbWrapper->execSql($query, array($configValue, $extensionId));
+        if ($result !== false && $dbWrapper->getAffectedRows() > 0){
+            $this->outVerbose("Configuration parameter '${configParam}' successfuly updated to ${configValue} for extension '${extensionId}'.");
+        }
+        else if ($result !== false && $dbWrapper->getAffectedRows() == 0){
+            $this->outVerbose("Nothing was changed. The value was maybe already set or the provided extension ID does not exist.");
+        } 
+        else{
+            $this->error("An error occured while updating '${configParam}' for extension '${extensionId}'. Please check the extension name.", true);
+        }
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A65 end
     }
 
@@ -275,7 +292,7 @@ class tao_scripts_TaoExtensions
                                                         array('name' => 'configParameter',
                                                               'type' => 'string',
                                                               'shortcut' => 'cP',
-                                                              'description' => "Configuration parameter (loaded|loadedAtStartup|ghost) to change when the 'setConfig' action is called"
+                                                              'description' => "Configuration parameter (loaded|loadAtStartup|ghost) to change when the 'setConfig' action is called"
                                                              ),
                                                         array('name' => 'configValue',
                                                               'type' => 'boolean',
@@ -295,7 +312,7 @@ class tao_scripts_TaoExtensions
     }
 
     /**
-     * Short description of method checkSetConfigInput
+     * Check additional inputs for the 'setConfig' action.
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -304,7 +321,25 @@ class tao_scripts_TaoExtensions
     public function checkSetConfigInput()
     {
         // section -64--88-56-1--62742a90:13778cdce7f:-8000:0000000000003A8A begin
+        $availableParameters = array('loaded', 'loadAtStartup', 'ghost');
+        $defaults = array('extension' => null,
+                          'configParameter' => null,
+                          'configValue' => null);
+                          
+        $this->options = array_merge($defaults, $this->options);
         
+        if ($this->options['configParameter'] == null){
+            $this->error("Please provide the 'configParam' parameter.", true);
+        }
+        else if (!in_array($this->options['configParameter'], $availableParameters)){
+            $this->error("Please provide a valid 'configParam' parameter value (" . implode("|", $availableParameters) . ").", true);
+        }
+        else if ($this->options['configValue'] === null){
+            $this->error("Please provide the 'configValue' parameter.", true);
+        }
+        else if ($this->options['extension'] == null){
+            $this->error("Please provide the 'extension' parameter.", true);
+        }
         // section -64--88-56-1--62742a90:13778cdce7f:-8000:0000000000003A8A end
     }
 
