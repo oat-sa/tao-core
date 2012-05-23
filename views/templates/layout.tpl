@@ -6,7 +6,7 @@
 			<?foreach(get_data('extensions') as $i => $extension):?>
 				<span class="<? if (get_data('currentExtension') == $extension['extension']) echo 'current-extension'; if (!$extension['disabled']) echo ' disabled' ?>">
 <?php if ($extension['disabled']): ?>
-						<a href="<?=_url('index', null, null, array('extension' => $extension['extension']))?>" title="<?=__($extension['description'])?>"><?=__($extension['name'])?></a>
+						<a href="<?=_url('index', null, $extension['extension'], array('structure' => $extension['id']))?>" title="<?=__($extension['description'])?>"><?=__($extension['name'])?></a>
 <?php else: ?>
 						<?=__($extension['name'])?>
 <?php endif; ?>
@@ -17,28 +17,28 @@
 
 		<div class="right-menu">
 			<span>
-				<a href="<?=_url('index', null, null, array('extension' => 'none'))?>" title="<?=__('Home')?>">
-					<img src="<?=BASE_WWW?>img/home.png" alt="<?=__('Home')?>" />
+				<a href="<?=_url('index', 'Main', 'tao')?>" title="<?=__('Home')?>">
+					<img src="<?=TAOBASE_WWW?>img/home.png" alt="<?=__('Home')?>" />
 				</a>
 			</span>
 			<span>
-				<a href="<?=_url('index', null, null, array('extension' => 'users'))?>" title="<?=__('Users')?>">
-					<img src="<?=BASE_WWW?>img/users.png" alt="<?=__('Users')?>" />
+				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'users'))?>" title="<?=__('Users')?>">
+					<img src="<?=TAOBASE_WWW?>img/users.png" alt="<?=__('Users')?>" />
 				</a>
 			</span>
 			<span>
-				<a href="<?=_url('index', 'Settings')?>" class="settings-loader" title="<?=__('Settings')?>">
-					<img src="<?=BASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />
+				<a href="<?=_url('index', 'Settings', 'tao')?>" class="settings-loader" title="<?=__('Settings')?>">
+					<img src="<?=TAOBASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />
 				</a>
 			</span>
 			<span>
 			<a href="#" class="file-manager" title="<?=__('Media manager')?>">
-				<img src="<?=BASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" />
+				<img src="<?=TAOBASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" />
 			</a>
 			</span>
 			<span>
-				<a href="<?=_url('logout')?>" title="<?=__('Logout')?>">
-					<img src="<?=BASE_WWW?>img/logout.png" alt="<?=__('Logout')?>" />
+				<a href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Logout')?>">
+					<img src="<?=TAOBASE_WWW?>img/logout.png" alt="<?=__('Logout')?>" />
 				</a>
 			</span>
 		</div>
@@ -46,6 +46,9 @@
 
 <?if(get_data('sections')):?>
 
+	<script type='text/javascript'>
+		var currentStructure = '<?=$structure?>';
+	</script>
 	<div id="tabs">
 		<ul>
 		<?foreach(get_data('sections') as $section):?>

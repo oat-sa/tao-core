@@ -111,7 +111,7 @@ class tao_actions_form_Instance
 		/**
 		 * @todo override it in the taoSubject module instead of having this crapy IF here
 		 */
-		if(Session::getAttribute('currentExtension') == 'taoSubjects'){
+		if(common_ext_ExtensionsManager::singleton()->getCurrentExtensionName() == 'taoSubjects'){
 			$classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz);
 			$classProperties = array_merge($classProperties, tao_helpers_form_GenerisFormFactory::getClassProperties(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT), new core_kernel_classes_Class(CLASS_GENERIS_USER)));
 		}

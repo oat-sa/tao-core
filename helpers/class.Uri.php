@@ -187,6 +187,7 @@ class tao_helpers_Uri
 				foreach($params as $key => $value){
 					$returnValue .= $key . '=' . $value . '&';
 				}
+				$returnValue = substr($returnValue, 0, -1);
 			}
 		}
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A26 end

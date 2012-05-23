@@ -105,11 +105,11 @@ UiBootstrap = function(options){
 		//left menu trees init by loading the tab content
 		if(UiBootstrap.tabs.length > 0){
 			$.ajax({
-				url: root_url + '/tao/Main/getSectionTrees',
+				url: root_url + '/' + currentExtension + '/Main/getSectionTrees',
 				type: "GET",
 				data: {
 					section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title'),		//get the link text of the selected tab
-					extension: currentExtension
+					structure: currentStructure
 				},
 				dataType: 'html',
 				success: function(response){
@@ -132,11 +132,11 @@ UiBootstrap = function(options){
 		//left menu actions init by loading the tab content
 		if(UiBootstrap.tabs.length > 0){
 			$.ajax({
-				url: root_url + '/tao/Main/getSectionActions',
+				url: root_url + '/' + currentExtension + '/Main/getSectionActions',
 				type: "GET",
 				data: {
 					section: $("li a[href=#" + $('.ui-tabs-panel')[UiBootstrap.tabs.tabs('option', 'selected')].id + "]:first").attr('title'),		//get the link text of the selected tab
-					extension: currentExtension
+					structure: currentStructure
 				},
 				dataType: 'html',
 				success: function(response){

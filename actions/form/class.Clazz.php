@@ -168,14 +168,6 @@ class tao_actions_form_Clazz
 		//class properties edition: add a group form for each property
 		
 		$classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
-		
-		
-     	/**
-		 * @todo override it in the taoSubject module instead of having this crapy IF here
-		 */
-		if(Session::getAttribute('currentExtension') == 'taoSubjects'){
-		//	$classProperties = array_merge($classProperties, tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, new core_kernel_classes_Class(CLASS_GENERIS_USER)));
-		}
 			
 		$i = 0;
 		foreach($classProperties as $classProperty){

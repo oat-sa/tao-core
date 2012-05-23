@@ -48,35 +48,29 @@ abstract class tao_actions_CommonModule extends Module {
 	protected function defaultData()
 	{
 		$context = Context::getInstance();
-		if($this->hasSessionAttribute('currentExtension')){
-			$this->setData('extension', $this->getSessionAttribute('currentExtension'));
-			$this->setData('module', $context->getModuleName());
-			$this->setData('action', $context->getActionName());
+		
+		$this->setData('extension', common_ext_ExtensionsManager::singleton()->getCurrentExtensionName());
+		$this->setData('module', $context->getModuleName());
+		$this->setData('action', $context->getActionName());
+		
+		if($this->hasRequestParameter('uri')) {
 			
-			if($this->getRequestParameter('showNodeUri')){
-				$this->setSessionAttribute("showNodeUri", $this->getRequestParameter('showNodeUri'));
-			}
-			if($this->getRequestParameter('uri') || $this->getRequestParameter('classUri')){
-				if($this->getRequestParameter('uri')){
-					if ($this->getRequestParameter('uri') != 'undefined')
-						$this->setSessionAttribute('uri', $this->getRequestParameter('uri'));
-					else
-						common_Logger::w('parameter uri was send but undefined');
-				}
-				else{
-					$this->removeSessionAttribute('uri');
-				}
-				if($this->getRequestParameter('classUri')){
-					$this->setSessionAttribute('classUri', $this->getRequestParameter('classUri'));
-				}
-				else{
-					$this->removeSessionAttribute('classUri');
-				}
-			}
+			// @todo stop using session to manage uri/classUri
+			$this->setSessionAttribute('uri', $this->getRequestParameter('uri'));
+			
+			// inform the client of new classUri
+			$this->setData('uri', $this->getRequestParameter('uri'));
 		}
-		else{
-			$this->removeSessionAttribute('uri');
-			$this->removeSessionAttribute('classUri');
+		if($this->hasRequestParameter('classUri')) {
+		
+			// @todo stop using session to manage uri/classUri
+			$this->setSessionAttribute('classUri', $this->getRequestParameter('classUri'));
+			if (!$this->hasRequestParameter('uri')) {
+				$this->removeSessionAttribute('uri');
+			}
+			
+			// inform the client of new classUri
+			$this->setData('uri', $this->getRequestParameter('classUri'));
 		}
 		
 		if($this->getRequestParameter('message')){

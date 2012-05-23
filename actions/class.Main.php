@@ -87,7 +87,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	public function logout()
 	{
 		session_destroy();
-		$this->redirect(_url('login', 'Main'));
+		$this->redirect(_url('login', 'Main', 'tao'));
 	}
 
 	/**
@@ -97,10 +97,11 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	public function index()
 	{
 		$extensions = array();
-		foreach($this->service->getStructure() as $i => $structure){
-			if($structure['extension'] != 'users'){
+		foreach($this->service->getAllStructures() as $i => $structure){
+			if($structure['data']['visible'] == 'true'){
 				$data = $structure['data'];
 				$extensions[$i] = array(
+					'id'			=> (string) $structure['id'],
 					'name' 			=> (string) $data['name'],
 					'extension'		=> $structure['extension'],
 					'description'	=> (string) $data->description,
@@ -111,32 +112,26 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		ksort($extensions);
 		$this->setData('extensions', $extensions);
 
-		if($this->getRequestParameter('extension') != null){
-			if($this->getRequestParameter('extension') == 'none'){
-				$this->removeSessionAttribute('currentExtension');
-			}
-			else{
-				$this->service->setCurrentExtension($this->getRequestParameter('extension'));
-			}
+		if($this->hasRequestParameter('structure')) {
+			// structured mode
+			// @todo stop using session to manage uri/classUri
 			$this->removeSessionAttribute('uri');
 			$this->removeSessionAttribute('classUri');
 			$this->removeSessionAttribute('showNodeUri');
-		}
-
-		$this->setData('sections', false);
-		$currentExtension = $this->service->getCurrentExtension();
-		if($currentExtension && $this->service->isTaoChildExtension($currentExtension)){
-			$this->setData('sections', $this->service->getStructure($currentExtension)->sections[0]);
-		}
-		else{
-			//add home page stylesheet
+			$structure = $this->service->getStructure(common_ext_ExtensionsManager::singleton()->getCurrentExtensionName(), $this->getRequestParameter('structure'));
+			$this->setData('sections', $structure["data"]->sections[0]);
+			$this->setData('structure', $this->getRequestParameter('structure'));
+		} else {
+			// home screen
+			$this->setData('sections', false);
 			tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/home.css');
 		}
-		$this->setData('currentExtension', $currentExtension);
+
+		$this->setData('currentExtension', $this->service->getCurrentExtension());
 
 		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getLg());
 
-		$this->setView('layout.tpl');
+		$this->setView('layout.tpl', true);
 	}
 
     /**
@@ -161,72 +156,70 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		$uri = $this->hasSessionAttribute('uri');
 		$classUri = $this->hasSessionAttribute('classUri');
+		$ext = common_ext_ExtensionsManager::singleton()->getCurrentExtensionName();
+		$struct = $this->getRequestParameter('structure');
 
 		$rootClasses = array(TAO_GROUP_CLASS, TAO_ITEM_CLASS, TAO_RESULT_CLASS, TAO_SUBJECT_CLASS, TAO_TEST_CLASS);
 
 		$this->setData('actions', false);
 		$this->setData('currentExtensionId', 'tao');
 
-		$currentExtension = $this->service->getCurrentExtension();
-		if($currentExtension){
-			$structure = $this->service->getStructure($currentExtension, $this->getRequestParameter('section'));
+		$structure = $this->service->getSection($ext, $struct, $this->getRequestParameter('section'));
+		if(isset($structure["actions"])){
+			$actionNodes =  $structure["actions"];
+			$actions = array();
+			foreach($actionNodes as $actionNode){
+				$display = __((string) $actionNode['name']);
+				if(strlen($display) > 15){
+					$display = str_replace(' ', "<br>", $display);
+				}
+				$action = array(
+					'js'		=> (isset($actionNode['js'])) ? (string) $actionNode['js'] : false,
+					'url' 		=> ROOT_URL.(string) $actionNode['url'],
+					'display'	=> $display,
+					'rowName'	=> (string) $actionNode['name'],
+					'name'		=> _clean((string) $actionNode['name']),
+					'uri'		=> ($uri) ? $this->getSessionAttribute('uri') : false,
+					'classUri'	=> ($classUri) ? $this->getSessionAttribute('classUri') : false,
+					'reload'	=> (isset($actionNode['reload'])) ? true : false
+				);
 
-			if(isset($structure->actions[0])){
-				$actionNodes =  $structure->actions[0];
-				$actions = array();
-				foreach($actionNodes as $actionNode){
-					$display = __((string) $actionNode['name']);
-					if(strlen($display) > 15){
-						$display = str_replace(' ', "<br>", $display);
-					}
-					$action = array(
-						'js'		=> (isset($actionNode['js'])) ? (string) $actionNode['js'] : false,
-						'url' 		=> ROOT_URL.(string) $actionNode['url'],
-						'display'	=> $display,
-						'rowName'	=> (string) $actionNode['name'],
-						'name'		=> _clean((string) $actionNode['name']),
-						'uri'		=> ($uri) ? $this->getSessionAttribute('uri') : false,
-						'classUri'	=> ($classUri) ? $this->getSessionAttribute('classUri') : false,
-						'reload'	=> (isset($actionNode['reload'])) ? true : false
-					);
-
-					$action['disabled'] = true;
-					switch((string) $actionNode['context']){
-						case 'resource':
-							if($classUri || $uri) {
-								$action['disabled'] = false; break;
-							}
-							break;
-						case 'class':
-							if($classUri && !$uri) {
-								$action['disabled'] = false; break;
-							}
-							break;
-						case 'instance':
-							if($classUri && $uri) {
-								$action['disabled'] = false; break;
-							}
-							break;
-						case '*': $action['disabled'] = false; break;
-						default : $action['disabled'] = true; break;
-					}
-
-					//@todo remove this when permissions engine is setup
-					if($action['rowName'] == 'delete' && $classUri && !$uri){
-						if(in_array($action['classUri'], tao_helpers_Uri::encodeArray($rootClasses, tao_helpers_Uri::ENCODE_ARRAY_VALUES))){
-							$action['disabled'] = true;
+				$action['disabled'] = true;
+				switch((string) $actionNode['context']){
+					case 'resource':
+						if($classUri || $uri) {
+							$action['disabled'] = false; break;
 						}
-					}
-
-					array_push($actions, $action);
+						break;
+					case 'class':
+						if($classUri && !$uri) {
+							$action['disabled'] = false; break;
+						}
+						break;
+					case 'instance':
+						if($classUri && $uri) {
+							$action['disabled'] = false; break;
+						}
+						break;
+					case '*': $action['disabled'] = false; break;
+					default : $action['disabled'] = true; break;
 				}
 
-				$this->setData('actions', $actions);
-				$this->setData('currentExtensionId', $currentExtension);
+				//@todo remove this when permissions engine is setup
+				if($action['rowName'] == 'delete' && $classUri && !$uri){
+					if(in_array($action['classUri'], tao_helpers_Uri::encodeArray($rootClasses, tao_helpers_Uri::ENCODE_ARRAY_VALUES))){
+						$action['disabled'] = true;
+					}
+				}
+
+				array_push($actions, $action);
 			}
+
+			$this->setData('actions', $actions);
+			$this->setData('currentExtensionId', $ext);
 		}
 
-		$this->setView('main/actions.tpl');
+		$this->setView('main/actions.tpl', true);
 	}
 
 	/**
@@ -254,42 +247,41 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	{
 
 		$this->setData('trees', false);
-		$currentExtension = $this->service->getCurrentExtension();
-		if($currentExtension){
+		$ext = common_ext_ExtensionsManager::singleton()->getCurrentExtensionName();
+		$struct = $this->getRequestParameter('structure');
 
-			$structure = $this->service->getStructure($currentExtension, $this->getRequestParameter('section'));
-			if(isset($structure->trees[0])){
-				$trees = array();
-				foreach($structure->trees[0] as $tree){
-					foreach($tree->attributes() as $attrName => $attrValue){
-						if(preg_match("/^\//", (string) $attrValue)){
-							$tree[$attrName] = ROOT_URL.(string) $attrValue;
-						}
-						else{
-							$tree[$attrName] = (string) $attrValue;
-						}
+		$structure = $this->service->getSection($ext, $struct, $this->getRequestParameter('section'));
+		if(isset($structure["trees"])){
+			$trees = array();
+			foreach($structure["trees"] as $tree){
+				foreach($tree->attributes() as $attrName => $attrValue){
+					if(preg_match("/^\//", (string) $attrValue)){
+						$tree[$attrName] = ROOT_URL.(string) $attrValue;
 					}
-					$treeId = tao_helpers_Display::textCleaner((string) $tree['name'], '_');
-					$trees[$treeId] = $tree;
+					else{
+						$tree[$attrName] = (string) $attrValue;
+					}
 				}
-				$this->setData('trees', $trees);
+				$treeId = tao_helpers_Display::textCleaner((string) $tree['name'], '_');
+				$trees[$treeId] = $tree;
+			}
+			$this->setData('trees', $trees);
 
-				$openUri = false;
-				if($this->hasSessionAttribute("showNodeUri")){
-					$openUri = $this->getSessionAttribute("showNodeUri");
-				}
-				$this->setData('openUri', $openUri);
+			$openUri = false;
+			if($this->hasSessionAttribute("showNodeUri")){
+				$openUri = $this->getSessionAttribute("showNodeUri");
+			}
+			$this->setData('openUri', $openUri);
 
-				//differentiate the instanceName of Deliveries and Process definition from the others
-				if($currentExtension=="taoDelivery" || $currentExtension=="wfEngine"){
-					$this->setData('instanceName', $this->getSessionAttribute('currentSection'));
-				}else{
-					$this->setData('instanceName', strtolower(str_replace('tao', '', substr($currentExtension, 0, strlen($currentExtension) - 1))));
-				}
+			//differentiate the instanceName of Deliveries and Process definition from the others
+			if($ext=="taoDelivery" || $ext=="wfEngine"){
+				$this->setData('instanceName', $this->getSessionAttribute('currentSection'));
+			}else{
+				$this->setData('instanceName', strtolower(str_replace('tao', '', substr($ext, 0, strlen($ext) - 1))));
 			}
 		}
 
-		$this->setView('main/trees.tpl');
+		$this->setView('main/trees.tpl', true);
 	}
 
 }
