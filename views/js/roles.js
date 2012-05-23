@@ -282,7 +282,7 @@ function actOnUri(uri, act, role) {
 	//Do act
 	$.ajax({
 		type: "POST",
-		url: root_url + "/tao/Roles/" + action + "?extension=users",
+		url: root_url + "/tao/Roles/" + action,
 		data: 'role='+role+'&uri='+uri,
 		dataType: 'json',
 		success: function(data) {

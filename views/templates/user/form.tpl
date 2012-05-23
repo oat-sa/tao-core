@@ -48,8 +48,13 @@
 						if (data[r].selected) extra = ' have-allaccess';
 						$el = $('<li class="'+extra+'" id="role_'+data[r].label+'"><span class="label">'+data[r].label+'</span><span class="selector checkable" title="'+__('Add')+'"></span></li>');
 						$el.click(function(){
-							if ($(this).hasClass('have-allaccess')) unattachRole($(this).data('uri'));
-							else attachRole($(this).data('uri'));
+							if ($(this).hasClass('have-allaccess')) {
+								unattachRole($(this).data('uri'));
+								$(this).removeClass('have-allaccess');
+							} else {
+								attachRole($(this).data('uri'));
+								$(this).addClass('have-allaccess');
+							}
 						});
 						$el.data('uri', data[r].id);
 						$el.appendTo($('#lstroles .group-list'));
