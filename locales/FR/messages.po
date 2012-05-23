@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-08T22:48:13\n"
+"PO-Revision-Date: 2012-05-23T10:57:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
@@ -83,17 +83,20 @@ msgstr ""
 msgid "Add property"
 msgstr "Ajouter une propriété"
 
+msgid "Add roles"
+msgstr ""
+
 msgid "Add the source file"
 msgstr "Ajouter le fichier source"
 
 msgid "Advanced Authoring Tool"
 msgstr "Editeur avancé"
 
-msgid "Advanced Mode"
-msgstr "Mode avancé"
-
 msgid "advanced mode"
 msgstr "mode avancé"
+
+msgid "Advanced Mode"
+msgstr "Mode avancé"
 
 msgid "all"
 msgstr "tout"
@@ -181,11 +184,11 @@ msgstr "compiler"
 msgid "compiled"
 msgstr "compilé"
 
-msgid "compiled instances"
-msgstr "instances compilées"
-
 msgid "Compiled Instances"
 msgstr "Instances compilées"
+
+msgid "compiled instances"
+msgstr "instances compilées"
 
 msgid "compiling"
 msgstr "compilation"
@@ -265,11 +268,11 @@ msgstr "décompilation"
 msgid "Define the default values"
 msgstr "Définir les valeurs par défaut"
 
-msgid "Delete"
-msgstr "Supprimer"
-
 msgid "delete"
 msgstr "supprimer"
+
+msgid "Delete"
+msgstr "Supprimer"
 
 msgid "Delete property"
 msgstr "Supprimer la propriété"
@@ -292,11 +295,11 @@ msgstr ""
 msgid "Don't set"
 msgstr "Ne pas insérer"
 
-msgid "download"
-msgstr "télécharger"
-
 msgid "Download"
 msgstr "Télécharger"
+
+msgid "download"
+msgstr "télécharger"
 
 msgid "Download content"
 msgstr "Télécharger le contenu"
@@ -310,11 +313,11 @@ msgstr "Un calendrier"
 msgid "e-mail"
 msgstr "courriel"
 
-msgid "edit"
-msgstr "modifier"
-
 msgid "Edit"
 msgstr "Editer"
+
+msgid "edit"
+msgstr "modifier"
 
 msgid "Edit a role"
 msgstr ""
@@ -358,11 +361,11 @@ msgstr "Erreur pendant l'import du fichier"
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
 
-msgid "Export"
-msgstr "Exporter"
-
 msgid "export"
 msgstr "exporter"
+
+msgid "Export"
+msgstr "Exporter"
 
 msgid "Export Options"
 msgstr "Options d'export"
@@ -406,6 +409,9 @@ msgstr "Mode de filtrage"
 msgid "Filters"
 msgstr "Filtres"
 
+msgid "Finalize grades"
+msgstr ""
+
 msgid "Finish"
 msgstr "Finir"
 
@@ -414,6 +420,9 @@ msgstr "Prénom"
 
 msgid "Full preview"
 msgstr "Aperçu complet"
+
+msgid "Grade exams"
+msgstr ""
 
 msgid "Group test takers according to global features and classifications."
 msgstr "Grouper les participants par rapport aux propriétés globales et aux classifications."
@@ -427,11 +436,11 @@ msgstr "Bibliothèque de groupes"
 msgid "Home"
 msgstr "Accueil"
 
-msgid "import"
-msgstr "importer"
-
 msgid "Import"
 msgstr "Import"
+
+msgid "import"
+msgstr "importer"
 
 msgid "Import into "
 msgstr "Importer dans"
@@ -508,11 +517,11 @@ msgstr "lister les utilisateurs"
 msgid "List values"
 msgstr "Liste des valeurs"
 
-msgid "lists"
-msgstr "listes"
-
 msgid "Lists"
 msgstr "Listes"
+
+msgid "lists"
+msgstr "listes"
 
 msgid "Local"
 msgstr "Local"
@@ -586,6 +595,9 @@ msgstr "Gérer les utilisateurs"
 msgid "Manage Versioned File"
 msgstr "Gérer les fichiers versionnés"
 
+msgid "Manages Roles Rights"
+msgstr ""
+
 msgid "Map the properties to the CSV columns"
 msgstr "Choisissez les propriétés relatives aux colonnes CSV"
 
@@ -595,11 +607,11 @@ msgstr "Valeur maximale:"
 msgid "Media manager"
 msgstr "Médiathèque"
 
-msgid "Meta Data"
-msgstr "Meta-données"
-
 msgid "meta data"
 msgstr "méta-données"
+
+msgid "Meta Data"
+msgstr "Meta-données"
 
 msgid "minimum value: "
 msgstr "Valeur minimale:"
@@ -796,11 +808,11 @@ msgstr "Enregistrer et gérer les participants."
 msgid "Recursive"
 msgstr "Récursif"
 
-msgid "Related Classes"
-msgstr "Classes liées"
-
 msgid "related classes"
 msgstr "classes liées"
+
+msgid "Related Classes"
+msgstr "Classes liées"
 
 msgid "Remove"
 msgstr "Supprimer"
@@ -850,11 +862,11 @@ msgstr "Rôles affectés"
 msgid "Save"
 msgstr "Enregistrer"
 
-msgid "Search"
-msgstr "Rechercher"
-
 msgid "search"
 msgstr "recherche"
+
+msgid "Search"
+msgstr "Rechercher"
 
 msgid "Search results"
 msgstr "Recherche des résultats"
@@ -886,11 +898,11 @@ msgstr "Paramètres"
 msgid "settings updated"
 msgstr "Préférences mises à jour"
 
-msgid "Simple Mode"
-msgstr "Mode simple"
-
 msgid "simple mode"
 msgstr "mode simple"
+
+msgid "Simple Mode"
+msgstr "Mode simple"
 
 msgid "stand by"
 msgstr "en arrêt"

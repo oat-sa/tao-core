@@ -75,6 +75,7 @@ class tao_scripts_TaoExtensions
     public function preRun()
     {
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4C begin
+        $this->checkInput();
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4C end
     }
 
@@ -116,6 +117,8 @@ class tao_scripts_TaoExtensions
     public function checkInput()
     {
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A56 begin
+        $this->options = array('verbose' => false,
+                               'action' => null);
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A56 end
     }
 
@@ -220,7 +223,11 @@ class tao_scripts_TaoExtensions
                                                               'type' => 'boolean',
                                                               'shortcut' => 'cV',
                                                               'description' => "Configuration value to set when the 'setConfig' action is called"
-                                                             )
+                                                             ),
+                                                        array('name' => 'extension',
+                                                              'type' => 'string',
+                                                              'shortcut' => 'e',
+                                                              'description' => "Extension ID that determines the TAO extension to focus on")
                                                        )
                                 );
         }
