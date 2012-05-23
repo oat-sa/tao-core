@@ -63,6 +63,14 @@ class tao_scripts_TaoExtensions
      */
     public $options = array();
 
+    /**
+     * States if the Generis user is connected or not.
+     *
+     * @access public
+     * @var boolean
+     */
+    public $connected = false;
+
     // --- OPERATIONS ---
 
     /**
@@ -118,7 +126,40 @@ class tao_scripts_TaoExtensions
     {
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A56 begin
         $this->options = array('verbose' => false,
-                               'action' => null);
+                               'action' => null,
+                               'user' => null,
+                               'password' => null);
+                               
+        $this->options = array_merge($this->options, $this->parameters);
+        
+        // Check common inputs.
+        if ($this->options['user'] == null){
+            self::err("Please provide a Generis 'user'.", true);
+        }
+        else{
+            if ($this->options['password'] == null){
+                self::err("Please provide a Generis 'password'.", true);
+            }
+            else{
+                if ($this->options['action'] == null){
+                    self::err("Please provide the 'action' parameter.", true);
+                }
+                else{
+                    switch ($this->options['action']){
+                        case 'setConfig':
+                            $this->checkSetConfigInput();
+                        break;
+                        
+                        default:
+                            self::err("Please provide a valid 'action' parameter.", true);
+                        break;
+                    }
+                    
+                    // If we are here, it means that input is correct for the current action.
+                    $this->setCurrentAction($this->options['action']);
+                }    
+            }
+        }
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A56 end
     }
 
@@ -248,6 +289,87 @@ class tao_scripts_TaoExtensions
         // section -64--88-56-1--62742a90:13778cdce7f:-8000:0000000000003A8A begin
         
         // section -64--88-56-1--62742a90:13778cdce7f:-8000:0000000000003A8A end
+    }
+
+    /**
+     * Set the connected attribute to a given value.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  boolean value true if the user is connected, otherwhise false.
+     * @return void
+     */
+    public function setConnected($value)
+    {
+        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A91 begin
+        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A91 end
+    }
+
+    /**
+     * Short description of method isConnected
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return boolean
+     */
+    public function isConnected()
+    {
+        $returnValue = (bool) false;
+
+        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A96 begin
+        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A96 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Display an error message. If the stopExec parameter is set to true, the
+     * of the script stops and the currently connected user is disconnected if
+     * It overrides the Runner::err method for this purpose.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string message The error message to display.
+     * @param  boolean stopExec If set to false, the execution of the script stops.
+     * @return mixed
+     */
+    public static function err($message, $stopExec = false)
+    {
+        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A99 begin
+        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A99 end
+    }
+
+    /**
+     * Connect to the generis API by using the CLI arguments 'user' and
+     * It returns true or false depending on the connection establishement.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string user
+     * @param  string password
+     * @return boolean
+     */
+    public function connect($user, $password)
+    {
+        $returnValue = (bool) false;
+
+        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003AC6 begin
+        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003AC6 end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Disconnect the currently connected user.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return mixed
+     */
+    public function disconnect()
+    {
+        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003ACB begin
+        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003ACB end
     }
 
 } /* end of class tao_scripts_TaoExtensions */
