@@ -287,17 +287,27 @@ class tao_update_Updator
 		 * 2 - Update generis config file with the new one
 		 */
 		
-		$generisConfigWriter = new tao_install_utils_ConfigWriter(
-			ROOT_PATH.'generis/common/config.php.in',
-			ROOT_PATH.'generis/common/config.php'
+		common_Logger::d('Writing db config', 'INSTALL');
+		$dbConfigWriter = new tao_install_utils_ConfigWriter(
+				ROOT_PATH.'generis/common/conf/sample/db.conf',
+				ROOT_PATH.'generis/common/conf/db.conf.php'
 		);
-		$generisConfigWriter->createConfig();
-		$generisConfigWriter->writeConstants(array(
+		$dbConfigWriter->createConfig();
+		$dbConfigWriter->writeConstants(array(
 			'DATABASE_LOGIN'	=> DATABASE_LOGIN,
 			'DATABASE_PASS' 	=> DATABASE_PASS,
 			'DATABASE_URL'	 	=> DATABASE_URL,
 			'SGBD_DRIVER' 		=> SGBD_DRIVER,
-			'DATABASE_NAME' 	=> DATABASE_NAME,
+			'DATABASE_NAME' 	=> DATABASE_NAME
+		));
+		
+		common_Logger::d('Writing generis config', 'INSTALL');
+		$generisConfigWriter = new tao_install_utils_ConfigWriter(
+			ROOT_PATH.'generis/common/conf/sample/generis.conf.php',
+			ROOT_PATH.'generis/common/conf/generis.conf.php'
+		);
+		$generisConfigWriter->createConfig();
+		$generisConfigWriter->writeConstants(array(
 			'LOCAL_NAMESPACE'	=> LOCAL_NAMESPACE,
 			'ROOT_PATH'			=> ROOT_PATH,
 			'ROOT_URL'			=> ROOT_URL,

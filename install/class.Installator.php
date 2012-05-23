@@ -92,6 +92,7 @@ class tao_install_Installator{
 					'generis/data/cache'
                     , 'generis/data/versioning'
 					, 'generis/common'
+					, 'generis/common/conf'
 				)
 		 		, 'filemanager' => array (
 		 			'filemanager/views/data'
@@ -107,8 +108,6 @@ class tao_install_Installator{
 		 			'taoItems/data'
 		 			, 'taoItems/views/export'
 		 			, 'taoItems/includes'
-		 			, 'taoItems/models/ext/itemAuthoring/waterphenix/xt/xhtml/data/units/'
-		 			, 'taoItems/models/ext/itemAuthoring/waterphenix/config'
 		 		)
 		 		, 'taoDelivery'	=> array (
 		 			'taoDelivery/compiled'
@@ -320,20 +319,31 @@ class tao_install_Installator{
 		$dbCreator->execute("INSERT INTO models VALUES ('8', '{$installData['module_namespace']}', '{$installData['module_namespace']}#')");
 
 		/*
-		 *  4 - Create the generis config file
+		 *  4 - Create the generis config files
 		 */
-		common_Logger::d('Writing generis config', 'INSTALL');
-		$generisConfigWriter = new tao_install_utils_ConfigWriter(
-			$this->options['root_path'].'generis/common/config.php.in',
-			$this->options['root_path'].'generis/common/config.php'
+		
+		common_Logger::d('Writing db config', 'INSTALL');
+		$dbConfigWriter = new tao_install_utils_ConfigWriter(
+				$this->options['root_path'].'generis/common/conf/sample/db.conf.php',
+				$this->options['root_path'].'generis/common/conf/db.conf.php'
 		);
-		$generisConfigWriter->createConfig();
-		$generisConfigWriter->writeConstants(array(
+		$dbConfigWriter->createConfig();
+		$dbConfigWriter->writeConstants(array(
 			'DATABASE_LOGIN'	=> $installData['db_user'],
 			'DATABASE_PASS' 	=> $installData['db_pass'],
 			'DATABASE_URL'	 	=> $installData['db_host'],
 			'SGBD_DRIVER' 		=> $installData['db_driver'],
-			'DATABASE_NAME' 	=> $installData['db_name'],
+			'DATABASE_NAME' 	=> $installData['db_name']
+		));
+		
+		common_Logger::d('Writing generis config', 'INSTALL');
+		$generisConfigWriter = new tao_install_utils_ConfigWriter(
+			$this->options['root_path'].'generis/common/conf/sample/generis.conf.php',
+			$this->options['root_path'].'generis/common/conf/generis.conf.php'
+		);
+		
+		$generisConfigWriter->createConfig();
+		$generisConfigWriter->writeConstants(array(
 			'LOCAL_NAMESPACE'	=> $installData['module_namespace'],
 			'ROOT_PATH'			=> $this->options['root_path'],
 			'ROOT_URL'			=> preg_replace("/\/$/", '', $installData['module_url']),
@@ -481,6 +491,7 @@ class tao_install_Installator{
 	 * Run the TAO install from the given data
 	 * @throws tao_install_utils_Exception
 	 * @param array $installData
+	 * @deprecated
 	 */
 	public function configWaterPhoenix(array $installData)
 	{

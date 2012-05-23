@@ -34,8 +34,9 @@ class tao_install_utils_System{
 	 * @return boolean
 	 */
 	public static function isTAOInstalled(){
-		$config = realpath(dirname(__FILE__).'/../../../generis/common/config.php');
-		return (file_exists($config));
+		$config = realpath(dirname(__FILE__).'/../../../generis/common/conf/generis.conf.php');
+		$db = realpath(dirname(__FILE__).'/../../../generis/common/conf/db.conf.php');
+		return (file_exists($config) && file_exists($db));
 	}
     
     /**
