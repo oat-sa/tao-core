@@ -88,11 +88,16 @@ class tao_helpers_funcACL_funcACL
 		}
 
 		//Get the Roles of the current User
-		$s = core_kernel_classes_Session::singleton();
-		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-		$search = $userClass->searchInstances(array(PROPERTY_USER_LOGIN => $s->getUser()), array('recursive' => true));
-		$userRes = new core_kernel_classes_Resource(key($search));
-
+		$user = core_kernel_classes_Session::singleton()->getUser();
+		if (!empty($user)) {
+			$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+			$search = $userClass->searchInstances(array(PROPERTY_USER_LOGIN => $user), array('recursive' => true, 'like' => false));
+			$userRes = new core_kernel_classes_Resource(key($search));
+			$roles = $userRes->getTypes();
+		} else {
+			$roles = array();
+		}
+		
 		//Get the access list (reversed)
 		$reverse_access = self::getRolesByActions();
 
@@ -102,7 +107,6 @@ class tao_helpers_funcACL_funcACL
 		$nsm = $ns.'m_'.$extension.'_'.$module;*/
 
 		//Test if we have a role giving access
-		$roles = $userRes->getTypes();
 		$roles[CLASS_ROLE_BASEACCESS] = new core_kernel_classes_Resource(CLASS_ROLE_BASEACCESS);
 		foreach ($roles as $uri => $t) {
 			if (isset($reverse_access[$extension]) && isset($reverse_access[$extension][$module])) {
@@ -113,7 +117,8 @@ class tao_helpers_funcACL_funcACL
 			}
 		}
 		if (!$returnValue) {
-			common_Logger::w('Access denied to '.$extension.'::'.$module.'::'.$action.' for User '.$userRes->getLabel());
+			common_Logger::w('Access denied to '.$extension.'::'.$module.'::'.$action.' for '.
+				(isset($userRes) ? 'User '.$userRes->getLabel() : 'anonymous'));
 		}
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B end
 
