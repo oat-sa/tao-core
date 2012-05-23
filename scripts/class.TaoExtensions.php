@@ -97,6 +97,21 @@ class tao_scripts_TaoExtensions
     public function run()
     {
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4E begin
+        $this->outVerbose("Connecting to TAO API...");
+        if ($this->connect($this->options['user'], $this->options['password'])){
+            $this->outVerbose("Connected to TAO API.");
+            
+            switch ($this->options){
+                case 'setConfig':
+                    $this->actionSetConfig();
+                break;
+            }
+            
+            $this->disconnect();    
+        }
+        else{
+            $this->error("Could not connect to TAO API. Please check your user name and password.", true);
+        }
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4E end
     }
 
@@ -110,6 +125,7 @@ class tao_scripts_TaoExtensions
     public function postRun()
     {
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A50 begin
+        $this->outVerbose("Script executed gracefully.");
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A50 end
     }
 
@@ -134,15 +150,15 @@ class tao_scripts_TaoExtensions
         
         // Check common inputs.
         if ($this->options['user'] == null){
-            self::err("Please provide a Generis 'user'.", true);
+            $this->error("Please provide a Generis 'user'.", true);
         }
         else{
             if ($this->options['password'] == null){
-                self::err("Please provide a Generis 'password'.", true);
+                $this->error("Please provide a Generis 'password'.", true);
             }
             else{
                 if ($this->options['action'] == null){
-                    self::err("Please provide the 'action' parameter.", true);
+                    $this->error("Please provide the 'action' parameter.", true);
                 }
                 else{
                     switch ($this->options['action']){
@@ -151,7 +167,7 @@ class tao_scripts_TaoExtensions
                         break;
                         
                         default:
-                            self::err("Please provide a valid 'action' parameter.", true);
+                            $this->error("Please provide a valid 'action' parameter.", true);
                         break;
                     }
                     
@@ -214,6 +230,7 @@ class tao_scripts_TaoExtensions
     public function actionSetConfig()
     {
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A65 begin
+        $this->outVerbose($this->options);
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A65 end
     }
 
@@ -233,7 +250,7 @@ class tao_scripts_TaoExtensions
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A6C begin
         if (count($inputFormat) == 0){
             // Autoconfigure the script.
-            $inputFormat = array('min' => 2,
+            $inputFormat = array('min' => 3,
                                  'parameters' => array(
                                                         array('name' => 'verbose',
                                                               'type' => 'boolean',
@@ -272,8 +289,8 @@ class tao_scripts_TaoExtensions
                                                        )
                                 );
         }
-        
-        parent::__construct($inputFormat, $construct);
+
+        parent::__construct($inputFormat, $options);
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A6C end
     }
 
@@ -302,6 +319,7 @@ class tao_scripts_TaoExtensions
     public function setConnected($value)
     {
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A91 begin
+        $this->connected = $value;
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A91 end
     }
 
@@ -317,6 +335,7 @@ class tao_scripts_TaoExtensions
         $returnValue = (bool) false;
 
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A96 begin
+        $returnValue = $this->connected;
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A96 end
 
         return (bool) $returnValue;
@@ -333,9 +352,14 @@ class tao_scripts_TaoExtensions
      * @param  boolean stopExec If set to false, the execution of the script stops.
      * @return mixed
      */
-    public static function err($message, $stopExec = false)
+    public function error($message, $stopExec = false)
     {
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A99 begin
+        if ($stopExec == true){
+            $this->disconnect();
+        }
+        
+        self::err($message, $stopExec);
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A99 end
     }
 
@@ -354,6 +378,9 @@ class tao_scripts_TaoExtensions
         $returnValue = (bool) false;
 
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003AC6 begin
+        $userService = tao_models_classes_UserService::singleton();
+        $returnValue = $userService->loginUser($user, md5($password));
+        $this->setConnected($returnValue);
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003AC6 end
 
         return (bool) $returnValue;
@@ -369,6 +396,17 @@ class tao_scripts_TaoExtensions
     public function disconnect()
     {
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003ACB begin
+        if ($this->isConnected()){
+            $this->outVerbose("Disconnecting user...");
+            $userService = tao_models_classes_UserService::singleton();
+            if ($userService->logout() == true){
+                $this->outVerbose("User gracefully disconnected from TAO API.");
+                $this->setConnected(false);
+            }
+            else{
+                $this->error("User could not be disconnected from TAO API.");
+            }
+        }
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003ACB end
     }
 
