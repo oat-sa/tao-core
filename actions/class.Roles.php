@@ -149,63 +149,63 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 
 	public function removeExtensionAccess() {
 		$role = $this->getRequestParameter('role');
-		$uri = explode('#', $this->getRequestParameter('uri'));
+		$uri = $this->getRequestParameter('uri');
 		tao_models_classes_funcACL_ExtensionAccessService::singleton()->remove($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function addExtensionAccess() {
 		$role = $this->getRequestParameter('role');
-		$uri = explode('#', $this->getRequestParameter('uri'));
+		$uri = $this->getRequestParameter('uri');
 		tao_models_classes_funcACL_ExtensionAccessService::singleton()->add($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function removeModuleAccess() {
 		$role = $this->getRequestParameter('role');
-		$uri = explode('#', $this->getRequestParameter('uri'));
+		$uri = $this->getRequestParameter('uri');
 		tao_models_classes_funcACL_ModuleAccessService::singleton()->remove($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function addModuleAccess() {
 		$role = $this->getRequestParameter('role');
-		$uri = explode('#', $this->getRequestParameter('uri'));
+		$uri = $this->getRequestParameter('uri');
 		tao_models_classes_funcACL_ModuleAccessService::singleton()->add($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function removeActionAccess() {
 		$role = $this->getRequestParameter('role');
-		$uri = explode('#', $this->getRequestParameter('uri'));
+		$uri = $this->getRequestParameter('uri');
 		tao_models_classes_funcACL_ActionAccessService::singleton()->remove($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function addActionAccess() {
 		$role = $this->getRequestParameter('role');
-		$uri = explode('#', $this->getRequestParameter('uri'));
+		$uri = $this->getRequestParameter('uri');
 		tao_models_classes_funcACL_ActionAccessService::singleton()->add($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function moduleToActionAccess() {
 		$role = $this->getRequestParameter('role');
-		$uri = explode('#', $this->getRequestParameter('uri'));
+		$uri = $this->getRequestParameter('uri');
 		tao_models_classes_funcACL_ActionAccessService::singleton()->moduleToActionAccess($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function moduleToActionsAccess() {
 		$role = $this->getRequestParameter('role');
-		$uri = explode('#', $this->getRequestParameter('uri'));
+		$uri = $this->getRequestParameter('uri');
 		tao_models_classes_funcACL_ActionAccessService::singleton()->moduleToActionsAccess($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
 
 	public function actionsToModuleAccess() {
 		$role = $this->getRequestParameter('role');
-		$uri = explode('#', $this->getRequestParameter('uri'));
+		$uri = $this->getRequestParameter('uri');
 		tao_models_classes_funcACL_ModuleAccessService::singleton()->actionsToModuleAccess($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
