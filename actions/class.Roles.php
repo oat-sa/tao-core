@@ -51,7 +51,7 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 	 * @return vois
 	 */
 	public function delete(){
-		//$this->redirect(_url('index', 'Main', 'tao', array('extension' => 'users', 'message' => $message)));
+		//$this->redirect(_url('index', 'Main', 'tao', array('structure' => 'users', 'message' => $message)));
 	}
 
 	/**

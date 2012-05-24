@@ -27,7 +27,7 @@ $(function() {
 					click: function() {
 						$.ajax({
 							type: "POST",
-							url: root_url + "/tao/Roles/addRole?extension=users",
+							url: root_url + "/tao/Roles/addRole",
 							data: 'name='+$('#addrole_name').val(),
 							dataType: 'json',
 							async: false,
@@ -53,7 +53,7 @@ $(function() {
 					click: function() {
 						$.ajax({
 							type: "POST",
-							url: root_url + "/tao/Roles/editRole?extension=users",
+							url: root_url + "/tao/Roles/editRole",
 							data: 'name='+$('#editrole_name').val()+'&uri='+$('#roles').val(),
 							dataType: 'json',
 							async: false,
@@ -74,7 +74,7 @@ $(function() {
 		if (confirm(__('Do you really want to delete this role ?'))) {
 			$.ajax({
 				type: "POST",
-				url: root_url + "/tao/Roles/deleteRole?extension=users",
+				url: root_url + "/tao/Roles/deleteRole",
 				data: 'uri='+$('#roles').val(),
 				dataType: 'json',
 				async: false,
@@ -97,7 +97,7 @@ function loadModules(role) {
 
 	$.ajax({
 		type: "POST",
-		url: root_url + "/tao/Roles/getModules?extension=users",
+		url: root_url + "/tao/Roles/getModules",
 		data: 'role='+role,
 		dataType: 'json',
 		async: false,
@@ -146,7 +146,7 @@ function loadModules(role) {
 function loadActions(role, module) {
 	$.ajax({
 		type: "POST",
-		url: root_url + "/tao/Roles/getActions?extension=users",
+		url: root_url + "/tao/Roles/getActions",
 		data: 'role='+role+'&module='+module,
 		dataType: 'json',
 		async: false,
@@ -190,7 +190,7 @@ function loadActions(role, module) {
 function loadAttachedModuleRoles(module) {
 	$.ajax({
 		type: "POST",
-		url: root_url + "/tao/Roles/getAttachedModuleRoles?extension=users",
+		url: root_url + "/tao/Roles/getAttachedModuleRoles",
 		data: 'module='+module,
 		dataType: 'json',
 		success: function(data) {
@@ -202,7 +202,7 @@ function loadAttachedModuleRoles(module) {
 function loadAttachedActionRoles(action) {
 	$.ajax({
 		type: "POST",
-		url: root_url + "/tao/Roles/getAttachedActionRoles?extension=users",
+		url: root_url + "/tao/Roles/getAttachedActionRoles",
 		data: 'action='+action,
 		dataType: 'json',
 		success: function(data) {

@@ -1,7 +1,7 @@
 <? include 'layout_header.tpl' ?>
 
 	<div id="main-menu" class="ui-state-default" >
-		<a href="<?=_url('index', null, null, array('extension' => 'none'))?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
+		<a href="<?=_url('index', 'main', 'tao')?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
 		<div class="left-menu">
 			<?foreach(get_data('extensions') as $i => $extension):?>
 				<?if(get_data('currentExtension') == $extension['extension']):?>
@@ -17,12 +17,12 @@
 		
 		<div class="right-menu">
 			<span>
-				<a href="<?=_url('index', null, null, array('extension' => 'none'))?>" title="<?=__('Home')?>">
+				<a href="<?=_url('index', 'Main', 'index')?>" title="<?=__('Home')?>">
 					<img src="<?=BASE_WWW?>img/home.png" alt="<?=__('Home')?>" />
 				</a>
 			</span>
 		  	<span>
-		  		<a href="<?=_url('index', null, null, array('extension' => 'users'))?>" title="<?=__('Users')?>">
+		  		<a href="<?=_url('index', null, null, array('structure' => 'users'))?>" title="<?=__('Users')?>">
 		  			<img src="<?=BASE_WWW?>img/users.png" alt="<?=__('Users')?>" />
 		  		</a>
 		  	</span>
