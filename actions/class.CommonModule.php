@@ -49,7 +49,7 @@ abstract class tao_actions_CommonModule extends Module {
 	{
 		$context = Context::getInstance();
 		
-		$this->setData('extension', common_ext_ExtensionsManager::singleton()->getCurrentExtensionName());
+		$this->setData('extension', context::getInstance()->getExtensionName());
 		$this->setData('module', $context->getModuleName());
 		$this->setData('action', $context->getActionName());
 		

@@ -7,6 +7,7 @@
  */
 require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
 require_once DIR_CORE_HELPERS . 'Core.php';
+require_once dirname(__FILE__) . '/class.AccessControlFC.php';
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
@@ -256,10 +257,6 @@ class Bootstrap{
 			//load the config of the extension
 			self::loadConstants($extension);
 		}
-        
-        // include the AccessControlFC that extends the AdvancedFC in order to have a TAO custom one.
-        global $__classLoader;
-        $__classLoader->addFile(dirname(__FILE__) . '/AccessControlFC.class.php', 'AccessControlFC');
 	}
 
 	/**

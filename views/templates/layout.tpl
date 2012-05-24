@@ -1,7 +1,7 @@
 <? include 'layout_header.tpl' ?>
 
 	<div id="main-menu" class="ui-state-default" >
-		<a href="<?=_url('index', null, null, array('extension' => 'none'))?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
+		<a href="<?=_url('index', 'Main', 'tao')?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
 		<div class="left-menu">
 			<?foreach(get_data('extensions') as $i => $extension):?>
 				<span class="<? if (get_data('currentExtension') == $extension['extension']) echo 'current-extension'; if (!$extension['disabled']) echo ' disabled' ?>">

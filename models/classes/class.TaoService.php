@@ -125,11 +125,8 @@ class tao_models_classes_TaoService
     public function setCurrentExtension($extension)
     {
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A66 begin
-		/*if(!$this->isLoaded($extension)){
-			throw new common_Exception("$extension is not a valid extension");
-		}
-		Session::setAttribute('currentExtension', $extension);*/
-		common_ext_ExtensionsManager::singleton()->setCurrentExtension($extension);
+    	common_Logger::w('Deprecated function setCurrentExtension(TaoService) called');
+    	$returnValue = context::getInstance()->setExtensionName($extension);
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A66 end
     }
 
@@ -145,11 +142,8 @@ class tao_models_classes_TaoService
         $returnValue = (string) '';
 
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6A begin
-		/*if(!Session::hasAttribute('currentExtension')){
-			return false;
-		}
-		$returnValue = Session::getAttribute('currentExtension');*/
-		$returnValue = common_ext_ExtensionsManager::singleton()->getCurrentExtensionName();
+    	common_Logger::w('Deprecated function getCurrentExtension(TaoService) called');
+        $returnValue = context::getInstance()->getExtensionName();
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6A end
 
         return (string) $returnValue;

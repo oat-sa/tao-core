@@ -130,9 +130,9 @@ class tao_helpers_Request
 
         // section 127-0-1-1--11252040:12dc6d37693:-8000:0000000000002CE6 begin
         
-        $resolver = new Resolver();
-		$action	= $resolver->getAction();
-    	$module	= $resolver->getModule();
+        $context = Context::getInstance();
+		$action	= $context->getActionName();
+    	$module	= $context->getModuleName();
         
         switch($type){
         	case 'extension': 
