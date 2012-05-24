@@ -77,7 +77,7 @@ class tao_helpers_translation_ManifestExtractor
         		
         		foreach ($files as $file) {
         			$fullPath = $path . '/' . $file;
-        			if (is_file($fullPath) && mb_strpos($file, 'structure.xml') !== false) {
+        			if (is_file($fullPath) && mb_strpos($file, 'structures.xml') !== false) {
 						// Translations must be extracted from this tao manifest file.
 						try{
 							$xml = new SimpleXMLElement(trim(file_get_contents($fullPath)));
