@@ -328,12 +328,8 @@ class Bootstrap{
 	{
 		try {
 			$re		= new HttpRequest();
-			$fc		= new AdvancedFC($re);
-			if (tao_helpers_funcACL_funcACL::hasAccess($this->extension->id, $re->getModule(), $re->getAction())) {
-				$fc->loadModule();
-			} else {
-				throw new tao_helpers_funcACL_funcACLException(__('No access to this Module or Action !'));
-			}
+			$fc		= new AccessControlFC($re);
+			$fc->loadModule();
 		}
 		catch(ActionEnforcingException $ae){
 			$message	= $ae->getMessage();
@@ -343,10 +339,6 @@ class Bootstrap{
 				$message .= "Called action :".$ae->getActionName()."<br />";
 			}
 			require_once TAO_TPL_PATH . 'error/error404.tpl';
-		}
-		catch(tao_helpers_funcACL_funcACLException $facle) {
-			$message	= $facle->getMessage();
-			require_once TAO_TPL_PATH . 'error/error403.tpl';
 		}
 		catch(tao_models_classes_UserException $ue){
 			$message	= $ue->getMessage();
@@ -423,7 +415,7 @@ class Bootstrap{
 						BASE_WWW . 'css/style.css'
 					)
 				);
-				
+
 				tao_helpers_Scriptloader::addJsFiles(array(
 						BASE_WWW . 'js/jquery-1.4.2.min.js',
 						BASE_WWW . 'js/jquery-ui-1.8.custom.min.js',
@@ -434,7 +426,7 @@ class Bootstrap{
 					)
 				);
 			break;
-			
+
 			default:
 				//stylesheets to load
 				tao_helpers_Scriptloader::addCssFiles(
@@ -449,8 +441,8 @@ class Bootstrap{
 		    			TAOBASE_WWW . 'css/widgets.css'
 		    		)
 				);
-		
-		
+
+
 				//js golbal vars to export
 				tao_helpers_Scriptloader::addJsVars(
 				    array(
@@ -460,12 +452,12 @@ class Bootstrap{
 					'base_www'		=> BASE_WWW					// -> the resources URL of the current extension (http://www.domain.com/taoItems/views/)
 				    )
 				);
-		
+
 				$gridi18nFile = 'js/jquery.jqGrid-4.2.0/js/i18n/grid.locale-'.strtolower(tao_helpers_I18n::getLangCode()).'.js';
 				if(!file_exists(BASE_PATH. '/views' . $gridi18nFile)){
 					$gridi18nFile = 'js/jquery.jqGrid-4.2.0/js/i18n/grid.locale-en.js';
 				}
-		
+
 				//scripts to load
 				tao_helpers_Scriptloader::addJsFiles(
 				    array(
@@ -499,7 +491,7 @@ class Bootstrap{
 					TAOBASE_WWW . 'js/AsyncFileUpload.js'
 					)
 				);
-		
+
 				//ajax file upload works only without HTTP_AUTH
 				if(!USE_HTTP_AUTH){
 					tao_helpers_Scriptloader::addCssFile(
