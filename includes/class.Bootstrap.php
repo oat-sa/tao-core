@@ -231,20 +231,20 @@ class Bootstrap{
 		if ($this->extension->id != "generis"){
 			require_once $this->ctxPath. "/includes/config.php";
 		}
-		//we will load the constant file of the current extension and all it's dependancies
+		// we will load the constant file of the current extension and all it's dependancies
 
-		//get the dependancies
+		// get the dependancies
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$extensions = $extensionManager->getDependancies($this->extension);
 
-		//merge them with the additional constants (defined in the options)
+		// merge them with the additional constants (defined in the options)
 		if(isset($this->options['constants'])){
 			if(is_string($this->options['constants'])){
 				$this->options['constants'] = array($this->options['constants']);
 			}
 			$extensions = array_merge($extensions, $this->options['constants']);
 		}
-		//add the current extension (as well !)
+		// add the current extension (as well !)
 		$extensions = array_merge(array($this->extension->id), $extensions);
 
 		foreach($extensions as $extension){
@@ -256,7 +256,10 @@ class Bootstrap{
 			//load the config of the extension
 			self::loadConstants($extension);
 		}
-
+        
+        // include the AccessControlFC that extends the AdvancedFC in order to have a TAO custom one.
+        global $__classLoader;
+        $__classLoader->addFile(dirname(__FILE__) . '/AccessControlFC.class.php', 'AccessControlFC');
 	}
 
 	/**
