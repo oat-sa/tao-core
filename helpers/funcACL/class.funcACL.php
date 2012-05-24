@@ -174,11 +174,14 @@ class tao_helpers_funcACL_funcACL
 		$modc = new core_kernel_classes_Class(CLASS_ACL_MODULE);
 		$actc = new core_kernel_classes_Class(CLASS_ACL_ACTION);
 		$roles = new core_kernel_classes_Class(CLASS_ROLE); //before : CLASS_ROLE_BACKOFFICE
+		$propACLModuleId = new core_kernel_classes_Property(PROPERTY_ACL_MODULE_ID);
+        $propACLModuleExt = new core_kernel_classes_Property(PROPERTY_ACL_MODULE_EXTENSION);
+        $propACLActionId = new core_kernel_classes_Property(PROPERTY_ACL_ACTION_ID);
 
 		foreach ($modc->getInstances() as $mod) {
 			$values = $mod->getPropertiesValues(array(
-				new core_kernel_classes_Property(PROPERTY_ACL_MODULE_ID),
-				new core_kernel_classes_Property(PROPERTY_ACL_MODULE_EXTENSION)
+				$propACLModuleId,
+				$propACLModuleExt
 			));
 			$label = (string)array_pop($values[PROPERTY_ACL_MODULE_ID]);
 			$extension = (string)array_pop($values[PROPERTY_ACL_MODULE_EXTENSION]);
@@ -199,7 +202,7 @@ class tao_helpers_funcACL_funcACL
 
 			//Actions
 			foreach ($actc->searchInstances(array(PROPERTY_ACL_ACTION_MEMBEROF => $mod->getUri()), array('like' => false, 'recursive' => true)) as $act) {
-				$labela = $act->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_ID))->__toString();
+				$labela = $act->getUniquePropertyValue($propACLActionId)->__toString();
 				$lbla = explode('_', $labela);
 				$labela = array_pop($lbla);
 				$reverse_access[$extension][$label]['actions'][$labela] = array();
@@ -212,8 +215,6 @@ class tao_helpers_funcACL_funcACL
 
 		tao_models_classes_cache_FileCache::singleton()->put($reverse_access, 'RolesByActions');
 		return $reverse_access;
-
-		//var_dump($reverse_access);
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389D end
     }
 
