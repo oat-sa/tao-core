@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-23T10:57:46\n"
+"PO-Revision-Date: 2012-05-24T16:12:35\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: SE\n"
@@ -59,11 +59,11 @@ msgstr "Åtkomst nekad"
 msgid "Action"
 msgstr ""
 
-msgid "Actions"
-msgstr "Funktioner"
-
 msgid "actions"
 msgstr "handlingar"
+
+msgid "Actions"
+msgstr "Funktioner"
 
 msgid "Add"
 msgstr "Lägg till"
@@ -89,19 +89,13 @@ msgstr ""
 msgid "Add the source file"
 msgstr "Lägg till källfilen"
 
-msgid "Advanced Authoring Tool"
-msgstr "Avancerat författarverktyg"
-
-msgid "advanced mode"
-msgstr "avancerad metod"
-
 msgid "Advanced Mode"
 msgstr "Avancerad metod"
 
-msgid "all"
+msgid "All"
 msgstr ""
 
-msgid "All"
+msgid "all"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -125,12 +119,6 @@ msgstr ""
 
 msgid "Browse"
 msgstr "Bläddra"
-
-msgid "Build processes to drive activities into a workflow."
-msgstr ""
-
-msgid "Campaigns library"
-msgstr "Kampanjarkiv"
 
 msgid "Cancel"
 msgstr "Avsluta"
@@ -165,9 +153,6 @@ msgstr ""
 msgid "Column"
 msgstr "Kolumn"
 
-msgid "Combine a selection of items into tests."
-msgstr ""
-
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -176,9 +161,6 @@ msgstr ""
 
 msgid "Compilation completed"
 msgstr ""
-
-msgid "compile"
-msgstr "sammanställ"
 
 msgid "compiled"
 msgstr ""
@@ -206,18 +188,6 @@ msgstr "Skapa"
 
 msgid "Create a list"
 msgstr "Skapa en lista"
-
-msgid "Create and design items and exercises."
-msgstr ""
-
-msgid "create direct table"
-msgstr "skapa direkt tabell"
-
-msgid "create score table"
-msgstr ""
-
-msgid "create table"
-msgstr "skapa tabell"
 
 msgid "CSV Options"
 msgstr "CVS Val"
@@ -282,12 +252,6 @@ msgstr ""
 msgid "Delete user"
 msgstr "Ta bort användare"
 
-msgid "Deliveries"
-msgstr "Leveranser"
-
-msgid "Deliveries library"
-msgstr "Leveransarkiv"
-
 msgid "Do you really want to delete this role ?"
 msgstr ""
 
@@ -312,11 +276,11 @@ msgstr "Dynamisk datumväljare"
 msgid "e-mail"
 msgstr ""
 
-msgid "Edit"
-msgstr "Redigera"
-
 msgid "edit"
 msgstr "redigera"
+
+msgid "Edit"
+msgstr "Redigera"
 
 msgid "Edit a role"
 msgstr ""
@@ -339,11 +303,11 @@ msgstr ""
 msgid "Edit user"
 msgstr "Redigera användare"
 
-msgid "Element"
-msgstr "Beståndsdel"
-
 msgid "element"
 msgstr "element"
+
+msgid "Element"
+msgstr "Beståndsdel"
 
 msgid "element deleted"
 msgstr "element raderat"
@@ -359,9 +323,6 @@ msgstr "Fel under filimport"
 
 msgid "Exclusive (OR)"
 msgstr "Exklusive (ELLER)"
-
-msgid "export"
-msgstr "exportera"
 
 msgid "Export"
 msgstr "Exportera"
@@ -408,38 +369,17 @@ msgstr "Filtreringsmetod"
 msgid "Filters"
 msgstr "Filter"
 
-msgid "Finalize grades"
-msgstr ""
-
 msgid "Finish"
 msgstr ""
 
 msgid "First Name"
 msgstr ""
 
-msgid "Full preview"
-msgstr ""
-
-msgid "Grade exams"
-msgstr ""
-
-msgid "Group test takers according to global features and classifications."
-msgstr ""
-
-msgid "Groups"
-msgstr "Grupper"
-
-msgid "Groups library"
-msgstr "Grupparkiv"
-
 msgid "Home"
 msgstr "Hem"
 
 msgid "Import"
 msgstr "Import"
-
-msgid "import"
-msgstr "importera"
 
 msgid "Import into "
 msgstr ""
@@ -473,12 +413,6 @@ msgstr "Ogiltig filstorlek"
 
 msgid "Invalid file type!"
 msgstr "Ogiltig filtyp"
-
-msgid "Items"
-msgstr "Moduler"
-
-msgid "Items library"
-msgstr ""
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr "Javascript krävs för att köra denna mjukvara. Var vänlig aktivera detta i din webbläsare"
@@ -519,9 +453,6 @@ msgstr "Listvärden"
 msgid "Lists"
 msgstr "Listor"
 
-msgid "lists"
-msgstr "listor"
-
 msgid "Local"
 msgstr ""
 
@@ -549,41 +480,11 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
-msgid "Manage campaigns"
-msgstr "Hantera kampanjer"
-
 msgid "Manage content of the property "
 msgstr ""
 
 msgid "Manage data list"
 msgstr "Hantera datalista"
-
-msgid "Manage deliveries"
-msgstr "Hantera leveranser"
-
-msgid "Manage groups"
-msgstr "Hantera grupper"
-
-msgid "Manage items"
-msgstr "Hantera moment"
-
-msgid "Manage processes"
-msgstr "Hantera processer"
-
-msgid "Manage result servers"
-msgstr "Hantera resultatservrar"
-
-msgid "Manage results"
-msgstr "Hantera resultat"
-
-msgid "Manage roles"
-msgstr "Hantera roller"
-
-msgid "Manage test takers"
-msgstr "Hantera testtagare"
-
-msgid "Manage tests"
-msgstr "Hantera test"
 
 msgid "Manage the versioned content : "
 msgstr ""
@@ -606,9 +507,6 @@ msgstr ""
 msgid "Media manager"
 msgstr "Mediehanterare"
 
-msgid "meta data"
-msgstr "metadata"
-
 msgid "Meta Data"
 msgstr "Metadata"
 
@@ -616,9 +514,6 @@ msgid "minimum value: "
 msgstr ""
 
 msgid "Modules"
-msgstr ""
-
-msgid "Monitor processes"
 msgstr ""
 
 msgid "move"
@@ -654,41 +549,14 @@ msgstr "Namnområden"
 msgid "new"
 msgstr "ny"
 
-msgid "new campaign"
-msgstr "ny kampanj"
-
 msgid "new class"
 msgstr "ny klass"
-
-msgid "new delivery"
-msgstr "ny leverans"
 
 msgid "New element"
 msgstr "Ny beståndsdel"
 
-msgid "new group"
-msgstr "ny grupp"
-
-msgid "new item"
-msgstr "ny fråga"
-
 msgid "New password"
 msgstr "Nytt lösenord"
-
-msgid "new process"
-msgstr "ny process"
-
-msgid "new result server"
-msgstr "ny resultatserver"
-
-msgid "new role"
-msgstr "ny roll"
-
-msgid "new test"
-msgstr "nytt test"
-
-msgid "new test taker"
-msgstr "ny testtagare"
 
 msgid "Next"
 msgstr "Nästa"
@@ -780,28 +648,10 @@ msgstr "Var vänlig ladda upp en RDF-fil"
 msgid "Please wait a moment or contact your administrator."
 msgstr ""
 
-msgid "Prepare, publish deliveries sessions and campaigns."
-msgstr ""
-
-msgid "preview"
-msgstr "förhandsvisning"
-
-msgid "Process authoring"
-msgstr "Processskapande"
-
-msgid "Process library"
-msgstr "Processarkiv"
-
-msgid "Processes"
-msgstr "Processer"
-
 msgid "Property"
 msgstr "Egenskaper"
 
 msgid "Rebuilding indexes, it may take a while."
-msgstr ""
-
-msgid "Record and manage test takers."
 msgstr ""
 
 msgid "Recursive"
@@ -831,15 +681,6 @@ msgstr "Upprepa lösenordet *"
 msgid "Resource saved"
 msgstr "Resurs sparad"
 
-msgid "Result Servers library"
-msgstr "Resultatserverarkiv"
-
-msgid "Results"
-msgstr "Resultat"
-
-msgid "Results library"
-msgstr "Resultatarkiv"
-
 msgid "Return"
 msgstr ""
 
@@ -848,9 +689,6 @@ msgstr "Gå tillbaka"
 
 msgid "Right click the tree to manage your lists"
 msgstr "Högerklicka på trädstrukturen för att hantera din lista"
-
-msgid "Role library"
-msgstr "Rollarkiv"
 
 msgid "Roles"
 msgstr ""
@@ -861,20 +699,17 @@ msgstr ""
 msgid "Save"
 msgstr "Spara"
 
-msgid "search"
-msgstr "sök"
-
 msgid "Search"
 msgstr "Sök"
 
 msgid "Search results"
 msgstr "Sökresultat"
 
-msgid "Select"
-msgstr "Välj"
-
 msgid "select"
 msgstr "välj"
+
+msgid "Select"
+msgstr "Välj"
 
 msgid "Select a language"
 msgstr "Välj språk"
@@ -896,9 +731,6 @@ msgstr "Inställningar"
 
 msgid "settings updated"
 msgstr "inställningar uppdaterade"
-
-msgid "simple mode"
-msgstr "enkel metod"
 
 msgid "Simple Mode"
 msgstr "Enkel metod"
@@ -929,18 +761,6 @@ msgstr ""
 
 msgid "TAO updater"
 msgstr ""
-
-msgid "Test takers"
-msgstr "Testtagare"
-
-msgid "Test takers library"
-msgstr "Testtagararkiv"
-
-msgid "Tests"
-msgstr "Tester"
-
-msgid "Tests library"
-msgstr "Testarkiv"
 
 msgid "The column "
 msgstr ""
@@ -993,10 +813,10 @@ msgstr "Skriv"
 msgid "UI Lang."
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "uncompiled"
@@ -1052,9 +872,6 @@ msgstr ""
 
 msgid "View"
 msgstr "Visning"
-
-msgid "View and format the collected results."
-msgstr ""
 
 msgid "You cannot modify this property"
 msgstr "Det går inte att förändra denna egenskap"

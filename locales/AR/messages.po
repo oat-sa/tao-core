@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-23T10:57:13\n"
+"PO-Revision-Date: 2012-05-24T16:12:04\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: AR\n"
@@ -59,10 +59,10 @@ msgstr "!تم رفض الوصول. يرجى تجديد المصادقة الخا
 msgid "Action"
 msgstr ""
 
-msgid "Actions"
+msgid "actions"
 msgstr "الأعمال"
 
-msgid "actions"
+msgid "Actions"
 msgstr "الأعمال"
 
 msgid "Add"
@@ -89,19 +89,13 @@ msgstr ""
 msgid "Add the source file"
 msgstr "إضافة الملف المصدر"
 
-msgid "Advanced Authoring Tool"
-msgstr "محرر متقدم"
-
-msgid "advanced mode"
-msgstr "الطريقة المتقدمة"
-
 msgid "Advanced Mode"
 msgstr "طريقة متقدمة"
 
-msgid "all"
+msgid "All"
 msgstr ""
 
-msgid "All"
+msgid "all"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -125,12 +119,6 @@ msgstr ""
 
 msgid "Browse"
 msgstr "تصفح"
-
-msgid "Build processes to drive activities into a workflow."
-msgstr ""
-
-msgid "Campaigns library"
-msgstr "Bibliothèque de campagnes"
 
 msgid "Cancel"
 msgstr "الغاء"
@@ -165,9 +153,6 @@ msgstr ""
 msgid "Column"
 msgstr "عمود"
 
-msgid "Combine a selection of items into tests."
-msgstr ""
-
 msgid "Comment"
 msgstr "تعليق"
 
@@ -176,9 +161,6 @@ msgstr ""
 
 msgid "Compilation completed"
 msgstr ""
-
-msgid "compile"
-msgstr "ترجم"
 
 msgid "compiled"
 msgstr ""
@@ -206,18 +188,6 @@ msgstr "إنشاء"
 
 msgid "Create a list"
 msgstr "إنشاء قائمة"
-
-msgid "Create and design items and exercises."
-msgstr ""
-
-msgid "create direct table"
-msgstr "إنشاء جدول بسيط"
-
-msgid "create score table"
-msgstr ""
-
-msgid "create table"
-msgstr "إنشاء جدول"
 
 msgid "CSV Options"
 msgstr "CSV خيارات"
@@ -282,12 +252,6 @@ msgstr ""
 msgid "Delete user"
 msgstr "حذف المستخدم"
 
-msgid "Deliveries"
-msgstr "Passations"
-
-msgid "Deliveries library"
-msgstr "Bibliothèque de passation"
-
 msgid "Do you really want to delete this role ?"
 msgstr ""
 
@@ -312,10 +276,10 @@ msgstr "روزنامة"
 msgid "e-mail"
 msgstr ""
 
-msgid "Edit"
+msgid "edit"
 msgstr "تحرير"
 
-msgid "edit"
+msgid "Edit"
 msgstr "تحرير"
 
 msgid "Edit a role"
@@ -339,11 +303,11 @@ msgstr ""
 msgid "Edit user"
 msgstr "تحرير مستخدم"
 
-msgid "Element"
-msgstr "العنصر"
-
 msgid "element"
 msgstr "عنصر"
+
+msgid "Element"
+msgstr "العنصر"
 
 msgid "element deleted"
 msgstr "عنصر محذوف"
@@ -359,9 +323,6 @@ msgstr "خطأ أثناء استيراد الملف"
 
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
-
-msgid "export"
-msgstr "تصدير"
 
 msgid "Export"
 msgstr "تصدير"
@@ -408,37 +369,16 @@ msgstr "طريقة التصفية"
 msgid "Filters"
 msgstr "Filtres"
 
-msgid "Finalize grades"
-msgstr ""
-
 msgid "Finish"
 msgstr ""
 
 msgid "First Name"
 msgstr ""
 
-msgid "Full preview"
-msgstr ""
-
-msgid "Grade exams"
-msgstr ""
-
-msgid "Group test takers according to global features and classifications."
-msgstr ""
-
-msgid "Groups"
-msgstr "المجموعات"
-
-msgid "Groups library"
-msgstr "مكتبة المجموعات"
-
 msgid "Home"
 msgstr "الصفحة الرئيسية"
 
 msgid "Import"
-msgstr "استيراد"
-
-msgid "import"
 msgstr "استيراد"
 
 msgid "Import into "
@@ -473,12 +413,6 @@ msgstr "حجم الملف غير صحيح"
 
 msgid "Invalid file type!"
 msgstr "نوع الملف غير صحيح"
-
-msgid "Items"
-msgstr "الاسئلة"
-
-msgid "Items library"
-msgstr ""
 
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr ".مطلوب جافا سكريبت لتشغيل هذا البرنامج ، يرجى تفعيلها في المتصفح"
@@ -519,9 +453,6 @@ msgstr "قيم القائمة"
 msgid "Lists"
 msgstr "القوائم"
 
-msgid "lists"
-msgstr "القوائم"
-
 msgid "Local"
 msgstr ""
 
@@ -549,41 +480,11 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
-msgid "Manage campaigns"
-msgstr "Gérer les campagnes"
-
 msgid "Manage content of the property "
 msgstr ""
 
 msgid "Manage data list"
 msgstr "إدارة قائمة البيانات"
-
-msgid "Manage deliveries"
-msgstr "Gérer les passations"
-
-msgid "Manage groups"
-msgstr "ادارة المجموعات"
-
-msgid "Manage items"
-msgstr "تسيير الاسئلة"
-
-msgid "Manage processes"
-msgstr "Gérer les processus"
-
-msgid "Manage result servers"
-msgstr "ادارة خوادم النتائج"
-
-msgid "Manage results"
-msgstr "إدارة النتائج"
-
-msgid "Manage roles"
-msgstr "إدارة الأدوار"
-
-msgid "Manage test takers"
-msgstr "إدارة المتقدمين للاختبار"
-
-msgid "Manage tests"
-msgstr "إدارة الاختبارات"
 
 msgid "Manage the versioned content : "
 msgstr ""
@@ -606,9 +507,6 @@ msgstr ""
 msgid "Media manager"
 msgstr "Médiathèque"
 
-msgid "meta data"
-msgstr "بيانات التعريف"
-
 msgid "Meta Data"
 msgstr "بيانات التعريف"
 
@@ -616,9 +514,6 @@ msgid "minimum value: "
 msgstr ""
 
 msgid "Modules"
-msgstr ""
-
-msgid "Monitor processes"
 msgstr ""
 
 msgid "move"
@@ -654,41 +549,14 @@ msgstr "مساحة الاسم"
 msgid "new"
 msgstr "جديد"
 
-msgid "new campaign"
-msgstr "nouvelle campagne"
-
 msgid "new class"
 msgstr "صنف جديد"
-
-msgid "new delivery"
-msgstr "nouvelle passation"
 
 msgid "New element"
 msgstr "عنصر جديد"
 
-msgid "new group"
-msgstr "مجموعة جديدة"
-
-msgid "new item"
-msgstr "سؤال جديد"
-
 msgid "New password"
 msgstr "كلمة مرور جديدة"
-
-msgid "new process"
-msgstr "عملية جديدة"
-
-msgid "new result server"
-msgstr "خادم نتيجة جديد"
-
-msgid "new role"
-msgstr "دور جديد"
-
-msgid "new test"
-msgstr "اختبار جديد"
-
-msgid "new test taker"
-msgstr "مترشح جديد"
 
 msgid "Next"
 msgstr "التالي"
@@ -782,28 +650,10 @@ msgstr ".RDF الرجاء تحميل ملف"
 msgid "Please wait a moment or contact your administrator."
 msgstr ""
 
-msgid "Prepare, publish deliveries sessions and campaigns."
-msgstr ""
-
-msgid "preview"
-msgstr "معاينة"
-
-msgid "Process authoring"
-msgstr "Editeur de processus"
-
-msgid "Process library"
-msgstr "Bibliothèque de processus"
-
-msgid "Processes"
-msgstr "Processus"
-
 msgid "Property"
 msgstr "خاصية"
 
 msgid "Rebuilding indexes, it may take a while."
-msgstr ""
-
-msgid "Record and manage test takers."
 msgstr ""
 
 msgid "Recursive"
@@ -833,15 +683,6 @@ msgstr "*كرر كلمة السر"
 msgid "Resource saved"
 msgstr "تم حفظ المورد"
 
-msgid "Result Servers library"
-msgstr "مكتبة خوادم النتائج"
-
-msgid "Results"
-msgstr "النتائج"
-
-msgid "Results library"
-msgstr "مكتبة النتائج"
-
 msgid "Return"
 msgstr ""
 
@@ -850,9 +691,6 @@ msgstr "الغاء"
 
 msgid "Right click the tree to manage your lists"
 msgstr "استعمل زر النقر اليمين لادارة قوائمك"
-
-msgid "Role library"
-msgstr "مكتبة الادوار"
 
 msgid "Roles"
 msgstr ""
@@ -863,20 +701,17 @@ msgstr ""
 msgid "Save"
 msgstr "حفظ"
 
-msgid "search"
-msgstr "البحث"
-
 msgid "Search"
 msgstr "بحث"
 
 msgid "Search results"
 msgstr "البحث عن النتائج"
 
-msgid "Select"
-msgstr "حدد"
-
 msgid "select"
 msgstr "اختر"
+
+msgid "Select"
+msgstr "حدد"
 
 msgid "Select a language"
 msgstr "حدد اللغة"
@@ -898,9 +733,6 @@ msgstr "الإعدادات"
 
 msgid "settings updated"
 msgstr "تحديث الاعدادات"
-
-msgid "simple mode"
-msgstr "الطريقة البسيطة"
 
 msgid "Simple Mode"
 msgstr "الطريقة البسيطة"
@@ -931,18 +763,6 @@ msgstr ""
 
 msgid "TAO updater"
 msgstr ""
-
-msgid "Test takers"
-msgstr "المترشحون"
-
-msgid "Test takers library"
-msgstr "مكتبة المتقدمين للاختبار"
-
-msgid "Tests"
-msgstr "الاختبارات"
-
-msgid "Tests library"
-msgstr "مكتبة الاختبارات"
 
 msgid "The column "
 msgstr ""
@@ -995,10 +815,10 @@ msgstr "نوع"
 msgid "UI Lang."
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "uncompiled"
@@ -1054,9 +874,6 @@ msgstr ""
 
 msgid "View"
 msgstr "عرض"
-
-msgid "View and format the collected results."
-msgstr ""
 
 msgid "You cannot modify this property"
 msgstr "لا يمكنك تعديل هذه الخاصية"

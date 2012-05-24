@@ -549,13 +549,6 @@ class tao_scripts_TaoTranslate
 	        	$translationFile->addTranslationUnits($sourceExtractor->getTranslationUnits());
 	        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
 	        	
-	        	// If it is the TAO Extension, get all TUs from all manifest files found
-	        	// in other extensions. I do not like it but we need it because some translations related
-	        	// to extensions are handled by the TAO extensions (e.g. Action panel in the BackOffice GUI).
-	        	if ($this->options['extension'] == 'tao') {
-	        		$this->addManifestsTranslations($translationFile);	
-	        	}
-	        	
 	        	$sortedTus = $translationFile->sortBySource($sortingMethod);
 	        	
 	        	$sortedTranslationFile = new tao_helpers_translation_POFile();
@@ -703,11 +696,6 @@ class tao_scripts_TaoTranslate
        	$translationFile->addTranslationUnits($sourceCodeExtractor->getTranslationUnits());
        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
        	
-       	// If it is TAO extension, get TUs from all manifests.
-       	if ($this->options['extension'] == 'tao') {
-       		$this->addManifestsTranslations($translationFile);
-       	}
-       	
        	// For each TU that was recovered, have a look in an older version
        	// of the translations.
        	$oldFilePath = $this->buildLanguagePath($this->options['extension'], $this->options['language']) . '/' .self::DEF_PO_FILENAME;
@@ -753,7 +741,7 @@ class tao_scripts_TaoTranslate
                 $sortedTranslationFile->setTranslationUnits($poReader->getTranslationFile()->getTranslationUnits());
                 $sortedTranslationFile->addTranslationUnits($rawTus);
                 $sortedTranslationFile->setTranslationUnits($sortedTranslationFile->sortBySource($sortingMethod));
-                $this->outVerbose("Added tao meta-extension messages for language '" . $this->options['language'] . "'.");
+                $this->outVerbose("Added tao meta-extension messages for compiled language '" . $this->options['language'] . "'.");
             } else {
                 $this->outVerbose("Could not find tao meta-extension messages for language '" . $this->options['language'] . "'.");
             }

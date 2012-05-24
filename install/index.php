@@ -35,7 +35,6 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	
 	try{	//if there is any issue during the install, a tao_install_utils_Exception is thrown
 		$installator->install($formValues);
-		$installator->configWaterPhoenix($formValues);
 		$moduleUrl = $myForm->getValue('module_url');
 		$installed = true;
 		$taoUrl = _url('index', 'Main', 'tao'); 

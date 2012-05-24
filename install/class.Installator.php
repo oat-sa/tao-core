@@ -486,51 +486,5 @@ class tao_install_Installator{
 		
 		common_Logger::i('Instalation completed', 'INSTALL');
 	}
-
-	/**
-	 * Run the TAO install from the given data
-	 * @throws tao_install_utils_Exception
-	 * @param array $installData
-	 * @deprecated
-	 */
-	public function configWaterPhoenix(array $installData)
-	{
-		$waterPhoenixPath = 'taoItems/models/ext/itemAuthoring/waterphenix/';
-		$url = trim($installData['module_url']);
-		if(!preg_match("/\/$/", $url)){
-			$url .= '/';
-		}
-
-		//Update the HAWAI XHTL skeleton sample
-		$contentSkeletonUrlSample = $this->options['root_path'].$waterPhoenixPath.'xt/xhtml/data/units/xhtml.skeleton.xhtml.sample';
-		$contentSkeletonUrl = $this->options['root_path'].$waterPhoenixPath.'xt/xhtml/data/units/xhtml.skeleton.xhtml';
-		$contentSkeleton = file_get_contents($contentSkeletonUrlSample);
-		if (file_exists($contentSkeletonUrlSample)){
-			if(!empty($contentSkeleton)){
-				$contentSkeleton = str_replace('{WX_URL}', $url.$waterPhoenixPath, $contentSkeleton);
-				$contentSkeleton = str_replace('{ROOT_URL}', $url, $contentSkeleton);
-				file_put_contents($contentSkeletonUrl, $contentSkeleton);
-			}
-		}
-
-		//update the HAWAI config file
-		$configWriter = new tao_install_utils_ConfigWriter(
-			$this->options['root_path'] . $waterPhoenixPath . 'config/config.sample',
-			$this->options['root_path'] . $waterPhoenixPath . 'config/config.js'
-		);
-		$configWriter->createConfig();
-		$configWriter->writeJsVariable(array(
-			'Wx.Config.URL'	=> $url . $waterPhoenixPath
-		), "");
-
-		//update the HAWAI sample
-		$sample = $this->options['root_path'] . 'taoItems/data/i1261571812010328500/index.xhtml.sample';
-		$destFile = $this->options['root_path'] . 'taoItems/data/i1261571812010328500/index.xhtml';
-		if(file_exists($sample)){
-			$sampleContent = file_get_contents($sample);
-			$sampleContent = str_replace('{ROOT_URL}', $url, $sampleContent);
-			file_put_contents($destFile, $sampleContent);
-		}
-	}
 }
 ?>
