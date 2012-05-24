@@ -74,16 +74,16 @@ class tao_helpers_funcACL_funcACL
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B begin
 
 		if (is_null($extension) || is_null($module) || is_null($action)) {
-			$resolver = new Resolver();
+			$context = Context::getInstance();
 			//if (is_null($extension)) $extension = tao_models_classes_TaoService::singleton()->getCurrentExtension();
 			if (is_null($extension)) {
-				$extension = common_ext_ExtensionsManager::singleton()->getCurrentExtensionName();
+				$extension = $context->getExtensionName();
 			}
 			if (is_null($module)) {
-				$module	= $resolver->getModule();
+				$module	= $context->getModuleName();
 			}
 			if (is_null($action)) {
-				$action	= $resolver->getAction();
+				$action	= $context->getActionName();
 			}
 		}
 
