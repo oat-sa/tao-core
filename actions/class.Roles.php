@@ -214,7 +214,8 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		$roles = tao_models_classes_funcACL_RoleService::singleton()->getRoles();
+		$useruri = tao_helpers_Uri::decode($this->getRequestParameter('useruri'));
+		$roles = tao_models_classes_funcACL_RoleService::singleton()->getRoles($useruri);
 		echo json_encode($roles);
 	}
 

@@ -40,7 +40,7 @@
 			$.ajax({
 				type: "POST",
 				url: "<?=_url('getRoles', 'Roles', 'tao')?>",
-				data: '',
+				data: 'useruri='+$('#uri').val(),
 				dataType: 'json',
 				success: function(data) {
 					for (r in data) {

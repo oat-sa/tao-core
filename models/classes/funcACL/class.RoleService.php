@@ -116,6 +116,7 @@ class tao_models_classes_funcACL_RoleService
     public function attachUser($userUri, $roleUri)
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A01 begin
+var_dump($userUri, $roleUri);
 		$userRes = new core_kernel_classes_Resource($userUri);
 		$userRes->setPropertyValue(new core_kernel_classes_Property(RDF_TYPE), $roleUri);
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A01 end
@@ -143,18 +144,15 @@ class tao_models_classes_funcACL_RoleService
      *
      * @access public
      * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @param  string userUri
      * @return array
      */
-    public function getRoles()
+    public function getRoles($userUri)
     {
         $returnValue = array();
 
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A07 begin
-		//Get the Roles of the current User (duplicate src : class.funcACL.php)
-		$s = core_kernel_classes_Session::singleton();
-		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-		$search = $userClass->searchInstances(array(PROPERTY_USER_LOGIN => $s->getUser()), array('recursive' => true));
-		$userRes = new core_kernel_classes_Resource(key($search));
+		$userRes = new core_kernel_classes_Resource($userUri);
 
 		$rolesc = new core_kernel_classes_Class(CLASS_ROLE);
 		foreach ($rolesc->getInstances(true) as $id => $r) {

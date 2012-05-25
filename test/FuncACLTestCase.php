@@ -24,7 +24,7 @@ class FuncACLTestCase extends UnitTestCase {
 		//Attach role to superuser
 		tao_models_classes_funcACL_RoleService::singleton()->attachUser($suUri, $roleUri);
 		//Has the role added ?
-		$roles = tao_models_classes_funcACL_RoleService::singleton()->getRoles();
+		$roles = tao_models_classes_funcACL_RoleService::singleton()->getRoles($suUri);
 		foreach ($roles as $r) {
 			if ($r['label'] == $name) $this->assertTrue($r['selected']);
 		}
@@ -32,7 +32,7 @@ class FuncACLTestCase extends UnitTestCase {
 		tao_models_classes_funcACL_RoleService::singleton()->unattachUser($suUri, $tmroleUri);
 		//Check if removed
 		$tmRole = new core_kernel_classes_Resource($tmroleUri);
-		$roles = tao_models_classes_funcACL_RoleService::singleton()->getRoles();
+		$roles = tao_models_classes_funcACL_RoleService::singleton()->getRoles($suUri);
 		foreach ($roles as $r) {
 			if ($r['label'] == $tmRole->getLabel()) $this->assertFalse($r['selected']);
 		}
