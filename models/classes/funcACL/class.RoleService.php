@@ -156,13 +156,14 @@ var_dump($userUri, $roleUri);
 
 		$rolesc = new core_kernel_classes_Class(CLASS_ROLE);
 		foreach ($rolesc->getInstances(true) as $id => $r) {
-			//$label = explode('#', $id);
-			$nrole = array('id' => $id, 'label' => $r->getLabel(), 'selected' => false);
-			//Selected
-			foreach ($userRes->getTypes() as $uri => $t) {
-				if ($uri == $id) $nrole['selected'] = true;
+			if ($id != "http://www.tao.lu/Ontologies/taoFuncACL.rdf#BaseAccessRole") {
+				$nrole = array('id' => $id, 'label' => $r->getLabel(), 'selected' => false);
+				//Selected
+				foreach ($userRes->getTypes() as $uri => $t) {
+					if ($uri == $id) $nrole['selected'] = true;
+				}
+				$returnValue[] = $nrole;
 			}
-			$returnValue[] = $nrole;
 		}
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A07 end
 
