@@ -278,7 +278,7 @@ class TranslationTestCase extends UnitTestCase {
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
 		
-		$this->assertTrue(count($tus) == 4);
+		$this->assertTrue(count($tus) == 5);
 		$this->assertTrue($tus[0]->getSource() == 'Users');
 		$this->assertTrue($tus[1]->getSource() == 'Manage users');
 		$this->assertTrue($tus[2]->getSource() == 'Add a user');
