@@ -116,7 +116,6 @@ class tao_models_classes_funcACL_RoleService
     public function attachUser($userUri, $roleUri)
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A01 begin
-var_dump($userUri, $roleUri);
 		$userRes = new core_kernel_classes_Resource($userUri);
 		$userRes->setPropertyValue(new core_kernel_classes_Property(RDF_TYPE), $roleUri);
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A01 end
