@@ -100,7 +100,8 @@ class tao_scripts_TaoVersioning
         	$constants['GENERIS_VERSIONING_ENABLED'] 			= true;
         	
 	        //update the generis config file with the new constants
-	        $configWriter = new tao_install_utils_ConfigWriter(GENERIS_BASE_PATH.'/common/conf/sample/versioning.conf.php', GENERIS_BASE_PATH.'/common/conf/versioning.conf.php');
+	        $configWriter = new tao_install_utils_ConfigWriter(GENERIS_BASE_PATH.'/common/conf/default/versioning.conf.php', GENERIS_BASE_PATH.'/common/conf/versioning.conf.php');
+	        $configWriter->createConfig();
 	        $configWriter->writeConstants($constants);
         	
         	//Regarding to the versioning sytem type
