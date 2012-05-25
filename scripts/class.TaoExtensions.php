@@ -228,25 +228,46 @@ class tao_scripts_TaoExtensions
     public function actionSetConfig()
     {
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A65 begin
-        $dbWrapper = core_kernel_classes_DbWrapper::singleton();
         
         // The values accepted in the 'loaded', 'loadAtStartup' and 'ghost' columns of
         // the extensions table are 0 | 1.
-        $configValue = (($this->options['configValue'] == true) ? 1 : 0);
+        $configValue = $this->options['configValue'];
         $configParam = $this->options['configParameter'];
         $extensionId = $this->options['extension'];
         
-        // Update the value for the targeted extension in the relational database.
-        $query = "UPDATE extensions SET ${configParam} = ? WHERE id = ?";
-        $result = $dbWrapper->execSql($query, array($configValue, $extensionId));
-        if ($result !== false && $dbWrapper->getAffectedRows() > 0){
-            $this->outVerbose("Configuration parameter '${configParam}' successfuly updated to ${configValue} for extension '${extensionId}'.");
+        try{
+            $ext = new common_ext_SimpleExtension($extensionId);
+            $currentConfig = $ext->getConfiguration();
+            
+            if ($currentConfig == null){
+                $this->error("The extension '${extensionId} is not referenced.", true);
+            }
+            else{
+                // Change the configuration with the new value.
+                switch ($configParam){
+                    case 'loaded':
+                        $currentConfig->loaded = $configValue;
+                    break;
+                    
+                    case 'loadAtStartup':
+                        $currentConfig->loadedAtStartUp = $configValue;
+                    break;
+                    
+                    case 'ghost':
+                        $currentConfig->ghost = $configValue;
+                    break;
+                    
+                    default:
+                        $this->error("Unknown configuration parameter '${configParam}'.", true);
+                    break;
+                }
+            
+                $currentConfig->save($ext);
+                $this->outVerbose("Configuration parameter '${configParam}' successfuly updated to " . (($configValue == true) ? 1 : 0) . " for extension '${extensionId}'.");
+            }
         }
-        else if ($result !== false && $dbWrapper->getAffectedRows() == 0){
-            $this->outVerbose("Nothing was changed. The value was maybe already set or the provided extension ID does not exist.");
-        } 
-        else{
-            $this->error("An error occured while updating '${configParam}' for extension '${extensionId}'. Please check the extension name.", true);
+        catch (common_ext_ExtensionException $e){
+            $this->error("The extension '${extensionId}' does not exist or has no manifest.", true);
         }
         // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A65 end
     }
