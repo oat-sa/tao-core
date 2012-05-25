@@ -132,7 +132,8 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		$opts = array('recursive' => 0, 'like' => false);
 		$opts['offset'] = $start;
 		$opts['limit'] = $limit;
-		$counti = $userClass->countInstances(array(RDF_TYPE => $types, PROPERTY_USER_LOGIN => '*'), $opts);
+		$opts['additionalClasses'] = $types;
+		$counti = $userClass->countInstances(array(PROPERTY_USER_LOGIN => '*'), $opts);
 
 		$response->page = $page;
 		$response->total = ceil($counti / $limit);//$total_pages;
