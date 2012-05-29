@@ -352,8 +352,11 @@ class tao_install_Installator{
 		));
 		
 		//now we can run the extensions bootstrap
+		common_Logger::d('Running the extensions bootstrap', 'INSTALL');
 		require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
+		
 		// Usefull to get version number from TAO constants
+		common_Logger::d('Including tao constants', 'INSTALL');
 		require_once(ROOT_PATH.'tao/includes/constants.php');
 
 		/*
