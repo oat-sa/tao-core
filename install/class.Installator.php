@@ -488,6 +488,12 @@ class tao_install_Installator{
 		tao_helpers_funcACL_funcACL::buildRolesByActions();
 		
 		common_Logger::i('Instalation completed', 'INSTALL');
+        
+        /*
+         * 13 - Miscellaneous
+         */
+        // Localize item content for demo items.
+        $dbCreator->execute("UPDATE statements SET l_language = '" . $installData['module_lang'] . "' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent'");
 	}
 }
 ?>
