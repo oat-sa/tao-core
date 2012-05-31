@@ -180,8 +180,12 @@ class tao_actions_Api extends tao_actions_CommonModule {
 		$session = core_kernel_classes_Session::singleton();
 		$langProperty = new core_kernel_classes_Property(PROPERTY_USER_UILG);
 		$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
-		$currentLanguage = $user->getOnePropertyValue($langProperty);
-		$currentLanguageCode = $currentLanguage->getOnePropertyValue($valueProperty);
+		if (($currentLanguage = $user->getOnePropertyValue($langProperty)) != null){
+		    $currentLanguageCode = '' . $currentLanguage->getOnePropertyValue($valueProperty);  
+		}
+        else{
+            $currentLanguageCode = $session->defaultLg;
+        }
 		
 		if( isset($executionEnvironment[TAO_ITEM_CLASS]['uri']) && 
 		 	isset($executionEnvironment[TAO_TEST_CLASS]['uri']) &&
@@ -195,7 +199,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 			$deliveryFolder 	= substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
 			$testFolder 		= substr($test->uriResource, strpos($test->uriResource, '#') + 1);
 			$itemFolder 		= substr($item->uriResource, strpos($item->uriResource, '#') + 1);
-			$langFolder 		= $currentLanguageCode->literal;
+			$langFolder 		= $currentLanguageCode;
 			$defaultLangFolder 	= $session->defaultLg;
 			
 			$expectedFolderi18n = BASE_PATH. "/compiled/${deliveryFolder}/${testFolder}/${itemFolder}/${langFolder}/";
