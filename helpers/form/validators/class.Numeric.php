@@ -94,26 +94,24 @@ class tao_helpers_form_validators_Numeric
 		}
 		if (!is_numeric($rowValue) || $value != $rowValue) {
 			$this->message = __('The value of this field must be numeric');
+			$returnValue = false;
 		} else {
 			if (isset($this->options['min']) || isset($this->options['max'])) {
 				$this->message = __('Invalid field range');
 
 				if (isset($this->options['min']) && isset($this->options['max'])){
-
 					$this->message .= ' (' . __('minimum value: ').$this->options['min'] . ', ' .  __('maximum value: ').$this->options['max'].')';
 
 					if ($this->options['min'] <=  $value && $value <= $this->options['max']) {
 						$returnValue = true;
 					}
 				} else if (isset($this->options['min']) && !isset($this->options['max'])){
-
 					$this->message .= ' (' . __('minimum value: ').$this->options['min'] .')';
 
 					if ($this->options['min'] <=  $value) {
 						$returnValue = true;
 					}
 				} else if (!isset($this->options['min']) && isset($this->options['max'])){
-
 					$this->message .= ' (' . __('maximum value: ').$this->options['max'].')';
 
 					if ($value <= $this->options['max']) {
@@ -126,22 +124,25 @@ class tao_helpers_form_validators_Numeric
 		}
 
 		//Test less, greater, equal to another
-		if (isset($this->options['integer2_ref']) && $this->options['integer2_ref'] instanceof tao_helpers_form_FormElement) {
+		if ($returnValue && isset($this->options['integer2_ref']) && $this->options['integer2_ref'] instanceof tao_helpers_form_FormElement) {
 			$secondElement = $this->options['integer2_ref'];
 			switch ($this->options['comparator']) {
 				case '>':
 				case 'sup':
 					if ($value > $secondElement->getRawValue()) $returnValue = true;
+					else $returnValue = false;
 					break;
 
 				case '<':
 				case 'inf':
 					if ($value < $secondElement->getRawValue()) $returnValue = true;
+					else $returnValue = false;
 					break;
 
 				case '=':
 				case 'equal':
 					if ($value == $secondElement->getRawValue()) $returnValue = true;
+					else $returnValue = false;
 					break;
 			}
 		}

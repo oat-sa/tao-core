@@ -27,8 +27,8 @@ class ValidatorTestCase extends TaoTestCase {
 		//@todo  fix "\n" in validator and add to test
 
 		// test getValidator
-		$factory = tao_helpers_form_FormFactory::getValidator('AlphaNum');
-		$this->assertIsA($factory, 'tao_helpers_form_validators_AlphaNum');
+		$alphanum = tao_helpers_form_FormFactory::getValidator('AlphaNum');
+		$this->assertIsA($alphanum, 'tao_helpers_form_validators_AlphaNum');
 
 		$alphanum		= new tao_helpers_form_validators_AlphaNum();
 		$this->exec($alphanum,
@@ -242,8 +242,8 @@ class ValidatorTestCase extends TaoTestCase {
 	}
 
 	public function testNumeric(){
-		$factory = tao_helpers_form_FormFactory::getValidator('Numeric');
-		$this->assertIsA($factory, 'tao_helpers_form_validators_Numeric');
+		$num = tao_helpers_form_FormFactory::getValidator('Numeric');
+		$this->assertIsA($num, 'tao_helpers_form_validators_Numeric');
 
 		$num = new tao_helpers_form_validators_Numeric();
 		$this->exec($num,
@@ -257,6 +257,20 @@ class ValidatorTestCase extends TaoTestCase {
 				array('10', 12),
 				array('10.1', 12.1),
 				'Integer validation'
+			);
+
+		$num = tao_helpers_form_FormFactory::getValidator('Integer', array('min' => 10));
+		$this->assertFalse($num->evaluate(5));
+		$this->assertTrue($num->evaluate(11));
+
+		$elt = tao_helpers_form_FormFactory::getElement('max', 'Textbox');
+		$elt->setValue('5');
+
+		$num = tao_helpers_form_FormFactory::getValidator('Integer', array('integer2_ref' => $elt, 'comparator' => '>'));
+		$this->exec($num,
+				array(10, 102),
+				array(2, -40),
+				'Integer comparator validation'
 			);
 	}
 

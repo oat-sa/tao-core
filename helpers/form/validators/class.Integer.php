@@ -65,6 +65,7 @@ class tao_helpers_form_validators_Integer
     public function __construct($options = array())
     {
         // section 127-0-1-1--4cd6560c:1379cf5f01c:-8000:0000000000003AAC begin
+				parent::__construct($options);
         // section 127-0-1-1--4cd6560c:1379cf5f01c:-8000:0000000000003AAC end
     }
 
