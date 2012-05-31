@@ -182,11 +182,11 @@ class tao_helpers_File
         	if(is_dir($source) && $recursive){
         		foreach(scandir($source) as $file){
         			if($file != '.' && $file != '..'){
-        				if(!$ignoreSystemFiles && $file[0] == '.'){
+        				if($ignoreSystemFiles == true && $file[0] == '.'){
         					continue;
         				}
         				else{
-        					self::copy($source.'/'.$file, $destination.'/'.$file, true, $ignoreSystemFiles);
+        					$returnValue = self::copy($source.'/'.$file, $destination.'/'.$file, true, $ignoreSystemFiles);
         				}
         			}
         		}
