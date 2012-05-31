@@ -58,7 +58,7 @@ class Bootstrap{
 	protected static $isDispatched = false;
 
 	/**
-	 * @var common_ext_SimpleExtension
+	 * @var common_ext_Extension
 	 */
 	protected $extension = null;
 
@@ -79,7 +79,7 @@ class Bootstrap{
 			tao_helpers_Context::load('APP_MODE');
 		}
 
-		$this->extension = new common_ext_SimpleExtension($extension);
+		$this->extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extension);
 
 		$this->options = $options;
 	}
@@ -235,8 +235,7 @@ class Bootstrap{
 		// we will load the constant file of the current extension and all it's dependancies
 
 		// get the dependancies
-		$extensionManager = common_ext_ExtensionsManager::singleton();
-		$extensions = $extensionManager->getDependancies($this->extension);
+		$extensions = $this->extension->getDependencies();
 
 		// merge them with the additional constants (defined in the options)
 		if(isset($this->options['constants'])){

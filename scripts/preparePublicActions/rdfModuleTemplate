@@ -1,7 +1,7 @@
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_{base}_{name}">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_{extension}_{module}">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
-    <rdfs:label><![CDATA[Module {name}]]></rdfs:label>
-		<rdfs:comment><![CDATA[Module {name}]]></rdfs:comment>
-		<funcacl:moduleIdentifier><![CDATA[{name}]]></funcacl:moduleIdentifier>
+    <rdfs:label><![CDATA[Module {module}]]></rdfs:label>
+		<rdfs:comment><![CDATA[Module {module}]]></rdfs:comment>
+		<funcacl:moduleIdentifier><![CDATA[{module}]]></funcacl:moduleIdentifier>
 		<funcacl:moduleExtension><![CDATA[{extension}]]></funcacl:moduleExtension>
   </rdf:Description>

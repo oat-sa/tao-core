@@ -28,10 +28,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 */
 	public function __construct(){		
 		parent::__construct();
-		
-		if($this->hasSessionAttribute('currentExtension')){
-			$this->formData['currentExtension'] = $this->getSessionAttribute('currentExtension');
-		}
+		$this->formData['currentExtension'] = Context::getInstance()->getExtensionName();
 		if($this->hasRequestParameter('classUri')){
 			if(trim($this->getRequestParameter('classUri')) != ''){
 				$this->formData['class'] = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
@@ -49,15 +46,15 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 * get the path to save and retrieve the exported files regarding the current extension
 	 * @return string the path
 	 */
-	protected function getExportPath(){
-		$exportPath = tao_helpers_File::concat(array(ROOT_PATH,EXPORT_PATH));
-		if($this->hasSessionAttribute('currentExtension')){
-			$exportPath = tao_helpers_File::concat(array(ROOT_PATH,$this->getSessionAttribute('currentExtension'), EXPORT_PATH));
-		}
+	protected function getExportPath($extension = null){
+		
+		$extension = is_null($extension) ? Context::getInstance()->getExtensionName() : $extension; 
+		$exportPath = EXPORT_PATH;
 		
 		if(!is_dir($exportPath)){
+			common_Logger::i('Export path not found, creating '.$exportPath);
 			if(!mkdir($exportPath)){
-				throw new Exception("Unable to create {$exportPath}. Check your filesystem!");
+				throw new common_Exception("Unable to create {$exportPath}. Check your filesystem!");
 			}
 		}
 		return $exportPath;
@@ -198,7 +195,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 */
 	public function getExportedFiles(){
 		
-		$exportPath = $this->getExportPath();
+		$exportPath = $this->getExportPath($this->hasRequestParameter('ext') ? $this->getRequestParameter('ext') : Context::getInstance()->getExtensionName());
 		
 		$exportedFiles = array();
 		foreach(scandir($exportPath) as $file){

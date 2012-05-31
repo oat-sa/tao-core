@@ -191,12 +191,11 @@ class tao_actions_form_Export
 		//get the current Namespaces and dependancies
 		$currentNs = array();
 		if( isset($this->data['currentExtension'])){
-			$currentExtentsion = new common_ext_SimpleExtension($this->data['currentExtension']);
+			$currentExtentsion = common_ext_ExtensionsManager::singleton()->getExtensionById($this->data['currentExtension']);
 			$currentNs =  $currentExtentsion->model;
 			
-			$extManager = common_ext_ExtensionsManager::singleton();
-			foreach($extManager->getDependancies($currentExtentsion) as $dependancy){
-				$ext = new common_ext_SimpleExtension($dependancy);
+			foreach($currentExtentsion->getDependencies() as $dependency){
+				$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($dependency);
 				$currentNs =  array_merge($currentNs, $ext->model);
 			}
 		}

@@ -21,7 +21,7 @@ $(document).ready(function(){
 	});
 	
 	var myGrid = $("#files-list").jqGrid({
-		url: "<?=_url('getExportedFiles', 'Export', 'tao')?>", 
+		url: root_url + '/' + currentExtension + '/Export/getExportedFiles',
 		datatype: "json",
 		colNames: [__('Name'),__('File'), __('Date'), __('Actions')] ,
 		colModel: [

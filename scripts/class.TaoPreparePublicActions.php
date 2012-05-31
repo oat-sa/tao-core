@@ -84,6 +84,53 @@ class tao_scripts_TaoPreparePublicActions
 		$rdf_acttpl = file_get_contents(dirname(__FILE__).'/preparePublicActions/rdfActionTemplate');
 		$rdf_taomanager = file_get_contents(dirname(__FILE__).'/preparePublicActions/rdfTaoManager');
 
+		foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
+			if ($extension->id == 'generis') {
+				continue;
+			}
+			common_Logger::i('preparing extension '.$extension->id);
+			//New RDF content
+			$rdf = $rdf_header;
+			foreach ($extension->getAllModules() as $module) {
+				common_Logger::i(' preparing module '.$module);
+				$moduleName = substr($module, strrpos($module, '_') +1);
+				//Introspection, get public method
+				try {
+					$reflector = new ReflectionClass($module);
+					$methods = $reflector->getMethods(ReflectionMethod::IS_PUBLIC);
+					if (count($methods)) {
+						$rdft = '';
+						foreach ($methods as $m) {
+							if (!$m->isConstructor() && !$m->isDestructor() && is_subclass_of($m->class,'module') && $m->name != 'setView') {
+								$rdft .= "\n".str_replace(
+									array("{extension}", "{module}","{action}"),
+									array($extension->id, $moduleName, $m->name),
+									$rdf_acttpl);
+							}
+						}
+						if ($rdft != '') {
+							//Add only if has method
+							$rdf .= "\n".str_replace(
+									array("{extension}","{module}"),
+									array($extension->id,$moduleName),
+									$rdf_modtpl)."\n".$rdft;
+							//$rdf .= "\n".str_replace("{base}", $dir, str_replace("{name}", $module, str_replace("{extension}", $dir, $rdf_modtpl)))."\n".$rdft;
+							//Add taoManager rights
+							$rdf .= "\n\n".str_replace("{uri}", FUNCACL_NS.'#m_'.$extension->id.'_'.$moduleName, $rdf_taomanager)."\n";
+						}
+					}
+				}
+				catch (ReflectionException $e) {
+					echo $e->getLine().' : '.$e->getMessage()."\n";
+				}
+			}
+			//Save the RDF
+			$rdf .= "\n".$rdf_footer;
+			file_put_contents(ROOT_PATH.$extension->id.'/models/ontology/funcacl.rdf', $rdf);
+		}
+		
+		
+		/*
 		//From the root, look actions for all subdir
 		$dirs = array_diff(scandir(ROOT_PATH), array('..', '.', '.svn', '.htaccess', 'generis'));
 		foreach ($dirs as $dir) {
@@ -136,6 +183,7 @@ class tao_scripts_TaoPreparePublicActions
 				file_put_contents(ROOT_PATH.$dir.'/models/ontology/funcacl.rdf', $rdf);
 			}
 		}
+		*/
         // section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684E end
     }
 

@@ -531,7 +531,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					
 					//reload the form to take in account the changes
 					$ctx = Context::getInstance();
-					$this->redirect(_url($ctx->getActionName(), $ctx->getModuleName(), $this->getSessionAttribute('currentExtension'), array(
+					$this->redirect(_url($ctx->getActionName(), $ctx->getModuleName(), $ctx->getExtensionName(), array(
 						'uri'			=> tao_helpers_Uri::encode($ownerUri),
 						'propertyUri'	=> tao_helpers_Uri::encode($propertyUri)
 					)));
