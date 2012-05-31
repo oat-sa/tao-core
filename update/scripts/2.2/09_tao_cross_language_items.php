@@ -1,19 +1,4 @@
 <?php
-// Add language tags to item content triples.
-core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
-$session = core_kernel_classes_Session::singleton();
-$itemClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAOItem.rdf#Item');
-$itemContentProperty = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent');
-$items = $itemClass->getInstances();
-foreach ($items as $i){
-    // Get the value and reset it to set its language tag.    
-    $itemContent = '' . $i->getUniquePropertyValue($itemContentProperty);
-    $i->removePropertyValues($itemContentProperty);
-    $i->setPropertyValueByLg($itemContentProperty, $itemContent, $session->defaultLg);
-}
-                    
-// Change item folder structure to add the language dimension.
-
 /**
  * Change the item folder structure add the language dimension.
  * It scans the $path directory to look for item folders. It adds
@@ -49,10 +34,24 @@ function tao22_updateItems($path){
     }
 }
 
-// update /taoItems/data
+// Add language tags to item content triples.
+core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
+$session = core_kernel_classes_Session::singleton();
+$itemClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAOItem.rdf#Item');
+$itemContentProperty = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent');
+$items = $itemClass->getInstances();
+foreach ($items as $i){
+    // Get the value and reset it to set its language tag.    
+    $itemContent = '' . $i->getUniquePropertyValue($itemContentProperty);
+    $i->removePropertyValues($itemContentProperty);
+    $i->setPropertyValueByLg($itemContentProperty, $itemContent, $session->defaultLg);
+}
+                    
+// Change item folder structure to add the language dimension.
+// 1. update /taoItems/data
 tao22_updateItems(ROOT_PATH . '/taoItems');
 
-// update /taoDelivery/compiled
+// 2. update /taoDelivery/compiled
 $compiledPath = ROOT_PATH . '/taoDelivery/compiled';
 
 if (($deliveries = @scandir($compiledPath)) !== false){
