@@ -101,8 +101,8 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 			throw new Exception("wrong request mode");
 		}	
 		$data = array();
-		if($this->hasRequestParameter('classUri')){
-			$list = $this->service->getList(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+		if($this->hasRequestParameter('listUri')){
+			$list = $this->service->getList(tao_helpers_Uri::decode($this->getRequestParameter('listUri')));
 			if(!is_null($list)){
 				foreach($this->service->getListELements($list, true) as  $listElement){
 					$data[tao_helpers_Uri::encode($listElement->uriResource)] = $listElement->getLabel();

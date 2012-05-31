@@ -560,7 +560,7 @@ UiForm = function(){
 					$.ajax({
 						url: root_url + '/tao/Lists/getListElements',
 						type: "POST",
-						data: {classUri: classUri},
+						data: {listUri: classUri},
 						dataType: 'json',
 						success: function(response){
 							html = "<ul class='form-elt-list'>";
