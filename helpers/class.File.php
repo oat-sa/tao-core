@@ -182,7 +182,7 @@ class tao_helpers_File
         	if(is_dir($source) && $recursive){
         		foreach(scandir($source) as $file){
         			if($file != '.' && $file != '..'){
-        				if($ignoreSystemFiles == true && $file[0] == '.'){
+        				if($file[0] == '.' && $ignoreSystemFiles == true){
         					continue;
         				}
         				else{
