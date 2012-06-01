@@ -3,7 +3,7 @@
 
 <div class="main-container">
 	<div class="actions">
-		<span class="ui-state-default ui-corner-all" id="addrole"><a href="#"><img src="<?=BASE_WWW?>img/add.png" alt="add" /> <?=__('Add a role')?></a></span>
+		<span class="ui-state-default ui-corner-all" id="addrole"><a href="#"><img src="<?=TAOBASE_WWW?>img/add.png" alt="add" /> <?=__('Add a role')?></a></span>
 	</div>
 
 	<div class="containerDisplay" id="aclRoles">

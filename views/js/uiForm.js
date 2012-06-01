@@ -590,7 +590,7 @@ UiForm = function(){
 		 	var listField = $(this);
 		 	if(listField.parent().find('img').length == 0){
 				listControl = $("<img title='manage lists' style='cursor:pointer;' />");
-				listControl.attr('src', imgPath + '/add.png');
+				listControl.attr('src', taobase_www + "img/add.png");
 				listControl.click(function(){
 					listField.val('new');
 					listField.change();

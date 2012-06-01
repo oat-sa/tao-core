@@ -6,7 +6,7 @@
 	<br />
 	<span class="ui-state-default ui-corner-all">
 		<a href="#" onclick="selectTabByName('add_user');">
-			<img src="<?=BASE_WWW?>img/add.png" alt="add" /> <?=__('Add a user')?>
+			<img src="<?=TAOBASE_WWW?>img/add.png" alt="add" /> <?=__('Add a user')?>
 		</a>
 	</span>
 	<br />
