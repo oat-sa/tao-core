@@ -2,7 +2,7 @@
 
 <style>
 <!--
-.ui-helper-horizontal { display:inline-block; } 
+.ui-helper-horizontal { display:inline-block; }
 -->
 </style>
 
@@ -18,7 +18,7 @@ $(document).ready(function(){
 	/*
 	 * instantiate the filter nodes widget
 	 */
-	
+
 	var getUrl = root_url + 'taoItems/items/getFilteredInstancesPropertiesValues';
 	//the facet filter options
 	var facetFilterOptions = {
@@ -32,12 +32,12 @@ $(document).ready(function(){
 	//set the filter nodes
 	var filterNodes = [
 		<?foreach($properties as $property):?>
-		{ 
+		{
 			id					: '<?=md5($property->uriResource)?>'
 			, label				: '<?=$property->getLabel()?>'
 			, url				: getUrl
-			, options 			: 
-			{ 
+			, options 			:
+			{
 				'propertyUri' 	: '<?= $property->uriResource ?>'
 				, 'classUri' 	: '<?= $clazz->uriResource ?>'
 			}
@@ -71,12 +71,12 @@ $(document).ready(function(){
 
 	//instantiate jqgrid
 	$("#result-list").jqGrid({
-		datatype: "local", 
-		colNames: properties , 
-		colModel: model, 
-		width: parseInt($("#result-list").parent().width()) - 15, 
-		sortname: 'id', 
-		sortorder: "asc", 
+		datatype: "local",
+		colNames: properties ,
+		colModel: model,
+		width: parseInt($("#result-list").parent().width()) - 15,
+		sortname: 'id',
+		sortorder: "asc",
 		caption: __("Filter results")
 	});
 
@@ -92,7 +92,7 @@ $(document).ready(function(){
 				formatedFilter[propertyUri].push(filter[filterNodeId][i]);
 			}
 		}
-		
+
 		//Refresh the result
 		$.getJSON (root_url+'taoItems/items/searchInstances'
 			,{
@@ -100,13 +100,12 @@ $(document).ready(function(){
 				, 'filter' : formatedFilter
 			}
 			, function (DATA) {
-
 				// empty the grid
 				var myGrid = $("#result-list"); // the variable you probably have already somewhere
 				var gridBody = myGrid.children("tbody");
 				var firstRow = gridBody.children("tr.jqgfirstrow");
 				gridBody.empty().append(firstRow);
-				
+
 				for(var i in DATA) {
 					var row = {'id':i};
 					for (var j in DATA[i].properties) {

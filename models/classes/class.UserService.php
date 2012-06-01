@@ -337,7 +337,7 @@ class tao_models_classes_UserService
 		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 		$users = array();
 
-		$opts = array('recursive' => 0, 'like' => false, 'additionalClasses' => $this->allowedRoles);
+		$opts = array('recursive' => true, 'like' => false);
 		if (isset($options['start'])) $opts['offset'] = $options['start'];
 		if (isset($options['end'])) $opts['limit'] = $options['end'];
 
@@ -346,7 +346,10 @@ class tao_models_classes_UserService
 			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
 		}
 		foreach ($userClass->searchInstances($crits, $opts) as $user) {
-			$users[$user->uriResource] = $user;
+			//Check if it's not wf or testtaker
+			if (!$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT)) && !$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSERROLE))) {
+				$users[$user->uriResource] = $user;
+			}
 		}
 
     	$keyProp = null;
