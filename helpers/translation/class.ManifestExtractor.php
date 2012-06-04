@@ -82,16 +82,28 @@ class tao_helpers_translation_ManifestExtractor
 						try{
 							$xml = new SimpleXMLElement(trim(file_get_contents($fullPath)));
 							if ($xml instanceof SimpleXMLElement){
-								// look up for "name" attributes.
-								$nodes = $xml->xpath("//*[@name]");
+								// look up for "name" attributes of structure elements.
+								$nodes = $xml->xpath("//structure[@name]|//section[@name]");
 								foreach ($nodes as $node) {
 									if (isset($node['name'])) {
 										$nodeName = (string)$node['name'];
                                         $newTranslationUnit = new tao_helpers_translation_TranslationUnit();
                                         $newTranslationUnit->setSource($nodeName);
+                                        $newTranslationUnit->addAnnotation('tao-public', 'public');
 										$translationUnits[$nodeName] = $newTranslationUnit;
 									}
 								}
+                                
+                                // look up for "name" attributes of action elements.
+                                $nodes = $xml->xpath("//action[@name]|//tree[@name]");
+                                foreach ($nodes as $node) {
+                                    if (isset($node['name'])) {
+                                        $nodeName = (string)$node['name'];
+                                        $newTranslationUnit = new tao_helpers_translation_TranslationUnit();
+                                        $newTranslationUnit->setSource($nodeName);
+                                        $translationUnits[$nodeName] = $newTranslationUnit;
+                                    }
+                                }
 								
 								// look up for "description" elements.
 								$nodes = $xml->xpath("//description");
@@ -99,6 +111,7 @@ class tao_helpers_translation_ManifestExtractor
 									if ((string)$node != '') {
 									    $newTranslationUnit = new tao_helpers_translation_TranslationUnit();
                                         $newTranslationUnit->setSource((string)$node);
+                                        $newTranslationUnit->addAnnotation('tao-public', 'public');
 										$translationUnits[(string)$node] = $newTranslationUnit;
 									}
 								}

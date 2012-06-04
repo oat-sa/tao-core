@@ -277,7 +277,6 @@ class TranslationTestCase extends UnitTestCase {
 		$extractor = new tao_helpers_translation_ManifestExtractor(array($taoManifestPath));
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
-		
 		$this->assertTrue(count($tus) == 5);
 		$this->assertTrue($tus[0]->getSource() == 'Users');
 		$this->assertTrue($tus[1]->getSource() == 'Manage users');
@@ -296,7 +295,7 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue($tus[3]->getSource() == 'search');
 		$this->assertTrue($tus[6]->getSource() == 'delete');
 		$this->assertTrue($tus[15]->getSource() == 'Items');
-		$this->assertTrue($tus[21]->getSource() == 'Full preview');
+		$this->assertTrue($tus[21]->getSource() == 'preview');
 	}
 	
 	public function testSourceExtraction() {

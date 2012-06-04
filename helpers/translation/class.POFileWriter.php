@@ -83,11 +83,33 @@ class tao_helpers_translation_POFileWriter
         // Write all Translation Units.
         $buffer .= "\n";
 		foreach($this->getTranslationFile()->getTranslationUnits() as $tu) {
+		    // Select compliant annotations.
+		    $hasFlags = false;
+		    $f = '';
+		    $flags = array();
+            $flagGlue = ' ';
+            foreach ($tu->getAnnotations() as $k => $v){
+                switch ($k){
+                    case 'tao-public':
+                        $flags[] = 'tao-public';
+                    break;
+                }
+            }
+            
+            if (count($flags) > 0){
+                $f = implode($flagGlue, $flags);
+                $hasFlags = true;
+            }
+            
 			$s = tao_helpers_translation_POUtils::sanitize($tu->getSource(), true);
 			$t = tao_helpers_translation_POUtils::sanitize($tu->getTarget(), true);
-			$buffer .=  "msgid \"{$s}\"\n";
-			$buffer .=  "msgstr \"{$t}\"\n";
-			$buffer .=  "\n";
+            if ($hasFlags == true){
+                $buffer .= "#, ${f}\n";
+            }
+            
+			$buffer .= "msgid \"{$s}\"\n";
+			$buffer .= "msgstr \"{$t}\"\n";
+			$buffer .= "\n";
 		}
 		
 		return file_put_contents($this->getFilePath(), $buffer);

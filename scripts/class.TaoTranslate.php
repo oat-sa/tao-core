@@ -695,7 +695,7 @@ class tao_scripts_TaoTranslate
         $translationFile->setTargetLanguage($this->options['language']);
        	$translationFile->addTranslationUnits($sourceCodeExtractor->getTranslationUnits());
        	$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
-       	
+
        	// For each TU that was recovered, have a look in an older version
        	// of the translations.
        	$oldFilePath = $this->buildLanguagePath($this->options['extension'], $this->options['language']) . '/' .self::DEF_PO_FILENAME;
@@ -704,13 +704,13 @@ class tao_scripts_TaoTranslate
        	$oldTranslationFile = $translationFileReader->getTranslationFile();
        	
        	foreach ($oldTranslationFile->getTranslationUnits() as $oldTu) {
-       		if ($translationFile->hasSameSource($oldTu)) {
+       		if (($newTu = $translationFile->getBySource($oldTu)) !== null && $oldTu->getTarget() != '') {
        			// No duplicates in TFs so I simply add it whatever happens.
        			// If it already has the same one, it means we will update it.
-       			$translationFile->addTranslationUnit($oldTu);
+       			$newTu->setTarget($oldTu->getTarget());
        		}
        	}
-       	
+        
        	$sortedTranslationFile = new tao_helpers_translation_POFile();
         $sortedTranslationFile->setSourceLanguage($translationFile->getSourceLanguage());
         $sortedTranslationFile->setTargetLanguage($translationFile->getTargetLanguage());

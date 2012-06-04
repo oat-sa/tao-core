@@ -349,9 +349,10 @@ class tao_helpers_translation_TranslationFile
         // If the translation unit exists, we replace the target with the new one if it exists.
         foreach($this->getTranslationUnits() as $tu) {
         	if ($tu->getSource() == $translationUnit->getSource()) {
-        		if ($translationUnit->getTarget() != '') {
-        			$tu->setTarget($translationUnit->getTarget());
-        		}
+        		
+    			$tu->setTarget($translationUnit->getTarget());
+                $tu->setAnnotations($translationUnit->getAnnotations());
+        		
         		return;
         	}
         }
