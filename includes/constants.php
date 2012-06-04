@@ -55,6 +55,7 @@ $todefine = array(
 	'CLASS_ROLE_BACKOFFICE' 		=> 'http://www.tao.lu/Ontologies/TAO.rdf#BackOffice',
 	'CLASS_ROLE_WORKFLOWUSER' 		=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser',
 	'CLASS_ROLE_WORKFLOWUSERROLE'  	=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole',
+	'TAO_INSTALLATOR'  				=> 'http://www.tao.lu/Ontologies/TAO.rdf#installator',
 	'PROPERTY_WIDGET_CALENDAR'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar',
 	'PROPERTY_WIDGET_TEXTBOX'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
 	'PROPERTY_WIDGET_TEXTAREA'		=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
