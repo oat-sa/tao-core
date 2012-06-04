@@ -346,8 +346,10 @@ class tao_models_classes_UserService
 			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
 		}
 		foreach ($userClass->searchInstances($crits, $opts) as $user) {
-			//Check if it's not wf or testtaker
-			if (!$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT)) && !$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSERROLE))) {
+			//Check if it's not wf or testtaker or installator
+			if (!$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT)) 
+					&& !$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSERROLE)) 
+					&& $user->uriResource != TAO_INSTALLATOR) {
 				$users[$user->uriResource] = $user;
 			}
 		}
