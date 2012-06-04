@@ -121,7 +121,7 @@ class tao_helpers_funcACL_funcACL
 			}
 		}
 		if (!$returnValue) {
-			common_Logger::w('Access denied to '.$extension.'::'.$module.'::'.$action.' for '.
+			common_Logger::i('Access denied to '.$extension.'::'.$module.'::'.$action.' for '.
 				(isset($userRes) ? 'User '.$userRes->getLabel() : 'anonymous'));
 		}
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B end
