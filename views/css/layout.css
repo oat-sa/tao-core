@@ -261,26 +261,25 @@ div#meta-content table .last{
 }
 
 /* Footer */
-div#footer{
+div#footer {
 	font-size:10px;
 	width:100%;
 	text-align:center;
-	position:fixed;
-	bottom:0;
-	margin:10px auto 0px auto;
+	margin:5px auto 0px auto;
 	padding:5px 0px 0px 0px;
-	z-index:-10;
 }
-/* Language section */
-div#section-lg{
-	margin:1% 0 0 1%;
-	text-align:left;
-	width:20%;
-	z-index:10000;
-	position:absolute;
-	top:-25px;
-	left:0px;
-	font-size:12px;
+div#footer .releasestatus {
+	width: 380px;
+	margin: 10px auto 10px auto;
+	padding: 5px 5px 5px 62px;
+	text-align:center;
+	position: relative;
+}
+div#footer .releasestatus strong { font-size: 12px; }
+div#footer .releasestatus img {
+	position: absolute;
+	left: 15px;
+	top: 5px;
 }
 
 /* Ajax Loader */
