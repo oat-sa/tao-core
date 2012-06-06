@@ -192,6 +192,12 @@ class tao_helpers_translation_POUtils
         $returnValue = (string) '';
 
         // section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003C1A begin
+        $returnValue = $comment;
+        $flag = trim($flag);
+        
+        if (mb_strpos($returnValue, $flag, 0, TAO_DEFAULT_ENCODING) === false){
+            $returnValue .= ((mb_strlen($returnValue, TAO_DEFAULT_ENCODING) > 0) ? " ${flag}" : $flag);
+        }
         // section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003C1A end
 
         return (string) $returnValue;

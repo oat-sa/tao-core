@@ -501,7 +501,7 @@ class TranslationTestCase extends UnitTestCase {
         $this->assertEqual($tus[10]->getTarget(), 'Función de usuario de flujo de trabajo: el papel asignado por defecto a todos los usuarios backend, no eliminable');
     }
 
-    public function testPOAnnotations(){
+    public function testPOAnnotationsReading(){
         $string  = "# This is a comment.\n";
         $string .= "#, flag1 composed-flag flag2";
         $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
@@ -555,6 +555,22 @@ class TranslationTestCase extends UnitTestCase {
                                                             'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
         $this->assertEqual($tus[3]->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                             'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
+    }
+
+    public function testPOAnnotationsWriting(){
+        // Test flag utilities.
+        $comment = '';
+        $this->assertEqual(tao_helpers_translation_POUtils::addFlag($comment, 'tao-public'), 'tao-public');
+        
+        $comment = 'no-error test-flag';
+        $this->assertEqual(tao_helpers_translation_POUtils::addFlag($comment, 'tao-public'), 'no-error test-flag tao-public');
+        
+        $comment = 'foo bar code';
+        $this->assertEqual(tao_helpers_translation_POUtils::addFlag($comment, 'bar '), 'foo bar code');
+        
+        
+        // Test PO File writing with annotations.
+        
     }
 }
 ?>
