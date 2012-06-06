@@ -21,8 +21,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	public function __construct()
 	{
 		//check if user is authenticated
-		$context = Context::getInstance();
-		if(!$this->_isAllowed() &&  $context->getActionName() != 'login'){
+		if(!$this->_isAllowed()){
 			$this->logout();
 			return;
 		}

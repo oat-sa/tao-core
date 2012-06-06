@@ -21,6 +21,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 	 * @return 
 	 */
 	public function __construct(){
+		parent::__construct();
 		$this->userService = tao_models_classes_UserService::singleton();
 	}
 

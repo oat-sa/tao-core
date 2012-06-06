@@ -20,7 +20,8 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	 * @return void
 	 */
 	public function __construct(){
-    $this->userService = tao_models_classes_UserService::singleton();
+		parent::__construct();
+		$this->userService = tao_models_classes_UserService::singleton();
 		$this->defaultData();
 	}
 

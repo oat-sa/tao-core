@@ -88,20 +88,8 @@ class tao_helpers_funcACL_funcACL
 		}
 
 		//Get the Roles of the current User
-		$user = core_kernel_classes_Session::singleton()->getUser();
-		$roles = array();
-		if (!empty($user)) {
-			$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-			$search = $userClass->searchInstances(array(PROPERTY_USER_LOGIN => $user), array('recursive' => true, 'like' => false));
-			$userUri = key($search);
-			if (!is_null($userUri)) {
-				$userRes = new core_kernel_classes_Resource($userUri);
-				$roles = $userRes->getTypes();
-			} else {
-				common_Logger::e('Current user not found', 'TAO');
-			}
-		}
-		
+		$roles = tao_models_classes_UserService::singleton()->getCurrentUserRoles();
+
 		//Get the access list (reversed)
 		$reverse_access = self::getRolesByActions();
 

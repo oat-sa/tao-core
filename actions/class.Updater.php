@@ -4,6 +4,7 @@ class tao_actions_Updater extends tao_actions_CommonModule {
 	
 	public function __construct()
 	{
+		parent::__construct();
 		$this->updater = new tao_update_Updator();
 	}
 	

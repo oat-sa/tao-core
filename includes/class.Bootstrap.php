@@ -327,7 +327,7 @@ class Bootstrap{
 	{
 		try {
 			$re		= new HttpRequest();
-			$fc		= new AccessControlFC($re);
+			$fc		= new AdvancedFC($re);
 			$fc->loadModule();
 		}
 		catch(ActionEnforcingException $ae){

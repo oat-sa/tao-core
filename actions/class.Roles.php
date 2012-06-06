@@ -15,6 +15,7 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 	 * @return void
 	 */
 	public function __construct(){
+		parent::__construct();
 		$this->defaultData();
 	}
 

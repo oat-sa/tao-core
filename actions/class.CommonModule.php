@@ -88,8 +88,17 @@ abstract class tao_actions_CommonModule extends Module {
 	 */
 	protected function _isAllowed()
 	{
+		// cannot use $this since the module might be called from diffrent extension
+		$context = Context::getInstance();
+		$ext	= $context->getExtensionName();
+		$module = $context->getModuleName();
+		$action = $context->getActionName();
+		
+		return tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action);
+		/*
 		//if a user is logged in
 		return core_kernel_users_Service::singleton()->isASessionOpened();
+		*/
 	}
 	
 }

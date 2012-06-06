@@ -16,6 +16,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 	 */
 	public function __construct(){		
 		
+		parent::__construct();
 		//add List stylesheet
 		tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/lists.css');
 		

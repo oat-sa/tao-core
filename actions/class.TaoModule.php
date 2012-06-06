@@ -12,11 +12,10 @@
  */
 abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
-	/**
+	/*
 	 * Check if the current user is allowed to acces the request
 	 * Override this method to allow/deny a request
 	 * @return boolean
-	 */
 	protected function _isAllowed()
 	{ 
 		//if a user is logged in
@@ -38,7 +37,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		return false;
 	}
-	
+	*/
 /*
  * Shared Methods
  */
