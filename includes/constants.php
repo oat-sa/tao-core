@@ -15,7 +15,7 @@ define('TAO_VERSION_NAME', 'v2.2-beta2');
 define('PRODUCT_NAME', 'TAO');
 
 #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
-define('TAO_RELEASE_STATUS', 'beta');
+define('TAO_RELEASE_STATUS', 'demoB');
 
 #the temporary suffix of property URIs at CSV import.
 define('TEMP_SUFFIX_CSV', '-taocsvdef');

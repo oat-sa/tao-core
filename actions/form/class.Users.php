@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * This container initialize the user edition form.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage actions_form
  */
@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Create a form from a  resource of your ontology. 
  * Each property will be a field, regarding it's widget.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/actions/form/class.Instance.php');
 
@@ -34,7 +34,7 @@ require_once('tao/actions/form/class.Instance.php');
  * This container initialize the user edition form.
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage actions_form
  */
@@ -68,13 +68,14 @@ class tao_actions_form_Users
      * Short description of method __construct
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Class clazz
      * @param  Resource user
      * @param  boolean forceAdd
+     * @param  boolean requireOldPassword
      * @return mixed
      */
-    public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $user = null, $forceAdd = false)
+    public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $user = null, $forceAdd = false, $requireOldPassword = true)
     {
         // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F43 begin
         
@@ -104,6 +105,7 @@ class tao_actions_form_Users
     	}
     	
     	$options['topClazz'] = CLASS_GENERIS_USER;
+    	$options['requireOldPassword'] = $requireOldPassword;
     	
     	parent::__construct($clazz, $this->user, $options);
     	
@@ -114,7 +116,7 @@ class tao_actions_form_Users
      * Short description of method getUser
      *
      * @access public
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return core_kernel_classes_Resource
      */
     public function getUser()
@@ -134,7 +136,7 @@ class tao_actions_form_Users
      * Short description of method initForm
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     protected function initForm()
@@ -156,7 +158,7 @@ class tao_actions_form_Users
      * Short description of method initElements
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     protected function initElements()
@@ -225,60 +227,44 @@ class tao_actions_form_Users
 			));
 			$this->form->addElement($pass2Element);
 		}
-		else{
+		else {
 			
-			$validatePasswords = true;
-            $validateOldPassword = true;
-			if(!isset($_POST['password0']) && !isset($_POST['password1'])){
-			$validateOldPassword = false;
-			if (isset($_POST['password2']) && empty($_POST['password3'])) {
-				$validatePasswords = false;
+			if (in_array(TAO_RELEASE_STATUS, array('demoA', 'demoB', 'demoS'))) {
+				$warning  = tao_helpers_form_FormFactory::getElement('warningpass', 'Label');
+				$warning->setValue(__('Unable to change passwords in demo mode'));
+				$this->form->addElement($warning);
+				$this->form->createGroup("pass_group", __("Change the password"), array('warningpass'));
+			} else {
+			
+				if ($this->options['requireOldPassword']) {
+					$pass1Element = tao_helpers_form_FormFactory::getElement('password1', 'Hiddenbox');
+					$pass1Element->setDescription(__('Old Password'));
+					$pass1Element->addValidator(
+						tao_helpers_form_FormFactory::getValidator('Callback', array(
+							'message'	=> __('Passwords are not matching'), 
+							'object'	=> core_kernel_users_Service::singleton(),
+							'method'	=> 'isPasswordValid',
+							'param'		=> $this->getUser()
+					)));
+					$this->form->addElement($pass1Element);
+				}
+				
+				$pass2Element = tao_helpers_form_FormFactory::getElement('password2', 'Hiddenbox');
+				$pass2Element->setDescription(__('New password'));
+				$pass2Element->addValidators(array(
+					tao_helpers_form_FormFactory::getValidator('Length', array('min' => 3))
+				));
+				$this->form->addElement($pass2Element);
+				
+				$pass3Element = tao_helpers_form_FormFactory::getElement('password3', 'Hiddenbox');
+				$pass3Element->setDescription(__('Repeat new password'));
+				$pass3Element->addValidators(array(
+					tao_helpers_form_FormFactory::getValidator('Password', array('password2_ref' => $pass2Element)),
+				));
+				$this->form->addElement($pass3Element);
+				
+				$this->form->createGroup("pass_group", __("Change the password"), array('password1', 'password2', 'password3'));
 			}
-			}else if(isset($_POST['password1']) && empty($_POST['password1'])){
-				$validatePasswords = false;
-			}
-			
-			$pass0Element = tao_helpers_form_FormFactory::getElement('password0', 'Hidden');
-			$passwordValue = '';
-			try{
-				$passwordValue = $this->user->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD));
-			}
-			catch(common_Exception $ce){}
-			$pass0Element->setValue($passwordValue);
-			
-			$this->form->addElement($pass0Element);
-			
-			$pass1Element = tao_helpers_form_FormFactory::getElement('password1', 'Hiddenbox');
-			$pass1Element->setDescription(__('Old Password'));
-			$pass1Element->addValidators(array(
-				tao_helpers_form_FormFactory::getValidator('Md5Password', array('password2_ref' => $pass0Element)),
-			));
-			if(!$validatePasswords || !$validateOldPassword){
-				$pass1Element->setForcedValid();
-			}
-			$this->form->addElement($pass1Element);
-			
-			$pass2Element = tao_helpers_form_FormFactory::getElement('password2', 'Hiddenbox');
-			$pass2Element->setDescription(__('New password'));
-			$pass2Element->addValidators(array(
-				tao_helpers_form_FormFactory::getValidator('Length', array('min' => 3))
-			));
-			if(!$validatePasswords){
-				$pass2Element->setForcedValid();
-			}
-			$this->form->addElement($pass2Element);
-			
-			$pass3Element = tao_helpers_form_FormFactory::getElement('password3', 'Hiddenbox');
-			$pass3Element->setDescription(__('Repeat new password'));
-			$pass3Element->addValidators(array(
-				tao_helpers_form_FormFactory::getValidator('Password', array('password2_ref' => $pass2Element)),
-			));
-			if(!$validatePasswords){
-				$pass3Element->setForcedValid();
-			}
-			$this->form->addElement($pass3Element);
-			
-			$this->form->createGroup("pass_group", __("Change the password"), array('password0', 'password1', 'password2', 'password3'));
 		}
 		/**/
 		
