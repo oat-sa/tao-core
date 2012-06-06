@@ -7,7 +7,6 @@
  */
 require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
 require_once DIR_CORE_HELPERS . 'Core.php';
-require_once dirname(__FILE__) . '/class.AccessControlFC.php';
 
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
