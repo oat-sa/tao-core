@@ -86,28 +86,20 @@ class tao_helpers_translation_POTranslationUnit
     const REFERENCE = 'po-reference';
 
     /**
-     * Annotation identifier for the previous translation PO comment.
+     * Annotation identifier for the PO previous untranslated string (singular)
      *
      * @access public
      * @var string
      */
-    const PREVIOUS_TRANSLATION = 'po-previous-translation';
+    const PREVIOUS_MSGID = 'po-previous-msgid';
 
     /**
-     * Annotation identifier for the PO previous translation (singular) comment.
+     * Annotation identifier for the PO previous untranslated string (plural)
      *
      * @access public
      * @var string
      */
-    const PREVIOUS_TRANSLATION_SINGULAR = 'po-previous-translation-singular';
-
-    /**
-     * Annotation identifier for the PO previous translation (plural) comment.
-     *
-     * @access public
-     * @var string
-     */
-    const PREVIOUS_TRANSLATION_PLURAL = 'po-previous-translation-plural';
+    const PREVIOUS_MSGID_PLURAL = 'po-previous-msgid-plural';
 
     /**
      * Annotation identifier for the message context comment.
@@ -115,7 +107,7 @@ class tao_helpers_translation_POTranslationUnit
      * @access public
      * @var string
      */
-    const MESSAGE_CONTEXT = 'po-message-context';
+    const PREVIOUS_MSGCTXT = 'po-previous-msgctxt';
 
     // --- OPERATIONS ---
 

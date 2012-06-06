@@ -502,10 +502,42 @@ class TranslationTestCase extends UnitTestCase {
     }
 
     public function testPOAnnotations(){
-        $reader = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::ANNOTATIONS_PO);
-        $reader->read();
-        $tf = $reader->getTranslationFile();
-        $tus = $tf->getTranslationUnits();
+        $string  = "# This is a comment.\n";
+        $string .= "#, flag1 composed-flag flag2";
+        $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
+        $this->assertEqual($annotations, array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment.',
+                                               tao_helpers_translation_POTranslationUnit::FLAGS => 'flag1 composed-flag flag2'));
+        
+        $string  = "# The first line of my comment continues...\n";
+        $string .= "# At the second line.\n";
+        $string .= "#. Please do not touch this!\n";
+        $string .= "#| msgctxt A previous testing context.\n";
+        $string .= "#|  msgid previous-untranslated-string-singular\n";
+        $string .= "#| msgid_plural previous-untranslated-string-plural\n";
+        $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
+        $this->assertEqual($annotations, array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "The first line of my comment continues...\nAt the second line.",
+                                               tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS => "Please do not touch this!",
+                                               tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT => "A previous testing context.",
+                                               tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID => "previous-untranslated-string-singular",
+                                               tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID_PLURAL => "previous-untranslated-string-plural"));
+                                               
+        $string  = "# هذا تعليق\n";
+        $string .= "# مع خطوط متعددة في الداخل.\n";
+        $string .= "#. لا تغير من فضلك!\n";
+        $string .= "#| msgctxt السابقة السياق.";
+        $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
+        $this->assertEqual($annotations, array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "هذا تعليق\nمع خطوط متعددة في الداخل.",
+                                               tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS => "لا تغير من فضلك!",
+                                               tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT => "السابقة السياق."));
+        
+        $string  = "^ This should not w#ork but the next...\n";
+        $string .= "#, flag-read";
+        $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
+        $this->assertEqual($annotations, array(tao_helpers_translation_POTranslationUnit::FLAGS => 'flag-read'));
+        
+        $string = "";
+        $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
+        $this->assertEqual($annotations, array());
     }
 }
 ?>

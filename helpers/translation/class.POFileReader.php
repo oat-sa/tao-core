@@ -75,7 +75,7 @@ class tao_helpers_translation_POFileReader
 		
 		$fc = implode('',file($file));
 		
-		$matched = preg_match_all('/(#(?:[\.:,\|]){0,1}\s+(?:.*?)\\n)*(msgid\s+(?:"(?:[^"]|\\\\")*?"\s*)+)\s+' .
+		$matched = preg_match_all('/(?:(#[\.:,\|]{0,1}\s+(?:.*?))\\n)*(msgid\s+(?:"(?:[^"]|\\\\")*?"\s*)+)\s+' .
 								  '(msgstr\s+(?:"(?:[^"]|\\\\")*?(?<!\\\)"\s*)+)/',
 								  $fc, $matches);
 
@@ -105,8 +105,7 @@ class tao_helpers_translation_POFileReader
     					$tu->setTarget($msgstr);
     				}
                     
-                    // Deal with comments & flags to transform them
-                    // as annotations.
+                    
                     
                     $tf->addTranslationUnit($tu);
                 }
