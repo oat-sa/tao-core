@@ -17,6 +17,7 @@ class TranslationTestCase extends UnitTestCase {
 	const RAW_PO = '/samples/sample_raw.po';
 	const ESCAPING_PO = '/samples/sample_escaping.po';
 	const SORTING_PO = '/samples/sample_sort.po';
+    const ANNOTATIONS_PO = '/samples/sample_annotations.po';
 	const TEMP_PO = 'tao.test.translation.writing';
     const TEMP_RDF = 'tao.test.translation.writing';
 	const TAO_MANIFEST = '/samples/structures/tao';
@@ -498,6 +499,13 @@ class TranslationTestCase extends UnitTestCase {
         $this->assertEqual($tus[0]->getAnnotation('sourceLanguage'), array('name' => 'sourceLanguage', 'value' => tao_helpers_translation_Utils::getDefaultLanguage()));
         $this->assertEqual($tus[0]->getAnnotation('targetLanguage'), array('name' => 'targetLanguage', 'value' => 'es'));
         $this->assertEqual($tus[10]->getTarget(), 'Función de usuario de flujo de trabajo: el papel asignado por defecto a todos los usuarios backend, no eliminable');
+    }
+
+    public function testPOAnnotations(){
+        $reader = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::ANNOTATIONS_PO);
+        $reader->read();
+        $tf = $reader->getTranslationFile();
+        $tus = $tf->getTranslationUnits();
     }
 }
 ?>

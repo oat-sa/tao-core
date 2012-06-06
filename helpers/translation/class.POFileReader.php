@@ -75,7 +75,7 @@ class tao_helpers_translation_POFileReader
 		
 		$fc = implode('',file($file));
 		
-		$matched = preg_match_all('/(#(?:,|.){0,1}\s+(?:.*?)\\n)*(msgid\s+(?:"(?:[^"]|\\\\")*?"\s*)+)\s+' .
+		$matched = preg_match_all('/(#(?:[\.:,\|]){0,1}\s+(?:.*?)\\n)*(msgid\s+(?:"(?:[^"]|\\\\")*?"\s*)+)\s+' .
 								  '(msgstr\s+(?:"(?:[^"]|\\\\")*?(?<!\\\)"\s*)+)/',
 								  $fc, $matches);
 
