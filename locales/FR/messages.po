@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-24T16:12:24\n"
+"Project-Id-Version: TAO v2.2-beta2\n"
+"PO-Revision-Date: 2012-06-06T14:09:18\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
@@ -28,6 +28,9 @@ msgstr "Un fichier"
 
 msgid "A formated text"
 msgstr "Un texte formaté"
+
+msgid "A joint initiative of CRP Henri Tudor and the University of Luxembourg"
+msgstr ""
 
 msgid "A long text"
 msgstr "Un texte long"
@@ -74,6 +77,7 @@ msgstr "Ajouter / Modifier les listes"
 msgid "Add a role"
 msgstr "Ajouter un rôle"
 
+#, tao-public
 msgid "Add a user"
 msgstr "Ajouter un utilisateur"
 
@@ -130,11 +134,11 @@ msgstr "Impossible de construire les indexes de table optimisés"
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
-msgid "Check All"
-msgstr "Tout Sélectionner"
-
 msgid "Check all"
 msgstr "Tout sélectionner"
+
+msgid "Check All"
+msgstr "Tout Sélectionner"
 
 msgid "Check if updates are available for your version of TAO"
 msgstr "Vérifier si des mises à jour sont disponibles pour votre version de TAO"
@@ -166,11 +170,11 @@ msgstr "Compilation terminée"
 msgid "compiled"
 msgstr "compilé"
 
-msgid "Compiled Instances"
-msgstr "Instances compilées"
-
 msgid "compiled instances"
 msgstr "instances compilées"
+
+msgid "Compiled Instances"
+msgstr "Instances compilées"
 
 msgid "compiling"
 msgstr "compilation"
@@ -286,6 +290,7 @@ msgstr "Editer"
 msgid "Edit a role"
 msgstr ""
 
+#, tao-public
 msgid "Edit a user"
 msgstr "Editer un utilisateur"
 
@@ -388,11 +393,11 @@ msgstr "Importer dans"
 msgid "Inclusive (AND)"
 msgstr "Inclusif (ET)"
 
-msgid "Instances"
-msgstr "Instances"
-
 msgid "instances"
 msgstr "instances"
+
+msgid "Instances"
+msgstr "Instances"
 
 msgid "Interface Language"
 msgstr "Langue de l'interface"
@@ -490,12 +495,14 @@ msgstr "Gestion des listes"
 msgid "Manage the versioned content : "
 msgstr "Gérer le contenu versionné : "
 
+#, tao-public
 msgid "Manage users"
 msgstr "Gérer les utilisateurs"
 
 msgid "Manage Versioned File"
 msgstr "Gérer les fichiers versionnés"
 
+#, tao-public
 msgid "Manages Roles Rights"
 msgstr ""
 
@@ -634,6 +641,9 @@ msgstr "Veuillez confirmer que vous voulez supprimer cette liste. Cette opérati
 msgid "Please login"
 msgstr "Veuillez vous identifier"
 
+msgid "Please report bugs, ideas, comments, any feedback on the TAO Forge"
+msgstr ""
+
 msgid "Please select the input data format to import"
 msgstr "Veuillez sélectionner le format des données d'entrée à importer"
 
@@ -658,11 +668,11 @@ msgstr "Création des indexs, cela peut prendre du temps."
 msgid "Recursive"
 msgstr "Récursif"
 
-msgid "related classes"
-msgstr "classes liées"
-
 msgid "Related Classes"
 msgstr "Classes liées"
+
+msgid "related classes"
+msgstr "classes liées"
 
 msgid "Remove"
 msgstr "Supprimer"
@@ -784,6 +794,9 @@ msgstr "La valeur de ce champs doit être formatée telle une date valide, ex. A
 msgid "The value of this field must be an integer"
 msgstr "La valeur de ce champ doit être un entier"
 
+msgid "The value of this field must be numeric"
+msgstr ""
+
 msgid "There is no class available for optimization for the current extension"
 msgstr "Il n'y a aucune classe disponible à l'optimisation pour cette extension"
 
@@ -814,11 +827,11 @@ msgstr "Type"
 msgid "UI Lang."
 msgstr "Langue Interface"
 
-msgid "Uncheck all"
-msgstr "Tout déselectionner"
-
 msgid "Uncheck All"
 msgstr "Tout sélectionné"
+
+msgid "Uncheck all"
+msgstr "Tout déselectionner"
 
 msgid "uncompiled"
 msgstr "non compilé"
@@ -862,6 +875,7 @@ msgstr "L'utilisateur a été supprimé avec succès"
 msgid "User saved"
 msgstr "L'utilisateur a été sauvé"
 
+#, tao-public
 msgid "Users"
 msgstr "Utilisateurs"
 

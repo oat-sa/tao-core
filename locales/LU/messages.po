@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-beta\n"
-"PO-Revision-Date: 2012-05-24T16:12:28\n"
+"Project-Id-Version: TAO v2.2-beta2\n"
+"PO-Revision-Date: 2012-06-06T14:09:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: LU\n"
@@ -28,6 +28,9 @@ msgstr ""
 
 msgid "A formated text"
 msgstr "Ee formatéierte Text"
+
+msgid "A joint initiative of CRP Henri Tudor and the University of Luxembourg"
+msgstr ""
 
 msgid "A long text"
 msgstr "Ee lange Text"
@@ -74,6 +77,7 @@ msgstr "Lëschten dobeisetzen / editéiren"
 msgid "Add a role"
 msgstr ""
 
+#, tao-public
 msgid "Add a user"
 msgstr ""
 
@@ -129,10 +133,10 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -165,10 +169,10 @@ msgstr ""
 msgid "compiled"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
 msgid "compiling"
@@ -285,6 +289,7 @@ msgstr ""
 msgid "Edit a role"
 msgstr ""
 
+#, tao-public
 msgid "Edit a user"
 msgstr ""
 
@@ -387,10 +392,10 @@ msgstr ""
 msgid "Inclusive (AND)"
 msgstr ""
 
-msgid "Instances"
+msgid "instances"
 msgstr ""
 
-msgid "instances"
+msgid "Instances"
 msgstr ""
 
 msgid "Interface Language"
@@ -489,12 +494,14 @@ msgstr "Daten Lëschten verwalten"
 msgid "Manage the versioned content : "
 msgstr ""
 
+#, tao-public
 msgid "Manage users"
 msgstr ""
 
 msgid "Manage Versioned File"
 msgstr ""
 
+#, tao-public
 msgid "Manages Roles Rights"
 msgstr ""
 
@@ -633,6 +640,9 @@ msgstr ""
 msgid "Please login"
 msgstr ""
 
+msgid "Please report bugs, ideas, comments, any feedback on the TAO Forge"
+msgstr ""
+
 msgid "Please select the input data format to import"
 msgstr ""
 
@@ -657,10 +667,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
 msgid "Remove"
@@ -783,6 +793,9 @@ msgstr ""
 msgid "The value of this field must be an integer"
 msgstr ""
 
+msgid "The value of this field must be numeric"
+msgstr ""
+
 msgid "There is no class available for optimization for the current extension"
 msgstr ""
 
@@ -813,10 +826,10 @@ msgstr "Typ"
 msgid "UI Lang."
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "uncompiled"
@@ -861,6 +874,7 @@ msgstr "User erfollegraich geläscht"
 msgid "User saved"
 msgstr "User gespaichert"
 
+#, tao-public
 msgid "Users"
 msgstr "Useren"
 
