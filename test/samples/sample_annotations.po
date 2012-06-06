@@ -14,10 +14,12 @@ msgid "First Try"
 msgstr ""
 
 # This is another comment
-#, flag1 composed-flag flag2
+#, flag1 composed-flag flag2 tao-public
 msgid "Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N"
 msgstr ""
 
+# This is a multiline...
+# comment.
 msgid "This translation will be a very long text"
 msgstr ""
 

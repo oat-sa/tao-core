@@ -538,6 +538,23 @@ class TranslationTestCase extends UnitTestCase {
         $string = "";
         $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
         $this->assertEqual($annotations, array());
+        
+        $reader = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::ANNOTATIONS_PO);
+        $reader->read();
+        $tus = $reader->getTranslationFile()->getTranslationUnits();
+        $this->assertEqual(count($tus), 4);
+        $this->assertEqual($tus[0]->getAnnotations(), array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment',
+                                                            'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
+        $this->assertEqual($tus[1]->getAnnotations(), array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is another comment',
+                                                            tao_helpers_translation_POTranslationUnit::FLAGS => 'flag1 composed-flag flag2 tao-public',
+                                                            'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
+        $this->assertEqual($tus[2]->getAnnotations(), array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "This is a multiline...\ncomment.",
+                                                            'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
+        $this->assertEqual($tus[3]->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                                                            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
     }
 }
 ?>
