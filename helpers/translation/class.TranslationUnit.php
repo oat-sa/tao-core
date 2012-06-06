@@ -138,7 +138,8 @@ class tao_helpers_translation_TranslationUnit
     }
 
     /**
-     * Adds an annotation with a given name and value.
+     * Adds an annotation with a given name and value. If value is not provided,
+     * annotation will be taken into account as a flag.
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -146,7 +147,7 @@ class tao_helpers_translation_TranslationUnit
      * @param  string value The value of the annotation to add.
      * @return void
      */
-    public function addAnnotation($name, $value)
+    public function addAnnotation($name, $value = '')
     {
         // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003955 begin
         $this->annotations[$name] = $value;

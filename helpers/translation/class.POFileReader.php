@@ -69,48 +69,47 @@ class tao_helpers_translation_POFileReader
         if (!file_exists($file)) {
 			throw new tao_helpers_translation_TranslationException("The translation file '${file}' does not exist.");
 		}
+    
+        // Create the translation file.
+        $tf = new tao_helpers_translation_TranslationFile();
 		
 		$fc = implode('',file($file));
 		
-		$matched = preg_match_all('/(msgid\s+("([^"]|\\\\")*?"\s*)+)\s+' .
-								  '(msgstr\s+("([^"]|\\\\")*?(?<!\\\)"\s*)+)/',
+		$matched = preg_match_all('/(#(?:,|.){0,1}\s+(?:.*?)\\n)*(msgid\s+(?:"(?:[^"]|\\\\")*?"\s*)+)\s+' .
+								  '(msgstr\s+(?:"(?:[^"]|\\\\")*?(?<!\\\)"\s*)+)/',
 								  $fc, $matches);
-		
+
 		if (!$matched) {
 			$res = array();
 		}
 		else {
 			$res = array();
 			
-			for ($i=0; $i<$matched; $i++) {
-				$msgid = preg_replace('/\s*msgid\s*"(.*)"\s*/s','\\1',$matches[1][$i]);
-				$msgstr= preg_replace('/\s*msgstr\s*"(.*)"\s*/s','\\1',$matches[4][$i]);
-				
-				$msgstr = tao_helpers_translation_POUtils::sanitize($msgstr);
-				
-				if ($msgstr) {
-					$res[tao_helpers_translation_POUtils::sanitize($msgid)] = $msgstr;
-				}
-				else {
-					$res[tao_helpers_translation_POUtils::sanitize($msgid)] = '';
-				}
-			}
-			
-			if (!empty($res[''])) {
-				$meta = $res[''];
-				unset($res['']);
-			}
-		}
-		
-		// Create the translation file.
-		$tf = new tao_helpers_translation_TranslationFile();
-		foreach ($res as $msgid => $msgstr) {
-			// Avoid to register first empty translation in some files (e.g. POEdit processed).
-			if ($msgid !== '') {
-				$tu = new tao_helpers_translation_TranslationUnit();
-				$tu->setSource($msgid);
-                $tu->setTarget($msgstr);
-				$tf->addTranslationUnit($tu);
+			for ($i = 0; $i < $matched; $i++) {
+                
+                $annotations = $matches[1][$i];
+				$msgid = preg_replace('/\s*msgid\s*"(.*)"\s*/s','\\1',$matches[2][$i]);
+				$msgstr = preg_replace('/\s*msgstr\s*"(.*)"\s*/s','\\1',$matches[3][$i]);
+                
+                // Do not include meta data as a translation unit..
+                if ($msgid !== ''){
+                    
+                    // Sanitze the strings.
+                    $msgid = tao_helpers_translation_POUtils::sanitize($msgid);
+    				$msgstr = tao_helpers_translation_POUtils::sanitize($msgstr);
+                    $tu = new tao_helpers_translation_TranslationUnit();
+                    
+                    // Set up source & target.
+                    $tu->setSource($msgid);
+    				if ($msgstr !== '') {
+    					$tu->setTarget($msgstr);
+    				}
+                    
+                    // Deal with comments & flags to transform them
+                    // as annotations.
+                    
+                    $tf->addTranslationUnit($tu);
+                }
 			}
 		}
 		

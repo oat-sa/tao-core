@@ -57,7 +57,8 @@ interface tao_helpers_translation_Annotable
     public function getAnnotations();
 
     /**
-     * Adds an annotation with a given name and value.
+     * Adds an annotation with a given name and value. If value is not provided,
+     * annotation will be taken into account as a flag.
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -65,7 +66,7 @@ interface tao_helpers_translation_Annotable
      * @param  string value The value of the annotation to add.
      * @return void
      */
-    public function addAnnotation($name, $value);
+    public function addAnnotation($name, $value = '');
 
     /**
      * Removes an annotation for a given annotation name.
