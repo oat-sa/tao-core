@@ -98,9 +98,9 @@ class tao_helpers_form_validators_Callback
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D73 begin
 		
 		if(isset($this->options['function'])){
-			$callback = $this->options['function'];
-			if(function_exists($callback)){
-				$returnValue = (bool)$callback($values);
+			$function = $this->options['function'];
+			if(function_exists($function)){
+				$callback = array($function);
 			} else {
 				throw new common_Exception("callback function does not exist");
 			}
@@ -108,25 +108,26 @@ class tao_helpers_form_validators_Callback
 		else if(isset($this->options['class'])){
 			$class = $this->options['class'];
 			$method = $this->options['method'];
-			if(class_exists($class)){
-				$callback = new $class();
-				if(method_exists($callback, $method)){
-					$returnValue = (bool)$callback->$method($values);
+			if(class_exists($class) && method_exists($class, $method)){
+					$callback = array($class, $method);
 				} else {
 					throw new common_Exception("callback methode does not exist");
-				}
 			}
 		}
 		else if(isset($this->options['object'])){
 			$object = $this->options['object'];
 			$method = $this->options['method'];
 			if(method_exists($object, $method)){
-				$returnValue = (bool)$object->$method($values);
+				$callback = array($object, $method);
 			} else {
 				throw new common_Exception("callback methode does not exist");
 			}
 		}
-		
+		if (isset($this->options['param'])) {
+			$returnValue = (bool)call_user_func($callback, $values, $this->options['param']);
+		} else {
+			$returnValue = (bool)call_user_func($callback, $values);
+		}
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D73 end
 
         return (bool) $returnValue;
