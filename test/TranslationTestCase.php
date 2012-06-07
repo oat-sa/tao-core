@@ -272,6 +272,18 @@ class TranslationTestCase extends UnitTestCase {
 		$this->assertTrue(file_exists($jsFilePath));
 		unlink($jsFilePath);
 	}
+    
+    public function testPHPTranslationWriting(){
+        $phpFilePath = tempnam('/tmp', self::TEMP_PO);
+        $pr = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::ESCAPING_PO);
+        $pr->read();
+        $tf = $pr->getTranslationFile();
+        $tw = new tao_helpers_translation_PHPFileWriter($phpFilePath, $tf);
+        $tw->write();
+        $this->assertTrue(file_exists($phpFilePath));
+        
+        unlink($phpFilePath);
+    }
 	
 	public function testManifestExtraction() {
 		$taoManifestPath = dirname(__FILE__) . self::TAO_MANIFEST;
