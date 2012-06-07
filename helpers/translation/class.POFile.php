@@ -9,8 +9,8 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 03.02.2012, 16:25:41 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 07.06.2012, 13:55:30 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
@@ -107,6 +107,44 @@ class tao_helpers_translation_POFile
         // section 10-13-1-85--53f40a93:134d16b5c93:-8000:00000000000038E1 begin
         $returnValue = $this->headers;
         // section 10-13-1-85--53f40a93:134d16b5c93:-8000:00000000000038E1 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Get a collection of POTranslationUnits based on the $flag argument
+     * If no Translation Units are found, an empty array is returned.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string flag A PO compliant string flag.
+     * @return array
+     */
+    public function getByFlag($flag)
+    {
+        $returnValue = array();
+
+        // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B17 begin
+        // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B17 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Get a collection of POTranslationUnits that have all the flags referenced
+     * the $flags array. If no TranslationUnits are found, an empty array is
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  array flags An array of PO compliant string flags.
+     * @return array
+     */
+    public function getByFlags($flags)
+    {
+        $returnValue = array();
+
+        // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B1D begin
+        // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B1D end
 
         return (array) $returnValue;
     }
