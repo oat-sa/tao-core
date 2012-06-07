@@ -97,6 +97,14 @@ class tao_scripts_TaoTranslate
      */
     const DEF_LANG_FILENAME = 'lang.rdf';
 
+    /**
+     * Short description of attribute DEF_PHP_FILENAME
+     *
+     * @access public
+     * @var string
+     */
+    const DEF_PHP_FILENAME = 'messages.lang.php';
+
     // --- OPERATIONS ---
 
     /**
@@ -132,7 +140,9 @@ class tao_scripts_TaoTranslate
         							'updateall',
         							'deleteall',
                                     'enable',
-                                    'disable');
+                                    'disable',
+                                    'compile',
+                                    'compileAll');
         	
         	if (!in_array($this->options['action'], $allowedActions)) {
         		self::err("Please enter a valid 'action' parameter.", true);
