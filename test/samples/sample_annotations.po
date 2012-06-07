@@ -25,3 +25,12 @@ msgstr ""
 
 msgid "And this one will contain escaping characters"
 msgstr ""
+
+#, composed-flag flag3
+msgid "This one contains the same flag as the second one"
+msgstr ""
+
+#. Extracted comment, only one flag
+#, flag4
+msgid "Only one flag is great"
+msgstr ""

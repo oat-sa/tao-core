@@ -125,6 +125,11 @@ class tao_helpers_translation_POFile
         $returnValue = array();
 
         // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B17 begin
+        foreach ($this->getTranslationUnits() as $tu){
+            if ($tu->hasFlag($flag)){
+                $returnValue[] = $tu;
+            }
+        }
         // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B17 end
 
         return (array) $returnValue;
@@ -144,6 +149,23 @@ class tao_helpers_translation_POFile
         $returnValue = array();
 
         // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B1D begin
+        foreach ($this->getTranslationUnits() as $tu){
+            $matching = true;
+            foreach ($flags as $f){
+                if (!$tu->hasFlag($f)){
+                    false;
+                    break;
+                } 
+            }
+            
+            if ($matching == true){
+                $returnValue[] = $tu;
+            }
+            else{
+                // Prepare next iteration.
+                $matching = true;
+            }
+        }
         // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B1D end
 
         return (array) $returnValue;

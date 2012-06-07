@@ -123,8 +123,15 @@ class tao_helpers_translation_POTranslationUnit
     public function addFlag($flag)
     {
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF3 begin
-        // @todo Implement tao_helpers_translation_POTranslationUnit::addFlag method.
-        throw new tao_helpers_translation_TranslationException('addFlag method not yet implemented.');
+        $currentAnnotations = $this->getAnnotations();
+        if (!isset($currentAnnotations[self::FLAGS])){
+            $currentAnnotations[self::FLAGS] = $flag;
+        }
+        else if (!(mb_strpos($currentAnnotations[self::FLAGS], $flag, 0, TAO_DEFAULT_ENCODING) !== false)){
+            $currentAnnotations[self::FLAGS] .= " ${flag}";
+        }
+    
+        $this->setAnnotations($currentAnnotations);
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF3 end
     }
 
@@ -140,8 +147,18 @@ class tao_helpers_translation_POTranslationUnit
     public function removeFlag($flag)
     {
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF8 begin
-        // @todo Implement tao_helpers_translation_POTranslationUnit::removeFlag method.
-        throw new tao_helpers_translation_TranslationException('removeFlag method not yet implemented.');
+        $currentFlags = $this->getFlags();
+        for ($i = 0; $i < count($currentFlags); $i++){
+            if ($currentFlags[$i] == $flag){
+                break;
+            }
+        }
+        
+        if ($i <= count($currentFlags)){
+            // The flag is found.
+            unset($currentFlags[$i]);
+            $this->setFlags($currentFlags);
+        }
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF8 end
     }
 
@@ -158,8 +175,12 @@ class tao_helpers_translation_POTranslationUnit
         $returnValue = (bool) false;
 
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AFD begin
-        // @todo Implement tao_helpers_translation_POTranslationUnit::hasFlag method.
-        throw new tao_helpers_translation_TranslationException('hasFlag method not yet implemented.');
+        foreach ($this->getFlags() as $f){
+            if ($f == $flag){
+                $returnValue = true;
+                break;
+            }
+        }
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AFD end
 
         return (bool) $returnValue;
@@ -178,8 +199,10 @@ class tao_helpers_translation_POTranslationUnit
         $returnValue = array();
 
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B02 begin
-        // @todo Implement tao_helpers_translation_POTranslationUnit::getFlags method.
-        throw new tao_helpers_translation_TranslationException('getFlags method not yet implemented.');
+        $currentAnnotations = $this->getAnnotations();
+        if (isset($currentAnnotations[self::FLAGS])){
+            $returnValue = explode(" ", $currentAnnotations[self::FLAGS]);
+        }
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B02 end
 
         return (array) $returnValue;
@@ -197,8 +220,9 @@ class tao_helpers_translation_POTranslationUnit
     public function setFlags($flags)
     {
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B06 begin
-        // @todo Implement tao_helpers_translation_POTranslationUnit::setFlags method.
-        throw new tao_helpers_translation_TranslationException('setFlags method not yet implemented.');
+        $currentAnnotations = $this->getAnnotations();
+        $currentAnnotations[self::FLAGS] = implode(" ", $flags);
+        $this->setAnnotations($currentAnnotations);
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B06 end
     }
 

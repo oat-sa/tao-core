@@ -542,7 +542,7 @@ class TranslationTestCase extends UnitTestCase {
         $reader = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::ANNOTATIONS_PO);
         $reader->read();
         $tus = $reader->getTranslationFile()->getTranslationUnits();
-        $this->assertEqual(count($tus), 4);
+        $this->assertEqual(count($tus), 6);
         $this->assertEqual($tus[0]->getAnnotations(), array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment',
                                                             'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                             'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
@@ -555,6 +555,19 @@ class TranslationTestCase extends UnitTestCase {
                                                             'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
         $this->assertEqual($tus[3]->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                             'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
+                                                            
+        $this->assertTrue($tus[5]->hasFlag('flag4'));  
+        $this->assertEqual($tus[5]->getFlags(), array('flag4'));
+        $tus[5]->addFlag('new-flag');
+        $this->assertTrue($tus[5]->hasFlag('new-flag'));
+        $this->assertEqual($tus[5]->getFlags(), array('flag4', 'new-flag'));
+        $tus[5]->addFlag('new-flag');
+        $this->assertEqual($tus[5]->getFlags(), array('flag4', 'new-flag'));
+        $tus[5]->addFlag('flag5');
+        $this->assertEqual($tus[5]->getAnnotation(tao_helpers_translation_POTranslationUnit::FLAGS),
+                           array('name' => tao_helpers_translation_POTranslationUnit::FLAGS, 'value' => 'flag4 new-flag flag5'));
+        $tus[5]->removeFlag('new-flag');
+        $this->assertEqual($tus[5]->getFlags(), array('flag4', 'flag5'));                                 
     }
 
     public function testPOAnnotationsWriting(){
