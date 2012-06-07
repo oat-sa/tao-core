@@ -111,6 +111,97 @@ class tao_helpers_translation_POTranslationUnit
 
     // --- OPERATIONS ---
 
+    /**
+     * Add a PO compliant flag to the TranslationUnit. The FLAGS annotation will
+     * created if no flags were added before.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string flag A flag string.
+     * @return void
+     */
+    public function addFlag($flag)
+    {
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF3 begin
+        // @todo Implement tao_helpers_translation_POTranslationUnit::addFlag method.
+        throw new tao_helpers_translation_TranslationException('addFlag method not yet implemented.');
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF3 end
+    }
+
+    /**
+     * Remove a given PO compliant flag from the TranslationUnit. The FLAGS
+     * will be removed from the TranslationUnit if it was the last one of the
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string flag A flag string.
+     * @return void
+     */
+    public function removeFlag($flag)
+    {
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF8 begin
+        // @todo Implement tao_helpers_translation_POTranslationUnit::removeFlag method.
+        throw new tao_helpers_translation_TranslationException('removeFlag method not yet implemented.');
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF8 end
+    }
+
+    /**
+     * Short description of method hasFlag
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string flag A PO flag string.
+     * @return boolean
+     */
+    public function hasFlag($flag)
+    {
+        $returnValue = (bool) false;
+
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AFD begin
+        // @todo Implement tao_helpers_translation_POTranslationUnit::hasFlag method.
+        throw new tao_helpers_translation_TranslationException('hasFlag method not yet implemented.');
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AFD end
+
+        return (bool) $returnValue;
+    }
+
+    /**
+     * Get the flags associated to the TranslationUnit. If there are no flags,
+     * empty array is returned. Otherwise, a collection of strings is returned.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return array
+     */
+    public function getFlags()
+    {
+        $returnValue = array();
+
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B02 begin
+        // @todo Implement tao_helpers_translation_POTranslationUnit::getFlags method.
+        throw new tao_helpers_translation_TranslationException('getFlags method not yet implemented.');
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B02 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Associate a collection of PO flags to the TranslationUnit. A FLAGS
+     * will be added to the TranslationUnit will be added consequently to the
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  array flags An array of PO string flags.
+     * @return core_kernel_classes_Session_void
+     */
+    public function setFlags($flags)
+    {
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B06 begin
+        // @todo Implement tao_helpers_translation_POTranslationUnit::setFlags method.
+        throw new tao_helpers_translation_TranslationException('setFlags method not yet implemented.');
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B06 end
+    }
+
 } /* end of class tao_helpers_translation_POTranslationUnit */
 
 ?>

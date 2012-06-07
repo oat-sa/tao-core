@@ -1319,6 +1319,32 @@ class tao_scripts_TaoTranslate
         // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003AC0 end
     }
 
+    /**
+     * Implementation of the 'compileAll' action.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return void
+     */
+    public function actionCompileAll()
+    {
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B0B begin
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B0B end
+    }
+
+    /**
+     * Checks the input of the 'compileAll' action.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return void
+     */
+    public function checkCompileAllInput()
+    {
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B0E begin
+        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B0E end
+    }
+
 } /* end of class tao_scripts_TaoTranslate */
 
 ?>
