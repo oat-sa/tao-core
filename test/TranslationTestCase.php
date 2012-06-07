@@ -541,7 +541,8 @@ class TranslationTestCase extends UnitTestCase {
         
         $reader = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::ANNOTATIONS_PO);
         $reader->read();
-        $tus = $reader->getTranslationFile()->getTranslationUnits();
+        $tf = $reader->getTranslationFile();
+        $tus = $tf->getTranslationUnits();
         $this->assertEqual(count($tus), 6);
         $this->assertEqual($tus[0]->getAnnotations(), array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment',
                                                             'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
@@ -555,7 +556,8 @@ class TranslationTestCase extends UnitTestCase {
                                                             'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
         $this->assertEqual($tus[3]->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                             'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
-                                                            
+        
+        // Test flag related interface on POTranslationUnit & POTranslationFile.                                                    
         $this->assertTrue($tus[5]->hasFlag('flag4'));  
         $this->assertEqual($tus[5]->getFlags(), array('flag4'));
         $tus[5]->addFlag('new-flag');
@@ -568,6 +570,16 @@ class TranslationTestCase extends UnitTestCase {
                            array('name' => tao_helpers_translation_POTranslationUnit::FLAGS, 'value' => 'flag4 new-flag flag5'));
         $tus[5]->removeFlag('new-flag');
         $this->assertEqual($tus[5]->getFlags(), array('flag4', 'flag5'));
+        
+        $flagTus = $tf->getByFlag('composed-flag');
+        $this->assertEqual(count($flagTus), 2);
+        $this->assertEqual($flagTus[0]->getSource(), "Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N");
+        $this->assertEqual($flagTus[1]->getSource(), "This one contains the same flag as the second one");
+        
+        $flagTus = $tf->getByFlags(array('composed-flag', 'flag2'));
+        $this->assertEqual(count($flagTus), 2);
+        $this->assertEqual($flagTus[0]->getSource(), "Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N");
+        $this->assertEqual($flagTus[1]->getSource(), "This one contains the same flag as the second one");
         
         // Reload the file.
         // We will check if when the file is written again, we get the same result.

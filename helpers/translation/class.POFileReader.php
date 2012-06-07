@@ -71,7 +71,7 @@ class tao_helpers_translation_POFileReader
 		}
     
         // Create the translation file.
-        $tf = new tao_helpers_translation_TranslationFile();
+        $tf = new tao_helpers_translation_POFile();
 		
 		$fc = implode('',file($file));
 		

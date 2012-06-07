@@ -26,7 +26,7 @@ msgstr ""
 msgid "And this one will contain escaping characters"
 msgstr ""
 
-#, composed-flag flag3
+#, composed-flag flag3 flag2
 msgid "This one contains the same flag as the second one"
 msgstr ""
 

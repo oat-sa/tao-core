@@ -153,7 +153,7 @@ class tao_helpers_translation_POFile
             $matching = true;
             foreach ($flags as $f){
                 if (!$tu->hasFlag($f)){
-                    false;
+                    $matching = false;
                     break;
                 } 
             }
