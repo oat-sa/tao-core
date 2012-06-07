@@ -95,28 +95,33 @@ class tao_actions_Users extends tao_actions_CommonModule {
 
 			$cellData[2] 	= (string)$user->getOnePropertyValue($mailProperty);
 
+			$types = $user->getTypes();
+			$labels = array();
+			foreach ($types as $uri => $r) $labels[] = $r->getLabel();
+			$cellData[3] = implode(', ', $labels);
+
 			$defLg 			= $user->getOnePropertyValue($deflgProperty);
-			$cellData[3] 	= '';
+			$cellData[4] 	= '';
 			if(!is_null($defLg)){
 				if($defLg instanceof core_kernel_classes_Literal){
-					$cellData[3] = __((string)$defLg);
+					$cellData[4] = __((string)$defLg);
 				}
 				if($defLg instanceof core_kernel_classes_Resource){
-					$cellData[3] = __($defLg->getLabel());
+					$cellData[4] = __($defLg->getLabel());
 				}
 			}
 			$uiLg 			= $user->getOnePropertyValue($uilgProperty);
-			$cellData[4] 	= '';
+			$cellData[5] 	= '';
 			if(!is_null($uiLg)){
 				if($uiLg instanceof core_kernel_classes_Literal){
-					$cellData[4] = __((string)$uiLg);
+					$cellData[5] = __((string)$uiLg);
 				}
 				if($uiLg instanceof core_kernel_classes_Resource){
-					$cellData[4] = __($uiLg->getLabel());
+					$cellData[5] = __($uiLg->getLabel());
 				}
 			}
 
-			$cellData[5]	= '';
+			$cellData[6]	= '';
 
 			$response->rows[$i]['id']= tao_helpers_Uri::encode($user->uriResource);
 			$response->rows[$i]['cell'] = $cellData;

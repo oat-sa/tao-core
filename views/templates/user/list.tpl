@@ -32,11 +32,12 @@ $(function(){
 	var myGrid = $("#user-list").jqGrid({
 		url: "<?=_url('data', 'Users', 'tao')?>",
 		datatype: "json",
-		colNames:[ __('Login'), __('Name'), __('Mail'), __('Data Language'), __('Interface Language'), __('Actions')],
+		colNames:[ __('Login'), __('Name'), __('Mail'), __('Roles'), __('Data Language'), __('Interface Language'), __('Actions')],
 		colModel:[
 			{name:'login',index:'login'},
 			{name:'name',index:'name'},
 			{name:'email',index:'email', width: '200'},
+			{name:'roles',index:'roles'},
 			{name:'deflg',index:'deflg', align:"center"},
 			{name:'uilg',index:'uilg', align:"center"},
 			{name:'actions',index:'actions', align:"center", sortable: false}
