@@ -569,7 +569,17 @@ class TranslationTestCase extends UnitTestCase {
         $this->assertEqual(tao_helpers_translation_POUtils::addFlag($comment, 'bar '), 'foo bar code');
         
         
-        // Test PO File writing with annotations.
+        // Test PO comments serialization.
+        $annotations = array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'A single line translator comment.');
+        $comment = '# A single line translator comment.';
+        $this->assertEqual(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
+        
+        $annotations = array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "A multi line translator comment...\nWith a second line.",
+                             tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS => "An extracted comment.",
+                             tao_helpers_translation_POTranslationUnit::FLAGS => "tao-public foo-bar-code php-format");
+        $comment = "# A multi line translator comment...\n# With a second line.\n#. An extracted comment.\n#, tao-public foo-bar-code php-format";
+        $this->assertEqual(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
+        
         
     }
 }

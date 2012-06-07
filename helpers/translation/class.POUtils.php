@@ -173,6 +173,46 @@ class tao_helpers_translation_POUtils
         $returnValue = (string) '';
 
         // section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003C14 begin
+        // Buffer will contain each line of the serialized PO comment block.
+        $buffer = array();
+        
+        foreach ($annotations as $name => $value){
+            $prefix = null;
+            
+            switch ($name){
+                case tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS:
+                    $prefix = '#';
+                break;
+                
+                case tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS:
+                    $prefix = '#.';    
+                break;
+                
+                case tao_helpers_translation_POTranslationUnit::REFERENCE:
+                    $prefix = '#:';
+                break;
+                
+                case tao_helpers_translation_POTranslationUnit::FLAGS:
+                    $prefix = '#,';
+                break;
+                
+                case tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID:
+                case tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID_PLURAL:
+                case tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT:
+                    $prefix = '#|';
+                break;
+            }
+            
+            if ($prefix !== null){
+                // We have a PO compliant annotation that we have to serialize.
+                foreach(explode("\n", $value) as $v){
+                    $buffer[] = "${prefix} ${v}";
+                }
+            }
+        }
+
+        // Glue the annotation lines in a single PO comment block.
+        $returnValue = implode("\n", $buffer);
         // section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003C14 end
 
         return (string) $returnValue;
