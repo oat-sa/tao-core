@@ -93,7 +93,7 @@ class tao_models_classes_UserService
     {
         // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 begin
 
-    	$this->allowedRoles = array(CLASS_ROLE_WORKFLOWUSER);
+    	$this->allowedRoles = array(CLASS_ROLE_TAOMANAGER);
 
         // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 end
     }
@@ -526,16 +526,9 @@ class tao_models_classes_UserService
         $returnValue = array();
 
         // section 127-0-1-1--118c10aa:136066bff8b:-8000:000000000000386A begin
-        if (false && Session::hasAttribute('auth_roles')) {
-        	
-        	$returnValue = Session::getAttribute('auth_roles');
-        } else {
-			
-	        $user = $this->getCurrentUser();
-			if (!is_null($user)) {
-				$returnValue = $user->getPropertyValues(new core_kernel_classes_Property(RDF_TYPE));
-			}
-			Session::setAttribute('auth_roles', $returnValue);
+		$user = $this->getCurrentUser();
+		if (!is_null($user)) {
+			$returnValue = $user->getPropertyValues(new core_kernel_classes_Property(RDF_TYPE));
 		}
         // section 127-0-1-1--118c10aa:136066bff8b:-8000:000000000000386A end
 
