@@ -586,7 +586,20 @@ class TranslationTestCase extends UnitTestCase {
         $reader->read();
         $tf2 = $reader->getTranslationFile();
         
-        //$this->assertTrue($tf1->);
+        $this->assertEqual($tf1->count(), 6);
+        $this->assertEqual($tf2->count(), 6);
+        
+        $tus1 = $tf1->getTranslationUnits();
+        $tus2 = $tf2->getTranslationUnits();
+        
+        $this->assertEqual($tus1[0]->getAnnotations(), $tus2[0]->getAnnotations());
+        $this->assertEqual($tus1[1]->getAnnotations(), $tus2[1]->getAnnotations());
+        $this->assertEqual($tus1[2]->getAnnotations(), $tus2[2]->getAnnotations());
+        $this->assertEqual($tus1[3]->getAnnotations(), $tus2[3]->getAnnotations());
+        $this->assertEqual($tus1[4]->getAnnotations(), $tus2[4]->getAnnotations());
+        $this->assertEqual($tus1[5]->getAnnotations(), $tus2[5]->getAnnotations());
+        
+        unlink($path);
     }
 
     public function testPOAnnotationsWriting(){

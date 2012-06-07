@@ -87,7 +87,7 @@ class tao_helpers_translation_POFileWriter
 			$s = tao_helpers_translation_POUtils::sanitize($tu->getSource(), true);
 			$t = tao_helpers_translation_POUtils::sanitize($tu->getTarget(), true);
             
-            $buffer .= tao_helpers_translation_POUtils::serializeAnnotations($tu->getAnnotations());
+            $buffer .= tao_helpers_translation_POUtils::serializeAnnotations($tu->getAnnotations()) . "\n";
 			$buffer .= "msgid \"{$s}\"\n";
 			$buffer .= "msgstr \"{$t}\"\n";
 			$buffer .= "\n";
