@@ -567,7 +567,26 @@ class TranslationTestCase extends UnitTestCase {
         $this->assertEqual($tus[5]->getAnnotation(tao_helpers_translation_POTranslationUnit::FLAGS),
                            array('name' => tao_helpers_translation_POTranslationUnit::FLAGS, 'value' => 'flag4 new-flag flag5'));
         $tus[5]->removeFlag('new-flag');
-        $this->assertEqual($tus[5]->getFlags(), array('flag4', 'flag5'));                                 
+        $this->assertEqual($tus[5]->getFlags(), array('flag4', 'flag5'));
+        
+        // Reload the file.
+        // We will check if when the file is written again, we get the same result.
+        // In other words, we check idempotency after read/write.
+        // We will compare TranslationFiles $tf1 & $tf2.
+        $reader->read();
+        $tf1 = $reader->getTranslationFile();
+        
+        // We write $tf1.
+        $path = tempnam('/tmp', self::TEMP_PO);
+        $writer = new tao_helpers_translation_POFileWriter($path, $tf1);
+        $writer->write();
+        
+        // We read $tf2 to be compared with $tf1
+        $reader->setFilePath($path);
+        $reader->read();
+        $tf2 = $reader->getTranslationFile();
+        
+        //$this->assertTrue($tf1->);
     }
 
     public function testPOAnnotationsWriting(){

@@ -582,6 +582,24 @@ class tao_helpers_translation_TranslationFile
         return $returnValue;
     }
 
+    /**
+     * Counts the TranslationUnits within the TranslationFile.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return int
+     */
+    public function count()
+    {
+        $returnValue = (int) 0;
+
+        // section -64--88-56-1-5502cc79:137c71c86e8:-8000:0000000000003B23 begin
+        $returnValue = count($this->getTranslationUnits());
+        // section -64--88-56-1-5502cc79:137c71c86e8:-8000:0000000000003B23 end
+
+        return (int) $returnValue;
+    }
+
 } /* end of class tao_helpers_translation_TranslationFile */
 
 ?>
