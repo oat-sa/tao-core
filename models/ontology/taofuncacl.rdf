@@ -21,14 +21,14 @@
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-    <rdfs:domain rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassRole"/>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ClassRole"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
     <rdfs:label xml:lang="EN"><![CDATA[Give access to an action]]></rdfs:label>
 		<rdfs:comment xml:lang="EN"><![CDATA[Give access to an action]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessModule">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-    <rdfs:domain rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassRole"/>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ClassRole"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module"/>
     <rdfs:label xml:lang="EN"><![CDATA[Give access to a module]]></rdfs:label>
 		<rdfs:comment xml:lang="EN"><![CDATA[Give access to a module]]></rdfs:comment>

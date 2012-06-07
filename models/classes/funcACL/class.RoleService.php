@@ -65,6 +65,7 @@ class tao_models_classes_funcACL_RoleService
 		$class = new core_kernel_classes_Class(CLASS_ROLE_BACKOFFICE);
 		$instance = $class->createInstance($name, '');
 		$instance->setPropertyValue(new core_kernel_classes_Property(RDF_SUBCLASSOF), CLASS_GENERIS_USER);
+		$instance->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ROLE_ISSYSTEM), GENERIS_FALSE);
 		$returnValue = $instance->uriResource;
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:00000000000039F1 end
 
