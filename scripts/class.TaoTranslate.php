@@ -196,6 +196,14 @@ class tao_scripts_TaoTranslate
             case 'disable':
                 $this->actionDisable();
             break;
+            
+            case 'compile':
+                $this->actionCompile();
+            break;
+            
+            case 'compileAll':
+                $this->actionCompileAll();
+            break;
         }
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 end
     }
@@ -251,6 +259,14 @@ class tao_scripts_TaoTranslate
             
             case 'disable':
                 $this->checkDisableInput();
+            break;
+            
+            case 'compile':
+                $this->checkCompileInput();
+            break;
+                
+            case 'compileAll':
+                $this->checkCompileAllInput();
             break;
         	
         	default:
@@ -934,7 +950,7 @@ class tao_scripts_TaoTranslate
 
         // section 10-13-1-85-6cb6330f:134b35c8bda:-8000:0000000000003870 begin
         if (isset($this->options['extension']) && !is_null($this->options['extension'])){
-            $returnValue = $this->options['output'] . '/' . $language;
+            $returnValue = dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR . '/' . $language;
         }else{
             $returnValue = dirname(__FILE__) . '/../../' . $extension . '/' . self::DEF_OUTPUT_DIR . '/' . $language;
         }
@@ -1313,6 +1329,54 @@ class tao_scripts_TaoTranslate
     public function actionCompile()
     {
         // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003ABD begin
+        // Find the messages.po file of the extension/locale.
+        $extension = $this->options['extension'];
+        $language = $this->options['language'];
+        
+        $this->outVerbose("Compiling translations for extension '${extension}' with language '${language}'...");
+        
+        $localePath = $this->buildLanguagePath($extension, $language);
+        if (@is_dir($localePath) && @is_readable($localePath)){
+            // Let's find the messages.po file for this extension/locale.
+            $messagesPath = "${localePath}/" . self::DEF_PO_FILENAME;
+            if (@file_exists($messagesPath)){
+                if (@is_readable($messagesPath)){
+                    $pr = new tao_helpers_translation_POFileReader($messagesPath);
+                    $pr->read();
+                    $tf = $pr->getTranslationFile();
+                    
+                    // Deal with PHP File.
+                    // @todo deal with dependencies in translation compilation.
+                    $dependencies = array('tao');
+                    foreach ($dependencies as $dep){
+                        $this->outVerbose("Adding dependent messages from extension '${dep}'...");
+                        $tmpExtension = $extension;
+                        $this->options['extension'] = $dep;
+                        $depLocalePath = $this->buildLanguagePath($dep, $language) . '/' . self::DEF_PO_FILENAME;
+                        $this->options['extension'] = $tmpExtension;
+                        $pr->setFilePath($depLocalePath);
+                        $pr->read();
+                        $depTf = $pr->getTranslationFile();
+                        $tf->addTranslationUnits($depTf->getTranslationUnits());
+                        $this->outVerbose("Dependent messages added.");
+                    }
+                    
+                    $pw = new tao_helpers_translation_PHPFileWriter("${localePath}/" . self::DEF_PHP_FILENAME,
+                                                                    $tf);
+                    $pw->write();
+                    $this->outVerbose("Compiled.");
+                }
+                else{
+                    self::err("PO file for extension '${extension}' and language '${language}' exist but could not be read.", true);
+                }
+            }
+            else{
+                self::err("PO file for extension '${extension}' and language '${language}' does not exist.", true);
+            }
+        }
+        else{
+            self::err("Unable to read locale directory for extension '${extension}' and language '${language}'.", true);
+        }
         // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003ABD end
     }
 
@@ -1326,6 +1390,19 @@ class tao_scripts_TaoTranslate
     public function checkCompileInput()
     {
         // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003AC0 begin
+        $defaults = array('extension' => null,
+                          'language' => null,
+                          'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
+                          'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR);
+                          
+        $this->options = array_merge($defaults, $this->options);
+        
+        if ($this->options['extension'] == null){
+            self::err("Please provide the 'extension' parameter.", true);
+        }
+        else if ($this->options['language'] == null){
+            self::err("Please provide the 'language' parameter.", true);
+        }
         // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003AC0 end
     }
 
