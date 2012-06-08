@@ -112,6 +112,10 @@ class tao_actions_form_SimpleProperty
 				$element->setName("property_{$index}_{$element->getName()}");
 				$this->form->addElement($element);
 				$elementNames[] = $element->getName();
+                
+                if ($propertyProperty->getUri() == TAO_GUIORDER_PROP){
+                    $element->addValidator(tao_helpers_form_FormFactory::getValidator('Integer'));
+                }
 			}
 		}
 		
