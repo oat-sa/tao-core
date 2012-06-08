@@ -12,8 +12,8 @@
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer"/>
-    <rdfs:label xml:lang="EN"><![CDATA[Local Result Server]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"><![CDATA[Local Result Server]]></rdfs:comment>
+    <rdfs:label xml:lang="EN"><![CDATA[Local Dual Result Server]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[Local Dual Result Server]]></rdfs:comment>
     <delivery:saveResultUrl><![CDATA[/taoDelivery/InternalResultServer/save]]></delivery:saveResultUrl>
     <delivery:saveEventUrl><![CDATA[/taoDelivery/InternalResultServer/traceEvents]]></delivery:saveEventUrl>
     <delivery:matchingUrl><![CDATA[/taoDelivery/InternalResultServer/evaluate]]></delivery:matchingUrl>
@@ -21,8 +21,8 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer"/>
-    <rdfs:label xml:lang="EN"><![CDATA[Local Result Server]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"><![CDATA[Local Result Server]]></rdfs:comment>
+    <rdfs:label xml:lang="EN"><![CDATA[Local Legacy Result Server]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[Local Legacy Result Server]]></rdfs:comment>
     <delivery:saveResultUrl><![CDATA[/taoDelivery/ResultDelivery/save]]></delivery:saveResultUrl>
     <delivery:saveEventUrl><![CDATA[/taoDelivery/ResultDelivery/traceEvents]]></delivery:saveEventUrl>
     <delivery:matchingUrl><![CDATA[/taoDelivery/ResultDelivery/evaluate]]></delivery:matchingUrl>
