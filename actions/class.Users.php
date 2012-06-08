@@ -16,6 +16,16 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	protected $userService = null;
 
 	/**
+	 * Role User Management should not take into account
+	 */
+
+	private $filteredRoles = array(
+			CLASS_ROLE_SUBJECT ,
+			CLASS_ROLE_BASEACCESS,
+			CLASS_ROLE_WORKFLOWUSERROLE
+	);
+
+	/**
 	 * Constructor performs initializations actions
 	 * @return void
 	 */
@@ -48,19 +58,26 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		$searchString = $this->getRequestParameter('searchString');
 		$start = $limit * $page - $limit;
 
+		$rolesClass = new core_kernel_classes_Class(CLASS_ROLE);
+		$rolesInstancesArray = $rolesClass->getInstances(true);
+
+		$filteredRolesArray = array_diff(array_keys($rolesInstancesArray),$this->filteredRoles);
+
 		if (!$sidx) $sidx = 1;
 		$gau = array(
-			'order' 	=> $sidx,
-			'orderDir'	=> $sord,
-			'start'		=> $start,
-			'end'		=> $limit
+				'order' 	=> $sidx,
+				'orderDir'	=> $sord,
+				'start'		=> $start,
+				'filteredRoles'	=> $filteredRolesArray,
+				'end'		=> $limit
 		);
 		if (!is_null($searchField)) {
-		  $gau['search'] = array(
-		      'field' => $searchField,
+			$gau['search'] = array(
+					'field' => $searchField,
 			  'op' => $searchOper,
+					'filteredRoles'	=> $filteredRolesArray,
 			  'string' => $searchString
-		  );
+			);
 		}
 		$users = $this->userService->getAllUsers($gau);
 
@@ -117,19 +134,13 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$i++;
 		}
 
-		//Like class.UserService.php:130 (getAllUsers)
-		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-		$types = array();
-		foreach ($this->userService->getAllowedRoles() as $roleUri) {
-			$types[] = $roleUri;
-		}
-
+		//to move in UserService
 		$opts = array(
-			'recursive'			=> 1,
-			'like'				=> false,
-			'additionalClasses'	=> $types
+				'recursive'			=> 1,
+				'like'				=> false,
+				'additionalClasses'	=> $filteredRolesArray
 		);
-		$counti = $userClass->countInstances(array(PROPERTY_USER_LOGIN => '*'), $opts);
+		$counti = $rolesClass->countInstances(array(PROPERTY_USER_LOGIN => '*'), $opts);
 
 		$response->page = floor($start / $limit)+1;
 		$response->total = ceil($counti / $limit);//$total_pages;

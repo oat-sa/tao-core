@@ -285,27 +285,23 @@ class tao_models_classes_UserService
 					 'bw' => "%s*",
 					 'ew' => "*%s",
 					 'cn' => "*%s*");
-		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+		
+		$rolesClass = new core_kernel_classes_Class(CLASS_ROLE);
 		$users = array();
 
 		$opts = array('recursive' => true, 'like' => false);
 		if (isset($options['start'])) $opts['offset'] = $options['start'];
 		if (isset($options['end'])) $opts['limit'] = $options['end'];
-
+		if (isset($options['filteredRoles'])) $opts['additionalClasses'] = $options['filteredRoles'];
+		
+		
 		$crits = array(PROPERTY_USER_LOGIN => '*');
 		if (isset($options['search']) && !is_null($options['search']) && isset($options['search']['string']) && isset($ops[$options['search']['op']])) {
 			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
 		}
-		foreach ($userClass->searchInstances($crits, $opts) as $user) {
-			//Check if it's not wf or testtaker or installator
-			if ($user->uriResource != TAO_INSTALLATOR) {
-				if ((!$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT))
-						&& !$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSERROLE)))
-						|| $user->hasType(new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER))) {
-					$users[$user->uriResource] = $user;
-				}
-			}
-		}
+		
+		$users = $rolesClass->searchInstances($crits, $opts);
+				
 		
     	$keyProp = null;
        	if (isset($options['order'])) {
