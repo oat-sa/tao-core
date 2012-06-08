@@ -64,17 +64,6 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		}
 		$users = $this->userService->getAllUsers($gau);
 
-		$count = count($users);
-		if( $count >0 ) {
-			$total_pages = ceil($count/$limit);
-		}
-		else {
-			$total_pages = 0;
-		}
-		if ($page > $total_pages){
-			$page = $total_pages;
-		}
-
 		$loginProperty 		= new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
 		$firstNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME);
 		$lastNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_LASTNAME);
@@ -135,13 +124,14 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$types[] = $roleUri;
 		}
 
-		$opts = array('recursive' => 0, 'like' => false);
-		$opts['offset'] = $start;
-		$opts['limit'] = $limit;
-		$opts['additionalClasses'] = $types;
+		$opts = array(
+			'recursive'			=> 1,
+			'like'				=> false,
+			'additionalClasses'	=> $types
+		);
 		$counti = $userClass->countInstances(array(PROPERTY_USER_LOGIN => '*'), $opts);
 
-		$response->page = $page;
+		$response->page = floor($start / $limit)+1;
 		$response->total = ceil($counti / $limit);//$total_pages;
 		$response->records = count($users);
 
@@ -180,7 +170,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				unset($values['password1']);
 				unset($values['password2']);
 
-				if($this->userService->saveUser($myFormContainer->getUser(), $values)){
+				if($this->userService->bindProperties($myFormContainer->getUser(), $values)){
 					$this->setData('message', __('User added'));
 					$this->setData('exit', true);
 				}
@@ -242,7 +232,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 					unset($values[PROPERTY_USER_DEFLG]);
 				}
 
-				if($this->userService->saveUser($user, $values)){
+				if($this->userService->bindProperties($user, $values)){
 					$this->setData('message', __('User saved'));
 					$this->setData('exit', true);
 				}
