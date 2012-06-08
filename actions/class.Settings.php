@@ -56,7 +56,8 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 					
 					tao_helpers_I18n::init($uiLangCode);
 					
-					core_kernel_classes_Session::singleton()->setLg($dataLangCode);
+					core_kernel_classes_Session::singleton()->setInterfaceLanguage($uiLangCode);
+					core_kernel_classes_Session::singleton()->setDataLanguage($dataLangCode);
 					
 					$this->setData('message', __('settings updated'));
 					
@@ -84,20 +85,20 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		
 		$currentUser = $this->userService->getCurrentUser();
 		
-		$uiLang = $GLOBALS['default_lang'];
+		$uiLang = DEFAULT_LANG;
 		$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
 		if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource){
 			$uiLang = $uiLg->getUniquePropertyValue(new core_kernel_classes_Property(RDF_VALUE))->literal;
 		}
 							
-		$dataLang = $GLOBALS['default_lang'];
+		$dataLang = DEFAULT_LANG;
 		$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
 		if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
 			$dataLang = $dataLg->getUniquePropertyValue(new core_kernel_classes_Property(RDF_VALUE))->literal;
 		}
 		
-                
-		return array('data_lang' => $dataLang, 'ui_lang' => $uiLang);
+		$session = core_kernel_classes_Session::singleton();
+		return array('data_lang' => $session->getDataLanguage(), 'ui_lang' => $session->getInterfaceLanguage());
 	}
 	
     /*

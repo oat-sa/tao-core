@@ -97,10 +97,6 @@ class AuthTestCase extends UnitTestCase {
 		//check user login
 		$this->assertTrue( $this->userService->loginUser($this->testUserData[PROPERTY_USER_LOGIN], md5($this->clearPassword)) );
 		
-		//connect user
-		$this->assertTrue( $this->userService->connectCurrentUser() );
-			
-		
 		//check session
 		$this->assertTrue( core_kernel_users_Service::singleton()->isASessionOpened() );
 		

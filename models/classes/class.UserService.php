@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * This class provide service on user management
  *
- * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -15,10 +15,10 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * The Service class is an abstraction of each service instance.
+ * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -34,7 +34,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  * This class provide service on user management
  *
  * @access public
- * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -68,7 +68,7 @@ class tao_models_classes_UserService
      * constructor, call initRoles
      *
      * @access protected
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     protected function __construct()
@@ -86,14 +86,15 @@ class tao_models_classes_UserService
      * To be overriden.
      *
      * @access protected
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     protected function initRoles()
     {
         // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 begin
 
-    	$this->allowedRoles = array(CLASS_ROLE_TAOMANAGER);
+    	// expects a subclass of class_role, not an instance
+    	$this->allowedRoles = array(CLASS_ROLE_BACKOFFICE);
 
         // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 end
     }
@@ -102,7 +103,7 @@ class tao_models_classes_UserService
      * authenticate a user
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string login
      * @param  string password
      * @return boolean
@@ -116,87 +117,37 @@ class tao_models_classes_UserService
         try{
 	        foreach($this->allowedRoles as $roleUri){
 	        	if($this->generisUserService->login($login, $password, $roleUri)){
+	        		
 	        		common_Logger::i('User '.$login.' logged in', array('TAO'));
+	        		
+	        		// init languages
+        			$currentUser = $this->getCurrentUser();
+        			$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+        			
+        			$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
+        			if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource) {
+        				$code = $uiLg->getUniquePropertyValue($valueProperty);
+						core_kernel_classes_Session::singleton()->setInterfaceLanguage($code);
+        			}
+
+					$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
+					if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
+        				$code = $dataLg->getUniquePropertyValue($valueProperty);
+						core_kernel_classes_Session::singleton()->setDataLanguage($code);
+					}
+					
 	        		$returnValue = true;
 	        		break;					//roles order is important, we loggin with the first found
+	        	} else {
+	        		common_Logger::w('User '.$login.' login failed', array('TAO'));
 	        	}
 			}
         }
         catch(core_kernel_users_Exception $ue){
         //	print $ue->getMessage();
         }
-
+        
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D05 end
-
-        return (bool) $returnValue;
-    }
-
-    /**
-     * initialize the current user connection:
-     * connect to the API, initialize the session, etc.
-     *
-     * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
-     * @return boolean
-     */
-    public function connectCurrentUser()
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001F88 begin
-
-        //check if a user is in session
-        if($this->generisUserService->isASessionOpened()){
-
-        	$userUri = Session::getAttribute(core_kernel_users_Service::AUTH_TOKEN_KEY);
-			if(!empty($userUri)){
-
-				//init the API with the login in session
-				if($this->generisUserService->loginApi($userUri)){
-
-					$currentUser = $this->getCurrentUser();
-
-					if($currentUser !== false){
-						try{
-							$login = (string)$currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
-                            $password = (string)$currentUser->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD));
-                            $defaultLang = DEFAULT_LANG;
-                            $valueProperty = new core_kernel_classes_Property(RDF_VALUE);
-
-                            //set the user languages
-							$uiLang  = DEFAULT_LANG;
-							$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
-							if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource){
-								$uiLang = $uiLg->getUniquePropertyValue($valueProperty)->literal;
-							}
-
-							$dataLang  = DEFAULT_LANG;
-							$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
-							if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
-                            	$dataLang = $dataLg->getUniquePropertyValue($valueProperty)->literal;
-							}
-
-						}
-						catch(common_Exception $ce){
-							$defaultLang 	= DEFAULT_LANG;
-							$dataLang 	= DEFAULT_LANG;
-							$uiLang	 	= DEFAULT_LANG;
-						}
-
-						core_kernel_classes_Session::singleton()->defaultLg = $defaultLang;
-						core_kernel_classes_Session::singleton()->setLg($dataLang);
-
-						if(in_array($uiLang, tao_helpers_I18n::getAvailableLangs())){
-							Session::setAttribute('ui_lang', $uiLang);
-						}
-						$returnValue = true;
-
-					}
-				}
-			}
-        }
-
-        // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001F88 end
 
         return (bool) $returnValue;
     }
@@ -205,7 +156,7 @@ class tao_models_classes_UserService
      * retrieve the logged in user
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return core_kernel_classes_Resource
      */
     public function getCurrentUser()
@@ -213,14 +164,14 @@ class tao_models_classes_UserService
         $returnValue = null;
 
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D03 begin
-
     	if($this->generisUserService->isASessionOpened()){
-        	$userUri = Session::getAttribute(core_kernel_users_Service::AUTH_TOKEN_KEY);
+        	$userUri = core_kernel_classes_Session::singleton()->getUserUri();
 			if(!empty($userUri)){
         		$returnValue = new core_kernel_classes_Resource($userUri);
+			} else {
+				common_Logger::d('no userUri');
 			}
     	}
-
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D03 end
 
         return $returnValue;
@@ -230,7 +181,7 @@ class tao_models_classes_UserService
      * Check if the login is already used
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string login
      * @return boolean
      */
@@ -251,7 +202,7 @@ class tao_models_classes_UserService
      * Check if the login is available (because it's unique)
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string login
      * @return boolean
      */
@@ -274,7 +225,7 @@ class tao_models_classes_UserService
      * get a user by his login
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string login the user login is the unique identifier to retrieve him
      * @return core_kernel_classes_Resource
      */
@@ -311,7 +262,7 @@ class tao_models_classes_UserService
      * Get the list of available users
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array options the user list options to order the list and paginate the results
      * @return array
      */
@@ -355,7 +306,7 @@ class tao_models_classes_UserService
 				}
 			}
 		}
-
+		
     	$keyProp = null;
        	if (isset($options['order'])) {
         	$keyProp = new core_kernel_classes_Property($fields[$options['order']]);
@@ -415,7 +366,7 @@ class tao_models_classes_UserService
      * Save (insert or update) the user in parameter
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource user
      * @param  array properties
      * @return boolean
@@ -446,7 +397,7 @@ class tao_models_classes_UserService
      * Remove a user
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  Resource user
      * @return boolean
      */
@@ -467,7 +418,7 @@ class tao_models_classes_UserService
      * Short description of method addAllowedRole
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string role
      * @return mixed
      */
@@ -484,7 +435,7 @@ class tao_models_classes_UserService
      * Short description of method getAllowedRoles
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return array
      */
     public function getAllowedRoles()
@@ -502,7 +453,7 @@ class tao_models_classes_UserService
      * Short description of method logout
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return boolean
      */
     public function logout()
@@ -520,7 +471,7 @@ class tao_models_classes_UserService
      * Short description of method getCurrentUserRoles
      *
      * @access public
-     * @author Jehan Bihin, <jehan.bihin@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return array
      */
     public function getCurrentUserRoles()

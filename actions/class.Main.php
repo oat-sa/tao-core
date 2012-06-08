@@ -128,7 +128,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		$this->setData('currentExtension', Context::getInstance()->getExtensionName());
 
-		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getLg());
+		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getDataLanguage());
 
 		$this->setView('layout.tpl', true);
 	}

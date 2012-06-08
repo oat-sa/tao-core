@@ -640,7 +640,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			}
 		}
 		
-		$datalang = core_kernel_classes_Session::singleton()->getLg();
+		$datalang = core_kernel_classes_Session::singleton()->getDataLanguage();
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){

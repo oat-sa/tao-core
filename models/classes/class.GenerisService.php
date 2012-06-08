@@ -268,7 +268,7 @@ abstract class tao_models_classes_GenerisService
         }
         
 		$options = array(
-			'lang' 				=> core_kernel_classes_Session::singleton()->getLg(),
+			'lang' 				=> core_kernel_classes_Session::singleton()->getDataLanguage(),
 			'like' 				=> false,
 			'recursive'  		=> false
 		);

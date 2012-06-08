@@ -353,18 +353,15 @@ class Bootstrap{
 
 	/**
 	 * Connect the current user to the generis API
-	 * @see tao_models_classes_UserService::connectCurrentUser
 	 */
 	protected function connect()
 	{
-		$userService = tao_models_classes_UserService::singleton();
 		$taoService = tao_models_classes_TaoService::singleton();
 		$taoVersion = $taoService->getExtensionVersion('tao');
 		if(empty($taoVersion) || floatval($taoVersion)<2.1){
 			//force smooth mode!
 			core_kernel_persistence_PersistenceProxy::forceMode(PERSISTENCE_SMOOTH);
 		}
-		$userService->connectCurrentUser();
 	}
 
 	/**
@@ -373,26 +370,8 @@ class Bootstrap{
 	 */
 	protected function i18n()
 	{
-		$userService = tao_models_classes_UserService::singleton();
-		$uiLang = DEFAULT_LANG;
-		if(Session::hasAttribute('ui_lang')){
-			$uiLang = Session::getAttribute('ui_lang');
-		}
-		else{
-
-			$uiLg = null;
-			$currentUser = $userService->getCurrentUser();
-
-			if(!is_null($currentUser)){
-			    $lgProp = new core_kernel_classes_Property(PROPERTY_USER_UILG);
-				$uiLg  = $currentUser->getOnePropertyValue($lgProp);
-			}
-			if(!is_null($uiLg)){
-				if($uiLg instanceof core_kernel_classes_Resource){
-					$uiLang = $uiLg->getLabel();
-				}
-			}
-		}
+		$uiLang = core_kernel_classes_Session::singleton()->getInterfaceLanguage();
+		
 		tao_helpers_I18n::init($uiLang);
 
 		//only for legacy

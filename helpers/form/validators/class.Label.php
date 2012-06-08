@@ -109,7 +109,7 @@ class tao_helpers_form_validators_Label
         else if(isset($this->options['uri'])){
         	
 			$options = array(
-				'lang' 		=> core_kernel_classes_Session::singleton()->getLg(),
+				'lang' 		=> core_kernel_classes_Session::singleton()->getDataLanguage(),
 				'like' 		=> false,
 				'recursive' => 0
 			);
