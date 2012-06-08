@@ -1,16 +1,16 @@
 @CHARSET "UTF-8";
 /* Common Style */
 body{
-	width:100%; 
-	height:100%; 
-	margin: 0px; 
+	width:100%;
+	height:100%;
+	margin: 0px;
 	padding: 0px;
 	background-color:#EEEEEE;
 	font-size:12px;
 	font-family:Verdana,Arial,sans-serif;
 }
 table{
-	width:100%; 
+	width:100%;
 	border-collapse:collapse;
 }
 body img{
@@ -19,7 +19,7 @@ body img{
 fieldset{
 	border: solid 1px #cfcfcf;
 }
-fieldset table tr td{ 
+fieldset table tr td{
 	padding:4px;
 }
 a img{
@@ -35,10 +35,10 @@ a.nd{
 }
 span.elt-info{
 	font-style:italic;
-	color:#D00239;
+	color: #555555 /*#D00239*/;
 }
 div.breaker{
-	clear:both;	
+	clear:both;
 }
 a.blink{
 	text-decoration:none;
@@ -78,7 +78,7 @@ div#info-box{
 	text-align:center;
 	border: solid 1px #bbb;
 	color:#3383BB;
-	font-size:1em;	
+	font-size:1em;
 }
 
 /* update JQuery UI styles  */
@@ -87,13 +87,13 @@ div#info-box{
 	padding: 3px;
 }
 .ui-widget div.ui-widget-header{
-	font-weight:bold;	
+	font-weight:bold;
 }
 a.ui-state-default{
 	padding:4px 8px 4px 8px;
 }
 a.ui-state-default:hover{
-	text-decoration:none;	
+	text-decoration:none;
 }
 span.ui-state-default{
 	padding:4px 8px 4px 8px;
