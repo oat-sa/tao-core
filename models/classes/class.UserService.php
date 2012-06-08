@@ -347,10 +347,12 @@ class tao_models_classes_UserService
 		}
 		foreach ($userClass->searchInstances($crits, $opts) as $user) {
 			//Check if it's not wf or testtaker or installator
-			if (!$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT)) 
-					&& !$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSERROLE)) 
-					&& $user->uriResource != TAO_INSTALLATOR) {
-				$users[$user->uriResource] = $user;
+			if ($user->uriResource != TAO_INSTALLATOR) {
+				if ((!$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT))
+						&& !$user->hasType(new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSERROLE)))
+						|| $user->hasType(new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER))) {
+					$users[$user->uriResource] = $user;
+				}
 			}
 		}
 
