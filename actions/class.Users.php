@@ -232,8 +232,6 @@ class tao_actions_Users extends tao_actions_CommonModule {
 					$values[PROPERTY_USER_PASSWORD] = md5($values['password2']);
 				}
 
-				unset($values['password0']);
-				unset($values['password1']);
 				unset($values['password2']);
 				unset($values['password3']);
 
