@@ -253,6 +253,7 @@ class MassInsertTestCase extends UnitTestCase {
 	public function testCreateWfUsers(){
 	    
 	    $userService = wfEngine_models_classes_UserService::singleton();
+	    $class = new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSERROLE);
 	    
 	    for ($i=1; $i<=$this->wfUserNumber; $i++){
 	        $properties = array(
@@ -263,7 +264,8 @@ class MassInsertTestCase extends UnitTestCase {
 	                        
 	                        
 	                        );
-	    $userService->saveUser(null,$properties,null);
+	        $user = $class->createInstance();          
+	    	$userService->bindProperties($user,$properties);
 	        
 	    }
 	    

@@ -103,6 +103,7 @@ class tao_actions_form_Users
     	if($forceAdd){
     		$options['mode'] = 'add';
     	}
+    	common_Logger::d('user is '.$this->user);
     	
     	$options['topClazz'] = CLASS_GENERIS_USER;
     	$options['requireOldPassword'] = $requireOldPassword;

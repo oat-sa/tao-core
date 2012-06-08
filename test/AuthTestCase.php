@@ -49,12 +49,11 @@ class AuthTestCase extends UnitTestCase {
 		$this->testUserData[PROPERTY_USER_PASSWORD] = md5($this->testUserData[PROPERTY_USER_PASSWORD]);
 		
 		$this->userService = tao_models_classes_UserService::singleton();
-		$this->assertTrue($this->userService->saveUser($this->testUser, $this->testUserData));
-		$createdUser = $this->userService->getOneUser('jane.doe');
-		$this->assertNotNull($createdUser);
-		if(!is_null($createdUser)){
-			$this->testUser = $createdUser;
-		}
+		
+		$class = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
+		$this->testUser = $class->createInstance();
+		$this->assertNotNull($this->testUser);          
+	    $this->userService->bindProperties($this->testUser,$this->testUserData);
 		
 	}
 	
@@ -62,7 +61,9 @@ class AuthTestCase extends UnitTestCase {
 	 * tests clean up
 	 */
 	public function tearDown(){
-		$this->userService->removeUser($this->testUser);
+		if (!is_null($this->userService)) {
+			$this->userService->removeUser($this->testUser);
+		}
 		if(core_kernel_users_Service::singleton()->isASessionOpened()){
 			core_kernel_users_Service::singleton()->logout();
 		}

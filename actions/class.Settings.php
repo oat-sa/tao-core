@@ -52,7 +52,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 					$userSettings[PROPERTY_USER_DEFLG] = $dataLangResource->uriResource;
 				}
 				
-				if($this->userService->saveUser($currentUser, $userSettings)){
+				if($this->userService->bindProperties($currentUser, $userSettings)){
 					
 					tao_helpers_I18n::init($uiLangCode);
 					

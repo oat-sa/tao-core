@@ -329,7 +329,6 @@ abstract class tao_models_classes_GenerisService
         $returnValue = null;
 
         // section 10-13-1-45--135fece8:123b76cb3ff:-8000:00000000000018A5 begin
-        
         foreach($properties as $propertyUri => $propertyValue){
 			
         	if($propertyUri == RDF_TYPE){

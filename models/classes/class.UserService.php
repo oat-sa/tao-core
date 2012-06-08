@@ -363,37 +363,6 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Save (insert or update) the user in parameter
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource user
-     * @param  array properties
-     * @return boolean
-     */
-    public function saveUser( core_kernel_classes_Resource $user = null, $properties = array())
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D53 begin
-
-		if(is_null($user)){		//insert
-			if(count($this->allowedRoles) == 1){
-				$clazz = new core_kernel_classes_Class($this->allowedRoles[0]);
-				$user = $this->createInstance($clazz, $this->createUniqueLabel($clazz));
-			}
-		}
-
-		if(!is_null($user)){
-			$returnValue = $this->bindProperties($user, $properties);
-		}
-
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D53 end
-
-        return (bool) $returnValue;
-    }
-
-    /**
      * Remove a user
      *
      * @access public

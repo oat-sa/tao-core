@@ -82,7 +82,10 @@ class UserTestCase extends UnitTestCase {
 
 		//insert it
 		$this->assertTrue(	$this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
-		$this->assertTrue(	$this->userService->saveUser($this->testUser, $this->testUserData) );
+		$tmclass = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
+		$this->testUser = $tmclass->createInstance();
+		$this->assertNotNull($this->testUser);
+		$this->assertTrue(	$this->userService->bindProperties($this->testUser, $this->testUserData) );
 		$this->assertFalse(	$this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
 		
 		//check inserted data
@@ -106,7 +109,10 @@ class UserTestCase extends UnitTestCase {
 		
 	//insert it
 		$this->assertTrue(	$this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
-		$this->assertTrue(	$this->userService->saveUser($this->testUserUtf8, $this->testUserUtf8Data) );
+		$tmclass = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
+		$this->testUserUtf8 = $tmclass->createInstance();
+		$this->assertNotNull($this->testUserUtf8);
+		$this->assertTrue(	$this->userService->bindProperties($this->testUserUtf8, $this->testUserUtf8Data) );
 		$this->assertFalse(	$this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
 		
 		//check inserted data
