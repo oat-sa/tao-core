@@ -30,7 +30,7 @@ msgid "A formated text"
 msgstr "Un texte formaté"
 
 msgid "A joint initiative of CRP Henri Tudor and the University of Luxembourg"
-msgstr ""
+msgstr "Une collaboration du CRP Henri Tudor et de l'Université du Luxembourg"
 
 msgid "A long text"
 msgstr "Un texte long"
@@ -82,13 +82,13 @@ msgid "Add a user"
 msgstr "Ajouter un utilisateur"
 
 msgid "Add all"
-msgstr ""
+msgstr "Ajouter tout"
 
 msgid "Add property"
 msgstr "Ajouter une propriété"
 
 msgid "Add roles"
-msgstr ""
+msgstr "Ajouter rôles"
 
 msgid "Add the source file"
 msgstr "Ajouter le fichier source"
@@ -120,7 +120,7 @@ msgid "Authoring"
 msgstr "Editeur"
 
 msgid "Auto. add new"
-msgstr ""
+msgstr "Auto. ajouter nouveau"
 
 msgid "Browse"
 msgstr "Naviguer"
@@ -252,13 +252,13 @@ msgid "Delete property"
 msgstr "Supprimer la propriété"
 
 msgid "Delete role"
-msgstr ""
+msgstr "Supprimer rôle"
 
 msgid "Delete user"
 msgstr "Supprimer l'utilisateur"
 
 msgid "Do you really want to delete this role ?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer ce rôle?"
 
 msgid "Don't set"
 msgstr "Ne pas insérer"
@@ -288,7 +288,7 @@ msgid "edit"
 msgstr "modifier"
 
 msgid "Edit a role"
-msgstr ""
+msgstr "Editer un rôle"
 
 #, tao-public
 msgid "Edit a user"
@@ -304,7 +304,7 @@ msgid "Edit property into parent class "
 msgstr "Editer une propriété dans la classe parente "
 
 msgid "Edit role"
-msgstr ""
+msgstr "Editer rôle"
 
 msgid "Edit user"
 msgstr "Modifier l'utilisateur"
@@ -448,7 +448,7 @@ msgid "list saved"
 msgstr "liste sauvegardée"
 
 msgid "list the roles"
-msgstr ""
+msgstr "lister les rôles"
 
 msgid "list the users"
 msgstr "lister les utilisateurs"
@@ -475,7 +475,7 @@ msgid "login already exist"
 msgstr "Cet identifiant existe déjà"
 
 msgid "Login available"
-msgstr ""
+msgstr "Identifiant disponible"
 
 msgid "Login not available"
 msgstr "Identifiant non disponible"
@@ -507,7 +507,7 @@ msgstr "Gérer les fichiers versionnés"
 
 #, tao-public
 msgid "Manages Roles Rights"
-msgstr ""
+msgstr "Gérer les Droits des Rôles"
 
 msgid "Map the properties to the CSV columns"
 msgstr "Choisissez les propriétés relatives aux colonnes CSV"
@@ -645,7 +645,7 @@ msgid "Please login"
 msgstr "Veuillez vous identifier"
 
 msgid "Please report bugs, ideas, comments, any feedback on the TAO Forge"
-msgstr ""
+msgstr "Veuillez rapporter les bugs, idées, commentaires, ou tout retour sur la Forge TAO"
 
 msgid "Please select the input data format to import"
 msgstr "Veuillez sélectionner le format des données d'entrée à importer"
@@ -798,7 +798,7 @@ msgid "The value of this field must be an integer"
 msgstr "La valeur de ce champ doit être un entier"
 
 msgid "The value of this field must be numeric"
-msgstr ""
+msgstr "La valeur de ce champ doit être numérique"
 
 msgid "There is no class available for optimization for the current extension"
 msgstr "Il n'y a aucune classe disponible à l'optimisation pour cette extension"
@@ -831,7 +831,7 @@ msgid "UI Lang."
 msgstr "Langue Interface"
 
 msgid "Unable to change passwords in demo mode"
-msgstr ""
+msgstr "Impossible de changer les mots de passe en mode démonstration"
 
 msgid "Uncheck All"
 msgstr "Tout sélectionné"
