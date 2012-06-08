@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta2\n"
-"PO-Revision-Date: 2012-06-06T14:09:28\n"
+"PO-Revision-Date: 2012-06-08T13:40:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: SE\n"
@@ -133,10 +133,10 @@ msgstr ""
 msgid "Change the password"
 msgstr "Ändra lösenord"
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -169,10 +169,10 @@ msgstr ""
 msgid "compiled"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
 msgid "compiling"
@@ -217,10 +217,10 @@ msgstr "Data framgångsrikt importerat"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Dataspråk"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Dataspråk"
 
 msgid "Date"
@@ -280,11 +280,11 @@ msgstr "Dynamisk datumväljare"
 msgid "e-mail"
 msgstr ""
 
-msgid "edit"
-msgstr "redigera"
-
 msgid "Edit"
 msgstr "Redigera"
+
+msgid "edit"
+msgstr "redigera"
 
 msgid "Edit a role"
 msgstr ""
@@ -392,10 +392,10 @@ msgstr ""
 msgid "Inclusive (AND)"
 msgstr "Inklusive (OCH)"
 
-msgid "instances"
+msgid "Instances"
 msgstr ""
 
-msgid "Instances"
+msgid "instances"
 msgstr ""
 
 msgid "Interface Language"
@@ -472,6 +472,9 @@ msgstr "Inloggning *"
 
 msgid "login already exist"
 msgstr "login existerar redan"
+
+msgid "Login available"
+msgstr ""
 
 msgid "Login not available"
 msgstr "Inloggning inte tillgängligt"
@@ -667,10 +670,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
 msgid "Remove"
@@ -715,11 +718,11 @@ msgstr "Sök"
 msgid "Search results"
 msgstr "Sökresultat"
 
-msgid "select"
-msgstr "välj"
-
 msgid "Select"
 msgstr "Välj"
+
+msgid "select"
+msgstr "välj"
 
 msgid "Select a language"
 msgstr "Välj språk"
@@ -824,6 +827,9 @@ msgid "Type"
 msgstr "Skriv"
 
 msgid "UI Lang."
+msgstr ""
+
+msgid "Unable to change passwords in demo mode"
 msgstr ""
 
 msgid "Uncheck All"

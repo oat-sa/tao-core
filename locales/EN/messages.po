@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta2\n"
-"PO-Revision-Date: 2012-06-06T14:09:14\n"
+"PO-Revision-Date: 2012-06-08T13:40:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: EN\n"
@@ -133,10 +133,10 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -169,10 +169,10 @@ msgstr ""
 msgid "compiled"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
 msgid "compiling"
@@ -217,10 +217,10 @@ msgstr ""
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "Date"
@@ -280,10 +280,10 @@ msgstr ""
 msgid "e-mail"
 msgstr ""
 
-msgid "edit"
+msgid "Edit"
 msgstr ""
 
-msgid "Edit"
+msgid "edit"
 msgstr ""
 
 msgid "Edit a role"
@@ -392,10 +392,10 @@ msgstr ""
 msgid "Inclusive (AND)"
 msgstr ""
 
-msgid "instances"
+msgid "Instances"
 msgstr ""
 
-msgid "Instances"
+msgid "instances"
 msgstr ""
 
 msgid "Interface Language"
@@ -471,6 +471,9 @@ msgid "Login *"
 msgstr ""
 
 msgid "login already exist"
+msgstr ""
+
+msgid "Login available"
 msgstr ""
 
 msgid "Login not available"
@@ -667,10 +670,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
 msgid "Remove"
@@ -715,10 +718,10 @@ msgstr ""
 msgid "Search results"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
 msgid "Select a language"
@@ -824,6 +827,9 @@ msgid "Type"
 msgstr ""
 
 msgid "UI Lang."
+msgstr ""
+
+msgid "Unable to change passwords in demo mode"
 msgstr ""
 
 msgid "Uncheck All"

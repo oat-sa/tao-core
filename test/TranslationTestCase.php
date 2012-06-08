@@ -649,6 +649,9 @@ class TranslationTestCase extends UnitTestCase {
         $comment = "# A multi line translator comment...\n# With a second line.\n#. An extracted comment.\n#, tao-public foo-bar-code php-format";
         $this->assertEqual(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
         
+        $annotations = array(tao_helpers_translation_POTranslationUnit::FLAGS => "tao-public");
+        $comment = "#, tao-public";
+        $this->assertEqual(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
         
     }
 }

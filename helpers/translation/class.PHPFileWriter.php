@@ -62,7 +62,7 @@ class tao_helpers_translation_PHPFileWriter
     {
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B13 begin
         $tf = $this->getTranslationFile();
-        $buffer = "";
+        $buffer = "<?php\n";
         foreach ($tf->getTranslationUnits() as $tu){
             // Prevent empty messages.
             if ($tu->getSource() != ''){
@@ -70,9 +70,10 @@ class tao_helpers_translation_PHPFileWriter
                 $replace = array("\\\\", '\\$', '\\"', "\\n", "\\t", "\\v", "\\r", "\\f");
                 $source = str_replace($escapes, $replace, $tu->getSource());
                 $target = str_replace($escapes, $replace, $tu->getTarget());
-                $buffer .= '$GLOBALS[\'__l10n\']["' . $source . '"]="' . $target . '"' . "\n";
+                $buffer .= '$GLOBALS[\'__l10n\']["' . $source . '"]="' . $target . '";' . "\n";
             }
         }
+        $buffer .= "\n?>";
         
         file_put_contents($this->getFilePath(), $buffer);
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B13 end

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta2\n"
-"PO-Revision-Date: 2012-06-06T14:09:18\n"
+"PO-Revision-Date: 2012-06-08T13:40:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
@@ -134,11 +134,11 @@ msgstr "Impossible de construire les indexes de table optimisés"
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
-msgid "Check all"
-msgstr "Tout sélectionner"
-
 msgid "Check All"
 msgstr "Tout Sélectionner"
+
+msgid "Check all"
+msgstr "Tout sélectionner"
 
 msgid "Check if updates are available for your version of TAO"
 msgstr "Vérifier si des mises à jour sont disponibles pour votre version de TAO"
@@ -170,11 +170,11 @@ msgstr "Compilation terminée"
 msgid "compiled"
 msgstr "compilé"
 
-msgid "compiled instances"
-msgstr "instances compilées"
-
 msgid "Compiled Instances"
 msgstr "Instances compilées"
+
+msgid "compiled instances"
+msgstr "instances compilées"
 
 msgid "compiling"
 msgstr "compilation"
@@ -218,10 +218,10 @@ msgstr "Les données ont été importées avec succès"
 msgid "Data Lang."
 msgstr "Langue des données"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
 msgid "Date"
@@ -281,11 +281,11 @@ msgstr "Un calendrier"
 msgid "e-mail"
 msgstr "courriel"
 
-msgid "edit"
-msgstr "modifier"
-
 msgid "Edit"
 msgstr "Editer"
+
+msgid "edit"
+msgstr "modifier"
 
 msgid "Edit a role"
 msgstr ""
@@ -393,11 +393,11 @@ msgstr "Importer dans"
 msgid "Inclusive (AND)"
 msgstr "Inclusif (ET)"
 
-msgid "instances"
-msgstr "instances"
-
 msgid "Instances"
 msgstr "Instances"
+
+msgid "instances"
+msgstr "instances"
 
 msgid "Interface Language"
 msgstr "Langue de l'interface"
@@ -473,6 +473,9 @@ msgstr "Identifiant *"
 
 msgid "login already exist"
 msgstr "Cet identifiant existe déjà"
+
+msgid "Login available"
+msgstr ""
 
 msgid "Login not available"
 msgstr "Identifiant non disponible"
@@ -668,11 +671,11 @@ msgstr "Création des indexs, cela peut prendre du temps."
 msgid "Recursive"
 msgstr "Récursif"
 
-msgid "Related Classes"
-msgstr "Classes liées"
-
 msgid "related classes"
 msgstr "classes liées"
+
+msgid "Related Classes"
+msgstr "Classes liées"
 
 msgid "Remove"
 msgstr "Supprimer"
@@ -716,11 +719,11 @@ msgstr "Rechercher"
 msgid "Search results"
 msgstr "Recherche des résultats"
 
-msgid "select"
-msgstr "choisir"
-
 msgid "Select"
 msgstr "Choisir"
+
+msgid "select"
+msgstr "choisir"
 
 msgid "Select a language"
 msgstr "Sélectionner un langage"
@@ -826,6 +829,9 @@ msgstr "Type"
 
 msgid "UI Lang."
 msgstr "Langue Interface"
+
+msgid "Unable to change passwords in demo mode"
+msgstr ""
 
 msgid "Uncheck All"
 msgstr "Tout sélectionné"

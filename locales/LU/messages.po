@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.2-beta2\n"
-"PO-Revision-Date: 2012-06-06T14:09:24\n"
+"PO-Revision-Date: 2012-06-08T13:40:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: LU\n"
@@ -133,10 +133,10 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -169,10 +169,10 @@ msgstr ""
 msgid "compiled"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
 msgid "compiling"
@@ -217,11 +217,11 @@ msgstr ""
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
-msgstr ""
-
 msgid "Data language"
 msgstr "Daten Sprooch"
+
+msgid "Data Language"
+msgstr ""
 
 msgid "Date"
 msgstr "Meta Daten"
@@ -280,11 +280,11 @@ msgstr ""
 msgid "e-mail"
 msgstr ""
 
-msgid "edit"
-msgstr "editéiren"
-
 msgid "Edit"
 msgstr ""
+
+msgid "edit"
+msgstr "editéiren"
 
 msgid "Edit a role"
 msgstr ""
@@ -392,10 +392,10 @@ msgstr ""
 msgid "Inclusive (AND)"
 msgstr ""
 
-msgid "instances"
+msgid "Instances"
 msgstr ""
 
-msgid "Instances"
+msgid "instances"
 msgstr ""
 
 msgid "Interface Language"
@@ -472,6 +472,9 @@ msgstr "Login *"
 
 msgid "login already exist"
 msgstr "Den Login get et schons"
+
+msgid "Login available"
+msgstr ""
 
 msgid "Login not available"
 msgstr ""
@@ -667,10 +670,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
 msgid "Remove"
@@ -715,11 +718,11 @@ msgstr "Sichen"
 msgid "Search results"
 msgstr "An den Resultater sichen"
 
-msgid "select"
-msgstr "auswielen"
-
 msgid "Select"
 msgstr ""
+
+msgid "select"
+msgstr "auswielen"
 
 msgid "Select a language"
 msgstr "Sprooch auswielen"
@@ -824,6 +827,9 @@ msgid "Type"
 msgstr "Typ"
 
 msgid "UI Lang."
+msgstr ""
+
+msgid "Unable to change passwords in demo mode"
 msgstr ""
 
 msgid "Uncheck All"

@@ -52,6 +52,42 @@
     -->
     <rdfs:label xml:lang="EN"><![CDATA[Languages]]></rdfs:label>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ClassRole">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Role
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#ClassRole
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Role]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Role
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#ClassRole
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Role]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#IsSystem">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Is a system role
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#IsSystem
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Is a system role]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Is a system role
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#IsSystem
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[Is a system role]]></rdfs:comment>
+  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
     <!--
     @sourceLanguage EN
