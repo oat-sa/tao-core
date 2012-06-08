@@ -648,7 +648,7 @@ msgid "Please report bugs, ideas, comments, any feedback on the TAO Forge"
 msgstr "Veuillez rapporter les bugs, idées, commentaires, ou tout retour sur la Forge TAO"
 
 msgid "Please select the input data format to import"
-msgstr "Veuillez sélectionner le format des données d'entrée à importer"
+msgstr "Sélectionnez le format du fichier source"
 
 msgid "Please select the way to export the data"
 msgstr "Veuillez choisir la manière d'exporter les données"
@@ -762,7 +762,7 @@ msgid "Supported export formats"
 msgstr "Formats d'export supportés"
 
 msgid "Supported formats to import"
-msgstr "Formats d'import supportés"
+msgstr "Format des données à importer"
 
 msgid "TAO Back Office"
 msgstr "TAO: Outils d'administration"
