@@ -78,7 +78,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#IsSystem
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Is a system role]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Est un rôle système]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -86,7 +86,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#IsSystem
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Is a system role]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Décrit si un rôle est système ou non]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
     <!--
