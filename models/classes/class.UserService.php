@@ -454,27 +454,6 @@ class tao_models_classes_UserService
         return (bool) $returnValue;
     }
 
-    /**
-     * Short description of method getUserRoles
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource user
-     * @return array
-     */
-    public function getUserRoles( core_kernel_classes_Resource $user)
-    {
-        $returnValue = array();
-
-        // section 127-0-1-1--118c10aa:136066bff8b:-8000:000000000000386A begin
-		if (!is_null($user)) {
-			$returnValue = $user->getTypes();
-		}
-        // section 127-0-1-1--118c10aa:136066bff8b:-8000:000000000000386A end
-
-        return (array) $returnValue;
-    }
-
 } /* end of class tao_models_classes_UserService */
 
 ?>
