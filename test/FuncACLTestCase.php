@@ -28,8 +28,12 @@ class FuncACLTestCase extends UnitTestCase {
 		foreach ($roles as $r) {
 			if ($r['label'] == $name) $this->assertTrue($r['selected']);
 		}
+		
 		//Remove taoManager role
 		tao_models_classes_funcACL_RoleService::singleton()->unattachUser($suUri, $tmroleUri);
+		// relogin, to refresh role cache
+		$this->assertTrue($srv->loginUser($login, $pw));
+		
 		//Check if removed
 		$tmRole = new core_kernel_classes_Resource($tmroleUri);
 		$roles = tao_models_classes_funcACL_RoleService::singleton()->getRoles($suUri);
@@ -45,11 +49,17 @@ class FuncACLTestCase extends UnitTestCase {
 		$this->assertFalse(tao_helpers_funcACL_funcACL::hasAccess('taoTests', 'Tests', 'editTest'));
 		//Add access for an actions
 		tao_models_classes_funcACL_ActionAccessService::singleton()->add($roleUri, $makeemauri);
+		// relogin, to refresh role cache
+		$this->assertTrue($srv->loginUser($login, $pw));
+		
 		//Test the action with the access
 		$this->assertTrue(tao_helpers_funcACL_funcACL::hasAccess('taoTests', 'Tests', 'editTest'));
 
 		//Remove access for the actions
 		tao_models_classes_funcACL_ActionAccessService::singleton()->remove($roleUri, $makeemauri);
+		// relogin, to refresh role cache
+		$this->assertTrue($srv->loginUser($login, $pw));
+		
 		//Test access without access
 		$this->assertFalse(tao_helpers_funcACL_funcACL::hasAccess('taoTests', 'Tests', 'editTest'));
 		//Test access via module

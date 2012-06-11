@@ -88,7 +88,7 @@ class tao_helpers_funcACL_funcACL
 		}
 
 		//Get the Roles of the current User
-		$roles = tao_models_classes_UserService::singleton()->getCurrentUserRoles();
+		$roles = core_kernel_classes_Session::singleton()->getUserRoles();
 
 		//Get the access list (reversed)
 		$reverse_access = self::getRolesByActions();

@@ -455,18 +455,18 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method getCurrentUserRoles
+     * Short description of method getUserRoles
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  Resource user
      * @return array
      */
-    public function getCurrentUserRoles()
+    public function getUserRoles( core_kernel_classes_Resource $user)
     {
         $returnValue = array();
 
         // section 127-0-1-1--118c10aa:136066bff8b:-8000:000000000000386A begin
-		$user = $this->getCurrentUser();
 		if (!is_null($user)) {
 			$returnValue = $user->getTypes();
 		}

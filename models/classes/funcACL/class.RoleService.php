@@ -155,11 +155,12 @@ class tao_models_classes_funcACL_RoleService
 		$userRes = new core_kernel_classes_Resource($userUri);
 
 		$rolesc = new core_kernel_classes_Class(CLASS_ROLE);
+		$userRoles = $userRes->getTypes();
 		foreach ($rolesc->getInstances(true) as $id => $r) {
-			if ($id != "http://www.tao.lu/Ontologies/taoFuncACL.rdf#BaseAccessRole") {
+			if ($id != CLASS_ROLE_BASEACCESS) {
 				$nrole = array('id' => $id, 'label' => $r->getLabel(), 'selected' => false);
 				//Selected
-				foreach ($userRes->getTypes() as $uri => $t) {
+				foreach ($userRoles as $uri => $t) {
 					if ($uri == $id) $nrole['selected'] = true;
 				}
 				$returnValue[] = $nrole;
