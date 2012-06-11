@@ -111,10 +111,8 @@ class tao_helpers_funcACL_funcACL
 			}
 		}
 		if (!$returnValue) {
-			$userRes = tao_models_classes_UserService::singleton()->getCurrentUser();
-			common_Logger::i('Access denied to '.$extension.'::'.$module.'::'.$action.' for '.
-				(isset($userRes) ? 'User '.$userRes->getLabel() : 'anonymous')
-				.' with roles: '.implode(',', $roles));
+			common_Logger::i('Access denied to '.$extension.'::'.$module.'::'.$action.' for user '.
+				'\''.core_kernel_classes_Session::singleton()->getUserLogin().'\'');
 		}
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B end
 
