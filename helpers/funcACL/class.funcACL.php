@@ -100,7 +100,6 @@ class tao_helpers_funcACL_funcACL
 
 		//Test if we have a role giving access
 		$roles[] = new core_kernel_classes_Class(CLASS_ROLE_BASEACCESS);
-		$roles = array_unique($roles);
 		foreach ($roles as $role) {
 			if (isset($reverse_access[$extension]) && isset($reverse_access[$extension][$module])) {
 				if (in_array($role->getUri(), $reverse_access[$extension][$module]['roles']) 
