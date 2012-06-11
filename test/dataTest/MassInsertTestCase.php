@@ -264,8 +264,7 @@ class MassInsertTestCase extends UnitTestCase {
 	                        
 	                        
 	                        );
-	        $user = $class->createInstance();          
-	    	$userService->bindProperties($user,$properties);
+	        $user = $class->createInstanceWithProperties($properties);
 	        
 	    }
 	    

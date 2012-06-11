@@ -124,17 +124,25 @@ class tao_models_classes_UserService
         			$currentUser = $this->getCurrentUser();
         			$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
         			
-        			$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
-        			if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource) {
-        				$code = $uiLg->getUniquePropertyValue($valueProperty);
-						core_kernel_classes_Session::singleton()->setInterfaceLanguage($code);
+        			try {
+	        			$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
+	        			if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource) {
+	        				$code = $uiLg->getUniquePropertyValue($valueProperty);
+							core_kernel_classes_Session::singleton()->setInterfaceLanguage($code);
+	        			}
+        			} catch (common_exception_EmptyProperty $e) {
+        				// leave it to default
         			}
 
-					$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
-					if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
-        				$code = $dataLg->getUniquePropertyValue($valueProperty);
-						core_kernel_classes_Session::singleton()->setDataLanguage($code);
-					}
+        			try {
+						$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
+						if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
+	        				$code = $dataLg->getUniquePropertyValue($valueProperty);
+							core_kernel_classes_Session::singleton()->setDataLanguage($code);
+						}
+        			} catch (common_exception_EmptyProperty $e) {
+						// leave it to default        				
+        			}
 					
 	        		$returnValue = true;
 	        		break;					//roles order is important, we loggin with the first found
