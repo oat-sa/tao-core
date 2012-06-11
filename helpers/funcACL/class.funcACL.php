@@ -99,11 +99,13 @@ class tao_helpers_funcACL_funcACL
 		$nsm = $ns.'m_'.$extension.'_'.$module;*/
 
 		//Test if we have a role giving access
-		$roles[] = CLASS_ROLE_BASEACCESS;
+		$roles[] = new core_kernel_classes_Class(CLASS_ROLE_BASEACCESS);
 		$roles = array_unique($roles);
-		foreach ($roles as $uri) {
+		foreach ($roles as $role) {
 			if (isset($reverse_access[$extension]) && isset($reverse_access[$extension][$module])) {
-				if (in_array($uri, $reverse_access[$extension][$module]['roles']) || (isset($reverse_access[$extension][$module]['actions'][$action]) && in_array($uri, $reverse_access[$extension][$module]['actions'][$action]))) {
+				if (in_array($role->getUri(), $reverse_access[$extension][$module]['roles']) 
+					|| (isset($reverse_access[$extension][$module]['actions'][$action]) 
+						&& in_array($role->getUri(), $reverse_access[$extension][$module]['actions'][$action]))) {
 					$returnValue = true;
 					break;
 				}
@@ -112,7 +114,8 @@ class tao_helpers_funcACL_funcACL
 		if (!$returnValue) {
 			$userRes = tao_models_classes_UserService::singleton()->getCurrentUser();
 			common_Logger::i('Access denied to '.$extension.'::'.$module.'::'.$action.' for '.
-				(isset($userRes) ? 'User '.$userRes->getLabel() : 'anonymous'));
+				(isset($userRes) ? 'User '.$userRes->getLabel() : 'anonymous')
+				.' with roles: '.implode(',', $roles));
 		}
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B end
 
