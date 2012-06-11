@@ -115,8 +115,8 @@ class tao_models_classes_UserService
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D05 begin
 
         try{
-	        foreach($this->allowedRoles as $roleUri){
-	        	if($this->generisUserService->login($login, $password, $roleUri)){
+	        foreach($this->getAllowedConcreteRoles() as $role){
+	        	if($this->generisUserService->login($login, $password, $role)){
 	        		
 	        		common_Logger::i('User '.$login.' logged in', array('TAO'));
 	        		
@@ -238,18 +238,25 @@ class tao_models_classes_UserService
 		if(!empty($login)){
 			$user = $this->generisUserService->getOneUser($login);
 			if(!is_null($user) && $user !== false){
+				foreach ($this->getAllowedConcreteRoles() as $role) {
+					if ($user->hasType($role)) {
+						$returnValue = $user;
+					}
+				}
+				/*
 				$userClass = $this->getClass($user);
-				if(in_array($userClass->uriResource, $this->allowedRoles)){
+				if(in_array($userClass->uriResource, $this->getAllowedRoles())){
 					$returnValue = $user;
 				}
 				else{
 					foreach($userClass->getParentClasses(true) as $parent){
-						if(in_array($parent->uriResource, $this->allowedRoles)){
+						if(in_array($parent->uriResource, $this->getAllowedRoles())){
 							$returnValue = $user;
 							break;
 						}
 					}
 				}
+				*/
 			}
 		}
 
@@ -397,18 +404,25 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method getAllowedRoles
+     * returns a list of all concrete roles(instances of CLASS_ROLE)
+     * which are allowed to login
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return array
      */
-    public function getAllowedRoles()
+    public function getAllowedConcreteRoles()
     {
         $returnValue = array();
 
         // section 127-0-1-1--2224001b:1341c506b75:-8000:0000000000004424 begin
-		$returnValue = $this->allowedRoles;
+        foreach ($this->allowedRoles as $roleUri) {
+        	$abstractRole = new core_kernel_classes_Class($roleUri);
+        	foreach ($abstractRole->getInstances(true) as $concreteRole) {
+        		$roleClass = new core_kernel_classes_Class($concreteRole->getUri());
+        		$returnValue[$concreteRole->getUri()] = $roleClass;
+        	}
+        }
         // section 127-0-1-1--2224001b:1341c506b75:-8000:0000000000004424 end
 
         return (array) $returnValue;
