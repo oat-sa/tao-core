@@ -83,7 +83,13 @@ new tao_scripts_TaoInstall(array(
 			'shortcut'		=> 'p',
 			'required'		=> true,
 			'description'	=> 'The password of the tao backend user'
-		)
+		),
+		array(
+		    'name'          => 'import_local',
+		    'type'          => 'boolean',
+		    'shortcut'      => 'i',
+		    'description'   => 'States if the local.rdf files must be imported or not.'
+        )
 	)
 ));
 ?>

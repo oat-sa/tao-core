@@ -122,8 +122,15 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		));
 		$moduleModeElt->setValue('debug');
 		$this->form->addElement($moduleModeElt);
+        
+        // Sample data
+        $sampleDataElt = tao_helpers_form_FormFactory::getElement('import_local', 'Checkbox');
+        $sampleDataElt->setDescription('Sample data');
+        $sampleDataElt->setOptions(array('on' => 'Import sample data such as demo items.'));
+        $sampleDataElt->setValue('on');
+        $this->form->addElement($sampleDataElt);
 		
-		$this->form->createGroup('module', 'Module', array('module_name', 'module_host', 'module_namespace_lbl', 'module_namespace', 'module_url', 'module_lang', 'module_mode'));
+		$this->form->createGroup('module', 'Module', array('module_name', 'module_host', 'module_namespace_lbl', 'module_namespace', 'module_url', 'module_lang', 'module_mode', 'import_local'));
 	
 		
 		/*
@@ -163,7 +170,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		//Delete database if it is existing
 		$dbOverwriteDbElt = tao_helpers_form_FormFactory::getElement('db_override', 'Checkbox');
 		$dbOverwriteDbElt->setDescription('Overwrite');
-		$dbOverwriteDbElt->setOptions(array("on" => "Overwrite database if it exists"));
+		$dbOverwriteDbElt->setOptions(array("on" => "Overwrite database if it exists."));
 		$this->form->addElement($dbOverwriteDbElt);
 		
 		//Database User
