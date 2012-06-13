@@ -127,8 +127,8 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
 		$roles = array();
 		foreach ($rba[$ext][$mod]['roles'] as $uri) {
-			$label = explode('#', $uri);
-			$roles[] = array('uri' => $uri, 'label' => $label[1]);
+			$role = new core_kernel_classes_Resource($uri);
+			$roles[] = array('uri' => $uri, 'label' => $role->getLabel());
 		}
 		echo json_encode(array('roles' => $roles));
 	}
@@ -142,8 +142,8 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
 		$roles = array();
 		foreach ($rba[$ext][$mod]['actions'][$act] as $uri) {
-			$label = explode('#', $uri);
-			$roles[] = array('uri' => $uri, 'label' => $label[1]);
+			$role = new core_kernel_classes_Resource($uri);
+			$roles[] = array('uri' => $uri, 'label' => $role->getLabel());
 		}
 		echo json_encode(array('roles' => $roles));
 	}
