@@ -83,9 +83,17 @@ class tao_scripts_TaoInstall
 			, "user_lastname"	=>	""
 			, "user_login"	=>		""
 			, "user_pass"	=>		""
-			, "import_local" =>     'on'
+			, "import_local" => true
 		);
+        
     	$this->options = array_merge($this->options, $this->parameters);
+        
+        if ($this->options['import_local'] == true){
+            $this->options['import_local'] = array('on');
+        }
+        else{
+            $this->options['import_local'] = array('off');
+        }
     	
     	// user password treatment
     	$this->options["user_pass1"] = $this->options['user_pass'];

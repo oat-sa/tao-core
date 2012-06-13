@@ -381,8 +381,8 @@ class tao_install_Installator{
 		$toInstall = common_ext_ExtensionsManager::singleton()->getAvailableExtensions();
 		foreach ($toInstall as $extension) {
 			try {
-			    $installLocalData = true;
-				$extinstaller = new common_ext_ExtensionInstaller($extension, $installLocalData);
+			    $importLocalData = ($installData['import_local'] == array('on'));
+				$extinstaller = new common_ext_ExtensionInstaller($extension, $importLocalData);
 				$extinstaller->install();
 			} catch (common_ext_ExtensionException $e) {
 				common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$extension->getID().'"');
