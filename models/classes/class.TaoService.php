@@ -85,7 +85,6 @@ class tao_models_classes_TaoService
 					self::$extensions[] = $extension->id;
 				}
 			}
-			self::$extensions[] = 'users';
 		}
 
 		$returnValue = self::$extensions;

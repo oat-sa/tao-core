@@ -19,7 +19,6 @@ return array(
 			LOCAL_NAMESPACE => '7'
 		),
 		'install' => array(
-			'php' => dirname(__FILE__). '/install/install.php',
 			'rdf' => array(
 					array('ns' => 'http://www.tao.lu/Ontologies/TAO.rdf', 'file' => dirname(__FILE__). '/models/ontology/tao.rdf'),
 					array('ns' => 'http://www.tao.lu/Ontologies/taoFuncACL.rdf', 'file' => dirname(__FILE__). '/models/ontology/taofuncacl.rdf'),

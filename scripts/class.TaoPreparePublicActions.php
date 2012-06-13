@@ -88,7 +88,7 @@ class tao_scripts_TaoPreparePublicActions
 			if ($extension->id == 'generis') {
 				continue;
 			}
-			common_Logger::i('preparing extension '.$extension->id);
+			common_Logger::i('preparing extension '.$extension->getID());
 			//New RDF content
 			$rdf = $rdf_header;
 			foreach ($extension->getAllModules() as $module) {

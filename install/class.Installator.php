@@ -351,7 +351,9 @@ class tao_install_Installator{
 			'DEBUG_MODE'		=> ($installData['module_mode'] == 'debug') ? true : false
 		));
 		
-		//now we can run the extensions bootstrap
+		/*
+		 * 5 run the extensions bootstrap
+		 */
 		common_Logger::d('Running the extensions bootstrap', 'INSTALL');
 		require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
 		
@@ -359,98 +361,41 @@ class tao_install_Installator{
 		common_Logger::d('Including tao constants', 'INSTALL');
 		require_once(ROOT_PATH.'tao/includes/constants.php');
 
-		/*
-		 *  5 - Create the configuration files for the loaded extensions
-		 */
-		$extensionManager = common_ext_ExtensionsManager::singleton();
-		$extensions = $extensionManager->getInstalledExtensions();
-		foreach($extensions as $extensionId => $extension){
-			if($extensionId == 'generis') {
-				continue; 	//generis is the root and has been installed above
-			}
-			common_Logger::d('Writing '.$extensionId.' config', 'INSTALL');
-			
-            $sampleFile = $this->options['root_path'] . $extensionId . '/includes/config.php.sample';
-            $finalFile = $this->options['root_path'] . $extensionId . '/includes/config.php';
-
-			$myConfigWriter = new tao_install_utils_ConfigWriter(
-				$sampleFile,
-				$finalFile
-			);
-			$myConfigWriter->createConfig();
-            
-            // Include 'tao' meta extension configuration file if it's its turn.
-            if ($extensionId == 'tao'){
-                require_once($finalFile);    
-            }
-		}
 		
-        /*
-         * 6 - Flush File Cache
-         */
-        common_Logger::i("Purging filecache ", 'INSTALL');
-		tao_models_classes_cache_FileCache::singleton()->purge();
-
-		$modelCreator = new tao_install_utils_ModelCreator($installData['module_namespace']);
-        
+		
 		/*
-		 *  7 - Insert the extensions models
+		 * 6 adding languages
 		 */
-		$models = tao_install_utils_ModelCreator::getModelsFromExtensions($extensions);
-		foreach ($models as $ns => $modelFiles){
-			foreach ($modelFiles as $file) {
-				common_Logger::d('Inserting for NS '.$ns.' model '.basename($file), 'INSTALL');
-				$modelCreator->insertModelFile($ns, $file);
-			}
-		}
-        
-        /*
-         * 7 - Insert available languages in ontology.
-         * They are inserted in the local model because
-         * they must be updatable. Indeed, an administrator
-         * might want to add/update/delete language description
-         * after installation.
-         */
-        $models = $modelCreator->getLanguageModels();
+		$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
+		$models = $modelCreator->getLanguageModels();
         foreach ($models as $ns => $modelFiles){
             foreach ($modelFiles as $file){
                 common_Logger::d("Inserting language description model '".$file."'", 'INSTALL');
             	$modelCreator->insertLocalModel($file);
             }
         }
-
+		
 		/*
-		 * 8 - Insert translation extensions models
+		 * 7 - Install the extensions
 		 */
-		foreach ($extensions as $ext){
-			if ($ext->id != 'generis'){
-				$models = tao_install_utils_ModelCreator::getTranslationModelsFromExtension($ext);
-				foreach($models as $ns => $modelFile){
-					foreach($modelFile as $mF) {
-						common_Logger::d('Inserting translation of model ' . basename($mF) . ' for extension '.$ext->id, 'INSTALL');
-						$modelCreator->insertModelFile($ns, $mF);
-					}
-				}
+		$toInstall = common_ext_ExtensionsManager::singleton()->getAvailableExtensions();
+		foreach ($toInstall as $extension) {
+			try {
+				$extinstaller = new common_ext_ExtensionInstaller($extension);
+				$extinstaller->install();
+			} catch (common_ext_ExtensionException $e) {
+				common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$extension->getID().'"');
 			}
 		}
+		
+        /*
+         * 8 - Flush File Cache
+         */
+        common_Logger::i("Purging filecache ", 'INSTALL');
+		tao_models_classes_cache_FileCache::singleton()->purge();
 
 		/*
-		 *  9 - Insert Local Data by extensions (can be samples data too)
-		 */
-		foreach($extensions as $extensionId => $extension){
-			if($extensionId == 'generis') {
-				continue; 	//generis is the root and has been installed above
-			}
-			$localData = $this->options['root_path'] . $extensionId . '/models/ontology/local.rdf';
-			if(file_exists($localData)){
-				common_Logger::d('Inserting localdata for '.$extensionId, 'INSTALL');
-				$modelCreator->insertLocalModelFile($localData);
-			}
-		}
-
-
-		/*
-		 *  10 - Insert Super User
+		 *  9 - Insert Super User
 		 */
 		common_Logger::i('Spawning SuperUser '.$installData['user_login'], 'INSTALL');
 		$modelCreator->insertSuperUser(array(
@@ -464,22 +409,22 @@ class tao_install_Installator{
 		));
 
 		/*
-		 *  11 - Secure the install for production mode
+		 *  10 - Secure the install for production mode
 		 */
 		if($installData['module_mode'] == 'production'){
 			common_Logger::i('Securing tao for production', 'INSTALL');
 			
-			// 11.1 Remove Generis User
+			// 10.1 Remove Generis User
 			$dbCreator->execute('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelID"=6');
 
-			// 11.2 Protect TAO dist
+			// 10.2 Protect TAO dist
  			$shield = new tao_install_utils_Shield(array_keys($extensions));
  			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
  			$shield->protectInstall();
 		}
 
 		/*
-		 *  12 - Create the version file
+		 *  11 - Create the version file
 		 */
 		common_Logger::d('Creating version file for TAO', 'INSTALL');
 		file_put_contents(ROOT_PATH.'version', TAO_VERSION);
@@ -490,7 +435,7 @@ class tao_install_Installator{
 		common_Logger::i('Instalation completed', 'INSTALL');
         
         /*
-         * 13 - Miscellaneous
+         * 12 - Miscellaneous
          */
         // Localize item content for demo items.
         $dbCreator->execute("UPDATE statements SET l_language = '" . $installData['module_lang'] . "' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent'");

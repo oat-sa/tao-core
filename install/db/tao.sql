@@ -10,17 +10,7 @@ CREATE TABLE "extensions" (
 ) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 
 INSERT INTO "extensions" VALUES
-('generis','generis','2.2',1,1,0),
-('tao','tao','2.2',1,1,0),
-('taoGroups','Tao Groups','2.2',1,1,0),
-('taoItems','Tao Items','2.2',1,1,0),
-('taoResults','Tao Results','2.2',1,1,0),
-('taoSubjects','Tao Subjects','2.2',1,1,0),
-('taoTests','Tao Test','2.2',1,1,0),
-('taoDelivery','taoDelivery','2.2',1,1,0),
-('wfEngine','Workflow Engine Extension','2.2',1,1,0),
-('filemanager','File Manager Extension','2.2',1,1,1),
-('taoCoding','Tao Coding','2.2',1,1,1);
+('generis','generis','2.2',1,1,0);
 
 DROP TABLE IF EXISTS "models";
 CREATE TABLE "models" (
