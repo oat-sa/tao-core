@@ -77,7 +77,12 @@ class tao_scripts_TaoPreparePublicActions
     public function run()
     {
         // section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684E begin
-		//Templates
+		foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
+			// this also adds TaoManager to the Modules
+			tao_helpers_funcACL_ActionModelCreator::spawnExtensionModel($extension);
+		}
+		/*
+    	//Templates
 		$rdf_header = file_get_contents(dirname(__FILE__).'/preparePublicActions/rdfHeader');
 		$rdf_footer = file_get_contents(dirname(__FILE__).'/preparePublicActions/rdfFooter');
 		$rdf_modtpl = file_get_contents(dirname(__FILE__).'/preparePublicActions/rdfModuleTemplate');
@@ -129,7 +134,7 @@ class tao_scripts_TaoPreparePublicActions
 			file_put_contents(ROOT_PATH.$extension->id.'/models/ontology/funcacl.rdf', $rdf);
 		}
 		
-		
+		*/
 		/*
 		//From the root, look actions for all subdir
 		$dirs = array_diff(scandir(ROOT_PATH), array('..', '.', '.svn', '.htaccess', 'generis'));

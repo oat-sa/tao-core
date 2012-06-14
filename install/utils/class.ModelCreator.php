@@ -184,7 +184,7 @@ class tao_install_utils_ModelCreator{
 		$localesPath = $extensionPath . '/locales';
 
 		// Get the target model.
-		if (!isset($simpleExtension->model) || empty($simpleExtension->model)) {
+		if (!isset($simpleExtension->model) || empty($simpleExtension->model) || !isset($simpleExtension->installFiles['rdf'])) {
 			return $models;
 		}
 

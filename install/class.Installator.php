@@ -352,7 +352,7 @@ class tao_install_Installator{
 		));
 		
 		/*
-		 * 5 run the extensions bootstrap
+		 * 5 - Run the extensions bootstrap
 		 */
 		common_Logger::d('Running the extensions bootstrap', 'INSTALL');
 		require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
@@ -361,10 +361,8 @@ class tao_install_Installator{
 		common_Logger::d('Including tao constants', 'INSTALL');
 		require_once(ROOT_PATH.'tao/includes/constants.php');
 
-		
-		
 		/*
-		 * 6 adding languages
+		 * 6 - Adding languages
 		 */
 		$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
 		$models = $modelCreator->getLanguageModels();
@@ -376,7 +374,14 @@ class tao_install_Installator{
         }
 		
 		/*
-		 * 7 - Install the extensions
+		 * 7 - Finish Generis Install
+		 */
+		$generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
+		$generisInstaller = new common_ext_GenerisInstaller($generis);
+		$generisInstaller->install();
+        
+        /*
+		 * 8 - Install the extensions
 		 */
 		$toInstall = common_ext_ExtensionsManager::singleton()->getAvailableExtensions();
 		foreach ($toInstall as $extension) {
@@ -390,13 +395,13 @@ class tao_install_Installator{
 		}
 		
         /*
-         * 8 - Flush File Cache
+         * 9 - Flush File Cache
          */
         common_Logger::i("Purging filecache ", 'INSTALL');
 		tao_models_classes_cache_FileCache::singleton()->purge();
 
 		/*
-		 *  9 - Insert Super User
+		 *  10 - Insert Super User
 		 */
 		common_Logger::i('Spawning SuperUser '.$installData['user_login'], 'INSTALL');
 		$modelCreator->insertSuperUser(array(
@@ -410,22 +415,22 @@ class tao_install_Installator{
 		));
 
 		/*
-		 *  10 - Secure the install for production mode
+		 *  11 - Secure the install for production mode
 		 */
 		if($installData['module_mode'] == 'production'){
 			common_Logger::i('Securing tao for production', 'INSTALL');
 			
-			// 10.1 Remove Generis User
+			// 11.1 Remove Generis User
 			$dbCreator->execute('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelID"=6');
 
-			// 10.2 Protect TAO dist
+			// 11.2 Protect TAO dist
  			$shield = new tao_install_utils_Shield(array_keys($extensions));
  			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
  			$shield->protectInstall();
 		}
 
 		/*
-		 *  11 - Create the version file
+		 *  12 - Create the version file
 		 */
 		common_Logger::d('Creating version file for TAO', 'INSTALL');
 		file_put_contents(ROOT_PATH.'version', TAO_VERSION);
@@ -436,7 +441,7 @@ class tao_install_Installator{
 		common_Logger::i('Instalation completed', 'INSTALL');
         
         /*
-         * 12 - Miscellaneous
+         * 13 - Miscellaneous
          */
         // Localize item content for demo items.
         $dbCreator->execute("UPDATE statements SET l_language = '" . $installData['module_lang'] . "' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent'");
