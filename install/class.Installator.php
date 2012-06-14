@@ -364,6 +364,7 @@ class tao_install_Installator{
 		/*
 		 * 6 - Adding languages
 		 */
+		
 		$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
 		$models = $modelCreator->getLanguageModels();
         foreach ($models as $ns => $modelFiles){
@@ -384,13 +385,25 @@ class tao_install_Installator{
 		 * 8 - Install the extensions
 		 */
 		$toInstall = common_ext_ExtensionsManager::singleton()->getAvailableExtensions();
-		foreach ($toInstall as $extension) {
-			try {
-			    $importLocalData = ($installData['import_local'] == array('on'));
-				$extinstaller = new common_ext_ExtensionInstaller($extension, $importLocalData);
-				$extinstaller->install();
-			} catch (common_ext_ExtensionException $e) {
-				common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$extension->getID().'"');
+		while (!empty($toInstall)) {
+			$formerCount = count($toInstall);
+			foreach ($toInstall as $key => $extension) {
+				// if all dependencies are installed
+				$installed	= array_keys(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
+				$missing	= array_diff($extension->getDependencies(), $installed);
+				if (count($missing) == 0) {
+					try {
+					    $importLocalData = ($installData['import_local'] == array('on'));
+						$extinstaller = new common_ext_ExtensionInstaller($extension, $importLocalData);
+						$extinstaller->install();
+					} catch (common_ext_ExtensionException $e) {
+						common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$extension->getID().'"');
+					}
+					unset($toInstall[$key]);
+				}
+			}
+			if ($formerCount == count($toInstall)) {
+				throw new common_exception_Error('Unfulfilable/Cyclic reference found in extensions');
 			}
 		}
 		
