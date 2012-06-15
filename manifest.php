@@ -8,7 +8,7 @@ return array(
 	'name' => 'tao',
 	'description' => 'TAO is the meta-extension, a container for the TAOs sub extensions',
 	'additional' => array(
-		'version' => '2.0',
+		'version' => '2.3',
 		'author' => 'CRP Henri Tudor',
 		'dependances' => array('generis'),
 		'models' => array(

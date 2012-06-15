@@ -128,7 +128,6 @@ class Bootstrap{
 			$this->includePath();
 			$this->registerErrorhandler();
 			$this->globalHelpers();
-			$this->connect();
 			$this->i18n();
 			self::$isStarted = true;
 		}
@@ -348,19 +347,6 @@ class Bootstrap{
 				$trace = $e->getTraceAsString();
 			}
 			require_once TAO_TPL_PATH . 'error/error500.tpl';
-		}
-	}
-
-	/**
-	 * Connect the current user to the generis API
-	 */
-	protected function connect()
-	{
-		$taoService = tao_models_classes_TaoService::singleton();
-		$taoVersion = $taoService->getExtensionVersion('tao');
-		if(empty($taoVersion) || floatval($taoVersion)<2.1){
-			//force smooth mode!
-			core_kernel_persistence_PersistenceProxy::forceMode(PERSISTENCE_SMOOTH);
 		}
 	}
 
