@@ -197,7 +197,7 @@ class tao_helpers_File
 	        	}
 	        	else if($recursive){
 	        		if(mkdir(dirname($destination), 0775, true)){
-	        			$returnValue = self::copy($source, $destination, false, $ignoreSystemFiles);
+	        			$returnValue = self::copy($source, $destination, $recursive, $ignoreSystemFiles);
 	        		}
 	        	}
         	}
