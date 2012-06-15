@@ -192,12 +192,12 @@ class tao_helpers_File
         		}
         	}
         	else {
-        		if(!is_dir(dirname($destination))){
+        		if(is_dir(dirname($destination))){
         			$returnValue = copy($source, $destination);
 	        	}
 	        	else if($recursive){
 	        		if(mkdir(dirname($destination), 0775, true)){
-	        			$returnValue = self::copy($source, $destination, $recursive, $ignoreSystemFiles);
+	        			$returnValue = self::copy($source, $destination, false, $ignoreSystemFiles);
 	        		}
 	        	}
         	}
