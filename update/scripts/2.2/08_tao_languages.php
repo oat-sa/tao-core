@@ -1,8 +1,4 @@
 <?php
-core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
-$session = core_kernel_classes_Session::singleton();
-$tmpSessionLg = $session->getDataLanguage();
-$session->setDataLanguage($session->defaultLg);
 
 $langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
 $langInstances = $langClass->getInstances();
@@ -20,7 +16,4 @@ foreach ($langInstances as $lang){
     $newLang->setPropertyValue($valueProperty, $tmpCode);
 }
 
-
-// Rollback session language.
-$session->setDataLanguage($tmpSessionLg);
 ?>

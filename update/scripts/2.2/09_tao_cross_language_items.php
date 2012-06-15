@@ -7,20 +7,18 @@
  */
 function tao22_updateItems($path){
     
-    $session = core_kernel_classes_Session::singleton();
-    
     if (($items = @scandir($path)) !== false){
         foreach ($items as $i){
             $itemPath = $path . '/' . $i;
             if (is_dir($itemPath) && is_readable($itemPath) && $i[0] !== '.'){
-                $tmpDir = $itemPath . '.bak/' . $session->defaultLg;
-                if (@mkdir($tmpDir, 0770, true)){
+                $tmpDir = $itemPath . '.bak/' . DEFAULT_LANG;
+                if (!file_exists($itemPath . '/' . DEFAULT_LANG) && @mkdir($tmpDir, 0770, true)){
                     // For any resource in the old item, copy to language
                     // folder.
                     if (($resources = @scandir($itemPath)) !== false){
                         foreach ($resources as $r){
                             $resourcePath = $itemPath . '/' . $r;
-                            if (file_exists($resourcePath) && is_readable($resourcePath)){
+                            if (@is_readable($resourcePath) && $r[0] !== '.'){
                                 tao_helpers_File::copy($resourcePath, $tmpDir, true);
                             }
                         }
@@ -35,8 +33,6 @@ function tao22_updateItems($path){
 }
 
 // Add language tags to item content triples.
-core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
-$session = core_kernel_classes_Session::singleton();
 $itemClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAOItem.rdf#Item');
 $itemContentProperty = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent');
 $items = $itemClass->getInstances();
@@ -44,7 +40,7 @@ foreach ($items as $i){
     // Get the value and reset it to set its language tag.    
     $itemContent = '' . $i->getUniquePropertyValue($itemContentProperty);
     $i->removePropertyValues($itemContentProperty);
-    $i->setPropertyValueByLg($itemContentProperty, $itemContent, $session->defaultLg);
+    $i->setPropertyValueByLg($itemContentProperty, $itemContent, DEFAULT_LANG);
 }
                     
 // Change item folder structure to add the language dimension.
@@ -65,7 +61,7 @@ if (($deliveries = @scandir($compiledPath)) !== false){
                         tao22_updateItems($testPath);
                     }
                 }
-}
+            }
         }
     }
 }
