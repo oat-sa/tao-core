@@ -65,7 +65,7 @@ class tao_helpers_translation_PHPFileWriter
         $buffer = "<?php\n";
         foreach ($tf->getTranslationUnits() as $tu){
             // Prevent empty messages.
-            if ($tu->getSource() != ''){
+            if ($tu->getSource() != '' && $tu->getTarget() != ''){
                 $escapes = array("\\", '$', '"', "\n", "\t", "\v", "\r", "\f");
                 $replace = array("\\\\", '\\$', '\\"', "\\n", "\\t", "\\v", "\\r", "\\f");
                 $source = str_replace($escapes, $replace, $tu->getSource());

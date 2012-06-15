@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-beta2\n"
-"PO-Revision-Date: 2012-06-08T13:40:39\n"
+"Project-Id-Version: TAO v2.2-rc01\n"
+"PO-Revision-Date: 2012-06-15T13:31:20\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: SE\n"
@@ -105,6 +105,9 @@ msgstr ""
 msgid "All (the complete TAO Module)"
 msgstr "Alla (hela TAO-modulen)"
 
+msgid "All data are removed regularly!"
+msgstr ""
+
 msgid "Allowed files types: "
 msgstr ""
 
@@ -169,10 +172,10 @@ msgstr ""
 msgid "compiled"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
 msgid "compiling"
@@ -217,10 +220,10 @@ msgstr "Data framgångsrikt importerat"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Dataspråk"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Dataspråk"
 
 msgid "Date"
@@ -398,11 +401,14 @@ msgstr ""
 msgid "instances"
 msgstr ""
 
+msgid "Interface language"
+msgstr "Gränssnittsspråk"
+
 msgid "Interface Language"
 msgstr "Gränssnittsspråk"
 
-msgid "Interface language"
-msgstr "Gränssnittsspråk"
+msgid "Interface Language *"
+msgstr ""
 
 msgid "Invalid date range"
 msgstr ""
@@ -670,10 +676,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
 msgid "Remove"
@@ -718,11 +724,11 @@ msgstr "Sök"
 msgid "Search results"
 msgstr "Sökresultat"
 
-msgid "Select"
-msgstr "Välj"
-
 msgid "select"
 msgstr "välj"
+
+msgid "Select"
+msgstr "Välj"
 
 msgid "Select a language"
 msgstr "Välj språk"

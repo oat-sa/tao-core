@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-beta2\n"
-"PO-Revision-Date: 2012-06-08T13:40:29\n"
+"Project-Id-Version: TAO v2.2-rc01\n"
+"PO-Revision-Date: 2012-06-15T13:31:09\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
@@ -105,6 +105,9 @@ msgstr "tout"
 msgid "All (the complete TAO Module)"
 msgstr "Tout (le module TAO au complet)"
 
+msgid "All data are removed regularly!"
+msgstr ""
+
 msgid "Allowed files types: "
 msgstr "Types de fichiers acceptés: "
 
@@ -170,11 +173,11 @@ msgstr "Compilation terminée"
 msgid "compiled"
 msgstr "compilé"
 
-msgid "Compiled Instances"
-msgstr "Instances compilées"
-
 msgid "compiled instances"
 msgstr "instances compilées"
+
+msgid "Compiled Instances"
+msgstr "Instances compilées"
 
 msgid "compiling"
 msgstr "compilation"
@@ -218,10 +221,10 @@ msgstr "Les données ont été importées avec succès"
 msgid "Data Lang."
 msgstr "Langue des données"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
 msgid "Date"
@@ -399,11 +402,14 @@ msgstr "Instances"
 msgid "instances"
 msgstr "instances"
 
+msgid "Interface language"
+msgstr "Langue de l'interface"
+
 msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-msgid "Interface language"
-msgstr "Langue de l'interface"
+msgid "Interface Language *"
+msgstr "Langue de l'Interface *"
 
 msgid "Invalid date range"
 msgstr "Période invalide"
@@ -671,11 +677,11 @@ msgstr "Création des indexs, cela peut prendre du temps."
 msgid "Recursive"
 msgstr "Récursif"
 
-msgid "related classes"
-msgstr "classes liées"
-
 msgid "Related Classes"
 msgstr "Classes liées"
+
+msgid "related classes"
+msgstr "classes liées"
 
 msgid "Remove"
 msgstr "Supprimer"
@@ -719,11 +725,11 @@ msgstr "Rechercher"
 msgid "Search results"
 msgstr "Recherche des résultats"
 
-msgid "Select"
-msgstr "Choisir"
-
 msgid "select"
 msgstr "choisir"
+
+msgid "Select"
+msgstr "Choisir"
 
 msgid "Select a language"
 msgstr "Sélectionner un langage"

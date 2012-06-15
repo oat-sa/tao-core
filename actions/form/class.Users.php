@@ -201,6 +201,7 @@ class tao_actions_form_Users
 		
 		$uiLangElt	= $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_UILG));
         $uiLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+        $uiLangElt->setDescription(__("Interface Language *"));
    		$options = $uiLangElt->getOptions();
 		foreach($options as $key => $value){
 			$options[$key] = __($value);

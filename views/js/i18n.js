@@ -11,7 +11,7 @@ var __ = function(message){
 	if(typeof(i18n_tr) == 'undefined'){
 		return message;
 	}
-	else if(i18n_tr[message]){
+	else if(message in i18n_tr){
 		return i18n_tr[message];
 	}
 	else{
