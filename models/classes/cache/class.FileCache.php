@@ -146,7 +146,7 @@ class tao_models_classes_cache_FileCache
         if (false !== ($files = scandir(CACHE_PATH))){
             foreach ($files as $f) {
                 $filePath = CACHE_PATH . $f;
-                if ($f != '.' && $f != '..' && file_exists($filePath)){
+                if (substr($f, 0, 1) != '.' && file_exists($filePath)){
                     @unlink($filePath);
                 }
             }

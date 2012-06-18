@@ -413,10 +413,8 @@ class tao_install_Installator{
 		}
 		
         /*
-         * 9 - Flush File Cache
+         * 9 - File Cache purged in Extension Instaltion
          */
-        common_Logger::i("Purging filecache ", 'INSTALL');
-		tao_models_classes_cache_FileCache::singleton()->purge();
 
 		/*
 		 *  10 - Insert Super User

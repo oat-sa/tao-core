@@ -3,7 +3,8 @@
 	<div id="main-menu" class="ui-state-default" >
 		<a href="<?=_url('index', 'Main', 'tao')?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
 		<div class="left-menu">
-			<?foreach(get_data('extensions') as $i => $extension):?>
+			<?$first = true;foreach(get_data('extensions') as $extension):?>
+				<?if($first):$first = false;?><?else:?>|<?endif?>
 				<span class="<? if (get_data('currentExtension') == $extension['extension']) echo 'current-extension'; if (!$extension['disabled']) echo ' disabled' ?>">
 <?php if ($extension['disabled']): ?>
 						<a href="<?=_url('index', null, $extension['extension'], array('structure' => $extension['id']))?>" title="<?=__($extension['description'])?>"><?=__($extension['name'])?></a>
@@ -11,7 +12,6 @@
 						<?=__($extension['name'])?>
 <?php endif; ?>
 					</span>
-				<?if($i < (count(get_data('extensions')) - 1)):?>|<?endif?>
 			<?endforeach?>
 		</div>
 
