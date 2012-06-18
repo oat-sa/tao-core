@@ -27,7 +27,7 @@
 				</a>
 			</span>
 			<span>
-				<a href="<?=_url('index', 'Settings', 'tao')?>" class="settings-loader" title="<?=__('Settings')?>">
+				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings'))?>" title="<?=__('Settings')?>">
 					<img src="<?=TAOBASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />
 				</a>
 			</span>

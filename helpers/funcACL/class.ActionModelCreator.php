@@ -106,7 +106,7 @@ class tao_helpers_funcACL_ActionModelCreator
         ))
         */;
         $specialURI = FUNCACL_NS.'#'.'m_'.$extension.'_'.$name;
-        $returnValue = $moduleClass->createInstance($name,$name,$specialURI);
+        $returnValue = $moduleClass->createInstance($name,'',$specialURI);
          $returnValue->setPropertiesValues(array(
         	PROPERTY_ACL_MODULE_EXTENSION	=> $extension,
         	PROPERTY_ACL_MODULE_ID			=> $name
@@ -144,7 +144,7 @@ class tao_helpers_funcACL_ActionModelCreator
         // hack
         list($prefix, $extensionName, $moduleName) = explode('_', substr($module->getUri(), strrpos($module->getUri(), '#')));
         $specialURI = FUNCACL_NS.'#'.'a_'.$extensionName.'_'.$moduleName.'_'.$action;
-        $returnValue = $actionClass->createInstance($action,$action,$specialURI);
+        $returnValue = $actionClass->createInstance($action,'',$specialURI);
         $returnValue->setPropertiesValues(array(
         	PROPERTY_ACL_ACTION_MEMBEROF	=> $module,
         	PROPERTY_ACL_ACTION_ID			=> $action

@@ -1137,7 +1137,7 @@ class tao_scripts_TaoTranslate
         $returnValue = array();
 
         // section -64--88-56-1--acd0dae:136abeb190f:-8000:000000000000390D begin
-        $ext = new common_ext_SimpleExtension($extension);
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extension);
         if (isset($ext->installFiles['rdf'])){
             foreach ($ext->installFiles['rdf'] as $f){
                 $ns = $f['ns'];

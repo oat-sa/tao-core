@@ -236,7 +236,7 @@ class tao_scripts_TaoExtensions
         $extensionId = $this->options['extension'];
         
         try{
-            $ext = new common_ext_SimpleExtension($extensionId);
+            $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
             $currentConfig = $ext->getConfiguration();
             
             if ($currentConfig == null){

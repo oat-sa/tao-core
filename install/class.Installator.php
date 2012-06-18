@@ -137,6 +137,8 @@ class tao_install_Installator{
 		)
 	);
 
+	static $toInstall = array('tao','filemanager','taoItems','wfEngine','taoResults','taoTests','taoDelivery','taoGroups','taoSubjects');
+	
 	protected $options = array();
 
 	public function __construct($options)
@@ -384,7 +386,10 @@ class tao_install_Installator{
         /*
 		 * 8 - Install the extensions
 		 */
-		$toInstall = common_ext_ExtensionsManager::singleton()->getAvailableExtensions();
+		$toInstall = array();//common_ext_ExtensionsManager::singleton()->getAvailableExtensions();
+		foreach (self::$toInstall as $id) {
+			$toInstall[] = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
+		}
 		while (!empty($toInstall)) {
 			$formerCount = count($toInstall);
 			foreach ($toInstall as $key => $extension) {
