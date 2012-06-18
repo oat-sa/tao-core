@@ -31,46 +31,14 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 	 */
 	public function index(){
 		
-		$myFormContainer = new tao_actions_form_Settings($this->getLangs());
-		$myForm = $myFormContainer->getForm();
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				
-				$currentUser = $this->userService->getCurrentUser();
-				
-				$uiLangCode 	= $myForm->getValue('ui_lang');
-				$dataLangCode 	= $myForm->getValue('data_lang');
-				
-				$userSettings = array();
-				
-				$uiLangResource = tao_helpers_I18n::getLangResourceByCode($uiLangCode);
-				if(!is_null($uiLangResource)){
-					$userSettings[PROPERTY_USER_UILG] = $uiLangResource->uriResource;
-				}
-				$dataLangResource = tao_helpers_I18n::getLangResourceByCode($dataLangCode);
-				if(!is_null($dataLangResource)){
-					$userSettings[PROPERTY_USER_DEFLG] = $dataLangResource->uriResource;
-				}
-				
-				if($this->userService->bindProperties($currentUser, $userSettings)){
-					
-					tao_helpers_I18n::init($uiLangCode);
-					
-					core_kernel_classes_Session::singleton()->setInterfaceLanguage($uiLangCode);
-					core_kernel_classes_Session::singleton()->setDataLanguage($dataLangCode);
-					
-					$this->setData('message', __('settings updated'));
-					
-					$this->setData('reload', true);
-				}
-			}
+		$optimizableClasses = $this->getOptimizableClasses();
+		
+		//$this->setData('optimizableClasses', $optimizableClasses);
+		
+		if(!empty($optimizableClasses)){
+			$this->setData('optimizable', true);
 		}
-		$this->setData('myForm', $myForm->render());
-                
-                $optimizableClasses = $this->getOptimizableClasses();
-                if(!empty($optimizableClasses)){
-                        $this->setData('optimizable', true);
-                }
+		$this->defaultData();
                 
 		$this->setView('form/settings.tpl');
 	}

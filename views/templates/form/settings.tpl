@@ -4,18 +4,11 @@
 </div>
 <?endif?>
 
-<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
-	<?=__("My settings")?>
-</div>
-<div id="form-container" class="ui-widget-content ui-corner-bottom">
-	<?=get_data('myForm')?>
-</div>
-
 <?if(get_data('optimizable')):?>
 <?include('optimize.tpl');?>
 <?endif;?> 
 
-<? //include('update.tpl');?>  
+<?include(TAO_TPL_PATH.'footer.tpl')?>
 
 <script type="text/javascript">
 $(function(){

@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * This container initialize the settings form.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage actions_form
  */
@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * This class provide a container for a specific form instance.
  * It's subclasses instanciate a form and it's elements to be used as a
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/helpers/form/class.FormContainer.php');
 
@@ -34,11 +34,11 @@ require_once('tao/helpers/form/class.FormContainer.php');
  * This container initialize the settings form.
  *
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage actions_form
  */
-class tao_actions_form_Settings
+class tao_actions_form_UserSettings
     extends tao_helpers_form_FormContainer
 {
     // --- ASSOCIATIONS ---
@@ -52,7 +52,7 @@ class tao_actions_form_Settings
      * Short description of method initForm
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     protected function initForm()
@@ -72,7 +72,7 @@ class tao_actions_form_Settings
      * Short description of method initElements
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     protected function initElements()
@@ -96,6 +96,6 @@ class tao_actions_form_Settings
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF5 end
     }
 
-} /* end of class tao_actions_form_Settings */
+} /* end of class tao_actions_form_UserSettings */
 
 ?>

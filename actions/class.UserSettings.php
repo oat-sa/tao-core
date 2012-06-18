@@ -31,7 +31,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 	 */
 	public function index(){
 		
-		$myFormContainer = new tao_actions_form_Settings($this->getLangs());
+		$myFormContainer = new tao_actions_form_UserSettings($this->getLangs());
 		$myForm = $myFormContainer->getForm();
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
@@ -65,9 +65,10 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 				}
 			}
 		}
-		$this->setData('myForm', $myForm->render());
+		$this->setData('formTitle'	, __("My settings"));
+		$this->setData('myForm'		, $myForm->render());
                 
-		$this->setView('form/settings.tpl');
+		$this->setView('form.tpl');
 	}
 	
 	
