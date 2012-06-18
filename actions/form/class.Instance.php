@@ -104,7 +104,6 @@ class tao_actions_form_Instance
 		$editedProperties = $defaultProperties;
 		$excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties']))?$this->options['excludedProperties']:array();
 		$additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties']))?$this->options['additionalProperties']:array();
-    	$uniqueLabel = isset($this->options['uniqueLabel'])?$this->options['uniqueLabel']:true;
 		$finalElements = array();
     	
 		$classProperties = array();
@@ -166,9 +165,6 @@ class tao_actions_form_Instance
 					
 				//set label validator
 				if($property->uriResource == RDFS_LABEL){
-					if($uniqueLabel){
-						$element->addValidator(tao_helpers_form_FormFactory::getValidator('Label', array('class' => $clazz, 'uri' => $instance->uriResource)));
-					}
 					$element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 				}
 
