@@ -1,0 +1,49 @@
+#Extensions_manager table {
+
+}
+
+#Extensions_manager table tr {
+
+}
+#Extensions_manager table th { border-bottom: 1px solid #999; padding: 5px 7px; }
+#Extensions_manager table tr:nth-child(even) { background-color: #eee }
+#Extensions_manager table tr:nth-child(odd) { background-color: #ddd }
+#Extensions_manager table tr:nth-child(even):hover,
+#Extensions_manager table tr:nth-child(odd):hover { background-color: #fff }
+
+#Extensions_manager table td {
+	text-align: center;
+	vertical-align: top;
+	padding: 5px 7px;
+}
+
+#Extensions_manager table ul {
+	margin: 0;
+	padding: 0;
+}
+
+#Extensions_manager table li {
+	list-style: none;
+}
+
+.installed { color: green; }
+.actions {
+	text-align: right;
+	padding: 3px;
+}
+
+#installProgress .progress {
+	overflow: hidden;
+	height: 20px;
+	width: 100%;
+	background-color: #999;
+	border: 1px solid #666;
+	border-radius: 5px;
+}
+
+#installProgress .bar {
+	height: 20px;
+	background-color: #6bb;
+	width: 0%;
+	border-radius: 5px;
+}

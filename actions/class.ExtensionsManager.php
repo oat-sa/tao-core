@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * default action
  * must be in the actions folder
- * 
+ *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package action
@@ -16,7 +16,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 	 * Index page
 	 */
 	public function index() {
-		 
+
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$extensionManager->reset();
 		$installedExtArray = $extensionManager->getInstalledExtensions();
@@ -35,7 +35,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 			return null;
 		}
 	}
-	
+
 	public function add( $id , $package_zip ){
 
 		$extensionManager = common_ext_ExtensionsManager::singleton();
@@ -56,26 +56,25 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		$this->index();
 
 	}
-	
-	public function install(){
 
-		$extInstaller = new common_ext_ExtensionInstaller($this->getExtension());
+	public function install(){
+		$success = false;
 		try {
+			$extInstaller = new common_ext_ExtensionInstaller($this->getExtension());
 			$extInstaller->install();
 			$message =   __('Extension ') . $this->getExtension()->getID() . __(' has been installed');
+			$success = true;
 		}
 		catch(common_ext_ExtensionException $e) {
 			$message = $e->getMessage();
 		}
 
-		$this->setData('message',$message);
-		$this->index();
-
+		echo json_encode(array('success' => $success, 'message' => $message));
 	}
-	
+
 
 	public function modify($loaded,$loadAtStartUp){
-                
+
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$installedExtArray = $extensionManager->getInstalledExtensions();
 		$configurationArray = array();
