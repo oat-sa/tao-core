@@ -159,8 +159,59 @@ class tao_helpers_funcACL_funcACL
     {
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389D begin
 		$reverse_access = array();
+		// alternate:
+		
 		self::$rolesByActions = null;
-
+		$roles = new core_kernel_classes_Class(CLASS_ROLE); //before : CLASS_ROLE_BACKOFFICE
+		
+		foreach ($roles->getInstances(true) as $role) {
+			$moduleAccess = $role->getPropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS));
+			$actionAccess = $role->getPropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS));
+			foreach ($moduleAccess as $moduleURI) {
+				$moduleRessource = new core_kernel_classes_Resource($moduleURI);
+				$arr = $moduleRessource->getPropertiesValues(array(
+					new core_kernel_classes_Property(PROPERTY_ACL_MODULE_ID),
+					new core_kernel_classes_Property(PROPERTY_ACL_MODULE_EXTENSION)
+				));
+				$ext = (string)current($arr[PROPERTY_ACL_MODULE_EXTENSION]);
+				$mod = (string)current($arr[PROPERTY_ACL_MODULE_ID]);
+				if (!isset($reverse_access[$ext])) {
+					$reverse_access[$ext] = array();
+				}
+				if (!isset($reverse_access[$ext][$mod])) {
+					$reverse_access[$ext][$mod] = array('actions' => array(), 'roles' => array());
+				}
+				$reverse_access[$ext][$mod]['roles'][] = $role->getUri();
+			}
+			foreach ($actionAccess as $actionURI) {
+				$actionRessource = new core_kernel_classes_Resource($actionURI);
+				$arr = $actionRessource->getPropertiesValues(array(
+					new core_kernel_classes_Property(PROPERTY_ACL_ACTION_ID),
+					new core_kernel_classes_Property(PROPERTY_ACL_ACTION_MEMBEROF)
+				));
+				$act = (string)current($arr[PROPERTY_ACL_ACTION_ID]);
+				// @todo cache module id/extension
+				$moduleRessource = current($arr[PROPERTY_ACL_ACTION_MEMBEROF]);
+				$arr = $moduleRessource->getPropertiesValues(array(
+					new core_kernel_classes_Property(PROPERTY_ACL_MODULE_ID),
+					new core_kernel_classes_Property(PROPERTY_ACL_MODULE_EXTENSION)
+				));
+				$ext = (string)current($arr[PROPERTY_ACL_MODULE_EXTENSION]); 
+				$mod = (string)current($arr[PROPERTY_ACL_MODULE_ID]);
+				if (!isset($reverse_access[$ext])) {
+					$reverse_access[$ext] = array();
+				}
+				if (!isset($reverse_access[$ext][$mod])) {
+					$reverse_access[$ext][$mod] = array('actions' => array(), 'roles' => array());
+				}
+				if (!isset($reverse_access[$ext][$mod][$act])) {
+					$reverse_access[$ext][$mod]['actions'][$act] = array();
+				}
+				$reverse_access[$ext][$mod]['actions'][$act][] = $role->getUri();
+			}
+		}
+		
+		/*
 		$modc = new core_kernel_classes_Class(CLASS_ACL_MODULE);
 		$actc = new core_kernel_classes_Class(CLASS_ACL_ACTION);
 		$roles = new core_kernel_classes_Class(CLASS_ROLE); //before : CLASS_ROLE_BACKOFFICE
@@ -202,7 +253,7 @@ class tao_helpers_funcACL_funcACL
 				}
 			}
 		}
-
+*/
 		tao_models_classes_cache_FileCache::singleton()->put($reverse_access, 'RolesByActions');
 		return $reverse_access;
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389D end
