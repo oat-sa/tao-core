@@ -28,13 +28,22 @@ $(function(){
 			toInstall.push(ext);
 		});
 		toInstall = getUnique(toInstall);
+		if (toInstall.length == 0) {
+			alert(__('Nothing to install !'));
+			return false;
+		}
+		//Let's go
 		percentByExt = 100 / toInstall.length;
 
 		//Show the dialog with the result
-		$('#installProgress p').text(__('%s extensions to install').replace('%s', toInstall.length));
+		$('#installProgress p.status').text(__('%s extensions to install').replace('%s', toInstall.length));
 		$('#installProgress .bar').width(0);
+		$('#installProgress .console').empty();
+		progressConsole('Extensions to install : '+toInstall.join(', '));
 		$('#installProgress').dialog({
 			modal: true,
+			width: 400,
+			height: 300,
 			buttons: [
 				{
 					text: __('No'),
@@ -46,11 +55,13 @@ $(function(){
 					text: __('Yes'),
 					click: function() {
 						//Run the install one by one
+						progressConsole('Prepare installation...');
 						$('.ui-dialog-buttonpane').remove();
 						installError = 0;
 						for (i in toInstall) {
 							ext = toInstall[i];
-							$('#installProgress p').text(__('Installing %s...').replace('%s', ext));
+							$('#installProgress p.status').text(__('Installing %s...').replace('%s', ext));
+							progressConsole(__('Installing %s...').replace('%s', ext));
 							$.ajax({
 								type: "POST",
 								url: root_url + "/tao/ExtensionsManager/install",
@@ -58,28 +69,38 @@ $(function(){
 								dataType: 'json',
 								async: false,
 								success: function(data) {
+									loaded();
 									if (data.success) {
+										progressConsole('Installation of '+ext+' success');
 										$('#installProgress .bar').animate({width:'+='+percentByExt+'%'},0); //1000 - TODO: Worker ?
 										$('tr#'+ext).hide(); //.slideUp();
-										$tr = $('<tr></tr>').appendTo($('#installedExtension tbody')).hide();
-										$tr.append('<td>'+$($('tr#'+ext+' td')[1]).text()+'</td>');
-										$tr.append('<td>'+$($('tr#'+ext+' td')[2]).text()+'</td>');
-										$tr.append('<td>'+$($('tr#'+ext+' td')[4]).text()+'</td>');
+										var $tr = $('<tr></tr>').appendTo($('#installedExtension tbody')).hide();
+										var $orig = $('tr#'+ext+' td');
+										$tr.append('<td>'+$($orig[1]).text()+'</td>');
+										$tr.append('<td>'+$($orig[2]).text()+'</td>');
+										$tr.append('<td>'+$($orig[4]).text()+'</td>');
 										$tr.append('<td><input type="checkbox" checked="" value="loaded" name="loaded['+ext+']" class="install"></td>');
 										$tr.append('<td><input type="checkbox" checked="" value="loadAtStartUp" name="loadAtStartUp['+ext+']" class="install"></td>');
-										$tr.shown(); //.slideDown();
+										$tr.show(); //.slideDown();
+										$('tr#'+ext).remove();
+									} else {
+										installError = 1;
+										progressConsole('Installation of '+ext+' failed');
 									}
-									else installError = 1;
 									createInfoMessage(data.message);
+									progressConsole('> '+data.message);
 								}
 							});
 							if (installError) {
+								progressConsole('Interrupt of installation');
 								break;
 							}
 						}
+						progressConsole('Clear install preparation');
 						toInstall = [];
 						$('#installProgress .bar').animate({backgroundColor:'#6b6',width:'100%'});
-						$('#installProgress p').text(__('Install finished'));
+						$('#installProgress p.status').text(__('Install finished'));
+						progressConsole('Install finished');
 					}
 				}
 			]
@@ -106,4 +127,11 @@ function getUnique(orig){
 		if ($.inArray(orig[i], a) < 0) a.push(orig[i]);
 	}
 	return a;
+}
+
+function progressConsole(msg) {
+	console.log(msg);
+	$('#installProgress .console').append('<p>'+msg+'</p>');
+	//$('#installProgress .console').animate({ scrollTop: $('#installProgress .console').attr("scrollHeight") }, 500);
+	$('#installProgress .console').attr({ scrollTop: $('#installProgress .console').attr("scrollHeight") });
 }

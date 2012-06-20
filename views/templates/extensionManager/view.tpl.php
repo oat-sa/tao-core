@@ -85,5 +85,6 @@
 
 <div id="installProgress" title="<?= __('Installation...') ?>">
 	<div class="progress"><div class="bar"></div></div>
-	<p class="message">...</p>
+	<p class="status">...</p>
+	<div class="console"></div>
 </div>
