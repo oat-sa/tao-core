@@ -177,30 +177,49 @@ class tao_helpers_File
         $returnValue = (bool) false;
 
         // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 begin
+        // Check for System File
+        $basename = basename($source);
+        if ($basename[0] == '.' && $ignoreSystemFiles == true){
+            return false;
+        }
         
-        if(file_exists($source)){
-        	if(is_dir($source) && $recursive){
-        		foreach(scandir($source) as $file){
-        			if($file != '.' && $file != '..'){
-        				if($file[0] == '.' && $ignoreSystemFiles == true){
-        					continue;
-        				}
-        				else{
-        					$returnValue = self::copy($source.'/'.$file, $destination.'/'.$file, true, $ignoreSystemFiles);
-        				}
-        			}
-        		}
-        	}
-        	else {
-        		if(is_dir(dirname($destination))){
-        			$returnValue = copy($source, $destination);
-	        	}
-	        	else if($recursive){
-	        		if(mkdir(dirname($destination), 0775, true)){
-	        			$returnValue = self::copy($source, $destination, $recursive, $ignoreSystemFiles);
-	        		}
-	        	}
-        	}
+        // Check for symlinks
+        if (is_link($source)) {
+            return symlink(readlink($source), $destination);
+        }
+         
+        // Simple copy for a file
+        if (is_file($source)) {
+            if (is_dir($destination)){
+                $destination = $destination . '/' . basename($source);
+            }
+            return copy($source, $destination);
+        }
+
+        // Make destination directory
+        if ($recursive == true){
+            if (!is_dir($destination)) {
+                mkdir($destination);
+            }
+
+            // Loop through the folder
+            $dir = dir($source);
+            while (false !== $entry = $dir->read()) {
+                // Skip pointers
+                if ($entry == '.' || $entry == '..') {
+                    continue;
+                }
+
+                // Deep copy directories
+                self::copy("${source}/${entry}", "${destination}/${entry}", $recursive, $ignoreSystemFiles);
+            }
+
+            // Clean up
+            $dir->close();
+            return true;
+        }
+        else{
+            return false;
         }
         
         // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 end

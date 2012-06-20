@@ -11,21 +11,27 @@ function tao22_updateItems($path){
         foreach ($items as $i){
             $itemPath = $path . '/' . $i;
             if (is_dir($itemPath) && is_readable($itemPath) && $i[0] !== '.'){
-                $tmpDir = $itemPath . '.bak/' . DEFAULT_LANG;
-                if (!file_exists($itemPath . '/' . DEFAULT_LANG) && @mkdir($tmpDir, 0770, true)){
+
+                $tmpDir = $itemPath . '.bak';
+                if (!file_exists($itemPath . '/' . DEFAULT_LANG) && mkdir($tmpDir, 0777, true)){
+
                     // For any resource in the old item, copy to language
                     // folder.
+                    $tmpDir = $tmpDir . '/' . DEFAULT_LANG;
+                    mkdir($tmpDir);
+
                     if (($resources = @scandir($itemPath)) !== false){
                         foreach ($resources as $r){
                             $resourcePath = $itemPath . '/' . $r;
                             if (@is_readable($resourcePath) && $r[0] !== '.'){
-                                tao_helpers_File::copy($resourcePath, $tmpDir, true);
+                                tao_helpers_File::copy($resourcePath, $tmpDir . '/' . $r, true);
                             }
                         }
                     }
 
                     tao_helpers_File::remove($itemPath, true);
-                    rename($tmpDir, $itemPath);
+                    tao_helpers_File::copy($itemPath . '.bak', $itemPath, true);
+                    tao_helpers_File::remove($itemPath . '.bak', true);
                 }
             }
         }
