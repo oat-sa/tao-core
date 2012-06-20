@@ -98,9 +98,17 @@ $(function(){
 						}
 						progressConsole('Clear install preparation');
 						toInstall = [];
-						$('#installProgress .bar').animate({backgroundColor:'#6b6',width:'100%'});
 						$('#installProgress p.status').text(__('Install finished'));
 						progressConsole('Install finished');
+						$('#installProgress .bar').animate({backgroundColor:'#bb6',width:'100%'}, 0);
+						progressConsole('Generating caches...');
+						$.ajax({
+							type: "GET",
+							url: $($('#main-menu a')[0]).attr('href'),
+							async: false
+						});
+						progressConsole('Generating caches finished');
+						$('#installProgress .bar').animate({backgroundColor:'#6b6'}, 0);
 					}
 				}
 			]
@@ -130,7 +138,6 @@ function getUnique(orig){
 }
 
 function progressConsole(msg) {
-	console.log(msg);
 	$('#installProgress .console').append('<p>'+msg+'</p>');
 	//$('#installProgress .console').animate({ scrollTop: $('#installProgress .console').attr("scrollHeight") }, 500);
 	$('#installProgress .console').attr({ scrollTop: $('#installProgress .console').attr("scrollHeight") });
