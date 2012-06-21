@@ -106,6 +106,11 @@ class tao_scripts_TaoExtensions
                     $this->setCurrentAction($this->options['action']);
                     $this->actionSetConfig();
                 break;
+                
+                case 'install':
+                    $this->setCurrentAction($this->options['action']);
+                    $this->actionInstall();
+                break;
             }
             
             $this->disconnect();    
@@ -165,6 +170,10 @@ class tao_scripts_TaoExtensions
                     switch ($this->options['action']){
                         case 'setConfig':
                             $this->checkSetConfigInput();
+                        break;
+                        
+                        case 'install':
+                            $this->checkInstallInput();
                         break;
                         
                         default:
@@ -464,6 +473,32 @@ class tao_scripts_TaoExtensions
             }
         }
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003ACB end
+    }
+
+    /**
+     * Short description of method actionInstall
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return void
+     */
+    public function actionInstall()
+    {
+        // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B29 begin
+        // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B29 end
+    }
+
+    /**
+     * Short description of method checkInstallInput
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return void
+     */
+    public function checkInstallInput()
+    {
+        // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B2B begin
+        // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B2B end
     }
 
 } /* end of class tao_scripts_TaoExtensions */
