@@ -51,7 +51,7 @@ foreach ($items as $i){
                     
 // Change item folder structure to add the language dimension.
 // 1. update /taoItems/data
-tao22_updateItems(ROOT_PATH . '/taoItems');
+tao22_updateItems(ROOT_PATH . '/taoItems/data');
 
 // 2. update /taoDelivery/compiled
 $compiledPath = ROOT_PATH . '/taoDelivery/compiled';
