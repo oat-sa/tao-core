@@ -1,7 +1,7 @@
 <?php
 /**
  * This controller provide the actions to manage the user settings
- * 
+ *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
@@ -15,10 +15,10 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 	 * @var tao_models_classes_UserService
 	 */
 	protected $userService = null;
-	
+
 	/**
-	 * initialize the services 
-	 * @return 
+	 * initialize the services
+	 * @return
 	 */
 	public function __construct(){
 		parent::__construct();
@@ -30,50 +30,50 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 	 * @return void
 	 */
 	public function index(){
-		
+
 		$optimizableClasses = $this->getOptimizableClasses();
-		
+
 		//$this->setData('optimizableClasses', $optimizableClasses);
-		
+
 		if(!empty($optimizableClasses)){
 			$this->setData('optimizable', true);
 		}
 		$this->defaultData();
-                
-		$this->setView('form/settings.tpl');
+
+		$this->setView('form/settings_optimize.tpl');
 	}
-	
-	
-	
+
+
+
 	/**
 	 * get the langage of the current user
 	 * @return the lang codes
 	 */
 	private function getLangs(){
-		
+
 		$currentUser = $this->userService->getCurrentUser();
-		
+
 		$uiLang = DEFAULT_LANG;
 		$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
 		if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource){
 			$uiLang = $uiLg->getUniquePropertyValue(new core_kernel_classes_Property(RDF_VALUE))->literal;
 		}
-							
+
 		$dataLang = DEFAULT_LANG;
 		$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
 		if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
 			$dataLang = $dataLg->getUniquePropertyValue(new core_kernel_classes_Property(RDF_VALUE))->literal;
 		}
-		
+
 		$session = core_kernel_classes_Session::singleton();
 		return array('data_lang' => $session->getDataLanguage(), 'ui_lang' => $session->getInterfaceLanguage());
 	}
-	
+
     /*
      * return a view the list of optimizable classes for the current extension
      */
     public function optimizeClasses(){
-		
+
 		$optimizableClasses = $this->getOptimizableClasses();
 
 		$classes = array();
@@ -90,7 +90,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 
 		echo json_encode($classes);
     }
-    
+
     /*
      * return a view the list of optimizable classes for the current extension
      */
@@ -112,13 +112,13 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 
 		echo json_encode($classes);
     }
-    
+
     /*
      * get list of classes to be hardified
-     * it need to be overwriten by inherited classes to give the right list of classes 
+     * it need to be overwriten by inherited classes to give the right list of classes
      */
     protected function getOptimizableClasses(){
-            
+
 		$returnValue = array();
 
 		$optionsCompile = array(
@@ -131,7 +131,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 
 		$optionsDecompile = array(
 				'recursive'             => true,
-				'removeForeigns'        => true				
+				'removeForeigns'        => true
 		);
 
 		$defaultOptions = array(
@@ -160,9 +160,9 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 				'http://www.tao.lu/middleware/wfEngine.rdf#ClassActivityCardinality'=> $defaultOptions,
 				'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject' => array(
 						'compile' => array_merge(
-							$optionsCompile, 
+							$optionsCompile,
 							array(
-								'topClass' => $userClass, 
+								'topClass' => $userClass,
 								'forceReferencing' => array($taoSubjectRoleClass)
 								)
 							),
@@ -173,18 +173,18 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 				'http://www.tao.lu/Ontologies/TAODelivery.rdf#History' => array(
 						'compile' => array_merge($optionsCompile, array('createForeigns' => false)),
 						'decompile' => $optionsDecompile
-				)    
+				)
 		);
 
 		return $returnValue;
     }
-    
+
     /*
      * get list of properties to be indexes
-     * it need to be overwriten by inherited classes to give the right list of classes 
+     * it need to be overwriten by inherited classes to give the right list of classes
      */
     protected function getOptimizableProperties(){
-            
+
 		$returnValue = array();
 
 		$returnValue = array(
@@ -209,9 +209,9 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 
 		return $returnValue;
     }
-    
+
     public function compileClass(){
-            
+
 		$result = array('success' => false);
 
 		$class = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
@@ -267,11 +267,11 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		}
 
 		echo json_encode($result);
-            
+
     }
-    
+
     public function decompileClass(){
-            
+
 		$result = array('success' => false);
 
 		$class = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
@@ -307,11 +307,11 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		}
 
 		echo json_encode($result);
-            
+
     }
-    
+
     public function createPropertyIndex(){
-            
+
 		$properties = $this->getOptimizableProperties();
 		$result = array(
 			'success' => core_kernel_persistence_Switcher::createIndex($properties)
@@ -319,6 +319,6 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 
 		echo json_encode($result);
     }
-	
+
 }
 ?>
