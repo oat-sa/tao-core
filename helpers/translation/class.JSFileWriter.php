@@ -73,7 +73,9 @@ class tao_helpers_translation_JSFileWriter
         $strings = array();
         
         foreach ($this->getTranslationFile()->getTranslationUnits() as $tu) {
-        	$strings[$tu->getSource()] = $tu->getTarget();
+            if ($tu->getTarget() !== ''){
+                $strings[$tu->getSource()] = $tu->getTarget();   
+            }
         }
         
 		$buffer  = "/* auto generated content */\n";
