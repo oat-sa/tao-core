@@ -1,27 +1,27 @@
 /**
- * GenerisTreeClass is a easy to use container for the tree widget, 
+ * GenerisTreeClass is a easy to use container for the tree widget,
  * it provides the common behavior for a Class/Instance Rdf resource tree
- * 
+ *
  * @example new GenerisTreeClass('#tree-container', 'myData.php', {});
  * @see GenerisTreeClass.defaultOptions for options example
- * 
+ *
  * @require jquery >= 1.3.2 [http://jquery.com/]
  * @require jstree = 0.9.9 [http://jstree.com/]
- * 
+ *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- */ 
+ */
 
 /**
- * @var {Array} instances the list of tree instances 
+ * @var {Array} instances the list of tree instances
  */
 GenerisTreeClass.instances = [];
 
 /**
  * The GenerisTreeClass constructor
  * @param {String} selector the jquery selector of the tree container
- * @param {String} dataUrl the url to call, it must provide the json data to populate the tree 
+ * @param {String} dataUrl the url to call, it must provide the json data to populate the tree
  * @param {Object} options {formContainer, actionId, instanceClass, instanceName, selectNode,
- * 							editClassAction, editInstanceAction, createInstanceAction,  
+ * 							editClassAction, editInstanceAction, createInstanceAction,
  * 							moveInstanceAction, subClassAction, deleteAction, duplicateAction}
  */
 function GenerisTreeClass(selector, dataUrl, options){
@@ -58,13 +58,13 @@ function GenerisTreeClass(selector, dataUrl, options){
 
 		// Global access of the instance in the sub scopes
 		var instance = this;
-		
+
 		// Add the instance to the global storage of instances
 		GenerisTreeClass.instances[GenerisTreeClass.instances.length + 1] = instance;
-		
+
 		/**
 		 * @var {Object} jsTree options
-		 * @see http://www.jstree.com/documentation for the options documentation 
+		 * @see http://www.jstree.com/documentation for the options documentation
 		 */
 		this.treeOptions = {
 			//how to retrieve the data
@@ -107,7 +107,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 					}
 					// Add selected nodes
 					returnValue['selected'] = instance.options.checkedNodes;
-					
+
 					return returnValue;
 				},
 				//once the tree is loaded
@@ -136,8 +136,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 					if(instance.options.instanceClass){
 						function addClassToNodes(nodes, clazz){
 							$.each(nodes, function(i, node){
-								if(node.attributes 
-										&& node.attributes['class'] 
+								if(node.attributes
+										&& node.attributes['class']
 										&& /node\-instance/.test(node.attributes['class'])){
 									node.attributes['class'] = node.attributes['class'] + ' ' + clazz;
 								}
@@ -159,7 +159,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							}
 						}
 					}
-					
+
 					return DATA;
 				},
 				//when a node is selected
@@ -171,19 +171,19 @@ function GenerisTreeClass(selector, dataUrl, options){
 							$(this).removeClass('clicked');
 						}
 					});
-					
+
 					if( ($("input:hidden[name='uri']").val() == nodeId || $("input:hidden[name='classUri']").val() == nodeId) && nodeId == instance.options.selectNode){
 						return false;
 					}
-					
+
 					if($(NODE).hasClass('node-class') && instance.options.editClassAction){
-						
+
 						if($(NODE).hasClass('closed')){
 							TREE_OBJ.open_branch(NODE);
 						}
-						
+
 						//load the editClassAction into the formContainer
-						_load(instance.options.formContainer, 
+						_load(instance.options.formContainer,
 							instance.options.editClassAction,
 							instance.data(null, nodeId)
 						);
@@ -191,8 +191,8 @@ function GenerisTreeClass(selector, dataUrl, options){
 					if($(NODE).hasClass('node-instance') && instance.options.editInstanceAction){
 						//load the editInstanceAction into the formContainer
 						PNODE = TREE_OBJ.parent(NODE);
-						_load(instance.options.formContainer, 
-							instance.options.editInstanceAction, 
+						_load(instance.options.formContainer,
+							instance.options.editInstanceAction,
 							instance.data(nodeId, $(PNODE).attr('id'))
 						);
 					}
@@ -207,7 +207,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 				},
 				//when a node is move by drag n'drop
 				onmove: function(NODE, REF_NODE, TYPE, TREE_OBJ, RB){
-					
+
 					if(!instance.options.moveInstanceAction){
 						return false;
 					}
@@ -221,20 +221,20 @@ function GenerisTreeClass(selector, dataUrl, options){
 						}
 						//call the server with the new node position to save the new position
 						function moveNode(url, data){
-							
+
 							var NODE 		= data.NODE;
 							var REF_NODE	= data.REF_NODE;
 							var RB 			= data.RB;
 							var TREE_OBJ 	= data.TREE_OBJ;
 							(data.confirmed == true) ? confirmed = true :  confirmed = false;
-							
+
 							$.postJson(url, {
 								'uri': data.uri,
 								'destinationClassUri':  data.destinationClassUri,
 								'confirmed' : confirmed
 								},
 								function(response){
-									
+
 									if(response == null){
 										$.tree.rollback(RB);
 										return;
@@ -258,7 +258,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 									}
 									else if(response.status == true){
 										$('li a').removeClass('clicked');
-										TREE_OBJ.open_branch(NODE);	
+										TREE_OBJ.open_branch(NODE);
 									}
 									else{
 										$.tree.rollback(RB);
@@ -277,7 +277,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 				}
 			},
 			plugins: {
-				
+
 				//the right click menu
 				contextmenu : {
 					items : {
@@ -286,7 +286,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 							label: __("edit"),
 							icon: taobase_www +"img/pencil.png",
 							visible : function (NODE, TREE_OBJ) {
-								if( ($(NODE).hasClass('node-instance') &&  instance.options.editInstanceAction)  || 
+								if( ($(NODE).hasClass('node-instance') &&  instance.options.editInstanceAction)  ||
 									($(NODE).hasClass('node-class') &&  instance.options.editClassAction) ){
 									return true;
 								}
@@ -303,15 +303,15 @@ function GenerisTreeClass(selector, dataUrl, options){
 							icon	: taobase_www + "img/class_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
-									return false; 
+									return false;
 								}
-								if(!$(NODE).hasClass('node-class') || !instance.options.subClassAction){ 
+								if(!$(NODE).hasClass('node-class') || !instance.options.subClassAction){
 									return false;
 								}
 								return TREE_OBJ.check("creatable", NODE);
 							},
 							action  : function(NODE, TREE_OBJ){
-								
+
 								//specialize the selected class
 								instance.addClass(NODE, TREE_OBJ, {
 									id: $(NODE).attr('id'),
@@ -326,15 +326,15 @@ function GenerisTreeClass(selector, dataUrl, options){
 							icon	: taobase_www + "img/instance_add.png",
 							visible: function (NODE, TREE_OBJ) {
 								if(NODE.length != 1) {
-									return false; 
+									return false;
 								}
-								if(!$(NODE).hasClass('node-class') || !instance.options.createInstanceAction){ 
+								if(!$(NODE).hasClass('node-class') || !instance.options.createInstanceAction){
 									return false;
 								}
 								return TREE_OBJ.check("creatable", NODE);
 							},
-							action: function (NODE, TREE_OBJ) { 
-								
+							action: function (NODE, TREE_OBJ) {
+
 								//add a new instance of the selected class
 								instance.addInstance(NODE, TREE_OBJ, {
 									url: instance.options.createInstanceAction,
@@ -347,14 +347,14 @@ function GenerisTreeClass(selector, dataUrl, options){
 						move:{
 							label	: __("move"),
 							icon	: taobase_www + "img/move.png",
-							visible	: function (NODE, TREE_OBJ) { 
+							visible	: function (NODE, TREE_OBJ) {
 									if($(NODE).hasClass('node-instance')  && instance.options.moveInstanceAction){
 										return true;
 									}
 									return false;
-								}, 
-							action	: function (NODE, TREE_OBJ) { 
-								
+								},
+							action	: function (NODE, TREE_OBJ) {
+
 								//move the node
 								instance.moveInstance(NODE, TREE_OBJ);
 							},
@@ -364,14 +364,14 @@ function GenerisTreeClass(selector, dataUrl, options){
 						duplicate:{
 							label	: __("duplicate"),
 							icon	: taobase_www + "img/duplicate.png",
-							visible	: function (NODE, TREE_OBJ) { 
+							visible	: function (NODE, TREE_OBJ) {
 									if($(NODE).hasClass('node-instance')  && instance.options.duplicateAction){
 										return true;
 									}
 									return false;
-								}, 
-							action	: function (NODE, TREE_OBJ) { 
-									
+								},
+							action	: function (NODE, TREE_OBJ) {
+
 								//clone the node
 								instance.cloneNode(NODE, TREE_OBJ, {
 									url: instance.options.duplicateAction
@@ -382,23 +382,23 @@ function GenerisTreeClass(selector, dataUrl, options){
 						del:{
 							label	: __("delete"),
 							icon	: taobase_www + "img/delete.png",
-							visible	: function (NODE, TREE_OBJ) { 
-								var ok = true; 
-								$.each(NODE, function () { 
-									if(TREE_OBJ.check("deletable", this) == false || !instance.options.deleteAction) 
-										ok = false; 
-										return false; 
-									}); 
-									return ok; 
-								}, 
-							action	: function (NODE, TREE_OBJ) { 
-									
+							visible	: function (NODE, TREE_OBJ) {
+								var ok = true;
+								$.each(NODE, function () {
+									if(TREE_OBJ.check("deletable", this) == false || !instance.options.deleteAction)
+										ok = false;
+										return false;
+									});
+									return ok;
+								},
+							action	: function (NODE, TREE_OBJ) {
+
 								//remove the node
 								instance.removeNode(NODE, TREE_OBJ, {
 									url: instance.options.deleteAction
 								});
 								return false;
-							} 
+							}
 						},
 						//unset the default entries
 						remove: false,
@@ -408,32 +408,32 @@ function GenerisTreeClass(selector, dataUrl, options){
 				}
 			}
 		};
-		
+
 		if(this.options.selectNode){
 			this.treeOptions.selected = this.options.selectNode;
 		}
-		
+
 		tmpTree = $.tree.reference(selector);
 		if(tmpTree != null){
 			tmpTree.destroy();
 		}
 		tmpTree = null;
-		
+
 		/*
 		 * Create and initialize the tree here
 		 */
 		$(selector).tree(this.treeOptions);
-		
+
 		//open all action
 		$("#open-action-" + options.actionId).click(function(){
 			$.tree.reference(instance.selector).open_all();
 		});
-		
+
 		//close all action
 		$("#close-action-" + options.actionId).click(function(){
 			$.tree.reference(instance.selector).close_all();
 		});
-		
+
 		//filter action
 		$("#filter-action-" + options.actionId).click(function(){
 			$.tree.reference(instance.selector).refresh();
@@ -458,17 +458,17 @@ function GenerisTreeClass(selector, dataUrl, options){
 	 */
 	this.data = function(uri, classUri){
 		data = {};
-		
+
 		(this.options.instanceKey) 	? instanceKey = this.options.instanceKey :  instanceKey = 'uri';
 		(this.options.classKey) 	? classKey = this.options.classKey :  classKey = 'classUri';
-		
+
 		if(uri){
 			data[instanceKey] = uri;
 		}
 		if(classUri){
 			data[classKey] = classUri;
 		}
-		
+
 		return data;
 	};
 }
@@ -480,7 +480,7 @@ GenerisTreeClass.prototype.extractMeta = function(DATA) {
 	var nodes = new Array ();
 	var nodeId = null;
 	var instance = this;
-	
+
 	/**
 	 * Create meta from class node
 	 * @private
@@ -492,7 +492,7 @@ GenerisTreeClass.prototype.extractMeta = function(DATA) {
 			, position :  meta.position ? meta.position :0			// Position of the last element displayed
 		};
 	}
-	
+
 	//An object is received
 	if ( !(DATA instanceof Array) ){
 		nodeId = DATA.attributes.id;
@@ -512,7 +512,7 @@ GenerisTreeClass.prototype.extractMeta = function(DATA) {
 		}
 		nodes = DATA;
 	}
-	
+
 	//Extract meta from children
 	if (nodes) {
 		//Number of classes found
@@ -527,7 +527,7 @@ GenerisTreeClass.prototype.extractMeta = function(DATA) {
 		var countInstances = nodes.length - countClass;
 		this.setMeta (nodeId, 'position', countInstances); // Position of the last element displayed
 		this.setMeta (nodeId, 'displayed',countInstances); // Total of elements displayed
-		
+
 		if (!(DATA instanceof Array) && DATA.state && DATA.state != 'closed'){
 			if (this.getMeta(nodeId, 'displayed') < this.getMeta(nodeId, 'count')){
 				nodes.push(instance.getPaginateActionNodes());
@@ -574,10 +574,10 @@ GenerisTreeClass.prototype.setMeta = function (classId, metaName, value) {
  * @return {array}
  */
 GenerisTreeClass.prototype.getPaginateActionNodes = function () {
-	returnValue = [{	
+	returnValue = [{
 		'data' : __('all')
 			, 'attributes' : { 'class':'paginate paginate-all' }
-		},{	
+		},{
 			'data' : this.paginate+__(' next')
 			, 'attributes' : { 'class':'paginate paginate-more' }
 		}];
@@ -628,8 +628,8 @@ GenerisTreeClass.prototype.refreshPaginate  = function (NODE, TREE_OBJ){
  */
 GenerisTreeClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOptions){
 	var instance = this;
-	
-	var nodeId = $(NODE).attr('id');	
+
+	var nodeId = $(NODE).attr('id');
 	var instancesLeft = instance.getMeta(nodeId, "count") - instance.getMeta(nodeId, "displayed");
 	var options = {
 		"classUri":		nodeId,
@@ -772,7 +772,7 @@ GenerisTreeClass.prototype.addInstance = function(NODE, TREE_OBJ, options){
 			}
 		}
 	});
-	
+
 	return true;
 };
 
@@ -787,7 +787,7 @@ GenerisTreeClass.prototype.removeNode = function(NODE, TREE_OBJ, options){
 	var instance = this;
 
 	if(confirm(__("Please confirm deletion"))){
-		$.each(NODE, function () { 
+		$.each(NODE, function () {
 			data = false;
 			var selectedNode = this;
 			if($(selectedNode).hasClass('node-class')){
@@ -810,13 +810,13 @@ GenerisTreeClass.prototype.removeNode = function(NODE, TREE_OBJ, options){
 							instance.setMeta (classId, 'displayed', instance.getMeta(classId, 'displayed') -1);
 							instance.setMeta (classId, 'count', instance.getMeta(classId, 'count') -1);
 							instance.setMeta (classId, 'position', instance.getMeta(classId, 'position') -1);
-							
-							TREE_OBJ.remove(selectedNode); 
+
+							TREE_OBJ.remove(selectedNode);
 						}
 					}
 				});
 			}
-		}); 
+		});
 	}
 };
 
@@ -866,7 +866,7 @@ GenerisTreeClass.renameNode = function(options){
 	var TREE_OBJ = options.TREE_OBJ;
 	var NODE = options.NODE;
 	var data = {
-			uri: $(NODE).attr('id'), 
+			uri: $(NODE).attr('id'),
 			newName: TREE_OBJ.get_text(NODE)
 		};
 	if(options.classUri){
@@ -879,7 +879,7 @@ GenerisTreeClass.renameNode = function(options){
 		dataType: 'json',
 		success: function(response){
 			if(!response.renamed){
-				TREE_OBJ.rename(NODE, response.oldName);	
+				TREE_OBJ.rename(NODE, response.oldName);
 			}
 		}
 	});
@@ -894,8 +894,8 @@ GenerisTreeClass.prototype.moveInstance = function(myNODE, myTREE_OBJ){
 
 	//to prevent scope crossing
 	var instance = this;
-	
-	//create the dialog content 
+
+	//create the dialog content
 	$('body').append(
 		$("<div id='tmp-moving' style='display:none;'>" +
 				"<span class='ui-state-highlight' style='margin:15px;'>" + __('Select the element destination') + "</span><br />" +
@@ -905,13 +905,13 @@ GenerisTreeClass.prototype.moveInstance = function(myNODE, myTREE_OBJ){
 				"</div> " +
 			"</div>")
 	);
-	
+
 	//create a new tree
 	var TMP_TREE = {
-			
+
 			//with the same data than the parent tree
 			data: myTREE_OBJ.settings.data,
-			
+
 			//but only the ability to click on a node
 			types: {
 			 "default" : {
@@ -932,20 +932,20 @@ GenerisTreeClass.prototype.moveInstance = function(myNODE, myTREE_OBJ){
 			},
 			callback: {
 				//add the type param to the server request to get only the classes
-				beforedata:function(NODE, TREE_OBJ) { 
+				beforedata:function(NODE, TREE_OBJ) {
 					if(NODE){
-						return { 
+						return {
 							hideInstances : true,
 							subclasses: true,
 							classUri: $(NODE).attr('id')
 						};
 					}
-					return { 
+					return {
 						hideInstances :true,
 						subclasses: true
 					};
 				},
-				
+
 				//expand the tree on load
 				onload: function(TREE_OBJ){
 					TREE_OBJ.open_branch($("li.node-class:first", $("#tmp-moving-tree")));//TREE_OBJ.open_branch($("li.node-class:first"));
@@ -953,7 +953,7 @@ GenerisTreeClass.prototype.moveInstance = function(myNODE, myTREE_OBJ){
 				ondata: function(DATA, TREE_OBJ){
 					return DATA;
 				},
-				
+
 				//call the tree onmove callback by selecting a class
 				onselect: function(NODE, TREE_OBJ){
 					var myREF_NODE = $(instance.selector).find('li[id="'+$(NODE).attr('id')+'"]');
@@ -968,16 +968,17 @@ GenerisTreeClass.prototype.moveInstance = function(myNODE, myTREE_OBJ){
 				}
 			}
 	};
-	
+
 	//create a dialog window to embed the tree
-	position = $(getMainContainerSelector()).offset();	
+	position = $(getMainContainerSelector()).offset();
 	$("#tmp-moving-tree").tree(TMP_TREE);
 	$("#tmp-moving").dialog({
 		width: 350,
 		height: 400,
 		position: [position.left, position.top],
 		autoOpen: false,
-		title: __('Move to')
+		title: __('Move to'),
+		modal: true
 	});
 	$("#tmp-moving").bind('dialogclose', function(event, ui){
 		$.tree.reference("#tmp-moving-tree").destroy();
