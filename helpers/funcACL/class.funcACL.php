@@ -173,6 +173,10 @@ class tao_helpers_funcACL_funcACL
 					new core_kernel_classes_Property(PROPERTY_ACL_MODULE_ID),
 					new core_kernel_classes_Property(PROPERTY_ACL_MODULE_EXTENSION)
 				));
+				if (!isset($arr[PROPERTY_ACL_MODULE_ID]) || !isset($arr[PROPERTY_ACL_MODULE_EXTENSION])) {
+					common_Logger::e('Module '.$moduleURI.' not found or incomplete');
+					continue;
+				}
 				$ext = (string)current($arr[PROPERTY_ACL_MODULE_EXTENSION]);
 				$mod = (string)current($arr[PROPERTY_ACL_MODULE_ID]);
 				if (!isset($reverse_access[$ext])) {
@@ -189,6 +193,10 @@ class tao_helpers_funcACL_funcACL
 					new core_kernel_classes_Property(PROPERTY_ACL_ACTION_ID),
 					new core_kernel_classes_Property(PROPERTY_ACL_ACTION_MEMBEROF)
 				));
+				if (!isset($arr[PROPERTY_ACL_ACTION_ID]) || !isset($arr[PROPERTY_ACL_ACTION_MEMBEROF])) {
+					common_Logger::e('Action '.$actionURI.' not found or incomplete');
+					continue;
+				}
 				$act = (string)current($arr[PROPERTY_ACL_ACTION_ID]);
 				// @todo cache module id/extension
 				$moduleRessource = current($arr[PROPERTY_ACL_ACTION_MEMBEROF]);
