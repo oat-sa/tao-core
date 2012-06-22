@@ -79,7 +79,12 @@ class tao_actions_form_Login
     {
         // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E59 begin
 		
-		$loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
+    	if (isset($this->data['redirect']) && !empty($this->data['redirect'])) {
+			$hiddenElt = tao_helpers_form_FormFactory::getElement('redirect', 'Hidden');
+			$hiddenElt->setValue($this->data['redirect']);
+			$this->form->addElement($hiddenElt);
+    	}
+    	$loginElt = tao_helpers_form_FormFactory::getElement('login', 'Textbox');
 		$loginElt->setDescription(__('Login'));
 		$loginElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($loginElt);

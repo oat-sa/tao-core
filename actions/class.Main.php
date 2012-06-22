@@ -22,7 +22,19 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	{
 		//check if user is authenticated
 		if(!$this->_isAllowed()){
-			$this->logout();
+        	$userUri = core_kernel_classes_Session::singleton()->getUserUri();
+			if(!empty($userUri)){
+				throw new tao_models_classes_UserException('Access Denied');
+			} else {
+				$params = tao_helpers_Request::isAjax()
+					? array()
+					: array('redirect' => _url(
+						context::getInstance()->getActionName()
+						,context::getInstance()->getModuleName()
+						,context::getInstance()->getExtensionName()
+					));
+				$this->redirect(_url('login', 'Main', 'tao', $params));
+			}
 			return;
 		}
 
@@ -51,13 +63,20 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/login.css');
 			tao_helpers_Scriptloader::addJsFile(BASE_WWW . 'js/login.js');
 
-			$myLoginFormContainer = new tao_actions_form_Login();
+			$myLoginFormContainer = new tao_actions_form_Login($this->hasRequestParameter('redirect')
+				? array('redirect' => $this->getRequestParameter('redirect'))
+				: array()
+			);
 			$myForm = $myLoginFormContainer->getForm();
 
 			if($myForm->isSubmited()){
 				if($myForm->isValid()){
 					if($this->userService->loginUser($myForm->getValue('login'), md5($myForm->getValue('password')))){
-						$this->redirect(_url('index', 'Main'));
+						if ($this->hasRequestParameter('redirect')) {
+							$this->redirect($this->getRequestParameter('redirect'));
+						} else {
+							$this->redirect(_url('index', 'Main'));
+						}
 					}
 					else{
 						$this->setData('errorMessage', __('No account match the given login / password'));
