@@ -17,6 +17,9 @@ $(function(){
 		if ($('input:checked', $(this)).length) $('input:checked', $(this)).removeAttr('checked');
 		else $('input', $(this)).attr('checked', 'checked');
 	});
+	$('#availlableExtension tr input').click(function(event){
+		event.stopPropagation();
+	});
 
 	$('#availlableExtension form').submit(function(event) {
 		//Prepare the list of extension to install in the order of dependency
@@ -140,5 +143,5 @@ function getUnique(orig){
 function progressConsole(msg) {
 	$('#installProgress .console').append('<p>'+msg+'</p>');
 	//$('#installProgress .console').animate({ scrollTop: $('#installProgress .console').attr("scrollHeight") }, 500);
-	$('#installProgress .console').attr({ scrollTop: $('#installProgress .console').attr("scrollHeight") });
+	$('#installProgress .console').attr({scrollTop: $('#installProgress .console').attr("scrollHeight")});
 }
