@@ -332,7 +332,11 @@ class tao_scripts_TaoExtensions
                                                         array('name' => 'extension',
                                                               'type' => 'string',
                                                               'shortcut' => 'e',
-                                                              'description' => "Extension ID that determines the TAO extension to focus on")
+                                                              'description' => "Extension ID that determines the TAO extension to focus on"),
+                                                        array('name' => 'data',
+                                                              'type' => 'boolean',
+                                                              'shortcut' => 'd',
+                                                              'description' => "States if local data must be imported or not at installation time")
                                                        )
                                 );
         }
@@ -485,6 +489,35 @@ class tao_scripts_TaoExtensions
     public function actionInstall()
     {
         // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B29 begin
+        $extensionId = $this->options['extension']; // ID of the extension to install.
+        $importLocalData = $this->options['data']; // Import local data (local.rdf) or not ?
+        try{
+            // Retrieve the extension's information.
+            $this->outVerbose("Locating extension '${extensionId}'...");
+            $extensionManager = common_ext_ExtensionsManager::singleton();
+            $ext = $extensionManager->getExtensionById($extensionId);
+            $this->outVerbose("Extension located.");
+            
+            try{
+                // Install the extension.
+                $this->outVerbose("Installing extension '${extensionId}'...");
+                $installer = new common_ext_ExtensionInstaller($ext, $importLocalData);
+                $installer->install();
+                $this->outVerbose("Extension successfuly installed.");
+            }
+            catch (common_ext_ForbiddenActionException $e){
+                $this->error("A forbidden action was undertaken: " . $e->getMessage() . " .", true);
+            }
+            catch (common_ext_AlreadyInstalledException $e){
+                $this->error("Extension '" . $e->getExtensionId() . "' is already installed.", true);
+            }
+            catch (common_ext_MissingExtensionException $e){
+                $this->error("Extension '" . $extensionId . " is dependant on extension '" . $e->getExtensionId() . "' but is missing. Install '" . $e->getExtensionId() . "' first.", true);
+            }
+        }
+        catch (common_ext_ExtensionException $e){
+            $this->error("An unexpected error occured: " . $e->getMessage(), true);
+        }
         // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B29 end
     }
 
@@ -498,6 +531,14 @@ class tao_scripts_TaoExtensions
     public function checkInstallInput()
     {
         // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B2B begin
+        $defaults = array('extension' => null,
+                          'data' => true);
+                          
+        $this->options = array_merge($defaults, $this->options);
+        
+        if ($this->options['extension'] == null){
+            $this->error("Please provide the 'extension' parameter.", true);
+        }
         // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B2B end
     }
 
