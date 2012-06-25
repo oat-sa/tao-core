@@ -63,7 +63,8 @@ UiBootstrap = function(options){
 			loaded();
 			if (settings.dataType == 'html') {
 				_autoFx();
-				if(/add|edit|Instance|Class|search|getSectionTrees/.test(settings.url) && !/authoring/i.test(settings.url)){
+				if(/add|edit|Instance|Class|getSectionTrees/.test(settings.url) && !/authoring/i.test(settings.url)){
+					//Removed: search|
 					bootInstance.initActions();
 				}
 				if(!/getMetaData/.test(settings.url)){
