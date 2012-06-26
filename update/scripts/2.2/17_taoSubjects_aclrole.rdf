@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xml:base="http://www.tao.lu/Ontologies/TAO.rdf#"
+	xmlns:funcacl="http://www.tao.lu/Ontologies/taoFuncACL.rdf#"
+>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole">
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServer" />
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ProcessBrowser" />
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_ItemDelivery" />
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_InternalResultServer" />
+		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_RecoveryContext_retrieve" />
+		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_taoDelivery_RecoveryContext_save" />
+  </rdf:Description>
+</rdf:RDF>

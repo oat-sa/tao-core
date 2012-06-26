@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xml:base="http://www.tao.lu/Ontologies/TAO.rdf#"
+	xmlns:funcacl="http://www.tao.lu/Ontologies/taoFuncACL.rdf#"
+>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#BaseAccessRole">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ClassRole"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Base access role]]></rdfs:label>
+		<rdfs:comment xml:lang="EN"><![CDATA[Base access role]]></rdfs:comment>
+		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_login" />
+		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_logout" />
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_taoDelivery_DeliveryServerAuthentification" />
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_wfEngine_Main" />
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_wfEngine_Authentication" />
+  </rdf:Description>
+</rdf:RDF>
