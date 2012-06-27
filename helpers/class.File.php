@@ -190,16 +190,22 @@ class tao_helpers_File
          
         // Simple copy for a file
         if (is_file($source)) {
-            if (is_dir($destination)){
-                $destination = $destination . '/' . basename($source);
-            }
-            return copy($source, $destination);
+           // get path info of destination.
+           $destInfo = pathinfo($destination);
+           if (isset($destInfo['dirname']) && !is_dir($destInfo['dirname'])){
+               if(!mkdir($destInfo['dirname'], 0777, true)){
+                   return false;
+               }
+           }
+           
+           return copy($source, $destination);
         }
 
         // Make destination directory
         if ($recursive == true){
             if (!is_dir($destination)) {
-                mkdir($destination);
+                // 0777 is default. See mkdir PHP Official documentation.
+                mkdir($destination, 0777, true);
             }
 
             // Loop through the folder
@@ -241,10 +247,9 @@ class tao_helpers_File
         $returnValue = (bool) false;
 
         // section 127-0-1-1--44542511:12bd37d6416:-8000:0000000000002718 begin
-        
 		if(is_dir($source)){
 			if(!file_exists($destination)){
-				mkdir($destination);
+				mkdir($destination, 0777, true);
 			}
 			$error = false;
 			foreach(scandir($source) as $file){
