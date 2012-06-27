@@ -9,8 +9,7 @@
 				<input type='button' id="filter-cancel-<?=$i?>"  value="<?=__("Finish")?>" class="ui-helper-hidden ui-state-error"/>
 			</div>
 			<div class="ui-widget ui-widget-content ui-corner-bottom">
-
-				<div id="tree-<?=$i?>" ></div>
+				<div id="tree-<?=$i?>"></div>
 			</div>
 		</div>
 	<?endforeach?>
@@ -18,20 +17,19 @@
 <script type="text/javascript">
 
 	$(function(){
-
 		<?foreach(get_data('trees') as $i => $tree):?>
 		new GenerisTreeClass('#tree-<?=$i?>', "<?=$tree['dataUrl']?>", {
 			formContainer: 			getMainContainerSelector(UiBootstrap.tabs),
 			actionId: 				"<?=$i?>",
 			editClassAction: 		"<?=$tree['editClassUrl']?>",
 			editInstanceAction: 	"<?=$tree['editInstanceUrl']?>",
-			createInstanceAction: 	"<?=$tree['addInstanceUrl']?>",
-			moveInstanceAction: 	"<?=$tree['moveInstanceUrl']?>",
-			subClassAction: 		"<?=$tree['addSubClassUrl']?>",
+			<?if (isset($tree['addInstanceUrl'])):?>createInstanceAction: 	"<?=$tree['addInstanceUrl']?>",<?endif;?>
+			<?if (isset($tree['moveInstanceUrl'])):?>moveInstanceAction: 	"<?=$tree['moveInstanceUrl']?>",<?endif;?>
+			<?if (isset($tree['addSubClassUrl'])):?>subClassAction: 		"<?=$tree['addSubClassUrl']?>",<?endif;?>
 			deleteAction: 			"<?=$tree['deleteUrl']?>",
-			duplicateAction: 		"<?=$tree['duplicateUrl']?>",
+			<?if (isset($tree['duplicateUrl'])):?>duplicateAction: 		"<?=$tree['duplicateUrl']?>",<?endif;?>
 			instanceClass:			"node-<?=get_data('instanceName')?>",
-			instanceName:			"<?=get_data('instanceName')?>",
+			instanceName:			"<?=(isset($tree['className'])) ? mb_strtolower(__($tree['className']), TAO_DEFAULT_ENCODING) : get_data('instanceName') ?>",
 			paginate:				10
 			<?if(get_data('openUri')):?>
 			,selectNode:			"<?=get_data('openUri')?>"

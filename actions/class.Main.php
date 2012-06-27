@@ -272,16 +272,17 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		if(isset($structure["trees"])){
 			$trees = array();
 			foreach($structure["trees"] as $tree){
+			    $treeArray = array();
 				foreach($tree->attributes() as $attrName => $attrValue){
 					if(preg_match("/^\//", (string) $attrValue)){
-						$tree[$attrName] = ROOT_URL.(string) $attrValue;
+						$treeArray[$attrName] = ROOT_URL.(string) $attrValue;
 					}
 					else{
-						$tree[$attrName] = (string) $attrValue;
+						$treeArray[$attrName] = (string) $attrValue;
 					}
 				}
 				$treeId = tao_helpers_Display::textCleaner((string) $tree['name'], '_');
-				$trees[$treeId] = $tree;
+				$trees[$treeId] = $treeArray;
 			}
 			$this->setData('trees', $trees);
 

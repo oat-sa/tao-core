@@ -33,6 +33,8 @@
 					<!-- the URL to populate the tree with (must return JSON data)  -->
 					<!ATTLIST tree dataUrl CDATA #REQUIRED>
 					<!-- the URL to execute contextual actions from the tree -->
+					<!ATTLIST tree className CDATA #IMPLIED>
+					<!-- the name of the main class that resources are instances of in the tree -->
 					<!ATTLIST tree 
 						editClassUrl CDATA #IMPLIED
 						editInstanceUrl CDATA #IMPLIED
