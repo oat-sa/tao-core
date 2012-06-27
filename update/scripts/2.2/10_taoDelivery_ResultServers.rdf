@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<rdf:RDF 
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+	xml:base="http://www.tao.lu/Ontologies/TAODelivery.rdf#" 
+	xmlns:delivery="http://www.tao.lu/Ontologies/TAODelivery.rdf#" 
+	xmlns:wf="http://www.tao.lu/middleware/wfEngine.rdf#" 
+	xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#" 
+	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
+	xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
+>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#DualResultServer">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Local Dual Result Server]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[Local Dual Result Server]]></rdfs:comment>
+    <delivery:saveResultUrl><![CDATA[/taoDelivery/InternalResultServer/save]]></delivery:saveResultUrl>
+    <delivery:saveEventUrl><![CDATA[/taoDelivery/InternalResultServer/traceEvents]]></delivery:saveEventUrl>
+    <delivery:matchingUrl><![CDATA[/taoDelivery/InternalResultServer/evaluate]]></delivery:matchingUrl>
+    <delivery:matchingServerSide rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ClassicResultServer">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#DeliveryResultServer"/>
+    <rdfs:label xml:lang="EN"><![CDATA[Local Legacy Result Server]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[Local Legacy Result Server]]></rdfs:comment>
+    <delivery:saveResultUrl><![CDATA[/taoDelivery/ResultDelivery/save]]></delivery:saveResultUrl>
+    <delivery:saveEventUrl><![CDATA[/taoDelivery/ResultDelivery/traceEvents]]></delivery:saveEventUrl>
+    <delivery:matchingUrl><![CDATA[/taoDelivery/ResultDelivery/evaluate]]></delivery:matchingUrl>
+    <delivery:matchingServerSide rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True"/>
+  </rdf:Description>
+  
+</rdf:RDF>
