@@ -105,5 +105,5 @@ span.ui-state-default img{
 }
 
  .ui-dialog, div.ui-dialog div{
- 	z-index:9999999;
+ 	/*z-index:9999999;*/
 }
