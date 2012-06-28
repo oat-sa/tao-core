@@ -185,7 +185,7 @@ class tao_helpers_Uri
 			}
 			if(is_array($params)){
 				foreach($params as $key => $value){
-					$returnValue .= $key . '=' . $value . '&';
+					$returnValue .= $key . '=' . urlencode($value) . '&';
 				}
 				$returnValue = substr($returnValue, 0, -1);
 			}
