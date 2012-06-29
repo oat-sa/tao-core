@@ -6,12 +6,12 @@ class tao_update_DbUpdator
     
     public function updateDb($updateData,$version,$scriptNumber){
    	
-    	$dbCreator = new tao_install_utils_DbCreator(
+    	$dbConnector = new tao_install_utils_DbConnector(
     			$updateData['db_host'],
     			$updateData['db_user'],
     			$updateData['db_pass'],
     			$updateData['db_driver']);
-   		$dbCreator->setDatabase($updateData['db_name']);
+   		$dbConnector->setDatabase($updateData['db_name']);
     	
     	/*
     	 * 1 - Update generis config file with the new one
@@ -37,7 +37,7 @@ class tao_update_DbUpdator
     			GENERIS_PATH.'/common/conf/generis.conf.php'
     	);
     	$localNS = null;
-    	$result = $dbCreator->execute('SELECT "modelURI" FROM models WHERE "modelID" = 8; ');
+    	$result = $dbConnector->execute('SELECT "modelURI" FROM models WHERE "modelID" = 8; ');
     	if($result->FieldCount() == 1){
     		$nsTable = $result->FetchRow();
     		$localNS = $nsTable[0];
@@ -84,12 +84,12 @@ class tao_update_DbUpdator
     	
     	//get the files to launch to update TAO
     	
-    	$dbCreator2 = new tao_install_utils_DbCreator(
+    	$dbCreator = new tao_install_utils_DbCreator(
     			$updateData['db_host'],
     			$updateData['db_user'],
     			$updateData['db_pass'],
     			$updateData['db_driver']);
-    	$dbCreator2->setDatabase($updateData['db_name']);
+    	$dbCreator->setDatabase($updateData['db_name']);
     	
     	
 		if($version == false){
@@ -153,7 +153,7 @@ class tao_update_DbUpdator
     					//$dbWrapper = core_kernel_classes_DbWrapper::singleton();
     					//unset ($dbWrapper);
     					//core_kernel_classes_DbWrapper::singleton()->load($path);
-    					$dbCreator2->load($path);
+    					$dbCreator->load($path);
     					common_Logger::d('Success file ' . $file . ' inserted' , 'UPDATE');
     				}catch(Exception $e){
     					common_Logger::e('Fail updated ' .$file , 'UPDATE');
