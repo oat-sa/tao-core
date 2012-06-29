@@ -82,12 +82,9 @@ class tao_install_Installator{
 		),
 		14 => array(
 			'type'	=> 'WRITABLE_DIRECTORIES',
-			'title'	=> 'System Rights',
+			'title'	=> 'System Directory Rights',
 			'displayMsg' => true,
 			'directories'	=> array(
-				'./'			=> array (
-					'version'
-				),
 				'generis'		=> array (
 					'generis/data/cache'
                     , 'generis/data/versioning'
@@ -134,12 +131,24 @@ class tao_install_Installator{
 		 			'wfEngine/includes'
 		 		)
 			)
+		),
+		15 => array(
+			'type'	=> 'WRITABLE_FILES',
+			'title'	=> 'System File Rights',
+			'displayMsg' => true,
+			'files'	=> array(
+				'generis'		=> array (
+					'./VERSION'
+				)
+			)
 		)
 	);
 
-	static $toInstall = array('tao','filemanager','taoItems','wfEngine','taoResults','taoTests','taoDelivery','taoGroups','taoSubjects');
+	static $defaultExtensions = array('tao' ,'filemanager','taoItems','wfEngine','taoResults','taoTests','taoDelivery','taoGroups','taoSubjects');
 	
 	protected $options = array();
+	
+	private $toInstall = array();
 
 	public function __construct($options)
 	{
@@ -158,6 +167,12 @@ class tao_install_Installator{
 		if(!preg_match("/\/$/", $this->options['install_path'])){
 			$this->options['install_path'] .= '/';
 		}
+		
+		if(isset($options['extensions']) && is_array($options['extensions'])) {
+			$this->toInstall = $options['extensions']; 
+		} else {
+			$this->toInstall = self::$defaultExtensions;
+		}
 	}
 
 
@@ -168,8 +183,22 @@ class tao_install_Installator{
 	{
 
 		$testResults = array();
-
-		foreach(self::$tests as $test){
+		
+		$tests = self::$tests;
+		/*
+		// gather tests
+		$tests = array();
+		foreach ($this->toInstall as $id) {
+			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
+			if (isset($ext->installFiles['tests']) && is_array($ext->installFiles['tests'])) {
+				foreach ($ext->installFiles['tests'] as $testconf) {
+					$tests[] = $testconf;
+				}
+			}
+		}
+		*/
+		
+		foreach($tests as $test){
 
 			//structure of teh results for each test
 			$result = array(
@@ -187,7 +216,8 @@ class tao_install_Installator{
 					$parameters = $subTest;
 					unset($parameters['type']);
 					try{
-						$tester = new tao_install_utils_ConfigTester($subTest['type'], $parameters);
+						$tester = tao_install_utils_ConfigTester::getTest($subTest['type'], $parameters);
+						$tester->run();
 						if($tester->getStatus() ==  tao_install_utils_ConfigTester::STATUS_VALID){
 							$result['valid'] = true;
 							$successMessages[] = $tester->getMessage();
@@ -219,7 +249,8 @@ class tao_install_Installator{
 				unset($parameters['title']);
 				unset($parameters['displayMsg']);
 				try{
-					$tester = new tao_install_utils_ConfigTester($test['type'], $parameters);
+					$tester = tao_install_utils_ConfigTester::getTest($test['type'], $parameters);
+					$tester->run();
 					switch($tester->getStatus()){
 						case tao_install_utils_ConfigTester::STATUS_VALID:
 							$result['valid'] = true;
@@ -386,9 +417,12 @@ class tao_install_Installator{
         /*
 		 * 8 - Install the extensions
 		 */
-		$toInstall = array();//common_ext_ExtensionsManager::singleton()->getAvailableExtensions();
-		foreach (self::$toInstall as $id) {
-			$toInstall[] = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
+		$toInstall = array();
+		foreach ($this->toInstall as $id) {
+			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
+			if (!$ext->isInstalled()) {
+				$toInstall[] = $ext;
+			}
 		}
 		while (!empty($toInstall)) {
 			$formerCount = count($toInstall);

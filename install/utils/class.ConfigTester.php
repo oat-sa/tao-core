@@ -11,6 +11,16 @@ require_once('class.Exception.php');
 class tao_install_utils_ConfigTester{
 	
 	/**
+	 * @var string type of the current Test
+	 */
+	private $type = null;
+	
+	/**
+	 * @var array
+	 */
+	private $options = array();
+	
+	/**
 	 * @var string 
 	 */
 	private $message = "";
@@ -20,36 +30,56 @@ class tao_install_utils_ConfigTester{
 	 */
 	private $status;
 	
-	const STATUS_UNKNOW  = 1;
-	const STATUS_VALID	 = 2;
-	const STATUS_INVALID = 3;
+	const STATUS_UNTESTED  = 0;
+	const STATUS_UNKNOW 	= 1;
+	const STATUS_VALID		= 2;
+	const STATUS_INVALID	= 3;
 	
 	
 	private static $_types = array(
 		'PHP_VERSION',
 		'APACHE_MOD',
 		'PHP_EXTENSION',
-		'WRITABLE_DIRECTORIES'
+		'WRITABLE_DIRECTORIES',
+		'WRITABLE_FILES'
 	);
 	
 	/**
-	 * Constructor,
-	 * do the test regarding the type in parameter
+	 * public function to get a test specified by type
 	 * @param string $type one of the _types to test
 	 * @param array $options
 	 */
-	public function __construct($type, $options){
+	public static function getTest($type, $options){
+		$test = new self($type, $options);
+		return $test;
+	}
+	
+	/**
+	 * private Constructor,
+	 * @param string $type one of the _types to test
+	 * @param array $options
+	 */
+	private function __construct($type, $options){
 		if(!in_array(strtoupper($type),self::$_types)){
 			throw new tao_install_utils_Exception('Unknow config type : '.$type);
 		}
-		switch($type){
+		$this->type		= $type;
+		$this->options	= $options;
+	}
+	
+	/**
+	 * @return int the current status
+	 */
+	public function run(){
+		switch($this->type){
 			case 'PHP_VERSION'	: 
-				isset($options['max']) ? $max = $options['max'] : $max = null;
-				$this->checkPhpVersion($options['min'], $max); 
+				isset($this->options['max']) ? $max = $this->options['max'] : $max = null;
+				$this->checkPhpVersion($this->options['min'], $max); 
 				break;
-			case 'APACHE_MOD'	: $this->checkApacheMod($options['name']); 		break;
-			case 'PHP_EXTENSION': $this->checkPhpExtension($options['name']); 	break;
-			case 'WRITABLE_DIRECTORIES': $this->checkWritableDirectories($options['directories']); 	break;
+			case 'APACHE_MOD'	: $this->checkApacheMod($this->options['name']); 		break;
+			case 'PHP_EXTENSION': $this->checkPhpExtension($this->options['name']); 	break;
+			case 'WRITABLE_DIRECTORIES': $this->checkWritableDirectories($this->options['directories']); 	break;
+			case 'WRITABLE_FILES': $this->checkWritableFiles($this->options['files']); 	break;
 		}
 		if ($this->getStatus() == self::STATUS_INVALID) {
 			common_Logger::w("Test failed: ".$this->getMessage(), 'INSTALL');
@@ -88,7 +118,34 @@ class tao_install_utils_ConfigTester{
 		}
 		if ($errorCount == 0){
 			$this->status = self::STATUS_VALID;
-			$this->message = 'Read/Write system rights are correctly set.';
+			$this->message = 'Read/Write system directory rights are correctly set.';
+		}
+		else{
+			$this->status = self::STATUS_INVALID;
+		}
+	}
+	
+	/**
+	 * Check that some files are writable for the apache user (default : www-data)
+	 * @params array $params (key:(string)extension name, value:(array)list of files)
+	 */
+	protected function checkWritableFiles ($params=array()){
+		//$installedExtensions = $extensionManager = common_ext_ExtensionsManager::singleton();
+		$errorCount = 0;
+		foreach ($params as $extensionName => $files){
+			foreach ($files as $file) {
+				if (file_exists(REL_PATH.$file)
+						? !is_writable(REL_PATH.$file)
+						: !is_writable(dirname(REL_PATH.$file))) {
+					// @todo whoami is not a recognized command in MS Windows!
+					$this->message .= $file." should be writable for the user ".exec('whoami')."<br/>";
+					$errorCount++;
+				}
+			}
+		}
+		if ($errorCount == 0){
+			$this->status = self::STATUS_VALID;
+			$this->message = 'Read/Write system file rights are correctly set.';
 		}
 		else{
 			$this->status = self::STATUS_INVALID;
