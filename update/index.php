@@ -78,7 +78,7 @@ $configTests = $installator->processTests();
 <script type="text/javascript"
 	src="../views/js/jquery-ui-1.8.4.custom.min.js"></script>
 <script type="text/javascript"
-	src="../locales/<?= DEFAULT_LANG ?>/messages_po.js"></script>
+	src="../locales/EN/messages_po.js"></script>
 <script type="text/javascript" src="../views/js/i18n.js"></script>
 <script type="text/javascript"
 	src="./views/js/jquery.jqGrid-4.1.0/js/i18n/grid.locale-en.js"></script>
