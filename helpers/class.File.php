@@ -160,6 +160,72 @@ class tao_helpers_File
 
         return (bool) $returnValue;
     }
+    
+    /**
+     * Short description of method copy
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string source
+     * @param  string destination
+     * @param  boolean recursive
+     * @param  boolean ignoreSystemFiles Ignore system files ('.svn', ...)
+     * @return boolean
+     */
+    public static function udpdateCopy($source, $destination, $recursive = true, $ignoreSystemFiles = true)
+    {
+    	$returnValue = (bool) false;
+    
+    	// section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 begin
+    	// Check for System File
+    	$basename = basename($source);
+    	if ($basename[0] == '.' && $ignoreSystemFiles == true){
+    		return false;
+    	}
+    
+    	// Check for symlinks
+    	if (is_link($source)) {
+    		return symlink(readlink($source), $destination);
+    	}
+    
+    	// Simple copy for a file
+    	if (is_file($source)) {
+    		if (is_dir($destination)){
+    			$destination = $destination . '/' . basename($source);
+    		}
+    		return copy($source, $destination);
+    	}
+    
+    	// Make destination directory
+    	if ($recursive == true){
+    		if (!is_dir($destination)) {
+    			mkdir($destination);
+    		}
+    
+    		// Loop through the folder
+    		$dir = dir($source);
+    		while (false !== $entry = $dir->read()) {
+    			// Skip pointers
+    			if ($entry == '.' || $entry == '..') {
+    				continue;
+    			}
+    
+    			// Deep copy directories
+    			self::udpdateCopy("${source}/${entry}", "${destination}/${entry}", $recursive, $ignoreSystemFiles);
+    }
+    
+    // Clean up
+    $dir->close();
+    return true;
+    }
+    else{
+    	return false;
+    }
+    
+    // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 end
+    
+    return (bool) $returnValue;
+    }
 
     /**
      * Short description of method copy
