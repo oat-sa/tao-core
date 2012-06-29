@@ -6,7 +6,7 @@ class tao_update_DbUpdator
     
     public function updateDb($updateData,$version,$scriptNumber){
    	
-    	$dbConnector = new tao_install_utils_DbConnector(
+    	$dbConnector = new tao_install_utils_DbCreator(
     			$updateData['db_host'],
     			$updateData['db_user'],
     			$updateData['db_pass'],
