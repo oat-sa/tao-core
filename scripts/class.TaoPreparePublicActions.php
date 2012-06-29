@@ -77,7 +77,18 @@ class tao_scripts_TaoPreparePublicActions
     public function run()
     {
         // section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684E begin
-		foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
+        
+        // delete old Instances
+		$moduleClass = new core_kernel_classes_Class(CLASS_ACL_MODULE);
+    	foreach ($moduleClass->getInstances() as $res) {
+    		$res->delete();
+    	}
+    	$actionClass = new core_kernel_classes_Class(CLASS_ACL_ACTION);
+    	foreach ($actionClass->getInstances() as $res) {
+    		$res->delete();
+    	}
+    	
+    	foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
 			// this also adds TaoManager to the Modules
 			tao_helpers_funcACL_ActionModelCreator::spawnExtensionModel($extension);
 		}
