@@ -107,7 +107,7 @@ abstract class tao_install_utils_DbConnector{
 	{
 		if(!empty($query)){
 			try{
-				$this->adoConnection->Execute($query);
+				return $this->adoConnection->Execute($query);
 			}
 			catch(Exception $e){
 				throw new tao_install_utils_Exception("Error executing query : $query . ".$e->getMessage());
