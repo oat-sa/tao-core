@@ -81,6 +81,7 @@ class tao_scripts_TaoPreparePublicActions
 			// this also adds TaoManager to the Modules
 			tao_helpers_funcACL_ActionModelCreator::spawnExtensionModel($extension);
 		}
+		tao_helpers_funcACL_funcACL::buildRolesByActions();
 		/*
     	//Templates
 		$rdf_header = file_get_contents(dirname(__FILE__).'/preparePublicActions/rdfHeader');
