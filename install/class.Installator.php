@@ -138,7 +138,7 @@ class tao_install_Installator{
 			'displayMsg' => true,
 			'files'	=> array(
 				'generis'		=> array (
-					'./VERSION'
+					'./version'
 				)
 			)
 		)
