@@ -15,6 +15,7 @@
 		<sections>
 			<section id="settings_my" name="My settings" url="/tao/UserSettings/index" />
 			<section id="settings_optimisation" name="TAO optimizer" url="/tao/Settings/index" />
+			<section id="settings_versionning" name="Versionning" url="/tao/Settings/versionning" />
 			<section id="settings_ext_mng" name="Extensions manager" url="/tao/ExtensionsManager/index" />
 		</sections>
 	</structure>
