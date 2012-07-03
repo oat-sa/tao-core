@@ -4,7 +4,7 @@
 	</div>
 <?endif?>
 
-<div class="containerDisplay" id="settingsVersionning">
+<div class="containerDisplay main-container" id="settingsVersionning">
 	<span class="title"><?= __('Versionning') ?></span>
 <?=get_data('myForm')?>
 </div>
