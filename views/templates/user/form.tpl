@@ -46,7 +46,13 @@
 					for (r in data) {
 						extra = '';
 						if (data[r].selected) extra = ' have-allaccess';
-						$el = $('<li class="'+extra+'" id="role_'+data[r].label+'"><span class="label">'+data[r].label+'</span><span class="selector checkable" title="'+__('Add')+'"></span></li>');
+						html = '<li class="'+extra+'" id="role_'+data[r].label+'"><span class="label">'+data[r].label+'</span>';
+						if (data[r].id == 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole' && $('#uri').val().substring($('#uri').val().length-9) == 'superUser') {
+						} else {
+							html += '<span class="selector checkable" title="'+__('Add')+'"></span>';
+						}
+						html += '</li>';
+						$el = $(html);
 						$el.click(function(){
 							if ($(this).hasClass('have-allaccess')) {
 								unattachRole($(this).data('uri'));

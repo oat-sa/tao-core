@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 22.12.2011, 14:51:41 with ArgoUML PHP module 
+ * Automatically generated on 22.12.2011, 14:51:41 with ArgoUML PHP module
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -66,14 +66,14 @@ class tao_helpers_form_validators_FileMimeType
     public function __construct($options = array())
     {
         // section 127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CD0 begin
-		
+
 		parent::__construct($options);
-		
+
 		$this->message = __('Invalid file type!');
 		if(!isset($this->options['mimetype'])){
 			throw new common_Exception("Please define the mimetype option for the FileMimeType Validator");
 		}
-		
+
         // section 127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CD0 end
     }
 
@@ -90,35 +90,26 @@ class tao_helpers_form_validators_FileMimeType
         $returnValue = (bool) false;
 
         // section 127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDA begin
-		
-		
-		
 		$mimetype = '';
-	/*	if(is_string($value)){
-			$value = unserialize($value);
-		}*/
-		if(is_array($values)){
-			
+		if (is_array($values)) {
 			//if the magic mime_content_type function is activated, usually by using the system mime magic translation ie. in /usr/share/mime.magic
-			if(isset($values['type'])) {
-				//by default use the $_FILE info but is a security failure 
-	            $mimetype = $values['type'];
-	        }
-	        if (isset($values['tmp_name']) && (empty($mimetype) || $mimetype == 'application/octet-stream')){
-	        	if(file_exists($values['tmp_name'])){
-	        		$mimetype = tao_helpers_File::getMimeType($values['tmp_name']);
-	        	}
-        	}
-			if(!empty($mimetype) ){
-				if(in_array($mimetype, $this->options['mimetype'])){
-					$returnValue = true;
+			if (isset($values['type'])) {
+				//by default use the $_FILE info but is a security failure
+				$mimetype = $values['type'];
+			}
+			if (isset($values['tmp_name']) && (empty($mimetype) || $mimetype == 'application/octet-stream')) {
+				if (file_exists($values['tmp_name'])) {
+					$mimetype = tao_helpers_File::getMimeType($values['tmp_name']);
 				}
-				else{
+			}
+			if (!empty($mimetype) ) {
+				if (in_array($mimetype, $this->options['mimetype'])) {
+					$returnValue = true;
+				} else{
 					$this->message .= " ".implode(', ', $this->options['mimetype'])." are expected but $mimetype detected";
- 				}
+				}
 			}
 		}
-		
         // section 127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDA end
 
         return (bool) $returnValue;
