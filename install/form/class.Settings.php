@@ -105,7 +105,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		//Module default language
 		$moduleLangElt =  tao_helpers_form_FormFactory::getElement('module_lang', 'Combobox');
 		$moduleLangElt->setDescription('Default language');
-		$moduleLangElt->setHelp('The default language will be used when the language parameters are not specified for the Graphical User Interface and the data.');
+		$moduleLangElt->setHelp('The default language will be used when the language parameters are not specified for the GUI (Graphical User Interface) and the data.');
 		$moduleLangElt->setOptions(tao_install_utils_System::getAvailableLocales(dirname(__FILE__) . '/../../locales'));
 		$moduleLangElt->setValue('EN');
 		$this->form->addElement($moduleLangElt);
