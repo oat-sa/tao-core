@@ -93,7 +93,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
                 
 		$moduleUrlElt =  tao_helpers_form_FormFactory::getElement('module_url', 'Textbox');
 		$moduleUrlElt->setDescription('URL *');
-		$moduleUrlElt->setHelp("The URL to access your TAO instance with a Web Browser.");
+		$moduleUrlElt->setHelp("The URL (Uniform Resource Locator) to access your TAO instance with a Web Browser.");
 		$moduleUrlElt->setValue($url);
 		$moduleUrlElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
