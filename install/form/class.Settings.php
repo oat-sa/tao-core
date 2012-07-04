@@ -74,7 +74,7 @@ class tao_install_form_Settings extends tao_helpers_form_FormContainer{
 		$moduleNSLblElt =  tao_helpers_form_FormFactory::getElement('module_namespace_lbl', 'Label');
 		$moduleNSLblElt->setDescription('Namespace');
 		$moduleNSLblElt->setHelp("The module's namespace will be used to identify the data stored by your module. ".
-								"Each data collected by tao is identified uniquely by a URI (Uniform Resource Identifier) composed by ".
+								"Each data collected by TAO is identified uniquely by a URI (Uniform Resource Identifier) composed by ".
 								"the module namespace followed by the resource identifier (NAMESPACE#resource-identifier) ");
 		$moduleNSLblElt->setValue($NSValue);
 		$moduleNSLblElt->setAttribute('id', 'module_namespace_lbl');
