@@ -269,8 +269,8 @@ class tao_install_Installator{
 				}
 				catch(tao_install_utils_Exception $ie){
 					$result['unkown'] = true;
-					$result['message'] = "An error occurs during the test: $ie";
-					common_Logger::e("An error occurs during the test: $ie", 'INSTALL');
+					$result['message'] = "An error occured during the test: $ie";
+					common_Logger::e("An error occured during the test: $ie", 'INSTALL');
 				}
 			}
 			$testResults[] = $result;
