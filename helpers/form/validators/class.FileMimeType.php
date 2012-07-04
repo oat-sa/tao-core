@@ -92,16 +92,10 @@ class tao_helpers_form_validators_FileMimeType
         // section 127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDA begin
 		$mimetype = '';
 		if (is_array($values)) {
-			//if the magic mime_content_type function is activated, usually by using the system mime magic translation ie. in /usr/share/mime.magic
-			if (isset($values['type'])) {
-				//by default use the $_FILE info but is a security failure
-				$mimetype = $values['type'];
+			if (file_exists($values['uploaded_file'])) {
+				$mimetype = tao_helpers_File::getMimeType($values['uploaded_file']);
 			}
-			if (isset($values['tmp_name']) && (empty($mimetype) || $mimetype == 'application/octet-stream')) {
-				if (file_exists($values['tmp_name'])) {
-					$mimetype = tao_helpers_File::getMimeType($values['tmp_name']);
-				}
-			}
+
 			if (!empty($mimetype) ) {
 				if (in_array($mimetype, $this->options['mimetype'])) {
 					$returnValue = true;

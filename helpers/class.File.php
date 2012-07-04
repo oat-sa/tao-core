@@ -71,16 +71,16 @@ class tao_helpers_File
         $returnValue = (bool) false;
 
         // section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EF begin
-        
+
    		$returnValue = true;
-        
+
         //security check: detect directory traversal (deny the ../)
 		if($traversalSafe){
 	   		if(preg_match("/\.\.\//", $path)){
 				$returnValue = false;
 			}
 		}
-		
+
 		//security check:  detect the null byte poison by finding the null char injection
 		if($returnValue){
 			for($i = 0; $i < strlen($path); $i++){
@@ -90,7 +90,7 @@ class tao_helpers_File
 				}
 			}
 		}
-        
+
         // section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EF end
 
         return (bool) $returnValue;
@@ -109,7 +109,7 @@ class tao_helpers_File
         $returnValue = (string) '';
 
         // section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023F2 begin
-        
+
         foreach($paths as $path){
         	if(!preg_match("/\/$/", $returnValue) && !preg_match("/^\//", $path) && !empty($returnValue)){
         		$returnValue .= '/';
@@ -117,7 +117,7 @@ class tao_helpers_File
         	$returnValue .= $path;
         }
         $returnValue = str_replace('//', '/', $returnValue);
-        
+
         // section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023F2 end
 
         return (string) $returnValue;
@@ -137,7 +137,7 @@ class tao_helpers_File
         $returnValue = (bool) false;
 
         // section 127-0-1-1--12179ab4:12bca1f1def:-8000:00000000000026E9 begin
-        
+
         if(is_file($path)){
         	$returnValue = @unlink($path);
         }
@@ -151,16 +151,16 @@ class tao_helpers_File
 				    unset($fileinfo);
 				}
 				unset($iterator);
-				
+
 				$returnValue = @rmdir($path);
         	}
         }
-        
+
         // section 127-0-1-1--12179ab4:12bca1f1def:-8000:00000000000026E9 end
 
         return (bool) $returnValue;
     }
-    
+
     /**
      * Short description of method copy
      *
@@ -175,19 +175,19 @@ class tao_helpers_File
     public static function udpdateCopy($source, $destination, $recursive = true, $ignoreSystemFiles = true)
     {
     	$returnValue = (bool) false;
-    
+
     	// section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 begin
     	// Check for System File
     	$basename = basename($source);
     	if ($basename[0] == '.' && $ignoreSystemFiles == true){
     		return false;
     	}
-    
+
     	// Check for symlinks
     	if (is_link($source)) {
     		return symlink(readlink($source), $destination);
     	}
-    
+
     	// Simple copy for a file
     	if (is_file($source)) {
     		if (is_dir($destination)){
@@ -195,13 +195,13 @@ class tao_helpers_File
     		}
     		return copy($source, $destination);
     	}
-    
+
     	// Make destination directory
     	if ($recursive == true){
     		if (!is_dir($destination)) {
     			mkdir($destination);
     		}
-    
+
     		// Loop through the folder
     		$dir = dir($source);
     		while (false !== $entry = $dir->read()) {
@@ -209,11 +209,11 @@ class tao_helpers_File
     			if ($entry == '.' || $entry == '..') {
     				continue;
     			}
-    
+
     			// Deep copy directories
     			self::udpdateCopy("${source}/${entry}", "${destination}/${entry}", $recursive, $ignoreSystemFiles);
     }
-    
+
     // Clean up
     $dir->close();
     return true;
@@ -221,9 +221,9 @@ class tao_helpers_File
     else{
     	return false;
     }
-    
+
     // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 end
-    
+
     return (bool) $returnValue;
     }
 
@@ -248,12 +248,12 @@ class tao_helpers_File
         if ($basename[0] == '.' && $ignoreSystemFiles == true){
             return false;
         }
-        
+
         // Check for symlinks
         if (is_link($source)) {
             return symlink(readlink($source), $destination);
         }
-         
+
         // Simple copy for a file
         if (is_file($source)) {
            // get path info of destination.
@@ -263,7 +263,7 @@ class tao_helpers_File
                    return false;
                }
            }
-           
+
            return copy($source, $destination);
         }
 
@@ -293,7 +293,7 @@ class tao_helpers_File
         else{
             return false;
         }
-        
+
         // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 end
 
         return (bool) $returnValue;
@@ -364,7 +364,7 @@ class tao_helpers_File
         $returnValue = array();
 
         // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293A begin
-        
+
         $returnValue = array(
 
             'txt' => 'text/plain',
@@ -375,13 +375,13 @@ class tao_helpers_File
             'js' => 'application/javascript',
             'json' => 'application/json',
             'xml' => 'text/xml',
-    		'rdf' => 'text/xml',
+            'rdf' => 'text/xml',
             'swf' => 'application/x-shockwave-flash',
             'flv' => 'video/x-flv',
-    		'csv' => 'text/csv',
-			'rtx' => 'text/richtext',
-			'rtf' => 'text/rtf',
-			
+            'csv' => 'text/csv',
+            'rtx' => 'text/richtext',
+            'rtf' => 'text/rtf',
+
             // images
             'png' => 'image/png',
             'jpe' => 'image/jpeg',
@@ -406,8 +406,8 @@ class tao_helpers_File
             'mp3' => 'audio/mpeg',
             'qt' => 'video/quicktime',
             'mov' => 'video/quicktime',
-        	'ogv' => 'video/ogg',
-        	'oga' => 'audio/ogg',
+            'ogv' => 'video/ogg',
+            'oga' => 'audio/ogg',
 
             // adobe
             'pdf' => 'application/pdf',
@@ -426,7 +426,7 @@ class tao_helpers_File
             'odt' => 'application/vnd.oasis.opendocument.text',
             'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         );
-        
+
         // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293A end
 
         return (array) $returnValue;
@@ -445,16 +445,16 @@ class tao_helpers_File
         $returnValue = (string) '';
 
         // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293C begin
-        
+
         $mime_types = self::getMimeTypes();
-        
+
         foreach($mime_types as $key => $value){
         	if($value == trim($mimeType)){
         		$returnValue = $key;
         		break;
         	}
         }
-        
+
         // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293C end
 
         return (string) $returnValue;
@@ -474,39 +474,39 @@ class tao_helpers_File
         $returnValue = (string) '';
 
         // section 127-0-1-1--5cd35ad1:1283edec322:-8000:00000000000023F5 begin
-        
-    	$mime_types = self::getMimeTypes();
 
-        $mimetype = '';
-        if(file_exists($path)){
-			if (function_exists('finfo_open')) {
-	            $finfo = finfo_open(FILEINFO_MIME);
-	            $mimetype = finfo_file($finfo, $path);
-	            finfo_close($finfo);
-	        }
-	        else if (function_exists('mime_content_type')) {
-				$mimetype = mime_content_type($path);
-			}
-			if(!empty($mimetype)){
-				if(preg_match("/; charset/", $mimetype)){
-					$mimetypeInfos = explode(';', $mimetype);
-					$mimetype = $mimetypeInfos[0];
+		$ext = strtolower(array_pop(explode('.', $path)));
+		$mime_types = self::getMimeTypes();
+
+		if (array_key_exists($ext, $mime_types)) {
+			$mimetype =  $mime_types[$ext];
+		} else $mimetype = '';
+
+		if (in_array($ext, array('css'))) {
+			if  (file_exists($path)) {
+				if (function_exists('finfo_open')) {
+					$finfo = finfo_open(FILEINFO_MIME);
+					$mimetype = finfo_file($finfo, $path);
+					finfo_close($finfo);
+				}
+				else if (function_exists('mime_content_type')) {
+					$mimetype = mime_content_type($path);
+				}
+				if (!empty($mimetype)) {
+					if (preg_match("/; charset/", $mimetype)) {
+						$mimetypeInfos = explode(';', $mimetype);
+						$mimetype = $mimetypeInfos[0];
+					}
 				}
 			}
-		
-        }
-        if(empty($mimetype)){
-        	 $ext = strtolower(array_pop(explode('.', $path)));
-			if (array_key_exists($ext, $mime_types)) {
-	            $mimetype =  $mime_types[$ext];
-	        }
-        }
-        if(empty($mimetype)){
-            $mimetype =  'application/octet-stream';
-        }
-        
-        $returnValue =  $mimetype;
-        
+		}
+
+		if (empty($mimetype)) {
+			$mimetype =  'application/octet-stream';
+		}
+
+		$returnValue =  $mimetype;
+
         // section 127-0-1-1--5cd35ad1:1283edec322:-8000:00000000000023F5 end
 
         return (string) $returnValue;
@@ -526,10 +526,10 @@ class tao_helpers_File
         $returnValue = array();
 
         // section 127-0-1-1--45b111d8:1345bd4833c:-8000:00000000000044E8 begin
-        
+
         $recursive = isset($options['recursive']) ? $options['recursive'] : false;
         $only = isset($options['only']) ? $options['only'] : null;
-        
+
         if(is_dir($path)){
             $iterator = new DirectoryIterator($path);
             foreach ($iterator as $fileinfo) {
@@ -544,7 +544,7 @@ class tao_helpers_File
                     }else{
                         array_push($returnValue, $fileinfo->getFilename());
                     }
-                    
+
                     if($fileinfo->isDir() && $recursive){
                         $returnValue = array_merge($returnValue, self::scandir(realpath($fileinfo->getPathname()), $options));
                     }
@@ -553,7 +553,7 @@ class tao_helpers_File
         }else{
             throw new common_Exception("An error occured : The function (".__METHOD__.") of the class (".__CLASS__.") is expecting a directory path as first parameter : ".$path);
         }
-        
+
         // section 127-0-1-1--45b111d8:1345bd4833c:-8000:00000000000044E8 end
 
         return (array) $returnValue;
