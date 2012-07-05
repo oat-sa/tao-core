@@ -142,59 +142,37 @@ class ValidatorTestCase extends TaoTestCase {
 	}
 
 	public function testFileMimeType(){
-// 		$this->expectException(new common_Exception("Please define the mimetype option for the FileMimeType Validator"));
-// 		$filemime = new tao_helpers_form_validators_FileMimeType();
-
-// 		$filemime = new tao_helpers_form_validators_FileMimeType(array('mimetype' => array('text/plain', 'text/csv', 'text/comma-separated-values', 'application/csv', 'application/csv-tab-delimited-table'), 'extension' => array('csv', 'txt')));
-
-		$file = $this->createFile('<?xml version="1.0" encoding="ISO-8859-1"?>
-			<note>
-				<to>Tove</to>
-				<from>Jani</from>
-				<heading>Reminder</heading>
-				<body>Don\'t forget me this weekend!</body>
-			</note>
-		');
-		$xmlfile = array(
-				'name'     => 'test.xml',
-//				'type'     => ,
-				'tmp_name' => $file,
-				'error'    => UPLOAD_ERR_OK,
-				'size'     => filesize($file),
-		);
-		$xmlfilewrongname = array(
-				'name'     => 'test.txt',
-//				'type'     => ,
-				'tmp_name' => $file,
-				'error'    => UPLOAD_ERR_OK,
-				'size'     => filesize($file),
-		);
-		$file = $this->createFile("A simple
-				multiline file, without
-				structure nor content");
-		$txtfile = array(
-				'name'     => 'test.txt',
-				'tmp_name' => $file,
-				'error'    => UPLOAD_ERR_OK,
-				'size'     => filesize($file),
-		);
-		$txtfilewrongname = array(
-				'name'     => 'test.xml',
-				'tmp_name' => $file,
-				'error'    => UPLOAD_ERR_OK,
-				'size'     => filesize($file),
-		);
-		$errorfile = array(
-				'error'    => UPLOAD_ERR_NO_FILE,
-		);
-
+		//XML
+		$val = array('uploaded_file' => dirname(__FILE__).'/samples/events.xml');
 		$filemime = new tao_helpers_form_validators_FileMimeType(array(
 				'mimetype' => array('text/xml', 'application/xml', 'application/x-xml'),
 				'extension' => array('xml')
 		));
+		$this->assertTrue($filemime->evaluate($val));
 
+		//ZIP
+		$val = array('uploaded_file' => dirname(__FILE__).'/samples/zip/test.zip');
+		$filemime = new tao_helpers_form_validators_FileMimeType(array(
+				'mimetype' => array('application/zip'),
+				'extension' => array('zip')
+		));
+		$this->assertTrue($filemime->evaluate($val));
 
-		$this->exec($filemime, array($xmlfile, $xmlfilewrongname), array($errorfile, $txtfile, $txtfilewrongname), 'XML MIME validation');
+		//CSS
+		$val = array('uploaded_file' => dirname(__FILE__).'/samples/css/test.css');
+		$filemime = new tao_helpers_form_validators_FileMimeType(array(
+				'mimetype' => array('text/css', 'text/plain'),
+				'extension' => array('css')
+		));
+		$this->assertTrue($filemime->evaluate($val));
+
+		//Error
+		$val = array('uploaded_file' => dirname(__FILE__).'/samples/sample_sort.po');
+		$filemime = new tao_helpers_form_validators_FileMimeType(array(
+				'mimetype' => array('text/css'),
+				'extension' => array('po')
+		));
+		$this->assertFalse($filemime->evaluate($val));
 	}
 
 	public function testFileSize(){
@@ -331,14 +309,18 @@ class ValidatorTestCase extends TaoTestCase {
 	public function validValues(tao_helpers_form_Validator $pValidator, $pValues, $pHint = '') {
 		$desc = empty($pHint) ? get_class($pValidator) : $pHint;
 		foreach ($pValues as $val) {
-			$this->assertTrue($pValidator->evaluate($val), $desc.' evaluated \''.$val.'\' as false');
+			$nfo = $val;
+			if (is_array($val) && isset($val['name'])) $nfo = $val['name'];
+			$this->assertTrue($pValidator->evaluate($val), $desc.' evaluated \''.$nfo.'\' as false');
 		}
 	}
 
 	public function invalidValues(tao_helpers_form_Validator $pValidator, $pValues, $pHint = '') {
 		$desc = empty($pHint) ? get_class($pValidator) : $pHint;
 		foreach ($pValues as $val) {
-			$this->assertFalse($pValidator->evaluate($val), $desc.' evaluated \''.$val.'\' as true');
+			$nfo = $val;
+			if (is_array($val) && isset($val['uploaded_file'])) $nfo = $val['uploaded_file'];
+			$this->assertFalse($pValidator->evaluate($val), $desc.' evaluated \''.$nfo.'\' as true');
 		}
 	}
 

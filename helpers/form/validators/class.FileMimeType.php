@@ -94,6 +94,7 @@ class tao_helpers_form_validators_FileMimeType
 		if (is_array($values)) {
 			if (file_exists($values['uploaded_file'])) {
 				$mimetype = tao_helpers_File::getMimeType($values['uploaded_file']);
+				common_Logger::i($mimetype);
 			}
 
 			if (!empty($mimetype) ) {
@@ -102,7 +103,7 @@ class tao_helpers_form_validators_FileMimeType
 				} else{
 					$this->message .= " ".implode(', ', $this->options['mimetype'])." are expected but $mimetype detected";
 				}
-			}
+			} else common_Logger::i('mimetype empty');
 		}
         // section 127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDA end
 

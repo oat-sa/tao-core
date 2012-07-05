@@ -3,24 +3,23 @@
  * This class contains some helpers in order to facilitate the creation of complex tests
  *
  * @author Joel Bout, <taosupport@tudor.lu>
+ * @author Jehan Bihin
  * @package tao
  * @subpackage test
  */
 class TaoTestCase extends UnitTestCase {
-	
+
 	private $files = array();
-	
-//####################################################################################################
-//####  Helpers  #####################################################################################
-//####################################################################################################
+
 	/**
 	 * Create a new temporary file
 	 * @param string $pContent
 	 */
-	public function createFile($pContent = '') {
-		$tmpfname = tempnam("/tmp", "tst");
-		$this->files[] = $tmpfname; 
-		
+	public function createFile($pContent = '', $name = null) {
+		if (is_null($name)) $tmpfname = tempnam("/tmp", "tst");
+		else $tmpfname = '/tmp/'.$name;
+		$this->files[] = $tmpfname;
+
 		if (!empty($pContent)) {
 			$handle = fopen($tmpfname, "w");
 			fwrite($handle, $pContent);
@@ -29,7 +28,7 @@ class TaoTestCase extends UnitTestCase {
 
 		return $tmpfname;
 	}
-//####################################################################################################
+
 	/**
 	 * Cleanup of files
 	 * @see SimpleTestCase::after()
@@ -41,6 +40,5 @@ class TaoTestCase extends UnitTestCase {
 		}
 		$this->files = array();
 	}
-//####################################################################################################
+
 }
-?>

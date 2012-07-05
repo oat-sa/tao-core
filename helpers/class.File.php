@@ -482,7 +482,7 @@ class tao_helpers_File
 			$mimetype =  $mime_types[$ext];
 		} else $mimetype = '';
 
-		if (in_array($ext, array('css'))) {
+		if (!in_array($ext, array('css'))) {
 			if  (file_exists($path)) {
 				if (function_exists('finfo_open')) {
 					$finfo = finfo_open(FILEINFO_MIME);
