@@ -138,7 +138,12 @@ class tao_install_Installator{
 			'displayMsg' => true,
 			'files'	=> array(
 				'generis'		=> array (
-					'./version'
+					'./version',
+					'./generis/common/conf/db.conf.php',
+					'./generis/common/conf/generis.conf.php'
+				),
+				'tao'			=> array(
+					'tao/includes/config.php'
 				)
 			)
 		)
@@ -419,9 +424,13 @@ class tao_install_Installator{
 		 */
 		$toInstall = array();
 		foreach ($this->toInstall as $id) {
-			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
-			if (!$ext->isInstalled()) {
-				$toInstall[] = $ext;
+			try {
+				$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
+				if (!$ext->isInstalled()) {
+					$toInstall[] = $ext;
+				}
+			} catch (common_ext_ExtensionException $e) {
+				common_Logger::w('Extension '.$id.' not found');
 			}
 		}
 		while (!empty($toInstall)) {
