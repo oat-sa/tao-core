@@ -113,7 +113,7 @@ class tao_actions_form_Versionning
 		$elt = tao_helpers_form_FormFactory::getElement('url', 'Textbox');
 		$elt->setDescription(__('URL'));
 		$elt->setValue(GENERIS_VERSIONED_REPOSITORY_URL);
-		$elt->setHelp('http://mydomain/svn');
+		$elt->setHelp(__('URL of your Data Version Management System. ') . 'http://http://url_of_my_repository/svn');
 		$elt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($elt);
 		$this->form->addElement($passElt);
@@ -121,7 +121,8 @@ class tao_actions_form_Versionning
 		$elt = tao_helpers_form_FormFactory::getElement('path', 'Textbox');
 		$elt->setDescription(__('Path'));
 		$elt->setValue(GENERIS_VERSIONED_REPOSITORY_PATH);
-		$elt->setHelp(GENERIS_FILES_PATH.'versionning/DEFAULT');
+		$elt->setHelp( __('Path to the local working copy, it is where your local 
+				version of your versioned Resource will be stored. ') . '/path/to/the/local/working_copy');
 		$elt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($elt);
         // section 127-0-1-1-35689176:13832da9f32:-8000:0000000000003B3E end
