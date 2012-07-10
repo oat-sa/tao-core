@@ -48,7 +48,10 @@ class tao_actions_AuthService extends tao_actions_CommonModule {
 	 * @throws common_Exception
 	 */
 	public function changePassword() {
-		if (!$this->hasRequestParameter('username') || !$this->hasRequestParameter('oldpassword')) {
+		
+		if (!$this->hasRequestParameter('username')
+			|| !$this->hasRequestParameter('oldpassword')
+			|| !$this->hasRequestParameter('newpassword')) {
 			throw new common_Exception('Missing paramteres');
 		}
 		$userService = core_kernel_users_Service::singleton();
@@ -57,7 +60,10 @@ class tao_actions_AuthService extends tao_actions_CommonModule {
 			throw new common_Exception('Invalid password');
 		}
 		
-		
+		$userService->setPassword($user, $this->getRequestParameter('newpassword'));
+		echo json_encode(array(
+			'success' => true
+		));
 	}
 	
 	/**
