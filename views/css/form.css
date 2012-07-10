@@ -19,7 +19,7 @@ div.xhtml_form div{
 	border: dashed 1px #FDD5DF;
 }
 div.xhtml_form div div div{
-	border:none;	
+	border:none;
 }
 
 /* Form label */
@@ -68,7 +68,9 @@ div.xhtml_form div .form-elt-container{
 }
 div.xhtml_form div .file-uploader{
 	z-index:10000;
-	
+	border: 0;
+	display: inline-block;
+	vertical-align: top;
 }
 div.xhtml_form div span.checker-container{
 	margin-left:28%;
@@ -97,7 +99,7 @@ div.xhtml_form div.form-group div div{
 }
 
 div.xhtml_form div.form-group div div div{
-	border:none;	
+	border:none;
 }
 
 div.xhtml_form div .form_radlst {
@@ -132,7 +134,7 @@ div#form-container table{
 div#form-container table td,
 div#form-container table th{
 	border: solid 1px #CCC;
-} 
+}
 div#form-container table th{
 	padding:5px;
 }
@@ -166,24 +168,24 @@ div.xhtml_form div.form-toolbar:hover{
 }
 
 div.xhtml_form div.form-toolbar a img{
-	vertical-align:text-bottom;	
+	vertical-align:text-bottom;
 }
 div.xhtml_form div.form-toolbar a{
 	text-decoration:none;
 	padding: 3px 6px 3px 6px;
-	margin-right:5px; 
-	margin-left:0px; 
+	margin-right:5px;
+	margin-left:0px;
 	border: solid 1px #ccc;
 	border-bottom-color:#aaa;
 	border-right-color:#aaa;
 }
 div.xhtml_form div.form-toolbar a:hover{
-	color:#D00239;	
+	color:#D00239;
 }
 
 div#form-container div.xhtml_form div table.form-elt-container{
 	margin:5px 0 5px 30%;
 	padding:5px;
-	width:70%;	
+	width:70%;
 	vertical-align: middle;
 }
