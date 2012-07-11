@@ -249,7 +249,7 @@ class tao_install_utils_ConfigTester{
 					curl_exec($curlHandler);
 					if(curl_errno($curlHandler) == 0){
 						$code = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE);
-						if($code == 302){
+						if($code == 302 || $code == 301){
 							$this->status =  self::STATUS_VALID;
 						}
 						else{
