@@ -8,36 +8,27 @@
  * @subpackage action
  *
  */
-class tao_actions_AuthService extends tao_actions_CommonModule {
+class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 	
 	const ALLOWED_ROLE = CLASS_ROLE_WORKFLOWUSERROLE;
+	
+	const SESSION_DURATION = 43200; // 12 horus
 
 	/**
 	 * Allows a remote system to connect a tao User
 	 */
 	public function login() {
-		if (!$this->hasRequestParameter('username') || !$this->hasRequestParameter('password')) {
-			throw new common_Exception('Missing paramteres');
-		}
-		$userService = core_kernel_users_Service::singleton();
-		$user = $userService->getOneUser($this->getRequestParameter('username'), new core_kernel_classes_Class(self::ALLOWED_ROLE));
-		if (!is_null($user)) {
-			$correct = $userService->isPasswordValid($this->getRequestParameter('password'), $user);
-		} else {
-			$correct = false;
-		}
-		
-		
-		if ($correct) {
-			echo json_encode(array(
-				'success'	=> true,
-				'info'		=> $this->buildInfo($user),
-				'token'		=> $this->buildToken($user)
-			));
-		} else {
+		$user = $this->doLogin();
+		if ($user == false) {
 			echo json_encode(array(
 				'success'	=> false,
 				'message'	=> __('Login failed')
+			));
+		} else {
+			echo json_encode(array(
+				'success'	=> true,
+				'token'		=> $this->buildToken($user),
+				'info'		=> $this->buildInfo($user)
 			));
 		}
 	}
@@ -48,21 +39,43 @@ class tao_actions_AuthService extends tao_actions_CommonModule {
 	 * @throws common_Exception
 	 */
 	public function changePassword() {
-		
-		if (!$this->hasRequestParameter('username')
-			|| !$this->hasRequestParameter('oldpassword')
+		if (!$this->hasRequestParameter('oldpassword')
 			|| !$this->hasRequestParameter('newpassword')) {
 			throw new common_Exception('Missing paramteres');
 		}
 		$userService = core_kernel_users_Service::singleton();
-		$user = $userService->getOneUser($this->getRequestParameter('username'), new core_kernel_classes_Class(self::ALLOWED_ROLE));
+		$user = $this->getCurrentUser();
 		if (is_null($user) || !$userService->isPasswordValid($this->getRequestParameter('oldpassword'), $user)) {
 			throw new common_Exception('Invalid password');
 		}
 		
 		$userService->setPassword($user, $this->getRequestParameter('newpassword'));
 		echo json_encode(array(
-			'success' => true
+			'success'	=> true,
+			'token'		=> $this->buildToken($user)
+		));
+	}
+	
+	public function setInterfaceLanguage() {
+		$success = false;
+		if (!$this->hasRequestParameter('lang')) {
+			throw new common_Exception('Missing paramteres');
+		}
+		
+		$userService	= core_kernel_users_Service::singleton();
+		$user			= $this->getCurrentUser();
+		$uiLangResource = tao_helpers_I18n::getLangResourceByCode($this->getRequestParameter('lang'));
+		
+		if(!is_null($uiLangResource)){
+			$success = $user->editPropertyValues(
+				new core_kernel_classes_Property(PROPERTY_USER_UILG), $uiLangResource
+			);
+		} else {
+			common_Logger::w('language '.$this->getRequestParameter('lang').' not found');
+		}
+		
+		echo json_encode(array(
+			'success' => $success
 		));
 	}
 	
@@ -111,16 +124,6 @@ class tao_actions_AuthService extends tao_actions_CommonModule {
 			'roles'			=> $roles 
 		);
 	}
-	
-	/**
-	 * This function should build an authentification token for the user
-	 * This function is NOT yet secure
-	 * 
-	 * @param core_kernel_classes_Resource $user
-	 * @return returns a token string
-	 */
-	private function buildToken(core_kernel_classes_Resource $user) {
-		return md5($user->getUri().'secret');
-	}
+
 }
 ?>
