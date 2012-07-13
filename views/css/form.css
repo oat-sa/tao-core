@@ -71,6 +71,7 @@ div.xhtml_form div .file-uploader{
 	border: 0;
 	display: inline-block;
 	vertical-align: top;
+	/*width: 66%;*/
 }
 div.xhtml_form div span.checker-container{
 	margin-left:28%;
