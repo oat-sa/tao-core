@@ -1,7 +1,7 @@
 <?php
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
- * 
+ *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
@@ -15,13 +15,18 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 	 */
 	protected $userService = null;
 	protected $userGridOptions = array();
-	
+
 	public function __construct() {
-		
-    	tao_helpers_Context::load('STANDALONE_MODE');
-        $this->setSessionAttribute('currentExtension', 'tao');
+		tao_helpers_Context::load('STANDALONE_MODE');
+		$this->setSessionAttribute('currentExtension', 'tao');
 		parent::__construct();
-		
+
+		if ($this->hasRequestParameter('dataset')) {
+			$dataset = $this->getRequestParameter('dataset');
+		} else {
+			$dataset = 'verbose';
+		}
+		//Base state
 		$this->userGridOptions = array(
 			'columns' => array(
 				'country' => array('position' => 2, 'weight'=>0.5),
@@ -33,8 +38,17 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 				PROPERTY_USER_UILG
 			)
 		);
-    }
-	
+		//Modified state
+		if ($dataset == 'restricted') {
+			$this->userGridOptions['excludedProperties'][] = RDFS_LABEL;
+			$this->userGridOptions['excludedProperties'][] = PROPERTY_USER_LOGIN;
+			$this->userGridOptions['excludedProperties'][] = PROPERTY_USER_DEFLG;
+			$this->userGridOptions['excludedProperties'][] = 'country';
+			unset($this->userGridOptions['columns']['country']);
+			$this->userGridOptions['columns'][PROPERTY_USER_LASTNAME] = array('position' => 0);
+		}
+	}
+
 	public function setView($identifier, $useMetaExtensionView = false) {
 		if(tao_helpers_Request::isAjax()){
 			return parent::setView($identifier, $useMetaExtensionView);
@@ -47,28 +61,27 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 		}
 		return parent::setView('sas.tpl');
     }
-	
+
 	/**
 	 * Grid display
 	 */
 	public function viewGrid(){
-		
 		$userGrid = new tao_models_grids_CustomUsers(array(), $this->userGridOptions);
 		$model = $userGrid->getGrid()->getColumnsModel();
 		$this->setData('model', json_encode($model));
 		$this->setData('data', $userGrid->getGrid()->toArray());
-        
+
 		$this->setView('user/grid.tpl');
 	}
-	
+
 	/**
 	 * Get users data
 	 */
 	public function getGridData(){
-		
+
 		$returnValue = array();
 		$filter = null;
-		
+
 		//get the filter
 		if($this->hasRequestParameter('filter')){
 			$filter = $this->getRequestParameter('filter');
@@ -97,13 +110,13 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 		}else{
 			$users = $userClass->getInstances();
 		}
-		
+
 		$userGrid = new tao_models_grids_CustomUsers(array_keys($users), $this->userGridOptions);
 		$data = $userGrid->toArray();
 		$returnValue = $data;
-		
+
 		echo json_encode($returnValue);
 	}
-	
+
 }
 ?>
