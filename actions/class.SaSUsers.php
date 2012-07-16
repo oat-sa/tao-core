@@ -65,7 +65,11 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 	/**
 	 * Grid display
 	 */
-	public function viewGrid(){
+	public function viewGrid() {
+		if ($this->hasRequestParameter('cssurl')) {
+			tao_helpers_Scriptloader::addCssFile($this->getRequestParameter('cssurl'));
+		}
+
 		$userGrid = new tao_models_grids_CustomUsers(array(), $this->userGridOptions);
 		$model = $userGrid->getGrid()->getColumnsModel();
 		$this->setData('model', json_encode($model));
