@@ -11,6 +11,8 @@
 class tao_actions_RemoteServiceModule extends Module {
 	
 	const SESSION_DURATION = 43200; // 12 horus
+	
+	private $currentUser = null;
 
 	/**
 	 * constructor checks if a user is logged in
@@ -60,16 +62,17 @@ class tao_actions_RemoteServiceModule extends Module {
 			return false;
 		}
 		if ($userService->isPasswordValid($this->getRequestParameter('password'), $user)) {
+			$this->currentUser = $user;
 			return $user;
 		} else {
 			return false;
 		}
 	}
 	
-	protected function returnSuccess($data) {
+	protected function returnSuccess($data = array()) {
 		$data['success']	= true;
 		$data['token']		= $this->buildToken($this->getCurrentUser());	
-		return json_encode($data);
+		echo json_encode($data);
 	}
 	/**
 	 * This function should build an authentification token for the user
@@ -91,11 +94,13 @@ class tao_actions_RemoteServiceModule extends Module {
 	 * @return core_kernel_classes_Resource
 	 */
 	protected function getCurrentUser() {
-		if (!$this->hasRequestParameter('user')) {
-			return null;
+		if ($this->currentUser == null) {
+			if ($this->hasRequestParameter('user')) {
+				$userUri			= $this->getRequestParameter('user');
+				$this->currentUser	= new core_kernel_classes_Resource($userUri);
+			}
 		}
-		$userUri	= $this->getRequestParameter('user');
-		return new core_kernel_classes_Resource($userUri);
+		return $this->currentUser;
 	}
 	
 	private function getUserFromToken() {

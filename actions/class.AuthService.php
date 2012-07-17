@@ -25,10 +25,8 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 				'message'	=> __('Login failed')
 			));
 		} else {
-			echo json_encode(array(
-				'success'	=> true,
-				'token'		=> $this->buildToken($user),
-				'info'		=> $this->buildInfo($user)
+			$this->returnSuccess(array(
+				'info'	=> $this->buildInfo($user)
 			));
 		}
 	}
@@ -50,10 +48,7 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 		}
 		
 		$userService->setPassword($user, $this->getRequestParameter('newpassword'));
-		echo json_encode(array(
-			'success'	=> true,
-			'token'		=> $this->buildToken($user)
-		));
+		$this->returnSuccess();
 	}
 	
 	public function setInterfaceLanguage() {
@@ -74,9 +69,7 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 			common_Logger::w('language '.$this->getRequestParameter('lang').' not found');
 		}
 		
-		echo json_encode(array(
-			'success' => $success
-		));
+		$this->returnSuccess();
 	}
 	
 	/**
