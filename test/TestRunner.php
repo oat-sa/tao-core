@@ -5,7 +5,7 @@ require_once dirname(__FILE__).'/../includes/class.Bootstrap.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
 require_once dirname(__FILE__) .'/XmlTimeReporter.php';
 require_once dirname(__FILE__) .'/TaoTestCase.php';
-
+require_once dirname(__FILE__) .'/coverage/coverage.conf.php';
 /**
  * Help you to run the test into the TAO Context
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
