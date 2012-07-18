@@ -21,7 +21,7 @@ else{
 	$reporter = new HtmlReporter();
 }
 
-$includePaths = array(ROOT_PATH.'tao/actions', ROOT_PATH.'tao/models',ROOT_PATH.'tao/helpers');
+$includePaths = array( ROOT_PATH.'tao/models',ROOT_PATH.'tao/helpers');
 $excludePaths = array();
 $covReporter = new HtmlCoverageReporter("Code Coverage Report TAO", "", PHPCOVERAGE_REPORTS."tao/");
 $cov = new CoverageRecorder($includePaths, $excludePaths, $covReporter);
