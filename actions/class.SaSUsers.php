@@ -29,7 +29,6 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 		//Base state
 		$this->userGridOptions = array(
 			'columns' => array(
-				'country' => array('position' => 2, 'weight'=>0.5),
 				'roles' => array('weight'=>2),
 				PROPERTY_USER_UILG => array('weight'=>0.6),
 				PROPERTY_USER_DEFLG => array('weight'=>0.6)
@@ -43,9 +42,14 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 			$this->userGridOptions['excludedProperties'][] = RDFS_LABEL;
 			$this->userGridOptions['excludedProperties'][] = PROPERTY_USER_LOGIN;
 			$this->userGridOptions['excludedProperties'][] = PROPERTY_USER_DEFLG;
-			$this->userGridOptions['excludedProperties'][] = 'country';
-			unset($this->userGridOptions['columns']['country']);
 			$this->userGridOptions['columns'][PROPERTY_USER_LASTNAME] = array('position' => 0);
+		}
+		//Adding custom properties
+		if ($this->hasRequestParameter('customprops')) {
+			$customprops = explode(',', $this->getRequestParameter('customprops'));
+			foreach ($customprops as $prop) {
+				$this->userGridOptions['options'][trim($prop)] = array();
+			}
 		}
 	}
 
