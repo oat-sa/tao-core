@@ -35,7 +35,8 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 			),
 			'excludedProperties' => array(
 				PROPERTY_USER_UILG
-			)
+			),
+			'customProps' => array()
 		);
 		//Modified state
 		if ($dataset == 'restricted') {
@@ -48,7 +49,7 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 		if ($this->hasRequestParameter('customprops')) {
 			$customprops = explode(',', $this->getRequestParameter('customprops'));
 			foreach ($customprops as $prop) {
-				$this->userGridOptions['options'][trim($prop)] = array();
+				$this->userGridOptions['customProps'][trim($prop)] = array();
 			}
 		}
 	}
@@ -78,6 +79,10 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 		$model = $userGrid->getGrid()->getColumnsModel();
 		$this->setData('model', json_encode($model));
 		$this->setData('data', $userGrid->getGrid()->toArray());
+
+		$gridParams = '?';
+		if ($this->hasRequestParameter('customprops')) $gridParams .= 'customprops='.urlencode($this->getRequestParameter('customprops'));
+		$this->setData('gridParams', $gridParams);
 
 		$this->setView('user/grid.tpl');
 	}
