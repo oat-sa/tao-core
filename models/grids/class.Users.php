@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 12.03.2012, 17:18:46 with ArgoUML PHP module 
+ * Automatically generated on 12.03.2012, 17:18:46 with ArgoUML PHP module
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
@@ -66,7 +66,7 @@ class tao_models_grids_Users
         $returnValue = (bool) false;
 
         // section 127-0-1-1--3130d5b7:13607a37283:-8000:000000000000386F begin
-		
+
 		$columnNames = (is_array($this->options) && isset($this->options['columnNames']))?$this->options['columnNames']:array();
 		$adapterOptions = array();
 		$excludedProperties = array();
@@ -74,7 +74,7 @@ class tao_models_grids_Users
 			$excludedProperties = $this->options['excludedProperties'];
 			$adapterOptions['excludedProperties'] = $excludedProperties;
 		}
-		
+
 		$userProperties = array(
 			RDFS_LABEL => __('Label'),
 			PROPERTY_USER_LOGIN => __('Login'),
@@ -85,9 +85,13 @@ class tao_models_grids_Users
 			PROPERTY_USER_DEFLG => __('Data Lang.'),
 			'roles' => __('Roles')
 		);
-		
+		/*foreach ($this->options['customProps'] as $uri => $opts) {
+			$name = explode('#', $uri);
+			$userProperties[$uri] = __($name[1]);
+		}*/
+
 		$propertyUris = array();
-		
+
 		foreach($userProperties as $userPropertyUri => $label){
 			if(!in_array($userPropertyUri, $excludedProperties)){
 				if(isset($columnNames[$userPropertyUri]) && !empty($columnNames[$userPropertyUri])){
@@ -97,12 +101,12 @@ class tao_models_grids_Users
 				$propertyUris[] = $userPropertyUri;
 			}
 		}
-		
+
 		$returnValue = $this->grid->setColumnsAdapter(
 			$propertyUris,
 			new tao_models_grids_adaptors_UserProperty($adapterOptions)
 		);
-		
+
         // section 127-0-1-1--3130d5b7:13607a37283:-8000:000000000000386F end
 
         return (bool) $returnValue;

@@ -62,7 +62,11 @@ class tao_models_grids_adaptors_UserAdditionalProperties
         $returnValue = null;
 
         // section 127-0-1-1--2e12219e:1360c8283db:-8000:0000000000003883 begin
-		$returnValue = 'MyCountry';
+		$user = new core_kernel_classes_Resource($rowId);
+		$prop = new core_kernel_classes_Property($columnId);
+		$res = $user->getOnePropertyValue($prop);
+		if (!is_null($res)) $returnValue = $res->getLabel();
+		else $returnValue = '';
         // section 127-0-1-1--2e12219e:1360c8283db:-8000:0000000000003883 end
 
         return $returnValue;

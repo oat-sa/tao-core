@@ -60,13 +60,17 @@ class tao_models_grids_CustomUsers
 
         // section 127-0-1-1--2e12219e:1360c8283db:-8000:000000000000387C begin
 		$returnValue = parent::initColumns();
-		/*if (!in_array('country', $this->excludedProperties)) {
-			$this->grid->addColumn('country', __('Country'));
+		/*if (!in_array('country', $this->excludedProperties)) {*/
+		foreach ($this->options['customProps'] as $uri => $opts) {
+			$name = explode('#', $uri);
+			//$userProperties[$uri] = __($name[1]);
+			$this->grid->addColumn($uri, __($name[1]));
 			$returnValue &= $this->grid->setColumnsAdapter(
-				'country',
+				$uri,
 				new tao_models_grids_adaptors_UserAdditionalProperties()
 			);
-		}*/
+		}
+		/*}*/
         // section 127-0-1-1--2e12219e:1360c8283db:-8000:000000000000387C end
 
         return (bool) $returnValue;
