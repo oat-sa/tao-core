@@ -83,6 +83,41 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 		throw new common_Exception('Not yet implemented');
 	}
 	
+	public function getAllUsers() {
+		$service = tao_models_classes_UserService::singleton();
+		$users = $service->getAllUsers(array('filteredRoles' => array(self::ALLOWED_ROLE)));
+		$list = array();
+		foreach ($users as $user) {
+			$props = $user->getPropertiesValues(array(
+				PROPERTY_USER_LOGIN,
+//				PROPERTY_USER_UILG,
+//				PROPERTY_USER_DEFLG,
+				PROPERTY_USER_MAIL,
+				PROPERTY_USER_FIRTNAME,
+				PROPERTY_USER_LASTNAME,
+				));
+			$list[] = array(
+				'id'	=> $user->getUri(),
+				'login'	=> isset($props[PROPERTY_USER_LOGIN])		? (string)array_pop($props[PROPERTY_USER_LOGIN])	: '',
+				'mail'	=> isset($props[PROPERTY_USER_MAIL])		? (string)array_pop($props[PROPERTY_USER_MAIL])		: '',
+				'first'	=> isset($props[PROPERTY_USER_FIRTNAME])	? (string)array_pop($props[PROPERTY_USER_FIRTNAME])	: '',
+				'last'	=> isset($props[PROPERTY_USER_LASTNAME])	? (string)array_pop($props[PROPERTY_USER_LASTNAME])	: ''
+			);
+		}
+		return $this->returnSuccess(array('list' => $list));
+	}
+	
+	public function getAllRoles() {
+		$class = new core_kernel_classes_Class(self::ALLOWED_ROLE);
+		$list = array(
+			$class->getUri() => $class->getLabel()
+		);
+		foreach ($class->getSubClasses(true) as $subclass) {
+			$list[$subclass->getUri()] = $subclass->getLabel();
+		}
+		return $this->returnSuccess(array('list' => $list));
+	}
+	
 	/**
 	 * Returns an array of the information
 	 * a remote system might require 
