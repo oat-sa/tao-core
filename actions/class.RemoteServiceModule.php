@@ -69,11 +69,20 @@ class tao_actions_RemoteServiceModule extends Module {
 		}
 	}
 	
+	protected function returnFailure($errormsg = '') {
+		echo json_encode(array(
+			'success'	=> false,
+			'error'		=> $errormsg
+		));
+		
+	}
+	
 	protected function returnSuccess($data = array()) {
 		$data['success']	= true;
 		$data['token']		= $this->buildToken($this->getCurrentUser());	
 		echo json_encode($data);
 	}
+	
 	/**
 	 * This function should build an authentification token for the user
 	 * This function is NOT yet secure

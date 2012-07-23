@@ -20,10 +20,7 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 	public function login() {
 		$user = $this->doLogin();
 		if ($user == false) {
-			echo json_encode(array(
-				'success'	=> false,
-				'message'	=> __('Login failed')
-			));
+			return $this->returnFailure(__('Login failed'));
 		} else {
 			$this->returnSuccess(array(
 				'info'	=> $this->buildInfo($user)
@@ -44,7 +41,7 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 		$userService = core_kernel_users_Service::singleton();
 		$user = $this->getCurrentUser();
 		if (is_null($user) || !$userService->isPasswordValid($this->getRequestParameter('oldpassword'), $user)) {
-			throw new common_Exception('Invalid password');
+			return $this->returnFailure('Invalid password');
 		}
 		
 		$userService->setPassword($user, $this->getRequestParameter('newpassword'));
@@ -67,6 +64,7 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 			);
 		} else {
 			common_Logger::w('language '.$this->getRequestParameter('lang').' not found');
+			return $this->returnFailure(__('Language not supported'));
 		}
 		
 		$this->returnSuccess();
