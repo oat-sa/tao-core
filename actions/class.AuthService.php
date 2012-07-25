@@ -79,8 +79,9 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 		if (!$this->hasRequestParameter('userid')) {
 			throw new common_Exception('Missing paramtere');
 		}
-		
-		throw new common_Exception('Not yet implemented');
+
+		$user = new core_kernel_classes_Resource($this->getRequestParameter('userid'));
+		return $this->returnSuccess(array('info' => $this->buildInfo($user)));
 	}
 	
 	public function getAllUsers() {
@@ -109,13 +110,28 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 	
 	public function getAllRoles() {
 		$class = new core_kernel_classes_Class(self::ALLOWED_ROLE);
+		$taoManager = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
 		$list = array(
-			$class->getUri() => $class->getLabel()
+			$class->getUri() => $class->getLabel(),
+			$taoManager->getUri() => $taoManager->getLabel()
 		);
 		foreach ($class->getSubClasses(true) as $subclass) {
 			$list[$subclass->getUri()] = $subclass->getLabel();
 		}
 		return $this->returnSuccess(array('list' => $list));
+	}
+	
+	public function getUserRoles() {
+		if (!$this->hasRequestParameter('userid')) {
+			throw new common_Exception('Missing paramtere');
+		}
+		common_Logger::d('user '.$this->getRequestParameter('userid'));
+		$user = new core_kernel_classes_Resource($this->getRequestParameter('userid'));
+		$uris = array();
+		foreach (core_kernel_users_Service::singleton()->getUserRoles($user) as $role) {
+			$uris[] = $role->getUri();
+		}
+		return $this->returnSuccess(array('roles' => $uris));
 	}
 	
 	/**
