@@ -10,8 +10,6 @@
  */
 class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 	
-	const ALLOWED_ROLE = CLASS_ROLE_WORKFLOWUSERROLE;
-	
 	const SESSION_DURATION = 43200; // 12 horus
 
 	/**
@@ -86,7 +84,7 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 	
 	public function getAllUsers() {
 		$service = tao_models_classes_UserService::singleton();
-		$users = $service->getAllUsers(array('filteredRoles' => array(self::ALLOWED_ROLE)));
+		$users = $service->getAllUsers(array('filteredRoles' => array(CLASS_ROLE_WORKFLOWUSERROLE)));
 		$list = array();
 		foreach ($users as $user) {
 			$props = $user->getPropertiesValues(array(
@@ -109,14 +107,13 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 	}
 	
 	public function getAllRoles() {
-		$class = new core_kernel_classes_Class(self::ALLOWED_ROLE);
 		$taoManager = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
 		$list = array(
-			$class->getUri() => $class->getLabel(),
 			$taoManager->getUri() => $taoManager->getLabel()
 		);
-		foreach ($class->getSubClasses(true) as $subclass) {
-			$list[$subclass->getUri()] = $subclass->getLabel();
+		$abstractRole = new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSER);
+		foreach ($abstractRole->getInstances() as $concreteRole) {
+			$list[$concreteRole->getUri()] = $concreteRole->getLabel();
 		}
 		return $this->returnSuccess(array('list' => $list));
 	}
