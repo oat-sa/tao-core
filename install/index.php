@@ -52,7 +52,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>TAO Install</title>
-	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/custom-theme/jquery-ui-1.8.custom.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/custom-theme/jquery-ui-1.8.22.custom.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/style.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/layout.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/form.css"/>

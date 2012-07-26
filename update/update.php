@@ -62,7 +62,7 @@ if ($availableUpdate){
 <head>
 	<title>TAO Update</title>
 
-	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/custom-theme/jquery-ui-1.8.custom.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/custom-theme/jquery-ui-1.8.22.custom.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="./views/js/jquery.jqGrid-4.1.0/css/ui.jqgrid.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/style.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/layout.css"/>

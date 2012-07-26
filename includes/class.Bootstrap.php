@@ -374,7 +374,7 @@ class Bootstrap{
 		switch ($this->extension->id){
 			case 'filemanager':
 				tao_helpers_Scriptloader::addCssFiles(array(
-						TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
+						TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.22.custom.css',
 						BASE_WWW . 'js/jqueryFileTree/jqueryFileTree.css',
 						BASE_WWW . 'css/style.css'
 					)
@@ -395,7 +395,7 @@ class Bootstrap{
 				//stylesheets to load
 				tao_helpers_Scriptloader::addCssFiles(
 				    array(
-		    			TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
+		    			TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.22.custom.css',
 		    			TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
 		    			TAOBASE_WWW . 'js/jquery.jqGrid-4.2.0/css/ui.jqgrid.css',
 		    			TAOBASE_WWW . 'css/style.css',
