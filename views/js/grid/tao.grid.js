@@ -1,21 +1,21 @@
 /**
- * TaoGridClass is an easy way to display tao grid with the jqGrid jquery widget 
- * 
+ * TaoGridClass is an easy way to display tao grid with the jqGrid jquery widget
+ *
  * @example new TaoGridClass('#grid-container', 'myData.php', {});
  * @see TaoGridClass.defaultOptions for options example
- * 
+ *
  * @require jquery >= 1.3.2 [http://jquery.com/]
  * @require jqgrid = 4.1.0 [http://www.trirand.com/blog/]
- * 
+ *
  * @author Cédric Alfonsi, <taosupport@tao.lu>
- */ 
+ */
 
 
 /**
  * Constructor
  * @param {String} selector the jquery selector of the tree container
- * @param {Object} model the model of the grid as defined by the server side script (see 
- * @param {String} dataUrl the url to call, it must provide the json data to populate the tree 
+ * @param {Object} model the model of the grid as defined by the server side script (see
+ * @param {String} dataUrl the url to call, it must provide the json data to populate the tree
  * @param {Object} options
  */
 function TaoGridClass(selector, model, dataUrl, options)
@@ -29,7 +29,7 @@ function TaoGridClass(selector, model, dataUrl, options)
 	this.jqGridColumns = new Array();
 	this.adapters = new Array();		//adapters used in this grid
 	this.options = $.extend([], TaoGridClass.defaultOptions, options);
-	
+
 	//Default dimension
 	if(this.options.height==null){
 		this.options.height = $(this.selector).parent().height();
@@ -37,7 +37,7 @@ function TaoGridClass(selector, model, dataUrl, options)
 	if(this.options.width == null){
 		this.options.width = $(this.selector).parent().width();
 	}
-	
+
 	this.initModel();
 	this.initGrid();
 };
@@ -54,13 +54,13 @@ TaoGridClass.prototype.initModel = function()
 {
 	var columnsWeight = 0;
 	var gridWidth = this.options.width;
-	
+
 	//pre model analysis
 	for(var id in this.model){
 		var weight = typeof this.model[id]['weight'] != 'undefined' ? this.model[id]['weight'] : 1;
 		columnsWeight += weight;
 	}
-	
+
 	//jqgrid model
 	var i = 0;
 	for(var id in this.model){
@@ -72,7 +72,7 @@ TaoGridClass.prototype.initModel = function()
 			this.jqGridColumns.splice(position,0,null);
 			this.jqGridModel.splice(position,0,null);
 		}
-		
+
 		//add a column
 		this.jqGridColumns[position] = this.model[id]['title']
 
@@ -92,7 +92,7 @@ TaoGridClass.prototype.initModel = function()
 			//add adapter function to the column model options
 			this.jqGridModel[position]['formatter'] = adapter.formatter;
 		}
-		
+
 		// @todo DEVEL CODE
 		if(this.model[id]['title'] == 'variables'){
 			var adapterClass = window['TaoGridActivityVariablesAdapter'];
@@ -104,7 +104,7 @@ TaoGridClass.prototype.initModel = function()
 		var width = ((gridWidth * weight) / columnsWeight) - 4; /* -5 padding margin of the cell container */
 		//console.log('Et alors la width ca donne quoi '+gridWidth+" "+width);
 		this.jqGridModel[position]['width'] = width;
-		
+
 		i++;
 	}
 };
@@ -121,18 +121,18 @@ TaoGridClass.prototype.initGrid = function()
 	//		, "records"	=> 10
 	//		, "rows" 	=> $returnValue
 	//	);
-	
+
 	var self = this;
 	this.jqGrid = $(this.selector).jqGrid({
 		//url			: this.dataUrl,
 		datatype	: "local",
 	    mtype		: 'GET',
-		colNames	: this.jqGridColumns, 
-		colModel	: this.jqGridModel, 
+		colNames	: this.jqGridColumns,
+		colModel	: this.jqGridModel,
 		shrinkToFit	: true,
-		//width		: parseInt($("#result-list").parent().width()) - 15, 
-		//sortname	: 'id', 
-		//sortorder	: "asc", 
+		//width		: parseInt($("#result-list").parent().width()) - 15,
+		//sortname	: 'id',
+		//sortorder	: "asc",
 		caption		: this.options.title,
 		jsonReader: {
 			repeatitems : false,
@@ -146,7 +146,7 @@ TaoGridClass.prototype.initGrid = function()
 		    	self.options.callback.onSelectRow(id);
 		    }
 		}
-		
+
 	});
 };
 
@@ -157,14 +157,14 @@ TaoGridClass.prototype.initGrid = function()
 TaoGridClass.prototype.getAdapter = function(widget)
 {
 	var returnValue = null;
-	
+
 	var adapterClassName = 'TaoGrid'+widget+'Adapter';
 	var adapterClass = window[adapterClassName];
 	if(!adapterClass){
 		throw new Error('Tao grid adapter (TaoGrid'+widget+'Adapter) does not exist');
 	}
 	returnValue = adapterClass;
-	
+
 	return returnValue;
 };
 
@@ -175,7 +175,7 @@ TaoGridClass.prototype.getAdapter = function(widget)
 /*TaoGridClass.prototype.getAdapters = function(widgets)
 {
 	var returnValue = new Array();
-	
+
 	if(widgets instanceof Array){
 		for(var i in widget){
 			returnValue.push(this.getAdapter(widgets[i]));
@@ -183,7 +183,7 @@ TaoGridClass.prototype.getAdapter = function(widget)
 	}else{
 		returnValue.push(this.getAdapter(widgets));
 	}
-	
+
 	return returnValue;
 }*/
 
@@ -201,7 +201,7 @@ TaoGridClass.prototype.empty = function()
 
 /**
  * Delete a row
- * @param {Array} data 
+ * @param {Array} data
  */
 TaoGridClass.prototype.delete = function(rowId)
 {
@@ -210,7 +210,7 @@ TaoGridClass.prototype.delete = function(rowId)
 
 /**
  * Refresh data
- * @param {Array} data 
+ * @param {Array} data
  */
 TaoGridClass.prototype.refresh = function(data)
 {
@@ -223,9 +223,9 @@ TaoGridClass.prototype.refresh = function(data)
 				this.data[rowId][columnId] = this.adapters[columnId].preFormatter(this, this.data[rowId], rowId, columnId);
 			}
 		}
-		
+
 		jQuery(this.selector).jqGrid('setRowData', rowId, this.data[rowId]);
-		
+
 		for(var columnId in this.adapters){
 			if(typeof this.adapters[columnId].postCellFormat != 'undefined'){
 				var cell = this.getCell(rowId, columnId);
@@ -237,7 +237,7 @@ TaoGridClass.prototype.refresh = function(data)
 
 /**
  * Get the position of a row
- * @param {String} rowId The target rowId 
+ * @param {String} rowId The target rowId
  */
 TaoGridClass.prototype.getPosition = function(rowId)
 {
@@ -265,7 +265,7 @@ TaoGridClass.prototype.editRow = function(rowId)
 		<a href="#" class="grid-row-action grid-row-cancel"><img src="/tao/views/img/revert.png"/> Cancel</a> \
 	</div>';
 	var row = this.getRow(rowId);
-	
+
 	//add actions
 	var $actionContainer = $(actionsHtml).insertAfter($(row));
 	//apply the edit formatter of each cells
@@ -275,7 +275,7 @@ TaoGridClass.prototype.editRow = function(rowId)
 			this.adapters[columnId].editFormatter(this, cell, rowId, columnId);
 		}
 	}
-	
+
 	//bind new row actions
 	//bind the save action
 	$actionContainer.find('.grid-row-save').one('click', function(){
@@ -293,7 +293,7 @@ TaoGridClass.prototype.editRow = function(rowId)
 	    	self.options.callback.saveEditedRow(rowId, rowData);
 	    }
 	});
-	
+
 	//bind the cancel action
 	$actionContainer.find('.grid-row-cancel').one('click', function(){
 		var dataToRefresh = [];
@@ -318,7 +318,7 @@ TaoGridClass.prototype.newRow = function(data)
 		<a href="#" class="grid-row-action grid-row-cancel"><img src="/tao/views/img/revert.png"/> Cancel</a> \
 	</div>';
 	var row = null;
-	
+
 	//add new row with default row values
 	jQuery(this.selector).jqGrid('addRowData', rowId, defaultRowData);
 	row = this.getRow(rowId);
@@ -331,7 +331,7 @@ TaoGridClass.prototype.newRow = function(data)
 			this.adapters[columnId].editFormatter(this, cell, rowId, columnId);
 		}
 	}
-	
+
 	//bind new row actions
 	//bind the save action
 	$actionContainer.find('.grid-row-save').click(function(){
@@ -349,7 +349,7 @@ TaoGridClass.prototype.newRow = function(data)
 	    	self.options.callback.saveNewRow(rowId, rowData);
 	    }
 	});
-	
+
 	//bind the cancel action
 	$actionContainer.find('.grid-row-cancel').click(function(){
 		jQuery(self.selector).jqGrid('delRowData', rowId);
@@ -359,7 +359,7 @@ TaoGridClass.prototype.newRow = function(data)
 
 /**
  * Add data to the grid
- * @param {Array} data 
+ * @param {Array} data
  */
 TaoGridClass.prototype.add = function(data)
 {
@@ -369,7 +369,7 @@ TaoGridClass.prototype.add = function(data)
 	for(var i in data){
 		this.data[i] = data[i];
 	}
-	
+
 	for(var rowId in data){
 		//Pre rendering adapt data
 		for(var columnId in this.adapters){
@@ -416,6 +416,7 @@ TaoGridClass.prototype.add = function(data)
 			self.editRow(cellIdentifier.rowId);
 		});
 	}
+	return crtLine;
 };
 
 /**
@@ -500,10 +501,10 @@ TaoGridClass.prototype.getCellIdentifier = function(cell)
  * TaoGridClass default options
  */
 TaoGridClass.defaultOptions = {
-	'height' 	: null
-	, 'width'	: null
-	, 'title'	: 'GRID'
-	, 'callback' : {
-		'onSelectRow' : null
+	height: null,
+	width: null,
+	title: 'GRID',
+	callback: {
+		onSelectRow: null
 	}
 };

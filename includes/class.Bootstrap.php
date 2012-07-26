@@ -397,7 +397,7 @@ class Bootstrap{
 				    array(
 		    			TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.22.custom.css',
 		    			TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.css',
-		    			TAOBASE_WWW . 'js/jquery.jqGrid-4.2.0/css/ui.jqgrid.css',
+		    			TAOBASE_WWW . 'js/jquery.jqGrid-4.4.0/css/ui.jqgrid.css',
 		    			TAOBASE_WWW . 'css/style.css',
 		    			TAOBASE_WWW . 'css/layout.css',
 		    			TAOBASE_WWW . 'css/form.css',
@@ -417,9 +417,9 @@ class Bootstrap{
 				    )
 				);
 
-				$gridi18nFile = 'js/jquery.jqGrid-4.2.0/js/i18n/grid.locale-'.strtolower(tao_helpers_I18n::getLangCode()).'.js';
+				$gridi18nFile = 'js/jquery.jqGrid-4.4.0/js/i18n/grid.locale-'.strtolower(tao_helpers_I18n::getLangCode()).'.js';
 				if(!file_exists(BASE_PATH. '/views' . $gridi18nFile)){
-					$gridi18nFile = 'js/jquery.jqGrid-4.2.0/js/i18n/grid.locale-en.js';
+					$gridi18nFile = 'js/jquery.jqGrid-4.4.0/js/i18n/grid.locale-en.js';
 				}
 
 				//scripts to load
@@ -432,7 +432,7 @@ class Bootstrap{
 					TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
 					TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
 					TAOBASE_WWW . $gridi18nFile,
-					TAOBASE_WWW . 'js/jquery.jqGrid-4.2.0/js/jquery.jqGrid.min.js',
+					TAOBASE_WWW . 'js/jquery.jqGrid-4.4.0/js/jquery.jqGrid.min.js',
 					TAOBASE_WWW . 'js/jquery.numeric.js',
 					TAOBASE_WWW . 'js/tao.ajaxWrapper.js',
 					ROOT_URL 	. '/filemanager/views/js/fmRunner.js',

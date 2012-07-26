@@ -40,7 +40,7 @@ class MassInsertTestCase extends UnitTestCase {
 	protected $groupNumber = 2;
 	// Number of languages to create
 	protected $testNumber = 1;
-		
+
 	// Number of wf User to create
 	protected $wfUserNumber = 100 ;
 
@@ -95,24 +95,24 @@ class MassInsertTestCase extends UnitTestCase {
 					$lgLabel = $lg->getLabel();
 					$groupInstance->setPropertyValueByLg ($propertyLabel, "Group label{$i} {$lgLabel}={$lgCode}", $lgCode);
 					$groupInstance->setPropertyValueByLg ($propertyComment, "Group {$i} Comment {$lgLabel}={$lgCode}", $lgCode);
-					
+
 				}
 			}
 
 			$this->groups = $groupClass->getInstances ();
 			$groupLabels = array();
-			
-			//check groups for language dependent properties.		
+
+			//check groups for language dependent properties.
 
 			$expectedArray = array(	'DE' => 'German=DE',
 					'FR' => 'French=FR',
 					'LU' => 'Luxembourgish=LU',
 					'SE' => 'Swedish=SE',
 					'EN' => 'English=EN');
-			
+
 			//foreach on $this->groups seem to create trouble with
 			//testAssociateSubjectGroup test case.
-			
+
 			$groupsToTest = $this->groups;
 			foreach ($groupsToTest as $group){
 				$usedLgs = $group->getUsedLanguages($propertyLabel);
@@ -120,7 +120,7 @@ class MassInsertTestCase extends UnitTestCase {
 					$result[$lg] = $group->getPropertyValuesByLg($propertyLabel,$lg)->get(0);
 				}
 
-				
+
 				foreach ($expectedArray as $k => $v){
 					$this->assertTrue(strpos($result[$k], $v));
 				}
@@ -188,7 +188,7 @@ class MassInsertTestCase extends UnitTestCase {
 				$subjectInstance->setType (new core_kernel_classes_Class(CLASS_ROLE_SUBJECT));
 */
 				// Add label and comment properties functions of the languages available on the TAO platform
-				
+
 				foreach ($this->languages as $lg){
 					$lgCode = $lg->getOnePropertyValue($valueProp);
 					$lgLabel = $lg->getLabel();
@@ -199,25 +199,25 @@ class MassInsertTestCase extends UnitTestCase {
 			}
 
 			$this->subjects = $subjectClass->getInstances ();
-			
+
 			//check subjects for language dependent properties.
 			$expectedArray = array(	'DE' => 'German=DE',
 					'FR' => 'French=FR',
 					'LU' => 'Luxembourgish=LU',
 					'SE' => 'Swedish=SE',
 					'EN' => 'English=EN');
-			
+
 			//foreach on $this->subjects seem to create trouble with
 			//testAssociateSubjectGroup test case.
-			
+
 			$subjectToTest = $this->subjects;
 			foreach ($subjectToTest as $subject){
 				$usedLgs = $subject->getUsedLanguages($propertyLabel);
 				foreach ($usedLgs as $lg) {
 					$result[$lg] = $subject->getPropertyValuesByLg($propertyLabel,$lg)->get(0);
 				}
-			
-			
+
+
 				foreach ($expectedArray as $k => $v){
 					$this->assertTrue(strpos($result[$k], $v));
 				}
@@ -249,27 +249,27 @@ class MassInsertTestCase extends UnitTestCase {
 			}
 		}
 	}
-	
+
 	public function testCreateWfUsers(){
-	    
+
 	    $userService = wfEngine_models_classes_UserService::singleton();
 	    $class = new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSERROLE);
-	    
+
 	    for ($i=1; $i<=$this->wfUserNumber; $i++){
 	        $properties = array(
 	                        PROPERTY_USER_LOGIN => 'wf'. $i,
 	                        PROPERTY_USER_PASSWORD => "123456",
 	                        PROPERTY_USER_FIRTNAME => "Generated",
 	                        PROPERTY_USER_LASTNAME => "Generated"
-	                        
-	                        
+
+
 	                        );
 	        $user = $class->createInstanceWithProperties($properties);
-	        
+
 	    }
-	    
-	    
-	    
+
+
+
 	}
 
 	public function testCreateTests () {
