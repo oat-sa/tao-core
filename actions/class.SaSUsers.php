@@ -110,10 +110,11 @@ class tao_actions_SaSUsers extends tao_actions_Users {
                 }
             }
 		}
+		$userClassUri = ($this->hasRequestParameter('userClassUri')) ? $this->getRequestParameter('userClassUri') : CLASS_ROLE_TAOMANAGER;
 		//get the processes uris
 		$usersUri = $this->hasRequestParameter('usersUri') ? $this->getRequestParameter('usersUri') : null;
 		$users = array();
-		$userClass = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
+		$userClass = new core_kernel_classes_Class($userClassUri);
 		if(!is_null($filter)){
 			$users = $userClass->searchInstances($filter, array ('recursive'=>true));
 		}else if(!is_null($usersUri)){
