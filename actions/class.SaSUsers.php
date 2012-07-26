@@ -95,14 +95,14 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 	public function getGridData(){
 
 		$returnValue = array();
-		$filter = null;
+		$filter = array(PROPERTY_USER_LOGIN => '*');
 
 		//get the filter
 		if($this->hasRequestParameter('filter')){
-			$filter = $this->getRequestParameter('filter');
-			$filter = $filter == 'null' || empty($filter) ? null : $filter;
-            if(is_array($filter)){
-                foreach($filter as $propertyUri=>$propertyValues){
+			$filterpar = $this->getRequestParameter('filter');
+			$filterpar = $filterpar == 'null' || empty($filterpar) ? null : $filterpar;
+            if(is_array($filterpar)){
+                foreach($filterpar as $propertyUri=>$propertyValues){
                     foreach($propertyValues as $i=>$propertyValue){
                         $propertyDecoded = tao_helpers_Uri::decode($propertyValue);
                         if(common_Utils::isUri($propertyDecoded)){
