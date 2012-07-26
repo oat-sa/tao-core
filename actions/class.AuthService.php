@@ -88,12 +88,12 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 		$list = array();
 		foreach ($users as $user) {
 			$props = $user->getPropertiesValues(array(
-				PROPERTY_USER_LOGIN,
+				new core_kernel_classes_Property(PROPERTY_USER_LOGIN),
 //				PROPERTY_USER_UILG,
 //				PROPERTY_USER_DEFLG,
-				PROPERTY_USER_MAIL,
-				PROPERTY_USER_FIRTNAME,
-				PROPERTY_USER_LASTNAME,
+				new core_kernel_classes_Property(PROPERTY_USER_MAIL),
+				new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME),
+				new core_kernel_classes_Property(PROPERTY_USER_LASTNAME),
 				));
 			$list[] = array(
 				'id'	=> $user->getUri(),
