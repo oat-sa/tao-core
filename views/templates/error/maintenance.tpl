@@ -5,7 +5,7 @@
 <head>
 	<title>TAO</title>
 	<script type="text/javascript" src="<?=ROOT_URL?>/tao/views/js/jquery-1.7.2.min.js"></script>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/custom-theme/jquery-ui-1.8.custom.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/custom-theme/jquery-ui-1.8.22.custom.css"/>
 	<script type="text/javascript" src="<?=ROOT_URL?>/tao/views/js/tao.ajaxWrapper.js"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/style.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/layout.css"/>

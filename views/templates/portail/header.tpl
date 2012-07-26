@@ -2,7 +2,7 @@
 <head>
 	<title></title>
 
-	<link href="<?=ROOT_URL?>/tao/views/css/custom-theme/jquery-ui-1.8.custom.css" type="text/css" rel="stylesheet" />
+	<link href="<?=ROOT_URL?>/tao/views/css/custom-theme/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet" />
 	<link href="<?=ROOT_URL?>/tao/views/js/jquery.jqGrid-4.2.0/css/ui.jqgrid.css" type="text/css" rel="stylesheet" />
 	<link href="<?=ROOT_URL?>/tao/views/css/style.css" type="text/css" rel="stylesheet" />
 	<link href="<?=ROOT_URL?>/tao/views/css/layout.css" type="text/css" rel="stylesheet" />
