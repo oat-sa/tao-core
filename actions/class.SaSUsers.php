@@ -46,7 +46,7 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 			$this->userGridOptions['columns'][PROPERTY_USER_LASTNAME] = array('position' => 0);
 		}
 		//Adding custom properties
-		if ($this->hasRequestParameter('customprops')) {
+		if ($this->hasRequestParameter('customprops') && strlen($this->getRequestParameter('customprops'))) {
 			$customprops = explode(',', $this->getRequestParameter('customprops'));
 			foreach ($customprops as $prop) {
 				$this->userGridOptions['customProps'][trim($prop)] = array();
