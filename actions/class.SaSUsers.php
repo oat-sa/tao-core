@@ -112,7 +112,7 @@ class tao_actions_SaSUsers extends tao_actions_Users {
                 }
             }
 		}
-		$userClassUri = ($this->hasRequestParameter('userClassUri')) ? $this->getRequestParameter('userClassUri') : CLASS_ROLE_TAOMANAGER;
+		$userClassUri = ($this->hasRequestParameter('userClassUri') && strlen($this->getRequestParameter('userClassUri'))) ? $this->getRequestParameter('userClassUri') : CLASS_ROLE_TAOMANAGER;
 		//get the processes uris
 		$usersUri = $this->hasRequestParameter('usersUri') ? $this->getRequestParameter('usersUri') : null;
 		$users = array();
