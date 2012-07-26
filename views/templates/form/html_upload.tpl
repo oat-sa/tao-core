@@ -4,11 +4,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>File Uploader</title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
-	
-	<script type='text/javascript' src="<?=BASE_WWW?>js/jquery-1.4.2.min.js"></script>
-	
+
+	<script type='text/javascript' src="<?=BASE_WWW?>js/jquery-1.7.2.min.js"></script>
+
 	<?if(get_data('uploaded') === true):?>
-	
+
 	<script type="text/javascript">
 		$(document).ready(function(){
 			<?if(get_data('setLinear')):?>
@@ -16,7 +16,7 @@
 			<?else:?>
 			var fileData = '<?=get_data('uploadFilePath')?>';
 			<?endif?>
-			
+
 			$("<?=get_data('target')?>", window.opener.document).val(fileData);
 
 			var desc = "<?=__('Selected file:')?> <?=get_data('uploadFile')?>";
@@ -36,7 +36,7 @@
 	<form method='post' enctype='multipart/form-data'>
 		<input type='hidden' name='upload_sent' value="1" />
 		<input type='hidden' name='MAX_FILE_SIZE' value='<?=get_data('sizeLimit')?>' />
-		
+
 		<input type="file" name="Filedata" accept="<?=get_data('accept')?>" /><br />
 		<input type="submit" value="<?=__('Upload')?>" />
 	</form>

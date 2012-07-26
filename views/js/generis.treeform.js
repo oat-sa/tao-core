@@ -1,21 +1,21 @@
 /**
- * GenerisTreeFormClass is an easy to use container for the checkbox tree widget, 
+ * GenerisTreeFormClass is an easy to use container for the checkbox tree widget,
  * it provides the common behavior for a selectable Class/Instance Rdf resource tree
- * 
+ *
  * @example new GenerisTreeClass('#tree-container', 'myData.php', {});
  * @see GenerisTreeClass.defaultOptions for options example
- * 
+ *
  * @require jquery >= 1.3.2 [http://jquery.com/]
  * @require jstree = 0.9.9 [http://jstree.com/]
- * 
+ *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- */ 
+ */
 
 
 /**
  * Constructor
  * @param {String} selector the jquery selector of the tree container
- * @param {String} dataUrl the url to call, it must provide the json data to populate the tree 
+ * @param {String} dataUrl the url to call, it must provide the json data to populate the tree
  * @param {Object} options
  */
 function GenerisTreeFormClass(selector, dataUrl, options){
@@ -42,10 +42,10 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 			filter: 		$("#filter-content-" + options.actionId).val(),
 			offset:			0,
 			limit:			this.options.paginate
-		};		
+		};
 		// Global access of the instance in the sub scopes
 		var instance = this;
-		
+
 		this.treeOptions = {
 			data: {
 				type: "json",
@@ -83,7 +83,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 							instance.paginateInstances (NODE, TREE_OBJ, {limit:0, checkedNodes:"*"});
 							return false;
 						}
-					} 
+					}
 					else {
 						var indice = $.inArray(nodeId, instance.checkedNodes);
 						if(indice == -1){
@@ -158,7 +158,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 //					console.log('LOADED '+instance.selector)
 
 					instance.isRefreshing = false;
-					
+
 				},
 				onchange: function(NODE, TREE_OBJ)
 				{
@@ -185,7 +185,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 //					console.log('ON SELECT '+nodeId+' IN '+instance.selector);
 /*
 //					console.log('SELECT '+nodeId);
-					
+
 					var indice = $.inArray(nodeId, instance.checkedNodes);
 					if(indice == -1){
 //						console.log('ADD TO VARS 2');
@@ -215,15 +215,15 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 				checkbox : { three_state : true }
 			}
 		};
-		
+
 		//Add server parameters to the treeOptions variable
 		for (var i in this.serverParameters){
 			this.treeOptions.data.opts[i] = this.serverParameters[i];
 		}
-		
+
 		//create the tree
 		$(selector).tree(this.treeOptions);
-		
+
 		$("#saver-action-" + this.options.actionId).click(function(){
 			instance.saveData();
 		});
@@ -234,7 +234,7 @@ function GenerisTreeFormClass(selector, dataUrl, options){
 }
 
 /*
- * 
+ *
  * DEFINE CONSTANT
  *
  */
@@ -255,9 +255,9 @@ function trace(){
 GenerisTreeFormClass.DISPLAY_SELECTED = 1;
 
 /*
- * 
+ *
  * DEFINE GENERIS TREE FORM CLASS FUNCTIONS
- * 
+ *
  */
 
 /**
@@ -267,7 +267,7 @@ GenerisTreeFormClass.prototype.extractMeta = function(DATA) {
 	var nodes = new Array ();
 	var nodeId = null;
 	var instance = this;
-	
+
 	/**
 	 * Create meta from class node
 	 * @private
@@ -279,7 +279,7 @@ GenerisTreeFormClass.prototype.extractMeta = function(DATA) {
 			, position :  meta.position ? meta.position :0			// Position of the last element displayed
 		};
 	}
-	
+
 	//An object is received
 	if ( !(DATA instanceof Array) ){
 		nodeId = DATA.attributes.id;
@@ -299,7 +299,7 @@ GenerisTreeFormClass.prototype.extractMeta = function(DATA) {
 		}
 		nodes = DATA;
 	}
-	
+
 	//Extract meta from children
 	if (nodes) {
 		//Number of classes found
@@ -314,7 +314,7 @@ GenerisTreeFormClass.prototype.extractMeta = function(DATA) {
 		var countInstances = nodes.length - countClass;
 		this.setMeta (nodeId, 'position', countInstances); // Position of the last element displayed
 		this.setMeta (nodeId, 'displayed',countInstances); // Total of elements displayed
-		
+
 		if (!(DATA instanceof Array) && DATA.state && DATA.state != 'closed'){
 			if (this.getMeta(nodeId, 'displayed') < this.getMeta(nodeId, 'count')){
 				nodes.push(instance.getPaginateActionNodes());
@@ -352,7 +352,7 @@ GenerisTreeFormClass.prototype.getTree = function()
 /**
  * Get node's meta data
  */
-GenerisTreeFormClass.prototype.getMeta = function(classId, metaName, value) 
+GenerisTreeFormClass.prototype.getMeta = function(classId, metaName, value)
 {
 	return this.metaClasses[classId][metaName];
 }
@@ -360,7 +360,7 @@ GenerisTreeFormClass.prototype.getMeta = function(classId, metaName, value)
 /**
  * Set node's meta data
  */
-GenerisTreeFormClass.prototype.setMeta = function(classId, metaName, value) 
+GenerisTreeFormClass.prototype.setMeta = function(classId, metaName, value)
 {
 	this.metaClasses[classId][metaName] = value;
 }
@@ -369,12 +369,12 @@ GenerisTreeFormClass.prototype.setMeta = function(classId, metaName, value)
  * Get paginate nodes
  * @return {array}
  */
-GenerisTreeFormClass.prototype.getPaginateActionNodes = function() 
+GenerisTreeFormClass.prototype.getPaginateActionNodes = function()
 {
-	returnValue = [{	
+	returnValue = [{
 		'data' : __('all')
 			, 'attributes' : { 'class':'paginate paginate-all' }
-		},{	
+		},{
 			'data' : this.paginate+__(' next')
 			, 'attributes' : { 'class':'paginate paginate-more' }
 		}];
@@ -457,7 +457,7 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
 		instance.setMeta(nodeId, "position", instance.getMeta(nodeId, "position")+DATA.length);
 		//refresh pagination options
 		instance.refreshPaginate(NODE, TREE_OBJ);
-		
+
 		//If options checked nodes
 		if (options.checkedNodes){
 			// If options check all, check not checked nodes
@@ -468,7 +468,7 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
 //							console.log('check nodes on paginate');
 							instance.checkedNodes.push($(this).parent().attr('id'));
 						});
-					}					
+					}
 				});
 			} else {
 				instance.checkedNodes = options.checkedNodes;
@@ -476,7 +476,7 @@ GenerisTreeFormClass.prototype.paginateInstances = function(NODE, TREE_OBJ, pOpt
 		}
 //		console.log('CA CHECK ENCORE LA');
 		instance.check(instance.checkedNodes);
-		
+
 		//Execute callback;
 		if (callback){
 			callback (NODE, TREE_OBJ);
@@ -494,7 +494,7 @@ GenerisTreeFormClass.prototype.check = function(elements)
 	var self = this;
 	$.each(elements, function(i, elt){
 		if(elt != null){
-			NODE = $(self.selector).find("li[id="+elt+"]");
+			NODE = $(self.selector).find("li[id='"+elt+"']");
 			if(NODE.length > 0){
 				if($(NODE).hasClass('node-instance'))
 //					console.log('le roublard de chck '+elt);
@@ -514,7 +514,7 @@ GenerisTreeFormClass.prototype.check = function(elements)
  * Get the checked nodes
  * @return {array}
  */
-GenerisTreeFormClass.prototype.getChecked = function () 
+GenerisTreeFormClass.prototype.getChecked = function ()
 {
 	var returnValue = new Array ();
 	$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE){
@@ -545,35 +545,35 @@ GenerisTreeFormClass.prototype.saveData = function()
 		toSend['instance_'+index] = instance.checkedNodes[i];
 		index++;
 	}
-	
+
 	var uriField, classUriField = null;
 	if(this.options.relatedFormId){
 		var uriEltSelector = "#" + this.options.relatedFormId + " :input[name=uri]"
 		if($(uriEltSelector).length){
 			uriField = $(uriEltSelector);
 		}
-		
+
 		var classUriEltSelector = "#" + this.options.relatedFormId + " :input[name=classUri]"
 		if($(classUriEltSelector).length){
 			classUriField = $(classUriEltSelector);
 		}
 	}
-	
+
 	if (!uriField) {
 		uriField = $("input[name=uri]");
 	}
 	if (!classUriField) {
 		classUriField = $("input[name=classUri]");
 	}
-	
+
 	if (uriField) {
 		toSend.uri = uriField.val();
 	}
-	
+
 	if (classUriField) {
 		toSend.classUri = classUriField.val();
 	}
-	
+
 	$.ajax({
 		url: this.options.saveUrl,
 		type: "POST",

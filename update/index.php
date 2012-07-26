@@ -26,9 +26,9 @@ if($myForm->isSubmited() && $myForm->isValid()){
 
 		try{	//if there is any issue during the update, a tao_update_utils_Exception is thrown
 
-			
+
 			$updator->updateDb($formValues,$version,$scriptNumber);
-			
+
 			$updated = true;
 			$taoUrl = _url('index', 'Main', 'tao');
 			//session_destroy();
@@ -74,9 +74,9 @@ $configTests = $installator->processTests();
 <link rel="stylesheet" type="text/css" media="screen"
 	href="../install/res/tao.css" />
 
-<script type="text/javascript" src="../views/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="../views/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript"
-	src="../views/js/jquery-ui-1.8.4.custom.min.js"></script>
+	src="../views/js/jquery-ui-1.8.21.custom.min.js"></script>
 <script type="text/javascript"
 	src="../locales/EN/messages_po.js"></script>
 <script type="text/javascript" src="../views/js/i18n.js"></script>

@@ -12,7 +12,7 @@ $installator = new tao_install_Installator(array(
 	'install_path'	=> dirname(__FILE__)
 ));
 
-// Process the system configuration tests 
+// Process the system configuration tests
 $configTests = $installator->processTests();
 
 //get the settings form
@@ -29,20 +29,20 @@ if(!$myForm->isSubmited() && tao_install_utils_System::isTAOInstalled()){
 //once the form is posted and valid
 $installed = false;
 if($myForm->isSubmited() && $myForm->isValid()){
-	
-	//get the posted values 	
+
+	//get the posted values
 	$formValues = $myForm->getValues();
-	
+
 	try{	//if there is any issue during the install, a tao_install_utils_Exception is thrown
 		$installator->install($formValues);
 		$moduleUrl = $myForm->getValue('module_url');
 		$installed = true;
-		$taoUrl = _url('index', 'Main', 'tao'); 
+		$taoUrl = _url('index', 'Main', 'tao');
 	}
 	catch(tao_install_utils_Exception $ie){
-	
+
 		//we display the exception message to the user
-		$error = $ie->getMessage(); 
+		$error = $ie->getMessage();
 
 	}
 }
@@ -56,8 +56,8 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/style.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/layout.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/form.css"/>
-	<link rel="stylesheet" type="text/css" media="screen" href="./res/tao.css"/> 
-	<script type="text/javascript" src="../views/js/jquery-1.4.2.min.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="./res/tao.css"/>
+	<script type="text/javascript" src="../views/js/jquery-1.7.2.min.js"></script>
 	<?php if(!$installed): ?>
 	<script type="text/javascript" src="./res/tao.js"></script>
 	<? endif; ?>
@@ -120,7 +120,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 		</table>
 	</div>
 	</div>
-	
+
 	<div class="section">
 	<div id="optional-config-header" class="ui-widget ui-widget-header ui-state-default ui-corner-top ui-corner-bottom">
 		2 - Optional System Configuration
@@ -147,7 +147,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 		</table>
 	</div>
 	</div>
-	
+
 	<div class="section">
 		<div class="ui-widget ui-widget-header ui-state-default  ui-corner-top">3 - Installation Form</div>
 		<div id="install-form" class="ui-widget ui-widget-content ui-corner-bottom">

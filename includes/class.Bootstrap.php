@@ -358,7 +358,7 @@ class Bootstrap{
 	protected function i18n()
 	{
 		$uiLang = core_kernel_classes_Session::singleton()->getInterfaceLanguage();
-		
+
 		tao_helpers_I18n::init($uiLang);
 
 		//only for legacy
@@ -374,15 +374,15 @@ class Bootstrap{
 		switch ($this->extension->id){
 			case 'filemanager':
 				tao_helpers_Scriptloader::addCssFiles(array(
-						BASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
+						TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.custom.css',
 						BASE_WWW . 'js/jqueryFileTree/jqueryFileTree.css',
 						BASE_WWW . 'css/style.css'
 					)
 				);
 
 				tao_helpers_Scriptloader::addJsFiles(array(
-						BASE_WWW . 'js/jquery-1.4.2.min.js',
-						BASE_WWW . 'js/jquery-ui-1.8.custom.min.js',
+						TAOBASE_WWW . 'js/jquery-1.7.2.min.js',
+						TAOBASE_WWW . 'js/jquery-ui-1.8.21.custom.min.js',
 						BASE_WWW . 'js/jquery.easing.1.3.js',
 						BASE_WWW . 'js/jqueryFileTree/jqueryFileTree.js',
 						BASE_WWW . 'js/jquery.zclip.js',
@@ -425,8 +425,8 @@ class Bootstrap{
 				//scripts to load
 				tao_helpers_Scriptloader::addJsFiles(
 				    array(
-					TAOBASE_WWW . 'js/jquery-1.4.2.min.js',
-					TAOBASE_WWW . 'js/jquery-ui-1.8.17.custom.min.js',
+					TAOBASE_WWW . 'js/jquery-1.7.2.min.js',
+					TAOBASE_WWW . 'js/jquery-ui-1.8.21.custom.min.js',
 					TAOBASE_WWW . 'js/jsTree/jquery.tree.js',
 					TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
 					TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',

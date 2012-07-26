@@ -11,18 +11,18 @@ define ('PATH_SAMPLE', dirname(__FILE__).'/samples/');
 	<title>QUnit Test Suite</title>
 	<link rel="stylesheet" href="../../tao/test/qunit/qunit.css" type="text/css" media="screen">
 	<!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>-->
-	<script type="application/javascript" src='../views/js/jquery-1.4.2.min.js'></script>
+	<script type="application/javascript" src='../views/js/jquery-1.7.2.min.js'></script>
     <script type="application/javascript" src="../test/qunit/qunit.js"></script>
     <script type="application/javascript" src="../views/js/tao.ajaxWrapper.js"></script>
-	
+
 	<!-- -------------------------------------------------------------------------
 	QTI DATA
 	--------------------------------------------------------------------------->
-	
+
 	<script type="application/javascript">
         var testToRun = '*';
         //var testToRun = "Remote Parsing / Client Matching : Select Point";
-        
+
         var testUnitFct = test;
         var asynctestUnitFct = asyncTest;
         test = function (label, func)
@@ -48,12 +48,12 @@ define ('PATH_SAMPLE', dirname(__FILE__).'/samples/');
             equal(result.message, message, 'Expected message');
             equal(result.data, data, 'Expected data');
         }
-        
+
 		test("Test default ajax response", function(){
             var successCallback = function(data, result){
                 isExpectedResult(result, true, 'json', null, "");
             }
-            
+
             tao.ajaxWrapper.ajax({
                 'url'       : '<?=ROOT_URL?>/tao/test/ajaxWrapper/class.Foo.php?action=defaultAjaxResponse'
                 , 'success' : successCallback
@@ -67,7 +67,7 @@ define ('PATH_SAMPLE', dirname(__FILE__).'/samples/');
             var successCallback = function(data, result){
                 isExpectedResult(result, true, 'json', expectedData, expectedMessage);
             }
-            
+
             tao.ajaxWrapper.ajax({
                 'url'       : '<?=ROOT_URL?>/tao/test/ajaxWrapper/class.Foo.php?action=jsonAjaxResponse'
                 , 'success' : successCallback
@@ -119,16 +119,16 @@ define ('PATH_SAMPLE', dirname(__FILE__).'/samples/');
                 , 'async'   : false
             });
         });
-        
+
         var globalVarToUpdate = 0;
         function defaultAjaxSuccessCallback(){
             globalVarToUpdate++;
         }
-        
+
         test("Test classic ajax response with default callbacks", function(){
             tao.ajaxWrapper.addSuccessCallback(defaultAjaxSuccessCallback);
             tao.ajaxWrapper.addSuccessCallback(defaultAjaxSuccessCallback);
-            
+
             var expectedData = "expected data";
             var expectedMessage = "expected message";
             var successCallback = function(data, result){
@@ -147,7 +147,7 @@ define ('PATH_SAMPLE', dirname(__FILE__).'/samples/');
         });
 
 	</script>
-	
+
 </head>
 <body>
 	<h1 id="qunit-header">QUnit Test Suite</h1>

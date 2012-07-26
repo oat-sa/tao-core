@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>TAO</title>
-	<script type="text/javascript" src="<?=ROOT_URL?>/tao/views/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="<?=ROOT_URL?>/tao/views/js/jquery-1.7.2.min.js"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/custom-theme/jquery-ui-1.8.custom.css"/>
 	<script type="text/javascript" src="<?=ROOT_URL?>/tao/views/js/tao.ajaxWrapper.js"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/style.css"/>
