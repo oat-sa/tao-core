@@ -82,6 +82,8 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 
 		$gridParams = '?';
 		if ($this->hasRequestParameter('customprops')) $gridParams .= 'customprops='.urlencode($this->getRequestParameter('customprops'));
+		if ($this->hasRequestParameter('userClassUri')) $gridParams .= '&userClassUri='.urlencode($this->getRequestParameter('userClassUri'));
+		if ($this->hasRequestParameter('filter')) $gridParams .= '&filter='.urlencode($this->getRequestParameter('filter'));
 		$this->setData('gridParams', $gridParams);
 
 		$this->setView('user/grid.tpl');
