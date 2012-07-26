@@ -76,7 +76,7 @@ $configTests = $installator->processTests();
 
 <script type="text/javascript" src="../views/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript"
-	src="../views/js/jquery-ui-1.8.21.custom.min.js"></script>
+	src="../views/js/jquery-ui-1.8.22.custom.min.js"></script>
 <script type="text/javascript"
 	src="../locales/EN/messages_po.js"></script>
 <script type="text/javascript" src="../views/js/i18n.js"></script>
