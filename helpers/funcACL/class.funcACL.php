@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 13.04.2012, 13:59:01 with ArgoUML PHP module
+ * Automatically generated on 30.07.2012, 11:55:05 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jehan Bihin
@@ -281,6 +281,61 @@ class tao_helpers_funcACL_funcACL
 			tao_models_classes_cache_FileCache::singleton()->remove('RolesByActions');
 			self::$rolesByActions = null;
         // section 127-0-1-1-5382e8cb:136ab734ff6:-8000:0000000000003908 end
+    }
+
+    /**
+     * Returns the roles that grant access to a specific action
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  Resource action
+     * @return array
+     */
+    public static function getRolesByAction( core_kernel_classes_Resource $action)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--1ccb663f:138d70cdc8b:-8000:0000000000003B65 begin
+	    // @todo: don't use uri
+        $uri = explode('#', $action->getUri());
+		$uri = explode('_', $uri[1], 4);
+		$ext = $uri[1];
+		$mod = $uri[2];
+		$act = $uri[3];
+		$cache = self::getRolesByActions();
+		if (isset($cache[$ext][$mod]['actions'][$act])) {
+			$returnValue = $cache[$ext][$mod]['actions'][$act];
+		}
+        // section 127-0-1-1--1ccb663f:138d70cdc8b:-8000:0000000000003B65 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Returns the roles that grant access to a specific module
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  Resource module
+     * @return array
+     */
+    public static function getRolesByModule( core_kernel_classes_Resource $module)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--1ccb663f:138d70cdc8b:-8000:0000000000003B68 begin
+        // @todo: don't use uri
+        $uri = explode('#', $module->getUri());
+		$uri = explode('_', $uri[1]);
+		$ext = $uri[1];
+		$mod = $uri[2];
+		$cache = self::getRolesByActions();
+		if (isset($cache[$ext][$mod]['roles'])) {
+			$returnValue = $cache[$ext][$mod]['roles'];
+		}
+        // section 127-0-1-1--1ccb663f:138d70cdc8b:-8000:0000000000003B68 end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_helpers_funcACL_funcACL */

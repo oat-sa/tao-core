@@ -102,21 +102,21 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 	}
 
 	public function getActions() {
-		$role = $this->getRequestParameter('role');
-		$uri = explode('#', $this->getRequestParameter('module'));
-		$uri = explode('_', $uri[1]);
-		$ext = $uri[1];
-		$mod = $uri[2];
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$rban = array('actions' => array(), 'bymodule' => false);
-		$access = 0;
-		$allaccess = false;
-		if (in_array($role, $rba[$ext][$mod]['roles'])) $rban['bymodule'] = true;
-		foreach ($rba[$ext][$mod]['actions'] as $anom => $r) {
-			$rban['actions'][$anom] = array('have-access' => false, 'uri' => tao_models_classes_funcACL_AccessService::singleton()->makeEMAUri($ext, $mod, $anom));
-			if (in_array($role, $r)) $rban['actions'][$anom]['have-access'] = true;
-		}
-		echo json_encode($rban);
+		$role = new core_kernel_classes_Resource($this->getRequestParameter('role'));
+		$module = new core_kernel_classes_Resource($this->getRequestParameter('module'));
+		
+		$actions = array();
+		foreach (tao_helpers_funcACL_ActionModel::getActions($module) as $action) {
+			$actions[$action->getLabel()] = array(
+				'uri'			=> $action->getUri(),
+				'have-access'	=> in_array($role->getUri(), tao_helpers_funcACL_funcACL::getRolesByAction($action))
+			);
+		};
+		ksort($actions);
+		echo json_encode(array(
+			'actions'	=> $actions,
+			'byModule'	=> in_array($role->getUri(), tao_helpers_funcACL_funcACL::getRolesByModule($module)) 
+		));
 	}
 
 	public function getAttachedModuleRoles() {

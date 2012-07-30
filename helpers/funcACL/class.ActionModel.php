@@ -3,14 +3,8 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao/helpers/funcACL/class.ActionModelCreator.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 13.06.2012, 17:15:31 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ * Helper to read/write the action/module model
+ * of tao from/to the ontology
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
@@ -30,14 +24,15 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section 127-0-1-1--1875a6a1:137e65726c7:-8000:0000000000003B18-constants end
 
 /**
- * Short description of class tao_helpers_funcACL_ActionModelCreator
+ * Helper to read/write the action/module model
+ * of tao from/to the ontology
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_funcACL
  */
-class tao_helpers_funcACL_ActionModelCreator
+class tao_helpers_funcACL_ActionModel
 {
     // --- ASSOCIATIONS ---
 
@@ -47,7 +42,8 @@ class tao_helpers_funcACL_ActionModelCreator
     // --- OPERATIONS ---
 
     /**
-     * Short description of method spawnExtensionModel
+     * creates a model of the modules and their actions
+     * of an extentions in the ontology to be used to assign access rights
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -85,7 +81,8 @@ class tao_helpers_funcACL_ActionModelCreator
     }
 
     /**
-     * Short description of method addModule
+     * adds a module to the ontology
+     * and grant access to the role taomanager
      *
      * @access private
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -121,7 +118,7 @@ class tao_helpers_funcACL_ActionModelCreator
     }
 
     /**
-     * Short description of method addAction
+     * adds an action to the ontology
      *
      * @access private
      * @author Joel Bout, <joel.bout@tudor.lu>
@@ -155,6 +152,50 @@ class tao_helpers_funcACL_ActionModelCreator
         return $returnValue;
     }
 
-} /* end of class tao_helpers_funcACL_ActionModelCreator */
+    /**
+     * returns the modules of an extension from the ontology
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  string extensionID
+     * @return array
+     */
+    public static function getModules($extensionID)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--1ccb663f:138d70cdc8b:-8000:0000000000003B59 begin
+		$moduleClass = new core_kernel_classes_Class(CLASS_ACL_MODULE);
+		$returnValue = $moduleClass->searchInstances(array(
+			PROPERTY_ACL_MODULE_EXTENSION	=> $extensionID
+		), array( 
+			'like'	=> false
+		));
+        // section 127-0-1-1--1ccb663f:138d70cdc8b:-8000:0000000000003B59 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * returns the actions of a module from the ontology
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  Resource module
+     * @return array
+     */
+    public static function getActions( core_kernel_classes_Resource $module)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--1ccb663f:138d70cdc8b:-8000:0000000000003B5C begin
+        $moduleClass = new core_kernel_classes_Class(CLASS_ACL_ACTION);
+		$returnValue = $moduleClass->searchInstances(array(PROPERTY_ACL_ACTION_MEMBEROF => $module));
+        // section 127-0-1-1--1ccb663f:138d70cdc8b:-8000:0000000000003B5C end
+
+        return (array) $returnValue;
+    }
+
+} /* end of class tao_helpers_funcACL_ActionModel */
 
 ?>

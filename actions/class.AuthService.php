@@ -139,7 +139,8 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 	 */
 	private function buildInfo(core_kernel_classes_Resource $user) {
 		$roles = array();
-		foreach (core_kernel_users_Service::singleton()->getUserRoles($user) as $role) {
+		$roles = core_kernel_users_Service::singleton()->getUserRoles($user);
+		foreach ($roles as $role) {
 			$roles[] = array(
 				'id'	=> $role->getUri(),
 				'label'	=> $role->getLabel()
