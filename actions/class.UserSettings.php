@@ -25,11 +25,29 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 		$this->userService = tao_models_classes_UserService::singleton();
 	}
 
+	public function password(){
+
+		$myFormContainer = new tao_actions_form_UserPassword();
+		$myForm = $myFormContainer->getForm();
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				$user = $this->userService->getCurrentUser();
+				core_kernel_users_Service::singleton()->setPassword($user, $myForm->getValue('newpassword'));
+				$this->setData('message', __('Password changed'));
+			}
+		}
+		$this->setData('formTitle'	, __("Change password"));
+		$this->setData('myForm'		, $myForm->render());
+
+		//$this->setView('form.tpl');
+		$this->setView('form/settings_user.tpl');
+	}
+	
 	/**
-	 * render the settings form
+	 * change Proprties of the user
 	 * @return void
 	 */
-	public function index(){
+	public function properties(){
 
 		$myFormContainer = new tao_actions_form_UserSettings($this->getLangs());
 		$myForm = $myFormContainer->getForm();
@@ -66,10 +84,10 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 			}
 		}
 		$this->setData('formTitle'	, __("My settings"));
-		$this->setData('myForm'		, $myForm->render());
+		$this->setData('myForm'	, $myForm->render());
 
 		//$this->setView('form.tpl');
-		$this->setView('form/settings.tpl');
+		$this->setView('form/settings_user.tpl');
 	}
 
 
