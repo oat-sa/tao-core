@@ -266,6 +266,14 @@ class tao_actions_form_Users
 				$this->form->addElement($pass3Element);
 				
 				$this->form->createGroup("pass_group", __("Change the password"), array('password1', 'password2', 'password3'));
+				if (empty($_POST[$pass2Element->getName()]) && empty($_POST[$pass3Element->getName()])) {
+
+					if ($this->options['requireOldPassword']) {
+						$pass1Element->setForcedValid();
+					}
+					$pass2Element->setForcedValid();
+					$pass3Element->setForcedValid();
+				}
 			}
 		}
 		/**/
