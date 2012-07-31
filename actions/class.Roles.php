@@ -104,7 +104,7 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 	public function getActions() {
 		$role = new core_kernel_classes_Resource($this->getRequestParameter('role'));
 		$module = new core_kernel_classes_Resource($this->getRequestParameter('module'));
-		
+
 		$actions = array();
 		foreach (tao_helpers_funcACL_ActionModel::getActions($module) as $action) {
 			$actions[$action->getLabel()] = array(
@@ -115,35 +115,24 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 		ksort($actions);
 		echo json_encode(array(
 			'actions'	=> $actions,
-			'byModule'	=> in_array($role->getUri(), tao_helpers_funcACL_funcACL::getRolesByModule($module)) 
+			'byModule'	=> in_array($role->getUri(), tao_helpers_funcACL_funcACL::getRolesByModule($module))
 		));
 	}
 
 	public function getAttachedModuleRoles() {
-		$uri = explode('#', $this->getRequestParameter('module'));
-		$uri = explode('_', $uri[1]);
-		$ext = $uri[1];
-		$mod = $uri[2];
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
+		$module = new core_kernel_classes_Resource($this->getRequestParameter('module'));
 		$roles = array();
-		foreach ($rba[$ext][$mod]['roles'] as $uri) {
-			$role = new core_kernel_classes_Resource($uri);
-			$roles[] = array('uri' => $uri, 'label' => $role->getLabel());
+		foreach (tao_helpers_funcACL_funcACL::getRolesByModule($module) as $role) {
+			$roles[] = array('uri' => $role->getUri(), 'label' => $role->getLabel());
 		}
 		echo json_encode(array('roles' => $roles));
 	}
 
 	public function getAttachedActionRoles() {
-		$uri = explode('#', $this->getRequestParameter('action'));
-		$uri = explode('_', $uri[1]);
-		$ext = $uri[1];
-		$mod = $uri[2];
-		$act = $uri[3];
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
+		$action = new core_kernel_classes_Resource($this->getRequestParameter('action'));
 		$roles = array();
-		foreach ($rba[$ext][$mod]['actions'][$act] as $uri) {
-			$role = new core_kernel_classes_Resource($uri);
-			$roles[] = array('uri' => $uri, 'label' => $role->getLabel());
+		foreach (tao_helpers_funcACL_funcACL::getRolesByAction($action) as $role) {
+			$roles[] = array('uri' => $role->getUri(), 'label' => $role->getLabel());
 		}
 		echo json_encode(array('roles' => $roles));
 	}
