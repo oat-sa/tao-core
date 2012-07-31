@@ -157,7 +157,7 @@ function loadActions(role, module) {
 				act = data.actions[e];
 				extra = '';
 				//if (data.bymodule) extra = ' have-heritedaccess';
-				if (data.bymodule || act['have-allaccess'] || act['have-access']) {
+				if (data.byModule || act['have-allaccess'] || act['have-access']) {
 					extra = ' have-allaccess';
 					nballaccess++;
 				}
@@ -175,7 +175,7 @@ function loadActions(role, module) {
 				$el.appendTo($('#aclActions ul.group-list'));
 			}
 			if (nballaccess == Object.keys(data.actions).length) {
-				if (data.bymodule) extra = ' checked';
+				if (data.byModule) extra = ' checked';
 				$el = $('<li class="autoadd'+extra+'"><span class="label">'+ __('Auto. add new') +'</span><span class="selector checkable"></span></li>');
 				$el.click(function() {
 					if ($(this).hasClass('checked')) actOnUri($('#aclModules .selected').data('uri'), 'mod2acts', $('#roles').val());
