@@ -64,12 +64,12 @@ class tao_models_classes_funcACL_ModuleAccessService
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A31 begin
 		$uri = explode('#', $accessUri);
 		list($type, $ext, $mod) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
+		$module = new core_kernel_classes_Resource($accessUri);
 		$roler = new core_kernel_classes_Class($roleUri);
 		$roler->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), $accessUri);
 		//Delete roles for actions
-		foreach ($rba[$ext][$mod]['actions'] as $actn => $roles) {
-			$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $mod, $actn)));
+		foreach (tao_helpers_funcACL_ActionModel::getActions($module) as $action) {
+			$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $mod, $action->getLabel())));
 		}
 		tao_helpers_funcACL_funcACL::removeRolesByActions();
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A31 end
@@ -89,12 +89,12 @@ class tao_models_classes_funcACL_ModuleAccessService
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A35 begin
 		$uri = explode('#', $accessUri);
 		list($type, $ext, $mod) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
+		$module = new core_kernel_classes_Resource($accessUri);
 		$roler = new core_kernel_classes_Class($roleUri);
 		$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), array('pattern' => $accessUri));
 		//Delete roles for actions
-		foreach ($rba[$ext][$mod]['actions'] as $actn => $roles) {
-			$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $mod, $actn)));
+		foreach (tao_helpers_funcACL_ActionModel::getActions($module) as $action) {
+			$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $mod, $action->getLabel())));
 		}
 		tao_helpers_funcACL_funcACL::removeRolesByActions();
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A35 end
@@ -114,12 +114,12 @@ class tao_models_classes_funcACL_ModuleAccessService
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A39 begin
 		$uri = explode('#', $accessUri);
 		list($type, $ext, $mod) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
+		$module = new core_kernel_classes_Resource($accessUri);
 		$roler = new core_kernel_classes_Class($roleUri);
 		$propa = new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS);
 		$roler->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), $this->makeEMAUri($ext, $mod));
-		foreach ($rba[$ext][$mod]['actions'] as $actn => $roles) {
-			$roler->removePropertyValues($propa, array('pattern' => $this->makeEMAUri($ext, $mod, $actn)));
+		foreach (tao_helpers_funcACL_ActionModel::getActions($module) as $action) {
+			$roler->removePropertyValues($propa, array('pattern' => $this->makeEMAUri($ext, $mod, $action->getLabel())));
 		}
 		tao_helpers_funcACL_funcACL::removeRolesByActions();
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A39 end
