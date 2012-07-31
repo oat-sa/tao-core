@@ -72,10 +72,9 @@ class tao_actions_form_Users
      * @param  Class clazz
      * @param  Resource user
      * @param  boolean forceAdd
-     * @param  boolean requireOldPassword
      * @return mixed
      */
-    public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $user = null, $forceAdd = false, $requireOldPassword = true)
+    public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $user = null, $forceAdd = false)
     {
         // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F43 begin
         
@@ -106,7 +105,6 @@ class tao_actions_form_Users
     	common_Logger::d('user is '.$this->user);
     	
     	$options['topClazz'] = CLASS_GENERIS_USER;
-    	$options['requireOldPassword'] = $requireOldPassword;
     	
     	parent::__construct($clazz, $this->user, $options);
     	
@@ -238,19 +236,6 @@ class tao_actions_form_Users
 				$this->form->createGroup("pass_group", __("Change the password"), array('warningpass'));
 			} else {
 			
-				if ($this->options['requireOldPassword']) {
-					$pass1Element = tao_helpers_form_FormFactory::getElement('password1', 'Hiddenbox');
-					$pass1Element->setDescription(__('Old Password'));
-					$pass1Element->addValidator(
-						tao_helpers_form_FormFactory::getValidator('Callback', array(
-							'message'	=> __('Passwords are not matching'), 
-							'object'	=> core_kernel_users_Service::singleton(),
-							'method'	=> 'isPasswordValid',
-							'param'		=> $this->getUser()
-					)));
-					$this->form->addElement($pass1Element);
-				}
-				
 				$pass2Element = tao_helpers_form_FormFactory::getElement('password2', 'Hiddenbox');
 				$pass2Element->setDescription(__('New password'));
 				$pass2Element->addValidators(array(
@@ -268,9 +253,6 @@ class tao_actions_form_Users
 				$this->form->createGroup("pass_group", __("Change the password"), array('password1', 'password2', 'password3'));
 				if (empty($_POST[$pass2Element->getName()]) && empty($_POST[$pass3Element->getName()])) {
 
-					if ($this->options['requireOldPassword']) {
-						$pass1Element->setForcedValid();
-					}
 					$pass2Element->setForcedValid();
 					$pass3Element->setForcedValid();
 				}
