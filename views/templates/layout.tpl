@@ -19,16 +19,20 @@
 					<img src="<?=TAOBASE_WWW?>img/home.png" alt="<?=__('Home')?>" />
 				</a>
 			</span>
+<?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', null)): ?>
 			<span>
 				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'users'))?>" title="<?=__('Users')?>">
 					<img src="<?=TAOBASE_WWW?>img/users.png" alt="<?=__('Users')?>" />
 				</a>
 			</span>
+<?php endif; ?>
+<?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Settings', null) || tao_helpers_funcACL_funcACL::hasAccess('tao', 'UserSettings', null)): ?>
 			<span>
 				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings'))?>" title="<?=__('Settings')?>">
 					<img src="<?=TAOBASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />
 				</a>
 			</span>
+<?php endif; ?>
 			<span>
 			<a href="#" class="file-manager" title="<?=__('Media manager')?>">
 				<img src="<?=TAOBASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" />
