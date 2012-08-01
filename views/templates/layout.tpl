@@ -4,14 +4,12 @@
 		<a href="<?=_url('index', 'Main', 'tao')?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
 		<div class="left-menu">
 			<?$first = true;foreach(get_data('extensions') as $extension):?>
+<?php if ($extension['disabled']): ?>
 				<?if($first):$first = false;?><?else:?>|<?endif?>
 				<span class="<? if (get_data('currentExtension') == $extension['extension']) echo 'current-extension'; if (!$extension['disabled']) echo ' disabled' ?>">
-<?php if ($extension['disabled']): ?>
-						<a href="<?=_url('index', null, $extension['extension'], array('structure' => $extension['id']))?>" title="<?=__($extension['description'])?>"><?=__($extension['name'])?></a>
-<?php else: ?>
-						<?=__($extension['name'])?>
+					<a href="<?=_url('index', null, $extension['extension'], array('structure' => $extension['id']))?>" title="<?=__($extension['description'])?>"><?=__($extension['name'])?></a>
+				</span>
 <?php endif; ?>
-					</span>
 			<?endforeach?>
 		</div>
 
@@ -52,7 +50,7 @@
 	<div id="tabs">
 		<ul>
 		<?foreach(get_data('sections') as $section):?>
-			<li><a id="<?=(string)$section['id']?>" href="<?=ROOT_URL.(string)$section['url']?>" title="<?=(string)$section['name']?>"><?=__((string)$section['name'])?></a></li>
+			<li><a id="<?=$section['id']?>" href="<?=ROOT_URL.$section['url']?>" title="<?=$section['name']?>"><?=__($section['name'])?></a></li>
 		<?endforeach?>
 		</ul>
 

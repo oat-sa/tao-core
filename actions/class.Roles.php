@@ -109,13 +109,13 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 		foreach (tao_helpers_funcACL_ActionModel::getActions($module) as $action) {
 			$actions[$action->getLabel()] = array(
 				'uri'			=> $action->getUri(),
-				'have-access'	=> in_array($role->getUri(), tao_helpers_funcACL_funcACL::getRolesByAction($action))
+				'have-access'	=> in_array($role, tao_helpers_funcACL_funcACL::getRolesByAction($action))
 			);
-		};
+		}
 		ksort($actions);
 		echo json_encode(array(
 			'actions'	=> $actions,
-			'byModule'	=> in_array($role->getUri(), tao_helpers_funcACL_funcACL::getRolesByModule($module))
+			'byModule'	=> in_array($role, tao_helpers_funcACL_funcACL::getRolesByModule($module))
 		));
 	}
 
@@ -168,6 +168,7 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 	public function removeActionAccess() {
 		$role = $this->getRequestParameter('role');
 		$uri = $this->getRequestParameter('uri');
+		//TODO if acces is given by Module, transform byActions before
 		tao_models_classes_funcACL_ActionAccessService::singleton()->remove($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}

@@ -294,7 +294,7 @@ function actOnUri(uri, act, role) {
 			} else elidx = 0;
 			loadModules($('#roles').val());
 			$('#aclModules .group.expendable:eq('+open+')').removeClass('closed').addClass('open');
-			if (elidx) {
+			if ($el.length) {
 				$('#aclModules .open li:eq('+elidx+')').addClass('selected');
 				loadActions($('#roles').val(), uri);
 			}
