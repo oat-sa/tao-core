@@ -46,7 +46,7 @@ class CleanMassInsertTestCase extends UnitTestCase {
 		$deliveryClass->delete (true);
 		
 		$userService = wfEngine_models_classes_UserService::singleton();
-		$users = $userService->getAllUsers(array());
+		$users = $userService->getAllUsers();
 		$systemUsers = array(LOCAL_NAMESPACE.'#superUser', 'http://www.tao.lu/Ontologies/TAO.rdf#installator');
 		foreach($users as $user){
 		   

@@ -128,7 +128,7 @@ class tao_models_grids_adaptors_UserProperty
 				//get roles:
 				if(!in_array('roles', $this->excludedProperties)){
 					$i=0;
-					foreach ($user->getType() as $role) {
+					foreach ($user->getTypes() as $role) {
 						if ($role instanceof core_kernel_classes_Resource) {
 							if($i){
 								$this->data[$rowId]['roles'] .= ', ';

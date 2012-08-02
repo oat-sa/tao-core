@@ -84,7 +84,7 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 	
 	public function getAllUsers() {
 		$service = tao_models_classes_UserService::singleton();
-		$users = $service->getAllUsers(array('filteredRoles' => array(CLASS_ROLE_WORKFLOWUSERROLE)));
+		$users = $service->getUsersByRoles(array(CLASS_ROLE_WORKFLOWUSERROLE));
 		$list = array();
 		foreach ($users as $user) {
 			$props = $user->getPropertiesValues(array(

@@ -68,7 +68,6 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				'order' 	=> $sidx,
 				'orderDir'	=> $sord,
 				'start'		=> $start,
-				'filteredRoles'	=> $filteredRolesArray,
 				'end'		=> $limit
 		);
 		if (!is_null($searchField)) {
@@ -79,7 +78,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			  'string' => $searchString
 			);
 		}
-		$users = $this->userService->getAllUsers($gau);
+		$users = $this->userService->getUsersByRoles($filteredRolesArray, $gau);
 
 		$loginProperty 		= new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
 		$firstNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME);

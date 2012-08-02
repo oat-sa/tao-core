@@ -274,14 +274,17 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Get the list of available users
+     * Get the list of users by role(s)
+     * options are: order, orderDir, start, end, search
+     * with search consisting of: field, op, string
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  array roles
      * @param  array options the user list options to order the list and paginate the results
      * @return array
      */
-    public function getAllUsers($options = array())
+    public function getUsersByRoles($roles, $options = array())
     {
         $returnValue = array();
 
@@ -293,6 +296,9 @@ class tao_models_classes_UserService
 						'uilg' => PROPERTY_USER_UILG,
 						'deflg' => PROPERTY_USER_DEFLG,
 						'mail' => PROPERTY_USER_MAIL,
+		    			'email' => PROPERTY_USER_MAIL,
+						'role' => RDF_TYPE,
+						'roles' => RDF_TYPE,
 						'firstname' => PROPERTY_USER_FIRTNAME,
 						'lastname' => PROPERTY_USER_LASTNAME,
 						'name' => PROPERTY_USER_FIRTNAME);
@@ -301,68 +307,29 @@ class tao_models_classes_UserService
 					 'ew' => "*%s",
 					 'cn' => "*%s*");
 		
-		$rolesClass = new core_kernel_classes_Class(CLASS_ROLE);
-		$users = array();
-
 		$opts = array('recursive' => true, 'like' => false);
 		if (isset($options['start'])) $opts['offset'] = $options['start'];
 		if (isset($options['end'])) $opts['limit'] = $options['end'];
-		if (isset($options['filteredRoles'])) $opts['additionalClasses'] = $options['filteredRoles'];
-		
 		
 		$crits = array(PROPERTY_USER_LOGIN => '*');
 		if (isset($options['search']) && !is_null($options['search']) && isset($options['search']['string']) && isset($ops[$options['search']['op']])) {
 			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
 		}
 		
-		$users = $rolesClass->searchInstances($crits, $opts);
-				
+		if (isset($options['order'])) {
+			$opts['order'] = $fields[$options['order']]; 
+			if (isset($options['orderDir'])) {
+				$opts['orderdir'] = $options['orderDir']; 
+			}
+		}
 		
-    	$keyProp = null;
-       	if (isset($options['order'])) {
-        	$keyProp = new core_kernel_classes_Property($fields[$options['order']]);
-        }
-
-        $index = 0;
-        foreach($users as $user){
-        	$key = $index;
-        	if(!is_null($keyProp)){
-        		try{
-        			$key = $user->getUniquePropertyValue($keyProp);
-        			if(!is_null($key)){
-        				if($key instanceof core_kernel_classes_Literal){
-        					$returnValue[(string)$key] = $user;
-        				}
-        				if($key instanceof core_kernel_classes_Resource){
-        					$returnValue[$key->getLabel()] = $user;
-        				}
-        				continue;
-        			}
-        		}
-        		catch(common_Exception $ce){}
-        	}
-        	$returnValue[$key] = $user;
-        	$index++;
-        }
-
-    	if(isset($options['orderDir'])){
-    		if(isset($options['order'])){
-    			if(strtolower($options['orderDir']) == 'asc'){
-   					ksort($returnValue, SORT_STRING);
-    			}
-    			else{
-    				krsort($returnValue, SORT_STRING);
-    			}
-   			}
-   			else{
-   				if(strtolower($options['orderDir']) == 'asc'){
-	   				sort($returnValue);
-	   			}
-	   			else{
-	   				rsort($returnValue);
-	   			}
-   			}
-        }
+		$rolesClass = new core_kernel_classes_Class(array_shift($roles));
+		if (count($roles) > 0) {
+			$opts['additionalClasses'] = $roles;
+		}
+		
+		$returnValue = $rolesClass->searchInstances($crits, $opts);
+				
         (isset($options['start'])) 	? $start = $options['start'] 	: $start = 0;
         (isset($options['end']))	? $end	= $options['end']		: $end	= count($returnValue);
 
@@ -452,6 +419,25 @@ class tao_models_classes_UserService
         // section 10-13-1-85-4bfc518d:13586bdbc87:-8000:00000000000037E7 end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Short description of method getAllUsers
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  array options
+     * @return array
+     */
+    public function getAllUsers($options = array())
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-1e277528:138e7c3a040:-8000:0000000000003B6B begin
+		$returnValue = $this->getUsersByRoles(array_keys($this->getAllowedConcreteRoles()), $options);
+        // section 127-0-1-1-1e277528:138e7c3a040:-8000:0000000000003B6B end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_models_classes_UserService */
