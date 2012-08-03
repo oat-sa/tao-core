@@ -203,7 +203,7 @@ TaoGridClass.prototype.empty = function()
  * Delete a row
  * @param {Array} data
  */
-TaoGridClass.prototype.delete = function(rowId)
+TaoGridClass.prototype.deleteRow = function(rowId)
 {
 	jQuery(this.selector).jqGrid('delRowData', rowId);
 };
