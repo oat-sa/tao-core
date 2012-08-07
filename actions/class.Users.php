@@ -228,11 +228,10 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			if($myForm->isValid()){
 				$values = $myForm->getValues();
 
-				if(!empty($values['password1']) && !empty($values['password2'])){
+				if(!empty($values['password2']) && !empty($values['password3'])){
 					$values[PROPERTY_USER_PASSWORD] = md5($values['password2']);
 				}
 
-				unset($values['password1']);
 				unset($values['password2']);
 				unset($values['password3']);
 
