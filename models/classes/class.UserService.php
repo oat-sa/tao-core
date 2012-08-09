@@ -308,8 +308,12 @@ class tao_models_classes_UserService
 					 'cn' => "*%s*");
 		
 		$opts = array('recursive' => true, 'like' => false);
-		if (isset($options['start'])) $opts['offset'] = $options['start'];
-		if (isset($options['end'])) $opts['limit'] = $options['end'];
+		if (isset($options['start'])) {
+			$opts['offset'] = $options['start'];
+		}
+		if (isset($options['limit'])) {
+			$opts['limit'] = $options['limit'];
+		}
 		
 		$crits = array(PROPERTY_USER_LOGIN => '*');
 		if (isset($options['search']) && !is_null($options['search']) && isset($options['search']['string']) && isset($ops[$options['search']['op']])) {
@@ -329,12 +333,6 @@ class tao_models_classes_UserService
 		}
 		
 		$returnValue = $rolesClass->searchInstances($crits, $opts);
-				
-        (isset($options['start'])) 	? $start = $options['start'] 	: $start = 0;
-        (isset($options['end']))	? $end	= $options['end']		: $end	= count($returnValue);
-
-      //$returnValue = array_slice($returnValue, $start, $end, true);
-
         // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 end
 
         return (array) $returnValue;
@@ -438,6 +436,64 @@ class tao_models_classes_UserService
         // section 127-0-1-1-1e277528:138e7c3a040:-8000:0000000000003B6B end
 
         return (array) $returnValue;
+    }
+
+    /**
+     * returns the nr of users fullfilling the criterias,
+     * uses the same syntax as getUsersByRole
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  array roles
+     * @param  array options
+     * @return int
+     */
+    public function getUserCount($roles, $options = array())
+    {
+        $returnValue = (int) 0;
+
+        // section 127-0-1-1--59ffbf67:1390a56462a:-8000:0000000000003B6C begin
+        $opts = array(
+        	'recursive' => true,
+        	'like' => false
+        );
+
+		$crits = array(PROPERTY_USER_LOGIN => '*');
+		if (isset($options['search']['string']) && isset($options['search']['op'])
+			&& !empty($options['search']['string']) && !empty($options['search']['op'])) {
+			$fields = array('login' => PROPERTY_USER_LOGIN,
+						'password' => PROPERTY_USER_PASSWORD,
+						'uilg' => PROPERTY_USER_UILG,
+						'deflg' => PROPERTY_USER_DEFLG,
+						'mail' => PROPERTY_USER_MAIL,
+		    			'email' => PROPERTY_USER_MAIL,
+						'role' => RDF_TYPE,
+						'roles' => RDF_TYPE,
+						'firstname' => PROPERTY_USER_FIRTNAME,
+						'lastname' => PROPERTY_USER_LASTNAME,
+						'name' => PROPERTY_USER_FIRTNAME);
+			$ops = array('eq' => "%s",
+					 'bw' => "%s*",
+					 'ew' => "*%s",
+					 'cn' => "*%s*");
+			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
+		}
+		
+		$rolesClass = array_shift($roles);
+		$rolesClass = $rolesClass instanceof core_kernel_classes_Class
+			? $rolesClass
+			: new core_kernel_classes_Class($rolesClass);
+		if (count($roles) > 0) {
+			$opts['additionalClasses'] = array();
+			foreach ($roles as $role) {
+				$opts['additionalClasses'][] = $role instanceof core_kernel_classes_Resource ? $role->getUri() : $role;
+			}
+		}
+		
+		$returnValue = $rolesClass->countInstances($crits, $opts);
+        // section 127-0-1-1--59ffbf67:1390a56462a:-8000:0000000000003B6C end
+
+        return (int) $returnValue;
     }
 
 } /* end of class tao_models_classes_UserService */

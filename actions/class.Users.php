@@ -68,17 +68,19 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				'order' 	=> $sidx,
 				'orderDir'	=> $sord,
 				'start'		=> $start,
-				'end'		=> $limit
+				'limit'		=> $limit
 		);
 		if (!is_null($searchField)) {
 			$gau['search'] = array(
-					'field' => $searchField,
-			  'op' => $searchOper,
-					'filteredRoles'	=> $filteredRolesArray,
-			  'string' => $searchString
+				'field' => $searchField,
+				'op' => $searchOper,
+				'filteredRoles'	=> $filteredRolesArray,
+				'string' => $searchString
 			);
 		}
 		$users = $this->userService->getUsersByRoles($filteredRolesArray, $gau);
+		$counti =  $this->userService->getUserCount($filteredRolesArray, $gau);
+		
 
 		$loginProperty 		= new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
 		$firstNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME);
@@ -132,14 +134,6 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$response->rows[$i]['cell'] = $cellData;
 			$i++;
 		}
-
-		//to move in UserService
-		$opts = array(
-				'recursive'			=> 1,
-				'like'				=> false,
-				'additionalClasses'	=> $filteredRolesArray
-		);
-		$counti = $rolesClass->countInstances(array(PROPERTY_USER_LOGIN => '*'), $opts);
 
 		$response->page = floor($start / $limit)+1;
 		$response->total = ceil($counti / $limit);//$total_pages;
