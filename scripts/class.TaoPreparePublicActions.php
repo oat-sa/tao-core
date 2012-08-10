@@ -88,6 +88,10 @@ class tao_scripts_TaoPreparePublicActions
     		$res->delete();
     	}
     	
+    	$taoManager = new core_kernel_classes_Resource(CLASS_ROLE_TAOMANAGER);
+        $taoManager->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS));
+        
+    	
     	foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
 			// this also adds TaoManager to the Modules
 			tao_helpers_funcACL_ActionModel::spawnExtensionModel($extension);
