@@ -174,7 +174,7 @@ class tao_helpers_funcACL_funcACL
 					new core_kernel_classes_Property(PROPERTY_ACL_MODULE_EXTENSION)
 				));
 				if (!isset($arr[PROPERTY_ACL_MODULE_ID]) || !isset($arr[PROPERTY_ACL_MODULE_EXTENSION])) {
-					common_Logger::e('Module '.$moduleURI.' not found or incomplete');
+					common_Logger::e('Module '.$moduleURI.' not found for role '.$role->getLabel());
 					continue;
 				}
 				$ext = (string)current($arr[PROPERTY_ACL_MODULE_EXTENSION]);
