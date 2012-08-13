@@ -8,22 +8,11 @@
  * @subpackage action
  *
  */
-class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
-	
-	const SESSION_DURATION = 43200; // 12 horus
+class tao_actions_UserApi extends tao_actions_RemoteServiceModule {
 
-	/**
-	 * Allows a remote system to connect a tao User
-	 */
-	public function login() {
-		$user = $this->doLogin();
-		if ($user == false) {
-			return $this->returnFailure(__('Login failed'));
-		} else {
-			$this->returnSuccess(array(
-				'info'	=> $this->buildInfo($user)
-			));
-		}
+	public function __construct() {
+		// make sure the user is autorized
+		parent::__construct();
 	}
 	
 	/**
@@ -73,62 +62,8 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 	 * 
 	 * @throws common_Exception
 	 */
-	public function getUserInfo() {
-		if (!$this->hasRequestParameter('userid')) {
-			throw new common_Exception('Missing paramtere');
-		}
-
-		$user = new core_kernel_classes_Resource($this->getRequestParameter('userid'));
-		return $this->returnSuccess(array('info' => $this->buildInfo($user)));
-	}
-	
-	public function getAllUsers() {
-		$service = tao_models_classes_UserService::singleton();
-		$users = $service->getUsersByRoles(array(CLASS_ROLE_WORKFLOWUSERROLE));
-		$list = array();
-		foreach ($users as $user) {
-			$props = $user->getPropertiesValues(array(
-				new core_kernel_classes_Property(PROPERTY_USER_LOGIN),
-//				PROPERTY_USER_UILG,
-//				PROPERTY_USER_DEFLG,
-				new core_kernel_classes_Property(PROPERTY_USER_MAIL),
-				new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME),
-				new core_kernel_classes_Property(PROPERTY_USER_LASTNAME),
-				));
-			$list[] = array(
-				'id'	=> $user->getUri(),
-				'login'	=> isset($props[PROPERTY_USER_LOGIN])		? (string)array_pop($props[PROPERTY_USER_LOGIN])	: '',
-				'mail'	=> isset($props[PROPERTY_USER_MAIL])		? (string)array_pop($props[PROPERTY_USER_MAIL])		: '',
-				'first'	=> isset($props[PROPERTY_USER_FIRTNAME])	? (string)array_pop($props[PROPERTY_USER_FIRTNAME])	: '',
-				'last'	=> isset($props[PROPERTY_USER_LASTNAME])	? (string)array_pop($props[PROPERTY_USER_LASTNAME])	: ''
-			);
-		}
-		return $this->returnSuccess(array('list' => $list));
-	}
-	
-	public function getAllRoles() {
-		$taoManager = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
-		$list = array(
-			$taoManager->getUri() => $taoManager->getLabel()
-		);
-		$abstractRole = new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSER);
-		foreach ($abstractRole->getInstances() as $concreteRole) {
-			$list[$concreteRole->getUri()] = $concreteRole->getLabel();
-		}
-		return $this->returnSuccess(array('list' => $list));
-	}
-	
-	public function getUserRoles() {
-		if (!$this->hasRequestParameter('userid')) {
-			throw new common_Exception('Missing paramtere');
-		}
-		common_Logger::d('user '.$this->getRequestParameter('userid'));
-		$user = new core_kernel_classes_Resource($this->getRequestParameter('userid'));
-		$uris = array();
-		foreach (core_kernel_users_Service::singleton()->getUserRoles($user) as $role) {
-			$uris[] = $role->getUri();
-		}
-		return $this->returnSuccess(array('roles' => $uris));
+	public function getSelfInfo() {
+		return $this->returnSuccess(array('info' => self::buildInfo($this->getCurrentUser())));
 	}
 	
 	/**
@@ -137,7 +72,7 @@ class tao_actions_AuthService extends tao_actions_RemoteServiceModule {
 	 * 
 	 * @param core_kernel_classes_Resource $user
 	 */
-	private function buildInfo(core_kernel_classes_Resource $user) {
+	public static function buildInfo(core_kernel_classes_Resource $user) {
 		$roles = array();
 		$roles = core_kernel_users_Service::singleton()->getUserRoles($user);
 		foreach ($roles as $role) {
