@@ -200,12 +200,18 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			$actionNodes =  $structure["actions"];
 			$actions = array();
 			foreach($actionNodes as $actionNode){
-				$url = explode('/', substr((string)$actionNode['url'], 1));
-				$ext = (isset($url[0])) ? $url[0] : null;
-				$module = (isset($url[1])) ? $url[1] : null;
-				$action = (isset($url[2])) ? $url[2] : null;
+				$nocheck = true;
+				if (isset($actionNode['url']) && strlen((string)$actionNode['url']) > 0) {
+					$url = explode('/', substr((string)$actionNode['url'], 1));
+					if (count($url) == 3) {
+						$ext = (isset($url[0])) ? $url[0] : null;
+						$module = (isset($url[1])) ? $url[1] : null;
+						$action = (isset($url[2])) ? $url[2] : null;
+						$nocheck = false;
+					}
+				}
 
-				if (tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action)) {
+				if ($nocheck || tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action)) {
 					$display = __((string) $actionNode['name']);
 					if(strlen($display) > 15){
 						$display = str_replace(' ', "<br>", $display);
