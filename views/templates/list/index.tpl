@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/lists.css" />
 <div class="main-container">
 	<div id="list-container">
-	
+
 		<table>
 		<?foreach(get_data('lists') as $i => $list):?>
 			<?if($i==0 or $i%4==0):?><tr><?endif?>
@@ -12,7 +12,7 @@
 						<div class="list-elements" id='list-elements_<?=$list['uri']?>'>
 							<ol>
 								<?foreach($list['elements'] as $level => $element):?>
-									<li id="list-element_<?=$level?>"> 
+									<li id="list-element_<?=$level?>">
 										<span class="list-element" id="list-element_<?=$level?>_<?=$element['uri']?>" ><?=$element['label']?></span>
 									</li>
 								<?endforeach?>
@@ -29,7 +29,7 @@
 							</a>
 						<?else:?>
 							<?=__('Edit')?> | <?=__('Delete')?>
-						
+
 						<?endif?>
 						</div>
 					</fieldset>
@@ -66,17 +66,17 @@ $(document).ready(function(){
 
 			listContainer.wrap("<form />");
 			listContainer.prepend("<input type='hidden' name='uri' value='"+uri+"' />");
-			
+
 			$("<input type='text' name='label' value='"+listContainer.find('legend span').text()+"'/>").prependTo(listContainer.find('div.list-elements')).keyup(function(){
 				listContainer.find('legend span').text($(this).val());
 			});
-			
+
 			if (listContainer.find('.list-element').length){
 				listContainer.find('.list-element').replaceWith(function(){
-					return "<input type='text' name='" + $(this).attr('id') + "' value='"+$(this).text()+"' />";  
+					return "<input type='text' name='" + $(this).attr('id') + "' value='"+$(this).text()+"' />";
 				});
 			}
-			
+
 			elementList = listContainer.find('ol');
 			elementList.addClass('sortable-list');
 			elementList.find('li').addClass('ui-state-default');
@@ -108,12 +108,12 @@ $(document).ready(function(){
 			elementSaver = $("<a href='#'><img src='<?=TAOBASE_WWW?>img/save.png' class='icon' /><?=__('Save')?></a>");
 			elementSaver.click(function(){
 				$.postJson(
-					saveUrl, 
-					$(this).parents('form').serializeArray(), 
+					saveUrl,
+					$(this).parents('form').serializeArray(),
 					function(response){
 						if(response.saved){
-							createInfoMessage(__("list saved"));
-							_load(getMainContainerSelector(), "<?=_url('index', 'Lists', 'tao')?>");
+							helpers.createInfoMessage(__("list saved"));
+							helpers._load(helpers.getMainContainerSelector(), "<?=_url('index', 'Lists', 'tao')?>");
 						}
 					}
 				);
@@ -128,14 +128,14 @@ $(document).ready(function(){
 				$(this).parent().find('ol').append(
 					"<li id='list-element_"+level+"' class='ui-state-default'>" +
 						"<span class='ui-icon ui-icon-arrowthick-2-n-s' ></span>" +
-						"<span class='ui-icon ui-icon-grip-dotted-vertical' ></span>" + 
-						"<input type='text' name='list-element_"+level+"_' />" + 
-						"<span class='ui-icon ui-icon-circle-close list-element-deletor' ></span>" + 
+						"<span class='ui-icon ui-icon-grip-dotted-vertical' ></span>" +
+						"<input type='text' name='list-element_"+level+"_' />" +
+						"<span class='ui-icon ui-icon-circle-close list-element-deletor' ></span>" +
 					"</li>");
 			});
 			elementList.after(elementAdder);
 
-			
+
 		}
 
 		$(".list-element-deletor").click(function(){
@@ -148,13 +148,13 @@ $(document).ready(function(){
 					function(response){
 						if(response.deleted){
 							element.remove();
-							createInfoMessage(__("element deleted"));
+							helpers.createInfoMessage(__("element deleted"));
 						}
 					}
 				);
 			}
 		});
-		
+
 	});
 
 	$(".list-deletor").click(function(){
@@ -166,7 +166,7 @@ $(document).ready(function(){
 				{uri: uri},
 				function(response){
 					if(response.deleted){
-						createInfoMessage(__("list deleted"));
+						helpers.createInfoMessage(__("list deleted"));
 						list.remove();
 					}
 				}
@@ -174,6 +174,6 @@ $(document).ready(function(){
 		}
 	});
 
-	uiForm.initElements();	
+	uiForm.initElements();
 });
 </script>

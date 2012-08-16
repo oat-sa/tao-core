@@ -33,7 +33,7 @@
 
 		$(document).ready(function(){
 			if(ctx_action == 'add'){
-				UiBootstrap.tabs.tabs('disable', getTabIndexByName('edit_user'));
+				uiBootstrap.tabs.tabs('disable', helpers.getTabIndexByName('edit_user'));
 				checkLogin("<?=get_data('loginUri')?>", "<?=_url('checkLogin', 'Users', 'tao')?>");
 			}
 

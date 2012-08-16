@@ -6,6 +6,10 @@
 -->
 </style>
 
+<script type="text/javascript">
+	require([generis.facetFilter]);
+</script>
+
 <div id="facet-filter"></div>
 <table id="result-list"></table>
 <div id="result-list-pager"></div>

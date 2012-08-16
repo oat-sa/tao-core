@@ -18,14 +18,14 @@
 				<td class="last">
 					<span id="comment-field"><?=get_data('comment')?></span>
 					<a href="#" id="comment-editor" title="<?=__('Edit Comment')?>">
-						<img src="../views/img/edit.png" alt="<?=__('Edit Comment')?>" />
+						<img src="<?=TAOBASE_WWW?>img/edit.png" alt="<?=__('Edit Comment')?>" />
 					</a>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 </div>
-<!--  
+<!--
 <span id="comment-form-container-title" style="display:none;"><?=__("Edit item comment")?></span>
 <div id="comment-form-container" style="display:none;">
 	<form method="post" id="comment-form">

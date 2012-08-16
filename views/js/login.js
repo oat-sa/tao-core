@@ -6,5 +6,5 @@ function focusFirstField() {
 }
 
 $(document).ready(function() {
-	focusFirstField();	
+	focusFirstField();
 });

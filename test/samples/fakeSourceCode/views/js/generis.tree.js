@@ -970,7 +970,7 @@ GenerisTreeClass.prototype.moveInstance = function(myNODE, myTREE_OBJ){
 	};
 
 	//create a dialog window to embed the tree
-	position = $(getMainContainerSelector()).offset();
+	position = $(helpers.getMainContainerSelector()).offset();
 	$("#tmp-moving-tree").tree(TMP_TREE);
 	$("#tmp-moving").dialog({
 		width: 350,

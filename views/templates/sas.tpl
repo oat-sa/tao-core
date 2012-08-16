@@ -28,16 +28,16 @@
 			else{
 				uiForm.initElements();
 			}
-			_autoFx();
+			helpers_autoFx();
 		});
 	</script>
+<?if(get_data('errorMessage')):?>
 	<script type='text/javascript'>
 		$(function(){
-		<?if(get_data('errorMessage')):?>
-			createErrorMessage("<?=get_data('errorMessage')?>");
-		<?endif?>
+			helpers.createErrorMessage("<?=get_data('errorMessage')?>");
 		});
 	</script>
+<?endif?>
 </head>
 <body>
 
@@ -46,7 +46,7 @@
 		<span><?=get_data('message')?></span>
 	</div>
 	<?endif?>
-	
+
 	<div id="ajax-loading" class="ui-widget-overlay">
 		<img src="<?=TAOBASE_WWW?>img/ajax-loader.gif" alt="Loading..." />
 	</div>

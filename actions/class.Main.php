@@ -61,7 +61,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 			//add the login stylesheet
 			tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/login.css');
-			tao_helpers_Scriptloader::addJsFile(BASE_WWW . 'js/login.js');
+			//tao_helpers_Scriptloader::addJsFile(BASE_WWW . 'js/login.js');
 
 			$myLoginFormContainer = new tao_actions_form_Login($this->hasRequestParameter('redirect')
 				? array('redirect' => $this->getRequestParameter('redirect'))

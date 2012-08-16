@@ -14,11 +14,11 @@
 </div>
 <script type="text/javascript">
 function editUser(uri){
-	index = getTabIndexByName('edit_user');
+	index = helpers.getTabIndexByName('edit_user');
 	if(index && uri){
 		editUrl = "<?=_url('edit', 'Users', 'tao')?>" + '?uri=' + uri;
-		UiBootstrap.tabs.tabs('url', index, editUrl);
-		UiBootstrap.tabs.tabs('enable', index);
+		uiBootstrap.tabs.tabs('url', index, editUrl);
+		uiBootstrap.tabs.tabs('enable', index);
 		selectTabByName('edit_user');
 	}
 }
@@ -28,7 +28,7 @@ function removeUser(uri){
 	}
 }
 $(function(){
-	UiBootstrap.tabs.tabs('disable', getTabIndexByName('edit_user'));
+	uiBootstrap.tabs.tabs('disable', helpers.getTabIndexByName('edit_user'));
 	var myGrid = $("#user-list").jqGrid({
 		url: "<?=_url('data', 'Users', 'tao')?>",
 		datatype: "json",
@@ -70,6 +70,6 @@ $(function(){
 	});
 	myGrid.navGrid('#user-list-pager',{edit:false, add:false, del:false});
 
-	_autoFx();
+	helpers_autoFx();
 });
 </script>

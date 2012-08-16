@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 02.01.2012, 11:12:09 with ArgoUML PHP module 
+ * Automatically generated on 02.01.2012, 11:12:09 with ArgoUML PHP module
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -87,17 +87,17 @@ class tao_helpers_form_elements_xhtml_AsyncFile
         $returnValue = (string) '';
 
         // section 127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DE begin
-        
+
         $widgetName = 'AsyncFileUploader_'.md5($this->name);
-		
+
         $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
-        
+
 		$returnValue .= "<div id='{$widgetName}_container' class='form-elt-container file-uploader'>";
         $returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
         $returnValue .= "<input type='file' name='{$widgetName}' id='{$widgetName}' ";
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= " value='{$this->value}'  />";
-		
+
 		$returnValue .= "<br /><span>";
 		$returnValue .= "<img src='".TAOBASE_WWW."img/file_upload.png' class='icon' />";
 		$returnValue .= "<a href='#' id='{$widgetName}_starter' >".__('Start upload')."</a>";
@@ -108,9 +108,9 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 		$max_post = (int)(ini_get('post_max_size'));
 		$memory_limit = (int)(ini_get('memory_limit'));
 		$fileSize = min($max_upload, $max_post, $memory_limit) * 1024 * 1024;
-		
+
 		$extensions = array();
-		
+
 		//add a client validation
 		foreach($this->validators as $validator){
 			//get the valid file extensions
@@ -133,39 +133,38 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 				}
 			}
 		}
-		
+
 		//default value for 'auto' is 'true':
 		$auto = 'true';
 		if(isset($this->attributes['auto'])){
-			if(!$this->attributes['auto'] || $this->attributes['auto'] === 'false') $auto = 'false'; 
+			if(!$this->attributes['auto'] || $this->attributes['auto'] === 'false') $auto = 'false';
 			unset($this->attributes['auto']);
 		}
-		
+
 		//initialize the AsyncFileUpload Js component
 		$id = md5($this->name);
 		$returnValue .= '<script type="text/javascript">
 			$(document).ready(function(){
-				myUploader_'.$id.' = new AsyncFileUpload("#'.$widgetName.'", {
-					"scriptData"	: {"session_id": "'.session_id().'"},
-					"basePath"  : "'.TAOBASE_WWW.'",
-					"sizeLimit"	: '.$fileSize.',';
-		if(count($extensions) > 0){
- 			$returnValue .='
-					"fileDesc"	: "'.__('Allowed files types: ').implode(', ', $extensions).'",
-					"fileExt"	: "'.implode(';', $extensions).'",';
+				require([\'require\', \'jquery\', \'AsyncFileUpload\'], function(req, $){
+					myUploader_'.$id.' = new AsyncFileUpload("#'.$widgetName.'", {
+						"scriptData": {"session_id": "'.session_id().'"},
+						"basePath": "'.TAOBASE_WWW.'",
+						"sizeLimit": '.$fileSize.',';
+		if (count($extensions) > 0) {
+ 			$returnValue .='"fileDesc": "'.__('Allowed files types: ').implode(', ', $extensions).'", "fileExt": "'.implode(';', $extensions).'",';
 		}
 		$returnValue .='
-					"starter"   : "#'.$widgetName.'_starter",
-					"target"	: "#'.$widgetName.'_container input[id=\''.$this->name.'\']",
-					"submiter"	: ".form-submiter",
-					"auto"      : '.$auto.',
-					"folder"    : "/"
+						"starter" : "#'.$widgetName.'_starter",
+						"target": "#'.$widgetName.'_container input[id=\''.$this->name.'\']",
+						"submiter": ".form-submiter",
+						"auto": '.$auto.',
+						"folder": "/"
+					});
 				});
-				
 			});
 			</script>';
         $returnValue .= "</div>";
-		
+
         // section 127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DE end
 
         return (string) $returnValue;

@@ -1,12 +1,12 @@
 /**
  * AsyncFileUpload class
- * @class 
+ * @class
  */
 AsyncFileUpload = function(elt, options){
 
 	var self = this;
-	var elt = elt;	
-	
+	var elt = elt;
+
 	this.settings = {
 			"script"    : root_url + "/tao/File/upload",
 			"popupUrl"	: root_url + "/tao/File/htmlUpload",
@@ -26,15 +26,15 @@ AsyncFileUpload = function(elt, options){
 				return true;
 			}
 	};
-	
+
 	this.settings = $.extend(true, this.settings, options);
-	
+
 	var target = false;
 	if(options.target){
 		var target = $(options.target);
 	}
 	(options.starter) ? starter = options.starter : starter = elt + '_starter';
-	
+
 	if(target){
 		this.settings.onComplete = function(event, queueID, fileObj, response, data){
 			var myResponse = $.parseJSON($.trim(response));
@@ -44,16 +44,16 @@ AsyncFileUpload = function(elt, options){
 			target.trigger('async_file_uploaded', myResponse);
 			return false;
 		};
-		
+
 		this.settings.onSelect = function(event, queueID, fileObj){
 			target.trigger('async_file_selected', fileObj);
 		};
 	}
-	
-	if(isFlashPluginEnabled() && typeof(jQuery.fn.uploadify) != 'undefined'){
-	
+
+	if(helpers.isFlashPluginEnabled() && typeof(jQuery.fn.uploadify) != 'undefined'){
+
 		$(elt).uploadify(this.settings);
-		
+
 		if(this.settings.auto == true){
 			$(starter).parent().hide();
 		}
@@ -75,22 +75,22 @@ AsyncFileUpload = function(elt, options){
 		if(this.settings.fileExt){
 			params.sizeLimit = this.settings.sizeLimit;
 		}
-		
+
 		var opener = $("<span><a href='#'>"+__('Upload File')+"</a></span>");
 		opener.click(function(e){
-			
+
 			$(this).attr('disabled', true);
-			
+
 			var url = self.settings.popupUrl + '?' + $.param(params);
 			var popupOpts = "width=350px,height=100px,menubar=no,resizable=yes,status=no,toolbar=no,dependent=yes,left="+e.pageX+",top="+e.pageY;
-			
+
 			self.window = window.open(url, 'fileuploader', popupOpts);
 			self.window.focus();
-			
+
 			return false;
 		});
 		$(elt).parents('div.form-elt-container').append(opener);
-		
+
 		$(elt).hide();
 		$(starter).hide();
 	}

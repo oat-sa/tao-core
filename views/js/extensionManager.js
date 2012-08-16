@@ -132,7 +132,7 @@ function installNextExtension() {
 				installError = 1;
 				progressConsole('Installation of '+ext+' failed');
 			}
-			createInfoMessage(data.message);
+			helpers.createInfoMessage(data.message);
 			progressConsole('> '+data.message);
 		}
 	});

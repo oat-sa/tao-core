@@ -9,7 +9,7 @@
 <div id="form-container"></div>
 <script type="text/javascript">
 	$(function(){
-		new GenerisTreeClass('#tree-chooser', "<?=get_data('dataUrl')?>", {
+		new GenerisTreeBrowserClass('#tree-chooser', "<?=get_data('dataUrl')?>", {
 			formContainer: 			"#form-container",
 			actionId: 				"chooser",
 			hideInstances:			<?=(get_data('editClassUrl'))?'true':'false'?>,

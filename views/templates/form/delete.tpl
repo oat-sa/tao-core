@@ -2,7 +2,7 @@
 
 <div class="ui-widget-content ui-corner-all" style="text-align:center;margin:30px auto 30px auto;width: 250px;padding:10px;font-size:16px;">
 	<?=__('Delete')?> : <strong><?=get_data('label')?></strong><br /><br />
-	<input id="instance-deleter" type='button' value="<?=__('Confirm')?>" /> 
+	<input id="instance-deleter" type='button' value="<?=__('Confirm')?>" />
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -23,7 +23,7 @@ $(document).ready(function(){
 			success: function(response){
 				if(response.deleted){
 					$("#instance-deleter").hide();
-					createInfoMessage("<?=get_data('label')?> "+__(' has been deleted successfully'));
+					helpers.createInfoMessage("<?=get_data('label')?> "+__(' has been deleted successfully'));
 				}
 			}
 		});

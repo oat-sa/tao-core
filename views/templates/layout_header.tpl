@@ -11,18 +11,23 @@
 		var currentExtension = '<?= context::getInstance()->getExtensionName(); ?>';
 	</script>
 
+	<script src="<?=TAOBASE_WWW?>js/require-2.0.4.js"></script>
+
 	<?=tao_helpers_Scriptloader::render()?>
 
+	<script src="<?=TAOBASE_WWW?>js/main.js"></script>
+
+<?if(get_data('errorMessage')):?>
 	<script type='text/javascript'>
-		$(function(){
-		<?if(get_data('errorMessage')):?>
-			createErrorMessage("<?=get_data('errorMessage')?>");
-		<?endif?>
+		require(['require', 'jquery'], function (req, $) {
+			$(function(){
+				helpers.createErrorMessage("<?=get_data('errorMessage')?>");
+			});
 		});
 	</script>
+<?endif?>
 </head>
 <body>
-
 	<? include 'header.tpl' ?>
 
 	<div id="ajax-loading" class="ui-widget-overlay"></div>

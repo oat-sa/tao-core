@@ -406,24 +406,24 @@ class Bootstrap{
 		    		)
 				);
 
-
-				//js golbal vars to export
-				tao_helpers_Scriptloader::addJsVars(
-				    array(
-					'root_url'		=> ROOT_URL,				// -> the app URL (http://www.domain.com or (http://www.domain.com/app)
-					'base_url'		=> BASE_URL,				// -> the current extension URL (http://www.domain.com/tao, http://www.domain.com/taoItems)
-					'taobase_www'	=> TAOBASE_WWW,				// -> the resources URL of meta extension tao (http://www.domain.com/tao/views/)
-					'base_www'		=> BASE_WWW					// -> the resources URL of the current extension (http://www.domain.com/taoItems/views/)
-				    )
-				);
-
-				$gridi18nFile = 'js/jquery.jqGrid-4.4.0/js/i18n/grid.locale-'.strtolower(tao_helpers_I18n::getLangCode()).'.js';
-				if(!file_exists(BASE_PATH. '/views' . $gridi18nFile)){
-					$gridi18nFile = 'js/jquery.jqGrid-4.4.0/js/i18n/grid.locale-en.js';
+				$lang = strtolower(tao_helpers_I18n::getLangCode());
+				$gridi18nFile = 'js/jquery.jqGrid-4.4.0/js/i18n/grid.locale-'.$lang.'.js';
+				if (!file_exists(BASE_PATH. '/views' . $gridi18nFile)) {
+					//$gridi18nFile = 'js/jquery.jqGrid-4.4.0/js/i18n/grid.locale-en.js';
+					$lang = 'en';
 				}
 
+				//js golbal vars to export
+				tao_helpers_Scriptloader::addJsVars(array(
+					'root_url'		=> ROOT_URL,				// -> the app URL (http://www.domain.com or (http://www.domain.com/app)
+					'base_url'		=> BASE_URL,				// -> the current extension URL (http://www.domain.com/tao, http://www.domain.com/taoItems)
+					'taobase_www'	=> TAOBASE_WWW,			// -> the resources URL of meta extension tao (http://www.domain.com/tao/views/)
+					'base_www'		=> BASE_WWW,				// -> the resources URL of the current extension (http://www.domain.com/taoItems/views/)
+					'base_lang'		=> $lang
+				));
+
 				//scripts to load
-				tao_helpers_Scriptloader::addJsFiles(
+				/*tao_helpers_Scriptloader::addJsFiles(
 				    array(
 					TAOBASE_WWW . 'js/jquery-1.7.2.min.js',
 					TAOBASE_WWW . 'js/jquery-ui-1.8.22.custom.min.js',
@@ -454,19 +454,19 @@ class Bootstrap{
 					TAOBASE_WWW . 'js/generis.treeform.js',
 					TAOBASE_WWW . 'js/AsyncFileUpload.js'
 					)
-				);
+				);*/
 
 				//ajax file upload works only without HTTP_AUTH
 				if(!USE_HTTP_AUTH){
 					tao_helpers_Scriptloader::addCssFile(
-						   TAOBASE_WWW . 'js/jquery.uploadify/uploadify.css'
+						TAOBASE_WWW . 'js/jquery.uploadify/uploadify.css'
 					);
-					tao_helpers_Scriptloader::addJsFiles(
-					    array(
-						TAOBASE_WWW . 'js/jquery.uploadify/jquery.uploadify.v2.1.4.js',
-						TAOBASE_WWW . 'js/jquery.uploadify/swfobject.js'
-					)
-					);
+					/*tao_helpers_Scriptloader::addJsFiles(
+						array(
+							TAOBASE_WWW . 'js/jquery.uploadify/jquery.uploadify.v2.1.4.js',
+							TAOBASE_WWW . 'js/jquery.uploadify/swfobject.js'
+						)
+					);*/
 				}
 			break;
 		}

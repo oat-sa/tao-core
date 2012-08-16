@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 02.01.2012, 11:12:09 with ArgoUML PHP module 
+ * Automatically generated on 02.01.2012, 11:12:09 with ArgoUML PHP module
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -96,7 +96,7 @@ class tao_helpers_form_elements_xhtml_Treeview
         $returnValue = array();
 
         // section 127-0-1-1--65f085c2:129b27ea381:-8000:0000000000002202 begin
-        
+
         switch($format){
         	case 'structured':
         		$returnValue = parent::getOptions();
@@ -106,7 +106,7 @@ class tao_helpers_form_elements_xhtml_Treeview
         		$returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData(parent::getOptions());
         		break;
         }
-        
+
         // section 127-0-1-1--65f085c2:129b27ea381:-8000:0000000000002202 end
 
         return (array) $returnValue;
@@ -123,9 +123,9 @@ class tao_helpers_form_elements_xhtml_Treeview
     public function setValue($value)
     {
         // section 127-0-1-1--65f085c2:129b27ea381:-8000:000000000000220B begin
-        
+
     	$this->addValue($value);
-    	
+
         // section 127-0-1-1--65f085c2:129b27ea381:-8000:000000000000220B end
     }
 
@@ -141,18 +141,18 @@ class tao_helpers_form_elements_xhtml_Treeview
         $returnValue = (string) '';
 
         // section 127-0-1-1-1a593a5d:129ad6a35a4:-8000:000000000000204C begin
-        
+
         $widgetTreeName  = $this->name.'-TreeBox';
         $widgetValueName = $this->name.'-TreeValues';
-        
+
         $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
-		
+
         $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
         $returnValue .= "<div id='{$widgetValueName}'></div>";
-		
-		
+
+
 		$returnValue .= "<div id='{$widgetTreeName}'></div>";
-		
+
 		//initialize the AsyncFileUpload Js component
 		$returnValue .= '<script type="text/javascript">
 			$(document).ready(function(){
@@ -168,7 +168,7 @@ class tao_helpers_form_elements_xhtml_Treeview
 	    				onload: function(TREE_OBJ) {
 	    					checkedElements = '.json_encode($this->values).';
 	    					$.each(checkedElements, function(i, elt){
-								NODE = $("li[id="+elt+"]");
+								NODE = $("li[id=\'"+elt+"\']");
 								if(NODE.length > 0){
 									parent = TREE_OBJ.parent(NODE);
 									TREE_OBJ.open_branch(parent);
@@ -202,7 +202,7 @@ class tao_helpers_form_elements_xhtml_Treeview
 			});
 			</script>';
         $returnValue .= "</div><br />";
-        
+
         // section 127-0-1-1-1a593a5d:129ad6a35a4:-8000:000000000000204C end
 
         return (string) $returnValue;
