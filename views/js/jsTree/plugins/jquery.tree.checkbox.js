@@ -8,7 +8,7 @@
 				if(!t) t = $.tree.focused();
 				return t.container.find("a.checked").parent();
 			},
-			get_undeterminded : function (t) { 
+			get_undeterminded : function (t) {
 				if(!t) t = $.tree.focused();
 				return t.container.find("a.undetermined").parent();
 			},
@@ -18,21 +18,27 @@
 			},
 
 			check : function (n) {
-				var t = $.tree.reference(n);
-				if (t.callback("beforecheck", [n, t]) === false) return false;
 				if(!n) return false;
+				var t = $.tree.reference(n);
+				//-TAO EDIT-
+				if (t.callback("beforecheck", [n, t]) === false) return false;
+				//--
+
 				n = t.get_node(n);
+
+				//-TAO EDIT-
 				if(n.hasClass('node-class') && n.hasClass('closed')){
 					t.open_branch(n);
 					return false;
 				}
+				//--
+
 				if(n.children("a").hasClass("checked")) return true;
+
 				var opts = $.extend(true, {}, $.tree.plugins.checkbox.defaults, t.settings.plugins.checkbox);
 				if(opts.three_state) {
-					
 					n.find("li").andSelf().children("a").removeClass("unchecked undetermined").addClass("checked");
-					
-					n.parents("li").each(function () { 
+					n.parents("li").each(function () {
 						if($(this).children("ul").find("a:not(.checked):eq(0)").size() > 0) {
 							$(this).parents("li").andSelf().children("a").removeClass("unchecked checked").addClass("undetermined");
 							return false;
@@ -40,22 +46,28 @@
 						else $(this).children("a").removeClass("unchecked undetermined").addClass("checked");
 					});
 				}
+				//-TAO EDIT-
+				//else n.children("a").removeClass("unchecked").addClass("checked");
 				else if(!n.hasClass('node-class')){
 					n.children("a").removeClass("unchecked").addClass("checked");
 				}
+				//--
 				return true;
 			},
 			uncheck : function (n) {
 				if(!n) return false;
 				var t = $.tree.reference(n);
+				//-TAO EDIT-
 				if (t.callback("beforeuncheck", [n, t]) === false) return false;
+				//--
+
 				n = t.get_node(n);
 				if(n.children("a").hasClass("unchecked")) return true;
 
 				var opts = $.extend(true, {}, $.tree.plugins.checkbox.defaults, t.settings.plugins.checkbox);
 				if(opts.three_state) {
 					n.find("li").andSelf().children("a").removeClass("checked undetermined").addClass("unchecked");
-					n.parents("li").each(function () { 
+					n.parents("li").each(function () {
 						if($(this).find("a.checked, a.undetermined").size() - 1 > 0) {
 							$(this).parents("li").andSelf().children("a").removeClass("unchecked checked").addClass("undetermined");
 							return false;
@@ -63,7 +75,7 @@
 						else $(this).children("a").removeClass("checked undetermined").addClass("unchecked");
 					});
 				}
-				else n.children("a").removeClass("checked").addClass("unchecked"); 
+				else n.children("a").removeClass("checked").addClass("unchecked");
 				return true;
 			},
 			toggle : function (n) {
