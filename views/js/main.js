@@ -10,6 +10,7 @@ require.config({
 		]
 	},
 	shim: {
+		'jqueryUI': ['jquery'],
 		'jsTree/plugins/jquery.tree.contextmenu': ['jsTree/jquery.tree'],
 		'jsTree/plugins/jquery.tree.checkbox': ['jsTree/jquery.tree'],
 		'generis.tree.select': ['generis.tree', 'jsTree/plugins/jquery.tree.checkbox'],
