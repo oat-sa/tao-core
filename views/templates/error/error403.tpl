@@ -18,13 +18,13 @@
 		<ul>
 			<li><?=__('Back Office (test creator)')?>
 				:
-				<a href="<?=_url('index','Main','tao')?>" title="<?=__('TAO back office')?>"><?=__('TAO Back Office')?>
+				<a href="<?=_url('login','Main','tao')?>" title="<?=__('TAO back office')?>"><?=__('TAO Back Office')?>
 				</a>
 			</li>
 			<li><?=__('Test Front Office (test takers)')?>
 				:
 				<a
-					href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>"
+					href="<?=_url('login','DeliveryServerAuthentification','taoDelivery')?>"
 					title="<?=__('TAO front office')?>"><?=__('TAO Delivery Server')?>
 				</a>
 			</li>
