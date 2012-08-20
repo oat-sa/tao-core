@@ -1,23 +1,23 @@
 require.config({
-		baseUrl: taobase_www + 'js',
-    paths: {
-        jquery: [
-            'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min',
-            'jquery-1.7.2.min'
-        ],
-				jqueryUI: [
-            'jquery-ui-1.8.22.custom.min'
-        ]
-    },
-		shim: {
-			'jsTree/plugins/jquery.tree.contextmenu': ['jsTree/jquery.tree'],
-			'jsTree/plugins/jquery.tree.checkbox': ['jsTree/jquery.tree'],
-			'generis.tree.select': ['generis.tree', 'jsTree/plugins/jquery.tree.checkbox'],
-			'generis.tree.browser': ['generis.tree', 'jsTree/plugins/jquery.tree.contextmenu'],
-			'grid/tao.grid': ['jquery.jqGrid-4.4.0/js/jquery.jqGrid.min', 'jquery.jqGrid-4.4.0/js/i18n/grid.locale-'+base_lang],
-			'grid/tao.grid.downloadFileResource': ['grid/tao.grid'],
-			'grid/tao.grid.rowId': ['grid/tao.grid']
-		}
+	baseUrl: taobase_www + 'js',
+	paths: {
+		jquery: [
+			'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min',
+			'jquery-1.7.2.min'
+		],
+		jqueryUI: [
+			'jquery-ui-1.8.22.custom.min'
+		]
+	},
+	shim: {
+		'jsTree/plugins/jquery.tree.contextmenu': ['jsTree/jquery.tree'],
+		'jsTree/plugins/jquery.tree.checkbox': ['jsTree/jquery.tree'],
+		'generis.tree.select': ['generis.tree', 'jsTree/plugins/jquery.tree.checkbox'],
+		'generis.tree.browser': ['generis.tree', 'jsTree/plugins/jquery.tree.contextmenu'],
+		'grid/tao.grid': ['jquery.jqGrid-4.4.0/js/jquery.jqGrid.min', 'jquery.jqGrid-4.4.0/js/i18n/grid.locale-'+base_lang],
+		'grid/tao.grid.downloadFileResource': ['grid/tao.grid'],
+		'grid/tao.grid.rowId': ['grid/tao.grid']
+	}
 });
 
 var helpers;
