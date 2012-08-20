@@ -5,6 +5,8 @@ function focusFirstField() {
 	$('input[name="login"]').focus();
 }
 
-$(document).ready(function() {
-	focusFirstField();
+require(['require', 'jquery'], function(req, $) {
+	$(function() {
+		focusFirstField();
+	});
 });
