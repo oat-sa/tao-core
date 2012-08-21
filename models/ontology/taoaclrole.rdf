@@ -10,6 +10,6 @@
 		<rdfs:comment xml:lang="EN"><![CDATA[Base access role]]></rdfs:comment>
 		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_login" />
 		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_logout" />
-		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_AuthService" />
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_AuthApi" />
 	</rdf:Description>
 </rdf:RDF>
