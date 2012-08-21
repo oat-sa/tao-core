@@ -266,7 +266,7 @@ define(['require', 'jquery', 'tao.tabs'], function(req, $) {
 				 }
 				 url += 'addClassProperty';
 
-				 GenerisAction.addProperty (null,  $("#classUri").val(), url);
+				 generisActions.addProperty(null,  $("#classUri").val(), url);
 			 });
 
 			 $(".property-mode").click(function() {
