@@ -108,7 +108,7 @@ function installNextExtension() {
 		data: 'id='+ext,
 		dataType: 'json',
 		success: function(data) {
-			loaded();
+			helpers.loaded();
 			if (data.success) {
 				progressConsole('Installation of '+ext+' success');
 				$('tr#'+ext).slideUp('normal', function() {
@@ -154,7 +154,7 @@ function hasNextExtensionToInstall() {
 			type: "GET",
 			url: $($('#main-menu a')[0]).attr('href'),
 			success: function(data) {
-				loaded();
+				helpers.loaded();
 				progressConsole('Generating caches finished');
 				$('#installProgress .bar').animate({backgroundColor:'#6b6'}, 1000);
 			}
