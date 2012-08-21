@@ -11,9 +11,9 @@ define ('PATH_SAMPLE', dirname(__FILE__).'/samples/');
 	<title>QUnit Test Suite</title>
 	<link rel="stylesheet" href="../../tao/test/qunit/qunit.css" type="text/css" media="screen">
 	<!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>-->
-	<script type="application/javascript" src='../views/js/jquery-1.7.2.min.js'></script>
-    <script type="application/javascript" src="../test/qunit/qunit.js"></script>
-    <script type="application/javascript" src="../views/js/tao.ajaxWrapper.js"></script>
+	<script type="application/javascript" src='../views/js/jquery-1.8.0.min.js'></script>
+	<script type="application/javascript" src="../test/qunit/qunit.js"></script>
+	<script type="application/javascript" src="../views/js/tao.ajaxWrapper.js"></script>
 
 	<!-- -------------------------------------------------------------------------
 	QTI DATA

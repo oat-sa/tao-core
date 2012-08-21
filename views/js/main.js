@@ -2,11 +2,11 @@ require.config({
 	baseUrl: taobase_www + 'js',
 	paths: {
 		jquery: [
-			'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min',
-			'jquery-1.7.2.min'
+			'http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min',
+			'jquery-1.8.0.min'
 		],
 		jqueryUI: [
-			'jquery-ui-1.8.22.custom.min'
+			'jquery-ui-1.8.23.custom.min'
 		]
 	},
 	shim: {

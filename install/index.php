@@ -57,7 +57,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/layout.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/form.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="./res/tao.css"/>
-	<script type="text/javascript" src="../views/js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="../views/js/jquery-1.8.0.min.js"></script>
 	<?php if(!$installed): ?>
 	<script type="text/javascript" src="./res/tao.js"></script>
 	<? endif; ?>

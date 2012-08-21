@@ -381,8 +381,8 @@ class Bootstrap{
 				);
 
 				tao_helpers_Scriptloader::addJsFiles(array(
-						TAOBASE_WWW . 'js/jquery-1.7.2.min.js',
-						TAOBASE_WWW . 'js/jquery-ui-1.8.22.custom.min.js',
+						TAOBASE_WWW . 'js/jquery-1.8.0.min.js',
+						TAOBASE_WWW . 'js/jquery-ui-1.8.23.custom.min.js',
 						BASE_WWW . 'js/jquery.easing.1.3.js',
 						BASE_WWW . 'js/jqueryFileTree/jqueryFileTree.js',
 						BASE_WWW . 'js/jquery.zclip.js',
@@ -425,8 +425,8 @@ class Bootstrap{
 				//scripts to load
 				/*tao_helpers_Scriptloader::addJsFiles(
 				    array(
-					TAOBASE_WWW . 'js/jquery-1.7.2.min.js',
-					TAOBASE_WWW . 'js/jquery-ui-1.8.22.custom.min.js',
+					TAOBASE_WWW . 'js/jquery-1.8.0.min.js',
+					TAOBASE_WWW . 'js/jquery-ui-1.8.23.custom.min.js',
 					TAOBASE_WWW . 'js/jsTree/jquery.tree.js',
 					TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
 					TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',

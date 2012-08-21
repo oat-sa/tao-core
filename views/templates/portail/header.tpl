@@ -9,8 +9,8 @@
 	<link href="<?=ROOT_URL?>/tao/views/css/form.css" type="text/css" rel="stylesheet" />
 	<link href="<?=ROOT_URL?>/tao/views/css/widgets.css" type="text/css" rel="stylesheet" />
 
-	<script src="<?=ROOT_URL?>/tao/views/js/jquery-1.7.2.min.js" type="text/javascript"></script>
-	<script src="<?=ROOT_URL?>/tao/views/js/jquery-ui-1.8.22.custom.min.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/jquery-1.8.0.min.js" type="text/javascript"></script>
+	<script src="<?=ROOT_URL?>/tao/views/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
 	<script src="<?=ROOT_URL?>/tao/views/js/jsTree/jquery.tree.js" type="text/javascript"></script>
 	<script src="<?=ROOT_URL?>/tao/views/js/jsTree/plugins/jquery.tree.checkbox.js" type="text/javascript"></script>
 	<script src="<?=ROOT_URL?>/tao/views/js/jquery.jqGrid-4.4.0/js/i18n/grid.locale-en.js" type="text/javascript"></script>

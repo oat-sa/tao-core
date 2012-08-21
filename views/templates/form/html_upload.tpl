@@ -5,7 +5,7 @@
 	<title>File Uploader</title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 
-	<script type='text/javascript' src="<?=BASE_WWW?>js/jquery-1.7.2.min.js"></script>
+	<script type='text/javascript' src="<?=BASE_WWW?>js/jquery-1.8.0.min.js"></script>
 
 	<?if(get_data('uploaded') === true):?>
 
