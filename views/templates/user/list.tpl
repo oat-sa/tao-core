@@ -5,7 +5,7 @@
 	<div id="user-list-pager"></div>
 	<br />
 	<span class="ui-state-default ui-corner-all">
-		<a href="#" onclick="selectTabByName('add_user');">
+		<a href="#" onclick="helpers.selectTabByName('add_user');">
 			<img src="<?=TAOBASE_WWW?>img/add.png" alt="add" /> <?=__('Add a user')?>
 		</a>
 	</span>
@@ -20,7 +20,7 @@ require(['require', 'jquery', 'grid/tao.grid'], function(req, $) {
 			editUrl = "<?=_url('edit', 'Users', 'tao')?>" + '?uri=' + uri;
 			uiBootstrap.tabs.tabs('url', index, editUrl);
 			uiBootstrap.tabs.tabs('enable', index);
-			selectTabByName('edit_user');
+			helpers.selectTabByName('edit_user');
 		}
 	}
 	function removeUser(uri){
