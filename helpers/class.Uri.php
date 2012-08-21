@@ -22,13 +22,13 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D2-constants begin
 
 /**
- * Conveniance function 
+ * Conveniance function
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @param  string action
  * @param  string module
  * @param  string extension
  * @param  array params
- * @return 
+ * @return
  */
 function _url($action = null, $module = null, $extension = null, $params = array()){
 	return tao_helpers_Uri::url($action, $module, $extension, $params);
@@ -105,7 +105,7 @@ class tao_helpers_Uri
         $returnValue = (string) '';
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A45 begin
-        
+
 		if(is_null(self::$base) && defined('BASE_URL')){
 			self::$base = BASE_URL;
 			if(!preg_match("/\/$/", self::$base)){
@@ -113,7 +113,7 @@ class tao_helpers_Uri
 			}
 		}
 		$returnValue = self::$base;
-		
+
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A45 end
 
         return (string) $returnValue;
@@ -131,7 +131,7 @@ class tao_helpers_Uri
         $returnValue = (string) '';
 
         // section 127-0-1-1-269c0444:12849d750d4:-8000:0000000000002440 begin
-        
+
         if(is_null(self::$root) && defined('ROOT_URL')){
 			self::$root = ROOT_URL;
 			if(!preg_match("/\/$/", self::$root)){
@@ -139,7 +139,7 @@ class tao_helpers_Uri
 			}
 		}
 		$returnValue = self::$root;
-        
+
         // section 127-0-1-1-269c0444:12849d750d4:-8000:0000000000002440 end
 
         return (string) $returnValue;
@@ -162,7 +162,7 @@ class tao_helpers_Uri
         $returnValue = (string) '';
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A26 begin
-		
+
 		$context = Context::getInstance();
 		if(is_null($module)){
 			$module = $context->getModuleName();
@@ -170,14 +170,14 @@ class tao_helpers_Uri
 		if(is_null($action)){
 			$action = $context->getActionName();
 		}
-		
+
     	if(is_null($extension) || empty($extension)){
 			$returnValue = self::getBaseUrl() . $module . '/' . $action;
 		}
 		else{
 			$returnValue = self::getRootUrl(). $extension . '/'. $module . '/' . $action;
 		}
-	
+
 		if(count($params) > 0){
 			$returnValue .= '?';
 			if(is_string($params)){
@@ -228,18 +228,14 @@ class tao_helpers_Uri
         $returnValue = (string) '';
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A3F begin
-		
-		if( preg_match("/^http/", $uri)){
-			if($dotMode){
-				$returnValue = urlencode(
-					str_replace('.', '__', $uri)
-				);
+		if (preg_match("/^http/", $uri)) {
+			if ($dotMode) {
+				//$returnValue = urlencode(str_replace('.', '__', $uri));
+				$returnValue = str_replace('.', '_0_', str_replace('/', '_1_', str_replace('://', '_2_', str_replace('#', '_3_', $uri))));
+			} else {
+				$returnValue = str_replace('/', '_1_', str_replace('://', '_2_', str_replace('#', '_3_', $uri)));
 			}
-			else{
-				$returnValue = urlencode($uri);
-			}
-		}
-		else{
+		} else {
 			$returnValue = $uri;
 		}
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A3F end
@@ -261,18 +257,15 @@ class tao_helpers_Uri
         $returnValue = (string) '';
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A42 begin
-		if( preg_match("/^http/", $uri)){
-			if($dotMode){
-				$returnValue = urldecode(
-					str_replace('__', '.', $uri)
-				);
-				$returnValue = str_replace('w_org', 'w3.org', $returnValue);
+		if (preg_match("/^http/", $uri)) {
+			if ($dotMode) {
+				//$returnValue = urldecode(str_replace('__', '.', $uri));
+				//$returnValue = str_replace('w_org', 'w3.org', $returnValue);
+				$returnValue = str_replace('_3_', '#', str_replace('_2_', '://', str_replace('_1_', '/', str_replace('_0_', '.', $uri))));
+			} else {
+				$returnValue = str_replace('_3_', '#', str_replace('_2_', '://', str_replace('_1_', '/', $uri)));
 			}
-			else{
-				$returnValue = urldecode($uri);
-			}
-		}
-		else{
+		} else {
 			$returnValue = $uri;
 		}
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A42 end
@@ -296,7 +289,7 @@ class tao_helpers_Uri
         $returnValue = array();
 
         // section 127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242B begin
-        
+
         if(is_array($uris)){
         	foreach($uris as $key => $value){
         		if($encodeMode == self::ENCODE_ARRAY_KEYS || $encodeMode == self::ENCODE_ARRAY_ALL){
@@ -308,11 +301,11 @@ class tao_helpers_Uri
         		$returnValue[$key] = $value;
         	}
         }
-        
+
         if($uniqueMode){
         	$returnValue = array_unique($returnValue);
         }
-        
+
         // section 127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242B end
 
         return (array) $returnValue;
@@ -331,12 +324,12 @@ class tao_helpers_Uri
         $returnValue = (string) '';
 
         // section 127-0-1-1-2045fd08:128b9eb9c51:-8000:0000000000001F71 begin
-		
+
 		//TODO check format of the uri, preg_match()
 		if(stripos($uriResource,".rdf#")>0){
 			$returnValue = substr($uriResource,stripos($uriResource,".rdf#")+5);
 		}
-		
+
         // section 127-0-1-1-2045fd08:128b9eb9c51:-8000:0000000000001F71 end
 
         return (string) $returnValue;
