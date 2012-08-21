@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 05.04.2012, 15:45:14 with ArgoUML PHP module 
+ * Automatically generated on 21.08.2012, 11:34:15 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -22,7 +22,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 }
 
 /**
- * include tao_models_classes_cache_Cache
+ * basic interface a cache implementation has to implement
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
  */
@@ -118,21 +118,16 @@ class tao_models_classes_cache_SessionCache
 
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003706 begin
         if (!isset($this->items[$serial])) {
-        	if (Session::hasAttribute(static::SESSION_KEY)) {
-	        	$storage = Session::getAttribute(static::SESSION_KEY);
-		        if(isset($storage[$serial])){
-	
-		        	$data = @unserialize($storage[$serial]);
+        	if ($this->has($serial)) {
+        		$storage = Session::getAttribute(static::SESSION_KEY);
+	        	$data = @unserialize($storage[$serial]);
 		        
-		        	// check if serialize successfull, see http://lu.php.net/manual/en/function.unserialize.php
-		        	if ($data === false && $storage[$serial] !== serialize(false)){
-		        		throw new common_exception_Error("Unable to unserialize session entry identified by \"".$serial.'"');
-		        	}
-		        	$this->items[$serial] = $data;
-		        } else {
-		        	throw new tao_models_classes_cache_NotFoundException('Failed to get ('.$serial.')');
-		        }
-        	} else {
+	        	// check if serialize successfull, see http://lu.php.net/manual/en/function.unserialize.php
+	        	if ($data === false && $storage[$serial] !== serialize(false)){
+	        		throw new common_exception_Error("Unable to unserialize session entry identified by \"".$serial.'"');
+	        	}
+	        	$this->items[$serial] = $data;
+	        } else {
         		throw new tao_models_classes_cache_NotFoundException('Failed to get ('.$serial.')');
         	}
         }
@@ -140,6 +135,32 @@ class tao_models_classes_cache_SessionCache
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003706 end
 
         return $returnValue;
+    }
+
+    /**
+     * test whenever an entry associted to the serial exists
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  string serial
+     * @return boolean
+     */
+    public function has($serial)
+    {
+        $returnValue = (bool) false;
+
+        // section 127-0-1-1-3618cc42:139487c1385:-8000:0000000000003B8C begin
+		if (isset($this->items[$serial])) {
+			$returnValue = true;
+		} else {
+			if (Session::hasAttribute(static::SESSION_KEY)) {
+				$storage = Session::getAttribute(static::SESSION_KEY);
+				$returnValue = isset($storage[$serial]);
+			}
+		}
+        // section 127-0-1-1-3618cc42:139487c1385:-8000:0000000000003B8C end
+
+        return (bool) $returnValue;
     }
 
     /**

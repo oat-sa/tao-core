@@ -3,14 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao/models/classes/cache/interface.Cache.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 05.04.2012, 15:45:14 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
+ * basic interface a cache implementation has to implement
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
@@ -30,7 +23,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section 127-0-1-1-425ea117:1353e0d3541:-8000:00000000000036F2-constants end
 
 /**
- * Short description of class tao_models_classes_cache_Cache
+ * basic interface a cache implementation has to implement
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -66,6 +59,16 @@ interface tao_models_classes_cache_Cache
      * @return tao_models_classes_Serializable
      */
     public function get($serial);
+
+    /**
+     * test whenever an entry associted to the serial exists
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  string serial
+     * @return boolean
+     */
+    public function has($serial);
 
     /**
      * removes an entry from the cache

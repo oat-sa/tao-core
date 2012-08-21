@@ -185,7 +185,10 @@ class ServiceTestCase extends UnitTestCase {
 		$fromCache = $fc->get('testcase1');
 		$this->assertTrue(is_string($fromCache), 'string is not returned as string from FileCache');
 		$this->assertEqual($fromCache,  "string1");
+		$this->assertTrue($fc->has('testcase1'), ' has() did not find serial "testcase1"');
+		$this->assertFalse($fc->has('testcase2'), ' has() did find non existal serial "testcase2"');
 		$fc->remove('testcase1');
+		$this->assertFalse($fc->has('testcase1'), ' has() finds removed serial "testcase1"');
 		
 		$fc->put(42, 'testcase2');
 		$fromCache = $fc->get('testcase2');
