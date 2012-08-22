@@ -183,7 +183,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 						}
 
 						//load the editClassAction into the formContainer
-						_load(instance.options.formContainer,
+						helpers._load(instance.options.formContainer,
 							instance.options.editClassAction,
 							instance.data(null, nodeId)
 						);
@@ -191,7 +191,7 @@ function GenerisTreeClass(selector, dataUrl, options){
 					if($(NODE).hasClass('node-instance') && instance.options.editInstanceAction){
 						//load the editInstanceAction into the formContainer
 						PNODE = TREE_OBJ.parent(NODE);
-						_load(instance.options.formContainer,
+						helpers._load(instance.options.formContainer,
 							instance.options.editInstanceAction,
 							instance.data(nodeId, $(PNODE).attr('id'))
 						);
