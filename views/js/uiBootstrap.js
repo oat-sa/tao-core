@@ -94,24 +94,27 @@ define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquer
 		initTrees: function(){
 			//left menu trees init by loading the tab content
 			if(this.tabs.length > 0){
-				$.ajax({
-					url: root_url + '/' + currentExtension + '/Main/getSectionTrees',
-					type: "GET",
-					data: {
-						section: $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('title'),		//get the link text of the selected tab
-						structure: currentStructure
-					},
-					dataType: 'html',
-					success: function(response){
-						if(response == ''){
-							$('#section-trees').css({display: 'none'});
+				section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('title');
+				if (section != undefined) {
+					$.ajax({
+						url: root_url + '/' + currentExtension + '/Main/getSectionTrees',
+						type: "GET",
+						data: {
+							section: section,		//get the link text of the selected tab
+							structure: currentStructure
+						},
+						dataType: 'html',
+						success: function(response){
+							if(response == ''){
+								$('#section-trees').css({display: 'none'});
+							}
+							else if($('#section-trees').css('display') == 'none'){
+								$('#section-trees').css({display: 'block'});
+							}
+							$('#section-trees').html(response);
 						}
-						else if($('#section-trees').css('display') == 'none'){
-							$('#section-trees').css({display: 'block'});
-						}
-						$('#section-trees').html(response);
-					}
-				});
+					});
+				}
 			}
 		},
 
