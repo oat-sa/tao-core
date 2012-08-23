@@ -72,6 +72,30 @@ define(['require', 'jquery'], function(req, $) {
 			}
 			return -1;
 		},
+		
+		openTab: function(title, url) {
+			idx = this.getTabIndexByUrl(url);
+			if (idx == -1) {
+				uiBootstrap.tabs.tabs("add", url, title);
+				idx = uiBootstrap.tabs.tabs("length")-1;
+			}
+			uiBootstrap.tabs.tabs("select", idx);
+		},
+		
+		getTabIndexByUrl: function(url){
+			elts = $("div#tabs ul.ui-tabs-nav li a");
+			i = 0;
+			ret = -1;
+			elts.each(function() {
+			   var href = $.data(this, 'href.tabs');
+			   if (url == href) {
+				   ret = i;
+				   return;
+			   }
+			   i++;
+			})
+			return ret;
+		},
 
 		/**
 		 * Add parameters to a tab
