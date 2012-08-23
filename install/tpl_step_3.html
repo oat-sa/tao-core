@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Installation Process</title>
+	<script type="text/javascript" src="js/jquery-1.7.2.min.js "></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.22.custom.min.js"></script>
+	<script type="text/javascript" src="js/help.js"></script>
+	<script type="text/javascript" src="js/jquery.labelify.js"></script>
+	<script type="text/javascript" src="js/steps.js"></script>
+	<script type="text/javascript" src="js/step_3.js"></script>
+	<script type="text/javascript" src="js/spin.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="css/custom-theme/jquery-ui-1.8.custom.css"/>
+	<link rel="stylesheet" type="text/css" href="css/installation_main.css"/>
+	<link rel="stylesheet" type="text/css" href="css/step_3.css"/>
+</head>
+
+<body>
+    <div id="installation_form" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+        <h2>Tao Installation Process</h2>
+        <h1>Database Configuration</h1>
+        <ul id="install_seq">
+            <li><h3>Installation Steps</h3></li>
+            <li id="step_1">1. <a href="#">Configuration Check</a></li>
+            <li id="step_2">2. <a href="#">Host Configuration</a></li>
+            <li id="step_3" class="currentStep">3. Database configuration</li>
+            <li id="step_4">4. Super-user Creation</li>
+            <li id="step_5">5. Deployment</li>
+            <li id="step_6">6. End of Install</li>
+        </ul>
+        <p id="comments">
+            TAO uses a Relational Database Management System to store persistent data.
+            Please indicate your database configuration to connect the platform to your
+            database system.
+        </p>
+        <div id="forms_content">
+            <form>
+                <ul>
+                    <li>
+                        <label for="database_driver">Select the Relational Database Management System you want to connect with TAO.</label><br />
+                        <select id="database_driver" name="database_driver" class="tao-input">
+                            <option value="mysql">MySQL</option>
+                            <option value="pgsql">PostgreSQL</option>
+                        </select>
+                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec6" class="ui-icon ui-icon-help"></a><span class="formMandatory">*</span></div>
+                    </li>
+                    <li>
+                        <label for="database_host">Enter the Relational Database Management System host name.</label><br />
+                        <input type="text" id="database_host" name="database_host" class="tao-input" title="e.g. localhost:3306" />
+                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a><span class="formMandatory">*</span></div>
+                    </li>
+                    <li>
+                        <label for="database_user">Relational Database Mangement System account to be used by TAO.</label><br />
+                        <input type="text" id="database_user" name="database_user" class="tao-input" title="e.g. user" />
+                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a><span class="formMandatory">*</span></div>
+                    </li>
+                    <li>
+                        <label for="database_password">Relational Database Mangement System password to be used by TAO.</label><br />
+                        <input type="password" id="database_password" name="database_password" class="tao-input" title="e.g. password" />
+                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
+                    </li>
+                    <li>
+                        <label for="database_overwrite">Do you want to overwrite the database if it already exists?</label>
+                        <input type="checkbox" id="database_overwrite" class="tao-input" value="overwrite"/><span class="checkboxLabel">Overwrite</span>
+                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
+                    </li>
+                    <li>
+                        <label for="sample_data">Do you wish to add sample data in your new TAO instance?</label>
+                        <input type="checkbox" id="sample_data" class="tao-input" value="sample_data"/><span class="checkboxLabel">Import</span>
+                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
+                    </li>
+                </ul>  
+                <div id="database">
+                    <span>Checking database connection...</span>
+                </div>    
+                <input id="submitForm" class="disabled" type="submit" value="Awaiting mandatory information" role="button" disabled="disabled"/>
+                <p id="formComment"><span class="formExample">*</span> This information is mandatory</p>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

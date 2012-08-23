@@ -1,0 +1,33 @@
+#forms_content{
+	position: absolute;
+	top: 170px;
+	margin-left: 200px;
+}
+
+ul{
+	height: 230px;
+}
+
+#submitForm.disabled{
+	width: 200px;
+}
+
+#submitForm.enabled{
+	width: 120px;
+}
+
+#formComment{
+	width: 330px;
+}
+
+#database{
+	visibility: hidden;
+	line-height: 20px;
+}
+
+#database > span{
+	font-size: 10px;
+	font-weight: bold;
+	font-style: italic;
+	margin-left: 20px;
+}

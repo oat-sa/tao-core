@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>TAO Installation</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="css/installation_main.css" />
+	<link rel="stylesheet" type="text/css" href="css/supportFrame.css" />
+	<link rel="stylesheet" type="text/css" href="css/custom-theme/jquery-ui-1.8.custom.css" />
+	
+	<script type="text/javascript" src="js/jquery-1.7.2.min.js "></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.22.custom.min.js"></script>
+	<script type="text/javascript" src="js/jquery.labelify.js"></script>
+	<script type="text/javascript" src="js/supportFrame.js"></script>
+</head>
+
+<body>
+	<h2>Make a suggestion</h2>
+	<p id="helpIntro" class="introText">Feel free to send us your suggestions or comments. Each opinion is a precious to help us developing the future of TAO arround the needs of his community.</p>
+	<div id="providingInfo">
+		<label for="suggestFirstNameId" id="labelSuggestFirstNameId">your first name :</label>
+    	<input type="text" id="suggestFirstNameId" name="suggestFirstName" class="tao-input" title="Jean" /><span class="mandatoryField">*</span>
+    	<label for="suggestLastNameId" id="labelSuggestLastNameId">your last name :</label>
+    	<input type="text" id="suggestLastNameId" name="suggestLastName" class="tao-input" title="Dupond" /><span class="mandatoryField">*</span>
+
+    	<label for="suggestEmailId" id="labelSuggestEmailId">your email :</label>
+    	<input type="text" id="suggestEmailId" name="suggestEmail" class="tao-input" title="JeanDupond@provider.com" /><span class="mandatoryField">*</span>
+
+		<label for="suggestDescr" id="labelSuggestDescrId">your comments :</label>
+    	<textarea id="suggestDescr" class="tao-input" title="Dear TAO Team ..."></textarea><span id="helpIssueDescrMandatory" class="mandatoryField">*</span>
+	</div>
+	<p class="thxText">Thank you for your interest !</p>
+
+	<p id="formValidation"><input id="validateHelpRequest" class="enabled" type="button" value="Validate the form" /></p>
+	
+	<p id="backPageNav"><a href="supportFrameIndex.html" alt="back to search page">&lt; back to front help page</a></p>
+</body>
+
+</html>

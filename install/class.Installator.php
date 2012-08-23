@@ -442,7 +442,7 @@ class tao_install_Installator{
 				$missing	= array_diff($extension->getDependencies(), $installed);
 				if (count($missing) == 0) {
 					try {
-					    $importLocalData = ($installData['import_local'] == array('on'));
+					    $importLocalData = ($installData['import_local'] == true);
 						$extinstaller = new common_ext_ExtensionInstaller($extension, $importLocalData);
 						$extinstaller->install();
 					} catch (common_ext_ExtensionException $e) {
