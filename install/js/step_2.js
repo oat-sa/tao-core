@@ -70,4 +70,10 @@ function onLoad(){
 	$(install.populate()).each(function(){
 		$(this).removeClass('helpTaoInputLabel');
 	});
+	
+	// If after population, there is no value for host_name,
+	// provide a default one if possible.
+	if (install.getData('root_url') != null && install.getData('host_name') == null){
+		$('#host_name').removeClass('helpTaoInputLabel')[0].setData(install.getData('root_url'));
+	}
 }

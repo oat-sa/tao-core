@@ -40,7 +40,9 @@ function onLoad(){
 	// Launch the configuration check procedure only if we can talk JSON
 	// with the server side.
 	install.sync(function(status, data){
-		if (data.value == true){
+		if (data.value.json == true){
+			// Save useful information.
+			install.addData('root_url', data.value.rootURL);
 			checkConfig();	
 		}
 		else {

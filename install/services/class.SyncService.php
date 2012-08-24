@@ -34,9 +34,32 @@ class tao_install_services_SyncService extends tao_install_services_Service{
                                        
         // We fake JSON encoding for a gracefull response in any case.
         $json = $report->getStatus() == common_configuration_Report::VALID;
-        $data = '{"type": "SyncReport", "value": '. (($json) ? 'true' : 'false') . '}';
+        if (!$json){
+        	$data = '{"type": "SyncReport", "value": { "json": '. (($json) ? 'true' : 'false') . '}}';
+        }
+        else{
+        	// We return basic information to the client about server-side.
+        	$rootUrl = 
+        	
+        	$data = json_encode(array('type' => 'SyncReport', 'value' => array(
+        		'json' => true,
+        		'rootURL' => self::getRootUrl()
+        	)));
+        }
+        
                                        
         $this->setResult(new tao_install_services_Data($data));
+    }
+    
+    private static function getRootUrl(){
+    	// Returns TAO ROOT url based on a call to the API.
+    	$isHTTPS = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']);
+    	$host = $_SERVER['HTTP_HOST'];
+    	$uri = $_SERVER['REQUEST_URI'];
+    	$currentUrl = (true == $isHTTPS) ? 'https' : 'http' . '://' . $host . $uri;
+    	$parsed = parse_url($currentUrl);
+    	$rootUrl = $parsed['scheme'] . '://' . $parsed['host'] . $parsed['path'];
+    	return str_replace('/tao/install/api.php', '', $rootUrl);
     }
 }
 ?>
