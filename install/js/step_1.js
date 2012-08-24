@@ -92,6 +92,7 @@ function checkConfig(){
 	                {type: "CheckFileSystemComponent", value: {location: "filemanager/includes", rights: "rw", name: "fs_filemanager_includes", optional: false}},
 	                {type: "CheckFileSystemComponent", value: {location: "tao/views/export", rights: "rw", name: "fs_tao_views_export", optional: false}},
 	                {type: "CheckFileSystemComponent", value: {location: "tao/includes", rights: "rw", name: "fs_tao_includes", optional: false}},
+	                {type: "CheckFileSystemComponent", value: {location: "tao/data/cache", rights: "rw", name: "fs_tao_data_cache", optional: false}},
 	                {type: "CheckFileSystemComponent", value: {location: "tao/update/patches", rights: "rw", name: "fs_tao_update_patches", optional: false}},
 	                {type: "CheckFileSystemComponent", value: {location: "tao/update/bash", rights: "rw", name: "fs_tao_update_bash", optional: false}},
 	                {type: "CheckFileSystemComponent", value: {location: "taoItems/data", rights: "rw", name: "fs_taoItems_data", optional: false}},
