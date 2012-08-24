@@ -39,7 +39,7 @@ function onLoad(){
 
 	// Launch the configuration check procedure only if we can talk JSON
 	// with the server side.
-	install.checkProtocol(function(status, data){
+	install.sync(function(status, data){
 		if (data.value == true){
 			checkConfig();	
 		}

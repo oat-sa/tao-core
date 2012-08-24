@@ -63,9 +63,10 @@ TaoInstall.prototype.setTemplate = function (templateId){
 /**
  * Check if the server-side can talk JSON.
  */
-TaoInstall.prototype.checkProtocol = function(callback){
-	// Check if we can discuss using JSON...
-	var data = "type=CheckProtocol";
+TaoInstall.prototype.sync = function(callback){
+	// Check if we can discuss using JSON and receive information
+	// from the server about the installation to perform.
+	var data = "type=Sync";
 	
 	var options = {data: data,
 			   type: 'GET',

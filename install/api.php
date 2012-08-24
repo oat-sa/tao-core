@@ -210,10 +210,10 @@ include_once('init.php');
 try{
     
     // Deal with the 'CheckProtocol' service first.
-    if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['type'] == 'CheckProtocol'){
+    if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['type'] == 'Sync'){
            
-        $data = new tao_install_services_Data(array('type' => 'CheckProtocol'));
-        $service = new tao_install_services_CheckProtocolService($data);
+        $data = new tao_install_services_Data(array('type' => 'Sync'));
+        $service = new tao_install_services_SyncService($data);
         
         // Execute service.
         $service->execute();
