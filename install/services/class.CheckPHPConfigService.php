@@ -27,7 +27,7 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
             throw new InvalidArgumentException("Missing data: 'value' must be provided as a not empty array.");
         }
         else{
-            $acceptedTypes = array('CheckPHPExtension', 'CheckPHPINIValue', 'CheckPHPRuntime', 'CheckPHPDatabaseDriver', 'CheckCustom');
+            $acceptedTypes = array('CheckPHPExtension', 'CheckPHPINIValue', 'CheckPHPRuntime', 'CheckPHPDatabaseDriver', 'CheckFileSystemComponent', 'CheckCustom');
             
             foreach ($content['value'] as $config){
                 if (!isset($config['type']) || empty($config['type']) || !in_array($config['type'], $acceptedTypes)){
