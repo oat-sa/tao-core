@@ -56,7 +56,7 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
         $optional = $content['value']['optional'];
         $extension = $content['value']['extension'];
         
-        $checkClassName = "${extension}_install2_checks_${name}";
+        $checkClassName = "${extension}_install_checks_${name}";
         
         try{
             $checkClass = new ReflectionClass($checkClassName);
