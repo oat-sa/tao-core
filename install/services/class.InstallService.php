@@ -76,6 +76,8 @@ class tao_install_services_InstallService extends tao_install_services_Service{
 				'install_path'	=> dirname(__FILE__) . '/../../install'
 			));
 			
+			// For the moment, we force English as default language.
+			$content['value']['module_lang'] = 'EN';
 			$installer->install($content['value']);
 			
 			$report = array('type' => 'InstallReport',
