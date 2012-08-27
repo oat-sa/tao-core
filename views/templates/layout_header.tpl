@@ -11,7 +11,7 @@
 		var currentExtension = '<?= context::getInstance()->getExtensionName(); ?>';
 	</script>
 
-	<script src="<?=TAOBASE_WWW?>js/require-2.0.6.js"></script>
+	<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
 
 	<?=tao_helpers_Scriptloader::render()?>
 
