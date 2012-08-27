@@ -202,7 +202,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 			$path = $exportPath.'/'.$file;
 			if(preg_match("/\.(rdf|zip)$/", $file) && !is_dir($path)){
 				$exportedFiles[] = array(
-					'path'		=> $path,
+					'path'		=> $file,
 					'url'		=> str_replace(ROOT_PATH, ROOT_URL.'/', $path),
 					'name'		=> substr($file, 0, strrpos($file, '_')),
 					'date'		=> date('Y-m-d H:i:s', ((int)substr(preg_replace("/\.(rdf|zip)$/", '', $file), strrpos($file, '_') + 1)))
@@ -249,8 +249,8 @@ class tao_actions_Export extends tao_actions_CommonModule {
 				basename($file['path']),
 				$file['date'],
 				array($file['url'],
-					_url('downloadExportedFiles', null, null, array('filePath' => urlencode(addslashes($file['path'])))),
-					_url('deleteExportedFiles', null, null, array('filePath' => urlencode(addslashes($file['path']))))
+					_url('downloadExportedFiles', null, null, array('filePath' => $file['path'])),
+					_url('deleteExportedFiles', null, null, array('filePath' => $file['path']))
 				)
 			);
 		} 
@@ -264,11 +264,9 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	public function deleteExportedFiles(){
 		$deleted = false;
 		if($this->hasRequestParameter('filePath')){
-			$path = urldecode($this->getRequestParameter('filePath'));
-			if(preg_match("/^".preg_quote($this->getExportPath(), '/')."/", $path)){
-				if(tao_helpers_File::securityCheck($path, true)){
-					$deleted = tao_helpers_File::remove($path);
-				}
+			$path = $this->getExportPath().DIRECTORY_SEPARATOR.$_GET['filePath'];
+			if(tao_helpers_File::securityCheck($path, true)){
+				$deleted = tao_helpers_File::remove($path);
 			}
 		}
 		echo json_encode(array('deleted' => $deleted));
@@ -280,16 +278,14 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 */
 	public function downloadExportedFiles($filePath){
 		
-		$path = !empty($filePath)?$filePath:'';
-
-		if(empty($path) && $this->hasRequestParameter('filePath')){
-			$path = urldecode($this->getRequestParameter('filePath'));
-		}
-			
-		if(!empty($path) && preg_match("/^".preg_quote($this->getExportPath(), '/')."(.*)/", $path) && file_exists($path)){
-			$this->setContentHeader(tao_helpers_File::getMimeType(basename($path)));
-			header('Content-Disposition: attachment; fileName="'.basename($path).'"');
-			echo file_get_contents($path);
+		//get request directly since getRequest changes names
+		$path = isset($_GET['filePath']) ? $_GET['filePath'] : ''; 
+		
+		$fullpath = $this->getExportPath().DIRECTORY_SEPARATOR.$path;
+		if(tao_helpers_File::securityCheck($fullpath, true) && file_exists($fullpath)){
+			$this->setContentHeader(tao_helpers_File::getMimeType($fullpath));
+			header('Content-Disposition: attachment; fileName="'.basename($fullpath).'"');
+			echo file_get_contents($fullpath);
 		}
         else{
             common_Logger::e('Could not find File to export' . $path);
