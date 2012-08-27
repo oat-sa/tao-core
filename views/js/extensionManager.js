@@ -16,7 +16,7 @@ $(function(){
 
 	$('#availlableExtension tr').click(function() {
 		if ($('input:checked', $(this)).length) $('input:checked', $(this)).removeAttr('checked');
-		else $('input', $(this)).attr('checked', 'checked');
+		else $('input', $(this)).prop('checked', 'checked');
 	});
 	$('#availlableExtension tr input').click(function(event){
 		event.stopPropagation();
@@ -26,7 +26,7 @@ $(function(){
 		//Prepare the list of extension to install in the order of dependency
 		toInstall = [];
 		$('#availlableExtension input:checked').each(function() {
-			ext = $(this).attr('name').split('_')[1];
+			ext = $(this).prop('name').split('_')[1];
 			deps = getDependencies(ext);
 			if (deps.length) toInstall = toInstall.concat(deps);
 			toInstall.push(ext);
@@ -75,7 +75,7 @@ $(function(){
 function getDependencies(extension) {
 	var dependencies = [];
 	$('#'+extension+' .dependencies li:not(.installed)').each(function() {
-		var ext = $(this).attr('rel');
+		var ext = $(this).prop('rel');
 		var deps = getDependencies(ext);
 		deps.push(ext);
 		dependencies = dependencies.concat(deps);
@@ -94,8 +94,8 @@ function getUnique(orig){
 
 function progressConsole(msg) {
 	$('#installProgress .console').append('<p>'+msg+'</p>');
-	//$('#installProgress .console').animate({ scrollTop: $('#installProgress .console').attr("scrollHeight") }, 500);
-	$('#installProgress .console').attr({scrollTop: $('#installProgress .console').attr("scrollHeight")});
+	//$('#installProgress .console').animate({ scrollTop: $('#installProgress .console').prop("scrollHeight") }, 500);
+	$('#installProgress .console').prop({scrollTop: $('#installProgress .console').prop("scrollHeight")});
 }
 
 function installNextExtension() {
@@ -152,7 +152,7 @@ function hasNextExtensionToInstall() {
 		progressConsole('Generating caches...');
 		$.ajax({
 			type: "GET",
-			url: $($('#main-menu a')[0]).attr('href'),
+			url: $($('#main-menu a')[0]).prop('href'),
 			success: function(data) {
 				helpers.loaded();
 				progressConsole('Generating caches finished');
