@@ -78,6 +78,7 @@ class tao_helpers_File
 		if($traversalSafe){
 	   		if(preg_match("/\.\.\//", $path)){
 				$returnValue = false;
+				common_Logger::w('directory traversal detected in ' . $path);
 			}
 		}
 
@@ -86,6 +87,7 @@ class tao_helpers_File
 			for($i = 0; $i < strlen($path); $i++){
 				if(ord($path[$i]) === 0){
 					$returnValue = false;
+					common_Logger::w('null char injection detected in ' . $path);
 					break;
 				}
 			}
