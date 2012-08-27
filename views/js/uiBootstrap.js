@@ -10,7 +10,7 @@
  * @author Jehan Bihin (using class.js)
  */
 
-define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquery.fmRunner.js'], function(req, $) {
+define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquery.fmRunner.js', 'class'], function(req, $) {
 	var UiBootstrap = Class.extend({
 		init: function(options) {
 			this.initAjax();

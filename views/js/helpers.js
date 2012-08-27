@@ -2,7 +2,7 @@
  * Helpers
  */
 
-define(['require', 'jquery'], function(req, $) {
+define(['require', 'jquery', 'class'], function(req, $) {
 	var Helpers = Class.extend({
 		init: function() {
 			this.parallelLoading = 0;
@@ -72,7 +72,7 @@ define(['require', 'jquery'], function(req, $) {
 			}
 			return -1;
 		},
-		
+
 		openTab: function(title, url) {
 			idx = this.getTabIndexByUrl(url);
 			if (idx == -1) {
@@ -81,7 +81,7 @@ define(['require', 'jquery'], function(req, $) {
 			}
 			uiBootstrap.tabs.tabs("select", idx);
 		},
-		
+
 		getTabIndexByUrl: function(url){
 			elts = $("div#tabs ul.ui-tabs-nav li a");
 			i = 0;

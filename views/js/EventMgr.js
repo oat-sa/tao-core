@@ -9,7 +9,7 @@
  *
  */
 
-define(['require', 'jquery'], function(req, $) {
+define(['require', 'jquery', 'class'], function(req, $) {
 	var EventMgr = Class.extend({
 		init: function() {
 			this.eventTarget = $(document);

@@ -8,7 +8,7 @@
  */
 
 
-define(['require', 'jquery'], function(req, $) {
+define(['require', 'jquery', 'class'], function(req, $) {
 	var GenerisActions = Class.extend({
 		init: function() {
 			this.mainTree = undefined;

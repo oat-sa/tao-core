@@ -22,7 +22,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 			this.selector = selector;
 			this.filterNodes = {};
 			this.filterNodesOptions = {};
-			this.trees = [];
+			this.lists = [];
 
 			//If filter nodes
 			if (filterNodes) {
@@ -33,6 +33,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 				this.renderLayout();
 			}
 		},
+
 		/**
 		 * GenerisFacetFilterClass default options
 		 */
@@ -42,6 +43,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 				onFilter: null
 			}
 		},
+
 		//
 		renderLayout: function() {
 			var instance = this;
@@ -55,18 +57,19 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 				}
 			});
 		},
+
 		/**
 		 * Add a filter node to the widget
-		 * 		=> create a tree
+		 * 		=> create a list
 		 */
 		addFilterNode: function(filterNode) {
 			var self = this;
-			var filterNodeId = filterNode.id;
+			/*var filterNodeId = filterNode.id;
 			var filterNodeLabel = filterNode.label;
 			var filterNodeUrl = filterNode.url;
 			var filterNodeOptions = filterNode.options;
 
-			//instantiate the filter node widget, here a jstree
+			//instantiate the filter node widget
 
 			//pass to the server options of others filter nodes
 			var options = $.extend(true, {}, filterNodeOptions);
@@ -80,27 +83,27 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 				'onChangeCallback' 	: function(NODE, TREE_OBJ) {
 					self.propagateChoice();
 				}
-			});
+			});*/
+			//self.lists[filterNodeId]
 		},
+
 		/**
 		 * Propagate a choice
 		 */
 		propagateChoice: function() {
-			var self = this;
 			var filter = {};
-
 			//get the checked nodes
-			for (var treeId in this.trees) {
-				var checked = this.trees[treeId].getChecked();
-				filter[treeId] = checked;
+			for (var id in this.lists) {
+				var checked = this.lists[id].getChecked();
+				filter[id] = checked;
 			}
-			//refresh all trees with the new filter
-			for (var treeId in this.trees){
+			//refresh all lists with the new filter
+			for (var id in this.lists) {
 				// Set the server parameter
-				this.trees[treeId].setServerParameter('filter', filter, true);
+				this.lists[id].setServerParameter('filter', filter, true);
 			}
 			//call the callback function
-			if(this.options.callback.onFilter != null){
+			if (this.options.callback.onFilter != null) {
 				this.options.callback.onFilter(filter, this.filterNodesOptions);
 			}
 		}
