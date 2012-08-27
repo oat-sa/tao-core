@@ -64,7 +64,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 						// If a NODE is given, send its identifier to the server
 						// and the user does not want to filter the data
 						if (NODE && instance.filter=='*') {
-							returnValue['classUri'] = $(NODE).attr('id');
+							returnValue['classUri'] = $(NODE).prop('id');
 						} else if (typeof returnValue['classUri'] != 'undefined') {
 							// else destroy the class uri field to get filter on the whole instances
 							delete returnValue['classUri'];
@@ -130,10 +130,10 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 					},
 					//when a node is selected
 					onselect: function(NODE, TREE_OBJ) {
-						var nodeId = $(NODE).attr('id');
-						var parentNodeId = $(NODE).parent().parent().attr('id');
+						var nodeId = $(NODE).prop('id');
+						var parentNodeId = $(NODE).parent().parent().prop('id');
 						$("a.clicked").each(function() {
-							if ($(this).parent('li').attr('id') != nodeId) {
+							if ($(this).parent('li').prop('id') != nodeId) {
 								$(this).removeClass('clicked');
 							}
 						});
@@ -154,7 +154,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 						if ($(NODE).hasClass('node-instance') && instance.options.editInstanceAction) {
 							//load the editInstanceAction into the formContainer
 							PNODE = TREE_OBJ.parent(NODE);
-							helpers._load(instance.options.formContainer, instance.options.editInstanceAction, instance.data(nodeId, $(PNODE).attr('id')));
+							helpers._load(instance.options.formContainer, instance.options.editInstanceAction, instance.data(nodeId, $(PNODE).prop('id')));
 						}
 
 						if ($(NODE).hasClass('paginate-more')) {
@@ -220,8 +220,8 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 								});
 							}
 							moveNode(instance.options.moveInstanceAction, {
-									'uri': $(NODE).attr('id'),
-									'destinationClassUri': $(REF_NODE).attr('id'),
+									'uri': $(NODE).prop('id'),
+									'destinationClassUri': $(REF_NODE).prop('id'),
 									'NODE'		: NODE,
 									'REF_NODE'	: REF_NODE,
 									'RB'		: RB,
@@ -266,7 +266,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 								action: function(NODE, TREE_OBJ) {
 									//specialize the selected class
 									instance.addClass(NODE, TREE_OBJ, {
-										id: $(NODE).attr('id'),
+										id: $(NODE).prop('id'),
 										url: instance.options.subClassAction
 									});
 								},
@@ -289,7 +289,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 									//add a new instance of the selected class
 									instance.addInstance(NODE, TREE_OBJ, {
 										url: instance.options.createInstanceAction,
-										id: $(NODE).attr('id'),
+										id: $(NODE).prop('id'),
 										cssClass: instance.options.instanceClass
 									});
 								}
@@ -458,7 +458,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 		 * Paginate function, display more instances
 		 */
 		paginateInstances: function(NODE, TREE_OBJ, pOptions) {
-			var nodeId = $(NODE).attr('id');
+			var nodeId = $(NODE).prop('id');
 			var instancesLeft = this.getMeta(nodeId, "count") - this.getMeta(nodeId, "displayed");
 			var options = {
 				"classUri": nodeId,
@@ -595,7 +595,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 						}, TREE_OBJ.get_node(NODE[0])));
 
 						// refresh pagination if required
-						var classId = $(NODE).attr('id');
+						var classId = $(NODE).prop('id');
 						instance.setMeta (classId, 'displayed', instance.getMeta(classId, 'displayed') + 1);
 						instance.setMeta (classId, 'count', instance.getMeta(classId, 'count') + 1);
 						instance.refreshPaginate(NODE, instance.getTree());
@@ -620,11 +620,11 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 					data = false;
 					var selectedNode = this;
 					if ($(selectedNode).hasClass('node-class')) {
-						data =  {classUri: $(selectedNode).attr('id')};
+						data =  {classUri: $(selectedNode).prop('id')};
 					}
 					if ($(selectedNode).hasClass('node-instance')) {
 						PNODE = TREE_OBJ.parent(selectedNode);
-						data =  {uri: $(selectedNode).attr('id'), classUri: $(PNODE).attr('id')};
+						data =  {uri: $(selectedNode).prop('id'), classUri: $(PNODE).prop('id')};
 					}
 					if (data) {
 						$.ajax({
@@ -635,7 +635,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 							success: function(response){
 								if (response.deleted) {
 									// refresh pagination if required
-									var classId = $(NODE).parent().parent().attr('id');
+									var classId = $(NODE).parent().parent().prop('id');
 									instance.setMeta(classId, 'displayed', instance.getMeta(classId, 'displayed') -1);
 									instance.setMeta(classId, 'count', instance.getMeta(classId, 'count') -1);
 									instance.setMeta(classId, 'position', instance.getMeta(classId, 'position') -1);
@@ -661,7 +661,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 			$.ajax({
 				url: options.url,
 				type: "POST",
-				data: {classUri: $(PNODE).attr('id'), uri: $(NODE).attr('id')},
+				data: {classUri: $(PNODE).prop('id'), uri: $(NODE).prop('id')},
 				dataType: 'json',
 				success: function(response){
 					if (response.uri) {
@@ -670,7 +670,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 								data: response.label,
 								attributes: {
 									id: response.uri,
-									'class': $(NODE).attr('class')
+									'class': $(NODE).prop('class')
 								}
 							},
 							TREE_OBJ.get_node(PNODE)
@@ -678,7 +678,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 						);
 
 						// refresh pagination if required
-						var classId = $(PNODE).attr('id');
+						var classId = $(PNODE).prop('id');
 						instance.setMeta(classId, 'displayed', instance.getMeta(classId, 'displayed') + 1);
 						instance.setMeta(classId, 'count', instance.getMeta(classId, 'count') + 1);
 						instance.refreshPaginate(PNODE, instance.getTree());
@@ -695,7 +695,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 			var TREE_OBJ = options.TREE_OBJ;
 			var NODE = options.NODE;
 			var data = {
-				uri: $(NODE).attr('id'),
+				uri: $(NODE).prop('id'),
 				newName: TREE_OBJ.get_text(NODE)
 			};
 			if (options.classUri) {
@@ -763,7 +763,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 								return {
 									hideInstances : true,
 									subclasses: true,
-									classUri: $(NODE).attr('id')
+									classUri: $(NODE).prop('id')
 								};
 							}
 							return {
@@ -780,12 +780,12 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 						},
 						//call the tree onmove callback by selecting a class
 						onselect: function(NODE, TREE_OBJ) {
-							var myREF_NODE = $(instance.selector).find('li[id="'+$(NODE).attr('id')+'"]');
+							var myREF_NODE = $(instance.selector).find('li[id="'+$(NODE).prop('id')+'"]');
 							// copy / past seems to reproduce the tree behavior -> more efficient
 							myTREE_OBJ.cut (myNODE);
 							myTREE_OBJ.paste (myREF_NODE, "inside");
 							//var rollback = {};
-							//rollback[$(myTREE_OBJ.container).attr('id')] = myTREE_OBJ.get_rollback();
+							//rollback[$(myTREE_OBJ.container).prop('id')] = myTREE_OBJ.get_rollback();
 							//myTREE_OBJ.settings.callback.onmove(myNODE, NODE, 'inside', myTREE_OBJ, rollback);
 							//myTREE_OBJ.refresh();
 							$("#tmp-moving").dialog('close');

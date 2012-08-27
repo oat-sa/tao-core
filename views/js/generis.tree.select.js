@@ -43,7 +43,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				callback: {
 					//before check
 					beforecheck: function(NODE, TREE_OBJ) {
-						var nodeId = $(NODE).attr('id');
+						var nodeId = $(NODE).prop('id');
 
 						if (instance.isRefreshing) {
 							if ($.inArray(nodeId, instance.checkedNodes) == -1) {
@@ -69,7 +69,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 					},
 					//before check
 					beforeuncheck: function(NODE, TREE_OBJ) {
-						var nodeId = $(NODE).attr('id');
+						var nodeId = $(NODE).prop('id');
 						var indice = $.inArray(nodeId, instance.checkedNodes);
 						if (indice != -1) {
 							instance.checkedNodes.splice(indice,1);
@@ -82,7 +82,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 						var returnValue = instance.defaultServerParameters;
 						//If a NODE is given, send its identifier to the server
 						if (NODE) {
-							returnValue['classUri'] = $(NODE).attr('id');
+							returnValue['classUri'] = $(NODE).prop('id');
 						}
 						//Augment with the serverParameters
 						for (var key in instance.serverParameters) {
@@ -122,13 +122,13 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 							return;
 						}
 						if ($(NODE).hasClass('paginate-all')) {
-							var parentNodeId = $(NODE).parent().parent().attr('id');
+							var parentNodeId = $(NODE).parent().parent().prop('id');
 							var limit = instance.getMeta(parentNodeId, 'count') - instance.getMeta(parentNodeId, 'displayed');
 							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, {'limit': limit});
 							return;
 						}
 
-						var nodeId = $(NODE).attr('id');
+						var nodeId = $(NODE).prop('id');
 
 	/*
 						var indice = $.inArray(nodeId, instance.checkedNodes);
@@ -220,7 +220,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 						$(NODE).find('ul:first').children().each(function(){
 							if ($(this).hasClass('node-instance')) {
 								$(this).find("a:not(.checked, .undetermined)").each (function () {
-									instance.checkedNodes.push($(this).parent().attr('id'));
+									instance.checkedNodes.push($(this).parent().prop('id'));
 								});
 							}
 						});
@@ -271,7 +271,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 			var returnValue = new Array ();
 			$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE) {
 				if ($(NODE).hasClass('node-instance')) {
-					returnValue.push($(NODE).attr('id'));
+					returnValue.push($(NODE).prop('id'));
 				}
 			});
 			return returnValue;
@@ -288,7 +288,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 			helpers.loading();
 			/*$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE){
 				if ($(NODE).hasClass('node-instance')) {
-					toSend2['instance_' + index2] = $(NODE).attr('id');
+					toSend2['instance_' + index2] = $(NODE).prop('id');
 					index2++;
 				}
 			});*/

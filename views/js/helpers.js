@@ -32,7 +32,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 				return false;
 			}
 
-			var uiTab = $('.ui-tabs-panel').attr('id');
+			var uiTab = $('.ui-tabs-panel').prop('id');
 			if(typeof $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')] != 'undefined'){
 				uiTab = $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')].id;
 			}
@@ -127,7 +127,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 				return false;
 			});
 			$("#ajax-loading").show();
-			//$("input:submit, input:button, a").attr('disabled', true).css('cursor', 'default');
+			//$("input:submit, input:button, a").prop('disabled', true).css('cursor', 'default');
 		},
 
 		/**
@@ -140,7 +140,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 			if (this.parallelLoading > 0) return; //Need once
 			$(window).unbind('click');
 			$("#ajax-loading").hide();
-			//$("input:submit, input:button, a").attr('disabled', false).css('cursor', 'pointer');
+			//$("input:submit, input:button, a").prop('disabled', false).css('cursor', 'pointer');
 		},
 
 		/**
@@ -204,7 +204,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 			}
 			$(selector).each(function(){
 				if($(this).text().length > maxLength && !$(this).hasClass("text-cutted")){
-					$(this).attr('title', $(this).text());
+					$(this).prop('title', $(this).text());
 					$(this).css('cursor', 'pointer');
 					$(this).html($(this).text().substring(0, maxLength) + "[...<img src='"+imgPath+"bullet_add.png' />]");
 					$(this).addClass("text-cutted");

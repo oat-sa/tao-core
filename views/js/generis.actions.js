@@ -167,7 +167,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 				NODES = new Array();
 				$.each(TREE_OBJ.children(NODE), function(i, CNODE){
 					if ($(CNODE).hasClass('node-instance')) {
-						NODES.push($(CNODE).attr('id'));
+						NODES.push($(CNODE).prop('id'));
 					}
 					if ($(CNODE).hasClass('node-class')) {
 						subNodes = getInstances(TREE_OBJ, CNODE);
