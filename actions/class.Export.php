@@ -281,7 +281,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	public function downloadExportedFiles($filePath){
 		
 		$path = !empty($filePath)?$filePath:'';
-		
+
 		if(empty($path) && $this->hasRequestParameter('filePath')){
 			$path = urldecode($this->getRequestParameter('filePath'));
 		}
@@ -291,7 +291,10 @@ class tao_actions_Export extends tao_actions_CommonModule {
 			header('Content-Disposition: attachment; fileName="'.basename($path).'"');
 			echo file_get_contents($path);
 		}
-		
+        else{
+            common_Logger::e('Could not find File to export' . $path);
+        }
+
 		return;
 	}
 }
