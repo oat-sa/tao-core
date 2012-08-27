@@ -103,6 +103,16 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 			if(this.options.callback.onFilter != null){
 				this.options.callback.onFilter(filter, this.filterNodesOptions);
 			}
+		},
+		getFormatedFilterSelection: function() {
+
+			var formatedFilter = {};
+			for (var treeId in this.trees) {
+				var propertyUri = this.filterNodesOptions[treeId]['propertyUri'];
+				formatedFilter[propertyUri] = this.trees[treeId].getChecked(); 
+			}
+			
+			return formatedFilter;
 		}
 	});
 
