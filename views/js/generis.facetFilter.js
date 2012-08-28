@@ -106,14 +106,15 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 				success: function(data) {
 					$('#list-'+listOptions.id).empty().append('<ul id="'+data.attributes.id+'" class="group-list"></ul>');
 					for (c in data.children) {
-						$el = $('<li id="'+data.children[c].attributes.id+'" class="selectable"><span><span class="label">'+data.children[c].data+'</span></span><span class="selector checkable"></span></li>').appendTo($('#list-'+listOptions.id+' ul.group-list'));
-						$('span', $el).on('click', function(e){
-							if ($(this).hasClass('have-allaccess')) $(this).removeClass('have-allaccess');
-							else $(this).addClass('have-allaccess');
+						$el = $('<li id="'+data.children[c].attributes.id+'" class="selectable"><span class="label">'+data.children[c].data+'</span><span class="selector checkable"></span></li>').appendTo($('#list-'+listOptions.id+' ul.group-list'));
+						$('span.label, span.selector', $el).on('click', function(e){
+							e.preventDefault();
+							if ($(this).parent().hasClass('have-allaccess')) $(this).parent().removeClass('have-allaccess');
+							else $(this).parent().addClass('have-allaccess');
 							self.propagateChoice();
 						});
 						//Add actions
-						$('<ul class="actions"></ul>').appendTo('span:first', $el);
+						$('<ul class="actions"></ul>').prependTo('span:first', $el);
 						for (a in self.options.itemActions) {
 							$a = $('<li class="actions '+a+'" style="backgroud-image: url('+self.options.itemActions[a].iconUrl+')"></li>').appendTo('ul.actions', $el);
 							$a.on('click', self.options.itemActions[a].callback.click);
