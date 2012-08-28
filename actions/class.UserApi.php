@@ -73,14 +73,6 @@ class tao_actions_UserApi extends tao_actions_RemoteServiceModule {
 	 * @param core_kernel_classes_Resource $user
 	 */
 	public static function buildInfo(core_kernel_classes_Resource $user) {
-		$roles = array();
-		$roles = core_kernel_users_Service::singleton()->getUserRoles($user);
-		foreach ($roles as $role) {
-			$roles[] = array(
-				'id'	=> $role->getUri(),
-				'label'	=> $role->getLabel()
-			);
-		}
 		$props = $user->getPropertiesValues(array(
 			new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME),			
 			new core_kernel_classes_Property(PROPERTY_USER_LASTNAME),
@@ -88,14 +80,28 @@ class tao_actions_UserApi extends tao_actions_RemoteServiceModule {
 			new core_kernel_classes_Property(PROPERTY_USER_MAIL),			
 			new core_kernel_classes_Property(PROPERTY_USER_UILG),			
 			));
-		$lang = array_pop($props[PROPERTY_USER_UILG]);
+			
+		$roles = array();
+		$roleRes = core_kernel_users_Service::singleton()->getUserRoles($user);
+		foreach ($roleRes as $role) {
+			$roles[] = array(
+				'id'	=> $role->getUri(),
+				'label'	=> $role->getLabel()
+			);
+		}	
+		if (isset($props[PROPERTY_USER_UILG]) && is_array($props[PROPERTY_USER_UILG])) {
+			$langRes = array_pop($props[PROPERTY_USER_UILG]);
+			$lang = (string)$langRes->getUniquePropertyValue(new core_kernel_classes_Property(RDF_VALUE));
+		} else {
+			$lang = DEFAULT_LANG;
+		}
 		return array(
 			'id'			=> $user->getUri(),
 			'login'			=> isset($props[PROPERTY_USER_LOGIN]) ? (string)array_pop($props[PROPERTY_USER_LOGIN]) : '',
 			'first_name'	=> isset($props[PROPERTY_USER_FIRTNAME]) ? (string)array_pop($props[PROPERTY_USER_FIRTNAME]) : '',
 			'last_name'		=> isset($props[PROPERTY_USER_LASTNAME]) ? (string)array_pop($props[PROPERTY_USER_LASTNAME]) : '',
 			'email'			=> isset($props[PROPERTY_USER_MAIL]) ? (string)array_pop($props[PROPERTY_USER_MAIL]) : '',
-			'lang'			=> (string)$lang->getUniquePropertyValue(new core_kernel_classes_Property(RDF_VALUE)),
+			'lang'			=> $lang,
 			'roles'			=> $roles 
 		);
 	}
