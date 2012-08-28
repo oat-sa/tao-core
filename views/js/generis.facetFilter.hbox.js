@@ -39,7 +39,7 @@ define(['require', 'jquery'], function(req, $) {
 					' + label + ' \
 				</div> \
 				<div class="ui-widget-content container-content ui-corner-bottom"> \
-					<div id="tree-' + id + '"></div> \
+					<div id="list-' + id + '"></div> \
 				</div> \
 				<!--<div class="ui-state-default ui-corner-bottom" style="text-align:center; padding:4px;"> \
 				</div>--> \

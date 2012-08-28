@@ -22,7 +22,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 			this.selector = selector;
 			this.filterNodes = {};
 			this.filterNodesOptions = {};
-			this.trees = [];
+			this.lists = [];
 
 			//If filter nodes
 			if (filterNodes) {
@@ -33,15 +33,18 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 				this.renderLayout();
 			}
 		},
+
 		/**
 		 * GenerisFacetFilterClass default options
 		 */
 		defaultOptions: {
-			template:	'hbox',	// hbox, vbox, accordion
+			template:	'hbox',	//hbox, vbox, accordion
 			callback: {
 				onFilter: null
-			}
+			},
+			itemActions: {}
 		},
+
 		//
 		renderLayout: function() {
 			var instance = this;
@@ -55,18 +58,19 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 				}
 			});
 		},
+
 		/**
 		 * Add a filter node to the widget
-		 * 		=> create a tree
+		 * 		=> create a list
 		 */
 		addFilterNode: function(filterNode) {
-			var self = this;
-			var filterNodeId = filterNode.id;
+			/*var self = this;
+			/*var filterNodeId = filterNode.id;
 			var filterNodeLabel = filterNode.label;
 			var filterNodeUrl = filterNode.url;
 			var filterNodeOptions = filterNode.options;
 
-			//instantiate the filter node widget, here a jstree
+			//instantiate the filter node widget
 
 			//pass to the server options of others filter nodes
 			var options = $.extend(true, {}, filterNodeOptions);
@@ -80,38 +84,87 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 				'onChangeCallback' 	: function(NODE, TREE_OBJ) {
 					self.propagateChoice();
 				}
+			});*/
+
+			listOptions = {
+				elem: $('#list-'+filterNode.id),
+				id: filterNode.id,
+				url: filterNode.url,
+				options: filterNode.options
+			};
+			this.lists[filterNode.id] = listOptions;
+			this.loadDataList(listOptions);
+		},
+
+		loadDataList: function(listOptions) {
+			var self = this;
+			$.ajax({
+				type: "POST",
+				url: listOptions.url,
+				data: listOptions.options,
+				dataType: 'json',
+				success: function(data) {
+					$('#list-'+listOptions.id).empty().append('<ul id="'+data.attributes.id+'" class="group-list"></ul>');
+					for (c in data.children) {
+						$el = $('<li id="'+data.children[c].attributes.id+'" class="selectable"><span><span class="label">'+data.children[c].data+'</span></span><span class="selector checkable"></span></li>').appendTo($('#list-'+listOptions.id+' ul.group-list'));
+						$('span', $el).on('click', function(e){
+							if ($(this).hasClass('have-allaccess')) $(this).removeClass('have-allaccess');
+							else $(this).addClass('have-allaccess');
+							self.propagateChoice();
+						});
+						//Add actions
+						$('<ul class="actions"></ul>').appendTo('span:first', $el);
+						for (a in self.options.itemActions) {
+							$a = $('<li class="actions '+a+'" style="backgroud-image: url('+self.options.itemActions[a].iconUrl+')"></li>').appendTo('ul.actions', $el);
+							$a.on('click', self.options.itemActions[a].callback.click);
+						}
+					}
+				}
 			});
 		},
+
 		/**
 		 * Propagate a choice
 		 */
 		propagateChoice: function() {
-			var self = this;
 			var filter = {};
-
 			//get the checked nodes
-			for (var treeId in this.trees) {
-				var checked = this.trees[treeId].getChecked();
-				filter[treeId] = checked;
+			for (var id in this.lists) {
+				//var checked = this.lists[id].getChecked();
+				var checked = [];
+				$('li.selectable.have-allaccess', this.lists[id].elem).each(function(idx, el) {
+					checked.push($(this).prop('id'));
+				});
+				if (checked.length) filter[$('ul', $(this.lists[id].elem)).prop('id')] = checked;
 			}
-			//refresh all trees with the new filter
-			for (var treeId in this.trees){
+
+			//refresh all lists with the new filter
+			for (var id in this.lists) {
 				// Set the server parameter
-				this.trees[treeId].setServerParameter('filter', filter, true);
+				//this.lists[id].setServerParameter('filter', filter, true);
+				//Reload
+				this.lists[id].options.filter = filter;
+				this.loadDataList(this.lists[id]);
 			}
+
 			//call the callback function
-			if(this.options.callback.onFilter != null){
+			if (this.options.callback.onFilter != null) {
 				this.options.callback.onFilter(filter, this.filterNodesOptions);
 			}
 		},
-		getFormatedFilterSelection: function() {
 
+		getFormatedFilterSelection: function() {
 			var formatedFilter = {};
-			for (var treeId in this.trees) {
-				var propertyUri = this.filterNodesOptions[treeId]['propertyUri'];
-				formatedFilter[propertyUri] = this.trees[treeId].getChecked(); 
+			for (var id in this.lists) {
+				//var propertyUri = this.filterNodesOptions[id]['propertyUri'];
+				//formatedFilter[propertyUri] = this.lists[id].getChecked();
+				//var checked = this.lists[id].getChecked();
+				var checked = [];
+				$('li.selectable.have-allaccess', this.lists[id].elem).each(function(idx, el) {
+					checked.push($(this).prop('id'));
+				});
+				if (checked.length) formatedFilter[$('ul', $(this.lists[id].elem)).prop('id')] = checked;
 			}
-			
 			return formatedFilter;
 		}
 	});
