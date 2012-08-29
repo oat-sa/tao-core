@@ -38,16 +38,13 @@ class tao_install_services_SyncService extends tao_install_services_Service{
         	$data = '{"type": "SyncReport", "value": { "json": '. (($json) ? 'true' : 'false') . '}}';
         }
         else{
-        	// We return basic information to the client about server-side.
-        	$rootUrl = 
-        	
         	$data = json_encode(array('type' => 'SyncReport', 'value' => array(
         		'json' => true,
-        		'rootURL' => self::getRootUrl()
+        		'rootURL' => self::getRootUrl(),
+        		'availableDrivers' => self::getAvailableDrivers()
         	)));
         }
-        
-                                       
+                                   
         $this->setResult(new tao_install_services_Data($data));
     }
     
@@ -60,6 +57,22 @@ class tao_install_services_SyncService extends tao_install_services_Service{
     	$parsed = parse_url($currentUrl);
     	$rootUrl = $parsed['scheme'] . '://' . $parsed['host'] . $parsed['path'];
     	return str_replace('/tao/install/api.php', '', $rootUrl);
+    }
+    
+    private static function getAvailableDrivers(){
+    	$compatibleDrivers = array('mysql', 'pgsql');
+    	$availableDrivers = array();
+    	
+    	foreach ($compatibleDrivers as $cD){
+    		$check = new common_configuration_PHPDatabaseDriver(null, null, $cD);
+    		$report = $check->check();
+    		
+    		if ($report->getStatus() == common_configuration_Report::VALID){
+    			$availableDrivers[] = $cD;
+    		}
+    	}
+    	
+    	return array_intersect($compatibleDrivers, $availableDrivers);
     }
 }
 ?>

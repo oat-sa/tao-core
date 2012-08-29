@@ -43,6 +43,7 @@ function onLoad(){
 		if (data.value.json == true){
 			// Save useful information.
 			install.addData('root_url', data.value.rootURL);
+			install.addData('available_drivers', data.value.availableDrivers);
 			checkConfig();	
 		}
 		else {

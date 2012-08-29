@@ -1,7 +1,20 @@
 function onLoad(){
 	
+	// If we have available drivers, we set up
+	// the list of db drivers.
+	var availableDrivers = install.getData('available_drivers');
+	
+	if (availableDrivers != null && availableDrivers.length > 0){
+		$databaseDriverElement = $('#database_driver');
+		$databaseDriverElement.empty();
+		
+		for (var i in availableDrivers){
+			$databaseDriverElement.append('<option value="' + availableDrivers[i] + '">' + getDriverLabel(availableDrivers[i]) + '</option>');
+		}
+	}
+	
 	install.onNextable = function(){
-		$('#submitForm').removeClass('disabled')
+		$('#submitForm').removeClass('disable')
 						.addClass('enabled')
 						.attr('disabled', false);
 		$('#submitForm').attr('value', 'Proceed next step');
@@ -133,4 +146,20 @@ function onLoad(){
 	$(install.populate()).each(function(){
 		$(this).removeClass('helpTaoInputLabel');
 	});
+}
+
+function getDriverLabel(driverId){
+	switch(driverId){
+		case 'mysql':
+			return 'MySQL';
+		break;
+		
+		case 'pgsql':
+			return 'PostgreSQL';
+		break;
+		
+		default:
+			throw 'Unknown database driver (' + driverId + ').';
+		break;
+	}
 }
