@@ -121,7 +121,7 @@ function checkConfig(){
 				    	}
 				    	
 				    	if (mandatoryCount == 0){
-				    		addReport('ready', 'Your system is compliant with the TAO requirement', 'ok', false, true);
+				    		addReport('ready', 'Your system is compliant with the TAO requirements', 'ok', false, true);
 				    	}
 				    	
 				    	install.stateChange();
