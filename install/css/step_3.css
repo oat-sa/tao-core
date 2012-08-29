@@ -1,11 +1,11 @@
 #forms_content{
 	position: absolute;
-	top: 170px;
+	top: 190px;
 	margin-left: 200px;
 }
 
 ul{
-	height: 230px;
+	height: 210px;
 }
 
 #submitForm.disabled{
