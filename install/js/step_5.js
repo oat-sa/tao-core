@@ -48,7 +48,19 @@ function onLoad(){
 				
 				if (success == true){
 					$('#deployment').css('visibility', 'hidden');
-					install.setTemplate('step_6');
+					if (install.getData('deployment_mode') == 'debug'){
+						// In debug mode, we still have access to the /tao/install
+						// folder. We can thus display a new template.
+						install.setTemplate('step_6');	
+					}
+					else{
+						// We are in 'production' deployment mode. Thus, the /tao/install
+						// cannot be accessed anymore because of more restrictive .htaccess
+						// files created at installation time on the server-side.
+						// Thus, we go directly to the TAO portal at the root of the install
+						// directory.
+						install.redirect('../../');
+					}
 				}
     		});
     	}

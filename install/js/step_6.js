@@ -15,7 +15,7 @@ function onLoad(){
     		   			.addClass('disabled');
     	
     	if (install.isNextable()){
-    		window.open('../');
+    		install.redirect('../../');
     	}
     	
     	return false;

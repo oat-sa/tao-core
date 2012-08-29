@@ -446,6 +446,14 @@ TaoInstall.prototype.populate = function(){
 	return populated;
 }
 
+/**
+ * Invoke this method to redirect the end user to a specific URL.
+ * @param {String} A Uniform Resource Locator.
+ */
+TaoInstall.prototype.redirect = function(url) {
+	window.location.href = url;
+}
+
 // ----------- Private methods
 TaoInstall.prototype.init = function(){	
 	var that = this;
