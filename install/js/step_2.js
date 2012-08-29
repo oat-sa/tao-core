@@ -49,7 +49,7 @@ function onLoad(){
 		switch (this.id){
 			
 			case 'host_name':
-				install.getValidator(this, {dataType: 'string', min: 5});
+				install.getValidator(this, {dataType: 'host'});
 			break;
 			
 			default:

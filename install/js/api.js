@@ -280,6 +280,11 @@ TaoInstall.prototype.getValidator = function(element, options){
 								element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };
 							break;
 							
+							case 'host':
+								var reg = new RegExp("(https?:\/\/)(www\.)?([a-zA-Z0-9\-.\/_]){3,}(:[0-9]{1,5})?");
+								element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };
+							break;
+							
 							case 'string':
 								var sameAsFunction = function(){ return api.getRegisteredElement(options.sameAs).getData() == $element.val(); };
 							
