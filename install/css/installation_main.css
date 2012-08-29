@@ -46,11 +46,11 @@ h4 {
 	background-position-y: 1px;
 }
 
-#helpPopUp h4 {
+#genericPopup h4.help {
 	background-image: url('../images/help.png');
 }
 
-#errorPopUp h4 {
+#genericPopup h4.error {
 	background-image: url('../images/exclamation.png');
 }
 
@@ -499,7 +499,7 @@ html, body{
 	overflow:none;
 	position:relative;
 	z-index:995;
-	height:100%;
+	height:200px;
 }
 
 #genericPopupContent h5{

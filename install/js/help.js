@@ -13,8 +13,6 @@ $(document).ready(function(){
 		$("#mainSupportPopup").find("#supportFrameId").attr("src","supportFrameIndex.html");
 	});
 
-	var popupDocConcext=parent.document
-
 	$("#genericPopupClose").bind("click",function(){
 		$("#mainGenericPopup").hide();
 		$("#screenShield").hide();
@@ -30,8 +28,6 @@ $(document).ready(function(){
 
 function displayTaoHelp(event){
 
-	console.log("ok");
-
 	var inputId = $(event.currentTarget).attr('id');
 	var msg = 'No help for input <strong>' + inputId + '</strong>.';
 
@@ -39,12 +35,14 @@ function displayTaoHelp(event){
 		msg = storeMsg;
 	}
 
-	var popupDocConcext=parent.document
+	var popupDocContext = parent.document;
 
-	$(popupDocConcext).find("#mainGenericPopup").show();
-	$(popupDocConcext).find("#screenShield").show();
-	$(popupDocConcext).find("#genericPopupContent h4").html("");
-	$(popupDocConcext).find("#genericPopupContent").html(msg);
+	$(popupDocContext).find("#mainGenericPopup").show();
+	$(popupDocContext).find("#screenShield").show();
+	$(popupDocContext).find("#genericPopup h4").removeClass('error')
+											   .addClass('help')
+											   .html("Help");
+	$(popupDocContext).find("#genericPopupContent").html(msg);
 }
 
 function displayTaoError(msg, title){
@@ -53,10 +51,14 @@ function displayTaoError(msg, title){
 		var title = 'Error';
 	}
 
-	$("#mainGenericPopup").show();
-	$("#screenShield").show();
-	$("#genericPopupContent h4").html(title);
-	$("#genericPopupContent").html(msg);
+	var popupDocContext = parent.document;
+
+	$(popupDocContext).find("#mainGenericPopup").show();
+	$(popupDocContext).find("#screenShield").show();
+	$(popupDocContext).find("#genericPopup h4").removeClass('help')
+											   .addClass('error')
+											   .html(title);
+	$(popupDocContext).find("#genericPopupContent").html(msg);
 }
 
 /*function displaySupport(){
