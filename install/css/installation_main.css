@@ -420,8 +420,8 @@ body textarea {
 	font-size:14px;
 	font-family:verdana;
 	position:relative;
-	left:25px;
-	top:-20px;
+	margin-left:4px;
+	margin-top:4px;
 }
 
 .formExample {
@@ -545,3 +545,9 @@ body .ui-widget-overlay{
 
 /* workarround hidden overflow wekti safari, chrome issue */ 
 iframe::-webkit-scrollbar { display: none; }
+
+/* Validate */
+.valideField{
+	margin-top:9px;
+	margin-left:4px;
+}
