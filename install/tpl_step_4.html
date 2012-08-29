@@ -21,45 +21,44 @@
 <body>
     <div id="installation_form" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
         <h2>Tao Installation Process</h2>
-        <h1>Super-user Creation</h1>
+        <h1>Administrator Setup</h1>
         <ul id="install_seq">
             <li><h3>Installation Steps</h3></li>
-            <li id="step_1">1. <a href="#">Configuration Check</a></li>
-            <li id="step_2">2. <a href="#">Host Configuration</a></li>
-            <li id="step_3">3. <a href="#">Database configuration</a></li>
-            <li id="step_4" class="currentStep">4. Super-user Creation</li>
-            <li id="step_5">5. Deployment</li>
-            <li id="step_6">6. End of Install</li>
+            <li id="step_1">1. <a href="#">Requirements Check</a></li>
+            <li id="step_2">2. <a href="#">Server Setup</a></li>
+            <li id="step_3">3. <a href="#">Database Setup</a></li>
+            <li id="step_4" class="currentStep">4. Administrator Setup</li>
+            <li id="step_5">5. Finalyze Installation</li>
+            <li id="step_6">6. Start TAO</li>
         </ul>
         <p id="comments">
-            Please enter information about the Super-user which is a special user account used for TAO
-            platform administration.
+            Please enter information about the Administrator of your TAO instance.
         </p>
         <div id="forms_content">
             <form>
                 <ul>
                     <li>
-                        <label for="superuser_firstname">The first name of the Super-user.</label><br />
+                        <label for="superuser_firstname">The first name of the Administrator.</label><br />
                         <input type="text" id="superuser_firstname" name="superuser_firstname" class="tao-input" title="John" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec1" class="ui-icon ui-icon-help"></a></div>
                     </li>
                     <li>
-                        <label for="superuser_lastname">The last name of the Super-user.</label><br />
+                        <label for="superuser_lastname">The last name of the Administrator.</label><br />
                         <input type="text" id="superuser_lastname" name="superuser_lastname" class="tao-input" title="Doe" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
                     </li>
                     <li>
-                        <label for="superuser_email">The e-mail address of the Super-user.</label><br />
+                        <label for="superuser_email">The e-mail address of the Administrator.</label><br />
                         <input type="text" id="superuser_email" name="superuser_email" class="tao-input" title="john.doe@mailer.com" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec3" class="ui-icon ui-icon-help"></a></div>
                     </li>
                     <li>
-                        <label for="superuser_login">The account login of the Super-user.</label><br />
+                        <label for="superuser_login">The account login of the Administrator.</label><br />
                         <input type="text" id="superuser_login" name="superuser_login" class="tao-input" title="superuser" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec4" class="ui-icon ui-icon-help"></a><span class="formMandatory">*</span></div>
                     </li>
                     <li>
-                        <label for="superuser_password1">The account password of the Super-user.</label><br />
+                        <label for="superuser_password1">The account password of the Administrator.</label><br />
                         <input type="password" id="superuser_password1" name="superuser_password1" class="tao-input" title="password" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec5" class="ui-icon ui-icon-help"></a><span class="formMandatory">*</span></div>
                     </li>

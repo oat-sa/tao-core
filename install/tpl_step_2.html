@@ -20,25 +20,23 @@
 <body>
     <div id="installation_form" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
         <h2>Tao Installation Process</h2>
-        <h1>Host Configuration</h1>
+        <h1>Server Setup</h1>
         <ul id="install_seq">
             <li><h3>Installation Steps</h3></li>
-            <li id="step_1">1. <a href="#">Configuration Check</a></li>
-            <li id="step_2" class="currentStep">2. Host Configuration</li>
-            <li id="step_3">3. Database configuration</li>
-            <li id="step_4">4. Super-user Creation</li>
-            <li id="step_5">5. Deployment</li>
-            <li id="step_6">6. End of Install</li>
+            <li id="step_1">1. <a href="#">Requirements Check</a></li>
+            <li id="step_2" class="currentStep">2. Server Setup</li>
+            <li id="step_3">3. Database Setup</li>
+            <li id="step_4">4. Administrator Setup</li>
+            <li id="step_5">5. Finalyze Installation</li>
+            <li id="step_6">6. Start TAO</li>
         </ul>
-        <p id="comments">To go further in the installation process, we need to know some information about
-            your host (the web server that will deploy the platform) and your wishes about your new TAO instance. 
-            Please fill in the form below to proceed.</p>
+        <p id="comments">To go further in the installation process, we need to get the information to set up your web server. Please fill in the form below to proceed. "?" gives more information about each field.</p>
         <div id="forms_content">
             <form>
                 <ul>
                     <li>
-                        <label for="host_name">Enter the URL in use to access the TAO platform instance that your are installing.</label><br />
-                        <input type="text" id="host_name" name="host_name" class="tao-input" title="http://tao.myuniversity.com"/>
+                        <label for="host_name">Enter the host name of the web server on which TAO will be deployed.</label><br />
+                        <input type="text" id="host_name" name="host_name" class="tao-input" title="http://myplatform.mywebsite.com" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec1" class="ui-icon ui-icon-help"></a><span class="formMandatory">*</span></div>
                     </li>
                     <li>
@@ -61,7 +59,7 @@
                         <label for="deployment_mode">Choose if TAO must be deployed for a Production or Development purpose.</label><br />
                         <select id="deployment_mode" class="tao-input">
                             <option value="production">Production</option>
-                            <option value="debug">Development</option>
+                            <option value="debug">Deployment</option>
                         </select>
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec6" class="ui-icon ui-icon-help"></a><span class="formMandatory">*</span></div>
                     </li>

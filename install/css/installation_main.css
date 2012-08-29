@@ -13,13 +13,17 @@ body {
 	margin-top:-50px;
 	right:0px;
 	border:2px solid white;
-	background:#aaa url(../images/feedbackButton.png) no-repeat center center;
+	background:#ccb28b url(../images/feedbackButton.png) no-repeat center center;
 	z-index:2;
 	-moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 	-webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 	border-right:none;
-	display:none;
+}
+
+#suppportTab:hover{
+	cursor:pointer;
+	margin-right:1px;
 }
 
 b{
@@ -65,8 +69,9 @@ h1 {
 	top:80px;
 	padding-left:3px;
 	border-left :5px solid #BBB2A6;
-	font-weight:500;
+	font-weight:bold;
 	line-height: 22px;
+	font-size:18px;
 }
 
 h3{
@@ -101,6 +106,8 @@ h3{
 #install_seq li a{
 	color: #000;
 	text-decoration: none;
+	font-style: italic;
+	font-weight:normal;
 }
 
 #install_seq li a{
@@ -131,7 +138,7 @@ h3{
 
 .currentStep {
 	font-weight:bold;
-	color:rgb(229,0,62);
+	color:#000;
 }
 
 #mainFrame{
@@ -254,6 +261,17 @@ form > ul > li >*{
 	width: 380px;
 }
 
+body .ui-widget-overlay{
+	width:420px;
+	height:250px;
+	position:absolute;
+	z-index:990;
+	top:50%;
+	left:50%;
+	margin-left:-212px;
+	margin-top:-135px;
+}
+
 #helpPopUpClose, #errorPopUpClose{
 	font-family: verdana,arial,sans-serif;
 	font-weight: bold;
@@ -273,23 +291,23 @@ form > ul > li >*{
 	position:absolute;
 	display:none;
 	width:640px;
-	height:440px;
+	height:448px;
 	left:50%;
 	top:50%;
 	margin-left:-330px;
-	margin-top:-230px;
+	margin-top:-234px;
 	z-index:999;
 	padding:10px;
 }
 
-#supportPopup{
+#supportPopup {
 	position:relative;
-	padding:10px;
+	padding:15px;
 	z-index:992;
 	height:415px;
 } 
 
-#supportPopupContent{
+#supportPopupContent {
 	font-family:arial;
 	font-weight:normal;
 	font-size:12px;
@@ -297,26 +315,26 @@ form > ul > li >*{
 	overflow:none;
 	position:relative;
 	z-index:995;
-	height:100%;
+	height:420px;
 }
 
-#supportPopupContent h5{
+#supportPopupContent h5 {
 	font-size:18px;
 	font-weight:bold;
 }
 
-body .ui-widget-overlay{
-	width:422px;
-	height:252px;
+body .ui-widget-overlay {
+	width:436px;
+	height:268px;
 	position:absolute;
 	z-index:990;
 	top:50%;
 	left:50%;
-	margin-left:-213px;
+	margin-left:-218px;
 	margin-top:-134px;
 }
 
-#supportPopupOverlay .ui-widget-overlay{
+#supportPopupOverlay .ui-widget-overlay {
 	position:absolute;
 	width:100%;
 	height:100%;
@@ -327,7 +345,7 @@ body .ui-widget-overlay{
 
 
 
-#supportPopupClose{
+#supportPopupClose {
 	font-family: verdana,arial,sans-serif;
 	font-weight: bold;
 	color:#666;
@@ -337,12 +355,12 @@ body .ui-widget-overlay{
 	top:5px;
 }
 
-#supportPopupClose:hover, #supportPopupClose:hover{
+#supportPopupClose:hover, #supportPopupClose:hover {
 	cursor:pointer;
 }
 
 /* supportFrame */
-#supportFrameId{
+#supportFrameId {
 	position:relative;
 	width:100%;
 	height:388px;
@@ -356,19 +374,19 @@ h5 {
 }
 
 /* input */
-body input.helpTaoInputLabel, body textarea.helpTaoInputLabel{
+body input.helpTaoInputLabel, body textarea.helpTaoInputLabel {
 	font-weight:normal;
 	color:#aaa;
 	font-style: italic;
 }
 
-body textarea{
+body textarea {
 	font-size:11px;
 	font-family: Verdana;
 	font-weight:bold;
 }
 
-#submitForm{
+#submitForm {
 	position:absolute;
 	right:15px;
 	bottom: -30px;
@@ -380,15 +398,23 @@ body textarea{
 	width: 120px;
 }
 
-.enabled{
+.enabled {
 	color: black;
 }
 
-.disabled{
+#submitForm.enabled {
+	/*background:#009933 url(../images/nextStepBackground.png) no-repeat right;*/
+	background:#009933;
+	color:white;
+	font-weight:bold;
+	/*border:2px solid #009933;*/
+}
+
+.disabled {
 	color:#aaa;
 }
 
-.formMandatory{
+.formMandatory {
 	font-weight: bold;
 	color:#D31145;
 	font-size:14px;
@@ -398,7 +424,7 @@ body textarea{
 	top:-20px;
 }
 
-.formExample{
+.formExample {
 	font-weight: bold;
 	color:#D31145;
 	font-size:14px;
@@ -407,7 +433,7 @@ body textarea{
 
 
 
-#formComment{
+#formComment {
 	position:relative;
 	top: 23px;
 	font-size:10px;
@@ -415,15 +441,107 @@ body textarea{
 	text-align: left;
 }
 
-.helpFrac{
-		position:relative;
+.helpFrac {
+	position:relative;
 	padding:5px 10px 20px 5px;
 	border:1px solid #aaa;
 	margin-top:35px;
 
 }
 
-hr{
+hr {
 	clear:both;
 	visibility: hidden;
 }
+
+
+html, body{
+	height:100%;
+}
+
+#screenShield {
+	display:none;
+	width:100%;
+	height:100%;
+	background:white;
+	opacity: 0.5;
+	z-index:900;
+	position: relative;
+}
+
+
+/* help popup */
+#mainGenericPopup{
+	position:absolute;
+	display:none;
+	width:350px;
+	height:250px;
+	left:50%;
+	top:50%;
+	margin-left:-185px;
+	margin-top:-135px;
+	z-index:999;
+	padding:10px;
+}
+
+#genericPopup{
+	position:relative;
+	padding:10px;
+	z-index:992;
+	height:230px;
+} 
+
+#genericPopupContent{
+	font-family:arial;
+	font-weight:normal;
+	font-size:12px;
+	line-height: 14px;
+	overflow:none;
+	position:relative;
+	z-index:995;
+	height:100%;
+}
+
+#genericPopupContent h5{
+	font-size:18px;
+	font-weight:bold;
+}
+
+body .ui-widget-overlay{
+	width:436px;
+	height:268px;
+	position:absolute;
+	z-index:990;
+	top:50%;
+	left:50%;
+	margin-left:-218px;
+	margin-top:-134px;
+}
+
+#genericPopupOverlay .ui-widget-overlay{
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	margin:0;
+}
+
+
+
+#genericPopupClose{
+	font-family: verdana,arial,sans-serif;
+	font-weight: bold;
+	color:#666;
+	font-size:12px;
+	position:absolute;
+	right:5px;
+	top:5px;
+}
+
+#genericPopupClose:hover, #genericPopupClose:hover{
+	cursor:pointer;
+}
+
+/* workarround hidden overflow wekti safari, chrome issue */ 
+iframe::-webkit-scrollbar { display: none; }

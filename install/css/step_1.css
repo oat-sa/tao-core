@@ -7,7 +7,8 @@
 }
 
 #forms_check_content ul{
-	height:235px;
+	margin-top: 45px;
+	height:203px;
 	overflow:auto;
 	width:580px;
 }
