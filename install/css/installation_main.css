@@ -174,22 +174,22 @@ input[type="text"], input[type="password"]{
 	border:none;
 	height:2.2em;
 	padding:0 5px;
+	clear:both;
 }
 
 input[type="checkbox"]{
-	width: 15px;
-	border: none;
-	display: block;
-	margin-top: 10px;
-	margin-right: 5px;
+	width:15px;
+	clear:both;
+	margin:13px 0 0 100px;
 }
 
+
 .checkboxLabel{
-	display: inline-block;
 	font-size: 10px;
-	margin-top: 12px;
-	width: 147px;
+	top:24px;
+	left:0;
 	font-weight: bold;
+	position:absolute;
 }
 
 .icons{

@@ -37,7 +37,7 @@
             <form>
                 <ul>
                     <li>
-                        <label for="database_driver">Select the Relational Database Management System you want to connect with TAO.</label><br />
+                        <label for="database_driver">Select the Database type you want to use.</label><br />
                         <select id="database_driver" name="database_driver" class="tao-input">
                             <option value="mysql">MySQL</option>
                             <option value="pgsql">PostgreSQL</option>
@@ -45,27 +45,32 @@
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec6" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
                     </li>
                     <li>
-                        <label for="database_host">Enter the Relational Database Management System host name.</label><br />
+                        <label for="database_host">Enter the Database host name.</label><br />
                         <input type="text" id="database_host" name="database_host" class="tao-input" title="e.g. localhost:3306" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
                     </li>
                     <li>
-                        <label for="database_user">Relational Database Mangement System account to be used by TAO.</label><br />
+                        <label for="database_user">Database account to be used by TAO.</label><br />
                         <input type="text" id="database_user" name="database_user" class="tao-input" title="e.g. user" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
                     </li>
                     <li>
-                        <label for="database_password">Relational Database Mangement System password to be used by TAO.</label><br />
+                        <label for="database_password">Database password to be used by TAO.</label><br />
                         <input type="password" id="database_password" name="database_password" class="tao-input" title="e.g. password" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
                     </li>
                     <li>
-                        <label for="database_overwrite">Do you want to overwrite the database if it already exists?</label>
+                        <label for="database_name">Database name.</label><br />
+                        <input type="password" id="database_name" name="database_named" class="tao-input" title="e.g. name" />
+                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
+                    </li>
+                    <li>
+                        <label for="database_overwrite">Overwrite Database if it already exists?</label>
                         <input type="checkbox" id="database_overwrite" class="tao-input" value="overwrite"/><span class="checkboxLabel">Overwrite</span>
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
                     </li>
                     <li>
-                        <label for="sample_data">Do you wish to add sample data in your new TAO instance?</label>
+                        <label for="sample_data">Add sample data in your new TAO instance?</label>
                         <input type="checkbox" id="sample_data" class="tao-input" value="sample_data"/><span class="checkboxLabel">Import</span>
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
                     </li>
