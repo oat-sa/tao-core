@@ -257,6 +257,9 @@ TaoInstall.prototype.getValidator = function(element, options){
 	var $element = $(element);
 	var api = this;
 	
+	// Mandatory field by default.
+	$element.prop('tao-mandatory', true);
+	
 	switch ($element.prop('tagName').toLowerCase()){
 		case 'input':
 			if ($element.attr('type') == 'text' || $element.attr('type') == 'password'){
@@ -266,6 +269,7 @@ TaoInstall.prototype.getValidator = function(element, options){
 				if (typeof(options) != 'undefined'){
 					
 					var mandatory = (typeof(options.mandatory) == 'undefined') ? true : options.mandatory;
+					$element.prop('tao-mandatory', mandatory);
 					
 					if (typeof(options.dataType) != 'undefined'){
 						
@@ -378,14 +382,16 @@ TaoInstall.prototype.getDataGetter = function(element){
 
 TaoInstall.prototype.getDataSetter = function(element){
 	$element = $(element);
+	var api = this;
+	
 	switch ($element.prop('tagName').toLowerCase()){
 		
 		case 'input':
 			if ($element.attr('type') == 'text' || $element.attr('type') == 'password'){
-				element.setData = function(data) { this.value = data; };	
+				element.setData = function(data) { this.value = data; api.stateChange(); };	
 			}
 			else if ($element.attr('type') == 'checkbox'){
-				element.setData = function(data) { $(this).attr('checked', data); };
+				element.setData = function(data) { $(this).attr('checked', data); api.stateChange(); };
 			}
 		break;
 		
@@ -395,6 +401,7 @@ TaoInstall.prototype.getDataSetter = function(element){
 				for (i = 0; i < count; i++){
 					if (this.options[i].value == data){
 						this.options[i].selected = true;
+						api.stateChange();
 						break;
 					}
 				}
@@ -495,9 +502,20 @@ TaoInstall.prototype.checkRegisteredElements = function(){
 	var validity = true;
 	
 	for (i in this.registeredElements){
-		if (!this.registeredElements[i].isValid()){
+		$registeredElement = $(this.registeredElements[i]);
+		
+		if (!$registeredElement[0].isValid()){
 			validity = false;
-			break;
+		}
+		else{
+			// The registered element is valid.
+			// Can we call the 'onValid' method on it ?
+			if (typeof($registeredElement[0]['tao-mandatory']) != 'undefined' && $registeredElement[0]['tao-mandatory'] == true){
+				// If we find the 'onValid' method, we trigger it.
+				if (typeof($registeredElement[0].onValid) != 'undefined'){
+					//console.log(this.registeredElements[i].id + ' is valid.');
+				}
+			}
 		}
 	}
 	

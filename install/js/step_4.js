@@ -73,11 +73,11 @@ function onLoad(){
 			break;
 			
 			case 'superuser_password1':
-				install.getValidator(this, {dataType: 'string', min: 5});
+				install.getValidator(this, {dataType: 'string', min: 4});
 			break;
 			
 			case 'superuser_password2':
-				install.getValidator(this, {dataType: 'string', min: 5, sameAs: 'superuser_password1'});
+				install.getValidator(this, {dataType: 'string', min: 4, sameAs: 'superuser_password1'});
 			break;
 			
 			default:

@@ -120,6 +120,10 @@ function checkConfig(){
 				    		}
 				    	}
 				    	
+				    	if (mandatoryCount == 0){
+				    		addReport('ready', 'Your system is compliant with TAO.', 'ok', false, true);
+				    	}
+				    	
 				    	install.stateChange();
 					}
 			    });
@@ -142,7 +146,7 @@ function addReport(name, message, kind, prepend, noHelp){
 	$input.attr('id', 'input_' + name);
 	$input.addClass('tao-' + kind);
 	$label = $('<label/>').text(message);
-	$input[0].isValid = function(){ return $(this).hasClass('tao-optional'); };
+	$input[0].isValid = function(){ return $(this).hasClass('tao-optional') || $(this).hasClass('tao-ok'); };
 	$input.append($label);
 	
 	if (!noHelp){

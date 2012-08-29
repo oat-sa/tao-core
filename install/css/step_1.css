@@ -30,6 +30,10 @@
 	border-left:5px solid #FCC52D;
 }
 
+#forms_check_content form ul li.tao-ok{
+	border-left:5px solid #093;
+}
+
 #forms_check_content form ul li#loadingCheck{
 	width: 548px;
 }
@@ -47,7 +51,7 @@
 }
 
 #formComment{
-	width: 350px;
+	width: 260px;
 	height: 8px;
 }
 
@@ -64,13 +68,13 @@
 #explMandatory{
 	border-left:5px solid #D31145;
 	width: 100px;
-	margin-right:15px;
+	margin-right:10px;
 	display: inline;
 }
 
 #redoForm{
 	position:absolute;
-	right:145px;
+	right: 230px;
 	bottom:-30px;
 	font-size: 0.8em;
 	background:#e5e5e5;
@@ -83,4 +87,8 @@
 #loadingCheck label{
 	padding-left: 25px;
 	padding-top: 3px;
+}
+
+#submitForm{
+	width: 210px;
 }
