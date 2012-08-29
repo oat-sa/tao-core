@@ -388,10 +388,10 @@ TaoInstall.prototype.getDataSetter = function(element){
 		
 		case 'input':
 			if ($element.attr('type') == 'text' || $element.attr('type') == 'password'){
-				element.setData = function(data) { this.value = data; api.stateChange(); };	
+				element.setData = function(data) { this.value = data; };	
 			}
 			else if ($element.attr('type') == 'checkbox'){
-				element.setData = function(data) { $(this).attr('checked', data); api.stateChange(); };
+				element.setData = function(data) { $(this).attr('checked', data); };
 			}
 		break;
 		
@@ -401,7 +401,6 @@ TaoInstall.prototype.getDataSetter = function(element){
 				for (i = 0; i < count; i++){
 					if (this.options[i].value == data){
 						this.options[i].selected = true;
-						api.stateChange();
 						break;
 					}
 				}
@@ -502,20 +501,9 @@ TaoInstall.prototype.checkRegisteredElements = function(){
 	var validity = true;
 	
 	for (i in this.registeredElements){
-		$registeredElement = $(this.registeredElements[i]);
-		
-		if (!$registeredElement[0].isValid()){
+		if (!this.registeredElements[i].isValid()){
 			validity = false;
-		}
-		else{
-			// The registered element is valid.
-			// Can we call the 'onValid' method on it ?
-			if (typeof($registeredElement[0]['tao-mandatory']) != 'undefined' && $registeredElement[0]['tao-mandatory'] == true){
-				// If we find the 'onValid' method, we trigger it.
-				if (typeof($registeredElement[0].onValid) != 'undefined'){
-					//console.log(this.registeredElements[i].id + ' is valid.');
-				}
-			}
+			break;
 		}
 	}
 	
