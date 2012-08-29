@@ -1,7 +1,7 @@
 function onLoad(){
 	// Binding to API.
 	install.onNextable = function(){
-		$('#explOk, #explOptional').css('display', 'inline');
+		displayLegend();
 		
 		$('#submitForm').removeClass('disabled')
 						.addClass('enabled')
@@ -12,8 +12,6 @@ function onLoad(){
 		$('#submitForm').removeClass('enabled')
 						.addClass('disabled')
 						.attr('disabled', true);
-						
-		$('#explMandatory, #explOptional').css('display', 'inline');
 	}
 	
 	// Binding to DOM.
@@ -31,9 +29,6 @@ function onLoad(){
     	return false;
     });
     
-    // Display default captions.
-    $('#explMandatory, #explOptional').css('visibility', 'visible');
-    
     // Feed install API help store.
     initHelp();
 
@@ -48,9 +43,6 @@ function checkConfig(){
 			// Save useful information.
 			install.addData('root_url', data.value.rootURL);
 			install.addData('available_drivers', data.value.availableDrivers);
-			
-			// Remove captions.
-			$('#explOk, #explMandatory, #explOptional').css('display', 'none');
 			
 			// Empty existing reports.
 			var $list = $('#forms_check_content ul');
@@ -128,11 +120,6 @@ function checkConfig(){
 				    		}
 				    	}
 				    	
-				    	if (mandatoryCount == 0){
-				    		// Add a fake report that states the config is OK.
-				    		addReport('tao_config_ok', 'Your system is ready to deploy TAO.', 'ok', true, true);
-				    	}
-				    	
 				    	install.stateChange();
 					}
 			    });
@@ -155,7 +142,7 @@ function addReport(name, message, kind, prepend, noHelp){
 	$input.attr('id', 'input_' + name);
 	$input.addClass('tao-' + kind);
 	$label = $('<label/>').text(message);
-	$input[0].isValid = function(){ return $(this).hasClass('tao-optional') || $(this).hasClass('tao-ok'); };
+	$input[0].isValid = function(){ return $(this).hasClass('tao-optional'); };
 	$input.append($label);
 	
 	if (!noHelp){
@@ -176,6 +163,11 @@ function addReport(name, message, kind, prepend, noHelp){
 	else{
 		$list.prepend($input);
 	}
+}
+
+function displayLegend(){
+	$('#formComment').empty().append('<p id="explMandatory">Mandatory requirement</p>')
+							 .append('<p id="explOptional">Optional requirement</p>');
 }
 
 function initHelp(){
