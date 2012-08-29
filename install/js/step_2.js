@@ -50,6 +50,14 @@ function onLoad(){
 			
 			case 'host_name':
 				install.getValidator(this, {dataType: 'host'});
+				this.onValid = function() { displayValidationMark(this); };
+				this.onInvalid = function () { removeValidationMark(this); };
+			break;
+			
+			case 'instance_name':
+				install.getValidator(this);
+				this.onValid = function() { displayValidationMark(this); };
+				this.onInvalid = function () { removeValidationMark(this); };
 			break;
 			
 			default:
@@ -76,4 +84,6 @@ function onLoad(){
 	if (install.getData('root_url') != null && install.getData('host_name') == null){
 		$('#host_name').removeClass('helpTaoInputLabel')[0].setData(install.getData('root_url'));
 	}
+	
+	install.stateChange();
 }

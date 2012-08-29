@@ -503,7 +503,15 @@ TaoInstall.prototype.checkRegisteredElements = function(){
 	for (i in this.registeredElements){
 		if (!this.registeredElements[i].isValid()){
 			validity = false;
-			break;
+			
+			if (typeof(this.registeredElements[i].onInvalid) == 'function'){
+				this.registeredElements[i].onInvalid();
+			}
+		}
+		else{
+			if (typeof(this.registeredElements[i].onValid) == 'function'){
+				this.registeredElements[i].onValid();
+			}
 		}
 	}
 	

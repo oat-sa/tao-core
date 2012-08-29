@@ -43,3 +43,14 @@ function getSpinnerOptions(size){
 		
 	return opts;
 }
+
+function displayValidationMark(element){
+	var $parent = $(element).parent();
+	$parent.find('.valideField').remove();
+	$parent.append('<img src="images/valide.png" alt="valid" class="valideField"/>');
+}
+
+function removeValidationMark(element){
+	var $parent = $(element).parent();
+	$parent.find('.valideField').remove();
+}
