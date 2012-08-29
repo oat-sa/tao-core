@@ -54,7 +54,8 @@ class tao_install_services_CheckPHPRuntimeService extends tao_install_services_S
                        'message' => $report->getMessage(),
                        'min' => $min,
                        'value' => $runtime->getValue(),
-                       'name' => $name);
+                       'name' => $name,
+        			   'optional' => $optional);
                        
         if (!empty($max)){
             $value['max'] = $max;

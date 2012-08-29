@@ -55,8 +55,30 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
             $resultValue[] = $service->getResult()->getContent();
         }
         
+        // Sort by 'optional'.
+        usort($resultValue, array('tao_install_services_CheckPHPConfigService' , 'sortReports'));
+        
+        
         $resultData = str_replace('"{RETURN_VALUE}"', '[' . implode(',', $resultValue) . ']', $resultData);
         $this->setResult(new tao_install_services_Data($resultData));
+    }
+    
+    /**
+     * Report sorting function.
+     * @param string $a JSON encoded report.
+     * @param string $b JSON encoded report.
+     * @return boolean Comparison result.
+     */
+    private static function sortReports ($a, $b){
+    	$a = json_decode($a, true);
+    	$b = json_decode($b, true);
+    	
+    	if ($a['value']['optional'] == $b['value']['optional']){
+    		return 0;
+    	}
+    	else{
+    		return ($a['value']['optional'] < $b['value']['optional']) ? -1 : 1;
+    	}
     }
 }
 ?>
