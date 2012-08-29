@@ -478,6 +478,7 @@ class tao_install_Installator{
 		 *  11 - Secure the install for production mode
 		 */
 		if($installData['module_mode'] == 'production'){
+			$extensions = $extensionManager->getInstalledExtensions();
 			common_Logger::i('Securing tao for production', 'INSTALL');
 			
 			// 11.1 Remove Generis User
