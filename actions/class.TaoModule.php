@@ -935,23 +935,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		// Get filter parameter
 		if($this->hasRequestParameter('filter')){
-			$filterParam = $this->getRequestParameter('filter');
-			//foreach filter nodes
-			foreach ($filterParam as $key=>$values){
-                
-				$filterNodePropertyUri = $filterNodesOptions[$key]['propertyUri'];
-                if(!$filterItself && $filterNodePropertyUri == $propertyUri){
-                    continue;
-                }
-				
-				if (!isset($filter[$filterNodePropertyUri])){
-					$filter[$filterNodePropertyUri] = array();
-				}
-				foreach($values as $value){
-					$propertyValue = !common_Utils::isUri(tao_helpers_Uri::decode($value)) ? $value : tao_helpers_Uri::decode($value);
-					array_push($filter[$filterNodePropertyUri], $propertyValue);
-				}
-			}
+			$filter = $this->getFilterState('filter');
 		}
 		
 		// Get used property values for a class functions of the given filter
@@ -991,6 +975,28 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
  		);
 		
 		echo json_encode($data);
+	}
+	
+	/**
+	 * returns a FilterState object from the parameters
+	 * 
+	 * @param string $identifier
+	 * @return FilterState
+	 */
+	protected function getFilterState($identifier) {
+		if (!$this->hasRequestParameter($identifier)) {
+			throw new common_Exception('Missing parameter "'.$identifier.'" for getFilterState()');
+		}
+		$coded = $this->getRequestParameter($identifier);
+		$state = array();
+		if (is_array($coded)) {
+	    	foreach ($coded as $key => $values) {
+	    		foreach ($values as $k => $v) {
+	    			$state[tao_helpers_Uri::decode($key)][$k] = tao_helpers_Uri::decode($v);
+	    		}
+	    	}
+		}
+		return $state;
 	}
 	
 	/**
