@@ -28,8 +28,8 @@ $(document).ready(function(){
 	var facetFilterOptions = {
 		'template' : 'accordion',
 		'callback' : {
-			'onFilter' : function(filter, filterNodesOptions){
-				refreshResult(filter, filterNodesOptions);
+			'onFilter' : function(facetFilter){
+				refreshResult(facetFilter);
 			}
 		}
 	};
@@ -85,23 +85,13 @@ $(document).ready(function(){
 	});
 
 	//function used to refresh the result functions of the filter
-	function refreshResult(filter, filterNodesOpt)
+	function refreshResult(facetFilter)
 	{
-		//format the filter to be understandable for the service 'tao/taoModule/searchInstances'
-		var formatedFilter = {};
-		for(var filterNodeId in filter){
-			var propertyUri = filterNodesOpt[filterNodeId]['propertyUri'];
-			typeof(formatedFilter[propertyUri])=='undefined'?formatedFilter[propertyUri]=new Array():null;
-			for(var i in filter[filterNodeId]){
-				formatedFilter[propertyUri].push(filter[filterNodeId][i]);
-			}
-		}
-
 		//Refresh the result
 		$.getJSON (root_url+'taoItems/items/searchInstances'
 			,{
 				'classUri' : '<?= $clazz->uriResource ?>'
-				, 'filter' : formatedFilter
+				, 'filter' : facetFilter.getFormatedFilterSelection()
 			}
 			, function (DATA) {
 				// empty the grid
