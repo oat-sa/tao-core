@@ -24,9 +24,11 @@ var uiForm;
 var generisActions;
 
 require(['require', 'jquery', 'class', 'uiBootstrap', 'helpers', 'EventMgr', 'uiForm', 'generis.actions', 'jqueryUI'], function (req, $, Class, UiBootstrap, Helpers, EventMgr, UiForm, GenerisActions) {
-	helpers = new Helpers();
-	uiBootstrap = new UiBootstrap();
-	eventMgr = new EventMgr();
-	uiForm = new UiForm();
-	generisActions = new GenerisActions();
+	$(function(){
+		helpers = new Helpers();
+		uiBootstrap = new UiBootstrap();
+		eventMgr = new EventMgr();
+		uiForm = new UiForm();
+		generisActions = new GenerisActions();
+	});
 });
