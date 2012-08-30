@@ -74,7 +74,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 			$(helpers.getMainContainerSelector(uiBootstrap.tabs) + " form :input:not(:hidden):not(button):first").focus();
 
 			//save form button
-			$(".form-submiter").click(function() {
+			$(".form-submiter").off('click').on('click', function() {
 				myForm = $(this).parents("form");
 				if (uiForm.submitForm(myForm)) {
 					myForm.submit();
@@ -83,7 +83,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 			});
 
 			//revert form button
-			$(".form-reverter").click(function() {
+			$(".form-reverter").off('click').on('click', function() {
 
 				if ($("#uri").val() != undefined) {
 					GenerisTreeBrowserClass.selectTreeNode($("#uri").val());
@@ -93,7 +93,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 			});
 
 			//translate button
-			$(".form-translator").click(function() {
+			$(".form-translator").off('click').on('click', function() {
 				if ($("#uri") && $("#classUri")){
 					if (ctx_extension) {
 						url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
@@ -111,7 +111,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 				}
 			});
 
-			$('.box-checker').click(function() {
+			$('.box-checker').off('click').on('click', function() {
 				var checker  = $(this);
 				var regexpId = new RegExp('^'+checker.prop('id').replace('_checker', ''), 'i');
 
@@ -250,7 +250,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 					//delete control
 					if (/^property\_[0-9]+/.test(formGroup.prop('id'))) {
 						deleter = $("<span class='form-group-control ui-icon ui-icon-circle-close' title='Delete' style='right:24px;'></span>");
-						deleter.click(removeGroup);
+						deleter.off('click').on('click', removeGroup);
 						formGroup.prepend(deleter);
 					}
 				}
