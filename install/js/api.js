@@ -95,6 +95,8 @@ TaoInstall.prototype.checkConfiguration = function(checks, callback){
  * Check the database connection on the server-side 
  */
 TaoInstall.prototype.checkDatabaseConnection = function(check, callback){
+	check.password = this.nullToEmptyString(check.password);
+	
 	var data = {type: 'CheckDatabaseConnection',
 				value: check};
 				
@@ -107,6 +109,8 @@ TaoInstall.prototype.checkDatabaseConnection = function(check, callback){
 }
 
 TaoInstall.prototype.install = function(inputs, callback){
+	inputs.db_pass = this.nullToEmptyString(inputs.db_pass);
+	
 	var data = {type: 'Install',
 				value: inputs,
 				timeout: 300000}; // 5 minutes max.
@@ -264,7 +268,7 @@ TaoInstall.prototype.getValidator = function(element, options){
 		case 'input':
 			if ($element.attr('type') == 'text' || $element.attr('type') == 'password'){
 				
-				var firstValueFunction = function () { return $element.val() != $element[0].firstValue || !mandatory };
+				var firstValueFunction = function () { return $element.val() != $element[0].firstValue || !mandatory; };
 				
 				if (typeof(options) != 'undefined'){
 					
@@ -290,42 +294,98 @@ TaoInstall.prototype.getValidator = function(element, options){
 							break;
 							
 							case 'string':
-								var sameAsFunction = function(){ return api.getRegisteredElement(options.sameAs).getData() == $element.val(); };
+								var sameAsFunction = function(){ var value = ($element[0].getData() != null) ? $element[0].getData() : ''; return api.getRegisteredElement(options.sameAs).getData() == value; };
 							
 								if (typeof(options.min) == 'undefined' && typeof(options.max) == 'undefined'){
 									// no min, no max.
 									if (typeof(options.sameAs) == 'undefined'){
-										element.isValid = function(){ return firstValueFunction(); };
+										
+										element.isValid = function(){ 
+											if (mandatory == false && $element[0].getData() == null){
+												return true;
+											}
+											else{
+												return firstValueFunction();	
+											} 
+										};
 									}
 									else{
-										element.isValid = function(){ return firstValueFunction() && sameAsFunction(); };
+										element.isValid = function(){
+											if (mandatory == false && $element[0].getData() == null){
+												return true;
+											}
+											else{
+												return firstValueFunction() && sameAsFunction();
+											}
+										};
 									}
 								}
 								else if (typeof(options.min) == 'undefined'){
 									// max only.
 									if (typeof(options.sameAs) == 'undefined'){
-										element.isValid = function() { return firstValueFunction() && $element.val().length <= options.max; };
+										element.isValid = function() {
+											if (mandatory == false && $element[0].getData() == null){
+												return true;	
+											}
+											else{
+												var value = ($element[0].getData() != null) ? $element[0].getData() : '';
+												return firstValueFunction() && value.length <= options.max;
+											}
+										};
 									}
 									else{
-										element.isValid = function() { return firstValueFunction && $element.val().length <= options.max && sameAsFunction(); };
+										element.isValid = function() {
+											if (mandatory == false && $element[0].getData() == null){
+												return true;	
+											}
+											else{
+												var value = ($element[0].getData() != null) ? $element[0].getData() : '';
+												return firstValueFunction && value.length <= options.max && sameAsFunction();
+											}
+										};
 									}
 								}
 								else if (typeof(options.max) == 'undefined'){
 									// min only.
 									if (typeof(options.sameAs) == 'undefined'){
-										element.isValid = function() { return firstValueFunction() && $element.val().length >= options.min; };
+										element.isValid = function() { var value = ($element[0].getData() != null) ? $element[0].getData() : ''; return firstValueFunction() && value.length >= options.min; };
 									}
 									else{
-										element.isValid = function() { return firstValueFunction() && $element.val().length >= options.min && sameAsFunction(); };
+										element.isValid = function() {
+											if (mandatory == false && $element[0].getData() == null){
+												return true;
+											}
+											else{
+												var value = ($element[0].getData() != null) ? $element[0].getData() : '';
+												return firstValueFunction() && value.length >= options.min && sameAsFunction();	
+											}
+										};
 									}
 								}
 								else{
 									// min and max.
 									if (typeof(options.sameAs) == 'undefined'){
-										element.isValid = function() { return firstValueFunction() && $element.val().length >= options.min && $element.val().length <= options.max; };
+										
+										element.isValid = function() { 
+											if (mandatory == false && $element[0].getData() == null){
+												return true;
+											}
+											else{
+												var value = ($element[0].getData() != null) ? $element[0].getData() : ''; 
+												return firstValueFunction() && value.length >= options.min && value.length <= options.max;	
+											} 
+										};
 									}
 									else{
-										element.isValid = function() { return firstValueFunction() && $element.val().length >= options.min && $element.val().length <= options.max && sameAsFunction(); };
+										element.isValid = function() {
+											if (mandatory == false && $element[0].getData() == null){
+												return true;
+											}
+											else{
+												var value = ($element[0].getData() != null) ? $element[0].getData() : '';
+												return firstValueFunction() && value.length >= options.min && value.length <= options.max && sameAsFunction();	
+											}
+										};
 									}
 								}
 							break;
@@ -363,7 +423,7 @@ TaoInstall.prototype.getDataGetter = function(element){
 	switch ($element.prop('tagName').toLowerCase()){
 		case 'input':
 			if ($element.attr('type') == 'text' || $element.attr('type') == 'password'){
-				element.getData = function(){ return (this.value != this.firstValue) ? this.value : null; };	
+				element.getData = function(){ return (this.value != this.firstValue) ? ((this.value == '') ? null : this.value) : null; };	
 			}
 			else if ($element.attr('type') == 'checkbox'){
 				element.getData = function(){ return element.checked; };
@@ -501,16 +561,31 @@ TaoInstall.prototype.checkRegisteredElements = function(){
 	var validity = true;
 	
 	for (i in this.registeredElements){
-		if (!this.registeredElements[i].isValid()){
+		
+		var $registeredElement = $(this.registeredElements[i]);
+		
+		if (!$registeredElement[0].isValid()){
 			validity = false;
 			
-			if (typeof(this.registeredElements[i].onInvalid) == 'function'){
-				this.registeredElements[i].onInvalid();
+			// The field is not valid.
+			// If it is not mandatory and that we have no value,
+			// we cannot consider it as 'invalid'.
+			if (typeof($registeredElement[0].onInvalid) == 'function'){
+				$registeredElement[0].onInvalid();
 			}
 		}
 		else{
-			if (typeof(this.registeredElements[i].onValid) == 'function'){
-				this.registeredElements[i].onValid();
+			// The field is valid.
+			// If not mandatory and empty, we call onValidButEmpty otherwise
+			// we call onValid.
+			if ($registeredElement.prop('tao-mandatory') == false &&
+				$registeredElement[0].getData() == null &&
+				typeof($registeredElement[0].onValidButEmpty) == 'function'){
+				
+				$registeredElement[0].onValidButEmpty();
+			}
+			else if(typeof($registeredElement[0].onValid) == 'function') {
+				$registeredElement[0].onValid();
 			}
 		}
 	}
@@ -542,4 +617,12 @@ TaoInstall.prototype.getRegisteredElement = function(id){
 	}
 	
 	return null;
+}
+
+TaoInstall.prototype.nullToEmptyString = function(value){
+	if (typeof(value) == 'undefined' || value == null){
+		value = '';
+	}
+	
+	return value;
 }

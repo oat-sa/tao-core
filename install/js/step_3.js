@@ -38,7 +38,7 @@ function onLoad(){
 			var user = install.getData('database_user');
 			var password = install.getData('database_password');
 			var driver = install.getData('database_driver');
-			var database = install.getData('instance_name');
+			var database = install.getData('database_name');
 			var overwrite = install.getData('database_overwrite');
 			
 			var check = {host: host,
@@ -111,15 +111,23 @@ function onLoad(){
 			
 			case 'database_host':
 				install.getValidator(this, {dataType: 'dbhost'});
+				validify(this);
 			break;
 			
 			case 'database_user':
 				install.getValidator(this, {dataType: 'string', min: 3, max: 30});
+				validify(this);
 			break;
 			
 			case 'database_password':
 				// min = 0 to allow common root/[empty string] credential types.
-				install.getValidator(this, {dataType: 'string', min: 0, max: 30});
+				install.getValidator(this, {dataType: 'string', min: 0, max: 30, mandatory: false});
+				validifyNotMandatory(this);
+			break;
+			
+			case 'database_name':
+				install.getValidator(this, {dataType: 'string', min: 1, max: 63});
+				validify(this);
 			break;
 			
 			default:

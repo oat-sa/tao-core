@@ -31,7 +31,7 @@ function onLoad(){
     			'db_user': install.getData('database_user'),
     			'db_pass': install.getData('database_password'),
     			'db_driver': install.getData('database_driver'),
-    			'db_name': install.getData('instance_name')
+    			'db_name': install.getData('database_name')
     		};
     		
     		$('#deployment').css('visibility', 'visible');

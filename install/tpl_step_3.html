@@ -31,7 +31,7 @@
             <li id="step_5">5. Finalize Installation</li>
             <li id="step_6">6. Start TAO</li>
         </ul>
-        <p id="comments">TAO stores the data in a database. We need to get the information to set it up your database. Please fill in the form below to proceed. "?" gives more information about each field.
+        <p id="comments">TAO stores the data in a database. We need to get the information to set it up. Please fill in the form below to proceed. "?" gives more information about each field.
         </p>
         <div id="forms_content">
             <form>
@@ -50,27 +50,27 @@
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
                     </li>
                     <li>
-                        <label for="database_user">Database account to be used by TAO.</label><br />
+                        <label for="database_user">Database account login.</label><br />
                         <input type="text" id="database_user" name="database_user" class="tao-input" title="e.g. user" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
                     </li>
                     <li>
-                        <label for="database_password">Database password to be used by TAO.</label><br />
+                        <label for="database_password">Database account password (can be empty).</label><br />
                         <input type="password" id="database_password" name="database_password" class="tao-input" title="e.g. password" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
                     </li>
                     <li>
                         <label for="database_name">Database name.</label><br />
-                        <input type="password" id="database_name" name="database_named" class="tao-input" title="e.g. name" />
+                        <input type="text" id="database_name" name="database_named" class="tao-input" title="e.g. tao_db" />
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
                     </li>
                     <li>
-                        <label for="database_overwrite">Do you want to overwrite the database if it already exists?</label><br />
+                        <label for="database_overwrite">Overwrite Database if it already exists?</label><br/>
                         <input type="checkbox" id="database_overwrite" class="tao-input" value="overwrite"/><span class="checkboxLabel">Overwrite</span>
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
                     </li>
                     <li>
-                        <label for="sample_data">Do you wish to add sample data in your new TAO instance?</label><br />
+                        <label for="sample_data">Add sample data in your new TAO instance?</label><br/>
                         <input type="checkbox" id="sample_data" class="tao-input" value="sample_data"/><span class="checkboxLabel">Import</span>
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
                     </li>
@@ -86,8 +86,3 @@
 </body>
 
 </html>
-<!--
-<label for="sample_data">Add sample data in your new TAO instance?</label>
-                        <input type="checkbox" id="sample_data" class="tao-input" value="sample_data"/><span class="checkboxLabel">Import</span>
-                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="sec2" class="ui-icon ui-icon-help"></a></div>
--->

@@ -57,27 +57,33 @@ function onLoad(){
 		switch (this.id){
 			
 			case 'superuser_firstname':
-				install.getValidator(this, {dataType: 'string', min: 0, max: 30, mandatory: false});
+				install.getValidator(this, {dataType: 'string', min: 1, max: 30, mandatory: false});
+				validifyNotMandatory(this);
 			break;
 			
 			case 'superuser_lastname':
-				install.getValidator(this, {dataType: 'string', min:0, max: 30, mandatory: false});
+				install.getValidator(this, {dataType: 'string', min:1, max: 30, mandatory: false});
+				validifyNotMandatory(this);
 			break;
 			
 			case 'superuser_email':
-				install.getValidator(this, {dataType: 'string', min: 0, max: 30, mandatory: false});
+				install.getValidator(this, {dataType: 'string', min: 1, max: 30, mandatory: false});
+				validifyNotMandatory(this);
 			break;
 			
 			case 'superuser_login':
 				install.getValidator(this, {dataType: 'string', min: 1, max: 30});
+				validify(this);
 			break;
 			
 			case 'superuser_password1':
 				install.getValidator(this, {dataType: 'string', min: 4});
+				validify(this);
 			break;
 			
 			case 'superuser_password2':
 				install.getValidator(this, {dataType: 'string', min: 4, sameAs: 'superuser_password1'});
+				validify(this);
 			break;
 			
 			default:

@@ -50,14 +50,12 @@ function onLoad(){
 			
 			case 'host_name':
 				install.getValidator(this, {dataType: 'host'});
-				this.onValid = function() { displayValidationMark(this); };
-				this.onInvalid = function () { removeValidationMark(this); };
+				validify(this);
 			break;
 			
 			case 'instance_name':
 				install.getValidator(this);
-				this.onValid = function() { displayValidationMark(this); };
-				this.onInvalid = function () { removeValidationMark(this); };
+				validify(this);
 			break;
 			
 			default:

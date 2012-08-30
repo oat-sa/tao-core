@@ -44,13 +44,23 @@ function getSpinnerOptions(size){
 	return opts;
 }
 
+function validify(element){
+	element.onValid = function() { displayValidationMark(element); };
+	element.onInvalid = function () { removeValidationMark(element); };
+}
+
+function validifyNotMandatory(element){
+	element.onValid = function() { displayValidationMark(element); };
+	element.onValidButEmpty = function() { removeValidationMark(element); };
+}
+
 function displayValidationMark(element){
 	var $parent = $(element).parent();
-	$parent.find('.valideField').remove();
-	$parent.append('<img src="images/valide.png" alt="valid" class="valideField"/>');
+	$parent.find('.validField').remove();
+	$parent.append('<img src="images/valide.png" alt="valid" class="validField"/>');
 }
 
 function removeValidationMark(element){
 	var $parent = $(element).parent();
-	$parent.find('.valideField').remove();
+	$parent.find('.validField').remove();
 }

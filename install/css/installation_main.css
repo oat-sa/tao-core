@@ -548,7 +548,7 @@ body .ui-widget-overlay{
 iframe::-webkit-scrollbar { display: none; }
 
 /* Validate */
-.valideField{
+.validField{
 	margin-top:9px;
 	margin-left:4px;
 }
