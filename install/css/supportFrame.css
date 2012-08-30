@@ -9,7 +9,7 @@ body{
 }
 
 #searchTopicInDb #searchTopic{
-	width:475px;
+	width:460px;
 	height:25px;
 	font-size:14px !important;
 }
@@ -77,7 +77,7 @@ h2 {
 	height:120px;
 	text-align:center;
 	border:1px solid #aaa;
-	margin-left:20px;
+	margin-left:15px;
 	background:#eee;
 	line-height:60px;
 }
