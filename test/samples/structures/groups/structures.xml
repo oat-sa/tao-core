@@ -26,7 +26,7 @@
 					<action name="move" js="GenerisAction.moveNode" url="" context="instance" />
 					<action name="lists"  url="/tao/Lists/index"  context="*" />
 					<action name="meta data" js="GenerisAction.loadMetaData" url="/taoGroups/Groups/getMetaData"  context="instance" />
-					<action name="create table" url="/taoResults/Results/createTable"  context="class" />
+					<action name="create table" url="/taoResults/LegacyResults/createTable"  context="class" />
 					<action name="export" url="/tao/Export/index"  context="*" /> 
 					<action name="import" url="/tao/Import/index"  context="class" /> 
 				</actions>
