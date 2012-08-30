@@ -15,6 +15,8 @@ function onLoad(){
     		   			.addClass('disabled');
     	
     	if (install.isNextable()){
+    		spinner.spin($('#deployment')[0])
+    		
     		// Install...
     		var inputs = {
     			'module_url': install.getData('host_name'),
@@ -37,6 +39,7 @@ function onLoad(){
     		$('#deployment').css('visibility', 'visible');
     		install.install(inputs, function(status, data){
 				var success = false;
+				spinner.stop();
 				
 				if (typeof(data) != 'undefined'){
 					// We received an HTTP 200 code...
@@ -59,5 +62,5 @@ function onLoad(){
     });
     
     // Spin
-    var spinner = new Spinner(getSpinnerOptions('small')).spin($('#deployment')[0]);
+    var spinner = new Spinner(getSpinnerOptions('small'));
 }

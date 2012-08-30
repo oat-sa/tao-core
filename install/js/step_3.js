@@ -52,7 +52,7 @@ function onLoad(){
 			install.checkDatabaseConnection(check, function(status, data){
 				$database.css('visibility', 'hidden');
 				spinner.stop();
-				
+
 				if (data.value.status == 'valid'){
 					// Great! We could connect with the provided data.
 					if (install.isNextable()){
