@@ -191,18 +191,6 @@ class tao_install_Installator{
 		$testResults = array();
 		
 		$tests = self::$tests;
-		/*
-		// gather tests
-		$tests = array();
-		foreach ($this->toInstall as $id) {
-			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
-			if (isset($ext->installFiles['tests']) && is_array($ext->installFiles['tests'])) {
-				foreach ($ext->installFiles['tests'] as $testconf) {
-					$tests[] = $testconf;
-				}
-			}
-		}
-		*/
 		
 		foreach($tests as $test){
 
@@ -293,219 +281,228 @@ class tao_install_Installator{
 	 */
 	public function install(array $installData)
 	{
-	    set_time_limit(300);
-		common_Logger::i('Starting TAO install', 'INSTALL');
-        
-		/*
-		 *  1 - Test DB connection (done by the constructor)
-		 */
-		common_Logger::i("Spawning DbCreator", 'INSTALL');
-		$dbCreator = new tao_install_utils_DbCreator(
-			$installData['db_host'],
-			$installData['db_user'],
-			$installData['db_pass'],
-			$installData['db_driver'],
-			$installData['db_name']
-		);
-
-		/*
-		 *   2 - Load the database schema
-		 */
-
-		// If the database already exists, drop all tables
-		if ($dbCreator->dbExists($installData['db_name'])) {
-			$dbCreator->cleanDb ($installData['db_name']);
-			common_Logger::i("Droped all tables", 'INSTALL');
-		}
-		// Else create it
-		else {
-			try {
-				$dbCreator->execute ('CREATE DATABASE "'.$installData['db_name'].'"');
-				common_Logger::i("Created database ".$installData['db_name'], 'INSTALL');
-			} catch (Exception $e){
-				throw new tao_install_utils_Exception('Unable to create the database, make sure that '.$installData['db_user'].' is granted to create databases. Otherwise create the database with your super user and give to  '.$installData['db_user'].' the right to use it.');
+		try
+		{
+			set_time_limit(300);
+			common_Logger::i('Starting TAO install', 'INSTALL');
+	        
+			/*
+			 *  1 - Test DB connection (done by the constructor)
+			 */
+			common_Logger::i("Spawning DbCreator", 'INSTALL');
+			$dbCreator = new tao_install_utils_DbCreator(
+				$installData['db_host'],
+				$installData['db_user'],
+				$installData['db_pass'],
+				$installData['db_driver'],
+				$installData['db_name']
+			);
+	
+			/*
+			 *   2 - Load the database schema
+			 */
+	
+			// If the database already exists, drop all tables
+			if ($dbCreator->dbExists($installData['db_name'])) {
+				$dbCreator->cleanDb ($installData['db_name']);
+				common_Logger::i("Droped all tables", 'INSTALL');
 			}
-			// If the target Sgbd is mysql select the database after creating it
-			if ($installData['db_driver'] == 'mysql'){
-				$dbCreator->setDatabase ($installData['db_name']);
-			}
-		}
-
-		// Create tao tables
-		$dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
-		common_Logger::i('Created tables', 'INSTALL');
-		
-		// Insert stored procedures for the selected driver if they are found.
-		if(stripos($installData['db_driver'], 'postgres') !== false) {
-		    // postgres driver can be postgres, postgres7, postgres8, ...
-		    $procDbDriver = 'postgres';    
-		}else{
-		    $procDbDriver = $installData['db_driver'];
-		}
-        
-		$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_'.$procDbDriver.'.sql';
-		if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
-			common_Logger::i('Installing stored procedures for '.$procDbDriver, 'INSTALL');
-			$sqlParserClassName = 'tao_install_utils_' . ucfirst($procDbDriver) . 'ProceduresParser';
-			$dbCreator->setSQLParser(new $sqlParserClassName());
-			$dbCreator->load($storedProcedureFile);
-		}
-		
-		/*
-		 *  3 - Create the local namespace
-		 */
-		common_Logger::i('Creating local namespace', 'INSTALL');
-		$dbCreator->execute("INSERT INTO models VALUES ('8', '{$installData['module_namespace']}', '{$installData['module_namespace']}#')");
-
-		/*
-		 *  4 - Create the generis config files
-		 */
-		
-		common_Logger::d('Writing db config', 'INSTALL');
-		$dbConfigWriter = new tao_install_utils_ConfigWriter(
-				$this->options['root_path'].'generis/common/conf/sample/db.conf.php',
-				$this->options['root_path'].'generis/common/conf/db.conf.php'
-		);
-		$dbConfigWriter->createConfig();
-		$dbConfigWriter->writeConstants(array(
-			'DATABASE_LOGIN'	=> $installData['db_user'],
-			'DATABASE_PASS' 	=> $installData['db_pass'],
-			'DATABASE_URL'	 	=> $installData['db_host'],
-			'SGBD_DRIVER' 		=> $installData['db_driver'],
-			'DATABASE_NAME' 	=> $installData['db_name']
-		));
-		
-		common_Logger::d('Writing generis config', 'INSTALL');
-		$generisConfigWriter = new tao_install_utils_ConfigWriter(
-			$this->options['root_path'].'generis/common/conf/sample/generis.conf.php',
-			$this->options['root_path'].'generis/common/conf/generis.conf.php'
-		);
-		
-		$generisConfigWriter->createConfig();
-		$generisConfigWriter->writeConstants(array(
-			'LOCAL_NAMESPACE'	=> $installData['module_namespace'],
-			'ROOT_PATH'			=> $this->options['root_path'],
-			'ROOT_URL'			=> preg_replace("/\/$/", '', $installData['module_url']),
-			'DEFAULT_LANG'		=> $installData['module_lang'],
-			'DEBUG_MODE'		=> ($installData['module_mode'] == 'debug') ? true : false
-		));
-		
-		/*
-		 * 5 - Run the extensions bootstrap
-		 */
-		common_Logger::d('Running the extensions bootstrap', 'INSTALL');
-		require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
-		
-		// Usefull to get version number from TAO constants
-		common_Logger::d('Including tao constants', 'INSTALL');
-		require_once(ROOT_PATH.'tao/includes/constants.php');
-
-		/*
-		 * 6 - Adding languages
-		 */
-		
-		$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
-		$models = $modelCreator->getLanguageModels();
-        foreach ($models as $ns => $modelFiles){
-            foreach ($modelFiles as $file){
-                common_Logger::d("Inserting language description model '".$file."'", 'INSTALL');
-            	$modelCreator->insertLocalModel($file);
-            }
-        }
-		
-		/*
-		 * 7 - Finish Generis Install
-		 */
-		$generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
-		$generisInstaller = new common_ext_GenerisInstaller($generis);
-		$generisInstaller->install();
-        
-        /*
-		 * 8 - Install the extensions
-		 */
-		$toInstall = array();
-		foreach ($this->toInstall as $id) {
-			try {
-				$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
-				if (!$ext->isInstalled()) {
-					$toInstall[] = $ext;
+			// Else create it
+			else {
+				try {
+					$dbCreator->execute ('CREATE DATABASE "'.$installData['db_name'].'"');
+					common_Logger::i("Created database ".$installData['db_name'], 'INSTALL');
+				} catch (Exception $e){
+					throw new tao_install_utils_Exception('Unable to create the database, make sure that '.$installData['db_user'].' is granted to create databases. Otherwise create the database with your super user and give to  '.$installData['db_user'].' the right to use it.');
 				}
-			} catch (common_ext_ExtensionException $e) {
-				common_Logger::w('Extension '.$id.' not found');
-			}
-		}
-		while (!empty($toInstall)) {
-			$formerCount = count($toInstall);
-			foreach ($toInstall as $key => $extension) {
-				// if all dependencies are installed
-				$installed	= array_keys(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
-				$missing	= array_diff($extension->getDependencies(), $installed);
-				if (count($missing) == 0) {
-					try {
-					    $importLocalData = ($installData['import_local'] == true);
-						$extinstaller = new common_ext_ExtensionInstaller($extension, $importLocalData);
-						$extinstaller->install();
-					} catch (common_ext_ExtensionException $e) {
-						common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$extension->getID().'"');
-					}
-					unset($toInstall[$key]);
+				// If the target Sgbd is mysql select the database after creating it
+				if ($installData['db_driver'] == 'mysql'){
+					$dbCreator->setDatabase ($installData['db_name']);
 				}
 			}
-			if ($formerCount == count($toInstall)) {
-				throw new common_exception_Error('Unfulfilable/Cyclic reference found in extensions');
-			}
-		}
-		
-        /*
-         * 9 - File Cache purged in Extension Instaltion
-         */
-
-		/*
-		 *  10 - Insert Super User
-		 */
-		common_Logger::i('Spawning SuperUser '.$installData['user_login'], 'INSTALL');
-		$modelCreator->insertSuperUser(array(
-			'login'			=> $installData['user_login'],
-			'password'		=> md5($installData['user_pass1']),
-			'userLastName'	=> $installData['user_lastname'],
-			'userFirstName'	=> $installData['user_firstname'],
-			'userMail'		=> $installData['user_email'],
-			'userDefLg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($installData['module_lang']),
-			'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($installData['module_lang'])
-		));
-
-		/*
-		 *  11 - Secure the install for production mode
-		 */
-		if($installData['module_mode'] == 'production'){
-			$extensions = $extensionManager->getInstalledExtensions();
-			common_Logger::i('Securing tao for production', 'INSTALL');
+	
+			// Create tao tables
+			$dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
+			common_Logger::i('Created tables', 'INSTALL');
 			
-			// 11.1 Remove Generis User
-			$dbCreator->execute('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelID"=6');
-
-			// 11.2 Protect TAO dist
- 			$shield = new tao_install_utils_Shield(array_keys($extensions));
- 			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
- 			$shield->protectInstall();
+			// Insert stored procedures for the selected driver if they are found.
+			if(stripos($installData['db_driver'], 'postgres') !== false) {
+			    // postgres driver can be postgres, postgres7, postgres8, ...
+			    $procDbDriver = 'postgres';    
+			}else{
+			    $procDbDriver = $installData['db_driver'];
+			}
+	        
+			$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_'.$procDbDriver.'.sql';
+			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
+				common_Logger::i('Installing stored procedures for '.$procDbDriver, 'INSTALL');
+				$sqlParserClassName = 'tao_install_utils_' . ucfirst($procDbDriver) . 'ProceduresParser';
+				$dbCreator->setSQLParser(new $sqlParserClassName());
+				$dbCreator->load($storedProcedureFile);
+			}
+			
+			/*
+			 *  3 - Create the local namespace
+			 */
+			common_Logger::i('Creating local namespace', 'INSTALL');
+			$dbCreator->execute("INSERT INTO models VALUES ('8', '{$installData['module_namespace']}', '{$installData['module_namespace']}#')");
+	
+			/*
+			 *  4 - Create the generis config files
+			 */
+			
+			common_Logger::d('Writing db config', 'INSTALL');
+			$dbConfigWriter = new tao_install_utils_ConfigWriter(
+					$this->options['root_path'].'generis/common/conf/sample/db.conf.php',
+					$this->options['root_path'].'generis/common/conf/db.conf.php'
+			);
+			$dbConfigWriter->createConfig();
+			$dbConfigWriter->writeConstants(array(
+				'DATABASE_LOGIN'	=> $installData['db_user'],
+				'DATABASE_PASS' 	=> $installData['db_pass'],
+				'DATABASE_URL'	 	=> $installData['db_host'],
+				'SGBD_DRIVER' 		=> $installData['db_driver'],
+				'DATABASE_NAME' 	=> $installData['db_name']
+			));
+			
+			common_Logger::d('Writing generis config', 'INSTALL');
+			$generisConfigWriter = new tao_install_utils_ConfigWriter(
+				$this->options['root_path'].'generis/common/conf/sample/generis.conf.php',
+				$this->options['root_path'].'generis/common/conf/generis.conf.php'
+			);
+			
+			$generisConfigWriter->createConfig();
+			$generisConfigWriter->writeConstants(array(
+				'LOCAL_NAMESPACE'	=> $installData['module_namespace'],
+				'ROOT_PATH'			=> $this->options['root_path'],
+				'ROOT_URL'			=> preg_replace("/\/$/", '', $installData['module_url']),
+				'DEFAULT_LANG'		=> $installData['module_lang'],
+				'DEBUG_MODE'		=> ($installData['module_mode'] == 'debug') ? true : false
+			));
+			
+			/*
+			 * 5 - Run the extensions bootstrap
+			 */
+			common_Logger::d('Running the extensions bootstrap', 'INSTALL');
+			require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
+			
+			// Usefull to get version number from TAO constants
+			common_Logger::d('Including tao constants', 'INSTALL');
+			require_once(ROOT_PATH.'tao/includes/constants.php');
+	
+			/*
+			 * 6 - Adding languages
+			 */
+			
+			$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
+			$models = $modelCreator->getLanguageModels();
+	        foreach ($models as $ns => $modelFiles){
+	            foreach ($modelFiles as $file){
+	                common_Logger::d("Inserting language description model '".$file."'", 'INSTALL');
+	            	$modelCreator->insertLocalModel($file);
+	            }
+	        }
+			
+			/*
+			 * 7 - Finish Generis Install
+			 */
+			$generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
+			$generisInstaller = new common_ext_GenerisInstaller($generis);
+			$generisInstaller->install();
+	        
+	        /*
+			 * 8 - Install the extensions
+			 */
+			$toInstall = array();
+			foreach ($this->toInstall as $id) {
+				try {
+					$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
+					if (!$ext->isInstalled()) {
+						$toInstall[] = $ext;
+					}
+				} catch (common_ext_ExtensionException $e) {
+					common_Logger::w('Extension '.$id.' not found');
+				}
+			}
+			while (!empty($toInstall)) {
+				$formerCount = count($toInstall);
+				foreach ($toInstall as $key => $extension) {
+					// if all dependencies are installed
+					$installed	= array_keys(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
+					$missing	= array_diff($extension->getDependencies(), $installed);
+					if (count($missing) == 0) {
+						try {
+						    $importLocalData = ($installData['import_local'] == true);
+							$extinstaller = new common_ext_ExtensionInstaller($extension, $importLocalData);
+							$extinstaller->install();
+						} catch (common_ext_ExtensionException $e) {
+							throw new tao_install_utils_Exception("An error occured during the installation of extension '" . $extension->getID() . "'.");
+							common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$extension->getID().'"');
+						}
+						unset($toInstall[$key]);
+					}
+				}
+				if ($formerCount == count($toInstall)) {
+					throw new common_exception_Error('Unfulfilable/Cyclic reference found in extensions');
+				}
+			}
+			
+	        /*
+	         * 9 - File Cache purged in Extension Instaltion
+	         */
+	
+			/*
+			 *  10 - Insert Super User
+			 */
+			common_Logger::i('Spawning SuperUser '.$installData['user_login'], 'INSTALL');
+			$modelCreator->insertSuperUser(array(
+				'login'			=> $installData['user_login'],
+				'password'		=> md5($installData['user_pass1']),
+				'userLastName'	=> $installData['user_lastname'],
+				'userFirstName'	=> $installData['user_firstname'],
+				'userMail'		=> $installData['user_email'],
+				'userDefLg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($installData['module_lang']),
+				'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.strtoupper($installData['module_lang'])
+			));
+	
+			/*
+			 *  11 - Secure the install for production mode
+			 */
+			if($installData['module_mode'] == 'production'){
+				$extensions = $extensionManager->getInstalledExtensions();
+				common_Logger::i('Securing tao for production', 'INSTALL');
+				
+				// 11.1 Remove Generis User
+				$dbCreator->execute('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelID"=6');
+	
+				// 11.2 Protect TAO dist
+	 			$shield = new tao_install_utils_Shield(array_keys($extensions));
+	 			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
+	 			$shield->protectInstall();
+			}
+	
+			/*
+			 *  12 - Create the version file
+			 */
+			common_Logger::d('Creating version file for TAO', 'INSTALL');
+			file_put_contents(ROOT_PATH.'version', TAO_VERSION);
+			
+			common_Logger::d('Computing funcACL role accesses', 'INSTALL');
+			tao_helpers_funcACL_funcACL::buildRolesByActions();
+			
+			common_Logger::i('Instalation completed', 'INSTALL');
+	        
+	        /*
+	         * 13 - Miscellaneous
+	         */
+	        // Localize item content for demo items.
+	        $dbCreator->execute("UPDATE statements SET l_language = '" . $installData['module_lang'] . "' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent'");	
 		}
-
-		/*
-		 *  12 - Create the version file
-		 */
-		common_Logger::d('Creating version file for TAO', 'INSTALL');
-		file_put_contents(ROOT_PATH.'version', TAO_VERSION);
-		
-		common_Logger::d('Computing funcACL role accesses', 'INSTALL');
-		tao_helpers_funcACL_funcACL::buildRolesByActions();
-		
-		common_Logger::i('Instalation completed', 'INSTALL');
-        
-        /*
-         * 13 - Miscellaneous
-         */
-        // Localize item content for demo items.
-        $dbCreator->execute("UPDATE statements SET l_language = '" . $installData['module_lang'] . "' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent'");
+		catch(Exception $e){
+			// In any case, we transmit a single exception type (at the moment)
+			// for a clearer API for client code.
+			throw new tao_install_utils_Exception($e->getMessage(), 0, $e);
+		}
 	}
 }
 ?>

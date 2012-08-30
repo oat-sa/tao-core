@@ -10,7 +10,7 @@ class tao_install_utils_Shield{
 			$file = ROOT_PATH . $extension . '/.htaccess';
 			if(file_exists($file)){
 				if(!is_readable($file)){
-					throw new tao_install_utils_Exception("Unable to read file : $file");
+					throw new tao_install_utils_Exception("Unable to read .htaccess file of extension '" . $extension . " while Production Mode activation'.");
 				}
 				$this->accessFiles[] = $file;
 			}
@@ -40,7 +40,7 @@ class tao_install_utils_Shield{
 				}
 				if($updated > 0){
 					if(!is_writable($file)){
-						throw new tao_install_utils_Exception("Unable to write file : $file");
+						throw new tao_install_utils_Exception("Unable to write .htaccess file : ${file}.");
 					}
 					file_put_contents($file, implode("\n", $lines));
 				}
@@ -53,7 +53,7 @@ class tao_install_utils_Shield{
 			$installDir = ROOT_PATH . $extension . '/install/';
 			if(file_exists($installDir) && is_dir($installDir)){
 				if(!is_writable($installDir) || (file_exists($installDir . '.htaccess' && !is_writable($installDir . '.htaccess')))){
-					throw new tao_install_utils_Exception("Unable to write file into : $installDir");
+					throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${installDir}.");
 				}
 				file_put_contents($installDir . '.htaccess', "deny from all");
 			}

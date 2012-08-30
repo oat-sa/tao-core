@@ -82,10 +82,14 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
 					$message = "Database connection successfuly established with '${host}' using driver '${driver}'.";
 					$status = 'valid';
 				}
+				
+				restore_error_handler();
             }
             catch(Exception $e){
                 $message = "Unable to connect to database at '${host}' using driver '${driver}'.";
                 $status = 'invalid-noconnection';
+                
+                restore_error_handler();
             }
         }
         else{
@@ -112,7 +116,7 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
      * @return boolean
      */
     public static function onError($errno, $errstr, $errfile, $errline){
-        // Do not call PHP internal error handler !    
+        // Do not call PHP internal error handler !
         return true;
     }
 }
