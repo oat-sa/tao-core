@@ -113,7 +113,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 
 			$('.box-checker').click(function() {
 				var checker  = $(this);
-				var regexpId = new RegExp('^'+checker.attr('id').replace('_checker', ''), 'i');
+				var regexpId = new RegExp('^'+checker.prop('id').replace('_checker', ''), 'i');
 
 				if (checker.hasClass('box-checker-uncheck')) {
 					$(":checkbox").each(function() {
@@ -170,7 +170,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 				var infoUrl = root_url + '/tao/File/getPropertyFileInfo';
 				var data = {
 					'uri':$("#uri").val(),
-					'propertyUri':$(this).siblings('label.form_desc').attr('for')
+					'propertyUri':$(this).siblings('label.form_desc').prop('for')
 				};
 				var $_this = $(this);
 				$.ajax({
@@ -192,7 +192,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 				url += 'editVersionedFile';
 				var data = {
 					'uri':$("#uri").val(),
-					'propertyUri':$(this).siblings('label.form_desc').attr('for')
+					'propertyUri':$(this).siblings('label.form_desc').prop('for')
 				};
 
 				if (uiBootstrap.tabs.size() == 0) {
@@ -219,7 +219,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 			//property form group controls
 			$('.form-group').each(function() {
 				var formGroup = $(this);
-				if (/property\_[0-9]+$/.test(formGroup.attr('id'))) {
+				if (/property\_[0-9]+$/.test(formGroup.prop('id'))) {
 					var child = formGroup.children("div:first");
 
 					toggelerClass = 'ui-icon-circle-triangle-s';
@@ -237,18 +237,18 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 							child.show('slow');
 							control.removeClass('ui-icon-circle-triangle-e');
 							control.addClass('ui-icon-circle-triangle-s');
-							control.attr('title', 'hide property');
+							control.prop('title', 'hide property');
 						} else {
 							child.hide('slow');
 							control.removeClass('ui-icon-circle-triangle-s');
 							control.addClass('ui-icon-circle-triangle-e');
-							control.attr('title', 'show property');
+							control.prop('title', 'show property');
 						}
 					});
 					formGroup.prepend(toggeler);
 
 					//delete control
-					if (/^property\_[0-9]+/.test(formGroup.attr('id'))) {
+					if (/^property\_[0-9]+/.test(formGroup.prop('id'))) {
 						deleter = $("<span class='form-group-control ui-icon ui-icon-circle-close' title='Delete' style='right:24px;'></span>");
 						deleter.click(removeGroup);
 						formGroup.prepend(deleter);
@@ -257,10 +257,10 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 			});
 
 			//property delete button
-			 $(".property-deleter").click(removeGroup);
+			 $(".property-deleter").off('click').on('click', removeGroup);
 
 			 //property add button
-			 $(".property-adder").click(function() {
+			 $(".property-adder").off('click').on('click', function() {
 				 if (ctx_extension) {
 					url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
 				 }
@@ -269,12 +269,12 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 				 generisActions.addProperty(null,  $("#classUri").val(), url);
 			 });
 
-			 $(".property-mode").click(function() {
+			 $(".property-mode").off('click').on('click', function() {
 				 mode = 'simple';
 				 if ($(this).hasClass('property-mode-advanced')) {
 					mode = 'advanced';
 				}
-				url = $(this).parents('form').attr('action');
+				url = $(this).parents('form').prop('action');
 
 				$(helpers.getMainContainerSelector(uiBootstrap.tabs)).load(url, {
 					'property_mode': mode,
@@ -297,7 +297,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 					}
 				} else if(elt.css('display') != 'none') {
 					elt.css('display', 'none');
-					elt.find('select').attr('disabled', "disabled");
+					elt.find('select').prop('disabled', "disabled");
 				}
 			 }
 
@@ -307,7 +307,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 			 function showPropertyListValues() {
 				if ($(this).val() == 'new') {
 					//Open the list editor: a tree in a dialog popup
-					var rangeId = $(this).attr('id');
+					var rangeId = $(this).prop('id');
 					var dialogId = rangeId.replace('_range', '_dialog');
 					var treeId = rangeId.replace('_range', '_tree');
 					var closerId = rangeId.replace('_range', '_closer');
@@ -379,7 +379,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 									};
 									if ($(NODE).hasClass('node-instance')) {
 										PNODE = TREE_OBJ.parent(NODE);
-										options.classUri = $(PNODE).attr('id');
+										options.classUri = $(PNODE).prop('id');
 									}
 
 									/**
@@ -397,7 +397,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 										}
 									});
 									$("#"+treeId+" .node-root .node-class").each(function(){
-										$("#"+rangeId+" option[value='new']").before("<option value='"+$(this).attr('id')+"'>"+$(this).children("a:first").text()+"</option>");
+										$("#"+rangeId+" option[value='new']").before("<option value='"+$(this).prop('id')+"'>"+$(this).children("a:first").text()+"</option>");
 									});
 									$("#"+rangeId).parent("div").children("ul.form-elt-list").remove();
 									$("#"+rangeId).val('');
@@ -424,7 +424,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 													$.ajax({
 														url: 	createUrl,
 														type: 	"POST",
-														data: 	{classUri: $(NODE).attr('id'), type: 'instance'},
+														data: 	{classUri: $(NODE).prop('id'), type: 'instance'},
 														dataType: 'json',
 														success: function(response){
 															if (response.uri) {
@@ -500,7 +500,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 												$.ajax({
 													url: removeUrl,
 													type: "POST",
-													data: {uri: $(NODE).attr('id')},
+													data: {uri: $(NODE).prop('id')},
 													dataType: 'json',
 													success: function(response){
 														if (response.deleted) TREE_OBJ.remove(NODE);
@@ -557,7 +557,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 				var listField = $(this);
 				if (listField.parent().find('img').length == 0) {
 					listControl = $("<img title='manage lists' style='cursor:pointer;' />");
-					listControl.attr('src', taobase_www + "img/add.png");
+					listControl.prop('src', taobase_www + "img/add.png");
 					listControl.click(function() {
 						listField.val('new');
 						listField.change();
@@ -583,7 +583,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 				if (trLang != '') {
 
 					$("#translation_form :input").each(function() {
-						if (/^http/.test($(this).attr('name'))) {
+						if (/^http/.test($(this).prop('name'))) {
 							$(this).val('');
 						}
 					});
@@ -620,21 +620,21 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 		 */
 		submitForm: function(myForm) {
 			try {
-				if (myForm.attr('enctype') == 'multipart/form-data' && myForm.find(".file-uploader").length) {
+				if (myForm.prop('enctype') == 'multipart/form-data' && myForm.find(".file-uploader").length) {
 					return false;
 				} else {
 					if (uiBootstrap.tabs.size() == 0) {
 						if ($('div.main-container').length) {
-							$('div.main-container').load(myForm.attr('action'), myForm.serializeArray());
+							$('div.main-container').load(myForm.prop('action'), myForm.serializeArray());
 						} else {
 							return true;//go to the link
 						}
 					} else if(!$(helpers.getMainContainerSelector(uiBootstrap.tabs))) {
 						return true;//go to the link
 					}
-					$(helpers.getMainContainerSelector(uiBootstrap.tabs)).load(myForm.attr('action'), myForm.serializeArray());
+					$(helpers.getMainContainerSelector(uiBootstrap.tabs)).load(myForm.prop('action'), myForm.serializeArray());
 				}
-				window.location = '#form-title';
+				//window.location = '#form-title';
 			}
 			catch (exp) {
 				return false;

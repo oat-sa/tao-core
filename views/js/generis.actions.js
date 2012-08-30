@@ -147,7 +147,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 					if(formGroupElt){
 						formGroupElt.addClass('form-group-opened');
 					}
-					window.location = '#propertyAdder';
+					//window.location = '#propertyAdder';
 				}
 			});
 		},

@@ -7,7 +7,8 @@
  * @require jquery >= 1.4.2 [http://jquery.com/]
  *
  * @author Alfonsi Cédric, <taosupport@tudor.lu>
- * @author Jehan Bihin (class)
+ * @author Jehan Bihin (class, refactor for list)
+ * @author Joel Bout (getFormatedFilterSelection)
  */
 
 define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTreeSelectClass) {
@@ -65,28 +66,6 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 		 * 		=> create a list
 		 */
 		addFilterNode: function(filterNode) {
-			/*var self = this;
-			/*var filterNodeId = filterNode.id;
-			var filterNodeLabel = filterNode.label;
-			var filterNodeUrl = filterNode.url;
-			var filterNodeOptions = filterNode.options;
-
-			//instantiate the filter node widget
-
-			//pass to the server options of others filter nodes
-			var options = $.extend(true, {}, filterNodeOptions);
-			var filterNodesOptions = $.extend(true, {}, self.filterNodesOptions);
-			options['filterNodesOptions'] = filterNodesOptions;
-
-			//instantiate the tree
-			self.trees[filterNodeId] = new GenerisTreeSelectClass('#tree-'+filterNodeId, filterNodeUrl, {
-				'actionId'			: 'filter',
-				'serverParameters' 	: options,
-				'onChangeCallback' 	: function(NODE, TREE_OBJ) {
-					self.propagateChoice();
-				}
-			});*/
-
 			listOptions = {
 				elem: $('#list-'+filterNode.id),
 				id: filterNode.id,
@@ -146,8 +125,6 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 
 			//refresh all lists with the new filter
 			for (var id in this.lists) {
-				// Set the server parameter
-				//this.lists[id].setServerParameter('filter', filter, true);
 				//Reload
 				this.lists[id].options.filter = filter;
 				this.loadDataList(this.lists[id]);
@@ -162,9 +139,6 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 		getFormatedFilterSelection: function() {
 			var formatedFilter = {};
 			for (var id in this.lists) {
-				//var propertyUri = this.filterNodesOptions[id]['propertyUri'];
-				//formatedFilter[propertyUri] = this.lists[id].getChecked();
-				//var checked = this.lists[id].getChecked();
 				var checked = [];
 				$('li.selectable.have-allaccess', this.lists[id].elem).each(function(idx, el) {
 					checked.push($(this).prop('id'));
