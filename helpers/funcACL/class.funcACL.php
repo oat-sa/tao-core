@@ -218,49 +218,6 @@ class tao_helpers_funcACL_funcACL
 			}
 		}
 
-		/*
-		$modc = new core_kernel_classes_Class(CLASS_ACL_MODULE);
-		$actc = new core_kernel_classes_Class(CLASS_ACL_ACTION);
-		$roles = new core_kernel_classes_Class(CLASS_ROLE); //before : CLASS_ROLE_BACKOFFICE
-		$propACLModuleId = new core_kernel_classes_Property(PROPERTY_ACL_MODULE_ID);
-        $propACLModuleExt = new core_kernel_classes_Property(PROPERTY_ACL_MODULE_EXTENSION);
-        $propACLActionId = new core_kernel_classes_Property(PROPERTY_ACL_ACTION_ID);
-
-		foreach ($modc->getInstances() as $mod) {
-			$values = $mod->getPropertiesValues(array(
-				$propACLModuleId,
-				$propACLModuleExt
-			));
-			$label = (string)array_pop($values[PROPERTY_ACL_MODULE_ID]);
-			$extension = (string)array_pop($values[PROPERTY_ACL_MODULE_EXTENSION]);
-			$modules[] = array('id' => $mod->getUri(), 'label' => $label, 'extension' => $extension);
-			$lbla = explode('_', $label);
-			$label = array_pop($lbla);
-			if (!isset($reverse_access[$extension])) {
-				$reverse_access[$extension] = array();
-			}
-			if (!isset($reverse_access[$extension][$label])) {
-				$reverse_access[$extension][$label] = array('actions' => array(), 'roles' => array());
-			}
-
-			//Roles
-			foreach ($roles->searchInstances(array(PROPERTY_ACL_MODULE_GRANTACCESS => $mod->getUri()), array('like' => false, 'recursive' => true)) as $r) {
-				$reverse_access[$extension][$label]['roles'][] = $r->getUri();
-			}
-
-			//Actions
-			foreach ($actc->searchInstances(array(PROPERTY_ACL_ACTION_MEMBEROF => $mod->getUri()), array('like' => false, 'recursive' => true)) as $act) {
-				$labela = $act->getUniquePropertyValue($propACLActionId)->__toString();
-				$lbla = explode('_', $labela);
-				$labela = array_pop($lbla);
-				$reverse_access[$extension][$label]['actions'][$labela] = array();
-
-				foreach ($roles->searchInstances(array(PROPERTY_ACL_ACTION_GRANTACCESS => $act->getUri()), array('like' => false, 'recursive' => true)) as $r) {
-					$reverse_access[$extension][$label]['actions'][$labela][] = $r->getUri();
-				}
-			}
-		}
-*/
 		tao_models_classes_cache_FileCache::singleton()->put($reverse_access, 'RolesByActions');
 		return $reverse_access;
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389D end
