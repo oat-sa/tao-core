@@ -23,6 +23,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 			this.filterNodes = {};
 			this.filterNodesOptions = {};
 			this.lists = [];
+			this.lastFilter = {};
 
 			//If filter nodes
 			if (filterNodes) {
@@ -106,7 +107,10 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 				success: function(data) {
 					$('#list-'+listOptions.id).empty().append('<ul id="'+data.attributes.id+'" class="group-list"></ul>');
 					for (c in data.children) {
-						$el = $('<li id="'+data.children[c].attributes.id+'" class="selectable"><span class="label">'+data.children[c].data+'</span><span class="selector checkable"></span></li>').appendTo($('#list-'+listOptions.id+' ul.group-list'));
+						//Selected ?
+						var sel = '';
+						if (self.lastFilter[data.attributes.id] != undefined && $.inArray(data.children[c].attributes.id, self.lastFilter[data.attributes.id]) >= 0) sel += ' have-allaccess';
+						$el = $('<li id="'+data.children[c].attributes.id+'" class="selectable'+sel+'"><span class="label">'+data.children[c].data+'</span><span class="selector checkable"></span></li>').appendTo($('#list-'+listOptions.id+' ul.group-list'));
 						$('span.label, span.selector', $el).on('click', function(e){
 							e.preventDefault();
 							if ($(this).parent().hasClass('have-allaccess')) $(this).parent().removeClass('have-allaccess');
@@ -138,6 +142,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 				});
 				if (checked.length) filter[$('ul', $(this.lists[id].elem)).prop('id')] = checked;
 			}
+			this.lastFilter = filter;
 
 			//refresh all lists with the new filter
 			for (var id in this.lists) {
@@ -150,7 +155,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 
 			//call the callback function
 			if (this.options.callback.onFilter != null) {
-				this.options.callback.onFilter(filter, this.filterNodesOptions);
+				this.options.callback.onFilter(this);
 			}
 		},
 
