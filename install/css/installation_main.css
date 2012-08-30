@@ -467,6 +467,7 @@ html, body{
 	opacity: 0.5;
 	z-index:900;
 	position: relative;
+	filter : alpha(opacity=50);
 }
 
 
