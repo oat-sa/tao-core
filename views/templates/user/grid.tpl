@@ -6,7 +6,6 @@
 </div>
 
 <script type="text/javascript">
-
 var monitoringGrid = null;
 var monitoringFilter = null;
 
@@ -14,11 +13,11 @@ var monitoringFilter = null;
 function loadMonitoring(filter) {
 	monitoringFilter = filter;
 	params = '<?=$gridParams?>';
-	$.getJSON(root_url+'/tao/SaSUsers/getGridData'+params
-		,{
+	$.getJSON(root_url+'/tao/SaSUsers/getGridData'+params,
+		{
 			'filter':filter
-		}
-		, function (DATA) {
+		},
+		function (DATA) {
 			//clean the grid
 			monitoringGrid.empty();
 			//add the new data
@@ -31,17 +30,17 @@ function loadMonitoring(filter) {
 	);
 }
 
-$(function(){
+$(function() {
+	require(['require', 'jquery', 'grid/tao.grid'], function(req, $) {
+		model = <?=$model?>;
+		var monitoringGridOptions = {
+			height: 769,
+			title: 'TAO Users'
+		};
+		monitoringGrid = new TaoGridClass('#monitoring-processes-grid', model, '', monitoringGridOptions);
 
-	model = <?=$model?>;
-	var monitoringGridOptions = {
-		height: 769,
-		title: 'TAO Users'
-	};
-	monitoringGrid = new TaoGridClass('#monitoring-processes-grid', model, '', monitoringGridOptions);
-
-	//load monitoring grid
-	loadMonitoring();
-
+		//load monitoring grid
+		loadMonitoring();
+	});
 });
 </script>

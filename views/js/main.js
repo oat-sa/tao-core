@@ -17,6 +17,8 @@ require.config({
 	}
 });
 
+var callbackMeWhenReady = {};
+
 var helpers;
 var uiBootstrap;
 var eventMgr;
@@ -30,5 +32,9 @@ require(['require', 'jquery', 'class', 'uiBootstrap', 'helpers', 'EventMgr', 'ui
 		eventMgr = new EventMgr();
 		uiForm = new UiForm();
 		generisActions = new GenerisActions();
+
+		for (e in callbackMeWhenReady) {
+			callbackMeWhenReady[e]();
+		}
 	});
 });

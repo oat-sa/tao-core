@@ -10,26 +10,29 @@
 		var imgPath = '<?=BASE_WWW?>img/';
 	</script>
 
+	<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
+
 	<?=tao_helpers_Scriptloader::render()?>
 
+	<script src="<?=TAOBASE_WWW?>js/main.js"></script>
+
 	<script type='text/javascript'>
-		var ctx_extension 	= '<?=get_data("extension")?>';
-		var ctx_module 		= '<?=get_data("module")?>';
-		var ctx_action 		= '<?=get_data("action")?>';
-		$(document).ready(function(){
+		var ctx_extension = '<?=get_data("extension")?>';
+		var ctx_module = '<?=get_data("module")?>';
+		var ctx_action = '<?=get_data("action")?>';
+
+		callbackMeWhenReady.sasReady = function() {
 			if(/edit|Edit|add/.test(ctx_action)){
 				uiForm.initElements();
 				uiForm.initOntoForms();
-			}
-			else if(/translate/.test(ctx_action)){
+			} else if(/translate/.test(ctx_action)){
 				uiForm.initElements();
 				uiForm.initTranslationForm();
-			}
-			else{
+			} else {
 				uiForm.initElements();
 			}
-			helpers_autoFx();
-		});
+			helpers._autoFx();
+		};
 	</script>
 <?if(get_data('errorMessage')):?>
 	<script type='text/javascript'>
@@ -40,22 +43,20 @@
 <?endif?>
 </head>
 <body>
-
-	<?if(get_data('message')):?>
+<?if(get_data('message')):?>
 	<div id="info-box" class="ui-widget-header ui-corner-all auto-slide">
 		<span><?=get_data('message')?></span>
 	</div>
-	<?endif?>
 
+<?endif?>
 	<div id="ajax-loading" class="ui-widget-overlay">
 		<img src="<?=TAOBASE_WWW?>img/ajax-loader.gif" alt="Loading..." />
 	</div>
 
 	<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all ui-tabs-collapsible">
 		<div id="sas-widget" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
-			<? include(get_data('includedView')); ?>
+<? include(get_data('includedView')); ?>
 		</div>
 	</div>
-
 </body>
 </html>
