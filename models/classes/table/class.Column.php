@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 30.08.2012, 17:52:11 with ArgoUML PHP module 
+ * Automatically generated on 31.08.2012, 16:22:59 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -70,7 +70,7 @@ abstract class tao_models_classes_table_Column
         // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BA2 begin
         $type = $array['type'];
         unset($array['type']);
-        $returnValue = $type::buildColumnFromArray($array);
+        $returnValue = $type::fromArray($array);
         // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BA2 end
 
         return $returnValue;
@@ -89,6 +89,24 @@ abstract class tao_models_classes_table_Column
         // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BA9 begin
         $this->label = $label;
         // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BA9 end
+    }
+
+    /**
+     * Override this function with a concrete implementation
+     *
+     * @access protected
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  array array
+     * @return tao_models_classes_table_Column
+     */
+    protected static function fromArray($array)
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1--1257c5a1:1397d0b84b8:-8000:0000000000003BDE begin
+        // section 127-0-1-1--1257c5a1:1397d0b84b8:-8000:0000000000003BDE end
+
+        return $returnValue;
     }
 
     /**
@@ -134,7 +152,7 @@ abstract class tao_models_classes_table_Column
      * @abstract
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return tao_models_classes_table_dataProvider
+     * @return tao_models_classes_table_DataProvider
      */
     public abstract function getDataProvider();
 

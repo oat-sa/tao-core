@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 30.08.2012, 18:11:41 with ArgoUML PHP module 
+ * Automatically generated on 31.08.2012, 16:22:59 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -29,11 +29,11 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 require_once('tao/models/classes/table/class.Column.php');
 
 /**
- * include tao_models_classes_table_dataProvider
+ * include tao_models_classes_table_DataProvider
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
  */
-require_once('tao/models/classes/table/interface.dataProvider.php');
+require_once('tao/models/classes/table/interface.DataProvider.php');
 
 /* user defined includes */
 // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BAD-includes begin
@@ -53,7 +53,7 @@ require_once('tao/models/classes/table/interface.dataProvider.php');
  */
 class tao_models_classes_table_StaticColumn
     extends tao_models_classes_table_Column
-        implements tao_models_classes_table_dataProvider
+        implements tao_models_classes_table_DataProvider
 {
     // --- ASSOCIATIONS ---
 
@@ -107,14 +107,14 @@ class tao_models_classes_table_StaticColumn
     }
 
     /**
-     * Short description of method buildColumnFromArray
+     * Short description of method fromArray
      *
-     * @access public
+     * @access protected
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array array
      * @return tao_models_classes_table_StaticColumn
      */
-    public static function buildColumnFromArray($array)
+    protected static function fromArray($array)
     {
         $returnValue = null;
 
@@ -166,7 +166,7 @@ class tao_models_classes_table_StaticColumn
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return tao_models_classes_table_dataProvider
+     * @return tao_models_classes_table_DataProvider
      */
     public function getDataProvider()
     {

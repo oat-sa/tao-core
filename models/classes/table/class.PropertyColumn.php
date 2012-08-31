@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 30.08.2012, 17:53:38 with ArgoUML PHP module 
+ * Automatically generated on 31.08.2012, 16:22:59 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -63,14 +63,14 @@ class tao_models_classes_table_PropertyColumn
     // --- OPERATIONS ---
 
     /**
-     * Short description of method buildColumnFromArray
+     * Short description of method fromArray
      *
-     * @access public
+     * @access protected
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array array
      * @return tao_models_classes_table_PropertyColumn
      */
-    public static function buildColumnFromArray($array)
+    protected static function fromArray($array)
     {
         $returnValue = null;
 
@@ -120,7 +120,7 @@ class tao_models_classes_table_PropertyColumn
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return tao_models_classes_table_dataProvider
+     * @return tao_models_classes_table_DataProvider
      */
     public function getDataProvider()
     {
