@@ -84,10 +84,7 @@ class tao_actions_UserApi extends tao_actions_RemoteServiceModule {
 		$roles = array();
 		$roleRes = core_kernel_users_Service::singleton()->getUserRoles($user);
 		foreach ($roleRes as $role) {
-			$roles[] = array(
-				'id'	=> $role->getUri(),
-				'label'	=> $role->getLabel()
-			);
+			$roles[$role->getUri()] = $role->getLabel();
 		}	
 		if (isset($props[PROPERTY_USER_UILG]) && is_array($props[PROPERTY_USER_UILG])) {
 			$langRes = array_pop($props[PROPERTY_USER_UILG]);

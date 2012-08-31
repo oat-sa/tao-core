@@ -26,7 +26,7 @@ class tao_actions_UserAdminApi extends tao_actions_RemoteServiceModule {
 	
 	public function getAllUsers() {
 		$service = tao_models_classes_UserService::singleton();
-		$users = $service->getUsersByRoles(array(CLASS_ROLE_WORKFLOWUSERROLE));
+		$users = $service->getAllUsers();
 		$list = array();
 		foreach ($users as $user) {
 			$props = $user->getPropertiesValues(array(
