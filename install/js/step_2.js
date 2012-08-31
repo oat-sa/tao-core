@@ -1,5 +1,15 @@
 function onLoad(){
 	
+	// Set up the list of available languages.
+	var availableLanguages = install.getData('available_languages');
+	if (availableLanguages != null){
+		var $defaultLanguageElement = $('#default_language').empty();
+		
+		for (var i in availableLanguages){
+			$defaultLanguageElement.append('<option value="' + i + '">' + availableLanguages[i] + '</option>');
+		}
+	}
+	
 	install.onNextable = function(){
 		$('#submitForm').removeClass('disabled')
 						.addClass('enabled')
@@ -82,6 +92,8 @@ function onLoad(){
 	if (install.getData('root_url') != null && install.getData('host_name') == null){
 		$('#host_name').removeClass('helpTaoInputLabel')[0].setData(install.getData('root_url'));
 	}
+	
+	// Default language is English at first display.
 	
 	install.stateChange();
 }

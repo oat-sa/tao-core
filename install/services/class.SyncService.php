@@ -38,10 +38,12 @@ class tao_install_services_SyncService extends tao_install_services_Service{
         	$data = '{"type": "SyncReport", "value": { "json": '. (($json) ? 'true' : 'false') . '}}';
         }
         else{
+        	$localesDir = dirname(__FILE__) . '/../../locales';
         	$data = json_encode(array('type' => 'SyncReport', 'value' => array(
         		'json' => true,
         		'rootURL' => self::getRootUrl(),
-        		'availableDrivers' => self::getAvailableDrivers()
+        		'availableDrivers' => self::getAvailableDrivers(),
+        		'availableLanguages' => self::getAvailableLanguages($localesDir)
         	)));
         }
                                    
@@ -73,6 +75,29 @@ class tao_install_services_SyncService extends tao_install_services_Service{
     	}
     	
     	return array_intersect($compatibleDrivers, $availableDrivers);
+    }
+    
+    /**
+     * Get the list of available languages in terms of locales in the /tao meta-extension folder.
+     * 
+     * @param string $localesPath The path to the /locales directory to scan into.
+     * @param boolean $sort Sort by alphetical order.
+     * @return array an array of languages where keys are language tags and values are language labels in english (EN).
+     */
+    private static function getAvailableLanguages($localesPath, $sort = true){
+    	$languages = array();
+    	
+    	try{
+    		$languages = tao_install_utils_System::getAvailableLocales($localesPath);
+    		if (true == $sort){
+    			asort($languages);
+    		}
+    	}
+    	catch (Exception $e){
+    		// Do nothing and return gracefully.
+    	}
+    	
+    	return $languages;
     }
 }
 ?>
