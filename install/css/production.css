@@ -15,6 +15,11 @@
 	margin-top:180px;
 	line-height:18px;
 	font-weight:normal;
+	text-align: justify;
+}
+
+#warning_msg strong{
+	font-weight: bold;	
 }
 
 .embedWarning{
