@@ -1,6 +1,7 @@
 body {
 	background:#eee;
 	font-family: Verdana, Arial, sans-serif;
+	color: #3A3A3A;
 }
 
 #suppportTab{
@@ -44,6 +45,7 @@ h4 {
 	padding-left: 20px;
 	background-repeat: no-repeat;
 	background-position-y: 1px;
+	color: #3A3A3A;
 }
 
 #genericPopup h4.help {
@@ -72,6 +74,7 @@ h1 {
 	font-weight:bold;
 	line-height: 22px;
 	font-size:18px;
+	color: #3A3A3A;
 }
 
 h3{
@@ -88,19 +91,16 @@ h3{
 	padding:0 15px 0 0;
 	line-height:18px;
 	margin-left:200px;
-	font-weight:bold;
+	font-weight: bold;
 	width: 570px;
+	color: #3A3A3A;
 }
 	
 
 #install_seq li {
-	/*display:inline;*/
 	font-size:10px;
-}
-
-#install_seq li{
-	/*border-left:1px dotted rgb(0,0,0);*/
 	margin:10px 0;
+	color: #3A3A3A;
 }
 
 #install_seq li a{
@@ -111,7 +111,7 @@ h3{
 }
 
 #install_seq li a{
-	color: #000;
+	color: #3A3A3A;
 }
 
 #install_seq li a,
@@ -138,7 +138,7 @@ h3{
 
 .currentStep {
 	font-weight:bold;
-	color:#000;
+	color: #3A3A3A;
 }
 
 #mainFrame{
@@ -175,6 +175,7 @@ input[type="text"], input[type="password"]{
 	height:2.2em;
 	padding:0 5px;
 	clear:both;
+	color: #3A3A3A;
 }
 
 input[type="checkbox"]{
@@ -190,6 +191,7 @@ input[type="checkbox"]{
 	left:0;
 	font-weight: bold;
 	position:absolute;
+	color: #3A3A3A;
 }
 
 .icons{
@@ -221,10 +223,12 @@ form > ul > li > select {
 	border:none;
 	font-weight:bold;
 	padding:3px 0;
+	color: #3A3A3A;
 }
 
 #installation_form select {
 	font-size:10px;
+	color: #3A3A3A;
 }
 
 form > ul > li {
@@ -399,7 +403,7 @@ body textarea {
 }
 
 .enabled {
-	color: black;
+	color: #3A3A3A;;
 }
 
 #submitForm.enabled {
@@ -439,6 +443,7 @@ body textarea {
 	font-size:10px;
 	font-style: italic;
 	text-align: left;
+	color: #3A3A3A;
 }
 
 .helpFrac {
@@ -501,11 +506,13 @@ html, body{
 	position:relative;
 	z-index:995;
 	height:200px;
+	color: #3A3A3A;
 }
 
 #genericPopupContent h5{
 	font-size:18px;
 	font-weight:bold;
+	color: #3A3A3A;
 }
 
 body .ui-widget-overlay{
