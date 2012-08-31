@@ -55,13 +55,13 @@ class tao_install_utils_Shield{
 				if(!is_writable($installDir) || (file_exists($installDir . '.htaccess' && !is_writable($installDir . '.htaccess')))){
 					throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${installDir}.");
 				}
-				file_put_contents($installDir . '.htaccess', "Options +FollowSymLinks"
-														   . "<IfModule mod_rewrite.c>"
-														   . "RewriteEngine On"
-														   . "RewriteCond %{REQUEST_URI} !/css/ [NC]"
-														   . "RewriteCond %{REQUEST_URI} !/js/ [NC]"
-														   . "RewriteCond %{REQUEST_URI} !/images/ [NC]"
-														   . "RewriteRule ^.*$ production.html"
+				file_put_contents($installDir . '.htaccess', "Options +FollowSymLinks\n"
+														   . "<IfModule mod_rewrite.c>\n"
+														   . "RewriteEngine On\n"
+														   . "RewriteCond %{REQUEST_URI} !/css/ [NC]\n"
+														   . "RewriteCond %{REQUEST_URI} !/js/ [NC]\n"
+														   . "RewriteCond %{REQUEST_URI} !/images/ [NC]\n"
+														   . "RewriteRule ^.*$ production.html\n"
 														   . "</IfModule>");
 			}
 		}
