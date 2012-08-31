@@ -52,6 +52,7 @@ function validify(element){
 function validifyNotMandatory(element){
 	element.onValid = function() { displayValidationMark(element); };
 	element.onValidButEmpty = function() { removeValidationMark(element); };
+	element.onInvalid = function () { removeValidationMark(element); };
 }
 
 function displayValidationMark(element){

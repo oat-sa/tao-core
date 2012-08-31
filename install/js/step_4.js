@@ -67,7 +67,7 @@ function onLoad(){
 			break;
 			
 			case 'superuser_email':
-				install.getValidator(this, {dataType: 'string', min: 1, max: 30, mandatory: false});
+				install.getValidator(this, {dataType: 'email', mandatory: false});
 				validifyNotMandatory(this);
 			break;
 			

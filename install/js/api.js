@@ -293,6 +293,19 @@ TaoInstall.prototype.getValidator = function(element, options){
 								element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };
 							break;
 							
+							case 'email':
+								element.isValid = function(){
+									var reg = new RegExp("^[a-zA-Z0-9\-_]+[a-zA-Z0-9\.\-_]*@[a-zA-Z0-9\-_]+\.[a-zA-Z\.\-_]{1,}[a-zA-Z\-_]+", "i");
+									
+									if (mandatory == false && $element[0].getData() == null){
+										return true;
+									}
+									else{
+										return firstValueFunction() && reg.test($element.val());
+									}
+								}
+							break;
+							
 							case 'string':
 								var sameAsFunction = function(){ var value = ($element[0].getData() != null) ? $element[0].getData() : ''; return api.getRegisteredElement(options.sameAs).getData() == value; };
 							
