@@ -327,6 +327,19 @@ body .ui-widget-overlay{
 	font-weight:bold;
 }
 
+#supportLoading{
+	display: none;
+	margin-left: 200px;
+	margin-top: 190px;
+}
+
+#supportLoading span{
+	margin-left: 23px;
+	font-weight: bold;
+	font-size: 10px;
+	font-style: italic;
+}
+
 body .ui-widget-overlay {
 	width:436px;
 	height:268px;
@@ -369,6 +382,7 @@ body .ui-widget-overlay {
 	width:100%;
 	height:388px;
 	top:10px;
+	display: none;
 }
 
 h5 {
