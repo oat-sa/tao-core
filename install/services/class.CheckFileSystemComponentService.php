@@ -60,7 +60,10 @@ class tao_install_services_CheckFileSystemComponentService extends tao_install_s
                                        'optional' => $fsc->isOptional(),
                                        'isReadable' => $fsc->isReadable(),
                                        'isWritable' => $fsc->isWritable(),
-                                       'isExecutable' => $fsc->isExecutable()));
+                                       'isExecutable' => $fsc->isExecutable(),
+        							   'expectedRights' => $rights,
+        							   'isFile' => is_file($root . $location),
+        							   'location' => $location));
                                        
         $this->setResult(new tao_install_services_Data(json_encode($data)));
     }

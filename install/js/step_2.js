@@ -93,7 +93,14 @@ function onLoad(){
 		$('#host_name').removeClass('helpTaoInputLabel')[0].setData(install.getData('root_url'));
 	}
 	
-	// Default language is English at first display.
+	initHelp();
 	
 	install.stateChange();
+}
+
+function initHelp(){
+	install.addHelp('hlp_host_name', "This field must contain the entire URL (Uniform Resource Locator) that locates your TAO platform. The default value should work in any case.");
+	install.addHelp('hlp_instance_name', "The instance name will be allocated to this installation to differentiate it from other accross your network.");
+	install.addHelp('hlp_default_language', "The default language that will be used by TAO to display texts in the graphical user interface.");
+	install.addHelp('hlp_deployment_mode', "The <em>production</em> deployment mode provide you a secure installation dedicated to production. On the other hand, the <em>development</em> mode is dedicated to developers where various debug modes are enabled.");
 }

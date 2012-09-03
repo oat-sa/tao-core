@@ -47,10 +47,8 @@ function checkConfig(){
 			
 			// Empty existing reports.
 			var $list = $('#forms_check_content ul');
-			$list.find('tao-input').each(function(){
-				install.unregister(this);
-			});
 			$list.empty();
+			install.clearRegisteredElements();
 			
 			// set a spinner up.
 			
@@ -59,7 +57,7 @@ function checkConfig(){
 			var spinner = new Spinner(getSpinnerOptions('small')).spin($target[0]);
 			
 			setTimeout(function(){ // Fake a small processing time... -> 500ms
-				var data = [{type: "CheckPHPRuntime", value: {min: "5.3", max: "5.3.13", optional:false}},
+				var data = [{type: "CheckPHPRuntime", value: {min: "5.3", max: "5.3.14", optional:false}},
 							{type: "CheckPHPExtension", value: {name: "curl", optional: false}},
 			                {type: "CheckPHPExtension", value: {name: "zip", optional: false}},
 			                {type: "CheckPHPExtension", value: {name: "json", optional: false}},
@@ -116,9 +114,56 @@ function checkConfig(){
 				    	for (report in data.value){
 				    		var r = data.value[report];
 				    		if (r.value.status != 'valid'){
-				    			var kind = (r.value.optional == true) ? 'optional' : 'mandatory';
+				    			var optional = r.value.optional;
+				    			var kind = (optional == true) ? 'optional' : 'mandatory';
+				    			var message;
 				    			mandatoryCount += (r.value.optional == true) ? 0 : 1;
-				    			addReport(r.value.name, r.value.message, kind);
+				    			
+				    			switch (r.type){
+				    				case 'PHPExtensionReport':
+				    					var name = r.value.name;
+				    					
+				    					if (optional == true){
+				    						message = "PHP Extension '" + name + "' is not loaded on your web server but is optional to run TAO.";
+				    					}
+				    					else{
+				    						message = "PHP Extension '" + name + "' is not loaded on your web server but is mandatory to run TAO.";
+				    					}
+				    			break;
+				    				
+				    				case 'PHPINIValueReport':
+				    					var expectedValue = r.value.expectedValue;
+				    					var value = r.value.value;
+				    					var name = r.value.name;
+				    					
+				    					if (optional == true){
+				    						message = "PHP INI value '" + name + "' on your web server has not the expected value but is optional. Current value is '" + value + "' but should be '" + expectedValue + "'.";
+				    					}
+				    					else{
+				    						message = "PHP INI value '" + name + "' on your web server has not the expected value but is mandatory. Current value is '" + value + "' but should be '" + expectedValue + "'.";
+				    					}
+				    				break;
+				    				
+				    				case 'FileSystemComponentReport':
+				    					var expectedRights = r.value.expectedRights;
+				    					var isReadable = r.value.isReadable;
+				    					var isWritable = r.value.isWritable;
+				    					var isExecutable = r.value.isExecutable;
+				    					var location = r.value.location;
+				    					
+				    					var expectedRightsMessage = getExpectedRightsAsString(r.value.expectedRights);
+				    					var currentRightsMessage = getCurrentRightsAsString(r);
+				    					var nature = (r.value.isFile == true) ? 'file' : 'directory';
+				    					
+				    					message = "The " + nature + " located at '" + location + "' on your web server should be " + expectedRightsMessage + " but is currently " + currentRightsMessage + ' only.';
+				    				break;
+				    				
+				    				default:
+				    					message = r.value.message;
+				    				break;
+				    			}
+				    			
+				    			addReport(r.value.name, message, kind);
 				    		}
 				    	}
 				    	
@@ -153,7 +198,7 @@ function addReport(name, message, kind, prepend, noHelp){
 	
 	if (!noHelp){
 		$help = $('<div title="learn more on this topic" class="icons ui-state-default ui-corner-all"></div>');
-		$icon = $('<a id="' + name + '" class="ui-icon ui-icon-help"></a>');
+		$icon = $('<a id="hlp_' + name + '" class="ui-icon ui-icon-help"></a>');
 		$icon.bind('click', function(event){
 			displayTaoHelp(event);
 		});
@@ -177,17 +222,52 @@ function displayLegend(){
 }
 
 function initHelp(){
-	install.addHelp('curl', 'PHP supports libcurl, a library created by Daniel Stenberg, that allows you to connect and communicate to many different types of servers with many different types of protocols.');
-	install.addHelp('zip', 'This extension enables you to transparently read or write ZIP compressed archives and the files inside them.');
-	install.addHelp('json', 'This PHP extension implements the JavaScript Object Notation (JSON) data-interchange format. The decoding is handled by a parser based on the JSON_checker by Douglas Crockford.');
-	install.addHelp('spl', 'SPL is a collection of interfaces and classes that are meant to solve standard problems.');
-	install.addHelp('dom', 'The DOM extension allows you to operate on XML documents through the DOM API with PHP 5.');
-	install.addHelp('mbstring', 'mbstring provides multibyte specific string functions that help you deal with multibyte encodings in PHP.');
-	install.addHelp('svn', 'This extension implements PHP bindings for Subversion (SVN), a version control system, allowing PHP scripts to communicate with SVN repositories and working copies without direct command line calls to the svn executable.');
-	install.addHelp('suhosin', 'Suhosin is an advanced protection system for PHP installations. It was designed to protect servers and users from known and unknown flaws in PHP applications and the PHP core.');
-	install.addHelp('magic_quotes_gpc', 'Magic Quotes is a process that automagically escapes incoming data to the PHP script. It\'s preferred to code with magic quotes off and to instead escape the data at runtime, as needed.');
-	install.addHelp('register_globals', 'When on, register_globals will inject your scripts with all sorts of variables, like request variables from HTML forms. This coupled with the fact that PHP doesn\'t require variable initialization means writing insecure code is that much easier.');
-	install.addHelp('short_open_tag', 'Tells PHP whether the short form (<? ?>) of PHP\'s open tag should be allowed. If you want to use PHP in combination with XML, you can disable this option in order to use <?xml ?> inline. Otherwise, you can print it with PHP, for example: <?php echo \'<?xml version="1.0"?>\'; ?>. Also, if disabled, you must use the long form of the PHP open tag (<?php ?>).');
-	install.addHelp('mod_rewrite', 'The mod_rewrite module uses a rule-based rewriting engine, based on a PCRE regular-expression parser, to rewrite requested URLs on the fly.');
-	install.addHelp('database_drivers', 'Database drivers supported by the TAO platform are mysql and pgsql.');
+	install.addHelp('hlp_curl', 'PHP supports libcurl, a library created by Daniel Stenberg, that allows you to connect and communicate to many different types of servers with many different types of protocols. It is used by TAO to request resource files on the World Wide Web.');
+	install.addHelp('hlp_zip', 'This extension enables you to transparently read or write ZIP compressed archives and the files inside them. TAO uses this extension to read/write import/export packages');
+	install.addHelp('hlp_json', 'This PHP extension implements the JavaScript Object Notation (JSON) data-interchange format. It is used by various TAO extensions to enable web browsers to exchange data with the web server.');
+	install.addHelp('hlp_spl', 'SPL is a collection of interfaces and classes that are meant to solve standard problems. TAO require these standard classes to run correctly.');
+	install.addHelp('hlp_dom', 'The DOM extension allows you to operate on XML documents through the DOM API with PHP 5. TAO heavily uses XML to describe contents.');
+	install.addHelp('hlp_mbstring', 'mbstring provides multibyte specific string functions that help you deal with multibyte encodings in PHP. As a cross-cultural application, TAO uses multibyte string to provide various symbols.');
+	install.addHelp('hlp_svn', 'This extension implements PHP bindings for Subversion (SVN), a version control system, allowing PHP scripts to communicate with SVN repositories and working copies without direct command line calls to the svn executable. TAO uses SVN to version files. This feature is optional and for advanced users.');
+	install.addHelp('hlp_suhosin', 'Suhosin is an advanced protection system for PHP installations. It was designed to protect servers and users from known and unknown flaws in PHP applications and the PHP core. The TAO team recommends the use of this extension for a safer PHP experience. Be sure that INI values for <em>suhosin.post.max_name_length</em> and <em>suhosin.request.max_varname_length</em> are set to <em>128.</em>');
+	install.addHelp('hlp_magic_quotes_gpc', 'Magic Quotes is a process that automagically escapes incoming data to the PHP script. The value expected by TAO for this INI parameter is <em>Off</em>.');
+	install.addHelp('hlp_register_globals', 'When on, register_globals will inject your scripts with all sorts of variables, like request variables from HTML forms. This coupled with the fact that PHP doesn\'t require variable initialization means writing insecure code is that much easier. For obvious security reasons, TAO requires this parameter to be set to <em>Off</em>.');
+	install.addHelp('hlp_short_open_tag', 'Tells PHP whether the short form (<? ?>) of PHP\'s open tag should be allowed. The value of the <em>short_open_tag</em> INI parameter must be set to <em>On</em>.');
+	install.addHelp('hlp_mod_rewrite', 'The mod_rewrite module uses a rule-based rewriting engine, based on a PCRE regular-expression parser, to rewrite requested URLs on the fly.');
+	install.addHelp('hlp_database_drivers', 'Database drivers supported by the TAO platform are MySQL and PostgreSQL.');
+}
+
+function getExpectedRightsAsString(expectedRights){
+	var tokens = [];
+	
+	for (var i = 0; i < expectedRights.length; i++){
+		if (expectedRights.charAt(i) == 'r'){
+			tokens.push('readable');
+		}
+		else if (expectedRights.charAt(i) == 'w'){
+			tokens.push('writable');
+		}
+		else{
+			tokens.push('executable');
+		}
+	}
+	
+	return tokens.join(', ');
+}
+
+function getCurrentRightsAsString(report){
+	
+	var tokens = [];
+	
+	if (report.value.isWritable == true){
+		tokens.push('writable');
+	}
+	else if (report.value.isReadable == true){
+		tokens.push('readable');
+	}
+	else{
+		tokens.push('executable');
+	}
+	
+	return tokens.join(', ');
 }

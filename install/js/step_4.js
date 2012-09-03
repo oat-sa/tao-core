@@ -105,4 +105,15 @@ function onLoad(){
 	$(install.populate()).each(function(){
 		$(this).removeClass('helpTaoInputLabel');
 	});
+	
+	initHelp();
+}
+
+function initHelp(){
+	install.addHelp('tpl_superuser_firstname', 'The first name of the Administrator.');
+	install.addHelp('tpl_superuser_lastname', 'The last name of the Administrator.');
+	install.addHelp('tpl_superuser_email', 'The email address of the Administrator.');
+	install.addHelp('tpl_superuser_login', 'The account login of the Administrator.');
+	install.addHelp('tpl_superuser_password', 'The Administrator password. Do not forget it.');
+	install.addHelp('tpl_superuser_password2', 'Repeat the Administrator password to make sure it does not contain errors.');
 }
