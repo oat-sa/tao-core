@@ -366,14 +366,14 @@ ul.group-list, ul.group-list ul {
 	width: 100%;
 }
 
-ul.group-list li {
+ul.group-list li.selectable,
+ul.group-list li.group {
 	list-style: none;
-	padding-left: 13px;
+	padding-left: 0;
 	border-bottom: 1px solid #999;
 }
 ul.group-list li span.label,
 ul.group-list .group-title .title {
-	width: 90%;
 	padding: 5px 0;
 	display: inline-block;
 }
@@ -383,6 +383,7 @@ ul.group-list .group-title .selector {
 	height: 27px;
 	vertical-align: top;
 	display: inline-block;
+	float: right;
 }
 ul.group-list li:last-child { border-bottom: 0 }
 ul.group-list .group-title { font-weight: bold; padding-left: 7px }
@@ -422,3 +423,20 @@ ul.group-list .autoadd.checked:hover .group-title > .selector { background-image
 
 ul.group-list .selector { background-color: white }
 .selector.checkable { cursor: pointer }
+
+ul.group-list li ul.actions {
+	list-style: none;
+	display: inline-block;
+	min-width: 8px;
+	padding-right: 5px;
+	width: auto;
+	vertical-align: top;
+}
+
+ul.group-list li ul.actions li {
+  display: inline-block;
+	margin: 5px 0;
+	padding: 0;
+	width: 16px;
+	height: 16px;
+}

@@ -89,7 +89,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 						//Selected ?
 						var sel = '';
 						if (self.lastFilter[data.attributes.id] != undefined && $.inArray(data.children[c].attributes.id, self.lastFilter[data.attributes.id]) >= 0) sel += ' have-allaccess';
-						$el = $('<li id="'+data.children[c].attributes.id+'" class="selectable'+sel+'"><span class="label">'+data.children[c].data+'</span><span class="selector checkable"></span></li>').appendTo($('#list-'+listOptions.id+' ul.group-list'));
+						$el = $('<li id="'+data.children[c].attributes.id+'" class="selectable'+sel+'"><ul class="actions"></ul><span class="label">'+data.children[c].data+'</span><span class="selector checkable"></span></li>').appendTo($('#list-'+listOptions.id+' ul.group-list'));
 						$('span.label, span.selector', $el).on('click', function(e){
 							e.preventDefault();
 							if ($(this).parent().hasClass('have-allaccess')) $(this).parent().removeClass('have-allaccess');
@@ -99,7 +99,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 						//Add actions
 						$('<ul class="actions"></ul>').prependTo('span:first', $el);
 						for (a in self.options.itemActions) {
-							$a = $('<li class="actions '+a+'" style="backgroud-image: url('+self.options.itemActions[a].iconUrl+')"></li>').appendTo('ul.actions', $el);
+							$a = $('<li class="actions '+a+'" style="background-image: url('+self.options.itemActions[a].iconUrl+')"></li>').appendTo($('ul.actions', $el));
 							$a.on('click', self.options.itemActions[a].callback.click);
 						}
 					}
