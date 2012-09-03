@@ -63,6 +63,7 @@ function checkConfig(){
 			                {type: "CheckPHPExtension", value: {name: "json", optional: false}},
 			                {type: "CheckPHPExtension", value: {name: "spl", optional: false}},
 			                {type: "CheckPHPExtension", value: {name: "dom", optional: false}},
+			                {type: "CheckPHPExtension", value: {name: "tidy", optional: false}},
 			                {type: "CheckPHPExtension", value: {name: "mbstring", optional: false}},
 			                {type: "CheckPHPExtension", value: {name: "svn", optional: true}},
 			                {type: "CheckPHPExtension", value: {name: "suhosin", optional: true}},
