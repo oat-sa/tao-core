@@ -212,13 +212,19 @@ define(['require', 'jquery', 'class'], function(req, $) {
 			});
 		},
 
+		createMessage: function(message){
+			if (!$('#info-box').length) $("body").append("<div id='info-box' class='ui-widget-header ui-corner-all auto-slide' >"+message+"</div>")
+			else $('#info-box').html(message).show();
+			this._autoFx();
+		},
+
 		/**
 		 * Create a error popup to display an error message
 		 * @param {String} message
 		 */
 		createErrorMessage: function(message){
-			$("body").append("<div id='info-box' class='ui-state-error ui-widget-header ui-corner-all auto-slide' >"+message+"</div>")
-			this._autoFx();
+			this.createMessage(message);
+			$('#info-box').addClass('ui-state-error');
 		},
 
 		/**
@@ -226,8 +232,8 @@ define(['require', 'jquery', 'class'], function(req, $) {
 		 * @param {String} message
 		 */
 		createInfoMessage: function(message){
-			$("body").append("<div id='info-box' class='ui-widget-header ui-corner-all auto-slide' >"+message+"</div>")
-			this._autoFx();
+			this.createMessage(message);
+			$('#info-box').removeClass('ui-state-error');
 		},
 
 		/**
