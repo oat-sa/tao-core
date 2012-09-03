@@ -155,7 +155,8 @@ class tao_helpers_form_elements_xhtml_Treeview
 
 		//initialize the AsyncFileUpload Js component
 		$returnValue .= '<script type="text/javascript">
-			$(document).ready(function(){
+			$(function(){
+			 require([\'require\', \'jquery\', \'generis.tree.select\'], function(req, $, GenerisTreeSelectClass) {
 				$("div[id=\''.$widgetTreeName.'\']").tree({
 					data: {
 						type : "json",
@@ -199,6 +200,7 @@ class tao_helpers_form_elements_xhtml_Treeview
 					ui: { theme_name : "checkbox" },
 					plugins : { checkbox : { three_state : false} }
 				});
+			 });
 			});
 			</script>';
         $returnValue .= "</div><br />";
