@@ -37,162 +37,165 @@ switcherClass.prototype.getActionUrl = function(action){
 }
 
 switcherClass.prototype.init = function(forcedMode, decompile){
-        
-        var __this = this;
-        var actionUrl = __this.getActionUrl('optimizeClasses');
-        this.forcedStart = false;
-        if(forcedMode){
-                //check if there is already a compilation running:
-                for(i in this.theData){
-                        if(this.theData[i].status == __('compiling') || this.theData[i].status == __('decompiling')){
-                                return false;
-                        }
-                }
-                
-                this.forcedStart = true;
-        }else{
-                //check if already initialized:
-                if(this.theData.length){
-                        return false;
-                }
-        }
-        
-        if(decompile){
-                this.decompile = true;
-                actionUrl = this.getActionUrl('decompileClasses');
-        }else{
-                this.decompile = false;//reset the decompile value to "false"
-        }
-        
-        $.ajax({
-                type: "POST",
-                url: actionUrl,
-                data: {},
-                dataType: 'json',
-                success: function(r){
-                        
-                        if(r.length == 0){
-                                if(__this.options.onStartEmpty) __this.options.onStartEmpty(__this);
-                                return false;
-                        }
-                        
-                        var gridOptions = {
-                                datatype: "local", 
-                    			hidegrid : false,
-                                colNames: [ __('Classes'), __('Status'), __('Action')], 
-                                colModel: [ 
-                                        {name:'class',index:'class',width:200},
-                                        {name:'status',index:'status', align:"center",width:300}, 
-                                        {name:'actions',index:'actions', align:"center",width:150,sortable: false}
-                                ], 
-                                rowNum:15, 
-                                height: 'auto', 
-                                autowidth: true,
-                                width:(parseInt(__this.$grid.width()) - 2),
-                                sortname: 'status', 
-                                viewrecords: false, 
-                                sortorder: "asc", 
-                                caption: __("Optimizable Classes"),
-                                subGrid: true,
-                                subGridOptions:{
-                                        plusicon: "ui-icon-triangle-1-e",
-                                        minusicon: "ui-icon-triangle-1-s",
-                                        openicon: "ui-icon-arrowreturn-1-e"
-                                },
-                                subGridModel:[
-                                        {
-                                                name: [__('related classes'), __('compiled instances')],
-                                                width:[200, 200],
-                                                align: ['left', 'center']
-                                        }
-                                ],
-                                subGridRowExpanded: function(subgrid_id, row_id) {
-                                        
-                                        if(__this.theData[row_id].compilationResults != undefined){
-                                                
-                                                var localData = __this.theData[row_id].compilationResults.relatedClasses;
-                                                
-                                                var count = 0;
-                                                for(val in localData){
-                                                        count++;
-                                                        break;
-                                                }
-                                                if(count==0) return false;
-                                                
-                                                var colNames = [__('Related Classes')];
-                                                if(__this.decompile) {
-                                                        colNames.push(__('Decompiled Instances'));
-                                                }else{
-                                                        colNames.push(__('Compiled Instances'));
-                                                }
-                                                var subgrid_table_id;
-                                                subgrid_table_id = subgrid_id+"_t";
-                                                $("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table>");
-                                                var $subGrid = $("#"+subgrid_table_id).jqGrid({
-                                                        datatype: "local",
-                                                        colNames: colNames,
-                                                        colModel: [
-                                                                {
-                                                                        name:"class",
-                                                                        index:"class",
-                                                                        width:200,
-                                                                        key:true
-                                                                },
-                                                                {
-                                                                        name:"count",
-                                                                        index:"count",
-                                                                        align:"center",
-                                                                        width:150
-                                                                }
-                                                        ],
-                                                        width:350,
-                                                        height: '100%',
-                                                        rowNum:20,
-                                                        sortname: 'class',
-                                                        sortorder: 'asc'
-                                                });
 
-                                                var i=0;
-                                                for(className in localData){
-                                                        $subGrid.jqGrid('addRowData', i, {'class':className, 'count':localData[className]});
-                                                        i++;
-                                                }
-                                                
-                                                
-                                                
-                                                return true;
-                                        }else{
-                                                return false;
-                                        }
-                                }
-                        };
-                        
-                        //buil jqGrid:
-                        __this.$grid.jqGrid(gridOptions);
-                        
-                        //insert rows:
-			for(var j=0; j<r.length; j++){
-				__this.setRowData(j, r[j]);
-                                if(__this.forcedStart || __this.decompile){
-                                       __this.currentIndex = 0;  
-                                }else{
-                                      if(__this.currentIndex < 0 && __this.theData[j].status != __('compiled')){
-                                              __this.currentIndex = j;
-                                      }  
-                                }
+	var __this = this;
+	var actionUrl = __this.getActionUrl('optimizeClasses');
+	this.forcedStart = false;
+	if(forcedMode){
+		//check if there is already a compilation running:
+		for(i in this.theData){
+			if(this.theData[i].status == __('compiling') || this.theData[i].status == __('decompiling')){
+				return false;
 			}
-                        
-                        //start compilation:
-                        if(__this.decompile){
-                                __this.startDecompilation();
-                        }else{
-                                __this.startCompilation();
-                        }
+		}
 
-                }
-        });
-        
-        return true;
+		this.forcedStart = true;
+	}else{
+		//check if already initialized:
+		if(this.theData.length){
+			return false;
+		}
+	}
+
+	if(decompile){
+		this.decompile = true;
+		actionUrl = this.getActionUrl('decompileClasses');
+	}else{
+		this.decompile = false;//reset the decompile value to "false"
+	}
+
+	$.ajax({
+		type: "POST",
+		url: actionUrl,
+		data: {},
+		dataType: 'json',
+		success: function(r){
+
+			if(r.length == 0){
+				if(__this.options.onStartEmpty) __this.options.onStartEmpty(__this);
+				return false;
+			}
+
+			var gridOptions = {
+					datatype: "local", 
+					hidegrid : false,
+					colNames: [ __('Classes'), __('Status'), __('Action')], 
+					colModel: [ 
+					           {name:'class',index:'class',width:200},
+					           {name:'status',index:'status', align:"center",width:300}, 
+					           {name:'actions',index:'actions', align:"center",width:150,sortable: false}
+					           ], 
+					           rowNum:15, 
+					           height: 'auto', 
+					           autowidth: true,
+					           width:(parseInt(__this.$grid.width()) - 2),
+					           sortname: 'status', 
+					           viewrecords: false, 
+					           sortorder: "asc", 
+					           caption: __("Optimizable Classes"),
+					           subGrid: true,
+					           subGridOptions:{
+					        	   plusicon: "ui-icon-triangle-1-e",
+					        	   minusicon: "ui-icon-triangle-1-s",
+					        	   openicon: "ui-icon-arrowreturn-1-e"
+					           },
+					           subGridModel:[
+					                         {
+					                        	 name: [__('related classes'), __('compiled instances')],
+					                        	 width:[200, 200],
+					                        	 align: ['left', 'center']
+					                         }
+					                         ],
+					                         subGridRowExpanded: function(subgrid_id, row_id) {
+
+					                        	 if(__this.theData[row_id].compilationResults != undefined){
+
+					                        		 var localData = __this.theData[row_id].compilationResults.relatedClasses;
+
+					                        		 var count = 0;
+					                        		 for(val in localData){
+					                        			 count++;
+					                        			 break;
+					                        		 }
+					                        		 if(count==0) return false;
+
+					                        		 var colNames = [__('Related Classes')];
+					                        		 if(__this.decompile) {
+					                        			 colNames.push(__('Decompiled Instances'));
+					                        		 }else{
+					                        			 colNames.push(__('Compiled Instances'));
+					                        		 }
+					                        		 var subgrid_table_id;
+					                        		 subgrid_table_id = subgrid_id+"_t";
+					                        		 $("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table>");
+					                        		 var $subGrid = $("#"+subgrid_table_id).jqGrid({
+					                        			 datatype: "local",
+					                        			 colNames: colNames,
+					                        			 colModel: [
+					                        			            {
+					                        			            	name:"class",
+					                        			            	index:"class",
+					                        			            	width:200,
+					                        			            	key:true
+					                        			            },
+					                        			            {
+					                        			            	name:"count",
+					                        			            	index:"count",
+					                        			            	align:"center",
+					                        			            	width:150
+					                        			            }
+					                        			            ],
+					                        			            width:350,
+					                        			            height: '100%',
+					                        			            rowNum:20,
+					                        			            sortname: 'class',
+					                        			            sortorder: 'asc'
+					                        		 });
+
+					                        		 var i=0;
+					                        		 for(className in localData){
+					                        			 $subGrid.jqGrid('addRowData', i, {'class':className, 'count':localData[className]});
+					                        			 i++;
+					                        		 }
+
+
+
+					                        		 return true;
+					                        	 }else{
+					                        		 return false;
+					                        	 }
+					                         }
+			};
+
+			//build jqGrid:
+			require(['require', 'jquery', 'grid/tao.grid'], function(req, $) {
+
+				__this.$grid.jqGrid(gridOptions);
+
+				//insert rows:
+					for(var j=0; j<r.length; j++){
+						__this.setRowData(j, r[j]);
+						if(__this.forcedStart || __this.decompile){
+							__this.currentIndex = 0;  
+						}else{
+							if(__this.currentIndex < 0 && __this.theData[j].status != __('compiled')){
+								__this.currentIndex = j;
+							}  
+						}
+					}
+
+					//start compilation:
+					if(__this.decompile){
+						__this.startDecompilation();
+					}else{
+						__this.startCompilation();
+					}
+			});
+
+		}
+	});
+
+	return true;
 }
 
 switcherClass.prototype.startCompilation = function(){
