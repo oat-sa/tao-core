@@ -1,8 +1,11 @@
 DROP FUNCTION IF EXISTS generis_sequence_uri_provider;
-CREATE FUNCTION generis_sequence_uri_provider (modelUri VARCHAR(255))
+CREATE
+DEFINER = CURRENT_USER
+FUNCTION generis_sequence_uri_provider (modelUri VARCHAR(255))
 RETURNS VARCHAR(255)
-DETERMINISTIC
+NOT DETERMINISTIC
 READS SQL DATA
+SQL SECURITY INVOKER
 BEGIN
 	DECLARE uri VARCHAR(255);
 	INSERT INTO sequence_uri_provider (uri_sequence) VALUES ('');
