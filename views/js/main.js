@@ -13,7 +13,8 @@ require.config({
 		'generis.tree.browser': ['generis.tree', 'jsTree/plugins/jquery.tree.contextmenu'],
 		'grid/tao.grid': ['jquery.jqGrid-4.4.0/js/jquery.jqGrid.min', 'jquery.jqGrid-4.4.0/js/i18n/grid.locale-'+base_lang],
 		'grid/tao.grid.downloadFileResource': ['grid/tao.grid'],
-		'grid/tao.grid.rowId': ['grid/tao.grid']
+		'grid/tao.grid.rowId': ['grid/tao.grid'],
+		'AsyncFileUpload': ['jquery.uploadify/swfobject', 'jquery.uploadify/jquery.uploadify.v2.1.4.min']
 	}
 });
 
