@@ -43,7 +43,7 @@ function onLoad(){
 				
 				if (typeof(data) != 'undefined'){
 					// We received an HTTP 200 code...
-					if (data.value.status = 'valid'){
+					if (data.value.status == 'valid'){
 						// This a success. In any other case, we fail gracefuly below.
 						success = true;
 					}
@@ -54,6 +54,13 @@ function onLoad(){
 					
 					// Redirection to the portal.
 					install.redirect('../../');
+				}
+				else{
+					$('#deployment').css('visibility', 'hidden');
+					$('#submitForm').removeClass('disabled')
+									.addClass('enabled')
+									.attr('disabled', false);
+					displayTaoError(data.value.message);
 				}
     		});
     	}

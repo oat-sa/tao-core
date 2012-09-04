@@ -71,6 +71,7 @@ class tao_install_services_InstallService extends tao_install_services_Service{
 		
 		//instantiate the installator
 		try{
+			set_error_handler(array(get_class($this), 'onError'));
 			$installer = new tao_install_Installator(array(
 				'root_path' 	=> TAO_INSTALL_PATH,
 				'install_path'	=> dirname(__FILE__) . '/../../install'
@@ -84,13 +85,21 @@ class tao_install_services_InstallService extends tao_install_services_Service{
 							'value' => array('status' => 'valid',
 											 'message' => "Installation successful."));
 			$this->setResult(new tao_install_services_Data(json_encode($report)));
+			
+			restore_error_handler();
 		}
 		catch(Exception $e){
 			$report = array('type' => 'InstallReport',
-							'value' => array('status' => 'valid',
+							'value' => array('status' => 'invalid',
 											 'message' => $e->getMessage()));
 			$this->setResult(new tao_install_services_Data(json_encode($report)));
+			
+			restore_error_handler();
 		}
+    }
+    
+    public static function onError($errno, $errstr, $errfile, $errline){
+    	return true;
     }
 }
 ?>
