@@ -57,7 +57,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 								return false;
 							}
 						} else {
-							var indice = $.inArray(nodeId, this.checkedNodes);
+							var indice = $.inArray(nodeId, instance.checkedNodes);
 							if (indice == -1) {
 								instance.checkedNodes.push(nodeId);
 							} else {
