@@ -84,7 +84,6 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 
 			//revert form button
 			$(".form-reverter").off('click').on('click', function() {
-
 				if ($("#uri").val() != undefined) {
 					GenerisTreeBrowserClass.selectTreeNode($("#uri").val());
 				} else if ($("#classUri").val() != undefined) {
