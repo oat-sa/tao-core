@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * Conveniance function
  * of Display::htmlize
- * 
+ *
  * @param  string $input
  * @return string $output
  */
@@ -75,12 +75,12 @@ class tao_helpers_Display
         $returnValue = (string) '';
 
         // section 127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF9 begin
-		
+
 		if(mb_strlen($input) > $maxLength){
 			$input = "<span title='$input' class='cutted' style='cursor:pointer;'>".mb_substr($input, 0, $maxLength, 'UTF-8')."[...]</span>";
 		}
 		$returnValue = $input;
-		
+
         // section 127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF9 end
 
         return (string) $returnValue;
@@ -102,10 +102,10 @@ class tao_helpers_Display
 
         // section 127-0-1-1-3f9c691f:124c3973fb8:-8000:0000000000001B28 begin
         $randJoker = ($joker == '*');
-        
+
 		$i = 0;
 		while($i < ((defined('TAO_DEFAULT_ENCODING')) ? mb_strlen($input, TAO_DEFAULT_ENCODING) : mb_strlen($input))){
-			if(preg_match("/^[a-zA-Z0-9]{1}$/u", $input[$i])){
+			if(preg_match("/^[a-zA-Z0-9_-]{1}$/u", $input[$i])){
 				$returnValue .= $input[$i];
 			}
 			else{
@@ -136,9 +136,9 @@ class tao_helpers_Display
         $returnValue = (string) '';
 
         // section 127-0-1-1-eaea962:12d70d06717:-8000:0000000000002BB8 begin
-        
+
         $returnValue = htmlentities($input, ENT_COMPAT, 'UTF-8');
-        
+
         // section 127-0-1-1-eaea962:12d70d06717:-8000:0000000000002BB8 end
 
         return (string) $returnValue;
