@@ -3,6 +3,7 @@
  */
 function TaoInstall (){
 	this.url = 'api.php';
+	this.feedbackUrl = 'http://forge.tao.lu/support/installation';
 	this.templatePrefix = 'tpl_';
 	this.templateSuffix = '.html';
 	this.frameId = null;
@@ -266,7 +267,10 @@ TaoInstall.prototype.getValidator = function(element, options){
 	
 	switch ($element.prop('tagName').toLowerCase()){
 		case 'input':
-			if ($element.attr('type') == 'text' || $element.attr('type') == 'password'){
+		case 'textarea':
+			if ($element.prop('tagName').toLowerCase() == 'textarea' || 
+			    $element.attr('type') == 'text' ||
+			    $element.attr('type') == 'password'){
 				
 				var firstValueFunction = function () { return $element.val() != $element[0].firstValue || !mandatory; };
 				
@@ -433,9 +437,11 @@ TaoInstall.prototype.getValidator = function(element, options){
  */
 TaoInstall.prototype.getDataGetter = function(element){
 	$element = $(element);
+
 	switch ($element.prop('tagName').toLowerCase()){
 		case 'input':
-			if ($element.attr('type') == 'text' || $element.attr('type') == 'password'){
+		case 'textarea':
+			if ($element.prop('tagName').toLowerCase() == 'textarea' || $element.attr('type') == 'text' || $element.attr('type') == 'password'){
 				element.getData = function(){ return (this.value != this.firstValue) ? ((this.value == '') ? null : this.value) : null; };	
 			}
 			else if ($element.attr('type') == 'checkbox'){
@@ -460,7 +466,8 @@ TaoInstall.prototype.getDataSetter = function(element){
 	switch ($element.prop('tagName').toLowerCase()){
 		
 		case 'input':
-			if ($element.attr('type') == 'text' || $element.attr('type') == 'password'){
+		case 'textarea':
+			if ($element.prop('tagName').toLowerCase() == 'textarea' || $element.attr('type') == 'text' || $element.attr('type') == 'password'){
 				element.setData = function(data) { this.value = data; };	
 			}
 			else if ($element.attr('type') == 'checkbox'){

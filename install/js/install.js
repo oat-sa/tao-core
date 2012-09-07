@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	// API instanciation to be ready for template
-	// injection.
-	var apiInstance = new TaoInstall();
+	// injection. (apiInstance has no var statement -> global scope).
+	apiInstance = new TaoInstall();
 	apiInstance.frameId = 'mainFrame';
 	apiInstance.setTemplate('step_1');
 
@@ -64,7 +64,7 @@ function openSupportTab(){
 			};
 		}
 		
-		$iframe.attr('src', 'http://forge.tao.lu/support/installation');
+		$iframe.attr('src', apiInstance.feedbackUrl);
 		$('#supportPopupContent').append($iframe);
 		
 	}, 500);
