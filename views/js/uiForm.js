@@ -386,7 +386,9 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 									 * please call renameNode on the instance of Generis Class
 									 * Note : Use a GenerisTree function on a JQuery Tree ... strange
 									 */
-									GenerisTreeBrowserClass.renameNode(options);
+									require(['require', 'jquery', 'generis.tree.browser'], function(req, $, GenerisTreeBrowserClass) {
+										GenerisTreeBrowserClass.prototype.renameNode(options);
+									});
 								},
 								ondestroy: function(TREE_OBJ) {
 									//empty and build again the list drop down on tree destroying
