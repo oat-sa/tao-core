@@ -27,7 +27,7 @@
 				n = t.get_node(n);
 
 				//-TAO EDIT-
-				if(n.hasClass('node-class') && n.hasClass('closed')){
+				if (n.hasClass('node-class') && n.hasClass('closed')) {
 					t.open_branch(n);
 					return false;
 				}
@@ -48,7 +48,7 @@
 				}
 				//-TAO EDIT-
 				//else n.children("a").removeClass("unchecked").addClass("checked");
-				else if(!n.hasClass('node-class')){
+				else if (!n.hasClass('node-class')) {
 					n.children("a").removeClass("unchecked").addClass("checked");
 				}
 				//--

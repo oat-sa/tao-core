@@ -51,7 +51,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 							}
 						}
 
-						if(NODE.hasClass('node-class')){
+						if (NODE.hasClass('node-class')) {
 							if (instance.getMeta (nodeId, 'displayed') != instance.getMeta(nodeId, 'count')) {
 								instance.paginateInstances(NODE, TREE_OBJ, {limit:0, checkedNodes:"*"});
 								return false;
@@ -71,10 +71,16 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 					beforeuncheck: function(NODE, TREE_OBJ) {
 						var nodeId = $(NODE).prop('id');
 						var indice = $.inArray(nodeId, instance.checkedNodes);
-						if (indice != -1) {
-							instance.checkedNodes.splice(indice,1);
-							//delete instance.checkedNodes[indice];
+
+						if (NODE.hasClass('node-class')) {
+							//
+						} else {
+							if (indice != -1) {
+								instance.checkedNodes.splice(indice,1);
+								//delete instance.checkedNodes[indice];
+							}
 						}
+
 						return true;
 					},
 					//Before receive data from server, return the POST parameters
@@ -155,7 +161,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 					}
 				},
 				plugins : {
-					checkbox : { three_state : true }
+					checkbox : {three_state : true}
 				}
 			};
 
@@ -195,16 +201,16 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 			};
 			options = $.extend(options, pOptions);
 
-			$.post(this.dataUrl, options, (function(instance) { return function(DATA) {
+			$.post(this.dataUrl, options, (function(instance) {return function(DATA) {
 				//Hide paginate options
 				instance.hidePaginate(NODE, TREE_OBJ);
 				//Display incoming nodes
-				for (var i=0; i<DATA.length; i++){
+				for (var i=0; i<DATA.length; i++) {
 					DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
 					TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
 					// If the check all options. Add the incoming nodes to the list of node to check
-					if (options.checkedNodes == "*"){
-						instance.checkedNodes.push (DATA[i].attributes.id);
+					if (options.checkedNodes == "*") {
+						instance.checkedNodes.push(DATA[i].attributes.id);
 					}
 				}
 				// Update meta data
@@ -214,12 +220,12 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				instance.refreshPaginate(NODE, TREE_OBJ);
 
 				//If options checked nodes
-				if (options.checkedNodes){
+				if (options.checkedNodes) {
 					// If options check all, check not checked nodes
-					if (options.checkedNodes == "*"){
+					if (options.checkedNodes == "*") {
 						$(NODE).find('ul:first').children().each(function(){
 							if ($(this).hasClass('node-instance')) {
-								$(this).find("a:not(.checked, .undetermined)").each (function () {
+								$(this).find("a:not(.checked, .undetermined)").each(function (){
 									instance.checkedNodes.push($(this).parent().prop('id'));
 								});
 							}
@@ -232,8 +238,8 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				instance.check(instance.checkedNodes);
 
 				//Execute callback;
-				if (callback){
-					callback (NODE, TREE_OBJ);
+				if (callback) {
+					callback(NODE, TREE_OBJ);
 				}
 			};})(this), "json");
 		},
@@ -293,8 +299,9 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				}
 			});*/
 
-			for (var i in this.checkedNodes) {
-				toSend['instance_'+index] = this.checkedNodes[i];
+			nodes = this.getChecked();
+			for (var i in nodes) {
+				toSend['instance_'+index] = nodes[i];
 				index++;
 			}
 

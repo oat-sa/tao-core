@@ -33,11 +33,11 @@ define(['require', 'jquery', 'class'], function(req, $) {
 			}
 
 			var uiTab = $('.ui-tabs-panel').prop('id');
-			if(typeof $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')] != 'undefined'){
+			if (typeof $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')] != 'undefined') {
 				uiTab = $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')].id;
 			}
 
-			if($("div#"+uiTab+" div.main-container").css('display') == 'none'){
+			if ($("div#"+uiTab+" div.main-container").css('display') == 'none') {
 				return "div#"+uiTab;
 			}
 
@@ -59,11 +59,11 @@ define(['require', 'jquery', 'class'], function(req, $) {
 		getTabIndexByName: function(name){
 			elts = $("div#tabs ul.ui-tabs-nav li a");
 			i = 0;
-			while(i < elts.length){
+			while (i < elts.length) {
 				elt = elts[i];
-				if(elt){
-					if(elt.id){
-						if(elt.id == name){
+				if (elt) {
+					if (elt.id) {
+						if (elt.id == name) {
 							return i;
 						}
 					}

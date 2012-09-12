@@ -32,8 +32,21 @@ define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquer
 							$(this).empty();
 						}
 					});
-				},
-				collapsible: true
+				}
+			});
+
+			//Enable the closing tab if added after the init
+			this.tabs.tabs("option", "tabTemplate", '<li class="closable"><a href="#{href}"><span>#{label}</span></a><span class="tab-closer" title="'+__('Close tab')+'">X</span></li>');
+			this.tabs.on("tabsadd", function(event, ui) {
+				//Close the new content div
+				$(ui.panel).addClass('ui-tabs-hide');
+			});
+			//Closer tab icon
+			$(document).on('click', '.tab-closer', function(e) {
+				e.preventDefault();
+				uiBootstrap.tabs.tabs('remove', $(this).parent().index());
+				//Select another by default ?
+				uiBootstrap.tabs.tabs('select', 0);
 			});
 		},
 
@@ -83,7 +96,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquer
 				try{
 					helpers._load(helpers.getMainContainerSelector(helpers.tabs), this.href);
 				}
-				catch(exp){ return false; }
+				catch(exp){return false;}
 				return false;
 			});
 		},
