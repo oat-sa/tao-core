@@ -214,20 +214,20 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		$roleuri = $this->getRequestParameter('roleuri');
+		$roleuri = tao_helpers_Uri::decode($this->getRequestParameter('roleuri'));
 		$useruri = tao_helpers_Uri::decode($this->getRequestParameter('useruri'));
 		tao_models_classes_funcACL_RoleService::singleton()->attachUser($useruri, $roleuri);
-		echo json_encode(array('success' => true));
+		echo json_encode(array('success' => true, 'id' => tao_helpers_Uri::encode($roleuri)));
 	}
 
 	public function unattachRole() {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		$roleuri = $this->getRequestParameter('roleuri');
+		$roleuri = tao_helpers_Uri::decode($this->getRequestParameter('roleuri'));
 		$useruri = tao_helpers_Uri::decode($this->getRequestParameter('useruri'));
 		tao_models_classes_funcACL_RoleService::singleton()->unattachUser($useruri, $roleuri);
-		echo json_encode(array('success' => true));
+		echo json_encode(array('success' => true, 'id' => tao_helpers_Uri::encode($roleuri)));
 	}
 
 	public function addRole() {

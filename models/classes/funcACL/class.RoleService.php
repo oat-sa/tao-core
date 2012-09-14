@@ -135,7 +135,12 @@ class tao_models_classes_funcACL_RoleService
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A04 begin
 		$userRes = new core_kernel_classes_Resource($userUri);
-		$userRes->removePropertyValues(new core_kernel_classes_Property(RDF_TYPE), array('pattern' => $roleUri));
+		$roles = core_kernel_users_Service::singleton()->getUserRoles($userRes);
+		if (count($roles) > 1) {
+			$userRes->removePropertyValues(new core_kernel_classes_Property(RDF_TYPE), array('pattern' => $roleUri));
+		} else {
+			throw new Exception(__('User must have at least one role !'));
+		}
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A04 end
     }
 
@@ -158,7 +163,7 @@ class tao_models_classes_funcACL_RoleService
 		$userRoles = $userRes->getTypes();
 		foreach ($rolesc->getInstances(true) as $id => $r) {
 			if ($id != CLASS_ROLE_BASEACCESS) {
-				$nrole = array('id' => $id, 'label' => $r->getLabel(), 'selected' => false);
+				$nrole = array('id' => tao_helpers_Uri::encode($id), 'label' => $r->getLabel(), 'selected' => false);
 				//Selected
 				foreach ($userRoles as $uri => $t) {
 					if ($uri == $id) $nrole['selected'] = true;

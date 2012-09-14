@@ -46,8 +46,9 @@
 					for (r in data) {
 						extra = '';
 						if (data[r].selected) extra = ' have-allaccess';
-						html = '<li class="'+extra+'" id="role_'+data[r].label+'"><ul class="actions"></ul><span class="label">'+data[r].label+'</span>';
+						html = '<li class="'+extra+'" id="role_'+data[r].id+'"><ul class="actions"></ul><span class="label">'+data[r].label+'</span>';
 						if (data[r].id == 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole' && $('#uri').val().substring($('#uri').val().length-9) == 'superUser') {
+							//nothing
 						} else {
 							html += '<span class="selector checkable" title="'+__('Add')+'"></span>';
 						}
@@ -56,10 +57,10 @@
 						$el.click(function(){
 							if ($(this).hasClass('have-allaccess')) {
 								unattachRole($(this).data('uri'));
-								$(this).removeClass('have-allaccess');
+								//$(this).removeClass('have-allaccess');
 							} else {
 								attachRole($(this).data('uri'));
-								$(this).addClass('have-allaccess');
+								//$(this).addClass('have-allaccess');
 							}
 						});
 						$el.data('uri', data[r].id);
@@ -76,7 +77,7 @@
 				data: 'roleuri='+uri+'&useruri='+$('#uri').val(),
 				dataType: 'json',
 				success: function(data) {
-					if (data.success) $('#role_'+data.label).addClass('have-allaccess');
+					if (data.success) $('#role_'+data.id).addClass('have-allaccess');
 				}
 			});
 		}
@@ -88,7 +89,7 @@
 				data: 'roleuri='+uri+'&useruri='+$('#uri').val(),
 				dataType: 'json',
 				success: function(data) {
-					if (data.success) $('#role_'+data.label).removeClass('have-allaccess');
+					if (data.success) $('#role_'+data.id).removeClass('have-allaccess');
 				}
 			});
 		}
