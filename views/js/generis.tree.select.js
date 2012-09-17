@@ -243,6 +243,9 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				if (callback) {
 					callback(NODE, TREE_OBJ);
 				}
+				if (instance.checkPaginate) {
+					instance.checkPaginate(NODE, TREE_OBJ);
+				}
 			};})(this), "json");
 		},
 
