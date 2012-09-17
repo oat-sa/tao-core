@@ -188,7 +188,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			/**
 			 * @todo override it in the taoSubject module instead of having this crapy IF here
 			 */
-			if($currentExtention == 'taoSubjects'){
+			if(Context::getInstance()->getExtensionName() == 'taoSubjects'){
 				$classProperties = array_merge($classProperties, $service->getClazzProperties(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT), new core_kernel_classes_Class(CLASS_GENERIS_USER)));
 			}
 			
