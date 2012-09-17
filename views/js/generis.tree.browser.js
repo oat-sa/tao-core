@@ -426,6 +426,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 		enableFilter: function() {
 			this.state = this.STATE_FILTERING;
 			this.filter = $.trim($("#filter-content-" + this.options.actionId).val());
+			instance = this;
 
 			if (this.filter != '*') {
 				$cancelBtn = $("#filter-cancel-" + this.options.actionId);
