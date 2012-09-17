@@ -21,9 +21,8 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 		 * @param {Object} options
 		 */
 		init: function(selector, dataUrl, options) {
-			var instance = this;
-
 			this.checkedNodes = (typeof options.checkedNodes != "undefined") ? options.checkedNodes.slice(0) : new Array ();
+			var instance = this;
 
 			/**
 			 * Display priority DISPLAY_SELECTED.
@@ -173,7 +172,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 			//create the tree
 			this._super(selector, dataUrl, options, treeOptions);
 
-			$("#saver-action-" + this.options.actionId).click({instance: this},function(e){
+			$("#saver-action-" + this.options.actionId).click({instance: this}, function(e){
 				e.data.instance.saveData();
 			});
 		},

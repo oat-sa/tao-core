@@ -221,7 +221,7 @@ define(['require', 'jquery'], function(req, $) {
 			var nodeId = $(NODE)[0].id;
 			this.hidePaginate (NODE, TREE_OBJ);
 			if (this.getMeta(nodeId, "displayed") < this.getMeta(nodeId, "count")) {
-				this.showPaginate (NODE, TREE_OBJ);
+				this.showPaginate(NODE, TREE_OBJ);
 			}
 		}
 	});
