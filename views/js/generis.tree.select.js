@@ -206,7 +206,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				//Display incoming nodes
 				for (var i=0; i<DATA.length; i++) {
 					DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
-					TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
+					if (!$('#'+DATA[i].attributes['id'], $(TREE_OBJ.container))) TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
 					// If the check all options. Add the incoming nodes to the list of node to check
 					if (options.checkedNodes == "*") {
 						instance.checkedNodes.push(DATA[i].attributes.id);
