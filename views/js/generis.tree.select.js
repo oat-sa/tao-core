@@ -22,6 +22,9 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 		 */
 		init: function(selector, dataUrl, options) {
 			this.checkedNodes = (typeof options.checkedNodes != "undefined") ? options.checkedNodes.slice(0) : new Array ();
+			if (options.callback && options.callback.checkPaginate) {
+				this.checkPaginate = options.callback.checkPaginate;
+			}
 			var instance = this;
 
 			/**
@@ -206,7 +209,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				//Display incoming nodes
 				for (var i=0; i<DATA.length; i++) {
 					DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
-					if (!$('#'+DATA[i].attributes['id'], $(TREE_OBJ.container))) TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
+					if (!$('#'+DATA[i].attributes['id'], $(TREE_OBJ.container)).length) TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
 					// If the check all options. Add the incoming nodes to the list of node to check
 					if (options.checkedNodes == "*") {
 						instance.checkedNodes.push(DATA[i].attributes.id);

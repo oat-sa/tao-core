@@ -472,7 +472,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				//Display instances
 				for (var i=0; i < DATA.length; i++){
 					DATA[i].attributes['class'] = instance.options.instanceClass+" node-instance node-draggable";
-					if (!$('#'+DATA[i].attributes['id'], $(TREE_OBJ.container))) TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
+					if (!$('#'+DATA[i].attributes['id'], $(TREE_OBJ.container)).length) TREE_OBJ.create(DATA[i], TREE_OBJ.get_node(NODE[0]));
 				}
 				instance.setMeta(nodeId, "displayed", instance.getMeta(nodeId, "displayed")+DATA.length);
 				instance.setMeta(nodeId, "position", instance.getMeta(nodeId, "position")+DATA.length);
