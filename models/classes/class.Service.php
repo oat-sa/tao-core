@@ -88,31 +88,32 @@ abstract class tao_models_classes_Service
         $returnValue = null;
 
         // section 127-0-1-1--196c75a3:133f5095367:-8000:000000000000343C begin
-		
-        if( !class_exists($serviceName) || !preg_match("/^(tao|wf)/", $serviceName) ){
-        	//in case the parameter is the interface name we load the default dataSource implementation
-        	$serviceName = sprintf(self::namePattern, ucfirst(strtolower($serviceName)));
-        }
-        if(class_exists($serviceName)){
-        
-        	//create the instance only once
-        	$construct = false;
-        	if(!isset(self::$instances[$serviceName])){
-        		self::$instances[$serviceName] = new $serviceName();
-        	}
-        
-        	//get the instance
-        	$returnValue = self::$instances[$serviceName];
-        
-        	if( ! $returnValue instanceof tao_models_classes_Service ){
-        		unset(self::$instances[$serviceName]);
-        		throw new Exception("$serviceName must referr to a class extending the tao_models_classes_Service");
-        	}
-        }
-        else{
-        	throw new Exception("Unknow service $serviceName");
-        }
+		$className = (!class_exists($serviceName) || !preg_match("/^(tao|wf)/", $serviceName))
+			?  sprintf(self::namePattern, ucfirst(strtolower($serviceName)))
+			: $serviceName;
 
+		// does the class exist
+        if (!class_exists($className)) {
+			throw new common_exception_Error('Tried to init abstract class '.$className);
+        }
+        
+		$class = new ReflectionClass($className);
+		// is it concrete
+		if ($class->isAbstract()) {
+			throw new common_exception_Error('Tried to init abstract class '.$className.' for param \''.$serviceName.'\'');
+		}
+		// does it extend Service
+		if (!$class->isSubclassOf('tao_models_classes_Service')) {
+			throw new common_exception_Error("$className must referr to a class extending the tao_models_classes_Service");
+		}
+		
+        //create the instance only once
+        if(!isset(self::$instances[$className])){
+        	self::$instances[$className] = new $className();
+        }
+        
+        //get the instance
+        $returnValue = self::$instances[$className];
         // section 127-0-1-1--196c75a3:133f5095367:-8000:000000000000343C end
 
         return $returnValue;

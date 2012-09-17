@@ -136,7 +136,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			$this->removeSessionAttribute('uri');
 			$this->removeSessionAttribute('classUri');
 			$this->removeSessionAttribute('showNodeUri');
-			$structure = $this->service->getStructure(context::getInstance()->getExtensionName(), $this->getRequestParameter('structure'));
+			$structure = $this->service->getStructure($this->getRequestParameter('ext'), $this->getRequestParameter('structure'));
 
 			$sections = array();
 			foreach ($structure["data"]->sections[0] as $id => $section) {
@@ -151,14 +151,13 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			}
 
 			$this->setData('sections', $sections);
-			$this->setData('structure', $this->getRequestParameter('structure'));
+			$this->setData('shownExtension', $this->getRequestParameter('ext'));
+			$this->setData('shownStructure', $this->getRequestParameter('structure'));
 		} else {
 			// home screen
 			$this->setData('sections', false);
 			tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/home.css');
 		}
-
-		$this->setData('currentExtension', Context::getInstance()->getExtensionName());
 
 		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getDataLanguage());
 
@@ -187,7 +186,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		$uri = $this->hasSessionAttribute('uri');
 		$classUri = $this->hasSessionAttribute('classUri');
-		$ext = context::getInstance()->getExtensionName();
+		$extname = $this->hasRequestParameter('ext'); 
 		$struct = $this->getRequestParameter('structure');
 
 		$rootClasses = array(TAO_GROUP_CLASS, TAO_ITEM_CLASS, TAO_RESULT_CLASS, TAO_SUBJECT_CLASS, TAO_TEST_CLASS);
@@ -195,7 +194,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		$this->setData('actions', false);
 		$this->setData('currentExtensionId', 'tao');
 
-		$structure = $this->service->getSection($ext, $struct, $this->getRequestParameter('section'));
+		$structure = $this->service->getSection($extname, $struct, $this->getRequestParameter('section'));
 		if(isset($structure["actions"])){
 			$actionNodes =  $structure["actions"];
 			$actions = array();
@@ -273,7 +272,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	public function getSectionFilters()
 	{
 		$this->setData('filters', false);
-		$currentExtension = $this->service->getCurrentExtension();
+		$currentExtension = context::getInstance()->getExtensionName();
 		if($currentExtension){
 			//Filter by query
 			//Filter by text
@@ -291,10 +290,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	{
 
 		$this->setData('trees', false);
-		$ext = context::getInstance()->getExtensionName();
+		$extname = $this->getRequestParameter('ext'); 
 		$struct = $this->getRequestParameter('structure');
 
-		$structure = $this->service->getSection($ext, $struct, $this->getRequestParameter('section'));
+		$structure = $this->service->getSection($extname, $struct, $this->getRequestParameter('section'));
 		if(isset($structure["trees"])){
 			$trees = array();
 			foreach($structure["trees"] as $tree){
@@ -319,10 +318,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			$this->setData('openUri', $openUri);
 
 			//differentiate the instanceName of Deliveries and Process definition from the others
-			if($ext=="taoDelivery" || $ext=="wfEngine"){
+			if($extname=="taoDelivery" || $extname=="wfEngine"){
 				$this->setData('instanceName', $this->getSessionAttribute('currentSection'));
 			}else{
-				$this->setData('instanceName', strtolower(str_replace('tao', '', substr($ext, 0, strlen($ext) - 1))));
+				$this->setData('instanceName', strtolower(str_replace('tao', '', substr($extname, 0, strlen($extname) - 1))));
 			}
 		}
 

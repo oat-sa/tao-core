@@ -110,11 +110,12 @@ define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquer
 				section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('title');
 				if (section != undefined) {
 					$.ajax({
-						url: root_url + '/' + currentExtension + '/Main/getSectionTrees',
+						url: root_url + '/tao/Main/getSectionTrees',
 						type: "GET",
 						data: {
 							section: section,		//get the link text of the selected tab
-							structure: currentStructure
+							structure: shownStructure,
+							ext: shownExtension
 						},
 						dataType: 'html',
 						success: function(response){
@@ -138,11 +139,12 @@ define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquer
 			//left menu actions init by loading the tab content
 			if(this.tabs.length > 0){
 				$.ajax({
-					url: root_url + '/' + currentExtension + '/Main/getSectionActions',
+					url: root_url + '/tao/Main/getSectionActions',
 					type: "GET",
 					data: {
 						section: $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('title'),		//get the link text of the selected tab
-						structure: currentStructure
+						structure: shownStructure,
+						ext: shownExtension
 					},
 					dataType: 'html',
 					success: function(response){

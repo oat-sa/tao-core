@@ -234,7 +234,7 @@ class tao_models_classes_cache_FileCache
         $returnValue = (string) '';
 
         // section 127-0-1-1-70417e84:13615be5f59:-8000:00000000000068D0 begin
-        $returnValue = CACHE_PATH.$serial;
+        $returnValue = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('CACHE_PATH').$serial;
         // section 127-0-1-1-70417e84:13615be5f59:-8000:00000000000068D0 end
 
         return (string) $returnValue;

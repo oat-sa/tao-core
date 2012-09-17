@@ -36,7 +36,9 @@ abstract class tao_actions_CommonModule extends Module {
     {
         parent::setView($identifier);
 		if($useMetaExtensionView){
-			Renderer::setViewsBasePath(TAOVIEW_PATH);
+			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+			
+			Renderer::setViewsBasePath($ext->getConstant('DIR_VIEWS'));
 		}
 		return;
 	}

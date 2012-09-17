@@ -228,7 +228,10 @@ class Bootstrap{
 	{
 		//include the config file
 		if ($this->extension->id != "generis"){
-			require_once $this->ctxPath. "/includes/config.php";
+			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($this->extension->id);
+			foreach ($ext->getConstants() as $key => $value) {
+				define($key, $value);
+			}
 		}
 		// we will load the constant file of the current extension and all it's dependancies
 

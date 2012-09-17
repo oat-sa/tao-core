@@ -7,7 +7,7 @@
 <?php if ($extension['disabled']): ?>
 				<?if($first):$first = false;?><?else:?>|<?endif?>
 				<span class="<? if (get_data('currentExtension') == $extension['extension']) echo 'current-extension'; if (!$extension['disabled']) echo ' disabled' ?>">
-					<a href="<?=_url('index', null, $extension['extension'], array('structure' => $extension['id']))?>" title="<?=__($extension['description'])?>"><?=__($extension['name'])?></a>
+					<a href="<?=_url('index', null, null, array('structure' => $extension['id'], 'ext' => $extension['extension']))?>" title="<?=__($extension['description'])?>"><?=__($extension['name'])?></a>
 				</span>
 <?php endif; ?>
 			<?endforeach?>
@@ -21,14 +21,14 @@
 			</span>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', null)): ?>
 			<span>
-				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'users'))?>" title="<?=__('Users')?>">
+				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao'))?>" title="<?=__('Users')?>">
 					<img src="<?=TAOBASE_WWW?>img/users.png" alt="<?=__('Users')?>" />
 				</a>
 			</span>
 <?php endif; ?>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Settings', null) || tao_helpers_funcACL_funcACL::hasAccess('tao', 'UserSettings', null)): ?>
 			<span>
-				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings'))?>" title="<?=__('Settings')?>">
+				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings', 'ext' => 'tao'))?>" title="<?=__('Settings')?>">
 					<img src="<?=TAOBASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />
 				</a>
 			</span>
@@ -49,7 +49,8 @@
 <?if(get_data('sections')):?>
 
 	<script type='text/javascript'>
-		var currentStructure = '<?=$structure?>';
+		var shownExtension	= '<?=$shownExtension?>';
+		var shownStructure = '<?=$shownStructure?>';
 	</script>
 	<div id="tabs">
 		<ul>

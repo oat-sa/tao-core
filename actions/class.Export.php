@@ -49,7 +49,8 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	protected function getExportPath($extension = null){
 
 		$extension = is_null($extension) ? Context::getInstance()->getExtensionName() : $extension;
-		$exportPath = EXPORT_PATH;
+		$taoExt = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+		$exportPath = $taoExt->getConstant('EXPORT_PATH');
 
 		if(!is_dir($exportPath)){
 			common_Logger::i('Export path not found, creating '.$exportPath);
@@ -101,6 +102,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 			if(!tao_helpers_File::securityCheck($path, true)){
 				throw new Exception('Unauthorized file name');
 			}
+			common_Logger::i('Exporting to '.$path);
 
 			$api = core_kernel_impl_ApiModelOO::singleton();
 
@@ -190,7 +192,8 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	public function getExportedFiles(){
 
 		$exportPath = $this->getExportPath($this->hasRequestParameter('ext') ? $this->getRequestParameter('ext') : Context::getInstance()->getExtensionName());
-
+		common_Logger::d('Listing exported files from '.$exportPath);
+		
 		$exportedFiles = array();
 		foreach(scandir($exportPath) as $file){
 			$path = $exportPath.'/'.$file;

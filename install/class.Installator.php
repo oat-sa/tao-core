@@ -297,6 +297,7 @@ class tao_install_Installator{
 				$installData['db_driver'],
 				$installData['db_name']
 			);
+			common_Logger::d("DbCreator spawned", 'INSTALL');
 	
 			/*
 			 *   2 - Load the database schema
