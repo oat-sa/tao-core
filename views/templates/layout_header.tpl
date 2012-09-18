@@ -19,11 +19,9 @@
 
 <?if(get_data('errorMessage')):?>
 	<script type='text/javascript'>
-		require(['require', 'jquery'], function (req, $) {
-			$(function(){
+		callbackMeWhenReady.loginError = function() {
 				helpers.createErrorMessage("<?=get_data('errorMessage')?>");
-			});
-		});
+			};
 	</script>
 <?endif?>
 </head>
