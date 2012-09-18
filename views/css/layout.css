@@ -462,3 +462,8 @@ ul.group-list li ul.actions li {
 	width: 16px;
 	height: 16px;
 }
+
+.listbox {
+	display: inline-block;
+	margin: 5px 2px;
+}

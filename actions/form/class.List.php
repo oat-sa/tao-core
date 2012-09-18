@@ -58,14 +58,14 @@ class tao_actions_form_List
     public function initForm()
     {
         // section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237C begin
-        
+
         $this->form = tao_helpers_form_FormFactory::getForm('list');
 
         $addElt = tao_helpers_form_FormFactory::getElement('add', 'Free');
 		$addElt->setValue("<a class='form-submiter' href='#'><img src='".TAOBASE_WWW."img/add.png' class='icon' />".__('Add')."</a>");
 		$this->form->setActions(array($addElt), 'bottom');
 		$this->form->setActions(array(), 'top');
-		
+
         // section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237C end
     }
 
@@ -79,24 +79,24 @@ class tao_actions_form_List
     public function initElements()
     {
         // section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237E begin
-        
+
     	$labelElt = tao_helpers_form_FormFactory::getElement('label', 'Textbox');
 		$labelElt->setDescription(__('Name'));
 		$labelElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($labelElt);
-		
+
 		$sizeElt = tao_helpers_form_FormFactory::getElement('size', 'Textbox');
 		$sizeElt->setDescription(__('Number of elements'));
 		$sizeElt->setAttribute('size', '4');
-		$sizeElt->setValue(0);
+		$sizeElt->setValue(1);
 		$sizeElt->addValidators(array(
 			tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 			tao_helpers_form_FormFactory::getValidator('Integer', array('min' => 1))
 		));
 		$this->form->addElement($sizeElt);
-		
+
 		$this->form->createGroup('options', __('List Options'), array('label', 'size'));
-    	
+
         // section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237E end
     }
 

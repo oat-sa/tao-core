@@ -1,12 +1,8 @@
 <link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/lists.css" />
 <div class="main-container">
 	<div id="list-container">
-
-		<table>
 		<?foreach(get_data('lists') as $i => $list):?>
-			<?if($i==0 or $i%4==0):?><tr><?endif?>
-			<td>
-				<div id='list-data_<?=$list['uri']?>'>
+				<div id='list-data_<?=$list['uri']?>' class="listbox">
 					<fieldset>
 						<legend><span><?=$list['label']?></span></legend>
 						<div class="list-elements" id='list-elements_<?=$list['uri']?>'>
@@ -34,12 +30,9 @@
 						</div>
 					</fieldset>
 				</div>
-			</td>
-			<?if($i>4 and $i%4==0):?></tr><?endif?>
 		<?endforeach?>
-		</table>
-		<br />
-		<div style="width:60%;margin:auto;">
+
+		<div style="margin-top:10px">
 			<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 				<strong><?=__('Create a list')?></strong>
 			</div>
@@ -53,18 +46,16 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-
-	var saveUrl 	= "<?=_url('saveLists', 'Lists', 'tao')?>";
-	var delListUrl 	= "<?=_url('removeList', 'Lists', 'tao')?>";
-	var delEltUrl 	= "<?=_url('removeListElement', 'Lists', 'tao')?>";
+	var saveUrl = "<?=_url('saveLists', 'Lists', 'tao')?>";
+	var delListUrl = "<?=_url('removeList', 'Lists', 'tao')?>";
+	var delEltUrl = "<?=_url('removeListElement', 'Lists', 'tao')?>";
 
 	$(".list-editor").click(function(){
 		uri = $(this).attr('id').replace('list-editor_', '');
 		var listContainer = $("div[id='list-data_" + uri+"']");
 
 		if(!listContainer.parent().is('form')){
-
-			listContainer.wrap("<form />");
+			listContainer.wrap("<form class='listbox' />");
 			listContainer.prepend("<input type='hidden' name='uri' value='"+uri+"' />");
 
 			$("<input type='text' name='label' value='"+listContainer.find('legend span').text()+"'/>").prependTo(listContainer.find('div.list-elements')).keyup(function(){
@@ -134,8 +125,6 @@ $(document).ready(function(){
 					"</li>");
 			});
 			elementList.after(elementAdder);
-
-
 		}
 
 		$(".list-element-deletor").click(function(){
@@ -154,12 +143,11 @@ $(document).ready(function(){
 				);
 			}
 		});
-
 	});
 
 	$(".list-deletor").click(function(){
 		if(confirm(__("Please confirm you want to delete this list. This operation is not reversible."))){
-			var list = $(this).parents("td");
+			var list = $(this).parents("div.listbox");
 			uri = $(this).attr('id').replace('list-deletor_', '');
 			$.postJson(
 				delListUrl,
