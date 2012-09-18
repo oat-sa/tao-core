@@ -40,7 +40,15 @@ $(function() {
 						$(this).dialog('close');
 					}
 				}
-			]
+			],
+			create: function(event, ui) {
+				$('#addrole_name').on('keypress', function(e) {
+					if (e.which == 13) {
+						e.preventDefault();
+						$('button', $(this).parents('.ui-dialog')).click();
+					}
+				});
+			}
 		});
 	});
 	$('#editrole a').click(function(e) {
