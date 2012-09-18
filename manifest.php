@@ -44,7 +44,8 @@ return array(
 	
 		# helpers directory
 		"DIR_HELPERS" => $extpath."helpers".DIRECTORY_SEPARATOR,
-	
+
+	 	#path to the cache
 		'CACHE_PATH' => $extpath."data".DIRECTORY_SEPARATOR."cache".DIRECTORY_SEPARATOR,
 	
 		# default module name
@@ -54,13 +55,16 @@ return array(
 		'DEFAULT_ACTION_NAME' => 'index',
 	
 		#BASE PATH: the root path in the file system (usually the document root)
-		'BASE_PATH' => ROOT_PATH . '/tao',
+		'BASE_PATH' => $extpath,
 	
 		#BASE URL (usually the domain root)
 		'BASE_URL' => ROOT_URL.'/tao',
 	
 		#BASE WWW the web resources path
 		'BASE_WWW' => ROOT_URL . '/tao/views/',
+	 
+	 	#TPL PATH the path to the templates
+	 	'TPL_PATH'	=> $extpath."views".DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR,
 	
 		#STUFF that belongs in TAO
 		'TAOBASE_WWW' => ROOT_URL . '/tao/views/',
