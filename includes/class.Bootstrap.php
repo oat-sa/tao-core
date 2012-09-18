@@ -230,7 +230,9 @@ class Bootstrap{
 		if ($this->extension->id != "generis"){
 			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($this->extension->id);
 			foreach ($ext->getConstants() as $key => $value) {
-				define($key, $value);
+				if(!defined($constName) && !is_array($value)){
+					define($key, $value);
+				}
 			}
 		}
 		// we will load the constant file of the current extension and all it's dependancies
@@ -274,7 +276,7 @@ class Bootstrap{
 			//this variable comes from the constant file and contain the const definition
 			if(isset($todefine)){
 				foreach($todefine as $constName => $constValue){
-					if(!defined($constName) && !is_array($constValue)) {
+					if(!defined($constName)){
 						define($constName, $constValue);	//constants are defined there!
 					}
 				}
