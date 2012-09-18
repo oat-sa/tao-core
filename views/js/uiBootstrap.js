@@ -28,7 +28,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquer
 					$("#section-trees").empty().css({display: 'none'});
 					$("#section-actions").empty().css({display: 'none'});
 					$("#" + uiBootstrap.tabs.attr('id') + " > .ui-tabs-panel").each(function(){
-						if($(this).attr('id') != ui.panel.id){
+						if ($(this).attr('id') != ui.panel.id) {
 							$(this).empty();
 						}
 					});
