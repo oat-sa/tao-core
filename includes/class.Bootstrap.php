@@ -274,7 +274,7 @@ class Bootstrap{
 			//this variable comes from the constant file and contain the const definition
 			if(isset($todefine)){
 				foreach($todefine as $constName => $constValue){
-					if(!defined($constName)){
+					if(!defined($constName) && !is_array($constValue)) {
 						define($constName, $constValue);	//constants are defined there!
 					}
 				}
