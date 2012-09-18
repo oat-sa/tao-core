@@ -11,7 +11,7 @@ return array(
 	'description' => 'TAO is the meta-extension, a container for the TAOs sub extensions',
 	'version' => '2.3',
 	'author' => 'CRP Henri Tudor',
-	'dependances' => array('generis'),
+	'dependencies' => array('generis'),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAO.rdf',
 		'http://www.tao.lu/Ontologies/taoFuncACL.rdf'

@@ -202,7 +202,9 @@ class tao_models_classes_TaoService
 						self::$structure[(int)$xmlStructure['level']] = array(
 							'extension' => $loadedExtension,
 							'id'		=> (string)$xmlStructure['id'],
-							'data'		=> $xmlStructure);
+							'data'		=> $xmlStructure,
+							'level'		=> (int)$xmlStructure['level']
+						);
 					}
 				}
 			}

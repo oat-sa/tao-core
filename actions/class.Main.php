@@ -123,7 +123,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 					'name' 			=> (string) $data['name'],
 					'extension'		=> $structure['extension'],
 					'description'	=> (string) $data->description,
-					'disabled' => tao_helpers_funcACL_funcACL::hasAccess($structure['extension'], (string) basename(dirname($data['url'])), (string) basename($data['url']))
+					'enabled'		=> tao_helpers_funcACL_funcACL::hasAccess($structure['extension'], (string) basename(dirname($data['url'])), (string) basename($data['url']))
 				);
 			}
 		}

@@ -19,9 +19,9 @@
 						<tr>
 					<?endif?>
 					<td>
-						<div class="home-box ui-corner-all ui-widget ui-widget-header<?php if (!$extension['disabled']) echo ' disabled' ?>" style="<?php if ($extension['disabled']) echo 'cursor:pointer;' ?>">
+						<div class="home-box ui-corner-all ui-widget ui-widget-header<?php if (!$extension['enabled']) echo ' disabled' ?>" style="<?php if ($extension['enabled']) echo 'cursor:pointer;' ?>">
 							<img src="<?=ROOT_URL?>/<?=$extension['extension']?>/views/img/extension.png" /><br />
-<?php if ($extension['disabled']): ?>
+<?php if ($extension['enabled']): ?>
 							<a id="extension-nav-<?=$extension['extension']?>" class="extension-nav" href="<?=_url('index', null, null, array('structure' => $extension['id'], 'ext' => $extension['extension']))?>"><?=__($extension['name'])?></a>
 <?php else: ?>
 							<span><?=__($extension['name'])?></span>
