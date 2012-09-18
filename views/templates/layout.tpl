@@ -6,7 +6,7 @@
 			<?$first = true;foreach(get_data('extensions') as $extension):?>
 <?php if ($extension['disabled']): ?>
 				<?if($first):$first = false;?><?else:?>|<?endif?>
-				<span class="<? if (get_data('currentExtension') == $extension['extension']) echo 'current-extension'; if (!$extension['disabled']) echo ' disabled' ?>">
+				<span class="<? if (get_data('shownExtension') == $extension['extension']) echo 'current-extension'; if (!$extension['disabled']) echo ' disabled' ?>">
 					<a href="<?=_url('index', null, null, array('structure' => $extension['id'], 'ext' => $extension['extension']))?>" title="<?=__($extension['description'])?>"><?=__($extension['name'])?></a>
 				</span>
 <?php endif; ?>
