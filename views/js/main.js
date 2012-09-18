@@ -26,7 +26,7 @@ var eventMgr;
 var uiForm;
 var generisActions;
 
-require(['require', 'jquery', 'class', 'uiBootstrap', 'helpers', 'EventMgr', 'uiForm', 'generis.actions', 'jqueryUI'], function (req, $, Class, UiBootstrap, Helpers, EventMgr, UiForm, GenerisActions) {
+require(['require', 'jquery', 'class', 'uiBootstrap', 'helpers', 'EventMgr', 'uiForm', 'generis.actions', 'jqueryUI', 'i18n'], function (req, $, Class, UiBootstrap, Helpers, EventMgr, UiForm, GenerisActions) {
 	$(function(){
 		helpers = new Helpers();
 		uiBootstrap = new UiBootstrap();
