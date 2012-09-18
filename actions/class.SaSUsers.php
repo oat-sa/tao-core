@@ -62,7 +62,7 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 			$this->setData('includedView', $identifier);
 		}
 		else{
-			$this->setData('includedView', DIR_VIEWS . $GLOBALS['dir_theme'] . $identifier);
+			$this->setData('includedView', DIR_VIEWS . 'templates/' . $identifier);
 		}
 		return parent::setView('sas.tpl');
     }
