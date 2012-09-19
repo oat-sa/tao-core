@@ -57,7 +57,7 @@ function checkConfig(){
 			var spinner = new Spinner(getSpinnerOptions('small')).spin($target[0]);
 			
 			setTimeout(function(){ // Fake a small processing time... -> 500ms
-				var data = [{type: "CheckPHPRuntime", value: {min: "5.3", max: "5.3.14", optional:false}},
+				var data = [{type: "CheckPHPRuntime", value: {min: "5.3", max: "5.3.17", optional:false}},
 							{type: "CheckPHPExtension", value: {name: "curl", optional: false}},
 			                {type: "CheckPHPExtension", value: {name: "zip", optional: false}},
 			                {type: "CheckPHPExtension", value: {name: "json", optional: false}},
