@@ -15,7 +15,8 @@ function onLoad(){
     		   			.addClass('disabled');
     	
     	if (install.isNextable()){
-    		spinner.spin($('#deployment')[0])
+    		$('#deployment').css('visibility', 'visible');
+    		spinner.spin($('#deployment')[0]);
     		
     		// Install...
     		var inputs = {
@@ -36,7 +37,6 @@ function onLoad(){
     			'db_name': install.getData('database_name')
     		};
     		
-    		$('#deployment').css('visibility', 'visible');
     		install.install(inputs, function(status, data){
 				var success = false;
 				spinner.stop();
