@@ -162,9 +162,10 @@ class tao_models_classes_cache_FileCache
     public function purge()
     {
         // section 127-0-1-1--18485ef3:13542665222:-8000:00000000000065B1 begin
-        if (false !== ($files = scandir(CACHE_PATH))){
+        $cachepath =  common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('CACHE_PATH');
+        if (false !== ($files = scandir($cachepath))){
             foreach ($files as $f) {
-                $filePath = CACHE_PATH . $f;
+                $filePath = $cachepath . $f;
                 if (substr($f, 0, 1) != '.' && file_exists($filePath)){
                     @unlink($filePath);
                 }
