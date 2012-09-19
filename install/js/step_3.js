@@ -126,7 +126,7 @@ function onLoad(){
 			break;
 			
 			case 'database_name':
-				install.getValidator(this, {dataType: 'string', min: 1, max: 63});
+				install.getValidator(this, {dataType: 'dbname'});
 				validify(this);
 			break;
 			
