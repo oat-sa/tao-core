@@ -1286,6 +1286,11 @@ class tao_scripts_TaoTranslate
                 }
             }
             
+            // Recompile the dependent extension (for the moment 'tao' meta-extension only).
+            $this->options['extension'] = $depExtId;
+            $this->actionCompile();
+            $this->options['extension'] = $extension;
+            
             $poFileReader = new tao_helpers_translation_POFileReader($depPath);
             $poFileReader->read();
             $poFile = $poFileReader->getTranslationFile();
