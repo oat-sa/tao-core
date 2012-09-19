@@ -6,10 +6,6 @@
 -->
 </style>
 
-<script type="text/javascript">
-	require([generis.facetFilter]);
-</script>
-
 <div id="facet-filter"></div>
 <table id="result-list"></table>
 <div id="result-list-pager"></div>
@@ -48,41 +44,45 @@ $(document).ready(function(){
 		},
 		<?endforeach;?>
 	];
-	//instantiate the facet filter
-	var facetFilter = new GenerisFacetFilterClass('#facet-filter', filterNodes, facetFilterOptions);
 
-	/*
-	 * instantiate the result widget
-	 */
-
-	//define jqgrid column
-	var properties = ['id', 'label'
-	<?foreach(get_data('properties') as $uri => $property):?>
-		 ,'<?=$property->getLabel()?>'
-	<?endforeach?>
-		<?php //,__('Actions')?>
-	];
-
-	//define jqgrid model
-	var model = [
-     	{name:'id',index:'id', width: 25, align:"center", sortable: false},
-    	{name:'property_0',index:'property_0', width: 75, align:"center", sortable: false},
-	<?for($i = 1; $i-1 < count(get_data('properties')); $i++):?>
-		 {name:'property_<?=$i?>',index:'property_<?=$i?>'},
-	<?endfor?>
-		<?php //{name:'actions',index:'actions', align:"center", sortable: false}, ?>
-	];
-
-	//instantiate jqgrid
-	$("#result-list").jqGrid({
-		datatype: "local",
-		colNames: properties ,
-		colModel: model,
-		width: parseInt($("#result-list").parent().width()) - 15,
-		sortname: 'id',
-		sortorder: "asc",
-		caption: __("Filter results")
+	require(['require', 'jquery', 'generis.facetFilter', 'grid/tao.grid'], function(req, $, GenerisFacetFilterClass) {
+		//instantiate the facet filter
+		facetFilter = new GenerisFacetFilterClass('#facet-filter', filterNodes, facetFilterOptions);
+		
+		/*
+		 * instantiate the result widget
+		 */
+	
+		//define jqgrid column
+		var properties = ['id', 'label'
+		<?foreach(get_data('properties') as $uri => $property):?>
+			 ,'<?=$property->getLabel()?>'
+		<?endforeach?>
+			<?php //,__('Actions')?>
+		];
+	
+		//define jqgrid model
+		var model = [
+	     	{name:'id',index:'id', width: 25, align:"center", sortable: false},
+	    	{name:'property_0',index:'property_0', width: 75, align:"center", sortable: false},
+		<?for($i = 1; $i-1 < count(get_data('properties')); $i++):?>
+			 {name:'property_<?=$i?>',index:'property_<?=$i?>'},
+		<?endfor?>
+			<?php //{name:'actions',index:'actions', align:"center", sortable: false}, ?>
+		];
+	
+		//instantiate jqgrid
+		$("#result-list").jqGrid({
+			datatype: "local",
+			colNames: properties ,
+			colModel: model,
+			width: parseInt($("#result-list").parent().width()) - 15,
+			sortname: 'id',
+			sortorder: "asc",
+			caption: __("Filter results")
+		});
 	});
+		
 
 	//function used to refresh the result functions of the filter
 	function refreshResult(facetFilter)

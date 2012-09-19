@@ -52,8 +52,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if(is_null($classUri) || empty($classUri)){
 			
 			$clazz = null;
-			$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-			$resource = new core_kernel_classes_Resource($uri);
+			$resource = $this->getCurrentInstance();
 			foreach($resource->getType() as $type){
 				$clazz = $type;
 				break;
