@@ -744,27 +744,25 @@ abstract class tao_models_classes_GenerisService
         $returnValue = array();
 
         // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B begin
-
-        (isset($options['subclasses'])) 	? $subclasses = $options['subclasses'] 		: $subclasses = true;
-        (isset($options['instances'])) 		? $instances = $options['instances'] 		: $instances = true;
-        (isset($options['highlightUri'])) 	? $highlightUri = $options['highlightUri'] 	: $highlightUri = '';
-        (isset($options['labelFilter'])) 	? $labelFilter = $options['labelFilter'] 	: $labelFilter = '';
-        (isset($options['recursive'])) 		? $recursive = $options['recursive'] 		: $recursive = false;
-        (isset($options['chunk'])) 			? $chunk = $options['chunk'] 				: $chunk = false;
-        (isset($options['browse']))			? $browse = $options['browse'] 				: $browse = array();
-        (isset($options['offset']))			? $offset = $options['offset'] 				: $offset = 0;
-        (isset($options['limit']))			? $limit = $options['limit'] 				: $limit = 0;
+		$subclasses = (isset($options['subclasses'])) ? $options['subclasses'] : true;
+		$instances = (isset($options['instances'])) ? $options['instances'] : true;
+		$highlightUri = (isset($options['highlightUri'])) ? $options['highlightUri'] : '';
+		$labelFilter = (isset($options['labelFilter'])) ? $options['labelFilter'] : '';
+		$recursive = (isset($options['recursive'])) ? $options['recursive'] : false;
+		$chunk = (isset($options['chunk'])) ? $options['chunk'] : false;
+		$browse = (isset($options['browse'])) ? $options['browse'] : array();
+		$offset = (isset($options['offset'])) ? $options['offset'] : 0;
+		$limit = (isset($options['limit'])) ? $options['limit'] : 0;
 
 		$instancesData = array();
 		$isFiltering = false;
-		if(!empty($labelFilter) && $labelFilter!='*'){
+		if (!empty($labelFilter) && $labelFilter!='*') {
 			$isFiltering = true;
 			$subclasses = false;
 		}
 
-		if($instances){
-
-			$getInstancesOptions = array ();
+		if ($instances) {
+			$getInstancesOptions = array();
 			$getInstancesOptions = array_merge($getInstancesOptions, array(
 				'limit'  => $limit,
 				'offset' => $offset
@@ -773,13 +771,11 @@ abstract class tao_models_classes_GenerisService
 			// Make a recursive search if a filter has been given => the result will be a one dimension array
 			$searchResult = $clazz->getInstances($isFiltering, $getInstancesOptions);
 
-			foreach($searchResult as $instance){
-
-            	$label = $instance->getLabel();
-
-                if(empty($label)){
-                	$label = $instance->uriResource;
-                }
+			foreach ($searchResult as $instance){
+				$label = $instance->getLabel();
+				if (empty($label)) {
+					$label = $instance->uriResource;
+				}
 
 				$instanceData = array(
 						'data' 	=> tao_helpers_Display::textCutter($label, 16),
@@ -789,20 +785,19 @@ abstract class tao_models_classes_GenerisService
 							'class' => 'node-instance'
 						)
 					);
-				if(strlen($labelFilter) > 0){
-					if(preg_match("/^".str_replace('*', '(.*)', $labelFilter."$/mi"), trim($label))){
+				if (strlen($labelFilter) > 0) {
+					if (preg_match("/^".str_replace('*', '(.*)', $labelFilter."$/mi"), trim($label))) {
 						$instancesData[] = $instanceData;
 					}
-				}
-				else{
+				} else {
 					$instancesData[] = $instanceData;
 				}
 			}
 		}
 
 		$subclassesData = array();
-		if($subclasses){
-			foreach($clazz->getSubClasses(false) as $subclass){
+		if ($subclasses) {
+			foreach ($clazz->getSubClasses(false) as $subclass) {
 				$options['recursive'] = true;
 				$options['chunk'] = false;
 				$subclassesData[] = $this->toTree($subclass, $options);
@@ -811,13 +806,13 @@ abstract class tao_models_classes_GenerisService
 
 		//format classes for json tree datastore
 		$data = array();
-		if(!$chunk){
-        	$label = $clazz->getLabel();
-            if(empty($label)){
-            	$label = $clazz->uriResource;
-            }else{
-            	$label = tao_helpers_Display::textCutter($label, 16);
-            }
+		if (!$chunk) {
+			$label = $clazz->getLabel();
+			if (empty($label)) {
+				$label = $clazz->uriResource;
+			} else {
+				$label = tao_helpers_Display::textCutter($label, 16);
+			}
 
 			$data = array(
 				'data' 	=> $label,
@@ -829,68 +824,66 @@ abstract class tao_models_classes_GenerisService
 					)
  			);
 		}
+
 		$children = array_merge($subclassesData, $instancesData);
-		if(count($children) > 0){
-			if(($highlightUri != '' && $recursive)){
-				foreach($children as $child){
-					if($child['attributes']['id'] == $highlightUri){
+		if (count($children) > 0) {
+			if (($highlightUri != '' && $recursive)) {
+				foreach ($children as $child) {
+					if ($child['attributes']['id'] == $highlightUri) {
 						$recursive = false;
 						break;
 					}
 				}
 			}
-			if($recursive) {
-				if(!$chunk){
+			if ($recursive) {
+				if (!$chunk) {
 					$data['children'] = array();
 				}
-				if(count($children) > 0){
+				if (count($children) > 0) {
 					$data['state'] = 'closed';
 				}
-			}
-			else{
-				if($chunk){
+			} else {
+				if ($chunk) {
 					$data = $children;
-				}
-				else{
+				} else {
 					$data['children'] = $children;
 				}
 			}
 		}
-    	if($highlightUri != ''){
+		if ($highlightUri != '') {
 			$highlightedResource = new core_kernel_classes_Resource(tao_helpers_Uri::decode($highlightUri));
-			if(!$highlightedResource->isClass()){
+			if (!$highlightedResource->isClass()) {
 				$parentClassUris = array();
-				foreach($resourceClasses = $highlightedResource->getTypes() as $resourceClass){
+				foreach ($resourceClasses = $highlightedResource->getTypes() as $resourceClass) {
 					$parentClassUris = array_merge(
 						$parentClassUris,
 						tao_helpers_Uri::encodeArray(array_keys($resourceClass->getParentClasses(true)), tao_helpers_Uri::ENCODE_ARRAY_VALUES)
 					);
 				}
-				if(isset($data['attributes'])){
-					if(in_array($data['attributes']['id'], $parentClassUris)){
+				if (isset($data['attributes'])) {
+					if (in_array($data['attributes']['id'], $parentClassUris)) {
 						$data['state'] = 'open';
 						$data['children'] = $children;
 					}
 				}
-				if(isset($data['children'])){
-					foreach($data['children'] as $index => $child){
-						if(in_array($child['attributes']['id'], $parentClassUris)){
+				if (isset($data['children'])) {
+					foreach ($data['children'] as $index => $child) {
+						if (in_array($child['attributes']['id'], $parentClassUris)) {
 							$data['children'][$index]['state'] = 'open';
 						}
 					}
 				}
 			}
 		}
-		if(count($browse) > 0){
-			if(isset($data['attributes'])){
-				if(in_array($data['attributes']['id'], $browse)){
+		if (count($browse) > 0) {
+			if (isset($data['attributes'])) {
+				if (in_array($data['attributes']['id'], $browse)) {
 					$data['state'] = 'open';
 					$data['children'] = $children;
 				}
 			}
 		}
 		$returnValue = $data;
-
         // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B end
 
         return (array) $returnValue;
