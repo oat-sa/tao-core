@@ -839,21 +839,10 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		} else {
 			$clazz = $this->getRootClass();
 		}
+		
 		// Get filter parameter
-		$filterParam = array();
-		if($this->hasRequestParameter('filter')){
-			$filterParam = $this->getRequestParameter('filter');
-			foreach ($filterParam as $key=>$values){
-				$propertyUri = $key;
-				if(!isset($filter['$propertyUri'])){
-					$filter[$propertyUri] = array();
-				}
-				foreach($values as $value){
-					$targetUri = tao_helpers_Uri::decode($value);
-					array_push($filter[$propertyUri], $targetUri);
-				}
-			}
-		}
+		if ($this->hasRequestParameter('filter'))
+			$filterParam = $this->getFilterState('filter');
 		
 		$properties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz);
 		// ADD Label property
