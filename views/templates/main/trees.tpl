@@ -22,12 +22,12 @@
 			var tree = new GenerisTreeBrowserClass('#tree-<?=$i?>', "<?=$tree['dataUrl']?>", {
 				formContainer: helpers.getMainContainerSelector(uiBootstrap.tabs),
 				actionId: "<?=$i?>",
-				editClassAction: "<?=$tree['editClassUrl']?>",
-				editInstanceAction: "<?=$tree['editInstanceUrl']?>",
+<?if (isset($tree['editClassAction'])):?>editClassAction: "<?=$tree['editClassUrl']?>",<?endif;?>
+<?if (isset($tree['editInstanceAction'])):?>editInstanceAction: "<?=$tree['editInstanceUrl']?>",<?endif;?>
 <?if (isset($tree['addInstanceUrl'])):?>createInstanceAction: "<?=$tree['addInstanceUrl']?>",<?endif;?>
 <?if (isset($tree['moveInstanceUrl'])):?>moveInstanceAction: "<?=$tree['moveInstanceUrl']?>",<?endif;?>
 <?if (isset($tree['addSubClassUrl'])):?>subClassAction: "<?=$tree['addSubClassUrl']?>",<?endif;?>
-				deleteAction: "<?=$tree['deleteUrl']?>",
+<?if (isset($tree['deleteAction'])):?>deleteAction: "<?=$tree['deleteUrl']?>",<?endif;?>
 <?if (isset($tree['duplicateUrl'])):?>duplicateAction: "<?=$tree['duplicateUrl']?>",<?endif;?>
 				instanceClass: "node-<?=get_data('instanceName')?>",
 				instanceName: "<?=(isset($tree['className'])) ? mb_strtolower(__($tree['className']), TAO_DEFAULT_ENCODING) : get_data('instanceName') ?>",
