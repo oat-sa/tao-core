@@ -304,7 +304,7 @@ TaoInstall.prototype.getValidator = function(element, options){
 							
 							case 'email':
 								element.isValid = function(){
-									var reg = new RegExp("^[a-zA-Z0-9\-_]+[a-zA-Z0-9\.\-_]*@[a-zA-Z0-9\-_]+\.[a-zA-Z\.\-_]{1,}[a-zA-Z\-_]+", "i");
+									var reg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/i;
 									
 									if (mandatory == false && $element[0].getData() == null){
 										return true;
