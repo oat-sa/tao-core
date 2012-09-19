@@ -170,6 +170,7 @@ div.ext-home-container{
 div#sections-aside {
 	float: left;
 	width: 20%;
+	padding-top: 5px;
 }
 /* Tree panel */
 div#section-trees{
@@ -177,14 +178,14 @@ div#section-trees{
 	width:19%;
 	left:0%;
 	top:40px;
-	height:290px;*/
-	margin: 5px 0;
+	height:290px;
+	margin: 5px 0;*/
 }
 div#section-trees div.ui-widget-content{
-	height:230px;
+	height:320px;
 	overflow-y:auto;
 	overflow-x:hidden;
-	padding:3px;
+	padding: 0;
 }
 div.tree-actions{
 	font-size:11px;
@@ -198,7 +199,7 @@ div#section-trees div.tree-custom {
 	height: 100%;
 }
 div.tree-block {
-	margin: 5px 0;
+	/*margin: 5px 0;*/
 }
 /* Actions box */
 div#section-actions{
@@ -209,8 +210,8 @@ div#section-actions{
 	text-align:left;
 	width:19%;
 	z-index:100;
-	position:absolute;*/
-	margin: 5px 0;
+	position:absolute;
+	margin: 5px 0;*/
 }
 div#section-actions div#action-title{
 	padding: 3px;
@@ -237,9 +238,16 @@ div#section-actions div#action-items a{
 	font-weight:bold;
 	color:#D1043B;
 }
-div#section-actions div#action-items td:hover a,
-div#section-actions div#action-items a:hover{
+div#section-actions div#action-items a:hover {
 	color:#FA648C;
+}
+div#action-items div {
+	display: inline-block;
+	width: 50px;
+	min-height: 50px;
+	text-align: center;
+	margin: 2px;
+	vertical-align: top;
 }
 div#section-actions ul{
 	list-style-type:none;
