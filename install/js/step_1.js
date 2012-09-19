@@ -78,27 +78,22 @@ function checkConfig(){
 			                {type: "CheckFileSystemComponent", value: {location: "generis/common/conf/default", rights: "r", name: "fs_generis_common_conf_default", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "generis/common/conf/sample", rights: "r", name: "fs_generis_common_conf_sample", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "filemanager/views/data", rights: "rw", name: "fs_filemanager_views_data", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "filemanager/includes", rights: "rw", name: "fs_filemanager_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {location: "filemanager/includes", rights: "r", name: "fs_filemanager_includes", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "tao/views/export", rights: "rw", name: "fs_tao_views_export", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "tao/includes", rights: "rw", name: "fs_tao_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {location: "tao/includes", rights: "r", name: "fs_tao_includes", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "tao/data/cache", rights: "rw", name: "fs_tao_data_cache", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "tao/update/patches", rights: "rw", name: "fs_tao_update_patches", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "tao/update/bash", rights: "r", name: "fs_tao_update_bash", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "tao/locales", rights: "r", name: "fs_tao_locales", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "taoItems/data", rights: "rw", name: "fs_taoItems_data", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoItems/views/export", rights: "rw", name: "fs_taoItems_views_export", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoItems/includes", rights: "rw", name: "fs_taoItems_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {location: "taoItems/includes", rights: "r", name: "fs_taoItems_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {location: "taoItems/views/runtime", rights: "rw", name: "fs_taoItems_views_runtime", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "taoDelivery/compiled", rights: "rw", name: "fs_taoDelivery_compiled", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoDelivery/views/export", rights: "rw", name: "fs_taoDelivery_views_export", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoDelivery/includes", rights: "rw", name: "fs_taoDelivery_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoGroups/views/export", rights: "rw", name: "fs_taoGroups_views_export", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoGroups/includes", rights: "rw", name: "fs_taoGroups_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoSubjects/views/export", rights: "rw", name: "fs_taoSubjects_views_export", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoSubjects/includes", rights: "rw", name: "fs_taoSubjects_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoTests/views/export", rights: "rw", name: "fs_taoTests_views_export", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoTests/includes", rights: "rw", name: "fs_taoTests_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoResults/views/export", rights: "w", name: "fs_taoResults_views_export", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoResults/includes", rights: "w", name: "fs_taoResults_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {location: "taoDelivery/includes", rights: "r", name: "fs_taoDelivery_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {location: "taoGroups/includes", rights: "r", name: "fs_taoGroups_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {location: "taoSubjects/includes", rights: "r", name: "fs_taoSubjects_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {location: "taoTests/includes", rights: "r", name: "fs_taoTests_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {location: "taoResults/includes", rights: "r", name: "fs_taoResults_includes", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "wfEngine/includes", rights: "w", name: "fs_wfEngine_includes", optional: false}},
 			                {type: "CheckCustom", value: {name: "mod_rewrite", extension: "tao", optional: false}},
 			                {type: "CheckCustom", value: {name: "database_drivers", extension: "tao", optional: false}}];
@@ -235,7 +230,7 @@ function initHelp(){
 	install.addHelp('hlp_magic_quotes_gpc', 'Magic Quotes is a process that automagically escapes incoming data to the PHP script. The value expected by TAO for this INI parameter is <em>Off</em>.');
 	install.addHelp('hlp_register_globals', 'When on, register_globals will inject your scripts with all sorts of variables, like request variables from HTML forms. This coupled with the fact that PHP doesn\'t require variable initialization means writing insecure code is that much easier. For obvious security reasons, TAO requires this parameter to be set to <em>Off</em>.');
 	install.addHelp('hlp_short_open_tag', 'Tells PHP whether the short form (<? ?>) of PHP\'s open tag should be allowed. The value of the <em>short_open_tag</em> INI parameter must be set to <em>On</em>.');
-	install.addHelp('hlp_mod_rewrite', 'The mod_rewrite module uses a rule-based rewriting engine, based on a PCRE regular-expression parser, to rewrite requested URLs on the fly.');
+	install.addHelp('hlp_mod_rewrite', 'The mod_rewrite module uses a rule-based rewriting engine, based on a PCRE regular-expression parser, to rewrite requested URLs on the fly. It must be enabled to make TAO running properly.');
 	install.addHelp('hlp_database_drivers', 'Database drivers supported by the TAO platform are MySQL and PostgreSQL.');
 	install.addHelp('hlp_fs_root', 'The root directory of your installation must be readable and writable by the user running your web server.');
 	install.addHelp('hlp_fs_generis_data_cache', "The '/generis/data/cache' directory of your installation must be readable and writable by the user running your web server.");
@@ -245,27 +240,22 @@ function initHelp(){
 	install.addHelp('hlp_fs_generis_common_conf_default', "The '/generis/common/conf/default' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_generis_common_conf_sample', "The '/generis/common/conf/sample' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_filemanager_views_data', "The 'filemanager/views/data' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_filemanager_includes', "The 'filemanager/includes/' directory of your installation must be readable and writable by the user running your web server.");
+	install.addHelp('hlp_fs_filemanager_includes', "The 'filemanager/includes/' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_views_export', "The '/tao/views/export' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_data_cache', "The 'tao/data/cache' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_update_patches', "The 'tao/update/patches' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_update_bash', "The 'tao/update/bash' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_locales', "The 'tao/locales' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoItems_data', "The 'taoItems/data' directory of your installation must be readable and writable by the user running your web server.");
+	install.addHelp('hlp_fs_taoItems_includes', "The 'taoItems/includes' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoItems_views_export', "The 'taoItems/views/export' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoItems_includes', "The 'taoItems/includes' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_taoDelivery_compiled', "The 'taoDelivery/compiled' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoDelivery_views_export', "The 'taoDelivery/views/export' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoDelivery_includes', "The 'taoDelivery/includes' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoGroups_views_export', "The 'taoGroups/views/export' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoGroups_includes', "The 'taoGroups/includes' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoSubjects_views_export', "The 'taoSubjects/views/export' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoSubjects_includes', "The 'taoSubjects/includes' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoTests_views_export', "The 'taoTests/views/export' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoTests_includes', "The 'taoTests/includes' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoResults_views_export', "The 'taoResults/views/export' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoResults_includes', "The 'taoResults/includes' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_wfEngine_includes', "The 'wfEngine/includes' directory of your installation must be readable and writable by the user running your web server.");
+	install.addHelp('hlp_fs_taoDelivery_includes', "The 'taoDelivery/includes' directory of your installation must be readable by the user running your web server.");
+	install.addHelp('hlp_fs_taoGroups_includes', "The 'taoGroups/includes' directory of your installation must be readable by the user running your web server.");
+	install.addHelp('hlp_fs_taoSubjects_includes', "The 'taoSubjects/includes' directory of your installation must be readable by the user running your web server.");
+	install.addHelp('hlp_fs_taoTests_includes', "The 'taoTests/includes' directory of your installation must be readable by the user running your web server.");
+	install.addHelp('hlp_fs_taoResults_includes', "The 'taoResults/includes' directory of your installation must be readable by the user running your web server.");
+	install.addHelp('hlp_fs_wfEngine_includes', "The 'wfEngine/includes' directory of your installation must be readable by the user running your web server.");
 }
 
 function getExpectedRightsAsString(expectedRights){
