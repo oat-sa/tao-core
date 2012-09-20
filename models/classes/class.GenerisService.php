@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 
 /**
- * The Service class is an abstraction of each service instance.
+ * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -32,7 +32,7 @@ require_once('tao/models/classes/class.Service.php');
 // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834-constants end
 
 /**
- * The Service class is an abstraction of each service instance.
+ * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
  * @abstract
@@ -87,49 +87,6 @@ abstract class tao_models_classes_GenerisService
 		}
 
         // section 127-0-1-1-266d5677:1246ba0ab68:-8000:0000000000001A9B end
-    }
-
-    /**
-     * Retrieve a particular instance regarding the given parameters
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Class clazz
-     * @param  string identifier
-     * @param  string mode
-     * @param  boolean ignoreCase
-     * @return core_kernel_classes_Resource
-     */
-    public function getOneInstanceBy( core_kernel_classes_Class $clazz, $identifier = '', $mode = 'uri', $ignoreCase = false)
-    {
-        $returnValue = null;
-
-        // section 10-13-1-45--20a3dc13:1239ebd775d:-8000:00000000000018B6 begin
-
-    	($ignoreCase) ? $identifier = strtolower(trim($identifier)) : $identifier = trim($identifier);
-		foreach($clazz->getInstances() as $resource){
-			if( strlen($identifier) > 0 ){
-				$comparator = false;
-				switch ($mode){
-					case 'uri'		: $comparator 	= $resource->uriResource; 	break;
-					case 'label'	: $comparator 	= $resource->getLabel(); 	break;
-					default : throw new Exception("Unsupported mode $mode");
-				}
-				if($ignoreCase){
-					$comparator = strtolower($comparator);
-					$identifier = strtolower($identifier);
-				}
-
-				if( $identifier == $comparator && $comparator !== false ){
-					$returnValue = $resource;
-					break;
-				}
-			}
-		}
-
-        // section 10-13-1-45--20a3dc13:1239ebd775d:-8000:00000000000018B6 end
-
-        return $returnValue;
     }
 
     /**
@@ -887,6 +844,25 @@ abstract class tao_models_classes_GenerisService
         // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B end
 
         return (array) $returnValue;
+    }
+
+    /**
+     * Short description of method getTaoObjectFolder
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  string extension
+     * @param  Resource object
+     * @return string
+     */
+    public function getTaoObjectFolder($extension,  core_kernel_classes_Resource $object)
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-2450a56a:134227b7ec6:-8000:000000000000346A begin
+        // section 127-0-1-1-2450a56a:134227b7ec6:-8000:000000000000346A end
+
+        return (string) $returnValue;
     }
 
 } /* end of abstract class tao_models_classes_GenerisService */

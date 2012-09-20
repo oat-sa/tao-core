@@ -80,14 +80,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if(is_null($uri) || empty($uri)){
 			throw new Exception("No valid uri found");
 		}
-		
-		$clazz = $this->getCurrentClass();
-		$instance = $this->service->getOneInstanceBy($clazz, $uri, 'uri');
-		if(is_null($instance)){
-			throw new Exception("No instance found for the uri {$uri}");
-		}
-		
-		return $instance;
+		return new core_kernel_classes_Resource($uri);
 	}
 
 	/**

@@ -92,24 +92,6 @@ class ServiceTestCase extends UnitTestCase {
 	 */
 	public function testAbstractService(){
 		
-		//test the getOneInstanceBy method on the boolean
-		$booleanTrueinstance = $this->taoService->getOneInstanceBy(
-			new core_kernel_classes_Class(GENERIS_BOOLEAN),  
-			INSTANCE_BOOLEAN_TRUE
-		);
-		$this->assertIsA( $booleanTrueinstance, 'core_kernel_classes_Resource');
-		$this->assertEqual( strtoupper($booleanTrueinstance->getLabel()), 'TRUE');
-			
-		$booleanFalseinstance = $this->taoService->getOneInstanceBy(
-			new core_kernel_classes_Class(GENERIS_BOOLEAN),  
-			'FALSE',
-			'label',
-			true
-		);
-		$this->assertIsA( $booleanFalseinstance, 'core_kernel_classes_Resource');
-		$this->assertEqual( $booleanFalseinstance->uriResource, INSTANCE_BOOLEAN_FALSE);
-		
-		
 		//we create a temp object for the needs of the test
 		$generisResourceClass = new core_kernel_classes_Class(GENERIS_RESOURCE);
 		$testModelClass = $generisResourceClass->createSubClass('aModel', 'test model');
