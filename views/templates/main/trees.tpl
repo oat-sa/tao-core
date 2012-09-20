@@ -22,8 +22,8 @@
 			var tree = new GenerisTreeBrowserClass('#tree-<?=$i?>', "<?=$tree['dataUrl']?>", {
 				formContainer: helpers.getMainContainerSelector(uiBootstrap.tabs),
 				actionId: "<?=$i?>",
-<?if (isset($tree['editClassAction'])):?>editClassAction: "<?=$tree['editClassUrl']?>",<?endif;?>
-<?if (isset($tree['editInstanceAction'])):?>editInstanceAction: "<?=$tree['editInstanceUrl']?>",<?endif;?>
+<?if (isset($tree['editClassUrl'])):?>editClassAction: "<?=$tree['editClassUrl']?>",<?endif;?>
+<?if (isset($tree['editInstanceUrl'])):?>editInstanceAction: "<?=$tree['editInstanceUrl']?>",<?endif;?>
 <?if (isset($tree['addInstanceUrl'])):?>createInstanceAction: "<?=$tree['addInstanceUrl']?>",<?endif;?>
 <?if (isset($tree['moveInstanceUrl'])):?>moveInstanceAction: "<?=$tree['moveInstanceUrl']?>",<?endif;?>
 <?if (isset($tree['addSubClassUrl'])):?>subClassAction: "<?=$tree['addSubClassUrl']?>",<?endif;?>
