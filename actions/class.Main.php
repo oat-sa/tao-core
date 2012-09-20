@@ -150,9 +150,13 @@ class tao_actions_Main extends tao_actions_CommonModule {
 				}
 			}
 
-			$this->setData('sections', $sections);
-			$this->setData('shownExtension', $this->getRequestParameter('ext'));
-			$this->setData('shownStructure', $this->getRequestParameter('structure'));
+			if (count($sections) > 0) {
+				$this->setData('sections', $sections);
+				$this->setData('shownExtension', $this->getRequestParameter('ext'));
+				$this->setData('shownStructure', $this->getRequestParameter('structure'));
+			} else {
+				common_Logger::w('no sections');
+			}
 		} else {
 			// home screen
 			$this->setData('sections', false);
@@ -192,7 +196,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		$rootClasses = array(TAO_GROUP_CLASS, TAO_ITEM_CLASS, TAO_RESULT_CLASS, TAO_SUBJECT_CLASS, TAO_TEST_CLASS);
 
 		$this->setData('actions', false);
-		$this->setData('currentExtensionId', 'tao');
 		$this->setData('shownExtension', $this->getRequestParameter('ext'));
 
 		$structure = $this->service->getSection($extname, $struct, $this->getRequestParameter('section'));
@@ -260,7 +263,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			}
 
 			$this->setData('actions', $actions);
-			$this->setData('currentExtensionId', $ext);
 		}
 
 		$this->setView('main/actions.tpl', true);
