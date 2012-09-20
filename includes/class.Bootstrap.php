@@ -229,10 +229,16 @@ class Bootstrap{
 		//include the config file
 		if ($this->extension->id != "generis"){
 			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($this->extension->id);
-			foreach ($ext->getConstants() as $key => $value) {
-				if(!defined($key) && !is_array($value)){
-					define($key, $value);
+			if (count($ext->getConstants()) > 0) {
+				foreach ($ext->getConstants() as $key => $value) {
+					if(!defined($key) && !is_array($value)){
+						define($key, $value);
+					}
 				}
+			}
+			// backward compatibility 
+			if (file_exists($this->ctxPath. "/includes/config.php.sample") && file_exists($this->ctxPath. "/includes/config.php")) {
+				require_once $this->ctxPath. "/includes/config.php";
 			}
 		}
 		// we will load the constant file of the current extension and all it's dependancies
