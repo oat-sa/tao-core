@@ -115,16 +115,26 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	public function index()
 	{
 		$extensions = array();
-		foreach($this->service->getAllStructures() as $i => $structure){
-			if($structure['data']['visible'] == 'true'){
+		foreach ($this->service->getAllStructures() as $i => $structure) {
+			if ($structure['data']['visible'] == 'true') {
 				$data = $structure['data'];
 				$extensions[$i] = array(
 					'id'			=> (string) $structure['id'],
 					'name' 			=> (string) $data['name'],
 					'extension'		=> $structure['extension'],
-					'description'	=> (string) $data->description,
-					'enabled'		=> tao_helpers_funcACL_funcACL::hasAccess($structure['extension'], (string) basename(dirname($data['url'])), (string) basename($data['url']))
+					'description'	=> (string) $data->description
 				);
+				//					'enabled'		=> tao_helpers_funcACL_funcACL::hasAccess($structure['extension'], (string) basename(dirname($data['url'])), (string) basename($data['url']))
+				//Test if access
+				$access = false;
+				foreach ($data->sections->section as $section) {
+					list($ext, $mod, $act) = explode('/', trim((string) $section['url'], '/'));
+					if (tao_helpers_funcACL_funcACL::hasAccess($ext, $mod, $act)) {
+						$access = true;
+						break;
+					}
+				}
+				$extensions[$i]['enabled'] = $access;
 			}
 		}
 		ksort($extensions);
@@ -190,7 +200,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		$uri = $this->hasSessionAttribute('uri');
 		$classUri = $this->hasSessionAttribute('classUri');
-		$extname = $this->hasRequestParameter('ext'); 
+		$extname = $this->hasRequestParameter('ext');
 		$struct = $this->getRequestParameter('structure');
 
 		$rootClasses = array(TAO_GROUP_CLASS, TAO_ITEM_CLASS, TAO_RESULT_CLASS, TAO_SUBJECT_CLASS, TAO_TEST_CLASS);
@@ -293,7 +303,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	{
 
 		$this->setData('trees', false);
-		$extname = $this->getRequestParameter('ext'); 
+		$extname = $this->getRequestParameter('ext');
 		$struct = $this->getRequestParameter('structure');
 
 		$structure = $this->service->getSection($extname, $struct, $this->getRequestParameter('section'));
