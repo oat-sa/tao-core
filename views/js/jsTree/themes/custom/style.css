@@ -41,7 +41,7 @@
 .tree-custom li.node-delivery ins{background-image:url("delivery.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-campaign ins{background-image:url("campaign.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-result_server ins{background-image:url("result_server.png"); background-position:0 0; background-repeat:no-repeat;}
-.tree-custom li.node-role ins{background-image:url("role.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-role ins{background-image:url("user.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-process ins{background-image:url("process.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-process-root ins{background-image:url("process-root.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-activity ins{background-image:url("process_activity.png"); background-position:0 0; background-repeat:no-repeat;}
