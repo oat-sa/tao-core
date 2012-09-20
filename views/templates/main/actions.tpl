@@ -8,8 +8,8 @@
 <?
 	if ($action['disabled']):
 		// Snippet: determine what is the action icon depending on the current extension.
-		if ($currentExtensionId !== false && file_exists(ROOT_PATH . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '_disabled.png')) {
-			$actionIcon = ROOT_URL . '/' . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '_disabled.png';
+		if (get_data('shownExtension') !== false && file_exists(ROOT_PATH . get_data('shownExtension') .  '/views/img/actions/' . $action['name'] . '_disabled.png')) {
+			$actionIcon = ROOT_URL . '/' . get_data('shownExtension') .  '/views/img/actions/' . $action['name'] . '_disabled.png';
 		} else {
 			$actionIcon = TAOBASE_WWW . 'img/actions/' . $action['name'] . '_disabled.png';
 		}
@@ -19,8 +19,8 @@
 <?
 	else:
 		// Snippet: determine what is the action icon depending on the current extension.
-		if ($currentExtensionId !== false && file_exists(ROOT_PATH . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '.png')) {
-			$actionIcon = ROOT_URL . '/' . $currentExtensionId .  '/views/img/actions/' . $action['name'] . '.png';
+		if (get_data('shownExtension') !== false && file_exists(ROOT_PATH . get_data('shownExtension') .  '/views/img/actions/' . $action['name'] . '.png')) {
+			$actionIcon = ROOT_URL . '/' . get_data('shownExtension') .  '/views/img/actions/' . $action['name'] . '.png';
 		} else {
 			$actionIcon = TAOBASE_WWW . 'img/actions/' . $action['name'] . '.png';
 		}

@@ -193,6 +193,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		$this->setData('actions', false);
 		$this->setData('currentExtensionId', 'tao');
+		$this->setData('shownExtension', $this->getRequestParameter('ext'));
 
 		$structure = $this->service->getSection($extname, $struct, $this->getRequestParameter('section'));
 		if(isset($structure["actions"])){
