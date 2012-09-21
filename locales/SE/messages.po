@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-rc01\n"
-"PO-Revision-Date: 2012-06-15T13:31:20\n"
+"Project-Id-Version: TAO v2.3-beta\n"
+"PO-Revision-Date: 2012-09-21T15:06:26\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: SE\n"
@@ -11,6 +11,9 @@ msgstr ""
 msgid " has been deleted successfully"
 msgstr ""
 
+msgid " has been installed"
+msgstr ""
+
 msgid " next"
 msgstr ""
 
@@ -18,6 +21,9 @@ msgid " of the instance "
 msgstr ""
 
 msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "%s extensions to install"
 msgstr ""
 
 msgid "(empty)"
@@ -59,6 +65,9 @@ msgstr ""
 msgid "Access denied. Please renew your authentication!"
 msgstr "Åtkomst nekad"
 
+msgid "Access forbidden"
+msgstr ""
+
 msgid "Action"
 msgstr ""
 
@@ -82,6 +91,9 @@ msgid "Add a user"
 msgstr "Lägg till en användare"
 
 msgid "Add all"
+msgstr ""
+
+msgid "Add grades"
 msgstr ""
 
 msgid "Add property"
@@ -118,10 +130,19 @@ msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
 msgstr ""
 
+msgid "Author"
+msgstr ""
+
 msgid "Authoring"
 msgstr "Författa"
 
 msgid "Auto. add new"
+msgstr ""
+
+msgid "Available Extensions"
+msgstr ""
+
+msgid "Back Office (test creator)"
 msgstr ""
 
 msgid "Browse"
@@ -133,13 +154,20 @@ msgstr "Avsluta"
 msgid "Cannot successfully build the optimized table indexes"
 msgstr ""
 
+#, tao-public
+msgid "Change Password"
+msgstr ""
+
+msgid "Change password"
+msgstr ""
+
 msgid "Change the password"
 msgstr "Ändra lösenord"
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -155,6 +183,9 @@ msgid "class selected"
 msgstr "klass vald"
 
 msgid "Classes"
+msgstr ""
+
+msgid "Close tab"
 msgstr ""
 
 msgid "Column"
@@ -187,9 +218,6 @@ msgstr "Bekräfta"
 msgid "Connect"
 msgstr "Anslut"
 
-msgid "Country"
-msgstr ""
-
 msgid "Create"
 msgstr "Skapa"
 
@@ -220,10 +248,10 @@ msgstr "Data framgångsrikt importerat"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Dataspråk"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Dataspråk"
 
 msgid "Date"
@@ -244,11 +272,11 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "delete"
-msgstr "ta bort"
-
 msgid "Delete"
 msgstr "Radera"
+
+msgid "delete"
+msgstr "ta bort"
 
 msgid "Delete property"
 msgstr "Radera egenskap"
@@ -259,17 +287,20 @@ msgstr ""
 msgid "Delete user"
 msgstr "Ta bort användare"
 
+msgid "Delivery results"
+msgstr ""
+
 msgid "Do you really want to delete this role ?"
 msgstr ""
 
 msgid "Don't set"
 msgstr "Fastställ ej"
 
-msgid "Download"
-msgstr "Ladda ner"
-
 msgid "download"
 msgstr "ladda ner"
+
+msgid "Download"
+msgstr "Ladda ner"
 
 msgid "Download content"
 msgstr ""
@@ -283,11 +314,11 @@ msgstr "Dynamisk datumväljare"
 msgid "e-mail"
 msgstr ""
 
-msgid "Edit"
-msgstr "Redigera"
-
 msgid "edit"
 msgstr "redigera"
+
+msgid "Edit"
+msgstr "Redigera"
 
 msgid "Edit a role"
 msgstr ""
@@ -311,11 +342,11 @@ msgstr ""
 msgid "Edit user"
 msgstr "Redigera användare"
 
-msgid "element"
-msgstr "element"
-
 msgid "Element"
 msgstr "Beståndsdel"
+
+msgid "element"
+msgstr "element"
 
 msgid "element deleted"
 msgstr "element raderat"
@@ -343,6 +374,19 @@ msgstr "Arkiv för exporterade filer"
 
 msgid "exported successfully"
 msgstr "framgångsrikt exporterat"
+
+msgid "Extension"
+msgstr ""
+
+msgid "Extension "
+msgstr ""
+
+#, tao-public
+msgid "Extensions manager"
+msgstr ""
+
+msgid "Extensions\' configurations updated "
+msgstr ""
 
 msgid "failed"
 msgstr ""
@@ -395,16 +439,31 @@ msgstr ""
 msgid "Inclusive (AND)"
 msgstr "Inklusive (OCH)"
 
+msgid "Install"
+msgstr ""
+
+msgid "Install finished"
+msgstr ""
+
+msgid "Installation..."
+msgstr ""
+
+msgid "Installed Extensions"
+msgstr ""
+
+msgid "Installing %s..."
+msgstr ""
+
 msgid "Instances"
 msgstr ""
 
 msgid "instances"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Gränssnittsspråk"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Gränssnittsspråk"
 
 msgid "Interface Language *"
@@ -431,13 +490,16 @@ msgstr "Javascript krävs för att köra denna mjukvara. Var vänlig aktivera de
 msgid "Label"
 msgstr "Etikett"
 
-msgid "Label already used"
-msgstr "Etikett används redan"
-
 msgid "Language"
 msgstr "Språk"
 
+msgid "Language not supported"
+msgstr ""
+
 msgid "Last Name"
+msgstr ""
+
+msgid "Lastest Version"
 msgstr ""
 
 msgid "List"
@@ -464,6 +526,12 @@ msgstr "Listvärden"
 msgid "Lists"
 msgstr "Listor"
 
+msgid "Loaded"
+msgstr ""
+
+msgid "Loaded At Startup"
+msgstr ""
+
 msgid "Local"
 msgstr ""
 
@@ -480,6 +548,9 @@ msgid "login already exist"
 msgstr "login existerar redan"
 
 msgid "Login available"
+msgstr ""
+
+msgid "Login failed"
 msgstr ""
 
 msgid "Login not available"
@@ -553,6 +624,7 @@ msgstr ""
 msgid "must be before: "
 msgstr ""
 
+#, tao-public
 msgid "My settings"
 msgstr "Mina inställningar"
 
@@ -577,6 +649,9 @@ msgstr "Nytt lösenord"
 msgid "Next"
 msgstr "Nästa"
 
+msgid "No"
+msgstr ""
+
 msgid "No account match the given login / password"
 msgstr "Inget konto matchar den angivna inloggningen/lösenordet"
 
@@ -591,6 +666,9 @@ msgstr ""
 
 msgid "Nothing imported"
 msgstr "Inget importerat"
+
+msgid "Nothing to install !"
+msgstr ""
 
 msgid "Number of elements"
 msgstr "Antal beståndsdelar"
@@ -628,7 +706,13 @@ msgstr "Lösenord"
 msgid "Password *"
 msgstr "Lösenord *"
 
+msgid "Password changed"
+msgstr ""
+
 msgid "Passwords are not matching"
+msgstr ""
+
+msgid "Path"
 msgstr ""
 
 msgid "Please confirm deletion"
@@ -667,6 +751,9 @@ msgstr "Var vänlig ladda upp en RDF-fil"
 msgid "Please wait a moment or contact your administrator."
 msgstr ""
 
+msgid "Process Front Office"
+msgstr ""
+
 msgid "Property"
 msgstr "Egenskaper"
 
@@ -676,10 +763,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
 msgid "Remove"
@@ -696,6 +783,9 @@ msgstr "Upprepa det nya lösenordet"
 
 msgid "Repeat password *"
 msgstr "Upprepa lösenordet *"
+
+msgid "Requires"
+msgstr ""
 
 msgid "Resource saved"
 msgstr "Resurs sparad"
@@ -745,6 +835,7 @@ msgstr "Vald fil"
 msgid "Selection saved successfully"
 msgstr "Urval framgångsrikt sparat"
 
+#, tao-public
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -772,13 +863,32 @@ msgstr "Stödda importformat"
 msgid "TAO Back Office"
 msgstr "TAO Styrning"
 
+msgid "TAO back office"
+msgstr ""
+
+msgid "TAO Delivery Server"
+msgstr ""
+
+msgid "TAO front office"
+msgstr ""
+
 msgid "TAO Home"
 msgstr ""
 
+#, tao-public
 msgid "TAO optimizer"
 msgstr ""
 
 msgid "TAO updater"
+msgstr ""
+
+msgid "TAO Workflow Engine"
+msgstr ""
+
+msgid "TAO workflow engine"
+msgstr ""
+
+msgid "Test Front Office (test takers)"
 msgstr ""
 
 msgid "The column "
@@ -868,6 +978,12 @@ msgstr "Ladda upp RDF-fil"
 msgid "Upload the file to version"
 msgstr ""
 
+msgid "URL"
+msgstr ""
+
+msgid "URL of your Data Version Management System. "
+msgstr ""
+
 msgid "Use default value"
 msgstr ""
 
@@ -883,6 +999,12 @@ msgstr "Användare tillagd"
 msgid "User deleted successfully"
 msgstr "Användare framgångsrikt borttagen"
 
+msgid "User must have at least one role !"
+msgstr ""
+
+msgid "User name:"
+msgstr ""
+
 msgid "User saved"
 msgstr "Användare sparad"
 
@@ -893,12 +1015,25 @@ msgstr "Användare"
 msgid "Validation of the imported file has failed"
 msgstr "Den importerade filen har inte kunnat valideras"
 
+#, tao-public
+msgid "Versioning"
+msgstr ""
+
 msgid "Versioning disabled"
+msgstr ""
+
+msgid "Versionning"
 msgstr ""
 
 msgid "View"
 msgstr "Visning"
 
+msgid "Yes"
+msgstr ""
+
 msgid "You cannot modify this property"
 msgstr "Det går inte att förändra denna egenskap"
+
+msgid "Your authentication expired"
+msgstr ""
 

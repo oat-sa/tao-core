@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.2-rc01\n"
-"PO-Revision-Date: 2012-06-15T13:30:56\n"
+"Project-Id-Version: TAO v2.3-beta\n"
+"PO-Revision-Date: 2012-09-21T15:06:02\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: AR\n"
@@ -11,6 +11,9 @@ msgstr ""
 msgid " has been deleted successfully"
 msgstr ""
 
+msgid " has been installed"
+msgstr ""
+
 msgid " next"
 msgstr ""
 
@@ -18,6 +21,9 @@ msgid " of the instance "
 msgstr ""
 
 msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "%s extensions to install"
 msgstr ""
 
 msgid "(empty)"
@@ -59,6 +65,9 @@ msgstr ""
 msgid "Access denied. Please renew your authentication!"
 msgstr "!تم رفض الوصول. يرجى تجديد المصادقة الخاصة بك"
 
+msgid "Access forbidden"
+msgstr ""
+
 msgid "Action"
 msgstr ""
 
@@ -82,6 +91,9 @@ msgid "Add a user"
 msgstr "اضافة مستخدم"
 
 msgid "Add all"
+msgstr ""
+
+msgid "Add grades"
 msgstr ""
 
 msgid "Add property"
@@ -118,10 +130,19 @@ msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
 msgstr ""
 
+msgid "Author"
+msgstr ""
+
 msgid "Authoring"
 msgstr "محرر"
 
 msgid "Auto. add new"
+msgstr ""
+
+msgid "Available Extensions"
+msgstr ""
+
+msgid "Back Office (test creator)"
 msgstr ""
 
 msgid "Browse"
@@ -133,13 +154,20 @@ msgstr "الغاء"
 msgid "Cannot successfully build the optimized table indexes"
 msgstr ""
 
+#, tao-public
+msgid "Change Password"
+msgstr ""
+
+msgid "Change password"
+msgstr ""
+
 msgid "Change the password"
 msgstr "تغيير كلمة المرور"
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -155,6 +183,9 @@ msgid "class selected"
 msgstr "classe sélectionnée"
 
 msgid "Classes"
+msgstr ""
+
+msgid "Close tab"
 msgstr ""
 
 msgid "Column"
@@ -187,9 +218,6 @@ msgstr "تأكيد"
 msgid "Connect"
 msgstr "الاتصال"
 
-msgid "Country"
-msgstr ""
-
 msgid "Create"
 msgstr "إنشاء"
 
@@ -220,10 +248,10 @@ msgstr "البيانات التي تم استيرادها بنجاح"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "لغة البيانات"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "لغة البيانات"
 
 msgid "Date"
@@ -244,10 +272,10 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr "حذف"
 
-msgid "Delete"
+msgid "delete"
 msgstr "حذف"
 
 msgid "Delete property"
@@ -259,16 +287,19 @@ msgstr ""
 msgid "Delete user"
 msgstr "حذف المستخدم"
 
+msgid "Delivery results"
+msgstr ""
+
 msgid "Do you really want to delete this role ?"
 msgstr ""
 
 msgid "Don't set"
 msgstr "لا تدرج"
 
-msgid "Download"
+msgid "download"
 msgstr "تحميل"
 
-msgid "download"
+msgid "Download"
 msgstr "تحميل"
 
 msgid "Download content"
@@ -283,10 +314,10 @@ msgstr "روزنامة"
 msgid "e-mail"
 msgstr ""
 
-msgid "Edit"
+msgid "edit"
 msgstr "تحرير"
 
-msgid "edit"
+msgid "Edit"
 msgstr "تحرير"
 
 msgid "Edit a role"
@@ -311,11 +342,11 @@ msgstr ""
 msgid "Edit user"
 msgstr "تحرير مستخدم"
 
-msgid "element"
-msgstr "عنصر"
-
 msgid "Element"
 msgstr "العنصر"
+
+msgid "element"
+msgstr "عنصر"
 
 msgid "element deleted"
 msgstr "عنصر محذوف"
@@ -343,6 +374,19 @@ msgstr "مكتبة الملفات المصدرة"
 
 msgid "exported successfully"
 msgstr "تصدير بنجاح"
+
+msgid "Extension"
+msgstr ""
+
+msgid "Extension "
+msgstr ""
+
+#, tao-public
+msgid "Extensions manager"
+msgstr ""
+
+msgid "Extensions\' configurations updated "
+msgstr ""
 
 msgid "failed"
 msgstr ""
@@ -395,16 +439,31 @@ msgstr ""
 msgid "Inclusive (AND)"
 msgstr "Inclusif (ET)"
 
+msgid "Install"
+msgstr ""
+
+msgid "Install finished"
+msgstr ""
+
+msgid "Installation..."
+msgstr ""
+
+msgid "Installed Extensions"
+msgstr ""
+
+msgid "Installing %s..."
+msgstr ""
+
 msgid "Instances"
 msgstr ""
 
 msgid "instances"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "لغة الواجهة"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "لغة الواجهة"
 
 msgid "Interface Language *"
@@ -431,13 +490,16 @@ msgstr ".مطلوب جافا سكريبت لتشغيل هذا البرنامج �
 msgid "Label"
 msgstr "تسمية"
 
-msgid "Label already used"
-msgstr "تسمية قيد الاستعمال"
-
 msgid "Language"
 msgstr "اللغة"
 
+msgid "Language not supported"
+msgstr ""
+
 msgid "Last Name"
+msgstr ""
+
+msgid "Lastest Version"
 msgstr ""
 
 msgid "List"
@@ -464,6 +526,12 @@ msgstr "قيم القائمة"
 msgid "Lists"
 msgstr "القوائم"
 
+msgid "Loaded"
+msgstr ""
+
+msgid "Loaded At Startup"
+msgstr ""
+
 msgid "Local"
 msgstr ""
 
@@ -480,6 +548,9 @@ msgid "login already exist"
 msgstr "المعرف قيد الاستخدام"
 
 msgid "Login available"
+msgstr ""
+
+msgid "Login failed"
 msgstr ""
 
 msgid "Login not available"
@@ -553,6 +624,7 @@ msgstr ""
 msgid "must be before: "
 msgstr ""
 
+#, tao-public
 msgid "My settings"
 msgstr "الإعدادات"
 
@@ -577,6 +649,9 @@ msgstr "كلمة مرور جديدة"
 msgid "Next"
 msgstr "التالي"
 
+msgid "No"
+msgstr ""
+
 msgid "No account match the given login / password"
 msgstr "لا يتطابق مع حساب معين الدخول / كلمة السر"
 
@@ -591,6 +666,9 @@ msgstr ""
 
 msgid "Nothing imported"
 msgstr "لا شيء مستورد"
+
+msgid "Nothing to install !"
+msgstr ""
 
 msgid "Number of elements"
 msgstr "عدد العناصر"
@@ -628,7 +706,13 @@ msgstr "كلمة السر"
 msgid "Password *"
 msgstr "*كلمة السر"
 
+msgid "Password changed"
+msgstr ""
+
 msgid "Passwords are not matching"
+msgstr ""
+
+msgid "Path"
 msgstr ""
 
 msgid "Please confirm deletion"
@@ -669,6 +753,9 @@ msgstr ".RDF الرجاء تحميل ملف"
 msgid "Please wait a moment or contact your administrator."
 msgstr ""
 
+msgid "Process Front Office"
+msgstr ""
+
 msgid "Property"
 msgstr "خاصية"
 
@@ -678,10 +765,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
 msgid "Remove"
@@ -698,6 +785,9 @@ msgstr "كرر كلمة السر الجديدة"
 
 msgid "Repeat password *"
 msgstr "*كرر كلمة السر"
+
+msgid "Requires"
+msgstr ""
 
 msgid "Resource saved"
 msgstr "تم حفظ المورد"
@@ -747,6 +837,7 @@ msgstr ":الملف المحدد"
 msgid "Selection saved successfully"
 msgstr "تم حفظ التحديد بنجاح"
 
+#, tao-public
 msgid "Settings"
 msgstr "الإعدادات"
 
@@ -774,13 +865,32 @@ msgstr "صيغ التصدير المعتمدة"
 msgid "TAO Back Office"
 msgstr "TAO: Outils d'administration"
 
+msgid "TAO back office"
+msgstr ""
+
+msgid "TAO Delivery Server"
+msgstr ""
+
+msgid "TAO front office"
+msgstr ""
+
 msgid "TAO Home"
 msgstr ""
 
+#, tao-public
 msgid "TAO optimizer"
 msgstr ""
 
 msgid "TAO updater"
+msgstr ""
+
+msgid "TAO Workflow Engine"
+msgstr ""
+
+msgid "TAO workflow engine"
+msgstr ""
+
+msgid "Test Front Office (test takers)"
 msgstr ""
 
 msgid "The column "
@@ -870,6 +980,12 @@ msgstr "RDF تحميل ملف"
 msgid "Upload the file to version"
 msgstr ""
 
+msgid "URL"
+msgstr ""
+
+msgid "URL of your Data Version Management System. "
+msgstr ""
+
 msgid "Use default value"
 msgstr ""
 
@@ -885,6 +1001,12 @@ msgstr "مستخدم مضاف"
 msgid "User deleted successfully"
 msgstr "تم حذف المستخدم بنجاح"
 
+msgid "User must have at least one role !"
+msgstr ""
+
+msgid "User name:"
+msgstr ""
+
 msgid "User saved"
 msgstr "تم حفظ المستخدم"
 
@@ -895,12 +1017,25 @@ msgstr "المستخدمون"
 msgid "Validation of the imported file has failed"
 msgstr "لقد فشل التحقق من صحة  الملف المستورد"
 
+#, tao-public
+msgid "Versioning"
+msgstr ""
+
 msgid "Versioning disabled"
+msgstr ""
+
+msgid "Versionning"
 msgstr ""
 
 msgid "View"
 msgstr "عرض"
 
+msgid "Yes"
+msgstr ""
+
 msgid "You cannot modify this property"
 msgstr "لا يمكنك تعديل هذه الخاصية"
+
+msgid "Your authentication expired"
+msgstr ""
 

@@ -41,7 +41,6 @@ $GLOBALS['__l10n']["Manage data list"]="Daten Lëschten verwalten";
 $GLOBALS['__l10n']["Manage deliveries"]="Ausliwwerungen managen";
 $GLOBALS['__l10n']["Manage groups"]="Gruppen verwalten";
 $GLOBALS['__l10n']["Manage items"]="Itemen verwalten";
-$GLOBALS['__l10n']["Manage results"]="Resultater verwalten";
 $GLOBALS['__l10n']["Manage test takers"]="Testpersounen verwalten";
 $GLOBALS['__l10n']["Manage tests"]="Testermanagen";
 $GLOBALS['__l10n']["Meta Data"]="Logout";
