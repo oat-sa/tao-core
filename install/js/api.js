@@ -288,7 +288,7 @@ TaoInstall.prototype.getValidator = function(element, options){
 							break;
 							
 							case 'dbname':
-								var reg = new RegExp("^[a-zA-Z0-9]{3,63}$");
+								var reg = new RegExp("^[a-zA-Z0-9_]{3,63}$");
 								element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };
 							break;
 							
