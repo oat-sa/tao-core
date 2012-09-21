@@ -1287,9 +1287,12 @@ class tao_scripts_TaoTranslate
             }
             
             // Recompile the dependent extension (for the moment 'tao' meta-extension only).
+            $oldVerbose = $this->options['verbose'];
+            $this->parameters['verbose'] = false;
             $this->options['extension'] = $depExtId;
             $this->actionCompile();
             $this->options['extension'] = $extension;
+            $this->parameters['verbose'] = $oldVerbose;
             
             $poFileReader = new tao_helpers_translation_POFileReader($depPath);
             $poFileReader->read();
