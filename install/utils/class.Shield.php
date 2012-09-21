@@ -61,7 +61,8 @@ class tao_install_utils_Shield{
 														   . "RewriteCond %{REQUEST_URI} !/css/ [NC]\n"
 														   . "RewriteCond %{REQUEST_URI} !/js/ [NC]\n"
 														   . "RewriteCond %{REQUEST_URI} !/images/ [NC]\n"
-														   . "RewriteRule ^.*$ production.html\n"
+														   . "RewriteCond %{REQUEST_URI} !/production.html [NC]\n"
+														   . "RewriteRule ^.*$ /tao/install/production.html\n"
 														   . "</IfModule>");
 			}
 		}
