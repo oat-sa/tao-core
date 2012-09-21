@@ -94,7 +94,7 @@ function checkConfig(){
 			                {type: "CheckFileSystemComponent", value: {location: "taoSubjects/includes", rights: "r", name: "fs_taoSubjects_includes", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "taoTests/includes", rights: "r", name: "fs_taoTests_includes", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {location: "taoResults/includes", rights: "r", name: "fs_taoResults_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "wfEngine/includes", rights: "w", name: "fs_wfEngine_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {location: "wfEngine/includes", rights: "r", name: "fs_wfEngine_includes", optional: false}},
 			                {type: "CheckCustom", value: {name: "mod_rewrite", extension: "tao", optional: false}},
 			                {type: "CheckCustom", value: {name: "database_drivers", extension: "tao", optional: false}}];
 			    
