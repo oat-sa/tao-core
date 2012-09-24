@@ -1,7 +1,7 @@
 <?php 
 // -- Install bootstrap
 $rootDir = dir(dirname(__FILE__).'/../../');
-$root = realpath($rootDir->path).'/';
+$root = realpath($rootDir->path) . DIRECTORY_SEPARATOR ;
 define('TAO_INSTALL_PATH', $root);
 define('GENERIS_PATH', $root.'generis/');
 set_include_path(get_include_path() . PATH_SEPARATOR . $root. PATH_SEPARATOR . GENERIS_PATH);

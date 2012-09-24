@@ -71,14 +71,14 @@ class tao_install_utils_ConfigWriter{
 		if(!is_readable($this->file) || !is_writable($this->file)){
 			throw new tao_install_utils_Exception("Unable to write constants: $this->file must have read and write permissions!");
 		}
-		
+
 		$content = file_get_contents($this->file);
 		if(!empty($content)){
 			foreach($constants as $name => $val){
 				
 				if(is_string($val)){
 					$val = addslashes((string)$val);
-					$content = preg_replace('/(\''.$name.'\')(.*?)$/ms','$1,\''.$val.'\');',$content);
+					$content = preg_replace('/(\''.$name.'\')(.*?)$/ms','$1,\''.addslashes($val).'\');',$content);
 				}
 				else if(is_bool($val)){
 					($val === true) ? $val = 'true' : $val = 'false';

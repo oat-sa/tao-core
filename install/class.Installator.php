@@ -167,11 +167,11 @@ class tao_install_Installator{
 
 		$this->options = $options;
 
-		if(!preg_match("/\/$/", $this->options['root_path'])){
-			$this->options['root_path'] .= '/';
+		if(substr($this->options['root_path'], -1) != DIRECTORY_SEPARATOR){
+			$this->options['root_path'] .= DIRECTORY_SEPARATOR;
 		}
-		if(!preg_match("/\/$/", $this->options['install_path'])){
-			$this->options['install_path'] .= '/';
+		if(substr($this->options['install_path']) != DIRECTORY_SEPARATOR){
+			$this->options['install_path'] .= DIRECTORY_SEPARATOR;
 		}
 		
 		if(isset($options['extensions']) && is_array($options['extensions'])) {
