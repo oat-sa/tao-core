@@ -55,7 +55,7 @@
 	<div id="tabs">
 		<ul>
 		<?foreach(get_data('sections') as $section):?>
-			<li><a id="<?=$section['id']?>" href="<?=ROOT_URL.$section['url']?>" title="<?=$section['name']?>"><?=__($section['name'])?></a></li>
+			<li><a id="<?=$section['id']?>" href="<?=ROOT_URL . substr($section['url'], 1) ?>" title="<?=$section['name']?>"><?=__($section['name'])?></a></li>
 		<?endforeach?>
 		</ul>
 
