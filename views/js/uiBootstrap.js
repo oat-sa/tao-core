@@ -10,7 +10,7 @@
  * @author Jehan Bihin (using class.js)
  */
 
-define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquery.fmRunner.js', 'class'], function(req, $) {
+define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery.fmRunner.js', 'class'], function(req, $) {
 	var UiBootstrap = Class.extend({
 		init: function(options) {
 			this.initAjax();
@@ -82,7 +82,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquer
 					helpers.createErrorMessage(request.responseText);
 				}
 				if(request.status == 403){
-					window.location = root_url + '/tao/Main/logout';
+					window.location = root_url + 'tao/Main/logout';
 				}
 			});
 		},
@@ -110,7 +110,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquer
 				section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('title');
 				if (section != undefined) {
 					$.ajax({
-						url: root_url + '/'+shownExtension+'/Main/getSectionTrees',
+						url: root_url + shownExtension + '/Main/getSectionTrees',
 						type: "GET",
 						data: {
 							section: section,		//get the link text of the selected tab
@@ -139,7 +139,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + '/filemanager/views/js/jquer
 			//left menu actions init by loading the tab content
 			if(this.tabs.length > 0){
 				$.ajax({
-					url: root_url + '/'+shownExtension+'/Main/getSectionActions',
+					url: root_url + shownExtension + '/Main/getSectionActions',
 					type: "GET",
 					data: {
 						section: $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('title'),		//get the link text of the selected tab
