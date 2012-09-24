@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Utilities on URL/URI
  *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -40,7 +40,7 @@ function _url($action = null, $module = null, $extension = null, $params = array
  * Utilities on URL/URI
  *
  * @access public
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -97,7 +97,7 @@ class tao_helpers_Uri
      * get the project base url
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
     public static function getBaseUrl()
@@ -123,7 +123,7 @@ class tao_helpers_Uri
      * Short description of method getRootUrl
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
     public static function getRootUrl()
@@ -150,7 +150,7 @@ class tao_helpers_Uri
      * it for the used kind of url resolving
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string action
      * @param  string module
      * @param  string extension
@@ -199,7 +199,7 @@ class tao_helpers_Uri
      * format propertly an ol style url
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string url
      * @param  array params
      * @return string
@@ -218,7 +218,7 @@ class tao_helpers_Uri
      * encode an URI
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string uri
      * @param  boolean dotMode
      * @return string
@@ -247,7 +247,7 @@ class tao_helpers_Uri
      * decode an URI
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string uri
      * @param  boolean dotMode
      * @return string
@@ -277,7 +277,7 @@ class tao_helpers_Uri
      * Encode the uris composing either the keys or the values of the array in
      *
      * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array uris
      * @param  int encodeMode
      * @param  boolean dotMode
@@ -331,6 +331,31 @@ class tao_helpers_Uri
 		}
 
         // section 127-0-1-1-2045fd08:128b9eb9c51:-8000:0000000000001F71 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Tries to get the url of a file or directory,
+     * Throws an exception if the provided file lies outside of tao
+     * Does not test whenever the file is accessible or not
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  string filepath
+     * @return string
+     */
+    public static function getUrlForPath($filepath)
+    {
+        $returnValue = (string) '';
+
+        // section 10-30-1--78--740a6007:139f87bbe8d:-8000:0000000000003B83 begin
+        if (substr($filepath, 0, strlen(ROOT_PATH)) != ROOT_PATH) {
+        	throw new common_exception_Error('filepath "'.$filepath.'" is not located in the tao directory');
+        }
+        $parts = explode(DIRECTORY_SEPARATOR, substr($filepath, strlen(ROOT_PATH)));
+        $returnValue = ROOT_URL.implode('/', $parts);
+        // section 10-30-1--78--740a6007:139f87bbe8d:-8000:0000000000003B83 end
 
         return (string) $returnValue;
     }
