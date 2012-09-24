@@ -58,16 +58,16 @@ return array(
 		'BASE_PATH' => $extpath,
 	
 		#BASE URL (usually the domain root)
-		'BASE_URL' => ROOT_URL.'/tao',
+		'BASE_URL' => ROOT_URL.'tao',
 	
 		#BASE WWW the web resources path
-		'BASE_WWW' => ROOT_URL . '/tao/views/',
+		'BASE_WWW' => ROOT_URL . 'tao/views/',
 	 
 	 	#TPL PATH the path to the templates
 	 	'TPL_PATH'	=> $extpath."views".DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR,
 	
 		#STUFF that belongs in TAO
-		'TAOBASE_WWW' => ROOT_URL . '/tao/views/',
+		'TAOBASE_WWW' => ROOT_URL . 'tao/views/',
 		'TAO_TPL_PATH' => $extpath."views".DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR,
 		'TAOVIEW_PATH' => $extpath."views".DIRECTORY_SEPARATOR,
 	
