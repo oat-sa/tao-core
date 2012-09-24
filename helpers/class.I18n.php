@@ -89,7 +89,7 @@ class tao_helpers_I18n
 
 		//init the ClearFw l10n tools
 		l10n::init();
-		l10n::set(BASE_PATH.'/locales/'.self::$langCode.'/messages');
+		l10n::set(BASE_PATH.'locales/'.self::$langCode.'/messages');
 		
         if (PHP_SAPI != 'cli') {
             $mvcContext = Context::getInstance();
