@@ -91,7 +91,7 @@ class tao_install_services_InstallService extends tao_install_services_Service{
 		catch(Exception $e){
 			$report = array('type' => 'InstallReport',
 							'value' => array('status' => 'invalid',
-											 'message' => $e->getMessage()));
+											 'message' => $e->getMessage() . ' in ' . $e->getFile() . ' at line ' . $e->getLine()));
 			$this->setResult(new tao_install_services_Data(json_encode($report)));
 			
 			restore_error_handler();

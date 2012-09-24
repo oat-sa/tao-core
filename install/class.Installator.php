@@ -286,6 +286,11 @@ class tao_install_Installator{
 			set_time_limit(300);
 			common_Logger::i('Starting TAO install', 'INSTALL');
 	        
+			// Sanitize $installData if needed.
+			if(!preg_match("/\/$/", $installData['module_url'])){
+				$installData['module_url'] .= '/';
+			}
+			
 			/*
 			 *  1 - Test DB connection (done by the constructor)
 			 */
@@ -376,7 +381,7 @@ class tao_install_Installator{
 			$generisConfigWriter->writeConstants(array(
 				'LOCAL_NAMESPACE'	=> $installData['module_namespace'],
 				'ROOT_PATH'			=> $this->options['root_path'],
-				'ROOT_URL'			=> preg_replace("/\/$/", '', $installData['module_url']),
+				'ROOT_URL'			=> $installData['module_url'],
 				'DEFAULT_LANG'		=> $installData['module_lang'],
 				'DEBUG_MODE'		=> ($installData['module_mode'] == 'debug') ? true : false
 			));
