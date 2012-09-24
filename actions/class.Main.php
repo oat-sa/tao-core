@@ -231,7 +231,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 					}
 					$action = array(
 						'js'		=> (isset($actionNode['js'])) ? (string) $actionNode['js'] : false,
-						'url' 		=> ROOT_URL.(string) $actionNode['url'],
+						'url' 		=> ROOT_URL . substr((string)$actionNode['url'], 1),
 						'display'	=> $display,
 						'rowName'	=> (string) $actionNode['name'],
 						'name'		=> _clean((string) $actionNode['name']),
