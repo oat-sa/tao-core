@@ -170,7 +170,7 @@ class tao_install_Installator{
 		if(substr($this->options['root_path'], -1) != DIRECTORY_SEPARATOR){
 			$this->options['root_path'] .= DIRECTORY_SEPARATOR;
 		}
-		if(substr($this->options['install_path']) != DIRECTORY_SEPARATOR){
+		if(substr($this->options['install_path'], -1) != DIRECTORY_SEPARATOR){
 			$this->options['install_path'] .= DIRECTORY_SEPARATOR;
 		}
 		
