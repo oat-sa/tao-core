@@ -38,7 +38,7 @@ if($myForm->isSubmited() && $myForm->isValid()){
 }
 
 //instantiate the installator to get system configuration requirements for this new version of TAO
-$installator = new tao_install_Installator(array(
+$installator = new tao_update_Installator(array(
 	'root_path' 	=> ROOT_PATH,
 	'install_path'	=> dirname(__FILE__)
 ));
@@ -67,7 +67,7 @@ if ($availableUpdate){
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/style.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/layout.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/form.css"/>
-	<link rel="stylesheet" type="text/css" media="screen" href="../install/res/tao.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="./res/tao.css"/>
 
 	<script type="text/javascript" src="../views/js/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="../views/js/jquery-ui-1.8.23.custom.min.js"></script>

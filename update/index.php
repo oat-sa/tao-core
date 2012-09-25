@@ -61,17 +61,17 @@ $configTests = $installator->processTests();
 <head>
 	<title>TAO Database Update</title>
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/custom-theme/jquery-ui-1.8.22.custom.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="./views/js/jquery.jqGrid-4.1.0/css/ui.jqgrid.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="../views/js/jquery.jqGrid-4.4.0/css/ui.jqgrid.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/style.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/layout.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="../views/css/form.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="../install/res/tao.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="./res/tao.css" />
 	<script type="text/javascript" src="../views/js/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="../views/js/jquery-ui-1.8.23.custom.min.js"></script>
 	<script type="text/javascript" src="../locales/EN/messages_po.js"></script>
 	<script type="text/javascript" src="../views/js/i18n.js"></script>
-	<script type="text/javascript" src="./views/js/jquery.jqGrid-4.4.0/js/i18n/grid.locale-en.js"></script>
-	<script type="text/javascript" src="./views/js/jquery.jqGrid-4.4.0/js/jquery.jqGrid.min.js"></script>
+	<script type="text/javascript" src="../views/js/jquery.jqGrid-4.4.0/js/i18n/grid.locale-en.js"></script>
+	<script type="text/javascript" src="../views/js/jquery.jqGrid-4.4.0/js/jquery.jqGrid.min.js"></script>
 	<script type="text/javascript" src="./views/js/Updater.js"></script>
 	<script type="text/javascript" src="./views/js/tao.js"></script>
 </head>
@@ -146,7 +146,7 @@ $configTests = $installator->processTests();
 							class="<?= ($test['valid']) ? 'valid' : (($isOptional) ? 'optional' : 'invalid'); ?>">
 							<td><?=$test['title']?></td>
 							<td class="validity"><img
-								src="../install/img/<?= ($test['valid'])?'accept' : (($test['unknow'] === true) ? 'unknown' : (($isOptional) ? 'warning' : 'exclamation'))?>.png" />
+								src="../update/img/<?= ($test['valid'])?'accept' : (($test['unknow'] === true) ? 'unknown' : (($isOptional) ? 'warning' : 'exclamation'))?>.png" />
 							</td>
 							<td><?=$test['message']?></td>
 						</tr>

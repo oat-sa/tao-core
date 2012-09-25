@@ -64,19 +64,6 @@ class tao_update_DbUpdator
     	require_once GENERIS_PATH.'/common/inc.extension.php';
     	require_once TAO_UPDATE_PATH.'/tao/includes/raw_start.php';
     	
-    	$extensionManager = common_ext_ExtensionsManager::singleton();
-    	$extensions = $extensionManager->getInstalledExtensions();
-    	foreach($extensions as $extensionId => $extension){
-    		if($extensionId == 'generis') {
-    			continue; 	//generis is the root and has been installed above
-    		}
-    	
-    		$myConfigWriter = new tao_install_utils_ConfigWriter(
-    				TAO_UPDATE_PATH . $extensionId . '/includes/config.php.sample',
-    				TAO_UPDATE_PATH . $extensionId . '/includes/config.php'
-    		);
-    		$myConfigWriter->createConfig();
-    	}
     	
     	/*
     	 * 3 - Apply update scripts if they are existing
