@@ -415,7 +415,7 @@ ul.group-list .group-title .selector {
 	display: inline-block;
 	float: right;
 }
-ul.group-list li:last-child { border-bottom: 0 }
+ul.group-list li:last-child { border-bottom: 0; list-style: none; }
 ul.group-list .group-title { font-weight: bold; padding-left: 7px }
 ul.group-list li:hover:not(.group) { background-color: #ccc }
 ul.group-list .group-title:hover { background-color: #ddd }

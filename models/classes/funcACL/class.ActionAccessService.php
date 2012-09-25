@@ -81,8 +81,13 @@ class tao_models_classes_funcACL_ActionAccessService
     public function remove($roleUri, $accessUri)
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A46 begin
-		//$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
+		$uri = explode('#', $accessUri);
+		list($type, $ext, $mod, $act) = explode('_', $uri[1]);
 		$roler = new core_kernel_classes_Class($roleUri);
+		$modUri = $this->makeEMAUri($ext, $mod);
+		if (in_array($modUri, $roler->getPropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS)))) {
+			$this->moduleToActionsAccess($roleUri, $modUri);
+		}
 		$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $accessUri));
 		tao_helpers_funcACL_funcACL::removeRolesByActions();
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A46 end

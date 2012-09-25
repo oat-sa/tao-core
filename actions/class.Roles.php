@@ -91,7 +91,8 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 					$rban[$enom]['modules'][$mnom]['have-access'] = true;
 					$access++;
 				}
-				if ($aaccess > 0 && $aaccess == count($m['actions'])) {
+				$moduleActions = tao_helpers_funcACL_ActionModel::getActions(new core_kernel_classes_Resource($rban[$enom]['modules'][$mnom]['uri']));
+				if ($aaccess > 0 && $aaccess == count($moduleActions)) {
 					$rban[$enom]['modules'][$mnom]['have-allaccess'] = true;
 				}
 			}
@@ -168,7 +169,6 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 	public function removeActionAccess() {
 		$role = $this->getRequestParameter('role');
 		$uri = $this->getRequestParameter('uri');
-		//TODO if acces is given by Module, transform byActions before
 		tao_models_classes_funcACL_ActionAccessService::singleton()->remove($role, $uri);
 		echo json_encode(array('uri' => $uri));
 	}
