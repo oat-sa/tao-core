@@ -834,8 +834,9 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		
 		// Get filter parameter
-		if ($this->hasRequestParameter('filter'))
-			$filterParam = $this->getFilterState('filter');
+		if ($this->hasRequestParameter('filter')) {
+			$filter = $this->getFilterState('filter');
+		}
 		
 		$properties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz);
 		// ADD Label property
