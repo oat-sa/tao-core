@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE extension SYSTEM "../doc/structures.dtd">
 <structures>
-	<structure id="users" name="Users" url="/tao/Users/index" level="8" visible="false">
+	<structure id="users" name="Users" level="8" visible="false">
 		<description />
 		<sections>
 			<section id="list_users" name="Manage users" url="/tao/Users/index" />
@@ -10,7 +10,7 @@
 			<section id="manage_rolesrights" name="Manages Roles Rights" url="/tao/Roles/index" />
 		</sections>
 	</structure>
-	<structure id="settings" name="Settings" url="/tao/Settings/index" level="11" visible="false">
+	<structure id="settings" name="Settings" level="11" visible="false">
 		<description />
 		<sections>
 			<section id="settings_my_settings" name="My settings" url="/tao/UserSettings/properties" />
