@@ -34,16 +34,16 @@ testDatabaseConnection = function(){
 			e.preventDefault();
 			
 			$('#db_test').parent().find('span.status').remove();
-			$('#db_test').after('<span class="status"><img src="../install/img/throbber.gif" alt="testing" /></span>');
+			$('#db_test').after('<span class="status"><img src="../update/img/throbber.gif" alt="testing" /></span>');
 
 			var credentials = $('input,select', $('#db')).serializeArray();
-			$.post('../install/testDb.php', credentials, function(response){
+			$.post('../update/testDb.php', credentials, function(response){
 				$('#db_test').parent().find('span.status').remove();
 				if(response.connected == true){
-					$('#db_test').after('<span class="status"><img src="../install/img/accept.png" alt="ok" />Connected successfully</span>');
+					$('#db_test').after('<span class="status"><img src="../update/img/accept.png" alt="ok" />Connected successfully</span>');
 				}
 				else{
-					$('#db_test').after('<span class="status"><img src="../install/img/exclamation.png" alt="!" />Connection has failed</span>');
+					$('#db_test').after('<span class="status"><img src="../update/img/exclamation.png" alt="!" />Connection has failed</span>');
 				}
 			}, 'json');
 		}).data('testable', true);
@@ -66,10 +66,9 @@ changeNamespace = function () {
 	$('#module_namespace').val(namespace);
 };
 
-getModuleName = function () {
+getModuleName = function() {
 	return $('#module_name').val();
 };
-
 foldUnfold = function () {
 	$configList = $(this).parent().next();
 	$configListHeader = $(this).parent();
@@ -80,7 +79,7 @@ foldUnfold = function () {
 		$(this).attr('src', 'img/fold.png');
 	} else {
 		$configList.css('display', 'none');
-		$(this).attr('src', '../install/img/unfold.png');
+		$(this).attr('src', '../update/img/unfold.png');
 		$configListHeader.addClass('ui-corner-bottom');
 	}
 }
