@@ -27,7 +27,7 @@ $(function() {
 					click: function() {
 						$.ajax({
 							type: "POST",
-							url: root_url + "/tao/Roles/addRole",
+							url: root_url + "tao/Roles/addRole",
 							data: 'name='+$('#addrole_name').val(),
 							dataType: 'json',
 							async: false,
@@ -61,7 +61,7 @@ $(function() {
 					click: function() {
 						$.ajax({
 							type: "POST",
-							url: root_url + "/tao/Roles/editRole",
+							url: root_url + "tao/Roles/editRole",
 							data: 'name='+$('#editrole_name').val()+'&uri='+$('#roles').val(),
 							dataType: 'json',
 							async: false,
@@ -82,7 +82,7 @@ $(function() {
 		if (confirm(__('Do you really want to delete this role ?'))) {
 			$.ajax({
 				type: "POST",
-				url: root_url + "/tao/Roles/deleteRole",
+				url: root_url + "tao/Roles/deleteRole",
 				data: 'uri='+$('#roles').val(),
 				dataType: 'json',
 				async: false,
@@ -105,7 +105,7 @@ function loadModules(role) {
 
 	$.ajax({
 		type: "POST",
-		url: root_url + "/tao/Roles/getModules",
+		url: root_url + "tao/Roles/getModules",
 		data: 'role='+role,
 		dataType: 'json',
 		async: false,
@@ -154,7 +154,7 @@ function loadModules(role) {
 function loadActions(role, module) {
 	$.ajax({
 		type: "POST",
-		url: root_url + "/tao/Roles/getActions",
+		url: root_url + "tao/Roles/getActions",
 		data: 'role='+role+'&module='+module,
 		dataType: 'json',
 		async: false,
@@ -198,7 +198,7 @@ function loadActions(role, module) {
 function loadAttachedModuleRoles(module) {
 	$.ajax({
 		type: "POST",
-		url: root_url + "/tao/Roles/getAttachedModuleRoles",
+		url: root_url + "tao/Roles/getAttachedModuleRoles",
 		data: 'module='+module,
 		dataType: 'json',
 		success: function(data) {
@@ -210,7 +210,7 @@ function loadAttachedModuleRoles(module) {
 function loadAttachedActionRoles(action) {
 	$.ajax({
 		type: "POST",
-		url: root_url + "/tao/Roles/getAttachedActionRoles",
+		url: root_url + "tao/Roles/getAttachedActionRoles",
 		data: 'action='+action,
 		dataType: 'json',
 		success: function(data) {
@@ -290,7 +290,7 @@ function actOnUri(uri, act, role) {
 	//Do act
 	$.ajax({
 		type: "POST",
-		url: root_url + "/tao/Roles/" + action,
+		url: root_url + "tao/Roles/" + action,
 		data: 'role='+role+'&uri='+uri,
 		dataType: 'json',
 		success: function(data) {
