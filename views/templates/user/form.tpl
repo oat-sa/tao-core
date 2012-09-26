@@ -46,7 +46,7 @@
 					for (r in data) {
 						extra = '';
 						if (data[r].selected) extra = ' have-allaccess';
-						html = '<li class="'+extra+'" id="role_'+data[r].id+'"><ul class="actions"></ul><span class="label">'+data[r].label+'</span>';
+						html = '<li class="selectable'+extra+'" id="role_'+data[r].id+'"><ul class="actions"></ul><span class="label">'+data[r].label+'</span>';
 						if (data[r].id == 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole' && $('#uri').val().substring($('#uri').val().length-9) == 'superUser') {
 							//nothing
 						} else {
