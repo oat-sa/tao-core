@@ -6,8 +6,6 @@
 		<!ATTLIST structure id ID #REQUIRED>
 		<!-- The name of the structure -->
 		<!ATTLIST structure name CDATA #REQUIRED>
-		<!-- The main/index action URL for that structure  -->
-		<!ATTLIST structure url CDATA #REQUIRED>
 		<!-- The level of that structure regarding the others (to order them)  -->
 		<!ATTLIST structure level CDATA #REQUIRED>
 		<!-- The id of the structure -->
