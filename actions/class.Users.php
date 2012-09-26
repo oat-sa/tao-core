@@ -155,7 +155,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				$message = __('User deleted successfully');
 			}
 		}
-		$this->redirect(_url('index', 'Main', 'tao', array('structure' => 'users', 'message' => $message)));
+		$this->redirect(_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao', 'message' => $message)));
 	}
 
 	/**

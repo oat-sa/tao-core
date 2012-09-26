@@ -1,6 +1,6 @@
 <?if(get_data('exit')):?>
 	<script type="text/javascript">
-		window.location = "<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'message' => get_data('message')))?>";
+		window.location = "<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao', 'message' => get_data('message')))?>";
 	</script>
 <?else:?>
 	<script type="text/javascript" src='<?=TAOBASE_WWW?>js/users.js'></script>
