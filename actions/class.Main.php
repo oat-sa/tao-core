@@ -313,7 +313,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			    $treeArray = array();
 				foreach($tree->attributes() as $attrName => $attrValue){
 					if(preg_match("/^\//", (string) $attrValue)){
-						$treeArray[$attrName] = ROOT_URL . (string)$attrValue;
+						$treeArray[$attrName] = ROOT_URL . substr((string)$attrValue, 1);
 					}
 					else{
 						$treeArray[$attrName] = (string)$attrValue;
