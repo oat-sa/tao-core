@@ -38,7 +38,7 @@ div.xhtml_form div textarea,
 div.xhtml_form div.wysiwyg,
 div.xhtml_form ul.form-elt-list,
 div.xhtml_form div .form-elt-container{
-	//margin-left:30%;
+	/*margin-left:30%;*/
 }
 div.xhtml_form div input.form-reverter{
 	margin-left:5%;
