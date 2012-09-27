@@ -349,6 +349,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		}
 
 		$this->setData('versionningEnabled', GENERIS_VERSIONING_ENABLED);
+		$this->setData('formTitle', __('Revision control'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form/settings_versionning.tpl');
 	}

@@ -4,9 +4,11 @@
 </div>
 <?endif?>
 
-<div class="containerDisplay main-container" id="settingsUserProperties">
-	<span class="title"><?=__("My settings")?></span>
-<?=get_data('myForm')?>
+<div id="user-settings-title" class="ui-widget-header ui-corner-top ui-state-default">
+	<?=get_data('formTitle')?>
+</div>
+<div id="user-settings-container" class="ui-widget-content ui-corner-bottom">
+	<?=get_data('myForm')?>
 </div>
 
 <script type="text/javascript">

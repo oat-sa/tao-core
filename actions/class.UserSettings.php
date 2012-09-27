@@ -77,7 +77,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 					core_kernel_classes_Session::singleton()->setInterfaceLanguage($uiLangCode);
 					core_kernel_classes_Session::singleton()->setDataLanguage($dataLangCode);
 
-					$this->setData('message', __('settings updated'));
+					$this->setData('message', __('Settings updated'));
 
 					$this->setData('reload', true);
 				}

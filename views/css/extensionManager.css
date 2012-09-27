@@ -1,8 +1,12 @@
-#Extensions_manager table th { border-bottom: 1px solid #999; padding: 5px 7px; }
-#Extensions_manager table tr:nth-child(even) { background-color: #eee }
-#Extensions_manager table tr:nth-child(odd) { background-color: #ddd }
-#Extensions_manager table tr:nth-child(even):hover,
-#Extensions_manager table tr:nth-child(odd):hover { background-color: #fff }
+Extensions_manager table th { border-bottom: 1px solid #999; padding: 5px 7px; }
+
+.extensionOdd {
+	background-color: #eee;	
+}
+
+.extensionEven {
+	background-color: #ddd;
+}
 
 #Extensions_manager table td {
 	text-align: center;
@@ -16,6 +20,11 @@
 }
 
 #Extensions_manager table li { list-style: none }
+
+#Extensions_manager table th{
+	background-color: #ddd;
+	border-bottom: 1px solid #aaa;	
+}
 
 .installed { color: green; }
 .actions {
@@ -49,4 +58,9 @@
 	border-radius: 5px;
 	padding: 5px;
 }
+
 #installProgress .console p { margin: 0; margin-bottom: 0.5em }
+
+#extensions-manager-container{
+	margin-bottom: 20px;
+}

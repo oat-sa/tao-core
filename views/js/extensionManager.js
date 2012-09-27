@@ -5,27 +5,31 @@ var percentByExt = 0;
 var installError = 0;
 
 $(function(){
+	// Table styling.
+	$('#Extensions_manager table tr:nth-child(even)').addClass('extensionEven');
+	$('#Extensions_manager table tr:nth-child(odd)').addClass('extensionOdd');
+	
 	$('#installProgress').hide();
 
 	//Detect wich extension is already installed
-	$('#installedExtension .ext-id').each(function() {
+	$('#extensions-manager-container .ext-id').each(function() {
 		ext = $(this).text();
 		ext_installed.push(ext);
-		$('.ext-id.ext-'+ext).addClass('installed');
+		$('.ext-id.ext-' + ext).addClass('installed');
 	});
 
-	$('#availlableExtension tr').click(function() {
+	$('#available-extensions-container tr').click(function() {
 		if ($('input:checked', $(this)).length) $('input:checked', $(this)).removeAttr('checked');
 		else $('input', $(this)).prop('checked', 'checked');
 	});
-	$('#availlableExtension tr input').click(function(event){
+	$('#available-extensions-container tr input').click(function(event){
 		event.stopPropagation();
 	});
 
-	$('#availlableExtension form').submit(function(event) {
+	$('#available-extensions-container form').submit(function(event) {
 		//Prepare the list of extension to install in the order of dependency
 		toInstall = [];
-		$('#availlableExtension input:checked').each(function() {
+		$('#available-extensions-container input:checked').each(function() {
 			ext = $(this).prop('name').split('_')[1];
 			deps = getDependencies(ext);
 			if (deps.length) toInstall = toInstall.concat(deps);
@@ -43,7 +47,7 @@ $(function(){
 		$('#installProgress p.status').text(__('%s extensions to install').replace('%s', toInstall.length));
 		$('#installProgress .bar').width(0);
 		$('#installProgress .console').empty();
-		progressConsole('Extensions to install : '+toInstall.join(', '));
+		progressConsole('Extensions to install : ' + toInstall.join(', '));
 		$('#installProgress').dialog({
 			modal: true,
 			width: 400,
@@ -74,7 +78,7 @@ $(function(){
 
 function getDependencies(extension) {
 	var dependencies = [];
-	$('#'+extension+' .dependencies li:not(.installed)').each(function() {
+	$('#' + extension + ' .dependencies li:not(.installed)').each(function() {
 		var ext = $(this).prop('rel');
 		var deps = getDependencies(ext);
 		deps.push(ext);
@@ -93,7 +97,7 @@ function getUnique(orig){
 }
 
 function progressConsole(msg) {
-	$('#installProgress .console').append('<p>'+msg+'</p>');
+	$('#installProgress .console').append('<p>' + msg + '</p>');
 	//$('#installProgress .console').animate({ scrollTop: $('#installProgress .console').prop("scrollHeight") }, 500);
 	$('#installProgress .console').prop({scrollTop: $('#installProgress .console').prop("scrollHeight")});
 }
@@ -104,7 +108,7 @@ function installNextExtension() {
 	progressConsole(__('Installing %s...').replace('%s', ext));
 	$.ajax({
 		type: "POST",
-		url: root_url + "/tao/ExtensionsManager/install",
+		url: root_url + "tao/ExtensionsManager/install",
 		data: 'id='+ext,
 		dataType: 'json',
 		success: function(data) {
@@ -112,16 +116,16 @@ function installNextExtension() {
 			if (data.success) {
 				progressConsole('Installation of '+ext+' success');
 				$('tr#'+ext).slideUp('normal', function() {
-					var $tr = $('<tr></tr>').appendTo($('#installedExtension tbody')).hide();
-					var $orig = $('tr#'+ext+' td');
-					$tr.append('<td>'+$($orig[1]).text()+'</td>');
-					$tr.append('<td>'+$($orig[2]).text()+'</td>');
-					$tr.append('<td>'+$($orig[4]).text()+'</td>');
-					$tr.append('<td><input type="checkbox" checked="" value="loaded" name="loaded['+ext+']" class="install"></td>');
-					$tr.append('<td><input type="checkbox" checked="" value="loadAtStartUp" name="loadAtStartUp['+ext+']" class="install"></td>');
+					var $tr = $('<tr></tr>').appendTo($('#extensions-manager-container tbody')).hide();
+					var $orig = $('tr#' + ext + ' td');
+					$tr.append('<td>' + $($orig[1]).text() + '</td>');
+					$tr.append('<td>' + $($orig[2]).text() + '</td>');
+					$tr.append('<td>' + $($orig[4]).text() + '</td>');
+					$tr.append('<td><input type="checkbox" checked="" value="loaded" name="loaded[' + ext + ']" class="install"></td>');
+					$tr.append('<td><input type="checkbox" checked="" value="loadAtStartUp" name="loadAtStartUp[' + ext + ']" class="install"></td>');
 					$tr.slideDown('normal', function() {
 						$('tr#'+ext).remove();
-						$('#installProgress .bar').animate({width:'+='+percentByExt+'%'}, 1000, function() {
+						$('#installProgress .bar').animate({width:'+=' + percentByExt + '%'}, 1000, function() {
 							//Next
 							indexCurrentToInstall++;
 							hasNextExtensionToInstall();
@@ -130,10 +134,10 @@ function installNextExtension() {
 				});
 			} else {
 				installError = 1;
-				progressConsole('Installation of '+ext+' failed');
+				progressConsole('Installation of ' + ext + ' failed');
 			}
 			helpers.createInfoMessage(data.message);
-			progressConsole('> '+data.message);
+			progressConsole('> ' + data.message);
 		}
 	});
 

@@ -22,7 +22,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		$installedExtArray = $extensionManager->getInstalledExtensions();
 		$availlableExtArray = $extensionManager->getAvailableExtensions();
 		$this->setData('installedExtArray',$installedExtArray);
-		$this->setData('availlableExtArray',$availlableExtArray);
+		$this->setData('availableExtArray',$availlableExtArray);
 		$this->setView('extensionManager/view.tpl.php');
 
 	}
