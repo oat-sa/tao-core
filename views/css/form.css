@@ -24,9 +24,11 @@ div.xhtml_form div div div{
 
 /* Form label */
 div.xhtml_form div .form_desc{
-	font-size:1em;
-	width:30%;
+	font-size: 1em;
+	width: 30%;
 	display: inline-block;
+	vertical-align: top;
+	margin-top: 3px;
 }
 
 /* Form elements */
