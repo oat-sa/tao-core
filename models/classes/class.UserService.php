@@ -146,9 +146,10 @@ class tao_models_classes_UserService
 					
 	        		$returnValue = true;
 	        		break;					//roles order is important, we loggin with the first found
-	        	} else {
-	        		common_Logger::w('User '.$login.' login failed', array('TAO'));
 	        	}
+			}
+			if (!$returnValue) {
+        		common_Logger::w('User '.$login.' login failed', array('TAO'));
 			}
         }
         catch(core_kernel_users_Exception $ue){
