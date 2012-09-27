@@ -6,8 +6,7 @@ var installError = 0;
 
 $(function(){
 	// Table styling.
-	$('#Extensions_manager table tr:nth-child(even)').addClass('extensionEven');
-	$('#Extensions_manager table tr:nth-child(odd)').addClass('extensionOdd');
+	styleTables();
 	
 	$('#installProgress').hide();
 
@@ -18,12 +17,18 @@ $(function(){
 		$('.ext-id.ext-' + ext).addClass('installed');
 	});
 
-	$('#available-extensions-container tr').click(function() {
-		if ($('input:checked', $(this)).length) $('input:checked', $(this)).removeAttr('checked');
-		else $('input', $(this)).prop('checked', 'checked');
-	});
 	$('#available-extensions-container tr input').click(function(event){
 		event.stopPropagation();
+	});
+	
+	$('#available-extensions-container tr input:checkbox').click(function() {
+		$installButton = $('.install');
+		if ($(this).parent().find('input:checkbox:checked').length > 0){
+			$installButton.attr('disabled', false);
+		}
+		else{
+			$installButton.attr('disabled', true);
+		}
 	});
 
 	$('#available-extensions-container form').submit(function(event) {
@@ -79,7 +84,7 @@ $(function(){
 function getDependencies(extension) {
 	var dependencies = [];
 	$('#' + extension + ' .dependencies li:not(.installed)').each(function() {
-		var ext = $(this).prop('rel');
+		var ext = $(this).attr('rel');
 		var deps = getDependencies(ext);
 		deps.push(ext);
 		dependencies = dependencies.concat(deps);
@@ -114,17 +119,31 @@ function installNextExtension() {
 		success: function(data) {
 			helpers.loaded();
 			if (data.success) {
-				progressConsole('Installation of '+ext+' success');
+				progressConsole('Installation of ' + ext + ' success');
+				
+				// state that the extension is install in remaining dependencies.
+				$('li.ext-id.ext-' + ext).addClass('installed');
+				
 				$('tr#'+ext).slideUp('normal', function() {
 					var $tr = $('<tr></tr>').appendTo($('#extensions-manager-container tbody')).hide();
 					var $orig = $('tr#' + ext + ' td');
-					$tr.append('<td>' + $($orig[1]).text() + '</td>');
-					$tr.append('<td>' + $($orig[2]).text() + '</td>');
-					$tr.append('<td>' + $($orig[4]).text() + '</td>');
-					$tr.append('<td><input type="checkbox" checked="" value="loaded" name="loaded[' + ext + ']" class="install"></td>');
-					$tr.append('<td><input type="checkbox" checked="" value="loadAtStartUp" name="loadAtStartUp[' + ext + ']" class="install"></td>');
+					$tr.append('<td class="bordered">' + $($orig[0]).text() + '</td>');
+					$tr.append('<td class="bordered">' + $($orig[1]).text() + '</td>');
+					$tr.append('<td>' + $($orig[3]).text() + '</td>');
+					//$tr.append('<td><input type="checkbox" checked="" value="loaded" name="loaded[' + ext + ']" class="install"></td>');
+					//$tr.append('<td><input type="checkbox" checked="" value="loadAtStartUp" name="loadAtStartUp[' + ext + ']" class="install"></td>');
 					$tr.slideDown('normal', function() {
-						$('tr#'+ext).remove();
+						$('tr#' + ext).remove();
+						
+						// table changed, restyle.
+						styleTables();
+						
+						// If the available extensions table is empty,
+						// just inform the user.
+						if ($('#available-extensions-container table tbody tr').length == 0){
+							noAvailableExtensions();
+						}
+						
 						$('#installProgress .bar').animate({width:'+=' + percentByExt + '%'}, 1000, function() {
 							//Next
 							indexCurrentToInstall++;
@@ -166,4 +185,24 @@ function hasNextExtensionToInstall() {
 	} else {
 		installNextExtension();
 	}
+}
+
+function styleTables(){
+	// Clean all to make this function able to "restyle" after
+	// data refresh.
+	$('#Extensions_manager table tr').removeClass('extensionOdd')
+									 .removeClass('extensionEven');
+									 
+	$('#Extensions_manager table tr:nth-child(even)').addClass('extensionEven');
+	$('#Extensions_manager table tr:nth-child(odd)').addClass('extensionOdd');
+}
+
+function noAvailableExtensions(){
+	$noAvailableExtElement = $('<div/>');
+	$noAvailableExtElement.attr('id', 'noExtensions')
+						  .addClass('ui-state-highlight')
+						  .text(__('No extensions available.'));
+						  
+	$('#available-extensions-container').empty()
+										.append($noAvailableExtElement);
 }

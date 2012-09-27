@@ -15,34 +15,34 @@
 		<table summary="modules" class="maximal">
 			<thead>
 				<tr>
-					<th><?= __('Extension'); ?></th>
-					<th class="nowrap"><?= __('Latest Version'); ?></th>
+					<th class="bordered"><?= __('Extension'); ?></th>
+					<th class="nowrap bordered"><?= __('Latest Version'); ?></th>
 					<th><?= __('Author'); ?></th>
-					<th><?= __('Loaded'); ?></th>
-					<th><?= __('Loaded at Startup'); ?></th>
+					<!-- <th><?= __('Loaded'); ?></th>  -->
+					<!-- <th><?= __('Loaded at Startup'); ?></th> -->
 				</tr>
 			</thead>
 			<tbody>
 			<? foreach(get_data('installedExtArray') as $extensionObj): ?>
 			<? if($extensionObj->id !=null): ?>
 				<tr>
-					<td class="ext-id"><?= $extensionObj->name; ?></td>
-					<td class="nowrap"><?= $extensionObj->version; ?></td>
+					<td class="ext-id bordered"><?= $extensionObj->name; ?></td>
+					<td class="nowrap bordered"><?= $extensionObj->version; ?></td>
 					<td><?= $extensionObj->author ; ?></td>
-					<td><? $loadedStr =  $extensionObj->configuration->loaded ? 'checked' : ''; ?>
+					<!-- <td><? $loadedStr =  $extensionObj->configuration->loaded ? 'checked' : ''; ?>
 						<input class="install" name="loaded[<?= $extensionObj->id; ?>]" type="checkbox" value='loaded' <?= $loadedStr; ?>  />
-					</td>
-					<td><? $loadAtStartUpStr = $extensionObj->configuration->loadedAtStartUp ? 'checked' : ''; ?>
+					</td> -->
+					<!-- <td><? $loadAtStartUpStr = $extensionObj->configuration->loadedAtStartUp ? 'checked' : ''; ?>
 						<input class="install" name="loadAtStartUp[<?= $extensionObj->id; ?>]" value='loadAtStartUp' type="checkbox" <?= $loadAtStartUpStr; ?>  />
-					</td>
+					</td>  -->
 				</tr>
 			<? endif; ?>
 			<? endforeach;?>
 			</tbody>
 		</table>
-		<div class="actions">
+		<!-- <div class="actions">
 			<input class="save" name="save_extension" value="<?= __('Save');?>" type="submit" />
-		</div>
+		</div> -->
 	</form>
 </div>
 
@@ -50,41 +50,47 @@
 	<?= __('Available Extensions') ?>
 </div>
 <div id="available-extensions-container" class="ui-widget-content ui-corner-bottom">
+	<? if (count(get_data('availableExtArray')) > 0): ?>
 	<form action="<?= BASE_URL; ?>/ExtensionsManager/install" metdod="post">
 		<table summary="modules" class="maximal">
 			<thead>
 				<tr>
+					<th class="bordered"><?= __('Extension'); ?></th>
+					<th class="nowrap bordered"><?= __('Latest Version'); ?></th>
+					<th class="bordered"><?= __('Requires'); ?></th>
+					<th class="bordered"><?= __('Author'); ?></th>
 					<th><?= __('Install'); ?></th>
-					<th><?= __('Extension'); ?></th>
-					<th class="nowrap"><?= __('Latest Version'); ?></th>
-					<th><?= __('Requires'); ?></th>
-					<th><?= __('Author'); ?></th>
 				</tr>
 			</thead>
 			<tbody>
 				<? foreach(get_data('availableExtArray') as $k => $ext): ?>
 				<tr id="<?= $ext->getID();?>">
-					<td>
-						<input name="ext_<?= $ext->getID();?>" type="checkbox" />
-					</td>
-					<td><?= $ext->name; ?></td>
-					<td class="nowrap"><?= $ext->version; ?></td>
-					<td class="dependencies">
+					<td class="ext-name bordered"><?= $ext->name; ?></td>
+					<td class="nowrap bordered"><?= $ext->version; ?></td>
+					<td class="dependencies bordered">
 						<ul>
 						<? foreach ($ext->getDependencies() as $req): ?>
 							<li class="ext-id ext-<?= $req ?><?= array_key_exists($req, get_data('installedExtArray')) ? ' installed' : '' ?>" rel="<?= $req ?>"><?= $req ?></li>
 						<? endforeach; ?>
 						</ul>
 					</td>
-					<td><?= $ext->author; ?></td>
+					<td class="bordered"><?= $ext->author; ?></td>
+					<td>
+						<input name="ext_<?= $ext->getID();?>" type="checkbox" />
+					</td>
 				</tr>
 				<? endforeach; ?>
 			</tbody>
 		</table>
 		<div class="actions">
-			<input class="install" name="install_extension" value="<?= __('Install') ?>" type="submit" />
+			<input class="install" name="install_extension" value="<?= __('Install') ?>" type="submit" disabled="disabled" />
 		</div>
 	</form>
+	<? else: ?>
+	<div id="noExtensions" class="ui-state-highlight">
+		<?= __('No extensions available.') ?>
+	</div>
+	<? endif; ?>
 </div>
 
 <div id="installProgress" title="<?= __('Installation...') ?>">
