@@ -19,7 +19,8 @@
 
 <?if(get_data('found')):?>
 <script type="text/javascript">
-$(document).ready(function(){
+require(['jquery', 'grid/tao.grid'], function($) {
+	$(function(){
 	var properties = ['id',
 	<?foreach(get_data('properties') as $uri => $property):?>
 		 '<?=$property->getLabel()?>',
@@ -29,9 +30,9 @@ $(document).ready(function(){
 	
 	var model = [
 		{name:'id',index:'id', width: 25, align:"center", sortable: false},
-	<?for($i = 0; $i < count(get_data('properties')); $i++):?>
-		 {name:'property_<?=$i?>',index:'property_<?=$i?>'},
-	<?endfor?>
+		<?for($i = 0; $i < count(get_data('properties')); $i++):?>
+			 {name:'property_<?=$i?>',index:'property_<?=$i?>'},
+		<?endfor?>
 		{name:'actions',index:'actions', align:"center", sortable: false},
 	];
 
@@ -46,17 +47,18 @@ $(document).ready(function(){
 		caption: __("Search results")
 	});
 	
-<?foreach(get_data('found') as $i => $row):?>
+	<?foreach(get_data('found') as $i => $row):?>
 	
-	jQuery("#result-list").jqGrid('addRowData', <?=$i?> , {
+	$("#result-list").jqGrid('addRowData', <?=$i?> , {
 		'id' : <?=$i?>,
-	<?foreach($row['properties'] as $j => $propValue):?>
-		'property_<?=$j?>': '<?=$propValue?>',
-	<?endforeach?>
-		'actions': "<img class='icon' src='<?=TAOBASE_WWW?>/img/bullet_go.png' /><a href='#' onclick='<?=get_data('openAction')?>(\"<?=$row['uri']?>\"); return false;' class='' ><?=__('Open')?></a>"
+		<?foreach($row['properties'] as $j => $propValue):?>
+			'property_<?=$j?>': '<?=$propValue?>',
+		<?endforeach?>
+		'actions': "<img class='icon' src='<?=TAOBASE_WWW?>img/bullet_go.png'/><a href='#' onclick='<?=get_data('openAction')?>(\"<?=$row['uri']?>\"); return false;' class='' ><?=__('Open')?></a>"
 	}); 
 	
-<?endforeach?>
+	<?endforeach?>	
+	});
 });
 </script>
 <?endif?>
