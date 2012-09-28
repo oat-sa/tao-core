@@ -95,7 +95,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 			$(".form-translator").off('click').on('click', function() {
 				if ($("#uri") && $("#classUri")){
 					if (ctx_extension) {
-						url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
+						url = root_url + ctx_extension + '/' + ctx_module + '/';
 					}
 					url += 'translateInstance';
 					$(helpers.getMainContainerSelector(uiBootstrap.tabs)).load(url, {'uri': $("#uri").val(), 'classUri': $("#classUri").val()});
@@ -151,7 +151,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 			//open the authoring tool on the authoringOpener button
 			$('input.authoringOpener').click(function() {
 				if (ctx_extension) {
-					url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
+					url = root_url + ctx_extension + '/' + ctx_module + '/';
 					tabName = ctx_module.toLowerCase() + '_authoring';
 				}
 				url += 'authoring';
@@ -166,7 +166,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 			});
 
 			$('input.editVersionedFile').each(function() {
-				var infoUrl = root_url + '/tao/File/getPropertyFileInfo';
+				var infoUrl = root_url + 'tao/File/getPropertyFileInfo';
 				var data = {
 					'uri':$("#uri").val(),
 					'propertyUri':$(this).siblings('label.form_desc').prop('for')
@@ -186,7 +186,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 			$('input.editVersionedFile').click(function() {
 				var url = '';
 				if (ctx_extension) {
-					url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
+					url = root_url + ctx_extension + '/' + ctx_module + '/';
 				}
 				url += 'editVersionedFile';
 				var data = {
@@ -261,7 +261,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 			 //property add button
 			 $(".property-adder").off('click').on('click', function() {
 				 if (ctx_extension) {
-					url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
+					url = root_url + ctx_extension + '/' + ctx_module + '/';
 				 }
 				 url += 'addClassProperty';
 
@@ -341,7 +341,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 					});
 
 					$("#"+dialogId).bind('dialogopen', function(event, ui){
-						url 			= root_url + '/tao/Lists/';
+						url 			= root_url + 'tao/Lists/';
 						dataUrl 		= url + 'getListsData';
 						renameUrl		= url + 'rename';
 						createUrl		= url + 'create';
@@ -526,7 +526,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 						$(this).parent("div").children("div.form-error").remove();
 						var elt = this;
 						$.ajax({
-							url: root_url + '/tao/Lists/getListElements',
+							url: root_url + 'tao/Lists/getListElements',
 							type: "POST",
 							data: {listUri: classUri},
 							dataType: 'json',
@@ -590,7 +590,7 @@ define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
 					});
 
 					if (ctx_extension) {
-						url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
+						url = root_url + ctx_extension + '/' + ctx_module + '/';
 					}
 					url += 'getTranslatedData';
 

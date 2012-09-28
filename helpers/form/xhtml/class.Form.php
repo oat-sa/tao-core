@@ -134,6 +134,11 @@ class tao_helpers_form_xhtml_Form
 		
 		(strpos($_SERVER['REQUEST_URI'], '?') > 0) ? $action = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $action = $_SERVER['REQUEST_URI'];
 		
+		// Defensive code, prevent double leading slashes issue.
+		if (substr($action, 0, 2) == '//'){
+			$action = substr($action, 1);
+		}
+		
 		$returnValue .= "<div class='xhtml_form'>\n";
 		
 		$returnValue .= "<form method='post' id='{$this->name}' name='{$this->name}' action='$action' ";
