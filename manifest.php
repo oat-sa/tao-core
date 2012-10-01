@@ -9,7 +9,7 @@ $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 return array(
 	'name' => 'tao',
 	'description' => 'TAO is the meta-extension, a container for the TAOs sub extensions',
-	'version' => '2.3',
+	'version' => '2.4',
 	'author' => 'CRP Henri Tudor',
 	'dependencies' => array('generis'),
 	'models' => array(
