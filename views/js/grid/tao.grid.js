@@ -261,8 +261,8 @@ TaoGridClass.prototype.editRow = function(rowId)
 {
 	var self = this;
 	var actionsHtml = '<div class="grid-row-actions"> \
-		<a href="#" class="grid-row-action grid-row-save"><img src="/tao/views/img/save.png"/> Save</a> \
-		<a href="#" class="grid-row-action grid-row-cancel"><img src="/tao/views/img/revert.png"/> Cancel</a> \
+		<a href="#" class="grid-row-action grid-row-save"><img src="'+root_url+'tao/views/img/save.png"/> Save</a> \
+		<a href="#" class="grid-row-action grid-row-cancel"><img src="'+root_url+'tao/views/img/revert.png"/> Cancel</a> \
 	</div>';
 	var row = this.getRow(rowId);
 
@@ -314,8 +314,8 @@ TaoGridClass.prototype.newRow = function(data)
 	};
 	var rowId = TaoGridClass.__NEW_ROW__;
 	var actionsHtml = '<div class="grid-row-actions"> \
-		<a href="#" class="grid-row-action grid-row-save"><img src="/tao/views/img/save.png"/> Save</a> \
-		<a href="#" class="grid-row-action grid-row-cancel"><img src="/tao/views/img/revert.png"/> Cancel</a> \
+		<a href="#" class="grid-row-action grid-row-save"><img src="'+root_url+'tao/views/img/save.png"/> Save</a> \
+		<a href="#" class="grid-row-action grid-row-cancel"><img src="'+root_url+'tao/views/img/revert.png"/> Cancel</a> \
 	</div>';
 	var row = null;
 
