@@ -73,13 +73,17 @@ define(['require', 'jquery', 'class'], function(req, $) {
 			return -1;
 		},
 
-		openTab: function(title, url) {
+		openTab: function(title, url, open) {
+			if (open == undefined) open = true;
 			idx = this.getTabIndexByUrl(url);
 			if (idx == -1) {
 				uiBootstrap.tabs.tabs("add", url, title);
 				idx = uiBootstrap.tabs.tabs("length")-1;
 			}
-			uiBootstrap.tabs.tabs("select", idx);
+			//If control pressed, not select
+			if (open) {
+				uiBootstrap.tabs.tabs("select", idx);
+			}
 		},
 
 		getTabIndexByUrl: function(url){
