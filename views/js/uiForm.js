@@ -8,7 +8,7 @@
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 
-define(['require', 'jquery', 'tao.tabs', 'class'], function(req, $) {
+define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], function(req, $) {
 	var UiForm = Class.extend({
 		init: function() {
 			this.counter = 0;
