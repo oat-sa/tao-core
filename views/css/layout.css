@@ -32,20 +32,25 @@ div#tabs a {
 div#tabs span.tab-closer {
 	display: none;
 }
-div#tabs li.ui-tabs-selected.closable a {
-	padding-right: 0.5em;
+div#tabs li.closable a {
+	padding-right: 20px;
 }
-div#tabs li:hover span.tab-closer {
+div#tabs li span.tab-closer {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
 	overflow: hidden;
-	background-image: url(../img/cross.png);
+	background-image: url(../img/delete_disabled.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	text-indent: -500em;
-	margin: 3px 3px 0 0;
+	margin: 8px 3px 0 0;
 	cursor: pointer;
+	opacity: 0.5;
+}
+div#tabs li:hover span.tab-closer {
+	background-image: url(../img/delete.png);
+	opacity: 1;
 }
 
 
