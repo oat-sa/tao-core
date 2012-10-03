@@ -4,11 +4,9 @@
 	</div>
 <?endif?>
 
-<div id="compilation-title" class="ui-widget-header ui-corner-top ui-state-default">
-	<?=get_data('formTitle')?>
-</div>
-<div id="compilation-container" class="ui-widget-content ui-corner-bottom">
-	<?=get_data('myForm')?>
+<div class="containerDisplay main-container" id="settingsVersionning">
+	<span class="title"><?= __('Versionning') ?></span>
+<?=get_data('myForm')?>
 </div>
 
 <?include(TAO_TPL_PATH.'footer.tpl')?>
