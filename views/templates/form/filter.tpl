@@ -1,4 +1,4 @@
-<?include(dirname(__FILE__).'/../portail/header.tpl');?>
+<!--<?include(dirname(__FILE__).'/../portail/header.tpl');?>-->
 
 <style>
 <!--
@@ -48,11 +48,11 @@ $(document).ready(function(){
 	require(['require', 'jquery', 'generis.facetFilter', 'grid/tao.grid'], function(req, $, GenerisFacetFilterClass) {
 		//instantiate the facet filter
 		facetFilter = new GenerisFacetFilterClass('#facet-filter', filterNodes, facetFilterOptions);
-		
+
 		/*
 		 * instantiate the result widget
 		 */
-	
+
 		//define jqgrid column
 		var properties = ['id', 'label'
 		<?foreach(get_data('properties') as $uri => $property):?>
@@ -60,7 +60,7 @@ $(document).ready(function(){
 		<?endforeach?>
 			<?php //,__('Actions')?>
 		];
-	
+
 		//define jqgrid model
 		var model = [
 	     	{name:'id',index:'id', width: 25, align:"center", sortable: false},
@@ -70,7 +70,7 @@ $(document).ready(function(){
 		<?endfor?>
 			<?php //{name:'actions',index:'actions', align:"center", sortable: false}, ?>
 		];
-	
+
 		//instantiate jqgrid
 		$("#result-list").jqGrid({
 			datatype: "local",
@@ -82,7 +82,7 @@ $(document).ready(function(){
 			caption: __("Filter results")
 		});
 	});
-		
+
 
 	//function used to refresh the result functions of the filter
 	function refreshResult(facetFilter)
@@ -117,4 +117,4 @@ $(document).ready(function(){
 });
 </script>
 
-<?include(dirname(__FILE__).'/../portail/footer.tpl');?>
+<!--<?include(dirname(__FILE__).'/../portail/footer.tpl');?>-->
