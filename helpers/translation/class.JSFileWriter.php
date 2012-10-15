@@ -81,7 +81,7 @@ class tao_helpers_translation_JSFileWriter
 		$buffer  = "/* auto generated content */\n";
 		$buffer .= "/* lang: $langCode */\n";
 		$buffer .= "var langCode = '$langCode';\n";
-		$buffer .= "var i18n_tr = " . json_encode($strings) . ";";
+		$buffer .= "var i18n_tr = " . json_encode($strings, JSON_HEX_QUOT | JSON_HEX_APOS) . ";";
 		if(!file_put_contents($path, $buffer)){
 			throw new tao_helpers_translation_TranslationException("An error occured while writing Javascript " .
 																   "translation file '${path}'.");
