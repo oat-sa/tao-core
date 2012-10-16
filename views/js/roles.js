@@ -23,6 +23,8 @@ $(function() {
 		$('#addroleform').dialog({
 			buttons: [
 				{
+					id: 'addRoleButton',
+					disabled: true,
 					text: __('Add'),
 					click: function() {
 						$.ajax({
@@ -30,13 +32,13 @@ $(function() {
 							url: root_url + "tao/Roles/addRole",
 							data: 'name='+$('#addrole_name').val(),
 							dataType: 'json',
-							async: false,
 							success: function(data) {
 								if (data.success) {
 									$('#roles').append('<option value="'+data.uri+'" selected="selected">'+data.name+'</option>').change();
 								}
 							}
 						});
+						
 						$(this).dialog('close');
 					}
 				}
@@ -48,9 +50,16 @@ $(function() {
 						$('button', $(this).parents('.ui-dialog')).click();
 					}
 				});
+				
+				$('#addrole_name').on('keyup', function(e){
+					var $input = $('#addrole_name');
+					var $button = $('#addRoleButton');
+					$button.button($input.val().length > 0 ? 'enable' : 'disable');
+				});
 			}
 		});
 	});
+	
 	$('#editrole a').click(function(e) {
 		e.preventDefault();
 		$('#editroleform input').val($('#roles :selected').text());
@@ -64,7 +73,6 @@ $(function() {
 							url: root_url + "tao/Roles/editRole",
 							data: 'name='+$('#editrole_name').val()+'&uri='+$('#roles').val(),
 							dataType: 'json',
-							async: false,
 							success: function(data) {
 								if (data.success) {
 									$('#roles :selected').text(data.name);
@@ -85,7 +93,6 @@ $(function() {
 				url: root_url + "tao/Roles/deleteRole",
 				data: 'uri='+$('#roles').val(),
 				dataType: 'json',
-				async: false,
 				success: function(data) {
 					if (data.success) {
 						$('#roles :selected').remove();
@@ -108,7 +115,6 @@ function loadModules(role) {
 		url: root_url + "tao/Roles/getModules",
 		data: 'role='+role,
 		dataType: 'json',
-		async: false,
 		success: function(data) {
 			for (e in data) {
 				ext = data[e];
@@ -157,7 +163,6 @@ function loadActions(role, module) {
 		url: root_url + "tao/Roles/getActions",
 		data: 'role='+role+'&module='+module,
 		dataType: 'json',
-		async: false,
 		success: function(data) {
 			$('#aclActions ul.group-list').empty();
 			nballaccess = 0;
@@ -294,6 +299,7 @@ function actOnUri(uri, act, role) {
 		data: 'role='+role+'&uri='+uri,
 		dataType: 'json',
 		success: function(data) {
+			
 			open = $('#aclModules .group.expendable.open').index();
 			$el = $('#aclModules .selected');
 			if ($el.length) {

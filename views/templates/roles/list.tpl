@@ -18,12 +18,6 @@
 				</select>
 			</div>
 		</form>
-<!--
-		<?= __('Parents') ?>
-		<ul class="parents selectable multiple"></ul>
-		<?= __('Children') ?>
-		<ul class="children"></ul>
--->
 		<div class="actions" id="roleactions">
 			<span class="ui-state-default ui-corner-all" id="editrole"><a href="#"><img src="<?=BASE_WWW?>img/edit.png" alt="edit" /> <?=__('Edit role')?></a></span>
 			<span class="ui-state-default ui-corner-all" id="deleterole"><a href="#"><img src="<?=BASE_WWW?>img/delete.png" alt="delete" /> <?=__('Delete role')?></a></span>
