@@ -49,10 +49,10 @@ $(function(){
 		percentByExt = 100 / toInstall.length;
 
 		//Show the dialog with the result
-		$('#installProgress p.status').text(__('%s extensions to install').replace('%s', toInstall.length));
+		$('#installProgress p.status').text(__('%s extension(s) to install.').replace('%s', toInstall.length));
 		$('#installProgress .bar').width(0);
 		$('#installProgress .console').empty();
-		progressConsole('Extensions to install : ' + toInstall.join(', '));
+		progressConsole(__('Do you wish to install the following extension(s):\n%s?').replace('%s', toInstall.join(', ')));
 		$('#installProgress').dialog({
 			modal: true,
 			width: 400,
@@ -68,7 +68,7 @@ $(function(){
 					text: __('Yes'),
 					click: function() {
 						//Run the install one by one
-						progressConsole('Prepare installation...');
+						progressConsole('Preparing installation...');
 						$('.ui-dialog-buttonpane').remove();
 						installError = 0;
 						indexCurrentToInstall = 0;
@@ -109,8 +109,8 @@ function progressConsole(msg) {
 
 function installNextExtension() {
 	ext = toInstall[indexCurrentToInstall];
-	$('#installProgress p.status').text(__('Installing %s...').replace('%s', ext));
-	progressConsole(__('Installing %s...').replace('%s', ext));
+	$('#installProgress p.status').text(__('Installing extension %s...').replace('%s', ext));
+	progressConsole(__('Installing extension %s...').replace('%s', ext));
 	$.ajax({
 		type: "POST",
 		url: root_url + "tao/ExtensionsManager/install",
@@ -119,7 +119,7 @@ function installNextExtension() {
 		success: function(data) {
 			helpers.loaded();
 			if (data.success) {
-				progressConsole('Installation of ' + ext + ' success');
+				progressConsole(__('> Extension %s succesfully installed.').replace('%s', ext));
 				
 				// state that the extension is install in remaining dependencies.
 				$('li.ext-id.ext-' + ext).addClass('installed');
@@ -129,9 +129,7 @@ function installNextExtension() {
 					var $orig = $('tr#' + ext + ' td');
 					$tr.append('<td class="bordered">' + $($orig[0]).text() + '</td>');
 					$tr.append('<td class="bordered">' + $($orig[1]).text() + '</td>');
-					$tr.append('<td>' + $($orig[3]).text() + '</td>');
-					//$tr.append('<td><input type="checkbox" checked="" value="loaded" name="loaded[' + ext + ']" class="install"></td>');
-					//$tr.append('<td><input type="checkbox" checked="" value="loadAtStartUp" name="loadAtStartUp[' + ext + ']" class="install"></td>');
+					$tr.append('<td>' + $($orig[2]).text() + '</td>');
 					$tr.slideDown('normal', function() {
 						$('tr#' + ext).remove();
 						
@@ -156,30 +154,27 @@ function installNextExtension() {
 				progressConsole('Installation of ' + ext + ' failed');
 			}
 			helpers.createInfoMessage(data.message);
-			progressConsole('> ' + data.message);
 		}
 	});
 
 	if (installError) {
-		progressConsole('Interrupt of installation');
+		progressConsole(__('A fatal error occured during the installation process.'));
 	}
 }
 
 function hasNextExtensionToInstall() {
 	if (indexCurrentToInstall >= toInstall.length) {
-		progressConsole('Clear install preparation');
 		toInstall = [];
-		$('#installProgress p.status').text(__('Install finished'));
-		progressConsole('Install finished');
 		$('#installProgress .bar').animate({backgroundColor:'#bb6',width:'100%'}, 1000);
-		progressConsole('Generating caches...');
+		progressConsole('Generating cache...');
 		$.ajax({
 			type: "GET",
 			url: $($('#main-menu a')[0]).prop('href'),
 			success: function(data) {
 				helpers.loaded();
-				progressConsole('Generating caches finished');
 				$('#installProgress .bar').animate({backgroundColor:'#6b6'}, 1000);
+				$('#installProgress p.status').text(__('Installation done.'));
+				progressConsole(__('> Installation done.'));
 			}
 		});
 	} else {

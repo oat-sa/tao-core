@@ -15,9 +15,9 @@
 		<table summary="modules" class="maximal">
 			<thead>
 				<tr>
-					<th class="bordered"><?= __('Extension'); ?></th>
-					<th class="nowrap bordered"><?= __('Latest Version'); ?></th>
-					<th><?= __('Author'); ?></th>
+					<th class="bordered"></th>
+					<th class="bordered author"><?= __('Author'); ?></th>
+					<th class="version"><?= __('Version'); ?></th>
 					<!-- <th><?= __('Loaded'); ?></th>  -->
 					<!-- <th><?= __('Loaded at Startup'); ?></th> -->
 				</tr>
@@ -27,14 +27,8 @@
 			<? if($extensionObj->id !=null): ?>
 				<tr>
 					<td class="ext-id bordered"><?= $extensionObj->name; ?></td>
-					<td class="nowrap bordered"><?= $extensionObj->version; ?></td>
-					<td><?= $extensionObj->author ; ?></td>
-					<!-- <td><? $loadedStr =  $extensionObj->configuration->loaded ? 'checked' : ''; ?>
-						<input class="install" name="loaded[<?= $extensionObj->id; ?>]" type="checkbox" value='loaded' <?= $loadedStr; ?>  />
-					</td> -->
-					<!-- <td><? $loadAtStartUpStr = $extensionObj->configuration->loadedAtStartUp ? 'checked' : ''; ?>
-						<input class="install" name="loadAtStartUp[<?= $extensionObj->id; ?>]" value='loadAtStartUp' type="checkbox" <?= $loadAtStartUpStr; ?>  />
-					</td>  -->
+					<td class="bordered"><?= $extensionObj->author ; ?></td>
+					<td><?= $extensionObj->version; ?></td>
 				</tr>
 			<? endif; ?>
 			<? endforeach;?>
@@ -55,18 +49,19 @@
 		<table summary="modules" class="maximal">
 			<thead>
 				<tr>
-					<th class="bordered"><?= __('Extension'); ?></th>
-					<th class="nowrap bordered"><?= __('Latest Version'); ?></th>
-					<th class="bordered"><?= __('Requires'); ?></th>
-					<th class="bordered"><?= __('Author'); ?></th>
-					<th><?= __('Install'); ?></th>
+					<th class="bordered"></th>
+					<th class="bordered author"><?= __('Author'); ?></th>
+					<th class="bordered version"><?= __('Version'); ?></th>
+					<th class="bordered require"><?= __('Requires'); ?></th>
+					<th class="install"></th>
 				</tr>
 			</thead>
 			<tbody>
 				<? foreach(get_data('availableExtArray') as $k => $ext): ?>
 				<tr id="<?= $ext->getID();?>">
 					<td class="ext-name bordered"><?= $ext->name; ?></td>
-					<td class="nowrap bordered"><?= $ext->version; ?></td>
+					<td class="bordered"><?= $ext->author; ?></td>
+					<td class="bordered"><?= $ext->version; ?></td>
 					<td class="dependencies bordered">
 						<ul>
 						<? foreach ($ext->getDependencies() as $req): ?>
@@ -74,8 +69,7 @@
 						<? endforeach; ?>
 						</ul>
 					</td>
-					<td class="bordered"><?= $ext->author; ?></td>
-					<td>
+					<td class="install">
 						<input name="ext_<?= $ext->getID();?>" type="checkbox" />
 					</td>
 				</tr>
