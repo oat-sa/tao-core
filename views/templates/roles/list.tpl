@@ -6,37 +6,53 @@
 		<span class="ui-state-default ui-corner-all" id="addrole"><a href="#"><img src="<?=TAOBASE_WWW?>img/add.png" alt="add" /> <?=__('Add a role')?></a></span>
 	</div>
 
-	<div class="containerDisplay" id="aclRoles">
-		<span class="title"><?= __('Roles') ?></span>
-		<form>
-			<div>
-				<select id="roles" name="roles" size="1">
-					<option value=""><?= __('Roles') ?>...</option>
-<?php foreach (get_data('roles') as $r): ?>
-					<option value="<?= $r['id'] ?>"><?= $r['label'] ?></option>
-<?php endforeach; ?>
-				</select>
+	<div class="aclContainer">
+		<div id="aclRoles-title" class="ui-widget-header ui-corner-top ui-state-default">
+			<?= __('Available roles')?>
+		</div>
+		<div id="aclRoles" class="ui-widget-content ui-corner-bottom">
+			<form>
+				<div>
+					<select id="roles" name="roles" size="1">
+						<option value=""><?= __('Roles') ?>...</option>
+						<?php foreach (get_data('roles') as $r): ?>
+							<option value="<?= $r['id'] ?>"><?= $r['label'] ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</form>
+			<div class="actions" id="roleactions">
+				<span class="ui-state-default ui-corner-all" id="editrole"><a href="#"><img src="<?=BASE_WWW?>img/edit.png" alt="edit" /> <?=__('Edit role')?></a></span>
+				<span class="ui-state-default ui-corner-all" id="deleterole"><a href="#"><img src="<?=BASE_WWW?>img/delete.png" alt="delete" /> <?=__('Delete role')?></a></span>
 			</div>
-		</form>
-		<div class="actions" id="roleactions">
-			<span class="ui-state-default ui-corner-all" id="editrole"><a href="#"><img src="<?=BASE_WWW?>img/edit.png" alt="edit" /> <?=__('Edit role')?></a></span>
-			<span class="ui-state-default ui-corner-all" id="deleterole"><a href="#"><img src="<?=BASE_WWW?>img/delete.png" alt="delete" /> <?=__('Delete role')?></a></span>
 		</div>
 	</div>
 
-	<div class="containerDisplay" id="aclModules">
-		<span class="title"><?= __('Modules') ?></span>
-		<ul class="group-list"></ul>
+	<div class="aclContainer">
+		<div id="aclModules-title" class="ui-widget-header ui-corner-top ui-state-default">
+			<?=__('Modules')?>
+		</div>
+		<div id="aclModules" class="ui-widget-content ui-corner-bottom">
+			<ul class="group-list"></ul>
+		</div>
 	</div>
 
-	<div class="containerDisplay disabled" id="aclActions">
-		<span class="title"><?= __('Actions') ?></span>
-		<ul class="group-list"></ul>
+	<div class="aclContainer">
+		<div id="aclActions-title" class="ui-widget-header ui-corner-top ui-state-default">
+			<?=__('Actions')?>
+		</div>
+		<div id="aclActions" class="ui-widget-content ui-corner-bottom">
+			<ul class="group-list"></ul>
+		</div>
 	</div>
 
-	<div class="containerDisplay disabled" id="aclRolesAffected">
-		<span class="title"><?= __('Roles affected') ?></span>
-		<ul class="group-list"></ul>
+	<div class="aclContainer">
+		<div id="aclRolesAffected-title" class="ui-widget-header ui-corner-top ui-state-default">
+			<?=__('Affected roles')?>
+		</div>
+		<div id="aclRolesAffected" class="ui-widget-content ui-corner-bottom">
+			<ul class="group-list"></ul>
+		</div>
 	</div>
 </div>
 

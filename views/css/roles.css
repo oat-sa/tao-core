@@ -1,7 +1,7 @@
-#aclRoles, #aclModules, #aclActions, #aclRolesAffected {
+.aclContainer {
 	width: 24.3%;
-	vertical-align: top;
 	display: inline-block;
+	vertical-align: top;
 }
 
 .actions {
