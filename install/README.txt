@@ -11,11 +11,11 @@ Apache web server configuration:
  - "Allowoverride All" instruction on the DOCUMENT_ROOT 
  
  PHP server configuration:
-  - required version >= 5.2.6, < 5.3 
+  - required version >= 5.3, < 5.4
   - register globals Off
   - short_tag_open On
   - magic_quotes_gpc Off
-  - required extension: mysql, mysqli, curl, json, gd, tidy, zip (or compiled with zip support on Linux)
+  - required extensions: mysql, mysqli, curl, json, gd, tidy, zip (or compiled with zip support on Linux)
   
  MySql server cofiguration:
   - version >= 5.0  
