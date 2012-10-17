@@ -7,12 +7,12 @@ new tao_scripts_TaoInstall(array(
 		array(
 			'name' 			=> 'db_driver',
 			'type' 			=> 'string',
-			'description'	=> 'Target available sgbd : postgres7, mysql'
+			'description'	=> 'Target available sgbd : postgres7, mysql.'
 		),
 		array(
 			'name' 			=> 'db_host',
 			'type' 			=> 'string',
-			'description'	=> 'Database location'
+			'description'	=> 'Database location.'
 		),
 		array(
 			'name'			=> 'db_name',
@@ -23,13 +23,13 @@ new tao_scripts_TaoInstall(array(
 			'name'			=> 'db_pass',
 			'type' 			=> 'string',
 			'required'		=> true,
-			'description'	=> 'Password to access to the database'
+			'description'	=> 'Password to access to the database.'
 		),
 		array(
 			'name'			=> 'db_user',
 			'type' 			=> 'string',
 			'required'		=> true,
-			'description'	=> 'Login to access to the database'
+			'description'	=> 'Login to access to the database.'
 		),
 		array(
 			'name'			=> 'install_sent',
@@ -61,7 +61,7 @@ new tao_scripts_TaoInstall(array(
 		array(
 			'name'			=> 'module_namespace',
 			'type' 			=> 'string',
-			'description'	=> 'The module\'s namespace will be used to identify the data stored by your module. Each data collected by tao is identified uniquely by an URI composed by the module namespace followed by the resource identifier (NAMESPACE#resource)'
+			'description'	=> 'The module\'s namespace will be used to identify the data stored by your module. Each data collected by tao is identified uniquely by an URI composed by the module namespace followed by the resource identifier (NAMESPACE#resource).'
 		),
 		array(
 			'name'			=> 'module_url',
@@ -75,21 +75,26 @@ new tao_scripts_TaoInstall(array(
 			'type' 			=> 'string',
 			'shortcut'		=> 'u',
 			'required'		=> true,
-			'description'	=> 'The login of the tao backend user'
+			'description'	=> 'The login of the tao backend user.'
 		),
 		array(
 			'name'			=> 'user_pass',
 			'type' 			=> 'string',
 			'shortcut'		=> 'p',
 			'required'		=> true,
-			'description'	=> 'The password of the tao backend user'
+			'description'	=> 'The password of the tao backend user.'
 		),
 		array(
 		    'name'          => 'import_local',
 		    'type'          => 'boolean',
 		    'shortcut'      => 'i',
 		    'description'   => 'States if the local.rdf files must be imported or not.'
-        )
+        ),
+        array(
+        	'name'			=> 'instance_name',
+        	'type'			=> 'string',
+        	'shortcut'		=> 'n',
+        	'description'	=> 'The name of the instance to install.')
 	)
 ));
 ?>

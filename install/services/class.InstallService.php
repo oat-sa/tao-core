@@ -60,6 +60,9 @@ class tao_install_services_InstallService extends tao_install_services_Service{
     	else if (!isset($content['value']['user_pass1']) || empty($content['value']['user_pass1'])){
         	throw new InvalidArgumentException("Missing data: 'user_pass1' must be provided.");
         }
+        else if (!isset($content['value']['instance_name']) || empty($content['value']['instance_name'])){
+        	throw new InvalidArgumentException("Missing data: 'instance_name' must provided.");
+        }
     }
     
     /**

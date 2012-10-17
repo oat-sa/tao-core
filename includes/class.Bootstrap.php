@@ -34,8 +34,6 @@ require_once DIR_CORE_HELPERS . 'Core.php';
  */
 class Bootstrap{
 
-	const SESSION_NAME = 'TAO_BCK_SESSION';
-
 	/**
 	 * @var string the contextual path
 	 */
@@ -206,19 +204,18 @@ class Bootstrap{
 	protected function session()
 	{
 		if(tao_helpers_Context::check('APP_MODE')){
+			// Set a specific ID to the session.
 			$request = new Request();
 			if($request->hasParameter('session_id')){
 			 	session_id($request->getParameter('session_id'));
 			}
 		}
-		if(isset($this->options['session_name']) && !empty($this->options['session_name'])){
-			session_name($this->options['session_name']);
-		}
-		else{
-			session_name(self::SESSION_NAME);
-		}
 
+		// Start the session with a specific name.
+		session_name(GENERIS_SESSION_NAME);
 		session_start();
+		
+		common_Logger::d("Session with name '" . GENERIS_SESSION_NAME ."' started.");
 	}
 
 	/**

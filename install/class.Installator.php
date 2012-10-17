@@ -379,11 +379,13 @@ class tao_install_Installator{
 			
 			$generisConfigWriter->createConfig();
 			$generisConfigWriter->writeConstants(array(
-				'LOCAL_NAMESPACE'	=> $installData['module_namespace'],
-				'ROOT_PATH'			=> $this->options['root_path'],
-				'ROOT_URL'			=> $installData['module_url'],
-				'DEFAULT_LANG'		=> $installData['module_lang'],
-				'DEBUG_MODE'		=> ($installData['module_mode'] == 'debug') ? true : false
+				'LOCAL_NAMESPACE'			=> $installData['module_namespace'],
+				'GENERIS_INSTANCE_NAME'		=> $installData['instance_name'],
+				'GENERIS_SESSION_NAME'		=> self::generateSessionName(),
+				'ROOT_PATH'					=> $this->options['root_path'],
+				'ROOT_URL'					=> $installData['module_url'],
+				'DEFAULT_LANG'				=> $installData['module_lang'],
+				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false
 			));
 			
 			/*
@@ -509,6 +511,26 @@ class tao_install_Installator{
 			// for a clearer API for client code.
 			throw new tao_install_utils_Exception($e->getMessage(), 0, $e);
 		}
+	}
+	
+	/**
+     * Generate an alphanum token to be used as a PHP session name.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @return string
+     */
+	public static function generateSessionName(){
+		$name = '';
+        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        $length = 8;
+        $maxIndex = strlen($chars) - 1;
+        
+	    for ($i = 0; $i < $length; $i++) {
+	    	$name .= $chars[rand(0, $maxIndex)];
+	 	}
+	 	
+	 	return 'tao_' . $name;
 	}
 }
 ?>

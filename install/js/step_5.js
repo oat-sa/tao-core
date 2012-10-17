@@ -22,6 +22,7 @@ function onLoad(){
     		var inputs = {
     			'module_url': install.getData('host_name'),
     			'module_namespace': install.getData('host_name') + '/' + install.getData('instance_name') + '.rdf',
+    			'instance_name': install.getData('instance_name'),
     			'module_lang': install.getData('default_language'),
     			'module_mode': install.getData('deployment_mode'),
     			'import_local': install.getData('sample_data'),
