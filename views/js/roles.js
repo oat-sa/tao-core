@@ -300,7 +300,7 @@ function actOnUri(uri, act, role) {
 		dataType: 'json',
 		success: function(data) {
 			
-			open = $('#aclModules .group.expendable.open').index();
+			var open = $('#aclModules .group.expendable.open').index();
 			$el = $('#aclModules .selected');
 			if ($el.length) {
 				uri = $el.data('uri');
