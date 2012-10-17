@@ -7,7 +7,7 @@
 <div id="mysettings-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=get_data('formTitle')?>
 </div>
-<div id="mysettings-container" class="ui-widget-content ui-corner-bottom">
+<div id="settingsUserProperties" class="main-container ui-widget-content ui-corner-bottom">
 	<?=get_data('myForm')?>
 </div>
 
