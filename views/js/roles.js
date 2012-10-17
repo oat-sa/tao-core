@@ -123,9 +123,21 @@ function loadModules(role) {
 				if (ext['have-allaccess']) extra = ' have-allaccess';
 				$group = $('<li class="group expendable closed'+extra+'"><div class="group-title"><span class="title">'+ e +'</span><span class="selector all checkable" title="' + __('Add all') + '"></span></div><ul></ul></li>');
 				$group.data('uri', ext.uri);
-				if (ext['have-access']) $('.selector', $group).click(function (e) {e.stopPropagation();Access2All($(this))});
-				else if (ext['have-allaccess']) $('.selector', $group).click(function (e) {e.stopPropagation();Access2None($(this))});
-				else $('.selector', $group).click(function (e) {e.stopPropagation();Access2All($(this))});
+				if (ext['have-access'] == true){
+					$('.selector', $group).click(function (e) {
+						e.stopPropagation();
+						Access2None($(this))
+					});	
+				}
+				else if (ext['have-allaccess'] == true){
+					$('.selector', $group).click(function (e) {
+						e.stopPropagation();
+						Access2None($(this))
+					});
+				} 
+				else {
+					$('.selector', $group).click(function (e) {e.stopPropagation();Access2All($(this))});	
+				}
 				//Open/close group
 				$('.group-title', $group).click(function(e) {
 					if ($(this).parent().hasClass('open')) $(this).parent().removeClass('open').addClass('closed');
