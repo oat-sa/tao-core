@@ -215,7 +215,7 @@ class Bootstrap{
 		session_name(GENERIS_SESSION_NAME);
 		session_start();
 		
-		common_Logger::d("Session with name '" . GENERIS_SESSION_NAME ."' started.");
+		common_Logger::t("Session with name '" . GENERIS_SESSION_NAME ."' started.");
 	}
 
 	/**
