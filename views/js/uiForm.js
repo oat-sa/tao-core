@@ -136,11 +136,12 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 			});
 
 			//map the imageable / fileable elements to the filemanager plugin
-			$('.imageable').fmbind({type: 'image'}, function(elt, value) {
+			$('.imageable').fmbind({type: 'image', showselect: true}, function(elt, value) {
 				$(elt).val(value);
 			});
 			$('.fileable').fmbind({
-				type: 'file'
+				type: 'file',
+				showselect: true
 			});
 		},
 

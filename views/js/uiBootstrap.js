@@ -186,7 +186,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 			});
 
 			//initialize the media manager menu
-			$("#main-menu .file-manager").fmload({type: 'file'}, lastFocussed, function(element, url){
+			$("#main-menu .file-manager").fmload({type: 'file', showselect: false}, lastFocussed, function(element, url){
 				if(lastFocussed != null){
 					$(lastFocussed).val($(lastFocussed).val() + url);
 				}
