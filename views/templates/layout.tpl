@@ -14,11 +14,6 @@
 		</div>
 
 		<div class="right-menu">
-			<span>
-				<a href="<?=_url('index', 'Main', 'tao')?>" title="<?=__('Home')?>">
-					<img src="<?=TAOBASE_WWW?>img/home.png" alt="<?=__('Home')?>" />
-				</a>
-			</span>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', null)): ?>
 			<span>
 				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao'))?>" title="<?=__('Users')?>">
