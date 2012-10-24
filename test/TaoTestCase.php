@@ -16,8 +16,8 @@ class TaoTestCase extends UnitTestCase {
 	 * @param string $pContent
 	 */
 	public function createFile($pContent = '', $name = null) {
-		if (is_null($name)) $tmpfname = tempnam("/tmp", "tst");
-		else $tmpfname = '/tmp/'.$name;
+		if (is_null($name)) $tmpfname = tempnam(sys_get_temp_dir(), "tst");
+		else $tmpfname = sys_get_temp_dir().$name;
 		$this->files[] = $tmpfname;
 
 		if (!empty($pContent)) {
@@ -36,7 +36,7 @@ class TaoTestCase extends UnitTestCase {
 	public function after($method) {
 		parent::after($method);
 		foreach ($this->files as $file) {
-			unlink($file);
+			@unlink($file);
 		}
 		$this->files = array();
 	}
