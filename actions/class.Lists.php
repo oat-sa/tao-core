@@ -1,7 +1,7 @@
 <?php
 /**
  * This controller provide the actions to manage the lists of data
- * 
+ *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
@@ -14,12 +14,12 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 	 * Constructor performs initializations actions
 	 * @return void
 	 */
-	public function __construct(){		
-		
+	public function __construct(){
+
 		parent::__construct();
 		//add List stylesheet
 		tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/lists.css');
-		
+
 		$this->service = tao_models_classes_ListService::singleton();
 		$this->defaultData();
 	}
@@ -29,10 +29,10 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 	 * @return void
 	 */
 	public function index(){
-		
+
 		$myAdderFormContainer = new tao_actions_form_List();
 		$myForm = $myAdderFormContainer->getForm();
-		
+
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$values = $myForm->getValues();
@@ -48,7 +48,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 			$myForm->getElement('label')->setValue(__('List').' '.(count($this->service->getLists()) + 1));
 		}
 		$this->setData('form', $myForm->render());
-		
+
 		$lists = array();
 		foreach($this->service->getLists() as $listClass){
 			$elements = array();
@@ -68,11 +68,11 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 				'elements'	=> $elements
 			);
 		}
-		
+
 		$this->setData('lists', $lists);
 		$this->setView('list/index.tpl');
 	}
-	
+
 	/**
 	 * get the JSON data to populate the tree widget
 	 * @return void
@@ -92,7 +92,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 			'state'		=> 'open'
 		));
 	}
-	
+
 	/**
 	 * get the elements in JSON of the list in parameter
 	 * @return void
@@ -100,7 +100,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 	public function getListElements(){
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
-		}	
+		}
 		$data = array();
 		if($this->hasRequestParameter('listUri')){
 			$list = $this->service->getList(tao_helpers_Uri::decode($this->getRequestParameter('listUri')));
@@ -113,7 +113,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 		echo json_encode($data);
 	}
 
-	
+
 	/**
 	 * Save a list and it's elements
 	 * @return void
@@ -123,13 +123,13 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 			throw new Exception("wrong request mode");
 		}
 		$saved = false;
-		
+
 		if($this->hasRequestParameter('uri')){
-			
+
 			$listClass = $this->service->getList(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 			if(!is_null($listClass)){
 				$listClass->setLabel($this->getRequestParameter('label'));
-				
+
 				$setLevel = false;
 				$levelProperty = new core_kernel_classes_Property(TAO_LIST_LEVEL_PROP);
 				foreach($listClass->getProperties(true) as $property){
@@ -138,14 +138,15 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 						break;
 					}
 				}
-				
+
 				$elements = $this->service->getListElements($listClass);
 				foreach($this->getRequestParameters() as $key => $value){
 					if(preg_match("/^list\-element_/", $key)){
 						$key = str_replace('list-element_', '', $key);
-						$level = substr($key, 0, strpos('_', $key) + 1);
-						$uri = tao_helpers_Uri::decode(preg_replace("/^{$level}_/", '', $key));
-						
+						$l = strpos($key, '_');
+						$level = substr($key, 0, $l);
+						$uri = tao_helpers_Uri::decode(substr($key, $l + 1));
+
 						$found = false;
 						foreach($elements as $element){
 							if($element->uriResource == $uri && !empty($uri)){
@@ -170,7 +171,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 		}
 		echo json_encode(array('saved' => $saved));
 	}
-	
+
 	/**
 	 * Create a list or a list element
 	 * @return void
@@ -179,10 +180,10 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		
+
 		$response = array();
 		if($this->getRequestParameter('classUri')){
-			
+
 			if($this->getRequestParameter('type') == 'class' && $this->getRequestParameter('classUri') == 'root'){
 				$listClass = $this->service->createList();
 				if(!is_null($listClass)){
@@ -190,7 +191,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 					$response['uri'] 	= tao_helpers_Uri::encode($listClass->uriResource);
 				}
 			}
-			
+
 			if($this->getRequestParameter('type') == 'instance'){
 				$listClass = $this->service->getList(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
 				if(!is_null($listClass)){
@@ -215,11 +216,11 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new Exception("wrong request mode");
 		}
-		
+
 		$data = array('renamed'	=> false);
-		
+
 		if($this->hasRequestParameter('uri') && $this->hasRequestParameter('newName')){
-			
+
 			if($this->hasRequestParameter('classUri')){
 				$listClass = $this->service->getList(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
 				$listElt = $this->service->getListElement($listClass, tao_helpers_Uri::decode($this->getRequestParameter('uri')));
@@ -242,7 +243,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 		}
 		echo json_encode($data);
 	}
-	
+
 	/**
 	 * Removee the list in parameter
 	 * @return void
@@ -252,7 +253,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 			throw new Exception("wrong request mode");
 		}
 		$deleted = false;
-		
+
 		if($this->hasRequestParameter('uri')){
 			$deleted = $this->service->removeList(
 				$this->service->getList(tao_helpers_Uri::decode($this->getRequestParameter('uri')))
@@ -260,7 +261,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 		}
 		echo json_encode(array('deleted' => $deleted));
 	}
-	
+
 	/**
 	 * Remove the list element in parameter
 	 * @return void
@@ -270,7 +271,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 			throw new Exception("wrong request mode");
 		}
 		$deleted = false;
-		
+
 		if($this->hasRequestParameter('uri')){
 			$deleted = $this->service->removeListElement(
 				new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')))
@@ -278,6 +279,6 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 		}
 		echo json_encode(array('deleted' => $deleted));
 	}
-	
+
 }
 ?>
