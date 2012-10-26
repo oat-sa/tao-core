@@ -65,11 +65,13 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 
 				if (settings.dataType == 'html') {
 					helpers._autoFx();
-					if(/add|edit|Instance|Class|getSectionTrees/.test(settings.url) && !/authoring/i.test(settings.url)){
+					var u = settings.url.split('?')[0].split('/');
+					var act = u[u.length-1];
+					if(/add|edit|Instance|Class|getSectionTrees/.test(act) && !/authoring/i.test(act)){
 						//Removed: search|
 						uiBootstrap.initActions();
 					}
-					if(!/getMetaData/.test(settings.url)){
+					if(!/getMetaData/.test(act)){
 						$("#section-meta").empty();
 					}
 					uiBootstrap.initSize();
