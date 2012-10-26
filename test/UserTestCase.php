@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/TestRunner.php';
+require_once dirname(__FILE__) . '/TaoTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -56,7 +56,7 @@ class UserTestCase extends UnitTestCase {
 	 * tests initialization
 	 */
 	public function setUp(){		
-		TestRunner::initTest();
+		TaoTestRunner::initTest();
 		
 		$this->testUserData[PROPERTY_USER_PASSWORD] = md5($this->testUserData[PROPERTY_USER_PASSWORD]);
 		$this->testUserUtf8Data[PROPERTY_USER_PASSWORD] = md5($this->testUserUtf8Data[PROPERTY_USER_PASSWORD]);

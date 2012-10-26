@@ -1,3 +1,3 @@
 <?php
-define("PHPCOVERAGE_HOME", INCLUDES_PATH.'/spikephpcoverage/src/');
-define('PHPCOVERAGE_REPORTS',PHPCOVERAGE_HOME.'/../reports/');
+define("PHPCOVERAGE_HOME", '');
+define('PHPCOVERAGE_REPORTS','');

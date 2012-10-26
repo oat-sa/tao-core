@@ -1,7 +1,7 @@
 <?php
 // THIS FILE MUST BE UTF-8 encoded to get the TestCase working !!!
 // PLEASE BE CAREFULL.
-require_once dirname(__FILE__) . '/../../tao/test/TestRunner.php';
+require_once dirname(__FILE__) . '/../../tao/test/TaoTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 class AdaptersTestCase extends UnitTestCase {

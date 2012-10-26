@@ -1,38 +1,37 @@
 <?php
-set_time_limit(900);	//a suite must never takes more than 15minutes!
 
 require_once dirname(__FILE__).'/../includes/class.Bootstrap.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
-require_once dirname(__FILE__) .'/XmlTimeReporter.php';
-require_once dirname(__FILE__) .'/TaoTestCase.php';
+require_once INCLUDES_PATH.'/ClearFw/core/simpletestRunner/_main.php';
 require_once dirname(__FILE__) .'/coverage/coverage.conf.php';
+
 /**
  * Help you to run the test into the TAO Context
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage test
  */
-class TestRunner{
+class TaoTestRunner extends TestRunner{
 	
 	const SESSION_KEY = 'TAO_TEST_SESSION';
-	
-	/**
-	 * 
-	 * @var boolean
-	 */
-	private static $connected = false;
-	
-	/**
-	 * shared methods for test initialization
-	 */
-	public static function initTest(){
-		//connect the API
-		if(!self::$connected){
-			core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
-			self::$connected = true;
-		}
-	}
-	
+    /**
+     *
+     * @var boolean
+     */
+    private static $connected = false;
+
+
+    /**
+     * shared methods for test initialization
+     */
+    public static function initTest(){
+        //connect the API
+        if(!self::$connected){
+            core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
+            self::$connected = true;
+        }
+    }
+
 	/**
 	 * get the list of unit tests
 	 * @param null|array $extensions if null all extension, else the list of extensions to look for the tests
@@ -62,29 +61,6 @@ class TestRunner{
 		return $tests;
 	}
 	
-	/**
-	 * Search and find test case into a directory
-	 * @param string $path to folder to search in
-	 * @param boolean $recursive if true it checks the subfoldfer
-	 * @return array the list of test cases paths
-	 */
-	public static function findTest($path, $recursive = false){
-		$tests = array();
-		if(file_exists($path)){
-			if(is_dir($path)){
-				foreach(scandir($path) as $file){
-					if(!preg_match("/^\./",$file)){
-						if(is_dir($path."/".$file) && $recursive){
-							$tests = array_merge($tests, self::findTest($path."/".$file, true));
-						}
-						if(preg_match("/TestCase\.php$/", $file)){
-							$tests[] = $path."/".$file;
-						}
-					}
-				}
-			}
-		}
-		return $tests;
-	}
+
 }
 ?>

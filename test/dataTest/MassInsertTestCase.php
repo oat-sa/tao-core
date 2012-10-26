@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../../tao/test/TestRunner.php';
+require_once dirname(__FILE__) . '/../../../tao/test/TaoTestRunner.php';
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 class MassInsertTestCase extends UnitTestCase {
@@ -55,7 +55,7 @@ class MassInsertTestCase extends UnitTestCase {
 
 	public function setUp(){
 
-		TestRunner::initTest();
+		TaoTestRunner::initTest();
 		error_reporting(E_ALL);
 
 		Bootstrap::loadConstants ('tao');

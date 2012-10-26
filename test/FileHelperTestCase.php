@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/TestRunner.php';
+require_once dirname(__FILE__) . '/TaoTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -22,7 +22,7 @@ class FileHelperTestCase extends UnitTestCase {
     public function setUp()
     {		
         parent::setUp();
-		TestRunner::initTest();
+		TaoTestRunner::initTest();
         $this->initEnv($this->tmpPath, $this->envName, $this->deep, $this->fileCount);
 	}
     

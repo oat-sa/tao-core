@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/TestRunner.php';
+require_once dirname(__FILE__) . '/TaoTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -9,13 +9,13 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class ValidatorTestCase extends TaoTestCase {
+class ValidatorTestCasePrototype extends TestCasePrototype {
 
 	/**
 	 * tests initialization
 	 */
 	public function setUp(){
-		TestRunner::initTest();
+		TaoTestRunner::initTest();
 	}
 
 	/**
@@ -77,7 +77,7 @@ class ValidatorTestCase extends TaoTestCase {
 
 		// static function
 		$callback = new tao_helpers_form_validators_Callback(array(
-			'class'		=> 'ValidatorTestCase',
+			'class'		=> 'ValidatorTestCasePrototype',
 			'method'	=> 'staticMirror'
 		));
 		$this->assertTrue($callback->evaluate(true));
