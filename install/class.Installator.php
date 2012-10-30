@@ -294,10 +294,11 @@ class tao_install_Installator{
 			/*
 			 *  1 - Test DB connection (done by the constructor)
 			 */
-			$installData['db_driver'] = str_replace('pdo_', '', $installData['db_driver']);
+			$installData['db_driver'] = strtolower(str_replace('pdo_', '', $installData['db_driver']));
 			
 			common_Logger::i("Spawning DbCreator", 'INSTALL');
-			$dbCreator = new tao_install_utils_DbCreator(
+			$dbCreatorClassName = tao_install_utils_DbCreator::getClassNameForDriver($installData['db_driver']);
+			$dbCreator = new $dbCreatorClassName(
 				$installData['db_host'],
 				$installData['db_user'],
 				$installData['db_pass'],
@@ -332,21 +333,11 @@ class tao_install_Installator{
 			// Create tao tables
 			$dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
 			common_Logger::i('Created tables', 'INSTALL');
-			
-			// Insert stored procedures for the selected driver if they are found.
-			if(stripos($installData['db_driver'], 'postgres') !== false) {
-			    // postgres driver can be postgres, postgres7, postgres8, ...
-			    $procDbDriver = 'postgres';    
-			}else{
-			    $procDbDriver = $installData['db_driver'];
-			}
 	        
-			$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_'.$procDbDriver.'.sql';
+			$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_' . $installData['db_driver'] . '.sql';
 			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
-				common_Logger::i('Installing stored procedures for '.$procDbDriver, 'INSTALL');
-				$sqlParserClassName = 'tao_install_utils_' . ucfirst($procDbDriver) . 'ProceduresParser';
-				$dbCreator->setSQLParser(new $sqlParserClassName());
-				$dbCreator->load($storedProcedureFile);
+				common_Logger::i('Installing stored procedures for ' . $installData['db_driver'], 'INSTALL');
+				$dbCreator->loadProc($storedProcedureFile);
 			}
 			
 			/*
