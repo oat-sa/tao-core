@@ -1,6 +1,4 @@
 <?php
-require_once 'generis/includes/adodb5/adodb-exceptions.inc.php';
-require_once 'generis/includes/adodb5/adodb.inc.php';
 
 /**
  * Dedicated database wrapper used for database installation
@@ -12,9 +10,34 @@ require_once 'generis/includes/adodb5/adodb.inc.php';
 abstract class tao_install_utils_DbConnector{
 	
 	/**
-	 * @var ADOConnection
+	 * @var PDO
 	 */
-	protected $adoConnection = null;
+	protected $pdo = null;
+	
+	/**
+	 * @var driver
+	 */
+	protected $driver = '';
+	
+	/**
+	 * @var user
+	 */
+	protected $user = '';
+	
+	/**
+	 * @var pass
+	 */
+	protected $pass = '';
+	
+	/**
+	 * @var host
+	 */
+	protected $host = '';
+	
+	/**
+	 * @var $options
+	 */
+	protected $options = array();
 	
 	/**
 	 * The constructor initialize the connection.
@@ -27,24 +50,29 @@ abstract class tao_install_utils_DbConnector{
 	 */
 	public function __construct( $host = 'localhost', $user = 'root', $pass = '', $driver = 'mysql', $dbName = "")
 	{
+		$this->driver = strtolower($driver);
+		$this->user = $user;
+		$this->pass = $pass;
+		$this->host = $host;
+		
 		try{
-			$this->adoConnection = NewADOConnection($driver);
-			$this->adoConnection->Connect($host, $user, $pass);
-			
+	        $dsn = $driver . ':host=' . $host . ';charset=utf8';
+	        $this->options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_BOTH,
+	        					   PDO::ATTR_PERSISTENT => false,
+	        					   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+	        					   PDO::ATTR_EMULATE_PREPARES => false);
+	        				 
+	     	$this->pdo = new PDO($dsn, $this->user, $this->pass, $this->options);
+			$this->afterConnect();
+	     	
 			//if the database exists already, connect to it
 			if ($this->dbExists($dbName)){
-				$this->adoConnection->Close();
-				$this->adoConnection->Connect($host, $user, $pass, $dbName);
+				$this->setDatabase($dbName);
 			}
 		}
-		catch(ADODB_Exception $ae){
-			$this->adoConnection = null;
-			throw new tao_install_utils_Exception("Unable to connect to the database with the provided credentials.");
-		}
-		if($driver == 'mysql'){
-			$this->adoConnection->Execute('SET NAMES utf8');
-			// If the target Sgbd is mysql, force the engine to work with the standard identifier escape
-			$this->adoConnection->Execute('SET SESSION SQL_MODE="ANSI_QUOTES"');
+		catch(PDOException $e){
+			$this->pdo = null;
+			throw new tao_install_utils_Exception("Unable to connect to the database '${dbName}' with the provided credentials: " . $e->getMessage());
 		}
 	}
 	
@@ -54,7 +82,12 @@ abstract class tao_install_utils_DbConnector{
 	 */
 	public function dbExists($dbName)
 	{
-		$databases = $this->adoConnection->MetaDatabases();
+		$result = $this->pdo->query('SHOW DATABASES');
+		$databases = array();
+		while($db = $result->fetchColumn(0)){
+			$databases[] = $db;
+		}
+		
 		if (in_array($dbName, $databases)){
 			return true;
 		}
@@ -67,8 +100,15 @@ abstract class tao_install_utils_DbConnector{
 	 */
 	public function cleanDb()
 	{
-		foreach ($this->adoConnection->MetaTables() as $table){
-			$this->execute('DROP TABLE "'.$table.'";');
+		$tables = array();
+		$result = $this->pdo->query('SHOW TABLES');
+		
+		while ($t = $result->fetchColumn(0)){
+			$tables[] = $t;
+		}
+
+		foreach ($tables as  $t){
+			$this->pdo->exec("DROP TABLE \"${t}\"");
 		}
 	}
 	
@@ -79,14 +119,20 @@ abstract class tao_install_utils_DbConnector{
 	 */
 	public function setDatabase($name)
 	{
-		if(!is_null($this->adoConnection)){
-			try{
-				$this->adoConnection->SelectDB($name);
-			}
-			catch(ADODB_Exception $ae){
-				throw new tao_install_utils_Exception("Unable to connect to the database $name");
-			}
+		// We have to reconnect with PDO :/
+		try{
+			$this->pdo = null;
+			$dsn = $this->driver . ':dbname=' . $name . ';host=' . $this->host. ';charset=utf8';
+			$this->pdo = new PDO($dsn, $this->user, $this->pass, $this->options);
+			$this->afterConnect();
 		}
+		catch (PDOException $e){
+			throw new tao_install_utils_Exception("Unable to set database '${name}': " . $e->getMessage() . "");
+		}
+	}
+	
+	public function createDatabase($name){
+		$this->pdo->exec('CREATE DATABASE "' . $name . '"');
 	}
 	
 	/**
@@ -98,21 +144,8 @@ abstract class tao_install_utils_DbConnector{
 	 */
 	abstract public function load($file, $replace = array());
 	
-	/**
-	 * Execute an SQL query
-	 * @param string $query
-	 * @throws tao_install_utils_Exception
-	 */
-	public function execute($query)
-	{
-		if(!empty($query)){
-			try{
-				return $this->adoConnection->Execute($query);
-			}
-			catch(Exception $e){
-				throw new tao_install_utils_Exception("Error executing query : $query . ".$e->getMessage());
-			}
-		}
+	public function execute($query){
+		$this->pdo->exec($query);
 	}
 	
 	/**
@@ -120,10 +153,17 @@ abstract class tao_install_utils_DbConnector{
 	 */
 	public function __destruct()
 	{
-		if(!is_null($this->adoConnection)){
-			$this->adoConnection->Close();
+		if(!is_null($this->pdo)){
+			$pdo = null;
 		}
 	}
 	
+	protected function afterConnect(){
+		if ($this->driver == 'mysql'){
+			$this->pdo->exec('SET NAMES utf8');
+			// If the target rdbms is mysql, force the engine to work with the standard identifier escape
+			$this->pdo->exec('SET SESSION SQL_MODE="ANSI_QUOTES"');
+		}
+	}
 }
 ?>

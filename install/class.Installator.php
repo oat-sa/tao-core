@@ -294,6 +294,8 @@ class tao_install_Installator{
 			/*
 			 *  1 - Test DB connection (done by the constructor)
 			 */
+			$installData['db_driver'] = str_replace('pdo_', '', $installData['db_driver']);
+			
 			common_Logger::i("Spawning DbCreator", 'INSTALL');
 			$dbCreator = new tao_install_utils_DbCreator(
 				$installData['db_host'],
@@ -316,7 +318,7 @@ class tao_install_Installator{
 			// Else create it
 			else {
 				try {
-					$dbCreator->execute ('CREATE DATABASE "'.$installData['db_name'].'"');
+					$dbCreator->createDatabase($installData['db_name']);
 					common_Logger::i("Created database ".$installData['db_name'], 'INSTALL');
 				} catch (Exception $e){
 					throw new tao_install_utils_Exception('Unable to create the database, make sure that '.$installData['db_user'].' is granted to create databases. Otherwise create the database with your super user and give to  '.$installData['db_user'].' the right to use it.');

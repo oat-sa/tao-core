@@ -53,7 +53,7 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
     public function execute(){
         $content = json_decode($this->getData()->getContent(), true);
         $name = (isset($content['value']['name']) && !empty($content['value']['name'])) ? $content['value']['name'] : 'db_connection';
-        $driver = $content['value']['driver'];
+        $driver = str_replace('pdo_', '', $content['value']['driver']);
         $user = $content['value']['user'];
         $password = $content['value']['password'];
         $host = $content['value']['host'];
@@ -64,7 +64,7 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
         // Try such a driver. Because the provided driver name should
         // comply with a PHP Extension name (e.g. mysql, pgsql), we test its
         // existence.
-        $ext = new common_configuration_PHPDatabaseDriver(null, null, $driver);
+        $ext = new common_configuration_PHPDatabaseDriver(null, null, 'pdo_' . $driver);
         $report = $ext->check();
         
         if ($report->getStatus() == common_configuration_Report::VALID){
@@ -86,7 +86,7 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
 				restore_error_handler();
             }
             catch(Exception $e){
-                $message = "Unable to connect to database at '${host}' using driver '${driver}'.";
+                $message = "Unable to connect to database at '${host}' using driver '${driver}': " . $e->getMessage();
                 $status = 'invalid-noconnection';
                 
                 restore_error_handler();

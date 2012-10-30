@@ -4,8 +4,8 @@ class tao_install_checks_DatabaseDrivers extends common_configuration_Component 
     public function check (){
         
         // One of these drivers must be found.
-        $drivers = array('mysql',
-                         'pgsql');
+        $drivers = array('pdo_mysql',
+                         'pdo_pgsql');
                          
         foreach ($drivers as $d){
             $dbCheck = new common_configuration_PHPDatabaseDriver(null, null, $d);

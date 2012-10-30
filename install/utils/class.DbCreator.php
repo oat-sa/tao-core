@@ -53,7 +53,7 @@ class tao_install_utils_DbCreator extends tao_install_utils_DbConnector{
 				$finalStatement = str_replace('{'.strtoupper($key).'}', $value, $statement);
 			}
 			
-			$this->adoConnection->Execute($finalStatement);
+			$this->pdo->exec($finalStatement);
 		}
 	}
 }

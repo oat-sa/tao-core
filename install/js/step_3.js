@@ -160,11 +160,11 @@ function onLoad(){
 
 function getDriverLabel(driverId){
 	switch(driverId){
-		case 'mysql':
+		case 'pdo_mysql':
 			return 'MySQL';
 		break;
 		
-		case 'pgsql':
+		case 'pdo_pgsql':
 			return 'PostgreSQL';
 		break;
 		
