@@ -118,7 +118,6 @@ class tao_install_utils_ModelCreator{
 		$modFactory = new ModelFactory();
 		$memModel 	= $modFactory->getMemModel($namespace);
 		$dbModel	= $modFactory->getDefaultDbModel($namespace);
-		$dbModel->getDbConn()->execute("SET NAMES 'UTF8'");
 
 		// Load and parse the model
 		$memModel->loadFromString($model, 'rdf');

@@ -1,6 +1,4 @@
 <?php
-require_once 'generis/includes/adodb5/adodb-exceptions.inc.php';
-require_once 'generis/includes/adodb5/adodb.inc.php';
 
 class tao_update_form_validators_DatabaseValidator
 extends tao_helpers_form_Validator {

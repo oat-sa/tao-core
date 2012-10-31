@@ -6,8 +6,6 @@ define('TAO_INSTALL_PATH', $root);
 define('GENERIS_PATH', $root.'generis/');
 set_include_path(get_include_path() . PATH_SEPARATOR . $root. PATH_SEPARATOR . GENERIS_PATH);
 
-require_once 'generis/includes/adodb5/adodb-exceptions.inc.php';
-require_once 'generis/includes/adodb5/adodb.inc.php';
 
 function __autoload($class_name) {
 	foreach (array(TAO_INSTALL_PATH, GENERIS_PATH) as $dir) {
