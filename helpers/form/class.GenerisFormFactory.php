@@ -329,7 +329,7 @@ class tao_helpers_form_GenerisFormFactory
 			)
 		);
 		
-		if(GENERIS_VERSIONING_ENABLED){
+		if(helpers_Versioning::isEnabled()){
 			$returnValue['versionedFile'] = array(
 				'title' 	=> __('A versioned file'),
 				'widget'	=> PROPERTY_WIDGET_VERSIONEDFILE,

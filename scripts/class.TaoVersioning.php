@@ -101,7 +101,7 @@ class tao_scripts_TaoVersioning
 
         	try {
 						//Initialize
-						tao_helpers_Versionning::initialize($constants);
+						tao_helpers_Versioning::initialize($constants);
 						self::out(__('settings updated'), array('color' => 'light_blue'));
 					} catch (Exception $e) {
 						self::out($e->getMessage(), array('color' => 'red'));

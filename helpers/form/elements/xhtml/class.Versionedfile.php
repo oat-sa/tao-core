@@ -86,7 +86,7 @@ class tao_helpers_form_elements_xhtml_Versionedfile
 		
 		$returnValue .= "<label class='form_desc' for='{$this->name}'>"._dh($this->getDescription())."</label>";
 		
-		if(GENERIS_VERSIONING_ENABLED){
+		if(helpers_Versioning::isEnabled()){
 			$returnValue .= "<input type='button' for='{$this->name}' value='".__('Manage Versioned File')."' ";
 			$returnValue .= $this->renderAttributes();
 			$returnValue .= " />";

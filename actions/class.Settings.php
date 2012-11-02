@@ -320,38 +320,5 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		echo json_encode($result);
     }
 
-
-	/**
-	 * render the versionning form
-	 * @return void
-	 */
-	public function versionning() {
-		$myFormContainer = new tao_actions_form_Versionning();
-		$myForm = $myFormContainer->getForm();
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				$constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'] = $myForm->getValue('login');
-				$constants['GENERIS_VERSIONED_REPOSITORY_PASSWORD'] = $myForm->getValue('password');
-				$constants['GENERIS_VERSIONED_REPOSITORY_TYPE'] = $myForm->getValue('type');
-				$constants['GENERIS_VERSIONED_REPOSITORY_URL'] = $myForm->getValue('url');
-				$constants['GENERIS_VERSIONED_REPOSITORY_PATH'] = $myForm->getValue('path');
-				$constants['GENERIS_VERSIONING_ENABLED'] = true;
-
-				try {
-					//Initialize
-					tao_helpers_Versionning::initialize($constants);
-					$this->setData('message', __('settings updated'));
-				} catch (Exception $e) {
-					common_Logger::w($e->getMessage());
-					$this->setData('message', $e->getMessage());
-				}
-			}
-		}
-
-		$this->setData('versionningEnabled', GENERIS_VERSIONING_ENABLED);
-		$this->setData('formTitle', __('Revision control'));
-		$this->setData('myForm', $myForm->render());
-		$this->setView('form/settings_versionning.tpl');
-	}
 }
 ?>
