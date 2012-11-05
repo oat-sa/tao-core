@@ -76,9 +76,8 @@ class tao_actions_form_Repository
         
         $ele = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED));
         //prevent having neither enabled or disabled selected
-        if (count($ele->getValues()) == 0) {
+        if (is_null($ele->getValue())) {
         	$ele->setValue(tao_helpers_Uri::encode(GENERIS_FALSE));
-        	$ele->setValues(array(tao_helpers_Uri::encode(GENERIS_FALSE)));
         }
         
 		$ele = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_GENERIS_VERSIONEDREPOSITORY_LOGIN));
