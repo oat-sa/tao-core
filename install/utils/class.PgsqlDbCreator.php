@@ -60,5 +60,13 @@ class tao_install_utils_PgsqlDbCreator extends tao_install_utils_DbCreator{
 	protected function afterConnect(){
 		$this->pdo->exec("SET NAMES 'UTF8'");
 	}
+	
+	protected function getExtraConfiguration(){
+		return array();	
+	}
+	
+	protected function getExtraDSN(){
+		return '';	
+	}
 }
 ?>

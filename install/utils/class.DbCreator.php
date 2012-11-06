@@ -60,12 +60,16 @@ abstract class tao_install_utils_DbCreator{
 		$this->chooseSQLParsers();
 		
 		try{
-	        $dsn = $driver . ':host=' . $host;
+	        $dsn = $driver . ':host=' . $host . $this->getExtraDSN();
 	        $this->options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_BOTH,
 	        					   PDO::ATTR_PERSISTENT => false,
 	        					   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 	        					   PDO::ATTR_EMULATE_PREPARES => false);
 	        				 
+	     	foreach ($this->getExtraConfiguration() as $k => $v){
+	     		$this->options[$k] = $v;	
+	     	}
+	        					   
 	     	$this->pdo = new PDO($dsn, $this->user, $this->pass, $this->options);
 			$this->afterConnect();
 	     	
@@ -154,7 +158,7 @@ abstract class tao_install_utils_DbCreator{
 		// We have to reconnect with PDO :/
 		try{
 			$this->pdo = null;
-			$dsn = $this->driver . ':dbname=' . $name . ';host=' . $this->host;
+			$dsn = $this->driver . ':dbname=' . $name . ';host=' . $this->host . $this->getExtraDSN();
 			$this->pdo = new PDO($dsn, $this->user, $this->pass, $this->options);
 			$this->afterConnect();
 		}
@@ -184,5 +188,9 @@ abstract class tao_install_utils_DbCreator{
 	public static function getClassNameForDriver($driver){
 		return 'tao_install_utils_' . ucfirst($driver) . 'DbCreator';
 	}
+	
+	abstract protected function getExtraConfiguration();
+	
+	abstract protected function getExtraDSN();
 }
 ?>
