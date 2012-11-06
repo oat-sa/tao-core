@@ -2,7 +2,7 @@
 
 /**
  * Dedicated database wrapper used for database creation in
- * a MySQL context.
+ * a PostgreSQL context.
  * 
  * @see PDO
  * @author Bertrand CHEVRIER <bertrand.chevrier@tudor.lu>
@@ -22,7 +22,7 @@ class tao_install_utils_PgsqlDbCreator extends tao_install_utils_DbCreator{
 	 */
 	public function dbExists($dbName)
 	{
-		$result = $this->pdo->query('SHOW DATABASES');
+		$result = $this->pdo->query('SELECT "datname" FROM "pg_database"');
 		$databases = array();
 		while($db = $result->fetchColumn(0)){
 			$databases[] = $db;
@@ -41,7 +41,7 @@ class tao_install_utils_PgsqlDbCreator extends tao_install_utils_DbCreator{
 	public function cleanDb()
 	{
 		$tables = array();
-		$result = $this->pdo->query('SHOW TABLES');
+		$result = $this->pdo->query('SELECT "table_name" FROM "information_schema"."tables" WHERE "table_schema" = \'public\'');
 		
 		while ($t = $result->fetchColumn(0)){
 			$tables[] = $t;
@@ -58,7 +58,7 @@ class tao_install_utils_PgsqlDbCreator extends tao_install_utils_DbCreator{
 	}
 	
 	protected function afterConnect(){
-		$this->pdo->exec('SET SESSION SQL_MODE="ANSI_QUOTES"');
+		$this->pdo->exec("SET NAMES 'UTF8'");
 	}
 }
 ?>

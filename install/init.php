@@ -7,7 +7,7 @@ define('GENERIS_PATH', $root.'generis/');
 set_include_path(get_include_path() . PATH_SEPARATOR . $root. PATH_SEPARATOR . GENERIS_PATH);
 
 
-function __autoload($class_name) {
+function install_loader($class_name){
 	foreach (array(TAO_INSTALL_PATH, GENERIS_PATH) as $dir) {
 		$path = str_replace('_', '/', $class_name);
 		$file =  'class.' . basename($path). '.php';
@@ -26,6 +26,8 @@ function __autoload($class_name) {
 		}
 	}
 }
+
+spl_autoload_register('install_loader');
 
 common_log_Dispatcher::singleton()->init(array(
 	array(

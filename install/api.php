@@ -205,7 +205,7 @@ session_start();
 session_destroy(); 
  
 // initialize what we need.
-include_once('init.php');
+require_once('init.php');
 
 try{
     

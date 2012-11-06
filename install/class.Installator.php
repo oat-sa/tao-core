@@ -403,7 +403,7 @@ class tao_install_Installator{
 	            	$modelCreator->insertLocalModel($file);
 	            }
 	        }
-			
+
 			/*
 			 * 7 - Finish Generis Install
 			 */

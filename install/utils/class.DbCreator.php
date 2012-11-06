@@ -60,7 +60,7 @@ abstract class tao_install_utils_DbCreator{
 		$this->chooseSQLParsers();
 		
 		try{
-	        $dsn = $driver . ':host=' . $host . ';charset=utf8';
+	        $dsn = $driver . ':host=' . $host;
 	        $this->options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_BOTH,
 	        					   PDO::ATTR_PERSISTENT => false,
 	        					   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -154,7 +154,7 @@ abstract class tao_install_utils_DbCreator{
 		// We have to reconnect with PDO :/
 		try{
 			$this->pdo = null;
-			$dsn = $this->driver . ':dbname=' . $name . ';host=' . $this->host. ';charset=utf8';
+			$dsn = $this->driver . ':dbname=' . $name . ';host=' . $this->host;
 			$this->pdo = new PDO($dsn, $this->user, $this->pass, $this->options);
 			$this->afterConnect();
 		}
@@ -175,7 +175,7 @@ abstract class tao_install_utils_DbCreator{
 	public function __destruct()
 	{
 		if(!is_null($this->pdo)){
-			$pdo = null;
+			$this->pdo = null;
 		}
 	}
 	

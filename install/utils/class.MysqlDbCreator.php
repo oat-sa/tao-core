@@ -59,6 +59,7 @@ class tao_install_utils_MysqlDbCreator extends tao_install_utils_DbCreator{
 	
 	protected function afterConnect(){
 		$this->pdo->exec('SET SESSION SQL_MODE="ANSI_QUOTES"');
+		$this->pdo->exec("SET NAMES 'UTF8'");
 	}
 }
 ?>
