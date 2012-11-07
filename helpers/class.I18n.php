@@ -3,9 +3,9 @@
 error_reporting(E_ALL);
 
 /**
- * Internationalization helper: init the translators for the right language
+ * Internationalization helper.
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -23,10 +23,10 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section 127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7B-constants end
 
 /**
- * Internationalization helper: init the translators for the right language
+ * Internationalization helper.
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -67,7 +67,7 @@ class tao_helpers_I18n
      * Short description of method init
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string langCode
      * @return mixed
      */
@@ -115,7 +115,7 @@ class tao_helpers_I18n
      * Short description of method getLangCode
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public static function getLangCode()
@@ -135,7 +135,7 @@ class tao_helpers_I18n
      * Short description of method getLangResourceByCode
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string code
      * @return core_kernel_classes_Resource
      */
@@ -163,11 +163,11 @@ class tao_helpers_I18n
     }
 
     /**
-     * Short description of method getAvailableLangs
+     * This method returns the languages available in TAO.
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  boolean langName
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  boolean langName If set to true, an associative array where keys are language codes and values are language labels. If set to false (default), a simple array of language codes is returned.
      * @return array
      */
     public static function getAvailableLangs($langName = false)
@@ -186,6 +186,7 @@ class tao_helpers_I18n
 	        	foreach($langClass->getInstances() as $lang){
 	               	self::$availableLangs[] = $lang->getUniquePropertyValue($valueProperty)->literal;
 	        	}
+	        	
 	        	tao_models_classes_cache_FileCache::singleton()->put(self::$availableLangs, self::AVAILABLE_LANGS_CACHEKEY);
         	}
         }
@@ -201,6 +202,40 @@ class tao_helpers_I18n
         }
         
         // section 127-0-1-1-3cbd0a97:12a8039803a:-8000:0000000000002494 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Get available languages from the knownledge base depending on a specific
+     * usage (GUI, Data, ...)
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  Resource usage An instance of tao:LanguagesUsages from the knowledge base.
+     * @return array
+     */
+    public static function getAvailableLangsByUsage( core_kernel_classes_Resource $usage)
+    {
+        $returnValue = array();
+
+        // section 10-13-1-85-4d042f2c:13ada6173fa:-8000:0000000000003C1B begin
+    	$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
+	    $valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+	    $usageProperty = new core_kernel_classes_Property(PROPERTY_LANGUAGE_USAGES);
+	    foreach($langClass->getInstances() as $lang){
+	    	$code = $lang->getUniquePropertyValue($valueProperty)->literal;
+	    	$lang = self::getLangResourceByCode($code);
+	    	$usages = $lang->getPropertyValues($usageProperty);
+	    	
+	    	foreach ($usages as $u){
+	    		if ($u == $usage->getUri()){
+	    			$returnValue[$code] = $lang->getLabel();
+	    			break;
+	    		}
+	    	}
+	    }
+        // section 10-13-1-85-4d042f2c:13ada6173fa:-8000:0000000000003C1B end
 
         return (array) $returnValue;
     }

@@ -44,5 +44,35 @@ class LanguagesTestCase extends UnitTestCase {
             }    
         }
     }
+    
+    /**
+     * Test the language usages property. The usages property defines
+     * in which context a language can take place e.g. GUI, data, ...
+     * 
+     * @author Jerome Bogaerts, <taosupport@tudor.lu>
+     */
+    public function testLanguageUsages(){
+    	// The English locale should always exists and should
+    	// be available in any known language usage.
+    	$lgUsageProperty = new core_kernel_classes_Property(PROPERTY_LANGUAGE_USAGES);
+    	$this->assertIsA($lgUsageProperty, 'core_kernel_classes_Property');
+    	$this->assertEqual($lgUsageProperty->getUri(), PROPERTY_LANGUAGE_USAGES);
+    	$usagePropertyRange = $lgUsageProperty->getRange();
+    	$this->assertIsA($usagePropertyRange, 'core_kernel_classes_Class');
+    	$this->assertEqual($usagePropertyRange->getUri(), CLASS_LANGUAGES_USAGES);
+    	
+    	$instancePrefix = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
+    	$targetLanguageCode = 'EN';
+    	$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+    	
+    	$englishLanguage = new core_kernel_classes_Resource($instancePrefix . $targetLanguageCode);
+    	$this->assertIsA($englishLanguage, 'core_kernel_classes_Resource');
+    	$this->assertTrue(in_array('EN', $englishLanguage->getPropertyValues($valueProperty)));
+    	
+    	$usages = $englishLanguage->getPropertyValues($lgUsageProperty);
+    	$this->assertTrue(count($usages) >= 2);
+    	$this->assertTrue(in_array(INSTANCE_LANGUAGE_USAGE_GUI, $usages));
+    	$this->assertTrue(in_array(INSTANCE_LANGUAGE_USAGE_DATA, $usages));
+    }
 }
 ?>

@@ -68,6 +68,10 @@ $todefine = array(
 	'PROPERTY_WIDGET_FILE'			=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile',
 	'PROPERTY_WIDGET_VERSIONEDFILE'	=> 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile',
 	'PROPERTY_TAO_PROPERTY'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOProperty',
+	'PROPERTY_LANGUAGE_USAGES'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages',
+	'CLASS_LANGUAGES_USAGES'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages',
+	'INSTANCE_LANGUAGE_USAGE_GUI'	=> 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI',
+	'INSTANCE_LANGUAGE_USAGE_DATA'	=> 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData',
     'CLASS_PROCESS_EXECUTIONS'		=> 'http://www.tao.lu/middleware/taoqual.rdf#i119010455660544'
 	
 );
