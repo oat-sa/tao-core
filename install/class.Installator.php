@@ -12,7 +12,7 @@ class tao_install_Installator{
 			'title'	=> 'PHP version check',
 			'displayMsg'	=> true,
 			'min'	=> '5.3.0',
-			'max' 	=> '5.3.14'
+			'max' 	=> '5.3.18'
 		),
 		1 => array(
 			'type'	=> 'PHP_EXTENSION',
