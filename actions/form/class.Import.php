@@ -154,7 +154,33 @@ class tao_actions_form_Import
 			(is_bool($optValue))  ? $eltType = 'Checkbox' : $eltType = 'Textbox';
 			
 			$optElt = tao_helpers_form_FormFactory::getElement($optName, $eltType);
-			$optElt->setDescription(tao_helpers_Display::textCleaner($optName, ' '));
+			
+			// This is a bit rough but we need to add a human readable
+			// field description.
+			$description = 'unknown';
+			switch ($optName){
+				case 'field_delimiter':
+					$description = __("Field delimiter");
+				break;
+				
+				case 'field_encloser':
+					$description = __("Field encloser");
+				break;
+				
+				case 'line_break':
+					$description = __("Line break");
+				break;
+				
+				case 'multi_values_delimiter':
+					$description = __("Multiple values delimiter");
+				break;
+				
+				case 'first_row_column_names':
+					$description = __("First row column names");
+				break;
+			}
+			
+			$optElt->setDescription($description);
 			$optElt->setValue(addslashes($optValue));
 			
 			$optElt->addAttribute("size", ($optName == 'column_order') ? 40 : 6);
