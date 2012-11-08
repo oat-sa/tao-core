@@ -106,12 +106,7 @@ class tao_install_utils_ModelCreator{
 
 		$returnValue = false;
 		if(!preg_match("/#$/", $namespace)){
-		 	$namespace .= '#';
-		 }
-
-		 //rdf-api use ereg that are deprecated since PHP5.3
-		 if (version_compare(phpversion(), '5.3.0', '>=')) {
-			error_reporting(E_ALL & ~E_DEPRECATED);
+			$namespace .= '#';
 		}
 
 		// Init RDF API for PHP.
