@@ -241,29 +241,27 @@ class tao_actions_Main extends tao_actions_CommonModule {
 					);
 
 					$action['disabled'] = true;
-					switch((string) $actionNode['context']){
+					switch ((string) $actionNode['context']) {
 						case 'resource':
-							if($classUri || $uri) {
-								$action['disabled'] = false; break;
-							}
+							if ($classUri || $uri) $action['disabled'] = false;
 							break;
 						case 'class':
-							if($classUri && !$uri) {
-								$action['disabled'] = false; break;
-							}
+							if ($classUri && !$uri) $action['disabled'] = false;
 							break;
 						case 'instance':
-							if($classUri && $uri) {
-								$action['disabled'] = false; break;
-							}
+							if ($classUri && $uri) $action['disabled'] = false;
 							break;
-						case '*': $action['disabled'] = false; break;
-						default : $action['disabled'] = true; break;
+						case '*':
+							$action['disabled'] = false;
+							break;
+						default:
+							$action['disabled'] = true;
+							break;
 					}
 
 					//@todo remove this when permissions engine is setup
-					if($action['rowName'] == 'delete' && $classUri && !$uri){
-						if(in_array($action['classUri'], tao_helpers_Uri::encodeArray($rootClasses, tao_helpers_Uri::ENCODE_ARRAY_VALUES))){
+					if ($action['rowName'] == 'delete' && $classUri && !$uri) {
+						if (in_array($action['classUri'], tao_helpers_Uri::encodeArray($rootClasses, tao_helpers_Uri::ENCODE_ARRAY_VALUES))) {
 							$action['disabled'] = true;
 						}
 					}

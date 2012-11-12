@@ -61,14 +61,13 @@ define(['require', 'jquery'], function(req, $) {
 					beforeopen: function(NODE, TREE_OBJ) {
 						instance.lastOpened = NODE;
 					},
-					//uiBootstrap is global
-					onselect: function(NODE,TREE_OBJ) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
-					onchange: function(NODE,TREE_OBJ) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
-					onmove: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
-					oncopy: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
-					oncreate: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
-					ondelete: function(NODE,TREE_OBJ,RB) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
-					oninit: function(TREE_OBJ) { uiBootstrap.initActions(undefined, undefined); }
+					onselect: function(NODE,TREE_OBJ) { instance.callGetSectionActions(NODE, TREE_OBJ) },
+					onchange: function(NODE,TREE_OBJ) { instance.callGetSectionActions(NODE, TREE_OBJ) },
+					onmove: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { instance.callGetSectionActions(NODE, TREE_OBJ) },
+					oncopy: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { instance.callGetSectionActions(NODE, TREE_OBJ) },
+					oncreate: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { instance.callGetSectionActions(NODE, TREE_OBJ) },
+					ondelete: function(NODE,TREE_OBJ,RB) { instance.callGetSectionActions(NODE, TREE_OBJ) },
+					oninit: function(TREE_OBJ) { instance.callGetSectionActions(undefined, TREE_OBJ) }
 				}
 			};
 
@@ -242,6 +241,22 @@ define(['require', 'jquery'], function(req, $) {
 			if (parents.length == 0) classUri = $(NODE).prop('id');
 			else classUri = $(parents[0]).prop('id');
 			return classUri;
+		},
+
+		callGetSectionActions: function(NODE, TREE_OBJ) {
+			var uri = undefined;
+			var classUri = undefined;
+
+			if (NODE != undefined) {
+				if ($(NODE).hasClass('node-class')) {
+					classUri = $(NODE).prop('id');
+				} else {
+					uri = $(NODE).prop('id');
+					classUri = this.getClassUri(NODE);
+				}
+			}
+			//uiBootstrap is global
+			uiBootstrap.initActions(uri, classUri);
 		}
 	});
 
