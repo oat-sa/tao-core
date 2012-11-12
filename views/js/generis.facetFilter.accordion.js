@@ -32,7 +32,7 @@ define(['require', 'jquery'], function(req, $) {
 		 * Render the content
 		 */
 		content: function(id, label) {
-			var html = '<h3><a href="#">' + label + '</a></h3><div style="padding:5px 0 5px 12px;"><div id="list-' + id + '"></div></div>';
+			var html = '<h3><a href="#">' + label + '</a></h3><div style="padding:5px 0 5px 0;"><div id="list-' + id + '"></div></div>';
 			return html;
 		},
 		/**

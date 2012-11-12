@@ -65,7 +65,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 
 				if (settings.dataType == 'html') {
 					helpers._autoFx();
-					var u = settings.url.split('?')[0].split('/');
+					/*var u = settings.url.split('?')[0].split('/');
 					var act = u[u.length-1];
 					if(/add|edit|Instance|Class|getSectionTrees/.test(act) && !/authoring/i.test(act)){
 						//Removed: search|
@@ -73,7 +73,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 					}
 					if(!/getMetaData/.test(act)){
 						$("#section-meta").empty();
-					}
+					}*/
 					uiBootstrap.initSize();
 				}
 			});
@@ -137,7 +137,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 		/**
 		 * initialize the actions component
 		 */
-		initActions: function(){
+		initActions: function(uri, classUri){
 			//left menu actions init by loading the tab content
 			if(this.tabs.length > 0){
 				$.ajax({
@@ -146,7 +146,9 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 					data: {
 						section: $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('title'),		//get the link text of the selected tab
 						structure: shownStructure,
-						ext: shownExtension
+						ext: shownExtension,
+						uri: uri,
+						classUri: classUri
 					},
 					dataType: 'html',
 					success: function(response){

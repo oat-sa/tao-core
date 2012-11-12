@@ -60,7 +60,15 @@ define(['require', 'jquery'], function(req, $) {
 				callback: {
 					beforeopen: function(NODE, TREE_OBJ) {
 						instance.lastOpened = NODE;
-					}
+					},
+					//uiBootstrap is global
+					onselect: function(NODE,TREE_OBJ) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
+					onchange: function(NODE,TREE_OBJ) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
+					onmove: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
+					oncopy: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
+					oncreate: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
+					ondelete: function(NODE,TREE_OBJ,RB) { uiBootstrap.initActions($(NODE).prop('id'), instance.getClassUri(NODE)); },
+					oninit: function(TREE_OBJ) { uiBootstrap.initActions(undefined, undefined); }
 				}
 			};
 
@@ -223,6 +231,17 @@ define(['require', 'jquery'], function(req, $) {
 			if (this.getMeta(nodeId, "displayed") < this.getMeta(nodeId, "count")) {
 				this.showPaginate(NODE, TREE_OBJ);
 			}
+		},
+
+		/**
+		 * Get the Class URI from the tree
+		 */
+		getClassUri: function(NODE) {
+			var parents = $(NODE).parents('li');
+			var classUri = null;
+			if (parents.length == 0) classUri = $(NODE).prop('id');
+			else classUri = $(parents[0]).prop('id');
+			return classUri;
 		}
 	});
 

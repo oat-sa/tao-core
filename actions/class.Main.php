@@ -198,8 +198,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	public function getSectionActions()
 	{
 
-		$uri = $this->hasSessionAttribute('uri');
-		$classUri = $this->hasSessionAttribute('classUri');
+		$uri = $this->hasRequestParameter('uri');
+		$classUri = $this->hasRequestParameter('classUri');
 		$extname = $this->hasRequestParameter('ext');
 		$struct = $this->getRequestParameter('structure');
 
@@ -235,8 +235,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 						'display'	=> $display,
 						'rowName'	=> (string) $actionNode['name'],
 						'name'		=> _clean((string) $actionNode['name']),
-						'uri'		=> ($uri) ? $this->getSessionAttribute('uri') : false,
-						'classUri'	=> ($classUri) ? $this->getSessionAttribute('classUri') : false,
+						'uri'		=> ($uri) ? $this->getRequestParameter('uri') : false,
+						'classUri'	=> ($classUri) ? $this->getRequestParameter('classUri') : false,
 						'reload'	=> (isset($actionNode['reload'])) ? true : false
 					);
 
