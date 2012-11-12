@@ -70,7 +70,6 @@ class tao_actions_SettingsVersioning extends tao_actions_TaoModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
-				//tao_helpers_Versioning::initialize($repo);
 				$values = $myForm->getValues();
 				if (isset($values[PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED])) {
 					unset($values[PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED]);
@@ -87,13 +86,13 @@ class tao_actions_SettingsVersioning extends tao_actions_TaoModule {
 					$oldState = count($oldState) == 1 ? current($oldState) : GENERIS_FALSE;
 					$newState = $values[PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED];
 					if ($newState == GENERIS_TRUE && $oldState != GENERIS_TRUE) {
+						// enable the repository
 						$success = $repo->enable();
 						$message = $success ? __('Repository saved and enabled') : __('Repository saved, but unable to enable');
-						// enable the repository
 					} elseif ($newState != GENERIS_TRUE && $oldState == GENERIS_TRUE) {
+						// disable the repository
 						$success = $repo->disable();
 						$message = $success ? __('Repository saved and disabled') : __('Repository saved, but unable to disable');
-						// disable the repository
 					} else {
 						// nothing to do
 					}

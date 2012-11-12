@@ -87,26 +87,29 @@ class tao_scripts_TaoVersioning
     public function run()
     {
         // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F5A begin
-
-				$repositoryType = '';
         if($this->options['enable']){
 
         	//check if some config constants have to be overrided
-        	$constants['GENERIS_VERSIONED_REPOSITORY_LOGIN'] 	= !is_null($this->options['login']) 	? $this->options['login'] 	: GENERIS_VERSIONED_REPOSITORY_LOGIN;
-        	$constants['GENERIS_VERSIONED_REPOSITORY_PASSWORD'] = !is_null($this->options['password']) 	? $this->options['password']: GENERIS_VERSIONED_REPOSITORY_PASSWORD;
-        	$constants['GENERIS_VERSIONED_REPOSITORY_TYPE'] 	= !is_null($this->options['type']) 		? $this->options['type'] 	: GENERIS_VERSIONED_REPOSITORY_TYPE;
-        	$constants['GENERIS_VERSIONED_REPOSITORY_URL'] 		= !is_null($this->options['url']) 		? $this->options['url'] 	: GENERIS_VERSIONED_REPOSITORY_URL;
-        	$constants['GENERIS_VERSIONED_REPOSITORY_PATH'] 	= !is_null($this->options['path']) 		? $this->options['path'] 	: GENERIS_VERSIONED_REPOSITORY_PATH;
-        	$constants['GENERIS_VERSIONING_ENABLED'] 			= true;
+        	$type		= !is_null($this->options['type']) 		? $this->options['type'] 	: GENERIS_VERSIONED_REPOSITORY_TYPE;
+        	$url		= !is_null($this->options['url']) 		? $this->options['url'] 	: GENERIS_VERSIONED_REPOSITORY_URL;
+        	$login		= !is_null($this->options['login']) 	? $this->options['login'] 	: GENERIS_VERSIONED_REPOSITORY_LOGIN;
+        	$password	= !is_null($this->options['password']) 	? $this->options['password']: GENERIS_VERSIONED_REPOSITORY_PASSWORD;
+        	$path		= !is_null($this->options['path']) 		? $this->options['path'] 	: GENERIS_VERSIONED_REPOSITORY_PATH;
 
+			$repo = core_kernel_versioning_Repository::create($type, $url, $login, $password, $path, '', '');
         	try {
-						//Initialize
-						tao_helpers_Versioning::initialize($constants);
-						self::out(__('settings updated'), array('color' => 'light_blue'));
-					} catch (Exception $e) {
-						self::out($e->getMessage(), array('color' => 'red'));
-						$this->setData('message', $e->getMessage());
-					}
+				//Initialize
+        		$success = $repo->enable();
+        		
+        		if ($success) {
+					self::out(__('settings updated'), array('color' => 'light_blue'));
+        		} else {
+					self::out(__('settings could not be updatedupdated'), array('color' => 'red'));
+				}
+			} catch (Exception $e) {
+				self::out($e->getMessage(), array('color' => 'red'));
+				$this->setData('message', $e->getMessage());
+			}
         }
 
         // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F5A end
