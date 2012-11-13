@@ -28,8 +28,8 @@
 					/>
 				</trees>
 				<actions>
-					<action name="new repository" js="generisActions.instanciate" url="/tao/SettingsVersioning/addInstance" context="class" />
-					<action name="delete" js="generisActions.removeNode" url="/tao/SettingsVersioning/delete" context="resource" />
+					<action name="add repository" js="generisActions.instanciate" url="/tao/SettingsVersioning/addInstance" context="class" />
+					<action name="remove repository" js="generisActions.removeNode" url="/tao/SettingsVersioning/delete" context="instance" />
 				</actions>
 			</section>
 			<section id="settings_ext_mng" name="Extensions manager" url="/tao/ExtensionsManager/index" />
