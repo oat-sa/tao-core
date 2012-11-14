@@ -70,6 +70,13 @@ class tao_actions_SettingsVersioning extends tao_actions_TaoModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
+				$oldState = $repo->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED));
+				$oldState = count($oldState) == 1 ? current($oldState) : GENERIS_FALSE;
+				$values = $myForm->getValues();
+				$newState = $values[PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED];
+				if ($oldState == GENERIS_TRUE && $newState != GENERIS_FALSE) {
+					throw new common_Exception('Cannot change an active Repository');
+				}
 				$values = $myForm->getValues();
 				if (isset($values[PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED])) {
 					unset($values[PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED]);
@@ -80,22 +87,14 @@ class tao_actions_SettingsVersioning extends tao_actions_TaoModule {
 				$message = __('Repository saved');
 				
 				// check if enable/disable necessary
-				$values = $myForm->getValues();
-				if (isset($values[PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED])) {
-					$oldState = $repo->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED));
-					$oldState = count($oldState) == 1 ? current($oldState) : GENERIS_FALSE;
-					$newState = $values[PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED];
-					if ($newState == GENERIS_TRUE && $oldState != GENERIS_TRUE) {
-						// enable the repository
-						$success = $repo->enable();
-						$message = $success ? __('Repository saved and enabled') : __('Repository saved, but unable to enable');
-					} elseif ($newState != GENERIS_TRUE && $oldState == GENERIS_TRUE) {
-						// disable the repository
-						$success = $repo->disable();
-						$message = $success ? __('Repository saved and disabled') : __('Repository saved, but unable to disable');
-					} else {
-						// nothing to do
-					}
+				if ($newState == GENERIS_TRUE && $oldState != GENERIS_TRUE) {
+					// enable the repository
+					$success = $repo->enable();
+					$message = $success ? __('Repository saved and enabled') : __('Repository saved, but unable to enable');
+				} elseif ($newState != GENERIS_TRUE && $oldState == GENERIS_TRUE) {
+					// disable the repository
+					$success = $repo->disable();
+					$message = $success ? __('Repository saved and disabled') : __('Repository saved, but unable to disable');
 				}
 				$this->setData('message',$message);
 				$this->setData('reload', true);
