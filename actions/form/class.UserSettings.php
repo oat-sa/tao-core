@@ -78,14 +78,21 @@ class tao_actions_form_UserSettings
     protected function initElements()
     {
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF5 begin
+		$langService = tao_models_classes_LanguageService::singleton();
 		
     	// Retrieve languages available for a GUI usage.
     	$guiUsage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_GUI);
-        $guiOptions = tao_helpers_I18n::getAvailableLangsByUsage($guiUsage);
+		$guiOptions = array();
+        foreach($langService->getAvailableLanguagesByUsage($guiUsage) as $lang){
+			$guiOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
+		}
         
         // Retrieve languages available for a Data usage.
-        $guiData = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
-        $dataOptions = tao_helpers_I18n::getAvailableLangsByUsage($guiUsage);
+        $dataUsage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
+		$dataOptions = array();
+        foreach($langService->getAvailableLanguagesByUsage($dataUsage) as $lang){
+			$dataOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
+		}
 
         $uiLangElement = tao_helpers_form_FormFactory::getElement('ui_lang', 'Combobox');
         $uiLangElement->setDescription(__('Interface language'));
@@ -98,7 +105,6 @@ class tao_actions_form_UserSettings
         $dataLangElement->setOptions($dataOptions);
 
         $this->form->addElement($dataLangElement);
-		
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF5 end
     }
 
