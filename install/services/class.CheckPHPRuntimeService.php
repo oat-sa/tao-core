@@ -23,6 +23,9 @@ class tao_install_services_CheckPHPRuntimeService extends tao_install_services_S
         else if (!isset($content['value']) || empty($content['value'])){
             throw new InvalidArgumentException("Missing data: 'value' must be provided.");
         }
+        else if (!isset($content['value']['id']) || empty($content['value']['id'])){
+        	throw new InvalidArgumentException("Missing data: 'id' must be provided.");
+        }
         else if (!isset($content['value']['min'])){
             throw new InvalidArgumentException("Missing data: 'min' must be provided.");
         }
@@ -37,24 +40,19 @@ class tao_install_services_CheckPHPRuntimeService extends tao_install_services_S
      */
     public function execute(){
         $content = json_decode($this->getData()->getContent(), true);
+        $id = $content['value']['id'];
         $min = $content['value']['min'];
         $max = (isset($content['value']['max'])) ? $content['value']['max'] : null;
         $optional = ($content['value']['optional'] == 'true') ? true : false;
         
-        // Handle the name of this check.
-        $name = 'php_version';
-        if (isset($content['value']['name']) && !empty($content['value']['name'])){
-            $name = $content['value']['name'];
-        }
-        
-        $runtime = new common_configuration_PHPRuntime($min, $max, "PHP Runtime", $optional);
+        $runtime = new common_configuration_PHPRuntime($min, $max, $optional);
         $report = $runtime->check();
         
         $value = array('status' => $report->getStatusAsString(),
+        			   'id' => $id,
                        'message' => $report->getMessage(),
                        'min' => $min,
                        'value' => $runtime->getValue(),
-                       'name' => $name,
         			   'optional' => $optional);
                        
         if (!empty($max)){

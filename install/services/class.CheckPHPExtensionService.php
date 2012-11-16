@@ -24,6 +24,9 @@ class tao_install_services_CheckPHPExtensionService extends tao_install_services
         else if (!isset($content['value']) || empty($content['value'])){
             throw new InvalidArgumentException("Missing data: 'value' must be provided.");
         }
+        else if (!isset($content['value']['id']) || empty($content['value']['id'])){
+        	throw new InvalidArgumentException("Missing data: 'id' must be provided");
+        }
         else if (!isset($content['value']['name'])){
             throw new InvalidArgumentException("Missing data: 'name' must be provided.");
         }
@@ -42,12 +45,14 @@ class tao_install_services_CheckPHPExtensionService extends tao_install_services
         $optional = ($content['value']['optional'] == 'true') ? true : false;
         $ext = new common_configuration_PHPExtension(null, null, $extensionName);
         $report = $ext->check();
+        $id = $content['value']['id'];
         
         $data = array('type' => 'PHPExtensionReport',
                       'value' => array('status' => $report->getStatusAsString(),
                                        'message' => $report->getMessage(),
                                        'optional' => $optional,
-                                       'name' => $extensionName));
+                                       'name' => $extensionName,
+        							   'id' => $id));
                                        
         $this->setResult(new tao_install_services_Data(json_encode($data)));
     }

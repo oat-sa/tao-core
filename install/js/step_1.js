@@ -57,47 +57,46 @@ function checkConfig(){
 			var spinner = new Spinner(getSpinnerOptions('small')).spin($target[0]);
 			
 			setTimeout(function(){ // Fake a small processing time... -> 500ms
-				var data = [{type: "CheckPHPRuntime", value: {min: "5.3", max: "5.3.18", optional:false}},
-							{type: "CheckPHPExtension", value: {name: "PDO", optional: false}},
-							{type: "CheckPHPExtension", value: {name: "curl", optional: false}},
-			                {type: "CheckPHPExtension", value: {name: "zip", optional: false}},
-			                {type: "CheckPHPExtension", value: {name: "json", optional: false}},
-			                {type: "CheckPHPExtension", value: {name: "spl", optional: false}},
-			                {type: "CheckPHPExtension", value: {name: "dom", optional: false}},
-			                {type: "CheckPHPExtension", value: {name: "tidy", optional: false}},
-			                {type: "CheckPHPExtension", value: {name: "mbstring", optional: false}},
-			                {type: "CheckPHPExtension", value: {name: "svn", optional: true}},
-			                {type: "CheckPHPExtension", value: {name: "suhosin", optional: true}},
-			                {type: "CheckPHPINIValue", value: {name: "magic_quotes_gpc", value: "0", optional: false}},
-			                {type: "CheckPHPINIValue", value: {name: "short_open_tag", value: "1", optional: false}},
-			                {type: "CheckPHPINIValue", value: {name: "register_globals", value: "0", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: ".", rights: "rw", name: "fs_root", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "generis/data/cache", rights: "rw", name: "fs_generis_data_cache", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "generis/data/versioning", rights: "rw", name: "fs_generis_data_versionning", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "generis/common", rights: "rw", name: "fs_generis_common", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "generis/common/conf", rights: "rw", name: "fs_generis_common_conf", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "generis/common/conf/default", rights: "r", name: "fs_generis_common_conf_default", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "generis/common/conf/sample", rights: "r", name: "fs_generis_common_conf_sample", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "filemanager/views/data", rights: "rw", name: "fs_filemanager_views_data", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "filemanager/includes", rights: "r", name: "fs_filemanager_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "tao/views/export", rights: "rw", name: "fs_tao_views_export", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "tao/includes", rights: "r", name: "fs_tao_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "tao/data/cache", rights: "rw", name: "fs_tao_data_cache", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "tao/update/patches", rights: "rw", name: "fs_tao_update_patches", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "tao/update/bash", rights: "r", name: "fs_tao_update_bash", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "tao/locales", rights: "r", name: "fs_tao_locales", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoItems/data", rights: "rw", name: "fs_taoItems_data", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoItems/includes", rights: "r", name: "fs_taoItems_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoItems/views/runtime", rights: "rw", name: "fs_taoItems_views_runtime", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoDelivery/compiled", rights: "rw", name: "fs_taoDelivery_compiled", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoDelivery/includes", rights: "r", name: "fs_taoDelivery_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoGroups/includes", rights: "r", name: "fs_taoGroups_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoSubjects/includes", rights: "r", name: "fs_taoSubjects_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoTests/includes", rights: "r", name: "fs_taoTests_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "taoResults/includes", rights: "r", name: "fs_taoResults_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {location: "wfEngine/includes", rights: "r", name: "fs_wfEngine_includes", optional: false}},
-			                {type: "CheckCustom", value: {name: "mod_rewrite", extension: "tao", optional: false}},
-			                {type: "CheckCustom", value: {name: "database_drivers", extension: "tao", optional: false}}];
+				var data = [{type: "CheckPHPRuntime", value: {id: "php_runtime", min: "5.3", max: "5.3.18", optional:false}},
+							{type: "CheckPHPExtension", value: {id: "extension_pdo", name: "PDO", optional: false}},
+							{type: "CheckPHPExtension", value: {id: "extension_curl", name: "curl", optional: false}},
+			                {type: "CheckPHPExtension", value: {id: "extension_zip", name: "zip", optional: false}},
+			                {type: "CheckPHPExtension", value: {id: "extension_json", name: "json", optional: false}},
+			                {type: "CheckPHPExtension", value: {id: "extension_spl", name: "spl", optional: false}},
+			                {type: "CheckPHPExtension", value: {id: "extension_dom", name: "dom", optional: false}},
+			                {type: "CheckPHPExtension", value: {id: "extension_tidy", name: "tidy", optional: false}},
+			                {type: "CheckPHPExtension", value: {id: "extension_mbstring", name: "mbstring", optional: false}},
+			                {type: "CheckPHPExtension", value: {id: "extension_svn", name: "svn", optional: true}},
+			                {type: "CheckPHPExtension", value: {id: "extension_suhosin", name: "suhosin", optional: true}},
+			                {type: "CheckPHPINIValue", value: {id: "ini_magic_quotes_gpc", name: "magic_quotes_gpc", value: "0", optional: false}},
+			                {type: "CheckPHPINIValue", value: {id: "ini_short_open_tag", name: "short_open_tag", value: "1", optional: false}},
+			                {type: "CheckPHPINIValue", value: {id: "ini_register_globals", name: "register_globals", value: "0", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_root", location: ".", rights: "rw", name: "fs_root", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_data_cache", location: "generis/data/cache", rights: "rw", name: "fs_generis_data_cache", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_data_versionning", location: "generis/data/versioning", rights: "rw", name: "fs_generis_data_versionning", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_common", location: "generis/common", rights: "rw", name: "fs_generis_common", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_common_conf", location: "generis/common/conf", rights: "rw", name: "fs_generis_common_conf", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_common_conf_default", location: "generis/common/conf/default", rights: "r", name: "fs_generis_common_conf_default", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_common_conf_sample", location: "generis/common/conf/sample", rights: "r", name: "fs_generis_common_conf_sample", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_filemanager_views_data", location: "filemanager/views/data", rights: "rw", name: "fs_filemanager_views_data", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_filemanager_includes", location: "filemanager/includes", rights: "r", name: "fs_filemanager_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_tao_views_export", location: "tao/views/export", rights: "rw", name: "fs_tao_views_export", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_tao_includes", location: "tao/includes", rights: "r", name: "fs_tao_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_tao_data_cache", location: "tao/data/cache", rights: "rw", name: "fs_tao_data_cache", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_tao_update_patches", location: "tao/update/patches", rights: "rw", name: "fs_tao_update_patches", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_tao_locales", location: "tao/locales", rights: "r", name: "fs_tao_locales", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_taoItems_data", location: "taoItems/data", rights: "rw", name: "fs_taoItems_data", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_taoItems_includes", location: "taoItems/includes", rights: "r", name: "fs_taoItems_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_taoItems_views_runtime", location: "taoItems/views/runtime", rights: "rw", name: "fs_taoItems_views_runtime", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_taoDelivery_compiled", location: "taoDelivery/compiled", rights: "rw", name: "fs_taoDelivery_compiled", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_taoDelivery_includes", location: "taoDelivery/includes", rights: "r", name: "fs_taoDelivery_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_taoGroups_includes", location: "taoGroups/includes", rights: "r", name: "fs_taoGroups_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_taoSubjects_includes", location: "taoSubjects/includes", rights: "r", name: "fs_taoSubjects_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_taoTests_includes", location: "taoTests/includes", rights: "r", name: "fs_taoTests_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_taoResults_includes", location: "taoResults/includes", rights: "r", name: "fs_taoResults_includes", optional: false}},
+			                {type: "CheckFileSystemComponent", value: {id: "fs_wfEngine_includes", location: "wfEngine/includes", rights: "r", name: "fs_wfEngine_includes", optional: false}},
+			                {type: "CheckCustom", value: {id: "custom_mod_rewrite", name: "mod_rewrite", extension: "tao", optional: false}},
+			                {type: "CheckCustom", value: {id: "custom_database_drivers", name: "database_drivers", extension: "tao", optional: false}}];
 			    
 				install.checkConfiguration(data, function(status, data){
 					if (status == 200){
@@ -161,7 +160,7 @@ function checkConfig(){
 				    				break;
 				    			}
 				    			
-				    			addReport(r.value.name, message, kind);
+				    			addReport(r.value.id, message, kind);
 				    		}
 				    	}
 				    	
@@ -220,19 +219,20 @@ function displayLegend(){
 }
 
 function initHelp(){
-	install.addHelp('hlp_curl', 'PHP supports libcurl, a library created by Daniel Stenberg, that allows you to connect and communicate to many different types of servers with many different types of protocols. It is used by TAO to request resource files on the World Wide Web.');
-	install.addHelp('hlp_zip', 'This extension enables you to transparently read or write ZIP compressed archives and the files inside them. TAO uses this extension to read/write import/export packages');
-	install.addHelp('hlp_json', 'This PHP extension implements the JavaScript Object Notation (JSON) data-interchange format. It is used by various TAO extensions to enable web browsers to exchange data with the web server.');
-	install.addHelp('hlp_spl', 'SPL is a collection of interfaces and classes that are meant to solve standard problems. TAO require these standard classes to run correctly.');
-	install.addHelp('hlp_dom', 'The DOM extension allows you to operate on XML documents through the DOM API with PHP 5. TAO heavily uses XML to describe contents.');
-	install.addHelp('hlp_mbstring', 'mbstring provides multibyte specific string functions that help you deal with multibyte encodings in PHP. As a cross-cultural application, TAO uses multibyte string to provide various symbols.');
-	install.addHelp('hlp_svn', 'This extension implements PHP bindings for Subversion (SVN), a version control system, allowing PHP scripts to communicate with SVN repositories and working copies without direct command line calls to the svn executable. TAO uses SVN to version files. This feature is optional and for advanced users.');
-	install.addHelp('hlp_suhosin', 'Suhosin is an advanced protection system for PHP installations. It was designed to protect servers and users from known and unknown flaws in PHP applications and the PHP core. The TAO team recommends the use of this extension for a safer PHP experience. Be sure that INI values for <em>suhosin.post.max_name_length</em> and <em>suhosin.request.max_varname_length</em> are set to <em>128.</em>');
-	install.addHelp('hlp_magic_quotes_gpc', 'Magic Quotes is a process that automagically escapes incoming data to the PHP script. The value expected by TAO for this INI parameter is <em>Off</em>.');
-	install.addHelp('hlp_register_globals', 'When on, register_globals will inject your scripts with all sorts of variables, like request variables from HTML forms. This coupled with the fact that PHP doesn\'t require variable initialization means writing insecure code is that much easier. For obvious security reasons, TAO requires this parameter to be set to <em>Off</em>.');
-	install.addHelp('hlp_short_open_tag', 'Tells PHP whether the short form (<? ?>) of PHP\'s open tag should be allowed. The value of the <em>short_open_tag</em> INI parameter must be set to <em>On</em>.');
-	install.addHelp('hlp_mod_rewrite', 'The mod_rewrite module uses a rule-based rewriting engine, based on a PCRE regular-expression parser, to rewrite requested URLs on the fly. It must be enabled to make TAO running properly.');
-	install.addHelp('hlp_database_drivers', 'Database drivers supported by the TAO platform are MySQL and PostgreSQL.');
+	install.addHelp('hlp_php_runtime', 'Please install a suitable version of PHP on your web server to run TAO properly.');
+	install.addHelp('hlp_extension_curl', 'PHP supports libcurl, a library created by Daniel Stenberg, that allows you to connect and communicate to many different types of servers with many different types of protocols. It is used by TAO to request resource files on the World Wide Web.');
+	install.addHelp('hlp_extension_zip', 'This extension enables you to transparently read or write ZIP compressed archives and the files inside them. TAO uses this extension to read/write import/export packages');
+	install.addHelp('hlp_extension_json', 'This PHP extension implements the JavaScript Object Notation (JSON) data-interchange format. It is used by various TAO extensions to enable web browsers to exchange data with the web server.');
+	install.addHelp('hlp_extension_spl', 'SPL is a collection of interfaces and classes that are meant to solve standard problems. TAO require these standard classes to run correctly.');
+	install.addHelp('hlp_extension_dom', 'The DOM extension allows you to operate on XML documents through the DOM API with PHP 5. TAO heavily uses XML to describe contents.');
+	install.addHelp('hlp_extension_mbstring', 'mbstring provides multibyte specific string functions that help you deal with multibyte encodings in PHP. As a cross-cultural application, TAO uses multibyte string to provide various symbols.');
+	install.addHelp('hlp_extension_svn', 'This extension implements PHP bindings for Subversion (SVN), a version control system, allowing PHP scripts to communicate with SVN repositories and working copies without direct command line calls to the svn executable. TAO uses SVN to version files. This feature is optional and for advanced users.');
+	install.addHelp('hlp_extension_suhosin', 'Suhosin is an advanced protection system for PHP installations. It was designed to protect servers and users from known and unknown flaws in PHP applications and the PHP core. The TAO team recommends the use of this extension for a safer PHP experience. Be sure that INI values for <em>suhosin.post.max_name_length</em> and <em>suhosin.request.max_varname_length</em> are set to <em>128.</em>');
+	install.addHelp('hlp_ini_magic_quotes_gpc', 'Magic Quotes is a process that automagically escapes incoming data to the PHP script. The value expected by TAO for this INI parameter is <em>Off</em>.');
+	install.addHelp('hlp_ini_register_globals', 'When on, register_globals will inject your scripts with all sorts of variables, like request variables from HTML forms. This coupled with the fact that PHP doesn\'t require variable initialization means writing insecure code is that much easier. For obvious security reasons, TAO requires this parameter to be set to <em>Off</em>.');
+	install.addHelp('hlp_ini_short_open_tag', 'Tells PHP whether the short form (<? ?>) of PHP\'s open tag should be allowed. The value of the <em>short_open_tag</em> INI parameter must be set to <em>On</em>.');
+	install.addHelp('hlp_custom_mod_rewrite', 'The mod_rewrite module uses a rule-based rewriting engine, based on a PCRE regular-expression parser, to rewrite requested URLs on the fly. It must be enabled to make TAO running properly.');
+	install.addHelp('hlp_custom_database_drivers', 'Database drivers supported by the TAO platform are MySQL and PostgreSQL.');
 	install.addHelp('hlp_fs_root', 'The root directory of your installation must be readable and writable by the user running your web server.');
 	install.addHelp('hlp_fs_generis_data_cache', "The '/generis/data/cache' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_generis_data_versionning', "The '/generis/data/versionning' directory of your installation must be readable and writable by the user running your web server.");
@@ -245,7 +245,6 @@ function initHelp(){
 	install.addHelp('hlp_fs_tao_views_export', "The '/tao/views/export' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_data_cache', "The 'tao/data/cache' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_update_patches', "The 'tao/update/patches' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_tao_update_bash', "The 'tao/update/bash' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_locales', "The 'tao/locales' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoItems_data', "The 'taoItems/data' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_taoItems_includes', "The 'taoItems/includes' directory of your installation must be readable by the user running your web server.");

@@ -25,14 +25,14 @@ class tao_install_services_CheckFileSystemComponentService extends tao_install_s
         else if (!isset($content['value']) || empty($content['value']) || count($content['value']) == 0){
             throw new InvalidArgumentException("Missing data: 'value' must be provided as a not empty array.");
         }
+        else if (!isset($content['value']['id']) || empty($content['value']['id'])){
+        	throw new InvalidArgumentException("Missing data: 'id' must be provided.");
+        }
         else if (!isset($content['value']['rights']) || empty($content['value']['rights'])){
             throw new InvalidArgumentException("Missing data: 'rights' must be provided.");
         }
         else if (!isset($content['value']['location']) || empty($content['value']['location'])){
             throw new InvalidArgumentException("Missing data: 'location' must be provided.");
-        }
-        else if (!isset($content['value']['name']) || empty($content['value']['name'])){
-            throw new InvalidArgumentException("Missing data: 'name' must be provided.");
         }
         else if (!isset($content['value']['optional'])){
             throw new InvalidArgumentException("Missing data: 'optional' must be provided.");
@@ -46,17 +46,17 @@ class tao_install_services_CheckFileSystemComponentService extends tao_install_s
     public function execute(){
         $content = json_decode($this->getData()->getContent(), true);
         $location = $content['value']['location'];
-        $name = $content['value']['name'];
         $rights = $content['value']['rights'];
         $optional = ($content['value']['optional'] == 'true') ? true : false;
+        $id = $content['value']['id'];
         $root = dirname(__FILE__) . '/../../../';
-        $fsc = new common_configuration_FileSystemComponent($root . $location, $rights, $name, $optional);
+        $fsc = new common_configuration_FileSystemComponent($root . $location, $rights, $optional);
         $report = $fsc->check();
         
         $data = array('type' => 'FileSystemComponentReport',
                       'value' => array('status' => $report->getStatusAsString(),
                                        'message' => $report->getMessage(),
-                                       'name' => $fsc->getName(),
+        							   'id' => $id,
                                        'optional' => $fsc->isOptional(),
                                        'isReadable' => $fsc->isReadable(),
                                        'isWritable' => $fsc->isWritable(),

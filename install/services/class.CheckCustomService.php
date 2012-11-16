@@ -24,6 +24,9 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
         else if (!isset($content['value']) || empty($content['value']) || !is_array($content['value']) || count($content['value']) == 0){
             throw new InvalidArgumentException("Missing data: 'value' must be provided as a not empty array.");
         }
+        else if (!isset($content['value']['id']) || empty($content['value']['id'])){
+        	throw new InvalidArgumentException("Missing data: 'id' must be provided.");	
+        }
         else if (!isset($content['value']['name']) || empty($content['value']['name'])){
             throw new InvalidArgumentException("Missing data: 'name' must be provided.");
         }
@@ -53,6 +56,7 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
         }
         $name = implode('', $name);
         
+        $id = $content['value']['id'];
         $optional = $content['value']['optional'];
         $extension = $content['value']['extension'];
         
