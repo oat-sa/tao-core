@@ -16,12 +16,6 @@ class tao_install_services_SyncService extends tao_install_services_Service{
      */
     public function __construct(tao_install_services_Data $data){
         parent::__construct($data);
-        
-        // Check data integrity.
-        $content = $this->getData()->getContent();
-        if (!isset($content['type']) || empty($content['type']) || $content['type'] !== 'Sync'){
-            throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'Sync'.");
-        }
     }
     
     /**
@@ -98,6 +92,14 @@ class tao_install_services_SyncService extends tao_install_services_Service{
     	}
     	
     	return $languages;
+    }
+    
+    public static function checkData(tao_install_services_Data $data){
+    	// Check data integrity.
+        $content = $data->getContent();
+        if (!isset($content['type']) || empty($content['type']) || $content['type'] !== 'Sync'){
+            throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'Sync'.");
+        }
     }
 }
 ?>

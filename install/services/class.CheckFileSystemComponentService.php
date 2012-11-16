@@ -5,7 +5,10 @@
  * 
  * Please refer to tao/install/api.php for more information about how to call this service.
  */
-class tao_install_services_CheckFileSystemComponentService extends tao_install_services_Service{
+class tao_install_services_CheckFileSystemComponentService 
+	extends tao_install_services_Service
+	implements tao_install_services_CheckService
+	{
     
     /**
      * Creates a new instance of the service.
@@ -14,8 +17,21 @@ class tao_install_services_CheckFileSystemComponentService extends tao_install_s
      */
     public function __construct(tao_install_services_Data $data){
         parent::__construct($data);
-        
-        $content = json_decode($this->getData()->getContent(), true);
+    }
+    
+    /**
+     * Executes the main logic of the service.
+     * @return tao_install_services_Data The result of the service execution.
+     */
+    public function execute(){
+    	
+        $fsc = self::buildComponent($this->getData());
+        $report = $fsc->check();                       
+        $this->setResult(self::buildResult($this->getData(), $report, $fsc));
+    }
+    
+    public static function checkData(tao_install_services_Data $data){
+    	$content = json_decode($data->getContent(), true);
         if (!isset($content['type']) || empty($content['type'])){
             throw new InvalidArgumentException("Missing data: 'type' must be provided.");
         }
@@ -39,33 +55,38 @@ class tao_install_services_CheckFileSystemComponentService extends tao_install_s
         }
     }
     
-    /**
-     * Executes the main logic of the service.
-     * @return tao_install_services_Data The result of the service execution.
-     */
-    public function execute(){
-        $content = json_decode($this->getData()->getContent(), true);
+    public static function buildComponent(tao_install_services_Data $data){
+    	$content = json_decode($data->getContent(), true);
         $location = $content['value']['location'];
         $rights = $content['value']['rights'];
         $optional = ($content['value']['optional'] == 'true') ? true : false;
-        $id = $content['value']['id'];
         $root = dirname(__FILE__) . '/../../../';
         $fsc = new common_configuration_FileSystemComponent($root . $location, $rights, $optional);
-        $report = $fsc->check();
+        return $fsc;
+    }
+    
+    public static function buildResult(tao_install_services_Data $data,
+									   common_configuration_Report $report,
+									   common_configuration_Component $component){
+
+		$content = json_decode($data->getContent(), true);
+        $rights = $content['value']['rights'];
+        $id = $content['value']['id'];
+        $root = dirname(__FILE__) . '/../../../';
         
         $data = array('type' => 'FileSystemComponentReport',
                       'value' => array('status' => $report->getStatusAsString(),
                                        'message' => $report->getMessage(),
         							   'id' => $id,
-                                       'optional' => $fsc->isOptional(),
-                                       'isReadable' => $fsc->isReadable(),
-                                       'isWritable' => $fsc->isWritable(),
-                                       'isExecutable' => $fsc->isExecutable(),
+                                       'optional' => $component->isOptional(),
+                                       'isReadable' => $component->isReadable(),
+                                       'isWritable' => $component->isWritable(),
+                                       'isExecutable' => $component->isExecutable(),
         							   'expectedRights' => $rights,
-        							   'isFile' => is_file($root . $location),
-        							   'location' => $location));
-                                       
-        $this->setResult(new tao_install_services_Data(json_encode($data)));
-    }
+        							   'isFile' => is_file($root . $component->getLocation()),
+        							   'location' => $component->getLocation()));	
+        
+        return new tao_install_services_Data(json_encode($data));						   	
+	}
 }
 ?>

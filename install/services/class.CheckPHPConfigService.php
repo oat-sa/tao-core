@@ -15,26 +15,6 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
      */
     public function __construct(tao_install_services_Data $data){
         parent::__construct($data);
-        
-        $content = json_decode($this->getData()->getContent(), true);
-        if (!isset($content['type']) || empty($content['type'])){
-            throw new InvalidArgumentException("Missing data: 'type' must be provided.");
-        }
-        else if ($content['type'] !== 'CheckPHPConfig'){
-            throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'CheckPHPConfig'.");
-        }
-        else if (!isset($content['value']) || empty($content['value']) || count($content['value']) == 0){
-            throw new InvalidArgumentException("Missing data: 'value' must be provided as a not empty array.");
-        }
-        else{
-            $acceptedTypes = array('CheckPHPExtension', 'CheckPHPINIValue', 'CheckPHPRuntime', 'CheckPHPDatabaseDriver', 'CheckFileSystemComponent', 'CheckCustom');
-            
-            foreach ($content['value'] as $config){
-                if (!isset($config['type']) || empty($config['type']) || !in_array($config['type'], $acceptedTypes)){
-                    throw new InvalidArgumentException("Missing data: configuration 'type' must provided.");
-                }
-            }
-        }
     }
     
     /**
@@ -47,8 +27,10 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
                                         'value' => '{RETURN_VALUE}'));
         $resultValue = array();
         
+        $collection = new common_configuration_ComponentCollection();
         foreach ($content['value'] as $config){
-            $class = new ReflectionClass('tao_install_services_' . $config['type'] . 'Service');
+        	
+        	$class = new ReflectionClass('tao_install_services_' . $config['type'] . 'Service');
             $data = new tao_install_services_Data(json_encode($config));
             $service = $class->newInstance($data);
             $service->execute();
@@ -79,6 +61,33 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
     	else{
     		return ($a['value']['optional'] < $b['value']['optional']) ? -1 : 1;
     	}
+    }
+    
+    public static function checkData(tao_install_services_Data $data){
+    	$content = json_decode($data->getContent(), true);
+        if (!isset($content['type']) || empty($content['type'])){
+            throw new InvalidArgumentException("Missing data: 'type' must be provided.");
+        }
+        else if ($content['type'] !== 'CheckPHPConfig'){
+            throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'CheckPHPConfig'.");
+        }
+        else if (!isset($content['value']) || empty($content['value']) || count($content['value']) == 0){
+            throw new InvalidArgumentException("Missing data: 'value' must be provided as a not empty array.");
+        }
+        else{
+            $acceptedTypes = array('CheckPHPExtension', 'CheckPHPINIValue', 'CheckPHPRuntime', 'CheckPHPDatabaseDriver', 'CheckFileSystemComponent', 'CheckCustom');
+            
+            foreach ($content['value'] as $config){
+                if (!isset($config['type']) || empty($config['type']) || !in_array($config['type'], $acceptedTypes)){
+                    throw new InvalidArgumentException("Missing data: configuration 'type' must provided.");
+                }
+                else{
+                	$className = 'tao_install_services_' . $config['type'] . 'Service';
+                	$data = new tao_install_services_Data(json_encode($config));
+                	call_user_func($className . '::checkData', $data);
+                }
+            }
+        }
     }
 }
 ?>

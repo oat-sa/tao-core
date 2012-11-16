@@ -6,7 +6,10 @@
  * 
  * Please refer to tao/install/api.php for more information about how to call this service.
  */
-class tao_install_services_CheckPHPExtensionService extends tao_install_services_Service{
+class tao_install_services_CheckPHPExtensionService 
+	extends tao_install_services_Service
+	implements tao_install_services_CheckService
+	{
     
     /**
      * Creates a new instance of the service.
@@ -15,9 +18,21 @@ class tao_install_services_CheckPHPExtensionService extends tao_install_services
      */
     public function __construct(tao_install_services_Data $data){
         parent::__construct($data);
-        
-        // Check data integrity.
-        $content = json_decode($this->getData()->getContent(), true);
+    }
+    
+    /**
+     * Executes the main logic of the service.
+     * @return tao_install_services_Data The result of the service execution.
+     */
+    public function execute(){
+        $ext = self::buildComponent($this->getData());
+        $report = $ext->check();                                
+        $this->setResult(self::buildResult($this->getData(), $report, $ext));
+    }
+    
+    public static function checkData(tao_install_services_Data $data){
+    	// Check data integrity.
+        $content = json_decode($data->getContent(), true);
         if (!isset($content['type']) || empty($content['type']) || $content['type'] !== 'CheckPHPExtension'){
             throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'CheckPHPExtension'.");
         }
@@ -35,26 +50,30 @@ class tao_install_services_CheckPHPExtensionService extends tao_install_services
         }
     }
     
-    /**
-     * Executes the main logic of the service.
-     * @return tao_install_services_Data The result of the service execution.
-     */
-    public function execute(){
-        $content = json_decode($this->getData()->getContent(), true);
+    public static function buildComponent(tao_install_services_Data $data){
+    	$content = json_decode($data->getContent(), true);
         $extensionName = $content['value']['name'];
         $optional = ($content['value']['optional'] == 'true') ? true : false;
-        $ext = new common_configuration_PHPExtension(null, null, $extensionName);
-        $report = $ext->check();
+        $ext = new common_configuration_PHPExtension(null, null, $extensionName, $optional);
+        
+        return $ext;
+    }
+    
+    public static function buildResult(tao_install_services_Data $data,
+									   common_configuration_Report $report,
+									   common_configuration_Component $component){
+									   	
+		$content = json_decode($data->getContent(), true);
         $id = $content['value']['id'];
         
         $data = array('type' => 'PHPExtensionReport',
                       'value' => array('status' => $report->getStatusAsString(),
                                        'message' => $report->getMessage(),
-                                       'optional' => $optional,
-                                       'name' => $extensionName,
+                                       'optional' => $component->isOptional(),
+                                       'name' => $component->getName(),
         							   'id' => $id));
-                                       
-        $this->setResult(new tao_install_services_Data(json_encode($data)));
-    }
+
+        return new tao_install_services_Data(json_encode($data));
+	}
 }
 ?>

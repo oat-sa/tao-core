@@ -6,7 +6,10 @@
  * 
  * Please refer to tao/install/api.php for more information about how to call this service.
  */
-class tao_install_services_CheckDatabaseConnectionService extends tao_install_services_Service{
+class tao_install_services_CheckDatabaseConnectionService 
+	extends tao_install_services_Service
+	implements tao_install_services_CheckService
+	{
     
     /**
      * Creates a new instance of the service.
@@ -15,8 +18,29 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
      */
     public function __construct($data){
         parent::__construct($data);
-        
-        $content = json_decode($this->getData()->getContent(), true);
+    }
+    
+    /**
+     * Executes the main logic of the service.
+     * @return tao_install_services_Data The result of the service execution.
+     */
+    public function execute(){
+        $ext = self::buildComponent($this->getData());
+        $report = $ext->check();            
+        $this->setResult(self::buildResult($this->getData(), $report, $ext));
+    }
+
+    /**
+     * Custom error handler to prevent noisy output at bad connection time.
+     * @return boolean
+     */
+    public static function onError($errno, $errstr, $errfile, $errline){
+        // Do not call PHP internal error handler !
+        return true;
+    }
+    
+    public static function checkData(tao_install_services_Data $data){
+    	$content = json_decode($data->getContent(), true);
         if (!isset($content['type']) || empty($content['type']) || $content['type'] != 'CheckDatabaseConnection'){
             throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'CheckDatabaseConnection'.");
         }
@@ -46,31 +70,34 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
         }
     }
     
-    /**
-     * Executes the main logic of the service.
-     * @return tao_install_services_Data The result of the service execution.
-     */
-    public function execute(){
-        $content = json_decode($this->getData()->getContent(), true);
-        $name = (isset($content['value']['name']) && !empty($content['value']['name'])) ? $content['value']['name'] : 'db_connection';
+    public static function buildComponent(tao_install_services_Data $data){
+    	$content = json_decode($data->getContent(), true);
+        $driver = str_replace('pdo_', '', $content['value']['driver']);
+        $optional = ($content['value']['optional'] == 'true') ? true : false;
+        
+        // Try such a driver. Because the provided driver name should
+        // comply with a PHP Extension name (e.g. mysql, pgsql), we test its
+        // existence.
+        $ext = new common_configuration_PHPDatabaseDriver(null, null, 'pdo_' . $driver, $optional);
+        return $ext;
+    }
+    
+    public static function buildResult(tao_install_services_Data $data,
+									   common_configuration_Report $report,
+									   common_configuration_Component $component){
+
+		$content = json_decode($data->getContent(), true);
         $driver = str_replace('pdo_', '', $content['value']['driver']);
         $user = $content['value']['user'];
         $password = $content['value']['password'];
         $host = $content['value']['host'];
 		$overwrite = $content['value']['overwrite'];
 		$database = $content['value']['database'];
-        $optional = ($content['value']['optional'] == 'true') ? true : false;
-        
-        // Try such a driver. Because the provided driver name should
-        // comply with a PHP Extension name (e.g. mysql, pgsql), we test its
-        // existence.
-        $ext = new common_configuration_PHPDatabaseDriver(null, null, 'pdo_' . $driver);
-        $report = $ext->check();
         
         if ($report->getStatus() == common_configuration_Report::VALID){
             // Great the driver is there, we can try a connection.
             try{
-                set_error_handler(array(get_class($this), 'onError'));
+                set_error_handler(array('tao_install_services_CheckDatabaseConnectionService', 'onError'));
                 $dbCreatorClassName = tao_install_utils_DbCreator::getClassNameForDriver($driver);
                 $dbCreator = new $dbCreatorClassName($host, $user, $password, $driver);
                 
@@ -102,23 +129,14 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
         
         $value = array('status' => $status,
                        'message' => $message,
-                       'optional' => $optional,
-                       'name' => $name);
+                       'optional' => $component->isOptional(),
+                       'name' => $component->getName());
                        
                        
         $data = array('type' => 'DatabaseConnectionReport',
                       'value' => $value);
-                      
-        $this->setResult(new tao_install_services_Data(json_encode($data)));
-    }
-
-    /**
-     * Custom error handler to prevent noisy output at bad connection time.
-     * @return boolean
-     */
-    public static function onError($errno, $errstr, $errfile, $errline){
-        // Do not call PHP internal error handler !
-        return true;
-    }
+        
+        return new tao_install_services_Data(json_encode($data));
+	}
 }
 ?>

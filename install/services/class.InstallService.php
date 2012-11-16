@@ -13,8 +13,50 @@ class tao_install_services_InstallService extends tao_install_services_Service{
      */
     public function __construct(tao_install_services_Data $data){
         parent::__construct($data);
-        
-    	$content = json_decode($this->getData()->getContent(), true);
+    }
+    
+    /**
+     * Executes the main logic of the service.
+     * @return tao_install_services_Data The result of the service execution.
+     */
+    public function execute(){
+        $content = json_decode($this->getData()->getContent(), true);
+		
+		//instantiate the installator
+		try{
+			set_error_handler(array(get_class($this), 'onError'));
+			$installer = new tao_install_Installator(array(
+				'root_path' 	=> TAO_INSTALL_PATH,
+				'install_path'	=> dirname(__FILE__) . '/../../install'
+			));
+			
+			// For the moment, we force English as default language.
+			$content['value']['module_lang'] = 'EN';
+			$installer->install($content['value']);
+			
+			$report = array('type' => 'InstallReport',
+							'value' => array('status' => 'valid',
+											 'message' => "Installation successful."));
+			$this->setResult(new tao_install_services_Data(json_encode($report)));
+			
+			restore_error_handler();
+		}
+		catch(Exception $e){
+			$report = array('type' => 'InstallReport',
+							'value' => array('status' => 'invalid',
+											 'message' => $e->getMessage() . ' in ' . $e->getFile() . ' at line ' . $e->getLine()));
+			$this->setResult(new tao_install_services_Data(json_encode($report)));
+			
+			restore_error_handler();
+		}
+    }
+    
+    public static function onError($errno, $errstr, $errfile, $errline){
+    	return true;
+    }
+    
+    public static function checkData(tao_install_services_Data $data){
+    	$content = json_decode($data->getContent(), true);
         if (!isset($content['type']) || empty($content['type']) || $content['type'] != 'Install'){
             throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'Install'.");
         }
@@ -63,46 +105,6 @@ class tao_install_services_InstallService extends tao_install_services_Service{
         else if (!isset($content['value']['instance_name']) || empty($content['value']['instance_name'])){
         	throw new InvalidArgumentException("Missing data: 'instance_name' must provided.");
         }
-    }
-    
-    /**
-     * Executes the main logic of the service.
-     * @return tao_install_services_Data The result of the service execution.
-     */
-    public function execute(){
-        $content = json_decode($this->getData()->getContent(), true);
-		
-		//instantiate the installator
-		try{
-			set_error_handler(array(get_class($this), 'onError'));
-			$installer = new tao_install_Installator(array(
-				'root_path' 	=> TAO_INSTALL_PATH,
-				'install_path'	=> dirname(__FILE__) . '/../../install'
-			));
-			
-			// For the moment, we force English as default language.
-			$content['value']['module_lang'] = 'EN';
-			$installer->install($content['value']);
-			
-			$report = array('type' => 'InstallReport',
-							'value' => array('status' => 'valid',
-											 'message' => "Installation successful."));
-			$this->setResult(new tao_install_services_Data(json_encode($report)));
-			
-			restore_error_handler();
-		}
-		catch(Exception $e){
-			$report = array('type' => 'InstallReport',
-							'value' => array('status' => 'invalid',
-											 'message' => $e->getMessage() . ' in ' . $e->getFile() . ' at line ' . $e->getLine()));
-			$this->setResult(new tao_install_services_Data(json_encode($report)));
-			
-			restore_error_handler();
-		}
-    }
-    
-    public static function onError($errno, $errstr, $errfile, $errline){
-    	return true;
     }
 }
 ?>

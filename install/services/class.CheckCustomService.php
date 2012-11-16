@@ -4,7 +4,10 @@
  * 
  * Please refer to tao/install/api.php for more information about how to call this service.
  */
-class tao_install_services_CheckCustomService extends tao_install_services_Service{
+class tao_install_services_CheckCustomService 
+	extends tao_install_services_Service
+	implements tao_install_services_CheckService
+	{
     
     /**
      * Creates a new instance of the service.
@@ -13,8 +16,34 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
      */
     public function __construct(tao_install_services_Data $data){
         parent::__construct($data);
-        
+    }
+    
+    /**
+     * Executes the main logic of the service.
+     * @return tao_install_services_Data The result of the service execution.
+     */
+    public function execute(){
         $content = json_decode($this->getData()->getContent(), true);
+        $name = explode('_', $content['value']['name']);
+        for ($i = 0; $i < count($name); $i++){
+            $name[$i] = ucfirst($name[$i]);
+        }
+        $name = implode('', $name);
+        
+        $extension = $content['value']['extension'];
+        $check = self::buildComponent($this->getData());
+        
+        if ($check !== null){
+            $report = $check->check();                   
+            $this->setResult(self::buildResult($this->getData(), $report, $check));    
+        }
+        else{
+            throw new tao_install_services_UnknownCustomCheckException($name, $extension);
+        }
+    }
+    
+    public static function checkData(tao_install_services_Data $data){
+    	$content = json_decode($data->getContent(), true);
         if (!isset($content['type']) || empty($content['type'])){
             throw new InvalidArgumentException("Missing data: 'type' must be provided.");
         }
@@ -44,19 +73,14 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
         }
     }
     
-    /**
-     * Executes the main logic of the service.
-     * @return tao_install_services_Data The result of the service execution.
-     */
-    public function execute(){
-        $content = json_decode($this->getData()->getContent(), true);
+    public static function buildComponent(tao_install_services_Data $data){
+    	$content = json_decode($data->getContent(), true);
         $name = explode('_', $content['value']['name']);
         for ($i = 0; $i < count($name); $i++){
             $name[$i] = ucfirst($name[$i]);
         }
         $name = implode('', $name);
         
-        $id = $content['value']['id'];
         $optional = $content['value']['optional'];
         $extension = $content['value']['extension'];
         
@@ -65,20 +89,31 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
         try{
             $checkClass = new ReflectionClass($checkClassName);
             $check = $checkClass->newInstanceArgs(array("custom_${extension}_${name}", $optional));
-            $report = $check->check();
-            
-            $data = array('type' => 'CheckCustomReport',
-                          'value' => array('status' => $report->getStatusAsString(),
-                                           'message' => $report->getMessage(),
-                                           'name' => $name,
-                                           'extension' => $extension,
-                                           'optional' => $optional));
-                                           
-            $this->setResult(new tao_install_services_Data(json_encode($data)));    
+            return $check;
         }
         catch (LogicException $e){
-            throw new tao_install_services_UnknownCustomCheckException($name, $extension);
+        	return null;
         }
     }
+    
+    public static function buildResult(tao_install_services_Data $data,
+									   common_configuration_Report $report,
+									   common_configuration_Component $component){
+
+		$content = json_decode($data->getContent(), true);
+        
+        $id = $content['value']['id'];
+        $extension = $content['value']['extension'];
+
+        $data = array('type' => 'CheckCustomReport',
+                      'value' => array('status' => $report->getStatusAsString(),
+                                       'message' => $report->getMessage(),
+                                       'name' => $component->getName(),
+                                       'extension' => $extension,
+                                       'optional' => $component->isOptional(),
+            						   'id' => $id));
+                                           
+        return new tao_install_services_Data(json_encode($data));
+	}
 }
 ?>

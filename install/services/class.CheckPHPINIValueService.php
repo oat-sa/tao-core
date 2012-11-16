@@ -6,7 +6,10 @@
  * 
  * Please refer to tao/install/api.php for more information about how to call this service.
  */
-class tao_install_services_CheckPHPINIValueService extends tao_install_services_Service {
+class tao_install_services_CheckPHPINIValueService 
+	extends tao_install_services_Service
+	implements tao_install_services_CheckService
+ {
     
     /**
      * Creates a new instance of the service.
@@ -15,9 +18,22 @@ class tao_install_services_CheckPHPINIValueService extends tao_install_services_
      */
     public function __construct(tao_install_services_Data $data){
         parent::__construct($data);
-        
-        // Check input data.
-        $content = json_decode($this->getData()->getContent(), true);
+    }
+    
+    /**
+     * Executes the main logic of the service.
+     * @return tao_install_services_Data The result of the service execution.
+     */
+    public function execute(){
+    	
+        $ini = self::buildComponent($this->getData());
+        $report = $ini->check();                          
+        $this->setResult(self::buildResult($this->getData(), $report, $ini));
+    }
+    
+    public static function checkData(tao_install_services_Data $data){
+    	// Check input data.
+        $content = json_decode($data->getContent(), true);
         if (!isset($content['type']) || empty($content['type']) || $content['type'] !== 'CheckPHPINIValue'){
             throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'CheckPHPINIValue'.");
         }
@@ -38,30 +54,34 @@ class tao_install_services_CheckPHPINIValueService extends tao_install_services_
         }
     }
     
-    /**
-     * Executes the main logic of the service.
-     * @return tao_install_services_Data The result of the service execution.
-     */
-    public function execute(){
-        $content = json_decode($this->getData()->getContent(), true);
+    public static function buildComponent(tao_install_services_Data $data){
+    	$content = json_decode($data->getContent(), true);
         $value = $content['value']['value'];
         $name = $content['value']['name'];
         $optional = ($content['value']['optional'] == 'true') ? true : false;
-        $id = $content['value']['id'];
         
         $ini = new common_configuration_PHPINIValue($value, $name, $optional);
-        $report = $ini->check();
+        return $ini;
+    }
+    
+    public static function buildResult(tao_install_services_Data $data,
+									   common_configuration_Report $report,
+									   common_configuration_Component $component){
+									   	
+		$content = json_decode($data->getContent(), true);
+        $value = $content['value']['value'];
+        $id = $content['value']['id'];
         
         $data = array('type' => 'PHPINIValueReport',
                       'value' => array('status' => $report->getStatusAsString(),
         							   'id' => $id,
                                        'message' => $report->getMessage(),
                                        'expectedValue' => $value,
-                                       'value' => $ini->getValue(),
-                                       'optional' => $optional),
-        							   'name' => $name);
-                                       
-        $this->setResult(new tao_install_services_Data(json_encode($data)));
-    }
+                                       'value' => $component->getValue(),
+                                       'optional' => $component->isOptional()),
+        							   'name' => $component->getName());
+        
+        return new tao_install_services_Data(json_encode($data));
+	}
 }
 ?>
