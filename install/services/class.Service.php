@@ -105,6 +105,8 @@ abstract class tao_install_services_Service{
     /**
      * Contains the logic of checking the input data for a given service implementation.
      */
-    public abstract static function checkData(tao_install_services_Data $data);
+    public static function checkData(tao_install_services_Data $data){
+    	return;
+    }
 }
 ?>

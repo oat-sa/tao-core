@@ -26,7 +26,8 @@ return array(
 				array('ns' => 'http://www.tao.lu/Ontologies/taoFuncACL.rdf', 'file' => dirname(__FILE__). '/models/ontology/taoaclrole.rdf')
 		),
 		'checks' => array(
-				array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'php_runtime', 'min' => '5.3', 'max' => '5.3.18')),
+				array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'php_runtime', 'min' => '5.3')),
+				array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'php_runtime53', 'min' => '5.3', 'max' => '5.3.18', 'silent' => true)),
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'extension_pdo', 'name' => 'PDO')),
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'extension_curl', 'name' => 'curl')),
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'extension_zip', 'name' => 'zip')),
@@ -37,9 +38,9 @@ return array(
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'extension_mbstring', 'name' => 'mbstring')),
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'extension_svn', 'name' => 'svn', 'optional' => true)),
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'extension_suhosin', 'name' => 'suhosin', 'optional' => true)),
-				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_magic_quotes_gpc', 'name' => 'magic_quotes_gpc', 'value' => "0")),
+				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_magic_quotes_gpc', 'name' => 'magic_quotes_gpc', 'value' => "0", 'dependsOn' => array('php_runtime53'))),
+				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_register_globals', 'name' => 'register_globals', 'value' => "0", 'dependsOn' => array('php_runtime53'))),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_short_open_tag', 'name' => 'short_open_tag', 'value' => "1")),
-				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_register_globals', 'name' => 'register_globals', 'value' => "0")),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_root', 'location' => '.', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_data_cache', 'location' =>  'generis/data/cache', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_data_versionning', 'location' => 'generis/data/versioning', 'rights' => 'rw')),
