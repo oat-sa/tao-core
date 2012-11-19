@@ -60,8 +60,8 @@ class tao_install_services_CheckFileSystemComponentService
         $location = $content['value']['location'];
         $rights = $content['value']['rights'];
         $optional = ($content['value']['optional'] == 'true') ? true : false;
-        $root = dirname(__FILE__) . '/../../../';
-        $fsc = new common_configuration_FileSystemComponent($root . $location, $rights, $optional);
+        $root = realpath(dirname(__FILE__) . '/../../../');
+        $fsc = new common_configuration_FileSystemComponent($root . '/' . $location, $rights, $optional);
         return $fsc;
     }
     

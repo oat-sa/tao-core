@@ -61,9 +61,6 @@ function displayTaoError(msg, title){
 	$(popupDocContext).find("#genericPopupContent").html(msg);
 }
 
-/*function displaySupport(){
-
-
 	$("#errorPopUp, #helpPopUp, .ui-overlay").remove();
 
 	$("body").append('<div class="ui-overlay"><div class="ui-widget-overlay  ui-corner-all"></div></div>');

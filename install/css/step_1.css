@@ -45,6 +45,7 @@
 #forms_check_content form ul li label{
 	font-weight:bold;
 	color: #3A3A3A;
+	padding-right: 25px;
 }
 
 #forms_check_content .icons{
