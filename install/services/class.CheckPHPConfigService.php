@@ -27,6 +27,11 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
     	$componentToData = array(); 
     	
         $content = json_decode($this->getData()->getContent(), true);
+        if (self::getRequestMethod() == 'get'){
+        	// We extract the checks to perform from the manifest.php file.
+        	$content['value'] = self::extractFromManifest();
+        }
+        
         $resultData = json_encode(array('type' => 'ReportCollection',
                                         'value' => '{RETURN_VALUE}'));
         
@@ -121,22 +126,26 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
         else if ($content['type'] !== 'CheckPHPConfig'){
             throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'CheckPHPConfig'.");
         }
-        else if (!isset($content['value']) || empty($content['value']) || count($content['value']) == 0){
-            throw new InvalidArgumentException("Missing data: 'value' must be provided as a not empty array.");
-        }
-        else{
-            $acceptedTypes = array('CheckPHPExtension', 'CheckPHPINIValue', 'CheckPHPRuntime', 'CheckPHPDatabaseDriver', 'CheckFileSystemComponent', 'CheckCustom');
-            
-            foreach ($content['value'] as $config){
-                if (!isset($config['type']) || empty($config['type']) || !in_array($config['type'], $acceptedTypes)){
-                    throw new InvalidArgumentException("Missing data: configuration 'type' must provided.");
-                }
-                else{
-                	$className = 'tao_install_services_' . $config['type'] . 'Service';
-                	$data = new tao_install_services_Data(json_encode($config));
-                	call_user_func($className . '::checkData', $data);
-                }
-            }
+        
+        
+        if (self::getRequestMethod() !== 'get'){
+	        if (!isset($content['value']) || empty($content['value']) || count($content['value']) == 0){
+	            throw new InvalidArgumentException("Missing data: 'value' must be provided as a not empty array.");
+	        }
+	        else{
+	            $acceptedTypes = array('CheckPHPExtension', 'CheckPHPINIValue', 'CheckPHPRuntime', 'CheckPHPDatabaseDriver', 'CheckFileSystemComponent', 'CheckCustom');
+	            
+	            foreach ($content['value'] as $config){
+	                if (!isset($config['type']) || empty($config['type']) || !in_array($config['type'], $acceptedTypes)){
+	                    throw new InvalidArgumentException("Missing data: configuration 'type' must provided.");
+	                }
+	                else{
+	                	$className = 'tao_install_services_' . $config['type'] . 'Service';
+	                	$data = new tao_install_services_Data(json_encode($config));
+	                	call_user_func($className . '::checkData', $data);
+	                }
+	            }
+	        }
         }
     }
     
@@ -156,6 +165,22 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
     	}
     	
     	return null;
+    }
+    
+    /**
+     * Extracts the checks to be performed from the manifest as an array of
+     * input data. The data will be formated as if it was requested by
+     * the web service call.
+     * 
+     * @return array
+     */
+    public static function extractFromManifest(){
+    	$manifestPath = dirname(__FILE__) . '/../../manifest.php';
+    	$content = file_get_contents($manifestPath);
+    	$matches = array();
+    	preg_match_all("/(?:\"|')\s*checks\s*(?:\"|')\s*=>(\s*array\s*\((\s*array\((?:.*)\s*\)\)\s*,{0,1})*\s*\))/", $content, $matches);
+    	$checks = eval('return ' . $matches[1][0] . ';');
+    	return $checks;
     }
 }
 ?>

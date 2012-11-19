@@ -81,12 +81,21 @@ TaoInstall.prototype.sync = function(callback){
  * Check the configuration on the server-side. 
  */
 TaoInstall.prototype.checkConfiguration = function(checks, callback){
-	var data = {type: 'CheckPHPConfig',
-				value: checks};
 	
-	var options = {data: JSON.stringify(data),
-			   	   type: 'POST',
-			   	   dataType: 'json'};
+	if (checks != null){
+		// We send the checks to perform.
+		var data = {type: 'CheckPHPConfig',
+					value: checks};
+	
+		var options = {data: JSON.stringify(data),
+				   	   type: 'POST',
+				   	   dataType: 'json'};	
+	}
+	else{
+		// The checks to perform are chosen by the server-side.
+		var data = {type: 'CheckPHPConfig'};
+		var options = {data: data, type: 'GET', dataType: 'json'};
+	}
 			   	
 	$.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
 							.fail(function(jqxhr){callback(jqxhr.status)});

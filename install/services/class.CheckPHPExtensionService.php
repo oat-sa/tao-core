@@ -45,15 +45,18 @@ class tao_install_services_CheckPHPExtensionService
         else if (!isset($content['value']['name'])){
             throw new InvalidArgumentException("Missing data: 'name' must be provided.");
         }
-        else if (!isset($content['value']['optional'])){
-            throw new InvalidArgumentException("Missing data: 'optional' must be provided.");
-        }
     }
     
     public static function buildComponent(tao_install_services_Data $data){
     	$content = json_decode($data->getContent(), true);
         $extensionName = $content['value']['name'];
-        $optional = ($content['value']['optional'] == 'true') ? true : false;
+    	if (isset($content['value']['optional'])){
+        	$optional = $content['value']['optional'];
+        }
+        else{
+        	$optional = false;
+        }
+        
         $ext = new common_configuration_PHPExtension(null, null, $extensionName, $optional);
         
         return $ext;

@@ -46,16 +46,20 @@ class tao_install_services_CheckPHPRuntimeService
         else if (!isset($content['value']['min'])){
             throw new InvalidArgumentException("Missing data: 'min' must be provided.");
         }
-        else if (!isset($content['value']['optional'])){
-            throw new InvalidArgumentException("Missing data: 'optional' must be provided.");
-        }
     }
     
     public static function buildComponent(tao_install_services_Data $data){
     	$content = json_decode($data->getContent(), true);
         $min = $content['value']['min'];
         $max = (isset($content['value']['max'])) ? $content['value']['max'] : null;
-        $optional = ($content['value']['optional'] == 'true') ? true : false;
+        
+        if (isset($content['value']['optional'])){
+        	$optional = $content['value']['optional'];
+        }
+        else{
+        	$optional = false;
+        }
+        
         
         $runtime = new common_configuration_PHPRuntime($min, $max, $optional);
         return $runtime;

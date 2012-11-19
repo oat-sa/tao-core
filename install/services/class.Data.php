@@ -45,7 +45,7 @@ class tao_install_services_Data{
      * @param string $content Some JSON encoded content.
      * @return void
      */
-    private function setContent($content){
+    public function setContent($content){
         $this->content = $content;
     }
     

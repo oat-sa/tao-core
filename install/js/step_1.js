@@ -57,49 +57,7 @@ function checkConfig(){
 			var spinner = new Spinner(getSpinnerOptions('small')).spin($target[0]);
 			
 			setTimeout(function(){ // Fake a small processing time... -> 500ms
-				var data = [{type: "CheckPHPRuntime", value: {id: "php_runtime", min: "5.3", optional:false}},
-							{type: "CheckPHPRuntime", value: {id: "php_runtime53", min: "5.3", max: "5.3.18", optional:false, silent:true}},
-							{type: "CheckPHPExtension", value: {id: "extension_pdo", name: "PDO", optional: false}},
-							{type: "CheckPHPExtension", value: {id: "extension_curl", name: "curl", optional: false}},
-			                {type: "CheckPHPExtension", value: {id: "extension_zip", name: "zip", optional: false}},
-			                {type: "CheckPHPExtension", value: {id: "extension_json", name: "json", optional: false}},
-			                {type: "CheckPHPExtension", value: {id: "extension_spl", name: "spl", optional: false}},
-			                {type: "CheckPHPExtension", value: {id: "extension_dom", name: "dom", optional: false}},
-			                {type: "CheckPHPExtension", value: {id: "extension_tidy", name: "tidy", optional: false}},
-			                {type: "CheckPHPExtension", value: {id: "extension_mbstring", name: "mbstring", optional: false}},
-			                {type: "CheckPHPExtension", value: {id: "extension_svn", name: "svn", optional: true}},
-			                {type: "CheckPHPExtension", value: {id: "extension_suhosin", name: "suhosin", optional: true}},
-			                {type: "CheckPHPINIValue", value: {id: "ini_magic_quotes_gpc", name: "magic_quotes_gpc", value: "0", optional: false, dependsOn:["php_runtime53"]}},
-			                {type: "CheckPHPINIValue", value: {id: "ini_register_globals", name: "register_globals", value: "0", optional: false, dependsOn:["php_runtime53"]}},
-			                {type: "CheckPHPINIValue", value: {id: "ini_short_open_tag", name: "short_open_tag", value: "1", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_root", location: ".", rights: "rw", name: "fs_root", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_data_cache", location: "generis/data/cache", rights: "rw", name: "fs_generis_data_cache", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_data_versionning", location: "generis/data/versioning", rights: "rw", name: "fs_generis_data_versionning", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_common", location: "generis/common", rights: "rw", name: "fs_generis_common", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_common_conf", location: "generis/common/conf", rights: "rw", name: "fs_generis_common_conf", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_common_conf_default", location: "generis/common/conf/default", rights: "r", name: "fs_generis_common_conf_default", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_common_conf_sample", location: "generis/common/conf/sample", rights: "r", name: "fs_generis_common_conf_sample", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_filemanager_views_data", location: "filemanager/views/data", rights: "rw", name: "fs_filemanager_views_data", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_filemanager_includes", location: "filemanager/includes", rights: "r", name: "fs_filemanager_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_tao_views_export", location: "tao/views/export", rights: "rw", name: "fs_tao_views_export", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_tao_includes", location: "tao/includes", rights: "r", name: "fs_tao_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_tao_data_cache", location: "tao/data/cache", rights: "rw", name: "fs_tao_data_cache", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_tao_update_patches", location: "tao/update/patches", rights: "rw", name: "fs_tao_update_patches", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_tao_locales", location: "tao/locales", rights: "r", name: "fs_tao_locales", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_taoItems_data", location: "taoItems/data", rights: "rw", name: "fs_taoItems_data", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_taoItems_includes", location: "taoItems/includes", rights: "r", name: "fs_taoItems_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_taoItems_views_runtime", location: "taoItems/views/runtime", rights: "rw", name: "fs_taoItems_views_runtime", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_taoDelivery_compiled", location: "taoDelivery/compiled", rights: "rw", name: "fs_taoDelivery_compiled", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_taoDelivery_includes", location: "taoDelivery/includes", rights: "r", name: "fs_taoDelivery_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_taoGroups_includes", location: "taoGroups/includes", rights: "r", name: "fs_taoGroups_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_taoSubjects_includes", location: "taoSubjects/includes", rights: "r", name: "fs_taoSubjects_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_taoTests_includes", location: "taoTests/includes", rights: "r", name: "fs_taoTests_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_taoResults_includes", location: "taoResults/includes", rights: "r", name: "fs_taoResults_includes", optional: false}},
-			                {type: "CheckFileSystemComponent", value: {id: "fs_wfEngine_includes", location: "wfEngine/includes", rights: "r", name: "fs_wfEngine_includes", optional: false}},
-			                {type: "CheckCustom", value: {id: "custom_mod_rewrite", name: "mod_rewrite", extension: "tao", optional: false}},
-			                {type: "CheckCustom", value: {id: "custom_database_drivers", name: "database_drivers", extension: "tao", optional: false}}];
-			    
-				install.checkConfiguration(data, function(status, data){
+				install.checkConfiguration(null, function(status, data){
 					if (status == 200){
 						var $list = $('#forms_check_content ul');
 						

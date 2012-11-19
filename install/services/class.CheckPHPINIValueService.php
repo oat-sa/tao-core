@@ -49,16 +49,18 @@ class tao_install_services_CheckPHPINIValueService
         else if (!isset($content['value']['value'])){
             throw new InvalidArgumentException("Missing data: 'value' must be provided.");
         }
-        else if (!isset($content['value']['optional'])){
-            throw new InvalidArgumentException("Missing data: 'optional' must be provided");
-        }
     }
     
     public static function buildComponent(tao_install_services_Data $data){
     	$content = json_decode($data->getContent(), true);
         $value = $content['value']['value'];
         $name = $content['value']['name'];
-        $optional = ($content['value']['optional'] == 'true') ? true : false;
+    	if (isset($content['value']['optional'])){
+        	$optional = $content['value']['optional'];
+        }
+        else{
+        	$optional = false;
+        }
         
         $ini = new common_configuration_PHPINIValue($value, $name, $optional);
         return $ini;

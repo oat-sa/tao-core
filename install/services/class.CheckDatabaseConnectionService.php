@@ -65,15 +65,17 @@ class tao_install_services_CheckDatabaseConnectionService
 		else if (!isset($content['value']['database']) || empty($content['value']['database'])){
 			throw new InvalidArgumentException("Missing data: 'database' must be provided.");
 		}
-        else if (!isset($content['value']['optional'])){
-            throw new InvalidArgumentException("Missing data: 'optional' must be provided.");
-        }
     }
     
     public static function buildComponent(tao_install_services_Data $data){
     	$content = json_decode($data->getContent(), true);
         $driver = str_replace('pdo_', '', $content['value']['driver']);
-        $optional = ($content['value']['optional'] == 'true') ? true : false;
+    	if (isset($content['value']['optional'])){
+        	$optional = $content['value']['optional'];
+        }
+        else{
+        	$optional = false;
+        }
         
         // Try such a driver. Because the provided driver name should
         // comply with a PHP Extension name (e.g. mysql, pgsql), we test its

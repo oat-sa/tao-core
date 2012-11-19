@@ -59,9 +59,6 @@ class tao_install_services_CheckCustomService
         else if (!isset($content['value']['name']) || empty($content['value']['name'])){
             throw new InvalidArgumentException("Missing data: 'name' must be provided.");
         }
-        else if (!isset($content['value']['optional'])){
-            throw new InvalidArgumentException("Missing data: 'optional' must be provided.");
-        }
         else if (!isset($content['value']['extension']) || empty($content['value']['extension'])){
             throw new InvalidArgumentException("Missing data: 'extension' must be provided");
         }
@@ -81,7 +78,12 @@ class tao_install_services_CheckCustomService
         }
         $name = implode('', $name);
         
-        $optional = $content['value']['optional'];
+    	if (isset($content['value']['optional'])){
+        	$optional = $content['value']['optional'];
+        }
+        else{
+        	$optional = false;
+        }
         $extension = $content['value']['extension'];
         
         $checkClassName = "${extension}_install_checks_${name}";

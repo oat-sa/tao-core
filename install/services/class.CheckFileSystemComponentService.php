@@ -50,16 +50,18 @@ class tao_install_services_CheckFileSystemComponentService
         else if (!isset($content['value']['location']) || empty($content['value']['location'])){
             throw new InvalidArgumentException("Missing data: 'location' must be provided.");
         }
-        else if (!isset($content['value']['optional'])){
-            throw new InvalidArgumentException("Missing data: 'optional' must be provided.");
-        }
     }
     
     public static function buildComponent(tao_install_services_Data $data){
     	$content = json_decode($data->getContent(), true);
         $location = $content['value']['location'];
         $rights = $content['value']['rights'];
-        $optional = ($content['value']['optional'] == 'true') ? true : false;
+    	if (isset($content['value']['optional'])){
+        	$optional = $content['value']['optional'];
+        }
+        else{
+        	$optional = false;
+        }
         $root = realpath(dirname(__FILE__) . '/../../../');
         $fsc = new common_configuration_FileSystemComponent($root . '/' . $location, $rights, $optional);
         return $fsc;
