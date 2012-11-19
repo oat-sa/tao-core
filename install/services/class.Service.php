@@ -63,7 +63,7 @@ abstract class tao_install_services_Service{
     /**
      * Sets the request Data handled by the Service.
      * @param tao_install_Services_Data $data The request Data that must be handled by the service.
-     * @return void.
+     * @return void
      */
     private function setData(tao_install_services_Data $data){
         $this->data = $data;
@@ -84,6 +84,14 @@ abstract class tao_install_services_Service{
      */
     protected function setResult(tao_install_services_Data $result){
         $this->result = $result;
+    }
+    
+    /**
+     * Provides the current request method (get,post,put,delete) in lowercase.
+     * @return string the current request method.
+     */
+    protected function getRequestMethod(){
+    	return strtolower($_SERVER['REQUEST_METHOD']);
     }
     
     /**

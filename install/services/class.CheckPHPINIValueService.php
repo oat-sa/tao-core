@@ -78,8 +78,8 @@ class tao_install_services_CheckPHPINIValueService
                                        'message' => $report->getMessage(),
                                        'expectedValue' => $value,
                                        'value' => $component->getValue(),
-                                       'optional' => $component->isOptional()),
-        							   'name' => $component->getName());
+                                       'optional' => $component->isOptional(),
+        							   'name' => $component->getName()));
         
         return new tao_install_services_Data(json_encode($data));
 	}

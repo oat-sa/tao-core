@@ -57,7 +57,8 @@ function checkConfig(){
 			var spinner = new Spinner(getSpinnerOptions('small')).spin($target[0]);
 			
 			setTimeout(function(){ // Fake a small processing time... -> 500ms
-				var data = [{type: "CheckPHPRuntime", value: {id: "php_runtime", min: "5.3", max: "5.3.18", optional:false}},
+				var data = [{type: "CheckPHPRuntime", value: {id: "php_runtime", min: "5.3", optional:false}},
+							{type: "CheckPHPRuntime", value: {id: "php_runtime53", min: "5.3", max: "5.3.18", optional:false, silent:true}},
 							{type: "CheckPHPExtension", value: {id: "extension_pdo", name: "PDO", optional: false}},
 							{type: "CheckPHPExtension", value: {id: "extension_curl", name: "curl", optional: false}},
 			                {type: "CheckPHPExtension", value: {id: "extension_zip", name: "zip", optional: false}},
@@ -68,9 +69,9 @@ function checkConfig(){
 			                {type: "CheckPHPExtension", value: {id: "extension_mbstring", name: "mbstring", optional: false}},
 			                {type: "CheckPHPExtension", value: {id: "extension_svn", name: "svn", optional: true}},
 			                {type: "CheckPHPExtension", value: {id: "extension_suhosin", name: "suhosin", optional: true}},
-			                {type: "CheckPHPINIValue", value: {id: "ini_magic_quotes_gpc", name: "magic_quotes_gpc", value: "0", optional: false}},
+			                {type: "CheckPHPINIValue", value: {id: "ini_magic_quotes_gpc", name: "magic_quotes_gpc", value: "0", optional: false, dependsOn:["php_runtime53"]}},
+			                {type: "CheckPHPINIValue", value: {id: "ini_register_globals", name: "register_globals", value: "0", optional: false, dependsOn:["php_runtime53"]}},
 			                {type: "CheckPHPINIValue", value: {id: "ini_short_open_tag", name: "short_open_tag", value: "1", optional: false}},
-			                {type: "CheckPHPINIValue", value: {id: "ini_register_globals", name: "register_globals", value: "0", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {id: "fs_root", location: ".", rights: "rw", name: "fs_root", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_data_cache", location: "generis/data/cache", rights: "rw", name: "fs_generis_data_cache", optional: false}},
 			                {type: "CheckFileSystemComponent", value: {id: "fs_generis_data_versionning", location: "generis/data/versioning", rights: "rw", name: "fs_generis_data_versionning", optional: false}},

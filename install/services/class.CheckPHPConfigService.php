@@ -38,7 +38,29 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
         	$args = new tao_install_services_Data(json_encode($config));
         	$component = $buildMethod->invoke(null, $args);
         	$collection->addComponent($component);
-        	$componentToData[] = array('component' => $component, 'data' => $args, 'class' => $class);
+        	
+        	if (!empty($config['value']['silent']) && is_bool($config['value']['silent'])){
+        		$collection->silent($component);
+        	}
+        	
+        	$componentToData[] = array('component' => $component, 
+        							   'id' => $config['value']['id'],
+        							   'data' => $args,
+        							   'class' => $class);
+        }
+        
+        // Deal with the dependencies.
+        foreach ($content['value'] as $config){
+        	if (!empty($config['value']['dependsOn']) && is_array($config['value']['dependsOn'])){
+        		foreach ($config['value']['dependsOn'] as $d){
+        			// Find the component it depends on and tell the ComponentCollection.
+        			$dependent = self::getComponentById($componentToData, $config['value']['id']);
+        			$dependency = self::getComponentById($componentToData, $d);
+        			if (!empty($dependent) && !empty($dependency)){
+        				$collection->addDependency($dependent, $dependency);
+        			}
+        		}
+        	}
         }
         
         
@@ -116,6 +138,24 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
                 }
             }
         }
+    }
+    
+    /**
+     * Returns a component stored in an array of array. The searched key is 'id'. If matched,
+     * the component instance is returned. Otherwise null.
+     * 
+     * @param array $componentToData
+     * @param string $id
+     * @return common_configuration_Component
+     */
+    public static function getComponentById(array $componentToData, $id){
+    	foreach ($componentToData as $ctd){
+    		if ($ctd['id'] == $id){
+    			return $ctd['component'];
+    		}
+    	}
+    	
+    	return null;
     }
 }
 ?>

@@ -227,8 +227,13 @@ try{
     
     $service = null;
     $data = null;
-    $rawInput = file_get_contents('php://input');
-    $input = @json_decode($rawInput, true);
+    if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+    	$input = $_GET;	
+    }
+    else{
+    	$rawInput = file_get_contents('php://input');
+    	$input = @json_decode($rawInput, true);
+    }
     
     if ($input == null){
         throw new tao_install_api_MalformedRequestBodyException("Unable to parse request body as valid JSON.");
@@ -238,27 +243,42 @@ try{
     }
     else{
         
-        switch ($input['type']){
-            // POST & PUT
-            case 'CheckPHPConfig':
-            case 'CheckPHPRuntime':
-            case 'CheckPHPINIValue':
-            case 'CheckPHPExtension':
-            case 'CheckPHPDatabaseDriver': 
-            case 'CheckFileSystemComponent':
-            case 'CheckDatabaseConnection':
-            case 'CheckCustom':
-            case 'Install':
-                $data = new tao_install_services_Data($rawInput);
-                $class = new ReflectionClass('tao_install_services_' . $input['type'] . 'Service');
-                $service = $class->newInstance($data);
-            break;
-            
-            default:
-                // Unknown service.
-                throw new tao_install_services_UnknownServiceException($input['type']);
-            break;
-        }
+    	if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+    		switch($input['type']){
+    			case 'CheckPHPConfig':
+					$data = new tao_install_services_Data(json_encode($input));
+	                $class = new ReflectionClass('tao_install_services_' . $input['type'] . 'Service');
+	                $service = $class->newInstance($data);
+    			break;
+    			
+    			default:
+	                // Unknown service.
+	                throw new tao_install_services_UnknownServiceException($input['type']);
+	            break;
+    		}
+    	}
+    	else{
+	    	switch ($input['type']){
+	            case 'CheckPHPConfig':
+	            case 'CheckPHPRuntime':
+	            case 'CheckPHPINIValue':
+	            case 'CheckPHPExtension':
+	            case 'CheckPHPDatabaseDriver': 
+	            case 'CheckFileSystemComponent':
+	            case 'CheckDatabaseConnection':
+	            case 'CheckCustom':
+	            case 'Install':
+	                $data = new tao_install_services_Data($rawInput);
+	                $class = new ReflectionClass('tao_install_services_' . $input['type'] . 'Service');
+	                $service = $class->newInstance($data);
+	            break;
+	            
+	            default:
+	                // Unknown service.
+	                throw new tao_install_services_UnknownServiceException($input['type']);
+	            break;
+	        }	
+    	}
     
         // Execute service.
         $service->execute();
