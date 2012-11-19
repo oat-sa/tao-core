@@ -22,19 +22,47 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
      * @return tao_install_services_Data The result of the service execution.
      */
     public function execute(){
+		// contains an array of 'component', associated input 'data' 
+		// and service 'class'.
+    	$componentToData = array(); 
+    	
         $content = json_decode($this->getData()->getContent(), true);
         $resultData = json_encode(array('type' => 'ReportCollection',
                                         'value' => '{RETURN_VALUE}'));
-        $resultValue = array();
         
+        // Deal with checks to be done.
         $collection = new common_configuration_ComponentCollection();
         foreach ($content['value'] as $config){
-        	
         	$class = new ReflectionClass('tao_install_services_' . $config['type'] . 'Service');
-            $data = new tao_install_services_Data(json_encode($config));
-            $service = $class->newInstance($data);
-            $service->execute();
-            $resultValue[] = $service->getResult()->getContent();
+        	$buildMethod = $class->getMethod('buildComponent');
+        	$args = new tao_install_services_Data(json_encode($config));
+        	$component = $buildMethod->invoke(null, $args);
+        	$collection->addComponent($component);
+        	$componentToData[] = array('component' => $component, 'data' => $args, 'class' => $class);
+        }
+        
+        
+        // Deal with results to be sent to the client.
+        $resultValue = array();
+        $reports = $collection->check();
+        foreach($reports as $r){
+        	$component = $r->getComponent();
+        	
+        	
+        	// For the retrieved component, what was the associated data and class ?
+        	$associatedData = null;
+        	$class = null;
+        	foreach ($componentToData as $ctd)
+        	{
+        		if ($component == $ctd['component']){
+        			$associatedData = $ctd['data'];
+        			$class = $ctd['class'];
+        		}
+        	}
+        	
+        	$buildMethod = $class->getMethod('buildResult');
+        	$serviceResult = $buildMethod->invoke(null, $associatedData, $r, $component);
+        	$resultValue[] = $serviceResult->getContent();
         }
         
         // Sort by 'optional'.
