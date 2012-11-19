@@ -60,14 +60,3 @@ function displayTaoError(msg, title){
 											   .html(title);
 	$(popupDocContext).find("#genericPopupContent").html(msg);
 }
-
-	$("#errorPopUp, #helpPopUp, .ui-overlay").remove();
-
-	$("body").append('<div class="ui-overlay"><div class="ui-widget-overlay  ui-corner-all"></div></div>');
-	$("body").append('<div id="errorPopUp" class="ui-widget ui-widget-content ui-corner-all"><div id="errorPopUpClose" title="Close">X</div><h4>' + title + '</h4><p id="errorPopupContent">' + msg + '</p></div>');
-	
-	$("#errorPopUpClose").bind("click",function(){
-		$(".ui-overlay").remove();
-		$("#errorPopUp").remove();
-	});
-}*/
