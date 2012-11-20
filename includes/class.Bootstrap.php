@@ -211,6 +211,10 @@ class Bootstrap{
 			}
 		}
 
+		// set the session cookie to http only 
+		$sessionParams = session_get_cookie_params();
+		session_set_cookie_params($sessionParams['lifetime'], $sessionParams['path'], $sessionParams['domain'], $sessionParams['secure'], TRUE);
+		
 		// Start the session with a specific name.
 		session_name(GENERIS_SESSION_NAME);
 		session_start();
