@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Utilities on URL/URI
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -40,7 +40,7 @@ function _url($action = null, $module = null, $extension = null, $params = array
  * Utilities on URL/URI
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -97,7 +97,7 @@ class tao_helpers_Uri
      * get the project base url
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public static function getBaseUrl()
@@ -123,7 +123,7 @@ class tao_helpers_Uri
      * Short description of method getRootUrl
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return string
      */
     public static function getRootUrl()
@@ -150,7 +150,7 @@ class tao_helpers_Uri
      * it for the used kind of url resolving
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string action
      * @param  string module
      * @param  string extension
@@ -199,7 +199,7 @@ class tao_helpers_Uri
      * format propertly an ol style url
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string url
      * @param  array params
      * @return string
@@ -218,7 +218,7 @@ class tao_helpers_Uri
      * encode an URI
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string uri
      * @param  boolean dotMode
      * @return string
@@ -247,7 +247,7 @@ class tao_helpers_Uri
      * decode an URI
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string uri
      * @param  boolean dotMode
      * @return string
@@ -277,7 +277,7 @@ class tao_helpers_Uri
      * Encode the uris composing either the keys or the values of the array in
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array uris
      * @param  int encodeMode
      * @param  boolean dotMode
@@ -341,7 +341,7 @@ class tao_helpers_Uri
      * Does not test whenever the file is accessible or not
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string filepath
      * @return string
      */
@@ -358,6 +358,91 @@ class tao_helpers_Uri
         // section 10-30-1--78--740a6007:139f87bbe8d:-8000:0000000000003B83 end
 
         return (string) $returnValue;
+    }
+
+    /**
+     * Returns the path from a URI. In other words, it returns what comes after
+     * domain but before the query string. If
+     * is given as a parameter value, '/path/to/something' is returned. If an
+     * occurs, null will be returned.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string uri A Uniform Resource Identifier (URI).
+     * @return string
+     */
+    public static function getPath($uri)
+    {
+        $returnValue = (string) '';
+
+        // section 10-13-1-85--364706d5:13b1d5134f6:-8000:0000000000003C27 begin
+        if (preg_match("/^[A-Za-z0-9]*$/", $uri)){
+        	// no '.', no '/', ... does not look good.
+        	return null;
+        }
+        else{
+	        $returnValue = parse_url($uri, PHP_URL_PATH);
+	        if (empty($returnValue)){
+	        	return null;
+	        }	
+        }
+        // section 10-13-1-85--364706d5:13b1d5134f6:-8000:0000000000003C27 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Returns the domain extracted from a given URI. If the domain cannot be
+     * null is returned.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string uri A Uniform Resource Identifier (URI).
+     * @return string
+     */
+    public static function getDomain($uri)
+    {
+        $returnValue = (string) '';
+
+        // section 10-13-1-85--364706d5:13b1d5134f6:-8000:0000000000003C2D begin
+        $returnValue = parse_url($uri, PHP_URL_HOST);
+        if (empty($returnValue)){
+        	return null;
+        }
+        // section 10-13-1-85--364706d5:13b1d5134f6:-8000:0000000000003C2D end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * To be used to know if a given URI is valid as a cookie domain. Usually,
+     * domain such as 'mytaoplatform', 'localhost' make issues with
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string uri
+     * @return boolean
+     */
+    public static function isValidAsCookieDomain($uri)
+    {
+        $returnValue = (bool) false;
+
+        // section 10-13-1-85--3c6f7e45:13b1d933d54:-8000:0000000000003C33 begin
+        $domain = self::getDomain($uri);
+        if (!empty($domain)){
+        	if (preg_match("/^[a-z0-9\-]+(?:[a-z0-9\-]\.)+/iu", $domain) > 0){
+        		$returnValue = true;
+        	}
+        	else{
+        		$returnValue = false;
+        	}
+        }
+        else{
+        	$returnValue = false;
+        }
+        // section 10-13-1-85--3c6f7e45:13b1d933d54:-8000:0000000000003C33 end
+
+        return (bool) $returnValue;
     }
 
 } /* end of class tao_helpers_Uri */

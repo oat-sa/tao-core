@@ -211,9 +211,10 @@ class Bootstrap{
 			}
 		}
 
-		// set the session cookie to http only 
+		// set the session cookie to HTTP only. 
 		$sessionParams = session_get_cookie_params();
-		session_set_cookie_params($sessionParams['lifetime'], $sessionParams['path'], $sessionParams['domain'], $sessionParams['secure'], TRUE);
+		$cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
+		session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], TRUE);
 		
 		// Start the session with a specific name.
 		session_name(GENERIS_SESSION_NAME);
