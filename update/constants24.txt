@@ -2,6 +2,3 @@ New constants for TAO 2.4
 ---------------------------------------
 GENERIS_INSTANCE_NAME (string)
 GENERIS_SESSION_NAME (string) for multi install on the same server
-GENERIS_COOKIE_DOMAIN (string) 'cookie_domain_config'|'cookie_domain_strict'|'cookie_domain_sub'
-GENERIS_COOKIE_PATH (string) 'cookie_path_config'|'cookie_path_strict'|'cookie_path_sub'
-GENERIS_COOKIE_LIFETIME (int) 0 = 'till the browser closes
