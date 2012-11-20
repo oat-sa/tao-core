@@ -191,6 +191,8 @@ function initHelp(){
 	install.addHelp('hlp_ini_register_globals', 'When on, register_globals will inject your scripts with all sorts of variables, like request variables from HTML forms. This coupled with the fact that PHP doesn\'t require variable initialization means writing insecure code is that much easier. For obvious security reasons, TAO requires this parameter to be set to <em>Off</em>.');
 	install.addHelp('hlp_ini_short_open_tag', 'Tells PHP whether the short form (<? ?>) of PHP\'s open tag should be allowed. The value of the <em>short_open_tag</em> INI parameter must be set to <em>On</em>.');
 	install.addHelp('hlp_ini_safe_mode', 'The safe_mode parameter value in your php.ini file should be Off. The safe_mode is deprecated in PHP since version 5.3.');
+	install.addHelp('hlp_ini_suhosin_post_max_name_length', 'Make sure that your php.ini file contains an entry for suhosin.post.max_name_length and that its value is equal to 128.');
+	install.addHelp('hlp_ini_suhosin_request_max_varname_length', 'Make sure that your php.ini file contains an entry for suhosin.request.max_varname_length and that its value is equal to 128.');
 	install.addHelp('hlp_custom_mod_rewrite', 'The mod_rewrite module uses a rule-based rewriting engine, based on a PCRE regular-expression parser, to rewrite requested URLs on the fly. It must be enabled to make TAO running properly.');
 	install.addHelp('hlp_custom_database_drivers', 'Database drivers supported by the TAO platform are MySQL and PostgreSQL.');
 	install.addHelp('hlp_fs_root', 'The root directory of your installation must be readable and writable by the user running your web server.');

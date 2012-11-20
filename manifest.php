@@ -42,6 +42,8 @@ return array(
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_register_globals', 'name' => 'register_globals', 'value' => '0', 'dependsOn' => array('php_runtime53'))),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_short_open_tag', 'name' => 'short_open_tag', 'value' => '1')),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_safe_mode', 'name' => 'safe_mode', 'value' => '0', 'dependsOn' => array('php_runtime53'))),
+				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_suhosin_post_max_name_length', 'name' => 'suhosin.post.max_name_length', 'value' => '128', 'dependsOn' => array('extension_suhosin'))),
+				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_suhosin_request_max_varname_length', 'name' => 'suhosin.request.max_varname_length', 'value' => '128', 'dependsOn' => array('extension_suhosin'))),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_root', 'location' => '.', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_data_cache', 'location' =>  'generis/data/cache', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_data_versionning', 'location' => 'generis/data/versioning', 'rights' => 'rw')),
