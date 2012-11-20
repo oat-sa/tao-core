@@ -67,7 +67,7 @@ class tao_scripts_TaoInstall
     	$this->options = array (
 			"db_driver"	=>			"mysql"
 			, "db_host"	=>			"localhost"
-			, "db_name"	=>			"mytao"
+			, "db_name"	=>			null
 			, "db_pass"	=>			"tao"
 			, "db_user"	=>			"tao"
 			, "install_sent"	=>	"1"
@@ -84,23 +84,26 @@ class tao_scripts_TaoInstall
 			, "user_login"	=>		""
 			, "user_pass"	=>		""
 			, "import_local" => 	true
-			, "instance_name" =>	"tao"
+			, "instance_name" =>	null
 		);
         
     	$this->options = array_merge($this->options, $this->parameters);
-        
-        if ($this->options['import_local'] == true){
-            $this->options['import_local'] = array('on');
-        }
-        else{
-            $this->options['import_local'] = array('off');
-        }
     	
+    	// Feature #1789: default db_name is module_name if not specified.
+        $this->options['db_name'] = ((empty($this->options['db_name'])) ? $this->options['module_name'] : $this->options['db_name']);
+        
+        // If no instance_name given, it takes the value of module_name.
+        $this->options['instance_name'] = ((empty($this->options['instance_name'])) ? $this->options['module_name'] : $this->options['db_name']);
+        
     	// user password treatment
     	$this->options["user_pass1"] = $this->options['user_pass'];
     	// module namespace generation
     	if (empty ($this->options["module_namespace"])){
     		$this->options['module_namespace'] = 'http://'.$this->options['module_host'].'/'.$this->options['module_name'].'.rdf';
+    	}
+    	
+    	if (empty ($this->options['module_url'])){
+    		$this->options['module_url'] = 'http://' . $this->options['module_host'];
     	}
     	
         // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E76 end
@@ -117,6 +120,8 @@ class tao_scripts_TaoInstall
     {
         // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E78 begin
         
+    	$this->outVerbose("TAO is being installed. Please wait...");
+    	
         $rootDir = dir(dirname(__FILE__).'/../../');
 		$root = realpath($rootDir->path).'/';
         $installator = new tao_install_Installator (array(
@@ -139,6 +144,7 @@ class tao_scripts_TaoInstall
     public function postRun()
     {
         // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E7A begin
+        $this->outVerbose("Installation successful.");
         // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E7A end
     }
 

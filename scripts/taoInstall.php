@@ -7,7 +7,7 @@ new tao_scripts_TaoInstall(array(
 		array(
 			'name' 			=> 'db_driver',
 			'type' 			=> 'string',
-			'description'	=> 'Target available sgbd : postgres7, mysql.'
+			'description'	=> 'Target available sgbd : pgsql, mysql.'
 		),
 		array(
 			'name' 			=> 'db_host',
@@ -22,7 +22,7 @@ new tao_scripts_TaoInstall(array(
 		array(
 			'name'			=> 'db_pass',
 			'type' 			=> 'string',
-			'required'		=> true,
+			'required'		=> false,
 			'description'	=> 'Password to access to the database.'
 		),
 		array(
@@ -75,14 +75,14 @@ new tao_scripts_TaoInstall(array(
 			'type' 			=> 'string',
 			'shortcut'		=> 'u',
 			'required'		=> true,
-			'description'	=> 'The login of the tao backend user.'
+			'description'	=> 'The login of the administrator to be created.'
 		),
 		array(
 			'name'			=> 'user_pass',
 			'type' 			=> 'string',
 			'shortcut'		=> 'p',
 			'required'		=> true,
-			'description'	=> 'The password of the tao backend user.'
+			'description'	=> 'The password of the administrator.'
 		),
 		array(
 		    'name'          => 'import_local',
@@ -94,7 +94,13 @@ new tao_scripts_TaoInstall(array(
         	'name'			=> 'instance_name',
         	'type'			=> 'string',
         	'shortcut'		=> 'n',
-        	'description'	=> 'The name of the instance to install.')
+        	'description'	=> 'The name of the instance to install.'),
+        array(
+        	'name'			=> 'verbose',
+        	'type'			=> 'boolean',
+        	'shortcut'		=> 'v',
+        	'description'	=> 'Verbose mode.'
+        )
 	)
 ));
 ?>
