@@ -37,7 +37,7 @@ return array(
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'extension_tidy', 'name' => 'tidy')),
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'extension_mbstring', 'name' => 'mbstring')),
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'extension_svn', 'name' => 'svn', 'optional' => true)),
-				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'extension_suhosin', 'name' => 'suhosin', 'optional' => true)),
+				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'extension_suhosin', 'name' => 'suhosin', 'silent' => true)),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_magic_quotes_gpc', 'name' => 'magic_quotes_gpc', 'value' => '0', 'dependsOn' => array('php_runtime53'))),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_register_globals', 'name' => 'register_globals', 'value' => '0', 'dependsOn' => array('php_runtime53'))),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'ini_short_open_tag', 'name' => 'short_open_tag', 'value' => '1')),
