@@ -28,8 +28,18 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
     	
         $content = json_decode($this->getData()->getContent(), true);
         if (self::getRequestMethod() == 'get'){
-        	// We extract the checks to perform from the manifest.php file.
-        	$content['value'] = self::extractFromManifest();
+        	// We extract the checks to perform from the manifests
+        	// depending on the distribution.
+        	$distributionsPath = dirname(__FILE__) . '/../../distributions.php';
+        	$distributionsManifest = new common_distrib_Manifest($distributionsPath);
+        	$distributions = $distributionsManifest->getDistributions();
+        	$distrib = $distributions[1]; // Open Source Distribution is default at the moment.
+        	$content['value'] = array();
+        	
+        	foreach ($distrib->getExtensions() as $ext){
+        		$manifestPath = dirname(__FILE__) . '/../../../' . $ext . '/manifest.php';
+        		$content['value'] = array_merge($content['value'], common_ext_Manifest::extractChecks($manifestPath));
+        	}
         }
         
         $resultData = json_encode(array('type' => 'ReportCollection',
@@ -165,22 +175,6 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
     	}
     	
     	return null;
-    }
-    
-    /**
-     * Extracts the checks to be performed from the manifest as an array of
-     * input data. The data will be formated as if it was requested by
-     * the web service call.
-     * 
-     * @return array
-     */
-    public static function extractFromManifest(){
-    	$manifestPath = dirname(__FILE__) . '/../../manifest.php';
-    	$content = file_get_contents($manifestPath);
-    	$matches = array();
-    	preg_match_all("/(?:\"|')\s*checks\s*(?:\"|')\s*=>(\s*array\s*\((\s*array\((?:.*)\s*\)\)\s*,{0,1})*\s*\))/", $content, $matches);
-    	$checks = eval('return ' . $matches[1][0] . ';');
-    	return $checks;
     }
 }
 ?>
