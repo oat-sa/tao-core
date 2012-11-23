@@ -121,15 +121,21 @@ class tao_scripts_TaoInstall
         // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E78 begin
         
     	$this->outVerbose("TAO is being installed. Please wait...");
-    	
-        $rootDir = dir(dirname(__FILE__).'/../../');
-		$root = realpath($rootDir->path).'/';
-        $installator = new tao_install_Installator (array(
-			'root_path' 	=> $root,
-			'install_path'	=> dirname(__FILE__).'/../install/'
-		));
-		
-		$installator->install ($this->options);
+    	try{
+	        $rootDir = dir(dirname(__FILE__).'/../../');
+			$root = realpath($rootDir->path).'/';
+	        $installator = new tao_install_Installator (array(
+				'root_path' 	=> $root,
+				'install_path'	=> dirname(__FILE__).'/../install/'
+			));
+			
+			// mod rewrite cannot be detected in CLI Mode.
+			$installator->escapeCheck('custom_tao_ModRewrite');
+			$installator->install($this->options);
+    	}
+    	catch (Exception $e){
+    		self::err("A fatal error occured during installation: " . $e->getMessage(), true);
+    	}
 		
         // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E78 end
     }

@@ -7,6 +7,8 @@ class tao_install_Installator{
 	protected $options = array();
 	
 	private $toInstall = array();
+	
+	private $escapedChecks = array();
 
 	public function __construct($options)
 	{
@@ -59,6 +61,14 @@ class tao_install_Installator{
 			$distrib = $distribManifest->getDistributions();
 			$distrib = $distrib[1]; // At the moment, we use the Open Source Distribution by default.
 			$configChecker = $distrib->getConfigChecker();
+			
+			// Silence checks to have to be escaped.
+			foreach ($configChecker->getComponents() as $c){
+				if (method_exists($c, 'getName') && in_array($c->getName(), $this->getEscapedChecks())){
+					$configChecker->silent($c);
+				}
+			}
+			
 			$reports = $configChecker->check();
 			foreach ($reports as $r){
 				$msg = $r->getMessage();
@@ -303,6 +313,48 @@ class tao_install_Installator{
 	 	}
 	 	
 	 	return 'tao_' . $name;
+	}
+	
+	/**
+	 * Tell the Installator instance to not take into account
+	 * a Configuration Check with ID = $id.
+	 * 
+	 * @param string $id The identifier of the check to escape.
+	 */
+	public function escapeCheck($id){
+		$checks = $this->getEscapedChecks();
+		array_push($checks, $id);
+		$checks = array_unique($checks);
+		$this->setEscapedChecks($checks);
+	}
+	
+	/**
+	 * Obtain an array of Configuration Check IDs to be escaped by
+	 * the Installator.
+	 * 
+	 * @return array 
+	 */
+	public function getEscapedChecks(){
+		return $this->escapedChecks;
+	}
+	
+	/**
+	 * Set the array of Configuration Check IDs to be escaped by
+	 * the Installator.
+	 * 
+	 * @param array $escapedChecks An array of strings.
+	 * @return void
+	 */
+	public function setEscapedChecks(array $escapedChecks){
+		$this->escapedChecks = $escapedChecks;
+	}
+	
+	/**
+	 * Informs you if a given Configuration Check ID corresponds
+	 * to a Check that has to be escaped.
+	 */
+	public function isEscapedCheck($id){
+		return in_array($id, $this->getEscapedChecks());
 	}
 }
 ?>
