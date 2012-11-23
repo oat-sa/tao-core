@@ -80,8 +80,7 @@ class tao_install_services_CheckDatabaseConnectionService
         // Try such a driver. Because the provided driver name should
         // comply with a PHP Extension name (e.g. mysql, pgsql), we test its
         // existence.
-        $ext = new common_configuration_PHPDatabaseDriver(null, null, 'pdo_' . $driver, $optional);
-        return $ext;
+        return common_configuration_ComponentFactory::buildPHPDatabaseDriver('pdo_' . $driver, $optional);
     }
     
     public static function buildResult(tao_install_services_Data $data,

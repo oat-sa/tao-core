@@ -62,8 +62,7 @@ class tao_install_services_CheckPHPINIValueService
         	$optional = false;
         }
         
-        $ini = new common_configuration_PHPINIValue($value, $name, $optional);
-        return $ini;
+        return common_configuration_ComponentFactory::buildPHPINIValue($name, $value, $optional);
     }
     
     public static function buildResult(tao_install_services_Data $data,

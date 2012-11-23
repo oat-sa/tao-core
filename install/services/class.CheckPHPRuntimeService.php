@@ -60,9 +60,7 @@ class tao_install_services_CheckPHPRuntimeService
         	$optional = false;
         }
         
-        
-        $runtime = new common_configuration_PHPRuntime($min, $max, $optional);
-        return $runtime;
+        return common_configuration_ComponentFactory::buildPHPRuntime($min, $max, $optional);
     }
     
     public static function buildResult(tao_install_services_Data $data,

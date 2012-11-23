@@ -57,7 +57,7 @@ class tao_install_services_CheckPHPExtensionService
         	$optional = false;
         }
         
-        $ext = new common_configuration_PHPExtension(null, null, $extensionName, $optional);
+        $ext = common_configuration_ComponentFactory::buildPHPExtension($extensionName, null, null, $optional);
         
         return $ext;
     }

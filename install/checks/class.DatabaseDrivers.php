@@ -8,7 +8,7 @@ class tao_install_checks_DatabaseDrivers extends common_configuration_Component 
                          'pdo_pgsql');
                          
         foreach ($drivers as $d){
-            $dbCheck = new common_configuration_PHPDatabaseDriver(null, null, $d);
+        	$dbCheck = common_configuration_ComponentFactory::buildPHPDatabaseDriver($d);
             $dbReport = $dbCheck->check();
             
             if ($dbReport->getStatus() == common_configuration_Report::VALID){

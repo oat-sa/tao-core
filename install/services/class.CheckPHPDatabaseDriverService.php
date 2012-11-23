@@ -56,9 +56,8 @@ class tao_install_services_CheckPHPDatabaseDriverService
         else{
         	$optional = false;
         }
-        $ext = new common_configuration_PHPDatabaseDriver(null, null, $extensionName, $optional);
         
-        return $ext;
+        return common_configuration_ComponentFactory::buildPHPDatabaseDriver($extensionName, $optional);
     }
     
     public static function buildResult(tao_install_services_Data $data,

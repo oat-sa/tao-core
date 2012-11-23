@@ -23,7 +23,7 @@ class tao_install_services_SyncService extends tao_install_services_Service{
      * @return tao_install_services_Data The result of the service execution.
      */
     public function execute(){
-        $ext = new common_configuration_PHPExtension(null, null, 'json');
+    	$ext = common_configuration_ComponentFactory::buildPHPExtension('json');
         $report = $ext->check();
                                        
         // We fake JSON encoding for a gracefull response in any case.
@@ -60,7 +60,7 @@ class tao_install_services_SyncService extends tao_install_services_Service{
     	$availableDrivers = array();
     	
     	foreach ($compatibleDrivers as $cD){
-    		$check = new common_configuration_PHPDatabaseDriver(null, null, $cD);
+    		$check = common_configuration_ComponentFactory::buildPHPDatabaseDriver($cD);
     		$report = $check->check();
     		
     		if ($report->getStatus() == common_configuration_Report::VALID){

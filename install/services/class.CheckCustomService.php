@@ -24,12 +24,7 @@ class tao_install_services_CheckCustomService
      */
     public function execute(){
         $content = json_decode($this->getData()->getContent(), true);
-        $name = explode('_', $content['value']['name']);
-        for ($i = 0; $i < count($name); $i++){
-            $name[$i] = ucfirst($name[$i]);
-        }
-        $name = implode('', $name);
-        
+        $name = $content['value']['name'];
         $extension = $content['value']['extension'];
         $check = self::buildComponent($this->getData());
         
@@ -72,11 +67,7 @@ class tao_install_services_CheckCustomService
     
     public static function buildComponent(tao_install_services_Data $data){
     	$content = json_decode($data->getContent(), true);
-        $name = explode('_', $content['value']['name']);
-        for ($i = 0; $i < count($name); $i++){
-            $name[$i] = ucfirst($name[$i]);
-        }
-        $name = implode('', $name);
+        $name = $content['value']['name'];
         
     	if (isset($content['value']['optional'])){
         	$optional = $content['value']['optional'];
@@ -86,14 +77,10 @@ class tao_install_services_CheckCustomService
         }
         $extension = $content['value']['extension'];
         
-        $checkClassName = "${extension}_install_checks_${name}";
-        
         try{
-            $checkClass = new ReflectionClass($checkClassName);
-            $check = $checkClass->newInstanceArgs(array("custom_${extension}_${name}", $optional));
-            return $check;
+            return common_configuration_ComponentFactory::buildCustom($name, $extension, $optional);
         }
-        catch (LogicException $e){
+        catch (common_configuration_ComponentFactoryException $e){
         	return null;
         }
     }
