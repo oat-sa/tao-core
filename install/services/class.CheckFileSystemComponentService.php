@@ -62,8 +62,8 @@ class tao_install_services_CheckFileSystemComponentService
         else{
         	$optional = false;
         }
-        $root = realpath(dirname(__FILE__) . '/../../../');
-        return common_configuration_ComponentFactory::buildFileSystemComponent($root . '/' . $location, $rights, $optional);
+        
+        return common_configuration_ComponentFactory::buildFileSystemComponent($location, $rights, $optional);
     }
     
     public static function buildResult(tao_install_services_Data $data,
