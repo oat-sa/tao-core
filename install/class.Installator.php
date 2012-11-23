@@ -53,6 +53,24 @@ class tao_install_Installator{
 			}
 			
 			/*
+			 *  0 - Check configuration.
+			 */
+			$distribManifest = new common_distrib_Manifest(dirname(__FILE__) . '/../distributions.php');
+			$distrib = $distribManifest->getDistributions();
+			$distrib = $distrib[1]; // At the moment, we use the Open Source Distribution by default.
+			$configChecker = $distrib->getConfigChecker();
+			$reports = $configChecker->check();
+			foreach ($reports as $r){
+				$msg = $r->getMessage();
+				$component = $r->getComponent();
+				common_Logger::i($msg);
+
+				if ($r->getStatus() !== common_configuration_Report::VALID && !$component->isOptional()){
+					throw new tao_install_utils_Exception($msg);
+				}
+			}
+			
+			/*
 			 *  1 - Test DB connection (done by the constructor)
 			 */
 			$installData['db_driver'] = strtolower(str_replace('pdo_', '', $installData['db_driver']));
