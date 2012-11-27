@@ -32,9 +32,11 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages">
   	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  	<rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
   	<rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages"/>
   	<rdfs:label xml:lang="EN"><![CDATA[Usage]]></rdfs:label>
   	<rdfs:comment xml:lang="EN"><![CDATA[Usage of a language]]></rdfs:comment>
+    <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages">
   	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
