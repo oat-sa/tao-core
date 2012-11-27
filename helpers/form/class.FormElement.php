@@ -468,7 +468,7 @@ abstract class tao_helpers_form_FormElement
 				if(!$validator->evaluate($this->getRawValue())){
 					$this->error = $validator->getMessage();
 					$returnValue = false;
-					common_Logger::d(get_class($this).' is invalid for '.get_class($validator), array('TAO'));
+					common_Logger::d($this->getName().' is invalid for '.$validator->getName(), array('TAO'));
 					break;
 				}
 			}
