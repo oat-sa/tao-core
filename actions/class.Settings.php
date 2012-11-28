@@ -145,8 +145,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		$returnValue = array(
 				'http://www.tao.lu/Ontologies/TAO.rdf#Languages' => array(
 						'compile' => array_merge($optionsCompile, array(
-								'additionalProperties'  => array(new core_kernel_classes_Property('http://www.w3.org/1999/02/22-rdf-syntax-ns#value')),
-								'createForeigns'        => false
+								'additionalProperties'  => array(new core_kernel_classes_Property('http://www.w3.org/1999/02/22-rdf-syntax-ns#value'))
 								)
 						),
 						'decompile' => $optionsDecompile

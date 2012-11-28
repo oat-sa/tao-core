@@ -138,7 +138,7 @@ class tao_models_classes_LanguageService
         // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C1D begin
     	$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
 	    $returnValue = $langClass->searchInstances(array(
-	    	PROPERTY_LANGUAGE_USAGES => $usage
+	    	PROPERTY_LANGUAGE_USAGES => $usage->getUri()
 	    ), array(
 	    	'like' => FALSE
 	    ));
