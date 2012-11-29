@@ -23,10 +23,10 @@ new tao_scripts_TaoRDFImport(array(
 			'description' => 'Generis Password'
 		),
 		array(
-			'name' => 'namespace',
+			'name' => 'model',
 			'type' => 'string',
-			'shortcut' => 'n',
-			'description' => 'The target namespace. If not provided, the target namespace will be the local one'
+			'shortcut' => 'm',
+			'description' => 'The target model URI. If not provided, the target model will xml:base. If no xml:base is found, the local model is used. If provided, it will override the value of xml:base.'
 		),
 		array(
 			'name' => 'input',
