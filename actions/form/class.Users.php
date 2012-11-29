@@ -189,22 +189,26 @@ class tao_actions_form_Users
 		
 		
 		//set default lang to the languages fields
+		$langService = tao_models_classes_LanguageService::singleton();
 		$dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_DEFLG));
-		$options = $dataLangElt->getOptions();
-		foreach($options as $key => $value){
-			$options[$key] = __($value);
+		$dataLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+    	$dataUsage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
+		$dataOptions = array();
+        foreach($langService->getAvailableLanguagesByUsage($dataUsage) as $lang){
+			$dataOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
 		}
-		$dataLangElt->setOptions($options);
+		$dataLangElt->setOptions($dataOptions);
 		
 		
 		$uiLangElt	= $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_UILG));
         $uiLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $uiLangElt->setDescription(__("Interface Language *"));
-   		$options = $uiLangElt->getOptions();
-		foreach($options as $key => $value){
-			$options[$key] = __($value);
+    	$guiUsage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_GUI);
+		$guiOptions = array();
+        foreach($langService->getAvailableLanguagesByUsage($guiUsage) as $lang){
+			$guiOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();
 		}
-		$uiLangElt->setOptions($options);
+		$uiLangElt->setOptions($guiOptions);
 		
 		//password field
 		
