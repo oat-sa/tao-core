@@ -497,7 +497,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					//the file is already versioned
 					else{
 						//create the versioned file
-						$versionedFile = core_kernel_versioning_File::create(
+						$versionedFile = core_kernel_versioning_File::createVersioned(
 							$fileName,
 							$filePath,
 							new core_kernel_versioning_Repository($repositoryUri),
