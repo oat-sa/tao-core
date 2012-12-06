@@ -476,8 +476,9 @@ class tao_helpers_File
         $returnValue = (string) '';
 
         // section 127-0-1-1--5cd35ad1:1283edec322:-8000:00000000000023F5 begin
-
-		$ext = strtolower(array_pop(explode('.', $path)));
+		$toPop = explode('.', $path);
+		$popped = array_pop($toPop);
+		$ext = strtolower($popped);
 		$mime_types = self::getMimeTypes();
 
 		if (array_key_exists($ext, $mime_types)) {

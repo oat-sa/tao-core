@@ -115,39 +115,37 @@ class tao_models_classes_UserService
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D05 begin
 
         try{
-	        foreach($this->getAllowedConcreteRoles() as $role){
-	        	if($this->generisUserService->login($login, $password, $role)){
-	        		
-	        		common_Logger::i('User '.$login.' logged in', array('TAO'));
-	        		
-	        		// init languages
-        			$currentUser = $this->getCurrentUser();
-        			$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
-        			
-        			try {
-	        			$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
-	        			if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource) {
-	        				$code = $uiLg->getUniquePropertyValue($valueProperty);
-							core_kernel_classes_Session::singleton()->setInterfaceLanguage($code);
-	        			}
-        			} catch (common_exception_EmptyProperty $e) {
-        				// leave it to default
+        	if($this->generisUserService->login($login, $password, $this->getAllowedConcreteRoles())){
+        		
+        		common_Logger::i('User '.$login.' logged in', array('TAO'));
+        		
+        		// init languages
+        		$currentUser = $this->getCurrentUser();
+        		$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
+        		
+        		try {
+        			$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
+        			if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource) {
+        				$code = $uiLg->getUniquePropertyValue($valueProperty);
+						core_kernel_classes_Session::singleton()->setInterfaceLanguage($code);
         			}
+        		} catch (common_exception_EmptyProperty $e) {
+        			// leave it to default
+        		}
 
-        			try {
-						$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
-						if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
-	        				$code = $dataLg->getUniquePropertyValue($valueProperty);
-							core_kernel_classes_Session::singleton()->setDataLanguage($code);
-						}
-        			} catch (common_exception_EmptyProperty $e) {
-						// leave it to default        				
-        			}
-					
-	        		$returnValue = true;
-	        		break;					//roles order is important, we loggin with the first found
-	        	}
-			}
+        		try {
+					$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
+					if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
+        				$code = $dataLg->getUniquePropertyValue($valueProperty);
+						core_kernel_classes_Session::singleton()->setDataLanguage($code);
+					}
+        		} catch (common_exception_EmptyProperty $e) {
+					// leave it to default        				
+        		}
+				
+        		$returnValue = true;				//roles order is important, we loggin with the first found
+        	}
+        	
 			if (!$returnValue) {
         		common_Logger::w('User '.$login.' login failed', array('TAO'));
 			}
@@ -252,20 +250,6 @@ class tao_models_classes_UserService
 						$returnValue = $user;
 					}
 				}
-				/*
-				$userClass = $this->getClass($user);
-				if(in_array($userClass->uriResource, $this->getAllowedRoles())){
-					$returnValue = $user;
-				}
-				else{
-					foreach($userClass->getParentClasses(true) as $parent){
-						if(in_array($parent->uriResource, $this->getAllowedRoles())){
-							$returnValue = $user;
-							break;
-						}
-					}
-				}
-				*/
 			}
 		}
 
@@ -397,6 +381,10 @@ class tao_models_classes_UserService
         		$returnValue[$concreteRole->getUri()] = $roleClass;
         	}
         }
+        
+        $dbWrapper = core_kernel_classes_DbWrapper::singleton();
+        common_Logger::i('after getAllowedConcreteRoles: ' . $dbWrapper->getNrOfQueries());
+        
         // section 127-0-1-1--2224001b:1341c506b75:-8000:0000000000004424 end
 
         return (array) $returnValue;
