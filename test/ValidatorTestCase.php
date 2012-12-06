@@ -320,6 +320,7 @@ class ValidatorTestCasePrototype extends TestCasePrototype {
 		foreach ($pValues as $val) {
 			$nfo = $val;
 			if (is_array($val) && isset($val['uploaded_file'])) $nfo = $val['uploaded_file'];
+			if (is_array($nfo)) $nfo = implode('-', $nfo);
 			$this->assertFalse($pValidator->evaluate($val), $desc.' evaluated \''.$nfo.'\' as true');
 		}
 	}
