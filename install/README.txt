@@ -11,10 +11,10 @@ Apache web server configuration:
  - "Allowoverride All" instruction on the DOCUMENT_ROOT 
  
  PHP server configuration:
-  - required version >= 5.3, < 5.4
-  - register globals Off
+  - required version >= 5.3
   - short_tag_open On
-  - magic_quotes_gpc Off
+  - register globals Off (PHP >= 5.4)
+  - magic_quotes_gpc Off (PHP >= 5.4)
   - required extensions: mysql, mysqli, curl, json, gd, tidy, zip (or compiled with zip support on Linux)
   
  MySql server cofiguration:
@@ -24,8 +24,7 @@ Apache web server configuration:
   
 ## INSTALL TAO ##
  - copy TAO distribution in your web folder (the DOCUMENT ROOT of your virtual host is recommended)
- - check the web sever permission.
- 	For Apache the usual user www-data should be able to read, execute (and write for some folders listed at the end of this file)
+ - check the web sever permissions
  - In your web browser open the page http://your-host/tao/install/ and fill out the form
  
  
@@ -46,37 +45,3 @@ Apache web server configuration:
   http://your-host/tao/install/update.php?version=version
    where "version" is version to update to, for example to update from version 1.2 to 1.3 :
   http://your-host/tao/install/update.php?version=1.3
-   
- 
- 
- ## FOLDERS needs the write permission ##
- 
-  - During the install the config file is created inside them (you can change the permissions once the install is finished) 
- generis/common
- filemanager/includes
- tao/includes
- taoDelivery/includes
- taoGroups/includes
- taoItems/includes
- taoSubjects/includes
- taoTests/includes
- taoResults/includes
- wfEngine/includes
- 
- - The following folder contains data created by the user or by the system. 
-   (In case of an update, backup and then copy the content of the following folders inside their updated directory)
- filemanager/views/data
- taoItems/data (Recursively)
- taoDelivery/compiled
- tao/views/export
- tao/update/patches
- tao/update/bash
- taoDelivery/views/export
- taoGroups/views/export
- taoItems/views/export
- taoSubjects/views/export
- taoTests/views/export
- taoResults/views/export
- generis/data
- generis/data/cache
- version
