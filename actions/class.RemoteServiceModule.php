@@ -47,6 +47,17 @@ class tao_actions_RemoteServiceModule extends Module {
 	}
 	
 	/**
+	 * Allows the remote system to verify if a token is still valid,
+	 * and to refresh the Token
+	 * 
+	 * requires a valid session
+	 */
+	public function keepAlive() {
+		return $this->returnSuccess();
+	}
+	
+	
+	/**
 	 * Searches for the user with the provided username and verifies his password 
 	 * 
 	 * @throws common_Exception
