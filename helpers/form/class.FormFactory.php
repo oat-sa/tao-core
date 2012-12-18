@@ -171,6 +171,8 @@ class tao_helpers_form_FormFactory
 		$clazz = 'tao_helpers_form_validators_'.$name;
 		if(class_exists($clazz)){
 			$returnValue = new $clazz($options);
+		} else {
+			common_Logger::w('Unknown validator '.$name, array('TAO', 'FORM'));
 		}
 		
         // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BD2 end
