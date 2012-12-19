@@ -287,6 +287,32 @@ class ValidatorTestCasePrototype extends TestCasePrototype {
 		//@todo implement test cases
 	}
 
+	public function testEquals() {
+		$formelement = new tao_helpers_form_elements_xhtml_Textbox('testelement');
+		$formelement->setValue('123');
+		
+		$equals = tao_helpers_form_FormFactory::getValidator('Equals', array(
+			'reference' => $formelement 
+		));
+		$this->assertIsA($equals, 'tao_helpers_form_validators_Equals');
+
+		$this->assertFalse($equals->evaluate('1234'));
+		$this->assertTrue($equals->evaluate('123'));
+		
+		$equals = tao_helpers_form_FormFactory::getValidator('Equals', array(
+			'reference' => $formelement,
+			'invert'	=> true 
+		));
+		$this->assertIsA($equals, 'tao_helpers_form_validators_Equals');
+		
+		$this->assertFalse($equals->evaluate('123'));
+		$this->assertTrue($equals->evaluate('1234'));
+		
+		$this->expectException();
+		$equals = tao_helpers_form_FormFactory::getValidator('Equals');
+		//@todo implement test cases for multivalues
+	}
+	
 	public function testPassword(){
 		//@todo implement test cases
 	}
