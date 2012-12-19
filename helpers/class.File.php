@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Utilities on files
  *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -26,7 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Utilities on files
  *
  * @access public
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
@@ -61,7 +61,7 @@ class tao_helpers_File
      * Use it when the path may be build from a user variable
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string path
      * @param  boolean traversalSafe
      * @return boolean
@@ -102,7 +102,7 @@ class tao_helpers_File
      * clean concat paths
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array paths
      * @return string
      */
@@ -129,7 +129,7 @@ class tao_helpers_File
      * Short description of method remove
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string path
      * @param  boolean recursive
      * @return boolean
@@ -167,73 +167,7 @@ class tao_helpers_File
      * Short description of method copy
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string source
-     * @param  string destination
-     * @param  boolean recursive
-     * @param  boolean ignoreSystemFiles Ignore system files ('.svn', ...)
-     * @return boolean
-     */
-    public static function udpdateCopy($source, $destination, $recursive = true, $ignoreSystemFiles = true)
-    {
-    	$returnValue = (bool) false;
-
-    	// section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 begin
-    	// Check for System File
-    	$basename = basename($source);
-    	if ($basename[0] == '.' && $ignoreSystemFiles == true){
-    		return false;
-    	}
-
-    	// Check for symlinks
-    	if (is_link($source)) {
-    		return symlink(readlink($source), $destination);
-    	}
-
-    	// Simple copy for a file
-    	if (is_file($source)) {
-    		if (is_dir($destination)){
-    			$destination = $destination . '/' . basename($source);
-    		}
-    		return copy($source, $destination);
-    	}
-
-    	// Make destination directory
-    	if ($recursive == true){
-    		if (!is_dir($destination)) {
-    			mkdir($destination);
-    		}
-
-    		// Loop through the folder
-    		$dir = dir($source);
-    		while (false !== $entry = $dir->read()) {
-    			// Skip pointers
-    			if ($entry == '.' || $entry == '..') {
-    				continue;
-    			}
-
-    			// Deep copy directories
-    			self::udpdateCopy("${source}/${entry}", "${destination}/${entry}", $recursive, $ignoreSystemFiles);
-    }
-
-    // Clean up
-    $dir->close();
-    return true;
-    }
-    else{
-    	return false;
-    }
-
-    // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 end
-
-    return (bool) $returnValue;
-    }
-
-    /**
-     * Short description of method copy
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string source
      * @param  string destination
      * @param  boolean recursive
@@ -305,7 +239,7 @@ class tao_helpers_File
      * Short description of method move
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string source
      * @param  string destination
      * @return boolean
@@ -358,7 +292,7 @@ class tao_helpers_File
      * Short description of method getMimeTypes
      *
      * @access protected
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return array
      */
     protected static function getMimeTypes()
@@ -438,7 +372,7 @@ class tao_helpers_File
      * Short description of method getExtention
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string mimeType
      * @return string
      */
@@ -467,7 +401,7 @@ class tao_helpers_File
      * different methods are used regarding the configuration.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string path
      * @return string
      */
@@ -517,7 +451,7 @@ class tao_helpers_File
      * Scan a directory and return the files it contains
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string path
      * @param  array options
      * @return array
@@ -558,6 +492,56 @@ class tao_helpers_File
         // section 127-0-1-1--45b111d8:1345bd4833c:-8000:00000000000044E8 end
 
         return (array) $returnValue;
+    }
+
+    /**
+     * creates a directory in the systems tempdir
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @return string
+     */
+    public static function createTempDir()
+    {
+        $returnValue = (string) '';
+
+        // section 10-30-1--78--4089662c:13bb270ff26:-8000:0000000000003C79 begin
+        do {
+			$folder = sys_get_temp_dir().DIRECTORY_SEPARATOR."tmp".mt_rand();
+		} while(file_exists($folder));
+		mkdir($folder);
+		return $folder; 
+        // section 10-30-1--78--4089662c:13bb270ff26:-8000:0000000000003C79 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * deletes a directory and its content
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  string directory absolute path of the directory
+     * @return boolean
+     */
+    public static function delTree($directory)
+    {
+        $returnValue = (bool) false;
+
+        // section 10-30-1--78--4089662c:13bb270ff26:-8000:0000000000003C7B begin
+        $files = array_diff(scandir($directory), array('.','..'));
+		foreach ($files as $file) {
+			$abspath = $directory.DIRECTORY_SEPARATOR.$file;
+			if (is_dir($abspath)) {
+				self::delTree($abspath);
+			} else {
+				unlink($abspath);
+			}
+		}
+		return rmdir($directory);
+        // section 10-30-1--78--4089662c:13bb270ff26:-8000:0000000000003C7B end
+
+        return (bool) $returnValue;
     }
 
 } /* end of class tao_helpers_File */
