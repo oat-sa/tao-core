@@ -449,68 +449,73 @@ class TranslationTestCase extends UnitTestCase {
      * This test aims at testing RDF Translation Model Annotations.
      */
     public function testRDFAnnotations(){
-        // - Test parsing from source code.
-        // 1. Defensive tests.
-        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("");
-        $this->assertEqual($annotations, array());
-        
-        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("sd@eipredicate%\nblu");
-        $this->assertEqual($annotations, array());
-        
-        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@fake FUBAR");
-        $this->assertEqual($annotations, array());
-        
-        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate ");
-        $this->assertEqual($annotations, array());
-        
-        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate\n@subject");
-        $this->assertEqual($annotations, array());
-        
-        // 2. Other tests.
-        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment\n@fake FUBAR");
-        $this->assertEqual($annotations, array("predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
-        
-        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source This is a source test.");
-        $this->assertEqual($annotations, array("source" => "This is a source test."));
-        
-        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source This is a source test.\n@sourceLanguage en-US");
-        $this->assertEqual($annotations, array("source" => "This is a source test.",
-                                               "sourceLanguage" => "en-US"));
-                                               
-        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source بعض النصوص في اللغة العربية");
-        $this->assertEqual($annotations, array("source" => "بعض النصوص في اللغة العربية"));
-        
-        // 3. Test escaping.
-        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source lorem \\-\\- ipsum \\\\ dolomet.\n@sourceLanguage fr-CA");
-        $this->assertEqual($annotations, array("source" => "lorem -- ipsum \\ dolomet.",
-        									   "sourceLanguage" => "fr-CA"));
-        
-        $annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(array("source" => "lorem -- ipsum \\ \n dolomet.",
-        																			"sourceLanguage" => "fr-CA"));
-        $this->assertEqual($annotations, "@source lorem \\-\\- ipsum \\\\ \n dolomet.\n    @sourceLanguage fr-CA");
-        
-        // - Test serialization from array.
-        $annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(array("source" => "This is a source test.",
-                                                                                    "sourceLanguage" => "en-US",
-                                                                                    "targetLanguage" => "fr-CA",
-                                                                                    "predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
-        $this->assertEqual($annotations, "@source This is a source test.\n    @sourceLanguage en-US\n    @targetLanguage fr-CA\n    @predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
-        
-        
-        // - Test Annotations parsing while reading with RDFFileWriter.
-        $reader = new tao_helpers_translation_RDFFileReader(dirname(__FILE__) . self::FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS);
-        $reader->read();
-        $tf = $reader->getTranslationFile();
-        $this->assertEqual($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-                                                        'targetLanguage' => 'es'));
-        $tus = $tf->getTranslationUnits();
-        $this->assertEqual($tus[0]->getSourceLanguage(), tao_helpers_translation_Utils::getDefaultLanguage());
-        $this->assertEqual($tus[0]->getTargetLanguage(), 'es');
-        $this->assertEqual($tus[0]->getSource(), 'TAO Object');
-        $this->assertEqual($tus[0]->getTarget(), 'TAO objeto');
-        $this->assertEqual($tus[0]->getAnnotation('sourceLanguage'), array('name' => 'sourceLanguage', 'value' => tao_helpers_translation_Utils::getDefaultLanguage()));
-        $this->assertEqual($tus[0]->getAnnotation('targetLanguage'), array('name' => 'targetLanguage', 'value' => 'es'));
-        $this->assertEqual($tus[10]->getTarget(), 'Función de usuario de flujo de trabajo: el papel asignado por defecto a todos los usuarios backend, no eliminable');
+		try{
+			// - Test parsing from source code.
+			// 1. Defensive tests.
+			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("");
+			$this->assertEqual($annotations, array());
+			
+			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("sd@eipredicate%\nblu");
+			$this->assertEqual($annotations, array());
+			
+			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@fake FUBAR");
+			$this->assertEqual($annotations, array());
+			
+			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate ");
+			$this->assertEqual($annotations, array());
+			
+			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate\n@subject");
+			$this->assertEqual($annotations, array());
+			
+			// 2. Other tests.
+			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment\n@fake FUBAR");
+			$this->assertEqual($annotations, array("predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
+			
+			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source This is a source test.");
+			$this->assertEqual($annotations, array("source" => "This is a source test."));
+			
+			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source This is a source test.\n@sourceLanguage en-US");
+			$this->assertEqual($annotations, array("source" => "This is a source test.",
+												   "sourceLanguage" => "en-US"));
+												   
+			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source بعض النصوص في اللغة العربية");
+			$this->assertEqual($annotations, array("source" => "بعض النصوص في اللغة العربية"));
+			
+			// 3. Test escaping.
+			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source lorem \\-\\- ipsum \\\\ dolomet.\n@sourceLanguage fr-CA");
+			$this->assertEqual($annotations, array("source" => "lorem -- ipsum \\ dolomet.",
+												   "sourceLanguage" => "fr-CA"));
+			
+			$annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(array("source" => "lorem -- ipsum \\ \n dolomet.",
+																						"sourceLanguage" => "fr-CA"));
+			$this->assertEqual($annotations, "@source lorem \\-\\- ipsum \\\\ \n dolomet.\n    @sourceLanguage fr-CA");
+			
+			// - Test serialization from array.
+			$annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(array("source" => "This is a source test.",
+																						"sourceLanguage" => "en-US",
+																						"targetLanguage" => "fr-CA",
+																						"predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
+			$this->assertEqual($annotations, "@source This is a source test.\n    @sourceLanguage en-US\n    @targetLanguage fr-CA\n    @predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
+			
+			
+			// - Test Annotations parsing while reading with RDFFileWriter.
+			$reader = new tao_helpers_translation_RDFFileReader(dirname(__FILE__) . self::FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS);
+			$reader->read();
+			$tf = $reader->getTranslationFile();
+			$this->assertEqual($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+															'targetLanguage' => 'es'));
+			$tus = $tf->getTranslationUnits();
+			$this->assertEqual($tus[0]->getSourceLanguage(), tao_helpers_translation_Utils::getDefaultLanguage());
+			$this->assertEqual($tus[0]->getTargetLanguage(), 'es');
+			$this->assertEqual($tus[0]->getSource(), 'TAO Object');
+			$this->assertEqual($tus[0]->getTarget(), 'TAO objeto');
+			$this->assertEqual($tus[0]->getAnnotation('sourceLanguage'), array('name' => 'sourceLanguage', 'value' => tao_helpers_translation_Utils::getDefaultLanguage()));
+			$this->assertEqual($tus[0]->getAnnotation('targetLanguage'), array('name' => 'targetLanguage', 'value' => 'es'));
+			$this->assertEqual($tus[10]->getTarget(), 'Función de usuario de flujo de trabajo: el papel asignado por defecto a todos los usuarios backend, no eliminable');
+		}
+		catch (tao_helpers_translation_TranslationException $e){
+			$this->assertFalse(true, "No TranslationException should be thrown in testRDFAnnotations test.");
+		}
     }
 
     public function testPOAnnotationsReading(){
