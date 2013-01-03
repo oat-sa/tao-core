@@ -81,8 +81,8 @@ class tao_models_classes_TaoService
 
 			$extensionsManager = common_ext_ExtensionsManager::singleton();
 			foreach($extensionsManager->getInstalledExtensions() as $extension){
-				if($extension->configuration->loaded && !$extension->configuration->ghost){
-					self::$extensions[] = $extension->id;
+				if($extension->isEnabled()){
+					self::$extensions[] = $extension->getID();
 				}
 			}
 		}
@@ -271,7 +271,7 @@ class tao_models_classes_TaoService
 		if (empty($returnValue)) {
 			common_logger::w('Section '.$section.' not found found for structure '.$structure);
     	}
-		// section 127-0-1-1-64be1e2f:13774f13776:-8000:0000000000003A84 end
+        // section 127-0-1-1-64be1e2f:13774f13776:-8000:0000000000003A84 end
 
         return (array) $returnValue;
     }
@@ -299,34 +299,6 @@ class tao_models_classes_TaoService
         // section 127-0-1-1-34cc9151:127a8ee40c4:-8000:000000000000233E end
 
         return (bool) $returnValue;
-    }
-
-    /**
-     * Short description of method getExtensionVersion
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string extension
-     * @return string
-     */
-    public function getExtensionVersion($extension = 'tao')
-    {
-        $returnValue = (string) '';
-
-        // section 10-13-1--128--497eb3f9:1302667dfd7:-8000:0000000000003B78 begin
-
-		$extensionsManager = common_ext_ExtensionsManager::singleton();
-		$extensions = $extensionsManager->getInstalledExtensions();
-		if(isset($extensions[$extension])){
-			$extensionConfig = $extensions[$extension]->configuration;
-			if($extensionConfig->loaded && !$extensionConfig->ghost){
-				$returnValue = $extensionConfig->version;
-			}
-		}
-
-        // section 10-13-1--128--497eb3f9:1302667dfd7:-8000:0000000000003B78 end
-
-        return (string) $returnValue;
     }
 
 } /* end of class tao_models_classes_TaoService */

@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 03.01.2013, 11:39:50 with ArgoUML PHP module 
+ * Automatically generated on 03.01.2013, 18:14:10 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -64,13 +64,13 @@ class tao_models_classes_FileSourceService
     // --- OPERATIONS ---
 
     /**
-     * Short description of method getClass
+     * Short description of method getFileSourceClass
      *
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return core_kernel_classes_Class
      */
-    public function getClass()
+    public function getFileSourceClass()
     {
         $returnValue = null;
 
@@ -95,7 +95,7 @@ class tao_models_classes_FileSourceService
         $returnValue = null;
 
         // section 10-30-1--78-1b01f2ef:13ac03fd34f:-8000:0000000000003C05 begin
-        $returnValue = $this->getClass()->createInstanceWithProperties(array(
+        $returnValue = $this->getFileSourceClass()->createInstanceWithProperties(array(
         	RDFS_LABEL										=> $label,
         	PROPERTY_GENERIS_VERSIONEDREPOSITORY_TYPE		=> INSTANCE_GENERIS_VCS_TYPE_LOCAL,
         	PROPERTY_GENERIS_VERSIONEDREPOSITORY_PATH		=> $path,
@@ -136,7 +136,7 @@ class tao_models_classes_FileSourceService
     {
         // section 10-30-1--78--66279e2e:13bfb5107cf:-8000:0000000000003CA0 begin
         $generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
-        $generis->setSetting(self::DEFAULT_FILESOURCE_KEY, $fileSource->getUri());
+        $generis->setConfig(self::DEFAULT_FILESOURCE_KEY, $fileSource->getUri());
         // section 10-30-1--78--66279e2e:13bfb5107cf:-8000:0000000000003CA0 end
     }
 
@@ -153,7 +153,7 @@ class tao_models_classes_FileSourceService
 
         // section 10-30-1--78--66279e2e:13bfb5107cf:-8000:0000000000003C9B begin
 		$generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
-		$uri = $generis->getSetting(self::DEFAULT_FILESOURCE_KEY);
+		$uri = $generis->getConfig(self::DEFAULT_FILESOURCE_KEY);
 		if (!empty($uri)) {
 			$returnValue = new core_kernel_versioning_Repository($uri);
 		}

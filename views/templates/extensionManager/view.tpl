@@ -24,11 +24,11 @@
 			</thead>
 			<tbody>
 			<? foreach(get_data('installedExtArray') as $extensionObj): ?>
-			<? if($extensionObj->id !=null): ?>
+			<? if($extensionObj->getID() !=null): ?>
 				<tr>
-					<td class="ext-id bordered"><?= $extensionObj->name; ?></td>
-					<td class="bordered"><?= $extensionObj->author ; ?></td>
-					<td><?= $extensionObj->version; ?></td>
+					<td class="ext-id bordered"><?= $extensionObj->getName(); ?></td>
+					<td class="bordered"><?= $extensionObj->getAuthor() ; ?></td>
+					<td><?= $extensionObj->getVersion(); ?></td>
 				</tr>
 			<? endif; ?>
 			<? endforeach;?>
@@ -59,9 +59,9 @@
 			<tbody>
 				<? foreach(get_data('availableExtArray') as $k => $ext): ?>
 				<tr id="<?= $ext->getID();?>">
-					<td class="ext-name bordered"><?= $ext->name; ?></td>
-					<td class="bordered"><?= $ext->author; ?></td>
-					<td class="bordered"><?= $ext->version; ?></td>
+					<td class="ext-name bordered"><?= $ext->getName(); ?></td>
+					<td class="bordered"><?= $ext->getAuthor(); ?></td>
+					<td class="bordered"><?= $ext->getVersion(); ?></td>
 					<td class="dependencies bordered">
 						<ul>
 						<? foreach ($ext->getDependencies() as $req): ?>

@@ -140,14 +140,14 @@ class tao_install_utils_ModelCreator{
 
 	/**
 	 * Conveniance method to get the list of models to install from the extensions
-	 * @param array $simpleExtensions array of common_ext_SimpleExtension
+	 * @param array $simpleExtensions array of common_ext_Extension
 	 * @return array of ns => files (array)
 	 */
 	public static function getModelsFromExtensions(array $simpleExtensions){
 		$models = array();
 		foreach($simpleExtensions as $extension){
-			if(!$extension instanceof common_ext_SimpleExtension){
-				throw new tao_install_utils_Exception("{$extension} is not a common_ext_SimpleExtension");
+			if(!$extension instanceof common_ext_Extension){
+				throw new tao_install_utils_Exception("{$extension} is not a common_ext_Extension");
 			}
 
 			if(isset($extension->installFiles['rdf'])){
@@ -169,12 +169,12 @@ class tao_install_utils_ModelCreator{
 
 	/**
 	 * Convenience method to get the models to install from extension's locales.
-	 * @param common_ext_SimpleExtension a common_ext_SimpleExtension instance.
+	 * @param common_ext_Extension a common_ext_Extension instance.
 	 * @return array of ns => files
 	 */
-	public static function getTranslationModelsFromExtension(common_ext_SimpleExtension $simpleExtension){
+	public static function getTranslationModelsFromExtension(common_ext_Extension $simpleExtension){
 		$models = array();
-		$extensionPath = dirname(__FILE__) . '/../../../' . $simpleExtension->id;
+		$extensionPath = dirname(__FILE__) . '/../../../' . $simpleExtension->getID();
 		$localesPath = $extensionPath . '/locales';
 
 		// Get the target model.

@@ -229,8 +229,8 @@ class Bootstrap{
 	protected function config()
 	{
 		//include the config file
-		if ($this->extension->id != "generis"){
-			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($this->extension->id);
+		if ($this->extension->getID() != "generis"){
+			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($this->extension->getID());
 			if (count($ext->getConstants()) > 0) {
 				foreach ($ext->getConstants() as $key => $value) {
 					if(!defined($key) && !is_array($value)){
@@ -256,7 +256,7 @@ class Bootstrap{
 			$extensions = array_merge($extensions, $this->options['constants']);
 		}
 		// add the current extension (as well !)
-		$extensions = array_merge(array($this->extension->id), $extensions);
+		$extensions = array_merge(array($this->extension->getID()), $extensions);
 
 		foreach($extensions as $extension){
 
@@ -378,7 +378,7 @@ class Bootstrap{
 	 */
 	protected function scripts()
 	{
-		switch ($this->extension->id){
+		switch ($this->extension->getID()){
 			case 'filemanager':
 				tao_helpers_Scriptloader::addCssFiles(array(
 						TAOBASE_WWW . 'css/custom-theme/jquery-ui-1.8.22.custom.css',
