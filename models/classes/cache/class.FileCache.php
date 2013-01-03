@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 21.08.2012, 11:34:15 with ArgoUML PHP module 
+ * Automatically generated on 03.01.2013, 11:44:15 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -85,7 +85,7 @@ class tao_models_classes_cache_FileCache
         	$serial = $mixed->getSerial();
         }
 		$handle = fopen($this->getFilePath($serial), 'w');
-		fwrite($handle, "<? return ".$this->buildPHPVariableString($mixed).";?>");
+		fwrite($handle, "<? return ".common_utils::toPHPVariableString($mixed).";?>");
 		fclose($handle);
         // section 127-0-1-1--66865e2:1353e542706:-8000:0000000000003703 end
     }
@@ -173,53 +173,6 @@ class tao_models_classes_cache_FileCache
         }
         
         // section 127-0-1-1--18485ef3:13542665222:-8000:00000000000065B1 end
-    }
-
-    /**
-     * Short description of method buildPHPVariableString
-     *
-     * @access private
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  mixed
-     * @return string
-     */
-    private function buildPHPVariableString($mixed)
-    {
-        $returnValue = (string) '';
-
-        // section 127-0-1-1-70417e84:13615be5f59:-8000:00000000000068CD begin
-        switch (gettype($mixed)) {
-        	case "string" :
-        		// replace \ by \\ and then ' by \'
-        		$returnValue =  '\''.str_replace('\'', '\\\'', str_replace('\\', '\\\\', $mixed)).'\'';
-        		break;
-        	case "boolean" :
-        		$returnValue = $mixed ? 'true' : 'false';
-        		break;
-        	case "integer" :
-        	case "double" :
-        		$returnValue = $mixed;
-        		break;
-        	case "array" :
-				$string = "";
-				foreach ($mixed as $key => $val) {
-					$string .= $this->buildPHPVariableString($key)." => ".$this->buildPHPVariableString($val).",";
-				}
-				$returnValue = "array(".substr($string, 0, -1).")";
-				break;
-        	case "null" :
-        		$returnValue = null;
-				break;
-        	case "object" :
-        		$returnValue = 'unserialize(\''.serialize($mixed).'\')';
-        		break;
-        	default:
-    			// ressource and unexpected types
-        		common_Logger:w("Could not store variable of type ".gettype($mixed)." in ".get_called_class());
-        }
-        // section 127-0-1-1-70417e84:13615be5f59:-8000:00000000000068CD end
-
-        return (string) $returnValue;
     }
 
     /**
