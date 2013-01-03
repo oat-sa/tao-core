@@ -167,7 +167,9 @@ class tao_install_Installator{
 				'ROOT_PATH'					=> $this->options['root_path'],
 				'ROOT_URL'					=> $installData['module_url'],
 				'DEFAULT_LANG'				=> $installData['module_lang'],
-				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false
+				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false,
+				'SYS_USER_LOGIN'			=> self::generateRandomAlphaNumToken(8),
+				'SYS_USER_PASS'				=> md5(self::generateRandomAlphaNumToken(16))
 			));
 			
 			/*
@@ -303,16 +305,27 @@ class tao_install_Installator{
      * @return string
      */
 	public static function generateSessionName(){
-		$name = '';
+	 	return 'tao_' . self::generateRandomAlphaNumToken(8);
+	}
+	
+	/**
+     * Generate a random alphanum token of a given length.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param int $length The length of the token to generate.
+     * @return string
+     */
+	public static function generateRandomAlphaNumToken($length){
+		$token = '';
         $chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-        $length = 8;
         $maxIndex = strlen($chars) - 1;
         
 	    for ($i = 0; $i < $length; $i++) {
-	    	$name .= $chars[rand(0, $maxIndex)];
+	    	$token .= $chars[rand(0, $maxIndex)];
 	 	}
 	 	
-	 	return 'tao_' . $name;
+	 	return $token;
 	}
 	
 	/**
