@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.3-beta\n"
-"PO-Revision-Date: 2012-09-21T15:06:02\n"
+"Project-Id-Version: TAO v2.4-alpha\n"
+"PO-Revision-Date: 2013-01-04T11:13:15\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: AR\n"
@@ -23,10 +23,19 @@ msgstr ""
 msgid " requires a subgrid adapter"
 msgstr ""
 
-msgid "%s extensions to install"
+msgid "%s extension(s) to install."
 msgstr ""
 
 msgid "(empty)"
+msgstr ""
+
+msgid "> Extension %s succesfully installed."
+msgstr ""
+
+msgid "> Installation done."
+msgstr ""
+
+msgid "A fatal error occured during the installation process."
 msgstr ""
 
 msgid "A file"
@@ -99,6 +108,9 @@ msgstr ""
 msgid "Add property"
 msgstr "إضافة خاصية"
 
+msgid "add repository"
+msgstr ""
+
 msgid "Add roles"
 msgstr ""
 
@@ -107,6 +119,9 @@ msgstr "إضافة الملف المصدر"
 
 msgid "Advanced Mode"
 msgstr "طريقة متقدمة"
+
+msgid "Affected roles"
+msgstr ""
 
 msgid "All"
 msgstr ""
@@ -121,6 +136,9 @@ msgid "All data are removed regularly!"
 msgstr ""
 
 msgid "Allowed files types: "
+msgstr ""
+
+msgid "Allows the management of the repositories"
 msgstr ""
 
 msgid "An error occured during user deletion"
@@ -142,6 +160,9 @@ msgstr ""
 msgid "Available Extensions"
 msgstr ""
 
+msgid "Available roles"
+msgstr ""
+
 msgid "Back Office (test creator)"
 msgstr ""
 
@@ -155,25 +176,19 @@ msgid "Cannot successfully build the optimized table indexes"
 msgstr ""
 
 #, tao-public
-msgid "Change Password"
-msgstr ""
-
 msgid "Change password"
 msgstr ""
 
 msgid "Change the password"
 msgstr "تغيير كلمة المرور"
 
-msgid "Check all"
-msgstr ""
-
 msgid "Check All"
 msgstr ""
 
-msgid "Check if updates are available for your version of TAO"
+msgid "Check all"
 msgstr ""
 
-msgid "Children"
+msgid "Check if updates are available for your version of TAO"
 msgstr ""
 
 msgid "Class"
@@ -203,10 +218,10 @@ msgstr ""
 msgid "compiled"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
 msgid "compiling"
@@ -248,16 +263,19 @@ msgstr "البيانات التي تم استيرادها بنجاح"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "لغة البيانات"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "لغة البيانات"
 
 msgid "Date"
 msgstr "التاريخ"
 
 msgid "Decompilation completed"
+msgstr ""
+
+msgid "decompile"
 msgstr ""
 
 msgid "decompiled"
@@ -293,13 +311,17 @@ msgstr ""
 msgid "Do you really want to delete this role ?"
 msgstr ""
 
+msgid "Do you wish to install the following extension(s):\n"
+"%s?"
+msgstr ""
+
 msgid "Don't set"
 msgstr "لا تدرج"
 
-msgid "download"
+msgid "Download"
 msgstr "تحميل"
 
-msgid "Download"
+msgid "download"
 msgstr "تحميل"
 
 msgid "Download content"
@@ -314,10 +336,10 @@ msgstr "روزنامة"
 msgid "e-mail"
 msgstr ""
 
-msgid "edit"
+msgid "Edit"
 msgstr "تحرير"
 
-msgid "Edit"
+msgid "edit"
 msgstr "تحرير"
 
 msgid "Edit a role"
@@ -375,9 +397,6 @@ msgstr "مكتبة الملفات المصدرة"
 msgid "exported successfully"
 msgstr "تصدير بنجاح"
 
-msgid "Extension"
-msgstr ""
-
 msgid "Extension "
 msgstr ""
 
@@ -389,6 +408,12 @@ msgid "Extensions\' configurations updated "
 msgstr ""
 
 msgid "failed"
+msgstr ""
+
+msgid "Field delimiter"
+msgstr ""
+
+msgid "Field encloser"
 msgstr ""
 
 msgid "File"
@@ -427,8 +452,11 @@ msgstr ""
 msgid "First Name"
 msgstr ""
 
-msgid "Home"
-msgstr "الصفحة الرئيسية"
+msgid "First row column names"
+msgstr ""
+
+msgid "force recompilation"
+msgstr ""
 
 msgid "Import"
 msgstr "استيراد"
@@ -442,7 +470,7 @@ msgstr "Inclusif (ET)"
 msgid "Install"
 msgstr ""
 
-msgid "Install finished"
+msgid "Installation done."
 msgstr ""
 
 msgid "Installation..."
@@ -451,13 +479,13 @@ msgstr ""
 msgid "Installed Extensions"
 msgstr ""
 
-msgid "Installing %s..."
-msgstr ""
-
-msgid "Instances"
+msgid "Installing extension %s..."
 msgstr ""
 
 msgid "instances"
+msgstr ""
+
+msgid "Instances"
 msgstr ""
 
 msgid "Interface Language"
@@ -499,7 +527,7 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-msgid "Lastest Version"
+msgid "Line break"
 msgstr ""
 
 msgid "List"
@@ -529,7 +557,7 @@ msgstr "القوائم"
 msgid "Loaded"
 msgstr ""
 
-msgid "Loaded At Startup"
+msgid "Loaded at Startup"
 msgstr ""
 
 msgid "Local"
@@ -612,6 +640,9 @@ msgstr "حرك الى"
 msgid "Moving this element will remove the following properties:"
 msgstr ":تحريك هذا العنصر سوف يحذف الخصائص التالية"
 
+msgid "Multiple values delimiter"
+msgstr ""
+
 msgid "must be after or the same as: "
 msgstr ""
 
@@ -655,6 +686,9 @@ msgstr ""
 msgid "No account match the given login / password"
 msgstr "لا يتطابق مع حساب معين الدخول / كلمة السر"
 
+msgid "No extensions available."
+msgstr ""
+
 msgid "no file"
 msgstr ""
 
@@ -682,6 +716,9 @@ msgstr "فتح"
 msgid "Optimizable Classes"
 msgstr ""
 
+msgid "optimize"
+msgstr ""
+
 msgid "Optimize your TAO when you are ready for test delivery"
 msgstr ""
 
@@ -697,9 +734,6 @@ msgstr ""
 msgid "Options"
 msgstr "خيارات"
 
-msgid "Parents"
-msgstr ""
-
 msgid "Password"
 msgstr "كلمة السر"
 
@@ -710,9 +744,6 @@ msgid "Password changed"
 msgstr ""
 
 msgid "Passwords are not matching"
-msgstr ""
-
-msgid "Path"
 msgstr ""
 
 msgid "Please confirm deletion"
@@ -765,16 +796,19 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
 msgid "Remove"
 msgstr "إزالة"
 
 msgid "Remove content"
+msgstr ""
+
+msgid "remove repository"
 msgstr ""
 
 msgid "Rename"
@@ -785,6 +819,24 @@ msgstr "كرر كلمة السر الجديدة"
 
 msgid "Repeat password *"
 msgstr "*كرر كلمة السر"
+
+msgid "Repositories"
+msgstr ""
+
+msgid "Repository saved"
+msgstr ""
+
+msgid "Repository saved and disabled"
+msgstr ""
+
+msgid "Repository saved and enabled"
+msgstr ""
+
+msgid "Repository saved, but unable to disable"
+msgstr ""
+
+msgid "Repository saved, but unable to enable"
+msgstr ""
 
 msgid "Requires"
 msgstr ""
@@ -798,13 +850,14 @@ msgstr ""
 msgid "Revert"
 msgstr "الغاء"
 
+#, tao-public
+msgid "Revision control"
+msgstr ""
+
 msgid "Right click the tree to manage your lists"
 msgstr "استعمل زر النقر اليمين لادارة قوائمك"
 
 msgid "Roles"
-msgstr ""
-
-msgid "Roles affected"
 msgstr ""
 
 msgid "Save"
@@ -816,11 +869,11 @@ msgstr "بحث"
 msgid "Search results"
 msgstr "البحث عن النتائج"
 
-msgid "select"
-msgstr "اختر"
-
 msgid "Select"
 msgstr "حدد"
+
+msgid "select"
+msgstr "اختر"
 
 msgid "Select a language"
 msgstr "حدد اللغة"
@@ -841,8 +894,8 @@ msgstr "تم حفظ التحديد بنجاح"
 msgid "Settings"
 msgstr "الإعدادات"
 
-msgid "settings updated"
-msgstr "تحديث الاعدادات"
+msgid "Settings updated"
+msgstr ""
 
 msgid "Simple Mode"
 msgstr "الطريقة البسيطة"
@@ -862,11 +915,11 @@ msgstr "صيغ الاستيراد المعتمدة"
 msgid "Supported formats to import"
 msgstr "صيغ التصدير المعتمدة"
 
-msgid "TAO Back Office"
-msgstr "TAO: Outils d'administration"
-
 msgid "TAO back office"
 msgstr ""
+
+msgid "TAO Back Office"
+msgstr "TAO: Outils d'administration"
 
 msgid "TAO Delivery Server"
 msgstr ""
@@ -920,6 +973,9 @@ msgstr ""
 msgid "There is no class available for optimization for the current extension"
 msgstr ""
 
+msgid "This action will reset the optimization, are you sure?"
+msgstr ""
+
 msgid "This field is required"
 msgstr ""
 
@@ -928,6 +984,12 @@ msgstr "هذا الحقل طويل جدا"
 
 msgid "This field is too short"
 msgstr "هذا الحقل قصير جدا"
+
+msgid "This should equal "
+msgstr ""
+
+msgid "This should not equal "
+msgstr ""
 
 msgid "Translate"
 msgstr "ترجم"
@@ -980,12 +1042,6 @@ msgstr "RDF تحميل ملف"
 msgid "Upload the file to version"
 msgstr ""
 
-msgid "URL"
-msgstr ""
-
-msgid "URL of your Data Version Management System. "
-msgstr ""
-
 msgid "Use default value"
 msgstr ""
 
@@ -1017,14 +1073,13 @@ msgstr "المستخدمون"
 msgid "Validation of the imported file has failed"
 msgstr "لقد فشل التحقق من صحة  الملف المستورد"
 
-#, tao-public
+msgid "Version"
+msgstr ""
+
 msgid "Versioning"
 msgstr ""
 
 msgid "Versioning disabled"
-msgstr ""
-
-msgid "Versionning"
 msgstr ""
 
 msgid "View"

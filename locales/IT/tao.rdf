@@ -52,6 +52,78 @@
     -->
     <rdfs:label xml:lang="IT"><![CDATA[Languages]]></rdfs:label>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage IT
+    @source Usage
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="IT"><![CDATA[Usage]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage IT
+    @source Usage of a language
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="IT"><![CDATA[Usage of a language]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage IT
+    @source Language Usage
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="IT"><![CDATA[Language Usage]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage IT
+    @source Language usage class
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="IT"><![CDATA[Language usage class]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage IT
+    @source GUI Usage
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="IT"><![CDATA[GUI Usage]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage IT
+    @source Graphical User Interface language usage
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="IT"><![CDATA[Graphical User Interface language usage]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage IT
+    @source Data Usage
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="IT"><![CDATA[Data Usage]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage IT
+    @source Data language usage
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="IT"><![CDATA[Data language usage]]></rdfs:comment>
+  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ClassRole">
     <!--
     @sourceLanguage EN
