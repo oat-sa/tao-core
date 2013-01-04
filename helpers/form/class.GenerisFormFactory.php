@@ -326,16 +326,14 @@ class tao_helpers_form_GenerisFormFactory
 				'title' 	=> __('A file'),
 				'widget'	=> PROPERTY_WIDGET_FILE,
 				'range'		=> RDFS_LITERAL
-			)
-		);
-		
-		if(helpers_Versioning::isEnabled()){
-			$returnValue['versionedFile'] = array(
+			),
+			'versionedFile' => array(
 				'title' 	=> __('A versioned file'),
 				'widget'	=> PROPERTY_WIDGET_VERSIONEDFILE,
 				'range'		=> RDFS_LITERAL
-			);
-		}
+			)
+		);
+		
         // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B31 end
 
         return (array) $returnValue;

@@ -86,16 +86,10 @@ class tao_helpers_form_elements_xhtml_Versionedfile
 		
 		$returnValue .= "<label class='form_desc' for='{$this->name}'>"._dh($this->getDescription())."</label>";
 		
-		if(helpers_Versioning::isEnabled()){
-			$returnValue .= "<input type='button' for='{$this->name}' value='".__('Manage Versioned File')."' ";
-			$returnValue .= $this->renderAttributes();
-			$returnValue .= " />";
-			$returnValue .= "<span for='{$this->name}' ".$this->renderAttributes()."></span>";
-		}else{
-			$returnValue .= "<span for='{$this->name}' ".$this->renderAttributes().">";
-			$returnValue .= __('Versioning disabled');
-			$returnValue .= "</span>";
-		}
+		$returnValue .= "<input type='button' for='{$this->name}' value='".__('Manage Versioned File')."' ";
+		$returnValue .= $this->renderAttributes();
+		$returnValue .= " />";
+		$returnValue .= "<span for='{$this->name}' ".$this->renderAttributes()."></span>";
 		
         // section 127-0-1-1-1ae05cc0:132f22f86c1:-8000:0000000000003F53 end
 

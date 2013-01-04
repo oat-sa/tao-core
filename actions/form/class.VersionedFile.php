@@ -208,7 +208,7 @@ class tao_actions_form_VersionedFile
 		$this->form->addElement($filePathElt);
 		
 		$repositoryEltOptions = array();
-		foreach(helpers_Versioning::getAvailableRepositories() as $repository){
+		foreach(helpers_FileSource::getFileSources() as $repository){
 			$repositoryEltOptions[tao_helpers_Uri::encode($repository->uriResource)] = $repository->getLabel();
 		}
 		$fileRepositoryElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_REPOSITORY), $versioned ? 'Label' : 'Radiobox');

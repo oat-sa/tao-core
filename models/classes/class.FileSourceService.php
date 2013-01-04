@@ -156,6 +156,8 @@ class tao_models_classes_FileSourceService
 		$uri = $generis->getConfig(self::DEFAULT_FILESOURCE_KEY);
 		if (!empty($uri)) {
 			$returnValue = new core_kernel_versioning_Repository($uri);
+		} else {
+			throw new common_Exception('No default repository defined');
 		}
         // section 10-30-1--78--66279e2e:13bfb5107cf:-8000:0000000000003C9B end
 
