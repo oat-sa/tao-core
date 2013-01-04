@@ -182,11 +182,13 @@ class tao_install_Installator{
 			common_Logger::d('Including tao constants', 'INSTALL');
 			require_once(ROOT_PATH.'tao/includes/constants.php');
 	
-			/*
-			 * 6 - Adding languages
-			 */
-			
+			// Init model creator and create the Generis User.
 			$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
+			$modelCreator->insertGenerisUser(SYS_USER_LOGIN, SYS_USER_PASS);
+			
+			/*
+			 * 6 - Add languages
+			 */
 			$models = $modelCreator->getLanguageModels();
 	        foreach ($models as $ns => $modelFiles){
 	            foreach ($modelFiles as $file){

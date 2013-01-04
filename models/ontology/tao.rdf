@@ -98,15 +98,6 @@
     <rdfs:label xml:lang="EN"><![CDATA[BackOffice]]></rdfs:label>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ClassRole"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#installator">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole"/>
-    <rdfs:label><![CDATA[installator]]></rdfs:label>
-    <rdfs:comment><![CDATA[User created for install system tasks]]></rdfs:comment>
-    <generis:login><![CDATA[generis]]></generis:login>
-    <generis:userDefLg rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LangEN"/>
-	<generis:userUILg rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LangEN"/>
-    <generis:password><![CDATA[b01a52f727b0810639526fe2c8188331]]></generis:password>
-  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder">
   	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
   	<rdfs:label xml:lang="EN"><![CDATA[Form Field Order]]></rdfs:label>

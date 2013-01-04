@@ -38,26 +38,41 @@ class tao_install_utils_ModelCreator{
 	 */
 	public function insertSuperUser(array $userData){
 
-		if(!isset($userData['login']) || !isset($userData['password'])){
+		if (empty($userData['login']) || empty($userData['password'])){
 			throw new tao_install_utils_Exception("To create a super user you must provide at least a login and a password");
 		}
 
-		$superUserOntology = dirname(__FILE__)."/../ontology/superuser.rdf";
+		$superUserOntology = dirname(__FILE__) . "/../ontology/superuser.rdf";
 
-		if(!file_exists($superUserOntology) || !is_readable($superUserOntology)){
-			throw new tao_install_utils_Exception("Unable to load ontology : $superUserOntology");
+		if (!@is_readable($superUserOntology)){
+			throw new tao_install_utils_Exception("Unable to load ontology : ${superUserOntology}");
 		}
 
 		$doc = new DOMDocument();
-		$doc->load ($superUserOntology);
+		$doc->load($superUserOntology);
 
-		foreach($userData as $key => $value){
+		foreach ($userData as $key => $value){
 			$tags = $doc->getElementsByTagNameNS('http://www.tao.lu/Ontologies/generis.rdf#', $key);
-			foreach($tags as $tag){
+			foreach ($tags as $tag){
 				$tag->appendChild($doc->createCDATASection($value));
 			}
 		}
 		return $this->insertLocalModel($doc->saveXML());
+	}
+	
+	public function insertGenerisUser($login, $password){
+		
+		$generisUserOntology = dirname(__FILE__) . '/../ontology/generisuser.rdf';
+		
+		if (!@is_readable($generisUserOntology)){
+			throw new tao_install_utils_Exception("Unable to load ontology : ${generisUserOntology}");
+		}
+		
+		$doc = new DOMDocument();
+		$doc->load($generisUserOntology);
+		
+		return $this->insertLocalModel($doc->saveXML(), array('{SYS_USER_LOGIN}'	=> $login,
+															  '{SYS_USER_PASS}'		=> $password));
 	}
 
 	/**
@@ -78,9 +93,14 @@ class tao_install_utils_ModelCreator{
 	 * @param string $model the XML data
 	 * @return boolean true if inserted
 	 */
-	public function insertLocalModel($model){
+	public function insertLocalModel($model, $replacements = array()){
 		$model = str_replace('LOCAL_NAMESPACE#', $this->localNs, $model);
 		$model = str_replace('{ROOT_PATH}', ROOT_PATH, $model);
+		
+		foreach ($replacements as $k => $r){
+			$model = str_replace($k, $r, $model);
+		}
+		
 		return $this->insertModel($this->localNs, $model);
 	}
 
@@ -124,7 +144,7 @@ class tao_install_utils_ModelCreator{
 		$size = $memModel->size();
 		while ($it->hasNext()) {
 			$statement = $it->next();
-			if($dbModel->add($statement, 'generis') === true){
+			if($dbModel->add($statement, SYS_USER_LOGIN) === true){
 				$added++;
 			}
 		}
