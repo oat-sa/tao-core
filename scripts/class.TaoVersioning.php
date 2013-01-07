@@ -89,12 +89,14 @@ class tao_scripts_TaoVersioning
         // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F5A begin
         if($this->options['enable']){
 
-        	//check if some config constants have to be overrided
-        	$type		= !is_null($this->options['type']) 		? $this->options['type'] 	: GENERIS_VERSIONED_REPOSITORY_TYPE;
-        	$url		= !is_null($this->options['url']) 		? $this->options['url'] 	: GENERIS_VERSIONED_REPOSITORY_URL;
-        	$login		= !is_null($this->options['login']) 	? $this->options['login'] 	: GENERIS_VERSIONED_REPOSITORY_LOGIN;
-        	$password	= !is_null($this->options['password']) 	? $this->options['password']: GENERIS_VERSIONED_REPOSITORY_PASSWORD;
-        	$path		= !is_null($this->options['path']) 		? $this->options['path'] 	: GENERIS_VERSIONED_REPOSITORY_PATH;
+        	$typeUri	= !is_null($this->options['type']) 		? $this->options['type'] 	: PROPERTY_GENERIS_VCS_TYPE_SUBVERSION;
+        	$type		= new core_kernel_classes_Resource($typeUri);
+        	
+        	//following parameters required
+        	$url		= $this->options['url'];
+        	$login		= $this->options['login'];
+        	$password	= $this->options['password'];
+        	$path		= $this->options['path'];
 
 			$repo = core_kernel_versioning_Repository::create($type, $url, $login, $password, $path, '', '');
         	try {
@@ -102,13 +104,14 @@ class tao_scripts_TaoVersioning
         		$success = $repo->enable();
         		
         		if ($success) {
-					self::out(__('settings updated'), array('color' => 'light_blue'));
+					self::out(__('repository added & enabled'), array('color' => 'light_blue'));
+					tao_models_classes_FileSourceService::singleton()->setDefaultFileSource($repo);
+					self::out(__('repository set as new default'), array('color' => 'light_blue'));
         		} else {
-					self::out(__('settings could not be updatedupdated'), array('color' => 'red'));
+					self::out(__('repository could not be enabled'), array('color' => 'red'));
 				}
 			} catch (Exception $e) {
 				self::out($e->getMessage(), array('color' => 'red'));
-				$this->setData('message', $e->getMessage());
 			}
         }
 
