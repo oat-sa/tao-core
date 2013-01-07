@@ -90,6 +90,18 @@ class tao_scripts_TaoVersioning
         if($this->options['enable']){
 
         	$typeUri	= !is_null($this->options['type']) 		? $this->options['type'] 	: PROPERTY_GENERIS_VCS_TYPE_SUBVERSION;
+        	if (!is_null($this->options['type'])) {
+        		//Regarding to the versioning sytem type
+				switch($this->options['type']){
+					case 'svn':
+						$typeUri = PROPERTY_GENERIS_VCS_TYPE_SUBVERSION;
+						break;
+					default:
+						throw new common_Exception("Unable to recognize the given type ".$this->options['type']);
+				}
+        	} else {
+        		$typeUri = PROPERTY_GENERIS_VCS_TYPE_SUBVERSION;
+        	}
         	$type		= new core_kernel_classes_Resource($typeUri);
         	
         	//following parameters required
