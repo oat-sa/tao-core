@@ -180,7 +180,8 @@ class tao_install_Installator{
 			
 			// Usefull to get version number from TAO constants
 			common_Logger::d('Including tao constants', 'INSTALL');
-			require_once(ROOT_PATH.'tao/includes/constants.php');
+			require_once $this->options['root_path'] . 'tao/includes/class.Bootstrap.php';
+			Bootstrap::loadConstants('tao');
 	
 			// Init model creator and create the Generis User.
 			$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);

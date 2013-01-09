@@ -275,7 +275,7 @@ class Bootstrap{
 	 */
 	public static function loadConstants($extension)
 	{
-		$constantFile = ROOT_PATH . '/' . $extension . '/includes/constants.php';
+		$constantFile = ROOT_PATH . $extension .DIRECTORY_SEPARATOR. 'includes' .DIRECTORY_SEPARATOR. 'constants.php';
 		if(file_exists($constantFile)){
 
 			//include the constant file
