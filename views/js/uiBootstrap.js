@@ -106,7 +106,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 		/**
 		 * initialize the tree component
 		 */
-		initTrees: function(){
+		initTrees: function(callback){
 			//left menu trees init by loading the tab content
 			if(this.tabs.length > 0){
 				section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('title');
@@ -128,6 +128,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 								$('#section-trees').css({display: 'block'});
 							}
 							$('#section-trees').html(response);
+							if (callback != undefined) callback()
 						}
 					});
 				}

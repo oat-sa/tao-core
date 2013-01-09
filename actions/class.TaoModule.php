@@ -78,7 +78,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	{
 		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
 		if(is_null($uri) || empty($uri)){
-			throw new Exception("No valid uri found");
+			throw new common_exception_Error("No valid uri found");
 		}
 		return new core_kernel_classes_Resource($uri);
 	}
@@ -328,6 +328,55 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			);
 		}
 		echo json_encode($response);
+	}
+	
+	/**
+	 * Add an instance of the selected class
+	 * @return void
+	 */
+	public function addInstanceForm()
+	{
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$clazz = $this->getCurrentClass();
+		$formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
+		$myForm = $formContainer->getForm();
+		
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				
+				$properties = $myForm->getValues();
+				$instance = $this->createInstance(array($clazz), $properties);
+				
+				$this->setData('message', __($instance->getLabel().' created'));
+				//$this->setData('reload', true);
+				$this->setData('selectTreeNode', $instance->getUri());
+			}
+		}
+		
+		$this->setData('formTitle', __('Create instance of ').$clazz->getLabel());
+		$this->setData('myForm', $myForm->render());
+	
+		$this->setView('form_content.tpl');
+	}
+	
+	/**
+	 * creates the instance
+	 * 
+	 * @param array $classes
+	 * @param array $properties
+	 * @return core_kernel_classes_Resource
+	 */
+	protected function createInstance($classes, $properties) {
+		$first = array_unshift($classes);
+		$instance = $first->createInstanceWithProperties($properties);
+		foreach ($classes as $class) {
+			$instance = new core_kernel_classes_Resource('');
+			$instance->setType($class);
+		}
+		return $instance;
 	}
 	
 	/**
