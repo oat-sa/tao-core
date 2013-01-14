@@ -70,7 +70,6 @@
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#User"/>
     <rdfs:isDefinedBy xml:lang="EN"/>
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BackOffice"/>
-    <rdfs:seeAlso xml:lang="EN"/>
     <rdfs:label xml:lang="EN"><![CDATA[TaoManager]]></rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole">

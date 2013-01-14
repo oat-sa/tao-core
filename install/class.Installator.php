@@ -276,22 +276,26 @@ class tao_install_Installator{
 	 			$shield->protectInstall();
 			}
 	
+			
+			
 			/*
-			 *  12 - Create the version file
+			 * 12 - Build ACLs
+			 */
+			common_Logger::d('Computing funcACL role accesses', 'INSTALL');
+			tao_helpers_funcACL_funcACL::buildRolesByActions();
+
+			/*
+			 *  13 - Create the version file
 			 */
 			common_Logger::d('Creating version file for TAO', 'INSTALL');
 			file_put_contents(ROOT_PATH.'version', TAO_VERSION);
 			
-			common_Logger::d('Computing funcACL role accesses', 'INSTALL');
-			tao_helpers_funcACL_funcACL::buildRolesByActions();
-			
-			common_Logger::i('Instalation completed', 'INSTALL');
-	        
 	        /*
-	         * 13 - Miscellaneous
+	         * 14 - Miscellaneous
 	         */
 	        // Localize item content for demo items.
-	        $dbCreator->execute("UPDATE statements SET l_language = '" . $installData['module_lang'] . "' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent'");	
+	        $dbCreator->execute("UPDATE statements SET l_language = '" . $installData['module_lang'] . "' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent'");
+	        common_Logger::i('Instalation completed', 'INSTALL');	
 		}
 		catch(Exception $e){
 			// In any case, we transmit a single exception type (at the moment)

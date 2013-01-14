@@ -96,12 +96,6 @@ class tao_helpers_funcACL_ActionModel
 
         // section 127-0-1-1--1875a6a1:137e65726c7:-8000:0000000000003B1C begin
         $moduleClass = new core_kernel_classes_Class(CLASS_ACL_MODULE);
-        /*
-        $returnValue = $moduleClass->createInstanceWithProperties(array(
-        	PROPERTY_ACL_MODULE_EXTENSION	=> $extension, 
-        	PROPERTY_ACL_MODULE_ID			=> $name
-        ))
-        */;
         $specialURI = FUNCACL_NS.'#'.'m_'.$extension.'_'.$name;
         $returnValue = $moduleClass->createInstance($name,'',$specialURI);
          $returnValue->setPropertiesValues(array(
