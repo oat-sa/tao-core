@@ -53,7 +53,7 @@ class CleanMassInsertTestCase extends UnitTestCase {
 		    if(in_array($user->uriResource,$systemUsers)){
 		        continue;
 		    }
-		    $firstnameProp = new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME);
+		    $firstnameProp = new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME);
 		    $lastnameProp = new core_kernel_classes_Property(PROPERTY_USER_LASTNAME );
 		    $firstname = $user->getOnePropertyValue($firstnameProp);
 		    $lastname = $user->getOnePropertyValue($lastnameProp);

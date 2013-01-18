@@ -23,7 +23,7 @@ class UserTestCase extends UnitTestCase {
 		PROPERTY_USER_LOGIN		=> 	'tjdoe',
 		PROPERTY_USER_PASSWORD	=>	'test123',
 		PROPERTY_USER_LASTNAME	=>	'Doe',
-		PROPERTY_USER_FIRTNAME	=>	'John',
+		PROPERTY_USER_FIRSTNAME	=>	'John',
 		PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
 		PROPERTY_USER_DEFLG		=>	'EN',
 		PROPERTY_USER_UILG		=>	'EN'
@@ -36,7 +36,7 @@ class UserTestCase extends UnitTestCase {
 		PROPERTY_USER_LOGIN		=> 	'f.lecé',
 		PROPERTY_USER_PASSWORD	=>	'6crète!',
 		PROPERTY_USER_LASTNAME	=>	'Lecéfranc',
-		PROPERTY_USER_FIRTNAME	=>	'François',
+		PROPERTY_USER_FIRSTNAME	=>	'François',
 		PROPERTY_USER_MAIL		=>	'f.lecé@tao.lu',
 		PROPERTY_USER_DEFLG		=>	'EN',
 		PROPERTY_USER_UILG		=>	'FR'

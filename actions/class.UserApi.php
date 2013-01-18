@@ -74,7 +74,7 @@ class tao_actions_UserApi extends tao_actions_RemoteServiceModule {
 	 */
 	public static function buildInfo(core_kernel_classes_Resource $user) {
 		$props = $user->getPropertiesValues(array(
-			new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME),			
+			new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME),			
 			new core_kernel_classes_Property(PROPERTY_USER_LASTNAME),
 			new core_kernel_classes_Property(PROPERTY_USER_LOGIN),
 			new core_kernel_classes_Property(PROPERTY_USER_MAIL),			
@@ -95,7 +95,7 @@ class tao_actions_UserApi extends tao_actions_RemoteServiceModule {
 		return array(
 			'id'			=> $user->getUri(),
 			'login'			=> isset($props[PROPERTY_USER_LOGIN]) ? (string)array_pop($props[PROPERTY_USER_LOGIN]) : '',
-			'first_name'	=> isset($props[PROPERTY_USER_FIRTNAME]) ? (string)array_pop($props[PROPERTY_USER_FIRTNAME]) : '',
+			'first_name'	=> isset($props[PROPERTY_USER_FIRSTNAME]) ? (string)array_pop($props[PROPERTY_USER_FIRSTNAME]) : '',
 			'last_name'		=> isset($props[PROPERTY_USER_LASTNAME]) ? (string)array_pop($props[PROPERTY_USER_LASTNAME]) : '',
 			'email'			=> isset($props[PROPERTY_USER_MAIL]) ? (string)array_pop($props[PROPERTY_USER_MAIL]) : '',
 			'lang'			=> $lang,

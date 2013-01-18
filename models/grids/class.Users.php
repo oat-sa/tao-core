@@ -78,7 +78,7 @@ class tao_models_grids_Users
 		$userProperties = array(
 			RDFS_LABEL => __('Label'),
 			PROPERTY_USER_LOGIN => __('Login'),
-			PROPERTY_USER_FIRTNAME => __('First Name'),
+			PROPERTY_USER_FIRSTNAME => __('First Name'),
 			PROPERTY_USER_LASTNAME => __('Last Name'),
 			PROPERTY_USER_MAIL => __('e-mail'),
 			PROPERTY_USER_UILG => __('UI Lang.'),

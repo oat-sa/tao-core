@@ -22,7 +22,7 @@ class AuthTestCase extends UnitTestCase {
 		PROPERTY_USER_LOGIN		=> 	'jane.doe',
 		PROPERTY_USER_PASSWORD	=>	'p34@word',
 		PROPERTY_USER_LASTNAME	=>	'Doe',
-		PROPERTY_USER_FIRTNAME	=>	'Jane',
+		PROPERTY_USER_FIRSTNAME	=>	'Jane',
 		PROPERTY_USER_MAIL		=>	'jane.doe@tao.lu',
 		PROPERTY_USER_DEFLG		=>	'EN',
 		PROPERTY_USER_UILG		=>	'EN'

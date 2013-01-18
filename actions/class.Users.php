@@ -83,7 +83,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		
 
 		$loginProperty 		= new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
-		$firstNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME);
+		$firstNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME);
 		$lastNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_LASTNAME);
 		$mailProperty 		= new core_kernel_classes_Property(PROPERTY_USER_MAIL);
 		$deflgProperty 		= new core_kernel_classes_Property(PROPERTY_USER_DEFLG);

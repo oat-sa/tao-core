@@ -88,7 +88,7 @@ class tao_models_grids_adaptors_UserProperty
 				$fastProperty = array(
 					RDFS_LABEL,
 					PROPERTY_USER_LOGIN,
-					PROPERTY_USER_FIRTNAME,
+					PROPERTY_USER_FIRSTNAME,
 					PROPERTY_USER_LASTNAME,
 					PROPERTY_USER_MAIL,
 					PROPERTY_USER_UILG,
@@ -113,7 +113,7 @@ class tao_models_grids_adaptors_UserProperty
 					switch($propertyUri){
 						case RDFS_LABEL:
 						case PROPERTY_USER_LOGIN:
-						case PROPERTY_USER_FIRTNAME:
+						case PROPERTY_USER_FIRSTNAME:
 						case PROPERTY_USER_LASTNAME:
 						case PROPERTY_USER_MAIL:
 						case PROPERTY_USER_LOGIN:

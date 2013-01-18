@@ -259,7 +259,7 @@ class MassInsertTestCase extends UnitTestCase {
 	        $properties = array(
 	                        PROPERTY_USER_LOGIN => 'wf'. $i,
 	                        PROPERTY_USER_PASSWORD => "123456",
-	                        PROPERTY_USER_FIRTNAME => "Generated",
+	                        PROPERTY_USER_FIRSTNAME => "Generated",
 	                        PROPERTY_USER_LASTNAME => "Generated"
 
 

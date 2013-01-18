@@ -32,14 +32,14 @@ class tao_actions_UserAdminApi extends tao_actions_RemoteServiceModule {
 			$props = $user->getPropertiesValues(array(
 				new core_kernel_classes_Property(PROPERTY_USER_LOGIN),
 				new core_kernel_classes_Property(PROPERTY_USER_MAIL),
-				new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME),
+				new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME),
 				new core_kernel_classes_Property(PROPERTY_USER_LASTNAME),
 				));
 			$list[] = array(
 				'id'	=> $user->getUri(),
 				'login'	=> isset($props[PROPERTY_USER_LOGIN])		? (string)array_pop($props[PROPERTY_USER_LOGIN])	: '',
 				'mail'	=> isset($props[PROPERTY_USER_MAIL])		? (string)array_pop($props[PROPERTY_USER_MAIL])		: '',
-				'first'	=> isset($props[PROPERTY_USER_FIRTNAME])	? (string)array_pop($props[PROPERTY_USER_FIRTNAME])	: '',
+				'first'	=> isset($props[PROPERTY_USER_FIRSTNAME])	? (string)array_pop($props[PROPERTY_USER_FIRSTNAME]): '',
 				'last'	=> isset($props[PROPERTY_USER_LASTNAME])	? (string)array_pop($props[PROPERTY_USER_LASTNAME])	: ''
 			);
 		}

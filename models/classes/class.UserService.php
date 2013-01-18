@@ -284,9 +284,9 @@ class tao_models_classes_UserService
 		    			'email' => PROPERTY_USER_MAIL,
 						'role' => RDF_TYPE,
 						'roles' => RDF_TYPE,
-						'firstname' => PROPERTY_USER_FIRTNAME,
+						'firstname' => PROPERTY_USER_FIRSTNAME,
 						'lastname' => PROPERTY_USER_LASTNAME,
-						'name' => PROPERTY_USER_FIRTNAME);
+						'name' => PROPERTY_USER_FIRSTNAME);
 		$ops = array('eq' => "%s",
 					 'bw' => "%s*",
 					 'ew' => "*%s",
@@ -458,9 +458,9 @@ class tao_models_classes_UserService
 		    			'email' => PROPERTY_USER_MAIL,
 						'role' => RDF_TYPE,
 						'roles' => RDF_TYPE,
-						'firstname' => PROPERTY_USER_FIRTNAME,
+						'firstname' => PROPERTY_USER_FIRSTNAME,
 						'lastname' => PROPERTY_USER_LASTNAME,
-						'name' => PROPERTY_USER_FIRTNAME);
+						'name' => PROPERTY_USER_FIRSTNAME);
 			$ops = array('eq' => "%s",
 					 'bw' => "%s*",
 					 'ew' => "*%s",
