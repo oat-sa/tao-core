@@ -72,15 +72,15 @@ class tao_helpers_funcACL_funcACL
         $returnValue = (bool) false;
 
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B begin
-		if (is_null($extension) || is_null($module) || is_null($action)) {
+		if (empty($extension) || empty($module) || empty($action)) {
 			$context = Context::getInstance();
-			if (is_null($extension)) {
+			if (empty($extension)) {
 				$extension = $context->getExtensionName();
 			}
-			if (is_null($module)) {
+			if (empty($module)) {
 				$module	= $context->getModuleName();
 			}
-			if (is_null($action)) {
+			if (empty($action)) {
 				$action	= $context->getActionName();
 			}
 		}
@@ -132,9 +132,9 @@ class tao_helpers_funcACL_funcACL
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389B begin
 		if (is_null(self::$rolesByActions)) {
 			try {
-				self::$rolesByActions = tao_models_classes_cache_FileCache::singleton()->get('RolesByActions');
+				self::$rolesByActions = common_cache_FileCache::singleton()->get('RolesByActions');
 			}
-			catch (tao_models_classes_cache_NotFoundException $e) {
+			catch (common_cache_NotFoundException $e) {
 				common_Logger::i('read roles by action failed, recalculating');
 				self::$rolesByActions = self::buildRolesByActions();
 			}
@@ -160,7 +160,7 @@ class tao_helpers_funcACL_funcACL
 		// alternate:
 
 		self::$rolesByActions = null;
-		$roles = new core_kernel_classes_Class(CLASS_ROLE); //before : CLASS_ROLE_BACKOFFICE
+		$roles = new core_kernel_classes_Class(CLASS_ROLE);
 
 		foreach ($roles->getInstances(true) as $role) {
 			$moduleAccess = $role->getPropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS));
@@ -217,7 +217,7 @@ class tao_helpers_funcACL_funcACL
 			}
 		}
 
-		tao_models_classes_cache_FileCache::singleton()->put($reverse_access, 'RolesByActions');
+		common_cache_FileCache::singleton()->put($reverse_access, 'RolesByActions');
 		return $reverse_access;
         // section 127-0-1-1--299b9343:13616996224:-8000:000000000000389D end
     }
@@ -233,7 +233,7 @@ class tao_helpers_funcACL_funcACL
     public static function removeRolesByActions()
     {
         // section 127-0-1-1-5382e8cb:136ab734ff6:-8000:0000000000003908 begin
-			tao_models_classes_cache_FileCache::singleton()->remove('RolesByActions');
+			common_cache_FileCache::singleton()->remove('RolesByActions');
 			self::$rolesByActions = null;
         // section 127-0-1-1-5382e8cb:136ab734ff6:-8000:0000000000003908 end
     }
