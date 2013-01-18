@@ -179,15 +179,15 @@ class tao_helpers_I18n
         //get it into the api only once 
         if(count(self::$availableLangs) == 0){
         	try {
-        		self::$availableLangs = tao_models_classes_cache_FileCache::singleton()->get(self::AVAILABLE_LANGS_CACHEKEY);
-        	} catch (tao_models_classes_cache_NotFoundException $e) {
+        		self::$availableLangs = common_cache_FileCache::singleton()->get(self::AVAILABLE_LANGS_CACHEKEY);
+        	} catch (common_cache_NotFoundException $e) {
 	        	$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
 	        	$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
 	        	foreach($langClass->getInstances() as $lang){
 	               	self::$availableLangs[] = $lang->getUniquePropertyValue($valueProperty)->literal;
 	        	}
 	        	
-	        	tao_models_classes_cache_FileCache::singleton()->put(self::$availableLangs, self::AVAILABLE_LANGS_CACHEKEY);
+	        	common_cache_FileCache::singleton()->put(self::$availableLangs, self::AVAILABLE_LANGS_CACHEKEY);
         	}
         }
 	
