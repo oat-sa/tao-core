@@ -164,6 +164,9 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 							var limit = instance.getMeta(parentNodeId, 'count') - instance.getMeta (parentNodeId, 'displayed');
 							instance.paginateInstances($(NODE).parent().parent(), TREE_OBJ, {'limit':limit});
 						}
+						
+						instance.callGetSectionActions(NODE, TREE_OBJ);
+						
 						return false;
 					},
 					//when a node is move by drag n'drop
@@ -228,6 +231,12 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 									'TREE_OBJ'	: TREE_OBJ
 								});
 						}
+						
+						instance.callGetSectionActions(NODE, TREE_OBJ);
+					},
+					
+					oninit: function(TREE_OBJ) {
+						instance.callGetSectionActions(undefined, TREE_OBJ);
 					}
 				},
 				plugins: {

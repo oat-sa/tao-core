@@ -60,14 +60,7 @@ define(['require', 'jquery'], function(req, $) {
 				callback: {
 					beforeopen: function(NODE, TREE_OBJ) {
 						instance.lastOpened = NODE;
-					},
-					onselect: function(NODE,TREE_OBJ) { instance.callGetSectionActions(NODE, TREE_OBJ) },
-					onchange: function(NODE,TREE_OBJ) { instance.callGetSectionActions(NODE, TREE_OBJ) },
-					onmove: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { instance.callGetSectionActions(NODE, TREE_OBJ) },
-					oncopy: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { instance.callGetSectionActions(NODE, TREE_OBJ) },
-					oncreate: function(NODE,REF_NODE,TYPE,TREE_OBJ,RB) { instance.callGetSectionActions(NODE, TREE_OBJ) },
-					ondelete: function(NODE,TREE_OBJ,RB) { instance.callGetSectionActions(NODE, TREE_OBJ) },
-					oninit: function(TREE_OBJ) { instance.callGetSectionActions(undefined, TREE_OBJ) }
+					}
 				}
 			};
 
