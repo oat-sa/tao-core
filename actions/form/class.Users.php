@@ -99,10 +99,10 @@ class tao_actions_form_Users
     		}
     		$options['mode'] = 'add';
     	}
+    	
     	if($forceAdd){
     		$options['mode'] = 'add';
     	}
-    	common_Logger::d('user is '.$this->user);
     	
     	$options['topClazz'] = CLASS_GENERIS_USER;
     	
@@ -172,7 +172,7 @@ class tao_actions_form_Users
 		
 		//login field
 		$loginElement = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_LOGIN));
-		$loginElement->setDescription(__('Login *'));
+		$loginElement->setDescription($loginElement->getDescription() . ' *');
 		if($this->options['mode'] == 'add'){
 			$loginElement->addValidators(array(
 				tao_helpers_form_FormFactory::getValidator('NotEmpty'),
@@ -190,8 +190,10 @@ class tao_actions_form_Users
 		
 		//set default lang to the languages fields
 		$langService = tao_models_classes_LanguageService::singleton();
+		
 		$dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_DEFLG));
 		$dataLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		$dataLangElt->setDescription($dataLangElt->getDescription() . ' *');
     	$dataUsage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA);
 		$dataOptions = array();
         foreach($langService->getAvailableLanguagesByUsage($dataUsage) as $lang){
@@ -199,10 +201,9 @@ class tao_actions_form_Users
 		}
 		$dataLangElt->setOptions($dataOptions);
 		
-		
-		$uiLangElt	= $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_UILG));
+		$uiLangElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_UILG));
         $uiLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-        $uiLangElt->setDescription(__("Interface Language *"));
+        $uiLangElt->setDescription($uiLangElt->getDescription() . ' *');
     	$guiUsage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_GUI);
 		$guiOptions = array();
         foreach($langService->getAvailableLanguagesByUsage($guiUsage) as $lang){
@@ -210,8 +211,23 @@ class tao_actions_form_Users
 		}
 		$uiLangElt->setOptions($guiOptions);
 		
-		//password field
+		// roles field
+		$restrictedRoles = array();
+		$rolesClass = new core_kernel_classes_Class(CLASS_ROLE);
+		$roles = $rolesClass->getInstances();
+		$rolesOptions = array();
+		foreach ($roles as $r){
+			if (false === in_array($r->getUri(), $restrictedRoles)){
+				$rolesOptions[tao_helpers_Uri::encode($r->getUri())] = $r->getLabel();
+			}
+		}
+								 
+		$rolesElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_USER_ROLES));
+		$rolesElt->setDescription($rolesElt->getDescription() . ' *');
+		$rolesElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		$rolesElt->setOptions($rolesOptions);
 		
+		// password field
 		$this->form->removeElement(tao_helpers_Uri::encode(PROPERTY_USER_PASSWORD));
 		
 		if($this->options['mode'] == 'add'){

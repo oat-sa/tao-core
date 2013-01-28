@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.4-alpha\n"
-"PO-Revision-Date: 2013-01-04T11:13:15\n"
+"PO-Revision-Date: 2013-01-23T11:41:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: AR\n"
@@ -80,10 +80,10 @@ msgstr ""
 msgid "Action"
 msgstr ""
 
-msgid "actions"
+msgid "Actions"
 msgstr "الأعمال"
 
-msgid "Actions"
+msgid "actions"
 msgstr "الأعمال"
 
 msgid "Add"
@@ -109,9 +109,6 @@ msgid "Add property"
 msgstr "إضافة خاصية"
 
 msgid "add repository"
-msgstr ""
-
-msgid "Add roles"
 msgstr ""
 
 msgid "Add the source file"
@@ -239,6 +236,9 @@ msgstr "إنشاء"
 msgid "Create a list"
 msgstr "إنشاء قائمة"
 
+msgid "Create instance of "
+msgstr ""
+
 msgid "CSV Options"
 msgstr "CSV خيارات"
 
@@ -263,10 +263,10 @@ msgstr "البيانات التي تم استيرادها بنجاح"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "لغة البيانات"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "لغة البيانات"
 
 msgid "Date"
@@ -290,10 +290,10 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr "حذف"
 
-msgid "delete"
+msgid "Delete"
 msgstr "حذف"
 
 msgid "Delete property"
@@ -318,10 +318,10 @@ msgstr ""
 msgid "Don't set"
 msgstr "لا تدرج"
 
-msgid "Download"
+msgid "download"
 msgstr "تحميل"
 
-msgid "download"
+msgid "Download"
 msgstr "تحميل"
 
 msgid "Download content"
@@ -364,11 +364,11 @@ msgstr ""
 msgid "Edit user"
 msgstr "تحرير مستخدم"
 
-msgid "Element"
-msgstr "العنصر"
-
 msgid "element"
 msgstr "عنصر"
+
+msgid "Element"
+msgstr "العنصر"
 
 msgid "element deleted"
 msgstr "عنصر محذوف"
@@ -482,20 +482,17 @@ msgstr ""
 msgid "Installing extension %s..."
 msgstr ""
 
-msgid "instances"
-msgstr ""
-
 msgid "Instances"
 msgstr ""
 
-msgid "Interface Language"
-msgstr "لغة الواجهة"
+msgid "instances"
+msgstr ""
 
 msgid "Interface language"
 msgstr "لغة الواجهة"
 
-msgid "Interface Language *"
-msgstr ""
+msgid "Interface Language"
+msgstr "لغة الواجهة"
 
 msgid "Invalid date range"
 msgstr ""
@@ -568,9 +565,6 @@ msgstr "(البيانات المحلية (مساحة الاسم المحلي ا�
 
 msgid "Login"
 msgstr "الدخول"
-
-msgid "Login *"
-msgstr "*تسجيل الدخول"
 
 msgid "login already exist"
 msgstr "المعرف قيد الاستخدام"
@@ -796,10 +790,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
 msgid "Remove"
@@ -1077,9 +1071,6 @@ msgid "Version"
 msgstr ""
 
 msgid "Versioning"
-msgstr ""
-
-msgid "Versioning disabled"
 msgstr ""
 
 msgid "View"

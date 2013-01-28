@@ -124,95 +124,113 @@
     -->
     <rdfs:comment xml:lang="EN"><![CDATA[Data language usage]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ClassRole">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole">
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Role
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#ClassRole
+    @source Back Office
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="EN"><![CDATA[Role]]></rdfs:label>
+    <rdfs:label xml:lang="EN"><![CDATA[Back Office]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Role
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#ClassRole
+    @source The BackOffice Role
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="EN"><![CDATA[Role]]></rdfs:comment>
+    <rdfs:comment xml:lang="EN"><![CDATA[The BackOffice Role]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#IsSystem">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole">
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Is a system role
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#IsSystem
+    @source Front Office
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="EN"><![CDATA[Is a system role]]></rdfs:label>
+    <rdfs:label xml:lang="EN"><![CDATA[Front Office]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Is a system role
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#IsSystem
+    @source The FrontOffice Role
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="EN"><![CDATA[Is a system role]]></rdfs:comment>
+    <rdfs:comment xml:lang="EN"><![CDATA[The FrontOffice Role]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source Service
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="EN"><![CDATA[Service]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage EN
+    @source The Service Role
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="EN"><![CDATA[The Service Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source TaoManager
+    @source Manager
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="EN"><![CDATA[TaoManager]]></rdfs:label>
+    <rdfs:label xml:lang="EN"><![CDATA[Manager]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Tao Manager
+    @source The Manager Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="EN"><![CDATA[Tao Manager]]></rdfs:comment>
+    <rdfs:comment xml:lang="EN"><![CDATA[The Manager Role]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole">
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source TaoSubjectRole
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole
+    @source Delivery
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="EN"><![CDATA[TaoSubjectRole]]></rdfs:label>
+    <rdfs:label xml:lang="EN"><![CDATA[Delivery]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Tao Subject Role
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole
+    @source The Delivery Role
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="EN"><![CDATA[Tao Subject Role]]></rdfs:comment>
+    <rdfs:comment xml:lang="EN"><![CDATA[The Delivery Role]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole">
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Workflow User Role
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole
+    @source Workflow
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="EN"><![CDATA[Workflow User Role]]></rdfs:label>
+    <rdfs:label xml:lang="EN"><![CDATA[Workflow]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Workflow User Role: default role assigned to every backend user, not deletable
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUserRole
+    @source The Workflow Role
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="EN"><![CDATA[Workflow User Role: default role assigned to every backend user, not deletable]]></rdfs:comment>
+    <rdfs:comment xml:lang="EN"><![CDATA[The Workflow Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser">
     <!--
@@ -231,26 +249,6 @@
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="EN"><![CDATA[Workflow User: sub class to group the workflow user, not deletable]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#FrontOffice">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage EN
-    @source FrontOffice
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#FrontOffice
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="EN"><![CDATA[FrontOffice]]></rdfs:label>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BackOffice">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage EN
-    @source BackOffice
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#BackOffice
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="EN"><![CDATA[BackOffice]]></rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder">
     <!--

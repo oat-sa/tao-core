@@ -27,7 +27,8 @@ class TaoTestRunner extends TestRunner{
     public static function initTest(){
         //connect the API
         if(!self::$connected){
-            core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
+            $userService = core_kernel_users_Service::singleton();
+            $userService->login(SYS_USER_LOGIN, SYS_USER_PASS, new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole'));
             self::$connected = true;
         }
     }

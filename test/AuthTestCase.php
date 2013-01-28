@@ -25,7 +25,8 @@ class AuthTestCase extends UnitTestCase {
 		PROPERTY_USER_FIRSTNAME	=>	'Jane',
 		PROPERTY_USER_MAIL		=>	'jane.doe@tao.lu',
 		PROPERTY_USER_DEFLG		=>	'EN',
-		PROPERTY_USER_UILG		=>	'EN'
+		PROPERTY_USER_UILG		=>	'EN',
+		PROPERTY_USER_ROLES		=>	INSTANCE_ROLE_BACKOFFICE
 	);
 	
 	/**
@@ -50,7 +51,7 @@ class AuthTestCase extends UnitTestCase {
 		
 		$this->userService = tao_models_classes_UserService::singleton();
 		
-		$class = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
+		$class = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 		$this->testUser = $class->createInstance();
 		$this->assertNotNull($this->testUser);          
 	    $this->userService->bindProperties($this->testUser,$this->testUserData);
@@ -82,9 +83,6 @@ class AuthTestCase extends UnitTestCase {
 	 * test the user authentication to TAO and to the API
 	 */
 	public function testAuth(){
-		
-		
-		
 		//is the user in the db
 		$this->assertFalse(	$this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]) );
 		
@@ -106,7 +104,10 @@ class AuthTestCase extends UnitTestCase {
 		$this->assertIsA($currentUser, 'core_kernel_classes_Resource');
 		foreach($this->testUserData as $prop => $value){
 			try{
-				$this->assertEqual($value, $currentUser->getUniquePropertyValue(new core_kernel_classes_Property($prop)));
+				$property = new core_kernel_classes_Property($prop);
+				$v = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property($prop));
+				$v = ($v instanceof core_kernel_classes_Resource) ? $v->getUri() : $v->literal; 
+				$this->assertEqual($value, $v);
 			}
 			catch(common_Exception $ce){ 
 				$this->fail($ce);

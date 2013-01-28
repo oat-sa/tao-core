@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.4-alpha\n"
-"PO-Revision-Date: 2013-01-04T11:13:38\n"
+"PO-Revision-Date: 2013-01-23T11:42:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: PL\n"
@@ -80,10 +80,10 @@ msgstr ""
 msgid "Action"
 msgstr ""
 
-msgid "actions"
+msgid "Actions"
 msgstr ""
 
-msgid "Actions"
+msgid "actions"
 msgstr ""
 
 msgid "Add"
@@ -109,9 +109,6 @@ msgid "Add property"
 msgstr ""
 
 msgid "add repository"
-msgstr ""
-
-msgid "Add roles"
 msgstr ""
 
 msgid "Add the source file"
@@ -239,6 +236,9 @@ msgstr ""
 msgid "Create a list"
 msgstr ""
 
+msgid "Create instance of "
+msgstr ""
+
 msgid "CSV Options"
 msgstr ""
 
@@ -263,10 +263,10 @@ msgstr ""
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "Date"
@@ -290,10 +290,10 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr ""
 
 msgid "Delete property"
@@ -318,10 +318,10 @@ msgstr ""
 msgid "Don't set"
 msgstr ""
 
-msgid "Download"
+msgid "download"
 msgstr ""
 
-msgid "download"
+msgid "Download"
 msgstr ""
 
 msgid "Download content"
@@ -364,10 +364,10 @@ msgstr ""
 msgid "Edit user"
 msgstr ""
 
-msgid "Element"
+msgid "element"
 msgstr ""
 
-msgid "element"
+msgid "Element"
 msgstr ""
 
 msgid "element deleted"
@@ -482,19 +482,16 @@ msgstr ""
 msgid "Installing extension %s..."
 msgstr ""
 
-msgid "instances"
-msgstr ""
-
 msgid "Instances"
 msgstr ""
 
-msgid "Interface Language"
+msgid "instances"
 msgstr ""
 
 msgid "Interface language"
 msgstr ""
 
-msgid "Interface Language *"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid date range"
@@ -567,9 +564,6 @@ msgid "Local Data (the local namespace containing only the data inserted by the 
 msgstr ""
 
 msgid "Login"
-msgstr ""
-
-msgid "Login *"
 msgstr ""
 
 msgid "login already exist"
@@ -794,10 +788,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
 msgid "Remove"
@@ -1075,9 +1069,6 @@ msgid "Version"
 msgstr ""
 
 msgid "Versioning"
-msgstr ""
-
-msgid "Versioning disabled"
 msgstr ""
 
 msgid "View"

@@ -8,15 +8,15 @@
 	xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#"
 	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
 >
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
-    <rdfs:label xml:lang="EN"><![CDATA[An action]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[An action]]></rdfs:comment>
-  </rdf:Description>
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module">
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
     <rdfs:label xml:lang="EN"><![CDATA[A module]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[A module]]></rdfs:comment>
+		<rdfs:comment xml:lang="EN"><![CDATA[A MVC Controller Module]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action">
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+    <rdfs:label xml:lang="EN"><![CDATA[An action]]></rdfs:label>
+	<rdfs:comment xml:lang="EN"><![CDATA[A MVC Controller Action]]></rdfs:comment>
   </rdf:Description>
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction">
@@ -24,7 +24,7 @@
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ClassRole"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
     <rdfs:label xml:lang="EN"><![CDATA[Give access to an action]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[Give access to an action]]></rdfs:comment>
+	<rdfs:comment xml:lang="EN"><![CDATA[Give access to an action]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessModule">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>

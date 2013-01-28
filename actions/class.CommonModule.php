@@ -97,10 +97,6 @@ abstract class tao_actions_CommonModule extends Module {
 		$action = $context->getActionName();
 		
 		return tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action);
-		/*
-		//if a user is logged in
-		return core_kernel_users_Service::singleton()->isASessionOpened();
-		*/
 	}
 	
 }

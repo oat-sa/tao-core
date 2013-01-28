@@ -12,7 +12,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#BaseAccessRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="ES"><![CDATA[Base access role]]></rdfs:label>
+    <rdfs:label xml:lang="ES"><![CDATA[TAO]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage ES
@@ -20,6 +20,6 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#BaseAccessRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="ES"><![CDATA[Base access role]]></rdfs:comment>
+    <rdfs:comment xml:lang="ES"><![CDATA[TAO Role]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>

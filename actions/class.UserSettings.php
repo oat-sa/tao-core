@@ -107,8 +107,8 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 	private function getLangs(){
 		$currentUser = $this->userService->getCurrentUser();
 		$props = $currentUser->getPropertiesValues(array(
-			PROPERTY_USER_UILG,
-			PROPERTY_USER_DEFLG
+			new core_kernel_classes_Property(PROPERTY_USER_UILG),
+			new core_kernel_classes_Property(PROPERTY_USER_DEFLG)
 		));
 		$langs = array();
 		if (isset($props[PROPERTY_USER_UILG])) {

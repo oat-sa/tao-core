@@ -35,7 +35,6 @@ $GLOBALS['__l10n']["Language"]="Sprachen";
 $GLOBALS['__l10n']["List"]="Auflisten";
 $GLOBALS['__l10n']["List values"]="Werte auflisten";
 $GLOBALS['__l10n']["Lists"]="Listen";
-$GLOBALS['__l10n']["Login *"]="Login *";
 $GLOBALS['__l10n']["login already exist"]="das Login existiert bereits";
 $GLOBALS['__l10n']["Manage data list"]="Daten-Liste verwalten";
 $GLOBALS['__l10n']["Manage deliveries"]="Deliveries verwalten";

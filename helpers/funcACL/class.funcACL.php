@@ -97,7 +97,7 @@ class tao_helpers_funcACL_funcACL
 		$nsm = $ns.'m_'.$extension.'_'.$module;*/
 
 		//Test if we have a role giving access
-		$roles[] = new core_kernel_classes_Class(CLASS_ROLE_BASEACCESS);
+		$roles[] = new core_kernel_classes_Resource(INSTANCE_ROLE_BASEACCESS);
 		foreach ($roles as $role) {
 			if (isset($reverse_access[$extension]) && isset($reverse_access[$extension][$module])) {
 				if (in_array($role->getUri(), $reverse_access[$extension][$module]['roles'])

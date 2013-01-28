@@ -2,10 +2,6 @@
 <link rel="stylesheet" type="text/css" href="<?=BASE_WWW?>css/roles.css" />
 
 <div class="main-container">
-	<div class="actions">
-		<span class="ui-state-default ui-corner-all" id="addrole"><a href="#"><img src="<?=TAOBASE_WWW?>img/add.png" alt="add" /> <?=__('Add a role')?></a></span>
-	</div>
-
 	<div class="aclContainer">
 		<div id="aclRoles-title" class="ui-widget-header ui-corner-top ui-state-default">
 			<?= __('Available roles')?>

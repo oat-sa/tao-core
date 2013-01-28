@@ -19,11 +19,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	 * Role User Management should not take into account
 	 */
 
-	private $filteredRoles = array(
-			CLASS_ROLE_SUBJECT ,
-			CLASS_ROLE_BASEACCESS,
-			CLASS_ROLE_WORKFLOWUSERROLE
-	);
+	private $filteredRoles = array();
 
 	/**
 	 * Constructor performs initializations actions
@@ -33,6 +29,8 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		parent::__construct();
 		$this->userService = tao_models_classes_UserService::singleton();
 		$this->defaultData();
+		
+		$extManager = common_ext_ExtensionsManager::singleton();
 	}
 
 	/**
@@ -64,12 +62,14 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		$filteredRolesArray = array_diff(array_keys($rolesInstancesArray),$this->filteredRoles);
 
 		if (!$sidx) $sidx = 1;
+		
 		$gau = array(
 				'order' 	=> $sidx,
 				'orderDir'	=> $sord,
 				'start'		=> $start,
 				'limit'		=> $limit
 		);
+		
 		if (!is_null($searchField)) {
 			$gau['search'] = array(
 				'field' => $searchField,
@@ -78,9 +78,9 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				'string' => $searchString
 			);
 		}
-		$users = $this->userService->getUsersByRoles($filteredRolesArray, $gau);
-		$counti =  $this->userService->getUserCount($filteredRolesArray, $gau);
 		
+		$users = $this->userService->getAllUsers();
+		$counti =  count($users);
 
 		$loginProperty 		= new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
 		$firstNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME);
@@ -88,13 +88,14 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		$mailProperty 		= new core_kernel_classes_Property(PROPERTY_USER_MAIL);
 		$deflgProperty 		= new core_kernel_classes_Property(PROPERTY_USER_DEFLG);
 		$uilgProperty 		= new core_kernel_classes_Property(PROPERTY_USER_UILG);
+		$rolesProperty		= new core_kernel_classes_Property(PROPERTY_USER_ROLES);
 
 		$response = new stdClass();
 		$i = 0;
 		foreach($users as $user) {
 			$cellData = array();
 
-			$cellData[0]		= (string)$user->getUniquePropertyValue($loginProperty);
+			$cellData[0]	= (string)$user->getUniquePropertyValue($loginProperty);
 
 			$firstName 		= (string)$user->getOnePropertyValue($firstNameProperty);
 			$lastName 		= (string)$user->getOnePropertyValue($lastNameProperty);
@@ -102,35 +103,28 @@ class tao_actions_Users extends tao_actions_CommonModule {
 
 			$cellData[2] 	= (string)$user->getOnePropertyValue($mailProperty);
 
-			$types = $user->getTypes();
+			$roles = $user->getPropertyValues($rolesProperty);
 			$labels = array();
-			foreach ($types as $uri => $r) $labels[] = $r->getLabel();
+			foreach ($roles as $uri){
+				$r = new core_kernel_classes_Resource($uri);
+				$labels[] = $r->getLabel();
+			}
 			$cellData[3] = implode(', ', $labels);
 
 			$defLg 			= $user->getOnePropertyValue($deflgProperty);
 			$cellData[4] 	= '';
 			if(!is_null($defLg)){
-				if($defLg instanceof core_kernel_classes_Literal){
-					$cellData[4] = __((string)$defLg);
-				}
-				if($defLg instanceof core_kernel_classes_Resource){
-					$cellData[4] = __($defLg->getLabel());
-				}
+				$cellData[4] = __($defLg->getLabel());
 			}
 			$uiLg 			= $user->getOnePropertyValue($uilgProperty);
 			$cellData[5] 	= '';
 			if(!is_null($uiLg)){
-				if($uiLg instanceof core_kernel_classes_Literal){
-					$cellData[5] = __((string)$uiLg);
-				}
-				if($uiLg instanceof core_kernel_classes_Resource){
-					$cellData[5] = __($uiLg->getLabel());
-				}
+				$cellData[5] = __($uiLg->getLabel());
 			}
 
 			$cellData[6]	= '';
 
-			$response->rows[$i]['id']= tao_helpers_Uri::encode($user->uriResource);
+			$response->rows[$i]['id']= tao_helpers_Uri::encode($user->getUri());
 			$response->rows[$i]['cell'] = $cellData;
 			$i++;
 		}
@@ -164,7 +158,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	 */
 	public function add(){
 
-		$myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER));
+		$myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(CLASS_GENERIS_USER));
 		$myForm = $myFormContainer->getForm();
 
 		if($myForm->isSubmited()){

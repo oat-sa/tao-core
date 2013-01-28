@@ -4,24 +4,6 @@
     @targetLanguage HU
 -->
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/Ontologies/taoFuncACL.rdf">
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage HU
-    @source An action
-    @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="HU"><![CDATA[An action]]></rdfs:label>
-    <!--
-    @sourceLanguage EN
-    @targetLanguage HU
-    @source An action
-    @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action
-    @predicate http://www.w3.org/2000/01/rdf-schema#comment
-    -->
-    <rdfs:comment xml:lang="HU"><![CDATA[An action]]></rdfs:comment>
-  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module">
     <!--
     @sourceLanguage EN
@@ -34,11 +16,29 @@
     <!--
     @sourceLanguage EN
     @targetLanguage HU
-    @source A module
+    @source A MVC Controller Module
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="HU"><![CDATA[A module]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage HU
+    @source An action
+    @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="HU"><![CDATA[An action]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage HU
+    @source A MVC Controller Action
+    @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="HU"><![CDATA[An action]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction">
     <!--

@@ -182,15 +182,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			$rangedProperties = array();
 			
 			$topLevelClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
-			
-			
 			$classProperties = $service->getClazzProperties($clazz, $topLevelClass);
-			/**
-			 * @todo override it in the taoSubject module instead of having this crapy IF here
-			 */
-			if(Context::getInstance()->getExtensionName() == 'taoSubjects'){
-				$classProperties = array_merge($classProperties, $service->getClazzProperties(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT), new core_kernel_classes_Class(CLASS_GENERIS_USER)));
-			}
 			
 			foreach($classProperties as $property){
 				if(!in_array($property->uriResource, $this->excludedProperties)){

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.4-alpha\n"
-"PO-Revision-Date: 2013-01-04T11:13:41\n"
+"PO-Revision-Date: 2013-01-23T11:42:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: SE\n"
@@ -80,11 +80,11 @@ msgstr ""
 msgid "Action"
 msgstr ""
 
-msgid "actions"
-msgstr "handlingar"
-
 msgid "Actions"
 msgstr "Funktioner"
+
+msgid "actions"
+msgstr "handlingar"
 
 msgid "Add"
 msgstr "Lägg till"
@@ -109,9 +109,6 @@ msgid "Add property"
 msgstr "Lägg till egenskap"
 
 msgid "add repository"
-msgstr ""
-
-msgid "Add roles"
 msgstr ""
 
 msgid "Add the source file"
@@ -239,6 +236,9 @@ msgstr "Skapa"
 msgid "Create a list"
 msgstr "Skapa en lista"
 
+msgid "Create instance of "
+msgstr ""
+
 msgid "CSV Options"
 msgstr "CVS Val"
 
@@ -263,10 +263,10 @@ msgstr "Data framgångsrikt importerat"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Dataspråk"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Dataspråk"
 
 msgid "Date"
@@ -290,11 +290,11 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "Delete"
-msgstr "Radera"
-
 msgid "delete"
 msgstr "ta bort"
+
+msgid "Delete"
+msgstr "Radera"
 
 msgid "Delete property"
 msgstr "Radera egenskap"
@@ -318,11 +318,11 @@ msgstr ""
 msgid "Don't set"
 msgstr "Fastställ ej"
 
-msgid "Download"
-msgstr "Ladda ner"
-
 msgid "download"
 msgstr "ladda ner"
+
+msgid "Download"
+msgstr "Ladda ner"
 
 msgid "Download content"
 msgstr ""
@@ -364,11 +364,11 @@ msgstr ""
 msgid "Edit user"
 msgstr "Redigera användare"
 
-msgid "Element"
-msgstr "Beståndsdel"
-
 msgid "element"
 msgstr "element"
+
+msgid "Element"
+msgstr "Beståndsdel"
 
 msgid "element deleted"
 msgstr "element raderat"
@@ -482,20 +482,17 @@ msgstr ""
 msgid "Installing extension %s..."
 msgstr ""
 
-msgid "instances"
-msgstr ""
-
 msgid "Instances"
 msgstr ""
 
-msgid "Interface Language"
-msgstr "Gränssnittsspråk"
+msgid "instances"
+msgstr ""
 
 msgid "Interface language"
 msgstr "Gränssnittsspråk"
 
-msgid "Interface Language *"
-msgstr ""
+msgid "Interface Language"
+msgstr "Gränssnittsspråk"
 
 msgid "Invalid date range"
 msgstr ""
@@ -568,9 +565,6 @@ msgstr "Lokal data (det lokala namnområdet endast innehållande data inskrivet 
 
 msgid "Login"
 msgstr "Inloggning"
-
-msgid "Login *"
-msgstr "Inloggning *"
 
 msgid "login already exist"
 msgstr "login existerar redan"
@@ -794,10 +788,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
 msgid "Remove"
@@ -1075,9 +1069,6 @@ msgid "Version"
 msgstr ""
 
 msgid "Versioning"
-msgstr ""
-
-msgid "Versioning disabled"
 msgstr ""
 
 msgid "View"

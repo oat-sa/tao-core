@@ -107,18 +107,9 @@ class tao_actions_form_Instance
 		$finalElements = array();
     	
 		$classProperties = array();
-		/**
-		 * @todo override it in the taoSubject module instead of having this crapy IF here
-		 */
-		if(context::getInstance()->getExtensionName() == 'taoSubjects'){
-			$classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz);
-			$classProperties = array_merge($classProperties, tao_helpers_form_GenerisFormFactory::getClassProperties(new core_kernel_classes_Class(CLASS_ROLE_SUBJECT), new core_kernel_classes_Class(CLASS_GENERIS_USER)));
-		}
-		else{
-			$classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
-			if(!empty($additionalProperties)){
-				$classProperties = array_merge($classProperties, $additionalProperties);
-			}
+		$classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
+		if(!empty($additionalProperties)){
+			$classProperties = array_merge($classProperties, $additionalProperties);
 		}
 		
 		foreach($classProperties as $property){

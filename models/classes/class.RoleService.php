@@ -95,7 +95,7 @@ class tao_models_classes_RoleService
     {
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F73 begin
         
-    	$this->roleClass = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
+    	$this->roleClass = new core_kernel_classes_Class(INSTANCE_ROLE_TAOMANAGER);
     	
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F73 end
     }
@@ -180,38 +180,16 @@ class tao_models_classes_RoleService
         $returnValue = (bool) false;
 
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F78 begin
-        if (is_null($role)) {
-        	throw new common_exception_Error('Tried to set Users to a NULL role');
-        }
+        $rolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
+    	foreach ($users as $u){
+    		$u = ($u instanceof core_kernel_classes_Resource) ? $u : new core_kernel_classes_Resource($u);
+    		$u->removePropertyValues($rolesProperty);
+    		
+    		// assign the new role.
+    		$u->setPropertyValue($rolesProperty, $role);
+    	}
         
-        if(!in_array($role->uriResource, array(CLASS_ROLE_WORKFLOWUSERROLE, CLASS_ROLE_TAOMANAGER))){//security: do not allow altering the default user role
-			
-	    	//get all users who have the following role:
-	    	$allUsers = $this->getUsers($role);
-			
-			$roleClass = new core_kernel_classes_Class($role->uriResource);
-			
-			foreach($allUsers as $userUri){
-				$userInstance = new core_kernel_classes_Resource($userUri);
-				
-				//delete the current role only
-				$userInstance->removeType($roleClass);
-
-			}
-			
-			$done = 0;
-			foreach($users as $userUri){
-				$userInstance = new core_kernel_classes_Resource($userUri);
-				if($userInstance->setType($roleClass)){
-					$done++;
-				}
-			}
-			if($done == count($users)){
-				$returnValue = true;
-			}
-        } else {
-        	throw new common_exception_Error('Cannot alter reserved role '.$role->getLabel());
-        }
+    	$returnValue = true;
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F78 end
 
         return (bool) $returnValue;
@@ -229,14 +207,14 @@ class tao_models_classes_RoleService
     {
         $returnValue = array();
 
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F7D begin
+        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F7D begin 
+        $filters = array(PROPERTY_USER_ROLES => $role->getUri());
+        $options = array('like' => false, 'recursive' => true);
         
-        if(!is_null($role)){
-        	$userClass = new core_kernel_classes_Class($role->uriResource);	
-    		$returnValue = array_keys($userClass->getInstances(true));
-			//@TODO: return array of instances instead please!
-        }
+        $userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+        $results = $userClass->searchInstances($filters, $options);
         
+        $returnValue = array_keys($results);
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F7D end
 
         return (array) $returnValue;

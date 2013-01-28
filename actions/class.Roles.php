@@ -27,8 +27,7 @@ class tao_actions_Roles extends tao_actions_CommonModule {
 		//$this->setData('data', __('list the roles'));
 		$rolesc = new core_kernel_classes_Class(CLASS_ROLE);
 		$roles = array();
-		foreach ($rolesc->searchInstances(array(PROPERTY_ROLE_ISSYSTEM => GENERIS_FALSE), array('recursive' => 1)) as $id => $r) {
-			//$label = explode('#', $id);
+		foreach ($rolesc->getInstances(true) as $id => $r) {
 			$roles[] = array('id' => $id, 'label' => $r->getLabel());
 		}
 

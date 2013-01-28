@@ -26,7 +26,8 @@ class UserTestCase extends UnitTestCase {
 		PROPERTY_USER_FIRSTNAME	=>	'John',
 		PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
 		PROPERTY_USER_DEFLG		=>	'EN',
-		PROPERTY_USER_UILG		=>	'EN'
+		PROPERTY_USER_UILG		=>	'EN',
+		PROPERTY_USER_ROLES		=>  INSTANCE_ROLE_TAOMANAGER
 	);
 	
 	/**
@@ -39,7 +40,8 @@ class UserTestCase extends UnitTestCase {
 		PROPERTY_USER_FIRSTNAME	=>	'François',
 		PROPERTY_USER_MAIL		=>	'f.lecé@tao.lu',
 		PROPERTY_USER_DEFLG		=>	'EN',
-		PROPERTY_USER_UILG		=>	'FR'
+		PROPERTY_USER_UILG		=>	'FR',
+		PROPERTY_USER_ROLES		=>  INSTANCE_ROLE_TAOMANAGER
 	);
 	
 	/**
@@ -81,19 +83,23 @@ class UserTestCase extends UnitTestCase {
 	public function testAddUser(){
 
 		//insert it
-		$this->assertTrue(	$this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
-		$tmclass = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
+		$this->assertTrue($this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
+		$tmclass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 		$this->testUser = $tmclass->createInstance();
 		$this->assertNotNull($this->testUser);
-		$this->assertTrue(	$this->userService->bindProperties($this->testUser, $this->testUserData) );
-		$this->assertFalse(	$this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
+		$this->assertTrue($this->testUser->exists());
+		$this->assertTrue($this->userService->bindProperties($this->testUser, $this->testUserData));
+		$this->assertFalse($this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
 		
 		//check inserted data
 		$this->testUser = $this->userService->getOneUser($this->testUserData[PROPERTY_USER_LOGIN]);
 		$this->assertIsA($this->testUser, 'core_kernel_classes_Resource');
 		foreach($this->testUserData as $prop => $value){
 			try{
-				$this->assertEqual($value, $this->testUser->getUniquePropertyValue(new core_kernel_classes_Property($prop)));
+				$p = new core_kernel_classes_Property($prop);
+				$v = $this->testUser->getUniquePropertyValue($p);
+				$v = ($v instanceof core_kernel_classes_Literal) ? $v->literal : $v->getUri();
+				$this->assertEqual($value, $v);
 			}
 			catch(common_Exception $ce){ 
 				$this->fail($ce);
@@ -107,20 +113,23 @@ class UserTestCase extends UnitTestCase {
 	 */
 	public function testAddUtf8User(){
 		
-	//insert it
-		$this->assertTrue(	$this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
-		$tmclass = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
+		$this->assertTrue($this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
+		$tmclass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 		$this->testUserUtf8 = $tmclass->createInstance();
 		$this->assertNotNull($this->testUserUtf8);
-		$this->assertTrue(	$this->userService->bindProperties($this->testUserUtf8, $this->testUserUtf8Data) );
-		$this->assertFalse(	$this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
+		$this->assertTrue($this->testUserUtf8->exists());
+		$this->assertTrue($this->userService->bindProperties($this->testUserUtf8, $this->testUserUtf8Data) );
+		$this->assertFalse($this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
 		
 		//check inserted data
 		$this->testUserUtf8 = $this->userService->getOneUser($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
 		$this->assertIsA($this->testUserUtf8, 'core_kernel_classes_Resource');
 		foreach($this->testUserUtf8Data as $prop => $value){
 			try{
-				$this->assertEqual($value, $this->testUserUtf8->getUniquePropertyValue(new core_kernel_classes_Property($prop)));
+				$p = new core_kernel_classes_Property($prop);
+				$v = $this->testUserUtf8->getUniquePropertyValue($p);
+				$v = ($v instanceof core_kernel_classes_Literal) ? $v->literal : $v->getUri();
+				$this->assertEqual($value, $v);
 			}
 			catch(common_Exception $ce){ 
 				$this->fail($ce);

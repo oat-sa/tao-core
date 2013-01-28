@@ -47,7 +47,7 @@ class tao_actions_UserAdminApi extends tao_actions_RemoteServiceModule {
 	}
 	
 	public function getAllRoles() {
-		$taoManager = new core_kernel_classes_Class(CLASS_ROLE_TAOMANAGER);
+		$taoManager = new core_kernel_classes_Class(INSTANCE_ROLE_TAOMANAGER);
 		$list = array(
 			$taoManager->getUri() => $taoManager->getLabel()
 		);

@@ -3,14 +3,6 @@
 <div class="main-container">
 	<table id="user-list"></table>
 	<div id="user-list-pager"></div>
-	<br />
-	<span class="ui-state-default ui-corner-all">
-		<a href="#" onclick="helpers.selectTabByName('add_user');">
-			<img src="<?=TAOBASE_WWW?>img/add.png" alt="add" /> <?=__('Add a user')?>
-		</a>
-	</span>
-	<br />
-	<br />
 </div>
 <script type="text/javascript">
 require(['require', 'jquery', 'grid/tao.grid'], function(req, $) {

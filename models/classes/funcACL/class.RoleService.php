@@ -62,11 +62,10 @@ class tao_models_classes_funcACL_RoleService
         $returnValue = (string) '';
 
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:00000000000039F1 begin
-		$class = new core_kernel_classes_Class(CLASS_ROLE_BACKOFFICE);
-		$instance = $class->createInstance($name, '');
-		$instance->setPropertyValue(new core_kernel_classes_Property(RDF_SUBCLASSOF), CLASS_GENERIS_USER);
-		$instance->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ROLE_ISSYSTEM), GENERIS_FALSE);
-		$returnValue = $instance->uriResource;
+		$userService = core_kernel_users_Service::singleton();
+		$role = $userService->addRole($name);
+		
+		$returnValue = $role->getUri();
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:00000000000039F1 end
 
         return (string) $returnValue;
@@ -118,7 +117,7 @@ class tao_models_classes_funcACL_RoleService
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A01 begin
 		$userRes = new core_kernel_classes_Resource($userUri);
-		$userRes->setPropertyValue(new core_kernel_classes_Property(RDF_TYPE), $roleUri);
+		$userRes->setPropertyValue(new core_kernel_classes_Property(PROPERTY_USER_ROLES), $roleUri);
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A01 end
     }
 
@@ -162,7 +161,7 @@ class tao_models_classes_funcACL_RoleService
 		$rolesc = new core_kernel_classes_Class(CLASS_ROLE);
 		$userRoles = $userRes->getTypes();
 		foreach ($rolesc->getInstances(true) as $id => $r) {
-			if ($id != CLASS_ROLE_BASEACCESS) {
+			if ($id != INSTANCE_ROLE_BASEACCESS) {
 				$nrole = array('id' => tao_helpers_Uri::encode($id), 'label' => $r->getLabel(), 'selected' => false);
 				//Selected
 				foreach ($userRoles as $uri => $t) {

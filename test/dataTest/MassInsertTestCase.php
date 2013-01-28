@@ -144,10 +144,12 @@ class MassInsertTestCase extends UnitTestCase {
 			$propertyLastNameProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userLastName');
 			$propertyUserDefLgProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userDefLg');
 			$propertyUserUILgProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userUILg');
+			$propertyUserRolesProp = new core_kernel_classes_Property('http://www.tao.lu/Ontologies/generis.rdf#userRoles');
 			$propertyLabel = new core_kernel_classes_Property(RDFS_LABEL);
 			$propertyComment = new core_kernel_classes_Property(RDFS_COMMENT);
 			$propertyRdfTypeProp = new core_kernel_classes_Property(RDF_TYPE);
 			$valueProp = new core_kernel_classes_Property(RDF_VALUE);
+			$roleDelivery = new core_kernel_classes_Resource(INSTANCE_ROLE_DELIVERY);
 
 			// Create N subjects
 			for ($i=1; $i <= $this->subjectNumber; $i++){
@@ -173,20 +175,8 @@ class MassInsertTestCase extends UnitTestCase {
 				$subjectInstance->setPropertyValue ($propertyLastNameProp, $lastName);
 				$subjectInstance->setPropertyValue ($propertyUserDefLgProp, $languageUri);
 				$subjectInstance->setPropertyValue ($propertyUserUILgProp, $languageUri);
-				$subjectInstance->setType (new core_kernel_classes_Class(CLASS_ROLE_SUBJECT));
-/*
-				// Commpliant with the new minimal API
-				$properties = array(
-					$propertyLoginProp->uriResource			=>$login
-					, $propertyPasswordProp->uriResource 	=>md5($password)
-					, $propertyFirstNameProp->uriResource 	=>$firstName
-					, $propertyLastNameProp->uriResource 	=>$lastName
-					, $propertyUserDefLgProp->uriResource 	=>$languageUri
-					, $propertyUserUILgProp->uriResource 	=>$languageUri
-				);
-				$subjectInstance->setPropertiesValues ($properties);
-				$subjectInstance->setType (new core_kernel_classes_Class(CLASS_ROLE_SUBJECT));
-*/
+				$subjectInstance->setPropertyValue ($propertyUserRolesProp, $roleDelivery->getUri());
+
 				// Add label and comment properties functions of the languages available on the TAO platform
 
 				foreach ($this->languages as $lg){

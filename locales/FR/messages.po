@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.4-alpha\n"
-"PO-Revision-Date: 2013-01-04T11:13:27\n"
+"PO-Revision-Date: 2013-01-23T11:42:02\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
@@ -80,11 +80,11 @@ msgstr ""
 msgid "Action"
 msgstr "Action"
 
-msgid "actions"
-msgstr "actions"
-
 msgid "Actions"
 msgstr "Actions"
+
+msgid "actions"
+msgstr "actions"
 
 msgid "Add"
 msgstr "Ajouter"
@@ -110,9 +110,6 @@ msgstr "Ajouter une propriété"
 
 msgid "add repository"
 msgstr ""
-
-msgid "Add roles"
-msgstr "Ajouter rôles"
 
 msgid "Add the source file"
 msgstr "Ajouter le fichier source"
@@ -240,6 +237,9 @@ msgstr "Créer"
 msgid "Create a list"
 msgstr "Créer une liste"
 
+msgid "Create instance of "
+msgstr ""
+
 msgid "CSV Options"
 msgstr "Options CSV"
 
@@ -264,10 +264,10 @@ msgstr "Les données ont été importées avec succès"
 msgid "Data Lang."
 msgstr "Langue des données"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
 msgid "Date"
@@ -291,11 +291,11 @@ msgstr "décompilation"
 msgid "Define the default values"
 msgstr "Définir les valeurs par défaut"
 
-msgid "Delete"
-msgstr "Supprimer"
-
 msgid "delete"
 msgstr "supprimer"
+
+msgid "Delete"
+msgstr "Supprimer"
 
 msgid "Delete property"
 msgstr "Supprimer la propriété"
@@ -319,11 +319,11 @@ msgstr ""
 msgid "Don't set"
 msgstr "Ne pas insérer"
 
-msgid "Download"
-msgstr "Télécharger"
-
 msgid "download"
 msgstr "télécharger"
+
+msgid "Download"
+msgstr "Télécharger"
 
 msgid "Download content"
 msgstr "Télécharger le contenu"
@@ -365,11 +365,11 @@ msgstr "Editer rôle"
 msgid "Edit user"
 msgstr "Modifier l'utilisateur"
 
-msgid "Element"
-msgstr "Element"
-
 msgid "element"
 msgstr "élément"
+
+msgid "Element"
+msgstr "Element"
 
 msgid "element deleted"
 msgstr "élément supprimé"
@@ -483,20 +483,17 @@ msgstr ""
 msgid "Installing extension %s..."
 msgstr ""
 
-msgid "instances"
-msgstr "instances"
-
 msgid "Instances"
 msgstr "Instances"
 
-msgid "Interface Language"
-msgstr "Langue de l'interface"
+msgid "instances"
+msgstr "instances"
 
 msgid "Interface language"
 msgstr "Langue de l'interface"
 
-msgid "Interface Language *"
-msgstr "Langue de l'Interface *"
+msgid "Interface Language"
+msgstr "Langue de l'interface"
 
 msgid "Invalid date range"
 msgstr "Période invalide"
@@ -569,9 +566,6 @@ msgstr "Donnée locales (l'espace de nom local comprenant seulement les données
 
 msgid "Login"
 msgstr "Identifiant"
-
-msgid "Login *"
-msgstr "Identifiant *"
 
 msgid "login already exist"
 msgstr "Cet identifiant existe déjà"
@@ -795,11 +789,11 @@ msgstr "Création des indexs, cela peut prendre du temps."
 msgid "Recursive"
 msgstr "Récursif"
 
-msgid "Related Classes"
-msgstr "Classes liées"
-
 msgid "related classes"
 msgstr "classes liées"
+
+msgid "Related Classes"
+msgstr "Classes liées"
 
 msgid "Remove"
 msgstr "Supprimer"
@@ -1077,9 +1071,6 @@ msgstr ""
 
 msgid "Versioning"
 msgstr ""
-
-msgid "Versioning disabled"
-msgstr "Versioning désactivé"
 
 msgid "View"
 msgstr "Voir"

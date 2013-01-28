@@ -94,7 +94,7 @@ class tao_models_classes_UserService
         // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 begin
 
     	// expects a subclass of class_role, not an instance
-    	$this->allowedRoles = array(CLASS_ROLE_BACKOFFICE);
+    	$this->allowedRoles = array(INSTANCE_ROLE_BACKOFFICE => new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE));
 
         // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 end
     }
@@ -116,8 +116,6 @@ class tao_models_classes_UserService
 
         try{
         	if($this->generisUserService->login($login, $password, $this->getAllowedConcreteRoles())){
-        		
-        		common_Logger::i('User '.$login.' logged in', array('TAO'));
         		
         		// init languages
         		$currentUser = $this->getCurrentUser();
@@ -145,10 +143,6 @@ class tao_models_classes_UserService
 				
         		$returnValue = true;				//roles order is important, we loggin with the first found
         	}
-        	
-			if (!$returnValue) {
-        		common_Logger::w('User '.$login.' login failed', array('TAO'));
-			}
         }
         catch(core_kernel_users_Exception $ue){
         //	print $ue->getMessage();
@@ -242,13 +236,18 @@ class tao_models_classes_UserService
 
         // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D4E begin
 
-		if(!empty($login)){
+		if (!empty($login)){
+			
 			$user = $this->generisUserService->getOneUser($login);
-			if(!is_null($user) && $user !== false){
-				foreach ($this->getAllowedConcreteRoles() as $role) {
-					if ($user->hasType($role)) {
-						$returnValue = $user;
-					}
+			
+			if (!empty($user)){
+				
+				$userRolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
+				$userRoles = $user->getPropertyValuesCollection($userRolesProperty);
+				$allowedRoles = $this->getAllowedConcreteRoles();
+				
+				if($this->generisUserService->userHasRoles($user, $allowedRoles)){
+					$returnValue = $user;
 				}
 			}
 		}
@@ -283,10 +282,11 @@ class tao_models_classes_UserService
 						'mail' => PROPERTY_USER_MAIL,
 		    			'email' => PROPERTY_USER_MAIL,
 						'role' => RDF_TYPE,
-						'roles' => RDF_TYPE,
+						'roles' => PROPERTY_USER_ROLES,
 						'firstname' => PROPERTY_USER_FIRSTNAME,
 						'lastname' => PROPERTY_USER_LASTNAME,
 						'name' => PROPERTY_USER_FIRSTNAME);
+		
 		$ops = array('eq' => "%s",
 					 'bw' => "%s*",
 					 'ew' => "*%s",
@@ -304,6 +304,8 @@ class tao_models_classes_UserService
 		if (isset($options['search']) && !is_null($options['search']) && isset($options['search']['string']) && isset($ops[$options['search']['op']])) {
 			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
 		}
+		// restrict roles
+		$crits[PROPERTY_USER_ROLES] = $roles;
 		
 		if (isset($options['order'])) {
 			$opts['order'] = $fields[$options['order']]; 
@@ -312,12 +314,9 @@ class tao_models_classes_UserService
 			}
 		}
 		
-		$rolesClass = new core_kernel_classes_Class(array_shift($roles));
-		if (count($roles) > 0) {
-			$opts['additionalClasses'] = $roles;
-		}
+		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 		
-		$returnValue = $rolesClass->searchInstances($crits, $opts);
+		$returnValue = $userClass->searchInstances($crits, $opts);
         // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 end
 
         return (array) $returnValue;
@@ -374,17 +373,7 @@ class tao_models_classes_UserService
         $returnValue = array();
 
         // section 127-0-1-1--2224001b:1341c506b75:-8000:0000000000004424 begin
-        foreach ($this->allowedRoles as $roleUri) {
-        	$abstractRole = new core_kernel_classes_Class($roleUri);
-        	foreach ($abstractRole->getInstances(true) as $concreteRole) {
-        		$roleClass = new core_kernel_classes_Class($concreteRole->getUri());
-        		$returnValue[$concreteRole->getUri()] = $roleClass;
-        	}
-        }
-        
-        $dbWrapper = core_kernel_classes_DbWrapper::singleton();
-        common_Logger::i('after getAllowedConcreteRoles: ' . $dbWrapper->getNrOfQueries());
-        
+        $returnValue = $this->allowedRoles;
         // section 127-0-1-1--2224001b:1341c506b75:-8000:0000000000004424 end
 
         return (array) $returnValue;
@@ -421,7 +410,10 @@ class tao_models_classes_UserService
         $returnValue = array();
 
         // section 127-0-1-1-1e277528:138e7c3a040:-8000:0000000000003B6B begin
-		$returnValue = $this->getUsersByRoles(array_keys($this->getAllowedConcreteRoles()), $options);
+        $userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+		$options = array('recursive' => true, 'like' => true);
+		$filters = array(PROPERTY_USER_LOGIN => '*');
+		$returnValue = $userClass->searchInstances($filters, $options);
         // section 127-0-1-1-1e277528:138e7c3a040:-8000:0000000000003B6B end
 
         return (array) $returnValue;
@@ -457,7 +449,7 @@ class tao_models_classes_UserService
 						'mail' => PROPERTY_USER_MAIL,
 		    			'email' => PROPERTY_USER_MAIL,
 						'role' => RDF_TYPE,
-						'roles' => RDF_TYPE,
+						'roles' => PROPERTY_USER_ROLES,
 						'firstname' => PROPERTY_USER_FIRSTNAME,
 						'lastname' => PROPERTY_USER_LASTNAME,
 						'name' => PROPERTY_USER_FIRSTNAME);
@@ -468,18 +460,10 @@ class tao_models_classes_UserService
 			$crits[$fields[$options['search']['field']]] = sprintf($ops[$options['search']['op']], $options['search']['string']);
 		}
 		
-		$rolesClass = array_shift($roles);
-		$rolesClass = $rolesClass instanceof core_kernel_classes_Class
-			? $rolesClass
-			: new core_kernel_classes_Class($rolesClass);
-		if (count($roles) > 0) {
-			$opts['additionalClasses'] = array();
-			foreach ($roles as $role) {
-				$opts['additionalClasses'][] = $role instanceof core_kernel_classes_Resource ? $role->getUri() : $role;
-			}
-		}
+		$crits[PROPERTY_USER_ROLES] = $roles;
 		
-		$returnValue = $rolesClass->countInstances($crits, $opts);
+		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+		$returnValue = $userClass->countInstances($crits, $opts);
         // section 127-0-1-1--59ffbf67:1390a56462a:-8000:0000000000003B6C end
 
         return (int) $returnValue;

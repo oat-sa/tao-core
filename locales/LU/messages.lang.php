@@ -34,7 +34,6 @@ $GLOBALS['__l10n']["Language"]="Sprooch";
 $GLOBALS['__l10n']["List"]="Lëscht";
 $GLOBALS['__l10n']["List values"]="Werter uweisen";
 $GLOBALS['__l10n']["Lists"]="Lëschten";
-$GLOBALS['__l10n']["Login *"]="Login *";
 $GLOBALS['__l10n']["login already exist"]="Den Login get et schons";
 $GLOBALS['__l10n']["Manage data list"]="Daten Lëschten verwalten";
 $GLOBALS['__l10n']["Manage deliveries"]="Ausliwwerungen managen";

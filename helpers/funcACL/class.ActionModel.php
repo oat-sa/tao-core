@@ -66,7 +66,7 @@ class tao_helpers_funcACL_ActionModel
 					}
 				}
 				if (count($actions) > 0) {
-					$moduleName = substr($moduleClass, strrpos($moduleClass, '_') +1);
+					$moduleName = substr($moduleClass, strrpos($moduleClass, '_') + 1);
 					$module = self::addModule($extension->getID(), $moduleName);
 					foreach ($actions as $action) {
 						self::addAction($module, $action);
@@ -104,7 +104,7 @@ class tao_helpers_funcACL_ActionModel
         ));
         
         // @todo solve this differently:
-        $taoManager = new core_kernel_classes_Resource(CLASS_ROLE_TAOMANAGER);
+        $taoManager = new core_kernel_classes_Resource(INSTANCE_ROLE_TAOMANAGER);
         $taoManager->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), $returnValue->getUri());
         // section 127-0-1-1--1875a6a1:137e65726c7:-8000:0000000000003B1C end
 

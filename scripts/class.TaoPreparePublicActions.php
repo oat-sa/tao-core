@@ -88,7 +88,7 @@ class tao_scripts_TaoPreparePublicActions
     		$res->delete();
     	}
     	
-    	$taoManager = new core_kernel_classes_Resource(CLASS_ROLE_TAOMANAGER);
+    	$taoManager = new core_kernel_classes_Resource(INSTANCE_ROLE_TAOMANAGER);
         $taoManager->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS));
         
     	
