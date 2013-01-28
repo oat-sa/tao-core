@@ -1,7 +1,6 @@
 <?php 
 
-$userService = core_kernel_users_Service::singleton();
-$userService->login(SYS_USER_LOGIN, SYS_USER_PASS, new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole'));
+core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
 error_reporting(E_ALL);
 
 $dbWarpper = core_kernel_classes_DbWrapper::singleton();
@@ -17,7 +16,7 @@ $classTaoManager = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/T
 $loginProp = new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
 $passProp = new core_kernel_classes_Property(PROPERTY_USER_PASSWORD);
 $defLgProp = new core_kernel_classes_Property(PROPERTY_USER_DEFLG);
-$firstNameProp = new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME);
+$firstNameProp = new core_kernel_classes_Property(PROPERTY_USER_FIRTNAME);
 $mailProp = new core_kernel_classes_Property(PROPERTY_USER_MAIL);
 $lastNameProp = new core_kernel_classes_Property(PROPERTY_USER_LASTNAME);
 $uiLgProp = new core_kernel_classes_Property(PROPERTY_USER_UILG);
