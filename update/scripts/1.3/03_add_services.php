@@ -1,7 +1,5 @@
 <?php
-$userService = core_kernel_users_Service::singleton();
-$userService->login(SYS_USER_LOGIN, SYS_USER_PASS, new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole'));
-
+core_control_FrontController::connect(SYS_USER_LOGIN, SYS_USER_PASS, DATABASE_NAME);
 $dbWarpper = core_kernel_classes_DbWrapper::singleton();
 $namespace = core_kernel_classes_Session::singleton()->getNameSpace();
 
