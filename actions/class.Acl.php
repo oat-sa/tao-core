@@ -275,42 +275,5 @@ class tao_actions_Acl extends tao_actions_CommonModule {
 			echo json_encode(array('success' => true, 'id' => tao_helpers_Uri::encode($roleuri)));	
 		}
 	}
-
-	public function addRole() {
-		if (!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		else{
-			$name = $this->getRequestParameter('name');
-			$roleService = tao_models_classes_funcACL_RoleService::singleton();
-			$uri = $roleService->add($name);
-			echo json_encode(array('success' => true, 'name' => $name, 'uri' => $uri));
-		}
-	}
-
-	public function editRole() {
-		if (!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		else{
-			$name = $this->getRequestParameter('name');
-			$uri = $this->getRequestParameter('uri');
-			$roleService = tao_models_classes_funcACL_RoleService::singleton();
-			$roleService->edit($uri, $name);
-			echo json_encode(array('success' => true, 'name' => $name, 'uri' => $uri));
-		}
-	}
-
-	public function deleteRole() {
-		if (!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		else{
-			$uri = $this->getRequestParameter('uri');
-			$roleService = tao_models_classes_funcACL_RoleService::singleton();
-			$roleService->remove($uri);
-			echo json_encode(array('success' => true, 'uri' => $uri));
-		}
-	}
 }
 ?>
