@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * This class provide service on user management
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -34,7 +34,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  * This class provide service on user management
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -68,7 +68,7 @@ class tao_models_classes_UserService
      * constructor, call initRoles
      *
      * @access protected
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return mixed
      */
     protected function __construct()
@@ -86,7 +86,7 @@ class tao_models_classes_UserService
      * To be overriden.
      *
      * @access protected
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return mixed
      */
     protected function initRoles()
@@ -103,7 +103,7 @@ class tao_models_classes_UserService
      * authenticate a user
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string login
      * @param  string password
      * @return boolean
@@ -157,7 +157,7 @@ class tao_models_classes_UserService
      * retrieve the logged in user
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return core_kernel_classes_Resource
      */
     public function getCurrentUser()
@@ -182,7 +182,7 @@ class tao_models_classes_UserService
      * Check if the login is already used
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string login
      * @return boolean
      */
@@ -203,7 +203,7 @@ class tao_models_classes_UserService
      * Check if the login is available (because it's unique)
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string login
      * @return boolean
      */
@@ -226,7 +226,7 @@ class tao_models_classes_UserService
      * get a user by his login
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string login the user login is the unique identifier to retrieve him
      * @return core_kernel_classes_Resource
      */
@@ -263,7 +263,7 @@ class tao_models_classes_UserService
      * with search consisting of: field, op, string
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array roles
      * @param  array options the user list options to order the list and paginate the results
      * @return array
@@ -326,7 +326,7 @@ class tao_models_classes_UserService
      * Remove a user
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Resource user
      * @return boolean
      */
@@ -347,7 +347,7 @@ class tao_models_classes_UserService
      * Short description of method addAllowedRole
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  string role
      * @return mixed
      */
@@ -365,7 +365,7 @@ class tao_models_classes_UserService
      * which are allowed to login
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return array
      */
     public function getAllowedConcreteRoles()
@@ -383,7 +383,7 @@ class tao_models_classes_UserService
      * Short description of method logout
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return boolean
      */
     public function logout()
@@ -401,7 +401,7 @@ class tao_models_classes_UserService
      * Short description of method getAllUsers
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array options
      * @return array
      */
@@ -424,7 +424,7 @@ class tao_models_classes_UserService
      * uses the same syntax as getUsersByRole
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array roles
      * @param  array options
      * @return int
@@ -467,6 +467,37 @@ class tao_models_classes_UserService
         // section 127-0-1-1--59ffbf67:1390a56462a:-8000:0000000000003B6C end
 
         return (int) $returnValue;
+    }
+
+    /**
+     * Short description of method toTree
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  Class clazz
+     * @param  array options
+     * @return array
+     */
+    public function toTree( core_kernel_classes_Class $clazz, $options)
+    {
+        $returnValue = array();
+
+        // section 10-13-1-85-3c62f230:13c860acea1:-8000:0000000000003C67 begin
+    	$users = $this->getAllUsers(array('order' => 'login'));
+		foreach($users as $user){
+			$login = (string) $user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
+			$returnValue[] = array(
+					'data' 	=> tao_helpers_Display::textCutter($login, 16),
+					'attributes' => array(
+						'id' => tao_helpers_Uri::encode($user->uriResource),
+						'class' => 'node-instance'
+					)
+				);
+
+		}
+        // section 10-13-1-85-3c62f230:13c860acea1:-8000:0000000000003C67 end
+
+        return (array) $returnValue;
     }
 
 } /* end of class tao_models_classes_UserService */

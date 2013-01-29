@@ -7,6 +7,26 @@
 			<section id="list_users" name="Manage users" url="/tao/Users/index" />
 			<section id="add_user" name="Add a user" url="/tao/Users/add" />
 			<section id="edit_user" name="Edit a user" url="/tao/Users/edit" />
+			<section id="manage_roles" name="Manage roles" url="/tao/Roles/index">
+				<trees>
+					<tree name="Roles library"
+						className="Role"
+						dataUrl="/tao/Roles/getOntologyData"
+						editInstanceUrl="/tao/Roles/editRole"
+						addInstanceUrl="/tao/Roles/addInstance"
+						deleteUrl="/tao/Roles/delete"
+						editClassUrl="/tao/Roles/editRoleClass"
+					/>
+				</trees>
+				<actions>
+					<action name="search" url="/tao/Roles/search" context="*" />
+					<action name="new role" js="generisActions.instanciate" url="/tao/Roles/addInstance" context="class" />
+					<action name="delete" js="generisActions.removeNode" url="/tao/Roles/delete" context="resource" />
+					<action name="meta data" js="generisActions.loadMetaData" url="/tao/Roles/getMetaData"  context="instance" />
+					<action name="create table" js="generisActions.resultTable" url="/taoResults/LegacyResults/createTable"  context="class" />
+					<action name="export" url="/tao/Export/index"  context="*" />
+				</actions>
+			</section>
 			<section id="manage_acl" name="Manage ACL" url="/tao/Acl/index" />
 		</sections>
 	</structure>

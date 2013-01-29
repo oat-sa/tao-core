@@ -1,0 +1,14 @@
+.aclContainer {
+	width: 24.3%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.actions {
+	margin-bottom: 10px;
+	margin-top: 5px;
+}
+
+#aclRoles form { margin-bottom: 20px }
+
+#aclRoles select { width: 100% }

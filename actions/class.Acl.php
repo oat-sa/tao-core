@@ -31,7 +31,7 @@ class tao_actions_Acl extends tao_actions_CommonModule {
 		}
 
 		$this->setData('roles', $roles);
-		$this->setView('roles/list.tpl');
+		$this->setView('acl/list.tpl');
 	}
 
 	public function getModules() {
