@@ -6,7 +6,7 @@ error_reporting(E_ALL);
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -19,7 +19,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Service is the base class of all services, and implements the singleton
  * for derived services
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  */
 require_once('tao/models/classes/class.Service.php');
 
@@ -37,7 +37,7 @@ require_once('tao/models/classes/class.Service.php');
  *
  * @abstract
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
@@ -55,7 +55,7 @@ abstract class tao_models_classes_GenerisService
      * constructor
      *
      * @access protected
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return void
      */
     protected function __construct()
@@ -65,35 +65,10 @@ abstract class tao_models_classes_GenerisService
     }
 
     /**
-     * Enable you to  load the RDF ontologies.
-     *
-     * @access protected
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @deprecated
-     * @param  array ontologies
-     * @return mixed
-     * @see core_kernel_classes_Session::_construct
-     */
-    protected function loadOntologies($ontologies)
-    {
-        // section 127-0-1-1-266d5677:1246ba0ab68:-8000:0000000000001A9B begin
-
-   		$myOntologies = array_merge($this->ontologies, $ontologies);
-		if(count($myOntologies) > 0){
-			$session = core_kernel_classes_Session::singleton();
-			foreach($myOntologies as $ontology){
-				$session->model->loadModel($ontology);
-			}
-		}
-
-        // section 127-0-1-1-266d5677:1246ba0ab68:-8000:0000000000001A9B end
-    }
-
-    /**
      * search the instances matching the filters in parameters
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  array propertyFilters
      * @param  Class topClazz
      * @param  array options
@@ -119,7 +94,7 @@ abstract class tao_models_classes_GenerisService
      * Get the class of the resource in parameter (the rdfs type property)
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Resource instance
      * @return core_kernel_classes_Class
      */
@@ -144,40 +119,10 @@ abstract class tao_models_classes_GenerisService
     }
 
     /**
-     * Retrieve a property
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Class clazz
-     * @param  string label
-     * @return core_kernel_classes_Property
-     */
-    public function getPropertyByLabel( core_kernel_classes_Class $clazz, $label)
-    {
-        $returnValue = null;
-
-        // section 10-13-1-45-2836570e:123bd13e69b:-8000:000000000000187B begin
-
-   		if(strlen(trim($label)) == 0){
-			throw new Exception("Please, never use empty labels!");
-		}
-		foreach($clazz->getProperties() as $property){
-			if($property->getLabel() == $label){
-				$returnValue = $property;
-				break;
-			}
-		}
-
-        // section 10-13-1-45-2836570e:123bd13e69b:-8000:000000000000187B end
-
-        return $returnValue;
-    }
-
-    /**
      * Instantiate an RDFs Class
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class clazz
      * @param  string label
      * @return core_kernel_classes_Resource
@@ -203,7 +148,7 @@ abstract class tao_models_classes_GenerisService
      * Short description of method createUniqueLabel
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class clazz
      * @param  boolean subClassing
      * @return string
@@ -251,7 +196,7 @@ abstract class tao_models_classes_GenerisService
      * Subclass an RDFS Class
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class parentClazz
      * @param  string label
      * @return core_kernel_classes_Class
@@ -276,7 +221,7 @@ abstract class tao_models_classes_GenerisService
      * bind the given RDFS properties to the RDFS resource in parameter
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Resource instance
      * @param  array properties
      * @return core_kernel_classes_Resource
@@ -356,7 +301,7 @@ abstract class tao_models_classes_GenerisService
      * duplicate a resource
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Resource instance
      * @param  Class clazz
      * @return core_kernel_classes_Resource
@@ -399,7 +344,7 @@ abstract class tao_models_classes_GenerisService
      * Clone a Class and move it under the newParentClazz
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class sourceClazz
      * @param  Class newParentClazz
      * @param  Class topLevelClazz
@@ -448,7 +393,7 @@ abstract class tao_models_classes_GenerisService
      * Change the Class (RDFS_TYPE) of a resource
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Resource instance
      * @param  Class destinationClass
      * @return boolean
@@ -487,7 +432,7 @@ abstract class tao_models_classes_GenerisService
      * If the top level class is not defined, we used the TAOObject class.
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class clazz
      * @param  Class topLevelClazz
      * @return array
@@ -557,7 +502,7 @@ abstract class tao_models_classes_GenerisService
      * get the properties of the source class that are not in the destination
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class sourceClass
      * @param  Class destinationClass
      * @return array
@@ -586,7 +531,7 @@ abstract class tao_models_classes_GenerisService
      * get the properties of an instance for a specific language
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Resource instance
      * @param  string lang
      * @return array
@@ -630,30 +575,10 @@ abstract class tao_models_classes_GenerisService
     }
 
     /**
-     * set the properties of an instance for a specific language
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource instance
-     * @param  string lang
-     * @param  array data
-     * @return boolean
-     */
-    public function setTranslatedProperties( core_kernel_classes_Resource $instance, $lang, $data)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E88 begin
-        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E88 end
-
-        return (bool) $returnValue;
-    }
-
-    /**
      * Format an RDFS Class to an array
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class clazz
      * @return array
      */
@@ -691,7 +616,7 @@ abstract class tao_models_classes_GenerisService
      * This is a closed array format.
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class clazz
      * @param  array options
      * @return array
@@ -844,25 +769,6 @@ abstract class tao_models_classes_GenerisService
         // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B end
 
         return (array) $returnValue;
-    }
-
-    /**
-     * Short description of method getTaoObjectFolder
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string extension
-     * @param  Resource object
-     * @return string
-     */
-    public function getTaoObjectFolder($extension,  core_kernel_classes_Resource $object)
-    {
-        $returnValue = (string) '';
-
-        // section 127-0-1-1-2450a56a:134227b7ec6:-8000:000000000000346A begin
-        // section 127-0-1-1-2450a56a:134227b7ec6:-8000:000000000000346A end
-
-        return (string) $returnValue;
     }
 
 } /* end of abstract class tao_models_classes_GenerisService */
