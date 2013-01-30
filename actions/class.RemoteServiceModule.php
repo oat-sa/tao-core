@@ -90,7 +90,9 @@ class tao_actions_RemoteServiceModule extends Module {
 	
 	protected function returnSuccess($data = array()) {
 		$data['success']	= true;
-		$data['token']		= $this->buildToken($this->getCurrentUser());	
+		if (!is_null($this->getCurrentUser())) {
+			$data['token']		= $this->buildToken($this->getCurrentUser());
+		}
 		echo json_encode($data);
 	}
 	
@@ -132,7 +134,11 @@ class tao_actions_RemoteServiceModule extends Module {
 		$user		= new core_kernel_classes_Resource($userUri);
 		
 		$time = substr($token, 0, strpos($token, '_'));
-		if (!is_numeric($time) || time() - $time > self::SESSION_DURATION) {
+		if (!is_numeric($time)) {
+			common_Logger::w('invalid token '.$oken.' for user '.$userUri);
+			return null;
+		}
+		if (time() - $time > self::SESSION_DURATION) {
 			common_Logger::i('Session timed out '.$time.' for user '.$userUri);
 			return null;
 		}
