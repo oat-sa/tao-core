@@ -255,9 +255,6 @@ class MassInsertTestCase extends UnitTestCase {
 	                        );
 	        $user = $class->createInstanceWithProperties($properties);
 	    }
-
-
-
 	}
 
 	public function testCreateTests () {
