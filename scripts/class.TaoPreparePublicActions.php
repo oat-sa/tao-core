@@ -94,7 +94,7 @@ class tao_scripts_TaoPreparePublicActions
     	
     	foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
 			// this also adds TaoManager to the Modules
-			tao_helpers_funcACL_ActionModel::spawnExtensionModel($extension);
+			tao_helpers_funcACL_Model::spawnExtensionModel($extension);
 		}
 		tao_helpers_funcACL_funcACL::buildRolesByActions();
 		/*

@@ -58,7 +58,7 @@ class tao_actions_Acl extends tao_actions_CommonModule {
 						$rban[$enom]['modules'][$mnom]['have-access'] = true;
 						$access++;
 					}
-					$moduleActions = tao_helpers_funcACL_ActionModel::getActions(new core_kernel_classes_Resource($rban[$enom]['modules'][$mnom]['uri']));
+					$moduleActions = tao_helpers_funcACL_Model::getActions(new core_kernel_classes_Resource($rban[$enom]['modules'][$mnom]['uri']));
 					if ($aaccess > 0 && $aaccess == count($moduleActions)) {
 						$rban[$enom]['modules'][$mnom]['have-allaccess'] = true;
 					}
@@ -79,7 +79,7 @@ class tao_actions_Acl extends tao_actions_CommonModule {
 			$module = new core_kernel_classes_Resource($this->getRequestParameter('module'));
 	
 			$actions = array();
-			foreach (tao_helpers_funcACL_ActionModel::getActions($module) as $action) {
+			foreach (tao_helpers_funcACL_Model::getActions($module) as $action) {
 				$actions[$action->getLabel()] = array(
 					'uri'			=> $action->getUri(),
 					'have-access'	=> in_array($role, tao_helpers_funcACL_funcACL::getRolesByAction($action))
