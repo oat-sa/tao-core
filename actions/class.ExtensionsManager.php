@@ -42,10 +42,9 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		$fileUnzip = new fileUnzip(urldecode($package_zip));
 		$fileUnzip->unzipAll(EXTENSION_PATH);
 		$newExt = $extensionManager->getExtensionById($id);
-		$extInstaller = new common_ext_ExtensionInstaller($newExt);
+		$extInstaller = new tao_install_ExtensionInstaller($newExt);
 		try {
 			$extInstaller->install();
-			tao_helpers_funcACL_funcACL::removeRolesByActions();
 			$message =   __('Extension ') . $newExt->name . __(' has been installed');
 		}
 		catch(common_ext_ExtensionException $e) {
@@ -60,7 +59,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 	public function install(){
 		$success = false;
 		try {
-			$extInstaller = new common_ext_ExtensionInstaller($this->getExtension());
+			$extInstaller = tao_install_ExtensionInstaller($this->getExtension());
 			$extInstaller->install();
 			$message =   __('Extension ') . $this->getExtension()->getID() . __(' has been installed');
 			$success = true;

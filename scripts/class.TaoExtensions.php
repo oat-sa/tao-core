@@ -501,7 +501,7 @@ class tao_scripts_TaoExtensions
             try{
                 // Install the extension.
                 $this->outVerbose("Installing extension '${extensionId}'...");
-                $installer = new common_ext_ExtensionInstaller($ext, $importLocalData);
+                $installer = new tao_install_ExtensionInstaller($ext, $importLocalData);
                 $installer->install();
                 $this->outVerbose("Extension successfuly installed.");
             }

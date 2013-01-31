@@ -205,6 +205,7 @@ class tao_install_Installator{
 			$generisInstaller = new common_ext_GenerisInstaller($generis);
 			$generisInstaller->install();
 	        
+			
 	        /*
 			 * 8 - Install the extensions
 			 */
@@ -228,7 +229,7 @@ class tao_install_Installator{
 					if (count($missing) == 0) {
 						try {
 						    $importLocalData = ($installData['import_local'] == true);
-							$extinstaller = new common_ext_ExtensionInstaller($extension, $importLocalData);
+							$extinstaller = new tao_install_ExtensionInstaller($extension, $importLocalData);
 							$extinstaller->install();
 						} catch (common_ext_ExtensionException $e) {
 							throw new tao_install_utils_Exception("An error occured during the installation of extension '" . $extension->getID() . "'.");
