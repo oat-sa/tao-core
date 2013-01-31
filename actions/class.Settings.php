@@ -140,16 +140,9 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 			);
 
 		$userClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#User');
-		$taoSubjectRoleClass =  new core_kernel_classes_Class('http://www.tao.lu/Ontologies/TAO.rdf#TaoSubjectRole');
 
 		$returnValue = array(
-				'http://www.tao.lu/Ontologies/TAO.rdf#Languages' => array(
-						'compile' => array_merge($optionsCompile, array(
-								'additionalProperties'  => array(new core_kernel_classes_Property('http://www.w3.org/1999/02/22-rdf-syntax-ns#value'))
-								)
-						),
-						'decompile' => $optionsDecompile
-					),
+				'http://www.tao.lu/Ontologies/TAO.rdf#Languages' => $defaultOptions,
 				'http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices' => $defaultOptions,
 				'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfservicesResources' => $defaultOptions,
 				'http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitionResources' => $defaultOptions,
@@ -157,22 +150,10 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 				'http://www.tao.lu/middleware/wfEngine.rdf#ClassConnectors' => $defaultOptions,
 				'http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessInstances' => $defaultOptions,
 				'http://www.tao.lu/middleware/wfEngine.rdf#ClassActivityCardinality'=> $defaultOptions,
-				'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject' => array(
-						'compile' => array_merge(
-							$optionsCompile,
-							array(
-								'topClass' => $userClass,
-								'forceReferencing' => array($taoSubjectRoleClass)
-								)
-							),
-						'decompile' => $optionsDecompile
-					),
+				'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject' => $defaultOptions,
 				'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery' => $defaultOptions,
 				'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group' => $defaultOptions,
-				'http://www.tao.lu/Ontologies/TAODelivery.rdf#History' => array(
-						'compile' => array_merge($optionsCompile, array('createForeigns' => false)),
-						'decompile' => $optionsDecompile
-				)
+				'http://www.tao.lu/Ontologies/TAODelivery.rdf#History' => $defaultOptions
 		);
 
 		return $returnValue;
