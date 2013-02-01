@@ -181,9 +181,9 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			$properties = array(tao_helpers_Uri::encode(RDFS_LABEL) => __('Label'));
 			$rangedProperties = array();
 			
-			$topLevelClass = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
+			$topLevelClass = new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);
 			$classProperties = $service->getClazzProperties($clazz, $topLevelClass);
-			
+
 			foreach($classProperties as $property){
 				if(!in_array($property->uriResource, $this->excludedProperties)){
 					//@todo manage the properties with range
