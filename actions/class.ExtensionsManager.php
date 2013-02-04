@@ -59,7 +59,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 	public function install(){
 		$success = false;
 		try {
-			$extInstaller = tao_install_ExtensionInstaller($this->getExtension());
+			$extInstaller = new tao_install_ExtensionInstaller($this->getExtension());
 			$extInstaller->install();
 			$message =   __('Extension ') . $this->getExtension()->getID() . __(' has been installed');
 			$success = true;
