@@ -221,6 +221,7 @@ class tao_install_Installator{
 				}
 			}
 			while (!empty($toInstall)) {
+				
 				$formerCount = count($toInstall);
 				foreach ($toInstall as $key => $extension) {
 					// if all dependencies are installed
@@ -276,17 +277,9 @@ class tao_install_Installator{
 	 			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
 	 			$shield->protectInstall();
 			}
-	
-			
-			
-			/*
-			 * 12 - Build ACLs
-			 */
-			common_Logger::d('Computing funcACL role accesses', 'INSTALL');
-			tao_helpers_funcACL_funcACL::buildRolesByActions();
 
 			/*
-			 *  13 - Create the version file
+			 *  12 - Create the version file
 			 */
 			common_Logger::d('Creating version file for TAO', 'INSTALL');
 			file_put_contents(ROOT_PATH.'version', TAO_VERSION);

@@ -84,30 +84,39 @@ class tao_helpers_funcACL_funcACL
 				$action	= $context->getActionName();
 			}
 		}
-
+		
 		//Get the Roles of the current User
 		$roles = core_kernel_classes_Session::singleton()->getUserRoles();
-
-		//Get the access list (reversed)
-		$reverse_access = self::getRolesByActions();
-
-		//Find the Module and, if necessary, the Action
-		/*$ns = "http://www.tao.lu/Ontologies/taoFuncACL.rdf#"; //m_taoItems_Items
-		$nsa = $ns.'a_'.$extension.'_'.$module.'_'.$action;
-		$nsm = $ns.'m_'.$extension.'_'.$module;*/
-
-		//Test if we have a role giving access
 		$roles[] = new core_kernel_classes_Resource(INSTANCE_ROLE_BASEACCESS);
-		foreach ($roles as $role) {
-			if (isset($reverse_access[$extension]) && isset($reverse_access[$extension][$module])) {
-				if (in_array($role->getUri(), $reverse_access[$extension][$module]['roles'])
-					|| (isset($reverse_access[$extension][$module]['actions'][$action])
-						&& in_array($role->getUri(), $reverse_access[$extension][$module]['actions'][$action]))) {
+		
+		//Find the Module and, if necessary, the Action
+		$accessService = tao_models_classes_funcACL_AccessService::singleton();
+		$moduleUri = $accessService->makeEMAUri($extension, $module);
+		$actionUri = $accessService->makeEMAUri($extension, $module, $action);
+		$moduleResource = new core_kernel_classes_Resource($moduleUri);
+		
+		//Get the access list (reversed)
+		$moduleAccess = tao_helpers_funcACL_Cache::retrieveModule($moduleResource);
+		
+		//Test if we have a role giving access to the module.
+		foreach ($roles as $r){
+			if (in_array($r->getUri(), $moduleAccess['module'])){
+				$returnValue = true;
+				break;
+			}
+		}
+		
+		//Maybe an access for the action?
+		foreach ($roles as $r){
+			if (isset($moduleAccess['actions'][$actionUri])){
+				$actionRoles = $moduleAccess['actions'][$actionUri];
+				if (in_array($r->getUri(), $actionRoles)){
 					$returnValue = true;
 					break;
 				}
 			}
 		}
+		
 		if (!$returnValue) {
 			common_Logger::i('Access denied to '.$extension.'::'.$module.'::'.$action.' for user '.
 				'\''.core_kernel_classes_Session::singleton()->getUserLogin().'\'');

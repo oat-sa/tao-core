@@ -50,12 +50,24 @@ class FuncACLTestCase extends UnitTestCase {
 		// -- Remove the entire module access and try again
 		tao_models_classes_funcACL_ModuleAccessService::singleton()->remove($testRole->getUri(), $makeemaurimod);
 		$this->assertFalse(tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', 'add'));
-
+		
+		// reset
+		tao_models_classes_funcACL_ModuleAccessService::singleton()->add($testRole->getUri(), $makeemaurimod);
+		
 		// Unattach role from user
 		tao_models_classes_funcACL_RoleService::singleton()->unattachUser($user->getUri(), $testRole->getUri());
 		
 		
 		$userService->removeUser($user);
+	}
+	
+	public function testACLCache(){
+		$moduleUri = tao_models_classes_funcACL_AccessService::singleton()->makeEMAUri('tao', 'Users');
+		$module = new core_kernel_classes_Resource($moduleUri);
+		$this->assertTrue($module->exists());
+		
+		tao_helpers_funcACL_Cache::cacheModule($module);
+		$moduleCache = tao_helpers_funcACL_Cache::retrieveModule($module);
 	}
 }
 ?>

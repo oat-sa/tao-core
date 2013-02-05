@@ -61,7 +61,7 @@ class tao_helpers_funcACL_Model
 				$reflector = new ReflectionClass($moduleClass);
 				$actions = array();
 				foreach ($reflector->getMethods(ReflectionMethod::IS_PUBLIC) as $m) {
-					if (!$m->isConstructor() && !$m->isDestructor() && is_subclass_of($m->class,'module') && $m->name != 'setView') {
+					if (!$m->isConstructor() && !$m->isDestructor() && is_subclass_of($m->class, 'Module') && $m->name != 'setView') {
 						$actions[] = $m->name;
 					}
 				}
@@ -77,6 +77,8 @@ class tao_helpers_funcACL_Model
 				echo $e->getLine().' : '.$e->getMessage()."\n";
 			}
 		}
+		
+		tao_helpers_funcACL_Cache::cacheExtension($extension);
         // section 127-0-1-1--1875a6a1:137e65726c7:-8000:0000000000003B19 end
     }
 

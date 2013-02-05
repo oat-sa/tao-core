@@ -71,7 +71,9 @@ class tao_models_classes_funcACL_ModuleAccessService
 		foreach (tao_helpers_funcACL_Model::getActions($module) as $action) {
 			$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $mod, $action->getLabel())));
 		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		
+		$module = new core_kernel_classes_Resource($this->makeEMAUri($ext, $mod));
+		tao_helpers_funcACL_Cache::cacheModule($module);
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A31 end
     }
 
@@ -96,7 +98,9 @@ class tao_models_classes_funcACL_ModuleAccessService
 		foreach (tao_helpers_funcACL_Model::getActions($module) as $action) {
 			$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $mod, $action->getLabel())));
 		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		
+		$module = new core_kernel_classes_Resource($this->makeEMAUri($ext, $mod));
+		tao_helpers_funcACL_Cache::cacheModule($module);
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A35 end
     }
 
@@ -121,7 +125,9 @@ class tao_models_classes_funcACL_ModuleAccessService
 		foreach (tao_helpers_funcACL_Model::getActions($module) as $action) {
 			$roler->removePropertyValues($propa, array('pattern' => $this->makeEMAUri($ext, $mod, $action->getLabel())));
 		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		
+		$module = new core_kernel_classes_Resource($this->makeEMAUri($ext, $mod));
+		tao_helpers_funcACL_Cache::cacheModule($module);
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A39 end
     }
 
