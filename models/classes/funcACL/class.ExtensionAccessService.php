@@ -63,17 +63,27 @@ class tao_models_classes_funcACL_ExtensionAccessService
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A1E begin
 		$uri = explode('#', $accessUri);
-		list($type, $ext) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$roler = new core_kernel_classes_Class($roleUri);
-		foreach ($rba[$ext] as $modn => $mod) {
-			$roler->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), $this->makeEMAUri($ext, $modn));
-			//Delete roles for actions
-			foreach ($rba[$ext][$modn]['actions'] as $actn => $roles) {
-				$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $modn, $actn)));
+		list($type, $extId) = explode('_', $uri[1]);
+		
+		$extManager = common_ext_ExtensionsManager::singleton();
+		$extension = $extManager->getExtensionById($extId);
+		$role = new core_kernel_classes_Resource($roleUri);
+		$modules = tao_helpers_funcACL_Model::getModules($extension->getID());
+		$moduleAccessProperty = new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS);
+		$actionAccessProperty = new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS);
+		
+		foreach ($modules as $m){
+			// Delete 'old' action grant access for actions that belong to this module/role.
+			$actions = tao_helpers_funcACL_Model::getActions($m);
+			foreach ($actions as $a){
+				$role->removePropertyValues($actionAccessProperty);
 			}
+			
+			// Give access to this module to the role.
+			$role->setPropertyValue($moduleAccessProperty, $m->getUri());
 		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		
+		tao_helpers_funcACL_Cache::cacheExtension($extension);
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A1E end
     }
 
@@ -90,17 +100,27 @@ class tao_models_classes_funcACL_ExtensionAccessService
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A22 begin
 		$uri = explode('#', $accessUri);
-		list($type, $ext) = explode('_', $uri[1]);
-		$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-		$roler = new core_kernel_classes_Class($roleUri);
-		foreach ($rba[$ext] as $modn => $mod) {
-			$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $modn)));
-			//Delete roles for actions
-			foreach ($rba[$ext][$modn]['actions'] as $actn => $roles) {
-				$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $modn, $actn)));
+		list($type, $extId) = explode('_', $uri[1]);
+		
+		$extManager = common_ext_ExtensionsManager::singleton();
+		$extension = $extManager->getExtensionById($extId);
+		$role = new core_kernel_classes_Resource($roleUri);
+		$modules = tao_helpers_funcACL_Model::getModules($extension->getID());
+		$moduleAccessProperty = new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS);
+		$actionAccessProperty = new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS);
+		
+		foreach ($modules as $m){
+			// Delete all actions grant access for actions that belong to this module/role.
+			$actions = tao_helpers_funcACL_Model::getActions($m);
+			foreach ($actions as $a){
+				$role->removePropertyValues($actionAccessProperty);
 			}
+			
+			// Delete access to the module itself.
+			$role->removePropertyValues($moduleAccessProperty);
 		}
-		tao_helpers_funcACL_funcACL::removeRolesByActions();
+		
+		tao_helpers_funcACL_Cache::cacheExtension($extension);
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A22 end
     }
 

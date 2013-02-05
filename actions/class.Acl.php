@@ -39,34 +39,55 @@ class tao_actions_Acl extends tao_actions_CommonModule {
 			throw new Exception("wrong request mode");
 		}
 		else{
-			$role = $this->getRequestParameter('role');
-			$rba = tao_helpers_funcACL_funcACL::getRolesByActions();
-			$rban = array();
-			foreach ($rba as $enom => $e) {
-				$access = 0;
-				$rban[$enom] = array('modules' => array(), 'have-access' => false, 'have-allaccess' => false, 'uri' => 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#e_'.$enom);
-				foreach ($e as $mnom => $m) {
-					$rban[$enom]['modules'][$mnom] = array('have-access' => false, 'have-allaccess' => false, 'uri' => 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_'.$enom.'_'.$mnom);
-					if (in_array($role, $m['roles'])) {
-						$rban[$enom]['modules'][$mnom]['have-allaccess'] = true;
-						$access++;
+			$role = new core_kernel_classes_Class($this->getRequestParameter('role'));
+			$profile = array();
+			
+			$extManager = common_ext_ExtensionsManager::singleton();
+			$extensions = $extManager->getInstalledExtensions();
+			$accessService = tao_models_classes_funcACL_AccessService::singleton();
+			
+			foreach ($extensions as $extId => $ext){
+				$atLeastOneAccess = false;
+				
+				$profile[$extId] = array('modules' => array(), 
+										 'has-access' => false,
+										 'has-allaccess' => false, 
+										 'uri' => $accessService->makeEMAUri($extId));
+				
+				foreach (tao_helpers_funcACL_Model::getModules($extId) as $modUri => $module){
+					$moduleAccess = tao_helpers_funcACL_Cache::retrieveModule($module);
+					$uri = explode('#', $modUri);
+					list($type, $extId, $modId) = explode('_', $uri[1]);
+					
+					$profile[$extId]['modules'][$modId] = array('has-access' => false,
+													 'has-allaccess' => false,
+													 'uri' => $module->getUri());
+					
+					if (true === in_array($role->getUri(), $moduleAccess['module'])){
+						$profile[$extId]['modules'][$modId]['has-allaccess'] = true;
+						$atLeastOneAccess = true;
 					}
-					//Have any access in actions ?
-					$aaccess = 0;
-					foreach ($m['actions'] as $act => $r) if (in_array($role, $r)) $aaccess++;
-					if ($aaccess > 0) {
-						$rban[$enom]['modules'][$mnom]['have-access'] = true;
-						$access++;
-					}
-					$moduleActions = tao_helpers_funcACL_Model::getActions(new core_kernel_classes_Resource($rban[$enom]['modules'][$mnom]['uri']));
-					if ($aaccess > 0 && $aaccess == count($moduleActions)) {
-						$rban[$enom]['modules'][$mnom]['have-allaccess'] = true;
+					else {
+						// have a look at actions.
+						foreach ($moduleAccess['actions'] as $roles){
+							if (in_array($role->getUri(), $roles)){
+								$profile[$extId]['modules'][$modId]['has-access'] = true;
+								$atLeastOneAccess = true;
+							}
+						}
 					}
 				}
-				//By modules, not by the extension directly
-				if ($access > 0) $rban[$enom]['have-access'] = true;
+				
+				if (true === $atLeastOneAccess){
+					$profile[$extId]['has-access'] = true;
+				}
 			}
-			echo json_encode($rban);
+			
+			if (!empty($profile['generis'])){
+				unset($profile['generis']);
+			}
+			
+			echo json_encode($profile);
 		}
 	}
 
@@ -77,47 +98,26 @@ class tao_actions_Acl extends tao_actions_CommonModule {
 		else{
 			$role = new core_kernel_classes_Resource($this->getRequestParameter('role'));
 			$module = new core_kernel_classes_Resource($this->getRequestParameter('module'));
-	
+			$moduleAccess = tao_helpers_funcACL_Cache::retrieveModule($module);
+			
 			$actions = array();
 			foreach (tao_helpers_funcACL_Model::getActions($module) as $action) {
-				$actions[$action->getLabel()] = array(
-					'uri'			=> $action->getUri(),
-					'have-access'	=> in_array($role, tao_helpers_funcACL_funcACL::getRolesByAction($action))
-				);
+				$uri = explode('#', $action->getUri());
+				list($type, $extId, $modId, $actId) = explode('_', $uri[1]);
+				
+				$actions[$actId] = array('uri' => $action->getUri(),
+										 'has-access' => false);
+				
+				if (isset($moduleAccess['actions'][$action->getUri()])){
+					$grantedRoles = $moduleAccess['actions'][$action->getUri()];
+					if (true === in_array($role->getUri(), $grantedRoles)){
+						$actions[$actId]['has-access'] = true;
+					}
+				}
 			}
+			
 			ksort($actions);
-			echo json_encode(array(
-				'actions'	=> $actions,
-				'byModule'	=> in_array($role, tao_helpers_funcACL_funcACL::getRolesByModule($module))
-			));	
-		}
-	}
-
-	public function getAttachedModuleRoles() {
-		if (!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		else{
-			$module = new core_kernel_classes_Resource($this->getRequestParameter('module'));
-			$roles = array();
-			foreach (tao_helpers_funcACL_funcACL::getRolesByModule($module) as $role) {
-				$roles[] = array('uri' => $role->getUri(), 'label' => $role->getLabel());
-			}
-			echo json_encode(array('roles' => $roles));	
-		}
-	}
-
-	public function getAttachedActionRoles() {
-		if (!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		else{
-			$action = new core_kernel_classes_Resource($this->getRequestParameter('action'));
-			$roles = array();
-			foreach (tao_helpers_funcACL_funcACL::getRolesByAction($action) as $role) {
-				$roles[] = array('uri' => $role->getUri(), 'label' => $role->getLabel());
-			}
-			echo json_encode(array('roles' => $roles));	
+			echo json_encode($actions);	
 		}
 	}
 

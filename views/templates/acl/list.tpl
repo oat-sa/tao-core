@@ -37,13 +37,4 @@
 			<ul class="group-list"></ul>
 		</div>
 	</div>
-
-	<div class="aclContainer">
-		<div id="aclRolesAffected-title" class="ui-widget-header ui-corner-top ui-state-default">
-			<?=__('Affected roles')?>
-		</div>
-		<div id="aclRolesAffected" class="ui-widget-content ui-corner-bottom">
-			<ul class="group-list"></ul>
-		</div>
-	</div>
 </div>

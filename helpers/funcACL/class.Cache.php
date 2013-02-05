@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 04.02.2013, 13:55:51 with ArgoUML PHP module 
+ * Automatically generated on 05.02.2013, 14:16:33 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jerome Bogaerts, <jerome@taotesting.com>
@@ -198,7 +198,9 @@ class tao_helpers_funcACL_Cache
         $returnValue = (string) '';
 
         // section 10-13-1-85--1d76564e:13ca4d5068d:-8000:0000000000003C72 begin
-        $returnValue = self::SERIAL_PREFIX_MODULE . urlencode($module->getUri());
+        $uri = explode('#', $module->getUri());
+		list($type, $extId) = explode('_', $uri[1]);
+        $returnValue = self::SERIAL_PREFIX_MODULE . $extId . urlencode($module->getUri());
         // section 10-13-1-85--1d76564e:13ca4d5068d:-8000:0000000000003C72 end
 
         return (string) $returnValue;

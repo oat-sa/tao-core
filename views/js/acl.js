@@ -33,17 +33,17 @@ function loadModules(role) {
 			for (e in data) {
 				ext = data[e];
 				extra = '';
-				if (ext['have-access']) extra = ' have-access';
-				if (ext['have-allaccess']) extra = ' have-allaccess';
+				if (ext['has-access']) extra = ' has-access';
+				if (ext['has-allaccess']) extra = ' has-allaccess';
 				$group = $('<li class="group expendable closed'+extra+'"><div class="group-title"><span class="title">'+ e +'</span><span class="selector all checkable" title="' + __('Add all') + '"></span></div><ul></ul></li>');
 				$group.data('uri', ext.uri);
-				if (ext['have-access'] == true){
+				if (ext['has-access'] == true){
 					$('.selector', $group).click(function (e) {
 						e.stopPropagation();
 						Access2None($(this))
 					});	
 				}
-				else if (ext['have-allaccess'] == true){
+				else if (ext['has-allaccess'] == true){
 					$('.selector', $group).click(function (e) {
 						e.stopPropagation();
 						Access2None($(this))
@@ -60,20 +60,19 @@ function loadModules(role) {
 				for (m in ext.modules) {
 					mod = ext.modules[m];
 					extra = '';
-					if (mod['have-access']) extra = ' have-access';
-					if (mod['have-allaccess']) extra = ' have-allaccess';
-					//if (mod['bymodule']) extra += ' bymodule';
+					if (mod['has-access']) extra = ' has-access';
+					if (mod['has-allaccess']) extra = ' has-allaccess';
+					
 					$el = $('<li class="selectable'+extra+'"><span class="label">'+ m +'</span><span class="selector checkable"></span></li>');
 					$el.data('uri', mod.uri);
-					if (mod['have-access']) $('.selector', $el).click(function (e) {e.stopPropagation();Access2All($(this))});
-					else if (mod['have-allaccess']) $('.selector', $el).click(function (e) {e.stopPropagation();Access2None($(this))});
+					if (mod['has-access']) $('.selector', $el).click(function (e) {e.stopPropagation();Access2All($(this))});
+					else if (mod['has-allaccess']) $('.selector', $el).click(function (e) {e.stopPropagation();Access2None($(this))});
 					else $('.selector', $el).click(function (e) {e.stopPropagation();Access2All($(this))});
 					//Select module
 					$el.click(function() {
 						$('#aclModules .selectable').removeClass('selected');
 						$(this).addClass('selected');
 						loadActions($('#roles').val(), $(this).data('uri'));
-						loadAttachedModuleRoles($(this).data('uri'));
 					});
 					$el.appendTo($('ul', $group));
 				}
@@ -92,29 +91,27 @@ function loadActions(role, module) {
 		success: function(data) {
 			$('#aclActions ul.group-list').empty();
 			nballaccess = 0;
-			for (e in data.actions) {
-				act = data.actions[e];
+			for (e in data) {
+				act = data[e];
 				extra = '';
-				//if (data.bymodule) extra = ' have-heritedaccess';
-				if (data.byModule || act['have-allaccess'] || act['have-access']) {
-					extra = ' have-allaccess';
+
+				if (act['has-allaccess'] || act['has-access']) {
+					extra = ' has-allaccess';
 					nballaccess++;
 				}
 				$el = $('<li class="selectable'+extra+'"><span class="label">'+ e +'</span><span class="selector checkable"></span></li>');
 				$el.data('uri', act.uri);
-				if ($el.hasClass('have-allaccess')) $('.selector', $el).click(function (e) {e.stopPropagation();Access2None($(this))});
+				if ($el.hasClass('has-allaccess')) $('.selector', $el).click(function (e) {e.stopPropagation();Access2None($(this))});
 				//else if ($el.hasClass('have-heritedaccess')) $('.selector', $el).click(function (e) {e.stopPropagation();Module2ActionAccess($(this))});
 				else $('.selector', $el).click(function (e) {e.stopPropagation();Access2All($(this))});
 				//Select action
 				$el.click(function() {
 					$('#aclActions .selectable').removeClass('selected');
 					$(this).toggleClass('selected');
-					loadAttachedActionRoles($(this).data('uri'));
 				});
 				$el.appendTo($('#aclActions ul.group-list'));
 			}
-			if (nballaccess == Object.keys(data.actions).length) {
-				if (data.byModule) extra = ' checked';
+			if (nballaccess == Object.keys(data).length) {
 				$el = $('<li class="autoadd'+extra+'"><span class="label">'+ __('Auto. add new') +'</span><span class="selector checkable"></span></li>');
 				$el.click(function() {
 					if ($(this).hasClass('checked')) actOnUri($('#aclModules .selected').data('uri'), 'mod2acts', $('#roles').val());
@@ -126,50 +123,16 @@ function loadActions(role, module) {
 	});
 }
 
-function loadAttachedModuleRoles(module) {
-	$.ajax({
-		type: "POST",
-		url: root_url + "tao/Acl/getAttachedModuleRoles",
-		data: 'module='+module,
-		dataType: 'json',
-		success: function(data) {
-			addRolesAffected(data);
-		}
-	});
-}
-
-function loadAttachedActionRoles(action) {
-	$.ajax({
-		type: "POST",
-		url: root_url + "tao/Acl/getAttachedActionRoles",
-		data: 'action='+action,
-		dataType: 'json',
-		success: function(data) {
-			addRolesAffected(data);
-		}
-	});
-}
-
-function addRolesAffected(data) {
-	$('#aclRolesAffected ul.group-list').empty();
-	for (e in data.roles) {
-		role = data.roles[e];
-		$el = $('<li class="selectable"><span class="label">'+ role.label +'</span><span class="selector checkable"></span></li>');
-		$el.data('uri', role.uri);
-		$el.appendTo($('#aclRolesAffected ul.group-list'));
-	}
-}
-
 function Access2All(el) {
 	//Act
-	uri = $(el).closest('li').removeClass('have-access').addClass('have-allaccess').data('uri');
+	uri = $(el).closest('li').removeClass('has-access').addClass('has-allaccess').data('uri');
 	actOnUri(uri, 'add', $('#roles').val());
 	el.unbind('click').click(function (e) {e.stopPropagation();Access2None($(this))});
 }
 
 function Access2None(el) {
 	//Act
-	uri = $(el).closest('li').removeClass('have-access').removeClass('have-allaccess').data('uri');
+	uri = $(el).closest('li').removeClass('has-access').removeClass('has-allaccess').data('uri');
 	actOnUri(uri, 'remove', $('#roles').val());
 	el.unbind('click').click(function (e) {e.stopPropagation();Access2All($(this))});
 }

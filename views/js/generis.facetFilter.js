@@ -88,12 +88,12 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 					for (c in data.children) {
 						//Selected ?
 						var sel = '';
-						if (self.lastFilter[data.attributes.id] != undefined && $.inArray(data.children[c].attributes.id, self.lastFilter[data.attributes.id]) >= 0) sel += ' have-allaccess';
+						if (self.lastFilter[data.attributes.id] != undefined && $.inArray(data.children[c].attributes.id, self.lastFilter[data.attributes.id]) >= 0) sel += ' has-allaccess';
 						$el = $('<li id="'+data.children[c].attributes.id+'" class="selectable'+sel+'"><ul class="actions"></ul><span class="label">'+data.children[c].data+'</span><span class="selector checkable"></span></li>').appendTo($('#list-'+listOptions.id+' ul.group-list'));
 						$('span.label, span.selector', $el).on('click', function(e){
 							e.preventDefault();
-							if ($(this).parent().hasClass('have-allaccess')) $(this).parent().removeClass('have-allaccess');
-							else $(this).parent().addClass('have-allaccess');
+							if ($(this).parent().hasClass('has-allaccess')) $(this).parent().removeClass('has-allaccess');
+							else $(this).parent().addClass('has-allaccess');
 							self.propagateChoice();
 						});
 						//Add actions
@@ -116,7 +116,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 			for (var id in this.lists) {
 				//var checked = this.lists[id].getChecked();
 				var checked = [];
-				$('li.selectable.have-allaccess', this.lists[id].elem).each(function(idx, el) {
+				$('li.selectable.has-allaccess', this.lists[id].elem).each(function(idx, el) {
 					checked.push($(this).prop('id'));
 				});
 				if (checked.length) filter[$('ul', $(this.lists[id].elem)).prop('id')] = checked;
@@ -140,7 +140,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 			var formatedFilter = {};
 			for (var id in this.lists) {
 				var checked = [];
-				$('li.selectable.have-allaccess', this.lists[id].elem).each(function(idx, el) {
+				$('li.selectable.has-allaccess', this.lists[id].elem).each(function(idx, el) {
 					checked.push($(this).prop('id'));
 				});
 				if (checked.length) formatedFilter[$('ul', $(this.lists[id].elem)).prop('id')] = checked;

@@ -403,14 +403,14 @@ ul.group-list .selector {
 }
 ul.group-list li > .checkable,
 ul.group-list li .group-title > .checkable { background-image: url(../img/checkbox.png) }
-ul.group-list .have-access > .selector,
-ul.group-list .have-access .group-title > .selector,
-ul.group-list .have-access:hover > .selector,
-ul.group-list .have-access:hover .group-title > .selector { background-image: url(../img/checkbox_partial.png) }
-ul.group-list .have-allaccess > .selector,
-ul.group-list .have-allaccess .group-title > .selector,
-ul.group-list .have-allaccess:hover > .selector,
-ul.group-list .have-allaccess:hover .group-title > .selector { background-image: url(../img/checkbox_checked.png) }
+ul.group-list .has-access > .selector,
+ul.group-list .has-access .group-title > .selector,
+ul.group-list .has-access:hover > .selector,
+ul.group-list .has-access:hover .group-title > .selector { background-image: url(../img/checkbox_partial.png) }
+ul.group-list .has-allaccess > .selector,
+ul.group-list .has-allaccess .group-title > .selector,
+ul.group-list .has-allaccess:hover > .selector,
+ul.group-list .has-allaccess:hover .group-title > .selector { background-image: url(../img/checkbox_checked.png) }
 ul.group-list .autoadd > .selector,
 ul.group-list .autoadd .group-title > .selector,
 ul.group-list .autoadd:hover > .selector,
