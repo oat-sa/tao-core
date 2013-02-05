@@ -62,6 +62,9 @@ class tao_install_ExtensionInstaller
     public function extendedInstall()
     {
         // section 10-13-1-85-74f9b31f:13c8ff1fd35:-8000:0000000000003C58 begin
+        common_Logger::i("Loading constants for extension '" . $this->extension->getID());
+        Bootstrap::loadConstants($this->extension->getID());
+        
         tao_helpers_funcACL_Model::spawnExtensionModel($this->extension);
         // section 10-13-1-85-74f9b31f:13c8ff1fd35:-8000:0000000000003C58 end
     }
