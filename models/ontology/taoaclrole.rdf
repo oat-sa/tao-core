@@ -7,7 +7,7 @@
 	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
 	xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
 >
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#BaseAccessRole">
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/tao.rdf#BaseAccessRole">
     	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#ClassRole"/>
     	<rdfs:label xml:lang="EN"><![CDATA[TAO]]></rdfs:label>
 		<rdfs:comment xml:lang="EN"><![CDATA[TAO Role]]></rdfs:comment>
