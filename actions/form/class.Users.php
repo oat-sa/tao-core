@@ -78,7 +78,7 @@ class tao_actions_form_Users
     {
         // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F43 begin
         
-    	if(is_null($clazz)){
+    	if (empty($clazz)){
     		throw new Exception('Set the user class in the parameters');	
     	}
     	
@@ -86,7 +86,7 @@ class tao_actions_form_Users
     	
     	$options = array();
     	$service = tao_models_classes_UserService::singleton();
-    	if(!is_null($user)){
+    	if(!empty($user)){
     		$this->user = $user;
 			$options['mode'] = 'edit';
     	}
