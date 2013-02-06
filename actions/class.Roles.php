@@ -91,7 +91,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 		$clazz = $this->getCurrentClass();
 		$role = $this->getCurrentInstance();
 		
-		$formContainer = new tao_actions_form_Instance($clazz, $role);
+		$formContainer = new tao_actions_form_Role($clazz, $role);
 		$myForm = $formContainer->getForm();
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){

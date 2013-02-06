@@ -179,7 +179,7 @@ class tao_actions_form_Users
 				tao_helpers_form_FormFactory::getValidator('Callback', array(
 					'object' => tao_models_classes_UserService::singleton(), 
 					'method' => 'loginAvailable', 
-					'message' => __('login already exist') 
+					'message' => __('This Login is already in use') 
 				))
 			));
 		}
