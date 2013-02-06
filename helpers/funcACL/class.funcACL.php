@@ -96,28 +96,36 @@ class tao_helpers_funcACL_funcACL
 		$moduleResource = new core_kernel_classes_Resource($moduleUri);
 		
 		//Get the access list (reversed)
-		$moduleAccess = tao_helpers_funcACL_Cache::retrieveModule($moduleResource);
-		
-		//Test if we have a role giving access to the module.
-		foreach ($roles as $r){
-			if (in_array($r->getUri(), $moduleAccess['module'])){
-				$returnValue = true;
-				break;
-			}
-		}
-		
-		//Maybe an access for the action?
-		foreach ($roles as $r){
-			if (isset($moduleAccess['actions'][$actionUri])){
-				$actionRoles = $moduleAccess['actions'][$actionUri];
-				if (in_array($r->getUri(), $actionRoles)){
+		try{
+			$moduleAccess = tao_helpers_funcACL_Cache::retrieveModule($moduleResource);
+			
+			//Test if we have a role giving access to the module.
+			foreach ($roles as $r){
+				if (in_array($r->getUri(), $moduleAccess['module'])){
 					$returnValue = true;
 					break;
 				}
 			}
+			
+			//Maybe an access for the action?
+			foreach ($roles as $r){
+				if (isset($moduleAccess['actions'][$actionUri])){
+					$actionRoles = $moduleAccess['actions'][$actionUri];
+					if (in_array($r->getUri(), $actionRoles)){
+						$returnValue = true;
+						break;
+					}
+				}
+			}
+		}
+		catch (common_cache_NotFoundException $e){
+			// No entry in the cache for this module, it seems
+			// it does not exist.
+			common_Logger::w("ACL Cache could not be retrieved for module '${module}'.");
+			$returnValue = false;
 		}
 		
-		if (!$returnValue) {
+		if (false === $returnValue) {
 			common_Logger::i('Access denied to '.$extension.'::'.$module.'::'.$action.' for user '.
 				'\''.core_kernel_classes_Session::singleton()->getUserLogin().'\'');
 		}

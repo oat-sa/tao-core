@@ -7,7 +7,8 @@ class FuncACLTestCase extends UnitTestCase {
 	public function testFuncACL() {
 		$userService = core_kernel_users_Service::singleton();
 		$roleService = tao_models_classes_funcACL_RoleService::singleton();
-		$testRole = new core_kernel_classes_Resource(INSTANCE_ROLE_TAOMANAGER);
+		$baseRole = new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE);
+		$testRole = $userService->addRole('testrole', $baseRole);
 		$user = $userService->addUser('testcase', md5('testcase'));
 		
 		$srv = tao_models_classes_UserService::singleton();
@@ -23,6 +24,13 @@ class FuncACLTestCase extends UnitTestCase {
 		
 		// -- Try to access a restricted action
 		$this->assertFalse(tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', 'add'));
+		
+		// -- Try to access a unrestricted action
+		// (BACKOFFICE has access to the backend login action because it includes the TAO Role)
+		$this->assertTrue(tao_helpers_funcACL_funcACL::hasAccess('tao', 'Main', 'login'));
+		
+		// -- Try to access an action that does not exist.
+		$this->assertFalse(tao_helpers_funcACL_funcACL::hasAccess('tao', 'Unknown', 'action'));
 		
 		// -- Try to access a unrestricted action
 		// Add access for this action to the Manager role.
@@ -59,6 +67,7 @@ class FuncACLTestCase extends UnitTestCase {
 		
 		
 		$userService->removeUser($user);
+		$userService->removeRole($testRole);
 	}
 	
 	public function testACLCache(){
