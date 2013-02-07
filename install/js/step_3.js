@@ -62,7 +62,14 @@ function onLoad(){
 				else if (data.value.status == 'invalid-noconnection'){
 					// No connection established.
 					var dsn = driver + '://' + user + '@' + host;
-					displayTaoError('Unable to connect to Relational Database Management System ' + dsn + '.');
+					var msg  = "Unable to connect to Relational Database Management ";
+						msg += "System " + dsn + ".";
+						
+					if (data.value.message){
+						msg	+= "\n\nError from server: " + data.value.message;
+					}
+					
+					displayTaoError(msg);
 				}
 				else if (data.value.status == 'invalid-overwrite'){
 					displayTaoError("A database with name '" + database + "' already exists. Check the corresponding check box to overwrite it.");

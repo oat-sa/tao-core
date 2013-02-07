@@ -65,8 +65,17 @@ class tao_install_utils_MysqlDbCreator extends tao_install_utils_DbCreator{
 		return array();	
 	}
 	
-	protected function getExtraDSN(){
-		return ';charset=utf8';	
+	protected function getDiscoveryDSN(){
+		$driver = str_replace('pdo_', '', $this->driver);
+		$dsn  = $driver . ':host=' . $this->host . ';charset=utf8';
+		return $dsn;
+	}
+	
+	protected function getDatabaseDSN(){
+		$driver = str_replace('pdo_', '', $this->driver);
+		$dbName = $this->dbName;
+		$dsn  = $driver . ':dbname=' . $dbName . ';host=' . $this->host . ';charset=utf8';
+		return $dsn;
 	}
 }
 ?>

@@ -65,8 +65,17 @@ class tao_install_utils_PgsqlDbCreator extends tao_install_utils_DbCreator{
 		return array();	
 	}
 	
-	protected function getExtraDSN(){
-		return '';	
+	protected function getDiscoveryDSN(){
+		$driver = str_replace('pdo_', '', $this->driver);
+		$dsn  = $driver . ':host=' . $this->host;
+		return $dsn;
+	}
+	
+	protected function getDatabaseDSN(){
+		$driver = str_replace('pdo_', '', $this->driver);
+		$dbName = $this->dbName;
+		$dsn  = $driver . ':dbname=' . $dbName . ';host=' . $this->host;
+		return $dsn;
 	}
 }
 ?>

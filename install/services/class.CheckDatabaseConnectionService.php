@@ -69,7 +69,7 @@ class tao_install_services_CheckDatabaseConnectionService
     
     public static function buildComponent(tao_install_services_Data $data){
     	$content = json_decode($data->getContent(), true);
-        $driver = str_replace('pdo_', '', $content['value']['driver']);
+        $driver = $content['value']['driver'];
     	if (isset($content['value']['optional'])){
         	$optional = $content['value']['optional'];
         }
@@ -80,7 +80,7 @@ class tao_install_services_CheckDatabaseConnectionService
         // Try such a driver. Because the provided driver name should
         // comply with a PHP Extension name (e.g. mysql, pgsql), we test its
         // existence.
-        return common_configuration_ComponentFactory::buildPHPDatabaseDriver('pdo_' . $driver, $optional);
+        return common_configuration_ComponentFactory::buildPHPDatabaseDriver($driver, $optional);
     }
     
     public static function buildResult(tao_install_services_Data $data,
@@ -88,12 +88,13 @@ class tao_install_services_CheckDatabaseConnectionService
 									   common_configuration_Component $component){
 
 		$content = json_decode($data->getContent(), true);
-        $driver = str_replace('pdo_', '', $content['value']['driver']);
+        $driver = $content['value']['driver'];
         $user = $content['value']['user'];
         $password = $content['value']['password'];
         $host = $content['value']['host'];
 		$overwrite = $content['value']['overwrite'];
 		$database = $content['value']['database'];
+		$message = '';
         
         if ($report->getStatus() == common_configuration_Report::VALID){
             // Great the driver is there, we can try a connection.

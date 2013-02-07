@@ -47,7 +47,8 @@ class tao_install_Installator{
 		try
 		{
 			set_time_limit(300);
-			common_Logger::i('Starting TAO install', 'INSTALL');
+			$maxExecutionTime = ini_get('max_execution_time');
+			common_Logger::i("Starting TAO install (max_execution_time = ${maxExecutionTime})", 'INSTALL');
 	        
 			// Sanitize $installData if needed.
 			if(!preg_match("/\/$/", $installData['module_url'])){
@@ -59,7 +60,7 @@ class tao_install_Installator{
 			 */
 			$distribManifest = new common_distrib_Manifest(dirname(__FILE__) . '/../distributions.php');
 			$distrib = $distribManifest->getDistributions();
-			$distrib = $distrib[1]; // At the moment, we use the Open Source Distribution by default.
+			$distrib = $distrib[1]; // At the moment we only use the Open Source Distribution by default.
 			$configChecker = $distrib->getConfigChecker();
 			
 			// Silence checks to have to be escaped.
@@ -83,9 +84,7 @@ class tao_install_Installator{
 			/*
 			 *  1 - Test DB connection (done by the constructor)
 			 */
-			$installData['db_driver'] = strtolower(str_replace('pdo_', '', $installData['db_driver']));
-			
-			common_Logger::i("Spawning DbCreator", 'INSTALL');
+			common_Logger::i("Spawning DbCreator for driver '${install['db_driver']}'", 'INSTALL');
 			$dbCreatorClassName = tao_install_utils_DbCreator::getClassNameForDriver($installData['db_driver']);
 			$dbCreator = new $dbCreatorClassName(
 				$installData['db_host'],

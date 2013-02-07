@@ -46,21 +46,27 @@ abstract class tao_install_utils_DbCreator{
 	protected $host = '';
 	
 	/**
+	 * @var dbName
+	 */
+	protected $dbName = '';
+	
+	/**
 	 * @var $options
 	 */
 	protected $options = array();
 	
-	public function __construct( $host = 'localhost', $user = 'root', $pass = '', $driver = 'mysql', $dbName = ""){
+	public function __construct( $host = 'localhost', $user = 'root', $pass = '', $driver = 'pdo_mysql', $dbName = ''){
 		
 		$this->driver = strtolower($driver);
 		$this->user = $user;
 		$this->pass = $pass;
 		$this->host = $host;
+		$this->dbName = $dbName;
 		
 		$this->chooseSQLParsers();
 		
 		try{
-	        $dsn = $driver . ':host=' . $host . $this->getExtraDSN();
+	        $dsn = $this->getDiscoveryDSN();
 	        $this->options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_BOTH,
 	        					   PDO::ATTR_PERSISTENT => false,
 	        					   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -158,7 +164,7 @@ abstract class tao_install_utils_DbCreator{
 		// We have to reconnect with PDO :/
 		try{
 			$this->pdo = null;
-			$dsn = $this->driver . ':dbname=' . $name . ';host=' . $this->host . $this->getExtraDSN();
+			$dsn = $this->getDatabaseDSN();
 			$this->pdo = new PDO($dsn, $this->user, $this->pass, $this->options);
 			$this->afterConnect();
 		}
@@ -186,11 +192,30 @@ abstract class tao_install_utils_DbCreator{
 	abstract protected function afterConnect();
 	
 	public static function getClassNameForDriver($driver){
-		return 'tao_install_utils_' . ucfirst($driver) . 'DbCreator';
+		$driverName = ucfirst($driver);
+		$className = 'tao_install_utils_' . $driver . 'DbCreator';
+		if (class_exists($className)){
+			return $className;	
+		}
+		else{
+			$driverName = str_replace('pdo_', '', $driver);
+			$driverName = ucfirst($driverName);
+			$className = 'tao_install_utils_' . $driverName . 'DbCreator';
+			if (class_exists($className)){
+				return $className;
+			}
+			else{
+				$msg  = "Unable to find the sub-class of 'tao_install_utils_DbCreator' ";
+				$msg .= "related to the '${driver}' database driver.";
+				throw new tao_install_utils_Exception($msg);
+			}
+		}
 	}
 	
 	abstract protected function getExtraConfiguration();
 	
-	abstract protected function getExtraDSN();
+	abstract protected function getDiscoveryDSN();
+	
+	abstract protected function getDatabaseDSN();
 }
 ?>

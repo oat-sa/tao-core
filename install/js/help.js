@@ -58,5 +58,5 @@ function displayTaoError(msg, title){
 	$(popupDocContext).find("#genericPopup h4").removeClass('help')
 											   .addClass('error')
 											   .html(title);
-	$(popupDocContext).find("#genericPopupContent").html(msg);
+	$(popupDocContext).find("#genericPopupContent").html(msg.replace(/\n/g, "<br/>"));
 }
