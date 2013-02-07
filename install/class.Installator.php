@@ -84,7 +84,7 @@ class tao_install_Installator{
 			/*
 			 *  1 - Test DB connection (done by the constructor)
 			 */
-			common_Logger::i("Spawning DbCreator for driver '${install['db_driver']}'", 'INSTALL');
+			common_Logger::i("Spawning DbCreator", 'INSTALL');
 			$dbCreatorClassName = tao_install_utils_DbCreator::getClassNameForDriver($installData['db_driver']);
 			$dbCreator = new $dbCreatorClassName(
 				$installData['db_host'],
