@@ -46,9 +46,7 @@ class tao_install_Installator{
 	{
 		try
 		{
-			set_time_limit(300);
-			$maxExecutionTime = ini_get('max_execution_time');
-			common_Logger::i("Starting TAO install (max_execution_time = ${maxExecutionTime})", 'INSTALL');
+			common_Logger::i("Starting TAO install", 'INSTALL');
 	        
 			// Sanitize $installData if needed.
 			if(!preg_match("/\/$/", $installData['module_url'])){
@@ -122,7 +120,7 @@ class tao_install_Installator{
 			$dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
 			common_Logger::i('Created tables', 'INSTALL');
 	        
-			$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_' . $installData['db_driver'] . '.sql';
+			$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
 			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
 				common_Logger::i('Installing stored procedures for ' . $installData['db_driver'], 'INSTALL');
 				$dbCreator->loadProc($storedProcedureFile);
@@ -203,7 +201,6 @@ class tao_install_Installator{
 			$generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
 			$generisInstaller = new common_ext_GenerisInstaller($generis);
 			$generisInstaller->install();
-	        
 			
 	        /*
 			 * 8 - Install the extensions
@@ -230,6 +227,9 @@ class tao_install_Installator{
 						try {
 						    $importLocalData = ($installData['import_local'] == true);
 							$extinstaller = new tao_install_ExtensionInstaller($extension, $importLocalData);
+							
+							set_time_limit(30);
+							
 							$extinstaller->install();
 						} catch (common_ext_ExtensionException $e) {
 							throw new tao_install_utils_Exception("An error occured during the installation of extension '" . $extension->getID() . "'.");
