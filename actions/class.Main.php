@@ -244,12 +244,15 @@ class tao_actions_Main extends tao_actions_CommonModule {
 					switch ((string) $actionNode['context']) {
 						case 'resource':
 							if ($classUri || $uri) $action['disabled'] = false;
+                            }
 							break;
 						case 'class':
 							if ($classUri && !$uri) $action['disabled'] = false;
+                            }
 							break;
 						case 'instance':
 							if ($classUri && $uri) $action['disabled'] = false;
+                            }
 							break;
 						case '*':
 							$action['disabled'] = false;
