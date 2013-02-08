@@ -149,7 +149,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			$structure = $this->service->getStructure($this->getRequestParameter('ext'), $this->getRequestParameter('structure'));
 
 			$sections = array();
-			foreach ($structure["data"]->sections[0] as $id => $section) {
+			foreach ($structure["data"]->sections[0] as $section) {
 				$url = explode('/', substr((string)$section['url'], 1));
 				$ext = (isset($url[0])) ? $url[0] : null;
 				$module = (isset($url[1])) ? $url[1] : null;
@@ -243,15 +243,18 @@ class tao_actions_Main extends tao_actions_CommonModule {
 					$action['disabled'] = true;
 					switch ((string) $actionNode['context']) {
 						case 'resource':
-							if ($classUri || $uri) $action['disabled'] = false;
+							if ($classUri || $uri) {
+                                $action['disabled'] = false;
                             }
 							break;
 						case 'class':
-							if ($classUri && !$uri) $action['disabled'] = false;
+							if ($classUri && !$uri) {
+                                $action['disabled'] = false;
                             }
 							break;
 						case 'instance':
-							if ($classUri && $uri) $action['disabled'] = false;
+							if ($classUri && $uri) {
+                                $action['disabled'] = false;
                             }
 							break;
 						case '*':
