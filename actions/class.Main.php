@@ -329,11 +329,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			$this->setData('openUri', $openUri);
 
 			//differentiate the instanceName of Deliveries and Process definition from the others
-			if($extname=="taoDelivery" || $extname=="wfEngine"){
-				$this->setData('instanceName', $this->getSessionAttribute('currentSection'));
-			}else{
-				$this->setData('instanceName', strtolower(str_replace('tao', '', substr($extname, 0, strlen($extname) - 1))));
-			}
+			$this->setData('instanceName', strtolower(str_replace('tao', '', substr($extname, 0, strlen($extname) - 1))));
 		}
 
 		$this->setView('main/trees.tpl', true);
