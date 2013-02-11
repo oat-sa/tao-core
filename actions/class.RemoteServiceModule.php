@@ -76,6 +76,7 @@ class tao_actions_RemoteServiceModule extends Module {
 			$this->currentUser = $user;
 			return $user;
 		} else {
+			common_Logger::w('API login failed for user '.$this->getRequestParameter('username'));
 			return false;
 		}
 	}
