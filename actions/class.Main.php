@@ -32,6 +32,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 						context::getInstance()->getActionName()
 						,context::getInstance()->getModuleName()
 						,context::getInstance()->getExtensionName()
+						,$_GET
 					));
 				$this->redirect(_url('login', 'Main', 'tao', $params));
 			}
@@ -63,17 +64,21 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/login.css');
 			//tao_helpers_Scriptloader::addJsFile(BASE_WWW . 'js/login.js');
 
-			$myLoginFormContainer = new tao_actions_form_Login($this->hasRequestParameter('redirect')
-				? array('redirect' => $this->getRequestParameter('redirect'))
-				: array()
-			);
+			$params = array();
+			if ($this->hasRequestParameter('redirect')) {
+				$redirectUrl = $_REQUEST['redirect'];
+				if (substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
+					$params['redirect'] = $redirectUrl;
+				}
+			}
+			$myLoginFormContainer = new tao_actions_form_Login($params);
 			$myForm = $myLoginFormContainer->getForm();
 
 			if($myForm->isSubmited()){
 				if($myForm->isValid()){
 					if($this->userService->loginUser($myForm->getValue('login'), md5($myForm->getValue('password')))){
 						if ($this->hasRequestParameter('redirect')) {
-							$this->redirect($this->getRequestParameter('redirect'));
+							$this->redirect($_REQUEST['redirect']);
 						} else {
 							$this->redirect(_url('index', 'Main'));
 						}
