@@ -199,16 +199,26 @@ class tao_models_classes_TaoService
 				if(!is_null($xmlStructures)){
 					$structures = $xmlStructures->xpath("/structures/structure");
 					foreach($structures as $xmlStructure){
-						self::$structure[(int)$xmlStructure['level']] = array(
-							'extension' => $loadedExtension,
-							'id'		=> (string)$xmlStructure['id'],
-							'data'		=> $xmlStructure,
-							'level'		=> (int)$xmlStructure['level']
-						);
+						$id = (string)$xmlStructure['id'];
+						if (!isset(self::$structure[$id])) {
+							self::$structure[$id] = array(
+								'extension' => $loadedExtension,
+								'id'		=> (string)$xmlStructure['id'],
+								'data'		=> $xmlStructure,
+								'sections'	=> array(),
+								'level'		=> (int)$xmlStructure['level']
+							);
+						}
+						$sections = $xmlStructure->xpath("sections/section");
+						foreach($sections as $section) {
+							self::$structure[$id]['sections'][] = $section;
+						}
 					}
 				}
 			}
-			ksort(self::$structure);
+			usort(self::$structure, function($a, $b) {
+				return $a['level'] - $b['level'];
+			});
 		}
 		$returnValue = self::$structure;
         // section 127-0-1-1-64be1e2f:13774f13776:-8000:0000000000003A89 end

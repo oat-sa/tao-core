@@ -12,8 +12,9 @@
 		<table>
 			<tbody>
 				<tr>
-					<?foreach(get_data('extensions') as $i => $extension):?>
-					<?if($extension['extension'] != 'users'):?>
+					<?	$i = 0;
+						foreach(get_data('extensions') as $extension):
+					?>
 					<?if($i%4==0 && $i > 0):?>
 						</tr>
 						<tr>
@@ -29,8 +30,7 @@
 							<span class='extension-desc' style="display:none;"><?=__($extension['description']);?></span>
 						</div>
 					</td>
-					<?endif?>
-					<?endforeach?>
+					<?$i++;endforeach?>
 				</tr>
 			</tbody>
 		</table>
