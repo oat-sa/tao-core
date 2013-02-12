@@ -4,12 +4,29 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 class FuncACLTestCase extends UnitTestCase {
 	
+	private $user;
+	private $testrole;
+	
+	public function setUp() {
+        parent::setUp();
+        
+        $userService = core_kernel_users_Service::singleton();
+		$baseRole = new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE);
+		$this->testRole = $userService->addRole('testrole', $baseRole);
+		$this->user = $userService->addUser('testcase', md5('testcase'));
+    }
+    
+	public function tearDown() {
+        parent::tearDown();
+        $userService = core_kernel_users_Service::singleton();
+        $userService->removeUser($this->user);
+		$userService->removeRole($this->testRole);
+    }
+	
 	public function testFuncACL() {
 		$userService = core_kernel_users_Service::singleton();
 		$roleService = tao_models_classes_funcACL_RoleService::singleton();
 		$baseRole = new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE);
-		$testRole = $userService->addRole('testrole', $baseRole);
-		$user = $userService->addUser('testcase', md5('testcase'));
 		
 		$srv = tao_models_classes_UserService::singleton();
 		$this->assertTrue($userService->login('testcase', md5('testcase'), new core_kernel_classes_Resource(INSTANCE_ROLE_GENERIS)));
@@ -34,10 +51,10 @@ class FuncACLTestCase extends UnitTestCase {
 		
 		// -- Try to access a unrestricted action
 		// Add access for this action to the Manager role.
-		tao_models_classes_funcACL_ActionAccessService::singleton()->add($testRole->getUri(), $makeemauri);
+		tao_models_classes_funcACL_ActionAccessService::singleton()->add($this->testRole->getUri(), $makeemauri);
 		
 		// Add the Manager role the the currently tested user
-		$roleService->attachUser($user->getUri(), $testRole->getUri());
+		$roleService->attachUser($this->user->getUri(), $this->testRole->getUri());
 		
 		// Logoff/login, to refresh roles cache
 		$this->assertTrue($srv->loginUser('testcase', md5('testcase')));
@@ -46,28 +63,25 @@ class FuncACLTestCase extends UnitTestCase {
 		$this->assertTrue(tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', 'add'));
 
 		// Remove the access to this action from the Manager role
-		tao_models_classes_funcACL_ActionAccessService::singleton()->remove($testRole->getUri(), $makeemauri);
+		tao_models_classes_funcACL_ActionAccessService::singleton()->remove($this->testRole->getUri(), $makeemauri);
 		
 		// We should not have access anymore to this action with the Manager role
 		$this->assertFalse(tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', 'add'));
 		
 		// -- Give access to the entire module and try to access the previously tested action
-		tao_models_classes_funcACL_ModuleAccessService::singleton()->add($testRole->getUri(), $makeemaurimod);
+		tao_models_classes_funcACL_ModuleAccessService::singleton()->add($this->testRole->getUri(), $makeemaurimod);
 		$this->assertTrue(tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', 'add'));
 		
 		// -- Remove the entire module access and try again
-		tao_models_classes_funcACL_ModuleAccessService::singleton()->remove($testRole->getUri(), $makeemaurimod);
+		tao_models_classes_funcACL_ModuleAccessService::singleton()->remove($this->testRole->getUri(), $makeemaurimod);
 		$this->assertFalse(tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', 'add'));
 		
 		// reset
-		tao_models_classes_funcACL_ModuleAccessService::singleton()->add($testRole->getUri(), $makeemaurimod);
+		tao_models_classes_funcACL_ModuleAccessService::singleton()->add($this->testRole->getUri(), $makeemaurimod);
 		
 		// Unattach role from user
-		tao_models_classes_funcACL_RoleService::singleton()->unattachUser($user->getUri(), $testRole->getUri());
+		tao_models_classes_funcACL_RoleService::singleton()->unattachUser($this->user->getUri(), $this->testRole->getUri());
 		
-		
-		$userService->removeUser($user);
-		$userService->removeRole($testRole);
 	}
 	
 	public function testACLCache(){
