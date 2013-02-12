@@ -211,7 +211,7 @@ class tao_models_classes_TaoService
 						}
 						$sections = $xmlStructure->xpath("sections/section");
 						foreach($sections as $section) {
-							self::$structure[$id]['sections'][] = $section;
+							self::$structure[$id]['sections'][(string)$section['id']] = $section;
 						}
 					}
 				}
@@ -271,12 +271,13 @@ class tao_models_classes_TaoService
 
         // section 127-0-1-1-64be1e2f:13774f13776:-8000:0000000000003A84 begin
         $structureArr = $this->getStructure($extension, $structure);
-        if(!is_null($structureArr) && isset($structureArr['data'])) {
-			$xmlStruct = $structureArr['data'];
-			$nodes = $xmlStruct->xpath("//section[@name='{$section}']");
-			if(isset($nodes[0])){
-				$returnValue = $nodes[0];
-			}
+        if(is_array($structureArr)) {
+        	foreach ($structureArr['sections'] as $sectionXML) {
+        		if ($sectionXML['name'] == $section) {
+        			$returnValue = $sectionXML;
+        			break;
+        		}
+        	}
 		}
 		if (empty($returnValue)) {
 			common_logger::w('Section '.$section.' not found found for structure '.$structure);
