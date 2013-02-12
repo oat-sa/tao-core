@@ -118,7 +118,7 @@ class tao_helpers_funcACL_funcACL
 				}
 			}
 		}
-		catch (common_cache_NotFoundException $e){
+		catch (common_cache_Exception $e){
 			// No entry in the cache for this module, it seems
 			// it does not exist.
 			common_Logger::w("ACL Cache could not be retrieved for module '${module}'.");

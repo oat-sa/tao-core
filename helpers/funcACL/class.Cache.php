@@ -144,8 +144,14 @@ class tao_helpers_funcACL_Cache
         $returnValue = array();
 
         // section 10-13-1-85--1d76564e:13ca4d5068d:-8000:0000000000003C6D begin
-    	$fileCache = common_cache_FileCache::singleton();
-    	$returnValue = $fileCache->get(self::buildModuleSerial($module));
+        try{
+        	$fileCache = common_cache_FileCache::singleton();
+        	$returnValue = $fileCache->get(self::buildModuleSerial($module));
+        }
+        catch (common_exception_FileSystemError $e){
+        	$msg = "Module cache for ACL not found.";
+        	throw new common_cache_Exception($msg);
+        }
         // section 10-13-1-85--1d76564e:13ca4d5068d:-8000:0000000000003C6D end
 
         return (array) $returnValue;
