@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao\helpers\translation\class.RDFExtractor.php
+ * TAO - tao/helpers/translation/class.RDFExtractor.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 02.02.2012, 14:37:21 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
+ * Automatically generated on 13.02.2013, 12:16:28 with ArgoUML PHP module 
+ * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_translation
  */
@@ -43,7 +43,7 @@ require_once('tao/helpers/translation/class.TranslationExtractor.php');
  * Short description of class tao_helpers_translation_RDFExtractor
  *
  * @access public
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage helpers_translation
  */
@@ -63,13 +63,21 @@ class tao_helpers_translation_RDFExtractor
      */
     private $translatableProperties = array();
 
+    /**
+     * Short description of attribute xmlBase
+     *
+     * @access private
+     * @var array
+     */
+    private $xmlBase = array();
+
     // --- OPERATIONS ---
 
     /**
      * Short description of method extract
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
     public function extract()
@@ -95,6 +103,9 @@ class tao_helpers_translation_RDFExtractor
 	        		// Try to parse the file as a DOMDocument.
 	        		$doc = new DOMDocument('1.0', 'UTF-8');
 	        		$doc->load(realpath($path));
+	        		if ($doc->documentElement->hasAttributeNS($xmlNS, 'base')) {
+	        			$this->xmlBase[$path] = $doc->documentElement->getAttributeNodeNS($xmlNS, 'base')->value; 
+	        		}
 	        		
 	        		$descriptions = $doc->getElementsByTagNameNS($rdfNS, 'Description');
 	        		foreach ($descriptions as $description){
@@ -158,7 +169,7 @@ class tao_helpers_translation_RDFExtractor
      * Short description of method addTranslatableProperty
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string propertyUri
      * @return mixed
      */
@@ -173,7 +184,7 @@ class tao_helpers_translation_RDFExtractor
      * Short description of method removeTranslatableProperty
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string propertyUri
      * @return mixed
      */
@@ -192,7 +203,7 @@ class tao_helpers_translation_RDFExtractor
      * Short description of method setTranslatableProperties
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  array propertyUris
      * @return mixed
      */
@@ -201,6 +212,28 @@ class tao_helpers_translation_RDFExtractor
         // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A84 begin
         $this->translatableProperties = $propertyUris;
         // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A84 end
+    }
+
+    /**
+     * Short description of method getXmlBase
+     *
+     * @access public
+     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @param  string path
+     * @return string
+     */
+    public function getXmlBase($path)
+    {
+        $returnValue = (string) '';
+
+        // section 10-30-1--78-5610a354:13cd2e07c14:-8000:00000000000053D0 begin
+        if (!isset($this->xmlBase[$path])) {
+        	throw new tao_helpers_translation_TranslationException('Missing xmlBase for file '.$path);
+        }
+        $returnValue = $this->xmlBase[$path]; 
+        // section 10-30-1--78-5610a354:13cd2e07c14:-8000:00000000000053D0 end
+
+        return (string) $returnValue;
     }
 
 } /* end of class tao_helpers_translation_RDFExtractor */

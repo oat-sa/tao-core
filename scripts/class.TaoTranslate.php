@@ -7,7 +7,7 @@ error_reporting(E_ALL);
  * of tao. It enables you to manage the i18n of the messages found in the source
  * (gettext) but also i18n of RDF Models.
  *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage scripts
  */
@@ -19,7 +19,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_scripts_Runner
  *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  */
 require_once('tao/scripts/class.Runner.php');
 
@@ -37,7 +37,7 @@ require_once('tao/scripts/class.Runner.php');
  * (gettext) but also i18n of RDF Models.
  *
  * @access public
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+ * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
  * @subpackage scripts
  */
@@ -111,7 +111,7 @@ class tao_scripts_TaoTranslate
      * Things that must happen before script execution.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function preRun()
@@ -159,7 +159,7 @@ class tao_scripts_TaoTranslate
      * Main script implementation.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function run()
@@ -212,7 +212,7 @@ class tao_scripts_TaoTranslate
      * Things that must happen after the run() method.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function postRun()
@@ -225,7 +225,7 @@ class tao_scripts_TaoTranslate
      * Checks the inputs for the current script call.
      *
      * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     private function checkInput()
@@ -281,7 +281,7 @@ class tao_scripts_TaoTranslate
      * Checks the inputs for the 'create' action.
      *
      * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     private function checkCreateInput()
@@ -346,7 +346,7 @@ class tao_scripts_TaoTranslate
      * Checks the inputs for the 'update' action.
      *
      * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     private function checkUpdateInput()
@@ -421,7 +421,7 @@ class tao_scripts_TaoTranslate
      * checks the input for the 'updateAll' action.
      *
      * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     private function checkUpdateAllInput()
@@ -457,7 +457,7 @@ class tao_scripts_TaoTranslate
      * Checks the inputs for the 'delete' action.
      *
      * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     private function checkDeleteInput()
@@ -493,7 +493,7 @@ class tao_scripts_TaoTranslate
      * Checks inputs for the 'deleteAll' action.
      *
      * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     private function checkDeleteAllInput()
@@ -524,7 +524,7 @@ class tao_scripts_TaoTranslate
      * Implementation of the 'create' action.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function actionCreate()
@@ -607,28 +607,26 @@ class tao_scripts_TaoTranslate
         	
         			// Now that PO files & JS files are created, we can create the translation models
         			// if we find RDF models to load for this extension.
-        			$modelFiles = $this->getOntologyFiles($this->options['extension']);
         			$translatableProperties = array(RDFS_LABEL, RDFS_COMMENT);
         	
-        			foreach ($modelFiles as $ns => $files){
-        				foreach ($files as $f){
-        					$modelExtractor = new tao_helpers_translation_RDFExtractor(array($f));
-        					$modelExtractor->setTranslatableProperties($translatableProperties);
-        					$modelExtractor->extract();
-        	
-        					$rdfTranslationFile = new tao_helpers_translation_RDFTranslationFile();
-        					$rdfTranslationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
-        					$rdfTranslationFile->setTargetLanguage($this->options['language']);
-        					$rdfTranslationFile->addTranslationUnits($modelExtractor->getTranslationUnits());
-        					$rdfTranslationFile->setExtensionId($this->options['extension']);
-        					$rdfTranslationFile->setBase($ns);
-        	
-        					$writer = new tao_helpers_translation_RDFFileWriter($dir . '/' . basename($f),
-        							$rdfTranslationFile);
-        					$writer->write();
-        	
-        					$this->outVerbose("RDF Translation model '" . basename($f) . "' in '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "'.");
-        				}
+        			foreach ($this->getOntologyFiles() as $f){
+       					common_Logger::d('reading rdf '.$f);
+       					$modelExtractor = new tao_helpers_translation_RDFExtractor(array($f));
+       					$modelExtractor->setTranslatableProperties($translatableProperties);
+       					$modelExtractor->extract();
+
+       					$rdfTranslationFile = new tao_helpers_translation_RDFTranslationFile();
+       					$rdfTranslationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+       					$rdfTranslationFile->setTargetLanguage($this->options['language']);
+       					$rdfTranslationFile->addTranslationUnits($modelExtractor->getTranslationUnits());
+       					$rdfTranslationFile->setExtensionId($this->options['extension']);
+       					$rdfTranslationFile->setBase($modelExtractor->getXmlBase($f));
+
+       					$writer = new tao_helpers_translation_RDFFileWriter($dir . '/' . basename($f),
+       							$rdfTranslationFile);
+       					$writer->write();
+
+       					$this->outVerbose("RDF Translation model '" . basename($f) . "' in '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "'.");
         			}
         	
         			$this->outVerbose("Language '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "'.");
@@ -643,19 +641,16 @@ class tao_scripts_TaoTranslate
         			$writer = new tao_helpers_translation_POFileWriter($dir . '/' . self::DEF_PO_FILENAME,
         					$translationFile);
         	
-        			$modelFiles = $this->getOntologyFiles($this->options['extension']);
-        			foreach ($modelFiles as $ns => $files){
-        				foreach ($files as $f){
+        			foreach ($this->getOntologyFiles() as $f){
         					$translationFile = new tao_helpers_translation_RDFTranslationFile();
         					$translationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
         					$translationFile->setTargetLanguage($this->options['language']);
         					$translationFile->setExtensionId($this->options['extension']);
-        					$translationFile->setBase($ns);
+        					//$translationFile->setBase($ns);
         	
         					$writer = new tao_helpers_translation_RDFFileWriter($dir . '/' . basename($f),
         							$translationFile);
         					$writer->write();
-        				}
         			}
         	
         			$this->outVerbose("Language '" . $this->options['language'] . "' created for extension '" . $this->options['extension'] . "'.");
@@ -676,7 +671,7 @@ class tao_scripts_TaoTranslate
      * Implementation of the 'update' action.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function actionUpdate()
@@ -729,9 +724,7 @@ class tao_scripts_TaoTranslate
         $this->outVerbose("PO translation file '" . basename($oldFilePath) . "' in '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "'.");
         
         // We now deal with RDF models.
-        $models = $this->getOntologyFiles($this->options['extension']);
-        foreach ($models as $ns => $files){
-            foreach ($files as $f){
+        foreach ($this->getOntologyFiles() as $f){
                 // Loop on 'master' models.
                 $rdfExtractor = new tao_helpers_translation_RDFExtractor(array($f));
                 $rdfExtractor->addTranslatableProperty('http://www.w3.org/2000/01/rdf-schema#label');
@@ -743,7 +736,7 @@ class tao_scripts_TaoTranslate
                 $masterRDFFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
                 $masterRDFFile->setTargetLanguage($this->options['language']);
                 $masterRDFFile->addTranslationUnits($rdfExtractor->getTranslationUnits());
-                $masterRDFFile->setBase($ns);
+                $masterRDFFile->setBase($rdfExtractor->getXmlBase($f));
                 $masterRDFFile->setExtensionId($this->options['extension']);
                 
                 // The slave RDF file is the translation of the ontology that we find in /extId/Locales/langCode.
@@ -771,7 +764,6 @@ class tao_scripts_TaoTranslate
                 $rdfWriter = new tao_helpers_translation_RDFFileWriter($slaveRDFFilePath, $masterRDFFile);
                 $rdfWriter->write();
                 $this->outVerbose("RDF Translation model '" . basename($f) . "' in '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "'.");
-            }
         }
         
        	$this->outVerbose("Language '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "'.");
@@ -782,7 +774,7 @@ class tao_scripts_TaoTranslate
      * Implementation of the 'updateAll' action.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function actionUpdateAll()
@@ -825,7 +817,7 @@ class tao_scripts_TaoTranslate
      * Implementation of the 'delete' action.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function actionDelete()
@@ -846,7 +838,7 @@ class tao_scripts_TaoTranslate
      * Implementation of the 'deleteAll' action.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function actionDeleteAll()
@@ -887,7 +879,7 @@ class tao_scripts_TaoTranslate
      * extension ID.
      *
      * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string extension
      * @param  string language
      * @return string
@@ -907,7 +899,7 @@ class tao_scripts_TaoTranslate
      * Find a structure.xml manifest in a given directory.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string directory
      * @return mixed
      */
@@ -950,7 +942,7 @@ class tao_scripts_TaoTranslate
      * Prepare a PO file before output by adding headers to it.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  POFile poFile
      * @return void
      */
@@ -971,7 +963,7 @@ class tao_scripts_TaoTranslate
      * Determines if an given directory actually contains a TAO extension.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  string directory
      * @return boolean
      */
@@ -1005,7 +997,7 @@ class tao_scripts_TaoTranslate
      * a given PO file.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @param  POFile poFile
      * @return void
      */
@@ -1047,7 +1039,7 @@ class tao_scripts_TaoTranslate
      * the command line for logic.
      *
      * @access protected
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     protected function addLanguageToOntology()
@@ -1095,7 +1087,7 @@ class tao_scripts_TaoTranslate
      * tag. Will use command line parameters for logic.
      *
      * @access protected
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     protected function removeLanguageFromOntology()
@@ -1119,7 +1111,7 @@ class tao_scripts_TaoTranslate
      * Checks authentication parameters for the TAO API.
      *
      * @access protected
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     protected function checkAuthInput()
@@ -1143,27 +1135,16 @@ class tao_scripts_TaoTranslate
      * Get the ontology file paths for a given extension, sorted by target name
      *
      * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string extension The extension where you want to find the related ontology files (.rdf).
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return array
      */
-    private function getOntologyFiles($extension)
+    private function getOntologyFiles()
     {
         $returnValue = array();
 
         // section -64--88-56-1--acd0dae:136abeb190f:-8000:000000000000390D begin
-        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extension);
-        if (isset($ext->installFiles['rdf'])){
-            foreach ($ext->installFiles['rdf'] as $f){
-                $ns = $f['ns'];
-                
-                if (!isset($returnValue[$ns])){
-                    $returnValue[$ns] = array();
-                }
-                
-                $returnValue[$ns][] = $f['file'];
-            }
-        }
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($this->options['extension']);
+        $returnValue = $ext->getManifest()->getInstallModelFiles();
         // section -64--88-56-1--acd0dae:136abeb190f:-8000:000000000000390D end
 
         return (array) $returnValue;
@@ -1173,7 +1154,7 @@ class tao_scripts_TaoTranslate
      * Check inputs for the 'enable' action.
      *
      * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     private function checkEnableInput()
@@ -1196,7 +1177,7 @@ class tao_scripts_TaoTranslate
      * Short description of method checkDisableInput
      *
      * @access private
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     private function checkDisableInput()
@@ -1215,7 +1196,7 @@ class tao_scripts_TaoTranslate
      * Short description of method actionEnable
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function actionEnable()
@@ -1243,7 +1224,7 @@ class tao_scripts_TaoTranslate
      * having corresponding languages will be reachable again.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function actionDisable()
@@ -1266,7 +1247,7 @@ class tao_scripts_TaoTranslate
      * Implementation of the 'compile' action.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function actionCompile()
@@ -1386,7 +1367,7 @@ class tao_scripts_TaoTranslate
      * Checks the input for the 'compile' action.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function checkCompileInput()
@@ -1412,7 +1393,7 @@ class tao_scripts_TaoTranslate
      * Implementation of the 'compileAll' action.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function actionCompileAll()
@@ -1452,7 +1433,7 @@ class tao_scripts_TaoTranslate
      * Checks the input of the 'compileAll' action.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
     public function checkCompileAllInput()
