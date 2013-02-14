@@ -6,15 +6,18 @@
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 
 	<script type='text/javascript'>
+		// Path for resources.
 		var jsPath 	= '<?=BASE_WWW?>js/';
 		var imgPath = '<?=BASE_WWW?>img/';
-		var currentExtension = '<?= context::getInstance()->getExtensionName(); ?>';
+		
+		// TAO Context for JavaScript Runtime.
+		var ctx_extension 	= "<?=get_data('extension')?>";
+		var ctx_module 		= "<?=get_data('module')?>";
+		var ctx_action 		= "<?=get_data('action')?>";
 	</script>
 
 	<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
-
 	<?=tao_helpers_Scriptloader::render()?>
-
 	<script src="<?=TAOBASE_WWW?>js/main.js"></script>
 
 <?if(get_data('errorMessage')):?>
