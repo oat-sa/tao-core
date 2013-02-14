@@ -346,7 +346,6 @@ class Bootstrap{
 		}
 		catch(tao_models_classes_UserException $ue){
 			$message	= $ue->getMessage();
-			$login = core_kernel_classes_Session::singleton()->getUserLogin(); // can be empty if not user
 			require_once TAO_TPL_PATH . 'error/error403.tpl';
 		}
 		catch (Exception $e) {
