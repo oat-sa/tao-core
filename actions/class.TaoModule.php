@@ -78,7 +78,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	{
 		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
 		if(is_null($uri) || empty($uri)){
-			throw new common_exception_Error("No valid uri found");
+			throw new common_exception_Error("Missing or invalid parameter uri");
 		}
 		return new core_kernel_classes_Resource($uri);
 	}
@@ -359,7 +359,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$this->setData('formTitle', __('Create instance of ').$clazz->getLabel());
 		$this->setData('myForm', $myForm->render());
 	
-		$this->setView('form_content.tpl');
+		$this->setView('form.tpl', true);
 	}
 	
 	/**
@@ -370,7 +370,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * @return core_kernel_classes_Resource
 	 */
 	protected function createInstance($classes, $properties) {
-		$first = array_unshift($classes);
+		$first = array_shift($classes);
 		$instance = $first->createInstanceWithProperties($properties);
 		foreach ($classes as $class) {
 			$instance = new core_kernel_classes_Resource('');
@@ -446,6 +446,30 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$this->setView('form_content.tpl');
 		}
 		
+	}
+	
+	public function editInstance() {
+		$clazz = $this->getCurrentClass();
+		$instance = $this->getCurrentInstance();
+		$myFormContainer = new tao_actions_form_Instance($clazz, $instance);
+		
+		$myForm = $myFormContainer->getForm();
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				
+				$values = $myForm->getValues();
+				// save properties
+				$instance = $this->service->bindProperties($instance, $values);
+				$message = __('Instance saved');
+				
+				$this->setData('message',$message);
+				$this->setData('reload', true);
+			}
+		}
+
+		$this->setData('formTitle', __('Edit Instance'));
+		$this->setData('myForm', $myForm->render());
+		$this->setView('form.tpl', true);
 	}
 	
 	/**
