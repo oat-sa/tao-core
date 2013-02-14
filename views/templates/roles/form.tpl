@@ -1,4 +1,4 @@
-<?include(TAO_TPL_PATH . 'header.tpl')?>
+<?include(TAO_TPL_PATH . 'messages.tpl')?>
 
 <?include('users.tpl')?>
 
@@ -11,4 +11,4 @@
 	</div>
 </div>
 
-<?include(DIR_VIEWS.'templates'.DIRECTORY_SEPARATOR.'footer.tpl')?>
+<?include(TAO_TPL_PATH . 'footer.tpl')?>

@@ -13,7 +13,7 @@
  */
 
 define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass) {
-	var GenerisTreeSelectClass = GenerisTreeClass.extend({
+	var GenerisTreeBrowserClass = GenerisTreeClass.extend({
 		/**
 		 * The GenerisTreeBrowserClass constructor
 		 * @param {String} selector the jquery selector of the tree container
@@ -497,19 +497,6 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 		 * @return {Boolean}
 		 */
 		selectTreeNode: function(id) {
-			/*var i=0;
-			while (i < GenerisTreeClass.instances.length) {
-				var aGenerisTree = GenerisTreeClass.instances[i];
-				if(aGenerisTree){
-					var aJsTree = aGenerisTree.getTree();
-					if(aJsTree){
-						if(aJsTree.select_branch($("li[id='"+id+"']"))){
-							return true;
-						}
-					}
-				}
-				i++;
-			}*/
 			this.getTree().select_branch($("li[id='"+id+"']"));
 			return false;
 		},
@@ -827,5 +814,5 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 		}
 	});
 
-	return GenerisTreeSelectClass;
+	return GenerisTreeBrowserClass;
 });

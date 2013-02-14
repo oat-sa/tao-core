@@ -29,6 +29,8 @@
 <?endif?>
 </head>
 <body>
-	<? include 'header.tpl' ?>
+	<!-- GUI Messages Handling -->
+	<? include(TAO_TPL_PATH . 'messages.tpl') ?>
 
+	<!-- AJAX Main Spinner Element -->
 	<div id="ajax-loading" class="ui-widget-overlay"></div>

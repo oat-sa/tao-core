@@ -1,4 +1,4 @@
-<?include(TAO_TPL_PATH . 'header.tpl')?>
+<?include(TAO_TPL_PATH . 'messages.tpl')?>
 
 <div class="main-container">
 	<div class="ext-home-container ui-state-highlight">
@@ -7,4 +7,4 @@
 	</div>
 </div>
 
-<?include(TAO_TPL_PATH.'footer.tpl')?>
+<?include(TAO_TPL_PATH . 'footer.tpl')?>

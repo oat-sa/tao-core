@@ -1,5 +1,3 @@
-<!--<?include(dirname(__FILE__).'/../portail/header.tpl');?>-->
-
 <style>
 <!--
 .ui-helper-horizontal { display:inline-block; }

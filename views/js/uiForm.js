@@ -84,11 +84,13 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 
 			//revert form button
 			$(".form-reverter").off('click').on('click', function() {
-				if ($("#uri").val() != undefined) {
-					GenerisTreeBrowserClass.selectTreeNode($("#uri").val());
-				} else if ($("#classUri").val() != undefined) {
-					GenerisTreeBrowserClass.selectTreeNode($("#classUri").val());
-				}
+				require(['require', 'jquery', 'generis.tree.browser'], function(req, $, GenerisTreeBrowserClass) {
+					if ($("#uri").val() != undefined) {
+						generisActions.mainTree.selectTreeNode($("#uri").val());
+					} else if ($("#classUri").val() != undefined) {
+						generisActions.mainTree.selectTreeNode($("#classUri").val());
+					}
+				});
 			});
 
 			//translate button

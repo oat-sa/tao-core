@@ -1221,7 +1221,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$this->setData('message', $message);
 		
 		//only for the notification
-		$this->setView('header.tpl', true);
+		$this->setView('messages.tpl', true);
 	}
 	
 	/**

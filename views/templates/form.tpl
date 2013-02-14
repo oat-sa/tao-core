@@ -1,4 +1,4 @@
-<?include('header.tpl')?>
+<?include(TAO_TPL_PATH . 'messages.tpl')?>
 
 <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=get_data('formTitle')?>
@@ -15,4 +15,4 @@
 	<?=get_data('myForm')?>
 </div>
 
-<?include('footer.tpl');?>
+<?include(TAO_TPL_PATH . 'footer.tpl');?>

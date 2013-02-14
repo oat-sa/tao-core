@@ -1,4 +1,4 @@
-<? include 'layout_header.tpl' ?>
+<? include(TAO_TPL_PATH . 'layout_header.tpl') ?>
 
 	<div id="main-menu" class="ui-state-default" >
 		<a href="<?=_url('index', 'Main', 'tao')?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
