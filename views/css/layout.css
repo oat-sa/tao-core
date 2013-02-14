@@ -401,10 +401,13 @@ ul.group-list, ul.group-list ul {
 	width: 100%;
 }
 
+ul.group-list li {
+	position: relative;
+}
+
 ul.group-list li.selectable,
 ul.group-list li.group {
 	list-style: none;
-	padding-left: 0;
 	border-bottom: 1px solid #999;
 }
 ul.group-list li span.label,
@@ -418,10 +421,12 @@ ul.group-list .group-title .selector {
 	height: 26px;
 	vertical-align: top;
 	display: inline-block;
-	float: right;
+	position: absolute;
+	right: 0;
 }
 ul.group-list li:last-child { border-bottom: 0; list-style: none; }
-ul.group-list .group-title { font-weight: bold; padding-left: 7px }
+ul.group-list li, ul.group-list .group-title { padding-left: 7px; }
+ul.group-list .group-title { font-weight: bold; }
 ul.group-list li:hover:not(.group) { background-color: #ccc }
 ul.group-list .group-title:hover { background-color: #ddd }
 ul.group-list li.selectable { cursor: pointer }
