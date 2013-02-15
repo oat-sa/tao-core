@@ -234,7 +234,9 @@ abstract class tao_helpers_form_Form
 				break;
 			}
 		}
-		
+		if (is_null($returnValue)) {
+			common_Logger::w('Element with name \''.$name.'\' not found');			
+		}
         // section 127-0-1-1-34faf2f6:126dcb3a83d:-8000:0000000000001EAB end
 
         return $returnValue;

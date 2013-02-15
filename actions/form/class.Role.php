@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * TAO - tao\actions\form\class.Role.php
+ * TAO - tao/actions/form/class.Role.php
  *
  * $Id$
  *
  * This file is part of TAO.
  *
- * Automatically generated on 06.02.2013, 14:44:42 with ArgoUML PHP module 
+ * Automatically generated on 15.02.2013, 18:27:05 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  * @subpackage actions_form
  */
@@ -25,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Create a form from a  resource of your ontology. 
  * Each property will be a field, regarding it's widget.
  *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
+ * @author Joel Bout, <joel@taotesting.com>
  */
 require_once('tao/actions/form/class.Instance.php');
 
@@ -41,7 +41,7 @@ require_once('tao/actions/form/class.Instance.php');
  * Short description of class tao_actions_form_Role
  *
  * @access public
- * @author Jerome Bogaerts, <jerome@taotesting.com>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  * @subpackage actions_form
  */
@@ -59,7 +59,7 @@ class tao_actions_form_Role
      * Short description of method initElements
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Joel Bout, <joel@taotesting.com>
      * @return mixed
      */
     public function initElements()
@@ -70,16 +70,37 @@ class tao_actions_form_Role
         $encodedIncludesRolePropertyUri = tao_helpers_Uri::encode(PROPERTY_ROLE_INCLUDESROLE);
         $encodedInstanceUri = tao_helpers_Uri::encode($this->getInstance()->getUri());
         $rolesElement = $this->form->getElement($encodedIncludesRolePropertyUri);
-        $rolesOptions = $rolesElement->getOptions();
-        
-        // remove the role itself in the list of includable roles
-        // to avoid cyclic inclusions (even if the system supports it).
-        if (array_key_exists($encodedInstanceUri, $rolesOptions)){
-        	unset($rolesOptions[$encodedInstanceUri]);
+        if (!is_null($rolesElement)) {
+	        $rolesOptions = $rolesElement->getOptions();
+	        
+	        // remove the role itself in the list of includable roles
+	        // to avoid cyclic inclusions (even if the system supports it).
+	        if (array_key_exists($encodedInstanceUri, $rolesOptions)){
+	        	unset($rolesOptions[$encodedInstanceUri]);
+	        }
+	        
+	        $rolesElement->setOptions($rolesOptions);
         }
-        
-        $rolesElement->setOptions($rolesOptions);
         // section 10-13-1-85--332f5c64:13cafb9ead5:-8000:0000000000003C7C end
+    }
+
+    /**
+     * Short description of method getTopClazz
+     *
+     * @access public
+     * @author Joel Bout, <joel@taotesting.com>
+     * @return core_kernel_classes_Class
+     * @see tao_actions_form_Generis::getTopClazz()
+     */
+    public function getTopClazz()
+    {
+        $returnValue = null;
+
+        // section 10-30-1--78-5c081e8a:13cdee282e5:-8000:0000000000003C84 begin
+        $returnValue = new core_kernel_classes_Class(CLASS_ROLE);
+        // section 10-30-1--78-5c081e8a:13cdee282e5:-8000:0000000000003C84 end
+
+        return $returnValue;
     }
 
 } /* end of class tao_actions_form_Role */
