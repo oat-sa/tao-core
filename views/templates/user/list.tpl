@@ -1,5 +1,3 @@
-<? include(TAO_TPL_PATH . 'messages.tpl') ?>
-
 <div class="main-container">
 	<table id="user-list"></table>
 	<div id="user-list-pager"></div>

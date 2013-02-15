@@ -443,7 +443,6 @@ class Bootstrap{
 					TAOBASE_WWW . 'js/tao.ajaxWrapper.js',
 					ROOT_URL 	. '/filemanager/views/js/fmRunner.js',
 					ROOT_URL 	. '/filemanager/views/js/jquery.fmRunner.js',
-					TAOBASE_WWW . 'js/EventMgr.js',
 					TAOBASE_WWW . 'js/gateway/Main.js',
 					TAOBASE_WWW . 'js/helpers.js',
 					TAOBASE_WWW . 'js/uiBootstrap.js',

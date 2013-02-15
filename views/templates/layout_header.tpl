@@ -5,32 +5,15 @@
 	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?></title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 
-	<script type='text/javascript'>
-		// Path for resources.
-		var jsPath 	= '<?=BASE_WWW?>js/';
-		var imgPath = '<?=BASE_WWW?>img/';
-		
-		// TAO Context for JavaScript Runtime.
-		var ctx_extension 	= "<?=get_data('extension')?>";
-		var ctx_module 		= "<?=get_data('module')?>";
-		var ctx_action 		= "<?=get_data('action')?>";
-	</script>
+	<? include(TAO_TPL_PATH . 'context.tpl') ?>
 
 	<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
 	<?=tao_helpers_Scriptloader::render()?>
 	<script src="<?=TAOBASE_WWW?>js/main.js"></script>
-
-<?if(get_data('errorMessage')):?>
-	<script type='text/javascript'>
-		callbackMeWhenReady.loginError = function() {
-				helpers.createErrorMessage("<?=get_data('errorMessage')?>");
-			};
-	</script>
-<?endif?>
+	
+	<!-- Error Handling -->
+	<? include(TAO_TPL_PATH . 'errors.tpl') ?>
 </head>
 <body>
-	<!-- GUI Messages Handling -->
-	<? include(TAO_TPL_PATH . 'messages.tpl') ?>
-
 	<!-- AJAX Main Spinner Element -->
 	<div id="ajax-loading" class="ui-widget-overlay"></div>

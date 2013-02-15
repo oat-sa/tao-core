@@ -18,6 +18,8 @@
 <script type="text/javascript">
 	$(function(){
 		require(['require', 'jquery', 'generis.tree.browser'], function(req, $, GenerisTreeBrowserClass) {
+		eventMgr.unbind('tao.forms.submitted');
+		
 <?foreach(get_data('trees') as $i => $tree):?>
 			var tree = new GenerisTreeBrowserClass('#tree-<?=$i?>', "<?=$tree['dataUrl']?>", {
 				formContainer: helpers.getMainContainerSelector(uiBootstrap.tabs),
@@ -38,6 +40,9 @@
 			});
 
 			generisActions.setMainTree(tree);
+			eventMgr.bind('tao.forms.submitted', function() {
+				uiBootstrap.initTrees();
+			});
 <?endforeach?>
 		});
 	});

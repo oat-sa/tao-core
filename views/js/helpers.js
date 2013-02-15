@@ -41,7 +41,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 				return "div#"+uiTab;
 			}
 
-			return "div#"+uiTab+" div.main-container";
+			return "div#"+uiTab+" > div.main-container";
 		},
 
 		/**

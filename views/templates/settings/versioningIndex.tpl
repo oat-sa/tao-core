@@ -1,5 +1,3 @@
-<?include(TAO_TPL_PATH . 'messages.tpl')?>
-
 <div class="main-container">
 	<div class="ext-home-container ui-state-highlight">
 		<h1><?=__('Versioning')?></h1>

@@ -1,5 +1,3 @@
-<?include(TAO_TPL_PATH . 'messages.tpl')?>
-
 <?include('users.tpl')?>
 
 <div class="main-container large">

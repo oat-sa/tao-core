@@ -1,5 +1,3 @@
-<?include(TAO_TPL_PATH . 'messages.tpl')?>
-
 <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=get_data('formTitle')?>
 </div>
