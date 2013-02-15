@@ -96,8 +96,8 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 			//translate button
 			$(".form-translator").off('click').on('click', function() {
 				if ($("#uri") && $("#classUri")){
-					if (ctx_extension) {
-						url = root_url + ctx_extension + '/' + ctx_module + '/';
+					if (typeof ctx_form_extension != 'undefined') {
+						url = root_url + ctx_form_extension + '/' + ctx_form_module + '/';
 					}
 					url += 'translateInstance';
 					$(helpers.getMainContainerSelector(uiBootstrap.tabs)).load(url, {'uri': $("#uri").val(), 'classUri': $("#classUri").val()});
@@ -153,9 +153,9 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 		initOntoForms: function (){
 			//open the authoring tool on the authoringOpener button
 			$('input.authoringOpener').click(function() {
-				if (ctx_extension) {
-					url = root_url + ctx_extension + '/' + ctx_module + '/';
-					tabName = ctx_module.toLowerCase() + '_authoring';
+				if (typeof ctx_form_extension != 'undefined') {
+					url = root_url + ctx_form_extension + '/' + ctx_form_module + '/';
+					tabName = ctx_form_module.toLowerCase() + '_authoring';
 				}
 				url += 'authoring';
 				index = helpers.getTabIndexByName(tabName);
@@ -188,8 +188,8 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 
 			$('input.editVersionedFile').click(function() {
 				var url = '';
-				if (ctx_extension) {
-					url = root_url + ctx_extension + '/' + ctx_module + '/';
+				if (ctx_form_extension) {
+					url = root_url + ctx_form_extension + '/' + ctx_form_module + '/';
 				}
 				url += 'editVersionedFile';
 				var data = {
@@ -263,8 +263,8 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 
 			 //property add button
 			 $(".property-adder").off('click').on('click', function() {
-				 if (ctx_extension) {
-					url = root_url + ctx_extension + '/' + ctx_module + '/';
+				 if (ctx_form_extension) {
+					url = root_url + ctx_form_extension + '/' + ctx_form_module + '/';
 				 }
 				 url += 'addClassProperty';
 
@@ -592,8 +592,8 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 						}
 					});
 
-					if (ctx_extension) {
-						url = root_url + ctx_extension + '/' + ctx_module + '/';
+					if (typeof ctx_form_extension != 'undefined') {
+						url = root_url + ctx_form_extension + '/' + ctx_form_module + '/';
 					}
 					url += 'getTranslatedData';
 
