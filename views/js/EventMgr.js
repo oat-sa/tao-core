@@ -14,6 +14,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 		init: function() {
 			this.eventTarget = $(document);
 		},
+		
 		/**
 		 *
 		 * @param eventType
@@ -22,6 +23,16 @@ define(['require', 'jquery', 'class'], function(req, $) {
 		 */
 		bind: function(eventType, callback){
 			return this.eventTarget.bind(eventType, callback);
+		},
+		
+		/**
+		 *
+		 * @param eventType
+		 * @param callback
+		 * @return
+		 */
+		one: function(eventType, callback){
+			return this.eventTarget.one(eventType, callback);
 		},
 
 		/**

@@ -1,5 +1,5 @@
 <?
-	if(get_data('trees')):
+	if(has_data('trees')):
 		foreach(get_data('trees') as $i => $tree):
 ?>
 		<div class="tree-block">
@@ -18,7 +18,6 @@
 <script type="text/javascript">
 	$(function(){
 		require(['require', 'jquery', 'generis.tree.browser'], function(req, $, GenerisTreeBrowserClass) {
-		eventMgr.unbind('tao.forms.submitted');
 		
 <?foreach(get_data('trees') as $i => $tree):?>
 			var tree = new GenerisTreeBrowserClass('#tree-<?=$i?>', "<?=$tree['dataUrl']?>", {
@@ -40,7 +39,7 @@
 			});
 
 			generisActions.setMainTree(tree);
-			eventMgr.bind('tao.forms.submitted', function() {
+			eventMgr.one('tao.forms.submitted', function() {
 				uiBootstrap.initTrees();
 			});
 <?endforeach?>
