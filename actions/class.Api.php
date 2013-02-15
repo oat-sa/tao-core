@@ -95,7 +95,9 @@ class tao_actions_Api extends tao_actions_CommonModule {
 			)
 		);
 		
-		Session::setAttribute(self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->uriResource), $executionEnvironment);
+		$context = Context::getInstance();
+		$session = $context->getSession();
+		$session->setAttribute(self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->uriResource), $executionEnvironment);
 		
 		return $executionEnvironment;
 	} 
@@ -107,13 +109,14 @@ class tao_actions_Api extends tao_actions_CommonModule {
 	public static function createAuthEnvironment(){
 		
 		$context = Context::getInstance();
+		$session = $context->getSession();
 		if(strtolower($context->getActionName()) == 'createauthenvironment'){
 			throw new Exception('Action denied, only servers side call are allowed');
 		}
-		if(!Session::hasAttribute('processUri')){
+		if(!$session->hasAttribute('processUri')){
 			throw new Exception('Envirnoment can be create only in a workflow context');
 		}
-		$processExecution = new core_kernel_classes_Resource(tao_helpers_Uri::decode(Session::getAttribute('processUri')));
+		$processExecution = new core_kernel_classes_Resource(tao_helpers_Uri::decode($session->getAttribute('processUri')));
 		
 		$userService = tao_models_classes_UserService::singleton();
 		$user = $userService->getCurrentUser();
@@ -122,8 +125,8 @@ class tao_actions_Api extends tao_actions_CommonModule {
 		}
 		
 		$sessionKey = self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->uriResource);
-		if(Session::hasAttribute($sessionKey)){
-			$executionEnvironment = Session::getAttribute($sessionKey);
+		if($session->hasAttribute($sessionKey)){
+			$executionEnvironment = $session->getAttribute($sessionKey);
 			if(isset($executionEnvironment['token']) && $executionEnvironment[CLASS_PROCESS_EXECUTIONS]['uri'] == $processExecution->uriResource ){
 				return $executionEnvironment;
 			}
@@ -143,7 +146,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 				PROPERTY_USER_LASTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTNAME))
 			)
 		);
-		Session::setAttribute($sessionKey, $executionEnvironment);
+		$session->setAttribute($sessionKey, $executionEnvironment);
 		return  $executionEnvironment;
 	}
 	
@@ -152,12 +155,15 @@ class tao_actions_Api extends tao_actions_CommonModule {
 	 * @return array
 	 */
 	protected function getExecutionEnvironment(){
+		$context = Context::getInstance();
+		$session = $context->getSession();
+		
 		$currentUser = $this->userService->getCurrentUser();
 		if(!is_null($currentUser)){
 			$sessionKey =  self::ENV_VAR_NAME . '_' . tao_helpers_Uri::encode($currentUser->uriResource);
 			
-			if(Session::hasAttribute($sessionKey)){
-				$executionEnvironment = Session::getAttribute($sessionKey);
+			if($session->hasAttribute($sessionKey)){
+				$executionEnvironment = $session->getAttribute($sessionKey);
 				
 				if(isset($executionEnvironment['token'])){
 					return $executionEnvironment;
@@ -225,12 +231,15 @@ class tao_actions_Api extends tao_actions_CommonModule {
 		
 		if(!empty($token)){
 			
+			$context = Context::getInstance();
+			$session = $context->getSession();
+			
 			$currentUser = $this->userService->getCurrentUser();
 			if(!is_null($currentUser)){
 				$sessionKey =  self::ENV_VAR_NAME . '_' . tao_helpers_Uri::encode($currentUser->uriResource);
 				
-				if(Session::hasAttribute($sessionKey)){
-					$executionData = Session::getAttribute($sessionKey);
+				if($session->hasAttribute($sessionKey)){
+					$executionData = $session->getAttribute($sessionKey);
 					
 					if(isset($executionData['token'])){
 						if($executionData['token'] == $token){
