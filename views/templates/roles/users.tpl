@@ -16,9 +16,7 @@
 <script type="text/javascript">
 $(function(){
 	require(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTreeSelectClass) {
-		if (ctx_extension) {
-			url = root_url + ctx_extension + '/' + ctx_module + '/';
-		}
+			url = root_url + 'tao/Roles/';
 
 		new GenerisTreeSelectClass('#user-tree', url + 'getUsers', {
 			actionId: 'user',
