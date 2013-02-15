@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 03.01.2013, 18:14:10 with ArgoUML PHP module 
+ * Automatically generated on 15.02.2013, 14:03:05 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  * @subpackage models_classes
  */
@@ -25,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -41,7 +41,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  * Short description of class tao_models_classes_FileSourceService
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  * @subpackage models_classes
  */
@@ -53,21 +53,13 @@ class tao_models_classes_FileSourceService
 
     // --- ATTRIBUTES ---
 
-    /**
-     * Short description of attribute DEFAULT_FILESOURCE_KEY
-     *
-     * @access public
-     * @var string
-     */
-    const DEFAULT_FILESOURCE_KEY = 'defaultFileSource';
-
     // --- OPERATIONS ---
 
     /**
      * Short description of method getFileSourceClass
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @return core_kernel_classes_Class
      */
     public function getFileSourceClass()
@@ -85,22 +77,23 @@ class tao_models_classes_FileSourceService
      * Short description of method addLocalSource
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  string label
      * @param  string path
-     * @return core_kernel_classes_Resource
+     * @return core_kernel_versioning_Repository
      */
     public function addLocalSource($label, $path)
     {
         $returnValue = null;
 
         // section 10-30-1--78-1b01f2ef:13ac03fd34f:-8000:0000000000003C05 begin
-        $returnValue = $this->getFileSourceClass()->createInstanceWithProperties(array(
+        $res = $this->getFileSourceClass()->createInstanceWithProperties(array(
         	RDFS_LABEL										=> $label,
         	PROPERTY_GENERIS_VERSIONEDREPOSITORY_TYPE		=> INSTANCE_GENERIS_VCS_TYPE_LOCAL,
         	PROPERTY_GENERIS_VERSIONEDREPOSITORY_PATH		=> $path,
         	PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED	=> GENERIS_TRUE
         ));
+        $returnValue = new core_kernel_versioning_Repository($res);
         // section 10-30-1--78-1b01f2ef:13ac03fd34f:-8000:0000000000003C05 end
 
         return $returnValue;
@@ -110,7 +103,7 @@ class tao_models_classes_FileSourceService
      * Short description of method deleteFileSource
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource fileSource
      * @return boolean
      */
@@ -122,46 +115,6 @@ class tao_models_classes_FileSourceService
         // section 10-30-1--78-1b01f2ef:13ac03fd34f:-8000:0000000000003C07 end
 
         return (bool) $returnValue;
-    }
-
-    /**
-     * Short description of method setDefaultFileSource
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource fileSource
-     * @return mixed
-     */
-    public function setDefaultFileSource( core_kernel_classes_Resource $fileSource)
-    {
-        // section 10-30-1--78--66279e2e:13bfb5107cf:-8000:0000000000003CA0 begin
-        $generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
-        $generis->setConfig(self::DEFAULT_FILESOURCE_KEY, $fileSource->getUri());
-        // section 10-30-1--78--66279e2e:13bfb5107cf:-8000:0000000000003CA0 end
-    }
-
-    /**
-     * Short description of method getDefaultFileSource
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return core_kernel_versioning_Repository
-     */
-    public function getDefaultFileSource()
-    {
-        $returnValue = null;
-
-        // section 10-30-1--78--66279e2e:13bfb5107cf:-8000:0000000000003C9B begin
-		$generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
-		$uri = $generis->getConfig(self::DEFAULT_FILESOURCE_KEY);
-		if (!empty($uri)) {
-			$returnValue = new core_kernel_versioning_Repository($uri);
-		} else {
-			throw new common_Exception('No default repository defined');
-		}
-        // section 10-30-1--78--66279e2e:13bfb5107cf:-8000:0000000000003C9B end
-
-        return $returnValue;
     }
 
 } /* end of class tao_models_classes_FileSourceService */

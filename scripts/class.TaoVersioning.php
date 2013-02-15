@@ -117,8 +117,10 @@ class tao_scripts_TaoVersioning
         		
         		if ($success) {
 					self::out(__('repository added & enabled'), array('color' => 'light_blue'));
+					/* no more default repository
 					tao_models_classes_FileSourceService::singleton()->setDefaultFileSource($repo);
 					self::out(__('repository set as new default'), array('color' => 'light_blue'));
+					*/
         		} else {
 					self::out(__('repository could not be enabled'), array('color' => 'red'));
 				}
