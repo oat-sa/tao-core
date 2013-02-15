@@ -15,12 +15,7 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 			this.initFormPattern = new RegExp(['search', 'authoring', 'Import', 'Export', 'IO', 'preview'].join('|'));
 			this.initGenerisFormPattern =  new RegExp(['add', 'edit'].join('|'), 'i');
 			this.initTranslationFormPattern = /translate/;
-
 			this.initNav();
-
-			/*if (uiBootstrap == undefined) {
-				uiBootstrap.tabs = $("#tabs");
-			}*/
 
 			$("body").ajaxComplete(function(event, request, settings) {
 				//initialize regarding the requested action
@@ -74,9 +69,10 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 			$(helpers.getMainContainerSelector(uiBootstrap.tabs) + " form :input:not(:hidden):not(button):first").focus();
 
 			//save form button
+			var that = this;
 			$(".form-submiter").off('click').on('click', function() {
 				myForm = $(this).parents("form");
-				if (uiForm.submitForm(myForm)) {
+				if (that.submitForm(myForm)) {
 					myForm.submit();
 				}
 				return false;
