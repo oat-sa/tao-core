@@ -95,7 +95,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		foreach($users as $user) {
 			$cellData = array();
 
-			$cellData[0]	= (string)$user->getUniquePropertyValue($loginProperty);
+			$cellData[0]	= (string)$user->getOnePropertyValue($loginProperty);
 
 			$firstName 		= (string)$user->getOnePropertyValue($firstNameProperty);
 			$lastName 		= (string)$user->getOnePropertyValue($lastNameProperty);

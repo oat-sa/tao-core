@@ -414,6 +414,7 @@ class tao_models_classes_UserService
 		$options = array('recursive' => true, 'like' => true);
 		$filters = array(PROPERTY_USER_LOGIN => '*');
 		$returnValue = $userClass->searchInstances($filters, $options);
+		$returnValue = $userClass->getInstances(true);
         // section 127-0-1-1-1e277528:138e7c3a040:-8000:0000000000003B6B end
 
         return (array) $returnValue;
