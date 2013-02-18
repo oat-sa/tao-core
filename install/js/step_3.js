@@ -175,6 +175,10 @@ function getDriverLabel(driverId){
 			return 'PostgreSQL';
 		break;
 		
+		case 'pdo_sqlsrv':
+			return 'SQL Server'
+		break;
+		
 		default:
 			throw 'Unknown database driver (' + driverId + ').';
 		break;
