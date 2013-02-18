@@ -5,7 +5,7 @@
 </head>
 <body>
 	<b>Error: </b>
-	<p><?php echo isset($message)?$message:__("Access forbidden"); ?>
+	<p><?=__("Access forbidden"); ?>
 	</p>
 
 	<?php if (isset($login) && !empty($login)) { ?>
@@ -13,6 +13,7 @@
 	</b>
 	<p><?php echo __("User name:").' '.$login; ?>
 	</p>
+	<?php } ?>
 	<div>
 		<p></p>
 		<ul>
@@ -37,7 +38,6 @@
 		</ul>
 
 	</div>
-	<?php } ?>
 	
 
 
