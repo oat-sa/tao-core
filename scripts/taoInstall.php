@@ -96,11 +96,17 @@ new tao_scripts_TaoInstall(array(
         	'shortcut'		=> 'n',
         	'description'	=> 'The name of the instance to install.'),
         array(
+        	'name'			=> 'extensions',
+        	'type'			=> 'string',
+        	'shortcut'		=> 'e',
+        	'description'	=> 'Comma-separated list of extensions to install.'
+        ),
+        array(
         	'name'			=> 'verbose',
         	'type'			=> 'boolean',
         	'shortcut'		=> 'v',
         	'description'	=> 'Verbose mode.'
-        )
+        ),
 	)
 ));
 ?>

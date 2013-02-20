@@ -28,11 +28,6 @@ class tao_install_Installator{
 			$this->options['install_path'] .= DIRECTORY_SEPARATOR;
 		}
 		
-		if(isset($options['extensions']) && is_array($options['extensions'])) {
-			$this->toInstall = $options['extensions']; 
-		} else {
-			$this->toInstall = self::$defaultExtensions;
-		}
 	}
 
 
@@ -215,20 +210,24 @@ class tao_install_Installator{
 	        /*
 			 * 8 - Install the extensions
 			 */
+			if(isset($installData['extensions'])) {
+				$extensionIDs = explode(',',$installData['extensions']); 
+			} else {
+				$extensionIDs = self::$defaultExtensions;
+			}
 			$toInstall = array();
-			foreach ($this->toInstall as $id) {
+			foreach ($extensionIDs as $id) {
 				try {
 					$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
 					if (!$ext->isInstalled()) {
-						$toInstall[] = $ext;
+						$toInstall[$id] = $ext;
 					}
 				} catch (common_ext_ExtensionException $e) {
 					common_Logger::w('Extension '.$id.' not found');
 				}
 			}
 			while (!empty($toInstall)) {
-				
-				$formerCount = count($toInstall);
+				$modified = false;
 				foreach ($toInstall as $key => $extension) {
 					// if all dependencies are installed
 					$installed	= array_keys(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
@@ -246,9 +245,17 @@ class tao_install_Installator{
 							throw new tao_install_utils_Exception("An error occured during the installation of extension '" . $extension->getID() . "'.");
 						}
 						unset($toInstall[$key]);
+						$modified = true;
+					} else {
+						$missing = array_diff($missing, array_keys($toInstall));
+						foreach ($missing as $extID) {
+							$toInstall[$extID] = common_ext_ExtensionsManager::singleton()->getExtensionById($extID);
+							$modified = true;
+						}
 					}
 				}
-				if ($formerCount == count($toInstall)) {
+				// no extension could be installed, and no new requirements was added
+				if (!$modified) {
 					throw new common_exception_Error('Unfulfilable/Cyclic reference found in extensions');
 				}
 			}

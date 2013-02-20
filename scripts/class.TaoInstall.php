@@ -85,6 +85,7 @@ class tao_scripts_TaoInstall
 			, "user_pass"	=>		""
 			, "import_local" => 	true
 			, "instance_name" =>	null
+			, "extensions" =>		null
 		);
         
     	$this->options = array_merge($this->options, $this->parameters);
