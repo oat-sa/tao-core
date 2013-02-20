@@ -3,16 +3,16 @@
 error_reporting(E_ALL);
 
 /**
- * Generis Object Oriented API - tao/helpers/form/elements/class.Checkbox.php
+ * TAO - tao/helpers/form/elements/class.Checkbox.php
  *
  * $Id$
  *
- * This file is part of Generis Object Oriented API.
+ * This file is part of TAO.
  *
- * Automatically generated on 06.07.2010, 17:45:45 with ArgoUML PHP module 
+ * Automatically generated on 20.02.2013, 16:31:25 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
  * @subpackage helpers_form_elements
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * include tao_helpers_form_elements_MultipleElement
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Jerome Bogaerts, <jerome@taotesting.com>
  */
 require_once('tao/helpers/form/elements/class.MultipleElement.php');
 
@@ -41,7 +41,7 @@ require_once('tao/helpers/form/elements/class.MultipleElement.php');
  *
  * @abstract
  * @access public
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+ * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
  * @subpackage helpers_form_elements
  */
@@ -62,6 +62,24 @@ abstract class tao_helpers_form_elements_Checkbox
     protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox';
 
     // --- OPERATIONS ---
+
+    /**
+     * Short description of method getRawValue
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @return array
+     */
+    public function getRawValue()
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1-7e796816:13cf8387df3:-8000:0000000000003C8C begin
+        $returnValue = $this->values;
+        // section 127-0-1-1-7e796816:13cf8387df3:-8000:0000000000003C8C end
+
+        return (array) $returnValue;
+    }
 
 } /* end of abstract class tao_helpers_form_elements_Checkbox */
 

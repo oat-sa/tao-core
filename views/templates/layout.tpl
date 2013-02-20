@@ -28,11 +28,13 @@
 				</a>
 			</span>
 <?php endif; ?>
+<?php if (tao_helpers_funcACL_funcACL::hasAccess('filemanager', 'Browser', null)): ?>
 			<span>
 			<a href="#" class="file-manager" title="<?=__('Media manager')?>">
 				<img src="<?=TAOBASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" />
 			</a>
 			</span>
+<?php endif; ?>
 			<span>
 				<a href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Logout')?>">
 					<img src="<?=TAOBASE_WWW?>img/logout.png" alt="<?=__('Logout')?>" />
