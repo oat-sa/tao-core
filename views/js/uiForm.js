@@ -66,7 +66,6 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 		},
 
 		initElements: function(){
-
 			//save form button
 			var that = this;
 			$(".form-submiter").off('click').on('click', function() {
