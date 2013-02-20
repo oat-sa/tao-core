@@ -214,7 +214,7 @@ class tao_actions_form_Users
 		// roles field
 		$restrictedRoles = array();
 		$rolesClass = new core_kernel_classes_Class(CLASS_ROLE);
-		$roles = $rolesClass->getInstances();
+		$roles = $rolesClass->getInstances(true);
 		$rolesOptions = array();
 		foreach ($roles as $r){
 			if (false === in_array($r->getUri(), $restrictedRoles)){

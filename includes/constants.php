@@ -81,6 +81,8 @@ $todefine = array(
 	'CLASS_ACL_ACTION'					=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action',
 	'PROPERTY_ACL_ACTION_ID'			=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionIdentifier',
 	'PROPERTY_ACL_ACTION_MEMBEROF'		=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionMemberOf',
-	'PROPERTY_ACL_ACTION_GRANTACCESS'	=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction'
+	'PROPERTY_ACL_ACTION_GRANTACCESS'	=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction',
+	'CLASS_MANAGEMENTROLE'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole',
+	'CLASS_WORKERROLE'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole'
 );
 ?>

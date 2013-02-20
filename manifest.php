@@ -58,6 +58,7 @@ return array(
 				array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao'))
 		)
 	),
+	'managementRole' => 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
 	'classLoaderPackages' => array(
 		dirname(__FILE__).'/actions/',
 		dirname(__FILE__).'/helpers/',

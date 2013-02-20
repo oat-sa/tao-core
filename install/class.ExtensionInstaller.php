@@ -55,18 +55,41 @@ class tao_install_ExtensionInstaller
      * Will create the model of Modules and Actions (MVC) in the persistent
      *
      * @access public
-     * @author Jerome Bogaerts <jerome@taotesting.com
+     * @author Jerome Bogaerts <jerome@taotesting.com>
      * @return void
      * @since 2.4
      */
-    public function extendedInstall()
-    {
+    public function extendedInstall() {
         // section 10-13-1-85-74f9b31f:13c8ff1fd35:-8000:0000000000003C58 begin
-        common_Logger::i("Loading constants for extension '" . $this->extension->getID());
-        Bootstrap::loadConstants($this->extension->getID());
-        
-        tao_helpers_funcACL_Model::spawnExtensionModel($this->extension);
+        $this->installManagementRole();
         // section 10-13-1-85-74f9b31f:13c8ff1fd35:-8000:0000000000003C58 end
+    }
+    
+    /**
+     * Will make the Global Manager include the Management Role of the extension
+     * to install (if it exists).
+     * 
+     * @access public
+     * @author Jerome Bogaerts <jerome@taotesting.com>
+     * @return void
+     * @since 2.4
+     */
+    public function installManagementRole() {
+    	$role = $this->extension->getManagementRole();
+    	if (!empty($role)){
+    		// Take the Global Manager role and make it include
+    		// the Management role of the currently installed extension.
+    		if ($role->getUri() !== INSTANCE_ROLE_TAOMANAGER){
+    			$userService = core_kernel_users_Service::singleton();
+    			$globalManagerRole = new core_kernel_classes_Resource(INSTANCE_ROLE_TAOMANAGER);
+    			$userService->includeRole($globalManagerRole, $role);
+    		}
+    		
+    		// Give the Management role access to all modules of the currently
+    		// installed extension.
+    		$extAccessService = tao_models_classes_funcACL_ExtensionAccessService::singleton();
+    		$extAccessService->add($role->getUri(), $extAccessService->makeEMAUri($this->extension->getID()));
+    	}
     }
 
 } /* end of class tao_install_ExtensionInstaller */

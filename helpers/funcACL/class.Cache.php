@@ -94,13 +94,13 @@ class tao_helpers_funcACL_Cache
         
         // retrive roles that grant that module.
         $filters = array($grantedModulesProperty->getUri() => $module->getUri());
-        $options = array('recursive' => false, 'like' => false);
+        $options = array('recursive' => true, 'like' => false);
         
         foreach ($roleClass->searchInstances($filters, $options) as $grantedRole){
         	$toCache['module'][] = $grantedRole->getUri();
         }
         
-        foreach ($roleClass->getInstances() as $role){
+        foreach ($roleClass->getInstances(true) as $role){
         	$actions = $role->getPropertyValues($grantedActionsProperty);
         	
         	foreach ($actions as $grantedAction){
