@@ -11,36 +11,6 @@
  * @subpackage action
  */
 abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
-
-	/*
-	 * Check if the current user is allowed to acces the request
-	 * Override this method to allow/deny a request
-	 * @return boolean
-	protected function _isAllowed()
-	{ 
-		//if a user is logged in
-		if( parent::_isAllowed()){
-		
-			//check the user role again, to prevent login with a session from a privileged extension
-	        $roleService = tao_models_classes_RoleService::singleton();
-	        $userService = wfEngine_models_classes_UserService::singleton();
-	        if(tao_helpers_Context::check('STANDALONE_MODE')){
-	        	if($roleService->checkUserRole($userService->getCurrentUser(), new core_kernel_classes_Class(CLASS_ROLE_WORKFLOWUSERROLE))){
-	        		return true;
-	        	}
-	        }
-	       	
-	        if($roleService->checkUserRole($userService->getCurrentUser())){
-        		return true;
-        	}
-	       	
-		}
-		return false;
-	}
-	*/
-/*
- * Shared Methods
- */
 	
 	/**
 	 * get the current item class regarding the classUri' request parameter
