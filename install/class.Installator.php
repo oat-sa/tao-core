@@ -117,9 +117,19 @@ class tao_install_Installator{
 			}
 	
 			// Create tao tables
-			$dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
-			common_Logger::i('Created tables', 'INSTALL');
-	        
+            common_Logger::i('db_driver :' . $installData['db_driver'], 'INSTALL');
+            if ($installData['db_driver'] == 'pdo_sqlsrv'){
+
+                common_Logger::i('MS SQL DRIVER, load specific file', 'INSTALL');
+                $dbCreator->setDatabase ($installData['db_name']);
+                $dbCreator->load($this->options['install_path'].'db/tao_mssql.sql', array('DATABASE_NAME' => $installData['db_name']));
+
+            }
+            else {
+                $dbCreator->load($this->options['install_path'].'db/tao.sql', array('DATABASE_NAME' => $installData['db_name']));
+
+            }
+            common_Logger::i('Created tables', 'INSTALL');
 			$storedProcedureFile = $this->options['install_path'].'db/tao_stored_procedures_' . str_replace('pdo_', '', $installData['db_driver']) . '.sql';
 			if (file_exists($storedProcedureFile) && is_readable($storedProcedureFile)){
 				common_Logger::i('Installing stored procedures for ' . $installData['db_driver'], 'INSTALL');
@@ -265,7 +275,7 @@ class tao_install_Installator{
 			 *  11 - Secure the install for production mode
 			 */
 			if($installData['module_mode'] == 'production'){
-				$extensions = $extensionManager->getInstalledExtensions();
+				$extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
 				common_Logger::i('Securing tao for production', 'INSTALL');
 				
 				// 11.1 Remove Generis User

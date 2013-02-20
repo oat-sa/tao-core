@@ -49,7 +49,7 @@ abstract class tao_install_utils_DbCreator{
 	 * @var dbName
 	 */
 	protected $dbName = '';
-	
+
 	/**
 	 * @var $options
 	 */
@@ -62,7 +62,7 @@ abstract class tao_install_utils_DbCreator{
 		$this->pass = $pass;
 		$this->host = $host;
 		$this->dbName = $dbName;
-		
+
 		$this->chooseSQLParsers();
 		
 		try{
@@ -74,7 +74,7 @@ abstract class tao_install_utils_DbCreator{
 	     	foreach ($this->getExtraConfiguration() as $k => $v){
 	     		$this->options[$k] = $v;	
 	     	}
-	        					   
+
 	     	$this->pdo = new PDO($dsn, $this->user, $this->pass, $this->options);
 			$this->afterConnect();
 	     	
@@ -129,7 +129,7 @@ abstract class tao_install_utils_DbCreator{
 			foreach($replace as $key => $value){
 				$finalStatement = str_replace('{'.strtoupper($key).'}', $value, $statement);
 			}
-			
+
 			$this->pdo->exec($finalStatement);
 		}
 	}
@@ -194,7 +194,7 @@ abstract class tao_install_utils_DbCreator{
 		$driverName = ucfirst($driver);
 		$className = 'tao_install_utils_' . $driver . 'DbCreator';
 		if (class_exists($className)){
-			return $className;	
+			return $className;
 		}
 		else{
 			$driverName = str_replace('pdo_', '', $driver);
@@ -210,11 +210,11 @@ abstract class tao_install_utils_DbCreator{
 			}
 		}
 	}
-	
+
 	abstract protected function getExtraConfiguration();
 	
 	abstract protected function getDiscoveryDSN();
-	
+
 	abstract protected function getDatabaseDSN();
 }
 ?>

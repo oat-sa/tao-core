@@ -54,21 +54,21 @@ class tao_install_services_SyncService extends tao_install_services_Service{
     	$rootUrl = $parsed['scheme'] . '://' . $parsed['host'] . $parsed['path'];
     	return str_replace('/tao/install/api.php', '', $rootUrl);
     }
-    
+
     private static function getAvailableDrivers(){
-    	$compatibleDrivers = array('pdo_mysql', 'pdo_pgsql', 'sqlsrv');
-    	$availableDrivers = array();
-    	
-    	foreach ($compatibleDrivers as $cD){
-    		$check = common_configuration_ComponentFactory::buildPHPDatabaseDriver($cD);
-    		$report = $check->check();
-    		
-    		if ($report->getStatus() == common_configuration_Report::VALID){
-    			$availableDrivers[] = $cD;
-    		}
-    	}
-    	
-    	return $availableDrivers;
+        $compatibleDrivers = array('pdo_mysql', 'pdo_pgsql', 'pdo_sqlsrv');
+        $availableDrivers = array();
+
+        foreach ($compatibleDrivers as $cD){
+            $check = common_configuration_ComponentFactory::buildPHPDatabaseDriver($cD);
+            $report = $check->check();
+
+            if ($report->getStatus() == common_configuration_Report::VALID){
+                $availableDrivers[] = $cD;
+            }
+        }
+
+        return $availableDrivers;
     }
     
     /**

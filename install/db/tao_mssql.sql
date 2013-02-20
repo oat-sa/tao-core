@@ -84,10 +84,10 @@ CREATE TABLE "resource_has_class" (
 	"resource_id" int NOT NULL,
 	"class_id" int NOT NULL,
 	PRIMARY KEY ("resource_id", "class_id")
-) 
+) ;
 
 
 CREATE TABLE "sequence_uri_provider" (
   "uri_sequence" BIGINT NOT NULL UNIQUE,
   PRIMARY KEY ("uri_sequence")
-) 
+);
