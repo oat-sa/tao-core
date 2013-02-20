@@ -62,7 +62,7 @@ class tao_install_utils_PgsqlDbCreator extends tao_install_utils_DbCreator{
 	}
 	
 	protected function getExtraConfiguration(){
-		return array();	
+		return array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);	
 	}
 	
 	protected function getDiscoveryDSN(){

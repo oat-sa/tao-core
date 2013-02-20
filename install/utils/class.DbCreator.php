@@ -69,7 +69,6 @@ abstract class tao_install_utils_DbCreator{
 	        $dsn = $this->getDiscoveryDSN();
 	        $this->options = array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_BOTH,
 	        					   PDO::ATTR_PERSISTENT => false,
-	        					   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 	        					   PDO::ATTR_EMULATE_PREPARES => false);
 	        				 
 	     	foreach ($this->getExtraConfiguration() as $k => $v){
