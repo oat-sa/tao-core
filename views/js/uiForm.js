@@ -66,7 +66,6 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 		},
 
 		initElements: function(){
-			$(helpers.getMainContainerSelector(uiBootstrap.tabs) + " form :input:not(:hidden):not(button):first").focus();
 
 			//save form button
 			var that = this;
