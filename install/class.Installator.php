@@ -41,6 +41,12 @@ class tao_install_Installator{
 	{
 		try
 		{
+			/*
+			 * 0 - Check input parameters. 
+			 */
+			common_Logger::i("Checking install data");
+			self::checkInstallData($installData);
+			
 			common_Logger::i("Starting TAO install", 'INSTALL');
 	        
 			// Sanitize $installData if needed.
@@ -49,7 +55,7 @@ class tao_install_Installator{
 			}
 			
 			/*
-			 *  0 - Check configuration.
+			 *  1 - Check configuration with checks described in the manifest.
 			 */
 			$distribManifest = new common_distrib_Manifest(dirname(__FILE__) . '/../distributions.php');
 			$distrib = $distribManifest->getDistributions();
@@ -75,7 +81,7 @@ class tao_install_Installator{
 			}
 			
 			/*
-			 *  1 - Test DB connection (done by the constructor)
+			 *  2 - Test DB connection (done by the constructor)
 			 */
 			common_Logger::i("Spawning DbCreator", 'INSTALL');
 			$dbCreatorClassName = tao_install_utils_DbCreator::getClassNameForDriver($installData['db_driver']);
@@ -89,7 +95,7 @@ class tao_install_Installator{
 			common_Logger::d("DbCreator spawned", 'INSTALL');
 	
 			/*
-			 *   2 - Load the database schema
+			 *   3 - Load the database schema
 			 */
 	
 			// If the database already exists, drop all tables
@@ -132,13 +138,13 @@ class tao_install_Installator{
 			}
 			
 			/*
-			 *  3 - Create the local namespace
+			 *  4 - Create the local namespace
 			 */
 			common_Logger::i('Creating local namespace', 'INSTALL');
 			$dbCreator->execute("INSERT INTO models VALUES ('8', '{$installData['module_namespace']}', '{$installData['module_namespace']}#')");
 	
 			/*
-			 *  4 - Create the generis config files
+			 *  5 - Create the generis config files
 			 */
 			
 			common_Logger::d('Writing db config', 'INSTALL');
@@ -175,7 +181,7 @@ class tao_install_Installator{
 			));
 			
 			/*
-			 * 5 - Run the extensions bootstrap
+			 * 6 - Run the extensions bootstrap
 			 */
 			common_Logger::d('Running the extensions bootstrap', 'INSTALL');
 			require_once $this->options['root_path'] . 'generis/common/inc.extension.php';
@@ -190,7 +196,7 @@ class tao_install_Installator{
 			$modelCreator->insertGenerisUser(SYS_USER_LOGIN, SYS_USER_PASS);
 			
 			/*
-			 * 6 - Add languages
+			 * 7 - Add languages
 			 */
 			$models = $modelCreator->getLanguageModels();
 	        foreach ($models as $ns => $modelFiles){
@@ -201,14 +207,14 @@ class tao_install_Installator{
 	        }
 
 			/*
-			 * 7 - Finish Generis Install
+			 * 8 - Finish Generis Install
 			 */
 			$generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
 			$generisInstaller = new common_ext_GenerisInstaller($generis);
 			$generisInstaller->install();
 			
 	        /*
-			 * 8 - Install the extensions
+			 * 9 - Install the extensions
 			 */
 			if(isset($installData['extensions'])) {
 				$extensionIDs = explode(',',$installData['extensions']); 
@@ -261,7 +267,7 @@ class tao_install_Installator{
 			}
 	
 			/*
-			 *  9 - Insert Super User
+			 *  10 - Insert Super User
 			 */
 			common_Logger::i('Spawning SuperUser '.$installData['user_login'], 'INSTALL');
 			$modelCreator->insertSuperUser(array(
@@ -275,29 +281,29 @@ class tao_install_Installator{
 			));
 	
 			/*
-			 *  10 - Secure the install for production mode
+			 *  11 - Secure the install for production mode
 			 */
 			if($installData['module_mode'] == 'production'){
 				$extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
 				common_Logger::i('Securing tao for production', 'INSTALL');
 				
-				// 10.1 Remove Generis User
+				// 11.1 Remove Generis User
 				$dbCreator->execute('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelID"=6');
 	
-				// 10.2 Protect TAO dist
+				// 11.2 Protect TAO dist
 	 			$shield = new tao_install_utils_Shield(array_keys($extensions));
 	 			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
 	 			$shield->protectInstall();
 			}
 
 			/*
-			 *  11 - Create the version file
+			 *  12 - Create the version file
 			 */
 			common_Logger::d('Creating version file for TAO', 'INSTALL');
 			file_put_contents(ROOT_PATH.'version', TAO_VERSION);
 			
 	        /*
-	         * 12 - Miscellaneous
+	         * 13 - Miscellaneous
 	         */
 	        // Localize item content for demo items.
 	        $dbCreator->execute("UPDATE statements SET l_language = '" . $installData['module_lang'] . "' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent'");
@@ -339,6 +345,33 @@ class tao_install_Installator{
 	 	}
 	 	
 	 	return $token;
+	}
+
+	/**
+	 * Check the install data information such as
+	 * - instance name
+	 * - database driver
+	 * - ...
+	 * 
+	 * If a parameter of the $installData is not valid regarding the install
+	 * business rules, an MalformedInstall
+	 * 
+	 * @param array $installData
+	 */
+	public static function checkInstallData(array $installData){
+		// instance name
+		if (empty($installData['instance_name'])){
+			$msg = "Missing install parameter 'instance_name'.";
+			throw new tao_install_utils_MalformedParameterException($msg);
+		}
+		else if (!is_string($installData['instance_name'])){
+			$msg = "Malformed install parameter 'instance_name'. It must be a string.";
+			throw new tao_install_utils_MalformedParameterException($msg);
+		}
+		else if (1 === preg_match('/\s/u', $installData['instance_name'])){
+			$msg = "Malformed install parameter 'instance_name'. It cannot contain spacing characters (tab, backspace).";
+			throw new tao_install_utils_MalformedParameterException($msg);
+		}
 	}
 	
 	/**

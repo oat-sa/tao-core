@@ -291,6 +291,11 @@ TaoInstall.prototype.getValidator = function(element, options){
 					if (typeof(options.dataType) != 'undefined'){
 						
 						switch (options.dataType){
+							case 'regexp':
+								var reg = new RegExp(options.pattern);
+								element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };
+							break;
+						
 							case 'url':
 								var reg = new RegExp("(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?");
 								element.isValid = function(){ return firstValueFunction() && reg.test($element.val()); };							
