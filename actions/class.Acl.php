@@ -55,7 +55,7 @@ class tao_actions_Acl extends tao_actions_CommonModule {
 										 'uri' => $accessService->makeEMAUri($extId));
 				
 				foreach (tao_helpers_funcACL_Model::getModules($extId) as $modUri => $module){
-					$moduleAccess = tao_helpers_funcACL_Cache::retrieveModule($module);
+					$moduleAccess = tao_helpers_funcACL_funcACL::getReversedAccess($module);
 					$uri = explode('#', $modUri);
 					list($type, $extId, $modId) = explode('_', $uri[1]);
 					
@@ -98,7 +98,7 @@ class tao_actions_Acl extends tao_actions_CommonModule {
 		else{
 			$role = new core_kernel_classes_Resource($this->getRequestParameter('role'));
 			$module = new core_kernel_classes_Resource($this->getRequestParameter('module'));
-			$moduleAccess = tao_helpers_funcACL_Cache::retrieveModule($module);
+			$moduleAccess = tao_helpers_funcACL_funcACL::getReversedAccess($module);
 			
 			$actions = array();
 			foreach (tao_helpers_funcACL_Model::getActions($module) as $action) {

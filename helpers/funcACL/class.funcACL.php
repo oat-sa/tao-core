@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 30.07.2012, 11:55:05 with ArgoUML PHP module
+ * Automatically generated on 21.02.2013, 14:19:17 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jehan Bihin
@@ -96,33 +96,25 @@ class tao_helpers_funcACL_funcACL
 		$moduleResource = new core_kernel_classes_Resource($moduleUri);
 		
 		//Get the access list (reversed)
-		try{
-			$moduleAccess = tao_helpers_funcACL_Cache::retrieveModule($moduleResource);
-			
-			//Test if we have a role giving access to the module.
-			foreach ($roles as $r){
-				if (in_array($r->getUri(), $moduleAccess['module'])){
+		$moduleAccess = tao_helpers_funcACL_funcACL::getReversedAccess($moduleResource);
+		
+		//Test if we have a role giving access to the module.
+		foreach ($roles as $r){
+			if (in_array($r->getUri(), $moduleAccess['module'])){
+				$returnValue = true;
+				break;
+			}
+		}
+		
+		//Maybe an access for the action?
+		foreach ($roles as $r){
+			if (isset($moduleAccess['actions'][$actionUri])){
+				$actionRoles = $moduleAccess['actions'][$actionUri];
+				if (in_array($r->getUri(), $actionRoles)){
 					$returnValue = true;
 					break;
 				}
 			}
-			
-			//Maybe an access for the action?
-			foreach ($roles as $r){
-				if (isset($moduleAccess['actions'][$actionUri])){
-					$actionRoles = $moduleAccess['actions'][$actionUri];
-					if (in_array($r->getUri(), $actionRoles)){
-						$returnValue = true;
-						break;
-					}
-				}
-			}
-		}
-		catch (common_cache_Exception $e){
-			// No entry in the cache for this module, it seems
-			// it does not exist.
-			common_Logger::w("ACL Cache could not be retrieved for module '${module}'.");
-			$returnValue = false;
 		}
 		
 		if (false === $returnValue) {
@@ -259,7 +251,7 @@ class tao_helpers_funcACL_funcACL
      * Returns the roles that grant access to a specific action
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  Resource action
      * @return array
      */
@@ -289,7 +281,7 @@ class tao_helpers_funcACL_funcACL
      * Returns the roles that grant access to a specific module
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  Resource module
      * @return array
      */
@@ -310,6 +302,39 @@ class tao_helpers_funcACL_funcACL
 			}
 		}
         // section 127-0-1-1--1ccb663f:138d70cdc8b:-8000:0000000000003B68 end
+
+        return (array) $returnValue;
+    }
+
+    /**
+     * Get a pre-compiled access manifest for ACL checkup at the Module level.
+     * returned table has the following structure:
+     *
+     * + array['module'] -> an array of Generis Role URIs that have a global
+     * to the module
+     * + array['actions'] -> an associative array where keys are the Action URIs
+     * values are arrays of Generis Role URIs that have an access to the action.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @param  Resource module The Module (as a Generis Resource) you want to get the ACLs.
+     * @return array
+     */
+    public static function getReversedAccess( core_kernel_classes_Resource $module)
+    {
+        $returnValue = array();
+
+        // section 127-0-1-1--37da3151:13cfce0f4f3:-8000:0000000000003C93 begin
+        try{
+        	$returnValue = tao_helpers_funcACL_Cache::retrieveModule($module);
+        }
+        catch (common_cache_Exception $e) {
+        	// The cached version could not be retrieved.
+        	// We ask the cache to build it and we serve it.
+        	tao_helpers_funcACL_Cache::cacheModule($module);
+        	$returnValue = tao_helpers_funcACL_Cache::retrieveModule($module);
+        }
+        // section 127-0-1-1--37da3151:13cfce0f4f3:-8000:0000000000003C93 end
 
         return (array) $returnValue;
     }
