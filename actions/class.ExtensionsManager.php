@@ -64,6 +64,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 			$message =   __('Extension ') . $this->getExtension()->getID() . __(' has been installed');
 			$success = true;
 			
+			// @todo solve this differently.
 			$userService = core_kernel_users_Service::singleton();
 			$session = core_kernel_classes_Session::singleton();
 			$userUri = $session->getUserUri();
