@@ -231,64 +231,8 @@ abstract class tao_models_classes_GenerisService
         $returnValue = null;
 
         // section 10-13-1-45--135fece8:123b76cb3ff:-8000:00000000000018A5 begin
-        foreach($properties as $propertyUri => $propertyValue){
-
-        	if($propertyUri == RDF_TYPE){
-        		foreach($instance->getTypes() as $type){
-        			$instance->removeType($type);
-        		}
-        		if(!is_array($propertyValue)){
-        			$types = array($propertyValue) ;
-        		}
-        		foreach($types as $type){
-        			$instance->setType(new core_kernel_classes_Class($type));
-        		}
-        		continue;
-        	}
-
-			$prop = new core_kernel_classes_Property( $propertyUri );
-			$values = $instance->getPropertyValuesCollection($prop);
-			if($values->count() > 0){
-				if(is_array($propertyValue)){
-					$instance->removePropertyValues($prop);
-					foreach($propertyValue as $aPropertyValue){
-						$instance->setPropertyValue(
-							$prop,
-							$aPropertyValue
-						);
-					}
-
-				}
-				else{
-					$instance->editPropertyValues(
-						$prop,
-						$propertyValue
-					);
-					if(strlen(trim($propertyValue))==0){
-						//if the property value is an empty space(the default value in a select input field), delete the corresponding triplet (and not all property values)
-						$instance->removePropertyValues($prop, array('pattern' => ''));
-					}
-				}
-			}
-			else{
-
-				if(is_array($propertyValue)){
-
-					foreach($propertyValue as $aPropertyValue){
-						$instance->setPropertyValue(
-							$prop,
-							$aPropertyValue
-						);
-					}
-				}
-				else{
-					$instance->setPropertyValue(
-						$prop,
-						$propertyValue
-					);
-				}
-			}
-		}
+        $binder = new tao_models_classes_dataBinding_GenerisInstanceDataBinder($instance);
+        $binder->bind($properties);
 
         $returnValue = $instance;
 
