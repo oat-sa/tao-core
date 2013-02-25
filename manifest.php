@@ -35,7 +35,6 @@ return array(
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_spl', 'name' => 'spl')),
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_dom', 'name' => 'dom')),
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_mbstring', 'name' => 'mbstring')),
-				//array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_svn', 'name' => 'svn', 'optional' => true)),
 				array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_suhosin', 'name' => 'suhosin', 'silent' => true)),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_magic_quotes_gpc', 'name' => 'magic_quotes_gpc', 'value' => '0', 'dependsOn' => array('tao_php_runtime53'))),
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_register_globals', 'name' => 'register_globals', 'value' => '0', 'dependsOn' => array('tao_php_runtime53'))),
@@ -54,6 +53,7 @@ return array(
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_includes', 'location' => 'tao/includes', 'rights' => 'r')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_update_patches', 'location' => 'tao/update/patches', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_locales', 'location' => 'tao/locales', 'rights' => 'r')),
+				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_cache_htmlpurifier', 'location' => 'tao/data/cache/htmlpurifier', 'rights' => 'rw')),
 				array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_mod_rewrite', 'name' => 'mod_rewrite', 'extension' => 'tao')),
 				array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao'))
 		)
