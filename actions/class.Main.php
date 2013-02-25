@@ -142,7 +142,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 				$extensions[$i]['enabled'] = $access;
 			}
 		}
-		ksort($extensions);
 		$this->setData('extensions', $extensions);
 
 		if($this->hasRequestParameter('structure')) {
