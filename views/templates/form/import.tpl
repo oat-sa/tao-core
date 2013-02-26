@@ -26,7 +26,7 @@ $(document).ready(function(){
 		var form = $(this).parents('form');
 		$(":input[name='"+form.attr('name')+"_sent']").remove();
 		
-		form.find('.form-submiter').click();
+		//form.find('.form-submiter').click();
 	});
 	
 	//for the csv import options
