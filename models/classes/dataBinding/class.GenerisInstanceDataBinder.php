@@ -144,7 +144,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
 	        			}
 	        
 	        		}
-	        		else{
+	        		else if (is_string($propertyValue)){
 	        			$instance->editPropertyValues(
 	        					$prop,
 	        					$propertyValue
@@ -166,7 +166,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
 	        				);
 	        			}
 	        		}
-	        		else{
+	        		else if (is_string($propertyValue)){
 	        			$instance->setPropertyValue(
 	        					$prop,
 	        					$propertyValue

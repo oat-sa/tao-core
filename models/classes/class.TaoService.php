@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * This class provide the services for the Tao extension
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
  * @subpackage models_classes
  */
@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome@taotesting.com>
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
@@ -34,7 +34,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  * This class provide the services for the Tao extension
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
  * @subpackage models_classes
  */
@@ -62,13 +62,22 @@ class tao_models_classes_TaoService
      */
     protected static $structure = array();
 
+    /**
+     * The key to use to store the default TAO Upload File Source Repository URI
+     * the TAO meta-extension configuration.
+     *
+     * @access public
+     * @var string
+     */
+    const DEFAULT_UPLOADSOURCE_KEY = 'defaultUploadFileSource';
+
     // --- OPERATIONS ---
 
     /**
      * Get the list of TAO's children extension available in the current context
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @return array
      */
     public function getLoadedExtensions()
@@ -98,7 +107,7 @@ class tao_models_classes_TaoService
      * Check if an extension is loaded
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string extension
      * @return boolean
      */
@@ -117,7 +126,7 @@ class tao_models_classes_TaoService
      * define the current extension
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string extension
      * @return mixed
      */
@@ -133,7 +142,7 @@ class tao_models_classes_TaoService
      * get the current extension
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @return string
      */
     public function getCurrentExtension()
@@ -153,7 +162,7 @@ class tao_models_classes_TaoService
      * Return the SimpleXmlElement object (don't forget to cast it)
      *
      * @access protected
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string extension
      * @return SimpleXMLElement
      */
@@ -184,7 +193,7 @@ class tao_models_classes_TaoService
      * Short description of method getAllStructures
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @return array
      */
     public function getAllStructures()
@@ -230,7 +239,7 @@ class tao_models_classes_TaoService
      * Get the structure for the extension/section in parameters
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string extension
      * @param  string structure
      * @return array
@@ -259,7 +268,7 @@ class tao_models_classes_TaoService
      * Short description of method getSection
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string extension
      * @param  string structure
      * @param  string section
@@ -291,7 +300,7 @@ class tao_models_classes_TaoService
      * Check if an extension is an extension loaded inside the TAO GUI
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string extension
      * @return boolean
      */
@@ -310,6 +319,46 @@ class tao_models_classes_TaoService
         // section 127-0-1-1-34cc9151:127a8ee40c4:-8000:000000000000233E end
 
         return (bool) $returnValue;
+    }
+
+    /**
+     * Set the default file source for TAO File Upload.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @param  Repository source The repository to be used as the default TAO File Upload Source.
+     * @return void
+     */
+    public function setDefaultUploadSource( core_kernel_versioning_Repository $source)
+    {
+        // section 127-0-1-1-7b77f86d:13d16ab7c5c:-8000:0000000000003C63 begin
+    	$ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+    	$ext->setConfig(self::DEFAULT_UPLOADSOURCE_KEY, $source->getUri());
+        // section 127-0-1-1-7b77f86d:13d16ab7c5c:-8000:0000000000003C63 end
+    }
+
+    /**
+     * Returns the default TAO Upload File source repository.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @return core_kernel_versioning_Repository
+     */
+    public function getDefaultUploadSource()
+    {
+        $returnValue = null;
+
+        // section 127-0-1-1-7b77f86d:13d16ab7c5c:-8000:0000000000003C69 begin
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $uri = $ext->getConfig(self::DEFAULT_UPLOADSOURCE_KEY);
+        if (!empty($uri)) {
+        	$returnValue = new core_kernel_versioning_Repository($uri);
+        } else {
+        	throw new common_Exception('No default repository defined for uploaded files storage.');
+        }
+        // section 127-0-1-1-7b77f86d:13d16ab7c5c:-8000:0000000000003C69 end
+
+        return $returnValue;
     }
 
 } /* end of class tao_models_classes_TaoService */

@@ -56,6 +56,9 @@ return array(
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_data_cache_htmlpurifier', 'location' => 'tao/data/cache/htmlpurifier', 'rights' => 'rw')),
 				array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_mod_rewrite', 'name' => 'mod_rewrite', 'extension' => 'tao')),
 				array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao'))
+		),
+		'php' => array(
+			dirname(__FILE__).'/scripts/install/addFileUploadSource.php'
 		)
 	),
 	'managementRole' => 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',

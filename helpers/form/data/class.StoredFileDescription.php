@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 25.02.2013, 14:56:36 with ArgoUML PHP module 
+ * Automatically generated on 26.02.2013, 08:50:58 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jerome Bogaerts, <jerome@taotesting.com>
@@ -25,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The FileDescription data type contains all the data that a form collects or
  * about a file.
  *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
+ * @author Jerome Bogaerts <jerome@taotesting.com>
  */
 require_once('tao/helpers/form/data/class.FileDescription.php');
 
@@ -53,47 +53,21 @@ class tao_helpers_form_data_StoredFileDescription
 
     // --- ATTRIBUTES ---
 
-    /**
-     * The File instance in Generis Persistent Memory.
-     *
-     * @access private
-     * @var File
-     */
-    private $file = null;
-
     // --- OPERATIONS ---
 
     /**
      * Short description of method __construct
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  string uri The URI of the file stored by Generis.
+     * @author Jerome Bogaerts <jerome@taotesting.com>
+     * @param  File file The URI of the file stored by Generis.
      * @return mixed
      */
-    public function __construct($uri)
+    public function __construct( core_kernel_classes_File $file)
     {
         // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003D05 begin
-        $this->file = new core_kernel_classes_File($uri);
+        $this->setFile($file);
         // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003D05 end
-    }
-
-    /**
-     * Short description of method getFile
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @return core_kernel_classes_File
-     */
-    public function getFile()
-    {
-        $returnValue = null;
-
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003D0B begin
-        $returnValue = $this->file;
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003D0B end
-
-        return $returnValue;
     }
 
 } /* end of class tao_helpers_form_data_StoredFileDescription */

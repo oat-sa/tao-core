@@ -18,7 +18,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * The FileDescription data type contains all the data that a form collects or
  * about a file.
  *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
+ * @author Jerome Bogaerts <jerome@taotesting.com>
  */
 require_once('tao/helpers/form/data/class.FileDescription.php');
 
@@ -70,7 +70,7 @@ class tao_helpers_form_data_UploadFileDescription
      * right place.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Jerome Bogaerts <jerome@taotesting.com>
      * @param  string name The name of the file e.g. tmpImage.tmp
      * @param  int size The size of the file in bytes
      * @param  string type The mime-type of the file e.g. text/plain.
@@ -90,7 +90,7 @@ class tao_helpers_form_data_UploadFileDescription
      * Returns the mime-type of the file.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Jerome Bogaerts <jerome@taotesting.com>
      * @return string
      */
     public function getType()
@@ -108,7 +108,7 @@ class tao_helpers_form_data_UploadFileDescription
      * Returns the temporary path of the file.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Jerome Bogaerts <jerome@taotesting.com>
      * @return string
      */
     public function getTmpPath()

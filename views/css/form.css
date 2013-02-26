@@ -192,3 +192,14 @@ div#form-container div.xhtml_form div table.form-elt-container{
 	width:70%;
 	vertical-align: middle;
 }
+
+.file-uploader button{
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	background-color: transparent;
+	border: none;
+	background-image: url(../img/cancel.png);
+	background-repeat: no-repeat;
+	margin-left: 10px;
+}

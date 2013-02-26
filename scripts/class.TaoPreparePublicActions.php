@@ -89,6 +89,8 @@ class tao_scripts_TaoPreparePublicActions
     		$res->delete();
     	}
     	
+    	tao_helpers_funcACL_Cache::flush();
+    	
     	foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
 			// this also adds TaoManager to the Modules
 			tao_helpers_funcACL_Model::spawnExtensionModel($extension);
