@@ -40,9 +40,9 @@ CREATE TABLE "statements" (
   "modelID" int NOT NULL default 0,
   "subject" varchar(255) default NULL,
   "predicate" varchar(255) default NULL,
-  "object" text,
+  "object" varchar(max),
   "l_language" varchar(255) default NULL,
-  "id" BIGINT NOT NULL UNIQUE,
+  "id" BIGINT NOT NULL IDENTITY UNIQUE,
   "author" varchar(255) default NULL,
   "stread" varchar(255) default NULL,
   "stedit" varchar(255) default NULL,
@@ -53,7 +53,6 @@ CREATE TABLE "statements" (
 CREATE INDEX "idx_statements_modelID" ON "statements" ("modelID");
 CREATE INDEX "k_sp" ON "statements" ("subject"/*!(164)*/, "predicate"/*!(164)*/);
 
-CREATE INDEX "k_po" ON "statements" ("predicate"/*!(164)*/, "object"/*!(164)*/);
 
 
 CREATE TABLE "class_to_table" (

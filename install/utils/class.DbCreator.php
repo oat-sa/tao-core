@@ -80,11 +80,14 @@ abstract class tao_install_utils_DbCreator{
 	     	
 			//if the database exists already, connect to it
 			if ($this->dbExists($dbName)){
+                common_Logger::d('Switch to database ' . $dbName , 'INSTALL');
 				$this->setDatabase($dbName);
 			}
 		}
 		catch(PDOException $e){
 			$this->pdo = null;
+            common_Logger::e('Problems connecting to DSN = ' . $dsn , 'INSTALL');
+            common_Logger::e($e->getMessage() . $e->getTraceAsString(), 'INSTALL');
 			throw new tao_install_utils_Exception("Unable to connect to the database '${dbName}' with the provided credentials: " . $e->getMessage());
 		}
 	}
@@ -168,6 +171,8 @@ abstract class tao_install_utils_DbCreator{
 			$this->afterConnect();
 		}
 		catch (PDOException $e){
+            common_Logger::e('Problems connecting to DSN = ' . $dsn , 'INSTALL');
+            common_Logger::e($e->getMessage() . $e->getTraceAsString(), 'INSTALL');
 			throw new tao_install_utils_Exception("Unable to set database '${name}': " . $e->getMessage() . "");
 		}
 	}

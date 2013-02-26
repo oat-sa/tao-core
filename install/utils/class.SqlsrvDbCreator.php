@@ -11,7 +11,7 @@ class tao_install_utils_SqlsrvDbCreator extends tao_install_utils_DbCreator
 
     protected function getDsn($host)
     {
-        return $this->driver . ':Server=' . $host . $this->getExtraDSN();
+        return $this->driver . ':server=' . $host . $this->getExtraDSN();
     }
 
 
@@ -28,8 +28,9 @@ class tao_install_utils_SqlsrvDbCreator extends tao_install_utils_DbCreator
      */
     public function dbExists($dbName)
     {
-        $this->pdo->exec('use master;');
-        $result = $this->pdo->query('SELECT name FROM "sysdatabases"');
+        $dsn = $this->getDiscoveryDSN() . ';database=master';
+        $pdo = new PDO($dsn,$this->user,$this->pass);
+        $result = $pdo->query('SELECT name FROM "sysdatabases"');
         $databases = array();
         while($db = $result->fetchColumn(0)){
             $databases[] = $db;
@@ -48,7 +49,6 @@ class tao_install_utils_SqlsrvDbCreator extends tao_install_utils_DbCreator
     {
         $tables = array();
         $result = $this->pdo->query('SELECT TABLE_NAME FROM information_schema.tables');
-
         while ($t = $result->fetchColumn(0)){
             $tables[] = $t;
         }
@@ -67,6 +67,7 @@ class tao_install_utils_SqlsrvDbCreator extends tao_install_utils_DbCreator
     protected function afterConnect()
     {
         $this->pdo->exec("SET NAMES 'UTF8'");
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     }
 
     protected function getExtraConfiguration()
@@ -82,7 +83,7 @@ class tao_install_utils_SqlsrvDbCreator extends tao_install_utils_DbCreator
     protected function getDiscoveryDSN()
     {
         $driver = str_replace('pdo_', '', $this->driver);
-        $dsn  = $driver . ':Server=' . $this->host;
+        $dsn  = $driver . ':server=' . $this->host;
         return $dsn;
     }
 
@@ -90,7 +91,7 @@ class tao_install_utils_SqlsrvDbCreator extends tao_install_utils_DbCreator
     {
         $driver = str_replace('pdo_', '', $this->driver);
         $dbName = $this->dbName;
-        $dsn  = $driver . ':Server=' . $this->host . ';Database=' . $dbName;
+        $dsn  = $driver . ':server=' . $this->host . ';database=' . $dbName;
         return $dsn;
     }
 

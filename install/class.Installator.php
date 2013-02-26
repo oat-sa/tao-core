@@ -3,8 +3,8 @@
 class tao_install_Installator{
 
 	static $defaultExtensions = array('tao','filemanager','taoItems','wfEngine','taoResults','taoTests','taoDelivery','taoGroups','taoSubjects', 'wfAuthoring');
-	
-	protected $options = array();
+
+    protected $options = array();
 	
 	private $toInstall = array();
 	
@@ -118,12 +118,12 @@ class tao_install_Installator{
 			}
 	
 			// Create tao tables
-            common_Logger::i('db_driver :' . $installData['db_driver'], 'INSTALL');
+            common_Logger::i('db_driver : ' . $installData['db_driver'], 'INSTALL');
             if ($installData['db_driver'] == 'pdo_sqlsrv'){
 
                 common_Logger::i('MS SQL DRIVER, load specific file', 'INSTALL');
                 $dbCreator->setDatabase ($installData['db_name']);
-                $dbCreator->load($this->options['install_path'].'db/tao_mssql.sql', array('DATABASE_NAME' => $installData['db_name']));
+                $dbCreator->load($this->options['install_path'].'db/tao_sqlsrv.sql', array('DATABASE_NAME' => $installData['db_name']));
 
             }
             else {
@@ -190,11 +190,11 @@ class tao_install_Installator{
 			common_Logger::d('Including tao constants', 'INSTALL');
 			require_once $this->options['root_path'] . 'tao/includes/class.Bootstrap.php';
 			Bootstrap::loadConstants('tao');
-	
+
 			// Init model creator and create the Generis User.
 			$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
 			$modelCreator->insertGenerisUser(SYS_USER_LOGIN, SYS_USER_PASS);
-			
+
 			/*
 			 * 7 - Add languages
 			 */
@@ -243,7 +243,7 @@ class tao_install_Installator{
 						    $importLocalData = ($installData['import_local'] == true);
 							$extinstaller = new tao_install_ExtensionInstaller($extension, $importLocalData);
 							
-							set_time_limit(30);
+							set_time_limit(60);
 							
 							$extinstaller->install();
 						} catch (common_ext_ExtensionException $e) {
@@ -312,6 +312,7 @@ class tao_install_Installator{
 		catch(Exception $e){
 			// In any case, we transmit a single exception type (at the moment)
 			// for a clearer API for client code.
+            common_Logger::e('Error Occurs : ' . $e->getMessage() . $e->getTraceAsString(), 'INSTALL');
 			throw new tao_install_utils_Exception($e->getMessage(), 0, $e);
 		}
 	}

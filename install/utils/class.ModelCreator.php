@@ -100,7 +100,7 @@ class tao_install_utils_ModelCreator{
 		foreach ($replacements as $k => $r){
 			$model = str_replace($k, $r, $model);
 		}
-		
+
 		return $this->insertModel($this->localNs, $model);
 	}
 
