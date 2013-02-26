@@ -77,8 +77,6 @@ class tao_helpers_funcACL_Model
 				echo $e->getLine().' : '.$e->getMessage()."\n";
 			}
 		}
-		
-		tao_helpers_funcACL_Cache::cacheExtension($extension);
         // section 127-0-1-1--1875a6a1:137e65726c7:-8000:0000000000003B19 end
     }
 

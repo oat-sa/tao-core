@@ -1,7 +1,0 @@
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_{extension}_{module}_{action}">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action"/>
-    <rdfs:label><![CDATA[Action {action}]]></rdfs:label>
-		<rdfs:comment><![CDATA[Action {action}]]></rdfs:comment>
-		<funcacl:actionIdentifier><![CDATA[{action}]]></funcacl:actionIdentifier>
-		<funcacl:actionMemberOf rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_{extension}_{module}" />
-  </rdf:Description>

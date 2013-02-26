@@ -1,3 +1,0 @@
-	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
-		<funcacl:grantAccessModule rdf:resource="{uri}" />
-	</rdf:Description>
