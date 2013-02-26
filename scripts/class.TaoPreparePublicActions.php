@@ -83,20 +83,16 @@ class tao_scripts_TaoPreparePublicActions
     	foreach ($moduleClass->getInstances() as $res) {
     		$res->delete();
     	}
+    	
     	$actionClass = new core_kernel_classes_Class(CLASS_ACL_ACTION);
     	foreach ($actionClass->getInstances() as $res) {
     		$res->delete();
     	}
     	
-    	$taoManager = new core_kernel_classes_Resource(INSTANCE_ROLE_TAOMANAGER);
-        $taoManager->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS));
-        
-    	
     	foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
 			// this also adds TaoManager to the Modules
 			tao_helpers_funcACL_Model::spawnExtensionModel($extension);
 		}
-		tao_helpers_funcACL_funcACL::buildRolesByActions();
         // section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684E end
     }
 
