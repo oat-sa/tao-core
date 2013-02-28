@@ -1,21 +1,45 @@
 /* center panel */
-#installation_form{
+html, body{
+	height: 100%;
+}
+
+body{
+	background-color: #eee;
+	font-family: Verdana, Arial, sans-serif;
+	color: #3A3A3A;
+}
+
+h1{
+	text-align: center;
+	font-size: 22px;
+	margin-bottom: 35px;
+}
+
+#main{
 	position:absolute;
 	top:50%;
 	left:50%;
 	margin-top:-240px;
 	margin-left:-390px;
+	background-color: white;
+	width: 740px;
+	padding: 40px;
+	background-image: url(../images/machine.png);
+	background-repeat: no-repeat;
+	background-position: 520px 30px;
+}
+
+#content{
+	width:400px;
 }
 
 #warning_msg{
 	position:relative;
-	width:400px;
-	margin:0 auto;
 	font-size:12px;
-	margin-top:180px;
 	line-height:18px;
 	font-weight:normal;
 	text-align: justify;
+	margin-bottom: 35px;
 }
 
 #warning_msg strong{
@@ -34,7 +58,7 @@
 	padding:2px 8px;
 	text-decoration: none;
 	background:#009933;
-	margin:25px auto;
+	margin:0px auto;
 	font-size:12px;
 	text-align: center;
 	height:25px;
