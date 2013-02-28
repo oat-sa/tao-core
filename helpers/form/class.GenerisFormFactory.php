@@ -77,6 +77,10 @@ class tao_helpers_form_GenerisFormFactory
 			//@TODO: quick fix to make AsyncFile work, need to clean that!!
 			$widget = ucfirst(strtolower($widget));
 		}
+		else
+		{
+			$widget = 'GenerisAsyncFile';
+		}
 		
 		//authoring widget is not used in standalone mode
 		if($widget == 'Authoring' && tao_helpers_Context::check('STANDALONE_MODE')){
@@ -310,27 +314,22 @@ class tao_helpers_form_GenerisFormFactory
 			'list' => array(
 				'title' 	=> __('A single choice list'),
 				'widget'	=> PROPERTY_WIDGET_RADIOBOX,
-				'range'		=> null
+				'range'		=> RDF_RESOURCE
 			),
 			'longlist' => array(
 				'title' 	=> __('A single choice long list'),
 				'widget'	=> PROPERTY_WIDGET_COMBOBOX,
-				'range'		=> null
+				'range'		=> RDF_RESOURCE
 			),
 			'multilist' => array(
 				'title' 	=> __('A multiple choice list'),
 				'widget'	=> PROPERTY_WIDGET_CHECKBOX,
-				'range'		=> null
+				'range'		=> RDF_RESOURCE
 			),
 			'file' => array(
 				'title' 	=> __('A file'),
 				'widget'	=> PROPERTY_WIDGET_FILE,
-				'range'		=> RDFS_LITERAL
-			),
-			'versionedFile' => array(
-				'title' 	=> __('A versioned file'),
-				'widget'	=> PROPERTY_WIDGET_VERSIONEDFILE,
-				'range'		=> RDFS_LITERAL
+				'range'		=> CLASS_GENERIS_FILE
 			)
 		);
 		
