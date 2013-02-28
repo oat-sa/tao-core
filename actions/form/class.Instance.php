@@ -77,6 +77,11 @@ class tao_actions_form_Instance
 			$actions[] = $translateELt;
 		}
 		
+		//add a hidden form element that states that it is an Instance Form.
+		$instanceElt = tao_helpers_form_FormFactory::getElement('tao.forms.instance', 'Hidden');
+		$instanceElt->setValue('1');
+		$this->form->addElement($instanceElt);
+		
 		$this->form->setActions($actions, 'top');
 		$this->form->setActions($actions, 'bottom');
 		

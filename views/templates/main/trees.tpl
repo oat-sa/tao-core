@@ -39,9 +39,6 @@
 			});
 
 			generisActions.setMainTree(tree);
-			eventMgr.one('tao.forms.submitted', function() {
-				uiBootstrap.initTrees();
-			});
 <?endforeach?>
 		});
 	});

@@ -618,10 +618,6 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 		 */
 		submitForm: function(myForm) {
 			
-			var loadCallBack = function (responseText, textStatus, xhr) {
-				eventMgr.trigger('tao.forms.submitted');
-			};
-			
 			try {
 				if (myForm.prop('enctype') == 'multipart/form-data' && myForm.find(".file-uploader").length) {
 					return false;
@@ -629,7 +625,7 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 				else {
 					if (uiBootstrap.tabs.size() == 0) {
 						if ($('div.main-container').length) {
-							$('div.main-container').load(myForm.prop('action'), myForm.serializeArray(), loadCallBack);
+							$('div.main-container').load(myForm.prop('action'), myForm.serializeArray());
 						} 
 						else {
 							return true;//go to the link
@@ -639,7 +635,7 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 						return true;//go to the link
 					}
 					else {
-						$(helpers.getMainContainerSelector(uiBootstrap.tabs)).load(myForm.prop('action'), myForm.serializeArray(), loadCallBack);
+						$(helpers.getMainContainerSelector(uiBootstrap.tabs)).load(myForm.prop('action'), myForm.serializeArray());
 					}
 				}
 			}

@@ -91,6 +91,11 @@ class tao_actions_form_Clazz
 		}
 		$actions[] = $propModeELt;
 
+		//add a hidden field that states it is a class edition form.
+		$classElt = tao_helpers_form_FormFactory::getElement('tao.forms.class', 'Hidden');
+		$classElt->setValue('1');
+		$this->form->addElement($classElt);
+		
 		$this->form->setActions($actions, 'top');
  		$this->form->setActions($actions, 'bottom');
 

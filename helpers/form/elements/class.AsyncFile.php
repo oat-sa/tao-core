@@ -9,10 +9,10 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 25.02.2013, 17:24:31 with ArgoUML PHP module 
+ * Automatically generated on 13.12.2011, 11:48:00 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements
  */
@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 /**
  * Represents a FormElement entity
  *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  */
 require_once('tao/helpers/form/class.FormElement.php');
 
@@ -41,7 +41,7 @@ require_once('tao/helpers/form/class.FormElement.php');
  *
  * @abstract
  * @access public
- * @author Jerome Bogaerts, <jerome@taotesting.com>
+ * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
  * @subpackage helpers_form_elements
  */
@@ -52,42 +52,16 @@ abstract class tao_helpers_form_elements_AsyncFile
 
 
     // --- ATTRIBUTES ---
-	/**
-	 * Short description of attribute widget
-	 *
-	 * @access public
-	 * @var string
-	 */
-	public $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile';
-	
-    // --- OPERATIONS ---
 
     /**
-     * Short description of method setValue
+     * Short description of attribute widget
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  value
-     * @return mixed
+     * @var string
      */
-    public function setValue($value)
-    {
-        // section 127-0-1-1-59174e95:13d1229b9b0:-8000:0000000000003C41 begin
-    	if ($value instanceof tao_helpers_form_data_UploadFileDescription){
-    		// The file is being uploaded.
-    		$this->value = $value;
-    	}
-    	else if (common_Utils::isUri($value)){
-    		// The file has already been uploaded
-    		$file = new core_kernel_classes_File($value);
-    		$this->value = new tao_helpers_form_data_StoredFileDescription($file);
-    	}
-    	else{
-    		$this->value = ' ';
-    	}
+    public $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile';
 
-        // section 127-0-1-1-59174e95:13d1229b9b0:-8000:0000000000003C41 end
-    }
+    // --- OPERATIONS ---
 
 } /* end of abstract class tao_helpers_form_elements_AsyncFile */
 
