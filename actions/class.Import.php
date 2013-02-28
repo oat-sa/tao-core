@@ -85,7 +85,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 		}
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Import'));
-		$this->setView('form/import.tpl', true);
+		$this->setView('form/import.tpl', 'tao');
 	}
 	
 	/**
@@ -270,7 +270,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 				
 				$this->setData('myForm', $myForm->render());
 				$this->setData('formTitle', __('Import into ').$clazz->getLabel());
-				$this->setView('form.tpl', true);
+				$this->setView('form.tpl', 'tao');
 			}
 			else {
 				// Nothing was retrieved.

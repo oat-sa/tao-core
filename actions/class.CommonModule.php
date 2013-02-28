@@ -30,14 +30,20 @@ abstract class tao_actions_CommonModule extends Module {
 	/**
      * @see Module::setView()
      * @param string $identifier view identifier
-     * @param boolean set to true if you want to use the views in the tao extension instead of the current extension 
+     * @param string use the views in the specified extension instead of the current extension 
      */
-    public function setView($identifier, $useMetaExtensionView = false)
+    public function setView($identifier, $extensionID = null)
     {
         parent::setView($identifier);
-		if($useMetaExtensionView){
-			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-			
+		if(!is_null($extensionID)) {
+			if ($extensionID === true) {
+				$extensionID = 'tao';
+				common_Logger::d('Deprecated use of setView() using a boolean');
+			}
+			if (strlen($extensionID) < 3) {
+				common_Logger::e('no ext');
+			}
+			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
 			Renderer::setViewsBasePath($ext->getConstant('DIR_VIEWS'));
 		}
 		return;

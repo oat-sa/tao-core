@@ -103,7 +103,7 @@ class tao_actions_SettingsVersioning extends tao_actions_TaoModule {
 
 		$this->setData('formTitle', __('Revision control'));
 		$this->setData('myForm', $myForm->render());
-		$this->setView('form.tpl', true);
+		$this->setView('form.tpl', 'tao');
 	}
 
 }

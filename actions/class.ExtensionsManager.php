@@ -27,7 +27,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 
 	}
 
-	protected function getExtension() {
+	protected function getCurrentExtension() {
 		if ($this->hasRequestParameter('id')) {
 			$extensionManager = common_ext_ExtensionsManager::singleton();
 			return common_ext_ExtensionsManager::singleton()->getExtensionById($this->getRequestParameter('id'));
@@ -59,9 +59,9 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 	public function install(){
 		$success = false;
 		try {
-			$extInstaller = new tao_install_ExtensionInstaller($this->getExtension());
+			$extInstaller = new tao_install_ExtensionInstaller($this->getCurrentExtension());
 			$extInstaller->install();
-			$message =   __('Extension ') . $this->getExtension()->getID() . __(' has been installed');
+			$message =   __('Extension ') . $this->getCurrentExtension()->getID() . __(' has been installed');
 			$success = true;
 			
 			// @todo solve this differently.

@@ -48,7 +48,7 @@ class tao_actions_Table extends tao_actions_TaoModule {
     public function index() {
     	$filter = $this->getRequestParameter('filter');
 		$this->setData('filter', $filter);
-		$this->setView('table/index.tpl', true);
+		$this->setView('table/index.tpl', 'tao');
     }
     
     public function data() {

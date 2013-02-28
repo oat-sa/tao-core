@@ -179,7 +179,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getDataLanguage());
 
-		$this->setView('layout.tpl', true);
+		$this->setView('layout.tpl', 'tao');
 	}
 
     /**
@@ -283,7 +283,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			$this->setData('actions', $actions);
 		}
 
-		$this->setView('main/actions.tpl', true);
+		$this->setView('main/actions.tpl', 'tao');
 	}
 
 	/**
@@ -342,8 +342,14 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			$this->setData('instanceName', strtolower(str_replace('tao', '', substr($extname, 0, strlen($extname) - 1))));
 		}
 
-		$this->setView('main/trees.tpl', true);
+		$this->setView('main/trees.tpl', 'tao');
 	}
-
+	
+	public function getDashboard(common_ext_Extension $extension) {
+		
+		$renderer = new Renderer();
+		$tao = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+    	$renderer->render($tao->getConstant('TPL_PATH').'main'.DIRECTORY_SEPARATOR.'dashboardwidget.tpl');
+	}
 }
 ?>

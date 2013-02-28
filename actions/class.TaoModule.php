@@ -215,7 +215,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$this->removeSessionAttribute('uri');
 			$this->removeSessionAttribute('classUri');
 		}
-		$this->setView('index.tpl', false);
+		$this->setView('index.tpl');
 	}
 	
 	/**
@@ -329,7 +329,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$this->setData('formTitle', __('Create instance of ').$clazz->getLabel());
 		$this->setData('myForm', $myForm->render());
 	
-		$this->setView('form.tpl', true);
+		$this->setView('form.tpl', 'tao');
 	}
 	
 	/**
@@ -439,7 +439,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 
 		$this->setData('formTitle', __('Edit Instance'));
 		$this->setData('myForm', $myForm->render());
-		$this->setView('form.tpl', true);
+		$this->setView('form.tpl', 'tao');
 	}
 	
 	/**
@@ -574,7 +574,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$this->setData('formTitle', __('Manage the versioned content : ').$ownerInstance->getLabel().' > '.$property->getLabel());
 			$this->setData('myForm', $myForm->render());
 			
-			$this->setView('form/versioned_file.tpl', true);
+			$this->setView('form/versioned_file.tpl', 'tao');
 		}
 		
 	}
@@ -707,7 +707,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Translate'));
-		$this->setView('form.tpl', true);
+		$this->setView('form.tpl', 'tao');
 	}
 	
 	/**
@@ -817,7 +817,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Search'));
-		$this->setView('form/search.tpl', true);
+		$this->setView('form/search.tpl', 'tao');
 	}
 
 	/**
@@ -850,7 +850,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		$this->setData('properties', $properties);
 		$this->setData('formTitle', __('Filter'));
-		$this->setView('form/filter.tpl', true);
+		$this->setView('form/filter.tpl', 'tao');
 	}
 	
 	/**
@@ -1057,7 +1057,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$myForm = $propFormContainer->getForm();
 		
 		$this->setData('data', $myForm->renderElements());
-		$this->setView('blank.tpl', true);
+		$this->setView('blank.tpl', 'tao');
 	}	
 	
 	/**
@@ -1088,7 +1088,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			print $e;
 		}
 		
-		$this->setView('form/metadata.tpl', true);
+		$this->setView('form/metadata.tpl', 'tao');
 	}
 	
 	/**
@@ -1157,7 +1157,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		$this->setData('instanceName', $kind);
 		
-		$this->setView("sas/select.tpl", true);
+		$this->setView("sas/select.tpl", 'tao');
 	}
 	
 	/**
@@ -1191,7 +1191,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$this->setData('message', $message);
 		
 		//only for the notification
-		$this->setView('messages.tpl', true);
+		$this->setView('messages.tpl', 'tao');
 	}
 	
 	/**
@@ -1241,7 +1241,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
 		$this->setData('formTitle', __('Edit'));
 		$this->setData('myForm', $myForm->render());
-		$this->setView('form.tpl', true);
+		$this->setView('form.tpl', 'tao');
 	}
 	
 	/**
@@ -1257,7 +1257,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
-		$this->setView('form/delete.tpl', true);
+		$this->setView('form/delete.tpl', 'tao');
 	}
 	
 	/**

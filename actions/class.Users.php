@@ -180,6 +180,34 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		$this->setView('user/form.tpl');
 	}
 
+	public function addInstanceForm()
+	{
+		if(!tao_helpers_Request::isAjax()){
+			throw new Exception("wrong request mode");
+		}
+		
+		$clazz = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+		$formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
+		$myForm = $formContainer->getForm();
+		
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				
+				$properties = $myForm->getValues();
+				$instance = $this->createInstance(array($clazz), $properties);
+				
+				$this->setData('message', __($instance->getLabel().' created'));
+				//$this->setData('reload', true);
+				$this->setData('selectTreeNode', $instance->getUri());
+			}
+		}
+		
+		$this->setData('formTitle', __('Create instance of ').$clazz->getLabel());
+		$this->setData('myForm', $myForm->render());
+	
+		$this->setView('form.tpl', 'tao');
+	}
+
 	/**
 	 * action used to check if a login can be used
 	 * @return void
