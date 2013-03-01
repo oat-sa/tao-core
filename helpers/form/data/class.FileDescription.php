@@ -97,8 +97,7 @@ abstract class tao_helpers_form_data_FileDescription
         // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CF2 begin
         if (!empty($this->file) && empty($this->name)){
         	// collect information about the file instance itself.
-        	$fileInfo = $this->file->getFileInfo();
-        	$this->name = $fileInfo->getFilename();
+        	$this->name = $this->file->getLabel();
         }
         
         $returnValue = $this->name;
