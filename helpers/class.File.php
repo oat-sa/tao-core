@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 /**
  * Utilities on files
  *
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
  * @subpackage helpers
  */
@@ -26,7 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * Utilities on files
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
  * @subpackage helpers
  */
@@ -61,7 +61,7 @@ class tao_helpers_File
      * Use it when the path may be build from a user variable
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string path
      * @param  boolean traversalSafe
      * @return boolean
@@ -102,7 +102,7 @@ class tao_helpers_File
      * clean concat paths
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  array paths
      * @return string
      */
@@ -129,7 +129,7 @@ class tao_helpers_File
      * Short description of method remove
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string path
      * @param  boolean recursive
      * @return boolean
@@ -167,7 +167,7 @@ class tao_helpers_File
      * Short description of method copy
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string source
      * @param  string destination
      * @param  boolean recursive
@@ -239,7 +239,7 @@ class tao_helpers_File
      * Short description of method move
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string source
      * @param  string destination
      * @return boolean
@@ -292,7 +292,7 @@ class tao_helpers_File
      * Short description of method getMimeTypes
      *
      * @access protected
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @return array
      */
     protected static function getMimeTypes()
@@ -372,7 +372,7 @@ class tao_helpers_File
      * Short description of method getExtention
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string mimeType
      * @return string
      */
@@ -401,44 +401,59 @@ class tao_helpers_File
      * different methods are used regarding the configuration.
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string path
+     * @param  boolean ext If set to true, the extension of the file will be used to retrieve the mime-type. If now extension can be found, 'text/plain' is returned by the method.
      * @return string
      */
-    public static function getMimeType($path)
+    public static function getMimeType($path, $ext = false)
     {
         $returnValue = (string) '';
 
         // section 127-0-1-1--5cd35ad1:1283edec322:-8000:00000000000023F5 begin
-		$ext = pathinfo($path, PATHINFO_EXTENSION);
         $mime_types = self::getMimeTypes();
-
-		if (array_key_exists($ext, $mime_types)) {
-			$mimetype =  $mime_types[$ext];
-		} else $mimetype = '';
-
-		if (!in_array($ext, array('css'))) {
-			if  (file_exists($path)) {
-				if (function_exists('finfo_open')) {
-					$finfo = finfo_open(FILEINFO_MIME);
-					$mimetype = finfo_file($finfo, $path);
-					finfo_close($finfo);
-				}
-				else if (function_exists('mime_content_type')) {
-					$mimetype = mime_content_type($path);
-				}
-				if (!empty($mimetype)) {
-					if (preg_match("/; charset/", $mimetype)) {
-						$mimetypeInfos = explode(';', $mimetype);
-						$mimetype = $mimetypeInfos[0];
-					}
-				}
-			}
-		}
-
-		if (empty($mimetype)) {
-			$mimetype =  'application/octet-stream';
-		}
+        
+        if (false == $ext){
+        	$ext = pathinfo($path, PATHINFO_EXTENSION);
+        	
+        	if (array_key_exists($ext, $mime_types)) {
+        		$mimetype =  $mime_types[$ext];
+        	} 
+        	else {
+        		$mimetype = '';
+        	}
+        	
+        	if (!in_array($ext, array('css'))) {
+        		if  (file_exists($path)) {
+        			if (function_exists('finfo_open')) {
+        				$finfo = finfo_open(FILEINFO_MIME);
+        				$mimetype = finfo_file($finfo, $path);
+        				finfo_close($finfo);
+        			}
+        			else if (function_exists('mime_content_type')) {
+        				$mimetype = mime_content_type($path);
+        			}
+        			if (!empty($mimetype)) {
+        				if (preg_match("/; charset/", $mimetype)) {
+        					$mimetypeInfos = explode(';', $mimetype);
+        					$mimetype = $mimetypeInfos[0];
+        				}
+        			}
+        		}
+        	}
+        }
+        else{
+        	// find out the mime-type from the extension of the file.
+        	$ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        	if (array_key_exists($ext, $mime_types)){
+        		$mimetype = $mime_types[$ext];
+        	}
+        }
+		
+        // If no mime-type found ...
+        if (empty($mimetype)) {
+        	$mimetype =  'application/octet-stream';
+        }
 
 		$returnValue =  $mimetype;
 
@@ -451,7 +466,7 @@ class tao_helpers_File
      * Scan a directory and return the files it contains
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string path
      * @param  array options
      * @return array
@@ -498,7 +513,7 @@ class tao_helpers_File
      * creates a directory in the systems tempdir
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @return string
      */
     public static function createTempDir()
@@ -520,7 +535,7 @@ class tao_helpers_File
      * deletes a directory and its content
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string directory absolute path of the directory
      * @return boolean
      */

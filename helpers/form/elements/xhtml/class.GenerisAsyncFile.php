@@ -9,7 +9,7 @@ error_reporting(E_ALL);
  *
  * This file is part of TAO.
  *
- * Automatically generated on 28.02.2013, 17:19:40 with ArgoUML PHP module 
+ * Automatically generated on 01.03.2013, 16:37:57 with ArgoUML PHP module 
  * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
  *
  * @author Jerome Bogaerts, <jerome@taotesting.com>
@@ -109,11 +109,16 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         	$shownFileTxt = sprintf(__('%s (%s kb)'), $shownFileName, $shownFileSize);
         	$deleteButtonTitle = __("Delete");
         	$deleteButtonId = $this->buildDeleteButtonId();
+        	$downloadButtonTitle = __("Download");
+        	$downloadButtonId = $this->buildDownloadButtonId();
+        	$iFrameId = $this->buildIframeId();
         	$returnValue .= "<span class=\"widget_AsyncFile_fileinfo\">${shownFileTxt}</span>";
-        	$returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" title=\"${deleteButtonTitle}\"/>";
+        	$returnValue .= "<button id=\"${downloadButtonId}\" type=\"button\" class=\"download\" title=\"${downloadButtonTitle}\">";
+        	$returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" class=\"delete\" title=\"${deleteButtonTitle}\"/>";
+        	$returnValue .= "<iframe id=\"${iFrameId}\" frameborder=\"0\"/>";
         	 
-        	// Inject behaviour of the Delete button component in response.
-        	$returnValue .= self::embedBehaviour($this->buildDeleterBehaviour());
+        	// Inject behaviour of the Delete/Download buttons component in response.
+        	$returnValue .= self::embedBehaviour($this->buildDeleterBehaviour() . $this->buildDownloaderBehaviour());
         }
         else{
         	 
@@ -160,7 +165,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         $returnValue .= '$(document).ready(function() {';
         $returnValue .= '	$("#' . $deleteButtonId . '").click(function() {';
         $returnValue .= '		$("#' . $this->buildWidgetContainerId() . '").empty();';
-        $returnValue .= '		' . $this->buildUploaderBehaviour();
+        $returnValue .= '		' . $this->buildUploaderBehaviour(true);
         $returnValue .= '	});';
         $returnValue .= '});';
         // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C68 end
@@ -173,9 +178,10 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @param  boolean deleted
      * @return string
      */
-    public function buildUploaderBehaviour()
+    public function buildUploaderBehaviour($deleted = false)
     {
         $returnValue = (string) '';
 
@@ -234,6 +240,10 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         $elements .= "<img src=\"" . TAOBASE_WWW . "img/file_upload.png\" class=\"icon\" />";
         $elements .= "<a href=\"#\" id=\"{$widgetName}_starter\" >" . __('Start upload') . "</a>";
         $elements .= "</span>";
+        
+        if (true == $deleted){
+        	$elements .= "<span class=\"form-elt-info\">" . __('Click the Save button to confirm deletion.') . "</span>";
+        }
          
         $returnValue  = '$(document).ready(function() {';
         $returnValue .= '	require(["require", "jquery", "AsyncFileUpload"], function(req, $){';
@@ -341,6 +351,69 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C72 begin
         $returnValue = '<script type="text/javascript">' . $behaviour . '</script>';
         // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C72 end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method buildDownloadButtonId
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @return string
+     */
+    public function buildDownloadButtonId()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C8C begin
+        $returnValue = $this->buildWidgetName() . '_downloader';
+        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C8C end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method buildDownloaderBehaviour
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @return string
+     */
+    public function buildDownloaderBehaviour()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C8E begin
+        $downloadButtonId = $this->buildDownloadButtonId();
+        $iFrameId = $this->buildIframeId();
+        $fileUri = $this->value->getFile()->getUri();
+        $fileUri = tao_helpers_Uri::encode($fileUri);
+         
+        $returnValue .= '$(document).ready(function() {';
+        $returnValue .= '	$("#' . $downloadButtonId . '").click(function() {';
+        $returnValue .= '		$("#' . $iFrameId . '").attr("src", root_url + "tao/File/downloadFile?uri=' . $fileUri . '")';
+        $returnValue .= '	});';
+        $returnValue .= '});';
+        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C8E end
+
+        return (string) $returnValue;
+    }
+
+    /**
+     * Short description of method buildIframeId
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @return string
+     */
+    public function buildIframeId()
+    {
+        $returnValue = (string) '';
+
+        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C90 begin
+        $returnValue = $this->buildWidgetName() . '_iframe';
+        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C90 end
 
         return (string) $returnValue;
     }

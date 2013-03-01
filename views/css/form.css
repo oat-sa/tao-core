@@ -199,7 +199,19 @@ div#form-container div.xhtml_form div table.form-elt-container{
 	vertical-align: middle;
 	background-color: transparent;
 	border: none;
-	background-image: url(../img/cancel.png);
 	background-repeat: no-repeat;
 	margin-left: 10px;
+	cursor: pointer;
+}
+
+.file-uploader button.delete{
+	background-image: url(../img/cancel.png);
+}
+
+.file-uploader button.download{
+	background-image: url(../img/download.png);
+}
+
+.file-uploader iframe{
+	display:none;
 }

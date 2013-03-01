@@ -168,7 +168,7 @@ class tao_actions_File extends tao_actions_CommonModule{
 				$fileName = $file->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
 				$content = $file->getFileContent();
 				$size = strlen($content);
-				$mimeType = tao_helpers_File::getMimeType($file->getAbsolutePath());
+				$mimeType = tao_helpers_File::getMimeType($file->getAbsolutePath(), true);
 				$this->setContentHeader($mimeType);
 				
 				header("Content-Length: $size");
@@ -176,6 +176,7 @@ class tao_actions_File extends tao_actions_CommonModule{
 				header("Expires: 0");
 				header("Cache-Control: no-cache, must-revalidate");
 				header("Pragma: no-cache");
+
 				print $content;
 				return;
 			}else{
