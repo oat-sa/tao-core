@@ -10,7 +10,7 @@ return array(
 	'name' => 'tao',
 	'description' => 'TAO is the meta-extension, a container for the TAOs sub extensions',
 	'version' => '2.4',
-	'author' => 'CRP Henri Tudor',
+	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
 	'dependencies' => array('generis'),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAO.rdf',
