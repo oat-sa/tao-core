@@ -210,7 +210,9 @@ function initHelp(){
 	install.addHelp('hlp_fs_tao_data_cache', "The 'tao/data/cache' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_update_patches', "The 'tao/update/patches' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_locales', "The 'tao/locales' directory of your installation must be readable by the user running your web server.");
+	install.addHelp('flp_fs_tao_data_cache', "The 'tao/data/cache' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_data_cache_htmlpurifier', "The 'tao/data/cache/htmlpurifier' directory of your installation must be readable and writable by the user running your web server.");
+	install.addHelp('hlp_fs_tao_data_upload', "The 'tao/data/upload' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_taoItems_data', "The 'taoItems/data' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_taoItems_includes', "The 'taoItems/includes' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoItems_views_export', "The 'taoItems/views/export' directory of your installation must be readable and writable by the user running your web server.");
