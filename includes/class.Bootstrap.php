@@ -12,7 +12,6 @@ require_once DIR_CORE_HELPERS . 'Core.php';
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
  * A bootstrap instance initialize the context and starts all the services:
  * 	- session
- *  - config
  *  - database
  *  - user
  *  - i18n
@@ -68,6 +67,10 @@ class Bootstrap{
 	{
 
 		$this->ctxPath = ROOT_PATH . '/' . $extension;
+		$this->extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extension);
+		
+		$extensionLoader = new common_ext_ExtensionLoader($this->extension);
+		$extensionLoader->load();
 
 		if(PHP_SAPI == 'cli'){
 			tao_helpers_Context::load('SCRIPT_MODE');
@@ -76,9 +79,9 @@ class Bootstrap{
 			tao_helpers_Context::load('APP_MODE');
 		}
 
-		$this->extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extension);
-
 		$this->options = $options;
+		
+		
 	}
 
 	/**
@@ -111,18 +114,16 @@ class Bootstrap{
 	/**
 	 * Start all the services:
 	 *  1. Start the session
-	 *  2. Load the config
-	 *  3. Update the include path
-	 *  4. Include the global helpers
-	 *  5. Connect the current user to the generis API
-	 *  6. Initialize the internationalization
-	 *  7. Check the application' state
+	 *  2. Update the include path
+	 *  3. Include the global helpers
+	 *  4. Connect the current user to the generis API
+	 *  5. Initialize the internationalization
+	 *  6. Check the application' state
 	 */
 	public function start()
 	{
 		if(!self::$isStarted){
 			$this->session();
-			$this->config();
 			$this->includePath();
 			$this->registerErrorhandler();
 			$this->globalHelpers();
@@ -221,76 +222,6 @@ class Bootstrap{
 		session_start();
 		
 		common_Logger::t("Session with name '" . GENERIS_SESSION_NAME ."' started.");
-	}
-
-	/**
-	 * Load the config and constants
-	 */
-	protected function config()
-	{
-		//include the config file
-		if ($this->extension->getID() != "generis"){
-			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($this->extension->getID());
-			if (count($ext->getConstants()) > 0) {
-				foreach ($ext->getConstants() as $key => $value) {
-					if(!defined($key) && !is_array($value)){
-						define($key, $value);
-					}
-				}
-			}
-			// backward compatibility 
-			if (file_exists($this->ctxPath. "/includes/config.php.sample") && file_exists($this->ctxPath. "/includes/config.php")) {
-				require_once $this->ctxPath. "/includes/config.php";
-			}
-		}
-		// we will load the constant file of the current extension and all it's dependancies
-
-		// get the dependancies
-		$extensions = $this->extension->getDependencies();
-
-		// merge them with the additional constants (defined in the options)
-		if(isset($this->options['constants'])){
-			if(is_string($this->options['constants'])){
-				$this->options['constants'] = array($this->options['constants']);
-			}
-			$extensions = array_merge($extensions, $this->options['constants']);
-		}
-		// add the current extension (as well !)
-		$extensions = array_merge(array($this->extension->getID()), $extensions);
-
-		foreach($extensions as $extension){
-
-			if($extension == 'generis') {
-			    continue; //generis constants are already loaded
-			}
-
-			//load the config of the extension
-			self::loadConstants($extension);
-		}
-	}
-
-	/**
-	 * Load the constant file of the extension
-	 * @param string $extension
-	 */
-	public static function loadConstants($extension)
-	{
-		$constantFile = ROOT_PATH . $extension .DIRECTORY_SEPARATOR. 'includes' .DIRECTORY_SEPARATOR. 'constants.php';
-		if(file_exists($constantFile)){
-
-			//include the constant file
-			include_once $constantFile;
-
-			//this variable comes from the constant file and contain the const definition
-			if(isset($todefine)){
-				foreach($todefine as $constName => $constValue){
-					if(!defined($constName)){
-						define($constName, $constValue);	//constants are defined there!
-					}
-				}
-				unset($todefine);
-			}
-		}
 	}
 
 	/**
@@ -473,6 +404,30 @@ class Bootstrap{
 					);*/
 				}
 			break;
+		}
+	}
+	
+	/**
+	 * Load the constant file of the extension
+	 * @param string $extension
+	 */
+	public static function loadConstants($extension)
+	{
+		$constantFile = ROOT_PATH . $extension .DIRECTORY_SEPARATOR. 'includes' .DIRECTORY_SEPARATOR. 'constants.php';
+		if(file_exists($constantFile)){
+	
+			//include the constant file
+			include_once $constantFile;
+	
+			//this variable comes from the constant file and contain the const definition
+			if(isset($todefine)){
+				foreach($todefine as $constName => $constValue){
+					if(!defined($constName)){
+						define($constName, $constValue);	//constants are defined there!
+					}
+				}
+				unset($todefine);
+			}
 		}
 	}
 }
