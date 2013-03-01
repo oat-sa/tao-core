@@ -83,7 +83,8 @@ class tao_helpers_form_elements_GenerisAsyncFile
     		$this->value = new tao_helpers_form_data_StoredFileDescription($file);
     	}
     	else{
-    		$this->value = ' ';
+    		// Empty file upload description, nothing was uploaded.
+    		$this->value = new tao_helpers_form_data_UploadFileDescription('', 0, '', '');
     	}
         // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C54 end
     }

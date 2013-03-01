@@ -100,15 +100,16 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         $returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
         $returnValue .= "<div id='${widgetContainerId}' class='form-elt-container file-uploader'>";
         
-        if ($this->value instanceof tao_helpers_form_data_UploadFileDescription ||
-        		$this->value instanceof tao_helpers_form_data_StoredFileDescription){
+        if ($this->value instanceof tao_helpers_form_data_FileDescription && ($file = $this->value->getFile()) != null){
         	 
         	// A file is stored or has just been uploaded.
         	$shownFileName = $this->value->getName();
         	$shownFileSize = $this->value->getSize();
+        	$shownFileSize = number_format($shownFileSize / 1000, 2); // to kb.
+        	$shownFileTxt = sprintf(__('%s (%s kb)'), $shownFileName, $shownFileSize);
         	$deleteButtonTitle = __("Delete");
         	$deleteButtonId = $this->buildDeleteButtonId();
-        	$returnValue .= "<span class=\"widget_AsyncFile_fileinfo\">${shownFileName} (${shownFileSize} bytes)</span>";
+        	$returnValue .= "<span class=\"widget_AsyncFile_fileinfo\">${shownFileTxt}</span>";
         	$returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" title=\"${deleteButtonTitle}\"/>";
         	 
         	// Inject behaviour of the Delete button component in response.
@@ -250,7 +251,8 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         $returnValue .= '				"target": "#' . $widgetName . '_container input[id=\''.$this->name.'\']",';
         $returnValue .= '				"submiter": ".form-submiter",';
         $returnValue .= '				"auto": '.$auto.',';
-        $returnValue .= '				"folder": "/"';
+        $returnValue .= '				"folder": "/",';
+        $returnValue .= '				"height": 22';
          
         if (count($extensions) > 0) {
         	$allowedTypes = implode(', ', $extensions);

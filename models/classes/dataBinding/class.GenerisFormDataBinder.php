@@ -118,19 +118,24 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder
         
         // Delete old files.
         foreach ($instance->getPropertyValues($property) as $oF){
-        	$oldFile = new core_kernel_classes_File($oF);
+        	$oldFile = new core_kernel_versioning_File($oF);
         	$oldFile->delete(true);
         }
         
-        // Move the file at the right place.
-        $source = $desc->getTmpPath();
-        $repository = tao_models_classes_TaoService::singleton()->getDefaultUploadSource();
-        $file = $repository->spawnFile($source, $desc->getName());
+        $name = $desc->getName();
+        $size = $desc->getSize();
         
-        $instance->setPropertyValue($property, $file->getUri());
-        
-        // Update the UploadFileDescription with the stored file.
-        $desc->setFile($file);
+        if (!empty($name) && !empty($size)){
+        	// Move the file at the right place.
+        	$source = $desc->getTmpPath();
+        	$repository = tao_models_classes_TaoService::singleton()->getDefaultUploadSource();
+        	$file = $repository->spawnFile($source, $desc->getName());
+        	
+        	$instance->setPropertyValue($property, $file->getUri());
+        	
+        	// Update the UploadFileDescription with the stored file.
+        	$desc->setFile($file);
+        }
         // section 127-0-1-1-4a948c58:13d11fbcd0f:-8000:0000000000003C39 end
     }
 
