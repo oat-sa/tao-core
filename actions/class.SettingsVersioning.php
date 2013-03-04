@@ -83,7 +83,9 @@ class tao_actions_SettingsVersioning extends tao_actions_TaoModule {
 				}
 				
 				// save properties
-				$repo = $this->service->bindProperties($repo, $values);
+				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($repo);
+				$repo = $binder->bind($values);
+				
 				$message = __('Repository saved');
 				
 				// check if enable/disable necessary

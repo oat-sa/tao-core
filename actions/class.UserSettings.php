@@ -59,23 +59,13 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 				
 				$uiLang 	= new core_kernel_classes_Resource($myForm->getValue('ui_lang'));
 				$dataLang 	= new core_kernel_classes_Resource($myForm->getValue('data_lang'));
-				/*
-				$uiLangCode 	= $myForm->getValue('ui_lang');
-				$dataLangCode 	= $myForm->getValue('data_lang');
 
-				$uiLangResource = tao_helpers_I18n::getLangResourceByCode($uiLangCode);
-				if(!is_null($uiLangResource)){
-					$userSettings[PROPERTY_USER_UILG] = $uiLangResource->uriResource;
-				}
-				$dataLangResource = tao_helpers_I18n::getLangResourceByCode($dataLangCode);
-				if(!is_null($dataLangResource)){
-					$userSettings[PROPERTY_USER_DEFLG] = $dataLangResource->uriResource;
-				}
-				*/
 				$userSettings[PROPERTY_USER_UILG] = $uiLang;
 				$userSettings[PROPERTY_USER_DEFLG] = $dataLang;
 
-				if($this->userService->bindProperties($currentUser, $userSettings)){
+				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($currentUser);
+				
+				if($binder->bind($userSettings)){
 
 					$uiLangCode		= tao_models_classes_LanguageService::singleton()->getCode($uiLang);
 					$dataLangCode	= tao_models_classes_LanguageService::singleton()->getCode($dataLang);

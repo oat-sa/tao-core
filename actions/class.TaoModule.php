@@ -429,7 +429,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				
 				$values = $myForm->getValues();
 				// save properties
-				$instance = $this->service->bindProperties($instance, $values);
+				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
+				$instance = $binder->bind($values);
 				$message = __('Instance saved');
 				
 				$this->setData('message',$message);
@@ -1232,7 +1233,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				$instance = $this->service->bindProperties($instance, $myForm->getValues());
+				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
+				$instance = $binder->bind($myForm->getValues());
 				$this->setData('message', __('Resource saved'));
 			}
 		}

@@ -168,7 +168,9 @@ class tao_actions_Users extends tao_actions_CommonModule {
 				unset($values['password1']);
 				unset($values['password2']);
 
-				if($this->userService->bindProperties($myFormContainer->getUser(), $values)){
+				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($myFormContainer->getUser());
+				
+				if($binder->bind($values)){
 					$this->setData('message', __('User added'));
 					$this->setData('exit', true);
 				}
@@ -258,7 +260,9 @@ class tao_actions_Users extends tao_actions_CommonModule {
 					unset($values[PROPERTY_USER_DEFLG]);
 				}
 
-				if($this->userService->bindProperties($user, $values)){
+				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($user);
+				
+				if($binder->bind($values)){
 					$this->setData('message', __('User saved'));
 					$this->setData('exit', true);
 				}

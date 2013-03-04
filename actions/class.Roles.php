@@ -96,7 +96,9 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
-				$role = $this->service->bindProperties($role, $myForm->getValues());
+				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($role);
+				$role = $binder->bind($myForm->getValues());
+
 				core_kernel_users_Cache::removeIncludedRoles($role); // flush cache for this role.
 				
 				$this->setSessionAttribute('showNodeUri', tao_helpers_Uri::encode($role->uriResource));
