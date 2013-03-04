@@ -139,25 +139,12 @@ class tao_helpers_File
         $returnValue = (bool) false;
 
         // section 127-0-1-1--12179ab4:12bca1f1def:-8000:00000000000026E9 begin
-
-        if(is_file($path)){
+		if ($recursive) {
+			$returnValue = helpers_File::remove($path);
+		} elseif (is_file($path)) {
         	$returnValue = @unlink($path);
         }
-        else if($recursive){
-        	if(is_dir($path)){
-        		$iterator = new DirectoryIterator($path);
-				foreach ($iterator as $fileinfo) {
-				    if (!$fileinfo->isDot()) {
-				        self::remove($fileinfo->getPathname(), true);
-				    }
-				    unset($fileinfo);
-				}
-				unset($iterator);
-
-				$returnValue = @rmdir($path);
-        	}
-        }
-
+        // else fail silently
         // section 127-0-1-1--12179ab4:12bca1f1def:-8000:00000000000026E9 end
 
         return (bool) $returnValue;
