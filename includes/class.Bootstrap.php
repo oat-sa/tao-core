@@ -260,27 +260,27 @@ class Bootstrap{
 	 *  @throws Exception all exceptions not catched send an HTTP CODE 500
 	 */
 	protected function mvc()
-	{
+	{	
 		try {
 			$re		= new HttpRequest();
 			$fc		= new AdvancedFC($re);
 			$fc->loadModule();
 		}
-		catch(ActionEnforcingException $ae){
-			$message	= $ae->getMessage();
+		catch (ActionEnforcingException $ae){
+			$message	= '';
 			common_Logger::w("Called module ".$ae->getModuleName().', action '.$ae->getActionName().' not found.', array('TAO', 'BOOT'));
-			if(DEBUG_MODE){
-				$message .= "Called module :".$ae->getModuleName()."<br />";
-				$message .= "Called action :".$ae->getActionName()."<br />";
+			if (defined('DEBUG_MODE') && DEBUG_MODE == true){
+				$message .= "Called module: ".$ae->getModuleName()."\n";
+				$message .= "Called action: ".$ae->getActionName()."\n";
 			}
 			require_once TAO_TPL_PATH . 'error/error404.tpl';
 		}
-		catch(tao_models_classes_UserException $ue){
+		catch (tao_models_classes_UserException $ue){
 			require_once TAO_TPL_PATH . 'error/error403.tpl';
 		}
 		catch (Exception $e) {
-			$message	= $e->getMessage();
-			if(DEBUG_MODE){
+			if (defined('DEBUG_MODE') && true == DEBUG_MODE){
+				$message = $e->getMessage();
 				$trace = $e->getTraceAsString();
 			}
 			require_once TAO_TPL_PATH . 'error/error500.tpl';

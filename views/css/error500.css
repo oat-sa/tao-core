@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+
+#main{	
+	background-position: 530px 30px;
+	min-height: 230px;
+}
+
+p.trace{
+	font-family: 'Courier New', Courier, modern, monospace;
+	text-align: left;
+	font-size: 9px;
+}

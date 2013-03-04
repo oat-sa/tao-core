@@ -1,45 +1,31 @@
 <?php header("HTTP/1.0 403 Forbidden"); ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-	<title>403 Forbidden</title>
+	<title>Access Forbidden</title>
+	<script type="text/javascript" src="<?= ROOT_URL ?>tao/views/js/jquery-1.8.0.min.js "></script>
+	<script type="text/javascript" src="<?= ROOT_URL ?>tao/views/js/jquery-ui-1.8.23.custom.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/custom-theme/jquery-ui-1.8.22.custom.css" />
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/errors.css" />
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/error403.css" />
 </head>
+
 <body>
-	<b>Error: </b>
-	<p><?=__("Access forbidden"); ?>
-	</p>
-
-	<?php if (isset($login) && !empty($login)) { ?>
-	<b><?=__('Your authentication expired')?>
-	</b>
-	<p><?php echo __("User name:").' '.$login; ?>
-	</p>
-	<?php } ?>
-	<div>
-		<p></p>
-		<ul>
-			<li><?=__('Back Office (test creator)')?>
-				:
-				<a href="<?=_url('login','Main','tao')?>" title="<?=__('TAO back office')?>"><?=__('TAO Back Office')?>
-				</a>
-			</li>
-			<li><?=__('Test Front Office (test takers)')?>
-				:
-				<a
-					href="<?=_url('login','DeliveryServerAuthentification','taoDelivery')?>"
-					title="<?=__('TAO front office')?>"><?=__('TAO Delivery Server')?>
-				</a>
-			</li>
-			<li><?=__('Process Front Office')?>
-				:
-				<a href="<?=_url('index','Authentication','wfEngine')?>" title="<?=__('TAO front office')?>"
-					title="<?=__('TAO workflow engine')?>"><?=__('TAO Workflow Engine')?>
-				</a>
-			</li>
-		</ul>
-
+	<div id="main" class="ui-widget-content ui-corner-all" style="background-image: url(<?= ROOT_URL ?>tao/views/img/errors/403.png);">
+		<div id="content">
+			<h1>Access Forbidden</h1>
+			<p id="warning_msg">
+				<img src="<?= ROOT_URL ?>tao/views/img/warning_error_tpl.png" alt="warning" class="embedWarning" />
+				You have <strong>no permission</strong> to use the requested feature. If you think you should have access
+				to this functionality, please <strong>try again later</strong> or <strong>if the problem remains</strong>, contact your TAO administrator to <strong>request an access</strong>.
+			</p>
+			<a href="<?= ROOT_URL ?>" id="go_to_tao_bt">Go to the TAO Platform</a>
+		</div>
 	</div>
-	
-
-
 </body>
+
 </html>

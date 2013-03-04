@@ -24,22 +24,23 @@ h1{
 	background-color: white;
 	width: 740px;
 	padding: 40px;
+	background-repeat: no-repeat;
 }
 
 #content{
 	width:400px;
 }
 
-#warning_msg{
-	position:relative;
+p{
 	font-size:12px;
-	line-height:18px;
-	font-weight:normal;
 	text-align: justify;
-	margin-bottom: 35px;
+	font-weight:normal;
+	line-height:18px;
+	position:relative;
+	margin-bottom: 10px;
 }
 
-#warning_msg strong{
+p strong{
 	font-weight: bold;	
 }
 
@@ -62,6 +63,7 @@ h1{
 	line-height:25px;
 	font-weight:bold;
 	color:white;
+	margin-top: 35px;
 }
 
 #go_to_tao_bt:hover{
