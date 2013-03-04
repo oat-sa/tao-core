@@ -158,7 +158,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	 */
 	public function add(){
 
-		$myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(CLASS_GENERIS_USER));
+		$myFormContainer = new tao_actions_form_Users(new core_kernel_classes_Class(CLASS_TAO_USER));
 		$myForm = $myFormContainer->getForm();
 
 		if($myForm->isSubmited()){

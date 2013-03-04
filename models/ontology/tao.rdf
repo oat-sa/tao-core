@@ -54,6 +54,13 @@
   	<rdfs:comment xml:lang="EN"><![CDATA[Data language usage]]></rdfs:comment>
   </rdf:Description>
   
+  <!-- Users -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#User">
+  	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#User"/>
+  	<rdfs:label xml:lang="EN"><![CDATA[User]]></rdfs:label>
+  	<rdfs:comment xml:lang="EN"><![CDATA[TAO User Class]]></rdfs:comment>
+  </rdf:Description>
+  
   <!-- Roles -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#ClassRole"/>
@@ -111,7 +118,7 @@
   </rdf:Description>
   
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser">
-  	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#User"/>
+  	<rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
     <rdfs:comment xml:lang="EN"><![CDATA[Workflow User: sub class to group the workflow user, not deletable]]></rdfs:comment>
     <rdfs:label xml:lang="EN"><![CDATA[WfUser]]></rdfs:label>
   </rdf:Description>

@@ -159,7 +159,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 		}
 		else{
 			$userService = tao_models_classes_UserService::singleton();
-			echo json_encode($userService->toTree(new core_kernel_classes_Class(CLASS_GENERIS_USER), array()));	
+			echo json_encode($userService->toTree(new core_kernel_classes_Class(CLASS_TAO_USER), array()));	
 		}
 	}
 	
