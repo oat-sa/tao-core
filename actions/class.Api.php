@@ -95,8 +95,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 			)
 		);
 		
-		$context = Context::getInstance();
-		$session = $context->getSession();
+		$session = PHPSession::singleton();
 		$session->setAttribute(self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->uriResource), $executionEnvironment);
 		
 		return $executionEnvironment;
@@ -109,7 +108,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 	public static function createAuthEnvironment(){
 		
 		$context = Context::getInstance();
-		$session = $context->getSession();
+		$session = PHPSession::singleton();
 		if(strtolower($context->getActionName()) == 'createauthenvironment'){
 			throw new Exception('Action denied, only servers side call are allowed');
 		}
@@ -155,8 +154,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 	 * @return array
 	 */
 	protected function getExecutionEnvironment(){
-		$context = Context::getInstance();
-		$session = $context->getSession();
+		$session = PHPSession::singleton();
 		
 		$currentUser = $this->userService->getCurrentUser();
 		if(!is_null($currentUser)){
@@ -231,8 +229,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 		
 		if(!empty($token)){
 			
-			$context = Context::getInstance();
-			$session = $context->getSession();
+			$session = PHPSession::singleton();
 			
 			$currentUser = $this->userService->getCurrentUser();
 			if(!is_null($currentUser)){

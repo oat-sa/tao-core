@@ -27,7 +27,7 @@
 			<? if($extensionObj->getID() !=null): ?>
 				<tr>
 					<td class="ext-id bordered"><?= $extensionObj->getName(); ?></td>
-					<td class="bordered"><?= $extensionObj->getAuthor() ; ?></td>
+					<td class="bordered"><?= str_replace(',', '<br />', $extensionObj->getAuthor()) ; ?></td>
 					<td><?= $extensionObj->getVersion(); ?></td>
 				</tr>
 			<? endif; ?>
