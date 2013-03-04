@@ -321,7 +321,6 @@ class Bootstrap{
 						TAOBASE_WWW . 'js/jquery-ui-1.8.23.custom.min.js',
 						BASE_WWW . 'js/jquery.easing.1.3.js',
 						BASE_WWW . 'js/jqueryFileTree/jqueryFileTree.js',
-						BASE_WWW . 'js/jquery.zclip.js',
 						BASE_WWW . 'js/filemanager.js'
 					)
 				);
