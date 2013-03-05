@@ -208,15 +208,7 @@ div.tree-block {
 }
 /* Actions box */
 div#section-actions{
-	/*left:0%;
-	top:342px;
-	margin:0% 0.5% 0.5% 0.5%;
-	padding:0px;
-	text-align:left;
-	width:19%;
-	z-index:100;
-	position:absolute;
-	margin: 5px 0;*/
+	margin-top: 10px;
 }
 div#section-actions div#action-title{
 	padding: 3px;
