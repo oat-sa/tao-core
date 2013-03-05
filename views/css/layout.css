@@ -425,7 +425,7 @@ ul.group-list li.selectable { cursor: pointer }
 ul.group-list li.selected { background-color: #9f9 }
 ul.group-list li.selected:hover { background-color: #9c9 }
 ul.group-list li.group { padding: 0 }
-ul.group-list li .group-title { background-color: #999; cursor: pointer }
+ul.group-list li .group-title { background-color: rgb(247, 247, 247); cursor: pointer }
 ul.group-list li span.title { background-color: inherit }
 ul.group-list li.expendable.closed ul { display: none; }
 ul.group-list li.expendable.closed { margin-bottom: 1px }
@@ -453,7 +453,7 @@ ul.group-list .autoadd.checked .group-title > .selector,
 ul.group-list .autoadd.checked:hover > .selector,
 ul.group-list .autoadd.checked:hover .group-title > .selector { background-image: url(../img/autoadd_checked.png) }
 
-ul.group-list .selector { background-color: white }
+ul.group-list .selector { background-color: transparent }
 .selector.checkable { cursor: pointer }
 
 ul.group-list li ul.actions {
