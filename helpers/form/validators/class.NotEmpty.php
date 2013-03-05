@@ -87,6 +87,10 @@ class tao_helpers_form_validators_NotEmpty
         $returnValue = (bool) false;
 
         // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCB begin
+        if (is_string($values)){
+        	$values = trim($values);
+        }
+        
 		if (!empty($values)){
 			if(count($values) >= 1){
 				$returnValue = true;
