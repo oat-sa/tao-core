@@ -77,19 +77,19 @@
   <!-- Top Level Roles -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#AbstractRole"/>
-  	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/tao.rdf#BaseAccessRole"/>
+  	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole"/>
   	<rdfs:label xml:lang="EN"><![CDATA[Back Office]]></rdfs:label>
   	<rdfs:comment xml:lang="EN"><![CDATA[The BackOffice Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#AbstractRole"/>
-  	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/tao.rdf#BaseAccessRole"/>
+  	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole"/>
   	<rdfs:label xml:lang="EN"><![CDATA[Front Office]]></rdfs:label>
   	<rdfs:comment xml:lang="EN"><![CDATA[The FrontOffice Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#AbstractRole"/>
-  	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/tao.rdf#BaseAccessRole"/>
+  	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole"/>
   	<rdfs:label xml:lang="EN"><![CDATA[Service]]></rdfs:label>
   	<rdfs:comment xml:lang="EN"><![CDATA[The Service Role]]></rdfs:comment>
   </rdf:Description>

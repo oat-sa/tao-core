@@ -4,12 +4,12 @@
     @targetLanguage FR
 -->
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/Ontologies/taoFuncACL.rdf#">
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/tao.rdf#BaseAccessRole">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole">
     <!--
     @sourceLanguage EN
     @targetLanguage FR
     @source TAO
-    @subject http://www.tao.lu/Ontologies/tao.rdf#BaseAccessRole
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
     <rdfs:label xml:lang="FR"><![CDATA[TAO]]></rdfs:label>
@@ -17,7 +17,7 @@
     @sourceLanguage EN
     @targetLanguage FR
     @source TAO Role
-    @subject http://www.tao.lu/Ontologies/tao.rdf#BaseAccessRole
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="FR"><![CDATA[TAO Role]]></rdfs:comment>
