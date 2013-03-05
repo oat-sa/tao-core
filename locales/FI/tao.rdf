@@ -254,19 +254,19 @@
     <!--
     @sourceLanguage EN
     @targetLanguage FI
-    @source Delivery
+    @source Test Taker
     @subject http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FI"><![CDATA[Delivery]]></rdfs:label>
+    <rdfs:label xml:lang="FI"><![CDATA[Test Taker]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FI
-    @source The Delivery Role
+    @source The Test Taker Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FI"><![CDATA[The Delivery Role]]></rdfs:comment>
+    <rdfs:comment xml:lang="FI"><![CDATA[The Test Taker Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole">
     <!--

@@ -107,8 +107,8 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole"/>
   	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole"/>
-  	<rdfs:label xml:lang="EN"><![CDATA[Delivery]]></rdfs:label>
-    <rdfs:comment xml:lang="EN"><![CDATA[The Delivery Role]]></rdfs:comment>
+  	<rdfs:label xml:lang="EN"><![CDATA[Test Taker]]></rdfs:label>
+    <rdfs:comment xml:lang="EN"><![CDATA[The Test Taker Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole">
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole"/>
