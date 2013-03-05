@@ -8,18 +8,18 @@
     <!--
     @sourceLanguage EN
     @targetLanguage DA
-    @source TAO
+    @source Anonymous
     @subject http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="DA"><![CDATA[TAO]]></rdfs:label>
+    <rdfs:label xml:lang="DA"><![CDATA[Anonymous]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage DA
-    @source TAO Role
+    @source Anonymous Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="DA"><![CDATA[TAO Role]]></rdfs:comment>
+    <rdfs:comment xml:lang="DA"><![CDATA[Anonymous Role]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>
