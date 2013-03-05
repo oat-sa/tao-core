@@ -1,15 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.4-alpha\n"
-"PO-Revision-Date: 2013-01-23T11:42:02\n"
+"Project-Id-Version: TAO v2.4-beta1\n"
+"PO-Revision-Date: 2013-03-05T10:34:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: FR\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid " has been deleted successfully"
-msgstr " a été mis à jour avec succès"
 
 msgid " has been installed"
 msgstr ""
@@ -22,6 +19,9 @@ msgstr " de l'instance"
 
 msgid " requires a subgrid adapter"
 msgstr " requiert un adaptateur de sous-grille"
+
+msgid "%s (%s kb)"
+msgstr ""
 
 msgid "%s extension(s) to install."
 msgstr ""
@@ -68,14 +68,8 @@ msgstr "Une liste à choix"
 msgid "A single choice long list"
 msgstr "Une longue liste à choix"
 
-msgid "A versioned file"
-msgstr "Un fichier versionné"
-
 msgid "Access denied. Please renew your authentication!"
 msgstr "Accès interdit. Veuillez renouveller votre authentification!"
-
-msgid "Access forbidden"
-msgstr ""
 
 msgid "Action"
 msgstr "Action"
@@ -91,9 +85,6 @@ msgstr "Ajouter"
 
 msgid "Add / Edit lists"
 msgstr "Ajouter / Modifier les listes"
-
-msgid "Add a role"
-msgstr "Ajouter un rôle"
 
 #, tao-public
 msgid "Add a user"
@@ -117,14 +108,11 @@ msgstr "Ajouter le fichier source"
 msgid "Advanced Mode"
 msgstr "Mode avancé"
 
-msgid "Affected roles"
-msgstr ""
+msgid "all"
+msgstr "tout"
 
 msgid "All"
 msgstr "Tout"
-
-msgid "all"
-msgstr "tout"
 
 msgid "All (the complete TAO Module)"
 msgstr "Tout (le module TAO au complet)"
@@ -146,6 +134,9 @@ msgid "Are you sure to delete the versioned resource?\n"
 msgstr "Êtes-vous sûr de vouloir supprimer la ressource versionnée?\n"
 "L'historique sera également perdu."
 
+msgid "Assign User to role"
+msgstr ""
+
 msgid "Author"
 msgstr ""
 
@@ -159,9 +150,6 @@ msgid "Available Extensions"
 msgstr ""
 
 msgid "Available roles"
-msgstr ""
-
-msgid "Back Office (test creator)"
 msgstr ""
 
 msgid "Browse"
@@ -198,6 +186,9 @@ msgstr "classe sélectionnée"
 msgid "Classes"
 msgstr "Classes"
 
+msgid "Click the Save button to confirm deletion."
+msgstr ""
+
 msgid "Close tab"
 msgstr ""
 
@@ -225,9 +216,6 @@ msgstr "instances compilées"
 msgid "compiling"
 msgstr "compilation"
 
-msgid "Confirm"
-msgstr "Confirmer"
-
 msgid "Connect"
 msgstr "S'identifier"
 
@@ -238,6 +226,9 @@ msgid "Create a list"
 msgstr "Créer une liste"
 
 msgid "Create instance of "
+msgstr ""
+
+msgid "create table"
 msgstr ""
 
 msgid "CSV Options"
@@ -264,10 +255,10 @@ msgstr "Les données ont été importées avec succès"
 msgid "Data Lang."
 msgstr "Langue des données"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
 msgid "Date"
@@ -291,26 +282,20 @@ msgstr "décompilation"
 msgid "Define the default values"
 msgstr "Définir les valeurs par défaut"
 
-msgid "delete"
-msgstr "supprimer"
-
 msgid "Delete"
 msgstr "Supprimer"
 
+msgid "delete"
+msgstr "supprimer"
+
 msgid "Delete property"
 msgstr "Supprimer la propriété"
-
-msgid "Delete role"
-msgstr "Supprimer rôle"
 
 msgid "Delete user"
 msgstr "Supprimer l'utilisateur"
 
 msgid "Delivery results"
 msgstr ""
-
-msgid "Do you really want to delete this role ?"
-msgstr "Voulez-vous vraiment supprimer ce rôle?"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -319,11 +304,11 @@ msgstr ""
 msgid "Don't set"
 msgstr "Ne pas insérer"
 
-msgid "download"
-msgstr "télécharger"
-
 msgid "Download"
 msgstr "Télécharger"
+
+msgid "download"
+msgstr "télécharger"
 
 msgid "Download content"
 msgstr "Télécharger le contenu"
@@ -343,9 +328,6 @@ msgstr "Editer"
 msgid "edit"
 msgstr "modifier"
 
-msgid "Edit a role"
-msgstr "Editer un rôle"
-
 #, tao-public
 msgid "Edit a user"
 msgstr "Editer un utilisateur"
@@ -353,14 +335,14 @@ msgstr "Editer un utilisateur"
 msgid "Edit Comment"
 msgstr "Editer le commentaire"
 
+msgid "Edit Instance"
+msgstr ""
+
 msgid "Edit item comment"
 msgstr "Modifier les commentaires de l'item"
 
 msgid "Edit property into parent class "
 msgstr "Editer une propriété dans la classe parente "
-
-msgid "Edit role"
-msgstr "Editer rôle"
 
 msgid "Edit user"
 msgstr "Modifier l'utilisateur"
@@ -385,6 +367,9 @@ msgstr "Erreur pendant l'import du fichier"
 
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
+
+msgid "export"
+msgstr ""
 
 msgid "Export"
 msgstr "Exporter"
@@ -435,6 +420,9 @@ msgstr "Dépot de fichiers"
 msgid "File revision"
 msgstr "Révision du fichier"
 
+msgid "File sources"
+msgstr ""
+
 msgid "Filter"
 msgstr "Filtrer"
 
@@ -481,6 +469,9 @@ msgid "Installed Extensions"
 msgstr ""
 
 msgid "Installing extension %s..."
+msgstr ""
+
+msgid "Instance saved"
 msgstr ""
 
 msgid "Instances"
@@ -540,9 +531,6 @@ msgstr "Options de la liste"
 msgid "list saved"
 msgstr "liste sauvegardée"
 
-msgid "list the roles"
-msgstr "lister les rôles"
-
 msgid "list the users"
 msgstr "lister les utilisateurs"
 
@@ -567,9 +555,6 @@ msgstr "Donnée locales (l'espace de nom local comprenant seulement les données
 msgid "Login"
 msgstr "Identifiant"
 
-msgid "login already exist"
-msgstr "Cet identifiant existe déjà"
-
 msgid "Login available"
 msgstr "Identifiant disponible"
 
@@ -588,11 +573,22 @@ msgstr "Courriel"
 msgid "Maintenance"
 msgstr "Maintenance"
 
+#, tao-public
+msgid "Manage Access Rights"
+msgstr ""
+
 msgid "Manage content of the property "
 msgstr "Gérer le contenu de la propriété "
 
 msgid "Manage data list"
 msgstr "Gestion des listes"
+
+#, tao-public
+msgid "Manage roles"
+msgstr ""
+
+msgid "Manage Roles and apply them to users."
+msgstr ""
 
 msgid "Manage the versioned content : "
 msgstr "Gérer le contenu versionné : "
@@ -604,10 +600,6 @@ msgstr "Gérer les utilisateurs"
 msgid "Manage Versioned File"
 msgstr "Gérer les fichiers versionnés"
 
-#, tao-public
-msgid "Manages Roles Rights"
-msgstr "Gérer les Droits des Rôles"
-
 msgid "Map the properties to the CSV columns"
 msgstr "Choisissez les propriétés relatives aux colonnes CSV"
 
@@ -616,6 +608,9 @@ msgstr "Valeur maximale:"
 
 msgid "Media manager"
 msgstr "Médiathèque"
+
+msgid "meta data"
+msgstr ""
 
 msgid "Meta Data"
 msgstr "Meta-données"
@@ -671,6 +666,9 @@ msgstr "Nouvel élément"
 
 msgid "New password"
 msgstr "Nouveau mot de passe"
+
+msgid "new role"
+msgstr ""
 
 msgid "Next"
 msgstr "Suivant"
@@ -777,9 +775,6 @@ msgstr "Veuillez télécharger un fichier RDF."
 msgid "Please wait a moment or contact your administrator."
 msgstr "Veuillez attendre un moment ou contacter votre administrateur."
 
-msgid "Process Front Office"
-msgstr ""
-
 msgid "Property"
 msgstr "Propriété"
 
@@ -813,9 +808,6 @@ msgstr "Répéter le mot de passe"
 msgid "Repeat password *"
 msgstr "Répéter le mot de passe"
 
-msgid "Repositories"
-msgstr ""
-
 msgid "Repository saved"
 msgstr ""
 
@@ -843,18 +835,26 @@ msgstr "Retour"
 msgid "Revert"
 msgstr "Annuler"
 
-#, tao-public
 msgid "Revision control"
 msgstr ""
 
 msgid "Right click the tree to manage your lists"
 msgstr "Utilisez le click droit pour gérer vos listes"
 
+msgid "Role saved"
+msgstr ""
+
 msgid "Roles"
 msgstr "Rôles"
 
+msgid "Roles library"
+msgstr ""
+
 msgid "Save"
 msgstr "Enregistrer"
+
+msgid "search"
+msgstr ""
 
 msgid "Search"
 msgstr "Rechercher"
@@ -862,11 +862,11 @@ msgstr "Rechercher"
 msgid "Search results"
 msgstr "Recherche des résultats"
 
-msgid "Select"
-msgstr "Choisir"
-
 msgid "select"
 msgstr "choisir"
+
+msgid "Select"
+msgstr "Choisir"
 
 msgid "Select a language"
 msgstr "Sélectionner un langage"
@@ -908,17 +908,8 @@ msgstr "Formats d'export supportés"
 msgid "Supported formats to import"
 msgstr "Format des données à importer"
 
-msgid "TAO back office"
-msgstr ""
-
 msgid "TAO Back Office"
 msgstr "TAO: Outils d'administration"
-
-msgid "TAO Delivery Server"
-msgstr ""
-
-msgid "TAO front office"
-msgstr ""
 
 msgid "TAO Home"
 msgstr "TAO Menu principal"
@@ -929,15 +920,6 @@ msgstr "TAO optimiseur"
 
 msgid "TAO updater"
 msgstr "TAO gestionnaire de mises à jour"
-
-msgid "TAO Workflow Engine"
-msgstr ""
-
-msgid "TAO workflow engine"
-msgstr ""
-
-msgid "Test Front Office (test takers)"
-msgstr ""
 
 msgid "The column "
 msgstr "La colonne "
@@ -977,6 +959,12 @@ msgstr "Ce champ  est trop long"
 
 msgid "This field is too short"
 msgstr "Ce champ est trop court"
+
+msgid "This Login is already in use"
+msgstr ""
+
+msgid "This role is still given to one or more users. Please remove the role to these users first."
+msgstr ""
 
 msgid "This should equal "
 msgstr ""
@@ -1053,9 +1041,6 @@ msgstr "L'utilisateur a été supprimé avec succès"
 msgid "User must have at least one role !"
 msgstr ""
 
-msgid "User name:"
-msgstr ""
-
 msgid "User saved"
 msgstr "L'utilisateur a été sauvé"
 
@@ -1080,7 +1065,4 @@ msgstr ""
 
 msgid "You cannot modify this property"
 msgstr "Cette propriété ne peut pas être modifié"
-
-msgid "Your authentication expired"
-msgstr ""
 

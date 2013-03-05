@@ -1,15 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.4-alpha\n"
-"PO-Revision-Date: 2013-01-23T11:42:17\n"
+"Project-Id-Version: TAO v2.4-beta1\n"
+"PO-Revision-Date: 2013-03-05T10:34:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: SE\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid " has been deleted successfully"
-msgstr ""
 
 msgid " has been installed"
 msgstr ""
@@ -21,6 +18,9 @@ msgid " of the instance "
 msgstr ""
 
 msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "%s (%s kb)"
 msgstr ""
 
 msgid "%s extension(s) to install."
@@ -68,14 +68,8 @@ msgstr "En envalslista"
 msgid "A single choice long list"
 msgstr "En lång envalsfrågelista"
 
-msgid "A versioned file"
-msgstr ""
-
 msgid "Access denied. Please renew your authentication!"
 msgstr "Åtkomst nekad"
-
-msgid "Access forbidden"
-msgstr ""
 
 msgid "Action"
 msgstr ""
@@ -91,9 +85,6 @@ msgstr "Lägg till"
 
 msgid "Add / Edit lists"
 msgstr "Lägg till/redigera listor"
-
-msgid "Add a role"
-msgstr ""
 
 #, tao-public
 msgid "Add a user"
@@ -117,13 +108,10 @@ msgstr "Lägg till källfilen"
 msgid "Advanced Mode"
 msgstr "Avancerad metod"
 
-msgid "Affected roles"
+msgid "all"
 msgstr ""
 
 msgid "All"
-msgstr ""
-
-msgid "all"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -145,6 +133,9 @@ msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
 msgstr ""
 
+msgid "Assign User to role"
+msgstr ""
+
 msgid "Author"
 msgstr ""
 
@@ -158,9 +149,6 @@ msgid "Available Extensions"
 msgstr ""
 
 msgid "Available roles"
-msgstr ""
-
-msgid "Back Office (test creator)"
 msgstr ""
 
 msgid "Browse"
@@ -197,6 +185,9 @@ msgstr "klass vald"
 msgid "Classes"
 msgstr ""
 
+msgid "Click the Save button to confirm deletion."
+msgstr ""
+
 msgid "Close tab"
 msgstr ""
 
@@ -224,9 +215,6 @@ msgstr ""
 msgid "compiling"
 msgstr ""
 
-msgid "Confirm"
-msgstr "Bekräfta"
-
 msgid "Connect"
 msgstr "Anslut"
 
@@ -237,6 +225,9 @@ msgid "Create a list"
 msgstr "Skapa en lista"
 
 msgid "Create instance of "
+msgstr ""
+
+msgid "create table"
 msgstr ""
 
 msgid "CSV Options"
@@ -263,10 +254,10 @@ msgstr "Data framgångsrikt importerat"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Dataspråk"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Dataspråk"
 
 msgid "Date"
@@ -290,25 +281,19 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "delete"
-msgstr "ta bort"
-
 msgid "Delete"
 msgstr "Radera"
 
+msgid "delete"
+msgstr "ta bort"
+
 msgid "Delete property"
 msgstr "Radera egenskap"
-
-msgid "Delete role"
-msgstr ""
 
 msgid "Delete user"
 msgstr "Ta bort användare"
 
 msgid "Delivery results"
-msgstr ""
-
-msgid "Do you really want to delete this role ?"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -318,11 +303,11 @@ msgstr ""
 msgid "Don't set"
 msgstr "Fastställ ej"
 
-msgid "download"
-msgstr "ladda ner"
-
 msgid "Download"
 msgstr "Ladda ner"
+
+msgid "download"
+msgstr "ladda ner"
 
 msgid "Download content"
 msgstr ""
@@ -342,9 +327,6 @@ msgstr "Redigera"
 msgid "edit"
 msgstr "redigera"
 
-msgid "Edit a role"
-msgstr ""
-
 #, tao-public
 msgid "Edit a user"
 msgstr "Redigera en användare"
@@ -352,13 +334,13 @@ msgstr "Redigera en användare"
 msgid "Edit Comment"
 msgstr "Redigera kommentar"
 
+msgid "Edit Instance"
+msgstr ""
+
 msgid "Edit item comment"
 msgstr "Redigera modulinnehåll"
 
 msgid "Edit property into parent class "
-msgstr ""
-
-msgid "Edit role"
 msgstr ""
 
 msgid "Edit user"
@@ -384,6 +366,9 @@ msgstr "Fel under filimport"
 
 msgid "Exclusive (OR)"
 msgstr "Exklusive (ELLER)"
+
+msgid "export"
+msgstr ""
 
 msgid "Export"
 msgstr "Exportera"
@@ -434,6 +419,9 @@ msgstr ""
 msgid "File revision"
 msgstr ""
 
+msgid "File sources"
+msgstr ""
+
 msgid "Filter"
 msgstr "Filter"
 
@@ -480,6 +468,9 @@ msgid "Installed Extensions"
 msgstr ""
 
 msgid "Installing extension %s..."
+msgstr ""
+
+msgid "Instance saved"
 msgstr ""
 
 msgid "Instances"
@@ -539,9 +530,6 @@ msgstr "Listalternativ"
 msgid "list saved"
 msgstr "lista sparad"
 
-msgid "list the roles"
-msgstr ""
-
 msgid "list the users"
 msgstr "lista användarna"
 
@@ -566,9 +554,6 @@ msgstr "Lokal data (det lokala namnområdet endast innehållande data inskrivet 
 msgid "Login"
 msgstr "Inloggning"
 
-msgid "login already exist"
-msgstr "login existerar redan"
-
 msgid "Login available"
 msgstr ""
 
@@ -587,11 +572,22 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
+#, tao-public
+msgid "Manage Access Rights"
+msgstr ""
+
 msgid "Manage content of the property "
 msgstr ""
 
 msgid "Manage data list"
 msgstr "Hantera datalista"
+
+#, tao-public
+msgid "Manage roles"
+msgstr ""
+
+msgid "Manage Roles and apply them to users."
+msgstr ""
 
 msgid "Manage the versioned content : "
 msgstr ""
@@ -603,10 +599,6 @@ msgstr "Hantera användare"
 msgid "Manage Versioned File"
 msgstr ""
 
-#, tao-public
-msgid "Manages Roles Rights"
-msgstr ""
-
 msgid "Map the properties to the CSV columns"
 msgstr "Kartlägg egenskaper hos CSV-kolumner"
 
@@ -615,6 +607,9 @@ msgstr ""
 
 msgid "Media manager"
 msgstr "Mediehanterare"
+
+msgid "meta data"
+msgstr ""
 
 msgid "Meta Data"
 msgstr "Metadata"
@@ -670,6 +665,9 @@ msgstr "Ny beståndsdel"
 
 msgid "New password"
 msgstr "Nytt lösenord"
+
+msgid "new role"
+msgstr ""
 
 msgid "Next"
 msgstr "Nästa"
@@ -776,9 +774,6 @@ msgstr "Var vänlig ladda upp en RDF-fil"
 msgid "Please wait a moment or contact your administrator."
 msgstr ""
 
-msgid "Process Front Office"
-msgstr ""
-
 msgid "Property"
 msgstr "Egenskaper"
 
@@ -812,9 +807,6 @@ msgstr "Upprepa det nya lösenordet"
 msgid "Repeat password *"
 msgstr "Upprepa lösenordet *"
 
-msgid "Repositories"
-msgstr ""
-
 msgid "Repository saved"
 msgstr ""
 
@@ -842,18 +834,26 @@ msgstr ""
 msgid "Revert"
 msgstr "Gå tillbaka"
 
-#, tao-public
 msgid "Revision control"
 msgstr ""
 
 msgid "Right click the tree to manage your lists"
 msgstr "Högerklicka på trädstrukturen för att hantera din lista"
 
+msgid "Role saved"
+msgstr ""
+
 msgid "Roles"
+msgstr ""
+
+msgid "Roles library"
 msgstr ""
 
 msgid "Save"
 msgstr "Spara"
+
+msgid "search"
+msgstr ""
 
 msgid "Search"
 msgstr "Sök"
@@ -861,11 +861,11 @@ msgstr "Sök"
 msgid "Search results"
 msgstr "Sökresultat"
 
-msgid "Select"
-msgstr "Välj"
-
 msgid "select"
 msgstr "välj"
+
+msgid "Select"
+msgstr "Välj"
 
 msgid "Select a language"
 msgstr "Välj språk"
@@ -907,17 +907,8 @@ msgstr "Stödda exportformat"
 msgid "Supported formats to import"
 msgstr "Stödda importformat"
 
-msgid "TAO back office"
-msgstr ""
-
 msgid "TAO Back Office"
 msgstr "TAO Styrning"
-
-msgid "TAO Delivery Server"
-msgstr ""
-
-msgid "TAO front office"
-msgstr ""
 
 msgid "TAO Home"
 msgstr ""
@@ -927,15 +918,6 @@ msgid "TAO optimizer"
 msgstr ""
 
 msgid "TAO updater"
-msgstr ""
-
-msgid "TAO Workflow Engine"
-msgstr ""
-
-msgid "TAO workflow engine"
-msgstr ""
-
-msgid "Test Front Office (test takers)"
 msgstr ""
 
 msgid "The column "
@@ -976,6 +958,12 @@ msgstr "Fältet är för långt"
 
 msgid "This field is too short"
 msgstr "Fältet ät för kort"
+
+msgid "This Login is already in use"
+msgstr ""
+
+msgid "This role is still given to one or more users. Please remove the role to these users first."
+msgstr ""
 
 msgid "This should equal "
 msgstr ""
@@ -1052,9 +1040,6 @@ msgstr "Användare framgångsrikt borttagen"
 msgid "User must have at least one role !"
 msgstr ""
 
-msgid "User name:"
-msgstr ""
-
 msgid "User saved"
 msgstr "Användare sparad"
 
@@ -1079,7 +1064,4 @@ msgstr ""
 
 msgid "You cannot modify this property"
 msgstr "Det går inte att förändra denna egenskap"
-
-msgid "Your authentication expired"
-msgstr ""
 

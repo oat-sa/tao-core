@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.4-alpha1\n"
-"PO-Revision-Date: 2013-02-15T19:18:21\n"
+"Project-Id-Version: TAO v2.4-beta1\n"
+"PO-Revision-Date: 2013-03-05T10:34:06\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: DA\n"
@@ -18,6 +18,9 @@ msgid " of the instance "
 msgstr ""
 
 msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "%s (%s kb)"
 msgstr ""
 
 msgid "%s extension(s) to install."
@@ -65,13 +68,7 @@ msgstr ""
 msgid "A single choice long list"
 msgstr ""
 
-msgid "A versioned file"
-msgstr ""
-
 msgid "Access denied. Please renew your authentication!"
-msgstr ""
-
-msgid "Access forbidden"
 msgstr ""
 
 msgid "Action"
@@ -111,10 +108,10 @@ msgstr ""
 msgid "Advanced Mode"
 msgstr ""
 
-msgid "All"
+msgid "all"
 msgstr ""
 
-msgid "all"
+msgid "All"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -154,9 +151,6 @@ msgstr ""
 msgid "Available roles"
 msgstr ""
 
-msgid "Back Office (test creator)"
-msgstr ""
-
 msgid "Browse"
 msgstr ""
 
@@ -189,6 +183,9 @@ msgid "class selected"
 msgstr ""
 
 msgid "Classes"
+msgstr ""
+
+msgid "Click the Save button to confirm deletion."
 msgstr ""
 
 msgid "Close tab"
@@ -257,10 +254,10 @@ msgstr ""
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
 msgid "Date"
@@ -284,10 +281,10 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr ""
 
 msgid "Delete property"
@@ -306,10 +303,10 @@ msgstr ""
 msgid "Don't set"
 msgstr ""
 
-msgid "download"
+msgid "Download"
 msgstr ""
 
-msgid "Download"
+msgid "download"
 msgstr ""
 
 msgid "Download content"
@@ -324,10 +321,10 @@ msgstr ""
 msgid "e-mail"
 msgstr ""
 
-msgid "edit"
+msgid "Edit"
 msgstr ""
 
-msgid "Edit"
+msgid "edit"
 msgstr ""
 
 #, tao-public
@@ -349,10 +346,10 @@ msgstr ""
 msgid "Edit user"
 msgstr ""
 
-msgid "Element"
+msgid "element"
 msgstr ""
 
-msgid "element"
+msgid "Element"
 msgstr ""
 
 msgid "element deleted"
@@ -370,10 +367,10 @@ msgstr ""
 msgid "Exclusive (OR)"
 msgstr ""
 
-msgid "Export"
+msgid "export"
 msgstr ""
 
-msgid "export"
+msgid "Export"
 msgstr ""
 
 msgid "Export Options"
@@ -476,10 +473,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "instances"
+msgid "Instances"
 msgstr ""
 
-msgid "Instances"
+msgid "instances"
 msgstr ""
 
 msgid "Interface language"
@@ -576,7 +573,7 @@ msgid "Maintenance"
 msgstr ""
 
 #, tao-public
-msgid "Manage ACL"
+msgid "Manage Access Rights"
 msgstr ""
 
 msgid "Manage content of the property "
@@ -777,9 +774,6 @@ msgstr ""
 msgid "Please wait a moment or contact your administrator."
 msgstr ""
 
-msgid "Process Front Office"
-msgstr ""
-
 msgid "Property"
 msgstr ""
 
@@ -789,10 +783,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
 msgid "Remove"
@@ -867,10 +861,10 @@ msgstr ""
 msgid "Search results"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
 msgid "Select a language"
@@ -916,15 +910,6 @@ msgstr ""
 msgid "TAO Back Office"
 msgstr ""
 
-msgid "TAO back office"
-msgstr ""
-
-msgid "TAO Delivery Server"
-msgstr ""
-
-msgid "TAO front office"
-msgstr ""
-
 msgid "TAO Home"
 msgstr ""
 
@@ -933,15 +918,6 @@ msgid "TAO optimizer"
 msgstr ""
 
 msgid "TAO updater"
-msgstr ""
-
-msgid "TAO Workflow Engine"
-msgstr ""
-
-msgid "TAO workflow engine"
-msgstr ""
-
-msgid "Test Front Office (test takers)"
 msgstr ""
 
 msgid "The column "
@@ -1016,10 +992,10 @@ msgstr ""
 msgid "Unable to change passwords in demo mode"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "uncompiled"
@@ -1064,9 +1040,6 @@ msgstr ""
 msgid "User must have at least one role !"
 msgstr ""
 
-msgid "User name:"
-msgstr ""
-
 msgid "User saved"
 msgstr ""
 
@@ -1090,8 +1063,5 @@ msgid "Yes"
 msgstr ""
 
 msgid "You cannot modify this property"
-msgstr ""
-
-msgid "Your authentication expired"
 msgstr ""
 

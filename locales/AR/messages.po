@@ -1,15 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.4-alpha\n"
-"PO-Revision-Date: 2013-01-23T11:41:50\n"
+"Project-Id-Version: TAO v2.4-beta1\n"
+"PO-Revision-Date: 2013-03-05T10:34:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: AR\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid " has been deleted successfully"
-msgstr ""
 
 msgid " has been installed"
 msgstr ""
@@ -21,6 +18,9 @@ msgid " of the instance "
 msgstr ""
 
 msgid " requires a subgrid adapter"
+msgstr ""
+
+msgid "%s (%s kb)"
 msgstr ""
 
 msgid "%s extension(s) to install."
@@ -68,14 +68,8 @@ msgstr "قائمة خيار واحد"
 msgid "A single choice long list"
 msgstr "قائمة خيار واحد طويلة"
 
-msgid "A versioned file"
-msgstr ""
-
 msgid "Access denied. Please renew your authentication!"
 msgstr "!تم رفض الوصول. يرجى تجديد المصادقة الخاصة بك"
-
-msgid "Access forbidden"
-msgstr ""
 
 msgid "Action"
 msgstr ""
@@ -91,9 +85,6 @@ msgstr "إضافة"
 
 msgid "Add / Edit lists"
 msgstr "إضافة / تعديل القوائم"
-
-msgid "Add a role"
-msgstr ""
 
 #, tao-public
 msgid "Add a user"
@@ -117,13 +108,10 @@ msgstr "إضافة الملف المصدر"
 msgid "Advanced Mode"
 msgstr "طريقة متقدمة"
 
-msgid "Affected roles"
+msgid "all"
 msgstr ""
 
 msgid "All"
-msgstr ""
-
-msgid "all"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -145,6 +133,9 @@ msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
 msgstr ""
 
+msgid "Assign User to role"
+msgstr ""
+
 msgid "Author"
 msgstr ""
 
@@ -158,9 +149,6 @@ msgid "Available Extensions"
 msgstr ""
 
 msgid "Available roles"
-msgstr ""
-
-msgid "Back Office (test creator)"
 msgstr ""
 
 msgid "Browse"
@@ -197,6 +185,9 @@ msgstr "classe sélectionnée"
 msgid "Classes"
 msgstr ""
 
+msgid "Click the Save button to confirm deletion."
+msgstr ""
+
 msgid "Close tab"
 msgstr ""
 
@@ -224,9 +215,6 @@ msgstr ""
 msgid "compiling"
 msgstr ""
 
-msgid "Confirm"
-msgstr "تأكيد"
-
 msgid "Connect"
 msgstr "الاتصال"
 
@@ -237,6 +225,9 @@ msgid "Create a list"
 msgstr "إنشاء قائمة"
 
 msgid "Create instance of "
+msgstr ""
+
+msgid "create table"
 msgstr ""
 
 msgid "CSV Options"
@@ -263,10 +254,10 @@ msgstr "البيانات التي تم استيرادها بنجاح"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "لغة البيانات"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "لغة البيانات"
 
 msgid "Date"
@@ -290,25 +281,19 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr "حذف"
 
-msgid "Delete"
+msgid "delete"
 msgstr "حذف"
 
 msgid "Delete property"
 msgstr "حذف الخاصية"
 
-msgid "Delete role"
-msgstr ""
-
 msgid "Delete user"
 msgstr "حذف المستخدم"
 
 msgid "Delivery results"
-msgstr ""
-
-msgid "Do you really want to delete this role ?"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -318,10 +303,10 @@ msgstr ""
 msgid "Don't set"
 msgstr "لا تدرج"
 
-msgid "download"
+msgid "Download"
 msgstr "تحميل"
 
-msgid "Download"
+msgid "download"
 msgstr "تحميل"
 
 msgid "Download content"
@@ -342,9 +327,6 @@ msgstr "تحرير"
 msgid "edit"
 msgstr "تحرير"
 
-msgid "Edit a role"
-msgstr ""
-
 #, tao-public
 msgid "Edit a user"
 msgstr "تحرير مستخدم"
@@ -352,13 +334,13 @@ msgstr "تحرير مستخدم"
 msgid "Edit Comment"
 msgstr "تحرير تعليق"
 
+msgid "Edit Instance"
+msgstr ""
+
 msgid "Edit item comment"
 msgstr "تحرير تعليق"
 
 msgid "Edit property into parent class "
-msgstr ""
-
-msgid "Edit role"
 msgstr ""
 
 msgid "Edit user"
@@ -384,6 +366,9 @@ msgstr "خطأ أثناء استيراد الملف"
 
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
+
+msgid "export"
+msgstr ""
 
 msgid "Export"
 msgstr "تصدير"
@@ -434,6 +419,9 @@ msgstr ""
 msgid "File revision"
 msgstr ""
 
+msgid "File sources"
+msgstr ""
+
 msgid "Filter"
 msgstr "تصفية"
 
@@ -480,6 +468,9 @@ msgid "Installed Extensions"
 msgstr ""
 
 msgid "Installing extension %s..."
+msgstr ""
+
+msgid "Instance saved"
 msgstr ""
 
 msgid "Instances"
@@ -539,9 +530,6 @@ msgstr "خيارات القائمة"
 msgid "list saved"
 msgstr "تم حفظ القائمة"
 
-msgid "list the roles"
-msgstr ""
-
 msgid "list the users"
 msgstr "lister les utilisateurs"
 
@@ -566,9 +554,6 @@ msgstr "(البيانات المحلية (مساحة الاسم المحلي ا�
 msgid "Login"
 msgstr "الدخول"
 
-msgid "login already exist"
-msgstr "المعرف قيد الاستخدام"
-
 msgid "Login available"
 msgstr ""
 
@@ -587,11 +572,22 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
+#, tao-public
+msgid "Manage Access Rights"
+msgstr ""
+
 msgid "Manage content of the property "
 msgstr ""
 
 msgid "Manage data list"
 msgstr "إدارة قائمة البيانات"
+
+#, tao-public
+msgid "Manage roles"
+msgstr ""
+
+msgid "Manage Roles and apply them to users."
+msgstr ""
 
 msgid "Manage the versioned content : "
 msgstr ""
@@ -603,10 +599,6 @@ msgstr "إدارة المستخدمين"
 msgid "Manage Versioned File"
 msgstr ""
 
-#, tao-public
-msgid "Manages Roles Rights"
-msgstr ""
-
 msgid "Map the properties to the CSV columns"
 msgstr "CSV اختر الخصائص المتعلقة بالاعمدة"
 
@@ -615,6 +607,9 @@ msgstr ""
 
 msgid "Media manager"
 msgstr "Médiathèque"
+
+msgid "meta data"
+msgstr ""
 
 msgid "Meta Data"
 msgstr "بيانات التعريف"
@@ -670,6 +665,9 @@ msgstr "عنصر جديد"
 
 msgid "New password"
 msgstr "كلمة مرور جديدة"
+
+msgid "new role"
+msgstr ""
 
 msgid "Next"
 msgstr "التالي"
@@ -778,9 +776,6 @@ msgstr ".RDF الرجاء تحميل ملف"
 msgid "Please wait a moment or contact your administrator."
 msgstr ""
 
-msgid "Process Front Office"
-msgstr ""
-
 msgid "Property"
 msgstr "خاصية"
 
@@ -814,9 +809,6 @@ msgstr "كرر كلمة السر الجديدة"
 msgid "Repeat password *"
 msgstr "*كرر كلمة السر"
 
-msgid "Repositories"
-msgstr ""
-
 msgid "Repository saved"
 msgstr ""
 
@@ -844,18 +836,26 @@ msgstr ""
 msgid "Revert"
 msgstr "الغاء"
 
-#, tao-public
 msgid "Revision control"
 msgstr ""
 
 msgid "Right click the tree to manage your lists"
 msgstr "استعمل زر النقر اليمين لادارة قوائمك"
 
+msgid "Role saved"
+msgstr ""
+
 msgid "Roles"
+msgstr ""
+
+msgid "Roles library"
 msgstr ""
 
 msgid "Save"
 msgstr "حفظ"
+
+msgid "search"
+msgstr ""
 
 msgid "Search"
 msgstr "بحث"
@@ -863,11 +863,11 @@ msgstr "بحث"
 msgid "Search results"
 msgstr "البحث عن النتائج"
 
-msgid "Select"
-msgstr "حدد"
-
 msgid "select"
 msgstr "اختر"
+
+msgid "Select"
+msgstr "حدد"
 
 msgid "Select a language"
 msgstr "حدد اللغة"
@@ -909,17 +909,8 @@ msgstr "صيغ الاستيراد المعتمدة"
 msgid "Supported formats to import"
 msgstr "صيغ التصدير المعتمدة"
 
-msgid "TAO back office"
-msgstr ""
-
 msgid "TAO Back Office"
 msgstr "TAO: Outils d'administration"
-
-msgid "TAO Delivery Server"
-msgstr ""
-
-msgid "TAO front office"
-msgstr ""
 
 msgid "TAO Home"
 msgstr ""
@@ -929,15 +920,6 @@ msgid "TAO optimizer"
 msgstr ""
 
 msgid "TAO updater"
-msgstr ""
-
-msgid "TAO Workflow Engine"
-msgstr ""
-
-msgid "TAO workflow engine"
-msgstr ""
-
-msgid "Test Front Office (test takers)"
 msgstr ""
 
 msgid "The column "
@@ -978,6 +960,12 @@ msgstr "هذا الحقل طويل جدا"
 
 msgid "This field is too short"
 msgstr "هذا الحقل قصير جدا"
+
+msgid "This Login is already in use"
+msgstr ""
+
+msgid "This role is still given to one or more users. Please remove the role to these users first."
+msgstr ""
 
 msgid "This should equal "
 msgstr ""
@@ -1054,9 +1042,6 @@ msgstr "تم حذف المستخدم بنجاح"
 msgid "User must have at least one role !"
 msgstr ""
 
-msgid "User name:"
-msgstr ""
-
 msgid "User saved"
 msgstr "تم حفظ المستخدم"
 
@@ -1081,7 +1066,4 @@ msgstr ""
 
 msgid "You cannot modify this property"
 msgstr "لا يمكنك تعديل هذه الخاصية"
-
-msgid "Your authentication expired"
-msgstr ""
 

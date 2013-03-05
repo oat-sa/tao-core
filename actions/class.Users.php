@@ -188,7 +188,7 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			throw new Exception("wrong request mode");
 		}
 		
-		$clazz = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+		$clazz = new core_kernel_classes_Class(CLASS_TAO_USER);
 		$formContainer = new tao_actions_form_CreateInstance(array($clazz), array());
 		$myForm = $formContainer->getForm();
 		
