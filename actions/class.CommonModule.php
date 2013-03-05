@@ -34,19 +34,15 @@ abstract class tao_actions_CommonModule extends Module {
      */
     public function setView($identifier, $extensionID = null)
     {
-        parent::setView($identifier);
-		if(!is_null($extensionID)) {
-			if ($extensionID === true) {
-				$extensionID = 'tao';
-				common_Logger::d('Deprecated use of setView() using a boolean');
-			}
-			if (strlen($extensionID) < 3) {
-				common_Logger::e('no ext');
-			}
-			$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
-			Renderer::setViewsBasePath($ext->getConstant('DIR_VIEWS'));
+		if ($extensionID === true) {
+			$extensionID = 'tao';
+			common_Logger::d('Deprecated use of setView() using a boolean');
 		}
-		return;
+    	if(is_null($extensionID) || empty($extensionID)) {
+    		$extensionID = Context::getInstance()->getExtensionName();
+    	}
+		$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
+		parent::setView($ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier);
 	}
 	
 	/**

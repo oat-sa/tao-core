@@ -210,11 +210,12 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 */
 	public function index()
 	{
-		
+		/*
 		if($this->getData('reload') == true){
 			$this->removeSessionAttribute('uri');
 			$this->removeSessionAttribute('classUri');
 		}
+		*/
 		$this->setView('index.tpl');
 	}
 	

@@ -53,10 +53,11 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 */
 	public function login()
 	{
-
+		/* unreachable code?
 		if($this->getData('errorMessage')){
 			session_destroy();
 		}
+		*/
 
 		if(!tao_helpers_Request::isAjax()){
 
@@ -310,7 +311,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	public function getSectionTrees()
 	{
 
-		$this->setData('trees', false);
+		//$this->setData('trees', false);
 		$extname = $this->getRequestParameter('ext');
 		$struct = $this->getRequestParameter('structure');
 
@@ -349,7 +350,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		
 		$renderer = new Renderer();
 		$tao = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-    	$renderer->render($tao->getConstant('TPL_PATH').'main'.DIRECTORY_SEPARATOR.'dashboardwidget.tpl');
+    	return $renderer->render($tao->getConstant('TPL_PATH').'main'.DIRECTORY_SEPARATOR.'dashboardwidget.tpl');
 	}
 }
 ?>
