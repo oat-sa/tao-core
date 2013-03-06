@@ -64,7 +64,7 @@ function onLoad(){
 			break;
 			
 			case 'instance_name':
-				install.getValidator(this, {dataType: 'regexp', pattern: "^[a-zA-Z0-9_]{3,63}$"});
+				install.getValidator(this, {dataType: 'regexp', pattern: "^[a-zA-Z0-9_\.]{3,63}$"});
 				validify(this);
 			break;
 			
