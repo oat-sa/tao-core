@@ -155,16 +155,16 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						
 						if($propMode == 'simple'){
 							$type = $properties['type'];
-							$range = (isset($properties['range']) ? $properties['range'] : RDFS_LABEL);
+							$range = (isset($properties['range']) ? trim($properties['range']) : RDFS_LABEL);
 							unset($properties['type']);
 							unset($properties['range']);
 							
 							if(isset($propertyMap[$type])){
 								$properties[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
-								if(is_null($propertyMap[$type]['range'])){
+								if(!empty($range)){
 									$properties[RDFS_RANGE] = $range;
 								}
-								else{
+								else if (!empty($propertyMap[$type]['range'])){
 									$properties[RDFS_RANGE] = $propertyMap[$type]['range'];
 								}
 							}
