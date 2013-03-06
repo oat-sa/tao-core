@@ -425,7 +425,7 @@ ul.group-list li.selectable { cursor: pointer }
 ul.group-list li.selected { background-color: #9f9 }
 ul.group-list li.selected:hover { background-color: #9c9 }
 ul.group-list li.group { padding: 0 }
-ul.group-list li .group-title { background-color: rgb(247, 247, 247); cursor: pointer }
+ul.group-list li .group-title { background-color: rgb(240, 240, 240); cursor: pointer }
 ul.group-list li span.title { background-color: inherit }
 ul.group-list li.expendable.closed ul { display: none; }
 ul.group-list li.expendable.closed { margin-bottom: 1px }
@@ -471,6 +471,21 @@ ul.group-list li ul.actions li {
 	padding: 0;
 	width: 16px;
 	height: 16px;
+}
+
+.group-title span.ui-icon {
+	display: inline-block;
+	position: relative;
+	top: 3px;
+	left: -2px;
+}
+
+.group-title.open {
+	border-bottom: 1px solid #999;
+}
+
+.selectable .label{
+	font-size: 11px;
 }
 
 .listbox {
