@@ -26,7 +26,7 @@
 				<strong>contact your TAO administrator</strong> to get support.
 			</p>
 			
-			<? if (!empty($message)): ?>
+			<? if (defined('DEBUG_MODE') && DEBUG_MODE == true && !empty($message)): ?>
 			<p>
 				<strong>Debug Message:</strong>
 				

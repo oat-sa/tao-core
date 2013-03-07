@@ -70,13 +70,37 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 			});
 
 			//intercept errors
-			$("body").ajaxError(function(event, request, settings){
+			$(document).ajaxError(function(event, request, settings, exception){
+				
+				var errorMessage = __('Unknown Error');
+				
 				if(request.status == 404 || request.status == 500){
-					helpers.createErrorMessage(request.responseText);
+					
+					try{
+						// is it a common_AjaxResponse? Let's "ducktype"
+						var ajaxResponse = $.parseJSON(request.responseText);
+						if (	typeof ajaxResponse['success'] != 'undefined' &&
+								typeof ajaxResponse['type'] != 'undefined' &&
+								typeof ajaxResponse['message'] != 'undefined' &&
+								typeof ajaxResponse['data'] != 'undefined'){
+							
+							errorMessage = request.status + ': ' + ajaxResponse.message;
+						}
+						else{
+							errorMessage = request.status + ': ' + request.responseText;
+						}
+						
+					}
+					catch (exception){
+						// It does not seem to be valid JSON.
+						errorMessage = request.status + ': ' + request.responseText;
+					}
 				}
-				if(request.status == 403){
+				else if(request.status == 403){
 					window.location = root_url + 'tao/Main/logout';
 				}
+				
+				helpers.createErrorMessage(errorMessage);
 			});
 		},
 

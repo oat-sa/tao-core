@@ -184,19 +184,50 @@ class Bootstrap{
      */
     private function catchError(Exception $exception)
     {
-        if(tao_helpers_Request::isAjax()){
-            new common_AjaxResponse(array(
-                "success"   => false
-                , "type"    => 'Exception'
-                , "data"    => array('ExceptionType' => get_class($exception))
-                , "message" => $exception->getMessage()
-            ));
-        }
-        else{
-            common_Logger::singleton()->e('The system encountered a problem, not catched exception ('
-                    .get_class($exception).') in ('.$exception->getFile().') at line '.$exception->getLine().': '.$exception->getMessage());
-            throw $exception;
-        }
+    	try {
+    		// Rethrow for a direct clean catch...
+    		throw $exception;
+    	}
+    	catch (ActionEnforcingException $ae){
+    		common_Logger::w("Called module ".$ae->getModuleName().', action '.$ae->getActionName().' not found.', array('TAO', 'BOOT'));
+    		
+    		$message  = "Called module: ".$ae->getModuleName()."\n";
+    		$message .= "Called action: ".$ae->getActionName()."\n";
+    		
+    		$this->dispatchError($ae, 404, $message);
+    	}
+    	catch (tao_models_classes_UserException $ue){
+    		common_Logger::i('Access forbidden', array('TAO', 'BOOT'));
+    		
+    		$this->dispatchError($ue, 403);
+    	}
+    	catch (Exception $e) {
+    		common_Logger::singleton()->e('The system encountered a problem, not catched exception ('
+    				.get_class($e).') in ('.$e->getFile().') at line '.$e->getLine().': '.$e->getMessage());
+    		
+    		$message = $e->getMessage();
+    		$trace = $e->getTraceAsString();
+    		
+    		$this->dispatchError($e, 500, $message, $trace);
+    	}
+    }
+    
+    private function dispatchError(Exception $e, $httpStatus, $message = '', $trace = ''){
+    	
+    	// Set relevant HTTP header.
+    	header(HTTPToolkit::statusCodeHeader($httpStatus));
+    	
+    	if (tao_helpers_Request::isAjax()){
+    		new common_AjaxResponse(array(
+    				"success"   => false, 
+    				"type"		=> 'Exception',
+    				"data"		=> array('ExceptionType' => get_class($e)),
+    				"message" 	=> $message
+    		));
+    	}
+    	else{
+    		require_once TAO_TPL_PATH . "error/error${httpStatus}.tpl";
+    	}
     }
 
 	/**
@@ -255,36 +286,14 @@ class Bootstrap{
 
 	/**
 	 *  Start the MVC Loop from the ClearFW
-	 *  @throws ActionEnforcingException in case of wrong module or action, send an HTTP CODE 404
-	 *  @throws tao_models_classes_UserException when a request try to acces a protected area, it send and HTTP CODE 403
-	 *  @throws Exception all exceptions not catched send an HTTP CODE 500
+	 *  @throws ActionEnforcingException in case of wrong module or action
+	 *  @throws tao_models_classes_UserException when a request try to acces a protected area
 	 */
 	protected function mvc()
 	{	
-		try {
-			$re		= new HttpRequest();
-			$fc		= new AdvancedFC($re);
-			$fc->loadModule();
-		}
-		catch (ActionEnforcingException $ae){
-			$message	= '';
-			common_Logger::w("Called module ".$ae->getModuleName().', action '.$ae->getActionName().' not found.', array('TAO', 'BOOT'));
-			if (defined('DEBUG_MODE') && DEBUG_MODE == true){
-				$message .= "Called module: ".$ae->getModuleName()."\n";
-				$message .= "Called action: ".$ae->getActionName()."\n";
-			}
-			require_once TAO_TPL_PATH . 'error/error404.tpl';
-		}
-		catch (tao_models_classes_UserException $ue){
-			require_once TAO_TPL_PATH . 'error/error403.tpl';
-		}
-		catch (Exception $e) {
-			if (defined('DEBUG_MODE') && true == DEBUG_MODE){
-				$message = $e->getMessage();
-				$trace = $e->getTraceAsString();
-			}
-			require_once TAO_TPL_PATH . 'error/error500.tpl';
-		}
+		$re		= new HttpRequest();
+		$fc		= new AdvancedFC($re);
+		$fc->loadModule();
 	}
 
 	/**
@@ -357,50 +366,11 @@ class Bootstrap{
 					'base_lang'		=> $lang
 				));
 
-				//scripts to load
-				/*tao_helpers_Scriptloader::addJsFiles(
-				    array(
-					TAOBASE_WWW . 'js/jquery-1.8.0.min.js',
-					TAOBASE_WWW . 'js/jquery-ui-1.8.23.custom.min.js',
-					TAOBASE_WWW . 'js/jsTree/jquery.tree.js',
-					TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.contextmenu.js',
-					TAOBASE_WWW . 'js/jsTree/plugins/jquery.tree.checkbox.js',
-					TAOBASE_WWW . 'js/jwysiwyg/jquery.wysiwyg.js',
-					TAOBASE_WWW . $gridi18nFile,
-					TAOBASE_WWW . 'js/jquery.jqGrid-4.4.0/js/jquery.jqGrid.min.js',
-					TAOBASE_WWW . 'js/jquery.numeric.js',
-					TAOBASE_WWW . 'js/tao.ajaxWrapper.js',
-					ROOT_URL 	. '/filemanager/views/js/fmRunner.js',
-					ROOT_URL 	. '/filemanager/views/js/jquery.fmRunner.js',
-					TAOBASE_WWW . 'js/gateway/Main.js',
-					TAOBASE_WWW . 'js/helpers.js',
-					TAOBASE_WWW . 'js/uiBootstrap.js',
-					TAOBASE_WWW . 'js/uiForm.js',
-					TAOBASE_WWW . 'js/generis.tree.js',
-					TAOBASE_WWW . 'js/generis.facetFilter.js',
-					TAOBASE_WWW . 'js/generis.facetFilter.hbox.js',
-					TAOBASE_WWW . 'js/generis.facetFilter.accordion.js',
-					TAOBASE_WWW . 'js/tao.tabs.js',
-					TAOBASE_WWW . 'js/grid/tao.grid.js',
-					TAOBASE_WWW . 'js/grid/tao.grid.downloadFileResource.js',
-					TAOBASE_WWW . 'js/grid/tao.grid.rowId.js',
-					TAOBASE_WWW . 'js/generis.actions.js',
-					TAOBASE_WWW . 'js/generis.treeform.js',
-					TAOBASE_WWW . 'js/AsyncFileUpload.js'
-					)
-				);*/
-
 				//ajax file upload works only without HTTP_AUTH
 				if(!USE_HTTP_AUTH){
 					tao_helpers_Scriptloader::addCssFile(
 						TAOBASE_WWW . 'js/jquery.uploadify/uploadify.css'
 					);
-					/*tao_helpers_Scriptloader::addJsFiles(
-						array(
-							TAOBASE_WWW . 'js/jquery.uploadify/jquery.uploadify.v2.1.4.js',
-							TAOBASE_WWW . 'js/jquery.uploadify/swfobject.js'
-						)
-					);*/
 				}
 			break;
 		}

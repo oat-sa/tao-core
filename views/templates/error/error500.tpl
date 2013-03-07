@@ -26,24 +26,26 @@
 				<strong>contact your TAO administrator</strong> to get support.
 			</p>
 			
-			<? if (!empty($message)): ?>
-			<p>
-				<strong>Debug Message:</strong>
-				
+			<? if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
+				<? if (!empty($message)): ?>
 				<p>
-					<?= nl2br($message) ?>
+					<strong>Debug Message:</strong>
+					
+					<p>
+						<?= nl2br($message) ?>
+					</p>
 				</p>
-			</p>
-			<? endif; ?>
-			
-			<? if (!empty($trace)): ?>
-			<p>
-				<strong>Stack Trace:</strong>
+				<? endif; ?>
 				
-				<p class="trace">
-					<?= nl2br($trace) ?>
+				<? if (!empty($trace)): ?>
+				<p>
+					<strong>Stack Trace:</strong>
+					
+					<p class="trace">
+						<?= nl2br($trace) ?>
+					</p>
 				</p>
-			</p>
+				<? endif; ?>
 			<? endif; ?>
 			<div id="redirect">
 				<a href="<?= ROOT_URL ?>" id="go_to_tao_bt">TAO Home</a>
