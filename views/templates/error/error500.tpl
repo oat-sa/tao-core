@@ -45,7 +45,9 @@
 				</p>
 			</p>
 			<? endif; ?>
-			<a href="<?= ROOT_URL ?>" id="go_to_tao_bt">Go to the TAO Platform</a>
+			<div id="redirect">
+				<a href="<?= ROOT_URL ?>" id="go_to_tao_bt">TAO Home</a>
+			</div>
 		</div>
 	</div>
 </body>

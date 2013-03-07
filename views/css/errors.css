@@ -50,20 +50,21 @@ p strong{
 	margin:5px 7px 0 0;
 }
 
+#redirect{
+	margin-top: 35px;
+	text-align: center;
+}
+
 #go_to_tao_bt{
-	display:block;
-	width:155px;
 	padding:2px 8px;
 	text-decoration: none;
 	background:#009933;
-	margin:0px auto;
 	font-size:12px;
 	text-align: center;
-	height:25px;
 	line-height:25px;
 	font-weight:bold;
 	color:white;
-	margin-top: 35px;
+	padding: 7px;
 }
 
 #go_to_tao_bt:hover{

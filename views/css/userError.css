@@ -1,6 +1,15 @@
 @CHARSET "UTF-8";
 
 #main{	
-	background-position: 600px 30px;
+	background-position: 380px 30px;
 	min-height: 230px;
+	width: 500px;
+}
+
+#warning_msg{
+	text-align: center;
+}
+
+#content{
+	width: 300px;	
 }

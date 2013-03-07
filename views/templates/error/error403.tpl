@@ -23,7 +23,9 @@
 				You have <strong>no permission</strong> to use the requested feature. If you think you should have access
 				to this functionality, please <strong>try again later</strong> or <strong>if the problem remains</strong>, contact your TAO administrator to <strong>request an access</strong>.
 			</p>
-			<a href="<?= ROOT_URL ?>" id="go_to_tao_bt">Go to the TAO Platform</a>
+			<div id="redirect">
+				<a href="<?= ROOT_URL ?>" id="go_to_tao_bt">TAO Home</a>
+			</div>
 		</div>
 	</div>
 </body>

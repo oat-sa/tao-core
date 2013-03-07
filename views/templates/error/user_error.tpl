@@ -19,12 +19,13 @@
 		<div id="content">
 			<h1>Error</h1>
 			<p id="warning_msg">
-				<img src="<?= ROOT_URL ?>tao/views/img/warning_error_tpl.png" alt="warning" class="embedWarning" />
 				<? if (!empty($message)): ?>
 				<?= $message ?>
 				<? endif; ?>
 			</p>
-			<a href="<?= ROOT_URL ?>" id="go_to_tao_bt">Go to the TAO Platform</a>
+			<div id="redirect">
+				<a href="<?= ROOT_URL ?>" id="go_to_tao_bt">TAO Home</a>
+			</div>
 		</div>
 	</div>
 </body>
