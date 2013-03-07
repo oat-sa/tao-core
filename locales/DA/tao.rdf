@@ -124,60 +124,6 @@
     -->
     <rdfs:comment xml:lang="DA"><![CDATA[Data language usage]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#User">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage DA
-    @source User
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#User
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="DA"><![CDATA[User]]></rdfs:label>
-    <!--
-    @sourceLanguage EN
-    @targetLanguage DA
-    @source TAO User Class
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#User
-    @predicate http://www.w3.org/2000/01/rdf-schema#comment
-    -->
-    <rdfs:comment xml:lang="DA"><![CDATA[TAO User Class]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage DA
-    @source Management
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="DA"><![CDATA[Management]]></rdfs:label>
-    <!--
-    @sourceLanguage EN
-    @targetLanguage DA
-    @source The Management Role Class
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole
-    @predicate http://www.w3.org/2000/01/rdf-schema#comment
-    -->
-    <rdfs:comment xml:lang="DA"><![CDATA[The Management Role Class]]></rdfs:comment>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole">
-    <!--
-    @sourceLanguage EN
-    @targetLanguage DA
-    @source Worker
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
-    @predicate http://www.w3.org/2000/01/rdf-schema#label
-    -->
-    <rdfs:label xml:lang="DA"><![CDATA[Worker]]></rdfs:label>
-    <!--
-    @sourceLanguage EN
-    @targetLanguage DA
-    @source The Worker Role Class
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
-    @predicate http://www.w3.org/2000/01/rdf-schema#comment
-    -->
-    <rdfs:comment xml:lang="DA"><![CDATA[The Worker Role Class]]></rdfs:comment>
-  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole">
     <!--
     @sourceLanguage EN
@@ -236,7 +182,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage DA
-    @source Global Manager
+    @source Manager
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -244,7 +190,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage DA
-    @source The Global Manager Role
+    @source The Manager Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -254,19 +200,19 @@
     <!--
     @sourceLanguage EN
     @targetLanguage DA
-    @source Test Taker
+    @source Delivery
     @subject http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="DA"><![CDATA[Test Taker]]></rdfs:label>
+    <rdfs:label xml:lang="DA"><![CDATA[Delivery]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage DA
-    @source The Test Taker Role
+    @source The Delivery Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="DA"><![CDATA[The Test Taker Role]]></rdfs:comment>
+    <rdfs:comment xml:lang="DA"><![CDATA[The Delivery Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole">
     <!--

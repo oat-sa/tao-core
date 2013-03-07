@@ -1,12 +1,15 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.4-beta1\n"
-"PO-Revision-Date: 2013-03-05T10:34:11\n"
+"Project-Id-Version: TAO v2.3-beta\n"
+"PO-Revision-Date: 2012-09-21T15:51:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: HU\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid " has been deleted successfully"
+msgstr ""
 
 msgid " has been installed"
 msgstr ""
@@ -20,22 +23,10 @@ msgstr ""
 msgid " requires a subgrid adapter"
 msgstr ""
 
-msgid "%s (%s kb)"
-msgstr ""
-
-msgid "%s extension(s) to install."
+msgid "%s extensions to install"
 msgstr ""
 
 msgid "(empty)"
-msgstr ""
-
-msgid "> Extension %s succesfully installed."
-msgstr ""
-
-msgid "> Installation done."
-msgstr ""
-
-msgid "A fatal error occured during the installation process."
 msgstr ""
 
 msgid "A file"
@@ -68,22 +59,31 @@ msgstr ""
 msgid "A single choice long list"
 msgstr ""
 
+msgid "A versioned file"
+msgstr ""
+
 msgid "Access denied. Please renew your authentication!"
+msgstr ""
+
+msgid "Access forbidden"
 msgstr ""
 
 msgid "Action"
 msgstr ""
 
-msgid "Actions"
+msgid "actions"
 msgstr ""
 
-msgid "actions"
+msgid "Actions"
 msgstr ""
 
 msgid "Add"
 msgstr ""
 
 msgid "Add / Edit lists"
+msgstr ""
+
+msgid "Add a role"
 msgstr ""
 
 #, tao-public
@@ -99,7 +99,7 @@ msgstr ""
 msgid "Add property"
 msgstr ""
 
-msgid "add repository"
+msgid "Add roles"
 msgstr ""
 
 msgid "Add the source file"
@@ -108,10 +108,10 @@ msgstr ""
 msgid "Advanced Mode"
 msgstr ""
 
-msgid "all"
+msgid "All"
 msgstr ""
 
-msgid "All"
+msgid "all"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -123,17 +123,11 @@ msgstr ""
 msgid "Allowed files types: "
 msgstr ""
 
-msgid "Allows the management of the repositories"
-msgstr ""
-
 msgid "An error occured during user deletion"
 msgstr ""
 
 msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
-
-msgid "Assign User to role"
 msgstr ""
 
 msgid "Author"
@@ -148,7 +142,7 @@ msgstr ""
 msgid "Available Extensions"
 msgstr ""
 
-msgid "Available roles"
+msgid "Back Office (test creator)"
 msgstr ""
 
 msgid "Browse"
@@ -161,19 +155,25 @@ msgid "Cannot successfully build the optimized table indexes"
 msgstr ""
 
 #, tao-public
+msgid "Change Password"
+msgstr ""
+
 msgid "Change password"
 msgstr ""
 
 msgid "Change the password"
 msgstr ""
 
-msgid "Check All"
-msgstr ""
-
 msgid "Check all"
 msgstr ""
 
+msgid "Check All"
+msgstr ""
+
 msgid "Check if updates are available for your version of TAO"
+msgstr ""
+
+msgid "Children"
 msgstr ""
 
 msgid "Class"
@@ -183,9 +183,6 @@ msgid "class selected"
 msgstr ""
 
 msgid "Classes"
-msgstr ""
-
-msgid "Click the Save button to confirm deletion."
 msgstr ""
 
 msgid "Close tab"
@@ -206,13 +203,16 @@ msgstr ""
 msgid "compiled"
 msgstr ""
 
-msgid "Compiled Instances"
-msgstr ""
-
 msgid "compiled instances"
 msgstr ""
 
+msgid "Compiled Instances"
+msgstr ""
+
 msgid "compiling"
+msgstr ""
+
+msgid "Confirm"
 msgstr ""
 
 msgid "Connect"
@@ -222,12 +222,6 @@ msgid "Create"
 msgstr ""
 
 msgid "Create a list"
-msgstr ""
-
-msgid "Create instance of "
-msgstr ""
-
-msgid "create table"
 msgstr ""
 
 msgid "CSV Options"
@@ -254,19 +248,16 @@ msgstr ""
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "Date"
 msgstr ""
 
 msgid "Decompilation completed"
-msgstr ""
-
-msgid "decompile"
 msgstr ""
 
 msgid "decompiled"
@@ -290,23 +281,25 @@ msgstr ""
 msgid "Delete property"
 msgstr ""
 
+msgid "Delete role"
+msgstr ""
+
 msgid "Delete user"
 msgstr ""
 
 msgid "Delivery results"
 msgstr ""
 
-msgid "Do you wish to install the following extension(s):\n"
-"%s?"
+msgid "Do you really want to delete this role ?"
 msgstr ""
 
 msgid "Don't set"
 msgstr ""
 
-msgid "Download"
+msgid "download"
 msgstr ""
 
-msgid "download"
+msgid "Download"
 msgstr ""
 
 msgid "Download content"
@@ -321,10 +314,13 @@ msgstr ""
 msgid "e-mail"
 msgstr ""
 
+msgid "edit"
+msgstr ""
+
 msgid "Edit"
 msgstr ""
 
-msgid "edit"
+msgid "Edit a role"
 msgstr ""
 
 #, tao-public
@@ -334,22 +330,22 @@ msgstr ""
 msgid "Edit Comment"
 msgstr ""
 
-msgid "Edit Instance"
-msgstr ""
-
 msgid "Edit item comment"
 msgstr ""
 
 msgid "Edit property into parent class "
 msgstr ""
 
+msgid "Edit role"
+msgstr ""
+
 msgid "Edit user"
 msgstr ""
 
-msgid "element"
+msgid "Element"
 msgstr ""
 
-msgid "Element"
+msgid "element"
 msgstr ""
 
 msgid "element deleted"
@@ -367,9 +363,6 @@ msgstr ""
 msgid "Exclusive (OR)"
 msgstr ""
 
-msgid "export"
-msgstr ""
-
 msgid "Export"
 msgstr ""
 
@@ -380,6 +373,9 @@ msgid "Exported files library"
 msgstr ""
 
 msgid "exported successfully"
+msgstr ""
+
+msgid "Extension"
 msgstr ""
 
 msgid "Extension "
@@ -393,12 +389,6 @@ msgid "Extensions\' configurations updated "
 msgstr ""
 
 msgid "failed"
-msgstr ""
-
-msgid "Field delimiter"
-msgstr ""
-
-msgid "Field encloser"
 msgstr ""
 
 msgid "File"
@@ -419,9 +409,6 @@ msgstr ""
 msgid "File revision"
 msgstr ""
 
-msgid "File sources"
-msgstr ""
-
 msgid "Filter"
 msgstr ""
 
@@ -440,10 +427,7 @@ msgstr ""
 msgid "First Name"
 msgstr ""
 
-msgid "First row column names"
-msgstr ""
-
-msgid "force recompilation"
+msgid "Home"
 msgstr ""
 
 msgid "Import"
@@ -458,7 +442,7 @@ msgstr ""
 msgid "Install"
 msgstr ""
 
-msgid "Installation done."
+msgid "Install finished"
 msgstr ""
 
 msgid "Installation..."
@@ -467,10 +451,7 @@ msgstr ""
 msgid "Installed Extensions"
 msgstr ""
 
-msgid "Installing extension %s..."
-msgstr ""
-
-msgid "Instance saved"
+msgid "Installing %s..."
 msgstr ""
 
 msgid "Instances"
@@ -479,10 +460,13 @@ msgstr ""
 msgid "instances"
 msgstr ""
 
+msgid "Interface Language"
+msgstr ""
+
 msgid "Interface language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface Language *"
 msgstr ""
 
 msgid "Invalid date range"
@@ -515,7 +499,7 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-msgid "Line break"
+msgid "Lastest Version"
 msgstr ""
 
 msgid "List"
@@ -530,6 +514,9 @@ msgstr ""
 msgid "list saved"
 msgstr ""
 
+msgid "list the roles"
+msgstr ""
+
 msgid "list the users"
 msgstr ""
 
@@ -542,7 +529,7 @@ msgstr ""
 msgid "Loaded"
 msgstr ""
 
-msgid "Loaded at Startup"
+msgid "Loaded At Startup"
 msgstr ""
 
 msgid "Local"
@@ -552,6 +539,12 @@ msgid "Local Data (the local namespace containing only the data inserted by the 
 msgstr ""
 
 msgid "Login"
+msgstr ""
+
+msgid "Login *"
+msgstr ""
+
+msgid "login already exist"
 msgstr ""
 
 msgid "Login available"
@@ -572,21 +565,10 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
-#, tao-public
-msgid "Manage Access Rights"
-msgstr ""
-
 msgid "Manage content of the property "
 msgstr ""
 
 msgid "Manage data list"
-msgstr ""
-
-#, tao-public
-msgid "Manage roles"
-msgstr ""
-
-msgid "Manage Roles and apply them to users."
 msgstr ""
 
 msgid "Manage the versioned content : "
@@ -599,6 +581,10 @@ msgstr ""
 msgid "Manage Versioned File"
 msgstr ""
 
+#, tao-public
+msgid "Manages Roles Rights"
+msgstr ""
+
 msgid "Map the properties to the CSV columns"
 msgstr ""
 
@@ -606,9 +592,6 @@ msgid "maximum value: "
 msgstr ""
 
 msgid "Media manager"
-msgstr ""
-
-msgid "meta data"
 msgstr ""
 
 msgid "Meta Data"
@@ -627,9 +610,6 @@ msgid "Move to"
 msgstr ""
 
 msgid "Moving this element will remove the following properties:"
-msgstr ""
-
-msgid "Multiple values delimiter"
 msgstr ""
 
 msgid "must be after or the same as: "
@@ -666,9 +646,6 @@ msgstr ""
 msgid "New password"
 msgstr ""
 
-msgid "new role"
-msgstr ""
-
 msgid "Next"
 msgstr ""
 
@@ -676,9 +653,6 @@ msgid "No"
 msgstr ""
 
 msgid "No account match the given login / password"
-msgstr ""
-
-msgid "No extensions available."
 msgstr ""
 
 msgid "no file"
@@ -708,9 +682,6 @@ msgstr ""
 msgid "Optimizable Classes"
 msgstr ""
 
-msgid "optimize"
-msgstr ""
-
 msgid "Optimize your TAO when you are ready for test delivery"
 msgstr ""
 
@@ -726,6 +697,9 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
+msgid "Parents"
+msgstr ""
+
 msgid "Password"
 msgstr ""
 
@@ -736,6 +710,9 @@ msgid "Password changed"
 msgstr ""
 
 msgid "Passwords are not matching"
+msgstr ""
+
+msgid "Path"
 msgstr ""
 
 msgid "Please confirm deletion"
@@ -774,6 +751,9 @@ msgstr ""
 msgid "Please wait a moment or contact your administrator."
 msgstr ""
 
+msgid "Process Front Office"
+msgstr ""
+
 msgid "Property"
 msgstr ""
 
@@ -795,9 +775,6 @@ msgstr ""
 msgid "Remove content"
 msgstr ""
 
-msgid "remove repository"
-msgstr ""
-
 msgid "Rename"
 msgstr ""
 
@@ -805,21 +782,6 @@ msgid "Repeat new password"
 msgstr ""
 
 msgid "Repeat password *"
-msgstr ""
-
-msgid "Repository saved"
-msgstr ""
-
-msgid "Repository saved and disabled"
-msgstr ""
-
-msgid "Repository saved and enabled"
-msgstr ""
-
-msgid "Repository saved, but unable to disable"
-msgstr ""
-
-msgid "Repository saved, but unable to enable"
 msgstr ""
 
 msgid "Requires"
@@ -834,25 +796,16 @@ msgstr ""
 msgid "Revert"
 msgstr ""
 
-msgid "Revision control"
-msgstr ""
-
 msgid "Right click the tree to manage your lists"
-msgstr ""
-
-msgid "Role saved"
 msgstr ""
 
 msgid "Roles"
 msgstr ""
 
-msgid "Roles library"
+msgid "Roles affected"
 msgstr ""
 
 msgid "Save"
-msgstr ""
-
-msgid "search"
 msgstr ""
 
 msgid "Search"
@@ -886,7 +839,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-msgid "Settings updated"
+msgid "settings updated"
 msgstr ""
 
 msgid "Simple Mode"
@@ -910,6 +863,15 @@ msgstr ""
 msgid "TAO Back Office"
 msgstr ""
 
+msgid "TAO back office"
+msgstr ""
+
+msgid "TAO Delivery Server"
+msgstr ""
+
+msgid "TAO front office"
+msgstr ""
+
 msgid "TAO Home"
 msgstr ""
 
@@ -918,6 +880,15 @@ msgid "TAO optimizer"
 msgstr ""
 
 msgid "TAO updater"
+msgstr ""
+
+msgid "TAO Workflow Engine"
+msgstr ""
+
+msgid "TAO workflow engine"
+msgstr ""
+
+msgid "Test Front Office (test takers)"
 msgstr ""
 
 msgid "The column "
@@ -947,9 +918,6 @@ msgstr ""
 msgid "There is no class available for optimization for the current extension"
 msgstr ""
 
-msgid "This action will reset the optimization, are you sure?"
-msgstr ""
-
 msgid "This field is required"
 msgstr ""
 
@@ -957,18 +925,6 @@ msgid "This field is too long"
 msgstr ""
 
 msgid "This field is too short"
-msgstr ""
-
-msgid "This Login is already in use"
-msgstr ""
-
-msgid "This role is still given to one or more users. Please remove the role to these users first."
-msgstr ""
-
-msgid "This should equal "
-msgstr ""
-
-msgid "This should not equal "
 msgstr ""
 
 msgid "Translate"
@@ -1022,6 +978,12 @@ msgstr ""
 msgid "Upload the file to version"
 msgstr ""
 
+msgid "URL"
+msgstr ""
+
+msgid "URL of your Data Version Management System. "
+msgstr ""
+
 msgid "Use default value"
 msgstr ""
 
@@ -1040,6 +1002,9 @@ msgstr ""
 msgid "User must have at least one role !"
 msgstr ""
 
+msgid "User name:"
+msgstr ""
+
 msgid "User saved"
 msgstr ""
 
@@ -1050,10 +1015,14 @@ msgstr ""
 msgid "Validation of the imported file has failed"
 msgstr ""
 
-msgid "Version"
+#, tao-public
+msgid "Versioning"
 msgstr ""
 
-msgid "Versioning"
+msgid "Versioning disabled"
+msgstr ""
+
+msgid "Versionning"
 msgstr ""
 
 msgid "View"
@@ -1063,5 +1032,8 @@ msgid "Yes"
 msgstr ""
 
 msgid "You cannot modify this property"
+msgstr ""
+
+msgid "Your authentication expired"
 msgstr ""
 
