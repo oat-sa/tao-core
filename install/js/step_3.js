@@ -168,7 +168,7 @@ function onLoad(){
 function getDriverLabel(driverId){
 	switch(driverId){
 		case 'pdo_mysql':
-			return 'MySQL - MariaDB';
+			return 'MySQL or MariaDB';
 		break;
 		
 		case 'pdo_pgsql':
