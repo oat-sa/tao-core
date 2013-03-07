@@ -23,9 +23,11 @@
 				<?= $message ?>
 				<? endif; ?>
 			</p>
+			<? if (isset($returnLink) && $returnLink == true): ?>
 			<div id="redirect">
 				<a href="<?= ROOT_URL ?>" id="go_to_tao_bt">TAO Home</a>
 			</div>
+			<? endif; ?>
 		</div>
 	</div>
 </body>
