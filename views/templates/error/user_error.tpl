@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/reset.css" />
 	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/custom-theme/jquery-ui-1.8.22.custom.css" />
 	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/errors.css" />
-	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>ao/views/css/userError.css" />
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/userError.css" />
 </head>
 
 <body>
