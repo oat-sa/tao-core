@@ -15,13 +15,6 @@ if (0 > version_compare(PHP_VERSION, '5')) {
     die('This file was generated for PHP 5');
 }
 
-/**
- * include OAuthDataStore
- *
- * @author Joel Bout, <joel@taotesting.com>
- */
-require_once('class.OAuthDataStore.php');
-
 /* user defined includes */
 // section 10-30-1--78-7fe2a05b:13d4a3616e9:-8000:0000000000003CA0-includes begin
 require_once dirname(__FILE__).'/../../../includes/oauth/OAuth.php';
@@ -66,15 +59,15 @@ class tao_models_classes_oauth_DataStore
         common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
 		
 		$class = new core_kernel_classes_Class(CLASS_LTI_CONSUMER);
-		$instances = $class->searchInstances(array(PROPERTY_OAUTH_KEY => $key), array('like' => false));
+		$instances = $class->searchInstances(array(PROPERTY_OAUTH_KEY => $consumer_key), array('like' => false));
 		if (count($instances) == 0) {
-			throw new ltiProvider_models_classes_LTIException('No Credentials for consumer key '.$key);
+			throw new ltiProvider_models_classes_LTIException('No Credentials for consumer key '.$consumer_key);
 		}
 		if (count($instances) > 1) {
-			throw new ltiProvider_models_classes_LTIException('Multiple Credentials for consumer key '.$key);
+			throw new ltiProvider_models_classes_LTIException('Multiple Credentials for consumer key '.$consumer_key);
 		}
 		$consumer		= current($instances);
-		$secret			= (string)$this->credentials->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_OAUTH_SECRET));
+		$secret			= (string)$consumer->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_OAUTH_SECRET));
 		$callbackUrl	= null;
 		
 		$returnValue = new OAuthConsumer($consumer_key, $secret, $callbackUrl);

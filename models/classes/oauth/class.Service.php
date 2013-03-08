@@ -84,7 +84,7 @@ class tao_models_classes_oauth_Service
     protected function validateOAuthRequest( OAuthRequest $request)
     {
         // section 10-30-1--78-7fe2a05b:13d4a3616e9:-8000:0000000000003CBB begin
-        $server = new OAuthServer(new ltiProvider_models_classes_taoOAuthDataStore());
+        $server = new OAuthServer(new tao_models_classes_oauth_DataStore());
 		$method = new OAuthSignatureMethod_HMAC_SHA1();
         $server->add_signature_method($method);
         
