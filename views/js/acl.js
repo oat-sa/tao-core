@@ -139,14 +139,6 @@ function loadActions(role, module, successCallback) {
 				});
 				$el.appendTo($('#aclActions ul.group-list'));
 			}
-			if (nballaccess == Object.keys(data).length) {
-				$el = $('<li class="autoadd'+extra+'"><span class="label">'+ __('Auto. add new') +'</span><span class="selector checkable"></span></li>');
-				$el.click(function() {
-					if ($(this).hasClass('checked')) actOnUri($('#aclModules .selected').data('uri'), 'mod2acts', $('#roles').val());
-					else actOnUri($('#aclModules .selected').data('uri'), 'acts2mod', $('#roles').val());
-				});
-				$el.appendTo($('#aclActions ul.group-list'));
-			}
 			
 			if (typeof successCallback != 'undefined'){
 				successCallback();
