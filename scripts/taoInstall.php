@@ -7,7 +7,7 @@ new tao_scripts_TaoInstall(array(
 		array(
 			'name' 			=> 'db_driver',
 			'type' 			=> 'string',
-			'description'	=> 'Target available sgbd : pgsql, mysql.'
+			'description'	=> 'Target available sgbd : pdo_pgsql, pdo_mysql.'
 		),
 		array(
 			'name' 			=> 'db_host',
