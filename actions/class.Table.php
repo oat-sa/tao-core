@@ -50,10 +50,15 @@ class tao_actions_Table extends tao_actions_TaoModule {
 		$this->setData('filter', $filter);
 		$this->setView('table/index.tpl', 'tao');
     }
-    
-    public function data() {
+    /**
+     * Data provider for the table, returns json encoded data according to the parameter 
+     * @author Bertrand Chevrier, <taosupport@tudor.lu>, 
+     * 
+     * @param type $format  json, csv
+     */
+    public function data($format ="json") {
     	
-   		$filter =  $this->hasRequestParameter('filter') ? $this->getFilterState('filter') : array();
+   	$filter =  $this->hasRequestParameter('filter') ? $this->getFilterState('filter') : array();
     	$columns = $this->hasRequestParameter('columns') ? $this->getColumns('columns') : array();
     	
     	$page = $this->getRequestParameter('page');
@@ -65,12 +70,15 @@ class tao_actions_Table extends tao_actions_TaoModule {
 		$searchString = $this->getRequestParameter('searchString');
 		$start = $limit * $page - $limit;
 		
-    	$response = new stdClass();
+                $response = new stdClass();
     	
-		$clazz = new core_kernel_classes_Class(TAO_DELIVERY_RESULT);
+        	$clazz = new core_kernel_classes_Class(TAO_DELIVERY_RESULT);
 		$results	= $clazz->searchInstances($filter, array ('recursive'=>true));
+         
 		$counti		= $clazz->countInstances($filter, array ('recursive'=>true));
 		
+           
+                
 		$dpmap = array();
 		foreach ($columns as $column) {
 			$dataprovider = $column->getDataProvider();
@@ -109,8 +117,57 @@ class tao_actions_Table extends tao_actions_TaoModule {
 		$response->page = $page;
 		$response->total = ceil($counti / $limit);//$total_pages;
 		$response->records = count($results);
+                //PPL addition of different formats for the data, TODO  may be probelmatic is the buffer is already flushed with the header ...  
+		switch ($format) {
+                    case "csv":$encodedData = $this->dataToCsv($columns, $response->rows,';','"');
+                        header('Set-Cookie: fileDownload=true'); //used by jquery file download to find out the download has been triggered ... 
+                        setcookie("fileDownload","true", 0, "/");
+                        header("Content-type: text/csv"); 
+                        header('Content-Disposition: attachment; filename=TaoDeliveryResults.csv');
+                    break;
 
-		echo json_encode($response); 
+                    default: $encodedData = json_encode($response);
+                    break;
+                }
+
+                echo $encodedData;
     }
-}
+    
+    /**
+     * Returns a flat array with the list of column labels.
+     * @param columns an array of column object including the property information and that is used within tao class.Table context
+     */
+    private function columnsToFlatArray($columns){
+        $flatColumnsArray = array();
+        foreach ($columns as $column){
+            $flatColumnsArray[] = $column->label;
+        }
+        return $flatColumnsArray;
+        }
+     /**
+     * @return string A csv file with the data table
+     * @param columns an array of column objects including the property information and as it is used in the tao class.Table.php context
+     */
+    private function dataToCsv($columns, $rows, $delimiter, $enclosure){
+       //opens a temporary stream rather than producing a file and get benefit of csv php helpers
+        $handle = fopen('php://temp', 'r+');
+        //print_r($this->columnsToFlatArray($columns));
+       fputcsv($handle, $this->columnsToFlatArray($columns), $delimiter, $enclosure);
+       foreach ($rows as $line) {
+            //print_r($line);
+           fputcsv($handle, $line["cell"], $delimiter, $enclosure);
+       }
+       rewind($handle);
+       //read the content of the csv
+       $encodedData = "";
+       while (!feof($handle)) {
+       $encodedData .= fread($handle, 8192);
+       }
+       fclose($handle);
+       return $encodedData;
+    }
+    
+    
+    }
+    
 ?>
