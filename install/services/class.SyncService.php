@@ -44,6 +44,12 @@ class tao_install_services_SyncService extends tao_install_services_Service{
         $this->setResult(new tao_install_services_Data($data));
     }
     
+    /**
+     * Computes the root URL of the platform based on the current
+     * request.
+     * 
+     * @return mixed
+     */
     private static function getRootUrl(){
     	// Returns TAO ROOT url based on a call to the API.
     	$isHTTPS = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']);
@@ -51,7 +57,8 @@ class tao_install_services_SyncService extends tao_install_services_Service{
     	$uri = $_SERVER['REQUEST_URI'];
     	$currentUrl = (true == $isHTTPS) ? 'https' : 'http' . '://' . $host . $uri;
     	$parsed = parse_url($currentUrl);
-    	$rootUrl = $parsed['scheme'] . '://' . $parsed['host'] . $parsed['path'];
+    	$port = (empty($parsed['port'])) ? '' : ':' . $parsed['port'];
+    	$rootUrl = $parsed['scheme'] . '://' . $parsed['host'] . $parsed['path'] . $port;
     	return str_replace('/tao/install/api.php', '', $rootUrl);
     }
 
