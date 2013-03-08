@@ -345,12 +345,5 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		$this->setView('main/trees.tpl', 'tao');
 	}
-	
-	public function getDashboard(common_ext_Extension $extension) {
-		
-		$renderer = new Renderer();
-		$tao = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-    	return $renderer->render($tao->getConstant('TPL_PATH').'main'.DIRECTORY_SEPARATOR.'dashboardwidget.tpl');
-	}
 }
 ?>
