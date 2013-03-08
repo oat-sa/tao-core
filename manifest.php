@@ -21,9 +21,10 @@ return array(
 	),
 	'install' => array(
 		'rdf' => array(
-				array('ns' => 'http://www.tao.lu/Ontologies/TAO.rdf', 'file' => dirname(__FILE__). '/models/ontology/tao.rdf'),
-				array('ns' => 'http://www.tao.lu/Ontologies/taoFuncACL.rdf', 'file' => dirname(__FILE__). '/models/ontology/taofuncacl.rdf'),
-				array('ns' => 'http://www.tao.lu/Ontologies/taoFuncACL.rdf', 'file' => dirname(__FILE__). '/models/ontology/taoaclrole.rdf')
+				dirname(__FILE__). '/models/ontology/tao.rdf',
+				dirname(__FILE__). '/models/ontology/taofuncacl.rdf',
+				dirname(__FILE__). '/models/ontology/taoaclrole.rdf',
+				dirname(__FILE__). '/models/ontology/oauth.rdf'
 		),
 		'checks' => array(
 				array('type' => 'CheckPHPRuntime', 'value' => array('id' => 'tao_php_runtime', 'min' => '5.3')),

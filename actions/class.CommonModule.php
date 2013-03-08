@@ -84,6 +84,24 @@ abstract class tao_actions_CommonModule extends Module {
 			$this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
 		}
 	}
+	
+	/**
+	 * Function to return an user readable error
+	 * Does not work with ajax Requests yet
+	 * 
+	 * @param string $description error to show
+	 * @param boolean $returnLink whenever or not to add a return link
+	 */
+	protected function returnError($description, $returnLink = true) {
+		if (tao_helpers_Request::isAjax()) {
+			common_Logger::w('Called '.__FUNCTION__.' in an unsupported AJAX context');
+			throw new common_Exception($description); 
+		} else {
+			$this->setData('message', $description);
+			$this->setData('returnLink', $returnLink);
+			$this->setView('error/user_error.tpl', 'tao');
+		}
+	}
 
 	/**
 	 * Check if the current user is allowed to acces the request
