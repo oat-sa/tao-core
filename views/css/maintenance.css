@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+
+#main{	
+	background-position: 575px 30px;
+	min-height: 250px;
+}
+
+#content{
+	width: 450px;
+}
+
+#warning_msg{
+	margin-top: 80px;
+}

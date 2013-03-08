@@ -1,45 +1,29 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-	<title>TAO</title>
-	<script type="text/javascript" src="<?=ROOT_URL?>/tao/views/js/jquery-1.8.0.min.js"></script>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/custom-theme/jquery-ui-1.8.22.custom.css"/>
-	<script type="text/javascript" src="<?=ROOT_URL?>/tao/views/js/tao.ajaxWrapper.js"></script>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/style.css"/>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/layout.css"/>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?=ROOT_URL?>/tao/views/css/portal.css"/>
-    <script type="text/javascript">
-        function isReady(){
-            var from = '<?= $from ?>';
-            tao.ajaxWrapper.ajax({
-                'url' : '<?=ROOT_URL?>/tao/Main/isReady'
-                , type: 'GET'
-                ,'success' : function(data){
-                    window.location = from;
-                }
-                ,'error' : function(data){
-                    // the system is still in maintenance...
-                    // we should test the exception type
-                }
-            });
-        }
-        $(function(){
-            var timer=setInterval("isReady()", 10000);
-        });
-    </script>
+	<title>Currenly Under Maintenance</title>
+	<script type="text/javascript" src="<?= ROOT_URL ?>tao/views/js/jquery-1.8.0.min.js "></script>
+	<script type="text/javascript" src="<?= ROOT_URL ?>tao/views/js/jquery-ui-1.8.23.custom.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/custom-theme/jquery-ui-1.8.22.custom.css" />
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/errors.css" />
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/maintenance.css" />
 </head>
+
 <body>
-	<div id="content">
-		<div id="portal-box" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-			<h1><?=__('Maintenance')?></h1>
-			<?=__('The TAO platform is under maintenance.')?>
-            <br/><br/><?=__('Please wait a moment or contact your administrator.')?>
+	<div id="main" class="ui-widget-content ui-corner-all" style="background-image: url(<?= ROOT_URL ?>tao/views/img/errors/maintenance.png);">
+		<div id="content">
+			<h1>Currently Under Maintenance</h1>
+			<p id="warning_msg">
+				<img src="<?= ROOT_URL ?>tao/views/img/warning_error_tpl.png" alt="warning" class="embedWarning" />
+				This TAO Platform is currently <strong>under maintenance</strong> and should be available in a few moments.
+				We apologize for any inconvenient.
+			</p>
 		</div>
 	</div>
-	<div id="footer">
-		TAO<sup>&reg;</sup> - <?=date('Y')?> - A joint initiative of CRP Henri Tudor and the University of Luxembourg
-	</div>
 </body>
+
 </html>
