@@ -123,8 +123,9 @@ class tao_scripts_TaoInstall
         
     	$this->outVerbose("TAO is being installed. Please wait...");
     	try{
-	        $rootDir = dir(dirname(__FILE__).'/../../');
-			$root = realpath($rootDir->path).'/';
+	        $rootDir = dir(dirname(__FILE__) . '/../../');
+			$root = realpath($rootDir->path) . DIRECTORY_SEPARATOR;
+			
 	        $installator = new tao_install_Installator (array(
 				'root_path' 	=> $root,
 				'install_path'	=> dirname(__FILE__).'/../install/'
