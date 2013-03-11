@@ -30,14 +30,20 @@ class LanguagesTestCase extends UnitTestCase {
                     
                     if (file_exists($langPath)){
                         $lgResource = new core_kernel_classes_Resource($expectedUriPrefix . $l);
+                        $this->assertTrue($lgResource->exists(), '$lgResource Resource does not exist (' . $expectedUriPrefix . $l . ').');
                         
                         // Check for this language in Ontology.
                         $kbLangs = $lgResource->getPropertyValues(new core_kernel_classes_Property(RDF_VALUE));
-                        $this->assertEqual(count($kbLangs), 1, "Number of languages retrieved for language '${l}' is '" . count($kbLangs) . "'.");
-                        
-                        // Check if the language has the correct URI.
-                        if ($kbLangs[0] instanceof core_kernel_classes_Resource){
-                            $this->assertTrue($kbLangs[0]->uriResource == $expectedUriPrefix . $l, "Malformed URI scheme for language resource '${l}'.");
+                        if (is_array($kbLangs)){
+                        	$this->assertEqual(count($kbLangs), 1, "Number of languages retrieved for language '${l}' is '" . count($kbLangs) . "'.");
+                        	
+                        	// Check if the language has the correct URI.
+                        	if ($kbLangs[0] instanceof core_kernel_classes_Resource){
+                        		$this->assertTrue($kbLangs[0]->uriResource == $expectedUriPrefix . $l, "Malformed URI scheme for language resource '${l}'.");
+                        	}	
+                        }
+                        else{
+                        	$this->fail('the $kbLangs variable should be an array. "' . gettype($kbLangs) . '" found instead.');
                         }
                     }
                 }
