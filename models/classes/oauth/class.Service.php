@@ -24,7 +24,7 @@ require_once('tao/models/classes/class.Service.php');
 
 /* user defined includes */
 // section 10-30-1--78-7fe2a05b:13d4a3616e9:-8000:0000000000003C9F-includes begin
-require_once dirname(__FILE__).'/../../../includes/oauth/OAuth.php';
+require_once dirname(__FILE__).'/../../../lib/oauth/OAuth.php';
 // section 10-30-1--78-7fe2a05b:13d4a3616e9:-8000:0000000000003C9F-includes end
 
 /* user defined constants */

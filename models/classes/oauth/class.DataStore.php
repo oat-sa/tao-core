@@ -24,7 +24,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 
 /* user defined includes */
 // section 10-30-1--78-7fe2a05b:13d4a3616e9:-8000:0000000000003CA0-includes begin
-require_once dirname(__FILE__).'/../../../includes/oauth/OAuth.php';
+require_once dirname(__FILE__).'/../../../lib/oauth/OAuth.php';
 // section 10-30-1--78-7fe2a05b:13d4a3616e9:-8000:0000000000003CA0-includes end
 
 /* user defined constants */
