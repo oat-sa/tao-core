@@ -68,7 +68,7 @@ class tao_scripts_TaoInstall
 			"db_driver"	=>			"mysql"
 			, "db_host"	=>			"localhost"
 			, "db_name"	=>			null
-			, "db_pass"	=>			"tao"
+			, "db_pass"	=>			""
 			, "db_user"	=>			"tao"
 			, "install_sent"	=>	"1"
 			, "module_host"	=>		"tao.local"
