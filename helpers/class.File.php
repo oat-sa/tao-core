@@ -5,53 +5,18 @@ error_reporting(E_ALL);
 /**
  * Utilities on files
  *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
- * @package tao
- * @subpackage helpers
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EE-includes begin
-// section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EE-includes end
-
-/* user defined constants */
-// section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EE-constants begin
-// section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EE-constants end
-
-/**
- * Utilities on files
- *
  * @access public
- * @author Jerome Bogaerts, <jerome@taotesting.com>
+ * @author Lionel Lecaque, <lionel@taotesting.com>
  * @package tao
  * @subpackage helpers
  */
 class tao_helpers_File
+    extends helpers_File
 {
     // --- ASSOCIATIONS ---
 
 
     // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute FILE
-     *
-     * @access public
-     * @var int
-     */
-    public static $FILE = 1;
-
-    /**
-     * Short description of attribute DIR
-     *
-     * @access public
-     * @var int
-     */
-    public static $DIR = 2;
 
     // --- OPERATIONS ---
 
@@ -61,7 +26,7 @@ class tao_helpers_File
      * Use it when the path may be build from a user variable
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Lionel Lecaque, <lionel@taotesting.com>
      * @param  string path
      * @param  boolean traversalSafe
      * @return boolean
@@ -70,7 +35,7 @@ class tao_helpers_File
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EF begin
+
 
    		$returnValue = true;
 
@@ -93,8 +58,6 @@ class tao_helpers_File
 			}
 		}
 
-        // section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023EF end
-
         return (bool) $returnValue;
     }
 
@@ -102,15 +65,13 @@ class tao_helpers_File
      * clean concat paths
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Lionel Lecaque, <lionel@taotesting.com>
      * @param  array paths
      * @return string
      */
     public static function concat($paths)
     {
         $returnValue = (string) '';
-
-        // section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023F2 begin
 
         foreach($paths as $path){
         	if(!preg_match("/\/$/", $returnValue) && !preg_match("/^\//", $path) && !empty($returnValue)){
@@ -120,16 +81,14 @@ class tao_helpers_File
         }
         $returnValue = str_replace('//', '/', $returnValue);
 
-        // section 127-0-1-1--8409764:1283ed2f327:-8000:00000000000023F2 end
-
         return (string) $returnValue;
     }
 
     /**
-     * Short description of method remove
+     * Remove file, may be recursively
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Lionel Lecaque, <lionel@taotesting.com>
      * @param  string path
      * @param  boolean recursive
      * @return boolean
@@ -138,95 +97,22 @@ class tao_helpers_File
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--12179ab4:12bca1f1def:-8000:00000000000026E9 begin
+
 		if ($recursive) {
 			$returnValue = helpers_File::remove($path);
 		} elseif (is_file($path)) {
         	$returnValue = @unlink($path);
         }
         // else fail silently
-        // section 127-0-1-1--12179ab4:12bca1f1def:-8000:00000000000026E9 end
 
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method copy
+     * Move file from source to destination
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  string source
-     * @param  string destination
-     * @param  boolean recursive
-     * @param  boolean ignoreSystemFiles Ignore system files ('.svn', ...)
-     * @return boolean
-     */
-    public static function copy($source, $destination, $recursive = true, $ignoreSystemFiles = true)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 begin
-        // Check for System File
-        $basename = basename($source);
-        if ($basename[0] == '.' && $ignoreSystemFiles == true){
-            return false;
-        }
-
-        // Check for symlinks
-        if (is_link($source)) {
-            return symlink(readlink($source), $destination);
-        }
-
-        // Simple copy for a file
-        if (is_file($source)) {
-           // get path info of destination.
-           $destInfo = pathinfo($destination);
-           if (isset($destInfo['dirname']) && !is_dir($destInfo['dirname'])){
-               if(!mkdir($destInfo['dirname'], 0777, true)){
-                   return false;
-               }
-           }
-
-           return copy($source, $destination);
-        }
-
-        // Make destination directory
-        if ($recursive == true){
-            if (!is_dir($destination)) {
-                // 0777 is default. See mkdir PHP Official documentation.
-                mkdir($destination, 0777, true);
-            }
-
-            // Loop through the folder
-            $dir = dir($source);
-            while (false !== $entry = $dir->read()) {
-                // Skip pointers
-                if ($entry == '.' || $entry == '..') {
-                    continue;
-                }
-
-                // Deep copy directories
-                self::copy("${source}/${entry}", "${destination}/${entry}", $recursive, $ignoreSystemFiles);
-            }
-
-            // Clean up
-            $dir->close();
-            return true;
-        }
-        else{
-            return false;
-        }
-
-        // section 127-0-1-1--635f654c:12bca305ad9:-8000:00000000000026F3 end
-
-        return (bool) $returnValue;
-    }
-
-    /**
-     * Short description of method move
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Lionel Lecaque, <lionel@taotesting.com>
      * @param  string source
      * @param  string destination
      * @return boolean
@@ -235,8 +121,7 @@ class tao_helpers_File
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--44542511:12bd37d6416:-8000:0000000000002718 begin
-		if(is_dir($source)){
+        if(is_dir($source)){
 			if(!file_exists($destination)){
 				mkdir($destination, 0777, true);
 			}
@@ -270,24 +155,19 @@ class tao_helpers_File
 	        	}
 	        }
 		}
-        // section 127-0-1-1--44542511:12bd37d6416:-8000:0000000000002718 end
 
         return (bool) $returnValue;
     }
 
     /**
-     * Short description of method getMimeTypes
+     * Retrieve accepted Mime Types
      *
      * @access protected
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Lionel Lecaque, <lionel@taotesting.com>
      * @return array
      */
     protected static function getMimeTypes()
     {
-        $returnValue = array();
-
-        // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293A begin
-
         $returnValue = array(
 
             'txt' => 'text/plain',
@@ -350,24 +230,20 @@ class tao_helpers_File
             'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         );
 
-        // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293A end
-
         return (array) $returnValue;
     }
 
     /**
-     * Short description of method getExtention
+     * Retrieve file extensions for a given Mime Type
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Lionel Lecaque, <lionel@taotesting.com>
      * @param  string mimeType
      * @return string
      */
     public static function getExtention($mimeType)
     {
         $returnValue = (string) '';
-
-        // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293C begin
 
         $mime_types = self::getMimeTypes();
 
@@ -378,8 +254,6 @@ class tao_helpers_File
         	}
         }
 
-        // section 127-0-1-1-1631df38:12ce494d36c:-8000:000000000000293C end
-
         return (string) $returnValue;
     }
 
@@ -388,16 +262,13 @@ class tao_helpers_File
      * different methods are used regarding the configuration.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Lionel Lecaque, <lionel@taotesting.com>
      * @param  string path
      * @param  boolean ext If set to true, the extension of the file will be used to retrieve the mime-type. If now extension can be found, 'text/plain' is returned by the method.
      * @return string
      */
     public static function getMimeType($path, $ext = false)
     {
-        $returnValue = (string) '';
-
-        // section 127-0-1-1--5cd35ad1:1283edec322:-8000:00000000000023F5 begin
         $mime_types = self::getMimeTypes();
         
         if (false == $ext){
@@ -442,95 +313,37 @@ class tao_helpers_File
         	$mimetype =  'application/octet-stream';
         }
 
-		$returnValue =  $mimetype;
-
-        // section 127-0-1-1--5cd35ad1:1283edec322:-8000:00000000000023F5 end
-
-        return (string) $returnValue;
-    }
-
-    /**
-     * Scan a directory and return the files it contains
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  string path
-     * @param  array options
-     * @return array
-     */
-    public static function scandir($path, $options = array())
-    {
-        $returnValue = array();
-
-        // section 127-0-1-1--45b111d8:1345bd4833c:-8000:00000000000044E8 begin
-
-        $recursive = isset($options['recursive']) ? $options['recursive'] : false;
-        $only = isset($options['only']) ? $options['only'] : null;
-
-        if(is_dir($path)){
-            $iterator = new DirectoryIterator($path);
-            foreach ($iterator as $fileinfo) {
-                if (!$fileinfo->isDot()){
-                    if(!is_null($only)){
-                        if($only==self::$DIR && $fileinfo->isDir()){
-                            array_push($returnValue, $fileinfo->getFilename());
-                        }
-                        else if($only==self::$FILE && $fileinfo->isFile()){
-                            array_push($returnValue, $fileinfo->getFilename());
-                        }
-                    }else{
-                        array_push($returnValue, $fileinfo->getFilename());
-                    }
-
-                    if($fileinfo->isDir() && $recursive){
-                        $returnValue = array_merge($returnValue, self::scandir(realpath($fileinfo->getPathname()), $options));
-                    }
-                }
-            }
-        }else{
-            throw new common_Exception("An error occured : The function (".__METHOD__.") of the class (".__CLASS__.") is expecting a directory path as first parameter : ".$path);
-        }
-
-        // section 127-0-1-1--45b111d8:1345bd4833c:-8000:00000000000044E8 end
-
-        return (array) $returnValue;
+		return (string) $mimetype;
     }
 
     /**
      * creates a directory in the systems tempdir
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Lionel Lecaque, <lionel@taotesting.com>
      * @return string
      */
     public static function createTempDir()
     {
-        $returnValue = (string) '';
 
-        // section 10-30-1--78--4089662c:13bb270ff26:-8000:0000000000003C79 begin
         do {
 			$folder = sys_get_temp_dir().DIRECTORY_SEPARATOR."tmp".mt_rand();
 		} while(file_exists($folder));
 		mkdir($folder);
-		return $folder; 
-        // section 10-30-1--78--4089662c:13bb270ff26:-8000:0000000000003C79 end
-
-        return (string) $returnValue;
+		return $folder;
     }
 
     /**
      * deletes a directory and its content
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @author Lionel Lecaque, <lionel@taotesting.com>
      * @param  string directory absolute path of the directory
      * @return boolean
      */
     public static function delTree($directory)
     {
-        $returnValue = (bool) false;
 
-        // section 10-30-1--78--4089662c:13bb270ff26:-8000:0000000000003C7B begin
         $files = array_diff(scandir($directory), array('.','..'));
 		foreach ($files as $file) {
 			$abspath = $directory.DIRECTORY_SEPARATOR.$file;
@@ -541,9 +354,7 @@ class tao_helpers_File
 			}
 		}
 		return rmdir($directory);
-        // section 10-30-1--78--4089662c:13bb270ff26:-8000:0000000000003C7B end
 
-        return (bool) $returnValue;
     }
 
 } /* end of class tao_helpers_File */
