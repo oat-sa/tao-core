@@ -13,3 +13,4 @@
 
 	<?=get_data('myForm')?>
 </div>
+<? include(TAO_TPL_PATH . 'footer.tpl');
