@@ -66,10 +66,10 @@ class tao_models_classes_oauth_DataStore
 		$class = new core_kernel_classes_Class(CLASS_OAUTH_CONSUMER);
 		$instances = $class->searchInstances(array(PROPERTY_OAUTH_KEY => $consumer_key), array('like' => false, 'recursive' => true));
 		if (count($instances) == 0) {
-			throw new tao_models_classes_oauth_Excpetion('No Credentials for consumer key '.$consumer_key);
+			throw new tao_models_classes_oauth_Exception('No Credentials for consumer key '.$consumer_key);
 		}
 		if (count($instances) > 1) {
-			throw new tao_models_classes_oauth_Excpetion('Multiple Credentials for consumer key '.$consumer_key);
+			throw new tao_models_classes_oauth_Exception('Multiple Credentials for consumer key '.$consumer_key);
 		}
 		$returnValue	= current($instances);
         // section 10-30-1--78--71850a20:13d58c9a548:-8000:0000000000003CC4 end
@@ -143,9 +143,10 @@ class tao_models_classes_oauth_DataStore
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
      * @param  consumer
+     * @param  callback
      * @return mixed
      */
-    public function new_request_token($consumer)
+	function new_request_token($consumer, $callback = null)
     {
         // section 10-30-1--78-7fe2a05b:13d4a3616e9:-8000:0000000000003CAB begin
         common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
@@ -162,7 +163,7 @@ class tao_models_classes_oauth_DataStore
      * @param  consumer
      * @return mixed
      */
-    public function new_access_token($token, $consumer)
+    public function new_access_token($token, $consumer, $verifier = null)
     {
         // section 10-30-1--78-7fe2a05b:13d4a3616e9:-8000:0000000000003CAD begin
         common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
