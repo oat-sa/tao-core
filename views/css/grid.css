@@ -39,5 +39,6 @@ span.highlight{
 span.numeric{
     color:darkblue;
     font-weight:bold;
+    text-align: right;
     
 }
