@@ -3,7 +3,7 @@
 		foreach(get_data('trees') as $i => $tree):
 ?>
 		<div class="tree-block">
-			<div class="ui-widget-header ui-corner-top ui-state-default"><?=__((string)$tree['name'])?></div>
+			<div class="ui-widget-header ui-corner-top ui-state-default container-title"><?=__((string)$tree['name'])?></div>
 			<div id="tree-actions-<?=$i?>" class="tree-actions">
 				<input type="text"   id="filter-content-<?=$i?>" value="*"  autocomplete='off'  size="10" title="<?=__('Use the * character to replace any string')?>" />
 				<input type='button' id="filter-action-<?=$i?>"  value="<?=__("Filter")?>" />
