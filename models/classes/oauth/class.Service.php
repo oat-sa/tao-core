@@ -88,6 +88,8 @@ class tao_models_classes_oauth_Service
 			$returnValue = true;
 		} catch (OAuthException $e) {
 			common_Logger::w($e->getMessage());
+		} catch (tao_models_classes_oauth_Exception $e) {
+			// no action nescessary, logged in exception
 		}
         // section 10-30-1--78-7fe2a05b:13d4a3616e9:-8000:0000000000003CBD end
 
