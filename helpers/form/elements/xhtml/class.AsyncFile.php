@@ -117,9 +117,8 @@ class tao_helpers_form_elements_xhtml_AsyncFile
         $returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
         $returnValue .= "<input type='file' name='{$widgetName}' id='{$widgetName}' ";
 		$returnValue .= $this->renderAttributes();
-		$returnValue .= " value='{$this->value}'  />";
-
-		$returnValue .= "<br /><span>";
+		$returnValue .= "/>";
+		$returnValue .= "<span>";
 		$returnValue .= "<img src='".TAOBASE_WWW."img/file_upload.png' class='icon' />";
 		$returnValue .= "<a href='#' id='{$widgetName}_starter' >".__('Start upload')."</a>";
 		$returnValue .= "</span>";
