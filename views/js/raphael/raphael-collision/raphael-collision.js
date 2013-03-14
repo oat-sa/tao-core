@@ -23,11 +23,9 @@ if (!Array.prototype.filter){
 /*
 return the list of points ([ ['c', [x1, y1], [x2, y2] ], ...]) composing the path
 */
-function analyse_path(path,path_object){
+function analyse_path(path){
 	
-	CL('analyse polygon');
-	CD(path);
-	CD(path_object);
+	var returnValue = [];
 	for (var i = 0; i < path.length; i++){
 		var pat = path[i];
 		switch(pat[0]){
@@ -53,90 +51,83 @@ function analyse_path(path,path_object){
 			}
 			case 'v':{
 				//vertical lineto
-				var y = pat[1] + path_object.current_point.y;
-				path_object.point_list.push(['s',[path_object.current_point.x,path_object.current_point.y], [path_object.current_point.x, y]]);
+				throw 'file path "v" not supported yet.';
 				break;
 			}
 			case 'V':{
 				//vertical lineto
-				var y = pat[1];
-				path_object.point_list.push(['s',[path_object.current_point.x,path_object.current_point.y], [path_object.current_point.x, y]]);
+				throw 'file path "V" not supported yet.';
 				break;
 			}
 			case 'h':{
 				//horizontal lineto
-				var x = pat[1] + path_object.current_point.x;
-				path_object.point_list.push(['s',[path_object.current_point.x,path_object.current_point.y], [x, path_object.current_point.y]]);
+				throw 'file path "h" not supported yet.';
 				break;
 			}
 			case 'H':{
 				//horizontal lineto
-				var x = pat[1];
-				path_object.point_list.push(['s',[path_object.current_point.x,path_object.current_point.y], [x, path_object.current_point.y]]);
+				throw 'file path "H" not supported yet.';
 				break;
 			}
 			case 'l':{
 				//lineto
-				var x = parseInt(pat[1]) + path_object.current_point.x;
-				var y = parseInt(pat[2]) + path_object.current_point.y;
-				path_object.point_list.push(['s',[path_object.current_point.x,path_object.current_point.y], [x, y]]);
+				throw 'file path "l" not supported yet.';
 				break;
 			}
 			case 'L':{
 				//lineto
-				path_object.point_list.push(['s',[path_object.current_point.x,path_object.current_point.y], [pat[1], pat[2]]]);
+				returnValue.push({'x':pat[1], 'y':pat[2]});
 				break;
 			}
 			case 'Z':
 			case 'z':{
 				//close path
 				//x1 = current point, x2 = first point
-				var x2 = path_object.point_list[0].x;
-				var y2 = path_object.point_list[0].y;
-				path_object.point_list.push(['s',[path_object.current_point.x,path_object.current_point.y], [pat[1], pat[2]]]);
-				path_object.current_point.x = pat[1];
-				path_object.current_point.y = pat[2];
+				throw 'file path "Z" not supported yet.';
 				break;
 			}
 			case 'm':
 			case 'M':{
 				//moveto
-				path_object.current_point.x = pat[1];
-				path_object.current_point.y = pat[2];
+				returnValue.push({'x':pat[1], 'y':pat[2]});
 				break;
 			}
 		}
 	}
-	return 
+	return returnValue;
 }
 
+function parsePathString(pathStr){
+	var matches = pathStr.match(/[A-z]{1}([^A-z\s])*\s([^A-z\s])*/g);
+	delete matches['input'];
+	delete matches['index'];
+	delete matches['lastIndex'];
+	var len = matches.length;
+	var path = [];
+	for(var i = 0; i<len; i++){
+		var pointStr = matches[i];
+		pointStr = pointStr.replace(/^[A-z]{1}/ig, function($0){
+			return $0+' ';
+		});
+		path.push(pointStr.split(' '));
+	}
+	return path;
+}
 
-function visit_vml(element)
-{
+function visit_vml(element){
+	
 	var store = new Array();
-	if ((typeof(element) == 'object') && (element.length))
-	{
-		for (var i = 0; i < element.length; i++)
-		{
+	if ((typeof(element) == 'object') && (element.length)){
+		for (var i = 0; i < element.length; i++){
 			store = store.concat(visit_vml(element[i]));
 		}
-	}
-	else
-	{
-		switch(element.type)
-		{
+	}else{
+		switch(element.type){
 			case 'path':
 			{
-				//analyse path
-				var arr = new Array();
-				var path_object = {
-					current_point:{
-						x:0,
-						y:0
-					}, 
-					point_list:arr
-				};
-				store.push(analyse_path(element.d),path_object);
+				var pathString = element.attrs.path;
+				var pathArray = parsePathString(pathString);
+				store.push(['path_s', analyse_path(pathArray), element]);
 				break;
 			}
 			case 'circle':
@@ -198,36 +189,20 @@ function find_curves_in_path(path)
 }
 
 
-function visit_svg(element)
-{
-	var store = new Array();
-	if ((typeof(element) == 'object') && (element.length))
-	{
-		for (var i = 0; i < element.length; i++)
-		{
+function visit_svg(element){
+	
+	var store = [];
+	if ((typeof(element) == 'object') && (element.length)){
+		for (var i = 0; i < element.length; i++){
 			store = store.concat(visit_svg(element[i]));
 		}
-	}
-	else
-	{
-		CL('elt analysis');
-		CD(element);
+	}else{
 		switch(element.type){
 			case 'path':{
-				//analyse path
-				var arr = new Array();
-				var path_object = {
-					current_point:{
-						x:0,
-						y:0
-					}, 
-					point_list:arr
-				};
-				
+				var path = analyse_path(element.attrs.path);
 				if (find_curves_in_path(element.attrs.path)){//path with curves
-					store.push(['path_c',analyse_path(element.attrs.path,path_object),path_object,element]);
+					store.push(['path_c',path,element]);
 				}else{//path only made of segments (polygon)
-					var path = analyse_path(element.attrs.path);
 					store.push(['path_s',path,element]);
 				}
 				break;
@@ -266,8 +241,6 @@ function visit_svg(element)
 	return store;
 }
 
-
-
 function populate_polygons(raph,element_list)
 {
 	var polygons = new Array();
@@ -284,46 +257,38 @@ function raphaelcollision(raph,element_list,x,y)
 {
 	var ret = [];
 	
-	/*
-	polygons[i] = [ ['c', [x1, y1], [x2, y2] ], ...]//array of curves (c) or segments (s)
-	*/
 	var polygons = populate_polygons(raph,element_list);
-	CL('building collision');
-	CD(polygons);
-	CD(element_list);
 	
-	//compare the given point with polygons found in the canvas
 	var l = polygons.length;
-	for ( var f = 0 ; f < l ; f++ )
-	{
-		var poly = polygons[f];
+	for ( var f = 0 ; f < l ; f++ ){
 		
-		switch(poly[0])//type
-		{
+		var poly = polygons[f];
+		switch(poly[0]){//type
 			case 'circle':{
-				if (collide_circle(poly[1],x,y)){//shapeData
+				if(collide_circle(poly[1],x,y)){//shapeData
 					ret.push(poly);
 				}
 				break;
 			}
 			case 'ellipse':{
-				if (collide_ellipse(poly[1],x,y)){
+					CL('eelipse');
+				if(collide_ellipse(poly[1],x,y)){
 					ret.push(poly);
 				}
 				break;
 			}
+			case 'path_s':
 			case 'rect':{
-				if (collide_polygon(poly[1],x,y)){//poly[1] : point list
+				if(collide_polygon(poly[1],x,y)){//poly[1] : point list
 					ret.push(poly);
 				}
 				break;
 			}
 			default:{
-				throw 'unknown type : '+poly;
+				throw 'unknown type : '+poly[0];
 			}
 		}
 	}
-	
 	return ret;
 }
 
@@ -332,8 +297,6 @@ poly = list of points : [{x:2,y:4}, {x:5,y:1}, ...]
 poly.length = number of segments
 */
 function collide_polygon(poly,x,y){
-	CL('colliding polygon');
-	
 	var c = false;
 	poly = poly.filter(function(element,index,array){
 		return element != null;
@@ -346,6 +309,7 @@ function collide_polygon(poly,x,y){
 			c = !c;
 		}
 	}
+	
 	return c;
 }
 
