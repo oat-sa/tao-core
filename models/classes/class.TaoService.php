@@ -246,16 +246,19 @@ class tao_models_classes_TaoService
 					}
 				}
 			}
-			usort(self::$structure, function($a, $b) {
-				return $a['level'] - $b['level'];
-			});
+			//var_dump(self::$structure);
+			//$tmpDebugAsVariable = function($a, $b) { return $a['level'] - $b['level']; } ;
+			usort(self::$structure, create_function('$a,$b', "return \$a['level'] - \$b['level']; "));
 		}
 		$returnValue = self::$structure;
         // section 127-0-1-1-64be1e2f:13774f13776:-8000:0000000000003A89 end
 
         return (array) $returnValue;
     }
-
+    private function tmpDebugAsMember($a, $b)
+	{
+		return $a['level'] - $b['level'];
+	}
     /**
      * Get the structure for the extension/section in parameters
      *
