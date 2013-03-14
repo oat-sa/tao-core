@@ -271,7 +271,6 @@ function raphaelcollision(raph,element_list,x,y)
 				break;
 			}
 			case 'ellipse':{
-					CL('eelipse');
 				if(collide_ellipse(poly[1],x,y)){
 					ret.push(poly);
 				}
