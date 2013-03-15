@@ -1,25 +1,4 @@
 <?php
-/*  
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; under version 2
- * of the License (non-upgradable).
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);\n *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
- */
-?>
-<?php
 $GLOBALS['__l10n']["A formated text"]="Ee formatéierte Text";
 $GLOBALS['__l10n']["A long text"]="Ee lange Text";
 $GLOBALS['__l10n']["A multiple choice list"]="Eng multiple choice Lëscht";
@@ -49,7 +28,6 @@ $GLOBALS['__l10n']["Interface language"]="Interface Sprooch";
 $GLOBALS['__l10n']["Invalid field length"]="Ongëlteg Datenfeld Längt";
 $GLOBALS['__l10n']["Invalid file size"]="Ongëlteg Dateigréisst";
 $GLOBALS['__l10n']["Invalid file type!"]="Ongëltegen Dateityp!";
-$GLOBALS['__l10n']["Items"]="Itemen";
 $GLOBALS['__l10n']["Javascript is required to run this software. Please activate it in your browser."]="Javascript get fier desen Programm gebraucht. Aktivéiert en w.e.g. an aerem Browser.";
 $GLOBALS['__l10n']["Language"]="Sprooch";
 $GLOBALS['__l10n']["List"]="Lëscht";
@@ -58,7 +36,6 @@ $GLOBALS['__l10n']["Lists"]="Lëschten";
 $GLOBALS['__l10n']["Manage data list"]="Daten Lëschten verwalten";
 $GLOBALS['__l10n']["Manage deliveries"]="Ausliwwerungen managen";
 $GLOBALS['__l10n']["Manage groups"]="Gruppen verwalten";
-$GLOBALS['__l10n']["Manage items"]="Itemen verwalten";
 $GLOBALS['__l10n']["Manage test takers"]="Testpersounen verwalten";
 $GLOBALS['__l10n']["Manage tests"]="Testermanagen";
 $GLOBALS['__l10n']["Meta Data"]="Logout";

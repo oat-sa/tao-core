@@ -1,25 +1,4 @@
 <?php
-/*  
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; under version 2
- * of the License (non-upgradable).
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);\n *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
- */
-?>
-<?php
 $GLOBALS['__l10n']["A formated text"]="Formatierter Text";
 $GLOBALS['__l10n']["A long text"]="Textfeld";
 $GLOBALS['__l10n']["A multiple choice list"]="Multiple-Choice liste";
@@ -45,21 +24,22 @@ $GLOBALS['__l10n']["Filter"]="Filter";
 $GLOBALS['__l10n']["Filtering mode"]="Filtermodus";
 $GLOBALS['__l10n']["Filters"]="Filter";
 $GLOBALS['__l10n']["Groups"]="Gruppen";
+$GLOBALS['__l10n']["Home"]="Home";
 $GLOBALS['__l10n']["Interface language"]="Interface-Sprache";
 $GLOBALS['__l10n']["Invalid field length"]="Ungültige Feldlänge";
 $GLOBALS['__l10n']["Invalid file size"]="Ungültige Dateigröße";
 $GLOBALS['__l10n']["Invalid file type!"]="Ungültiger Dateityp";
-$GLOBALS['__l10n']["Items"]="Items";
 $GLOBALS['__l10n']["Javascript is required to run this software. Please activate it in your browser."]="Diese Software benötigt Javascript. Bitte aktivieren Sie es in Ihrem Browser.";
 $GLOBALS['__l10n']["Label"]="Label";
 $GLOBALS['__l10n']["Language"]="Sprachen";
 $GLOBALS['__l10n']["List"]="Auflisten";
 $GLOBALS['__l10n']["List values"]="Werte auflisten";
 $GLOBALS['__l10n']["Lists"]="Listen";
+$GLOBALS['__l10n']["Login *"]="Login *";
+$GLOBALS['__l10n']["login already exist"]="das Login existiert bereits";
 $GLOBALS['__l10n']["Manage data list"]="Daten-Liste verwalten";
 $GLOBALS['__l10n']["Manage deliveries"]="Deliveries verwalten";
 $GLOBALS['__l10n']["Manage groups"]="Gruppen verwalten";
-$GLOBALS['__l10n']["Manage items"]="Items verwalten";
 $GLOBALS['__l10n']["Manage test takers"]="Testpersonen verwalten";
 $GLOBALS['__l10n']["Manage tests"]="Tests verwalten";
 $GLOBALS['__l10n']["Meta Data"]="Meta-Daten";
@@ -89,6 +69,7 @@ $GLOBALS['__l10n']["select"]="Auswählen";
 $GLOBALS['__l10n']["Select a language"]="Sprache auswählen";
 $GLOBALS['__l10n']["Selection saved successfully"]="Auswahl erfolgreich gespeichert";
 $GLOBALS['__l10n']["Settings"]="Einstellungen";
+$GLOBALS['__l10n']["settings updated"]="Einstellungen aktualisiert";
 $GLOBALS['__l10n']["Test takers"]="Testpersonen";
 $GLOBALS['__l10n']["Tests"]="Tests";
 $GLOBALS['__l10n']["The format of this field is not valid."]="Das Format dieses Feldes ist ungültig";
