@@ -41,10 +41,6 @@ class InstallTestCase extends UnitTestCase {
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$extensions = $extensionManager->getInstalledExtensions();
 		$taoNs = LOCAL_NAMESPACE;
-		$files = tao_install_utils_ModelCreator::getTranslationModelsFromExtension($extensions['tao']);
-		$this->assertTrue(is_array($files));
-		//$this->assertTrue(array_key_exists($taoNs, $files));
-		//$this->assertTrue(count($files) == 1);
 		
 		// - Test the existence of language descriptions.
 		$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
