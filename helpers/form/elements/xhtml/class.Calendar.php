@@ -108,15 +108,14 @@ class tao_helpers_form_elements_xhtml_Calendar
 		$returnValue .= ' value="'._dh($this->value).'"  />';
 		
 		$returnValue .="<script type=\"text/javascript\">
-						$(function(){
-							$(\"#$elementId\").datepicker({ 
-								dateFormat: 'yy-mm-dd',
-								beforeShow: function(input, inst) {
-									inst.dpDiv.css('z-index', 1001);
-								}
-							});
-						});
-						</script>";
+			require(['jquery','jqueryUI'], function($){
+				$(\"#$elementId\").datepicker({ 
+					dateFormat: 'yy-mm-dd',
+					beforeShow: function(input, inst) {
+						inst.dpDiv.css('z-index', 1001);
+					}
+				});
+			});</script>";
 
         // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018E8 end
 
