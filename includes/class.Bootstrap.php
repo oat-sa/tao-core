@@ -326,9 +326,6 @@ class Bootstrap{
 		$uiLang = core_kernel_classes_Session::singleton()->getInterfaceLanguage();
 
 		tao_helpers_I18n::init($uiLang);
-
-		//only for legacy
-		$GLOBALS['lang'] = $uiLang;
 	}
 
 	/**
