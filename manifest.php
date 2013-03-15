@@ -96,15 +96,9 @@ return array(
 		# actions directory
 		"DIR_ACTIONS" => $extpath."actions".DIRECTORY_SEPARATOR,
 	
-		# models directory
-		"DIR_MODELS" => $extpath."models".DIRECTORY_SEPARATOR,
-	
 		# views directory
 		"DIR_VIEWS" => $extpath."views".DIRECTORY_SEPARATOR,
 	
-		# helpers directory
-		"DIR_HELPERS" => $extpath."helpers".DIRECTORY_SEPARATOR,
-
 	 	#path to the cache
 		'CACHE_PATH' => $extpath."data".DIRECTORY_SEPARATOR."cache".DIRECTORY_SEPARATOR,
 	
