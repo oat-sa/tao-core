@@ -66,3 +66,12 @@ p strong{
     text-decoration: underline;
    
 }
+.itemModel{
+	text-decoration: underline;
+	color:blue;
+	font-style:italic;
+}
+.dataResult{
+    font-weight:bold;
+    text-decoration: underline;
+}
