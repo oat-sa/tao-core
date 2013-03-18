@@ -214,11 +214,11 @@ class tao_actions_form_Export
 		$currentNs = array();
 		if( isset($this->data['currentExtension'])){
 			$currentExtentsion = common_ext_ExtensionsManager::singleton()->getExtensionById($this->data['currentExtension']);
-			$currentNs =  $currentExtentsion->model;
+			$currentNs =  $currentExtentsion->getManifest()->getModels();
 
 			foreach($currentExtentsion->getDependencies() as $dependency){
 				$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($dependency);
-				$currentNs =  array_merge($currentNs, $ext->model);
+				$currentNs =  array_merge($currentNs, $ext->getManifest()->getModels());
 			}
 		}
 

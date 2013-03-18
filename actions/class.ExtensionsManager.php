@@ -66,7 +66,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		$extInstaller = new tao_install_ExtensionInstaller($newExt);
 		try {
 			$extInstaller->install();
-			$message =   __('Extension ') . $newExt->name . __(' has been installed');
+			$message =   __('Extension ') . $newExt->getName() . __(' has been installed');
 		}
 		catch(common_ext_ExtensionException $e) {
 			$message = $e->getMessage();
