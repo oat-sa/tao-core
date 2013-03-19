@@ -94,28 +94,6 @@ class tao_actions_Settings extends tao_actions_CommonModule {
      * return a view the list of optimizable classes for the current extension
      */
     public function optimizeClasses(){
-
-		$optimizableClasses = $this->getOptimizableClasses();
-
-		$classes = array();
-		$referencer = core_kernel_persistence_hardapi_ResourceReferencer::singleton();
-		foreach($optimizableClasses as $optimizableClassUri => $options){
-				$optimizableClass = new core_kernel_classes_Class($optimizableClassUri);
-				$classes[] = array(
-					'class'     =>      $optimizableClass->getLabel(),
-					'classUri'  =>      $optimizableClassUri,
-					'status'    =>      $referencer->isClassReferenced($optimizableClass)?__('compiled'):__('stand by'),
-					'action'    => ''
-				);
-		}
-
-		echo json_encode($classes);
-    }
-
-    /*
-     * return a view the list of optimizable classes for the current extension
-     */
-    public function decompileClasses(){
 		$optimizableClasses = $this->getOptimizableClasses();
 
 		$classes = array();

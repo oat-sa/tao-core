@@ -36,33 +36,10 @@ switcherClass.prototype.getActionUrl = function(action){
         return url;
 }
 
-switcherClass.prototype.init = function(forcedMode, decompile){
+switcherClass.prototype.init = function(){
 
 	var __this = this;
 	var actionUrl = __this.getActionUrl('optimizeClasses');
-	this.forcedStart = false;
-	if(forcedMode){
-		//check if there is already a compilation running:
-		for(i in this.theData){
-			if(this.theData[i].status == __('compiling') || this.theData[i].status == __('decompiling')){
-				return false;
-			}
-		}
-
-		this.forcedStart = true;
-	}else{
-		//check if already initialized:
-		if(this.theData.length){
-			return false;
-		}
-	}
-
-	if(decompile){
-		this.decompile = true;
-		actionUrl = this.getActionUrl('decompileClasses');
-	}else{
-		this.decompile = false;//reset the decompile value to "false"
-	}
 
 	$.ajax({
 		type: "POST",
@@ -173,23 +150,9 @@ switcherClass.prototype.init = function(forcedMode, decompile){
 				__this.$grid.jqGrid(gridOptions);
 
 				//insert rows:
-					for(var j=0; j<r.length; j++){
-						__this.setRowData(j, r[j]);
-						if(__this.forcedStart || __this.decompile){
-							__this.currentIndex = 0;  
-						}else{
-							if(__this.currentIndex < 0 && __this.theData[j].status != __('compiled')){
-								__this.currentIndex = j;
-							}  
-						}
-					}
-
-					//start compilation:
-					if(__this.decompile){
-						__this.startDecompilation();
-					}else{
-						__this.startCompilation();
-					}
+				for(var j=0; j<r.length; j++){
+					__this.setRowData(j, r[j]);
+				}
 			});
 
 		}
@@ -198,10 +161,21 @@ switcherClass.prototype.init = function(forcedMode, decompile){
 	return true;
 }
 
-switcherClass.prototype.startCompilation = function(){
-        if(this.options.onStart){
-                this.options.onStart(this);
-        }
+switcherClass.prototype.startCompilation = function(force = false){
+		this.decompile = false;
+ 		this.forcedStart = force;
+        if (force) {
+			this.currentIndex = 0;
+        }else {
+	        for(var j=0; j<this.theData.length; j++){
+				if(this.currentIndex < 0 && this.theData[j].status != __('compiled')){
+						this.currentIndex = j;
+				}
+			}
+		}
+		if(this.options.onStart){
+		    this.options.onStart(this);
+		}
         this.$grid.hideCol('subgrid');
         if(this.currentIndex >= 0){
                 this.nextStep();
@@ -209,8 +183,10 @@ switcherClass.prototype.startCompilation = function(){
 }
 
 switcherClass.prototype.startDecompilation = function(){
+		this.decompile = true;
+		this.currentIndex = 0;
         if(this.options.onStartDecompile){
-                this.options.onStartDecompile(this);
+        	this.options.onStartDecompile(this);
         }
         this.$grid.hideCol('subgrid');
         if(this.currentIndex >= 0){
@@ -319,28 +295,28 @@ switcherClass.prototype.decompileClass = function(classUri){
 		data: {classUri : classUri, options: ''},
 		dataType: "json",
 		success: function(r){
-                        __this.addResultData(rowId, r);
-                        
-                        if(r.success){
-                                //update grid
-                                var selfCount = r.count;
-                                var relatedCount = 0;
-                                for(relatedClassName in r.relatedClasses){
-                                        relatedCount += parseInt(r.relatedClasses[relatedClassName]);
-                                }
-                                var count = ' (' + eval(selfCount+relatedCount) + ' ' + __('instances') + ': '+selfCount+' self / '+relatedCount+' related)';
-                                __this.setCellData(rowId, 'status', __('decompiled') + count);
-                                if(selfCount){
-                                        //enable subgrid
-                                        __this.$grid.showCol('subgrid');
-                                }
-                        }else{
-                                __this.setCellData(rowId, 'status', __('failed'));
+                __this.addResultData(rowId, r);
+                
+                if(r.success){
+                        //update grid
+                        var selfCount = r.count;
+                        var relatedCount = 0;
+                        for(relatedClassName in r.relatedClasses){
+                                relatedCount += parseInt(r.relatedClasses[relatedClassName]);
                         }
-                        
-                        __this.currentIndex ++;
-                        __this.nextStep();
+                        var count = ' (' + eval(selfCount+relatedCount) + ' ' + __('instances') + ': '+selfCount+' self / '+relatedCount+' related)';
+                        __this.setCellData(rowId, 'status', __('decompiled') + count);
+                        if(selfCount){
+                                //enable subgrid
+                                __this.$grid.showCol('subgrid');
+                        }
+                }else{
+                        __this.setCellData(rowId, 'status', __('failed'));
                 }
+                
+                __this.currentIndex ++;
+                __this.nextStep();
+            }
         });
 }
 

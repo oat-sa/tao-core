@@ -8,7 +8,6 @@
         
         <div id="compilation-compile-button-container" class="ext-home-container ui-state-highlight">
                 <span><?=__('Optimize your TAO when you are ready for test delivery')?></span>:&nbsp;
-                <input type="button" value="<?=__("optimize")?>" id="compileButton"/>
         </div>
         
         <div id="compilation-grid-container">
@@ -16,6 +15,7 @@
                         <table id="compilation-grid" />
                 </div>
                 <div id="compilation-recompile-button-container">
+                		<input type="button" value="<?=__("optimize")?>" id="compileButton"/>
                         <input type="button" value="<?=__("force recompilation")?>" id="recompileButton"/>
                         <input type="button" value="<?=__("decompile")?>" id="decompileButton"/>
                 </div>
@@ -53,19 +53,21 @@
              }
              
              var mySwitcher = new switcherClass('compilation-grid', options);
+             mySwitcher.init();
+             
              $('#compileButton').click(function(){
-                        mySwitcher.init();
+                        mySwitcher.startCompilation();
                         $('#compileButton').hide();
              });
              
              $('#recompileButton').click(function(){
-                        mySwitcher.init(true);
+                        mySwitcher.startCompilation(true);
                         $('#compilation-grid-results').hide();
              });
              
              $('#decompileButton').click(function(){
                         if(confirm(__('This action will reset the optimization, are you sure?'))){
-                                mySwitcher.init(true, true);
+                                mySwitcher.startDecompilation();
                                 $('#compilation-grid-results').hide();
                         }
              });

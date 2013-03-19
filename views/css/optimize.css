@@ -18,7 +18,7 @@
  * 
  */
 div#compilation-container{padding:10px;}
-div#compilation-grid-container{display:none;padding:10px 0px;}
+div#compilation-grid-container{padding:10px 0px;}
 div#compilation-table-container{width:100%;}
 div#compilation-recompile-button-container{margin-top: 10px;}
 div#compilation-grid-results{display:none;}
