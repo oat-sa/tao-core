@@ -242,35 +242,6 @@ class tao_models_classes_RoleService
     }
 
     /**
-     * get the roles of a user
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource user
-     * @return array
-     */
-    public function getUserRoles( core_kernel_classes_Resource $user)
-    {
-        $returnValue = array();
-
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F80 begin
-        
-   		if(!is_null($user)){
-			
-			$allowedRoles = $this->roleClass->getInstances(true);
-			foreach($user->getTypes() as $role){
-				if(array_key_exists($role->uriResource, $allowedRoles)){
-					$returnValue[] = new core_kernel_classes_Resource($role->uriResource);
-				}
-			}
-		}
-        
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F80 end
-
-        return (array) $returnValue;
-    }
-
-    /**
      * check if a user has a role
      *
      * @access public
@@ -293,9 +264,9 @@ class tao_models_classes_RoleService
 	        
 			$userRoles = $user->getTypes();
 			
-			$acceptedRole =  array_merge(array($role->uriResource) , array_keys($role->getInstances(true))); 
+			$acceptedRole =  array_merge(array($role->getUri()) , array_keys($role->getInstances(true))); 
 			foreach ($userRoles  as $userRole){
-				$returnValue = in_array($userRole->uriResource, $acceptedRole);
+				$returnValue = in_array($userRole->getUri(), $acceptedRole);
 				if($returnValue){
 					break;
 				}
@@ -322,7 +293,7 @@ class tao_models_classes_RoleService
 
         // section 10-13-1--128-2f4f67cd:13003c0785f:-8000:0000000000002E3B begin
 		$returnValue = parent::createInstance($clazz, $label);
-		$roleClass = new core_kernel_classes_Class($returnValue->uriResource);
+		$roleClass = new core_kernel_classes_Class($returnValue);
 		$roleClass->setSubClassOf(new core_kernel_classes_Class(CLASS_GENERIS_USER));
         // section 10-13-1--128-2f4f67cd:13003c0785f:-8000:0000000000002E3B end
 
