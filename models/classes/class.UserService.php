@@ -511,7 +511,7 @@ class tao_models_classes_UserService
 			$returnValue[] = array(
 					'data' 	=> tao_helpers_Display::textCutter($login, 16),
 					'attributes' => array(
-						'id' => tao_helpers_Uri::encode($user->uriResource),
+						'id' => tao_helpers_Uri::encode($user->getUri()),
 						'class' => 'node-instance'
 					)
 				);

@@ -127,7 +127,7 @@ class ServiceTestCase extends UnitTestCase {
 		$diffProperty = $diffs[0];
 		$this->assertNotNull($diffProperty);
 		$this->assertIsA($diffProperty, 'core_kernel_classes_Property');
-		$this->assertEqual($testProperty->uriResource, $diffProperty->uriResource);
+		$this->assertEqual($testProperty->getUri(), $diffProperty->uriResource);
 		
 		//test the createInstance method 
 		$testInstance = $this->taoService->createInstance($testModelClass, 'anInstance');
@@ -136,13 +136,13 @@ class ServiceTestCase extends UnitTestCase {
 		//get the class from the instance
 		$clazz = $this->taoService->getClass($testInstance);
 		$this->assertIsA($clazz, 'core_kernel_classes_Class');
-		$this->assertEqual($clazz->uriResource, $testModelClass->uriResource);
+		$this->assertEqual($clazz->getUri(), $testModelClass->uriResource);
 		
 		//test the bindProperties method
 		$testInstance = $this->taoService->bindProperties(
 			$testInstance, 
 			array(
-				$testProperty->uriResource => array('value' => 'aValue')
+				$testProperty->getUri() => array('value' => 'aValue')
 			)
 		);
 		$this->assertIsA( $testInstance, 'core_kernel_classes_Resource');
@@ -152,7 +152,7 @@ class ServiceTestCase extends UnitTestCase {
 		//clone instance
 		$clonedInstance = $this->taoService->cloneInstance($testInstance, $testModelClass);
 		$this->assertIsA( $clonedInstance, 'core_kernel_classes_Resource');
-		$this->assertNotEqual($clonedInstance->uriResource, $testInstance->uriResource);
+		$this->assertNotEqual($clonedInstance->getUri(), $testInstance->uriResource);
 		$this->assertEqual($testInstance->getUniquePropertyValue($testProperty), $clonedInstance->getUniquePropertyValue($testProperty));
 		
 		//get the properties between 2 classes
@@ -170,7 +170,7 @@ class ServiceTestCase extends UnitTestCase {
         
 		//delete the item class in case it has been created if it was not in the model
 		$localNamspace = core_kernel_classes_Session::singleton()->getNamespace();
-		if(preg_match("/^".preg_quote($localNamspace, "/")."/", $itemClass->uriResource)){
+		if(preg_match("/^".preg_quote($localNamspace, "/")."/", $itemClass->getUri())){
 			$itemClass->delete();
 		}
 		

@@ -60,7 +60,7 @@ class LanguagesTestCase extends UnitTestCase {
                         	
                         	// Check if the language has the correct URI.
                         	if ($kbLangs[0] instanceof core_kernel_classes_Resource){
-                        		$this->assertTrue($kbLangs[0]->uriResource == $expectedUriPrefix . $l, "Malformed URI scheme for language resource '${l}'.");
+                        		$this->assertTrue($kbLangs[0]->getUri() == $expectedUriPrefix . $l, "Malformed URI scheme for language resource '${l}'.");
                         	}	
                         }
                         else{
