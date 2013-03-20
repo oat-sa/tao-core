@@ -54,8 +54,6 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 
 		$optimizableClasses = $this->getOptimizableClasses();
 
-		//$this->setData('optimizableClasses', $optimizableClasses);
-
 		if(!empty($optimizableClasses)){
 			$this->setData('optimizable', true);
 		}
