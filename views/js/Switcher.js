@@ -161,7 +161,11 @@ switcherClass.prototype.init = function(){
 	return true;
 }
 
-switcherClass.prototype.startCompilation = function(force = false){
+switcherClass.prototype.startCompilation = function(force){
+		if (typeof force !== 'undefined'){
+			force = false;
+		}
+	
 		this.decompile = false;
  		this.forcedStart = force;
         if (force) {
