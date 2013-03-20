@@ -90,8 +90,12 @@ return array(
 		dirname(__FILE__).'/actions/',
 		dirname(__FILE__).'/helpers/',
 		dirname(__FILE__).'/helpers/form'
-	 ),
-	 'constants' => array(
+	),
+	'optimizableClasses' => array(
+		'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
+		'http://www.tao.lu/Ontologies/TAO.rdf#User'
+	),
+	'constants' => array(
 	
 		# actions directory
 		"DIR_ACTIONS" => $extpath."actions".DIRECTORY_SEPARATOR,
