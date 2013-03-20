@@ -55,7 +55,7 @@ require(['require', 'jquery', 'grid/tao.grid'], function(req, $) {
 					removeUser(this.id.replace('user_deletor_', ''));
 				});
 				$(window).unbind('resize').bind('resize', function(){
-					myGrid.jqGrid('setGridWidth', (parseInt($("#user-list").width()) - 2));
+					myGrid.jqGrid('setGridWidth', (parseInt($(".main-container").eq(0).width()) - 2));
 				});
 			}
 		});

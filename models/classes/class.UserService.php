@@ -432,10 +432,9 @@ class tao_models_classes_UserService
 
         // section 127-0-1-1-1e277528:138e7c3a040:-8000:0000000000003B6B begin
         $userClass = new core_kernel_classes_Class(CLASS_TAO_USER);
-		$options = array('recursive' => true, 'like' => true);
+		$options = array_merge(array('recursive' => true, 'like' => true), $options);
 		$filters = array(PROPERTY_USER_LOGIN => '*');
 		$returnValue = $userClass->searchInstances($filters, $options);
-		$returnValue = $userClass->getInstances(true);
         // section 127-0-1-1-1e277528:138e7c3a040:-8000:0000000000003B6B end
 
         return (array) $returnValue;
