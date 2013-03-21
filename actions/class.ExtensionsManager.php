@@ -1,5 +1,5 @@
 <?php
-/*  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,13 +15,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);\n *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
 
-error_reporting(E_ALL);
 
 /**
  * default action
@@ -29,7 +27,9 @@ error_reporting(E_ALL);
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
- * @package action
+ * @package tao
+ * @subpackage actions
+ *
  */
 class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 
@@ -48,7 +48,13 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 
 	}
 
-	protected function getCurrentExtension() {
+    /**
+     *
+     * return current extension
+     *
+     * @return common_ext_Extension|null
+     */
+    protected function getCurrentExtension() {
 		if ($this->hasRequestParameter('id')) {
 			$extensionManager = common_ext_ExtensionsManager::singleton();
 			return common_ext_ExtensionsManager::singleton()->getExtensionById($this->getRequestParameter('id'));
@@ -57,7 +63,14 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		}
 	}
 
-	public function add( $id , $package_zip ){
+    /**
+     * add an extension
+     *
+     * @param $id
+     * @param $package_zip
+     *
+     */
+    public function add( $id , $package_zip ){
 
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$fileUnzip = new fileUnzip(urldecode($package_zip));
@@ -77,7 +90,12 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 
 	}
 
-	public function install(){
+    /**
+     *
+     * install action
+     *
+     */
+    public function install(){
 		$success = false;
 		try {
 			$extInstaller = new tao_install_ExtensionInstaller($this->getCurrentExtension());
@@ -101,8 +119,14 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		echo json_encode(array('success' => $success, 'message' => $message));
 	}
 
-
-	public function modify($loaded,$loadAtStartUp){
+    /**
+     *
+     * modify an already installed action
+     *
+     * @param $loaded
+     * @param $loadAtStartUp
+     */
+    public function modify($loaded,$loadAtStartUp){
 
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$installedExtArray = $extensionManager->getInstalledExtensions();
