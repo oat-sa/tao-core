@@ -19,15 +19,14 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
 /**
  * This controller provide the actions to manage the user settings
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- * @subpackage action
+ * @subpackage actions
  *
  */
 class tao_actions_UserSettings extends tao_actions_CommonModule {
@@ -46,6 +45,9 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 		$this->userService = tao_models_classes_UserService::singleton();
 	}
 
+	/**
+	 * Action dedicated to change the password of the user currently connected.
+	 */
 	public function password(){
 
 		$myFormContainer = new tao_actions_form_UserPassword();
@@ -60,12 +62,11 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 		$this->setData('formTitle'	, __("Change password"));
 		$this->setData('myForm'		, $myForm->render());
 
-		//$this->setView('form.tpl');
 		$this->setView('form/settings_user.tpl');
 	}
 	
 	/**
-	 * change Proprties of the user
+	 * Action dedicated to change the settings of the user (language, ...)
 	 */
 	public function properties(){
 
@@ -80,8 +81,8 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 				$uiLang 	= new core_kernel_classes_Resource($myForm->getValue('ui_lang'));
 				$dataLang 	= new core_kernel_classes_Resource($myForm->getValue('data_lang'));
 
-				$userSettings[PROPERTY_USER_UILG] = $uiLang;
-				$userSettings[PROPERTY_USER_DEFLG] = $dataLang;
+				$userSettings[PROPERTY_USER_UILG] = $uiLang->getUri();
+				$userSettings[PROPERTY_USER_DEFLG] = $dataLang->getUri();
 
 				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($currentUser);
 				
@@ -111,8 +112,14 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 
 
 	/**
-	 * get the langage of the current user
-	 * @return the lang codes
+	 * Get the langage of the current user. This method returns an associative array with the following keys:
+	 * 
+	 * - 'ui_lang': The value associated to this key is a core_kernel_classes_Resource object which represents the language
+	 * selected for the Graphical User Interface.
+	 * - 'data_lang': The value associated to this key is a core_kernel_classes_Resource object which respresents the language
+	 * selected to access the data in persistent memory.
+	 * 
+	 * @return array The URIs of the languages.
 	 */
 	private function getLangs(){
 		$currentUser = $this->userService->getCurrentUser();
