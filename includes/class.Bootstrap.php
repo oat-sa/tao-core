@@ -87,6 +87,8 @@ class Bootstrap{
 	public function __construct($extension, $options = array())
 	{
 
+		common_ext_ClassLoader::singleton()->register();
+		
 		$this->ctxPath = ROOT_PATH . '/' . $extension;
 		$this->extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extension);
 		
@@ -391,30 +393,6 @@ class Bootstrap{
 					);
 				}
 			break;
-		}
-	}
-	
-	/**
-	 * Load the constant file of the extension
-	 * @param string $extension
-	 */
-	public static function loadConstants($extension)
-	{
-		$constantFile = ROOT_PATH . $extension .DIRECTORY_SEPARATOR. 'includes' .DIRECTORY_SEPARATOR. 'constants.php';
-		if(file_exists($constantFile)){
-	
-			//include the constant file
-			include_once $constantFile;
-	
-			//this variable comes from the constant file and contain the const definition
-			if(isset($todefine)){
-				foreach($todefine as $constName => $constValue){
-					if(!defined($constName)){
-						define($constName, $constValue);	//constants are defined there!
-					}
-				}
-				unset($todefine);
-			}
 		}
 	}
 }
