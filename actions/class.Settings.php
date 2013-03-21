@@ -21,7 +21,7 @@
 ?>
 <?php
 /**
- * This controller provide the actions to manage the user settings
+ * This controller provide the actions to manage classes optimizations.
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
@@ -47,8 +47,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 	}
 
 	/**
-	 * render the settings form
-	 * @return void
+	 * This action displays the classes that are optimizable.
 	 */
 	public function index(){
 
@@ -63,33 +62,19 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 	}
 
 
-
-	/**
-	 * get the langage of the current user
-	 * @return the lang codes
-	 */
-	private function getLangs(){
-
-		$currentUser = $this->userService->getCurrentUser();
-
-		$uiLang = DEFAULT_LANG;
-		$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
-		if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource){
-			$uiLang = $uiLg->getUniquePropertyValue(new core_kernel_classes_Property(RDF_VALUE))->literal;
-		}
-
-		$dataLang = DEFAULT_LANG;
-		$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
-		if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
-			$dataLang = $dataLg->getUniquePropertyValue(new core_kernel_classes_Property(RDF_VALUE))->literal;
-		}
-
-		$session = core_kernel_classes_Session::singleton();
-		return array('data_lang' => $session->getDataLanguage(), 'ui_lang' => $session->getInterfaceLanguage());
-	}
-
-    /*
-     * return a view the list of optimizable classes for the current extension
+    /**
+     * Returns the classes that are optimiable as a JSON array. An example of such a structure:
+     * 
+     * [
+     * 		{
+     * 			"class": "User",
+     * 			"classUri": "http://www.tao.lu/Ontologies/generis.rdf#User",
+     * 			"status": "compiled",
+     * 			"action": ""
+     * 		},
+     * 		...
+     * 		...
+     * ]
      */
     public function optimizeClasses(){
 		$optimizableClasses = $this->getOptimizableClasses();
@@ -106,13 +91,29 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 				);
 		}
 
-
 		echo json_encode($classes);
     }
 
-    /*
-     * get list of classes to be hardified
-     * it need to be overwriten by inherited classes to give the right list of classes
+    /**
+     * Returns the list of optimizable classes. The classes that are optimizable are found
+     * in the manifests of extensions that are currently installed.
+     * 
+     * The returned associative array has key values corresponding to a Class URI, and the values
+     * are the optimization options.
+     * 
+     * The optimization options are associative arrays containing boolean values depicting how
+     * the class must be optmized. The following keys are provided:
+     * 
+     * - compile: array('recursive' =>           true/false,
+     *                  'append' =>              true/false,
+     *                  'createForeigns' =>      true/false,
+     *                  'referencesAllTypes' =>  true/false,
+     *                  'rmSources' =>           true/false)
+     *                  
+     * - decompile: array('recursive' =>         true/false,
+     *                    'removeForeigns' =>    true/false)
+     * 
+     * @return array The Optimizable classes and their optimization options.
      */
     protected function getOptimizableClasses(){
 
@@ -153,6 +154,11 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		return $returnValue;
     }
 
+    /**
+     * Returns an array of Property URIs that are considered to be optimizabled (indexable).
+     * 
+     * @return array
+     */
     protected function getOptimizableProperties(){
 
 		$returnValue = array();
@@ -167,6 +173,18 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		return $returnValue;
     }
 
+    /**
+     * This action aims at compiling a specific class given as the 'classUri' request parameter.
+     * 
+     * It returns a JSON structure containing the following informations:
+     * 
+     * {
+     *    "success": true/false,
+     *    "count": integer // the class instances that were optimized
+     *    "relatedClasses": ["class1", "class2", ...] // the classes that were impacted by the optimization
+     *                                                // depending on the optimization options 
+     * }
+     */
     public function compileClass(){
 
 		$result = array('success' => false);
@@ -226,6 +244,18 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 
     }
 
+    /**
+     * This action aims at unoptimize a specific class given as the 'classUri' request parameter.
+     * 
+     * It returns a JSON structure containing the following informations:
+     * 
+     * {
+     *    "success": true/false,
+     *    "count": integer // the class instances that were unoptimized
+     *    "relatedClasses": ["class1", "class2", ...] // the classes that were impacted by the unoptimization
+     *                                                // depending on the unoptimization options 
+     * }
+     */
     public function decompileClass(){
 
 		$result = array('success' => false);
@@ -266,6 +296,17 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 
     }
 
+    /**
+     * This action aims at optimizing (indexing) the properties that are considered to be
+     * optimizable by the system. The optimizable properties are retrieved from the manifests
+     * of extensions that are installed on the platform.
+     * 
+     * It returns a JSON structure:
+     * 
+     * {
+     *    "success": true/false // depending on the success or the failure of the action.
+     * }
+     */
     public function createPropertyIndex(){
 
 		$properties = $this->getOptimizableProperties();
