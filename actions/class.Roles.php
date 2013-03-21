@@ -46,8 +46,6 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 		//the service is initialized by default
 		$this->service = tao_models_classes_RoleService::singleton();
 		$this->defaultData();
-		
-		$this->setSessionAttribute('currentSection', 'role');
 	}
 	
 /*
@@ -99,7 +97,6 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 		$this->removeSessionAttribute('uri');
 		$this->removeSessionAttribute('classUri');
 		
-		$this->setData('section', $this->getSessionAttribute('currentSection'));
 		$this->setView('roles/index.tpl');
 	}
 	
