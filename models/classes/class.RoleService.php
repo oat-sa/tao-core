@@ -179,6 +179,15 @@ class tao_models_classes_RoleService
         // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F88 begin
         
         if(!is_null($role)){
+        	core_kernel_users_Cache::removeIncludedRoles($role);
+        	
+        	// The whole ACL cache must be flushed.
+        	/*
+        	 * @todo optimize this by
+        	 * - removing only cache files related to the role.
+        	 * - having a cache of which module includes wich role.
+        	 */ 
+        	tao_helpers_funcACL_Cache::flush();
         	$returnValue = $role->delete();
         }
         

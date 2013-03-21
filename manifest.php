@@ -92,8 +92,7 @@ return array(
 		dirname(__FILE__).'/helpers/form'
 	),
 	'optimizableClasses' => array(
-		'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
-		'http://www.tao.lu/Ontologies/TAO.rdf#User'
+		'http://www.tao.lu/Ontologies/TAO.rdf#Languages'
 	),
 	'constants' => array(
 	

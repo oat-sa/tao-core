@@ -121,14 +121,14 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		$optionsCompile = array(
 				'recursive'             => true,
 				'append'                => true,
-				'createForeigns'        => true,
+				'createForeigns'        => false,
 				'referencesAllTypes'	=> true,
 				'rmSources'             => true
 		);
 
 		$optionsDecompile = array(
 				'recursive'             => true,
-				'removeForeigns'        => true
+				'removeForeigns'        => false
 		);
 
 		$defaultOptions = array(
@@ -136,53 +136,33 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 				'decompile' => $optionsDecompile
 			);
 
-		$userClass = new core_kernel_classes_Class('http://www.tao.lu/Ontologies/generis.rdf#User');
-
-		$returnValue = array(
-				'http://www.tao.lu/Ontologies/TAO.rdf#Languages' => $defaultOptions,
-				'http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices' => $defaultOptions,
-				'http://www.tao.lu/middleware/wfEngine.rdf#ClassCallOfservicesResources' => $defaultOptions,
-				'http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitionResources' => $defaultOptions,
-				'http://www.tao.lu/middleware/wfEngine.rdf#ClassServicesResources' => $defaultOptions,
-				'http://www.tao.lu/middleware/wfEngine.rdf#ClassConnectors' => $defaultOptions,
-				'http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessInstances' => $defaultOptions,
-				'http://www.tao.lu/middleware/wfEngine.rdf#ClassActivityCardinality'=> $defaultOptions,
-				'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject' => $defaultOptions,
-				'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery' => $defaultOptions,
-				'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group' => $defaultOptions,
-				'http://www.tao.lu/Ontologies/TAODelivery.rdf#History' => $defaultOptions
-		);
+		$optimizableClasses = array();
+		$extManager = common_ext_ExtensionsManager::singleton();
+		$extensions = $extManager->getInstalledExtensions();
+		
+		foreach ($extensions as $ext){
+			$optimizableClasses = array_merge($optimizableClasses, $ext->getOptimizableClasses());
+		}
+		
+		$optimizableClasses = array_unique($optimizableClasses);
+		
+		foreach ($optimizableClasses as $optClass){
+			$returnValue[$optClass] = $defaultOptions;
+		}
 
 		return $returnValue;
     }
 
-    /*
-     * get list of properties to be indexes
-     * it need to be overwriten by inherited classes to give the right list of classes
-     */
     protected function getOptimizableProperties(){
 
 		$returnValue = array();
 
-		$returnValue = array(
-			'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActualParametersFormalParameter',
-			'http://www.tao.lu/middleware/wfEngine.rdf#PropertySupportServicesUrl',
-			'http://www.tao.lu/middleware/wfEngine.rdf#PropertyConnectorsType',
-			'http://www.tao.lu/middleware/wfEngine.rdf#PropertyConnectorsActivityReference',
-			'http://www.tao.lu/middleware/wfEngine.rdf#PropertyProcessInstancesStatus',
-			'http://www.tao.lu/middleware/wfEngine.rdf#PropertyProcessInstancesExecutionOf',
-			'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsStatus',
-			'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsExecutionOf',
-			'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsCurrentUser',
-			'http://www.tao.lu/middleware/wfEngine.rdf#PropertyActivityExecutionsProcessExecution',
-			'http://www.tao.lu/Ontologies/generis.rdf#login',
-			'http://www.tao.lu/Ontologies/generis.rdf#password',
-			'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_PROCESS_EXEC_ID',
-			'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_DELIVERY_ID',
-			'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_TEST_ID',
-			'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_ITEM_ID',
-			'http://www.tao.lu/Ontologies/TAOResult.rdf#TAO_SUBJECT_ID'
-		);
+		$extManager = common_ext_ExtensionsManager::singleton();
+		$extensions = $extManager->getInstalledExtensions();
+		
+		foreach ($extensions as $ext){
+			$returnValue = array_merge($returnValue, $ext->getOptimizableProperties());
+		}
 
 		return $returnValue;
     }
@@ -196,8 +176,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		if(isset($optimizableClasses[$class->uriResource]) && isset($optimizableClasses[$class->uriResource]['compile'])){
 
 			//build the option array and launch the compilation:
-			$userDefinedOptions = array();
-			$options = array_merge($optimizableClasses[$class->uriResource]['compile'], $userDefinedOptions);
+			$options = array_merge($optimizableClasses[$class->uriResource]['compile']);
 
 			$switcher = new core_kernel_persistence_Switcher(array('http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables'));
 			$switcher->hardify($class, $options);

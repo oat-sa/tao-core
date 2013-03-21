@@ -159,7 +159,6 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 						if(empty($users)){
 							//delete role here:
 							$deleted = $this->service->deleteRole($role);
-							core_kernel_users_Cache::removeIncludedRoles($role);
 						}else{
 							//set message error
 							throw new Exception(__('This role is still given to one or more users. Please remove the role to these users first.'));
