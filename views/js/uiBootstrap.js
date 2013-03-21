@@ -124,7 +124,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 		initTrees: function(callback){
 			//left menu trees init by loading the tab content
 			if(this.tabs.length > 0){
-				section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('title');
+				section = $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id');
 				if (section != undefined) {
 					$.ajax({
 						url: root_url + shownExtension + '/Main/getSectionTrees',
@@ -160,7 +160,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 					url: root_url + shownExtension + '/Main/getSectionActions',
 					type: "GET",
 					data: {
-						section: $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('title'),		//get the link text of the selected tab
+						section: $("li a[href=#" + $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')].id + "]:first").attr('id'),		//get the link text of the selected tab
 						structure: shownStructure,
 						ext: shownExtension,
 						uri: uri,

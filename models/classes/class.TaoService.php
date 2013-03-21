@@ -304,13 +304,9 @@ class tao_models_classes_TaoService
 
         // section 127-0-1-1-64be1e2f:13774f13776:-8000:0000000000003A84 begin
         $structureArr = $this->getStructure($extension, $structure);
-        if(is_array($structureArr)) {
-        	foreach ($structureArr['sections'] as $sectionXML) {
-        		if ($sectionXML['name'] == $section) {
-        			$returnValue = $sectionXML;
-        			break;
-        		}
-        	}
+        common_Logger::d('got '.implode(',',array_keys($structureArr['sections'])));
+        if(is_array($structureArr) && isset($structureArr['sections'][$section])) {
+        	$returnValue = $structureArr['sections'][$section];
 		}
 		if (empty($returnValue)) {
 			common_logger::w('Section '.$section.' not found found for structure '.$structure);
