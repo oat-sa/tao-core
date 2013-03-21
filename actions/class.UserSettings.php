@@ -40,7 +40,6 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 
 	/**
 	 * initialize the services
-	 * @return
 	 */
 	public function __construct(){
 		parent::__construct();
@@ -67,7 +66,6 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 	
 	/**
 	 * change Proprties of the user
-	 * @return void
 	 */
 	public function properties(){
 
