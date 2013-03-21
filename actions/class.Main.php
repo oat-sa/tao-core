@@ -175,14 +175,16 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			$structure = $this->service->getStructure($this->getRequestParameter('ext'), $this->getRequestParameter('structure'));
 
 			$sections = array();
-			foreach ($structure["sections"] as $section) {
-				$url = explode('/', substr((string)$section['url'], 1));
-				$ext = (isset($url[0])) ? $url[0] : null;
-				$module = (isset($url[1])) ? $url[1] : null;
-				$action = (isset($url[2])) ? $url[2] : null;
-
-				if (tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action)) {
-					$sections[] = array('id' => (string)$section['id'], 'url' => (string)$section['url'], 'name' => (string)$section['name']);
+			if (isset($structure["sections"])) {
+				foreach ($structure["sections"] as $section) {
+					$url = explode('/', substr((string)$section['url'], 1));
+					$ext = (isset($url[0])) ? $url[0] : null;
+					$module = (isset($url[1])) ? $url[1] : null;
+					$action = (isset($url[2])) ? $url[2] : null;
+	
+					if (tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action)) {
+						$sections[] = array('id' => (string)$section['id'], 'url' => (string)$section['url'], 'name' => (string)$section['name']);
+					}
 				}
 			}
 
@@ -333,10 +335,11 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	{
 
 		//$this->setData('trees', false);
-		$extname = $this->getRequestParameter('ext');
-		$struct = $this->getRequestParameter('structure');
+		$extname	= $this->getRequestParameter('ext');
+		$struct		= $this->getRequestParameter('structure');
+		$section	= $this->getRequestParameter('section');
 
-		$structure = $this->service->getSection($extname, $struct, $this->getRequestParameter('section'));
+		$structure = $this->service->getSection($extname, $struct, $section);
 		if(isset($structure["trees"])){
 			$trees = array();
 			foreach($structure["trees"] as $tree){
