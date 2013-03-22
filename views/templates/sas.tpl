@@ -49,14 +49,8 @@
 	</div>
 
 <?endif?>
-	<div id="ajax-loading" class="ui-widget-overlay">
-		<img src="<?=TAOBASE_WWW?>img/ajax-loader.gif" alt="Loading..." />
-	</div>
-
-	<div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all ui-tabs-collapsible">
-		<div id="sas-widget" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
-<? include(get_data('includedView')); ?>
-		</div>
-	</div>
+	
+	<? include(get_data('includedView')); ?>
+	
 </body>
 </html>
