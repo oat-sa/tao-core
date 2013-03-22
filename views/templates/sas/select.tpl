@@ -22,8 +22,8 @@
 				subClassAction: false,
 				deleteAction: false,
 				duplicateAction: false,
-				instanceClass: "node-<?=get_data('instanceName')?>",
-				instanceName: "<?=get_data('instanceName')?>"
+				instanceClass: "node-<?=str_replace(' ', '-',strtolower(get_data('classLabel')))?>",
+				instanceName: "<?=get_data('classLabel')?>"
 			});
 		});
 	});

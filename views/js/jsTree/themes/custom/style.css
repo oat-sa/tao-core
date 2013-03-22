@@ -30,7 +30,7 @@
 .tree-custom .node-instance ins{background-image:url("bullet_blue.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-item ins{background-image:url("item.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-test ins{background-image:url("test.png"); background-position:0 0; background-repeat:no-repeat;}
-.tree-custom li.node-subject ins{background-image:url("subject.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-test-taker ins{background-image:url("subject.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.paginate{padding-left:12px; background-image:none !important; display:inline !important;}
 .tree-custom li.paginate-more ins{background-image:url("paginate_more.png");}
 .tree-custom li.paginate-all ins{background-image:url("paginate_all.png");}
@@ -40,7 +40,7 @@
 .tree-custom li.node-result ins{background-image:url("result.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-delivery ins{background-image:url("delivery.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-campaign ins{background-image:url("campaign.png"); background-position:0 0; background-repeat:no-repeat;}
-.tree-custom li.node-result_server ins{background-image:url("result_server.png"); background-position:0 0; background-repeat:no-repeat;}
+.tree-custom li.node-result-server ins{background-image:url("result_server.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-role ins{background-image:url("user.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-process ins{background-image:url("process.png"); background-position:0 0; background-repeat:no-repeat;}
 .tree-custom li.node-process-root ins{background-image:url("process-root.png"); background-position:0 0; background-repeat:no-repeat;}

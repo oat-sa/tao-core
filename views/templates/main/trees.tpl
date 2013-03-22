@@ -30,8 +30,10 @@
 <?if (isset($tree['addSubClassUrl'])):?>subClassAction: "<?=$tree['addSubClassUrl']?>",<?endif;?>
 <?if (isset($tree['deleteUrl'])):?>deleteAction: "<?=$tree['deleteUrl']?>",<?endif;?>
 <?if (isset($tree['duplicateUrl'])):?>duplicateAction: "<?=$tree['duplicateUrl']?>",<?endif;?>
-				instanceClass: "node-<?=get_data('instanceName')?>",
-				instanceName: "<?=(isset($tree['className'])) ? mb_strtolower(__($tree['className']), TAO_DEFAULT_ENCODING) : get_data('instanceName') ?>",
+<?if (isset($tree['className'])):?>
+				instanceClass: "node-<?=str_replace(' ', '-', strtolower($tree['className']))?>",
+				instanceName: "<?=mb_strtolower(__($tree['className']), TAO_DEFAULT_ENCODING)?>",
+<?endif;?>
 				paginate: 10
 <?if(get_data('openUri')):?>
 				,selectNode: "<?=get_data('openUri')?>"

@@ -1178,7 +1178,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', $module));
 		}
 		
-		$this->setData('instanceName', $kind);
+		$this->setData('classLabel', $this->getRootClass()->getLabel());
 		
 		$this->setView("sas/select.tpl", 'tao');
 	}
