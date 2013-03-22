@@ -213,7 +213,7 @@ class tao_models_classes_RoleService
         $rolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
     	foreach ($users as $u){
     		$u = ($u instanceof core_kernel_classes_Resource) ? $u : new core_kernel_classes_Resource($u);
-    		$u->removePropertyValues($rolesProperty);
+    		$u->removePropertyValues($rolesProperty, array('pattern' => $role->getUri(), 'like' => false));
     		
     		// assign the new role.
     		$u->setPropertyValue($rolesProperty, $role);

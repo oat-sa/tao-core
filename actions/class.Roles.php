@@ -193,6 +193,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 			$saved = false;
 			$role = $this->getCurrentInstance();
 			$userRolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
+			$userService = core_kernel_users_Service::singleton();
 			
 			// Detect users selected to be given the role.
 			$detectedUsers = array(); // URIs of detected users.
@@ -213,7 +214,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 				if (!in_array($u->getUri(), $detectedUsers)){
 					// if the user has the role but is not in the selected users
 					// remove the role from him.
-					$u->removePropertyValues($userRolesProperty, array('pattern' => $role->getUri()));
+					$userService->unnatachRole($u, $role);
 				}
 			}
 			
