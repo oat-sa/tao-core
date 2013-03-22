@@ -15,17 +15,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);\n *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
 
 /**
  * A Service implementation aiming at checking the version of the PHP Runtime currently running
  * on the host system.
  * 
  * Please refer to tao/install/api.php for more information about how to call this service.
+ *
+ * @access public
+ * @author Jerome Bogaerts, <jerome@taotesting.com>
+ * @package tao
+ * @subpackage install_services
  */
 class tao_install_services_CheckPHPRuntimeService 
 	extends tao_install_services_Service
