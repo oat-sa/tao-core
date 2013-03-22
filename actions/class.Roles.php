@@ -15,7 +15,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);\n *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
 ?>
@@ -193,7 +194,6 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 			$saved = false;
 			$role = $this->getCurrentInstance();
 			$userRolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
-			$userService = core_kernel_users_Service::singleton();
 			
 			// Detect users selected to be given the role.
 			$detectedUsers = array(); // URIs of detected users.
@@ -214,7 +214,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 				if (!in_array($u->getUri(), $detectedUsers)){
 					// if the user has the role but is not in the selected users
 					// remove the role from him.
-					$userService->unnatachRole($u, $role);
+					$u->removePropertyValues($userRolesProperty, array('pattern' => $role->getUri()));
 				}
 			}
 			

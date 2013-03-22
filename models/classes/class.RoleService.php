@@ -15,7 +15,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);\n *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
 ?>
@@ -213,7 +214,7 @@ class tao_models_classes_RoleService
         $rolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
     	foreach ($users as $u){
     		$u = ($u instanceof core_kernel_classes_Resource) ? $u : new core_kernel_classes_Resource($u);
-    		$u->removePropertyValues($rolesProperty, array('pattern' => $role->getUri(), 'like' => false));
+    		$u->removePropertyValues($rolesProperty);
     		
     		// assign the new role.
     		$u->setPropertyValue($rolesProperty, $role);
