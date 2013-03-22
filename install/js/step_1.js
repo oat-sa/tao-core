@@ -241,6 +241,7 @@ function initHelp(){
 	install.addHelp('hlp_fs_taoSubjects_includes', "The 'taoSubjects/includes' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoTests_includes', "The 'taoTests/includes' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoResults_includes', "The 'taoResults/includes' directory of your installation must be readable by the user running your web server.");
+	install.addHelp('hlp_fs_taoResults_views_genpics', "The 'taoResults/views/genpics' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_wfEngine_includes', "The 'wfEngine/includes' directory of your installation must be readable by the user running your web server.");
 }
 
