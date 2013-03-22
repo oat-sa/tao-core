@@ -60,11 +60,6 @@ class Bootstrap{
 	protected $ctxPath = "";
 
 	/**
-	 * @var array misc options
-	 */
-	protected $options;
-
-	/**
 	 * @var boolean if the context has been started
 	 */
 	protected static $isStarted = false;
@@ -92,8 +87,11 @@ class Bootstrap{
 		$this->ctxPath = ROOT_PATH . '/' . $extension;
 		$this->extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extension);
 		
+		$extraConstants = isset($options['constants']) ? $options['constants'] : array();
+		$extraConstants = is_string($extraConstants) ? array($extraConstants) : $extraConstants;
+		
 		$extensionLoader = new common_ext_ExtensionLoader($this->extension);
-		$extensionLoader->load();
+		$extensionLoader->load($extraConstants);
 
 		if(PHP_SAPI == 'cli'){
 			tao_helpers_Context::load('SCRIPT_MODE');
@@ -102,9 +100,6 @@ class Bootstrap{
 			tao_helpers_Context::load('APP_MODE');
 		}
 
-		$this->options = $options;
-		
-		
 	}
 
 	/**
