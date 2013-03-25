@@ -333,10 +333,12 @@ class tao_helpers_Uri
     }
 
     /**
-     * Short description of method getUniqueId
+     * generate a semi unique id, that is used
+     * in folder names.
+     * @todo Remove the need for this function
      *
      * @access public
-     * @author somsack.sipasseuth@tudor.lu
+     * @author sam@taotesting.com
      * @param  string uriResource
      * @return string
      */
@@ -346,9 +348,8 @@ class tao_helpers_Uri
 
         // section 127-0-1-1-2045fd08:128b9eb9c51:-8000:0000000000001F71 begin
 
-		//TODO check format of the uri, preg_match()
-		if(stripos($uriResource,".rdf#")>0){
-			$returnValue = substr($uriResource,stripos($uriResource,".rdf#")+5);
+    	if(stripos($uriResource,"#")>0){
+			$returnValue = substr($uriResource, stripos($uriResource,"#")+1);
 		}
 
         // section 127-0-1-1-2045fd08:128b9eb9c51:-8000:0000000000001F71 end
