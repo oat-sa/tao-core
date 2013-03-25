@@ -105,7 +105,7 @@ abstract class tao_scripts_Runner
 			$this->argv = $options['argv'];
 		}
     	
-    	self::out("ENTERRunning {$this->argv[0]} *\n", array('color' => 'white'));
+    	self::out("\n * Running {$this->argv[0]} *\n", array('color' => 'white'));
     	
     	$this->inputFormat = $inputFormat;
 
