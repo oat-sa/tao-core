@@ -111,7 +111,7 @@ class tao_models_classes_UserService
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D05 begin
 
         try{
-        	if($this->generisUserService->login($login, $password, $this->getAllowedRolesForLogin())){
+        	if($this->generisUserService->login($login, $password, $this->getAllowedRoles())){
         		
         		// init languages
         		$currentUser = $this->getCurrentUser();
@@ -238,7 +238,7 @@ class tao_models_classes_UserService
 				
 				$userRolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
 				$userRoles = $user->getPropertyValuesCollection($userRolesProperty);
-				$allowedRoles = $this->getAllowedRolesForLogin();
+				$allowedRoles = $this->getAllowedRoles();
 				
 				if($this->generisUserService->userHasRoles($user, $allowedRoles)){
 					$returnValue = $user;
@@ -345,15 +345,18 @@ class tao_models_classes_UserService
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return array
      */
-    public function getAllowedRolesForLogin()
+    public function getAllowedRoles()
     {
         $returnValue = array();
 
-        // section 127-0-1-1--2224001b:1341c506b75:-8000:0000000000004424 begin
         $returnValue = array(INSTANCE_ROLE_BACKOFFICE => new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE));
-        // section 127-0-1-1--2224001b:1341c506b75:-8000:0000000000004424 end
 
         return (array) $returnValue;
+    }
+    
+    public function getDefaultRole()
+    {
+    	return new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE);
     }
 
     /**
@@ -367,9 +370,7 @@ class tao_models_classes_UserService
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85-4bfc518d:13586bdbc87:-8000:00000000000037E7 begin
         $returnValue = $this->generisUserService->logout();
-        // section 10-13-1-85-4bfc518d:13586bdbc87:-8000:00000000000037E7 end
 
         return (bool) $returnValue;
     }
@@ -386,12 +387,10 @@ class tao_models_classes_UserService
     {
         $returnValue = array();
 
-        // section 127-0-1-1-1e277528:138e7c3a040:-8000:0000000000003B6B begin
         $userClass = new core_kernel_classes_Class(CLASS_TAO_USER);
 		$options = array_merge(array('recursive' => true, 'like' => true), $options);
 		$filters = array(PROPERTY_USER_LOGIN => '*');
 		$returnValue = $userClass->searchInstances($filters, $options);
-        // section 127-0-1-1-1e277528:138e7c3a040:-8000:0000000000003B6B end
 
         return (array) $returnValue;
     }
@@ -410,7 +409,6 @@ class tao_models_classes_UserService
     {
         $returnValue = (int) 0;
 
-        // section 127-0-1-1--59ffbf67:1390a56462a:-8000:0000000000003B6C begin
         $opts = array(
         	'recursive' => true,
         	'like' => false
@@ -441,7 +439,6 @@ class tao_models_classes_UserService
 		
 		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 		$returnValue = $userClass->countInstances($crits, $opts);
-        // section 127-0-1-1--59ffbf67:1390a56462a:-8000:0000000000003B6C end
 
         return (int) $returnValue;
     }
@@ -459,7 +456,6 @@ class tao_models_classes_UserService
     {
         $returnValue = array();
 
-        // section 10-13-1-85-3c62f230:13c860acea1:-8000:0000000000003C67 begin
     	$users = $this->getAllUsers(array('order' => 'login'));
 		foreach($users as $user){
 			$login = (string) $user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
@@ -472,7 +468,6 @@ class tao_models_classes_UserService
 				);
 
 		}
-        // section 10-13-1-85-3c62f230:13c860acea1:-8000:0000000000003C67 end
 
         return (array) $returnValue;
     }

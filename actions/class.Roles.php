@@ -156,7 +156,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 						$users = $userClass->searchInstances($filters, array());
 						if(empty($users)){
 							//delete role here:
-							$deleted = $this->service->deleteRole($role);
+							$deleted = $this->service->removeRole($role);
 						}else{
 							//set message error
 							throw new Exception(__('This role is still given to one or more users. Please remove the role to these users first.'));

@@ -19,38 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * This class provide service on user roles management
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- * @package tao
- * @subpackage models_classes
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * The Service class is an abstraction of each service instance. 
- * Used to centralize the behavior related to every servcie instances.
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- */
-require_once('tao/models/classes/class.GenerisService.php');
-
-/* user defined includes */
-// section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F61-includes begin
-// section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F61-includes end
-
-/* user defined constants */
-// section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F61-constants begin
-// section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F61-constants end
 
 /**
  * This class provide service on user roles management
@@ -62,11 +30,8 @@ require_once('tao/models/classes/class.GenerisService.php');
  */
 class tao_models_classes_RoleService
     extends tao_models_classes_GenerisService
+    implements core_kernel_users_RolesManagement
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
 
     /**
      * the core user service
@@ -74,7 +39,7 @@ class tao_models_classes_RoleService
      * @access public
      * @var Service
      */
-    public $generisUserService = null;
+    protected $generisUserService = null;
 
     /**
      * the class of the target role
@@ -82,9 +47,8 @@ class tao_models_classes_RoleService
      * @access public
      * @var Class
      */
-    public $roleClass = null;
+    private $roleClass = null;
 
-    // --- OPERATIONS ---
 
     /**
      * constructor, call initRole
@@ -95,14 +59,10 @@ class tao_models_classes_RoleService
      */
     protected function __construct()
     {
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F71 begin
-        
     	parent::__construct();
 		$this->generisUserService = core_kernel_users_Service::singleton();
 		
 		$this->initRole();
-    	
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F71 end
     }
 
     /**
@@ -115,11 +75,7 @@ class tao_models_classes_RoleService
      */
     protected function initRole()
     {
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F73 begin
-        
     	$this->roleClass = new core_kernel_classes_Class(CLASS_ROLE);
-    	
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F73 end
     }
 
     /**
@@ -133,14 +89,10 @@ class tao_models_classes_RoleService
     public function getRole($uri)
     {
         $returnValue = null;
-
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F75 begin
         
         if(!empty($uri)){
         	$returnValue = new core_kernel_classes_Resource($uri);
         }
-        
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F75 end
 
         return $returnValue;
     }
@@ -155,46 +107,10 @@ class tao_models_classes_RoleService
     public function getRoleClass()
     {
         $returnValue = null;
-
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F93 begin
         
         $returnValue = $this->roleClass;
-        
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F93 end
 
         return $returnValue;
-    }
-
-    /**
-     * remove a role
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource role
-     * @return boolean
-     */
-    public function deleteRole( core_kernel_classes_Resource $role)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F88 begin
-        
-        if(!is_null($role)){
-        	core_kernel_users_Cache::removeIncludedRoles($role);
-        	
-        	// The whole ACL cache must be flushed.
-        	/*
-        	 * @todo optimize this by
-        	 * - removing only cache files related to the role.
-        	 * - having a cache of which module includes wich role.
-        	 */ 
-        	tao_helpers_funcACL_Cache::flush();
-        	$returnValue = $role->delete();
-        }
-        
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F88 end
-
-        return (bool) $returnValue;
     }
 
     /**
@@ -210,7 +126,6 @@ class tao_models_classes_RoleService
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F78 begin
         $rolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
     	foreach ($users as $u){
     		$u = ($u instanceof core_kernel_classes_Resource) ? $u : new core_kernel_classes_Resource($u);
@@ -221,7 +136,6 @@ class tao_models_classes_RoleService
     	}
         
     	$returnValue = true;
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F78 end
 
         return (bool) $returnValue;
     }
@@ -238,7 +152,6 @@ class tao_models_classes_RoleService
     {
         $returnValue = array();
 
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F7D begin 
         $filters = array(PROPERTY_USER_ROLES => $role->getUri());
         $options = array('like' => false, 'recursive' => true);
         
@@ -246,7 +159,6 @@ class tao_models_classes_RoleService
         $results = $userClass->searchInstances($filters, $options);
         
         $returnValue = array_keys($results);
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F7D end
 
         return (array) $returnValue;
     }
@@ -264,15 +176,28 @@ class tao_models_classes_RoleService
     {
         $returnValue = null;
 
-        // section 10-13-1--128-2f4f67cd:13003c0785f:-8000:0000000000002E3B begin
 		$returnValue = parent::createInstance($clazz, $label);
 		$roleClass = new core_kernel_classes_Class($returnValue);
 		$roleClass->setSubClassOf(new core_kernel_classes_Class(CLASS_GENERIS_USER));
-        // section 10-13-1--128-2f4f67cd:13003c0785f:-8000:0000000000002E3B end
 
         return $returnValue;
     }
+    
+    public function addRole($label, $includedRoles = null){
+		return $this->generisUserService->addRole($label, $includedRoles);
+	}
 
-} /* end of class tao_models_classes_RoleService */
+	public function removeRole(core_kernel_classes_Resource $role){
+		return $this->generisUserService->removeRole($role);
+	}
+	
+	public function getIncludedRoles(core_kernel_classes_Resource $role){
+		return $this->generisUserService->getIncludedRoles($role);
+	}
+	
+	public function includeRole( core_kernel_classes_Resource $role,  core_kernel_classes_Resource $roleToInclude){
+		$this->generisUserService->includeRole($role, $roleToInclude);
+	}
+}
 
 ?>
