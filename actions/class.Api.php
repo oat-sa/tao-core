@@ -194,55 +194,6 @@ class tao_actions_Api extends tao_actions_CommonModule {
 	}
 	
 	/**
-	 * Get the folder where is the current compiled item
-	 * @param array $executionEnvironment
-	 * @return string
-	 */
-	protected function getCompiledFolder($executionEnvironment){
-		
-		$folder = '';
-		$userService = $this->userService;
-		$user = $userService->getCurrentUser();
-		$session = core_kernel_classes_Session::singleton();
-		$langProperty = new core_kernel_classes_Property(PROPERTY_USER_UILG);
-		$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
-		if (($currentLanguage = $user->getOnePropertyValue($langProperty)) != null){
-		    $currentLanguageCode = '' . $currentLanguage->getOnePropertyValue($valueProperty);  
-		}
-        else{
-            $currentLanguageCode = $session->defaultLg;
-        }
-		
-		if( isset($executionEnvironment[TAO_ITEM_CLASS]['uri']) && 
-		 	isset($executionEnvironment[TAO_TEST_CLASS]['uri']) &&
-		 	isset($executionEnvironment[TAO_DELIVERY_CLASS]['uri'])
-		 	){
-					
-			$item 		= new core_kernel_classes_Resource($executionEnvironment[TAO_ITEM_CLASS]['uri']);
-			$test 		= new core_kernel_classes_Resource($executionEnvironment[TAO_TEST_CLASS]['uri']);
-			$delivery 	= new core_kernel_classes_Resource($executionEnvironment[TAO_DELIVERY_CLASS]['uri']);
-			
-			$deliveryFolder 	= substr($delivery->uriResource, strpos($delivery->uriResource, '#') + 1);
-			$testFolder 		= substr($test->uriResource, strpos($test->uriResource, '#') + 1);
-			$itemFolder 		= substr($item->uriResource, strpos($item->uriResource, '#') + 1);
-			$langFolder 		= $currentLanguageCode;
-			$defaultLangFolder 	= $session->defaultLg;
-			
-			$expectedFolderi18n = BASE_PATH. "/compiled/${deliveryFolder}/${testFolder}/${itemFolder}/${langFolder}/";
-			$compiledFolderDefault = BASE_PATH. "/compiled/${deliveryFolder}/${testFolder}/${itemFolder}/${defaultLangFolder}/";
-			if (!is_dir($expectedFolderi18n)){
-				$expectedFolderi18n = $compiledFolderDefault;
-			}
-			
-			if(is_dir($expectedFolderi18n)){
-				return $expectedFolderi18n;
-			}
-		}
-		
-		return $folder;
-	}
-	
-	/**
 	 * Enbales you to authenticate a communication based on the token
 	 * @param string $token
 	 * @return boolean
