@@ -351,7 +351,11 @@ class tao_helpers_data_GenerisAdapterCsv
 					$resource->setType(new core_kernel_classes_Class($value));
 				}
 				else{
-					$resource->setPropertyValue(new core_kernel_classes_Property($cleanUri), $value);
+					$values = (is_array($value)) ? $value : array($value);
+					
+					foreach ($values as $v){
+						$resource->setPropertyValue(new core_kernel_classes_Property($cleanUri), $v);
+					}
 				}
 			}
 		}
