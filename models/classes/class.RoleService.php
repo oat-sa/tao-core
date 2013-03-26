@@ -252,43 +252,6 @@ class tao_models_classes_RoleService
     }
 
     /**
-     * check if a user has a role
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource user
-     * @param  Class role
-     * @return boolean
-     */
-    public function checkUserRole( core_kernel_classes_Resource $user,  core_kernel_classes_Class $role = null)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F83 begin
-        
-        if(!is_null($user)){
-        
-	        if(is_null($role)){
-	        	$role = $this->roleClass;
-	        }
-	        
-			$userRoles = $user->getTypes();
-			
-			$acceptedRole =  array_merge(array($role->getUri()) , array_keys($role->getInstances(true))); 
-			foreach ($userRoles  as $userRole){
-				$returnValue = in_array($userRole->getUri(), $acceptedRole);
-				if($returnValue){
-					break;
-				}
-			}
-        }
-			
-        // section 127-0-1-1-7f226444:12902c0ab92:-8000:0000000000001F83 end
-
-        return (bool) $returnValue;
-    }
-
-    /**
      * Short description of method createInstance
      *
      * @access public
