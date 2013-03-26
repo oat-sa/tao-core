@@ -483,10 +483,16 @@ class tao_models_classes_UserService
      * @param string login The login to give the user.
      * @param string password the md5 hash of the password.
      * @param core_kernel_classes_Resource role A role to grant to the user.
+     * @param core_kernel_classes_Class A specific class to use to instantiate the new user. If not specified, the class returned by the getUserClass method is used.
      * @throws core_kernel_users_Exception If an error occurs.
      */
-    public function addUser($login, $password, core_kernel_classes_Resource $role = null){
-		return $this->generisUserService->addUser($login, $password, $role);
+    public function addUser($login, $password, core_kernel_classes_Resource $role = null, core_kernel_classes_Class $class = null){
+		
+    	if (empty($class)){
+    		$class = $this->getUserClass();
+    	}
+    	
+    	return $this->generisUserService->addUser($login, $password, $role, $class);
 	}
 	
 	/**
@@ -558,7 +564,7 @@ class tao_models_classes_UserService
 	}
 	
 	/**
-	 * Short description of method unnatachRole
+	 * Unnatach a Role from a given TAO User.
 	 *
 	 * @access public
 	 * @author Jerome Bogaerts, <jerome@taotesting.com>
@@ -569,6 +575,15 @@ class tao_models_classes_UserService
 	public function unnatachRole(core_kernel_classes_Resource $user, core_kernel_classes_Resource $role)
 	{
 		$this->generisUserService->unnatachRole();
+	}
+	
+	/**
+	 * Get the class to use to instantiate users.
+	 * 
+	 * @return core_kernel_classes_Class The user class.
+	 */
+	public function getUserClass(){
+		return new core_kernel_classes_Class(CLASS_GENERIS_USER);
 	}
 }
 
