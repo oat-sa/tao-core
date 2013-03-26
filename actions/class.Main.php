@@ -312,23 +312,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	}
 
 	/**
-	 * Load the filter section
-	 * @return html
-	 */
-	public function getSectionFilters()
-	{
-		$this->setData('filters', false);
-		$currentExtension = context::getInstance()->getExtensionName();
-		if($currentExtension){
-			//Filter by query
-			//Filter by text
-			//Filter by facet
-
-		}
-		$this->setView('main/filters.tpl');
-	}
-
-	/**
 	 * Load the section trees
 	 * @return void
 	 */

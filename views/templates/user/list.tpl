@@ -25,21 +25,19 @@ require(['require', 'jquery', 'grid/tao.grid'], function(req, $) {
 			datatype: "json",
 			colNames:[ __('Login'), __('Name'), __('Mail'), __('Roles'), __('Data Language'), __('Interface Language'), __('Actions')],
 			colModel:[
-				{name:'login',index:'login'},
-				{name:'name',index:'name'},
-				{name:'email',index:'email', width: '200'},
-				{name:'roles',index:'roles'},
-				{name:'deflg',index:'deflg', align:"center"},
-				{name:'uilg',index:'uilg', align:"center"},
+				{name:'login',index:'login', sortable: false},
+				{name:'name',index:'name', sortable: false},
+				{name:'email',index:'email', width: '200', sortable: false},
+				{name:'roles',index:'roles', sortable: false},
+				{name:'deflg',index:'deflg', align:"center", sortable: false},
+				{name:'uilg',index:'uilg', align:"center", sortable: false},
 				{name:'actions',index:'actions', align:"center", sortable: false}
 			],
 			rowNum:20,
 			height:350,
 			width: (parseInt($("#user-list").width()) - 2),
 			pager: '#user-list-pager',
-			sortname: 'login',
 			viewrecords: false,
-			sortorder: "asc",
 			caption: __("Users"),
 			gridComplete: function(){
 				$.each(myGrid.getDataIDs(), function(index, elt){
