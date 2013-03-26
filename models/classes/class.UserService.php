@@ -62,6 +62,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  */
 class tao_models_classes_UserService
     extends tao_models_classes_GenerisService
+    implements core_kernel_users_UsersManagement
 {
     // --- ASSOCIATIONS ---
 
@@ -76,18 +77,10 @@ class tao_models_classes_UserService
      */
     protected $generisUserService = null;
 
-    /**
-     * the list of allowed roles (ie. for login)
-     *
-     * @access protected
-     * @var array
-     */
-    protected $allowedRoles = array();
-
     // --- OPERATIONS ---
 
     /**
-     * constructor, call initRoles
+     * constructor
      *
      * @access protected
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
@@ -98,27 +91,8 @@ class tao_models_classes_UserService
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D1E begin
 
 		$this->generisUserService = core_kernel_users_Service::singleton();
-		$this->initRoles();
 
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D1E end
-    }
-
-    /**
-     * Initialize the allowed roles.
-     * To be overriden.
-     *
-     * @access protected
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return mixed
-     */
-    protected function initRoles()
-    {
-        // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 begin
-
-    	// expects a subclass of class_role, not an instance
-    	$this->allowedRoles = array(INSTANCE_ROLE_BACKOFFICE => new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE));
-
-        // section 127-0-1-1-12d76932:128aaed4c91:-8000:0000000000001FA8 end
     }
 
     /**
@@ -137,7 +111,7 @@ class tao_models_classes_UserService
         // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D05 begin
 
         try{
-        	if($this->generisUserService->login($login, $password, $this->getAllowedConcreteRoles())){
+        	if($this->generisUserService->login($login, $password, $this->getAllowedRolesForLogin())){
         		
         		// init languages
         		$currentUser = $this->getCurrentUser();
@@ -204,19 +178,16 @@ class tao_models_classes_UserService
      * Check if the login is already used
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string login
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @param string login
+     * @param 
      * @return boolean
      */
-    public function loginExist($login)
+    public function loginExists($login, core_kernel_classes_Class $class = null)
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D54 begin
-
-        $returnValue = $this->generisUserService->loginExists($login);
-
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D54 end
+        $returnValue = $this->generisUserService->loginExists($login, $class);
 
         return (bool) $returnValue;
     }
@@ -236,7 +207,7 @@ class tao_models_classes_UserService
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D76 begin
 
 		if(!empty($login)){
-			$returnValue = !$this->loginExist($login);
+			$returnValue = !$this->loginExists($login);
 		}
 
         // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D76 end
@@ -245,14 +216,15 @@ class tao_models_classes_UserService
     }
 
     /**
-     * get a user by his login
+     * Get a user that has a given login.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string login the user login is the unique identifier to retrieve him
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @param string login the user login is the unique identifier to retrieve him.
+     * @param core_kernel_classes_Class A specific class to search the user.
      * @return core_kernel_classes_Resource
      */
-    public function getOneUser($login)
+    public function getOneUser($login, core_kernel_classes_Class $class = null)
     {
         $returnValue = null;
 
@@ -260,13 +232,13 @@ class tao_models_classes_UserService
 
 		if (!empty($login)){
 			
-			$user = $this->generisUserService->getOneUser($login);
+			$user = $this->generisUserService->getOneUser($login, $class);
 			
 			if (!empty($user)){
 				
 				$userRolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
 				$userRoles = $user->getPropertyValuesCollection($userRolesProperty);
-				$allowedRoles = $this->getAllowedConcreteRoles();
+				$allowedRoles = $this->getAllowedRolesForLogin();
 				
 				if($this->generisUserService->userHasRoles($user, $allowedRoles)){
 					$returnValue = $user;
@@ -366,23 +338,6 @@ class tao_models_classes_UserService
     }
 
     /**
-     * Short description of method addAllowedRole
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string role
-     * @return mixed
-     */
-    public function addAllowedRole($role)
-    {
-        // section 127-0-1-1-6426161e:12f0225bbdf:-8000:0000000000002D40 begin
-
-    	$this->allowedRoles[] = $role;
-
-        // section 127-0-1-1-6426161e:12f0225bbdf:-8000:0000000000002D40 end
-    }
-
-    /**
      * returns a list of all concrete roles(instances of CLASS_ROLE)
      * which are allowed to login
      *
@@ -390,12 +345,12 @@ class tao_models_classes_UserService
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @return array
      */
-    public function getAllowedConcreteRoles()
+    public function getAllowedRolesForLogin()
     {
         $returnValue = array();
 
         // section 127-0-1-1--2224001b:1341c506b75:-8000:0000000000004424 begin
-        $returnValue = $this->allowedRoles;
+        $returnValue = array(INSTANCE_ROLE_BACKOFFICE => new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE));
         // section 127-0-1-1--2224001b:1341c506b75:-8000:0000000000004424 end
 
         return (array) $returnValue;
@@ -521,7 +476,100 @@ class tao_models_classes_UserService
 
         return (array) $returnValue;
     }
-
-} /* end of class tao_models_classes_UserService */
+    
+    /**
+     * Add a new user.
+     * 
+     * @param string login The login to give the user.
+     * @param string password the md5 hash of the password.
+     * @param core_kernel_classes_Resource role A role to grant to the user.
+     * @throws core_kernel_users_Exception If an error occurs.
+     */
+    public function addUser($login, $password, core_kernel_classes_Resource $role = null){
+		return $this->generisUserService->addUser($login, $password, $role);
+	}
+	
+	/**
+	 * Indicates if a user session is currently opened or not.
+	 * 
+	 * @return boolean True if a session is opened, false otherwise.
+	 */
+	public function isASessionOpened(){
+		return $this->generisUserService->isASessionOpened();
+	}
+	
+	/**
+	 * Indicates if a given user has a given password.
+	 * 
+	 * @param string password The password to check.
+	 * @param core_kernel_classes_Resource user The user you want to check the password.
+	 * @return boolean
+	 */
+	public function isPasswordValid($password,  core_kernel_classes_Resource $user){
+		return $this->generisUserService->isPasswordValid();
+	}
+	
+	/**
+	 * Change the password of a given user.
+	 * 
+	 * @param core_kernel_classes_Resource user The user you want to change the password.
+	 * @param string password The md5 hash of the new password.
+	 */
+	public function setPassword(core_kernel_classes_Resource $user, $password){
+		return $this->generisUserService->setPassword($user, $password);
+	}
+	
+	/**
+	 * Get the roles of a given user.
+	 * 
+	 * @param core_kernel_classes_Resource $user The user you want to retrieve the roles.
+	 * @return array An array of core_kernel_classes_Resource.
+	 */
+	public function getUserRoles(core_kernel_classes_Resource $user){
+		return $this->generisUserService->getUserRoles($user);
+	}
+	
+	/**
+	 * Indicates if a user is granted with a set of Roles.
+	 *
+	 * @access public
+	 * @author Jerome Bogaerts, <jerome@taotesting.com>
+	 * @param  Resource user The User instance you want to check Roles.
+	 * @param  roles Can be either a single Resource or an array of Resource that are instances of Role.
+	 * @return boolean
+	 */
+	public function userHasRoles(core_kernel_classes_Resource $user, $roles){
+		return $this->generisUserService->userHasRoles($user, $roles);
+	}
+	
+	/**
+	 * Attach a Generis Role to a given TAO User. A UserException will be
+	 * if an error occurs. If the User already has the role, nothing happens.
+	 *
+	 * @access public
+	 * @author Jerome Bogaerts, <jerome@taotesting.com>
+	 * @param  Resource user The User you want to attach a Role.
+	 * @param  Resource role A Role to attach to a User.
+	 * @throws core_kernel_users_Exception If an error occurs.
+	 */
+	public function attachRole(core_kernel_classes_Resource $user, core_kernel_classes_Resource $role)
+	{
+		$this->generisUserService->attachRole($user, $role);
+	}
+	
+	/**
+	 * Short description of method unnatachRole
+	 *
+	 * @access public
+	 * @author Jerome Bogaerts, <jerome@taotesting.com>
+	 * @param  Resource user A TAO user from which you want to unnattach the Role.
+	 * @param  Resource role The Role you want to Unnatach from the TAO User.
+	 * @throws core_kernel_users_Exception If an error occurs.
+	 */
+	public function unnatachRole(core_kernel_classes_Resource $user, core_kernel_classes_Resource $role)
+	{
+		$this->generisUserService->unnatachRole();
+	}
+}
 
 ?>
