@@ -83,8 +83,8 @@ class tao_models_classes_funcACL_RoleService
         $returnValue = (string) '';
 
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:00000000000039F1 begin
-		$userService = core_kernel_users_Service::singleton();
-		$role = $userService->addRole($name);
+		$roleService = tao_models_classes_RoleService::singleton();
+		$role = $roleService->addRole($name);
 		
 		$returnValue = $role->getUri();
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:00000000000039F1 end
@@ -149,18 +149,16 @@ class tao_models_classes_funcACL_RoleService
      * @author Jehan Bihin, <jehan.bihin@tudor.lu>
      * @param  string userUri
      * @param  string roleUri
-     * @return mixed
+     * @throws core_kernel_users_Exception
      */
     public function unattachUser($userUri, $roleUri)
     {
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A04 begin
-		$userRes = new core_kernel_classes_Resource($userUri);
-		$roles = core_kernel_users_Service::singleton()->getUserRoles($userRes);
-		if (count($roles) > 1) {
-			$userRes->removePropertyValues(new core_kernel_classes_Property(RDF_TYPE), array('pattern' => $roleUri));
-		} else {
-			throw new Exception(__('User must have at least one role !'));
-		}
+		$userService = tao_models_classes_UserService::singleton();
+		$user = new core_kernel_classes_Resource($userUri);
+		$role = new core_kernel_classes_Resource($roleUri);
+		
+		$userService->unnatachRole($user, $role);
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A04 end
     }
 

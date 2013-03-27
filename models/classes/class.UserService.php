@@ -19,10 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
 
 /**
  * This class provide service on user management
@@ -44,14 +40,6 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  */
 require_once('tao/models/classes/class.GenerisService.php');
 
-/* user defined includes */
-// section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFA-includes begin
-// section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFA-includes end
-
-/* user defined constants */
-// section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFA-constants begin
-// section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001CFA-constants end
-
 /**
  * This class provide service on user management
  *
@@ -64,20 +52,15 @@ class tao_models_classes_UserService
     extends tao_models_classes_GenerisService
     implements core_kernel_users_UsersManagement
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
 
     /**
      * the core user service
      *
      * @access protected
-     * @var Service
+     * @var core_kernel_users_Service
      */
     protected $generisUserService = null;
 
-    // --- OPERATIONS ---
 
     /**
      * constructor
@@ -88,11 +71,7 @@ class tao_models_classes_UserService
      */
     protected function __construct()
     {
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D1E begin
-
 		$this->generisUserService = core_kernel_users_Service::singleton();
-
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D1E end
     }
 
     /**
@@ -107,8 +86,6 @@ class tao_models_classes_UserService
     public function loginUser($login, $password)
     {
         $returnValue = (bool) false;
-
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D05 begin
 
         try{
         	if($this->generisUserService->login($login, $password, $this->getAllowedRoles())){
@@ -137,14 +114,14 @@ class tao_models_classes_UserService
 					// leave it to default        				
         		}
 				
-        		$returnValue = true;				//roles order is important, we loggin with the first found
+        		$returnValue = true; //roles order is important, we loggin with the first found
         	}
         }
         catch(core_kernel_users_Exception $ue){
-        //	print $ue->getMessage();
+        	$returnValue = false;
+        	common_Logger::e("A fatal error occured at user login time: " . $ue->getMessage());
         }
         
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D05 end
 
         return (bool) $returnValue;
     }
@@ -160,7 +137,6 @@ class tao_models_classes_UserService
     {
         $returnValue = null;
 
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D03 begin
     	if($this->generisUserService->isASessionOpened()){
         	$userUri = core_kernel_classes_Session::singleton()->getUserUri();
 			if(!empty($userUri)){
@@ -169,7 +145,6 @@ class tao_models_classes_UserService
 				common_Logger::d('no userUri');
 			}
     	}
-        // section 127-0-1-1-37d8f507:12577bc7e88:-8000:0000000000001D03 end
 
         return $returnValue;
     }
@@ -204,13 +179,9 @@ class tao_models_classes_UserService
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D76 begin
-
 		if(!empty($login)){
 			$returnValue = !$this->loginExists($login);
 		}
-
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D76 end
 
         return (bool) $returnValue;
     }
@@ -228,9 +199,9 @@ class tao_models_classes_UserService
     {
         $returnValue = null;
 
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D4E begin
-
 		if (!empty($login)){
+			
+			$class = (!empty($class)) ? $class : $this->getUserClass();
 			
 			$user = $this->generisUserService->getOneUser($login, $class);
 			
@@ -245,8 +216,6 @@ class tao_models_classes_UserService
 				}
 			}
 		}
-
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D4E end
 
         return $returnValue;
     }
@@ -265,8 +234,6 @@ class tao_models_classes_UserService
     public function getUsersByRoles($roles, $options = array())
     {
         $returnValue = array();
-
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 begin
 
         //the users we want are instances of the role
 		$fields = array('login' => PROPERTY_USER_LOGIN,
@@ -311,7 +278,6 @@ class tao_models_classes_UserService
 		$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
 		
 		$returnValue = $userClass->searchInstances($crits, $opts);
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D44 end
 
         return (array) $returnValue;
     }
@@ -328,11 +294,9 @@ class tao_models_classes_UserService
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D56 begin
         if(!is_null($user)){
 			$returnValue = $this->generisUserService->removeUser($user);
 		}
-        // section 127-0-1-1--54120360:125930cf6af:-8000:0000000000001D56 end
 
         return (bool) $returnValue;
     }
@@ -569,7 +533,7 @@ class tao_models_classes_UserService
 	 */
 	public function unnatachRole(core_kernel_classes_Resource $user, core_kernel_classes_Resource $role)
 	{
-		$this->generisUserService->unnatachRole();
+		$this->generisUserService->unnatachRole($user, $role);
 	}
 	
 	/**
@@ -578,7 +542,7 @@ class tao_models_classes_UserService
 	 * @return core_kernel_classes_Class The user class.
 	 */
 	public function getUserClass(){
-		return new core_kernel_classes_Class(CLASS_GENERIS_USER);
+		return new core_kernel_classes_Class(CLASS_TAO_USER);
 	}
 }
 

@@ -86,8 +86,8 @@ class AuthTestCase extends UnitTestCase {
 		if (!is_null($this->userService)) {
 			$this->userService->removeUser($this->testUser);
 		}
-		if(core_kernel_users_Service::singleton()->isASessionOpened()){
-			core_kernel_users_Service::singleton()->logout();
+		if(tao_models_classes_UserService::singleton()->isASessionOpened()){
+			tao_models_classes_UserService::singleton()->logout();
 		}
 		session_destroy();
 	}
@@ -107,18 +107,18 @@ class AuthTestCase extends UnitTestCase {
 		//is the user in the db
 		$this->assertFalse(	$this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]) );
 		
-		if(core_kernel_users_Service::singleton()->isASessionOpened()){
-			core_kernel_users_Service::singleton()->logout();
+		if(tao_models_classes_UserService::singleton()->isASessionOpened()){
+			tao_models_classes_UserService::singleton()->logout();
 		}
 	
 		//no other user session
-		$this->assertFalse( core_kernel_users_Service::singleton()->isASessionOpened() );
+		$this->assertFalse( tao_models_classes_UserService::singleton()->isASessionOpened() );
 
 		//check user login
 		$this->assertTrue( $this->userService->loginUser($this->testUserData[PROPERTY_USER_LOGIN], md5($this->clearPassword)) );
 		
 		//check session
-		$this->assertTrue( core_kernel_users_Service::singleton()->isASessionOpened() );
+		$this->assertTrue( tao_models_classes_UserService::singleton()->isASessionOpened() );
 		
 		
 		$currentUser =  $this->userService->getCurrentUser();

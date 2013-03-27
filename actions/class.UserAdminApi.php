@@ -143,7 +143,7 @@ class tao_actions_UserAdminApi extends tao_actions_RemoteServiceModule {
 		}
 		$user = new core_kernel_classes_Resource($this->getRequestParameter('userid'));
 		$uris = array();
-		foreach (core_kernel_users_Service::singleton()->getUserRoles($user) as $role) {
+		foreach (tao_models_classes_UserService::singleton()->getUserRoles($user) as $role) {
 			$uris[] = $role->getUri();
 		}
 		return $this->returnSuccess(array('roles' => $uris));

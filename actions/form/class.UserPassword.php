@@ -109,7 +109,7 @@ class tao_actions_form_UserPassword
 				$pass1Element->addValidator(
 					tao_helpers_form_FormFactory::getValidator('Callback', array(
 						'message'	=> __('Passwords are not matching'), 
-						'object'	=> core_kernel_users_Service::singleton(),
+						'object'	=> tao_models_classes_UserService::singleton(),
 						'method'	=> 'isPasswordValid',
 						'param'		=> tao_models_classes_UserService::singleton()->getCurrentUser()
 				)));

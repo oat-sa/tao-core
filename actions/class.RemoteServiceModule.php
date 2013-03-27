@@ -89,7 +89,7 @@ class tao_actions_RemoteServiceModule extends Module {
 		if (!$this->hasRequestParameter('username') || !$this->hasRequestParameter('password')) {
 			throw new common_Exception('Missing paramteres');
 		}
-		$userService = core_kernel_users_Service::singleton();
+		$userService = tao_models_classes_UserService::singleton();
 		$user = $userService->getOneUser($this->getRequestParameter('username'));
 		if (is_null($user)) {
 			return false;

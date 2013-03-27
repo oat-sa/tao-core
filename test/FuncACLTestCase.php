@@ -31,26 +31,28 @@ class FuncACLTestCase extends UnitTestCase {
 	public function setUp() {
         parent::setUp();
         
-        $userService = core_kernel_users_Service::singleton();
+        $userService = tao_models_classes_UserService::singleton();
+        $roleService = tao_models_classes_RoleService::singleton();
 		$baseRole = new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE);
-		$this->testRole = $userService->addRole('testrole', $baseRole);
+		$this->testRole = $roleService->addRole('testrole', $baseRole);
 		$this->user = $userService->addUser('testcase', md5('testcase'));
+		$userService->attachRole($this->user, $this->testRole);
     }
     
 	public function tearDown() {
         parent::tearDown();
-        $userService = core_kernel_users_Service::singleton();
+        $userService = tao_models_classes_UserService::singleton();
+        $roleService = tao_models_classes_RoleService::singleton();
         $userService->removeUser($this->user);
-		$userService->removeRole($this->testRole);
+		$roleService->removeRole($this->testRole);
     }
 	
 	public function testFuncACL() {
-		$userService = core_kernel_users_Service::singleton();
 		$roleService = tao_models_classes_funcACL_RoleService::singleton();
-		$baseRole = new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE);
+		$baseRole = $this->testrole;
 		
 		$srv = tao_models_classes_UserService::singleton();
-		$this->assertTrue($userService->login('testcase', md5('testcase'), new core_kernel_classes_Resource(INSTANCE_ROLE_GENERIS)));
+		$this->assertTrue($srv->loginUser('testcase', md5('testcase')));
 
 		// -- Test uri creation
 		$emauri = FUNCACL_NS . '#a_tao_Users_add';

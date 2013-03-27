@@ -103,7 +103,6 @@ class tao_helpers_funcACL_Cache
     public static function cacheModule( core_kernel_classes_Resource $module)
     {
         // section 10-13-1-85--1d76564e:13ca4d5068d:-8000:0000000000003C67 begin
-        $userService = core_kernel_users_Service::singleton();
         $serial = self::buildModuleSerial($module);
         $roleClass = new core_kernel_classes_Class(CLASS_ROLE);
         $grantedModulesProperty = new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS);

@@ -55,7 +55,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$user = $this->userService->getCurrentUser();
-				core_kernel_users_Service::singleton()->setPassword($user, $myForm->getValue('newpassword'));
+				tao_models_classes_UserService::singleton()->setPassword($user, $myForm->getValue('newpassword'));
 				$this->setData('message', __('Password changed'));
 			}
 		}

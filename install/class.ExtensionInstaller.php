@@ -101,24 +101,22 @@ class tao_install_ExtensionInstaller
     	// (this information comes actually from the Manifest of the extension)
     	$role = $this->extension->getManagementRole();
     	
-    	$userService = core_kernel_users_Service::singleton();
+    	$roleService = tao_models_classes_RoleService::singleton();
     	
     	if (empty($role)){
     		// There is no Management role described by the Extension Manifest.
     		// We create a new one with the name of the extension
     		// currently installed.
-    		$roleLabel = $this->extension->getID() . ' Manager';
-    		$roleClass = new core_kernel_classes_Class(CLASS_MANAGEMENTROLE);
-    		$role = $roleClass->createInstance($roleLabel);
     		$backOfficeRole = new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE);
-    		$userService->includeRole($role, $backOfficeRole);
+    		$roleLabel = $this->extension->getID() . ' Manager';
+    		$role = $roleService->addRole($roleLabel, $backOfficeRole);
     	}
 
     	// Take the Global Manager role and make it include
     	// the Management role of the currently installed extension.
     	if ($role->getUri() !== INSTANCE_ROLE_TAOMANAGER){
     		$globalManagerRole = new core_kernel_classes_Resource(INSTANCE_ROLE_TAOMANAGER);
-    		$userService->includeRole($globalManagerRole, $role);
+    		$roleService->includeRole($globalManagerRole, $role);
     	}
     	
     	// Give the Management role access to all modules of the currently

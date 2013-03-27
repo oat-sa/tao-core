@@ -47,7 +47,7 @@ class tao_actions_UserApi extends tao_actions_RemoteServiceModule {
 			|| !$this->hasRequestParameter('newpassword')) {
 			throw new common_Exception('Missing paramteres');
 		}
-		$userService = core_kernel_users_Service::singleton();
+		$userService = tao_models_classes_UserService::singleton();
 		$user = $this->getCurrentUser();
 		if (is_null($user) || !$userService->isPasswordValid($this->getRequestParameter('oldpassword'), $user)) {
 			return $this->returnFailure('Invalid password');
@@ -63,7 +63,6 @@ class tao_actions_UserApi extends tao_actions_RemoteServiceModule {
 			throw new common_Exception('Missing paramteres');
 		}
 		
-		$userService	= core_kernel_users_Service::singleton();
 		$user			= $this->getCurrentUser();
 		$uiLangResource = tao_helpers_I18n::getLangResourceByCode($this->getRequestParameter('lang'));
 		
@@ -104,7 +103,7 @@ class tao_actions_UserApi extends tao_actions_RemoteServiceModule {
 			));
 			
 		$roles = array();
-		$roleRes = core_kernel_users_Service::singleton()->getUserRoles($user);
+		$roleRes = tao_models_classes_UserService::singleton()->getUserRoles($user);
 		foreach ($roleRes as $role) {
 			$roles[$role->getUri()] = $role->getLabel();
 		}	
