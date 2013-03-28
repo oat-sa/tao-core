@@ -11,8 +11,12 @@ function checkLogin(id, url){
 	if($(selector)){
 		$(selector).blur(function(){
 			var elt = $(this);
-			value = elt.val().replace(' ', '');
-			if(value == ''){
+			
+			// trim value
+			trimmedValue = elt.val().replace(/^\s+/g,'').replace(/\s+$/g,'');
+			value = elt.val();
+
+			if(trimmedValue == ''){
 				$('.login-info').remove();
 			}
 			else{

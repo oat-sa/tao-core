@@ -130,7 +130,6 @@ class UserTestCase extends UnitTestCase {
 	
 	/**
 	 * Test user insertion with special chars
-	 * @see tao_models_classes_UserService::saveUser
 	 */
 	public function testAddUtf8User(){
 		
@@ -156,6 +155,22 @@ class UserTestCase extends UnitTestCase {
 				$this->fail($ce);
 			}
 		}
+	}
+	
+	public function testLoginAvailability(){
+		$user = $this->userService->getOneUser($this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
+		$loginProperty = new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
+		
+		$this->assertTrue(!empty($user));
+		$this->assertFalse($this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
+		
+		// Test to cover issue #2135
+		$this->assertTrue($this->userService->loginAvailable('my new user'));
+		$user->editPropertyValues($loginProperty, 'my new user');
+		$this->assertTrue($this->userService->loginExists('my new user'));
+		$this->assertFalse($this->userService->loginAvailable('my new user'));
+		
+		$user->EditPropertyValues($loginProperty, $this->testUserUtf8Data[PROPERTY_USER_LOGIN]);
 	}
 	
 	/**
