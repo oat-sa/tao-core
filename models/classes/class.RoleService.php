@@ -24,7 +24,7 @@
  * This class provide service on user roles management
  *
  * @access public
- * @author Joel Bout, <joel.bout@tudor.lu>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  * @subpackage models_classes
  */
@@ -45,23 +45,21 @@ class tao_models_classes_RoleService
      * the class of the target role
      *
      * @access public
-     * @var Class
+     * @var core_kernel_classes_Class
      */
     private $roleClass = null;
 
 
     /**
-     * constructor, call initRole
+     * Constructor, calls the initRole method.
      *
      * @access protected
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return mixed
+     * @author Joel Bout, <joel@taotesting.com>
      */
     protected function __construct()
     {
     	parent::__construct();
 		$this->generisUserService = core_kernel_users_Service::singleton();
-		
 		$this->initRole();
     }
 
@@ -70,7 +68,7 @@ class tao_models_classes_RoleService
      * To be overriden.
      *
      * @access protected
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @return mixed
      */
     protected function initRole()
@@ -82,7 +80,7 @@ class tao_models_classes_RoleService
      * Get the Role matching the uri
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  string uri
      * @return core_kernel_classes_Resource
      */
@@ -101,7 +99,7 @@ class tao_models_classes_RoleService
      * get the target role class
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @return core_kernel_classes_Class
      */
     public function getRoleClass()
@@ -117,7 +115,7 @@ class tao_models_classes_RoleService
      * assign a role to a list of users
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
+     * @author Joel Bout, <joel@taotesting.com>
      * @param  Resource role
      * @param  array users
      * @return boolean
@@ -144,8 +142,8 @@ class tao_models_classes_RoleService
      * get the users who have the role in parameter
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  Resource role
+     * @author Joel Bout, <joel@taotesting.com>
+     * @param  core_kernel_classes_Resource role
      * @return array
      */
     public function getUsers( core_kernel_classes_Resource $role)
@@ -168,10 +166,12 @@ class tao_models_classes_RoleService
      * 
      * @param string label The label of the new role.
      * @param mixed includedRoles The roles to include to the new role. Can be either a core_kernel_classes_Resource or an array of core_kernel_classes_Resource.
+     * @param core_kernel_classes_Class (optional) A specific class for the new role. 
      * @return core_kernel_classes_Resource The newly created role.
      */
-    public function addRole($label, $includedRoles = null){
-		return $this->generisUserService->addRole($label, $includedRoles);
+    public function addRole($label, $includedRoles = null, core_kernel_classes_Class $class = null)
+    {
+		return $this->generisUserService->addRole($label, $includedRoles, $class);
 	}
 
 	/**
@@ -181,7 +181,8 @@ class tao_models_classes_RoleService
 	 * @param core_kernel_classes_Resource $role The Role to remove.
 	 * @return boolean True if the Role was removed, false otherwise.
 	 */
-	public function removeRole(core_kernel_classes_Resource $role){
+	public function removeRole(core_kernel_classes_Resource $role)
+	{
 		return $this->generisUserService->removeRole($role);
 	}
 	
@@ -191,7 +192,8 @@ class tao_models_classes_RoleService
 	 * @param core_kernel_classes_Resource $role The Role you want to know what are its included Roles.
 	 * @return array An array of core_kernel_classes_Resource corresponding to the included Roles.
 	 */
-	public function getIncludedRoles(core_kernel_classes_Resource $role){
+	public function getIncludedRoles(core_kernel_classes_Resource $role)
+	{
 		return $this->generisUserService->getIncludedRoles($role);
 	}
 	
@@ -201,8 +203,20 @@ class tao_models_classes_RoleService
 	 *  @param core_kernel_classes_Resource role A Role.
 	 *  @param core_kernel_classes_Resource roleToInclude A Role to include. 
 	 */
-	public function includeRole(core_kernel_classes_Resource $role,  core_kernel_classes_Resource $roleToInclude){
+	public function includeRole(core_kernel_classes_Resource $role,  core_kernel_classes_Resource $roleToInclude)
+	{
 		$this->generisUserService->includeRole($role, $roleToInclude);
+	}
+	
+	/**
+	 * Uninclude a Role from another Role.
+	 * 
+	 * @param core_kernel_classes_Resource role The Role from which you want to uninclude another Role.
+	 * @param core_kernel_classes_Resource roleToUninclude The Role to uninclude.
+	 */
+	public function unincludeRole(core_kernel_classes_Resource $role, core_kernel_classes_Resource $roleToUninclude)
+	{
+		$this->generisUserService->unincludeRole($role, $roleToUninclude);
 	}
 	
 	/**
@@ -210,7 +224,8 @@ class tao_models_classes_RoleService
 	 * 
 	 * @return array An associative array where keys are Role URIs and values are core_kernel_classes_Resource instances.
 	 */
-	public function getAllRoles(){
+	public function getAllRoles()
+	{
 		return $this->generisUserService->getAllRoles();
 	}
 }

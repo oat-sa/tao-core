@@ -109,7 +109,8 @@ class tao_install_ExtensionInstaller
     		// currently installed.
     		$backOfficeRole = new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE);
     		$roleLabel = $this->extension->getID() . ' Manager';
-    		$role = $roleService->addRole($roleLabel, $backOfficeRole);
+    		$roleClass = new core_kernel_classes_Class(CLASS_MANAGEMENTROLE);
+    		$role = $roleService->addRole($roleLabel, $backOfficeRole, $roleClass);
     	}
 
     	// Take the Global Manager role and make it include
