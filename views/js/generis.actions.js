@@ -119,7 +119,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 				'scrollbar' : 'yes'
 			};
 			var params = '';
-			for (key in windowOptions) {
+			for (var key in windowOptions) {
 				params += key + '=' + windowOptions[key] + ',';
 			}
 			params = params.replace(/,$/, '');

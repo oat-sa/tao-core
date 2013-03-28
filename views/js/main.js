@@ -33,8 +33,7 @@ require(['require', 'jquery', 'class', 'uiBootstrap', 'helpers', 'EventMgr', 'ui
 		eventMgr = new EventMgr();
 		uiForm = new UiForm();
 		generisActions = new GenerisActions();
-
-		for (e in callbackMeWhenReady) {
+		for (var e in callbackMeWhenReady) {
 			callbackMeWhenReady[e]();
 		}
 	});
