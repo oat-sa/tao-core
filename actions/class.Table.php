@@ -145,7 +145,7 @@ class tao_actions_Table extends tao_actions_TaoModule {
                         header('Set-Cookie: fileDownload=true'); //used by jquery file download to find out the download has been triggered ... 
                         setcookie("fileDownload","true", 0, "/");
                         header("Content-type: text/csv"); 
-                        header('Content-Disposition: attachment; filename=TaoDeliveryResults.csv');
+                        header('Content-Disposition: attachment; filename=Data.csv');
                     break;
 
                     default: $encodedData = json_encode($response);
