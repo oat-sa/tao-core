@@ -5,10 +5,10 @@
 	xml:base="http://www.tao.lu/Ontologies/TAO.rdf#"
 	xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
 >
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LangDE">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LangDA">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
-    <rdfs:label xml:lang="EN"><![CDATA[German]]></rdfs:label>
-    <rdf:value><![CDATA[DE]]></rdf:value>
+    <rdfs:label xml:lang="DA"><![CDATA[Danish]]></rdfs:label>
+    <rdf:value><![CDATA[DA]]></rdf:value>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI"/>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>
   </rdf:Description>
