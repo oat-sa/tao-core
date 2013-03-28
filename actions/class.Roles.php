@@ -214,7 +214,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 				if (!in_array($u->getUri(), $detectedUsers)){
 					// if the user has the role but is not in the selected users
 					// remove the role from him.
-					$u->removePropertyValues($userRolesProperty, array('pattern' => $role->getUri()));
+					$u->removePropertyValues($userRolesProperty, array('like' => false, 'pattern' => $role->getUri()));
 				}
 			}
 			

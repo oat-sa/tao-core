@@ -112,7 +112,7 @@ class tao_models_classes_RoleService
     }
 
     /**
-     * assign a role to a list of users
+     * assign a role to a set of users
      *
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
@@ -123,11 +123,14 @@ class tao_models_classes_RoleService
     public function setRoleToUsers( core_kernel_classes_Resource $role, $users = array())
     {
         $returnValue = (bool) false;
-
+        $userService = tao_models_classes_UserService::singleton();
+        
         $rolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
     	foreach ($users as $u){
     		$u = ($u instanceof core_kernel_classes_Resource) ? $u : new core_kernel_classes_Resource($u);
-    		$u->removePropertyValues($rolesProperty);
+    		
+    		// just in case of ...
+    		$userService->unnatachRole($u, $role);
     		
     		// assign the new role.
     		$u->setPropertyValue($rolesProperty, $role);
