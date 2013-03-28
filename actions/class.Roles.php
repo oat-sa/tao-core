@@ -115,6 +115,31 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				
+				$formValues = $myForm->getValues();
+				$roleService = tao_models_classes_RoleService::singleton();
+				$includedRolesProperty = new core_kernel_classes_Property(PROPERTY_ROLE_INCLUDESROLE);
+				
+				// We have to make the difference between the old list
+				// of included roles and the new ones.
+				$oldIncludedRolesUris = $role->getPropertyValues($includedRolesProperty);
+				$newIncludedRolesUris = $formValues[PROPERTY_ROLE_INCLUDESROLE];
+				$removeIncludedRolesUris = array_diff($oldIncludedRolesUris, $newIncludedRolesUris);
+				$addIncludedRolesUris = array_diff($newIncludedRolesUris, $oldIncludedRolesUris);
+				
+				// Make the changes according to the detected differences.
+				foreach ($removeIncludedRolesUris as $rU){
+					$r = new core_kernel_classes_Resource($rU);
+					$roleService->unincludeRole($role, $r);
+				}
+				
+				foreach ($addIncludedRolesUris as $aU){
+					$r = new core_kernel_classes_Resource($aU);
+					$roleService->includeRole($role, $r);
+				}
+				
+				// Let's deal with other properties the usual way.
+				unset($formValues[$includedRolesProperty->getUri()]);
+				
 				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($role);
 				$role = $binder->bind($myForm->getValues());
 
