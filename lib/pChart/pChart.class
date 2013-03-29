@@ -2103,7 +2103,8 @@
      /* Draw the mosaic */
      if ( $Mosaic )
       {
-       $RadiusScale = $Radius / $MaxValue;
+	   if ($MaxValue!=0) {$RadiusScale = $Radius / $MaxValue;} else {$RadiusScale = 0;}
+       
        for ( $t=1; $t<=$MaxValue-1; $t++)
         {
          $TRadius  = $RadiusScale * $t;
@@ -2313,7 +2314,7 @@
           {
            $Value    = $Data[$Key][$ColName];
            if ( !is_numeric($Value) ) { $Value = 0; }
-           $Strength = ( $Radius / $MaxValue ) * $Value;
+           if ($MaxValue!=0) {$Strength = ( $Radius / $MaxValue ) * $Value;} else {$Strength = 0;}
 
            $XPos = cos($Angle * 3.1418 / 180 ) * $Strength + $XCenter;
            $YPos = sin($Angle * 3.1418 / 180 ) * $Strength + $YCenter;
