@@ -80,7 +80,7 @@ class tao_install_services_SyncService extends tao_install_services_Service{
     	$isHTTPS = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']);
     	$host = $_SERVER['HTTP_HOST'];
     	$uri = $_SERVER['REQUEST_URI'];
-    	$currentUrl = (true == $isHTTPS) ? 'https' : 'http' . '://' . $host . $uri;
+    	$currentUrl = ($isHTTPS ? 'https' : 'http' ). '://' . $host . $uri;
     	$parsed = parse_url($currentUrl);
     	$port = (empty($parsed['port'])) ? '' : ':' . $parsed['port'];
     	$rootUrl = $parsed['scheme'] . '://' . $parsed['host'] . $parsed['path'] . $port;
