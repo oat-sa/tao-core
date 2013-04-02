@@ -26,7 +26,8 @@ function onLoad(){
 		var $defaultLanguageElement = $('#default_language').empty();
 		
 		for (var i in availableLanguages){
-			$defaultLanguageElement.append('<option value="' + i + '">' + availableLanguages[i] + '</option>');
+			var selected  = (i == 'EN') ? 'selected="true"' : '';
+			$defaultLanguageElement.append('<option value="' + i + '" ' + selected + '>' + availableLanguages[i] + '</option>');
 		}
 	}
 	

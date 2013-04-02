@@ -23,7 +23,7 @@
  */
 function TaoInstall (){
 	this.url = 'api.php';
-	this.feedbackUrl = 'http://forge.tao.lu/support/installation';
+	this.feedbackUrl = 'http://forge.taotesting.com/support/installation/';
 	this.templatePrefix = 'tpl_';
 	this.templateSuffix = '.html';
 	this.frameId = null;
