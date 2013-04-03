@@ -19,7 +19,7 @@
 			<h1>Internal Server Error</h1>
 			<p id="warning_msg">
 				<img src="<?= ROOT_URL ?>tao/views/img/warning_error_tpl.png" alt="warning" class="embedWarning" />
-				The <strong>page</strong> you requested <strong>generated an unexpecter error</strong> on this server. 
+				The <strong>page</strong> you requested <strong>generated an unexpected error</strong> on this server. 
 				Make sure <strong>the address</strong> you entered in your <strong>web browser</strong> is valid or try
 				again later. If you are sure that the address is correct but this page is still displayed, 
 				<strong>contact your TAO administrator</strong> to get support.
