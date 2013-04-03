@@ -592,15 +592,26 @@ abstract class tao_models_classes_GenerisService
         $returnValue = array();
 
         // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B begin
+        // show subclasses yes/no
 		$subclasses = (isset($options['subclasses'])) ? $options['subclasses'] : true;
+		// show instances yes/no
 		$instances = (isset($options['instances'])) ? $options['instances'] : true;
+		// @todo describe how this option influences the behaviour
 		$highlightUri = (isset($options['highlightUri'])) ? $options['highlightUri'] : '';
+		// filter results by label, and don't show them as a tree at all, but a flat list
 		$labelFilter = (isset($options['labelFilter'])) ? $options['labelFilter'] : '';
+		// @todo describe how this option influences the behaviour
 		$recursive = (isset($options['recursive'])) ? $options['recursive'] : false;
+		// @todo describe how this option influences the behaviour
 		$chunk = (isset($options['chunk'])) ? $options['chunk'] : false;
+		// probably which subtrees should be opened
 		$browse = (isset($options['browse'])) ? $options['browse'] : array();
-		$offset = (isset($options['offset'])) ? $options['offset'] : 0;
+		// limit of instances shown by subclass if no search label is given
+		// if a search label is given, this is the limit of instances of the root class found,
+		//  but no limit is applied to subclasses
 		$limit = (isset($options['limit'])) ? $options['limit'] : 0;
+		// offset for limit
+		$offset = (isset($options['offset'])) ? $options['offset'] : 0;
 
 		$instancesData = array();
 		$isFiltering = false;
@@ -610,20 +621,17 @@ abstract class tao_models_classes_GenerisService
 		}
 
 		if ($instances) {
-			$getInstancesOptions = array();
-			$getInstancesOptions = array_merge($getInstancesOptions, array(
-				'limit'  => $limit,
-				'offset' => $offset
-			));
 
 			// Make a recursive search if a filter has been given => the result will be a one dimension array
-			$searchResult = $clazz->getInstances($isFiltering, $getInstancesOptions);
-
+			$searchResult = $clazz->searchInstances(array(),array(
+				'limit'		=> $limit,
+				'offset'	=> $offset,
+				'recursive'	=> $isFiltering
+			));
+			
 			foreach ($searchResult as $instance){
 				$label = $instance->getLabel();
-				if (empty($label)) {
-					$label = $instance->uriResource;
-				}
+				$label = empty($label) ? __('no label') : $label;
 
 				$instanceData = array(
 						'data' 	=> tao_helpers_Display::textCutter($label, 16),
