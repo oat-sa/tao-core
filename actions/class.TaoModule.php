@@ -249,7 +249,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	{
 		
 		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
+			throw new common_exception_Error("non ajax request for ".__FUNCTION__);
 		}
 		
 		$options = array(
@@ -294,8 +294,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		echo json_encode($this->service->toTree($clazz, $options));
 	}
-	
-	
 	
 	/**
 	 * Add an instance of the selected class
