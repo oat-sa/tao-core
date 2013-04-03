@@ -592,7 +592,7 @@ abstract class tao_models_classes_GenerisService
         $returnValue = array();
 
         // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B begin
-        // show subclasses yes/no
+        // show subclasses yes/no, not implemented
 		$subclasses = (isset($options['subclasses'])) ? $options['subclasses'] : true;
 		// show instances yes/no
 		$instances = (isset($options['instances'])) ? $options['instances'] : true;
@@ -602,149 +602,49 @@ abstract class tao_models_classes_GenerisService
 		$labelFilter = (isset($options['labelFilter'])) ? $options['labelFilter'] : '';
 		// @todo describe how this option influences the behaviour
 		$recursive = (isset($options['recursive'])) ? $options['recursive'] : false;
-		// @todo describe how this option influences the behaviour
+		// cut of the class and only display the children?
 		$chunk = (isset($options['chunk'])) ? $options['chunk'] : false;
 		// probably which subtrees should be opened
 		$browse = (isset($options['browse'])) ? $options['browse'] : array();
 		// limit of instances shown by subclass if no search label is given
-		// if a search label is given, this is the limit of instances of the root class found,
-		//  but no limit is applied to subclasses
+		// if a search string is given, this is the total limit of results, independant of classes
 		$limit = (isset($options['limit'])) ? $options['limit'] : 0;
 		// offset for limit
 		$offset = (isset($options['offset'])) ? $options['offset'] : 0;
-
-		$instancesData = array();
-		$isFiltering = false;
+		
+		$factory = new tao_models_classes_GenerisTreeFactory();
 		if (!empty($labelFilter) && $labelFilter!='*') {
-			$isFiltering = true;
-			$subclasses = false;
-		}
-
-		if ($instances) {
-
-			// Make a recursive search if a filter has been given => the result will be a one dimension array
-			$searchResult = $clazz->searchInstances(array(),array(
+			$props	= array(RDFS_LABEL => $labelFilter);
+			$opts	= array(
+				'like'		=> true,
 				'limit'		=> $limit,
 				'offset'	=> $offset,
-				'recursive'	=> $isFiltering
-			));
-			
+				'recursive'	=> true
+			); 
+			$searchResult = $clazz->searchInstances($props, $opts);
+			$results = array();
 			foreach ($searchResult as $instance){
-				$label = $instance->getLabel();
-				$label = empty($label) ? __('no label') : $label;
-
-				$instanceData = array(
-						'data' 	=> tao_helpers_Display::textCutter($label, 16),
-						'type'	=> 'instance',
-						'attributes' => array(
-							'id' => tao_helpers_Uri::encode($instance->uriResource),
-							'class' => 'node-instance'
-						)
-					);
-				if (strlen($labelFilter) > 0) {
-					if (preg_match("/^".str_replace('*', '(.*)', $labelFilter."$/mi"), trim($label))) {
-						$instancesData[] = $instanceData;
-					}
-				} else {
-					$instancesData[] = $instanceData;
-				}
+				$results[] = $factory->buildResourceNode($instance);
 			}
-		}
-
-		$subclassesData = array();
-		if ($subclasses) {
-			foreach ($clazz->getSubClasses(false) as $subclass) {
-				$options['recursive'] = true;
-				$options['chunk'] = false;
-				$subclassesData[] = $this->toTree($subclass, $options);
-			}
-		}
-
-		//format classes for json tree datastore
-		$data = array();
-		if (!$chunk) {
-			$label = $clazz->getLabel();
-			if (empty($label)) {
-				$label = $clazz->uriResource;
+			if ($offset > 0) {
+				$returnValue = $results;
 			} else {
-				$label = tao_helpers_Display::textCutter($label, 16);
+				$returnValue = $factory->buildClassNode($clazz);
+				$returnValue['count']		= $clazz->countInstances($props, $opts);;
+				$returnValue['children']	= $results;
 			}
-
-			$data = array(
-				'data' 	=> $label,
-				'type'	=> 'class',
-				'count' => (int) $clazz->countInstances(),
-				'attributes' => array(
-						'id' => tao_helpers_Uri::encode($clazz->uriResource),
-						'class' => 'node-class'
-					)
- 			);
+		} else {
+			array_walk($browse, function(&$item, $key) {
+				$item = tao_helpers_Uri::decode($item);
+			});
+			
+			$browse[] = $clazz->getUri();
+			$tree = $factory->buildTree($clazz, $instances, $browse, $limit, $offset);
+			$returnValue = $chunk ? ($tree['children']) : $tree;
 		}
-
-		$children = array_merge($subclassesData, $instancesData);
-		if (count($children) > 0) {
-			if (($highlightUri != '' && $recursive)) {
-				foreach ($children as $child) {
-					if ($child['attributes']['id'] == $highlightUri) {
-						$recursive = false;
-						break;
-					}
-				}
-			}
-			if ($recursive) {
-				if (!$chunk) {
-					$data['children'] = array();
-				}
-				if (count($children) > 0) {
-					$data['state'] = 'closed';
-				}
-			} else {
-				if ($chunk) {
-					$data = $children;
-				} else {
-					$data['children'] = $children;
-				}
-			}
-		}
-		if ($highlightUri != '') {
-			$highlightedResource = new core_kernel_classes_Resource(tao_helpers_Uri::decode($highlightUri));
-			if (!$highlightedResource->isClass()) {
-				$parentClassUris = array();
-				foreach ($resourceClasses = $highlightedResource->getTypes() as $resourceClass) {
-					$parentClassUris = array_merge(
-						$parentClassUris,
-						tao_helpers_Uri::encodeArray(array_keys($resourceClass->getParentClasses(true)), tao_helpers_Uri::ENCODE_ARRAY_VALUES)
-					);
-				}
-				if (isset($data['attributes'])) {
-					if (in_array($data['attributes']['id'], $parentClassUris)) {
-						$data['state'] = 'open';
-						$data['children'] = $children;
-					}
-				}
-				if (isset($data['children'])) {
-					foreach ($data['children'] as $index => $child) {
-						if (in_array($child['attributes']['id'], $parentClassUris)) {
-							$data['children'][$index]['state'] = 'open';
-						}
-					}
-				}
-			}
-		}
-		if (count($browse) > 0) {
-			if (isset($data['attributes'])) {
-				if (in_array($data['attributes']['id'], $browse)) {
-					$data['state'] = 'open';
-					$data['children'] = $children;
-				}
-			}
-		}
-		$returnValue = $data;
-        // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B end
-
-        return (array) $returnValue;
+		return $returnValue;
     }
-
+    
 } /* end of abstract class tao_models_classes_GenerisService */
 
 ?>
