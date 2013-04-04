@@ -30,7 +30,6 @@ body{
 }
 table{
 	width:100%;
-	border-collapse:collapse;
 }
 body img{
 	vertical-align:baseline;
@@ -123,6 +122,10 @@ span.ui-state-default img{
 	vertical-align:text-bottom;
 }
 
- .ui-dialog, div.ui-dialog div{
+.ui-dialog, div.ui-dialog div{
  	/*z-index:9999999;*/
+}
+
+.jqgrow {
+	background: transparent!important;
 }
