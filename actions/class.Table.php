@@ -136,7 +136,13 @@ class tao_actions_Table extends tao_actions_TaoModule {
 			);
 		}
 		$response->page = $page;
+		if ($limit!=0) {
 		$response->total = ceil($counti / $limit);//$total_pages;
+		}
+		else
+		{
+		$response->total = 1;
+		}
 		$response->records = count($results);
                 //PPL reminder todo, delegate tot he data provider
 		switch ($format) {
