@@ -93,7 +93,7 @@ class tao_actions_Table extends tao_actions_TaoModule {
 		$start = $limit * $page - $limit;
 		
                 $response = new stdClass();
-    	
+		    //todo remove this dependency
         	$clazz = new core_kernel_classes_Class(TAO_DELIVERY_RESULT);
 		$results	= $clazz->searchInstances($filter, array ('recursive'=>true));
          
@@ -135,11 +135,10 @@ class tao_actions_Table extends tao_actions_TaoModule {
 				'cell' => $cellData
 			);
 		}
-		
 		$response->page = $page;
 		$response->total = ceil($counti / $limit);//$total_pages;
 		$response->records = count($results);
-                //PPL addition of different formats for the data, TODO  may be probelmatic is the buffer is already flushed with the header ...  
+                //PPL reminder todo, delegate tot he data provider
 		switch ($format) {
                     case "csv":$encodedData = $this->dataToCsv($columns, $response->rows,';','"');
                         header('Set-Cookie: fileDownload=true'); //used by jquery file download to find out the download has been triggered ... 
@@ -176,8 +175,11 @@ class tao_actions_Table extends tao_actions_TaoModule {
         //print_r($this->columnsToFlatArray($columns));
        fputcsv($handle, $this->columnsToFlatArray($columns), $delimiter, $enclosure);
        foreach ($rows as $line) {
-            //print_r($line);
-           fputcsv($handle, $line["cell"], $delimiter, $enclosure);
+	   $seralizedData = array();
+	   foreach ($line["cell"] as $cellData){
+	       $seralizedData[] = $this->cellDataToString($cellData);
+	   }
+           fputcsv($handle, $seralizedData, $delimiter, $enclosure);
        }
        rewind($handle);
        //read the content of the csv
@@ -188,8 +190,37 @@ class tao_actions_Table extends tao_actions_TaoModule {
        fclose($handle);
        return $encodedData;
     }
-    
-    
+    /**todo ppl delegate this to the dataprovider impleemntation
+     *  Convenience function that attempts to support cases where the data provider set complex data objects into cellvalues
+     * @return (string)
+     */
+    private function cellDataToString($cellData, $pieceDelimiters = array("|", '^') ){
+	$strCellData = "";$currentDelimiter = array_shift($pieceDelimiters);
+	//return serialize($cellData);
+	if (is_array($cellData)) {
+	    $last = array_pop(array_keys($cellData));
+	    foreach ($cellData as $key => $cellDataPiece){
+		if (is_array($cellDataPiece[0])) {
+		    $strCellData .= $this->cellDataToString($cellDataPiece, $pieceDelimiters);
+		}
+		else {
+		    if (count($cellDataPiece)>1) {$strCellData .= implode($currentDelimiter, $cellDataPiece);} else {$strCellData .=array_pop($cellDataPiece);}
+		    if ($key!=$last) {$strCellData.=array_shift($pieceDelimiters);}
+		}
+		
+	    }
+	}
+	else {
+	    if (is_object($cellData)) { $strCellData = serialize($cellData);}
+	    else {
+	    $strCellData = $cellData;
+	    }
+	}
+	return $strCellData;
     }
+
+    }
+
+
     
 ?>
