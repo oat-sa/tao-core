@@ -145,6 +145,51 @@ class tao_models_classes_GenerisTreeFactory
 		);
     }
     
+	/**
+	 * returns the nodes to open in order to display
+	 * all the listed resources to be visible
+	 * 
+	 * @param array $resources list of resources to show
+	 * @param core_kernel_classes_Class $rootNode root node of the tree
+	 * @return array array of the uris of the nodes to open
+	 */
+    public static function getNodesToOpen($uris, core_kernel_classes_Class $rootNode) {
+    	// this array is in the form of
+    	// URI to test => array of uris that depend on the URI
+    	$toTest = array();
+    	foreach($uris as $uri){
+    		$resource = new core_kernel_classes_Resource($uri);
+    		foreach ($resource->getTypes() as $type) {
+    			$toTest[$type->getUri()] = array();
+    		}
+		}
+		$toOpen = array($rootNode->getUri());
+		while (!empty($toTest)) {
+			reset($toTest);
+			list($classUri, $depends) = each($toTest);
+			unset($toTest[$classUri]);
+			if (in_array($classUri, $toOpen)) {
+				$toOpen = array_merge($toOpen, $depends); 
+			} else {
+				$class = new core_kernel_classes_Class($classUri);
+				foreach ($class->getParentClasses(false) as $parent) {
+					if ($parent->getUri() == RDF_CLASS) {
+						continue;
+					}
+					if (!isset($toTest[$parent->getUri()])) {
+						$toTest[$parent->getUri()] = array();
+					}
+					$toTest[$parent->getUri()] = array_merge(
+						$toTest[$parent->getUri()],
+						array($classUri),
+						$depends
+					);
+				}
+			}
+		}
+		return $toOpen;
+    }
+    
 } /* end of abstract class tao_models_classes_GenerisService */
 
 ?>
