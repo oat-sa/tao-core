@@ -94,7 +94,7 @@ class tao_helpers_form_elements_xhtml_Readonly
 			unset($this->attributes['noLabel']);
 		}
 		
-		$returnValue .= "<input type='text' readonly='readonly' name='{$this->name}' id='{$this->name}' ";
+		$returnValue .= "<input type='text' readonly='readonly' disabled='disabled' name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= ' value="'._dh($this->value).'"  />';
         // section 10-13-1--128-66e372da:130084c89b7:-8000:0000000000002E49 end

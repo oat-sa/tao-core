@@ -205,7 +205,7 @@ class tao_actions_form_Users
 			));
 		}
 		else{
-			$loginElement->setAttributes(array('readonly' => 'true'));
+			$loginElement->setAttributes(array('readonly' => 'readonly', 'disabled' => 'disabled'));
 		}
 		
 		
