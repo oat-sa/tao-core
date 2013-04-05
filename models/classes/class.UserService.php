@@ -471,7 +471,7 @@ class tao_models_classes_UserService
 	 * @return boolean
 	 */
 	public function isPasswordValid($password,  core_kernel_classes_Resource $user){
-		return $this->generisUserService->isPasswordValid();
+		return $this->generisUserService->isPasswordValid($password, $user);
 	}
 	
 	/**
