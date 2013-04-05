@@ -240,7 +240,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="DE"><![CDATA[TaoManager]]></rdfs:label>
+    <rdfs:label xml:lang="DE"><![CDATA[Global Manager]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage DE
@@ -248,13 +248,13 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="DE"><![CDATA[Tao Manager]]></rdfs:comment>
+    <rdfs:comment xml:lang="DE"><![CDATA[The Global Manager Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole">
     <!--
     @sourceLanguage EN
     @targetLanguage DE
-    @source Delivery
+    @source Test Taker
     @subject http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
@@ -262,7 +262,7 @@
     <!--
     @sourceLanguage EN
     @targetLanguage DE
-    @source The Delivery Role
+    @source The Test Taker Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->

@@ -20,7 +20,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="ES"><![CDATA[A module]]></rdfs:comment>
+    <rdfs:comment xml:lang="ES"><![CDATA[A MVC Controller Module]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action">
     <!--
@@ -38,7 +38,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="ES"><![CDATA[An action]]></rdfs:comment>
+    <rdfs:comment xml:lang="ES"><![CDATA[A MVC Controller Action]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction">
     <!--

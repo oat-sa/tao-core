@@ -240,7 +240,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="ES"><![CDATA[TaoManager]]></rdfs:label>
+    <rdfs:label xml:lang="ES"><![CDATA[Global Manager]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage ES
@@ -248,7 +248,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="ES"><![CDATA[Tao Manager]]></rdfs:comment>
+    <rdfs:comment xml:lang="ES"><![CDATA[The Global Manager Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole">
     <!--

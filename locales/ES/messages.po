@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.4-beta1\n"
-"PO-Revision-Date: 2013-03-05T10:34:08\n"
+"Project-Id-Version: TAO v2.4-beta3\n"
+"PO-Revision-Date: 2013-04-05T18:28:22\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ES\n"
@@ -90,9 +90,6 @@ msgstr ""
 msgid "Add a user"
 msgstr ""
 
-msgid "Add all"
-msgstr ""
-
 msgid "Add grades"
 msgstr ""
 
@@ -142,9 +139,6 @@ msgstr ""
 msgid "Authoring"
 msgstr ""
 
-msgid "Auto. add new"
-msgstr ""
-
 msgid "Available Extensions"
 msgstr ""
 
@@ -167,10 +161,10 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check if updates are available for your version of TAO"
@@ -206,10 +200,10 @@ msgstr ""
 msgid "compiled"
 msgstr ""
 
-msgid "Compiled Instances"
+msgid "compiled instances"
 msgstr ""
 
-msgid "compiled instances"
+msgid "Compiled Instances"
 msgstr ""
 
 msgid "compiling"
@@ -254,10 +248,10 @@ msgstr ""
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "Date"
@@ -321,10 +315,10 @@ msgstr ""
 msgid "e-mail"
 msgstr ""
 
-msgid "Edit"
+msgid "edit"
 msgstr ""
 
-msgid "edit"
+msgid "Edit"
 msgstr ""
 
 #, tao-public
@@ -446,6 +440,15 @@ msgstr ""
 msgid "force recompilation"
 msgstr ""
 
+msgid "Grant access rights to the action"
+msgstr ""
+
+msgid "Grant access rights to the entire extension"
+msgstr ""
+
+msgid "Grant access rights to the entire module"
+msgstr ""
+
 msgid "Import"
 msgstr ""
 
@@ -479,10 +482,10 @@ msgstr ""
 msgid "instances"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid date range"
@@ -569,9 +572,6 @@ msgstr ""
 msgid "Mail"
 msgstr ""
 
-msgid "Maintenance"
-msgstr ""
-
 #, tao-public
 msgid "Manage Access Rights"
 msgstr ""
@@ -648,6 +648,9 @@ msgstr ""
 msgid "My settings"
 msgstr ""
 
+msgid "My settings (%s)"
+msgstr ""
+
 msgid "Name"
 msgstr ""
 
@@ -682,6 +685,9 @@ msgid "No extensions available."
 msgstr ""
 
 msgid "no file"
+msgstr ""
+
+msgid "no label"
 msgstr ""
 
 msgid "No result found"
@@ -771,9 +777,6 @@ msgstr ""
 msgid "Please upload an RDF file."
 msgstr ""
 
-msgid "Please wait a moment or contact your administrator."
-msgstr ""
-
 msgid "Property"
 msgstr ""
 
@@ -783,10 +786,10 @@ msgstr ""
 msgid "Recursive"
 msgstr ""
 
-msgid "related classes"
+msgid "Related Classes"
 msgstr ""
 
-msgid "Related Classes"
+msgid "related classes"
 msgstr ""
 
 msgid "Remove"
@@ -835,6 +838,15 @@ msgid "Revert"
 msgstr ""
 
 msgid "Revision control"
+msgstr ""
+
+msgid "Revoke access rights to the action"
+msgstr ""
+
+msgid "Revoke access rights to the entire extension"
+msgstr ""
+
+msgid "Revoke access rights to the entire module"
 msgstr ""
 
 msgid "Right click the tree to manage your lists"
@@ -892,9 +904,6 @@ msgstr ""
 msgid "Simple Mode"
 msgstr ""
 
-msgid "stand by"
-msgstr ""
-
 msgid "Start upload"
 msgstr ""
 
@@ -927,9 +936,6 @@ msgid "the file was not uploaded successfully"
 msgstr ""
 
 msgid "The format of this field is not valid."
-msgstr ""
-
-msgid "The TAO platform is under maintenance."
 msgstr ""
 
 msgid "The uploaded file is too large"
@@ -1001,6 +1007,9 @@ msgstr ""
 msgid "uncompiled"
 msgstr ""
 
+msgid "Unknown Error"
+msgstr ""
+
 msgid "Updates are available. Click on update to update your version of TAO"
 msgstr ""
 
@@ -1035,9 +1044,6 @@ msgid "User added"
 msgstr ""
 
 msgid "User deleted successfully"
-msgstr ""
-
-msgid "User must have at least one role !"
 msgstr ""
 
 msgid "User saved"

@@ -12,7 +12,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Objet TAO]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[TAO Object]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -20,7 +20,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Toute ressource liée à l'etesting]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Any resource related to etesting]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#List">
     <!--
@@ -30,7 +30,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#List
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Liste]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[List]]></rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#level">
     <!--
@@ -40,7 +40,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#level
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[niveau]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[level]]></rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Languages">
     <!--
@@ -50,7 +50,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#Languages
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Langues]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Languages]]></rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages">
     <!--
@@ -240,7 +240,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[TaoManager]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Global Manager]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -248,7 +248,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Tao Manager]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[The Global Manager Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole">
     <!--
@@ -302,7 +302,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Workflow User: Sous classe destinée à contenir les utilisateurs du Workflow, non supprimable]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Workflow User: sub class to group the workflow user, not deletable]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder">
     <!--
@@ -312,7 +312,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Ordre d'affichage de la propriété]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Form Field Order]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -320,6 +320,6 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[L'ordre d'affichage de la propriété au sein d'une classe]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[The order of the property within the class]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>
