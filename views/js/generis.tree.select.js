@@ -294,6 +294,11 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 		saveData: function() {
 			var instance = this;
 			var toSend = {};
+			if (typeof this.options.saveData == 'object') {
+				for (var key in this.options.saveData) {
+					toSend[key] = this.options.saveData[key];
+				}
+			}
 			var index = 0;
 
 			helpers.loading();
