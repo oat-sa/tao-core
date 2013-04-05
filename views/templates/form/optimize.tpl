@@ -15,9 +15,8 @@
                         <table id="compilation-grid" />
                 </div>
                 <div id="compilation-recompile-button-container">
-                		<input type="button" value="<?=__("optimize")?>" id="compileButton"/>
-                        <input type="button" value="<?=__("force recompilation")?>" id="recompileButton"/>
-                        <input type="button" value="<?=__("decompile")?>" id="decompileButton"/>
+                		<input type="button" value="<?=__("Switch to Production Mode")?>" id="compileButton"/>
+                        <input type="button" value="<?=__("Switch to Design Mode")?>" id="decompileButton"/>
                 </div>
         </div>
         
@@ -31,7 +30,7 @@
                              $('#compilation-grid-container').show();
                      },
                      onStartEmpty:function(){
-                             $('#compilation-grid-results').show().html(__('There is no class available for optimization for the current extension'));
+                             $('#compilation-grid-results').show().html(__('There are no classes available for optimization.'));
                      },
                      onStartDecompile:function(){
                              $('#compilation-grid-container').show();
@@ -41,14 +40,16 @@
                      },
                      onComplete:function(switcher, success){
                              if(success){
-                                     $('#compilation-grid-results').show().html(__('Compilation completed'));
+                                     $('#compilation-grid-results').show().html(__('Switch to Production Mode completed.'));
                              }else{
                                       $('#compilation-grid-results').show().html(__('Cannot successfully build the optimized table indexes'));
                              }
                              
                      },
                      onCompleteDecompile:function(){
-                                $('#compilation-grid-results').show().html(__('Decompilation completed'));
+                                $('#compilation-grid-results').show().html(__('Switch to Design Mode completed'));
+                                $('#compileButton').show();
+                                $('#decompileButton').show();
                      }
              }
              
@@ -57,12 +58,6 @@
              
              $('#compileButton').click(function(){
                         mySwitcher.startCompilation();
-                        $('#compileButton').hide();
-             });
-             
-             $('#recompileButton').click(function(){
-                        mySwitcher.startCompilation(true);
-                        $('#compilation-grid-results').hide();
              });
              
              $('#decompileButton').click(function(){
