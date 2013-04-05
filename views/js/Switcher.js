@@ -32,7 +32,6 @@ switcherClass.prototype.getActionUrl = function(action){
         }else{
                 url += 'tao/Settings/' + action;
         }
-        console.log(url);
 
         return url;
 }
