@@ -110,11 +110,27 @@ class tao_helpers_I18n
 
 		//init the ClearFw l10n tools
 		l10n::init();
-		l10n::set(BASE_PATH.'locales/'.self::$langCode.'/messages');
+		
+		$basePath = BASE_PATH;
+		$baseURL = BASE_URL;
+		if (!empty($_GET['ext']) && is_string($_GET['ext'])){
+			$shownExtension = common_ext_ExtensionsManager::singleton()->getExtensionById($_GET['ext']);
+			if (!empty($shownExtension)){
+				try{
+					$basePath = $shownExtension->getConstant('BASE_PATH');
+					$baseUrl = $shownExtension->getConstant('BASE_URL');
+				}
+				catch (common_exception_Error $e){
+					// let the current base path be used...
+				}
+			}
+		}
+		
+		l10n::set($basePath . 'locales' . DIRECTORY_SEPARATOR . self::$langCode. DIRECTORY_SEPARATOR . 'messages');
 		
         if (PHP_SAPI != 'cli') {    
     		tao_helpers_Scriptloader::addJsFiles(array(
-    			BASE_URL . '/locales/'.self::$langCode.'/messages_po.js',
+    			$baseURL . '/locales/' .self::$langCode. '/messages_po.js',
     			TAOBASE_WWW . 'js/i18n.js',
     		));
         }
