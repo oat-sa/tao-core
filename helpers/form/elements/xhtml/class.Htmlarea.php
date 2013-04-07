@@ -90,7 +90,7 @@ class tao_helpers_form_elements_xhtml_Htmlarea
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return string
      */
-    public function render(tao_helpers_form_FormElementRenderingInfo $info = null)
+    public function render()
     {
         $returnValue = (string) '';
 

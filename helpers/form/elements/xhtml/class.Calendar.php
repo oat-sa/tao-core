@@ -36,7 +36,7 @@ class tao_helpers_form_elements_xhtml_Calendar
      * @author Bertrand Chevrier, <bertrand@taotesting.com>
      * @return The XHTML stream of the Calendar Widget.
      */
-    public function render(tao_helpers_form_FormElementRenderingInfo $info = null)
+    public function render()
     {
         $returnValue = (string) '';
 

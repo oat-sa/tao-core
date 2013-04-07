@@ -103,7 +103,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
-    public function render(tao_helpers_form_FormElementRenderingInfo $info = null)
+    public function render()
     {
         $returnValue = (string) '';
 

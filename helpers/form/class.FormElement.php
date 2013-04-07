@@ -514,9 +514,8 @@ abstract class tao_helpers_form_FormElement
     /**
      * Will render the Form Element.
      * 
-     * @param tao_helpers_form_FormElementRenderingInfo $info
      */
-    public abstract function render(tao_helpers_form_FormElementRenderingInfo $info = null);
+    public abstract function render();
 }
 
 ?>
