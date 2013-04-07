@@ -102,7 +102,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return string
      */
-    public function renderImplementation(tao_helpers_form_FormElementRenderingInfo $info = null)
+    public function render(tao_helpers_form_FormElementRenderingInfo $info = null)
     {
         $returnValue = (string) '';
 

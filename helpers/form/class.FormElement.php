@@ -122,13 +122,6 @@ abstract class tao_helpers_form_FormElement
      * @var string
      */
     protected $help = '';
-    
-    /**
-     * The decorator of the element.
-     * 
-     * @var tao_helpers_form_Decorator
-     */
-    private $decorator = null;
 
     /**
      * Short description of method __construct
@@ -517,52 +510,13 @@ abstract class tao_helpers_form_FormElement
 
         return $returnValue;
     }
-
-    /**
-     * Get the decorator of the element.
-     * 
-     * @return tao_helpers_form_Decorator A decorator.
-     */
-    public function getDecorator()
-    {
-    	return $this->decorator;
-    }
     
     /**
-     * Set the decorator of the element.
-     * 
-     * @param tao_helpers_form_Decorator decorator A decorator.
-     */
-    public function setDecorator(tao_helpers_form_Decorator $decorator)
-    {
-    	$this->decorator = $decorator;
-    }
-    
-    /**
-     * Will render the Form Element by:
-     * - calling the tao_helpers_form_Decorator::preRendering() method (if a decorator is set)
-     * - calling the tao_helpers_form_FormElement::renderImplementation() method
-     * - calling the tao_helpers_form_Decorator::postRendering() method (if a decorator is set)
+     * Will render the Form Element.
      * 
      * @param tao_helpers_form_FormElementRenderingInfo $info
      */
-    public function render(tao_helpers_form_FormElementRenderingInfo $info = null){
-    	$decorator = $this->getDecorator();
-    	$preRendering = (empty($decorator)) ? '' : $decorator->preRender();
-    	$rendering = $this->renderImplementation($info);
-    	$postRendering = (empty($decorator)) ? '' : $decorator->postRender();
-    	
-    	return $preRendering . $rendering . $postRendering;
-    }
-    
-    /**
-     * This method has to be implemented by Form Elements implementation in order to return
-     * the according markup.
-     *
-     * @param tao_helpers_form_FormElementRenderingInfo $info
-     * @return string The xml stream corresponding to the implementation of the Form Element.
-     */
-    public abstract function renderImplementation(tao_helpers_form_FormElementRenderingInfo $info = null);
+    public abstract function render(tao_helpers_form_FormElementRenderingInfo $info = null);
 }
 
 ?>
