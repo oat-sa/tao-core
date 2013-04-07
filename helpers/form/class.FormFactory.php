@@ -164,6 +164,7 @@ class tao_helpers_form_FormFactory
 		}
 		if($eltClass){
 			$returnValue = new $eltClass($name);
+			
 			if(!$returnValue instanceof tao_helpers_form_FormElement){
 				throw new common_Exception("$eltClass must be a tao_helpers_form_FormElement");
 			}

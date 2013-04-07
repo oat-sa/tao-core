@@ -110,7 +110,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
      * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @return string
      */
-    public function render()
+    public function renderImplementation(tao_helpers_form_FormElementRenderingInfo $info = null)
     {
         $returnValue = (string) '';
 

@@ -90,7 +90,7 @@ class tao_helpers_form_elements_xhtml_Versionedfile
      * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
      * @return string
      */
-    public function render()
+    public function renderImplementation(tao_helpers_form_FormElementRenderingInfo $info = null)
     {
         $returnValue = (string) '';
 

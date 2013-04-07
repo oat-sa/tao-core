@@ -537,6 +537,32 @@ abstract class tao_helpers_form_FormElement
     {
     	$this->decorator = $decorator;
     }
+    
+    /**
+     * Will render the Form Element by:
+     * - calling the tao_helpers_form_Decorator::preRendering() method (if a decorator is set)
+     * - calling the tao_helpers_form_FormElement::renderImplementation() method
+     * - calling the tao_helpers_form_Decorator::postRendering() method (if a decorator is set)
+     * 
+     * @param tao_helpers_form_FormElementRenderingInfo $info
+     */
+    public function render(tao_helpers_form_FormElementRenderingInfo $info = null){
+    	$decorator = $this->getDecorator();
+    	$preRendering = (empty($decorator)) ? '' : $decorator->preRender();
+    	$rendering = $this->renderImplementation($info);
+    	$postRendering = (empty($decorator)) ? '' : $decorator->postRender();
+    	
+    	return $preRendering . $rendering . $postRendering;
+    }
+    
+    /**
+     * This method has to be implemented by Form Elements implementation in order to return
+     * the according markup.
+     *
+     * @param tao_helpers_form_FormElementRenderingInfo $info
+     * @return string The xml stream corresponding to the implementation of the Form Element.
+     */
+    public abstract function renderImplementation(tao_helpers_form_FormElementRenderingInfo $info = null);
 }
 
 ?>
