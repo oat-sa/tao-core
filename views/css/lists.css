@@ -22,6 +22,7 @@
 /* Style specifiq to the List interface */
 
 div#list-container{
+	color: #363636;
 	min-height: 500px;
 }
 div#list-container table {
@@ -43,6 +44,7 @@ div#list-container fieldset{
 }
 div#list-container fieldset legend{
 	font-weight:bold;
+	color: #363636;
 }
 div#list-container fieldset div.list-elements{
 	background-color:#fff;
@@ -59,7 +61,42 @@ div#list-container fieldset div.list-controls{
 	color:#999;
 }
 div#list-container li input{
-	width: 100px;
+	width: 130px;
 	height:15px;
 	padding:0px;
+	position: absolute;
+	top: 3px;
+	left: 35px;
+}
+
+
+ul.sortable-list li span.ui-icon,
+ol.sortable-list li span.ui-icon { 
+	position: absolute;
+}
+
+ul.sortable-list li span.ui-icon-arrowthick-2-n-s,
+ol.sortable-list li span.ui-icon-arrowthick-2-n-s{
+	position: absolute;
+	top: 4px;
+	left: 24px;
+}
+
+ul.sortable-list li span.ui-icon-grip-dotted-vertical,
+ol.sortable-list li span.ui-icon-grip-dotted-vertical{
+	position: absolute;
+	top: 4px;
+	left: 24px;
+}
+
+ul.sortable-list li span.ui-icon-circle-close,
+ol.sortable-list li span.ui-icon-circle-close{
+	position: absolute;
+	top: 26px;
+	right: 3px;
+}
+
+ol.sortable-list{
+	padding: 0;
+	margin: 10px 0;
 }
