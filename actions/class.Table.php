@@ -200,13 +200,13 @@ class tao_actions_Table extends tao_actions_TaoModule {
      *  Convenience function that attempts to support cases where the data provider set complex data objects into cellvalues
      * @return (string)
      */
-    private function cellDataToString($cellData, $pieceDelimiters = array("|", '^') ){
+    private function cellDataToString($cellData, $pieceDelimiters = array("", '     ') ){
 	$strCellData = "";$currentDelimiter = array_shift($pieceDelimiters);
 	//return serialize($cellData);
 	if (is_array($cellData)) {
 	    $last = array_pop(array_keys($cellData));
 	    foreach ($cellData as $key => $cellDataPiece){
-		if (is_array($cellDataPiece[0])) {
+		if (isset($cellDataPiece[0]) and (is_array($cellDataPiece[0]))) {
 		    $strCellData .= $this->cellDataToString($cellDataPiece, $pieceDelimiters);
 		}
 		else {
