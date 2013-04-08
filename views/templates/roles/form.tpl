@@ -1,4 +1,4 @@
-<?include('users.tpl')?>
+<?=get_data('userTree')?>
 
 <div class="main-container large">
 	<div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">

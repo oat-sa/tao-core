@@ -43,9 +43,11 @@ class tao_actions_GenerisTree extends tao_actions_CommonModule {
 			$classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
 			$class = new core_kernel_classes_Class($classUri);
 			$hideNode = true; 
-		} else {
+		} elseif ($this->hasRequestParameter('rootNode')) {
 			$class = new core_kernel_classes_Class($this->getRequestParameter('rootNode'));
 			$hideNode = false;
+		} else {
+			throw new common_Exception('Missing node information for '.__FUNCTION__);
 		}
 		
 		$openNodes	= array($class->getUri());
