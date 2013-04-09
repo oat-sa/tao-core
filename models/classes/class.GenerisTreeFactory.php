@@ -60,8 +60,13 @@ class tao_models_classes_GenerisTreeFactory
 		$label = empty($label) ? __('no label') : $label;
 		$returnValue = $this->buildClassNode($class);
 		
-		$instancesCount = (int) $class->countInstances();
-		$returnValue['count'] = $instancesCount;
+		$instancesCount = 0;
+		// only show the resources count if we allow resources to be viewed
+		if ($showResources) {
+			$instancesCount = (int) $class->countInstances();
+			$returnValue['count'] = $instancesCount;
+		}
+		
 		// allow the class to be opened if it contains either instances or subclasses
 		if ($instancesCount > 0 || count($class->getSubClasses(false)) > 0) {
 			if (in_array($class->getUri(), $openNodes)) {
