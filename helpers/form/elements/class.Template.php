@@ -65,7 +65,7 @@ require_once('tao/helpers/form/class.FormElement.php');
  * @package tao
  * @subpackage helpers_form_elements
  */
-class tao_helpers_form_elements_Template
+abstract class tao_helpers_form_elements_Template
     extends tao_helpers_form_FormElement
 {
     // --- ASSOCIATIONS ---
