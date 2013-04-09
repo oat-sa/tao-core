@@ -29,8 +29,9 @@
  */
 class tao_helpers_Date
 {
-	const FORMAT_LONG = 0;
-
+	const FORMAT_LONG		= 0;
+	const FORMAT_VERBOSE	= 1;
+	
     /**
      * Dispalys a date/time
      * Should in theorie be dependant on the users locale and timezone
@@ -49,6 +50,9 @@ class tao_helpers_Date
     	switch ($format) {
     		case self::FORMAT_LONG :
     			$returnValue = $dateTime->format('d/m/Y H:i:s');
+    			break;
+    		case self::FORMAT_VERBOSE :
+    			$returnValue = $dateTime->format('F j, Y, g:i:s a');
     			break;
     		default:
     			common_Logger::w('Unkown date format '.$format.' for '.__FUNCTION__, 'TAO');
