@@ -63,8 +63,7 @@ abstract class tao_actions_CommonModule extends Module {
     	if(is_null($extensionID) || empty($extensionID)) {
     		$extensionID = Context::getInstance()->getExtensionName();
     	}
-		$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
-		parent::setView($ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier);
+		parent::setView(self::getTemplatePath($identifier, $extensionID));
 	}
 	
 	/**
@@ -141,5 +140,18 @@ abstract class tao_actions_CommonModule extends Module {
 		return tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action);
 	}
 	
+	
+	/**
+	 * Returns the absolute path to the specified template
+	 * 
+	 * @param string $identifier
+	 * @param string $extensionID
+	 * @return string
+	 */
+	protected static function getTemplatePath($identifier, $extensionID)
+    {
+		$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
+		return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier;
+    }
 }
 ?>
