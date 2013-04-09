@@ -1082,67 +1082,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$this->setView('blank.tpl', 'tao');
 	}	
 	
-	/**
-	 * get the meta data of the selected resource
-	 * Display the metadata. 
-	 * @return void
-	 */
-	public function getMetaData()
-	{
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		
-		$this->setData('metadata', false); 
-		try{
-			$instance = $this->getCurrentInstance();
-			
-			$date = $instance->getLastModificationDate();
-			$this->setData('date', $date->format('d/m/Y H:i:s'));
-			$this->setData('user', $instance->getLastModificationUser());
-			$this->setData('comment', _dh($instance->getComment()));
-			
-			$this->setData('uri', $this->getRequestParameter('uri'));
-			$this->setData('classUri', $this->getRequestParameter('classUri'));
-			$this->setData('metadata', true); 
-		}
-		catch(Exception $e){
-			print $e;
-		}
-		
-		$this->setView('form/metadata.tpl', 'tao');
-	}
-	
-	/**
-	 * save the comment field of the selected resource
-	 * @return json response {saved: true, comment: text of the comment to refresh it}
-	 */
-	public function saveComment()
-	{
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		$response = array(
-			'saved' 	=> false,
-			'comment' 	=> ''
-		);
-		try{
-			if($this->getRequestParameter('comment')){
-				$instance = $this->getCurrentInstance();
-				$instance->setComment($this->getRequestParameter('comment'));
-				if($instance->getComment() == $this->getRequestParameter('comment')){
-					$response['saved'] = true;
-					$response['comment'] = _dh($instance->getComment());
-				}
-			}
-		}
-		catch(Exception $e){
-			;// empty
-		}
-		echo json_encode($response);
-	}
-	
-	
 /*
  * Services actions methods
  */
@@ -1308,16 +1247,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		
 		echo json_encode(array('deleted'	=> $deleted));
-	}
-	
-	/**
-	 * display the optimize interface
-	 * @return void
-	 */
-	public function optimize()
-	{
-		$clazz = $this->getRootClass();
-		$classes = $clazz->getSubClasses(true);
 	}
 }
 ?>

@@ -275,6 +275,15 @@ define(['require', 'jquery', 'class'], function(req, $) {
 				link.rel = "stylesheet";
 				link.href = url;
 				document.getElementsByTagName("head")[0].appendChild(link);
+		},
+		
+		/**
+		 * sinple _url implementation, requires layout_header to set some global variables
+		 */
+		_url: function(action, module, extension) {
+			module = typeof module == 'undefined' ? ctx_module : module;
+			extension = typeof extension == 'undefined' ? ctx_extension : extension;
+			return root_url + extension + '/' + module + '/' + action;
 		}
 	});
 

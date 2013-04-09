@@ -8,7 +8,7 @@
  */
 
 
-define(['require', 'jquery', 'class'], function(req, $) {
+define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 	var GenerisActions = Class.extend({
 		init: function() {
 			this.mainTree = undefined;
@@ -224,12 +224,8 @@ define(['require', 'jquery', 'class'], function(req, $) {
 										}
 										event.preventDefault();
 									}
-									if (ctx_extension) {
-										url = root_url + '/' + ctx_extension + '/' + ctx_module + '/';
-									}
-									url += 'saveComment';
 									$.ajax({
-										url: url,
+										url: helpers._url('saveMetadata', 'MetaData', 'tao'),
 										type: "POST",
 										data: {comment: $(this).val(), uri: $('#uri').val(), classUri:$('#classUri').val() },
 										dataType: 'json',

@@ -12,9 +12,17 @@
 			</tr>
 		</thead>
 		<tbody>
+			<?php foreach (get_data('comments') as $comment) :?>
 			<tr>
-				<td class="first"><?=get_data('date')?></td>
-				<td><?=get_data('user')?></td>
+				<td class="first"><?=$comment['date']?></td>
+				<td><?=$comment['author']?></td>
+				<td class="last">
+					<span><?=$comment['text']?></span>
+				</td>
+			</tr>
+			<?php endforeach;?>
+			<tr>
+				<td class="first" colspan="2"/>
 				<td class="last">
 					<span id="comment-field"><?=get_data('comment')?></span>
 					<a href="#" id="comment-editor" title="<?=__('Edit Comment')?>">
