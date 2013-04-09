@@ -69,6 +69,14 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	}
 
 	/**
+	 * First page, when arriving on a system
+	 * to choose front or back office
+	 */
+	public function entry() {
+		$this->setView('entry.tpl');
+	}
+	
+	/**
 	 * Authentication form,
 	 * default page, main entry point to the user
 	 * @return void
