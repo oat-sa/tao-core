@@ -13,7 +13,7 @@ var monitoringFilter = null;
 function loadMonitoring(filter) {
 	monitoringFilter = filter;
 	params = '<?=$gridParams?>';
-	$.getJSON(root_url+'/tao/SaSUsers/getGridData'+params,
+	$.getJSON(root_url+'tao/SaSUsers/getGridData'+params,
 		{
 			'filter':filter
 		},

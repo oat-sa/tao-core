@@ -247,9 +247,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 */
 	public function getOntologyData()
 	{
-		
 		if(!tao_helpers_Request::isAjax()){
-			throw new common_exception_Error("non ajax request for ".__FUNCTION__);
+			throw new common_exception_IsAjaxAction(__FUNCTION__); 
 		}
 		
 		$options = array(
@@ -1081,146 +1080,6 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$this->setData('data', $myForm->renderElements());
 		$this->setView('blank.tpl', 'tao');
 	}	
-	
-/*
- * Services actions methods
- */
-	
-	protected function getDataKind()
-	{
-		return Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
-	}
-	
-	/**
-	 * Service of class or instance selection with a tree.
-	 * @return void
-	 */
-	public function sasSelect()
-	{
-
-		$kind = $this->getDataKind();
-		
-		$context = Context::getInstance();
-		$module = $context->getModuleName();
-		
-		$this->setData('treeName', __('Select'));
-		$this->setData('dataUrl', tao_helpers_Uri::url('getOntologyData', $module));
-		$this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', $module));
-		
-		if($this->getRequestParameter('selectInstance') == 'true'){
-			$this->setData('editInstanceUrl', tao_helpers_Uri::url('sasSet', $module));
-			$this->setData('editClassUrl', false);
-		}
-		else{
-			$this->setData('editInstanceUrl', false);
-			$this->setData('editClassUrl', tao_helpers_Uri::url('sasSet', $module));
-		}
-		
-		$this->setData('classLabel', $this->getRootClass()->getLabel());
-		
-		$this->setView("sas/select.tpl", 'tao');
-	}
-	
-	/**
-	 * Save the uri or the classUri in parameter into the workflow engine by using the dedicated seervice
-	 * @return void
-	 */
-	public function sasSet()
-	{
-		$message = __('Error');
-		
-		//init variable service:
-		$variableService = wfEngine_models_classes_VariableService::singleton();
-		
-		//set the class uri
-		if($this->hasRequestParameter('classUri')){
-			$clazz = $this->getCurrentClass();
-			if(!is_null($clazz)){
-				$variableService->save(array($this->getDataKind().'ClassUri' => $clazz->uriResource));
-				$message = $clazz->getLabel().' '.__('class selected');
-			}
-		}
-		
-		//set the instance uri
-		if($this->hasRequestParameter('uri')){
-			$instance = $this->getCurrentInstance();
-			if(!is_null($instance)){
-				$variableService->save(array($this->getDataKind().'Uri' => $instance->uriResource));
-				$message = $instance->getLabel().' '.__($this->getDataKind()).' '.__('selected');
-			}
-		}
-		$this->setData('message', $message);
-		
-		//only for the notification
-		$this->setView('messages.tpl', 'tao');
-	}
-	
-	/**
-	 * Add a new instance
-	 * @return void
-	 */
-	public function sasAddInstance()
-	{
-		$clazz = $this->getCurrentClass();
-		$label = $this->service->createUniqueLabel($clazz);
-		$instance = $this->service->createInstance($clazz);
-		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
-			
-			//init variable service:
-			$variableService = wfEngine_models_classes_VariableService::singleton();
-			$variableService->save(array($this->getDataKind().'Uri' => $instance->uriResource));
-			
-			$params = array(
-				'uri'		=> tao_helpers_Uri::encode($instance->uriResource),
-				'classUri'	=> tao_helpers_Uri::encode($clazz->uriResource)
-			);
-			$this->redirect(_url('sasEditInstance', null, null, $params));
-		}
-	}
-	
-	
-	/**
-	 * Edit an instances 
-	 * @return void
-	 */
-	public function sasEditInstance()
-	{
-		$clazz = $this->getCurrentClass();
-		$instance = $this->getCurrentInstance();
-		
-		$formContainer = new tao_actions_form_Instance($clazz, $instance);
-		$myForm = $formContainer->getForm();
-		
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				$binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
-				$instance = $binder->bind($myForm->getValues());
-				$this->setData('message', __('Resource saved'));
-			}
-		}
-		
-		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
-		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
-		$this->setData('formTitle', __('Edit'));
-		$this->setData('myForm', $myForm->render());
-		$this->setView('form.tpl', 'tao');
-	}
-	
-	/**
-	 * Delete an instance
-	 * @return void
-	 */
-	public function sasDeleteInstance()
-	{
-		$clazz = $this->getCurrentClass();
-		$instance = $this->getCurrentInstance();
-		
-		$this->setData('label', $instance->getLabel());
-		
-		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
-		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
-		$this->setView('form/delete.tpl', 'tao');
-	}
 	
 	/**
 	 * delete an instance or a class

@@ -60,9 +60,6 @@ abstract class tao_actions_CommonModule extends Module {
 			$extensionID = 'tao';
 			common_Logger::d('Deprecated use of setView() using a boolean');
 		}
-    	if(is_null($extensionID) || empty($extensionID)) {
-    		$extensionID = Context::getInstance()->getExtensionName();
-    	}
 		parent::setView(self::getTemplatePath($identifier, $extensionID));
 	}
 	
@@ -148,8 +145,11 @@ abstract class tao_actions_CommonModule extends Module {
 	 * @param string $extensionID
 	 * @return string
 	 */
-	protected static function getTemplatePath($identifier, $extensionID)
+	protected static function getTemplatePath($identifier, $extensionID = null)
     {
+    	if(is_null($extensionID) || empty($extensionID)) {
+    		$extensionID = Context::getInstance()->getExtensionName();
+    	}
 		$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
 		return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier;
     }

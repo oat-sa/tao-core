@@ -30,16 +30,19 @@
  * @subpackage action
  *
  */
-class tao_actions_SaSUsers extends tao_actions_Users {
+class tao_actions_SaSUsers extends tao_actions_SaSLegacy {
 
 	/**
 	 * @var tao_models_classes_UserService
 	 */
 	protected $userService = null;
 	protected $userGridOptions = array();
+	
+	protected function getRootClass() {
+		return new core_kernel_classes_Class(CLASS_TAO_USER);
+	}
 
 	public function __construct() {
-		tao_helpers_Context::load('STANDALONE_MODE');
 		parent::__construct();
 
 		if ($this->hasRequestParameter('dataset')) {
@@ -74,19 +77,6 @@ class tao_actions_SaSUsers extends tao_actions_Users {
 			}
 		}
 	}
-
-	public function setView($identifier, $useMetaExtensionView = false) {
-		if(tao_helpers_Request::isAjax()){
-			return parent::setView($identifier, $useMetaExtensionView);
-		}
-    	if($useMetaExtensionView){
-			$this->setData('includedView', $identifier);
-		}
-		else{
-			$this->setData('includedView', DIR_VIEWS . 'templates/' . $identifier);
-		}
-		return parent::setView('sas.tpl');
-    }
 
 	/**
 	 * Grid display
@@ -133,7 +123,7 @@ class tao_actions_SaSUsers extends tao_actions_Users {
                 }
             }
 		}
-		$userClassUri = ($this->hasRequestParameter('userClassUri') && strlen($this->getRequestParameter('userClassUri'))) ? $this->getRequestParameter('userClassUri') : INSTANCE_ROLE_TAOMANAGER;
+		$userClassUri = ($this->hasRequestParameter('userClassUri') && strlen($this->getRequestParameter('userClassUri'))) ? $this->getRequestParameter('userClassUri') : CLASS_TAO_USER;
 		//get the processes uris
 		$usersUri = $this->hasRequestParameter('usersUri') ? $this->getRequestParameter('usersUri') : null;
 		$users = array();

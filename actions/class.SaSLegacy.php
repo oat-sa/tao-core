@@ -110,9 +110,14 @@ abstract class tao_actions_SaSLegacy extends tao_actions_WfService {
 	 */
 	public function sasAddInstance()
 	{
-		$clazz = $this->getCurrentClass();
-		$label = $this->service->createUniqueLabel($clazz);
-		$instance = $this->service->createInstance($clazz);
+		try {
+			$clazz = $this->getCurrentClass();
+		} catch (common_Exception $e) {
+			$clazz = $this->getRootClass();
+		}
+		// @todo call the correct service
+		// $instance = $this->service->createInstance($clazz);
+		$instance = $clazz->createInstance();
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			
 			//init variable service:
