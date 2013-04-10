@@ -57,11 +57,13 @@
              mySwitcher.init();
              
              $('#compileButton').click(function(){
-                        mySwitcher.startCompilation();
+             			if(confirm(__('All classes in Design Mode will switch to Production Mode. Please confirm.'))){
+                        		mySwitcher.startCompilation();
+                        }
              });
              
              $('#decompileButton').click(function(){
-                        if(confirm(__('This action will reset the optimization, are you sure?'))){
+                        if(confirm(__('All classes in Production Mode will switch to Design Mode. Please confirm.'))){
                                 mySwitcher.startDecompilation();
                                 $('#compilation-grid-results').hide();
                         }
