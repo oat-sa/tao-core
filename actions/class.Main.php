@@ -31,12 +31,6 @@
 class tao_actions_Main extends tao_actions_CommonModule {
 
 	/**
-	 * @access protected
-	 * @var tao_models_classes_UserService
-	 */
-	protected $userService = null;
-
-	/**
 	 * Constructor performs initializations actions
 	 * @return void
 	 */
@@ -63,7 +57,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		//initialize service
 		$this->service = tao_models_classes_TaoService::singleton();
-		$this->userService = tao_models_classes_UserService::singleton();
 		$this->defaultData();
 
 	}
@@ -83,55 +76,38 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 */
 	public function login()
 	{
-		/* unreachable code?
-		if($this->getData('errorMessage')){
-			session_destroy();
+		//add the login stylesheet
+		tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/login.css');
+		//tao_helpers_Scriptloader::addJsFile(BASE_WWW . 'js/login.js');
+
+		$params = array();
+		if ($this->hasRequestParameter('redirect')) {
+			$redirectUrl = $_REQUEST['redirect'];
+			if (substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
+				$params['redirect'] = $redirectUrl;
+			}
 		}
-		*/
+		$myLoginFormContainer = new tao_actions_form_Login($params);
+		$myForm = $myLoginFormContainer->getForm();
 
-		if(!tao_helpers_Request::isAjax()){
-
-			//add the login stylesheet
-			tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/login.css');
-			//tao_helpers_Scriptloader::addJsFile(BASE_WWW . 'js/login.js');
-
-			$params = array();
-			if ($this->hasRequestParameter('redirect')) {
-				$redirectUrl = $_REQUEST['redirect'];
-				if (substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
-					$params['redirect'] = $redirectUrl;
-				}
-			}
-			$myLoginFormContainer = new tao_actions_form_Login($params);
-			$myForm = $myLoginFormContainer->getForm();
-
-			if($myForm->isSubmited()){
-				if($myForm->isValid()){
-					if($this->userService->loginUser($myForm->getValue('login'), md5($myForm->getValue('password')))){
-						if ($this->hasRequestParameter('redirect')) {
-							$this->redirect($_REQUEST['redirect']);
-						} else {
-							$this->redirect(_url('index', 'Main'));
-						}
-					}
-					else{
-						$this->setData('errorMessage', __('Invalid login or password. Please try again.'));
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				$userService = tao_models_classes_UserService::singleton();
+				if($userService->loginUser($myForm->getValue('login'), md5($myForm->getValue('password')))){
+					if ($this->hasRequestParameter('redirect')) {
+						$this->redirect($_REQUEST['redirect']);
+					} else {
+						$this->redirect(_url('index', 'Main'));
 					}
 				}
-			}
-
-			$this->setData('form', $myForm->render());
-			$this->setView('main/login.tpl');
-		} else {
-			if($this->hasRequestParameter('login') && $this->hasRequestParameter('password')){
-				$returnValue = false;
-				if ($this->userService->loginUser($this->getRequestParameter('login'), md5($this->getRequestParameter('password')))){
-					$returnValue = true;
+				else{
+					$this->setData('errorMessage', __('Invalid login or password. Please try again.'));
 				}
-				echo json_encode((object) array('success'=>$returnValue));
 			}
 		}
 
+		$this->setData('form', $myForm->render());
+		$this->setView('main/login.tpl');
 	}
 
 	/**
