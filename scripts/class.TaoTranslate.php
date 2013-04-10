@@ -772,6 +772,7 @@ class tao_scripts_TaoTranslate
                     // Try to update translation units found in the master RDF file with
                     // targets found in the old translation of the ontology.
                     foreach ($slaveRDFFile->getTranslationUnits() as $oTu){
+                    	
                         if ($masterRDFFile->hasSameSource($oTu)){
                             $masterRDFFile->addTranslationUnit($oTu);
                         }

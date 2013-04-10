@@ -113,8 +113,8 @@ class tao_helpers_translation_RDFTranslationFile
         		$tu->hasSameTranslationUnitTargetLanguage($translationUnit)) {
 					// This TU already exists. We change its target if the new one
 					// has one.
-					if ($translationUnit->getTarget() != ''){
-					    $tu->setTarget($tu->getTarget());
+					if ($translationUnit->getTarget() != $translationUnit->getSource()){
+					    $tu->setTarget($translationUnit->getTarget());
 					}
 					return;
 				}
