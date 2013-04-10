@@ -6,7 +6,7 @@
 	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#">
 	
 	<rdf:Description rdf:about="LOCAL_NAMESPACE#superUser">
-	    <generis:userRoles rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole"/>
+	    <generis:userRoles rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole"/>
 	    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
 	    <rdfs:label xml:lang="EN"><![CDATA[Super User]]></rdfs:label>
 	    <rdfs:comment xml:lang="EN"><![CDATA[super user created during the TAO installation]]></rdfs:comment>

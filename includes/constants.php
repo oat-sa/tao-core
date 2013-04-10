@@ -64,6 +64,7 @@ $todefine = array(
 	'TAO_LIST_LEVEL_PROP'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#level',
 	'TAO_GUIORDER_PROP'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder',
 	'CLASS_LANGUAGES'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
+	'INSTANCE_ROLE_GLOBALMANAGER'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole',
 	'INSTANCE_ROLE_TAOMANAGER'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
 	'INSTANCE_ROLE_BACKOFFICE'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',
 	'INSTANCE_ROLE_FRONTOFFICE'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole',

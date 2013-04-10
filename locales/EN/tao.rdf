@@ -236,19 +236,19 @@
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source Global Manager
+    @source TAO Manager
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="EN"><![CDATA[Global Manager]]></rdfs:label>
+    <rdfs:label xml:lang="EN"><![CDATA[TAO Manager]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage EN
-    @source The Global Manager Role
+    @source The TAO Manager Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="EN"><![CDATA[The Global Manager Role]]></rdfs:comment>
+    <rdfs:comment xml:lang="EN"><![CDATA[The TAO Manager Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole">
     <!--

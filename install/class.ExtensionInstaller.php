@@ -115,8 +115,8 @@ class tao_install_ExtensionInstaller
 
     	// Take the Global Manager role and make it include
     	// the Management role of the currently installed extension.
-    	if ($role->getUri() !== INSTANCE_ROLE_TAOMANAGER){
-    		$globalManagerRole = new core_kernel_classes_Resource(INSTANCE_ROLE_TAOMANAGER);
+    	if ($role->getUri() !== INSTANCE_ROLE_GLOBALMANAGER){
+    		$globalManagerRole = new core_kernel_classes_Resource(INSTANCE_ROLE_GLOBALMANAGER);
     		$roleService->includeRole($globalManagerRole, $role);
     	}
     	

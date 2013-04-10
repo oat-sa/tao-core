@@ -30,7 +30,7 @@ $testUserData = array(
 	PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
 	PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#LangEN',
 	PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#LangEN',
-	PROPERTY_USER_ROLES		=>  array(INSTANCE_ROLE_TAOMANAGER)
+	PROPERTY_USER_ROLES		=>  array(INSTANCE_ROLE_GLOBALMANAGER)
 );
 
 $testUserData[PROPERTY_USER_PASSWORD] = 'test'.rand();
