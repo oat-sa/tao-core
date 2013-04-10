@@ -3,7 +3,7 @@
     @sourceLanguage EN
     @targetLanguage FR
 -->
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/Ontologies/taoFuncACL.rdf#">
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/Ontologies/TAO.rdf#">
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole">
     <!--
     @sourceLanguage EN
@@ -12,7 +12,7 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Anonymous]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Anonyme]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -20,6 +20,6 @@
     @subject http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Anonymous Role]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Rôle Anonyme]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>

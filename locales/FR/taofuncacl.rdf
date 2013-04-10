@@ -12,7 +12,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[A module]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Un module]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -20,7 +20,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[A MVC Controller Module]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Un module contrôleur MVC]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action">
     <!--
@@ -30,7 +30,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[An action]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Une action]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -38,7 +38,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[A MVC Controller Action]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Une action de contrôleur MVC]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction">
     <!--
@@ -48,7 +48,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Give access to an action]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Donner accès à une action]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -56,7 +56,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Give access to an action]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Donner accès à une action]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessModule">
     <!--
@@ -66,7 +66,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessModule
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Give access to a module]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Donner accès à un module]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -74,7 +74,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessModule
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Give access to a module]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Donner accès à un module]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionIdentifier">
     <!--
@@ -84,7 +84,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionIdentifier
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Identifier]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Identifiant d'action]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -92,7 +92,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionIdentifier
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Identifier of the action]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[IIdentifiant d'une action]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionMemberOf">
     <!--
@@ -102,7 +102,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionMemberOf
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Member of]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Membre de]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -110,7 +110,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionMemberOf
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Member of a module]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Membre d'un module]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleIdentifier">
     <!--
@@ -120,7 +120,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleIdentifier
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="FR"><![CDATA[Identifier]]></rdfs:label>
+    <rdfs:label xml:lang="FR"><![CDATA[Identifiant]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage FR
@@ -128,7 +128,7 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleIdentifier
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Identifier of the module]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Identifiant du module]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleExtension">
     <!--
@@ -146,6 +146,6 @@
     @subject http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleExtension
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
-    <rdfs:comment xml:lang="FR"><![CDATA[Extension of the module]]></rdfs:comment>
+    <rdfs:comment xml:lang="FR"><![CDATA[Extension d'un module]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>

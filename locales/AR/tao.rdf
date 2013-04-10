@@ -232,12 +232,12 @@
     -->
     <rdfs:comment xml:lang="AR"><![CDATA[The Service Role]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole">
     <!--
     @sourceLanguage EN
     @targetLanguage AR
     @source Global Manager
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
     <rdfs:label xml:lang="AR"><![CDATA[Global Manager]]></rdfs:label>
@@ -245,10 +245,28 @@
     @sourceLanguage EN
     @targetLanguage AR
     @source The Global Manager Role
-    @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="AR"><![CDATA[The Global Manager Role]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage AR
+    @source TAO Manager
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="AR"><![CDATA[TAO Manager]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage AR
+    @source The TAO Manager Role
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="AR"><![CDATA[The TAO Manager Role]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole">
     <!--
@@ -321,5 +339,53 @@
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="AR"><![CDATA[The order of the property within the class]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#comment">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage AR
+    @source TAO comment
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#comment
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="AR"><![CDATA[TAO comment]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage AR
+    @source human-readable description of a resource
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#comment
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="AR"><![CDATA[human-readable description of a resource]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TaoObjectComment">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage AR
+    @source level
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#TaoObjectComment
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="AR"><![CDATA[level]]></rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#commentAuthor">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage AR
+    @source author
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#commentAuthor
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="AR"><![CDATA[author]]></rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#commentTimestamp">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage AR
+    @source date
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#commentTimestamp
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="AR"><![CDATA[date]]></rdfs:label>
   </rdf:Description>
 </rdf:RDF>
