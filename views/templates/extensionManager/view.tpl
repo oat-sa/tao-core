@@ -77,7 +77,7 @@
 			</tbody>
 		</table>
 		<div class="actions">
-			<input class="install" name="install_extension" value="<?= __('Install') ?>" type="submit" disabled="disabled" />
+			<input class="install" id="installButton" name="install_extension" value="<?= __('Install') ?>" type="submit" disabled="disabled" />
 		</div>
 	</form>
 	<? else: ?>

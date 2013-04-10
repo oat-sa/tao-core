@@ -22,8 +22,8 @@ $(function(){
 	});
 	
 	$('#available-extensions-container tr input:checkbox').click(function() {
-		$installButton = $('.install');
-		if ($(this).parent().find('input:checkbox:checked').length > 0){
+		$installButton = $('#installButton');
+		if ($(this).parent().parent().parent().find('input:checkbox:checked').length > 0){
 			$installButton.attr('disabled', false);
 		}
 		else{
