@@ -195,6 +195,6 @@ class tao_models_classes_GenerisTreeFactory
 		return $toOpen;
     }
     
-} /* end of abstract class tao_models_classes_GenerisService */
+}
 
 ?>
