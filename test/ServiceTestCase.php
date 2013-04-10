@@ -76,32 +76,15 @@ class ServiceTestCase extends UnitTestCase {
 	 */
 	public function testTaoServiceExtention(){
 		
-		$extensions = $this->taoService->getLoadedExtensions();
-		$this->assertTrue( is_array($extensions) );
+		foreach ($this->taoService->getAllStructures() as $structure) {
+			$this->assertTrue(isset($structure['extension']));
+			$this->assertTrue(isset($structure['id']));
+			$this->assertIsA($structure['data'], 'SimpleXMLElement');
 
-		$foundExtensions = array();
-		foreach(scandir(ROOT_PATH) as $file){
-			if(!preg_match("/^\./", $file) && is_dir(ROOT_PATH.'/'.$file)){
-				if(file_exists(ROOT_PATH.'/'.$file.'/manifest.php')){
-					$manifest = (include ROOT_PATH.'/'.$file.'/manifest.php');
-					$foundExtensions[] = $file;
-				}
-			}
-		}
-		
-		foreach($extensions as $extension){
-			if($this->taoService->isTaoChildExtension($extension)){
-				$this->assertTrue( in_array($extension, $foundExtensions) );		//the service should return it
-				$structure = $this->taoService->getStructure($extension);
-				$this->assertIsA($structure, 'SimpleXMLElement', 'Extention '.$extension.' :%s');
-
-				$this->assertTrue(isset($structure->sections));
-				foreach($structure->sections->section as $section){
-					$this->assertTrue(isset($section['name']));
-					$sectionData = $this->taoService->getStructure($extension, (string)$section['name']);
-					$this->assertTrue(isset($sectionData['name']));
-					$this->assertTrue(isset($sectionData['url']));
-				}
+			$this->assertTrue(isset($structure['id']));
+			foreach ($structure['sections'] as $sectionData) {
+				$this->assertTrue(isset($sectionData['name']));
+				$this->assertTrue(isset($sectionData['url']));
 			}
 		}
 	}

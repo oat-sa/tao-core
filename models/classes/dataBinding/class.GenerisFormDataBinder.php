@@ -150,7 +150,7 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder
         if (!empty($name) && !empty($size)){
         	// Move the file at the right place.
         	$source = $desc->getTmpPath();
-        	$repository = tao_models_classes_TaoService::singleton()->getDefaultUploadSource();
+        	$repository = tao_models_classes_TaoService::singleton()->getUploadFileSource();
         	$file = $repository->spawnFile($source, $desc->getName());
         	
         	$instance->setPropertyValue($property, $file->getUri());

@@ -19,38 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * This class provide the services for the Tao extension
- *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
- * @package tao
- * @subpackage models_classes
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * The Service class is an abstraction of each service instance. 
- * Used to centralize the behavior related to every servcie instances.
- *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
- */
-require_once('tao/models/classes/class.GenerisService.php');
-
-/* user defined includes */
-// section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822-includes begin
-// section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822-includes end
-
-/* user defined constants */
-// section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822-constants begin
-// section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001822-constants end
 
 /**
  * This class provide the services for the Tao extension
@@ -69,14 +37,6 @@ class tao_models_classes_TaoService
     // --- ATTRIBUTES ---
 
     /**
-     * to stock the list of extensions
-     *
-     * @access private
-     * @var array
-     */
-    private static $extensions = array();
-
-    /**
      * to stock the extension structure
      *
      * @access protected
@@ -91,93 +51,9 @@ class tao_models_classes_TaoService
      * @access public
      * @var string
      */
-    const DEFAULT_UPLOADSOURCE_KEY = 'defaultUploadFileSource';
+    const CONFIG_UPLOAD_FILESOURCE = 'defaultUploadFileSource';
 
     // --- OPERATIONS ---
-
-    /**
-     * Get the list of TAO's children extension available in the current context
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @return array
-     */
-    public function getLoadedExtensions()
-    {
-        $returnValue = array();
-
-        // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001820 begin
-
-		if( count(self::$extensions) == 0 ){		//check it only once
-
-			$extensionsManager = common_ext_ExtensionsManager::singleton();
-			foreach($extensionsManager->getInstalledExtensions() as $extension){
-				if($extension->isEnabled()){
-					self::$extensions[] = $extension->getID();
-				}
-			}
-		}
-
-		$returnValue = self::$extensions;
-
-        // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001820 end
-
-        return (array) $returnValue;
-    }
-
-    /**
-     * Check if an extension is loaded
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  string extension
-     * @return boolean
-     */
-    public function isLoaded($extension)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6F begin
-		(in_array($extension, $this->getLoadedExtensions())) ? $returnValue = true : $returnValue = false;
-        // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6F end
-
-        return (bool) $returnValue;
-    }
-
-    /**
-     * define the current extension
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  string extension
-     * @return mixed
-     */
-    public function setCurrentExtension($extension)
-    {
-        // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A66 begin
-    	common_Logger::w('Deprecated function setCurrentExtension(TaoService) called');
-    	$returnValue = context::getInstance()->setExtensionName($extension);
-        // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A66 end
-    }
-
-    /**
-     * get the current extension
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @return string
-     */
-    public function getCurrentExtension()
-    {
-        $returnValue = (string) '';
-
-        // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6A begin
-    	common_Logger::w('Deprecated function getCurrentExtension(TaoService) called');
-        $returnValue = context::getInstance()->getExtensionName();
-        // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6A end
-
-        return (string) $returnValue;
-    }
 
     /**
      * Load the extension structure file.
@@ -188,20 +64,12 @@ class tao_models_classes_TaoService
      * @param  string extension
      * @return SimpleXMLElement
      */
-    protected function loadExtensionStructures($extension)
+    private function getStructuresXml($extensionID)
     {
         $returnValue = null;
 
         // section 127-0-1-1-5f1894ad:12457319d43:-8000:0000000000001A6C begin
-		/*
-		if($extension == 'users'){
-			$structureFilePath = ROOT_PATH.'/tao/actions/users-structure.xml';
-		}
-		else{
-			$structureFilePath = ROOT_PATH.'/'.$extension.'/actions/structure.xml';
-		}
-		*/
-		$structureFilePath = ROOT_PATH.'/'.$extension.'/actions/structures.xml';
+		$structureFilePath = ROOT_PATH.'/'.$extensionID.'/actions/structures.xml';
 		
 		if(file_exists($structureFilePath)){
 			return new SimpleXMLElement($structureFilePath, null, true);
@@ -225,15 +93,15 @@ class tao_models_classes_TaoService
         // section 127-0-1-1-64be1e2f:13774f13776:-8000:0000000000003A89 begin
     	if( count(self::$structure) == 0 ){
 			$structure = array();
-			foreach($this->getLoadedExtensions() as $loadedExtension){
-				$xmlStructures = $this->loadExtensionStructures($loadedExtension);
+			foreach(common_ext_ExtensionsManager::singleton()->getEnabledExtensions() as $extID => $extension){
+				$xmlStructures = $this->getStructuresXml($extID);
 				if(!is_null($xmlStructures)){
 					$structures = $xmlStructures->xpath("/structures/structure");
 					foreach($structures as $xmlStructure){
 						$id = (string)$xmlStructure['id'];
 						if (!isset(self::$structure[$id])) {
 							self::$structure[$id] = array(
-								'extension' => $loadedExtension,
+								'extension' => $extID,
 								'id'		=> (string)$xmlStructure['id'],
 								'data'		=> $xmlStructure,
 								'sections'	=> array(),
@@ -247,8 +115,6 @@ class tao_models_classes_TaoService
 					}
 				}
 			}
-			//var_dump(self::$structure);
-			//$tmpDebugAsVariable = function($a, $b) { return $a['level'] - $b['level']; } ;
 			usort(self::$structure, create_function('$a,$b', "return \$a['level'] - \$b['level']; "));
 		}
 		$returnValue = self::$structure;
@@ -256,10 +122,7 @@ class tao_models_classes_TaoService
 
         return (array) $returnValue;
     }
-    private function tmpDebugAsMember($a, $b)
-	{
-		return $a['level'] - $b['level'];
-	}
+
     /**
      * Get the structure for the extension/section in parameters
      *
@@ -317,31 +180,6 @@ class tao_models_classes_TaoService
     }
 
     /**
-     * Check if an extension is an extension loaded inside the TAO GUI
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  string extension
-     * @return boolean
-     */
-    public function isTaoChildExtension($extension)
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1-34cc9151:127a8ee40c4:-8000:000000000000233E begin
-
-        if(!empty($extension)){
-        	if(file_exists(ROOT_PATH.'/'.$extension.'/actions/structure.xml')){
-        		 $returnValue = true;
-        	}
-        }
-
-        // section 127-0-1-1-34cc9151:127a8ee40c4:-8000:000000000000233E end
-
-        return (bool) $returnValue;
-    }
-
-    /**
      * Set the default file source for TAO File Upload.
      *
      * @access public
@@ -349,11 +187,11 @@ class tao_models_classes_TaoService
      * @param  Repository source The repository to be used as the default TAO File Upload Source.
      * @return void
      */
-    public function setDefaultUploadSource( core_kernel_versioning_Repository $source)
+    public function setUploadFileSource( core_kernel_versioning_Repository $source)
     {
         // section 127-0-1-1-7b77f86d:13d16ab7c5c:-8000:0000000000003C63 begin
     	$ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-    	$ext->setConfig(self::DEFAULT_UPLOADSOURCE_KEY, $source->getUri());
+    	$ext->setConfig(self::CONFIG_UPLOAD_FILESOURCE, $source->getUri());
         // section 127-0-1-1-7b77f86d:13d16ab7c5c:-8000:0000000000003C63 end
     }
 
@@ -364,13 +202,13 @@ class tao_models_classes_TaoService
      * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @return core_kernel_versioning_Repository
      */
-    public function getDefaultUploadSource()
+    public function getUploadFileSource()
     {
         $returnValue = null;
 
         // section 127-0-1-1-7b77f86d:13d16ab7c5c:-8000:0000000000003C69 begin
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $uri = $ext->getConfig(self::DEFAULT_UPLOADSOURCE_KEY);
+        $uri = $ext->getConfig(self::CONFIG_UPLOAD_FILESOURCE);
         if (!empty($uri)) {
         	$returnValue = new core_kernel_versioning_Repository($uri);
         } else {

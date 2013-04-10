@@ -29,4 +29,4 @@ $extension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
 $dataPath = $extension ->getConstant('BASE_PATH'). 'data' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
 
 $source = tao_models_classes_FileSourceService::singleton()->addLocalSource('fileUploadDirectory', $dataPath);
-tao_models_classes_TaoService::singleton()->setDefaultUploadSource($source);
+tao_models_classes_TaoService::singleton()->setUploadFileSource($source);
