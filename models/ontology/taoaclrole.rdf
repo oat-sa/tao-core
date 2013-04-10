@@ -24,5 +24,6 @@
 		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Users_checkLogin"/>
 		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_UserSettings_password"/>
 		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_UserSettings_properties"/>
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_GenerisTree"/>
 	</rdf:Description>
 </rdf:RDF>
