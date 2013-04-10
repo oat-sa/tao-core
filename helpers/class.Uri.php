@@ -250,11 +250,12 @@ class tao_helpers_Uri
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A3F begin
 		if (preg_match("/^http/", $uri)) {
+			//return base64_encode($uri);
 			if ($dotMode) {
-				//$returnValue = urlencode(str_replace('.', '__', $uri));
-				$returnValue = str_replace('.', '_0_', str_replace('/', '_1_', str_replace('://', '_2_', str_replace('#', '_3_', $uri))));
+				//order matters here don't change the _4_ position
+				$returnValue = str_replace(':','_4_',str_replace('.', '_0_', str_replace('/', '_1_', str_replace('://', '_2_', str_replace('#', '_3_', $uri)))));
 			} else {
-				$returnValue = str_replace('/', '_1_', str_replace('://', '_2_', str_replace('#', '_3_', $uri)));
+				$returnValue = str_replace('_4_',':', str_replace('/', '_1_', str_replace('://', '_2_', str_replace('#', '_3_', $uri))));
 			}
 		} else {
 			$returnValue = $uri;
@@ -279,12 +280,13 @@ class tao_helpers_Uri
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A42 begin
 		if (preg_match("/^http/", $uri)) {
+			//return base64_decode($uri);
 			if ($dotMode) {
 				//$returnValue = urldecode(str_replace('__', '.', $uri));
 				//$returnValue = str_replace('w_org', 'w3.org', $returnValue);
-				$returnValue = str_replace('_3_', '#', str_replace('_2_', '://', str_replace('_1_', '/', str_replace('_0_', '.', $uri))));
+				$returnValue = str_replace('_4_',':',str_replace('_3_', '#', str_replace('_2_', '://', str_replace('_1_', '/', str_replace('_0_', '.', $uri)))));
 			} else {
-				$returnValue = str_replace('_3_', '#', str_replace('_2_', '://', str_replace('_1_', '/', $uri)));
+				$returnValue = str_replace('_4_',':',str_replace('_3_', '#', str_replace('_2_', '://', str_replace('_1_', '/', $uri))));
 			}
 		} else {
 			$returnValue = $uri;
