@@ -679,7 +679,7 @@ msgstr "Suivant"
 msgid "No"
 msgstr ""
 
-msgid "No account match the given login / password"
+msgid "Invalid login or password. Please try again."
 msgstr "Aucun compte ne correspond à ces identifiants"
 
 msgid "No extensions available."

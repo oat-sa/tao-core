@@ -629,7 +629,7 @@ msgstr "مترشح جديد"
 msgid "Next"
 msgstr "التالي"
 
-msgid "No account match the given login / password"
+msgid "Invalid login or password. Please try again."
 msgstr "لا يتطابق مع حساب معين الدخول / كلمة السر"
 
 msgid "No result found"

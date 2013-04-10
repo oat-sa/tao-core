@@ -629,7 +629,7 @@ msgstr "ny testtagare"
 msgid "Next"
 msgstr "Nästa"
 
-msgid "No account match the given login / password"
+msgid "Invalid login or password. Please try again."
 msgstr "Inget konto matchar den angivna inloggningen/lösenordet"
 
 msgid "No result found"

@@ -660,7 +660,7 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-msgid "No account match the given login / password"
+msgid "Invalid login or password. Please try again."
 msgstr ""
 
 msgid "no file"

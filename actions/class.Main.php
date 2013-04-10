@@ -115,7 +115,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 						}
 					}
 					else{
-						$this->setData('errorMessage', __('No account match the given login / password'));
+						$this->setData('errorMessage', __('Invalid login or password. Please try again.'));
 					}
 				}
 			}
