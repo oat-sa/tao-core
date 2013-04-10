@@ -61,7 +61,7 @@ require_once('tao/models/classes/class.TaoService.php');
  * @subpackage models_classes_funcACL
  */
 class tao_models_classes_funcACL_AccessService
-    extends tao_models_classes_TaoService
+    extends tao_models_classes_GenerisService
 {
     // --- ASSOCIATIONS ---
 

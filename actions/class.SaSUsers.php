@@ -30,13 +30,17 @@
  * @subpackage action
  *
  */
-class tao_actions_SaSUsers extends tao_actions_SaSLegacy {
+class tao_actions_SaSUsers extends tao_actions_SaSModule{
 
 	/**
 	 * @var tao_models_classes_UserService
 	 */
 	protected $userService = null;
 	protected $userGridOptions = array();
+	
+	protected function getClassService() {
+		return tao_models_classes_UserService::singleton();
+	}
 	
 	protected function getRootClass() {
 		return new core_kernel_classes_Class(CLASS_TAO_USER);

@@ -23,33 +23,13 @@
 /**
  * This class provide service on user management
  *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package tao
- * @subpackage models_classes
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * The Service class is an abstraction of each service instance. 
- * Used to centralize the behavior related to every servcie instances.
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- */
-require_once('tao/models/classes/class.GenerisService.php');
-
-/**
- * This class provide service on user management
- *
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
  * @subpackage models_classes
  */
 class tao_models_classes_UserService
-    extends tao_models_classes_GenerisService
+    extends tao_models_classes_ClassService
     implements core_kernel_users_UsersManagement
 {
 
@@ -201,7 +181,7 @@ class tao_models_classes_UserService
 
 		if (!empty($login)){
 			
-			$class = (!empty($class)) ? $class : $this->getUserClass();
+			$class = (!empty($class)) ? $class : $this->getRootClass();
 			
 			$user = $this->generisUserService->getOneUser($login, $class);
 			
@@ -448,7 +428,7 @@ class tao_models_classes_UserService
     public function addUser($login, $password, core_kernel_classes_Resource $role = null, core_kernel_classes_Class $class = null){
 		
     	if (empty($class)){
-    		$class = $this->getUserClass();
+    		$class = $this->getRootClass();
     	}
     	
     	return $this->generisUserService->addUser($login, $password, $role, $class);
@@ -541,7 +521,8 @@ class tao_models_classes_UserService
 	 * 
 	 * @return core_kernel_classes_Class The user class.
 	 */
-	public function getUserClass(){
+	public function getRootClass()
+	{
 		return new core_kernel_classes_Class(CLASS_TAO_USER);
 	}
 }

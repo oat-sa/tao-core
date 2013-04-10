@@ -30,14 +30,38 @@
  * @subpackage action
  *
  */
-abstract class tao_actions_SaSLegacy extends tao_actions_WfService {
+abstract class tao_actions_SaSModule extends tao_actions_CommonModule {
 	
+	/**
+	 * 
+	 * Enter description here ...
+	 */
+	abstract protected function getClassService();
+	
+	public function __construct() {
+		tao_helpers_Context::load('STANDALONE_MODE');
+		parent::__construct();
+	}
+
+	public function setView($identifier, $extensionID = null) {
+		// override non AJAX calls for SAS
+		if(tao_helpers_Request::isAjax()){
+			parent::setView($identifier, $extensionID);
+		} else {
+			$view = self::getTemplatePath($identifier, $extensionID);
+			$this->setData('includedView', $view);
+			parent::setView('sas.tpl', 'tao');
+		}
+    }
+
 	/**
 	 * Returns the root class of the module
 	 * @return core_kernel_classes_Class
 	 */
-	abstract protected function getRootClass();
-
+	protected function getRootClass() {
+		return $this->getClassService()->getRootClass();
+	}
+	
 	protected function getDataKind()
 	{
 		return Camelizer::camelize(explode(' ', strtolower(trim($this->getRootClass()->getLabel()))), false);
@@ -116,8 +140,7 @@ abstract class tao_actions_SaSLegacy extends tao_actions_WfService {
 			$clazz = $this->getRootClass();
 		}
 		// @todo call the correct service
-		// $instance = $this->service->createInstance($clazz);
-		$instance = $clazz->createInstance();
+		$instance = $this->getClassService()->createInstance($clazz);
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			
 			//init variable service:
@@ -233,5 +256,19 @@ abstract class tao_actions_SaSLegacy extends tao_actions_WfService {
 		$returnValue = $hideNode ? ($tree['children']) : $tree;
 		echo json_encode($returnValue);
 	}
+	
+    protected function setVariables($variables) {
+    	
+    	$ext	= common_ext_ExtensionsManager::singleton()->getExtensionById('wfEngine');
+    	$loader = new common_ext_ExtensionLoader($ext);
+    	$loader->load();
+    	$variableService = wfEngine_models_classes_VariableService::singleton();
+
+    	$cleaned = array();
+    	foreach ($variables as $key => $value) {
+    		$cleaned[$key] = (is_object($value) && $value instanceof core_kernel_classes_Resource) ? $value->getUri() : $value;
+    	}
+		return $variableService->save($cleaned);
+    }
 }
 ?>
