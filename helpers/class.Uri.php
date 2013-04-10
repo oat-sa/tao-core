@@ -255,7 +255,7 @@ class tao_helpers_Uri
 				//order matters here don't change the _4_ position
 				$returnValue = str_replace(':','_4_',str_replace('.', '_0_', str_replace('/', '_1_', str_replace('://', '_2_', str_replace('#', '_3_', $uri)))));
 			} else {
-				$returnValue = str_replace('_4_',':', str_replace('/', '_1_', str_replace('://', '_2_', str_replace('#', '_3_', $uri))));
+				$returnValue = str_replace(':','_4_', str_replace('/', '_1_', str_replace('://', '_2_', str_replace('#', '_3_', $uri))));
 			}
 		} else {
 			$returnValue = $uri;
