@@ -6,8 +6,19 @@
 </div>
 <div id="compilation-container" class="ui-widget-content ui-corner-bottom">
         
-        <div id="compilation-compile-button-container" class="ext-home-container ui-state-highlight">
-                <span><?=__('Optimize your TAO when you are ready for test delivery')?></span>:&nbsp;
+        <div id="compilation-compile-info" class="ext-home-container ui-state-highlight">
+        		<?= __("Classes and their associated data can be stored in two different modes.")?>
+        		<ul>
+        				<li>
+        						<strong><?=__("Design Mode:")?></strong> <?=__("suitable for data modeling (default mode).")?>
+        				</li>
+        				<li>
+        						<strong><?=__("Production Mode:")?></strong> <?=__("recommended for maximum performance e.g. once your data model is stable.")?>
+        				</li>
+        		</ul>
+        		<div id="compilation-compile-warning">
+        			<strong><?=__("Warning:")?></strong> make sure to back up your data before changing modes.
+        		</div>
         </div>
         
         <div id="compilation-grid-container">

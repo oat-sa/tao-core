@@ -17,9 +17,40 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-div#compilation-container{padding:10px;}
-div#compilation-grid-container{padding:10px 0px;}
-div#compilation-table-container{width:100%;}
-div#compilation-recompile-button-container{margin-top: 10px;}
-div#compilation-grid-results{display:none;}
-div#compilation-grid{width:100%;}
+
+#compilation-container{
+	padding:10px;
+
+}
+#compilation-grid-container{
+	padding:10px 0px;
+}
+
+#compilation-table-container{
+	width:100%;
+}
+
+#compilation-grid-results{
+	display:none;
+}
+
+#compilation-grid{
+	width:100%;
+}
+
+#compilation-compile-info{
+	font-size: 12px;
+}
+
+#compilation-compile-info ul{
+	padding: 0;
+	margin: 15px 15px 0px 15px;
+}
+
+#compilation-compile-info ul li{
+	margin: 5px 0;
+}
+
+#compilation-compile-warning{
+	margin-top: 10px;
+}
