@@ -212,7 +212,7 @@ class tao_helpers_form_FormFactory
      * @param  boolean revert
      * @return array
      */
-    public static function getCommonActions($context = 'bottom', $save = true, $revert = true)
+    public static function getCommonActions($context = 'bottom', $save = true, $revert = false)
     {
         $returnValue = array();
 
