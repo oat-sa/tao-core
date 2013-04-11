@@ -58,7 +58,7 @@
 
 		<div id="sections-aside">
 			<div id="section-trees"></div>
-			<div id="section-actions" ></div>
+			<div id="section-actions"></div>
 		</div>
 		<div class="clearfix"></div>
 		<div id="section-meta"></div>

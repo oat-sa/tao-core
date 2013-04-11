@@ -13,7 +13,7 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 		init: function() {
 			this.counter = 0;
 			this.initFormPattern = new RegExp(['search', 'authoring', 'Import', 'Export', 'IO', 'preview'].join('|'));
-			this.initGenerisFormPattern =  new RegExp(['add', 'edit'].join('|'), 'i');
+			this.initGenerisFormPattern =  new RegExp(['add', 'edit', 'mode'].join('|'), 'i');
 			this.initTranslationFormPattern = /translate/;
 			this.initNav();
 
@@ -28,7 +28,6 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 					}
 
 					uiForm.initRendering();
-
 					if (uiForm.initGenerisFormPattern.test(testedUrl)) {
 						uiForm.initElements();
 						uiForm.initOntoForms();

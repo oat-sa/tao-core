@@ -109,7 +109,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 		 */
 		initNav: function(){
 			//load the links target into the main container instead of loading a new page
-			$('a.nav').live('click', function() {
+			$('a.nav').off('click.uiBootstrap').on('click.uiBootstrap', function() {
 				try{
 					helpers._load(helpers.getMainContainerSelector(helpers.tabs), this.href);
 				}
@@ -186,13 +186,13 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 		 */
 		initSize: function(){
 			//set up the container size
-			myPanel = $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')];
-			if(myPanel){
-				uiTab = myPanel.id;
+			var $myPanel = $('.ui-tabs-panel')[this.tabs.tabs('option', 'selected')];
+			if($myPanel){
+				var uiTab = $myPanel.id;
 				if($('#section-actions').html() == '' && $('#section-trees').html()  == '' && $("div#"+uiTab).css('width') == '79.5%' ){
 					$("div#"+uiTab).css({'width': '100%', 'left': 0});
 				}
-				if( $('#section-actions').html() != '' || $('#section-trees').html()  != '' ){
+				if($('#section-actions').html() != '' || $('#section-trees').html()  != '' ){
 					$("div#"+uiTab).css({'width': '79.5%', 'float': 'right'});
 				}
 			}
