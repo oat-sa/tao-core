@@ -26,7 +26,7 @@ function checkLogin(id, url){
 					function(data){
 						$('.login-info').remove();
 						if(data.available){
-							elt.after("<span class='login-info'><img src='"+taobase_www+"img/tick.png' /> " + __('This Login is already in use') + "</span>");
+							elt.after("<span class='login-info'><img src='"+taobase_www+"img/tick.png' /> " + __('Login available') + "</span>");
 						}
 						else{
 							elt.after("<span class='login-info ui-state-error'><img src='"+taobase_www+"img/exclamation.png' class='icon' /> " + __('This Login is already in use') + "</span>");
