@@ -34,7 +34,7 @@
 				instanceClass: "node-<?=str_replace(' ', '-', strtolower($tree['className']))?>",
 				instanceName: "<?=mb_strtolower(__($tree['className']), TAO_DEFAULT_ENCODING)?>",
 <?endif;?>
-				paginate: 10
+				paginate: 30
 <?if(get_data('openUri')):?>
 				,selectNode: "<?=get_data('openUri')?>"
 <?endif?>

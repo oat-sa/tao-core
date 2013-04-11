@@ -435,10 +435,10 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 		enableFilter: function() {
 			this.state = this.STATE_FILTERING;
 			this.filter = $.trim($("#filter-content-" + this.options.actionId).val());
-			instance = this;
+			var instance = this;
 
 			if (this.filter != '*') {
-				$cancelBtn = $("#filter-cancel-" + this.options.actionId);
+				var $cancelBtn = $("#filter-cancel-" + this.options.actionId);
 				if ($cancelBtn.hasClass("ui-helper-hidden")) {
 					$($cancelBtn).
 						removeClass("ui-helper-hidden").
@@ -477,7 +477,10 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				"limit": instancesLeft < this.paginate ? instancesLeft : this.paginate
 			};
 			options = $.extend(options, pOptions);
-
+			if(this.filter && this.filter != '*'){
+				options.filter = this.filter;
+			}
+			
 			$.post(this.dataUrl, options, (function(instance) { return function(DATA) {
 				//Display instances
 				for (var i=0; i < DATA.length; i++){
