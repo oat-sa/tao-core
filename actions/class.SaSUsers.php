@@ -41,10 +41,6 @@ class tao_actions_SaSUsers extends tao_actions_SaSModule{
 	protected function getClassService() {
 		return tao_models_classes_UserService::singleton();
 	}
-	
-	protected function getRootClass() {
-		return new core_kernel_classes_Class(CLASS_TAO_USER);
-	}
 
 	public function __construct() {
 		parent::__construct();

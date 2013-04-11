@@ -3,7 +3,7 @@
 <services>
 	<description>tao services</description>
 	<service>
-		<name>Tao Users View</name>
+		<name>Tao view users</name>
 		<description>View the users</description>
 		<location url="/tao/SaSUsers/viewGrid">
 		</location>

@@ -30,7 +30,7 @@
  * @subpackage action
  *
  */
-abstract class tao_actions_SaSModule extends tao_actions_CommonModule {
+abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 	
 	/**
 	 * 
@@ -195,20 +195,104 @@ abstract class tao_actions_SaSModule extends tao_actions_CommonModule {
 		
 		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
 		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
-		$this->setView('form/delete.tpl', 'tao');
+		$this->setView('sas/delete.tpl', 'tao');
+	}
+	
+	/**
+	 * Delete an instance
+	 * @return void
+	 */
+	public function search()
+	{
+		$found = false;
+		
+		$clazz = $this->getCurrentClass();
+		
+		$formContainer = new tao_actions_form_Search($clazz, null, array('recursive' => true));
+		$myForm = $formContainer->getForm();
+		
+		if($myForm->isSubmited()){
+			if($myForm->isValid()){
+				
+				$filters = $myForm->getValues('filters');
+				$properties = array();
+				foreach($filters as $propUri => $filter){
+					if(preg_match("/^http/", $propUri) && !empty($filter)){
+						$properties[] = new core_kernel_classes_Property($propUri);
+					}
+					else{
+						unset($filters[$propUri]);
+					}
+				}
+				
+				$hasLabel = false;
+				foreach($properties as $property){
+					if($property->uriResource == RDFS_LABEL){
+						$hasLabel = true;
+						break;
+					}
+				}
+				if(!$hasLabel){
+					$properties=array_merge(array(new core_kernel_classes_Property(RDFS_LABEL)), $properties);
+				}
+				$this->setData('properties', $properties);
+				$params = $myForm->getValues('params');
+				$params['like'] = false;
+
+				$instances = $this->service->searchInstances($filters, $clazz, $params);
+				if(count($instances) > 0 ){
+					$found = array();
+					$index = 1;
+					foreach($instances as $instance){
+						
+						$instanceProperties = array();
+						foreach($properties as $i => $property){
+							$value = '';
+							$propertyValues = $instance->getPropertyValuesCollection($property);
+							foreach($propertyValues->getIterator() as $j => $propertyValue){
+								if($propertyValue instanceof core_kernel_classes_Literal){
+									$value .= (string) $propertyValue;
+								}
+								if($propertyValue instanceof core_kernel_classes_Resource){
+									$value .= $propertyValue->getLabel();
+								}
+								if($j < $propertyValues->count()){
+									$value .= "<br />";
+								}
+							}
+							$instanceProperties[$i] = $value;
+						}
+						$found[$index]['uri'] = tao_helpers_Uri::encode($instance->uriResource);
+						$found[$index]['properties'] = $instanceProperties;
+						$index++;
+					}
+				}
+			}
+			$this->setData('openAction', 'alert');
+			$this->setData('foundNumber', count($found));
+			$this->setData('found', $found);
+		}
+		
+		
+		$this->setData('myForm', $myForm->render());
+		$this->setData('formTitle', __('Search'));
+		$this->setView('form/search.tpl', 'tao');
 	}
 	
 	// Below this line, basic functionalities copied from TaoModule
 	
 	/**
 	 * get the current item class regarding the classUri' request parameter
+	 * prevent exception by returning the root class if no class is selected
+	 *  
 	 * @return core_kernel_classes_Class the item class
 	 */
 	protected function getCurrentClass()
 	{
 		$classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
 		if(is_null($classUri) || empty($classUri)){
-			throw new common_Exception("No valid class uri found");
+			common_Logger::w("No valid class uri found, falling back to root class");
+			return $this->getRootClass();
 		}
 		return new core_kernel_classes_Class($classUri);
 	}
@@ -258,7 +342,6 @@ abstract class tao_actions_SaSModule extends tao_actions_CommonModule {
 	}
 	
     protected function setVariables($variables) {
-    	
     	$ext	= common_ext_ExtensionsManager::singleton()->getExtensionById('wfEngine');
     	$loader = new common_ext_ExtensionLoader($ext);
     	$loader->load();
