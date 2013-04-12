@@ -39,8 +39,8 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 	abstract protected function getClassService();
 	
 	public function __construct() {
-		tao_helpers_Context::load('STANDALONE_MODE');
 		parent::__construct();
+		tao_helpers_Context::load('STANDALONE_MODE');
 	}
 
 	public function setView($identifier, $extensionID = null) {
