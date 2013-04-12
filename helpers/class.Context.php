@@ -18,35 +18,10 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
 
 /**
- * The context class enables you to define some context to the app 
- * and to check staticly which context/mode is actually load
- *
- * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
- * @package tao
- * @subpackage helpers
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1--7978326a:129a2dd1980:-8000:000000000000209D-includes begin
-// section 127-0-1-1--7978326a:129a2dd1980:-8000:000000000000209D-includes end
-
-/* user defined constants */
-// section 127-0-1-1--7978326a:129a2dd1980:-8000:000000000000209D-constants begin
-// section 127-0-1-1--7978326a:129a2dd1980:-8000:000000000000209D-constants end
-
-/**
- * The context class enables you to define some context to the app 
- * and to check staticly which context/mode is actually load
+ * The context class enables you to define some context to the application
+ * and to check statically which context/mode is actually loaded.
  *
  * @access public
  * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
@@ -55,33 +30,24 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  */
 class tao_helpers_Context
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
 
     /**
-     * the list of current loaded modes
+     * The list of current loaded modes. This array contains strings. 
      *
      * @access protected
      * @var array
      */
     protected static $current = array();
 
-    // --- OPERATIONS ---
 
     /**
      * load a new current mode
      *
-     * @access public
      * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string mode
-     * @return mixed
      */
     public static function load($mode)
     {
-        // section 127-0-1-1--7978326a:129a2dd1980:-8000:00000000000020A5 begin
-        
 		if(!is_string($mode)){
 			throw new Exception("Try to load an irregular mode in the context");
 		}
@@ -92,23 +58,18 @@ class tao_helpers_Context
     	if(!in_array($mode, self::$current)){
     		self::$current[] = $mode;
     	}
-        
-        // section 127-0-1-1--7978326a:129a2dd1980:-8000:00000000000020A5 end
     }
 
     /**
-     * check if the mode in parameter is loaded in the context
+     * check if the mode in parameter is loaded in the context.
      *
-     * @access public
      * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  string mode
+     * @param  string mode The mode you want to check it is loaded or not.
      * @return boolean
      */
     public static function check($mode)
     {
         $returnValue = (bool) false;
-
-        // section 127-0-1-1--7978326a:129a2dd1980:-8000:00000000000020B0 begin
         
     	if(!is_string($mode)){
 			throw new Exception("Try to check an irregular mode");
@@ -118,40 +79,29 @@ class tao_helpers_Context
     	}
     	
     	$returnValue = in_array($mode, self::$current);
-        
-        // section 127-0-1-1--7978326a:129a2dd1980:-8000:00000000000020B0 end
 
         return (bool) $returnValue;
     }
 
     /**
-     * reset the context
+     * reset the context.
      *
-     * @access public
      * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @return mixed
      */
     public static function reset()
     {
-        // section 127-0-1-1--7978326a:129a2dd1980:-8000:00000000000020B3 begin
-
-    	self::$curent = array();
-    	
-        // section 127-0-1-1--7978326a:129a2dd1980:-8000:00000000000020B3 end
+    	self::$current = array();
     }
 
     /**
-     * Short description of method unload
+     * Unload a specific mode.
      *
-     * @access public
      * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string mode
-     * @return mixed
      */
-    public function unload($mode)
+    public static function unload($mode)
     {
-        // section 127-0-1-1--11f0cc4c:12fba405a1e:-8000:0000000000003AA8 begin
-        
+
     	if(!is_string($mode)){
 			throw new Exception("Try to unload an irregular mode in the context");
 		}
@@ -165,10 +115,7 @@ class tao_helpers_Context
     			unset (self::$current[$index]);
     		}
     	}
-    	
-        // section 127-0-1-1--11f0cc4c:12fba405a1e:-8000:0000000000003AA8 end
     }
-
-} /* end of class tao_helpers_Context */
+}
 
 ?>
