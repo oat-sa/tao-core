@@ -108,10 +108,10 @@ $todefine = array(
 	'PROPERTY_OAUTH_KEY'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey',
 	'PROPERTY_OAUTH_SECRET' 		=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret',
 	
-	'CLASS_TAO_COMMENT'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#comment',
-	'PROPERTY_TAOOBJECT_COMMENT'	=> 'http://www.tao.lu/Ontologies/TAO.rdf#TaoObjectComment',
-	'PROPERTY_COMMENT_AUTHOR'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#commentAuthor',
-	'PROPERTY_COMMENT_TIMESTAMP'	=> 'http://www.tao.lu/Ontologies/TAO.rdf#commentTimestamp',
+	'CLASS_GENERIS_COMMENT'				=> 'http://www.tao.lu/Ontologies/generis.rdf#comment',
+	'PROPERTY_GENERIS_RESOURCE_COMMENT'	=> 'http://www.tao.lu/Ontologies/generis.rdf#generisRessourceComment',
+	'PROPERTY_COMMENT_AUTHOR'		=> 'http://www.tao.lu/Ontologies/generis.rdf#commentAuthor',
+	'PROPERTY_COMMENT_TIMESTAMP'	=> 'http://www.tao.lu/Ontologies/generis.rdf#commentTimestamp',
 
 );
 ?>

@@ -54,7 +54,7 @@ class tao_actions_MetaData extends tao_actions_CommonModule {
 		$this->setData('metadata', false); 
 		try{
 			$instance = $this->getCurrentInstance();
-			$commentUris = $instance->getPropertyValues(new core_kernel_classes_Property(PROPERTY_TAOOBJECT_COMMENT));
+			$commentUris = $instance->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GENERIS_RESOURCE_COMMENT));
 			$commentData = array();
 			foreach ($commentUris as $uri) {
 				$comment = new core_kernel_classes_Resource($uri);
@@ -91,18 +91,18 @@ class tao_actions_MetaData extends tao_actions_CommonModule {
 			throw new Exception("wrong request mode");
 		}
 		$instance = $this->getCurrentInstance();
-		$commentClass = new core_kernel_classes_Class(CLASS_TAO_COMMENT);
+		$commentClass = new core_kernel_classes_Class(CLASS_GENERIS_COMMENT);
 		$comment = $commentClass->createInstanceWithProperties(array(
 			RDF_VALUE					=> $this->getRequestParameter('comment'),
 			PROPERTY_COMMENT_AUTHOR		=> core_kernel_classes_Session::singleton()->getUserUri(),
 			PROPERTY_COMMENT_TIMESTAMP	=> time()
 		));
-		$commentUris = $instance->getPropertyValues(new core_kernel_classes_Property(PROPERTY_TAOOBJECT_COMMENT));
+		$commentUris = $instance->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GENERIS_RESOURCE_COMMENT));
 		foreach ($commentUris as $uri) {
 			$oldComment = new core_kernel_classes_Resource($uri);
 			$oldComment->delete();
 		}
-		$instance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_TAOOBJECT_COMMENT), $comment);
+		$instance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_GENERIS_RESOURCE_COMMENT), $comment);
 		echo json_encode(array(
 			'saved' 	=> true,
 			'comment' 	=> $this->getRequestParameter('comment')
