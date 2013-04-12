@@ -79,7 +79,7 @@ $(function(){
 					return false;
 				});
 				$(window).unbind('resize').bind('resize', function(){
-					myGrid.jqGrid('setGridWidth', parseInt($("#files-list").width()) - 5);
+					myGrid.jqGrid('setGridWidth', parseInt($(".main-container").eq(0).width()) - 5);
 				});
 			}
 		});
