@@ -80,6 +80,12 @@ new tao_scripts_TaoTranslate(array(
             'shortcut' => 'll',
             'description' => 'Language label to use when creating a new language'
         ),
+		array(
+			'name' => 'targetLanguage',
+			'type' => 'string',
+			'shortcut' => 'tl',
+			'description' => 'Target language code when you change the code of a locale'	
+		),
         array(
             'name' => 'user',
             'type' => 'string',

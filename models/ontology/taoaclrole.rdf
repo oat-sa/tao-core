@@ -9,8 +9,8 @@
 >
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole">
     	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#AbstractRole"/>
-    	<rdfs:label xml:lang="EN"><![CDATA[Anonymous]]></rdfs:label>
-		<rdfs:comment xml:lang="EN"><![CDATA[Anonymous Role]]></rdfs:comment>
+    	<rdfs:label xml:lang="en-US"><![CDATA[Anonymous]]></rdfs:label>
+		<rdfs:comment xml:lang="en-US"><![CDATA[Anonymous Role]]></rdfs:comment>
 		<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#GenerisRole"/>
 		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_entry"/>
 		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_Main_login"/>

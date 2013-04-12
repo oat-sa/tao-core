@@ -8,8 +8,8 @@
 	<rdf:Description rdf:about="LOCAL_NAMESPACE#superUser">
 	    <generis:userRoles rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole"/>
 	    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
-	    <rdfs:label xml:lang="EN"><![CDATA[Super User]]></rdfs:label>
-	    <rdfs:comment xml:lang="EN"><![CDATA[super user created during the TAO installation]]></rdfs:comment>
+	    <rdfs:label xml:lang="en-US"><![CDATA[Super User]]></rdfs:label>
+	    <rdfs:comment xml:lang="en-US"><![CDATA[super user created during the TAO installation]]></rdfs:comment>
 	    <generis:login></generis:login>
 	    <generis:password></generis:password>
 	    <generis:userLastName></generis:userLastName>

@@ -164,10 +164,11 @@ class tao_scripts_TaoTranslate
                                     'enable',
                                     'disable',
                                     'compile',
-                                    'compileall');
+                                    'compileall',
+        							'changecode');
         	
         	if (!in_array($this->options['action'], $allowedActions)) {
-        		self::err("'" . $this->options['action'] . "' is not a valid 'action.", true);
+        		self::err("'" . $this->options['action'] . "' is not a valid action.", true);
         	} else {
         		// The 'action' parameter is ok.
         		// Let's check additional inputs depending on the value of the 'action' parameter.
@@ -225,6 +226,10 @@ class tao_scripts_TaoTranslate
             
             case 'compileall':
                 $this->actionCompileAll();
+            break;
+            
+            case 'changecode':
+            	$this->actionChangeCode();
             break;
         }
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 end
@@ -289,6 +294,10 @@ class tao_scripts_TaoTranslate
                 
             case 'compileall':
                 $this->checkCompileAllInput();
+            break;
+            
+            case 'changecode':
+            	$this->checkChangeCodeInput();
             break;
         	
         	default:
@@ -540,6 +549,33 @@ class tao_scripts_TaoTranslate
             self::err("Please provide an 'extension' identifier.", true);
         }
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:000000000000384A end
+    }
+    
+    private function checkChangeCodeInput(){
+    	$defaults = array('input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
+    					  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
+    					  'extension' => null,
+    					  'language' => null,
+    					  'targetLanguage' => null);
+    	
+    	$this->options = array_merge($defaults, $this->options);
+    	
+    	if (empty($this->options['language'])){
+    		self::err("Please provide a source 'language' identifier such as en-US, fr-CA, IT, ...", true);
+    	}
+    	else if (empty($this->options['targetLanguage'])){
+    		self::err("Please provide a 'targetLanguage' identifier such as en-US, fr-CA, IT, ...", true);
+    	}
+    	else if (empty($this->options['extension'])){
+    		self::err("Please provide an 'extension' identifier." ,true);
+		}
+    	else if (!is_readable($this->options['output'] . DIRECTORY_SEPARATOR . $this->options['language'])){
+    		self::err("The '" . $this->options['language'] . "' locale directory is not readable.", true);
+    	}
+    	else if (!is_writable($this->options['output'])){
+    		self::err("The locales directory of extension '" . $this->options['extension'] . "' is not writable.");
+    	}
+    	
     }
 
     /**
@@ -895,6 +931,109 @@ class tao_scripts_TaoTranslate
     		$this->outVerbose("");
     	}
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386C end
+    }
+    
+    public function actionChangeCode(){
+    	$this->outVerbose("Changing code of locale '" . $this->options['language'] . "' to '" . $this->options['targetLanguage'] . "' for extension '" . $this->options['extension'] . "'...");
+    	
+    	// First we copy the old locale to a new directory named as 'targetLanguage'.
+    	$sourceLocaleDir = $this->options['output'] . DIRECTORY_SEPARATOR . $this->options['language'];
+    	$destLocaleDir = $this->options['output'] . DIRECTORY_SEPARATOR . $this->options['targetLanguage'];
+    	
+    	if (!tao_helpers_File::copy($sourceLocaleDir, $destLocaleDir, true, true)){
+    		self::err("Locale '" . $this->options['language'] . "' could not be copied to locale '" . $this->options['targetLanguage'] . "'.");
+    	}
+    	
+    	// We now apply transformations to the new locale.
+    	foreach (scandir($destLocaleDir) as $f){
+    		$sourceLang = $this->options['language'];
+    		$destLang = $this->options['targetLanguage'];
+    		$qSourceLang = preg_quote($sourceLang);
+    		$qDestLang = preg_quote($destLang);
+    		
+    		if (!is_dir($f) && $f[0] != '.'){
+    			if ($f == 'messages.po'){
+    				// Change the language tag in the PO file.
+    				
+    				$pattern = "/Language: ${qSourceLang}/u";
+    				$count = 0;
+    				$content = file_get_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'messages.po');
+    				$newFileContent = preg_replace($pattern, "Language: ${destLang}", $content, -1, $count);
+    				
+    				if ($count == 1){
+    					$this->outVerbose("Language tag '${destLang}' applied to messages.po.");
+    					file_put_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'messages.po', $newFileContent);
+    				}
+    				else{
+    					self::err("Could not change language tag in messages.po.");
+    				}
+    			}
+    			else if ($f == 'messages_po.js'){
+    				// Change the language tag in comments.
+    				// Change the langCode JS variable.
+    				$pattern = "/var langCode = '${qSourceLang}';/u";
+    				$count1 = 0;
+    				$content = file_get_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'messages_po.js');
+    				$newFileContent = preg_replace($pattern, "var langCode = '${destLang}';", $content, -1, $count1);
+    				
+    				$pattern = "|/\\* lang: ${qSourceLang} \\*/|u";
+    				$count2 = 0;
+    				$newFileContent = preg_replace($pattern, "/* lang: ${destLang} */", $newFileContent, -1, $count2);
+    				
+    				if ($count1 + $count2 == 2){
+    					$this->outVerbose("Language tag '${destLang}' applied to messages_po.js");
+    					file_put_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'messages_po.js', $newFileContent);
+    				}
+    				else{
+    					self::err("Could not change language tag in messages_po.js");
+    				}
+    			}
+    			else if ($f == 'lang.rdf'){
+    				// Change <![CDATA[XX]]>
+    				// Change http://www.tao.lu/Ontologies/TAO.rdf#LangXX
+    				$pattern = "/<!\\[CDATA\\[${qSourceLang}\\]\\]>/u";
+    				$count1 = 0;
+    				$content = file_get_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'lang.rdf');
+    				$newFileContent = preg_replace($pattern, "<![CDATA[${destLang}]]>", $content, -1, $count1);
+    				
+    				$pattern = "|http://www.tao.lu/Ontologies/TAO.rdf#Lang${qSourceLang}|u";
+    				$count2 = 0;
+    				$newFileContent = preg_replace($pattern, "http://www.tao.lu/Ontologies/TAO.rdf#Lang${destLang}", $newFileContent, -1, $count2);
+
+    				$pattern = '/xml:lang="EN"/u';
+    				$count3 = 0;
+    				$newFileContent = preg_replace($pattern, 'xml:lang="en-US"', $newFileContent, -1, $count3);
+    				
+    				if ($count1 + $count2 + $count3 == 3){
+    					$this->outVerbose("Language tag '${destLang}' applied to lang.rdf");
+    					file_put_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'lang.rdf', $newFileContent);
+    				}
+    				else{
+    					self::err("Could not change language tag in lang.rdf");
+    				}
+    			}
+    			else{
+    				// Check for a .rdf extension.
+    				$infos = pathinfo($destLocaleDir . DIRECTORY_SEPARATOR . $f);
+    				if (isset($infos['extension']) && $infos['extension'] == 'rdf'){
+    					// Change annotations @sourceLanguage and @targetLanguage
+    					// Change xml:lang
+    					$pattern = "/@sourceLanguage EN/u";
+    					$content = file_get_contents($destLocaleDir . DIRECTORY_SEPARATOR . $f);
+    					$newFileContent = preg_replace($pattern, "@sourceLanguage en-US", $content);
+    					
+    					$pattern = "/@targetLanguage ${qSourceLang}/u";
+    					$newFileContent = preg_replace($pattern, "@targetLanguage ${destLang}", $newFileContent);
+    					
+    					$pattern = '/xml:lang="' . $qSourceLang . '"/u';
+    					$newFileContent = preg_replace($pattern, 'xml:lang="' . $destLang . '"', $newFileContent);
+    					
+    					$this->outVerbose("Language tag '${destLang}' applied to ${f}");
+    					file_put_contents($destLocaleDir . DIRECTORY_SEPARATOR . $f, $newFileContent);
+    				}
+    			}
+    		}
+    	}
     }
 
     /**
@@ -1393,7 +1532,7 @@ class tao_scripts_TaoTranslate
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
-    public function checkCompileInput()
+    private function checkCompileInput()
     {
         // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003AC0 begin
         $defaults = array('extension' => null,
@@ -1459,7 +1598,7 @@ class tao_scripts_TaoTranslate
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return void
      */
-    public function checkCompileAllInput()
+    private function checkCompileAllInput()
     {
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B0E begin
         $defaults = array('extension' => null,

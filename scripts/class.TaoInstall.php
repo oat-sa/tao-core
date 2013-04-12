@@ -94,7 +94,7 @@ class tao_scripts_TaoInstall
 			, "db_user"	=>			"tao"
 			, "install_sent"	=>	"1"
 			, "module_host"	=>		"tao.local"
-			, "module_lang"	=>		"EN"
+			, "module_lang"	=>		"en-US"
 			, "module_mode"	=>		"debug"
 			, "module_name"	=>		"mytao"
 			, "module_namespace" =>	""

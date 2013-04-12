@@ -98,7 +98,7 @@ class tao_install_utils_System{
                             if ($rdfValues->length == 1 && $rdfValues->item(0)->nodeValue == $l){
                                 $key = $l;
                                 
-                                $rdfsLabels = $xpath->query("//rdf:Description[@rdf:about='${expectedUri}']/rdfs:label[@xml:lang='EN']");
+                                $rdfsLabels = $xpath->query("//rdf:Description[@rdf:about='${expectedUri}']/rdfs:label[@xml:lang='en-US']");
                                 if ($rdfsLabels->length == 1){
                                     $value = $rdfsLabels->item(0)->nodeValue;
                                     $returnValue[$l] = $value;

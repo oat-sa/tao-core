@@ -57,7 +57,7 @@ class tao_install_services_InstallService extends tao_install_services_Service{
 			));
 			
 			// For the moment, we force English as default language.
-			$content['value']['module_lang'] = 'EN';
+			$content['value']['module_lang'] = 'en-US';
 			$installer->install($content['value']);
 			
 			$report = array('type' => 'InstallReport',
