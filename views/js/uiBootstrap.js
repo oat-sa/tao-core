@@ -109,7 +109,7 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 		 */
 		initNav: function(){
 			//load the links target into the main container instead of loading a new page
-			$('a.nav').off('click.uiBootstrap').on('click.uiBootstrap', function() {
+			$(document).off('click', 'a.nav').on('click', 'a.nav', function() {
 				try{
 					helpers._load(helpers.getMainContainerSelector(helpers.tabs), this.href);
 				}
