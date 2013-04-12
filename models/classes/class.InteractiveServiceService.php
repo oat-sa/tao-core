@@ -70,8 +70,10 @@ class tao_models_classes_InteractiveServiceService extends tao_models_classes_Cl
     	$serviceDefinition = $this->getServiceDefinition($serviceCall);
     	$processService = wfAuthoring_models_classes_ProcessService::singleton();
     	
+    	$processService->deleteActualParameters($serviceCall);
+
     	$defaultConstProp = new core_kernel_classes_Property(PROPERTY_FORMALPARAMETER_DEFAULTCONSTANTVALUE);
-    	
+
     	$params = $serviceDefinition->getPropertyValues(new core_kernel_classes_Property(PROPERTY_SERVICESDEFINITION_FORMALPARAMIN));
     	foreach ($params as $paramUri) {
     		$param = new core_kernel_classes_Resource($paramUri);
