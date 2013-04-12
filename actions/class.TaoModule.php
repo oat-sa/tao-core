@@ -70,7 +70,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	{
 		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
 		if(is_null($uri) || empty($uri)){
-			throw new common_exception_Error("Missing or invalid parameter uri");
+			throw new tao_models_classes_MissingRequestParameterException("uri");
 		}
 		return new core_kernel_classes_Resource($uri);
 	}
@@ -769,6 +769,11 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		$formContainer = new tao_actions_form_Search($clazz, null, array('recursive' => true));
 		$myForm = $formContainer->getForm();
+		if (tao_helpers_Context::check('STANDALONE_MODE')) {
+			$standAloneElt = tao_helpers_form_FormFactory::getElement('standalone', 'Hidden');
+			$standAloneElt->setValue(true);
+			$myForm->addElement($standAloneElt);
+		}
 		
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){

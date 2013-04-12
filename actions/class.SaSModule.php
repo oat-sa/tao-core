@@ -33,6 +33,13 @@
 abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 	
 	/**
+	 * Whenever or not the call was made in standAlone mode
+	 * 
+	 * @var boolean
+	 */
+	private $isStandAlone;
+	
+	/**
 	 * 
 	 * Enter description here ...
 	 */
@@ -40,12 +47,18 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 	
 	public function __construct() {
 		parent::__construct();
-		tao_helpers_Context::load('STANDALONE_MODE');
+		if ($this->hasRequestParameter('standalone') && $this->getRequestParameter('standalone')) {
+			tao_helpers_Context::load('STANDALONE_MODE');
+			$this->isStandAlone = true;
+			common_Logger::d('Standalone mode set');
+		} else {
+			$this->isStandAlone = false;
+		}
 	}
 
 	public function setView($identifier, $extensionID = null) {
 		// override non AJAX calls for SAS
-		if(tao_helpers_Request::isAjax()){
+		if(!$this->isStandAlone || tao_helpers_Request::isAjax()){
 			parent::setView($identifier, $extensionID);
 		} else {
 			$view = self::getTemplatePath($identifier, $extensionID);
@@ -148,7 +161,8 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 			
 			$params = array(
 				'uri'		=> tao_helpers_Uri::encode($instance->uriResource),
-				'classUri'	=> tao_helpers_Uri::encode($clazz->uriResource)
+				'classUri'	=> tao_helpers_Uri::encode($clazz->uriResource),
+				'standalone' => $this->isStandAlone
 			);
 			$this->redirect(_url('sasEditInstance', null, null, $params));
 		}
@@ -198,87 +212,6 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 		$this->setView('sas/delete.tpl', 'tao');
 	}
 	
-	/**
-	 * Delete an instance
-	 * @return void
-	 */
-	public function search()
-	{
-		$found = false;
-		
-		$clazz = $this->getCurrentClass();
-		
-		$formContainer = new tao_actions_form_Search($clazz, null, array('recursive' => true));
-		$myForm = $formContainer->getForm();
-		
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				
-				$filters = $myForm->getValues('filters');
-				$properties = array();
-				foreach($filters as $propUri => $filter){
-					if(preg_match("/^http/", $propUri) && !empty($filter)){
-						$properties[] = new core_kernel_classes_Property($propUri);
-					}
-					else{
-						unset($filters[$propUri]);
-					}
-				}
-				
-				$hasLabel = false;
-				foreach($properties as $property){
-					if($property->uriResource == RDFS_LABEL){
-						$hasLabel = true;
-						break;
-					}
-				}
-				if(!$hasLabel){
-					$properties=array_merge(array(new core_kernel_classes_Property(RDFS_LABEL)), $properties);
-				}
-				$this->setData('properties', $properties);
-				$params = $myForm->getValues('params');
-				$params['like'] = false;
-
-				$instances = $this->service->searchInstances($filters, $clazz, $params);
-				if(count($instances) > 0 ){
-					$found = array();
-					$index = 1;
-					foreach($instances as $instance){
-						
-						$instanceProperties = array();
-						foreach($properties as $i => $property){
-							$value = '';
-							$propertyValues = $instance->getPropertyValuesCollection($property);
-							foreach($propertyValues->getIterator() as $j => $propertyValue){
-								if($propertyValue instanceof core_kernel_classes_Literal){
-									$value .= (string) $propertyValue;
-								}
-								if($propertyValue instanceof core_kernel_classes_Resource){
-									$value .= $propertyValue->getLabel();
-								}
-								if($j < $propertyValues->count()){
-									$value .= "<br />";
-								}
-							}
-							$instanceProperties[$i] = $value;
-						}
-						$found[$index]['uri'] = tao_helpers_Uri::encode($instance->uriResource);
-						$found[$index]['properties'] = $instanceProperties;
-						$index++;
-					}
-				}
-			}
-			$this->setData('openAction', 'alert');
-			$this->setData('foundNumber', count($found));
-			$this->setData('found', $found);
-		}
-		
-		
-		$this->setData('myForm', $myForm->render());
-		$this->setData('formTitle', __('Search'));
-		$this->setView('form/search.tpl', 'tao');
-	}
-	
 	// Below this line, basic functionalities copied from TaoModule
 	
 	/**
@@ -290,29 +223,15 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 	protected function getCurrentClass()
 	{
 		$classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
-		if(is_null($classUri) || empty($classUri)){
-			common_Logger::w("No valid class uri found, falling back to root class");
+		if ($this->isStandAlone && (is_null($classUri) || empty($classUri))) {
 			return $this->getRootClass();
+		} else {
+			return parent::getCurrentClass();
 		}
-		return new core_kernel_classes_Class($classUri);
 	}
 	
 	/**
-	 *  ! Please override me !
-	 * get the current instance regarding the uri and classUri in parameter
-	 * @return core_kernel_classes_Resource
-	 */
-	protected function getCurrentInstance()
-	{
-		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
-		if(is_null($uri) || empty($uri)){
-			throw new common_exception_Error("Missing or invalid parameter uri");
-		}
-		return new core_kernel_classes_Resource($uri);
-	}
-	
-	/**
-	 * Copy/Paste of TaoModule function
+	 * simplified Version of TaoModule function
 	 * 
 	 * @return void
 	 */
