@@ -28,8 +28,8 @@ $testUserData = array(
 	PROPERTY_USER_LASTNAME	=>	'Doe',
 	PROPERTY_USER_FIRSTNAME	=>	'John',
 	PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
-	PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#LangEN',
-	PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#LangEN',
+	PROPERTY_USER_DEFLG		=>	tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
+	PROPERTY_USER_UILG		=>	tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
 	PROPERTY_USER_ROLES		=>  array(INSTANCE_ROLE_GLOBALMANAGER)
 );
 
@@ -37,8 +37,9 @@ $testUserData[PROPERTY_USER_PASSWORD] = 'test'.rand();
 		
 $data = $testUserData;
 $data[PROPERTY_USER_PASSWORD] = md5($data[PROPERTY_USER_PASSWORD]);
-$tmclass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
+$tmclass = new core_kernel_classes_Class(CLASS_TAO_USER);
 $user = $tmclass->createInstanceWithProperties($data);
+common_Logger::i('Created user '.$user->getUri());
 
 // prepare a lookup table of languages and values
 $usage = new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_GUI);

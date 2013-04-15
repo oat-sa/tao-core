@@ -29,4 +29,8 @@ if (!$_POST['uri']) {
 
 $user = new core_kernel_classes_Resource($_POST['uri']);
 $success = $user->delete();
+if ($success) {
+	common_Logger::i('Deleted user '.$user->getUri());
+}
+
 echo json_encode($success);
