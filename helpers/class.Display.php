@@ -18,115 +18,77 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
 
 /**
- * Utility of display methods
+ * Conveniance function that calls tao_helpers_Display::htmlize
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @subpackage helpers
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF8-includes begin
-// section 127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF8-includes end
-
-/* user defined constants */
-// section 127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF8-constants begin
-
-/**
- * Conveniance function
- * of Display::htmlize
- *
- * @param  string $input
- * @return string $output
+ * @param  string $input The input string
+ * @return string $output The htmlized string.
  */
 function _dh($input){
 	return tao_helpers_Display::htmlize($input);
 }
 
 /**
- * Conveniance function
- * clean the input string (replace all no alphanum chars)
- * @param  string $input
- * @return string $output
+ * Convenience function clean the input string (replace all no alphanum chars).
+ * 
+ * @param  string $input The input string.
+ * @return string $output The output string without non alphanum characters.
  */
 function _clean($input){
 	return tao_helpers_Display::textCleaner($input);
 }
-// section 127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF8-constants end
 
 /**
- * Utility of display methods
+ * Utility class focusing on display methods.
  *
- * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
 class tao_helpers_Display
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
-     * enable you to cut a long string and end it with [...] and add an hover
+     * Enables you to cut a long string and end it with [...] and add an hover
      * to display the complete string on mouse over.
      *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string input
-     * @param  int maxLength
-     * @return string
+     * @param  string input The string input.
+     * @param  int maxLength (optional, default = 75) The maximum length for the result string.
+     * @return string The cut string, enclosed in a <span> html tag. This tag received the 'cutted' CSS class.
      */
     public static function textCutter($input, $maxLength = 75)
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF9 begin
-
-		if(mb_strlen($input) > $maxLength){
-			$input = "<span title='$input' class='cutted' style='cursor:pointer;'>".mb_substr($input, 0, $maxLength, 'UTF-8')."[...]</span>";
+		if (mb_strlen($input, TAO_DEFAULT_ENCODING) > $maxLength){
+			$input = "<span title='$input' class='cutted' style='cursor:pointer;'>".mb_substr($input, 0, $maxLength, TAO_DEFAULT_ENCODING)."[...]</span>";
 		}
+		
 		$returnValue = $input;
-
-        // section 127-0-1-1-5109b15:124a4877945:-8000:0000000000001AF9 end
 
         return (string) $returnValue;
     }
 
     /**
-     * clean a text with the joker character to replace any characters that is
-     * alphanumeric
+     * Clean a text with a joker character to replace any characters that is
+     * alphanumeric.
      *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string input
-     * @param  string joker
-     * @return string
+     * @param  string input The string input.
+     * @param  string joker (optional, default = '_') A joker character that will be the alphanumeric placeholder.
+     * @return string The result string.
      */
     public static function textCleaner($input, $joker = '_')
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3f9c691f:124c3973fb8:-8000:0000000000001B28 begin
         $randJoker = ($joker == '*');
 
 		$i = 0;
-		while($i < ((defined('TAO_DEFAULT_ENCODING')) ? mb_strlen($input, TAO_DEFAULT_ENCODING) : mb_strlen($input))){
-			if(preg_match("/^[a-zA-Z0-9_-]{1}$/u", $input[$i])){
+		while ($i < ((defined('TAO_DEFAULT_ENCODING')) ? mb_strlen($input, TAO_DEFAULT_ENCODING) : mb_strlen($input))){
+			if (preg_match("/^[a-zA-Z0-9_-]{1}$/u", $input[$i])){
 				$returnValue .= $input[$i];
 			}
 			else{
@@ -139,32 +101,27 @@ class tao_helpers_Display
 			}
 			$i++;
 		}
-        // section 127-0-1-1-3f9c691f:124c3973fb8:-8000:0000000000001B28 end
 
         return (string) $returnValue;
     }
 
     /**
-     * Short description of method htmlize
+     * Display clean and more secure text into an HTML page. The implementation
+     * of this method is done with htmlentities.This method is Unicode safe.
      *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string input Central acces to display cleanly and more securly text into an  HTML page.
-     * @return string
+     * @param  string input The input string.
+     * @return string The htmlized string.
      */
     public static function htmlize($input)
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-eaea962:12d70d06717:-8000:0000000000002BB8 begin
-
-        $returnValue = htmlentities($input, ENT_COMPAT, 'UTF-8');
-
-        // section 127-0-1-1-eaea962:12d70d06717:-8000:0000000000002BB8 end
+        $returnValue = htmlentities($input, ENT_COMPAT, TAO_DEFAULT_ENCODING);
 
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_Display */
+}
 
 ?>
