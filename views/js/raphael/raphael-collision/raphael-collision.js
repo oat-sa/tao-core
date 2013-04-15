@@ -1,25 +1,3 @@
-
-if (!Array.prototype.filter){
-	Array.prototype.filter = function(fun /*, thisp*/)
-	{
-		var len = this.length;
-		if (typeof fun != "function")
-			throw new TypeError();
-
-		var res = new Array();
-		var thisp = arguments[1];
-		for (var i = 0; i < len; i++){
-			if(i in this){
-				var val = this[i]; // in case fun mutates this
-				if (fun.call(thisp, val, i, this))
-					res.push(val);
-			}
-		}
-
-		return res;
-	};
-}
-
 /*
 return the list of points ([ ['c', [x1, y1], [x2, y2] ], ...]) composing the path
 */
@@ -97,8 +75,8 @@ function analyse_path(path){
 	return returnValue;
 }
 
-function parsePathString(pathStr){
-	var matches = pathStr.match(/[A-z]{1}([^A-z\s])*\s([^A-z\s])*/g);
+function parseVmlPathString(pathStr){
+	var matches = pathStr.match(/[A-z]?([^A-z\s])+\s([^A-z\s])+/g);
 	delete matches['input'];
 	delete matches['index'];
 	delete matches['lastIndex'];
@@ -106,10 +84,20 @@ function parsePathString(pathStr){
 	var path = [];
 	for(var i = 0; i<len; i++){
 		var pointStr = matches[i];
+		var replaced = false;
 		pointStr = pointStr.replace(/^[A-z]{1}/ig, function($0){
+			replaced = true;
 			return $0+' ';
 		});
-		path.push(pointStr.split(' '));
+		var point = [];
+		if(!replaced){
+			point.push('L');
+		}
+		var coords = pointStr.split(' ');
+		for(var j = 0; j<coords.length; j++){
+			point.push(coords[j]);
+		}
+		path.push(point);
 	}
 	return path;
 }
@@ -126,7 +114,7 @@ function visit_vml(element){
 			case 'path':
 			{
 				var pathString = element.attrs.path;
-				var pathArray = parsePathString(pathString);
+				var pathArray = parseVmlPathString(pathString);
 				store.push(['path_s', analyse_path(pathArray), element]);
 				break;
 			}
@@ -296,15 +284,24 @@ poly = list of points : [{x:2,y:4}, {x:5,y:1}, ...]
 poly.length = number of segments
 */
 function collide_polygon(poly,x,y){
+	
 	var c = false;
-	poly = poly.filter(function(element,index,array){
-		return element != null;
-	});// adaptation for ie
+	var points = [];
 	var l = poly.length;
+	for(var i = 0; i < l; i++){
+		if(poly[i] != null){
+			points.push(poly[i]);
+		}
+	}
+	
+	l = points.length;
 	var j = l - 1;
 	for(var i = -1 ; ++i < l; j = i){
-		if(((poly[i].y <= y && y < poly[j].y) || (poly[j].y <= y && y < poly[i].y))
-			&& (x < (poly[j].x - poly[i].x) * (y - poly[i].y) / (poly[j].y - poly[i].y) + poly[i].x)){
+		var cond1 = (points[i].y <= y && y < points[j].y);
+		var cond2 = (points[j].y <= y && y < points[i].y);
+		var cond3right = parseInt((points[j].x - points[i].x) * (y - points[i].y) / (points[j].y - points[i].y)) + parseInt(points[i].x);
+		var cond3 = (x < cond3right);
+		if(( cond1 || cond2 ) && cond3 ){
 			c = !c;
 		}
 	}
