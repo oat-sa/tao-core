@@ -79,7 +79,7 @@ class LanguagesTestCase extends UnitTestCase {
      * @author Jerome Bogaerts, <taosupport@tudor.lu>
      */
     public function testLanguageUsages(){
-    	// The English locale should always exists and should
+    	// The default locale should always exists and should
     	// be available in any known language usage.
     	$lgUsageProperty = new core_kernel_classes_Property(PROPERTY_LANGUAGE_USAGES);
     	$this->assertIsA($lgUsageProperty, 'core_kernel_classes_Property');
@@ -89,14 +89,14 @@ class LanguagesTestCase extends UnitTestCase {
     	$this->assertEqual($usagePropertyRange->getUri(), CLASS_LANGUAGES_USAGES);
     	
     	$instancePrefix = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
-    	$targetLanguageCode = 'EN';
+    	$targetLanguageCode = DEFAULT_LANG;
     	$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
     	
-    	$englishLanguage = new core_kernel_classes_Resource($instancePrefix . $targetLanguageCode);
-    	$this->assertIsA($englishLanguage, 'core_kernel_classes_Resource');
-    	$this->assertTrue(in_array('EN', $englishLanguage->getPropertyValues($valueProperty)));
+    	$defaultLanguage = new core_kernel_classes_Resource($instancePrefix . $targetLanguageCode);
+    	$this->assertIsA($defaultLanguage, 'core_kernel_classes_Resource');
+    	$this->assertTrue(in_array(DEFAULT_LANG, $defaultLanguage->getPropertyValues($valueProperty)));
     	
-    	$usages = $englishLanguage->getPropertyValues($lgUsageProperty);
+    	$usages = $defaultLanguage->getPropertyValues($lgUsageProperty);
     	$this->assertTrue(count($usages) >= 2);
     	$this->assertTrue(in_array(INSTANCE_LANGUAGE_USAGE_GUI, $usages));
     	$this->assertTrue(in_array(INSTANCE_LANGUAGE_USAGE_DATA, $usages));

@@ -50,7 +50,7 @@ class InstallTestCase extends UnitTestCase {
         $enFound = false;
         $languageDescriptionFiles = $langs[$taoNs . '#'];
         foreach ($languageDescriptionFiles as $f){
-            if(preg_match('/locales\/EN\/lang.rdf/i', $f)){
+            if(preg_match('/locales\/'.DEFAULT_LANG.'\/lang.rdf/i', $f)){
                 $enFound = true;
                 break;
             }

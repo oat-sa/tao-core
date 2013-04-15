@@ -6,7 +6,7 @@
 >
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LangEN">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
-    <rdfs:label xml:lang="EN"><![CDATA[English]]></rdfs:label>
+    <rdfs:label xml:lang="en-US"><![CDATA[English]]></rdfs:label>
     <rdf:value><![CDATA[EN]]></rdf:value>
   </rdf:Description>
 </rdf:RDF>
