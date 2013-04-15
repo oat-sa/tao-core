@@ -179,22 +179,25 @@ class tao_models_classes_UserService
     {
         $returnValue = null;
 
-		if (!empty($login)){
+		if (empty($login)){
+			throw new common_exception_InvalidArgumentType('Missing login for '.__FUNCTION__);
+		}
 			
-			$class = (!empty($class)) ? $class : $this->getRootClass();
+		$class = (!empty($class)) ? $class : $this->getRootClass();
+		
+		$user = $this->generisUserService->getOneUser($login, $class);
+		
+		if (!empty($user)){
 			
-			$user = $this->generisUserService->getOneUser($login, $class);
+			$userRolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
+			$userRoles = $user->getPropertyValuesCollection($userRolesProperty);
+			$allowedRoles = $this->getAllowedRoles();
 			
-			if (!empty($user)){
-				
-				$userRolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
-				$userRoles = $user->getPropertyValuesCollection($userRolesProperty);
-				$allowedRoles = $this->getAllowedRoles();
-				
-				if($this->generisUserService->userHasRoles($user, $allowedRoles)){
-					$returnValue = $user;
-				}
+			if($this->generisUserService->userHasRoles($user, $allowedRoles)){
+				$returnValue = $user;
 			}
+		} else {
+			common_Logger::i('No user found for login \''.$login.'\'');
 		}
 
         return $returnValue;
