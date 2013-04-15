@@ -23,7 +23,6 @@
  * The context class enables you to define some context to the application
  * and to check statically which context/mode is actually loaded.
  *
- * @access public
  * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
  * @subpackage helpers
@@ -45,14 +44,15 @@ class tao_helpers_Context
      *
      * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string mode
+     * @throws InvalidArgumentException If the mode variable is not a string or is empty.
      */
     public static function load($mode)
     {
-		if(!is_string($mode)){
-			throw new Exception("Try to load an irregular mode in the context");
+		if (!is_string($mode)){
+			throw new InvalidArgumentException('Try to load an irregular mode in the context. The mode must be a string, ' . gettype($mode) . ' given.');
 		}
-    	if(empty($mode)){
-    		throw new Exception("Cannot load an empty mode in the context");
+    	else if (empty($mode)){
+    		throw new InvalidArgumentException('Cannot load an empty mode in the context.');
     	}
     	
     	if(!in_array($mode, self::$current)){
@@ -66,16 +66,17 @@ class tao_helpers_Context
      * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string mode The mode you want to check it is loaded or not.
      * @return boolean
+     * @throws InvalidArgumentException If the mode variable is not a string or is empty.
      */
     public static function check($mode)
     {
         $returnValue = (bool) false;
         
-    	if(!is_string($mode)){
-			throw new Exception("Try to check an irregular mode");
+    	if (!is_string($mode)){
+			throw new InvalidArgumentException('Try to check an irregular mode. The mode must be a string, ' . gettype($mode) . ' given.');
 		}
-    	if(empty($mode)){
-    		throw new Exception("Cannot check an empty mode");
+    	else if (empty($mode)){
+    		throw new InvalidArgumentException('Cannot check an empty mode.');
     	}
     	
     	$returnValue = in_array($mode, self::$current);
@@ -98,15 +99,16 @@ class tao_helpers_Context
      *
      * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string mode
+     * @throws InvalidArgumentException If the mode variable has not the right type (string) or is empty.
      */
     public static function unload($mode)
     {
 
-    	if(!is_string($mode)){
-			throw new Exception("Try to unload an irregular mode in the context");
+    	if (!is_string($mode)){
+			throw new InvalidArgumentException('Try to unload an irregular mode in the context. The mode must be a string, ' . gettype($mode) . ' given.');
 		}
-    	if(empty($mode)){
-    		throw new Exception("Cannot unload an empty mode in the context");
+    	else if (empty($mode)){
+    		throw new InvalidArgumentException('Cannot unload an empty mode in the context.');
     	}
     	
     	if(in_array($mode, self::$current)){
@@ -115,6 +117,16 @@ class tao_helpers_Context
     			unset (self::$current[$index]);
     		}
     	}
+    }
+    
+    /**
+     * Get the set of currently loaded modes.
+     * 
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @return array An array of strings that representent current modes.
+     */
+    public static function get(){
+    	return self::$current;
     }
 }
 
