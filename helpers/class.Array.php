@@ -18,63 +18,30 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
 
 /**
- * Utility class on Arrays
+ * Utility class on Arrays.
  *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @subpackage helpers
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1-1eeb40:1264b38a9fa:-8000:0000000000001E16-includes begin
-// section 127-0-1-1-1eeb40:1264b38a9fa:-8000:0000000000001E16-includes end
-
-/* user defined constants */
-// section 127-0-1-1-1eeb40:1264b38a9fa:-8000:0000000000001E16-constants begin
-// section 127-0-1-1-1eeb40:1264b38a9fa:-8000:0000000000001E16-constants end
-
-/**
- * Utility class on Arrays
- *
- * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
 class tao_helpers_Array
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     /**
-     * Short description of method sortByField
+     * Sort an associative array on a key criterion. Uses sort or asort PHP
+     * functions to implement the sort depending on the value of the descending
+     * parameter.
      *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  array input
-     * @param  string field
-     * @param  boolean descending
-     * @return array
+     * @param  array input The associative array to sort.
+     * @param  string field The key criterion.
+     * @param  boolean (optional, default = Ascending sort) descending Descending or Ascending order.
+     * @return array An associative array.
      */
     public static function sortByField($input, $field, $descending = false)
     {
         $returnValue = array();
-
-        // section 127-0-1-1-1eeb40:1264b38a9fa:-8000:0000000000001E17 begin
 		
 		$sorted = array();
 		foreach($input as $key => $value ){
@@ -91,12 +58,10 @@ class tao_helpers_Array
 		foreach ($sorted as $key => $value ){
 			$returnValue[$key] = $input[$key];
 		}
-		
-        // section 127-0-1-1-1eeb40:1264b38a9fa:-8000:0000000000001E17 end
 
         return (array) $returnValue;
     }
 
-} /* end of class tao_helpers_Array */
+}
 
 ?>
