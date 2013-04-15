@@ -18,15 +18,10 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
 
 /**
- * Utilities on files
+ * Utility class that focuses on files.
  *
- * @access public
  * @author Lionel Lecaque, <lionel@taotesting.com>
  * @package tao
  * @subpackage helpers
@@ -34,30 +29,19 @@ error_reporting(E_ALL);
 class tao_helpers_File
     extends helpers_File
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
      * Check if the path in parameter can be securly used into the application.
      * (check the cross directory injection, the null byte injection, etc.)
      * Use it when the path may be build from a user variable
      *
-     * @access public
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string path
-     * @param  boolean traversalSafe
-     * @return boolean
+     * @param  string path The path to check.
+     * @param  boolean traversalSafe (optional, default is false) Check if the path is traversal safe.
+     * @return boolean States if the path is secure or not.
      */
     public static function securityCheck($path, $traversalSafe = false)
     {
-        $returnValue = (bool) false;
-
-
-
    		$returnValue = true;
 
         //security check: detect directory traversal (deny the ../)
@@ -83,19 +67,18 @@ class tao_helpers_File
     }
 
     /**
-     * clean concat paths
+     * Use this method to cleanly concat components of a path. It will remove extra slashes/backslashes.
      *
-     * @access public
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  array paths
-     * @return string
+     * @param  array paths The path components to concatenate.
+     * @return string The concatenated path.
      */
     public static function concat($paths)
     {
         $returnValue = (string) '';
 
-        foreach($paths as $path){
-        	if(!preg_match("/\/$/", $returnValue) && !preg_match("/^\//", $path) && !empty($returnValue)){
+        foreach ($paths as $path){
+        	if (!preg_match("/\/$/", $returnValue) && !preg_match("/^\//", $path) && !empty($returnValue)){
         		$returnValue .= '/';
         	}
         	$returnValue .= $path;
@@ -106,18 +89,17 @@ class tao_helpers_File
     }
 
     /**
-     * Remove file, may be recursively
+     * Remove a file. If the recursive parameter is set to true, the target file
+     * can be a directory that contains data.
      *
-     * @access public
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string path
-     * @param  boolean recursive
-     * @return boolean
+     * @param  string path The path to the file you want to remove.
+     * @param  boolean recursive (optional, default is false) Remove file content recursively (only if the path points to a directory).
+     * @return boolean Return true if the file is correctly removed, false otherwise.
      */
     public static function remove($path, $recursive = false)
     {
         $returnValue = (bool) false;
-
 
 		if ($recursive) {
 			$returnValue = helpers_File::remove($path);
@@ -130,13 +112,12 @@ class tao_helpers_File
     }
 
     /**
-     * Move file from source to destination
+     * Move file from source to destination.
      *
-     * @access public
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string source
-     * @param  string destination
-     * @return boolean
+     * @param  string source A path to the source file.
+     * @param  string destination A path to the destination file.
+     * @return boolean Returns true if the file was successfully moved, false otherwise.
      */
     public static function move($source, $destination)
     {
@@ -181,11 +162,10 @@ class tao_helpers_File
     }
 
     /**
-     * Retrieve accepted Mime Types
+     * Retrieve mime-types that are recognized by the TAO platform.
      *
-     * @access protected
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @return array
+     * @return array An associative array of mime-types where keys are the extension related to the mime-type. Values of the array are mime-types.
      */
     protected static function getMimeTypes()
     {
@@ -255,12 +235,11 @@ class tao_helpers_File
     }
 
     /**
-     * Retrieve file extensions for a given Mime Type
+     * Retrieve file extensions usually associated to a given mime-type.
      *
-     * @access public
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string mimeType
-     * @return string
+     * @param  string mimeType A mime-type which is recognized by the platform.
+     * @return string The extension usually associated to the mime-type. If it could not be retrieved, an empty string is returned.
      */
     public static function getExtention($mimeType)
     {
@@ -279,14 +258,13 @@ class tao_helpers_File
     }
 
     /**
-     * get the mime-type of the file in parameter.
-     * different methods are used regarding the configuration.
+     * Get the mime-type of the file in parameter.
+     * different methods are used regarding the configuration of the server.
      *
-     * @access public
      * @author Lionel Lecaque, <lionel@taotesting.com>
      * @param  string path
      * @param  boolean ext If set to true, the extension of the file will be used to retrieve the mime-type. If now extension can be found, 'text/plain' is returned by the method.
-     * @return string
+     * @return string The associated mime-type.
      */
     public static function getMimeType($path, $ext = false)
     {
@@ -338,29 +316,26 @@ class tao_helpers_File
     }
 
     /**
-     * creates a directory in the systems tempdir
+     * creates a directory in the system's temp dir.
      *
-     * @access public
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @return string
+     * @return string The path to the created folder.
      */
     public static function createTempDir()
     {
-
         do {
 			$folder = sys_get_temp_dir().DIRECTORY_SEPARATOR."tmp".mt_rand();
-		} while(file_exists($folder));
+		} while (file_exists($folder));
 		mkdir($folder);
 		return $folder;
     }
 
     /**
-     * deletes a directory and its content
+     * deletes a directory and its content.
      *
-     * @access public
      * @author Lionel Lecaque, <lionel@taotesting.com>
      * @param  string directory absolute path of the directory
-     * @return boolean
+     * @return boolean true if the directory and its content were deleted, false otherwise.
      */
     public static function delTree($directory)
     {
@@ -378,6 +353,6 @@ class tao_helpers_File
 
     }
 
-} /* end of class tao_helpers_File */
+}
 
 ?>
