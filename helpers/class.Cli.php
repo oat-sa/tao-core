@@ -18,57 +18,46 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
 
-error_reporting(E_ALL);
 
 /**
- * TAO - tao/helpers/class.Cli.php
+ * Utility class focusing on the PHP CLI.
  *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 17.02.2011, 15:10:18 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @subpackage helpers
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D70-includes begin
-// section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D70-includes end
-
-/* user defined constants */
-// section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D70-constants begin
-// section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D70-constants end
-
-/**
- * Short description of class tao_helpers_Cli
- *
- * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @subpackage helpers
  */
 class tao_helpers_Cli
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
 
     /**
-     * Short description of attribute colors
+     * A set of color codes that can be used to highlight texts in a CLI context.
+     * Keys of these associative array are color names in english and values are color
+     * codes. Available colors are:
+     * 
+     * $colors['background']['black']
+     * $colors['background']['red']
+     * $colors['background']['green']
+     * $colors['background']['yellow']
+     * $colors['background']['blue']
+     * $colors['background']['magenta']
+     * $colors['background']['cyan']
+     * $colors['background']['light_gray']
+     * $colors['foreground']['black']
+     * $colors['foreground']['dark_gray']
+     * $colors['foreground']['blue']
+     * $colors['foreground']['light_blue']
+     * $colors['foreground']['green']
+     * $colors['foreground']['light_green']
+     * $colors['foreground']['light_cyan']
+     * $colors['foreground']['red']
+     * $colors['foreground']['light_red']
+     * $colors['foreground']['purple']
+     * $colors['foreground']['brown']
+     * $colors['foreground']['yellow']
+     * $colors['foreground']['light_gray']
+     * $colors['foreground']['white']
      *
-     * @access private
      * @var array
      */
     private static $colors = array(
@@ -101,54 +90,50 @@ class tao_helpers_Cli
 	'white' 		=> '1;37'
 ));
 
-    // --- OPERATIONS ---
-
     /**
-     * Short description of method getBgColor
+     * Get a background color compliant with the CLI. Available color names are: 
+     * black, red, green, yellow, blue, magenta, cyan, light_gray.
+     * 
+     * If the color name does not exist, an empty string is returned.
      *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string name
-     * @return string
+     * @param  string name The name of the color.
+     * @return string The corresponding color code.
      */
     public static function getBgColor($name)
     {
         $returnValue = (string) '';
-
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D71 begin
         
         if(!empty($name) && array_key_exists($name, self::$colors['background'])){
         	$returnValue = self::$colors['background'][$name];
         }
-        
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D71 end
 
         return (string) $returnValue;
     }
 
     /**
-     * Short description of method getFgColor
+     * Get a foreground color compliant with the CLI. Available color names are:
+     * black, dark_gray, blue, light_blue, green, light_green, light_cyan,
+     * red, light_red, purple, brown, yellow, light_gray, white.
+     * 
+     * If the provided color names is not supported, an empty string is returned. Otherwise,
+     * the corresponding color code is returned.
      *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string name
-     * @return string
+     * @param  string name The color name.
+     * @return string A color code.
      */
     public static function getFgColor($name)
     {
         $returnValue = (string) '';
-
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D75 begin
         
     	if(!empty($name) && array_key_exists($name, self::$colors['foreground'])){
         	$returnValue = self::$colors['foreground'][$name];
         }
-        
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D75 end
 
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_Cli */
+}
 
 ?>
