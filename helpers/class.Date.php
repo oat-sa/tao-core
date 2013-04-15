@@ -20,9 +20,8 @@
  */
 
 /**
- * Utility to display dates
+ * Utility to display dates.
  *
- * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  * @subpackage helpers
@@ -36,10 +35,9 @@ class tao_helpers_Date
      * Dispalys a date/time
      * Should in theorie be dependant on the users locale and timezone
      *
-     * @access public
      * @param  mixed timestamp
-     * @param  int format
-     * @return string
+     * @param  int format The date format. See tao_helpers_Date's constants.
+     * @return string The formatted date.
      */
     public static function displayeDate($timestamp, $format = self::FORMAT_LONG)
     {
@@ -60,6 +58,6 @@ class tao_helpers_Date
     	return $returnValue;
     }
 
-} /* end of class tao_helpers_Display */
+}
 
 ?>
