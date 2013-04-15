@@ -47,7 +47,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 	
 	/**
 	 * to exclude some properties from the import process
-	 * @var array
+	 * @var array That contain URIs
 	 */
 	protected $excludedProperties = array();
 	
@@ -64,6 +64,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 	public function __construct(){
 		parent::__construct();
 		$this->formContainer = new tao_actions_form_Import();
+		$this->excludedProperties = array(PROPERTY_COMMENT);
 	}
 	
 	/**
@@ -196,7 +197,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			$adapterOptions = array_merge($this->additionalAdapterOptions, $importData['options']);
 			$adapter = new tao_helpers_data_GenerisAdapterCsv($adapterOptions);
 			
-			$service = tao_models_classes_Service::getServiceByName(str_replace('tao', '',context::getInstance()->getExtensionName()));
+			$service = tao_models_classes_Service::getServiceByName(str_replace('tao', '',Context::getInstance()->getExtensionName()));
 			
 			//get the current class of properties
 			$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getSessionAttribute('classUri')));
@@ -207,6 +208,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			$classProperties = $service->getClazzProperties($clazz, $topLevelClass);
 
 			foreach($classProperties as $property){
+				common_Logger::i($property->getLabel());
 				if(!in_array($property->uriResource, $this->excludedProperties)){
 					//@todo manage the properties with range
 					$range = $property->getRange();
