@@ -81,6 +81,7 @@ class Bootstrap{
 	 */
 	public function __construct($extension, $options = array())
 	{
+		common_Profiler::singleton()->register();
 
 		common_ext_ClassLoader::singleton()->register();
 		
@@ -148,6 +149,7 @@ class Bootstrap{
 			$this->i18n();
 			self::$isStarted = true;
 		}
+		common_Profiler::stop('start');
 	}
 
 	/**
@@ -158,6 +160,7 @@ class Bootstrap{
 	 */
 	public function dispatch()
 	{
+		common_Profiler::start('dispatch');
 		if(!self::$isDispatched){
             $isAjax = tao_helpers_Request::isAjax();
 
@@ -190,8 +193,8 @@ class Bootstrap{
                 $this->catchError($e);
             }
 			self::$isDispatched = true;
-			common_Logger::d(core_kernel_classes_DbWrapper::singleton()->getNrOfQueries().' queries for this request');
 		}
+		common_Profiler::stop('dispatch');
 	}
 
     /**
