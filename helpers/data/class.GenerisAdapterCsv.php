@@ -18,40 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Adapter for CSV format
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @deprecated
- * @package tao
- * @subpackage helpers_data
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * This class enables you to manage interfaces with data. 
- * It provides the default prototype to adapt the data import/export from/to any
- * format.
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- */
-require_once('tao/helpers/data/class.GenerisAdapter.php');
-
-/* user defined includes */
-// section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CAC-includes begin
-// section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CAC-includes end
-
-/* user defined constants */
-// section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CAC-constants begin
-// section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CAC-constants end
 
 /**
  * Adapter for CSV format
@@ -65,11 +31,6 @@ require_once('tao/helpers/data/class.GenerisAdapter.php');
 class tao_helpers_data_GenerisAdapterCsv
     extends tao_helpers_data_GenerisAdapter
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
     /**
      * Short description of attribute loadedFile
      *
@@ -77,8 +38,13 @@ class tao_helpers_data_GenerisAdapterCsv
      * @var CsvFile
      */
     private $loadedFile = null;
-
-    // --- OPERATIONS ---
+    
+    /**
+     * Contains the callback functions to be applied on created resources.
+     * 
+     * @var array
+     */
+    protected $resourceImported = array();
 
     /**
      * Instantiates a new tao_helpers_data_GenerisAdapterCSV. The $options array
@@ -97,8 +63,6 @@ class tao_helpers_data_GenerisAdapterCsv
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CDC begin
-        
     	parent::__construct($options);
     	
     	if(!isset($this->options['field_delimiter'])){
@@ -116,8 +80,14 @@ class tao_helpers_data_GenerisAdapterCsv
 		if(!isset($this->options['first_row_column_names'])){
 			$this->options['first_row_column_names'] = true;
 		}
-    	
-        // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CDC end
+		
+		// Bind resource callbacks.
+		if (isset($this->options['onResourceImported']) && is_array($this->options['onResourceImported'])){
+			foreach ($this->options['onResourceImported'] as $callback){
+				$this->onResourceImported($callback);
+				common_Logger::d("onResourceImported callback added to CSV Adapter");
+			}
+		}
     }
 
     /**
@@ -133,12 +103,10 @@ class tao_helpers_data_GenerisAdapterCsv
     {
         $returnValue = null;
 
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002401 begin
 		$csv = new tao_helpers_data_CsvFile($this->options);
 		$csv->load($csvFile);
 		$this->loadedFile = $csv;
 		$returnValue = $this->loadedFile;
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002401 end
 
         return $returnValue;
     }
@@ -156,8 +124,6 @@ class tao_helpers_data_GenerisAdapterCsv
     public function import($source,  core_kernel_classes_Class $destination = null)
     {
         $returnValue = (bool) false;
-
-        // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CAE begin
         
     	if(!isset($this->options['map'])){
         	throw new BadFunctionCallException("import map not set");
@@ -226,6 +192,11 @@ class tao_helpers_data_GenerisAdapterCsv
 				// Deal with default values.
 				$this->importStaticData($this->options['staticMap'], $this->options['map'], $resource);
 				
+				// Apply 'resourceImported' callbacks.
+				foreach ($this->resourceImported as $callback){
+					$callback($resource);
+				}
+				
 				$createdResources++;
 			}
 		}
@@ -236,8 +207,6 @@ class tao_helpers_data_GenerisAdapterCsv
 		if($createdResources > 0){
 			$returnValue = true;
 		}
-        
-        // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CAE end
 
         return (bool) $returnValue;
     }
@@ -253,9 +222,6 @@ class tao_helpers_data_GenerisAdapterCsv
     public function export( core_kernel_classes_Class $source = null)
     {
         $returnValue = (bool) false;
-
-        // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CB2 begin
-        // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001CB2 end
 
         return (bool) $returnValue;
     }
@@ -273,8 +239,6 @@ class tao_helpers_data_GenerisAdapterCsv
      */
     private function importLiteral( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
     {
-        // section 10-13-1-85--45c07818:132af6d7560:-8000:00000000000033C2 begin
-        
     	if ($csvColumn == 'csv_null' || $csvColumn == 'csv_select') {
     		// We do not use the value contained in $literal but an empty string.
     		common_Logger::d("CSV - Importing an empty string");
@@ -285,8 +249,6 @@ class tao_helpers_data_GenerisAdapterCsv
             common_Logger::d("CSV - Importing ${literal}");
     		$targetResource->setPropertyValue($targetProperty, $literal);
     	}
-    	
-        // section 10-13-1-85--45c07818:132af6d7560:-8000:00000000000033C2 end
     }
 
     /**
@@ -302,8 +264,6 @@ class tao_helpers_data_GenerisAdapterCsv
      */
     private function importResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $csvRow, $csvColumn)
     {
-        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033C8 begin
-    	
     	if ($csvColumn != 'csv_select' && $csvColumn != 'csv_null') {
     		
     		// We have to import the cell value as a resource for the target property.
@@ -324,8 +284,6 @@ class tao_helpers_data_GenerisAdapterCsv
         else{
             common_Logger::d("CSV - A default value will be affected.");
         }
-    	
-        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033C8 end
     }
 
     /**
@@ -340,8 +298,6 @@ class tao_helpers_data_GenerisAdapterCsv
      */
     private function importStaticData($staticMap, $map,  core_kernel_classes_Resource $resource)
     {
-        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033CE begin
-    	
     	foreach($staticMap as $propUri => $value){
     		if (strpos($propUri, TEMP_SUFFIX_CSV) !== false){
     			$cleanUri = str_replace(TEMP_SUFFIX_CSV, '', $propUri);
@@ -361,8 +317,6 @@ class tao_helpers_data_GenerisAdapterCsv
     			}	
     		}
 		}
-    	
-        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033CE end
     }
 
     /**
@@ -378,8 +332,6 @@ class tao_helpers_data_GenerisAdapterCsv
     private function applyCallbacks($value, $options,  core_kernel_classes_Property $targetProperty)
     {
         $returnValue = (string) '';
-
-        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033D3 begin
         
     	if(isset($options['callbacks'])){
 			foreach(array('*', $targetProperty->uriResource) as $key){
@@ -394,8 +346,6 @@ class tao_helpers_data_GenerisAdapterCsv
 		}
 		
 		$returnValue = $value;
-        
-        // section 10-13-1-85--673450cf:132af721862:-8000:00000000000033D3 end
 
         return (string) $returnValue;
     }
@@ -412,7 +362,6 @@ class tao_helpers_data_GenerisAdapterCsv
      */
     public function attachResource( core_kernel_classes_Property $targetProperty,  core_kernel_classes_Resource $targetResource, $value)
     {
-        // section -64--88-1-7-8ffecec:132b9750df2:-8000:000000000000306C begin
         // We have to check if the resource identified by value exists in the Ontology.
         $resource = new core_kernel_classes_Resource($value);
         if ($resource->exists()) {
@@ -435,7 +384,6 @@ class tao_helpers_data_GenerisAdapterCsv
         		$targetResource->setPropertyValue($targetProperty, $resource->uriResource);
         	}
         }
-        // section -64--88-1-7-8ffecec:132b9750df2:-8000:000000000000306C end
     }
 
     /**
@@ -448,8 +396,7 @@ class tao_helpers_data_GenerisAdapterCsv
      */
     protected function setCsvFile( tao_helpers_data_CsvFile $csvFile)
     {
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AC9 begin
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AC9 end
+
     }
 
     /**
@@ -461,14 +408,12 @@ class tao_helpers_data_GenerisAdapterCsv
      */
     public function getCsvFile()
     {
-        $returnValue = null;
-
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003ACC begin
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003ACC end
-
-        return $returnValue;
+		return null;
     }
-
-} /* end of class tao_helpers_data_GenerisAdapterCsv */
+    
+    public function onResourceImported(Closure $closure) {
+		$this->resourceImported[] = $closure;
+	}
+}
 
 ?>
