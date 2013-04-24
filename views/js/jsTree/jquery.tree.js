@@ -910,11 +910,7 @@
 				if(!root) {
 					if(!this.check("creatable", ref_node)) return this.error("CREATE: CANNOT CREATE IN NODE");
 					if(ref_node.hasClass("closed")) {
-						if(this.settings.data.async && ref_node.children("ul").size() == 0) {
-							var _this = this;
-							return this.open_branch(ref_node, true, function () { _this.create.apply(_this, [obj, ref_node, position]); } );
-						}
-						else this.open_branch(ref_node, true);
+						this.open_branch(ref_node, true);
 					}
 				}
 
