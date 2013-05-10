@@ -441,7 +441,7 @@ abstract class tao_models_classes_GenerisService
 					$top = true;
 					break;
 				}
-				if($parentClass->uriResource == RDF_CLASS){
+				if($parentClass->uriResource == RDFS_CLASS){
 					continue;
 				}
 

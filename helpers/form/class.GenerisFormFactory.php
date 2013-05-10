@@ -127,7 +127,7 @@ class tao_helpers_form_GenerisFormFactory
 					
 					if($element instanceof tao_helpers_form_elements_Treeview){
 						if($property->uriResource == RDFS_RANGE){
-							$options = self::rangeToTree(new core_kernel_classes_Class(RDF_RESOURCE));
+							$options = self::rangeToTree(new core_kernel_classes_Class(RDFS_RESOURCE));
 						}
 						else{
 							$options = self::rangeToTree($range);
@@ -201,7 +201,7 @@ class tao_helpers_form_GenerisFormFactory
 			}
 			$lastLevelParents = array();
 			foreach($parentClasses as $parentClass){
-				if($parentClass->uriResource == RDF_CLASS){
+				if($parentClass->uriResource == RDFS_CLASS){
 					continue;
 				}
 				if($parentClass->uriResource == $topLevelClazz->uriResource ) {
@@ -335,17 +335,17 @@ class tao_helpers_form_GenerisFormFactory
 			'list' => array(
 				'title' 	=> __('A single choice list'),
 				'widget'	=> PROPERTY_WIDGET_RADIOBOX,
-				'range'		=> RDF_RESOURCE
+				'range'		=> RDFS_RESOURCE
 			),
 			'longlist' => array(
 				'title' 	=> __('A single choice long list'),
 				'widget'	=> PROPERTY_WIDGET_COMBOBOX,
-				'range'		=> RDF_RESOURCE
+				'range'		=> RDFS_RESOURCE
 			),
 			'multilist' => array(
 				'title' 	=> __('A multiple choice list'),
 				'widget'	=> PROPERTY_WIDGET_CHECKBOX,
-				'range'		=> RDF_RESOURCE
+				'range'		=> RDFS_RESOURCE
 			),
 			'file' => array(
 				'title' 	=> __('A file'),

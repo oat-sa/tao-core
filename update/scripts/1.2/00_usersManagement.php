@@ -104,7 +104,7 @@ foreach($wfUserInstancesArray as $wfUser){
 	if($role instanceof core_kernel_classes_Resource) {
 		$role->setPropertyValue(new core_kernel_classes_Property(RDF_TYPE), $wfRoleTopClass->uriResource);
 	
-		$role->editPropertyValues(new core_kernel_classes_Property(RDF_SUBCLASSOF),CLASS_GENERIS_USER);
+		$role->editPropertyValues(new core_kernel_classes_Property(RDFS_SUBCLASSOF),CLASS_GENERIS_USER);
 		
 		$roleClass = new core_kernel_classes_Class($role->uriResource);
 		$newLogin = $wfUser->getOnePropertyValue($wfUserLoginProp); 

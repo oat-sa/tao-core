@@ -178,7 +178,7 @@ class tao_models_classes_GenerisTreeFactory
 			} else {
 				$class = new core_kernel_classes_Class($classUri);
 				foreach ($class->getParentClasses(false) as $parent) {
-					if ($parent->getUri() == RDF_CLASS) {
+					if ($parent->getUri() == RDFS_CLASS) {
 						continue;
 					}
 					if (!isset($toTest[$parent->getUri()])) {
