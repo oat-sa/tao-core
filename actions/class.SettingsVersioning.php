@@ -109,6 +109,7 @@ class tao_actions_SettingsVersioning extends tao_actions_TaoModule {
 				$repo = $binder->bind($values);
 				
 				$message = __('Repository saved');
+				core_kernel_fileSystem_Cache::flushCache();
 				
 				// check if enable/disable necessary
 				if ($newState == GENERIS_TRUE && $oldState != GENERIS_TRUE) {

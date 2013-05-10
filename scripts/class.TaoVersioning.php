@@ -132,7 +132,7 @@ class tao_scripts_TaoVersioning
         	$password	= $this->options['password'];
         	$path		= $this->options['path'];
 
-			$repo = core_kernel_versioning_Repository::create($type, $url, $login, $password, $path, '', '');
+			$repo = core_kernel_fileSystem_FileSystemFactory::createFileSystem($type, $url, $login, $password, $path, '');
         	try {
 				//Initialize
         		$success = $repo->enable();

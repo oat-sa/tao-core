@@ -469,6 +469,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 */
 	public function editVersionedFile()
 	{
+		// in need of refactoring
+		throw new common_exception_Error('Functionality currently disabled');
 		if(!$this->hasRequestParameter('uri') || !$this->hasRequestParameter('propertyUri')){
 			
 			throw new Exception('Required variables missing');

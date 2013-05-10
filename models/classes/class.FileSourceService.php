@@ -109,13 +109,10 @@ class tao_models_classes_FileSourceService
         $returnValue = null;
 
         // section 10-30-1--78-1b01f2ef:13ac03fd34f:-8000:0000000000003C05 begin
-        $res = $this->getFileSourceClass()->createInstanceWithProperties(array(
-        	RDFS_LABEL										=> $label,
-        	PROPERTY_GENERIS_VERSIONEDREPOSITORY_TYPE		=> INSTANCE_GENERIS_VCS_TYPE_LOCAL,
-        	PROPERTY_GENERIS_VERSIONEDREPOSITORY_PATH		=> $path,
-        	PROPERTY_GENERIS_VERSIONEDREPOSITORY_ENABLED	=> GENERIS_TRUE
-        ));
-        $returnValue = new core_kernel_versioning_Repository($res);
+        $returnValue = core_kernel_fileSystem_FileSystemFactory::createFileSystem(
+			new core_kernel_classes_Resource(INSTANCE_GENERIS_VCS_TYPE_LOCAL),
+			'', '', '', $path, $label, true
+		);
         // section 10-30-1--78-1b01f2ef:13ac03fd34f:-8000:0000000000003C05 end
 
         return $returnValue;
