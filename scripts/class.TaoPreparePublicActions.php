@@ -116,6 +116,12 @@ class tao_scripts_TaoPreparePublicActions
     	foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
 			// this also adds TaoManager to the Modules
 			tao_helpers_funcACL_Model::spawnExtensionModel($extension);
+			
+			$managementRole = $ext->getManagementRole();
+			if (!empty($managementRole)) {
+				$extAccessService = tao_models_classes_funcACL_ExtensionAccessService::singleton();
+				$extAccessService->add($managementRole->getUri(), $extAccessService->makeEMAUri($this->extension->getID()));
+			}
 		}
         // section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684E end
     }
