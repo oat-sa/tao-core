@@ -92,17 +92,23 @@ class tao_scripts_TaoPreparePublicActions
     	tao_helpers_funcACL_Cache::flush();
     	
     	foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
-			// 1. Create the Extension Model.
-			// All action classes of this module will be reflected to get an equivalent in the ontology.
-			tao_helpers_funcACL_Model::spawnExtensionModel($extension);
-			
-			// 2. Grant access to Management Role.
-			if (!empty($managementRolesByExtension[$extension->getID()])) {
-				$extAccessService = tao_models_classes_funcACL_ExtensionAccessService::singleton();
-				$extAccessService->add($managementRolesByExtension[$extension->getID()]->getUri(), $extAccessService->makeEMAUri($extension->getID()));
-			}
-			else {
-				common_Logger::i('Management Role not found for extension ' . $extension->getID());
+    		if ($extension->getID() != 'generis') {
+	    		// 1. Create the Extension Model.
+				// All action classes of this module will be reflected to get an equivalent in the ontology.
+				tao_helpers_funcACL_Model::spawnExtensionModel($extension);
+    		}
+		}
+		
+		foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
+			if ($extension->getID() != 'generis') {
+				// 2. Grant access to Management Role.
+				if (!empty($managementRolesByExtension[$extension->getID()])) {
+					$extAccessService = tao_models_classes_funcACL_ExtensionAccessService::singleton();
+					$extAccessService->add($managementRolesByExtension[$extension->getID()]->getUri(), $extAccessService->makeEMAUri($extension->getID()));
+				}
+				else {
+					common_Logger::i('Management Role not found for extension ' . $extension->getID());
+				}
 			}
 		}
     }
