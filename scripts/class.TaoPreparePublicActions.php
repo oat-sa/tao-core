@@ -19,87 +19,65 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
 
 /**
- * TAO - tao/scripts/class.TaoPreparePublicActions.php
+ * The taoPrepareActions script aims at updating the Extension model in the Ontology
+ * depending on Action classes found in the extension at the file system level.
  *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 06.03.2012, 07:58:48 with ArgoUML PHP module
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author firstname and lastname of author, <author@example.org>
- * @package tao
- * @subpackage scripts
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include tao_scripts_Runner
- *
- * @author firstname and lastname of author, <author@example.org>
- */
-require_once('tao/scripts/class.Runner.php');
-
-/* user defined includes */
-// section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684A-includes begin
-// section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684A-includes end
-
-/* user defined constants */
-// section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684A-constants begin
-// section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684A-constants end
-
-/**
- * Short description of class tao_scripts_TaoPreparePublicActions
- *
- * @access public
- * @author firstname and lastname of author, <author@example.org>
+ * @author Jérôme Bogaerts, <jerome@taotesting.com>
+ * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  * @subpackage scripts
  */
 class tao_scripts_TaoPreparePublicActions
     extends tao_scripts_Runner
 {
-    // --- ASSOCIATIONS ---
 
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
-    /**
-     * Short description of method preRun
-     *
-     * @access public
-     * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
-     */
     public function preRun()
     {
-        // section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684C begin
-        // section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684C end
+
     }
 
     /**
-     * Short description of method run
+     * Main script logic.
+     * 
+     * * Recreate extension model.
+     * * Grant access for the extension to the dedicated management role.
      *
-     * @access public
-     * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
      */
     public function run()
     {
-        // section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684E begin
-        
+    	
+    	// We get all the management roles and the extension they belong to.
+    	$managementRoleClass = new core_kernel_classes_Class(CLASS_MANAGEMENTROLE);
+    	$foundManagementRoles = $managementRoleClass->getInstances(true);
+    	$managementRolesByExtension = array();
+    	
+    	foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
+	    	$managementRole = $extension->getManagementRole();
+	    		
+	    	if (empty($managementRole)) {
+	    		// try to discover it.
+	    		foreach ($foundManagementRoles as $mR) {
+	    			$moduleURIs = $mR->getPropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS));
+	    			
+	    			foreach ($moduleURIs as $moduleURI) {
+	    				$uri = explode('#', $moduleURI);
+	    				list($type, $extId) = explode('_', $uri[1]);
+	    				
+	    				if ($extId == $extension->getID()) {
+	    					$managementRole = $mR;
+	    					break 2;
+	    				}
+	    			}
+	    		}
+	    	}
+	    	
+	    	if (!empty($managementRole)) {
+	    		$managementRolesByExtension[$extension->getID()] = $managementRole;
+	    	}
+    	}
+    	
         // delete old Instances
 		$moduleClass = new core_kernel_classes_Class(CLASS_ACL_MODULE);
     	foreach ($moduleClass->getInstances() as $res) {
@@ -114,31 +92,25 @@ class tao_scripts_TaoPreparePublicActions
     	tao_helpers_funcACL_Cache::flush();
     	
     	foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
-			// this also adds TaoManager to the Modules
+			// 1. Create the Extension Model.
+			// All action classes of this module will be reflected to get an equivalent in the ontology.
 			tao_helpers_funcACL_Model::spawnExtensionModel($extension);
 			
-			$managementRole = $ext->getManagementRole();
-			if (!empty($managementRole)) {
+			// 2. Grant access to Management Role.
+			if (!empty($managementRolesByExtension[$extension->getID()])) {
 				$extAccessService = tao_models_classes_funcACL_ExtensionAccessService::singleton();
-				$extAccessService->add($managementRole->getUri(), $extAccessService->makeEMAUri($this->extension->getID()));
+				$extAccessService->add($managementRolesByExtension[$extension->getID()]->getUri(), $extAccessService->makeEMAUri($extension->getID()));
+			}
+			else {
+				common_Logger::i('Management Role not found for extension ' . $extension->getID());
 			}
 		}
-        // section 127-0-1-1--570b06ee:135e6b6b680:-8000:000000000000684E end
     }
 
-    /**
-     * Short description of method postRun
-     *
-     * @access public
-     * @author firstname and lastname of author, <author@example.org>
-     * @return mixed
-     */
     public function postRun()
     {
-        // section 127-0-1-1--570b06ee:135e6b6b680:-8000:0000000000006850 begin
-        // section 127-0-1-1--570b06ee:135e6b6b680:-8000:0000000000006850 end
-    }
 
-} /* end of class tao_scripts_TaoPreparePublicActions */
+    }
+}
 
 ?>
