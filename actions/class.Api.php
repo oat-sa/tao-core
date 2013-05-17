@@ -92,24 +92,24 @@ class tao_actions_Api extends tao_actions_CommonModule {
 			'localNamespace' => core_kernel_classes_Session::singleton()->getNameSpace(),
 		
 			CLASS_PROCESS_EXECUTIONS => array(
-				'uri'		=> $processExecution->uriResource,
+				'uri'		=> $processExecution->getUri(),
 				RDFS_LABEL	=> $processExecution->getLabel()
 			),
 			
 			TAO_ITEM_CLASS	=> array(
-				'uri'		=> $item->uriResource,
+				'uri'		=> $item->getUri(),
 				RDFS_LABEL	=> $item->getLabel()
 			),
 			TAO_TEST_CLASS	=> array(
-				'uri'		=> $test->uriResource,
+				'uri'		=> $test->getUri(),
 				RDFS_LABEL	=> $test->getLabel()
 			),
 			TAO_DELIVERY_CLASS	=> array(
-				'uri'		=> $delivery->uriResource,
+				'uri'		=> $delivery->getUri(),
 				RDFS_LABEL	=> $delivery->getLabel()
 			),
 			TAO_SUBJECT_CLASS => array(
-				'uri'					=> $user->uriResource,
+				'uri'					=> $user->getUri(),
 				RDFS_LABEL				=> $user->getLabel(),
 				PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
 				PROPERTY_USER_FIRSTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME)),
@@ -118,7 +118,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 		);
 		
 		$session = PHPSession::singleton();
-		$session->setAttribute(self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->uriResource), $executionEnvironment);
+		$session->setAttribute(self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->getUri()), $executionEnvironment);
 		
 		return $executionEnvironment;
 	} 
@@ -145,10 +145,10 @@ class tao_actions_Api extends tao_actions_CommonModule {
 			throw new Exception('No user is logged in');
 		}
 		
-		$sessionKey = self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->uriResource);
+		$sessionKey = self::ENV_VAR_NAME.'_'.tao_helpers_Uri::encode($user->getUri());
 		if($session->hasAttribute($sessionKey)){
 			$executionEnvironment = $session->getAttribute($sessionKey);
-			if(isset($executionEnvironment['token']) && $executionEnvironment[CLASS_PROCESS_EXECUTIONS]['uri'] == $processExecution->uriResource ){
+			if(isset($executionEnvironment['token']) && $executionEnvironment[CLASS_PROCESS_EXECUTIONS]['uri'] == $processExecution->getUri() ){
 				return $executionEnvironment;
 			}
 		}
@@ -156,11 +156,11 @@ class tao_actions_Api extends tao_actions_CommonModule {
 		$executionEnvironment = array(
 			'token' => self::createToken(),
 			CLASS_PROCESS_EXECUTIONS => array(
-				'uri'		=> $processExecution->uriResource,
+				'uri'		=> $processExecution->getUri(),
 				RDFS_LABEL	=> $processExecution->getLabel()
 			),
 			TAO_SUBJECT_CLASS => array(
-				'uri'					=> $user->uriResource,
+				'uri'					=> $user->getUri(),
 				RDFS_LABEL				=> $user->getLabel(),
 				PROPERTY_USER_LOGIN		=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN)),
 				PROPERTY_USER_FIRSTNAME	=> (string)$user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME)),
@@ -180,7 +180,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 		
 		$currentUser = $this->userService->getCurrentUser();
 		if(!is_null($currentUser)){
-			$sessionKey =  self::ENV_VAR_NAME . '_' . tao_helpers_Uri::encode($currentUser->uriResource);
+			$sessionKey =  self::ENV_VAR_NAME . '_' . tao_helpers_Uri::encode($currentUser->getUri());
 			
 			if($session->hasAttribute($sessionKey)){
 				$executionEnvironment = $session->getAttribute($sessionKey);
@@ -206,7 +206,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 			
 			$currentUser = $this->userService->getCurrentUser();
 			if(!is_null($currentUser)){
-				$sessionKey =  self::ENV_VAR_NAME . '_' . tao_helpers_Uri::encode($currentUser->uriResource);
+				$sessionKey =  self::ENV_VAR_NAME . '_' . tao_helpers_Uri::encode($currentUser->getUri());
 				
 				if($session->hasAttribute($sessionKey)){
 					$executionData = $session->getAttribute($sessionKey);

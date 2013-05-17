@@ -101,7 +101,7 @@ class tao_actions_form_SimpleProperty
     {
         // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A5 begin
         
-    	$property = new core_kernel_classes_Property($this->instance->uriResource);
+    	$property = new core_kernel_classes_Property($this->instance->getUri());
     	
     	(isset($this->options['index'])) ? $index = $this->options['index'] : $index = 1;
     	
@@ -123,7 +123,7 @@ class tao_actions_form_SimpleProperty
 				foreach($values->getIterator() as $value){
 					if(!is_null($value)){
 						if($value instanceof core_kernel_classes_Resource){
-							$element->setValue($value->uriResource);
+							$element->setValue($value->getUri());
 						}
 						if($value instanceof core_kernel_classes_Literal){
 							$element->setValue((string)$value);
@@ -150,7 +150,7 @@ class tao_actions_form_SimpleProperty
 		foreach(tao_helpers_form_GenerisFormFactory::getPropertyMap() as $typeKey => $map){
 			$options[$typeKey] = $map['title'];
 			if($property->getWidget()){
-				if($property->getWidget()->uriResource == $map['widget']){
+				if($property->getWidget()->getUri() == $map['widget']){
 					$typeElt->setValue($typeKey);
 					$checkRange = is_null($map['range']);
 				}
@@ -169,11 +169,11 @@ class tao_actions_form_SimpleProperty
 		$listElt->setEmptyOption(' --- '.__('select').' --- ');
 		$listOptions = array();
 		foreach($listService->getLists() as $list){
-			$listOptions[tao_helpers_Uri::encode($list->uriResource)] = $list->getLabel();
+			$listOptions[tao_helpers_Uri::encode($list->getUri())] = $list->getLabel();
 			$range = $property->getRange();
 			if(!is_null($range)){
-				if($range->uriResource == $list->uriResource){
-					$listElt->setValue($list->uriResource);
+				if($range->getUri() == $list->getUri()){
+					$listElt->setValue($list->getUri());
 				}
 			}
 		}
@@ -207,7 +207,7 @@ class tao_actions_form_SimpleProperty
 		//add an hidden elt for the property uri
 		$propUriElt = tao_helpers_form_FormFactory::getElement("propertyUri{$index}", 'Hidden');
 		$propUriElt->addAttribute('class', 'property-uri');
-		$propUriElt->setValue(tao_helpers_Uri::encode($property->uriResource));
+		$propUriElt->setValue(tao_helpers_Uri::encode($property->getUri()));
 		$this->form->addElement($propUriElt);
     	
         // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A5 end

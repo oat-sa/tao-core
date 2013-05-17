@@ -71,7 +71,7 @@ class CleanMassInsertTestCase extends UnitTestCase {
 		$systemUsers = array(LOCAL_NAMESPACE.'#superUser', 'http://www.tao.lu/Ontologies/TAO.rdf#installator');
 		foreach($users as $user){
 		   
-		    if(in_array($user->uriResource,$systemUsers)){
+		    if(in_array($user->getUri(),$systemUsers)){
 		        continue;
 		    }
 		    $firstnameProp = new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME);

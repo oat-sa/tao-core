@@ -98,7 +98,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		
 		$options = array('property_mode' => $propMode);
 		if(!is_null($topClass)){
-			$options['topClazz'] = $topClass->uriResource;
+			$options['topClazz'] = $topClass->getUri();
 		}
 		$formContainer = new tao_actions_form_Clazz($clazz, $resource, $options);
 		$myForm = $formContainer->getForm();
@@ -163,7 +163,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 						
 						//delete property mode
 						foreach($clazz->getProperties() as $classProperty){
-							if($classProperty->uriResource == tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])){
+							if($classProperty->getUri() == tao_helpers_Uri::decode($_POST['propertyUri'.$propNum])){
 								
 								//delete property and the existing values of this property
 								if($classProperty->delete(true)){
@@ -317,7 +317,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			$response = array(
 				'label'	=> $instance->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($instance->uriResource)
+				'uri' 	=> tao_helpers_Uri::encode($instance->getUri())
 			);
 		}
 		echo json_encode($response);
@@ -397,7 +397,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$instance = $ownerInstance->getOnePropertyValue($property);
 			if(is_null($instance)){
 				$instance = $propertyRange->createInstance();
-				$ownerInstance->setPropertyValue($property, $instance->uriResource);
+				$ownerInstance->setPropertyValue($property, $instance->getUri());
 			}
 			
 			$formContainer = new tao_actions_form_Instance($propertyRange, $instance);
@@ -419,7 +419,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			//add an hidden elt for the instance Uri
 			//usefull to render the revert action
 			$instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
-			$instanceUriElt->setValue(tao_helpers_Uri::encode($ownerInstance->uriResource));
+			$instanceUriElt->setValue(tao_helpers_Uri::encode($ownerInstance->getUri()));
 			$myForm->addElement($instanceUriElt);
 			
 			if($myForm->isSubmited()){
@@ -494,15 +494,15 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			if(is_null($versionedFileResource)){
 				//if the file resource does not exist, create it
 				$versionedFileResource = $propertyRange->createInstance();
-				$ownerInstance->setPropertyValue($property, $versionedFileResource->uriResource);
+				$ownerInstance->setPropertyValue($property, $versionedFileResource->getUri());
 			}
-			$versionedFile = new core_kernel_versioning_File($versionedFileResource->uriResource);
+			$versionedFile = new core_kernel_versioning_File($versionedFileResource->getUri());
 			
 			//create the form
 			$formContainer = new tao_actions_form_VersionedFile(null
 				, array(
-					'instanceUri' => $versionedFile->uriResource,
-					'ownerUri' => $ownerInstance->uriResource,
+					'instanceUri' => $versionedFile->getUri(),
+					'ownerUri' => $ownerInstance->getUri(),
 					'propertyUri' => $propertyUri
 				)
 			);
@@ -570,7 +570,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 							$fileName,
 							$filePath,
 							new core_kernel_versioning_Repository($repositoryUri),
-							$versionedFile->uriResource
+							$versionedFile->getUri()
 					    );
 					    					    
 						//a content was sent
@@ -620,7 +620,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		if(!is_null($clone)){
 			echo json_encode(array(
 				'label'	=> $clone->getLabel(),
-				'uri' 	=> tao_helpers_Uri::encode($clone->uriResource)
+				'uri' 	=> tao_helpers_Uri::encode($clone->getUri())
 			));
 		}
 	}
@@ -645,7 +645,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			
 			
 			$destinationUri = $this->getRequestParameter('destinationClassUri');
-			if(!empty($destinationUri) && $destinationUri != $clazz->uriResource){
+			if(!empty($destinationUri) && $destinationUri != $clazz->getUri()){
 				$destinationClass = new core_kernel_classes_Class(tao_helpers_Uri::decode($destinationUri));
 				
 				$confirmed = $this->getRequestParameter('confirmed');
@@ -662,7 +662,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					}
 				}
 				
-				$this->setSessionAttribute('showNodeUri', tao_helpers_Uri::encode($instance->uriResource));
+				$this->setSessionAttribute('showNodeUri', tao_helpers_Uri::encode($instance->getUri()));
 				$status = $this->service->changeClass($instance, $destinationClass);
 				echo json_encode(array('status'	=> $status));
 			}
@@ -796,7 +796,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				
 				$hasLabel = false;
 				foreach($properties as $property){
-					if($property->uriResource == RDFS_LABEL){
+					if($property->getUri() == RDFS_LABEL){
 						$hasLabel = true;
 						break;
 					}
@@ -831,7 +831,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 							}
 							$instanceProperties[$i] = $value;
 						}
-						$found[$index]['uri'] = tao_helpers_Uri::encode($instance->uriResource);
+						$found[$index]['uri'] = tao_helpers_Uri::encode($instance->getUri());
 						$found[$index]['properties'] = $instanceProperties;
 						$index++;
 					}
@@ -926,7 +926,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		$instances = $this->service->searchInstances($filter, $clazz, array ('recursive'=>true));
 		$index = 0;
 		foreach ($instances as $instance){
-			$returnValue [$index]['uri'] = $instance->uriResource;
+			$returnValue [$index]['uri'] = $instance->getUri();
 			$formatedProperties = array ();
 			foreach ($properties as $property){
 				//$formatedProperties[] = (string)$instance->getOnePropertyValue (new core_kernel_classes_Property($property));
@@ -1002,7 +1002,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$id = "";
 			if ($propertyValue instanceof core_kernel_classes_Resource){
 				$value = $propertyValue->getLabel();
-				$id = tao_helpers_Uri::encode($propertyValue->uriResource);
+				$id = tao_helpers_Uri::encode($propertyValue->getUri());
 			} else {
 				$value = (string) $propertyValue;
 				$id = $value;
@@ -1023,7 +1023,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			'type'	=> 'class',
 			'count' => count($propertyValuesFormated),
 			'attributes' => array(
-				'id' => tao_helpers_Uri::encode($property->uriResource),
+				'id' => tao_helpers_Uri::encode($property->getUri()),
 				'class' => 'node-class'
 			),
 			'children' => $propertyValuesFormated

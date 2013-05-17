@@ -95,7 +95,7 @@ abstract class tao_helpers_grid_Cell_VersionedFileAdapter
         $versionedFile = $this->getVersionedFile($rowId, $columnId, $data);
         $verison = $this->getVersion($rowId, $columnId, $data);
         $returnValue = array(
-        	"uri" => $versionedFile->uriResource
+        	"uri" => $versionedFile->getUri()
         	, "version" => $version
         );
         

@@ -109,7 +109,7 @@ class tao_helpers_data_GenerisAdapterRdf
 			
     	if(!is_null($destination) && file_exists($source)){
 			
-			$destModel = substr($destination->uriResource, 0, strpos($destination->uriResource, '#'));
+			$destModel = substr($destination->getUri(), 0, strpos($destination->getUri(), '#'));
 			$returnValue = $api->importXmlRdf($destModel, $source);
 		}
 		else if (file_exists($source) && !is_null($namespace)){
@@ -146,7 +146,7 @@ class tao_helpers_data_GenerisAdapterRdf
 			
 			$session = core_kernel_classes_Session::singleton();
 			$localModel = $session->getNameSpace();
-			$sourceModel = substr($source->uriResource, 0, strpos($source->uriResource, '#'));
+			$sourceModel = substr($source->getUri(), 0, strpos($source->getUri(), '#'));
 			if($localModel == $sourceModel){
 				$returnValue = $api->exportXmlRdf(array($localModel));
 			}

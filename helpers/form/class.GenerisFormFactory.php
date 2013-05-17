@@ -93,7 +93,7 @@ class tao_helpers_form_GenerisFormFactory
 		}
 		
 		
-		$widget = substr($widgetResource->uriResource, strrpos($widgetResource->uriResource, '#') + 1 );
+		$widget = substr($widgetResource->getUri(), strrpos($widgetResource->getUri(), '#') + 1 );
 		if($widget != 'AsyncFile'){
 			//@TODO: quick fix to make AsyncFile work, need to clean that!!
 			$widget = ucfirst(strtolower($widget));
@@ -108,14 +108,14 @@ class tao_helpers_form_GenerisFormFactory
 			return null;
 		}
 		
-		$element = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($property->uriResource), $widget);
+		$element = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($property->getUri()), $widget);
 		if(!is_null($element)){
-			if($element->getWidget() != $widgetResource->uriResource){
+			if($element->getWidget() != $widgetResource->getUri()){
 				return null;
 			}
 			
 			//use the property label as element description
-			$propDesc = (strlen(trim($property->getLabel())) > 0) ? $property->getLabel() : str_replace(LOCAL_NAMESPACE, '', $property->uriResource);
+			$propDesc = (strlen(trim($property->getLabel())) > 0) ? $property->getLabel() : str_replace(LOCAL_NAMESPACE, '', $property->getUri());
 			$element->setDescription($propDesc);
 			
 			//multi elements use the property range as options
@@ -126,7 +126,7 @@ class tao_helpers_form_GenerisFormFactory
 					$options = array();
 					
 					if($element instanceof tao_helpers_form_elements_Treeview){
-						if($property->uriResource == RDFS_RANGE){
+						if($property->getUri() == RDFS_RANGE){
 							$options = self::rangeToTree(new core_kernel_classes_Class(RDFS_RESOURCE));
 						}
 						else{
@@ -135,7 +135,7 @@ class tao_helpers_form_GenerisFormFactory
 					}
 					else{
 						foreach($range->getInstances(true) as $rangeInstance){
-							$options[ tao_helpers_Uri::encode($rangeInstance->uriResource) ] = $rangeInstance->getLabel();
+							$options[ tao_helpers_Uri::encode($rangeInstance->getUri()) ] = $rangeInstance->getLabel();
 						}
 						//set the default value to an empty space
 						if(method_exists($element, 'setEmptyOption')){
@@ -178,7 +178,7 @@ class tao_helpers_form_GenerisFormFactory
 		}
 		
 		
-		if($clazz->uriResource == $topLevelClazz->uriResource){
+		if($clazz->getUri() == $topLevelClazz->getUri()){
 			$returnValue = $clazz->getProperties(false);
 			return (array) $returnValue;
 		}
@@ -201,22 +201,22 @@ class tao_helpers_form_GenerisFormFactory
 			}
 			$lastLevelParents = array();
 			foreach($parentClasses as $parentClass){
-				if($parentClass->uriResource == RDFS_CLASS){
+				if($parentClass->getUri() == RDFS_CLASS){
 					continue;
 				}
-				if($parentClass->uriResource == $topLevelClazz->uriResource ) {
-					$parents[$parentClass->uriResource] = $parentClass;	
+				if($parentClass->getUri() == $topLevelClazz->getUri() ) {
+					$parents[$parentClass->getUri()] = $parentClass;	
 					$top = true;
 					break;
 				}
 				
 				
 				$allParentClasses = $parentClass->getParentClasses(true);
-				if(array_key_exists($topLevelClazz->uriResource, $allParentClasses)){
-					 $parents[$parentClass->uriResource] = $parentClass;
+				if(array_key_exists($topLevelClazz->getUri(), $allParentClasses)){
+					 $parents[$parentClass->getUri()] = $parentClass;
 				}
 				
-				$lastLevelParents[$parentClass->uriResource] = $parentClass;
+				$lastLevelParents[$parentClass->getUri()] = $parentClass;
 			}
 		}while(!$top);
 		
@@ -282,7 +282,7 @@ class tao_helpers_form_GenerisFormFactory
 		} 
 		$resourceClass = new core_kernel_classes_Class(RDF_PROPERTY);
 		foreach($resourceClass->getProperties() as $property){
-			if(in_array($property->uriResource, $defaultUris)){
+			if(in_array($property->getUri(), $defaultUris)){
 				array_push($returnValue, $property);
 			}
 		}
@@ -380,7 +380,7 @@ class tao_helpers_form_GenerisFormFactory
 			$classData = array(
 				'data' => $rangeClass->getLabel(),
 				'attributes' => array(
-					'id' => tao_helpers_Uri::encode($rangeClass->uriResource), 
+					'id' => tao_helpers_Uri::encode($rangeClass->getUri()), 
 					'class' => 'node-instance'
 				)
 			);
@@ -396,7 +396,7 @@ class tao_helpers_form_GenerisFormFactory
         	$returnValue = array(
 				'data' => $range->getLabel(),
 				'attributes' => array(
-					'id' => tao_helpers_Uri::encode($range->uriResource), 
+					'id' => tao_helpers_Uri::encode($range->getUri()), 
 					'class' => 'node-root'
 				),
 				'children' => $data

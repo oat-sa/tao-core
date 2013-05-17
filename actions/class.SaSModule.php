@@ -122,7 +122,7 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 		if($this->hasRequestParameter('classUri')){
 			$clazz = $this->getCurrentClass();
 			if(!is_null($clazz)){
-				$this->setVariables(array($this->getDataKind().'ClassUri' => $clazz->uriResource));
+				$this->setVariables(array($this->getDataKind().'ClassUri' => $clazz->getUri()));
 				$message = $clazz->getLabel().' '.__('class selected');
 			}
 		}
@@ -131,7 +131,7 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 		if($this->hasRequestParameter('uri')){
 			$instance = $this->getCurrentInstance();
 			if(!is_null($instance)){
-				$this->setVariables(array($this->getDataKind().'Uri' => $instance->uriResource));
+				$this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
 				$message = $instance->getLabel().' '.__($this->getDataKind()).' '.__('selected');
 			}
 		}
@@ -157,11 +157,11 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 		if(!is_null($instance) && $instance instanceof core_kernel_classes_Resource){
 			
 			//init variable service:
-			$this->setVariables(array($this->getDataKind().'Uri' => $instance->uriResource));
+			$this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
 			
 			$params = array(
-				'uri'		=> tao_helpers_Uri::encode($instance->uriResource),
-				'classUri'	=> tao_helpers_Uri::encode($clazz->uriResource),
+				'uri'		=> tao_helpers_Uri::encode($instance->getUri()),
+				'classUri'	=> tao_helpers_Uri::encode($clazz->getUri()),
 				'standalone' => $this->isStandAlone
 			);
 			$this->redirect(_url('sasEditInstance', null, null, $params));
@@ -189,8 +189,8 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 			}
 		}
 		
-		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
-		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
+		$this->setData('uri', tao_helpers_Uri::encode($instance->getUri()));
+		$this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
 		$this->setData('formTitle', __('Edit'));
 		$this->setData('myForm', $myForm->render());
 		$this->setView('form.tpl', 'tao');
@@ -207,8 +207,8 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 		
 		$this->setData('label', $instance->getLabel());
 		
-		$this->setData('uri', tao_helpers_Uri::encode($instance->uriResource));
-		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
+		$this->setData('uri', tao_helpers_Uri::encode($instance->getUri()));
+		$this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
 		$this->setView('sas/delete.tpl', 'tao');
 	}
 	

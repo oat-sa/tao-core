@@ -209,13 +209,13 @@ class tao_actions_Import extends tao_actions_CommonModule {
 
 			foreach($classProperties as $property){
 				common_Logger::i($property->getLabel());
-				if(!in_array($property->uriResource, $this->excludedProperties)){
+				if(!in_array($property->getUri(), $this->excludedProperties)){
 					//@todo manage the properties with range
 					$range = $property->getRange();
-					$properties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
+					$properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
 					
-					if($range->uriResource != RDFS_LITERAL){
-						$rangedProperties[tao_helpers_Uri::encode($property->uriResource)] = $property->getLabel();
+					if($range->getUri() != RDFS_LITERAL){
+						$rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
 					}
 				}
 			}
@@ -283,7 +283,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 						//import it!
 						if($adapter->import($importData['file'], $clazz)){
 							$this->setData('message', __('Data imported successfully'));
-							$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->uriResource));
+							$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->getUri()));
 							$this->removeSessionAttribute('classUri');
 							$this->setData('reload', true);
 							

@@ -145,7 +145,7 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 
 				core_kernel_users_Cache::removeIncludedRoles($role); // flush cache for this role.
 				
-				$this->setSessionAttribute('showNodeUri', tao_helpers_Uri::encode($role->uriResource));
+				$this->setSessionAttribute('showNodeUri', tao_helpers_Uri::encode($role->getUri()));
 				$this->setData('message', __('Role saved'));
 				$this->setData('reload', true);
 			}
@@ -157,8 +157,8 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 		$tree->setData('dataUrl', _url('getUsers'));
 		$this->setData('userTree', $tree->render());
 		
-		$this->setData('uri', tao_helpers_Uri::encode($role->uriResource));
-		$this->setData('classUri', tao_helpers_Uri::encode($clazz->uriResource));
+		$this->setData('uri', tao_helpers_Uri::encode($role->getUri()));
+		$this->setData('classUri', tao_helpers_Uri::encode($clazz->getUri()));
 		$this->setData('formTitle', 'Edit Role');
 		$this->setData('myForm', $myForm->render());
 		$this->setView('roles/form.tpl');

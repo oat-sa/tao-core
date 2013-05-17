@@ -139,8 +139,8 @@ class tao_actions_form_Instance
 		}
 		
 		foreach($classProperties as $property){
-			if(!isset($editedProperties[$property->uriResource]) && !in_array($property->uriResource, $excludedProperties)){
-				$editedProperties[$property->uriResource] = $property;
+			if(!isset($editedProperties[$property->getUri()]) && !in_array($property->getUri(), $excludedProperties)){
+				$editedProperties[$property->getUri()] = $property;
 			}
 		}
 			
@@ -170,7 +170,7 @@ class tao_actions_form_Instance
 								if($element instanceof tao_helpers_form_elements_Readonly){
 									$element->setValue($value->getLabel());
 								}else{
-									$element->setValue($value->uriResource);
+									$element->setValue($value->getUri());
 								}
 							}
 							if($value instanceof core_kernel_classes_Literal){
@@ -181,7 +181,7 @@ class tao_actions_form_Instance
 				}
 					
 				//set label validator
-				if($property->uriResource == RDFS_LABEL){
+				if($property->getUri() == RDFS_LABEL){
 					$element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 				}
 
@@ -195,7 +195,7 @@ class tao_actions_form_Instance
 					
 				}
 				
-				if ($property->uriResource == RDFS_LABEL){
+				if ($property->getUri() == RDFS_LABEL){
 					// Label will not be a TAO Property. However, it should
 					// be always first.
 					array_splice($finalElements, 0, 0, array(array($element, 1)));
@@ -227,13 +227,13 @@ class tao_actions_form_Instance
 		
 		//add an hidden elt for the class uri
 		$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
-		$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
+		$classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
 		$this->form->addElement($classUriElt);
 			
 		if(!is_null($instance)){
 			//add an hidden elt for the instance Uri
 			$instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
-			$instanceUriElt->setValue(tao_helpers_Uri::encode($instance->uriResource));
+			$instanceUriElt->setValue(tao_helpers_Uri::encode($instance->getUri()));
 			$this->form->addElement($instanceUriElt);
 		}
         

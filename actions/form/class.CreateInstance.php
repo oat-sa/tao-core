@@ -154,8 +154,8 @@ class tao_actions_form_CreateInstance
 		}
 		
 		foreach($classProperties as $property){
-			if(!isset($editedProperties[$property->uriResource]) && !in_array($property->uriResource, $excludedProperties)){
-				$editedProperties[$property->uriResource] = $property;
+			if(!isset($editedProperties[$property->getUri()]) && !in_array($property->getUri(), $excludedProperties)){
+				$editedProperties[$property->getUri()] = $property;
 			}
 		}
 			
@@ -176,7 +176,7 @@ class tao_actions_form_CreateInstance
 			if(!is_null($element)){
 				
 				//set label validator
-				if($property->uriResource == RDFS_LABEL){
+				if($property->getUri() == RDFS_LABEL){
 					$element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 				}
 
@@ -190,7 +190,7 @@ class tao_actions_form_CreateInstance
 					
 				}
 				
-				if ($property->uriResource == RDFS_LABEL){
+				if ($property->getUri() == RDFS_LABEL){
 					// Label will not be a TAO Property. However, it should
 					// be always first.
 					array_splice($finalElements, 0, 0, array(array($element, 1)));

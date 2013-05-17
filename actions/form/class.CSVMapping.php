@@ -158,7 +158,7 @@ class tao_actions_form_CSVMapping
     		$property = new core_kernel_classes_Property(tao_helpers_Uri::decode($propertyUri));
     		$propElt = tao_helpers_form_GenerisFormFactory::elementMap($property);
     		if(!is_null($propElt)){
-    			$defName = tao_helpers_Uri::encode($property->uriResource) . TEMP_SUFFIX_CSV;
+    			$defName = tao_helpers_Uri::encode($property->getUri()) . TEMP_SUFFIX_CSV;
     			$propElt->setName($defName);
     			$this->form->addElement($propElt);
     			$ranged[$defName] = $propElt;

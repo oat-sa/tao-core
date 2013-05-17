@@ -176,7 +176,7 @@ class tao_helpers_data_GenerisAdapterCsv
 							$range = null;	
 						}
 						
-						if ($range == null || $range->uriResource == RDFS_LITERAL) {
+						if ($range == null || $range->getUri() == RDFS_LITERAL) {
 							// Deal with the column value as a literal.
 							common_Logger::d("CSV - Importing Literal from CSV");
 							$this->importLiteral($targetProperty, $resource, $csvRow, $csvColumn);
@@ -334,7 +334,7 @@ class tao_helpers_data_GenerisAdapterCsv
         $returnValue = (string) '';
         
     	if(isset($options['callbacks'])){
-			foreach(array('*', $targetProperty->uriResource) as $key){
+			foreach(array('*', $targetProperty->getUri()) as $key){
 				if(isset($options['callbacks'][$key]) && is_array($options['callbacks'][$key])){
 					foreach ($options['callbacks'][$key] as $callback) {
 						if(function_exists($callback)){
@@ -374,14 +374,14 @@ class tao_helpers_data_GenerisAdapterCsv
         	// may be attached because $rangeCompliance = true.
         	foreach ($targetPropertyRange->getIterator() as $r) {
         		// Check all classes in target property's range.
-        		if (!array_key_exists($r->uriResource, $valueType)) {
+        		if (!array_key_exists($r->getUri(), $valueType)) {
         			$rangeCompliance = false;
         			break;
         		}
         	}
         	
         	if (true == $rangeCompliance) {
-        		$targetResource->setPropertyValue($targetProperty, $resource->uriResource);
+        		$targetResource->setPropertyValue($targetProperty, $resource->getUri());
         	}
         }
     }

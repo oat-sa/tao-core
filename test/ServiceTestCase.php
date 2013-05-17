@@ -110,7 +110,7 @@ class ServiceTestCase extends UnitTestCase {
 		$diffProperty = $diffs[0];
 		$this->assertNotNull($diffProperty);
 		$this->assertIsA($diffProperty, 'core_kernel_classes_Property');
-		$this->assertEqual($testProperty->getUri(), $diffProperty->uriResource);
+		$this->assertEqual($testProperty->getUri(), $diffProperty->getUri());
 		
 		//test the createInstance method 
 		$testInstance = $this->taoService->createInstance($testModelClass, 'anInstance');
@@ -119,7 +119,7 @@ class ServiceTestCase extends UnitTestCase {
 		//get the class from the instance
 		$clazz = $this->taoService->getClass($testInstance);
 		$this->assertIsA($clazz, 'core_kernel_classes_Class');
-		$this->assertEqual($clazz->getUri(), $testModelClass->uriResource);
+		$this->assertEqual($clazz->getUri(), $testModelClass->getUri());
 		
 		//test the bindProperties method
 		$testInstance = $this->taoService->bindProperties(
@@ -135,7 +135,7 @@ class ServiceTestCase extends UnitTestCase {
 		//clone instance
 		$clonedInstance = $this->taoService->cloneInstance($testInstance, $testModelClass);
 		$this->assertIsA( $clonedInstance, 'core_kernel_classes_Resource');
-		$this->assertNotEqual($clonedInstance->getUri(), $testInstance->uriResource);
+		$this->assertNotEqual($clonedInstance->getUri(), $testInstance->getUri());
 		$this->assertEqual($testInstance->getUniquePropertyValue($testProperty), $clonedInstance->getUniquePropertyValue($testProperty));
 		
 		//get the properties between 2 classes

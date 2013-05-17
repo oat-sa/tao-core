@@ -76,13 +76,13 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 			$elements = array();
 			foreach($this->service->getListElements($listClass) as $index => $listElement){
 				$elements[$index] = array(
-					'uri'		=> tao_helpers_Uri::encode($listElement->uriResource),
+					'uri'		=> tao_helpers_Uri::encode($listElement->getUri()),
 					'label'		=> $listElement->getLabel()
 				);
 				ksort($elements);
 			}
 			$lists[] = array(
-				'uri'		=> tao_helpers_Uri::encode($listClass->uriResource),
+				'uri'		=> tao_helpers_Uri::encode($listClass->getUri()),
 				'label'		=> $listClass->getLabel(),
 				// The Language list should not be editable.
 				// @todo Make two different kind of lists: system list that are not editable and usual list.
@@ -128,7 +128,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 			$list = $this->service->getList(tao_helpers_Uri::decode($this->getRequestParameter('listUri')));
 			if(!is_null($list)){
 				foreach($this->service->getListELements($list, true) as  $listElement){
-					$data[tao_helpers_Uri::encode($listElement->uriResource)] = $listElement->getLabel();
+					$data[tao_helpers_Uri::encode($listElement->getUri())] = $listElement->getLabel();
 				}
 			}
 		}
@@ -155,7 +155,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 				$setLevel = false;
 				$levelProperty = new core_kernel_classes_Property(TAO_LIST_LEVEL_PROP);
 				foreach($listClass->getProperties(true) as $property){
-					if($property->uriResource == $levelProperty->uriResource){
+					if($property->getUri() == $levelProperty->getUri()){
 						$setLevel = true;
 						break;
 					}
@@ -171,7 +171,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 
 						$found = false;
 						foreach($elements as $element){
-							if($element->uriResource == $uri && !empty($uri)){
+							if($element->getUri() == $uri && !empty($uri)){
 								$found = true;
 								$element->setLabel($value);
 								if($setLevel){
@@ -210,7 +210,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 				$listClass = $this->service->createList();
 				if(!is_null($listClass)){
 					$response['label']	= $listClass->getLabel();
-					$response['uri'] 	= tao_helpers_Uri::encode($listClass->uriResource);
+					$response['uri'] 	= tao_helpers_Uri::encode($listClass->getUri());
 				}
 			}
 
@@ -220,7 +220,7 @@ class tao_actions_Lists extends tao_actions_CommonModule {
 					$listElt = $this->service->createListElement($listClass);
 					if(!is_null($listElt)){
 						$response['label']	= $listElt->getLabel();
-						$response['uri'] 	= tao_helpers_Uri::encode($listElt->uriResource);
+						$response['uri'] 	= tao_helpers_Uri::encode($listElt->getUri());
 					}
 				}
 			}

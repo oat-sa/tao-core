@@ -149,7 +149,7 @@ class tao_actions_form_Export
     		if($item instanceof core_kernel_classes_Resource){
 				//add an hidden elt for the instance Uri
 				$uriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
-				$uriElt->setValue($item->uriResource);
+				$uriElt->setValue($item->getUri());
 				$this->form->addElement($uriElt);
     		}
     	}
@@ -158,7 +158,7 @@ class tao_actions_form_Export
     		if($class instanceof core_kernel_classes_Class){
     			//add an hidden elt for the class uri
 				$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
-				$classUriElt->setValue($class->uriResource);
+				$classUriElt->setValue($class->getUri());
 				$this->form->addElement($classUriElt);
     		}
     	}
@@ -183,7 +183,7 @@ class tao_actions_form_Export
     		$instance = $this->data['instance'];
     		if($instance instanceof core_kernel_classes_Resource){
     			$fileName = strtolower(tao_helpers_Display::textCleaner($instance->getLabel(), '*'));
-    			$instances[$instance->uriResource] = $instance->getLabel();
+    			$instances[$instance->getUri()] = $instance->getLabel();
     		}
     	}
     	else {
@@ -192,7 +192,7 @@ class tao_actions_form_Export
 	    		if($class instanceof core_kernel_classes_Class){
 					$fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel(), '*'));
 					foreach($class->getInstances() as $instance){
-						$instances[$instance->uriResource] = $instance->getLabel();
+						$instances[$instance->getUri()] = $instance->getLabel();
 					}
 	    		}
     		}

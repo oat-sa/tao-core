@@ -131,7 +131,7 @@ class tao_actions_Table extends tao_actions_TaoModule {
 				$cellData[] = $column->getDataProvider()->getValue($result, $column);
 			}
 			$response->rows[] = array(
-				'id' => $result->uriResource,
+				'id' => $result->getUri(),
 				'cell' => $cellData
 			);
 		}

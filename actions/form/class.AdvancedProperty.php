@@ -108,7 +108,7 @@ class tao_actions_form_AdvancedProperty
     {
         // section 127-0-1-1--3a436df4:129b1de06f1:-8000:0000000000002200 begin
         
-    	$property = new core_kernel_classes_Property($this->instance->uriResource);
+    	$property = new core_kernel_classes_Property($this->instance->getUri());
     	
     	(isset($this->options['index'])) ? $index = $this->options['index'] : $index = 1;
     	
@@ -133,7 +133,7 @@ class tao_actions_form_AdvancedProperty
 				foreach($values->getIterator() as $value){
 					if(!is_null($value)){
 						if($value instanceof core_kernel_classes_Resource){
-							$element->setValue($value->uriResource);
+							$element->setValue($value->getUri());
 						}
 						if($value instanceof core_kernel_classes_Literal){
 							$element->setValue((string)$value);
@@ -154,7 +154,7 @@ class tao_actions_form_AdvancedProperty
 		//add an hidden elt for the property uri
 		$propUriElt = tao_helpers_form_FormFactory::getElement("propertyUri{$index}", 'Hidden');
 		$propUriElt->addAttribute('class', 'property-uri');
-		$propUriElt->setValue(tao_helpers_Uri::encode($property->uriResource));
+		$propUriElt->setValue(tao_helpers_Uri::encode($property->getUri()));
 		$this->form->addElement($propUriElt);
     	
         // section 127-0-1-1--3a436df4:129b1de06f1:-8000:0000000000002200 end

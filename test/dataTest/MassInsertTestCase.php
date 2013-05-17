@@ -251,7 +251,7 @@ class MassInsertTestCase extends UnitTestCase {
 
 			$group = current($this->groups);
 			foreach ($this->subjects as $subject){
-				$group->setPropertyValue ($groupMemberProperty, $subject->uriResource);
+				$group->setPropertyValue ($groupMemberProperty, $subject->getUri());
 
 				$i++;
 				if ($i>($step*$slice)-1){
@@ -329,7 +329,7 @@ class MassInsertTestCase extends UnitTestCase {
 		$deliveryClass = $topDeliveryClass->createSubClass("Simulated (TC)", "Simulated Test Case Test Class", LOCAL_NAMESPACE."#SimulatedTestCaseDeliveryClass");
 		$delivery = $this->deliveryService->createInstance($deliveryClass, 'AutoInsert Delivery');
 		// Set the groups
-		$groupsParam = array(); foreach($this->groups as $group) $groupsParam[]= $group->uriResource;
+		$groupsParam = array(); foreach($this->groups as $group) $groupsParam[]= $group->getUri();
 		$this->deliveryService->setDeliveryGroups($delivery, $groupsParam);
 		// Set the tests
 		$testsParam = array(); foreach($this->tests as $t) $testsParam[]= $t;

@@ -51,7 +51,7 @@ class tao_models_classes_InteractiveServiceService extends tao_models_classes_Cl
      */
     public function setCallOfServiceDefinition( core_kernel_classes_Resource $serviceCall,  core_kernel_classes_Resource $serviceDefinition)
     {
-		return $serviceCall->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->uriResource);
+		return $serviceCall->editPropertyValues(new core_kernel_classes_Property(PROPERTY_CALLOFSERVICES_SERVICEDEFINITION), $serviceDefinition->getUri());
     }
     
     public function getServiceDefinition( core_kernel_classes_Resource $serviceCall)

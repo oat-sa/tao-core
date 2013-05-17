@@ -153,20 +153,20 @@ class tao_helpers_Optimization {
     	$result = array('success' => false);
     	$optimizableClasses = tao_helpers_Optimization::getOptimizableClasses();
     	
-    	if(isset($optimizableClasses[$class->uriResource]) && isset($optimizableClasses[$class->uriResource]['compile'])){
+    	if(isset($optimizableClasses[$class->getUri()]) && isset($optimizableClasses[$class->getUri()]['compile'])){
     
     		//build the option array and launch the compilation:
-    		$options = array_merge($optimizableClasses[$class->uriResource]['compile']);
+    		$options = array_merge($optimizableClasses[$class->getUri()]['compile']);
     
     		$switcher = new core_kernel_persistence_Switcher();
     		$switcher->hardify($class, $options);
     
     		//prepare return value
     		$hardenedClasses = $switcher->getHardenedClasses();
-    		$count = isset($hardenedClasses[$class->uriResource]) ? $hardenedClasses[$class->uriResource] : 0;
+    		$count = isset($hardenedClasses[$class->getUri()]) ? $hardenedClasses[$class->getUri()] : 0;
     		$relatedClasses = array();
     		foreach($hardenedClasses as $relatedClassUri => $nb){
-    			if($relatedClassUri != $class->uriResource){
+    			if($relatedClassUri != $class->getUri()){
     				$relatedClass = new core_kernel_classes_Class($relatedClassUri);
     				$relatedClasses[$relatedClass->getLabel()] = $nb;
     			}
@@ -205,21 +205,21 @@ class tao_helpers_Optimization {
     	$result = array('success' => false);
     	$optimizableClasses = tao_helpers_Optimization::getOptimizableClasses();
     	
-    	if(isset($optimizableClasses[$class->uriResource]) && isset($optimizableClasses[$class->uriResource]['decompile'])){
+    	if(isset($optimizableClasses[$class->getUri()]) && isset($optimizableClasses[$class->getUri()]['decompile'])){
     
     		//build the option array and launch the compilation:
     		$userDefinedOptions = array();
-    		$options = array_merge($optimizableClasses[$class->uriResource]['decompile'], $userDefinedOptions);
+    		$options = array_merge($optimizableClasses[$class->getUri()]['decompile'], $userDefinedOptions);
     
     		$switcher = new core_kernel_persistence_Switcher();
     		$switcher->unhardify($class, $options);
     
     		//prepare return value
     		$decompiledClass = $switcher->getDecompiledClasses();
-    		$count = isset($decompiledClass[$class->uriResource])?$decompiledClass[$class->uriResource]:0;
+    		$count = isset($decompiledClass[$class->getUri()])?$decompiledClass[$class->getUri()]:0;
     		$relatedClasses = array();
     		foreach($decompiledClass as $relatedClassUri => $nb){
-    			if($relatedClassUri != $class->uriResource){
+    			if($relatedClassUri != $class->getUri()){
     				$relatedClass = new core_kernel_classes_Class($relatedClassUri);
     				$relatedClasses[$relatedClass->getLabel()] = $nb;
     			}

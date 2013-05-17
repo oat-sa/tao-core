@@ -135,7 +135,7 @@ class tao_models_classes_ListService
         // section 127-0-1-1-7add8745:127b99f9642:-8000:0000000000002388 begin
         
         foreach($this->getLists() as $list){
-        	if($list->uriResource == $uri){
+        	if($list->getUri() == $uri){
         		 $returnValue = $list;
         		 break;
         	}
@@ -164,7 +164,7 @@ class tao_models_classes_ListService
         
         if(!empty($uri)){
 	        foreach($this->getListElements($listClass, false) as $element){   	
-	           	if($element->uriResource == $uri){
+	           	if($element->getUri() == $uri){
 	           		$returnValue = $element;
 	           		break;
 	           	}

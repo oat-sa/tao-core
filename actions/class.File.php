@@ -253,8 +253,8 @@ class tao_actions_File extends tao_actions_CommonModule{
 				);
 
 				foreach ($file->getType() as $typeClass) {
-					if (in_array($typeClass->uriResource, $availableFileTypes)) {
-						$data = $this->getFileInfo($file->uriResource);
+					if (in_array($typeClass->getUri(), $availableFileTypes)) {
+						$data = $this->getFileInfo($file->getUri());
 						break;
 					}
 				}

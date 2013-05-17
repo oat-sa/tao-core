@@ -31,13 +31,13 @@ $(document).ready(function(){
 	var filterNodes = [
 		<?foreach($properties as $property):?>
 		{
-			id					: '<?=md5($property->uriResource)?>'
+			id					: '<?=md5($property->getUri())?>'
 			, label				: '<?=$property->getLabel()?>'
 			, url				: getUrl
 			, options 			:
 			{
-				'propertyUri' 	: '<?= $property->uriResource ?>'
-				, 'classUri' 	: '<?= $clazz->uriResource ?>'
+				'propertyUri' 	: '<?= $property->getUri() ?>'
+				, 'classUri' 	: '<?= $clazz->getUri() ?>'
 			}
 		},
 		<?endforeach;?>
@@ -88,7 +88,7 @@ $(document).ready(function(){
 		//Refresh the result
 		$.getJSON (root_url+'taoItems/items/searchInstances'
 			,{
-				'classUri' : '<?= $clazz->uriResource ?>'
+				'classUri' : '<?= $clazz->getUri() ?>'
 				, 'filter' : facetFilter.getFormatedFilterSelection()
 			}
 			, function (DATA) {

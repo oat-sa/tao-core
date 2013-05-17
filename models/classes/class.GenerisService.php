@@ -284,7 +284,7 @@ abstract class tao_models_classes_GenerisService
 			foreach($properties as $property){
 				foreach($instance->getPropertyValues($property) as $propertyValue){
 					// Avoid doublons, the RDF TYPE property will be set by the implementation layer
-					if ($property->uriResource == RDF_TYPE && $propertyValue == $clazz->uriResource){
+					if ($property->getUri() == RDF_TYPE && $propertyValue == $clazz->getUri()){
 						continue;
 					}
 					$returnValue->setPropertyValue($property, $propertyValue);
@@ -334,7 +334,7 @@ abstract class tao_models_classes_GenerisService
         	$newParentProperties = $newParentClazz->getProperties(true);
         	foreach($properties as $index => $property){
         		foreach($newParentProperties as $newParentProperty){
-        			if($property->uriResource == $newParentProperty->uriResource){
+        			if($property->getUri() == $newParentProperty->getUri()){
         				unset($properties[$index]);
         				break;
         			}
@@ -376,7 +376,7 @@ abstract class tao_models_classes_GenerisService
         	}
         	$instance->setType($destinationClass);
         	foreach($instance->getTypes() as $type){
-        		if($type->uriResource == $destinationClass->uriResource){
+        		if($type->getUri() == $destinationClass->getUri()){
         			$returnValue = true;
         			break;
         		}
@@ -413,7 +413,7 @@ abstract class tao_models_classes_GenerisService
 			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
 		}
 
-		if($clazz->uriResource == $topLevelClazz->uriResource){
+		if($clazz->getUri() == $topLevelClazz->getUri()){
 			$returnValue = $clazz->getProperties(false);
 			return (array) $returnValue;
 		}
@@ -436,20 +436,20 @@ abstract class tao_models_classes_GenerisService
 			}
 			$lastLevelParents = array();
 			foreach($parentClasses as $parentClass){
-				if($parentClass->uriResource == $topLevelClazz->uriResource ) {
-					$parents[$parentClass->uriResource] = $parentClass;
+				if($parentClass->getUri() == $topLevelClazz->getUri() ) {
+					$parents[$parentClass->getUri()] = $parentClass;
 					$top = true;
 					break;
 				}
-				if($parentClass->uriResource == RDFS_CLASS){
+				if($parentClass->getUri() == RDFS_CLASS){
 					continue;
 				}
 
 				$allParentClasses = $parentClass->getParentClasses(true);
-				if(array_key_exists($topLevelClazz->uriResource, $allParentClasses)){
-					 $parents[$parentClass->uriResource] = $parentClass;
+				if(array_key_exists($topLevelClazz->getUri(), $allParentClasses)){
+					 $parents[$parentClass->getUri()] = $parentClass;
 				}
-				$lastLevelParents[$parentClass->uriResource] = $parentClass;
+				$lastLevelParents[$parentClass->getUri()] = $parentClass;
 			}
 		}while(!$top);
 
@@ -512,19 +512,19 @@ abstract class tao_models_classes_GenerisService
 			foreach($instance->getTypes() as $clazz){
 				foreach($clazz->getProperties(true) as $property){
 
-					if($property->isLgDependent() || $property->uriResource == RDFS_LABEL){
+					if($property->isLgDependent() || $property->getUri() == RDFS_LABEL){
 						$collection = $instance->getPropertyValuesByLg($property, $lang);
 						if($collection->count() > 0 ){
 
 							if($collection->count() == 1){
-								$returnValue[$property->uriResource] = (string)$collection->get(0);
+								$returnValue[$property->getUri()] = (string)$collection->get(0);
 							}
 							else{
 								$propData = array();
 								foreach($collection->getIterator() as $collectionItem){
 									$propData[] = (string)$collectionItem;
 								}
-								$returnValue[$property->uriResource] = $propData;
+								$returnValue[$property->getUri()] = $propData;
 							}
 						}
 					}

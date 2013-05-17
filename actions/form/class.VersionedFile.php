@@ -269,13 +269,13 @@ class tao_actions_form_VersionedFile
 		 */
 		//add an hidden elt for the property uri (Property associated to the owner instance)
 		$propertyUriElt = tao_helpers_form_FormFactory::getElement("propertyUri", "Hidden");
-		$propertyUriElt->setValue(tao_helpers_Uri::encode($this->property->uriResource));
+		$propertyUriElt->setValue(tao_helpers_Uri::encode($this->property->getUri()));
 		$this->form->addElement($propertyUriElt);
 		
 		//add an hidden elt for the instance Uri
 		//usefull to render the revert action
 		$instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
-		$instanceUriElt->setValue(tao_helpers_Uri::encode($this->ownerInstance->uriResource));
+		$instanceUriElt->setValue(tao_helpers_Uri::encode($this->ownerInstance->getUri()));
 		$this->form->addElement($instanceUriElt);
 		
 		/*
@@ -295,7 +295,7 @@ class tao_actions_form_VersionedFile
 		
 			$repositoryValue = $this->versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_REPOSITORY));
 			if(!empty($repositoryValue)){
-				$fileRepositoryElt->setValue($repositoryValue->uriResource);
+				$fileRepositoryElt->setValue($repositoryValue->getUri());
 			}
 			
 			$history = $this->versionedFile->gethistory();
@@ -312,7 +312,7 @@ class tao_actions_form_VersionedFile
 			
 			$defaultRepo = $this->getDefaultRepository();
 			if(!is_null($defaultRepo)){
-				$fileRepositoryElt->setValue($defaultRepo->uriResource);
+				$fileRepositoryElt->setValue($defaultRepo->getUri());
 			}
 		}
     	
@@ -359,7 +359,7 @@ class tao_actions_form_VersionedFile
 	        $sameNameFiles = $clazz->searchInstances($propertyFilter, $options);
 	        if(!empty($sameNameFiles)){
 	        	$sameFileResource = array_pop($sameNameFiles);
-	        	$sameFile = new core_kernel_versioning_File($sameFileResource->uriResource);
+	        	$sameFile = new core_kernel_versioning_File($sameFileResource->getUri());
 	        	
 	        	$this->form->valid = false;
 	        	$this->form->error = __('A similar resource has already been versioned').' ('.$sameFile->getAbsolutePath().')';
@@ -385,7 +385,7 @@ class tao_actions_form_VersionedFile
         // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF2 begin
 		
 		if(!is_null($this->ownerInstance)){
-			$returnValue = _url('downloadFile', 'File', 'tao', array('uri' => tao_helpers_Uri::encode($this->ownerInstance->uriResource)));
+			$returnValue = _url('downloadFile', 'File', 'tao', array('uri' => tao_helpers_Uri::encode($this->ownerInstance->getUri())));
 		}
 		
         // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF2 end
@@ -406,7 +406,7 @@ class tao_actions_form_VersionedFile
 
         // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF4 begin
 		
-		$returnValue = tao_helpers_Uri::getUniqueId($this->ownerInstance->uriResource).'/'.tao_helpers_Uri::getUniqueId($this->property->uriResource);
+		$returnValue = tao_helpers_Uri::getUniqueId($this->ownerInstance->getUri()).'/'.tao_helpers_Uri::getUniqueId($this->property->getUri());
 			
         // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF4 end
 

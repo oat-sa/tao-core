@@ -156,7 +156,7 @@ class tao_actions_form_Clazz
 				foreach($values as $value){
 					if(!is_null($value)){
 						if($value instanceof core_kernel_classes_Resource){
-							$element->setValue($value->uriResource);
+							$element->setValue($value->getUri());
 						}
 						if($value instanceof core_kernel_classes_Literal){
 							$element->setValue((string)$value);
@@ -167,7 +167,7 @@ class tao_actions_form_Clazz
 				$this->form->addElement($element);
 
 				//set label validator
-				if($property->uriResource == RDFS_LABEL){
+				if($property->getUri() == RDFS_LABEL){
 					$element->addValidators(array(
 						tao_helpers_form_FormFactory::getValidator('NotEmpty'),
 					));
@@ -183,7 +183,7 @@ class tao_actions_form_Clazz
 
 		//add an hidden elt for the class uri
 		$classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
-		$classUriElt->setValue(tao_helpers_Uri::encode($clazz->uriResource));
+		$classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
 		$this->form->addElement($classUriElt);
 
 		$session = core_kernel_classes_Session::singleton();
@@ -201,11 +201,11 @@ class tao_actions_form_Clazz
 			$parentProp = true;
 			$domains = $classProperty->getDomain();
 			foreach($domains->getIterator() as $domain){
-				if($domain->uriResource == $clazz->uriResource){
+				if($domain->getUri() == $clazz->getUri()){
 					$parentProp = false;
 
 					//@todo use the getPrivileges method once implemented
-					if(preg_match("/^".preg_quote($localNamespace, '/')."/", $classProperty->uriResource)){
+					if(preg_match("/^".preg_quote($localNamespace, '/')."/", $classProperty->getUri())){
 						$useEditor = true;
 					}
 					break;
@@ -235,7 +235,7 @@ class tao_actions_form_Clazz
 				$domainElement = tao_helpers_form_FormFactory::getElement('parentProperty'.$i, 'Free');
 				$value = __("Edit property into parent class ");
 				foreach($domains->getIterator() as $domain){
-					$value .= "<a  href='#' onclick='GenerisTreeBrowserClass.selectTreeNode(\"".tao_helpers_Uri::encode($domain->uriResource)."\");' >".$domain->getLabel()."</a> ";
+					$value .= "<a  href='#' onclick='GenerisTreeBrowserClass.selectTreeNode(\"".tao_helpers_Uri::encode($domain->getUri())."\");' >".$domain->getLabel()."</a> ";
 				}
 				$domainElement->setValue($value);
 				$this->form->addElement($domainElement);
