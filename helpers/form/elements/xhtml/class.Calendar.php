@@ -51,7 +51,7 @@ class tao_helpers_form_elements_xhtml_Calendar
 		}
 		
 		if(!isset($this->attributes['size'])){
-			$this->attributes['size'] = 10;
+			$this->attributes['size'] = 20;
 		}
 		
 		$returnValue .= "<input type='text' name='{$this->name}' id='$elementId' ";
@@ -59,12 +59,9 @@ class tao_helpers_form_elements_xhtml_Calendar
 		$returnValue .= ' value="'._dh($this->value).'"  />';
 		
 		$returnValue .="<script type=\"text/javascript\">
-			require(['jquery','jqueryUI'], function($){
-				$(\"#$elementId\").datepicker({ 
+			require(['jquery','jqueryUI','jquery.timePicker'], function($){
+				$(\"#$elementId\").datetimepicker({
 					dateFormat: 'yy-mm-dd',
-					beforeShow: function(input, inst) {
-						inst.dpDiv.css('z-index', 1001);
-					}
 				});
 			});</script>";
 
