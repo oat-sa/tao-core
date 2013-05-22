@@ -20,7 +20,7 @@
 			<p id="warning_msg">
 				<img src="<?= ROOT_URL ?>tao/views/img/warning_error_tpl.png" alt="warning" class="embedWarning" />
 				This TAO Platform is currently <strong>under maintenance</strong> and should be available in a few moments.
-				We apologize for any inconvenient.
+				We apologize for any inconvenience.
 			</p>
 		</div>
 	</div>
