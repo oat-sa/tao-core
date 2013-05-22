@@ -521,8 +521,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 					$delete = isset($data['file_delete']) && $data['file_delete'] == '1'?true:false;
 					$message = isset($data['commit_message'])?$data['commit_message']:'';
 					$fileName = $data[PROPERTY_FILE_FILENAME];
-					$filePath = $data[PROPERTY_VERSIONEDFILE_FILEPATH];
-					$repositoryUri = $data[PROPERTY_VERSIONEDFILE_REPOSITORY];
+					$filePath = $data[PROPERTY_FILE_FILEPATH];
+					$repositoryUri = $data[PROPERTY_FILE_FILESYSTEM];
 					$version = isset($data['file_version']) ? $data['file_version'] : 0;
 					
 					//get the content

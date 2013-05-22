@@ -184,9 +184,9 @@ class tao_actions_File extends tao_actions_CommonModule{
 		if($this->hasRequestParameter('uri')){
 			$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
 			$resource = new core_kernel_classes_Resource($uri);
-			if(core_kernel_versioning_File::isVersionedFile($resource) || core_kernel_classes_File::isFile($resource)){
+			if(core_kernel_versioning_File::isVersionedFile($resource) || core_kernel_file_File::isFile($resource)){
 				
-				$file = new core_kernel_classes_File($uri);
+				$file = new core_kernel_file_File($uri);
 				$fileName = $file->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILENAME));
 				$content = $file->getFileContent();
 				$size = strlen($content);
@@ -216,9 +216,9 @@ class tao_actions_File extends tao_actions_CommonModule{
 		
 		$fileResource = null;
 		if(!is_null($uri)){
-			$fileResource = new core_kernel_classes_File($uri);
+			$fileResource = new core_kernel_file_File($uri);
 		}else if(is_null($uri) && $this->hasRequestParameter('uri')){
-			$fileResource = new core_kernel_classes_File(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+			$fileResource = new core_kernel_file_File(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 		}
 		
 		if(is_null($fileResource)){
@@ -245,19 +245,9 @@ class tao_actions_File extends tao_actions_CommonModule{
 			$instance = new core_kernel_classes_Resource($uri);
 			$file = $instance->getOnePropertyValue(new core_kernel_classes_Property($propertyUri));
 			
-			if(!is_null($file) && $file instanceof core_kernel_classes_Resource){
-				
-				$availableFileTypes = array(
-					CLASS_GENERIS_FILE,
-					CLASS_GENERIS_VERSIONEDFILE
-				);
-
-				foreach ($file->getType() as $typeClass) {
-					if (in_array($typeClass->getUri(), $availableFileTypes)) {
-						$data = $this->getFileInfo($file->getUri());
-						break;
-					}
-				}
+			if(!is_null($file) && $file instanceof core_kernel_classes_Resource
+				&& core_kernel_file_File::isFile($file)) {
+					$data = $this->getFileInfo($file->getUri());
 			}
 		}
 		

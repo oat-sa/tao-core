@@ -19,8 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
 /*
  * This post-installation script creates a new local file source for file uploaded
  * by end-users through the TAO GUI.

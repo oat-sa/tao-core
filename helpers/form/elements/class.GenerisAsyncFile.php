@@ -100,7 +100,7 @@ abstract class tao_helpers_form_elements_GenerisAsyncFile
     	}
     	else if (common_Utils::isUri($value)){
     		// The file has already been uploaded
-    		$file = new core_kernel_classes_File($value);
+    		$file = new core_kernel_file_File($value);
     		$this->value = new tao_helpers_form_data_StoredFileDescription($file);
     	}
     	else{

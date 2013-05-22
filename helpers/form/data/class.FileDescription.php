@@ -157,7 +157,7 @@ abstract class tao_helpers_form_data_FileDescription
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @return core_kernel_classes_File
+     * @return core_kernel_file_File
      */
     public function getFile()
     {
@@ -178,7 +178,7 @@ abstract class tao_helpers_form_data_FileDescription
      * @param  File file
      * @return void
      */
-    public function setFile( core_kernel_classes_File $file)
+    public function setFile( core_kernel_file_File $file)
     {
         // section 127-0-1-1--26b8e569:13d1573b9cd:-8000:0000000000003C4A begin
         $this->file = $file;

@@ -84,7 +84,7 @@ class tao_helpers_form_data_StoredFileDescription
      * @param  File file The URI of the file stored by Generis.
      * @return mixed
      */
-    public function __construct( core_kernel_classes_File $file)
+    public function __construct( core_kernel_file_File $file)
     {
         // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003D05 begin
         $this->setFile($file);
