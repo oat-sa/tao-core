@@ -224,7 +224,7 @@ class tao_actions_form_VersionedFile
 		$this->form->addElement($fileNameElt);
 		
 		//file path element to be added or not:
-		$filePathElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_FILEPATH), $freeFilePath?'Textbox':'Hidden');
+		$filePathElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_FILE_FILEPATH), $freeFilePath?'Textbox':'Hidden');
 		$filePathElt->setDescription(__("File path"));
 		$this->form->addElement($filePathElt);
 		
@@ -232,7 +232,7 @@ class tao_actions_form_VersionedFile
 		foreach(core_kernel_fileSystem_Cache::getEnabledFileSystems() as $fileSystem){
 			$repositoryEltOptions[tao_helpers_Uri::encode($fileSystem->getUri())] = $fileSystem->getLabel();
 		}
-		$fileRepositoryElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_REPOSITORY), $versioned ? 'Label' : 'Radiobox');
+		$fileRepositoryElt = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode(PROPERTY_FILE_FILESYSTEM), $versioned ? 'Label' : 'Radiobox');
 		$fileRepositoryElt->setDescription(__("File repository"));
 		if(!$versioned){
 			$fileRepositoryElt->setOptions($repositoryEltOptions);
@@ -288,12 +288,12 @@ class tao_actions_form_VersionedFile
 				$fileNameElt->setValue((string) $fileNameValue);
 			}
 		
-			$filePathValue = $this->versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_FILEPATH));
+			$filePathValue = $this->versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILEPATH));
 			if(!empty($filePathValue)){
 				$filePathElt->setValue((string) $filePathValue);
 			}
 		
-			$repositoryValue = $this->versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_VERSIONEDFILE_REPOSITORY));
+			$repositoryValue = $this->versionedFile->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_FILE_FILESYSTEM));
 			if(!empty($repositoryValue)){
 				$fileRepositoryElt->setValue($repositoryValue->getUri());
 			}
@@ -342,19 +342,19 @@ class tao_actions_form_VersionedFile
 	    	$fileNameElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_FILE_FILENAME));
 	    	$fileName = !is_null($fileNameElt)?$fileNameElt->getValue():'';
 	    	
-	    	$filePathElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_FILEPATH));
+	    	$filePathElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_FILE_FILEPATH));
 	    	$filePath = $filePathElt->getValue();
 	    	
-	    	$fileRepositoryElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_VERSIONEDFILE_REPOSITORY));
+	    	$fileRepositoryElt = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_FILE_FILESYSTEM));
 	    	$fileRepository = tao_helpers_Uri::decode($fileRepositoryElt->getValue());
 	    	
 	    	 //check if a resource with the same path exists yet in the repository
-	        $clazz = new core_kernel_classes_Class(CLASS_GENERIS_VERSIONEDFILE);
+	        $clazz = new core_kernel_classes_Class(CLASS_GENERIS_FILE);
 	        $options = array('like' => false, 'recursive' => true);
 			$propertyFilter = array(
 				PROPERTY_FILE_FILENAME => $fileName,
-				PROPERTY_VERSIONEDFILE_FILEPATH => $filePath,
-				PROPERTY_VERSIONEDFILE_REPOSITORY => $fileRepository
+				PROPERTY_FILE_FILEPATH => $filePath,
+				PROPERTY_FILE_FILESYSTEM => $fileRepository
 			);
 	        $sameNameFiles = $clazz->searchInstances($propertyFilter, $options);
 	        if(!empty($sameNameFiles)){

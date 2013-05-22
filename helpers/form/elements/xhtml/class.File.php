@@ -107,7 +107,7 @@ class tao_helpers_form_elements_xhtml_File
 		
 		if(!empty($this->value)){
 			if(common_Utils::isUri($this->value)){
-				$file = new core_kernel_classes_File($this->value);
+				$file = new core_kernel_file_File($this->value);
 				if($file->fileExists()){
 					$fileInfo = $file->getFileInfo();
 					$fileInfo->getFilename();
