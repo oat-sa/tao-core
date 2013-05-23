@@ -221,6 +221,9 @@ class Bootstrap{
     		
     		$this->dispatchError($ue, 403);
     	}
+    	catch (tao_models_classes_FileNotFoundException $e){
+    		$this->dispatchError($e, 404);
+    	}
     	catch (Exception $e) {
     		common_Logger::singleton()->e('The system encountered a problem, uncaught exception ('
     				.get_class($e).') in ('.$e->getFile().') at line '.$e->getLine().': '.$e->getMessage());
