@@ -180,7 +180,6 @@ class Bootstrap{
                 else{
                     //the request is not an ajax request, redirect the user to the maintenance page
                     if(!$isAjax){
-                        $from = ROOT_URL.$_SERVER['REQUEST_URI'];
                         require_once TAO_TPL_PATH . 'error/maintenance.tpl';
                     //else throw an exception, this exception will be send to the client properly
                     }
