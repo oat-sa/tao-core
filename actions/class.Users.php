@@ -107,49 +107,46 @@ class tao_actions_Users extends tao_actions_CommonModule {
 		
 		// get the users using requested paging...
 		$users = $this->userService->getAllUsers(array('offset' => $start, 'limit' => $limit));
-		
-		$loginProperty 		= new core_kernel_classes_Property(PROPERTY_USER_LOGIN);
-		$firstNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_FIRSTNAME);
-		$lastNameProperty 	= new core_kernel_classes_Property(PROPERTY_USER_LASTNAME);
-		$mailProperty 		= new core_kernel_classes_Property(PROPERTY_USER_MAIL);
-		$deflgProperty 		= new core_kernel_classes_Property(PROPERTY_USER_DEFLG);
-		$uilgProperty 		= new core_kernel_classes_Property(PROPERTY_USER_UILG);
 		$rolesProperty		= new core_kernel_classes_Property(PROPERTY_USER_ROLES);
-
+		
 		$response = new stdClass();
 		$i = 0;
 		foreach($users as $user) {
-			$cellData = array();
-
-			$cellData[0]	= (string)$user->getOnePropertyValue($loginProperty);
-
-			$firstName 		= (string)$user->getOnePropertyValue($firstNameProperty);
-			$lastName 		= (string)$user->getOnePropertyValue($lastNameProperty);
-			$cellData[1]	= $firstName.' '.$lastName;
-
-			$cellData[2] 	= (string)$user->getOnePropertyValue($mailProperty);
-
+			
+			$propValues = $user->getPropertiesValues(array(
+				PROPERTY_USER_LOGIN,
+				PROPERTY_USER_FIRSTNAME,
+				PROPERTY_USER_LASTNAME,
+				PROPERTY_USER_MAIL,
+				PROPERTY_USER_DEFLG,
+				PROPERTY_USER_UILG,
+				PROPERTY_USER_ROLES
+			));
+			
 			$roles = $user->getPropertyValues($rolesProperty);
 			$labels = array();
 			foreach ($roles as $uri){
 				$r = new core_kernel_classes_Resource($uri);
 				$labels[] = $r->getLabel();
 			}
-			$cellData[3] = implode(', ', $labels);
-
-			$defLg 			= $user->getOnePropertyValue($deflgProperty);
-			$cellData[4] 	= '';
-			if(!is_null($defLg)){
-				$cellData[4] = __($defLg->getLabel());
-			}
-			$uiLg 			= $user->getOnePropertyValue($uilgProperty);
-			$cellData[5] 	= '';
-			if(!is_null($uiLg)){
-				$cellData[5] = __($uiLg->getLabel());
-			}
-
-			$cellData[6]	= '';
-
+			
+			$firstName = empty($propValues[PROPERTY_USER_FIRSTNAME])
+				? '' : (string)current($propValues[PROPERTY_USER_FIRSTNAME]);
+			$lastName = empty($propValues[PROPERTY_USER_LASTNAME])
+				? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
+				
+			$uiRes = count($propValues[PROPERTY_USER_UILG]) == 0 ? null : current($propValues[PROPERTY_USER_UILG]);
+			$dataRes = count($propValues[PROPERTY_USER_DEFLG]) == 0 ? null : current($propValues[PROPERTY_USER_DEFLG]);
+			
+			$cellData = array(
+				0	=>	(string)current($propValues[PROPERTY_USER_LOGIN]),
+				1	=>	$firstName.' '.$lastName,
+				2	=>	(string)current($propValues[PROPERTY_USER_MAIL]),
+				3	=>	implode(', ', $labels),
+				4	=>	is_null($dataRes)	? '' : $dataRes->getLabel(),
+				5	=>	is_null($uiRes)		? '' : $uiRes->getLabel()
+			);
+			
 			$response->rows[$i]['id']= tao_helpers_Uri::encode($user->getUri());
 			$response->rows[$i]['cell'] = $cellData;
 			$i++;
