@@ -39,6 +39,22 @@ abstract class tao_models_classes_ClassService
 	 */
 	abstract public function getRootClass();
 
+	/**
+     * Returns a specified resource using uri or the list of resrouces 
+     * basically uses higher elvel services but may be customized here
+     * @param type $uri	if null all test takers are returned (slow)
+     * @return array
+     */
+
+	public function get($uri = null){
+	    
+	if (!(is_null($uri))) {
+		    $resource = new core_kernel_classes_Resource($uri);
+		    return $resource->getResourceDescription(true);
+		}else
+		{}
+	}
+
 }
 
 ?>

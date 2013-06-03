@@ -16,7 +16,7 @@
  * 
  * 
  *
- * @author patrick implements the restcontroller module type with an HTTP digest login protocol
+ * @author patrick implements the restcontroller module type with an HTTP digest login/Basic protocol
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
  * @subpackage action
@@ -24,18 +24,47 @@
 abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 
 	const realm = "azeaze";
-	private $method = "Basic"; //{auth, Basic}
+	
+	private $authMethod = "Basic"; //{auth, Basic}
+
+	private $responseEncoding = "JSON";  //{JSON, XML, XMLRDF}
+
 	private $currentUser = null;
+
+	private $headers = null;
+
 	abstract public function get($uri);
 	abstract public function put($uri);
 	abstract public function post($uri);
 	abstract public function delete($uri);
 
-	public function index(){
+	public function __construct(){
+	    parent::__construct();
+	    //$this->headers = HttpResponse::getRequestHeaders();
+	    $this->headers = apache_request_headers();
 	   
+	}
+	/*override to add header parameters*/
+	public function hasRequestParameter($string){
+	    return parent::hasRequestParameter() || isset($this->headers[$string]);
+	}
+	public function getRequestParameter($string){
+	    if (isset($this->headers[$string])) return ($this->headers[$string]);
+	   //if (parent::hasRequestParameter())
+		return parent::getRequestParameter();
+
+	}
+
+	/*"distribute" actions accroding to REST protocol*/
+	public function index(){
 	    $uri = null;
+
+	    if ($this->hasRequestParameter("responseEncoding")){
+		$this->responseEncoding = $this->RequestParameter("responseEncoding");
+	    }
+
 	    if ($this->hasRequestParameter("uri")){
-		$uri = hasRequestParameter($name);
+		$uri = $this->getRequestParameter("uri");
 	    }
 	    switch ($this->getRequestMethod()) {
 		case "GET":{$this->get($uri);break;}
@@ -64,7 +93,7 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	private function isValidLogin(){
 	    $returnValue = false;
 	    $userService = tao_models_classes_UserService::singleton();
-	    switch ($this->method){
+	    switch ($this->authMethod){
 		case "auth":{
 		    $digest = $this->getDigest();
 		    $data = $this->http_digest_parse($digest);
@@ -116,8 +145,8 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	}
 	return $needed_parts ? false : $data;
 	}
-	public function requireLogin(){
-	    switch ($this->method){
+	private function requireLogin(){
+	    switch ($this->authMethod){
 
 		case "auth":{
 			header('HTTP/1.1 401 Unauthorized');
@@ -127,6 +156,32 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 			header('HTTP/1.0 401 Unauthorized');break;}
 	    }
 
+	}
+	protected function encode($data){
+	    switch ($this->responseEncoding){
+		case "XMLRDF":{}
+		case "XML":{}
+		case "JSON":{echo json_encode($data);};
+	    }
+
+	}
+
+
+	private function http_parse_headers( $header )
+	{
+        $retVal = array();
+        $fields = explode("\r\n", preg_replace('/\x0D\x0A[\x09\x20]+/', ' ', $header));
+        foreach( $fields as $field ) {
+            if( preg_match('/([^:]+): (.+)/m', $field, $match) ) {
+                $match[1] = preg_replace('/(?<=^|[\x09\x20\x2D])./e', 'strtoupper("\0")', strtolower(trim($match[1])));
+                if( isset($retVal[$match[1]]) ) {
+                    $retVal[$match[1]] = array($retVal[$match[1]], $match[2]);
+                } else {
+                    $retVal[$match[1]] = trim($match[2]);
+                }
+            }
+        }
+        return $retVal;
 	}
 
 

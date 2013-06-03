@@ -87,6 +87,18 @@ abstract class tao_models_classes_GenerisService
     }
 
     /**
+     * 
+     * @access public
+     * @author patrick
+     * @param  core_kernel_classes_Resource $resource
+     * @return core_kernel_classes_Resource with all properties - values
+     */
+    public function getResourceDescription( core_kernel_classes_Resource $resource){
+	return $resource->getResourceDescription(true);
+
+    }
+
+    /**
      * search the instances matching the filters in parameters
      *
      * @access public
