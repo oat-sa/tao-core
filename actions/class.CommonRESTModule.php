@@ -59,6 +59,14 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 
 	}
 
+	public function getHeader($string){
+	     if (isset($this->headers[$string])) return ($this->headers[$string]); else return false;
+	}
+
+	public function hasHeader($string){
+	     if (isset($this->headers[$string])) return true; else return false;
+	}
+
 	/*"distribute" actions accroding to REST protocol*/
 	public function index(){
 	    $uri = null;
@@ -158,7 +166,7 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 
 	}
 	protected function encode($data){
-	    print_r($data);
+	
 	    switch ($this->responseEncoding){
 		case "XMLRDF":{}
 		case "XML":{echo tao_helpers_xml::from_array($data);break;}
