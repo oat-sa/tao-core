@@ -42,6 +42,10 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    parent::__construct();
 	    //$this->headers = HttpResponse::getRequestHeaders();
 	    $this->headers = apache_request_headers();
+
+	     if ($this->hasRequestParameter("responseEncoding")){
+		$this->responseEncoding = $this->getRequestParameter("responseEncoding");
+	    }
 	   
 	}
 	/*override to add header parameters*/
@@ -58,11 +62,7 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	/*"distribute" actions accroding to REST protocol*/
 	public function index(){
 	    $uri = null;
-
-	    if ($this->hasRequestParameter("responseEncoding")){
-		$this->responseEncoding = $this->RequestParameter("responseEncoding");
-	    }
-
+	   
 	    if ($this->hasRequestParameter("uri")){
 		$uri = $this->getRequestParameter("uri");
 	    }
@@ -132,18 +132,18 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	}
 	private function http_digest_parse($digest)
 	{
-	// protect against missing data
-	$needed_parts = array('nonce'=>1, 'nc'=>1, 'cnonce'=>1, 'qop'=>1, 'username'=>1, 'uri'=>1, 'response'=>1);
-	$data = array();
-	$keys = implode('|', array_keys($needed_parts));
+	    // protect against missing data
+	    $needed_parts = array('nonce'=>1, 'nc'=>1, 'cnonce'=>1, 'qop'=>1, 'username'=>1, 'uri'=>1, 'response'=>1);
+	    $data = array();
+	    $keys = implode('|', array_keys($needed_parts));
 
-	preg_match_all('@(' . $keys . ')=(?:([\'"])([^\2]+?)\2|([^\s,]+))@', $digest, $matches, PREG_SET_ORDER);
+	    preg_match_all('@(' . $keys . ')=(?:([\'"])([^\2]+?)\2|([^\s,]+))@', $digest, $matches, PREG_SET_ORDER);
 
-	foreach ($matches as $m) {
-	    $data[$m[1]] = $m[3] ? $m[3] : $m[4];
-	    unset($needed_parts[$m[1]]);
-	}
-	return $needed_parts ? false : $data;
+	    foreach ($matches as $m) {
+		$data[$m[1]] = $m[3] ? $m[3] : $m[4];
+		unset($needed_parts[$m[1]]);
+	    }
+	    return $needed_parts ? false : $data;
 	}
 	private function requireLogin(){
 	    switch ($this->authMethod){
@@ -158,9 +158,10 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 
 	}
 	protected function encode($data){
+	    print_r($data);
 	    switch ($this->responseEncoding){
 		case "XMLRDF":{}
-		case "XML":{}
+		case "XML":{echo tao_helpers_xml::from_array($data);break;}
 		case "JSON":{echo json_encode($data);};
 	    }
 

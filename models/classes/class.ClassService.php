@@ -47,13 +47,21 @@ abstract class tao_models_classes_ClassService
      */
 
 	public function get($uri = null){
-	    
 	if (!(is_null($uri))) {
 		    $resource = new core_kernel_classes_Resource($uri);
 		    return $resource->getResourceDescription(true);
 		}else
-		{}
+		{
+		    $resources = array();
+		    foreach ($this->getRootClass()->getInstances(true) as $resource) {
+			$resources[] = $resource->getResourceDescription(true);
+			
+		    }
+		    return $resources;
+		}
 	}
+
+	
 
 }
 
