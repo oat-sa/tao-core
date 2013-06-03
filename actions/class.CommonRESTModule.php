@@ -24,13 +24,10 @@
 abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 
 	const realm = "azeaze";
-	
+	private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml");
 	private $authMethod = "Basic"; //{auth, Basic}
-
-	private $responseEncoding = "JSON";  //{JSON, XML, XMLRDF}
-
+	private $responseEncoding = "application/json";  //{application/json, text/xml, application/xml}
 	private $currentUser = null;
-
 	private $headers = null;
 
 	abstract public function get($uri);
@@ -42,11 +39,11 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    parent::__construct();
 	    //$this->headers = HttpResponse::getRequestHeaders();
 	    $this->headers = apache_request_headers();
-
-	     if ($this->hasRequestParameter("responseEncoding")){
-		$this->responseEncoding = $this->getRequestParameter("responseEncoding");
+	    if ($this->hasHeader("Accept")){
+		$this->responseEncoding = (self::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
+		
+		
 	    }
-	   
 	}
 	/*override to add header parameters*/
 	public function hasRequestParameter($string){
@@ -58,15 +55,12 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 		return parent::getRequestParameter();
 
 	}
-
 	public function getHeader($string){
 	     if (isset($this->headers[$string])) return ($this->headers[$string]); else return false;
 	}
-
 	public function hasHeader($string){
 	     if (isset($this->headers[$string])) return true; else return false;
 	}
-
 	/*"distribute" actions accroding to REST protocol*/
 	public function index(){
 	    $uri = null;
@@ -155,7 +149,6 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	}
 	private function requireLogin(){
 	    switch ($this->authMethod){
-
 		case "auth":{
 			header('HTTP/1.1 401 Unauthorized');
 			header('WWW-Authenticate: Digest realm="'.$this::realm.'",qop="auth",nonce="'.uniqid().'",opaque="'.md5($this::realm).'"');break;}
@@ -163,37 +156,41 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 			header('WWW-Authenticate: Basic realm="My Realm'.$this::realm.'"');
 			header('HTTP/1.0 401 Unauthorized');break;}
 	    }
-
 	}
 	protected function encode($data){
-	
 	    switch ($this->responseEncoding){
 		case "XMLRDF":{}
-		case "XML":{echo tao_helpers_xml::from_array($data);break;}
-		case "JSON":{echo json_encode($data);};
+		case "text/xml":{}
+		case "application/xml":{echo tao_helpers_xml::from_array($data);break;}
+		case "application/json":{echo json_encode($data);}
+		default:{echo json_encode($data);}
 	    }
-
 	}
-
-
-	private function http_parse_headers( $header )
-	{
-        $retVal = array();
-        $fields = explode("\r\n", preg_replace('/\x0D\x0A[\x09\x20]+/', ' ', $header));
-        foreach( $fields as $field ) {
-            if( preg_match('/([^:]+): (.+)/m', $field, $match) ) {
-                $match[1] = preg_replace('/(?<=^|[\x09\x20\x2D])./e', 'strtoupper("\0")', strtolower(trim($match[1])));
-                if( isset($retVal[$match[1]]) ) {
-                    $retVal[$match[1]] = array($retVal[$match[1]], $match[2]);
-                } else {
-                    $retVal[$match[1]] = trim($match[2]);
-                }
-            }
-        }
-        return $retVal;
+	public static function	acceptHeader($supportedMimeTypes = null, $requestedMimeTypes = null) {
+	    $acceptTypes = Array ();
+	    $accept = strtolower($requestedMimeTypes);
+	    $accept = explode(',', $accept);
+	    foreach ($accept as $a) {
+		// the default quality is 1.
+		$q = 1;
+		// check if there is a different quality
+		if (strpos($a, ';q=')) {
+		    // divide "mime/type;q=X" into two parts: "mime/type" i "X"
+		    list($a, $q) = explode(';q=', $a);
+		}
+		// mime-type $a is accepted with the quality $q
+		// WARNING: $q == 0 means, that mime-type isn’t supported!
+		$acceptTypes[$a] = $q;
+	    }
+	    arsort($acceptTypes);
+	    if (!$supportedMimeTypes) return $AcceptTypes;
+	    $supportedMimeTypes = array_map('strtolower', (array)$supportedMimeTypes);
+	    // let’s check our supported types:
+	    foreach ($acceptTypes as $mime => $q) {
+	    if ($q && in_array(trim($mime), $supportedMimeTypes)) return trim($mime);
+	    }
+	    // no mime-type found
+	    return null;
 	}
-
-
-
 }
 ?>
