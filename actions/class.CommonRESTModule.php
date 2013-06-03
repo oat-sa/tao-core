@@ -158,6 +158,7 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    }
 	}
 	protected function encode($data){
+	    print_r($data);
 	    switch ($this->responseEncoding){
 		case "XMLRDF":{}
 		case "text/xml":{}
