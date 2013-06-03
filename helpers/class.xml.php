@@ -1,20 +1,36 @@
 <?php
 class tao_helpers_xml {
 /**
-* @param array
+* @param mixed
  * @return string xml
  */
-    public static function from_array($arr, $xml = NULL)
+    public static function from_array($obj)
     {
-        $first = $xml;
-        if($xml === NULL) $xml = new SimpleXMLElement('<root/>');
-        foreach ($arr as $k => $v)
-        {
-            is_array($v)
-                ? self::from_array($v, $xml->addChild(tao_helpers_Uri::encode($k)))
-                : $xml->addChild(tao_helpers_Uri::encode($k), $v);
-        }
-        return ($first === NULL) ? $xml->asXML() : $xml;
+	$str = "";
+	if(is_null($obj)) return "<null/>";
+	elseif(is_array($obj) or is_object($obj)) {
+
+	  //a list is a hash with 'simple' incremental keys
+	  $is_list = array_keys($obj) == array_keys(array_values($obj));
+	  if(!$is_list) {
+	    $str.= "<hash>";
+	    foreach($obj as $k=>$v)
+		$str.="<item key=\"$k\">".self::from_array($v)."</item>".PHP_EOL;
+		$str .= "</hash>";
+	  }
+	  else {
+	    $str.= "<list>";
+	    foreach($obj as $v)
+	      $str.="<item>".self::from_array($v)."</item>".PHP_EOL;
+	    $str .= "</list>";
+	    }
+    return $str;
+  } elseif(is_string($obj)) {
+    return htmlspecialchars($obj) != $obj ? "<![CDATA[$obj]]>" : $obj;
+  } elseif(is_scalar($obj))
+    return $obj;
+  else
+    throw new Exception("Unsupported type $obj");
     }
 /**
  *
