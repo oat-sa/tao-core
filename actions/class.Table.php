@@ -204,7 +204,8 @@ class tao_actions_Table extends tao_actions_TaoModule {
 	$strCellData = "";$currentDelimiter = array_shift($pieceDelimiters);
 	//return serialize($cellData);
 	if (is_array($cellData)) {
-	    $last = array_pop(array_keys($cellData));
+	    $arKeys = array_keys($cellData);
+	    $last = array_pop($arKeys);
 	    foreach ($cellData as $key => $cellDataPiece){
 		if (isset($cellDataPiece[0]) and (is_array($cellDataPiece[0]))) {
 		    $strCellData .= $this->cellDataToString($cellDataPiece, $pieceDelimiters);
