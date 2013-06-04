@@ -135,8 +135,8 @@ class tao_actions_Users extends tao_actions_CommonModule {
 			$lastName = empty($propValues[PROPERTY_USER_LASTNAME])
 				? '' : (string)current($propValues[PROPERTY_USER_LASTNAME]);
 				
-			$uiRes = count($propValues[PROPERTY_USER_UILG]) == 0 ? null : current($propValues[PROPERTY_USER_UILG]);
-			$dataRes = count($propValues[PROPERTY_USER_DEFLG]) == 0 ? null : current($propValues[PROPERTY_USER_DEFLG]);
+			$uiRes = empty($propValues[PROPERTY_USER_UILG]) ? null : current($propValues[PROPERTY_USER_UILG]);
+			$dataRes = empty($propValues[PROPERTY_USER_DEFLG]) ? null : current($propValues[PROPERTY_USER_DEFLG]);
 			
 			$cellData = array(
 				0	=>	(string)current($propValues[PROPERTY_USER_LOGIN]),

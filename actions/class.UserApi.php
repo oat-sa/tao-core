@@ -115,10 +115,10 @@ class tao_actions_UserApi extends tao_actions_RemoteServiceModule {
 		}
 		return array(
 			'id'			=> $user->getUri(),
-			'login'			=> isset($props[PROPERTY_USER_LOGIN]) ? (string)array_pop($props[PROPERTY_USER_LOGIN]) : '',
-			'first_name'	=> isset($props[PROPERTY_USER_FIRSTNAME]) ? (string)array_pop($props[PROPERTY_USER_FIRSTNAME]) : '',
-			'last_name'		=> isset($props[PROPERTY_USER_LASTNAME]) ? (string)array_pop($props[PROPERTY_USER_LASTNAME]) : '',
-			'email'			=> isset($props[PROPERTY_USER_MAIL]) ? (string)array_pop($props[PROPERTY_USER_MAIL]) : '',
+			'login'			=> !empty($props[PROPERTY_USER_LOGIN]) ? (string)array_pop($props[PROPERTY_USER_LOGIN]) : '',
+			'first_name'	=> !empty($props[PROPERTY_USER_FIRSTNAME]) ? (string)array_pop($props[PROPERTY_USER_FIRSTNAME]) : '',
+			'last_name'		=> !empty($props[PROPERTY_USER_LASTNAME]) ? (string)array_pop($props[PROPERTY_USER_LASTNAME]) : '',
+			'email'			=> !empty($props[PROPERTY_USER_MAIL]) ? (string)array_pop($props[PROPERTY_USER_MAIL]) : '',
 			'lang'			=> $lang,
 			'roles'			=> $roles 
 		);

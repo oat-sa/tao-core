@@ -86,10 +86,10 @@ class tao_actions_UserAdminApi extends tao_actions_RemoteServiceModule {
 				));
 			$list[] = array(
 				'id'	=> $user->getUri(),
-				'login'	=> isset($props[PROPERTY_USER_LOGIN])		? (string)array_pop($props[PROPERTY_USER_LOGIN])	: '',
-				'mail'	=> isset($props[PROPERTY_USER_MAIL])		? (string)array_pop($props[PROPERTY_USER_MAIL])		: '',
-				'first'	=> isset($props[PROPERTY_USER_FIRSTNAME])	? (string)array_pop($props[PROPERTY_USER_FIRSTNAME]): '',
-				'last'	=> isset($props[PROPERTY_USER_LASTNAME])	? (string)array_pop($props[PROPERTY_USER_LASTNAME])	: ''
+				'login'	=> !empty($props[PROPERTY_USER_LOGIN])		? (string)array_pop($props[PROPERTY_USER_LOGIN])	: '',
+				'mail'	=> !empty($props[PROPERTY_USER_MAIL])		? (string)array_pop($props[PROPERTY_USER_MAIL])		: '',
+				'first'	=> !empty($props[PROPERTY_USER_FIRSTNAME])	? (string)array_pop($props[PROPERTY_USER_FIRSTNAME]): '',
+				'last'	=> !empty($props[PROPERTY_USER_LASTNAME])	? (string)array_pop($props[PROPERTY_USER_LASTNAME])	: ''
 			);
 		}
 		return $this->returnSuccess(array('list' => $list));

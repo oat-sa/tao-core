@@ -128,10 +128,10 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 			new core_kernel_classes_Property(PROPERTY_USER_DEFLG)
 		));
 		$langs = array();
-		if (isset($props[PROPERTY_USER_UILG])) {
+		if (!empty($props[PROPERTY_USER_UILG])) {
 			$langs['ui_lang'] = current($props[PROPERTY_USER_UILG])->getUri();
 		}
-		if (isset($props[PROPERTY_USER_DEFLG])) {
+		if (!empty($props[PROPERTY_USER_DEFLG])) {
 			$langs['data_lang'] = current($props[PROPERTY_USER_DEFLG])->getUri();
 		}
 		return $langs; 
