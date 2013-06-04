@@ -41,8 +41,6 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    $this->headers = apache_request_headers();
 	    if ($this->hasHeader("Accept")){
 		$this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
-		
-		
 	    }
 	}
 	/*override to add header parameters*/
@@ -61,7 +59,7 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	public function hasHeader($string){
 	     if (isset($this->headers[$string])) return true; else return false;
 	}
-	/*"distribute" actions accroding to REST protocol*/
+	/*redistribute actions*/
 	public function index(){
 	    $uri = null;
 	   
@@ -96,7 +94,8 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    $returnValue = false;
 	    $userService = tao_models_classes_UserService::singleton();
 	    switch ($this->authMethod){
-		case "auth":{
+		
+		case "auth":{ // not yet working
 		    $digest = tao_helpers_Http::getDigest();
 		    $data = tao_helpers_Http::parseDigest($digest);
 		    //store the hash A1 as a property to be updated on register/changepassword
@@ -120,8 +119,6 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 		}
 	    }
 	}
-	
-	
 	private function requireLogin(){
 	    switch ($this->authMethod){
 		case "auth":{
@@ -132,7 +129,6 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 			header('HTTP/1.0 401 Unauthorized');break;}
 	    }
 	}
-
 	/**
 	 * returnSuccess and returnFailure should be used
 	 */
@@ -140,29 +136,25 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	switch ($this->responseEncoding){
 		case "XMLRDF":{}
 		case "text/xml":{}
-		case "application/xml":{echo tao_helpers_xml::from_array($data);break;}
+		case "application/xml":{echo tao_helpers_Xml::from_array($data);break;}
 		case "application/json":{echo json_encode($data);}
 		default:{echo json_encode($data);}
 	    }
 	}
-
 	protected function returnFailure($errormsg = '') {
 	    $data = array();
-	    $data['success']	= false;
-	    $data['error']	= true;
+	    $data['success']	=  false;
+	    $data['error']	=  true;
 	    $data['version']	= TAO_VERSION;
 	    return $this->encode($data);
 	    //return
 	}
-
 	protected function returnSuccess($rawData = array()) {
 	     $data = array();
 	    $data['success']	= true;
 	    $data['data']	= $rawData;
 	    $data['version']	= TAO_VERSION;
 	    return $this->encode($data);
-
 	}
-	
 }
 ?>
