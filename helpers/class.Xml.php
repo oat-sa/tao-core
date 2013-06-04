@@ -1,45 +1,41 @@
 <?php
 class tao_helpers_Xml {
-/**
+
+    /**
 * @param mixed
  * @return string xml
  */
     public static function from_array($obj)
-    {
-	$xmlStr = "";
-	switch (gettype($obj)){
-
-	    case "object":{
-		$xmlStr = "<object>".PHP_EOL;
-		foreach ($obj as $member=>$value){
-		    $valueType = gettype($value);
-		    if (in_array($valueType, array("array", "object"))) {
-			$xmlStr .= "<".$member.">".PHP_EOL.self::from_array($value).PHP_EOL."</".$member.">".PHP_EOL;
-		    }
-		    else {
-			$xmlStr .= "<".$member.">".$value."</".$member.">".PHP_EOL;
-		    }
-		}
-		$xmlStr .= "</object>".PHP_EOL;
-	    break;}
-	    case "array":{
-		$xmlStr = "<list>".PHP_EOL;
-		foreach ($obj as $member=>$value){
-		    $valueType = gettype($value);
-		    if (in_array($valueType, array("array", "object"))) {
-			$xmlStr .= "<".$member.">".PHP_EOL.self::from_array($value).PHP_EOL."</".$member.">".PHP_EOL;
-		    }
-		    else {
-			$xmlStr .= "<".$member.">".$value."</".$member.">".PHP_EOL;
-		    }
-		}
-		$xmlStr .= "</list>".PHP_EOL;
-	    break;}
-
-	}
-	return $xmlStr;
+    {	   
+	   
+	    $simpleElementXml = new SimpleXMLElement("<?xml version=\"1.0\"?><root></root>");
+	    self::array_to_xml($obj,$simpleElementXml);
+	    
+	    //for formatting ...
+	    $dom = dom_import_simplexml($simpleElementXml)->ownerDocument;
+	    $dom->formatOutput = true;
+	    return $dom->saveXML();
+	
     }
 
+    // function defination to convert array to xml
+    private static function array_to_xml($student_info, &$xml_student_info) {
+	foreach($student_info as $key => $value) {
+	    if(is_array($value) or (get_class($value)=="stdClass")) {
+		if(!is_numeric($key)){
+		    $subnode = $xml_student_info->addChild("$key");
+		    self::array_to_xml($value, $subnode);
+		}
+		else{
+		    $subnode = $xml_student_info->addChild("element");
+		    self::array_to_xml($value, $subnode);
+		}
+	    }
+	    else {
+		$xml_student_info->addChild("$key","$value");
+	    }
+	}
+    }
 
     /*
      * $str = "";
