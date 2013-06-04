@@ -40,7 +40,7 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    //$this->headers = HttpResponse::getRequestHeaders();
 	    $this->headers = apache_request_headers();
 	    if ($this->hasHeader("Accept")){
-		$this->responseEncoding = (self::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
+		$this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
 		
 		
 	    }
@@ -97,8 +97,8 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    $userService = tao_models_classes_UserService::singleton();
 	    switch ($this->authMethod){
 		case "auth":{
-		    $digest = $this->getDigest();
-		    $data = $this->http_digest_parse($digest);
+		    $digest = tao_helpers_Http::getDigest();
+		    $data = tao_helpers_Http::parseDigest($digest);
 		    //store the hash A1 as a property to be updated on register/changepassword
 		    $trialLogin = 'admin'; $trialPassword = 'admin';
 		    $A1 = md5($trialLogin . ':' . $this::realm . ':' . $trialPassword);
@@ -113,40 +113,15 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 		    if ($userService->isPasswordValid($_SERVER['PHP_AUTH_PW'], $user)) {
 			$this->currentUser = $user;
 			return $user;
-		} else {
+		    } else {
 			common_Logger::w('API login failed for user '.$_SERVER['PHP_AUTH_USER']);
 			return false;
 		}
 		}
 	    }
 	}
-	private function getDigest() {
-	    //seems apache-php is absorbing the header
-	    if (isset($_SERVER['PHP_AUTH_DIGEST'])) {
-		$digest = $_SERVER['PHP_AUTH_DIGEST'];
-	    // most other servers
-	    } elseif (isset($_SERVER['HTTP_AUTHENTICATION'])) {
-		    if (strpos(strtolower($_SERVER['HTTP_AUTHENTICATION']),'digest')===0)
-		      $digest = substr($_SERVER['HTTP_AUTHORIZATION'], 7);
-	    }	else return false;
-	    
-	    return $digest;
-	}
-	private function http_digest_parse($digest)
-	{
-	    // protect against missing data
-	    $needed_parts = array('nonce'=>1, 'nc'=>1, 'cnonce'=>1, 'qop'=>1, 'username'=>1, 'uri'=>1, 'response'=>1);
-	    $data = array();
-	    $keys = implode('|', array_keys($needed_parts));
-
-	    preg_match_all('@(' . $keys . ')=(?:([\'"])([^\2]+?)\2|([^\s,]+))@', $digest, $matches, PREG_SET_ORDER);
-
-	    foreach ($matches as $m) {
-		$data[$m[1]] = $m[3] ? $m[3] : $m[4];
-		unset($needed_parts[$m[1]]);
-	    }
-	    return $needed_parts ? false : $data;
-	}
+	
+	
 	private function requireLogin(){
 	    switch ($this->authMethod){
 		case "auth":{
@@ -157,9 +132,12 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 			header('HTTP/1.0 401 Unauthorized');break;}
 	    }
 	}
-	protected function encode($data){
-	    print_r($data);
-	    switch ($this->responseEncoding){
+
+	/**
+	 * returnSuccess and returnFailure should be used
+	 */
+	private function encode($data){
+	switch ($this->responseEncoding){
 		case "XMLRDF":{}
 		case "text/xml":{}
 		case "application/xml":{echo tao_helpers_xml::from_array($data);break;}
@@ -167,31 +145,24 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 		default:{echo json_encode($data);}
 	    }
 	}
-	public static function	acceptHeader($supportedMimeTypes = null, $requestedMimeTypes = null) {
-	    $acceptTypes = Array ();
-	    $accept = strtolower($requestedMimeTypes);
-	    $accept = explode(',', $accept);
-	    foreach ($accept as $a) {
-		// the default quality is 1.
-		$q = 1;
-		// check if there is a different quality
-		if (strpos($a, ';q=')) {
-		    // divide "mime/type;q=X" into two parts: "mime/type" i "X"
-		    list($a, $q) = explode(';q=', $a);
-		}
-		// mime-type $a is accepted with the quality $q
-		// WARNING: $q == 0 means, that mime-type isn’t supported!
-		$acceptTypes[$a] = $q;
-	    }
-	    arsort($acceptTypes);
-	    if (!$supportedMimeTypes) return $AcceptTypes;
-	    $supportedMimeTypes = array_map('strtolower', (array)$supportedMimeTypes);
-	    // let’s check our supported types:
-	    foreach ($acceptTypes as $mime => $q) {
-	    if ($q && in_array(trim($mime), $supportedMimeTypes)) return trim($mime);
-	    }
-	    // no mime-type found
-	    return null;
+
+	protected function returnFailure($errormsg = '') {
+	    $data = array();
+	    $data['success']	= false;
+	    $data['error']	= true;
+	    $data['version']	= TAO_VERSION;
+	    return $this->encode($data);
+	    //return
 	}
+
+	protected function returnSuccess($rawData = array()) {
+	     $data = array();
+	    $data['success']	= true;
+	    $data['data']	= $rawData;
+	    $data['version']	= TAO_VERSION;
+	    return $this->encode($data);
+
+	}
+	
 }
 ?>
