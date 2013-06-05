@@ -17,7 +17,6 @@ class tao_helpers_Xml {
 	    return $dom->saveXML();
 	
     }
-
     // function defination to convert array to xml
     private static function array_to_xml($student_info, &$xml_student_info) {
 	foreach($student_info as $key => $value) {
@@ -32,6 +31,7 @@ class tao_helpers_Xml {
 		}
 	    }
 	    else {
+		if (is_bool($value)) {$value = $value ? "true" : "false";}
 		$xml_student_info->addChild("$key","$value");
 	    }
 	}
