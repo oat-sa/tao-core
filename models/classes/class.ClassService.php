@@ -21,7 +21,7 @@
  */
 
 /**
- * This service represents the actions applicable to a class
+ * This service represents the actions applicable from a root class
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
@@ -42,10 +42,9 @@ abstract class tao_models_classes_ClassService
 	/**
      * Returns a specified resource using uri or the list of resrouces 
      * basically uses higher elvel services but may be customized here
-     * @param type $uri	if null all test takers are returned (slow)
+     * @param string $uri	if null all test takers are returned (slow)
      * @return array
      */
-
 	public function get($uri = null){
 	if (!(is_null($uri))) {
 		    $resource = new core_kernel_classes_Resource($uri);
@@ -60,6 +59,30 @@ abstract class tao_models_classes_ClassService
 		    return $resources;
 		}
 	}
+	public function delete($uri = null){
+	    //echo "OK";
+	    if (!(is_null($uri))) {
+		    //if the resource does not exist returns a failure ?
+		    $resource = new core_kernel_classes_Resource($uri);
+		    $resource->delete();
+		}else
+		{
+		    $resources = array();
+		    foreach ($this->getRootClass()->getInstances(true) as $resource) {
+			$resource->delete();
+		    }
+		    
+		}
+	}
+	public function create(string $label = null, $type = null){
+		$type = (isset($type)) ? new core_kernel_classes_Class($parameters[RDF_TYPE]) : $this->getRootClass();
+		return parent::createInstance( $type, $label);
+	}
+	
+	public function update($uri = null, $parameters = array()){
+
+	}
+
 
 	
 
