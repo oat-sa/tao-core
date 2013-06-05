@@ -32,7 +32,7 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 
 	abstract public function get($uri);
 	abstract public function put($uri);
-	abstract public function post($uri);
+	abstract public function post();
 	abstract public function delete($uri);
 
 	public function __construct(){
@@ -51,7 +51,6 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    if (isset($this->headers[$string])) return ($this->headers[$string]);
 	   //if (parent::hasRequestParameter())
 		return parent::getRequestParameter();
-
 	}
 	public function getHeader($string){
 	     if (isset($this->headers[$string])) return ($this->headers[$string]); else return false;
@@ -66,25 +65,16 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 		$uri = $this->getRequestParameter("uri");
 		if (!(common_Utils::isUri($uri))) {$this->returnFailure(1, "Not a valid uri");}
 	    }
-	   
 	    switch ($this->getRequestMethod()) {
 		case "GET":{$this->get($uri);break;}
+		//update
 		case "PUT":{$this->put($uri);break;}
+		//create
 		case "POST":{$this->post($uri);break;}
 		case "DELETE":{$this->delete($uri);break;}
 	    }
 	}
-	/* commodity as Http-auth (like the rest of the HTTP spec) is meant to be stateless
-	 * As per RFC2616 "Existing HTTP clients and user agents typically retain authentication information indefinitely. "
-	 * " is a question of getting the browser to forget the credential information, so that the next time the resource is requested, the username and password must be supplied again"
-	 * "you can't. Sorry."
-	 * Workaround used here for web browsers: provide an action taht sends a 401 and get the the web browsers to log in again
-	 * Programmatic agents should send credentials directly
-	 */
-	public function logout(){
-	    
-	    $this->requireLogin();
-	}
+	
 	public function _isAllowed(){
 	    //die("azeazeaze");
 		 if (!($this->isValidLogin())) {$this->requireLogin();die();}
@@ -153,6 +143,11 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 		default:{return json_encode($data);}
 	    }
 	}
+	/**
+	 *  
+	 * @param type $errorCode
+	 * @param type $errorMsg
+	 */
 	protected function returnFailure($errorCode = 500, $errorMsg = '') {
 	    $data = array();
 	    $data['success']	=  false;
@@ -169,6 +164,40 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    $data['version']	= TAO_VERSION;
 	    echo $this->encode($data);
 	    exit(0);
+	}
+	/*the specific rest controller should control its own specific and /or mandatory parameters depending on the type of resource
+	 */
+	public function getDefaultParameters(){
+	    $checkParameters = array(
+		"label" => array(RDFS_LABEL, false),
+		"comment" => array(RDFS_COMMENT,false)
+	    );
+	    return $this->getAvailableParameters($checkParameters);
+	}
+	
+	public function getAvailableParameters($checkParameters = null){
+		$effectiveParameters = array();
+		foreach ($checkParameters as $checkParameterShort =>$checkParameter){
+			$uriPredicate = $checkParameter[0];
+		     if ($this->hasRequestParameter($checkParameterShort)){
+			  
+			   $effectiveParameters[$uriPredicate] = $this->getRequestParameter($checkParameterShort);
+		       }
+		       else {if ($checkParameter[1]) {throw new Exception('Mandatory Parameter Missing:'.$checkParameterShort);}}
+		}
+		return $effectiveParameters;
+	}
+
+	/* commodity as Http-auth (like the rest of the HTTP spec) is meant to be stateless
+	 * As per RFC2616 "Existing HTTP clients and user agents typically retain authentication information indefinitely. "
+	 * " is a question of getting the browser to forget the credential information, so that the next time the resource is requested, the username and password must be supplied again"
+	 * "you can't. Sorry."
+	 * Workaround used here for web browsers: provide an action taht sends a 401 and get the the web browsers to log in again
+	 * Programmatic agents should send credentials directly
+	 */
+	public function logout(){
+
+	    $this->requireLogin();
 	}
 }
 ?>
