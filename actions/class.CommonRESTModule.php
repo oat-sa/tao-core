@@ -23,8 +23,8 @@
  */
 abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 
-	const realm = "azeaze";
-	private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml");
+	const realm = "TAO rest";
+	private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
 	private $authMethod = "Basic"; //{auth, Basic}
 	private $responseEncoding = "application/json";  //{application/json, text/xml, application/xml}
 	private $currentUser = null;
@@ -62,16 +62,28 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	/*redistribute actions*/
 	public function index(){
 	    $uri = null;
-	   
 	    if ($this->hasRequestParameter("uri")){
 		$uri = $this->getRequestParameter("uri");
+		if (!(common_Utils::isUri($uri))) {$this->returnFailure(1, "Not a valid uri");}
 	    }
+	   
 	    switch ($this->getRequestMethod()) {
 		case "GET":{$this->get($uri);break;}
 		case "PUT":{$this->put($uri);break;}
 		case "POST":{$this->post($uri);break;}
 		case "DELETE":{$this->delete($uri);break;}
 	    }
+	}
+	/* commodity as Http-auth (like the rest of the HTTP spec) is meant to be stateless
+	 * As per RFC2616 "Existing HTTP clients and user agents typically retain authentication information indefinitely. "
+	 * " is a question of getting the browser to forget the credential information, so that the next time the resource is requested, the username and password must be supplied again"
+	 * "you can't. Sorry."
+	 * Workaround used here for web browsers: provide an action taht sends a 401 and get the the web browsers to log in again
+	 * Programmatic agents should send credentials directly
+	 */
+	public function logout(){
+	    
+	    $this->requireLogin();
 	}
 	public function _isAllowed(){
 	    //die("azeazeaze");
@@ -94,7 +106,7 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    $returnValue = false;
 	    $userService = tao_models_classes_UserService::singleton();
 	    switch ($this->authMethod){
-		
+		//"Because of the way that Basic authentication is specified, your username and password must be verified every time you request a document from the server"
 		case "auth":{ // not yet working
 		    $digest = tao_helpers_Http::getDigest();
 		    $data = tao_helpers_Http::parseDigest($digest);
@@ -105,7 +117,7 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 		    $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
 		    return (($data['response'] == $valid_response));}
 		case "Basic":{
-		    if (!(isset($_SERVER['PHP_AUTH_USER']))) return false;
+		    if (!(isset($_SERVER['PHP_AUTH_USER'])) or ($_SERVER['PHP_AUTH_USER']=="")) return false;
 		    $userService = tao_models_classes_UserService::singleton();
 		    $user = $userService->getOneUser($_SERVER['PHP_AUTH_USER']);
 		    if (is_null($user)) {return false;}
@@ -125,7 +137,7 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 			header('HTTP/1.1 401 Unauthorized');
 			header('WWW-Authenticate: Digest realm="'.$this::realm.'",qop="auth",nonce="'.uniqid().'",opaque="'.md5($this::realm).'"');break;}
 		case "Basic":{
-			header('WWW-Authenticate: Basic realm="My Realm'.$this::realm.'"');
+			header('WWW-Authenticate: Basic realm="'.$this::realm.'"');
 			header('HTTP/1.0 401 Unauthorized');break;}
 	    }
 	}
@@ -136,25 +148,27 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	switch ($this->responseEncoding){
 		case "XMLRDF":{}
 		case "text/xml":{}
-		case "application/xml":{echo tao_helpers_Xml::from_array($data);break;}
-		case "application/json":{echo json_encode($data);}
-		default:{echo json_encode($data);}
+		case "application/xml":{return tao_helpers_Xml::from_array($data);break;}
+		case "application/json":{return json_encode($data);}
+		default:{return json_encode($data);}
 	    }
 	}
-	protected function returnFailure($errormsg = '') {
+	protected function returnFailure($errorCode = 500, $errorMsg = '') {
 	    $data = array();
 	    $data['success']	=  false;
-	    $data['error']	=  true;
+	    $data['errorCode']	=  $errorCode;
+	    $data['errorMsg']	=  $errorMsg;
 	    $data['version']	= TAO_VERSION;
-	    return $this->encode($data);
-	    //return
+	    echo $this->encode($data);
+	    exit(0);
 	}
 	protected function returnSuccess($rawData = array()) {
 	     $data = array();
 	    $data['success']	= true;
 	    $data['data']	= $rawData;
 	    $data['version']	= TAO_VERSION;
-	    return $this->encode($data);
+	    echo $this->encode($data);
+	    exit(0);
 	}
 }
 ?>
