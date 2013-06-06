@@ -77,7 +77,7 @@ class tao_helpers_Http {
 	    foreach ($acceptTypes as $mime => $q) {
 	    if ($q && in_array(trim($mime), $supportedMimeTypes)) return trim($mime);
 	    }
-	    // no mime-type found
+	    throw new common_exception_NotAcceptable();
 	    return null;
 	}
 }
