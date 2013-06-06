@@ -158,7 +158,7 @@ class tao_actions_RemoteServiceModule extends Module {
 		
 		$time = substr($token, 0, strpos($token, '_'));
 		if (!is_numeric($time)) {
-			common_Logger::w('invalid token '.$oken.' for user '.$userUri);
+			common_Logger::w('invalid token '.$token.' for user '.$userUri);
 			return null;
 		}
 		if (time() - $time > self::SESSION_DURATION) {
