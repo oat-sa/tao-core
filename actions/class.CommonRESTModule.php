@@ -40,7 +40,9 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    //$this->headers = HttpResponse::getRequestHeaders();
 	    $this->headers = apache_request_headers();
 	    if ($this->hasHeader("Accept")){
+		try { //may return a 406 not acceptable
 		$this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
+		} catch (common_exception_ClientException $e) {$this->returnFailure($e);};
 	    }
 	}
 	/*override to add header parameters*/
@@ -72,6 +74,9 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 		//create
 		case "POST":{$this->post($uri);break;}
 		case "DELETE":{$this->delete($uri);break;}
+		default:{
+			throw new common_exception_Forbidden($this->getRequestURI());
+		    ;}
 	    }
 	}
 	
@@ -90,6 +95,9 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 		//echo $ext; echo $module; echo $context->getActionName();die();
 		//not yet working in this context
 		//return tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action);
+
+		//throw new common_exception_Forbidden($this->getRequestURI());
+
 		return true;
 	}
 	private function isValidLogin(){
@@ -148,12 +156,16 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	 * @param type $errorCode
 	 * @param type $errorMsg
 	 */
-	protected function returnFailure($errorCode = 500, $errorMsg = '') {
+	protected function returnFailure(Exception $exception) {
+
+	    //400 Bad Request
+	    $exception->handle();
 	    $data = array();
 	    $data['success']	=  false;
-	    $data['errorCode']	=  $errorCode;
-	    $data['errorMsg']	=  $errorMsg;
+	    $data['errorCode']	=  $exception->getCode();
+	    $data['errorMsg']	=  $exception->getMessage();
 	    $data['version']	= TAO_VERSION;
+
 	    echo $this->encode($data);
 	    exit(0);
 	}
@@ -183,7 +195,7 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 			  
 			   $effectiveParameters[$uriPredicate] = $this->getRequestParameter($checkParameterShort);
 		       }
-		       else {if ($checkParameter[1]) {throw new Exception('Mandatory Parameter Missing:'.$checkParameterShort);}}
+		       else {if ($checkParameter[1]) {throw new common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());}}
 		}
 		return $effectiveParameters;
 	}
