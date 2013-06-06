@@ -31,9 +31,6 @@ include_once dirname(__FILE__).'/taoConnector/taoSessionRequiredException.php';
  */
 class ConnectorUserServiceTestCase extends UnitTestCase {
 	
-	/**
-	 * @var core_kernel_classes_Resource
-	 */
 	private $userUri;
 	private $UserData = array();
 	private $langLookup;
@@ -63,15 +60,6 @@ class ConnectorUserServiceTestCase extends UnitTestCase {
 		$this->userService = new taoUserService();
     	$this->assertIsA($this->userService, 'taoUserService');
 		
-/*
-		// set the password to a random value, incase cleanup fails
-		$this->testUserData[PROPERTY_USER_PASSWORD] = 'test'.rand();
-		
-		$data = $this->testUserData;
-		$data[PROPERTY_USER_PASSWORD] = md5($data[PROPERTY_USER_PASSWORD]);
-		$tmclass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-		$this->user = $tmclass->createInstanceWithProperties($data);
-		*/
 	}
     
     public function tearDown() {
@@ -84,11 +72,39 @@ class ConnectorUserServiceTestCase extends UnitTestCase {
     }
     
     public function testLogin() {
-    	
+
     	$this->assertFalse($this->userService->hasSession());
     	$data = $this->userService->startSession($this->UserData[PROPERTY_USER_LOGIN], 'wrong'.$this->UserData[PROPERTY_USER_PASSWORD]);
     	$this->assertFalse($data);
     	$this->assertFalse($this->userService->hasSession());
+    	try {
+    	    $roles = $this->userService->getRoles();
+    	    $this->fail('No taoConnector session present, but no exception on call to getRoles()');
+    	} catch(taoSessionRequiredException $e) {
+    		$this->pass('expected exception received');
+    	}
+    	
+    	// with verify
+    	$success = $this->userService->initRestSession(ROOT_URL, $this->userUri, 'invalidToken');
+    	$this->assertFalse($success);
+
+        try {
+    	    $roles = $this->userService->getRoles();
+    	    $this->fail('No taoConnector session present, but no exception on call to getRoles()');
+    	} catch(taoSessionRequiredException $e) {
+    		$this->pass('expected exception received');
+    	}
+    	
+    	// without verify
+    	$success = $this->userService->initRestSession(ROOT_URL, $this->userUri, 'invalidToken', true);
+    	$this->assertTrue($success);
+    	
+        try {
+    	    $roles = $this->userService->getRoles();
+    	    $this->fail('No valid taoConnector session present, but no exception on call to getRoles()');
+    	} catch(taoSessionRequiredException $e) {
+    		$this->pass('expected exception received');
+    	}
     	
     	$data = $this->userService->startSession($this->UserData[PROPERTY_USER_LOGIN], $this->UserData[PROPERTY_USER_PASSWORD]);
     	$this->assertNotEqual($data, false, 'Login failed during '.__FUNCTION__);
