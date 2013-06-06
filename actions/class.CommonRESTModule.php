@@ -159,7 +159,10 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	protected function returnFailure(Exception $exception) {
 
 	    //400 Bad Request
-	    $exception->handle();
+	   if (is_subclass_of($exception, "common_Exception")) {
+	   tao_actions_RESTExceptionHandler::handle($exception);
+	   }
+
 	    $data = array();
 	    $data['success']	=  false;
 	    $data['errorCode']	=  $exception->getCode();
