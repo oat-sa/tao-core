@@ -8,8 +8,8 @@ AsyncFileUpload = function(elt, options){
 	var elt = elt;
 
 	this.settings = {
-			"script"    : root_url + "/tao/File/upload",
-			"popupUrl"	: root_url + "/tao/File/htmlUpload",
+			"script"    : root_url + "tao/File/upload",
+			"popupUrl"	: root_url + "tao/File/htmlUpload",
 			"uploader"  : taobase_www + "js/jquery.uploadify/uploadify.swf",
 			"cancelImg" : taobase_www + "img/cancel.png",
 			"buttonImg"	: taobase_www + "img/browse_btn.png",
@@ -22,7 +22,7 @@ AsyncFileUpload = function(elt, options){
 			"folder"    : "/",
 			"onCancel"	: function(event, ID, fileObj, data){
 				var name = $('#' + $(elt).attr('id') + ID).find('span.fileObj:first').text();
-				$.post(root_url + "/tao/File/cancelUpload", {filename: name, folder: "/"});
+				$.post(root_url + "tao/File/cancelUpload", {filename: name, folder: "/"});
 				return true;
 			}
 	};
