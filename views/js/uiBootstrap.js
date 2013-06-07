@@ -79,7 +79,8 @@ define(['require', 'jquery', 'tao.tabs', root_url + 'filemanager/views/js/jquery
 					try{
 						// is it a common_AjaxResponse? Let's "ducktype"
 						var ajaxResponse = $.parseJSON(request.responseText);
-						if (	typeof ajaxResponse['success'] != 'undefined' &&
+						if (	ajaxResponse != null &&
+								typeof ajaxResponse['success'] != 'undefined' &&
 								typeof ajaxResponse['type'] != 'undefined' &&
 								typeof ajaxResponse['message'] != 'undefined' &&
 								typeof ajaxResponse['data'] != 'undefined'){
