@@ -15,8 +15,6 @@
 
 <script type="text/javascript">
 $(function(){
-	uiForm.initElements();
-
 	<?if(get_data('reload')):?>
 		window.location.reload();
 	<?endif?>

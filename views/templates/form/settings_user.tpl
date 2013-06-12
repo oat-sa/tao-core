@@ -14,8 +14,6 @@
 <script type="text/javascript">
 $(function(){
 	$("#section-meta").empty();
-	uiForm.initElements();
-
 	<?if(get_data('reload')):?>
 		window.location.reload();
 	<?endif?>

@@ -28,13 +28,11 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 					}
 
 					uiForm.initRendering();
+					uiForm.initElements();
 					if (uiForm.initGenerisFormPattern.test(testedUrl)) {
-						uiForm.initElements();
 						uiForm.initOntoForms();
-					} else if (uiForm.initFormPattern.test(testedUrl)) {
-						uiForm.initElements();
-					} else if(uiForm.initTranslationFormPattern.test(testedUrl)) {
-						uiForm.initElements();
+					}
+					if(uiForm.initTranslationFormPattern.test(testedUrl)) {
 						uiForm.initTranslationForm();
 					}
 				}

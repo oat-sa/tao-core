@@ -161,7 +161,5 @@ $(document).ready(function(){
 			);
 		}
 	});
-
-	uiForm.initElements();
 });
 </script>
