@@ -53,6 +53,7 @@ abstract class tao_models_classes_ClassService
 		{
 		    $resources = array();
 		    foreach ($this->getRootClass()->getInstances(true) as $resource) {
+			
 			$resources[] = $resource->getResourceDescription(true);
 			
 		    }

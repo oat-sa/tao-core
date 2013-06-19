@@ -30,6 +30,8 @@ class tao_actions_RESTExceptionHandler extends common_exception_ExceptionHandler
 	case "common_exception_NotImplemented":{header("HTTP/1.0 501 Not Implemented" );break;}
 	case "common_exception_PreConditionFailure":{header("HTTP/1.0 412 Precondition Failed" );break;}
 
+	case "common_exception_NoContent":{header("HTTP/1.0 204 No Content" );break;}
+
 	//throw this one
 	case "common_exception_teapotAprilFirst":{header("HTTP/1.0 418 I'm a teapot (RFC 2324)" );break;}
 	default: {header("HTTP/1.0 500 Internal Server Error" );}

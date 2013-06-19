@@ -5,7 +5,7 @@ class tao_helpers_Xml {
 * @param mixed
  * @return string xml
  */
-    public static function from_array($obj)
+    public static function from_array($obj =array())
     {	   
 	   
 	    $simpleElementXml = new SimpleXMLElement("<?xml version=\"1.0\"?><root></root>");
@@ -18,21 +18,22 @@ class tao_helpers_Xml {
 	
     }
     // function defination to convert array to xml
-    private static function array_to_xml($student_info, &$xml_student_info) {
-	foreach($student_info as $key => $value) {
-	    if(is_array($value) or (get_class($value)=="stdClass")) {
+    private static function array_to_xml($data = array(), &$xml_data) {
+	foreach($data as $key => $value) {
+
+	    if(is_array($value) or (is_object($value))) {
 		if(!is_numeric($key)){
-		    $subnode = $xml_student_info->addChild("$key");
+		    $subnode = $xml_data->addChild("$key");
 		    self::array_to_xml($value, $subnode);
 		}
 		else{
-		    $subnode = $xml_student_info->addChild("element");
+		    $subnode = $xml_data->addChild("element");
 		    self::array_to_xml($value, $subnode);
 		}
 	    }
 	    else {
 		if (is_bool($value)) {$value = $value ? "true" : "false";}
-		$xml_student_info->addChild("$key","$value");
+		$xml_data->addChild("$key","$value");
 	    }
 	}
     }
