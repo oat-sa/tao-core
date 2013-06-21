@@ -130,7 +130,7 @@ class tao_helpers_I18n
 		
         if (PHP_SAPI != 'cli') {    
     		tao_helpers_Scriptloader::addJsFiles(array(
-    			$baseURL . '/locales/' .self::$langCode. '/messages_po.js',
+    			$baseURL . 'locales/' .self::$langCode. '/messages_po.js',
     			TAOBASE_WWW . 'js/i18n.js',
     		));
         }
