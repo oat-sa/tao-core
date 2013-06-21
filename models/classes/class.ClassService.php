@@ -31,7 +31,6 @@
 abstract class tao_models_classes_ClassService
     extends tao_models_classes_GenerisService
 {
-
 	/**
 	 * Returns the root class of this service
 	 * 
@@ -75,18 +74,17 @@ abstract class tao_models_classes_ClassService
 		    
 		}
 	}
-	public function create(string $label = null, $type = null){
-		$type = (isset($type)) ? new core_kernel_classes_Class($parameters[RDF_TYPE]) : $this->getRootClass();
-		return parent::createInstance( $type, $label);
+	public function create($label = "", $type = null, $parameters= array()){
+		$type = (isset($type)) ? new core_kernel_classes_Class($type) : $this->getRootClass();
+		$resource = parent::createInstance( $type, $label);
+		$resource->setPropertiesValues($parameters);
+		return $resource;
 	}
 	
-	public function update($uri = null, $parameters = array()){
-
+	public function update($uri , $parameters = array()){
+		$resource = new core_kernel_classes_Resource($uri);
+		$resource->setPropertiesValues($parameters);
+		return $resource;
 	}
-
-
-	
-
 }
-
 ?>

@@ -240,7 +240,6 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 			    }
 		    }
 		}
-		print_r($effectiveParameters);
 		return $effectiveParameters;
 	}
 
