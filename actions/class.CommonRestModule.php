@@ -21,7 +21,7 @@
  * @package tao
  * @subpackage action
  */
-abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
+abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 
 	const realm = "TAO rest";
 	private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
@@ -40,24 +40,29 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    //$this->headers = HttpResponse::getRequestHeaders();
 	    $this->headers = apache_request_headers();
 	    if ($this->hasHeader("Accept")){
-		try { //may return a 406 not acceptable
-		$this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
-		} catch (common_exception_ClientException $e) {$this->returnFailure($e);};
+		try {
+		    $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
+		} 
+		//may return a 406 not acceptable
+		catch (common_exception_ClientException $e) {
+		    $this->returnFailure($e);
+
+		}
 	    }
 	}
 	/*override to add header parameters*/
 	public function hasRequestParameter($string){
-	    return parent::hasRequestParameter() || isset($this->headers[$string]);
+	    return parent::hasRequestParameter($string) || isset($this->headers[$string]);
 	}
 	public function getRequestParameter($string){
 	    if (isset($this->headers[$string])) return ($this->headers[$string]);
 	   //if (parent::hasRequestParameter())
-		return parent::getRequestParameter();
+		return parent::getRequestParameter($string);
 	}
-	public function getHeader($string){
+	protected function getHeader($string){
 	     if (isset($this->headers[$string])) return ($this->headers[$string]); else return false;
 	}
-	public function hasHeader($string){
+	protected function hasHeader($string){
 	     if (isset($this->headers[$string])) return true; else return false;
 	}
 	/*redistribute actions*/
@@ -65,8 +70,9 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    $uri = null;
 	    if ($this->hasRequestParameter("uri")){
 		$uri = $this->getRequestParameter("uri");
-		if (!(common_Utils::isUri($uri))) {$this->returnFailure(1, "Not a valid uri");}
+		if (!(common_Utils::isUri($uri))) {$this->returnFailure(new common_exception_NoContent($uri));}
 	    }
+
 	    switch ($this->getRequestMethod()) {
 		case "GET":{$this->get($uri);break;}
 		//update
@@ -118,7 +124,9 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 		    if (!(isset($_SERVER['PHP_AUTH_USER'])) or ($_SERVER['PHP_AUTH_USER']=="")) return false;
 		    $userService = tao_models_classes_UserService::singleton();
 		    $user = $userService->getOneUser($_SERVER['PHP_AUTH_USER']);
-		    if (is_null($user)) {return false;}
+		    if (is_null($user)) {
+			return false;
+		    }
 		    if ($userService->isPasswordValid($_SERVER['PHP_AUTH_PW'], $user)) {
 			$this->currentUser = $user;
 			return $user;
@@ -133,10 +141,12 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    switch ($this->authMethod){
 		case "auth":{
 			header('HTTP/1.1 401 Unauthorized');
-			header('WWW-Authenticate: Digest realm="'.$this::realm.'",qop="auth",nonce="'.uniqid().'",opaque="'.md5($this::realm).'"');break;}
+			header('WWW-Authenticate: Digest realm="'.$this::realm.'",qop="auth",nonce="'.uniqid().'",opaque="'.md5($this::realm).'"');break;
+		    }
 		case "Basic":{
 			header('WWW-Authenticate: Basic realm="'.$this::realm.'"');
-			header('HTTP/1.0 401 Unauthorized');break;}
+			header('HTTP/1.0 401 Unauthorized');break;
+		}
 	    }
 	}
 	/**
@@ -146,9 +156,15 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	switch ($this->responseEncoding){
 		case "XMLRDF":{}
 		case "text/xml":{}
-		case "application/xml":{return tao_helpers_Xml::from_array($data);break;}
-		case "application/json":{return json_encode($data);}
-		default:{return json_encode($data);}
+		case "application/xml":{
+		    return tao_helpers_Xml::from_array($data);break;
+		}
+		case "application/json":{
+		    return json_encode($data);
+		}
+		default:{
+		    return json_encode($data);
+		}
 	    }
 	}
 	/**
@@ -180,26 +196,51 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	    echo $this->encode($data);
 	    exit(0);
 	}
-	/*the specific rest controller should control its own specific and /or mandatory parameters depending on the type of resource
+	/**
+	 * handle default parameters
+	 * should be overriden to declare new and specific expected parameters
+	 *
+	 *
+	 * 
 	 */
-	public function getDefaultParameters(){
-	    $checkParameters = array(
+	protected function getExpectedParameters(){
+	    $expectedParameters = array(
 		"label" => array(RDFS_LABEL, false),
 		"comment" => array(RDFS_COMMENT,false)
 	    );
-	    return $this->getAvailableParameters($checkParameters);
+	    
+	    return array_merge($this->getCustomParameters(), $expectedParameters);
+	}
+	/**
+	 * Handle extra custom parameters, TODO ppl to be reviewed, need to find a more reliable way and easy for agents.
+	 */
+	private function getCustomParameters(){
+	    $customParameters = array();
+	   foreach ($this->headers as $apacheParamName => $apacheParamValue){
+	       if (common_Utils::isUri($apacheParamName)){
+		   $customParameters[$apacheParamName] = array(LOCAL_NAMESPACE.$apacheParamName, false);
+	       }
+	   }
+	   
+	   return $customParameters;
 	}
 	
-	public function getAvailableParameters($checkParameters = null){
+	protected function getParameters($strict = true){
+		$parameters = $this->getExpectedParameters();
+		print_r($parameters);
 		$effectiveParameters = array();
-		foreach ($checkParameters as $checkParameterShort =>$checkParameter){
+		foreach ($parameters as $checkParameterShort =>$checkParameter){
 			$uriPredicate = $checkParameter[0];
-		     if ($this->hasRequestParameter($checkParameterShort)){
-			  
+		    if ($this->hasRequestParameter($checkParameterShort)){
 			   $effectiveParameters[$uriPredicate] = $this->getRequestParameter($checkParameterShort);
-		       }
-		       else {if ($checkParameter[1]) {throw new common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());}}
+		    }
+		    else {
+			    if ($checkParameter[1] and $strict) {
+			       throw new common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());
+			    }
+		    }
 		}
+		print_r($effectiveParameters);
 		return $effectiveParameters;
 	}
 
@@ -208,10 +249,9 @@ abstract class tao_actions_CommonRESTModule extends tao_actions_CommonModule {
 	 * " is a question of getting the browser to forget the credential information, so that the next time the resource is requested, the username and password must be supplied again"
 	 * "you can't. Sorry."
 	 * Workaround used here for web browsers: provide an action taht sends a 401 and get the the web browsers to log in again
-	 * Programmatic agents should send credentials directly
+	 * Programmatic agents should send updated credentials directly
 	 */
 	public function logout(){
-
 	    $this->requireLogin();
 	}
 }
