@@ -42,14 +42,15 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    if ($this->hasHeader("Accept")){
 		try {
 		    $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
-		    header('Content-Type: '.$this->responseEncoding);
+		   
 		} 
 		//may return a 406 not acceptable
 		catch (common_exception_ClientException $e) {
 		    $this->returnFailure($e);
 		}
 	    }
-
+	    echo $this->responseEncoding;
+	     header('Content-Type: '.$this->responseEncoding);
 	    //check auth method requested
 	    /**/
 	}
@@ -82,7 +83,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		case "POST":{$this->post($uri);break;}
 		case "DELETE":{$this->delete($uri);break;}
 		default:{
-			throw new common_exception_Forbidden($this->getRequestURI());
+			throw new common_exception_BadRequest($this->getRequestURI());
 		    ;}
 	    }
 	}
@@ -123,6 +124,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		case "Basic":{
 		    if (!(isset($_SERVER['PHP_AUTH_USER'])) or ($_SERVER['PHP_AUTH_USER']=="")){
 			common_Logger::w('Rest (Basic) login failed for user (missing login/password)'.$_SERVER['PHP_AUTH_USER']);
+
 			return false;
 		    }
 		    $user = $userService->getOneUser($_SERVER['PHP_AUTH_USER']);
@@ -168,7 +170,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		    
 		}
 		case "application/xml":{
-		    return tao_helpers_Xml::from_array($data);break;
+		    return tao_helpers_Xml::from_array($data);
 		}
 		case "application/json":{
 		    return json_encode($data);
