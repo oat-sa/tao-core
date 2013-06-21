@@ -216,6 +216,7 @@ function initHelp(){
 	install.addHelp('hlp_tao_ini_suhosin_post_max_name_length', 'Make sure that your php.ini file contains an entry for suhosin.post.max_name_length and that its value is equal to 128.');
 	install.addHelp('hlp_tao_ini_suhosin_request_max_varname_length', 'Make sure that your php.ini file contains an entry for suhosin.request.max_varname_length and that its value is equal to 128.');
 	install.addHelp('hlp_tao_custom_mod_rewrite', 'The mod_rewrite module uses a rule-based rewriting engine, based on a PCRE regular-expression parser, to rewrite requested URLs on the fly. It must be enabled to make TAO running properly.');
+	install.addHelp('hlp_tao_custom_not_nginx', 'Since Nginx does not come with support for per directory rewrite rules, the rewrite rules will have to be specified in the server config. Please see http://forge.taotesting.com/projects/tao/wiki/Nginx for further help.');
 	install.addHelp('hlp_tao_custom_database_drivers', 'Database drivers supported by the TAO platform are MySQL and PostgreSQL.');
 	install.addHelp('hlp_tao_fs_root', 'The root directory of your installation must be readable and writable by the user running your web server.');
 	install.addHelp('hlp_tao_fs_generis_data_cache', "The '/generis/data/cache' directory of your installation must be readable and writable by the user running your web server.");
