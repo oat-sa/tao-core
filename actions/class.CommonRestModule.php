@@ -227,7 +227,6 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	
 	protected function getParameters($strict = true){
 		$parameters = $this->getExpectedParameters();
-		print_r($parameters);
 		$effectiveParameters = array();
 		foreach ($parameters as $checkParameterShort =>$checkParameter){
 			$uriPredicate = $checkParameter[0];
