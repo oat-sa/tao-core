@@ -23,10 +23,10 @@
  */
 abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 
-	const realm = "TAO rest";
+	const realm = GENERIS_INSTANCE_NAME;
 	private $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
 	private $authMethod = "Basic"; //{auth, Basic}
-	private $responseEncoding = "application/json";  //{application/json, text/xml, application/xml}
+	private $responseEncoding = "application/json";  //the default content type if nothing specified in the Accept {application/json, text/xml, application/xml}
 	private $currentUser = null;
 	private $headers = null;
 
@@ -42,15 +42,17 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    if ($this->hasHeader("Accept")){
 		try {
 		    $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
+		    header('Content-Type: '.$this->responseEncoding);
 		} 
 		//may return a 406 not acceptable
 		catch (common_exception_ClientException $e) {
 		    $this->returnFailure($e);
-
 		}
 	    }
+
+	    //check auth method requested
+	    /**/
 	}
-	/*override to add header parameters*/
 	public function hasRequestParameter($string){
 	    return parent::hasRequestParameter($string) || isset($this->headers[$string]);
 	}
@@ -72,7 +74,6 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		$uri = $this->getRequestParameter("uri");
 		if (!(common_Utils::isUri($uri))) {$this->returnFailure(new common_exception_NoContent($uri));}
 	    }
-
 	    switch ($this->getRequestMethod()) {
 		case "GET":{$this->get($uri);break;}
 		//update
@@ -85,33 +86,31 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		    ;}
 	    }
 	}
-	
 	public function _isAllowed(){
-	    //die("azeazeaze");
-		 if (!($this->isValidLogin())) {$this->requireLogin();die();}
+		 if (!($this->isValidLogin())) {
+		     $this->requireLogin();
+		 }
 		$context = Context::getInstance();
 		$ext	= $context->getExtensionName();
 		$module = $context->getModuleName();
+		
 		switch ($this->getRequestMethod()) {
 		case "GET":{$action = "get";break;}
 		case "PUT":{$action = "put";;break;}
 		case "POST":{$action = "post";break;}
 		case "DELETE":{$action = "delete";;break;}
 		}
-		//echo $ext; echo $module; echo $context->getActionName();die();
-		//not yet working in this context
-		//return tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action);
-
+		return tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action);
 		//throw new common_exception_Forbidden($this->getRequestURI());
-
-		return true;
 	}
 	private function isValidLogin(){
 	    $returnValue = false;
 	    $userService = tao_models_classes_UserService::singleton();
+	    
 	    switch ($this->authMethod){
 		//"Because of the way that Basic authentication is specified, your username and password must be verified every time you request a document from the server"
 		case "auth":{ // not yet working
+		    throw new common_exception_NotImplemented();
 		    $digest = tao_helpers_Http::getDigest();
 		    $data = tao_helpers_Http::parseDigest($digest);
 		    //store the hash A1 as a property to be updated on register/changepassword
@@ -119,21 +118,25 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		    $A1 = md5($trialLogin . ':' . $this::realm . ':' . $trialPassword);
 		    $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
 		    $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
-		    return (($data['response'] == $valid_response));}
+		    return (($data['response'] == $valid_response));
+		}
 		case "Basic":{
-		    if (!(isset($_SERVER['PHP_AUTH_USER'])) or ($_SERVER['PHP_AUTH_USER']=="")) return false;
-		    $userService = tao_models_classes_UserService::singleton();
-		    $user = $userService->getOneUser($_SERVER['PHP_AUTH_USER']);
-		    if (is_null($user)) {
+		    if (!(isset($_SERVER['PHP_AUTH_USER'])) or ($_SERVER['PHP_AUTH_USER']=="")){
+			common_Logger::w('Rest (Basic) login failed for user (missing login/password)'.$_SERVER['PHP_AUTH_USER']);
 			return false;
 		    }
-		    if ($userService->isPasswordValid($_SERVER['PHP_AUTH_PW'], $user)) {
+		    $user = $userService->getOneUser($_SERVER['PHP_AUTH_USER']);
+		    if (is_null($user)) {
+			common_Logger::w('Rest (Basic) login failed for user (wrong login)'.$_SERVER['PHP_AUTH_USER']);
+			return false;
+		    }
+		    if ($userService->loginUser($_SERVER['PHP_AUTH_USER'], md5($_SERVER['PHP_AUTH_PW']))) {
 			$this->currentUser = $user;
 			return $user;
 		    } else {
-			common_Logger::w('API login failed for user '.$_SERVER['PHP_AUTH_USER']);
+			common_Logger::w('Rest (basic) login failed for user (wrong credentials)'.$_SERVER['PHP_AUTH_USER']);
 			return false;
-		}
+		    }
 		}
 	    }
 	}
@@ -141,21 +144,29 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    switch ($this->authMethod){
 		case "auth":{
 			header('HTTP/1.1 401 Unauthorized');
-			header('WWW-Authenticate: Digest realm="'.$this::realm.'",qop="auth",nonce="'.uniqid().'",opaque="'.md5($this::realm).'"');break;
+			header('WWW-Authenticate: Digest realm="'.$this::realm.'",qop="auth",nonce="'.uniqid().'",opaque="'.md5($this::realm).'"');
+			break;
 		    }
 		case "Basic":{
+			header('HTTP/1.0 401 Unauthorized');
 			header('WWW-Authenticate: Basic realm="'.$this::realm.'"');
-			header('HTTP/1.0 401 Unauthorized');break;
+			break;
 		}
 	    }
+	    exit(0);
 	}
 	/**
 	 * returnSuccess and returnFailure should be used
 	 */
 	private function encode($data){
 	switch ($this->responseEncoding){
-		case "XMLRDF":{}
-		case "text/xml":{}
+		case "application/rdf+xml":{
+		    throw new common_exception_NotImplemented();
+		    break;
+		}
+		case "text/xml":{
+		    
+		}
 		case "application/xml":{
 		    return tao_helpers_Xml::from_array($data);break;
 		}
@@ -193,6 +204,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    $data['success']	= true;
 	    $data['data']	= $rawData;
 	    $data['version']	= TAO_VERSION;
+	   
 	    echo $this->encode($data);
 	    exit(0);
 	}
