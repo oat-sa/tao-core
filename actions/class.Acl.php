@@ -67,14 +67,18 @@ class tao_actions_Acl extends tao_actions_CommonModule {
 			$extManager = common_ext_ExtensionsManager::singleton();
 			$extensions = $extManager->getInstalledExtensions();
 			$accessService = tao_models_classes_funcACL_AccessService::singleton();
-			
+
+			$extAccess = tao_helpers_funcACL_Cache::retrieveExtensions();
 			foreach ($extensions as $extId => $ext){
+				$extAclUri = $accessService->makeEMAUri($extId);
 				$atLeastOneAccess = false;
+				$allAccess = in_array($role->getUri(), $extAccess[$extAclUri]);
 				
 				$profile[$extId] = array('modules' => array(), 
 										 'has-access' => false,
-										 'has-allaccess' => false, 
-										 'uri' => $accessService->makeEMAUri($extId));
+										 'has-allaccess' => $allAccess, 
+										 'uri' => $extAclUri
+				);
 				
 				foreach (tao_helpers_funcACL_Model::getModules($extId) as $modUri => $module){
 					$moduleAccess = tao_helpers_funcACL_funcACL::getReversedAccess($module);
@@ -100,7 +104,7 @@ class tao_actions_Acl extends tao_actions_CommonModule {
 					}
 				}
 				
-				if (true === $atLeastOneAccess){
+				if (!$allAccess && $atLeastOneAccess){
 					$profile[$extId]['has-access'] = true;
 				}
 			}

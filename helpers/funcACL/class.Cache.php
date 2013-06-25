@@ -73,8 +73,22 @@ class tao_helpers_funcACL_Cache
      */
     const SERIAL_PREFIX_MODULE = 'acl';
 
+    /**
+     * Serial to store extensions access to
+     * 
+     * @var string
+     */
+    const SERIAL_EXTENSIONS = 'acl_extensions';
     // --- OPERATIONS ---
 
+    /**
+     * Returns the funcACL Cache implementation
+     * @return common_cache_Cache
+     */
+    private static function getCacheImplementation(){
+    	return common_cache_FileCache::singleton();
+    }
+    
     /**
      * Short description of method cacheExtension
      *
@@ -111,7 +125,7 @@ class tao_helpers_funcACL_Cache
         $memberOfProperty = new core_kernel_classes_Property(PROPERTY_ACL_ACTION_MEMBEROF);
         
         $toCache = array('module' => array(), 'actions' => array());
-        
+
         // retrive roles that grant that module.
         $filters = array($grantedModulesProperty->getUri() => $module->getUri());
         $options = array('recursive' => true, 'like' => false);
@@ -146,8 +160,7 @@ class tao_helpers_funcACL_Cache
         	}
         }
         
-        $fileCache = common_cache_FileCache::singleton();
-        $fileCache->put($toCache, $serial);
+        self::getCacheImplementation()->put($toCache, $serial);
         // section 10-13-1-85--1d76564e:13ca4d5068d:-8000:0000000000003C67 end
     }
 
@@ -165,8 +178,7 @@ class tao_helpers_funcACL_Cache
 
         // section 10-13-1-85--1d76564e:13ca4d5068d:-8000:0000000000003C6D begin
         try{
-        	$fileCache = common_cache_FileCache::singleton();
-        	$returnValue = $fileCache->get(self::buildModuleSerial($module));
+        	$returnValue = self::getCacheImplementation()->get(self::buildModuleSerial($module));
         }
         catch (common_exception_FileSystemError $e){
         	$msg = "Module cache for ACL not found.";
@@ -178,6 +190,45 @@ class tao_helpers_funcACL_Cache
     }
 
     /**
+     * 
+     * Enter description here ...
+     * @return array
+     */
+    public static function retrieveExtensions()
+    {
+        $returnValue = array();
+        try{
+        	$returnValue = self::getCacheImplementation()->get(self::SERIAL_EXTENSIONS);
+        } catch (common_cache_NotFoundException $e){
+        	// cache not found, building
+        	$roleClass = new core_kernel_classes_Class(CLASS_ROLE);
+        	$extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
+        	foreach ($extensions as $ext) {
+	        	$aclExtUri = tao_models_classes_funcACL_AccessService::singleton()->makeEMAUri($ext->getID());
+	        	$returnValue[$aclExtUri] = array();
+		        $roles = $roleClass->searchInstances(array(
+		        	PROPERTY_ACL_GRANTACCESS => $aclExtUri
+		        ), array(
+		        	'recursive' => true,
+		        	'like' => false
+		        ));
+		        foreach ($roles as $grantedRole){
+		        	$returnValue[$aclExtUri][] = $grantedRole->getUri();
+		        }
+        	}
+        	self::getCacheImplementation()->put($returnValue, self::SERIAL_EXTENSIONS);
+        }
+        return (array) $returnValue;
+    }
+
+    /**
+     * flushes the cached extension acl roles
+     */
+    public static function flushExtensionCache(){
+    	self::getCacheImplementation()->remove(self::SERIAL_EXTENSIONS);
+    }
+    
+    /**
      * Short description of method flush
      *
      * @access public
@@ -187,6 +238,7 @@ class tao_helpers_funcACL_Cache
     public static function flush()
     {
         // section 10-13-1-85--1d76564e:13ca4d5068d:-8000:0000000000003C70 begin
+        self::flushExtensionCache();
     	$cacheDir = GENERIS_CACHE_PATH;
         $matching = self::SERIAL_PREFIX_MODULE;
         if (@is_readable($cacheDir) && @is_dir($cacheDir)){
@@ -243,8 +295,7 @@ class tao_helpers_funcACL_Cache
     public static function removeModule( core_kernel_classes_Resource $module)
     {
         // section 10-13-1-85--1d76564e:13ca4d5068d:-8000:0000000000003C7C begin
-        $fileCache = common_cache_FileCache::singleton();
-        $fileCache->remove(self::buildModuleSerial($module));
+        self::getCacheImplementation()->remove(self::buildModuleSerial($module));
         // section 10-13-1-85--1d76564e:13ca4d5068d:-8000:0000000000003C7C end
     }
 

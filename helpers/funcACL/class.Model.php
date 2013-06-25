@@ -76,6 +76,7 @@ class tao_helpers_funcACL_Model
         // section 127-0-1-1--1875a6a1:137e65726c7:-8000:0000000000003B19 begin
     	common_Logger::i('Spawning Module/Action model for extension '.$extension->getID());
 		
+    	$aclExt = self::addExtension($extension->getID());
     	foreach ($extension->getAllModules() as $moduleClass) {
 			//Introspection, get public method
 			try {
@@ -88,9 +89,9 @@ class tao_helpers_funcACL_Model
 				}
 				if (count($actions) > 0) {
 					$moduleName = substr($moduleClass, strrpos($moduleClass, '_') + 1);
-					$module = self::addModule($extension->getID(), $moduleName);
+					$aclModule = self::addModule($aclExt, $moduleName);
 					foreach ($actions as $action) {
-						self::addAction($module, $action);
+						self::addAction($aclModule, $action);
 					}
 				}
 			}
@@ -111,13 +112,44 @@ class tao_helpers_funcACL_Model
      * @param  string name
      * @return core_kernel_classes_Resource
      */
-    private static function addModule($extension, $name)
+    private static function addExtension($name)
+    {
+        $returnValue = null;
+
+        $moduleClass = new core_kernel_classes_Class(CLASS_ACL_EXTENSION);
+        $specialURI = FUNCACL_NS.'#'.'e_'.$name;
+        $resource = new core_kernel_classes_Resource($specialURI);
+        if ($resource->exists()) {
+        	$returnValue = $resource;
+        } else {
+	        $returnValue = $moduleClass->createInstance($name,'',$specialURI);
+	        $returnValue->setPropertiesValues(array(
+	        	PROPERTY_ACL_EXTENSION_ID			=> $name
+	        ));
+        }
+        
+        return $returnValue;
+    }
+    
+    /**
+     * adds a module to the ontology
+     * and grant access to the role taomanager
+     *
+     * @access private
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @param  string extension
+     * @param  string name
+     * @return core_kernel_classes_Resource
+     */
+    private static function addModule(core_kernel_classes_Resource $extension, $name)
     {
         $returnValue = null;
 
         // section 127-0-1-1--1875a6a1:137e65726c7:-8000:0000000000003B1C begin
         $moduleClass = new core_kernel_classes_Class(CLASS_ACL_MODULE);
-        $specialURI = FUNCACL_NS.'#'.'m_'.$extension.'_'.$name;
+        list($prefix, $extensionName) = explode('_', substr($extension->getUri(), strrpos($extension->getUri(), '#')));
+        
+        $specialURI = FUNCACL_NS.'#'.'m_'.$extensionName.'_'.$name;
         $returnValue = $moduleClass->createInstance($name,'',$specialURI);
          $returnValue->setPropertiesValues(array(
         	PROPERTY_ACL_MODULE_EXTENSION	=> $extension,
@@ -127,6 +159,7 @@ class tao_helpers_funcACL_Model
 
         return $returnValue;
     }
+
 
     /**
      * adds an action to the ontology
@@ -157,6 +190,15 @@ class tao_helpers_funcACL_Model
     }
 
     /**
+     * helper for getModules
+     * @return Resource the acl representation of the extension
+     */
+    private static function getAclExtension($extensionID) {
+    	$specialURI = FUNCACL_NS.'#'.'e_'.$extensionID;
+        return new core_kernel_classes_Resource($specialURI);
+    }
+    
+    /**
      * returns the modules of an extension from the ontology
      *
      * @access public
@@ -171,7 +213,7 @@ class tao_helpers_funcACL_Model
         // section 127-0-1-1--1ccb663f:138d70cdc8b:-8000:0000000000003B59 begin
         $moduleClass = new core_kernel_classes_Class(CLASS_ACL_MODULE);
 		$returnValue = $moduleClass->searchInstances(array(
-			PROPERTY_ACL_MODULE_EXTENSION	=> $extensionID
+			PROPERTY_ACL_MODULE_EXTENSION	=> self::getAclExtension($extensionID)
 		), array( 
 			'like'	=> false
 		));

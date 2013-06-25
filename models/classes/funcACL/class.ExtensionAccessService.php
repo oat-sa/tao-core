@@ -95,12 +95,8 @@ class tao_models_classes_funcACL_ExtensionAccessService
 		// Clean the role about this extension.
 		$this->remove($role->getUri(), $accessUri);
 
-		$moduleAccessService = tao_models_classes_funcACL_ModuleAccessService::singleton();
-		foreach ($modules as $m){
-			$moduleAccessService->add($role->getUri(), $m->getUri());
-		}
-		
-		tao_helpers_funcACL_Cache::cacheExtension($extension);
+		$role->setPropertyValue(new core_kernel_classes_Property(PROPERTY_ACL_GRANTACCESS), $accessUri);
+		tao_helpers_funcACL_Cache::flushExtensionCache();
         // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A1E end
     }
 
@@ -119,11 +115,14 @@ class tao_models_classes_funcACL_ExtensionAccessService
 		$uri = explode('#', $accessUri);
 		list($type, $extId) = explode('_', $uri[1]);
 		
+		// Remove the access to the module for this role.
 		$extManager = common_ext_ExtensionsManager::singleton();
 		$extension = $extManager->getExtensionById($extId);
 		$role = new core_kernel_classes_Resource($roleUri);
+		
+		$role->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_GRANTACCESS), array('pattern' => $accessUri));
+		
 		$moduleAccessProperty = new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS);
-
 		$moduleAccessService = tao_models_classes_funcACL_ModuleAccessService::singleton();
 		$grantedModules = $role->getPropertyValues($moduleAccessProperty);
 		
@@ -136,9 +135,8 @@ class tao_models_classes_funcACL_ExtensionAccessService
 				$moduleAccessService->remove($role->getUri(), $gM->getUri());
 			}
 		}
-		
-		tao_helpers_funcACL_Cache::cacheExtension($extension);
-        // section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A22 end
+		tao_helpers_funcACL_Cache::flushExtensionCache();
+		// section 127-0-1-1--43b2a85f:1372be1e0be:-8000:0000000000003A22 end
     }
 
 } /* end of class tao_models_classes_funcACL_ExtensionAccessService */

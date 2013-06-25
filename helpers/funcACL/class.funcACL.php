@@ -130,9 +130,20 @@ class tao_helpers_funcACL_funcACL
 		
 		//Find the Module and, if necessary, the Action
 		$accessService = tao_models_classes_funcACL_AccessService::singleton();
+		$extensionUri = $accessService->makeEMAUri($extension);
 		$moduleUri = $accessService->makeEMAUri($extension, $module);
 		$actionUri = $accessService->makeEMAUri($extension, $module, $action);
 		$moduleResource = new core_kernel_classes_Resource($moduleUri);
+		
+		
+		$extAccess = tao_helpers_funcACL_Cache::retrieveExtensions();
+		//Test if we have a role giving access to the extension.
+		foreach ($roles as $r){
+			if (in_array($r->getUri(), $extAccess[$extensionUri])){
+				$returnValue = true;
+				break;
+			}
+		}
 		
 		//Get the access list (reversed)
 		$moduleAccess = tao_helpers_funcACL_funcACL::getReversedAccess($moduleResource);
@@ -211,8 +222,15 @@ class tao_helpers_funcACL_funcACL
 		$roles = new core_kernel_classes_Class(CLASS_ROLE);
 
 		foreach ($roles->getInstances(true) as $role) {
+			$extensionAccess = $role->getPropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_GRANTACCESS));
 			$moduleAccess = $role->getPropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS));
 			$actionAccess = $role->getPropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS));
+			foreach ($extensionAccess as $extensionURI) {
+				if (!isset($reverse_access[$extensionURI])) {
+					$reverse_access[$extensionURI] =  array('modules' => array(), 'roles' => array());
+				}
+				$reverse_access[$extensionURI]['roles'][] = $role->getUri();
+			}
 			foreach ($moduleAccess as $moduleURI) {
 				$moduleRessource = new core_kernel_classes_Resource($moduleURI);
 				$arr = $moduleRessource->getPropertiesValues(array(
@@ -226,12 +244,12 @@ class tao_helpers_funcACL_funcACL
 				$ext = (string)current($arr[PROPERTY_ACL_MODULE_EXTENSION]);
 				$mod = (string)current($arr[PROPERTY_ACL_MODULE_ID]);
 				if (!isset($reverse_access[$ext])) {
-					$reverse_access[$ext] = array();
+					$reverse_access[$ext] = array('modules' => array(), 'roles' => array());
 				}
-				if (!isset($reverse_access[$ext][$mod])) {
-					$reverse_access[$ext][$mod] = array('actions' => array(), 'roles' => array());
+				if (!isset($reverse_access[$ext]['modules'][$mod])) {
+					$reverse_access[$ext]['modules'][$mod] = array('actions' => array(), 'roles' => array());
 				}
-				$reverse_access[$ext][$mod]['roles'][] = $role->getUri();
+				$reverse_access[$ext]['modules'][$mod]['roles'][] = $role->getUri();
 			}
 			foreach ($actionAccess as $actionURI) {
 				$actionRessource = new core_kernel_classes_Resource($actionURI);
@@ -253,12 +271,12 @@ class tao_helpers_funcACL_funcACL
 				$ext = (string)current($arr[PROPERTY_ACL_MODULE_EXTENSION]);
 				$mod = (string)current($arr[PROPERTY_ACL_MODULE_ID]);
 				if (!isset($reverse_access[$ext])) {
-					$reverse_access[$ext] = array();
+					$reverse_access[$ext] = array('modules' => array(), 'roles' => array());
 				}
-				if (!isset($reverse_access[$ext][$mod])) {
-					$reverse_access[$ext][$mod] = array('actions' => array(), 'roles' => array());
+				if (!isset($reverse_access[$ext]['modules'][$mod])) {
+					$reverse_access[$ext]['modules'][$mod] = array('actions' => array(), 'roles' => array());
 				}
-				if (!isset($reverse_access[$ext][$mod][$act])) {
+				if (!isset($reverse_access[$ext]['modules'][$mod][$act])) {
 					$reverse_access[$ext][$mod]['actions'][$act] = array();
 				}
 				$reverse_access[$ext][$mod]['actions'][$act][] = $role->getUri();
@@ -306,8 +324,8 @@ class tao_helpers_funcACL_funcACL
 		$mod = $uri[2];
 		$act = $uri[3];
 		$cache = self::getRolesByActions();
-		if (isset($cache[$ext][$mod]['actions'][$act])) {
-			foreach ($cache[$ext][$mod]['actions'][$act] as $role) {
+		if (isset($cache[$ext]['modules'][$mod]['actions'][$act])) {
+			foreach ($cache[$ext]['modules'][$mod]['actions'][$act] as $role) {
 				$returnValue[] = new core_kernel_classes_Resource($role);
 			}
 		}
@@ -335,8 +353,8 @@ class tao_helpers_funcACL_funcACL
 		$ext = $uri[1];
 		$mod = $uri[2];
 		$cache = self::getRolesByActions();
-		if (isset($cache[$ext][$mod]['roles'])) {
-			foreach ($cache[$ext][$mod]['roles'] as $role) {
+		if (isset($cache[$ext]['modules'][$mod]['roles'])) {
+			foreach ($cache[$ext]['modules'][$mod]['roles'] as $role) {
 				$returnValue[] = new core_kernel_classes_Resource($role);
 			}
 		}
