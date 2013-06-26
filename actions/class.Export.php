@@ -32,38 +32,6 @@
  */
 class tao_actions_Export extends tao_actions_CommonModule {
 
-
-	/**
-	 * to be overriden if needed
-	 * @var tao_actions_form_Import
-	 */
-	protected $formContainer;
-
-	/**
-	 * @var array the data to set to the formContainer
-	 */
-	protected $formData = array();
-
-	/**
-	 * Constructor performs initializations actions
-	 * @return void
-	 */
-	public function __construct(){
-		parent::__construct();
-		$this->formData['currentExtension'] = Context::getInstance()->getExtensionName();
-		if($this->hasRequestParameter('classUri')){
-			if(trim($this->getRequestParameter('classUri')) != ''){
-				$this->formData['class'] = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
-			}
-		}
-		if($this->hasRequestParameter('uri') && $this->hasRequestParameter('classUri')){
-			if(trim($this->getRequestParameter('uri')) != ''){
-				$this->formData['instance'] = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
-			}
-		}
-		$this->formContainer = new tao_actions_form_Export($this->formData);
-	}
-
 	/**
 	 * get the path to save and retrieve the exported files regarding the current extension
 	 * @return string the path
@@ -83,129 +51,93 @@ class tao_actions_Export extends tao_actions_CommonModule {
 		return $exportPath;
 	}
 
-	/**
-	 * The main action.
-	 * Display a form to select the export format
-	 * @return void
-	 */
 	public function index(){
-		$myForm = $this->formContainer->getForm();
-		//if the form is submited and valid
-		if ($myForm->isSubmited()) {
-			if ($myForm->isValid()) {
-				//import method for the given format
-				if (!is_null($myForm->getValue('format'))) {
-					$exportMethod = 'export'.strtoupper($myForm->getValue('format')).'Data';
-					if (method_exists($this, $exportMethod)) {
-						//apply the matching method
-						$this->$exportMethod($myForm->getValues());
-					}
+		$formData = array();
+		if($this->hasRequestParameter('classUri')){
+			if(trim($this->getRequestParameter('classUri')) != ''){
+				$formData['class'] = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+			}
+		}
+		if($this->hasRequestParameter('uri') && $this->hasRequestParameter('classUri')){
+			if(trim($this->getRequestParameter('uri')) != ''){
+				$formData['instance'] = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+			}
+		}
+		
+		if (!empty($formData)) {
+			$formFactory = new tao_actions_form_ExportChooser($this->getAvailableExportHandlers(), $formData);
+			$myForm = $formFactory->getForm();
+			
+			//if the form is submited and valid
+			if ($myForm->isSubmited()) {
+				if ($myForm->isValid()) {
+					$exporter = $this->getCurrentExporter();
+					$expForm = $exporter->getForm($formData);
+					
+					$formatElt = tao_helpers_form_FormFactory::getElement('exportHandler', 'Hidden');
+					$formatElt->setValue(get_class($exporter));
+					$expForm->addElement($formatElt);
+					
+					$this->setData('exportForm', $expForm->render());
+				}
+			}
+			$this->setData('myForm', $myForm->render());
+		}
+		if ($this->hasRequestParameter('exportHandler')) {
+			$exporter = $this->getCurrentExporter();
+			$expForm = $exporter->getForm($formData);
+			//if the form is submited and valid
+			if ($expForm->isSubmited()) {
+				if ($expForm->isValid()) {
+					common_Logger::i('running export using ExportHandler '.$exporter->getLabel());
+					$exporter->export($expForm->getValues(), $this->getExportPath());
 				}
 			}
 		}
-		$this->setData('myForm', $myForm->render());
 		$this->setData('formTitle', __('Export'));
 		$this->setView('form/export.tpl', 'tao');
 	}
-
+	
+	protected function getResourcesToExport(){
+		$returnValue = array();
+		if($this->hasRequestParameter('uri') && trim($this->getRequestParameter('uri')) != ''){
+			$returnValue[] = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
+		}elseif($this->hasRequestParameter('classUri') && trim($this->getRequestParameter('classUri')) != ''){
+			$class = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
+			$returnValue = $class->getInstances();
+		}else {
+			common_Logger::w('No resources to export');
+		}
+		return $returnValue;
+	}
+	
 	/**
-	 * action performed when RDF export form is sent
-	 * @param array $formValues the posted data
+	 * Returns the selected ExportHandler
+	 * 
+	 * @return 
+	 * @throws common_Exception
 	 */
-	protected function exportRDFData($formValues){
-		if(isset($formValues['rdftpl']) && isset($formValues['filename'])){
-
-			$rdf = '';
-
-			//file where we export
-			$exportPath = $this->getExportPath();
-			$name = $formValues['filename'].'_'.time().'.rdf';
-			$path = tao_helpers_File::concat(array($exportPath, $name));
-			if(!tao_helpers_File::securityCheck($path, true)){
-				throw new Exception('Unauthorized file name');
-			}
-			common_Logger::i('Exporting to '.$path);
-
-			$api = core_kernel_impl_ApiModelOO::singleton();
-
-			//export by namespace
-			if($formValues['rdftpl']['mode'] == 'namespaces'){
-
-				$nsManager = common_ext_NamespaceManager::singleton();
-
-				$namespaces = array();
-				foreach($formValues['rdftpl'] as $key => $value){
-					if(preg_match("/^ns_/", $key)){
-						$modelID = (int)str_replace('ns_', '', $key);
-						if($modelID > 0){
-							$ns = $nsManager->getNamespace($modelID);
-							if($ns instanceof common_ext_Namespace){
-								$namespaces[] = (string)$ns;
-							}
-						}
-					}
-				}
-				if(count($namespaces) > 0){
-					$rdf = $api->exportXmlRdf($namespaces);
-				}
-			}
-
-			//export by instances
-			if($formValues['rdftpl']['mode'] == 'instances'){
-
-				$instances = array();
-				foreach($formValues['rdftpl'] as $key => $value){
-					if(preg_match("/^instance_/", $key)){
-						$instances[] = tao_helpers_Uri::decode(str_replace('instance_', '', $key));
-					}
-				}
-				if(count($instances) > 0){
-					$xmls = array();
-					foreach($instances as $instanceUri){
-						$xmls[] = $api->getResourceDescriptionXML($instanceUri);
-					}
-
-					if(count($xmls) == 1){
-						$rdf = $xmls[0];
-					}
-					else if(count($xmls) > 1){
-
-						//merge the xml of each instances...
-
-						$baseDom = new DomDocument();
-						$baseDom->formatOutput = true;
-						$baseDom->loadXML($xmls[0]);
-
-						for($i = 1; $i < count($xmls); $i++){
-
-							$xmlDoc = new SimpleXMLElement($xmls[$i]);
-							foreach($xmlDoc->getNamespaces() as $nsName => $nsUri){
-								if(!$baseDom->documentElement->hasAttribute('xmlns:'.$nsName)){
-									$baseDom->documentElement->setAttribute('xmlns:'.$nsName, $nsUri);
-								}
-							}
-							$newDom = new DOMDocument();
-							$newDom->loadXml($xmls[$i]);
-							foreach($newDom->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', "Description") as $desc){
-								$newNode = $baseDom->importNode($desc, true);
-								$baseDom->documentElement->appendChild($newNode);
-							}
-						}
-
-						$rdf = $baseDom->saveXml();
-					}
-				}
-			}
-
-			//save it
-			if(!empty($rdf)){
-				if(file_put_contents($path, $rdf)){
-					$this->setData('message', $name.' '.__('exported successfully'));
-				}
-			}
+	private function getCurrentExporter() {
+		$exportHandler = $this->getRequestParameter('exportHandler');
+		if (class_exists($exportHandler) && in_array('tao_models_classes_Export_ExportHandler', class_implements($exportHandler))) {
+			$exporter = new $exportHandler();
+			return $exporter;
+		} else {
+			throw new common_Exception('Unknown or incompatible ExporterHandler: \''.$exportHandler.'\'');
 		}
 	}
 
+	/**
+	 * Override this function to add your own custom ExportHandlers
+	 * 
+	 * @return array an array of ExportHandlers
+	 */
+	protected function getAvailableExportHandlers() {
+		return array(
+			new tao_models_classes_Export_RdfExporter()
+		);
+	}
+	
 	/**
 	 * Get the list of files exported for the current module
 	 * The output is formated to be received by a JS Grid

@@ -1,8 +1,11 @@
 <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=get_data('formTitle')?>
 </div>
-<div id="form-container" class="ui-widget-content ui-corner-bottom">
+<div class="ui-widget-content ui-corner-bottom">
 	<?=get_data('myForm')?>
+</div>
+<div class="ui-widget-content ui-corner-bottom">
+	<?=get_data('exportForm')?>
 </div>
 <br />
 <table id="files-list"></table>
@@ -12,10 +15,9 @@
 $(function(){
 	require(['require', 'jquery', 'grid/tao.grid.downloadFileResource', 'grid/tao.grid.rowId'], function(req, $) {
 		//by changing the format, the form is sent
-		$(":radio[name='format']").change(function(){
+		$(":radio[name='exportHandler']").change(function(){
 			var form = $(this).parents('form');
-			$(":input[name='"+form.attr('name')+"_sent']").remove();
-			form.find('.form-submiter').click();
+			form.submit();
 		});
 
 		var myGrid = $("#files-list").jqGrid({
