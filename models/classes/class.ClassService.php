@@ -83,7 +83,9 @@ abstract class tao_models_classes_ClassService
 	
 	public function update($uri , $parameters = array()){
 		$resource = new core_kernel_classes_Resource($uri);
-		$resource->setPropertiesValues($parameters);
+		foreach ($parameters as $uri =>$parameterValue){
+		    $resource->editPropertyValues(new core_kernel_classes_Property($uri), $parameterValue);
+		}
 		return $resource;
 	}
 }

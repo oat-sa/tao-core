@@ -49,7 +49,6 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		    $this->returnFailure($e);
 		}
 	    }
-	    echo $this->responseEncoding;
 	     header('Content-Type: '.$this->responseEncoding);
 	    //check auth method requested
 	    /**/
