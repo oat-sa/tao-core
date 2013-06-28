@@ -37,18 +37,11 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 * @return string the path
 	 */
 	protected function getExportPath($extension = null){
-
-		$extension = is_null($extension) ? Context::getInstance()->getExtensionName() : $extension;
-		$taoExt = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-		$exportPath = $taoExt->getConstant('EXPORT_PATH');
-
-		if(!is_dir($exportPath)){
-			common_Logger::i('Export path not found, creating '.$exportPath);
-			if(!mkdir($exportPath)){
-				throw new common_Exception("Unable to create {$exportPath}. Check your filesystem!");
-			}
+		$path = sys_get_temp_dir().DIRECTORY_SEPARATOR.'export';
+		if (!file_exists($path)) {
+			mkdir($path);
 		}
-		return $exportPath;
+		return $path;
 	}
 
 	/**
@@ -91,20 +84,6 @@ class tao_actions_Export extends tao_actions_CommonModule {
 		$this->setView('form/export.tpl', 'tao');
 	}
 	
-	public function doExport($exporter){
-		common_Logger::i('running export using ExportHandler '.$exporter->getLabel());
-		
-		$expForm = $exporter->getForm(array());
-		$file = $exporter->export($expForm->getValues(), $this->getExportPath());
-		$this->setData('success', !is_null($file));
-		if (!is_null($file)) {
-			$relPath = ltrim(substr($file, strlen($this->getExportPath())), DIRECTORY_SEPARATOR);
-			$this->setData('download', _url('downloadExportedFiles', null, null, array('filePath' => $relPath)));
-		}
-					
-		$this->setView('form/exportResult.tpl', 'tao');
-	}
-	
 	protected function getResourcesToExport(){
 		$returnValue = array();
 		if($this->hasRequestParameter('uri') && trim($this->getRequestParameter('uri')) != ''){
@@ -121,13 +100,13 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	/**
 	 * Returns the selected ExportHandler
 	 * 
-	 * @return tao_models_classes_Export_ExportHandler
+	 * @return tao_models_classes_export_ExportHandler
 	 * @throws common_Exception
 	 */
 	private function getCurrentExporter() {
 		if ($this->hasRequestParameter('exportHandler')) {
 			$exportHandler = $this->getRequestParameter('exportHandler');
-			if (class_exists($exportHandler) && in_array('tao_models_classes_Export_ExportHandler', class_implements($exportHandler))) {
+			if (class_exists($exportHandler) && in_array('tao_models_classes_export_ExportHandler', class_implements($exportHandler))) {
 				$exporter = new $exportHandler();
 				return $exporter;
 			} else {
@@ -145,95 +124,10 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 */
 	protected function getAvailableExportHandlers() {
 		return array(
-			new tao_models_classes_Export_RdfExporter()
+			new tao_models_classes_export_RdfExporter()
 		);
 	}
 	
-	/**
-	 * Get the list of files exported for the current module
-	 * The output is formated to be received by a JS Grid
-	 * @return void
-	 */
-	public function getExportedFiles(){
-
-		$exportPath = $this->getExportPath($this->hasRequestParameter('ext') ? $this->getRequestParameter('ext') : Context::getInstance()->getExtensionName());
-		common_Logger::d('Listing exported files from '.$exportPath);
-		
-		$exportedFiles = array();
-		foreach(scandir($exportPath) as $file){
-			$path = $exportPath.'/'.$file;
-			if(preg_match("/\.(rdf|zip)$/", $file) && !is_dir($path)){
-				$exportedFiles[] = array(
-					'path'		=> $file,
-					'url'		=> str_replace(ROOT_PATH, ROOT_URL.'/', $path),
-					'name'		=> substr($file, 0, strrpos($file, '_')),
-					'date'		=> date('Y-m-d H:i:s', ((int)substr(preg_replace("/\.(rdf|zip)$/", '', $file), strrpos($file, '_') + 1)))
-				);
-			}
-		}
-
-		$page = $this->getRequestParameter('page');
-		$limit = $this->getRequestParameter('rows');
-		$sidx = $this->getRequestParameter('sidx');
-		$sord = $this->getRequestParameter('sord');
-		$start = $limit * $page - $limit;
-
-		if(!$sidx) $sidx =1;
-
-		//slice from start to limit
-		$files = array_slice($exportedFiles, $start, $limit);
-
-		$col = array();
-		foreach($files as $key => $val){
-			$col[$key] = $val[$sidx];
-		}
-		array_multisort($col, ($sord == 'asc') ? SORT_ASC: SORT_DESC, $files);
-
-		$count = count($exportedFiles);
-		if( $count >0 ) {
-			$total_pages = ceil($count/$limit);
-		}
-		else {
-			$total_pages = 0;
-		}
-		if ($page > $total_pages){
-			$page = $total_pages;
-		}
-
-		$response = new stdClass();
-		$response->page = $page;
-		$response->total = $total_pages;
-		$response->records = $count;
-		foreach($files as $i => $file) {
-			$response->rows[$i]['id']= $i;
-			$response->rows[$i]['cell']= array(
-				$file['name'],
-				basename($file['path']),
-				$file['date'],
-				array($file['url'],
-					_url('downloadExportedFiles', null, null, array('filePath' => $file['path'])),
-					_url('deleteExportedFiles', null, null, array('filePath' => $file['path']))
-				)
-			);
-		}
-		echo json_encode($response);
-	}
-
-	/**
-	 * remove the exported files in parameters
-	 * @return void
-	 */
-	public function deleteExportedFiles(){
-		$deleted = false;
-		if($this->hasRequestParameter('filePath')){
-			$path = $this->getExportPath().DIRECTORY_SEPARATOR.$_GET['filePath'];
-			if(tao_helpers_File::securityCheck($path, true)){
-				$deleted = tao_helpers_File::remove($path);
-			}
-		}
-		echo json_encode(array('deleted' => $deleted));
-	}
-
 	/**
 	 * download the exported files in parameters
 	 * @return void
@@ -242,16 +136,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 
 		//get request directly since getRequest changes names
 		$path = isset($_GET['filePath']) ? $_GET['filePath'] : '';
-		$fullpath = $this->getExportPath().DIRECTORY_SEPARATOR.$path;		
-		return $this->download($fullpath);
-	}
-	
-	/**
-	 * download the exported files in parameters
-	 * @return void
-	 */
-	private function download($fullpath){
-
+		$fullpath = $this->getExportPath().DIRECTORY_SEPARATOR.$path;
 		if(tao_helpers_File::securityCheck($fullpath, true) && file_exists($fullpath)){
 			$this->setContentHeader(tao_helpers_File::getMimeType($fullpath));
 			header('Content-Disposition: attachment; fileName="'.basename($fullpath).'"');
@@ -270,7 +155,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 			} 
 		}
         else{
-            common_Logger::e('Could not find File to export' . $fullpath);
+        	common_Logger::e('Could not find File to export: ' . $fullpath);
         }
 
 		return;

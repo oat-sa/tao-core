@@ -130,9 +130,7 @@ return array(
 		'TAOBASE_WWW' => ROOT_URL . 'tao/views/',
 		'TAO_TPL_PATH' => $extpath."views".DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR,
 		'TAOVIEW_PATH' => $extpath."views".DIRECTORY_SEPARATOR,
-	
-		#export resources path
-		'EXPORT_PATH' => 	$extpath."views".DIRECTORY_SEPARATOR."export".DIRECTORY_SEPARATOR
+
 	 )
 );
 ?>

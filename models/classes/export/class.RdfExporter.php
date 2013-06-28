@@ -27,12 +27,12 @@
  * @package tao
  * @subpackage models_classes_Export
  */
-class tao_models_classes_Export_RdfExporter implements tao_models_classes_Export_ExportHandler
+class tao_models_classes_export_RdfExporter implements tao_models_classes_export_ExportHandler
 {
 
     /**
      * (non-PHPdoc)
-     * @see tao_models_classes_ExportHandler::getLabel()
+     * @see tao_models_classes_export_ExportHandler::getLabel()
      */
     public function getLabel() {
     	return __('RDF');
@@ -40,16 +40,16 @@ class tao_models_classes_Export_RdfExporter implements tao_models_classes_Export
     
     /**
      * (non-PHPdoc)
-     * @see tao_models_classes_ExportHandler::getForm()
+     * @see tao_models_classes_export_ExportHandler::getForm()
      */
     public function getForm($data) {
-    	$form = new tao_models_classes_Export_RdfExportForm($data);
+    	$form = new tao_models_classes_export_RdfExportForm($data);
     	return $form->getForm();
     }
     
     /**
      * (non-PHPdoc)
-     * @see tao_models_classes_ExportHandler::export()
+     * @see tao_models_classes_export_ExportHandler::export()
      */
     public function export($formValues, $destination) {
     	$file = null;

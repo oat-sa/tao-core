@@ -27,7 +27,7 @@
  * @package taoItems
  * @subpackage actions_form
  */
-class tao_models_classes_Export_RdfExportForm
+class tao_models_classes_export_RdfExportForm
     extends tao_helpers_form_FormContainer
 {
     // --- ASSOCIATIONS ---

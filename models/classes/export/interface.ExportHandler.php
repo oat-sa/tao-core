@@ -29,7 +29,7 @@
  * @package tao
  * @subpackage models_classes_Export
  */
-interface tao_models_classes_Export_ExportHandler
+interface tao_models_classes_export_ExportHandler
 {
 
     /**
