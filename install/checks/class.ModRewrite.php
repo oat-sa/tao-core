@@ -42,12 +42,12 @@ class tao_install_checks_ModRewrite extends common_configuration_Component {
         
         if ($modRewrite == true){
             $report = new common_configuration_Report(common_configuration_Report::VALID,
-                                                      'Apache mod_rewrite is enabled.',
+                                                      'URL rewriting is enabled.',
                                                       $this);
         }
         else{
             $report = new common_configuration_Report(common_configuration_Report::INVALID,
-                                                      'Apache mod_rewrite is disabled.',
+                                                      'URL rewriting is disabled.',
                                                       $this);
         }
         

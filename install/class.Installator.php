@@ -132,7 +132,7 @@ class tao_install_Installator{
 			// If the database already exists, drop all tables
 			if ($dbCreator->dbExists($installData['db_name'])) {
 				$dbCreator->cleanDb ($installData['db_name']);
-				common_Logger::i("Droped all tables", 'INSTALL');
+				common_Logger::i("Dropped all tables", 'INSTALL');
 			}
 			// Else create it
 			else {
@@ -333,7 +333,7 @@ class tao_install_Installator{
 	         */
 	        // Localize item content for demo items.
 	        $dbCreator->execute("UPDATE statements SET l_language = '" . $installData['module_lang'] . "' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent'");
-	        common_Logger::i('Instalation completed', 'INSTALL');	
+	        common_Logger::i('Installation completed', 'INSTALL');	
 		}
 		catch(Exception $e){
 			// In any case, we transmit a single exception type (at the moment)
