@@ -1,23 +1,27 @@
 <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=get_data('formTitle')?>
 </div>
-<div class="ui-widget-content ui-corner-bottom">
-	<?=get_data('myForm')?>
-</div>
-<div class="ui-widget-content ui-corner-bottom">
-	<?=get_data('exportForm')?>
-</div>
+<?if (has_data('myForm')):?>
+	<div class="ui-widget-content ui-corner-bottom">
+		<?=get_data('myForm')?>
+	</div>
+<?php endif;?>
 <br />
 <table id="files-list"></table>
 <div id="files-list-pager"></div>
 <br />
+<?if (has_data('download')):?>
+	<iframe src="<?=get_data('download');?>" style="height: 0px;min-height: 0px"></iframe>
+<?php endif;?>
+
 <script type="text/javascript">
 $(function(){
 	require(['require', 'jquery', 'grid/tao.grid.downloadFileResource', 'grid/tao.grid.rowId'], function(req, $) {
 		//by changing the format, the form is sent
 		$(":radio[name='exportHandler']").change(function(){
 			var form = $(this).parents('form');
-			form.submit();
+			$(":input[name='"+form.attr('name')+"_sent']").remove();
+			form.find('.form-submiter').click();
 		});
 
 		var myGrid = $("#files-list").jqGrid({
@@ -90,4 +94,5 @@ $(function(){
 	});
 });
 </script>
+
 <?include(TAO_TPL_PATH.'footer.tpl')?>

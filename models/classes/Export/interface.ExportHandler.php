@@ -51,10 +51,10 @@ interface tao_models_classes_Export_ExportHandler
      * Export the resources to a file stored in $destinations
      * 
      * @param array $formValues the values returned by the form provided by getForm
-     * @param string $destination path to export the resources to
-     * @return boolean success
+     * @param string $destPath path to export the resources to
+     * @return string filepath
      */
-    public function export($formValues, $destination);
+    public function export($formValues, $destPath);
 }
 
 ?>

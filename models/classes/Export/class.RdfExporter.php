@@ -52,7 +52,7 @@ class tao_models_classes_Export_RdfExporter implements tao_models_classes_Export
      * @see tao_models_classes_ExportHandler::export()
      */
     public function export($formValues, $destination) {
-    	$success = false;
+    	$file = null;
     	if(isset($formValues['rdftpl']) && isset($formValues['filename'])){
 
 			$rdf = '';
@@ -139,11 +139,11 @@ class tao_models_classes_Export_RdfExporter implements tao_models_classes_Export
 			//save it
 			if(!empty($rdf)){
 				if(file_put_contents($path, $rdf)){
-					$success = true;
+					$file = $path;
 				}
 			}
 		}
-		return $success;
+		return $file;
     }
 
 }

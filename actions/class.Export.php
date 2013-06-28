@@ -51,6 +51,10 @@ class tao_actions_Export extends tao_actions_CommonModule {
 		return $exportPath;
 	}
 
+	/**
+	 * Does EVERYTHING
+	 * @todo cleanup interface
+	 */
 	public function index(){
 		$formData = array();
 		if($this->hasRequestParameter('classUri')){
@@ -64,38 +68,41 @@ class tao_actions_Export extends tao_actions_CommonModule {
 			}
 		}
 		
-		if (!empty($formData)) {
-			$formFactory = new tao_actions_form_ExportChooser($this->getAvailableExportHandlers(), $formData);
-			$myForm = $formFactory->getForm();
+		$handlers = $this->getAvailableExportHandlers();
+		$exporter = $this->getCurrentExporter();
 			
-			//if the form is submited and valid
-			if ($myForm->isSubmited()) {
-				if ($myForm->isValid()) {
-					$exporter = $this->getCurrentExporter();
-					$expForm = $exporter->getForm($formData);
-					
-					$formatElt = tao_helpers_form_FormFactory::getElement('exportHandler', 'Hidden');
-					$formatElt->setValue(get_class($exporter));
-					$expForm->addElement($formatElt);
-					
-					$this->setData('exportForm', $expForm->render());
-				}
-			}
-			$this->setData('myForm', $myForm->render());
+		$formFactory = new tao_actions_form_Export($handlers, $exporter->getForm($formData), $formData);
+		$myForm = $formFactory->getForm();
+		if (!is_null($exporter)) {
+			$myForm->setValues(array('exportHandler' => get_class($exporter)));
 		}
-		if ($this->hasRequestParameter('exportHandler')) {
-			$exporter = $this->getCurrentExporter();
-			$expForm = $exporter->getForm($formData);
-			//if the form is submited and valid
-			if ($expForm->isSubmited()) {
-				if ($expForm->isValid()) {
-					common_Logger::i('running export using ExportHandler '.$exporter->getLabel());
-					$exporter->export($expForm->getValues(), $this->getExportPath());
+		$this->setData('myForm', $myForm->render());
+		if ($myForm->isSubmited()) {
+			if ($myForm->isValid()) {
+				$file = $exporter->export($myForm->getValues(), $this->getExportPath());
+				if (!is_null($file)) {
+					$relPath = ltrim(substr($file, strlen($this->getExportPath())), DIRECTORY_SEPARATOR);
+					$this->setData('download', _url('downloadExportedFiles', null, null, array('filePath' => $relPath)));
 				}
 			}
 		}
+		
 		$this->setData('formTitle', __('Export'));
 		$this->setView('form/export.tpl', 'tao');
+	}
+	
+	public function doExport($exporter){
+		common_Logger::i('running export using ExportHandler '.$exporter->getLabel());
+		
+		$expForm = $exporter->getForm(array());
+		$file = $exporter->export($expForm->getValues(), $this->getExportPath());
+		$this->setData('success', !is_null($file));
+		if (!is_null($file)) {
+			$relPath = ltrim(substr($file, strlen($this->getExportPath())), DIRECTORY_SEPARATOR);
+			$this->setData('download', _url('downloadExportedFiles', null, null, array('filePath' => $relPath)));
+		}
+					
+		$this->setView('form/exportResult.tpl', 'tao');
 	}
 	
 	protected function getResourcesToExport(){
@@ -114,16 +121,20 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	/**
 	 * Returns the selected ExportHandler
 	 * 
-	 * @return 
+	 * @return tao_models_classes_Export_ExportHandler
 	 * @throws common_Exception
 	 */
 	private function getCurrentExporter() {
-		$exportHandler = $this->getRequestParameter('exportHandler');
-		if (class_exists($exportHandler) && in_array('tao_models_classes_Export_ExportHandler', class_implements($exportHandler))) {
-			$exporter = new $exportHandler();
-			return $exporter;
+		if ($this->hasRequestParameter('exportHandler')) {
+			$exportHandler = $this->getRequestParameter('exportHandler');
+			if (class_exists($exportHandler) && in_array('tao_models_classes_Export_ExportHandler', class_implements($exportHandler))) {
+				$exporter = new $exportHandler();
+				return $exporter;
+			} else {
+				throw new common_Exception('Unknown or incompatible ExporterHandler: \''.$exportHandler.'\'');
+			}
 		} else {
-			throw new common_Exception('Unknown or incompatible ExporterHandler: \''.$exportHandler.'\'');
+			return current($this->getAvailableExportHandlers());
 		}
 	}
 
@@ -227,19 +238,39 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 * download the exported files in parameters
 	 * @return void
 	 */
-	public function downloadExportedFiles($filePath){
+	public function downloadExportedFiles(){
 
 		//get request directly since getRequest changes names
 		$path = isset($_GET['filePath']) ? $_GET['filePath'] : '';
+		$fullpath = $this->getExportPath().DIRECTORY_SEPARATOR.$path;		
+		return $this->download($fullpath);
+	}
+	
+	/**
+	 * download the exported files in parameters
+	 * @return void
+	 */
+	private function download($fullpath){
 
-		$fullpath = $this->getExportPath().DIRECTORY_SEPARATOR.$path;
 		if(tao_helpers_File::securityCheck($fullpath, true) && file_exists($fullpath)){
 			$this->setContentHeader(tao_helpers_File::getMimeType($fullpath));
 			header('Content-Disposition: attachment; fileName="'.basename($fullpath).'"');
-			echo file_get_contents($fullpath);
+			header("Content-Length: " . filesize($fullpath));
+			flush();
+			$fp = fopen($fullpath, "r");
+			if ($fp !== false) {
+				while (!feof($fp))
+				{
+				    echo fread($fp, 65536); 
+				    flush();
+				}  
+				fclose($fp);
+			} else {
+ 				common_Logger::e('Unable to open File to export' . $fullpath);				
+			} 
 		}
         else{
-            common_Logger::e('Could not find File to export' . $path);
+            common_Logger::e('Could not find File to export' . $fullpath);
         }
 
 		return;
