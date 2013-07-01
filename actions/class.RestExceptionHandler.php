@@ -22,6 +22,9 @@ class tao_actions_RestExceptionHandler extends common_exception_ExceptionHandler
 	case "common_exception_MissingParameter":{
 	    header("HTTP/1.0 400 Bad Request" );break;
 	}
+	case "common_exception_InvalidArgumentType":{
+	    header("HTTP/1.0 400 Bad Request" );break;
+	}
 	case "common_exception_NotAcceptable":{
 	    header("HTTP/1.0 406 Not Acceptable" );break;
 	}
