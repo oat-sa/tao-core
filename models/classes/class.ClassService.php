@@ -38,19 +38,29 @@ abstract class tao_models_classes_ClassService
 	 */
 	abstract public function getRootClass();
 
+
+	public function isInScope($uri){
+	    if (!(common_Utils::isUri($uri))){
+		throw new common_exception_InvalidArgumentType();
+	    }
+	    $resource = new core_kernel_classes_Resource($uri);
+	    return $resource->hasType($this->getRootClass());
+	}
+
 	/**
 	 * @param string uri
 	 * @throws common_Exception_NoContent, common_exception_InvalidArgumentType
 	 * @return object
 	 */
 	public function get($uri){
-		if (common_Utils::isUri($uri)){
-		    $resource = new core_kernel_classes_Resource($uri);
-		    return $resource->getResourceDescription(true);
-		}
-		else {
+		if (!common_Utils::isUri($uri)){
 		    throw new common_exception_InvalidArgumentType();
 		}
+		if (!($this->isInScope($uri))){
+		throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+		}
+		$resource = new core_kernel_classes_Resource($uri);
+		return $resource->getResourceDescription(true);
 	}
 	public function getAll(){
 		$resources = array();
@@ -60,6 +70,12 @@ abstract class tao_models_classes_ClassService
 		return $resources;
 	}
 	public function delete($uri){
+		if (!common_Utils::isUri($uri)){
+		    throw new common_exception_InvalidArgumentType();
+		}
+		if (!($this->isInScope($uri))){
+		throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+		}
 		$resource = new core_kernel_classes_Resource($uri);
 		//if the resource does not exist, indicate a not found exception
 		if (count(
@@ -84,6 +100,12 @@ abstract class tao_models_classes_ClassService
 	}
 	
 	public function update($uri , $parameters = array()){
+		if (!common_Utils::isUri($uri)){
+		    throw new common_exception_InvalidArgumentType();
+		}
+		if (!($this->isInScope($uri))){
+		throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+		}
 		$resource = new core_kernel_classes_Resource($uri);
 		//if the resource does not exist, indicate a not found exception
 		    if (count(
