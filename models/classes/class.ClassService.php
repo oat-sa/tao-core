@@ -39,46 +39,42 @@ abstract class tao_models_classes_ClassService
 	abstract public function getRootClass();
 
 	/**
-     * Returns a specified resource using uri or the list of resrouces 
-     * basically uses higher elvel services but may be customized here
-     * @param string $uri	if null all test takers are returned (slow)
-     * @return array
-     */
-	public function get($uri = null){
-	if (!(is_null($uri))) {
+	 * @param string uri
+	 * @throws common_Exception_NoContent, common_exception_InvalidArgumentType
+	 * @return object
+	 */
+	public function get($uri){
+		if (common_Utils::isUri($uri)){
 		    $resource = new core_kernel_classes_Resource($uri);
 		    return $resource->getResourceDescription(true);
-		}else
-		{
-		    $resources = array();
-		    foreach ($this->getRootClass()->getInstances(true) as $resource) {
-			
-			$resources[] = $resource->getResourceDescription(true);
-			
-		    }
-		    return $resources;
+		}
+		else {
+		    throw new common_exception_InvalidArgumentType();
 		}
 	}
-	public function delete($uri = null){
-	    //echo "OK";
-	    if (!(is_null($uri))) {
-		    
-		    $resource = new core_kernel_classes_Resource($uri);
-		    //if the resource does not exist, indicate a not found exception
-		    if (count(
-			    $resource->getRdfTriples()->sequence
+	public function getAll(){
+		$resources = array();
+		    foreach ($this->getRootClass()->getInstances(true) as $resource) {
+			$resources[] = $resource->getResourceDescription(true);
+		    }
+		return $resources;
+	}
+	public function delete($uri){
+		$resource = new core_kernel_classes_Resource($uri);
+		//if the resource does not exist, indicate a not found exception
+		if (count(
+		    $resource->getRdfTriples()->sequence
 			    ) == 0){
 			throw new common_exception_NoContent();
 		    } 
 		    $resource->delete();
-		}else
-		{
-		    $resources = array();
-		    foreach ($this->getRootClass()->getInstances(true) as $resource) {
-			$resource->delete();
-		    }
-		    
-		}
+		
+	}
+	public function deleteAll(){
+	    $resources = array();
+	    foreach ($this->getRootClass()->getInstances(true) as $resource) {
+		$resource->delete();
+	    }
 	}
 	public function create($label = "", $type = null, $parameters= array()){
 		$type = (isset($type)) ? new core_kernel_classes_Class($type) : $this->getRootClass();
