@@ -72,7 +72,6 @@ return array(
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf', 'location' => 'generis/common/conf', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf_default', 'location' => 'generis/common/conf/default', 'rights' => 'r')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf_sample', 'location' => 'generis/common/conf/sample', 'rights' => 'r')),
-				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_views_export', 'location' => 'tao/views/export', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_includes', 'location' => 'tao/includes', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_update_patches', 'location' => 'tao/update/patches', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_locales', 'location' => 'tao/locales', 'rights' => 'r')),
