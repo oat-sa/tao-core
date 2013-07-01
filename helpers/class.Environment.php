@@ -71,7 +71,7 @@ class tao_helpers_Environment
      * @author Joel Bout, <joel@taotesting.com>
      * @return string The operating system that runs the script.
      */
-    public function getOperatingSystem()
+    public static function getOperatingSystem()
     {
         $returnValue = (string) '';
 
