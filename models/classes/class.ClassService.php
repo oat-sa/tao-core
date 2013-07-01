@@ -62,8 +62,14 @@ abstract class tao_models_classes_ClassService
 	public function delete($uri = null){
 	    //echo "OK";
 	    if (!(is_null($uri))) {
-		    //if the resource does not exist returns a failure ?
+		    
 		    $resource = new core_kernel_classes_Resource($uri);
+		    //if the resource does not exist, indicate a not found exception
+		    if (count(
+			    $resource->getRdfTriples()->sequence
+			    ) == 0){
+			throw new common_exception_NoContent();
+		    } 
 		    $resource->delete();
 		}else
 		{
@@ -83,6 +89,12 @@ abstract class tao_models_classes_ClassService
 	
 	public function update($uri , $parameters = array()){
 		$resource = new core_kernel_classes_Resource($uri);
+		//if the resource does not exist, indicate a not found exception
+		    if (count(
+			    $resource->getRdfTriples()->sequence
+			    ) == 0){
+			throw new common_exception_NoContent();
+		    } 
 		foreach ($parameters as $uri =>$parameterValue){
 		    $resource->editPropertyValues(new core_kernel_classes_Property($uri), $parameterValue);
 		}
