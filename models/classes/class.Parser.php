@@ -367,13 +367,17 @@ class tao_models_classes_Parser
     			'line' 		=> $error->getLine(),
     			'message'	=> "[".get_class($error)."] ".$error->getMessage()
     		);
-    	}
-    	if($error instanceof LibXMLError){
+    	}elseif($error instanceof LibXMLError){
     		$this->errors[] = array(
     			'file' 		=> $error->file,
     			'line'		=> $error->line,
     			'message'	=> "[".get_class($error)."] ".$error->message
     		);
+    	}elseif(is_string($error)) {
+    		$this->errors[] = array(
+    			'message'	=> $error
+    		);
+    	    
     	}
     	
         // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025CF end
@@ -414,6 +418,21 @@ class tao_models_classes_Parser
         // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025D2 end
     }
 
+    /**
+     * Creates a report without title of the parsing result
+     * @return common_report_Report
+     */
+	public function getReport() {
+		if ($this->isValid()) {
+			return common_report_Report::createSuccess('');
+		} else {
+			$report = new common_report_Report('');
+			foreach ($this->getErrors() as $error) {
+			    $report->add(new common_report_ErrorElement($error['message']));
+			}
+			return $report;
+		}
+	}
 } /* end of class tao_models_classes_Parser */
 
 ?>
