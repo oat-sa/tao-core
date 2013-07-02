@@ -8,7 +8,7 @@
 			<legend><strong><?=(get_data('importErrorTitle'))?get_data('importErrorTitle'):__('Error during file import')?></strong></legend>
 			<ul id='error-details'>
 			<?foreach(get_data('importErrors') as $ierror):?>
-				<li><?=$ierror['message']?></li>
+				<li><?=$ierror->__toString()?></li>
 			<?endforeach?>
 			</ul>
 		</fieldset>
@@ -22,7 +22,7 @@
 $(document).ready(function(){
 	
 	//by changing the format, the form is sent
-	$(":radio[name='format']").change(function(){
+	$(":radio[name='importHandler']").change(function(){
 		var form = $(this).parents('form');
 		$(":input[name='"+form.attr('name')+"_sent']").remove();
 		

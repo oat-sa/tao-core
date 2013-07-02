@@ -102,6 +102,7 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
 					$xmls = array();
 					foreach($instances as $instanceUri){
 						$xmls[] = $api->getResourceDescriptionXML($instanceUri);
+						common_logger::w('exporting '.$instanceUri);
 					}
 
 					if(count($xmls) == 1){
