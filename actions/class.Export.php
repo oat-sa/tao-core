@@ -36,7 +36,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 * get the path to save and retrieve the exported files regarding the current extension
 	 * @return string the path
 	 */
-	protected function getExportPath($extension = null){
+	protected function getExportPath(){
 		$path = sys_get_temp_dir().DIRECTORY_SEPARATOR.'export';
 		if (!file_exists($path)) {
 			mkdir($path);
@@ -150,6 +150,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 				    flush();
 				}  
 				fclose($fp);
+				@unlink($fullpath);
 			} else {
  				common_Logger::e('Unable to open File to export' . $fullpath);				
 			} 
