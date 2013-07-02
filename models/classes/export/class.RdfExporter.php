@@ -63,8 +63,6 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
 			if(!tao_helpers_File::securityCheck($path, true)){
 				throw new Exception('Unauthorized file name');
 			}
-			common_Logger::i('Exporting to '.$path);
-
 			$api = core_kernel_impl_ApiModelOO::singleton();
 
 			//export by namespace
@@ -102,7 +100,6 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
 					$xmls = array();
 					foreach($instances as $instanceUri){
 						$xmls[] = $api->getResourceDescriptionXML($instanceUri);
-						common_logger::w('exporting '.$instanceUri);
 					}
 
 					if(count($xmls) == 1){
