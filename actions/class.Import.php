@@ -33,13 +33,6 @@
 class tao_actions_Import extends tao_actions_CommonModule {
 
 	/**
-	 * initialize the formContainer
-	 */
-	public function __construct(){
-		parent::__construct();
-	}
-	
-	/**
 	 * initialize the classUri and execute the upload action
 	 * @return void
 	 */
