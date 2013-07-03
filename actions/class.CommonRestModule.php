@@ -30,11 +30,6 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	private $currentUser = null;
 	private $headers = null;
 
-	abstract public function get($uri);
-	abstract public function put($uri);
-	abstract public function post();
-	abstract public function delete($uri);
-
 	public function __construct(){
 	    parent::__construct();
 	    //$this->headers = HttpResponse::getRequestHeaders();
@@ -221,8 +216,39 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		"label" => array(RDFS_LABEL, false),
 		"comment" => array(RDFS_COMMENT,false)
 	    );
-	    
 	    return array_merge($this->getCustomParameters(), $expectedParameters);
+	}
+	/**
+	 * Intended to be overridden
+	 */
+	protected function getParametersAliases(){
+	    return array(
+		    "label"=> PROPERTY_USER_LOGIN,
+		    "comment" => PROPERTY_USER_PASSWORD,
+		    "type"=> RDF_TYPE
+	    );
+	}
+	
+	/**
+	 * Returns all parameters taht are URIs or Aliased with values , throws errors if a mandatory parameter is not found
+	 * @return type
+	 * @throws common_exception_MissingParameter
+	 */
+	protected function getParameters(){
+		$aliasedParameters = $this->getParametersAliases();
+		$effectiveParameters = array();
+		foreach ($aliasedParameters as $checkParameterShort =>$checkParameterUri){
+		    if ($this->hasRequestParameter($checkParameterShort)){
+			   $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterShort);
+		    }
+		    if ($this->hasRequestParameter($checkParameterUri)){
+			   $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterUri);
+		    }
+		    if ($this->isRequiredParameter($checkParameterShort) and !(isset($effectiveParameters[$checkParameterUri]))){
+		    throw new common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());
+		    }
+		}
+		return array_merge($this->getCustomParameters(), $effectiveParameters);
 	}
 	/**
 	 * Handle extra custom parameters, TODO ppl to be reviewed, need to find a more reliable way and easy for agents.
@@ -231,29 +257,90 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    $customParameters = array();
 	   foreach ($this->headers as $apacheParamName => $apacheParamValue){
 	       if (common_Utils::isUri($apacheParamName)){
-		   $customParameters[$apacheParamName] = array(LOCAL_NAMESPACE.$apacheParamName, false);
+		   $customParameters[$apacheParamName] = $apacheParamValue;
 	       }
 	   }
-	   
 	   return $customParameters;
 	}
-	
-	protected function getParameters($strict = true){
-		$parameters = $this->getExpectedParameters();
-		$effectiveParameters = array();
-		foreach ($parameters as $checkParameterShort =>$checkParameter){
-			$uriPredicate = $checkParameter[0];
-		    if ($this->hasRequestParameter($checkParameterShort)){
-			   $effectiveParameters[$uriPredicate] = $this->getRequestParameter($checkParameterShort);
-		    }
-		    else {
-			    if ($checkParameter[1] and $strict) {
-			       throw new common_exception_MissingParameter($checkParameterShort, $this->getRequestURI());
-			    }
-		    }
+	/**
+	 * Defines if the parameter is mandatory according to getParametersRequirements (probably overriden) and according to the action type
+	 * @param type $parameter the alias name or uri of a parameter
+	 */
+	private function isRequiredParameter($parameter){
+	    $isRequired = false;
+	    $requirements = $this->getParametersRequirements();
+	    $aliases = $this->getParametersAliases();
+	    //ppl todo, method retrieval
+	    $method = $this->getRequestMethod();
+	    //The requirments may have been declared using URIs, loook up for the URI
+	    if (isset($aliases[$parameter])) {
+		    $isRequired = $isRequired or in_array($aliases[$parameter],$requirements[$method]);
 		}
-		return $effectiveParameters;
+	    return $isRequired or in_array($parameter,$requirements[$method]);
 	}
+
+
+	public function get($uri = null){
+		try {
+		    if (!is_null($uri)){
+			if (!common_Utils::isUri($uri)){
+			    throw new common_exception_InvalidArgumentType();
+			}
+			if (!($this->service->isInScope($uri))){
+			    throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+			}
+			$data = $this->service->get($uri);
+		    } else {
+			$data = $this->service->getAll();
+		    }
+		} catch (Exception $e) {
+		    return $this->returnFailure($e);
+		}
+		return $this->returnSuccess($data);
+	}
+	public function delete($uri = null){
+		try {
+		    if (!is_null($uri)){
+			if (!common_Utils::isUri($uri)){
+			    throw new common_exception_InvalidArgumentType();
+			}
+			if (!($this->service->isInScope($uri))){
+			    throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+			}
+			$data = $this->service->delete($uri);
+		    } else {
+			$data = $this->service->deleteAll();
+		    }
+		} catch (Exception $e) {
+		    return $this->returnFailure($e);
+		}
+		return $this->returnSuccess($data);
+	}
+	public function post() {
+		try {
+		    $parameters = $this->getParameters();
+		    $data = $this->service->create($parameters);
+		} catch (Exception $e) {
+		    return $this->returnFailure($e);
+		}
+		return $this->returnSuccess($data);
+	}
+	public function put($uri = null){
+		try {
+			if (!common_Utils::isUri($uri)){
+			    throw new common_exception_InvalidArgumentType();
+			}
+			if (!($this->service->isInScope($uri))){
+			    throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+			}
+			$parameters = $this->getParameters(false);
+			$data = $this->service->update($uri, $parameters);
+		} catch (Exception $e) {
+			return $this->returnFailure($e);
+		}
+		return $this->returnSuccess($data);
+	}
+
 
 	/* commodity as Http-auth (like the rest of the HTTP spec) is meant to be stateless
 	 * As per RFC2616 "Existing HTTP clients and user agents typically retain authentication information indefinitely. "
