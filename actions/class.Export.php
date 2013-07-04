@@ -63,8 +63,9 @@ class tao_actions_Export extends tao_actions_CommonModule {
 		
 		$handlers = $this->getAvailableExportHandlers();
 		$exporter = $this->getCurrentExporter();
-			
-		$formFactory = new tao_actions_form_Export($handlers, $exporter->getForm($formData), $formData);
+
+		$selectedResource = isset($formData['instance']) ? $formData['instance'] : $formData['class'];
+		$formFactory = new tao_actions_form_Export($handlers, $exporter->getExportForm($selectedResource), $formData);
 		$myForm = $formFactory->getForm();
 		if (!is_null($exporter)) {
 			$myForm->setValues(array('exportHandler' => get_class($exporter)));

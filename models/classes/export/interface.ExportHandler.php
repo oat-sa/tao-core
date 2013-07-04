@@ -42,10 +42,10 @@ interface tao_models_classes_export_ExportHandler
     /**
      * Returns a form in order to prepare the 
      * 
-     * @param array $data the users tree selection
+     * @param core_kernel_classes_Resource $resource the users selected resource or class
      * @return tao_helpers_form_Form
      */
-    public function getForm($data);
+    public function getExportForm(core_kernel_classes_Resource $resource);
     
     /**
      * Export the resources to a file stored in $destinations

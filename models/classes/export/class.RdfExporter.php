@@ -40,10 +40,15 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
     
     /**
      * (non-PHPdoc)
-     * @see tao_models_classes_export_ExportHandler::getForm()
+     * @see tao_models_classes_export_ExportHandler::getExportForm()
      */
-    public function getForm($data) {
-    	$form = new tao_models_classes_export_RdfExportForm($data);
+    public function getExportForm(core_kernel_classes_Resource $resource) {
+        if ($resource instanceof core_kernel_classes_Class) {
+            $formData= array('class' => $resource);
+        } else {
+            $formData= array('instance' => $resource);
+        }
+    	$form = new tao_models_classes_export_RdfExportForm($formData);
     	return $form->getForm();
     }
     

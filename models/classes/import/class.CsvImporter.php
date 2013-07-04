@@ -40,13 +40,17 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
     
     /**
      * (non-PHPdoc)
-     * @see tao_models_classes_export_ExportHandler::getForm()
+     * @see tao_models_classes_import_ImportHandler::getForm()
      */
     public function getForm() {
     	$form = new tao_models_classes_import_CsvImportForm();
     	return $form->getForm();
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see tao_models_classes_import_ImportHandler::import()
+     */
     public function import($class, $formValues) {
 				//import for CSV
 		$importData = array();
