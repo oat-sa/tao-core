@@ -45,23 +45,16 @@ class tao_models_classes_import_CsvImportForm
      */
     public function initForm()
     {
-        // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 begin
-
     	$this->form = new tao_helpers_form_xhtml_Form('export');
+    	$submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
+    	if ($this->isStep2()) {
+            $submitElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/import.png' /> ".__('Import')."</a>");
+    	} else {
+    	    $submitElt->setValue( "<a href='#' class='form-refresher' > ".__('Next')."</a>");
+    	}
 
-		$this->form->setDecorators(array(
-			'element'			=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
-			'group'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')),
-			'error'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')),
-			'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar')),
-			'actions-top'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
-		));
-
-    	$exportElt = tao_helpers_form_FormFactory::getElement('export', 'Free');
-		$exportElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/export.png' /> ".__('Export')."</a>");
-
-		$this->form->setActions(array($exportElt), 'bottom');
-        // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 end
+		$this->form->setActions(array($submitElt), 'bottom');
+		$this->form->setActions(array(), 'top');
     }
     
     /**
@@ -73,8 +66,44 @@ class tao_models_classes_import_CsvImportForm
      */
     public function initElements()
     {
+    	if ($this->isStep2()) {
+            $this->initStep2();
+    	} else {
+    	    $this->initStep1();
+    	}
+    }
 
-    	$adapter = new tao_helpers_data_GenerisAdapterCsv();
+    public function initStep1()
+    {
+        $descElt = tao_helpers_form_FormFactory::getElement('csv_desc', 'Label');
+		$descElt->setValue(__('Please upload a CSV file formated as defined by the options above.'));
+		$this->form->addElement($descElt);
+		
+		//create file upload form box
+		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
+		$fileElt->setDescription(__("Add the source file"));
+  	  	if(isset($_POST['import_sent_csv'])){
+			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		}
+		else{
+			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty', array('message' => '')));
+		}
+		$fileElt->addValidators(array(
+			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/plain', 'text/csv', 'text/comma-separated-values', 'application/csv', 'application/csv-tab-delimited-table'), 'extension' => array('csv', 'txt'))),
+			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => tao_helpers_Environment::getFileUploadLimit()))
+		));
+		
+		$this->form->addElement($fileElt);
+		$this->form->createGroup('file', __('Upload CSV File'), array('csv_desc', 'source'));
+		
+		$csvSentElt = tao_helpers_form_FormFactory::getElement('import_sent_csv', 'Hidden');
+		$csvSentElt->setValue(1);
+		$this->form->addElement($csvSentElt);
+    }
+    
+    public function initStep2()
+    {
+        $adapter = new tao_helpers_data_GenerisAdapterCsv();
 		$options = $adapter->getOptions();
 		
 		//create import options form
@@ -129,31 +158,10 @@ class tao_models_classes_import_CsvImportForm
 		}
 		$this->form->createGroup('options', __('CSV Options'), array_keys($options));
 		
-
-		$descElt = tao_helpers_form_FormFactory::getElement('csv_desc', 'Label');
-		$descElt->setValue(__('Please upload a CSV file formated as defined by the options above.'));
-		$this->form->addElement($descElt);
-		
-		//create file upload form box
-		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
-		$fileElt->setDescription(__("Add the source file"));
-  	  	if(isset($_POST['import_sent_csv'])){
-			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		}
-		else{
-			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty', array('message' => '')));
-		}
-		$fileElt->addValidators(array(
-			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/plain', 'text/csv', 'text/comma-separated-values', 'application/csv', 'application/csv-tab-delimited-table'), 'extension' => array('csv', 'txt'))),
-			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => tao_helpers_Environment::getFileUploadLimit()))
-		));
-		
-		$this->form->addElement($fileElt);
-		$this->form->createGroup('file', __('Upload CSV File'), array('csv_desc', 'source'));
-		
-		$csvSentElt = tao_helpers_form_FormFactory::getElement('import_sent_csv', 'Hidden');
-		$csvSentElt->setValue(1);
-		$this->form->addElement($csvSentElt);
+    }
+    
+    private function isStep2() {
+        return !empty($_POST['source']);
     }
 
 } /* end of class taoItems_actions_form_Export */

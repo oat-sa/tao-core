@@ -23,10 +23,11 @@ $(document).ready(function(){
 	
 	//by changing the format, the form is sent
 	$(":radio[name='importHandler']").change(function(){
+
 		var form = $(this).parents('form');
 		$(":input[name='"+form.attr('name')+"_sent']").remove();
 		
-		form.find('.form-submiter').click();
+		form.submit();
 	});
 	
 	//for the csv import options

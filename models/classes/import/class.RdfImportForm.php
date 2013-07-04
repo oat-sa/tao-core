@@ -45,23 +45,12 @@ class tao_models_classes_import_RdfImportForm
      */
     public function initForm()
     {
-        // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 begin
-
     	$this->form = new tao_helpers_form_xhtml_Form('export');
+    	$submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
+		$submitElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/import.png' /> ".__('Import')."</a>");
 
-		$this->form->setDecorators(array(
-			'element'			=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div')),
-			'group'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-group')),
-			'error'				=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all')),
-			'actions-bottom'	=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar')),
-			'actions-top'		=> new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
-		));
-
-    	$exportElt = tao_helpers_form_FormFactory::getElement('export', 'Free');
-		$exportElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/export.png' /> ".__('Export')."</a>");
-
-		$this->form->setActions(array($exportElt), 'bottom');
-        // section 127-0-1-1-74d22378:1271a9c9d21:-8000:0000000000001ED5 end
+		$this->form->setActions(array($submitElt), 'bottom');
+		$this->form->setActions(array(), 'top');
     }
     
     /**

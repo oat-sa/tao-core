@@ -68,13 +68,10 @@ extends tao_helpers_form_FormContainer
 	public function initForm()
 	{
 		$this->form = tao_helpers_form_FormFactory::getForm('import');
-		 
-		$submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
-		$submitElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/import.png' /> ".__('Import')."</a>");
-
-		$this->form->setActions(array($submitElt), 'bottom');
-		$this->form->setActions(array(), 'top');
-		 
+	    
+		$this->form->setActions(is_null($this->subForm) ? array() : $this->subForm->getActions('top'), 'top');
+	    $this->form->setActions(is_null($this->subForm) ? array() : $this->subForm->getActions('bottom'), 'bottom');
+				 
 	}
 
 	/**
