@@ -12,7 +12,7 @@
  */
 class tao_actions_RestExceptionHandler extends common_exception_ExceptionHandler{
    
-    public static function handle(common_Exception $exception){
+    public function handle(common_Exception $exception){
 	
 	switch (get_class($exception)) {
 	
