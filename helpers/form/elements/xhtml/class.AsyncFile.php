@@ -123,11 +123,8 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 		$returnValue .= "<a href='#' id='{$widgetName}_starter' >".__('Start upload')."</a>";
 		$returnValue .= "</span>";
 
-		//get the upload max size (the min of those 3 directives)
-		$max_upload = (int)(ini_get('upload_max_filesize'));
-		$max_post = (int)(ini_get('post_max_size'));
-		$memory_limit = (int)(ini_get('memory_limit'));
-		$fileSize = min($max_upload, $max_post, $memory_limit) * 1024 * 1024;
+		//get the upload max size
+		$fileSize = tao_helpers_Environment::getFileUploadLimit();
 
 		$extensions = array();
 
