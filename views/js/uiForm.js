@@ -74,14 +74,14 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 			});
 
 			//revert form button
-			$(".form-reverter").off('click').on('click', function() {
-				require(['require', 'jquery', 'generis.tree.browser'], function(req, $, GenerisTreeBrowserClass) {
-					if ($("#uri").val() != undefined) {
-						generisActions.mainTree.selectTreeNode($("#uri").val());
-					} else if ($("#classUri").val() != undefined) {
-						generisActions.mainTree.selectTreeNode($("#classUri").val());
-					}
-				});
+			$(".form-refresher").off('click').on('click', function() {
+				var myForm = $(this).parents('form');
+				$(":input[name='"+myForm.attr('name')+"_sent']").remove();
+				
+				if (that.submitForm(myForm)) {
+					myForm.submit();
+				}
+				return false;
 			});
 
 			//translate button

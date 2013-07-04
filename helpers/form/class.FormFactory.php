@@ -209,10 +209,9 @@ class tao_helpers_form_FormFactory
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string context
      * @param  boolean save
-     * @param  boolean revert
      * @return array
      */
-    public static function getCommonActions($context = 'bottom', $save = true, $revert = false)
+    public static function getCommonActions($context = 'bottom', $save = true)
     {
         $returnValue = array();
 
@@ -227,9 +226,6 @@ class tao_helpers_form_FormFactory
 				$value = '';
 				if($save){
 					$value .=  "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/save.png' /> ".__('Save')."</a>";
-				}
-				if($revert){
-					$value .=  "<a href='#' class='form-reverter'><img src='".TAOBASE_WWW."/img/revert.png'  /> ".__('Revert')."</a>";
 				}
 					
 				$actions->setValue($value);
