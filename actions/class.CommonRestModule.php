@@ -20,6 +20,13 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
  * @subpackage action
+ * @TODO
+ * ADD Param multi values -- OK
+ * CHECK Param value is a uri -- OK
+ * ADD x- prefix for non standard http params
+ * ADD Accept-Language header x-lg parameters for the context
+ * FIX DIGEST auth method
+ * ADD Requirements for properties that have to be skipped (password of users)
  */
 abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 
@@ -33,7 +40,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	public function __construct(){
 	    parent::__construct();
 	    //$this->headers = HttpResponse::getRequestHeaders();
-	    $this->headers = apache_request_headers();
+	    $this->headers = tao_helpers_Http::getHeaders();
 	    if ($this->hasHeader("Accept")){
 		try {
 		    $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
@@ -44,22 +51,46 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		    $this->returnFailure($e);
 		}
 	    }
+	    if ($this->hasHeader("Accept-Language")){
+		try {
+		    
+		} //may return a 406 not acceptable
+		catch (common_exception_ClientException $e) {
+		    $this->returnFailure($e);
+		}
+	    }
+
 	     header('Content-Type: '.$this->responseEncoding);
 	    //check auth method requested
 	    /**/
 	}
+
+	
+
+
 	public function hasRequestParameter($string){
 	    return parent::hasRequestParameter($string) || isset($this->headers[$string]);
 	}
+	/*
+	 * @return mixed
+	 */
 	public function getRequestParameter($string){
-	    if (isset($this->headers[$string])) return ($this->headers[$string]);
+	    if (isset($this->headers[$string])) {
+		$hearderValues = explode(',', $this->headers[$string]);
+		return (count($hearderValues)==1) ? ($this->headers[$string]) : $hearderValues;
+		}
 	   //if (parent::hasRequestParameter())
 		return parent::getRequestParameter($string);
 	}
 	protected function getHeader($string){
+
+	    //could be improved using the x- prefix
+
 	     if (isset($this->headers[$string])) return ($this->headers[$string]); else return false;
 	}
 	protected function hasHeader($string){
+	    //could be improved using the x- prefix
+	    
 	     if (isset($this->headers[$string])) return true; else return false;
 	}
 	/*redistribute actions*/
@@ -189,7 +220,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    $data = array();
 	    $data['success']	=  false;
 	    $data['errorCode']	=  $exception->getCode();
-	    $data['errorMsg']	=  $exception->getMessage();
+	    $data['errorMsg']	=  ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage() : $exception->getMessage();
 	    $data['version']	= TAO_VERSION;
 
 	    echo $this->encode($data);
@@ -223,8 +254,8 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	 */
 	protected function getParametersAliases(){
 	    return array(
-		    "label"=> PROPERTY_USER_LOGIN,
-		    "comment" => PROPERTY_USER_PASSWORD,
+		    "label"=> RDFS_LABEL,
+		    "comment" => RDFS_COMMENT,
 		    "type"=> RDF_TYPE
 	    );
 	}
@@ -267,16 +298,24 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	 * @param type $parameter the alias name or uri of a parameter
 	 */
 	private function isRequiredParameter($parameter){
+
 	    $isRequired = false;
+	    $method = $this->getRequestMethod();//ppl todo, method retrieval
+	    if (isset($requirements[$method])) {
 	    $requirements = $this->getParametersRequirements();
 	    $aliases = $this->getParametersAliases();
-	    //ppl todo, method retrieval
-	    $method = $this->getRequestMethod();
+	    
+
 	    //The requirments may have been declared using URIs, loook up for the URI
 	    if (isset($aliases[$parameter])) {
 		    $isRequired = $isRequired or in_array($aliases[$parameter],$requirements[$method]);
 		}
-	    return $isRequired or in_array($parameter,$requirements[$method]);
+	    
+	    $isRequired = $isRequired or in_array($parameter,$requirements[$method]);
+	    
+
+	    }
+	    return $isRequired;
 	}
 
 
