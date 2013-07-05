@@ -130,7 +130,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
 			 	$returnValue .= " checked='checked' ";	
 			 	$checked++;
 			 }
-			 $returnValue .= " />&nbsp;<span class='elt_desc'>"._dh($optionLabel)."</span><br />";
+			 $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>"._dh($optionLabel)."</label><br />";
 			 $i++;
 		}
 		$returnValue .= "</div>";
