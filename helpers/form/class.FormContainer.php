@@ -80,7 +80,7 @@ abstract class tao_helpers_form_FormContainer
      * the form instance contained
      *
      * @access protected
-     * @var Form
+     * @var tao_helpers_form_Form
      */
     protected $form = null;
 

@@ -855,19 +855,27 @@ abstract class tao_helpers_form_Form
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string groupName
      * @param  string groupTitle
-     * @param  array elements
+     * @param  array elements array of form elements or their identifiers
      * @param  array options
      * @return mixed
      */
     public function createGroup($groupName, $groupTitle = '', $elements = array(), $options = array())
     {
-        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ABB begin
+        $identifier = array();
+        foreach ($elements as $element) {
+            if ($element instanceof tao_helpers_form_FormElement) {
+                $identifier[] = $element->getName();
+            } elseif (is_string($element)) {
+                $identifier[] = $element;
+            } else {
+                throw new common_Exception('Unknown element of type '.gettype($element).' in '.__FUNCTION__);
+            }
+        }
 		$this->groups[$groupName] = array(
 			'title' 	=> (empty($groupTitle)) ? $groupName : $groupTitle,
-			'elements'	=> $elements,
+			'elements'	=> $identifier,
 			'options'	=> $options
 		);
-        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ABB end
     }
 
     /**
