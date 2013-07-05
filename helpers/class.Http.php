@@ -53,6 +53,9 @@ class tao_helpers_Http {
 	    }
 	    return $needed_parts ? false : $data;
 	}
+	public static function getHeaders(){
+	    return apache_request_headers();
+	}
 	
 	public static function	acceptHeader($supportedMimeTypes = null, $requestedMimeTypes = null) {
 	    $acceptTypes = Array ();
