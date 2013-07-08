@@ -83,7 +83,7 @@ class tao_install_services_SyncService extends tao_install_services_Service{
     	$currentUrl = ($isHTTPS ? 'https' : 'http' ). '://' . $host . $uri;
     	$parsed = parse_url($currentUrl);
     	$port = (empty($parsed['port'])) ? '' : ':' . $parsed['port'];
-    	$rootUrl = $parsed['scheme'] . '://' . $parsed['host'] . $parsed['path'] . $port;
+    	$rootUrl = $parsed['scheme'] . '://' . $parsed['host'] . $port . $parsed['path'];
     	return str_replace('/tao/install/api.php', '', $rootUrl);
     }
 
