@@ -51,7 +51,9 @@ extends tao_helpers_form_FormContainer
 	 */
 	public function __construct($importHandler, $availableHandlers, $class) {
 		$this->importHandlers = $availableHandlers;
-		$this->subForm = $importHandler->getForm();
+		if (!is_null($importHandler)) {
+		    $this->subForm = $importHandler->getForm();
+		}
 		parent::__construct(array(
 			'importHandler' => get_class($importHandler),
 			'classUri'		=> $class->getUri()
@@ -107,8 +109,8 @@ extends tao_helpers_form_FormContainer
 			foreach ($this->subForm->getElements() as $element) {
 				$this->form->addElement($element);
 			}
-			foreach ($this->subForm->getGroups() as $group) {
-				$this->form->createGroup($group['title'],$group['title'],$group['elements'],$group['options']);
+			foreach ($this->subForm->getGroups() as $key => $group) {
+				$this->form->createGroup($key,$group['title'],$group['elements'],$group['options']);
 			}
 		}
 	}

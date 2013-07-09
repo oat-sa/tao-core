@@ -47,9 +47,10 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
     	return $form->getForm();
     }
 
-    public function import($class, $formValues) {
+    public function import($class, $form) {
     	
-		$file = $formValues['source']['uploaded_file'];
+        $fileInfo = $form->getValue('source');
+		$file = $fileInfo['uploaded_file'];
 			
 		//validate the file to import
 		$parser = new tao_models_classes_Parser($file, array('extension' => 'rdf'));
@@ -62,7 +63,6 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
 		
 			//initialize the adapter
 			$adapter = new tao_helpers_data_GenerisAdapterRdf();
-			common_Logger::d($file);
 			if($adapter->import($file, $class)){
 				return common_report_Report::createSuccess(__('Data imported successfully'));
 			} else{

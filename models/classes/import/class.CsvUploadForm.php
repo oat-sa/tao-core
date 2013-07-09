@@ -27,7 +27,7 @@
  * @package taoItems
  * @subpackage actions_form
  */
-class tao_models_classes_import_CsvImportForm
+class tao_models_classes_import_CsvUploadForm
     extends tao_helpers_form_FormContainer
 {
     // --- ASSOCIATIONS ---
@@ -47,11 +47,7 @@ class tao_models_classes_import_CsvImportForm
     {
     	$this->form = new tao_helpers_form_xhtml_Form('export');
     	$submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
-    	if ($this->isStep2()) {
-            $submitElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/import.png' /> ".__('Import')."</a>");
-    	} else {
-    	    $submitElt->setValue( "<a href='#' class='form-refresher' > ".__('Next')."</a>");
-    	}
+   	    $submitElt->setValue( "<a href='#' class='form-refresher' > ".__('Next')."</a>");
 
 		$this->form->setActions(array($submitElt), 'bottom');
 		$this->form->setActions(array(), 'top');
@@ -65,15 +61,6 @@ class tao_models_classes_import_CsvImportForm
      * @return mixed
      */
     public function initElements()
-    {
-    	if ($this->isStep2()) {
-            $this->initStep2();
-    	} else {
-    	    $this->initStep1();
-    	}
-    }
-
-    public function initStep1()
     {
         $descElt = tao_helpers_form_FormFactory::getElement('csv_desc', 'Label');
 		$descElt->setValue(__('Please upload a CSV file formated as defined by the options above.'));
@@ -99,71 +86,40 @@ class tao_models_classes_import_CsvImportForm
 		$csvSentElt = tao_helpers_form_FormFactory::getElement('import_sent_csv', 'Hidden');
 		$csvSentElt->setValue(1);
 		$this->form->addElement($csvSentElt);
-    }
-    
-    public function initStep2()
-    {
-        $adapter = new tao_helpers_data_GenerisAdapterCsv();
-		$options = $adapter->getOptions();
 		
-		//create import options form
-		foreach($options as $optName => $optValue){
-			(is_bool($optValue))  ? $eltType = 'Checkbox' : $eltType = 'Textbox';
-			
-			$optElt = tao_helpers_form_FormFactory::getElement($optName, $eltType);
-			
-			// This is a bit rough but we need to add a human readable
-			// field description.
-			$description = 'unknown';
-			switch ($optName){
-				case 'field_delimiter':
-					$description = __("Field delimiter");
-				break;
-				
-				case 'field_encloser':
-					$description = __("Field encloser");
-				break;
-				
-				case 'line_break':
-					$description = __("Line break");
-				break;
-				
-				case 'multi_values_delimiter':
-					$description = __("Multiple values delimiter");
-				break;
-				
-				case 'first_row_column_names':
-					$description = __("First row column names");
-				break;
-			}
-			
-			$optElt->setDescription($description);
-			$optElt->setValue(addslashes($optValue));
-			
-			$optElt->addAttribute("size", ($optName == 'column_order') ? 40 : 6);
-			if(is_null($optValue) || $optName == 'line_break'){
-				$optElt->addAttribute("disabled", "true");
-			}
-			$optElt->setValue($optValue);
-			if($eltType == 'Checkbox'){
-				$optElt->setOptions(array($optName => ''));
-				$optElt->setValue($optName);
-			}
-			if(!preg_match("/column/", strtolower($optName))){
-				$optElt->addValidator(
-					tao_helpers_form_FormFactory::getValidator('NotEmpty')
-				);
-			}
-			$this->form->addElement($optElt);
-		}
-		$this->form->createGroup('options', __('CSV Options'), array_keys($options));
+		// options
+		$optDelimiter = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIELD_DELIMITER, 'Textbox');
+		$optDelimiter->setDescription(__("Field delimiter"));
+		$optDelimiter->setValue(';');
+		$optDelimiter->addAttribute("size", 6);
+		$optDelimiter->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		$this->form->addElement($optDelimiter);
 		
+		$optEncloser = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIELD_ENCLOSER, 'Textbox');
+		$optEncloser->setDescription(__("Field encloser"));
+		$optEncloser->setValue('"');
+		$optEncloser->addAttribute("size", 6);
+		$optEncloser->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		$this->form->addElement($optEncloser);
+		
+		$optMulti = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::MULTI_VALUES_DELIMITER, 'Textbox');
+		$optMulti->setDescription(__("Multiple values delimiter"));
+		$optMulti->setValue('|');
+		$optMulti->addAttribute("size", 6);
+		$optMulti->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+		$this->form->addElement($optMulti);
+		
+		$optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Checkbox');
+		$optFirstColumn->setDescription( __("First row column names"));
+        $optFirstColumn->setOptions(array(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES => ''));
+		$optFirstColumn->setValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES);
+		$this->form->addElement($optFirstColumn);
+		
+		$this->form->createGroup('options', __('CSV Options'), array(
+		    $optDelimiter, $optEncloser, $optMulti, $optFirstColumn
+		));
     }
-    
-    private function isStep2() {
-        return !empty($_POST['source']);
-    }
-
+   
 } /* end of class taoItems_actions_form_Export */
 
 ?>

@@ -18,39 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * This container initialize the form used to map class properties to data to be
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @subpackage actions_form
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * This class provide a container for a specific form instance.
- * It's subclasses instanciate a form and it's elements to be used as a
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- */
-require_once('tao/helpers/form/class.FormContainer.php');
-
-/* user defined includes */
-// section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FB-includes begin
-// section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FB-includes end
-
-/* user defined constants */
-// section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FB-constants begin
-// section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FB-constants end
-
 /**
  * This container initialize the form used to map class properties to data to be
  *
@@ -59,7 +26,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
  * @package tao
  * @subpackage actions_form
  */
-class tao_actions_form_CSVMapping
+class tao_models_classes_import_CSVMappingForm
     extends tao_helpers_form_FormContainer
 {
     // --- ASSOCIATIONS ---
@@ -85,7 +52,7 @@ class tao_actions_form_CSVMapping
     	$importElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
 		$importElt->setValue( "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/import.png' /> ".__('Import')."</a>");
 		$this->form->setActions(array($importElt), 'bottom');
-		$this->form->setActions(array($importElt), 'top');
+		$this->form->setActions(array(), 'top');
     	
         // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FD end
     }
@@ -167,6 +134,22 @@ class tao_actions_form_CSVMapping
     	if(count($this->options['ranged_properties']) > 0){
     		$this->form->createGroup('ranged_property', __('Define the default values'), array_keys($ranged));
     	}
+    	
+    	$importFileEle = tao_helpers_form_FormFactory::getElement('importFile', 'Hidden');
+    	$this->form->addElement($importFileEle);
+    	
+    	$optDelimiter = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIELD_DELIMITER, 'Hidden');
+		$this->form->addElement($optDelimiter);
+		
+		$optEncloser = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIELD_ENCLOSER, 'Hidden');
+		$this->form->addElement($optEncloser);
+		
+		$optMulti = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::MULTI_VALUES_DELIMITER, 'Hidden');
+		$this->form->addElement($optMulti);
+		
+		$optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Hidden');
+		$this->form->addElement($optFirstColumn);
+		
     	
         // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FF end
     }

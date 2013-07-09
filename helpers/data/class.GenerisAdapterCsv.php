@@ -51,7 +51,6 @@ class tao_helpers_data_GenerisAdapterCsv
      * an associative array formated like this:
      * array('field_delimiter' => 'a delimiter char', default is ;,
      * 'field_encloser' => 'a field encloser char, default is "',
-     * 'line_break' => 'linebreak escaping sequence, default is \n',
      * 'multi_values_delimiter' => 'a multi values delimiter, default is |',
      * 'first_row_column_names' => 'boolean value describing if the first row
      * column names').
@@ -71,19 +70,16 @@ class tao_helpers_data_GenerisAdapterCsv
 		if(!isset($this->options['field_encloser'])){
 			$this->options['field_encloser'] = '"';		//double quote
 		}
-		if(!isset($this->options['line_break'])){
-			$this->options['line_break'] = '\n';			// only to display use PHP_EOL in the code for a multi-os compat
-		}
 		if(!isset($this->options['multi_values_delimiter'])){
 			$this->options['multi_values_delimiter'] = '|';
 		}
 		if(!isset($this->options['first_row_column_names'])){
 			$this->options['first_row_column_names'] = true;
 		}
-		
+
 		// Bind resource callbacks.
 		if (isset($this->options['onResourceImported']) && is_array($this->options['onResourceImported'])){
-			foreach ($this->options['onResourceImported'] as $callback){
+		    foreach ($this->options['onResourceImported'] as $callback){
 				$this->onResourceImported($callback);
 				common_Logger::d("onResourceImported callback added to CSV Adapter");
 			}

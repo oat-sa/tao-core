@@ -33,14 +33,14 @@ interface tao_models_classes_import_ImportHandler
 {
 
     /**
-     * Returns a textual description of the export format
+     * Returns a textual description of the import format
      * 
      * @return string
      */
     public function getLabel();
     
     /**
-     * Returns a form in order to prepare the 
+     * Returns a form in order to prepare the import 
      * 
      * @param array $data the users tree selection
      * @return tao_helpers_form_Form
@@ -48,13 +48,12 @@ interface tao_models_classes_import_ImportHandler
     public function getForm();
     
     /**
-     * Export the resources to a file stored in $destinations
+     * Starts the import based on the form
      * 
-     * @param array $formValues the values returned by the form provided by getForm
-     * @param string $destPath path to export the resources to
-     * @return common_report_Report report
+     * @param core_kernel_classes_Class $pClass
+     * @param tao_helpers_form_Form $pForm
      */
-    public function import($pClass, $pFormValues);
+    public function import($class, $form);
 }
 
 ?>

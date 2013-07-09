@@ -18,37 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - tao\helpers\data\class.CsvFile.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 09.02.2012, 14:40:08 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package tao
- * @subpackage helpers_data
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 10-13-1-85--2776fceb:1355c97b33d:-8000:0000000000003AC8-includes begin
-// section 10-13-1-85--2776fceb:1355c97b33d:-8000:0000000000003AC8-includes end
-
-/* user defined constants */
-// section 10-13-1-85--2776fceb:1355c97b33d:-8000:0000000000003AC8-constants begin
-// section 10-13-1-85--2776fceb:1355c97b33d:-8000:0000000000003AC8-constants end
 
 /**
  * Short description of class tao_helpers_data_CsvFile
@@ -64,6 +33,10 @@ class tao_helpers_data_CsvFile
 
 
     // --- ATTRIBUTES ---
+    const FIELD_DELIMITER = 'field_delimiter';
+    const FIELD_ENCLOSER = 'field_encloser';
+    const MULTI_VALUES_DELIMITER = 'multi_values_delimiter';
+    const FIRST_ROW_COLUMN_NAMES = 'first_row_column_names';
 
     /**
      * Contains the CSV data as a simple 2-dimensional array. Keys are integer
@@ -121,7 +94,6 @@ class tao_helpers_data_CsvFile
         // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AD8 begin
         $defaults = array('field_delimiter' => ';',
         				  'field_encloser' => '"',
-        				  'line_break' => "\n",
         				  'multi_values_delimiter' => '|',
         				  'first_row_column_names' => true);
         
@@ -221,11 +193,13 @@ class tao_helpers_data_CsvFile
 	        // More readable variables
 	    	$WRAP  = preg_quote($this->options['field_encloser'], '/');
 			$DELIM = $this->options['field_delimiter'];
-			$BREAK = $this->options['line_break'];
 			$MULTI = $this->options['multi_values_delimiter'];
 			
 			
-			$rows = explode($BREAK, file_get_contents($path));
+			$adle = ini_get('auto_detect_line_endings');
+			ini_set('auto_detect_line_endings',TRUE);
+			$rows = file($path, FILE_IGNORE_NEW_LINES);
+			ini_set('auto_detect_line_endings',$adle);
 			
 			if ($this->options['first_row_column_names']){
 				
@@ -474,6 +448,6 @@ class tao_helpers_data_CsvFile
         // section 10-13-1-85-529882dc:13562475a8a:-8000:00000000000037C9 end
     }
 
-} /* end of class tao_helpers_data_CsvFile */
+}
 
 ?>

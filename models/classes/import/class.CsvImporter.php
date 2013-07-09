@@ -43,159 +43,151 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
      * @see tao_models_classes_import_ImportHandler::getForm()
      */
     public function getForm() {
-    	$form = new tao_models_classes_import_CsvImportForm();
+    	$form = empty($_POST['source']) && empty($_POST['importFile'])
+    	    ? new tao_models_classes_import_CsvUploadForm()
+    	    : $this->createImportFormContainer();
     	return $form->getForm();
     }
 
     /**
+     * Constructs the Import form container
+     * In need of a major refactoring, which will
+     * probably involve refactoring the Form engine as well
+     */
+	private function createImportFormContainer(){
+	    
+	    $classUri = tao_helpers_Uri::decode($_POST['classUri']);
+	    $clazz = new core_kernel_classes_Class($classUri);
+	    
+	    $sourceContainer = new tao_models_classes_import_CsvUploadForm();
+	    $sourceForm = $sourceContainer->getForm();
+	    foreach($sourceForm->getElements() as $element) {
+	        $element->feed();
+	    }
+	    
+	    if (isset($_POST['importFile'])) {
+        	$file = $_POST['importFile'];
+		} else {
+		    $sourceForm->getElement('source')->feed();
+    		$fileInfo = $sourceForm->getValue('source');
+    	    $file = $fileInfo['uploaded_file'];
+	    }
+	    
+		$properties = array(tao_helpers_Uri::encode(RDFS_LABEL) => __('Label'));
+		$rangedProperties = array();
+		
+		$topLevelClass = new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);
+		$classProperties = tao_models_classes_TaoService::singleton()->getClazzProperties($clazz, $topLevelClass);
+
+		foreach($classProperties as $property){
+			common_Logger::i($property->getLabel());
+			if(!in_array($property->getUri(), $this->getExludedProperties())){
+				//@todo manage the properties with range
+				$range = $property->getRange();
+				$properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
+				
+				if($range->getUri() != RDFS_LITERAL){
+					$rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
+				}
+			}
+		}
+		
+		//load the csv data from the file (uploaded in the upload form) to get the columns
+		$csv_data = new tao_helpers_data_CsvFile($sourceForm->getValues());
+		$csv_data->load($file);
+
+		$csvColMapping = array();
+		//build the mapping form 
+		if ($csv_data->count()) {
+			
+			// 'class properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel') describing properties belonging to the target class.
+			// 'ranged properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel')  describing properties belonging to the target class and that have a range.
+			// 'csv_column' contains an array(int:columnIndex => 'str:columnLabel') that will be used to create the selection of possible CSV column to map in views.
+			// 'csv_column' might have NULL values for 'str:columnLabel' meaning that there was no header row with column names in the CSV file. 
+			
+		    // Format the column mapping option for the form.
+			if ($sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES) && null != $csv_data->getColumnMapping()){
+				// set the column label for each entry.
+				// $csvColMapping = array('label', 'comment', ...)
+				$csvColMapping = $csv_data->getColumnMapping();
+			}
+			else{
+				// set an empty value for each entry of the array
+				// to describe that column names are unknown.
+				// $csvColMapping = array(null, null, ...)
+				for ($i = 0; $i < $csv_data->getColumnCount(); $i++) {
+					$csvColMapping[$i] = null;
+				}
+			}
+		}
+		$values = $sourceForm->getValues();
+		$values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] = !empty($values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]);
+		$values['importFile'] = $file;
+	    $myFormContainer = new tao_models_classes_import_CSVMappingForm($values, array(
+			'class_properties'  		=> $properties,
+			'ranged_properties'			=> $rangedProperties,
+			'csv_column'				=> $csvColMapping,
+	    	'first_row_column_names'	=> $sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES),
+		));
+		return $myFormContainer;
+	}
+	
+    /**
      * (non-PHPdoc)
      * @see tao_models_classes_import_ImportHandler::import()
      */
-    public function import($class, $formValues) {
-				//import for CSV
-		$importData = array();
-		$importData['options'] = array(
-			'field_delimiter' 			=> $formValues['field_delimiter'],
-			'field_encloser' 			=> $formValues['field_encloser'],
-			'line_break' 				=> "\n",
-			'multi_values_delimiter' 	=> $formValues['multi_values_delimiter'],
-			'first_row_column_names' 	=> isset($formValues['first_row_column_names'][0])
-		);
-		if(!empty($formValues['column_order'])){
-			$importData['options']['column_order'] = $formValues['column_order'];
-		}
-		$fileData = $formValues['source'];
-		$importData['file'] = $fileData['uploaded_file'];
+    public function import($class, $form) {
+	
+        $report = new common_report_Report();
+		// Clean "csv_select" values from form view.
+		// Transform any "csv_select" in "csv_null" in order to
+		// have the same importation behaviour for both because
+		// semantics are the same.
+		$map = $form->getValues('property_mapping');
+		$newMap = array();
 		
-		$this->setSessionAttribute('import', $importData);
-		$this->redirect(_url('mapping'));
-    }
-    
-	/**
-	 * display the mapping form, after a CSV file import. This is the second (and last) form
-	 * the users see to import a CSV file.
-	 * @return void
-	 */
-	public function mapping(){
-		if(!$this->hasSessionAttribute('import')){
-			$this->redirect(_url('upload'));
-		}
-		
-		if($this->hasSessionAttribute('classUri')){
-			
-			//get the import options in the session (from the upload form)
-			$importData = $this->getSessionAttribute('import');
-			
-			//initialize the adapter
-			$adapterOptions = array_merge($this->additionalAdapterOptions, $importData['options']);
-			$adapter = new tao_helpers_data_GenerisAdapterCsv($adapterOptions);
-			
-			$service = tao_models_classes_Service::getServiceByName(str_replace('tao', '',Context::getInstance()->getExtensionName()));
-			
-			//get the current class of properties
-			$clazz = new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getSessionAttribute('classUri')));
-			$properties = array(tao_helpers_Uri::encode(RDFS_LABEL) => __('Label'));
-			$rangedProperties = array();
-			
-			$topLevelClass = new core_kernel_classes_Class(CLASS_GENERIS_RESOURCE);
-			$classProperties = $service->getClazzProperties($clazz, $topLevelClass);
-
-			foreach($classProperties as $property){
-				common_Logger::i($property->getLabel());
-				if(!in_array($property->getUri(), $this->excludedProperties)){
-					//@todo manage the properties with range
-					$range = $property->getRange();
-					$properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
-					
-					if($range->getUri() != RDFS_LITERAL){
-						$rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
-					}
-				}
-			}
-			
-			//load the csv data from the file (uploaded in the upload form) to get the columns
-			$csv_data = $adapter->load($importData['file']);
-			
-			//build the mapping form 
-			if ($csv_data->count()) {
-				
-				// 'class properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel') describing properties belonging to the target class.
-				// 'ranged properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel')  describing properties belonging to the target class and that have a range.
-				// 'csv_column' contains an array(int:columnIndex => 'str:columnLabel') that will be used to create the selection of possible CSV column to map in views.
-				// 'csv_column' might have NULL values for 'str:columnLabel' meaning that there was no header row with column names in the CSV file. 
-				
-				// Format the column mapping option for the form.
-				$csvColMapping = array();
-				if (true == $importData['options']['first_row_column_names'] && null != $csv_data->getColumnMapping()){
-					// set the column label for each entry.
-					// $csvColMapping = array('label', 'comment', ...)
-					$csvColMapping = $csv_data->getColumnMapping();
-				}
-				else{
-					// set an empty value for each entry of the array
-					// to describe that column names are unknown.
-					// $csvColMapping = array(null, null, ...)
-					for ($i = 0; $i < $csv_data->getColumnCount(); $i++) {
-						$csvColMapping[$i] = null;
-					}
-				}
-				
-				$myFormContainer = new tao_actions_form_CSVMapping(array(), array(
-					'class_properties'  		=> $properties,
-					'ranged_properties'			=> $rangedProperties,
-					'csv_column'				=> $csvColMapping,
-					'first_row_column_names'	=> $importData['options']['first_row_column_names']
-				));
-				
-				$myForm = $myFormContainer->getForm();
-				
-				if($myForm->isSubmited()){
-					
-					if($myForm->isValid()){
-						
-						// set the mapping to the adapter
-						// Clean "csv_select" values from form view.
-						// Transform any "csv_select" in "csv_null" in order to
-						// have the same importation behaviour for both because
-						// semantics are the same.
-						$map = $myForm->getValues('property_mapping');
-						$newMap = array();
-						
-						foreach($map as $k => $m) {
-							if ($m !== 'csv_select') {
-								$newMap[$k] = $map[$k];
-							}
-							else {
-								$newMap[$k] = 'csv_null';
-							}
-						}
-						
-						$adapter->addOption('map', $newMap);
-						$adapter->addOption('staticMap', array_merge($myForm->getValues('ranged_property'), $this->staticData));
-						
-						//import it!
-						if($adapter->import($importData['file'], $clazz)){
-							$this->setData('message', __('Data imported successfully'));
-							$this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($clazz->getUri()));
-							$this->removeSessionAttribute('classUri');
-							$this->setData('reload', true);
-							
-							@unlink($importData['file']);
-						}
-					}
-				}
-				
-				$this->setData('myForm', $myForm->render());
-				$this->setData('formTitle', __('Import into ').$clazz->getLabel());
-				$this->setView('form.tpl', 'tao');
+		foreach($map as $k => $m) {
+			if ($m !== 'csv_select') {
+				$newMap[$k] = $map[$k];
 			}
 			else {
-				// Nothing was retrieved.
-				$this->redirect('index');
+				$newMap[$k] = 'csv_null';
 			}
+		    common_Logger::d('map: ' . $k . ' => '. $newMap[$k]);
 		}
-	}
-
+		
+		common_Logger::i('source: ' . $form->getValue('importFile'));
+		
+		$options = $form->getValues();
+		$options['map'] = $newMap;
+		$options['staticMap'] = array_merge($form->getValues('ranged_property'), $this->getStaticData());
+		$options = array_merge($options, $this->getAdditionAdapterOptions());
+		$adapter = new tao_helpers_data_GenerisAdapterCsv($options);
+		
+		//import it!
+		if($adapter->import($form->getValue('importFile'), $class)){
+		    $report->add(new common_report_SuccessElement(''));
+		    $report->setTitle(__('Data imported successfully'));
+			@unlink($form->getValue('importFile'));
+		} else {
+		    $report->add(new common_report_ErrorElement(__('Import failed')));
+		}
+		return $report;
+    }
+    
+    protected function getExludedProperties() {
+        return array(
+            PROPERTY_COMMENT
+        );
+    }
+    
+    protected function getStaticData() {
+        return array();
+    }
+    
+    protected function getAdditionAdapterOptions() {
+        return array();
+    }
 }
 
 ?>
