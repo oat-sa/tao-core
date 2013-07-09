@@ -86,12 +86,12 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 
 	    //could be improved using the x- prefix
 
-	     if (isset($this->headers[$string])) return ($this->headers[$string]); else return false;
+	     return isset($this->headers[$string]) ? $this->headers[$string] : false;
 	}
 	protected function hasHeader($string){
 	    //could be improved using the x- prefix
 	    
-	     if (isset($this->headers[$string])) return true; else return false;
+	     return isset($this->headers[$string]);
 	}
 	/*redistribute actions*/
 	public function index(){
