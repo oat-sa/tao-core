@@ -20,12 +20,12 @@
  */
 
 /**
- * Short description of class taoQTI_models_classes_ItemModel
+ * importhandler for RDF
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- * @subpackage models_classes_Export
+ * @subpackage models_classes_import
  */
 class tao_models_classes_import_RdfImporter implements tao_models_classes_import_ImportHandler
 {
@@ -47,6 +47,10 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
     	return $form->getForm();
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see tao_models_classes_import_ImportHandler::import()
+     */
     public function import($class, $form) {
     	
         $fileInfo = $form->getValue('source');

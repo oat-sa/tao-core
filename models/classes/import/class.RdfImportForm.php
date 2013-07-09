@@ -20,7 +20,7 @@
  */
 
 /**
- * Export form for QTI packages
+ * Import form for RDF
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -89,6 +89,6 @@ class tao_models_classes_import_RdfImportForm
 		$this->form->addElement($rdfSentElt);
     }
 
-} /* end of class taoItems_actions_form_Export */
+}
 
 ?>

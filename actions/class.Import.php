@@ -22,7 +22,7 @@
 ?>
 <?php
 /**
- * This controller provide the actions to export and manage exported data
+ * This controller provide the actions to import resources
  * 
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
@@ -68,8 +68,9 @@ class tao_actions_Import extends tao_actions_CommonModule {
 	}
 	
 	/**
+	 * Returns the currently selecte importhandler
+	 * or the importhandler to use by default
 	 * 
-	 * Enter description here ...
 	 * @return tao_models_classes_import_ImportHandler
 	 */
 	private function getCurrentImporter() {
@@ -84,6 +85,11 @@ class tao_actions_Import extends tao_actions_CommonModule {
 		return current($this->getAvailableImportHandlers());
 	}
 	
+	/**
+	 * Gets the available import handlers for this module
+	 * Should be overwritten by extensions that want to provide
+	 * additional Importhandlers
+	 */
 	protected function getAvailableImportHandlers() {
 		return array(
 			new tao_models_classes_import_RdfImporter(),
@@ -91,6 +97,9 @@ class tao_actions_Import extends tao_actions_CommonModule {
 		);
 	}
 	
+	/**
+	 * Helper to get the selected class, needs to be passed as hidden field in the form
+	 */
 	protected function getCurrentClass() {
 		return new core_kernel_classes_Class(tao_helpers_Uri::decode($this->getRequestParameter('classUri')));
 	}

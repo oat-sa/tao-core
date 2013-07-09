@@ -31,6 +31,7 @@
 class tao_helpers_data_GenerisAdapterCsv
     extends tao_helpers_data_GenerisAdapter
 {
+    
     /**
      * Short description of attribute loadedFile
      *
@@ -294,24 +295,20 @@ class tao_helpers_data_GenerisAdapterCsv
      */
     private function importStaticData($staticMap, $map,  core_kernel_classes_Resource $resource)
     {
-    	foreach($staticMap as $propUri => $value){
-    		if (strpos($propUri, TEMP_SUFFIX_CSV) !== false){
-    			$cleanUri = str_replace(TEMP_SUFFIX_CSV, '', $propUri);
-    				
-    			// If the property was not included in the original CSV file...
-    			if(!array_key_exists($cleanUri, $map) || $map[$cleanUri] == 'csv_null' || $map[$cleanUri] == 'csv_select'){
-    				if($propUri == RDF_TYPE){
-    					$resource->setType(new core_kernel_classes_Class($value));
-    				}
-    				else{
-    					$values = (is_array($value)) ? $value : array($value);
-    						
-    					foreach ($values as $v){
-    						$resource->setPropertyValue(new core_kernel_classes_Property($cleanUri), $v);
-    					}
-    				}
-    			}	
-    		}
+    	foreach($staticMap as $cleanUri => $value){
+			// If the property was not included in the original CSV file...
+			if(!array_key_exists($cleanUri, $map) || $map[$cleanUri] == 'csv_null' || $map[$cleanUri] == 'csv_select'){
+				if($propUri == RDF_TYPE){
+					$resource->setType(new core_kernel_classes_Class($value));
+				}
+				else{
+					$values = (is_array($value)) ? $value : array($value);
+						
+					foreach ($values as $v){
+						$resource->setPropertyValue(new core_kernel_classes_Property($cleanUri), $v);
+					}
+				}
+			}	
 		}
     }
 

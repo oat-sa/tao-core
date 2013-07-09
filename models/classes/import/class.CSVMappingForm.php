@@ -35,7 +35,13 @@ class tao_models_classes_import_CSVMappingForm
     // --- ATTRIBUTES ---
 
     // --- OPERATIONS ---
-
+    /**
+     * Suffix to append to the default values of the properties
+     * @var string
+     */
+    const DEFAULT_VALUES_SUFFIX = '-taocsvdef';
+    
+    
     /**
      * Short description of method initForm
      *
@@ -125,7 +131,7 @@ class tao_models_classes_import_CSVMappingForm
     		$property = new core_kernel_classes_Property(tao_helpers_Uri::decode($propertyUri));
     		$propElt = tao_helpers_form_GenerisFormFactory::elementMap($property);
     		if(!is_null($propElt)){
-    			$defName = tao_helpers_Uri::encode($property->getUri()) . TEMP_SUFFIX_CSV;
+    			$defName = tao_helpers_Uri::encode($property->getUri()) . self::DEFAULT_VALUES_SUFFIX;
     			$propElt->setName($defName);
     			$this->form->addElement($propElt);
     			$ranged[$defName] = $propElt;

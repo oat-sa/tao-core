@@ -22,7 +22,7 @@
 
 /**
  * A class that handles everythign around the importation of
- * one or several resources from a single file
+ * one or several resources
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
@@ -40,7 +40,8 @@ interface tao_models_classes_import_ImportHandler
     public function getLabel();
     
     /**
-     * Returns a form in order to prepare the import 
+     * Returns a form in order to prepare the import
+     * if the import is from a file, the form should include the file element
      * 
      * @param array $data the users tree selection
      * @return tao_helpers_form_Form

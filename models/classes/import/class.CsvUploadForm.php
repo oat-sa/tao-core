@@ -120,6 +120,6 @@ class tao_models_classes_import_CsvUploadForm
 		));
     }
    
-} /* end of class taoItems_actions_form_Export */
+}
 
 ?>

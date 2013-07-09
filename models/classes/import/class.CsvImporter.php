@@ -160,7 +160,14 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
 		
 		$options = $form->getValues();
 		$options['map'] = $newMap;
-		$options['staticMap'] = array_merge($form->getValues('ranged_property'), $this->getStaticData());
+		$staticMap = array();
+		foreach ($form->getValues('ranged_property') as $propUri => $value) {
+            if (strpos($propUri, tao_models_classes_import_CSVMappingForm::DEFAULT_VALUES_SUFFIX) !== false){
+    			$cleanUri = str_replace(tao_models_classes_import_CSVMappingForm::DEFAULT_VALUES_SUFFIX, '', $propUri);
+    			$staticMap[$cleanUri] = $value;
+            }
+		}
+		$options['staticMap'] = array_merge($staticMap, $this->getStaticData());
 		$options = array_merge($options, $this->getAdditionAdapterOptions());
 		$adapter = new tao_helpers_data_GenerisAdapterCsv($options);
 		
@@ -175,16 +182,44 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
 		return $report;
     }
     
+    /**
+     * Returns an array of the Uris of the properties
+     * that should not be importable via CVS
+     * 
+     * Can be overriden by CsvImporters that are adapted to
+     * import resources of a specific class 
+     * 
+     * @return array
+     */
     protected function getExludedProperties() {
         return array(
             PROPERTY_COMMENT
         );
     }
     
+    /**
+     * Returns an key => value array of properties
+     * to be set on the new resources
+     * 
+     * Can be overriden by CsvImporters that are adapted to
+     * import resources of a specific class 
+     * 
+     * @return array
+     */
     protected function getStaticData() {
         return array();
     }
     
+    /**
+     * Returns aditional options to be set to the
+     * GenericAdapterCsv
+     * 
+     * Can be overriden by CsvImporters that are adapted to
+     * import resources of a specific class 
+     * 
+     * @see tao_helpers_data_GenerisAdapterCsv
+     * @return array
+     */
     protected function getAdditionAdapterOptions() {
         return array();
     }
