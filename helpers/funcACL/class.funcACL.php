@@ -139,7 +139,7 @@ class tao_helpers_funcACL_funcACL
 		$extAccess = tao_helpers_funcACL_Cache::retrieveExtensions();
 		//Test if we have a role giving access to the extension.
 		foreach ($roles as $r){
-			if (in_array($r->getUri(), $extAccess[$extensionUri])){
+			if (isset($extAccess[$extensionUri]) && in_array($r->getUri(), $extAccess[$extensionUri])){
 				$returnValue = true;
 				break;
 			}
