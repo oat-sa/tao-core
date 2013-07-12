@@ -78,7 +78,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	 * @return mixed
 	 */
 	public function getRequestParameter($string){
-	    echo $string;
+	   
 	    if (isset($this->headers[$string])) {
 		
 		$headerValues = explode(',', $this->headers[$string]);
