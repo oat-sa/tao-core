@@ -44,12 +44,12 @@ abstract class tao_models_classes_CrudService
 		throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
 		}
 		$resource = new core_kernel_classes_Resource($uri);
-		return $resource->getResourceDescription(true);
+		return $resource->getResourceDescription(false);
 	}
 	public function getAll(){
 		$resources = array();
 		    foreach ($this->getRootClass()->getInstances(true) as $resource) {
-			$resources[] = $resource->getResourceDescription(true);
+			$resources[] = $resource->getResourceDescription(false);
 		    }
 		return $resources;
 	}
