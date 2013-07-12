@@ -35,12 +35,15 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	private $authMethod = "Basic"; //{auth, Basic}
 	private $responseEncoding = "application/json";  //the default content type if nothing specified in the Accept {application/json, text/xml, application/xml}
 	private $currentUser = null;
-	private $headers = null;
 
+	private $headers = null;
+	private $files= null;
 	public function __construct(){
 	    parent::__construct();
 	    //$this->headers = HttpResponse::getRequestHeaders();
 	    $this->headers = tao_helpers_Http::getHeaders();
+	    $this->files = tao_helpers_Http::getFiles();
+
 	    if ($this->hasHeader("Accept")){
 		try {
 		    $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->acceptedMimeTypes, $this->getHeader("Accept")));
@@ -69,18 +72,26 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 
 
 	public function hasRequestParameter($string){
-	    return parent::hasRequestParameter($string) || isset($this->headers[$string]);
+	    return parent::hasRequestParameter($string) || isset($this->headers[$string]) || isset($this->files[$string]);
 	}
 	/*
 	 * @return mixed
 	 */
 	public function getRequestParameter($string){
+	    echo $string;
 	    if (isset($this->headers[$string])) {
-		$hearderValues = explode(',', $this->headers[$string]);
-		return (count($hearderValues)==1) ? ($this->headers[$string]) : $hearderValues;
+		
+		$headerValues = explode(',', $this->headers[$string]);
+		return (count($headerValues)==1) ? ($this->headers[$string]) : $headerValues;
 		}
-	   //if (parent::hasRequestParameter())
-		return parent::getRequestParameter($string);
+		//comapre $_POST[$string];
+		//The coreFw is encoding with html entities ???
+	    if (isset($this->files[$string])) {
+		return file_get_contents($this->files[$string]["tmp_name"]);
+
+	    }
+
+	    return parent::getRequestParameter($string);
 	}
 	protected function getHeader($string){
 
@@ -148,7 +159,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		}
 		case "Basic":{
 		    if (!(isset($_SERVER['PHP_AUTH_USER'])) or ($_SERVER['PHP_AUTH_USER']=="")){
-			common_Logger::w('Rest (Basic) login failed for user (missing login/password)'.$_SERVER['PHP_AUTH_USER']);
+			common_Logger::w('Rest (Basic) login failed for user (missing login/password)');
 
 			return false;
 		    }
