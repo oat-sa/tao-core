@@ -224,9 +224,16 @@ class Bootstrap{
     	catch (tao_models_classes_FileNotFoundException $e){
     		$this->dispatchError($e, 404);
     	}
+    	catch (common_exception_UserReadableException $e) {
+    		$this->dispatchError($e, 500, $e->getUserMessage());
+    	}
     	catch (Exception $e) {
-    		common_Logger::singleton()->e('The system encountered a problem, uncaught exception ('
-    				.get_class($e).') in ('.$e->getFile().') at line '.$e->getLine().': '.$e->getMessage());
+    		// Last resort.
+    		$msg = "System Error: uncaught exception (";
+    		$msg.= get_class($e) . ") in (".$e->getFile(). ")";
+    		$msg.= "at line ".$e->getLine().": ".$e->getMessage();
+
+    		common_Logger::e($msg);
     		
     		$message = $e->getMessage();
     		$trace = $e->getTraceAsString();
