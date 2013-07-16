@@ -229,3 +229,52 @@ util.confirmBox = function(title, message, userDefinedButtons){
 util.msie = function(){
 	return (!$.support.opacity);
 }
+
+/**
+ * Generates a facade that implements all functions
+ * of the provided class
+ * 
+ * @param {Object} classInstance
+ */
+util.generateFacade = function(classInstance){
+	
+	function DelegationSkeleton() {
+		this.implementation = null;
+		this.pendingCalls = new Array();
+	}
+
+	DelegationSkeleton.prototype.setImplementation = function(implementation) {
+		this.implementation = implementation;
+		for (var i = 0; i < this.pendingCalls.length; i++) {
+			this.pendingCalls[i](implementation);
+		};
+		this.pendingCalls = new Array();
+	};
+
+	DelegationSkeleton.prototype.__delegate = function(call) {
+		if (this.implementation != null) {
+			return call(this.implementation);
+		} else {
+			this.pendingCalls.push(function(implementation) {
+				return call(implementation);
+			});
+		}
+	};
+	
+	var Facade = function() {};
+	Facade.prototype = new DelegationSkeleton();
+	Facade.prototype.constructor = Facade;
+	Facade.prototype.parent = DelegationSkeleton.prototype;
+	
+	for (var member in classInstance.prototype) {
+		Facade.prototype[member] = function(member) {
+			return function() {
+				this.__delegate((function(argArray) {return function(implementation) {
+					implementation[member].apply(implementation, argArray);
+				}})(Array.slice(arguments)));
+			};
+		}(member);
+	}
+	
+	return new Facade;
+}
