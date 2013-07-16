@@ -1,6 +1,5 @@
 /**
- * WYSIWYG - jQuery plugin 0.93
- * (koken)
+ * WYSIWYG - jQuery plugin 0.92 (arigatou gozaimasu)
  *
  * Copyright (c) 2008-2009 Juan M Martinez, 2010 Akzhan Abdulin and all contrbutors
  * http://plugins.jquery.com/project/jWYSIWYG
@@ -8,12 +7,9 @@
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
- *
- * $Id: $
  */
 
 /*jslint browser: true, forin: true */
-
 (function ($)
 {
         /**
@@ -29,15 +25,17 @@
         {
                 var element = $(elts).get(0);
 
-                if (element.nodeName.toLowerCase() == 'iframe')
-                {
+				if (element.nodeName.toLowerCase() === "iframe") {
+					
+					if (element.contentDocument) {				// Gecko
+						return element.contentDocument;
+					} else if (element.contentWindow) {			// IE
                         return element.contentWindow.document;
-                        /*
-                         return ( $.browser.msie )
-                         ? document.frames[element.id].document
-                         : element.contentWindow.document // contentDocument;
-                         */
                 }
+					
+					throw new QTIauthoringException('jwysiwyg', "Unexpected error in innerDocument");
+				}
+
                 return element;
         };
 
@@ -119,9 +117,9 @@
         };
 
         $.fn.wysiwyg.defaults = {
-                html: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">STYLE_SHEET</head><body style="margin: 0px;">INITIAL_CONTENT</body></html>',
+                html: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">STYLE_SHEET</head><body>INITIAL_CONTENT</body></html>',
                 formTableHtml: '<form class="wysiwyg"><fieldset><legend>Insert table</legend><label>Count of columns: <input type="text" name="colCount" value="3" /></label><label><br />Count of rows: <input type="text" name="rowCount" value="3" /></label><input type="submit" class="button" value="Insert table" /> <input type="reset" value="Cancel" /></fieldset></form>',
-                formImageHtml:'<form class="wysiwyg"><fieldset><legend>Insert Image</legend><label>Image URL: <input type="text" name="url" value="http://" /></label><label>Image Title: <input type="text" name="imagetitle" value="" /></label><label>Image Description: <input type="text" name="description" value="" /></label><input type="submit" class="button" value="Insert Image" /> <input type="reset" value="Cancel" /></fieldset></form>',
+                formImageHtml:'<form class="wysiwyg"><fieldset><legend>Insert Image</legend><label>Image URL: <input type="text" name="url" value="http://" /></label><label>Image Description: <input type="text" name="description" value="" /></label><input type="submit" class="button" value="Insert Image" /> <input type="reset" value="Cancel" /></fieldset></form>',
                 formWidth: 440,
                 formHeight: 270,
                 tableFiller: 'Lorem ipsum',
@@ -286,19 +284,28 @@
                         exec: function ()
                         {
                                 var self = this;
-                                if ($.modal)
+                                if (false)
                                 {
                                         $.modal($.fn.wysiwyg.defaults.formImageHtml, {
                                                 onShow: function(dialog)
                                                 {
+												if($.fn.fmbind){
+													//add tao file manager
+													$('input[name="url"]').fmbind({type: 'image', showselect: true}, function(elt, value){
+														$(elt).val(value);
+													});
+												}
+												
                                                         $('input:submit', dialog.data).click(function(e)
                                                         {
                                                                 e.preventDefault();
                                                                 var szURL = $('input[name="url"]', dialog.data).val();
-                                                                var title = $('input[name="imagetitle"]', dialog.data).val();
                                                                 var description = $('input[name="description"]', dialog.data).val();
-                                                                var img="<img src='" + szURL + "' title='" + title + "' alt='" + description + "' />";
+														var img="<img src='" + szURL + "' alt='" + description + "' />";
                                                                 self.insertHtml(img);
+														
+														self.saveContent();//line added to update the original textarea
+														
                                                                 $.modal.close();
                                                         });
                                                         $('input:reset', dialog.data).click(function(e)
@@ -322,14 +329,23 @@
                                             height: $.fn.wysiwyg.defaults.formHeight,
                                             open: function(ev, ui)
                                             {
+												if($.fn.fmbind){
+													//add tao file manager
+													$('input[name="url"]').fmbind({type: 'image'}, function(elt, value){
+														$(elt).val(value);
+													});
+												}
+												
                                                  $('input:submit', $(this)).click(function(e)
                                                  {
                                                        e.preventDefault();
                                                        var szURL = $('input[name="url"]', dialog).val();
-                                                       var title = $('input[name="imagetitle"]', dialog).val();
                                                        var description = $('input[name="description"]', dialog).val();
-                                                       var img="<img src='" + szURL + "' title='" + title + "' alt='" + description + "' />";
+                                                       var img="<img src='" + szURL + "' alt='" + description + "' />";
                                                        self.insertHtml(img);
+													   
+													   self.saveContent();//line added to update the original textarea
+
                                                        $(dialog).dialog("close");
                                                  });
                                                  $('input:reset', $(this)).click(function(e)
@@ -340,7 +356,6 @@
                                             },
                                             close: function(ev, ui){
         		                                  $(this).dialog("destroy");
-
                                             }
                                         });
                                     }
@@ -509,18 +524,29 @@
                                 {
                                         this.setContent($(this.original).val());
                                         $(this.original).hide();
+										$(this.editor).parent().css('height', '95%');
 										$(this.editor).show();
+										
+										if(this.options.events.unsetHTMLview){
+											this.options.events.unsetHTMLview(this.editorDoc);
+                                }
                                 }
                                 else
                                 {
 									    var $ed = $(this.editor);
                                         this.saveContent();
+										
                                         $(this.original).css({
                                                 width:  $(this.element).outerWidth() - 6,
 												height: $(this.element).height() - $(this.panel).height() - 6,
 												resize: 'none'
 										}).show();
 										$ed.hide();
+										$(this.editor).parent().css('height', 'auto');
+										
+										if(this.options.events.setHTMLview){
+											this.options.events.setHTMLview(this.editorDoc);
+                                }
                                 }
 
                                 this.viewHTML = !(this.viewHTML);
@@ -640,6 +666,12 @@
 						return self.getContent();
                 },
 
+				saveContent: function()
+                {
+					    var self = $.data(this, 'wysiwyg');
+						self.saveContent();
+                },
+				
                 setContent: function (newContent)
                 {
 					    var self = $.data(this, 'wysiwyg');
@@ -681,6 +713,11 @@
                         var self = $.data(this, 'wysiwyg');
                         self.destroy();
 						return this;
+                },
+				
+				undo: function(){
+					var self = $.data(this, 'wysiwyg');
+					self.editorDoc.execCommand('undo', false, null);
                 }
         });
 
@@ -748,17 +785,17 @@
                                 if (newX === 0 && element.cols)
                                 {
                                         newX = (element.cols * 8) + 21;
-										element.cols = 0;
+										element.cols = 1;
                                 }
                                 if (newY === 0 && element.rows)
                                 {
                                         newY = (element.rows * 16) + 16;
-										element.rows = 0;
+										element.rows = 1;
                                 }
                                 this.editor = $(location.protocol == 'https:' ? '<iframe src="javascript:false;"></iframe>' : '<iframe></iframe>').attr('frameborder', '0');
 								if (options.iFrameClass)
 								{
-									this.editor.addClass(iFrameClass);
+									this.editor.addClass(options.iFrameClass);
 								}
 								else
 								{
@@ -839,12 +876,24 @@
                         /**
                          * @link http://code.google.com/p/jwysiwyg/issues/detail?id=14
                          */
-                        if (this.options.css && this.options.css.constructor == String)
-                        {
+                        if (this.options.css){
+							if(this.options.css.constructor == String){
                                 style = '<link rel="stylesheet" type="text/css" media="screen" href="' + this.options.css + '" />';
+							}else if(typeof this.options.css == 'array' || typeof this.options.css == 'object'){
+								var cssArray = $.makeArray(this.options.css);
+								var len = cssArray.length;
+								for(var i=0; i<len; i++){
+									if(isNaN(i))continue;//ie compability
+									style += '<link rel="stylesheet" type="text/css" media="screen" href="' + cssArray[i] + '" />';
+                        }
+							}
                         }
 
+						try{
                         this.editorDoc = innerDocument(this.editor);
+						}catch(e){
+							CL(e.name, e.message);
+						}
                         this.editorDoc_designMode = false;
 
                         this.designMode();
@@ -988,6 +1037,15 @@
                                 $(self.editorDoc).bind("cut", handler);
                             }
                         }
+						
+						//call the frame ready callback function if required
+						if(this.editorDoc && self.options.events){
+							if(self.options.events.frameReady){
+								$(this.editorDoc).ready(function(){
+									self.options.events.frameReady(self);
+								});
+							}
+						}
                 },
 
                 designMode: function ()
@@ -1039,12 +1097,27 @@
 
                 getContent: function ()
                 {
-                        return $(innerDocument(this.editor)).find('body').html();
+						var returnValue = $(innerDocument(this.editor)).find('body').html();
+						//before getting content:
+						if(this.options.events && this.options.events.afterGetContent){
+							returnValue = this.options.events.afterGetContent(returnValue);
+						}
+						
+                        return returnValue;
                 },
 
                 setContent: function (newContent)
                 {
+						if(this.options.events && this.options.events.beforeSetContent){
+							newContent = this.options.events.beforeSetContent(newContent, this);
+						}
+						
                         $(innerDocument(this.editor)).find('body').html(newContent);
+						
+						if(this.options.events && this.options.events.afterSetContent){
+							this.options.events.afterSetContent.call(this)
+						}
+						
 						return this;
                 },
                 insertHtml: function (szHTML)
@@ -1096,16 +1169,18 @@
                 },
                 saveContent: function ()
                 {
-                        if (this.original)
-                        {
-                                var content = this.getContent();
+                        if (this.original){
 
-                                if (this.options.rmUnwantedBr)
-                                {
-                                        content = (content.substr(-4) == '<br>') ? content.substr(0, content.length - 4) : content;
+                                var content = this.getContent();
+                                if (this.options.rmUnwantedBr){
+                                        content = (content.substr(-4) == '<br/>') ? content.substr(0, content.length - 4) : content;
+                                }
+								if(this.options.events && this.options.events.beforeSaveContent) {
+                                    content = this.options.events.beforeSaveContent(content);
                                 }
 
                                 $(this.original).val(content);
+								
                                 if(this.options.events && this.options.events.save) {
                                     this.options.events.save.call(this);
                                 }
@@ -1113,64 +1188,54 @@
 						return this;
                 },
 
-                withoutCss: function ()
-                {
-                        if ($.browser.mozilla)
-                        {
-                                try
-                                {
+                withoutCss: function(){
+					if ($.browser.mozilla){
+						try{
                                         this.editorDoc.execCommand('styleWithCSS', false, false);
-                                }
-                                catch (e)
-                                {
-                                        try
-                                        {
+						}catch(e){
+							try{
                                                 this.editorDoc.execCommand('useCSS', false, true);
+							}catch(e2){}
                                         }
-                                        catch (e2)
-                                        {
                                         }
-                                }
-                        }
 						return this;
                 },
 
-                appendMenu: function (cmd, args, className, fn, tooltip)
-                {
+                appendMenu: function (cmd, args, className, fn, tooltip){
+					
                         var self = this;
                         args = args || [];
-
-                        return $('<li role="menuitem" UNSELECTABLE="on">' + (className || cmd) + '</li>').addClass(className || cmd).attr('title', tooltip).hover(addHoverClass, removeHoverClass).click(function ()
-                        {
-                                if (fn)
-                                {
+                        return $('<li role="menuitem" UNSELECTABLE="on">' + (className || cmd) + '</li>').addClass(className || cmd).attr('title', tooltip).hover(addHoverClass, removeHoverClass).click(function(){
+							if(fn){
                                         fn.apply(self);
-                                }
-                                else
-                                {
+							}else{	
                                         self.focus();
                                         self.withoutCss();
+								if($.browser.chrome && args.match(/h[0-6]{1}/).length){
+									self.editorDoc.execCommand('formatBlock', false, '<'+args+'>'); 
+								}else{
                                         self.editorDoc.execCommand(cmd, false, args);
                                 }
-                                if (self.options.autoSave)
-                                {
+							}
+							if(self.options.autoSave){
                                         self.saveContent();
                                 }
                                 this.blur();
                         }).appendTo(this.panel);
                 },
 
-                appendMenuSeparator: function ()
-                {
+                appendMenuSeparator: function(){
                         return $('<li role="separator" class="separator"></li>').appendTo(this.panel);
                 },
-                parseControls: function() {
+				
+                parseControls: function(){
                     if(this.options.parseControls) {
                         return this.options.parseControls.call(this);
                     }
                     return this.options.controls;
                 },
-                appendControls: function ()
+				
+                appendControls: function()
                 {
                         var controls = this.parseControls();
                         var currentGroupIndex  = 0;
