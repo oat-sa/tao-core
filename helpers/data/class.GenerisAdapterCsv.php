@@ -298,7 +298,7 @@ class tao_helpers_data_GenerisAdapterCsv
     	foreach($staticMap as $cleanUri => $value){
 			// If the property was not included in the original CSV file...
 			if(!array_key_exists($cleanUri, $map) || $map[$cleanUri] == 'csv_null' || $map[$cleanUri] == 'csv_select'){
-				if($propUri == RDF_TYPE){
+				if($cleanUri == RDF_TYPE){
 					$resource->setType(new core_kernel_classes_Class($value));
 				}
 				else{
