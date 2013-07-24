@@ -61,8 +61,9 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
 			
 		$parser->validate();
 		if(!$parser->isValid()){
-			$this->setData('importErrorTitle', __('Validation of the imported file has failed'));
-			$this->setData('importErrors', $parser->getErrors());
+			$report = common_report_Report::createFailure(__('Nothing imported'));
+			$report->add($parser->getReport());
+			return $report;
 		} else{
 		
 			//initialize the adapter
