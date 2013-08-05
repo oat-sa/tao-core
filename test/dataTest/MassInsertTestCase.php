@@ -84,7 +84,7 @@ class MassInsertTestCase extends UnitTestCase {
 		
 		$classLanguage = new core_kernel_classes_Class(CLASS_LANGUAGES);
 		$this->languages = $classLanguage->getInstances();
-		$this->testService = taoTests_models_classes_TestsService::singleton();
+		$this->testService = taoWfTest_models_classes_WfTestService::singleton();
 		$this->deliveryService = taoDelivery_models_classes_DeliveryService::singleton();
 		$this->itemService = taoItems_models_classes_ItemsService::singleton();
 		$this->subjectService = taoSubjects_models_classes_SubjectsService::singleton();
