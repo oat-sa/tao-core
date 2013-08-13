@@ -44,7 +44,7 @@ class tao_helpers_Date
     	$returnValue = '';
     	$ts = is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal ? $timestamp->__toString() : $timestamp;
     	$dateTime = new DateTime();
-    	$dateTime->setTimestamp($ts);
+    	$dateTime->setTimestamp($timestamp);
     	switch ($format) {
     		case self::FORMAT_LONG :
     			$returnValue = $dateTime->format('d/m/Y H:i:s');
@@ -56,6 +56,12 @@ class tao_helpers_Date
     			common_Logger::w('Unkown date format '.$format.' for '.__FUNCTION__, 'TAO');
     	}
     	return $returnValue;
+    }
+
+   static function getTimeStamp($microtime)
+    {
+    list($usec, $sec) = explode(" ", $microtime);
+    return ((float)$sec);
     }
 
 }
