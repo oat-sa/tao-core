@@ -48,18 +48,20 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
 		$tree = new self($resource, $property);
 		
 		$domainCollection = $property->getDomain();
-		$domain = $domainCollection->get(0);
-		$tree->setData('rootNode',		$domain->getUri());
-		$tree->setData('dataUrl',		_url('getData', 'GenerisTree', 'tao'));
-		$tree->setData('saveUrl',		_url('setReverseValues', 'GenerisTree', 'tao'));
-		
-		$values = array_keys($domain->searchInstances(array(
-			$property->getUri() => $resource
-		), array('recursive' => true, 'like' => false)));
-		
-		$tree->setData('values', $values);
-		$openNodeUris = tao_models_classes_GenerisTreeFactory::getNodesToOpen($values, $domain); 
-		$tree->setData('openNodes',		$openNodeUris);
+		if (!$domainCollection->isEmpty()) {
+    		$domain = $domainCollection->get(0);
+    		$tree->setData('rootNode',		$domain->getUri());
+    		$tree->setData('dataUrl',		_url('getData', 'GenerisTree', 'tao'));
+    		$tree->setData('saveUrl',		_url('setReverseValues', 'GenerisTree', 'tao'));
+    		
+    		$values = array_keys($domain->searchInstances(array(
+    			$property->getUri() => $resource
+    		), array('recursive' => true, 'like' => false)));
+    		
+    		$tree->setData('values', $values);
+    		$openNodeUris = tao_models_classes_GenerisTreeFactory::getNodesToOpen($values, $domain); 
+    		$tree->setData('openNodes',		$openNodeUris);
+		}
 		return $tree;
 	}
 	
