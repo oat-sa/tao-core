@@ -119,7 +119,7 @@
   	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole"/>
   	<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole"/>
   	<rdfs:label xml:lang="en-US"><![CDATA[Workflow Participant]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[The Workflow Role]]></rdfs:comment>
+    <rdfs:comment xml:lang="en-US"><![CDATA[The Workflow Participant Role]]></rdfs:comment>
   </rdf:Description>
   
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser">
