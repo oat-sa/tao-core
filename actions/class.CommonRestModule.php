@@ -168,7 +168,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 			common_Logger::w('Rest (Basic) login failed for user (wrong login)'.$_SERVER['PHP_AUTH_USER']);
 			return false;
 		    }
-		    if ($userService->loginUser($_SERVER['PHP_AUTH_USER'], md5($_SERVER['PHP_AUTH_PW']))) {
+		    if ($userService->loginUser($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
 			$this->currentUser = $user;
 			return $user;
 		    } else {

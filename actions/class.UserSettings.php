@@ -88,13 +88,9 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 				
 				if($binder->bind($userSettings)){
 
+				    core_kernel_classes_Session::singleton()->refresh();
 					$uiLangCode		= tao_models_classes_LanguageService::singleton()->getCode($uiLang);
-					$dataLangCode	= tao_models_classes_LanguageService::singleton()->getCode($dataLang);
-					
 					tao_helpers_I18n::init($uiLangCode);
-
-					core_kernel_classes_Session::singleton()->setInterfaceLanguage($uiLangCode);
-					core_kernel_classes_Session::singleton()->setDataLanguage($dataLangCode);
 
 					$this->setData('message', __('Settings updated'));
 

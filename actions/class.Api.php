@@ -89,7 +89,7 @@ class tao_actions_Api extends tao_actions_CommonModule {
 		$executionEnvironment = array(
 
 			'token'			=> $this->createToken(),
-			'localNamespace' => core_kernel_classes_Session::singleton()->getNameSpace(),
+			'localNamespace' => rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#'),
 		
 			CLASS_PROCESS_EXECUTIONS => array(
 				'uri'		=> $processExecution->getUri(),

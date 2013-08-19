@@ -186,8 +186,7 @@ class tao_actions_form_Clazz
 		$classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
 		$this->form->addElement($classUriElt);
 
-		$session = core_kernel_classes_Session::singleton();
-		$localNamespace = $session->getNameSpace();
+		$localNamespace = common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri();
 
 
 		//class properties edition: add a group form for each property

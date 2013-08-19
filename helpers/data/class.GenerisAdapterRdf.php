@@ -18,39 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Adapter for RDF/RDFS format
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package tao
- * @subpackage helpers_data
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * This class enables you to manage interfaces with data. 
- * It provides the default prototype to adapt the data import/export from/to any
- * format.
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- */
-require_once('tao/helpers/data/class.GenerisAdapter.php');
-
-/* user defined includes */
-// section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EB0-includes begin
-// section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EB0-includes end
-
-/* user defined constants */
-// section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EB0-constants begin
-// section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EB0-constants end
 
 /**
  * Adapter for RDF/RDFS format
@@ -104,8 +71,7 @@ class tao_helpers_data_GenerisAdapterRdf
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EBC begin
         
         $api = core_kernel_impl_ApiModelOO::singleton();
-        $session = core_kernel_classes_Session::singleton();
-		$localModel = $session->getNameSpace();
+		$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#')
 			
     	if(!is_null($destination) && file_exists($source)){
 			
@@ -144,8 +110,7 @@ class tao_helpers_data_GenerisAdapterRdf
 		
 		if(!is_null($source)){
 			
-			$session = core_kernel_classes_Session::singleton();
-			$localModel = $session->getNameSpace();
+			$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
 			$sourceModel = substr($source->getUri(), 0, strpos($source->getUri(), '#'));
 			if($localModel == $sourceModel){
 				$returnValue = $api->exportXmlRdf(array($localModel));
@@ -164,6 +129,4 @@ class tao_helpers_data_GenerisAdapterRdf
         return (string) $returnValue;
     }
 
-} /* end of class tao_helpers_data_GenerisAdapterRdf */
-
-?>
+}

@@ -68,34 +68,8 @@ class tao_models_classes_UserService
         $returnValue = (bool) false;
 
         try{
-        	if($this->generisUserService->login($login, $password, $this->getAllowedRoles())){
-        		
-        		// init languages
-        		$currentUser = $this->getCurrentUser();
-        		$valueProperty = new core_kernel_classes_Property(RDF_VALUE);
-        		
-        		try {
-        			$uiLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_UILG));
-        			if(!is_null($uiLg) && $uiLg instanceof core_kernel_classes_Resource) {
-        				$code = $uiLg->getUniquePropertyValue($valueProperty);
-						core_kernel_classes_Session::singleton()->setInterfaceLanguage($code);
-        			}
-        		} catch (common_exception_EmptyProperty $e) {
-        			// leave it to default
-        		}
-
-        		try {
-					$dataLg = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_DEFLG));
-					if(!is_null($dataLg) && $dataLg instanceof core_kernel_classes_Resource){
-        				$code = $dataLg->getUniquePropertyValue($valueProperty);
-						core_kernel_classes_Session::singleton()->setDataLanguage($code);
-					}
-        		} catch (common_exception_EmptyProperty $e) {
-					// leave it to default        				
-        		}
-				
-        		$returnValue = true; //roles order is important, we loggin with the first found
-        	}
+            $adapter = new core_kernel_users_AuthAdapter($login, $password);
+            $returnValue = common_user_auth_Service::singleton()->login($adapter, $this->getAllowedRoles());
         }
         catch(core_kernel_users_Exception $ue){
         	$returnValue = false;
@@ -195,6 +169,8 @@ class tao_models_classes_UserService
 			
 			if($this->generisUserService->userHasRoles($user, $allowedRoles)){
 				$returnValue = $user;
+			} else {
+			    common_Logger::i('User found for login \''.$login.'\' but does not have matchign roles');
 			}
 		} else {
 			common_Logger::i('No user found for login \''.$login.'\'');

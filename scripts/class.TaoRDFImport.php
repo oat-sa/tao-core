@@ -121,12 +121,12 @@ class tao_scripts_TaoRDFImport
         // section 10-13-1-85-386ea1c0:135859fbbdd:-8000:00000000000037D0 begin
         $userService = tao_models_classes_UserService::singleton();
         $this->outVerbose("Connecting to TAO as '" . $this->options['user'] . "' ...");
-        if ($userService->loginUser($this->options['user'], md5($this->options['password']))){
+        if ($userService->loginUser($this->options['user'], $this->options['password'])){
         	$this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
         	
         	//get the session & determine the target namespace.
         	$session = core_kernel_classes_Session::singleton();
-        	$targetNamespace = $session->getNameSpace();
+        	$targetNamespace = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
         	if (!empty($this->options['model'])){
         		$targetNamespace = $this->options['model'];
         	}

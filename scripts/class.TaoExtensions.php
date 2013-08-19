@@ -470,7 +470,7 @@ class tao_scripts_TaoExtensions
 
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003AC6 begin
         $userService = tao_models_classes_UserService::singleton();
-        $returnValue = $userService->loginUser($user, md5($password));
+        $returnValue = $userService->loginUser($user, $password);
         $this->setConnected($returnValue);
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003AC6 end
 

@@ -92,8 +92,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
-				$userService = tao_models_classes_UserService::singleton();
-				if($userService->loginUser($myForm->getValue('login'), md5($myForm->getValue('password')))){
+				$adapter = new core_kernel_users_AuthAdapter($myForm->getValue('login'), $myForm->getValue('password'));
+				if(common_user_auth_Service::singleton()->login($adapter)){
 					if ($this->hasRequestParameter('redirect')) {
 						$this->redirect($_REQUEST['redirect']);
 					} else {

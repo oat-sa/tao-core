@@ -103,14 +103,8 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 			$message =   __('Extension ') . $this->getCurrentExtension()->getID() . __(' has been installed');
 			$success = true;
 			
-			// @todo solve this differently.
-			$userService = tao_models_classes_UserService::singleton();
-			$session = core_kernel_classes_Session::singleton();
-			$userUri = $session->getUserUri();
-			$user = new core_kernel_classes_Resource($userUri);
-			$userLogin = $session->getUserLogin();
-			$userRoles = $userService->getUserRoles($user);
-			$session->setUser($userLogin, $userUri, $userRoles);
+			// reinit user session
+			$session = core_kernel_classes_Session::singleton()->refresh();
 		}
 		catch(common_ext_ExtensionException $e) {
 			$message = $e->getMessage();

@@ -52,7 +52,7 @@ class FuncACLTestCase extends UnitTestCase {
 		$baseRole = $this->testrole;
 		
 		$srv = tao_models_classes_UserService::singleton();
-		$this->assertTrue($srv->loginUser('testcase', md5('testcase')));
+		$this->assertTrue($srv->loginUser('testcase', 'testcase'));
 
 		// -- Test uri creation
 		$emauri = FUNCACL_NS . '#a_tao_Users_add';
@@ -80,7 +80,7 @@ class FuncACLTestCase extends UnitTestCase {
 		$roleService->attachUser($this->user->getUri(), $this->testRole->getUri());
 		
 		// Logoff/login, to refresh roles cache
-		$this->assertTrue($srv->loginUser('testcase', md5('testcase')));
+		$this->assertTrue($srv->loginUser('testcase', 'testcase'));
 		
 		// Ask for access
 		$this->assertTrue(tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', 'add'));

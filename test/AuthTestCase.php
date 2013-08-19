@@ -45,8 +45,8 @@ class AuthTestCase extends UnitTestCase {
 		PROPERTY_USER_LASTNAME	=>	'Doe',
 		PROPERTY_USER_FIRSTNAME	=>	'Jane',
 		PROPERTY_USER_MAIL		=>	'jane.doe@tao.lu',
-		PROPERTY_USER_DEFLG		=>	'EN',
-		PROPERTY_USER_UILG		=>	'EN',
+		PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+		PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		PROPERTY_USER_ROLES		=>	INSTANCE_ROLE_BACKOFFICE
 	);
 	
@@ -115,7 +115,7 @@ class AuthTestCase extends UnitTestCase {
 		$this->assertFalse( tao_models_classes_UserService::singleton()->isASessionOpened() );
 
 		//check user login
-		$this->assertTrue( $this->userService->loginUser($this->testUserData[PROPERTY_USER_LOGIN], md5($this->clearPassword)) );
+		$this->assertTrue( $this->userService->loginUser($this->testUserData[PROPERTY_USER_LOGIN], $this->clearPassword));
 		
 		//check session
 		$this->assertTrue( tao_models_classes_UserService::singleton()->isASessionOpened() );

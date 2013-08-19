@@ -152,7 +152,7 @@ class ServiceTestCase extends UnitTestCase {
         $this->assertTrue(count($foundProp) >= 3, 'the class item or one of is subclasses has less then three properties');
         
 		//delete the item class in case it has been created if it was not in the model
-		$localNamspace = core_kernel_classes_Session::singleton()->getNamespace();
+		$localNamspace = common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri();
 		if(preg_match("/^".preg_quote($localNamspace, "/")."/", $itemClass->getUri())){
 			$itemClass->delete();
 		}

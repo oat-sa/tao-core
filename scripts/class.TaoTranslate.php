@@ -1370,7 +1370,7 @@ class tao_scripts_TaoTranslate
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039B8 begin
         $userService = tao_models_classes_UserService::singleton();
         $this->outVerbose("Connecting to TAO as '" . $this->options['user'] . "' ...");
-        if ($userService->loginUser($this->options['user'], md5($this->options['password']))){
+        if ($userService->loginUser($this->options['user'], $this->options['password'])){
             $this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
             $this->addLanguageToOntology();
             $userService->logout();
@@ -1398,7 +1398,7 @@ class tao_scripts_TaoTranslate
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039BB begin
         $userService = tao_models_classes_UserService::singleton();
         $this->outVerbose("Connecting to TAO as '" . $this->options['user'] . "' ...");
-        if ($userService->loginUser($this->options['user'], md5($this->options['password']))){
+        if ($userService->loginUser($this->options['user'], $this->options['password'])){
             $this->outVerbose("Connected to TAO as '" . $this->options['user'] . "'.");
             $this->removeLanguageFromOntology();
             $userService->logout();

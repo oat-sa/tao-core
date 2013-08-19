@@ -46,8 +46,8 @@ class UserTestCase extends UnitTestCase {
 		PROPERTY_USER_LASTNAME	=>	'Doe',
 		PROPERTY_USER_FIRSTNAME	=>	'John',
 		PROPERTY_USER_MAIL		=>	'jdoe@tao.lu',
-		PROPERTY_USER_DEFLG		=>	'EN',
-		PROPERTY_USER_UILG		=>	'EN',
+		PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+		PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
 		PROPERTY_USER_ROLES		=>  INSTANCE_ROLE_GLOBALMANAGER
 	);
 	
@@ -60,8 +60,8 @@ class UserTestCase extends UnitTestCase {
 		PROPERTY_USER_LASTNAME	=>	'Lecéfranc',
 		PROPERTY_USER_FIRSTNAME	=>	'François',
 		PROPERTY_USER_MAIL		=>	'f.lecé@tao.lu',
-		PROPERTY_USER_DEFLG		=>	'EN',
-		PROPERTY_USER_UILG		=>	'FR',
+		PROPERTY_USER_DEFLG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+		PROPERTY_USER_UILG		=>	'http://www.tao.lu/Ontologies/TAO.rdf#Langfr-FR',
 		PROPERTY_USER_ROLES		=>  INSTANCE_ROLE_GLOBALMANAGER
 	);
 	
