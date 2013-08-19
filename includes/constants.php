@@ -52,7 +52,6 @@ $todefine = array(
 	'TAO_SUBJECT_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject',
 	'TAO_TEST_CLASS' 					=> 'http://www.tao.lu/Ontologies/TAOTest.rdf#Test',
 	'TAO_DELIVERY_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery',
-	'TAO_GROUP_MEMBERS_PROP'			=> 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Members',
 	'RDFS_TYPE'							=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
 	'GENERIS_RESOURCE'					=> 'http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource',
 	'INSTANCE_BOOLEAN_TRUE'				=> 'http://www.tao.lu/Ontologies/generis.rdf#True',
@@ -104,10 +103,11 @@ $todefine = array(
 	'CLASS_WORKERROLE'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole',
 	'CLASS_TAO_USER'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#User',
 	
-	'CLASS_OAUTH_CONSUMER' 			=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer',
-	'PROPERTY_OAUTH_KEY'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey',
-	'PROPERTY_OAUTH_SECRET' 		=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret',
-	
+	'CLASS_OAUTH_CONSUMER' 				=> 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer',
+	'PROPERTY_OAUTH_KEY'			    => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey',
+	'PROPERTY_OAUTH_SECRET'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret',
+    'PROPERTY_OAUTH_CALLBACK'             => 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl',
+    
 	'CLASS_GENERIS_COMMENT'				=> 'http://www.tao.lu/Ontologies/generis.rdf#comment',
 	'PROPERTY_GENERIS_RESOURCE_COMMENT'	=> 'http://www.tao.lu/Ontologies/generis.rdf#generisRessourceComment',
 	'PROPERTY_COMMENT_AUTHOR'		=> 'http://www.tao.lu/Ontologies/generis.rdf#commentAuthor',
