@@ -1,5 +1,5 @@
 <?php
-/*  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,39 +16,9 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - tao/helpers/funcACL/class.funcACL.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 21.02.2013, 14:19:17 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Jehan Bihin
- * @package tao
- * @subpackage helpers_funcACL
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1--b28769d:135f11069cc:-8000:0000000000003859-includes begin
-// section 127-0-1-1--b28769d:135f11069cc:-8000:0000000000003859-includes end
-
-/* user defined constants */
-// section 127-0-1-1--b28769d:135f11069cc:-8000:0000000000003859-constants begin
-// section 127-0-1-1--b28769d:135f11069cc:-8000:0000000000003859-constants end
 
 /**
  * Short description of class tao_helpers_funcACL_funcACL
@@ -169,7 +139,7 @@ class tao_helpers_funcACL_funcACL
 		
 		if (false === $returnValue) {
 			common_Logger::i('Access denied to '.$extension.'::'.$module.'::'.$action.' for user '.
-				'\''.core_kernel_classes_Session::singleton()->getUserLogin().'\'');
+				'\''.core_kernel_classes_Session::singleton()->getUserUri().'\'');
 		}
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B end
 
@@ -396,6 +366,4 @@ class tao_helpers_funcACL_funcACL
         return (array) $returnValue;
     }
 
-} /* end of class tao_helpers_funcACL_funcACL */
-
-?>
+}
