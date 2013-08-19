@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,25 +16,9 @@
  * 
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *			   2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);\n *			   2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *             2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Tao Implementation of an OAuthDatastore
- * Does not yet implement the nonce and request/access token
- *
- * @author Joel Bout, <joel@taotesting.com>
- * @package tao
- * @subpackage models_classes_oauth
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-	die('This file was generated for PHP 5');
-}
 
 /**
  * include OAuth Classes
@@ -55,12 +39,6 @@ require_once dirname(__FILE__).'/../../../lib/oauth/OAuth.php';
 class tao_models_classes_oauth_DataStore
 	extends OAuthDataStore
 {
-	// --- ASSOCIATIONS ---
-
-
-	// --- ATTRIBUTES ---
-
-	// --- OPERATIONS ---
 
 	/**
 	 * Helper function to find the OauthConsumer RDF Resource
@@ -86,6 +64,30 @@ class tao_models_classes_oauth_DataStore
 
 		return $returnValue;
 	}
+	
+	public function getOauthConsumer(core_kernel_classes_Resource $consumer)
+	{
+	    $values = $consumer->getPropertiesValues(array(
+	        PROPERTY_OAUTH_KEY,
+	        PROPERTY_OAUTH_SECRET,
+	        PROPERTY_OAUTH_CALLBACK
+	    ));
+	    if (empty($values[PROPERTY_OAUTH_KEY]) || empty($values[PROPERTY_OAUTH_SECRET])) {
+	        throw new tao_models_classes_oauth_Exception('Incomplete oauth consumer definition for '.$consumer->getUri());
+	    }
+	    $consumer_key = (string)current($values[PROPERTY_OAUTH_KEY]);
+	    $secret = (string)current($values[PROPERTY_OAUTH_SECRET]);
+	    if (!empty($values[PROPERTY_OAUTH_CALLBACK])) {
+	        $callbackUrl = (string)current($values[PROPERTY_OAUTH_CALLBACK]);
+	        if (empty($callbackUrl)) {
+	            $callbackUrl = null;
+	        }
+	    } else {
+	        $callbackUrl = null;
+	    }
+        return new OAuthConsumer($consumer_key, $secret, $callbackUrl);
+	}
+	
 
 	/**
 	 * returns the OauthConsumer for the specified key
@@ -175,6 +177,4 @@ class tao_models_classes_oauth_DataStore
 		return NULL;
 	}
 
-} /* end of class tao_models_classes_oauth_DataStore */
-
-?>
+}
