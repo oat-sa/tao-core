@@ -42,6 +42,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		$extensionManager->reset();
 		$installedExtArray = $extensionManager->getInstalledExtensions();
 		$availlableExtArray = $extensionManager->getAvailableExtensions();
+		usort($availlableExtArray, function($a, $b) { return strcasecmp($a->getID(),$b->getID());});
 		$this->setData('installedExtArray',$installedExtArray);
 		$this->setData('availableExtArray',$availlableExtArray);
 		$this->setView('extensionManager/view.tpl');
