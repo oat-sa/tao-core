@@ -1,5 +1,5 @@
 <?php
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,7 +18,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
- 
+
 /**
  * A helper to fascilitate the exchange of data between php and javascript
  *
@@ -29,12 +29,6 @@
  */
 class tao_helpers_Javascript
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
      * converts a php array into a js array
@@ -42,21 +36,27 @@ class tao_helpers_Javascript
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
      * @param  array array
+     * @param  boolean format
      * @return string
      */
-    public static function buildObject($array)
-    {
-        $returnValue = (string) '';
+    public static function buildObject($array, $format = false){
+        
+        $returnValue = '';
 
-        if (count($array) == 0) {
-			$returnValue = '{}';
-        } else {
-			$returnValue = '{';
-			foreach ($array as $k => $v) {
-				$returnValue .= '\''.$k.'\':'.(is_array($v) ? self::buildObject($v): json_encode($v)).',';
-			}
+        $count = count($array);
+        if($count == 0){
+            $returnValue = '{}';
+        }else{
+            $returnValue = '{';
+            $i = 1;
+            foreach($array as $k => $v){
+                $returnValue .= '"'.$k.'":'.(is_array($v) ? self::buildObject($v, $format) : json_encode($v));
+                $returnValue .= ($i < $count) ? ',' : '';
+                $returnValue .= $format ? PHP_EOL : '';
+                $i++;
+            }
+            $returnValue .= '}';
         }
-		$returnValue =  substr($returnValue, 0, -1).'}';
 
         return (string) $returnValue;
     }
