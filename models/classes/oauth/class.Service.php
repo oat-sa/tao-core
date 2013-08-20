@@ -62,9 +62,7 @@ class tao_models_classes_oauth_Service
         return (bool) $returnValue;
     }
 
-    public function isCurrentRequestValid()
-    {
-    }
+
     /**
      * validates an OAuthRequest
      *
