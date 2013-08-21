@@ -19,10 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
 
 /**
  * The Service class is an abstraction of each service instance. 
@@ -33,9 +29,6 @@ error_reporting(E_ALL);
  * @subpackage models_classes
  */
 
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
 
 /**
  * Service is the base class of all services, and implements the singleton
@@ -43,16 +36,6 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  */
-require_once('tao/models/classes/class.Service.php');
-
-/* user defined includes */
-// section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834-includes begin
-// section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834-includes end
-
-/* user defined constants */
-// section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834-constants begin
-// section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001834-constants end
-
 /**
  * The Service class is an abstraction of each service instance. 
  * Used to centralize the behavior related to every servcie instances.
