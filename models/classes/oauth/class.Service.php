@@ -14,10 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
 
@@ -35,73 +32,71 @@ require_once dirname(__FILE__).'/../../../lib/oauth/OAuth.php';
  * @subpackage models_classes_oauth
  */
 class tao_models_classes_oauth_Service
-    extends tao_models_classes_Service
+    implements common_http_SignatureService
 {
-
     /**
-     * returns whenever or not the current request is a valid Oauth request
+     * Adds a signature to the request
      *
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
-     * @return boolean
      */
-    public function isCurrentRequestValid()
-    {
-        $returnValue = (bool) false;
+    public function sign(common_http_Request $request, common_http_Credentials $credentials) {
+        
+        if (!$credentials instanceof tao_models_classes_oauth_Credentials) {
+            throw new tao_models_classes_oauth_Exception('Invalid credentals: '.gettype($credentials));
+        }
+        
+        $oauthRequest = $this->getOauthRequest($request); 
+        $dataStore = new tao_models_classes_oauth_DataStore();
+        $consumer = $dataStore->getOauthConsumer($credentials);
+        $token = $dataStore->new_request_token($consumer);
 
-		$request = OAuthRequest::from_request();
-		try {
-			$this->validateOAuthRequest($request);
-			$returnValue = true;
-		} catch (OAuthException $e) {
-			common_Logger::w($e->getMessage());
-		} catch (tao_models_classes_oauth_Exception $e) {
-			// no action nescessary, logged in exception
-		}
-
-        return (bool) $returnValue;
+        $signedRequest = OAuthRequest::from_consumer_and_token(
+            $consumer,
+            $token,
+            $oauthRequest->get_normalized_http_method(),
+            $oauthRequest->get_normalized_http_url(),
+            $oauthRequest->get_parameters()
+        );
+        $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
+        common_logger::d('Base string: '.$signedRequest->get_signature_base_string());
+        $signedRequest->sign_request($signature_method, $consumer, $token);
+        
+        return new common_http_Request(
+            $signedRequest->get_normalized_http_url(),
+            $signedRequest->get_normalized_http_method(),
+            $signedRequest->get_parameters()
+        );
     }
-
-
+    
     /**
-     * validates an OAuthRequest
+     * Validates the signature of the current request
      *
      * @access protected
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  OAuthRequest request
-     * @return mixed
-     */
-    protected function validateOAuthRequest( OAuthRequest $request)
-    {
+     * @param  common_http_Request request
+     * @throws common_Exception exception thrown if validation fails
+    */
+    public function validate(common_http_Request $request, common_http_Credentials $credentials = null) {
         $server = new OAuthServer(new tao_models_classes_oauth_DataStore());
 		$method = new OAuthSignatureMethod_HMAC_SHA1();
         $server->add_signature_method($method);
         
-		$server->verify_request($request);
+        try {
+            $oauthRequest = $this->getOauthRequest($request);
+            $server->verify_request($oauthRequest);
+        } catch (OAuthException $e) {
+            throw new common_http_InvalidSignatureException('Validation failed: '.$e->getMessage());
+        }
     }
-
-    /**
-     * Takes request, including parameters, signs it
-     * and returns the parameters including the signature
-     * 
-     * @param core_kernel_classes_Resource $consumerResource
-     * @param string $http_url
-     * @param string $http_method
-     * @param array $params
-     */
-    public function getSignedRequestParameters(core_kernel_classes_Resource $consumerResource, $http_url, $http_method = 'POST', $params = array())
-    {
-        $dataStore = new tao_models_classes_oauth_DataStore();
+    
+    private function getOauthRequest(common_http_Request $request) {
+        $params = array();
         
-        $request = new OAuthRequest($http_method, $http_url);
-        $consumer = $dataStore->getOauthConsumer($consumerResource);
-        $token = $dataStore->new_request_token($consumer);
+        $params = array_merge($params, $request->getParams());
+        //$params = array_merge($params, $request->getHeaders());
         
-        $request = OAuthRequest::from_consumer_and_token($consumer, $token, 'POST', $http_url, $params);
-        $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
-        common_logger::d('Base string: '.$request->get_signature_base_string());
-        $request->sign_request($signature_method, $consumer, $token);
-        
-        return $request->get_parameters();
+        $oauthRequest = new OAuthRequest($request->getMethod(), $request->getUrl(), $params);
+        return $oauthRequest;
     }
 }
