@@ -20,6 +20,8 @@
  */
 
 /**
+ * Helper to generate simple tree forms, that allow a user
+ * to modify properties that have a resource range or domain 
  *
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
@@ -29,7 +31,14 @@
 class tao_helpers_form_GenerisTreeForm extends Renderer
 {
 	
-	public static function buildTree(core_kernel_classes_Resource $resource, core_kernel_classes_Property $property) {
+	/**
+	 * Generates a form to define the values of a specific property for a resource
+	 * 
+	 * @param core_kernel_classes_Resource $resource
+	 * @param core_kernel_classes_Property $property
+	 * @return tao_helpers_form_GenerisTreeForm
+	 */
+    public static function buildTree(core_kernel_classes_Resource $resource, core_kernel_classes_Property $property) {
 		$tree = new self($resource, $property);
 		
 		$range = $property->getRange();
@@ -44,6 +53,14 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
 		return $tree;
 	}
 	
+	/**
+	 * Generates a form to define the reverse values of a specific property for a resource
+	 * This allows to set/remove multiple triples that share the same object   
+	 * 
+	 * @param core_kernel_classes_Resource $resource
+	 * @param core_kernel_classes_Property $property
+	 * @return tao_helpers_form_GenerisTreeForm
+	 */
 	public static function buildReverseTree(core_kernel_classes_Resource $resource, core_kernel_classes_Property $property) {
 		$tree = new self($resource, $property);
 		
@@ -65,6 +82,13 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
 		return $tree;
 	}
 	
+	/**
+	 * Should not be called directly but is public
+	 * since Renderer is public
+	 * 
+	 * @param core_kernel_classes_Resource $resource
+	 * @param core_kernel_classes_Property $property
+	 */
 	public function __construct(core_kernel_classes_Resource $resource, core_kernel_classes_Property $property) {
 		$tpl = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('TPL_PATH')
 			.'form'.DIRECTORY_SEPARATOR.'generis_tree_form.tpl';
@@ -78,6 +102,10 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
 
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see Renderer::render()
+	 */
 	public function render() {
 		return parent::render();
 	}
