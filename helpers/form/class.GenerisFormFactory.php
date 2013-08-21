@@ -109,11 +109,13 @@ class tao_helpers_form_GenerisFormFactory
 		}
 		
 		$element = tao_helpers_form_FormFactory::getElement(tao_helpers_Uri::encode($property->getUri()), $widget);
+		
 		if(!is_null($element)){
-			if($element->getWidget() != $widgetResource->getUri()){
-				return null;
+		    if($element->getWidget() != $widgetResource->getUri()){
+                common_Logger::w('Widget definition differs from implementation: '.$element->getWidget().' != '.$widgetResource->getUri());
+		        return null;
 			}
-			
+				
 			//use the property label as element description
 			$propDesc = (strlen(trim($property->getLabel())) > 0) ? $property->getLabel() : str_replace(LOCAL_NAMESPACE, '', $property->getUri());
 			$element->setDescription($propDesc);
