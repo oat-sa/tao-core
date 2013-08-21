@@ -126,25 +126,26 @@ class tao_actions_form_Instance
     	$guiOrderProperty = new core_kernel_classes_Property(TAO_GUIORDER_PROP);
     	
     	//get the list of properties to set in the form
-    	$defaultProperties 	= tao_helpers_form_GenerisFormFactory::getDefaultProperties();
-		$editedProperties = $defaultProperties;
-		$excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties']))?$this->options['excludedProperties']:array();
-		$additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties']))?$this->options['additionalProperties']:array();
-		$finalElements = array();
-    	
-		$classProperties = array();
+		$propertyCandidates = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
+		
 		$classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
+		$propertyCandidates = array_merge($propertyCandidates, $classProperties);
+		
+		$additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties']))?$this->options['additionalProperties']:array();
 		if(!empty($additionalProperties)){
-			$classProperties = array_merge($classProperties, $additionalProperties);
+			$propertyCandidates = array_merge($propertyCandidates, $additionalProperties);
 		}
 		
-		foreach($classProperties as $property){
+		$excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties']))?$this->options['excludedProperties']:array();
+		$editedProperties = array();
+		foreach($propertyCandidates as $property){
 			if(!isset($editedProperties[$property->getUri()]) && !in_array($property->getUri(), $excludedProperties)){
 				$editedProperties[$property->getUri()] = $property;
 			}
 		}
 			
-		foreach($editedProperties as $property){
+		$finalElements = array();
+    	foreach($editedProperties as $property){
 
 			$property->feed();
 			$widget = $property->getWidget();
