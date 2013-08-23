@@ -102,6 +102,10 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
 
 	}
 	
+	public function setTitle($title) {
+	    $this->setData('title',	$title);
+	}
+	
 	/**
 	 * (non-PHPdoc)
 	 * @see Renderer::render()
