@@ -272,6 +272,10 @@ abstract class tao_models_classes_GenerisService
         $returnValue = null;
 
         // section 127-0-1-1-50de96c6:1266ae198e7:-8000:0000000000001E30 begin
+        if (is_null($clazz)) {
+            $types = $instance->getTypes();
+            $clazz = current($types);
+        }
 
    		$returnValue = $this->createInstance($clazz);
 		if(!is_null($returnValue)){
