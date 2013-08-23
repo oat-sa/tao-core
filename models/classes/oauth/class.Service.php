@@ -39,12 +39,14 @@ class tao_models_classes_oauth_Service
      *
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
+     * @param $toHeader Move the signature parameters into the header of the request
      */
-    public function sign(common_http_Request $request, common_http_Credentials $credentials) {
+    public function sign(common_http_Request $request, common_http_Credentials $credentials, $toHeader = false) {
         
         if (!$credentials instanceof tao_models_classes_oauth_Credentials) {
             throw new tao_models_classes_oauth_Exception('Invalid credentals: '.gettype($credentials));
         }
+        
         
         $oauthRequest = $this->getOauthRequest($request); 
         $dataStore = new tao_models_classes_oauth_DataStore();
@@ -61,12 +63,25 @@ class tao_models_classes_oauth_Service
         $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
         common_logger::d('Base string: '.$signedRequest->get_signature_base_string());
         $signedRequest->sign_request($signature_method, $consumer, $token);
-        
+
+        if ($toHeader) {
+        //hack, used for shifting the signature parameters into the header after.
+        $initialRequestParameters = $request->getParams();
+        $combinedParameters = $signedRequest->get_parameters();
+        $signatureParameters = array_diff_assoc($combinedParameters, $initialRequestParameters);
+        return new common_http_Request(
+            $signedRequest->get_normalized_http_url(),
+            $signedRequest->get_normalized_http_method(),
+            $initialRequestParameters,
+            array_merge($signatureParameters, $request->getHeaders())
+        );
+        } else {
         return new common_http_Request(
             $signedRequest->get_normalized_http_url(),
             $signedRequest->get_normalized_http_method(),
             $signedRequest->get_parameters()
         );
+        }
     }
     
     /**
