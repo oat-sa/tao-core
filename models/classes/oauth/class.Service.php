@@ -39,9 +39,9 @@ class tao_models_classes_oauth_Service
      *
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
-     * @param $toHeader Move the signature parameters into the header of the request
+     * @param $authorizationHeader Move the signature parameters into the Authorization header of the request
      */
-    public function sign(common_http_Request $request, common_http_Credentials $credentials, $toHeader = false) {
+    public function sign(common_http_Request $request, common_http_Credentials $credentials, $authorizationHeader = false) {
         
         if (!$credentials instanceof tao_models_classes_oauth_Credentials) {
             throw new tao_models_classes_oauth_Exception('Invalid credentals: '.gettype($credentials));
@@ -53,37 +53,64 @@ class tao_models_classes_oauth_Service
         $consumer = $dataStore->getOauthConsumer($credentials);
         $token = $dataStore->new_request_token($consumer);
 
+        $allInitialParameters = array();
+        $allInitialParameters = array_merge($allInitialParameters, $request->getParams());
+        $allInitialParameters = array_merge($allInitialParameters, $request->getHeaders());
+        $oauth_body_hash = base64_encode(sha1($request->getBody(), TRUE));//the signature should be ciomputed from encoded versions
+        $allInitialParameters = array_merge($allInitialParameters, array("oauth_body_hash" =>$oauth_body_hash));
+
+        //$authorizationHeader = self::buildAuthorizationHeader($signatureParameters);
         $signedRequest = OAuthRequest::from_consumer_and_token(
             $consumer,
             $token,
             $oauthRequest->get_normalized_http_method(),
             $oauthRequest->get_normalized_http_url(),
-            $oauthRequest->get_parameters()
+            $allInitialParameters
         );
         $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
-        common_logger::d('Base string: '.$signedRequest->get_signature_base_string());
+        //common_logger::d('Base string: '.$signedRequest->get_signature_base_string());
         $signedRequest->sign_request($signature_method, $consumer, $token);
+        common_logger::d('Base string from TAO/Joel: '.$signedRequest->get_signature_base_string());
 
-        if ($toHeader) {
-        //hack, used for shifting the signature parameters into the header after.
-        $initialRequestParameters = $request->getParams();
         $combinedParameters = $signedRequest->get_parameters();
-        $signatureParameters = array_diff_assoc($combinedParameters, $initialRequestParameters);
-        return new common_http_Request(
-            $signedRequest->get_normalized_http_url(),
-            $signedRequest->get_normalized_http_method(),
-            $initialRequestParameters,
-            array_merge($signatureParameters, $request->getHeaders())
-        );
+        $signatureParameters = array_diff_assoc($combinedParameters, $allInitialParameters);
+        if ($authorizationHeader) {
+            //hack, used for shifting the signature parameters into the header after.
+           
+            $signatureParameters["oauth_body_hash"] = base64_encode(sha1($request->getBody(), TRUE));
+            $signatureHeaders = array("Authorization" => self::buildAuthorizationHeader($signatureParameters));
+            $signedRequest = new common_http_Request(
+                    $signedRequest->get_normalized_http_url(),
+                    $signedRequest->get_normalized_http_method(),
+                    $request->getParams(),
+                    array_merge($signatureHeaders, $request->getHeaders()),
+                    $request->getBody()
+                );
         } else {
-        return new common_http_Request(
+            $signedRequest =  new common_http_Request(
             $signedRequest->get_normalized_http_url(),
             $signedRequest->get_normalized_http_method(),
-            $signedRequest->get_parameters()
+            array_merge($request->getParameters(), $signatureParameters),
+            $request->getHeaders(),
+            $request->getBody()
         );
         }
+        
+        return $signedRequest;
     }
-    
+    /**
+     * As per the OAuth body hashing specification, all of the OAuth parameters must be sent as part of the Authorization header.
+     *  In particular, OAuth parameters from the request URL and POST body will be ignored.
+     * Return the Authorization header
+     */
+    static function buildAuthorizationHeader($signatureParameters) {
+        $authorizationHeader = 'OAuth realm=""';
+        
+        foreach ($signatureParameters as $key=>$value) {
+            $authorizationHeader.=','.$key."=".'"'.urlencode($value).'"';
+        }
+        return $authorizationHeader;
+    }
     /**
      * Validates the signature of the current request
      *
