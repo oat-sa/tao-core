@@ -56,6 +56,11 @@ class tao_models_classes_oauth_Service
         $allInitialParameters = array();
         $allInitialParameters = array_merge($allInitialParameters, $request->getParams());
         $allInitialParameters = array_merge($allInitialParameters, $request->getHeaders());
+        
+        // As per the LTI 1.1.1 spec Other than in producing the body hash value, 
+        // the actual POST data is not involved in the computation of the oauth_signature.
+        // Moodle considers POST and ignores HEADERs ...
+
         $oauth_body_hash = base64_encode(sha1($request->getBody(), TRUE));//the signature should be ciomputed from encoded versions
         $allInitialParameters = array_merge($allInitialParameters, array("oauth_body_hash" =>$oauth_body_hash));
 
@@ -75,8 +80,7 @@ class tao_models_classes_oauth_Service
         $combinedParameters = $signedRequest->get_parameters();
         $signatureParameters = array_diff_assoc($combinedParameters, $allInitialParameters);
         if ($authorizationHeader) {
-            //hack, used for shifting the signature parameters into the header after.
-           
+            
             $signatureParameters["oauth_body_hash"] = base64_encode(sha1($request->getBody(), TRUE));
             $signatureHeaders = array("Authorization" => self::buildAuthorizationHeader($signatureParameters));
             $signedRequest = new common_http_Request(
