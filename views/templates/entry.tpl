@@ -13,11 +13,54 @@
 	<div id="content">
 		<div id="portal-box" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 			<h1><?=__('Welcome to the TAO platform')?></h1>
-			  <ul>
-			    <li><?=__('Back Office (test creator)')?>: <a href="<?=_url('login','Main','tao')?>" title="<?=__('TAO back office')?>"><?=__('TAO Back Office')?></a></li>
-			    <li><?=__('Test Front Office (test takers)')?>: <a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" title="<?=__('TAO front office')?>"><?=__('TAO Delivery Server')?></a></li>
-				<li><?=__('Process Front Office')?>: <a href="<?=_url('index','Authentication','wfEngine')?>" title="<?=__('TAO front office')?>" title="<?=__('TAO workflow engine')?>"><?=__('TAO Workflow Engine')?></a></li>
-			</ul>
+
+		<table>
+		    <tr>
+			<td>
+			<span class="hintMsg">
+			    <?=__('Create new tests or items, register test takers or watch results ...(Advanced Users)')?>
+			</span>
+			</td>
+		    </tr>
+		    <tr>
+			<td>
+			<span class="portalOperation">
+			    <a href="<?=_url('login','Main','tao')?>" title="<?=__('TAO back office')?>"><?=__('TAO Back Office')?></a>
+			</span>
+			</td>
+		    </tr>
+			<tr/>
+		    <tr>
+			<td>
+			<span class="hintMsg">
+			    <?=__('Take Tests ...(Test Takers)')?>
+			</span>
+			</td>
+		    </tr>
+			<tr/>
+		    <tr>
+			<td>
+			<span class="portalOperation">
+			    <a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" title="<?=__('TAO front office')?>"><?=__('TAO Test Delivery Server')?></a>
+			</span>
+			</td>
+		    </tr>
+			<tr/>
+		    <tr>
+			<td>
+			<span class="hintMsg">
+			   <?=__('Check pending tasks for assessment preparation (Advanced Users)')?>
+		       </span>
+			</td>
+		    </tr>
+		    <tr>
+			<td>
+			<span class="portalOperation">
+			    <a href="<?=_url('index','Authentication','wfEngine')?>" title="<?=__('TAO front office')?>" title="<?=__('TAO workflow engine')?>"><?=__('TAO Workflow Engine')?></a>
+			</span>
+		    </td>
+		    </tr>
+		</table>
 
 		</div>
 	</div>

@@ -26,18 +26,32 @@ h1 {
 }
 
 div#portal-box { 
-	width: 400px; 
+	width: 440px;
 	margin:auto; 
 	margin-top:50px; 
 	background-color:#fff;
-	height:180px;
+	height:280px;
 	padding: 5px 5px 5px 240px;
 	border: solid 1px #ccc;
 	background-image: url("../img/tao_logo_big.png");
 	background-repeat: no-repeat;
-	background-position: 10px 10px;
+	background-position: 10px 72px;
 }
+.hintMsg{
+	float:left;
+	width:80%;
+	font-style: italic;
+	color:#888;
+}
+.portalOperation{
+	
+	float:right;
+	height:30px;
 
+}
+table tr td{
+    
+}
 div#portal-box ul {
 	margin: 0;
 	padding: 0;
@@ -45,7 +59,7 @@ div#portal-box ul {
 }
 
 div#portal-box ul li{
-	padding:3px 0px;
+	padding:2px 60px;
 }
 div#footer{
 	position: fixed; clear: both; width: 100%; height: 30px; bottom: 0; border: none;
