@@ -13,12 +13,12 @@
     <script type="text/javascript">
 	$( document ).ready(function(){
 	    $('.portalButton').mouseover(function() {
-		$(this).addClass("portalButtonSelected");;
-		$('.portalOperation').addClass("portalButtonSelected");
+		$(this).addClass("portalButtonSelected");
+		jQuery(".portalOperation", this).addClass("portalOperationSelected");
 	    });
 	    $('.portalButton').mouseleave(function() {
 		$(this).removeClass("portalButtonSelected");
-		$('.portalOperation').removeClass("portalButtonSelected");
+		jQuery(".portalOperation", this).removeClass("portalOperationSelected");
 	    });
 	});
     </script>
@@ -30,7 +30,7 @@
 
 		<a href="<?=_url('login','Main','tao')?>" title="<?=__('TAO back office')?>">
 		    <span class="portalButton">
-			    <?=__('TAO Managers')?>
+			    <span class="buttonTitle"><?=__('TAO Managers')?></span>
 			    <span class="hintMsg">
 				<?=__('Create new tests or items, register test takers or watch results...')?>
 			    </span>
@@ -43,7 +43,7 @@
 		
 		<a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" title="<?=__('TAO front office')?>">
 		<span class="portalButton">
-			<?=__('Test Takers')?>
+			<span class="buttonTitle"><?=__('Test Takers')?></span>
 			<span class="hintMsg">
 			    <?=__('Check or take online tests available to you...')?>
 			</span>
@@ -55,7 +55,7 @@
 		</a>
 		<a href="<?=_url('index','Authentication','wfEngine')?>" title="<?=__('TAO front office')?>" title="<?=__('TAO workflow engine')?>">
 		<span class="portalButton">
-			<?=__('Advanced Users')?>
+			<span class="buttonTitle"><?=__('Advanced Users')?></span>
 			<span class="hintMsg">
 			    <?=__('Check pending tasks for assessment preparation...')?>
 			</span>

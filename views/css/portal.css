@@ -28,7 +28,7 @@ h1 {
 }
 
 div#portal-box { 
-	width: 680px;
+	width: 720px;
 	margin:auto; 
 	margin-top:40px;
 	background-color:#fff;
@@ -37,7 +37,7 @@ div#portal-box {
 	border: solid 1px #ccc;
 	background-image: url("../img/tao_logo_big.png");
 	background-repeat: no-repeat;
-	background-position: 10px 84px;
+	background-position: 40px 84px;
 }
 .hintMsg{
 	float:left;
@@ -59,7 +59,13 @@ div#portal-box {
 	margin-right:0px;
 	width:180px;
 	background-color: #ddd;
+	-moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 	/*box-shadow: 2px 0px 6px #bbb;*/
+}
+.portalOperationSelected{
+    background-color:#eee;
+
 }
 .portalInfo{
     float:left;
@@ -78,9 +84,12 @@ div#portal-box {
          -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
      box-shadow: 3px 3px 5px #aaa;
-    background-color:#eeeeee;
+    background-color:#eee;
     	font-weight:bolder;
 	color:#666
+}
+.buttonTitle{
+    color:#D00239;
 }
 .portalButtonSelected{
     background-color:#dddddd;
