@@ -14,9 +14,11 @@
 	$( document ).ready(function(){
 	    $('.portalButton').mouseover(function() {
 		$(this).addClass("portalButtonSelected");;
+		$('.portalOperation').addClass("portalButtonSelected");
 	    });
 	    $('.portalButton').mouseleave(function() {
-		$(this).removeClass("portalButtonSelected");;
+		$(this).removeClass("portalButtonSelected");
+		$('.portalOperation').removeClass("portalButtonSelected");
 	    });
 	});
     </script>
@@ -24,13 +26,13 @@
 <body>
 	<div id="content">
 		<div id="portal-box" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-			<h1><?=__('Welcome to the TAO platform')?></h1>
+		<!--<span class="portalInfo"><h1><?=__('Welcome to TAO!')?></h1></span>!-->
 
 		<a href="<?=_url('login','Main','tao')?>" title="<?=__('TAO back office')?>">
 		    <span class="portalButton">
-			    <?=__('Advanced Users')?>
+			    <?=__('TAO Managers')?>
 			    <span class="hintMsg">
-				<?=__('Create new tests or items, register test takers or watch results ...')?>
+				<?=__('Create new tests or items, register test takers or watch results...')?>
 			    </span>
 			    <span class="portalOperation">
 				<?=__('TAO Back Office')?>
@@ -38,28 +40,29 @@
 
 		    </span>
 		</a>
-		<a href="<?=_url('index','Authentication','wfEngine')?>" title="<?=__('TAO front office')?>" title="<?=__('TAO workflow engine')?>">
-		<span class="portalButton">
-			<?=__('Advanced Users')?>
-			<span class="hintMsg">
-			    <?=__('Check pending tasks for assessment preparation ...')?>
-			</span>
-			<span class="portalOperation">
-			   <?=__('TAO Workflow Engine')?>
-			</span>
-			</a>
-		</span>
-		</a>
+		
 		<a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" title="<?=__('TAO front office')?>">
 		<span class="portalButton">
 			<?=__('Test Takers')?>
 			<span class="hintMsg">
-			    <?=__('Check or take online tests available to you ...')?>
+			    <?=__('Check or take online tests available to you...')?>
 			</span>
 			<span class="portalOperation">
 			    <?=__('TAO Delivery Server')?>
 			</span>
 			
+		</span>
+		</a>
+		<a href="<?=_url('index','Authentication','wfEngine')?>" title="<?=__('TAO front office')?>" title="<?=__('TAO workflow engine')?>">
+		<span class="portalButton">
+			<?=__('Advanced Users')?>
+			<span class="hintMsg">
+			    <?=__('Check pending tasks for assessment preparation...')?>
+			</span>
+			<span class="portalOperation">
+			   <?=__('TAO Process Engine')?>
+			</span>
+			</a>
 		</span>
 		</a>
 		
