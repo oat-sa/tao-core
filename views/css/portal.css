@@ -26,32 +26,53 @@ h1 {
 }
 
 div#portal-box { 
-	width: 440px;
+	width: 480px;
 	margin:auto; 
 	margin-top:50px; 
 	background-color:#fff;
-	height:280px;
+	height:390px;
 	padding: 5px 5px 5px 240px;
 	border: solid 1px #ccc;
 	background-image: url("../img/tao_logo_big.png");
 	background-repeat: no-repeat;
-	background-position: 10px 72px;
+	background-position: 10px 120px;
 }
 .hintMsg{
 	float:left;
 	width:80%;
 	font-style: italic;
 	color:#888;
+	font-weight:normal;
+	margin-left:10px;
+	margin-bottom:10px;
+	margin-top:5px;
+	
 }
 .portalOperation{
-	
 	float:right;
-	height:30px;
+	margin-bottom: 5px;
+}
 
+.portalButton{
+    float:right;
+    width:95%;
+    margin-top:15px;
+    margin-right:10px;
+    padding-left:10px;
+    padding-top:10px;
+    padding-right:10px;
+         -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+     box-shadow: 3px 3px 5px #aaa;
+    background-color:#eeeeee;
+    	font-weight:bolder;
+	color:#666
 }
-table tr td{
-    
+.portalButtonSelected{
+    background-color:#dddddd;
+    cursor:pointer;
 }
+
 div#portal-box ul {
 	margin: 0;
 	padding: 0;

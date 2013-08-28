@@ -8,59 +8,62 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=BASE_WWW?>css/style.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=BASE_WWW?>css/layout.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=BASE_WWW?>css/portal.css"/>
+	 <script src="<?=BASE_WWW?>js/jquery-1.8.0.min.js"></script>
 </head>
+    <script type="text/javascript">
+	$( document ).ready(function(){
+	    $('.portalButton').mouseover(function() {
+		$(this).addClass("portalButtonSelected");;
+	    });
+	    $('.portalButton').mouseleave(function() {
+		$(this).removeClass("portalButtonSelected");;
+	    });
+	});
+    </script>
+
 <body>
 	<div id="content">
 		<div id="portal-box" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 			<h1><?=__('Welcome to the TAO platform')?></h1>
 
-		<table>
-		    <tr>
-			<td>
+		<a href="<?=_url('login','Main','tao')?>" title="<?=__('TAO back office')?>">
+		    <span class="portalButton">
+			    <?=__('Advanced Users')?>
+			    <span class="hintMsg">
+				<?=__('Create new tests or items, register test takers or watch results ...')?>
+			    </span>
+			    <span class="portalOperation">
+				<?=__('TAO Back Office')?>
+			    </span>
+
+		    </span>
+		</a>
+		<a href="<?=_url('index','Authentication','wfEngine')?>" title="<?=__('TAO front office')?>" title="<?=__('TAO workflow engine')?>">
+		<span class="portalButton">
+			<?=__('Advanced Users')?>
 			<span class="hintMsg">
-			    <?=__('Create new tests or items, register test takers or watch results ...(Advanced Users)')?>
+			    <?=__('Check pending tasks for assessment preparation ...')?>
 			</span>
-			</td>
-		    </tr>
-		    <tr>
-			<td>
 			<span class="portalOperation">
-			    <a href="<?=_url('login','Main','tao')?>" title="<?=__('TAO back office')?>"><?=__('TAO Back Office')?></a>
+			   <?=__('TAO Workflow Engine')?>
 			</span>
-			</td>
-		    </tr>
-			<tr/>
-		    <tr>
-			<td>
+			</a>
+		</span>
+		</a>
+		<a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" title="<?=__('TAO front office')?>">
+		<span class="portalButton">
+			<?=__('Test Takers')?>
 			<span class="hintMsg">
-			    <?=__('Take Tests ...(Test Takers)')?>
+			    <?=__('Check or take online tests available to you ...')?>
 			</span>
-			</td>
-		    </tr>
-			<tr/>
-		    <tr>
-			<td>
 			<span class="portalOperation">
-			    <a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" title="<?=__('TAO front office')?>"><?=__('TAO Test Delivery Server')?></a>
+			    <?=__('TAO Delivery Server')?>
 			</span>
-			</td>
-		    </tr>
-			<tr/>
-		    <tr>
-			<td>
-			<span class="hintMsg">
-			   <?=__('Check pending tasks for assessment preparation (Advanced Users)')?>
-		       </span>
-			</td>
-		    </tr>
-		    <tr>
-			<td>
-			<span class="portalOperation">
-			    <a href="<?=_url('index','Authentication','wfEngine')?>" title="<?=__('TAO front office')?>" title="<?=__('TAO workflow engine')?>"><?=__('TAO Workflow Engine')?></a>
-			</span>
-		    </td>
-		    </tr>
-		</table>
+			
+		</span>
+		</a>
+		
+		
 
 		</div>
 	</div>
