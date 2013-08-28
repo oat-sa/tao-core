@@ -15,10 +15,12 @@
 	    $('.portalButton').mouseover(function() {
 		$(this).addClass("portalButtonSelected");
 		jQuery(".portalOperation", this).addClass("portalOperationSelected");
+		jQuery(".buttonTitle", this).addClass("buttonTitleSelected");
 	    });
 	    $('.portalButton').mouseleave(function() {
 		$(this).removeClass("portalButtonSelected");
 		jQuery(".portalOperation", this).removeClass("portalOperationSelected");
+		jQuery(".buttonTitle", this).removeClass("buttonTitleSelected");
 	    });
 	});
     </script>

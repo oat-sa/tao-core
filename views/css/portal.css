@@ -74,14 +74,12 @@ div#portal-box {
 .portalButton{
     float:right;
     width:430px;
-    
     margin-top:15px;
-
     margin-right:10px;
     padding-left:10px;
     padding-top:10px;
     padding-right:0px;
-         -moz-border-radius: 10px;
+    -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
      box-shadow: 3px 3px 5px #aaa;
     background-color:#eee;
@@ -89,6 +87,9 @@ div#portal-box {
 	color:#666
 }
 .buttonTitle{
+    
+}
+.buttonTitleSelected{
     color:#D00239;
 }
 .portalButtonSelected{
