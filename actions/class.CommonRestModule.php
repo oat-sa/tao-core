@@ -360,7 +360,8 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 			}
 			$data = $this->service->delete($uri);
 		    } else {
-			$data = $this->service->deleteAll();
+                //disabled 
+                    //$data = $this->service->deleteAll();
 		    }
 		} catch (Exception $e) {
 		    return $this->returnFailure($e);
