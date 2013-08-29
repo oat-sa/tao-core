@@ -35,7 +35,7 @@ div.xhtml_form div{
 	position:relative;
 	padding:4px 3px 4px 3px;
 	margin:2px 2px 3px 2px;
-	border: dashed 1px #FDD5DF;
+	/*border: dashed 1px #FDD5DF;*/
 }
 div.xhtml_form div div div{
 	border:none;
