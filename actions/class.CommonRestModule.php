@@ -109,14 +109,16 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    $uri = null;
 	    if ($this->hasRequestParameter("uri")){
 		$uri = $this->getRequestParameter("uri");
-		if (!(common_Utils::isUri($uri))) {$this->returnFailure(new common_exception_InvalidArgumentType());}
+		if (!(common_Utils::isUri($uri))) {
+
+            $this->returnFailure(new common_exception_InvalidArgumentType());}
 	    }
 	    switch ($this->getRequestMethod()) {
 		case "GET":{$this->get($uri);break;}
 		//update
 		case "PUT":{$this->put($uri);break;}
 		//create
-		case "POST":{$this->post($uri);break;}
+		case "POST":{$this->post();break;}
 		case "DELETE":{$this->delete($uri);break;}
 		default:{
 			throw new common_exception_BadRequest($this->getRequestURI());
@@ -143,7 +145,6 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	private function isValidLogin(){
 	    $returnValue = false;
 	    $userService = tao_models_classes_UserService::singleton();
-	    
 	    switch ($this->authMethod){
 		//"Because of the way that Basic authentication is specified, your username and password must be verified every time you request a document from the server"
 		case "auth":{ // not yet working
@@ -160,11 +161,11 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		case "Basic":{
 		    if (!(isset($_SERVER['PHP_AUTH_USER'])) or ($_SERVER['PHP_AUTH_USER']=="")){
 			common_Logger::w('Rest (Basic) login failed for user (missing login/password)');
-
 			return false;
 		    }
 		    $user = $userService->getOneUser($_SERVER['PHP_AUTH_USER']);
-		    if (is_null($user)) {
+		    
+            if (is_null($user)) {
 			common_Logger::w('Rest (Basic) login failed for user (wrong login)'.$_SERVER['PHP_AUTH_USER']);
 			return false;
 		    }

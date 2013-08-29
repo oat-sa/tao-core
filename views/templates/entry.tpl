@@ -32,9 +32,9 @@
 
 		<a href="<?=_url('login','Main','tao')?>" title="<?=__('TAO back office')?>">
 		    <span class="portalButton">
-			    <span class="buttonTitle"><?=__('TAO Managers')?></span>
+			    <span class="buttonTitle"><?=__('Test Developers and Test Administrators')?></span>
 			    <span class="hintMsg">
-				<?=__('Create new tests or items, register test takers or watch results...')?>
+				<?=__('Create items, manage item banks and tests, organize cohorts and schedule test deliveries')?>
 			    </span>
 			    <span class="portalOperation">
 				<?=__('TAO Back Office')?>
@@ -47,7 +47,7 @@
 		<span class="portalButton">
 			<span class="buttonTitle"><?=__('Test Takers')?></span>
 			<span class="hintMsg">
-			    <?=__('Check or take online tests available to you...')?>
+			    <?=__('Login here to take a test')?>
 			</span>
 			<span class="portalOperation">
 			    <?=__('TAO Delivery Server')?>

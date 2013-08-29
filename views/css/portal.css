@@ -57,10 +57,10 @@ div#portal-box {
 	padding-right:8px;
 	padding-top:2px;
 	margin-right:0px;
-	width:180px;
+	width:160px;
 	background-color: #ddd;
 	-moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+	-webkit-border-radius: 3px;
 	/*box-shadow: 2px 0px 6px #bbb;*/
 }
 .portalOperationSelected{
