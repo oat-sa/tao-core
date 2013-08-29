@@ -35,7 +35,7 @@ div.xhtml_form div{
 	position:relative;
 	padding:4px 3px 4px 3px;
 	margin:2px 2px 3px 2px;
-	/*border: dashed 1px #FDD5DF;*/
+	/*border-bottom: dotted 10px pink;*/
 }
 div.xhtml_form div div div{
 	border:none;
@@ -102,7 +102,7 @@ div.xhtml_form div span.checker-container{
 
 /* Form group */
 div.xhtml_form div.form-group{
-	border: solid 1px #cfcfcf;
+	/*border: solid 1px #cfcfcf;*/
 	background-color: #e3e3e3;
 	margin:5px;
 	padding:3px;

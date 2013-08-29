@@ -15,12 +15,12 @@
 	    $('.portalButton').mouseover(function() {
 		$(this).addClass("portalButtonSelected");
 		jQuery(".portalOperation", this).addClass("portalOperationSelected");
-		jQuery(".buttonTitle", this).addClass("buttonTitleSelected");
+		jQuery(".Title", this).addClass("TitleSelected");
 	    });
 	    $('.portalButton').mouseleave(function() {
 		$(this).removeClass("portalButtonSelected");
 		jQuery(".portalOperation", this).removeClass("portalOperationSelected");
-		jQuery(".buttonTitle", this).removeClass("buttonTitleSelected");
+		jQuery(".Title", this).removeClass("TitleSelected");
 	    });
 	});
     </script>
@@ -30,11 +30,11 @@
 		<div id="portal-box" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 		<!--<span class="portalInfo"><h1><?=__('Welcome to TAO!')?></h1></span>!-->
 
-		<a href="<?=_url('login','Main','tao')?>" title="<?=__('TAO back office')?>">
+		<a href="<?=_url('login','Main','tao')?>" >
 		    <span class="portalButton">
-			    <span class="buttonTitle"><?=__('Test Developers and Test Administrators')?></span>
+			    <span class="Title"><?=__('Test Developers and Test Administrators')?></span>
 			    <span class="hintMsg">
-				<?=__('Create items, manage item banks and tests, organize cohorts and schedule test deliveries')?>
+				<?=__('Create items, manage item banks and tests, organize cohorts and schedule test deliveries.')?>
 			    </span>
 			    <span class="portalOperation">
 				<?=__('TAO Back Office')?>
@@ -43,11 +43,11 @@
 		    </span>
 		</a>
 		
-		<a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" title="<?=__('TAO front office')?>">
+		<a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" >
 		<span class="portalButton">
-			<span class="buttonTitle"><?=__('Test Takers')?></span>
+			<span class="Title"><?=__('Test Takers')?></span>
 			<span class="hintMsg">
-			    <?=__('Login here to take a test')?>
+			    <?=__('Login here to take a test.')?>
 			</span>
 			<span class="portalOperation">
 			    <?=__('TAO Delivery Server')?>
@@ -55,11 +55,11 @@
 			
 		</span>
 		</a>
-		<a href="<?=_url('index','Authentication','wfEngine')?>" title="<?=__('TAO front office')?>" title="<?=__('TAO workflow engine')?>">
+		<a href="<?=_url('index','Authentication','wfEngine')?>"  >
 		<span class="portalButton">
-			<span class="buttonTitle"><?=__('Advanced Users')?></span>
+			<span class="Title"><?=__('Advanced Users')?></span>
 			<span class="hintMsg">
-			    <?=__('Check pending tasks for assessment preparation...')?>
+			    <?=__('Check pending tasks for assessment preparation.')?>
 			</span>
 			<span class="portalOperation">
 			   <?=__('TAO Process Engine')?>
@@ -72,8 +72,8 @@
 
 		</div>
 	</div>
-	<div id="footer">
-		TAO<sup>&reg;</sup> - <?=date('Y')?> - A joint initiative of CRP Henri Tudor and the University of Luxembourg
-	</div>
+	 <div id="footer">
+		TAO<sup>&reg;</sup> - <?=TAO_VERSION_NAME?> - <?=TAO_RELEASE_STATUS?> - <?=date('Y')?> - A joint initiative of CRP Henri Tudor and the University of Luxembourg
+	    </div>
 </body>
 </html>

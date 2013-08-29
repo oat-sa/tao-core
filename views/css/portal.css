@@ -18,7 +18,9 @@
  * 
  */
 @CHARSET "UTF-8";
-
+body{
+    background-color:#ffffff;
+}
 h1 {
 	font-size: 1.3em;
 	text-align: left;
@@ -26,7 +28,6 @@ h1 {
 	color:#666;
 
 }
-
 div#portal-box { 
 	width: 720px;
 	margin:auto; 
@@ -34,7 +35,7 @@ div#portal-box {
 	background-color:#fff;
 	height:300px;
 	padding: 0px 5px 0px 5px;
-	border: solid 1px #ccc;
+	border: solid 0px #ccc;
 	background-image: url("../img/tao_logo_big.png");
 	background-repeat: no-repeat;
 	background-position: 40px 84px;
@@ -56,15 +57,16 @@ div#portal-box {
 	padding-left:12px;
 	padding-right:8px;
 	padding-top:2px;
+	padding-bottom:2px;
 	margin-right:0px;
 	width:160px;
-	background-color: #ddd;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
+	background-color: #eee;
+	
 	/*box-shadow: 2px 0px 6px #bbb;*/
 }
 .portalOperationSelected{
-    background-color:#eee;
+    background-color:#D00239;
+    color:#fff;;
 
 }
 .portalInfo{
@@ -81,15 +83,15 @@ div#portal-box {
     padding-right:0px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
-     box-shadow: 3px 3px 5px #aaa;
-    background-color:#eee;
+     /*box-shadow: 3px 3px 5px #aaa;*/
+	background-color:#eee;
     	font-weight:bolder;
 	color:#666
 }
-.buttonTitle{
+.Title{
     
 }
-.buttonTitleSelected{
+.TitleSelected{
     color:#D00239;
 }
 .portalButtonSelected{
@@ -108,5 +110,9 @@ div#portal-box ul li{
 }
 div#footer{
 	position: fixed; clear: both; width: 100%; height: 30px; bottom: 0; border: none;
+	font-size:10px;
+	text-align:center;
+	margin:5px auto 0px auto;
+	padding:5px 0px 0px 0px;
 }
 
