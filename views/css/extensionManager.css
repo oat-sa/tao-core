@@ -62,12 +62,17 @@ table .author{
 }
 
 table .require{
-	width: 150px;	
+	width: 250px;	
 }
 
 table .install{
 	width: 50px;
 	vertical-align: middle!important;	
+}
+
+.dependencies .ext-id{
+    float: left;
+    margin-right: 10px;
 }
 
 .installed { color: green; }
