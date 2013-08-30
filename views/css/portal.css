@@ -51,7 +51,7 @@ div#portal-box {
 	margin-top:5px;
 	
 }
-.portalOperation{
+.tileLabel{
 	float:right;
 	margin-top: 0px;
 	padding-left:12px;
@@ -64,7 +64,7 @@ div#portal-box {
 	
 	/*box-shadow: 2px 0px 6px #bbb;*/
 }
-.portalOperationSelected{
+.tileLabelSelected{
     background-color:#D00239;
     color:#fff;;
 
@@ -73,7 +73,7 @@ div#portal-box {
     float:left;
     left:0px;
 }
-.portalButton{
+.tile{
     float:right;
     width:430px;
     margin-top:15px;
@@ -88,16 +88,17 @@ div#portal-box {
     	font-weight:bolder;
 	color:#666
 }
+.tileSelected{
+    background-color:#dddddd;
+    cursor:pointer;
+}
 .Title{
     
 }
 .TitleSelected{
     color:#D00239;
 }
-.portalButtonSelected{
-    background-color:#dddddd;
-    cursor:pointer;
-}
+
 
 div#portal-box ul {
 	margin: 0;

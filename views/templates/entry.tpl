@@ -12,14 +12,14 @@
 </head>
     <script type="text/javascript">
 	$( document ).ready(function(){
-	    $('.portalButton').mouseover(function() {
-		$(this).addClass("portalButtonSelected");
-		jQuery(".portalOperation", this).addClass("portalOperationSelected");
+	    $('.tile').mouseover(function() {
+		$(this).addClass("tileSelected");
+		jQuery(".portalOperation", this).addClass("tileLabelSelected");
 		jQuery(".Title", this).addClass("TitleSelected");
 	    });
-	    $('.portalButton').mouseleave(function() {
-		$(this).removeClass("portalButtonSelected");
-		jQuery(".portalOperation", this).removeClass("portalOperationSelected");
+	    $('.tile').mouseleave(function() {
+		$(this).removeClass("tileSelected");
+		jQuery(".portalOperation", this).removeClass("tileLabelSelected");
 		jQuery(".Title", this).removeClass("TitleSelected");
 	    });
 	});
@@ -31,7 +31,7 @@
 		<!--<span class="portalInfo"><h1><?=__('Welcome to TAO!')?></h1></span>!-->
 
 		<a href="<?=_url('login','Main','tao')?>" >
-		    <span class="portalButton">
+		    <span class="tile">
 			    <span class="Title"><?=__('Test Developers and Test Administrators')?></span>
 			    <span class="hintMsg">
 				<?=__('Create items, manage item banks and tests, organize cohorts and schedule test deliveries.')?>
@@ -44,7 +44,7 @@
 		</a>
 		
 		<a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" >
-		<span class="portalButton">
+		<span class="tile">
 			<span class="Title"><?=__('Test Takers')?></span>
 			<span class="hintMsg">
 			    <?=__('Login here to take a test.')?>
@@ -56,7 +56,7 @@
 		</span>
 		</a>
 		<a href="<?=_url('index','Authentication','wfEngine')?>"  >
-		<span class="portalButton">
+		<span class="tile">
 			<span class="Title"><?=__('Advanced Users')?></span>
 			<span class="hintMsg">
 			    <?=__('Check pending tasks for assessment preparation.')?>
