@@ -14,12 +14,12 @@
 	$( document ).ready(function(){
 	    $('.tile').mouseover(function() {
 		$(this).addClass("tileSelected");
-		jQuery(".portalOperation", this).addClass("tileLabelSelected");
+		jQuery(".tileLabel", this).addClass("tileLabelSelected");
 		jQuery(".Title", this).addClass("TitleSelected");
 	    });
 	    $('.tile').mouseleave(function() {
 		$(this).removeClass("tileSelected");
-		jQuery(".portalOperation", this).removeClass("tileLabelSelected");
+		jQuery(".tileLabel", this).removeClass("tileLabelSelected");
 		jQuery(".Title", this).removeClass("TitleSelected");
 	    });
 	});
@@ -36,7 +36,7 @@
 			    <span class="hintMsg">
 				<?=__('Create items, manage item banks and tests, organize cohorts and schedule test deliveries.')?>
 			    </span>
-			    <span class="portalOperation">
+			    <span class="tileLabel">
 				<?=__('TAO Back Office')?>
 			    </span>
 
@@ -49,7 +49,7 @@
 			<span class="hintMsg">
 			    <?=__('Login here to take a test.')?>
 			</span>
-			<span class="portalOperation">
+			<span class="tileLabel">
 			    <?=__('TAO Delivery Server')?>
 			</span>
 			
@@ -61,7 +61,7 @@
 			<span class="hintMsg">
 			    <?=__('Check pending tasks for assessment preparation.')?>
 			</span>
-			<span class="portalOperation">
+			<span class="tileLabel">
 			   <?=__('TAO Process Engine')?>
 			</span>
 			</a>

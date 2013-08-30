@@ -117,7 +117,7 @@ div.xhtml_form div.form-group div{
 	border: solid 1px #ddd;
 }
 div.xhtml_form div.form-group div div{
-	border: solid 1px #FDD5DF;
+	/*border: solid 0px #FDD5DF;*/
 }
 
 div.xhtml_form div.form-group div div div{
