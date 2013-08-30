@@ -35,7 +35,7 @@
 			<?=__('Test Developers and Test Administrators')?>
 		    </span>
 		    <span class="hintMsg">
-			    <?=__('Login to the TAO BackOffice')?>&nbsp;&nbsp;<a href="<?echo ROOT_URL; ?>"><?=__('Change...')?></a>
+			    <?=__('Login to the TAO Back Office')?>&nbsp;&nbsp;<a href="<?echo ROOT_URL; ?>"><?=__('Change...')?></a>
 			   
 		    </span>
 		    <span class=hintLink>

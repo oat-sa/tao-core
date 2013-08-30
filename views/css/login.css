@@ -41,6 +41,7 @@ div#login-form .form-toolbar {
   height:22px;
   vertical-align:top;
   width: 120px;
+
 }
 .ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
   background-color:#fff;
@@ -57,11 +58,13 @@ div#login-form .form-toolbar {
     background-color:#aaa;
     color:#fff;
     margin-left:85px;
-     width: 120px;
+     width: 123px;
     height:40px;
     border-width:1px;
     border-collapse: collapse;
     font-weight:bold;
+     -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
 }
 #connect:hover{
     background-color:#D00239;

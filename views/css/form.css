@@ -27,7 +27,7 @@ div#form-container{
 	position:relative;
 }
 div.xhtml_form{
-	color:#444;
+	/*color:#444;*/
 	font-size:1em;
 	padding-bottom:5px;
 }
@@ -117,7 +117,7 @@ div.xhtml_form div.form-group div{
 	border: solid 1px #ddd;
 }
 div.xhtml_form div.form-group div div{
-	/*border: solid 0px #FDD5DF;*/
+	border: solid 0px #FDD5DF;
 }
 
 div.xhtml_form div.form-group div div div{
