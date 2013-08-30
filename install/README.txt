@@ -2,7 +2,7 @@
 
 # 
 # The full documentation to install or update TAO 
-# is available at http://forge.tao.lu/projects/tao/wiki/Installation_and_Upgrading
+# is available at http://forge.taotesting.com/projects/tao/wiki/Installation_and_Upgrading
 #
 
 Apache web server configuration:
