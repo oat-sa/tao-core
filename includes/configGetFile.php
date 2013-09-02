@@ -1,1 +1,0 @@
-<? return array('secret' => 'bf079a8dde3c3bad423db202066f7670','folder' => '/home/bout/code/php/taoTrunk/taoDelivery/data/compiled/');
