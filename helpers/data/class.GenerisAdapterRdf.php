@@ -71,7 +71,7 @@ class tao_helpers_data_GenerisAdapterRdf
         // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EBC begin
         
         $api = core_kernel_impl_ApiModelOO::singleton();
-		$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#')
+		$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
 			
     	if(!is_null($destination) && file_exists($source)){
 			
