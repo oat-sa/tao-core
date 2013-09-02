@@ -354,5 +354,3 @@ class tao_helpers_File
     }
 
 }
-
-?>
