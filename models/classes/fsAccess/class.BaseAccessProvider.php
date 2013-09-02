@@ -66,7 +66,7 @@ abstract class tao_models_classes_fsAccess_BaseAccessProvider
     		@flock($fp, LOCK_UN);
     		@fclose($fp);
     	} else {
-    		throw new common_exception_Error('Could not prepare item access provider '.get_class($this));
+    		throw new common_exception_Error('Could not prepare htaccess \''.$filePath.'\' for provider '.get_class($this));
     	}
         return true;
 	}
