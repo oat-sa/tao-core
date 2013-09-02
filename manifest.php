@@ -83,7 +83,7 @@ return array(
 				array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao'))
 		),
 		'php' => array(
-			dirname(__FILE__).'/scripts/install/addFileUploadSource.php'
+			dirname(__FILE__).'/scripts/install/addFileUploadSource.php',
 		)
 	),
 	'managementRole' => 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
@@ -130,6 +130,7 @@ return array(
 		'TAO_TPL_PATH' => $extpath."views".DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR,
 		'TAOVIEW_PATH' => $extpath."views".DIRECTORY_SEPARATOR,
 
+        'SERVICE_STORAGE_DIRECTORY'		=> $extpath . 'data'.DIRECTORY_SEPARATOR.'serviceStorage'.DIRECTORY_SEPARATOR,
 	 )
 );
 ?>
