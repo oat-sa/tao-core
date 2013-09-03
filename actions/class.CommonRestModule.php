@@ -226,7 +226,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 
 	    //400 Bad Request
 	   if (is_subclass_of($exception, "common_Exception")) {
-	   tao_actions_RestExceptionHandler::handle($exception);
+	   tao_helpers_RestExceptionHandler::handle($exception);
 	   }
 
 	    $data = array();

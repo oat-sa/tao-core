@@ -10,7 +10,7 @@
  *
  * @author plichart
  */
-class tao_actions_RestExceptionHandler extends common_exception_ExceptionHandler{
+class tao_helpers_RestExceptionHandler extends common_exception_ExceptionHandler{
    
     public function handle(common_Exception $exception){
 	
