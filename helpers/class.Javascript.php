@@ -29,36 +29,29 @@
  */
 class tao_helpers_Javascript
 {
-
     /**
-     * converts a php array into a js array
+     * converts a php array or string into a javascript format
      *
      * @access public
      * @author Joel Bout, <joel@taotesting.com>
-     * @param  array array
+     * @param  mixed $var
      * @param  boolean format
      * @return string
      */
-    public static function buildObject($array, $format = false){
-        
-        $returnValue = '';
-
-        $count = count($array);
-        if($count == 0){
-            $returnValue = '{}';
-        }else{
+    public static function buildObject($var, $format = false){
+        if (is_array($var)) {
             $returnValue = '{';
             $i = 1;
-            foreach($array as $k => $v){
-                $returnValue .= '"'.$k.'":'.(is_array($v) ? self::buildObject($v, $format) : json_encode($v));
-                $returnValue .= ($i < $count) ? ',' : '';
+            foreach($var as $k => $v){
+                $returnValue .= json_encode($k).':'.self::buildObject($v, $format);
+                $returnValue .= ($i < count($var)) ? ',' : '';
                 $returnValue .= $format ? PHP_EOL : '';
                 $i++;
             }
             $returnValue .= '}';
+        } else {
+            $returnValue = json_encode($var);
         }
-
-        return (string) $returnValue;
+        return $returnValue;
     }
-
 }
