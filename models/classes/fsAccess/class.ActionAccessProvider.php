@@ -61,6 +61,6 @@ class tao_models_classes_fsAccess_ActionAccessProvider
 	}
 	
 	protected function getHtaccessContent() {
-		return "deny from all";
+		return self::HTACCESS_DENY_CONTENT;
 	}
 }

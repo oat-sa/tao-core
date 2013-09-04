@@ -32,7 +32,7 @@
 abstract class tao_models_classes_fsAccess_BaseAccessProvider
 	implements tao_models_classes_fsAccess_FilesystemAccessProvider
 {
-	const DEFAULT_HTACCESS_CONTENT = 'php_flag engine off';
+	const HTACCESS_DENY_CONTENT = 'Deny from All';
 	
 	/**
 	 * @var core_kernel_fileSystem_FileSystem
@@ -52,7 +52,7 @@ abstract class tao_models_classes_fsAccess_BaseAccessProvider
 	}
 	
 	public function cleanupProvider() {
-		$this->writeHtaccessFile(self::DEFAULT_HTACCESS_CONTENT);
+		$this->writeHtaccessFile(self::HTACCESS_DENY_CONTENT);
 	}
 
 	private function writeHtaccessFile($content) {

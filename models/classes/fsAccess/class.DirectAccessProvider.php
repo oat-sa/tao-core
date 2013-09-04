@@ -35,11 +35,13 @@
 class tao_models_classes_fsAccess_DirectAccessProvider
 	extends tao_models_classes_fsAccess_BaseAccessProvider
 {
+    const HTACCESS_ALLOW_NOEXEC_CONTENT = 'php_flag engine off\nRewriteEngine Off';
+    
 	public function getAccessUrl($path) {
 		return tao_helpers_Uri::getUrlForPath($this->getBasePath(). $path);
 	}
 	
 	protected function getHtaccessContent() {
-	    return "php_flag engine off";
+	    return self::HTACCESS_ALLOW_NOEXEC_CONTENT;
 	}
 }
