@@ -34,7 +34,7 @@ class tao_helpers_ServiceJavascripts
         return 'new StateStorage('.tao_helpers_Javascript::buildObject($state).', '.tao_helpers_Javascript::buildObject($submitUrl).')';
     }
     
-    public static function getServiceApi(tao_models_classes_service_ServiceCall $serviceCall, $serviceCallId, $customParams) {
+    public static function getServiceApi(tao_models_classes_service_ServiceCall $serviceCall, $serviceCallId, $customParams = array()) {
         return 'new ServiceApi('.
             tao_helpers_Javascript::buildObject(tao_models_classes_service_ServiceCallHelper::getBaseUrl($serviceCall->getServiceDefinition())).','.
             tao_helpers_Javascript::buildObject(tao_models_classes_service_ServiceCallHelper::getInputValues($serviceCall, $customParams)).','.
@@ -44,6 +44,9 @@ class tao_helpers_ServiceJavascripts
     }
     
     public static function getFinishedSniplet() {
-        return 'done';
+        $taoExt = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $tpl = $taoExt->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.'snippet'.DIRECTORY_SEPARATOR.'finishService.tpl';
+        $renderer = new Renderer($tpl); 
+        return $renderer->render();
     }
 }
