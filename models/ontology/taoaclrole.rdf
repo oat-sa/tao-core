@@ -26,4 +26,11 @@
 		<funcacl:grantAccessAction rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#a_tao_UserSettings_properties"/>
 		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_GenerisTree"/>
 	</rdf:Description>
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole">
+    	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#AbstractRole"/>
+    	<rdfs:label xml:lang="en-US"><![CDATA[Base User]]></rdfs:label>
+		<rdfs:comment xml:lang="en-US"><![CDATA[Base User Role]]></rdfs:comment>
+		<generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole"/>
+		<funcacl:grantAccessModule rdf:resource="http://www.tao.lu/Ontologies/taoFuncACL.rdf#m_tao_ServiceModule"/>
+	</rdf:Description>
 </rdf:RDF>
