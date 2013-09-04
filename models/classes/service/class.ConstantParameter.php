@@ -40,7 +40,11 @@ extends tao_models_classes_service_Parameter
 	 */
 	public function __construct(core_kernel_classes_Resource $definition, $value) {
 	    parent::__construct($definition);
-	    $this->value = $value;
+	    $this->value = is_object($value) && $value instanceof core_kernel_classes_Resource ? $value->getUri() : (string)$value;
+	}
+	
+	public function getValue() {
+	    return $this->value;
 	}
 	
 	/**

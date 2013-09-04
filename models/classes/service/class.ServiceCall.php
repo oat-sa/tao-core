@@ -49,8 +49,22 @@ class tao_models_classes_service_ServiceCall
 	    $this->outParameter = $param;
 	}
 	
-	public function getLaunchUrl() {
-	    $baseUrl = $this->serviceDefinition->getUniquePropertyValue(new core_kernel_classes_Property($uri));
+	/**
+	 * returns the definition of the called service
+	 * 
+	 * @return core_kernel_classes_Resource
+	 */
+	public function getServiceDefinition() {
+	    return $this->serviceDefinition;
+	}
+	
+	/**
+	 * returns the call parameters
+	 * 
+	 * @return array:
+	 */
+	public function getInParameters() {
+	    return $this->inParameters;
 	}
 	
 	/**

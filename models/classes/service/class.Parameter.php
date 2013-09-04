@@ -52,6 +52,7 @@ abstract class tao_models_classes_service_Parameter
 	 * @return tao_models_classes_service_Parameter
 	 */
 	public static function fromResource(core_kernel_classes_Resource $resource) {
+	    common_Logger::d('unserialize '.$resource->getUri());
 	    $values = $resource->getPropertiesValues(array(
 	        PROPERTY_ACTUALPARAMETER_FORMALPARAMETER,
 	        PROPERTY_ACTUALPARAMETER_CONSTANTVALUE,
@@ -68,7 +69,7 @@ abstract class tao_models_classes_service_Parameter
 	    if (count($values[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE]) > 0) {
 	        $param = new tao_models_classes_service_ConstantParameter(
 	            current($values[PROPERTY_ACTUALPARAMETER_FORMALPARAMETER]),
-	            (string)current($values[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE])
+	            current($values[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE])
 	       );
 	    } else {
 	        $param = new tao_models_classes_service_ConstantParameter(
