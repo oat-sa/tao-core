@@ -12,7 +12,6 @@ StateStorage.prototype.get = function(callback){
 
 StateStorage.prototype.set = function(state, callback){
 
-	console.log('Submited: ' + state);
 	if (state == this.state) {
 		if (typeof callback == "function") {
 			callback();

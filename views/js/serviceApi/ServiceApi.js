@@ -34,7 +34,7 @@ ServiceApi.prototype.getCallUrl = function(){
 
 //Context
 ServiceApi.prototype.getServiceCallId = function(){
-	return this.getParameter('serviceCallId');
+	return this.serviceCallId;
 }
 
 //Context
