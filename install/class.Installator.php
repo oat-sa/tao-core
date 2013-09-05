@@ -33,7 +33,7 @@
 
 class tao_install_Installator{
 
-	static $defaultExtensions = array('tao','filemanager','taoItems','wfEngine','taoResults','taoTests','taoDelivery','taoGroups','taoSubjects', 'taoQTI', 'taoOpenWebItem', 'taoWfTest', 'taoSimpleDelivery');
+	static $defaultExtensions = array('tao','filemanager','taoItems','wfEngine','taoResults','taoTests','taoDelivery','taoGroups','taoSubjects', 'taoQTI', 'taoQtiTest', 'taoOpenWebItem', 'taoWfTest', 'taoSimpleDelivery');
 
     protected $options = array();
 	
