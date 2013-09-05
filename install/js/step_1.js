@@ -235,7 +235,8 @@ function initHelp(){
 	install.addHelp('hlp_fs_tao_data_cache_htmlpurifier', "The 'tao/data/cache/htmlpurifier' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_data_upload', "The 'tao/data/upload' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_tao_data_service', "The 'tao/data/serviceStorage' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoItems_data', "The 'taoItems/data' directory of your installation must be readable and writable by the user running your web server.");
+	install.addHelp('hlp_fs_taoItems_data', "The 'taoItems/data/itemdata' directory of your installation must be readable and writable by the user running your web server.");
+	install.addHelp('hlp_fs_taoQtiTest_data_testdata', "The 'taoQtiTest/data/testdata' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_taoItems_includes', "The 'taoItems/includes' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoItems_views_export', "The 'taoItems/views/export' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_taoDelivery_compiled', "The 'taoDelivery/data/compiled' directory of your installation must be readable and writable by the user running your web server.");
