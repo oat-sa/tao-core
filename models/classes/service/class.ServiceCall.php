@@ -117,4 +117,24 @@ class tao_models_classes_service_ServiceCall
 	    }
 	    return $serviceCall;
 	}
+	
+	/**
+	 * Serialize the current serivceCall object to a string
+	 * 
+	 * @return string
+	 */
+	public function serializeToString() {
+	    return serialize($this);
+	}
+	
+	/**
+	 * Unserialize the string to a serivceCall object
+	 * 
+	 * @param string $string
+	 * @return tao_models_classes_service_ServiceCall
+	 */
+	public static function fromString($string) {
+	    return unserialize($string);
+	}
+	
 }
