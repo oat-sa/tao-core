@@ -153,7 +153,7 @@ class tao_scripts_TaoTranslate
         
         // The 'action' parameter is always required.
         if ($this->options['action'] == null) {
-        	self::err("Please enter the 'action' parameter.", true);
+        	$this->err("Please enter the 'action' parameter.", true);
         } else {
         	$this->options['action'] = strtolower($this->options['action']);
         	$allowedActions = array('create',
@@ -168,7 +168,7 @@ class tao_scripts_TaoTranslate
         							'changecode');
         	
         	if (!in_array($this->options['action'], $allowedActions)) {
-        		self::err("'" . $this->options['action'] . "' is not a valid action.", true);
+        		$this->err("'" . $this->options['action'] . "' is not a valid action.", true);
         	} else {
         		// The 'action' parameter is ok.
         		// Let's check additional inputs depending on the value of the 'action' parameter.
@@ -302,7 +302,7 @@ class tao_scripts_TaoTranslate
         	
         	default:
         		// Should not happen.
-        		self::err("Fatal error while checking input parameters. Unknown 'action'.", true);
+        		$this->err("Fatal error while checking input parameters. Unknown 'action'.", true);
         	break;
         }
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003840 end
@@ -329,10 +329,10 @@ class tao_scripts_TaoTranslate
         $this->options = array_merge($defaults, $this->options);
     	
     	if (is_null($this->options['language'])) {
-        	self::err("Please provide a 'language' identifier such as en-US, fr-CA, IT, ...", true);
+        	$this->err("Please provide a 'language' identifier such as en-US, fr-CA, IT, ...", true);
         } else {
         	if (is_null($this->options['extension'])) {
-        		self::err("Please provide an 'extension' for which the 'language' will be created", true);
+        		$this->err("Please provide an 'extension' for which the 'language' will be created", true);
         	} else {
         		// Check if the extension(s) exists.
         		$extensionsToCreate = explode(',', $this->options['extension']);
@@ -342,29 +342,29 @@ class tao_scripts_TaoTranslate
         			$this->options['output'] = dirname(__FILE__) . '/../../' . $etc . '/' . self::DEF_OUTPUT_DIR;
         			$extensionDir = dirname(__FILE__) . '/../../' . $etc;
         			if (!is_dir($extensionDir)) {
-        				self::err("The extension '" . $etc . "' does not exist.", true);
+        				$this->err("The extension '" . $etc . "' does not exist.", true);
         			} else if (!is_readable($extensionDir)) {
-        				self::err("The '" . $etc . "' directory is not readable. Please check permissions on this directory.", true);
+        				$this->err("The '" . $etc . "' directory is not readable. Please check permissions on this directory.", true);
         			} else if (!is_writable($extensionDir)) {
-        				self::err("The '" . $etc . "' directory is not writable. Please check permissions on this directory.", true);
+        				$this->err("The '" . $etc . "' directory is not writable. Please check permissions on this directory.", true);
         			}
         			
         			// The input 'parameter' is optional.
         			// (and only used if the 'build' parameter is set to true)
         			if (!is_null($this->options['input'])) {
         				if (!is_dir($this->options['input'])) {
-        					self::err("The 'input' parameter you provided is not a directory.", true);
+        					$this->err("The 'input' parameter you provided is not a directory.", true);
         				} else if (!is_readable($this->options['input'])) {
-        					self::err("The 'input' directory is not readable.", true);
+        					$this->err("The 'input' directory is not readable.", true);
         				}
         			}
         			 
         			// The 'output' parameter is optional.
         			if (!is_null($this->options['output'])) {
         				if (!is_dir($this->options['output'])) {
-        					self::err("The 'output' parameter you provided is not a directory.", true);
+        					$this->err("The 'output' parameter you provided is not a directory.", true);
         				} else if (!is_writable($this->options['output'])) {
-        					self::err("The 'output' directory is not writable.", true);
+        					$this->err("The 'output' directory is not writable.", true);
         				}
         			}
         		}
@@ -391,51 +391,51 @@ class tao_scripts_TaoTranslate
         $this->options = array_merge($defaults, $this->options);
         
         if (is_null($this->options['language'])) {
-        	self::err("Please provide a 'language' identifier such as en-US, fr-CA, IT, ...", true);
+        	$this->err("Please provide a 'language' identifier such as en-US, fr-CA, IT, ...", true);
         } else {
         	// Check if the language folder exists and is readable/writable.
         	$languageDir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
         	if (!is_dir($languageDir)) {
-        		self::err("The 'language' directory ${languageDir} does not exist.", true);
+        		$this->err("The 'language' directory ${languageDir} does not exist.", true);
         	} else if (!is_readable($languageDir)) {
-        		self::err("The 'language' directory ${languageDir} is not readable. Please check permissions on this directory.");	
+        		$this->err("The 'language' directory ${languageDir} is not readable. Please check permissions on this directory.");	
         	} else if (!is_writable($languageDir)) {
-        		self::err("The 'language' directory ${languageDir} is not writable. Please check permissions on this directory.");	
+        		$this->err("The 'language' directory ${languageDir} is not writable. Please check permissions on this directory.");	
         	} else {
 	        	if (is_null($this->options['extension'])) {
-	        		self::err("Please provide an 'extension' for which the 'language' will be created", true);
+	        		$this->err("Please provide an 'extension' for which the 'language' will be created", true);
 	        	} else {
 	        		// Check if the extension exists.
 	        		$extensionDir = dirname(__FILE__) . '/../../' . $this->options['extension'];
 	        		if (!is_dir($extensionDir)) {
-	        			self::err("The extension '" . $this->options['extension'] . "' does not exist.", true);
+	        			$this->err("The extension '" . $this->options['extension'] . "' does not exist.", true);
 	        		} else if (!is_readable($extensionDir)) {
-	        			self::err("The '" . $this->options['extension'] . "' directory is not readable. Please check permissions on this directory.", true);
+	        			$this->err("The '" . $this->options['extension'] . "' directory is not readable. Please check permissions on this directory.", true);
 	        		} else if (!is_writable($extensionDir)) {
-	        			self::err("The '" . $this->options['extension'] . "' directory is not writable. Please check permissions on this directory.", true);
+	        			$this->err("The '" . $this->options['extension'] . "' directory is not writable. Please check permissions on this directory.", true);
 	        		} else {
 	        			
 	        			// And can we read the messages.po file ?
 	        			if (!file_exists($languageDir . '/' . self::DEF_PO_FILENAME)) {
-	        				self::err("Cannot find " . self::DEF_PO_FILENAME . " for extension '" . $this->options['extension'] . "' and language '" . $this->options['language'] . "'.", true);	
+	        				$this->err("Cannot find " . self::DEF_PO_FILENAME . " for extension '" . $this->options['extension'] . "' and language '" . $this->options['language'] . "'.", true);	
 	        			} else if (!is_readable($languageDir . '/' . self::DEF_PO_FILENAME)) {
-	        				self::err(self::DEF_PO_FILENAME . " is not readable for '" . $this->options['extension'] . "' and language '" . $this->options['language'] . "'. Please check permissions for this file." , true);
+	        				$this->err(self::DEF_PO_FILENAME . " is not readable for '" . $this->options['extension'] . "' and language '" . $this->options['language'] . "'. Please check permissions for this file." , true);
 	        			} else {
 		        			// The input 'parameter' is optional.
 				        	if (!is_null($this->options['input'])) {
 				        		if (!is_dir($this->options['input'])) {
-				        			self::err("The 'input' parameter you provided is not a directory.", true);
+				        			$this->err("The 'input' parameter you provided is not a directory.", true);
 				        		} else if (!is_readable($this->options['input'])) {
-				        			self::err("The 'input' directory is not readable.", true);
+				        			$this->err("The 'input' directory is not readable.", true);
 				        		}
 				        	}
 				        	
 				        	// The output 'parameter' is optional.
 				        	if (!is_null($this->options['output'])) {
 				        		if (!is_dir($this->options['output'])) {
-				        			self::err("The 'output' parameter you provided is not a directory.", true);
+				        			$this->err("The 'output' parameter you provided is not a directory.", true);
 				        		} else if (!is_writable($this->options['output'])) {
-				        			self::err("The 'output' directory is not writable.", true);
+				        			$this->err("The 'output' directory is not writable.", true);
 				        		}
 				        	}	
 	        			}
@@ -467,18 +467,18 @@ class tao_scripts_TaoTranslate
     	// The input 'parameter' is optional.
         if (!is_null($this->options['input'])) {
         	if (!is_dir($this->options['input'])) {
-        		self::err("The 'input' parameter you provided is not a directory.", true);
+        		$this->err("The 'input' parameter you provided is not a directory.", true);
         	} else if (!is_readable($this->options['input'])) {
-        		self::err("The 'input' directory is not readable.", true);
+        		$this->err("The 'input' directory is not readable.", true);
         	}
         }
         
         // The output 'parameter' is optional.
         if (!is_null($this->options['output'])) {
         	if (!is_dir($this->options['output'])) {
-        		self::err("The 'output' parameter you provided is not a directory.", true);
+        		$this->err("The 'output' parameter you provided is not a directory.", true);
         	} else if (!is_writable($this->options['output'])) {
-        		self::err("The 'output' directory is not writable.", true);
+        		$this->err("The 'output' directory is not writable.", true);
         	}
         }
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003846 end
@@ -502,17 +502,17 @@ class tao_scripts_TaoTranslate
         $this->options = array_merge($defaults, $this->options);
         
         if (is_null($this->options['extension'])){
-        	self::err("Please provide an 'extension' identifier.", true);
+        	$this->err("Please provide an 'extension' identifier.", true);
         }else{
             if (is_null($this->options['language'])) {
-                self::err("Please provide a 'language' identifier such as en-US, fr-CA, IT, ...", true);
+                $this->err("Please provide a 'language' identifier such as en-US, fr-CA, IT, ...", true);
             } else {
                 // The input 'parameter' is optional.
                 if (!is_null($this->options['input'])) {
                     if (!is_dir($this->options['input'])) {
-                        self::err("The 'input' parameter you provided is not a directory.", true);
+                        $this->err("The 'input' parameter you provided is not a directory.", true);
                     } else if (!is_readable($this->options['input'])) {
-                        self::err("The 'input' directory is not readable.", true);
+                        $this->err("The 'input' directory is not readable.", true);
                     }
                 }
             }
@@ -540,13 +540,13 @@ class tao_scripts_TaoTranslate
     	if (!is_null($this->options['extension'])){
             if (!is_null($this->options['input'])) {
             	if (!is_dir($this->options['input'])) {
-            		self::err("The 'input' parameter you provided is not a directory.", true);
+            		$this->err("The 'input' parameter you provided is not a directory.", true);
             	} else if (!is_readable($this->options['input'])) {
-            		self::err("The 'input' directory is not readable.", true);
+            		$this->err("The 'input' directory is not readable.", true);
             	}
             }
         }else{
-            self::err("Please provide an 'extension' identifier.", true);
+            $this->err("Please provide an 'extension' identifier.", true);
         }
         // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:000000000000384A end
     }
@@ -561,19 +561,19 @@ class tao_scripts_TaoTranslate
     	$this->options = array_merge($defaults, $this->options);
     	
     	if (empty($this->options['language'])){
-    		self::err("Please provide a source 'language' identifier such as en-US, fr-CA, IT, ...", true);
+    		$this->err("Please provide a source 'language' identifier such as en-US, fr-CA, IT, ...", true);
     	}
     	else if (empty($this->options['targetLanguage'])){
-    		self::err("Please provide a 'targetLanguage' identifier such as en-US, fr-CA, IT, ...", true);
+    		$this->err("Please provide a 'targetLanguage' identifier such as en-US, fr-CA, IT, ...", true);
     	}
     	else if (empty($this->options['extension'])){
-    		self::err("Please provide an 'extension' identifier." ,true);
+    		$this->err("Please provide an 'extension' identifier." ,true);
 		}
     	else if (!is_readable($this->options['output'] . DIRECTORY_SEPARATOR . $this->options['language'])){
-    		self::err("The '" . $this->options['language'] . "' locale directory is not readable.", true);
+    		$this->err("The '" . $this->options['language'] . "' locale directory is not readable.", true);
     	}
     	else if (!is_writable($this->options['output'])){
-    		self::err("The locales directory of extension '" . $this->options['extension'] . "' is not writable.");
+    		$this->err("The locales directory of extension '" . $this->options['extension'] . "' is not writable.");
     	}
     	
     }
@@ -611,17 +611,17 @@ class tao_scripts_TaoTranslate
         		foreach (scandir($dir) as $d) {
         			if ($d !== '.' && $d !== '..' && $d !== '.svn') {
         				if (!tao_helpers_File::remove($dir . '/' . $d, true)) {
-        					self::err("Unable to clean up 'language' directory '" . $dir . "'.", true);
+        					$this->err("Unable to clean up 'language' directory '" . $dir . "'.", true);
         				}
         			}
         		}
         	} else if (file_exists($dir) && is_dir($dir) && $this->options['force'] == false) {
-        		self::err("The 'language' " . $this->options['language'] . " already exists in the file system. Use the 'force' parameter to overwrite it.", true);
+        		$this->err("The 'language' " . $this->options['language'] . " already exists in the file system. Use the 'force' parameter to overwrite it.", true);
         	}
         	
         	// If we are still here... it means that we have to create the language directory.
         	if (!$dirExists && !@mkdir($dir)) {
-        		self::err("Unable to create 'language' directory '" . $this->options['language'] . "'.", true);
+        		$this->err("Unable to create 'language' directory '" . $this->options['language'] . "'.", true);
         	} else {
         		if ($this->options['build'] == true) {
         			$sortingMethod = tao_helpers_translation_TranslationFile::SORT_ASC_I;
@@ -853,7 +853,7 @@ class tao_scripts_TaoTranslate
     	
     	$directories = scandir($localesDir);
     	if ($directories === false) {
-    		self::err("The locales directory of extension '" . $this->options['extension'] . "' cannot be read.", true);	
+    		$this->err("The locales directory of extension '" . $this->options['extension'] . "' cannot be read.", true);	
     	} else {
     		foreach ($directories as $dir) {
     			if ($dir[0] !== '.') {
@@ -889,7 +889,7 @@ class tao_scripts_TaoTranslate
     	
     	$dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
         if (!tao_helpers_File::remove($dir, true)) {
-        	self::err("Could not delete language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "'.", true);	
+        	$this->err("Could not delete language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "'.", true);	
         }
         
         $this->outVerbose("Language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' successfuly deleted.");
@@ -916,7 +916,7 @@ class tao_scripts_TaoTranslate
     	
     	$directories = scandir($localesDir);
     	if ($directories === false) {
-    		self::err("The locales directory of extension '" . $this->options['extension'] . "' cannot be read.", true);	
+    		$this->err("The locales directory of extension '" . $this->options['extension'] . "' cannot be read.", true);	
     	} else {
     		foreach ($directories as $dir) {
     			if ($dir[0] !== '.') {
@@ -944,7 +944,7 @@ class tao_scripts_TaoTranslate
     	$destLocaleDir = $this->options['output'] . DIRECTORY_SEPARATOR . $this->options['targetLanguage'];
     	
     	if (!tao_helpers_File::copy($sourceLocaleDir, $destLocaleDir, true, true)){
-    		self::err("Locale '" . $this->options['language'] . "' could not be copied to locale '" . $this->options['targetLanguage'] . "'.");
+    		$this->err("Locale '" . $this->options['language'] . "' could not be copied to locale '" . $this->options['targetLanguage'] . "'.");
     	}
     	
     	// We now apply transformations to the new locale.
@@ -968,7 +968,7 @@ class tao_scripts_TaoTranslate
     					file_put_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'messages.po', $newFileContent);
     				}
     				else{
-    					self::err("Could not change language tag in messages.po.");
+    					$this->err("Could not change language tag in messages.po.");
     				}
     			}
     			else if ($f == 'messages_po.js'){
@@ -988,7 +988,7 @@ class tao_scripts_TaoTranslate
     					file_put_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'messages_po.js', $newFileContent);
     				}
     				else{
-    					self::err("Could not change language tag in messages_po.js");
+    					$this->err("Could not change language tag in messages_po.js");
     				}
     			}
     			else if ($f == 'lang.rdf'){
@@ -1012,7 +1012,7 @@ class tao_scripts_TaoTranslate
     					file_put_contents($destLocaleDir . DIRECTORY_SEPARATOR . 'lang.rdf', $newFileContent);
     				}
     				else{
-    					self::err("Could not change language tag in lang.rdf");
+    					$this->err("Could not change language tag in lang.rdf");
     				}
     			}
     			else{
@@ -1176,7 +1176,7 @@ class tao_scripts_TaoTranslate
         $exceptions = array('generis', 'tao', '.*');
         
         if (false === $directories) {
-        	self::err("The TAO root directory is not readable. Please check permissions on this directory.", true);	
+        	$this->err("The TAO root directory is not readable. Please check permissions on this directory.", true);	
         } else {
         	foreach ($directories as $dir) {
 				if (is_dir($rootDir . $dir) && !in_array($dir, $exceptions)) {
@@ -1233,14 +1233,14 @@ class tao_scripts_TaoTranslate
                 if (true === $generisAdapterRdf->import($expectedDescriptionPath, null, LOCAL_NAMESPACE)){
                     $this->outVerbose("RDF language description '" . $this->options['language'] . "' successfully imported.");
                 }else{
-                    self::err("An error occured while importing the RDF language description '" . $this->options['language'] . "'.", true);
+                    $this->err("An error occured while importing the RDF language description '" . $this->options['language'] . "'.", true);
                 }
                 
             }else{
-                self::err("RDF language description (lang.rdf) cannot be read in meta-extension 'tao' for language '" . $this->options['language'] . "'.", true);
+                $this->err("RDF language description (lang.rdf) cannot be read in meta-extension 'tao' for language '" . $this->options['language'] . "'.", true);
             }
         }else{
-            self::err("RDF language description (lang.rdf) not found in meta-extension 'tao' for language '" . $this->options['language'] . "'.", true);
+            $this->err("RDF language description (lang.rdf) not found in meta-extension 'tao' for language '" . $this->options['language'] . "'.", true);
         }
         
         
@@ -1334,7 +1334,7 @@ class tao_scripts_TaoTranslate
         $this->options = array_merge($defaults, $this->options);
         
         if ($this->options['language'] == null){
-            self::err("Please provide the 'language' parameter.", true);
+            $this->err("Please provide the 'language' parameter.", true);
         }
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:000000000000399C end
     }
@@ -1353,7 +1353,7 @@ class tao_scripts_TaoTranslate
         $defaults = array('language' => null);
         $this->options = array_merge($defaults, $this->options);
         if ($this->options['language'] == null){
-            self::err("Please provide the 'language' parameter.", true);
+            $this->err("Please provide the 'language' parameter.", true);
         }
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039B5 end
     }
@@ -1376,7 +1376,7 @@ class tao_scripts_TaoTranslate
             $userService->logout();
             $this->outVerbose("Disconnected from TAO.");
         }else{
-            self::err("Unable to connect to TAO as '" . $this->options['user'] . "'. Please check user name and password.", true);
+            $this->err("Unable to connect to TAO as '" . $this->options['user'] . "'. Please check user name and password.", true);
         }
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039B8 end
     }
@@ -1404,7 +1404,7 @@ class tao_scripts_TaoTranslate
             $userService->logout();
             $this->outVerbose("Disconnected from TAO.");
         }else{
-            self::err("Unable to connect to TAO as '" . $this->options['user'] . "'. Please check user name and password.", true);
+            $this->err("Unable to connect to TAO as '" . $this->options['user'] . "'. Please check user name and password.", true);
         }
         // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039BB end
     }
@@ -1518,11 +1518,11 @@ class tao_scripts_TaoTranslate
                 $this->outVerbose("JavaScript compiled translations for extension '${extension}' with '${language}' written.");
             }
             else{
-                self::err("PO file for extension '${extension}' with language '${language}' cannot be read.", true);
+                $this->err("PO file for extension '${extension}' with language '${language}' cannot be read.", true);
             }
         }
         else{
-            self::err("Cannot list TAO Extensions from root path. Check your system rights.", true);    
+            $this->err("Cannot list TAO Extensions from root path. Check your system rights.", true);    
         }
 
         $this->outVerbose("Translations for '${extension}' with language '${language}' gracefully compiled.");
@@ -1547,10 +1547,10 @@ class tao_scripts_TaoTranslate
         $this->options = array_merge($defaults, $this->options);
         
         if ($this->options['extension'] == null){
-            self::err("Please provide the 'extension' parameter.", true);
+            $this->err("Please provide the 'extension' parameter.", true);
         }
         else if ($this->options['language'] == null){
-            self::err("Please provide the 'language' parameter.", true);
+            $this->err("Please provide the 'language' parameter.", true);
         }
         // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003AC0 end
     }
@@ -1575,7 +1575,7 @@ class tao_scripts_TaoTranslate
         
         $directories = scandir($localesDir);
         if ($directories === false) {
-            self::err("The locales directory of extension '" . $this->options['extension'] . "' cannot be read.", true);    
+            $this->err("The locales directory of extension '" . $this->options['extension'] . "' cannot be read.", true);    
         } else {
             foreach ($directories as $dir) {
                 if ($dir[0] !== '.') {
@@ -1612,7 +1612,7 @@ class tao_scripts_TaoTranslate
         $this->options = array_merge($defaults, $this->options);
         
         if ($this->options['extension'] == null){
-            self::err("Please provide the 'extension' parameter.", true);
+            $this->err("Please provide the 'extension' parameter.", true);
         }
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B0E end
     }

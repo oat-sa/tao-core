@@ -109,7 +109,7 @@ abstract class tao_scripts_Runner
         if(isset($options['output_mode'])  && $options['output_mode'] == 'log_only'){
             $this->logOny = true;
         }
-        self::out("* Running {$this->argv[0]}" , $options);
+        $this->out("* Running {$this->argv[0]}" , $options);
          
         $this->inputFormat = $inputFormat;
         
@@ -125,7 +125,7 @@ abstract class tao_scripts_Runner
         //validate the input parameters
         if(!$this->validateInput()){
             $this->help();
-            self::err("Scripts stopped!", true);
+            $this->err("Scripts stopped!", true);
         }
          
         //script run loop
@@ -136,7 +136,7 @@ abstract class tao_scripts_Runner
          
         $this->postRun();
          
-        self::out('Execution of Script ' . $this->argv[0] . ' completed' , $options);
+        $this->out('Execution of Script ' . $this->argv[0] . ' completed' , $options);
          
     	
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B end
@@ -215,7 +215,7 @@ abstract class tao_scripts_Runner
         	$min 	= (int) $this->inputFormat['min'];
         	$found 	=  count($this->parameters);
         	if($found < $min){
-        		self::err("Invalid parameter count: $found parameters found ($min expected)");
+        		$this->err("Invalid parameter count: $found parameters found ($min expected)");
         		$returnValue = false;
         	}
         }
@@ -245,7 +245,7 @@ abstract class tao_scripts_Runner
         	}
         	
         	if(!$found){
-        		self::err("Unable to find required arguments");
+        		$this->err("Unable to find required arguments");
         		$returnValue = false;
         	}
         }
@@ -260,7 +260,7 @@ abstract class tao_scripts_Runner
 		       					!file_exists($input) || 
 		       					!is_readable($input))
 		       				{
-		       					self::err("Unable to access to the file: $input");
+		       					$this->err("Unable to access to the file: $input");
 		       					$returnValue = false;
 		       				}
 		       				break;
@@ -268,14 +268,14 @@ abstract class tao_scripts_Runner
 	        				if( !is_dir($input) || 
 	        					!is_readable($input))
 	        				{
-	        					self::err("Unable to access to the directory: $input");
+	        					$this->err("Unable to access to the directory: $input");
 	        					$returnValue = false;
 	        				}
 	        				break;
 	        			case 'path': 
 	        				if( !is_dir(dirname($input)) )
 	        				{
-	        					self::err("Wrong path given: $input");
+	        					$this->err("Wrong path given: $input");
 	        					$returnValue = false;
 	        				}
 	        				break;
@@ -283,19 +283,19 @@ abstract class tao_scripts_Runner
 	        			case 'float':
 	        			case 'double':
 	        				if(!is_numeric($input)){
-	        					self::err("$input is not a valid ".$parameter['type']);
+	        					$this->err("$input is not a valid ".$parameter['type']);
 	        					$returnValue = false;
 	        				}
 	        				break;
 	        			case 'string':
 	        				if(!is_string($input)){
-	        					self::err("$input is not a valid ".$parameter['type']);
+	        					$this->err("$input is not a valid ".$parameter['type']);
 	        					$returnValue = false;
 	        				}
 	        				break;
 	        			case 'boolean':
 	        				if(!is_bool($input) && strtolower($input) != 'true' && strtolower($input) != 'false' && !empty($input)){
-	        					self::err("$input is not a valid ".$parameter['type']);
+	        					$this->err("$input is not a valid ".$parameter['type']);
 	        					$returnValue = false;
 	        				}else{
 	        					if(is_bool($input)){
@@ -464,10 +464,10 @@ abstract class tao_scripts_Runner
     {
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D5B begin
         common_Logger::e($message);
-        echo self::out($message, array('color' => 'light_red'));
+        echo $this->out($message, array('color' => 'light_red'));
         
         if($stopExec == true){
-            if($this->isCli){
+                    if($this->isCli){
         	   exit(1);	//exit the program with an error
             }
             else {
@@ -510,7 +510,7 @@ abstract class tao_scripts_Runner
        		$usage .= "\t\t{$parameter['description']}";
        		$usage .= "\n";
        	}
-  		self::out($usage, array('color' => 'light_blue'));
+  		$this->out($usage, array('color' => 'light_blue'));
     	
         // section 127-0-1-1--5d5119d4:12e3924f2ec:-8000:0000000000002D86 end
     }
@@ -529,7 +529,7 @@ abstract class tao_scripts_Runner
         // section 10-13-1-85-2583e310:134ccc56ba1:-8000:00000000000038B7 begin
         common_Logger::i($message);
         if (isset($this->parameters['verbose']) && $this->parameters['verbose'] === true) {
-        	self::out($message, $options);
+        	$this->out($message, $options);
         }
         // section 10-13-1-85-2583e310:134ccc56ba1:-8000:00000000000038B7 end
     }

@@ -97,13 +97,13 @@ class tao_scripts_TaoRDFImport
         // the 'file' param is checked by the parent implementation.
         
         if ($this->options['user'] == null){
-        	self::err("Please provide a TAO 'user'.", true);
+        	$this->err("Please provide a TAO 'user'.", true);
         }
         else if ($this->options['password'] == null){
-        	self::err("Please provide a TAO 'password'.", true);
+        	$this->err("Please provide a TAO 'password'.", true);
         }
         else if ($this->options['input'] == null){
-        	self::err("Please provide a RDF 'input' file.", true);
+        	$this->err("Please provide a RDF 'input' file.", true);
         }
 
         // section 10-13-1-85-386ea1c0:135859fbbdd:-8000:00000000000037CE end
@@ -153,11 +153,11 @@ class tao_scripts_TaoRDFImport
         				}
         			}
         			else{
-        				self::err("RDF-XML could not be loaded.", true);
+        				$this->err("RDF-XML could not be loaded.", true);
         			}
         		}
         		catch (DOMException $e){
-        			self::err("RDF-XML parsing error: " . $e->getMessage(), true);
+        			$this->err("RDF-XML parsing error: " . $e->getMessage(), true);
         		}
         	}
 			
@@ -172,7 +172,7 @@ class tao_scripts_TaoRDFImport
 				}
 				
 				$userService->logout();
-				self::err("RDF-XML parsing error.", true);
+				$this->err("RDF-XML parsing error.", true);
 			}
 			else{
 			
@@ -184,12 +184,12 @@ class tao_scripts_TaoRDFImport
 				}		
 				else{
 					$userService->logout();
-					self::err("An error occured during RDF-XML import.", true);
+					$this->err("An error occured during RDF-XML import.", true);
 				}	
 			}
         }
         else{
-        	self::err("Unable to connect to TAO as '" . $this->options['user'] . "'.", true);
+        	$this->err("Unable to connect to TAO as '" . $this->options['user'] . "'.", true);
         }
         // section 10-13-1-85-386ea1c0:135859fbbdd:-8000:00000000000037D0 end
     }

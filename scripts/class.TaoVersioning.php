@@ -138,16 +138,16 @@ class tao_scripts_TaoVersioning
         		$success = $repo->enable();
         		
         		if ($success) {
-					self::out(__('repository added & enabled'), array('color' => 'light_blue'));
+					$this->out(__('repository added & enabled'), array('color' => 'light_blue'));
 					/* no more default repository
 					tao_models_classes_FileSourceService::singleton()->setDefaultFileSource($repo);
-					self::out(__('repository set as new default'), array('color' => 'light_blue'));
+					$this->out(__('repository set as new default'), array('color' => 'light_blue'));
 					*/
         		} else {
-					self::out(__('repository could not be enabled'), array('color' => 'red'));
+					$this->out(__('repository could not be enabled'), array('color' => 'red'));
 				}
 			} catch (Exception $e) {
-				self::out($e->getMessage(), array('color' => 'red'));
+				$this->out($e->getMessage(), array('color' => 'red'));
 			}
         }
 

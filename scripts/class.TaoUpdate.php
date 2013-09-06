@@ -147,7 +147,7 @@ class tao_scripts_TaoUpdate
 			
 				//we display the exception message to the user
 				$error = $ie->getMessage();
-				self::out($error, array('color' => 'light_red'));
+				$this->out($error, array('color' => 'light_red'));
 				$updateOutput = array_merge($updateOutput, $updator->getOutput());
 			}
 			
@@ -156,14 +156,14 @@ class tao_scripts_TaoUpdate
 				$outs = $updator->getOutput();
 				$count = count($outs);
 				for ($i=0; $i<$count; $i++){
-					self::out($outs[$i]);
+					$this->out($outs[$i]);
 				}
 			}
 		}
 		else {
 			//if verbose
 			if($this->verbose){
-				self::out('No available update(s) found');
+				$this->out('No available update(s) found');
 			}
 		}
     	

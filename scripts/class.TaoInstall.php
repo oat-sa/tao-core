@@ -158,7 +158,7 @@ class tao_scripts_TaoInstall
 			$installator->install($this->options);
     	}
     	catch (Exception $e){
-    		self::err("A fatal error occured during installation: " . $e->getMessage(), true);
+    		$this->err("A fatal error occured during installation: " . $e->getMessage(), true);
     	}
 		
         // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E78 end

@@ -450,7 +450,7 @@ class tao_scripts_TaoExtensions
             $this->disconnect();
         }
         
-        self::err($message, $stopExec);
+        $this->err($message, $stopExec);
         // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A99 end
     }
 
