@@ -66,7 +66,8 @@ abstract class tao_scripts_Runner
 
 
     // --- ATTRIBUTES ---
-
+    private $isCli;
+    private $logOny;
     /**
      * Short description of attribute parameters
      *
@@ -97,42 +98,46 @@ abstract class tao_scripts_Runner
     public function __construct($inputFormat = array(), $options = array())
     {
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B begin
-    	
-    	if(PHP_SAPI == 'cli' && !isset($options['argv'])){
-			$this->argv = $_SERVER['argv'];
-		}
-		else{
-			$this->argv = $options['argv'];
-		}
-    	
-    	self::out("\n * Running {$this->argv[0]} *\n", array('color' => 'white'));
-    	
-    	$this->inputFormat = $inputFormat;
-
-    	//check if help is needed
-    	$helpTokens = array('-h', 'help', '-help', '--help');
-    	foreach( $helpTokens as $helpToken){
-    		 if(in_array($helpToken, $this->argv)){
-    		 	$this->help();
-    		 	exit(0);
-    		 }
-    	}
-
-    	//validate the input parameters
-    	if(!$this->validateInput()){
-    		$this->help();
-    		self::err("Scripts stopped!", true);
-    	}
-    	
-    	//script run loop
-    	
-    	$this->preRun();
-    	
-    	$this->run();
-    	
-    	$this->postRun();
-    	
-    	self::out("\n");
+        if(PHP_SAPI == 'cli' && !isset($options['argv'])){
+            $this->argv = $_SERVER['argv'];
+            $this->isCli = true;
+        }
+        else{
+            $this->argv = $options['argv'];
+            $this->isCli = false;
+        }
+        if(isset($options['output_mode'])  && $options['output_mode'] == 'log_only'){
+            $this->logOny = true;
+        }
+        self::out("* Running {$this->argv[0]}" , $options);
+         
+        $this->inputFormat = $inputFormat;
+        
+        //check if help is needed
+        $helpTokens = array('-h', 'help', '-help', '--help)');
+        foreach( $helpTokens as $helpToken){
+            if(in_array($helpToken, $this->argv)){
+            		 	$this->help();
+            		 	exit(0);
+            }
+        }
+        
+        //validate the input parameters
+        if(!$this->validateInput()){
+            $this->help();
+            self::err("Scripts stopped!", true);
+        }
+         
+        //script run loop
+         
+        $this->preRun();
+         
+        $this->run();
+         
+        $this->postRun();
+         
+        self::out('Execution of Script ' . $this->argv[0] . ' completed' , $options);
+         
     	
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B end
     }
@@ -352,7 +357,79 @@ abstract class tao_scripts_Runner
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D54 begin
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D54 end
     }
-
+    /**
+     *
+     * @access
+     * @author "Lionel Lecaque, <lionel@taotesting.com>"
+     * @param unknown $message
+     * @param unknown $options
+     * @return Ambigous <string, unknown>
+     */
+    private function renderCliOutput($message, $options = array()){
+        $returnValue = '';
+         
+        if(isset($options['prefix'])){
+            $returnValue = $options['prefix'];
+        }
+         
+        $colorized = false;
+        isset($options['color']) ?  $color = $options['color'] : $color = 'grey';
+        $color = trim(Cli::getFgColor($color));
+        if(!empty($color) && substr(strtoupper(PHP_OS),0,3) != 'WIN'){
+            $colorized = true;
+             
+            $returnValue .= "\033[{$color}m" ;
+        }
+        isset($options['background']) ?  $bg = $options['background'] : $bg = '';
+        $bg = trim(Cli::getBgColor($bg));
+        if(!empty($bg)){
+            $colorized = true;
+            $returnValue .= "\033[{$bg}m";
+        }
+    
+        $returnValue .= $message;
+         
+        if(!isset($options['inline'])){
+            $returnValue .= "\n";
+        }
+    
+        if($colorized){
+            $returnValue .= "\033[0m";
+        }
+        return $returnValue;
+    }
+    
+    /**
+     * 
+     * @access private
+     * @author "Lionel Lecaque, <lionel@taotesting.com>"
+     * @param string $message
+     * @param array $options
+     * @return string
+     */
+    private function renderHtmlOutput($message, $options = array()){
+        $returnValue = '';
+    
+        if(isset($options['prefix'])){
+            $returnValue = $options['prefix'];
+        }
+    
+        isset($options['color']) ?  $color = $options['color'] : $color = 'grey';
+        if(!empty($color)){
+            $colorized = true;
+            $returnValue .= '<div class="' .$color.'">';
+        }
+        $returnValue .= $message;
+    
+        if(!isset($options['inline'])){
+            $returnValue .= "<br/>";
+        }
+    
+        if($colorized){
+            $returnValue .= "</div>";
+        }
+        return $returnValue;
+    }
     /**
      * Short description of method out
      *
@@ -361,41 +438,16 @@ abstract class tao_scripts_Runner
      * @param  string message
      * @param  array options
      */
-    public static function out($message, $options = array())
+    public function out($message, $options = array())
     {
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D56 begin
-        
-    	$returnValue = '';
-    	
-    	if(isset($options['prefix'])){
-    		$returnValue = $options['prefix'];
-    	}
-    	
-        $colorized = false;
-        isset($options['color']) ?  $color = $options['color'] : $color = 'grey';
-        $color = trim(tao_helpers_Cli::getFgColor($color));
-        if(!empty($color) && substr(strtoupper(PHP_OS),0,3) != 'WIN'){
-        	$colorized = true;
-        	$returnValue .= "\033[{$color}m";
+        $returnValue =  $this->isCli ? $this->renderCliOutput($message,$options) : $this->renderHtmlOutput($message,$options);
+        if ($this->logOny){
+            //do nothing
         }
-        isset($options['background']) ?  $bg = $options['background'] : $bg = '';
-        $bg = trim(tao_helpers_Cli::getBgColor($bg));
-        if(!empty($bg)){
-        	$colorized = true;
-        	$returnValue .= "\033[{$bg}m";
+        else{
+            echo $returnValue ;
         }
-        
-        $returnValue .= $message;
-      	
-        if(!isset($options['inline'])){
-        	$returnValue .= "\n";
-        }
-        
-        if($colorized){
-        	$returnValue .= "\033[0m";
-        }
-        
-        echo $returnValue;
         common_Logger::i($message, array('SCRIPTS_RUNNER'));
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D56 end
     }
@@ -408,14 +460,19 @@ abstract class tao_scripts_Runner
      * @param  string message
      * @param  boolean stopExec
      */
-    protected static function err($message, $stopExec = false)
+    protected function err($message, $stopExec = false)
     {
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D5B begin
         common_Logger::e($message);
         echo self::out($message, array('color' => 'light_red'));
         
         if($stopExec == true){
-        	exit(1);	//exit the program with an error
+            if($this->isCli){
+        	   exit(1);	//exit the program with an error
+            }
+            else {
+                throw new Exception($message);
+            }
         }
         
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D5B end
