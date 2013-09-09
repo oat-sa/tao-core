@@ -34,6 +34,7 @@
 		<sections>
 			<section id="settings_my_settings" name="My settings" url="/tao/UserSettings/properties" />
 			<section id="settings_my_password" name="Change password" url="/tao/UserSettings/password" />
+			<section id="settings_im_export" name="Ontology" url="/tao/RdfImExport/index" />
 			<section id="settings_optimisation" name="TAO optimizer" url="/tao/Settings/index" />
 			<section id="settings_versioning" name="File sources" url="/tao/SettingsVersioning/index">
 				<trees>

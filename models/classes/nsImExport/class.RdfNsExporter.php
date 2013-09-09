@@ -27,7 +27,7 @@
  * @package tao
  * @subpackage models_classes_Export
  */
-class tao_models_classes_export_RdfExporter implements tao_models_classes_export_ExportHandler
+class tao_models_classes_nsImExport_NamespaceExporter
 {
 
     /**
@@ -70,49 +70,24 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
 			}
 			$api = core_kernel_impl_ApiModelOO::singleton();
 
-			//export by instances
+			//export by namespace
 
-			$instances = array();
+			$nsManager = common_ext_NamespaceManager::singleton();
+
+			$namespaces = array();
 			foreach($formValues['rdftpl'] as $key => $value){
-				if(preg_match("/^instance_/", $key)){
-					$instances[] = tao_helpers_Uri::decode(str_replace('instance_', '', $key));
-				}
-			}
-			if(count($instances) > 0){
-				$xmls = array();
-				foreach($instances as $instanceUri){
-					$xmls[] = $api->getResourceDescriptionXML($instanceUri);
-				}
-
-				if(count($xmls) == 1){
-					$rdf = $xmls[0];
-				}
-				else if(count($xmls) > 1){
-
-					//merge the xml of each instances...
-
-					$baseDom = new DomDocument();
-					$baseDom->formatOutput = true;
-					$baseDom->loadXML($xmls[0]);
-
-					for($i = 1; $i < count($xmls); $i++){
-
-						$xmlDoc = new SimpleXMLElement($xmls[$i]);
-						foreach($xmlDoc->getNamespaces() as $nsName => $nsUri){
-							if(!$baseDom->documentElement->hasAttribute('xmlns:'.$nsName)){
-								$baseDom->documentElement->setAttribute('xmlns:'.$nsName, $nsUri);
-							}
-						}
-						$newDom = new DOMDocument();
-						$newDom->loadXml($xmls[$i]);
-						foreach($newDom->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', "Description") as $desc){
-							$newNode = $baseDom->importNode($desc, true);
-							$baseDom->documentElement->appendChild($newNode);
+				if(preg_match("/^ns_/", $key)){
+					$modelID = (int)str_replace('ns_', '', $key);
+					if($modelID > 0){
+						$ns = $nsManager->getNamespace($modelID);
+						if($ns instanceof common_ext_Namespace){
+							$namespaces[] = (string)$ns;
 						}
 					}
-
-					$rdf = $baseDom->saveXml();
 				}
+			}
+			if(count($namespaces) > 0){
+				$rdf = $api->exportXmlRdf($namespaces);
 			}
 
 			//save it

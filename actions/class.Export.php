@@ -73,10 +73,9 @@ class tao_actions_Export extends tao_actions_CommonModule {
 		$this->setData('myForm', $myForm->render());
 		if ($myForm->isSubmited()) {
 			if ($myForm->isValid()) {
-				$file = $exporter->export($myForm->getValues(), $this->getExportPath());
+				$file = $exporter->export($myForm->getValues(), tao_helpers_Export::getExportPath());
 				if (!is_null($file)) {
-					$relPath = ltrim(substr($file, strlen($this->getExportPath())), DIRECTORY_SEPARATOR);
-					$this->setData('download', _url('downloadExportedFiles', null, null, array('filePath' => $relPath)));
+					$this->setData('download', _url('downloadExportedFiles', null, null, array('filePath' => tao_helpers_Export::getRelativPath($file))));
 				}
 			}
 		}
@@ -136,32 +135,11 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	public function downloadExportedFiles(){
 
 		//get request directly since getRequest changes names
-		$path = isset($_GET['filePath']) ? $_GET['filePath'] : '';
-		$fullpath = $this->getExportPath().DIRECTORY_SEPARATOR.$path;
-		if(tao_helpers_File::securityCheck($fullpath, true) && file_exists($fullpath)){
-			$this->setContentHeader(tao_helpers_File::getMimeType($fullpath));
-            $fileName = isset($_GET['fileName']) ? $_GET['fileName'] : basename($fullpath);
-			header('Content-Disposition: attachment; fileName="'.$fileName.'"');
-			header("Content-Length: " . filesize($fullpath));
-			flush();
-			$fp = fopen($fullpath, "r");
-			if ($fp !== false) {
-				while (!feof($fp))
-				{
-				    echo fread($fp, 65536); 
-				    flush();
-				}  
-				fclose($fp);
-				@unlink($fullpath);
-			} else {
- 				common_Logger::e('Unable to open File to export' . $fullpath);				
-			} 
-		}
-        else{
-        	common_Logger::e('Could not find File to export: ' . $fullpath);
+		if (isset($_GET['filePath'])) {
+            tao_helpers_Export::outputFile($_GET['filePath'], isset($_GET['fileName']) ? $_GET['fileName'] : '');
+        } else {
+            throw new tao_models_classes_MissingRequestParameterException('filePath');
         }
-
-		return;
 	}
 }
 ?>
