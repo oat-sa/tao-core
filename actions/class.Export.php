@@ -140,7 +140,8 @@ class tao_actions_Export extends tao_actions_CommonModule {
 		$fullpath = $this->getExportPath().DIRECTORY_SEPARATOR.$path;
 		if(tao_helpers_File::securityCheck($fullpath, true) && file_exists($fullpath)){
 			$this->setContentHeader(tao_helpers_File::getMimeType($fullpath));
-			header('Content-Disposition: attachment; fileName="'.basename($fullpath).'"');
+            $fileName = isset($_GET['fileName']) ? $_GET['fileName'] : basename($fullpath);
+			header('Content-Disposition: attachment; fileName="'.$fileName.'"');
 			header("Content-Length: " . filesize($fullpath));
 			flush();
 			$fp = fopen($fullpath, "r");
