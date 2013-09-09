@@ -374,14 +374,14 @@ abstract class tao_scripts_Runner
          
         $colorized = false;
         isset($options['color']) ?  $color = $options['color'] : $color = 'grey';
-        $color = trim(Cli::getFgColor($color));
+        $color = trim(tao_helpers_Cli::getFgColor($color));
         if(!empty($color) && substr(strtoupper(PHP_OS),0,3) != 'WIN'){
             $colorized = true;
              
             $returnValue .= "\033[{$color}m" ;
         }
         isset($options['background']) ?  $bg = $options['background'] : $bg = '';
-        $bg = trim(Cli::getBgColor($bg));
+        $bg = trim(tao_helpers_Cli::getBgColor($bg));
         if(!empty($bg)){
             $colorized = true;
             $returnValue .= "\033[{$bg}m";
