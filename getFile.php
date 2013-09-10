@@ -53,7 +53,7 @@ $filename = $compiledPath . $subPath . DIRECTORY_SEPARATOR . $file;
 
 require_once '../generis/helpers/class.File.php';
 require_once '../tao/helpers/class.File.php';
-$mimeType = tao_helpers_File::getMimeType($filename);
+$mimeType = tao_helpers_File::getMimeType($filename, true);
 
 header('Content-Type: ' . $mimeType);
 $fp = fopen($filename, 'rb');
