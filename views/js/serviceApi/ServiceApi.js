@@ -60,6 +60,7 @@ ServiceApi.prototype.onFinish = function(callback) {
 }
 
 // Flow
+// valueArray are return parameters of the service.
 ServiceApi.prototype.finish = function(valueArray) {
 	//return execution to service caller
 	console.log('finish received');
