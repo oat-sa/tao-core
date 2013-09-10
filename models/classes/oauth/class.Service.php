@@ -61,8 +61,6 @@ class tao_models_classes_oauth_Service
         // the actual POST data is not involved in the computation of the oauth_signature.
         // Moodle considers POST and ignores HEADERs ...
 
-        $oauth_body_hash = base64_encode(sha1($request->getBody(), TRUE));//the signature should be ciomputed from encoded versions
-        $allInitialParameters = array_merge($allInitialParameters, array("oauth_body_hash" =>$oauth_body_hash));
 
         //$authorizationHeader = self::buildAuthorizationHeader($signatureParameters);
         $signedRequest = OAuthRequest::from_consumer_and_token(
@@ -77,29 +75,30 @@ class tao_models_classes_oauth_Service
         $signedRequest->sign_request($signature_method, $consumer, $token);
         common_logger::d('Base string from TAO/Joel: '.$signedRequest->get_signature_base_string());
 
-        $combinedParameters = $signedRequest->get_parameters();
-        $signatureParameters = array_diff_assoc($combinedParameters, $allInitialParameters);
         if ($authorizationHeader) {
-            
+            $combinedParameters = $signedRequest->get_parameters();
+            $signatureParameters = array_diff_assoc($combinedParameters, $allInitialParameters);
+            $oauth_body_hash = base64_encode(sha1($request->getBody(), TRUE));//the signature should be ciomputed from encoded versions
+            $allInitialParameters = array_merge($allInitialParameters, array("oauth_body_hash" =>$oauth_body_hash));
             $signatureParameters["oauth_body_hash"] = base64_encode(sha1($request->getBody(), TRUE));
             $signatureHeaders = array("Authorization" => self::buildAuthorizationHeader($signatureParameters));
             $signedRequest = new common_http_Request(
-                    $signedRequest->get_normalized_http_url(),
-                    $signedRequest->get_normalized_http_method(),
-                    $request->getParams(),
-                    array_merge($signatureHeaders, $request->getHeaders()),
-                    $request->getBody()
-                );
+                $signedRequest->get_normalized_http_url(),
+                $signedRequest->get_normalized_http_method(),
+                $request->getParams(),
+                array_merge($signatureHeaders, $request->getHeaders()),
+                $request->getBody()
+            );
         } else {
             $signedRequest =  new common_http_Request(
-            $signedRequest->get_normalized_http_url(),
-            $signedRequest->get_normalized_http_method(),
-            array_merge($request->getParameters(), $signatureParameters),
-            $request->getHeaders(),
-            $request->getBody()
-        );
+                $signedRequest->get_normalized_http_url(),
+                $signedRequest->get_normalized_http_method(),
+                $signedRequest->get_parameters(),
+                $request->getHeaders(),
+                $request->getBody()
+            );
         }
-        
+
         return $signedRequest;
     }
     /**
