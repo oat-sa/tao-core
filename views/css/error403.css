@@ -20,6 +20,15 @@
 @CHARSET "UTF-8";
 
 #main{	
-	background-position: 530px 30px;
+	background-position: 40px 30px;
 	min-height: 320px;
+}
+
+#content{
+    margin-left: 310px;
+	width:400px;
+}
+
+#redirect{
+	margin-top: 50px;
 }

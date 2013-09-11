@@ -24,9 +24,10 @@ body{
 }
 
 h1{
-	text-align: center;
-	font-size: 22px;
+	font-size: 28px;
 	margin-bottom: 35px;
+	font-weight: bold;
+	color: #666666; 
 }
 
 #main{
@@ -41,19 +42,21 @@ h1{
 	width:400px;
 }
 
-p{
-	font-size:12px;
-	text-align: justify;
+#warning_msg{
+	font-size:18px;
 	font-weight:normal;
-	line-height:18px;
+	line-height:22px;
 	position:relative;
 	margin-bottom: 10px;
 }
 
-p strong{
+#warning_msg strong{
 	font-weight: bold;	
 }
 
+#warning_msg p{
+    margin-bottom: 10px;
+}
 .embedWarning{
 	float:left;
 	position:relative;
@@ -65,7 +68,11 @@ p strong{
 	text-align: center;
 }
 
-#go_to_tao_bt{
+.error_button{
+    color: #BA122B !important;
+}
+
+#sgo_to_tao_bt{
 	padding:2px 8px;
 	text-decoration: none;
 	background:#009933;
@@ -85,4 +92,20 @@ p strong{
 	position: relative;
 	left:1px;
 	top:1px;
+}
+
+ul {
+    list-style-type: none;
+    list-style: #
+    margin-left: 15px;
+}
+
+li:before {
+    content: "• ";
+    color: #BA122B;
+    margin-right: 5px;
+}
+
+li {
+    margin-top: 5px;
 }

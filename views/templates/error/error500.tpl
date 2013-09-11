@@ -6,6 +6,14 @@
 	<title>Internal Server Error</title>
 	<script type="text/javascript" src="<?= ROOT_URL ?>tao/views/js/jquery-1.8.0.min.js "></script>
 	<script type="text/javascript" src="<?= ROOT_URL ?>tao/views/js/jquery-ui-1.8.23.custom.min.js"></script>
+		<script type="text/javascript">
+    	$(document).ready(function(){
+    	    $('#go_back').click(function(){
+    	        parent.history.back();
+    	        return false;
+    	    });
+    	});
+	</script>
 
 	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/reset.css" />
 	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/custom-theme/jquery-ui-1.8.22.custom.css" />
@@ -17,13 +25,13 @@
 	<div id="main" class="ui-widget-content ui-corner-all" style="background-image: url(<?= ROOT_URL ?>tao/views/img/errors/500.png);">
 		<div id="content">
 			<h1>Internal Server Error</h1>
-			<p id="warning_msg">
-				<img src="<?= ROOT_URL ?>tao/views/img/warning_error_tpl.png" alt="warning" class="embedWarning" />
-				The <strong>page</strong> you requested <strong>generated an unexpected error</strong> on this server. 
-				Make sure <strong>the address</strong> you entered in your <strong>web browser</strong> is valid or try
-				again later. If you are sure that the address is correct but this page is still displayed, 
-				<strong>contact your TAO administrator</strong> to get support.
-			</p>
+			<div id="warning_msg">
+ 				<p>The page you requested generated an unexpected error on this server.</p>
+				<ul>
+				    <li><strong>Verify the address</strong> you entered in your web browser is valid.</li>
+				    <li>If you are sure that the address is correct but this page is still displayed  <strong>contact your TAO administrator</strong>.</li>
+			    </ul>
+			</div>
 			
 			<? if (defined('DEBUG_MODE') && DEBUG_MODE == true): ?>
 				<? if (!empty($message)): ?>
@@ -47,7 +55,8 @@
 				<? endif; ?>
 			<? endif; ?>
 			<div id="redirect">
-				<a href="<?= ROOT_URL ?>" id="go_to_tao_bt">TAO Home</a>
+				<a href="#" id="go_back" class='error_button'><?=__('Go Back')?></a> |
+				<a href="<?= ROOT_URL ?>" id="go_to_tao_bt" class='error_button'><?=__('TAO Home')?></a>
 			</div>
 		</div>
 	</div>

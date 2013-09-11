@@ -19,13 +19,22 @@
  */
 @CHARSET "UTF-8";
 
-#main{	
-	background-position: 530px 30px;
-	min-height: 230px;
-}
-
 p.trace{
 	font-family: 'Courier New', Courier, modern, monospace;
 	text-align: left;
 	font-size: 9px;
+}
+
+#main{	
+	background-position: 40px 30px;
+	min-height: 320px;
+}
+
+#content{
+    margin-left: 310px;
+	width:400px;
+}
+
+#redirect{
+	margin-top: 30px;
 }
