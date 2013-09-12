@@ -43,7 +43,12 @@ class tao_actions_RemoteServiceModule extends Module {
 	public function __construct()
 	{
 		if(!$this->_isAllowed()){
-			throw new tao_models_classes_UserException(__('Access denied. Please renew your authentication!'));
+		    $context = Context::getInstance();
+		    $ext	= $context->getExtensionName();
+		    $module = $context->getModuleName();
+		    $action = $context->getActionName();
+		    $userUri = common_session_SessionManager::getSession()->getUserUri();
+		    throw new tao_models_classes_AccessDeniedException($userUri, $ext, $module, $action);
 		}
 	}
 	
