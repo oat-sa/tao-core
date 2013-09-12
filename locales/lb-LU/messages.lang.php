@@ -17,6 +17,7 @@ $GLOBALS['__l10n']["Data language"]="Daten Sprooch";
 $GLOBALS['__l10n']["Date"]="Meta Daten";
 $GLOBALS['__l10n']["Delete property"]="Proprietéit läschen";
 $GLOBALS['__l10n']["Delete user"]="User läschen";
+$GLOBALS['__l10n']["Deliveries"]="Ausliwwerung";
 $GLOBALS['__l10n']["edit"]="editéiren";
 $GLOBALS['__l10n']["Edit item comment"]="Item Bemierkung editéiren";
 $GLOBALS['__l10n']["Edit user"]="User editéiren";

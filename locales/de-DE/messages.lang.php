@@ -17,6 +17,7 @@ $GLOBALS['__l10n']["Data language"]="Daten-Sprache";
 $GLOBALS['__l10n']["Date"]="Datum";
 $GLOBALS['__l10n']["Delete property"]="Eigenschaft löschen";
 $GLOBALS['__l10n']["Delete user"]="Benutzer löschen";
+$GLOBALS['__l10n']["Deliveries"]="Deliveries";
 $GLOBALS['__l10n']["edit"]="bearbeiten";
 $GLOBALS['__l10n']["Edit item comment"]="Item-Kommentar bearbeiten";
 $GLOBALS['__l10n']["Edit user"]="Benutzer bearbeiten";
