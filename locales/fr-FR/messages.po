@@ -726,7 +726,7 @@ msgid "Please login"
 msgstr "Veuillez vous identifier"
 
 msgid "Please report bugs, ideas, comments, any feedback on the TAO Forge"
-msgstr "Veuillez rapporter les bugs, idées, commentaires, ou tout retour sur la Forge TAO"
+msgstr "Merci de rapporter bugs, idées, commentaires<br/>ou toute réaction sur la Forge TAO."
 
 msgid "Please upload a CSV file formated as defined by the options above."
 msgstr "Veuillez télécharger un fichier au format CSV, définit par les options ci-dessous."
@@ -901,7 +901,7 @@ msgid "TAO back office"
 msgstr ""
 
 msgid "TAO Delivery Server"
-msgstr ""
+msgstr "TAO Serveur de Délivrance"
 
 msgid "TAO front office"
 msgstr ""
@@ -1062,7 +1062,7 @@ msgid "Versioning"
 msgstr "Gestion des versions"
 
 msgid "Warning:"
-msgstr "Avertissement : "
+msgstr "Avertissement :"
 
 msgid "Welcome to TAO!"
 msgstr "Bienvenue dans TAO !"
@@ -1077,4 +1077,7 @@ msgid "Ontology"
 msgstr "Ontologie"
 
 msgid "Result Server Manager"
-msgstr "Gestionnaire du Serveur de Résultats"
+msgstr "Gestionnaire du serveur de résultats"
+
+msgid "Beta version"
+msgstr "Version beta"
