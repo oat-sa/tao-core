@@ -34,6 +34,6 @@ return array(
 		  'name' => 'TAO Open Source Distribution',
 		  'description' => 'The TAO Open Source Distribution comes with a set of extension that makes you able to perform a full Computer Based Assmessment cycle.',
 		  'version' => '2.4',
-		  'extensions' => array('tao' ,'filemanager','taoItems','taoQTI','taoQtiTest','taoOpenWebItem','wfEngine','taoResults','taoTests','taoDelivery','taoGroups','taoSubjects', 'wfAuthoring'))
+		  'extensions' => array('tao' ,'filemanager','taoItems','taoQTI','taoQtiTest','taoOpenWebItem','wfEngine','taoResults','taoTests','taoDelivery','taoGroups','taoSubjects', 'wfAuthoring', 'taoQtiCommon'))
 );
 ?>
