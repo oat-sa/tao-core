@@ -134,6 +134,10 @@ class tao_models_classes_RoleService
     		
     		// assign the new role.
     		$u->setPropertyValue($rolesProperty, $role);
+
+    		if (common_session_SessionManager::getSession()->getUserUri() == $u->getUri()) {
+    		    common_session_SessionManager::getSession()->refresh();
+    		}
     	}
         
     	$returnValue = true;
