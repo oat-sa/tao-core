@@ -93,7 +93,7 @@ div#portal-box {
     cursor:pointer;
 }
 .Title{
-    
+    display:block;
 }
 .TitleSelected{
     color:#D00239;

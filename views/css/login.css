@@ -53,6 +53,7 @@ div#login-form .form-toolbar {
   font-weight:normal;
   font-style:italic;
   margin-left:122px;
+  width:150px;
 }
 #connect{
     background-color:#aaa;
