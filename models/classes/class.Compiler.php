@@ -42,26 +42,37 @@ abstract class tao_models_classes_Compiler
     }
     
     /**
-     * Creates an appropriate subdirectory for a resource's compilation
+     * Creates an appropriate sub-directory for a resource's compilation
      * 
-     * @param core_kernel_file_File $directory
-     * @param core_kernel_classes_Resource $resource
-     * @throws taoItems_models_classes_CompilationFailedException
-     * @return core_kernel_versioning_File
+     * @param core_kernel_file_File $rootDirectory The root directory for this item compilation.
+     * @param core_kernel_classes_Resource $resource The Item resource in the database.
+     * @throws taoItems_models_classes_CompilationFailedException If something goes wrong while creating the sub-directory.
+     * @return core_kernel_versioning_File The sub-directory.
      */
-    protected function createSubDirectory(core_kernel_file_File $directory, core_kernel_classes_Resource $resource)
+    protected function createSubDirectory(core_kernel_file_File $rootDirectory, core_kernel_classes_Resource $resource)
     {
-        $subDirectory = substr($resource->getUri(), strpos($resource->getUri(), '#') + 1);
-        $relPath = $directory->getRelativePath().DIRECTORY_SEPARATOR.$subDirectory;
-        $absPath = $directory->getAbsolutePath().DIRECTORY_SEPARATOR.$subDirectory;
+        $resourceUri = $resource->getUri();
+        return $this->createNamedSubDirectory($rootDirectory, $resource, substr($resourceUri, strpos($resourceUri, '#') + 1));
+    }
     
-        if (! is_dir($absPath)) {
-            if (! mkdir($absPath)) {
-                throw new taoItems_models_classes_CompilationFailedException('Could not create sub directory \'' . $absPath . '\'');
-            }
+    /**
+     * Create an appropriate sub-directory for a resource's compilation with a specific $name.
+     * 
+     * @param core_kernel_file_File $rootDirectory The root directory of this item compilation.
+     * @param core_kernel_classes_Resource $resource
+     * @param string $name The name of the sub-directory to be created.
+     * @throws taoItems_models_classes_CompilationFailedException If something goes wrong while creating the named sub-directory.
+     */
+    protected function createNamedSubDirectory(core_kernel_file_File $rootDirectory, core_kernel_classes_Resource $resource, $name) {
+        $itemUri = $resource->getUri();
+        $relPath = $rootDirectory->getRelativePath() . DIRECTORY_SEPARATOR . $name;
+        $absPath = $rootDirectory->getAbsolutePath() . DIRECTORY_SEPARATOR . $name;
+        
+        if (!is_dir($absPath) && !mkdir($absPath)) {
+            throw new taoItems_models_classes_CompilationFailedException("Could not create sub-directory '${absPath}' while compiling item '${itemUri}'.");
         }
-    
-        return $directory->getFileSystem()->createFile('', $relPath);
+        
+        return $rootDirectory->getFileSystem()->createFile('', $relPath);
     }
     
     /**
