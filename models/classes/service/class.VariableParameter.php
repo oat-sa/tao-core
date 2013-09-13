@@ -19,7 +19,8 @@
  */
 
 /**
- * Represents tao service parameter
+ * Represents a tao service parameter that
+ * is linked to a process variable
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
@@ -29,11 +30,30 @@
 class tao_models_classes_service_VariableParameter
 extends tao_models_classes_service_Parameter
 {
+    /**
+     * @var core_kernel_classes_Resource
+     */
 	private $variable;
 	
+	/**
+	 * Instantiates an new variable parameter
+	 * 
+	 * @param core_kernel_classes_Resource $definition
+	 * @param core_kernel_classes_Resource $variable
+	 */
 	public function __construct(core_kernel_classes_Resource $definition, core_kernel_classes_Resource $variable) {
 	    parent::__construct($definition);
 	    $this->variable = $variable;
+	}
+	
+	/**
+	 * Returns the variable proividing the value
+	 * for this parameter
+	 * 
+	 * @return core_kernel_classes_Resource
+	 */
+	public function getVariable() {
+	    return $this->variable;
 	}
 	
 	/**

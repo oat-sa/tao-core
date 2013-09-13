@@ -35,6 +35,9 @@ extends tao_models_classes_service_Parameter
 	private $value;
 	
 	/**
+	 * Instantiates a parameter that takes
+	 * a constant value
+	 * 
 	 * @param core_kernel_classes_Resource $definition
 	 * @param string $value
 	 */
@@ -43,6 +46,11 @@ extends tao_models_classes_service_Parameter
 	    $this->value = is_object($value) && $value instanceof core_kernel_classes_Resource ? $value->getUri() : (string)$value;
 	}
 	
+	/**
+	 * Returns the actual value associated to this parameter
+	 * 
+	 * @return string
+	 */
 	public function getValue() {
 	    return $this->value;
 	}

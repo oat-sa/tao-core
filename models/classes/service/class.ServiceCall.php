@@ -33,18 +33,43 @@ class tao_models_classes_service_ServiceCall
      */
 	private $serviceDefinition = null;
 	
+	/**
+	 * Input Parameters used to call this service 
+	 * 
+	 * @var array
+	 */
 	private $inParameters = array();
 	
+	/**
+	 * Variable parameter to which the outcome of the service is send
+	 * 
+	 * @var tao_models_classes_service_VariableParameter
+	 */
 	private $outParameter = null;
 	
+	/**
+	 * Instantiates a new service call
+	 * 
+	 * @param core_kernel_classes_Resource $serviceDefinition
+	 */
 	public function __construct(core_kernel_classes_Resource $serviceDefinition) {
 	    $this->serviceDefinition = $serviceDefinition;
 	}
 	
+	/**
+	 * Adds an input parameter
+	 * 
+	 * @param tao_models_classes_service_Parameter $param
+	 */
 	public function addInParameter(tao_models_classes_service_Parameter $param) {
 	    $this->inParameters[] = $param;
 	}
 	
+	/**
+	 * Sets the output parameter, does not except constants
+	 * 
+	 * @param tao_models_classes_service_VariableParameter $param
+	 */
 	public function setOutParameter(tao_models_classes_service_VariableParameter $param) {
 	    $this->outParameter = $param;
 	}
@@ -65,6 +90,21 @@ class tao_models_classes_service_ServiceCall
 	 */
 	public function getInParameters() {
 	    return $this->inParameters;
+	}
+
+	/**
+	 * Gets the variables expected to be present to call this service
+	 * 
+	 * @return array:
+	 */
+	public function getRequiredVariables() {
+	    $variables = array();
+	    foreach ($this->inParameters as $param) {
+	        if ($param instanceof tao_models_classes_service_VariableParameter) {
+	            $variables[] = $param->getVariable();
+	        }
+	    }
+	    return $variables;
 	}
 	
 	/**

@@ -33,10 +33,20 @@ abstract class tao_models_classes_service_Parameter
      */
 	private $definition;
 	
+	/**
+	 * Base constructor of abstract parameter
+	 * 
+	 * @param core_kernel_classes_Resource $definition
+	 */
 	public function __construct(core_kernel_classes_Resource $definition) {
 	    $this->definition = $definition;
 	}
 	
+	/**
+	 * Returns the formal definition of this parameter
+	 * 
+	 * @return core_kernel_classes_Resource
+	 */
 	public function getDefinition() {
 	    return $this->definition;
 	}
@@ -52,7 +62,6 @@ abstract class tao_models_classes_service_Parameter
 	 * @return tao_models_classes_service_Parameter
 	 */
 	public static function fromResource(core_kernel_classes_Resource $resource) {
-	    common_Logger::d('unserialize '.$resource->getUri());
 	    $values = $resource->getPropertiesValues(array(
 	        PROPERTY_ACTUALPARAMETER_FORMALPARAMETER,
 	        PROPERTY_ACTUALPARAMETER_CONSTANTVALUE,
@@ -72,7 +81,7 @@ abstract class tao_models_classes_service_Parameter
 	            current($values[PROPERTY_ACTUALPARAMETER_CONSTANTVALUE])
 	       );
 	    } else {
-	        $param = new tao_models_classes_service_ConstantParameter(
+	        $param = new tao_models_classes_service_VariableParameter(
 	            current($values[PROPERTY_ACTUALPARAMETER_FORMALPARAMETER]),
 	            current($values[PROPERTY_ACTUALPARAMETER_PROCESSVARIABLE])
 	        );

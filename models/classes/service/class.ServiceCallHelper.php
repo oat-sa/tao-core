@@ -57,10 +57,11 @@ class tao_models_classes_service_ServiceCallHelper
             	    $returnValue[$paramKey] = $param->getValue();
             	    break;
             	case 'tao_models_classes_service_VariableParameter' :
-            	    if (isset($callParameters[$paramKey])) {
-            	        $returnValue[$paramKey] = $callParameters;
+            	    $variableCode = (string)$param->getVariable()->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESSVARIABLES_CODE));
+            	    if (isset($callParameters[$variableCode])) {
+            	        $returnValue[$paramKey] = $callParameters[$variableCode];
             	    } else {
-            	        common_Logger::w('No parameter provided for variable '.$paramDefinition->getUri());
+            	        common_Logger::w('No variable '.$variableCode.' provided for paramter '.$paramKey);
             	    }
             	    break;
             	default:
