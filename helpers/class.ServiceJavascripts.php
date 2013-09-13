@@ -35,9 +35,11 @@ class tao_helpers_ServiceJavascripts
     }
     
     public static function getServiceApi(tao_models_classes_service_ServiceCall $serviceCall, $serviceCallId, $customParams = array()) {
+        $inputParameters = tao_models_classes_service_ServiceCallHelper::getInputValues($serviceCall, $customParams);
+        $inputParameters['standalone'] = true;
         return 'new ServiceApi('.
             tao_helpers_Javascript::buildObject(tao_models_classes_service_ServiceCallHelper::getBaseUrl($serviceCall->getServiceDefinition())).','.
-            tao_helpers_Javascript::buildObject(tao_models_classes_service_ServiceCallHelper::getInputValues($serviceCall, $customParams)).','.
+            tao_helpers_Javascript::buildObject($inputParameters).','.
             tao_helpers_Javascript::buildObject($serviceCallId).','.
             self::getServiceStorage($serviceCallId).
         ')';
