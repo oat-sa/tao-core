@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE extension SYSTEM "../doc/structures.dtd">
 <structures>
-	<structure id="users" name="Users" level="8" visible="false">
+	<structure id="users" name="Users" level="11" visible="false">
 		<description />
 		<sections>
 			<section id="list_users" name="Manage users" url="/tao/Users/index" />
@@ -29,11 +29,10 @@
 			<section id="manage_acl" name="Manage Access Rights" url="/tao/Acl/index" />
 		</sections>
 	</structure>
-	<structure id="settings" name="Settings" level="11" visible="false">
+	<structure id="settings" name="Settings" level="8" visible="false">
 		<description />
 		<sections>
-			<section id="settings_my_settings" name="My settings" url="/tao/UserSettings/properties" />
-			<section id="settings_my_password" name="Change password" url="/tao/UserSettings/password" />
+			<section id="settings_ext_mng" name="Extensions manager" url="/tao/ExtensionsManager/index" />
 			<section id="settings_im_export" name="Ontology" url="/tao/RdfImExport/index" />
 			<section id="settings_optimisation" name="TAO optimizer" url="/tao/Settings/index" />
 			<section id="settings_versioning" name="File sources" url="/tao/SettingsVersioning/index">
@@ -52,7 +51,13 @@
 					<action name="remove repository" js="generisActions.removeNode" url="/tao/SettingsVersioning/delete" context="instance" />
 				</actions>
 			</section>
-			<section id="settings_ext_mng" name="Extensions manager" url="/tao/ExtensionsManager/index" />
+		</sections>
+	</structure>
+	<structure id="user_settings" name="User Settings" level="12" visible="false">
+		<description />
+		<sections>
+			<section id="settings_my_settings" name="My settings" url="/tao/UserSettings/properties" />
+			<section id="settings_my_password" name="Change password" url="/tao/UserSettings/password" />
 		</sections>
 	</structure>
 </structures>

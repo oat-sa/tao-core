@@ -14,36 +14,47 @@
 		</div>
 
 		<div class="right-menu">
+            <div>
+                <a href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Logout')?>">
+					<img src="<?=TAOBASE_WWW?>img/logout.png" alt="<?=__('Logout')?>" class="old-icon" />
+				</a>
+			</div>
+<?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'UserSettings', null)): ?>
+            <div>
+                <a href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>" title="<?=__('Settings')?>">
+					   <img src="<?=TAOBASE_WWW?>img/user_settings.png" alt="<?=__('Settings')?>" class="icon-with-desc"/>
+					<p class="icon-desc">
+                    <?=__('Logged in as:')?></br>
+                    <strong><?=get_data('userLabel')?></strong>
+                    </p>
+    			</a>
+			</div>
+<?php endif; ?>
+<?php if (tao_helpers_funcACL_funcACL::hasAccess('filemanager', 'Browser', null)): ?>
+            <div>
+                <a href="#" class="file-manager" title="<?=__('Media manager')?>">
+    				<img src="<?=TAOBASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" class="old-icon" />
+    			</a>
+			</div>
+<?php endif; ?>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', null)): ?>
-			<span>
-				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao'))?>" title="<?=__('Users')?>">
+            <div>
+                <a href="<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao'))?>" title="<?=__('User Management')?>">
 					<img src="<?=TAOBASE_WWW?>img/users.png" alt="<?=__('Users')?>" />
 				</a>
-			</span>
-<?php endif; ?>
-<?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Settings', null) || tao_helpers_funcACL_funcACL::hasAccess('tao', 'UserSettings', null)): ?>
-			<span>
+			</div>
+				<?php endif; ?>
+<?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Settings', null)): ?>
+            <div>
 				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings', 'ext' => 'tao'))?>" title="<?=__('Settings')?>">
 					<img src="<?=TAOBASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />
 				</a>
-			</span>
+			</div>
 <?php endif; ?>
-<?php if (tao_helpers_funcACL_funcACL::hasAccess('filemanager', 'Browser', null)): ?>
-			<span>
-			<a href="#" class="file-manager" title="<?=__('Media manager')?>">
-				<img src="<?=TAOBASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" />
-			</a>
-			</span>
-<?php endif; ?>
-			<span>
-				<a href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Logout')?>">
-					<img src="<?=TAOBASE_WWW?>img/logout.png" alt="<?=__('Logout')?>" />
-				</a>
-			</span>
+            <div class="breaker"></div>
 		</div>
 	</div>
-
-<?if(get_data('sections')):?>
+<? if(get_data('sections')):?>
 
 	<script type='text/javascript'>
 		var shownExtension	= '<?=$shownExtension?>';

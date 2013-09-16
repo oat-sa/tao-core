@@ -188,6 +188,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		}
 
 		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getDataLanguage());
+		$this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
 
 		$this->setView('layout.tpl', 'tao');
 	}

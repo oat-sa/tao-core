@@ -105,13 +105,26 @@ div#main-menu .right-menu{
 	top:5px;
 	background: transparent;
 }
-div#main-menu .right-menu span{
-	padding-left:5px;
+div#main-menu .right-menu div{
+    display: inline-block;
+    float: right;
+    padding-left:5px;
 	padding-right:8px
 }
-div#main-menu .right-menu span a:hover{
+div#main-menu .right-menu div .old-icon{
+    margin-top: 8px;
+}
+div#main-menu .right-menu div .icon-with-desc{
+    position: absolute;
+}
+div#main-menu .right-menu div .icon-desc{
+    margin-left: 40px;
+    margin-top: 0px;
+}
+div#main-menu .right-menu div a:hover{
 	opacity:0.8;
 }
+
 div#main-menu .left-menu{
 	margin-top:8px;
 	color:#BBB;
