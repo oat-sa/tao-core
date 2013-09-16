@@ -27,13 +27,7 @@ function switcherClass(tableElementId, userOptions){
 
 switcherClass.prototype.getActionUrl = function(action){
         var url = root_url;
-        
-        if (typeof(ctx_extension) != 'undefined'){
-                url += ctx_extension + '/Settings/' + action;
-        }
-        else{
-                url += 'tao/Settings/' + action;
-        }
+        url += 'tao/Settings/' + action;
 
         return url;
 }
