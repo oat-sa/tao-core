@@ -1,5 +1,5 @@
 <?php
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,31 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * The Parser enables you to load, parse and validate xml content from an xml
- * Usually used for to load and validate the itemContent  property.
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @subpackage models_classes
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025A2-includes begin
-// section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025A2-includes end
-
-/* user defined constants */
-// section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025A2-constants begin
-// section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025A2-constants end
 
 /**
  * The Parser enables you to load, parse and validate xml content from an xml
@@ -56,10 +31,6 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  */
 class tao_models_classes_Parser
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
 
     /**
      * Short description of attribute source
@@ -107,6 +78,7 @@ class tao_models_classes_Parser
      * @access public
      * @var int
      */
+
     const SOURCE_FILE = 1;
 
     /**
@@ -125,8 +97,6 @@ class tao_models_classes_Parser
      */
     const SOURCE_STRING = 3;
 
-    // --- OPERATIONS ---
-
     /**
      * Short description of method __construct
      *
@@ -136,29 +106,22 @@ class tao_models_classes_Parser
      * @param  array options
      * @return mixed
      */
-    public function __construct($source, $options = array())
-    {
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025B8 begin
-        
-    	if(preg_match("/^<\?xml(.*)?/m", trim($source))){
-    		$this->sourceType = self::SOURCE_STRING;
-    	}
-    	else if(preg_match("/^http/", $source)){
-    		$this->sourceType = self::SOURCE_URL;
-    	}
-    	else if(is_file($source)){
-    		$this->sourceType = self::SOURCE_FILE;
-    	}
-    	else{
-    		throw new common_exception_Error("Denied content in the source parameter! ".get_class($this)." accepts either XML content, a URL to an XML Content or the path to a file but got.".substr($source, 0, 500));
-    	}
-    	$this->source = $source;
-    	
-    	if(isset($options['extension'])){
-    		$this->fileExtension = $options['extension'];
-    	}
-    	
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025B8 end
+    public function __construct($source, $options = array()){
+
+        if(preg_match("/^<\?xml(.*)?/m", trim($source))){
+            $this->sourceType = self::SOURCE_STRING;
+        }else if(preg_match("/^http/", $source)){
+            $this->sourceType = self::SOURCE_URL;
+        }else if(is_file($source)){
+            $this->sourceType = self::SOURCE_FILE;
+        }else{
+            throw new common_exception_Error("Denied content in the source parameter! ".get_class($this)." accepts either XML content, a URL to an XML Content or the path to a file but got ".substr($source, 0, 500));
+        }
+        $this->source = $source;
+
+        if(isset($options['extension'])){
+            $this->fileExtension = $options['extension'];
+        }
     }
 
     /**
@@ -169,97 +132,86 @@ class tao_models_classes_Parser
      * @param  string schema
      * @return boolean
      */
-    public function validate($schema = '')
-    {
-        $returnValue = (bool) false;
+    public function validate($schema = ''){
 
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025BB begin
-        
         //You know sometimes you think you have enough time, but it is not always true ...
         //(timeout in hudson with the generis-hard test suite)
         set_time_limit(30);
-        
-        $forced = $this->valid;
-        
-        $this->valid = true;
-        
-        try{
-        	switch($this->sourceType){
-        		case self::SOURCE_FILE:
-	        		//check file
-			   		if(!file_exists($this->source)){
-			    		throw new Exception("File {$this->source} not found.");
-			    	}
-			    	if(!is_readable($this->source)){
-			    		throw new Exception("Unable to read file {$this->source}.");
-			    	}
-			   		if(!preg_match("/\.{$this->fileExtension}$/", basename($this->source))){
-			    		throw new Exception("Wrong file extension in ".basename($this->source).", {$this->fileExtension} extension is expected");
-			    	}
-			   		if(!tao_helpers_File::securityCheck($this->source)){
-			    		throw new Exception("{$this->source} seems to contain some security issues");
-			    	}
-			    	break;
-        		case self::SOURCE_URL:
-	        		//only same domain
-	        		if(!preg_match("/^".preg_quote(BASE_URL, '/')."/", $this->source)){
-	        			throw new Exception("The given uri must be in the domain {$_SERVER['HTTP_HOST']}");
-	        		}
-	        		break;
-        	}
-        }
-        catch(Exception $e){
-        	if($forced){
-        		throw $e;
-        	}
-        	else{
-        		$this->addError($e);
-        	}
-        }   
-             
-        if($this->valid && !$forced){	//valida can be true if forceValidation has been called
-        	
-        	$this->valid = false;
 
-        	try{
-	    		
-	    		libxml_use_internal_errors(true);
-	    		
-		    	$dom = new DomDocument();
-		    	$loadResult = false;
-		    	switch($this->sourceType){
-		    		case self::SOURCE_FILE:
-		    			$loadResult = $dom->load($this->source);
-		    			break;
-		    		case self::SOURCE_URL:
-		    			$xmlContent = tao_helpers_Request::load($this->source, true);
-		    			$loadResult = $dom->loadXML($xmlContent);
-		    			break;
-		    		case self::SOURCE_STRING:
-		    			$loadResult = $dom->loadXML($this->source);
-		    			break;
-		    	}
-		    	if($loadResult){
-		    		if(!empty($schema)){
-		    			$this->valid = $dom->schemaValidate($schema);
-		    		}
-		    		else{
-		    			$this->valid = true;	//only well-formed
-		    		}
-		    	}
-		    	
-		    	if(!$this->valid){
-		    		$this->addErrors(libxml_get_errors());
-		    	}
-		    	libxml_clear_errors();
-	    	}
-	    	catch(DOMException $de){
-	    		$this->addError($de);
-	    	}
+        $forced = $this->valid;
+
+        $this->valid = true;
+
+        try{
+            switch($this->sourceType){
+                case self::SOURCE_FILE:
+                    //check file
+                    if(!file_exists($this->source)){
+                        throw new Exception("File {$this->source} not found.");
+                    }
+                    if(!is_readable($this->source)){
+                        throw new Exception("Unable to read file {$this->source}.");
+                    }
+                    if(!preg_match("/\.{$this->fileExtension}$/", basename($this->source))){
+                        throw new Exception("Wrong file extension in ".basename($this->source).", {$this->fileExtension} extension is expected");
+                    }
+                    if(!tao_helpers_File::securityCheck($this->source)){
+                        throw new Exception("{$this->source} seems to contain some security issues");
+                    }
+                    break;
+                case self::SOURCE_URL:
+                    //only same domain
+                    if(!preg_match("/^".preg_quote(BASE_URL, '/')."/", $this->source)){
+                        throw new Exception("The given uri must be in the domain {$_SERVER['HTTP_HOST']}");
+                    }
+                    break;
+            }
+        }catch(Exception $e){
+            if($forced){
+                throw $e;
+            }else{
+                $this->addError($e);
+            }
         }
-    	$returnValue = $this->valid;
-        
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025BB end
+
+        if($this->valid && !$forced){ //valida can be true if forceValidation has been called
+            $this->valid = false;
+
+            try{
+
+                libxml_use_internal_errors(true);
+
+                $dom = new DomDocument();
+                $loadResult = false;
+                switch($this->sourceType){
+                    case self::SOURCE_FILE:
+                        $loadResult = $dom->load($this->source);
+                        break;
+                    case self::SOURCE_URL:
+                        $xmlContent = tao_helpers_Request::load($this->source, true);
+                        $loadResult = $dom->loadXML($xmlContent);
+                        break;
+                    case self::SOURCE_STRING:
+                        $loadResult = $dom->loadXML($this->source);
+                        break;
+                }
+                if($loadResult){
+                    if(!empty($schema)){
+                        $this->valid = $dom->schemaValidate($schema);
+                    }else{
+                        $this->valid = true; //only well-formed
+                    }
+                }
+
+                if(!$this->valid){
+                    $this->addErrors(libxml_get_errors());
+                }
+                libxml_clear_errors();
+            }catch(DOMException $de){
+                $this->addError($de);
+            }
+        }
+        $returnValue = $this->valid;
 
         return (bool) $returnValue;
     }
@@ -271,17 +223,8 @@ class tao_models_classes_Parser
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return boolean
      */
-    public function isValid()
-    {
-        $returnValue = (bool) false;
-
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025C1 begin
-        
-        $returnValue = $this->valid;
-        
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025C1 end
-
-        return (bool) $returnValue;
+    public function isValid(){
+        return (bool) $this->valid;
     }
 
     /**
@@ -291,13 +234,8 @@ class tao_models_classes_Parser
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
-    public function forceValidation()
-    {
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025C3 begin
-        
-    	$this->valid = true;
-    	
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025C3 end
+    public function forceValidation(){
+        $this->valid = true;
     }
 
     /**
@@ -307,16 +245,8 @@ class tao_models_classes_Parser
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
-    public function getErrors()
-    {
-        $returnValue = array();
-
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025C5 begin
-        
+    public function getErrors(){
         $returnValue = $this->errors;
-        
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025C5 end
-
         return (array) $returnValue;
     }
 
@@ -328,21 +258,21 @@ class tao_models_classes_Parser
      * @param  boolean htmlOutput
      * @return string
      */
-    public function displayErrors($htmlOutput = true)
-    {
+    public function displayErrors($htmlOutput = true){
+
         $returnValue = (string) '';
 
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025C7 begin
-        
-    	foreach($this->errors as $error){
-			$returnValue .= "{$error['message']} in file {$error['file']}, line {$error['line']}\n";
-		}
-		
-		if($htmlOutput){
-			$returnValue = nl2br($returnValue);
-		}
-        
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025C7 end
+        foreach($this->errors as $error){
+            $returnValue .= $error['message'];
+            if(isset($error['file']) && isset($error['line'])){
+                $returnValue .= ' in file '.$error['file'].', line '.$error['line'];
+            }
+            $returnValue .= PHP_EOL;
+        }
+
+        if($htmlOutput){
+            $returnValue = nl2br($returnValue);
+        }
 
         return (string) $returnValue;
     }
@@ -355,32 +285,27 @@ class tao_models_classes_Parser
      * @param  mixed error
      * @return mixed
      */
-    protected function addError($error)
-    {
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025CF begin
-        
-    	$this->valid = false;
-    	
-    	if($error instanceof Exception){
-    		$this->errors[] = array(
-    			'file' 		=> $error->getFile(),
-    			'line' 		=> $error->getLine(),
-    			'message'	=> "[".get_class($error)."] ".$error->getMessage()
-    		);
-    	}elseif($error instanceof LibXMLError){
-    		$this->errors[] = array(
-    			'file' 		=> $error->file,
-    			'line'		=> $error->line,
-    			'message'	=> "[".get_class($error)."] ".$error->message
-    		);
-    	}elseif(is_string($error)) {
-    		$this->errors[] = array(
-    			'message'	=> $error
-    		);
-    	    
-    	}
-    	
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025CF end
+    protected function addError($error){
+
+        $this->valid = false;
+
+        if($error instanceof Exception){
+            $this->errors[] = array(
+                'file' => $error->getFile(),
+                'line' => $error->getLine(),
+                'message' => "[".get_class($error)."] ".$error->getMessage()
+            );
+        }elseif($error instanceof LibXMLError){
+            $this->errors[] = array(
+                'file' => $error->file,
+                'line' => $error->line,
+                'message' => "[".get_class($error)."] ".$error->message
+            );
+        }elseif(is_string($error)){
+            $this->errors[] = array(
+                'message' => $error
+            );
+        }
     }
 
     /**
@@ -391,15 +316,11 @@ class tao_models_classes_Parser
      * @param  array errors
      * @return mixed
      */
-    protected function addErrors($errors)
-    {
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025D4 begin
-        
-   		foreach($errors as $error){
-    		$this->addError($error);
-    	}
-    	
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025D4 end
+    protected function addErrors($errors){
+
+        foreach($errors as $error){
+            $this->addError($error);
+        }
     }
 
     /**
@@ -409,30 +330,24 @@ class tao_models_classes_Parser
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
-    protected function clearErrors()
-    {
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025D2 begin
-        
-    	$this->errors = array();
-    	
-        // section 127-0-1-1-64df0e4a:12af6a1640c:-8000:00000000000025D2 end
+    protected function clearErrors(){
+        $this->errors = array();
     }
 
     /**
      * Creates a report without title of the parsing result
      * @return common_report_Report
      */
-	public function getReport() {
-		if ($this->isValid()) {
-			return common_report_Report::createSuccess('');
-		} else {
-			$report = new common_report_Report('');
-			foreach ($this->getErrors() as $error) {
-			    $report->add(new common_report_ErrorElement($error['message']));
-			}
-			return $report;
-		}
-	}
-} /* end of class tao_models_classes_Parser */
+    public function getReport(){
+        if($this->isValid()){
+            return common_report_Report::createSuccess('');
+        }else{
+            $report = new common_report_Report('');
+            foreach($this->getErrors() as $error){
+                $report->add(new common_report_ErrorElement($error['message']));
+            }
+            return $report;
+        }
+    }
 
-?>
+}
