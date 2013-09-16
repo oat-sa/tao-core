@@ -43,7 +43,8 @@ class tao_helpers_Javascript
             $returnValue = '{';
             $i = 1;
             foreach($var as $k => $v){
-                $returnValue .= json_encode($k).':'.self::buildObject($v, $format);
+                $k = is_int($k)?'"'.json_encode($k).'"':json_encode($k);
+                $returnValue .= $k.':'.self::buildObject($v, $format);
                 $returnValue .= ($i < count($var)) ? ',' : '';
                 $returnValue .= $format ? PHP_EOL : '';
                 $i++;
