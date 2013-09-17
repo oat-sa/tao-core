@@ -16,7 +16,7 @@
 		<div class="right-menu">
             <div>
                 <a href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Logout')?>">
-					<img src="<?=TAOBASE_WWW?>img/logout.png" alt="<?=__('Logout')?>" class="old-icon" />
+					<img src="<?=TAOBASE_WWW?>img/logout.png" alt="<?=__('Logout')?>" />
 				</a>
 			</div>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'UserSettings', null)): ?>
@@ -33,7 +33,7 @@
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('filemanager', 'Browser', null)): ?>
             <div>
                 <a href="#" class="file-manager" title="<?=__('Media manager')?>">
-    				<img src="<?=TAOBASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" class="old-icon" />
+    				<img src="<?=TAOBASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" />
     			</a>
 			</div>
 <?php endif; ?>

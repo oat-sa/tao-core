@@ -111,8 +111,8 @@ div#main-menu .right-menu div{
     padding-left:5px;
 	padding-right:8px
 }
-div#main-menu .right-menu div .old-icon{
-    margin-top: 8px;
+div#main-menu .right-menu div img{
+    margin-top: 3px;
 }
 div#main-menu .right-menu div .icon-with-desc{
     position: absolute;
