@@ -21,8 +21,7 @@
 ?>
 <?php
 require_once dirname(__FILE__) . '/../TaoTestRunner.php';
-require_once  PHPCOVERAGE_HOME. "/CoverageRecorder.php";
-require_once PHPCOVERAGE_HOME . "/reporter/HtmlCoverageReporter.php";
+
 
 
 //get the test into each extensions
@@ -41,14 +40,18 @@ if(PHP_SAPI == 'cli'){
 else{
 	$reporter = new HtmlReporter();
 }
-
+error_reporting(0);
+require_once  PHPCOVERAGE_HOME. "/CoverageRecorder.php";
+require_once PHPCOVERAGE_HOME . "/reporter/HtmlCoverageReporter.php";
 $includePaths = array( ROOT_PATH.'tao/models',ROOT_PATH.'tao/helpers');
 $excludePaths = array();
 $covReporter = new HtmlCoverageReporter("Code Coverage Report TAO", "", PHPCOVERAGE_REPORTS."tao/");
 $cov = new CoverageRecorder($includePaths, $excludePaths, $covReporter);
 //run the unit test suite
 $cov->startInstrumentation();
+error_reporting(E_ALL);
 $testSuite->run($reporter);
+error_reporting(0);
 $cov->stopInstrumentation();
 
 $cov->generateReport();
