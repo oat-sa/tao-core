@@ -2,17 +2,6 @@ Options +FollowSymLinks
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
-#rewrite the old item saving method 
-RewriteCond %{REQUEST_METHOD} 	^POST$
-RewriteCond %{REQUEST_URI} 	(.*)/tao/Main/index.php [NC]
-#rewrite to the new saving action (chained to the other rules)
-RewriteRule ^(.*)$ 		../taoItems/models/ext/itemAuthoring/index.php [L]
-
-
-RewriteCond %{REQUEST_METHOD}	^GET$
-RewriteCond %{REQUEST_URI} 	(.*)/tao/Main/eXULiS.swf$ [NC]
-RewriteRule ^(.*)$ 		../taoItems/models/ext/itemRuntime/eXULiS.swf 	[L]
-
 #don't macth resources and tests
 RewriteCond %{REQUEST_URI} 	!/views/  	[NC]
 RewriteCond %{REQUEST_URI} 	!/test/ 	[NC]
@@ -20,7 +9,7 @@ RewriteCond %{REQUEST_URI} 	!/doc/ 	 	[NC]
 RewriteCond %{REQUEST_URI} 	!/update/	[NC]
 RewriteCond %{REQUEST_URI} 	!/install/	[NC]
 RewriteCond %{REQUEST_URI} 	!/locales/	[NC]
-RewriteCond %{REQUEST_URI}  !/getFile.php  [NC]
+RewriteCond %{REQUEST_URI}  	!/getFile.php	[NC]
 #call entry point for url resolving and framework bootstrap
 RewriteRule ^(.*)$ index.php [L]
 
