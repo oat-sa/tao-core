@@ -66,7 +66,7 @@ class tao_actions_MetaData extends tao_actions_CommonModule {
 				$text = (string)current($props[RDF_VALUE]);
 				$commentData[] = array(
 					'author' => $author->getLabel(),
-					'date' => tao_helpers_Date::displayeDate($date),
+					'date' => tao_helpers_Date::displayeDate((string)$date),
 					'text' => _dh($text)
 				);
 			}
