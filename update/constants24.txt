@@ -1,4 +1,0 @@
-New or changed constants for TAO 2.4
----------------------------------------
-GENERIS_INSTANCE_NAME (string)
-GENERIS_SESSION_NAME (string) for multi install on the same server

@@ -1,1 +1,0 @@
-UPDATE extensions SET version = '2.0' WHERE id = 'tao';
