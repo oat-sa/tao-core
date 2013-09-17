@@ -59,7 +59,7 @@ extends tao_models_classes_service_Parameter
 	 * (non-PHPdoc)
 	 * @see tao_models_classes_service_Parameter::serialize()
 	 */
-	public function serialize() {
+	public function toOntology() {
 	    $serviceCallClass = new core_kernel_classes_Class(CLASS_ACTUALPARAMETER);
 	    $resource = $serviceCallClass->createInstanceWithProperties(array(
 	        PROPERTY_ACTUALPARAMETER_FORMALPARAMETER    => $this->getDefinition(),

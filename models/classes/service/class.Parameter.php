@@ -53,7 +53,7 @@ abstract class tao_models_classes_service_Parameter
 	/**
 	 * @return core_kernel_classes_Resource
 	 */
-	public abstract function serialize();
+	public abstract function toOntology();
 	
 	/**
 	 * Builds a service call parameter from it's serialized form

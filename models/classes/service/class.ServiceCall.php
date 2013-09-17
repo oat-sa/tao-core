@@ -108,17 +108,17 @@ class tao_models_classes_service_ServiceCall
 	}
 	
 	/**
-	 * Serialises a service call into the ontology
+	 * Stores a service call in the ontology
 	 * 
 	 * @return core_kernel_classes_Resource
 	 */
-	public function serialize() {
+	public function toOntology() {
 	    $inResources = array();
 	    $outResources = is_null($this->outParameter)
 	       ? array()
-	       : $this->outParameter->serialize();
+	       : $this->outParameter->toOntology();
 	    foreach ($this->inParameters as $param) {
-	        $inResources[] = $param->serialize();
+	        $inResources[] = $param->toOntology();
 	    }
 	    $serviceCallClass = new core_kernel_classes_Class(CLASS_CALLOFSERVICES);
 	    $resource = $serviceCallClass->createInstanceWithProperties(array(
