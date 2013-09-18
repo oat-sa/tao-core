@@ -5,22 +5,6 @@
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 	xmlns:wf="http://www.tao.lu/middleware/wfEngine.rdf#"
 >
-  <rdf:Description rdf:about="http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices">
-    <rdfs:label xml:lang="en-US"><![CDATA[Support Services]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Support Services]]></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices">
-    <rdfs:label xml:lang="en-US"><![CDATA[Web Service]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Web Service]]></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions">
-    <rdfs:label xml:lang="en-US"><![CDATA[Services Definition]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Services Definition]]></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitionResources"/>
-  </rdf:Description>
-  
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WebServiceUrlParam">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassProcessVariables"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Web Service Url]]></rdfs:label>
@@ -36,7 +20,8 @@
     <rdfs:comment xml:lang="en-US"><![CDATA[Web Service Url]]></rdfs:comment>
     <wf:PropertyFormalParametersName><![CDATA[url]]></wf:PropertyFormalParametersName>
     <wf:PropertyFormalParametersDefaultProcessVariable rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WebServiceUrlParam"/>
-  </rdf:Description>  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ServiceWebService">
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ServiceWebService">
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Web Service]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Embed a generic web service accessible via url in an iframe]]></rdfs:comment>
