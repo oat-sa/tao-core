@@ -243,7 +243,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         //default value for 'auto' is 'true':
         $auto = 'true';
         if(isset($this->attributes['auto'])){
-        	if(!$this->attributes['auto'] || $this->attributes['auto'] === 'false') $auto = 'false';
+        	if(!$this->attributes['auto'] || $this->attributes['auto'] === 'false') {
+        	    $auto = 'false';
+        	}
         	unset($this->attributes['auto']);
         }
         
