@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,8 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
  *
@@ -92,9 +91,15 @@ class tao_actions_SaSUsers extends tao_actions_SaSModule{
 		$this->setData('data', $userGrid->getGrid()->toArray());
 
 		$gridParams = '?';
-		if ($this->hasRequestParameter('customprops')) $gridParams .= 'customprops='.urlencode($this->getRequestParameter('customprops'));
-		if ($this->hasRequestParameter('userClassUri')) $gridParams .= '&userClassUri='.urlencode($this->getRequestParameter('userClassUri'));
-		if ($this->hasRequestParameter('filter')) $gridParams .= '&filter='.urlencode($this->getRequestParameter('filter'));
+		if ($this->hasRequestParameter('customprops')) {
+		    $gridParams .= 'customprops='.urlencode($this->getRequestParameter('customprops'));
+		}
+		if ($this->hasRequestParameter('userClassUri')) {
+		    $gridParams .= '&userClassUri='.urlencode($this->getRequestParameter('userClassUri'));
+		}
+		if ($this->hasRequestParameter('filter')) {
+		    $gridParams .= '&filter='.urlencode($this->getRequestParameter('filter'));
+		}
 		$this->setData('gridParams', $gridParams);
 
 		$this->setView('user/grid.tpl');
