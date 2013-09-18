@@ -1,4 +1,5 @@
 <?php
+
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +20,6 @@
  * 
  */
 
-
 /**
  * mother class for access operations
  *
@@ -28,50 +28,41 @@
  * @since 2.2
  * @subpackage models_classes_funcACL
  */
-
-
-class tao_models_classes_funcACL_AccessService
-    extends tao_models_classes_GenerisService
+class tao_models_classes_funcACL_AccessService extends tao_models_classes_GenerisService
 {
-
 
     /**
      * Short description of method makeEMAUri
      *
      * @access public
      * @author Jehan Bihin, <jehan.bihin@tudor.lu>
-     * @param  string ext
-     * @param  string mod
-     * @param  string act
+     * @param string ext
+     * @param string mod
+     * @param string act
      * @return string
      */
     public function makeEMAUri($ext, $mod = null, $act = null)
     {
         $returnValue = (string) '';
-
-       
-		$returnValue = FUNCACL_NS.'#';
-		if (!is_null($act)) {
-            $type = 'a';
-        }
-		else if (!is_null($mod)) {
-            $type = 'm';
-        }
-		else {
-            $type = 'e';
-        }
-		$returnValue .= $type.'_'.$ext;
-		if (!is_null($mod)) {
-            $returnValue .= '_'.$mod;
-        }
-		if (!is_null($act)) {
-            $returnValue .= '_'.$act;
-        }
         
-
+        $returnValue = FUNCACL_NS . '#';
+        if (! is_null($act)) {
+            $type = 'a';
+        } else 
+            if (! is_null($mod)) {
+                $type = 'm';
+            } else {
+                $type = 'e';
+            }
+        $returnValue .= $type . '_' . $ext;
+        if (! is_null($mod)) {
+            $returnValue .= '_' . $mod;
+        }
+        if (! is_null($act)) {
+            $returnValue .= '_' . $act;
+        }
         return (string) $returnValue;
     }
-
-} 
+}
 
 ?>
