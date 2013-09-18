@@ -610,7 +610,10 @@ abstract class tao_models_classes_GenerisService
 		$limit = (isset($options['limit'])) ? $options['limit'] : 0;
 		// offset for limit
 		$offset = (isset($options['offset'])) ? $options['offset'] : 0;
-		
+                //an array used to filter properties; use the format by core_kernel_classes_Class::searchInstances
+		$propertyFilter = (isset($options['propertyFilter'])) ? $options['propertyFilter'] : array();
+                
+                
 		$factory = new tao_models_classes_GenerisTreeFactory();
 		if (!empty($labelFilter) && $labelFilter!='*') {
 			$props	= array(RDFS_LABEL => $labelFilter);
@@ -638,7 +641,7 @@ abstract class tao_models_classes_GenerisService
 			});
 			
 			$browse[] = $clazz->getUri();
-			$tree = $factory->buildTree($clazz, $instances, $browse, $limit, $offset);
+			$tree = $factory->buildTree($clazz, $instances, $browse, $limit, $offset, $propertyFilter);
 			$returnValue = $chunk ? ($tree['children']) : $tree;
 		}
 		return $returnValue;

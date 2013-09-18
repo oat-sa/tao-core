@@ -33,71 +33,86 @@ class tao_models_classes_GenerisTreeFactory
 {
 	/**
 	 * builds the data for a generis tree
+         * 
+         * @todo use an array of options instead of a long list of parameters
 	 * 
 	 * @param core_kernel_classes_Class $class
 	 * @param boolean $showResources
 	 * @param array $openNodes
 	 * @param int $limit
 	 * @param int $offset
+         * @param array $propertyFilter filter resources based on properties uri => value
 	 * @return array
 	 */
-    public function buildTree(core_kernel_classes_Class $class, $showResources, $openNodes = array(), $limit = 10, $offset = 0) {
-    	return $this->classToNode($class, $showResources, $limit, $offset, $openNodes);
+    public function buildTree(core_kernel_classes_Class $class, $showResources, $openNodes = array(), $limit = 10, $offset = 0, $propertyFilter = array()) {
+    	return $this->classToNode($class, $showResources, $limit, $offset, $openNodes, $propertyFilter);
     }
 	
     /**
      * Builds a class node including it's content
      * 
      * @param core_kernel_classes_Class $class
-	 * @param boolean $showResources
+     * @param boolean $showResources
      * @param int $limit
      * @param int $offset
      * @param array $openNodes
+     * @param array $propertyFilter filter resources based on properties uri => value
      * @return array
      */
-    private function classToNode(core_kernel_classes_Class $class, $showResources, $limit, $offset, $openNodes) {
+    private function classToNode(core_kernel_classes_Class $class, $showResources, $limit, $offset, $openNodes, $propertyFilter) {
     	$label = $class->getLabel();
-		$label = empty($label) ? __('no label') : $label;
-		$returnValue = $this->buildClassNode($class);
-		
-		$instancesCount = 0;
-		// only show the resources count if we allow resources to be viewed
-		if ($showResources) {
-			$instancesCount = (int) $class->countInstances();
-			$returnValue['count'] = $instancesCount;
-		}
-		
-		// allow the class to be opened if it contains either instances or subclasses
-		if ($instancesCount > 0 || count($class->getSubClasses(false)) > 0) {
-			if (in_array($class->getUri(), $openNodes)) {
-				$returnValue['state']	= 'open';
-				$returnValue['children'] = $this->buildChildNodes($class, $showResources, $limit, $offset, $openNodes);
-			} else {
-				$returnValue['state']	= 'closed';
-			}
-		}
-		return $returnValue;
+        $label = empty($label) ? __('no label') : $label;
+        $returnValue = $this->buildClassNode($class);
+
+        $instancesCount = (int) $class->countInstances();
+        
+        // allow the class to be opened if it contains either instances or subclasses
+        if ($instancesCount > 0 || count($class->getSubClasses(false)) > 0) {
+                if (in_array($class->getUri(), $openNodes)) {
+                        $returnValue['state']	= 'open';
+                        $returnValue['children'] = $this->buildChildNodes($class, $showResources, $limit, $offset, $openNodes, $propertyFilter);
+                } else {
+                        $returnValue['state']	= 'closed';
+                }
+                
+                //the count may differ if the filtering option is set, 
+                //so we calculte it based on the found instances
+                if(!empty($propertyFilter) && !empty($returnValue['children'])){ 
+                    $instancesCount = 0;
+                    foreach($returnValue['children'] as $child){
+                        if($child['type'] == 'instance'){
+                            $instancesCount++;
+                        }
+                    }
+                }
+                // only show the resources count if we allow resources to be viewed
+                if ($showResources) {
+                    $returnValue['count'] = $instancesCount;
+                }
+        }
+        return $returnValue;
     }
     
     /**
      * Builds the content of a class node including it's content
      * 
      * @param core_kernel_classes_Class $class
-	 * @param boolean $showResources
+     * @param boolean $showResources
      * @param int $limit
      * @param int $offset
      * @param array $openNodes
+     * @param array $propertyFilter filter resources based on properties uri => value
      * @return array
      */
-    private function buildChildNodes(core_kernel_classes_Class $class, $showResources, $limit, $offset, $openNodes) {
+    private function buildChildNodes(core_kernel_classes_Class $class, $showResources, $limit, $offset, $openNodes, $propertyFilter) {
     	$childs = array();
     	// subclasses
 		foreach ($class->getSubClasses(false) as $subclass) {
-			$childs[] = $this->classToNode($subclass, $showResources, $limit, $offset, $openNodes);
+			$childs[] = $this->classToNode($subclass, $showResources, $limit, $offset, $openNodes, $propertyFilter);
 		}
 		// resources
     	if ($showResources) {
-			$searchResult = $class->searchInstances(array(),array(
+			$searchResult = $class->searchInstances($propertyFilter,array(
 				'limit'		=> $limit,
 				'offset'	=> $offset,
 				'recursive'	=> false
