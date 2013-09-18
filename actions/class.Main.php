@@ -252,7 +252,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 						'name'		=> _clean((string) $actionNode['name']),
 						'uri'		=> ($uri) ? $this->getRequestParameter('uri') : false,
 						'classUri'	=> ($classUri) ? $this->getRequestParameter('classUri') : false,
-						'reload'	=> (isset($actionNode['reload'])) ? true : false
+						'reload'	=> (isset($actionNode['reload'])) ? true : false,
+					    'ext'       => $ext
 					);
 
 					$action['disabled'] = true;
