@@ -83,7 +83,7 @@ class tao_actions_form_Login
 		$this->form = tao_helpers_form_FormFactory::getForm('loginForm');
 		
 		$connectElt = tao_helpers_form_FormFactory::getElement('connect', 'Submit');
-		$connectElt->setValue(__('Login'));
+		$connectElt->setValue(__('Log in'));
 		$this->form->setActions(array($connectElt), 'bottom');
 		
         // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E57 end
