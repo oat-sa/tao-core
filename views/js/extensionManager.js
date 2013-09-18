@@ -68,7 +68,7 @@ $(function(){
 					text: __('Yes'),
 					click: function() {
 						//Run the install one by one
-						progressConsole('Preparing installation...');
+						progressConsole(__('Preparing installation...'));
 						$('.ui-dialog-buttonpane').remove();
 						installError = 0;
 						indexCurrentToInstall = 0;
@@ -166,7 +166,7 @@ function hasNextExtensionToInstall() {
 	if (indexCurrentToInstall >= toInstall.length) {
 		toInstall = [];
 		$('#installProgress .bar').animate({backgroundColor:'#bb6',width:'100%'}, 1000);
-		progressConsole('Generating cache...');
+		progressConsole(__('Generating cache...'));
 		$.ajax({
 			type: "GET",
 			url: $($('#main-menu a')[0]).prop('href'),

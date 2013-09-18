@@ -17,7 +17,7 @@
         				</li>
         		</ul>
         		<div id="compilation-compile-warning">
-        			<strong><?=__("Warning:")?></strong> make sure to back up your data before changing modes.
+        			<strong><?=__("Warning:")?></strong> <?=__("make sure to back up your data before changing modes.")?>
         		</div>
         </div>
         

@@ -47,7 +47,7 @@
 		<span class="tile">
 			<span class="Title"><?=__('Test Takers')?></span>
 			<span class="hintMsg">
-			    <?=__('Login here to take a test.')?>
+			    <?=__('Log in here to take a test.')?>
 			</span>
 			<span class="tileLabel">
 			    <?=__('TAO Delivery Server')?>

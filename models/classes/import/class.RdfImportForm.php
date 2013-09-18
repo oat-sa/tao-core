@@ -69,7 +69,7 @@ class tao_models_classes_import_RdfImportForm
 		
 		//create file upload form box
 		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
-		$fileElt->setDescription(__("Add the source file"));
+		$fileElt->setDescription(__("Add the source file."));
   	  	if(isset($_POST['import_sent_rdf'])){
 			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		}

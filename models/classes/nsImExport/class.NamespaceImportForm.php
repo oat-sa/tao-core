@@ -74,7 +74,7 @@ class tao_models_classes_nsImExport_NamespaceImportForm
 		
 		//create file upload form box
 		$fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
-		$fileElt->setDescription(__("Add the source file"));
+		$fileElt->setDescription(__("Add the source file."));
   	  	if(isset($_POST['import_sent_rdf'])){
 			$fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		}
@@ -85,7 +85,6 @@ class tao_models_classes_nsImExport_NamespaceImportForm
 			tao_helpers_form_FormFactory::getValidator('FileMimeType', array('mimetype' => array('text/xml', 'application/rdf+xml', 'application/xml'), 'extension' => array('rdf', 'rdfs'))),
 			tao_helpers_form_FormFactory::getValidator('FileSize', array('max' => tao_helpers_Environment::getFileUploadLimit()))
 		));
-		
 		$this->form->addElement($fileElt);
 		
 		$rdfSentElt = tao_helpers_form_FormFactory::getElement('import_sent_rdf', 'Hidden');
