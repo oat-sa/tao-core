@@ -736,7 +736,7 @@ class tao_scripts_TaoTranslate
     public function actionUpdate()
     {
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 begin
-        $this->outVerbose("Updating language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' ...");
+        $this->outVerbose("Updating language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "'...");
         $sortingMethod = tao_helpers_translation_TranslationFile::SORT_ASC_I;
         
        	// Get virgin translations from the source code and manifest.

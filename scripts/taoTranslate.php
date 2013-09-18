@@ -36,7 +36,7 @@ new tao_scripts_TaoTranslate(array(
 			'name' => 'action',
 			'type' => 'string',
 			'shortcut' => 'a',
-			'description' => 'Action to undertake. Available actions are create, update, updateAll, delete, deleteAll, enable, disable'
+			'description' => 'Action to undertake. Available actions are create, update, updateall, delete, deleteall, enable, disable, compile, compileall'
 		),
 		array(
 			'name' => 'language',
