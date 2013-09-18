@@ -44,7 +44,7 @@ error_reporting(0);
 require_once  PHPCOVERAGE_HOME. "/CoverageRecorder.php";
 require_once PHPCOVERAGE_HOME . "/reporter/HtmlCoverageReporter.php";
 $includePaths = array( ROOT_PATH.'tao/models',ROOT_PATH.'tao/helpers');
-$excludePaths = array();
+$excludePaths = array(ROOT_PATH.'tao/helpers/form');
 $covReporter = new HtmlCoverageReporter("Code Coverage Report TAO", "", PHPCOVERAGE_REPORTS."tao/");
 $cov = new CoverageRecorder($includePaths, $excludePaths, $covReporter);
 //run the unit test suite
