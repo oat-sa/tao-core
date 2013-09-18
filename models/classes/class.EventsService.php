@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,39 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
 
-error_reporting(E_ALL);
-
-/**
- * The event service enables you to manage events catching and tracing.
- * It provides methods to read files describing which event to catch 
- * and methods to print out the events of an item execution into a log file.
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @subpackage models_classes
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include tao_models_classes_Service
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- */
-require_once('tao/models/classes/class.Service.php');
-
-/* user defined includes */
-// section 127-0-1-1--400678db:12c07cdfee6:-8000:000000000000273F-includes begin
-// section 127-0-1-1--400678db:12c07cdfee6:-8000:000000000000273F-includes end
-
-/* user defined constants */
-// section 127-0-1-1--400678db:12c07cdfee6:-8000:000000000000273F-constants begin
-// section 127-0-1-1--400678db:12c07cdfee6:-8000:000000000000273F-constants end
 
 /**
  * The event service enables you to manage events catching and tracing.
@@ -66,12 +34,7 @@ require_once('tao/models/classes/class.Service.php');
 class tao_models_classes_EventsService
     extends tao_models_classes_Service
 {
-    // --- ASSOCIATIONS ---
 
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
      * Retrieve the list of events to catch from a XML file.
@@ -88,7 +51,7 @@ class tao_models_classes_EventsService
     {
         $returnValue = array();
 
-        // section 127-0-1-1--400678db:12c07cdfee6:-8000:0000000000002741 begin
+
         
     	$knownSides = array('client', 'server');
         if(!in_array($side, $knownSides)){
@@ -116,8 +79,9 @@ class tao_models_classes_EventsService
 					foreach($matches[1] as $key => $event){
 						$event_array[$event] = array();
 						foreach(explode(',', $matches[3][$key]) as $attribute){
-							if(!empty($attribute))
+							if(!empty($attribute)){
 								array_push($event_array[$event], $attribute);
+							}
 						}
 					}
 		
@@ -132,7 +96,7 @@ class tao_models_classes_EventsService
 			print  $de; 
 		}
         
-        // section 127-0-1-1--400678db:12c07cdfee6:-8000:0000000000002741 end
+
 
         return (array) $returnValue;
     }
@@ -174,7 +138,9 @@ class tao_models_classes_EventsService
 				foreach(glob($file_pattern . '_*.xml') as $trace_file)
 				{
 					preg_match('/_([0-9]+).xml/', $trace_file, $matches);
-					if($matches[1] >= $i) $i = $matches[1];
+					if($matches[1] >= $i) {
+					    $i = $matches[1];
+					}
 				}
 	
 				$trace_file = $file_pattern . '_' . $i . '.xml';
@@ -190,11 +156,12 @@ class tao_models_classes_EventsService
 				$lock_pointer = fopen($file_pattern.'.lock', 'w');
 				flock($lock_pointer, LOCK_EX);
 	
-				if(file_exists($trace_file))
+				if(file_exists($trace_file)){
 					 $dom->load($trace_file);
-				else
+				}
+				else {
 					$dom->loadXML('<events></events>');
-	
+				}
 	
 				$event_type = array();
 				if(isset($eventFilter['list'])){
@@ -211,7 +178,9 @@ class tao_models_classes_EventsService
 							array_push($event_type_attributes[$event_to_save_key], $attribute_to_save_value);
 						}
 						//if no attribute is added in array, so we want to keep all attributes.
-						if(count($event_type_attributes[$event_to_save_key]) == 0) continue;
+						if(count($event_type_attributes[$event_to_save_key]) == 0) {
+						    continue;
+						}
 		
 						//adding business attribute to log every time.
 						array_push($event_type_attributes[$event_to_save_key],
@@ -238,9 +207,13 @@ class tao_models_classes_EventsService
 						$event_name = json_decode($event_row, true);
 						if(isset($eventFilter['type'])){
 							if($eventFilter['type'] == 'catch'
-								&& !in_array($event_name['type'], $event_type)) continue;
+								&& !in_array($event_name['type'], $event_type)) {
+							    continue;
+							}
 							if($eventFilter['type'] == 'nocatch'
-								&& in_array($event_name['type'], $event_type)) continue;
+								&& in_array($event_name['type'], $event_type)) {
+							    continue;
+							}
 						}
 						
 						$event_element = $dom->createElement('event');
@@ -250,11 +223,12 @@ class tao_models_classes_EventsService
 							if(isset($event_type_attributes[$event_name['type']])
 									&& count($event_type_attributes[$event_name['type']]) != 0 
 									&& isset($eventFilter['type'])){
-										
-										if($eventFilter['type'] == 'catch'
-											&& !in_array($key, $event_type_attributes[$event_name['type']])) continue;
-										if($eventFilter['type'] == 'nocatch'
-											&& in_array($key, $event_type_attributes[$event_name['type']])) continue;
+                                if ($eventFilter['type'] == 'catch' && ! in_array($key, $event_type_attributes[$event_name['type']])) {
+                                    continue;
+                                }
+                                if ($eventFilter['type'] == 'nocatch' && in_array($key, $event_type_attributes[$event_name['type']])) {
+                                    continue;
+                                }
 							}
 	
 							$key_element = $dom->createElement($key);
@@ -278,11 +252,11 @@ class tao_models_classes_EventsService
 			print $e; 
 		}
         
-        // section 127-0-1-1--400678db:12c07cdfee6:-8000:0000000000002744 end
+       
 
         return (bool) $returnValue;
     }
 
-} /* end of class tao_models_classes_EventsService */
+} 
 
 ?>
