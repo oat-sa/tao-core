@@ -50,7 +50,11 @@ if (time() - $timestamp > $ttl || $token != $correctToken) {
 }
 
 $filename = $compiledPath . $subPath . DIRECTORY_SEPARATOR . $file;
-
+if (strpos($filename, '?')) {
+    // A query string is provided with the file to be retrieved - clean up!
+    $parts = explode('?', $filename);
+    $filename = $parts[0];
+}
 require_once '../generis/helpers/class.File.php';
 require_once '../tao/helpers/class.File.php';
 $mimeType = tao_helpers_File::getMimeType($filename, true);
