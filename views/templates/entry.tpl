@@ -34,7 +34,7 @@
 		    <span class="tile">
 			    <span class="Title"><?=__('Test Developers and Administrators')?></span>
 			    <span class="hintMsg">
-				<?=__('Create items, manage item banks and tests, organize cohorts and schedule test deliveries.')?>
+				<?=__('Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows.')?>
 			    </span>
 			    <span class="tileLabel">
 				<?=__('TAO Back Office')?>
@@ -48,7 +48,7 @@
 		<span class="tile">
 			<span class="Title"><?=__('Test Developers and Administrators')?></span>
 			<span class="hintMsg">
-			    <?=__('Check pending tasks for assessment preparation.')?>
+			    <?=__('Execute workflows for assessment preparation.')?>
 			</span>
 			<span class="tileLabel">
 			   <?=__('TAO WorkFlow Assistant')?>
