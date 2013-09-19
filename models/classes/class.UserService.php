@@ -379,7 +379,7 @@ class tao_models_classes_UserService
     {
         $returnValue = array();
 
-    	$users = $this->getAllUsers(array('order' => 'login'));
+    	$users = $this->getAllUsers(array('order' => PROPERTY_USER_LOGIN));
 		foreach($users as $user){
 			$login = (string) $user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
 			$returnValue[] = array(
