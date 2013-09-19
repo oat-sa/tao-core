@@ -22,7 +22,7 @@
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'UserSettings', null)): ?>
             <div>
                 <a href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>" title="<?=__('Settings')?>">
-					   <img src="<?=TAOBASE_WWW?>img/user_settings.png" alt="<?=__('Settings')?>" class="icon-with-desc"/>
+					   <img src="<?=TAOBASE_WWW?>img/user_settings.png" alt="<?=__('User Settings')?>" class="icon-with-desc"/>
 					<p class="icon-desc">
                     <?=__('Logged in as:')?></br>
                     <strong><?=get_data('userLabel')?></strong>
