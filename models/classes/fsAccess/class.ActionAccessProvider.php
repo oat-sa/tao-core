@@ -36,7 +36,9 @@ class tao_models_classes_fsAccess_ActionAccessProvider
 	extends tao_models_classes_fsAccess_BaseAccessProvider
 {
 	
-	public function getAccessUrl($delivery, $test, $item, $language) {
+	public function getAccessUrl(core_kernel_file_File $directory) {
+	    throw new common_exception_NotImplemented();
+	    /*
 		$compiledFolder = taoDelivery_models_classes_DeliveryService::singleton()->getCompiledItemFolder(
 			$delivery, $test, $item, array($language)
 		);
@@ -44,6 +46,7 @@ class tao_models_classes_fsAccess_ActionAccessProvider
         $compileBaseFolder = $deliveryExtension->getConstant('COMPILE_FOLDER');
 		$relPath = substr($compiledFolder, strlen($compileBaseFolder));
 		return _url('access/'.base64_encode($relPath).'/index.html','ItemDeliveryService');
+		*/
 	}
 
 	public function decodeUrl($url) {

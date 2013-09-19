@@ -37,8 +37,9 @@ class tao_models_classes_fsAccess_DirectAccessProvider
 {
     const HTACCESS_ALLOW_NOEXEC_CONTENT = 'php_flag engine off\nRewriteEngine Off';
     
-	public function getAccessUrl($path) {
-		return tao_helpers_Uri::getUrlForPath($this->getBasePath(). $path);
+	public function getAccessUrl(core_kernel_file_File $directory) {
+	    throw new common_exception_NotImplemented();
+	    //		return tao_helpers_Uri::getUrlForPath($this->getBasePath(). $path);
 	}
 	
 	protected function getHtaccessContent() {
