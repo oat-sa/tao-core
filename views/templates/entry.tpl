@@ -32,7 +32,7 @@
 
 		<a href="<?=_url('login','Main','tao')?>" >
 		    <span class="tile">
-			    <span class="Title"><?=__('Test Developers and Test Administrators')?></span>
+			    <span class="Title"><?=__('Test Developers and Administrators')?></span>
 			    <span class="hintMsg">
 				<?=__('Create items, manage item banks and tests, organize cohorts and schedule test deliveries.')?>
 			    </span>
@@ -43,28 +43,30 @@
 		    </span>
 		</a>
 		
-		<a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" >
-		<span class="tile">
-			<span class="Title"><?=__('Test Takers')?></span>
-			<span class="hintMsg">
-			    <?=__('Log in here to take a test.')?>
-			</span>
-			<span class="tileLabel">
-			    <?=__('TAO Delivery Server')?>
-			</span>
-			
-		</span>
-		</a>
+		
 		<a href="<?=_url('index','Authentication','wfEngine')?>"  >
 		<span class="tile">
-			<span class="Title"><?=__('Advanced Users')?></span>
+			<span class="Title"><?=__('Test Developers and Administrators')?></span>
 			<span class="hintMsg">
 			    <?=__('Check pending tasks for assessment preparation.')?>
 			</span>
 			<span class="tileLabel">
-			   <?=__('TAO Process Engine')?>
+			   <?=__('TAO WorkFlow Assistant')?>
 			</span>
 			</a>
+		</span>
+		</a>
+
+		<a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" >
+		<span class="tile">
+			<span class="Title"><?=__('Test-Takers')?></span>
+			<span class="hintMsg">
+			    <?=__('Login here to take a test.')?>
+			</span>
+			<span class="tileLabel">
+			    <?=__('TAO Delivery Server')?>
+			</span>
+
 		</span>
 		</a>
 		
