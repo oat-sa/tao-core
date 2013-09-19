@@ -6,6 +6,7 @@ function ServiceApi(baseUrl, parameters, serviceCallId, stateStorage){
 	this.state = stateStorage;
 	
 	this.onFinishCallback;
+	this.onDisplayChangeCallback;
 }
 
 ServiceApi.prototype.loadInto = function(frame){
@@ -63,7 +64,6 @@ ServiceApi.prototype.onFinish = function(callback) {
 // valueArray are return parameters of the service.
 ServiceApi.prototype.finish = function(valueArray) {
 	//return execution to service caller
-	console.log('finish received');
 	if (typeof this.onFinishCallback == 'function') {
 		this.onFinishCallback(valueArray);
 	}
