@@ -103,13 +103,13 @@ abstract class tao_scripts_Runner
             $this->isCli = true;
         }
         else{
-            $this->argv = $options['argv'];
+            $this->argv = isset($options['argv']) ? $options['argv'] : array();
             $this->isCli = false;
         }
         if(isset($options['output_mode'])  && $options['output_mode'] == 'log_only'){
             $this->logOny = true;
         }
-        $this->out("* Running {$this->argv[0]}" , $options);
+        $this->out("* Running ".(isset($this->argv[0]) ? $this->argv[0] : __CLASS__) , $options);
          
         $this->inputFormat = $inputFormat;
         
@@ -136,7 +136,7 @@ abstract class tao_scripts_Runner
          
         $this->postRun();
          
-        $this->out('Execution of Script ' . $this->argv[0] . ' completed' , $options);
+        $this->out('Execution of Script ' . (isset($this->argv[0]) ? $this->argv[0] : __CLASS__) . ' completed' , $options);
          
     	
         // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B end
@@ -199,15 +199,17 @@ abstract class tao_scripts_Runner
         }
         
         //replaces shortcuts by their original names
-        foreach($this->inputFormat['parameters'] as $parameter){
-        	if(isset($parameter['shortcut'])){
-        		$short = $parameter['shortcut'];
-        		$long = $parameter['name'];
-        		if(array_key_exists($short, $this->parameters) && !array_key_exists($long, $this->parameters)){
-					$this->parameters[$long] = $this->parameters[$short];
-					unset($this->parameters[$short]);
-				}
-        	}
+        if (isset($this->inputFormat['parameters'])) {
+            foreach($this->inputFormat['parameters'] as $parameter){
+            	if(isset($parameter['shortcut'])){
+            		$short = $parameter['shortcut'];
+            		$long = $parameter['name'];
+            		if(array_key_exists($short, $this->parameters) && !array_key_exists($long, $this->parameters)){
+    					$this->parameters[$long] = $this->parameters[$short];
+    					unset($this->parameters[$short]);
+    				}
+            	}
+            }
         }
         
         //one we have the parameters, we can validate it
@@ -250,7 +252,7 @@ abstract class tao_scripts_Runner
         	}
         }
         
-        if($returnValue){
+        if($returnValue && isset($this->inputFormat['parameters'])){
         	 foreach($this->inputFormat['parameters'] as $parameter){
         		if(isset($this->parameters[$parameter['name']])){
 	        	 	$input = $this->parameters[$parameter['name']];
