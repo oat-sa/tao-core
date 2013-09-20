@@ -344,8 +344,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 				$instance = $this->createInstance(array($clazz), $properties);
 				
 				$this->setData('message', __($instance->getLabel().' created'));
-				//$this->setData('reload', true);
-				$this->setData('selectTreeNode', $instance->getUri());
+				$this->setData('reload', true);
+				//return $this->redirect(_url('editInstance', null, null, array('uri' => $instance)));
 			}
 		}
 		
