@@ -33,9 +33,15 @@ class tao_actions_MetaData extends tao_actions_CommonModule {
 	
 	protected function getCurrentInstance()
 	{
-		$uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+	    $uri = null;
+	    if ($this->hasRequestParameter('uri')) {
+		  $uri = tao_helpers_Uri::decode($this->getRequestParameter('uri'));
+	    } 
+	    if (empty($uri) && $this->hasRequestParameter('classUri')) {
+	        $uri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
+	    }
 		if(is_null($uri) || empty($uri)){
-			throw new common_exception_Error("Missing or invalid parameter uri");
+			throw new common_exception_MissingParameter("uri", __CLASS__);
 		}
 		return new core_kernel_classes_Resource($uri);
 	}

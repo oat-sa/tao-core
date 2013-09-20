@@ -22,7 +22,7 @@
 					<action name="search" url="/tao/Roles/search" context="*" />
 					<action name="new role" js="generisActions.instanciate" url="/tao/Roles/addInstance" context="class" />
 					<action name="delete" js="generisActions.removeNode" url="/tao/Roles/delete" context="resource" />
-					<action name="meta data" js="generisActions.loadMetaData" url="/tao/MetaData/getMetaData"  context="instance" />
+					<action name="meta data" js="generisActions.loadMetaData" url="/tao/MetaData/getMetaData"  context="resource" />
 					<action name="export" url="/tao/Export/index"  context="*" />
 				</actions>
 			</section>
