@@ -138,8 +138,8 @@ class tao_helpers_funcACL_funcACL
 		}
 		
 		if (false === $returnValue) {
-			common_Logger::i('Access denied to '.$extension.'::'.$module.'::'.$action.' for user '.
-				'\''.core_kernel_classes_Session::singleton()->getUserUri().'\'');
+			common_Logger::i('Access denied to '.$extension.'::'.$module.'::'.$action.' for user \''
+			                 .core_kernel_classes_Session::singleton()->getUserUri().'\'');
 		}
         // section 127-0-1-1--b28769d:135f11069cc:-8000:000000000000385B end
 

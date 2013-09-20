@@ -149,7 +149,7 @@ class tao_helpers_funcACL_Model
         $moduleClass = new core_kernel_classes_Class(CLASS_ACL_MODULE);
         list($prefix, $extensionName) = explode('_', substr($extension->getUri(), strrpos($extension->getUri(), '#')));
         
-        $specialURI = FUNCACL_NS.'#'.'m_'.$extensionName.'_'.$name;
+        $specialURI = FUNCACL_NS.'#m_'.$extensionName.'_'.$name;
         $returnValue = $moduleClass->createInstance($name,'',$specialURI);
          $returnValue->setPropertiesValues(array(
         	PROPERTY_ACL_MODULE_EXTENSION	=> $extension,
@@ -178,7 +178,7 @@ class tao_helpers_funcACL_Model
         $actionClass = new core_kernel_classes_Class(CLASS_ACL_ACTION);
 
         list($prefix, $extensionName, $moduleName) = explode('_', substr($module->getUri(), strrpos($module->getUri(), '#')));
-        $specialURI = FUNCACL_NS.'#'.'a_'.$extensionName.'_'.$moduleName.'_'.$action;
+        $specialURI = FUNCACL_NS.'#a_'.$extensionName.'_'.$moduleName.'_'.$action;
         $returnValue = $actionClass->createInstance($action,'',$specialURI);
         $returnValue->setPropertiesValues(array(
         	PROPERTY_ACL_ACTION_MEMBEROF	=> $module,
@@ -194,7 +194,7 @@ class tao_helpers_funcACL_Model
      * @return Resource the acl representation of the extension
      */
     private static function getAclExtension($extensionID) {
-    	$specialURI = FUNCACL_NS.'#'.'e_'.$extensionID;
+    	$specialURI = FUNCACL_NS.'#e_'.$extensionID;
         return new core_kernel_classes_Resource($specialURI);
     }
     
