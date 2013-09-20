@@ -604,8 +604,7 @@ class tao_scripts_TaoTranslate
         	
         	if (file_exists($dir) && is_dir($dir) && $this->options['force'] == true) {
         		$dirExists = true;
-        		$this->outVerbose("Language '" . $this->options['language'] . "' exists for extension '" . $this->options['extension'] . "'. " .
-        				"Creation will be forced.");
+        		$this->outVerbose("Language '" . $this->options['language'] . "' exists for extension '" . $this->options['extension'] . "'. Creation will be forced.");
         		 
         		// Clean it up.
         		foreach (scandir($dir) as $d) {
