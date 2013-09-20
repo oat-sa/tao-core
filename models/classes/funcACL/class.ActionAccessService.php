@@ -153,7 +153,9 @@ class tao_models_classes_funcACL_ActionAccessService
 		$propa = new core_kernel_classes_Property(PROPERTY_ACL_ACTION_GRANTACCESS);
 		$roler->removePropertyValues(new core_kernel_classes_Property(PROPERTY_ACL_MODULE_GRANTACCESS), array('pattern' => $this->makeEMAUri($ext, $mod)));
 		foreach (tao_helpers_funcACL_Model::getActions($module) as $action) {
-			if ($act != $action->getLabel()) $roler->setPropertyValue($propa, $this->makeEMAUri($ext, $mod, $action->getLabel()));
+			if ($act != $action->getLabel()) {
+			    $roler->setPropertyValue($propa, $this->makeEMAUri($ext, $mod, $action->getLabel()));
+			}
 		}
 		
 		$module = new core_kernel_classes_Resource($this->makeEMAUri($ext, $mod));
