@@ -3,7 +3,8 @@ require.config({
 	paths: {
 		jqueryUI: [
 			'jquery-ui-1.8.23.custom.min'
-		]
+		],
+                "taoQtiTest" : '../../../taoQtiTest/views/js'
 	},
 	shim: {
 		'jqueryUI': ['jquery'],

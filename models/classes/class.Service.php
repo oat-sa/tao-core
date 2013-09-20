@@ -1,5 +1,6 @@
 <?php
-/*  
+
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -32,7 +33,6 @@ error_reporting(E_ALL);
  * @package tao
  * @subpackage models_classes
  */
-
 if (0 > version_compare(PHP_VERSION, '5')) {
     die('This file was generated for PHP 5');
 }
@@ -55,11 +55,8 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @package tao
  * @subpackage models_classes
  */
-abstract class tao_models_classes_Service
-{
+abstract class tao_models_classes_Service {
     // --- ASSOCIATIONS ---
-
-
     // --- ATTRIBUTES ---
 
     /**
@@ -78,6 +75,7 @@ abstract class tao_models_classes_Service
      * @access private
      * @var string
      */
+
     const namePattern = 'tao%1$s_models_classes_%1$sService';
 
     // --- OPERATIONS ---
@@ -89,8 +87,7 @@ abstract class tao_models_classes_Service
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
      */
-    protected function __construct()
-    {
+    protected function __construct() {
         // section 127-0-1-1--196c75a3:133f5095367:-8000:000000000000343A begin
         // section 127-0-1-1--196c75a3:133f5095367:-8000:000000000000343A end
     }
@@ -105,35 +102,32 @@ abstract class tao_models_classes_Service
      * @param  string serviceName
      * @return tao_models_classes_Service
      */
-    public static function getServiceByName($serviceName)
-    {
+    public static function getServiceByName($serviceName) {
         $returnValue = null;
 
         // section 127-0-1-1--196c75a3:133f5095367:-8000:000000000000343C begin
-		$className = (!class_exists($serviceName) || !preg_match("/^(tao|wf)/", $serviceName))
-			?  sprintf(self::namePattern, ucfirst(strtolower($serviceName)))
-			: $serviceName;
+        $className = (!class_exists($serviceName) || !preg_match("/^(tao|wf)/", $serviceName)) ? sprintf(self::namePattern, ucfirst(strtolower($serviceName))) : $serviceName;
 
-		// does the class exist
+        // does the class exist
         if (!class_exists($className)) {
-			throw new common_exception_Error('Tried to init abstract class '.$className);
+            throw new common_exception_Error('Tried to init abstract class ' . $className);
         }
-        
-		$class = new ReflectionClass($className);
-		// is it concrete
-		if ($class->isAbstract()) {
-			throw new common_exception_Error('Tried to init abstract class '.$className.' for param \''.$serviceName.'\'');
-		}
-		// does it extend Service
-		if (!$class->isSubclassOf('tao_models_classes_Service')) {
-			throw new common_exception_Error("$className must referr to a class extending the tao_models_classes_Service");
-		}
-		
+
+        $class = new ReflectionClass($className);
+        // is it concrete
+        if ($class->isAbstract()) {
+            throw new common_exception_Error('Tried to init abstract class ' . $className . ' for param \'' . $serviceName . '\'');
+        }
+        // does it extend Service
+        if (!$class->isSubclassOf('tao_models_classes_Service')) {
+            throw new common_exception_Error("$className must referr to a class extending the tao_models_classes_Service");
+        }
+
         //create the instance only once
-        if(!isset(self::$instances[$className])){
-        	self::$instances[$className] = new $className();
+        if (!isset(self::$instances[$className])) {
+            self::$instances[$className] = new $className();
         }
-        
+
         //get the instance
         $returnValue = self::$instances[$className];
         // section 127-0-1-1--196c75a3:133f5095367:-8000:000000000000343C end
@@ -149,22 +143,22 @@ abstract class tao_models_classes_Service
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @return tao_models_classes_Service
      */
-    public static function singleton()
-    {
+    public static function singleton() {
         $returnValue = null;
 
         // section 127-0-1-1--83665c3:133f534928e:-8000:0000000000003447 begin
         $serviceName = get_called_class();
         if (!isset(self::$instances[$serviceName])) {
-        	self::$instances[$serviceName] = new $serviceName();
+            self::$instances[$serviceName] = new $serviceName();
         }
-        
+
         $returnValue = self::$instances[$serviceName];
         // section 127-0-1-1--83665c3:133f534928e:-8000:0000000000003447 end
 
         return $returnValue;
     }
 
-} /* end of abstract class tao_models_classes_Service */
+}
 
+/* end of abstract class tao_models_classes_Service */
 ?>

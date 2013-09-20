@@ -21,7 +21,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 		 * @param {Object} options
 		 */
 		init: function(selector, dataUrl, options) {
-			this.checkedNodes = (typeof options.checkedNodes != "undefined") ? options.checkedNodes.slice(0) : new Array ();
+			this.checkedNodes = (typeof options.checkedNodes !== "undefined") ? options.checkedNodes.slice(0) : new Array ();
 			if (options.callback && options.callback.checkPaginate) {
 				this.checkPaginate = options.callback.checkPaginate;
 			}
@@ -48,19 +48,19 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 						var nodeId = $(NODE).prop('id');
 
 						if (instance.isRefreshing) {
-							if ($.inArray(nodeId, instance.checkedNodes) == -1) {
+							if ($.inArray(nodeId, instance.checkedNodes) === -1) {
 								return false;
 							}
 						}
 
 						if (NODE.hasClass('node-class')) {
-							if (instance.getMeta (nodeId, 'displayed') != instance.getMeta(nodeId, 'count')) {
+							if (instance.getMeta (nodeId, 'displayed') !== instance.getMeta(nodeId, 'count')) {
 								instance.paginateInstances(NODE, TREE_OBJ, {limit:0, checkedNodes:"*"});
 								return false;
 							}
 						} else {
 							var indice = $.inArray(nodeId, instance.checkedNodes);
-							if (indice == -1) {
+							if (indice === -1) {
 								instance.checkedNodes.push(nodeId);
 							} else {
 								// The widget should stop the propagation
@@ -74,13 +74,8 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 						var nodeId = $(NODE).prop('id');
 						var indice = $.inArray(nodeId, instance.checkedNodes);
 
-						if (NODE.hasClass('node-class')) {
-							//
-						} else {
-							if (indice != -1) {
-								instance.checkedNodes.splice(indice,1);
-								//delete instance.checkedNodes[indice];
-							}
+						if (!$(NODE).hasClass('node-class') &&  indice > -1) {
+                                                    instance.checkedNodes.splice(indice,1);
 						}
 
 						return true;
@@ -94,7 +89,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 						}
 						//Augment with the serverParameters
 						for (var key in instance.serverParameters) {
-							if (instance.serverParameters[key] != null) {
+							if (instance.serverParameters[key] !== null) {
 								returnValue[key] = instance.serverParameters[key];
 							}
 						}
@@ -136,18 +131,6 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 							return;
 						}
 
-						var nodeId = $(NODE).prop('id');
-
-	/*
-						var indice = $.inArray(nodeId, instance.checkedNodes);
-						if(indice == -1){
-	//						console.log('ADD TO VARS 2');
-							instance.checkedNodes.push(nodeId);
-						}else{
-	//						console.log('DEL TO VARS 2');
-							delete instance.checkedNodes[indice];
-						}
-	*/
 						return true;
 					},
 					//
@@ -262,12 +245,6 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 					if (NODE.length > 0) {
 						if ($(NODE).hasClass('node-instance')) {
 							$.tree.plugins.checkbox.check(NODE);
-						}
-					} else {
-						for (var i in self.checkedNodes) {
-							if (self.checkedNodes[i] == elt) {
-								delete self.checkedNodes[i];
-							}
 						}
 					}
 				}

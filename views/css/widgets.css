@@ -68,3 +68,8 @@ ol.sortable-list li span.ui-icon-circle-close{
 	margin-top:-20px;
 	z-index: 1000;
 }
+
+/** jquery.timePicker style */
+.ui-datepicker .ui-state-default{
+    padding:0;
+}

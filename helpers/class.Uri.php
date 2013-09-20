@@ -43,13 +43,13 @@ if (0 > version_compare(PHP_VERSION, '5')) {
 // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D2-constants begin
 
 /**
- * Conveniance function
+ * Convenent function, helps you to the URI to access a framework action
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @param  string action
- * @param  string module
- * @param  string extension
- * @param  array params
- * @return
+ * @param  string action the targeted action name
+ * @param  string module the targeted module name
+ * @param  string extension the targeted extension name
+ * @param  array params an array of additionnal key/value query parameters
+ * @return the URI
  */
 function _url($action = null, $module = null, $extension = null, $params = array()){
 	return tao_helpers_Uri::url($action, $module, $extension, $params);
