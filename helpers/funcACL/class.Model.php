@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,31 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Helper to read/write the action/module model
- * of tao from/to the ontology
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package tao
- * @subpackage helpers_funcACL
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1--1875a6a1:137e65726c7:-8000:0000000000003B18-includes begin
-// section 127-0-1-1--1875a6a1:137e65726c7:-8000:0000000000003B18-includes end
-
-/* user defined constants */
-// section 127-0-1-1--1875a6a1:137e65726c7:-8000:0000000000003B18-constants begin
-// section 127-0-1-1--1875a6a1:137e65726c7:-8000:0000000000003B18-constants end
 
 /**
  * Helper to read/write the action/module model
