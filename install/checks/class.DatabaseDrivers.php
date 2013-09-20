@@ -41,8 +41,8 @@ class tao_install_checks_DatabaseDrivers extends common_configuration_Component 
         }
         
         return new common_configuration_Report(common_configuration_Report::INVALID,
-                                               "No suitable Database Driver detected. " .
-                                               "Drivers supported by TAO are: " . implode(', ', $drivers) . '.',
+                                               "No suitable Database Driver detected. Drivers supported by TAO are: " 
+                                               . implode(', ', $drivers) . '.',
                                                $this);
     }
 }
