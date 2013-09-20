@@ -142,7 +142,7 @@ class tao_models_classes_oauth_DataStore
 	public function lookup_nonce($consumer, $token, $nonce, $timestamp)
 	{
 		common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
-		return NULL;
+		return null;
 	}
 
 	/**
@@ -158,7 +158,7 @@ class tao_models_classes_oauth_DataStore
 	function new_request_token($consumer, $callback = null)
 	{
 		common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
-		return NULL;
+		return null;
 	}
 
 	/**
@@ -174,7 +174,7 @@ class tao_models_classes_oauth_DataStore
 	public function new_access_token($token, $consumer, $verifier = null)
 	{
 		common_Logger::d(__CLASS__.'::'.__FUNCTION__.' called');
-		return NULL;
+		return null;
 	}
 
 }
