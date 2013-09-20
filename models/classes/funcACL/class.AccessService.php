@@ -48,12 +48,13 @@ class tao_models_classes_funcACL_AccessService extends tao_models_classes_Generi
         $returnValue = FUNCACL_NS . '#';
         if (! is_null($act)) {
             $type = 'a';
-        } else 
+        } else {
             if (! is_null($mod)) {
                 $type = 'm';
             } else {
                 $type = 'e';
             }
+        }
         $returnValue .= $type . '_' . $ext;
         if (! is_null($mod)) {
             $returnValue .= '_' . $mod;
