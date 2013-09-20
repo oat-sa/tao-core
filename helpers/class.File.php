@@ -208,10 +208,12 @@ class tao_helpers_File
 
             // audio/video
             'mp3' => 'audio/mpeg',
+            'oga' => 'audio/ogg',
             'qt' => 'video/quicktime',
             'mov' => 'video/quicktime',
-            'ogv' => 'video/ogg',
-            'oga' => 'audio/ogg',
+            'mp4' => 'video/mp4',//(H.264 + AAC) for ie8, etc.
+            'webm' => 'video/webm',//(VP8 + Vorbis) for ie9, ff, chrome, android, opera
+            'ogv' => 'video/ogg',//ff, chrome, opera
 
             // adobe
             'pdf' => 'application/pdf',
