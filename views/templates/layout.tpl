@@ -20,6 +20,7 @@
 				</a>
 			</div>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'UserSettings', null)): ?>
+            <div class="vr">|</div>
             <div>
                 <a href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>" title="<?=__('Settings')?>">
 					   <img src="<?=TAOBASE_WWW?>img/user_settings.png" alt="<?=__('User Settings')?>" class="icon-with-desc"/>
@@ -29,6 +30,8 @@
                     </p>
     			</a>
 			</div>
+			<div class="vr">|</div>
+			
 <?php endif; ?>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('filemanager', 'Browser', null)): ?>
             <div>
@@ -46,7 +49,7 @@
 				<?php endif; ?>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Settings', null)): ?>
             <div>
-				<a href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings', 'ext' => 'tao'))?>" title="<?=__('Settings')?>">
+            <a href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings', 'ext' => 'tao'))?>" title="<?=__('Settings')?>">
 					<img src="<?=TAOBASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />
 				</a>
 			</div>
