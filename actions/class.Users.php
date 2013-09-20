@@ -83,7 +83,9 @@ class tao_actions_Users extends tao_actions_CommonModule {
 
 		$filteredRolesArray = array_diff(array_keys($rolesInstancesArray),$this->filteredRoles);
 
-		if (!$sidx) $sidx = 1;
+		if (!$sidx) {
+		    $sidx = 1;
+		}
 		
 		$gau = array(
 				'order' 	=> $sidx,
