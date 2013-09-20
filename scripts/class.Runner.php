@@ -173,24 +173,23 @@ abstract class tao_scripts_Runner
         while($i < count($this->argv)){
         	$arg = trim($this->argv[$i]);
         	if(!empty($arg)){
+        	    // command -(-)arg1=value1
         		if(preg_match("/^[\-]{1,2}\w+=(.*)+$/", $arg)){
-	        		$sequence = explode('=', preg_replace("/^[\-]{1,}/", '', $arg));
+        		    $sequence = explode('=', preg_replace("/^[\-]{1,}/", '', $arg));
 	        		if(count($sequence) >= 2){
 	        			$this->parameters[$sequence[0]] = $sequence[1];
 	        		}
 	        	}
+	        	// command -(-)arg1 value1 value2
         		else if(preg_match("/^[\-]{1,2}\w+$/", $arg)){
-		        	$key = preg_replace("/^[\-]{1,}/", '', $arg);
-        			if(isset($this->argv[$i + 1])){
-        				if(substr(trim($this->argv[$i + 1]),0,1)=='-'){
-        					$this->parameters[$key] = '';
-        				}else{
-		        			$this->parameters[$key] = trim($this->argv[++$i]);
-        				} 
-        			}else{
-        				$this->parameters[$key] = '';
-        			}
+        		    $key = preg_replace("/^[\-]{1,}/", '', $arg);
+    			    $this->parameters[$key] = '';
+    			    while(isset($this->argv[$i + 1]) && substr(trim($this->argv[$i + 1]),0,1)!='-') {
+    			        $this->parameters[$key] .= trim($this->argv[++$i]).' ';
+    			    }
+    			    $this->parameters[$key] = substr($this->parameters[$key], 0, -1); 
 	        	}
+        	    // command value1 value2
 	        	else{
 	        		$this->parameters[$i] = $arg;
 	        	}
