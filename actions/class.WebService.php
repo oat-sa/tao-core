@@ -20,7 +20,7 @@
  * 
  */
 
-class taoDelivery_actions_WebService extends tao_actions_CommonModule{
+class tao_actions_WebService extends tao_actions_CommonModule{
 	
 	public function index(){
 		$url = urldecode($this->getRequestParameter('url'));
