@@ -72,14 +72,14 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
                     if ($this->options['min'] <= $value && $value <= $this->options['max']) {
                         $returnValue = true;
                     }
-                } else 
+                } else {
                     if (isset($this->options['min']) && ! isset($this->options['max'])) {
                         $this->message .= ' (' . __('minimum value: ') . $this->options['min'] . ')';
                         
                         if ($this->options['min'] <= $value) {
                             $returnValue = true;
                         }
-                    } else 
+                    } else {
                         if (! isset($this->options['min']) && isset($this->options['max'])) {
                             $this->message .= ' (' . __('maximum value: ') . $this->options['max'] . ')';
                             
@@ -87,6 +87,8 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
                                 $returnValue = true;
                             }
                         }
+                    }
+                }
             } else {
                 $returnValue = true;
             }
