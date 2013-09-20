@@ -25,7 +25,7 @@
     <rdf:type rdf:resource="http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Web Service]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Embed a generic web service accessible via url in an iframe]]></rdfs:comment>
-    <wf:PropertySupportServicesUrl><![CDATA[/taoDelivery/WebService/index?url=^webServiceUrl&]]></wf:PropertySupportServicesUrl>
+    <wf:PropertySupportServicesUrl><![CDATA[/tao/WebService/index?url=^webServiceUrl&]]></wf:PropertySupportServicesUrl>
     <wf:PropertyServiceDefinitionsFormalParameterIn rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WebServiceUrl"/>
   </rdf:Description>
   
