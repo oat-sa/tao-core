@@ -113,7 +113,7 @@ class tao_models_classes_LanguageService
 	    $langs = $langClass->searchInstances(array(
 	    	RDF_VALUE => $code
 	    ), array(
-	    	'like' => FALSE
+	    	'like' => false
 	    ));
 	    if (count($langs) == 1) {
 	    	$returnValue = current($langs);
@@ -162,7 +162,7 @@ class tao_models_classes_LanguageService
 	    $returnValue = $langClass->searchInstances(array(
 	    	PROPERTY_LANGUAGE_USAGES => $usage->getUri()
 	    ), array(
-	    	'like' => FALSE
+	    	'like' => false
 	    ));
         // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C1D end
 
