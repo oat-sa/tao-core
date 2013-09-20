@@ -59,7 +59,7 @@ class tao_models_classes_oauth_Service
         
         //oauth_body_hash is used for the signing computation
         if ($authorizationHeader) {
-        $oauth_body_hash = base64_encode(sha1($request->getBody(), TRUE));//the signature should be ciomputed from encoded versions
+        $oauth_body_hash = base64_encode(sha1($request->getBody(), true));//the signature should be ciomputed from encoded versions
         $allInitialParameters = array_merge($allInitialParameters, array("oauth_body_hash" =>$oauth_body_hash));
         }
 
@@ -80,7 +80,7 @@ class tao_models_classes_oauth_Service
             $combinedParameters = $signedRequest->get_parameters();
             $signatureParameters = array_diff_assoc($combinedParameters, $allInitialParameters);
            
-            $signatureParameters["oauth_body_hash"] = base64_encode(sha1($request->getBody(), TRUE));
+            $signatureParameters["oauth_body_hash"] = base64_encode(sha1($request->getBody(), true));
             $signatureHeaders = array("Authorization" => self::buildAuthorizationHeader($signatureParameters));
             $signedRequest = new common_http_Request(
                 $signedRequest->get_normalized_http_url(),
