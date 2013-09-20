@@ -117,7 +117,7 @@ class tao_helpers_funcACL_Model
         $returnValue = null;
 
         $moduleClass = new core_kernel_classes_Class(CLASS_ACL_EXTENSION);
-        $specialURI = FUNCACL_NS.'#'.'e_'.$name;
+        $specialURI = FUNCACL_NS.'#e_'.$name;
         $resource = new core_kernel_classes_Resource($specialURI);
         if ($resource->exists()) {
         	$returnValue = $resource;
