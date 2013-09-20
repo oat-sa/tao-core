@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,37 +19,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
 
-error_reporting(E_ALL);
 
-/**
- * This Script class aims at providing tools to hardify/unhardify classes.
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package tao
- * @subpackage scripts
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include tao_scripts_Runner
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- */
-require_once('tao/scripts/class.Runner.php');
-
-/* user defined includes */
-// section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4A-includes begin
-// section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4A-includes end
-
-/* user defined constants */
-// section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4A-constants begin
-// section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4A-constants end
 
 /**
  * This Script class aims at providing tools to manage TAO extensions.
@@ -104,9 +75,7 @@ class tao_scripts_TaoHardify
      */
     public function preRun()
     {
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4C begin
         $this->checkInput();
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4C end
     }
 
     /**
@@ -118,7 +87,6 @@ class tao_scripts_TaoHardify
      */
     public function run()
     {
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4E begin
         $this->outVerbose("Connecting...");
         if ($this->connect($this->options['user'], $this->options['password'])){
             $this->outVerbose("Connected to TAO API.");
@@ -140,7 +108,6 @@ class tao_scripts_TaoHardify
         else{
             $this->error("Could not connect to TAO API. Please check your user name and password.", true);
         }
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A4E end
     }
 
     /**
@@ -152,9 +119,7 @@ class tao_scripts_TaoHardify
      */
     public function postRun()
     {
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A50 begin
         $this->outVerbose("Script executed gracefully.");
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A50 end
     }
 
     /**
@@ -168,7 +133,6 @@ class tao_scripts_TaoHardify
      */
     public function checkInput()
     {
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A56 begin
         $this->options = array('verbose' => false,
                                'action' => null,
                                'user' => null,
@@ -205,7 +169,6 @@ class tao_scripts_TaoHardify
                 }    
             }
         }
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A56 end
     }
 
     /**
@@ -217,13 +180,8 @@ class tao_scripts_TaoHardify
      */
     protected function getCurrentAction()
     {
-        $returnValue = (string) '';
+        return $this->currentAction;
 
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A5D begin
-        $returnValue = $this->currentAction;
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A5D end
-
-        return (string) $returnValue;
     }
 
     /**
@@ -236,9 +194,7 @@ class tao_scripts_TaoHardify
      */
     public function setCurrentAction($currentAction)
     {
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A60 begin
         $this->currentAction = $currentAction;
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A60 end
     }
 
     /**
@@ -250,7 +206,6 @@ class tao_scripts_TaoHardify
      */
     public function actionHardify()
     {
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A65 begin
         
         // Retrieve parameter values.
         $class = $this->options['class'];
@@ -303,7 +258,6 @@ class tao_scripts_TaoHardify
         	$this->error($msg, true);
         }
         
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A65 end
     }
 
     /**
@@ -319,7 +273,6 @@ class tao_scripts_TaoHardify
      */
     public function __construct($inputFormat = array(), $options = array())
     {
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A6C begin
         if (count($inputFormat) == 0){
             // Autoconfigure the script.
             $inputFormat = array('min' => 4,
@@ -373,7 +326,6 @@ class tao_scripts_TaoHardify
         }
 
         parent::__construct($inputFormat, $options);
-        // section -64--88-56-1--60338e38:1374a9f6f9e:-8000:0000000000003A6C end
     }
 
     /**
@@ -385,7 +337,6 @@ class tao_scripts_TaoHardify
      */
     public function checkHardifyInput()
     {
-        // section -64--88-56-1--62742a90:13778cdce7f:-8000:0000000000003A8A begin
         $defaults = array('class' => null,
         				  'createForeigns' => false,
         				  'recursive' => false,
@@ -444,7 +395,6 @@ class tao_scripts_TaoHardify
         		$this->error("The 'class' parameter value is not a valid URI.", true);	
         	}
         }
-        // section -64--88-56-1--62742a90:13778cdce7f:-8000:0000000000003A8A end
     }
 
     /**
@@ -457,9 +407,7 @@ class tao_scripts_TaoHardify
      */
     public function setConnected($value)
     {
-        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A91 begin
         $this->connected = $value;
-        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A91 end
     }
 
     /**
@@ -471,13 +419,8 @@ class tao_scripts_TaoHardify
      */
     public function isConnected()
     {
-        $returnValue = (bool) false;
+        return (bool) $this->connected;
 
-        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A96 begin
-        $returnValue = $this->connected;
-        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A96 end
-
-        return (bool) $returnValue;
     }
 
     /**
@@ -493,13 +436,11 @@ class tao_scripts_TaoHardify
      */
     public function error($message, $stopExec = false)
     {
-        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A99 begin
         if ($stopExec == true){
             $this->disconnect();
         }
         
         $this->err($message, $stopExec);
-        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003A99 end
     }
 
     /**
@@ -516,11 +457,9 @@ class tao_scripts_TaoHardify
     {
         $returnValue = (bool) false;
 
-        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003AC6 begin
         $userService = tao_models_classes_UserService::singleton();
         $returnValue = $userService->loginUser($user, $password);
         $this->setConnected($returnValue);
-        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003AC6 end
 
         return (bool) $returnValue;
     }
@@ -534,7 +473,6 @@ class tao_scripts_TaoHardify
      */
     public function disconnect()
     {
-        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003ACB begin
         if ($this->isConnected()){
             $this->outVerbose("Disconnecting user...");
             $userService = tao_models_classes_UserService::singleton();
@@ -546,7 +484,6 @@ class tao_scripts_TaoHardify
                 $this->error("User could not be disconnected from TAO API.");
             }
         }
-        // section -64--88-56-1-14c4460b:13779143f0c:-8000:0000000000003ACB end
     }
 
     /**
@@ -558,9 +495,7 @@ class tao_scripts_TaoHardify
      */
     public function actionUnhardify()
     {
-        // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B29 begin
         $this->error("Not yet implemented.", true);
-        // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B29 end
     }
 
     /**
@@ -572,11 +507,8 @@ class tao_scripts_TaoHardify
      */
     public function checkUnhardifyInput()
     {
-        // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B2B begin
         $this->error("Not yet implemented.", true);
-        // section -64--88-56-1-6bececbf:1380e785555:-8000:0000000000003B2B end
     }
 
-} /* end of class tao_scripts_TaoExtensions */
-
+} 
 ?>
