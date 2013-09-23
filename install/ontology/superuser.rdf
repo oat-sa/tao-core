@@ -7,6 +7,7 @@
 	
 	<rdf:Description rdf:about="LOCAL_NAMESPACE#superUser">
 	    <generis:userRoles rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole"/>
+	    <generis:userRoles rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole"/>	    
 	    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
 	    <rdfs:label xml:lang="en-US"><![CDATA[Super User]]></rdfs:label>
 	    <rdfs:comment xml:lang="en-US"><![CDATA[super user created during the TAO installation]]></rdfs:comment>
@@ -18,4 +19,10 @@
 	    <generis:userDefLg></generis:userDefLg>
 	    <generis:userUILg></generis:userUILg>
 	</rdf:Description>
+	
+	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole">
+	  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole"/>
+	  	<rdfs:label xml:lang="en-US"><![CDATA[System Administrator]]></rdfs:label>
+	    <rdfs:comment xml:lang="en-US"><![CDATA[The System Administrator Role]]></rdfs:comment>
+	  </rdf:Description>
 </rdf:RDF>

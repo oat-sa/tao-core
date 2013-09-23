@@ -47,7 +47,7 @@
 				</a>
 			</div>
 				<?php endif; ?>
-<?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Settings', null)): ?>
+<?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Settings', null) && tao_helpers_SysAdmin::isSysAdmin()): ?>
             <div>
             <a href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings', 'ext' => 'tao'))?>" title="<?=__('Settings')?>">
 					<img src="<?=TAOBASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />

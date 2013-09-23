@@ -41,6 +41,16 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		parent::__construct();
 	}
 
+
+	
+	/* (non-PHPdoc)
+	 * @see tao_actions_CommonModule::_isAllowed()
+	 */
+	protected function _isAllowed() {
+		return parent::_isAllowed() && tao_helpers_SysAdmin::isSysAdmin();
+	}
+
+	
 	/**
 	 * This action displays the classes that are optimizable. The classes
 	 * that are considered to be optimizable are discovered by using the
@@ -62,6 +72,7 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 		
 		$this->defaultData();
 		$this->setView('form/settings_optimize.tpl');
+
 	}
 
 

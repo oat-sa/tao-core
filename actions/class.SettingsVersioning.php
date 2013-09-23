@@ -31,6 +31,13 @@
  *
  */
 class tao_actions_SettingsVersioning extends tao_actions_TaoModule {
+    
+    /* (non-PHPdoc)
+     * @see tao_actions_CommonModule::_isAllowed()
+    */
+    protected function _isAllowed() {
+        return parent::_isAllowed() && tao_helpers_SysAdmin::isSysAdmin();
+    }
 
 	/**
 	 * initialize the services
