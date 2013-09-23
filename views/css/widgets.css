@@ -48,6 +48,12 @@ ol.sortable-list li:hover{
 	color:#D00239;
 	cursor: pointer;
 }
+ul.sortable-list.ui-sortable-disabled li:hover,
+ol.sortable-list.ui-sortable-disabled li:hover{
+	color:#555;
+	cursor:inherit;
+}
+
 ul.sortable-list li span.ui-icon,
 ol.sortable-list li span.ui-icon { 
 	position:absolute;
