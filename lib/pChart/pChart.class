@@ -175,7 +175,7 @@
    var $Layers         = NULL;
 
    /* Set antialias quality : 0 is maximum, 100 minimum*/
-   var $AntialiasQuality = 20;
+   var $AntialiasQuality = 35;
 
    /* Shadow settings */
    var $ShadowActive    = FALSE;
