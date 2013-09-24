@@ -53,6 +53,4 @@
 			</div>
 		</span>
 	    </div>
-	    <div id="footer">
-		TAO<sup>&reg;</sup> - <?=TAO_VERSION_NAME?> - <?=TAO_RELEASE_STATUS?> - <?=date('Y')?> - A joint initiative of CRP Henri Tudor and the University of Luxembourg
-	    </div>
+<? include TAO_TPL_PATH .'layout_footer.tpl';?>

@@ -1,5 +1,6 @@
 		<div id="footer">
-			TAO<sup>&reg;</sup> - <?=date('Y')?> - <?= __('A joint initiative of CRP Henri Tudor and the University of Luxembourg') ?>
+		<div id="releasesWarning"></div>
+			<div id="copyright">
+	    		Copyright &copy; - <?=date('Y')?> - <?=TAO_VERSION_NAME?> - Open Assessment Technologies S.A. <?= __('All rights reserved.') ?>
+			</div>
 		</div>
-	</body>
-</html>

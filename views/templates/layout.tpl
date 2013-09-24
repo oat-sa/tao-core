@@ -85,3 +85,5 @@
 <?endif?>
 
 <? include 'layout_footer.tpl' ?>
+	</body>
+</html>

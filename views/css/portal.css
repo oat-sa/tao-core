@@ -110,10 +110,19 @@ div#portal-box ul li{
 	padding:2px 60px;
 }
 div#footer{
-	position: fixed; clear: both; width: 100%; height: 30px; bottom: 0; border: none;
+	position: fixed; clear: both; width: 100%; height: 80px; bottom: 0px; border: none;
 	font-size:10px;
 	text-align:center;
 	margin:5px auto 0px auto;
 	padding:5px 0px 0px 0px;
+}
+div#releasesWarning{
+	height: 40px;
+}
+div#copyright{
+	position: fixed; clear: both; width: 100%;  bottom: 0px; border: none;
+	
+	height: 15px;
+	bottom: 0px;
 }
 

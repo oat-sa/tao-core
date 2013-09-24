@@ -30,7 +30,7 @@
  *
  */
 #TAO version number
-define('TAO_VERSION', '2.5-beta');
+define('TAO_VERSION', '2.5');
 
 #TAO version label
 define('TAO_VERSION_NAME', 'v2.5-beta');
