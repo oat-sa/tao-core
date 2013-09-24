@@ -54,3 +54,5 @@
 		</span>
 	    </div>
 <? include TAO_TPL_PATH .'layout_footer.tpl';?>
+</body>
+</html>
