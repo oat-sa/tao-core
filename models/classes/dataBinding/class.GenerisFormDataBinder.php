@@ -152,6 +152,7 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder
         	$source = $desc->getTmpPath();
         	$repository = tao_models_classes_TaoService::singleton()->getUploadFileSource();
         	$file = $repository->spawnFile($source, $desc->getName());
+        	tao_helpers_File::remove($source);
         	
         	$instance->setPropertyValue($property, $file->getUri());
         	
