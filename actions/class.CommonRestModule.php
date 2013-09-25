@@ -371,7 +371,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	public function post() {
 		try {
 		    $parameters = $this->getParameters();
-		    $data = $this->service->create($parameters);
+		    $data = $this->service->createFromArray($parameters);
 		} catch (Exception $e) {
 		    return $this->returnFailure($e);
 		}
