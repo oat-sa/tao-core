@@ -15,43 +15,38 @@
 
 		<div class="right-menu">
             <div>
-                <a href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Logout')?>">
-					<img src="<?=TAOBASE_WWW?>img/logout.png" alt="<?=__('Logout')?>" />
+                <a class="icon" id="logout-icon" href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Log Out')?>">
 				</a>
 			</div>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'UserSettings', null)): ?>
             <div class="vr">|</div>
             <div>
-                <a href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>" title="<?=__('Settings')?>">
-					   <img src="<?=TAOBASE_WWW?>img/user_settings.png" alt="<?=__('User Settings')?>" class="icon-with-desc"/>
+                <a class="icon" id="usersettings-icon" href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>" title="<?=__('My Settings')?>">
+    			</a>
+					   
 					<p class="icon-desc">
                     <?=__('Logged in as:')?></br>
                     <strong><?=get_data('userLabel')?></strong>
                     </p>
-    			</a>
 			</div>
 			<div class="vr">|</div>
 			
 <?php endif; ?>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('filemanager', 'Browser', null)): ?>
             <div>
-                <a href="#" class="file-manager" title="<?=__('Media manager')?>">
-    				<img src="<?=TAOBASE_WWW?>img/mediamanager.png" alt="<?=__('Media manager')?>" />
+                <a class="icon" id="mediamanager-icon" href="#" class="file-manager" title="<?=__('Media Management')?>">
     			</a>
 			</div>
 <?php endif; ?>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', null)): ?>
             <div>
-                <a href="<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao'))?>" title="<?=__('User Management')?>">
-					<img src="<?=TAOBASE_WWW?>img/users.png" alt="<?=__('Users')?>" />
+                <a class="icon" id="users-icon" href="<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao'))?>" title="<?=__('User Management')?>">
 				</a>
 			</div>
 				<?php endif; ?>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Settings', null) && tao_helpers_SysAdmin::isSysAdmin()): ?>
             <div>
-            <a href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings', 'ext' => 'tao'))?>" title="<?=__('Settings')?>">
-					<img src="<?=TAOBASE_WWW?>img/settings.png" alt="<?=__('Settings')?>" />
-				</a>
+                <a class="icon" id="settings-icon" href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings', 'ext' => 'tao'))?>" title="<?=__('System Settings')?>"></a>
 			</div>
 <?php endif; ?>
             <div class="breaker"></div>
