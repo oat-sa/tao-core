@@ -1189,7 +1189,7 @@
                 }else{
                     self.focus();
                     self.withoutCss();
-                    if($.browser.chrome && args.match(/h[0-6]{1}/).length){
+                    if($.browser.chrome && typeof(args) === 'string' && args.match(/h[0-6]{1}/).length){
                         self.editorDoc.execCommand('formatBlock', false, '<' + args + '>');
                     }else{
                         self.editorDoc.execCommand(cmd, false, args);
