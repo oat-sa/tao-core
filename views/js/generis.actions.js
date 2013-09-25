@@ -99,7 +99,13 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 		 * @param {String} url
 		 */
 		fullScreen: function(uri, classUri, url) {
-			url += '?uri='+uri+'&classUri='+classUri;
+                        if(url.indexOf('?') === -1){
+                            url += '?';
+                        } else{
+                            url += '&';
+                        }
+			url += 'uri='+uri+'&classUri='+classUri;
+                        
 			var width = parseInt($(window).width());
 			if(width < 800){
 				width = 800;
