@@ -281,13 +281,7 @@ abstract class tao_models_classes_GenerisService
 		if(!is_null($returnValue)){
 			$properties = $clazz->getProperties(true);
 			foreach($properties as $property){
-				foreach($instance->getPropertyValues($property) as $propertyValue){
-					// Avoid doublons, the RDF TYPE property will be set by the implementation layer
-					if ($property->getUri() == RDF_TYPE && $propertyValue == $clazz->getUri()){
-						continue;
-					}
-					$returnValue->setPropertyValue($property, $propertyValue);
-				}
+			    $this->cloneInstanceProperty($instance, $returnValue, $property);
 			}
 			$label = $instance->getLabel();
 			$cloneLabel = "$label bis";
@@ -304,6 +298,23 @@ abstract class tao_models_classes_GenerisService
 
         return $returnValue;
     }
+    
+    protected function cloneInstanceProperty( core_kernel_classes_Resource $source, core_kernel_classes_Resource $destination, core_kernel_classes_Property $property) {
+        $range = $property->getRange();
+		// Avoid doublons, the RDF TYPE property will be set by the implementation layer
+        if ($property->getUri() != RDF_TYPE){
+            foreach($source->getPropertyValuesCollection($property)->getIterator() as $propertyValue){
+                if(!is_null($range) && $range->getUri() == CLASS_GENERIS_FILE){
+                    $file = new core_kernel_versioning_File($propertyValue->getUri());
+                    $newFile = $file->getRepository()->spawnFile($file->getAbsolutePath(), $file->getLabel());
+                    $destination->setPropertyValue($property, $newFile);
+                } else {
+                    $destination->setPropertyValue($property, $propertyValue);
+                }
+            }
+        }
+    }
+    
 
     /**
      * Clone a Class and move it under the newParentClazz
