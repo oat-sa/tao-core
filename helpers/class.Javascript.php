@@ -51,8 +51,18 @@ class tao_helpers_Javascript
             }
             $returnValue .= '}';
         } else {
-            $returnValue = json_encode($var);
+            
+            // Some versions of PHP simply fail
+            // when encoding non UTF-8 data. Some other
+            // versions return null... If it fails, simply
+            // reproduce a single failure scenario.
+            $returnValue = @json_encode($var);
+            
+            if ($returnValue === false) {
+                $returnValue = json_encode(null);
+            }
         }
+        
         return $returnValue;
     }
 }
