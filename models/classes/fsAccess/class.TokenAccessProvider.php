@@ -44,7 +44,8 @@ class tao_models_classes_fsAccess_TokenAccessProvider
     
 	public function getAccessUrl(core_kernel_file_File $directory) {
 	    $path = $directory->getRelativePath();
-		$token = $this->generateToken($path);
+	    $path = rtrim(str_replace(DIRECTORY_SEPARATOR, '/', $path), '/').'/';
+	    $token = $this->generateToken($path);
 	    $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
 		return $taoExtension->getConstant('BASE_URL').'getFile.php/'.$token.'/'.$path.'*/';
 	}

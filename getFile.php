@@ -49,6 +49,7 @@ if (time() - $timestamp > $ttl || $token != $correctToken) {
     die();
 }
 
+$file = str_replace('/', DIRECTORY_SEPARATOR, $file);
 $filename = $compiledPath . $subPath . DIRECTORY_SEPARATOR . $file;
 if (strpos($filename, '?')) {
     // A query string is provided with the file to be retrieved - clean up!
