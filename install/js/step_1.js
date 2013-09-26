@@ -247,6 +247,7 @@ function initHelp(){
 	install.addHelp('hlp_fs_taoResults_includes', "The 'taoResults/includes' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoResults_views_genpics', "The 'taoResults/views/genpics' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_wfEngine_includes', "The 'wfEngine/includes' directory of your installation must be readable by the user running your web server.");
+	install.addHelp('hlp_taoQTI_custom_mathjax', 'The procedure to install MathJax on your TAO Platform can be found on the <a href="http://forge.taotesting.com/projects/tao/wiki/Enable_math" target="_blank">TAO Wiki</a>.');
 }
 
 function getExpectedRightsAsString(expectedRights){
