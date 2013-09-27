@@ -81,6 +81,7 @@ abstract class tao_models_classes_Compiler
      * 
      * @param core_kernel_file_File $destinationDirectory
      * @return tao_models_classes_service_ServiceCall
+     * @throws tao_models_classes_CompilationFailedException
      */
     public abstract function compile(core_kernel_file_File $destinationDirectory);
 }
