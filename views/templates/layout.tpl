@@ -34,7 +34,7 @@
 <?php endif; ?>
 <?php if (tao_helpers_funcACL_funcACL::hasAccess('filemanager', 'Browser', null)): ?>
             <div>
-                <a class="icon" id="mediamanager-icon" href="#" class="file-manager" title="<?=__('Media Management')?>">
+                <a class="icon file-manager" id="mediamanager-icon" href="#" title="<?=__('Media Management')?>">
     			</a>
 			</div>
 <?php endif; ?>
