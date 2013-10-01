@@ -75,16 +75,6 @@ class tao_models_classes_GenerisTreeFactory
                         $returnValue['state']	= 'closed';
                 }
                 
-                //the count may differ if the filtering option is set, 
-                //so we calculte it based on the found instances
-                if(!empty($propertyFilter) && !empty($returnValue['children'])){ 
-                    $instancesCount = 0;
-                    foreach($returnValue['children'] as $child){
-                        if($child['type'] == 'instance'){
-                            $instancesCount++;
-                        }
-                    }
-                }
                 // only show the resources count if we allow resources to be viewed
                 if ($showResources) {
                     $returnValue['count'] = $instancesCount;
