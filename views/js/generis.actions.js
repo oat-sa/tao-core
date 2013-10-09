@@ -209,10 +209,17 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 					$('#section-meta').html(response);
 					$('#section-meta').show();
 
+					// close button.
+					$('#meta-close').click(function() {
+						$('#section-meta').empty();
+					});
+					
 					//meta data dialog
 					var commentContainer = $("#comment-form-container");
 					if (commentContainer) {
 
+						
+						
 						$("#comment-editor").click(function(){
 							var commentContainer = $(this).parents('td');
 							if($('.comment-area', commentContainer).length == 0){
@@ -237,8 +244,15 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 										dataType: 'json',
 										success: function(response){
 											if (response.saved) {
+												// Remove text-area that was receiving the content of the new comment.
 												commentArea.remove();
-												commentField.text(response.comment);
+												
+												// Add a new row to the comments table with the newly created comment within.
+												var newRow = $('<tr></tr>');
+												newRow.append('<td class="first">' + response.date + '</td>');
+												newRow.append('<td>' + response.author + '</td>');
+												newRow.append('<td class="last">' + response.text + '</td>');
+												$('#meta-addition').before(newRow);
 											}
 										}
 									});

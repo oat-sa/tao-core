@@ -57,32 +57,32 @@ class tao_actions_MetaData extends tao_actions_CommonModule {
 			throw new Exception("wrong request mode");
 		}
 		
-		$this->setData('metadata', false); 
-		try{
-			$instance = $this->getCurrentInstance();
-			$commentUris = $instance->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GENERIS_RESOURCE_COMMENT));
-			$commentData = array();
-			foreach ($commentUris as $uri) {
-				$comment = new core_kernel_classes_Resource($uri);
-				$props = $comment->getPropertiesValues(array(
-					RDF_VALUE, PROPERTY_COMMENT_AUTHOR, PROPERTY_COMMENT_TIMESTAMP
-				));
-				$author = current($props[PROPERTY_COMMENT_AUTHOR]);
-				$date = current($props[PROPERTY_COMMENT_TIMESTAMP]);
-				$text = (string)current($props[RDF_VALUE]);
-				$commentData[] = array(
-					'author' => $author->getLabel(),
-					'date' => tao_helpers_Date::displayeDate((string)$date),
-					'text' => _dh($text)
-				);
-			}
-			$this->setData('comments',	$commentData);
-			$this->setData('uri',		$instance->getUri());
-			$this->setData('metadata',	true);
+		$this->setData('metadata', false);
+		$instance = $this->getCurrentInstance();
+		$commentUris = $instance->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GENERIS_RESOURCE_COMMENT));
+		$commentData = array();
+		foreach ($commentUris as $uri) {
+			$comment = new core_kernel_classes_Resource($uri);
+			$props = $comment->getPropertiesValues(array(
+				RDF_VALUE, PROPERTY_COMMENT_AUTHOR, PROPERTY_COMMENT_TIMESTAMP
+			));
+			$author = current($props[PROPERTY_COMMENT_AUTHOR]);
+			$date = current($props[PROPERTY_COMMENT_TIMESTAMP]);
+			$text = (string)current($props[RDF_VALUE]);
+			$commentData[(string)$date] = array(
+				'author' => $author->getLabel(),
+				'date' => tao_helpers_Date::displayeDate((string)$date),
+				'text' => _dh($text)
+			);
+			
+			ksort($commentData);
 		}
-		catch(Exception $e){
-			print $e;
-		}
+		
+		
+		
+		$this->setData('comments',	$commentData);
+		$this->setData('uri',		$instance->getUri());
+		$this->setData('metadata',	true);
 		
 		$this->setView('form/metadata.tpl', 'tao');
 	}
@@ -98,20 +98,21 @@ class tao_actions_MetaData extends tao_actions_CommonModule {
 		}
 		$instance = $this->getCurrentInstance();
 		$commentClass = new core_kernel_classes_Class(CLASS_GENERIS_COMMENT);
+		$time = time();
+		$author = new core_kernel_classes_Resource(core_kernel_classes_Session::singleton()->getUserUri());
+		
 		$comment = $commentClass->createInstanceWithProperties(array(
 			RDF_VALUE					=> $this->getRequestParameter('comment'),
-			PROPERTY_COMMENT_AUTHOR		=> core_kernel_classes_Session::singleton()->getUserUri(),
-			PROPERTY_COMMENT_TIMESTAMP	=> time()
+			PROPERTY_COMMENT_AUTHOR		=> $author->getUri(),
+			PROPERTY_COMMENT_TIMESTAMP	=> $time
 		));
-		$commentUris = $instance->getPropertyValues(new core_kernel_classes_Property(PROPERTY_GENERIS_RESOURCE_COMMENT));
-		foreach ($commentUris as $uri) {
-			$oldComment = new core_kernel_classes_Resource($uri);
-			$oldComment->delete();
-		}
-		$instance->editPropertyValues(new core_kernel_classes_Property(PROPERTY_GENERIS_RESOURCE_COMMENT), $comment);
+
+		$instance->setPropertyValue(new core_kernel_classes_Property(PROPERTY_GENERIS_RESOURCE_COMMENT), $comment);
 		echo json_encode(array(
 			'saved' 	=> true,
-			'comment' 	=> $this->getRequestParameter('comment')
+		    'author'    => $author->getLabel(),
+		    'date'      => tao_helpers_Date::displayeDate((string)$time),
+			'text' 	    => $this->getRequestParameter('comment')
 		));
 	}
 
