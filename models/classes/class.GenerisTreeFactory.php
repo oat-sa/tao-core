@@ -68,17 +68,21 @@ class tao_models_classes_GenerisTreeFactory
         
         // allow the class to be opened if it contains either instances or subclasses
         if ($instancesCount > 0 || count($class->getSubClasses(false)) > 0) {
-                if (in_array($class->getUri(), $openNodes)) {
-                        $returnValue['state']	= 'open';
-                        $returnValue['children'] = $this->buildChildNodes($class, $showResources, $limit, $offset, $openNodes, $propertyFilter);
-                } else {
-                        $returnValue['state']	= 'closed';
-                }
-                
-                // only show the resources count if we allow resources to be viewed
-                if ($showResources) {
+            if (in_array($class->getUri(), $openNodes)) {
+                    $returnValue['state']	= 'open';
+                    $returnValue['children'] = $this->buildChildNodes($class, $showResources, $limit, $offset, $openNodes, $propertyFilter);
+            } else {
+                    $returnValue['state']	= 'closed';
+            }
+
+            // only show the resources count if we allow resources to be viewed
+            if ($showResources){
+                if(!empty($propertyFilter)){
+                     $returnValue['count'] = count($class->searchInstances($propertyFilter, array('recursive' => false)));
+                } else  {
                     $returnValue['count'] = $instancesCount;
                 }
+            }
         }
         return $returnValue;
     }
