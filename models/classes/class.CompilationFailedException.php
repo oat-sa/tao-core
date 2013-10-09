@@ -19,15 +19,22 @@
  */
 
 /**
- *  
+ * Exception to be thrown when an error occurs at compilation time.
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  * @subpackage models_classes
  */
-class tao_models_classes_CompilationFailedException
-    extends common_Exception
-{
+class tao_models_classes_CompilationFailedException extends common_Exception {
     
+    /**
+     * Create a new CompilationFailedException object.
+     * 
+     * @param string $message A human-readable message describing the compilation error.
+     * @param integer $code A computer-understandable code describing the compilation error.
+     */
+    public function __construct($message, $code = 0) {
+        parent::__construct($message, $code);
+    }
 }
