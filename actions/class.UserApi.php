@@ -77,6 +77,34 @@ class tao_actions_UserApi extends tao_actions_RemoteServiceModule {
 		
 		$this->returnSuccess();
 	}
+    
+	/**
+     * Allows the remote system to change the data language
+     * 
+     * @return string The json response
+     * @throws common_Exception
+     */
+    public function setDataLanguage() {
+		$success = false;
+		if (!$this->hasRequestParameter('lang')) {
+			throw new common_Exception('Missing parameters');
+		}
+		
+		$user			= $this->getCurrentUser();
+		$dataLangResource = tao_helpers_I18n::getLangResourceByCode($this->getRequestParameter('lang'));
+		
+		if(!is_null($dataLangResource)){
+			$success = $user->editPropertyValues(
+				new core_kernel_classes_Property(PROPERTY_USER_DEFLG), $dataLangResource
+			);
+            common_Logger::w('Data language changed to "'.$this->getRequestParameter('lang').'"');
+		} else {
+			common_Logger::w('language '.$this->getRequestParameter('lang').' not found');
+			return $this->returnFailure(__('Language not supported'));
+		}
+		
+		$this->returnSuccess();
+	}
 	
 	/**
 	 * Get detailed information about the current user
