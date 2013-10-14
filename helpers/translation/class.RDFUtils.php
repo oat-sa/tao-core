@@ -18,8 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
 
 error_reporting(E_ALL);
 
@@ -31,18 +29,6 @@ error_reporting(E_ALL);
  * @subpackage helpers_translation
  */
 
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003939-includes begin
-// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003939-includes end
-
-/* user defined constants */
-// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003939-constants begin
-// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003939-constants end
-
 /**
  * Aims at providing utility methods for RDF Translation models.
  *
@@ -53,12 +39,6 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  */
 class tao_helpers_translation_RDFUtils
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
      * Unserialize an RDFTranslationUnit annotation and returns an associative
@@ -66,7 +46,7 @@ class tao_helpers_translation_RDFUtils
      * Throws TranslationException.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Jerome Bogaerts <jerome@taotesting.com>
      * @param  string annotations The annotations string.
      * @return array
      */
@@ -74,7 +54,6 @@ class tao_helpers_translation_RDFUtils
     {
         $returnValue = array();
 
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:000000000000393A begin
         $reg = "/\s*@(subject|predicate|sourceLanguage|targetLanguage|source)[\t ]+(.+)(?:\s*|$)/u";
         $matches = array();
         if (false !== preg_match_all($reg, $annotations, $matches)){
@@ -98,7 +77,6 @@ class tao_helpers_translation_RDFUtils
         }else{
             throw new tao_helpers_translation_TranslationException("A fatal error occured while parsing annotations '${annotations}.'");
         }
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:000000000000393A end
 
         return (array) $returnValue;
     }
@@ -108,7 +86,7 @@ class tao_helpers_translation_RDFUtils
      * and values are annotation values.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Jerome Bogaerts <jerome@taotesting.com>
      * @param  array annotations An associative array that represents a collection of annotations, where keys are the annotation names and values the annotation values.
      * @param  string glue Indicates what is the glue between serialized annotations.
      * @return string
@@ -117,7 +95,6 @@ class tao_helpers_translation_RDFUtils
     {
         $returnValue = (string) '';
 
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003941 begin
         // Set default glue.
         if ($glue == ''){
             $glue = "\n    ";
@@ -130,7 +107,6 @@ class tao_helpers_translation_RDFUtils
             $a[] = '@' . trim($n) . " ${v}";
         }
         $returnValue = implode($glue, $a);
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003941 end
 
         return (string) $returnValue;
     }
@@ -139,7 +115,7 @@ class tao_helpers_translation_RDFUtils
      * Creates a language description file for TAO using the RDF-XML language.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
+     * @author Jerome Bogaerts <jerome@taotesting.com>
      * @param  string code string code The language code e.g. fr-FR.
      * @param  string label string label The language label e.g. French in english.
      * @return DomDocument
@@ -148,7 +124,6 @@ class tao_helpers_translation_RDFUtils
     {
         $returnValue = null;
 
-        // section -64--88-56-1--791b33a3:136e8a84490:-8000:000000000000398B begin
         $languageType = CLASS_LANGUAGES;
         $languagePrefix = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
         $rdfNs = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
@@ -173,20 +148,27 @@ class tao_helpers_translation_RDFUtils
         $descriptionNode->appendChild($typeNode);
         
         $labelNode = $doc->createElementNS($rdfsNs, 'rdfs:label');
-        $labelNode->setAttributeNS($xmlNs, 'xml:lang', 'EN');
+        $labelNode->setAttributeNS($xmlNs, 'xml:lang', DEFAULT_LANG);
         $labelNode->appendChild($doc->createCDATASection($label));
         $descriptionNode->appendChild($labelNode);
         
-        $valueNode = $doc->CreateElementNS($rdfNs, 'rdf:value');
+        $valueNode = $doc->createElementNS($rdfNs, 'rdf:value');
         $valueNode->appendChild($doc->createCDATASection($code));
         $descriptionNode->appendChild($valueNode);
         
+        $guiUsageNode = $doc->createElementNS($base, 'tao:languageUsages');
+        $guiUsageNode->setAttributeNs($rdfNs, 'rdf:resource', INSTANCE_LANGUAGE_USAGE_GUI);
+        $descriptionNode->appendChild($guiUsageNode);
+        
+        $dataUsageNode = $doc->createElementNS($base, 'tao:languageUsages');
+        $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', INSTANCE_LANGUAGE_USAGE_DATA);
+        $descriptionNode->appendChild($dataUsageNode);
+        
         $returnValue = $doc;
-        // section -64--88-56-1--791b33a3:136e8a84490:-8000:000000000000398B end
 
         return $returnValue;
     }
 
-} /* end of class tao_helpers_translation_RDFUtils */
+}
 
 ?>
