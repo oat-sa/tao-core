@@ -63,7 +63,7 @@ class tao_actions_Import extends tao_actions_CommonModule {
 			}
 		}
 		$this->setData('myForm', $myForm->render());
-		$this->setData('formTitle', __('Import'));
+		$this->setData('formTitle', __('Import '));
 		$this->setView('form/import.tpl', 'tao');
 	}
 	

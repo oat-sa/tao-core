@@ -80,7 +80,7 @@ class tao_actions_Export extends tao_actions_CommonModule {
 			}
 		}
 		
-		$this->setData('formTitle', __('Export'));
+		$this->setData('formTitle', __('Export '));
 		$this->setView('form/export.tpl', 'tao');
 	}
 	

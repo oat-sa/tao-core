@@ -22,7 +22,7 @@
 	</div>
 <div id="export-container" style="float: left;margin: 5px;">
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
-		<?=__('Export')?>
+		<?=__('Export ')?>
 	</div>
 	<div class="ui-widget ui-widget-content">
 	    <?=get_data('exportForm')?> 
