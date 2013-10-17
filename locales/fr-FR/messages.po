@@ -1070,7 +1070,7 @@ msgid "Upload File"
 msgstr "Téléverser le fichier"
 
 msgid "Upload RDF File"
-msgstr "Téléversez un fichier RDF"
+msgstr "Téléverser un fichier RDF"
 
 msgid "Upload the file to version"
 msgstr "Téléverser le ficher à la version"
