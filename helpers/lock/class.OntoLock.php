@@ -25,7 +25,7 @@
  */
 class tao_helpers_lock_OntoLock implements tao_helpers_lock_Lock
 {
-
+     private static $instance;
     /**
      * 
      * @return core_kernel_classes_Property
@@ -33,7 +33,18 @@ class tao_helpers_lock_OntoLock implements tao_helpers_lock_Lock
     private function getLockProperty(){
         return new core_kernel_classes_Property('#testLock');
     }
+    public static function singleton() {
+        $returnValue = null;
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
+        }
+        $returnValue = self::$instance;
+        return $returnValue;
+    }
+     protected function __construct()
+    {
 
+    }
     /**
      * set a lock on @resource with owner @user, succeeds also if there is a lock already exists but with the same owner
      *
