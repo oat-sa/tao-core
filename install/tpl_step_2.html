@@ -47,12 +47,6 @@
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="hlp_instance_name" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
                     </li>
                     <li>
-                        <label for="default_language">Select the default language that will be used for user interface and data.</label><br />
-                        <select id="default_language" class="tao-input">
-                        </select>
-                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="hlp_default_language" class="ui-icon ui-icon-help"></a></div>
-                    </li>
-                    <li>
                         <label for="deployment_mode">Choose if TAO must be deployed for a Production or Development purpose.</label><br />
                         <select id="deployment_mode" class="tao-input">
                         	<option value="debug">Development</option>
@@ -61,7 +55,7 @@
                         <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="hlp_deployment_mode" class="ui-icon ui-icon-help"></a></div>
                     </li>
                 </ul>
-                        
+                <input id="default_language" type="hidden" value="en-US" class="tao-input"/>        
                 <input id="submitForm" class="disabled" type="submit" value="Awaiting mandatory information" role="button" disabled="disabled"/>
                 <p id="formComment"><span class="formExample">*</span> This information is mandatory</p>
             </form>

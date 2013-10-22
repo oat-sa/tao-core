@@ -453,7 +453,7 @@ TaoInstall.prototype.getValidator = function(element, options){
 					element.isValid = function(){ return firstValueFunction() && $element.val().length > 0; };	
 				}
 			}
-			else if ($element.attr('type') == 'checkbox'){
+			else if ($element.attr('type') == 'checkbox' || $element.attr('type') == 'hidden'){
 				element.isValid = function(){ return true; };
 			}
 		break;
@@ -483,6 +483,9 @@ TaoInstall.prototype.getDataGetter = function(element){
 			if ($element.prop('tagName').toLowerCase() == 'textarea' || $element.attr('type') == 'text' || $element.attr('type') == 'password'){
 				element.getData = function(){ return (this.value != this.firstValue) ? ((this.value == '') ? null : this.value) : null; };	
 			}
+			else if ($element.attr('type') == 'hidden') {
+				element.getData = function(){ return this.value; };
+			}
 			else if ($element.attr('type') == 'checkbox'){
 				element.getData = function(){ return element.checked; };
 			}
@@ -506,7 +509,7 @@ TaoInstall.prototype.getDataSetter = function(element){
 		
 		case 'input':
 		case 'textarea':
-			if ($element.prop('tagName').toLowerCase() == 'textarea' || $element.attr('type') == 'text' || $element.attr('type') == 'password'){
+			if ($element.prop('tagName').toLowerCase() == 'textarea' || $element.attr('type') == 'text' || $element.attr('type') == 'password' || $element.attr('type') == 'hidden'){
 				element.setData = function(data) { this.value = data; };	
 			}
 			else if ($element.attr('type') == 'checkbox'){
