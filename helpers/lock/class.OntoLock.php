@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -23,11 +23,13 @@
  * @note It would be preferably static but we may want to have the polymorphism on lock but it would be prevented by explicit class method static calls.
  * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
  */
-class tao_helpers_lock_OntoLock
-implements tao_helpers_lock_Lock
+class tao_helpers_lock_OntoLock implements tao_helpers_lock_Lock
 {
 
-    
+    /**
+     * 
+     * @return core_kernel_classes_Property
+     */
     private function getLockProperty(){
         return new core_kernel_classes_Property('#testLock');
     }
@@ -42,7 +44,8 @@ implements tao_helpers_lock_Lock
     public function setLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $owner){
         if (!($this->isLocked($resource))) {
         $lock = new tao_helpers_lock_LockData($resource, $owner, microtime(true));
-        $resource->setPropertyValue($this->getLockProperty(), serialize($lock));
+		
+        $resource->setPropertyValue($this->getLockProperty(), $lock->toJson());
         } else {
             throw new common_Exception($resource->getUri()." is already locked");
         }
@@ -59,53 +62,47 @@ implements tao_helpers_lock_Lock
         }
         return false;
     }
-    /**
-     *  release the lock if owned by @user
-     * @param core_kernel_classes_Resource $resource
-     * @param core_kernel_classes_Resource $user
-     * @throw common_Exception no lock to release
-     */
-    public function releaseLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $user){
-        $lock = $resource->getPropertyValues($this->getLockProperty());
-        if (count($lock)==0) {
-            return false;
-        } elseif (count($lock)>1) {
-            throw new common_exception_InconsistentData();
-        } else {
-            $lockdata = unserialize(array_pop($lock));
-            if (get_class($lockdata)!= "tao_helpers_lock_LockData") {
-                throw new common_exception_InconsistentData();
-            }
-            if ($lockdata->getOwner()->getUri() == $user->getUri()) {
-                $resource->removePropertyValues($this->getLockProperty());
-                return true;
-            } else {
-                throw new common_exception_Unauthorized("The resource is owned by".$lockdata->getOwner());
-            }
-        }
-        
-    }
+	/**
+	 * release the lock if owned by @user
+	 *
+	 * @param core_kernel_classes_Resource $resource        	
+	 * @param core_kernel_classes_Resource $user
+	 * @throws common_exception_InconsistentData
+	 * @throw common_Exception no lock to release
+	 */
+	public function releaseLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $user) {
+		$lock = $resource->getPropertyValues( $this->getLockProperty () );
+		if (count ( $lock ) == 0) {
+			return false;
+		} elseif (count ( $lock ) > 1) {
+			throw new common_exception_InconsistentData('Bad data in lock');
+		} else {
+			$lockdata = tao_helpers_lock_LockData::getLockData ( array_pop ( $lock ) );
+			if ($lockdata->getOwner()->getUri() == $user->getUri ()) {
+				$resource->removePropertyValues( $this->getLockProperty() );
+				return true;
+			} else {
+				throw new common_exception_Unauthorized ( "The resource is owned by" . $lockdata->getOwner () );
+			}
+		}
+	}
    /**
-     *  release the lock
-     * @param core_kernel_classes_Resource $resource
-     */
+    *  release the lock
+    * @param core_kernel_classes_Resource $resource
+    */
     public function forceReleaseLock(core_kernel_classes_Resource $resource){
          $resource->removePropertyValues($this->getLockProperty());
     }
     /**
      * Return lock details
      * @param core_kernel_classes_Resource $resource
+     * @throws common_exception_InconsistentData
      * @return tao_helpers_lock_LockData
      */
     public function getLockData(core_kernel_classes_Resource $resource) {
         $values = $resource->getPropertyValues($this->getLockProperty());
         if ((is_array($values)) && (count($values)==1)) {
-            $lockdata = unserialize(array_pop($values));
-            if (get_class($lockdata)!= "tao_helpers_lock_LockData") {
-                throw new common_exception_InconsistentData();
-            } else {
-                return $lockData;
-            }
+            return tao_helpers_lock_LockData::getLockData(array_pop($values));
         } else {
             return false;
         }
