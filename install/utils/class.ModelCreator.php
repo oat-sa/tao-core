@@ -168,7 +168,8 @@ class tao_install_utils_ModelCreator{
 		$size = $memModel->size();
 		while ($it->hasNext()) {
 			$statement = $it->next();
-			if($dbModel->add($statement, SYS_USER_LOGIN) === true){
+			//constants not yet loaded
+			if($dbModel->add($statement, 'http://www.tao.lu/Ontologies/TAO.rdf#installator') === true){
 				$added++;
 			}
 		}
