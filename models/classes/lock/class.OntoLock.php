@@ -23,7 +23,7 @@
  * @note It would be preferably static but we may want to have the polymorphism on lock but it would be prevented by explicit class method static calls.
  * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
  */
-class tao_helpers_lock_OntoLock implements tao_helpers_lock_Lock
+class tao_models_classes_lock_OntoLock implements tao_models_classes_lock_Lock
 {
      private static $instance;
     /**
@@ -54,7 +54,7 @@ class tao_helpers_lock_OntoLock implements tao_helpers_lock_Lock
      */
     public function setLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $owner){
         if (!($this->isLocked($resource))) {
-        $lock = new tao_helpers_lock_LockData($resource, $owner, microtime(true));
+        $lock = new tao_models_classes_lock_LockData($resource, $owner, microtime(true));
 		
         $resource->setPropertyValue($this->getLockProperty(), $lock->toJson());
         } else {
@@ -88,7 +88,7 @@ class tao_helpers_lock_OntoLock implements tao_helpers_lock_Lock
 		} elseif (count ( $lock ) > 1) {
 			throw new common_exception_InconsistentData('Bad data in lock');
 		} else {
-			$lockdata = tao_helpers_lock_LockData::getLockData ( array_pop ( $lock ) );
+			$lockdata = tao_models_classes_lock_LockData::getLockData ( array_pop ( $lock ) );
 			if ($lockdata->getOwner()->getUri() == $user->getUri ()) {
 				$resource->removePropertyValues( $this->getLockProperty() );
 				return true;
@@ -113,7 +113,7 @@ class tao_helpers_lock_OntoLock implements tao_helpers_lock_Lock
     public function getLockData(core_kernel_classes_Resource $resource) {
         $values = $resource->getPropertyValues($this->getLockProperty());
         if ((is_array($values)) && (count($values)==1)) {
-            return tao_helpers_lock_LockData::getLockData(array_pop($values));
+            return tao_models_classes_lock_LockData::getLockData(array_pop($values));
         } else {
             return false;
         }

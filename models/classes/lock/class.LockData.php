@@ -23,17 +23,16 @@
  *
  **/
 
-class tao_helpers_lock_LockData{
+class tao_models_classes_lock_LockData{
     private $resource; //the resource being locked core_kernel_classe_Resource
     private $owner; //the owner of the lock core_kernel_classe_Resource
     private $epoch; //the epoch when the lock was set up
 
     /**
      * 
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
      * @param string $json
      * @throws common_exception_InconsistentData
-     * @return tao_helpers_lock_LockData
+     * @return tao_models_classes_LockData
      */
     public static function getLockData($json){
     	$array = json_decode($json, true);
@@ -41,7 +40,7 @@ class tao_helpers_lock_LockData{
     		$resource = new core_kernel_classes_Resource($array['resource']);
     		$owner = new core_kernel_classes_Resource($array['owner']);
     		$epoch = $array['epoch'];
-    		return new tao_helpers_lock_LockData($resource,$owner,$epoch);
+    		return new tao_models_classes_lock_LockData($resource,$owner,$epoch);
     	}
     	else {
     		throw new common_exception_InconsistentData('LockData should contain a resource, owner and epoch, one data is missing');

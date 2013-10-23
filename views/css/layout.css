@@ -573,3 +573,42 @@ ul.group-list li ul.actions li {
 	display: inline-block;
 	margin: 5px 2px;
 }
+
+
+.tileBox {
+    margin-top:20px;
+    margin-left:20px;
+    float:left;
+    padding:5px;
+    background-color:#efefef;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    width:60%;
+
+}
+.tileBox .fieldLabel {
+    /*font-weight: bold;*/
+}
+.tileBox .fieldValue {
+    /*font-style:italic;*/
+}
+.button{
+   float:right;
+   margin-right:10px;
+   margin-bottom:10px;
+   padding:5px;
+    cursor:pointer;
+    background-color:#aaa;
+    color:#fff;
+    
+   
+    border-width:1px;
+    border-collapse: collapse;
+     -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+.button:hover{
+    background-color:#D00239;
+    color:#fff;;
+}

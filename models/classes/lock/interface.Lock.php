@@ -22,7 +22,7 @@
  *
  * @author plichart
  */
-interface tao_helpers_lock_Lock{
+interface tao_models_classes_lock_Lock{
     /**
      * set a lock on @resource with owner @user, succeeds also if there is a lock already exists but with the same owner
      *
