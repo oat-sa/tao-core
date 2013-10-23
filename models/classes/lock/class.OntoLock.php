@@ -23,7 +23,8 @@
  * @note It would be preferably static but we may want to have the polymorphism on lock but it would be prevented by explicit class method static calls.
  * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
  */
-class tao_models_classes_lock_OntoLock implements tao_models_classes_lock_Lock
+class tao_models_classes_lock_OntoLock
+    implements tao_models_classes_lock_Lock
 {
      private static $instance;
     /**
