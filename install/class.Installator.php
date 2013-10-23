@@ -206,9 +206,7 @@ class tao_install_Installator{
 				'ROOT_PATH'					=> $this->options['root_path'],
 				'ROOT_URL'					=> $installData['module_url'],
 				'DEFAULT_LANG'				=> $installData['module_lang'],
-				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false,
-				'SYS_USER_LOGIN'			=> self::generateRandomAlphaNumToken(8),
-				'SYS_USER_PASS'				=> md5(self::generateRandomAlphaNumToken(16))
+				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false
 			));
 			
 			/*
@@ -219,7 +217,7 @@ class tao_install_Installator{
 
 			// Init model creator and create the Generis User.
 			$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
-			$modelCreator->insertGenerisUser(SYS_USER_LOGIN, SYS_USER_PASS);
+			$modelCreator->insertGenerisUser(self::generateRandomAlphaNumToken(8));
 
 			/*
 			 * 7 - Add languages

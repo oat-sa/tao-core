@@ -69,8 +69,7 @@ class FunctionalTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 	}
 	
 	public function sysLogin() {
-		$userService = tao_models_classes_UserService::singleton();
-		$userService->loginUser(SYS_USER_LOGIN, SYS_USER_PASS, new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole'));
+        common_user_auth_Service::singleton()->startSession(new core_kernel_users_GenerisUser(new core_kernel_classes_Resource(TAO_INSTALLATOR)));
 	}
 	
 	public function sysLogout() {

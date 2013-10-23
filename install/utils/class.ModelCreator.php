@@ -84,7 +84,7 @@ class tao_install_utils_ModelCreator{
 		return $this->insertLocalModel($doc->saveXML());
 	}
 	
-	public function insertGenerisUser($login, $password){
+	public function insertGenerisUser($login){
 		
 		$generisUserOntology = dirname(__FILE__) . '/../ontology/generisuser.rdf';
 		
@@ -95,8 +95,7 @@ class tao_install_utils_ModelCreator{
 		$doc = new DOMDocument();
 		$doc->load($generisUserOntology);
 		
-		return $this->insertLocalModel($doc->saveXML(), array('{SYS_USER_LOGIN}'	=> $login,
-															  '{SYS_USER_PASS}'		=> $password));
+		return $this->insertLocalModel($doc->saveXML(), array('{SYS_USER_LOGIN}'	=> $login));
 	}
 
 	/**

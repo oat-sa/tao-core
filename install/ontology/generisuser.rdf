@@ -13,6 +13,5 @@
     	<generis:login><![CDATA[{SYS_USER_LOGIN}]]></generis:login>
     	<generis:userDefLg rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Langen-US"/>
 		<generis:userUILg rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Langen-US"/>
-    	<generis:password><![CDATA[{SYS_USER_PASS}]]></generis:password>
   	</rdf:Description>
 </rdf:RDF>
