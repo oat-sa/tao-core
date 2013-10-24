@@ -34,7 +34,50 @@
  */
 abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	
-	/**
+	 /**
+     * If you want striclty to check if the resource is locked,
+     * you should use tao_models_classes_lock_OntoLock::singleton()->isLocked($resource)
+     * Controller level convenience method to check if @resource is being locked, prepare data ans sets view, 
+     * @return boolean
+     */
+    protected function isLocked($resource, $view){
+         if (tao_models_classes_lock_OntoLock::singleton()->isLocked($resource)) {
+                $lockData = tao_models_classes_lock_OntoLock::singleton()->getLockData($resource);
+                $this->setData('label', $resource->getLabel());
+                $this->setData('itemUri', tao_helpers_Uri::encode($resource->getUri()));
+                
+                ;
+                $rEpoch = date('Y-m-d H:i:s', strval($lockData->getEpoch()));
+                
+                $this->setData('epoch',$rEpoch );
+
+                $this->setData('owner', $lockData->getOwner()->getUri());
+                $ownerLogin = '';
+                try {
+                    $ownerLogin = $lockData->getOwner()->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LOGIN));
+                    
+                } catch (Exception $e) {
+                    $ownerLogin = 'Unknown User';
+                }
+                $ownerEmail = '';
+                try {
+                    $ownerEmail = $lockData->getOwner()->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_MAIL));
+
+                } catch (Exception $e) {
+                    $ownerEmail = 'Unknown Email';
+                }
+                $this->setData('ownerLogin', $ownerLogin);
+                $this->setData('ownerMail', $ownerEmail);
+                $this->setView($view);
+              
+                
+                return true;
+            } else {
+                return false;
+            }
+    }
+
+    /**
 	 * get the current item class regarding the classUri' request parameter
 	 * @return core_kernel_classes_Class the item class
 	 */
