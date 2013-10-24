@@ -36,7 +36,11 @@ Lock.prototype.release = function (){
 		   type: 'POST',
 		   dataType: 'json'};
     $.ajax(this.url, options).done(function(retData, textStatus, jqxhr){
-	helpers._load(helpers.getMainContainerSelector(), helpers._url('editItem','Items','taoItems'), data);
+	helpers._load(
+		helpers.getMainContainerSelector(),
+		helpers._url(ctx_form_action,ctx_form_module,ctx_form_extension),//how to retrieve current action, controller, ?
+		data 
+	    );
     }).fail(function(jqxhr){
 	alert(__('A problem occured when releasing the lock'));
     });
