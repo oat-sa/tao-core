@@ -593,6 +593,21 @@ ul.group-list li ul.actions li {
 .tileBox .fieldValue {
     /*font-style:italic;*/
 }
+.tileBox .boxHeader{
+    font-weight:bold;
+    margin:10px;
+
+}
+.tileBox .boxLogo{
+    float:left;
+    width:30%;
+    height:100%;
+}
+.tileBox .boxContent{
+    float:left;
+    width:70%;
+    height:100%;
+}
 .button{
    float:right;
    margin-right:10px;
