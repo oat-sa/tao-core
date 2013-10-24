@@ -28,17 +28,17 @@ function Lock (resourceUri){
  * @returns {undefined}
  */
 Lock.prototype.release = function (){
-    
+
     //this.url = _url('tao','lock','release'); //todo _url ?
     this.url = root_url+'/tao/lock/release';
-    var data = "uri="+this.uri;
+ 
     var options = {data: data,
-		   type: 'GET',
+		   type: 'POST',
 		   dataType: 'json'};
-    $.ajax(this.url, options).done(function(data, textStatus, jqxhr){
-
+    $.ajax(this.url, options).done(function(retData, textStatus, jqxhr){
+	helpers._load(helpers.getMainContainerSelector(), helpers._url('editItem','Items','taoItems'), data);
     }).fail(function(jqxhr){
-
+	alert(__('A problem occured when releasing the lock'));
     });
 }
 
