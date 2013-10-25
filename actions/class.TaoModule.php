@@ -66,6 +66,11 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
                 } catch (Exception $e) {
                     $ownerEmail = 'Unknown Email';
                 }
+                $isOwner = ($lockData->getOwner()->getUri() == tao_models_classes_UserService::singleton()->getCurrentUser()->getUri());
+                //$isAdmin = tao_models_classes_UserService::singleton()
+
+                $this->setData('isOwner',  $isOwner);
+
                 $this->setData('ownerLogin', $ownerLogin);
                 $this->setData('ownerMail', $ownerEmail);
                 $this->setView($view);

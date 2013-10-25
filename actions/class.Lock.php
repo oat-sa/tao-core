@@ -44,7 +44,6 @@ class tao_actions_Lock extends tao_actions_CommonModule {
             new core_kernel_classes_Resource(tao_helpers_Uri::decode($uri)),
             tao_models_classes_UserService::singleton()->getCurrentUser());
         } catch (Exception $e) {
-            print_r($e);
             //the connected user is not the owner of the lock
             //there is no lock on the resource
             //the lock is corrupted

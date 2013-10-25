@@ -608,10 +608,10 @@ ul.group-list li ul.actions li {
     width:70%;
     height:100%;
 }
-.button{
+.tileBox .button{
    float:right;
-   margin-right:10px;
-   margin-bottom:10px;
+   margin-right:5px;
+   margin-bottom:5px;
    padding:5px;
     cursor:pointer;
     background-color:#aaa;
