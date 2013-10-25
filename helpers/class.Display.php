@@ -121,7 +121,13 @@ class tao_helpers_Display
 
         return (string) $returnValue;
     }
+ /**
+     *  Convert special characters to HTML entities
+     */
+    public static function htmlEscape($string) {
 
+        return htmlspecialchars($string);
+        }
 }
 
 ?>
