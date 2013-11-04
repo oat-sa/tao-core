@@ -58,8 +58,8 @@ class tao_install_services_CheckPHPRuntimeService
         $this->setResult(self::buildResult($this->getData(), $report, $runtime));
     }
     
-    public static function checkData(tao_install_services_Data $data){
-    	$content = json_decode($data->getContent(), true);
+    protected function checkData(){
+    	$content = json_decode($this->getData()->getContent(), true);
         if (!isset($content['type']) || empty($content['type']) || $content['type'] != 'CheckPHPRuntime'){
             throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'CheckPHPRuntime'.");
         }

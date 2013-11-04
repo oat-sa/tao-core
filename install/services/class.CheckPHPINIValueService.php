@@ -57,9 +57,9 @@ class tao_install_services_CheckPHPINIValueService
         $this->setResult(self::buildResult($this->getData(), $report, $ini));
     }
     
-    public static function checkData(tao_install_services_Data $data){
+    protected function checkData(){
     	// Check input data.
-        $content = json_decode($data->getContent(), true);
+        $content = json_decode($this->getData()->getContent(), true);
         if (!isset($content['type']) || empty($content['type']) || $content['type'] !== 'CheckPHPINIValue'){
             throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'CheckPHPINIValue'.");
         }

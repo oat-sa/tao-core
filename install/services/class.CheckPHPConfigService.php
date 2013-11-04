@@ -154,8 +154,8 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
     	}
     }
     
-    public static function checkData(tao_install_services_Data $data){
-    	$content = json_decode($data->getContent(), true);
+    protected function checkData(){
+    	$content = json_decode($this->getData()->getContent(), true);
         if (!isset($content['type']) || empty($content['type'])){
             throw new InvalidArgumentException("Missing data: 'type' must be provided.");
         }

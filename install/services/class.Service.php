@@ -58,7 +58,7 @@ abstract class tao_install_services_Service{
         // By default, status is OK.
         $this->setStatus(200);
         $this->setData($data);
-        static::checkData($data);
+        $this->checkData();
     }
     
     /**
@@ -131,7 +131,7 @@ abstract class tao_install_services_Service{
     /**
      * Contains the logic of checking the input data for a given service implementation.
      */
-    public static function checkData(tao_install_services_Data $data){
+    protected function checkData(){
     	return;
     }
 }
