@@ -359,18 +359,18 @@ class tao_helpers_data_GenerisAdapterCsv
         $resource = new core_kernel_classes_Resource($value);
         if ($resource->exists()) {
         	// Is the range correct ?
-        	$valueType = $resource->getType();
-        	$targetPropertyRange = $targetProperty->getPropertyValuesCollection(new core_kernel_classes_Property(RDFS_RANGE));
+        	$targetPropertyRanges = $targetProperty->getPropertyValuesCollection(new core_kernel_classes_Property(RDFS_RANGE));
         	$rangeCompliance = true;
         	
         	// If $targetPropertyRange->count = 0, we consider that the resouce
         	// may be attached because $rangeCompliance = true.
-        	foreach ($targetPropertyRange->getIterator() as $r) {
+        	foreach ($targetPropertyRanges->getIterator() as $range) {
         		// Check all classes in target property's range.
-        		if (!array_key_exists($r->getUri(), $valueType)) {
+        	    if ($resource->hasType(new core_kernel_classes_Class($range))) {
         			$rangeCompliance = false;
         			break;
-        		}
+        	    }
+        		
         	}
         	
         	if (true == $rangeCompliance) {
