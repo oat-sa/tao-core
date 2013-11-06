@@ -93,7 +93,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			
 			$clazz = null;
 			$resource = $this->getCurrentInstance();
-			foreach($resource->getType() as $type){
+			foreach($resource->getTypes() as $type){
 				$clazz = $type;
 				break;
 			}
