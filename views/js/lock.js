@@ -27,7 +27,7 @@ function Lock (resourceUri){
  * @param {type} callback
  * @returns {undefined}
  */
-Lock.prototype.release = function (){
+Lock.prototype.release = function (successCallBack, failureCallBack){
 
     //this.url = _url('tao','lock','release'); //todo _url ?
     this.url = root_url+'/tao/lock/release';
@@ -36,17 +36,9 @@ Lock.prototype.release = function (){
 		   type: 'POST',
 		   dataType: 'json'};
     $.ajax(this.url, options).done(function(retData, textStatus, jqxhr){
-	//put as callback parameters
-	helpers._load(
-		helpers.getMainContainerSelector(),
-		helpers._url(
-			ctx_form_action,
-			ctx_form_module,
-			ctx_form_extension
-		    ),//how to retrieve current action, controller, ?
-		data 
-		);
+	
 	alert('lock removed');
+	successCallBack();
     }).fail(function(jqxhr){
 	alert(__('A problem occured when releasing the lock'));
     });
