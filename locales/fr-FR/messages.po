@@ -937,13 +937,13 @@ msgid "Switching to Production..."
 msgstr "Basculement en mode production..."
 
 msgid "TAO Back Office"
-msgstr "Outils d'Administration TAO"
+msgstr "Outils d'administration TAO"
 
 msgid "TAO back office"
 msgstr ""
 
 msgid "TAO Delivery Server"
-msgstr "Serveur de Délivrance TAO"
+msgstr "Serveur de passation de test TAO"
 
 msgid "TAO Process Engine"
 msgstr "Moteur de Processus TAO"
@@ -956,6 +956,9 @@ msgstr "Menu principal TAO"
 
 msgid "TAO Managers"
 msgstr "Gestionnaires TAO"
+
+msgid "TAO WorkFlow Assistant"
+msgstr "Assistant du workflow TAO"
 
 #, tao-public
 msgid "TAO optimizer"
@@ -1122,19 +1125,19 @@ msgid "Result Server Manager"
 msgstr "Gestionnaire du serveur de résultats"
 
 msgid "Beta version"
-msgstr "Version beta"
+msgstr "Version bêta"
 
-msgid "Test Developers and Test Administrators"
-msgstr "Développeurs et Administrateurs de Test"
+msgid "Test Developers and Administrators"
+msgstr "Développeurs et administrateurs de tests"
 
-msgid "Create items, manage item banks and tests, organize cohorts and schedule test deliveries."
-msgstr "Créez des items, gérez les banques d'items et les tests, organisez des groupes et planifiez des délivrances de test."
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr "Créez des items, gérez des banques d'items et de tests, organisez des groupes et des passations, préparez des rapports, mettez en place des workflows."
+
+msgid "Test-Takers"
+msgstr "Participants"
 
 msgid "Test Takers"
 msgstr "Participants"
-
-msgid "Log in here to take a test."
-msgstr "Connectez-vous ici pour passer un test."
 
 msgid "Advanced Users"
 msgstr "Utilisateurs Avancés"
@@ -1152,7 +1155,7 @@ msgid "File name"
 msgstr "Nom de fichier"
 
 msgid "Login to the TAO Back Office"
-msgstr "Se connecter au Back Office TAO"
+msgstr "Se connecter au Back Office TAO."
 
 msgid "Logged in as:"
 msgstr "Connecté en tant que : "
@@ -1216,3 +1219,12 @@ msgstr "Téléverser un fichier package QTI"
 
 msgid "A QTI package is a Zip archive containing a imsmanifest.xml file and the QTI resources to import."
 msgstr "Un package QTI est une archive zippée contenant un fichier imsmanifest.xml et les ressources QTI à importer."
+
+msgid "Login here to take a test."
+msgstr "Connectez-vous ici pour passer un test."
+
+msgid "Execute workflows for assessment preparation."
+msgstr "Exécutez des workflows pour préparer l'évaluation."
+
+msgid "All rights reserved."
+msgstr "Tous droits réservés."
