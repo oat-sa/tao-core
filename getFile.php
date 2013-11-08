@@ -59,8 +59,10 @@ if (strpos($filename, '?')) {
 require_once '../generis/helpers/class.File.php';
 require_once '../tao/helpers/class.File.php';
 $mimeType = tao_helpers_File::getMimeType($filename, true);
-
-header('Content-Type: ' . $mimeType);
-$fp = fopen($filename, 'rb');
-fpassthru($fp);
+if (tao_helpers_File::securityCheck($filename, true)) {
+    header('Content-Type: ' . $mimeType);
+    $fp = fopen($filename, 'rb');
+    fpassthru($fp);
+}
 exit();
+    
