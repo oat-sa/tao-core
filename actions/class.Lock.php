@@ -20,9 +20,9 @@
 ?>
 <?php
 /**
- * Role Controller provide actions performed from url resolution
+ * control the lock on a given resource
  * 
- * @author Bertrand Chevrier, <taosupport@tudor.lu>
+ * @author plichart
  * @package taoGroups
  * @subpackage actions
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php

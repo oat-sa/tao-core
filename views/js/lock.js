@@ -36,7 +36,7 @@ Lock.prototype.release = function (){
 		   type: 'POST',
 		   dataType: 'json'};
     $.ajax(this.url, options).done(function(retData, textStatus, jqxhr){
-	
+	//put as callback parameters
 	helpers._load(
 		helpers.getMainContainerSelector(),
 		helpers._url(
@@ -46,7 +46,7 @@ Lock.prototype.release = function (){
 		    ),//how to retrieve current action, controller, ?
 		data 
 		);
-	
+	alert('lock removed');
     }).fail(function(jqxhr){
 	alert(__('A problem occured when releasing the lock'));
     });
