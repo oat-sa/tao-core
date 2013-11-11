@@ -46,6 +46,14 @@ class tao_models_classes_lock_OntoLock
     {
 
     }
+    //there is not factory building lock object and controlling if the lock is being enable, currently done inside the impl.
+    private function isEnabled() {
+            if ((!defined("ENABLE_LOCK")) || (!(ENABLE_LOCK))) {
+                return false;
+            } else {
+                return true;
+            }
+    }
     /**
      * set a lock on @resource with owner @user, succeeds also if there is a lock already exists but with the same owner
      *
@@ -54,9 +62,11 @@ class tao_models_classes_lock_OntoLock
      * @param core_kernel_classes_Resource $user
      */
     public function setLock(core_kernel_classes_Resource $resource, core_kernel_classes_Resource $owner){
+        if (!$this->isEnabled()) {
+            return false;
+        }
         if (!($this->isLocked($resource))) {
         $lock = new tao_models_classes_lock_LockData($resource, $owner, microtime(true));
-		$resource->removePropertyValues($this->getLockProperty());
         $resource->setPropertyValue($this->getLockProperty(), $lock->toJson());
         } else {
             throw new common_Exception($resource->getUri()." is already locked");
@@ -68,11 +78,11 @@ class tao_models_classes_lock_OntoLock
      * @return boolean
      */
     public function isLocked(core_kernel_classes_Resource $resource){
-            //there is not factory building lock object and controlling if the lock is being enable, currently done inside the impl.
-            if (!ENABLE_LOCK) {
-                return false;
-            }
+        if (!$this->isEnabled()) {
+            return false;
+        }
         $values = $resource->getPropertyValues($this->getLockProperty());
+
         if ((is_array($values)) && (count($values)>0)) {
             return true;
         }
