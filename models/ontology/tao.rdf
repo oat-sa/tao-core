@@ -157,5 +157,13 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#password">
   	<tao:TAOGUIOrder><![CDATA[70]]></tao:TAOGUIOrder>
   </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Lock">
+  	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Lock]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Lock information related to the resource]]></rdfs:comment>
+  	<rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+  </rdf:Description>
   
 </rdf:RDF>

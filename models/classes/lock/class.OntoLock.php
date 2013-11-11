@@ -32,7 +32,7 @@ class tao_models_classes_lock_OntoLock
      * @return core_kernel_classes_Property
      */
     private function getLockProperty(){
-        return new core_kernel_classes_Property('#testLock');
+        return new core_kernel_classes_Property(PROPERTY_LOCK);
     }
     public static function singleton() {
         $returnValue = null;

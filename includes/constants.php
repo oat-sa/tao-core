@@ -142,5 +142,5 @@ $todefine = array(
     'PROPERTY_FORMALPARAMETER_DEFAULTCONSTANTVALUE' => 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersDefaultConstantValue',
     'PROPERTY_FORMALPARAMETER_DEFAULTPROCESSVARIABLE'=>'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersDefaultProcessVariable',
     'PROPERTY_FORMALPARAMETER_NAME'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersName',
-
+    'PROPERTY_LOCK'                                 => 'http://www.tao.lu/Ontologies/TAO.rdf#Lock',
 );
