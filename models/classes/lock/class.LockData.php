@@ -48,7 +48,7 @@ class tao_models_classes_lock_LockData{
     }
     /**
      * 
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
+     * @author "Patrick Plichart, <patrick@taotesting.com>"
      * @param core_kernel_classes_Resource $resource
      * @param core_kernel_classes_Resource $owner
      * @param float $epoch
@@ -60,7 +60,7 @@ class tao_models_classes_lock_LockData{
     }
     /**
      * 
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
+     * @author "Patrick Plichart, <patrick@taotesting.com>"
      * @return core_kernel_classes_Resource
      */
     public function getResource() {
@@ -68,14 +68,14 @@ class tao_models_classes_lock_LockData{
     }
     /**
      * 
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
+     * @author "Patrick Plichart, <patrick@taotesting.com>"
      */
     public function getEpoch(){
         return $this->epoch;
     }
     /**
      * 
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
+     * @author "Patrick Plichart, <patrick@taotesting.com>"
      * @return core_kernel_classes_Resource
      */
     public function getOwner(){
@@ -83,7 +83,7 @@ class tao_models_classes_lock_LockData{
     }
     /**
      * 
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
+     * @author "Patrick Plichart, <patrick@taotesting.com>"
      * @return string
      */
     public function toJson(){  	
