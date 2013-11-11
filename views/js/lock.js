@@ -37,7 +37,7 @@ Lock.prototype.release = function (successCallBack, failureCallBack){
 		   dataType: 'json'};
     $.ajax(this.url, options).done(function(retData, textStatus, jqxhr){
 	
-	alert('lock removed');
+	//alert('lock removed');
 	successCallBack();
     }).fail(function(jqxhr){
 	alert(__('A problem occured when releasing the lock'));
