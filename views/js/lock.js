@@ -19,7 +19,7 @@
 
 function Lock (resourceUri){
 	this.uri = resourceUri;
-	
+	this.url = root_url+'tao/lock';
 }
 
 /*
@@ -30,17 +30,17 @@ function Lock (resourceUri){
 Lock.prototype.release = function (successCallBack, failureCallBack){
 
     //this.url = _url('tao','lock','release'); //todo _url ?
-    this.url = root_url+'/tao/lock/release';
- 
+    
+    var releaseUrl = this.url + '/release';
     var options = {data: data,
 		   type: 'POST',
 		   dataType: 'json'};
-    $.ajax(this.url, options).done(function(retData, textStatus, jqxhr){
+    $.ajax(releaseUrl, options).done(function(retData, textStatus, jqxhr){
 	
 	//alert('lock removed');
 	successCallBack();
     }).fail(function(jqxhr){
-	alert(__('A problem occured when releasing the lock'));
+	failureCallBack();
     });
 }
 
