@@ -15,7 +15,7 @@ Apache web server configuration:
   - short_tag_open On
   - register globals Off (PHP >= 5.4)
   - magic_quotes_gpc Off (PHP >= 5.4)
-  - required extensions: mysql, mysqli, curl, json, gd, tidy, zip (or compiled with zip support on Linux)
+  - required extensions: mysql, mysqli, curl, json, gd, zip (or compiled with zip support on Linux)
   
  MySql server cofiguration:
   - version >= 5.0  
