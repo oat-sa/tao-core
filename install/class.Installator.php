@@ -325,13 +325,6 @@ class tao_install_Installator{
 			 */
 			common_Logger::d('Creating version file for TAO', 'INSTALL');
 			file_put_contents(ROOT_PATH.'version', TAO_VERSION);
-			
-	        /*
-	         * 13 - Miscellaneous
-	         */
-	        // Localize item content for demo items.
-	        $dbCreator->execute("UPDATE statements SET l_language = '" . $installData['module_lang'] . "' WHERE predicate = 'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent'");
-	        common_Logger::i('Installation completed', 'INSTALL');	
 		}
 		catch(Exception $e){
 			// In any case, we transmit a single exception type (at the moment)
