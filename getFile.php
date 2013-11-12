@@ -62,7 +62,10 @@ $mimeType = tao_helpers_File::getMimeType($filename, true);
 if (tao_helpers_File::securityCheck($filename, true)) {
     header('Content-Type: ' . $mimeType);
     $fp = fopen($filename, 'rb');
-    fpassthru($fp);
+    if ($fp === false) {
+        header("HTTP/1.0 404 Not Found");
+    } else {
+        fpassthru($fp);
+    }
 }
 exit();
-    
