@@ -540,7 +540,7 @@ abstract class tao_helpers_form_Form
 		foreach($this->groups as $groupName => $group){
 		
 			if(!is_null($this->getDecorator('group'))){
-				$this->getDecorator('group')->setOption('id', tao_helpers_Display::textCleaner($groupName));
+				$this->getDecorator('group')->setOption('id', $groupName);
 				if(isset($group['options'])){
 					if(isset($group['options']['class'])){
 						$currentClasses = explode(' ',$this->getDecorator('group')->getOption('cssClass'));
