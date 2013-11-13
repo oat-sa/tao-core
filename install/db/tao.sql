@@ -21,6 +21,15 @@ CREATE TABLE "models" (
 ) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 CREATE INDEX "idx_models_modelURI" ON "models" ("modelURI");
 
+
+DROP TABLE IF EXISTS "sessions";
+CREATE TABLE "sessions"(
+           "session_id" varchar(255) NOT NULL,
+           "session_value" text NOT NULL,
+           "session_time" int(11) NOT NULL,
+           PRIMARY KEY ("session_id")
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO "models" VALUES
 (3,'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#','http://www.tao.lu/datatypes/WidgetDefinitions.rdf#'),
 (4,'http://www.w3.org/1999/02/22-rdf-syntax-ns#','http://www.w3.org/1999/02/22-rdf-syntax-ns#'),
