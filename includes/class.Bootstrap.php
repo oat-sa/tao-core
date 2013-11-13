@@ -276,14 +276,29 @@ class Bootstrap{
 		$sessionParams = session_get_cookie_params();
 		$cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
 		session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], TRUE);
-		
+		$this->configureSessionStorage();
+
 		// Start the session with a specific name.
 		session_name(GENERIS_SESSION_NAME);
 		session_start();
 		
 		common_Logger::t("Session with name '" . GENERIS_SESSION_NAME ."' started.");
 	}
-
+    private function configureSessionStorage() {
+        //check configuration aprameter
+        $sessionPersistenceHandler = new common_session_storage_DbSessionStorage();
+        //>= php 5.4 use the new SessionHandlerInterface
+        //session_set_save_handler($sessionPersistenceHandler, true);
+        //>=php 5.3
+        session_set_save_handler(
+        array($sessionPersistenceHandler, 'open'),
+        array($sessionPersistenceHandler, 'close'),
+        array($sessionPersistenceHandler, 'read'),
+        array($sessionPersistenceHandler, 'write'),
+        array($sessionPersistenceHandler, 'destroy'),
+        array($sessionPersistenceHandler, 'gc')
+        );
+    }
 	/**
 	 * register a custom Errorhandler
 	 */
