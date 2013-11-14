@@ -286,18 +286,31 @@ class Bootstrap{
 	}
     private function configureSessionStorage() {
         //check configuration aprameter
-        $sessionPersistenceHandler = new common_session_storage_DbSessionStorage();
-        //>= php 5.4 use the new SessionHandlerInterface
-        //session_set_save_handler($sessionPersistenceHandler, true);
-        //>=php 5.3
-        session_set_save_handler(
-        array($sessionPersistenceHandler, 'open'),
-        array($sessionPersistenceHandler, 'close'),
-        array($sessionPersistenceHandler, 'read'),
-        array($sessionPersistenceHandler, 'write'),
-        array($sessionPersistenceHandler, 'destroy'),
-        array($sessionPersistenceHandler, 'gc')
-        );
+        
+        if (
+            (defined("PHP_SESSION_HANDLER"))
+            && (class_exists(PHP_SESSION_HANDLER))
+            ) {
+
+                //check if it implements the interface
+                $interfaces = class_implements(PHP_SESSION_HANDLER);
+                if (in_array("common_session_storage_SessionStorage", $interfaces)) {
+                $classDefinition = PHP_SESSION_HANDLER;
+                $sessionPersistenceHandler = new $classDefinition();
+
+                //>= php 5.4 use the new SessionHandlerInterface
+                //session_set_save_handler($sessionPersistenceHandler, true);
+                //>=php 5.3
+                session_set_save_handler(
+                array($sessionPersistenceHandler, 'open'),
+                array($sessionPersistenceHandler, 'close'),
+                array($sessionPersistenceHandler, 'read'),
+                array($sessionPersistenceHandler, 'write'),
+                array($sessionPersistenceHandler, 'destroy'),
+                array($sessionPersistenceHandler, 'gc')
+                );
+                }
+            } 
     }
 	/**
 	 * register a custom Errorhandler
