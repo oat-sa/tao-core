@@ -5,7 +5,7 @@ var eventMgr;
 var uiForm;
 var generisActions;
 
-require([taobase_www + 'js/config/config'], function(){
+require([taobase_www + 'js/config/config.js'], function(){
     'use strict';
     
     require(['jquery', 'class', 'uiBootstrap', 'helpers', 'EventMgr', 'uiForm', 'generis.actions', 'jqueryUI', 'i18n'], 
