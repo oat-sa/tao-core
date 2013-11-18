@@ -100,6 +100,12 @@ define(['require', 'jquery', 'class'], function(req, $) {
 			})
 			return ret;
 		},
+                
+                closeTab : function(index){
+                    if(index > -1){
+                        uiBootstrap.tabs.tabs("remove", index);
+                    }
+                },
 
 		/**
 		 * Add parameters to a tab
