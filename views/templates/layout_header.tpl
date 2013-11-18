@@ -6,10 +6,8 @@
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 
 	<? include(TAO_TPL_PATH . 'context.tpl') ?>
-
-	<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
 	<?=tao_helpers_Scriptloader::render()?>
-	<script src="<?=TAOBASE_WWW?>js/main.js"></script>
+        <script src="<?=TAOBASE_WWW?>js/require-jquery.js" data-main="<?=TAOBASE_WWW?>js/main"></script>
 	
 	<!-- Error Handling -->
 	<? include(TAO_TPL_PATH . 'errors.tpl') ?>

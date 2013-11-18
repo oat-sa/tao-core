@@ -10,11 +10,8 @@
 		var imgPath = '<?=BASE_WWW?>img/';
 	</script>
 
-	<script src="<?=TAOBASE_WWW?>js/require-jquery.js"></script>
-
-	<?=tao_helpers_Scriptloader::render()?>
-
-	<script src="<?=TAOBASE_WWW?>js/main.js"></script>
+        <?=tao_helpers_Scriptloader::render()?>
+	<script src="<?=TAOBASE_WWW?>js/require-jquery.js" data-main="<?=TAOBASE_WWW?>js/main"></script>
 
 	<script type='text/javascript'>
 		var ctx_extension = '<?=get_data("extension")?>';

@@ -1,7 +1,7 @@
 require.config({
 	baseUrl: taobase_www + 'js',
 	paths: {
-		'jqueryUI': [ 'jquery-ui-1.8.23.custom.min'],
+		'jqueryUI': ['jquery-ui-1.8.23.custom.min'],
                 'lodash': ['lodash.min'],
                 'moment': ['moment.min'],
                 'taoQtiTest': '../../../taoQtiTest/views/js',
