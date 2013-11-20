@@ -28,7 +28,7 @@ CREATE TABLE "sessions"(
            "session_value" text NOT NULL,
            "session_time" int(11) NOT NULL,
            PRIMARY KEY ("session_id")
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            ) ENGINE=MyIsam DEFAULT CHARSET=utf8;
 
 INSERT INTO "models" VALUES
 (3,'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#','http://www.tao.lu/datatypes/WidgetDefinitions.rdf#'),
