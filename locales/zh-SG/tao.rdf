@@ -340,4 +340,22 @@
     -->
     <rdfs:comment xml:lang="zh-SG"><![CDATA[The order of the property within the class]]></rdfs:comment>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Lock">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage zh-SG
+    @source Lock
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#Lock
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="zh-SG"><![CDATA[Lock]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage zh-SG
+    @source Lock information related to the resource
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#Lock
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="zh-SG"><![CDATA[Lock information related to the resource]]></rdfs:comment>
+  </rdf:Description>
 </rdf:RDF>

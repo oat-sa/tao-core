@@ -27,13 +27,6 @@
  */
 class tao_actions_RdfImExport extends tao_actions_CommonModule {
     
-    /* (non-PHPdoc)
-     * @see tao_actions_CommonModule::_isAllowed()
-    */
-    protected function _isAllowed() {
-		return parent::_isAllowed() && tao_helpers_SysAdmin::isSysAdmin();
-	}
-    
     public function index() {
         $import = new tao_models_classes_nsImExport_NamespaceImportForm();
         $form = $import->getForm();

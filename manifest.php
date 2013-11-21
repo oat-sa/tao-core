@@ -35,8 +35,7 @@ return array(
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
 	'dependencies' => array('generis'),
 	'models' => array(
-		'http://www.tao.lu/Ontologies/TAO.rdf',
-		'http://www.tao.lu/Ontologies/taoFuncACL.rdf'
+		'http://www.tao.lu/Ontologies/TAO.rdf'
 	),
 	'modelsRight' => array (
 		LOCAL_NAMESPACE => '7'
@@ -44,7 +43,6 @@ return array(
 	'install' => array(
 		'rdf' => array(
 				dirname(__FILE__). '/models/ontology/tao.rdf',
-				dirname(__FILE__). '/models/ontology/taofuncacl.rdf',
 				dirname(__FILE__). '/models/ontology/taoaclrole.rdf',
 				dirname(__FILE__). '/models/ontology/oauth.rdf',
                 dirname(__FILE__). '/models/ontology/webservice.rdf',
@@ -86,9 +84,9 @@ return array(
 		),
 		'php' => array(
 			dirname(__FILE__).'/scripts/install/addFileUploadSource.php',
+			dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
 		)
 	),
-	'managementRole' => 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
 	'classLoaderPackages' => array(
 		dirname(__FILE__).'/actions/',
 		dirname(__FILE__).'/helpers/',
@@ -98,6 +96,23 @@ return array(
 		'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
 		'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'
 	),
+	'managementRole' => 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
+    'acl' => array(
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', array('ext'=>'tao')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',   array('ext'=>'tao','mod' => 'ServiceModule')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'index')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'getSectionActions')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'getSectionTrees')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Users', 'act' => 'checkLogin')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'UserSettings')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'GenerisTree')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'index')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Lock', 'act' => 'release')),
+        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',array('ext'=>'tao','mod' => 'Main', 'act' => 'entry')),
+        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',array('ext'=>'tao','mod' => 'Main', 'act' => 'login')),
+        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',array('ext'=>'tao','mod' => 'Main', 'act' => 'logout')),
+        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',array('ext'=>'tao','mod' => 'AuthApi')),
+    ),
 	'constants' => array(
 	
 		# actions directory

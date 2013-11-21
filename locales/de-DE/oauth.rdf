@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage de-DE
 -->
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xml:base="http://www.tao.lu/Ontologies/TAO.rdf#">
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage de-DE
     @source Oauth Credentials
     @subject http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer
@@ -16,7 +16,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OauthKey">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage de-DE
     @source OAuth consumer key
     @subject http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
@@ -24,7 +24,7 @@
     -->
     <rdfs:label xml:lang="de-DE"><![CDATA[OAuth consumer key]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage de-DE
     @source identifier of OAuth consumer
     @subject http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
@@ -34,7 +34,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage de-DE
     @source Oauth consumer secret
     @subject http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
@@ -42,7 +42,7 @@
     -->
     <rdfs:label xml:lang="de-DE"><![CDATA[Oauth consumer secret]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage de-DE
     @source Secret used for signatures
     @subject http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
@@ -52,7 +52,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl">
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage de-DE
     @source OAuth consumer callback URL
     @subject http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
@@ -60,7 +60,7 @@
     -->
     <rdfs:label xml:lang="de-DE"><![CDATA[OAuth consumer callback URL]]></rdfs:label>
     <!--
-    @sourceLanguage en-US
+    @sourceLanguage EN
     @targetLanguage de-DE
     @source URL to call after autentification
     @subject http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl

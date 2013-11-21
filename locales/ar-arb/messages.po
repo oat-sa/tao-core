@@ -1,12 +1,15 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.4-beta3\n"
-"PO-Revision-Date: 2013-04-05T18:28:13\n"
+"Project-Id-Version: TAO v2.6-alpha\n"
+"PO-Revision-Date: 2013-11-20T16:32:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid " has been deleted successfully"
+msgstr ""
 
 msgid " has been installed"
 msgstr ""
@@ -38,46 +41,19 @@ msgstr ""
 msgid "A fatal error occured during the installation process."
 msgstr ""
 
-msgid "A file"
-msgstr "ملف"
-
-msgid "A formated text"
-msgstr "نص منسق"
-
 msgid "A joint initiative of CRP Henri Tudor and the University of Luxembourg"
 msgstr "مبادرة ثنائية من CRP هنري تودر و جامعة لوكسمبورج"
-
-msgid "A long text"
-msgstr "نص طويل"
-
-msgid "A multiple choice list"
-msgstr "قائمة الخيارات المتعددة"
-
-msgid "A password"
-msgstr "كلمة المرور"
-
-msgid "A short text"
-msgstr "نص قصير"
 
 msgid "A similar resource has already been versioned"
 msgstr "مصدر مشابه تم تعيين اصداره بالفعل"
 
-msgid "A single choice list"
-msgstr "قائمة خيار واحد"
-
-msgid "A single choice long list"
-msgstr "قائمة خيار واحد طويلة"
+msgid "Access Denied"
+msgstr ""
 
 msgid "Access denied. Please renew your authentication!"
 msgstr "!تم رفض الوصول. يرجى تجديد المصادقة الخاصة بك"
 
-msgid "Action"
-msgstr "عمل"
-
 msgid "Actions"
-msgstr "الأعمال"
-
-msgid "actions"
 msgstr "الأعمال"
 
 msgid "Add"
@@ -102,25 +78,40 @@ msgstr ""
 msgid "Add the source file"
 msgstr "إضافة الملف المصدر"
 
+msgid "Add the source file."
+msgstr ""
+
 msgid "Advanced Mode"
 msgstr "طريقة متقدمة"
 
-msgid "all"
+msgid "All"
 msgstr "كل"
 
-msgid "All"
+msgid "all"
 msgstr "كل"
 
 msgid "All (the complete TAO Module)"
 msgstr "الكل"
 
-msgid "All data are removed regularly!"
-msgstr "كل البيانات تم حذفها عاديا "
+msgid "All classes in Design Mode will switch to Production Mode. Please confirm."
+msgstr ""
+
+msgid "All classes in Production Mode will switch to Design Mode. Please confirm."
+msgstr ""
+
+msgid "All data will be removed in "
+msgstr ""
+
+msgid "All rights reserved."
+msgstr ""
 
 msgid "Allowed files types: "
 msgstr "أنواع الملفات المسموحة"
 
 msgid "Allows the management of the repositories"
+msgstr ""
+
+msgid "Alpha version"
 msgstr ""
 
 msgid "An error occured during user deletion"
@@ -139,14 +130,20 @@ msgstr ""
 msgid "Authoring"
 msgstr "محرر"
 
+msgid "Available Classes"
+msgstr ""
+
 msgid "Available Extensions"
 msgstr ""
 
-msgid "Available roles"
+msgid "Beta version"
 msgstr ""
 
 msgid "Browse"
 msgstr "تصفح"
+
+msgid "Calendar"
+msgstr ""
 
 msgid "Cancel"
 msgstr "الغاء"
@@ -161,13 +158,22 @@ msgstr ""
 msgid "Change the password"
 msgstr "تغيير كلمة المرور"
 
-msgid "Check all"
+msgid "Change..."
 msgstr ""
 
 msgid "Check All"
 msgstr ""
 
+msgid "Check all"
+msgstr ""
+
 msgid "Check if updates are available for your version of TAO"
+msgstr ""
+
+msgid "Choose export format"
+msgstr ""
+
+msgid "Choose import format"
 msgstr ""
 
 msgid "Class"
@@ -177,6 +183,9 @@ msgid "class selected"
 msgstr "classe sélectionnée"
 
 msgid "Classes"
+msgstr ""
+
+msgid "Classes and their associated data can be stored in two different modes."
 msgstr ""
 
 msgid "Click the Save button to confirm deletion."
@@ -194,23 +203,8 @@ msgstr "تعليق"
 msgid "Commit message : "
 msgstr ""
 
-msgid "Compilation completed"
+msgid "Confirm"
 msgstr ""
-
-msgid "compiled"
-msgstr ""
-
-msgid "compiled instances"
-msgstr ""
-
-msgid "Compiled Instances"
-msgstr ""
-
-msgid "compiling"
-msgstr ""
-
-msgid "Connect"
-msgstr "الاتصال"
 
 msgid "Create"
 msgstr "إنشاء"
@@ -221,7 +215,10 @@ msgstr "إنشاء قائمة"
 msgid "Create instance of "
 msgstr ""
 
-msgid "create table"
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
+
+msgid "CSV"
 msgstr ""
 
 msgid "CSV Options"
@@ -248,37 +245,25 @@ msgstr "البيانات التي تم استيرادها بنجاح"
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "لغة البيانات"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "لغة البيانات"
 
 msgid "Date"
 msgstr "التاريخ"
 
-msgid "Decompilation completed"
-msgstr ""
-
-msgid "decompile"
-msgstr ""
-
-msgid "decompiled"
-msgstr ""
-
-msgid "Decompiled Instances"
-msgstr ""
-
-msgid "decompiling"
+msgid "Days"
 msgstr ""
 
 msgid "Define the default values"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr "حذف"
 
-msgid "delete"
+msgid "Delete"
 msgstr "حذف"
 
 msgid "Delete property"
@@ -288,6 +273,15 @@ msgid "Delete user"
 msgstr "حذف المستخدم"
 
 msgid "Delivery results"
+msgstr ""
+
+msgid "DEMO Sandbox"
+msgstr ""
+
+msgid "Design"
+msgstr ""
+
+msgid "Design Mode:"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -300,17 +294,11 @@ msgstr "لا تدرج"
 msgid "Download"
 msgstr "تحميل"
 
-msgid "download"
-msgstr "تحميل"
-
 msgid "Download content"
 msgstr ""
 
 msgid "duplicate"
 msgstr "تكرار"
-
-msgid "Dynamic date picker"
-msgstr "روزنامة"
 
 msgid "e-mail"
 msgstr ""
@@ -330,9 +318,6 @@ msgstr "تحرير تعليق"
 
 msgid "Edit Instance"
 msgstr ""
-
-msgid "Edit item comment"
-msgstr "تحرير تعليق"
 
 msgid "Edit property into parent class "
 msgstr ""
@@ -361,20 +346,20 @@ msgstr "خطأ أثناء استيراد الملف"
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
 
-msgid "export"
+msgid "Execute workflows for assessment preparation."
 msgstr ""
 
 msgid "Export"
 msgstr "تصدير"
 
+msgid "export"
+msgstr ""
+
+msgid "Export "
+msgstr ""
+
 msgid "Export Options"
 msgstr "خيارات التصدير"
-
-msgid "Exported files library"
-msgstr "مكتبة الملفات المصدرة"
-
-msgid "exported successfully"
-msgstr "تصدير بنجاح"
 
 msgid "Extension "
 msgstr ""
@@ -386,7 +371,7 @@ msgstr ""
 msgid "Extensions\' configurations updated "
 msgstr ""
 
-msgid "failed"
+msgid "Failed"
 msgstr ""
 
 msgid "Field delimiter"
@@ -397,9 +382,6 @@ msgstr ""
 
 msgid "File"
 msgstr "ملف"
-
-msgid "File deleted successfully"
-msgstr "حذف الملف بنجاح"
 
 msgid "File name"
 msgstr "اسم الملف"
@@ -437,22 +419,22 @@ msgstr ""
 msgid "First row column names"
 msgstr ""
 
-msgid "force recompilation"
+msgid "Generating cache..."
 msgstr ""
 
-msgid "Grant access rights to the action"
+msgid "Go Back"
 msgstr ""
 
-msgid "Grant access rights to the entire extension"
-msgstr ""
-
-msgid "Grant access rights to the entire module"
+msgid "Hours"
 msgstr ""
 
 msgid "Import"
 msgstr "استيراد"
 
-msgid "Import into "
+msgid "Import "
+msgstr ""
+
+msgid "Import failed"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -503,6 +485,9 @@ msgstr "حجم الملف غير صحيح"
 msgid "Invalid file type!"
 msgstr "نوع الملف غير صحيح"
 
+msgid "Invalid login or password. Please try again."
+msgstr "لا يتطابق مع حساب معين الدخول / كلمة السر"
+
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr ".مطلوب جافا سكريبت لتشغيل هذا البرنامج ، يرجى تفعيلها في المتصفح"
 
@@ -518,11 +503,17 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-msgid "Line break"
-msgstr ""
-
 msgid "List"
 msgstr "قائمة"
+
+msgid "List - Multiple choice - Check box"
+msgstr ""
+
+msgid "List - Single choice - Drop down"
+msgstr ""
+
+msgid "List - Single choice - Radio button"
+msgstr ""
 
 msgid "list deleted"
 msgstr "حذف القائمة"
@@ -554,6 +545,15 @@ msgstr ""
 msgid "Local Data (the local namespace containing only the data inserted by the users)"
 msgstr "(البيانات المحلية (مساحة الاسم المحلي الذي يحتوي فقط على البيانات المدرجة من قبل المستخدمين"
 
+msgid "Log in"
+msgstr ""
+
+msgid "Log Out"
+msgstr ""
+
+msgid "Logged in as:"
+msgstr ""
+
 msgid "Login"
 msgstr "الدخول"
 
@@ -563,17 +563,16 @@ msgstr ""
 msgid "Login failed"
 msgstr ""
 
-msgid "Login not available"
-msgstr "الدخول غير متوفر"
+msgid "Login here to take a test."
+msgstr ""
 
-msgid "Logout"
-msgstr "الخروج"
+msgid "Login to the TAO Back Office"
+msgstr ""
 
 msgid "Mail"
 msgstr ""
 
-#, tao-public
-msgid "Manage Access Rights"
+msgid "make sure to back up your data before changing modes."
 msgstr ""
 
 msgid "Manage content of the property "
@@ -605,8 +604,8 @@ msgstr "CSV اختر الخصائص المتعلقة بالاعمدة"
 msgid "maximum value: "
 msgstr ""
 
-msgid "Media manager"
-msgstr "Médiathèque"
+msgid "Media Management"
+msgstr ""
 
 msgid "meta data"
 msgstr ""
@@ -617,7 +616,7 @@ msgstr "بيانات التعريف"
 msgid "minimum value: "
 msgstr ""
 
-msgid "Modules"
+msgid "Minutes"
 msgstr ""
 
 msgid "move"
@@ -647,6 +646,9 @@ msgstr ""
 #, tao-public
 msgid "My settings"
 msgstr "الإعدادات"
+
+msgid "My Settings"
+msgstr ""
 
 msgid "My settings (%s)"
 msgstr ""
@@ -678,9 +680,6 @@ msgstr "التالي"
 msgid "No"
 msgstr ""
 
-msgid "Invalid login or password. Please try again."
-msgstr "لا يتطابق مع حساب معين الدخول / كلمة السر"
-
 msgid "No extensions available."
 msgstr ""
 
@@ -708,17 +707,12 @@ msgstr "عدد العناصر"
 msgid "Old Password"
 msgstr "كلمة السر القديمة"
 
+#, tao-public
+msgid "Ontology"
+msgstr ""
+
 msgid "Open"
 msgstr "فتح"
-
-msgid "Optimizable Classes"
-msgstr ""
-
-msgid "optimize"
-msgstr ""
-
-msgid "Optimize your TAO when you are ready for test delivery"
-msgstr ""
 
 msgid "Option instanceUri is not an option !!"
 msgstr ""
@@ -759,19 +753,8 @@ msgstr ".الرجاء تأكيد أنك تريد حذف هذا العنصر من
 msgid "Please confirm you want to delete this list. This operation is not reversible."
 msgstr ".الرجاء تأكيد أنك تريد حذف هذه القائمة. هذه العملية لا يمكن عكسها"
 
-msgid "Please login"
-msgstr "الرجاء الدخول"
-
 msgid "Please report bugs, ideas, comments, any feedback on the TAO Forge"
 msgstr ""
-
-msgid "Please select the input data format to import"
-msgstr "الرجاء حدد نسق بيانات الدخول المراد تصديرها"
-
-msgid "Please select the way to export the data"
-msgstr "الرجاء حدد طريقة لتصدير البيانات\n"
-"\n"
-"msgid"
 
 msgid "Please upload a CSV file formated as defined by the options above."
 msgstr ""
@@ -779,19 +762,28 @@ msgstr ""
 msgid "Please upload an RDF file."
 msgstr ".RDF الرجاء تحميل ملف"
 
+msgid "Preparing installation..."
+msgstr ""
+
+msgid "Production"
+msgstr ""
+
+msgid "Production Mode:"
+msgstr ""
+
 msgid "Property"
 msgstr "خاصية"
+
+msgid "RDF"
+msgstr ""
 
 msgid "Rebuilding indexes, it may take a while."
 msgstr ""
 
+msgid "recommended for maximum performance e.g. once your data model is stable."
+msgstr ""
+
 msgid "Recursive"
-msgstr ""
-
-msgid "Related Classes"
-msgstr ""
-
-msgid "related classes"
 msgstr ""
 
 msgid "Remove"
@@ -833,22 +825,7 @@ msgstr ""
 msgid "Resource saved"
 msgstr "تم حفظ المورد"
 
-msgid "Return"
-msgstr ""
-
-msgid "Revert"
-msgstr "الغاء"
-
 msgid "Revision control"
-msgstr ""
-
-msgid "Revoke access rights to the action"
-msgstr ""
-
-msgid "Revoke access rights to the entire extension"
-msgstr ""
-
-msgid "Revoke access rights to the entire module"
 msgstr ""
 
 msgid "Right click the tree to manage your lists"
@@ -874,6 +851,9 @@ msgstr "بحث"
 
 msgid "Search results"
 msgstr "البحث عن النتائج"
+
+msgid "Seconds"
+msgstr ""
 
 msgid "select"
 msgstr "اختر"
@@ -912,14 +892,41 @@ msgstr "بدء التحميل"
 msgid "Status"
 msgstr ""
 
+msgid "suitable for data modeling (default mode)."
+msgstr ""
+
 msgid "Supported export formats"
 msgstr "صيغ الاستيراد المعتمدة"
 
 msgid "Supported formats to import"
 msgstr "صيغ التصدير المعتمدة"
 
+msgid "Switch to Design Mode"
+msgstr ""
+
+msgid "Switch to Design Mode completed"
+msgstr ""
+
+msgid "Switch to Production Mode"
+msgstr ""
+
+msgid "Switch to Production Mode completed."
+msgstr ""
+
+msgid "Switching to Design..."
+msgstr ""
+
+msgid "Switching to Production..."
+msgstr ""
+
+msgid "System Settings"
+msgstr ""
+
 msgid "TAO Back Office"
 msgstr "TAO: Outils d'administration"
+
+msgid "TAO Delivery Server"
+msgstr ""
 
 msgid "TAO Home"
 msgstr ""
@@ -929,6 +936,27 @@ msgid "TAO optimizer"
 msgstr ""
 
 msgid "TAO updater"
+msgstr ""
+
+msgid "TAO WorkFlow Assistant"
+msgstr ""
+
+msgid "Test Developers and Administrators"
+msgstr ""
+
+msgid "Test Developers and Test Administrators"
+msgstr ""
+
+msgid "Test-Takers"
+msgstr ""
+
+msgid "Text - Long - Box"
+msgstr ""
+
+msgid "Text - Long - HTML editor"
+msgstr ""
+
+msgid "Text - Short - Field"
 msgstr ""
 
 msgid "The column "
@@ -952,10 +980,7 @@ msgstr "يجب أن تكون قيمة هذا الحقل عدد صحيح"
 msgid "The value of this field must be numeric"
 msgstr ""
 
-msgid "There is no class available for optimization for the current extension"
-msgstr ""
-
-msgid "This action will reset the optimization, are you sure?"
+msgid "There are no classes available for optimization."
 msgstr ""
 
 msgid "This field is required"
@@ -1006,9 +1031,6 @@ msgstr ""
 msgid "Uncheck all"
 msgstr ""
 
-msgid "uncompiled"
-msgstr ""
-
 msgid "Unknown Error"
 msgstr ""
 
@@ -1048,15 +1070,19 @@ msgstr "مستخدم مضاف"
 msgid "User deleted successfully"
 msgstr "تم حذف المستخدم بنجاح"
 
+msgid "User Management"
+msgstr ""
+
 msgid "User saved"
 msgstr "تم حفظ المستخدم"
 
 #, tao-public
+msgid "User Settings"
+msgstr ""
+
+#, tao-public
 msgid "Users"
 msgstr "المستخدمون"
-
-msgid "Validation of the imported file has failed"
-msgstr "لقد فشل التحقق من صحة  الملف المستورد"
 
 msgid "Version"
 msgstr ""
@@ -1064,8 +1090,11 @@ msgstr ""
 msgid "Versioning"
 msgstr ""
 
-msgid "View"
-msgstr "عرض"
+msgid "Warning:"
+msgstr ""
+
+msgid "Welcome to TAO!"
+msgstr ""
 
 msgid "Yes"
 msgstr ""

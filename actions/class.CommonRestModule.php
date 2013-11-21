@@ -125,23 +125,7 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 		    ;}
 	    }
 	}
-	public function _isAllowed(){
-		 if (!($this->isValidLogin())) {
-		     $this->requireLogin();
-		 }
-		$context = Context::getInstance();
-		$ext	= $context->getExtensionName();
-		$module = $context->getModuleName();
-		
-		switch ($this->getRequestMethod()) {
-		case "GET":{$action = "get";break;}
-		case "PUT":{$action = "put";;break;}
-		case "POST":{$action = "post";break;}
-		case "DELETE":{$action = "delete";;break;}
-		}
-		return tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action);
-		//throw new common_exception_Forbidden($this->getRequestURI());
-	}
+
 	private function isValidLogin(){
 	    $returnValue = false;
 	    $userService = tao_models_classes_UserService::singleton();

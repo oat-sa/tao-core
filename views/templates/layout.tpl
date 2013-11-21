@@ -18,7 +18,7 @@
                 <a class="icon" id="logout-icon" href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Log Out')?>">
 				</a>
 			</div>
-<?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'UserSettings', null)): ?>
+<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'UserSettings', null)): ?>
             <div class="vr">|</div>
             <div>
                 <a class="icon" id="usersettings-icon" href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>" title="<?=__('My Settings')?>">
@@ -32,19 +32,19 @@
 			<div class="vr">|</div>
 			
 <?php endif; ?>
-<?php if (tao_helpers_funcACL_funcACL::hasAccess('filemanager', 'Browser', null)): ?>
+<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('filemanager', 'Browser', null)): ?>
             <div>
                 <a class="icon file-manager" id="mediamanager-icon" href="#" title="<?=__('Media Management')?>">
     			</a>
 			</div>
 <?php endif; ?>
-<?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Users', null)): ?>
+<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'Users', null)): ?>
             <div>
                 <a class="icon" id="users-icon" href="<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao'))?>" title="<?=__('User Management')?>">
 				</a>
 			</div>
 				<?php endif; ?>
-<?php if (tao_helpers_funcACL_funcACL::hasAccess('tao', 'Settings', null) && tao_helpers_SysAdmin::isSysAdmin()): ?>
+<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'Settings', null) && tao_helpers_SysAdmin::isSysAdmin()): ?>
             <div>
                 <a class="icon" id="settings-icon" href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings', 'ext' => 'tao'))?>" title="<?=__('System Settings')?>"></a>
 			</div>

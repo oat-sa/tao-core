@@ -36,25 +36,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 */
 	public function __construct()
 	{
-		//check if user is authenticated
-		if(!$this->_isAllowed()){
-        	$userUri = core_kernel_classes_Session::singleton()->getUserUri();
-			if(!empty($userUri)){
-				throw new tao_models_classes_UserException('Access Denied');
-			} else {
-				$params = tao_helpers_Request::isAjax()
-					? array()
-					: array('redirect' => _url(
-						context::getInstance()->getActionName()
-						,context::getInstance()->getModuleName()
-						,context::getInstance()->getExtensionName()
-						,$_GET
-					));
-				$this->redirect(_url('login', 'Main', 'tao', $params));
-			}
-			return;
-		}
-
 		//initialize service
 		$this->service = tao_models_classes_TaoService::singleton();
 		$this->defaultData();
@@ -142,7 +123,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 				$access = false;
 				foreach ($data->sections->section as $section) {
 					list($ext, $mod, $act) = explode('/', trim((string) $section['url'], '/'));
-					if (tao_helpers_funcACL_funcACL::hasAccess($ext, $mod, $act)) {
+					if (tao_models_classes_accessControl_AclProxy::hasAccess($ext, $mod, $act)) {
 						$access = true;
 						break;
 					}
@@ -168,7 +149,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 					$module = (isset($url[1])) ? $url[1] : null;
 					$action = (isset($url[2])) ? $url[2] : null;
 	
-					if (tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action)) {
+					if (tao_models_classes_accessControl_AclProxy::hasAccess($ext, $module, $action)) {
 						$sections[] = array('id' => (string)$section['id'], 'url' => (string)$section['url'], 'name' => (string)$section['name']);
 					}
 				}
@@ -239,7 +220,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 					}
 				}
 
-				if ($nocheck || tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action)) {
+				if ($nocheck || tao_models_classes_accessControl_AclProxy::hasAccess($ext, $module, $action)) {
 					$display = __((string) $actionNode['name']);
 					if(strlen($display) > 15){
 						$display = str_replace(' ', "<br>", $display);

@@ -87,19 +87,6 @@ $todefine = array(
 	'INSTANCE_LANGUAGE_USAGE_GUI'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI',
 	'INSTANCE_LANGUAGE_USAGE_DATA'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData',
     'CLASS_PROCESS_EXECUTIONS'			=> 'http://www.tao.lu/middleware/taoqual.rdf#i119010455660544',
-	'FUNCACL_NS'						=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf',
-	'INSTANCE_ROLE_BASEACCESS'			=> 'http://www.tao.lu/Ontologies/TAO.rdf#BaseAccessRole',
-	'CLASS_ACL_EXTENSION'				=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#Extension',
-	'PROPERTY_ACL_EXTENSION_ID'			=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#Identifier',
-	'PROPERTY_ACL_GRANTACCESS'			=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#GrantAccess',
-	'CLASS_ACL_MODULE'					=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#Module',
-	'PROPERTY_ACL_MODULE_ID'			=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleIdentifier',
-	'PROPERTY_ACL_MODULE_EXTENSION'		=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#moduleExtension',
-	'PROPERTY_ACL_MODULE_GRANTACCESS'	=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessModule',
-	'CLASS_ACL_ACTION'					=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#Action',
-	'PROPERTY_ACL_ACTION_ID'			=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionIdentifier',
-	'PROPERTY_ACL_ACTION_MEMBEROF'		=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#actionMemberOf',
-	'PROPERTY_ACL_ACTION_GRANTACCESS'	=> 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#grantAccessAction',
 	'CLASS_MANAGEMENTROLE'				=> 'http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole',
 	'CLASS_WORKERROLE'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole',
 	'CLASS_TAO_USER'					=> 'http://www.tao.lu/Ontologies/TAO.rdf#User',
@@ -143,4 +130,6 @@ $todefine = array(
     'PROPERTY_FORMALPARAMETER_DEFAULTPROCESSVARIABLE'=>'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersDefaultProcessVariable',
     'PROPERTY_FORMALPARAMETER_NAME'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersName',
     'PROPERTY_LOCK'                                 => 'http://www.tao.lu/Ontologies/TAO.rdf#Lock',
+    
+    'INSTANCE_ROLE_BASEUSER'                        => 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole'
 );

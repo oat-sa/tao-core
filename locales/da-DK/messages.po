@@ -1,12 +1,15 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.4-beta3\n"
-"PO-Revision-Date: 2013-04-05T18:28:15\n"
+"Project-Id-Version: TAO v2.6-alpha\n"
+"PO-Revision-Date: 2013-11-20T16:32:31\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: da-DK\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid " has been deleted successfully"
+msgstr ""
 
 msgid " has been installed"
 msgstr "er blevet installeret"
@@ -38,47 +41,20 @@ msgstr "> Installation udført."
 msgid "A fatal error occured during the installation process."
 msgstr "En fatal fejl opstod under installationen."
 
-msgid "A file"
-msgstr "En Fil"
-
-msgid "A formated text"
-msgstr "En formateret tekst"
-
 msgid "A joint initiative of CRP Henri Tudor and the University of Luxembourg"
 msgstr "Et fælles initiativ mellem CRP Henri Tudor og University of Luxembourg"
-
-msgid "A long text"
-msgstr "En lang tekst"
-
-msgid "A multiple choice list"
-msgstr "En multiple choice liste"
-
-msgid "A password"
-msgstr "En adgangskode"
-
-msgid "A short text"
-msgstr "En kort tekst"
 
 msgid "A similar resource has already been versioned"
 msgstr "En tilsvarende ressource er allerede blevet versioneret"
 
-msgid "A single choice list"
-msgstr "En et-valgs liste"
-
-msgid "A single choice long list"
-msgstr "En lang et-valgs liste"
+msgid "Access Denied"
+msgstr ""
 
 msgid "Access denied. Please renew your authentication!"
 msgstr "Adgang nægtet. Forny din adgang!"
 
-msgid "Action"
-msgstr "Handling"
-
 msgid "Actions"
 msgstr "Handlinger"
-
-msgid "actions"
-msgstr "handlinger"
 
 msgid "Add"
 msgstr "Tilføj"
@@ -102,26 +78,41 @@ msgstr "tilføj opbevaringssted"
 msgid "Add the source file"
 msgstr "Tilknyt kilde filen"
 
+msgid "Add the source file."
+msgstr ""
+
 msgid "Advanced Mode"
 msgstr "Avanceret tilstand"
-
-msgid "all"
-msgstr "alle"
 
 msgid "All"
 msgstr "Alle"
 
+msgid "all"
+msgstr "alle"
+
 msgid "All (the complete TAO Module)"
 msgstr "Alt (hele TAO-modulet)"
 
-msgid "All data are removed regularly!"
-msgstr "Alle data bliver fjernet regelmæssigt!"
+msgid "All classes in Design Mode will switch to Production Mode. Please confirm."
+msgstr ""
+
+msgid "All classes in Production Mode will switch to Design Mode. Please confirm."
+msgstr ""
+
+msgid "All data will be removed in "
+msgstr ""
+
+msgid "All rights reserved."
+msgstr ""
 
 msgid "Allowed files types: "
 msgstr "Tilladte filtyper: "
 
 msgid "Allows the management of the repositories"
 msgstr "Tillader styring af opbevaringssteder"
+
+msgid "Alpha version"
+msgstr ""
 
 msgid "An error occured during user deletion"
 msgstr "En fejl opstod da brugeren skulle fjernes"
@@ -140,14 +131,20 @@ msgstr "Forfatter"
 msgid "Authoring"
 msgstr "Forfatter"
 
+msgid "Available Classes"
+msgstr ""
+
 msgid "Available Extensions"
 msgstr "Tilgængelige udvidelser"
 
-msgid "Available roles"
-msgstr "Tilgængelige roller"
+msgid "Beta version"
+msgstr ""
 
 msgid "Browse"
 msgstr "Søger"
+
+msgid "Calendar"
+msgstr ""
 
 msgid "Cancel"
 msgstr "Afslutte"
@@ -162,14 +159,23 @@ msgstr "Ændre adgangskode"
 msgid "Change the password"
 msgstr "Ændre password"
 
-msgid "Check all"
-msgstr "Tjek alle"
+msgid "Change..."
+msgstr ""
 
 msgid "Check All"
 msgstr "Vælg alle"
 
+msgid "Check all"
+msgstr "Tjek alle"
+
 msgid "Check if updates are available for your version of TAO"
 msgstr "Undersøg om der er tilgængelige opdateringer til denne version af TAO"
+
+msgid "Choose export format"
+msgstr ""
+
+msgid "Choose import format"
+msgstr ""
 
 msgid "Class"
 msgstr "Klasse"
@@ -179,6 +185,9 @@ msgstr "klasse valg"
 
 msgid "Classes"
 msgstr "Klasser"
+
+msgid "Classes and their associated data can be stored in two different modes."
+msgstr ""
 
 msgid "Click the Save button to confirm deletion."
 msgstr ""
@@ -195,23 +204,8 @@ msgstr "Kommentar"
 msgid "Commit message : "
 msgstr "Besked : "
 
-msgid "Compilation completed"
-msgstr "Kompilering afsluttet"
-
-msgid "compiled"
-msgstr "kompileret"
-
-msgid "compiled instances"
-msgstr "kompilerede forekomster"
-
-msgid "Compiled Instances"
-msgstr "Kompilerede forekomster"
-
-msgid "compiling"
-msgstr "kompilere"
-
-msgid "Connect"
-msgstr "Forbinde"
+msgid "Confirm"
+msgstr ""
 
 msgid "Create"
 msgstr "Oprette"
@@ -222,8 +216,11 @@ msgstr "Oprette en liste"
 msgid "Create instance of "
 msgstr "Oprette forekomst af "
 
-msgid "create table"
-msgstr "opret tabel"
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr ""
+
+msgid "CSV"
+msgstr ""
 
 msgid "CSV Options"
 msgstr "CSV Muligheder"
@@ -249,38 +246,26 @@ msgstr "Data importeret succesfuldt"
 msgid "Data Lang."
 msgstr "Data sprog."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Data sprog"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Data sprog"
 
 msgid "Date"
 msgstr "Dato"
 
-msgid "Decompilation completed"
-msgstr "Dekompilering udført"
-
-msgid "decompile"
-msgstr "dekompiler"
-
-msgid "decompiled"
-msgstr "dekompilerede"
-
-msgid "Decompiled Instances"
-msgstr "dekompileret eksempel"
-
-msgid "decompiling"
-msgstr "dekompilering"
+msgid "Days"
+msgstr ""
 
 msgid "Define the default values"
 msgstr "Definere bestemte værdier"
 
-msgid "Delete"
-msgstr "Slet"
-
 msgid "delete"
 msgstr "slet"
+
+msgid "Delete"
+msgstr "Slet"
 
 msgid "Delete property"
 msgstr "Slet egenskab"
@@ -290,6 +275,15 @@ msgstr "Slet bruger"
 
 msgid "Delivery results"
 msgstr "Levere resultater"
+
+msgid "DEMO Sandbox"
+msgstr ""
+
+msgid "Design"
+msgstr ""
+
+msgid "Design Mode:"
+msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -302,17 +296,11 @@ msgstr "Fastset ikke"
 msgid "Download"
 msgstr "Hent"
 
-msgid "download"
-msgstr "hent"
-
 msgid "Download content"
 msgstr "Download indhold"
 
 msgid "duplicate"
 msgstr "kopiere"
-
-msgid "Dynamic date picker"
-msgstr "Dynamisk datovælger"
 
 msgid "e-mail"
 msgstr "e-mail"
@@ -332,9 +320,6 @@ msgstr "Rediger kommentar"
 
 msgid "Edit Instance"
 msgstr "Rediger forekomst"
-
-msgid "Edit item comment"
-msgstr "Rediger item indhold"
 
 msgid "Edit property into parent class "
 msgstr "Rediger egenskaber i overordnede klasse "
@@ -363,20 +348,20 @@ msgstr "Fejl under fil import"
 msgid "Exclusive (OR)"
 msgstr "Eksklusive (ELLER)"
 
-msgid "export"
-msgstr "eksport"
+msgid "Execute workflows for assessment preparation."
+msgstr ""
 
 msgid "Export"
 msgstr "Eksporter"
 
+msgid "export"
+msgstr "eksport"
+
+msgid "Export "
+msgstr ""
+
 msgid "Export Options"
 msgstr "Eksport valg"
-
-msgid "Exported files library"
-msgstr "Arkiv for eksporterede filer"
-
-msgid "exported successfully"
-msgstr "eksporteret succesfuldt"
 
 msgid "Extension "
 msgstr "Udvidelse "
@@ -388,8 +373,8 @@ msgstr "Udvidelses manager"
 msgid "Extensions\' configurations updated "
 msgstr "Udvidelser\\' konfigurationen er opdateret "
 
-msgid "failed"
-msgstr "fejlede"
+msgid "Failed"
+msgstr ""
 
 msgid "Field delimiter"
 msgstr "Felt afgrænsning"
@@ -399,9 +384,6 @@ msgstr "Felt afslutter"
 
 msgid "File"
 msgstr "Fil"
-
-msgid "File deleted successfully"
-msgstr "Fil slettet"
 
 msgid "File name"
 msgstr "Filnavn"
@@ -439,23 +421,23 @@ msgstr "Fornavn"
 msgid "First row column names"
 msgstr "Første række kolonnenavne"
 
-msgid "force recompilation"
-msgstr "tvunget gen kompilering"
-
-msgid "Grant access rights to the action"
+msgid "Generating cache..."
 msgstr ""
 
-msgid "Grant access rights to the entire extension"
+msgid "Go Back"
 msgstr ""
 
-msgid "Grant access rights to the entire module"
+msgid "Hours"
 msgstr ""
 
 msgid "Import"
 msgstr "Import"
 
-msgid "Import into "
-msgstr "Import til "
+msgid "Import "
+msgstr ""
+
+msgid "Import failed"
+msgstr ""
 
 msgid "Inclusive (AND)"
 msgstr "Inklusive (OG)"
@@ -505,6 +487,9 @@ msgstr "Forkert fil størrelse"
 msgid "Invalid file type!"
 msgstr "Forkert filtype!"
 
+msgid "Invalid login or password. Please try again."
+msgstr "Ingen konto matcher det angivne log ind / password"
+
 msgid "Javascript is required to run this software. Please activate it in your browser."
 msgstr "Javascript kræves for at køre denne software. Vær venlig at aktivere dette i browseren."
 
@@ -520,11 +505,17 @@ msgstr "Sprog ikke understøttet"
 msgid "Last Name"
 msgstr "Efternavn"
 
-msgid "Line break"
-msgstr "Linjeskift"
-
 msgid "List"
 msgstr "Liste"
+
+msgid "List - Multiple choice - Check box"
+msgstr ""
+
+msgid "List - Single choice - Drop down"
+msgstr ""
+
+msgid "List - Single choice - Radio button"
+msgstr ""
 
 msgid "list deleted"
 msgstr "liste slettet"
@@ -556,6 +547,15 @@ msgstr "Lokalt"
 msgid "Local Data (the local namespace containing only the data inserted by the users)"
 msgstr "Lokale data (det lokale navneområdet indeholder kun data indskrevet af brugere)"
 
+msgid "Log in"
+msgstr ""
+
+msgid "Log Out"
+msgstr ""
+
+msgid "Logged in as:"
+msgstr ""
+
 msgid "Login"
 msgstr "Log ind"
 
@@ -565,17 +565,16 @@ msgstr "Login tilgængeligt"
 msgid "Login failed"
 msgstr "Loginfejlede"
 
-msgid "Login not available"
-msgstr "Login ikke tilgængeligt"
+msgid "Login here to take a test."
+msgstr ""
 
-msgid "Logout"
-msgstr "Log out"
+msgid "Login to the TAO Back Office"
+msgstr ""
 
 msgid "Mail"
 msgstr "Mail"
 
-#, tao-public
-msgid "Manage Access Rights"
+msgid "make sure to back up your data before changing modes."
 msgstr ""
 
 msgid "Manage content of the property "
@@ -607,8 +606,8 @@ msgstr "Kortlægge egenskaber hos CSV-kollonner"
 msgid "maximum value: "
 msgstr "maksimum værdi: "
 
-msgid "Media manager"
-msgstr "Medie manager"
+msgid "Media Management"
+msgstr ""
 
 msgid "meta data"
 msgstr "metadata"
@@ -619,8 +618,8 @@ msgstr "Metadata"
 msgid "minimum value: "
 msgstr "minimum værdi: "
 
-msgid "Modules"
-msgstr "Moduler"
+msgid "Minutes"
+msgstr ""
 
 msgid "move"
 msgstr "flyt"
@@ -649,6 +648,9 @@ msgstr "skal være før: "
 #, tao-public
 msgid "My settings"
 msgstr "Mine indstillinger"
+
+msgid "My Settings"
+msgstr ""
 
 msgid "My settings (%s)"
 msgstr ""
@@ -680,9 +682,6 @@ msgstr "Næste"
 msgid "No"
 msgstr "Nej"
 
-msgid "Invalid login or password. Please try again."
-msgstr "Ingen konto matcher det angivne log ind / password"
-
 msgid "No extensions available."
 msgstr "Ingen tilgængelig udvidelse."
 
@@ -710,17 +709,12 @@ msgstr "Antal elementer"
 msgid "Old Password"
 msgstr "Gammelt password"
 
+#, tao-public
+msgid "Ontology"
+msgstr ""
+
 msgid "Open"
 msgstr "Åben"
-
-msgid "Optimizable Classes"
-msgstr "Optimerebare Klasser"
-
-msgid "optimize"
-msgstr "optimer"
-
-msgid "Optimize your TAO when you are ready for test delivery"
-msgstr "Optimer din TAO når du er klar til test levering"
 
 msgid "Option instanceUri is not an option !!"
 msgstr "Valgmulighed instanceUri er ikke muligt !!"
@@ -761,17 +755,8 @@ msgstr "Vil du virkelig slette elementlisten."
 msgid "Please confirm you want to delete this list. This operation is not reversible."
 msgstr "Vil du virkelig slette listen? Den kan ikke genskabes."
 
-msgid "Please login"
-msgstr "Vær venlig at logge ind"
-
 msgid "Please report bugs, ideas, comments, any feedback on the TAO Forge"
 msgstr "Meld fejl, ideer, kommentarer, og andet feedback på TAO Forge"
-
-msgid "Please select the input data format to import"
-msgstr "Vær venlig at vælge format på data der skal importeres"
-
-msgid "Please select the way to export the data"
-msgstr "Vær venlig at vælge hvordan data skal eksporteres"
 
 msgid "Please upload a CSV file formated as defined by the options above."
 msgstr "Vær venlig at uploade en CSV-fil formateret som defineret ovenfor."
@@ -779,20 +764,29 @@ msgstr "Vær venlig at uploade en CSV-fil formateret som defineret ovenfor."
 msgid "Please upload an RDF file."
 msgstr "Vær venlig at uploade en RDF-fil."
 
+msgid "Preparing installation..."
+msgstr ""
+
+msgid "Production"
+msgstr ""
+
+msgid "Production Mode:"
+msgstr ""
+
 msgid "Property"
 msgstr "Egenskaber"
+
+msgid "RDF"
+msgstr ""
 
 msgid "Rebuilding indexes, it may take a while."
 msgstr "Genopbygger indekser, det kan tage et stykke tid."
 
+msgid "recommended for maximum performance e.g. once your data model is stable."
+msgstr ""
+
 msgid "Recursive"
 msgstr "Rekursiv"
-
-msgid "Related Classes"
-msgstr "Relaterede klasser"
-
-msgid "related classes"
-msgstr "relaterede klasser"
 
 msgid "Remove"
 msgstr "Fjern"
@@ -833,23 +827,8 @@ msgstr "Kræver"
 msgid "Resource saved"
 msgstr "Ressource gemt"
 
-msgid "Return"
-msgstr "Retur"
-
-msgid "Revert"
-msgstr "Gå tilbage"
-
 msgid "Revision control"
 msgstr "Revision kontrol"
-
-msgid "Revoke access rights to the action"
-msgstr ""
-
-msgid "Revoke access rights to the entire extension"
-msgstr ""
-
-msgid "Revoke access rights to the entire module"
-msgstr ""
 
 msgid "Right click the tree to manage your lists"
 msgstr "Højreklik på træet for at administrere dine lister"
@@ -874,6 +853,9 @@ msgstr "Søg"
 
 msgid "Search results"
 msgstr "Søge resultat"
+
+msgid "Seconds"
+msgstr ""
 
 msgid "select"
 msgstr "vælg"
@@ -912,14 +894,41 @@ msgstr "Begynd upload"
 msgid "Status"
 msgstr "Status"
 
+msgid "suitable for data modeling (default mode)."
+msgstr ""
+
 msgid "Supported export formats"
 msgstr "Understøttet eksport format"
 
 msgid "Supported formats to import"
 msgstr "Understøttet import format"
 
+msgid "Switch to Design Mode"
+msgstr ""
+
+msgid "Switch to Design Mode completed"
+msgstr ""
+
+msgid "Switch to Production Mode"
+msgstr ""
+
+msgid "Switch to Production Mode completed."
+msgstr ""
+
+msgid "Switching to Design..."
+msgstr ""
+
+msgid "Switching to Production..."
+msgstr ""
+
+msgid "System Settings"
+msgstr ""
+
 msgid "TAO Back Office"
 msgstr "TAO Back Office"
+
+msgid "TAO Delivery Server"
+msgstr ""
 
 msgid "TAO Home"
 msgstr "TAO Home"
@@ -930,6 +939,27 @@ msgstr "TAO optimering"
 
 msgid "TAO updater"
 msgstr "TAO opdater"
+
+msgid "TAO WorkFlow Assistant"
+msgstr ""
+
+msgid "Test Developers and Administrators"
+msgstr ""
+
+msgid "Test Developers and Test Administrators"
+msgstr ""
+
+msgid "Test-Takers"
+msgstr ""
+
+msgid "Text - Long - Box"
+msgstr ""
+
+msgid "Text - Long - HTML editor"
+msgstr ""
+
+msgid "Text - Short - Field"
+msgstr ""
 
 msgid "The column "
 msgstr "Kolonnen "
@@ -952,11 +982,8 @@ msgstr "Værdien af dette felt skal være et heltal"
 msgid "The value of this field must be numeric"
 msgstr "Værdien af dette felt skal være et heltal"
 
-msgid "There is no class available for optimization for the current extension"
-msgstr "Der er ingen klasse til rådighed for optimering for den aktuelle udvidelse"
-
-msgid "This action will reset the optimization, are you sure?"
-msgstr "Denne handling vil nulstille optimering, er du sikker?"
+msgid "There are no classes available for optimization."
+msgstr ""
 
 msgid "This field is required"
 msgstr "Dette felt er påkrævet"
@@ -1006,9 +1033,6 @@ msgstr "Fravælg alle"
 msgid "Uncheck all"
 msgstr "Fravælg alle"
 
-msgid "uncompiled"
-msgstr "skille ad"
-
 msgid "Unknown Error"
 msgstr ""
 
@@ -1048,15 +1072,19 @@ msgstr "Bruger tilføjet"
 msgid "User deleted successfully"
 msgstr "Bruger slettet"
 
+msgid "User Management"
+msgstr ""
+
 msgid "User saved"
 msgstr "Bruger gemt"
 
 #, tao-public
+msgid "User Settings"
+msgstr ""
+
+#, tao-public
 msgid "Users"
 msgstr "Brugere"
-
-msgid "Validation of the imported file has failed"
-msgstr "Den importerede fil kunne ikke valideres"
 
 msgid "Version"
 msgstr "Version"
@@ -1064,8 +1092,11 @@ msgstr "Version"
 msgid "Versioning"
 msgstr "Versionering"
 
-msgid "View"
-msgstr "Visning"
+msgid "Warning:"
+msgstr ""
+
+msgid "Welcome to TAO!"
+msgstr ""
 
 msgid "Yes"
 msgstr "Ja"

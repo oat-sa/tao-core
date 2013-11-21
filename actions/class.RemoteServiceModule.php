@@ -42,14 +42,6 @@ class tao_actions_RemoteServiceModule extends Module {
 	 */
 	public function __construct()
 	{
-		if(!$this->_isAllowed()){
-		    $context = Context::getInstance();
-		    $ext	= $context->getExtensionName();
-		    $module = $context->getModuleName();
-		    $action = $context->getActionName();
-		    $userUri = common_session_SessionManager::getSession()->getUserUri();
-		    throw new tao_models_classes_AccessDeniedException($userUri, $ext, $module, $action);
-		}
 	}
 	
 	/**
@@ -177,20 +169,6 @@ class tao_actions_RemoteServiceModule extends Module {
 		}
 		common_Logger::d('User '.$user->getUri().' authentificated via token.');
 		return $user;
-	}
-	
-	protected function _isAllowed() {
-		
-		$user = $this->getUserFromToken();
-		
-		$context = Context::getInstance();
-		$ext	= $context->getExtensionName();
-		$module = $context->getModuleName();
-		$action = $context->getActionName();
-		
-		// @todo link to ACL
-		//return tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action);
-		return (!is_null($user) || $action == 'login');
 	}
 }
 ?>

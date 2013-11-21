@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO v2.6-alpha\n"
-"PO-Revision-Date: 2013-10-11T21:41:49\n"
+"PO-Revision-Date: 2013-11-20T16:32:35\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-SG\n"
@@ -84,10 +84,10 @@ msgstr ""
 msgid "Advanced Mode"
 msgstr ""
 
-msgid "all"
+msgid "All"
 msgstr ""
 
-msgid "All"
+msgid "all"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -134,9 +134,6 @@ msgid "Available Classes"
 msgstr ""
 
 msgid "Available Extensions"
-msgstr ""
-
-msgid "Available roles"
 msgstr ""
 
 msgid "Beta version"
@@ -248,10 +245,10 @@ msgstr ""
 msgid "Data Lang."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
 msgid "Date"
@@ -263,10 +260,10 @@ msgstr ""
 msgid "Define the default values"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr ""
 
 msgid "Delete property"
@@ -328,10 +325,10 @@ msgstr ""
 msgid "Edit user"
 msgstr ""
 
-msgid "Element"
+msgid "element"
 msgstr ""
 
-msgid "element"
+msgid "Element"
 msgstr ""
 
 msgid "element deleted"
@@ -428,19 +425,13 @@ msgstr ""
 msgid "Go Back"
 msgstr ""
 
-msgid "Grant access rights to the action"
-msgstr ""
-
-msgid "Grant access rights to the entire extension"
-msgstr ""
-
-msgid "Grant access rights to the entire module"
-msgstr ""
-
 msgid "Hours"
 msgstr ""
 
 msgid "Import"
+msgstr ""
+
+msgid "Import "
 msgstr ""
 
 msgid "Import failed"
@@ -467,10 +458,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "instances"
+msgid "Instances"
 msgstr ""
 
-msgid "Instances"
+msgid "instances"
 msgstr ""
 
 msgid "Interface Language"
@@ -584,10 +575,6 @@ msgstr ""
 msgid "make sure to back up your data before changing modes."
 msgstr ""
 
-#, tao-public
-msgid "Manage Access Rights"
-msgstr ""
-
 msgid "Manage content of the property "
 msgstr ""
 
@@ -632,9 +619,6 @@ msgstr ""
 msgid "Minutes"
 msgstr ""
 
-msgid "Modules"
-msgstr ""
-
 msgid "move"
 msgstr ""
 
@@ -659,11 +643,11 @@ msgstr ""
 msgid "must be before: "
 msgstr ""
 
-msgid "My Settings"
-msgstr ""
-
 #, tao-public
 msgid "My settings"
+msgstr ""
+
+msgid "My Settings"
 msgstr ""
 
 msgid "My settings (%s)"
@@ -844,15 +828,6 @@ msgstr ""
 msgid "Revision control"
 msgstr ""
 
-msgid "Revoke access rights to the action"
-msgstr ""
-
-msgid "Revoke access rights to the entire extension"
-msgstr ""
-
-msgid "Revoke access rights to the entire module"
-msgstr ""
-
 msgid "Right click the tree to manage your lists"
 msgstr ""
 
@@ -880,10 +855,10 @@ msgstr ""
 msgid "Seconds"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
 msgid "Select a language"
@@ -1050,10 +1025,10 @@ msgstr ""
 msgid "Unable to change passwords in demo mode"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Unknown Error"

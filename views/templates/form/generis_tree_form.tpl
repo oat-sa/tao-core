@@ -1,4 +1,3 @@
-<? if (tao_helpers_funcACL_funcACL::hasAccessURL(get_data('dataUrl'))): ?>
 <div id="<?=get_data('id')?>-container" class="data-container">
 	<div class="ui-widget ui-state-default ui-widget-header ui-corner-top container-title" >
 		<?=get_data('title')?>
@@ -32,4 +31,3 @@ $(function(){
 	});
 });
 </script>
-<? endif; ?>

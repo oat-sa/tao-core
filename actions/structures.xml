@@ -26,7 +26,6 @@
 					<action name="export" url="/tao/Export/index"  context="*" />
 				</actions>
 			</section>
-			<section id="manage_acl" name="Manage Access Rights" url="/tao/Acl/index" />
 		</sections>
 	</structure>
 	<structure id="settings" name="Settings" level="8" visible="false">

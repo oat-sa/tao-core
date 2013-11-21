@@ -290,15 +290,15 @@
     <!--
     @sourceLanguage EN
     @targetLanguage pt-PT
-    @source Workflow
+    @source Workflow Participant
     @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
     @predicate http://www.w3.org/2000/01/rdf-schema#label
     -->
-    <rdfs:label xml:lang="pt-PT"><![CDATA[Workflow]]></rdfs:label>
+    <rdfs:label xml:lang="pt-PT"><![CDATA[Workflow Participant]]></rdfs:label>
     <!--
     @sourceLanguage EN
     @targetLanguage pt-PT
-    @source The Workflow Role
+    @source The Workflow Participant Role
     @subject http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
@@ -339,5 +339,23 @@
     @predicate http://www.w3.org/2000/01/rdf-schema#comment
     -->
     <rdfs:comment xml:lang="pt-PT"><![CDATA[The order of the property within the class]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Lock">
+    <!--
+    @sourceLanguage EN
+    @targetLanguage pt-PT
+    @source Lock
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#Lock
+    @predicate http://www.w3.org/2000/01/rdf-schema#label
+    -->
+    <rdfs:label xml:lang="pt-PT"><![CDATA[Lock]]></rdfs:label>
+    <!--
+    @sourceLanguage EN
+    @targetLanguage pt-PT
+    @source Lock information related to the resource
+    @subject http://www.tao.lu/Ontologies/TAO.rdf#Lock
+    @predicate http://www.w3.org/2000/01/rdf-schema#comment
+    -->
+    <rdfs:comment xml:lang="pt-PT"><![CDATA[Lock information related to the resource]]></rdfs:comment>
   </rdf:Description>
 </rdf:RDF>

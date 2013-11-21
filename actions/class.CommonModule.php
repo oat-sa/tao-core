@@ -44,14 +44,6 @@ abstract class tao_actions_CommonModule extends Module {
 	 */
 	public function __construct()
 	{
-		if(!$this->_isAllowed()){
-		    $context = Context::getInstance();
-		    $ext	= $context->getExtensionName();
-		    $module = $context->getModuleName();
-		    $action = $context->getActionName();
-		    $userUri = common_session_SessionManager::getSession()->getUserUri();
-		    throw new tao_models_classes_AccessDeniedException($userUri, $ext, $module, $action);
-		}
 	}
 	
 	/**
@@ -122,23 +114,6 @@ abstract class tao_actions_CommonModule extends Module {
 		}
 	}
 
-	/**
-	 * Check if the current user is allowed to acces the request
-	 * Override this method to allow/deny a request
-	 * @return boolean
-	 */
-	protected function _isAllowed()
-	{
-		// cannot use $this since the module might be called from diffrent extension
-		$context = Context::getInstance();
-		$ext	= $context->getExtensionName();
-		$module = $context->getModuleName();
-		$action = $context->getActionName();
-		
-		return tao_helpers_funcACL_funcACL::hasAccess($ext, $module, $action);
-	}
-	
-	
 	/**
 	 * Returns the absolute path to the specified template
 	 * 

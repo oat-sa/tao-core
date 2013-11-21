@@ -40,16 +40,6 @@ class tao_actions_Settings extends tao_actions_CommonModule {
 	public function __construct(){
 		parent::__construct();
 	}
-
-
-	
-	/* (non-PHPdoc)
-	 * @see tao_actions_CommonModule::_isAllowed()
-	 */
-	protected function _isAllowed() {
-		return parent::_isAllowed() && tao_helpers_SysAdmin::isSysAdmin();
-	}
-
 	
 	/**
 	 * This action displays the classes that are optimizable. The classes

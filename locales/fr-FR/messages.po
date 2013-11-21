@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.5-alpha\n"
-"PO-Revision-Date: 2013-09-06 13:00+0000\n"
+"Project-Id-Version: TAO v2.6-alpha\n"
+"PO-Revision-Date: 2013-11-20T16:32:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -47,6 +47,9 @@ msgstr "Une collaboration du CRP Henri Tudor et de l'Université du Luxembourg"
 msgid "A similar resource has already been versioned"
 msgstr "Une ressource similaire est déjà versionnée"
 
+msgid "Access Denied"
+msgstr ""
+
 msgid "Access denied. Please renew your authentication!"
 msgstr "Accès refusé. Veuillez renouveler votre authentification !"
 
@@ -72,17 +75,20 @@ msgstr "Ajouter une propriété"
 msgid "add repository"
 msgstr "ajouter dépôt"
 
+msgid "Add the source file"
+msgstr "Fichier source"
+
 msgid "Add the source file."
 msgstr " Ajoutez le fichier source."
 
 msgid "Advanced Mode"
 msgstr "Mode avancé"
 
-msgid "all"
-msgstr "tout"
-
 msgid "All"
 msgstr "Tout"
+
+msgid "all"
+msgstr "tout"
 
 msgid "All (the complete TAO Module)"
 msgstr "Tout (le module TAO au complet)"
@@ -93,14 +99,20 @@ msgstr "Toutes les classes en mode design vont basculer en mode production. Veui
 msgid "All classes in Production Mode will switch to Design Mode. Please confirm."
 msgstr "Toutes les classes en mode production vont basculer en mode design. Veuillez confirmer."
 
-msgid "All data will be removed  in "
-msgstr ""
+msgid "All data will be removed in "
+msgstr "toutes les données seront détruites dans "
+
+msgid "All rights reserved."
+msgstr "Tous droits réservés."
 
 msgid "Allowed files types: "
 msgstr "Types de fichiers acceptés : "
 
 msgid "Allows the management of the repositories"
 msgstr "Permet la gestion des dépôts."
+
+msgid "Alpha version"
+msgstr ""
 
 msgid "An error occured during user deletion"
 msgstr "Une erreur est survenue durant la suppression de l'utilisateur"
@@ -120,13 +132,13 @@ msgid "Authoring"
 msgstr "Éditeur "
 
 msgid "Available Classes"
-msgstr "Classes disponibles"
+msgstr "Classes Disponibles"
 
 msgid "Available Extensions"
 msgstr "Extensions disponibles"
 
-msgid "Available roles"
-msgstr "Rôles disponibles"
+msgid "Beta version"
+msgstr "Version bêta"
 
 msgid "Browse"
 msgstr "Naviguer"
@@ -147,20 +159,17 @@ msgstr "Changer le mot de passe"
 msgid "Change the password"
 msgstr "Modifier le mot de passe"
 
-msgid "Check all"
-msgstr "Cocher tout"
+msgid "Change..."
+msgstr "Changer..."
 
 msgid "Check All"
 msgstr "Cocher Tout"
 
+msgid "Check all"
+msgstr "Cocher tout"
+
 msgid "Check if updates are available for your version of TAO"
 msgstr "Vérifier si des mises à jour sont disponibles pour votre version de TAO"
-
-msgid "Check or take online tests available to you..."
-msgstr ""
-
-msgid "Check pending tasks for assessment preparation..."
-msgstr ""
 
 msgid "Choose export format"
 msgstr "Format d'export"
@@ -198,9 +207,6 @@ msgstr "Message de modification : "
 msgid "Confirm"
 msgstr ""
 
-msgid "Connect"
-msgstr "S'identifier"
-
 msgid "Create"
 msgstr "Créer"
 
@@ -210,8 +216,8 @@ msgstr "Créer une liste"
 msgid "Create instance of "
 msgstr "Créer une instance de "
 
-msgid "Create new tests or items, register test takers or watch results..."
-msgstr "Créez de nouveaux tests ou items, enregistrez des test takers ou regarder les résultats..."
+msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
+msgstr "Créez des items, gérez des banques d'items et de tests, organisez des groupes et des passations, préparez des rapports, mettez en place des workflows."
 
 msgid "CSV"
 msgstr "CSV"
@@ -249,13 +255,16 @@ msgstr "Langue des données"
 msgid "Date"
 msgstr "Date"
 
+msgid "Days"
+msgstr "jour(s)"
+
 msgid "Define the default values"
 msgstr "Définir les valeurs par défaut"
 
-msgid "Delete"
+msgid "delete"
 msgstr "Supprimer"
 
-msgid "delete"
+msgid "Delete"
 msgstr "Supprimer"
 
 msgid "Delete property"
@@ -267,11 +276,8 @@ msgstr "Supprimer l'utilisateur"
 msgid "Delivery results"
 msgstr "Résultats de la passation"
 
-msgid "Delivery of result"
-msgstr "Passation du résultat"
-
-msgid "Test taker of result"
-msgstr "Participant du résultat"
+msgid "DEMO Sandbox"
+msgstr "Bac à sable DÉMO "
 
 msgid "Design"
 msgstr "Design"
@@ -299,11 +305,11 @@ msgstr "Dupliquer"
 msgid "e-mail"
 msgstr "courriel"
 
-msgid "Edit"
-msgstr "Éditer"
-
 msgid "edit"
 msgstr "Modifier"
+
+msgid "Edit"
+msgstr "Éditer"
 
 #, tao-public
 msgid "Edit a user"
@@ -314,9 +320,6 @@ msgstr "Éditer le commentaire"
 
 msgid "Edit Instance"
 msgstr "Modifier Instance"
-
-msgid "Edit item comment"
-msgstr "Modifier les commentaires de l'item"
 
 msgid "Edit property into parent class "
 msgstr "Éditer une propriété dans la classe parente "
@@ -345,29 +348,23 @@ msgstr "Erreur pendant l'import du fichier"
 msgid "Exclusive (OR)"
 msgstr "Exclusif (OU)"
 
+msgid "Execute workflows for assessment preparation."
+msgstr "Exécutez des workflows pour préparer l'évaluation."
+
 msgid "Export"
 msgstr "Exporter"
-
-msgid "Export "
-msgstr "Export"
 
 msgid "export"
 msgstr "exporter"
 
-msgid "import"
-msgstr "importer"
+msgid "Export "
+msgstr "Export"
 
 msgid "Export Options"
 msgstr "Options d'export"
 
 msgid "Extension "
 msgstr "L'extension "
-
-msgid "Preparing installation..."
-msgstr "Préparation de l'installation..."
-
-msgid "Generating cache..."
-msgstr "Génération du cache..."
 
 #, tao-public
 msgid "Extensions manager"
@@ -389,7 +386,7 @@ msgid "File"
 msgstr "Fichier"
 
 msgid "File name"
-msgstr "Nom du fichier"
+msgstr "Nom de fichier"
 
 msgid "File path"
 msgstr "Chemin du fichier"
@@ -424,20 +421,20 @@ msgstr "Prénom"
 msgid "First row column names"
 msgstr "Noms de colonne en première ligne"
 
-msgid "Grant access rights to the action"
-msgstr "Accorder des droits d'accès à l'action"
+msgid "Generating cache..."
+msgstr "Génération du cache..."
 
-msgid "Grant access rights to the entire extension"
-msgstr "Accorder des droits d'accès à l'extension entière"
+msgid "Go Back"
+msgstr ""
 
-msgid "Grant access rights to the entire module"
-msgstr "Accorder des droits d'accès au module entier"
-
-msgid "Import "
-msgstr "Import"
+msgid "Hours"
+msgstr "heure(s)"
 
 msgid "Import"
 msgstr "Importer"
+
+msgid "Import "
+msgstr "Import"
 
 msgid "Import failed"
 msgstr ""
@@ -550,6 +547,15 @@ msgstr "Local"
 msgid "Local Data (the local namespace containing only the data inserted by the users)"
 msgstr "Donnée locales (l'espace de nom local comprenant seulement les données insérées par les utilisateurs)"
 
+msgid "Log in"
+msgstr "Se connecter"
+
+msgid "Log Out"
+msgstr "Se déconnecter"
+
+msgid "Logged in as:"
+msgstr "Connecté en tant que : "
+
 msgid "Login"
 msgstr "Identifiant"
 
@@ -559,18 +565,17 @@ msgstr "Identifiant disponible"
 msgid "Login failed"
 msgstr "Connexion échouée"
 
-msgid "Log in"
-msgstr "Se connecter"
+msgid "Login here to take a test."
+msgstr "Connectez-vous ici pour passer un test."
 
-msgid "Logout"
-msgstr "Déconnexion"
+msgid "Login to the TAO Back Office"
+msgstr "Se connecter au Back Office TAO."
 
 msgid "Mail"
 msgstr "Courriel"
 
-#, tao-public
-msgid "Manage Access Rights"
-msgstr "Gérer les droits d'accès"
+msgid "make sure to back up your data before changing modes."
+msgstr "assurez-vous d'avoir sauvegardé vos données avant de changer de mode."
 
 msgid "Manage content of the property "
 msgstr "Gérer le contenu de la propriété "
@@ -601,8 +606,8 @@ msgstr "Choisissez les propriétés relatives aux colonnes CSV"
 msgid "maximum value: "
 msgstr "Valeur maximale :"
 
-msgid "Media manager"
-msgstr "Médiathèque"
+msgid "Media Management"
+msgstr "Gestion des médias"
 
 msgid "meta data"
 msgstr "méta-données"
@@ -613,8 +618,8 @@ msgstr "Méta-données"
 msgid "minimum value: "
 msgstr "Valeur minimale :"
 
-msgid "Modules"
-msgstr "Modules"
+msgid "Minutes"
+msgstr "minute(s)"
 
 msgid "move"
 msgstr "Déplacer"
@@ -641,19 +646,10 @@ msgid "must be before: "
 msgstr "doit être avant :"
 
 #, tao-public
-msgid "My Settings"
+msgid "My settings"
 msgstr "Mes paramètres"
 
-msgid "System Settings"
-msgstr "Paramètres système"
-
-msgid "User Management"
-msgstr "Gestion des utilisateurs"
-
-msgid "Media Management"
-msgstr "Gestion des médias"
-
-msgid "My settings"
+msgid "My Settings"
 msgstr "Mes paramètres"
 
 msgid "My settings (%s)"
@@ -670,9 +666,6 @@ msgstr "nouveau"
 
 msgid "new class"
 msgstr "Créer classe"
-
-msgid "new item"
-msgstr "Créer item"
 
 msgid "New element"
 msgstr "Nouvel élément"
@@ -716,6 +709,10 @@ msgstr "Nombre d'éléments"
 msgid "Old Password"
 msgstr "Ancien mot de passe"
 
+#, tao-public
+msgid "Ontology"
+msgstr "Ontologie"
+
 msgid "Open"
 msgstr "Ouvrir"
 
@@ -758,9 +755,6 @@ msgstr "Veuillez confirmer la suppression de cet élément de la liste."
 msgid "Please confirm you want to delete this list. This operation is not reversible."
 msgstr "Veuillez confirmer votre décision de supprimer cette liste. Cette opération est irréversible."
 
-msgid "Please login"
-msgstr "Veuillez vous identifier"
-
 msgid "Please report bugs, ideas, comments, any feedback on the TAO Forge"
 msgstr "Merci de rapporter vos bugs, idées, commentaires<br/>ou toute réaction sur la Forge TAO."
 
@@ -769,6 +763,9 @@ msgstr "Veuillez téléverser un fichier au format CSV (défini par les options 
 
 msgid "Please upload an RDF file."
 msgstr "Veuillez téléverser un fichier RDF."
+
+msgid "Preparing installation..."
+msgstr "Préparation de l'installation..."
 
 msgid "Production"
 msgstr "Production"
@@ -787,15 +784,6 @@ msgstr "Création des indexs, cela peut prendre du temps."
 
 msgid "recommended for maximum performance e.g. once your data model is stable."
 msgstr "recommandé pour des performances optimales, par exemple lorsque votre modèle de données est stable."
-
-msgid "suitable for data modeling (default mode)."
-msgstr "adapté à la modélisation de données (mode par défaut)."
-
-msgid "make sure to back up your data before changing modes."
-msgstr "assurez-vous d'avoir sauvegardé vos données avant de changer de mode."
-
-msgid "Available Classes"
-msgstr "Classes Disponibles"
 
 msgid "Recursive"
 msgstr "Récursivité"
@@ -842,15 +830,6 @@ msgstr "Ressource enregistrée"
 msgid "Revision control"
 msgstr "Contrôle de révision"
 
-msgid "Revoke access rights to the action"
-msgstr "Retirer les droits d'accès à l'action"
-
-msgid "Revoke access rights to the entire extension"
-msgstr "Retirer les droits d'accès à l'extension entière"
-
-msgid "Revoke access rights to the entire module"
-msgstr "Retirer les droits d'accès au module entier"
-
 msgid "Right click the tree to manage your lists"
 msgstr "Utilisez le clic droit pour gérer vos listes"
 
@@ -874,6 +853,9 @@ msgstr "Rechercher"
 
 msgid "Search results"
 msgstr "Résultats de la recherche"
+
+msgid "Seconds"
+msgstr "seconde(s)"
 
 msgid "select"
 msgstr "choisir"
@@ -912,6 +894,9 @@ msgstr "Démarrer le téléchargement"
 msgid "Status"
 msgstr "État"
 
+msgid "suitable for data modeling (default mode)."
+msgstr "adapté à la modélisation de données (mode par défaut)."
+
 msgid "Supported export formats"
 msgstr "Formats d'export supportés"
 
@@ -936,29 +921,17 @@ msgstr "Basculement en mode design..."
 msgid "Switching to Production..."
 msgstr "Basculement en mode production..."
 
+msgid "System Settings"
+msgstr "Paramètres système"
+
 msgid "TAO Back Office"
 msgstr "Outils d'administration TAO"
-
-msgid "TAO back office"
-msgstr ""
 
 msgid "TAO Delivery Server"
 msgstr "Serveur de passation de test TAO"
 
-msgid "TAO Process Engine"
-msgstr "Moteur de Processus TAO"
-
-msgid "TAO front office"
-msgstr ""
-
 msgid "TAO Home"
 msgstr "Menu principal TAO"
-
-msgid "TAO Managers"
-msgstr "Gestionnaires TAO"
-
-msgid "TAO WorkFlow Assistant"
-msgstr "Assistant du workflow TAO"
 
 #, tao-public
 msgid "TAO optimizer"
@@ -967,11 +940,17 @@ msgstr "Optimiseur TAO"
 msgid "TAO updater"
 msgstr "TAO gestionnaire de mises à jour"
 
-msgid "TAO workflow engine"
-msgstr "Workflow engine TAO"
+msgid "TAO WorkFlow Assistant"
+msgstr "Assistant du workflow TAO"
 
-msgid "Test Takers"
-msgstr "Test Takers"
+msgid "Test Developers and Administrators"
+msgstr "Développeurs et administrateurs de tests"
+
+msgid "Test Developers and Test Administrators"
+msgstr ""
+
+msgid "Test-Takers"
+msgstr "Participants"
 
 msgid "Text - Long - Box"
 msgstr "Texte - Long - Boîte"
@@ -1048,10 +1027,10 @@ msgstr "Langue Interface"
 msgid "Unable to change passwords in demo mode"
 msgstr "Impossible de changer les mots de passe en mode démonstration"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
 msgid "Unknown Error"
@@ -1093,8 +1072,15 @@ msgstr "Utilisateur ajouté"
 msgid "User deleted successfully"
 msgstr "Utilisateur supprimé avec succès."
 
+msgid "User Management"
+msgstr "Gestion des utilisateurs"
+
 msgid "User saved"
 msgstr "Utilisateur enregistré"
+
+#, tao-public
+msgid "User Settings"
+msgstr ""
 
 #, tao-public
 msgid "Users"
@@ -1118,113 +1104,3 @@ msgstr "Oui"
 msgid "You cannot modify this property"
 msgstr "Cette propriété ne peut pas être modifiée."
 
-msgid "Ontology"
-msgstr "Ontologie"
-
-msgid "Result Server Manager"
-msgstr "Gestionnaire du serveur de résultats"
-
-msgid "Beta version"
-msgstr "Version bêta"
-
-msgid "Test Developers and Administrators"
-msgstr "Développeurs et administrateurs de tests"
-
-msgid "Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows."
-msgstr "Créez des items, gérez des banques d'items et de tests, organisez des groupes et des passations, préparez des rapports, mettez en place des workflows."
-
-msgid "Test-Takers"
-msgstr "Participants"
-
-msgid "Test Takers"
-msgstr "Participants"
-
-msgid "Advanced Users"
-msgstr "Utilisateurs Avancés"
-
-msgid "Check pending tasks for assessment preparation."
-msgstr "Consultez les tâches en attente pour la préparation de l'évaluation."
-
-msgid "Change..."
-msgstr "Changer..."
-
-msgid "Namespaces"
-msgstr "Espaces de nom"
-
-msgid "File name"
-msgstr "Nom de fichier"
-
-msgid "Login to the TAO Back Office"
-msgstr "Se connecter au Back Office TAO."
-
-msgid "Logged in as:"
-msgstr "Connecté en tant que : "
-
-msgid "DEMO Sandbox"
-msgstr "Bac à sable DÉMO "
-
-msgid "All data will be removed in "
-msgstr "toutes les données seront détruites dans "
-
-msgid "Days"
-msgstr "jour(s)"
-
-msgid "Hours"
-msgstr "heure(s)"
-
-msgid "Minutes"
-msgstr "minute(s)"
-
-msgid "Seconds"
-msgstr "seconde(s)"
-
-msgid "Repository Type"
-msgstr "Type de dépôt"
-
-msgid "add Consumer"
-msgstr "ajouter consumer"
-
-msgid "Result Servers library"
-msgstr "Bibliothèque de serveurs de résultats"
-
-msgid "Languages"
-msgstr "Langues"
-
-msgid "Boolean"
-msgstr "Booléen"
-
-msgid "Log Out"
-msgstr "Se déconnecter"
-
-msgid "Upload an Open Web Item Package File"
-msgstr "Téléverser un fichier package Open Web Item"
-
-msgid "An Open Web Item package is a Zip archive containing an index.html file with the XHTML 1.0 Transitional Doctype and resources (images, scripts, css, video, etc.)."
-msgstr "Un package Open Web Item est une archive zippée contenant un fichier index.html avec le Doctype XHTML 1.0 Transitional et des ressources (images, scripts, CSS, vidéo, etc.)."
-
-msgid "Add the source file"
-msgstr "Fichier source"
-
-msgid "Disable validation"
-msgstr "Désactiver la validation"
-
-msgid "Upload QTI File"
-msgstr "Téléverser fichier QTI"
-
-msgid "A QTI item file is an XML file following the version 2.0 of the QTI standard."
-msgstr "Un item QTI est un fichier XML suivant la version 2.0 du standard QTI."
-
-msgid "Upload a QTI Package File"
-msgstr "Téléverser un fichier package QTI"
-
-msgid "A QTI package is a Zip archive containing a imsmanifest.xml file and the QTI resources to import."
-msgstr "Un package QTI est une archive zippée contenant un fichier imsmanifest.xml et les ressources QTI à importer."
-
-msgid "Login here to take a test."
-msgstr "Connectez-vous ici pour passer un test."
-
-msgid "Execute workflows for assessment preparation."
-msgstr "Exécutez des workflows pour préparer l'évaluation."
-
-msgid "All rights reserved."
-msgstr "Tous droits réservés."

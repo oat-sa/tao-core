@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.5-rc01\n"
-"PO-Revision-Date: 2013-10-09T11:06:57\n"
+"Project-Id-Version: TAO v2.6-alpha\n"
+"PO-Revision-Date: 2013-11-20T16:32:33\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: id-ID\n"
@@ -39,6 +39,9 @@ msgid "> Installation done."
 msgstr ""
 
 msgid "A fatal error occured during the installation process."
+msgstr ""
+
+msgid "A joint initiative of CRP Henri Tudor and the University of Luxembourg"
 msgstr ""
 
 msgid "A similar resource has already been versioned"
@@ -81,10 +84,10 @@ msgstr ""
 msgid "Advanced Mode"
 msgstr ""
 
-msgid "all"
+msgid "All"
 msgstr ""
 
-msgid "All"
+msgid "all"
 msgstr ""
 
 msgid "All (the complete TAO Module)"
@@ -96,7 +99,7 @@ msgstr ""
 msgid "All classes in Production Mode will switch to Design Mode. Please confirm."
 msgstr ""
 
-msgid "All data will be removed  in "
+msgid "All data will be removed in "
 msgstr ""
 
 msgid "All rights reserved."
@@ -131,9 +134,6 @@ msgid "Available Classes"
 msgstr ""
 
 msgid "Available Extensions"
-msgstr ""
-
-msgid "Available roles"
 msgstr ""
 
 msgid "Beta version"
@@ -254,13 +254,16 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
+msgid "Days"
+msgstr ""
+
 msgid "Define the default values"
 msgstr ""
 
-msgid "Delete"
+msgid "delete"
 msgstr ""
 
-msgid "delete"
+msgid "Delete"
 msgstr ""
 
 msgid "Delete property"
@@ -270,6 +273,9 @@ msgid "Delete user"
 msgstr ""
 
 msgid "Delivery results"
+msgstr ""
+
+msgid "DEMO Sandbox"
 msgstr ""
 
 msgid "Design"
@@ -349,6 +355,9 @@ msgstr ""
 msgid "export"
 msgstr ""
 
+msgid "Export "
+msgstr ""
+
 msgid "Export Options"
 msgstr ""
 
@@ -416,16 +425,13 @@ msgstr ""
 msgid "Go Back"
 msgstr ""
 
-msgid "Grant access rights to the action"
-msgstr ""
-
-msgid "Grant access rights to the entire extension"
-msgstr ""
-
-msgid "Grant access rights to the entire module"
+msgid "Hours"
 msgstr ""
 
 msgid "Import"
+msgstr ""
+
+msgid "Import "
 msgstr ""
 
 msgid "Import failed"
@@ -458,10 +464,10 @@ msgstr ""
 msgid "instances"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid date range"
@@ -569,10 +575,6 @@ msgstr ""
 msgid "make sure to back up your data before changing modes."
 msgstr ""
 
-#, tao-public
-msgid "Manage Access Rights"
-msgstr ""
-
 msgid "Manage content of the property "
 msgstr ""
 
@@ -614,7 +616,7 @@ msgstr ""
 msgid "minimum value: "
 msgstr ""
 
-msgid "Modules"
+msgid "Minutes"
 msgstr ""
 
 msgid "move"
@@ -826,15 +828,6 @@ msgstr ""
 msgid "Revision control"
 msgstr ""
 
-msgid "Revoke access rights to the action"
-msgstr ""
-
-msgid "Revoke access rights to the entire extension"
-msgstr ""
-
-msgid "Revoke access rights to the entire module"
-msgstr ""
-
 msgid "Right click the tree to manage your lists"
 msgstr ""
 
@@ -859,10 +852,13 @@ msgstr ""
 msgid "Search results"
 msgstr ""
 
-msgid "Select"
+msgid "Seconds"
 msgstr ""
 
 msgid "select"
+msgstr ""
+
+msgid "Select"
 msgstr ""
 
 msgid "Select a language"
