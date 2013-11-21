@@ -27,19 +27,20 @@
  * @package taoItemRunner
  * @subpackage models_classes_runner
  */
-class tao_models_classes_service_state_RedisPersistence
+class tao_models_classes_service_state_KeyValueStorePersistence
 	implements tao_models_classes_service_state_StatePersistence
 {
-	private $server = null;
+    /**
+     * @var core_persistence_RedisPersistence
+     */
+    private $server = null;
 	
 	public function __construct() {
-		$this->server = new Redis();
-		if ($this->server == false) {
-			throw new common_Exception("Redis php module not found");
-		} 
-		if (!$this->server->connect($GLOBALS['REDIS_SERVER']['host'])) {
-			throw new common_Exception("Unable to connect to redis server");
-		};
+	    $manager = core_persistence_Manager::singleton();
+	    $old = $manager->getPersistenceId();
+	    $manager->selectPersistence('serviceState');
+	    $this->server = $manager->getCurrentPersistence();
+	    $manager->selectPersistence($old);
 	}
 	
 	public function set($userId, $serial, $data) {
@@ -51,7 +52,7 @@ class tao_models_classes_service_state_RedisPersistence
 	public function get($userId, $serial) {
 		$redisSerial = $this->getSerial($userId, $serial);
 	    $returnValue = $this->server->get($redisSerial);
-		if ($returnValue === false && !$this->has($user, $serial)) {
+		if ($returnValue === false && !$this->has($userId, $serial)) {
 			$returnValue = null; 
 		} else {
 			$returnValue = json_decode($returnValue, true);
