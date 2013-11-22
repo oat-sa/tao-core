@@ -7,7 +7,10 @@ require.config({
         'taoQtiTest' : '../../../taoQtiTest/views/js',
         'cards' : '../../../taoQtiTest/views/js/cards',
         'ckeditor-jquery' : ['ckeditor/adapters/jquery'],
-        'taoQtiItemCreator' : '../../../taoQTI/views/js/qtiCreator'
+        'taoQtiItemCreator' : '../../../taoQTI/views/js/qtiCreator',
+        'taoQtiItem' : '../../../taoQTI/views/js/qtiItem',
+        'taoQtiRunner' : '../../../taoQTI/views/js/qtiRunner',
+        'qtiClass':['../../../taoQTI/views/js/qtiItem/lib/class']
     },
     shim : {
         'jqueryUI' : ['jquery'],
