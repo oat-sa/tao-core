@@ -39,13 +39,9 @@ class tao_models_classes_fsAccess_ActionAccessProvider
 	public function getAccessUrl(core_kernel_file_File $directory) {
 	    throw new common_exception_NotImplemented();
 	    /*
-		$compiledFolder = taoDelivery_models_classes_DeliveryService::singleton()->getCompiledItemFolder(
-			$delivery, $test, $item, array($language)
-		);
-		$deliveryExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('taoItemRunner');
-        $compileBaseFolder = $deliveryExtension->getConstant('COMPILE_FOLDER');
-		$relPath = substr($compiledFolder, strlen($compileBaseFolder));
-		return _url('access/'.base64_encode($relPath).'/index.html','ItemDeliveryService');
+	    $fsUri = $directory->getFileSystem()->getUri();
+	    $relPath = $directory->getRelativePath();
+		return _url('access/'.base64_encode($fsUri.' '.$relPath).'/index.html','ItemDeliveryService');
 		*/
 	}
 
@@ -57,10 +53,9 @@ class tao_models_classes_fsAccess_ActionAccessProvider
 		}
 		$relPath		= substr($absPath, strlen($rootUrlPath));
 		list($extension, $module, $action, $code, $filePath) = explode('/', $relPath, 5);;
-		$subPath = base64_decode($code);
-		$deliveryExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('taoItemRunner');
-        $compileBaseFolder = $deliveryExtension->getConstant('COMPILE_FOLDER');
-		return $compileBaseFolder . $subPath . $filePath;
+		list($fsUri, $subPath) = explode(' ', base64_decode($code));
+        $fs = new core_kernel_fileSystem_FileSystem($fsUri);
+		return $fs->getPath() . $subPath . $filePath;
 	}
 	
 	protected function getHtaccessContent() {
