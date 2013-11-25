@@ -2,6 +2,7 @@ require.config({
     baseUrl : taobase_www + 'js',
     paths : {
         'jqueryUI' : ['jquery-ui-1.8.23.custom.min'],
+        "text" : 'text/text',
         'lodash' : ['lodash.min'],
         'moment' : ['moment.min'],
         'taoQtiTest' : '../../../taoQtiTest/views/js',
@@ -25,6 +26,7 @@ require.config({
         'handlebars' : {exports : 'Handlebars'},
         'moment' : {exports : 'moment'},
         'ckeditor/ckeditor' : {exports : 'CKEDITOR'},
-        'ckeditor-jquery' : ['ckeditor/ckeditor']
+        'ckeditor-jquery' : ['ckeditor/ckeditor'],
+        'json2':{exports:'JSON'}
     }
 });
