@@ -11,6 +11,7 @@ require.config({
         'taoQtiItemCreator' : '../../../taoQTI/views/js/qtiCreator',
         'taoQtiItem' : '../../../taoQTI/views/js/qtiItem',
         'taoQtiRunner' : '../../../taoQTI/views/js/qtiRunner',
+        'taoQtiDefaultRenderer' : '../../../taoQTI/views/js/qtiDefaultRenderer',
         'qtiClass':['../../../taoQTI/views/js/qtiItem/lib/class']
     },
     shim : {
