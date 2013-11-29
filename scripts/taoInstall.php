@@ -59,12 +59,6 @@ new tao_scripts_TaoInstall(array(
 			'description'	=> ''
 		),
 		array(
-			'name'			=> 'module_host',
-			'type' 			=> 'string',
-			'shortcut'		=> 'h',
-			'description'	=> 'The host will be used in the module namespace (http://HOST/module name.rdf#). It must not be necessarily the host name of your web server.'
-		),
-		array(
 			'name'			=> 'module_lang',
 			'type' 			=> 'string',
 			'shortcut'		=> 'l',
@@ -74,11 +68,6 @@ new tao_scripts_TaoInstall(array(
 			'name'			=> 'module_mode',
 			'type' 			=> 'string',
 			'description'	=> 'The deployment mode allow and deny access to resources regarding the needs of the platform.The test & development mode will enables the debugs tools, the unit tests, and the access to all the resources. The production mode is focused on the security and allow only the required resources to run TAO.'
-		),
-		array(
-			'name'			=> 'module_name',
-			'type' 			=> 'string',
-			'description'	=> 'The name of the module will be used to identifiate this instance of TAO from the others. The module name will be used as the database name and is the suffix of the module namespace (http://host/MODULE NAME.rdf#).'
 		),
 		array(
 			'name'			=> 'module_namespace',
