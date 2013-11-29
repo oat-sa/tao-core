@@ -15,7 +15,8 @@ require.config({
         'qtiClass' : ['../../../taoQTI/views/js/qtiItem/lib/class'],
         'raphael' : ['raphael.min'],
         'raphael-collision' : ['raphael/raphael-collision/raphael-collision'],
-        'mediaElement' : ['../../../taoQTI/views/js/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min']
+        'mediaElement' : ['../../../taoQTI/views/js/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min'],
+        'mathJax' : ['../../../taoQTI/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full']
     },
     shim : {
         'jqueryUI' : ['jquery'],
@@ -32,6 +33,14 @@ require.config({
         'ckeditor/ckeditor' : {exports : 'CKEDITOR'},
         'ckeditor-jquery' : ['ckeditor/ckeditor'],
         'json2' : {exports : 'JSON'},
-        'mediaElement' : {exports : 'MediaElementPlayer'}
+        'mediaElement' : {exports : 'MediaElementPlayer'},
+        'mathJax' : {
+            exports : "MathJax",
+            init : function(){
+                MathJax.Hub.Config({});//add mathJax config here
+                MathJax.Hub.Startup.onload();
+                return MathJax;
+            }
+        }
     }
 });
