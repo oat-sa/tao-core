@@ -29,10 +29,13 @@
 class tao_models_classes_service_state_Service
     extends tao_models_classes_Service
 {
+    /**
+     * @var tao_models_classes_service_state_StatePersistence
+     */
 	private $implementation;
 	
 	protected function __construct() {
-		$this->implementation = new tao_models_classes_service_state_FileSystemPersistence();
+		$this->implementation = tao_models_classes_service_state_StatePersistanceFactory::getPersistanceFromConfig();
 		parent::__construct();
 	}
 	
@@ -56,9 +59,21 @@ class tao_models_classes_service_state_Service
 	    return $this->getImplementation()->del($userId, $serial);
 	}
   
+	/**
+	 * @return tao_models_classes_service_state_StatePersistence
+	 */
   	private function getImplementation() {
   		return $this->implementation;
   	}
+  	
+  	/**
+  	 * Replace the current implementation with the provided implementation
+  	 * 
+  	 * @param tao_models_classes_service_state_StatePersistence $implementation
+  	 */
+  	public static function setImplementation(tao_models_classes_service_state_StatePersistence $implementation) {
+  	  	tao_models_classes_service_state_StatePersistanceFactory::storePersistanceToConfig($implementation);
+  	  	self::singleton()->implementation = $implementation;
+  	}
+  	 
 }
-
-?>

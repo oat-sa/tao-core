@@ -85,6 +85,7 @@ return array(
 		'php' => array(
 			dirname(__FILE__).'/scripts/install/addFileUploadSource.php',
 			dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
+			dirname(__FILE__).'/scripts/install/setupServiceStorage.php',
 		)
 	),
 	'classLoaderPackages' => array(
@@ -145,9 +146,7 @@ return array(
 		#STUFF that belongs in TAO
 		'TAOBASE_WWW' => ROOT_URL . 'tao/views/',
 		'TAO_TPL_PATH' => $extpath."views".DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR,
-		'TAOVIEW_PATH' => $extpath."views".DIRECTORY_SEPARATOR,
-
-        'SERVICE_STORAGE_DIRECTORY'		=> $extpath . 'data'.DIRECTORY_SEPARATOR.'serviceStorage'.DIRECTORY_SEPARATOR,
+		'TAOVIEW_PATH' => $extpath."views".DIRECTORY_SEPARATOR
 	 )
 );
 ?>

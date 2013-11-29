@@ -31,14 +31,29 @@ class tao_models_classes_service_state_KeyValueStorePersistence
 	implements tao_models_classes_service_state_StatePersistence
 {
     /**
-     * @var core_persistence_RedisPersistence
+     * 
+     * @param mixed $configuration
+     * @return tao_models_classes_service_state_KeyValueStorePersistence
+     */
+    public static function restore($configuration) {
+        return new self($configuration['persistanceId']);
+    }
+    
+    /**
+     * @var string
+     */
+    private $persistenceId;
+    
+    /**
+     * @var core_persistence_KeyValuePersistence
      */
     private $server = null;
 	
-	public function __construct() {
+	public function __construct($persistenceId) {
+	    $this->persistenceId = $persistenceId;
 	    $manager = core_persistence_Manager::singleton();
 	    $old = $manager->getPersistenceId();
-	    $manager->selectPersistence('serviceState');
+	    $manager->selectPersistence($this->persistenceId);
 	    $this->server = $manager->getCurrentPersistence();
 	    $manager->selectPersistence($old);
 	}
@@ -73,4 +88,11 @@ class tao_models_classes_service_state_KeyValueStorePersistence
   	private function getSerial($userId, $serial) {
   		return $userId.'_'.$serial;;
   	}
+  	
+  	public function getConfiguration() {
+  	    return array(
+  	    	'persistanceId' => $this->persistenceId
+  	    );
+  	}
+  	
 }

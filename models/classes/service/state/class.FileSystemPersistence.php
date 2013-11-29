@@ -28,8 +28,22 @@
 class tao_models_classes_service_state_FileSystemPersistence
 	implements tao_models_classes_service_state_StatePersistence
 {
-	public function __construct() {
-		
+    /**
+     *
+     * @param mixed $configuration
+     * @return tao_models_classes_service_state_FileSystemPersistence
+     */
+    public static function restore($configuration) {
+        return new self(new core_kernel_fileSystem_FileSystem($configuration['fs']));
+    }
+
+    /**
+     * @var core_kernel_fileSystem_FileSystem
+     */
+    private $fileSystem;
+    
+	public function __construct(core_kernel_fileSystem_FileSystem $fileSystem) {
+		$this->fileSystem = $fileSystem;
 	}
 	
 	public function set($user, $serial, $data) {
@@ -72,6 +86,12 @@ class tao_models_classes_service_state_FileSystemPersistence
 	}
   
   	private function getPath($user, $serial) {
-  		return SERVICE_STORAGE_DIRECTORY . md5($user) . DIRECTORY_SEPARATOR . md5($serial);
+  	    return $this->fileSystem->getPath() . md5($user) . DIRECTORY_SEPARATOR . md5($serial);
+  	}
+  	
+  	public function getConfiguration() {
+  	    return array(
+  	  	    	'fs' => $this->fileSystem->getUri()
+  	    );
   	}
 }

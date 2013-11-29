@@ -28,8 +28,6 @@
  */
 interface tao_models_classes_service_state_StatePersistence
 {
-	public function __construct();
-	
 	public function set($userId, $serial, $data);
 	
 	public function has($userId, $serial);
