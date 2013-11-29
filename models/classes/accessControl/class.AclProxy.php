@@ -28,7 +28,7 @@
  */
 class tao_models_classes_accessControl_AclProxy
 {
-    const CONFIG_KEY_IMPLEMENTATION = 'ACL_IMPLEMENTATION';
+    const CONFIG_KEY_IMPLEMENTATION = 'AclImplementation';
     
     const FALLBACK_IMPLEMENTATION_CLASS = 'tao_models_classes_accessControl_NoAccess';
     
