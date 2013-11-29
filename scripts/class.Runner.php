@@ -493,23 +493,26 @@ abstract class tao_scripts_Runner
     	$usage = "Usage:php {$this->argv[0]} [arguments]\n";
     	$usage .= "\nArguments list:\n";
 		foreach($this->inputFormat['parameters'] as $parameter){
+		    $line = '';
        		if(isset($parameter['required'])){
        			if($parameter['required'] == true){
-       				$usage .= "Required";
+       				$line .= "Required";
        			}
        			else{
-       				$usage .= "Optional";
+       				$line .= "Optional";
        			}
        		}
        		else{
-       			$usage .= "\t";
+       			//$usage .= "\t";
        		}
-			$usage .= "\t--{$parameter['name']}";
+       		$line = str_pad($line, 15).' ';
+			$line .= "--{$parameter['name']}";
        		if(isset($parameter['shortcut'])){
-       			$usage .= "|-{$parameter['shortcut']}";
+       			$line .= "|-{$parameter['shortcut']}";
        		}
-       		$usage .= "\t\t{$parameter['description']}";
-       		$usage .= "\n";
+       		$line = str_pad($line, 39).' ';
+       		$line .= "{$parameter['description']}";
+       		$usage .= $line."\n";
        	}
   		$this->out($usage, array('color' => 'light_blue'));
     	
