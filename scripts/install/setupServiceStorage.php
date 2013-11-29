@@ -24,14 +24,19 @@
  * This post-installation script creates a new local file source for file uploaded
  * by end-users through the TAO GUI.
  */
-$extension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
 
-$dataPath = $extension ->getConstant('BASE_PATH'). 'data' .DIRECTORY_SEPARATOR. 'serviceStorage' .DIRECTORY_SEPARATOR;
-
-$source = tao_models_classes_FileSourceService::singleton()->addLocalSource('ServiceState Directory', $dataPath);
-
-$impl = new tao_models_classes_service_state_FileSystemPersistence($source);
-tao_models_classes_service_state_Service::setImplementation($impl);
-
-// to use a KV server:
-// $impl = new tao_models_classes_service_state_KeyValueStorePersistence('serviceState');
+$persistences = core_persistence_Manager::singleton()->getPersistences();
+if (isset($persistences['serviceState'])) {
+    // use key value implementation
+    $kvImpl = new tao_models_classes_service_state_KeyValueStorePersistence('serviceState');
+    tao_models_classes_service_state_Service::setImplementation($kvImpl);
+} else {
+    // use fs implementation
+    $extension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+    $dataPath = $extension ->getConstant('BASE_PATH'). 'data' .DIRECTORY_SEPARATOR. 'serviceStorage' .DIRECTORY_SEPARATOR;
+    
+    $source = tao_models_classes_FileSourceService::singleton()->addLocalSource('ServiceState Directory', $dataPath);
+    
+    $fsImpl = new tao_models_classes_service_state_FileSystemPersistence($source);
+    tao_models_classes_service_state_Service::setImplementation($fsImpl);
+}
