@@ -14,6 +14,7 @@ require.config({
         'taoQtiDefaultRenderer' : '../../../taoQTI/views/js/qtiDefaultRenderer',
         'qtiClass' : ['../../../taoQTI/views/js/qtiItem/lib/class'],
         'raphael' : ['raphael.min'],
+        'raphael-collision' : ['raphael/raphael-collision/raphael-collision'],
         'mediaElement' : ['../../../taoQTI/views/js/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min']
     },
     shim : {
