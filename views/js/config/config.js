@@ -13,7 +13,7 @@ require.config({
         'taoQtiRunner' : '../../../taoQTI/views/js/qtiRunner',
         'taoQtiItemRuntime' : '../../../taoQTI/views/js/runtime',
         'taoQtiDefaultRenderer' : '../../../taoQTI/views/js/qtiDefaultRenderer',
-        'qtiClass' : ['../../../taoQTI/views/js/qtiItem/lib/class'],
+        'class' : ['class'],
         'raphael' : ['raphael.min'],
         'raphael-collision' : ['raphael/raphael-collision/raphael-collision'],
         'mediaElement' : ['../../../taoQTI/views/js/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min'],
@@ -34,6 +34,7 @@ require.config({
         'ckeditor/ckeditor' : {exports : 'CKEDITOR'},
         'ckeditor-jquery' : ['ckeditor/ckeditor'],
         'json2' : {exports : 'JSON'},
+        'class' : {exports : 'Class'},
         'mediaElement' : {
             exports : 'MediaElementPlayer',
             init : function(){
