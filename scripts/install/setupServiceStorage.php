@@ -25,8 +25,11 @@
  * by end-users through the TAO GUI.
  */
 
-$persistences = core_persistence_Manager::singleton()->getPersistences();
-if (isset($persistences['serviceState'])) {
+//$persistences = core_persistence_Manager::singleton()->getPersistences();
+//if (isset($persistences['serviceState'])) {
+
+// workaround until persistence is complete
+if (isset($GLOBALS['generis_persistences']['serviceState'])) {
     // use key value implementation
     $kvImpl = new tao_models_classes_service_state_KeyValueStorePersistence('serviceState');
     tao_models_classes_service_state_Service::setImplementation($kvImpl);
