@@ -11,6 +11,7 @@ require.config({
         'taoQtiItemCreator' : '../../../taoQTI/views/js/qtiCreator',
         'taoQtiItem' : '../../../taoQTI/views/js/qtiItem',
         'taoQtiRunner' : '../../../taoQTI/views/js/qtiRunner',
+        'taoQtiItemRuntime' : '../../../taoQTI/views/js/runtime',
         'taoQtiDefaultRenderer' : '../../../taoQTI/views/js/qtiDefaultRenderer',
         'qtiClass' : ['../../../taoQTI/views/js/qtiItem/lib/class'],
         'raphael' : ['raphael.min'],
@@ -33,7 +34,13 @@ require.config({
         'ckeditor/ckeditor' : {exports : 'CKEDITOR'},
         'ckeditor-jquery' : ['ckeditor/ckeditor'],
         'json2' : {exports : 'JSON'},
-        'mediaElement' : {exports : 'MediaElementPlayer'},
+        'mediaElement' : {
+            exports : 'MediaElementPlayer',
+            init : function(){
+                MediaElementPlayer.pluginPath = '';//define the plugin swf path here
+                return MediaElementPlayer;
+            }
+        },
         'mathJax' : {
             exports : "MathJax",
             init : function(){
