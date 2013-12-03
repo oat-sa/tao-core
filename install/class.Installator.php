@@ -355,11 +355,11 @@ class tao_install_Installator{
      */
 	public static function generateRandomAlphaNumToken($length){
 		$token = '';
-        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $maxIndex = strlen($chars) - 1;
         
 	    for ($i = 0; $i < $length; $i++) {
-	    	$token .= $chars[rand(0, $maxIndex)];
+	    	$token .= $chars[mt_rand(0, $maxIndex)];
 	 	}
 	 	
 	 	return $token;
