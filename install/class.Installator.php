@@ -217,7 +217,7 @@ class tao_install_Installator{
 
 			// Init model creator and create the Generis User.
 			$modelCreator = new tao_install_utils_ModelCreator(LOCAL_NAMESPACE);
-			$modelCreator->insertGenerisUser(self::generateRandomAlphaNumToken(8));
+			$modelCreator->insertGenerisUser(helpers_Random::generateToken(8));
 
 			/*
 			 * 7 - Add languages
@@ -342,27 +342,7 @@ class tao_install_Installator{
      * @return string
      */
 	public static function generateSessionName(){
-	 	return 'tao_' . self::generateRandomAlphaNumToken(8);
-	}
-	
-	/**
-     * Generate a random alphanum token of a given length.
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param int $length The length of the token to generate.
-     * @return string
-     */
-	public static function generateRandomAlphaNumToken($length){
-		$token = '';
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $maxIndex = strlen($chars) - 1;
-        
-	    for ($i = 0; $i < $length; $i++) {
-	    	$token .= $chars[mt_rand(0, $maxIndex)];
-	 	}
-	 	
-	 	return $token;
+	 	return 'tao_' . helpers_Random::generateToken(8);
 	}
 
 	/**
