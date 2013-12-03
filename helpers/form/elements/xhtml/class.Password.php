@@ -136,7 +136,7 @@ class tao_helpers_form_elements_xhtml_Password
 
         // section 127-0-1-1--78214b38:13447752615:-8000:0000000000003488 begin
     	$arr = $this->getRawValue();
-    	$returnValue = md5(array_shift($arr));
+    	$returnValue = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt(array_shift($arr));
         // section 127-0-1-1--78214b38:13447752615:-8000:0000000000003488 end
 
         return $returnValue;

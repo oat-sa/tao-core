@@ -399,7 +399,7 @@ class tao_models_classes_UserService
      * Add a new user.
      * 
      * @param string login The login to give the user.
-     * @param string password the md5 hash of the password.
+     * @param string password the password in clear.
      * @param core_kernel_classes_Resource role A role to grant to the user.
      * @param core_kernel_classes_Class A specific class to use to instantiate the new user. If not specified, the class returned by the getUserClass method is used.
      * @throws core_kernel_users_Exception If an error occurs.

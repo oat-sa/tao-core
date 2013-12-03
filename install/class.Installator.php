@@ -296,7 +296,7 @@ class tao_install_Installator{
 			common_Logger::i('Spawning SuperUser '.$installData['user_login'], 'INSTALL');
 			$modelCreator->insertSuperUser(array(
 				'login'			=> $installData['user_login'],
-				'password'		=> core_kernel_users_AuthAdapter::hashPassword($installData['user_pass1']),
+				'password'		=> core_kernel_users_AuthAdapter::getPasswordHash()->encrypt($installData['user_pass1']),
 				'userLastName'	=> $installData['user_lastname'],
 				'userFirstName'	=> $installData['user_firstname'],
 				'userMail'		=> $installData['user_email'],

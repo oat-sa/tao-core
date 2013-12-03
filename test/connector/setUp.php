@@ -36,7 +36,7 @@ $testUserData = array(
 $testUserData[PROPERTY_USER_PASSWORD] = 'test'.rand();
 		
 $data = $testUserData;
-$data[PROPERTY_USER_PASSWORD] = md5($data[PROPERTY_USER_PASSWORD]);
+$data[PROPERTY_USER_PASSWORD] = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt($data[PROPERTY_USER_PASSWORD]);
 $tmclass = new core_kernel_classes_Class(CLASS_TAO_USER);
 $user = $tmclass->createInstanceWithProperties($data);
 common_Logger::i('Created user '.$user->getUri());

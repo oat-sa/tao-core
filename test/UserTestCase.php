@@ -81,8 +81,8 @@ class UserTestCase extends UnitTestCase {
 	public function setUp(){		
 		TaoTestRunner::initTest();
 		
-		$this->testUserData[PROPERTY_USER_PASSWORD] = md5($this->testUserData[PROPERTY_USER_PASSWORD]);
-		$this->testUserUtf8Data[PROPERTY_USER_PASSWORD] = md5($this->testUserUtf8Data[PROPERTY_USER_PASSWORD]);
+		$this->testUserData[PROPERTY_USER_PASSWORD] = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt($this->testUserData[PROPERTY_USER_PASSWORD]);
+		$this->testUserUtf8Data[PROPERTY_USER_PASSWORD] = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt($this->testUserUtf8Data[PROPERTY_USER_PASSWORD]);
 	}
 	
 	/**
