@@ -38,8 +38,19 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 
 	private $headers = null;
 	private $files= null;
+	
 	public function __construct(){
 	    parent::__construct();
+	    
+	    $authAdapter = new tao_models_classes_HttpBasicAuthAdapter(common_http_Request::currentRequest());
+	    try {
+	        $user = $authAdapter->authenticate();
+    	    $session = new common_session_RestSession($user);
+    	    core_kernel_classes_Session::singleton()->setSession($session);
+	    } catch (core_kernel_users_InvalidLoginException $e) {
+	        $this->requireLogin();
+	    } 
+	     
 	    //$this->headers = HttpResponse::getRequestHeaders();
 	    $this->headers = tao_helpers_Http::getHeaders();
 	    $this->files = tao_helpers_Http::getFiles();
@@ -126,43 +137,6 @@ abstract class tao_actions_CommonRestModule extends tao_actions_CommonModule {
 	    }
 	}
 
-	private function isValidLogin(){
-	    $returnValue = false;
-	    $userService = tao_models_classes_UserService::singleton();
-	    switch ($this->authMethod){
-		//"Because of the way that Basic authentication is specified, your username and password must be verified every time you request a document from the server"
-		case "auth":{ // not yet working
-		    throw new common_exception_NotImplemented();
-		    $digest = tao_helpers_Http::getDigest();
-		    $data = tao_helpers_Http::parseDigest($digest);
-		    //store the hash A1 as a property to be updated on register/changepassword
-		    $trialLogin = 'admin'; $trialPassword = 'admin';
-		    $A1 = md5($trialLogin . ':' . $this::realm . ':' . $trialPassword);
-		    $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
-		    $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
-		    return (($data['response'] == $valid_response));
-		}
-		case "Basic":{
-		    if (!(isset($_SERVER['PHP_AUTH_USER'])) or ($_SERVER['PHP_AUTH_USER']=="")){
-			common_Logger::w('Rest (Basic) login failed for user (missing login/password)');
-			return false;
-		    }
-		    $user = $userService->getOneUser($_SERVER['PHP_AUTH_USER']);
-		    
-            if (is_null($user)) {
-			common_Logger::w('Rest (Basic) login failed for user (wrong login)'.$_SERVER['PHP_AUTH_USER']);
-			return false;
-		    }
-		    if ($userService->loginUser($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
-			$this->currentUser = $user;
-			return $user;
-		    } else {
-			common_Logger::w('Rest (basic) login failed for user (wrong credentials)'.$_SERVER['PHP_AUTH_USER']);
-			return false;
-		    }
-		}
-	    }
-	}
 	private function requireLogin(){
 	    switch ($this->authMethod){
 		case "auth":{
