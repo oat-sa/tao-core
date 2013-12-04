@@ -20,7 +20,7 @@
  */
 
 /**
- * Short description of class taoQTI_models_classes_ItemModel
+ * The tao default rdf export
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
