@@ -9,7 +9,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid " has been deleted successfully"
-msgstr ""
+msgstr " a été supprimé avec succès."
 
 msgid " has been installed"
 msgstr " a été installée."
@@ -48,7 +48,7 @@ msgid "A similar resource has already been versioned"
 msgstr "Une ressource similaire est déjà versionnée"
 
 msgid "Access Denied"
-msgstr ""
+msgstr "Accès refusé"
 
 msgid "Access denied. Please renew your authentication!"
 msgstr "Accès refusé. Veuillez renouveler votre authentification !"
@@ -100,7 +100,7 @@ msgid "All classes in Production Mode will switch to Design Mode. Please confirm
 msgstr "Toutes les classes en mode production vont basculer en mode design. Veuillez confirmer."
 
 msgid "All data will be removed in "
-msgstr "toutes les données seront détruites dans "
+msgstr "Toutes les données seront détruites dans "
 
 msgid "All rights reserved."
 msgstr "Tous droits réservés."
@@ -112,7 +112,7 @@ msgid "Allows the management of the repositories"
 msgstr "Permet la gestion des dépôts."
 
 msgid "Alpha version"
-msgstr ""
+msgstr "Version alpha"
 
 msgid "An error occured during user deletion"
 msgstr "Une erreur est survenue durant la suppression de l'utilisateur"
@@ -205,7 +205,7 @@ msgid "Commit message : "
 msgstr "Message de modification : "
 
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmer"
 
 msgid "Create"
 msgstr "Créer"
@@ -255,8 +255,11 @@ msgstr "Langue des données"
 msgid "Date"
 msgstr "Date"
 
-msgid "Days"
-msgstr "jour(s)"
+msgid "day"
+msgstr "jour"
+
+msgid "days"
+msgstr "jours"
 
 msgid "Define the default values"
 msgstr "Définir les valeurs par défaut"
@@ -374,7 +377,7 @@ msgid "Extensions\' configurations updated "
 msgstr "Configuration des extensions mise à jour "
 
 msgid "Failed"
-msgstr ""
+msgstr "Échec"
 
 msgid "Field delimiter"
 msgstr "Séparateur de champ"
@@ -425,10 +428,16 @@ msgid "Generating cache..."
 msgstr "Génération du cache..."
 
 msgid "Go Back"
-msgstr ""
+msgstr "Revenir"
 
-msgid "Hours"
-msgstr "heure(s)"
+msgid "hour"
+msgstr "heure"
+
+msgid "hours"
+msgstr "heures"
+
+msgid "and"
+msgstr "et"
 
 msgid "Import"
 msgstr "Importer"
@@ -437,7 +446,7 @@ msgid "Import "
 msgstr "Import"
 
 msgid "Import failed"
-msgstr ""
+msgstr "L'import a échoué"
 
 msgid "Inclusive (AND)"
 msgstr "Inclusif (ET)"
@@ -618,8 +627,11 @@ msgstr "Méta-données"
 msgid "minimum value: "
 msgstr "Valeur minimale :"
 
-msgid "Minutes"
-msgstr "minute(s)"
+msgid "minute"
+msgstr "minute"
+
+msgid "minutes"
+msgstr "minutes"
 
 msgid "move"
 msgstr "Déplacer"
@@ -654,6 +666,9 @@ msgstr "Mes paramètres"
 
 msgid "My settings (%s)"
 msgstr "Mes paramètres (%s)"
+
+msgid "Super User"
+msgstr "Super utilisateur"
 
 msgid "Name"
 msgstr "Nom"
@@ -801,7 +816,7 @@ msgid "Rename"
 msgstr "Renommer"
 
 msgid "Repeat new password"
-msgstr "Répéter le nouveau mot de passe"
+msgstr "Répétition du nouveau mot de passe"
 
 msgid "Repeat password *"
 msgstr "Répéter le mot de passe"
@@ -1001,10 +1016,10 @@ msgid "This role is still given to one or more users. Please remove the role to 
 msgstr "Ce rôle est encore affecté à un ou plusieurs utilisateurs. Veuillez d'abord retirer le rôle pour ce(s) utilisateur(s)."
 
 msgid "This should equal "
-msgstr ""
+msgstr "Cela devrait valoir "
 
 msgid "This should not equal "
-msgstr ""
+msgstr "Cela ne devrait pas valoir "
 
 msgid "Translate"
 msgstr "Traduire"
@@ -1080,7 +1095,7 @@ msgstr "Utilisateur enregistré"
 
 #, tao-public
 msgid "User Settings"
-msgstr ""
+msgstr "Paramètres Utilisateur"
 
 #, tao-public
 msgid "Users"
@@ -1103,4 +1118,3 @@ msgstr "Oui"
 
 msgid "You cannot modify this property"
 msgstr "Cette propriété ne peut pas être modifiée."
-
