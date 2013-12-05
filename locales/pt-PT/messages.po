@@ -73,7 +73,7 @@ msgid "Add property"
 msgstr "Adicionar propriedade"
 
 msgid "add repository"
-msgstr "Adicionar repositorio"
+msgstr "adicionar repositorio"
 
 msgid "Add the source file"
 msgstr "Adicionar ficheiro fonte"
@@ -131,7 +131,7 @@ msgid "Author"
 msgstr "Autor"
 
 msgid "Authoring"
-msgstr "Criação"
+msgstr "Criar"
 
 msgid "Available Classes"
 msgstr "Disciplinas disponiveis"
@@ -140,10 +140,10 @@ msgid "Available Extensions"
 msgstr "Extensões disponíveis"
 
 msgid "Beta version"
-msgstr "Versão beta"
+msgstr "Versão Beta"
 
 msgid "Browse"
-msgstr "Navegue"
+msgstr "Navegar"
 
 msgid "Calendar"
 msgstr "Calendário"
@@ -177,7 +177,7 @@ msgid "Choose export format"
 msgstr "Seleccione o formato de exportação:"
 
 msgid "Choose import format"
-msgstr "Escolha o tipo de importação:"
+msgstr "Escolha o formato de importação"
 
 msgid "Class"
 msgstr "Disciplina"
@@ -205,7 +205,7 @@ msgid "Comment"
 msgstr "Comentário"
 
 msgid "Commit message : "
-msgstr "Comprometa a mensagem :"
+msgstr "Mensagem de envio:"
 
 msgid "Confirm"
 msgstr "Confirmar"
@@ -278,16 +278,16 @@ msgid "Delete user"
 msgstr "Eliminar utilizador"
 
 msgid "Delivery results"
-msgstr "Resultados entregues"
+msgstr "Resultados distribuidos"
 
 msgid "DEMO Sandbox"
 msgstr "Demonstração Sandbox"
 
 msgid "Design"
-msgstr "Desenho"
+msgstr "Edição"
 
 msgid "Design Mode:"
-msgstr "Modo desenho:"
+msgstr "Modo Edição:"
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -304,7 +304,7 @@ msgid "Download content"
 msgstr "Descarregar conteúdo"
 
 msgid "duplicate"
-msgstr "duplicado"
+msgstr "duplicar"
 
 msgid "e-mail"
 msgstr "e-mail"
@@ -356,10 +356,10 @@ msgid "Execute workflows for assessment preparation."
 msgstr "Execute fluxos de trabalho para a preparação de avaliação."
 
 msgid "Export"
-msgstr "Exporta"
+msgstr "Exportar"
 
 msgid "export"
-msgstr "exporta"
+msgstr "exportar"
 
 msgid "Export "
 msgstr "Exportar"
@@ -408,7 +408,7 @@ msgid "Filter"
 msgstr "Filtro"
 
 msgid "Filter results"
-msgstr "resultados do filtro"
+msgstr "Resultados do filtro"
 
 msgid "Filtering mode"
 msgstr "Modo de filtragem"
@@ -417,13 +417,13 @@ msgid "Filters"
 msgstr "Filtros"
 
 msgid "Finish"
-msgstr "Terminado"
+msgstr "Terminar"
 
 msgid "First Name"
-msgstr "Nome próprio"
+msgstr "Nome Próprio"
 
 msgid "First row column names"
-msgstr "Nomes da primeira coluna"
+msgstr "1ª linha Nomes da coluna"
 
 msgid "Generating cache..."
 msgstr "A gerar a cache..."
@@ -655,7 +655,7 @@ msgid "My settings"
 msgstr "Os meus parâmetros"
 
 msgid "My Settings"
-msgstr "As minhas definições "
+msgstr "Os meus parâmetros"
 
 msgid "My settings (%s)"
 msgstr "Os meus parâmetros  (%s)"
@@ -922,7 +922,7 @@ msgid "Switch to Production Mode completed."
 msgstr "Mudar para Modo de Produção completo."
 
 msgid "Switching to Design..."
-msgstr "Mudar para desenho..."
+msgstr "Mudar para edição..."
 
 msgid "Switching to Production..."
 msgstr "Mudar para Produção..."
@@ -1034,7 +1034,7 @@ msgid "Unable to change passwords in demo mode"
 msgstr "Não é permitido mudar a palavra-passe em modo de demonstração"
 
 msgid "Uncheck All"
-msgstr "Desmarcar todos"
+msgstr "Desmarcar Todos"
 
 msgid "Uncheck all"
 msgstr "Desmarcar todos"
