@@ -35,7 +35,7 @@ class tao_models_classes_service_StateStorage
     
 	protected function __construct() {
 		parent::__construct();
-		$this->persistence = common_persistence_KeyValuePersistence::getPersistance(self::PERSISTENCE_ID);
+		$this->persistence = common_persistence_KeyValuePersistence::getPersistence(self::PERSISTENCE_ID);
 	}
 	
   	public function set($userId, $serial, $data) {
