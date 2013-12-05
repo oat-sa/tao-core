@@ -26,7 +26,7 @@
 class tao_helpers_ServiceJavascripts
 {
     public static function getServiceStorage($serviceCallId) {
-        $state = tao_models_classes_service_state_Service::singleton()->get(
+        $state = tao_models_classes_service_StateStorage::singleton()->get(
             common_session_SessionManager::getSession()->getUserUri(),
             $serviceCallId
         );

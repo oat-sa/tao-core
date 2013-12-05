@@ -35,7 +35,7 @@ class ServiceServiceTestCase extends UnitTestCase {
 	
 	
 	public function testServiceStorage() {
-		$service = tao_models_classes_service_state_Service::singleton();
+		$service = tao_models_classes_service_StateStorage::singleton();
 		$user = new core_kernel_classes_Resource(LOCAL_NAMESPACE.'#inexistentTestUser');
 
 		// is not set		

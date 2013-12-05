@@ -85,7 +85,6 @@ return array(
 		'php' => array(
 			dirname(__FILE__).'/scripts/install/addFileUploadSource.php',
 			dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
-			dirname(__FILE__).'/scripts/install/setupServiceStorage.php',
 		)
 	),
 	'classLoaderPackages' => array(

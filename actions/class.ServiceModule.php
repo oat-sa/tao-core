@@ -37,13 +37,13 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule {
     }
     
     protected function getState() {
-        $serviceService = tao_models_classes_service_state_Service::singleton();
+        $serviceService = tao_models_classes_service_StateStorage::singleton();
         $userUri = common_session_SessionManager::getSession()->getUserUri();
         return is_null($userUri) ? null : $serviceService->get($userUri, $this->getServiceCallId());
     }
     
     protected function setState($state) {
-        $serviceService = tao_models_classes_service_state_Service::singleton();
+        $serviceService = tao_models_classes_service_StateStorage::singleton();
         $userUri = common_session_SessionManager::getSession()->getUserUri();
         return is_null($userUri) ? false : $serviceService->set($userUri, $this->getServiceCallId(), $state);
     }
