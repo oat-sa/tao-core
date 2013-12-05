@@ -733,7 +733,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			
 			$targetLang = $this->getRequestParameter('target_lang');
 		
-			if(in_array($targetLang, tao_helpers_I18n::getAvailableLangs())){
+			if(in_array($targetLang, tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(INSTANCE_LANGUAGE_USAGE_DATA)))){
 				$langElt = $myForm->getElement('translate_lang');
 				$langElt->setValue($targetLang);
 				$langElt->setAttribute('readonly', 'true');
