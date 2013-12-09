@@ -20,7 +20,7 @@
  */
 ?>
 <?php
-require_once dirname(__FILE__) . '/TaoTestRunner.php';
+require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -30,13 +30,13 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class CardinalityTestCase extends TestCasePrototype {
+class CardinalityTest extends TaoPhpUnitTestRunner {
 
 	/**
 	 * tests initialization
 	 */
 	public function setUp(){
-		TaoTestRunner::initTest();
+		TaoPhpUnitTestRunner::initTest();
 	}
 
 	/**

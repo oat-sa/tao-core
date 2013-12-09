@@ -20,7 +20,7 @@
  */
 ?>
 <?php
-require_once dirname(__FILE__) . '/../../tao/test/TaoTestRunner.php';
+require_once dirname(__FILE__) . '/../../tao/test/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -29,7 +29,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class EventsServiceTestCase extends UnitTestCase {
+class EventsServiceTestCase extends TaoPhpUnitTestRunner {
 	
 	/**
 	 * @var tao_models_classes_EventsService
@@ -45,7 +45,9 @@ class EventsServiceTestCase extends UnitTestCase {
 	 * tests initialization
 	 */
 	public function setUp(){		
-		TaoTestRunner::initTest();
+		TaoPhpUnitTestRunner::initTest();
+		$this->eventsService = tao_models_classes_EventsService::singleton();
+		$this->eventFile = dirname(__FILE__).'/samples/events.xml';
 	}
 	
 	/**
@@ -54,22 +56,17 @@ class EventsServiceTestCase extends UnitTestCase {
 	 */
 	public function testService(){
 		
-		$eventsService = tao_models_classes_EventsService::singleton();
-		$this->assertIsA($eventsService, 'tao_models_classes_Service');
-		$this->assertIsA($eventsService, 'tao_models_classes_EventsService');
 		
-		$this->eventsService = $eventsService;
-		
-		$this->eventFile = dirname(__FILE__).'/samples/events.xml';
-		
+		$this->assertIsA($this->eventsService , 'tao_models_classes_Service');
+		$this->assertIsA($this->eventsService , 'tao_models_classes_EventsService');	
 		$this->assertTrue(file_exists($this->eventFile));
 	}
 	
 	public function testParsing(){
-		
+
 		$clientEventList = $this->eventsService->getEventList($this->eventFile, 'client');
 		$this->assertTrue(count($clientEventList) > 0);
-		$this->assertEqual($clientEventList['type'], 'catch');
+		$this->assertEquals($clientEventList['type'], 'catch');
 		$this->assertTrue(is_array($clientEventList['list']));
 		$this->assertTrue(array_key_exists('click', $clientEventList['list']));
 		$this->assertTrue(array_key_exists('keyup', $clientEventList['list']));
@@ -77,7 +74,7 @@ class EventsServiceTestCase extends UnitTestCase {
 		
 		$serverEventList = $this->eventsService->getEventList($this->eventFile, 'server');
 		$this->assertTrue(count($serverEventList) > 0);		
-		$this->assertEqual($serverEventList['type'], 'catch');
+		$this->assertEquals($serverEventList['type'], 'catch');
 		$this->assertTrue(is_array($serverEventList['list']));
 		$this->assertTrue(array_key_exists('click', $serverEventList['list']));
 	}

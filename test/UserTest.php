@@ -20,7 +20,7 @@
  */
 ?>
 <?php
-require_once dirname(__FILE__) . '/TaoTestRunner.php';
+require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -30,7 +30,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class UserTestCase extends UnitTestCase {
+class UserTestCase extends TaoPhpUnitTestRunner {
 	
 	/**
 	 * @var tao_models_classes_UserService
@@ -79,8 +79,8 @@ class UserTestCase extends UnitTestCase {
 	 * tests initialization
 	 */
 	public function setUp(){		
-		TaoTestRunner::initTest();
-		
+		TaoPhpUnitTestRunner::initTest();
+		$this->userService = tao_models_classes_UserService::singleton();
 		$this->testUserData[PROPERTY_USER_PASSWORD] = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt($this->testUserData[PROPERTY_USER_PASSWORD]);
 		$this->testUserUtf8Data[PROPERTY_USER_PASSWORD] = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt($this->testUserUtf8Data[PROPERTY_USER_PASSWORD]);
 	}
@@ -90,11 +90,11 @@ class UserTestCase extends UnitTestCase {
 	 * @see tao_models_classes_ServiceFactory::get
 	 */
 	public function testService(){
-		$userService = tao_models_classes_UserService::singleton();
-		$this->assertIsA($userService, 'tao_models_classes_Service');
-		$this->assertIsA($userService, 'tao_models_classes_UserService');
+
+		$this->assertIsA($this->userService, 'tao_models_classes_Service');
+		$this->assertIsA($this->userService, 'tao_models_classes_UserService');
 		
-		$this->userService = $userService;
+		
 	}
 
 	/**
@@ -109,7 +109,9 @@ class UserTestCase extends UnitTestCase {
 		$this->testUser = $tmclass->createInstance();
 		$this->assertNotNull($this->testUser);
 		$this->assertTrue($this->testUser->exists());
-		$this->assertTrue($this->userService->bindProperties($this->testUser, $this->testUserData));
+		$result = $this->userService->bindProperties($this->testUser, $this->testUserData);
+		$this->assertNotNull($result);
+		$this->assertNotEquals($result,false);
 		$this->assertFalse($this->userService->loginAvailable($this->testUserData[PROPERTY_USER_LOGIN]));
 		
 		//check inserted data
@@ -120,7 +122,7 @@ class UserTestCase extends UnitTestCase {
 				$p = new core_kernel_classes_Property($prop);
 				$v = $this->testUser->getUniquePropertyValue($p);
 				$v = ($v instanceof core_kernel_classes_Literal) ? $v->literal : $v->getUri();
-				$this->assertEqual($value, $v);
+				$this->assertEquals($value, $v);
 			}
 			catch(common_Exception $ce){ 
 				$this->fail($ce);
@@ -138,7 +140,9 @@ class UserTestCase extends UnitTestCase {
 		$this->testUserUtf8 = $tmclass->createInstance();
 		$this->assertNotNull($this->testUserUtf8);
 		$this->assertTrue($this->testUserUtf8->exists());
-		$this->assertTrue($this->userService->bindProperties($this->testUserUtf8, $this->testUserUtf8Data) );
+		$result = $this->userService->bindProperties($this->testUserUtf8, $this->testUserUtf8Data);
+		$this->assertNotNull($result);
+		$this->assertNotEquals($result,false);
 		$this->assertFalse($this->userService->loginAvailable($this->testUserUtf8Data[PROPERTY_USER_LOGIN]));
 		
 		//check inserted data
@@ -149,7 +153,7 @@ class UserTestCase extends UnitTestCase {
 				$p = new core_kernel_classes_Property($prop);
 				$v = $this->testUserUtf8->getUniquePropertyValue($p);
 				$v = ($v instanceof core_kernel_classes_Literal) ? $v->literal : $v->getUri();
-				$this->assertEqual($value, $v);
+				$this->assertEquals($value, $v);
 			}
 			catch(common_Exception $ce){ 
 				$this->fail($ce);

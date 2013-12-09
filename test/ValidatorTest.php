@@ -20,7 +20,7 @@
  */
 ?>
 <?php
-require_once dirname(__FILE__) . '/TaoTestRunner.php';
+require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -30,13 +30,13 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class ValidatorTestCasePrototype extends TestCasePrototype {
+class ValidatorTest extends TaoPhpUnitTestRunner {
 
 	/**
 	 * tests initialization
 	 */
 	public function setUp(){
-		TaoTestRunner::initTest();
+		TaoPhpUnitTestRunner::initTest();
 	}
 
 	/**
@@ -59,6 +59,7 @@ class ValidatorTestCasePrototype extends TestCasePrototype {
 				);
 
 		$alphanumpunct	= new tao_helpers_form_validators_AlphaNum(array('allow_punctuation' => true));
+
 		$this->exec($alphanumpunct,
 			array('abc123', '', 'Ab1Cd2Ef3','a_1','1-2-3-4', 12),
 			array(null, '!', '&auml;', '/root/test/why', '1.23', '2,5', array()),
@@ -73,7 +74,7 @@ class ValidatorTestCasePrototype extends TestCasePrototype {
 		$callback = new tao_helpers_form_validators_Callback(array(
 			'function' => 'aFunctionThatDoesntExist'
 		));
-		$this->expectException(new common_Exception("callback function does not exist"));
+		$this->setExpectedException('common_Exception');
 		$this->assertFalse($callback->evaluate(''));
 
 		// global function
@@ -221,7 +222,7 @@ class ValidatorTestCasePrototype extends TestCasePrototype {
 		);
 
 		//option test
-		$this->expectException(new common_Exception("Please set 'min' and/or 'max' options!"));
+		$this->setExpectedException('common_Exception');
 		$filemime = new tao_helpers_form_validators_FileSize(array());
 
 		$filesize = new tao_helpers_form_validators_FileSize(array('min' => 1000));
@@ -329,7 +330,7 @@ class ValidatorTestCasePrototype extends TestCasePrototype {
 		$this->assertFalse($equals->evaluate('123'));
 		$this->assertTrue($equals->evaluate('1234'));
 		
-		$this->expectException();
+		$this->setExpectedException('common_Exception');
 		$equals = tao_helpers_form_FormFactory::getValidator('Equals');
 		//@todo implement test cases for multivalues
 	}

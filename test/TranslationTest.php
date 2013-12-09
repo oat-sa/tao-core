@@ -20,7 +20,7 @@
  */
 ?>
 <?php
-require_once dirname(__FILE__) . '/TaoTestRunner.php';
+require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -33,7 +33,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class TranslationTestCase extends UnitTestCase {
+class TranslationTest extends TaoPhpUnitTestRunner {
 	
 	const RAW_PO = '/samples/sample_raw.po';
 	const ESCAPING_PO = '/samples/sample_escaping.po';
@@ -135,13 +135,13 @@ class TranslationTestCase extends UnitTestCase {
         $tf->addAnnotation('author', 'Jane Doe');
         $this->assertTrue($tf->getAnnotation('context') == array('name' => 'context', 'value' => 'Unit Testing'));
         $this->assertTrue($tf->getAnnotation('author') == array('name' => 'author', 'value' => 'Jane Doe'));
-        $this->assertEqual($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+        $this->assertEquals($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                         'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                         'context' => 'Unit Testing', 
                                                         'author' => 'Jane Doe'));
         $tf->removeAnnotation('author');
         $this->assertTrue($tf->getAnnotation('author') == null);
-        $this->assertEqual($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+        $this->assertEquals($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                         'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                         'context' => 'Unit Testing'));
         
@@ -152,18 +152,18 @@ class TranslationTestCase extends UnitTestCase {
         $tu->addAnnotation('author', 'Jane Doe');
         $this->assertTrue($tu->getAnnotation('context') == array('name' => 'context', 'value' => 'Unit Testing'));
         $this->assertTrue($tu->getAnnotation('author') == array('name' => 'author', 'value' => 'Jane Doe'));
-        $this->assertEqual($tu->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+        $this->assertEquals($tu->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                         'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                         'context' => 'Unit Testing', 
                                                         'author' => 'Jane Doe'));
         $tu->removeAnnotation('author');
         $this->assertTrue($tu->getAnnotation('author') == null);
-        $this->assertEqual($tu->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+        $this->assertEquals($tu->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                         'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                         'context' => 'Unit Testing'));
         
         // Test utils.
-        $this->assertEqual(tao_helpers_translation_Utils::getDefaultLanguage(), 'EN');
+        $this->assertEquals(tao_helpers_translation_Utils::getDefaultLanguage(), 'EN');
 	}
 	
 	public function testPOTranslationReading() {
@@ -401,13 +401,13 @@ class TranslationTestCase extends UnitTestCase {
         
         $this->assertTrue(is_array($tus), "Translation units provided by the RDFFileReader must be as an array.");
         
-        $this->assertEqual($tus[0]->getTarget(), "Object TAO", "Unexpected target for RDFTranslationUnit.");
-        $this->assertEqual($tus[0]->getSubject(), "http://www.tao.lu/Ontologies/TAO.rdf#TAOObject", "Unexpected subject for RDFTranslationUnit.");
-        $this->assertEqual($tus[0]->getPredicate(), "http://www.w3.org/2000/01/rdf-schema#label", "Unexpected predicate for RDFTranslationUnit.");
+        $this->assertEquals($tus[0]->getTarget(), "Object TAO", "Unexpected target for RDFTranslationUnit.");
+        $this->assertEquals($tus[0]->getSubject(), "http://www.tao.lu/Ontologies/TAO.rdf#TAOObject", "Unexpected subject for RDFTranslationUnit.");
+        $this->assertEquals($tus[0]->getPredicate(), "http://www.w3.org/2000/01/rdf-schema#label", "Unexpected predicate for RDFTranslationUnit.");
         
-        $this->assertEqual($tus[1]->getTarget(), "Related to e-testing any resource", "Unexpected target for RDFTranslationUnit.");
-        $this->assertEqual($tus[1]->getSubject(), "http://www.tao.lu/Ontologies/TAO.rdf#TAOObject", "Unexpected subject for RDFTranslationUnit.");
-        $this->assertEqual($tus[1]->getPredicate(), "http://www.w3.org/2000/01/rdf-schema#comment", "Unexpected predicate for RDFTranslationUnit.");
+        $this->assertEquals($tus[1]->getTarget(), "Related to e-testing any resource", "Unexpected target for RDFTranslationUnit.");
+        $this->assertEquals($tus[1]->getSubject(), "http://www.tao.lu/Ontologies/TAO.rdf#TAOObject", "Unexpected subject for RDFTranslationUnit.");
+        $this->assertEquals($tus[1]->getPredicate(), "http://www.w3.org/2000/01/rdf-schema#comment", "Unexpected predicate for RDFTranslationUnit.");
     }
     
     public function testRDFTranslationWriting(){
@@ -474,65 +474,65 @@ class TranslationTestCase extends UnitTestCase {
 			// - Test parsing from source code.
 			// 1. Defensive tests.
 			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("");
-			$this->assertEqual($annotations, array());
+			$this->assertEquals($annotations, array());
 			
 			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("sd@eipredicate%\nblu");
-			$this->assertEqual($annotations, array());
+			$this->assertEquals($annotations, array());
 			
 			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@fake FUBAR");
-			$this->assertEqual($annotations, array());
+			$this->assertEquals($annotations, array());
 			
 			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate ");
-			$this->assertEqual($annotations, array());
+			$this->assertEquals($annotations, array());
 			
 			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate\n@subject");
-			$this->assertEqual($annotations, array());
+			$this->assertEquals($annotations, array());
 			
 			// 2. Other tests.
 			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment\n@fake FUBAR");
-			$this->assertEqual($annotations, array("predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
+			$this->assertEquals($annotations, array("predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
 			
 			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source This is a source test.");
-			$this->assertEqual($annotations, array("source" => "This is a source test."));
+			$this->assertEquals($annotations, array("source" => "This is a source test."));
 			
 			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source This is a source test.\n@sourceLanguage en-US");
-			$this->assertEqual($annotations, array("source" => "This is a source test.",
+			$this->assertEquals($annotations, array("source" => "This is a source test.",
 												   "sourceLanguage" => "en-US"));
 												   
 			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source بعض النصوص في اللغة العربية");
-			$this->assertEqual($annotations, array("source" => "بعض النصوص في اللغة العربية"));
+			$this->assertEquals($annotations, array("source" => "بعض النصوص في اللغة العربية"));
 			
 			// 3. Test escaping.
 			$annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source lorem \\-\\- ipsum \\\\ dolomet.\n@sourceLanguage fr-CA");
-			$this->assertEqual($annotations, array("source" => "lorem -- ipsum \\ dolomet.",
+			$this->assertEquals($annotations, array("source" => "lorem -- ipsum \\ dolomet.",
 												   "sourceLanguage" => "fr-CA"));
 			
 			$annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(array("source" => "lorem -- ipsum \\ \n dolomet.",
 																						"sourceLanguage" => "fr-CA"));
-			$this->assertEqual($annotations, "@source lorem \\-\\- ipsum \\\\ \n dolomet.\n    @sourceLanguage fr-CA");
+			$this->assertEquals($annotations, "@source lorem \\-\\- ipsum \\\\ \n dolomet.\n    @sourceLanguage fr-CA");
 			
 			// - Test serialization from array.
 			$annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(array("source" => "This is a source test.",
 																						"sourceLanguage" => "en-US",
 																						"targetLanguage" => "fr-CA",
 																						"predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"));
-			$this->assertEqual($annotations, "@source This is a source test.\n    @sourceLanguage en-US\n    @targetLanguage fr-CA\n    @predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
+			$this->assertEquals($annotations, "@source This is a source test.\n    @sourceLanguage en-US\n    @targetLanguage fr-CA\n    @predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
 			
 			
 			// - Test Annotations parsing while reading with RDFFileWriter.
 			$reader = new tao_helpers_translation_RDFFileReader(dirname(__FILE__) . self::FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS);
 			$reader->read();
 			$tf = $reader->getTranslationFile();
-			$this->assertEqual($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+			$this->assertEquals($tf->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
 															'targetLanguage' => 'es'));
 			$tus = $tf->getTranslationUnits();
-			$this->assertEqual($tus[0]->getSourceLanguage(), tao_helpers_translation_Utils::getDefaultLanguage());
-			$this->assertEqual($tus[0]->getTargetLanguage(), 'es');
-			$this->assertEqual($tus[0]->getSource(), 'TAO Object');
-			$this->assertEqual($tus[0]->getTarget(), 'TAO objeto');
-			$this->assertEqual($tus[0]->getAnnotation('sourceLanguage'), array('name' => 'sourceLanguage', 'value' => tao_helpers_translation_Utils::getDefaultLanguage()));
-			$this->assertEqual($tus[0]->getAnnotation('targetLanguage'), array('name' => 'targetLanguage', 'value' => 'es'));
-			$this->assertEqual($tus[10]->getTarget(), 'Función de usuario de flujo de trabajo: el papel asignado por defecto a todos los usuarios backend, no eliminable');
+			$this->assertEquals($tus[0]->getSourceLanguage(), tao_helpers_translation_Utils::getDefaultLanguage());
+			$this->assertEquals($tus[0]->getTargetLanguage(), 'es');
+			$this->assertEquals($tus[0]->getSource(), 'TAO Object');
+			$this->assertEquals($tus[0]->getTarget(), 'TAO objeto');
+			$this->assertEquals($tus[0]->getAnnotation('sourceLanguage'), array('name' => 'sourceLanguage', 'value' => tao_helpers_translation_Utils::getDefaultLanguage()));
+			$this->assertEquals($tus[0]->getAnnotation('targetLanguage'), array('name' => 'targetLanguage', 'value' => 'es'));
+			$this->assertEquals($tus[10]->getTarget(), 'Función de usuario de flujo de trabajo: el papel asignado por defecto a todos los usuarios backend, no eliminable');
 		}
 		catch (tao_helpers_translation_TranslationException $e){
 			$this->assertFalse(true, "No TranslationException should be thrown in testRDFAnnotations test.");
@@ -543,7 +543,7 @@ class TranslationTestCase extends UnitTestCase {
         $string  = "# This is a comment.\n";
         $string .= "#, flag1 composed-flag flag2";
         $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
-        $this->assertEqual($annotations, array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment.',
+        $this->assertEquals($annotations, array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment.',
                                                tao_helpers_translation_POTranslationUnit::FLAGS => 'flag1 composed-flag flag2'));
         
         $string  = "# The first line of my comment continues...\n";
@@ -553,7 +553,7 @@ class TranslationTestCase extends UnitTestCase {
         $string .= "#|  msgid previous-untranslated-string-singular\n";
         $string .= "#| msgid_plural previous-untranslated-string-plural\n";
         $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
-        $this->assertEqual($annotations, array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "The first line of my comment continues...\nAt the second line.",
+        $this->assertEquals($annotations, array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "The first line of my comment continues...\nAt the second line.",
                                                tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS => "Please do not touch this!",
                                                tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT => "A previous testing context.",
                                                tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID => "previous-untranslated-string-singular",
@@ -564,60 +564,60 @@ class TranslationTestCase extends UnitTestCase {
         $string .= "#. لا تغير من فضلك!\n";
         $string .= "#| msgctxt السابقة السياق.";
         $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
-        $this->assertEqual($annotations, array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "هذا تعليق\nمع خطوط متعددة في الداخل.",
+        $this->assertEquals($annotations, array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "هذا تعليق\nمع خطوط متعددة في الداخل.",
                                                tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS => "لا تغير من فضلك!",
                                                tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT => "السابقة السياق."));
         
         $string  = "^ This should not w#ork but the next...\n";
         $string .= "#, flag-read";
         $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
-        $this->assertEqual($annotations, array(tao_helpers_translation_POTranslationUnit::FLAGS => 'flag-read'));
+        $this->assertEquals($annotations, array(tao_helpers_translation_POTranslationUnit::FLAGS => 'flag-read'));
         
         $string = "";
         $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
-        $this->assertEqual($annotations, array());
+        $this->assertEquals($annotations, array());
         
         $reader = new tao_helpers_translation_POFileReader(dirname(__FILE__) . self::ANNOTATIONS_PO);
         $reader->read();
         $tf = $reader->getTranslationFile();
         $tus = $tf->getTranslationUnits();
-        $this->assertEqual(count($tus), 6);
-        $this->assertEqual($tus[0]->getAnnotations(), array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment',
+        $this->assertEquals(count($tus), 6);
+        $this->assertEquals($tus[0]->getAnnotations(), array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment',
                                                             'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                             'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
-        $this->assertEqual($tus[1]->getAnnotations(), array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is another comment',
+        $this->assertEquals($tus[1]->getAnnotations(), array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is another comment',
                                                             tao_helpers_translation_POTranslationUnit::FLAGS => 'flag1 composed-flag flag2 tao-public',
                                                             'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                             'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
-        $this->assertEqual($tus[2]->getAnnotations(), array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "This is a multiline...\ncomment.",
+        $this->assertEquals($tus[2]->getAnnotations(), array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "This is a multiline...\ncomment.",
                                                             'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                             'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
-        $this->assertEqual($tus[3]->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+        $this->assertEquals($tus[3]->getAnnotations(), array('sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
                                                             'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()));
         
         // Test flag related interface on POTranslationUnit & POTranslationFile.                                                    
         $this->assertTrue($tus[5]->hasFlag('flag4'));  
-        $this->assertEqual($tus[5]->getFlags(), array('flag4'));
+        $this->assertEquals($tus[5]->getFlags(), array('flag4'));
         $tus[5]->addFlag('new-flag');
         $this->assertTrue($tus[5]->hasFlag('new-flag'));
-        $this->assertEqual($tus[5]->getFlags(), array('flag4', 'new-flag'));
+        $this->assertEquals($tus[5]->getFlags(), array('flag4', 'new-flag'));
         $tus[5]->addFlag('new-flag');
-        $this->assertEqual($tus[5]->getFlags(), array('flag4', 'new-flag'));
+        $this->assertEquals($tus[5]->getFlags(), array('flag4', 'new-flag'));
         $tus[5]->addFlag('flag5');
-        $this->assertEqual($tus[5]->getAnnotation(tao_helpers_translation_POTranslationUnit::FLAGS),
+        $this->assertEquals($tus[5]->getAnnotation(tao_helpers_translation_POTranslationUnit::FLAGS),
                            array('name' => tao_helpers_translation_POTranslationUnit::FLAGS, 'value' => 'flag4 new-flag flag5'));
         $tus[5]->removeFlag('new-flag');
-        $this->assertEqual($tus[5]->getFlags(), array('flag4', 'flag5'));
+        $this->assertEquals($tus[5]->getFlags(), array('flag4', 'flag5'));
         
         $flagTus = $tf->getByFlag('composed-flag');
-        $this->assertEqual(count($flagTus), 2);
-        $this->assertEqual($flagTus[0]->getSource(), "Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N");
-        $this->assertEqual($flagTus[1]->getSource(), "This one contains the same flag as the second one");
+        $this->assertEquals(count($flagTus), 2);
+        $this->assertEquals($flagTus[0]->getSource(), "Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N");
+        $this->assertEquals($flagTus[1]->getSource(), "This one contains the same flag as the second one");
         
         $flagTus = $tf->getByFlags(array('composed-flag', 'flag2'));
-        $this->assertEqual(count($flagTus), 2);
-        $this->assertEqual($flagTus[0]->getSource(), "Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N");
-        $this->assertEqual($flagTus[1]->getSource(), "This one contains the same flag as the second one");
+        $this->assertEquals(count($flagTus), 2);
+        $this->assertEquals($flagTus[0]->getSource(), "Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N");
+        $this->assertEquals($flagTus[1]->getSource(), "This one contains the same flag as the second one");
         
         // Reload the file.
         // We will check if when the file is written again, we get the same result.
@@ -636,18 +636,18 @@ class TranslationTestCase extends UnitTestCase {
         $reader->read();
         $tf2 = $reader->getTranslationFile();
         
-        $this->assertEqual($tf1->count(), 6);
-        $this->assertEqual($tf2->count(), 6);
+        $this->assertEquals($tf1->count(), 6);
+        $this->assertEquals($tf2->count(), 6);
         
         $tus1 = $tf1->getTranslationUnits();
         $tus2 = $tf2->getTranslationUnits();
         
-        $this->assertEqual($tus1[0]->getAnnotations(), $tus2[0]->getAnnotations());
-        $this->assertEqual($tus1[1]->getAnnotations(), $tus2[1]->getAnnotations());
-        $this->assertEqual($tus1[2]->getAnnotations(), $tus2[2]->getAnnotations());
-        $this->assertEqual($tus1[3]->getAnnotations(), $tus2[3]->getAnnotations());
-        $this->assertEqual($tus1[4]->getAnnotations(), $tus2[4]->getAnnotations());
-        $this->assertEqual($tus1[5]->getAnnotations(), $tus2[5]->getAnnotations());
+        $this->assertEquals($tus1[0]->getAnnotations(), $tus2[0]->getAnnotations());
+        $this->assertEquals($tus1[1]->getAnnotations(), $tus2[1]->getAnnotations());
+        $this->assertEquals($tus1[2]->getAnnotations(), $tus2[2]->getAnnotations());
+        $this->assertEquals($tus1[3]->getAnnotations(), $tus2[3]->getAnnotations());
+        $this->assertEquals($tus1[4]->getAnnotations(), $tus2[4]->getAnnotations());
+        $this->assertEquals($tus1[5]->getAnnotations(), $tus2[5]->getAnnotations());
         
         unlink($path);
     }
@@ -655,29 +655,29 @@ class TranslationTestCase extends UnitTestCase {
     public function testPOAnnotationsWriting(){
         // Test flag utilities.
         $comment = '';
-        $this->assertEqual(tao_helpers_translation_POUtils::addFlag($comment, 'tao-public'), 'tao-public');
+        $this->assertEquals(tao_helpers_translation_POUtils::addFlag($comment, 'tao-public'), 'tao-public');
         
         $comment = 'no-error test-flag';
-        $this->assertEqual(tao_helpers_translation_POUtils::addFlag($comment, 'tao-public'), 'no-error test-flag tao-public');
+        $this->assertEquals(tao_helpers_translation_POUtils::addFlag($comment, 'tao-public'), 'no-error test-flag tao-public');
         
         $comment = 'foo bar code';
-        $this->assertEqual(tao_helpers_translation_POUtils::addFlag($comment, 'bar '), 'foo bar code');
+        $this->assertEquals(tao_helpers_translation_POUtils::addFlag($comment, 'bar '), 'foo bar code');
         
         
         // Test PO comments serialization.
         $annotations = array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'A single line translator comment.');
         $comment = '# A single line translator comment.';
-        $this->assertEqual(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
+        $this->assertEquals(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
         
         $annotations = array(tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "A multi line translator comment...\nWith a second line.",
                              tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS => "An extracted comment.",
                              tao_helpers_translation_POTranslationUnit::FLAGS => "tao-public foo-bar-code php-format");
         $comment = "# A multi line translator comment...\n# With a second line.\n#. An extracted comment.\n#, tao-public foo-bar-code php-format";
-        $this->assertEqual(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
+        $this->assertEquals(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
         
         $annotations = array(tao_helpers_translation_POTranslationUnit::FLAGS => "tao-public");
         $comment = "#, tao-public";
-        $this->assertEqual(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
+        $this->assertEquals(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
         
     }
 }

@@ -20,7 +20,7 @@
  */
 ?>
 <?php
-require_once dirname(__FILE__) . '/TaoTestRunner.php';
+require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -29,7 +29,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class AuthTestCase extends UnitTestCase {
+class AuthTestCase extends TaoPhpUnitTestRunner {
 	
 	/**
 	 * @var tao_models_classes_UserService
@@ -65,7 +65,7 @@ class AuthTestCase extends UnitTestCase {
 	 * tests initialization
 	 */
 	public function setUp(){		
-		TaoTestRunner::initTest();
+		TaoPhpUnitTestRunner::initTest();
 		
 		$this->clearPassword = $this->testUserData[PROPERTY_USER_PASSWORD];
 		$this->testUserData[PROPERTY_USER_PASSWORD] = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt($this->testUserData[PROPERTY_USER_PASSWORD]);
@@ -128,7 +128,7 @@ class AuthTestCase extends UnitTestCase {
 				$property = new core_kernel_classes_Property($prop);
 				$v = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property($prop));
 				$v = ($v instanceof core_kernel_classes_Resource) ? $v->getUri() : $v->literal; 
-				$this->assertEqual($value, $v);
+				$this->assertEquals($value, $v);
 			}
 			catch(common_Exception $ce){ 
 				$this->fail($ce);

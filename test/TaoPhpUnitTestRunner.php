@@ -28,7 +28,7 @@ require_once dirname(__FILE__) . '/../../generis/test/GenerisPhpUnitTestRunner.p
  * @package tao
  * @subpackage test
  */
-abstract class  TaoPhpUnitTestRunner extends GenerisPhPUnitTestRunner{
+abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
 	
 	const SESSION_KEY = 'TAO_TEST_SESSION';
     /**

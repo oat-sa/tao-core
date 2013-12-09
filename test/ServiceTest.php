@@ -20,7 +20,7 @@
  */
 ?>
 <?php
-require_once dirname(__FILE__) . '/TaoTestRunner.php';
+require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -30,7 +30,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class ServiceTestCase extends UnitTestCase {
+class ServiceTestCase extends TaoPhpUnitTestRunner {
 	
 	/**
 	 * @var tao_models_classes_TaoService we share the service instance between the tests
@@ -41,7 +41,9 @@ class ServiceTestCase extends UnitTestCase {
 	 * tests initialization
 	 */
 	public function setUp(){		
-		TaoTestRunner::initTest();
+		TaoPhpUnitTestRunner::initTest();
+		$this->assertNull($this->taoService);
+		$this->taoService = tao_models_classes_TaoService::singleton();
 	}
 	
 	
@@ -52,10 +54,10 @@ class ServiceTestCase extends UnitTestCase {
 	 */
 	public function testServiceFactory(){
 		
-		$this->assertNull($this->taoService);
+		
 		
 		//test factory instantiation
-		$this->taoService = tao_models_classes_TaoService::singleton();
+		
 		$this->assertIsA($this->taoService, 'tao_models_classes_TaoService');
 		
 		$userService = tao_models_classes_UserService::singleton();
@@ -65,7 +67,7 @@ class ServiceTestCase extends UnitTestCase {
 		$this->assertIsA($taoService2, 'tao_models_classes_TaoService');
 		
 		//test factory singleton
-		$this->assertReference($this->taoService, $taoService2);
+		$this->assertSame($this->taoService, $taoService2);
 		
 	}
 	
@@ -106,11 +108,11 @@ class ServiceTestCase extends UnitTestCase {
 		
 		//get the diff between the class and the subclass
 		$diffs = $this->taoService->getPropertyDiff($testModelClass, $generisResourceClass);
-		$this->assertIsA($diffs, 'array');
+		$this->assertInternalType('array' , $diffs);
 		$diffProperty = $diffs[0];
 		$this->assertNotNull($diffProperty);
 		$this->assertIsA($diffProperty, 'core_kernel_classes_Property');
-		$this->assertEqual($testProperty->getUri(), $diffProperty->getUri());
+		$this->assertEquals($testProperty->getUri(), $diffProperty->getUri());
 		
 		//test the createInstance method 
 		$testInstance = $this->taoService->createInstance($testModelClass, 'anInstance');
@@ -119,7 +121,7 @@ class ServiceTestCase extends UnitTestCase {
 		//get the class from the instance
 		$clazz = $this->taoService->getClass($testInstance);
 		$this->assertIsA($clazz, 'core_kernel_classes_Class');
-		$this->assertEqual($clazz->getUri(), $testModelClass->getUri());
+		$this->assertEquals($clazz->getUri(), $testModelClass->getUri());
 		
 		//test the bindProperties method
 		$testInstance = $this->taoService->bindProperties(
@@ -129,14 +131,14 @@ class ServiceTestCase extends UnitTestCase {
 			)
 		);
 		$this->assertIsA( $testInstance, 'core_kernel_classes_Resource');
-		$this->assertEqual($testInstance->getUniquePropertyValue($testProperty)->literal, 'aValue');
+		$this->assertEquals($testInstance->getUniquePropertyValue($testProperty)->literal, 'aValue');
 		
 		
 		//clone instance
 		$clonedInstance = $this->taoService->cloneInstance($testInstance, $testModelClass);
 		$this->assertIsA( $clonedInstance, 'core_kernel_classes_Resource');
-		$this->assertNotEqual($clonedInstance->getUri(), $testInstance->getUri());
-		$this->assertEqual($testInstance->getUniquePropertyValue($testProperty), $clonedInstance->getUniquePropertyValue($testProperty));
+		$this->assertNotEquals($clonedInstance->getUri(), $testInstance->getUri());
+		$this->assertEquals($testInstance->getUniquePropertyValue($testProperty), $clonedInstance->getUniquePropertyValue($testProperty));
 		
 		//get the properties between 2 classes
 		$itemClass = new core_kernel_classes_Class(TAO_ITEM_CLASS);
@@ -148,7 +150,7 @@ class ServiceTestCase extends UnitTestCase {
 			$testClass =$itemClass;
 		}
 		$foundProp = $this->taoService->getClazzProperties($testClass);
-		$this->assertIsA($foundProp, 'array');
+		$this->assertInternalType('array' , $foundProp);
         $this->assertTrue(count($foundProp) >= 3, 'the class item or one of is subclasses has less then three properties');
         
 		//delete the item class in case it has been created if it was not in the model
@@ -170,7 +172,7 @@ class ServiceTestCase extends UnitTestCase {
 		$fc->put("string1", 'testcase1');
 		$fromCache = $fc->get('testcase1');
 		$this->assertTrue(is_string($fromCache), 'string is not returned as string from FileCache');
-		$this->assertEqual($fromCache,  "string1");
+		$this->assertEquals($fromCache,  "string1");
 		$this->assertTrue($fc->has('testcase1'), ' has() did not find serial "testcase1"');
 		$this->assertFalse($fc->has('testcase2'), ' has() did find non existal serial "testcase2"');
 		$fc->remove('testcase1');
@@ -179,7 +181,7 @@ class ServiceTestCase extends UnitTestCase {
 		$fc->put(42, 'testcase2');
 		$fromCache = $fc->get('testcase2');
 		$this->assertTrue(is_numeric($fromCache), 'numeric is not returned as numeric from FileCache');
-		$this->assertEqual($fromCache,  42);
+		$this->assertEquals($fromCache,  42);
 		$fc->remove('testcase2');
 		
 		$testarr = array(
@@ -189,7 +191,7 @@ class ServiceTestCase extends UnitTestCase {
 		$fc->put($testarr, 'testcase3');
 		$fromCache = $fc->get('testcase3');
 		$this->assertTrue(is_array($fromCache), 'array is not returned as array from FileCache');
-		$this->assertEqual($fromCache,  $testarr);
+		$this->assertEquals($fromCache,  $testarr);
 		$fc->remove('testcase3');
 		
 		
@@ -198,13 +200,13 @@ class ServiceTestCase extends UnitTestCase {
 		$fromCache = $fc->get('testcase4');
 		$this->assertTrue(is_object($fromCache), 'object is not returned as object from FileCache');
 		$this->assertIsA($fromCache, 'Exception');
-		$this->assertEqual($e->getMessage(),  $fromCache->getMessage());
+		$this->assertEquals($e->getMessage(),  $fromCache->getMessage());
 		$fc->remove('testcase4');
 		
 		$badstring = 'abc\'abc\'\'abc"abc""abc\\abc\\\\abc'."abc\n\nabc\l\nabc\l\nabc".'_NULL_é_NUL_'.chr(0).'_';
 		$fc->put($badstring, 'testcase5');
 		$fromCache = $fc->get('testcase5');
-		$this->assertEqual($fromCache, $badstring);
+		$this->assertEquals($fromCache, $badstring);
 		$fc->remove('testcase5');
 	}
 	

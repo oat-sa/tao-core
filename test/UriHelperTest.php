@@ -20,7 +20,7 @@
  */
 ?>
 <?php
-require_once dirname(__FILE__) . '/TaoTestRunner.php';
+require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -28,34 +28,34 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class UriHelperTestCase extends UnitTestCase {
+class UriHelperTestCase extends TaoPhpUnitTestRunner {
     
     public function setUp()
     {		
         parent::setUp();
-		TaoTestRunner::initTest();
+		TaoPhpUnitTestRunner::initTest();
 	}
 	
 	public function testUriDomain(){
 		$uri = 'http://www.google.fr';
 		$domain = tao_helpers_Uri::getDomain($uri);
-		$this->assertEqual($domain, 'www.google.fr');
+		$this->assertEquals($domain, 'www.google.fr');
 		
 		$uri = 'http://www.google.fr/';
 		$domain = tao_helpers_Uri::getDomain($uri);
-		$this->assertEqual($domain, 'www.google.fr');
+		$this->assertEquals($domain, 'www.google.fr');
 		
 		$uri = 'http://www.google.fr/translate';
 		$domain = tao_helpers_Uri::getDomain($uri);
-		$this->assertEqual($domain, 'www.google.fr');
+		$this->assertEquals($domain, 'www.google.fr');
 		
 		$uri = 'http://www.google.fr/translate?word=yes';
 		$domain = tao_helpers_Uri::getDomain($uri);
-		$this->assertEqual($domain, 'www.google.fr');
+		$this->assertEquals($domain, 'www.google.fr');
 		
 		$uri = 'ftp://sub.domain.filetransfer.ulc.ag.be';
 		$domain = tao_helpers_Uri::getDomain($uri);
-		$this->assertEqual($domain, 'sub.domain.filetransfer.ulc.ag.be');
+		$this->assertEquals($domain, 'sub.domain.filetransfer.ulc.ag.be');
 		
 		$uri = 'flupsTu8tridou:kek';
 		$domain = tao_helpers_Uri::getDomain($uri);
@@ -63,7 +63,7 @@ class UriHelperTestCase extends UnitTestCase {
 		
 		$uri = 'http://mytaoplatform/';
 		$domain = tao_helpers_Uri::getDomain($uri);
-		$this->assertTrue($domain, 'mytaoplatform');
+		$this->assertEquals($domain, 'mytaoplatform');
 	}
 	
 	public function testUriPath(){
@@ -73,23 +73,23 @@ class UriHelperTestCase extends UnitTestCase {
 		
 		$uri = 'http://www.google.fr/';
 		$path = tao_helpers_Uri::getPath($uri);
-		$this->assertEqual($path, '/');
+		$this->assertEquals($path, '/');
 		
 		$uri = 'http://www.google.fr/translate';
 		$path = tao_helpers_Uri::getPath($uri);
-		$this->assertEqual($path, '/translate');
+		$this->assertEquals($path, '/translate');
 		
 		$uri = 'http://www.google.fr/translate?word=yes';
 		$path = tao_helpers_Uri::getPath($uri);
-		$this->assertEqual($path, '/translate');
+		$this->assertEquals($path, '/translate');
 		
 		$uri = 'http://www.google.fr/translate/funky?word=yes';
 		$path = tao_helpers_Uri::getPath($uri);
-		$this->assertEqual($path, '/translate/funky');
+		$this->assertEquals($path, '/translate/funky');
 		
 		$uri = 'http://www.google.fr/translate/funky/?word=yes';
 		$path = tao_helpers_Uri::getPath($uri);
-		$this->assertEqual($path, '/translate/funky/');
+		$this->assertEquals($path, '/translate/funky/');
 		
 		$uri = 'ftp://sub.domain.filetransfer.ulc.ag.be';
 		$path = tao_helpers_Uri::getPath($uri);
@@ -101,7 +101,7 @@ class UriHelperTestCase extends UnitTestCase {
 		
 		$uri = 'http://mytaoplatform/';
 		$path = tao_helpers_Uri::getPath($uri);
-		$this->assertTrue($path, '/');
+		$this->assertEquals($path, '/');
 	}
 	
 	public function testIsValidAsCookieDomain(){

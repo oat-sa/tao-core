@@ -20,7 +20,7 @@
  */
 ?>
 <?php
-require_once dirname(__FILE__) . '/TaoTestRunner.php';
+require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -28,7 +28,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class FileHelperTestCase extends UnitTestCase {
+class FileHelperTest extends TaoPhpUnitTestRunner {
 	
     protected $deep = 3;
     protected $fileCount = 5;
@@ -43,7 +43,7 @@ class FileHelperTestCase extends UnitTestCase {
     public function setUp()
     {		
         parent::setUp();
-		TaoTestRunner::initTest();
+		TaoPhpUnitTestRunner::initTest();
         $this->initEnv($this->tmpPath, $this->envName, $this->deep, $this->fileCount);
 	}
     
@@ -69,9 +69,9 @@ class FileHelperTestCase extends UnitTestCase {
     
     public function testScanDir()
     {
-        $this->assertEqual(count(tao_helpers_File::scanDir($this->envPath, array('recursive'=>true))), 23);
-        $this->assertEqual(count(tao_helpers_File::scanDir($this->envPath, array('only'=>tao_helpers_File::$DIR, 'recursive'=>true))), 3);
-        $this->assertEqual(count(tao_helpers_File::scanDir($this->envPath, array('only'=>tao_helpers_File::$FILE, 'recursive'=>true))), 20);
+        $this->assertEquals(count(tao_helpers_File::scanDir($this->envPath, array('recursive'=>true))), 23);
+        $this->assertEquals(count(tao_helpers_File::scanDir($this->envPath, array('only'=>tao_helpers_File::$DIR, 'recursive'=>true))), 3);
+        $this->assertEquals(count(tao_helpers_File::scanDir($this->envPath, array('only'=>tao_helpers_File::$FILE, 'recursive'=>true))), 20);
     }
     
     public function testTempDir()
@@ -80,7 +80,7 @@ class FileHelperTestCase extends UnitTestCase {
     	$path2 = tao_helpers_File::createTempDir();
     	$this->assertTrue(is_dir($path1));
     	$this->assertTrue(is_dir($path2));
-    	$this->assertNotEqual($path1, $path2);
+    	$this->assertNotEquals($path1, $path2);
     	
     	$tempnam1 = tempnam($path1, '');
         $this->assertTrue(is_file($tempnam1));

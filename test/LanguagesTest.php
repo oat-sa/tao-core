@@ -20,7 +20,7 @@
  */
 ?>
 <?php
-require_once dirname(__FILE__) . '/TaoTestRunner.php';
+require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
@@ -30,7 +30,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class LanguagesTestCase extends UnitTestCase {
+class LanguagesTestCase extends TaoPhpUnitTestRunner {
     
     /**
      * Test the existence of language definition resources in the knowledge base
@@ -56,7 +56,7 @@ class LanguagesTestCase extends UnitTestCase {
                         // Check for this language in Ontology.
                         $kbLangs = $lgResource->getPropertyValues(new core_kernel_classes_Property(RDF_VALUE));
                         if (is_array($kbLangs)){
-                        	$this->assertEqual(count($kbLangs), 1, "Number of languages retrieved for language '${l}' is '" . count($kbLangs) . "'.");
+                        	$this->assertEquals(count($kbLangs), 1, "Number of languages retrieved for language '${l}' is '" . count($kbLangs) . "'.");
                         	
                         	// Check if the language has the correct URI.
                         	if ($kbLangs[0] instanceof core_kernel_classes_Resource){
@@ -83,10 +83,10 @@ class LanguagesTestCase extends UnitTestCase {
     	// be available in any known language usage.
     	$lgUsageProperty = new core_kernel_classes_Property(PROPERTY_LANGUAGE_USAGES);
     	$this->assertIsA($lgUsageProperty, 'core_kernel_classes_Property');
-    	$this->assertEqual($lgUsageProperty->getUri(), PROPERTY_LANGUAGE_USAGES);
+    	$this->assertEquals($lgUsageProperty->getUri(), PROPERTY_LANGUAGE_USAGES);
     	$usagePropertyRange = $lgUsageProperty->getRange();
     	$this->assertIsA($usagePropertyRange, 'core_kernel_classes_Class');
-    	$this->assertEqual($usagePropertyRange->getUri(), CLASS_LANGUAGES_USAGES);
+    	$this->assertEquals($usagePropertyRange->getUri(), CLASS_LANGUAGES_USAGES);
     	
     	$instancePrefix = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
     	$targetLanguageCode = DEFAULT_LANG;
