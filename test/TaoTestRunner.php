@@ -24,7 +24,7 @@
 require_once dirname(__FILE__).'/../includes/class.Bootstrap.php';
 require_once INCLUDES_PATH.'/simpletest/autorun.php';
 require_once INCLUDES_PATH.'/ClearFw/core/simpletestRunner/_main.php';
-require_once dirname(__FILE__) .'/coverage/coverage.conf.php';
+
 
 /**
  * Help you to run the test into the TAO Context
