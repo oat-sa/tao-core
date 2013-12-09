@@ -36,31 +36,31 @@ class ServiceStorageTestCase extends UnitTestCase {
 	
 	public function testServiceStorage() {
 		$service = tao_models_classes_service_StateStorage::singleton();
-		$user = new core_kernel_classes_Resource(LOCAL_NAMESPACE.'#inexistentTestUser');
+		$userUri = LOCAL_NAMESPACE.'#inexistentTestUser';
 
 		// is not set		
-		$this->assertFalse($service->has($user, 'testkey'));
-		$value = $service->get($user, 'testkey');
+		$this->assertFalse($service->has($userUri, 'testkey'));
+		$value = $service->get($userUri, 'testkey');
 		$this->assertNull($value);
 		
 		//  test set		
-		$this->assertTrue($service->set($user, 'testkey', 'testvalue'));
-		$this->assertTrue($service->has($user, 'testkey'));
-		$value = $service->get($user, 'testkey');
+		$this->assertTrue($service->set($userUri, 'testkey', 'testvalue'));
+		$this->assertTrue($service->has($userUri, 'testkey'));
+		$value = $service->get($userUri, 'testkey');
 		$this->assertEqual($value, 'testvalue');
 		
 		//  test replace		
-		$this->assertTrue($service->set($user, 'testkey', 'testvalue2'));
-		$this->assertTrue($service->has($user, 'testkey'));
-		$value = $service->get($user, 'testkey');
+		$this->assertTrue($service->set($userUri, 'testkey', 'testvalue2'));
+		$this->assertTrue($service->has($userUri, 'testkey'));
+		$value = $service->get($userUri, 'testkey');
 		$this->assertEqual($value, 'testvalue2');
 
 		//  test delete		
-		$this->assertTrue($service->del($user, 'testkey'));
-		$this->assertFalse($service->has($user, 'testkey'));
-		$value = $service->get($user, 'testkey');
+		$this->assertTrue($service->del($userUri, 'testkey'));
+		$this->assertFalse($service->has($userUri, 'testkey'));
+		$value = $service->get($userUri, 'testkey');
 		$this->assertNull($value);
-		$this->assertFalse($service->del($user, 'testkey'));
+		$this->assertFalse($service->del($userUri, 'testkey'));
 	}
 }
 
