@@ -31,23 +31,47 @@ class tao_models_classes_service_StateStorage
 {
     const PERSISTENCE_ID = 'serviceState';
     
+    /**
+     * Persistence to store service states to
+     * 
+     * @var common_persistence_KeyValuePersistence
+     */
     private $persistence;
     
+    /**
+     * protected constructor to ensure singleton pattern
+     */
 	protected function __construct() {
 		parent::__construct();
 		$this->persistence = common_persistence_KeyValuePersistence::getPersistence(self::PERSISTENCE_ID);
 	}
 	
-  	public function set($userId, $serial, $data) {
-  	    $redisSerial = $this->getSerial($userId, $serial);
+	/**
+	 * Store the state of the service call
+	 * 
+	 * @param string $userId
+	 * @param string $callId
+	 * @param mixed $data
+	 * @return boolean
+	 */
+  	public function set($userId, $callId, $data) {
+  	    $key = $this->getSerial($userId, $callId);
   	    $dataString = json_encode($data, true);
-  	    return $this->persistence->set($redisSerial, $dataString);
+  	    return $this->persistence->set($key, $dataString);
   	}
   	
-  	public function get($userId, $serial) {
-  	    $redisSerial = $this->getSerial($userId, $serial);
-  	    $returnValue = $this->persistence->get($redisSerial);
-  	    if ($returnValue === false && !$this->has($userId, $serial)) {
+  	/**
+  	 * Retore the state of the service call
+  	 * Returns null if no state is found
+  	 * 
+  	 * @param string $userId
+  	 * @param string $callId
+  	 * @return mixed
+  	 */
+  	public function get($userId, $callId) {
+  	    $key = $this->getSerial($userId, $callId);
+  	    $returnValue = $this->persistence->get($key);
+  	    if ($returnValue === false && !$this->has($userId, $callId)) {
   	        $returnValue = null;
   	    } else {
   	        $returnValue = json_decode($returnValue, true);
@@ -55,18 +79,45 @@ class tao_models_classes_service_StateStorage
   	    return $returnValue;
   	}
   	
-  	public function has($userId, $serial) {
-  	    $redisSerial = $this->getSerial($userId, $serial);
-  	    return $this->persistence->exists($redisSerial);
+  	/**
+  	 * Whenever or not a state for this service call exists
+  	 * 
+  	 * @param string $userId
+  	 * @param string $callId
+  	 * @return boolean
+  	 */
+  	public function has($userId, $callId) {
+  	    $key = $this->getSerial($userId, $callId);
+  	    return $this->persistence->exists($key);
   	}
   	
-  	public function del($userId, $serial) {
-  	    $redisSerial = $this->getSerial($userId, $serial);
-  	    return $this->persistence->del($redisSerial);
+  	/**
+  	 * Remove the state for this service call
+  	 * 
+  	 * @param string $userId
+  	 * @param string $callId
+  	 * @return boolean
+  	 */
+  	public function del($userId, $callId) {
+  	    $key = $this->getSerial($userId, $callId);
+  	    return $this->persistence->del($key);
   	}
   	
-  	private function getSerial($userId, $serial) {
-  	  		return $userId.'_'.$serial;;
+  	/**
+  	 * Generate a storage key using the provide user and serial
+  	 * 
+  	 * @param string $userId
+  	 * @param string $callId
+  	 * @return string
+  	 */
+  	private function getSerial($userId, $callId) {
+  	    if (is_object($userId)) {
+  	        common_Logger::w('Object as userid: '.get_class($userId));
+  	        if ($userId instanceof core_kernel_classes_Resource) {
+  	            $userId = $userId->getUri();
+  	        }
+  	    }
+  		return $userId.'_'.$callId;;
   	}
   	 
 }
