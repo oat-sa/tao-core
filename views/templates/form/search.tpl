@@ -50,7 +50,7 @@ require(['jquery', 'grid/tao.grid'], function($) {
 	$("#result-list").jqGrid('addRowData', <?=$i?> , {
 		'id' : <?=$i?>,
 		<?foreach($row['properties'] as $j => $propValue):?>
-			'property_<?=$j?>': '<?=$propValue?>',
+			'property_<?=$j?>': "<?=$propValue?>",
 		<?endforeach?>
 		'actions': "<img class='icon' src='<?=TAOBASE_WWW?>img/bullet_go.png'/><a href='#' onclick='<?=get_data('openAction')?>(\"<?=$row['uri']?>\"); return false;' class='' ><?=__('Open')?></a>"
 	}); 
