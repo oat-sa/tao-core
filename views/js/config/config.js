@@ -13,11 +13,13 @@ require.config({
         'taoQtiRunner' : '../../../taoQTI/views/js/qtiRunner',
         'taoQtiItemRuntime' : '../../../taoQTI/views/js/runtime',
         'taoQtiDefaultRenderer' : '../../../taoQTI/views/js/qtiDefaultRenderer',
+        'taoQtiEditableRenderer' : '../../../taoQTI/views/js/qtiEditableRenderer',
         'class' : ['class'],
         'raphael' : ['raphael.min'],
         'raphael-collision' : ['raphael/raphael-collision/raphael-collision'],
         'mediaElement' : ['../../../taoQTI/views/js/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min'],
-        'mathJax' : ['../../../taoQTI/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full']
+        'mathJax' : ['../../../taoQTI/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full'],
+        'murmurhash3': ['../../../taoQTI/views/js/qtiAuthoring/lib/murmurhash/murmurhash3_gc']
     },
     shim : {
         'jqueryUI' : ['jquery'],
@@ -49,6 +51,9 @@ require.config({
                 MathJax.Hub.Startup.onload();
                 return MathJax;
             }
+        },
+        'murmurhash3':{
+            exports: "murmurhash3_32_gc"
         }
     }
 });
