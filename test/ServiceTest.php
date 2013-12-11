@@ -30,7 +30,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class ServiceTestCase extends TaoPhpUnitTestRunner {
+class ServiceTest extends TaoPhpUnitTestRunner {
 	
 	/**
 	 * @var tao_models_classes_TaoService we share the service instance between the tests
@@ -195,9 +195,10 @@ class ServiceTestCase extends TaoPhpUnitTestRunner {
 		$fc->remove('testcase3');
 		
 		
-		$e = new Exception('message');
+		$e = new Exception('message"\\\'');
 		$fc->put($e, 'testcase4');
 		$fromCache = $fc->get('testcase4');
+		
 		$this->assertTrue(is_object($fromCache), 'object is not returned as object from FileCache');
 		$this->assertIsA($fromCache, 'Exception');
 		$this->assertEquals($e->getMessage(),  $fromCache->getMessage());
