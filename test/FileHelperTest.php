@@ -28,7 +28,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  * @subpackage test
  */
-class FileHelperTest extends TaoPhpUnitTestRunner {
+class tao_test_FileHelperTest extends TaoPhpUnitTestRunner {
 	
     protected $deep = 3;
     protected $fileCount = 5;
