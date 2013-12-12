@@ -64,6 +64,7 @@ function checkConfig(){
 			install.addData('root_url', data.value.rootURL);
 			install.addData('available_drivers', data.value.availableDrivers);
 			install.addData('available_languages', data.value.availableLanguages);
+			install.addData('available_timezones', data.value.availableTimezones);
 			
 			// Empty existing reports.
 			var $list = $('#forms_check_content ul');

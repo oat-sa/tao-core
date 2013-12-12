@@ -206,7 +206,8 @@ class tao_install_Installator{
 				'ROOT_PATH'					=> $this->options['root_path'],
 				'ROOT_URL'					=> $installData['module_url'],
 				'DEFAULT_LANG'				=> $installData['module_lang'],
-				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false
+				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false,
+			    'TIME_ZONE'                 => empty($installData['timezone']) ? 'UTC' : $installData['timezone']
 			));
 			
 			/*

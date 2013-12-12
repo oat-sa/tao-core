@@ -26,8 +26,20 @@ function onLoad(){
 		var $defaultLanguageElement = $('#default_language').empty();
 		
 		for (var i in availableLanguages){
+			
 			var selected  = (i == 'en-US') ? 'selected="selected"' : '';
 			$defaultLanguageElement.append('<option value="' + i + '" ' + selected + '>' + availableLanguages[i] + '</option>');
+		}
+	}
+	
+	// Set up the list of available timezones.
+	var availableTimezones = install.getData('available_timezones');
+	if (availableLanguages != null){
+		var $timezoneElement = $('#timezone').empty();
+		
+		for (var i in availableTimezones){
+			var selected = (availableTimezones[i] == 'UTC') ? 'selected="selected"' : '';
+			$timezoneElement.append('<option value="' + availableTimezones[i] + '" ' + selected + '>' + availableTimezones[i] + '</option>');
 		}
 	}
 	
@@ -123,5 +135,6 @@ function initHelp(){
 	install.addHelp('hlp_host_name', "This field must contain the entire URL (Uniform Resource Locator) that locates your TAO platform. The default value should work in any case.");
 	install.addHelp('hlp_instance_name', "The instance name will be allocated to this installation to differentiate it from other accross your network. The range of accepted characters for this field are alphanumeric characters, underscore (_) and dash (-).");
 	install.addHelp('hlp_default_language', "The default language that will be used by TAO to display texts in the graphical user interface.");
+	install.addHelp('hlp_timezone', "The desired Timezone to be used by your web server to deal with time constraints.");
 	install.addHelp('hlp_deployment_mode', "The <em>production</em> deployment mode provide you a secure installation dedicated to production. On the other hand, the <em>development</em> mode is dedicated to developers where various debug modes are enabled.");
 }

@@ -62,7 +62,8 @@ class tao_install_services_SyncService extends tao_install_services_Service{
         		'json' => true,
         		'rootURL' => self::getRootUrl(),
         		'availableDrivers' => self::getAvailableDrivers(),
-        		'availableLanguages' => self::getAvailableLanguages($localesDir)
+        		'availableLanguages' => self::getAvailableLanguages($localesDir),
+        	    'availableTimezones' => self::getAvailableTimezones()
         	)));
         }
                                    
@@ -124,6 +125,19 @@ class tao_install_services_SyncService extends tao_install_services_Service{
     	}
     	
     	return $languages;
+    }
+    
+    /**
+     * Get available timezones on the server side. The returned value
+     * corresponds to the value returned by DateTimeZone::listIdentifiers()'s PHP
+     * method.
+     * 
+     * @return array An array where keys are integers and values are PHP timezone identifiers.
+     * @see http://www.php.net/manual/en/datetimezone.listidentifiers.php PHP's DateTimeZone::listIdentifiers method.
+     * @see http://php.net/manual/en/timezones.php For the list of PHP's timezone identifiers.
+     */
+    private static function getAvailableTimezones() {
+        return DateTimeZone::listIdentifiers();
     }
     
     protected function checkData(){
