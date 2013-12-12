@@ -45,7 +45,7 @@ function onLoad(){
 						.addClass('disabled')
 						.attr('disabled', true);
 		$('#submitForm').attr('value', 'Awaiting mandatory information');
-	}
+	};
 	
 	$('form').bind('submit', function(){
 		// set a spinner up.
