@@ -136,7 +136,7 @@ class tao_models_classes_Parser
 
         //You know sometimes you think you have enough time, but it is not always true ...
         //(timeout in hudson with the generis-hard test suite)
-        //set_time_limit(300);
+        helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::MEDIUM);
 
         $forced = $this->valid;
 
@@ -212,7 +212,7 @@ class tao_models_classes_Parser
             }
         }
         $returnValue = $this->valid;
-
+        helpers_TimeOutHelper::reset();
         return (bool) $returnValue;
     }
 
