@@ -67,9 +67,10 @@ return array(
 				array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_suhosin_request_max_varname_length', 'name' => 'suhosin.request.max_varname_length', 'value' => '128', 'dependsOn' => array('tao_extension_suhosin'))),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_root', 'location' => '.', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_data_cache', 'location' =>  'generis/data/cache', 'rights' => 'rw')),
-				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_data_versionning', 'location' => 'generis/data/versioning', 'rights' => 'rw')),
-				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common', 'location' => 'generis/common', 'rights' => 'rw')),
-				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf', 'location' => 'generis/common/conf', 'rights' => 'rw')),
+				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_data_servicePublic', 'location' =>  'generis/data/servicePublic', 'rights' => 'rw')),
+				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_data_servicePrivate', 'location' =>  'generis/data/servicePrivate', 'rights' => 'rw')),
+				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_data_serviceState', 'location' =>  'generis/data/serviceState', 'rights' => 'rw')),
+		        array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf', 'location' => 'generis/common/conf', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf_default', 'location' => 'generis/common/conf/default', 'rights' => 'r')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_generis_common_conf_sample', 'location' => 'generis/common/conf/sample', 'rights' => 'r')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_includes', 'location' => 'tao/includes', 'rights' => 'rw')),
@@ -84,6 +85,7 @@ return array(
 		'php' => array(
 			dirname(__FILE__).'/scripts/install/addFileUploadSource.php',
 			dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
+		    dirname(__FILE__).'/scripts/install/setupServiceFileStorage.php'
 		)
 	),
 	'classLoaderPackages' => array(

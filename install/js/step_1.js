@@ -220,8 +220,10 @@ function initHelp(){
 	install.addHelp('hlp_tao_custom_not_nginx', 'Since Nginx does not come with support for per directory rewrite rules, the rewrite rules will have to be specified in the server config. Please see http://forge.taotesting.com/projects/tao/wiki/Nginx for further help.');
 	install.addHelp('hlp_tao_custom_database_drivers', 'Database drivers supported by the TAO platform are MySQL and PostgreSQL.');
 	install.addHelp('hlp_tao_fs_root', 'The root directory of your installation must be readable and writable by the user running your web server.');
-	install.addHelp('hlp_tao_fs_generis_data_cache', "The '/generis/data/cache' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_generis_data_versionning', "The '/generis/data/versionning' directory of your installation must be readable and writable by the user running your web server.");
+	install.addHelp('hlp_fs_generis_data_cache', "The '/generis/data/cache' directory of your installation must be readable and writable by the user running your web server.");
+	install.addHelp('hlp_fs_generis_data_servicePublic', "The '/generis/data/servicePublic' directory of your installation must be readable and writable by the user running your web server.");
+	install.addHelp('hlp_fs_generis_data_servicePrivate', "The '/generis/data/servicePrivate' directory of your installation must be readable and writable by the user running your web server.");
+	install.addHelp('hlp_fs_generis_data_serviceState', "The '/generis/data/serviceState' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_generis_common', "The '/generis/common' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_generis_common_conf', "The '/generis/common/conf' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_generis_common_conf_default', "The '/generis/common/conf/default' directory of your installation must be readable by the user running your web server.");
@@ -239,7 +241,6 @@ function initHelp(){
 	install.addHelp('hlp_fs_taoQtiTest_data_testdata', "The 'taoQtiTest/data/testdata' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_taoItems_includes', "The 'taoItems/includes' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoItems_views_export', "The 'taoItems/views/export' directory of your installation must be readable and writable by the user running your web server.");
-	install.addHelp('hlp_fs_taoDelivery_compiled', "The 'taoDelivery/data/compiled' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_taoDelivery_includes', "The 'taoDelivery/includes' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoGroups_includes', "The 'taoGroups/includes' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoSubjects_includes', "The 'taoSubjects/includes' directory of your installation must be readable by the user running your web server.");
