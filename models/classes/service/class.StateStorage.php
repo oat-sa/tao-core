@@ -51,13 +51,12 @@ class tao_models_classes_service_StateStorage
 	 * 
 	 * @param string $userId
 	 * @param string $callId
-	 * @param mixed $data
+	 * @param string $data
 	 * @return boolean
 	 */
   	public function set($userId, $callId, $data) {
   	    $key = $this->getSerial($userId, $callId);
-  	    $dataString = json_encode($data, true);
-  	    return $this->persistence->set($key, $dataString);
+  	    return $this->persistence->set($key, $data);
   	}
   	
   	/**
@@ -66,15 +65,13 @@ class tao_models_classes_service_StateStorage
   	 * 
   	 * @param string $userId
   	 * @param string $callId
-  	 * @return mixed
+  	 * @return string
   	 */
   	public function get($userId, $callId) {
   	    $key = $this->getSerial($userId, $callId);
   	    $returnValue = $this->persistence->get($key);
   	    if ($returnValue === false && !$this->has($userId, $callId)) {
   	        $returnValue = null;
-  	    } else {
-  	        $returnValue = json_decode($returnValue, true);
   	    }
   	    return $returnValue;
   	}
