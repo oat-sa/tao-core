@@ -276,7 +276,7 @@ class Bootstrap{
 		$sessionParams = session_get_cookie_params();
 		$cookieDomain = ((true == tao_helpers_Uri::isValidAsCookieDomain(ROOT_URL)) ? tao_helpers_Uri::getDomain(ROOT_URL) : $sessionParams['domain']);
 		session_set_cookie_params($sessionParams['lifetime'], tao_helpers_Uri::getPath(ROOT_URL), $cookieDomain, $sessionParams['secure'], TRUE);
-		$this->configureSessionStorage();
+		$this->configureSessionHandler();
 
 		// Start the session with a specific name.
 		session_name(GENERIS_SESSION_NAME);
@@ -284,33 +284,30 @@ class Bootstrap{
 		
 		common_Logger::t("Session with name '" . GENERIS_SESSION_NAME ."' started.");
 	}
-    private function configureSessionStorage() {
-        //check configuration aprameter
+    private function configureSessionHandler() {
+        
         
         if (
             (defined("PHP_SESSION_HANDLER"))
             && (class_exists(PHP_SESSION_HANDLER))
             ) {
-
+                
                 //check if it implements the interface
                 $interfaces = class_implements(PHP_SESSION_HANDLER);
-                if (in_array("common_session_storage_SessionStorage", $interfaces)) {
-                $classDefinition = PHP_SESSION_HANDLER;
-                $sessionPersistenceHandler = new $classDefinition();
-
-                //>= php 5.4 use the new SessionHandlerInterface
-                //session_set_save_handler($sessionPersistenceHandler, true);
-                //>=php 5.3
+                if (in_array("common_session_php_SessionHandler", $interfaces)) {
+                $configuredHandler = PHP_SESSION_HANDLER;
+                //give the persistence to be used by the session handler       
+                $sessionHandler = new $configuredHandler(common_persistence_Manager::getPersistence('session'));
                 session_set_save_handler(
-                array($sessionPersistenceHandler, 'open'),
-                array($sessionPersistenceHandler, 'close'),
-                array($sessionPersistenceHandler, 'read'),
-                array($sessionPersistenceHandler, 'write'),
-                array($sessionPersistenceHandler, 'destroy'),
-                array($sessionPersistenceHandler, 'gc')
+                array($sessionHandler, 'open'),
+                array($sessionHandler, 'close'),
+                array($sessionHandler, 'read'),
+                array($sessionHandler, 'write'),
+                array($sessionHandler, 'destroy'),
+                array($sessionHandler, 'gc')
                 );
-                }
-            } 
+                }   
+        }
     }
 	/**
 	 * register a custom Errorhandler
