@@ -28,10 +28,32 @@
  */
 abstract class tao_models_classes_Compiler
 {
+    /**
+     * Resource to be compiled
+     * @var core_kernel_classes_Resource
+     */
     private $resoure;
     
-    public function __construct(core_kernel_classes_Resource $resource) {
+    /**
+     * @var tao_models_classes_service_FileStorage
+     */
+    private $compilationStorage = null;
+    
+    /**
+     * 
+     * @param core_kernel_classes_Resource $resource
+     */
+    public function __construct(core_kernel_classes_Resource $resource, $storage = null) {
         $this->resoure = $resource;
+        $this->compilationStorage = $storage;
+    }
+    
+    public function setStorage(tao_models_classes_service_FileStorage $storage) {
+        $this->compilationStorage = $storage;
+    }
+    
+    public function getStorage() {
+        return $this->compilationStorage;
     }
     
     /**
@@ -41,47 +63,40 @@ abstract class tao_models_classes_Compiler
         return $this->resoure;
     }
     
-    /**
-     * Creates an appropriate sub-directory for a resource's compilation
-     * 
-     * @param core_kernel_file_File $rootDirectory The root directory for this item compilation.
-     * @param core_kernel_classes_Resource $resource The Item resource in the database.
-     * @throws taoItems_models_classes_CompilationFailedException If something goes wrong while creating the sub-directory.
-     * @return core_kernel_versioning_File The sub-directory.
-     */
-    protected function createSubDirectory(core_kernel_file_File $rootDirectory, core_kernel_classes_Resource $resource)
-    {
-        $resourceUri = $resource->getUri();
-        return $this->createNamedSubDirectory($rootDirectory, $resource, substr($resourceUri, strpos($resourceUri, '#') + 1));
+    protected function spawnPublicDirectory() {
+        if (is_null($this->compilationStorage)) {
+            throw new common_Exception('No storage defined for compiler');
+        }
+        return $this->compilationStorage->spawnDirectory(true);
     }
     
-    /**
-     * Create an appropriate sub-directory for a resource's compilation with a specific $name.
-     * 
-     * @param core_kernel_file_File $rootDirectory The root directory of this item compilation.
-     * @param core_kernel_classes_Resource $resource
-     * @param string $name The name of the sub-directory to be created.
-     * @throws taoItems_models_classes_CompilationFailedException If something goes wrong while creating the named sub-directory.
-     */
-    protected function createNamedSubDirectory(core_kernel_file_File $rootDirectory, core_kernel_classes_Resource $resource, $name) {
-        $itemUri = $resource->getUri();
-        $relPath = $rootDirectory->getRelativePath() . DIRECTORY_SEPARATOR . $name;
-        $absPath = $rootDirectory->getAbsolutePath() . DIRECTORY_SEPARATOR . $name;
-        
-        if (!is_dir($absPath) && !mkdir($absPath)) {
-            throw new taoItems_models_classes_CompilationFailedException("Could not create sub-directory '${absPath}' while compiling item '${itemUri}'.");
+    protected function spawnPrivateDirectory() {
+        if (is_null($this->compilationStorage)) {
+            throw new common_Exception('No storage defined for compiler');
         }
-        
-        return $rootDirectory->getFileSystem()->createFile('', $relPath);
+        return $this->compilationStorage->spawnDirectory(false);
+    }
+    
+    protected abstract function getSubCompilerClass($resource);
+    
+    protected function subCompile($resource) {
+        $compilerClass = $this->getSubCompilerClass($resource);
+        if (!class_exists($compilerClass)) {
+            throw new common_exception_Error('Class '.$compilerClass.' not found while instanciating Compiler');
+        }
+        if (!is_subclass_of($compilerClass, __CLASS__)) {
+            throw new common_exception_Error('Compiler class '.$compilerClass.' is not a compiler');
+        }
+        $compiler = new $compilerClass($resource, $this->getStorage());
+        return $compiler->compile();
     }
     
     /**
      * Compile the resource into a runnable service
      * using the provided directory as storage
      * 
-     * @param core_kernel_file_File $destinationDirectory
      * @return tao_models_classes_service_ServiceCall
      * @throws tao_models_classes_CompilationFailedException
      */
-    public abstract function compile(core_kernel_file_File $destinationDirectory);
+    public abstract function compile();
 }
