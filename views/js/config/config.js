@@ -13,7 +13,6 @@ require.config({
         'taoQtiRunner' : '../../../taoQTI/views/js/qtiRunner',
         'taoQtiItemRuntime' : '../../../taoQTI/views/js/runtime',
         'taoQtiDefaultRenderer' : '../../../taoQTI/views/js/qtiDefaultRenderer',
-        'taoQtiEditableRenderer' : '../../../taoQTI/views/js/qtiEditableRenderer',
         'class' : ['class'],
         'raphael' : ['raphael.min'],
         'raphael-collision' : ['raphael/raphael-collision/raphael-collision'],
