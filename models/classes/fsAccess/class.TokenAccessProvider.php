@@ -33,47 +33,54 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_models_classes_fsAccess_TokenAccessProvider
-	extends tao_models_classes_fsAccess_BaseAccessProvider
+	extends tao_models_classes_fsAccess_AccessProvider
 {	
     private $secret;
     
-    public function __construct(core_kernel_fileSystem_FileSystem $fileSystem) {
-        parent::__construct($fileSystem);
-        $this->secret = md5(rand().$fileSystem->getUri());
+    public static function spawnProvider(core_kernel_fileSystem_FileSystem $fileSystem) {
+        $provider = self::spawn($fileSystem, array(
+        	'secret' => md5(rand().$fileSystem->getPath())
+        ));
+        $provider->prepareProvider();
+        return $provider;
     }
     
-	public function getAccessUrl(core_kernel_file_File $directory) {
-	    $path = $directory->getRelativePath();
-	    $path = rtrim(str_replace(DIRECTORY_SEPARATOR, '/', $path), '/').'/';
-	    $token = $this->generateToken($path);
+    protected function getConfig() {
+        return array(
+        	'secret' => $this->secret
+        );
+    }
+    
+    protected function restoreConfig($config) {
+        $this->secret = $config['secret'];
+    }
+    
+	public function getAccessUrl($relativePath) {
+	    $relPath = rtrim(str_replace(DIRECTORY_SEPARATOR, '/', $relativePath), '/').'/';
+	    $token = $this->generateToken($relPath);
 	    $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-		return $taoExtension->getConstant('BASE_URL').'getFile.php/'.$token.'/'.$path.'*/';
+	    return $taoExtension->getConstant('BASE_URL').'getFile.php/'.$this->getId().'/'.$token.'/'.$relPath.'*/';
 	}
-	
-	private function generateToken($path) {
-		$time = time();
-		$config = include($this->getConfigFilePath());
-		return $time.'/'.md5($time.$path.$config['secret']);
-	}
-	
-	protected function getHtaccessContent() {
-		return self::HTACCESS_DENY_CONTENT;
-	}
-	
-	public function prepareProvider() {
-		parent::prepareProvider();
-		file_put_contents($this->getConfigFilePath(), "<? return ".common_Utils::toPHPVariableString(array(
-			'secret' => md5(rand()),
-			'folder' => $this->getFileSystem()->getPath()
-		)).";");
-		
-	}
-	
-	public function cleanupProvider() {
-		parent::cleanupProvider();
+
+	public function destroy() {
+		//parent::destroy();
 		unlink($this->getConfigFilePath());
 	}
 
+	// helpers
+	
+	private function generateToken($path) {
+		$time = time();
+		return $time.'/'.md5($time.$path.$this->secret);
+	}
+	
+	private function prepareProvider() {
+		file_put_contents($this->getConfigFilePath(), "<? return ".common_Utils::toPHPVariableString(array(
+			'secret' => $this->secret,
+			'folder' => $this->getFileSystem()->getPath()
+		)).";");
+	}
+	
 	private function getConfigFilePath() {
 	    $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
 	    return $taoExtension->getConstant('BASE_PATH').'includes'.DIRECTORY_SEPARATOR.'configGetFile.php';
