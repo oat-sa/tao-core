@@ -34,7 +34,9 @@ helpers_File::emptyDirectory($privateDataPath);
 $publicFs = tao_models_classes_FileSourceService::singleton()->addLocalSource('public service storage', $publicDataPath);
 $privateFs = tao_models_classes_FileSourceService::singleton()->addLocalSource('public service storage', $privateDataPath);
 
+$provider = tao_models_classes_fsAccess_TokenAccessProvider::spawnProvider($publicFs);
+/*
 $provider = new tao_models_classes_fsAccess_TokenAccessProvider($publicFs);
 $provider->prepareProvider();
-
-//tao_models_classes_service_FileStorage::configure($privateFs, $publicFs, $provider);
+*/
+tao_models_classes_service_FileStorage::configure($privateFs, $publicFs, $provider);

@@ -55,4 +55,14 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule {
         ));
     }
     
+    /**
+     * Returns a directory from the service file storage
+     * 
+     * @param string $id
+     * @return tao_models_classes_service_StorageDirectory
+     */
+    public function getDirectory($id) {
+        return tao_models_classes_service_FileStorage::singleton()->getDirectoryById($id);
+    }
+    
 }
