@@ -24,16 +24,17 @@ $configPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_S
 $ttl = 240;
 
 $rel = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], '/getFile.php/') + strlen('/getFile.php/'));
-$parts = explode('/', $rel, 3);
+$parts = explode('/', $rel, 4);
 if (count($parts) < 3 || ! file_exists($configPath)) {
     header('HTTP/1.0 403 Forbidden');
     die();
 }
+
 $config = include $configPath;
 $compiledPath = $config['folder'];
 $secretPassphrase = $config['secret'];
 
-list ($timestamp, $token, $subPath) = $parts;
+list ($ap, $timestamp, $token, $subPath) = $parts;
 $parts = explode('*/', $subPath, 2);
 // TODO add security check on url
 if (count($parts) < 2) {
@@ -44,7 +45,6 @@ list ($subPath, $file) = $parts;
 $correctToken = md5($timestamp . $subPath . $secretPassphrase);
 
 if (time() - $timestamp > $ttl || $token != $correctToken) {
-    echo 'x';
     header('HTTP/1.0 403 Forbidden');
     die();
 }
