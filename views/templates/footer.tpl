@@ -8,7 +8,7 @@
 
 <?if(has_data('message')):?>
 	$(function(){
-		helpers.createMessage("<?=get_data('message')?>");
+		helpers.createMessage(<?=json_encode(get_data('message'))?>);
 	});
 <?endif?>
 </script>
