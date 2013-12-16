@@ -93,10 +93,15 @@ class tao_models_classes_service_FileStorage
     public function import($id, $directoryPath) {
         $dir = $this->getDirectoryById($id);
         if (file_exists($dir->getPath())) {
-            throw new common_Exception('naming conflict for '.$id);
+            if (tao_helpers_File::isIdentical($dir->getPath(), $directoryPath)) {
+                common_Logger::d('Directory already found but content is identical');
+            } else {
+                throw new common_Exception('Doublicate dir '.$id.' with different content');
+            }
+        } else {
+            mkdir($dir->getPath());
+            helpers_File::copy($directoryPath, $dir->getPath(), true);
         }
-        mkdir($dir->getPath());
-        helpers_File::copy($directoryPath, $dir->getPath(), true);
     }
     
     public static function configure(core_kernel_fileSystem_FileSystem $private, core_kernel_fileSystem_FileSystem $public, $provider) {
@@ -106,6 +111,4 @@ class tao_models_classes_service_FileStorage
             'provider' => $provider->getId()
         ));
     }
-    
-    
 }
