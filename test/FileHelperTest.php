@@ -100,5 +100,27 @@ class tao_test_FileHelperTest extends TaoPhpUnitTestRunner {
         $this->assertFalse(is_dir($subdir2));
         $this->assertFalse(is_file($tempnam2));
     }
+    
+    public function testIsIdentical() {
+        $testfolder = dirname(__FILE__).DIRECTORY_SEPARATOR.'fileHelper'.DIRECTORY_SEPARATOR;
+        $this->assertTrue(is_dir($testfolder));
+        
+        $reference = $testfolder.'reference';
+        $testContent = $testfolder.DIRECTORY_SEPARATOR.'testContent';
+        $testEmptyDir = $testfolder.DIRECTORY_SEPARATOR.'testEmptyDir';
+        $testIdent = $testfolder.DIRECTORY_SEPARATOR.'testIdent';
+        $testMissingDir = $testfolder.DIRECTORY_SEPARATOR.'testMissingDir';
+        $testRenamedFile = $testfolder.DIRECTORY_SEPARATOR.'testRenamedFile';
+        $testRenamedEmptyDir = $testfolder.DIRECTORY_SEPARATOR.'testRenamedEmptyDir';
+        
+        $this->assertTrue(tao_helpers_File::isIdentical($reference, $testIdent));
+        $this->assertFalse(tao_helpers_File::isIdentical($reference, $testContent));
+        $this->assertFalse(tao_helpers_File::isIdentical($reference, $testEmptyDir));
+        $this->assertFalse(tao_helpers_File::isIdentical($reference, $testMissingDir));
+        $this->assertFalse(tao_helpers_File::isIdentical($reference, $testRenamedFile));
+        $this->assertFalse(tao_helpers_File::isIdentical($reference, $testRenamedEmptyDir));
+        
+    }
+    
 }
 ?>

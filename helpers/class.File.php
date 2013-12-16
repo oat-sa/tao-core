@@ -358,6 +358,30 @@ class tao_helpers_File
 
     }
     
+    public static function isIdentical($path1, $path2) {
+        return self::md5_dir($path1) == self::md5_dir($path2);
+    }
+    
+    public static function md5_dir($path) {
+        if (is_file($path)) {
+            $md5 = md5_file($path);
+        } elseif (is_dir($path)) {
+            $filemd5s = array();
+            // using scandir to get files in a fixed order
+            foreach (scandir($path, SCANDIR_SORT_ASCENDING) as $basename) {
+                if($basename != '.' && $basename != '..') {
+                    //$fileInfo->getFilename()
+                    $filemd5s[] = $basename.self::md5_dir(self::concat(array($path, $basename)));
+                }
+            }
+            $md5 = md5(implode('', $filemd5s));
+        } else {
+            throw new common_Exception(__FUNCTION__.' called on non file or directory "'.$path.'"');
+        }
+        return $md5;
+    }
+    
+    
     /**
      * Add files or folders (and their content) to the Zip Archive that will contain all the files to the current export session.
      * For instance, if you want to copy the file 'taoItems/data/i123/item.xml' as 'myitem.xml' to your archive call addFile('path_to_item_location/item.xml', 'myitem.xml').
@@ -384,7 +408,6 @@ class tao_helpers_File
                 // avoid . , .. , .svn etc ...
                 if(!preg_match("/^\./", $file)) {
                     $done += self::addFilesToZip($zipArchive, $src.$file, $dest.$file);
-                     
                 }
             }
         }
