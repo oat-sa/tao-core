@@ -962,7 +962,7 @@ msgid "Test Developers and Administrators"
 msgstr "Développeurs et administrateurs de tests"
 
 msgid "Test Developers and Test Administrators"
-msgstr ""
+msgstr "Développeurs et administrateurs de test"
 
 msgid "Test-Takers"
 msgstr "Participants"
