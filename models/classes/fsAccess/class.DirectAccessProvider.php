@@ -33,16 +33,39 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_models_classes_fsAccess_DirectAccessProvider
-	extends tao_models_classes_fsAccess_BaseAccessProvider
+	extends tao_models_classes_fsAccess_AccessProvider
 {
-    const HTACCESS_ALLOW_NOEXEC_CONTENT = "php_flag engine off\nRewriteEngine Off";
+    /**
+     * Spawns a new filesystem access, expects the filesystem to access to
+     * and the url which points to the root of the filesystem with trailling slash 
+     * 
+     * @param core_kernel_fileSystem_FileSystem $fileSystem
+     * @param string $accessUrl
+     * @return unknown
+     */
+    public static function spawnProvider(core_kernel_fileSystem_FileSystem $fileSystem, $accessUrl) {
+        return self::spawn($fileSystem, array(
+            'accessUrl' => $accessUrl
+        ));
+    }
     
-	public function getAccessUrl(core_kernel_file_File $directory) {
-	    throw new common_exception_NotImplemented();
-	    //		return tao_helpers_Uri::getUrlForPath($this->getBasePath(). $path);
-	}
-	
-	protected function getHtaccessContent() {
-	    return self::HTACCESS_ALLOW_NOEXEC_CONTENT;
+    private $accessUrl = null;
+    
+    protected function getConfig() {
+        return array(
+            'accessUrl' => $this->accessUrl
+        );
+    }
+    
+    protected function restoreConfig($config) {
+        $this->accessUrl = $config['accessUrl'];
+    }
+    
+	public function getAccessUrl($relativePath) {
+	    $path = array();
+	    foreach (explode(DIRECTORY_SEPARATOR, ltrim($relativePath, DIRECTORY_SEPARATOR)) as $part) {
+           $path[] = rawurlencode($part);
+	    }
+	    return $this->accessUrl.implode('/', $path);//(ltrim($relativePath,'/'));
 	}
 }

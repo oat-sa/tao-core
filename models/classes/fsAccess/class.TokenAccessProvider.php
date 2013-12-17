@@ -56,10 +56,15 @@ class tao_models_classes_fsAccess_TokenAccessProvider
     }
     
 	public function getAccessUrl($relativePath) {
-	    $relPath = rtrim(str_replace(DIRECTORY_SEPARATOR, '/', $relativePath), '/').'/';
-	    $token = $this->generateToken($relPath);
+	    $path = array();
+	    foreach (explode(DIRECTORY_SEPARATOR, ltrim($relativePath, DIRECTORY_SEPARATOR)) as $ele) {
+	        $path[] = rawurlencode($ele);
+	    }
+	    $relUrl = implode('/', $path);
+	    $relPath = rtrim(str_replace(DIRECTORY_SEPARATOR, '/', $relativePath));
+	    $token = $this->generateToken($relUrl);
 	    $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-	    return $taoExtension->getConstant('BASE_URL').'getFile.php/'.$this->getId().'/'.$token.'/'.$relPath.'*/';
+	    return $taoExtension->getConstant('BASE_URL').'getFile.php/'.$this->getId().'/'.$token.'/'.$relUrl.'*/';
 	}
 
 	public function destroy() {
@@ -75,10 +80,12 @@ class tao_models_classes_fsAccess_TokenAccessProvider
 	}
 	
 	private function prepareProvider() {
-		file_put_contents($this->getConfigFilePath(), "<? return ".common_Utils::toPHPVariableString(array(
+	    $data = file_exists($this->getConfigFilePath()) ? include $this->getConfigFilePath() : array();
+	    $data[$this->getId()] = array(
 			'secret' => $this->secret,
 			'folder' => $this->getFileSystem()->getPath()
-		)).";");
+		); 
+		file_put_contents($this->getConfigFilePath(), "<? return ".common_Utils::toPHPVariableString($data).";");
 	}
 	
 	private function getConfigFilePath() {

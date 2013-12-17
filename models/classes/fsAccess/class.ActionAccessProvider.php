@@ -33,32 +33,28 @@
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_models_classes_fsAccess_ActionAccessProvider
-	extends tao_models_classes_fsAccess_BaseAccessProvider
+	extends tao_models_classes_fsAccess_AccessProvider
 {
-	
-	public function getAccessUrl(core_kernel_file_File $directory) {
-	    throw new common_exception_NotImplemented();
-	    /*
-	    $fsUri = $directory->getFileSystem()->getUri();
-	    $relPath = $directory->getRelativePath();
-		return _url('access/'.base64_encode($fsUri.' '.$relPath).'/index.html','ItemDeliveryService');
-		*/
-	}
+    /**
+     *
+     * @param core_kernel_fileSystem_FileSystem $fileSystem
+     * @param string $accessUrl
+     * @return unknown
+     */
+    public static function spawnProvider(core_kernel_fileSystem_FileSystem $fileSystem) {
+        return self::spawn($fileSystem);
+    }
 
-	public function decodeUrl($url) {
-		$rootUrlPath	= parse_url(ROOT_URL, PHP_URL_PATH);
-		$absPath		= parse_url('/'.ltrim($url, '/'), PHP_URL_PATH);
-		if (substr($absPath, 0, strlen($rootUrlPath)) != $rootUrlPath ) {
-			throw new ResolverException('Request Uri '.$request.' outside of TAO path '.ROOT_URL);
-		}
-		$relPath		= substr($absPath, strlen($rootUrlPath));
-		list($extension, $module, $action, $code, $filePath) = explode('/', $relPath, 5);;
-		list($fsUri, $subPath) = explode(' ', base64_decode($code));
-        $fs = new core_kernel_fileSystem_FileSystem($fsUri);
-		return $fs->getPath() . $subPath . $filePath;
-	}
-	
-	protected function getHtaccessContent() {
-		return self::HTACCESS_DENY_CONTENT;
-	}
+    protected function getConfig() {
+        return array();
+    }
+    
+    protected function restoreConfig($config) {
+    }
+    
+    public function getAccessUrl($relativePath) {
+	    $fsUri = $this->getFileSystem()->getUri();
+	    $trailingSlash = substr($relativePath, -1) == DIRECTORY_SEPARATOR ? '/' : '';
+		return _url('accessFile/'.base64_encode($this->getId().' '.trim($relativePath, DIRECTORY_SEPARATOR)).'/','File', 'tao');
+    }
 }

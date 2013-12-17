@@ -21,6 +21,7 @@
  */
 $url = $_SERVER['REQUEST_URI'];
 $configPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'configGetFile.php';
+
 $ttl = 240;
 
 $rel = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], '/getFile.php/') + strlen('/getFile.php/'));
@@ -30,10 +31,6 @@ if (count($parts) < 3 || ! file_exists($configPath)) {
     die();
 }
 
-$config = include $configPath;
-$compiledPath = $config['folder'];
-$secretPassphrase = $config['secret'];
-
 list ($ap, $timestamp, $token, $subPath) = $parts;
 $parts = explode('*/', $subPath, 2);
 // TODO add security check on url
@@ -42,6 +39,11 @@ if (count($parts) < 2) {
     die();
 }
 list ($subPath, $file) = $parts;
+
+$config = include $configPath;
+$compiledPath = $config[$ap]['folder'];
+$secretPassphrase = $config[$ap]['secret'];
+
 $correctToken = md5($timestamp . $subPath . $secretPassphrase);
 
 if (time() - $timestamp > $ttl || $token != $correctToken) {
@@ -49,13 +51,17 @@ if (time() - $timestamp > $ttl || $token != $correctToken) {
     die();
 }
 
-$file = str_replace('/', DIRECTORY_SEPARATOR, $file);
-$filename = $compiledPath . $subPath . $file;
+$path = array();
+foreach (explode('/', $subPath.$file) as $ele) {
+    $path[] = rawurldecode($ele);
+}
+$filename = $compiledPath . implode(DIRECTORY_SEPARATOR, $path);
 if (strpos($filename, '?')) {
     // A query string is provided with the file to be retrieved - clean up!
     $parts = explode('?', $filename);
     $filename = $parts[0];
 }
+
 require_once '../generis/helpers/class.File.php';
 require_once '../tao/helpers/class.File.php';
 $mimeType = tao_helpers_File::getMimeType($filename, true);

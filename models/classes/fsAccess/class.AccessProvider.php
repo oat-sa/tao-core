@@ -46,6 +46,13 @@ abstract class tao_models_classes_fsAccess_AccessProvider
 	    return $provider;
 	}
 	
+	public static function restoreFromString($string) {
+	     list($class, $id, $fsUri, $config) = explode(' ', $string, 4);
+	     $provider = new $class($id, new core_kernel_fileSystem_FileSystem($fsUri));
+	     $provider->restoreConfig(json_decode($config, true));
+	     return $provider;
+	}
+	
 	private function __construct($id, core_kernel_fileSystem_FileSystem $fileSystem) {
 	    $this->id = $id;
 	    $this->fileSystem = $fileSystem;
@@ -59,19 +66,16 @@ abstract class tao_models_classes_fsAccess_AccessProvider
 	    return $this->id;
 	}
 	
+	public function delete() {
+	    tao_models_classes_fsAccess_Manager::singleton()->removeProvider($this);
+	}
+	
 	protected function getBasePath() {
 	    return $this->getFileSystem()->getPath();
 	}
 	
 	public function serializeToString() {
 	    return get_class($this).' '.$this->getId().' '.$this->getFileSystem()->getUri().' '.json_encode($this->getConfig());
-	}
-	
-	public static function restoreFromString($string) {
-	     list($class, $id, $fsUri, $config) = explode(' ', $string, 4);
-	     $provider = new $class($id, new core_kernel_fileSystem_FileSystem($fsUri));
-	     $provider->restoreConfig(json_decode($config, true));
-	     return $provider;
 	}
 	
 	protected abstract function getConfig();

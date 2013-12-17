@@ -254,5 +254,16 @@ class tao_actions_File extends tao_actions_CommonModule{
 		echo json_encode($data);
 		
 	}
+	
+	public function accessFile() {
+        list($extension, $module, $action, $code, $filePath) = explode('/', tao_helpers_Request::getRelativeUrl(), 5);;
+        list($apKey, $subPath) = explode(' ', base64_decode($code));
+        
+        $ap = tao_models_classes_fsAccess_Manager::singleton()->getProvider($apKey);
+        if ($ap instanceof tao_models_classes_fsAccess_ActionAccessProvider) {
+            $path = $ap->getFileSystem()->getPath().$subPath.(empty($filePath) ? '' : DIRECTORY_SEPARATOR.$filePath);
+            tao_helpers_Http::returnFile($path);
+        }
+    }
 }
 ?>

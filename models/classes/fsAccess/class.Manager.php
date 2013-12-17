@@ -31,7 +31,7 @@
  */
 class tao_models_classes_fsAccess_Manager
 {	
-    const CONFIG_KEY = 'filesystemConfig';
+    const CONFIG_KEY = 'filesystemAccess';
 
     private static $instance = null;
     
@@ -56,7 +56,10 @@ class tao_models_classes_fsAccess_Manager
     }
     
     public function getProvider($key) {
-        return isset($this->providers[$key]) ? $this->providers[$key] : null;
+        if (!isset($this->providers[$key])) {
+            throw new common_Exception('Undefined provider '.$key);
+        }
+        return $this->providers[$key];
     }
     
     public function addProvider($provider) {
@@ -66,7 +69,15 @@ class tao_models_classes_fsAccess_Manager
         $this->providers[$provider->getId()] = $provider;
         $this->saveconfig();
     }
-
+    
+    public function removeProvider($provider) {
+        if (!isset($this->providers[$provider->getId()])) {
+            throw new common_Exception('Attempting to remove inexistent '.$provider->getId());
+        }
+        unset($this->providers[$provider->getId()]);
+        $this->saveconfig();
+    }
+    
     private function saveconfig() {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $data = array();
