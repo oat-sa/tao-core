@@ -130,5 +130,24 @@ class tao_helpers_Http
         throw new common_exception_NotAcceptable();
         return null;
     }
+    
+    public static function returnFile($filename) {
+        if (tao_helpers_File::securityCheck($filename, true)) {
+            if (file_exists($filename)) {
+                $mimeType = tao_helpers_File::getMimeType($filename, true);
+                header('Content-Type: ' . $mimeType);
+                $fp = fopen($filename, 'rb');
+                if ($fp === false) {
+                    header("HTTP/1.0 404 Not Found");
+                } else {
+                    fpassthru($fp);
+                }
+            } else {
+                header("HTTP/1.0 404 Not Found");
+            }
+        } else {
+            throw new common_exception_Error('Security exception for path '.$path);
+        }
+    }
 }
 ?>
