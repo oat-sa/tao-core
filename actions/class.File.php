@@ -257,7 +257,7 @@ class tao_actions_File extends tao_actions_CommonModule{
 	
 	public function accessFile() {
         list($extension, $module, $action, $code, $filePath) = explode('/', tao_helpers_Request::getRelativeUrl(), 5);;
-        list($apKey, $subPath) = explode(' ', base64_decode($code));
+        list($apKey, $subPath) = explode(' ', base64_decode($code), 2);
         
         $ap = tao_models_classes_fsAccess_Manager::singleton()->getProvider($apKey);
         if ($ap instanceof tao_models_classes_fsAccess_ActionAccessProvider) {
