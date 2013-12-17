@@ -184,12 +184,11 @@ class tao_helpers_Uri
 
         // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A26 begin
 
-		$context = Context::getInstance();
 		if(is_null($module)){
-			$module = $context->getModuleName();
+			$module = Context::getInstance()->getModuleName();
 		}
 		if(is_null($action)){
-			$action = $context->getActionName();
+			$action = Context::getInstance()->getActionName();
 		}
 
     	if(is_null($extension) || empty($extension)){
