@@ -81,6 +81,22 @@ class tao_helpers_Request
 
         return (bool) $returnValue;
     }
+    
+    /**
+     * Returns the current relative call url, without preceding slash
+     * 
+     * @throws ResolverException
+     * @return string
+     */
+    public static function getRelativeUrl() {
+        $rootUrlPath	= parse_url(ROOT_URL, PHP_URL_PATH);
+        $absPath		= parse_url('/'.ltrim($_SERVER['REQUEST_URI'], '/'), PHP_URL_PATH);
+        if (substr($absPath, 0, strlen($rootUrlPath)) != $rootUrlPath ) {
+            throw new ResolverException('Request Uri '.$request.' outside of TAO path '.ROOT_URL);
+        }
+        return substr($absPath, strlen($rootUrlPath));
+    }
+    
 
     /**
      * Perform an HTTP Request on the defined url and return the content
