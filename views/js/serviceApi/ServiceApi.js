@@ -12,25 +12,26 @@ define(['jquery'], function($){
         this.onDisplayChangeCallback;
     }
 
-    ServiceApi.prototype.loadInto = function(frame, loaded){
+    ServiceApi.prototype.loadInto = function(frame, connected){
             var api = this;
-            $(frame).load(function() {
+            $(frame).on('load', function() {
+            	$(this).off('load');
                 $(document).on('serviceready', function(){
-                    api.connect(frame);
-                    if(typeof loaded === 'function'){
-                        loaded();
-                    }
+                    api.connect(frame, connected );
                 });
             });
             $(frame).attr('src', this.getCallUrl());
     };
 
-    ServiceApi.prototype.connect = function(frame){
+    ServiceApi.prototype.connect = function(frame, connected){
         if(this.connected === false && frame.contentWindow){
             //frame.contentWindow.serviceApi = this;
             if (typeof(frame.contentWindow.onServiceApiReady) === "function") {
                 frame.contentWindow.onServiceApiReady(this);
                 this.connected = true;
+                if(typeof connected === 'function'){
+                	connected();
+                }
             }
         }
     };
