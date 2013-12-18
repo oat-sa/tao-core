@@ -94,6 +94,30 @@ class tao_install_utils_Shield{
 			}
 		}
 	}
+        
+        public function denyAccessTo($paths){
+            
+            
+            foreach($this->extensions as $extension){
+                foreach($paths as $path){
+                    
+                    if(!preg_match("/^\\".DIRECTORY_SEPARATOR."/")){
+                        $path = DIRECTORY_SEPARATOR . $path;
+                    }
+                    $denied = ROOT_PATH . $extension. $path;
+                    if(file_exists($denied) && is_dir($denied)){
+                        $accessFile = $denied .  DIRECTORY_SEPARATOR . '.htaccess';
+                        if(!is_writable($denied) || (file_exists($accessFile && !is_writable($accessFile)))){
+                                throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${denied}.");
+                        }
+                        file_put_contents($accessFile, "<IfModule mod_rewrite.c>\n"
+                                                    . "RewriteEngine On\n"
+                                                    . "RewriteRule ^.*$ - [F]\n"
+                                                    . "</IfModule>");
+                    }
+                }
+            }
+        }
 	
 }
 ?>

@@ -318,6 +318,11 @@ class tao_install_Installator{
 				// 11.2 Protect TAO dist
 	 			$shield = new tao_install_utils_Shield(array_keys($extensions));
 	 			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
+                                $shield->denyAccessTo(array(
+                                    'views/sass',
+                                    'views/js/test',
+                                    'views/build'
+                                ));
 	 			$shield->protectInstall();
 			}
 
