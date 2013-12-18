@@ -261,10 +261,9 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 	}
 	
     protected function setVariables($variables) {
-    	$ext	= common_ext_ExtensionsManager::singleton()->getExtensionById('wfEngine');
-    	$loader = new common_ext_ExtensionLoader($ext);
-    	$loader->load();
-    	$variableService = wfEngine_models_classes_VariableService::singleton();
+        common_ext_ExtensionsManager::singleton()->getExtensionById('wfEngine')->load();
+        
+        $variableService = wfEngine_models_classes_VariableService::singleton();
 
     	$cleaned = array();
     	foreach ($variables as $key => $value) {
