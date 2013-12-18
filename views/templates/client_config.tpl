@@ -35,8 +35,7 @@ require.config({
         'taoQtiRunner'      : '../../../taoQTI/views/js/qtiRunner',
         'taoQtiDefaultRenderer' : '../../../taoQTI/views/js/qtiDefaultRenderer',
         'qtiClass'          : '../../../taoQTI/views/js/qtiItem/lib/class',
-        'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
-        'murmurhash3'       : '../../../taoQTI/views/js/qtiAuthoring/lib/murmurhash/murmurhash3_gc'
+        'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner'
    },
   
    shim : {
@@ -76,9 +75,6 @@ require.config({
                 MathJax.Hub.Startup.onload();
                 return MathJax;
             }
-        },
-        'murmurhash3':{
-            exports: "murmurhash3_32_gc"
         }
     }
 });
