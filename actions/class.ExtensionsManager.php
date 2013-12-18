@@ -39,7 +39,6 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 	public function index() {
 
 		$extensionManager = common_ext_ExtensionsManager::singleton();
-		$extensionManager->reset();
 		$installedExtArray = $extensionManager->getInstalledExtensions();
 		$availlableExtArray = $extensionManager->getAvailableExtensions();
 		usort($availlableExtArray, function($a, $b) { return strcasecmp($a->getID(),$b->getID());});
