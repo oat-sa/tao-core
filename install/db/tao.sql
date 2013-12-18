@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS "sessions";
 CREATE TABLE "sessions"(
            "session_id" varchar(255) NOT NULL,
            "session_value" text NOT NULL,
-           "session_time" int(11) NOT NULL,
+           "session_time" int NOT NULL,
            PRIMARY KEY ("session_id")
             ) ENGINE=MyIsam DEFAULT CHARSET=utf8;
 
