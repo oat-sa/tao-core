@@ -73,7 +73,7 @@ class tao_models_classes_service_FileStorage
     public function spawnDirectory($public = false) {
         $id = common_Utils::getNewUri().($public ? '+' : '-');
         $directory = $this->getDirectoryById($id);
-        mkdir($directory->getPath());
+        mkdir($directory->getPath(), 0700, true);
         return $directory;
     }
 
@@ -83,25 +83,39 @@ class tao_models_classes_service_FileStorage
      */
     public function getDirectoryById($id) {
         $public = $id[strlen($id)-1] == '+';
-        $ns = substr($id, 0, strpos($id, '#'));
-        $fragment = substr($id, strlen($ns)+1, -1);
         $fs = $public ? $this->publicFs : $this->privateFs;
-        $path = md5($ns).$fragment .DIRECTORY_SEPARATOR;
+        $path = $this->id2path($id);
         return new tao_models_classes_service_StorageDirectory($id, $fs, $path, $public ? $this->accessProvider : null);
     }
     
     public function import($id, $directoryPath) {
-        $dir = $this->getDirectoryById($id);
-        if (file_exists($dir->getPath())) {
-            if (tao_helpers_File::isIdentical($dir->getPath(), $directoryPath)) {
+        $directory = $this->getDirectoryById($id);
+        if (file_exists($directory->getPath())) {
+            if (tao_helpers_File::isIdentical($directory->getPath(), $directoryPath)) {
                 common_Logger::d('Directory already found but content is identical');
             } else {
                 throw new common_Exception('Doublicate dir '.$id.' with different content');
             }
         } else {
-            mkdir($dir->getPath());
-            helpers_File::copy($directoryPath, $dir->getPath(), true);
+            mkdir($directory->getPath(), 0700, true);
+            helpers_File::copy($directoryPath, $directory->getPath(), true);
         }
+    }
+    
+    private function id2path($id) {
+
+        $encoded = md5($id);
+        $returnValue = "";
+        $len = strlen($encoded);
+        for ($i = 0; $i < $len; $i++) {
+            if ($i < 3) {
+                $returnValue .= $encoded[$i].DIRECTORY_SEPARATOR;
+            } else {
+                $returnValue .= $encoded[$i];
+            }
+        }
+        
+        return $returnValue.DIRECTORY_SEPARATOR;
     }
     
     public static function configure(core_kernel_fileSystem_FileSystem $private, core_kernel_fileSystem_FileSystem $public, $provider) {
