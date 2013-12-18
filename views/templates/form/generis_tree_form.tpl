@@ -11,23 +11,21 @@
 	</div>
 </div>
 <script type="text/javascript">
-$(function(){
-	require(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTreeSelectClass) {
+require(['jquery', 'generis.tree.select'], function($, GenerisTreeSelectClass) {
 
-		new GenerisTreeSelectClass('#<?=get_data('id')?>-tree', '<?=get_data('dataUrl')?>', {
-			actionId: '<?=get_data('id')?>',
-			saveUrl: '<?=get_data('saveUrl')?>',
-			saveData: {
-				resourceUri: '<?=get_data('resourceUri')?>',
-				propertyUri: '<?=get_data('propertyUri')?>'
-			},
-			checkedNodes: <?=json_encode(tao_helpers_Uri::encodeArray(get_data('values')))?>,
-			serverParameters: {
-				openNodes: <?=json_encode(get_data('openNodes'))?>,
-				rootNode: <?=json_encode(get_data('rootNode'))?>
-			},
-			paginate: 10
-		});
-	});
+        new GenerisTreeSelectClass('#<?=get_data('id')?>-tree', '<?=get_data('dataUrl')?>', {
+                actionId: '<?=get_data('id')?>',
+                saveUrl: '<?=get_data('saveUrl')?>',
+                saveData: {
+                        resourceUri: '<?=get_data('resourceUri')?>',
+                        propertyUri: '<?=get_data('propertyUri')?>'
+                },
+                checkedNodes: <?=json_encode(tao_helpers_Uri::encodeArray(get_data('values')))?>,
+                serverParameters: {
+                        openNodes: <?=json_encode(get_data('openNodes'))?>,
+                        rootNode: <?=json_encode(get_data('rootNode'))?>
+                },
+                paginate: 10
+        });
 });
 </script>

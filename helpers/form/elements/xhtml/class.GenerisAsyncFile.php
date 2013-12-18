@@ -269,7 +269,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         }
          
         $returnValue  = '$(document).ready(function() {';
-        $returnValue .= '	require(["require", "jquery", "AsyncFileUpload"], function(req, $){';
+        $returnValue .= '	require(["jquery", "AsyncFileUpload"], function($, AsyncFileUpload){';
          
         // DOM Update...
         $returnValue .=	'		$("#' . $this->buildWidgetContainerId() . '").html(\'' . $elements . '\');';

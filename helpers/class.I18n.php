@@ -63,8 +63,6 @@ class tao_helpers_I18n
      */
     public static function init($langCode)
     {
-        // section 127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7C begin
-		   	
     	// if the langCode is empty do nothing
     	if (empty($langCode)){
     		throw new Exception("Language is not defined");
@@ -89,14 +87,6 @@ class tao_helpers_I18n
 		}
 		
 		l10n::set($basePath . 'locales' . DIRECTORY_SEPARATOR . $langCode. DIRECTORY_SEPARATOR . 'messages');
-		
-        if (PHP_SAPI != 'cli') {    
-    		tao_helpers_Scriptloader::addJsFiles(array(
-    			$baseURL . 'locales/' .$langCode. '/messages_po.js',
-    			TAOBASE_WWW . 'js/i18n.js',
-    		));
-        }
-        // section 127-0-1-1--7d879eb4:12693e522d7:-8000:0000000000001E7C end
     }
 
     /**
@@ -120,6 +110,7 @@ class tao_helpers_I18n
      */
     public static function getLangResourceByCode($code)
     {
+        $langs = self::getAvailableLangs();
         return isset($langs[$code]) ? new core_kernel_classes_Resource($langs[$code]['uri']) : null; 
     }
     
@@ -203,10 +194,6 @@ class tao_helpers_I18n
             }
         }
         return $returnValue;
-
-        // section 10-13-1-85-4d042f2c:13ada6173fa:-8000:0000000000003C1B end
-
-        return (array) $returnValue;
     }
 
 }

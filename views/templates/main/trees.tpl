@@ -15,34 +15,13 @@
 		</div>
 <?endforeach?>
 
+<?endif?>
 <script type="text/javascript">
-	$(function(){
-		require(['require', 'jquery', 'generis.tree.browser'], function(req, $, GenerisTreeBrowserClass) {
-		
-<?foreach(get_data('trees') as $i => $tree):?>
-			var tree = new GenerisTreeBrowserClass('#tree-<?=$i?>', "<?=$tree['dataUrl']?>", {
-				formContainer: helpers.getMainContainerSelector(uiBootstrap.tabs),
-				actionId: "<?=$i?>",
-<?if (isset($tree['editClassUrl'])):?>editClassAction: "<?=$tree['editClassUrl']?>",<?endif;?>
-<?if (isset($tree['editInstanceUrl'])):?>editInstanceAction: "<?=$tree['editInstanceUrl']?>",<?endif;?>
-<?if (isset($tree['addInstanceUrl'])):?>createInstanceAction: "<?=$tree['addInstanceUrl']?>",<?endif;?>
-<?if (isset($tree['moveInstanceUrl'])):?>moveInstanceAction: "<?=$tree['moveInstanceUrl']?>",<?endif;?>
-<?if (isset($tree['addSubClassUrl'])):?>subClassAction: "<?=$tree['addSubClassUrl']?>",<?endif;?>
-<?if (isset($tree['deleteUrl'])):?>deleteAction: "<?=$tree['deleteUrl']?>",<?endif;?>
-<?if (isset($tree['duplicateUrl'])):?>duplicateAction: "<?=$tree['duplicateUrl']?>",<?endif;?>
-<?if (isset($tree['className'])):?>
-				instanceClass: "node-<?=str_replace(' ', '-', strtolower($tree['className']))?>",
-				instanceName: "<?=mb_strtolower(__($tree['className']), TAO_DEFAULT_ENCODING)?>",
-<?endif;?>
-				paginate: 30
-<?if(get_data('openUri')):?>
-				,selectNode: "<?=get_data('openUri')?>"
-<?endif?>
-			});
-
-			generisActions.setMainTree(tree);
-<?endforeach?>
-		});
-	});
+requirejs.config({
+    config: {
+        'tao/controller/main/trees': {
+            'sectionTreesData' : <?=json_encode(get_data('trees'))?>
+        }
+    }
+});
 </script>
-<?endif?>

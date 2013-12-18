@@ -19,7 +19,7 @@
 </div>
 
 <script type="text/javascript">
-$(document).ready(function(){
+require(['jquery'], function($) {
 	
 	//by changing the format, the form is sent
 	$(":radio[name='importHandler']").change(function(){
@@ -33,7 +33,7 @@ $(document).ready(function(){
 	//for the csv import options
 	$("#first_row_column_names_0").attr('checked', true);
 	$("#first_row_column_names_0").click(function(){
-		$("#column_order").attr('disabled', this.checked);
+            $("#column_order").attr('disabled', this.checked);
 	});
 });
 </script>

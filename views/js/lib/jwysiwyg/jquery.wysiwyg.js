@@ -876,7 +876,7 @@
             try{
                 this.editorDoc = innerDocument(this.editor);
             }catch(e){
-                CL(e.name, e.message);
+                $.error(e.name + ' : ' + e.message);
             }
             this.editorDoc_designMode = false;
 

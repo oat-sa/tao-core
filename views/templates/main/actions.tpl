@@ -20,7 +20,7 @@
 				$actionIcon = TAOBASE_WWW . 'img/actions/' . $action['name'] . '.png';
 			}
 			if($action['js']):?>
-				<a href="#" onclick="<?=$action['js']?>('<?=$action["uri"]?>', '<?=$action["classUri"]?>', '<?=$action["url"]?>')" title="<?=$action['rowName']?>">
+				<a href="<?=$action['url']?>" data-action="<?=$action['js']?>" data-uri="<?=$action['uri']?>" data-class-uri="<?=$action['classUri']?>" title="<?=$action['rowName']?>">
 				<img src="<?=$actionIcon?>" /><br />
 				<?=$action['display']?></a>
 			<?else:?>
@@ -31,10 +31,5 @@
 		<?endif;?>
 	</div>
 	<?endforeach;?>
-	<script type="text/javascript">
-		$(function(){
-			uiBootstrap.initNav();
-		});
-	</script>
 </div>
 <?endif;?>

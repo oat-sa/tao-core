@@ -12,15 +12,13 @@
 <?php endif;?>
 
 <script type="text/javascript">
-$(function(){
-	require(['require', 'jquery'], function(req, $) {
-		//by changing the format, the form is sent
-		$(":radio[name='exportHandler']").change(function(){
-			var form = $(this).parents('form');
-			$(":input[name='"+form.attr('name')+"_sent']").remove();
-			form.find('.form-submiter').click();
-		});
-	});
+require(['jquery'], function($) {
+    //by changing the format, the form is sent
+    $(":radio[name='exportHandler']").change(function(){
+            var form = $(this).parents('form');
+            $(":input[name='"+form.attr('name')+"_sent']").remove();
+            form.find('.form-submiter').click();
+    });
 });
 </script>
 

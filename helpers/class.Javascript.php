@@ -20,8 +20,11 @@
  */
 
 /**
+ * DEPRECATED, use json_encode instead. Preferably not into the template but in the controller.
+ * 
  * A helper to fascilitate the exchange of data between php and javascript
- *
+ * 
+ * @deprecated since version 2.6
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao

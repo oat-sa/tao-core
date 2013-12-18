@@ -1,4 +1,8 @@
 /* auto generated content */
 /* lang: fi-FI */
-var langCode = 'fi-FI';
-var i18n_tr = [];
+define(function(){
+ return {
+   langCode : 'fi-FI',
+   i18n_tr : []
+ };
+});

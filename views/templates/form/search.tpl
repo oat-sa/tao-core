@@ -17,8 +17,7 @@
 
 <?if(get_data('found')):?>
 <script type="text/javascript">
-require(['jquery', 'grid/tao.grid'], function($) {
-	$(function(){
+require(['jquery', 'i18n', 'generis.actions', 'grid/tao.grid'], function($, __, generisActions) {
 	var properties = ['id',
 	<?foreach(get_data('properties') as $uri => $property):?>
 		 '<?=$property->getLabel()?>',
@@ -35,11 +34,13 @@ require(['jquery', 'grid/tao.grid'], function($) {
 	];
 
 	var size = <?=count(get_data('found'))?>;
-	$("#result-list").jqGrid({
+        var openAction = <?=get_data('openAction')?>;
+        var $resultList = $("#result-list");
+	$resultList.jqGrid({
 		datatype: "local", 
 		colNames: properties , 
 		colModel: model, 
-		width: parseInt($("#result-list").parent().width()) - 15, 
+		width: parseInt($resultList.parent().width()) - 15, 
 		sortname: 'id', 
 		sortorder: "asc", 
 		caption: __("Search results")
@@ -47,16 +48,21 @@ require(['jquery', 'grid/tao.grid'], function($) {
 	
 	<?foreach(get_data('found') as $i => $row):?>
 	
-	$("#result-list").jqGrid('addRowData', <?=$i?> , {
+	$resultList.jqGrid('addRowData', <?=$i?> , {
 		'id' : <?=$i?>,
 		<?foreach($row['properties'] as $j => $propValue):?>
 			'property_<?=$j?>': "<?=$propValue?>",
 		<?endforeach?>
-		'actions': "<img class='icon' src='<?=TAOBASE_WWW?>img/bullet_go.png'/><a href='#' onclick='<?=get_data('openAction')?>(\"<?=$row['uri']?>\"); return false;' class='' ><?=__('Open')?></a>"
+		'actions': "<img class='icon' src='<?=TAOBASE_WWW?>img/bullet_go.png'/><a href='#' class='found-action' data-uri='<?=$row["uri"]?>'><?=__('Open')?></a>"
 	}); 
 	
 	<?endforeach?>	
-	});
+        $('.found-action', $resultList).click(function(e){
+            e.preventDefault();
+            if(typeof openAction === 'function'){
+                openAction($(this).data('uri'));
+            }
+        });
 });
 </script>
 <?endif?>

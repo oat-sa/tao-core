@@ -12,7 +12,7 @@
  * @author Jehan Bihin (class, remove multi-instances)
  */
 
-define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass) {
+define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __, GenerisTreeClass, helpers, context) {
 	var GenerisTreeBrowserClass = GenerisTreeClass.extend({
 		/**
 		 * The GenerisTreeBrowserClass constructor
@@ -153,7 +153,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 
 						if ($(NODE).hasClass('node-instance') && instance.options.editInstanceAction) {
 							//load the editInstanceAction into the formContainer
-							PNODE = TREE_OBJ.parent(NODE);
+							var PNODE = TREE_OBJ.parent(NODE);
 							helpers._load(instance.options.formContainer, instance.options.editInstanceAction, instance.data(nodeId, $(PNODE).prop('id')));
 						}
 
@@ -187,7 +187,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 								var REF_NODE	= data.REF_NODE;
 								var RB 			= data.RB;
 								var TREE_OBJ 	= data.TREE_OBJ;
-								(data.confirmed == true) ? confirmed = true :  confirmed = false;
+								var confirmed = (data.confirmed === true);
 
 								$.postJson(url, {
 									'uri': data.uri,
@@ -200,9 +200,9 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 											return;
 										}
 										if (response.status == 'diff') {
-											message = __("Moving this element will remove the following properties:");
+											var message = __("Moving this element will remove the following properties:");
 											message += "\n";
-											for (i = 0; i < response.data.length; i++) {
+											for (var i = 0; i < response.data.length; i++) {
 												if (response.data[i].label) {
 													message += "- " + response.data[i].label + "\n";
 												}
@@ -246,7 +246,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 							//edit action
 							select: {
 								label: __("edit"),
-								icon: taobase_www +"img/pencil.png",
+								icon: context.taobase_www +"img/pencil.png",
 								visible: function (NODE, TREE_OBJ) {
 									if (($(NODE).hasClass('node-instance') && instance.options.editInstanceAction) ||
 										($(NODE).hasClass('node-class') && instance.options.editClassAction)) {
@@ -262,7 +262,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 							//new class action
 							subclass: {
 								label: __("new class"),
-								icon: taobase_www + "img/class_add.png",
+								icon: context.taobase_www + "img/class_add.png",
 								visible: function (NODE, TREE_OBJ) {
 									if (NODE.length != 1) {
 										return false;
@@ -284,7 +284,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 							//new instance action
 							instance: {
 								label: __("new") + ' ' +  __(options.instanceName),
-								icon	: taobase_www + "img/instance_add.png",
+								icon	: context.taobase_www + "img/instance_add.png",
 								visible: function (NODE, TREE_OBJ) {
 									if (NODE.length != 1) {
 										return false;
@@ -306,7 +306,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 							//move action
 							move: {
 								label: __("move"),
-								icon: taobase_www + "img/move.png",
+								icon: context.taobase_www + "img/move.png",
 								visible: function (NODE, TREE_OBJ) {
 										if ($(NODE).hasClass('node-instance')  && instance.options.moveInstanceAction) {
 											return true;
@@ -322,7 +322,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 							//clone action
 							duplicate: {
 								label: __("duplicate"),
-								icon: taobase_www + "img/duplicate.png",
+								icon: context.taobase_www + "img/duplicate.png",
 								visible: function (NODE, TREE_OBJ) {
 									if ($(NODE).hasClass('node-instance') && instance.options.duplicateAction) {
 										return true;
@@ -339,7 +339,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 							//delete action
 							del: {
 								label: __("delete"),
-								icon: taobase_www + "img/delete.png",
+								icon: context.taobase_www + "img/delete.png",
 								visible: function (NODE, TREE_OBJ) {
 									var ok = true;
 									$.each(NODE, function () {
@@ -371,7 +371,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				treeOptions.selected = options.selectNode;
 			}
 
-			tmpTree = $.tree.reference(selector);
+			var tmpTree = $.tree.reference(selector);
 			if (tmpTree != null) {
 				tmpTree.destroy();
 			}
@@ -411,10 +411,10 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 		 * @return {Object}
 		 */
 		data: function(uri, classUri) {
-			data = {};
+			var data = {};
 
-			(this.options.instanceKey) ? instanceKey = this.options.instanceKey : instanceKey = 'uri';
-			(this.options.classKey) ? classKey = this.options.classKey : classKey = 'classUri';
+			var instanceKey = (this.options.instanceKey) ?  this.options.instanceKey :  'uri';
+			var classKey =  (this.options.classKey) ? this.options.classKey : 'classUri';
 
 			if (uri) {
 				data[instanceKey] = uri;
@@ -457,7 +457,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 		 */
 		disableFilter: function() {
 			this.state = this.STATE_BROWSING;
-			$cancelBtn = $("#filter-cancel-" + this.options.actionId);
+			var $cancelBtn = $("#filter-cancel-" + this.options.actionId);
 			this.filter = "*";
 			$("#filter-content-" + this.options.actionId).val(this.filter);
 			$cancelBtn.addClass("ui-helper-hidden");
@@ -553,14 +553,14 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				dataType: 'json',
 				success: function(response){
 					if (response.uri) {
-						TREE_OBJ.select_branch(
-							TREE_OBJ.create({
-								data: response.label,
-								attributes: {
-									id: response.uri,
-									'class': 'node-class'
-								}
-							}, TREE_OBJ.get_node(NODE[0])));
+                                            TREE_OBJ.select_branch(
+                                                    TREE_OBJ.create({
+                                                            data: response.label,
+                                                            attributes: {
+                                                                    id: response.uri,
+                                                                    'class': 'node-class'
+                                                            }
+                                                    }, TREE_OBJ.get_node(NODE[0])));
 					}
 				}
 			});
@@ -617,13 +617,13 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 
 			if (confirm(__("Please confirm deletion"))) {
 				$.each(NODE, function() {
-					data = false;
+					var data = false;
 					var selectedNode = this;
 					if ($(selectedNode).hasClass('node-class')) {
 						data =  {classUri: $(selectedNode).prop('id')};
 					}
 					if ($(selectedNode).hasClass('node-instance')) {
-						PNODE = TREE_OBJ.parent(selectedNode);
+						var PNODE = TREE_OBJ.parent(selectedNode);
 						data =  {uri: $(selectedNode).prop('id'), classUri: $(PNODE).prop('id')};
 					}
 					if (data) {
@@ -794,7 +794,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 			};
 
 			//create a dialog window to embed the tree
-			position = $(helpers.getMainContainerSelector()).offset();
+			var position = $(helpers.getMainContainerSelector()).offset();
 			$("#tmp-moving-tree").tree(TMP_TREE);
 			$("#tmp-moving").dialog({
 				width: 350,

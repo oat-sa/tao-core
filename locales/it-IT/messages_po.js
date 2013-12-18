@@ -1,4 +1,8 @@
 /* auto generated content */
 /* lang: it-IT */
-var langCode = 'it-IT';
-var i18n_tr = [];
+define(function(){
+ return {
+   langCode : 'it-IT',
+   i18n_tr : []
+ };
+});

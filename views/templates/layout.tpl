@@ -44,7 +44,7 @@
 				</a>
 			</div>
 				<?php endif; ?>
-<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'Settings', null) && tao_helpers_SysAdmin::isSysAdmin()): ?>
+<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'Optimize', null) && tao_helpers_SysAdmin::isSysAdmin()): ?>
             <div>
                 <a class="icon" id="settings-icon" href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings', 'ext' => 'tao'))?>" title="<?=__('System Settings')?>"></a>
 			</div>
@@ -54,10 +54,6 @@
 	</div>
 <? if(get_data('sections')):?>
 
-	<script type='text/javascript'>
-		var shownExtension	= '<?=$shownExtension?>';
-		var shownStructure = '<?=$shownStructure?>';
-	</script>
 	<div id="tabs">
 		<ul>
 		<?foreach(get_data('sections') as $section):?>

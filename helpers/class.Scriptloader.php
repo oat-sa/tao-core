@@ -119,8 +119,7 @@ class tao_helpers_Scriptloader
 		$basePath = '/'.$extension.'/views/';
 		
 		//load module scripts
-		$jsModuleFile = $basePath.self::JS.'/'.$module.'.'.self::JS;
-		$jsModuleDir = $basePath.self::JS.'/'.$module.'/';
+		$jsModuleFile = $basePath.self::JS.'/controllers/'.strtolower($module).'/'.$action.'.'.self::JS;
 		
 		$cssModuleFile = $basePath.self::CSS.'/'.$module.'.'.self::CSS;
 		$cssModuleDir = $basePath.self::CSS.'/'.$module.'/';
@@ -128,13 +127,10 @@ class tao_helpers_Scriptloader
 		if(file_exists($jsModuleFile)){
 			self::addJsFile($jsModuleFile);
 		}
-		foreach(glog($jsModuleDir.'*.'.self::JS) as $file){
-			self::addJsFile($file);
-		}
 		if(file_exists($cssModuleFile)){
 			self::addCssFile($cssModuleFile);
 		}
-		foreach(glog($cssModuleDir.'*.'.self::CSS) as $file){
+		foreach(glob($cssModuleDir.'*.'.self::CSS) as $file){
 			self::addCssFile($file);
 		}
 		
@@ -320,6 +316,10 @@ class tao_helpers_Scriptloader
     	}
         
         // section 127-0-1-1--1c869303:1284d9e28b9:-8000:000000000000245F end
+    }
+    
+    public static function getJsFiles(){
+        return self::$jsFiles;
     }
 
     /**

@@ -8,23 +8,22 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=BASE_WWW?>css/style.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=BASE_WWW?>css/layout.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=BASE_WWW?>css/portal.css"/>
-	 <script src="<?=BASE_WWW?>js/jquery-1.8.0.min.js"></script>
+	<script src="<?=BASE_WWW?>js/lib/jquery-1.8.0.min.js"></script>
+        <script type="text/javascript">
+            $( document ).ready(function(){
+                $('.tile').mouseover(function() {
+                    $(this).addClass("tileSelected");
+                    jQuery(".tileLabel", this).addClass("tileLabelSelected");
+                    jQuery(".Title", this).addClass("TitleSelected");
+                });
+                $('.tile').mouseleave(function() {
+                    $(this).removeClass("tileSelected");
+                    jQuery(".tileLabel", this).removeClass("tileLabelSelected");
+                    jQuery(".Title", this).removeClass("TitleSelected");
+                });
+            });
+        </script>
 </head>
-    <script type="text/javascript">
-	$( document ).ready(function(){
-	    $('.tile').mouseover(function() {
-		$(this).addClass("tileSelected");
-		jQuery(".tileLabel", this).addClass("tileLabelSelected");
-		jQuery(".Title", this).addClass("TitleSelected");
-	    });
-	    $('.tile').mouseleave(function() {
-		$(this).removeClass("tileSelected");
-		jQuery(".tileLabel", this).removeClass("tileLabelSelected");
-		jQuery(".Title", this).removeClass("TitleSelected");
-	    });
-	});
-    </script>
-
 <body>
 	<div id="content">
 		<div id="portal-box" class="ui-tabs ui-widget ui-widget-content ui-corner-all">

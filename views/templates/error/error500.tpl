@@ -4,23 +4,22 @@
 
 <head>
 	<title>Internal Server Error</title>
-	<script type="text/javascript" src="<?= ROOT_URL ?>tao/views/js/jquery-1.8.0.min.js "></script>
-	<script type="text/javascript" src="<?= ROOT_URL ?>tao/views/js/jquery-ui-1.8.23.custom.min.js"></script>
-		<script type="text/javascript">
+        <link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/custom-theme/jquery-ui-1.8.22.custom.css" />
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/errors.css" />
+	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/error500.css" />
+        
+	<script type="text/javascript" src="<?= ROOT_URL ?>tao/views/js/lib/jquery-1.8.0.min.js "></script>
+	<script type="text/javascript" src="<?= ROOT_URL ?>tao/views/js/lib/jquery-ui-1.8.23.custom.min.js"></script>
+	<script type="text/javascript">
     	$(document).ready(function(){
     	    $('#go_back').click(function(){
     	        parent.history.back();
     	        return false;
     	    });
     	});
-	</script>
-
-	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/reset.css" />
-	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/custom-theme/jquery-ui-1.8.22.custom.css" />
-	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/errors.css" />
-	<link rel="stylesheet" type="text/css" href="<?= ROOT_URL ?>tao/views/css/error500.css" />
+	</script>	
 </head>
-
 <body>
 	<div id="main" class="ui-widget-content ui-corner-all" style="background-image: url(<?= ROOT_URL ?>tao/views/img/errors/500.png);">
 		<div id="content">

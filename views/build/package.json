@@ -1,0 +1,7 @@
+{
+  "name": "tao-build",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-requirejs": "~0.4.1"
+  }
+}

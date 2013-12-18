@@ -12,7 +12,7 @@
  * @author Jehan Bihin (class)
  */
 
-define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass) {
+define(['jquery', 'i18n', 'generis.tree', 'helpers'], function($, __, GenerisTreeClass, helpers) {
 	var GenerisTreeSelectClass = GenerisTreeClass.extend({
 		/**
 		 * Constructor
@@ -241,7 +241,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 
 			$.each(elements, function(i, elt){
 				if (elt != null) {
-					NODE = $(self.selector).find("li[id='"+elt+"']");
+					var NODE = $(self.selector).find("li[id='"+elt+"']");
 					if (NODE.length > 0) {
 						if ($(NODE).hasClass('node-instance')) {
 							$.tree.plugins.checkbox.check(NODE);
@@ -286,7 +286,7 @@ define(['require', 'jquery', 'generis.tree'], function(req, $, GenerisTreeClass)
 				}
 			});*/
 
-			nodes = this.getChecked();
+			var nodes = this.getChecked();
 			for (var i in nodes) {
 				toSend['instance_'+index] = nodes[i];
 				index++;

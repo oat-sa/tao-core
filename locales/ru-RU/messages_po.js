@@ -1,4 +1,8 @@
 /* auto generated content */
 /* lang: ru-RU */
-var langCode = 'ru-RU';
-var i18n_tr = [];
+define(function(){
+ return {
+   langCode : 'ru-RU',
+   i18n_tr : []
+ };
+});

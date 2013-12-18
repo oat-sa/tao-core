@@ -9,7 +9,7 @@
  * @author Jehan Bihin (class)
  */
 
-define(['require', 'jquery'], function(req, $) {
+define(['jquery', 'class'], function($, Class) {
 	var GenerisFacetFilterAccordionAdapter = Class.extend({
 		init: function() {
 			//

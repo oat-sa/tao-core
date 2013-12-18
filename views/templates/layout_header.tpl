@@ -5,9 +5,14 @@
 	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?></title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 
-	<? include(TAO_TPL_PATH . 'context.tpl') ?>
+        
 	<?=tao_helpers_Scriptloader::render()?>
-        <script src="<?=TAOBASE_WWW?>js/require-jquery.js" data-main="<?=TAOBASE_WWW?>js/main"></script>
+
+        <script id='amd-loader' 
+                type="text/javascript" 
+                src="<?=TAOBASE_WWW?>js/lib/require.js" 
+                data-main="<?=TAOBASE_WWW?>js/main"
+                data-config="<?=get_data('client_config_url')?>"></script>
 	
 	<!-- Error Handling -->
 	<? include(TAO_TPL_PATH . 'errors.tpl') ?>

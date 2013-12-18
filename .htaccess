@@ -9,7 +9,7 @@ RewriteCond %{REQUEST_URI} 	!/doc/ 	 	[NC]
 RewriteCond %{REQUEST_URI} 	!/update/	[NC]
 RewriteCond %{REQUEST_URI} 	!/install/	[NC]
 RewriteCond %{REQUEST_URI} 	!/locales/	[NC]
-RewriteCond %{REQUEST_URI}  	!/getFile.php	[NC]
+RewriteCond %{REQUEST_URI}  !/getFile.php	[NC]
 #call entry point for url resolving and framework bootstrap
 RewriteRule ^(.*)$ index.php [L]
 

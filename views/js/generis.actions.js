@@ -6,23 +6,47 @@
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @author Jehan Bihin
  */
-
-
-define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
-	var GenerisActions = Class.extend({
+define(['jquery', 'helpers'], function($, helpers) {
+    
+        var mainTree;
+    
+	var GenerisActions = {
 		init: function() {
-			this.mainTree = undefined;
+                    this._listenForActions();    
 		},
+                
 		setMainTree: function(tree) {
-			this.mainTree = tree;
+                    mainTree = tree;
 		},
+                
+                /**
+                 * Listen for click on actions that contains the attr data-action
+                 * @private
+                 */
+                _listenForActions : function(){
+                    var self = this;
+                    $(document).on('click', '#section-actions [data-action]', function(e){
+                        e.preventDefault();
+                        var $elt = $(this);
+                        var action = $elt.data('action');
+                        var url = $elt.attr('href');
+                        var uri = $elt.data('uri');
+                        var classUri = $elt.data('class-uri');
+                        
+                        if(self[action] && typeof self[action] === 'function'){
+                            self[action](uri, classUri, url);
+                        }
+                    });
+                },
+                
 		/**
 		 * conveniance method to select a resource
 		 * @param {String} uri
 		 */
 		select: function(uri) {
-			this.mainTree.selectTreeNode(uri);
+                    mainTree.selectTreeNode(uri);
 		},
+                
 		/**
 		 * conveniance method to subclass
 		 * @param {String} uri
@@ -30,13 +54,14 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 		 * @param {String} url
 		 */
 		subClass: function(uri, classUri, url) {
-			var options = this.mainTree.getTreeOptions(classUri);
+			var options = mainTree.getTreeOptions(classUri);
 			if (options) {
-				options.id = classUri;
-				options.url = url;
-				this.mainTree.addClass(options.NODE, options.TREE_OBJ, options);
+                            options.id = classUri;
+                            options.url = url;
+                            mainTree.addClass(options.NODE, options.TREE_OBJ, options);
 			}
 		},
+                
 		/**
 		 * conveniance method to instanciate
 		 * @param {String} uri
@@ -44,11 +69,11 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 		 * @param {String} url
 		 */
 		instanciate: function (uri, classUri, url) {
-			var options = this.mainTree.getTreeOptions(classUri);
+			var options = mainTree.getTreeOptions(classUri);
 			if (options) {
 				options.id = classUri;
 				options.url = url;
-				this.mainTree.addInstance(options.NODE, options.TREE_OBJ, options);
+				mainTree.addInstance(options.NODE, options.TREE_OBJ, options);
 			}
 		},
 		/**
@@ -58,13 +83,13 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 		 * @param {String} url
 		 */
 		removeNode: function (uri, classUri, url) {
-			var options = this.mainTree.getTreeOptions(uri);
+			var options = mainTree.getTreeOptions(uri);
 			if (!options) {
-				options = this.mainTree.getTreeOptions(classUri);
+				options = mainTree.getTreeOptions(classUri);
 			}
 			if (options) {
 				options.url = url;
-				this.mainTree.removeNode(options.NODE, options.TREE_OBJ, options);
+				mainTree.removeNode(options.NODE, options.TREE_OBJ, options);
 			}
 		},
 		/**
@@ -74,10 +99,10 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 		 * @param {String} url
 		 */
 		duplicateNode: function(uri, classUri, url) {
-			var options = this.mainTree.getTreeOptions(uri);
+			var options = mainTree.getTreeOptions(uri);
 			if (options) {
 				options.url = url;
-				this.mainTree.cloneNode(options.NODE, options.TREE_OBJ, options);
+				mainTree.cloneNode(options.NODE, options.TREE_OBJ, options);
 			}
 		},
 		/**
@@ -87,9 +112,9 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 		 * @param {String} url
 		 */
 		moveNode: function(uri, classUri, url) {
-			var options = this.mainTree.getTreeOptions(uri);
+			var options = mainTree.getTreeOptions(uri);
 			if (options) {
-				this.mainTree.moveInstance(options.NODE, options.TREE_OBJ);
+				mainTree.moveInstance(options.NODE, options.TREE_OBJ);
 			}
 		},
 		/**
@@ -149,7 +174,7 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 				dataType: 'html',
 				success: function(response){
 					$(".form-group:last").after(response);
-					formGroupElt = $("#property_" + index);
+					var formGroupElt = $("#property_" + index);
 					if(formGroupElt){
 						formGroupElt.addClass('form-group-opened');
 					}
@@ -165,33 +190,33 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 		 * @param {String} url
 		 */
 		resultTable: function(uri, classUri, url) {
-			options = this.mainTree.getTreeOptions(classUri);
-			TREE_OBJ = options.TREE_OBJ;
-			NODE = options.NODE;
+			var options = mainTree.getTreeOptions(classUri);
+			var TREE_OBJ = options.TREE_OBJ;
+			var NODE = options.NODE;
 
 			function getInstances(TREE_OBJ, NODE){
-				NODES = new Array();
+				var NODES = new Array();
 				$.each(TREE_OBJ.children(NODE), function(i, CNODE){
 					if ($(CNODE).hasClass('node-instance')) {
 						NODES.push($(CNODE).prop('id'));
 					}
 					if ($(CNODE).hasClass('node-class')) {
-						subNodes = getInstances(TREE_OBJ, CNODE);
+						var subNodes = getInstances(TREE_OBJ, CNODE);
 						NODES.concat(subNodes);
 					}
 				});
 				return NODES;
 			}
-			data = {};
-			instances = getInstances(TREE_OBJ, NODE);
+			var data = {};
+			var instances = getInstances(TREE_OBJ, NODE);
 
-			i=0;
+			var i=0;
 			while(i< instances.length){
 				data['uri_'+i] = instances[i];
 				i++;
 			}
 			data.classUri = classUri;
-			helpers._load(helpers.getMainContainerSelector(uiBootstrap.tabs), url, data);
+			helpers._load(helpers.getMainContainerSelector(), url, data);
 		},
 		/**
 		 * init and load the meta data component
@@ -222,7 +247,7 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 						
 						$("#comment-editor").click(function(){
 							var commentContainer = $(this).parents('td');
-							if($('.comment-area', commentContainer).length == 0){
+							if($('.comment-area', commentContainer).length === 0){
 
 								var commentArea = $("<textarea id='comment-area'></textarea>");
 								var commentField = $('span#comment-field', commentContainer);
@@ -231,8 +256,8 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 											.height(parseInt(commentContainer.height()));
 								commentField.empty();
 								commentArea.bind('keypress blur' , function(event){
-									if(event.type == 'keypress'){
-										if (event.which != '13') {
+									if(event.type === 'keypress'){
+										if (event.which !== '13') {
 											return true;
 										}
 										event.preventDefault();
@@ -264,7 +289,7 @@ define(['require', 'jquery', 'class', 'helpers'], function(req, $) {
 				}
 			});
 		}
-	});
+        };
 
 	return GenerisActions;
 });

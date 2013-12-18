@@ -1,16 +1,20 @@
-function PseudoStorage() {
-}
-	
-PseudoStorage.prototype.get = function(callback){
-	if (typeof callback == 'function') {
-		callback(null);
-	}
-	return null;
-}
+define(function(){
+    
+    function PseudoStorage() {
+    }
 
-PseudoStorage.prototype.set = function(state, callback){
+    PseudoStorage.prototype.get = function(callback){
+        if (typeof callback === 'function') {
+            callback(null);
+        }
+        return null;
+    };
 
-	if (typeof callback == "function") {
-		callback();
-	}
-}
+    PseudoStorage.prototype.set = function(state, callback){
+        if (typeof callback === "function") {
+            callback();
+        }
+    };
+
+    return PseudoStorage;
+});

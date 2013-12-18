@@ -14,33 +14,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2013
- *  *
+ *  
  */
 
-function Lock (resourceUri){
-	this.uri = resourceUri;
-	this.url = root_url+'tao/lock';
-}
+define(['jquery', 'helpers'], function($, helpers){
 
-/*
- *
- * @param {type} callback
- * @returns {undefined}
- */
-Lock.prototype.release = function (successCallBack, failureCallBack){
+    function Lock (resourceUri){
+        this.uri = resourceUri;
+    }
 
-    //this.url = _url('tao','lock','release'); //todo _url ?
+    /*
+     * @param {type} callback
+     * @returns {undefined}
+     */
+    Lock.prototype.release = function (successCallBack, failureCallBack){
+
+        var releaseUrl = helpers._url('release', 'lock', 'tao' );
+        var options = { 
+            data: { uri : this.uri },
+            type: 'POST',
+            dataType: 'json'
+        };
+        $.ajax(releaseUrl, options).done(function(retData, textStatus, jqxhr){
+            successCallBack();
+        }).fail(function(jqxhr){
+            failureCallBack();
+        });
+    };
+
+    return Lock;
     
-    var releaseUrl = this.url + '/release';
-    var options = {data: data,
-		   type: 'POST',
-		   dataType: 'json'};
-    $.ajax(releaseUrl, options).done(function(retData, textStatus, jqxhr){
-	
-	//alert('lock removed');
-	successCallBack();
-    }).fail(function(jqxhr){
-	failureCallBack();
-    });
-}
-
+});

@@ -11,7 +11,7 @@
 	</script>
 
         <?=tao_helpers_Scriptloader::render()?>
-	<script src="<?=TAOBASE_WWW?>js/require-jquery.js" data-main="<?=TAOBASE_WWW?>js/main"></script>
+	<script src="<?=TAOBASE_WWW?>js/lib/require-jquery.js" data-main="<?=TAOBASE_WWW?>js/main"></script>
 
 	<script type='text/javascript'>
 		var ctx_extension = '<?=get_data("extension")?>';

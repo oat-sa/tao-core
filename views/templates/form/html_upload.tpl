@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>File Uploader</title>
+	<title><?=__('File Uploader')?></title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 
-	<script type='text/javascript' src="<?=BASE_WWW?>js/jquery-1.8.0.min.js"></script>
+	<script type='text/javascript' src="<?=BASE_WWW?>js/lib/jquery-1.8.0.min.js"></script>
 
 	<?if(get_data('uploaded') === true):?>
 

@@ -7,7 +7,7 @@
  * @author Jehan Bihin
  */
 
-define(['require', 'jquery'], function(req, $) {
+define(['jquery', 'i18n', 'class', 'uiBootstrap'], function($, __, Class, uiBootstrap) {
 	var GenerisTreeClass = Class.extend({
 		/**
 		 * Constructor
@@ -17,7 +17,7 @@ define(['require', 'jquery'], function(req, $) {
 		 * @param {Object} treeOptions
 		 */
 		init: function(selector, dataUrl, options, treeOptions) {
-			var instance = this;
+			var self = this;
 
 			this.STATE_BROWSING = 0;
 			this.STATE_FILTERING = 1;
@@ -30,9 +30,9 @@ define(['require', 'jquery'], function(req, $) {
 			this.state = this.STATE_BROWSING; //Generis tree class state, by default browsing
 
 			//Paginate the tree or not
-			this.paginate = typeof options.paginate != 'undefined' ? options.paginate : 0;
+			this.paginate = typeof options.paginate !== 'undefined' ? options.paginate : 0;
 			//Options to pass to the server
-			this.serverParameters = (typeof options.serverParameters != "undefined") ? options.serverParameters : new Array ();
+			this.serverParameters = (typeof options.serverParameters !== "undefined") ? options.serverParameters : new Array ();
 			//Default server parameters
 			this.defaultServerParameters = {
 				hideInstances:  this.options.hideInstances | false,
@@ -59,7 +59,7 @@ define(['require', 'jquery'], function(req, $) {
 				},
 				callback: {
 					beforeopen: function(NODE, TREE_OBJ) {
-						instance.lastOpened = NODE;
+						self.lastOpened = NODE;
 					}
 				}
 			};
@@ -248,7 +248,7 @@ define(['require', 'jquery'], function(req, $) {
 					classUri = this.getClassUri(NODE);
 				}
 			}
-			//uiBootstrap is global
+			
 			uiBootstrap.initActions(uri, classUri);
 		}
 	});

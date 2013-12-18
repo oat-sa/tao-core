@@ -1,4 +1,8 @@
 /* auto generated content */
 /* lang: pl-PL */
-var langCode = 'pl-PL';
-var i18n_tr = [];
+define(function(){
+ return {
+   langCode : 'pl-PL',
+   i18n_tr : []
+ };
+});

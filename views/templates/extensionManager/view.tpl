@@ -1,5 +1,4 @@
 <link rel="stylesheet" type="text/css" href="<?= TAOBASE_WWW ?>css/extensionManager.css" />
-<script src="<?= TAOBASE_WWW ?>js/extensionManager.js"></script>
 
 <? if(isset($message)): ?>
 <div id="message">

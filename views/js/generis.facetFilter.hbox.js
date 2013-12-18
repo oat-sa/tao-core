@@ -11,7 +11,7 @@
  */
 
 
-define(['require', 'jquery'], function(req, $) {
+define(['jquery', 'lodash', 'class'], function($, _, Class) {
 	var GenerisFacetFilterHboxAdapter = Class.extend({
 		init: function() {
 			//
@@ -50,7 +50,7 @@ define(['require', 'jquery'], function(req, $) {
 		 * Render
 		 */
 		render: function(selector, filterNodes) {
-			output = '';
+			var output = '';
 
 			output += this.header();
 			for(var i in filterNodes){
@@ -59,7 +59,7 @@ define(['require', 'jquery'], function(req, $) {
 			output += this.footer();
 
 			$(selector).append(output);
-			var width = 100/Object.keys(filterNodes).length -1;
+			var width = 100/ _.keys(filterNodes).length -1;
 			$(selector).find('.ui-facet-filter-node').css('width', width+'%');
 		}
 	});

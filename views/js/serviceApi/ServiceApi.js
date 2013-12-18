@@ -1,70 +1,85 @@
-function ServiceApi(baseUrl, parameters, serviceCallId, stateStorage){
-	this.baseUrl = baseUrl;
-	this.parameters = parameters;
-	
-	this.serviceCallId = serviceCallId; 
-	this.state = stateStorage;
-	
-	this.onFinishCallback;
-	this.onDisplayChangeCallback;
-}
+define(['jquery'], function($){
+    
+    function ServiceApi(baseUrl, parameters, serviceCallId, stateStorage){
+        this.baseUrl = baseUrl;
+        this.parameters = parameters;
+        this.connected = false;
 
-ServiceApi.prototype.loadInto = function(frame){
-	var api = this;
-	$(frame).unbind('load').load(function() {return function(api, frame) {
-		api.connect(frame);
-	}(api, this)});
-	$(frame).attr('src', this.getCallUrl());
-}
+        this.serviceCallId = serviceCallId; 
+        this.state = stateStorage;
 
-ServiceApi.prototype.connect = function(frame){
-	frame.contentWindow.serviceApi = this;
-	if (typeof(frame.contentWindow.onServiceApiReady) == "function") {
-		frame.contentWindow.onServiceApiReady(this);
-	}
-}
+        this.onFinishCallback;
+        this.onDisplayChangeCallback;
+    }
 
-ServiceApi.prototype.getCallUrl = function(){
-	var callUrl = this.baseUrl + '?';
-	$.each(this.parameters,function (name, value) {
-		callUrl += encodeURIComponent(name) + "=" + encodeURIComponent(value) + "&";
-	});
-	callUrl += 'serviceCallId=' + encodeURIComponent(this.serviceCallId);
-	return callUrl;
-}
+    ServiceApi.prototype.loadInto = function(frame, loaded){
+            var api = this;
+            $(frame).load(function() {
+                $(document).on('serviceready', function(){
+                    api.connect(frame);
+                    if(typeof loaded === 'function'){
+                        loaded();
+                    }
+                });
+            });
+            $(frame).attr('src', this.getCallUrl());
+    };
 
-//Context
-ServiceApi.prototype.getServiceCallId = function(){
-	return this.serviceCallId;
-}
+    ServiceApi.prototype.connect = function(frame){
+        if(this.connected === false && frame.contentWindow){
+            //frame.contentWindow.serviceApi = this;
+            if (typeof(frame.contentWindow.onServiceApiReady) === "function") {
+                frame.contentWindow.onServiceApiReady(this);
+                this.connected = true;
+            }
+        }
+    };
 
-//Context
-ServiceApi.prototype.getState = function(){
-	return this.state.get();
-}
+    ServiceApi.prototype.getCallUrl = function(){
+        var callUrl = this.baseUrl + '?';
+        $.each(this.parameters,function (name, value) {
+                callUrl += encodeURIComponent(name) + "=" + encodeURIComponent(value) + "&";
+        });
+        callUrl += 'serviceCallId=' + encodeURIComponent(this.serviceCallId);
+        return callUrl;
+    };
 
-ServiceApi.prototype.setState = function(state, callback){
-	return this.state.set(state, callback);
-}
+    //Context
+    ServiceApi.prototype.getServiceCallId = function(){
+        return this.serviceCallId;
+    };
 
-// Variables 
-ServiceApi.prototype.getParameter = function(identifier){
-	if (typeof(this.parameters[identifier]) != "undefined") {
-		return this.parameters[identifier];
-	} else {
-		return null;
-	}
-}
+    //Context
+    ServiceApi.prototype.getState = function(){
+        return this.state.get();
+    };
 
-ServiceApi.prototype.onFinish = function(callback) {
-	this.onFinishCallback = callback;	
-}
+    ServiceApi.prototype.setState = function(state, callback){
+        return this.state.set(state, callback);
+    };
 
-// Flow
-// valueArray are return parameters of the service.
-ServiceApi.prototype.finish = function(valueArray) {
-	//return execution to service caller
-	if (typeof this.onFinishCallback == 'function') {
-		this.onFinishCallback(valueArray);
-	}
-};
+    // Variables 
+    ServiceApi.prototype.getParameter = function(identifier){
+        if (typeof(this.parameters[identifier]) !== "undefined") {
+            return this.parameters[identifier];
+        } else {
+            return null;
+        }
+    };
+
+    ServiceApi.prototype.onFinish = function(callback) {
+        this.onFinishCallback = callback;	
+    };
+
+    // Flow
+    // valueArray are return parameters of the service.
+    ServiceApi.prototype.finish = function(valueArray) {
+            //return execution to service caller
+            if (typeof this.onFinishCallback === 'function') {
+                    this.onFinishCallback(valueArray);
+            }
+    };
+
+    return ServiceApi;
+
+});

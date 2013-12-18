@@ -11,7 +11,7 @@
  * @author Joel Bout (getFormatedFilterSelection)
  */
 
-define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTreeSelectClass) {
+define(['jquery', 'generis.tree.select', 'class'], function( $, GenerisTreeSelectClass, Class) {
 	var GenerisFacetFilterClass = Class.extend({
 		/**
 		 * The GenerisFacetFilterClass constructor
@@ -66,7 +66,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 		 * 		=> create a list
 		 */
 		addFilterNode: function(filterNode) {
-			listOptions = {
+			var listOptions = {
 				elem: $('#list-'+filterNode.id),
 				id: filterNode.id,
 				url: filterNode.url,
@@ -89,7 +89,7 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 						//Selected ?
 						var sel = '';
 						if (self.lastFilter[data.attributes.id] != undefined && $.inArray(data.children[c].attributes.id, self.lastFilter[data.attributes.id]) >= 0) sel += ' has-allaccess';
-						$el = $('<li id="'+data.children[c].attributes.id+'" class="selectable'+sel+'"><ul class="actions"></ul><span class="label">'+data.children[c].data+'</span><span class="selector checkable"></span></li>').appendTo($('#list-'+listOptions.id+' ul.group-list'));
+						var $el = $('<li id="'+data.children[c].attributes.id+'" class="selectable'+sel+'"><ul class="actions"></ul><span class="label">'+data.children[c].data+'</span><span class="selector checkable"></span></li>').appendTo($('#list-'+listOptions.id+' ul.group-list'));
 						$('span.label, span.selector', $el).on('click', function(e){
 							e.preventDefault();
 							if ($(this).parent().hasClass('has-allaccess')) $(this).parent().removeClass('has-allaccess');
@@ -98,8 +98,8 @@ define(['require', 'jquery', 'generis.tree.select'], function(req, $, GenerisTre
 						});
 						//Add actions
 						$('<ul class="actions"></ul>').prependTo('span:first', $el);
-						for (a in self.options.itemActions) {
-							$a = $('<li class="actions '+a+'" style="background-image: url('+self.options.itemActions[a].iconUrl+')"></li>').appendTo($('ul.actions', $el));
+						for (var a in self.options.itemActions) {
+							var $a = $('<li class="actions '+a+'" style="background-image: url('+self.options.itemActions[a].iconUrl+')"></li>').appendTo($('ul.actions', $el));
 							$a.on('click', self.options.itemActions[a].callback.click);
 						}
 					}

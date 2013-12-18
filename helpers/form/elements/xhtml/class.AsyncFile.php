@@ -164,7 +164,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 		$id = md5($this->name);
 		$returnValue .= '<script type="text/javascript">
 			$(document).ready(function(){
-				require([\'require\', \'jquery\', \'AsyncFileUpload\'], function(req, $){
+				require([\'jquery\', \'AsyncFileUpload\'], function($, AsyncFileUpload){
 					myUploader_'.$id.' = new AsyncFileUpload("#'.$widgetName.'", {
 						"scriptData": {"session_id": "'.session_id().'"},
 						"basePath": "'.TAOBASE_WWW.'",

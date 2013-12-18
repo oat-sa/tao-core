@@ -8,65 +8,74 @@
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 
-define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], function(req, $) {
-	var UiForm = Class.extend({
+define(['module', 'jquery', 'i18n', 'helpers', 'context', 'generis.actions', 'jwysiwyg'], function(module, $, __, helpers, context, generisActions) {
+    
+    function getUrl(action){
+        var conf = module.config();
+        return context.root_url + conf.extension + '/' + conf.module + '/' + action;
+    }
+    
+	var UiForm = {
 		init: function() {
-			this.counter = 0;
-			this.initFormPattern = new RegExp(['search', 'authoring', 'Import', 'Export', 'IO', 'preview'].join('|'));
-			this.initGenerisFormPattern =  new RegExp(['add', 'edit', 'mode'].join('|'), 'i');
-			this.initTranslationFormPattern = /translate/;
-			this.initNav();
+                    var self = this;
+                    this.counter = 0;
+                    this.initFormPattern = new RegExp(['search', 'authoring', 'Import', 'Export', 'IO', 'preview'].join('|'));
+                    this.initGenerisFormPattern =  new RegExp(['add', 'edit', 'mode'].join('|'), 'i');
+                    this.initTranslationFormPattern = /translate/;
+                    this.initNav();
 
-			$("body").ajaxComplete(function(event, request, settings) {
-				//initialize regarding the requested action
-				//async request waiting for html or not defined
-				if (settings.dataType == 'html' || settings.dataType == undefined) {
-					if (settings.url.indexOf('?') != -1 ){
-						testedUrl = settings.url.substr(0, settings.url.indexOf('?'));
-					} else {
-						testedUrl = settings.url;
-					}
+                    $("body").ajaxComplete(function(event, request, settings) {
+                            var testedUrl;
+                            //initialize regarding the requested action
+                            //async request waiting for html or not defined
+                            if (settings.dataType === 'html' || !settings.dataType) {
+                                    if (settings.url.indexOf('?') !== -1 ){
+                                            testedUrl = settings.url.substr(0, settings.url.indexOf('?'));
+                                    } else {
+                                            testedUrl = settings.url;
+                                    }
 
-					uiForm.initRendering();
-					uiForm.initElements();
-					if (uiForm.initGenerisFormPattern.test(testedUrl)) {
-						uiForm.initOntoForms();
-					}
-					if(uiForm.initTranslationFormPattern.test(testedUrl)) {
-						uiForm.initTranslationForm();
-					}
-				}
-			});
-			this.initRendering();
+                                    self.initRendering();
+                                    self.initElements();
+                                    if (self.initGenerisFormPattern.test(testedUrl)) {
+                                            self.initOntoForms();
+                                    }
+                                    if(self.initTranslationFormPattern.test(testedUrl)) {
+                                            self.initTranslationForm();
+                                    }
+                            }
+                    });
+                    this.initRendering();
 		},
 
 		/**
 		 * init form naviguation (submit by ajax)
 		 */
 		initNav: function() {
-			$("form").live('submit', function() {
-				return uiForm.submitForm($(this));
-			});
+                    var self = this;
+                    $("form").live('submit', function() {
+                            return self.submitForm($(this));
+                    });
 		},
 
 		/**
 		 * make some adjustment on the forms
 		 */
 		initRendering: function() {
-			$("span.form_desc").each(function() {
-				var myHeight = parseInt($(this).height());
-				var parentHeight = parseInt($(this).parent().height());
-				if (myHeight > parentHeight) {
-					$(this).parent().height(myHeight +'px');
-				}
-			});
+                    $("span.form_desc").each(function() {
+                            var myHeight = parseInt($(this).height());
+                            var parentHeight = parseInt($(this).parent().height());
+                            if (myHeight > parentHeight) {
+                                    $(this).parent().height(myHeight +'px');
+                            }
+                    });
 		},
 
 		initElements: function(){
 			//save form button
 			var that = this;
 			$(".form-submiter").off('click').on('click', function() {
-				myForm = $(this).parents("form");
+				var myForm = $(this).parents("form");
 				if (that.submitForm(myForm)) {
 					myForm.submit();
 				}
@@ -86,20 +95,17 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 
 			//translate button
 			$(".form-translator").off('click').on('click', function() {
-				if ($("#uri") && $("#classUri")){
-					if (typeof ctx_form_extension != 'undefined') {
-						url = root_url + ctx_form_extension + '/' + ctx_form_module + '/';
-					}
-					url += 'translateInstance';
-					$(helpers.getMainContainerSelector(uiBootstrap.tabs)).load(url, {'uri': $("#uri").val(), 'classUri': $("#classUri").val()});
-				}
-				return false;
+                            var url;
+                            if ($("#uri") && $("#classUri")){
+                                helpers.getMainContainer().load(getUrl('translateInstance'), {'uri': $("#uri").val(), 'classUri': $("#classUri").val()});
+                            }
+                            return false;
 			});
 
 			//map the wysiwyg editor to the html-area fields
 			$('.html-area').each(function() {
-				if ($(this).css('display') != 'none') {
-					$(this).wysiwyg({'css' : taobase_www + 'css/layout.css'});
+				if ($(this).css('display') !== 'none') {
+					$(this).wysiwyg({'css' : context.taobase_www + 'css/layout.css'});
 				}
 			});
 
@@ -144,23 +150,20 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 		initOntoForms: function (){
 			//open the authoring tool on the authoringOpener button
 			$('input.authoringOpener').click(function() {
-				if (typeof ctx_form_extension != 'undefined') {
-					url = root_url + ctx_form_extension + '/' + ctx_form_module + '/';
-					tabName = ctx_form_module.toLowerCase() + '_authoring';
-				}
-				url += 'authoring';
-				index = helpers.getTabIndexByName(tabName);
+				var url = getUrl('authoring');
+                                var tabName = module.config().module.toLowerCase() + '_authoring';
+				var index = helpers.getTabIndexByName(tabName);
 				if (index > -1) {
 					if ($("#uri") && $("#classUri")) {
-						uiBootstrap.tabs.tabs('url', index, url + '?uri=' + $("#uri").val() +'&classUri=' + $("#classUri").val());
-						uiBootstrap.tabs.tabs('enable', index);
-						uiBootstrap.tabs.tabs('select', index);
+						$('#tabs').tabs('url', index, url + '?uri=' + $("#uri").val() +'&classUri=' + $("#classUri").val());
+						$('#tabs').tabs('enable', index);
+						$('#tabs').tabs('select', index);
 					}
 				}
 			});
 
 			$('input.editVersionedFile').each(function() {
-				var infoUrl = root_url + 'tao/File/getPropertyFileInfo';
+				var infoUrl = context.root_url + 'tao/File/getPropertyFileInfo';
 				var data = {
 					'uri':$("#uri").val(),
 					'propertyUri':$(this).siblings('label.form_desc').prop('for')
@@ -178,22 +181,12 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 			});
 
 			$('input.editVersionedFile').click(function() {
-				var url = '';
-				if (ctx_form_extension) {
-					url = root_url + ctx_form_extension + '/' + ctx_form_module + '/';
-				}
-				url += 'editVersionedFile';
 				var data = {
-					'uri':$("#uri").val(),
-					'propertyUri':$(this).siblings('label.form_desc').prop('for')
+                                    'uri' :         $("#uri").val(),
+                                    'propertyUri' : $(this).siblings('label.form_desc').prop('for')
 				};
 
-				if (uiBootstrap.tabs.size() == 0) {
-					if ($('div.main-container').length) {
-							$('div.main-container').load(url, data);
-					}
-				}
-				$(helpers.getMainContainerSelector(uiBootstrap.tabs)).load(url, data);
+				helpers.getMainContainer().load(getUrl('editVersionedFile'), data);
 				return false;
 			});
 
@@ -201,12 +194,12 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 			 * remove a form group, ie. a property
 			 */
 			function removeGroup() {
-				if (confirm(__('Please confirm property deletion!'))) {
-					groupNode = $(this).parents(".form-group").get(0);
-					if (groupNode) {
-						$(groupNode).remove();
-					}
-				}
+                            if (confirm(__('Please confirm property deletion!'))) {
+                                var groupNode = $(this).parents(".form-group").get(0);
+                                if (groupNode) {
+                                    $(groupNode).remove();
+                                }
+                            }
 			}
 
 			//property form group controls
@@ -215,18 +208,18 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 				if (/property\_[0-9]+$/.test(formGroup.prop('id'))) {
 					var child = formGroup.children("div:first");
 
-					toggelerClass = 'ui-icon-circle-triangle-s';
+					var toggelerClass = 'ui-icon-circle-triangle-s';
 					if (!formGroup.hasClass('form-group-opened')) {
 						child.hide();
 						toggelerClass = 'ui-icon-circle-triangle-e';
 					}
 
 					//toggle controls: plus/minus icon
-					toggeler = $("<span class='form-group-control ui-icon' title='expand' style='right:48px;'></span>");
+					var toggeler = $("<span class='form-group-control ui-icon' title='expand' style='right:48px;'></span>");
 					toggeler.addClass(toggelerClass);
 					toggeler.click(function(){
 						var control = $(this);
-						if (child.css('display') == 'none') {
+						if (child.css('display') === 'none') {
 							child.show('slow');
 							control.removeClass('ui-icon-circle-triangle-e');
 							control.addClass('ui-icon-circle-triangle-s');
@@ -242,7 +235,7 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 
 					//delete control
 					if (/^property\_[0-9]+/.test(formGroup.prop('id'))) {
-						deleter = $("<span class='form-group-control ui-icon ui-icon-circle-close' title='Delete' style='right:24px;'></span>");
+						var deleter = $("<span class='form-group-control ui-icon ui-icon-circle-close' title='Delete' style='right:24px;'></span>");
 						deleter.off('click').on('click', removeGroup);
 						formGroup.prepend(deleter);
 					}
@@ -254,22 +247,17 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 
 			 //property add button
 			 $(".property-adder").off('click').on('click', function() {
-				 if (ctx_form_extension) {
-					url = root_url + ctx_form_extension + '/' + ctx_form_module + '/';
-				 }
-				 url += 'addClassProperty';
-
-				 generisActions.addProperty(null,  $("#classUri").val(), url);
+                            generisActions.addProperty(null,  $("#classUri").val(), getUrl('addClassProperty'));
 			 });
 
 			 $(".property-mode").off('click').on('click', function() {
-				 mode = 'simple';
+				 var mode = 'simple';
 				 if ($(this).hasClass('property-mode-advanced')) {
 					mode = 'advanced';
 				}
-				url = $(this).parents('form').prop('action');
+				var url = $(this).parents('form').prop('action');
 
-				$(helpers.getMainContainerSelector(uiBootstrap.tabs)).load(url, {
+				helpers.getMainContainer().load(url, {
 					'property_mode': mode,
 					'uri': $("#uri").val(),
 					'classUri': $("#classUri").val()
@@ -284,11 +272,11 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 			 function showPropertyList() {
 				var elt = $(this).parent("div").next("div");
 				if (/list$/.test($(this).val())) {
-					if (elt.css('display') == 'none') {
+					if (elt.css('display') === 'none') {
 						elt.show();
 						elt.find('select').removeAttr('disabled');
 					}
-				} else if(elt.css('display') != 'none') {
+				} else if(elt.css('display') !== 'none') {
 					elt.css('display', 'none');
 					elt.find('select').prop('disabled', "disabled");
 				}
@@ -298,7 +286,7 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 				* by selecting a list, the values are displayed or the list editor opens
 				*/
 			 function showPropertyListValues() {
-				if ($(this).val() == 'new') {
+				if ($(this).val() === 'new') {
 					//Open the list editor: a tree in a dialog popup
 					var rangeId = $(this).prop('id');
 					var dialogId = rangeId.replace('_range', '_dialog');
@@ -335,12 +323,12 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 					});
 
 					$("#"+dialogId).bind('dialogopen', function(event, ui){
-						url 			= root_url + 'tao/Lists/';
-						dataUrl 		= url + 'getListsData';
-						renameUrl		= url + 'rename';
-						createUrl		= url + 'create';
-						removeListUrl	= url + 'removeList';
-						removeListEltUrl= url + 'removeListElement';
+						var url 		= context.root_url + 'tao/Lists/';
+						var dataUrl 		= url + 'getListsData';
+						var renameUrl		= url + 'rename';
+						var createUrl		= url + 'create';
+						var removeListUrl	= url + 'removeList';
+						var removeListEltUrl    = url + 'removeListElement';
 
 						//create tree to manage lists
 						var generisTreeInstance = $("#"+treeId).tree({
@@ -365,13 +353,13 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 							},
 							callback: {
 								onrename: function(NODE, TREE_OBJ, RB){
-									options = {
+									var options = {
 										url: renameUrl,
 										NODE: NODE,
 										TREE_OBJ: TREE_OBJ
 									};
 									if ($(NODE).hasClass('node-instance')) {
-										PNODE = TREE_OBJ.parent(NODE);
+										var PNODE = TREE_OBJ.parent(NODE);
 										options.classUri = $(PNODE).prop('id');
 									}
 
@@ -387,7 +375,7 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 								ondestroy: function(TREE_OBJ) {
 									//empty and build again the list drop down on tree destroying
 									$("#"+rangeId+" option").each(function(){
-										if ($(this).val() != "" && $(this).val() != "new") {
+										if ($(this).val() !== "" && $(this).val() !== "new") {
 											$(this).remove();
 										}
 									});
@@ -406,7 +394,7 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 										//create a new list or a list item
 										create: {
 											label: __("Create"),
-											icon	: taobase_www + "img/add.png",
+											icon	: context.taobase_www + "img/add.png",
 											visible: function(NODE, TREE_OBJ){
 												if ($(NODE).hasClass('node-instance')) {
 													return false;
@@ -462,7 +450,7 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 										//rename a node
 										rename: {
 											label: __("Rename"),
-											icon	: taobase_www + "img/rename.png",
+											icon	: context.taobase_www + "img/rename.png",
 											visible: function(NODE, TREE_OBJ){
 												if ($(NODE).hasClass('node-root')) {
 													return false;
@@ -474,7 +462,7 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 										//remove a node
 										remove: {
 											label: __("Remove"),
-											icon	: taobase_www + "img/delete.png",
+											icon	: context.taobase_www + "img/delete.png",
 											visible: function(NODE, TREE_OBJ){
 												if ($(NODE).hasClass('node-root')) {
 													return false;
@@ -482,7 +470,8 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 												return TREE_OBJ.check("deletable", NODE);
 											},
 											action  : function(NODE, TREE_OBJ){
-												if ($(NODE).hasClass('node-root')) {
+												var removeUrl;
+                                                                                                if ($(NODE).hasClass('node-root')) {
 													return false;
 												}
 												if ($(NODE).hasClass('node-class')) {
@@ -516,16 +505,16 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 					//load the instances and display them (the list items)
 					$(this).parent("div").children("ul.form-elt-list").remove();
 					var classUri = $(this).val();
-					if (classUri != '') {
+					if (classUri !== '') {
 						$(this).parent("div").children("div.form-error").remove();
 						var elt = this;
 						$.ajax({
-							url: root_url + 'tao/Lists/getListElements',
+							url: context.root_url + 'tao/Lists/getListElements',
 							type: "POST",
 							data: {listUri: classUri},
 							dataType: 'json',
 							success: function(response){
-								html = "<ul class='form-elt-list'>";
+								var html = "<ul class='form-elt-list'>";
 								for (i in response) {
 									html += '<li>'+response[i]+'</li>';
 								}
@@ -550,9 +539,9 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 			 //show the "green plus" button to manage the lists
 			 $(".property-listvalues").each(function() {
 				var listField = $(this);
-				if (listField.parent().find('img').length == 0) {
-					listControl = $("<img title='manage lists' style='cursor:pointer;' />");
-					listControl.prop('src', taobase_www + "img/add.png");
+				if (listField.parent().find('img').length === 0) {
+					var listControl = $("<img title='manage lists' style='cursor:pointer;' />");
+					listControl.prop('src', context.taobase_www + "img/add.png");
 					listControl.click(function() {
 						listField.val('new');
 						listField.change();
@@ -562,8 +551,8 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 			 });
 
 			 $(".property-listvalues").each(function() {
-				elt = $(this).parent("div");
-				if (!elt.hasClass('form-elt-highlight') && elt.css('display') != 'none') {
+				var elt = $(this).parent("div");
+				if (!elt.hasClass('form-elt-highlight') && elt.css('display') !== 'none') {
 					elt.addClass('form-elt-highlight');
 				}
 			 });
@@ -574,25 +563,18 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 		 */
 		initTranslationForm: function(){
 			$('#translate_lang').change(function() {
-				trLang = $(this).val();
-				if (trLang != '') {
-
+				var trLang = $(this).val();
+				if (trLang !== '') {
 					$("#translation_form :input").each(function() {
 						if (/^http/.test($(this).prop('name'))) {
 							$(this).val('');
 						}
 					});
-
-					if (typeof ctx_form_extension != 'undefined') {
-						url = root_url + ctx_form_extension + '/' + ctx_form_module + '/';
-					}
-					url += 'getTranslatedData';
-
 					$.post(
-						url,
+						getUrl('getTranslatedData'),
 						{uri: $("#uri").val(), classUri: $("#classUri").val(), lang: trLang},
 						function(response) {
-							for (index in response) {
+							for (var index in response) {
 								var formElt = $(":input[name='"+index+"']");
 								if (formElt.hasClass('html-area')) {
 									formElt.wysiwyg('setContent', response[index]);
@@ -616,24 +598,16 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 		submitForm: function(myForm) {
 			
 			try {
-				if (myForm.prop('enctype') == 'multipart/form-data' && myForm.find(".file-uploader").length) {
+				if (myForm.prop('enctype') === 'multipart/form-data' && myForm.find(".file-uploader").length) {
 					return false;
 				} 
 				else {
-					if (uiBootstrap.tabs.size() == 0) {
-						if ($('div.main-container').length) {
-							$('div.main-container').load(myForm.prop('action'), myForm.serializeArray());
-						} 
-						else {
-							return true;//go to the link
-						}
-					} 
-					else if(!$(helpers.getMainContainerSelector(uiBootstrap.tabs))) {
-						return true;//go to the link
-					}
-					else {
-						$(helpers.getMainContainerSelector(uiBootstrap.tabs)).load(myForm.prop('action'), myForm.serializeArray());
-					}
+                                    var $container = helpers.getMainContainer();
+                                    if(!$container || $container.length === 0){
+                                        return true;//go to the link
+                                    } else {
+                                        $container.load(myForm.prop('action'), myForm.serializeArray());
+                                    }
 				}
 			}
 			catch (exp) {
@@ -641,7 +615,7 @@ define(['require', 'jquery', 'tao.tabs', 'class', 'jwysiwyg/jquery.wysiwyg'], fu
 			}
 			return false;
 		}
-	});
+	};
 
 	return UiForm;
 });

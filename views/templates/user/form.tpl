@@ -3,8 +3,6 @@
 		window.location = "<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao', 'message' => get_data('message')))?>";
 	</script>
 <?else:?>
-	<script type="text/javascript" src='<?=TAOBASE_WWW?>js/users.js'></script>
-
 	<?if(get_data('message')):?>
 		<div id="info-box" class="ui-widget-header ui-corner-all auto-slide">
 			<span><?=get_data('message')?></span>
@@ -21,15 +19,15 @@
 	</div>
 
 	<script type="text/javascript">
-		var ctx_extension 	= "<?=get_data('extension')?>";
-		var ctx_module 		= "<?=get_data('module')?>";
-		var ctx_action 		= "<?=get_data('action')?>";
-
-		$(document).ready(function(){
-			if(ctx_action == 'add'){
-				uiBootstrap.tabs.tabs('disable', helpers.getTabIndexByName('edit_user'));
-				checkLogin("<?=get_data('loginUri')?>", "<?=_url('checkLogin', 'Users', 'tao')?>");
-			}
+		
+                require(['jquery', 'helpers', 'users'], function($, helpers, user){
+                    var ctx_action  = "<?=get_data('action')?>";
+                    var loginId     = "<?=get_data('loginUri')?>";
+                    var url         = "<?=_url('checkLogin', 'Users', 'tao')?>";
+                    if(ctx_action === 'add'){
+                        $('#tabs').tabs('disable', helpers.getTabIndexByName('edit_user'));
+                        user.checkLogin(loginId, url);
+                    }
 		});
 	</script>
 <?endif?>

@@ -11,13 +11,13 @@
 <br />
 
 <script type="text/javascript">
-$(document).ready(function(){
-
-	/*
-	 * instantiate the filter nodes widget
-	 */
-
-	var getUrl = root_url + 'taoItems/items/getFilteredInstancesPropertiesValues';
+/*
+ * instantiate the filter nodes widget
+ */
+require(['jquery', 'context', 'generis.facetFilter', 'grid/tao.grid'], function($, context, GenerisFacetFilterClass) {
+	
+	var getUrl = context.root_url + 'taoItems/items/getFilteredInstancesPropertiesValues';*
+                
 	//the facet filter options
 	var facetFilterOptions = {
 		'template' : 'accordion',
@@ -27,25 +27,23 @@ $(document).ready(function(){
 			}
 		}
 	};
+        
 	//set the filter nodes
 	var filterNodes = [
-		<?foreach($properties as $property):?>
-		{
-			id					: '<?=md5($property->getUri())?>'
-			, label				: '<?=$property->getLabel()?>'
-			, url				: getUrl
-			, options 			:
-			{
-				'propertyUri' 	: '<?= $property->getUri() ?>'
-				, 'classUri' 	: '<?= $clazz->getUri() ?>'
-			}
-		},
-		<?endforeach;?>
+            <?foreach($properties as $i => $property):?>{
+                    id      : '<?=md5($property->getUri())?>',
+                    label   : '<?=$property->getLabel()?>',
+                    url     : getUrl,
+                    options : {
+                        'propertyUri'   : '<?= $property->getUri() ?>', 
+                        'classUri'      : '<?= $clazz->getUri() ?>'
+                    }
+            }<?if($i < count($properties) - 1):?>,<?endif?>
+            <?endforeach;?>
 	];
 
-	require(['require', 'jquery', 'generis.facetFilter', 'grid/tao.grid'], function(req, $, GenerisFacetFilterClass) {
-		//instantiate the facet filter
-		facetFilter = new GenerisFacetFilterClass('#facet-filter', filterNodes, facetFilterOptions);
+        //instantiate the facet filter
+        var facetFilter = new GenerisFacetFilterClass('#facet-filter', filterNodes, facetFilterOptions);
 
 		/*
 		 * instantiate the result widget
@@ -56,7 +54,6 @@ $(document).ready(function(){
 		<?foreach(get_data('properties') as $uri => $property):?>
 			 ,'<?=$property->getLabel()?>'
 		<?endforeach?>
-			<?php //,__('Actions')?>
 		];
 
 		//define jqgrid model
@@ -79,14 +76,14 @@ $(document).ready(function(){
 			sortorder: "asc",
 			caption: __("Filter results")
 		});
-	});
+	
 
 
 	//function used to refresh the result functions of the filter
 	function refreshResult(facetFilter)
 	{
 		//Refresh the result
-		$.getJSON (root_url+'taoItems/items/searchInstances'
+		$.getJSON (context.root_url+'taoItems/items/searchInstances'
 			,{
 				'classUri' : '<?= $clazz->getUri() ?>'
 				, 'filter' : facetFilter.getFormatedFilterSelection()
@@ -101,7 +98,7 @@ $(document).ready(function(){
 				for(var i in DATA) {
 					var row = {'id':i};
 					for (var j in DATA[i].properties) {
-						if (DATA[i].properties[j] == null){
+						if (!DATA[i].properties[j]){
 							row['property_'+j] = '';
 						} else {
 							row['property_'+j] = DATA[i].properties[j];
@@ -114,5 +111,3 @@ $(document).ready(function(){
 	}
 });
 </script>
-
-<!--<?include(dirname(__FILE__).'/../portail/footer.tpl');?>-->

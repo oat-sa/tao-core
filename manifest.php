@@ -78,7 +78,7 @@ return array(
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_data_cache', 'location' => 'tao/data/cache/htmlpurifier', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_data_cache_htmlpurifier', 'location' => 'tao/data/cache/htmlpurifier', 'rights' => 'rw')),
 				array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_tao_data_upload', 'location' => 'tao/data/upload', 'rights' => 'rw')),
-		        array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_not_nginx', 'name' => 'not_nginx', 'extension' => 'tao', "optional" => true)),
+                                array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_not_nginx', 'name' => 'not_nginx', 'extension' => 'tao', "optional" => true)),
 				array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_mod_rewrite', 'name' => 'mod_rewrite', 'extension' => 'tao', 'dependsOn' => array('tao_custom_not_nginx'))),
 				array('type' => 'CheckCustom', 'value' => array('id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao'))
 		),
@@ -101,6 +101,7 @@ return array(
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole', array('ext'=>'tao')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',   array('ext'=>'tao','mod' => 'ServiceModule')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',   array('ext'=>'tao','mod' => 'ClientConfig')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',   array('ext'=>'tao','mod' => 'File', 'act' => 'accessFile')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'index')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', array('ext'=>'tao','mod' => 'Main', 'act' => 'getSectionActions')),

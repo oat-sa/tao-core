@@ -1,4 +1,8 @@
 /* auto generated content */
 /* lang: id-ID */
-var langCode = 'id-ID';
-var i18n_tr = [];
+define(function(){
+ return {
+   langCode : 'id-ID',
+   i18n_tr : []
+ };
+});

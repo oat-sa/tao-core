@@ -20,9 +20,9 @@
 				</trees>
 				<actions>
 					<action name="search" url="/tao/Roles/search" context="*" />
-					<action name="new role" js="generisActions.instanciate" url="/tao/Roles/addInstance" context="class" />
-					<action name="delete" js="generisActions.removeNode" url="/tao/Roles/delete" context="resource" />
-					<action name="meta data" js="generisActions.loadMetaData" url="/tao/MetaData/getMetaData"  context="resource" />
+					<action name="new role" js="instanciate" url="/tao/Roles/addInstance" context="class" />
+					<action name="delete" js="removeNode" url="/tao/Roles/delete" context="resource" />
+					<action name="meta data" js="loadMetaData" url="/tao/MetaData/getMetaData"  context="resource" />
 					<action name="export" url="/tao/Export/index"  context="*" />
 				</actions>
 			</section>
@@ -33,7 +33,7 @@
 		<sections>
 			<section id="settings_ext_mng" name="Extensions manager" url="/tao/ExtensionsManager/index" />
 			<section id="settings_im_export" name="Ontology" url="/tao/RdfImExport/index" />
-			<section id="settings_optimisation" name="TAO optimizer" url="/tao/Settings/index" />
+			<section id="settings_optimisation" name="TAO optimizer" url="/tao/Optimize/index" />
 			<section id="settings_versioning" name="File sources" url="/tao/SettingsVersioning/index">
 				<trees>
 					<tree name="File sources"
@@ -46,8 +46,8 @@
 					/>
 				</trees>
 				<actions>
-					<action name="add repository" js="generisActions.instanciate" url="/tao/SettingsVersioning/addInstance" context="class" />
-					<action name="remove repository" js="generisActions.removeNode" url="/tao/SettingsVersioning/delete" context="instance" />
+					<action name="add repository" js="instanciate" url="/tao/SettingsVersioning/addInstance" context="class" />
+					<action name="remove repository" js="removeNode" url="/tao/SettingsVersioning/delete" context="instance" />
 				</actions>
 			</section>
 		</sections>

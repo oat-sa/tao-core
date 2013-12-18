@@ -59,7 +59,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	{
 		//add the login stylesheet
 		tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/login.css');
-		//tao_helpers_Scriptloader::addJsFile(BASE_WWW . 'js/login.js');
 
 		$params = array();
 		if ($this->hasRequestParameter('redirect')) {
@@ -89,6 +88,9 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		}
 
 		$this->setData('form', $myForm->render());
+                $this->setData('title', __("TAO Back Office"));
+                $this->setData('login_title', __('Test Developers and Test Administrators'));
+                $this->setData('login_desc', __("Login to the TAO Back Office"));
 		$this->setView('main/login.tpl');
 	}
 
@@ -133,13 +135,15 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		}
 		$this->setData('extensions', $extensions);
 
+                $shownExtension = $this->getRequestParameter('ext');
+                $shownStructure = $this->getRequestParameter('structure');
 		if($this->hasRequestParameter('structure')) {
 			// structured mode
 			// @todo stop using session to manage uri/classUri
 			$this->removeSessionAttribute('uri');
 			$this->removeSessionAttribute('classUri');
 			$this->removeSessionAttribute('showNodeUri');
-			$structure = $this->service->getStructure($this->getRequestParameter('ext'), $this->getRequestParameter('structure'));
+			$structure = $this->service->getStructure($shownExtension, $shownStructure);
 
 			$sections = array();
 			if (isset($structure["sections"])) {
@@ -157,8 +161,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 			if (count($sections) > 0) {
 				$this->setData('sections', $sections);
-				$this->setData('shownExtension', $this->getRequestParameter('ext'));
-				$this->setData('shownStructure', $this->getRequestParameter('structure'));
 			} else {
 				common_Logger::w('no sections');
 			}
@@ -170,6 +172,13 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getDataLanguage());
 		$this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
+                
+                //creates the URL of the action used to configure the client side
+                $clientConfigParameters = array(
+                    'shownExtension'    => $shownExtension,
+                    'shownStructure'    => $shownStructure
+                );
+                $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParameters));
 
 		$this->setView('layout.tpl', 'tao');
 	}
@@ -293,28 +302,47 @@ class tao_actions_Main extends tao_actions_CommonModule {
 
 		$structure = $this->service->getSection($extname, $struct, $section);
 		if(isset($structure["trees"])){
-			$trees = array();
-			foreach($structure["trees"] as $tree){
-			    $treeArray = array();
-				foreach($tree->attributes() as $attrName => $attrValue){
-					if(preg_match("/^\//", (string) $attrValue)){
-						$treeArray[$attrName] = ROOT_URL . substr((string)$attrValue, 1);
-					}
-					else{
-						$treeArray[$attrName] = (string)$attrValue;
-					}
-				}
-				$treeId = tao_helpers_Display::textCleaner((string) $tree['name'], '_');
-				$trees[$treeId] = $treeArray;
-			}
-			$this->setData('trees', $trees);
-
-			$openUri = false;
-			if($this->hasSessionAttribute("showNodeUri")){
-				$openUri = $this->getSessionAttribute("showNodeUri");
-			}
-			$this->setData('openUri', $openUri);
-
+                        
+                    $openUri = false;
+                    if($this->hasSessionAttribute("showNodeUri")){
+                            $openUri = $this->getSessionAttribute("showNodeUri");
+                    }
+                    $this->setData('openUri', $openUri);
+                    
+                    $mapping = array(
+                        'editClassUrl'      => 'editClassAction',
+                        'editInstanceUrl'   => 'editInstanceAction',
+                        'addInstanceUrl'    => 'createInstanceAction',
+                        'moveInstanceUrl'   => 'moveInstanceAction',
+                        'addSubClassUrl'    => 'subClassAction',
+                        'deleteUrl'         => 'deleteAction',
+                        'duplicateUrl'      => 'duplicateAction'
+                    );
+                    
+                    $trees = array();
+                    foreach($structure["trees"] as $tree){
+                        $treeArray = array();
+                        foreach($tree->attributes() as $attrName => $attrValue){
+                            $key = (array_key_exists($attrName, $mapping)) ? $mapping[$attrName] : $attrName;  
+                            if(preg_match("/^\//", (string) $attrValue)){
+                                        $treeArray[$key] = ROOT_URL . substr((string)$attrValue, 1);
+                                }
+                                else{
+                                        $treeArray[$key] = (string)$attrValue;
+                                }
+                        }
+                        
+                        if($openUri){
+                            $treeArray['selectNode'] = $openUri;
+                        }
+                        if(isset($treeArray['className'])){
+                            $treeArray['instanceClass'] = 'node-'.str_replace(' ', '-', strtolower($treeArray['className']));
+                            $treeArray['instanceName'] = mb_strtolower(__($treeArray['className']), TAO_DEFAULT_ENCODING);
+                        }
+                        $treeId = tao_helpers_Display::textCleaner((string) $tree['name'], '_');
+                        $trees[$treeId] = $treeArray;
+                    }
+                    $this->setData('trees', $trees);
 		}
 
 		$this->setView('main/trees.tpl', 'tao');

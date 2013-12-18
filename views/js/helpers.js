@@ -1,9 +1,8 @@
 /*
  * Helpers
  */
-
-define(['require', 'jquery', 'class'], function(req, $) {
-	var Helpers = Class.extend({
+define(['jquery', 'context'], function($, context) {
+	var Helpers = {
 		init: function() {
 			this.parallelLoading = 0;
 			/**
@@ -16,32 +15,36 @@ define(['require', 'jquery', 'class'], function(req, $) {
 				$.post(url, data, callback, "json");
 			};
 		},
+                
+                getMainContainer : function($tabs){
+                    $tabs = $tabs || $('#tabs');
+                    var $mainContainer = $(".main-container");
+                    if($tabs.length === 0){
+                        return $mainContainer.length === 0 ? false : $mainContainer;
+                    }
+                    
+                    var uiTab = $('.ui-tabs-panel').prop('id');
+                    if (typeof $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')] !== 'undefined') {
+                            uiTab = $('.ui-tabs-panel')[$tabs.tabs('option', 'selected')].id;
+                    }
+
+                    if ($("div#"+uiTab+" div.main-container").css('display') === 'none') {
+                            return $("#"+uiTab);
+                    }
+
+                    return $("#"+uiTab+" > .main-container");
+                    
+                },
 
 		/**
 		 * @return {String} the current main container jQuery selector (from the opened tab)
 		 */
-		getMainContainerSelector: function(tabObj){
-			if(tabObj == undefined){
-				tabObj = uiBootstrap.tabs;	//backward compat by using the global object
-			}
-
-			if(tabObj.size() == 0) {
-				if($("div.main-container").length > 0){
-					return "div.main-container";
-				}
-				return false;
-			}
-
-			var uiTab = $('.ui-tabs-panel').prop('id');
-			if (typeof $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')] != 'undefined') {
-				uiTab = $('.ui-tabs-panel')[tabObj.tabs('option', 'selected')].id;
-			}
-
-			if ($("div#"+uiTab+" div.main-container").css('display') == 'none') {
-				return "div#"+uiTab;
-			}
-
-			return "div#"+uiTab+" > div.main-container";
+		getMainContainerSelector: function($tabs){
+                    var $container = this.getMainContainer($tabs);
+                    if($container && $container.length > 0){
+                        return $container.selector;
+                    }
+                    return false;
 		},
 
 		/**
@@ -57,16 +60,12 @@ define(['require', 'jquery', 'class'], function(req, $) {
 		 * @return the index or -1 if not found
 		 */
 		getTabIndexByName: function(name){
-			elts = $("div#tabs ul.ui-tabs-nav li a");
-			i = 0;
+			var elts = $("div#tabs ul.ui-tabs-nav li a");
+			var i = 0;
 			while (i < elts.length) {
-				elt = elts[i];
-				if (elt) {
-					if (elt.id) {
-						if (elt.id == name) {
-							return i;
-						}
-					}
+				var elt = elts[i];
+				if (elt && elt.id && elt.id === name) {
+                                    return i;
 				}
 				i++;
 			}
@@ -75,35 +74,35 @@ define(['require', 'jquery', 'class'], function(req, $) {
 
 		openTab: function(title, url, open) {
 			if (open == undefined) open = true;
-			idx = this.getTabIndexByUrl(url);
+			var idx = this.getTabIndexByUrl(url);
 			if (idx == -1) {
-				uiBootstrap.tabs.tabs("add", url, title);
-				idx = uiBootstrap.tabs.tabs("length")-1;
+				$('#tabs').tabs("add", url, title);
+				idx = $('#tabs').tabs("length")-1;
 			}
 			//If control pressed, not select
 			if (open) {
-				uiBootstrap.tabs.tabs("select", idx);
+                            $('#tabs').tabs("select", idx);
 			}
 		},
 
 		getTabIndexByUrl: function(url){
-			elts = $("div#tabs ul.ui-tabs-nav li a");
-			i = 0;
-			ret = -1;
+			var elts = $("#tabs ul.ui-tabs-nav li a");
+			var i = 0;
+			var ret = -1;
 			elts.each(function() {
 			   var href = $.data(this, 'href.tabs');
-			   if (url == href) {
-				   ret = i;
-				   return;
+			   if (url === href) {
+                                ret = i;
+                                return;
 			   }
 			   i++;
-			})
+			});
 			return ret;
 		},
                 
                 closeTab : function(index){
                     if(index > -1){
-                        uiBootstrap.tabs.tabs("remove", index);
+                        $('#tabs').tabs("remove", index);
                     }
                 },
 
@@ -114,7 +113,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 		 * @param {Object} parameters
 		 */
 		updateTabUrl: function(tabObj, tabName, url){
-			index = this.getTabIndexByName(tabName);
+			var index = this.getTabIndexByName(tabName);
 			tabObj.tabs('url', index, url);
 			tabObj.tabs('enable', index);
 		},
@@ -168,7 +167,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 			if ($.browser.msie) {
 				$(selector).empty();
 			}
-			if (url.indexOf('?') == -1) {
+			if (url.indexOf('?') === -1) {
 				$(selector).load(url, data, this.loaded());
 			} else {
 				url += '&' + ($.param(data));
@@ -216,7 +215,7 @@ define(['require', 'jquery', 'class'], function(req, $) {
 				if($(this).text().length > maxLength && !$(this).hasClass("text-cutted")){
 					$(this).prop('title', $(this).text());
 					$(this).css('cursor', 'pointer');
-					$(this).html($(this).text().substring(0, maxLength) + "[...<img src='"+imgPath+"bullet_add.png' />]");
+					$(this).html($(this).text().substring(0, maxLength) + "[...<img src='"+context.taobase_www+"img/bullet_add.png' />]");
 					$(this).addClass("text-cutted");
 				}
 			});
@@ -258,13 +257,13 @@ define(['require', 'jquery', 'class'], function(req, $) {
 					if (fo) hasFlash = true;
 				}
 				catch(e){
-					if (navigator.mimeTypes ["application/x-shockwave-flash"] != undefined) hasFlash = true;
+					if (navigator.mimeTypes ["application/x-shockwave-flash"] !== undefined) hasFlash = true;
 				}
 				return hasFlash;
 			}
 			else{
 				if (navigator.plugins != null && navigator.plugins.length > 0) {
-					for (i in navigator.plugins) {
+					for (var i in navigator.plugins) {
 						if (/(Shockwave|Flash)/i.test(navigator.plugins[i]['name'])) {
 							return true;
 						}
@@ -287,11 +286,11 @@ define(['require', 'jquery', 'class'], function(req, $) {
 		 * sinple _url implementation, requires layout_header to set some global variables
 		 */
 		_url: function(action, module, extension) {
-			module = typeof module == 'undefined' ? ctx_module : module;
-			extension = typeof extension == 'undefined' ? ctx_extension : extension;
-			return root_url + extension + '/' + module + '/' + action;
+                    module = module || context.module;
+                    extension = extension || context.extension;
+                    return context.root_url + extension + '/' + module + '/' + action;
 		}
-	});
+	};
 
 	return Helpers;
 });

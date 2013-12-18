@@ -30,7 +30,7 @@
  * @subpackage actions
  *
  */
-class tao_actions_Settings extends tao_actions_CommonModule {
+class tao_actions_Optimize extends tao_actions_CommonModule {
 
 	/**
 	 * Create a new instance of tao_actions_Settings.
