@@ -10,6 +10,7 @@ require.config({
         'lodash'            : 'lib/lodash.min',
         'moment'            : 'lib/moment.min',
         'handlebars'        : 'lib/handlebars',
+        'tpl'               : 'template',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
         'ckeditor-jquery'   : 'lib/ckeditor/adapters/jquery',
         'json2'             : 'lib/json2',
