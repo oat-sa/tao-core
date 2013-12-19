@@ -164,9 +164,7 @@ define(['jquery', 'context'], function($, context) {
 				data = {nc: new Date().getTime()}
 			}
 			this.loading();
-			if ($.browser.msie) {
-				$(selector).empty();
-			}
+			$(selector).empty();
 			if (url.indexOf('?') === -1) {
 				$(selector).load(url, data, this.loaded());
 			} else {
