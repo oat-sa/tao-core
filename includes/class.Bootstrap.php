@@ -377,7 +377,8 @@ class Bootstrap{
                     TAOBASE_WWW . 'css/layout.css',
                     TAOBASE_WWW . 'css/form.css',
                     TAOBASE_WWW . 'css/grid.css',
-                    TAOBASE_WWW . 'css/widgets.css'
+                    TAOBASE_WWW . 'css/widgets.css',
+                    TAOBASE_WWW . 'css/cards.css'
             )
             );
 

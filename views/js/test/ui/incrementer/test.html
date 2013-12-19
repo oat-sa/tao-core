@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Test - Url Parser</title>
-        <base href="../../../" />
+        <title>Cards Test - Incrementer UI Component</title>
+        <base href="../../../../" />
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
         <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
@@ -16,7 +16,7 @@
             require(['/tao/ClientConfig/config'], function(){
                 
                 //load the test
-                require(['test/iframeResizer/test'], function(){
+                require(['test/ui/incrementer/test'], function(){
                     
                     //Tests loaded, run tests
                     QUnit.start();
@@ -27,10 +27,14 @@
     <body>
         <div id="qunit"></div>
         <div id="qunit-fixture">
+            <div id="container-1">
+                <input type="text" name="number" value="0" />
+            </div>
             
-            <iframe id="iframe1"></iframe>
-            <iframe id="iframe2"></iframe>
-            <iframe id="iframe3"></iframe>
+            <div id="container-2">
+                <input type="text" name="number" value="0" data-increment="5" data-min="0" data-max="10" />
+            </div>
+            
         </div>
     </body>
 </html>

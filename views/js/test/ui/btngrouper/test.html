@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Test - Url Parser</title>
-        <base href="../../../" />
+        <title>Cards Test - Button Grouper UI Component</title>
+        <base href="../../../../" />
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
         <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
@@ -16,7 +16,7 @@
             require(['/tao/ClientConfig/config'], function(){
                 
                 //load the test
-                require(['test/iframeResizer/test'], function(){
+                require(['test/ui/btngrouper/test'], function(){
                     
                     //Tests loaded, run tests
                     QUnit.start();
@@ -28,9 +28,17 @@
         <div id="qunit"></div>
         <div id="qunit-fixture">
             
-            <iframe id="iframe1"></iframe>
-            <iframe id="iframe2"></iframe>
-            <iframe id="iframe3"></iframe>
+            <div class='button-group' data-button-group='toggle'>
+                <a href='#' class='active'>Y</a>
+                <a href='#'>N</a>
+            </div>
+                
+            <div class='button-group' data-button-group='switch'>
+                <a href='#' class='active'>B</a>
+                <a href='#'>I</a>
+                <a href='#'>U</a>
+            </div>
+            
         </div>
     </body>
 </html>

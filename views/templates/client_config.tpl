@@ -29,7 +29,6 @@ require.config({
     <?foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
     <?endforeach?>
-        'cards'             : '../../../taoQtiTest/views/js/cards',
         'taoQtiItemCreator' : '../../../taoQTI/views/js/qtiCreator',
         'taoQtiItem'        : '../../../taoQTI/views/js/qtiItem',
         'taoQtiRunner'      : '../../../taoQTI/views/js/qtiRunner',

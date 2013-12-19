@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CARDs' ShowCase</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="stylesheet" type="text/css" href="../../css/cards.css" />
+        <style>
+            .card {
+                width: 30%;
+                margin-bottom: 1em;
+            }
+        </style>
+        <script type="text/javascript" src="../lib/require.js"></script>
+        <script  type="text/javascript">
+            //load the config
+            require(['/tao/ClientConfig/config'], function(){
+                
+                require(['jquery' ,'cards'], function($, cards){
+                    cards.start($('#container'));
+                });
+                
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Cards - TAO's Front End Micro Framework</h1>
+        <div id="container">
+            <article class='card'>
+                <h1>Buttons</h1>
+                
+                <button class='micro'>Micro</button> 
+                
+                <button class='small'>Small</button> 
+                
+                <button>Normal</button> 
+               
+                <button class="big">Big</button> 
+                
+            </article> 
+            
+            <article class='card'>
+                <h1>Buttons groups</h1>
+                
+                <div class='button-group' data-button-group='toggle'>
+                    <a href='#' class=' active'>Y</a>
+                    <a href='#'>N</a>
+                </div>
+                
+                <div class='button-group' data-button-group='switch'>
+                    <a href='#' class='active'>B</a>
+                    <a href='#'>I</a>
+                    <a href='#'>U</a>
+                </div>
+                
+            </article> 
+            
+            <article class='card'>
+                <h1>Inputs</h1>
+                
+                <input type='text' value='text input' />
+                
+                <br />
+                <br />
+                
+                <input type="text" class='search' value="search" /><span class='ctrl' ></span>
+                
+                <br />
+                <br />
+                
+                <div class="dropdown">
+                    <select>
+                        <option>Choice 1</option>
+                        <option>Choice 2</option>
+                    </select>
+                </div>
+                
+            </article> 
+            
+            <article class='card'>
+                <h1>Incrementer</h1>
+                
+                <input type="text" data-increment="5" data-min="0" data-max="100" />
+                
+            </article> 
+            
+            <article class='card'>
+                <h1>Duration</h1>
+                
+                <input type="text" name="atime" value="00:00:00" data-duration="HH:mm:ss" />
+                
+            </article> 
+            
+            <article class='card'>
+                <h1>DropMenu</h1>
+                
+                <a href="#" class="toggler" data-toggle="+ .dropmenu">show</a>
+                <div class='toggled dropmenu'>
+                    <ul>
+                        <li>Choice 1</li>
+                        <li>Choice 2</li>
+                        <li class="separator"></li>
+                        <li>Choice 3</li>
+                    </ul>
+                </div>
+                
+            </article> 
+            
+            
+            <article class='card'>
+                <h1>Form</h1>
+                
+                <form>
+                    <div class='form-group'>
+                        <label for="form-text">Text</label>
+                        <input type="text" id="form-text" name="form-text" />
+                    </div>
+                    <div class='form-group'>
+                        <label>Radio</label>
+
+                        <div>
+                            <input type="radio"  name="form-yn" id="form-yes" value="1" checked="checked" />
+                            <label for="form-yes">Yes</label>
+                            <span class='form-info'>(you're agree)</span>
+                            <br />
+                            <input type="radio"  name="form-yn" id="form-no" value="0"/>
+                            <label for="form-no">No</label>
+                            <span class='form-info'>(you're not agree)</span>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class='form-group'>
+                        <input type="checkbox" id="form-check-before" name="form-check-before" value="true"  />
+                        <label for="form-check-before" class='after'>Before label</label>
+                    </div>
+                    
+                    <div class='form-group'>
+                        <input type="checkbox" id="form-check-after" name="form-check-after" value="true"  />
+                        <label for="form-check-after">After label</label>
+                    </div>
+                    
+                    <hr />
+                    
+                    <div class='form-group'>
+                        <label>Check Group</label>
+                        
+                        <div>
+                            <input type="checkbox" id="form-check-grp-1" name="form-check-grp-1" value="true"  />
+                            <label for="form-check-grp-1">Case 1</label>
+                        
+                            <br />
+                            
+                            <input type="checkbox" id="form-check-grp-2" name="form-check-grp-2" value="true"  />
+                            <label for="form-check-grp-2">Case 2</label>
+                            
+                            <br />
+                            
+                            <label for="form-check-grp-3">Case 3</label>
+                            <input type="checkbox" id="form-check-grp-3" name="form-check-grp-3" value="true"  />
+                            
+                        
+                            <br />
+                            
+                            <label for="form-check-grp-4" >Case 4</label>
+                            <input type="checkbox" id="form-check-grp-4" name="form-check-grp-4" value="true"  />
+                            
+                        </div>
+                    </div>
+                    
+                    <div class='form-group'>
+                        <button>Reset</button>
+                    </div>
+                    
+
+                </form>
+                
+            </article> 
+            
+            <article class='card' >
+                <h1>Flip</h1>
+                <i>animation should be improved</i><br />
+                
+                <a href='#' data-flip='#front' data-flip-back='#back' data-unflip="#unflip">flip it</a> |
+                <a href='#' id="unflip">unflip</a>
+                <hr />
+                <div id='front' class='flip flip-front'>Bacon ipsum dolor sit amet tri-tip tenderloin boudin pork loin ball tip frankfurter. Fatback pork chop biltong chuck shoulder pancetta brisket tongue. Biltong salami short ribs, brisket t-bone ground round sausage tenderloin drumstick rump pork loin beef ribs jerky. T-bone chuck filet mignon sirloin, shankle pastrami pork chop pork belly ham hock tongue tail ground round beef jowl pork. Drumstick tail prosciutto doner. Doner drumstick meatloaf pastrami meatball.</div>
+                <div id='back' class='flip flip-back'>Ham biltong ham hock, bacon pork drumstick fatback tri-tip capicola shankle venison ground round. Shoulder chicken t-bone bresaola ground round short loin beef. Salami shank shankle tri-tip. Beef ribs pork loin pork, jerky rump drumstick swine salami ham hock hamburger short ribs. Tenderloin pancetta doner, ground round shankle chicken capicola fatback flank. Tri-tip ham hock venison hamburger, biltong ball tip chicken. Capicola leberkas andouille pork belly frankfurter, filet mignon pork tongue tri-tip corned beef pancetta rump chicken boudin ball tip.</div>
+            </article> 
+            
+            <article class='card'>
+                <h1>In Place Edit</h1>
+                
+                <div>
+                    <h2 data-in-place='#bacon-title' data-width='50%'>Bacon ipsum</h2>
+                    <p data-in-place='#bacon-content' >sit amet tri-tip tenderloin boudin pork loin ball tip frankfurter. Fatback pork chop biltong chuck shoulder pancetta brisket tongue. Biltong salami short ribs, brisket t-bone ground round sausage tenderloin drumstick rump pork loin beef ribs jerky. T-bone chuck filet mignon sirloin, shankle pastrami pork chop pork belly ham hock tongue tail ground round beef jowl pork.</p>
+                </div>
+            </article> 
+            
+             <article class='card'>
+                <h1>ListBox + adder + closer</h1>
+                
+                <div>
+                    <ul id="lb" class="listbox">
+                        <li>1. An item</li>
+                        <li>2. An item <span class='label small'>with label</span></li>
+                        <li>3. Another item</li>
+                        <li>4. A closable item<a href="#" class='closer' data-close=':parent' title="Close me please"></a></li>
+                        <li>5. Mixed
+                            <span class='label small'>label</span>
+                            <a href="#" class='closer' data-close=':parent' title="Close me please"></a>
+                        </li>
+                    </ul>
+                    <a href="#" class="adder" data-add="#lb" data-content='#list-item'>Add new item</a>
+                </div>
+                <div id="list-item" style="display:none;">
+                    <li>A fresh new item
+                        <a href="#" class='closer' data-close=':parent' title="Close me baby"></a>
+                    </li>
+                </div>
+            </article> 
+            
+            <article class='card'>
+                <h1>Toogling</h1>
+                <a href='#' class="toggler" data-toggle="#bacon-details">Show details</a><br />
+                <p id='bacon-details' class="toggled">Bacon ipsum sit amet tri-tip tenderloin boudin pork loin ball tip frankfurter. Fatback pork chop biltong chuck shoulder pancetta brisket tongue. Biltong salami short ribs, brisket t-bone ground round sausage tenderloin drumstick rump pork loin beef ribs jerky. T-bone chuck filet mignon sirloin, shankle pastrami pork chop pork belly ham hock tongue tail ground round beef jowl pork.</p>
+            </article> 
+            
+        </div>
+    </body>
+</html>

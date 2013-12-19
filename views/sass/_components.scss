@@ -1,0 +1,506 @@
+/*
+    Document   : components
+    Created on : 8 oct. 2013, 11:16:52
+    Author     : Bertrand Chevrier <bertrand@taotesting.com>
+    Description:
+        Contains style related to components
+*/
+
+.card, .nav {
+
+/* Labels */
+    .label{
+        @include border-radius($radius);
+        @include shadow(#ccc, 1px, 1px);
+        padding:0;
+        display: inline-block;
+        border: 1px solid #666;
+        background-color: #666;
+        color: #fff;
+        padding: .3em .4em;
+        &.small{
+            font-size:.9em;
+            padding: .2em .3em;
+        }
+    }
+
+/* States */
+    .active{
+        border: dashed 1px $altColor !important;
+    }
+    .valid{
+        border: dashed 1px $validColor !important;
+    }
+    .placeholder {
+        border: dashed 1px #333 !important;
+        min-height: 2em;
+    }
+    .ui-draggable{
+        cursor: move;
+        &:before{
+         @include jui-icon(0, (-224px), grey);
+        }
+    }
+    .ui-sortable > * {
+        cursor: move;
+        &:before{
+         @include jui-icon( (-128px), (-48px), grey);
+        }
+    }
+
+    
+/* ListBox  */
+    ul.listbox {
+        margin:.1em 0;
+        padding:0;
+        list-style-type: none;
+        display: block;
+        @include box-sizing(border-box);
+
+        > li {
+            white-space: no-wrap;
+            position: relative;
+            min-width: 75%;
+            border: $contrastBorder;
+            border-bottom-width:0;
+            vertical-align: top;
+            margin: 0;
+            padding: .3em 2em .3em .2em;
+            background-color: #fafafa;
+            min-height: 1.5em; 
+            
+            > .label{
+                position: absolute;
+                right:0;
+                border-bottom-right-radius: 0;
+                border-top-right-radius: 0;
+            }
+            
+            > [data-button-group] {
+                position: absolute;
+                right:2em;
+            }
+            
+            > .closer {
+                position: absolute;
+                right: .5em;
+            }
+            > .label + .closer {
+                right: 3em;
+            }
+            
+            &:first-child {
+                @include border-top-radius($radius);
+            }
+            
+            &:last-child {
+                @include border-bottom-radius($radius);
+                border-bottom-width:1px;
+            }
+            
+            &.placeholder {
+                background : none;
+                margin: .5em;
+                opacity:0.6;
+            }
+        }
+    }
+
+/* toggler */
+    .toggler{
+
+        &:hover{
+            color: $altColor;
+        }
+
+        &:after {
+            @include jui-icon( (-64px), 0);
+        }
+
+        &.opened:after {
+            @include jui-icon(0, 0);
+        }
+
+    }
+    
+    .toggled {
+        display:none;
+    }
+
+/* Adder */
+    .adder{
+        &:before{
+            @include jui-icon( (-16px), (-128px) );
+        }
+        &:hover:before{
+            @include jui-icon( (-32px), (-128px) );
+        }
+    }
+
+
+/* Disabler */
+    .disabled{
+        
+    }
+    .disabled, *:disabled{
+        cursor: default;
+        background-color: #ccc;
+        color: #666;
+    }
+    
+/* Closer */
+    .closer{
+        &:before{
+            @include jui-icon( (-32px), (-192px) );
+        }
+    }
+    
+    [data-button-group] {
+        @include border-radius($radius);
+        @include shadow(#ccc, 1px, 1px);
+        padding:0;
+        display: inline-block;
+        border: 1px solid #666;
+        background-color: #666;
+        color: #fff;
+        > a {
+            float:left;
+            border:none;
+            margin:0;
+            cursor:pointer;
+            padding:.2em .4em;
+            border-width: 0 !important;
+            border-right: solid 1px #999;
+            color: #fff;
+            &.icon {
+                vertical-align: bottom;
+                width: 16px;
+                height: 16px;
+                padding: .1em;
+            }
+            
+            &:last-child {
+                border-right-width: 0;
+            }
+            &.active {
+                 background-color: lighten($altColor, 5%);
+                 opatcity:0.6;
+            }
+        }
+        
+    }
+    
+/* Incrementer */
+    
+    input.incrementer{
+        width: 30px;
+        text-align: right;        
+        & ~ .incrementer-ctrl{
+            display: inline-block;
+            margin: 0 .5em 0 0;
+            padding-left: 4px;
+            > a {
+                width: 16px;
+                &.inc {
+                    margin-top: -3px;
+                    @include jui-icon(0, (-16px), grey);
+                    &:hover, &:focus, &:active{
+                        @include jui-icon( 0, (-16px));
+                        display: block;
+                        height: 12px;
+                    }
+                    &.disabled{
+                        background-color: transparent !important;
+                        opacity: 0.5;
+                     }
+                    display: block;
+                    height: 12px;
+                }
+                &.dec {
+                     margin-top: -2px;
+                     margin-left: -1px;
+                     @include jui-icon( (-64px), (-16px), grey);
+                     &:hover, &:focus, &:active{
+                        @include jui-icon( (-64px), (-16px));
+                        display: block;
+                        height: 12px;
+                     }
+                     &.disabled{
+                        background-color: transparent  !important;
+                        opacity: 0.5;
+                     }
+                     display: block;
+                     height: 12px;
+                }
+            }
+        }
+    }
+    
+/* Flipper */
+    .flip{
+        overflow: hidden;
+    }
+    .flip-back{
+        background-color: #ddd !important;
+        display: none;
+    }
+
+
+/* Inputs */
+     input[type=text], textarea{
+        @include baseFont;
+        @include box-sizing(border-box);
+        @include rounded;
+        border: solid 1px #ccc;
+        height:1.8em;
+        vertical-align: top;
+        margin:0;
+        padding:.1em;
+        width:150px;
+        
+        &.micro{
+            width:30px;
+        }
+        &.mini{
+            width:60px;
+        }
+        &.small{
+            width:90px;
+        }
+        &.big{
+            width:200px;
+        }
+        &:active{
+             @include shadow(#999, 1px, 1px);
+        }
+        &:focus{
+            border: solid 1px #999;
+        }
+        &:disabled{
+            background-color: #eee;
+        }
+    }
+    
+    textarea{
+        height:10em;
+        width: 300px;
+        &.micro{
+            width:75px;
+            height:2em;
+        }
+        &.mini{
+            width:150px;
+            height:4em;
+        }
+        &.small{
+            width:200px;
+            height:8em;
+        }
+        &.big{
+            width:500px;
+            height:15em;
+        }
+    }
+    
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        
+        &:after{
+            @include jui-icon( (-64px), 0, grey);
+            position: absolute;
+            right: .4em;
+            top: .4em;
+            @include zindex(2);
+        }
+        
+        select {
+            @include appearance(none);
+            @include baseFont;
+            @include box-sizing(border-box);
+            @include rounded;
+
+            position: relative;
+            border: solid 1px #ccc;
+            height:1.8em;
+            vertical-align: top;
+            margin:0;
+            padding:.1em;
+            width:150px;
+            background: transparent;
+            overflow: hidden;
+            text-indent: 0.01px;
+            text-overflow: '';
+            @include zindex(4);
+            curosor: pointer;
+
+            &.micro{
+                width:30px;
+            }
+            &.mini{
+                width:60px;
+            }
+            &.small{
+                width:90px;
+            }
+            &.big{
+                width:200px;
+            }
+            &:active{
+                 @include shadow(#999, 1px, 1px);
+            }
+            &:focus{
+                border: solid 1px #999;
+            }
+            &:disabled{
+                background-color: #eee;
+            }
+        }
+    }
+    
+    //add a ctrl box next to an input
+    @mixin appendBox {
+        @include border-left-radius($radius);
+        @include border-right-radius(0);
+
+        & ~ .ctrl {
+            display: inline-block;
+            @include box-sizing(border-box);
+            @include border-left-radius(0);
+            @include border-right-radius($radius);
+            border: solid 1px #ccc;
+            border-left-width:0;
+            width: 24px;
+            height: 1.8em;
+            padding:.1em;
+            cursor: pointer;
+            background-color: #eee;
+        }
+        &:focus + .ctrl {
+             border-color: #999;
+        }
+        &:active + .ctrl {
+             @include shadow(#999, 1px, 1px);
+        }
+    }
+    
+    input.incrementer, input[data-increment]{
+        @include appendBox;
+    }
+
+
+/* search input */
+    input[type=text].search {
+        @include appendBox;
+        
+        & + .ctrl:before {
+            @include jui-icon( (-160px), (-112px), grey);
+        }
+    }
+    
+/* Buttons */
+    button{
+        @include box-sizing(border-box);
+        @include rounded;
+        font-size: 1.1em;
+        color: $altColor;
+        background-color: $mainBgColor;
+        border: solid 2px $altColor;
+        padding: .3em .6em;
+        cursor: pointer;
+        
+        &:active, &:focus, &:hover{
+             @include invFont;
+        }
+        &.micro{
+            font-size: .8em;
+            padding: .1em .2em;
+            border-width: 1px;
+        }
+        &.small{
+            font-size: .9em;
+            padding: .2em .3em;
+            border-width: 1px;
+        }
+        &.big{
+            font-size: 1.2em;
+            padding: .4em .8em;
+        }
+        
+        &:disabled{
+            background-color: lighten($altColor, 25%);
+            cursor: inherit;
+        }
+    }
+    
+ /* drop menu */
+    .dropmenu{
+        position: absolute;
+        @include zindex(8);
+        &.closed {
+            display: none;
+        }
+                          
+        ul {
+            list-style-type: none;
+            margin: 10px 0 0 0;
+            padding: 0;
+            @include border-radius(6px);
+            border: solid 1px #ccc;
+            background-color: #fff;
+            li {
+                margin: 0;
+                padding: .6em;
+                &.separator{
+                    padding: 0;
+                    margin: 0 .2em;
+                    height: 1px;
+                    background-color: #ccc;
+                }
+                &:hover {
+                    background-color: #eee;
+                    color: $altColor;
+                    cursor: pointer;
+                }
+            }
+            &:before{
+                position: absolute;
+                display: block;
+                content: '';  
+                border-color: transparent transparent #ccc  transparent;
+                border-style: solid;
+                border-width: 8px;
+                height:0;
+                width:0;
+                left:1em;
+                top: -6px;
+                @include zindex(9);
+            }  
+            &:after{
+                position: absolute;
+                display: block;
+                content: '';  
+                border-color: transparent transparent #fff  transparent;
+                border-style: solid;
+                border-width: 8px;
+                height:0;
+                width:0;
+                left: 1em;
+                top: -5px;
+                @include zindex(10);
+            }
+        }
+    }
+    
+/* InPlacer */
+    [data-in-place], .inplace {
+        cursor: pointer;
+        input {
+            cursor: auto;
+        }
+        &:hover {
+            color: $altFontColor;
+        }
+    }
+    
+}
