@@ -19,16 +19,6 @@
 
 
 	<div id="portal-box" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-		<span class="loginHeader">
-		    <span class="Title">
-                        <?=get_data('login_title')?>
-		    </span>
-		    <span class="hintMsg">
-                        <?=get_data('login_desc')?>&nbsp;&nbsp;<a href="<?echo ROOT_URL; ?>"><?=__('Change...')?></a>
-		    </span>
-		    <span class=hintLink>
-		    </span>
-		</span>
 		<span class="loginBox">
 			<?if(get_data('errorMessage')):?>
 				<div class="ui-widget ui-corner-all ui-state-error error-message">

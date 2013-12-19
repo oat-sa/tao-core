@@ -47,7 +47,27 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 * to choose front or back office
 	 */
 	public function entry() {
-		$this->setView('entry.tpl');
+	    $entries = array();
+	    foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
+	        foreach ($extension->getEntryPoints() as $entry) {
+	            $hasAccess = tao_models_classes_accessControl_AclProxy::hasAccess($entry['ext'], $entry['mod'], $entry['act']);
+	            if ($hasAccess) {
+	                $entries[] = $entry;
+	            }
+	        }
+	    }
+	    if (empty($entries)) {
+	        // no access -> error
+	        return $this->returnError(__('You currently have no access to the platform'));
+	    } elseif (count($entries) == 1) {
+	        // single entrypoint -> redirect
+	        $entry = current($entries);
+	        return $this->redirect(_url($entry['act'], $entry['mod'], $entry['ext']));
+	    } else {
+	        // multiple entries -> choice
+    	    $this->setData('entries', $entries);
+    		$this->setView('entry.tpl');
+	    }
 	}
 	
 	/**
@@ -74,11 +94,11 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			if($myForm->isValid()){
 				$adapter = new core_kernel_users_AuthAdapter($myForm->getValue('login'), $myForm->getValue('password'));
 				$allowedRoles = tao_models_classes_UserService::singleton()->getAllowedRoles();
-				if(common_user_auth_Service::singleton()->login($adapter,$allowedRoles)){
+				if(common_user_auth_Service::singleton()->login($adapter)){
 					if ($this->hasRequestParameter('redirect')) {
 						$this->redirect($_REQUEST['redirect']);
 					} else {
-						$this->redirect(_url('index', 'Main'));
+						$this->redirect(_url('entry', 'Main'));
 					}
 				}
 				else{
@@ -87,10 +107,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
 			}
 		}
 
-		$this->setData('form', $myForm->render());
-                $this->setData('title', __("TAO Back Office"));
-                $this->setData('login_title', __('Test Developers and Test Administrators'));
-                $this->setData('login_desc', __("Login to the TAO Back Office"));
+        $this->setData('form', $myForm->render());
+        $this->setData('title', __("TAO Back Office"));
+        $this->setData('login_title', __('Test Developers and Test Administrators'));
+        $this->setData('login_desc', __("Login to the TAO Back Office"));
 		$this->setView('main/login.tpl');
 	}
 

@@ -116,6 +116,16 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',array('ext'=>'tao','mod' => 'Main', 'act' => 'logout')),
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',array('ext'=>'tao','mod' => 'AuthApi')),
     ),
+    'entryPoints' => array(
+    	array(
+            'ext' => 'tao',
+            'mod' => 'Main',
+            'act' => 'index',
+            'title' => __('Test Developers and Administrators'),
+            'desc' => __('Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows.'),
+            'label' => __('TAO Back Office')
+        )
+    ),
 	'constants' => array(
 	
 		# actions directory

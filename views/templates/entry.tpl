@@ -29,47 +29,20 @@
 		<div id="portal-box" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
 		<!--<span class="portalInfo"><h1><?=__('Welcome to TAO!')?></h1></span>!-->
 
-		<a href="<?=_url('login','Main','tao')?>" >
+		<?php foreach (get_data('entries') as $entry) :?>
+		<a href="<?=_url($entry['act'],$entry['mod'],$entry['ext'])?>" >
 		    <span class="tile">
-			    <span class="Title"><?=__('Test Developers and Administrators')?></span>
+			    <span class="Title"><?=$entry['title']?></span>
 			    <span class="hintMsg">
-				<?=__('Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows.')?>
+				<?=$entry['desc']?>
 			    </span>
 			    <span class="tileLabel">
-				<?=__('TAO Back Office')?>
+				<?=$entry['label']?>
 			    </span>
 
 		    </span>
 		</a>
-		
-		
-		<a href="<?=_url('index','Authentication','wfEngine')?>"  >
-		<span class="tile">
-			<span class="Title"><?=__('Test Developers and Administrators')?></span>
-			<span class="hintMsg">
-			    <?=__('Execute workflows for assessment preparation.')?>
-			</span>
-			<span class="tileLabel">
-			   <?=__('TAO WorkFlow Assistant')?>
-			</span>
-			</a>
-		</span>
-		</a>
-
-		<a href="<?=_url('index','DeliveryServerAuthentification','taoDelivery')?>" >
-		<span class="tile">
-			<span class="Title"><?=__('Test-Takers')?></span>
-			<span class="hintMsg">
-			    <?=__('Login here to take a test.')?>
-			</span>
-			<span class="tileLabel">
-			    <?=__('TAO Delivery Server')?>
-			</span>
-
-		</span>
-		</a>
-		
-		
+		<?php endforeach;?>
 
 		</div>
 	</div>
