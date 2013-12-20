@@ -74,22 +74,22 @@ define(['jquery'], function($){
     * @returns {jQueryElement} for chaining
     */
    $.fn.sizeChange = function(cb) {
-        var running = false;
+   //     var running = false;
         cb = cb || $.noop();
         
         if(this.length === 0){
             return this;
         }
         
-        var execCb = function execCb(){
-           if(running === false){
-                running = true;
-                cb();
-                setTimeout(function(){
-                     running = false;
-                }, 50);  
-            } 
-        };
+//        var execCb = function execCb(){
+//           if(running === false){
+//                running = true;
+//                cb();
+//                setTimeout(function(){
+//                     running = false;
+//                }, 50);  
+//            } 
+//        };
         
         if (isDOM3EventSupported()) { //DOM3,  Modern Browsers
             var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
@@ -102,7 +102,7 @@ define(['jquery'], function($){
                 var observer = new MutationObserver(function(mutations) {
                     for(var i in mutations) {
                         if(mutations[i].addedNodes !== null || mutations[i].attributeName !== null){
-                            return execCb();
+                            return cb();
                         }
                     }
                 });
@@ -113,12 +113,12 @@ define(['jquery'], function($){
         } else if (isDOM2EventSupported()) { //DOM2, Opera
             this.on('DOMAttrModified', function(event) {
                 if(event.attrName === 'style'){
-                    return execCb();
+                    return cb();
                 }
             });
             this.on('DOMNodeRemoved DOMNodeInserted DOMNodeInsertedIntoDocument DOMNodeRemovedFromDocument', function(event){
                 if(event.target.nodeType === 1){
-                    return execCb();
+                    return cb();
                 }
             });
         } else { 
