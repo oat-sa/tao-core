@@ -19,4 +19,4 @@
 </head>
 <body>
 	<!-- AJAX Main Spinner Element -->
-	<div id="ajax-loading" class="ui-widget-overlay"></div>
+	<div id="ajax-loading"></div>

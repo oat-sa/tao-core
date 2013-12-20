@@ -401,9 +401,18 @@ div#footer .releasestatus img {
 div#ajax-loading{
 	z-index: 1000;
 	display: none;
-	opacity: 0.5;
-	background: #FFF url(../img/ajax-loader.gif) no-repeat center center;
+        position: absolute;
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%;
+	background: transparent url(../img/ajax-loader.gif) no-repeat center center;
 }
+#ajax-loading.overlay{
+    background-color: #fff;
+    opacity: 0.5;
+}
+
 
 /* Results Manual Scoring Conciliation */
 form#coding_scoreconcil div#selectors {

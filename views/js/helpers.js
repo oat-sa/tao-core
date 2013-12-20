@@ -2,18 +2,21 @@
  * Helpers
  */
 define(['jquery', 'context'], function($, context) {
+    
+        var parallelLoading = 0;
+        var $loader =  $("#ajax-loading");
+    
 	var Helpers = {
 		init: function() {
-			this.parallelLoading = 0;
-			/**
-			 * EXtends the JQuery post method for conveniance use with Json
-			 * @param {String} url
-			 * @param {Object} data
-			 * @param {Function} callback
-			 */
-			$.postJson = function(url, data, callback) {
-				$.post(url, data, callback, "json");
-			};
+                    /**
+                     * EXtends the JQuery post method for conveniance use with Json
+                     * @param {String} url
+                     * @param {Object} data
+                     * @param {Function} callback
+                     */
+                    $.postJson = function(url, data, callback) {
+                            $.post(url, data, callback, "json");
+                    };
 		},
                 
                 getMainContainer : function($tabs){
@@ -128,15 +131,20 @@ define(['jquery', 'context'], function($, context) {
 		 * - disable the submit buttons
 		 */
 		loading: function(){
-			this.parallelLoading++;
-			if (this.parallelLoading > 1) return; //Need once
-			$(window).bind('click', function(e){
-				e.stopPropagation();
-				e.preventDefault();
-				return false;
-			});
-			$("#ajax-loading").show();
-			//$("input:submit, input:button, a").prop('disabled', true).css('cursor', 'default');
+                    if (parallelLoading > 0) return; //Need once
+                    parallelLoading++;
+                    $(window).on('click', function(e){
+                            e.stopPropagation();
+                            e.preventDefault();
+                            return false;
+                    });
+                    $loader.show();
+                    setTimeout(function(){
+                         //we display the overlay only if the request is slow
+                         if(parallelLoading === 1){
+                             $loader.addClass('overlay');
+                         }
+                    }, 200);
 		},
 
 		/**
@@ -145,11 +153,13 @@ define(['jquery', 'context'], function($, context) {
 		 *  - enable back the submit buttons
 		 */
 		loaded: function(){
-			this.parallelLoading--;
-			if (this.parallelLoading > 0) return; //Need once
-			$(window).unbind('click');
-			$("#ajax-loading").hide();
-			//$("input:submit, input:button, a").prop('disabled', false).css('cursor', 'pointer');
+                    if (parallelLoading > 1) return; //Need once
+                    $(window).off('click');
+                    $loader.hide()
+                            .removeClass('overlay');
+                    setTimeout(function(){
+                        parallelLoading--;
+                    }, 10);
 		},
 
 		/**
@@ -164,7 +174,7 @@ define(['jquery', 'context'], function($, context) {
 				data = {nc: new Date().getTime()}
 			}
 			this.loading();
-			$(selector).empty();
+			$(selector).hide().empty().show();
 			if (url.indexOf('?') === -1) {
 				$(selector).load(url, data, this.loaded());
 			} else {
