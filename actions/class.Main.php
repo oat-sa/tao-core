@@ -58,13 +58,21 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	    }
 	    if (empty($entries)) {
 	        // no access -> error
-	        return $this->returnError(__('You currently have no access to the platform'));
-	    } elseif (count($entries) == 1) {
+	        if (common_session_SessionManager::isAnonymous()) {
+	           return $this->redirect(_url('login')); 
+	        } else {
+	            common_session_SessionManager::endSession();
+                return $this->returnError(__('You currently have no access to the platform'));
+	        }
+	    } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
 	        // single entrypoint -> redirect
 	        $entry = current($entries);
 	        return $this->redirect(_url($entry['act'], $entry['mod'], $entry['ext']));
 	    } else {
 	        // multiple entries -> choice
+	        if (!common_session_SessionManager::isAnonymous()) {
+	            $this->setData('user', common_session_SessionManager::getSession()->getUserLabel());
+	        }
     	    $this->setData('entries', $entries);
     		$this->setView('entry.tpl');
 	    }
@@ -83,7 +91,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		$params = array();
 		if ($this->hasRequestParameter('redirect')) {
 			$redirectUrl = $_REQUEST['redirect'];
-			if (substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
+				
+			if (substr($redirectUrl, 0,1) == '/' || substr($redirectUrl, 0, strlen(ROOT_URL)) == ROOT_URL) {
 				$params['redirect'] = $redirectUrl;
 			}
 		}
@@ -93,7 +102,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$adapter = new core_kernel_users_AuthAdapter($myForm->getValue('login'), $myForm->getValue('password'));
-				$allowedRoles = tao_models_classes_UserService::singleton()->getAllowedRoles();
 				if(common_user_auth_Service::singleton()->login($adapter)){
 					if ($this->hasRequestParameter('redirect')) {
 						$this->redirect($_REQUEST['redirect']);
@@ -108,9 +116,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		}
 
         $this->setData('form', $myForm->render());
-        $this->setData('title', __("TAO Back Office"));
-        $this->setData('login_title', __('Test Developers and Test Administrators'));
-        $this->setData('login_desc', __("Login to the TAO Back Office"));
+        $this->setData('title', __("TAO Login"));
+        if ($this->hasRequestParameter('msg')) {
+            $this->setData('msg', htmlentities($this->getRequestParameter('msg')));
+        }
 		$this->setView('main/login.tpl');
 	}
 
@@ -121,7 +130,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	public function logout()
 	{
 		session_destroy();
-		$this->redirect(_url('login', 'Main', 'tao'));
+		$this->redirect(_url('entry', 'Main', 'tao'));
 	}
 
 	/**

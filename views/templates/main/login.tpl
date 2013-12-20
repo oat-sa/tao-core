@@ -19,6 +19,13 @@
 
 
 	<div id="portal-box" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+	    <?php if (has_data('msg')) :?>
+		<span class="loginHeader">
+		    <span class="hintMsg">
+                        <?=get_data('msg')?>
+		    </span>
+		</span>
+		<?php endif;?>
 		<span class="loginBox">
 			<?if(get_data('errorMessage')):?>
 				<div class="ui-widget ui-corner-all ui-state-error error-message">

@@ -215,9 +215,19 @@ class Bootstrap{
     		
     		$this->dispatchError($ae, 404, $message);
     	}
+        catch (tao_models_classes_AccessDeniedException $ue){
+    		common_Logger::i('Access denied', array('TAO', 'BOOT'));
+            if (!tao_helpers_Request::isAjax() && common_session_SessionManager::isAnonymous()) {
+                header(HTTPToolkit::statusCodeHeader(302));
+                header(HTTPToolkit::locationHeader(_url('login', 'Main', 'tao', array(
+                    'redirect' => $ue->getDeniedRequest()->getRequestURI(),
+                    'msg' => $ue->getUserMessage()
+                ))));
+            } else {
+                $this->dispatchError($ue, 403);
+            }
+    	}
     	catch (tao_models_classes_UserException $ue){
-    		common_Logger::i('Access forbidden', array('TAO', 'BOOT'));
-    		
     		$this->dispatchError($ue, 403);
     	}
     	catch (tao_models_classes_FileNotFoundException $e){

@@ -36,6 +36,11 @@ class tao_models_classes_AccessDeniedException
 
 
     // --- ATTRIBUTES ---
+    /**
+     * @access private 
+     * @var Request
+     */
+    private $request;
 
     // --- OPERATIONS ---
 
@@ -49,8 +54,16 @@ class tao_models_classes_AccessDeniedException
      */
     public function __construct($userUri, $ext, $module, $action)
     {
+        $this->request = new Request();
     	parent::__construct('Access to '.$ext.'::'.$module.'::'.$action.' denied to \''.$userUri.'\'');
     }
+    
+    /**
+     * @return Request
+     */
+    public function getDeniedRequest() {
+        return $this->request;
+    } 
     
     public function getUserMessage() {
         return __('Access denied. Please renew your authentication!');

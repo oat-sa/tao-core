@@ -85,6 +85,9 @@ div#login-form .form-toolbar {
     /*-moz-border-radius: 10px;*/
     /*-webkit-border-radius: 10px;*/
     background-color:#eee;
+       border-style:solid;
+    border-width:1px;
+    border-color:#eee;
     font-weight:bolder;
     
     color:#666
@@ -104,7 +107,7 @@ div#login-form .form-toolbar {
     float:right;
     width:430px;
     height:auto;
-    margin-top:40px;
+    margin-top:10px;
     margin-right:10px;
     padding-left:10px;
     padding-top:10px;

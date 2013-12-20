@@ -28,6 +28,94 @@ h1 {
 	color:#666;
 
 }
+#control
+{
+	width: 960px;
+	height:17px;
+	margin: 0px auto 0px auto;
+	padding: 3px;
+	text-align:right;
+	background: #f3f3f3;
+	border: solid 1px #ccc;
+	font-size: 16px;
+	border-bottom: 1px solid;
+	border-bottom-color: #ddd;
+}
+
+/* The list of items available in the control area. */
+#control li
+{
+	display:inline;
+	font-size:14px;
+}
+
+/* Links of the control area relevant to the language. */
+#control li .language
+{
+	color: #000000;	
+	text-decoration: none;
+	padding:0; /*overrides padding set to other link of control*/
+}
+
+/* When a link of the control area relevant to the language is 
+   simply displayed, the following style attributes are applied to it.
+ */
+#control li .language:link, #control li .language:visited
+{
+	color: #000000;	
+	text-decoration: none;
+}
+
+/* When a link of the control area relevant to the language is 
+   flyed over by the mouse or clicked, the following style attributes 
+   are applied to it.
+ */
+#control li .language:hover, #control li .language:active
+{
+	color: #000000;
+	text-decoration: underline;	
+}
+
+/* Links of the control area relevant to basic actions such
+   as "go to the home page" or "logoff". */
+#control li .action
+{
+	color: #000000;	
+	text-decoration: none;
+}
+
+/* When an action link of the control area  is simply displayed, 
+   the following style attributes are applied to it.
+ */
+#control li .action:link, #control li .action:visited
+{
+	color: blue;
+	text-decoration: underline;
+}
+
+/* When an action link of the control area  is flyed over by the mouse or clicked, 
+   the following style attributes are applied to it.
+ */
+#control li .action:hover, #control li .action:active
+{
+	color: #D00239;
+	text-decoration: underline;
+	/*font-weight:bold;*/
+}
+
+
+/* The user's identifier in the control area. */
+#control li #username
+{
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+}
+#control li #connecteduser
+{
+	font-style:normal;
+	
+}
 div#portal-box { 
 	width: 720px;
 	margin:auto; 

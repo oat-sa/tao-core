@@ -3,6 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<head>
 	<title>TAO</title>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=BASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css"/>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?=BASE_WWW?>css/style.css"/>
@@ -25,27 +26,48 @@
         </script>
 </head>
 <body>
-	<div id="content">
-		<div id="portal-box" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-		<!--<span class="portalInfo"><h1><?=__('Welcome to TAO!')?></h1></span>!-->
+    <ul id="control">
+	    <?php if (has_data('user')) :?>
+        <li><span id="connecteduser" class="icon">
+    	       <?php echo __("Logged in as:"); ?> <span id="username"><?php echo get_data('user'); ?></span>
+            </span>
+            <span class="separator"></span>
+        </li>
+        <li>
+            <a id="logout" class="icon action" href="<?=_url('logout')?>"><?php echo __("Log out"); ?></a>
+        </li>
+    	    <?php else :?>
+        <li><span id="connecteduser" class="icon">
+    	    <?php echo __("You are not logged in."); ?>
+            </span>
+            <span class="separator"></span>
+        </li>
+        <li><a id="login" class="icon action"
+            href="<?=_url('login')?>"><?php echo __("Log in"); ?></a>
+        </li>
+	    <?php endif;?>
+        </ul>
+    <div id="content">
+        <div id="portal-box"
+            class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+            <!--<span class="portalInfo"><h1><?=__('Welcome to TAO!')?></h1></span>!-->
 
+	    
 		<?php foreach (get_data('entries') as $entry) :?>
-		<a href="<?=_url($entry['act'],$entry['mod'],$entry['ext'])?>" >
-		    <span class="tile">
-			    <span class="Title"><?=$entry['title']?></span>
-			    <span class="hintMsg">
+		<a href="<?=_url($entry['act'],$entry['mod'],$entry['ext'])?>"> <span
+                class="tile"> <span class="Title"><?=$entry['title']?></span>
+                    <span class="hintMsg">
 				<?=$entry['desc']?>
-			    </span>
-			    <span class="tileLabel">
+			    </span> <span class="tileLabel">
 				<?=$entry['label']?>
 			    </span>
 
-		    </span>
-		</a>
+            </span>
+            </a>
 		<?php endforeach;?>
 
 		</div>
-	</div>
+    </div>
 <? include TAO_TPL_PATH .'layout_footer.tpl';?>
 </body>
 </html>
