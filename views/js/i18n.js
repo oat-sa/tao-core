@@ -1,4 +1,4 @@
-define(['i18n_tr'], function(i18n_tr){
+define(['i18n_tr'], function(tr){
     
     /**
      * Common translation method.
@@ -8,7 +8,7 @@ define(['i18n_tr'], function(i18n_tr){
      * @returns {String} translated message 
      */
     var __ = function __(message){
-        return (!i18n_tr || !i18n_tr[message]) ? message :  i18n_tr[message];
+        return (!tr.i18n_tr || !tr.i18n_tr[message]) ? message :  tr.i18n_tr[message];
     };
 
 
