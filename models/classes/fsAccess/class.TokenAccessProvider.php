@@ -85,7 +85,7 @@ class tao_models_classes_fsAccess_TokenAccessProvider
 			'secret' => $this->secret,
 			'folder' => $this->getFileSystem()->getPath()
 		); 
-		file_put_contents($this->getConfigFilePath(), "<? return ".common_Utils::toPHPVariableString($data).";");
+		file_put_contents($this->getConfigFilePath(), "<?php return ".common_Utils::toPHPVariableString($data).";");
 	}
 	
 	private function getConfigFilePath() {
