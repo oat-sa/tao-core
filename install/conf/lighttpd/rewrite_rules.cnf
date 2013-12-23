@@ -1,9 +1,4 @@
 $HTTP["referer"] !~ "(^|\.)tao\.local" {
-   url.redirect = (
-    # Redirect test to the delivery
-    "^/test(.*)$" => "/taoDelivery/DeliveryServerAuthentification/index"
-  )
-  
   url.rewrite = ( 
     # TAO EXTENSION
      "^/tao/([^(views/)|(test/)|(doc/)|(install/)|(update/)|(locales/)]{1})([^\?]+)([?]?(.*))" => "/tao/index.php$3"
