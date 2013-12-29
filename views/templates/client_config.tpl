@@ -6,7 +6,10 @@ require.config({
     paths : {
         'jquery'            : 'lib/jquery-1.8.0.min',
         'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
+        'jquerytools'       : 'lib/jquery.tools.min',
         'text'              : 'lib/text/text',
+        'json'              : 'lib/text/json',
+        'store'             : 'lib/store/store.min',
         'lodash'            : 'lib/lodash.min',
         'moment'            : 'lib/moment.min',
         'handlebars'        : 'lib/handlebars',
@@ -19,6 +22,7 @@ require.config({
         'jsTree'            : 'lib/jsTree',
         'jqGrid'            : 'lib/jquery.jqGrid-4.4.0/js/jquery.jqGrid.min',
         'jquery.timePicker' : 'lib/jquery.timePicker',
+        'jquery.cookie'     : 'lib/jquery.cookie',
         'attrchange'        : 'lib/attrchange',
         'raphael'           : 'lib/raphael.min',
         'spin'              : 'lib/spin.min',
@@ -33,13 +37,16 @@ require.config({
         'taoQtiItem'        : '../../../taoQTI/views/js/qtiItem',
         'taoQtiRunner'      : '../../../taoQTI/views/js/qtiRunner',
         'taoQtiDefaultRenderer' : '../../../taoQTI/views/js/qtiDefaultRenderer',
+        'taoQtiCommonRenderer' : '../../../taoQTI/views/js/qtiCommonRenderer',
         'qtiClass'          : '../../../taoQTI/views/js/qtiItem/lib/class',
         'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner'
    },
   
    shim : {
         'jqueryui'              : ['jquery'],
+        'jquerytools'           : ['jquery'],
         'jwysiwyg'              : ['jquery'],
+        'jquery.cookie'         : ['jquery'],
         'jquery.timePicker'     : ['jquery'],
         'jsTree/plugins/jquery.tree.contextmenu' : ['lib/jsTree/jquery.tree'],
         'jsTree/plugins/jquery.tree.checkbox' : ['lib/jsTree/jquery.tree'],

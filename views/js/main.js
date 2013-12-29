@@ -9,7 +9,7 @@
                 //contextual loading
                 $("body").ajaxComplete(function(event, request, settings){
                     if(settings.dataTypes.indexOf('html') > - 1){
-                        
+
                         var parser = new UrlParser(settings.url);
                         var paths = parser.getPaths();
                         var params = parser.getParams();
