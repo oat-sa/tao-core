@@ -108,7 +108,7 @@ class tao_install_services_InstallService extends tao_install_services_Service{
         	throw new InvalidArgumentException("Missing data: 'db_name' must be provided.");
         }
     	else if (!isset($content['value']['module_namespace']) || empty($content['value']['module_namespace'])){
-        	throw new InvalidArgumentException("Missing data: 'db_host' must be provided.");
+        	throw new InvalidArgumentException("Missing data: 'module_namespace' must be provided.");
         }
     	else if (!isset($content['value']['module_url']) || empty($content['value']['module_url'])){
         	throw new InvalidArgumentException("Missing data: 'module_url' must be provided.");
