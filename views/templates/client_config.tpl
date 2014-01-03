@@ -10,6 +10,7 @@ require.config({
         'text'              : 'lib/text/text',
         'json'              : 'lib/text/json',
         'store'             : 'lib/store/store.min',
+        'select2'           : 'lib/select2/select2.min',
         'lodash'            : 'lib/lodash.min',
         'moment'            : 'lib/moment.min',
         'handlebars'        : 'lib/handlebars',
@@ -45,6 +46,7 @@ require.config({
    shim : {
         'jqueryui'              : ['jquery'],
         'jquerytools'           : ['jquery'],
+        'select2'               : ['jquery'],
         'jwysiwyg'              : ['jquery'],
         'jquery.cookie'         : ['jquery'],
         'jquery.timePicker'     : ['jquery'],
