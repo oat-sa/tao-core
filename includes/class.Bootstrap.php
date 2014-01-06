@@ -82,8 +82,6 @@ class Bootstrap{
 	{
 		common_Profiler::singleton()->register();
 
-		common_ext_ClassLoader::singleton()->register();
-		
 		$this->ctxPath = ROOT_PATH . '/' . $extension;
 		$this->extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extension);
 		
