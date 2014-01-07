@@ -5,7 +5,7 @@
         
         require(['jquery', 'lodash', 'context', 'urlParser'], 
             function ($, _, context, UrlParser) {
-
+                
                 //contextual loading
                 $("body").ajaxComplete(function(event, request, settings){
                     if(settings.dataTypes.indexOf('html') > - 1){
@@ -13,7 +13,6 @@
                         var parser = new UrlParser(settings.url);
                         var paths = parser.getPaths();
                         var params = parser.getParams();
-                        
                         if(paths.length >= 3){
                             var action = paths[paths.length - 1];
                             var module = paths[paths.length - 2];
@@ -37,11 +36,11 @@
                                     });
                                     
                                     if(!_.isEmpty(params)){
+                                        var moduleConfig =  {};
                                         _.forEach(dependencies, function(dependency){
-                                            var moduleConfig =  {};
-                                            moduleConfig[dependency] = _.merge(params, requirejs.s.contexts._.config.config[dependency] || {});
-                                            requirejs.config({ config : _.merge(params, moduleConfig) });
+                                            moduleConfig[dependency] = _.merge(_.clone(requirejs.s.contexts._.config.config[dependency] || {}), params);
                                         });
+                                        requirejs.config({ config : moduleConfig });
                                     }
                                     
                                     //loads module and action's dependencies and start the controllers.
