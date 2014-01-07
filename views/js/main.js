@@ -36,7 +36,6 @@
                                         return /^controller/.test(dep) ?  extension + '/' + dep : dep;
                                     });
                                     
-                                    //send the 
                                     if(!_.isEmpty(params)){
                                         _.forEach(dependencies, function(dependency){
                                             var moduleConfig =  {};

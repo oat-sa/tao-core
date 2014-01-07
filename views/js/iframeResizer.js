@@ -17,7 +17,7 @@
  *
  *
  */
-define(['jquery', 'jquery.sizechange'], function ($) {
+define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNotifier) {
     'use strict';
 
     /**
@@ -35,11 +35,13 @@ define(['jquery', 'jquery.sizechange'], function ($) {
          * 
          * @param {jQueryElement} $frame - the iframe to resize
          * @param {string} [restrict = 'body'] - restrict the elements that can have a style change
+         * @param {Number} [plus] - additional height
          * @returns {jQueryElement} $frame for chaining 
          */
-        autoHeight : function ($frame, restrict) {
+        autoHeight : function ($frame, restrict, plus) {
             var self = this;
             restrict = restrict || 'body';
+            plus = plus || 0;
             $frame.load(function () {
                 var $frameContent = $frame.contents();
                 var height = $frameContent.height();
@@ -50,9 +52,9 @@ define(['jquery', 'jquery.sizechange'], function ($) {
                     if (sizing === false) {
                         sizing = true;
                         setTimeout(function () {
-                            self._adaptHeight($frame, height);
+                            self._adaptHeight($frame, height, plus);
                             sizing = false;
-                        }, 10);
+                        }, 50);
                     }
                 };
 
@@ -64,7 +66,7 @@ define(['jquery', 'jquery.sizechange'], function ($) {
                     //then listen for size change
                     $frameContent.find(restrict).sizeChange(function () {
                         var newHeight = $frameContent.height();
-                        if (height !== newHeight) {
+                        if (newHeight !== height) {
                             height = newHeight;
                             resizePop();
                         }
@@ -79,7 +81,7 @@ define(['jquery', 'jquery.sizechange'], function ($) {
                             height = newHeight;
                             resizePop();
                         }
-                    }, 50);
+                    }, 20);
                 }
             });
 
@@ -90,17 +92,17 @@ define(['jquery', 'jquery.sizechange'], function ($) {
          * Listen for heightchange event to adapt the height
          * @param {jQueryElement} $frame - the frame to listen for height changes
          */
-        eventHeight : function ($frame) {
+        eventHeight : function ($frame, diff) {
             var self = this;
-            var diff = 20;
+            diff = diff || 10;
 
             $frame.load(function () {
-                diff = parseInt($frame.contents().height(), 10) - parseInt($frame.height(), 10) + 20;
+                diff = parseInt($frame.contents().height(), 10) - parseInt($frame.height(), 10);
                 self._adaptHeight($frame, $frame.contents().height());
             });
 
-            $(document).on('heightchange', function (e, height) {
-                self._adaptHeight($frame, height + diff);
+            $(document).on('heightchange', function (e, height, plus) {
+                self._adaptHeight($frame, height + plus + diff);
             });
         },
 
@@ -110,15 +112,8 @@ define(['jquery', 'jquery.sizechange'], function ($) {
          * @param {Number} height - the value of the new height
          * @fires heightchange
          */
-        _notifyParent : function (height) {
-            if (window.parent && window.parent !== window && window.parent.$) {
-                
-                /**
-                 * @event heightchange
-                 * @param {Number} height - the value of the new height
-                 */
-                window.parent.$(window.parent.document).trigger('heightchange', [height]);
-            }
+        _notifyParent : function (height, plus) {
+            iframeNotifier.parent('heightchange', [height, plus || 0]);
         },
 
         /**
@@ -128,9 +123,9 @@ define(['jquery', 'jquery.sizechange'], function ($) {
          * @param {number} height  - the value of the new height
          * @fires heightchange
          */
-        _adaptHeight : function ($frame, height) {
+        _adaptHeight : function ($frame, height, plus) {
             $frame.height(height);
-            this._notifyParent(height);
+            this._notifyParent(height, plus);
         }
 
     };

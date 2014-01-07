@@ -30,7 +30,7 @@ define(['jquery'], function($){
                 frame.contentWindow.onServiceApiReady(this);
                 this.connected = true;
                 if(typeof connected === 'function'){
-                	connected();
+                    connected();
                 }
             }
         }
