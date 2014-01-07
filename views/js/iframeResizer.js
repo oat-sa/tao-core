@@ -102,6 +102,7 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
             });
 
             $(document).on('heightchange', function (e, height, plus) {
+                plus = plus || 0;
                 self._adaptHeight($frame, height + plus + diff);
             });
         },
