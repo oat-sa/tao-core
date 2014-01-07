@@ -3,6 +3,22 @@ require.config({
     baseUrl : '<?=TAOBASE_WWW?>js',
     catchError: true,
     
+    config : {
+        'context': {
+            root_url        : '<?=ROOT_URL?>',
+            base_url        : '<?=BASE_URL?>',
+            taobase_www     : '<?=TAOBASE_WWW?>',
+            base_www        : '<?=get_data('base_www')?>',
+            base_lang       : '<?=get_data('lang')?>',
+            locale          : '<?=get_data('locale')?>',
+            extension       : '<?=get_data('extension')?>',
+            module          : '<?=get_data('module')?>',
+            action          : '<?=get_data('action')?>',
+            shownExtension  : '<?=get_data('shownExtension')?>',
+            shownStructure  : '<?=get_data('shownStructure')?>'
+        }
+    },
+    
     paths : {
         'jquery'            : 'lib/jquery-1.8.0.min',
         'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
@@ -85,18 +101,4 @@ require.config({
             }
         }
     }
-});
-
-define('context', {
-    root_url        : '<?=ROOT_URL?>',
-    base_url        : '<?=BASE_URL?>',
-    taobase_www     : '<?=TAOBASE_WWW?>',
-    base_www        : '<?=get_data('base_www')?>',
-    base_lang       : '<?=get_data('lang')?>',
-    locale          : '<?=get_data('locale')?>',
-    extension       : '<?=get_data('extension')?>',
-    module          : '<?=get_data('module')?>',
-    action          : '<?=get_data('action')?>',
-    shownExtension  : '<?=get_data('shownExtension')?>',
-    shownStructure  : '<?=get_data('shownStructure')?>'
 });

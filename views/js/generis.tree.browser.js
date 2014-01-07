@@ -13,6 +13,7 @@
  */
 
 define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __, GenerisTreeClass, helpers, context) {
+
 	var GenerisTreeBrowserClass = GenerisTreeClass.extend({
 		/**
 		 * The GenerisTreeBrowserClass constructor
@@ -55,7 +56,8 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 					}
 				},
 				ui: {
-					theme_name : "custom"
+					theme_name : "custom",
+                                        theme_path : context.taobase_www + 'js/lib/jsTree/themes/custom/style.css'
 				},
 				callback: {
 					//Before receive data from server, return the POST parameters
@@ -754,7 +756,8 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 						}
 					},
 					ui: {
-						theme_name : "custom"
+						theme_name : "custom",
+                                                 theme_path : context.taobase_www + 'js/lib/jsTree/themes/custom/style.css'
 					},
 					callback: {
 						//add the type param to the server request to get only the classes

@@ -12,7 +12,7 @@
  * @author Jehan Bihin (class)
  */
 
-define(['jquery', 'i18n', 'generis.tree', 'helpers'], function($, __, GenerisTreeClass, helpers) {
+define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers'], function($, __, context, GenerisTreeClass, helpers) {
 	var GenerisTreeSelectClass = GenerisTreeClass.extend({
 		/**
 		 * Constructor
@@ -40,7 +40,8 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers'], function($, __, GenerisTre
 					}
 				},
 				ui: {
-					theme_name : "checkbox"
+					theme_name : "checkbox",
+                                        theme_path : context.taobase_www + 'js/lib/jsTree/themes/checkbox/style.css'
 				},
 				callback: {
 					//before check
