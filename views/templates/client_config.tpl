@@ -86,6 +86,7 @@ require.config({
         'json2'                 : { exports:'JSON'},
         'class'                 : { exports : 'Class'},
         'mediaElement' : {
+            deps: ['jquery'],
             exports : 'MediaElementPlayer',
             init : function(){
                 MediaElementPlayer.pluginPath = '';//define the plugin swf path here
