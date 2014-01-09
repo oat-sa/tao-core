@@ -88,11 +88,6 @@ return array(
 		    dirname(__FILE__).'/scripts/install/setupServiceFileStorage.php'
 		)
 	),
-	'classLoaderPackages' => array(
-		dirname(__FILE__).'/actions/',
-		dirname(__FILE__).'/helpers/',
-		dirname(__FILE__).'/helpers/form'
-	),
 	'optimizableClasses' => array(
 		'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
 		'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'

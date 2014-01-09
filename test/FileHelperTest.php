@@ -102,10 +102,17 @@ class tao_test_FileHelperTest extends TaoPhpUnitTestRunner {
     }
     
     public function testIsIdentical() {
-        $testfolder = dirname(__FILE__).DIRECTORY_SEPARATOR.'fileHelper'.DIRECTORY_SEPARATOR;
+        
+        $testfolder = tao_helpers_File::createTempDir();
         $this->assertTrue(is_dir($testfolder));
         
+        $zip = new ZipArchive();
+        $this->assertTrue($zip->open(dirname(__FILE__).DIRECTORY_SEPARATOR.'samples'.DIRECTORY_SEPARATOR.'fileHelper.zip'));
+        $this->assertTrue($zip->extractTo($testfolder));
+        $zip->close();
+        
         $reference = $testfolder.'reference';
+        $this->assertTrue(is_dir($reference));
         $testContent = $testfolder.DIRECTORY_SEPARATOR.'testContent';
         $testEmptyDir = $testfolder.DIRECTORY_SEPARATOR.'testEmptyDir';
         $testIdent = $testfolder.DIRECTORY_SEPARATOR.'testIdent';
@@ -113,6 +120,7 @@ class tao_test_FileHelperTest extends TaoPhpUnitTestRunner {
         $testRenamedFile = $testfolder.DIRECTORY_SEPARATOR.'testRenamedFile';
         $testRenamedEmptyDir = $testfolder.DIRECTORY_SEPARATOR.'testRenamedEmptyDir';
         
+        $this->assertTrue(tao_helpers_File::isIdentical($reference, $reference));
         $this->assertTrue(tao_helpers_File::isIdentical($reference, $testIdent));
         $this->assertFalse(tao_helpers_File::isIdentical($reference, $testContent));
         $this->assertFalse(tao_helpers_File::isIdentical($reference, $testEmptyDir));
@@ -120,6 +128,8 @@ class tao_test_FileHelperTest extends TaoPhpUnitTestRunner {
         $this->assertFalse(tao_helpers_File::isIdentical($reference, $testRenamedFile));
         $this->assertFalse(tao_helpers_File::isIdentical($reference, $testRenamedEmptyDir));
         
+        $this->assertTrue(tao_helpers_File::delTree($testfolder));
+        $this->assertFalse(is_dir($testfolder));
     }
     
 }
