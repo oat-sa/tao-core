@@ -1803,7 +1803,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the
    editor creates it with visibility:hidden. Here, we restore the UI visibility. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000356}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000358}}
 .cke_chrome {
   visibility: inherit; }
 
@@ -1811,10 +1811,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
    These are usually <span> elements that show not be visible, but that are
    used by screen-readers to announce other elements. Here, we hide these
    <spans>, in fact. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000365}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000367}}
 .cke_voice_label {
   display: none; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000369}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000371}}
 legend.cke_voice_label {
   display: none; }
