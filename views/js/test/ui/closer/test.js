@@ -5,7 +5,7 @@ define(['jquery', 'cards', 'ui/closer'], function($, cards, closer){
    
     test('plugin', function(){
        expect(1);
-       ok(typeof $.fn.adder === 'function', 'The Closer plugin is registered');
+       ok(typeof $.fn.closer === 'function', 'The Closer plugin is registered');
     });
    
     asyncTest('Initialization', function(){

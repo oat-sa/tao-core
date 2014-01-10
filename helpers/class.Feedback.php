@@ -30,49 +30,65 @@ class tao_helpers_Feedback
 
   /**
    * @param $type
-   * @param $msg
-   * @param bool $closer
+   * @param $message
+   * @param array $settings
    * @return string
    */
-  protected static function dispatch($type, $msg, $closer=true){
-    $closer = $closer ? '<span class="icon-close close-trigger" title="' . __('Remove Message') . '"></span>' : '';
-    return sprintf('<div class="msg-%s"><span class="icon-%s"></span>%s%s</div>', $type, $type, $msg, $closer);
+  protected static function dispatch($type, $message, $settings=array()) {
+    $defaults = array(
+      'delayToClose' => 2000,
+      'closer'       => true,
+      'icon'         => true,
+      'modal'        => false
+    );
+    $settings = array_merge($defaults, $settings);
+    $closer = $settings['closer'] ? sprintf('<span class="icon-close close-trigger" title="%s"></span>', __('Remove Message')) : '';
+    if(is_string($settings['icon'])){
+      $icon = sprintf('<span class="%s"></span>', $settings['icon']);
+    }
+    else if($settings['icon'] === true) {
+      $icon = sprintf('<span class="icon-%s"></span>', $type);
+    }
+    else {
+      $icon = '';
+    }
+    return sprintf('<div class="feedback-%s">%s%s%s</div>', $type, $icon, $message, $closer);
   }
 
   /**
-   * @param $msg
-   * @param bool $closer
+   * @param $message
+   * @param array $settings
    * @return string
    */
-  public static function error($msg, $closer=true) {
-    return self::dispatch('error', $msg, $closer);
+  public static function error($message, $settings=array()) {
+    return self::dispatch(__FUNCTION__, $message, $settings);
   }
 
   /**
-   * @param $msg
-   * @param bool $closer
+   * @param $message
+   * @param array $settings
    * @return string
    */
-  public static function info($msg, $closer=true) {
-    return self::dispatch('info', $msg, $closer);
+  public static function info($message, $settings=array()) {
+    return self::dispatch(__FUNCTION__, $message, $settings);
   }
 
   /**
-   * @param $msg
-   * @param bool $closer
+   * @param $message
+   * @param array $settings
    * @return string
    */
-  public static function success($msg, $closer=true) {
-    return self::dispatch('success', $msg, $closer);
+  public static function success($message, $settings=array()) {
+    return self::dispatch(__FUNCTION__, $message, $settings);
   }
 
   /**
-   * @param $msg
-   * @param bool $closer
+   * @param $message
+   * @param array $settings
    * @return string
    */
-  public static function warning($msg, $closer=true) {
-    return self::dispatch('warning', $msg, $closer);
+  public static function warning($message, $settings=array()) {
+    return self::dispatch(__FUNCTION__, $message, $settings);
   }
 
 }
