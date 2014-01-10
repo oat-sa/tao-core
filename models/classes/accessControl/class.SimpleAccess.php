@@ -51,7 +51,7 @@ class tao_models_classes_accessControl_SimpleAccess
     public function hasAccess($extension, $controller, $action, $parameters) {
         $isUser = false;
         foreach (common_session_SessionManager::getSession()->getUserRoles() as $role) {
-            if ($role->getUri() == INSTANCE_ROLE_BASEUSER) {
+            if ($role == INSTANCE_ROLE_BASEUSER) {
                 $isUser = true;
                 break;
             }
