@@ -42,7 +42,7 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
             var self = this;
             restrict = restrict || 'body';
             plus = plus || 0;
-            $frame.load(function () {
+            $frame.on('load', function () {
                 var $frameContent = $frame.contents();
                 var height = $frameContent.height();
 
@@ -54,7 +54,7 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
                         setTimeout(function () {
                             self._adaptHeight($frame, height, plus);
                             sizing = false;
-                        }, 50);
+                       }, 1);
                     }
                 };
 
@@ -62,26 +62,32 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
                 self._adaptHeight($frame, height);
 
                 try {
-
+                    
+                    $($frameContent[0].document).find('img')
+                    
                     //then listen for size change
                     $frameContent.find(restrict).sizeChange(function () {
+                        
                         var newHeight = $frameContent.height();
-                        if (newHeight !== height) {
+                         if (newHeight > height) {
                             height = newHeight;
                             resizePop();
                         }
+                        if (newHeight > height) {
+                            height = newHeight;
+                            resizePop();
+                       }
                     });
                     
                 } catch (e) {
-                    
                     //fallback to an interval mgt
                     setInterval(function () {
                         var newHeight = $frameContent.height();
-                        if (height !== newHeight) {
+                        if (newHeight > height) {
                             height = newHeight;
                             resizePop();
                         }
-                    }, 20);
+                    }, 10);
                 }
             });
 
@@ -94,11 +100,17 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
          */
         eventHeight : function ($frame, diff) {
             var self = this;
-            diff = diff || 10;
+            
+            if(!diff || parseInt(diff, 10) < 10){
+                diff = 10;
+            }
 
-            $frame.load(function () {
-                diff = parseInt($frame.contents().height(), 10) - parseInt($frame.height(), 10);
-                self._adaptHeight($frame, $frame.contents().height());
+            $frame.on('load.eventHeight', function () {
+                var newdiff = parseInt($frame.contents().height(), 10) - parseInt($frame.height(), 10);
+                if(newdiff > diff){
+                    diff = newdiff;
+                }
+                self._adaptHeight($frame, $frame.contents().height() + diff);
             });
 
             $(document).on('heightchange', function (e, height, plus) {

@@ -69,5 +69,22 @@ define(['lodash'], function(_){
        return this.data.pathname.replace(/^\/|\/$/g, '').split('/');
    };
     
+   
+   /**
+    * Check if CORS applies to 2 differents URLs
+    * @memberOf UrlParser
+    * @param {UrlParser} [parsedUrl] - to compare with, use window.location if undefined
+    * @returns {Boolean} true if same domain
+    */
+   UrlParser.prototype.checkCORS = function(parsedUrl){
+       parsedUrl = parsedUrl || new UrlParser(window.location);
+       if(parsedUrl instanceof UrlParser){
+           return this.get('protocol') === parsedUrl.get('protocol') 
+                   && this.get('hostname') === parsedUrl.get('hostname') 
+                   && this.get('port') === parsedUrl.get('port');
+       }
+       throw new Error('parsedUrl parameter must be an instanceof UrlParser');
+   };
+    
    return UrlParser;
 });

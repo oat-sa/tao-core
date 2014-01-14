@@ -19,11 +19,10 @@
  */
 define(['jquery'], function($){
     
+    
     function hasAccess(windowElt){
-        return windowElt && windowElt !== window &&
-               windowElt.location.host === window.location.host &&
-               windowElt.location.port === window.location.port &&
-               windowElt.location.protocol === window.location.protocol;
+        //if we are in the same domain, the parent must place the __knownParent__ variable 
+        return !!(window.__knownParent__ && windowElt && windowElt !== window);
     }
     
     /**

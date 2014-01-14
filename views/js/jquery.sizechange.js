@@ -61,8 +61,7 @@ define(['jquery'], function($){
             return false;
         }
 
-        p.setAttribute('id', '___target');
-        //document.removeChild(p);
+        p.setAttribute('id', '__dummy_domtest_target');
 
         return flag;
    }
@@ -74,51 +73,58 @@ define(['jquery'], function($){
     * @returns {jQueryElement} for chaining
     */
    $.fn.sizeChange = function(cb) {
-   //     var running = false;
-        cb = cb || $.noop();
+        var $this = this;
+        var running = false;
         
-        if(this.length === 0){
-            return this;
+        cb = cb || $.noop();
+        if($this.length === 0){
+            return $this;
         }
         
-//        var execCb = function execCb(){
-//           if(running === false){
-//                running = true;
-//                cb();
-//                setTimeout(function(){
-//                     running = false;
-//                }, 50);  
-//            } 
-//        };
+        var execCb = function execCb(){
+           if(running === false){
+                running = true;
+                
+                
+                setTimeout(function(){
+                     cb();
+                     running = false;
+                }, 1);  
+            } 
+            //if new images are inserted, their load can update size without trigerring and mutation
+            $this.find('img').one('load', function(){
+                cb();
+            });
+        };
+        
         
         if (isDOM3EventSupported()) { //DOM3,  Modern Browsers
             var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
             var mutationOptions = {
                         subtree: this[0].nodeName !== 'IFRAME',
-                        attributes: true,
-                        attributeFilter: ['style']
+                        attributes: true
                 };
 
                 var observer = new MutationObserver(function(mutations) {
                     for(var i in mutations) {
                         if(mutations[i].addedNodes !== null || mutations[i].attributeName !== null){
-                            return cb();
+                            execCb();
                         }
                     }
                 });
 
-                this.each(function() {
+                $this.each(function() {
                     observer.observe(this, mutationOptions);
                 });
         } else if (isDOM2EventSupported()) { //DOM2, Opera
-            this.on('DOMAttrModified', function(event) {
+            $this.on('DOMAttrModified', function(event) {
                 if(event.attrName === 'style'){
-                    return cb();
+                    execCb();
                 }
             });
-            this.on('DOMNodeRemoved DOMNodeInserted DOMNodeInsertedIntoDocument DOMNodeRemovedFromDocument', function(event){
+            $this.on('DOMNodeRemoved DOMNodeInserted DOMNodeInsertedIntoDocument DOMNodeRemovedFromDocument', function(event){
                 if(event.target.nodeType === 1){
-                    return cb();
+                    execCb();
                 }
             });
         } else { 

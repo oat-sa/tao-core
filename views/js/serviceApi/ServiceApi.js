@@ -1,4 +1,4 @@
-define(['jquery'], function($){
+define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeResizer){
     
     function ServiceApi(baseUrl, parameters, serviceCallId, stateStorage){
         this.baseUrl = baseUrl;
@@ -13,14 +13,25 @@ define(['jquery'], function($){
     }
 
     ServiceApi.prototype.loadInto = function(frame, connected){
-            var api = this;
-            $(frame).on('load', function() {
-            	$(this).off('load');
-                $(document).on('serviceready', function(){
-                    api.connect(frame, connected );
-                });
+        var self = this;
+        var callUrl = this.getCallUrl();        
+        var isCORSAllowed = new UrlParser(callUrl).checkCORS();
+        
+        $(frame).one('load', function() {
+            $(document).on('serviceready', function(){
+                self.connect(frame, connected );
             });
-            $(frame).attr('src', this.getCallUrl());
+            
+        }).on('load.cors', function(e){
+            //if we are  in the same domain, we add a variable
+            //to the frame window, so the frame knows it can communicate
+            //with the parent
+            if(isCORSAllowed === true){
+                frame.contentWindow.__knownParent__ = true;
+            } 
+        });
+        
+        $(frame).attr('src', callUrl);
     };
 
     ServiceApi.prototype.connect = function(frame, connected){
@@ -35,14 +46,15 @@ define(['jquery'], function($){
             }
         }
     };
-
+    
+    /**
+     * Get the service call URL
+     * @returns {String} the URI
+     */
     ServiceApi.prototype.getCallUrl = function(){
-        var callUrl = this.baseUrl + '?';
-        $.each(this.parameters,function (name, value) {
-                callUrl += encodeURIComponent(name) + "=" + encodeURIComponent(value) + "&";
-        });
-        callUrl += 'serviceCallId=' + encodeURIComponent(this.serviceCallId);
-        return callUrl;
+        var params = this.parameters || {};
+        params.serviceCallId = this.serviceCallId;
+        return this.baseUrl + '?' + $.param(params);
     };
 
     //Context
