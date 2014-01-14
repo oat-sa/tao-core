@@ -184,7 +184,7 @@ is its visual representation:
 .cke_panel_listItem a:active
 {
 
-  background-color: mix(#fff, $info, 80%);
+  background-color: $uiClickableHoverBg;
 }
 
 .cke_hc .cke_panel_listItem a
