@@ -234,3 +234,8 @@ div#form-container div.xhtml_form div table.form-elt-container{
 .file-uploader iframe{
 	display:none;
 }
+
+div.xhtml_form .form_radlst input{
+    margin-right: 5px;
+    vertical-align: middle;
+}
