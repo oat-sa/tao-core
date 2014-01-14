@@ -1,0 +1,56 @@
+[class^="feedback-"], [class*=" feedback-"] {
+  border: 1px transparent solid;
+  position: relative;
+  padding: 20px 20px 20px 40px;
+  margin: 5px 0;
+  border-radius: 2px;
+  [class^="icon-"], [class*=" icon-"] {
+    @include font-size(20);
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    &.icon-close {
+      @include font-size(15);
+      color: #999;
+      left: auto;
+      right: 7px;
+      top: 5px;
+      cursor:pointer;
+      &:hover {
+        color: #222;
+      }
+    }
+  }
+}
+
+.feedback-error {
+  border-color: mix(#fff, $error, 20%);
+  background-color: mix(#fff, $error, 90%);
+  .icon-error {
+    color: $error;
+  }
+}
+
+.feedback-info {
+  border-color: mix(#fff, $info, 20%);
+  background-color: mix(#fff, $info, 90%);
+  .icon-info {
+    color: $info;
+  }
+}
+
+.feedback-success {
+  border-color: mix(#fff, $success, 20%);
+  background-color: mix(#fff, $success, 90%);
+  .icon-success {
+    color: $success;
+  }
+}
+
+.feedback-warning {
+  border-color: mix(#fff, $warning, 20%);
+  background-color: mix(#fff, $warning, 90%);
+  .icon-warning {
+    color: $warning;
+  }
+}

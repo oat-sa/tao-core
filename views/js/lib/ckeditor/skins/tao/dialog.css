@@ -408,7 +408,18 @@ Comments in this file will give more details about each of the above blocks.
   top: 2px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000037}}
+.cke_button {
+  min-width: 14px;
+  text-decoration: none !important;
+  text-align: center; }
+
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000313}}
+.cke_toolbar {
+  position: relative;
+  top: 4px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000324}}
 .cke_top,
 .cke_top:before,
 .cke_top:after,

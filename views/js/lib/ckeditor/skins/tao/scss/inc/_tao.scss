@@ -4,6 +4,17 @@
   text-shadow: 0 1px 0 white(.5);
 }
 
+.cke_button {
+  min-width: 14px;
+  text-decoration: none !important;
+  text-align: center;
+}
+
+.cke_toolbar {
+  position: relative;
+  top:4px;
+}
+
 
 .cke_top,
 .cke_top:before,
@@ -15,3 +26,4 @@
   -webkit-box-sizing: content-box !important;
   box-sizing: content-box !important;
 }
+

@@ -1,0 +1,55 @@
+*, *:before, *:after { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+html { font-size: 62.5%; }
+
+.clear { display:block; clear:both; }
+
+.lft{ display:inline; float:left; }
+.rgt{ display:inline; float:right; }
+
+img { max-width: 100% }
+
+.plain { padding:0; margin:0; list-style:none; list-style-image: none }
+.block { display:block; text-decoration:none !important;}
+
+label,button{ cursor:pointer; }
+button { vertical-align: middle; outline: 0; overflow: visible; border:none }
+
+a { text-decoration:none; outline:none; }
+a:hover {text-decoration:underline; }
+
+.placeholder { color: #777 !important; }
+::-webkit-input-placeholder { color: #777 !important; }
+:-moz-placeholder { color: #777 !important; }
+
+/* box that contains submit button */
+.submit { text-align:right; }
+
+.em, i, em, .i { font-style:italic; }
+.strong, .b, strong, b { font-weight:bold }
+
+small, .small { font-size: .8rem }
+
+.js .js-hide { display:none }
+
+.truncate { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.txt-ctr { text-align: center }
+.txt-lft { text-align: left }
+.txt-rgt { text-align: right }
+.txt-jty { text-align: justify }
+
+/* fake table stuff */
+.tbl { display: table; float:none !important; }
+.tbl-row {display: table-row; float:none !important; }
+.tbl-cell {display:table-cell; vertical-align: top; float:none !important; }
+
+.debug {
+  border: 1px firebrick solid
+}
+
+// ok, there is no ul.decimal but then again loops are so nice
+$list_styles: armenian, circle, cjk-ideographic, decimal, decimal-leading-zero, disc, georgian, hebrew, hiragana, hiragana-iroha, katakana, katakana-iroha, lower-alpha, lower-greek, lower-latin, lower-roman, square, upper-alpha, upper-latin, upper-roman, none;
+@for $i from 1 through length($list_styles) {
+  ul.#{nth($list_styles, $i)}, ol.#{nth($list_styles, $i)} { list-style-type: #{nth($list_styles, $i)}; }
+}

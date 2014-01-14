@@ -576,19 +576,18 @@ Special outer level classes used in this file:
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000396}}
 .cke_top {
   /*border: 1px solid #b2b2b2;*/
-  padding: 1px;
+  padding: 0 2px 1px 2px;
   /* Allow breaking toolbars when in a narrow editor. (#9947) */
   white-space: normal;
-  -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -webkitbox-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.2);
   background: white; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003109}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003108}}
 .cke_float .cke_top {
   border: 3px solid #fafaf9; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003115}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003114}}
 .cke_bottom {
   padding: 1px;
   position: relative;
@@ -612,14 +611,14 @@ Special outer level classes used in this file:
   	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');*/ }
 
 /* On iOS we need to manually enable scrolling in the contents block. (#9945) */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003138}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003137}}
 .cke_browser_ios .cke_contents {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch; }
 
 /* The resizer is the small UI element that is rendered at the bottom right
    part of the editor. It makes is possible to resize the editor UI. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003146}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003145}}
 .cke_resizer {
   /* To avoid using images for the resizer, we create a small triangle,
      using some CSS magic. */
@@ -642,14 +641,14 @@ Special outer level classes used in this file:
   -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3); }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003174}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003173}}
 .cke_hc .cke_resizer {
   font-size: 15px;
   width: auto;
   height: auto;
   border-width: 0; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003182}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003181}}
 .cke_resizer_ltr {
   cursor: se-resize;
   float: right;
@@ -659,7 +658,7 @@ Special outer level classes used in this file:
    (usually the .cke_rtl class is used), because it may not necessarily be in
    RTL mode if the main UI is RTL. It depends instead on the context where the
    editor is inserted on. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003194}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003193}}
 .cke_resizer_rtl {
   border-width: 10px 0 0 10px;
   border-color: transparent transparent transparent #A5A5A5;
@@ -672,7 +671,7 @@ Special outer level classes used in this file:
 /* The editing area (where users type) can be rendered as an editable <div>
    element (e.g. divarea plugin). In that case, this is the class applied to
    that element. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003210}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003209}}
 .cke_wysiwyg_div {
   display: block;
   height: 100%;
@@ -1778,7 +1777,18 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   top: 2px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000037}}
+.cke_button {
+  min-width: 14px;
+  text-decoration: none !important;
+  text-align: center; }
+
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000313}}
+.cke_toolbar {
+  position: relative;
+  top: 4px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000324}}
 .cke_top,
 .cke_top:before,
 .cke_top:after,

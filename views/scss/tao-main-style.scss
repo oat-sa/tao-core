@@ -1,0 +1,51 @@
+@import "inc/bootstrap";
+@import "inc/fonts";
+@import "inc/normalize";
+@import "inc/main";
+@import "inc/feedback";
+@import "inc/grid";
+@import "inc/select2";
+
+
+.ui-widget  { font-family:'Source Sans Pro', sans-serif; font-size: 1.4rem !important; }
+.ui-widget  .ui-widget { font-size: 1.4rem !important; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family:'Source Sans Pro', sans-serif; font-size: 1.4rem !important; }
+
+
+.tao-scope {
+
+  @import "inc/buttons";
+  @import "inc/jquery-ui";
+  @import "inc/base";
+  @import "inc/forms";
+
+  position: relative;
+
+  font-family:'Source Sans Pro', sans-serif;
+  font-weight: 400;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  b, .b, strong, .strong {
+    font-weight: 600;
+  }
+
+  a.block {
+    color: $textColor;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font-family:'Source Sans Pro', sans-serif;
+    font-weight: 400;
+  }
+
+  select {
+    max-width: 100%
+  }
+}

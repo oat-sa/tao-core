@@ -1,0 +1,82 @@
+label {
+  display: inline-block;
+  cursor: pointer;
+  width: 98%;
+  margin-right: 2%;
+  line-height:1.8;
+  abbr {
+    border: none;
+    color: $info;
+  }
+}
+
+
+input[type="color"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="range"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="text"],
+input[type="password"],
+input[type="url"],
+input[type="week"],
+textarea,
+select {
+  @include simple-border();
+  @include border-radius(2);
+  font-family: "Source Sans Pro", sans-serif;
+  padding: 4px;
+  width: 100%;
+}
+
+label {
+  position: relative;
+  overflow-x: hidden;
+  [class^="icon-radio"],
+  [class*=" icon-radio"]{
+    padding: 0 2px 0 3px;
+  }
+  .icon-checkbox,
+  .icon-checkbox-crossed {
+    padding: 0 3px 0 3px;
+  }
+  .icon-checkbox-checked {
+    padding: 0 0 0 3px;
+  }
+  [class^="icon-"],
+  [class*=" icon-"]{
+    @include font-size(16);
+    position: relative;
+    top: 2px;
+    color: #555;
+    display: inline-block;
+    width: 20px;
+  }
+  input[type="radio"],
+  input[type="checkbox"]{
+    position: absolute;
+    left:-10000px;
+    top:0;
+    &:focus ~ [class^="icon-"],
+    &:focus ~ [class*=" icon-"],
+    &:active ~ [class^="icon-"],
+    &:active ~ [class*=" icon-"] {
+      color: #222 !important;
+    }
+    &:checked ~ .icon-checkbox:before {
+      content: "\f000";
+    }
+    &:checked ~ .icon-radio:before {
+      content: "\f004";
+    }
+    &:checked ~ .icon-checkbox.cross:before {
+      content: "\f002";
+    }
+  }
+}
