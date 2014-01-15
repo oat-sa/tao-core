@@ -263,6 +263,24 @@ class tao_helpers_Uri
 
         return (string) $returnValue;
     }
+    
+    /**
+     * encode a relative URL
+     *
+     * @access public
+     * @param  string uri
+     * @param  boolean dotMode
+     * @return string
+     */
+    public static function encodeRelativeUrl($url)
+    {
+        $url = str_replace(DIRECTORY_SEPARATOR, '/', $url);
+        $parts = explode('/', $url);
+        foreach (array_keys($parts) as $key) {
+            $parts[$key] = urlencode($parts[$key]);
+        }
+        return implode('/', $parts);
+    }
 
     /**
      * decode an URI
