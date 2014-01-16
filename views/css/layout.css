@@ -21,6 +21,7 @@
 html body{
 	height:100%;
 	position:relative;
+        background-color:#eee;
 }
 /* Layout specific stylesheet, used for elements positioning */
 
@@ -302,7 +303,7 @@ div#section-actions div#action-items td{
 	width:33%;
 }
 div#section-actions div#action-items{
-	font-size:10px;
+	font-size:12px !important;
 	font-weight:normal;
 	color:#666;
 	padding-top: 5px;
