@@ -55,14 +55,28 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule {
         ));
     }
     
+    public function getUserPropertyValues() {
+        if (!$this->hasRequestParameter('property')) {
+            throw new common_exception_MissingParameter('property');
+        }
+        $property = $this->getRequestParameter('property');
+        
+        $values = common_session_SessionManager::getSession()->getUserPropertyValues($property);
+        echo json_encode(array(
+            'success' => true,
+            'data' => array(
+                $property => $values
+            )
+        ));
+    }
+    
     /**
      * Returns a directory from the service file storage
      * 
      * @param string $id
      * @return tao_models_classes_service_StorageDirectory
      */
-    public function getDirectory($id) {
+    protected function getDirectory($id) {
         return tao_models_classes_service_FileStorage::singleton()->getDirectoryById($id);
     }
-    
 }

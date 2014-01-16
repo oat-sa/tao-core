@@ -1,12 +1,13 @@
 define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeResizer){
     
-    function ServiceApi(baseUrl, parameters, serviceCallId, stateStorage){
+    function ServiceApi(baseUrl, parameters, serviceCallId, stateStorage, userService){
         this.baseUrl = baseUrl;
         this.parameters = parameters;
         this.connected = false;
 
         this.serviceCallId = serviceCallId; 
         this.state = stateStorage;
+        this.userService = userService;
 
         this.onFinishCallback;
         this.onDisplayChangeCallback;
@@ -57,6 +58,10 @@ define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeRe
         return this.baseUrl + '?' + $.param(params);
     };
 
+    ServiceApi.prototype.getUserPropertyValues = function(property, callback){
+    	this.userService.get(property, callback);
+    };
+    
     //Context
     ServiceApi.prototype.getServiceCallId = function(){
         return this.serviceCallId;

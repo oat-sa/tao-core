@@ -34,6 +34,12 @@ class tao_helpers_ServiceJavascripts
         return 'new StateStorage('.tao_helpers_Javascript::buildObject($state).', '.tao_helpers_Javascript::buildObject($submitUrl).')';
     }
     
+    public static function getUserInfoService() {
+        $preloaded = array();
+        $requestUrl = _url('getUserPropertyValues', 'ServiceModule', 'tao');
+        return 'new UserInfoService('.tao_helpers_Javascript::buildObject($requestUrl).','.tao_helpers_Javascript::buildObject($preloaded).')';
+    }    
+    
     public static function getServiceApi(tao_models_classes_service_ServiceCall $serviceCall, $serviceCallId, $customParams = array()) {
         $inputParameters = tao_models_classes_service_ServiceCallHelper::getInputValues($serviceCall, $customParams);
         $inputParameters['standalone'] = true;
@@ -41,7 +47,8 @@ class tao_helpers_ServiceJavascripts
             tao_helpers_Javascript::buildObject(tao_models_classes_service_ServiceCallHelper::getBaseUrl($serviceCall->getServiceDefinition())).','.
             tao_helpers_Javascript::buildObject($inputParameters).','.
             tao_helpers_Javascript::buildObject($serviceCallId).','.
-            self::getServiceStorage($serviceCallId).
+            self::getServiceStorage($serviceCallId).','.
+            self::getUserInfoService().
         ')';
     }
     
