@@ -48,69 +48,72 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                 var $elt = $(this);
                 var $ctrl, currentValue;
                 
-                //basic type checking
-                if(!$elt.is('input[type="text"]')){
-                    $.error('The incrementer plugin applies only on input element of type text');
-                } else {
-                    currentValue = parseInt($elt.val(), 10);
-                    $elt.data(dataNs, options)                      //add data to the element
-                        .addClass(options.incrementerClass)         //add the css class
-                        .after(                                     //set up controls
-                         "<div class='ctrl "+options.incrementerCtrlClass+"'>\
-                            <a href='#' class='inc' title='+'></a>\
-                            <a href='#' class='dec' title='-'></a>\
-                          </div>")
-                       .on('keydown', function(e){  
-                            if(e.which === 38){                      //up
+                if(!$elt.data(dataNs)){
+                
+                    //basic type checking
+                    if(!$elt.is('input[type="text"]')){
+                        $.error('The incrementer plugin applies only on input element of type text');
+                    } else {
+                        currentValue = parseInt($elt.val(), 10);
+                        $elt.data(dataNs, options)                      //add data to the element
+                            .addClass(options.incrementerClass)         //add the css class
+                            .after(                                     //set up controls
+                             "<div class='ctrl "+options.incrementerCtrlClass+"'>\
+                                <a href='#' class='inc' title='+'></a>\
+                                <a href='#' class='dec' title='-'></a>\
+                              </div>")
+                           .on('keydown', function(e){  
+                                if(e.which === 38){                      //up
+                                    self._inc($elt);
+                                    this.select();
+                                } else if(e.which === 40){               //down
+                                    self._dec($elt);
+                                    this.select();
+                                }
+                            })
+                            .on('keyup', function(){                   
+                               $elt.val($elt.val().replace(/[\D]/g, ''));       //allow only digits
+                            })
+                            .on('focus', function(){
+                                this.select();
+                            })
+                            .on('disable', function(){
+                                $ctrl.find('.inc,.dec').prop('disabled', true)
+                                                        .addClass('disabled');
+                            })
+                            .on('enable', function(){
+                                $ctrl.find('.inc,.dec').prop('disabled', false)
+                                                        .removeClass('disabled');
+                            });
+
+                        //set up the default value if needed
+                        if(_.isNaN(currentValue) 
+                                || (options.min !== null && currentValue < options.min) 
+                                || (options.max !== null && currentValue > options.max) ) {
+                            $elt.val(options.min || 0);
+                        } 
+
+                        $ctrl = $elt.next('.' + options.incrementerCtrlClass);
+
+                        $ctrl.find('.inc').click(function(e){
+                            e.preventDefault();
+                            if(!$(this).prop('disabled')){
                                 self._inc($elt);
-                                this.select();
-                            } else if(e.which === 40){               //down
-                                self._dec($elt);
-                                this.select();
                             }
-                        })
-                        .on('keyup', function(){                   
-                           $elt.val($elt.val().replace(/[\D]/g, ''));       //allow only digits
-                        })
-                        .on('focus', function(){
-                            this.select();
-                        })
-                        .on('disable', function(){
-                            $ctrl.find('.inc,.dec').prop('disabled', true)
-                                                    .addClass('disabled');
-                        })
-                        .on('enable', function(){
-                            $ctrl.find('.inc,.dec').prop('disabled', false)
-                                                    .removeClass('disabled');
                         });
-                    
-                    //set up the default value if needed
-                    if(_.isNaN(currentValue) 
-                            || (options.min !== null && currentValue < options.min) 
-                            || (options.max !== null && currentValue > options.max) ) {
-                        $elt.val(options.min || 0);
-                    } 
-                        
-                    $ctrl = $elt.next('.' + options.incrementerCtrlClass);
-                    
-                    $ctrl.find('.inc').click(function(e){
-                        e.preventDefault();
-                        if(!$(this).prop('disabled')){
-                            self._inc($elt);
-                        }
-                    });
-                     $ctrl.find('.dec').click(function(e){
-                        e.preventDefault();
-                        if(!$(this).prop('disabled')){
-                            self._dec($elt);
-                        }
-                    });
-                 
-                    /**
-                     * The plugin have been created.
-                     * @event Incrementer#create.incrementer
-                     */
-                    $elt.trigger('create.' + ns);
+                         $ctrl.find('.dec').click(function(e){
+                            e.preventDefault();
+                            if(!$(this).prop('disabled')){
+                                self._dec($elt);
+                            }
+                        });
+
+                        /**
+                         * The plugin have been created.
+                         * @event Incrementer#create.incrementer
+                         */
+                        $elt.trigger('create.' + ns);
+                    }
                 }
             });
        },

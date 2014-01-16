@@ -3,9 +3,9 @@
     var appConfig = document.getElementById('amd-loader').getAttribute('data-config');
     require([appConfig], function(){
         
-        require(['jquery', 'lodash', 'context', 'urlParser'], 
-            function ($, _, context, UrlParser) {
-                
+        require(['jquery', 'lodash', 'context', 'urlParser', 'ui'], 
+            function ($, _, context, UrlParser, ui) {
+
                 //contextual loading
                 $("body").ajaxComplete(function(event, request, settings){
                     if(settings.dataTypes.indexOf('html') > - 1){
@@ -53,6 +53,8 @@
                                             });
                                         });
                                     }
+                                    
+                                    ui.startDomComponent($('.tao-scope'));
                                 }
                             });
                         } 
@@ -60,6 +62,9 @@
                 });
 
                 require(['controller/main']);
+                
+                //initialize new components
+                ui.startEventComponents($('.tao-scope'));
                 
                 //outside mvc routing
                 if(!context.showExtension){

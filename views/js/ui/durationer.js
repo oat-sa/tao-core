@@ -61,32 +61,34 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
             return this.each(function() {
                 var $elt = $(this);
                 
-                //basic type checking
-                if(!$elt.is('input[type="text"]')){
-                    $.error('The durationer plugin applies only on input element of type text');
-                } else {
-                    options.id = $elt.attr('id') || $elt.attr('name') || 'durationer-' + new Date().getTime();
-                    $elt.data(dataNs, options);
-                    
-                    
-                    var duration = moment($elt.val(), options.format);
-                    
-                    //hide the element
-                    $elt.hide();
-                    
-                    self._insertField($elt, duration.hours(), 'hours');
-                    self._insertField($elt, duration.minutes(), 'minutes');
-                    self._insertField($elt, duration.seconds(), 'seconds');
-                    
-                    $elt.siblings('.' + options.ctrlClass).on('change', function(){
-                        self._sync($elt);
-                    });
-                 
-                    /**
-                     * The plugin have been created.
-                     * @event Durationer#create.durationer
-                     */
-                    $elt.trigger('create.' + ns);
+                if(!$elt.data(dataNs)){
+                    //basic type checking
+                    if(!$elt.is('input[type="text"]')){
+                        $.error('The durationer plugin applies only on input element of type text');
+                    } else {
+                        options.id = $elt.attr('id') || $elt.attr('name') || 'durationer-' + new Date().getTime();
+                        $elt.data(dataNs, options);
+
+
+                        var duration = moment($elt.val(), options.format);
+
+                        //hide the element
+                        $elt.hide();
+
+                        self._insertField($elt, duration.hours(), 'hours');
+                        self._insertField($elt, duration.minutes(), 'minutes');
+                        self._insertField($elt, duration.seconds(), 'seconds');
+
+                        $elt.siblings('.' + options.ctrlClass).on('change', function(){
+                            self._sync($elt);
+                        });
+
+                        /**
+                         * The plugin have been created.
+                         * @event Durationer#create.durationer
+                         */
+                        $elt.trigger('create.' + ns);
+                    }
                 }
             });
        },

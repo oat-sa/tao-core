@@ -22,15 +22,19 @@ define([
          * Start up the components lookup and data-attr listening 
          * @param {jQueryElement} $container - to lookup within
          */
-        start : function($container){
+        startEventComponents : function($container){
             adder($container);
             btngrouper($container);
             closer($container);
             disabler($container);
             toggler($container);
-            incrementer($container);
             inplacer($container);
             flipper($container);
+            this.startDomComponent($container);
+        },
+        
+        startDomComponent : function($container){
+            incrementer($container);
             durationer($container);
             selecter($container);
         }

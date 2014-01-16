@@ -1,9 +1,10 @@
 define(['uiBootstrap', 'helpers', 'uiForm', 'generis.actions'], 
     function (UiBootstrap, Helpers, UiForm, GenerisActions) {
 
-    //initialize components
+    //initialize legacy components
     UiBootstrap.init();
     Helpers.init();
     UiForm.init();
     GenerisActions.init();
+    
 });
