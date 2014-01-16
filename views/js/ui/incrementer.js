@@ -7,7 +7,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
    'use strict';
    
    var ns = 'incrementer';
-   var dataNs = 'cards.' + ns;
+   var dataNs = 'ui.' + ns;
    
    var defaults = {
        step : 1,
@@ -20,7 +20,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
    /** 
     * The Incrementer component, it transforms a text input in an number input, the data-attr way 
     * (has the HTML5 number input type is not yet very well supported, we don't use polyfill to have a consistent UI) 
-    * @exports cards/incrementer
+    * @exports ui/incrementer
     */
    var Incrementer = {
        
@@ -193,7 +193,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
     * The only exposed function is used to start listening on data-attr
     * 
     * @public
-    * @example define(['cards/incrementer'], function(incrementer){ incrementer($('rootContainer')); });
+    * @example define(['ui/incrementer'], function(incrementer){ incrementer($('rootContainer')); });
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){

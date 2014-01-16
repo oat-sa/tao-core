@@ -1,4 +1,4 @@
-define(['jquery', 'cards', 'ui/btngrouper'], function($, cards, btngrouper){
+define(['jquery', 'ui', 'ui/btngrouper'], function($, ui, btngrouper){
     
     
     module('Button Grouper Stand Alone Test');
@@ -17,7 +17,7 @@ define(['jquery', 'cards', 'ui/btngrouper'], function($, cards, btngrouper){
         ok($group.length === 1, 'The Group is available');
         
         $group.on('create.btngrouper', function(){
-            ok(typeof $group.data('cards.btngrouper') === 'object', 'The element is runing the plugin');
+            ok(typeof $group.data('ui.btngrouper') === 'object', 'The element is runing the plugin');
             start();
         });
         $group.btngrouper({

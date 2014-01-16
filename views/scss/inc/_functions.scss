@@ -100,3 +100,11 @@
   background: -o-linear-gradient($angleWidthVendorPrefix, $colorStops);
   background: linear-gradient($angle, $colorStops);
 }
+
+/**
+ * Use icon within sass: @inclue icon('down');
+ */
+@mixin icon($name){
+    font-family: 'tao';
+    @extend .icon-#{$name}:before;
+}

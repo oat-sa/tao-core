@@ -1,0 +1,150 @@
+/* Style of advanced components */
+
+/* toggler */
+.toggler{
+    &:after {
+        margin-left: 3px;
+        position: relative;
+        top: 2px;
+        @include icon('down');
+    }
+    &.opened:after {
+       @include icon('up');
+    }
+}
+.toggled {
+    display: none;
+}
+
+/* Adder */
+.adder{
+    &:before{
+        margin-right: 5px;
+        @include font-size(10.5);
+        @include icon('add');
+    }
+}
+
+
+/* Disabler */
+.disabled, *:disabled{
+    cursor: default;
+    opacity: 0.8;
+}
+    
+/* Closer */
+.closer{
+    color: $textColor;
+    &:before{
+        @include font-size(10.5);
+        @include icon('close');
+    }
+}
+    
+/* Incrementer */
+input.incrementer{
+    width: 30px;
+    text-align: right;
+    -moz-border-radius: 2px 0 0 2px;
+    -webkit-border-radius: 2px 0 0 2px;
+    border-radius: 2px 0 0 2px;
+    border-right-style: none;
+    & ~ .incrementer-ctrl{
+        display: inline-block;
+        margin-right: 5px;
+        border: 1px solid $uiGeneralContentBorder;
+        border-left-width:0;
+        @include border-radius(2);
+        line-height: normal;
+        vertical-align: bottom;
+        position: relative;
+        > a {
+            display: block;
+            height: 13px;
+            line-height: 13px;
+            color: $textColor;
+            padding: 0 5px 0 5px;
+            @include font-size(10.5);
+            &.inc:before {
+                position: relative;
+                bottom: -2px;
+                width: 17px;
+                @include icon('up');
+            }
+            &.dec:before {
+                position: relative;
+                top: -2px;
+                width: 17px;
+                @include icon('down');
+            }
+            &:hover {
+                background-color: $uiClickableHoverBg;
+                color : $textHighlight;
+            }
+        }
+    }
+}
+    
+/* Flipper */
+.flip{
+    overflow: hidden;
+}
+.flip-back{
+    display: none;
+}
+    
+/* InPlacer */
+[data-in-place], .inplace {
+    cursor: pointer;
+    input {
+        cursor: auto;
+    }
+    &:hover {
+        color: $uiClickableHoverBg;
+    }
+}
+
+/* ListBox  */
+ul.listbox {
+    margin:.1em 0;
+    padding:0;
+    list-style-type: none;
+    display: block;
+    > li {
+        white-space: no-wrap;
+        position: relative;
+        min-width: 75%;
+        border: solid 1px $uiGeneralContentBorder;
+        border-bottom-width:0;
+        vertical-align: top;
+        margin: 0;
+        padding: .3em 2em .3em .2em;
+        background-color: $uiClickableDefaultBg;
+        min-height: 1.5em; 
+
+        > .closer {
+            position: absolute;
+            right: 5px;
+            top: 0;
+        }
+
+        &:first-child {
+            -moz-border-radius: 2px 2px 0 0;
+            -webkit-border-radius: 2px 2px 0 0;
+            border-radius: 2px 2px 0 0;
+        }
+
+        &:last-child {
+            -moz-border-radius: 0 0 2px 2px;
+            -webkit-border-radius:  0 0 2px 2px;
+            border-radius:  0 0 2px 2px;
+            border-bottom-width:1px;
+        }
+
+        &.placeholder {
+            background : none;
+            margin: .5em;
+            opacity:0.6;
+        }
+    }
+}

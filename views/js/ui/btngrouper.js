@@ -8,7 +8,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
    'use strict';
    
    var ns = 'btngrouper';
-   var dataNs = 'cards.' + ns;
+   var dataNs = 'ui.' + ns;
    
    var defaults = {
        bindEvent   : 'click',
@@ -22,7 +22,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
    
    /** 
     * The BtnGrouper component, hepls you to manage a group of buttons
-    * @exports cards/btngrouper
+    * @exports ui/btngrouper
     */
    var BtnGrouper = {
        
@@ -213,7 +213,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
     * The only exposed function is used to start listening on data-attr
     * 
     * @public
-    * @example define(['cards/btngrouper'], function(btngrouper){ btngrouper($('rootContainer')); });
+    * @example define(['ui/btngrouper'], function(btngrouper){ btngrouper($('rootContainer')); });
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){

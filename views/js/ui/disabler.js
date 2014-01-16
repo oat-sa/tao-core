@@ -9,7 +9,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
    'use strict';
    
    var ns = 'disabler';
-   var dataNs = 'cards.' + ns;
+   var dataNs = 'ui.' + ns;
    
    var defaults = {
        bindEvent : 'click',
@@ -18,7 +18,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
    
    /** 
     * The Disabler component, that helps you to disable/enable elements.
-    * @exports cards/disabler
+    * @exports ui/disabler
     */
    var Disabler = {
        
@@ -197,7 +197,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
     * The only exposed function is used to start listening on data-attr
     * 
     * @public
-    * @example define(['cards/disabler'], function(disabler){ disabler($('rootContainer')); });
+    * @example define(['ui/disabler'], function(disabler){ disabler($('rootContainer')); });
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){

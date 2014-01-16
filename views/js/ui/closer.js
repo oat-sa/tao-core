@@ -8,7 +8,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
    'use strict';
    
    var ns = 'closer';
-   var dataNs = 'cards.' + ns;
+   var dataNs = 'ui.' + ns;
    
    var defaults = {
        bindEvent : 'click',
@@ -18,7 +18,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
    
    /** 
     * The Closer component, that helps you to close a new element.
-    * @exports cards/closer
+    * @exports ui/closer
     */
    var Closer = {
        
@@ -150,7 +150,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
     * The only exposed function is used to start listening on data-attr
     * 
     * @public
-    * @example define(['cards/closer'], function(closer){ closer($('rootContainer')); });
+    * @example define(['ui/closer'], function(closer){ closer($('rootContainer')); });
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){

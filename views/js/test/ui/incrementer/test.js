@@ -1,4 +1,4 @@
-define(['jquery', 'cards',  'ui/incrementer'], function($, cards, incrementer){
+define(['jquery', 'ui',  'ui/incrementer'], function($, ui, incrementer){
     
     
     module('Incrementer Stand Alone Test');
@@ -18,7 +18,7 @@ define(['jquery', 'cards',  'ui/incrementer'], function($, cards, incrementer){
         ok($elt.length === 1, 'Test input is available');
         
         $elt.on('create.incrementer', function(){
-            ok(typeof $elt.data('cards.incrementer') === 'object');
+            ok(typeof $elt.data('ui.incrementer') === 'object');
             
             var $control = $container.find('.ctrl > a');
             equal($control.length, 2, 'The plugins has created controls');

@@ -8,7 +8,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
    'use strict';
    
    var ns = 'toggler';
-   var dataNs = 'cards.' + ns;
+   var dataNs = 'ui.' + ns;
    
    var defaults = {
        bindEvent   : 'click',
@@ -18,7 +18,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
    
    /** 
     * The Toggler component, that helps you to show/hide an element
-    * @exports cards/toggler
+    * @exports ui/toggler
     */
    var Toggler = {
        
@@ -155,7 +155,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
     * The only exposed function is used to start listening on data-attr
     * 
     * @public
-    * @example define(['cards/toggler'], function(toggler){ toggler($('rootContainer')); });
+    * @example define(['ui/toggler'], function(toggler){ toggler($('rootContainer')); });
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){

@@ -7,19 +7,20 @@ define([
     'ui/inplacer', 
     'ui/btngrouper', 
     'ui/flipper',
-    'ui/durationer'
-], function(toggler, disabler, adder, closer, incrementer, inplacer, btngrouper, flipper, durationer) {
-    
-    
+    'ui/durationer',
+    'ui/selecter'
+], function(toggler, disabler, adder, closer, incrementer, inplacer, btngrouper, flipper, durationer, selecter) {
+    'use strict';
+        
     /**
      * @author Bertrand Chevrier <bertrand@taotesting.com>
-     * @exports cards
+     * @exports ui
      */
-     var cards = {
+     return {
          
         /**
          * Start up the components lookup and data-attr listening 
-         * @param {jQUeryElement} $container - to lookup within
+         * @param {jQueryElement} $container - to lookup within
          */
         start : function($container){
             adder($container);
@@ -31,8 +32,7 @@ define([
             inplacer($container);
             flipper($container);
             durationer($container);
+            selecter($container);
         }
     };
-    
-    return cards;
 });

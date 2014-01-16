@@ -1,4 +1,4 @@
-define(['jquery', 'cards', 'ui/adder'], function($, cards, adder){
+define(['jquery', 'ui/adder'], function($, adder){
     
     
     module('Adder Stand Alone Test');
@@ -24,7 +24,7 @@ define(['jquery', 'cards', 'ui/adder'], function($, cards, adder){
         ok($tmpl.length === 1, 'Template is available');
         
         $elt.on('create.adder', function(){
-            ok(typeof $elt.data('cards.adder') === 'object', 'The element is runing the plugin');
+            ok(typeof $elt.data('ui.adder') === 'object', 'The element is runing the plugin');
             start();
         });
         $elt.adder({

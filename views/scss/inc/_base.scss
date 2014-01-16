@@ -1,3 +1,5 @@
+/* Base style that applies on all elements */
+
 *, *:before, *:after { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 html { font-size: 62.5%; }
@@ -52,4 +54,13 @@ small, .small { font-size: .8rem }
 $list_styles: armenian, circle, cjk-ideographic, decimal, decimal-leading-zero, disc, georgian, hebrew, hiragana, hiragana-iroha, katakana, katakana-iroha, lower-alpha, lower-greek, lower-latin, lower-roman, square, upper-alpha, upper-latin, upper-roman, none;
 @for $i from 1 through length($list_styles) {
   ul.#{nth($list_styles, $i)}, ol.#{nth($list_styles, $i)} { list-style-type: #{nth($list_styles, $i)}; }
+}
+
+/* link */
+a {
+    color: $uiClickableHoverBg;
+    &:hover {
+        color: $info;
+        text-decoration: none;
+    }
 }

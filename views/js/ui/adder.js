@@ -10,7 +10,7 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
    'use strict';
    
    var ns = 'adder';
-   var dataNs = 'cards.' + ns;
+   var dataNs = 'ui.' + ns;
    
    //positions available must match jquery function {position}To (ie. appendTo)
    var positions = ['append', 'prepend'];
@@ -54,7 +54,7 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
    /** 
     * The Adder component, that helps you to add a new element, 
     * from a DOM element or a template
-    * @exports cards/adder
+    * @exports ui/adder
     */
    var Adder = {
        
@@ -209,7 +209,7 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
     * The only exposed function is used to start listening on data-attr
     * 
     * @public
-    * @example define(['cards/adder'], function(adder){ adder($('rootContainer')); });
+    * @example define(['ui/adder'], function(adder){ adder($('rootContainer')); });
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){

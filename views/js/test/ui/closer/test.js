@@ -1,4 +1,4 @@
-define(['jquery', 'cards', 'ui/closer'], function($, cards, closer){
+define(['jquery', 'ui', 'ui/closer'], function($, ui, closer){
     
     
     module('Closer Stand Alone Test');
@@ -21,7 +21,7 @@ define(['jquery', 'cards', 'ui/closer'], function($, cards, closer){
         ok($target.length === 1, 'Target is available');
         
         $elt.on('create.closer', function(){
-            ok(typeof $elt.data('cards.closer') === 'object', 'The element is runing the plugin');
+            ok(typeof $elt.data('ui.closer') === 'object', 'The element is runing the plugin');
             start();
         });
         $elt.closer({ 

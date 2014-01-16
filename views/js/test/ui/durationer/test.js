@@ -1,4 +1,4 @@
-define(['jquery', 'cards',  'ui/durationer'], function($, cards, durationer){
+define(['jquery', 'ui',  'ui/durationer'], function($, ui, durationer){
     
     
     module('Durationer Stand Alone Test');
@@ -18,10 +18,10 @@ define(['jquery', 'cards',  'ui/durationer'], function($, cards, durationer){
         ok($elt.length === 1, 'Test input is available');
         
         $elt.on('create.durationer', function(){
-            ok(typeof $elt.data('cards.durationer') === 'object');
+            ok(typeof $elt.data('ui.durationer') === 'object');
             var $controls = $container.find('.duration-ctrl');
             equal($controls.length, 3, 'The plugins has created controls');
-            ok(typeof $controls.data('cards.incrementer') === 'object', 'The plugins has initialized incrementer on controls');
+            ok(typeof $controls.data('ui.incrementer') === 'object', 'The plugins has initialized incrementer on controls');
             
             start();
         });
@@ -134,10 +134,10 @@ define(['jquery', 'cards',  'ui/durationer'], function($, cards, durationer){
         ok($elt.length === 1, 'Test input is available');
         
         $elt.on('create.durationer', function(){
-            ok(typeof $elt.data('cards.durationer') === 'object');
+            ok(typeof $elt.data('ui.durationer') === 'object');
             var $controls = $container.find('.duration-ctrl');
             equal($controls.length, 3, 'The plugins has created controls');
-            ok(typeof $controls.data('cards.incrementer') === 'object', 'The plugins has initialized incrementer on controls');
+            ok(typeof $controls.data('ui.incrementer') === 'object', 'The plugins has initialized incrementer on controls');
             
             start();
         });

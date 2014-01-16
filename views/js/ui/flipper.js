@@ -10,7 +10,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
    'use strict';
    
    var ns = 'flipper';
-   var dataNs = 'cards.' + ns;
+   var dataNs = 'ui.' + ns;
    
    var defaults = {
        bindEvent   : 'click',
@@ -27,7 +27,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
    
    /** 
     * The Flipper component, that helps you to flip a component from front to back face.
-    * @exports cards/flipper
+    * @exports ui/flipper
     */
    var Flipper = {
        
@@ -192,7 +192,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
     * The only exposed function is used to start listening on data-attr
     * 
     * @public
-    * @example define(['cards/flipper'], function(flipper){ flipper($('rootContainer')); });
+    * @example define(['ui/flipper'], function(flipper){ flipper($('rootContainer')); });
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){

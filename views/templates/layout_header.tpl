@@ -13,7 +13,12 @@
                 src="<?=TAOBASE_WWW?>js/lib/require.js" 
                 data-main="<?=TAOBASE_WWW?>js/main"
                 data-config="<?=get_data('client_config_url')?>"></script>
-	
+        
+<!--	<script id='amd-loader' 
+                type="text/javascript" 
+                src="<?=TAOBASE_WWW?>js/main.min.js" 
+                data-config="<?=get_data('client_config_url')?>"></script>-->
+        
 	<!-- Error Handling -->
 	<? include(TAO_TPL_PATH . 'errors.tpl') ?>
 </head>

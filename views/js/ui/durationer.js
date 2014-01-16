@@ -11,7 +11,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
    'use strict';
    
    var ns = 'durationer';
-   var dataNs = 'cards.' + ns;
+   var dataNs = 'ui.' + ns;
    
    var defaults = {
        format : 'HH:mm:ss',
@@ -32,7 +32,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
     * 
     * todo this plugin should support different widget like dropdowns... Now only the incrementer is implemented 
     * 
-    * @exports cards/durationer
+    * @exports ui/durationer
     */
    var Durationer = {
        
@@ -166,7 +166,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
     * The only exposed function is used to start listening on data-attr
     * 
     * @public
-    * @example define(['cards/durationer'], function(durationer){ durationer($('rootContainer')); });
+    * @example define(['ui/durationer'], function(durationer){ durationer($('rootContainer')); });
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){

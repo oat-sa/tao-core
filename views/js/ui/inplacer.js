@@ -8,7 +8,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
    'use strict';
    
    var ns = 'inplacer';
-   var dataNs = 'cards.' + ns;
+   var dataNs = 'ui.' + ns;
    
    var defaults = {
        bindEvent   : 'click',
@@ -21,7 +21,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
    
    /** 
     * The InPlacer component, 
-    * @exports cards/inplacer
+    * @exports ui/inplacer
     */
    var InPlacer = {
        
@@ -270,7 +270,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
     * The only exposed function is used to start listening on data-attr
     * 
     * @public
-    * @example define(['cards/inplacer'], function(inplacer){ inplacer($('rootContainer')); });
+    * @example define(['ui/inplacer'], function(inplacer){ inplacer($('rootContainer')); });
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){
