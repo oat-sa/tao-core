@@ -2,6 +2,8 @@
   "name": "tao-build",
   "devDependencies": {
     "grunt": "~0.4.2",
-    "grunt-contrib-requirejs": "~0.4.1"
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-sass": "~0.10.0",
+    "grunt-contrib-watch": "~0.5.3"
   }
 }
