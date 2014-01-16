@@ -104,7 +104,7 @@
 /**
  * Use icon within sass: @inclue icon('down');
  */
-@mixin icon($name){
+@mixin icon($name, $namespace : 'icon'){
     font-family: 'tao';
-    @extend .icon-#{$name}:before;
+    @extend .#{$namespace}-#{$name}:before;
 }
