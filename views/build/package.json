@@ -1,9 +1,16 @@
 {
   "name": "tao-build",
+  "description": "Client side build tool chain for TAO",
+  "repository": {
+    "type": "svn",
+    "url": "http://vcs.taotesting.com/svn/oat/projects/tao/trunk/views/build"
+  },
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-sass": "~0.10.0",
-    "grunt-contrib-watch": "~0.5.3"
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-qunit": "~0.3.0"
   }
 }

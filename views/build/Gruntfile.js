@@ -1,6 +1,16 @@
 module.exports = function(grunt) {
     'use strict';
-    
+
+    var root = '../../../';
+    var extension = grunt.option('extension') || 'tao';
+    var extpath  = root + extension;
+
+    grunt.log.write('Running Grrrrunt!!! on extension ' + extension);
+    var jsSources = grunt.file.expand({ cwd: extpath }, ['views/js/**/*.js', '!views/js/lib/**/*.js']);
+    jsSources.forEach(function(source, index){
+        jsSources[index] = extpath + '/' + source;
+    });
+
     grunt.initConfig({
         
         requirejs: {
@@ -19,11 +29,20 @@ module.exports = function(grunt) {
             }
         },
 
+        jshint : {
+            dist : {
+                src : jsSources,
+                options : {
+                    jshintrc : '.jshintrc'
+                }
+            }
+        },
+
         sass : {
             options: {
                 includePaths : ['../scss/']
             },
-            compile : {
+            tao : {
                 files : {
                     '../css/tao-main-style.css' : '../scss/tao-main-style.scss'
                 }
@@ -31,7 +50,7 @@ module.exports = function(grunt) {
         },
 
         watch : {
-            sass : {
+            'tao-sass' : {
                 files : ['../scss/*.scss', '../scss/**/*.scss'],
                 tasks : ['sass:compile'],
                 options : {
@@ -39,10 +58,11 @@ module.exports = function(grunt) {
                 }
             }
         }
-
     });
     
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-sass');   
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-qunit');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 };
