@@ -1,4 +1,4 @@
-define(['jquery', 'helpers', 'context'], function($, helpers, context){
+define(['jquery', 'i18n', 'helpers', 'context'], function($, __, helpers, context){
     
     return {
         
@@ -54,7 +54,7 @@ define(['jquery', 'helpers', 'context'], function($, helpers, context){
                                     }
                             });
 
-                            var elementSaver = $("<a href='#'><img src='" +  context.base_www + "img/save.png' class='icon' /><?=__('Save')?></a>");
+                            var elementSaver = $("<a href='#'><img src='" +  context.base_www + "img/save.png' class='icon' />" + __('Save') + "</a>");
                             elementSaver.click(function(){1
                                     $.postJson(
                                             saveUrl,
