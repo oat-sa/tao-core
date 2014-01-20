@@ -14,10 +14,7 @@ To make it easier to maintain, instead of including all styles here, we import
 other files.
 */
 
-@import "../../../../../../../../taoQTI/views/ic-css/scss/inc/variables";
-@import "../../../../../../../../taoQTI/views/ic-css/scss/inc/functions";
-@import "../../../../../../../../taoQTI/views/ic-css/scss/inc/fonts";
-@import "../../../../../../../../taoQTI/views/ic-css/scss/inc/colors";
+@import "inc/bootstrap";
 
 
 /* "Reset" styles, necessary to avoid the editor UI being broken by external CSS. */
@@ -59,7 +56,6 @@ other files.
 	visibility: inherit;
 }
 
-
 /* For accessibility purposes, several "voice labels" are present in the UI.
    These are usually <span> elements that show not be visible, but that are
    used by screen-readers to announce other elements. Here, we hide these
@@ -70,4 +66,23 @@ other files.
 
 legend.cke_voice_label{
 	display: none;
+}
+
+
+.cke:before,
+.cke:after {
+  content: " "; /* 1 */
+  display: table; /* 2 */
+}
+
+.cke:after {
+  clear: both;
+}
+
+.cke {
+  *zoom: 1;
+}
+
+.cke_top {
+  float: left;
 }

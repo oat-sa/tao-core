@@ -1,5 +1,5 @@
-[class^="btn-"], [class*=" btn-"] {
-  @include border-radius(1);
+[class^="btn-"], [class*=" btn-"], .btn-info {
+  @include border-radius(3);
   font-size: 14px !important;
   font-size: 1.4rem !important;
   color: white() !important;
@@ -12,9 +12,11 @@
   display: inline-block;
   line-height:2.5;
   padding: 0 15px;
-  background-color: mix(#000, $darkBlueGrey, 10%);
+  background-color: whiten($info, .1);
+  text-shadow: 1px 1px 0 blacken($info, .2);
   font-weight: normal;
   font-style:normal;
+  text-align:center;
   [class^="icon-"], [class*=" icon-"] {
     @include font-size(14);
     line-height: 1;
@@ -25,26 +27,26 @@
     text-shadow: 0 1px 0 black(.1);
   }
   &:hover {
-    opacity: .852345;
+    opacity: .85;
   }
 }
 
 input {
-@include simple-border();
-@include border-radius(1)
-}
-.btn-error {
-  background-color: mix(#fff, $error, 10%);
+  @include simple-border();
+  @include border-radius(1);
 }
 
-.btn-info {
-  background-color: mix(#fff, $info, 10%);
+.btn-error {
+  background-color: whiten($error, .1);
+  text-shadow: 1px 1px 0 blacken($error, .2);
 }
 
 .btn-success {
-  background-color: mix(#fff, $success, 10%);
+  background-color: whiten($success, .1);
+  text-shadow: 1px 1px 0 blacken($success, .2);
 }
 
 .btn-warning {
-  background-color: mix(#fff, $warning, 5%);
+  background-color: whiten($warning, .1);
+  text-shadow: 1px 1px 0 blacken($warning, .2);
 }

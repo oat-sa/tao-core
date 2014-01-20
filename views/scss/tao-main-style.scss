@@ -5,12 +5,47 @@
 @import "inc/feedback";
 @import "inc/grid";
 @import "inc/select2";
+@import "inc/toolbars";
 
 
+// set all block elements to have no space on top
+address,article,aside,audio,blockquote,canvas,dd,div,dl,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,
+hgroup,hr,noscript,ol,output,p,pre,section,table,tfoot,ul,video,main {
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+// add margin to some of the block elements
+blockquote,dd,dl,fieldset,figure,h1,h2,h3,h4,h5,h6,
+hr,ol,p,pre,table,ul {
+  margin-bottom: 10px;
+}
+
+code {
+  background: $lightBlueGrey;
+  padding: 2px 3px
+}
 .ui-widget  { font-family:'Source Sans Pro', sans-serif; font-size: 1.4rem !important; }
 .ui-widget  .ui-widget { font-size: 1.4rem !important; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family:'Source Sans Pro', sans-serif; font-size: 1.4rem !important; }
 
+a {
+  color: $info;
+  &:hover {
+    color: whiten($info, .1);
+    text-decoration: underline
+  }
+}
+
+a[rel="external"] span.icon-external {
+  &:before {
+    @include font-size(11);
+    padding: 0 0 0 4px;
+    position: relative;
+    top: 1px;
+  }
+}
 
 .tao-scope {
 

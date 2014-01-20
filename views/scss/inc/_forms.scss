@@ -1,7 +1,6 @@
 label {
   display: inline-block;
   cursor: pointer;
-  width: 98%;
   margin-right: 2%;
   line-height:1.8;
   abbr {
@@ -33,6 +32,7 @@ select {
   font-family: "Source Sans Pro", sans-serif;
   padding: 4px;
   width: 100%;
+  background-color: white;
 }
 
 label {
@@ -78,5 +78,21 @@ label {
     &:checked ~ .icon-checkbox.cross:before {
       content: "\f002";
     }
+  }
+}
+
+.choice {
+  position: relative;
+  @extend .clearfix;
+  .pseudo-label {
+    float:left;
+    cursor: pointer;
+  }
+  label {
+    float:left;
+    width: 30px;
+    position: relative;
+    top: -3px;
+    margin:0;
   }
 }

@@ -1,12 +1,12 @@
 
 
-@mixin grid-unit($span, $numCols: 12) {
+@mixin grid-unit($span, $numCols: 12, $gutter: 0) {
+  $gridPx        : 840;
   $rawSpanPx:     (($gridPx - ($numCols * $gutter)) / $numCols);
   $spanPx:        $rawSpanPx * $span + (($span - 1) * $gutter);
   $spanPercent:   widthPerc($spanPx, $gridPx);
-  $marginPercent: widthPerc($gutter / 2, $gridPx);
+  $marginPercent: widthPerc($gutter, $gridPx);
   margin-left: $marginPercent;
-  margin-right: $marginPercent;
   width: $spanPercent;
 }
 

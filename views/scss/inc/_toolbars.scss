@@ -1,0 +1,59 @@
+.tlb {
+  @extend .cke;
+}
+
+.tlb-bar {
+  @extend .cke_toolbar;
+}
+
+.tlb-box {
+  @extend .cke_toolbox;
+}
+
+.tlb-break {
+  @extend .cke_toolbar_break;
+}
+
+.tlb-btn {
+  @extend .cke_button;
+}
+
+.tlb-btn-off {
+  @extend .cke_button_off;
+}
+
+.tlb-btn-on {
+  @extend .cke_button_on;
+}
+
+.tlb-end {
+  @extend .cke_toolbar_end;
+}
+
+.tlb-group {
+  @extend .cke_toolgroup;
+}
+
+.tlb-separator {
+  @extend .cke_toolbar_separator;
+}
+
+.tlb-start {
+  @extend .cke_toolbar_start;
+}
+
+.tlb-top {
+  @extend .cke_top;
+}
+
+.tlb-btn {
+  @extend .cke_button;
+}
+
+.tlb-btn-on {
+  @extend .cke_button_on;
+}
+
+.tlb-btn-off {
+  @extend .cke_button_off;
+}

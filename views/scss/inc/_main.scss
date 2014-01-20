@@ -3,7 +3,9 @@ button,
 input,
 select,
 textarea {
-    color: #222;
+  color: $textColor;
+  background: white;
+  border-width: 1px;
 }
 
 html {
@@ -11,8 +13,13 @@ html {
 }
 
 html { font-size: 62.5%; }
-body { font-size: 14px; font-size: 1.4rem; }
-h1   { font-size: 24px; font-size: 2.4rem; }
+body { @include font-size(14) }
+h1   { @include font-size(24) }
+h2   { @include font-size(22) }
+h3   { @include font-size(20) }
+h4   { @include font-size(18) }
+h5   { @include font-size(16) }
+h6   { @include font-size(14) }
 
 /*
  * Remove text-shadow in selection highlight: h5bp.com/i

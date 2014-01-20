@@ -31,7 +31,7 @@ For this skin, the following tasks are achieved in this file:
 // used on config.skin to tell the editor to use the skin.
 //
 // This is the only mandatory property to be defined in this file.
-CKEDITOR.skin.name = 'moono';
+CKEDITOR.skin.name = 'tao';
 
 // 2. Register browser specific skin files
 // -----------------------------------------

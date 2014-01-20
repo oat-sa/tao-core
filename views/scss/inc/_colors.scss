@@ -27,6 +27,8 @@ $uiHeaderBg: #D4D5D7;
 
 $uiClickableDefaultBg: #f3f1ef;
 $uiClickableHoverBg: whiten($info, .2);
-$uiClickableActiveBg: $uiHeaderBg;
+//$uiClickableActiveBg: $uiHeaderBg;
+$uiClickableActiveBg: whiten($websiteBorder, .2);
+//$uiClickableActiveBg: #aaa;
 
 $uiOverlay: $lightBlueGrey;

@@ -1,19 +1,44 @@
 [class*=" col-"], [class^="col-"] {
   float: left;
   min-height: 1rem;
+  &:first-child {
+    margin-left: 0 ;
+  }
+  &.grid-container {
+    margin-bottom :0;
+  }
 }
-
-.grid-row {
-  @extend .clearfix;
-}
-
 
 .col-12{
   float:none;
 }
 
 @for $i from 1 through 12 {
-  .col-#{$i} { @include grid-unit($i, 12); }
+  .col-#{$i} {
+    @include grid-unit($i, 12, 12);
+    margin-bottom: 12px;
+  }
+  .grid-row {
+    @extend .clearfix;
+    width: widthPerc(852, 840);
+  }
+  .alpha {
+    margin-left: 0 !important
+  }
+}
+
+#icon-editor {
+  @for $i from 1 through 12 {
+    .col-#{$i} {
+      @include grid-unit($i, 12);
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+  }
+  .grid-row {
+    @extend .clearfix;
+    width: 100%
+  }
 }
 
 @media all and (max-width: 1600px){
