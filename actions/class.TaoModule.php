@@ -320,6 +320,9 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 			$options['highlightUri'] = $this->getSessionAttribute("showNodeUri");
 			$this->removeSessionAttribute("showNodeUri");
 		}
+        if($this->hasRequestParameter("selected")){
+			$options['browse'] = array($this->getRequestParameter("selected"));
+		}
 		if($this->hasRequestParameter('hideInstances')){
 			if((bool) $this->getRequestParameter('hideInstances')){
 				$options['instances'] = false;

@@ -76,7 +76,7 @@ define(['jquery', 'i18n', 'generis.tree', 'helpers', 'context'], function($, __,
 							returnValue[key] = instance.serverParameters[key];
 						}
 						// Add selected nodes
-						returnValue['selected'] = instance.options.checkedNodes;
+						returnValue['selected'] = instance.options.selectNode;
 						// Add the filter parameter
 						returnValue['filter'] = instance.filter;
 

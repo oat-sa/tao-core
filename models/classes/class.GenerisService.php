@@ -647,13 +647,23 @@ abstract class tao_models_classes_GenerisService
 				$returnValue['children']	= $results;
 			}
 		} else {
-			array_walk($browse, function(&$item, $key) {
-				$item = tao_helpers_Uri::decode($item);
-			});
-			
-			$browse[] = $clazz->getUri();
-			$tree = $factory->buildTree($clazz, $instances, $browse, $limit, $offset, $propertyFilter);
-			$returnValue = $chunk ? ($tree['children']) : $tree;
+			$openNodes = array();
+            foreach($browse as $item){
+                $resource = new core_kernel_classes_Resource(tao_helpers_Uri::decode($item));
+                foreach($resource->getTypes() as $type){
+                    $uri = $type->getUri();
+                    if(!in_array($uri, $openNodes)){
+                        $openNodes[] = $uri;
+                    }
+                }
+            }
+
+            if(!in_array($clazz->getUri(), $openNodes)){
+                $openNodes[] = $clazz->getUri();
+            }
+                        
+			$tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter);
+            $returnValue = $chunk ? ($tree['children']) : $tree;
 		}
 		return $returnValue;
     }
