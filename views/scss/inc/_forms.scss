@@ -2,7 +2,7 @@ label {
   display: inline-block;
   cursor: pointer;
   margin-right: 2%;
-  line-height:1.8;
+  margin-bottom: 5px;
   abbr {
     border: none;
     color: $info;
@@ -37,7 +37,6 @@ select {
 
 label {
   position: relative;
-  overflow-x: hidden;
   [class^="icon-radio"],
   [class*=" icon-radio"]{
     padding: 0 2px 0 3px;
@@ -78,21 +77,5 @@ label {
     &:checked ~ .icon-checkbox.cross:before {
       content: "\f002";
     }
-  }
-}
-
-.choice {
-  position: relative;
-  @extend .clearfix;
-  .pseudo-label {
-    float:left;
-    cursor: pointer;
-  }
-  label {
-    float:left;
-    width: 30px;
-    position: relative;
-    top: -3px;
-    margin:0;
   }
 }
