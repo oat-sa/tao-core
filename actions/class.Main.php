@@ -323,10 +323,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 */
 	public function getSectionTrees()
 	{
-            
-
-            $currentNode = $this->getSessionAttribute("showNodeUri");
-
 		$extname	= $this->getRequestParameter('ext');
 		$struct		= $this->getRequestParameter('structure');
 		$section	= $this->getRequestParameter('section');

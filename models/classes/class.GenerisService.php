@@ -603,71 +603,65 @@ abstract class tao_models_classes_GenerisService
 
         // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B begin
         // show subclasses yes/no, not implemented
-		$subclasses = (isset($options['subclasses'])) ? $options['subclasses'] : true;
-		// show instances yes/no
-		$instances = (isset($options['instances'])) ? $options['instances'] : true;
-		// @todo describe how this option influences the behaviour
-		$highlightUri = (isset($options['highlightUri'])) ? $options['highlightUri'] : '';
-		// filter results by label, and don't show them as a tree at all, but a flat list
-		$labelFilter = (isset($options['labelFilter'])) ? $options['labelFilter'] : '';
-		// @todo describe how this option influences the behaviour
-		$recursive = (isset($options['recursive'])) ? $options['recursive'] : false;
-		// cut of the class and only display the children?
-		$chunk = (isset($options['chunk'])) ? $options['chunk'] : false;
-		// probably which subtrees should be opened
-		$browse = (isset($options['browse'])) ? $options['browse'] : array();
-		// limit of instances shown by subclass if no search label is given
-		// if a search string is given, this is the total limit of results, independant of classes
-		$limit = (isset($options['limit'])) ? $options['limit'] : 0;
-		// offset for limit
-		$offset = (isset($options['offset'])) ? $options['offset'] : 0;
-                //an array used to filter properties; use the format by core_kernel_classes_Class::searchInstances
-		$propertyFilter = (isset($options['propertyFilter'])) ? $options['propertyFilter'] : array();
-                
-                
-		$factory = new tao_models_classes_GenerisTreeFactory();
-		if (!empty($labelFilter) && $labelFilter!='*') {
-			$props	= array(RDFS_LABEL => $labelFilter);
-			$opts	= array(
-				'like'		=> true,
-				'limit'		=> $limit,
-				'offset'	=> $offset,
-				'recursive'	=> true
-			); 
-			$searchResult = $clazz->searchInstances($props, $opts);
-			$results = array();
-			foreach ($searchResult as $instance){
-				$results[] = $factory->buildResourceNode($instance);
-			}
-			if ($offset > 0) {
-				$returnValue = $results;
-			} else {
-				$returnValue = $factory->buildClassNode($clazz);
-				$returnValue['count']		= $clazz->countInstances($props, $opts);;
-				$returnValue['children']	= $results;
-			}
-		} else {
-			$openNodes = array();
-            foreach($browse as $item){
-                $resource = new core_kernel_classes_Resource(tao_helpers_Uri::decode($item));
-                foreach($resource->getTypes() as $type){
-                    $uri = $type->getUri();
-                    if(!in_array($uri, $openNodes)){
-                        $openNodes[] = $uri;
-                    }
-                }
-            }
+        $subclasses = (isset($options['subclasses'])) ? $options['subclasses'] : true;
+        // show instances yes/no
+        $instances = (isset($options['instances'])) ? $options['instances'] : true;
+        // @todo describe how this option influences the behaviour
+        $highlightUri = (isset($options['highlightUri'])) ? $options['highlightUri'] : '';
+        // filter results by label, and don't show them as a tree at all, but a flat list
+        $labelFilter = (isset($options['labelFilter'])) ? $options['labelFilter'] : '';
+        // @todo describe how this option influences the behaviour
+        $recursive = (isset($options['recursive'])) ? $options['recursive'] : false;
+        // cut of the class and only display the children?
+        $chunk = (isset($options['chunk'])) ? $options['chunk'] : false;
+        // probably which subtrees should be opened
+        $browse = (isset($options['browse'])) ? $options['browse'] : array();
+        // limit of instances shown by subclass if no search label is given
+        // if a search string is given, this is the total limit of results, independant of classes
+        $limit = (isset($options['limit'])) ? $options['limit'] : 0;
+        // offset for limit
+        $offset = (isset($options['offset'])) ? $options['offset'] : 0;
+        //an array used to filter properties; use the format by core_kernel_classes_Class::searchInstances
+        $propertyFilter = (isset($options['propertyFilter'])) ? $options['propertyFilter'] : array();
 
-            if(!in_array($clazz->getUri(), $openNodes)){
+
+        $factory = new tao_models_classes_GenerisTreeFactory();
+        if (!empty($labelFilter) && $labelFilter!='*') {
+                $props	= array(RDFS_LABEL => $labelFilter);
+                $opts	= array(
+                        'like'		=> true,
+                        'limit'		=> $limit,
+                        'offset'	=> $offset,
+                        'recursive'	=> true
+                ); 
+                $searchResult = $clazz->searchInstances($props, $opts);
+                $results = array();
+                foreach ($searchResult as $instance){
+                        $results[] = $factory->buildResourceNode($instance);
+                }
+                if ($offset > 0) {
+                        $returnValue = $results;
+                } else {
+                        $returnValue = $factory->buildClassNode($clazz);
+                        $returnValue['count']		= $clazz->countInstances($props, $opts);;
+                        $returnValue['children']	= $results;
+                }
+        } else {
+            array_walk($browse, function(&$item) {
+                $item = tao_helpers_Uri::decode($item);
+            });
+            $openNodes = tao_models_classes_GenerisTreeFactory::getNodesToOpen($browse, $clazz);
+
+            if (!in_array($clazz->getUri(), $openNodes)) {
                 $openNodes[] = $clazz->getUri();
             }
-                        
-			$tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter);
+
+            $tree = $factory->buildTree($clazz, $instances, $openNodes, $limit, $offset, $propertyFilter);
             $returnValue = $chunk ? ($tree['children']) : $tree;
-		}
-		return $returnValue;
+        }
+        return $returnValue;
     }
-    
+
 } /* end of abstract class tao_models_classes_GenerisService */
 
 ?>
