@@ -168,7 +168,9 @@ class tao_actions_Users extends tao_actions_CommonModule {
 	 */
 	public function delete(){
 		$message = __('An error occured during user deletion');
-		if($this->hasRequestParameter('uri')){
+		if (helpers_PlatformInstance::isDemo()) {
+		    $message = __('User deletion not permited on a demo instance');
+		} elseif($this->hasRequestParameter('uri')) {
 			$user = new core_kernel_classes_Resource(tao_helpers_Uri::decode($this->getRequestParameter('uri')));
 			if($this->userService->removeUser($user)){
 				$message = __('User deleted successfully');

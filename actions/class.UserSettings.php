@@ -50,17 +50,21 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 	 */
 	public function password(){
 
-		$myFormContainer = new tao_actions_form_UserPassword();
-		$myForm = $myFormContainer->getForm();
-		if($myForm->isSubmited()){
-			if($myForm->isValid()){
-				$user = $this->userService->getCurrentUser();
-				tao_models_classes_UserService::singleton()->setPassword($user, $myForm->getValue('newpassword'));
-				$this->setData('message', __('Password changed'));
-			}
-		}
 		$this->setData('formTitle'	, __("Change password"));
-		$this->setData('myForm'		, $myForm->render());
+		if (helpers_PlatformInstance::isDemo()) {
+            $this->setData('myForm'		, __('Unable to change passwords in demo mode'));
+		} else {
+		    $myFormContainer = new tao_actions_form_UserPassword();
+		    $myForm = $myFormContainer->getForm();
+		    if($myForm->isSubmited()){
+		        if($myForm->isValid()){
+    				$user = $this->userService->getCurrentUser();
+    				tao_models_classes_UserService::singleton()->setPassword($user, $myForm->getValue('newpassword'));
+    				$this->setData('message', __('Password changed'));
+		        }
+		    }
+		    $this->setData('myForm'		, $myForm->render());
+		}
 
 		$this->setView('form/settings_user.tpl');
 	}

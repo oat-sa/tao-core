@@ -269,8 +269,7 @@ class tao_actions_form_Users
 			$this->form->addElement($pass2Element);
 		}
 		else {
-			
-			if (in_array(TAO_RELEASE_STATUS, array('demoA', 'demoB', 'demoS'))) {
+			if (helpers_PlatformInstance::isDemo()) {
 				$warning  = tao_helpers_form_FormFactory::getElement('warningpass', 'Label');
 				$warning->setValue(__('Unable to change passwords in demo mode'));
 				$this->form->addElement($warning);
