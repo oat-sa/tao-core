@@ -323,21 +323,16 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 */
 	public function getSectionTrees()
 	{
+            
 
-		//$this->setData('trees', false);
+            $currentNode = $this->getSessionAttribute("showNodeUri");
+
 		$extname	= $this->getRequestParameter('ext');
 		$struct		= $this->getRequestParameter('structure');
 		$section	= $this->getRequestParameter('section');
 
 		$structure = $this->service->getSection($extname, $struct, $section);
 		if(isset($structure["trees"])){
-                        
-                    $openUri = false;
-                    if($this->hasSessionAttribute("showNodeUri")){
-                            $openUri = $this->getSessionAttribute("showNodeUri");
-                    }
-                    $this->setData('openUri', $openUri);
-                    
                     $mapping = array(
                         'editClassUrl'      => 'editClassAction',
                         'editInstanceUrl'   => 'editInstanceAction',
@@ -361,8 +356,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
                                 }
                         }
                         
-                        if($openUri){
-                            $treeArray['selectNode'] = $openUri;
+                        if($this->hasSessionAttribute("showNodeUri")){
+                            $treeArray['selectNode'] = $this->getSessionAttribute("showNodeUri");
                         }
                         if(isset($treeArray['className'])){
                             $treeArray['instanceClass'] = 'node-'.str_replace(' ', '-', strtolower($treeArray['className']));
