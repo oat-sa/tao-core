@@ -30,8 +30,9 @@ $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 
 return array(
 	'name' => 'tao',
-	'description' => 'TAO is the meta-extension, a container for the TAOs sub extensions',
-	'version' => '2.4',
+	'description' => 'TAO meta-extension',
+    'license' => 'GPL-2.0',
+    'version' => '2.4',
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
 	'dependencies' => array('generis'),
 	'models' => array(
