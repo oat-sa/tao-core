@@ -641,7 +641,7 @@ abstract class tao_models_classes_GenerisService
                 }
                 if ($offset > 0) {
                         $returnValue = $results;
-                } else {
+                } else if(count($results) > 0){
                         $returnValue = $factory->buildClassNode($clazz);
                         $returnValue['count']		= $clazz->countInstances($props, $opts);;
                         $returnValue['children']	= $results;
