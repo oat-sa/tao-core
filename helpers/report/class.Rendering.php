@@ -88,7 +88,26 @@ class tao_helpers_report_Rendering {
      */
     private static function renderReport(common_report_Report $report, array $childRenderedReports = array()) {
         
-        $openingTag = '<div class="report">';
+        switch ($report->getType()) {
+            
+            case common_report_Report::TYPE_SUCCESS:
+                $typeClass = 'success';
+            break;
+            
+            case common_report_Report::TYPE_WARNING:
+                $typeClass = 'warning';
+            break;
+            
+            case common_report_Report::TYPE_ERROR:
+                $typeClass = 'error';
+            break;
+            
+            default:
+                $typeClass = 'info';
+            break;
+        }
+        
+        $openingTag = '<div class="report ' . $typeClass . '">';
         $message =  '<p>' . $report->__toString() . '</p>';
         $endingTag = '</div>';
         
