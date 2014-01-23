@@ -50,21 +50,14 @@ class tao_actions_Import extends tao_actions_CommonModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$report = $importer->import($this->getCurrentClass(), $myForm);
-				if ($report->containsSuccess()) {
-				    $this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($this->getCurrentClass()->getUri()));
-				    $this->setData('message', $report->getTitle());
-				    $this->setData('reload', true);
-				}
-				// not mutualy exclusiv
-				if ($report->containsError()) {
-    				$this->setData('importErrorTitle', $report->getTitle());
-    				$this->setData('importErrors', $report->getErrors());
-				}
+				$this->setData('report.tpl', 'tao');
+			}
+			else {
+			    $this->setData('myForm', $myForm->render());
+			    $this->setData('formTitle', __('Import '));
+			    $this->setView('form/import.tpl', 'tao');
 			}
 		}
-		$this->setData('myForm', $myForm->render());
-		$this->setData('formTitle', __('Import '));
-		$this->setView('form/import.tpl', 'tao');
 	}
 	
 	/**
