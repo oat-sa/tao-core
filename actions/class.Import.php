@@ -50,6 +50,11 @@ class tao_actions_Import extends tao_actions_CommonModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$report = $importer->import($this->getCurrentClass(), $myForm);
+				
+				if ($report->containsSuccess() === true) {
+				    $this->setSessionAttribute("showNodeUri", tao_helpers_Uri::encode($this->getCurrentClass()->getUri()));
+				}
+				
 				$this->setData('report', $report);
 				$this->setView('report.tpl', 'tao');
 				return;
