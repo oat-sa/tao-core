@@ -50,7 +50,8 @@ class tao_actions_Import extends tao_actions_CommonModule {
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 				$report = $importer->import($this->getCurrentClass(), $myForm);
-				$this->setData('report.tpl', 'tao');
+				$this->setData('report', $report);
+				$this->setView('report.tpl', 'tao');
 			}
 			else {
 			    $this->setData('myForm', $myForm->render());
