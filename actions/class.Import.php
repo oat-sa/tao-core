@@ -52,13 +52,13 @@ class tao_actions_Import extends tao_actions_CommonModule {
 				$report = $importer->import($this->getCurrentClass(), $myForm);
 				$this->setData('report', $report);
 				$this->setView('report.tpl', 'tao');
-			}
-			else {
-			    $this->setData('myForm', $myForm->render());
-			    $this->setData('formTitle', __('Import '));
-			    $this->setView('form/import.tpl', 'tao');
+				return;
 			}
 		}
+		
+		$this->setData('myForm', $myForm->render());
+		$this->setData('formTitle', __('Import '));
+		$this->setView('form/import.tpl', 'tao');
 	}
 	
 	/**
