@@ -1,3 +1,3 @@
 <div>
-	<?= tao_helpers_report_Report::render(get_data('report')); ?>
+	<?= tao_helpers_report_Rendering::render(get_data('report')); ?>
 </div>
