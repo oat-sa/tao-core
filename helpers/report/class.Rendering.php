@@ -107,12 +107,13 @@ class tao_helpers_report_Rendering {
             break;
         }
         
-        $openingTag = '<div class="report ' . $typeClass . '">';
-        $message =  '<p>' . $report->__toString() . '</p>';
+        $openingTag = '<div class="feedback-' . $typeClass . ' tao-scope">';
+        $icon = '<span class="icon-' . $typeClass . '"></span>';
+        $message = $report->__toString();
         $endingTag = '</div>';
         
         // Put all the children renderings together.
         $content = implode('', $childRenderedReports);
-        return $openingTag . $message . $content . $endingTag;
+        return $openingTag . $icon . $message . $content . $endingTag;
     }
 }
