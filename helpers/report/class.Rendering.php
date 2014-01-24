@@ -110,7 +110,7 @@ class tao_helpers_report_Rendering {
         
         $openingTag = '<div class="feedback-' . $typeClass . ' tao-scope">';
         $icon = '<span class="icon-' . $typeClass . '"></span>';
-        $message = $report->__toString();
+        $message = nl2br($report->__toString());
         $endingTag = '</div>';
         
         // Put all the children renderings together.
