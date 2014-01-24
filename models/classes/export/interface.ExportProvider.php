@@ -28,7 +28,7 @@
  * @package taoItems
  * @subpackage models_classes
  */
-interface tao_models_classes_ImportProvider
+interface tao_models_classes_export_ExportProvider
 {
 
 
@@ -42,6 +42,6 @@ interface tao_models_classes_ImportProvider
      * @author Joel Bout, <joel@taotesting.com>
      * @return array
      */
-    public function getImportHandlers();
+    public function getExportHandlers();
 
 }
