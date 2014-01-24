@@ -2,3 +2,8 @@
     border: none;
     margin: 0;
 }
+
+.hierarchical {
+    background-color: transparent;
+    border: none;
+}

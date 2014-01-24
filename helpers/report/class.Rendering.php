@@ -40,12 +40,14 @@ class tao_helpers_report_Rendering {
         $traversed = array();
         
         $stack->push($report);
+        $nesting = 0;
         
         while ($stack->count() > 0) {
             
             $current = $stack->pop();
             
             if (in_array($current, $traversed, true) === false && $current->hasChildren() === true) {
+                $nesting++;
                 // -- Hierarchical report, 1st pass (descending).
                 
                 // Repush report for a 2ndpass.
@@ -60,6 +62,7 @@ class tao_helpers_report_Rendering {
                 }
             }
             else if (in_array($current, $traversed, true) === true && $current->hasChildren() === true) {
+                $nesting--;
                 // -- Hierachical report, 2nd pass (ascending).
                 
                 // Get the nested renderings of the current report.
@@ -68,11 +71,11 @@ class tao_helpers_report_Rendering {
                     $children[] = $renderingStack->pop();
                 }
                 
-                $renderingStack->push(self::renderReport($current, $children));
+                $renderingStack->push(self::renderReport($current, $children, $nesting));
             }
             else {
                 // -- Leaf report, 1st & single pass.
-                $renderingStack->push(self::renderReport($current, array()));
+                $renderingStack->push(self::renderReport($current, array(), $nesting, true));
             }
         }
         
@@ -87,7 +90,7 @@ class tao_helpers_report_Rendering {
      * @param integer $nesting The current nesting level (root = 0).
      * @return string The HTML output of $report.
      */
-    private static function renderReport(common_report_Report $report, array $childRenderedReports = array()) {
+    private static function renderReport(common_report_Report $report, array $childRenderedReports = array(), $nesting = 0, $leaf = false) {
         
         switch ($report->getType()) {
             
@@ -108,7 +111,7 @@ class tao_helpers_report_Rendering {
             break;
         }
         
-        $openingTag = '<div class="feedback-' . $typeClass . ' tao-scope">';
+        $openingTag = '<div class="feedback-' . $typeClass . ' feedback-nesting-' . $nesting . ' ' . (($leaf === true) ? 'leaf' : 'hierarchical') . ' tao-scope">';
         $icon = '<span class="icon-' . $typeClass . '"></span>';
         $message = nl2br($report->__toString());
         $endingTag = '</div>';
