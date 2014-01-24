@@ -1,0 +1,4 @@
+.report > .feedback-warning, .report > .feedback-error, .report > .feedback-success, .report > .feedback-info {
+    border: none;
+    margin: 0;
+}

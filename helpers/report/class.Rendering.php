@@ -72,7 +72,7 @@ class tao_helpers_report_Rendering {
             }
             else {
                 // -- Leaf report, 1st & single pass.
-                $renderingStack->push(self::renderReport($current));
+                $renderingStack->push(self::renderReport($current, array()));
             }
         }
         
@@ -84,6 +84,7 @@ class tao_helpers_report_Rendering {
      * 
      * @param common_report_Report $report A report to be rendered.
      * @param array $childRenderedReports An array of strings containing the separate rendering of $report's child reports.
+     * @param integer $nesting The current nesting level (root = 0).
      * @return string The HTML output of $report.
      */
     private static function renderReport(common_report_Report $report, array $childRenderedReports = array()) {
