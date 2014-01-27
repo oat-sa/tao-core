@@ -305,15 +305,15 @@ class Bootstrap{
                 if (in_array("common_session_php_SessionHandler", $interfaces)) {
                 $configuredHandler = PHP_SESSION_HANDLER;
                 //give the persistence to be used by the session handler       
-                $sessionHandler = new $configuredHandler(common_persistence_Manager::getPersistence('session'));
+                $sessionHandler = new $configuredHandler(common_persistence_KeyValuePersistence::getPersistence('session'));
                 session_set_save_handler(
-                array($sessionHandler, 'open'),
-                array($sessionHandler, 'close'),
-                array($sessionHandler, 'read'),
-                array($sessionHandler, 'write'),
-                array($sessionHandler, 'destroy'),
-                array($sessionHandler, 'gc')
-                );
+                    array($sessionHandler, 'open'),
+                    array($sessionHandler, 'close'),
+                    array($sessionHandler, 'read'),
+                    array($sessionHandler, 'write'),
+                    array($sessionHandler, 'destroy'),
+                    array($sessionHandler, 'gc')
+                    );
                 }   
         }
     }

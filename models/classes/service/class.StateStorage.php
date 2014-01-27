@@ -29,6 +29,8 @@
 class tao_models_classes_service_StateStorage
     extends tao_models_classes_Service
 {
+    const KEY_NAMESPACE = 'tao:state:';
+    
     const PERSISTENCE_ID = 'serviceState';
     
     /**
@@ -114,7 +116,7 @@ class tao_models_classes_service_StateStorage
   	            $userId = $userId->getUri();
   	        }
   	    }
-  		return $userId.'_'.$callId;;
+  		return self::KEY_NAMESPACE.$userId.'_'.$callId;;
   	}
   	 
 }
