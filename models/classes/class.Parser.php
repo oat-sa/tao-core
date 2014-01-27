@@ -344,7 +344,7 @@ class tao_models_classes_Parser
         }else{
             $report = new common_report_Report('');
             foreach($this->getErrors() as $error){
-                $report->add(new common_report_ErrorElement($error['message']));
+                $report->add(common_report_Report::createFailure($error['message']));
             }
             return $report;
         }
