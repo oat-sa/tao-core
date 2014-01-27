@@ -22,9 +22,9 @@
 <label for="rdftpl_mode_container_namespaces" class="form_desc"><?=__('Namespaces')?></label>
 	<span class="form-elt-container"><?=__('Select')?> : 
 		<a href="#" id="ns_filter_all" title="<?=__('All (the complete TAO Module)')?>" ><?=__('All')?></a>
-		<a href="#" id="ns_filter_current" title="<?=__('Current (the current extension, the local data and their dependancies)')?>"><?=__('Current')?></a>
 		<a href="#" id="ns_filter_local" title="<?=__('Local Data (the local namespace containing only the data inserted by the users)')?>"><?=__('Local')?></a>
-	</span>
+		<a href="#" id="ns_filter_none" title="<?=__('Unselect all')?>"><?=__('None')?></a>
+		</span>
 	<table class="form-elt-container">
 		<tbody>
 	<?foreach($namespaces as $ns):?>
@@ -36,8 +36,6 @@
 						id="rdftpl_ns_<?=$ns->getModelId()?>"
 					<?if($localNs == $ns->getModelId()):?>
 						class="rdftpl_ns rdftpl_ns_local" 
-					<?elseif(in_array(str_replace('#', '', $ns), $currentNs)):?>
-						class="rdftpl_ns rdftpl_ns_current" 
 					<?else:?>
 						class="rdftpl_ns" 
 					<?endif?>
@@ -57,15 +55,12 @@ $(document).ready(function(){
 	$('#ns_filter_all').click(function(){
 		$('.rdftpl_ns').attr('checked', 'checked');
 	});
-	$('#ns_filter_current').click(function(){
-		$('.rdftpl_ns').removeAttr('checked');
-		$('.rdftpl_ns_current').attr('checked', 'checked');
-		$('.rdftpl_ns_local').attr('checked', 'checked');
-	});
 	$('#ns_filter_local').click(function(){
 		$('.rdftpl_ns').removeAttr('checked');
 		$('.rdftpl_ns_local').attr('checked', 'checked');
 	});
-
+	$('#ns_filter_none').click(function(){
+		$('.rdftpl_ns').removeAttr('checked');
+	});
 });
 </script>

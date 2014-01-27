@@ -69,26 +69,11 @@ class tao_models_classes_nsImExport_NamespaceExportForm
     public function initElements()
     {
 
-    	$fileName = (isset($this->data['currentExtension'])) ? $this->data['currentExtension'] : '';
-
 		$nameElt = tao_helpers_form_FormFactory::getElement('filename', 'Textbox');
 		$nameElt->setDescription(__('File name'));
 		$nameElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		$nameElt->setValue($fileName);
 		$nameElt->setUnit(".rdf");
 		$this->form->addElement($nameElt);
-
-		//get the current Namespaces and dependancies
-		$currentNs = array();
-		if( isset($this->data['currentExtension'])){
-			$currentExtentsion = common_ext_ExtensionsManager::singleton()->getExtensionById($this->data['currentExtension']);
-			$currentNs =  $currentExtentsion->getManifest()->getModels();
-
-			foreach($currentExtentsion->getDependencies() as $dependency){
-				$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($dependency);
-				$currentNs =  array_merge($currentNs, $ext->getManifest()->getModels());
-			}
-		}
 
 		$nsManager = common_ext_NamespaceManager::singleton();
 
@@ -96,8 +81,7 @@ class tao_models_classes_nsImExport_NamespaceExportForm
 		$tplElt->setPath(TAO_TPL_PATH . '/settings/namespaceExport.tpl');
 		$tplElt->setVariables(array(
 			'namespaces' 	=> $nsManager->getAllNamespaces(),
-			'localNs'		=> $nsManager->getLocalNamespace()->getModelId(),
-			'currentNs'		=> $currentNs,
+			'localNs'		=> $nsManager->getLocalNamespace()->getModelId()
 		));
 		$this->form->addElement($tplElt);
 

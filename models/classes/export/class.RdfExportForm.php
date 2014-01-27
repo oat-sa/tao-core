@@ -74,25 +74,25 @@ class tao_models_classes_export_RdfExportForm
     public function initElements()
     {
 
-    	$fileName = (isset($this->data['currentExtension'])) ? $this->data['currentExtension'] : '';
+    	$fileName = '';
     	$instances = array();
-    	if(isset($this->data['instance'])){
+    	if (isset($this->data['instance'])){
     		$instance = $this->data['instance'];
-    		if($instance instanceof core_kernel_classes_Resource){
+    		if ($instance instanceof core_kernel_classes_Resource) {
     			$fileName = strtolower(tao_helpers_Display::textCleaner($instance->getLabel(), '*'));
     			$instances[$instance->getUri()] = $instance->getLabel();
     		}
     	}
-    	else {
-    		if(isset($this->data['class'])){
-	    		$class = $this->data['class'];
-	    		if($class instanceof core_kernel_classes_Class){
-					$fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel(), '*'));
-					foreach($class->getInstances() as $instance){
-						$instances[$instance->getUri()] = $instance->getLabel();
-					}
-	    		}
+    	elseif (isset($this->data['class'])) {
+    		$class = $this->data['class'];
+    		if ($class instanceof core_kernel_classes_Class) {
+				$fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel(), '*'));
+				foreach($class->getInstances() as $instance){
+					$instances[$instance->getUri()] = $instance->getLabel();
+				}
     		}
+		} else {
+		    throw new common_Exception('No class nor instance specified for export');
     	}
     	$instances = tao_helpers_Uri::encodeArray($instances, tao_helpers_Uri::ENCODE_ARRAY_KEYS);
 
