@@ -1,9 +1,24 @@
+.report > .feedback-nesting-0 {
+    padding-top: 20px;
+}
+
+.report > .feedback-nesting-0 > div {
+    display: none;
+}
+
+.report > .feedback-nesting-0 > .hierarchical {
+    background-color: transparent;
+    border-color: transparent;
+}
+
 .report > .feedback-warning, .report > .feedback-error, .report > .feedback-success, .report > .feedback-info {
     border: none;
     margin: 0;
 }
 
-.hierarchical {
-    background-color: transparent;
-    border: none;
+#fold {
+    position: absolute;
+    right: 15px;
+    top: 50px;
+    z-index: 1000;
 }
