@@ -23,6 +23,7 @@ require.config({
         'jquery'            : 'lib/jquery-1.8.0.min',
         'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
         'jquerytools'       : 'lib/jquery.tools.min',
+        'jquerymousestop'   : 'lib/jquery.mousestop.min',
         'text'              : 'lib/text/text',
         'json'              : 'lib/text/json',
         'store'             : 'lib/store/store.min',
@@ -62,6 +63,7 @@ require.config({
    shim : {
         'jqueryui'              : ['jquery'],
         'jquerytools'           : ['jquery'],
+        'jquerymousestop'       : ['jquery'],
         'select2'               : ['jquery'],
         'jwysiwyg'              : ['jquery'],
         'jquery.cookie'         : ['jquery'],
