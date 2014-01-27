@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
- * Copyright (c) 2013 (original work) Open Assessment Techonologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *               
  * 
  */
@@ -28,8 +28,8 @@
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package taoItemRunner
- * @subpackage models_classes_itemAccess
+ * @package tao
+ * @subpackage models_classes_fsAccess
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_models_classes_fsAccess_TokenAccessProvider
@@ -67,18 +67,36 @@ class tao_models_classes_fsAccess_TokenAccessProvider
 	    return $taoExtension->getConstant('BASE_URL').'getFile.php/'.$this->getId().'/'.$token.'/'.$relUrl.'*/';
 	}
 
-	public function destroy() {
-		//parent::destroy();
-		unlink($this->getConfigFilePath());
+	/**
+	 * (non-PHPdoc)
+	 * @see tao_models_classes_fsAccess_AccessProvider::delete()
+	 */
+	public function delete() {
+	    parent::delete();
+	    if (file_exists($this->getConfigFilePath())) {
+	        $data = include $this->getConfigFilePath();
+	        unset($data[$this->getId()]);
+	        file_put_contents($this->getConfigFilePath(), "<?php return ".common_Utils::toPHPVariableString($data).";");
+	    }
 	}
 
 	// helpers
 	
-	private function generateToken($path) {
+	/**
+	 * Generate a token for the resource
+	 * Same algorithm is implemented again in getFile.php
+	 * 
+	 * @param string $relPath
+	 * @return string
+	 */
+	private function generateToken($relPath) {
 		$time = time();
-		return $time.'/'.md5($time.$path.$this->secret);
+		return $time.'/'.md5($time.$relPath.$this->secret);
 	}
 	
+	/**
+	 * adds the required informations to the config of getFile.php 
+	 */
 	private function prepareProvider() {
 	    $data = file_exists($this->getConfigFilePath()) ? include $this->getConfigFilePath() : array();
 	    $data[$this->getId()] = array(
@@ -88,8 +106,13 @@ class tao_models_classes_fsAccess_TokenAccessProvider
 		file_put_contents($this->getConfigFilePath(), "<?php return ".common_Utils::toPHPVariableString($data).";");
 	}
 	
+	/**
+	 * Path of the configuration file for getFile.php 
+	 * 
+	 * @return string
+	 */
 	private function getConfigFilePath() {
 	    $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-	    return $taoExtension->getConstant('BASE_PATH').'includes'.DIRECTORY_SEPARATOR.'configGetFile.php';
+	    return $taoExtension->getDir().'includes'.DIRECTORY_SEPARATOR.'configGetFile.php';
 	}
 }
