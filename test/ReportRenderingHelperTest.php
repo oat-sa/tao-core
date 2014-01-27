@@ -28,7 +28,7 @@ class ReportRenderingHelperTest extends TaoPhpUnitTestRunner {
        
         $report = common_report_Report::createSuccess('Success!');
         
-        $expected = '<div class="feedback-success tao-scope"><span class="icon-success"></span>Success!</div>';
+        $expected = '<div class="feedback-success feedback-nesting-0 leaf tao-scope"><span class="icon-success"></span>Success!</div>';
         $this->assertEquals($expected, tao_helpers_report_Rendering::render($report));
     }
     
@@ -38,14 +38,14 @@ class ReportRenderingHelperTest extends TaoPhpUnitTestRunner {
         $report->add(common_report_Report::createSuccess('Another success!'));
         $report->add(common_report_Report::createFailure('Failure!'));
         
-        $expected  = '<div class="feedback-success tao-scope">';
+        $expected  = '<div class="feedback-success feedback-nesting-0 hierarchical tao-scope">';
         $expected .=   '<span class="icon-success"></span>';
         $expected .=   'Success!';
-        $expected .=   '<div class="feedback-success tao-scope">';
+        $expected .=   '<div class="feedback-success feedback-nesting-1 leaf tao-scope">';
         $expected .=     '<span class="icon-success"></span>';
         $expected .=     'Another success!';
         $expected .=   '</div>';
-        $expected .=   '<div class="feedback-error tao-scope">';
+        $expected .=   '<div class="feedback-error feedback-nesting-1 leaf tao-scope">';
         $expected .=     '<span class="icon-error"></span>';
         $expected .=     'Failure!';
         $expected .=   '</div>';
