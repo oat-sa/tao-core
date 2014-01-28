@@ -17,6 +17,9 @@
   font-weight: normal;
   font-style:normal;
   text-align:center;
+  &.small {
+    line-height:1.8;
+  }
   [class^="icon-"], [class*=" icon-"] {
     @include font-size(14);
     line-height: 1;

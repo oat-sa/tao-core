@@ -1,0 +1,161 @@
+.preview-overlay {
+  display:none;
+  width: 100%;
+  height: 100%;
+  z-index: 9995;
+  position: absolute;
+  left: 0;
+  top: 0;
+  &.preview-desktop {
+    .mobile-only {
+      display:none !important;
+    }
+  }
+  &.preview-mobile {
+    .desktop-only {
+      display:none !important;
+    }
+  }
+  .preview-container {
+    display: table;
+    padding: 0  0 20px 0;
+    width: 100%;
+    height: 100%;
+  }
+  .preview-utility-bar {
+    background: mix(#fff, $websiteBorder, 70%);
+    padding: 13px 0 0 0;
+    height: 55px;
+    margin-bottom: 30px;
+    z-index: 9996;
+    position: relative;
+  }
+  .preview-utility-bar-inner {
+    @extend .grid-row;
+    max-width: 960px;
+    min-width: 800px;
+    margin: auto;
+    .feedback {
+      color: $info;
+      margin-top: 2px;
+      .icon-info {
+        @include font-size(18);
+        position: relative;
+        top: 2px;
+        left: 0;
+        padding-right: 8px
+      }
+    }
+    li {
+      margin-left: 10px;
+    }
+    .btn-info {
+      min-width: 185px;
+      margin-top: 1px
+    }
+    .desktop-width-slider-label {
+      margin-right: 10px
+    }
+    .desktop-width-slider {
+      min-width: 200px;
+      background:white;
+      @include simple-border(#999);
+      margin-right: 10px;
+      a {
+        margin-top: -4px
+      }
+    }
+    .mobile-device-selector {
+      min-width: 150px
+    }
+    .select2-container {
+      position: relative;
+      top: -1px;
+    }
+    .select2-container, .select2-container .select2-choice {
+      border: 1px transparent solid !important;
+    }
+    .select2-container .select2-choice .select2-arrow b {
+      text-align: center !important;
+    }
+  }
+  .desktop-preview-container {
+    width: 1024px;
+    @include simple-border();
+  }
+  .desktop-preview-iframe-container {
+    min-height: 500px;
+    -webkit-box-shadow: 0px 0px 8px mix(#fff, $darkBrown, 50%);
+    -moz-box-shadow:    0px 0px 8px mix(#fff, $darkBrown, 50%);
+    box-shadow:         0px 0px 8px mix(#fff, $darkBrown, 50%);
+    iframe {
+      overflow:hidden;
+    }
+  }
+  .preview-canvas {
+    display: table-cell;
+    text-align: center;
+    * {
+      text-align: left;
+    }
+  }
+  .preview-outer-frame {
+    position: relative;
+    display:inline-block;
+  }
+  .preview-iframe {
+    border:none;
+    width: 100%;
+    height: 100%;
+  }
+  .mobile-preview-container {
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    position: relative
+  }
+
+  .mobile-preview-iframe-container {
+    height: 100%;
+  }
+  .mobile-preview-frame {
+    &.mobile-preview-landscape {
+      padding: 40px 55px;
+      .mobile-device-toolbar {
+        padding-right: 55px;
+      }
+    }
+    &.mobile-preview-portrait {
+      padding: 55px 40px;
+      .mobile-device-toolbar {
+        padding-right: 40px;
+      }
+    }
+    position:relative;
+    border: 3px #aaa ridge;
+    border-radius: 25px;
+    background: rgb(90, 90, 90);
+    background: -moz-linear-gradient(-45deg, rgb(90, 90, 90) 0%, rgb(86, 86, 86) 7%, rgb(68, 68, 68) 15%, rgb(20, 20, 20) 30%);
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgb(90, 90, 90)), color-stop(7%, rgb(86, 86, 86)), color-stop(15%, rgb(68, 68, 68)), color-stop(30%, rgb(20, 20, 20)));
+    background: -webkit-linear-gradient(-45deg, rgb(90, 90, 90) 0%, rgb(86, 86, 86) 7%, rgb(68, 68, 68) 15%, rgb(20, 20, 20) 30%);
+    background: -o-linear-gradient(-45deg, rgb(90, 90, 90) 0%, rgb(86, 86, 86) 7%, rgb(68, 68, 68) 15%, rgb(20, 20, 20) 30%);
+    background: -ms-linear-gradient(-45deg, rgb(90, 90, 90) 0%, rgb(86, 86, 86) 7%, rgb(68, 68, 68) 15%, rgb(20, 20, 20) 30%);
+    background: linear-gradient(135deg, rgb(90, 90, 90) 0%, rgb(86, 86, 86) 7%, rgb(68, 68, 68) 15%, rgb(20, 20, 20) 30%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5a5a5a', endColorstr='#141414', GradientType=1);
+    -webkit-box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, .5);
+    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, .7);
+  }
+  .mobile-preview-container {
+    background: white;
+    border-radius: 3px;
+    border: 2px solid;
+    border-color: #444 #999 #999 #444;
+  }
+}
+
+
+
+
+
+
+ 

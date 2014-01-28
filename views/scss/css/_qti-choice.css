@@ -1,0 +1,14 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_qti-choice\.scss}line{font-family:\000033}}
+.choice {
+  position: relative; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_qti-choice\.scss}line{font-family:\000036}}
+  .choice .pseudo-label {
+    float: left;
+    cursor: pointer; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_qti-choice\.scss}line{font-family:\0000310}}
+  .choice label {
+    float: left;
+    width: 30px;
+    position: relative;
+    top: -3px;
+    margin: 0; }

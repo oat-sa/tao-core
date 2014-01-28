@@ -8,10 +8,7 @@
 @import "inc/toolbars";
 
 
-
 @import "inc/qti-choice";
-
-
 // set all block elements to have no space on top
 address,article,aside,audio,blockquote,canvas,dd,div,dl,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,
 hgroup,hr,noscript,ol,output,p,pre,section,table,tfoot,ul,video,main {
@@ -30,6 +27,11 @@ code {
   background: $lightBlueGrey;
   padding: 2px 3px
 }
+
+.overlay, .ui-widget-overlay {
+  background: white(.9);
+}
+
 .ui-widget  { font-family:'Source Sans Pro', sans-serif; font-size: 1.4rem !important; }
 .ui-widget  .ui-widget { font-size: 1.4rem !important; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family:'Source Sans Pro', sans-serif; font-size: 1.4rem !important; }
@@ -76,6 +78,7 @@ a[rel="external"] span.icon-external {
   a.block {
     color: $textColor;
   }
+
 
   button,
   input,

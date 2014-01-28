@@ -72,6 +72,12 @@
 
 }
 
+
+.ui-widget #item-editor-scope { font-family:'Source Sans Pro', sans-serif; font-size: 1.4rem; }
+.ui-widget #item-editor-scope .ui-widget #item-editor-scope{ font-size: 1.4rem; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family:'Source Sans Pro', sans-serif; font-size: 1.4rem; }
+
+
 // dark icons
 .dark-icon,
 .ui-icon, .ui-widget-content .ui-icon, .ui-widget-header .ui-icon,
@@ -87,8 +93,16 @@
 .ui-icon-triangle-1-o,
 .ui-icon-triangle-1-s,
 .ui-icon-triangle-1-w {
+  font-family: 'tao' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background: none !important;
-  @extend .icon-font;
   text-indent:0 !important;
 }
 
@@ -417,7 +431,7 @@
  * http://docs.jquery.com/UI/Dialog#theming
  */
 .ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; }
-.ui-dialog .ui-dialog-titlebar { padding: .4em 1em; position: relative;  }
+.ui-dialog .ui-dialog-titlebar { padding: 0 1em; position: relative;  }
 .ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 0; }
 .ui-dialog .ui-dialog-titlebar-close { position: absolute; right: .3em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
 .ui-dialog .ui-dialog-titlebar-close span { display: block; margin: 1px; }
@@ -438,7 +452,7 @@
  * http://docs.jquery.com/UI/Slider#theming
  */
 .ui-slider { position: relative; text-align: left; }
-.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: default; }
+.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: default; border: 1px #888 solid}
 .ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0; }
 
 .ui-slider-horizontal { height: .8em; margin-top:5px }
@@ -522,11 +536,11 @@
  * http://docs.jquery.com/UI/Progressbar#theming
  */
 .ui-progressbar { height:2em; text-align: left; }
-.ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }
+.ui-progressbar .ui-progressbar-value { height:100%; }
 
 /* General */
 html, body{background-color:#ffffff;}
-.ui-widget, .ui-widget *{font-family:'Source Sans Pro', sans-serif;font-weight: 400 !important;}
+.ui-widget, .ui-widget *{font-family:'Source Sans Pro', sans-serif;font-weight: 400;}
 
 
 
@@ -564,7 +578,7 @@ html, body{background-color:#ffffff;}
 
 /* Dialog */
 .ui-dialog{border-width:1px;padding:0;}
-.ui-dialog-titlebar {border:none;border-bottom-width:2px;padding:.6em 1em .6em 1em !important;font-size:1.1em;}
+.ui-dialog-titlebar {border:none;border-bottom-width:2px;padding:5px 1em 5px 1em !important;}
 .ui-dialog-buttonpane{border-top-width:2px !important;margin-top:0 !important;}
 .ui-dialog .ui-dialog-titlebar-close{width:24px;height:24px;margin:-13px 0px 0px 0px;padding:0;}
 .ui-dialog-titlebar-close > .ui-icon{margin:4px !important;}
@@ -587,8 +601,8 @@ html, body{background-color:#ffffff;}
 /* Slider */
 .ui-slider{border:none;}
 .ui-slider .ui-slider-handle{width:10px;height:17px;border:none;margin:-.4em;cursor:pointer;padding:0}
-.ui-slider-horizontal .ui-slider-handle{margin-top:-3px; top:0;}
-.ui-slider-vertical .ui-slider-handle{margin-left:0;left:0;}
+.ui-slider-horizontal .ui-slider-handle{margin-top:-4px; top:0;}
+.ui-slider-vertical .ui-slider-handle{margin-left:5px;left:0;}
 
 /* Progressbar */
 .ui-progressbar{border:none;height:0.8em;}
@@ -626,21 +640,24 @@ html, body{background-color:#ffffff;}
 
 /* Dialog states */
 .ui-dialog{border-color:$uiHeaderBg;background-color:$uiGeneralContentBg !important;}
-.ui-dialog-titlebar{border-color:$uiHeaderBg;color:$textColor;background-color:$uiHeaderBg;}
+.ui-dialog-titlebar{border-color:$uiClickableActiveBg;background:$uiClickableActiveBg;color: $textHighlight !important;text-shadow: 1px 1px 0 black(.2)}
+.ui-dialog-titlebar:hover{border-color:$uiClickableHoverBg;background:$uiClickableHoverBg}
 .ui-dialog-buttonpane{border-color:$uiHeaderBg !important;background-color:$uiGeneralContentBg;}
 .ui-dialog-content{background-color:$uiGeneralContentBg !important;}
 //.ui-dialog-titlebar .ui-state-hover .ui-icon{background-image:url(img/jquery-ui/ui-icons_ffffff_0.png) !important;}
 
 /* Slider */
-.ui-slider{background:$uiHeaderBg;}
-.ui-slider .ui-slider-range{background:$uiHeaderBg; height: 50px}
+.ui-slider{background:#FFFFFF;border: 1px solid #ccc;
+  border-radius: 2px;}
+.ui-slider .ui-slider-range{background:#FFFFFF; height: 50px;}
 .ui-slider .ui-state-default{background-color:$uiClickableActiveBg;}
 .ui-slider .ui-state-active{background-color:$uiClickableHoverBg !important;}
 .ui-slider .ui-state-focus{background-color:$uiClickableActiveBg;}
 .ui-slider .ui-state-hover{background-color:$uiClickableHoverBg;}
 
+
 /* Progressbar */
-.ui-progressbar{background:$uiHeaderBg;}
+.ui-progressbar{background:#FFFFFF;border: 1px solid #ccc}
 .ui-progressbar .ui-progressbar-value{background-color:$uiClickableHoverBg;}
 
 /* Autocomplete */

@@ -3,7 +3,14 @@
   position: relative;
   padding: 20px 20px 20px 45px;
   margin: 5px 0;
-  border-radius: 2px;
+  border-radius: 3px;
+  &.small {
+    padding: 8px 20px 8px 45px;
+    [class^="icon-"], [class*=" icon-"] {
+      top: 9px;
+      left: 10px;
+    }
+  }
   [class^="icon-"], [class*=" icon-"] {
     @include font-size(20);
     position: absolute;
