@@ -15,7 +15,8 @@ require.config({
             module          : '<?=get_data('module')?>',
             action          : '<?=get_data('action')?>',
             shownExtension  : '<?=get_data('shownExtension')?>',
-            shownStructure  : '<?=get_data('shownStructure')?>'
+            shownStructure  : '<?=get_data('shownStructure')?>',
+            extensionsLocales     : <?=json_encode(get_data('extensionsLocales'))?>
         }
     },
     
@@ -31,7 +32,7 @@ require.config({
         'lodash'            : 'lib/lodash.min',
         'moment'            : 'lib/moment.min',
         'handlebars'        : 'lib/handlebars',
-        'tpl'               : 'template',
+        'tpl'               : 'tpl',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
         'ckeditor-jquery'   : 'lib/ckeditor/adapters/jquery',
         'json2'             : 'lib/json2',
@@ -50,6 +51,12 @@ require.config({
         'i18n_tr'           : '<?=BASE_URL?>locales/<?=get_data('locale')?>/messages_po',
     <?foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
+        <?if(in_array($name, get_data('extensionsLocales'))):?>
+        '<?=$name?>_i18n'   : '../../../<?=$name?>/locales/<?=get_data('locale')?>/messages_po',
+        <?endif?>
+        <?if(tao_helpers_Mode::is('production')):?>
+        '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
+        <?endif?>
     <?endforeach?>
         'taoQtiItemCreator' : '../../../taoQTI/views/js/qtiCreator',
         'taoQtiItem'        : '../../../taoQTI/views/js/qtiItem',

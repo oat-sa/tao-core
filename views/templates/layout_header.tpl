@@ -5,19 +5,20 @@
 	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?></title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 
-        
 	<?=tao_helpers_Scriptloader::render()?>
 
-        <script id='amd-loader' 
+        <?if(tao_helpers_Mode::is('production')):?>
+            <script id='amd-loader' 
+                type="text/javascript" 
+                src="<?=TAOBASE_WWW?>js/main.min.js" 
+                data-config="<?=get_data('client_config_url')?>"></script>
+        <? else: ?>
+            <script id='amd-loader' 
                 type="text/javascript" 
                 src="<?=TAOBASE_WWW?>js/lib/require.js" 
                 data-main="<?=TAOBASE_WWW?>js/main"
                 data-config="<?=get_data('client_config_url')?>"></script>
-        
-<!--	<script id='amd-loader' 
-                type="text/javascript" 
-                src="<?=TAOBASE_WWW?>js/main.min.js" 
-                data-config="<?=get_data('client_config_url')?>"></script>-->
+        <? endif ?>
         
 	<!-- Error Handling -->
 	<? include(TAO_TPL_PATH . 'errors.tpl') ?>

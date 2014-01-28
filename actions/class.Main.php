@@ -39,7 +39,6 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		//initialize service
 		$this->service = tao_models_classes_TaoService::singleton();
 		$this->defaultData();
-
 	}
 
 	/**

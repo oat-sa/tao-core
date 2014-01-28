@@ -45,6 +45,15 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         }
         $this->setData('extensionsAliases', $extensionsAliases);
         
+        $extensionsLocales = array();
+        foreach($extensionManager->getInstalledExtensions() as $extension){
+            $extensionManifestConsts = $extension->getConstants();
+            if(file_exists($extensionManifestConsts['BASE_PATH']. '/locales')){
+                $extensionsLocales[] = $extension->getName();
+            } 
+        }
+        $this->setData('extensionsLocales', $extensionsLocales);
+        
         $base_www = BASE_WWW;
         $base_url = BASE_URL;
         if($this->hasRequestParameter('extension')){
