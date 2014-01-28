@@ -139,30 +139,16 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 */
 	public function index()
 	{
-        $defaultExtIds = array('items', 'tests', 'subjects', 'groups', 'delivery', 'results');
-		$defaultExtensions = array();
-        $additionalExtensions = array();
-        
+		$extensions = array();
 		foreach ($this->service->getAllStructures() as $i => $structure) {
 			if ($structure['data']['visible'] == 'true') {
 				$data = $structure['data'];
-                if(in_array((string) $structure['id'], $defaultExtIds)) {
-                    $defaultExtensions[$i] = array(
-                        'id'			=> (string) $structure['id'],
-                        'name' 			=> (string) $data['name'],
-                        'extension'		=> $structure['extension'],
-                        'description'	=> (string) $data->description
-                    );
-                }
-                else {
-                    $additionalExtensions[$i] = array(
-                        'id'			=> (string) $structure['id'],
-                        'name' 			=> (string) $data['name'],
-                        'extension'		=> $structure['extension'],
-                        'description'	=> (string) $data->description
-                    );
-                }
-
+				$extensions[$i] = array(
+					'id'			=> (string) $structure['id'],
+					'name' 			=> (string) $data['name'],
+					'extension'		=> $structure['extension'],
+					'description'	=> (string) $data->description
+				);
 
 				//Test if access
 				$access = false;
@@ -173,20 +159,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
 						break;
 					}
 				}
-                if(in_array((string) $structure['id'], $defaultExtIds)) {
-                    $defaultExtensions[$i]['enabled'] = $access;
-                }
-                else {
-                    $additionalExtensions[$i]['enabled'] = $access;
-                }
+				$extensions[$i]['enabled'] = $access;
 			}
 		}
-        
-        $isFirstTimeLogin = 1;
-		$this->setData('extensions', array_merge($defaultExtensions,$additionalExtensions));
-        $this->setData('defaultExtensions', $defaultExtensions);
-        $this->setData('additionalExtensions', $additionalExtensions);
-        $this->setData('isFirstTimeLogin', $isFirstTimeLogin);
+		$this->setData('extensions', $extensions);
 
                 $shownExtension = $this->getRequestParameter('ext');
                 $shownStructure = $this->getRequestParameter('structure');
