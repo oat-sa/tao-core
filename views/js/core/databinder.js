@@ -514,7 +514,7 @@ function($, _, Handlebars, Encoders, Filters){
      */
     DataBinder.prototype._getNodeValue = function _getNodeValue($node) {
         var value;
-        if ($node.is(':text, :hidden, textarea')) {
+        if ($node.is(":text, inupt[type='hidden'], textarea")) {
             value = $node.val();
         } else if ($node.is(':radio, :checkbox')) {
             value = toBind($node).filter(':checked').val();

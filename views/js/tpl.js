@@ -43,9 +43,7 @@ define(['handlebars', 'i18n'], function(Handlebars, __) {
             
             if (config.isBuild) {
                 //optimization, r.js node.js version
-                var fs = nodeRequire("fs");
-                var fsPath = config.dirBaseUrl + "/" + name + extension;
-                buildMap[name] = fs.readFileSync(fsPath).toString();
+                buildMap[name] = fs.readFileSync(req.toUrl(name + extension)).toString();
                 onload();
                 
             } else {
@@ -61,7 +59,7 @@ define(['handlebars', 'i18n'], function(Handlebars, __) {
                 var compiled = Handlebars.precompile(buildMap[moduleName]);
                 // Write out precompiled version of the template function as AMD definition.
                 write(
-                  "define('hbs!" + moduleName + "', ['handlebars'], function(Handlebars){ \n" +
+                  "define('tpl!" + moduleName + "', ['handlebars'], function(Handlebars){ \n" +
                     "return Handlebars.template(" + compiled.toString() + ");\n" +
                   "});\n"
                 );

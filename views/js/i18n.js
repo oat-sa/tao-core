@@ -1,4 +1,19 @@
-define(['i18n_tr'], function(tr){
+define(['lodash', 'i18n_tr', 'context'], function(_, tr, context){
+    
+    var translations = tr.i18n_tr || {};
+    var extensionLocales = _.map(context.extensionsLocales, function(extension){
+      return extension + '_i18n';  
+    });
+    
+    //done at load time
+    require(extensionLocales, function(){
+       _.forEach(arguments, function(extensionLocale){
+           if(extensionLocale && extensionLocale.i18n_tr){
+               translations = _.merge(translations, extensionLocale.i18n_tr);
+           }
+       });
+    });
+    
     
     /**
      * Common translation method.
@@ -8,10 +23,11 @@ define(['i18n_tr'], function(tr){
      * @returns {String} translated message 
      */
     var __ = function __(message){
-        return (!tr.i18n_tr || !tr.i18n_tr[message]) ? message :  tr.i18n_tr[message];
+        return !translations[message] ? message :  translations[message];
     };
 
 
     //expose the translation function
     return __ ;
+    
 });
