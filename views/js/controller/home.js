@@ -1,14 +1,7 @@
-define(['jquery', 'controller/home/splash'], function ($, SplashScreen) {
+define(['jquery'], function ($) {
     'use strict';
-
-        if (typeof isFirstTimeLogin != 'undefined' && isFirstTimeLogin) {
-            SplashScreen.init();
-        }
-                
-        $('#splash-close-btn').on('click', function(){
-            SplashScreen.close();
-        });
-
+    
+    
         $(".extension-nav").each(function(){
                 var url = $(this).attr('href');
                 $(this).parent("div.home-box").click(function(){
