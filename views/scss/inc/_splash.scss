@@ -1,0 +1,328 @@
+/* Mixins */
+@mixin border-right-radius($rad) {
+	-webkit-border-radius: 0 $rad $rad 0;
+	-moz-border-radius: 0 $rad $rad 0;
+	border-radius: 0 $rad $rad 0;
+}
+
+/* Splash screen styles */
+.splash-screen-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.modal.splash-modal {
+	padding: 65px 0 0 0;
+}
+
+.modal-title {
+    background-color: $logoRed;
+    @include border-right-radius(8px);
+    position: absolute;
+    line-height: 27px;
+    top: 12px;
+    left: -15px;
+    color: #fff;
+    padding: 5px 30px 5px 30px;
+
+    h1 {
+        font-size: 20px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .title-shadow {
+        background: url("../img/splash/title-shadow.png") no-repeat 0 0;
+        display: block;
+        width: 14px;
+        height: 7px;
+        position: absolute;
+        left: 0;
+        bottom: -6px;
+    }
+}
+
+.modal-nav {
+    background-color: $uiClickableDefaultBg;
+    width: 100%;
+    display:none !important;
+    
+        li {
+            float: left;
+            
+            &.active a {
+                background-color: $uiClickableActiveBg;
+                color: $textColor;
+            }
+            
+            &:hover a {
+                background-color: $uiClickableHoverBg;
+                color: $textHighlight;
+            }
+            
+            a {
+                line-height: 20px;
+                display: block;
+                padding: 5px 15px;
+                color: $textColor;
+            }
+        }
+}
+
+.modal-content {
+    padding-bottom: 35px;
+    margin: 15px 20px;
+    border-bottom: 1px solid $uiGeneralContentBorder;
+
+    .panels {
+        display: none;
+
+        .icon, .arrow {
+            font-size: 40px;
+            line-height: 50px;
+            margin: 0;
+            padding: 0;
+        }
+
+        &>p {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .diagram {
+            width: 300px;
+            margin-left: 20px;
+            left: 0;
+            position: absolute;
+
+            &>a, &>span {
+                display: block;
+                width: 130px;
+                color: $uiClickableActiveBg - 90;
+                font-weight: bold;
+                text-align: center;
+                position: absolute;
+            }
+
+            .arrow {
+                height: 50px;
+                color: $uiClickableActiveBg - 140;
+                cursor: default;
+            }
+
+            .module {
+                height: 70px;
+
+                &.subjects-wrapper {
+                    height: 190px;
+
+                    .arrow {
+                        display: block;
+                    }
+                }
+
+                &.disabled{
+
+                    &:hover {
+                        background: none;
+                        cursor: default;
+                        color: $uiClickableActiveBg - 90;
+                    }
+
+                    .locked:before {
+                        @include icon('lock');
+                        line-height: 50px;
+                        font-size: 20px;
+                        position: absolute;
+                        right: 15px;
+                    }
+                }
+
+                &:hover, &.active-module {
+                    cursor: pointer;
+                    @include border-radius(10);
+                    color: $logoRed;
+                    background: $uiClickableDefaultBg;
+                }
+
+                .module-title {
+                    display: block;
+                    font-size: 15px;
+                    line-height: 15px;
+                    margin-top: 5px;
+                }
+            }
+
+            $positions: items 0 0, arrow-1 70 0, tests 120 0, subjects 0 150, arrow-2 190 0, arrow-4 190 150, delivery 240 75, 
+                        arrow-5 310 75, results 360 75;
+
+            @each $position in $positions {
+                .#{nth($position, 1)}-wrapper {
+                    top: #{nth($position, 2)}px;
+                    left: #{nth($position, 3)}px;
+                }
+            }
+        }
+        
+        $icons: items reorder, tests reorder, subjects user, groups users, delivery reorder, results reorder, 
+                arrow-1 down, arrow-2 down, arrow-3 down, arrow-4 down, arrow-5 down;
+
+        @each $icon in $icons {
+            .icon-#{nth($icon, 1)}:before {
+                @include icon(#{nth($icon, 2)});
+            }
+        } 
+
+        .desc {
+            border: 1px solid $uiGeneralContentBorder;
+            background-color: $uiClickableDefaultBg;
+            margin-left: 300px;
+            min-height: 100%;
+            height: 445px;
+
+            .module-desc {
+                padding: 10px;
+                display: none;
+
+                &.default {
+                    color: $textColor + 40;
+                    display: block;
+                }
+
+                &>h2 {
+                    font-size: 25px;
+                    margin: 8px 0 50px 10px;
+                }
+
+                .icon {
+                    color: $uiClickableActiveBg - 90;
+                    display: block;
+                    width: 37px;
+                    height: 46px;
+                    position: absolute;
+                    right: 20px;
+                    top: 10px;
+                }
+            }
+        }
+
+        .more {	
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+        .icon-small {
+            font-size: 15px;
+            line-height: 15px;
+            margin: 0;
+            padding: 0;
+
+            &:before {
+                content: "\e606";
+            }
+        }
+
+
+        .new-module {
+            display: block;
+            float: left;
+            line-height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            color: $uiClickableActiveBg - 90;
+
+            &:hover, &.active{
+                color: $logoRed;
+            }
+        }
+    }
+}
+
+.modal-footer {
+    margin: 15px 20px;
+
+    .checkbox-wrapper {
+        margin-bottom: 10px;
+        font-size: 13px;
+        width: 50%;
+    }
+
+    .checkbox-label{
+        width: 80%;
+        line-height: normal;
+    }
+
+    .note {
+        font-size: 13px;
+    }
+
+    .btn-button {
+        float: right;
+    }
+}
+
+.scrollable {
+    position: relative;
+
+    &:focus {
+        outline: 0;
+    }
+    
+    .viewport {
+        position: relative;
+        overflow: hidden;
+        
+        .overview {
+            position: absolute;
+            width: 100%;
+        }
+    }
+    
+    .scroll-bar {
+        display: none;
+        
+        &.vertical {
+            position: absolute;
+            right: 0;
+            height: 100%;
+            
+            .thumb {
+                width: 100%;
+                min-height: 10px;
+                margin: 0 1px;
+                width: 14px;
+            }
+        }
+        
+        .thumb {
+            position: absolute;
+        }
+    }
+    
+    &.gray-skin {
+        padding-right: 17px;
+        
+        .scroll-bar {
+            border-left: 1px solid #e0e0e0;
+            background-color: #fff;
+            
+            &.vertical {
+                width: 16px;
+            }
+            
+            .thumb {
+                background-color: #c7c7c7;
+            }
+        }
+    }
+}
+
+.not-selectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
