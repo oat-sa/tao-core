@@ -8,8 +8,9 @@ define([
     'ui/btngrouper', 
     'ui/flipper',
     'ui/durationer',
-    'ui/selecter'
-], function(toggler, disabler, adder, closer, incrementer, inplacer, btngrouper, flipper, durationer, selecter) {
+    'ui/selecter',
+    'ui/modal'
+], function(toggler, disabler, adder, closer, incrementer, inplacer, btngrouper, flipper, durationer, selecter, modal) {
     'use strict';
         
     /**
@@ -30,6 +31,7 @@ define([
             toggler($container);
             inplacer($container);
             flipper($container);
+            modal($container);
             this.startDomComponent($container);
         },
         
