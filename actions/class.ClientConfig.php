@@ -47,8 +47,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         
         $extensionsLocales = array();
         foreach($extensionManager->getInstalledExtensions() as $extension){
-            $extensionManifestConsts = $extension->getConstants();
-            if(file_exists($extensionManifestConsts['BASE_PATH']. '/locales')){
+            if(file_exists($extension->getDir(). '/locales')){
                 $extensionsLocales[] = $extension->getName();
             } 
         }
