@@ -24,7 +24,7 @@ require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
- * This class enable you to test the validators
+ * This class tests the state of the ontology
  *
  * @author Joel Bout, <taosupport@tudor.lu>
  * @package tao
@@ -39,19 +39,45 @@ class CardinalityTest extends TaoPhpUnitTestRunner {
 		TaoPhpUnitTestRunner::initTest();
 	}
 
-	/**
-	 * Test the service factory: dynamical instantiation and single instance serving
-	 * @see tao_models_classes_ServiceFactory::get
-	 */
 	public function testProperties(){
+	    
+	    
         $propClass = new core_kernel_classes_Class(RDF_PROPERTY);
         foreach ($propClass->getInstances(true) as $property) {
+            // invalid
             $widgets = $property->getPropertyValues(new core_kernel_classes_Property(PROPERTY_WIDGET));
             $this->assertTrue(count($widgets) <= 1, 'Property '.$property->getUri().' has several widgets assigned');
+            
+            // valid but not supported
             $domains = $property->getPropertyValues(new core_kernel_classes_Property(RDF_DOMAIN));
             $this->assertTrue(count($domains) <= 1, 'Property '.$property->getUri().' has several domains assigned');
+            
+            // valid but not supported
             $ranges = $property->getPropertyValues(new core_kernel_classes_Property(RDFS_RANGE));
             $this->assertTrue(count($ranges) <= 1, 'Property '.$property->getUri().' has several ranges assigned');
         }
 	}
+	
+	/**
+	 * Test the service factory: dynamical instantiation and single instance serving
+	 */
+	public function testMultiple(){
+	    $propClass = new core_kernel_classes_Class(RDF_PROPERTY);
+	    $q = "SELECT subject, count(object)
+                FROM statements
+                    WHERE predicate = ?
+                    GROUP BY subject
+                    HAVING (count(object) > 1)";
+	    foreach ($propClass->getInstances(true) as $property) {
+            $property = new core_kernel_classes_Property($property);
+            if (!$property->isMultiple() && !$property->isLgDependent()) {
+                // bypass generis
+                $result = core_kernel_classes_DbWrapper::singleton()->query($q, array($property->getUri()));
+                while($statement = $result->fetch()){
+                    $this->fail($property->getUri().' has multiple values but is not multiple.');
+                }
+            }
+	    }
+	}
+	
 }
