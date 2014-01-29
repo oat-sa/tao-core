@@ -2204,6 +2204,7 @@ a[rel="external"] span.icon-external:before {
   /* Flipper */
   /* InPlacer */
   /* ListBox  */
+  /* Modal styles */
   position: relative;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400; }
@@ -4203,6 +4204,41 @@ a[rel="external"] span.icon-external:before {
         background: none;
         margin: .5em;
         opacity: 0.6; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_components\.scss}line{font-family:\00003153}}
+  .tao-scope .modal {
+    background-color: white;
+    border: 1px solid #dddddd;
+    box-shadow: 3px 3px 5px #666666;
+    height: auto;
+    min-width: 600px;
+    opacity: 0;
+    top: -1000px;
+    padding: 40px;
+    position: absolute;
+    z-index: 99; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_components\.scss}line{font-family:\00003165}}
+    .tao-scope .modal #modal-close {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #222222;
+      font-size: 20px;
+      font-size: 2rem; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_components\.scss}line{font-family:\00003176}}
+  .tao-scope .modal-bg {
+    background: none repeat scroll 0 0 black;
+    opacity: 0.45;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=45)";
+    filter: alpha(opacity=45);
+    display: none;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 98; }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000369}}
   .tao-scope h1, .tao-scope h2, .tao-scope h3, .tao-scope h4, .tao-scope h5, .tao-scope h6 {
     font-weight: 400;
