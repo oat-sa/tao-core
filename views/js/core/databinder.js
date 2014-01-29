@@ -482,7 +482,7 @@ function($, _, Handlebars, Encoders, Filters){
             }
 
             //assign value
-            if ($node.is(':text, textarea')) {
+            if ($node.is(":text, input[type='hidden'], textarea, select")) {
                 $node.val(value);
             } else if ($node.is(':radio, :checkbox')) {
                 toBind($node).each(function(){
@@ -514,7 +514,7 @@ function($, _, Handlebars, Encoders, Filters){
      */
     DataBinder.prototype._getNodeValue = function _getNodeValue($node) {
         var value;
-        if ($node.is(":text, inupt[type='hidden'], textarea")) {
+        if ($node.is(":text, input[type='hidden'], textarea, select")) {
             value = $node.val();
         } else if ($node.is(':radio, :checkbox')) {
             value = toBind($node).filter(':checked').val();

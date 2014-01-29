@@ -274,7 +274,7 @@ hr {
   cursor: move;
 }
 /* line 46, ../sass/_components.scss */
-.card .ui-sortable > *:before, .nav .ui-sortable > *:before {
+/*.card .ui-sortable > *:before, .nav .ui-sortable > *:before {
   background-image: url("../../../../tao/views/css/custom-theme/images/ui-icons_888888_256x240.png");
   display: inline-block;
   vertical-align: middle;
@@ -283,7 +283,7 @@ hr {
   width: 16px;
   height: 16px;
   content: ' ';
-}
+}*/
 /* line 53, ../sass/_components.scss */
 .card ul.listbox, .nav ul.listbox {
   margin: .1em 0;

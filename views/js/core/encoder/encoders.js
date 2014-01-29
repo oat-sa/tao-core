@@ -1,6 +1,6 @@
 define(
-['lodash', 'core/encoder/boolean', 'core/encoder/number', 'core/encoder/time', 'core/encoder/array'], 
-function(_, boolean, number, time, array){
+['lodash', 'core/encoder/boolean', 'core/encoder/number', 'core/encoder/time', 'core/encoder/array2str', 'core/encoder/str2array'], 
+function(_, boolean, number, time, array2str, str2array){
     
     /**
      * Extract the argument in parenthesis from a function name:  "foo(a,b)" return [a,b]
@@ -39,7 +39,8 @@ function(_, boolean, number, time, array){
         number : number,
         time : time,
         boolean : boolean,
-        array : array,
+        array2str : array2str,
+        str2array : str2array,
         
         register : function(name, encode, decode){
             if(!_.isString(name)){
