@@ -76,6 +76,7 @@ class tao_models_classes_service_StorageDirectory
     
     public function getPublicAccessUrl() {
         if (is_null($this->accessProvider)) {
+            common_Logger::e('accessss');
             throw new common_Exception('Tried obtaining access to private directory with ID '.$this->id);
         }
         return $this->accessProvider->getAccessUrl($this->relPath);
