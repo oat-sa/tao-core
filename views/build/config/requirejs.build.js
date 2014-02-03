@@ -61,14 +61,6 @@ require.config({
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'json2'                 : { exports:'JSON'},
-        'class'                 : { exports : 'Class'},
-        'mediaElement' : {
-            deps: ['jquery'],
-            exports : 'MediaElementPlayer',
-            init : function(){
-                MediaElementPlayer.pluginPath = '';//define the plugin swf path here
-                return MediaElementPlayer;
-            }
-        }
+        'class'                 : { exports : 'Class'}
     }
 });

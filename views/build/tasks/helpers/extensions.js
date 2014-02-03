@@ -19,24 +19,46 @@ module.exports = function(grunt, root){
             return root + '/' + extension;
         },
 
-        getExtensionSources : function getExtensionSources(extension, filePattern) {
-            var extpath = this.getExtensionPath(extension);
+        getExtensionSources : function getExtensionSources(extension, filePattern, amdify) {
+            var extPath = this.getExtensionPath(extension);
 
-            var jsSources = grunt.file.expand({cwd: extpath}, filePattern);
+            var jsSources = grunt.file.expand({cwd: extPath}, filePattern);
             jsSources.forEach(function(source, index) {
-                jsSources[index] = extpath + '/' + source;
+                var path = extPath + '/' + source;
+                if(amdify && amdify === true){
+                    path = path.replace(extPath + '/views/js', extension === 'tao' ? '': extension).replace(/\.js$/, '').replace(/^\//, '');  
+                }
+                jsSources[index] = path;
+                
             });
             return jsSources;
         },
 
-        getExtensionsSources : function getExtensionsSources(filePattern){
+        getExtensionsSources : function getExtensionsSources(filePattern, amdify){
             var self = this;
             var sources = [];
             this.getExtensions(true).forEach(function(extension){
-                sources = sources.concat(self.getExtensionSources(extension, filePattern)); 
+                sources = sources.concat(self.getExtensionSources(extension, filePattern, amdify)); 
             });
             return sources;
         },
+        
+       getExtensionsPaths : function getExtensionsPaths(extensions){
+           var self = this;
+           var paths = { };
+           extensions = extensions || self.getExtensions(true);
+           extensions.forEach(function(extension){
+               paths[extension] = path.relative('../js', self.getExtensionPath(extension) + '/views/js');
+           });
+           return paths;
+       },
+        
+        
+        
+        
+        
+        
+        // OUT OF DATE !!!
 
        getExtensionsControllers : function getExtensionsControllers(extensions){
            var self = this;
@@ -62,16 +84,6 @@ module.exports = function(grunt, root){
                 }));
             });
             return modules;
-       },
-
-       getExtensionsPaths : function getExtensionsPaths(extensions){
-           var self = this;
-           var paths = { };
-           extensions = extensions || self.getExtensions(true);
-           extensions.forEach(function(extension){
-               paths[extension] = path.relative('../js', self.getExtensionPath(extension) + '/views/js');
-           });
-           return paths;
        }
    };
 };
