@@ -48,40 +48,43 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
            
             return this.each(function() {
                 var $elt = $(this);
-                var $target = options.target;
                 
-                if(!/^#/.test($target.selector)){
-                    $.error('The target selector must be an id.');
+                if(!$elt.data(dataNs)){
+                    var $target = options.target;
+
+                    if(!/^#/.test($target.selector)){
+                        $.error('The target selector must be an id.');
+                    }
+
+                    if($target.length === 0){
+                        //add an hidden field next to the edited element
+                        $elt.after("<input id='" + $target.selector.replace('#', '') + "' type='hidden' />");
+                        options.target = $($target.selector);
+                    } else if($target.prop('tagName') !== 'INPUT') {
+                        $.error('The target must be an input element.');
+                    }
+
+                    //add data to the element
+                    $elt.data(dataNs, options);
+
+                    $elt.addClass(options.inplaceClass);
+
+                    InPlacer._sync($elt, $target);
+
+                    //bind an event to trigger the toggling
+                    if(options.bindEvent !== false){
+                        $elt.on(options.bindEvent, function(e){
+                            e.preventDefault();
+                            InPlacer._toggle($(this));
+                         });
+                    }
+
+                    /**
+                     * The plugin have been created.
+                     * @event InPlacer#create.inplacer
+                     */
+                    $elt.trigger('create.' + ns);
                 }
-                
-                if($target.length === 0){
-                    //add an hidden field next to the edited element
-                    $elt.after("<input id='" + $target.selector.replace('#', '') + "' type='hidden' />");
-                    options.target = $($target.selector);
-                } else if($target.prop('tagName') !== 'INPUT') {
-                    $.error('The target must be an input element.');
-                }
-                
-                //add data to the element
-                $elt.data(dataNs, options);
-                
-                $elt.addClass(options.inplaceClass);
-                
-                InPlacer._sync($elt, $target);
-                
-                //bind an event to trigger the toggling
-                if(options.bindEvent !== false){
-                    $elt.on(options.bindEvent, function(e){
-                        e.preventDefault();
-                        InPlacer._toggle($(this));
-                     });
-                }
-                
-                /**
-                 * The plugin have been created.
-                 * @event InPlacer#create.inplacer
-                 */
-                $elt.trigger('create.' + ns);
             });
        },
        

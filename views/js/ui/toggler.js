@@ -45,28 +45,30 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
            
             return this.each(function() {
                 var $elt = $(this);
-                
-                //add data to the element
-                $elt.data(dataNs, options);
-                
-                //add the default class if not set
-                if(!$elt.hasClass(options.closedClass) && !$elt.hasClass(options.openedClass)){
-                    $elt.addClass(options.closedClass);
+               
+                if(!$elt.data(dataNs)){
+                    //add data to the element
+                    $elt.data(dataNs, options);
+
+                    //add the default class if not set
+                    if(!$elt.hasClass(options.closedClass) && !$elt.hasClass(options.openedClass)){
+                        $elt.addClass(options.closedClass);
+                    }
+
+                    //bind an event to trigger the toggling
+                    if(options.bindEvent !== false){
+                        $elt.on(options.bindEvent, function(e){
+                            e.preventDefault();
+                            Toggler._toggle($(this));
+                         });
+                    }
+
+                    /**
+                     * The plugin have been created.
+                     * @event Toggler#create.toggler
+                     */
+                    $elt.trigger('create.' + ns);
                 }
-                
-                //bind an event to trigger the toggling
-                if(options.bindEvent !== false){
-                    $elt.on(options.bindEvent, function(e){
-                        e.preventDefault();
-                        Toggler._toggle($(this));
-                     });
-                }
-                
-                /**
-                 * The plugin have been created.
-                 * @event Toggler#create.toggler
-                 */
-                $elt.trigger('create.' + ns);
             });
        },
        

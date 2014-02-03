@@ -42,22 +42,24 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
             return this.each(function() {
                 var $elt = $(this);
                 
-                //add data to the element
-                $elt.data(dataNs, options);
-                
-                 //bind an event to trigger the addition
-                if(options.bindEvent !== false){
-                    $elt.on(options.bindEvent, function(e){
-                        Disabler._toogle($elt);
-                        e.preventDefault();
-                     });
+                if(!$elt.data(dataNs)){
+                    //add data to the element
+                    $elt.data(dataNs, options);
+
+                     //bind an event to trigger the addition
+                    if(options.bindEvent !== false){
+                        $elt.on(options.bindEvent, function(e){
+                            Disabler._toogle($elt);
+                            e.preventDefault();
+                         });
+                    }
+
+                    /**
+                     * The plugin have been created.
+                     * @event Disabler#create.disabler
+                     */
+                    $elt.trigger('create.' + ns);
                 }
-               
-                /**
-                 * The plugin have been created.
-                 * @event Disabler#create.disabler
-                 */
-                $elt.trigger('create.' + ns);
             });
        },
        

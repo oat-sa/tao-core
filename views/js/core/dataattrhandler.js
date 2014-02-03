@@ -92,7 +92,10 @@ define(['jquery', 'lodash'], function($, _){
         }
         
         //listen for events on selector (the listening works even though the DOM changes).
-        $(document).on(this.options.listenerEvent, selector, function(e){
+        $(document)
+            .off(this.options.listenerEvent, selector)
+            .on(this.options.listenerEvent, selector, function(e){
+            
             var $elt = $(e.target);
             
             if($elt.is(selector)){
