@@ -198,14 +198,17 @@ module.exports = function(grunt) {
          * grunt jshint --extension=taoItem
          */
         jshint : {
-            dist : {
-                src : sources.jshint,
-                options : {
-                    jshintrc : '.jshintrc'
-                }
+            options : {
+                jshintrc : '.jshintrc'
             },
-            noop: {
-                src : []
+            all : {
+                src : sources.jshint
+            },
+            file : {
+                 src : grunt.option('file')
+            },
+            extension : {
+                src : ext.getExtensionSources(currentExtension, ['views/js/**/*.js'])
             }
         },
         
