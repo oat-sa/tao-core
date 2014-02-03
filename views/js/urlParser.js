@@ -35,7 +35,22 @@ define(['lodash'], function(_){
        var detachedAnchor = document.createElement('a');
        detachedAnchor.href = url;
        this.data = _.pick(detachedAnchor, urlParts);
+       this.params = UrlParser.extractParams(this.data.search);
    }
+   
+   /**
+    * Get an object that represents query params from the search string
+    * @memberOf UrlParser
+    * @param {String} search
+    * @returns {Object} key : value
+    */
+   UrlParser.extractParams = function(search){
+       var params = {}; 
+       search.replace(/^\?/, '').replace(/([^=&]+)=([^&]*)/g, function(m, key, value) {
+            params[decodeURIComponent(key)] = decodeURIComponent(value);
+        }); 
+        return params;
+   };
    
    /**
     * Get a part of the url 
@@ -46,19 +61,39 @@ define(['lodash'], function(_){
    UrlParser.prototype.get = function(what){
        return urlParts.indexOf(what) > - 1 ? this.data[what] : false;
    };
-    
+   
    /**
     * Get an object that represents the URL's query params
     * @memberOf UrlParser
     * @returns {Object} key : value
     */
-   UrlParser.prototype.getParams = function(){
-       var params = {}; 
-       this.data.search.replace(/^\?/, '').replace(/([^=&]+)=([^&]*)/g, function(m, key, value) {
-            params[decodeURIComponent(key)] = decodeURIComponent(value);
-        }); 
-        return params;
+   UrlParser.prototype.getParams = function(search){
+        return this.params;
    };
+   
+   /**
+    * Replace  the parameter set
+    * @memberOf UrlParser
+    * @param {Object} params - of key:value
+    */
+   UrlParser.prototype.setParams = function(params){
+       if(_.isObject(params)){
+            this.params = params;
+       }
+   };
+   
+   /**
+    * Add a new parameter
+    * @memberOf UrlParser
+    * @param {String} key
+    * @param {String} value
+    */
+   UrlParser.prototype.addParam = function(key, value){
+       if(key){
+            this.params[key] = value;
+       }
+   };
+   
    
    /**
     * Get each paths chunk
@@ -68,7 +103,56 @@ define(['lodash'], function(_){
    UrlParser.prototype.getPaths = function(){
        return this.data.pathname.replace(/^\/|\/$/g, '').split('/');
    };
-    
+   
+   /**
+    * Get the URL 
+    * @param {Array} [exclude} - url parts to exclude in hosts, params and hash
+    * @returns {String} the url
+    */
+   UrlParser.prototype.getUrl = function(exclude){
+       var url = '';
+       exclude = exclude || []; 
+       if(this.data){
+            if(this.data.hostname && exclude.indexOf('host') === -1){
+                url += (this.data.protocol ?  this.data.protocol : 'http:') + '//' + this.data.hostname;
+                if(this.data.port){
+                    url += ':' + this.data.port;
+                }
+            }       
+            url += this.data.pathname;  //there is always a path
+
+            if(this.params && exclude.indexOf('params') === -1){
+                url += '?';
+                _.forEach(this.params, function(value, key){
+                   url += encodeURIComponent(key) + '=' + encodeURIComponent(value) + '&';
+                });
+                url = url.substring(0, url.length - 1);
+            }
+
+            if(this.data.hash && exclude.indexOf('hash') === -1){
+                url += this.data.hash;
+            }
+       }
+       return url;
+   };
+   
+   /**
+    * Get the URL without parameters, hash and file if
+    * @returns {String} the url
+    */
+    UrlParser.prototype.getBaseUrl = function(){
+        
+        var baseUrl = this.getUrl(['params', 'hash']);
+        var paths = this.getPaths();
+        var lastPart = paths[paths.length - 1];
+        
+        //remove if trailing path token is a file
+        if(paths.length > 0 && /\.[a-z]+$/.test(lastPart)){
+            baseUrl = baseUrl.replace(lastPart, '').replace(/\/\/$/, '/');
+        }
+        
+        return baseUrl;
+    };
    
    /**
     * Check if CORS applies to 2 differents URLs
@@ -85,6 +169,8 @@ define(['lodash'], function(_){
        }
        throw new Error('parsedUrl parameter must be an instanceof UrlParser');
    };
+   
+   
     
    return UrlParser;
 });
