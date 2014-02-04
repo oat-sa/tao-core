@@ -1,0 +1,52 @@
+
+@import "choice";
+@import "order";
+@import "extended-text";
+@import "associate";
+
+.block-listing {
+  &>li {
+    @include simple-border(#eee);
+    background:white;
+    padding: 5px;
+    margin: 3px;
+    cursor:pointer;
+    &.active {
+      border-color: mix(#fff, $info, 20%);
+      cursor: default
+    }
+  }
+  &.horizontal {
+    @extend .clearfix;
+    &:after {
+      @extend .clearfix:after;
+    }
+    &:before {
+      @extend .clearfix:before;
+    }
+    &>li {
+      display:block;
+      float:left;
+    }
+  }
+  &.solid, &.bordered {
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    &.none {
+      padding-left: 3px
+    }
+  }
+  &.solid {
+    background:mix(#fff, $uiClickableDefaultBg, 50%);
+  }
+  &.bordered {
+    @include simple-border(#eee);
+  }
+}
+
+.qti-interaction .empty {
+  border: 1px $uiClickableHoverBg dashed;
+  min-height: 50px;
+  cursor: default
+}

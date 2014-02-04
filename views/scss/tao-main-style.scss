@@ -6,11 +6,6 @@
 @import "inc/grid";
 @import "inc/select2";
 @import "inc/toolbars";
-@import "inc/qti-choice";
-
-test {
-  foo: bar
-}
 
 // set all block elements to have no space on top
 address,article,aside,audio,blockquote,canvas,dd,div,dl,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,
@@ -27,8 +22,23 @@ hr,ol,p,pre,table,ul {
 }
 
 code {
-  background: $lightBlueGrey;
-  padding: 2px 3px
+  background: whiten($lightBlueGrey, .5);
+  padding: 2px 6px;
+  display:inline-block;
+  margin: 0 3px;
+  @include border-radius();
+}
+
+code, pre {
+  font-family: $monospaceFont;
+  @include font-size(14);
+}
+
+
+
+input {
+  @include simple-border();
+  @include border-radius(1);
 }
 
 .overlay, .ui-widget-overlay {
@@ -63,6 +73,8 @@ a[rel="external"] span.icon-external {
   @import "inc/base";
   @import "inc/forms";
   @import "inc/components";
+
+  @import "qti/qti";
 
   position: relative;
 

@@ -1,4 +1,5 @@
-[class^="btn-"], [class*=" btn-"], .btn-info {
+[class^="btn-"], [class*=" btn-"], .btn-info,
+  button, input[type="submit"], input[type="reset"]{
   @include border-radius(3);
   font-size: 14px !important;
   font-size: 1.4rem !important;
@@ -17,8 +18,13 @@
   font-weight: normal;
   font-style:normal;
   text-align:center;
+  height: 35px;
   &.small {
     line-height:1.8;
+    height: 25px;
+    [class^="icon-"], [class*=" icon-"] {
+      @include font-size(13);
+    }
   }
   [class^="icon-"], [class*=" icon-"] {
     @include font-size(14);
@@ -35,24 +41,24 @@
   &:hover {
     opacity: .85;
   }
+  &.btn-error {
+    background-color: whiten($error, .1);
+    text-shadow: 1px 1px 0 blacken($error, .2);
+  }
+
+  &.btn-success {
+    background-color: whiten($success, .1);
+    text-shadow: 1px 1px 0 blacken($success, .2);
+  }
+
+  &.btn-warning {
+    background-color: whiten($warning, .1);
+    text-shadow: 1px 1px 0 blacken($warning, .2);
+  }
 }
 
-input {
-  @include simple-border();
-  @include border-radius(1);
-}
-
-.btn-error {
-  background-color: whiten($error, .1);
-  text-shadow: 1px 1px 0 blacken($error, .2);
-}
-
-.btn-success {
-  background-color: whiten($success, .1);
-  text-shadow: 1px 1px 0 blacken($success, .2);
-}
-
-.btn-warning {
-  background-color: whiten($warning, .1);
-  text-shadow: 1px 1px 0 blacken($warning, .2);
+.btn-disabled, button[disabled], input[disabled] {
+  background-color: whiten($websiteBorder, .1) !important;
+  text-shadow: 1px 1px 0 blacken($websiteBorder, .2) !important;
+  cursor: not-allowed !important;
 }

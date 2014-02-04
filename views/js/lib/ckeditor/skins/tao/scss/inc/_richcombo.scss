@@ -70,6 +70,7 @@ The visual representation of a rich combo widget looks as follows:
   @include border-radius();
 
   background: white();
+  max-height: 26px;
 }
 
 /* Different states of the container. */

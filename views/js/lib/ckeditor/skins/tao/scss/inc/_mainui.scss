@@ -99,9 +99,9 @@ Special outer level classes used in this file:
 	/* Allow breaking toolbars when in a narrow editor. (#9947) */
 	white-space: normal;
 
-	-webkit-box-shadow: 2px 2px 3px 0 black(.2);
-  box-shadow: 2px 2px 3px 0 black(.2);
+	@include simple-border(#eee);
   background: white();
+  padding: 1px 5px 4px;
 }
 
 .cke_float .cke_top
