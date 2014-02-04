@@ -233,7 +233,9 @@ class tao_helpers_File
             'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
                         
             // fonts
-            'woff' => 'application/x-font-woff'
+            'woff' => 'application/x-font-woff',
+            'eot'  => 'application/vnd.ms-fontobject',
+            'ttf'  => 'application/x-font-ttf'
         );
 
         return (array) $returnValue;
