@@ -424,5 +424,25 @@ class tao_helpers_File
     
         return $returnValue;
     }
+    
+    /**
+     * Gets the local path to a publicly available resource
+     * no verification if the file should be accessible
+     * 
+     * @param string $url
+     * @throws common_Exception
+     * @return string
+     */
+    public static function getPathFromUrl($url) {
+        if (substr($url, 0, strlen(ROOT_URL)) != ROOT_URL) {
+            throw new common_Exception($url.' does not lie within the tao instalation path');
+        }
+        $path = ROOT_PATH.substr($url, strlen(ROOT_URL));
+        if (self::securityCheck($path)) {
+            return ROOT_PATH.substr($url, strlen(ROOT_URL));
+        } else {
+            throw new common_Exception($url.' is not secure');
+        }
+    }
 
 }
