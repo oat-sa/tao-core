@@ -260,4 +260,6 @@ module.exports = function(grunt) {
                         
     grunt.registerTask('jsBundle', "Create JavaScript bundles for the whole TAO plateform",
                         ['backendBundle', 'qtiBundle']);
+
+    grunt.registerTask('build', "The full build sequence", ['jsBundle']);
 };

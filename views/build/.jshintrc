@@ -16,6 +16,7 @@
         "define" : true,
         "requirejs" : true,
         "module" : true,
-        "Modernizr" : true
+        "Modernizr" : true,
+        "JSON" : true
     }
 }

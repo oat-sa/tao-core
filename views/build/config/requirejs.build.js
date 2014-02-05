@@ -14,7 +14,6 @@ require.config({
         'tpl'               : 'tpl',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
         'ckeditor-jquery'   : 'lib/ckeditor/adapters/jquery',
-        'json2'             : 'lib/json2',
         'class'             : 'lib/class',
         'jwysiwyg'          : 'lib/jwysiwyg/jquery.wysiwyg',
         'jsTree'            : 'lib/jsTree',
@@ -60,7 +59,6 @@ require.config({
         'moment'                : { exports : 'moment' },
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
-        'json2'                 : { exports:'JSON'},
         'class'                 : { exports : 'Class'}
     }
 });
