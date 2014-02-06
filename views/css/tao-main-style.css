@@ -63,20 +63,20 @@
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao\.scss}line{font-family:\0000333}}
 .icon-left:before, .tao-scope .ui-datepicker-prev:before,
-.tao-scope .ui-icon-triangle-1-w:before, .tao-scope .qti-orderInteraction.qti-vertical .icon-remove-from-selection:before, .tao-scope .qti-orderInteraction.qti-horizontal .icon-move-before:before {
+.tao-scope .ui-icon-triangle-1-w:before {
   content: "\e602"; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao\.scss}line{font-family:\0000336}}
 .icon-right:before, .tao-scope .ui-datepicker-next:before,
-.tao-scope .ui-icon-triangle-1-e:before, .tao-scope .qti-orderInteraction.qti-vertical .icon-add-to-selection:before, .tao-scope .qti-orderInteraction.qti-horizontal .icon-move-behind:before {
+.tao-scope .ui-icon-triangle-1-e:before {
   content: "\e603"; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao\.scss}line{font-family:\0000339}}
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before, .tao-scope .qti-orderInteraction.qti-vertical .icon-move-before:before, .tao-scope .qti-orderInteraction.qti-horizontal .icon-remove-from-selection:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\e604"; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao\.scss}line{font-family:\0000342}}
-.icon-down:before, .tao-scope .ui-icon-triangle-1-s:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before, .tao-scope .qti-orderInteraction.qti-vertical .icon-move-behind:before, .tao-scope .qti-orderInteraction.qti-horizontal .icon-add-to-selection:before {
+.icon-down:before, .tao-scope .ui-icon-triangle-1-s:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\e605"; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao\.scss}line{font-family:\0000345}}
@@ -1128,18 +1128,17 @@ textarea {
  *    `:before` to contain the top-margins of child elements.
  */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_main\.scss}line{font-family:\00003143}}
-.clearfix:before, .grid-row:before, #icon-editor .grid-row:before, .tao-scope .block-listing.horizontal:before,
+.clearfix:before, .grid-row:before, #icon-editor .grid-row:before,
 .clearfix:after,
 .grid-row:after,
-#icon-editor .grid-row:after,
-.tao-scope .block-listing.horizontal:after {
+#icon-editor .grid-row:after {
   content: " ";
   /* 1 */
   display: table;
   /* 2 */ }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_main\.scss}line{font-family:\00003148}}
-.clearfix:after, .grid-row:after, #icon-editor .grid-row:after, .tao-scope .block-listing.horizontal:after {
+.clearfix:after, .grid-row:after, #icon-editor .grid-row:after {
   clear: both; }
 
 /*
@@ -1147,7 +1146,7 @@ textarea {
  * Include this rule to trigger hasLayout and contain floats.
  */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_main\.scss}line{font-family:\00003157}}
-.clearfix, .grid-row, #icon-editor .grid-row, .tao-scope .block-listing.horizontal {
+.clearfix, .grid-row, #icon-editor .grid-row {
   *zoom: 1; }
 
 /* ==========================================================================
@@ -2678,10 +2677,6 @@ a[rel="external"] span.icon-external:before {
   /* Flipper */
   /* InPlacer */
   /* ListBox  */
-  /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
-  /**
-   * Use icon within sass: @inclue icon('down');
-   */
   position: relative;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400; }
@@ -4728,174 +4723,23 @@ a[rel="external"] span.icon-external:before {
         background: none;
         margin: .5em;
         opacity: 0.6; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_choice\.scss}line{font-family:\000032}}
-  .tao-scope .x .qti-choice {
-    position: relative; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_choice\.scss}line{font-family:\000034}}
-    .tao-scope .x .qti-choice .pseudo-label {
-      cursor: pointer;
-      margin-left: 24px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_choice\.scss}line{font-family:\000038}}
-    .tao-scope .x .qti-choice .real-label {
-      width: 20px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      margin: 0; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_order\.scss}line{font-family:\000033}}
-  .tao-scope .qti-orderInteraction .arrow-bar {
-    text-align: center; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_order\.scss}line{font-family:\000035}}
-    .tao-scope .qti-orderInteraction .arrow-bar span {
-      margin: 3px auto;
-      font-size: 25px;
-      font-size: 2.5rem;
-      color: #909090;
-      background: #f9f8f7;
-      cursor: default;
-      height: 40px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_order\.scss}line{font-family:\0000312}}
-      .tao-scope .qti-orderInteraction .arrow-bar span.active {
-        background: #f3f1ef;
-        cursor: pointer;
-        color: #222222; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_order\.scss}line{font-family:\0000316}}
-        .tao-scope .qti-orderInteraction .arrow-bar span.active:hover {
-          color: white;
-          background: #3e7da7; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_order\.scss}line{font-family:\0000325}}
-  .tao-scope .qti-orderInteraction.qti-vertical .order-interaction-area {
-    display: table;
-    border-collapse: separate;
-    border-spacing: 5px 5px 5px 0;
-    width: 100%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_order\.scss}line{font-family:\0000344}}
-  .tao-scope .qti-orderInteraction.qti-vertical ul.source, .tao-scope .qti-orderInteraction.qti-vertical ul.target,
-  .tao-scope .qti-orderInteraction.qti-vertical ol.source, .tao-scope .qti-orderInteraction.qti-vertical ol.target {
-    display: table-cell; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_order\.scss}line{font-family:\0000347}}
-  .tao-scope .qti-orderInteraction.qti-vertical .arrow-bar {
-    display: table-cell;
-    width: 50px;
-    vertical-align: middle;
-    padding: 5px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_order\.scss}line{font-family:\0000352}}
-    .tao-scope .qti-orderInteraction.qti-vertical .arrow-bar span {
-      padding: 8px 0;
-      display: block; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_order\.scss}line{font-family:\0000372}}
-  .tao-scope .qti-orderInteraction.qti-horizontal .arrow-bar {
-    margin-bottom: 10px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_order\.scss}line{font-family:\0000374}}
-    .tao-scope .qti-orderInteraction.qti-horizontal .arrow-bar span {
-      padding: 0 15px;
-      display: inline-block;
-      line-height: 1.6; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_extended-text\.scss}line{font-family:\000034}}
-  .tao-scope .qti-extendedTextInteraction .solid > li, .tao-scope .qti-extendedTextInteraction .bordered > li {
-    padding: 0;
-    border: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_extended-text\.scss}line{font-family:\000038}}
-  .tao-scope .qti-extendedTextInteraction .solid ~ input, .tao-scope .qti-extendedTextInteraction .solid ~ textarea, .tao-scope .qti-extendedTextInteraction .bordered ~ input, .tao-scope .qti-extendedTextInteraction .bordered ~ textarea {
-    border: 1px solid #eeeeee;
-    border-radius: 2px;
-    -webkit-border-radius: 2px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_extended-text\.scss}line{font-family:\0000315}}
-  .tao-scope .qti-extendedTextInteraction .active > input, .tao-scope .qti-extendedTextInteraction .active > textarea,
-  .tao-scope .qti-extendedTextInteraction .active input.active, .tao-scope .qti-extendedTextInteraction .active textarea.active {
-    border-color: #3e7da7; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_associate\.scss}line{font-family:\000033}}
-  .tao-scope .qti-associateInteraction .result-area {
-    width: 40%;
-    margin: auto;
-    overflow-x: hidden; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_associate\.scss}line{font-family:\000037}}
-    .tao-scope .qti-associateInteraction .result-area ul {
-      margin: auto;
-      width: 40%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_associate\.scss}line{font-family:\0000310}}
-      .tao-scope .qti-associateInteraction .result-area ul:first-child {
-        margin-left: 0; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_associate\.scss}line{font-family:\0000313}}
-      .tao-scope .qti-associateInteraction .result-area ul.target.lft {
-        position: relative;
-        z-index: 3; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_associate\.scss}line{font-family:\0000318}}
-      .tao-scope .qti-associateInteraction .result-area ul.target.rgt li {
-        position: relative;
-        z-index: 1;
-        margin-top: 10px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_associate\.scss}line{font-family:\0000322}}
-        .tao-scope .qti-associateInteraction .result-area ul.target.rgt li:first-child {
-          margin-top: 0; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_associate\.scss}line{font-family:\0000327}}
-      .tao-scope .qti-associateInteraction .result-area ul.target.rgt li:before {
-        content: '';
-        background: #ccc;
-        width: 1000px;
-        height: 1px;
-        position: absolute;
-        left: -1005px;
-        top: 50%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_qti\.scss}line{font-family:\000038}}
-  .tao-scope .block-listing > li {
-    border: 1px solid #eeeeee;
-    border-radius: 2px;
-    -webkit-border-radius: 2px;
-    background: white;
-    padding: 5px;
-    margin: 3px;
-    cursor: pointer; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_qti\.scss}line{font-family:\0000314}}
-    .tao-scope .block-listing > li.active {
-      border-color: #3e7da7;
-      cursor: default; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_qti\.scss}line{font-family:\0000327}}
-  .tao-scope .block-listing.horizontal > li {
-    display: block;
-    float: left; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_qti\.scss}line{font-family:\0000332}}
-  .tao-scope .block-listing.solid, .tao-scope .block-listing.bordered {
-    padding-top: 3px;
-    padding-right: 3px;
-    padding-bottom: 3px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_qti\.scss}line{font-family:\0000336}}
-    .tao-scope .block-listing.solid.none, .tao-scope .block-listing.bordered.none {
-      padding-left: 3px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_qti\.scss}line{font-family:\0000340}}
-  .tao-scope .block-listing.solid {
-    background: #f9f8f7;
-    border: 1px solid #f9f8f7;
-    border-radius: 2px;
-    -webkit-border-radius: 2px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_qti\.scss}line{font-family:\0000344}}
-  .tao-scope .block-listing.bordered {
-    border: 1px solid #eeeeee;
-    border-radius: 2px;
-    -webkit-border-radius: 2px;
-    background: white; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_qti\.scss}line{font-family:\0000350}}
-  .tao-scope .qti-interaction .empty {
-    border: 1px #3e7da7 dashed;
-    min-height: 50px;
-    cursor: default; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000385}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000383}}
   .tao-scope h1, .tao-scope h2, .tao-scope h3, .tao-scope h4, .tao-scope h5, .tao-scope h6 {
     font-weight: 400;
     font-style: normal; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000388}}
   .tao-scope b, .tao-scope .b, .tao-scope strong, .tao-scope .strong {
     font-weight: 600; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000394}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000392}}
   .tao-scope a.block {
     color: #222222; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\00003102}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\00003100}}
   .tao-scope button,
   .tao-scope input,
   .tao-scope select,
   .tao-scope textarea {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\00003107}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\00003105}}
   .tao-scope select {
     max-width: 100%; }
