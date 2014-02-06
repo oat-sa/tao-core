@@ -23,7 +23,7 @@
 			</thead>
 			<tbody>
 			<? foreach(get_data('installedExtArray') as $extensionObj): ?>
-			<? if($extensionObj->getID() !=null): ?>
+			<? if($extensionObj->getId() !=null): ?>
 				<tr>
 					<td class="ext-id bordered"><?= $extensionObj->getName(); ?></td>
 					<td class="bordered"><?= str_replace(',', '<br />', $extensionObj->getAuthor()) ; ?></td>
@@ -57,7 +57,7 @@
 			</thead>
 			<tbody>
 				<? foreach(get_data('availableExtArray') as $k => $ext): ?>
-				<tr id="<?= $ext->getID();?>">
+				<tr id="<?= $ext->getId();?>">
 					<td class="ext-name bordered"><?= $ext->getName(); ?></td>
 					<td class="bordered"><?= $ext->getAuthor(); ?></td>
 					<td class="bordered"><?= $ext->getVersion(); ?></td>
@@ -69,7 +69,7 @@
 						</ul>
 					</td>
 					<td class="install">
-						<input name="ext_<?= $ext->getID();?>" type="checkbox" />
+						<input name="ext_<?= $ext->getId();?>" type="checkbox" />
 					</td>
 				</tr>
 				<? endforeach; ?>

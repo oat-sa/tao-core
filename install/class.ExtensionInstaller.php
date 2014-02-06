@@ -110,7 +110,7 @@ class tao_install_ExtensionInstaller
         	if (!$role->exists()) {
         	    // Management role does not exist yet, so we create it
         	    $roleClass = new core_kernel_classes_Class(CLASS_MANAGEMENTROLE);
-        	    $roleLabel = $this->extension->getID() . ' Manager';
+        	    $roleLabel = $this->extension->getId() . ' Manager';
         	    $role = $roleClass->createInstance($roleLabel, $roleLabel.' Role', $role->getUri());
         	    $roleService->includeRole($role, new core_kernel_classes_Resource(INSTANCE_ROLE_BACKOFFICE));
         	}
@@ -122,10 +122,10 @@ class tao_install_ExtensionInstaller
         		$roleService->includeRole($globalManagerRole, $role);
         	}
         	
-        	common_Logger::d("Management Role " . $role->getUri() . " created for extension '" . $this->extension->getID() . "'.");
+        	common_Logger::d("Management Role " . $role->getUri() . " created for extension '" . $this->extension->getId() . "'.");
         } else {
             // There is no Management role described by the Extension Manifest.
-            common_Logger::i("No management role for extension '" . $this->extension->getID() . "'.");
+            common_Logger::i("No management role for extension '" . $this->extension->getId() . "'.");
         }
     }
     

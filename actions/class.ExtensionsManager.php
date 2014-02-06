@@ -41,7 +41,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$installedExtArray = $extensionManager->getInstalledExtensions();
 		$availlableExtArray = $extensionManager->getAvailableExtensions();
-		usort($availlableExtArray, function($a, $b) { return strcasecmp($a->getID(),$b->getID());});
+		usort($availlableExtArray, function($a, $b) { return strcasecmp($a->getId(),$b->getId());});
 		$this->setData('installedExtArray',$installedExtArray);
 		$this->setData('availableExtArray',$availlableExtArray);
 		$this->setView('extensionManager/view.tpl');
@@ -79,7 +79,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		$extInstaller = new tao_install_ExtensionInstaller($newExt);
 		try {
 			$extInstaller->install();
-			$message =   __('Extension ') . $newExt->getName() . __(' has been installed');
+			$message =   __('Extension %s has been installed', $newExt->getName());
 		}
 		catch(common_ext_ExtensionException $e) {
 			$message = $e->getMessage();
@@ -100,7 +100,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		try {
 			$extInstaller = new tao_install_ExtensionInstaller($this->getCurrentExtension());
 			$extInstaller->install();
-			$message =   __('Extension ') . $this->getCurrentExtension()->getID() . __(' has been installed');
+			$message =   __('Extension ') . $this->getCurrentExtension()->getId() . __(' has been installed');
 			$success = true;
 			
 			// reinit user session

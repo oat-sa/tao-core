@@ -272,8 +272,8 @@ class tao_install_Installator{
 							
 							$extinstaller->install();
 						} catch (common_ext_ExtensionException $e) {
-							common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$extension->getID().'"');
-							throw new tao_install_utils_Exception("An error occured during the installation of extension '" . $extension->getID() . "'.");
+							common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$extension->getId().'"');
+							throw new tao_install_utils_Exception("An error occured during the installation of extension '" . $extension->getId() . "'.");
 						}
 						unset($toInstall[$key]);
 						$modified = true;

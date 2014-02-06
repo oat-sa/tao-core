@@ -77,7 +77,7 @@ class tao_helpers_I18n
 			$shownExtension = common_ext_ExtensionsManager::singleton()->getExtensionById($_GET['ext']);
 			if (!empty($shownExtension)){
 				try{
-					$basePath = $shownExtension->getConstant('BASE_PATH');
+					$basePath = $shownExtension->getDir();
 					$baseUrl = $shownExtension->getConstant('BASE_URL');
 				}
 				catch (common_exception_Error $e){
