@@ -11,15 +11,16 @@ label {
 
 .pseudo-label-box {
   position: relative;
-  &>label {
+  & > label {
     width: 20px;
     position: absolute;
     top: 0;
     left:0;
     margin: 0;
-    &+* {
+    & + div {
       cursor: pointer;
       margin-left: 24px;
+      display:table;
     }
   }
 }
@@ -48,6 +49,13 @@ select {
   padding: 4px;
   width: 100%;
   background-color: white;
+  color: $textColor;
+  max-width: 300px;
+}
+
+option {
+  background: white;
+  color: $textColor;
 }
 
 label {

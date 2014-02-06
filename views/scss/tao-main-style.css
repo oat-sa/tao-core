@@ -4729,19 +4729,8 @@ a[rel="external"] span.icon-external:before {
         margin: .5em;
         opacity: 0.6; }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_choice\.scss}line{font-family:\000032}}
-  .tao-scope .x .qti-choice {
-    position: relative; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_choice\.scss}line{font-family:\000034}}
-    .tao-scope .x .qti-choice .pseudo-label {
-      cursor: pointer;
-      margin-left: 24px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_choice\.scss}line{font-family:\000038}}
-    .tao-scope .x .qti-choice .real-label {
-      width: 20px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      margin: 0; }
+  .tao-scope .qti-choiceInteraction li {
+    cursor: default; }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/taoQTI\/views\/scss\/qti\/_order\.scss}line{font-family:\000033}}
   .tao-scope .qti-orderInteraction .arrow-bar {
     text-align: center; }

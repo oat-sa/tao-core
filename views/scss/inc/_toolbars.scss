@@ -1,3 +1,5 @@
+@import "inc/toolbar";
+
 .tlb {
   @extend .cke;
 }
@@ -14,8 +16,11 @@
   @extend .cke_toolbar_break;
 }
 
-.tlb-btn {
+.tlb-btn-on, .tlb-btn-off {
   @extend .cke_button;
+  [class^="icon-"], [class*=" icon-"] {
+    @extend .cke_button_icon;
+  }
 }
 
 .tlb-btn-off {
@@ -44,16 +49,4 @@
 
 .tlb-top {
   @extend .cke_top;
-}
-
-.tlb-btn {
-  @extend .cke_button;
-}
-
-.tlb-btn-on {
-  @extend .cke_button_on;
-}
-
-.tlb-btn-off {
-  @extend .cke_button_off;
 }

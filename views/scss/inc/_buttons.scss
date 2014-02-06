@@ -57,8 +57,11 @@
   }
 }
 
-.btn-disabled, button[disabled], input[disabled] {
-  background-color: whiten($websiteBorder, .1) !important;
-  text-shadow: 1px 1px 0 blacken($websiteBorder, .2) !important;
+
+.btn-disabled, button[disabled], input[disabled]{
+  background-color: whiten($websiteBorder, .3) !important;
+  text-shadow: 1px 1px 0 white(.8) !important;
   cursor: not-allowed !important;
+  opacity: .55 !important;
+  color: #000 !important;
 }
