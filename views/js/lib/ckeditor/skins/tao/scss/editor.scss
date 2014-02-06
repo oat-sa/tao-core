@@ -72,11 +72,11 @@ legend.cke_voice_label{
 	display: none;
 }
 
-
+/*
 .cke:before,
 .cke:after {
-  content: " "; /* 1 */
-  display: table; /* 2 */
+  content: " ";
+  display: table;
 }
 
 .cke:after {
@@ -86,7 +86,7 @@ legend.cke_voice_label{
 .cke {
   *zoom: 1;
 }
-
+*/
 .cke_top {
-  float: left;
+  display:table;
 }
