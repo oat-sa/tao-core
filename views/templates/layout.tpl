@@ -44,7 +44,7 @@
 				</a>
 			</div>
 				<?php endif; ?>
-<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'Optimize', null) && tao_helpers_SysAdmin::isSysAdmin()): ?>
+<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'ExtensionsManager', null) && tao_helpers_SysAdmin::isSysAdmin()): ?>
             <div>
                 <a class="icon" id="settings-icon" href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings', 'ext' => 'tao'))?>" title="<?=__('System Settings')?>"></a>
 			</div>

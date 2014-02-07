@@ -11,11 +11,6 @@ define(function(){
                 'index' : 'controller/settings/extensionManager'
             }
         },
-        'Optimize' : {
-            'actions' : {
-                'index' : 'controller/settings/optimizer'
-            }
-        },
         'Lists' : {
             'actions' : {
                 'index' : 'controller/list/index'
