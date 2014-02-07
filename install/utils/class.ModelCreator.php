@@ -19,12 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-if(!defined('RDFAPI_INCLUDE_DIR')){
-	define('RDFAPI_INCLUDE_DIR', dirname(__FILE__).'/../../../generis/includes/rdfapi-php/api/');
-}
-require_once(RDFAPI_INCLUDE_DIR . "RdfAPI.php");
+
 
 /**
  * The ModelCreator enables you to import Ontologies into a TAO module
@@ -152,32 +147,36 @@ class tao_install_utils_ModelCreator{
 			$namespace .= '#';
 		}
 
+		
+        $modFactory = new core_kernel_api_ModelFactory();
+        $modFactory->createModel($namespace, $model);
+               
 		// Init RDF API for PHP.
-		$modFactory = new ModelFactory();
-		$memModel 	= $modFactory->getMemModel($namespace);
-		$dbModel	= $modFactory->getDefaultDbModel($namespace);
+// 		$modFactory = new ModelFactory();
+// 		$memModel 	= $modFactory->getMemModel($namespace);
+// 		$dbModel	= $modFactory->getDefaultDbModel($namespace);
 
-		// Load and parse the model
-		$memModel->loadFromString($model, 'rdf');
-		//$memModel->load($model);
+// 		// Load and parse the model
+// 		$memModel->loadFromString($model, 'rdf');
+// 		//$memModel->load($model);
 
-		$added = 0;
+// 		$added = 0;
 
-		$it = $memModel->getStatementIterator();
-		$size = $memModel->size();
-		while ($it->hasNext()) {
-			$statement = $it->next();
-			//constants not yet loaded
-			if($dbModel->add($statement, 'http://www.tao.lu/Ontologies/TAO.rdf#installator') === true){
-				$added++;
-			}
-		}
+// 		$it = $memModel->getStatementIterator();
+// 		$size = $memModel->size();
+// 		while ($it->hasNext()) {
+// 			$statement = $it->next();
+// 			//constants not yet loaded
+// 			if($dbModel->add($statement, 'http://www.tao.lu/Ontologies/TAO.rdf#installator') === true){
+// 				$added++;
+// 			}
+// 		}
 
-        if($size > 0 && $added > 0){
-			$returnValue = true;
-        }
+//         if($size > 0 && $added > 0){
+// 			$returnValue = true;
+//         }
 
-        error_reporting(E_ALL);
+//         error_reporting(E_ALL);
 
         return $returnValue;
 	}

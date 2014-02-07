@@ -104,9 +104,9 @@ class tao_install_ExtensionInstaller
     	$role = $this->extension->getManagementRole();
     	
     	$roleService = tao_models_classes_RoleService::singleton();
-    	
+
     	if (!empty($role)){
-    	
+
         	if (!$role->exists()) {
         	    // Management role does not exist yet, so we create it
         	    $roleClass = new core_kernel_classes_Class(CLASS_MANAGEMENTROLE);
