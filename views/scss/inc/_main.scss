@@ -13,7 +13,14 @@ html {
 }
 
 html { font-size: 62.5%; }
-body { @include font-size(14) }
+
+// body { font-size: 1.4rem; font-size: 14px } would be correct but breaks in Chrome
+// http://stackoverflow.com/questions/20099844/chrome-not-respecting-rem-font-size-on-body-tag
+// https://code.google.com/p/chromium/issues/detail?id=296380
+// https://code.google.com/p/chromium/issues/detail?id=320754
+
+body { font-size: 14px; background-color: white; }
+
 h1   { @include font-size(24) }
 h2   { @include font-size(22) }
 h3   { @include font-size(20) }

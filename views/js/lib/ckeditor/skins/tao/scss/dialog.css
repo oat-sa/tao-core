@@ -45,22 +45,15 @@ Comments in this file will give more details about each of the above blocks.
 /* Tao specific stuff */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000031}}
 [class^="icon-"], [class*=" icon-"] {
-  position: relative;
-  top: 2px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000037}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000035}}
 .cke_button {
   min-width: 14px;
   text-decoration: none !important;
   text-align: center; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000313}}
-.cke_toolbar {
-  position: relative;
-  top: 4px; }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000324}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000317}}
 .cke_top,
 .cke_top:before,
 .cke_top:after,
@@ -71,9 +64,10 @@ Comments in this file will give more details about each of the above blocks.
   -webkit-box-sizing: content-box !important;
   box-sizing: content-box !important; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000330}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000323}}
 .cke_button_icon, .cke_button {
-  padding-top: 2px; }
+  padding-top: 2px;
+  line-height: 0.9; }
 
 /* The outer container of the dialog. */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/dialog\.scss}line{font-family:\0000349}}

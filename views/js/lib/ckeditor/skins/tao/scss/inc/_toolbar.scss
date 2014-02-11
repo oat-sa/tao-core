@@ -96,23 +96,30 @@ Special outer level classes used in this file:
 }
 
 /* A toolbar button . */
-a.cke_button
+.cke .cke_toolbar .cke_button
 {
 	display: inline-block;
 	height: 18px;
 	padding: 4px 6px;
 	outline: none;
-	cursor: default;
+	cursor: pointer;
 	float: left;
 	border: 0;
   color: $textColor;
 }
 
-a.cke_button:hover
+.cke .cke_toolbar .cke_button:hover
 {
   background: $uiClickableHoverBg !important;
   color: $textHighlight !important;
-  text-shadow: 1px 1px 0 black(.2)
+ // text-shadow: 1px 1px 0 black(.2)
+}
+
+.cke .cke_top .cke_toolbar .cke_button_disabled:hover
+{
+  background: white !important;
+  color: $textColor !important;
+  cursor: default !important;
 }
 
 .cke_rtl .cke_button
@@ -135,8 +142,8 @@ a.cke_button:hover
 a.cke_button_on
 {
   background-color: $uiClickableActiveBg;
-  color: $textHighlight;
-  text-shadow: 1px 1px 0 black(.2)
+  color: $textHighlight !important;
+ // text-shadow: 1px 1px 0 black(.2)
 }
 
 .cke_hc .cke_button_on,
@@ -159,12 +166,12 @@ a.cke_button_on
    be pasted. */
 .cke_button_disabled .cke_button_icon
 {
-	opacity: 0.3;
+	//opacity: 0.4;
 }
 
-.cke_hc .cke_button_disabled
+.cke_button_disabled span
 {
-	opacity: 0.5;
+	opacity: 0.4 !important;
 }
 
 a.cke_button_on:hover,
@@ -172,6 +179,7 @@ a.cke_button_on:focus,
 a.cke_button_on:active
 {
 
+  cursor:pointer;
 }
 
 a.cke_button_off:hover,
@@ -184,7 +192,8 @@ a.cke_button_disabled:active
 
   background-color: $uiClickableActiveBg;
 
-  cursor:pointer
+  cursor:default;
+  text-shadow: none;
 }
 
 
@@ -238,21 +247,6 @@ a.cke_button_disabled:active
 	font-size: 12px;
 }
 
-/* The small arrow available on buttons that can be expanded
-   (e.g. the color buttons). */
-.cke_button_arrow
-{
-	display: inline-block;
-	margin: 8px 0 0 1px;
-	width: 0;
-	height: 0;
-	cursor: default;
-	vertical-align: top;
-	border-left: 3px solid transparent;
-	border-right: 3px solid transparent;
-	border-top: 3px solid #474747;
-}
-
 .cke_rtl .cke_button_arrow
 {
 	margin-right: 5px;
@@ -265,6 +259,14 @@ a.cke_button_disabled:active
 	margin: 3px -2px 0 3px;
 	width: auto;
 	border: 0;
+}
+
+.cke_button_arrow
+{
+  padding: 0 8px 5px 0;
+  position: relative;
+  top: -4px;
+  opacity: .8
 }
 
 /* The vertical separator which is used within a single toolbar to split

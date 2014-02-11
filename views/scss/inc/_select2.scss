@@ -18,7 +18,7 @@
 
   font-family:'Source Sans Pro', sans-serif;
   font-weight: 400;
-  @include font-size(12);
+  //@include font-size(12);
 }
 .select2-container {
 
@@ -281,11 +281,12 @@
 /* results */
 .select2-results {
     max-height: 200px;
-    padding: 0 0 0 4px;
-    margin: 4px 4px 4px 0;
+    padding: 0 !important;
+    margin: 4px 0 4px 0;
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;
+  font-size: inherit
 }
 
 .select2-results ul.select2-result-sub {

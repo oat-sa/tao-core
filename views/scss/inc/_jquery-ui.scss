@@ -92,7 +92,8 @@
 .ui-icon-triangle-1-n,
 .ui-icon-triangle-1-o,
 .ui-icon-triangle-1-s,
-.ui-icon-triangle-1-w {
+.ui-icon-triangle-1-w,
+.ui-dialog-titlebar-close {
   font-family: 'tao' !important;
   speak: none;
   font-style: normal;
@@ -433,8 +434,9 @@
 .ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; }
 .ui-dialog .ui-dialog-titlebar { padding: 0 1em; position: relative;  }
 .ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 0; }
-.ui-dialog .ui-dialog-titlebar-close { position: absolute; right: .3em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
-.ui-dialog .ui-dialog-titlebar-close span { display: block; margin: 1px; }
+.ui-dialog .ui-dialog-titlebar-close { @include font-size(17); line-height: 2; position: absolute; right: 1px; top: 13px; padding: 10px 0; margin: -10px 0 0 0; height: 18px; color: inherit; text-decoration:none !important; }
+.ui-dialog .ui-dialog-titlebar-close span.ui-icon-closethick { display: none; margin: 1px; background:none; }
+.ui-dialog-titlebar-close:before { @extend .icon-close:before; }
 .ui-dialog .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus { padding: 0; }
 .ui-dialog .ui-dialog-content { position: relative; border: 0; padding: .5em 1em; background: none; overflow: auto; zoom: 1; }
 .ui-dialog .ui-dialog-buttonpane { text-align: left; border-width: 1px 0 0 0; background-image: none; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }
