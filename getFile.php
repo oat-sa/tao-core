@@ -22,7 +22,7 @@
 $url = $_SERVER['REQUEST_URI'];
 $configPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'configGetFile.php';
 
-$ttl = 240;
+$ttl = (int) ini_get('session.gc_maxlifetime');
 
 $rel = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], '/getFile.php/') + strlen('/getFile.php/'));
 $parts = explode('/', $rel, 4);
@@ -64,9 +64,9 @@ if (strpos($filename, '?')) {
 
 require_once '../generis/helpers/class.File.php';
 require_once '../tao/helpers/class.File.php';
-$mimeType = tao_helpers_File::getMimeType($filename, true);
+
 if (tao_helpers_File::securityCheck($filename, true)) {
-    header('Content-Type: ' . $mimeType);
+    header('Content-Type: ' . tao_helpers_File::getMimeType($filename, true));
     $fp = fopen($filename, 'rb');
     if ($fp === false) {
         header("HTTP/1.0 404 Not Found");
