@@ -29,6 +29,7 @@ require.config({
         'store'             : 'lib/store/store.min',
         'select2'           : 'lib/select2/select2.min',
         'lodash'            : 'lib/lodash.min',
+        'async'             : 'lib/async.min',
         'moment'            : 'lib/moment.min',
         'handlebars'        : 'lib/handlebars',
         'tpl'               : 'tpl',
