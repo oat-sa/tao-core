@@ -26,6 +26,7 @@ require.config({
         'jquerytools'       : 'lib/jquery.tools.min',
         'text'              : 'lib/text/text',
         'json'              : 'lib/text/json',
+        'css'               : 'lib/require-css/css',
         'store'             : 'lib/store/store.min',
         'select2'           : 'lib/select2/select2.min',
         'lodash'            : 'lib/lodash.min',
@@ -50,6 +51,7 @@ require.config({
         'i18n_tr'           : '<?=BASE_URL?>locales/<?=get_data('locale')?>/messages_po',
     <?foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
+        '<?=$name?>_css'        : '../../../<?=$name?>/views/css',
         <?if(in_array($name, get_data('extensionsLocales'))):?>
         '<?=$name?>_i18n'   : '../../../<?=$name?>/locales/<?=get_data('locale')?>/messages_po',
         <?endif?>

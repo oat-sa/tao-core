@@ -97,7 +97,7 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
         //parse the URL
         var route = parseMvcUrl(url);
         if(route){
-
+            
             //loads the routing for the current extensino
             require([route.extension + '/controller/routes'], function(routes){
                 
@@ -107,14 +107,21 @@ define(['jquery', 'lodash', 'context', 'urlParser', 'async'], function ($, _, co
                     var moduleRoutes = routes[route.module];
                     var dependencies = [];
                     if(moduleRoutes.deps){
-                        _.isArray(moduleRoutes.deps) ? dependencies.concat(moduleRoutes.deps) : dependencies.push(moduleRoutes.deps);
+                       dependencies = dependencies.concat(moduleRoutes.deps);
                     }
                     if(moduleRoutes.actions && moduleRoutes.actions[route.action]){
-                        _.isArray(moduleRoutes.actions[route.action]) ? dependencies.concat(moduleRoutes.actions[route.action]) : dependencies.push(moduleRoutes.actions[route.action]);
+                        dependencies = dependencies.concat(moduleRoutes.actions[route.action]);
                     }
                     dependencies = _.map(dependencies, function(dep){
                         return /^controller/.test(dep) ?  route.extension + '/' + dep : dep;
                     });
+                    
+                    if(moduleRoutes.css){
+                        var styles = _.isArray(moduleRoutes.css) ? moduleRoutes.css : [moduleRoutes.css];
+                        dependencies = dependencies.concat(_.map(styles, function(style){
+                            return 'css!' + route.extension + '_css/' +  style;
+                        }));
+                    }
 
                     //URL parameters are given by default to the required module (through module.confid()) 
                     if(!_.isEmpty(route.params)){
