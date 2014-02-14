@@ -4,7 +4,6 @@
 @import "ckeditor/skins/tao/scss/inc/mainui";
 @import "ckeditor/skins/tao/scss/inc/ck-icons";
 
-
 .tlb {
   @extend .cke;
 }
@@ -130,7 +129,7 @@
     }
   }
   .tlb-text-button-on {
-    background-color: $uiClickableActiveBg;
+    background-color: $info;
     color: $textHighlight;
     text-shadow: 1px 1px 0 black(.2) !important;
     .tlb-text {
