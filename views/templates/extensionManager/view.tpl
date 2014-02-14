@@ -63,7 +63,7 @@
 					<td class="bordered"><?= $ext->getVersion(); ?></td>
 					<td class="dependencies bordered">
 						<ul>
-						<? foreach ($ext->getDependencies() as $req): ?>
+						<? foreach ($ext->getDependencies() as $req => $version): ?>
 							<li class="ext-id ext-<?= $req ?><?= array_key_exists($req, get_data('installedExtArray')) ? ' installed' : '' ?>" rel="<?= $req ?>"><?= $req ?></li>
 						<? endforeach; ?>
 						</ul>

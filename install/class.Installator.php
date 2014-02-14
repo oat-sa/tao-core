@@ -270,7 +270,7 @@ class tao_install_Installator{
 					// if all dependencies are installed
 				    common_Logger::d('Considering ext :' . $key);
 					$installed	= array_keys(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
-					$missing	= array_diff($extension->getDependencies(), $installed);
+					$missing	= array_diff(array_keys($extension->getDependencies()), $installed);
 					if (count($missing) == 0) {
 						try {
 						    $importLocalData = ($installData['import_local'] == true);
