@@ -1,4 +1,10 @@
 <?php
+/**
+ * THE CODE OF THIS CLASS IS GENERATED
+ *
+ * DO NOT EDIT!
+ */
+
 /** 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +25,12 @@
  */
 
 /**
+ * THE CODE OF THIS CLASS IS GENERATED
+ *
+ * DO NOT EDIT!
+ */
+
+/**
  * Icon helper for tao - helpers/class.Icon.php
  *
  * Icons
@@ -30,140 +42,624 @@
  */
 class tao_helpers_Icon {
 	
-    const ICON_CHECKBOX_CHECKED = 'icon-checkbox-checked';
-    const ICON_CHECKBOX = 'icon-checkbox';
-    const ICON_LEFT = 'icon-left';
-    const ICON_RIGHT = 'icon-right';
-    const ICON_UP = 'icon-up';
-    const ICON_DOWN = 'icon-down';
-    const ICON_UNDO = 'icon-undo';
-    const ICON_REDO = 'icon-redo';
-    const ICON_SCREEN = 'icon-screen';
-    const ICON_LAPTOP = 'icon-laptop';
-    const ICON_TABLET = 'icon-tablet';
-    const ICON_PHONE = 'icon-phone';
-    const ICON_FOLDER = 'icon-folder';
-    const ICON_FOLDER_OPEN = 'icon-folder-open';
-    const ICON_MOVE = 'icon-move';
-    const ICON_BIN = 'icon-bin';
-    const ICON_SHUFFLE = 'icon-shuffle';
-    const ICON_PRINT = 'icon-print';
-    const ICON_TOOLS = 'icon-tools';
-    const ICON_SETTINGS = 'icon-settings';
-    const ICON_VIDEO = 'icon-video';
-    const ICON_FIND = 'icon-find';
-    const ICON_IMAGE = 'icon-image';
-    const ICON_EDIT = 'icon-edit';
-    const ICON_DOCUMENT = 'icon-document';
-    const ICON_RESIZE_GRID = 'icon-resize-grid';
-    const ICON_RESIZE = 'icon-resize';
-    const ICON_HELP = 'icon-help';
-    const ICON_MOBILE_MENU = 'icon-mobile-menu';
-    const ICON_FIX = 'icon-fix';
-    const ICON_UNLOCK = 'icon-unlock';
-    const ICON_LOCK = 'icon-lock';
-    const ICON_UL = 'icon-ul';
-    const ICON_OL = 'icon-ol';
-    const ICON_EMAIL = 'icon-email';
-    const ICON_RADIO_CHECKED = 'icon-radio-checked';
-    const ICON_DOWNLOAD = 'icon-download';
-    const ICON_LOGOUT = 'icon-logout';
-    const ICON_LOGIN = 'icon-login';
-    const ICON_CHECKBOX_CROSSED = 'icon-checkbox-crossed';
-    const ICON_SPINNER = 'icon-spinner';
-    const ICON_PREVIEW = 'icon-preview';
-    const ICON_EXTERNAL = 'icon-external';
-    const ICON_TIME = 'icon-time';
-    const ICON_RADIO = 'icon-radio';
-    const ICON_SAVE = 'icon-save';
-    const ICON_WARNING = 'icon-warning';
-    const ICON_ADD = 'icon-add';
-    const ICON_CLOSE = 'icon-close';
-    const ICON_SUCCESS = 'icon-success';
-    const ICON_REMOVE = 'icon-remove';
-    const ICON_INFO = 'icon-info';
-    const ICON_ERROR = 'icon-error';
-    const ICON_USERS = 'icon-users';
-    const ICON_USER = 'icon-user';
-    const ICON_TEST_TAKER = 'icon-test-taker';
-    const ICON_TEST_TAKERS = 'icon-test-takers';
-    const ICON_ITEM = 'icon-item';
-    const ICON_TEST = 'icon-test';
-    const ICON_DELIVERY = 'icon-delivery';
-    const ICON_RESULT = 'icon-result';
-    const ICON_DELIVERY_SMALL = 'icon-delivery-small';
-    const ICON_RESULT_SMALL = 'icon-result-small';
-    const ICON_PREVIEW3 = 'icon-preview3';
-    const ICON_MOBILE_PREVIEW = 'icon-mobile-preview';
-    const ICON_EXTENSION = 'icon-extension';
-    const ICON_DESKTOP_PREVIEW = 'icon-desktop-preview';
-    const ICON_TABLET_PREVIEW = 'icon-tablet-preview';
-    const ICON_INSERT_HORIZONTAL_LINE = 'icon-insert-horizontal-line';
-    const ICON_TABLE = 'icon-table';
-    const ICON_ANCHOR = 'icon-anchor';
-    const ICON_UNLINK = 'icon-unlink';
-    const ICON_LINK = 'icon-link';
-    const ICON_RIGHT_LEFT = 'icon-right-left';
-    const ICON_LEFT_RIGHT = 'icon-left-right';
-    const ICON_SPECIAL_CHARACTER = 'icon-special-character';
-    const ICON_SOURCE = 'icon-source';
-    const ICON_NEW_PAGE = 'icon-new-page';
-    const ICON_TEXT_COLOR = 'icon-text-color';
-    const ICON_BACKGROUND_COLOR = 'icon-background-color';
-    const ICON_TEMPLATES = 'icon-templates';
-    const ICON_CUT = 'icon-cut';
-    const ICON_SPELL_CHECK = 'icon-spell-check';
-    const ICON_REPLACE = 'icon-replace';
-    const ICON_COPY = 'icon-copy';
-    const ICON_PASTE = 'icon-paste';
-    const ICON_SELECT_ALL = 'icon-select-all';
-    const ICON_PASTE_TEXT = 'icon-paste-text';
-    const ICON_PASTE_WORD = 'icon-paste-word';
-    const ICON_BOLD = 'icon-bold';
-    const ICON_ITALIC = 'icon-italic';
-    const ICON_UNDERLINE = 'icon-underline';
-    const ICON_SUBSCRIPT = 'icon-subscript';
-    const ICON_SUPERSCRIPT = 'icon-superscript';
-    const ICON_STRIKE_THROUGH = 'icon-strike-through';
-    const ICON_DECREASE_INDENT = 'icon-decrease-indent';
-    const ICON_INCREASE_INDENT = 'icon-increase-indent';
-    const ICON_BLOCK_QUOTE = 'icon-block-quote';
-    const ICON_DIV_CONTAINER = 'icon-div-container';
-    const ICON_ALIGN_LEFT = 'icon-align-left';
-    const ICON_CENTER = 'icon-center';
-    const ICON_ALIGN_RIGHT = 'icon-align-right';
-    const ICON_JUSTIFY = 'icon-justify';
-    const ICON_CHOICE_IA = 'icon-choice-ia';
-    const ICON_INLINE_CHOICE_IA = 'icon-inline-choice-ia';
-    const ICON_MATCH_IA = 'icon-match-ia';
-    const ICON_ASSOCIATE_IA = 'icon-associate-ia';
-    const ICON_MEDIA_IA = 'icon-media-ia';
-    const ICON_GRAPHIC_ORDER_IA = 'icon-graphic-order-ia';
-    const ICON_HOTSPOT_IA = 'icon-hotspot-ia';
-    const ICON_GRAPHIC_GAP_IA = 'icon-graphic-gap-ia';
-    const ICON_GRAPHIC_ASSOCIATE_IA = 'icon-graphic-associate-ia';
-    const ICON_SELECT_POINT_IA = 'icon-select-point-ia';
-    const ICON_ADD_COLUMN = 'icon-add-column';
-    const ICON_ADD_ROW = 'icon-add-row';
-    const ICON_PIN = 'icon-pin';
-    const ICON_IMPORT = 'icon-import';
-    const ICON_EXPORT = 'icon-export';
-    const ICON_MOVE_ITEM = 'icon-move-item';
-    const ICON_META_DATA = 'icon-meta-data';
-    const ICON_SLIDER_IA = 'icon-slider-ia';
-    const ICON_HOTTEXT_IA = 'icon-hottext-ia';
-    const ICON_SUMMARY_REPORT = 'icon-summary-report';
+    const CLASS_CHECKBOX_CHECKED = 'icon-checkbox-checked';
+    const CLASS_CHECKBOX = 'icon-checkbox';
+    const CLASS_LEFT = 'icon-left';
+    const CLASS_RIGHT = 'icon-right';
+    const CLASS_UP = 'icon-up';
+    const CLASS_DOWN = 'icon-down';
+    const CLASS_UNDO = 'icon-undo';
+    const CLASS_REDO = 'icon-redo';
+    const CLASS_SCREEN = 'icon-screen';
+    const CLASS_LAPTOP = 'icon-laptop';
+    const CLASS_TABLET = 'icon-tablet';
+    const CLASS_PHONE = 'icon-phone';
+    const CLASS_FOLDER = 'icon-folder';
+    const CLASS_FOLDER_OPEN = 'icon-folder-open';
+    const CLASS_MOVE = 'icon-move';
+    const CLASS_BIN = 'icon-bin';
+    const CLASS_SHUFFLE = 'icon-shuffle';
+    const CLASS_PRINT = 'icon-print';
+    const CLASS_TOOLS = 'icon-tools';
+    const CLASS_SETTINGS = 'icon-settings';
+    const CLASS_VIDEO = 'icon-video';
+    const CLASS_FIND = 'icon-find';
+    const CLASS_IMAGE = 'icon-image';
+    const CLASS_EDIT = 'icon-edit';
+    const CLASS_DOCUMENT = 'icon-document';
+    const CLASS_RESIZE_GRID = 'icon-resize-grid';
+    const CLASS_RESIZE = 'icon-resize';
+    const CLASS_HELP = 'icon-help';
+    const CLASS_MOBILE_MENU = 'icon-mobile-menu';
+    const CLASS_FIX = 'icon-fix';
+    const CLASS_UNLOCK = 'icon-unlock';
+    const CLASS_LOCK = 'icon-lock';
+    const CLASS_UL = 'icon-ul';
+    const CLASS_OL = 'icon-ol';
+    const CLASS_EMAIL = 'icon-email';
+    const CLASS_RADIO_CHECKED = 'icon-radio-checked';
+    const CLASS_DOWNLOAD = 'icon-download';
+    const CLASS_LOGOUT = 'icon-logout';
+    const CLASS_LOGIN = 'icon-login';
+    const CLASS_CHECKBOX_CROSSED = 'icon-checkbox-crossed';
+    const CLASS_SPINNER = 'icon-spinner';
+    const CLASS_PREVIEW = 'icon-preview';
+    const CLASS_EXTERNAL = 'icon-external';
+    const CLASS_TIME = 'icon-time';
+    const CLASS_RADIO = 'icon-radio';
+    const CLASS_SAVE = 'icon-save';
+    const CLASS_WARNING = 'icon-warning';
+    const CLASS_ADD = 'icon-add';
+    const CLASS_CLOSE = 'icon-close';
+    const CLASS_SUCCESS = 'icon-success';
+    const CLASS_REMOVE = 'icon-remove';
+    const CLASS_INFO = 'icon-info';
+    const CLASS_ERROR = 'icon-error';
+    const CLASS_USERS = 'icon-users';
+    const CLASS_USER = 'icon-user';
+    const CLASS_TEST_TAKER = 'icon-test-taker';
+    const CLASS_TEST_TAKERS = 'icon-test-takers';
+    const CLASS_ITEM = 'icon-item';
+    const CLASS_TEST = 'icon-test';
+    const CLASS_DELIVERY = 'icon-delivery';
+    const CLASS_RESULT = 'icon-result';
+    const CLASS_DELIVERY_SMALL = 'icon-delivery-small';
+    const CLASS_RESULT_SMALL = 'icon-result-small';
+    const CLASS_PREVIEW3 = 'icon-preview3';
+    const CLASS_MOBILE_PREVIEW = 'icon-mobile-preview';
+    const CLASS_EXTENSION = 'icon-extension';
+    const CLASS_DESKTOP_PREVIEW = 'icon-desktop-preview';
+    const CLASS_TABLET_PREVIEW = 'icon-tablet-preview';
+    const CLASS_INSERT_HORIZONTAL_LINE = 'icon-insert-horizontal-line';
+    const CLASS_TABLE = 'icon-table';
+    const CLASS_ANCHOR = 'icon-anchor';
+    const CLASS_UNLINK = 'icon-unlink';
+    const CLASS_LINK = 'icon-link';
+    const CLASS_RIGHT_LEFT = 'icon-right-left';
+    const CLASS_LEFT_RIGHT = 'icon-left-right';
+    const CLASS_SPECIAL_CHARACTER = 'icon-special-character';
+    const CLASS_SOURCE = 'icon-source';
+    const CLASS_NEW_PAGE = 'icon-new-page';
+    const CLASS_TEMPLATES = 'icon-templates';
+    const CLASS_CUT = 'icon-cut';
+    const CLASS_REPLACE = 'icon-replace';
+    const CLASS_COPY = 'icon-copy';
+    const CLASS_PASTE = 'icon-paste';
+    const CLASS_SELECT_ALL = 'icon-select-all';
+    const CLASS_PASTE_TEXT = 'icon-paste-text';
+    const CLASS_PASTE_WORD = 'icon-paste-word';
+    const CLASS_BOLD = 'icon-bold';
+    const CLASS_ITALIC = 'icon-italic';
+    const CLASS_UNDERLINE = 'icon-underline';
+    const CLASS_SUBSCRIPT = 'icon-subscript';
+    const CLASS_SUPERSCRIPT = 'icon-superscript';
+    const CLASS_STRIKE_THROUGH = 'icon-strike-through';
+    const CLASS_DECREASE_INDENT = 'icon-decrease-indent';
+    const CLASS_INCREASE_INDENT = 'icon-increase-indent';
+    const CLASS_BLOCK_QUOTE = 'icon-block-quote';
+    const CLASS_DIV_CONTAINER = 'icon-div-container';
+    const CLASS_ALIGN_LEFT = 'icon-align-left';
+    const CLASS_CENTER = 'icon-center';
+    const CLASS_ALIGN_RIGHT = 'icon-align-right';
+    const CLASS_JUSTIFY = 'icon-justify';
+    const CLASS_CHOICE = 'icon-choice';
+    const CLASS_INLINE_CHOICE = 'icon-inline-choice';
+    const CLASS_MATCH = 'icon-match';
+    const CLASS_ASSOCIATE = 'icon-associate';
+    const CLASS_MEDIA = 'icon-media';
+    const CLASS_GRAPHIC_ORDER = 'icon-graphic-order';
+    const CLASS_HOTSPOT = 'icon-hotspot';
+    const CLASS_GRAPHIC_GAP = 'icon-graphic-gap';
+    const CLASS_GRAPHIC_ASSOCIATE = 'icon-graphic-associate';
+    const CLASS_SELECT_POINT = 'icon-select-point';
+    const CLASS_PIN = 'icon-pin';
+    const CLASS_IMPORT = 'icon-import';
+    const CLASS_EXPORT = 'icon-export';
+    const CLASS_MOVE_ITEM = 'icon-move-item';
+    const CLASS_META_DATA = 'icon-meta-data';
+    const CLASS_SLIDER = 'icon-slider';
+    const CLASS_SUMMARY_REPORT = 'icon-summary-report';
+    const CLASS_ARROW = 'icon-arrow';
+    const CLASS_TEXT_ENTRY = 'icon-text-entry';
+    const CLASS_EXTENDED_TEXT = 'icon-extended-text';
 
 	
+    public static function iconCheckboxChecked($options=array()){
+        return self::buildIcon(self::CLASS_CHECKBOX_CHECKED, $options);
+    }
+
+    public static function iconCheckbox($options=array()){
+        return self::buildIcon(self::CLASS_CHECKBOX, $options);
+    }
+
+    public static function iconLeft($options=array()){
+        return self::buildIcon(self::CLASS_LEFT, $options);
+    }
+
+    public static function iconRight($options=array()){
+        return self::buildIcon(self::CLASS_RIGHT, $options);
+    }
+
+    public static function iconUp($options=array()){
+        return self::buildIcon(self::CLASS_UP, $options);
+    }
+
+    public static function iconDown($options=array()){
+        return self::buildIcon(self::CLASS_DOWN, $options);
+    }
+
+    public static function iconUndo($options=array()){
+        return self::buildIcon(self::CLASS_UNDO, $options);
+    }
+
+    public static function iconRedo($options=array()){
+        return self::buildIcon(self::CLASS_REDO, $options);
+    }
+
+    public static function iconScreen($options=array()){
+        return self::buildIcon(self::CLASS_SCREEN, $options);
+    }
+
+    public static function iconLaptop($options=array()){
+        return self::buildIcon(self::CLASS_LAPTOP, $options);
+    }
+
+    public static function iconTablet($options=array()){
+        return self::buildIcon(self::CLASS_TABLET, $options);
+    }
+
+    public static function iconPhone($options=array()){
+        return self::buildIcon(self::CLASS_PHONE, $options);
+    }
+
+    public static function iconFolder($options=array()){
+        return self::buildIcon(self::CLASS_FOLDER, $options);
+    }
+
+    public static function iconFolderOpen($options=array()){
+        return self::buildIcon(self::CLASS_FOLDER_OPEN, $options);
+    }
+
+    public static function iconMove($options=array()){
+        return self::buildIcon(self::CLASS_MOVE, $options);
+    }
+
+    public static function iconBin($options=array()){
+        return self::buildIcon(self::CLASS_BIN, $options);
+    }
+
+    public static function iconShuffle($options=array()){
+        return self::buildIcon(self::CLASS_SHUFFLE, $options);
+    }
+
+    public static function iconPrint($options=array()){
+        return self::buildIcon(self::CLASS_PRINT, $options);
+    }
+
+    public static function iconTools($options=array()){
+        return self::buildIcon(self::CLASS_TOOLS, $options);
+    }
+
+    public static function iconSettings($options=array()){
+        return self::buildIcon(self::CLASS_SETTINGS, $options);
+    }
+
+    public static function iconVideo($options=array()){
+        return self::buildIcon(self::CLASS_VIDEO, $options);
+    }
+
+    public static function iconFind($options=array()){
+        return self::buildIcon(self::CLASS_FIND, $options);
+    }
+
+    public static function iconImage($options=array()){
+        return self::buildIcon(self::CLASS_IMAGE, $options);
+    }
+
+    public static function iconEdit($options=array()){
+        return self::buildIcon(self::CLASS_EDIT, $options);
+    }
+
+    public static function iconDocument($options=array()){
+        return self::buildIcon(self::CLASS_DOCUMENT, $options);
+    }
+
+    public static function iconResizeGrid($options=array()){
+        return self::buildIcon(self::CLASS_RESIZE_GRID, $options);
+    }
+
+    public static function iconResize($options=array()){
+        return self::buildIcon(self::CLASS_RESIZE, $options);
+    }
+
+    public static function iconHelp($options=array()){
+        return self::buildIcon(self::CLASS_HELP, $options);
+    }
+
+    public static function iconMobileMenu($options=array()){
+        return self::buildIcon(self::CLASS_MOBILE_MENU, $options);
+    }
+
+    public static function iconFix($options=array()){
+        return self::buildIcon(self::CLASS_FIX, $options);
+    }
+
+    public static function iconUnlock($options=array()){
+        return self::buildIcon(self::CLASS_UNLOCK, $options);
+    }
+
+    public static function iconLock($options=array()){
+        return self::buildIcon(self::CLASS_LOCK, $options);
+    }
+
+    public static function iconUl($options=array()){
+        return self::buildIcon(self::CLASS_UL, $options);
+    }
+
+    public static function iconOl($options=array()){
+        return self::buildIcon(self::CLASS_OL, $options);
+    }
+
+    public static function iconEmail($options=array()){
+        return self::buildIcon(self::CLASS_EMAIL, $options);
+    }
+
+    public static function iconRadioChecked($options=array()){
+        return self::buildIcon(self::CLASS_RADIO_CHECKED, $options);
+    }
+
+    public static function iconDownload($options=array()){
+        return self::buildIcon(self::CLASS_DOWNLOAD, $options);
+    }
+
+    public static function iconLogout($options=array()){
+        return self::buildIcon(self::CLASS_LOGOUT, $options);
+    }
+
+    public static function iconLogin($options=array()){
+        return self::buildIcon(self::CLASS_LOGIN, $options);
+    }
+
+    public static function iconCheckboxCrossed($options=array()){
+        return self::buildIcon(self::CLASS_CHECKBOX_CROSSED, $options);
+    }
+
+    public static function iconSpinner($options=array()){
+        return self::buildIcon(self::CLASS_SPINNER, $options);
+    }
+
+    public static function iconPreview($options=array()){
+        return self::buildIcon(self::CLASS_PREVIEW, $options);
+    }
+
+    public static function iconExternal($options=array()){
+        return self::buildIcon(self::CLASS_EXTERNAL, $options);
+    }
+
+    public static function iconTime($options=array()){
+        return self::buildIcon(self::CLASS_TIME, $options);
+    }
+
+    public static function iconRadio($options=array()){
+        return self::buildIcon(self::CLASS_RADIO, $options);
+    }
+
+    public static function iconSave($options=array()){
+        return self::buildIcon(self::CLASS_SAVE, $options);
+    }
+
+    public static function iconWarning($options=array()){
+        return self::buildIcon(self::CLASS_WARNING, $options);
+    }
+
+    public static function iconAdd($options=array()){
+        return self::buildIcon(self::CLASS_ADD, $options);
+    }
+
+    public static function iconClose($options=array()){
+        return self::buildIcon(self::CLASS_CLOSE, $options);
+    }
+
+    public static function iconSuccess($options=array()){
+        return self::buildIcon(self::CLASS_SUCCESS, $options);
+    }
+
+    public static function iconRemove($options=array()){
+        return self::buildIcon(self::CLASS_REMOVE, $options);
+    }
+
+    public static function iconInfo($options=array()){
+        return self::buildIcon(self::CLASS_INFO, $options);
+    }
+
+    public static function iconError($options=array()){
+        return self::buildIcon(self::CLASS_ERROR, $options);
+    }
+
+    public static function iconUsers($options=array()){
+        return self::buildIcon(self::CLASS_USERS, $options);
+    }
+
+    public static function iconUser($options=array()){
+        return self::buildIcon(self::CLASS_USER, $options);
+    }
+
+    public static function iconTestTaker($options=array()){
+        return self::buildIcon(self::CLASS_TEST_TAKER, $options);
+    }
+
+    public static function iconTestTakers($options=array()){
+        return self::buildIcon(self::CLASS_TEST_TAKERS, $options);
+    }
+
+    public static function iconItem($options=array()){
+        return self::buildIcon(self::CLASS_ITEM, $options);
+    }
+
+    public static function iconTest($options=array()){
+        return self::buildIcon(self::CLASS_TEST, $options);
+    }
+
+    public static function iconDelivery($options=array()){
+        return self::buildIcon(self::CLASS_DELIVERY, $options);
+    }
+
+    public static function iconResult($options=array()){
+        return self::buildIcon(self::CLASS_RESULT, $options);
+    }
+
+    public static function iconDeliverySmall($options=array()){
+        return self::buildIcon(self::CLASS_DELIVERY_SMALL, $options);
+    }
+
+    public static function iconResultSmall($options=array()){
+        return self::buildIcon(self::CLASS_RESULT_SMALL, $options);
+    }
+
+    public static function iconPreview3($options=array()){
+        return self::buildIcon(self::CLASS_PREVIEW3, $options);
+    }
+
+    public static function iconMobilePreview($options=array()){
+        return self::buildIcon(self::CLASS_MOBILE_PREVIEW, $options);
+    }
+
+    public static function iconExtension($options=array()){
+        return self::buildIcon(self::CLASS_EXTENSION, $options);
+    }
+
+    public static function iconDesktopPreview($options=array()){
+        return self::buildIcon(self::CLASS_DESKTOP_PREVIEW, $options);
+    }
+
+    public static function iconTabletPreview($options=array()){
+        return self::buildIcon(self::CLASS_TABLET_PREVIEW, $options);
+    }
+
+    public static function iconInsertHorizontalLine($options=array()){
+        return self::buildIcon(self::CLASS_INSERT_HORIZONTAL_LINE, $options);
+    }
+
+    public static function iconTable($options=array()){
+        return self::buildIcon(self::CLASS_TABLE, $options);
+    }
+
+    public static function iconAnchor($options=array()){
+        return self::buildIcon(self::CLASS_ANCHOR, $options);
+    }
+
+    public static function iconUnlink($options=array()){
+        return self::buildIcon(self::CLASS_UNLINK, $options);
+    }
+
+    public static function iconLink($options=array()){
+        return self::buildIcon(self::CLASS_LINK, $options);
+    }
+
+    public static function iconRightLeft($options=array()){
+        return self::buildIcon(self::CLASS_RIGHT_LEFT, $options);
+    }
+
+    public static function iconLeftRight($options=array()){
+        return self::buildIcon(self::CLASS_LEFT_RIGHT, $options);
+    }
+
+    public static function iconSpecialCharacter($options=array()){
+        return self::buildIcon(self::CLASS_SPECIAL_CHARACTER, $options);
+    }
+
+    public static function iconSource($options=array()){
+        return self::buildIcon(self::CLASS_SOURCE, $options);
+    }
+
+    public static function iconNewPage($options=array()){
+        return self::buildIcon(self::CLASS_NEW_PAGE, $options);
+    }
+
+    public static function iconTemplates($options=array()){
+        return self::buildIcon(self::CLASS_TEMPLATES, $options);
+    }
+
+    public static function iconCut($options=array()){
+        return self::buildIcon(self::CLASS_CUT, $options);
+    }
+
+    public static function iconReplace($options=array()){
+        return self::buildIcon(self::CLASS_REPLACE, $options);
+    }
+
+    public static function iconCopy($options=array()){
+        return self::buildIcon(self::CLASS_COPY, $options);
+    }
+
+    public static function iconPaste($options=array()){
+        return self::buildIcon(self::CLASS_PASTE, $options);
+    }
+
+    public static function iconSelectAll($options=array()){
+        return self::buildIcon(self::CLASS_SELECT_ALL, $options);
+    }
+
+    public static function iconPasteText($options=array()){
+        return self::buildIcon(self::CLASS_PASTE_TEXT, $options);
+    }
+
+    public static function iconPasteWord($options=array()){
+        return self::buildIcon(self::CLASS_PASTE_WORD, $options);
+    }
+
+    public static function iconBold($options=array()){
+        return self::buildIcon(self::CLASS_BOLD, $options);
+    }
+
+    public static function iconItalic($options=array()){
+        return self::buildIcon(self::CLASS_ITALIC, $options);
+    }
+
+    public static function iconUnderline($options=array()){
+        return self::buildIcon(self::CLASS_UNDERLINE, $options);
+    }
+
+    public static function iconSubscript($options=array()){
+        return self::buildIcon(self::CLASS_SUBSCRIPT, $options);
+    }
+
+    public static function iconSuperscript($options=array()){
+        return self::buildIcon(self::CLASS_SUPERSCRIPT, $options);
+    }
+
+    public static function iconStrikeThrough($options=array()){
+        return self::buildIcon(self::CLASS_STRIKE_THROUGH, $options);
+    }
+
+    public static function iconDecreaseIndent($options=array()){
+        return self::buildIcon(self::CLASS_DECREASE_INDENT, $options);
+    }
+
+    public static function iconIncreaseIndent($options=array()){
+        return self::buildIcon(self::CLASS_INCREASE_INDENT, $options);
+    }
+
+    public static function iconBlockQuote($options=array()){
+        return self::buildIcon(self::CLASS_BLOCK_QUOTE, $options);
+    }
+
+    public static function iconDivContainer($options=array()){
+        return self::buildIcon(self::CLASS_DIV_CONTAINER, $options);
+    }
+
+    public static function iconAlignLeft($options=array()){
+        return self::buildIcon(self::CLASS_ALIGN_LEFT, $options);
+    }
+
+    public static function iconCenter($options=array()){
+        return self::buildIcon(self::CLASS_CENTER, $options);
+    }
+
+    public static function iconAlignRight($options=array()){
+        return self::buildIcon(self::CLASS_ALIGN_RIGHT, $options);
+    }
+
+    public static function iconJustify($options=array()){
+        return self::buildIcon(self::CLASS_JUSTIFY, $options);
+    }
+
+    public static function iconChoice($options=array()){
+        return self::buildIcon(self::CLASS_CHOICE, $options);
+    }
+
+    public static function iconInlineChoice($options=array()){
+        return self::buildIcon(self::CLASS_INLINE_CHOICE, $options);
+    }
+
+    public static function iconMatch($options=array()){
+        return self::buildIcon(self::CLASS_MATCH, $options);
+    }
+
+    public static function iconAssociate($options=array()){
+        return self::buildIcon(self::CLASS_ASSOCIATE, $options);
+    }
+
+    public static function iconMedia($options=array()){
+        return self::buildIcon(self::CLASS_MEDIA, $options);
+    }
+
+    public static function iconGraphicOrder($options=array()){
+        return self::buildIcon(self::CLASS_GRAPHIC_ORDER, $options);
+    }
+
+    public static function iconHotspot($options=array()){
+        return self::buildIcon(self::CLASS_HOTSPOT, $options);
+    }
+
+    public static function iconGraphicGap($options=array()){
+        return self::buildIcon(self::CLASS_GRAPHIC_GAP, $options);
+    }
+
+    public static function iconGraphicAssociate($options=array()){
+        return self::buildIcon(self::CLASS_GRAPHIC_ASSOCIATE, $options);
+    }
+
+    public static function iconSelectPoint($options=array()){
+        return self::buildIcon(self::CLASS_SELECT_POINT, $options);
+    }
+
+    public static function iconPin($options=array()){
+        return self::buildIcon(self::CLASS_PIN, $options);
+    }
+
+    public static function iconImport($options=array()){
+        return self::buildIcon(self::CLASS_IMPORT, $options);
+    }
+
+    public static function iconExport($options=array()){
+        return self::buildIcon(self::CLASS_EXPORT, $options);
+    }
+
+    public static function iconMoveItem($options=array()){
+        return self::buildIcon(self::CLASS_MOVE_ITEM, $options);
+    }
+
+    public static function iconMetaData($options=array()){
+        return self::buildIcon(self::CLASS_META_DATA, $options);
+    }
+
+    public static function iconSlider($options=array()){
+        return self::buildIcon(self::CLASS_SLIDER, $options);
+    }
+
+    public static function iconSummaryReport($options=array()){
+        return self::buildIcon(self::CLASS_SUMMARY_REPORT, $options);
+    }
+
+    public static function iconArrow($options=array()){
+        return self::buildIcon(self::CLASS_ARROW, $options);
+    }
+
+    public static function iconTextEntry($options=array()){
+        return self::buildIcon(self::CLASS_TEXT_ENTRY, $options);
+    }
+
+    public static function iconExtendedText($options=array()){
+        return self::buildIcon(self::CLASS_EXTENDED_TEXT, $options);
+    }
+
+
 
     /**
-     * @param $name of the icon as camelCase without prefix 'icon-'
-     * @param $arguments currently unused
-     * @return string span element with icon
+     * @param string $icon name of the icon to display
+     * @param array $options (optional) hashtable with HTML attributes, also allows to set element="any html element"
+     * @param string HTML element with icon
      */
-    public static function __callStatic($name, $arguments){
-        $constant = strtoupper(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $name));
-        $icon = constant('self::' . $constant);
-        return '<span class="' . $icon . '"></span>';
+    protected static function buildIcon($icon, $options=array()){
+        $options['class'] = !empty($options['class']) ? $options['class'] . ' ' . $icon : $icon;
+        $element = !empty($options['element']) ? $options['element'] : 'span';
+        unset($options['element']);
+        $retVal = '<' . $element . ' ';
+        foreach($options as $key => $value) {
+            $retVal .= $key . '="' . $value . '"';
+        }
+        $retVal .= '></' . $element . '>';
+        return $retVal;
     }
 }

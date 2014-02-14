@@ -246,20 +246,11 @@
 .cke_button__newpage_icon:before {
 	content: "\e64f";
 }
-.cke_button__textcolor_icon:before {
-	content: "\e650";
-}
-.cke_button__bgcolor_icon:before {
-	content: "\e651";
-}
 .cke_button__templates_icon:before {
 	content: "\e652";
 }
 .cke_button__cut_icon:before {
 	content: "\e653";
-}
-.cke_button__scayt_icon:before {
-	content: "\e654";
 }
 .cke_button__replace_icon:before {
 	content: "\e655";
@@ -321,41 +312,35 @@
 .cke_button__justifyblock_icon:before {
 	content: "\e669";
 }
-.icon-choice-ia:before {
+.icon-choice:before {
 	content: "\e643";
 }
-.icon-inline-choice-ia:before {
+.icon-inline-choice:before {
 	content: "\e641";
 }
-.icon-match-ia:before {
+.icon-match:before {
 	content: "\e665";
 }
-.icon-associate-ia:before {
+.icon-associate:before {
 	content: "\e66a";
 }
-.icon-media-ia:before {
+.icon-media:before {
 	content: "\e66b";
 }
-.icon-graphic-order-ia:before {
+.icon-graphic-order:before {
 	content: "\e66c";
 }
-.icon-hotspot-ia:before {
+.icon-hotspot:before {
 	content: "\e66d";
 }
-.icon-graphic-gap-ia:before {
+.icon-graphic-gap:before {
 	content: "\e66e";
 }
-.icon-graphic-associate-ia:before {
+.icon-graphic-associate:before {
 	content: "\e66f";
 }
-.icon-select-point-ia:before {
+.icon-select-point:before {
 	content: "\e670";
-}
-.icon-add-column:before {
-	content: "\e671";
-}
-.icon-add-row:before {
-	content: "\e672";
 }
 .icon-pin:before {
 	content: "\e673";
@@ -372,12 +357,18 @@
 .icon-meta-data:before {
 	content: "\e677";
 }
-.icon-slider-ia:before {
+.icon-slider:before {
 	content: "\e678";
-}
-.icon-hottext-ia:before {
-	content: "\e679";
 }
 .icon-summary-report:before {
 	content: "\e67a";
+}
+.icon-arrow:before {
+	content: "\e67f";
+}
+.icon-text-entry:before {
+	content: "\e67d";
+}
+.icon-extended-text:before {
+	content: "\e67e";
 }
