@@ -437,9 +437,14 @@ class tao_helpers_File
         if (substr($url, 0, strlen(ROOT_URL)) != ROOT_URL) {
             throw new common_Exception($url.' does not lie within the tao instalation path');
         }
-        $path = ROOT_PATH.substr($url, strlen(ROOT_URL));
+        $subUrl = substr($url, strlen(ROOT_URL));
+        $parts = array();
+        foreach (explode('/', $subUrl) as $directory) {
+            $parts[] = urldecode($directory);
+        }
+        $path = ROOT_PATH.implode(DIRECTORY_SEPARATOR, $parts);
         if (self::securityCheck($path)) {
-            return ROOT_PATH.substr($url, strlen(ROOT_URL));
+            return $path;
         } else {
             throw new common_Exception($url.' is not secure');
         }
