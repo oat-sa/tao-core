@@ -147,7 +147,7 @@ class tao_actions_form_Clazz
 			if(!is_null($element)){
 
 				//take property values to populate the form
-                $values = $clazz->getAllPropertyValues($property);
+                $values = $clazz->getPropertyValues($property);
                 if(!$property->isMultiple()){
                     if(count($values)>1){
                         $values = array_slice($values, 0, 1);
@@ -155,12 +155,7 @@ class tao_actions_form_Clazz
                 }
 				foreach($values as $value){
 					if(!is_null($value)){
-						if($value instanceof core_kernel_classes_Resource){
-							$element->setValue($value->getUri());
-						}
-						if($value instanceof core_kernel_classes_Literal){
-							$element->setValue((string)$value);
-						}
+					    $element->setValue($value);
 					}
 				}
 				$element->setName('class_'.$element->getName());
