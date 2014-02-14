@@ -62,6 +62,7 @@ require.config({
         'taoQtiRunner'      : '../../../taoQTI/views/js/qtiRunner',
         'taoQtiDefaultRenderer' : '../../../taoQTI/views/js/qtiDefaultRenderer',
         'taoQtiCommonRenderer' : '../../../taoQTI/views/js/qtiCommonRenderer',
+        'taoQtiXmlRenderer' : '../../../taoQTI/views/js/qtiXmlRenderer',
         'qtiClass'          : '../../../taoQTI/views/js/qtiItem/lib/class',
         'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner'
    },
