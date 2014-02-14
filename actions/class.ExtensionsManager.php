@@ -118,15 +118,15 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
      * modify an already installed action
      *
      * @param $loaded
-     * @param $loadAtStartUp
+     * @param $loadatstartup
      */
-    public function modify($loaded,$loadAtStartUp){
+    public function modify($loaded,$loadatstartup){
 
 		$extensionManager = common_ext_ExtensionsManager::singleton();
 		$installedExtArray = $extensionManager->getInstalledExtensions();
 		$configurationArray = array();
 		foreach($installedExtArray as $k=>$ext){
-			$configuration = new common_ext_ExtensionConfiguration(isset($loaded[$k]),isset($loadAtStartUp[$k]));
+			$configuration = new common_ext_ExtensionConfiguration(isset($loaded[$k]),isset($loadatstartup[$k]));
 			$configurationArray[$k]=$configuration;
 		}
 		try {

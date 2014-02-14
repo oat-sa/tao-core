@@ -149,34 +149,8 @@ class tao_install_utils_ModelCreator{
 
 		
         $modFactory = new core_kernel_api_ModelFactory();
-        $modFactory->createModel($namespace, $model);
+        $returnValue = $modFactory->createModel($namespace, $model);
                
-		// Init RDF API for PHP.
-// 		$modFactory = new ModelFactory();
-// 		$memModel 	= $modFactory->getMemModel($namespace);
-// 		$dbModel	= $modFactory->getDefaultDbModel($namespace);
-
-// 		// Load and parse the model
-// 		$memModel->loadFromString($model, 'rdf');
-// 		//$memModel->load($model);
-
-// 		$added = 0;
-
-// 		$it = $memModel->getStatementIterator();
-// 		$size = $memModel->size();
-// 		while ($it->hasNext()) {
-// 			$statement = $it->next();
-// 			//constants not yet loaded
-// 			if($dbModel->add($statement, 'http://www.tao.lu/Ontologies/TAO.rdf#installator') === true){
-// 				$added++;
-// 			}
-// 		}
-
-//         if($size > 0 && $added > 0){
-// 			$returnValue = true;
-//         }
-
-//         error_reporting(E_ALL);
 
         return $returnValue;
 	}

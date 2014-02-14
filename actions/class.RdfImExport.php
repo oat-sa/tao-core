@@ -94,9 +94,9 @@ class tao_actions_RdfImExport extends tao_actions_CommonModule {
         $namespaces = array();
         foreach($form->getValue('rdftpl') as $key => $value){
             if(preg_match("/^ns_/", $key)){
-                $modelID = (int)str_replace('ns_', '', $key);
-                if($modelID > 0){
-                    $ns = $nsManager->getNamespace($modelID);
+                $modelid = (int)str_replace('ns_', '', $key);
+                if($modelid > 0){
+                    $ns = $nsManager->getNamespace($modelid);
                     if($ns instanceof common_ext_Namespace){
                         $namespaces[] = (string)$ns;
                     }

@@ -13,10 +13,10 @@ INSERT INTO "extensions" VALUES
 ('generis','generis','2.3',1,1,0);
 
 CREATE TABLE "models" (
-  "modelID" BIGINT NOT NULL UNIQUE ,
+  "modelid" BIGINT NOT NULL UNIQUE ,
   "modelURI" varchar(255) default NULL,
   "baseURI" varchar(255) default NULL,
-  PRIMARY KEY  ("modelID")
+  PRIMARY KEY  ("modelid")
 ) 
 
 CREATE INDEX "idx_models_modelURI" ON "models" ("modelURI");
@@ -37,7 +37,7 @@ INSERT INTO "models" VALUES
 (17,'http://www.tao.lu/middleware/Rules.rdf#','http://www.tao.lu/middleware/Rules.rdf#');
 
 CREATE TABLE "statements" (
-  "modelID" int NOT NULL default 0,
+  "modelid" int NOT NULL default 0,
   "subject" varchar(255) default NULL,
   "predicate" varchar(255) default NULL,
   "object" varchar(max),
@@ -50,7 +50,7 @@ CREATE TABLE "statements" (
   "epoch" smalldatetime NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  ("id")
 ) ;
-CREATE INDEX "idx_statements_modelID" ON "statements" ("modelID");
+CREATE INDEX "idx_statements_modelid" ON "statements" ("modelid");
 CREATE INDEX "k_sp" ON "statements" ("subject"/*!(164)*/, "predicate"/*!(164)*/);
 
 
@@ -59,7 +59,7 @@ CREATE TABLE "class_to_table" (
 	"id" BIGINT NOT NULL UNIQUE,
 	"uri" VARCHAR(255) NOT NULL,
 	"table" VARCHAR(64) NOT NULL,
-	"topClass" VARCHAR(255) NOT NULL,
+	"topclass" VARCHAR(255) NOT NULL,
 	PRIMARY KEY ("id")
 ) 
 CREATE INDEX "idx_class_to_table_uri" ON "class_to_table" ("uri");

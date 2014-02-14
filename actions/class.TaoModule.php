@@ -136,7 +136,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	 * @param core_kernel_classes_Resource $resource
 	 * @return tao_helpers_form_Form the generated form
 	 */
-	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topClass = null)
+	protected function editClass(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topclass = null)
 	{
 	
 		$propMode = 'simple';
@@ -145,8 +145,8 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 		}
 		
 		$options = array('property_mode' => $propMode);
-		if(!is_null($topClass)){
-			$options['topClazz'] = $topClass->getUri();
+		if(!is_null($topclass)){
+			$options['topClazz'] = $topclass->getUri();
 		}
 		$formContainer = new tao_actions_form_Clazz($clazz, $resource, $options);
 		$myForm = $formContainer->getForm();

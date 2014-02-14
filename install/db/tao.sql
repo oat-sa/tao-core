@@ -69,7 +69,7 @@ CREATE TABLE "class_to_table" (
 	"id" serial,
 	"uri" VARCHAR(255) NOT NULL,
 	"table" VARCHAR(64) NOT NULL,
-	"topClass" VARCHAR(255) NOT NULL,
+	"topclass" VARCHAR(255) NOT NULL,
 	PRIMARY KEY ("id")
 ) /*!ENGINE = MYISAM, DEFAULT CHARSET=utf8*/;
 CREATE INDEX "idx_class_to_table_uri" ON "class_to_table" ("uri");

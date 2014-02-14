@@ -43,21 +43,21 @@ class tao_install_utils_DbalDbCreator {
 	/**
 	 * @var array
 	 */
-	private $modelArray = array(
-		3  => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#',
-	    4  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-	    5  => 'http://www.w3.org/2000/01/rdf-schema#',
-	    6  => 'http://www.tao.lu/Ontologies/TAO.rdf#',
-	    7  => 'http://www.tao.lu/Ontologies/generis.rdf#',
-	    9  => 'http://www.tao.lu/Ontologies/TAOTest.rdf#',
-	    10 => 'http://www.tao.lu/Ontologies/TAOItem.rdf#',
-	    11 => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#',
-	    12 => 'http://www.tao.lu/Ontologies/TAOSubject.rdf#',
-	    13 => 'http://www.tao.lu/Ontologies/TAOResult.rdf',
-	    14 => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#',
-	    15 => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#',
-	    17 => 'http://www.tao.lu/middleware/Rules.rdf#'
-	);
+// 	private $modelArray = array(
+// 		3  => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#',
+// 	    4  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+// 	    5  => 'http://www.w3.org/2000/01/rdf-schema#',
+// 	    6  => 'http://www.tao.lu/Ontologies/TAO.rdf#',
+// 	    7  => 'http://www.tao.lu/Ontologies/generis.rdf#',
+// 	    9  => 'http://www.tao.lu/Ontologies/TAOTest.rdf#',
+// 	    10 => 'http://www.tao.lu/Ontologies/TAOItem.rdf#',
+// 	    11 => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#',
+// 	    12 => 'http://www.tao.lu/Ontologies/TAOSubject.rdf#',
+// 	    13 => 'http://www.tao.lu/Ontologies/TAOResult.rdf',
+// 	    14 => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#',
+// 	    15 => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#',
+// 	    17 => 'http://www.tao.lu/middleware/Rules.rdf#'
+// 	);
 
 	/**
 	 * @author "Lionel Lecaque, <lionel@taotesting.com>"
@@ -79,6 +79,7 @@ class tao_install_utils_DbalDbCreator {
      */
     public function __construct($params){
    		try{
+   		    
             $this->connection = $this->buildDbalConnection($params);
             $this->dbConfiguration = $params;
             $this->buildSchema();
@@ -149,7 +150,7 @@ class tao_install_utils_DbalDbCreator {
     	$table->addColumn("name", "string", array("length" => 150));
     	$table->addColumn("version", "string", array("length" => 5));
     	$table->addColumn("loaded", "integer");
-    	$table->addColumn('"loadAtStartUp"', "integer");
+    	$table->addColumn("loadatstartup", "integer");
     	$table->addColumn("ghost", "integer",array("notnull" => true,"default" => 0));
     	$table->setPrimaryKey(array("id"));
     	$table->addOption('engine' , 'MyISAM');
@@ -160,18 +161,20 @@ class tao_install_utils_DbalDbCreator {
      */
     private function createModelsSchema(){
 	    $table = $this->schema->createTable("models");
-	    $table->addColumn('"modelID"', "integer",array('autoincrement' => true));
-	    $table->addColumn('"modelURI"', "string", array("length" => 255,"default" => null));
+	    $table->addColumn('modelid', "integer",array("notnull" => true,"autoincrement" => true));
+	    $table->addColumn('modeluri', "string", array("length" => 255,"default" => null));
 	    $table->addOption('engine' , 'MyISAM');
-	    $table->setPrimaryKey(array('modelID'));
-	    $table->addIndex(array('modelURI'),"idx_models_modelURI");
+	    $table->setPrimaryKey(array('modelid'));
+        $table->addIndex(array('modeluri'),"idx_models_modeluri");
+
+
     }
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
     private function createStatementsSchena(){
     	$table = $this->schema->createTable("statements");
-    	$table->addColumn('"modelID"', "integer",array("notnull" => true,"default" => 0));
+    	$table->addColumn("modelid", "integer",array("notnull" => true,"default" => 0));
     	$table->addColumn("subject", "string",array("length" => 255,"default" => null));
     	$table->addColumn("predicate", "string",array("length" => 255,"default" => null));
     	$table->addColumn("object", "text", array("default" => null,"notnull" => false));
@@ -183,13 +186,14 @@ class tao_install_utils_DbalDbCreator {
     	$table->addColumn("stdelete", "string",array("length" => 255,"default" => null,"notnull" => false));
     	$table->setPrimaryKey(array("id"));
     	$table->addOption('engine' , 'MyISAM');
-    	$table->addColumn("epoch", "datetime" , array("notnull" => true));
-    	$table->addIndex(array('modelID'),"idx_statements_modelID");
+    	$table->addColumn("epoch", "datetime" , array("notnull" => null));
+    	$table->addIndex(array('modelid'),"idx_statements_modelid");
     	
     	if($this->dbConfiguration['driver'] != 'pdo_mysql'){
     	   $table->addIndex(array("subject","predicate"),"k_sp");
     	   $table->addIndex(array("predicate","object"),"k_po");
     	} 	
+
     
     }
     
@@ -202,7 +206,7 @@ class tao_install_utils_DbalDbCreator {
     	$table->addColumn("id", "integer",array("notnull" => true,"autoincrement" => true));
     	$table->addColumn("uri", "string",array("notnull" => null));
     	$table->addColumn("table", "string",array("notnull" => null,"length" => 64));
-    	$table->addColumn('"topClass"', "string",array("notnull" => null));
+    	$table->addColumn("topclass", "string",array("notnull" => null));
     	$table->addIndex(array("uri"),"idx_class_to_table_uri");
     	$table->addIndex(array("id"),"id");
     	$table->setPrimaryKey(array("id"));
@@ -251,9 +255,11 @@ class tao_install_utils_DbalDbCreator {
      */
     private function createSequenceUriProvider(){
     	$table = $this->schema->createTable("sequence_uri_provider");
-    	$table->addColumn("uri_sequence", "integer",array("notnull" => true));
+    	$table->addColumn("uri_sequence", "integer",array("notnull" => true,"autoincrement" => true));
     	$table->addOption('engine' , 'MyISAM');
     	$table->setPrimaryKey(array("uri_sequence"));
+    	
+    	//$this->schema->createSequence('sequence_uri_provider_uri_sequence_seq');
     }
     
     /**
@@ -290,13 +296,17 @@ class tao_install_utils_DbalDbCreator {
     }
     
 
+    public function addModel($modelId,$namespace){
+        common_Logger::d('add modelid :' . $k . ' with NS :' . $v);
+        $this->connection->insert("models" , array('modelid' => $k , 'modeluri' => $v ));
+    }
     
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
     public function addModels(){
         foreach ($this->modelArray as $k => $v){
-            $this->connection->insert("models" , array('modelID' => $k , 'modelURI' => $v ));
+            $this->addModel();
         }
     } 
     
@@ -305,6 +315,7 @@ class tao_install_utils_DbalDbCreator {
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
     public function removeGenerisUser(){
+       $this->connection->executeUpdate('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelid"=6');
         
     }
     
@@ -363,13 +374,17 @@ class tao_install_utils_DbalDbCreator {
 
     public function cleanDb(){
         $sm = $this->getSchemaManager();
+        $platform = $this->connection->getDatabasePlatform();
         $tables = $sm->listTableNames();
         foreach($tables as $name){
-            $sm->dropTable($name);
+            $sm->dropTable($platform->quoteIdentifier($name));
         }
         
         //drop sequence
-
+//         $sequences = $sm->listSequences();
+//         foreach($sequences as $name){
+//             $sm->dropSequence($name);
+//         }
     }
 
     /**

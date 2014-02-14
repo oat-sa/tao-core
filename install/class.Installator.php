@@ -168,13 +168,16 @@ class tao_install_Installator{
 				common_Logger::i('Installing stored procedures for ' . $installData['db_driver'], 'INSTALL');
 				$dbCreator->loadProc($storedProcedureFile);
 			}
+			else {
+			    common_Logger::e('Could not find storefile : ' . $storedProcedureFile);
+			}
 			
 			/*
 			 *  4 - Create the local namespace
 			 */
-			common_Logger::i('Creating local namespace', 'INSTALL');
-			//$dbCreator->addLocalModel('8',$installData['module_namespace'],$installData['module_namespace'].'#');
-	       
+// 			common_Logger::i('Creating local namespace', 'INSTALL');
+// 			$dbCreator->addLocalModel('8',$installData['module_namespace']);
+// 			$dbCreator->addModels();
 			
 			/*
 			 *  5 - Create the generis config files
@@ -322,8 +325,8 @@ class tao_install_Installator{
 				common_Logger::i('Securing tao for production', 'INSTALL');
 				
 				// 11.1 Remove Generis User
-				$dbCreator->execute('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelID"=6');
-	
+				$dbCreator->removeGenerisUser();
+				
 				// 11.2 Protect TAO dist
 	 			$shield = new tao_install_utils_Shield(array_keys($extensions));
 	 			$shield->disableRewritePattern(array("!/test/", "!/doc/"));
