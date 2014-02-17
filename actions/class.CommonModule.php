@@ -19,8 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
 /**
  * Top level controller
  * All children extenions module should extends the CommonModule to access the shared data
@@ -143,5 +142,15 @@ abstract class tao_actions_CommonModule extends Module {
         
         return _url('config', 'ClientConfig', 'tao', array_merge($clientConfigParameters, $extraParameters));
     }
+    
+    /**
+     * (non-PHPdoc)
+     * @see Module::getRenderer()
+     */
+    public function getRenderer() {
+        if (!isset($this->renderer)) {
+            $this->renderer = new oat\tao\helpers\template\Template();
+        }
+        return $this->renderer;
+    }
 }
-?>

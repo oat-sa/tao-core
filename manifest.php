@@ -19,8 +19,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -29,12 +28,15 @@
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 
 return array(
-	'name' => 'tao',
+    'id' => 'tao',
+	'name' => 'Tao base',
 	'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '2.4',
+    'version' => '2.6',
 	'author' => 'Open Assessment Technologies, CRP Henri Tudor',
-	'dependencies' => array('generis'),
+    'requires' => array(
+	   'generis' => '2.6'
+    ),
 	'models' => array(
 		'http://www.tao.lu/Ontologies/TAO.rdf'
 	),
@@ -122,6 +124,11 @@ return array(
             'label' => __('TAO Back Office')
         )
     ),
+    'autoload' => array (
+        'psr-4' => array(
+            'oat\\tao\\' => $extpath
+        )
+    ),
 	'constants' => array(
 	
 		# actions directory
@@ -157,4 +164,3 @@ return array(
 		'TAOVIEW_PATH' => $extpath."views".DIRECTORY_SEPARATOR
 	 )
 );
-?>
