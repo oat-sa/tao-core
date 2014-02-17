@@ -3,55 +3,62 @@
 	<div id="main-menu" class="ui-state-default" >
 		<a href="<?=_url('entry', 'Main', 'tao')?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
 		<div class="left-menu">
-			<?$first = true;foreach(get_data('extensions') as $extension):?>
-<?php if ($extension['enabled']): ?>
-				<?if($first):$first = false;?><?else:?>|<?endif?>
-				<span class="<? if (get_data('shownExtension') == $extension['extension']) echo 'current-extension' ?>">
-					<a href="<?=_url('index', null, null, array('structure' => $extension['id'], 'ext' => $extension['extension']))?>" title="<?=__($extension['description'])?>"><?=__($extension['name'])?></a>
+			<? foreach(get_data('menu') as $entry): ?>
+				<span <? if (get_data('shownExtension') == $entry['extension']): ?>class="current-extension"<? endif ?>>
+					<a href="<?=$entry['url']?>" title="<?=__($entry['description'])?>"><?=__($entry['name'])?></a>
 				</span>
-<?php endif; ?>
-			<?endforeach?>
+			<? endforeach ?>
 		</div>
 
-		<div class="right-menu">
+		<div class="right-menu tao-scope">
+            
+            
             <div>
-                <a class="icon" id="logout-icon" href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Log Out')?>">
-				</a>
+                <a id="logout" href="<?=_url('logout', 'Main', 'tao')?>" title="<?=__('Log Out')?>">
+                    <span class="icon-logout" ></span>
+                </a>
 			</div>
 <?php if (tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'UserSettings', null)): ?>
-            <div class="vr">|</div>
             <div>
-                <a class="icon" id="usersettings-icon" href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>" title="<?=__('My Settings')?>">
-    			</a>
-					   
-					<p class="icon-desc">
+                <a id="usersettings" href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>" title="<?=__('My Settings')?>">
+                    <span class="icon-settings" ></span>
+                </a>
+                <p class="icon-desc">
                     <?=__('Logged in as:')?></br>
                     <strong><?=get_data('userLabel')?></strong>
-                    </p>
+                </p>
 			</div>
+<? endif ?>
+
 			<div class="vr">|</div>
-			
-<?php endif; ?>
-<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('filemanager', 'Browser', null)): ?>
-            <div>
-                <a class="icon file-manager" id="mediamanager-icon" href="#" title="<?=__('Media Management')?>">
-    			</a>
-			</div>
-<?php endif; ?>
-<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'Users', null)): ?>
-            <div>
-                <a class="icon" id="users-icon" href="<?=_url('index', 'Main', 'tao', array('structure' => 'users', 'ext' => 'tao'))?>" title="<?=__('User Management')?>">
-				</a>
-			</div>
-				<?php endif; ?>
-<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'ExtensionsManager', null) && tao_helpers_SysAdmin::isSysAdmin()): ?>
-            <div>
-                <a class="icon" id="settings-icon" href="<?=_url('index', 'Main', 'tao', array('structure' => 'settings', 'ext' => 'tao'))?>" title="<?=__('System Settings')?>"></a>
-			</div>
-<?php endif; ?>
+            
+            <? foreach(get_data('toolbar') as $action):?>
+                <div>
+                    <a id="<?=$action['id']?>" 
+                       <? if(isset($action['js'])): ?>
+                        href="#" 
+                        data-action="<?=$action['js']?>"
+                       <? else : ?>
+                        href="<?=$action['url']?>" 
+                       <? endif ?>
+                       title="<?=__($action['title'])?>">
+                       
+                        <? if(isset($action['icon'])): ?>
+                        <span class="<?=$action['icon']?>"></span>
+                        <? endif ?>
+                        
+                        <? if(isset($action['text'])): ?>
+                        <?=__($action['text'])?>
+                        <? endif ?>
+                        
+                    </a>
+                </div>
+            <? endforeach ?>
+
             <div class="breaker"></div>
 		</div>
 	</div>
+
 <? if(get_data('sections')):?>
 
 	<div id="tabs">
@@ -68,10 +75,6 @@
 		<div class="clearfix"></div>
 		<div id="section-meta"></div>
 	</div>
-
-<?else:?>
-
-	<?include('main/home.tpl');?>
 
 <?endif?>
 

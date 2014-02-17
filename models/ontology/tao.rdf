@@ -190,4 +190,20 @@
 	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
   </rdf:Description>
   
+    <!-- Some user's meta -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[LastExtensionUsed]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Saves the last extension the user had visited.]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[First Time In Tao]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Is it the first the user connects to TAO?]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#Boolean"/>
+  </rdf:Description>
+  
 </rdf:RDF>

@@ -134,5 +134,8 @@ $todefine = array(
     'PROPERTY_FORMALPARAMETER_NAME'					=> 'http://www.tao.lu/middleware/wfEngine.rdf#PropertyFormalParametersName',
     'PROPERTY_LOCK'                                 => 'http://www.tao.lu/Ontologies/TAO.rdf#Lock',
     
-    'INSTANCE_ROLE_BASEUSER'                        => 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole'
+    'INSTANCE_ROLE_BASEUSER'                        => 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole',
+    
+    'PROPERTY_USER_FIRSTTIME'                        => 'http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao',
+    'PROPERTY_USER_LASTEXTENSION'                  => 'http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed'
 );

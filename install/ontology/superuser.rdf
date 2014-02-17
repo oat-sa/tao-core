@@ -3,7 +3,8 @@
 	xml:base="LOCAL_NAMESPACE##"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#">
+	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
+    xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#">
 	
 	<rdf:Description rdf:about="LOCAL_NAMESPACE#superUser">
 	    <generis:userRoles rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole"/>
@@ -18,6 +19,7 @@
 	    <generis:userMail></generis:userMail>
 	    <generis:userDefLg></generis:userDefLg>
 	    <generis:userUILg></generis:userUILg>
+        <tao:firstTimeInTao rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
 	</rdf:Description>
 	
 	<rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole">

@@ -30,6 +30,12 @@
  */
 class tao_actions_Main extends tao_actions_CommonModule {
 
+    /**
+     * The user service
+     * @var tao_models_classes_UserService 
+     */
+    protected $userService;
+    
 	/**
 	 * Constructor performs initializations actions
 	 * @return void
@@ -38,6 +44,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	{
 		//initialize service
 		$this->service = tao_models_classes_TaoService::singleton();
+        $this->userService = \tao_models_classes_UserService::singleton();
 		$this->defaultData();
 	}
 
@@ -136,80 +143,154 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 * The main action, load the layout
 	 * @return void
 	 */
-	public function index()
-	{
-		$extensions = array();
-		foreach ($this->service->getAllStructures() as $i => $structure) {
-			if ($structure['data']['visible'] == 'true') {
-				$data = $structure['data'];
-				$extensions[$i] = array(
-					'id'			=> (string) $structure['id'],
-					'name' 			=> (string) $data['name'],
-					'extension'		=> $structure['extension'],
-					'description'	=> (string) $data->description
-				);
-
-				//Test if access
-				$access = false;
-				foreach ($data->sections->section as $section) {
-					list($ext, $mod, $act) = explode('/', trim((string) $section['url'], '/'));
-					if (tao_models_classes_accessControl_AclProxy::hasAccess($ext, $mod, $act)) {
-						$access = true;
-						break;
-					}
-				}
-				$extensions[$i]['enabled'] = $access;
-			}
-		}
-		$this->setData('extensions', $extensions);
-
-                $shownExtension = $this->getRequestParameter('ext');
-                $shownStructure = $this->getRequestParameter('structure');
+	public function index(){
+        
+		$this->setData('menu', $this->getMenuEntries());
+        $this->setData('toolbar', $this->getToolbarActions());
+        
+        $user = $this->userService->getCurrentUser();
+        $shownExtension = $this->getRequestParameter('ext');
+        $shownStructure = $this->getRequestParameter('structure');
 		if($this->hasRequestParameter('structure')) {
+            
 			// structured mode
 			// @todo stop using session to manage uri/classUri
 			$this->removeSessionAttribute('uri');
 			$this->removeSessionAttribute('classUri');
 			$this->removeSessionAttribute('showNodeUri');
-			$structure = $this->service->getStructure($shownExtension, $shownStructure);
-
-			$sections = array();
-			if (isset($structure["sections"])) {
-				foreach ($structure["sections"] as $section) {
-					$url = explode('/', substr((string)$section['url'], 1));
-					$ext = (isset($url[0])) ? $url[0] : null;
-					$module = (isset($url[1])) ? $url[1] : null;
-					$action = (isset($url[2])) ? $url[2] : null;
-	
-					if (tao_models_classes_accessControl_AclProxy::hasAccess($ext, $module, $action)) {
-						$sections[] = array('id' => (string)$section['id'], 'url' => (string)$section['url'], 'name' => (string)$section['name']);
-					}
-				}
-			}
-
+            
+            $this->userService->setLastVisitedExtension(_url('index', 'Main', 'tao', array(
+                'structure' => $shownStructure,
+                'ext' => $shownExtension
+            )), $user);
+            
+			$sections = $this->getSections($shownExtension, $shownStructure);
 			if (count($sections) > 0) {
 				$this->setData('sections', $sections);
 			} else {
 				common_Logger::w('no sections');
 			}
 		} else {
-			// home screen
-			$this->setData('sections', false);
-			tao_helpers_Scriptloader::addCssFile(TAOBASE_WWW . 'css/home.css');
-		}
-
+            
+            //check if the user is a noob, otherwise redirect him to his last visited extension.
+            $firsttime = $this->userService->isFirstTimeInTao($user);
+            if($firsttime == false){
+               $lastVisited = $this->userService->getLastVisitedExtension($user);
+               if(!is_null($lastVisited)){
+                   $this->redirect($lastVisited);
+               }
+            }
+        }
+        
 		$this->setData('user_lang', core_kernel_classes_Session::singleton()->getDataLanguage());
 		$this->setData('userLabel', core_kernel_classes_Session::singleton()->getUserLabel());
                 
-                //creates the URL of the action used to configure the client side
-                $clientConfigParameters = array(
-                    'shownExtension'    => $shownExtension,
-                    'shownStructure'    => $shownStructure
-                );
-                $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParameters));
+        //creates the URL of the action used to configure the client side
+        $clientConfigParameters = array(
+            'shownExtension'    => $shownExtension,
+            'shownStructure'    => $shownStructure
+        );
+        $this->setData('client_config_url', $this->getClientConfigUrl($clientConfigParameters));
 
 		$this->setView('layout.tpl', 'tao');
 	}
+    
+    
+    /**
+     * Get the list of extensions to display@param string $shownExtension
+     * @return array the sections
+     */
+    private function getMenuEntries(){
+        $entries = array();
+		foreach ($this->service->getAllStructures() as $i => $structure) {
+            $data = $structure['data'];
+            if ($data['visible'] == 'true' && $this->hasAccessToStructure($structure)) {
+                $entries[$i] = array(
+                    'id'			=> (string) $structure['id'],
+                    'name' 			=> (string) $data['name'],
+                    'extension'		=> $structure['extension'],
+                    'description'	=> (string) $data->description,
+                    'url'           => _url('index', null, null, array('structure' => $structure['id'], 'ext' => $structure['extension']))
+                );
+            }
+        }
+        return $entries;
+    }
+    
+    /**
+     * Check wheter a user can access to the content of a structure
+     * @param SimpleXMLElement $structure from the structure.xml
+     * @return boolean true if the user is allowed
+     */
+    private function hasAccessToStructure($structure){
+        $access = false;
+        $data = $structure['data'];
+        foreach ($data->sections->section as $section) {
+            list($ext, $mod, $act) = explode('/', trim((string) $section['url'], '/'));
+            if (tao_models_classes_accessControl_AclProxy::hasAccess($ext, $mod, $act)) {
+                $access = true;
+                break;
+            }
+        }
+        return $access;
+    }
+    
+    /**
+     * Get the sections of the current extension's structure
+     * @param string $shownExtension
+     * @param string $shownStructure
+     * @return array the sections
+     */
+    private function getSections($shownExtension, $shownStructure){
+
+        $sections = array();
+        $structure = $this->service->getStructure($shownExtension, $shownStructure);
+        if (isset($structure["sections"])) {
+            
+            foreach ($structure["sections"] as $section) {
+                
+                $url = explode('/', substr((string)$section['url'], 1));
+                $ext = (isset($url[0])) ? $url[0] : null;
+                $module = (isset($url[1])) ? $url[1] : null;
+                $action = (isset($url[2])) ? $url[2] : null;
+
+                if (tao_models_classes_accessControl_AclProxy::hasAccess($ext, $module, $action)) {
+                    $sections[] = array(
+                        'id'    => (string)$section['id'], 
+                        'url'   => (string)$section['url'], 
+                        'name'  => (string)$section['name']
+                    );
+                }
+            }
+        }
+        
+        return $sections;
+    }
+    
+    /**
+     * Get the actions to put into the toolbar
+     * @return array the actions
+     */
+    private function getToolbarActions(){
+        $actions = array();
+		foreach ($this->service->getToolbarActions() as $i => $action) {
+            $access = false;
+            if(isset($action['structure'])){
+                $structure = $this->service->getStructure($action['extension'], $action['structure']);
+                if($this->hasAccessToStructure($structure)){
+                    $action['url'] =  _url('index', null, null, array('structure' => $action['structure'], 'ext' => $action['extension']));
+                    $access = true;
+                }
+            } else {
+                $action['js'] =  $action['extension']. '/'. $action['js'];
+                $access = tao_models_classes_accessControl_AclProxy::hasAccess($action['extension'], null);
+            }
+            if($access){
+                $actions[$i] = $action;
+            }
+        }
+        return $actions;
+    }
 
     /**
      * Check if the system is ready

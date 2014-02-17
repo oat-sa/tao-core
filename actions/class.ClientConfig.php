@@ -35,6 +35,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
         
         //get extension paths to set up aliases dynamically
         $extensionsAliases = array();
+        $extensionsLocales = array();
         $extensionManager = common_ext_ExtensionsManager::singleton();
         
         foreach($extensionManager->getInstalledExtensions() as $extension){
@@ -42,15 +43,11 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule {
             if(isset($extensionManifestConsts['BASE_WWW'])){
                  $extensionsAliases[$extension->getId()] = str_replace(ROOT_URL, '../../../', $extensionManifestConsts['BASE_WWW']) . 'js';
             }
-        }
-        $this->setData('extensionsAliases', $extensionsAliases);
-        
-        $extensionsLocales = array();
-        foreach($extensionManager->getInstalledExtensions() as $extension){
             if(file_exists($extension->getDir(). '/locales') && isset($extensionManifestConsts['BASE_WWW'])){
                 $extensionsLocales[] = $extension->getId();
             } 
         }
+        $this->setData('extensionsAliases', $extensionsAliases);
         $this->setData('extensionsLocales', $extensionsLocales);
         
         $base_www = BASE_WWW;

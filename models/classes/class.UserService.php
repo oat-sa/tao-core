@@ -17,7 +17,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 /**
@@ -402,6 +402,7 @@ class tao_models_classes_UserService
      * @param string password the password in clear.
      * @param core_kernel_classes_Resource role A role to grant to the user.
      * @param core_kernel_classes_Class A specific class to use to instantiate the new user. If not specified, the class returned by the getUserClass method is used.
+     * @return core_kernel_classes_Resource the new user
      * @throws core_kernel_users_Exception If an error occurs.
      */
     public function addUser($login, $password, core_kernel_classes_Resource $role = null, core_kernel_classes_Class $class = null){
@@ -410,8 +411,15 @@ class tao_models_classes_UserService
     		$class = $this->getRootClass();
     	}
     	
-    	return $this->generisUserService->addUser($login, $password, $role, $class);
-	}
+        $user = $this->generisUserService->addUser($login, $password, $role, $class);
+        
+        //set up default properties
+        if(!is_null($user)){
+            $user->setPropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRSTTIME), GENERIS_TRUE);
+        }
+    	
+        return $user;
+    }
 	
 	/**
 	 * Indicates if a user session is currently opened or not.
@@ -495,6 +503,72 @@ class tao_models_classes_UserService
 		$this->generisUserService->unnatachRole($user, $role);
 	}
 	
+    /**
+     * Check whether the user has already been connected to the TAO backend. 
+     * @param core_kernel_classes_Resource $user a user or the current user if null/not set
+     * @return boolean true if this is the first time
+     */
+    public function isFirstTimeInTao(core_kernel_classes_Resource $user = null){
+        if(is_null($user)){
+            $user = $this->getCurrentUser();
+        }
+        $firstTime = $user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_FIRSTTIME));
+
+        //for compatibility purpose we assume previous users are veterans 
+        return !is_null($firstTime) && $firstTime->getUri() == GENERIS_TRUE;
+	}
+    
+    /**
+     * The user knows TAO, he's now a veteran, the PROPERTY_USER_FIRSTTIME property can be false (except if $notYet is true). 
+     * @param core_kernel_classes_Resource $user a user or the current user if null/not set
+     * @param boolean $notYet our veteran want to be still considered as a noob...
+     */
+    public function becomeVeteran(core_kernel_classes_Resource $user = null, $notYet = false){
+        if(is_null($user)){
+            $user = $this->getCurrentUser();
+        }
+        $user->editPropertyValues(
+                new core_kernel_classes_Property(PROPERTY_USER_FIRSTTIME), 
+                new core_kernel_classes_Resource($notYet == false ? GENERIS_FALSE : GENERIS_TRUE)
+        );
+	}
+    
+    /**
+     * Get the URL of the last visited extension
+     * @param core_kernel_classes_Resource $user a user or the current user if null/not set (optional)
+     * @return string the url or null
+     */
+    public function getLastVisitedExtension(core_kernel_classes_Resource $user = null){
+        if(is_null($user)){
+            $user = $this->getCurrentUser();
+        }
+        $lastVisited = $user->getOnePropertyValue(new core_kernel_classes_Property(PROPERTY_USER_LASTEXTENSION));
+        if($lastVisited instanceof core_kernel_classes_Literal){
+            return ROOT_URL . $lastVisited;
+        }
+        return null;
+    }
+    
+    /**
+     * Set the URL of the last visited extension to a user.
+     * @param string $url a non empty URL where the user was the last time
+     * @param core_kernel_classes_Resource $user a user or the current user if null/not set (optional)
+     * @throws common_Exception
+     */
+    public function setLastVisitedExtension($url, core_kernel_classes_Resource $user = null){
+        if(empty($url)){
+           throw new common_Exception('Cannot register an empty URL for the last visited extension');
+        }
+        if(is_null($user)){
+            $user = $this->getCurrentUser();
+        }
+        
+        //clean up what's stored'
+        $url = str_replace(ROOT_URL, '', $url);
+        
+        $user->editPropertyValues(new core_kernel_classes_Property(PROPERTY_USER_LASTEXTENSION), $url);
+    }
+        
 	/**
 	 * Get the class to use to instantiate users.
 	 * 

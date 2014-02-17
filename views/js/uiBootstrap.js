@@ -10,7 +10,7 @@
  * @author Jehan Bihin (using class.js)
  */
 
-define(['jquery', 'i18n', 'context', 'helpers', 'jqueryui', 'jquery.fmRunner'], function($, __, context, helpers) {
+define(['jquery', 'i18n', 'context', 'helpers', 'jqueryui'], function($, __, context, helpers) {
 	
     var UiBootstrap = {
             init: function(options) {
@@ -20,7 +20,6 @@ define(['jquery', 'i18n', 'context', 'helpers', 'jqueryui', 'jquery.fmRunner'], 
                 
                 this.initAjax();
                 this.initNav();
-                this.initMenuBar();
                 
                 //create tabs
                 this.tabs = this._$tabs.tabs({
@@ -215,7 +214,7 @@ define(['jquery', 'i18n', 'context', 'helpers', 'jqueryui', 'jquery.fmRunner'], 
             },
 
             initMenuBar: function(){
-                var self = this;
+             /*   var self = this;
                     //add a focus selector
                     var lastFocussed = null;
                     $(':text').live('focus',function(){
@@ -233,7 +232,7 @@ define(['jquery', 'i18n', 'context', 'helpers', 'jqueryui', 'jquery.fmRunner'], 
                     $("#main-menu .settings-loader").click(function(){
                             this._load(helpers.getMainContainerSelector(self.tabs), this.href);
                             return false;
-                    });
+                    });*/
             }
 
     };

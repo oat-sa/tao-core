@@ -20,6 +20,7 @@
                 
                 //initialize new components
                 ui.startEventComponents($('.tao-scope'));
+                
         });
     });
 }(window));

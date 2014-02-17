@@ -114,7 +114,7 @@ return array(
     ),
     'entryPoints' => array(
     	array(
-            'ext' => 'tao',
+            'ext' => 'taoCe',
             'mod' => 'Main',
             'act' => 'index',
             'title' => __('Test Developers and Administrators'),

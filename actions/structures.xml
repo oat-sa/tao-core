@@ -58,4 +58,8 @@
 			<section id="settings_my_password" name="Change password" url="/tao/UserSettings/password" />
 		</sections>
 	</structure>
+    <toolbar>
+        <action id="usermanager" icon="icon-users" level="9" structure="users" title="User Management"></action>
+        <action id="settings" icon="icon-tools" level="10" structure="settings" title="System Settings"></action>
+    </toolbar>
 </structures>

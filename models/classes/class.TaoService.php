@@ -80,17 +80,11 @@ class tao_models_classes_TaoService
     }
 
     /**
-     * Short description of method getAllStructures
-     *
-     * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * Get the structure content (from the structure.xml file) of each extension.
      * @return array
      */
     public function getAllStructures()
     {
-        $returnValue = array();
-
-        // section 127-0-1-1-64be1e2f:13774f13776:-8000:0000000000003A89 begin
     	if( count(self::$structure) == 0 ){
 			$structure = array();
 			foreach(common_ext_ExtensionsManager::singleton()->getEnabledExtensions() as $extID => $extension){
@@ -117,10 +111,48 @@ class tao_models_classes_TaoService
 			}
 			usort(self::$structure, create_function('$a,$b', "return \$a['level'] - \$b['level']; "));
 		}
-		$returnValue = self::$structure;
-        // section 127-0-1-1-64be1e2f:13774f13776:-8000:0000000000003A89 end
 
-        return (array) $returnValue;
+        return self::$structure;
+    }
+
+    /**
+     * Get the toolbar actions for the enabled extensions
+     * @return array
+     */
+    public function getToolbarActions()
+    {
+	    $actions = array();
+        foreach(common_ext_ExtensionsManager::singleton()->getEnabledExtensions() as $extID => $extension){
+            $xmlStructures = $this->getStructuresXml($extID);
+            if(!is_null($xmlStructures)){
+                $actionsNodes = $xmlStructures->xpath("/structures/toolbar/action");
+                foreach($actionsNodes as $actionNode){
+                    $action = array(
+                        'id'        => (string)$actionNode['id'],
+                        'extension' => $extID,
+                        'title'		=> (string)$actionNode['title'],
+                        'level'		=> (int)$actionNode['level']
+                    );
+                    $text = (string)$actionNode;
+                    if(!empty($text)){
+                        $action['text'] =  $text;
+                    }
+                    if(isset($actionNode['icon'])){
+                         $action['icon'] =  (string)$actionNode['icon'];
+                    }
+                    if(isset($actionNode['js'])){
+                         $action['js'] =  (string)$actionNode['js'];
+                    } else if(isset($actionNode['structure'])){
+                         $action['structure'] =  (string)$actionNode['structure'];
+                    }
+                    $actions[] = $action;
+                }
+            }
+        }
+        
+        usort($actions, create_function('$a,$b', "return \$a['level'] - \$b['level']; "));
+
+        return $actions;
     }
 
     /**

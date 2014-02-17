@@ -21,6 +21,11 @@
  */
 ?>
 <?php
+//quick TZ fix
+if(function_exists("date_default_timezone_set")){
+	date_default_timezone_set('UTC');
+}
+
 require_once dirname(__FILE__) . '/../install/init.php';
 
 new tao_scripts_TaoInstall(array(

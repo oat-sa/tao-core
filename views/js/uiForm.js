@@ -8,7 +8,7 @@
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
 
-define(['module', 'jquery', 'i18n', 'helpers', 'context', 'generis.actions', 'jwysiwyg'], function(module, $, __, helpers, context, generisActions) {
+define(['module', 'jquery', 'i18n', 'helpers', 'context', 'generis.actions', 'jwysiwyg' , 'jquery.fmRunner'], function(module, $, __, helpers, context, generisActions) {
     
     function getUrl(action){
         var conf = module.config();
