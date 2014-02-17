@@ -86,7 +86,7 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
 				$range = $property->getRange();
 				$properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
 				
-				if($range->getUri() != RDFS_LITERAL){
+				if($range instanceof core_kernel_classes_Resource && $range->getUri() != RDFS_LITERAL){
 					$rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
 				}
 			}
