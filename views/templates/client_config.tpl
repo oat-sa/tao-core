@@ -27,6 +27,7 @@ require.config({
         'text'              : 'lib/text/text',
         'json'              : 'lib/text/json',
         'css'               : 'lib/require-css/css',
+        'polyfill'          : 'lib/polyfill',
         'store'             : 'lib/store/store.min',
         'select2'           : 'lib/select2/select2.min',
         'lodash'            : 'lib/lodash.min',
