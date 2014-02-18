@@ -1,4 +1,6 @@
 <?php
+use oat\tao\models\classes\menu\Structure;
+use oat\tao\models\classes\menu\MenuService;
 /*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -202,15 +204,14 @@ class tao_actions_Main extends tao_actions_CommonModule {
      */
     private function getMenuEntries(){
         $entries = array();
-		foreach ($this->service->getAllStructures() as $i => $structure) {
-            $data = $structure['data'];
-            if ($data['visible'] == 'true' && $this->hasAccessToStructure($structure)) {
+		foreach (MenuService::getAllStructures() as $i => $structure) {
+            if ($structure->isVisible() && $this->hasAccessToStructure($structure)) {
                 $entries[$i] = array(
-                    'id'			=> (string) $structure['id'],
-                    'name' 			=> (string) $data['name'],
-                    'extension'		=> $structure['extension'],
-                    'description'	=> (string) $data->description,
-                    'url'           => _url('index', null, null, array('structure' => $structure['id'], 'ext' => $structure['extension']))
+                    'id'			=> $structure->getId(),
+                    'name' 			=> $structure->getName(),
+                    'extension'		=> $structure->getExtension(),
+                    'description'	=> $structure->getDescription(),
+                    'url'           => _url('index', null, null, array('structure' => $structure->getId(), 'ext' => $structure->getExtension()))
                 );
             }
         }
@@ -222,11 +223,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
      * @param SimpleXMLElement $structure from the structure.xml
      * @return boolean true if the user is allowed
      */
-    private function hasAccessToStructure($structure){
+    private function hasAccessToStructure(Structure $structure){
         $access = false;
-        $data = $structure['data'];
-        foreach ($data->sections->section as $section) {
-            list($ext, $mod, $act) = explode('/', trim((string) $section['url'], '/'));
+        foreach ($structure->getSections() as $section) {
+            list($ext, $mod, $act) = explode('/', trim((string) $section->getUrl(), '/'));
             if (tao_models_classes_accessControl_AclProxy::hasAccess($ext, $mod, $act)) {
                 $access = true;
                 break;
@@ -244,23 +244,20 @@ class tao_actions_Main extends tao_actions_CommonModule {
     private function getSections($shownExtension, $shownStructure){
 
         $sections = array();
-        $structure = $this->service->getStructure($shownExtension, $shownStructure);
-        if (isset($structure["sections"])) {
+        $structure = MenuService::getStructure($shownExtension, $shownStructure);
+        foreach ($structure->getSections() as $section) {
             
-            foreach ($structure["sections"] as $section) {
-                
-                $url = explode('/', substr((string)$section['url'], 1));
-                $ext = (isset($url[0])) ? $url[0] : null;
-                $module = (isset($url[1])) ? $url[1] : null;
-                $action = (isset($url[2])) ? $url[2] : null;
+            $url = explode('/', trim($section->getUrl(), '/'));
+            $ext = (isset($url[0])) ? $url[0] : null;
+            $module = (isset($url[1])) ? $url[1] : null;
+            $action = (isset($url[2])) ? $url[2] : null;
 
-                if (tao_models_classes_accessControl_AclProxy::hasAccess($ext, $module, $action)) {
-                    $sections[] = array(
-                        'id'    => (string)$section['id'], 
-                        'url'   => (string)$section['url'], 
-                        'name'  => (string)$section['name']
-                    );
-                }
+            if (tao_models_classes_accessControl_AclProxy::hasAccess($ext, $module, $action)) {
+                $sections[] = array(
+                    'id'    => $section->getId(), 
+                    'url'   => $section->getUrl(), 
+                    'name'  => $section->getName()
+                );
             }
         }
         
@@ -273,10 +270,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
      */
     private function getToolbarActions(){
         $actions = array();
-		foreach ($this->service->getToolbarActions() as $i => $action) {
+		foreach (MenuService::getToolbarActions() as $i => $action) {
             $access = false;
             if(isset($action['structure'])){
-                $structure = $this->service->getStructure($action['extension'], $action['structure']);
+                $structure = MenuService::getStructure($action['extension'], $action['structure']);
                 if($this->hasAccessToStructure($structure)){
                     $action['url'] =  _url('index', null, null, array('structure' => $action['structure'], 'ext' => $action['extension']));
                     $access = true;
@@ -322,75 +319,63 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		$this->setData('actions', false);
 		$this->setData('shownExtension', $this->getRequestParameter('ext'));
 
-		$structure = $this->service->getSection($extname, $struct, $this->getRequestParameter('section'));
-		if(isset($structure["actions"])){
-			$actionNodes =  $structure["actions"];
-			$actions = array();
-			foreach($actionNodes as $actionNode){
-				$nocheck = true;
-				if (isset($actionNode['url']) && strlen((string)$actionNode['url']) > 0) {
-					$url = explode('/', substr((string)$actionNode['url'], 1));
-					if (count($url) == 3) {
-						$ext = (isset($url[0])) ? $url[0] : null;
-						$module = (isset($url[1])) ? $url[1] : null;
-						$action = (isset($url[2])) ? $url[2] : null;
-						$nocheck = false;
-					}
-				}
-
-				if ($nocheck || tao_models_classes_accessControl_AclProxy::hasAccess($ext, $module, $action)) {
-					$display = __((string) $actionNode['name']);
-					if(strlen($display) > 15){
-						$display = str_replace(' ', "<br>", $display);
-					}
-					$action = array(
-						'js'		=> (isset($actionNode['js'])) ? (string) $actionNode['js'] : false,
-						'url' 		=> ROOT_URL . substr((string)$actionNode['url'], 1),
-						'display'	=> $display,
-						'rowName'	=> (string) $actionNode['name'],
-						'name'		=> _clean((string) $actionNode['name']),
-						'uri'		=> ($uri) ? $this->getRequestParameter('uri') : false,
-						'classUri'	=> ($classUri) ? $this->getRequestParameter('classUri') : false,
-						'reload'	=> (isset($actionNode['reload'])) ? true : false,
-					    'ext'       => $ext
-					);
-
-					$action['disabled'] = true;
-					switch ((string) $actionNode['context']) {
-						case 'resource':
-							if ($classUri || $uri) {
-                                $action['disabled'] = false;
-                            }
-							break;
-						case 'class':
-							if ($classUri && !$uri) {
-                                $action['disabled'] = false;
-                            }
-							break;
-						case 'instance':
-							if ($classUri && $uri) {
-                                $action['disabled'] = false;
-                            }
-							break;
-						case '*':
-							$action['disabled'] = false;
-							break;
-						default:
-							$action['disabled'] = true;
-							break;
-					}
-
-					//@todo remove this when permissions engine is setup
-					if ($action['rowName'] == 'delete' && $classUri && !$uri) {
-						if (in_array($action['classUri'], tao_helpers_Uri::encodeArray($rootClasses, tao_helpers_Uri::ENCODE_ARRAY_VALUES))) {
-							$action['disabled'] = true;
-						}
-					}
-
-					array_push($actions, $action);
-				}
-			}
-
+		$section = MenuService::getSection($extname, $struct, $this->getRequestParameter('section'));
+		$actions = array();
+		foreach ($section->getActions() as $action) {
+		    if ($action->hasAccess()) {
+		        $display = __($action->getName());
+		        if(strlen($display) > 15){
+		            $display = str_replace(' ', "<br>", $display);
+		        }
+		        $actionData = array(
+		            'js'		=> $action->getJs(),
+		            'url' 		=> ROOT_URL . $action->getUrl(),
+		            'display'	=> $display,
+		            'rowName'	=> $action->getName(),
+		            'name'		=> _clean($action->getName()),
+		            'uri'		=> ($uri) ? $this->getRequestParameter('uri') : false,
+		            'classUri'	=> ($classUri) ? $this->getRequestParameter('classUri') : false,
+		            'reload'	=> $action->getReload(),
+		            'ext'       => $action->getExtensionId()
+		        );
+		        
+		        $actionData['disabled'] = true;
+		        switch ($action->getContext()) {
+		        	case 'resource':
+		        	    if ($classUri || $uri) {
+		        	        $actionData['disabled'] = false;
+		        	    }
+		        	    break;
+		        	case 'class':
+		        	    if ($classUri && !$uri) {
+		        	        $actionData['disabled'] = false;
+		        	    }
+		        	    break;
+		        	case 'instance':
+		        	    if ($classUri && $uri) {
+		        	        $actionData['disabled'] = false;
+		        	    }
+		        	    break;
+		        	case '*':
+		        	    $actionData['disabled'] = false;
+		        	    break;
+		        	default:
+		        	    $actionData['disabled'] = true;
+		        	    break;
+		        }
+		        
+		        //@todo remove this when permissions engine is setup
+		        if ($actionData['rowName'] == 'delete' && $classUri && !$uri) {
+		            if (in_array($action['classUri'], tao_helpers_Uri::encodeArray($rootClasses, tao_helpers_Uri::ENCODE_ARRAY_VALUES))) {
+		                $actionData['disabled'] = true;
+		            }
+		        }
+		        
+		        array_push($actions, $actionData);
+		    }
+		}
+			
+	    if (!empty($actions)) {
 			$this->setData('actions', $actions);
 		}
 
@@ -405,45 +390,48 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	{
 		$extname	= $this->getRequestParameter('ext');
 		$struct		= $this->getRequestParameter('structure');
-		$section	= $this->getRequestParameter('section');
+		$sectionId	= $this->getRequestParameter('section');
 
-		$structure = $this->service->getSection($extname, $struct, $section);
-		if(isset($structure["trees"])){
-                    $mapping = array(
-                        'editClassUrl'      => 'editClassAction',
-                        'editInstanceUrl'   => 'editInstanceAction',
-                        'addInstanceUrl'    => 'createInstanceAction',
-                        'moveInstanceUrl'   => 'moveInstanceAction',
-                        'addSubClassUrl'    => 'subClassAction',
-                        'deleteUrl'         => 'deleteAction',
-                        'duplicateUrl'      => 'duplicateAction'
-                    );
-                    
-                    $trees = array();
-                    foreach($structure["trees"] as $tree){
-                        $treeArray = array();
-                        foreach($tree->attributes() as $attrName => $attrValue){
-                            $key = (array_key_exists($attrName, $mapping)) ? $mapping[$attrName] : $attrName;  
-                            if(preg_match("/^\//", (string) $attrValue)){
-                                        $treeArray[$key] = ROOT_URL . substr((string)$attrValue, 1);
-                                }
-                                else{
-                                        $treeArray[$key] = (string)$attrValue;
-                                }
-                        }
-                        
-                        if($this->hasSessionAttribute("showNodeUri")){
-                            $treeArray['selectNode'] = $this->getSessionAttribute("showNodeUri");
-                        }
-                        if(isset($treeArray['className'])){
-                            $treeArray['instanceClass'] = 'node-'.str_replace(' ', '-', strtolower($treeArray['className']));
-                            $treeArray['instanceName'] = mb_strtolower(__($treeArray['className']), TAO_DEFAULT_ENCODING);
-                        }
-                        $treeId = tao_helpers_Display::textCleaner((string) $tree['name'], '_');
-                        $trees[$treeId] = $treeArray;
-                    }
-                    $this->setData('trees', $trees);
+		$section = MenuService::getSection($extname, $struct, $sectionId);
+		$treeData = array();
+		foreach ($section->getTrees() as $tree) {
+		    $mapping = array(
+		        'editClassUrl'      => 'editClassAction',
+		        'editInstanceUrl'   => 'editInstanceAction',
+		        'addInstanceUrl'    => 'createInstanceAction',
+		        'moveInstanceUrl'   => 'moveInstanceAction',
+		        'addSubClassUrl'    => 'subClassAction',
+		        'deleteUrl'         => 'deleteAction',
+		        'duplicateUrl'      => 'duplicateAction',
+		        'dataUrl'           => 'dataUrl',
+		        'className'         => 'className',
+		        'name'              => 'name'
+		    );
+		    $treeArray = array();
+		    foreach ($mapping as $from => $to) {
+		        $attrValue = $tree->get($from);
+		        if (!is_null($attrValue)) {
+		            if(preg_match("/^\//", (string) $attrValue)){
+		                $treeArray[$to] = ROOT_URL . substr((string)$attrValue, 1);
+		            }
+		            else{
+		                $treeArray[$to] = (string)$attrValue;
+		            }
+		        }
+		    }
+            if($this->hasSessionAttribute("showNodeUri")){
+                $treeArray['selectNode'] = $this->getSessionAttribute("showNodeUri");
+            }
+            if(isset($treeArray['className'])){
+                $treeArray['instanceClass'] = 'node-'.str_replace(' ', '-', strtolower($treeArray['className']));
+                $treeArray['instanceName'] = mb_strtolower(__($treeArray['className']), TAO_DEFAULT_ENCODING);
+            }
+            $treeId = tao_helpers_Display::textCleaner((string) $tree->getName(), '_');
+            $treeData[$treeId] = $treeArray;
 		}
+		if (!empty($treeData)) {
+            $this->setData('trees', $treeData);
+        }
 
 		$this->setView('main/trees.tpl', 'tao');
 	}

@@ -1,4 +1,5 @@
 <?php
+use oat\tao\models\classes\menu\MenuService;
 /*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -78,15 +79,13 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 	 */
 	public function testTaoServiceExtention(){
 		
-		foreach ($this->taoService->getAllStructures() as $structure) {
-			$this->assertTrue(isset($structure['extension']));
-			$this->assertTrue(isset($structure['id']));
-			$this->assertIsA($structure['data'], 'SimpleXMLElement');
-
-			$this->assertTrue(isset($structure['id']));
-			foreach ($structure['sections'] as $sectionData) {
-				$this->assertTrue(isset($sectionData['name']));
-				$this->assertTrue(isset($sectionData['url']));
+		foreach (MenuService::getAllStructures() as $structure) {
+			$this->assertTrue(strlen($structure->getExtension()) > 0);
+		    $this->assertTrue(strlen($structure->getId()) > 0);
+			
+			foreach ($structure->getSections()  as $section) {
+			    $this->assertTrue(strlen($section->getName()) > 0);
+			    $this->assertTrue(strlen($section->getUrl()) > 0);
 			}
 		}
 	}
