@@ -120,19 +120,21 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
                
        _flip: function($elt){
             var options = $elt.data(dataNs);
-            var $front = options.front;
-            var $back = options.back;
-           
-            //animate width to 0 and margin-left to 1/2 width
-            $front.stop().animate(options.backStyle, 300, function() {
-                $back.css('visibility', 'visible');
-                $front.css('visibility', 'hidden')
-                        .addClass(options.stateClass);
-                // animate second card to full width and margin-left to 0  
-                $back.animate(options.frontStyle, 300);
-            });
-        
-            $elt.trigger('flip.' + ns);
+            if(options){
+                var $front = options.front;
+                var $back = options.back;
+
+                //animate width to 0 and margin-left to 1/2 width
+                $front.stop().animate(options.backStyle, 300, function() {
+                    $back.css('visibility', 'visible');
+                    $front.css('visibility', 'hidden')
+                            .addClass(options.stateClass);
+                    // animate second card to full width and margin-left to 0  
+                    $back.animate(options.frontStyle, 300);
+                });
+
+                $elt.trigger('flip.' + ns);
+            }
        },
        
        unflip : function(){
@@ -143,19 +145,21 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
                
        _unflip: function($elt){
             var options = $elt.data(dataNs);
-            var $front = options.front;
-            var $back = options.back;
-            
-            //animate width to 0 and margin-left to 1/2 width
-            $back.stop().animate(options.backStyle, 300, function() {
-                $back.css('visibility', 'hidden');
-                $front.css('visibility', 'visible')
-                        .removeClass(options.stateClass);
-                // animate second card to full width and margin-left to 0  
-                $front.animate(options.frontStyle, 300);
-            });
-        
-            $elt.trigger('unflip.' + ns);
+            if(options){
+                var $front = options.front;
+                var $back = options.back;
+
+                //animate width to 0 and margin-left to 1/2 width
+                $back.stop().animate(options.backStyle, 300, function() {
+                    $back.css('visibility', 'hidden');
+                    $front.css('visibility', 'visible')
+                            .removeClass(options.stateClass);
+                    // animate second card to full width and margin-left to 0  
+                    $front.animate(options.frontStyle, 300);
+                });
+
+                $elt.trigger('unflip.' + ns);
+            }
        },
                
        /**
@@ -169,18 +173,21 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             this.each(function() {
                 var $elt = $(this);
                 var options = $elt.data(dataNs);
-                if(options.unflip){
-                    options.unflip.off('click');
+                if(options){
+                    if(options.unflip){
+                        options.unflip.off('click');
+                    }
+                    if(options.bindEvent !== false){
+                        $elt.off(options.bindEvent);
+                    }
+                    $elt.removeData(dataNs);
+
+                    /**
+                     * The plugin have been destroyed.
+                     * @event Flipper#destroy.flipper
+                     */
+                    $elt.trigger('destroy.' + ns);
                 }
-                if(options.bindEvent !== false){
-                    $elt.off(options.bindEvent);
-                }
-                
-                /**
-                 * The plugin have been destroyed.
-                 * @event Flipper#destroy.flipper
-                 */
-                $elt.trigger('destroy.' + ns);
             });
         }
    };

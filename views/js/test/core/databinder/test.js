@@ -137,7 +137,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
     });
     
      test('Array value remove', function(){
-        expect(5);
+        expect(8);
         
         var $container = $('#container-3');
         var $sectionParts = $('ul', $container);
@@ -147,13 +147,21 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
         
         var $firstPart = $sectionParts.find('li:nth-child(1)');
         
+        strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 4, 'model length has been updated');
+        
         $firstPart.trigger('close').remove();
         
         strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 3, 'model length has been updated');
         strictEqual(model.testParts[0].assessmentSections[0].sectionParts[0].index, 0, 'model element has been removed');
         strictEqual($sectionParts.find('li:nth-child(1)').data('bind-index'), '0', 'the node index is up to date');
         equal($sectionParts.find('li:nth-child(1) [data-bind="href"]').text(), "http:\/\/tao26.localdomain\/bertao.rdf#i138356893796686", 'the model value order has been updated');
-    });
+    
+         //test rebinding after removal
+         $sectionParts.find('li:nth-child(1)  [data-bind="href"]').text('http://new.url').trigger('change');
+         
+         equal($sectionParts.find('li:nth-child(1) [data-bind="href"]').text(), 'http://new.url', 'the model value has changed');
+         equal(model.testParts[0].assessmentSections[0].sectionParts[0].href, 'http://new.url', 'the model value has changed');
+     });
     
     test('Array value add', function(){
         expect(4);

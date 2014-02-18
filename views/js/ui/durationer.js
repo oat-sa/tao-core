@@ -80,7 +80,12 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
                         self._insertField($elt, duration.seconds(), 'seconds');
 
                         $elt.siblings('.' + options.ctrlClass).on('change', function(){
-                            self._sync($elt);
+                            self._syncToField($elt);
+                        });
+                        $elt.on('change', function(e){
+                           if(e.namespace !== ns){
+                               self._syncFromField($elt);
+                           } 
                         });
 
                         /**
@@ -116,11 +121,28 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
        },
        
        /**
-        * Synchronize the value of the controls with the element
+        * Synchronize the value of the controls from the element
         * @private
         * @param {jQueryElement} $elt - the plugin element
         */
-       _sync : function($elt){
+       _syncFromField : function($elt){
+           var options = $elt.data(dataNs);
+           var current = moment($elt.val(), options.format);
+            
+           $elt.siblings('.' + options.ctrlClass).each(function(){
+               var $field = $(this);
+               if(current[$field.data('duration-type')]){
+                   $field.val(current[$field.data('duration-type')]());
+               }
+           });
+       },
+       
+       /**
+        * Synchronize the value of the controls to the element
+        * @private
+        * @param {jQueryElement} $elt - the plugin element
+        */
+       _syncToField : function($elt){
            var options = $elt.data(dataNs);
            var current = moment($elt.val(), options.format);
             

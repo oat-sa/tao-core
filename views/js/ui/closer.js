@@ -13,7 +13,8 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
    var defaults = {
        bindEvent : 'click',
        confirm : true,
-       confirmMessage : 'Are you sure you want to close it?'
+       confirmMessage : 'Are you sure you want to close it?',
+       disableClass : 'disabled'
    };
    
    /** 
@@ -90,35 +91,99 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
         */
        _close : function($elt){
            var options = $elt.data(dataNs);
-           var $target = options.target;
-           var close = true;
-           
-           if(options.confirm === true){
-               close = confirm(options.confirmMessage);
-           }
-           if(close){
-               
-               /**
-                 * The plugin is closing the target. 
-                 * Those eventes are fired just before the removal 
-                 * to be able to listen them 
-                 * (if $elt is inside the closed elt for instance)
-                 * @event Closer#close.closer
-                 * @param {jQueryElement} $target - the element being closed/removed
-                 */
-               $elt.trigger('close.'+ ns, [$target]);
-               $target.trigger('close');            //global event for consistensy
-               
-               $target.remove();
-               
-               /**
-                 * The target has been closed/removed. 
-                 * @event Closer#closed.closer
-                 */
-               $elt.trigger('closed.'+ ns);
+           if(options && !$elt.hasClass(options.disableClass)){
+                var $target = options.target;
+                var close = true;
+
+                if(options.confirm === true){
+                    close = confirm(options.confirmMessage);
+                }
+                if(close){
+
+                    /**
+                      * The plugin is closing the target. 
+                      * Those eventes are fired just before the removal 
+                      * to be able to listen them 
+                      * (if $elt is inside the closed elt for instance)
+                      * @event Closer#close.closer
+                      * @param {jQueryElement} $target - the element being closed/removed
+                      */
+                    $elt.trigger('close.'+ ns, [$target]);
+                    $target.trigger('close');            //global event for consistensy
+
+                    $target.remove();
+
+                    /**
+                      * The target has been closed/removed. 
+                      * @event Closer#closed.closer
+                      */
+                    $elt.trigger('closed.'+ ns);
+                }
            }
        },
-               
+       
+       /**
+        * Disable the closer action. 
+        * 
+        * It can be called prior to the plugin initilization.
+        * 
+        * Called the jQuery way once registered by the Pluginifier.
+        * @example $('selector').closer('disable');
+        * @public
+        * 
+        * @returns {jQueryElement} for chaining
+        */
+       disable : function(){
+            this.each(function() {
+                Closer._disable($(this));
+           });
+       },
+       
+       /**
+        * Internal disabling mechanism.
+        * 
+        * @private
+        * @param {jQueryElement} $elt - plugin's element 
+        * @fires Closer#disabled.closer
+        */
+       _disable : function($elt){
+            var options = $elt.data(dataNs);
+            if(options){
+                $elt.addClass(options.disableClass)
+                    .trigger('disabled.'+ ns);
+            }
+       },
+       
+       /**
+        * Enable the closer action. 
+        * 
+        * Called the jQuery way once registered by the Pluginifier.
+        * @example $('selector').closer('enable');
+        * @public
+        * 
+        * @returns {jQueryElement} for chaining
+        */
+       enable : function(){
+            this.each(function() {
+                Closer._enable($(this));
+           });
+       },
+             
+       /**
+        * Internal enabling mechanism.
+        * 
+        * @private
+        * @param {jQueryElement} $elt - plugin's element 
+        * @fires Closer#enabled.closer
+        */
+       _enable : function($elt){
+            var options = $elt.data(dataNs);
+            if(options){
+                $elt.removeClass(options.disableClass)
+                   .trigger('enabled.'+ ns);
+            }
+       },
+        
        /**
         * Destroy completely the plugin.
         * 

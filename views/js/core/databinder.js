@@ -51,7 +51,11 @@ function($, _, Handlebars, Encoders, Filters){
                 return;
             } else {
                 if (!obj[nodes[i]]) {
-                    obj[nodes[i]] = {};    //check if this fits arrays
+                    if(i + 1 < size && /^\d$/.test(nodes[i + 1])){
+                        obj[nodes[i]] = [];
+                    } else {
+                        obj[nodes[i]] = {};
+                    }
                 }
                 obj = obj[nodes[i]];
             }
@@ -439,7 +443,7 @@ function($, _, Handlebars, Encoders, Filters){
     };
     
     /**
-     * 
+     * Used to resynchronized the items of a `each` binding once one of them was removed
      * @memberOf DataBinder
      * @private
      * @param {jQueryElement} $node - the elements to bind 
@@ -462,6 +466,9 @@ function($, _, Handlebars, Encoders, Filters){
                     $item.attr('data-bind-index', newIndex)
                             .data('bind-index', newIndex + '');
                 });
+                
+                //we need to rebind the model to the new paths
+                self._rebind($parentNode);
             }
     };
     
@@ -484,11 +491,12 @@ function($, _, Handlebars, Encoders, Filters){
             //assign value
             if ($node.is(":text, input[type='hidden'], textarea, select")) {
                 $node.val(value);
+                $node.trigger('change');
             } else if ($node.is(':radio, :checkbox')) {
                 toBind($node).each(function(){
                     var $elt = $(this);
                     $elt.prop('checked', $elt.val() === value);
-                });
+                }).trigger('change');
             } else if ($node.hasClass('button-group')) {
                 $node.find('[data-bind-value]').each(function(){
                     var $elt = $(this);

@@ -21,7 +21,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
     * @exports ui/toggler
     */
    var Toggler = {
-       
+
         /**
          * Initialize the plugin.
          * 

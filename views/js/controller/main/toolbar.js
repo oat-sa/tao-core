@@ -33,8 +33,7 @@ define(['jquery'], function($){
          * Set up the toolbar
          */
         setUp : function(){
-            $toolbarContainer.find('[data-action]').click(function(e){
-                e.preventDefault();
+            $toolbarContainer.find('[data-action]').click(function(){
                 
                 var $elt = $(this);
                 var action = $elt.data('action');
@@ -43,7 +42,6 @@ define(['jquery'], function($){
                         controller.start();
                     }
                 });
-                
             });
         }
     };
