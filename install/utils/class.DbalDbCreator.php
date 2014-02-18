@@ -190,8 +190,11 @@ class tao_install_utils_DbalDbCreator {
     	$table->addIndex(array('modelid'),"idx_statements_modelid");
     	
     	if($this->dbConfiguration['driver'] != 'pdo_mysql'){
-    	   $table->addIndex(array("subject","predicate"),"k_sp");
-    	   $table->addIndex(array("predicate","object"),"k_po");
+    	   	$table->addIndex(array("subject","predicate"),"k_sp");
+    		
+    	   	if($this->dbConfiguration['driver'] != 'pdo_sqlsrv'){
+    	   		$table->addIndex(array("predicate","object"),"k_po");
+    	   	}
     	} 	
 
     
