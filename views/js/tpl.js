@@ -28,41 +28,69 @@
  * - Minor code refactoring
  * - Add the i18n helper
  */
-define(['handlebars', 'i18n'], function(Handlebars, __) {
-    var buildMap    = {};
-    var extension   = '.tpl';
-    
+define(['handlebars', 'i18n', 'lodash'], function(Handlebars, __, _){
+    var buildMap = {};
+    var extension = '.tpl';
+
     //register a i18n helper
     Handlebars.registerHelper('__', function(key){
         return __(key);
     });
-    
+
+    //register join helper
+    Handlebars.registerHelper('join', function(attr, glue, delimiter, wrapper){
+        var ret = '', value = '';
+        
+        //set default arguments with the format: name1="value1" name2="value2"
+        glue = typeof(glue) === 'string' ? glue : '=';
+        delimiter = typeof(delimiter) === 'string' ? delimiter : ' ';
+        wrapper = typeof(wrapper) === 'string' ? wrapper : '"';
+
+        if(typeof(attr) === 'object'){
+            for(var name in attr){
+                value = attr[name];
+                if(value !== null || value !== undefined){
+                    if(typeof(value) === 'boolean'){
+                        value = value ? 'true' : 'false';
+                    }else if(typeof(value) === 'object'){
+                        value = _.values(value).join(' ');
+                    }
+                }else{
+                    value = '';
+                }
+                ret += name + glue + wrapper + value + wrapper + delimiter;
+            }
+             ret.substring(0, ret.length - 1);
+        }
+
+        return ret;
+    });
+
     return {
         load : function(name, req, onload, config){
             extension = extension || config.extension;
-            
-            if (config.isBuild) {
+
+            if(config.isBuild){
                 //optimization, r.js node.js version
                 buildMap[name] = fs.readFileSync(req.toUrl(name + extension)).toString();
                 onload();
-                
-            } else {
-                req(["text!" + name + extension], function(raw) {
+
+            }else{
+                req(["text!" + name + extension], function(raw){
                     // Just return the compiled template
                     onload(Handlebars.compile(raw));
                 });
             }
         },
-        
-        write: function (pluginName, moduleName, write) {
-            if (moduleName in buildMap) {
+        write : function(pluginName, moduleName, write){
+            if(moduleName in buildMap){
                 var compiled = Handlebars.precompile(buildMap[moduleName]);
                 // Write out precompiled version of the template function as AMD definition.
                 write(
-                  "define('tpl!" + moduleName + "', ['handlebars'], function(Handlebars){ \n" +
+                    "define('tpl!" + moduleName + "', ['handlebars'], function(Handlebars){ \n" +
                     "return Handlebars.template(" + compiled.toString() + ");\n" +
-                  "});\n"
-                );
+                    "});\n"
+                    );
             }
         }
     };
