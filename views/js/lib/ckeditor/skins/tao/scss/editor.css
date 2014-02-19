@@ -210,7 +210,6 @@ Special outer level classes used in this file:
 .cke_contents,
 .cke_bottom {
   /* These are <span>s, so transform them into blocks.*/
-  display: block;
   /* Ideally this should be "auto", but it shows scrollbars in IE7. */
   overflow: hidden; }
 
@@ -223,13 +222,16 @@ Special outer level classes used in this file:
   background: #f9f8f7;
   border: 1px solid #f9f8f7;
   border-radius: 2px;
-  -webkit-border-radius: 2px; }
+  -webkit-border-radius: 2px;
+  -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003106}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003107}}
 .cke_float .cke_top {
   border: 3px solid #fafaf9; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003112}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003113}}
 .cke_bottom {
   padding: 1px;
   position: relative;
@@ -253,14 +255,14 @@ Special outer level classes used in this file:
   	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');*/ }
 
 /* On iOS we need to manually enable scrolling in the contents block. (#9945) */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003135}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003136}}
 .cke_browser_ios .cke_contents {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch; }
 
 /* The resizer is the small UI element that is rendered at the bottom right
    part of the editor. It makes is possible to resize the editor UI. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003143}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003144}}
 .cke_resizer {
   /* To avoid using images for the resizer, we create a small triangle,
      using some CSS magic. */
@@ -283,14 +285,14 @@ Special outer level classes used in this file:
   -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3); }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003171}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003172}}
 .cke_hc .cke_resizer {
   font-size: 15px;
   width: auto;
   height: auto;
   border-width: 0; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003179}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003180}}
 .cke_resizer_ltr {
   cursor: se-resize;
   float: right;
@@ -300,7 +302,7 @@ Special outer level classes used in this file:
    (usually the .cke_rtl class is used), because it may not necessarily be in
    RTL mode if the main UI is RTL. It depends instead on the context where the
    editor is inserted on. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003191}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003192}}
 .cke_resizer_rtl {
   border-width: 10px 0 0 10px;
   border-color: transparent transparent transparent #A5A5A5;
@@ -313,7 +315,7 @@ Special outer level classes used in this file:
 /* The editing area (where users type) can be rendered as an editable <div>
    element (e.g. divarea plugin). In that case, this is the class applied to
    that element. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003207}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003208}}
 .cke_wysiwyg_div {
   display: block;
   height: 100%;
@@ -1940,6 +1942,58 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003372}}
 .icon-extended-text:before {
   content: "\e67e"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003375}}
+.icon-eraser:before {
+  content: "\e650"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003378}}
+.icon-row:before {
+  content: "\e651"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003381}}
+.icon-column:before {
+  content: "\e654"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003384}}
+.cke_button__textcolor_icon:before {
+  content: "\e671"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003387}}
+.cke_button__bgcolor_icon:before {
+  content: "\e672"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003390}}
+.cke_button__scayt_icon:before {
+  content: "\e679"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003393}}
+.icon-polygon:before {
+  content: "\e681"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003396}}
+.icon-rectangle:before {
+  content: "\e682"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003399}}
+.icon-ellipse:before {
+  content: "\e683"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003402}}
+.icon-circle:before {
+  content: "\e684"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003405}}
+.icon-gap-match:before {
+  content: "\e67b"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003408}}
+.icon-order:before {
+  content: "\e685"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003411}}
+.icon-hottext:before {
+  content: "\e67c"; }
 
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the

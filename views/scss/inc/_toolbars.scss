@@ -89,9 +89,12 @@
 
 .tlb-wrapper {
   background:whiten($uiClickableDefaultBg, .5);
-  @include simple-border(whiten($uiClickableDefaultBg, .5));
+  @include box-shadow();
   .tlb {
     float:right;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
   }
 }
 

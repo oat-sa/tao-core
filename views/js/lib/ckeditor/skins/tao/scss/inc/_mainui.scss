@@ -86,7 +86,7 @@ Special outer level classes used in this file:
 .cke_bottom
 {
 	/* These are <span>s, so transform them into blocks.*/
-	display: block;
+	//display: block;
 
 	/* Ideally this should be "auto", but it shows scrollbars in IE7. */
 	overflow: hidden;
@@ -100,6 +100,7 @@ Special outer level classes used in this file:
   padding: 4px 3px 0px 4px;
   background:whiten($uiClickableDefaultBg, .5);
   @include simple-border(whiten($uiClickableDefaultBg, .5));
+  @include box-shadow();
 }
 
 .cke_float .cke_top

@@ -1,5 +1,13 @@
 /* Base style that applies on all elements */
 
+s {
+  text-decoration: none;
+}
+
+.deleted {
+  display: none !important;
+}
+
 *, *:before, *:after { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 html { font-size: 62.5%; }
@@ -60,6 +68,9 @@ ul, ol {
   padding-left: 40px;
   &.none {
     padding-left: 0
+  }
+  li {
+    vertical-align: text-top;
   }
 }
 

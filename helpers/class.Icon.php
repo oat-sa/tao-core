@@ -162,6 +162,19 @@ class tao_helpers_Icon {
     const CLASS_ARROW = 'icon-arrow';
     const CLASS_TEXT_ENTRY = 'icon-text-entry';
     const CLASS_EXTENDED_TEXT = 'icon-extended-text';
+    const CLASS_ERASER = 'icon-eraser';
+    const CLASS_ROW = 'icon-row';
+    const CLASS_COLUMN = 'icon-column';
+    const CLASS_TEXT_COLOR = 'icon-text-color';
+    const CLASS_BACKGROUND_COLOR = 'icon-background-color';
+    const CLASS_SPELL_CHECK = 'icon-spell-check';
+    const CLASS_POLYGON = 'icon-polygon';
+    const CLASS_RECTANGLE = 'icon-rectangle';
+    const CLASS_ELLIPSE = 'icon-ellipse';
+    const CLASS_CIRCLE = 'icon-circle';
+    const CLASS_GAP_MATCH = 'icon-gap-match';
+    const CLASS_ORDER = 'icon-order';
+    const CLASS_HOTTEXT = 'icon-hottext';
 
 	
     public static function iconCheckboxChecked($options=array()){
@@ -642,6 +655,58 @@ class tao_helpers_Icon {
 
     public static function iconExtendedText($options=array()){
         return self::buildIcon(self::CLASS_EXTENDED_TEXT, $options);
+    }
+
+    public static function iconEraser($options=array()){
+        return self::buildIcon(self::CLASS_ERASER, $options);
+    }
+
+    public static function iconRow($options=array()){
+        return self::buildIcon(self::CLASS_ROW, $options);
+    }
+
+    public static function iconColumn($options=array()){
+        return self::buildIcon(self::CLASS_COLUMN, $options);
+    }
+
+    public static function iconTextColor($options=array()){
+        return self::buildIcon(self::CLASS_TEXT_COLOR, $options);
+    }
+
+    public static function iconBackgroundColor($options=array()){
+        return self::buildIcon(self::CLASS_BACKGROUND_COLOR, $options);
+    }
+
+    public static function iconSpellCheck($options=array()){
+        return self::buildIcon(self::CLASS_SPELL_CHECK, $options);
+    }
+
+    public static function iconPolygon($options=array()){
+        return self::buildIcon(self::CLASS_POLYGON, $options);
+    }
+
+    public static function iconRectangle($options=array()){
+        return self::buildIcon(self::CLASS_RECTANGLE, $options);
+    }
+
+    public static function iconEllipse($options=array()){
+        return self::buildIcon(self::CLASS_ELLIPSE, $options);
+    }
+
+    public static function iconCircle($options=array()){
+        return self::buildIcon(self::CLASS_CIRCLE, $options);
+    }
+
+    public static function iconGapMatch($options=array()){
+        return self::buildIcon(self::CLASS_GAP_MATCH, $options);
+    }
+
+    public static function iconOrder($options=array()){
+        return self::buildIcon(self::CLASS_ORDER, $options);
+    }
+
+    public static function iconHottext($options=array()){
+        return self::buildIcon(self::CLASS_HOTTEXT, $options);
     }
 
 

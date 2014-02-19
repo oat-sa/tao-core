@@ -122,13 +122,13 @@
   }
   .mobile-preview-frame {
     &.mobile-preview-landscape {
-      padding: 40px 55px;
+      padding: 40px 40px;
       .mobile-device-toolbar {
-        padding-right: 55px;
+        padding-right: 40px;
       }
     }
     &.mobile-preview-portrait {
-      padding: 55px 40px;
+      padding: 40px 40px;
       .mobile-device-toolbar {
         padding-right: 40px;
       }
