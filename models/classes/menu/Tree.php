@@ -21,15 +21,24 @@
 
 namespace oat\tao\models\classes\menu;
 
-class Tree
+use oat\oatbox\PhpSerializable;
+
+class Tree  implements PhpSerializable
 {
+    const SERIAL_VERSION = 1392821334;
+    
     private $data = array();
     
-    public function __construct(\SimpleXMLElement $node) {
-        
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
+        $data = array();
         foreach($node->attributes() as $attrName => $attrValue) {
-            $this->data[$attrName] = (string)$attrValue;
+            $data[$attrName] = (string)$attrValue;
         }
+        return new static($data);
+    }
+    
+    public function __construct($data, $version = self::SERIAL_VERSION) {
+        $this->data = $data;
     }
     
     public function get($attribute) {
@@ -38,5 +47,12 @@ class Tree
     
     public function getName() {
         return $this->data['name'];
+    }
+    
+    public function __toPhpCode() {
+        return "new ".__CLASS__."("
+            .\common_Utils::toPHPVariableString($this->data).','
+            .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
+        .")";
     }
 }

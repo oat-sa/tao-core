@@ -104,11 +104,11 @@ class MenuService {
 				foreach($extStructures as $xmlStructure){
 					$id = (string)$xmlStructure['id'];
 					if (!isset($structures[$id])) {
-						$structures[$id] = new Structure($xmlStructure, $extID);
+						$structures[$id] = Structure::fromSimpleXMLElement($xmlStructure, $extID);
 					} else {
 					    $sections = $xmlStructure->xpath("sections/section");
 					    foreach($sections as $section) {
-					        $structures[$id]->addSection(new Section($section));
+					        $structures[$id]->addSection(Section::fromSimpleXMLElement($section));
 					    }
 					}
 				}

@@ -21,18 +21,27 @@
 
 namespace oat\tao\models\classes\menu;
 
-class Action
+use oat\oatbox\PhpSerializable;
+
+class Action implements PhpSerializable
 {
+    const SERIAL_VERSION = 1392821334;
+    
     private $data;
     
-    public function __construct(\SimpleXMLElement $node) {
-        $this->data = array(
-        	'name' => (string) $node['name'],
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
+        $data = array(
+            'name' => (string) $node['name'],
             'url' => isset($node['url']) ? (string) $node['url'] : null,
             'js' => (isset($node['js'])) ? (string) $node['js'] : false,
             'context' => (string) $node['context'],
             'reload' => (isset($node['reload'])) ? true : false,
         );
+        return new static($data);
+    }
+    
+    public function __construct($data, $version = self::SERIAL_VERSION) {
+        $this->data = $data;
     }
     
     public function getName() {
@@ -77,5 +86,12 @@ class Action
             }
         }
         return $access;
+    }
+    
+    public function __toPhpCode() {
+        return "new ".__CLASS__."("
+            .\common_Utils::toPHPVariableString($this->data).','
+            .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
+        .")";
     }
 }

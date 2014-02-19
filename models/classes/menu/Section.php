@@ -21,28 +21,40 @@
 
 namespace oat\tao\models\classes\menu;
 
-class Section
+use oat\oatbox\PhpSerializable;
+
+class Section  implements PhpSerializable
 {
+    const SERIAL_VERSION = 1392821334;
+    
     private $data = array();
     
     private $trees = array();
     
     private $actions = array();
     
-    public function __construct(\SimpleXMLElement $node) {
-        $this->data = array(
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
+        $data = array(
             'id'  => (string)$node['id'],
             'name'  => (string)$node['name'],
             'url' => (string)$node['url']
         );
         
+        $trees = array();
         foreach ($node->xpath("trees/tree") as $treeNode) {
-            $this->trees[] = new Tree($treeNode);
+            $trees[] = Tree::fromSimpleXMLElement($treeNode);
         }
             
+        $actions = array();
         foreach ($node->xpath("actions/action") as $actionNode) {
-            $this->actions[] = new Action($actionNode);
+            $actions[] = Action::fromSimpleXMLElement($actionNode);
         }
+        return new static($data, $trees, $actions);
+    }
+    public function __construct($data, $trees, $actions, $version = self::SERIAL_VERSION) {
+        $this->data = $data;
+        $this->trees = $trees;
+        $this->actions = $actions;
     }
     
     public function getId() {
@@ -63,5 +75,14 @@ class Section
     
     public function getActions() {
         return $this->actions;
+    }
+    
+    public function __toPhpCode() {
+        return "new ".__CLASS__."("
+            .\common_Utils::toPHPVariableString($this->data).','
+            .\common_Utils::toPHPVariableString($this->trees).','
+            .\common_Utils::toPHPVariableString($this->actions).','
+            .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
+        .")";
     }
 }

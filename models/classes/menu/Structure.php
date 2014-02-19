@@ -21,14 +21,18 @@
 
 namespace oat\tao\models\classes\menu;
 
-class Structure
+use oat\oatbox\PhpSerializable;
+
+class Structure implements PhpSerializable
 {
+    const SERIAL_VERSION = 1392821334;
+    
     private $data = array();
     
     private $sections = array();
     
-    public function __construct(\SimpleXMLElement $node, $extensionId) {
-        $this->data = array(
+    public static function fromSimpleXMLElement(\SimpleXMLElement $node, $extensionId) {
+        $data = array(
             'id' => (string) $node['id'],
             'visible' => $node['visible'] == 'true',
             'name' => (string) $node['name'],
@@ -36,10 +40,16 @@ class Structure
             'extension' => $extensionId,
             'level' => (string) $node['level'],
         );
-        $sections = $node->xpath("sections/section");
-        foreach ($sections as $sectionNode) {
-            $this->sections[] = new Section($sectionNode);
+        $sections = array();
+        foreach ($node->xpath("sections/section") as $sectionNode) {
+            $sections[] = Section::fromSimpleXMLElement($sectionNode);
         }
+        return new static($data, $sections);
+    }
+    
+    public function __construct($data, $sections, $version = self::SERIAL_VERSION) {
+        $this->data = $data;
+        $this->sections = $sections;
     }
     
     public function addSection(Section $section) {
@@ -85,4 +95,11 @@ class Structure
         return $this->sections;
     }
     
+    public function __toPhpCode() {
+        return "new ".__CLASS__."("
+            .\common_Utils::toPHPVariableString($this->data).','
+            .\common_Utils::toPHPVariableString($this->sections).','
+            .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
+        .")";
+    }
 }
