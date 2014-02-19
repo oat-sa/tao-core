@@ -25,17 +25,10 @@
     }
 }
 
-
-/* Disabler */
-.disabled, *:disabled{
-    cursor: default;
-    opacity: 0.8;
-}
-    
 /* Closer */
 .closer{
-    color: $textColor;
     &:before{
+        margin-right: 5px;
         @include font-size(10.5);
         @include icon('close');
     }
@@ -58,23 +51,22 @@ input.incrementer{
         line-height: normal;
         vertical-align: bottom;
         position: relative;
+        top: -1px;
         > a {
             display: block;
             height: 13px;
             line-height: 13px;
             color: $textColor;
-            padding: 0 5px 0 5px;
+            padding: 0 4px 0 4px;
             @include font-size(10.5);
             &.inc:before {
                 position: relative;
                 bottom: -2px;
-                width: 17px;
                 @include icon('up');
             }
             &.dec:before {
                 position: relative;
                 top: -2px;
-                width: 17px;
                 @include icon('down');
             }
             &:hover {
@@ -185,4 +177,50 @@ ul.listbox {
     left: 0;
     top: 0;
     z-index: 98; 
+}
+
+/** Button groups */
+
+[data-button-group] {
+
+    display: inline-block;
+    border: solid 1px whiten($info, .4); 
+    background-color: whiten($info, .4);
+    padding: 0;
+    @include border-radius(2);
+
+    & > a {
+        display: inline-block;
+        float: left; 
+        color: $textColor;
+        background-color: $uiClickableDefaultBg;
+        padding: 4px 6px;
+        margin: 0;
+        border-right: solid 1px whiten($info, .4);
+        line-height: 20px; 
+        &:hover {
+            text-decoration: none;
+            color: $textColor;
+        }
+        &.active {
+            color: $textHighlight;
+            background-color: $info;
+            -webkit-transition: background 0.4s ease;
+            -moz-transition: all 0.4s ease;
+            -o-transition: background 0.4s ease;
+            transition: all 0.4s ease;
+        }
+        &:first-child {
+            @include border-radius-left(1);
+        } 
+        &:last-child {
+            border-right: none;
+            @include border-radius-right(1); 
+        }
+        &[class^="icon-"], &[class*=" icon-"] {
+            width: 28px;
+            text-align:center;
+        }
+    }
+    
 }

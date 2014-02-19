@@ -57,8 +57,8 @@
   }
 }
 
-
-.btn-disabled, button[disabled], input[disabled]{
+/* todo move to main ? */
+.disabled, button[disabled], input[disabled]{
   background-color: whiten($websiteBorder, .3) !important;
   text-shadow: 1px 1px 0 white(.8) !important;
   cursor: not-allowed !important;

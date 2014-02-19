@@ -4390,6 +4390,7 @@ a[rel="external"] span.icon-external:before {
   top: 1px; }
 
 .tao-scope {
+  /* todo move to main ? */
   /*
  * jQuery UI CSS Framework
  *
@@ -4549,16 +4550,17 @@ a[rel="external"] span.icon-external:before {
   /* box that contains submit button */
   /* fake table stuff */
   /* link */
+  /* disabled elements */
   /* Style of advanced components */
   /* toggler */
   /* Adder */
-  /* Disabler */
   /* Closer */
   /* Incrementer */
   /* Flipper */
   /* InPlacer */
   /* ListBox  */
   /* Modal styles */
+  /** Button groups */
   position: relative;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400; }
@@ -4612,7 +4614,7 @@ a[rel="external"] span.icon-external:before {
     .tao-scope [class^="btn-"].btn-warning, .tao-scope [class*=" btn-"].btn-warning, .tao-scope .btn-info.btn-warning, .tao-scope button.btn-warning, .tao-scope input[type="submit"].btn-warning, .tao-scope input[type="reset"].btn-warning {
       background-color: #dbb66b;
       text-shadow: 1px 1px 0 #ac8b48; }
-  .tao-scope .btn-disabled, .tao-scope button[disabled], .tao-scope input[disabled] {
+  .tao-scope .disabled, .tao-scope button[disabled], .tao-scope input[disabled] {
     background-color: #afb4bb !important;
     text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8) !important;
     cursor: not-allowed !important;
@@ -5886,6 +5888,11 @@ a[rel="external"] span.icon-external:before {
     color: #3e7da7; }
     .tao-scope a:hover {
       color: #0e5d91; }
+      .tao-scope a:hover:before, .tao-scope a:hover:after {
+        text-decoration: none !important; }
+  .tao-scope .disabled, .tao-scope *:disabled {
+    cursor: default;
+    opacity: 0.7; }
   .tao-scope label {
     display: inline-block;
     cursor: pointer;
@@ -5954,25 +5961,25 @@ a[rel="external"] span.icon-external:before {
     margin-left: 3px;
     position: relative;
     top: 2px;
-    font-family: 'tao'; }
+    font-family: 'tao';
+    display: inline-block; }
   .tao-scope .toggler.opened:after {
-    font-family: 'tao'; }
+    font-family: 'tao';
+    display: inline-block; }
   .tao-scope .toggled {
     display: none; }
   .tao-scope .adder:before {
     margin-right: 5px;
     font-size: 10.5px;
     font-size: 1.05rem;
-    font-family: 'tao'; }
-  .tao-scope .disabled, .tao-scope *:disabled {
-    cursor: default;
-    opacity: 0.8; }
-  .tao-scope .closer {
-    color: #222; }
-    .tao-scope .closer:before {
-      font-size: 10.5px;
-      font-size: 1.05rem;
-      font-family: 'tao'; }
+    font-family: 'tao';
+    display: inline-block; }
+  .tao-scope .closer:before {
+    margin-right: 5px;
+    font-size: 10.5px;
+    font-size: 1.05rem;
+    font-family: 'tao';
+    display: inline-block; }
   .tao-scope input.incrementer {
     width: 30px;
     text-align: right;
@@ -5990,25 +5997,26 @@ a[rel="external"] span.icon-external:before {
       border-radius: 2px;
       line-height: normal;
       vertical-align: bottom;
-      position: relative; }
+      position: relative;
+      top: -1px; }
       .tao-scope input.incrementer ~ .incrementer-ctrl > a {
         display: block;
         height: 13px;
         line-height: 13px;
         color: #222;
-        padding: 0 5px 0 5px;
+        padding: 0 4px 0 4px;
         font-size: 10.5px;
         font-size: 1.05rem; }
         .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
           position: relative;
           bottom: -2px;
-          width: 17px;
-          font-family: 'tao'; }
+          font-family: 'tao';
+          display: inline-block; }
         .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
           position: relative;
           top: -2px;
-          width: 17px;
-          font-family: 'tao'; }
+          font-family: 'tao';
+          display: inline-block; }
         .tao-scope input.incrementer ~ .incrementer-ctrl > a:hover {
           background-color: #3e7da7;
           color: white; }
@@ -6087,6 +6095,51 @@ a[rel="external"] span.icon-external:before {
     left: 0;
     top: 0;
     z-index: 98; }
+  .tao-scope [data-button-group] {
+    display: inline-block;
+    border: solid 1px #6e9dbd;
+    background-color: #6e9dbd;
+    padding: 0;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px; }
+    .tao-scope [data-button-group] > a {
+      display: inline-block;
+      float: left;
+      color: #222;
+      background-color: #f3f1ef;
+      padding: 4px 6px;
+      margin: 0;
+      border-right: solid 1px #6e9dbd;
+      line-height: 20px; }
+      .tao-scope [data-button-group] > a:hover {
+        text-decoration: none;
+        color: #222; }
+      .tao-scope [data-button-group] > a.active {
+        color: white;
+        background-color: #0e5d91;
+        -webkit-transition: background 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        -o-transition: background 0.4s ease;
+        transition: all 0.4s ease; }
+      .tao-scope [data-button-group] > a:first-child {
+        -webkit-border-top-left-radius: 1px;
+        -webkit-border-bottom-left-radius: 1px;
+        -moz-border-radius-topleft: 1px;
+        -moz-border-radius-bottomleft: 1px;
+        border-top-left-radius: 1px;
+        border-bottom-left-radius: 1px; }
+      .tao-scope [data-button-group] > a:last-child {
+        border-right: none;
+        -webkit-border-top-right-radius: 1px;
+        -webkit-border-bottom-right-radius: 1px;
+        -moz-border-radius-topright: 1px;
+        -moz-border-radius-bottomright: 1px;
+        border-top-right-radius: 1px;
+        border-bottom-right-radius: 1px; }
+      .tao-scope [data-button-group] > a[class^="icon-"], .tao-scope [data-button-group] > a[class*=" icon-"] {
+        width: 28px;
+        text-align: center; }
   .tao-scope h1, .tao-scope h2, .tao-scope h3, .tao-scope h4, .tao-scope h5, .tao-scope h6 {
     font-weight: 400;
     font-style: normal; }

@@ -69,5 +69,14 @@ a {
     color: $uiClickableHoverBg;
     &:hover {
         color: $info;
+        &:before, &:after {            
+            text-decoration: none !important;
+        }
     }
+}
+
+/* disabled elements */
+.disabled, *:disabled {
+    cursor: default;
+    opacity: .7;
 }
