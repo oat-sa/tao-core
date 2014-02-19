@@ -35,6 +35,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
          * @param {string|boolean} [options.bindEvent = 'click'] - the event that trigger the toggling
          * @param {string} [options.openedClass = 'opened'] - the css added to element (not the target) for the opened state
          * @param {string} [options.closedClass = 'closed'] - the css added to element (not the target) for the closed state
+         * @param {string} [options.hideText] - the text to replace the toggler with when the element is toggled (ie. Show -> Hide)
          * @fires Toggler#create.toggler
          * @returns {jQueryElement} for chaining
          */
@@ -47,6 +48,11 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
                 var $elt = $(this);
                
                 if(!$elt.data(dataNs)){
+                    
+                    if(options.hideText){
+                        options.showText = $elt.text();
+                    }
+                    
                     //add data to the element
                     $elt.data(dataNs, options);
 
@@ -110,9 +116,15 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             }
             
             if(action === 'open'){
-                $target.show();
+                $target.fadeIn(200);
+                if(options.hideText){
+                    $elt.text(options.hideText);
+                }
             } else {
-                $target.hide();
+                $target.fadeOut(300);
+                if(options.showText){
+                    $elt.text(options.showText);
+                }
             }
         
            /**
@@ -165,12 +177,16 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         new DataAttrHandler('toggle', {
             container: $container,
             listenerEvent: 'click',
-            namespace: dataNs,
+            namespace: dataNs
         }).init(function($elt, $target) {
-            $elt.toggler({
+            var opts = {
                 target: $target,
                 bindEvent: false
-            });
+            };
+            if($elt.data('hide-text')){
+                opts.hideText = $elt.data('hide-text');
+            }
+            $elt.toggler(opts);
         }).trigger(function($elt) {
             $elt.toggler('toggle');
         });
