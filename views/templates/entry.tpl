@@ -54,12 +54,12 @@
 
 	    
 		<?php foreach (get_data('entries') as $entry) :?>
-		<a href="<?=_url($entry['act'],$entry['mod'],$entry['ext'])?>"> <span
-                class="tile"> <span class="Title"><?=$entry['title']?></span>
+		<a href="<?=$entry->getUrl()?>"> <span
+                class="tile"> <span class="Title"><?=$entry->getTitle()?></span>
                     <span class="hintMsg">
-				<?=$entry['desc']?>
+				<?=$entry->getDescription()?>
 			    </span> <span class="tileLabel">
-				<?=$entry['label']?>
+				<?=$entry->getLabel()?>
 			    </span>
 
             </span>

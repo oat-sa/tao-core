@@ -23,7 +23,7 @@ namespace oat\tao\models\classes\menu;
 
 use oat\oatbox\PhpSerializable;
 
-class Structure implements PhpSerializable
+class Perspective implements PhpSerializable
 {
     const SERIAL_VERSION = 1392821334;
     

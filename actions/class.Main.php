@@ -1,6 +1,4 @@
 <?php
-use oat\tao\models\classes\menu\Structure;
-use oat\tao\models\classes\menu\MenuService;
 /*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,8 +19,10 @@ use oat\tao\models\classes\menu\MenuService;
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
+use oat\tao\models\classes\menu\MenuService;
+use oat\tao\models\classes\menu\Perspective;
+
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
@@ -57,8 +57,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	public function entry() {
 	    $entries = array();
 	    foreach (MenuService::getEntryPoints() as $entry) {
-	        $hasAccess = tao_models_classes_accessControl_AclProxy::hasAccess($entry['ext'], $entry['mod'], $entry['act']);
-	        if ($hasAccess) {
+	        if ($entry->hasAccess()) {
 	            $entries[] = $entry;
 	        }
 	    }
@@ -73,7 +72,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	    } elseif (count($entries) == 1 && !common_session_SessionManager::isAnonymous()) {
 	        // single entrypoint -> redirect
 	        $entry = current($entries);
-	        return $this->redirect(_url($entry['act'], $entry['mod'], $entry['ext']));
+	        return $this->redirect($entry->getUrl());
 	    } else {
 	        // multiple entries -> choice
 	        if (!common_session_SessionManager::isAnonymous()) {
@@ -221,7 +220,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
      * @param SimpleXMLElement $structure from the structure.xml
      * @return boolean true if the user is allowed
      */
-    private function hasAccessToStructure(Structure $structure){
+    private function hasAccessToStructure(Perspective $structure){
         $access = false;
         foreach ($structure->getSections() as $section) {
             list($ext, $mod, $act) = explode('/', trim((string) $section->getUrl(), '/'));
@@ -242,7 +241,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
     private function getSections($shownExtension, $shownStructure){
 
         $sections = array();
-        $structure = MenuService::getStructure($shownExtension, $shownStructure);
+        $structure = MenuService::getPerspective($shownExtension, $shownStructure);
         foreach ($structure->getSections() as $section) {
             
             $url = explode('/', trim($section->getUrl(), '/'));
@@ -271,7 +270,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		foreach (MenuService::getToolbarActions() as $i => $action) {
             $access = false;
             if(isset($action['structure'])){
-                $structure = MenuService::getStructure($action['extension'], $action['structure']);
+                $structure = MenuService::getPerspective($action['extension'], $action['structure']);
                 if($this->hasAccessToStructure($structure)){
                     $action['url'] =  _url('index', null, null, array('structure' => $action['structure'], 'ext' => $action['extension']));
                     $access = true;

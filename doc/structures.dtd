@@ -1,5 +1,5 @@
 <!-- Root Tag -->
-<!ELEMENT structures  ( structure )*>
+<!ELEMENT structures  (( structure )* ,(entrypoint)*) >
 	<!ELEMENT structure  ( (description)? ,sections )>
 	
 		<!-- The id of the structure -->
@@ -57,3 +57,12 @@
 					<!-- Reload the complete page if true -->
 					<!ATTLIST action reload CDATA #IMPLIED>
 
+	<!ELEMENT entrypoint  ( description, (replace)* )>
+		<!ATTLIST entrypoint id ID #REQUIRED>
+		<!ATTLIST entrypoint title CDATA #REQUIRED>
+		<!ATTLIST entrypoint label CDATA #REQUIRED>
+		<!ATTLIST entrypoint url CDATA #REQUIRED>
+
+		<!ELEMENT replace EMPTY>
+		
+			<!ATTLIST replace id CDATA #REQUIRED>		

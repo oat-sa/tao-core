@@ -22,9 +22,6 @@
 
 namespace oat\tao\models\classes\menu;
 
-use oat\tao\models\classes\menu\Section;
-use oat\tao\models\classes\menu\Structure;
-
 /**
  * 
  * @author joel bout, <joel@taotesting.com>
@@ -76,7 +73,23 @@ class MenuService {
      * Get the structure content (from the structure.xml file) of each extension.
      * @return array
      */
-    public static function getAllStructures()
+    public static function getAllStructures() {
+        $structure = self::readStructure();
+        return $structure['perspectives'];
+    }
+
+    /**
+     * Returns all the existing entry points
+     *
+     * @return array()
+     */
+    public static function getEntryPoints()
+    {
+        $structure = self::readStructure();
+        return $structure['entrypoints'];
+    }    
+    
+    public static function readStructure()
     {
         if(count(self::$structure) == 0 ){
             try {
@@ -87,7 +100,7 @@ class MenuService {
             }
         }
         return self::$structure;
-    }
+    }    
 
     /**
      * Get the structure content (from the structure.xml file) of each extension.
@@ -95,7 +108,8 @@ class MenuService {
      */
     protected static function buildStructures()
     {
-		$structures = array();
+		$perspectives = array();
+		$entrypoints = array();
 		$sorted = \helpers_ExtensionHelper::sortByDependencies(\common_ext_ExtensionsManager::singleton()->getEnabledExtensions());
 		foreach($sorted as $extID => $extension){
 			$xmlStructures = self::getStructuresXml($extID);
@@ -103,19 +117,32 @@ class MenuService {
 				$extStructures = $xmlStructures->xpath("/structures/structure");
 				foreach($extStructures as $xmlStructure){
 					$id = (string)$xmlStructure['id'];
-					if (!isset($structures[$id])) {
-						$structures[$id] = Structure::fromSimpleXMLElement($xmlStructure, $extID);
+					if (!isset($perspectives[$id])) {
+						$perspectives[$id] = Perspective::fromSimpleXMLElement($xmlStructure, $extID);
 					} else {
 					    $sections = $xmlStructure->xpath("sections/section");
 					    foreach($sections as $section) {
-					        $structures[$id]->addSection(Section::fromSimpleXMLElement($section));
+					        $perspectives[$id]->addSection(Section::fromSimpleXMLElement($section));
 					    }
 					}
 				}
+				foreach($xmlStructures->xpath("/structures/entrypoint") as $xmlStructure){
+				    $entryPoint = Entrypoint::fromSimpleXMLElement($xmlStructure);
+				    foreach ($entryPoint->getReplacedIds() as $id) {
+				        if (isset($entrypoints[$id])) {
+				            unset($entrypoints[$id]);
+				        }
+				    }
+				    $entrypoints[$entryPoint->getId()] = $entryPoint;
+				}
 			}
 		}
-		usort($structures, create_function('$a,$b', "return \$a->getLevel() - \$b->getLevel(); "));
-		return $structures;
+		usort($perspectives, create_function('$a,$b', "return \$a->getLevel() - \$b->getLevel(); "));
+		return array(
+			'perspectives' => $perspectives,
+		    'topbars' => array(),
+		    'entrypoints' => $entrypoints
+		);
     }
 
     /**
@@ -159,22 +186,6 @@ class MenuService {
     }
 
     /**
-     * Returns all the existing entry points
-     * 
-     * @return array()
-     */
-    public static function getEntryPoints()
-    {
-        $entries = array();
-        foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
-            foreach ($extension->getEntryPoints() as $entry) {
-                $entries[] = $entry;
-            }
-        }
-        return $entries;
-    }
-    
-    /**
      * Get the structure for the extension/section in parameters
      *
      * @access public
@@ -183,7 +194,7 @@ class MenuService {
      * @param  string structure
      * @return Structure
      */
-    public static function getStructure($extension, $structureId)
+    public static function getPerspective($extension, $structureId)
     {
         $returnValue = array();
 
@@ -214,7 +225,7 @@ class MenuService {
     {
         $returnValue = array();
 
-        $structure = self::getStructure($extension, $structureId);
+        $structure = self::getPerspective($extension, $structureId);
         foreach ($structure->getSections() as $section) {
             if ($section->getId() == $sectionId) {
                 $returnValue = $section;

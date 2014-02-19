@@ -23,65 +23,63 @@ namespace oat\tao\models\classes\menu;
 
 use oat\oatbox\PhpSerializable;
 
-class Section implements PhpSerializable
+class Entrypoint  implements PhpSerializable
 {
     const SERIAL_VERSION = 1392821334;
     
     private $data = array();
     
-    private $trees = array();
-    
-    private $actions = array();
-    
     public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
-        $data = array(
-            'id'  => (string)$node['id'],
-            'name'  => (string)$node['name'],
-            'url' => (string)$node['url']
-        );
-        
-        $trees = array();
-        foreach ($node->xpath("trees/tree") as $treeNode) {
-            $trees[] = Tree::fromSimpleXMLElement($treeNode);
+        $replaced = array();
+        foreach ($node->xpath("replace") as $replacedNode) {
+            $replaced[] = (string) $replacedNode['id'];
         }
-            
-        $actions = array();
-        foreach ($node->xpath("actions/action") as $actionNode) {
-            $actions[] = Action::fromSimpleXMLElement($actionNode);
-        }
-        return new static($data, $trees, $actions);
+        return new static(array(
+            'id' => (string) $node['id'],
+            'title' => (string) $node['title'],
+            'label' => (string) $node['label'],
+            'desc' => (string) $node->description,
+            'url' => (string) $node['url'],
+            'replace' => $replaced
+        ));
     }
-    public function __construct($data, $trees, $actions, $version = self::SERIAL_VERSION) {
+    
+    public function __construct($data, $version = self::SERIAL_VERSION) {
         $this->data = $data;
-        $this->trees = $trees;
-        $this->actions = $actions;
     }
     
     public function getId() {
         return $this->data['id'];
     }
     
+    public function getTitle() {
+        return $this->data['title'];
+    }
+    
+    public function getLabel() {
+        return $this->data['label'];
+    }
+    
+    public function getDescription() {
+        return $this->data['desc'];
+    }
+    
     public function getUrl() {
-        return $this->data['url'];
+        return ROOT_URL.trim($this->data['url'], '/');
     }
     
-    public function getName() {
-        return $this->data['name'];
+    public function getReplacedIds() {
+        return $this->data['replace'];
     }
     
-    public function getTrees() {
-        return $this->trees;
-    }
-    
-    public function getActions() {
-        return $this->actions;
-    }
+    public function hasAccess() {
+        list($ext, $mod, $act) = explode('/', trim($this->data['url'], '/'));
+        return \tao_models_classes_accessControl_AclProxy::hasAccess($ext, $mod, $act);
+    }    
     
     public function __toPhpCode() {
         return "new ".__CLASS__."("
             .\common_Utils::toPHPVariableString($this->data).','
-            .\common_Utils::toPHPVariableString($this->trees).','
-            .\common_Utils::toPHPVariableString($this->actions).','
             .\common_Utils::toPHPVariableString(self::SERIAL_VERSION)
         .")";
     }
