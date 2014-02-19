@@ -56,12 +56,10 @@ class tao_actions_Main extends tao_actions_CommonModule {
 	 */
 	public function entry() {
 	    $entries = array();
-	    foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
-	        foreach ($extension->getEntryPoints() as $entry) {
-	            $hasAccess = tao_models_classes_accessControl_AclProxy::hasAccess($entry['ext'], $entry['mod'], $entry['act']);
-	            if ($hasAccess) {
-	                $entries[] = $entry;
-	            }
+	    foreach (MenuService::getEntryPoints() as $entry) {
+	        $hasAccess = tao_models_classes_accessControl_AclProxy::hasAccess($entry['ext'], $entry['mod'], $entry['act']);
+	        if ($hasAccess) {
+	            $entries[] = $entry;
 	        }
 	    }
 	    if (empty($entries)) {
@@ -366,7 +364,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		        
 		        //@todo remove this when permissions engine is setup
 		        if ($actionData['rowName'] == 'delete' && $classUri && !$uri) {
-		            if (in_array($action['classUri'], tao_helpers_Uri::encodeArray($rootClasses, tao_helpers_Uri::ENCODE_ARRAY_VALUES))) {
+		            if (in_array($actionData['classUri'], tao_helpers_Uri::encodeArray($rootClasses, tao_helpers_Uri::ENCODE_ARRAY_VALUES))) {
 		                $actionData['disabled'] = true;
 		            }
 		        }

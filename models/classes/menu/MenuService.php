@@ -159,6 +159,22 @@ class MenuService {
     }
 
     /**
+     * Returns all the existing entry points
+     * 
+     * @return array()
+     */
+    public static function getEntryPoints()
+    {
+        $entries = array();
+        foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $extension) {
+            foreach ($extension->getEntryPoints() as $entry) {
+                $entries[] = $entry;
+            }
+        }
+        return $entries;
+    }
+    
+    /**
      * Get the structure for the extension/section in parameters
      *
      * @access public
