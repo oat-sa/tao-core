@@ -227,10 +227,19 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
             listenerEvent: 'click',
             namespace: dataNs
         }).init(function($elt, $target) {
-            $elt.closer({
+            var options = {
                 target: $target,
                 bindEvent: false
-            });
+            };
+            var confirm = $elt.data('confirm');
+            if(confirm !== null){
+                if(confirm === false){
+                    options.confirm = false;
+                } else {
+                    options.confirmMessage = confirm;
+                }
+            }
+            $elt.closer(options);
         }).trigger(function($elt) {
             $elt.closer('close');
         });

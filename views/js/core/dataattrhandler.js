@@ -22,15 +22,24 @@ define(['jquery', 'lodash'], function($, _){
     * @returns {jQueryElement} the target
     */
    var getTarget = function getTarget(attrName, $elt){
+        var relativeRegex = /^(\+|>|~|:parent|<)/;
         var $target = [];
         var targetSelector = $elt.attr('data-' + attrName) || $elt.attr('href') || $elt.attr('attrName');
         if(!_.isEmpty(targetSelector)){
             //try to contextualize from the current element before selcting globally
-            if(/^(\+)|(>)/.test(targetSelector)){
-                $target = $(targetSelector, $elt);
-            } else if(/^:parent/.test(targetSelector)){
-                $target = $elt.parent(targetSelector.replace(/^:parent/, ''));
-            } else {
+            var matches = relativeRegex.exec(targetSelector);
+            if(matches !== null){
+                var selector = targetSelector.replace(relativeRegex, '');
+                if(matches[0] === ':parent' || matches[0] === '<'){
+                    $target = $elt.parent(selector);
+                } else if (matches[0] === '~'){
+                    $target = $elt.siblings(selector);
+                } else if (matches[0] === '+'){
+                    $target = $elt.next(selector);
+                } else {
+                    $target = $(selector, $elt);
+                }
+            }else {
                 $target = $(targetSelector);
             }
         }

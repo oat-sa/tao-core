@@ -53,7 +53,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
                     var $target = options.target;
 
                     if(!/^#/.test($target.selector)){
-                        $.error('The target selector must be an id.');
+                        $.error('The target selector must referr to the of an element id or to the element to create.');
                     }
 
                     if($target.length === 0){

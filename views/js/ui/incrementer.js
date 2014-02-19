@@ -59,8 +59,8 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                             .addClass(options.incrementerClass)         //add the css class
                             .after(                                     //set up controls
                              "<div class='ctrl "+options.incrementerCtrlClass+"'>\
-                                <a href='#' class='inc' title='+'></a>\
-                                <a href='#' class='dec' title='-'></a>\
+                                <a href='#' class='inc' title='+' tabindex='-1'></a>\
+                                <a href='#' class='dec' title='-' tabindex='-1'></a>\
                               </div>")
                            .on('keydown', function(e){  
                                 if(e.which === 38){                      //up
@@ -69,7 +69,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                                 } else if(e.which === 40){               //down
                                     self._dec($elt);
                                     this.select();
-                                }
+                                } 
                             })
                             .on('keyup', function(){                   
                                $elt.val($elt.val().replace(/[\D]/g, ''));       //allow only digits
@@ -217,7 +217,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                 }
            }
            if($elt.attr('data-max')){
-               min = _.parseInt($elt.attr('data-max'));
+               max = _.parseInt($elt.attr('data-max'));
                if(!_.isNaN(max)){
                     options.max = max;
                 }
