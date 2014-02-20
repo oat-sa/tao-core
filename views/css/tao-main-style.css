@@ -6203,7 +6203,8 @@ a[rel="external"] span.icon-external:before {
     top: -1000px;
     padding: 40px;
     position: fixed;
-    z-index: 99; }
+    z-index: 99;
+    left: 0; }
     .tao-scope .modal #modal-close {
       position: absolute;
       right: 12px;

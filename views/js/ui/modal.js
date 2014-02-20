@@ -136,6 +136,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             });
             $('#'+options.modalOverlay).fadeIn(300);
             $element.animate({'opacity': '1', 'top':topOffset+'px'});
+          
             Modal._bindEvents($element);
           }
        },
