@@ -73,7 +73,7 @@ class MenuService {
      * Get the structure content (from the structure.xml file) of each extension.
      * @return array
      */
-    public static function getAllStructures() {
+    public static function getAllPerspectives() {
         $structure = self::readStructure();
         return $structure['perspectives'];
     }
@@ -186,26 +186,26 @@ class MenuService {
     }
 
     /**
-     * Get the structure for the extension/section in parameters
+     * Get the perspective for the extension/section in parameters
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string extension
-     * @param  string structure
+     * @param  string perspectiveId
      * @return Structure
      */
-    public static function getPerspective($extension, $structureId)
+    public static function getPerspective($extension, $perspectiveId)
     {
         $returnValue = array();
 
-		foreach(self::getAllStructures() as $struct){
-		    if ($struct->getId() == $structureId) {
-				$returnValue = $struct;
+		foreach(self::getAllPerspectives() as $perspective){
+		    if ($perspective->getId() == $perspectiveId) {
+				$returnValue = $perspective;
 			    break;
 			}
 		}
 		if (empty($returnValue)) {
-			\common_logger::w('Structure '.$structure.' not found for extension '.$extension);
+			\common_logger::w('Structure '.$perspectiveId.' not found for extension '.$extension);
     	}
 
         return $returnValue;
@@ -217,15 +217,15 @@ class MenuService {
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  string extension
-     * @param  string structure
-     * @param  string section
+     * @param  string perspectiveId
+     * @param  string sectionId
      * @return Section
      */
-    public static function getSection($extension, $structureId, $sectionId)
+    public static function getSection($extension, $perspectiveId, $sectionId)
     {
         $returnValue = array();
 
-        $structure = self::getPerspective($extension, $structureId);
+        $structure = self::getPerspective($extension, $perspectiveId);
         foreach ($structure->getSections() as $section) {
             if ($section->getId() == $sectionId) {
                 $returnValue = $section;
@@ -233,7 +233,7 @@ class MenuService {
             }
         }
 		if (empty($returnValue)) {
-			\common_logger::w('Section '.$section.' not found found for structure '.$structure);
+			\common_logger::w('Section '.$section.' not found found for perspective '.$perspectiveId);
     	}
 
         return $returnValue;

@@ -201,7 +201,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
      */
     private function getMenuEntries(){
         $entries = array();
-		foreach (MenuService::getAllStructures() as $i => $structure) {
+		foreach (MenuService::getAllPerspectives() as $i => $structure) {
             if ($structure->isVisible() && $this->hasAccessToStructure($structure)) {
                 $entries[$i] = array(
                     'id'			=> $structure->getId(),

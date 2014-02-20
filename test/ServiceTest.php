@@ -79,11 +79,11 @@ class ServiceTest extends TaoPhpUnitTestRunner {
 	 */
 	public function testTaoServiceExtention(){
 		
-		foreach (MenuService::getAllStructures() as $structure) {
-			$this->assertTrue(strlen($structure->getExtension()) > 0);
-		    $this->assertTrue(strlen($structure->getId()) > 0);
+		foreach (MenuService::getAllPerspectives() as $perspective) {
+			$this->assertTrue(strlen($perspective->getExtension()) > 0);
+		    $this->assertTrue(strlen($perspective->getId()) > 0);
 			
-			foreach ($structure->getSections()  as $section) {
+			foreach ($perspective->getSections()  as $section) {
 			    $this->assertTrue(strlen($section->getName()) > 0);
 			    $this->assertTrue(strlen($section->getUrl()) > 0);
 			}
