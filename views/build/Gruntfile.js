@@ -240,6 +240,15 @@ module.exports = function(grunt) {
                     '../css/layout.css' : '../scss/layout.scss',
                     '../../../taoCe/views/css/home.css' : '../../../taoCe/views/scss/home.scss'
                 }
+            },
+            qti : {
+                 files : {
+                    '../../../taoQTI/views/css/item-creator.css' : '../../../taoQTI/views/scss/item-creator.scss',
+                    '../../../taoQTI/views/css/qti.css' : '../../../taoQTI/views/scss/qti.scss'
+                 },
+                 options : {
+                    includePaths : ['../scss/', '../js/lib/', '../../../taoQTI/views/scss/inc', '../../../taoQTI/views/scss/qti']
+                }
             }
         },
         
@@ -255,6 +264,14 @@ module.exports = function(grunt) {
             'sass' : {
                 files : ['../scss/*.scss', '../scss/**/*.scss', '../../../**/views/scss/**/*.scss'],
                 tasks : ['sass:compile'],
+                options : {
+                    debounceDelay : 500
+                }
+            },
+            
+            'qtisass' : {
+                files : ['../../../taoQTI/views/scss/**/*.scss'],
+                tasks : ['sass:qti'],
                 options : {
                     debounceDelay : 500
                 }
