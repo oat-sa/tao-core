@@ -262,7 +262,7 @@ module.exports = function(grunt) {
              * Watch SASS changes and compile on the fly!
              */
             'sass' : {
-                files : ['../scss/*.scss', '../scss/**/*.scss', '../../../**/views/scss/**/*.scss'],
+                files : ['../scss/*.scss', '../scss/**/*.scss', '../../../*/views/scss/**/*.scss'],
                 tasks : ['sass:compile'],
                 options : {
                     debounceDelay : 500
