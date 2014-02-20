@@ -40,7 +40,7 @@ define(['handlebars', 'i18n', 'lodash'], function(Handlebars, __, _){
     //register join helper
     Handlebars.registerHelper('join', function(attr, glue, delimiter, wrapper){
         var ret = '', value = '';
-        
+
         //set default arguments with the format: name1="value1" name2="value2"
         glue = typeof(glue) === 'string' ? glue : '=';
         delimiter = typeof(delimiter) === 'string' ? delimiter : ' ';
@@ -60,7 +60,22 @@ define(['handlebars', 'i18n', 'lodash'], function(Handlebars, __, _){
                 }
                 ret += name + glue + wrapper + value + wrapper + delimiter;
             }
-             ret.substring(0, ret.length - 1);
+            ret.substring(0, ret.length - 1);
+        }
+
+        return ret;
+    });
+
+    //register a classic "for loop" helper
+    //it also adds a local variable "i" as the index in each iteration loop
+    Handlebars.registerHelper('for', function(startIndex, stopIndex, increment, options){
+        var ret = '';
+        startIndex = parseInt(startIndex);
+        stopIndex = parseInt(stopIndex);
+        increment = parseInt(increment);
+
+        for(var i = startIndex; i < stopIndex; i += increment){
+            ret += options.fn(_.extend({}, this, {'i' : i}));
         }
 
         return ret;
