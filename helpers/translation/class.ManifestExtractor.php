@@ -128,6 +128,26 @@ class tao_helpers_translation_ManifestExtractor
 										$translationUnits[$nodeTitle] = $newTranslationUnit;
 									}
 								}
+								
+								// look up for the "entrypoint" elements
+								$nodes = $xml->xpath("//entrypoint");
+								foreach ($nodes as $node) {
+								    if (isset($node['title'])) {
+								        $nodeTitle = (string)$node['title'];
+								        $newTranslationUnit = new tao_helpers_translation_POTranslationUnit();
+								        $newTranslationUnit->setSource($nodeTitle);
+								        $newTranslationUnit->addFlag('tao-public');
+								        $translationUnits[$nodeTitle] = $newTranslationUnit;
+								    }
+								    if (isset($node['label'])) {
+								        $nodeLabel = (string)$node['label'];
+								        $newTranslationUnit = new tao_helpers_translation_POTranslationUnit();
+								        $newTranslationUnit->setSource($nodeLabel);
+								        $newTranslationUnit->addFlag('tao-public');
+								        $translationUnits[$nodeTitle] = $newTranslationUnit;
+								    }
+								}
+								
 							}
 						}
 						catch(Exception $e){}
