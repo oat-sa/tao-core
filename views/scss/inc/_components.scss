@@ -151,7 +151,7 @@ ul.listbox {
     opacity: 0;
     top: -1000px;
     padding: 40px;
-    position: absolute;
+    position: fixed;
     z-index: 99;
     
     #modal-close {

@@ -123,15 +123,19 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         */
        _openModal: function($element){
           var modalHeight = $element[0].clientHeight,
+              windowHeight = $(window).height(),
               options = $element.data(dataNs);
       
           if (typeof options !== 'undefined'){
+            //Calculate the top offset
+            var topOffset = modalHeight>windowHeight?40:(windowHeight-modalHeight)/2;
+            
             Modal._resizeModal($element);
             $element.css({
                 'top': '-'+modalHeight+'px'
             });
             $('#'+options.modalOverlay).fadeIn(300);
-            $element.animate({'opacity': '1', 'top':'0px'});
+            $element.animate({'opacity': '1', 'top':topOffset+'px'});
             Modal._bindEvents($element);
           }
        },
@@ -152,8 +156,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         * @returns {undefined}
         */
        _closeModal: function($element){
-           var options = $element.data(dataNs),
-               modalHeight = parseInt($element[0].clientHeight);
+           var options = $element.data(dataNs);
        
            Modal._unBindEvents($element);
            
