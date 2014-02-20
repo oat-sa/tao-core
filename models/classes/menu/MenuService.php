@@ -17,7 +17,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2014      (update and modification) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\models\classes\menu;
@@ -89,6 +89,17 @@ class MenuService {
         return $structure['entrypoints'];
     }    
     
+    /**
+     * Get the actions of the TAO main toolbar
+     *
+     * @return array of ToolbarAction
+     */
+    public static function getToolbarActions()
+    {
+        $structure = self::readStructure();
+        return $structure['toolbaractions'];
+    }    
+    
     public static function readStructure()
     {
         if(count(self::$structure) == 0 ){
@@ -110,8 +121,9 @@ class MenuService {
     {
 		$perspectives = array();
 		$entrypoints = array();
+        $toolbarActions = array();
 		$sorted = \helpers_ExtensionHelper::sortByDependencies(\common_ext_ExtensionsManager::singleton()->getEnabledExtensions());
-		foreach($sorted as $extID => $extension){
+		foreach(array_keys($sorted) as $extID){
 			$xmlStructures = self::getStructuresXml($extID);
 			if(!is_null($xmlStructures)){
 				$extStructures = $xmlStructures->xpath("/structures/structure");
@@ -135,54 +147,20 @@ class MenuService {
 				    }
 				    $entrypoints[$entryPoint->getId()] = $entryPoint;
 				}
+				foreach($xmlStructures->xpath("/structures/toolbar/action") as $xmlStructure){
+				    $toolbarAction = ToolbarAction::fromSimpleXMLElement($xmlStructure, $extID);
+				    $toolbarActions[$toolbarAction->getId()] = $toolbarAction;
+				}
 			}
 		}
-		usort($perspectives, create_function('$a,$b', "return \$a->getLevel() - \$b->getLevel(); "));
+        $sortCb = create_function('$a,$b', "return \$a->getLevel() - \$b->getLevel(); ");
+		usort($perspectives, $sortCb);
+		usort($toolbarActions, $sortCb);
 		return array(
 			'perspectives' => $perspectives,
-		    'topbars' => array(),
+		    'toolbaractions' => $toolbarActions,
 		    'entrypoints' => $entrypoints
 		);
-    }
-
-    /**
-     * Get the toolbar actions for the enabled extensions
-     * @return array
-     */
-    public static function getToolbarActions()
-    {
-	    $actions = array();
-        foreach(\common_ext_ExtensionsManager::singleton()->getEnabledExtensions() as $extID => $extension){
-            $xmlStructures = self::getStructuresXml($extID);
-            if(!is_null($xmlStructures)){
-                $actionsNodes = $xmlStructures->xpath("/structures/toolbar/action");
-                foreach($actionsNodes as $actionNode){
-                    $action = array(
-                        'id'        => (string)$actionNode['id'],
-                        'extension' => $extID,
-                        'title'		=> (string)$actionNode['title'],
-                        'level'		=> (int)$actionNode['level']
-                    );
-                    $text = (string)$actionNode;
-                    if(!empty($text)){
-                        $action['text'] =  $text;
-                    }
-                    if(isset($actionNode['icon'])){
-                         $action['icon'] =  (string)$actionNode['icon'];
-                    }
-                    if(isset($actionNode['js'])){
-                         $action['js'] =  (string)$actionNode['js'];
-                    } else if(isset($actionNode['structure'])){
-                         $action['structure'] =  (string)$actionNode['structure'];
-                    }
-                    $actions[] = $action;
-                }
-            }
-        }
-        
-        usort($actions, create_function('$a,$b', "return \$a['level'] - \$b['level']; "));
-
-        return $actions;
     }
 
     /**

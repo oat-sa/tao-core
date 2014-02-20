@@ -27,7 +27,7 @@ class Action implements PhpSerializable
 {
     const SERIAL_VERSION = 1392821334;
     
-    private $data;
+    protected $data;
     
     public static function fromSimpleXMLElement(\SimpleXMLElement $node) {
         $data = array(

@@ -267,17 +267,19 @@ class tao_actions_Main extends tao_actions_CommonModule {
      */
     private function getToolbarActions(){
         $actions = array();
-		foreach (MenuService::getToolbarActions() as $i => $action) {
+		foreach (MenuService::getToolbarActions() as $i => $toolbarAction) {
             $access = false;
-            if(isset($action['structure'])){
-                $structure = MenuService::getPerspective($action['extension'], $action['structure']);
+            $action = $toolbarAction->toArray();
+            $extension = $toolbarAction->getExtension();
+            if(!is_null($toolbarAction->getStructure())){
+                $structure = MenuService::getPerspective($extension, $toolbarAction->getStructure());
                 if($this->hasAccessToStructure($structure)){
-                    $action['url'] =  _url('index', null, null, array('structure' => $action['structure'], 'ext' => $action['extension']));
+                    $action['url'] =  _url('index', null, null, array('structure' => $toolbarAction->getStructure(), 'ext' => $extension));
                     $access = true;
                 }
             } else {
-                $action['js'] =  $action['extension']. '/'. $action['js'];
-                $access = tao_models_classes_accessControl_AclProxy::hasAccess($action['extension'], null);
+                $action['js'] =  $extension. '/'. $toolbarAction->getJs();
+                $access = tao_models_classes_accessControl_AclProxy::hasAccess($extension, null);
             }
             if($access){
                 $actions[$i] = $action;

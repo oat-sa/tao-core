@@ -64,7 +64,9 @@ class tao_helpers_translation_ManifestExtractor
         		
         		foreach ($files as $file) {
         			$fullPath = $path . '/' . $file;
-        			if (is_file($fullPath) && mb_strpos($file, 'structures.xml') !== false) {
+
+                    if (is_file($fullPath) && preg_match("/structures\.xml$/", $file)){
+
 						// Translations must be extracted from this tao manifest file.
 						try{
 							$xml = new SimpleXMLElement(trim(file_get_contents($fullPath)));
@@ -100,6 +102,30 @@ class tao_helpers_translation_ManifestExtractor
                                         $newTranslationUnit->setSource((string)$node);
                                         $newTranslationUnit->addFlag('tao-public');
 										$translationUnits[(string)$node] = $newTranslationUnit;
+									}
+								}
+								
+                                // look up for "action" elements inside a toolbar
+								$nodes = $xml->xpath("//toolbar/action");
+								foreach ($nodes as $node) {
+                                    $nodeValue = (string)$node; 
+									if (trim($nodeValue) != '' && !array_key_exists($nodeValue, $translationUnits)){
+                        			    $newTranslationUnit = new tao_helpers_translation_POTranslationUnit();
+                                        $newTranslationUnit->setSource($nodeValue);
+                                        $newTranslationUnit->addFlag('tao-public');
+										$translationUnits[$nodeValue] = $newTranslationUnit;
+									}
+								}
+                                
+                                // look up for the "title" attr of an "action" element inside a toolbar
+								$nodes = $xml->xpath("//toolbar/action[@title]");
+								foreach ($nodes as $node) {
+									if (isset($node['title'])) {
+                                        $nodeTitle = (string)$node['title'];
+									    $newTranslationUnit = new tao_helpers_translation_POTranslationUnit();
+                                        $newTranslationUnit->setSource($nodeTitle);
+                                        $newTranslationUnit->addFlag('tao-public');
+										$translationUnits[$nodeTitle] = $newTranslationUnit;
 									}
 								}
 							}
