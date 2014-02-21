@@ -1,10 +1,4 @@
 <?php
-/**
- * THE CODE OF THIS CLASS IS GENERATED
- *
- * DO NOT EDIT!
- */
-
 /** 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,11 +18,14 @@
  * 
  */
 
-/**
- * THE CODE OF THIS CLASS IS GENERATED
- *
- * DO NOT EDIT!
- */
+/**************************************************************
+ *                                                            *
+ * THE CODE OF THIS CLASS IS GENERATED USING PURE NINJA MAGIC *
+ * IN COMBINATION WITH SOME LESSER KNOWN CHEAP SHOWMAN TRICKS *
+ *                                                            *
+ * DO NOT EDIT!                                               *
+ *                                                            *
+ **************************************************************/
 
 /**
  * Icon helper for tao - helpers/class.Icon.php
@@ -37,11 +34,35 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
+ * @date   2014-02-20 09:56
  * @package tao
  * @subpackage helpers
  */
 class tao_helpers_Icon {
+
+    /**
+     * This function builds the actual HTML element and is used by all other functions. 
+     * The doc for $options is the applicable for all other functions.
+     * 
+     * @param string $icon name of the icon to display
+     * @param array $options (optional) hashtable with HTML attributes, also allows to set element="almostAnyHtmlElement"
+     * @param string HTML element with icon
+     */
+    protected static function buildIcon($icon, $options=array()){
+        $options['class'] = !empty($options['class']) ? $options['class'] . ' ' . $icon : $icon;
+        $element = !empty($options['element']) ? $options['element'] : 'span';
+        unset($options['element']);
+        $retVal = '<' . $element . ' ';
+        foreach($options as $key => $value) {
+            $retVal .= $key . '="' . $value . '"';
+        }
+        $retVal .= '></' . $element . '>';
+        return $retVal;
+    }
 	
+    /**
+     * List of all icons as constant
+     */
     const CLASS_CHECKBOX_CHECKED = 'icon-checkbox-checked';
     const CLASS_CHECKBOX = 'icon-checkbox';
     const CLASS_LEFT = 'icon-left';
@@ -175,8 +196,14 @@ class tao_helpers_Icon {
     const CLASS_GAP_MATCH = 'icon-gap-match';
     const CLASS_ORDER = 'icon-order';
     const CLASS_HOTTEXT = 'icon-hottext';
+    const CLASS_FREE_FORM = 'icon-free-form';
+    const CLASS_FONT = 'icon-font';
 
 	
+    /**
+     * List of all icons as function
+     */
+
     public static function iconCheckboxChecked($options=array()){
         return self::buildIcon(self::CLASS_CHECKBOX_CHECKED, $options);
     }
@@ -709,22 +736,13 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_HOTTEXT, $options);
     }
 
-
-
-    /**
-     * @param string $icon name of the icon to display
-     * @param array $options (optional) hashtable with HTML attributes, also allows to set element="any html element"
-     * @param string HTML element with icon
-     */
-    protected static function buildIcon($icon, $options=array()){
-        $options['class'] = !empty($options['class']) ? $options['class'] . ' ' . $icon : $icon;
-        $element = !empty($options['element']) ? $options['element'] : 'span';
-        unset($options['element']);
-        $retVal = '<' . $element . ' ';
-        foreach($options as $key => $value) {
-            $retVal .= $key . '="' . $value . '"';
-        }
-        $retVal .= '></' . $element . '>';
-        return $retVal;
+    public static function iconFreeForm($options=array()){
+        return self::buildIcon(self::CLASS_FREE_FORM, $options);
     }
+
+    public static function iconFont($options=array()){
+        return self::buildIcon(self::CLASS_FONT, $options);
+    }
+
+
 }
