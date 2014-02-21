@@ -83,7 +83,7 @@
   @extend .truncate;
   line-height: 2.5;
   float: left;
-  padding: 0 3px 0 4px;
+  padding: 0 6px;
   cursor: default
 }
 
@@ -92,12 +92,13 @@
   @include box-shadow();
   .tlb {
     float:right;
+  }
+  .tlb, .tlb-top {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
   }
 }
-
 
 .tlb-text-button-box {
   @extend .cke_combo;
