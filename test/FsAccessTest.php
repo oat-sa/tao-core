@@ -73,10 +73,9 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
     }
     
     /**
-     * 
      * @dataProvider fileAccessProviders
      */
-    public function testAccessProviders($access) {
+    public function testAccessProviders(tao_models_classes_fsAccess_AccessProvider $access) {
         
         $this->assertInstanceOf('tao_models_classes_fsAccess_AccessProvider', $access);
         $id = $access->getId();
@@ -85,9 +84,11 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         $this->assertInstanceOf('tao_models_classes_fsAccess_AccessProvider', $fromManager);
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR.'tao.png');
+        $this->assertTrue(file_exists($access->getFileSystem()->getPath().'img'.DIRECTORY_SEPARATOR.'tao.png'), 'reference file not found');
         $this->assertUrlHttpCode($url);
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR.'fakeFile_thatDoesNotExist.png');
+        $this->assertFalse(file_exists($access->getFileSystem()->getPath().'img'.DIRECTORY_SEPARATOR.'fakeFile_thatDoesNotExist.png'), 'reference file should not found');
         $this->assertUrlHttpCode($url, '404');
         
         $url = $access->getAccessUrl('img'.DIRECTORY_SEPARATOR);
@@ -113,11 +114,12 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
         curl_setopt($ch, CURLOPT_TIMEOUT,10);
         curl_setopt($ch, CURLOPT_COOKIE, $this->getSessionCookie($this->testUser));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $output = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         
-        $this->assertEquals($expectedCode, $httpCode);
+        $this->assertEquals($expectedCode, $httpCode, 'Incorrect response for '.$url);
     }
     
     private function getSessionCookie(core_kernel_classes_Resource $user) {
@@ -128,11 +130,13 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
         curl_setopt($ch, CURLOPT_HEADER, true);    // we want headers
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $output = curl_exec($ch);
         
         // get cookie
         preg_match('/^Set-Cookie:\s*([^;]*)/mi', $output, $m);
         
+        $this->assertTrue(isset($m[1]), 'Failed to get Session Cookie');
         return $m[1];
         
     }
