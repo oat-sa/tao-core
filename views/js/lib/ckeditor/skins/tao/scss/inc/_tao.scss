@@ -8,7 +8,6 @@
   text-align: center;
 }
 
-
 .cke_top,
 .cke_top:before,
 .cke_top:after,
@@ -23,4 +22,22 @@
 .cke_button_icon, .cke_button {
   padding-top: 2px;
   line-height: 0.9;
+}
+
+.cke_nose {
+  position: absolute;
+  z-index: 10000;
+  left: 16px;
+  bottom: -8px;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  border: 1px whiten($uiClickableDefaultBg, .5) solid;
+  border-left: none;
+  border-top: none;
+  width: 16px;
+  height: 16px;
+  background: whiten($uiClickableDefaultBg, .5);
+  @include box-shadow();
 }
