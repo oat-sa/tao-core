@@ -36,8 +36,6 @@ code, pre {
   @include font-size(14);
 }
 
-
-
 input {
   @include simple-border();
   @include border-radius(1);
