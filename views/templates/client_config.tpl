@@ -67,7 +67,8 @@ require.config({
         'taoQtiCommonRenderer' : '../../../taoQTI/views/js/qtiCommonRenderer',
         'taoQtiXmlRenderer' : '../../../taoQTI/views/js/qtiXmlRenderer',
         'qtiClass'          : '../../../taoQTI/views/js/qtiItem/lib/class',
-        'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner'
+        'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
+        'eyecatcher'        : 'eyecatcher' 
    },
   
    shim : {
