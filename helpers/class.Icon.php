@@ -34,7 +34,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-02-20 09:56
+ * @date   2014-02-24 17:26
  * @package tao
  * @subpackage helpers
  */
@@ -191,13 +191,24 @@ class tao_helpers_Icon {
     const CLASS_SPELL_CHECK = 'icon-spell-check';
     const CLASS_POLYGON = 'icon-polygon';
     const CLASS_RECTANGLE = 'icon-rectangle';
-    const CLASS_ELLIPSE = 'icon-ellipse';
     const CLASS_CIRCLE = 'icon-circle';
     const CLASS_GAP_MATCH = 'icon-gap-match';
     const CLASS_ORDER = 'icon-order';
     const CLASS_HOTTEXT = 'icon-hottext';
     const CLASS_FREE_FORM = 'icon-free-form';
     const CLASS_FONT = 'icon-font';
+    const CLASS_STEP_BACKWARD = 'icon-step-backward';
+    const CLASS_FAST_BACKWARD = 'icon-fast-backward';
+    const CLASS_BACKWARD = 'icon-backward';
+    const CLASS_PLAY = 'icon-play';
+    const CLASS_PAUSE = 'icon-pause';
+    const CLASS_STOP = 'icon-stop';
+    const CLASS_FORWARD = 'icon-forward';
+    const CLASS_FAST_FORWARD = 'icon-fast-forward';
+    const CLASS_STEP_FORWARD = 'icon-step-forward';
+    const CLASS_EJECT = 'icon-eject';
+    const CLASS_ELLIPSIS = 'icon-ellipsis';
+    const CLASS_OK = 'icon-ok';
 
 	
     /**
@@ -716,10 +727,6 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_RECTANGLE, $options);
     }
 
-    public static function iconEllipse($options=array()){
-        return self::buildIcon(self::CLASS_ELLIPSE, $options);
-    }
-
     public static function iconCircle($options=array()){
         return self::buildIcon(self::CLASS_CIRCLE, $options);
     }
@@ -742,6 +749,54 @@ class tao_helpers_Icon {
 
     public static function iconFont($options=array()){
         return self::buildIcon(self::CLASS_FONT, $options);
+    }
+
+    public static function iconStepBackward($options=array()){
+        return self::buildIcon(self::CLASS_STEP_BACKWARD, $options);
+    }
+
+    public static function iconFastBackward($options=array()){
+        return self::buildIcon(self::CLASS_FAST_BACKWARD, $options);
+    }
+
+    public static function iconBackward($options=array()){
+        return self::buildIcon(self::CLASS_BACKWARD, $options);
+    }
+
+    public static function iconPlay($options=array()){
+        return self::buildIcon(self::CLASS_PLAY, $options);
+    }
+
+    public static function iconPause($options=array()){
+        return self::buildIcon(self::CLASS_PAUSE, $options);
+    }
+
+    public static function iconStop($options=array()){
+        return self::buildIcon(self::CLASS_STOP, $options);
+    }
+
+    public static function iconForward($options=array()){
+        return self::buildIcon(self::CLASS_FORWARD, $options);
+    }
+
+    public static function iconFastForward($options=array()){
+        return self::buildIcon(self::CLASS_FAST_FORWARD, $options);
+    }
+
+    public static function iconStepForward($options=array()){
+        return self::buildIcon(self::CLASS_STEP_FORWARD, $options);
+    }
+
+    public static function iconEject($options=array()){
+        return self::buildIcon(self::CLASS_EJECT, $options);
+    }
+
+    public static function iconEllipsis($options=array()){
+        return self::buildIcon(self::CLASS_ELLIPSIS, $options);
+    }
+
+    public static function iconOk($options=array()){
+        return self::buildIcon(self::CLASS_OK, $options);
     }
 
 
