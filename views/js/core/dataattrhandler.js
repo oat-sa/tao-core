@@ -9,7 +9,8 @@ define(['jquery', 'lodash'], function($, _){
    var defaults = {
        container : false,
        listenerEvent : 'click',
-       useTarget: true
+       useTarget: true,
+       bubbled: false    
    };
    
    /**
@@ -80,6 +81,7 @@ define(['jquery', 'lodash'], function($, _){
     * @param {boolean} [options.preventDefault = true] - to prevent the default event to be fired
     * @param {string} [options.inner] - a selector inside the element to bind the event to
     * @param {boolean} [options.useTarget = true] - if the content of the data-attr is as target or not
+    * @param {boolean} [options.bubbled = false] - handle the event if bubbled from a child
     */
    var DataAttrHandler = function construct(attrName, options){
         
@@ -107,10 +109,10 @@ define(['jquery', 'lodash'], function($, _){
             
             var $elt = $(e.target);
             
-            if($elt.is(selector)){
+            if(self.options.bubbled === true || $elt.is(selector)){
                 var $target, $outer;
                 
-                if (self.options.inner){
+                if ($elt.data(attrName) === undefined && (self.options.inner || self.options.bubbled)){
                     $outer = $elt;
                     $elt = $elt.parents('[data-' + attrName + ']');
                 }

@@ -177,6 +177,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         new DataAttrHandler('toggle', {
             container: $container,
             listenerEvent: 'click',
+            bubbled: true,
             namespace: dataNs
         }).init(function($elt, $target) {
             var opts = {

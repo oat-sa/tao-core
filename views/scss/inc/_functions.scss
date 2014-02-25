@@ -62,6 +62,12 @@
     border-bottom-right-radius: $radius * 1px;
 }
 
+@mixin border-radius-top-left($radius: 2) {
+  -webkit-border-top-left-radius: $radius * 1px;
+  -moz-border-radius-topleft: $radius * 1px;
+  border-top-left-radius: $radius * 1px;
+}
+
 @mixin border-box() {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;

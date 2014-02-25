@@ -6,6 +6,7 @@
     "url": "http://vcs.taotesting.com/svn/oat/projects/tao/trunk/views/build"
   },
  "scripts": {
+    "install": "grunt install",
     "build": "grunt install;grunt build"
   },
   "devDependencies": {

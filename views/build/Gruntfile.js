@@ -238,7 +238,8 @@ module.exports = function(grunt) {
                 files : {
                     '../css/tao-main-style.css' : '../scss/tao-main-style.scss',
                     '../css/layout.css' : '../scss/layout.scss',
-                    '../../../taoCe/views/css/home.css' : '../../../taoCe/views/scss/home.scss'
+                    '../../../taoCe/views/css/home.css' : '../../../taoCe/views/scss/home.scss',
+                    '../../../taoQtiTest/views/css/creator.css' : '../../../taoQtiTest/views/scss/creator.scss'
                 }
             },
             qti : {
