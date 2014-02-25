@@ -182,17 +182,72 @@ ul.listbox {
     z-index: 98;
 }
 
-/** Button groups */
+/* Button groups */
 
-[data-button-group] {
 
+ul[data-button-group] {
+
+    list-style-type: none;
+    padding: 0;
+    background-color: $uiGeneralContentBg;
+    border: 1px solid $uiGeneralContentBorder;
+    border-radius: 1px;
+    margin: 0 2px 2px 0;
+    display:inline-block;
+    @include border-radius;
+
+    & > li {
+        border: 0 none;
+        color: $textColor;
+        cursor: pointer;
+        display: inline-block;
+        float: left;
+        min-width: 26px;
+        padding: 4px 6px;
+        text-align: center;
+        text-decoration: none !important;
+
+        &.active {
+            color: $textHighlight;
+            background-color: $info;
+            -webkit-transition: background 0.4s ease;
+            -moz-transition: all 0.4s ease;
+            -o-transition: background 0.4s ease;
+            transition: all 0.4s ease;
+        }
+        &:hover {
+            color: $textHighlight;
+            background-color: whiten($info, 0.2);
+            -webkit-transition: background 0.4s ease;
+            -moz-transition: all 0.4s ease;
+            -o-transition: background 0.4s ease;
+            transition: all 0.4s ease;
+        }
+        &.separator{
+            background-color: $uiGeneralContentBorder;
+            float: left;
+            height: 18px;
+            margin: 5px 2px 0 2px;
+            width: 1px;
+            min-width: 1px;
+            padding: 0;
+        }
+
+        &[class^="icon-"], &[class*=" icon-"] {
+            height: 16px;
+            margin-top: 1px;
+            width: 16px;
+            padding-top: 2px;
+        }
+    }
+/*
     display: inline-block;
     border: solid 1px whiten($info, .4);
     background-color: whiten($info, .4);
     padding: 0;
     @include border-radius(2);
 
-    & > a {
+    & > li {
         display: inline-block;
         float: left;
         color: $textColor;
@@ -224,6 +279,6 @@ ul.listbox {
             width: 28px;
             text-align: center;
         }
-    }
+    }*/
 
 }

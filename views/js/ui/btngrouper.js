@@ -13,7 +13,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
    var defaults = {
        bindEvent   : 'click',
        activeClass : 'active',
-       innerElt : 'a',
+       innerElt : 'li',
        action : 'toggle'
    };
    
@@ -220,7 +220,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
        
         new DataAttrHandler('button-group', {
             container: $container,
-            inner : 'a',
+            inner : 'li',
             listenerEvent: 'click',
             namespace: dataNs,
             useTarget: false

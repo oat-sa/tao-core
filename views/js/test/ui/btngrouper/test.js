@@ -1,5 +1,5 @@
 define(['jquery', 'ui', 'ui/btngrouper'], function($, ui, btngrouper){
-    
+    'use strict';    
     
     module('Button Grouper Stand Alone Test');
    
@@ -37,11 +37,11 @@ define(['jquery', 'ui', 'ui/btngrouper'], function($, ui, btngrouper){
             equal($group.find('.active').length, 1, 'Only one element is active');
             equal($group.btngrouper('value'), 'Y', 'The group value is Y');
             
-            $group.find('a:first').trigger('click');
+            $group.find('li:first').trigger('click');
         });
         $group.on('toggle.btngrouper', function(){
             equal($group.find('.active').length, 1, 'Only one element is active');
-            ok($group.find('a:last').hasClass('active'), 'The active element is toggled');
+            ok($group.find('li:last').hasClass('active'), 'The active element is toggled');
             equal($group.btngrouper('value'), 'N', 'The group value is N');
             start();
         });
@@ -57,11 +57,11 @@ define(['jquery', 'ui', 'ui/btngrouper'], function($, ui, btngrouper){
         
         var $group = $("[data-button-group='switch']", $fixture);
         ok($group.length === 1, 'The Group is available');
-        ok($group.find('a:first').hasClass('active'), 'The first element is active');
+        ok($group.find('li:first').hasClass('active'), 'The first element is active');
         
         $group.on('create.btngrouper', function(){
             equal($group.btngrouper('value'), 'B', 'The group value is B');
-            $group.find('a:first').trigger('click');
+            $group.find('li:first').trigger('click');
         });
         $group.on('switch.btngrouper', function(){
             equal($group.find('.active').length, 0, 'No more element are active');
@@ -85,12 +85,12 @@ define(['jquery', 'ui', 'ui/btngrouper'], function($, ui, btngrouper){
         
         $group.on('toggle.btngrouper', function(){
             equal($group.find('.active').length, 1, 'Only one element is active');
-            ok($group.find('a:last').hasClass('active'), 'The active element is toggled');
+            ok($group.find('li:last').hasClass('active'), 'The active element is toggled');
             start();
         });
        
         btngrouper($fixture);
-        $group.find('a:last').trigger('click');
+        $group.find('li:last').trigger('click');
     });
     
 });
