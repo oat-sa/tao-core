@@ -179,3 +179,37 @@ a {
     cursor: default;
     opacity: .7;
 }
+
+table.matrix {
+
+    width: 100%;
+    background: whiten($uiClickableDefaultBg, .5);
+    border: 6px solid whiten($uiClickableDefaultBg, .5);
+    margin-bottom: 10px;
+    td, th {
+        font-weight: normal;
+        padding: 3px 5px;
+        @include simple-border();
+    }
+    th {
+        text-align: left;
+        vertical-align: middle;
+    }
+    td {
+        background: white();
+        text-align: center;
+        padding: 2px;
+        label {
+            display: block;
+            margin: 0
+        }
+    }
+    [data-edit], [data-edit] * {
+        border: none;
+        padding: 6px;
+        cursor: pointer
+    }
+    tbody [data-edit] {
+        width: 30px
+    }
+}
