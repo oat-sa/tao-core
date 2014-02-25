@@ -3,6 +3,26 @@
 /**
  * Use icon within sass: @inclue icon('down');
  */
+@font-face {
+  font-family: 'tao';
+  src: url("font/tao/tao.eot?7lg388");
+  src: url("font/tao/tao.eot?#iefix7lg388") format("embedded-opentype"), url("font/tao/tao.woff?7lg388") format("woff"), url("font/tao/tao.ttf?7lg388") format("truetype"), url("font/tao/tao.svg?7lg388#tao") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-def\.scss}line{font-family:\0000312}}
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
 /*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -406,26 +426,24 @@ html body {
 #coding_scoreconcil #navigation {
   float: left; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003455}}
-.clearfix {
-  display: inline-block; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003458}}
-  .clearfix:after {
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0; }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003468}}
-html[xmlns] .clearfix {
-  display: block; }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003472}}
-* html .clearfix {
-  height: 1%; }
-
+/* There is a conflict with the tao-main-style clearfix */
+/*.clearfix {*/
+/*display: inline-block;*/
+/*&:after {*/
+/*content: ".";*/
+/*display: block;*/
+/*clear: both;*/
+/*visibility: hidden;*/
+/*line-height: 0;*/
+/*height: 0;*/
+/*}*/
+/*}*/
+/*html[xmlns] .clearfix {*/
+/*display: block;*/
+/*}*/
+/** html .clearfix {*/
+/*height: 1%;*/
+/*}*/
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003476}}
 .containerDisplay {
   border: 1px solid #999;
