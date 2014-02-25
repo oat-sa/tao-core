@@ -28,3 +28,6 @@ CKEDITOR.editorConfig = function( config ) {
     //  { name: 'styles', items: [ 'Styles' ] }, // not for now, might be nice at some point to enter custom feedback and such
   ];
 };
+
+
+CKEDITOR.disableAutoInline = true;

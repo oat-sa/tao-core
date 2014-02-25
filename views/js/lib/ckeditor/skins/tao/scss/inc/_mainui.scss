@@ -59,8 +59,10 @@ Special outer level classes used in this file:
 
   -webkit-touch-callout: none;
 
-  background: #fff;
   padding: 0;
+  position: relative;
+  z-index: 10001;
+
 }
 
 /* Added to the outer boundary of the UI when in inline editing,
@@ -92,15 +94,13 @@ Special outer level classes used in this file:
   /* Allow breaking toolbars when in a narrow editor. (#9947) */
   white-space: normal;
   padding: 4px 3px 0px 4px;
-  background: whiten($uiClickableDefaultBg, .3);
-  @include simple-border(whiten($uiClickableDefaultBg, .3));
+  background: $uiClickableDefaultBg;
+  @include simple-border($uiClickableDefaultBg);
   @include box-shadow();
-  position: relative;
-  z-index: 10001;
 }
 
 .cke_float .cke_top {
-  border: 3px solid mix(#fff, $grey, 95%);
+  border: 3px solid $uiClickableDefaultBg;
 
 }
 

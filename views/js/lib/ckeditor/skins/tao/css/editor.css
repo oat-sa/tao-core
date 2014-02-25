@@ -41,7 +41,11 @@ To understand why "reset" is needed, check the CKEditor Skin SDK:
 http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 */
 /* Reset for single elements, not their children. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_reset\.scss}line{font-family:\0000328}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000327}}
+>>>>>>> .r18723
 .cke_reset {
   /* Do not include inheritable rules here. */
   margin: 0;
@@ -62,7 +66,11 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
   transition: none; }
 
 /* Reset for elements and their children. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_reset\.scss}line{font-family:\0000350}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000348}}
+>>>>>>> .r18723
 .cke_reset_all, .cke_reset_all * {
   /* The following must be identical to .cke_reset. */
   margin: 0;
@@ -90,38 +98,66 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
   white-space: nowrap;
   cursor: auto; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_reset\.scss}line{font-family:\0000382}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000378}}
+>>>>>>> .r18723
 .cke_reset_all .cke_rtl * {
   text-align: right; }
 
 /* Defaults for some elements. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_reset\.scss}line{font-family:\0000389}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000384}}
+>>>>>>> .r18723
 .cke_reset_all iframe {
   vertical-align: inherit;
   /** For IE */ }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_reset\.scss}line{font-family:\0000394}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000388}}
+>>>>>>> .r18723
 .cke_reset_all textarea {
   white-space: pre; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_reset\.scss}line{font-family:\00003101}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000394}}
+>>>>>>> .r18723
 .cke_reset_all textarea,
 .cke_reset_all input[type="text"],
 .cke_reset_all input[type="password"] {
   cursor: text; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_reset\.scss}line{font-family:\00003108}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\00003100}}
+>>>>>>> .r18723
 .cke_reset_all textarea[disabled],
 .cke_reset_all input[type="text"][disabled],
 .cke_reset_all input[type="password"][disabled] {
   cursor: default; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_reset\.scss}line{font-family:\00003113}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\00003104}}
+>>>>>>> .r18723
 .cke_reset_all fieldset {
   padding: 10px;
   border: 2px groove #E0DFE3; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_reset\.scss}line{font-family:\00003118}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\00003109}}
+>>>>>>> .r18723
 .cke_reset_all select {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -174,14 +210,22 @@ Special outer level classes used in this file:
 
 */
 /* The outer boundary of the interface. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\0000350}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000349}}
+>>>>>>> .r18723
 .cke_chrome {
   /* This is <span>, so transform it into a block.*/
   display: block;
   padding: 0; }
 
 /* The inner boundary of the interface. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\0000358}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000356}}
+>>>>>>> .r18723
 .cke_inner {
   /* This is <span>, so transform it into a block.*/
   display: block;
@@ -191,19 +235,31 @@ Special outer level classes used in this file:
 
 /* Added to the outer boundary of the UI when in inline editing,
    when the UI is floating. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\0000371}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000368}}
+>>>>>>> .r18723
 .cke_float {
   /* Make white the space between the outer and the inner borders. */
   border: none; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\0000377}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000373}}
+>>>>>>> .r18723
 .cke_float .cke_inner {
   /* As we don't have blocks following top (toolbar) we suppress the padding
      as the toolbar defines its own margin. */
   padding-bottom: 0; }
 
 /* Make the main spaces enlarge to hold potentially floated content. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\0000387}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000382}}
+>>>>>>> .r18723
 .cke_top,
 .cke_contents,
 .cke_bottom {
@@ -211,7 +267,11 @@ Special outer level classes used in this file:
   /* Ideally this should be "auto", but it shows scrollbars in IE7. */
   overflow: hidden; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\0000396}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000390}}
+>>>>>>> .r18723
 .cke_top {
   /*border: 1px solid #b2b2b2;*/
   /* Allow breaking toolbars when in a narrow editor. (#9947) */
@@ -220,18 +280,33 @@ Special outer level classes used in this file:
   background: #f6f5f3;
   border: 1px solid #f6f5f3;
   border-radius: 2px;
+<<<<<<< .mine
+  -webkit-border-radius: 2px;
+  -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
+=======
   -webkit-border-radius: 2px;
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   position: relative;
   z-index: 10001; }
+>>>>>>> .r18723
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\00003107}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003102}}
+>>>>>>> .r18723
 .cke_float .cke_top {
   border: 3px solid #fafaf9; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\00003113}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003107}}
+>>>>>>> .r18723
 .cke_bottom {
   padding: 1px;
   position: relative;
@@ -255,14 +330,22 @@ Special outer level classes used in this file:
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');*/ }
 
 /* On iOS we need to manually enable scrolling in the contents block. (#9945) */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\00003136}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003129}}
+>>>>>>> .r18723
 .cke_browser_ios .cke_contents {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch; }
 
 /* The resizer is the small UI element that is rendered at the bottom right
    part of the editor. It makes is possible to resize the editor UI. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\00003144}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003136}}
+>>>>>>> .r18723
 .cke_resizer {
   /* To avoid using images for the resizer, we create a small triangle,
      using some CSS magic. */
@@ -285,14 +368,22 @@ Special outer level classes used in this file:
   -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3); }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\00003172}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003163}}
+>>>>>>> .r18723
 .cke_hc .cke_resizer {
   font-size: 15px;
   width: auto;
   height: auto;
   border-width: 0; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\00003180}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003170}}
+>>>>>>> .r18723
 .cke_resizer_ltr {
   cursor: se-resize;
   float: right;
@@ -302,7 +393,11 @@ Special outer level classes used in this file:
    (usually the .cke_rtl class is used), because it may not necessarily be in
    RTL mode if the main UI is RTL. It depends instead on the context where the
    editor is inserted on. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\00003192}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003181}}
+>>>>>>> .r18723
 .cke_resizer_rtl {
   border-width: 10px 0 0 10px;
   border-color: transparent transparent transparent #A5A5A5;
@@ -315,7 +410,11 @@ Special outer level classes used in this file:
 /* The editing area (where users type) can be rendered as an editable <div>
    element (e.g. divarea plugin). In that case, this is the class applied to
    that element. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_mainui\.scss}line{font-family:\00003208}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003196}}
+>>>>>>> .r18723
 .cke_wysiwyg_div {
   display: block;
   height: 100%;
@@ -370,7 +469,11 @@ panel contents and color panels check menu.css and colorpanel.css.
 */
 /* The box that holds an IFRAME. It's inserted into a host document and positioned
    absolutely by the application. It floats above the host document/editor. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\0000346}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\0000345}}
+>>>>>>> .r18723
 .cke_panel {
   /* Restore the loading hide */
   visibility: visible;
@@ -388,19 +491,31 @@ panel contents and color panels check menu.css and colorpanel.css.
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15); }
 
 /* This class represents panels which are used as context menus. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\0000368}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\0000366}}
+>>>>>>> .r18723
 .cke_menu_panel {
   padding: 0;
   margin: 0; }
 
 /* This class represents panels which are used by rich combos. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\0000375}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\0000372}}
+>>>>>>> .r18723
 .cke_combopanel {
   width: 150px;
   height: 170px; }
 
 /* The IFRAME the panel is wrapped into. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\0000382}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\0000378}}
+>>>>>>> .r18723
 .cke_panel_frame {
   width: 100%;
   height: 100%;
@@ -409,7 +524,11 @@ panel contents and color panels check menu.css and colorpanel.css.
   overflow-x: hidden; }
 
 /* The HTML document which is a direct descendant of the IFRAME */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\0000393}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\0000388}}
+>>>>>>> .r18723
 .cke_panel_container {
   overflow-y: auto;
   overflow-x: hidden; }
@@ -442,7 +561,11 @@ is its visual representation:
 +-------------------------------------+
 */
 /* The list of panel items. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\00003129}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003122}}
+>>>>>>> .r18723
 .cke_panel_list {
   list-style-type: none;
   margin: 3px;
@@ -450,14 +573,22 @@ is its visual representation:
   white-space: nowrap; }
 
 /* The item of .cke_panel_list */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\00003138}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003130}}
+>>>>>>> .r18723
 .cke_panel_listItem {
   margin: 0;
   padding-bottom: 1px; }
 
 /* The child of .cke_panel_listItem. These elements contain spans which are
    to display a real name of the property which is visible for an end-user. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\00003146}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003137}}
+>>>>>>> .r18723
 .cke_panel_listItem a {
   padding: 3px 4px;
   display: block;
@@ -471,33 +602,57 @@ is its visual representation:
   border-radius: 2px; }
 
 /* IE6 */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\00003162}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003152}}
+>>>>>>> .r18723
 * html .cke_panel_listItem a {
   width: 100%;
   /* IE is not able to inherit the color, so we must force it to black */
   color: #000; }
 
 /* IE7 */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\00003171}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003160}}
+>>>>>>> .r18723
 *:first-child + html .cke_panel_listItem a {
   /* IE is not able to inherit the color, so we must force it to black */
   color: #000; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\00003177}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003165}}
+>>>>>>> .r18723
 .cke_panel_listItem.cke_selected a {
   background-color: #cedee9; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\00003185}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003172}}
+>>>>>>> .r18723
 .cke_panel_listItem a:hover,
 .cke_panel_listItem a:focus,
 .cke_panel_listItem a:active {
   background-color: #3e7da7; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\00003191}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003177}}
+>>>>>>> .r18723
 .cke_hc .cke_panel_listItem a {
   border-style: none; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\00003198}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003183}}
+>>>>>>> .r18723
 .cke_hc .cke_panel_listItem a:hover,
 .cke_hc .cke_panel_listItem a:focus,
 .cke_hc .cke_panel_listItem a:active {
@@ -505,13 +660,21 @@ is its visual representation:
   padding: 1px 2px; }
 
 /* The title of the entire panel which is visible on top of the list. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\00003205}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003189}}
+>>>>>>> .r18723
 .cke_panel_grouptitle {
   display: none; }
 
 /* The following styles set defaults of the elements used by the Paragraph
    Format panel. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_panel\.scss}line{font-family:\00003219}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003202}}
+>>>>>>> .r18723
 .cke_panel_listItem p,
 .cke_panel_listItem h1,
 .cke_panel_listItem h2,
@@ -572,13 +735,21 @@ The COLOR PALETTE section instead is a table with a variable number of cells
 +---------------------------+
 */
 /* The container of the color palette. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000352}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000351}}
+>>>>>>> .r18723
 .cke_colorblock {
   padding: 3px;
   font-size: 11px;
   font-family: 'Microsoft Sans Serif', Tahoma, Arial, Verdana, Sans-Serif; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000360}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000358}}
+>>>>>>> .r18723
 .cke_colorblock,
 .cke_colorblock a {
   text-decoration: none;
@@ -586,19 +757,31 @@ The COLOR PALETTE section instead is a table with a variable number of cells
 
 /* The box which is to represent a single color on the color palette.
    It is a small, square-shaped element which can be selected from the palette. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000368}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000365}}
+>>>>>>> .r18723
 span.cke_colorbox {
   width: 10px;
   height: 10px;
   border: #808080 1px solid;
   float: left; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000376}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000372}}
+>>>>>>> .r18723
 .cke_rtl span.cke_colorbox {
   float: right; }
 
 /* The wrapper of the span.cke_colorbox. It provides an extra border and padding. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000382}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000377}}
+>>>>>>> .r18723
 a.cke_colorbox {
   border: #fff 1px solid;
   padding: 2px;
@@ -606,12 +789,20 @@ a.cke_colorbox {
   width: 12px;
   height: 12px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000391}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000385}}
+>>>>>>> .r18723
 .cke_rtl a.cke_colorbox {
   float: right; }
 
 /* Different states of the a.cke_colorbox wrapper. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000399}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000392}}
+>>>>>>> .r18723
 a:hover.cke_colorbox,
 a:focus.cke_colorbox,
 a:active.cke_colorbox {
@@ -622,7 +813,11 @@ a:active.cke_colorbox {
    - cke_colorauto (TOP) applies the automatic color.
    - cke_colormore (BOTTOM) executes the color dialog.
 */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_colorpanel\.scss}line{font-family:\00003110}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\00003102}}
+>>>>>>> .r18723
 a.cke_colorauto,
 a.cke_colormore {
   border: #fff 1px solid;
@@ -631,7 +826,11 @@ a.cke_colormore {
   cursor: pointer; }
 
 /* Different states of cke_colorauto/cke_colormore buttons. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_colorpanel\.scss}line{font-family:\00003124}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\00003115}}
+>>>>>>> .r18723
 a:hover.cke_colorauto,
 a:hover.cke_colormore,
 a:focus.cke_colorauto,
@@ -692,16 +891,28 @@ Special outer level classes used in this file:
 	.cke_rtl: Available when the editor UI is on RTL.
 */
 /* The box that holds each toolbar. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\0000354}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000353}}
+>>>>>>> .r18723
 .cke_toolbar {
   float: left; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\0000359}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000357}}
+>>>>>>> .r18723
 .cke_rtl .cke_toolbar {
   float: right; }
 
 /* The box that holds buttons. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\0000365}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000362}}
+>>>>>>> .r18723
 .cke_toolgroup {
   float: left;
   margin: 0 2px 2px 0;
@@ -713,20 +924,32 @@ Special outer level classes used in this file:
   border-radius: 1px;
   background: white; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\0000375}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000371}}
+>>>>>>> .r18723
 .cke_hc .cke_toolgroup {
   border: 0;
   margin-right: 10px;
   margin-bottom: 10px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\0000392}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000385}}
+>>>>>>> .r18723
 .cke_rtl .cke_toolgroup {
   float: right;
   margin-left: 6px;
   margin-right: 0; }
 
 /* A toolbar button . */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003100}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000392}}
+>>>>>>> .r18723
 .cke .cke_toolbar .cke_button {
   display: inline-block;
   height: 18px;
@@ -737,22 +960,38 @@ Special outer level classes used in this file:
   border: 0;
   color: #222222; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003112}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003103}}
+>>>>>>> .r18723
 .cke .cke_toolbar .cke_button:hover {
   background: #3e7da7 !important;
   color: white !important; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003119}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003110}}
 .cke_reset_all, .cke_reset_all *
+>>>>>>> .r18723
 .cke .cke_top .cke_toolbar .cke_button_disabled:hover {
   background: white !important;
   cursor: default !important; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003126}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003116}}
+>>>>>>> .r18723
 .cke_rtl .cke_button {
   float: right; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003131}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003120}}
+>>>>>>> .r18723
 .cke_hc .cke_button {
   border: 1px solid black;
   /* Compensate the added border */
@@ -762,12 +1001,20 @@ Special outer level classes used in this file:
 /* This class is applied to the button when it is "active" (pushed).
    This style indicates that the feature associated with the button is active
    i.e. currently writing in bold or when spell checking is enabled. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003143}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003131}}
+>>>>>>> .r18723
 a.cke_button_on {
   background-color: #0e5d91;
   color: white !important; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003156}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003143}}
+>>>>>>> .r18723
 .cke_hc .cke_button_on,
 .cke_hc a.cke_button_off:hover,
 .cke_hc a.cke_button_off:focus,
@@ -781,17 +1028,29 @@ a.cke_button_on {
    button cannot be used (grayed-out).
    i.e. paste button remains disabled when there is nothing in the clipboard to
    be pasted. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003173}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003158}}
+>>>>>>> .r18723
 .cke_button_disabled span {
   opacity: 0.4 !important; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003180}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003164}}
+>>>>>>> .r18723
 a.cke_button_on:hover,
 a.cke_button_on:focus,
 a.cke_button_on:active {
   cursor: pointer; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003191}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003174}}
+>>>>>>> .r18723
 a.cke_button_off:hover,
 a.cke_button_off:focus,
 a.cke_button_off:active,
@@ -803,7 +1062,11 @@ a.cke_button_disabled:active {
   text-shadow: none; }
 
 /* The icon which is a visual representation of the button. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003202}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003183}}
+>>>>>>> .r18723
 .cke_button_icon {
   cursor: inherit;
   background-repeat: no-repeat;
@@ -812,17 +1075,29 @@ a.cke_button_disabled:active {
   height: 16px;
   float: left; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003212}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003192}}
+>>>>>>> .r18723
 .cke_rtl .cke_button_icon {
   float: right; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003217}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003196}}
+>>>>>>> .r18723
 .cke_hc .cke_button_icon {
   display: none; }
 
 /* The label of the button that stores the name of the feature. By default,
    labels are invisible. They can be revealed on demand though. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003224}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003202}}
+>>>>>>> .r18723
 .cke_button_label {
   display: none;
   padding-left: 3px;
@@ -834,31 +1109,51 @@ a.cke_button_disabled:active {
   color: #474747;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003237}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003214}}
+>>>>>>> .r18723
 .cke_rtl .cke_button_label {
   padding-right: 3px;
   padding-left: 0;
   float: right; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003244}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003220}}
+>>>>>>> .r18723
 .cke_hc .cke_button_label {
   padding: 0;
   display: inline-block;
   font-size: 12px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003251}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003226}}
+>>>>>>> .r18723
 .cke_rtl .cke_button_arrow {
   margin-right: 5px;
   margin-left: 0; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003257}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003231}}
+>>>>>>> .r18723
 .cke_hc .cke_button_arrow {
   font-size: 10px;
   margin: 3px -2px 0 3px;
   width: auto;
   border: 0; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003265}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003238}}
+>>>>>>> .r18723
 .cke_button_arrow {
   padding: 0 8px 5px 0;
   position: relative;
@@ -867,7 +1162,11 @@ a.cke_button_disabled:active {
 
 /* The vertical separator which is used within a single toolbar to split
    buttons into sub-groups. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003275}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003247}}
+>>>>>>> .r18723
 .cke_toolbar_separator {
   float: left;
   background-color: #c0c0c0;
@@ -876,11 +1175,19 @@ a.cke_button_disabled:active {
   height: 18px;
   width: 1px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003285}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003256}}
+>>>>>>> .r18723
 .cke_rtl .cke_toolbar_separator {
   float: right; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003290}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003260}}
+>>>>>>> .r18723
 .cke_hc .cke_toolbar_separator {
   width: 0;
   border-left: 1px solid;
@@ -888,17 +1195,29 @@ a.cke_button_disabled:active {
 
 /* The dummy element that breaks toolbars.
    Once it is placed, the very next toolbar is moved to the new row. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003299}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003268}}
+>>>>>>> .r18723
 .cke_toolbar_break {
   display: block;
   clear: left; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003305}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003273}}
+>>>>>>> .r18723
 .cke_rtl .cke_toolbar_break {
   clear: right; }
 
 /* The button, which when clicked hides (collapses) all the toolbars. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003311}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003278}}
+>>>>>>> .r18723
 .cke_toolbox_collapser {
   width: 12px;
   height: 11px;
@@ -914,16 +1233,28 @@ a.cke_button_disabled:active {
   border-radius: 3px;
   background: #fff; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003336}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003301}}
+>>>>>>> .r18723
 .cke_toolbox_collapser.cke_toolbox_collapser_min {
   margin: 0 2px 4px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003341}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003305}}
+>>>>>>> .r18723
 .cke_rtl .cke_toolbox_collapser {
   float: left; }
 
 /* The CSS arrow, which belongs to the toolbar collapser. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003347}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003310}}
+>>>>>>> .r18723
 .cke_toolbox_collapser .cke_arrow {
   display: inline-block;
   height: 0;
@@ -935,13 +1266,21 @@ a.cke_button_disabled:active {
   border-bottom: 3px solid #474747;
   border-top: 3px solid transparent; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003361}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003323}}
+>>>>>>> .r18723
 .cke_toolbox_collapser.cke_toolbox_collapser_min .cke_arrow {
   margin-top: 4px;
   border-bottom-color: transparent;
   border-top-color: #474747; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_toolbar\.scss}line{font-family:\00003368}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003329}}
+>>>>>>> .r18723
 .cke_hc .cke_toolbox_collapser .cke_arrow {
   font-size: 8px;
   width: auto;
@@ -997,48 +1336,80 @@ Special outer level classes used in this file:
 */
 /* .cke_menuitem is the element that holds the entire structure of each of the
    menu items. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\0000352}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000351}}
+>>>>>>> .r18723
 .cke_menubutton {
   /* The "button" inside a menu item is a <a> element.
      Transforms it into a block. */
   display: block; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\0000359}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000357}}
+>>>>>>> .r18723
 .cke_menuitem span {
   /* Avoid the text selection cursor inside menu items. */
   cursor: default;
   font-size: 12px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\0000368}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000365}}
+>>>>>>> .r18723
 .cke_menubutton:hover,
 .cke_menubutton:focus,
 .cke_menubutton:active {
   background-color: #D3D3D3;
   display: block; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\0000374}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000370}}
+>>>>>>> .r18723
 .cke_hc .cke_menubutton {
   padding: 2px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\0000381}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000376}}
+>>>>>>> .r18723
 .cke_hc .cke_menubutton:hover,
 .cke_hc .cke_menubutton:focus,
 .cke_hc .cke_menubutton:active {
   border: 2px solid;
   padding: 0; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\0000386}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000381}}
+>>>>>>> .r18723
 .cke_menubutton_inner {
   display: table-row; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\0000392}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000387}}
+>>>>>>> .r18723
 .cke_menubutton_icon,
 .cke_menubutton_label,
 .cke_menuarrow {
   display: table-cell; }
 
 /* The menu item icon. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\0000398}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000392}}
+>>>>>>> .r18723
 .cke_menubutton_icon {
   background-color: #D7D8D7;
   opacity: 0.70;
@@ -1047,19 +1418,31 @@ Special outer level classes used in this file:
   /* IE */
   padding: 4px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003106}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000399}}
+>>>>>>> .r18723
 .cke_hc .cke_menubutton_icon {
   height: 16px;
   width: 0;
   padding: 4px 0; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003115}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003107}}
+>>>>>>> .r18723
 .cke_menubutton:hover .cke_menubutton_icon,
 .cke_menubutton:focus .cke_menubutton_icon,
 .cke_menubutton:active .cke_menubutton_icon {
   background-color: #D0D2D0; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003122}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003113}}
+>>>>>>> .r18723
 .cke_menubutton_disabled:hover .cke_menubutton_icon,
 .cke_menubutton_disabled:focus .cke_menubutton_icon,
 .cke_menubutton_disabled:active .cke_menubutton_icon {
@@ -1068,20 +1451,32 @@ Special outer level classes used in this file:
   filter: alpha(opacity=30); }
 
 /* The textual part of each menu item. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003130}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003120}}
+>>>>>>> .r18723
 .cke_menubutton_label {
   padding: 0 5px;
   background-color: transparent;
   width: 100%;
   vertical-align: middle; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003138}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003127}}
+>>>>>>> .r18723
 .cke_menubutton_disabled .cke_menubutton_label {
   /* Greyed label text indicates a disabled menu item. */
   opacity: 0.3;
   filter: alpha(opacity=30); }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003145}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003133}}
+>>>>>>> .r18723
 .cke_menubutton_on {
   border: 1px solid #dedede;
   background-color: #f2f2f2;
@@ -1089,22 +1484,38 @@ Special outer level classes used in this file:
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.1) inset;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1) inset; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003155}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003142}}
+>>>>>>> .r18723
 .cke_menubutton_on .cke_menubutton_icon {
   padding-right: 3px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003162}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003148}}
+>>>>>>> .r18723
 .cke_menubutton:hover,
 .cke_menubutton:focus,
 .cke_menubutton:active {
   background-color: #EFF0EF; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003167}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003152}}
+>>>>>>> .r18723
 .cke_panel_frame .cke_menubutton_label {
   display: none; }
 
 /* The separator used to separate menu item groups. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003173}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003157}}
+>>>>>>> .r18723
 .cke_menuseparator {
   background-color: #D3D3D3;
   height: 1px;
@@ -1114,23 +1525,39 @@ Special outer level classes used in this file:
   /* Safari, Opera and Mozilla */ }
 
 /* The small arrow shown for item with sub-menus. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003182}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003165}}
+>>>>>>> .r18723
 .cke_menuarrow {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAeCAYAAAAPSW++AAAAWUlEQVR42mNgAAJLS8v5QMzJgA6Agv+B+AYQa2GTAOFvQJyMSyINm1G66EYtAmIehlEwXAEobYHSGLqgFjRB/EcWTIYmnf/oEmlYJaCSuhhGIUnygNIYiA0Ab4wwJXKzD74AAAAASUVORK5CYII=);
   background-position: 0 10px;
   background-repeat: no-repeat;
   padding: 0 5px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003190}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003172}}
+>>>>>>> .r18723
 .cke_rtl .cke_menuarrow {
   background-position: 5px -13px;
   background-repeat: no-repeat; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003196}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003177}}
+>>>>>>> .r18723
 .cke_menuarrow span {
   display: none; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_menu\.scss}line{font-family:\00003201}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003181}}
+>>>>>>> .r18723
 .cke_hc .cke_menuarrow span {
   vertical-align: middle;
   display: inline; }
@@ -1161,22 +1588,38 @@ The visual representation of a rich combo widget looks as follows:
 +-----------------------------------------------------------------------------------+
 */
 /* The box that hold the entire combo widget */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\0000329}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000328}}
+>>>>>>> .r18723
 .cke_combo {
   display: inline-block;
   float: left; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\0000335}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000333}}
+>>>>>>> .r18723
 .cke_rtl .cke_combo {
   float: right; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\0000340}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000337}}
+>>>>>>> .r18723
 .cke_hc .cke_combo {
   margin-top: -2px; }
 
 /* The label of the combo widget. It is invisible by default, yet
    it's important for semantics and accessibility. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\0000347}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000343}}
+>>>>>>> .r18723
 .cke_combo_label {
   display: none;
   float: left;
@@ -1184,14 +1627,22 @@ The visual representation of a rich combo widget looks as follows:
   vertical-align: top;
   margin-right: 5px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\0000356}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000351}}
+>>>>>>> .r18723
 .cke_rtl .cke_combo_label {
   float: right;
   margin-left: 5px;
   margin-right: 0; }
 
 /* The container for combo text and arrow. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\0000364}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000358}}
+>>>>>>> .r18723
 .cke_combo_button {
   display: inline-block;
   margin: 0 2px 0 0;
@@ -1206,22 +1657,38 @@ The visual representation of a rich combo widget looks as follows:
   white-space: nowrap; }
 
 /* Different states of the container. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\0000380}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000373}}
+>>>>>>> .r18723
 .cke_combo_off a.cke_combo_button:hover,
 .cke_combo_off a.cke_combo_button:focus {
   outline: none; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003100}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000390}}
+>>>>>>> .r18723
 .cke_rtl .cke_combo_button {
   float: right;
   margin-left: 5px;
   margin-right: 0; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003107}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000396}}
+>>>>>>> .r18723
 .cke_hc a.cke_combo_button {
   padding: 3px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003115}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003103}}
+>>>>>>> .r18723
 .cke_hc .cke_combo_on a.cke_combo_button,
 .cke_hc .cke_combo_off a.cke_combo_button:hover,
 .cke_hc .cke_combo_off a.cke_combo_button:focus,
@@ -1232,7 +1699,11 @@ The visual representation of a rich combo widget looks as follows:
 /* The label that shows the current value of the rich combo.
    By default, it holds the name of the property.
    See: .cke_combo_inlinelabel */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003124}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003111}}
+>>>>>>> .r18723
 .cke_combo_text {
   line-height: 26px;
   padding-left: 10px;
@@ -1244,21 +1715,33 @@ The visual representation of a rich combo widget looks as follows:
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   width: 60px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003137}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003123}}
+>>>>>>> .r18723
 .cke_rtl .cke_combo_text {
   float: right;
   text-align: right;
   padding-left: 0;
   padding-right: 10px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003145}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003130}}
+>>>>>>> .r18723
 .cke_hc .cke_combo_text {
   line-height: 18px;
   font-size: 12px; }
 
 /* The handler which opens the panel of rich combo properties.
    It holds an arrow as a visual indicator. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003153}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003137}}
+>>>>>>> .r18723
 .cke_combo_open {
   display: inline-block;
   font-size: 0;
@@ -1268,12 +1751,20 @@ The visual representation of a rich combo widget looks as follows:
   text-align: center;
   width: 20px;
   cursor: pointer; }
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003162}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003146}}
+>>>>>>> .r18723
   .cke_combo_open:hover {
     color: white;
     background: #3e7da7; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003169}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003152}}
+>>>>>>> .r18723
 .cke_hc .cke_combo_open {
   cursor: default;
   display: inline-block;
@@ -1285,7 +1776,11 @@ The visual representation of a rich combo widget looks as follows:
   width: 20px; }
 
 /* The arrow which is displayed inside of the .cke_combo_open handler. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003183}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003164}}
+>>>>>>> .r18723
 .cke_combo_arrow, .cke_button_arrow {
   margin: 8px 0 0;
   float: left;
@@ -1304,7 +1799,11 @@ The visual representation of a rich combo widget looks as follows:
   cursor: pointer;
   font-size: 1rem; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003209}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003188}}
+>>>>>>> .r18723
 .cke_hc .cke_combo_arrow {
   font-size: 10px;
   width: auto;
@@ -1312,7 +1811,11 @@ The visual representation of a rich combo widget looks as follows:
   margin-top: 3px; }
 
 /* Disabled combo button styles. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_richcombo\.scss}line{font-family:\00003219}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003197}}
+>>>>>>> .r18723
 .cke_combo_disabled .cke_combo_inlinelabel,
 .cke_combo_disabled .cke_combo_open {
   opacity: 0.3; }
@@ -1338,13 +1841,21 @@ The following is a visual representation of its main elements:
 +----------------------------------------------------------------------------+
 */
 /* The box that holds the entire elements path. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_elementspath\.scss}line{font-family:\0000324}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_elementspath\.scss}line{font-family:\0000323}}
+>>>>>>> .r18723
 .cke_path {
   float: left;
   margin: -2px 0 2px; }
 
 /* Each item of the elements path. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_elementspath\.scss}line{font-family:\0000334}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_elementspath\.scss}line{font-family:\0000332}}
+>>>>>>> .r18723
 .cke_path_item,
 .cke_path_empty {
   display: inline-block;
@@ -1360,14 +1871,22 @@ The following is a visual representation of its main elements:
   font-weight: bold;
   font-size: 11px; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_elementspath\.scss}line{font-family:\0000352}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_elementspath\.scss}line{font-family:\0000349}}
+>>>>>>> .r18723
 .cke_rtl .cke_path,
 .cke_rtl .cke_path_item,
 .cke_rtl .cke_path_empty {
   float: right; }
 
 /* The items are <a> elements, so we define its hover states here. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_elementspath\.scss}line{font-family:\0000360}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_elementspath\.scss}line{font-family:\0000356}}
+>>>>>>> .r18723
 a.cke_path_item:hover,
 a.cke_path_item:focus,
 a.cke_path_item:active {
@@ -1381,7 +1900,11 @@ a.cke_path_item:active {
   -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5) inset, 0 1px 0 rgba(255, 255, 255, 0.5);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5) inset, 0 1px 0 rgba(255, 255, 255, 0.5); }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_elementspath\.scss}line{font-family:\0000377}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_elementspath\.scss}line{font-family:\0000372}}
+>>>>>>> .r18723
 .cke_hc a.cke_path_item:hover,
 .cke_hc a.cke_path_item:focus,
 .cke_hc a.cke_path_item:active {
@@ -1395,45 +1918,77 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 /* "Source" button label */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_presets\.scss}line{font-family:\000039}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_presets\.scss}line{font-family:\000038}}
+>>>>>>> .r18723
 .cke_button__source_label,
 .cke_button__sourcedialog_label {
   display: inline; }
 
 /* "Font Size" combo width */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_presets\.scss}line{font-family:\0000315}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_presets\.scss}line{font-family:\0000313}}
+>>>>>>> .r18723
 .cke_combo__fontsize .cke_combo_text {
   width: 30px; }
 
 /* "Font Size" panel size */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_presets\.scss}line{font-family:\0000321}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_presets\.scss}line{font-family:\0000318}}
+>>>>>>> .r18723
 .cke_combopanel__fontsize {
   width: 120px; }
 
 /* Editable regions */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_presets\.scss}line{font-family:\0000327}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_presets\.scss}line{font-family:\0000323}}
+>>>>>>> .r18723
 .cke_source {
   font-family: 'Courier New', Monospace;
   font-size: small;
   background-color: #fff;
   white-space: pre; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_presets\.scss}line{font-family:\0000335}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_presets\.scss}line{font-family:\0000330}}
+>>>>>>> .r18723
 .cke_wysiwyg_frame, .cke_wysiwyg_div {
   background-color: #fff; }
 
 /* Tao specific stuff */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_tao\.scss}line{font-family:\000031}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000031}}
+>>>>>>> .r18723
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_tao\.scss}line{font-family:\000035}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000035}}
+>>>>>>> .r18723
 .cke_button {
   min-width: 14px;
   text-decoration: none !important;
   text-align: center; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_tao\.scss}line{font-family:\0000317}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000316}}
+>>>>>>> .r18723
 .cke_top,
 .cke_top:before,
 .cke_top:after,
@@ -1444,10 +1999,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   -webkit-box-sizing: content-box !important;
   box-sizing: content-box !important; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_tao\.scss}line{font-family:\0000323}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000322}}
+>>>>>>> .r18723
 .cke_button_icon, .cke_button {
   padding-top: 2px;
-  line-height: 0.9; }
+  line-height: 0.9;
+  font-size: 16px; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000327}}
 .cke_nose {
@@ -1470,7 +2030,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
 
 /* Icon set */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\000031}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\000031}}
+>>>>>>> .r18723
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -1483,486 +2047,1020 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000315}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000315}}
+>>>>>>> .r18723
 .icon-checkbox-checked:before {
   content: "\e600"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000318}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000318}}
+>>>>>>> .r18723
 .icon-checkbox:before {
   content: "\e601"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000321}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000321}}
+>>>>>>> .r18723
 .icon-left:before {
   content: "\e602"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000324}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000324}}
+>>>>>>> .r18723
 .icon-right:before {
   content: "\e603"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000327}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000327}}
+>>>>>>> .r18723
 .icon-up:before {
   content: "\e604"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000330}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000330}}
+>>>>>>> .r18723
 .cke_combo_arrow:before {
   content: "\e605"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000333}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000333}}
+>>>>>>> .r18723
 .cke_button__undo_icon:before {
   content: "\e606"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000336}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000336}}
+>>>>>>> .r18723
 .cke_button__redo_icon:before {
   content: "\e607"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000339}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000339}}
+>>>>>>> .r18723
 .icon-screen:before {
   content: "\e608"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000342}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000342}}
+>>>>>>> .r18723
 .icon-laptop:before {
   content: "\e609"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000345}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000345}}
+>>>>>>> .r18723
 .icon-tablet:before {
   content: "\e60a"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000348}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000348}}
+>>>>>>> .r18723
 .icon-phone:before {
   content: "\e60b"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000351}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000351}}
+>>>>>>> .r18723
 .icon-folder:before {
   content: "\e60c"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000354}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000354}}
+>>>>>>> .r18723
 .icon-folder-open:before {
   content: "\e60d"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000357}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000357}}
+>>>>>>> .r18723
 .icon-move:before {
   content: "\e60e"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000360}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000360}}
+>>>>>>> .r18723
 .icon-bin:before {
   content: "\e60f"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000363}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000363}}
+>>>>>>> .r18723
 .icon-shuffle:before {
   content: "\e610"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000366}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000366}}
+>>>>>>> .r18723
 .icon-print:before {
   content: "\e611"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000369}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000369}}
+>>>>>>> .r18723
 .icon-tools:before {
   content: "\e612"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000372}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000372}}
+>>>>>>> .r18723
 .icon-settings:before {
   content: "\e613"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000375}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000375}}
+>>>>>>> .r18723
 .icon-video:before {
   content: "\e614"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000378}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000378}}
+>>>>>>> .r18723
 .cke_button__find_icon:before {
   content: "\e615"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000381}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000381}}
+>>>>>>> .r18723
 .cke_button__image_icon:before {
   content: "\e616"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000384}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000384}}
+>>>>>>> .r18723
 .icon-edit:before {
   content: "\e617"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000387}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000387}}
+>>>>>>> .r18723
 .icon-document:before {
   content: "\e618"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000390}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000390}}
+>>>>>>> .r18723
 .icon-resize-grid:before {
   content: "\e619"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000393}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000393}}
+>>>>>>> .r18723
 .icon-resize:before {
   content: "\e61a"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000396}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000396}}
+>>>>>>> .r18723
 .icon-help:before {
   content: "\e61b"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000399}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\0000399}}
+>>>>>>> .r18723
 .icon-mobile-menu:before {
   content: "\e61c"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003102}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003102}}
+>>>>>>> .r18723
 .icon-fix:before {
   content: "\e61d"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003105}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003105}}
+>>>>>>> .r18723
 .icon-unlock:before {
   content: "\e61e"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003108}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003108}}
+>>>>>>> .r18723
 .icon-lock:before {
   content: "\e61f"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003111}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003111}}
+>>>>>>> .r18723
 .cke_button__bulletedlist_icon:before {
   content: "\e620"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003114}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003114}}
+>>>>>>> .r18723
 .cke_button__numberedlist_icon:before {
   content: "\e621"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003117}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003117}}
+>>>>>>> .r18723
 .icon-email:before {
   content: "\e622"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003120}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003120}}
+>>>>>>> .r18723
 .cke_button__radio_icon:before {
   content: "\e623"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003123}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003123}}
+>>>>>>> .r18723
 .icon-download:before {
   content: "\e624"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003126}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003126}}
+>>>>>>> .r18723
 .icon-logout:before {
   content: "\e625"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003129}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003129}}
+>>>>>>> .r18723
 .icon-login:before {
   content: "\e626"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003132}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003132}}
+>>>>>>> .r18723
 .icon-checkbox-crossed:before {
   content: "\e627"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003135}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003135}}
+>>>>>>> .r18723
 .icon-spinner:before {
   content: "\e628"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003138}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003138}}
+>>>>>>> .r18723
 .icon-preview:before {
   content: "\e629"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003141}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003141}}
+>>>>>>> .r18723
 .icon-external:before {
   content: "\e62a"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003144}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003144}}
+>>>>>>> .r18723
 .icon-time:before {
   content: "\e62b"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003147}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003147}}
+>>>>>>> .r18723
 .icon-radio:before {
   content: "\e62c"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003150}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003150}}
+>>>>>>> .r18723
 .icon-save:before {
   content: "\e62d"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003153}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003153}}
+>>>>>>> .r18723
 .icon-warning:before {
   content: "\e62e"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003156}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003156}}
+>>>>>>> .r18723
 .icon-add:before {
   content: "\e62f"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003159}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003159}}
+>>>>>>> .r18723
 .icon-close:before {
   content: "\e630"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003162}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003162}}
+>>>>>>> .r18723
 .icon-success:before {
   content: "\e631"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003165}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003165}}
+>>>>>>> .r18723
 .icon-remove:before {
   content: "\e632"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003168}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003168}}
+>>>>>>> .r18723
 .icon-info:before {
   content: "\e633"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003171}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003171}}
+>>>>>>> .r18723
 .icon-error:before {
   content: "\e634"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003174}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003174}}
+>>>>>>> .r18723
 .icon-users:before {
   content: "\e635"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003177}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003177}}
+>>>>>>> .r18723
 .icon-user:before {
   content: "\e636"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003180}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003180}}
+>>>>>>> .r18723
 .icon-test-taker:before {
   content: "\e637"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003183}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003183}}
+>>>>>>> .r18723
 .icon-test-takers:before {
   content: "\e638"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003186}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003186}}
+>>>>>>> .r18723
 .icon-item:before {
   content: "\e639"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003189}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003189}}
+>>>>>>> .r18723
 .icon-test:before {
   content: "\e63a"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003192}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003192}}
+>>>>>>> .r18723
 .icon-delivery:before {
   content: "\e63b"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003195}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003195}}
+>>>>>>> .r18723
 .icon-result:before {
   content: "\e63c"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003198}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003198}}
+>>>>>>> .r18723
 .icon-delivery-small:before {
   content: "\e63d"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003201}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003201}}
+>>>>>>> .r18723
 .icon-result-small:before {
   content: "\e63e"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003204}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003204}}
+>>>>>>> .r18723
 .icon-preview3:before {
   content: "\e63f"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003207}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003207}}
+>>>>>>> .r18723
 .icon-mobile-preview:before {
   content: "\e640"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003210}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003210}}
+>>>>>>> .r18723
 .icon-extension:before {
   content: "\e642"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003213}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003213}}
+>>>>>>> .r18723
 .icon-desktop-preview:before {
   content: "\e644"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003216}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003216}}
+>>>>>>> .r18723
 .icon-tablet-preview:before {
   content: "\e645"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003219}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003219}}
+>>>>>>> .r18723
 .icon-insert-horizontal-line:before {
   content: "\e646"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003222}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003222}}
+>>>>>>> .r18723
 .cke_button__table_icon:before {
   content: "\e647"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003225}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003225}}
+>>>>>>> .r18723
 .cke_button__anchor_icon:before {
   content: "\e648"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003228}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003228}}
+>>>>>>> .r18723
 .cke_button__unlink_icon:before {
   content: "\e649"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003231}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003231}}
+>>>>>>> .r18723
 .cke_button__link_icon:before {
   content: "\e64a"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003234}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003234}}
+>>>>>>> .r18723
 .cke_button__bidirtl_icon:before {
   content: "\e64b"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003237}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003237}}
+>>>>>>> .r18723
 .cke_button__bidiltr_icon:before {
   content: "\e64c"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003240}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003240}}
+>>>>>>> .r18723
 .cke_button__specialchar_icon:before {
   content: "\e64d"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003243}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003243}}
+>>>>>>> .r18723
 .cke_button__sourcedialog_icon:before {
   content: "\e64e"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003246}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003246}}
+>>>>>>> .r18723
 .cke_button__newpage_icon:before {
   content: "\e64f"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003249}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003249}}
+>>>>>>> .r18723
 .cke_button__templates_icon:before {
   content: "\e652"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003252}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003252}}
+>>>>>>> .r18723
 .cke_button__cut_icon:before {
   content: "\e653"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003255}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003255}}
+>>>>>>> .r18723
 .cke_button__replace_icon:before {
   content: "\e655"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003258}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003258}}
+>>>>>>> .r18723
 .cke_button__copy_icon:before {
   content: "\e656"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003261}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003261}}
+>>>>>>> .r18723
 .cke_button__paste_icon:before {
   content: "\e657"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003264}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003264}}
+>>>>>>> .r18723
 .cke_button__selectall_icon:before {
   content: "\e658"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003267}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003267}}
+>>>>>>> .r18723
 .cke_button__pastetext_icon:before {
   content: "\e659"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003270}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003270}}
+>>>>>>> .r18723
 .cke_button__pastefromword_icon:before {
   content: "\e65a"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003273}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003273}}
+>>>>>>> .r18723
 .cke_button__bold_icon:before {
   content: "\e65b"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003276}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003276}}
+>>>>>>> .r18723
 .cke_button__italic_icon:before {
   content: "\e65c"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003279}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003279}}
+>>>>>>> .r18723
 .cke_button__underline_icon:before {
   content: "\e65d"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003282}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003282}}
+>>>>>>> .r18723
 .cke_button__subscript_icon:before {
   content: "\e65e"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003285}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003285}}
+>>>>>>> .r18723
 .cke_button__superscript_icon:before {
   content: "\e65f"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003288}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003288}}
+>>>>>>> .r18723
 .cke_button__strike_icon:before {
   content: "\e660"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003291}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003291}}
+>>>>>>> .r18723
 .cke_button__outdent_icon:before {
   content: "\e661"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003294}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003294}}
+>>>>>>> .r18723
 .cke_button__indent_icon:before {
   content: "\e662"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003297}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003297}}
+>>>>>>> .r18723
 .cke_button__blockquote_icon:before {
   content: "\e663"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003300}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003300}}
+>>>>>>> .r18723
 .cke_button__creatediv_icon:before {
   content: "\e664"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003303}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003303}}
+>>>>>>> .r18723
 .cke_button__justifyleft_icon:before {
   content: "\e666"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003306}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003306}}
+>>>>>>> .r18723
 .cke_button__justifycenter_icon:before {
   content: "\e667"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003309}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003309}}
+>>>>>>> .r18723
 .cke_button__justifyright_icon:before {
   content: "\e668"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003312}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003312}}
+>>>>>>> .r18723
 .cke_button__justifyblock_icon:before {
   content: "\e669"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003315}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003315}}
+>>>>>>> .r18723
 .icon-choice:before {
   content: "\e643"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003318}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003318}}
+>>>>>>> .r18723
 .icon-inline-choice:before {
   content: "\e641"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003321}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003321}}
+>>>>>>> .r18723
 .icon-match:before {
   content: "\e665"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003324}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003324}}
+>>>>>>> .r18723
 .icon-associate:before {
   content: "\e66a"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003327}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003327}}
+>>>>>>> .r18723
 .icon-media:before {
   content: "\e66b"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003330}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003330}}
+>>>>>>> .r18723
 .icon-graphic-order:before {
   content: "\e66c"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003333}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003333}}
+>>>>>>> .r18723
 .icon-hotspot:before {
   content: "\e66d"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003336}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003336}}
+>>>>>>> .r18723
 .icon-graphic-gap:before {
   content: "\e66e"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003339}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003339}}
+>>>>>>> .r18723
 .icon-graphic-associate:before {
   content: "\e66f"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003342}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003342}}
+>>>>>>> .r18723
 .icon-select-point:before {
   content: "\e670"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003345}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003345}}
+>>>>>>> .r18723
 .icon-pin:before {
   content: "\e673"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003348}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003348}}
+>>>>>>> .r18723
 .icon-import:before {
   content: "\e674"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003351}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003351}}
+>>>>>>> .r18723
 .icon-export:before {
   content: "\e675"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003354}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003354}}
+>>>>>>> .r18723
 .icon-move-item:before {
   content: "\e676"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003357}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003357}}
+>>>>>>> .r18723
 .icon-meta-data:before {
   content: "\e677"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003360}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003360}}
+>>>>>>> .r18723
 .icon-slider:before {
   content: "\e678"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003363}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003363}}
+>>>>>>> .r18723
 .icon-summary-report:before {
   content: "\e67a"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003366}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003366}}
+>>>>>>> .r18723
 .icon-arrow:before {
   content: "\e67f"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003369}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003369}}
+>>>>>>> .r18723
 .icon-text-entry:before {
   content: "\e67d"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003372}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003372}}
+>>>>>>> .r18723
 .icon-extended-text:before {
   content: "\e67e"; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003375}}
+.icon-eraser:before {
+  content: "\e650"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003378}}
+.icon-row:before {
+  content: "\e651"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003381}}
+.icon-column:before {
+  content: "\e654"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003384}}
+.cke_button__textcolor_icon:before {
+  content: "\e671"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003387}}
+.cke_button__bgcolor_icon:before {
+  content: "\e672"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003390}}
+.cke_button__scayt_icon:before {
+  content: "\e679"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003393}}
+.icon-polygon:before {
+  content: "\e681"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003396}}
+.icon-rectangle:before {
+  content: "\e682"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003399}}
+.icon-ellipse:before {
+  content: "\e683"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003402}}
+.icon-circle:before {
+  content: "\e684"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003405}}
+.icon-gap-match:before {
+  content: "\e67b"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003408}}
+.icon-order:before {
+  content: "\e685"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003411}}
+.icon-hottext:before {
+  content: "\e67c"; }
+
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003375}}
 .icon-eraser:before {
   content: "\e650"; }
@@ -2019,6 +3117,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .icon-font:before {
   content: "\e686"; }
 
+<<<<<<< .mine
+>>>>>>> .r18723
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003417}}
 .icon-step-backward:before {
   content: "\e687"; }
@@ -2067,10 +3168,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .icon-ok:before {
   content: "\e691"; }
 
+>>>>>>> .r18724
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the
    editor creates it with visibility:hidden. Here, we restore the UI visibility. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/editor\.scss}line{font-family:\0000359}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000344}}
+>>>>>>> .r18723
 .cke_chrome {
   visibility: inherit; }
 
@@ -2078,14 +3184,41 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
    These are usually <span> elements that show not be visible, but that are
    used by screen-readers to announce other elements. Here, we hide these
    <spans>, in fact. */
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/editor\.scss}line{font-family:\0000367}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000352}}
+>>>>>>> .r18723
 .cke_voice_label {
   display: none; }
 
+<<<<<<< .mine
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/editor\.scss}line{font-family:\0000371}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000356}}
+>>>>>>> .r18723
 legend.cke_voice_label {
   display: none; }
 
+<<<<<<< .mine
+/*
+.cke:before,
+.cke:after {
+  content: " ";
+  display: table;
+}
+
+.cke:after {
+  clear: both;
+}
+
+.cke {
+  *zoom: 1;
+}
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/www\/css\/tao\/ckeditor\/scss\/editor\.scss}line{font-family:\0000390}}
+=======
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000360}}
+>>>>>>> .r18723
 .cke_top {
   display: table; }

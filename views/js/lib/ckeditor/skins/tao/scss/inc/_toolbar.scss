@@ -52,6 +52,8 @@ Special outer level classes used in this file:
 /* The box that holds each toolbar. */
 .cke_toolbar {
   float: left;
+  position: relative;
+  z-index: 10005
 }
 
 .cke_rtl .cke_toolbar {
