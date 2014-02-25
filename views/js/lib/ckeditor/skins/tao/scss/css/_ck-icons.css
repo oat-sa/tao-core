@@ -590,3 +590,7 @@
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/resources\/fonts\/tao-distro\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003447}}
 .icon-ellipsis:before {
   content: "\e683"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/chart\/resources\/fonts\/tao-distro\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_ck-icons\.scss}line{font-family:\00003450}}
+.icon-ok:before {
+  content: "\e691"; }

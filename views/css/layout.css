@@ -1,3 +1,4 @@
+@charset "CP850";
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
  * Use icon within sass: @inclue icon('down');
@@ -22,6 +23,7 @@
  * 
  */
 @CHARSET "UTF-8";
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000326}}
 html body {
   height: 100%;
   position: relative;
@@ -29,29 +31,37 @@ html body {
 
 /* Layout specific stylesheet, used for elements positioning */
 /* Layout */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000335}}
 #tabs {
   min-height: 620px;
   width: 99%;
   margin: auto 3px 32px auto; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000340}}
   #tabs .ui-tabs-nav {
     margin-right: 0px;
     background-color: white;
     z-index: 1; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000347}}
 #tabs {
   /* don't change it ! (used by scripting) */
   /* --- */ }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000349}}
   #tabs div.ui-tabs-panel {
     position: relative;
     /*left:0%;
-        width: 100%;*/
+    width: 100%;*/
     padding: 5px 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000357}}
   #tabs a {
     outline: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000361}}
   #tabs span.tab-closer {
     display: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000365}}
   #tabs li.closable a {
     padding-right: 20px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000369}}
   #tabs li span.tab-closer {
     display: inline-block;
     width: 16px;
@@ -64,11 +74,13 @@ html body {
     margin: 8px 3px 0 0;
     cursor: pointer;
     opacity: 0.5; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000383}}
   #tabs li:hover span.tab-closer {
     background-image: url(../img/delete.png);
     opacity: 1; }
 
 /* Menu */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000390}}
 #main-menu {
   padding-left: 65px;
   border: none;
@@ -77,6 +89,7 @@ html body {
   position: relative;
   margin-right: 10px;
   background-position: 50% 52.5%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\0000399}}
   #main-menu #menu-bullet {
     position: absolute;
     top: 2px;
@@ -84,69 +97,86 @@ html body {
     width: 55px;
     height: 40px;
     background: transparent url("../img/tao_icon.png") no-repeat; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003107}}
     #main-menu #menu-bullet:hover {
       opacity: 0.8; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003112}}
   #main-menu span a {
     font-size: 1.2em;
     font-weight: bold;
     color: #888; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003118}}
   #main-menu .right-menu {
     position: absolute;
     right: 0px;
     top: 5px;
     background: transparent; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003124}}
     #main-menu .right-menu > div {
       display: inline-block;
       float: right;
       padding-left: 6px;
       padding-right: 6px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003131}}
     #main-menu .right-menu .vr {
       color: #BBBBBB;
       font-size: 14px;
       margin-top: 8px;
       padding-left: 1px;
       padding-right: 1px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003139}}
     #main-menu .right-menu [class*="icon-"] {
       font-size: 20px;
       font-size: 2rem;
       margin-top: 7px;
       display: inline-block; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003145}}
     #main-menu .right-menu .icon-desc {
       margin-left: 5px;
       margin-top: 5px;
       font-size: 80%;
       display: inline-block; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003152}}
     #main-menu .right-menu .icon-with-desc {
       position: absolute; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003157}}
   #main-menu .left-menu {
     margin-top: 8px;
     color: #BBB;
     font-size: 14px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003162}}
     #main-menu .left-menu span {
       padding-left: 4px;
       padding-right: 4px;
       font-size: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003168}}
     #main-menu .left-menu a:hover {
       border-bottom: solid 2px #D00239;
       color: #D00239; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003174}}
   #main-menu span.current-extension a {
     border-bottom: solid 2px #D00239;
     color: #D00239; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003179}}
   #main-menu span.disabled-extension {
     font-size: 1.3em;
     color: #B0B0B0; }
 
 /* Main containers */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003187}}
 .main-container {
   margin-left: 0;
   /*0.25%*/ }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003190}}
   .main-container .medium {
     width: 49.75%;
     float: right; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003195}}
   .main-container .large {
     width: 74.75%;
     float: right; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003201}}
 #preview-container {
   width: 59%;
   height: 100%;
@@ -157,34 +187,41 @@ html body {
   text-align: center;
   margin-right: 5px; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003212}}
 .data-container {
   width: 24%;
   float: left;
   margin-right: 1%;
   margin-bottom: 1%; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003219}}
 .container-title {
   padding: 4px;
   font-size: 1em; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003224}}
 .container-content {
   font-size: 1em;
   overflow-y: auto;
   min-height: 200px;
   max-height: 400px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003230}}
   .container-content .elt-info {
     display: block;
     padding: 0 5px; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003236}}
 #authoring-container {
   left: 0px;
   width: 100%;
   height: 600px; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003242}}
 .ext-home-container {
   padding: 1%;
   font-size: 1.1em; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003247}}
 .form-help {
   display: block;
   font-size: 10px;
@@ -192,25 +229,29 @@ html body {
   font-style: italic; }
 
 /* Section aside */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003255}}
 #sections-aside {
   float: left;
   width: 20%;
   padding-top: 5px; }
 
 /* Tree panel */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003262}}
 #section-trees {
   /*position:absolute;
-	width:19%;
-	left:0%;
-	top:40px;
-	height:290px;
-	margin: 5px 0;*/ }
+  width:19%;
+  left:0%;
+  top:40px;
+  height:290px;
+  margin: 5px 0;*/ }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003270}}
   #section-trees div.ui-widget-content {
     height: 320px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003278}}
 .tree-actions {
   font-size: 11px;
   padding: 2px;
@@ -218,35 +259,47 @@ html body {
   border-left: 1px solid #AAAAAA;
   border-right: 1px solid #AAAAAA; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003286}}
 #section-trees div.tree-custom {
   overflow-y: auto;
   height: 100%; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003291}}
+.tree-block {
+  /*margin: 5px 0;*/ }
 
 /* Actions box */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003296}}
 #section-actions {
   margin-top: 5px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003299}}
   #section-actions #action-title {
     padding: 3px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003303}}
   #section-actions #action-items {
     font-size: 12px !important;
     font-weight: normal;
     color: #666;
     padding-top: 5px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003309}}
     #section-actions #action-items td {
       text-align: center;
       vertical-align: top;
       padding: 5px 0px 5px 0px;
       width: 33%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003316}}
     #section-actions #action-items a {
       text-decoration: none;
       font-weight: bold;
       color: #D1043B; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003321}}
       #section-actions #action-items a:hover {
         color: #FA648C; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003325}}
       #section-actions #action-items a img {
         text-decoration: none;
         border-width: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003331}}
     #section-actions #action-items div {
       display: inline-block;
       width: 50px;
@@ -254,28 +307,35 @@ html body {
       text-align: center;
       margin: 2px;
       vertical-align: top; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003341}}
   #section-actions ul {
     list-style-type: none;
     margin-left: 0px;
     padding-left: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003346}}
     #section-actions ul li {
       margin: 12px;
       padding: 4px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003350}}
       #section-actions ul li a:hover {
         color: #FA648C; }
 
 /* Metadata */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003358}}
 #section-meta {
   position: absolute;
   bottom: 0%;
   right: 0.25%;
   width: 33%; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003365}}
 #meta-title {
   padding: 3px; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003369}}
 #meta-content table {
   border-collapse: collapse; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003372}}
   #meta-content table th, #meta-content table td {
     border: solid 1px #ccc;
     font-size: 0.9em;
@@ -283,34 +343,42 @@ html body {
     padding: 3px;
     margin: 0;
     width: 20%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003381}}
   #meta-content table td {
     font-weight: normal; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003385}}
   #meta-content table .first {
     width: 30%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003389}}
   #meta-content table .last {
     width: 50%; }
 
 /* Footer */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003395}}
 #footer {
   font-size: 10px;
   width: 100%;
   text-align: center;
   margin: 5px auto 0px auto;
   padding: 5px 0px 0px 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003402}}
   #footer .releasestatus {
     width: 380px;
     margin: 10px auto 10px auto;
     padding: 5px 5px 5px 62px;
     text-align: center;
     position: relative; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003409}}
     #footer .releasestatus strong {
       font-size: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003413}}
     #footer .releasestatus img {
       position: absolute;
       left: 15px;
       top: 5px; }
 
 /* Ajax Loader */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003422}}
 #ajax-loading {
   z-index: 1000;
   display: none;
@@ -320,22 +388,28 @@ html body {
   width: 100%;
   height: 100%;
   background: transparent url(../img/ajax-loader.gif) no-repeat center center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003432}}
   #ajax-loading.overlay {
     background-color: #fff;
     opacity: 0.5; }
 
 /* Results Manual Scoring Conciliation */
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003440}}
 #coding_scoreconcil #selectors {
   width: 19.5%;
   float: left; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003445}}
 #coding_scoreconcil #evalitems {
   width: 80%;
   float: right; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003450}}
 #coding_scoreconcil #navigation {
   float: left; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003455}}
 .clearfix {
   display: inline-block; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003458}}
   .clearfix:after {
     content: ".";
     display: block;
@@ -344,12 +418,15 @@ html body {
     line-height: 0;
     height: 0; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003468}}
 html[xmlns] .clearfix {
   display: block; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003472}}
 * html .clearfix {
   height: 1%; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003476}}
 .containerDisplay {
   border: 1px solid #999;
   -webkit-border-radius: 4px;
@@ -357,6 +434,7 @@ html[xmlns] .clearfix {
   border-radius: 4px;
   margin-bottom: 10px;
   position: relative; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003484}}
   .containerDisplay > .title {
     border-bottom: 1px solid #999;
     padding: 5px 7px;
@@ -364,23 +442,29 @@ html[xmlns] .clearfix {
     background-color: #ccc;
     display: block;
     font-size: 14px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003493}}
   .containerDisplay .title a {
     font-size: 10px; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003498}}
 ul.group-list, ul.group-list ul {
   padding: 0;
   margin: 0;
   border: 0;
   width: 100%; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003506}}
 ul.group-list .group-title {
   padding-left: 7px;
   font-weight: bold; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003510}}
   ul.group-list .group-title:hover {
     background-color: #ddd; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003515}}
 ul.group-list li span.label, ul.group-list .group-title .title {
   padding: 5px 0;
   display: inline-block; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003520}}
 ul.group-list li span.selector, ul.group-list .group-title .selector {
   width: 10%;
   height: 26px;
@@ -388,14 +472,18 @@ ul.group-list li span.selector, ul.group-list .group-title .selector {
   display: inline-block;
   position: absolute;
   right: 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003529}}
 ul.group-list li {
   padding-left: 7px;
   position: relative; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003533}}
   ul.group-list li > .checkable, ul.group-list li .group-title > .checkable {
     background-image: url(../img/checkbox.png); }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003537}}
   ul.group-list li.group, ul.group-list li.selectable {
     list-style: none;
     border-bottom: 1px solid #999; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003542}}
   ul.group-list li ul.actions {
     list-style: none;
     display: inline-block;
@@ -403,66 +491,89 @@ ul.group-list li {
     padding-right: 5px;
     width: auto;
     vertical-align: top; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003550}}
     ul.group-list li ul.actions li {
       display: inline-block;
       margin: 5px 0;
       padding: 0;
       width: 16px;
       height: 16px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003559}}
   ul.group-list li:last-child {
     border-bottom: 0;
     list-style: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003564}}
   ul.group-list li:hover:not(.group) {
-    background-color: #ccc; }
+    background-color: #cccccc; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003568}}
   ul.group-list li.selected {
     background-color: #9f9; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003571}}
     ul.group-list li.selected:hover {
       background-color: #9c9; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003576}}
   ul.group-list li .group-title {
     background-color: #f0f0f0;
     cursor: pointer; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003581}}
   ul.group-list li span.title {
     background-color: inherit; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003585}}
   ul.group-list li.expendable.closed {
     margin-bottom: 1px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003588}}
     ul.group-list li.expendable.closed:last-child {
       margin-bottom: 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003592}}
     ul.group-list li.expendable.closed ul {
       display: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003597}}
   ul.group-list li.group {
     padding: 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003601}}
   ul.group-list li.selectable {
     cursor: pointer; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003606}}
 ul.group-list .selector {
   background-color: transparent;
   background-repeat: no-repeat;
   background-position: center center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003613}}
 ul.group-list .has-access > .selector, ul.group-list .has-access .group-title > .selector, ul.group-list .has-access:hover > .selector, ul.group-list .has-access:hover .group-title > .selector {
   background-image: url(../img/checkbox_partial.png); }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003619}}
 ul.group-list .has-allaccess > .selector, ul.group-list .has-allaccess .group-title > .selector, ul.group-list .has-allaccess:hover > .selector, ul.group-list .has-allaccess:hover .group-title > .selector {
   background-image: url(../img/checkbox_checked.png); }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003625}}
 ul.group-list .autoadd > .selector, ul.group-list .autoadd .group-title > .selector, ul.group-list .autoadd:hover > .selector, ul.group-list .autoadd:hover .group-title > .selector {
   background-image: url(../img/autoadd.png); }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003630}}
 ul.group-list .autoadd.checked > .selector, ul.group-list .autoadd.checked .group-title > .selector, ul.group-list .autoadd.checked:hover > .selector, ul.group-list .autoadd.checked:hover .group-title > .selector {
   background-image: url(../img/autoadd_checked.png); }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003637}}
 .selector.checkable {
   cursor: pointer; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003642}}
 .group-title span.ui-icon {
   display: inline-block;
   position: relative;
   top: 3px;
   left: -2px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003649}}
 .group-title.open {
   border-bottom: 1px solid #999; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003653}}
 .group-title .label {
   font-size: 11px; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003658}}
 .listbox {
   display: inline-block;
   margin: 5px 2px; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003663}}
 .tileBox {
   margin-top: 20px;
   margin-left: 20px;
@@ -473,17 +584,27 @@ ul.group-list .autoadd.checked > .selector, ul.group-list .autoadd.checked .grou
   -webkit-border-radius: 4px;
   border-radius: 4px;
   width: 60%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003674}}
+  .tileBox fieldLabel {
+    /*font-weight: bold;*/ }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003678}}
+  .tileBox .fieldValue {
+    /*font-style:italic;*/ }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003682}}
   .tileBox .boxHeader {
     font-weight: bold;
     margin: 10px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003687}}
   .tileBox .boxLogo {
     float: left;
     width: 30%;
     height: 100%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003693}}
   .tileBox .boxContent {
     float: left;
     width: 70%;
     height: 100%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003699}}
   .tileBox .button {
     float: right;
     margin-right: 5px;
@@ -497,6 +618,7 @@ ul.group-list .autoadd.checked > .selector, ul.group-list .autoadd.checked .grou
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003714}}
 .button:hover {
   background-color: #D00239;
   color: #fff; }

@@ -67,9 +67,10 @@ Comments in this file will give more details about each of the above blocks.
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000322}}
 .cke_button_icon, .cke_button {
   padding-top: 2px;
-  line-height: 0.9; }
+  line-height: 0.9;
+  font-size: 16px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000327}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000328}}
 .cke_nose {
   position: absolute;
   z-index: 10000;

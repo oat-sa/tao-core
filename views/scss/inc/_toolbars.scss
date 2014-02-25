@@ -5,141 +5,139 @@
 @import "ckeditor/skins/tao/scss/inc/ck-icons";
 
 .tlb {
-  @extend .cke;
+    @extend .cke;
 }
 
 .tlb-bar {
-  @extend .cke_toolbar;
+    @extend .cke_toolbar;
 }
 
 .tlb-box {
-  @extend .cke_toolbox;
+    @extend .cke_toolbox;
 }
 
 .tlb-break {
-  @extend .cke_toolbar_break;
+    @extend .cke_toolbar_break;
 }
 
 .tlb .tlb-bar .tlb-button-on,
 .tlb .tlb-bar .tlb-button-off,
 .tlb .tlb-bar .tlb-button-disabled {
-  @extend .cke_button;
-  height: 18px;
-  padding: 4px 6px;
-  [class^="icon-"], [class*=" icon-"] {
-    @extend .cke_button_icon;
-  }
+    @extend .cke_button;
+    height: 18px;
+    padding: 4px 6px;
+    [class^="icon-"], [class*=" icon-"] {
+        @extend .cke_button_icon;
+    }
 }
 
-
 .tlb-button-off {
-  @extend .cke_button_off;
+    @extend .cke_button_off;
 }
 
 .tlb-button-on {
-  @extend .cke_button_on;
+    @extend .cke_button_on;
 }
 
 .tlb .tlb-top .tlb-bar .tlb-button-disabled {
-  opacity: .5;
-  &:hover {
-    background: white !important;
-    color: $textColor !important;
-  }
-  span {
-    opacity: 0.3
-  }
+    opacity: .5;
+    &:hover {
+        background: white !important;
+        color: $textColor !important;
+    }
+    span {
+        opacity: 0.3
+    }
 }
 
-
 .tlb-end {
-  @extend .cke_toolbar_end;
+    @extend .cke_toolbar_end;
 }
 
 .tlb-group {
-  @extend .cke_toolgroup;
+    @extend .cke_toolgroup;
 }
 
 .tlb-separator {
-  @extend .cke_toolbar_separator;
+    @extend .cke_toolbar_separator;
 }
 
 .tlb-start {
-  @extend .cke_toolbar_start;
+    @extend .cke_toolbar_start;
 }
 
 .tlb-top {
-  @extend .cke_top;
+    @extend .cke_top;
 }
 
 .tlb-spacer {
-  @extend .cke_toolbar;
-  display:inline-block;
-  min-width: 28px;
-  height: 2px;
+    @extend .cke_toolbar;
+    display: inline-block;
+    min-width: 28px;
+    height: 2px;
 }
 
 .tlb-title {
-  @extend .truncate;
-  line-height: 2.5;
-  float: left;
-  padding: 0 6px;
-  cursor: default
+    @extend .truncate;
+    line-height: 2.5;
+    float: left;
+    padding: 0 6px;
+    cursor: default
 }
 
 .tlb-wrapper {
-  background:whiten($uiClickableDefaultBg, .5);
-  @include box-shadow();
-  .tlb {
-    float:right;
-  }
-  .tlb, .tlb-top {
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
+    background: whiten($uiClickableDefaultBg, .5);
+    @include box-shadow();
+    .tlb {
+        float: right;
+    }
+    .tlb, .tlb-top {
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
 }
 
 .tlb-text-button-box {
-  @extend .cke_combo;
-  [class^="tlb-text-button-"], [class*=" tlb-text-button-"] {
-    @extend .cke_combo_button;
-    @include border-radius(2);
-    &:hover {
-      background: $uiClickableHoverBg;
-      color: $textHighlight;
-      .tlb-text {
+    @extend .cke_combo;
+    [class^="tlb-text-button-"], [class*=" tlb-text-button-"] {
+        @extend .cke_combo_button;
+        @include border-radius(2);
+        &:hover {
+            background: $uiClickableHoverBg;
+            color: $textHighlight;
+            .tlb-text {
+                color: $textHighlight;
+                text-shadow: none;
+            }
+        }
+        .tlb-text {
+            cursor: pointer;
+            @extend .cke_combo_text;
+            padding-left: 7px !important;
+            padding-right: 7px;
+            width: auto;
+            color: $textColor;
+        }
+    }
+    .tlb-text-button-disabled {
+        cursor: default !important;
+        background: white !important;
+        .tlb-text {
+            color: $textColor !important;
+            cursor: default !important;
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 1) !important;
+            opacity: .4;
+        }
+    }
+    .tlb-text-button-on {
+        background-color: $info;
         color: $textHighlight;
-        text-shadow: none;
-      }
+        text-shadow: 1px 1px 0 black(.2) !important;
+        .tlb-text {
+            text-shadow: none;
+            color: $textHighlight;
+        }
     }
-    .tlb-text {
-      cursor: pointer;
-      @extend .cke_combo_text;
-      padding-left: 7px !important;
-      padding-right: 7px;
-      width: auto;
-      color: $textColor;
-    }
-  }
-  .tlb-text-button-disabled {
-    cursor: default !important;
-    background: white !important;
-    .tlb-text {
-      color: $textColor !important;
-      cursor: default !important;
-      text-shadow: 1px 1px 0 rgba(255, 255, 255, 1) !important;
-      opacity: .4;
-    }
-  }
-  .tlb-text-button-on {
-    background-color: $info;
-    color: $textHighlight;
-    text-shadow: 1px 1px 0 black(.2) !important;
-    .tlb-text {
-      text-shadow: none;
-      color: $textHighlight;
-    }
-  }
 }
 

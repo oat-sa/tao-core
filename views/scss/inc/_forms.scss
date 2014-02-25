@@ -1,30 +1,29 @@
 label {
-  display: inline-block;
-  cursor: pointer;
-  padding-right: 10px;
-  margin-bottom: 5px;
-  abbr {
-    border: none;
-    color: $info;
-  }
+    display: inline-block;
+    cursor: pointer;
+    padding-right: 10px;
+    margin-bottom: 5px;
+    abbr {
+        border: none;
+        color: $info;
+    }
 }
 
 .pseudo-label-box {
-  position: relative;
-  & > label {
-    width: 20px;
-    position: absolute;
-    top: 0;
-    left:0;
-    margin: 0;
-    & + div {
-      cursor: pointer;
-      margin-left: 24px;
-      display:table;
+    position: relative;
+    & > label {
+        width: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 0;
+        & + div {
+            cursor: pointer;
+            margin-left: 24px;
+            display: table;
+        }
     }
-  }
 }
-
 
 input[type="color"],
 input[type="date"],
@@ -43,62 +42,62 @@ input[type="url"],
 input[type="week"],
 textarea,
 select {
-  @include simple-border();
-  @include border-radius(2);
-  font-family: "Source Sans Pro", sans-serif;
-  padding: 4px;
-  width: 100%;
-  background-color: white;
-  color: $textColor;
-  max-width: 300px;
+    @include simple-border();
+    @include border-radius(2);
+    font-family: "Source Sans Pro", sans-serif;
+    padding: 4px;
+    width: 100%;
+    background-color: white;
+    color: $textColor;
+    max-width: 300px;
 }
 
 option {
-  background: white;
-  color: $textColor;
+    background: white;
+    color: $textColor;
 }
 
 label {
-  position: relative;
-  [class^="icon-radio"],
-  [class*=" icon-radio"]{
-    padding: 0 2px 0 3px;
-  }
-  .icon-checkbox,
-  .icon-checkbox-crossed {
-    padding: 0 3px 0 3px;
-  }
-  .icon-checkbox-checked {
-    padding: 0 0 0 3px;
-  }
-  [class^="icon-"],
-  [class*=" icon-"]{
-    @include font-size(16);
     position: relative;
-    top: 2px;
-    color: #555;
-    display: inline-block;
-    width: 20px;
-  }
-  input[type="radio"],
-  input[type="checkbox"]{
-    position: absolute;
-    left:-10000px;
-    top:0;
-    &:focus ~ [class^="icon-"],
-    &:focus ~ [class*=" icon-"],
-    &:active ~ [class^="icon-"],
-    &:active ~ [class*=" icon-"] {
-      color: #222 !important;
+    [class^="icon-radio"],
+    [class*=" icon-radio"] {
+        padding: 0 2px 0 3px;
     }
-    &:checked ~ .icon-checkbox:before {
-      content: "\e600";
+    .icon-checkbox,
+    .icon-checkbox-crossed {
+        padding: 0 3px 0 3px;
     }
-    &:checked ~ .icon-radio:before {
-      content: "\e623";
+    .icon-checkbox-checked {
+        padding: 0 0 0 3px;
     }
-    &:checked ~ .icon-checkbox.cross:before {
-      content: "\e627";
+    [class^="icon-"],
+    [class*=" icon-"] {
+        @include font-size(16);
+        position: relative;
+        top: 2px;
+        color: #555;
+        display: inline-block;
+        width: 20px;
     }
-  }
+    input[type="radio"],
+    input[type="checkbox"] {
+        position: absolute;
+        left: -10000px;
+        top: 0;
+        &:focus ~ [class^="icon-"],
+        &:focus ~ [class*=" icon-"],
+        &:active ~ [class^="icon-"],
+        &:active ~ [class*=" icon-"] {
+            color: #222 !important;
+        }
+        &:checked ~ .icon-checkbox:before {
+            content: "\e600";
+        }
+        &:checked ~ .icon-radio:before {
+            content: "\e623";
+        }
+        &:checked ~ .icon-checkbox.cross:before {
+            content: "\e627";
+        }
+    }
 }

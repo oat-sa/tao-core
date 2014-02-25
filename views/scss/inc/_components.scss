@@ -1,7 +1,7 @@
 /* Style of advanced components */
 
 /* toggler */
-.toggler{
+.toggler {
     &:after {
         margin-left: 3px;
         position: relative;
@@ -9,16 +9,17 @@
         @include icon('down');
     }
     &.opened:after {
-       @include icon('up');
+        @include icon('up');
     }
 }
+
 .toggled {
     display: none;
 }
 
 /* Adder */
-.adder{
-    &:before{
+.adder {
+    &:before {
         margin-right: 5px;
         @include font-size(10.5);
         @include icon('add');
@@ -26,27 +27,27 @@
 }
 
 /* Closer */
-.closer{
-    &:before{
+.closer {
+    &:before {
         margin-right: 5px;
         @include font-size(10.5);
         @include icon('close');
     }
 }
-    
+
 /* Incrementer */
-input.incrementer{
+input.incrementer {
     width: 30px;
     text-align: right;
     -moz-border-radius: 2px 0 0 2px;
     -webkit-border-radius: 2px 0 0 2px;
     border-radius: 2px 0 0 2px;
     border-right-style: none;
-    & ~ .incrementer-ctrl{
+    & ~ .incrementer-ctrl {
         display: inline-block;
         margin-right: 5px;
         border: 1px solid $uiGeneralContentBorder;
-        border-left-width:0;
+        border-left-width: 0;
         @include border-radius(2);
         line-height: normal;
         vertical-align: bottom;
@@ -71,20 +72,21 @@ input.incrementer{
             }
             &:hover {
                 background-color: $uiClickableHoverBg;
-                color : $textHighlight;
+                color: $textHighlight;
             }
         }
     }
 }
-    
+
 /* Flipper */
-.flip{
+.flip {
     overflow: hidden;
 }
-.flip-back{
+
+.flip-back {
     display: none;
 }
-    
+
 /* InPlacer */
 [data-in-place], .inplace {
     cursor: pointer;
@@ -98,8 +100,8 @@ input.incrementer{
 
 /* ListBox  */
 ul.listbox {
-    margin:.1em 0;
-    padding:0;
+    margin: .1em 0;
+    padding: 0;
     list-style-type: none;
     display: block;
     > li {
@@ -107,12 +109,12 @@ ul.listbox {
         position: relative;
         min-width: 75%;
         border: solid 1px $uiGeneralContentBorder;
-        border-bottom-width:0;
+        border-bottom-width: 0;
         vertical-align: top;
         margin: 0;
         padding: .3em 2em .3em .2em;
         background-color: $uiClickableDefaultBg;
-        min-height: 1.5em; 
+        min-height: 1.5em;
 
         > .closer {
             position: absolute;
@@ -128,15 +130,15 @@ ul.listbox {
 
         &:last-child {
             -moz-border-radius: 0 0 2px 2px;
-            -webkit-border-radius:  0 0 2px 2px;
-            border-radius:  0 0 2px 2px;
-            border-bottom-width:1px;
+            -webkit-border-radius: 0 0 2px 2px;
+            border-radius: 0 0 2px 2px;
+            border-bottom-width: 1px;
         }
 
         &.placeholder {
-            background : none;
+            background: none;
             margin: .5em;
-            opacity:0.6;
+            opacity: 0.6;
         }
     }
 }
@@ -154,7 +156,7 @@ ul.listbox {
     position: fixed;
     z-index: 99;
     left: 0;
-    
+
     #modal-close {
         position: absolute;
         right: 12px;
@@ -177,7 +179,7 @@ ul.listbox {
     width: 100%;
     left: 0;
     top: 0;
-    z-index: 98; 
+    z-index: 98;
 }
 
 /** Button groups */
@@ -185,20 +187,20 @@ ul.listbox {
 [data-button-group] {
 
     display: inline-block;
-    border: solid 1px whiten($info, .4); 
+    border: solid 1px whiten($info, .4);
     background-color: whiten($info, .4);
     padding: 0;
     @include border-radius(2);
 
     & > a {
         display: inline-block;
-        float: left; 
+        float: left;
         color: $textColor;
         background-color: $uiClickableDefaultBg;
         padding: 4px 6px;
         margin: 0;
         border-right: solid 1px whiten($info, .4);
-        line-height: 20px; 
+        line-height: 20px;
         &:hover {
             text-decoration: none;
             color: $textColor;
@@ -213,15 +215,15 @@ ul.listbox {
         }
         &:first-child {
             @include border-radius-left(1);
-        } 
+        }
         &:last-child {
             border-right: none;
-            @include border-radius-right(1); 
+            @include border-radius-right(1);
         }
         &[class^="icon-"], &[class*=" icon-"] {
             width: 28px;
-            text-align:center;
+            text-align: center;
         }
     }
-    
+
 }
