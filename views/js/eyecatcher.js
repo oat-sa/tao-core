@@ -1,9 +1,5 @@
-define([
-    'jquery'
-], function($){
+define(['jquery'], function($){
     'use strict'
-
-
 
     var getCurrentEyeCatchers = function(options){
 
@@ -81,8 +77,8 @@ define([
 
         var check = setInterval(function(){
             
-            eyeCatchers = eyecatchers || getCurrentEyeCatchers();
-
+            eyeCatchers = eyeCatchers || getCurrentEyeCatchers();
+            
             // all done
             if(null === eyeCatchers){
                 clearInterval(check);
