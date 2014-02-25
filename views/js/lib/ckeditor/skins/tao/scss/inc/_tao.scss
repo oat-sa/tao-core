@@ -20,7 +20,7 @@
 }
 
 .cke_button_icon, .cke_button {
-  padding-top: 2px;
+  padding-top: 1px;
   line-height: 0.9;
   font-size: 16px;
 }
@@ -28,17 +28,18 @@
 .cke_nose {
   position: absolute;
   z-index: 10000;
-  left: 16px;
-  bottom: -8px;
+  bottom: -6px;
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
   -o-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
-  border: 1px whiten($uiClickableDefaultBg, .5) solid;
+  border: 1px $uiClickableDefaultBg solid;
   border-left: none;
   border-top: none;
-  width: 16px;
-  height: 16px;
-  background: whiten($uiClickableDefaultBg, .5);
-  @include box-shadow();
+  width: 12px;
+  height: 12px;
+  background: $uiClickableDefaultBg;
+  -webkit-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
