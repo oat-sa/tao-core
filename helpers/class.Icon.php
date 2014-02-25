@@ -34,7 +34,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-02-24 17:26
+ * @date   2014-02-25 13:59
  * @package tao
  * @subpackage helpers
  */
@@ -191,7 +191,6 @@ class tao_helpers_Icon {
     const CLASS_SPELL_CHECK = 'icon-spell-check';
     const CLASS_POLYGON = 'icon-polygon';
     const CLASS_RECTANGLE = 'icon-rectangle';
-    const CLASS_CIRCLE = 'icon-circle';
     const CLASS_GAP_MATCH = 'icon-gap-match';
     const CLASS_ORDER = 'icon-order';
     const CLASS_HOTTEXT = 'icon-hottext';
@@ -208,7 +207,8 @@ class tao_helpers_Icon {
     const CLASS_STEP_FORWARD = 'icon-step-forward';
     const CLASS_EJECT = 'icon-eject';
     const CLASS_ELLIPSIS = 'icon-ellipsis';
-    const CLASS_OK = 'icon-ok';
+    const CLASS_CIRCLE = 'icon-circle';
+    const CLASS_TARGET = 'icon-target';
 
 	
     /**
@@ -727,10 +727,6 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_RECTANGLE, $options);
     }
 
-    public static function iconCircle($options=array()){
-        return self::buildIcon(self::CLASS_CIRCLE, $options);
-    }
-
     public static function iconGapMatch($options=array()){
         return self::buildIcon(self::CLASS_GAP_MATCH, $options);
     }
@@ -795,8 +791,12 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_ELLIPSIS, $options);
     }
 
-    public static function iconOk($options=array()){
-        return self::buildIcon(self::CLASS_OK, $options);
+    public static function iconCircle($options=array()){
+        return self::buildIcon(self::CLASS_CIRCLE, $options);
+    }
+
+    public static function iconTarget($options=array()){
+        return self::buildIcon(self::CLASS_TARGET, $options);
     }
 
 
