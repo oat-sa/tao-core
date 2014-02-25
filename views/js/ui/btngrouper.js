@@ -221,6 +221,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         new DataAttrHandler('button-group', {
             container: $container,
             inner : 'li',
+            bubbled : true,
             listenerEvent: 'click',
             namespace: dataNs,
             useTarget: false

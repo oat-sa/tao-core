@@ -145,6 +145,6 @@
  */
 @mixin icon($name, $namespace: 'icon') {
     font-family: 'tao';
-    @extend .#{$namespace}-#{$name}:before;
+    @extend %#{$namespace}-#{$name};
     display: inline-block;
 }
