@@ -39,7 +39,7 @@ The following is a visual representation of the outer elements of a panel:
 This file also defines styles for panel lists (used by combos). For menu-like
 panel contents and color panels check menu.css and colorpanel.css.
 */
-
+@import "inc/bootstrap";
 /* The box that holds an IFRAME. It's inserted into a host document and positioned
    absolutely by the application. It floats above the host document/editor. */
 .cke_panel {

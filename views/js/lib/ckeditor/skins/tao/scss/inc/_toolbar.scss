@@ -48,7 +48,7 @@ Special outer level classes used in this file:
 	.cke_hc: Available when the editor is rendered on "High Contrast".
 	.cke_rtl: Available when the editor UI is on RTL.
 */
-
+@import "inc/bootstrap";
 /* The box that holds each toolbar. */
 .cke_toolbar {
   float: left;

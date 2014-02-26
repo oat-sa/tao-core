@@ -22,7 +22,7 @@ editors:
 To understand why "reset" is needed, check the CKEditor Skin SDK:
 http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 */
-
+@import "inc/bootstrap";
 /* Reset for single elements, not their children. */
 .cke_reset {
   /* Do not include inheritable rules here. */

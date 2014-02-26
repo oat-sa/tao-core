@@ -1,3 +1,40 @@
+
+                                     /*
+                                    /  \
+                                   |    |
+                                 --:'''':--
+   THIS CODE IS GENERATED          :*_* :
+                                   _:"":\___
+   AUTOMAGICALLY    * *      ____.' :::     '._
+                   * *=====<<=)           \    :
+   DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                     \====:_ ""
+                                    .'     \\
+                                   :       :
+                                  /   :    \
+                                 :   .      '.
+                                 :  : :      :
+                                 :__:-:__.;--'
+                                <*_/   <*/
+                                 
+%tao-icon-setup {
+	font-family: 'tao';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+                                     .foo {
+                                         @extend %icon-checkbox-checked
+                                     }
+
 %icon-checkbox-checked { content: "\e600"; }
 %icon-checkbox { content: "\e601"; }
 %icon-left { content: "\e602"; }

@@ -1,0 +1,36 @@
+@import 'inc/bootstrap';
+
+svg {
+    cursor: pointer;
+    position: absolute;
+    width: 90px;
+    height: 110px;
+    z-index: 10;
+    border: 2px solid $websiteBorder;
+    background: rgba($uiGeneralContentBorder, .5);
+    &.active {
+        border: 2px solid mix(#fff, $info, 20%);
+    }
+    &.deactivated {
+        border: 2px dashed $websiteBorder;
+        background: rgba($uiGeneralContentBorder, .3);
+        cursor: not-allowed
+    }
+    &.error {
+        border: 2px solid mix(#fff, $error, 20%);
+        background: rgba($error, .5);
+    }
+    &.success {
+        border: 2px solid mix(#fff, $success, 20%);
+        background: rgba($success, .5);
+    }
+    &.warning {
+        border: 2px solid mix(#fff, $warning, 20%);
+        background: rgba($warning, .5);
+    }
+    &.info {
+        border: 2px solid mix(#fff, $info, 20%);
+        background: rgba($info, .5);
+    }
+
+}

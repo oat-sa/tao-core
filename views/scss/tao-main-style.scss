@@ -65,12 +65,14 @@ a[rel="external"] span.icon-external {
   }
 }
 
+
 .tao-scope {
   @import "inc/buttons";
   @import "inc/jquery-ui";
   @import "inc/base";
   @import "inc/forms";
   @import "inc/components";
+  @import "inc/svg";
 
   position: relative;
 

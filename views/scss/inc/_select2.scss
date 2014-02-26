@@ -1,3 +1,5 @@
+@import 'inc/bootstrap';
+
 .list-symbol {
     font: bold 13px "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
     padding: 2px;
@@ -202,7 +204,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     &:before {
-        content: "\e605";
+        @extend %icon-down;
     }
     &:hover {
         background-color: $uiClickableHoverBg;

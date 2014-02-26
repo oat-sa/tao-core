@@ -23,7 +23,7 @@ The visual representation of a rich combo widget looks as follows:
 | +----------------------+ +------------------------------------------------------+ |
 +-----------------------------------------------------------------------------------+
 */
-
+@import "inc/bootstrap";
 /* The box that hold the entire combo widget */
 .cke_combo {
   display: inline-block;

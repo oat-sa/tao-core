@@ -1,15 +1,65 @@
-.cke_button_icon, .cke_button {
-	font-family: 'tao';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
 
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-
+                                     /*
+                                    /  \
+                                   |    |
+                                 --:'''':--
+   THIS CODE IS GENERATED          :*_* :
+                                   _:"":\___
+   AUTOMAGICALLY    * *      ____.' :::     '._
+                   * *=====<<=)           \    :
+   DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                     \====:_ ""
+                                    .'     \\
+                                   :       :
+                                  /   :    \
+                                 :   .      '.
+                                 :  : :      :
+                                 :__:-:__.;--'
+                                 <_/   <*/
+                                 
+@import "inc/bootstrap";
+.cke_button_icon, .cke_button { @extend %tao-icon-setup; }
+.cke_button__anchor_icon:before { @extend %icon-icon-anchor; }
+.cke_button__bgcolor_icon:before { @extend %icon-icon-background-color; }
+.cke_button__bidiltr_icon:before { @extend %icon-icon-left-right; }
+.cke_button__bidirtl_icon:before { @extend %icon-icon-right-left; }
+.cke_button__blockquote_icon:before { @extend %icon-icon-block-quote; }
+.cke_button__bold_icon:before { @extend %icon-icon-bold; }
+.cke_button__bulletedlist_icon:before { @extend %icon-icon-ul; }
+.cke_button__copy_icon:before { @extend %icon-icon-copy; }
+.cke_button__creatediv_icon:before { @extend %icon-icon-div-container; }
+.cke_button__cut_icon:before { @extend %icon-icon-cut; }
+.cke_button__find_icon:before { @extend %icon-icon-find; }
+.cke_button__horizontalrule_icon:before { @extend %icon-icon-horizontal-line; }
+.cke_button__image_icon:before { @extend %icon-icon-image; }
+.cke_button__indent_icon:before { @extend %icon-icon-increase-indent; }
+.cke_button__italic_icon:before { @extend %icon-icon-italic; }
+.cke_button__justifyblock_icon:before { @extend %icon-icon-justify; }
+.cke_button__justifycenter_icon:before { @extend %icon-icon-center; }
+.cke_button__justifyleft_icon:before { @extend %icon-icon-align-left; }
+.cke_button__justifyright_icon:before { @extend %icon-icon-align-right; }
+.cke_button__link_icon:before { @extend %icon-icon-link; }
+.cke_button__newpage_icon:before { @extend %icon-icon-new-page; }
+.cke_button__numberedlist_icon:before { @extend %icon-icon-ol; }
+.cke_button__outdent_icon:before { @extend %icon-icon-decrease-indent; }
+.cke_button__paste_icon:before { @extend %icon-icon-paste; }
+.cke_button__pastefromword_icon:before { @extend %icon-icon-paste-word; }
+.cke_button__pastetext_icon:before { @extend %icon-icon-paste-text; }
+.cke_button__radio_icon:before { @extend %icon-icon-radio-checked; }
+.cke_button__redo_icon:before { @extend %icon-icon-redo; }
+.cke_button__replace_icon:before { @extend %icon-icon-replace; }
+.cke_button__scayt_icon:before { @extend %icon-icon-spell-check; }
+.cke_button__selectall_icon:before { @extend %icon-icon-select-all; }
+.cke_button__sourcedialog_icon:before { @extend %icon-icon-source; }
+.cke_button__specialchar_icon:before { @extend %icon-icon-special-character; }
+.cke_button__strike_icon:before { @extend %icon-icon-strike-through; }
+.cke_button__subscript_icon:before { @extend %icon-icon-subscript; }
+.cke_button__superscript_icon:before { @extend %icon-icon-superscript; }
+.cke_button__table_icon:before { @extend %icon-icon-table; }
+.cke_button__templates_icon:before { @extend %icon-icon-templates; }
+.cke_button__textcolor_icon:before { @extend %icon-icon-text-color; }
+.cke_button__underline_icon:before { @extend %icon-icon-underline; }
+.cke_button__undo_icon:before { @extend %icon-icon-undo; }
+.cke_button__unlink_icon:before { @extend %icon-icon-unlink; }
+.cke_combo_arrow:before { @extend %icon-icon-down; }
+.cke_button_arrow:before { @extend %icon-icon-down; }
