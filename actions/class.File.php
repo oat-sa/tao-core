@@ -95,7 +95,7 @@ class tao_actions_File extends tao_actions_CommonModule{
 			$this->setData('sizeLimit', (int) $this->getRequestParameter('sizeLimit'));
 		}
 		else{
-			$this->setData('sizeLimit', (int) ini_get('upload_max_filesize'));
+			$this->setData('sizeLimit', tao_helpers_Environment::getFileUploadLimit());
 		}
 		if($this->hasRequestParameter('target')){
 			$this->setData('target', $this->getRequestParameter('target'));
