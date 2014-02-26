@@ -32,7 +32,7 @@ define(['jquery', 'lodash'], function($, _){
             if(matches !== null){
                 var selector = targetSelector.replace(relativeRegex, '');
                 if(matches[0] === ':parent' || matches[0] === '<'){
-                    $target = $elt.parent(selector);
+                    $target = $elt.parents(selector);
                 } else if (matches[0] === '~'){
                     $target = $elt.siblings(selector);
                 } else if (matches[0] === '+'){

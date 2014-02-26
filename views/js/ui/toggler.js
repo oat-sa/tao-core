@@ -46,9 +46,12 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
            
             return this.each(function() {
                 var $elt = $(this);
+                var $target = options.target;
+                var openedClass = options.openedClass;
+                var closedClass = options.closedClass;
                
                 if(!$elt.data(dataNs)){
-                    
+
                     if(options.hideText){
                         options.showText = $elt.text();
                     }
@@ -57,9 +60,24 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
                     $elt.data(dataNs, options);
 
                     //add the default class if not set
-                    if(!$elt.hasClass(options.closedClass) && !$elt.hasClass(options.openedClass)){
-                        $elt.addClass(options.closedClass);
+                    if(!$elt.hasClass(closedClass) && !$elt.hasClass(openedClass)){
+                        $elt.addClass($target.css('display') === 'none' ? closedClass : openedClass);
                     }
+
+                    //keep in sync with changes made by another toggler
+                    $target.on('toggle.' + ns, function(e, $toggler){
+                         e.stopPropagation();
+                         if(!$toggler.is($elt)){
+                            if($target.css('display') === 'none'){
+                                $elt.addClass(closedClass)
+                                    .removeClass(openedClass);
+                            } else {
+                                $elt.removeClass(closedClass)
+                                    .addClass(openedClass);
+                            }
+
+                        }
+                    });
 
                     //bind an event to trigger the toggling
                     if(options.bindEvent !== false){
@@ -106,6 +124,22 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             var options = $elt.data(dataNs);
             var $target = options.target;
 
+            var triggerEvents = function triggerEvents(){ 
+
+                /**
+                * The target has been toggled. 
+                * Trigger 2 events : toggle and open or close.
+                * @event Toggler#toggle.toggler
+                * @event Toggler#open.toggler
+                * @event Toggler#close.toggler
+                */
+                $elt.trigger('toggle.' + ns, [$target])
+                    .trigger(action + '.' + ns, [$target]);
+
+                //trigger also on the target in case of multiple toggling
+                $target.trigger('toggle.' + ns, [$elt]);
+            };
+
            var action;
            if( $elt.is(':radio,:checkbox') ){
                 action =  $elt.prop('checked') ?  'open' : 'close';
@@ -116,26 +150,16 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             }
             
             if(action === 'open'){
-                $target.fadeIn(200);
+                $target.fadeIn(200, triggerEvents);
                 if(options.hideText){
                     $elt.text(options.hideText);
                 }
             } else {
-                $target.fadeOut(300);
+                $target.fadeOut(300, triggerEvents);
                 if(options.showText){
                     $elt.text(options.showText);
                 }
             }
-        
-           /**
-            * The target has been toggled. 
-            * Trigger 2 events : toggle and open or close.
-            * @event Toggler#toggle.toggler
-            * @event Toggler#open.toggler
-            * @event Toggler#close.toggler
-            */
-            $elt.trigger('toggle.' + ns, [$target])
-                .trigger(action + '.' + ns, [$target]);
        },
                
        /**
