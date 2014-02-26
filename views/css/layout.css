@@ -196,17 +196,6 @@ html body {
     width: 74.75%;
     float: right; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003201}}
-#preview-container {
-  width: 59%;
-  height: 100%;
-  overflow-y: auto;
-  float: left;
-  background-color: #EFEFEF;
-  color: #CCC;
-  text-align: center;
-  margin-right: 5px; }
-
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/layout\.scss}line{font-family:\00003212}}
 .data-container {
   width: 24%;
