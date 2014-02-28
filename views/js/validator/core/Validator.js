@@ -18,9 +18,9 @@ define(['lodash', 'async', 'validator/core/Report', 'validator/core/validators']
 
     var _defaultOptions = {};
 
-    var _applyRules = function(value, rule, options, callback){
+    var _applyRules = function(value, rule, callback, options){
         options = _.merge(_.cloneDeep(rule.options), options);
-        rule.validate(value, options, callback);
+        rule.validate(value, callback, options);
     };
 
     var Validator = function(rules, options){
@@ -29,31 +29,49 @@ define(['lodash', 'async', 'validator/core/Report', 'validator/core/validators']
         this.addRules(rules);
     };
 
-    Validator.prototype.validate = function(value, options, callback){
+    Validator.prototype.validate = function(value, arg1, arg2){
 
-        var callStack = [];
-
-        options = _.merge(this.options, options || {});
-
+        var callstack = [], callback, options = _.cloneDeep(this.options);
+        
+        if(_.isFunction(arg1)){
+            
+            callback = arg1;
+            
+        }else if(_.isObject(arg1)){
+            
+            _.merge(options, arg1);//treat it like the options array:
+            
+            if(_.isFunction(arg2)){
+                callback = arg2;
+            }
+        }
+        
         _.each(this.rules, function(rule){
-            callStack.push(function(cb){
-                _applyRules(value, rule, options, function(success){
+            
+            //note: individual validating option reserved for a later usage:
+            var validatorOptions = {};
+            
+            callstack.push(function(cb){
+                
+                _applyRules(value, rule, function(success){
                     if(success){
-                        //continue;
-                        cb(null, new Report('success', {message : rule.message}));
+                        cb(null, new Report('success', {validator: rule.name}));
                     }else{
-                        var report = new Report('failure', {message : rule.message});
-                        if(options.stopOnFirst && !report.isError()){
-                            cb(true, report);
+                        var report = new Report('failure', {validator: rule.name, message : rule.message});
+                        if(options.lazy){
+                            cb(new Error('lazy mode'), report);//stop execution now
                         }else{
                             cb(null, report);
                         }
                     }
-                });
+                    
+                }, validatorOptions);
+                
             });
         });
         
-        async.series(callStack, function(err, results){
+        
+        async.series(callstack, function(err, results){
             if(_.isFunction(callback)){
                 callback(results);
             }

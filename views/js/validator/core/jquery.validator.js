@@ -20,15 +20,16 @@ define(['jquery', 'lodash', 'core.validator'], function($, _, Validator){
 
         this.each(function(){
             var $this = $(this);
+            if(!isCreated($this)){
+                create($this, opts);
+            }
             if(method){
                 if(isCreated($this)){
                     ret = methods[method].apply($(this), args);
                 }else{
                     $.error('call of method of validator when it is not initialized');
                 }
-            }else if(!isCreated($this) && typeof opts === 'object'){
-                create($this, opts);
-            }
+            } 
         });
 
         if(ret === undefined){
@@ -128,10 +129,16 @@ define(['jquery', 'lodash', 'core.validator'], function($, _, Validator){
     var validate = function($elt, options, callback){
         $elt.each(function(){
             
-            var $el = $(this),
+            var elt=this,
+                $el = $(elt),
                 value = $el.val();
 
-            $elt.data('validator-object').validate(value, options, callback);
+            $elt.data('validator-object').validate(value, options || {}, function(results){
+                $el.trigger('validated', {elt:elt, results:results});
+                if(_.isFunction(callback)){
+                    callback.call(elt, results);
+                }
+            });
         });
     };
 

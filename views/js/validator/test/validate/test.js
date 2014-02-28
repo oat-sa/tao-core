@@ -1,36 +1,70 @@
 define(['lodash', 'core.validator'], function(_, Validator){
 
-    var CL = console.log;
-
-    test('validate', function(){
+    var CL = console.log, _test = function(){};
+    
+    test('simple validate', function(){
         
-        var r, validator = new Validator(['notEmpty', 'numeric']);
+        var validator = new Validator(['notEmpty', 'numeric']);
 
         equal(_.size(validator.rules), 2, 'rules set');
 
-        r = validator.validate('a');
-        equal(_.size(r), 1);
+        validator.validate('a', function(res){
+            
+            equal(_.size(res), 2, 'validated');
 
-        r = validator.validate('');
-        equal(_.size(r), 2);
+            var report1 = res.shift();
+            equal(report1.type, 'success');
+            equal(report1.data.validator, 'notEmpty');
 
-        r = validator.validate(null);
-        equal(_.size(r), 2);
+            var report2 = res.shift();
+            equal(report2.type, 'failure');
+            equal(report2.data.validator, 'numeric');
+        });
+        
+        validator.validate('', function(res){
+            
+            equal(_.size(res), 2, 'validated');
 
-        r = validator.validate(undefined);
-        equal(_.size(r), 2);
+            var report1 = res.shift();
+            equal(report1.type, 'failure');
+            equal(report1.data.validator, 'notEmpty');
 
-        r = validator.validate(0);
-        equal(_.size(r), 0);
+            var report2 = res.shift();
+            equal(report2.type, 'failure');
+            equal(report2.data.validator, 'numeric');
+        });
+        
+        validator.validate(0, function(res){
+            
+            equal(_.size(res), 2, 'validated');
 
-        r = validator.validate(3);
-        equal(_.size(r), 0);
+            var report1 = res.shift();
+            equal(report1.type, 'success');
+            equal(report1.data.validator, 'notEmpty');
+
+            var report2 = res.shift();
+            equal(report2.type, 'success');
+            equal(report2.data.validator, 'numeric');
+        });
+        
+        validator.validate(3, function(res){
+            
+            equal(_.size(res), 2, 'validated');
+
+            var report1 = res.shift();
+            equal(report1.type, 'success');
+            equal(report1.data.validator, 'notEmpty');
+
+            var report2 = res.shift();
+            equal(report2.type, 'success');
+            equal(report2.data.validator, 'numeric');
+        });
 
     });
 
-    test('validate with options', function(){
+    test('validate with validator options', function(){
         
-        var r, validator = new Validator([
+        var validator = new Validator([
             {
                 name : 'pattern',
                 options : {
@@ -40,14 +74,55 @@ define(['lodash', 'core.validator'], function(_, Validator){
             }
         ]);
         
-        r = validator.validate('York');
-        equal(_.size(r), 0);
+        validator.validate('York', function(res){
+            
+            equal(_.size(res), 1, 'validated');
+
+            var report1 = res.shift();
+            equal(report1.type, 'success');
+            equal(report1.data.validator, 'pattern');
+        });
         
-        r = validator.validate('Aee');
-        equal(_.size(r), 1);
+        validator.validate('Aee', function(res){
+            equal(res.shift().type, 'failure');
+        });
         
-        r = validator.validate('02');
-        equal(_.size(r), 1);
+    });
+    
+    test('validate with validating options', function(){
+        
+        var validator = new Validator(['notEmpty', 'numeric', 'qtiIdentifier']);
+
+        equal(_.size(validator.rules), 3, 'rules set');
+        
+        //empty options
+        validator.validate('', {}, function(res){
+            
+            equal(_.size(res), 3, 'validated');
+
+            var report1 = res.shift();
+            equal(report1.type, 'failure');
+            equal(report1.data.validator, 'notEmpty');
+
+            var report2 = res.shift();
+            equal(report2.type, 'failure');
+            equal(report2.data.validator, 'numeric');
+
+            var report3 = res.shift();
+            equal(report3.type, 'failure');
+            equal(report3.data.validator, 'qtiIdentifier');
+        });
+        
+        //test lazy option : stop on first failure
+        validator.validate('', {lazy:true}, function(res){
+            
+            equal(_.size(res), 1, 'validated');
+            var report1 = res.shift();
+            equal(report1.type, 'failure');
+            equal(report1.data.validator, 'notEmpty');
+
+        });
+        
     });
 
 });

@@ -9,8 +9,8 @@
 
         <script  type="text/javascript">
             QUnit.config.autostart = false;
-            require(['/tao/ClientConfig/config'], function(){
-                require(['validator/test/validateForm/test'], function(){
+            require(['/tao/ClientConfig/config'], function() {
+                require(['validator/test/validateForm/test'], function() {
                     QUnit.start();
                 });
             });
@@ -18,9 +18,11 @@
     </head>
     <body class="tao-scope">
         <div id="qunit"></div>
-        <div id="qunit-fixture"></div>
-        <form>
-            <input id="text1" type="text" data-validate="$notEmpty; $pattern(pattern=[A-Z][a-z]{3,}, modifier=i); "/>
-        </form>
+        <div id="qunit-fixture">
+            <form id="form1">
+                <input id="text1" type="text" data-validate="$notEmpty; $pattern(pattern=[A-Z][a-z]{3,}, modifier=i); "/>
+            </form>
+        </div>
+
     </body>
 </html>
