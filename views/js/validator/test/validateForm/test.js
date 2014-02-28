@@ -87,4 +87,13 @@ define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
         $('#text1').validator('validate');
 
     });
+    
+    test('build options', function(){
+        
+        expect(0);
+        
+        $('#text2').validator();
+        
+        
+    });
 });

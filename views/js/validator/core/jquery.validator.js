@@ -3,10 +3,11 @@ define(['jquery', 'lodash', 'core.validator'], function($, _, Validator){
 
     $.fn.validator = function(options){
 
-        var opts = {};
-        var method = '';
-        var args = [];
-        var ret = undefined;
+        var opts = {},
+            method = '',
+            args = [],
+            ret = undefined;
+    
         if(typeof options === 'object'){
             opts = $.extend({}, $.fn.validator.defaults, options);
         }else if(options === undefined){
@@ -44,7 +45,7 @@ define(['jquery', 'lodash', 'core.validator'], function($, _, Validator){
     };
     
     function isCreated($elt){
-        return (typeof $elt.data('validator-options') === 'object');
+        return (typeof $elt.data('validator-config') === 'object');
     }
     
     var methods = {
@@ -69,61 +70,79 @@ define(['jquery', 'lodash', 'core.validator'], function($, _, Validator){
      */
     var buildRules = function($elt){
 
+        var rulesStr = $elt.data('validate'),
+            rules = rulesStr ? tokenize(rulesStr) : {};
     
-        var rules = [],//rules, *ordered* rules to be executed
-            rulesStr,
-            validateStr = $elt.data('validate');
+        return rules;
+    };
+    
+    var tokenize = function(inputStr){
+        
+        var ret = [],//return object
+            tokens;
+        
+        var tokens = inputStr.split(/;\s+/);
+        
+        //get name (and options) for every rules strings:
+        _.each(tokens, function(token){
 
-        if(validateStr){
-
-            rulesStr = validateStr.split(/;\s+/);
-
-            //get name (and options) for every rules strings:
-            _.each(rulesStr, function(ruleStr){
-
-                var ruleName,
-                    ruleOptions = {},
-                    rightStr = ruleStr.replace(/\s*\$(\w*)/, function($0, name){
-                    ruleName = name;
+            var key,
+                options = {},
+                rightStr = token.replace(/\s*\$(\w*)/, function($0, k) {
+                    key = k;
                     return '';
                 });
 
-                if(ruleName){
-                    rightStr.replace(/\s*\(([^\)]*)\)/, function($0, optionsStr){
-                        optionsStr.replace(/(\w*)=([^\s]*)(,)?/g, function($0, optionName, optionValue){
-                            if(optionValue.charAt(optionValue.length - 1) === ','){
-                                optionValue = optionValue.substring(0, optionValue.length - 1);
-                            }
-                            ruleOptions[optionName] = optionValue;
-                        });
+            if (key) {
+                rightStr.replace(/\s*\(([^\)]*)\)/, function($0, optionsStr) {
+                    optionsStr.replace(/(\w*)=([^\s]*)(,)?/g, function($0, optionName, optionValue) {
+                        if (optionValue.charAt(optionValue.length - 1) === ',') {
+                            optionValue = optionValue.substring(0, optionValue.length - 1);
+                        }
+                        options[optionName] = optionValue;
                     });
+                });
 
-                    rules.push({
-                        name : ruleName,
-                        options : ruleOptions
-                    });
-                }
+                ret.push({
+                    name: key,
+                    options: options
+                });
+            }
 
-            });
-        }
-
-        return rules;
+        });
+        
+        return ret;
     };
+    
+    var buildOptions = function($elt){
+        var optionsStr = $elt.data('validate-option'),
+            options = optionsStr ? tokenize(optionsStr) : {};
+        
+        console.log(options);
+        //separate core.validator options from jquery.validator options
+        
+        return options;
+    };
+    
+    var create = function($elt, config){
 
-    var create = function($elt, options){
-
-        $elt.data('validator-options', options);
+        $elt.data('validator-config', config);
 
         var rules = buildRules($elt);
-        if(options.rules){
-            _.merge(rules, options.rules);
+        if(config.rules){
+            _.merge(rules, config.rules);
         }
-
-        bindRules($elt, rules);
+        
+        var options = buildOptions($elt);
+        if (config.options) {
+            _.merge(options, config.options);
+        }
+        
+        createValidator($elt, rules, options);
     };
 
-    var bindRules = function($elt, rules){
-        $elt.data('validator-object', new Validator(rules));
+    var createValidator = function($elt, rules, options){
+        $elt.data('validator-object', new Validator(rules, options));
     };
 
     var validate = function($elt, options, callback){
