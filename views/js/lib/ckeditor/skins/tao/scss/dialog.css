@@ -59,10 +59,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000338}}
-.foo {
-  content: "\e600"; }
-
 /* Tao specific stuff */
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
@@ -85,10 +81,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000338}}
-.foo {
-  content: "\e600"; }
-
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000032}}
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
@@ -112,7 +104,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000323}}
 .cke_button_icon, .cke_button {
-  padding-top: 2px;
+  padding-top: 1px;
   line-height: 0.9;
   font-size: 16px; }
 
@@ -120,21 +112,20 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_nose {
   position: absolute;
   z-index: 10000;
-  left: 16px;
-  bottom: -8px;
+  bottom: -6px;
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
   -o-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
-  border: 1px #f9f8f7 solid;
+  border: 1px #f3f1ef solid;
   border-left: none;
   border-top: none;
-  width: 16px;
-  height: 16px;
-  background: #f9f8f7;
-  -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
+  width: 12px;
+  height: 12px;
+  background: #f3f1ef;
+  -webkit-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1); }
 
 /* The outer container of the dialog. */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/dialog\.scss}line{font-family:\0000346}}

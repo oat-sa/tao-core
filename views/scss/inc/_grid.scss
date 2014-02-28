@@ -13,14 +13,23 @@
     float: none;
 }
 
+
+.grid-row {
+    @extend .clearfix:after;
+    width: widthPerc(852, 840);
+    &:before {
+        @extend .clearfix:before;
+    }
+    &:after {
+        @extend .clearfix:after;
+    }
+
+}
+
 @for $i from 1 through 12 {
     .col-#{$i} {
         @include grid-unit($i, 12, 12);
         margin-bottom: 12px;
-    }
-    .grid-row {
-        @extend .clearfix;
-        width: widthPerc(852, 840);
     }
     .alpha {
         margin-left: 0 !important
@@ -28,16 +37,17 @@
 }
 
 #icon-editor {
+
+    .grid-row {
+        @extend .clearfix;
+        width: 100%
+    }
     @for $i from 1 through 12 {
         .col-#{$i} {
             @include grid-unit($i, 12);
             margin-top: 0 !important;
             margin-bottom: 0 !important;
         }
-    }
-    .grid-row {
-        @extend .clearfix;
-        width: 100%
     }
 }
 

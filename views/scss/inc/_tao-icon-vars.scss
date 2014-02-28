@@ -31,10 +31,6 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-                                     .foo {
-                                         @extend %icon-checkbox-checked
-                                     }
-
 %icon-checkbox-checked { content: "\e600"; }
 %icon-checkbox { content: "\e601"; }
 %icon-left { content: "\e602"; }

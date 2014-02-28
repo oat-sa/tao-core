@@ -197,8 +197,11 @@ table.matrix {
     }
     td {
         background: white();
-        text-align: center;
+        text-align: left;
         padding: 2px;
+        &.numeric {
+            text-align: right;
+        }
         label {
             display: block;
             margin: 0
