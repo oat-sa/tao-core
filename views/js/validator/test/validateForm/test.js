@@ -1,8 +1,20 @@
 define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
 
     var CL = console.log;
-
-    test('validate form', function() {
+    
+    test('create, destroy', function(){
+        
+        $('#text1').validator();
+        ok($('#text1').validator('getValidator'), 'validator bound');
+        ok($('#text1').data('validator-instance'), 'validator bound');
+        ok($('#text1').data('validator-config'), 'validator bound');
+        
+        $('#text1').validator('destroy');
+        ok(!$('#text1').data('validator-instance'), 'validator bound');
+        ok(!$('#text1').data('validator-config'), 'validator bound');
+    });
+    
+    test('validate form', function(){
 
         //set test value;
 
@@ -60,6 +72,7 @@ define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
 
         //reset test value:
         $('#text1').val('');
+        $('#text1').validator('destroy');
     });
 
     test('element event', function() {
@@ -72,7 +85,8 @@ define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
             equal(_.size(data.results), 2, 'results ok');
         });
         $('#text1').validator('validate');
-
+        
+        $('#text1').validator('destroy').off('validated');
     });
 
     test('form event', function() {
@@ -85,15 +99,36 @@ define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
             equal(_.size(data.results), 2, 'results ok');
         });
         $('#text1').validator('validate');
-
+        
+        $('#text1').validator('destroy');
+        $('#form1').off('validated');
     });
     
-    test('build options', function(){
+    test('callback and event binding', function(){
         
-        expect(0);
+        expect(5);
         
-        $('#text2').validator();
+        //set validators and options in data attributes:
+        $('#text2').data('validate', '$notEmpty; $pattern(pattern=[A-Z][a-z]{5,})');
+        $('#text2').data('validate-option', '$lazy; $event(type=keyup, length=3);');
         
+        //set default callback, and test to results
+        $('#text2').validator({
+            validated:function(results){
+                equal(this, $('#text2')[0], 'validated element ok');
+                equal(_.size(results), 2, 'results ok');
+            }
+        });
         
+        //set additonal event "validated" listener and test to results
+        $('#text2').on('validated', function(e, data){
+            equal(e.type, 'validated', 'event type ok');
+            equal(data.elt, $('#text2')[0], 'validated element ok');
+            equal(_.size(data.results), 2, 'results ok');
+        });
+        
+        //set text and validation according to event "keyup" option, then trigger it:
+        $('#text2').val('Abcdef').keyup();
     });
+    
 });

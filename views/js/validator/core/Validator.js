@@ -16,7 +16,9 @@ define(['lodash', 'async', 'validator/core/Report', 'validator/core/validators']
         return ret;
     };
 
-    var _defaultOptions = {};
+    var _defaultOptions = {
+        lazy:false
+    };
 
     var _applyRules = function(value, rule, callback, options){
         options = _.merge(_.cloneDeep(rule.options), options);
@@ -28,19 +30,19 @@ define(['lodash', 'async', 'validator/core/Report', 'validator/core/validators']
         this.rules = [];
         this.addRules(rules);
     };
-
+    
+    Validator.getDefaultOptions = function(){
+        return _.clone(_defaultOptions);
+    };
+    
     Validator.prototype.validate = function(value, arg1, arg2){
 
         var callstack = [], callback, options = _.cloneDeep(this.options);
         
         if(_.isFunction(arg1)){
-            
             callback = arg1;
-            
         }else if(_.isObject(arg1)){
-            
             _.merge(options, arg1);//treat it like the options array:
-            
             if(_.isFunction(arg2)){
                 callback = arg2;
             }
