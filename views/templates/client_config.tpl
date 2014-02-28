@@ -69,7 +69,8 @@ require.config({
         'qtiClass'          : '../../../taoQTI/views/js/qtiItem/lib/class',
         'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
         'eyecatcher'        : 'eyecatcher', 
-        'validate'         : 'validator/core/Validator'
+        'core.validator'    : 'validator/core/Validator',
+        'jquery.validator'  : 'validator/core/jquery.validator'
    },
   
    shim : {
