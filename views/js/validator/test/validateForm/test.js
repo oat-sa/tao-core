@@ -32,18 +32,21 @@ define(['lodash', 'jquery', 'jquery.validator'], function(_, $){
 
     });
 
-    test('validate form', function(){
-
-        expect(0);
+    asyncTest('validate form', function(){
         
+        //set test value;
         $('#text1').val('York');
         
         $('#text1').validator();
-        CL($('#text1').validator('getValidator'));
+        ok($('#text1').validator('getValidator'), 'validator bound');
 
         $('#text1').validator('validate', {}, function(res){
-            CL('e', res);
+            start();
+            equal(_.size(res), 2, 'validated');
         });
+        
+        //reset test value:
+        $('#text1').val('');
     });
 
 });
