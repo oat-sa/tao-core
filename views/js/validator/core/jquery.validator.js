@@ -47,8 +47,8 @@ define(['jquery', 'lodash', 'core.validator'], function($, _, Validator){
     }
     
     var methods = {
-        validate : function(options){
-            validate($(this), options);
+        validate : function(options, callback){
+            validate($(this), options, callback);
         },
         getValidator:function(){
             return $(this).data('validator-object');
@@ -125,12 +125,13 @@ define(['jquery', 'lodash', 'core.validator'], function($, _, Validator){
         $elt.data('validator-object', new Validator(rules));
     };
 
-    var validate = function($elt, options){
+    var validate = function($elt, options, callback){
         $elt.each(function(){
+            
             var $el = $(this),
                 value = $el.val();
 
-            $elt.data('validator-object').validate(value);
+            $elt.data('validator-object').validate(value, options, callback);
         });
     };
 

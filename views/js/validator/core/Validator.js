@@ -1,4 +1,4 @@
-define(['lodash', 'validator/core/Report', 'validator/core/validators'], function(_, Report, validators){
+define(['lodash', 'async', 'validator/core/Report', 'validator/core/validators'], function(_, async, Report, validators){
 
     var _rules = validators;
 
@@ -18,13 +18,9 @@ define(['lodash', 'validator/core/Report', 'validator/core/validators'], functio
 
     var _defaultOptions = {};
 
-    var _applyRules = function(value, rule, options){
-        var r = null;
+    var _applyRules = function(value, rule, options, callback){
         options = _.merge(_.cloneDeep(rule.options), options);
-        if(rule.validate(value, options) === false){//async should return "null"
-            r = new Report('failure', {message : rule.message});
-        }
-        return r;
+        rule.validate(value, options, callback);
     };
 
     var Validator = function(rules, options){
@@ -35,25 +31,35 @@ define(['lodash', 'validator/core/Report', 'validator/core/validators'], functio
 
     Validator.prototype.validate = function(value, options, callback){
 
-        var _this = this, results = [];
+        var callStack = [];
 
         options = _.merge(this.options, options || {});
 
         _.each(this.rules, function(rule){
-            var report = _applyRules(value, rule);
-            if(report !== null){
-                results.push(report);
-                if(options.stopOnFirst && !report.isError()){
-                    return false;
-                }
+            callStack.push(function(cb){
+                _applyRules(value, rule, options, function(success){
+                    if(success){
+                        //continue;
+                        cb(null, new Report('success', {message : rule.message}));
+                    }else{
+                        var report = new Report('failure', {message : rule.message});
+                        if(options.stopOnFirst && !report.isError()){
+                            cb(true, report);
+                        }else{
+                            cb(null, report);
+                        }
+                    }
+                });
+            });
+        });
+        
+        async.series(callStack, function(err, results){
+            if(_.isFunction(callback)){
+                callback(results);
             }
         });
 
-        if(_.isFunction(callback)){
-            callback(results);
-        }
-
-        return results;
+        return this;
     };
 
     Validator.prototype.addRule = function(rule){

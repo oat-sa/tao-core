@@ -21,7 +21,6 @@ define(['lodash', 'i18n'], function(_, __){
                 if(typeof(callback) === 'function'){
                     callback(r);
                 }
-                return r;
             }
         },
         notEmpty : {
@@ -38,13 +37,12 @@ define(['lodash', 'i18n'], function(_, __){
                 if(typeof(callback) === 'function'){
                     callback(r);
                 }
-                return r;
             }
         },
         pattern : {
             name : 'pattern',
             message : __('does not match'),
-            options : {pattern : '//', modifier : 'igm'},
+            options : {pattern : '', modifier : 'igm'},
             validate : _validatePattern
         },
         length : {
@@ -56,7 +54,6 @@ define(['lodash', 'i18n'], function(_, __){
                 if(typeof(callback) === 'function'){
                     callback(r);
                 }
-                return r;
             }
         },
         qtiIdentifier : {
