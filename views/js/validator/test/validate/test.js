@@ -1,4 +1,4 @@
-define(['lodash', 'validate'], function(_, Validator){
+define(['lodash', 'core.validator'], function(_, Validator){
 
     var CL = console.log;
 
