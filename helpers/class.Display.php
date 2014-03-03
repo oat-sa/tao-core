@@ -16,6 +16,7 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
 
@@ -78,16 +79,21 @@ class tao_helpers_Display
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string input The string input.
      * @param  string joker (optional, default = '_') A joker character that will be the alphanumeric placeholder.
+     * @param  int maxLength (optional, default = -1) output maximum length
      * @return string The result string.
      */
-    public static function textCleaner($input, $joker = '_')
+    public static function textCleaner($input, $joker = '_', $maxLength = -1)
     {
         $returnValue = (string) '';
 
         $randJoker = ($joker == '*');
+        $length =  ((defined('TAO_DEFAULT_ENCODING')) ? mb_strlen($input, TAO_DEFAULT_ENCODING) : mb_strlen($input));
+        if($maxLength > -1 ){
+            $length = min($length, $maxLength);
+        }
 
 		$i = 0;
-		while ($i < ((defined('TAO_DEFAULT_ENCODING')) ? mb_strlen($input, TAO_DEFAULT_ENCODING) : mb_strlen($input))){
+		while ($i < $length){
 			if (preg_match("/^[a-zA-Z0-9_-]{1}$/u", $input[$i])){
 				$returnValue .= $input[$i];
 			}
