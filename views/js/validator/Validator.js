@@ -17,7 +17,7 @@ define(['lodash', 'async', 'validator/Report', 'validator/validators'], function
     };
 
     var _defaultOptions = {
-        lazy:false
+        lazy : false
     };
 
     var _applyRules = function(value, rule, callback, options){
@@ -30,15 +30,15 @@ define(['lodash', 'async', 'validator/Report', 'validator/validators'], function
         this.rules = [];
         this.addRules(rules);
     };
-    
+
     Validator.getDefaultOptions = function(){
         return _.clone(_defaultOptions);
     };
-    
+
     Validator.prototype.validate = function(value, arg1, arg2){
 
         var callstack = [], callback, options = _.cloneDeep(this.options);
-        
+
         if(_.isFunction(arg1)){
             callback = arg1;
         }else if(_.isObject(arg1)){
@@ -47,32 +47,32 @@ define(['lodash', 'async', 'validator/Report', 'validator/validators'], function
                 callback = arg2;
             }
         }
-        
+
         _.each(this.rules, function(rule){
-            
+
             //note: individual validating option reserved for a later usage:
             var validatorOptions = {};
-            
+
             callstack.push(function(cb){
-                
+
                 _applyRules(value, rule, function(success){
                     if(success){
-                        cb(null, new Report('success', {validator: rule.name}));
+                        cb(null, new Report('success', {validator : rule.name}));
                     }else{
-                        var report = new Report('failure', {validator: rule.name, message : rule.message});
+                        var report = new Report('failure', {validator : rule.name, message : rule.message});
                         if(options.lazy){
                             cb(new Error('lazy mode'), report);//stop execution now
                         }else{
                             cb(null, report);
                         }
                     }
-                    
+
                 }, validatorOptions);
-                
+
             });
         });
-        
-        
+
+
         async.series(callstack, function(err, results){
             if(_.isFunction(callback)){
                 callback(results);

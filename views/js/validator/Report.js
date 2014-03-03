@@ -11,5 +11,3 @@ define([], function(){
 
     return Report;
 });
-
-

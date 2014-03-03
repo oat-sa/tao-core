@@ -48,7 +48,7 @@ define(['lodash', 'i18n'], function(_, __){
         length : {
             name : 'length',
             message : __('required length'),
-            options : {min : 0, max:0},
+            options : {min : 0, max : 0},
             validate : function(value, callback, options){
                 var r = false;
                 if(value.length >= options.min){
