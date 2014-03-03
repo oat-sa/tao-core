@@ -40,24 +40,6 @@ class tao_install_utils_DbalDbCreator {
 	 */
 	private $schema = null;
 	
-	/**
-	 * @var array
-	 */
-// 	private $modelArray = array(
-// 		3  => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#',
-// 	    4  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-// 	    5  => 'http://www.w3.org/2000/01/rdf-schema#',
-// 	    6  => 'http://www.tao.lu/Ontologies/TAO.rdf#',
-// 	    7  => 'http://www.tao.lu/Ontologies/generis.rdf#',
-// 	    9  => 'http://www.tao.lu/Ontologies/TAOTest.rdf#',
-// 	    10 => 'http://www.tao.lu/Ontologies/TAOItem.rdf#',
-// 	    11 => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#',
-// 	    12 => 'http://www.tao.lu/Ontologies/TAOSubject.rdf#',
-// 	    13 => 'http://www.tao.lu/Ontologies/TAOResult.rdf',
-// 	    14 => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#',
-// 	    15 => 'http://www.tao.lu/Ontologies/TAODelivery.rdf#',
-// 	    17 => 'http://www.tao.lu/middleware/Rules.rdf#'
-// 	);
 
 	/**
 	 * @author "Lionel Lecaque, <lionel@taotesting.com>"
@@ -79,7 +61,7 @@ class tao_install_utils_DbalDbCreator {
      */
     public function __construct($params){
    		try{
-   		    
+
             $this->connection = $this->buildDbalConnection($params);
             $this->dbConfiguration = $params;
             $this->buildSchema();
@@ -98,7 +80,14 @@ class tao_install_utils_DbalDbCreator {
      */
     public function dbExists($dbName){
         $sm = $this->getSchemaManager();
-        return in_array($dbName,$sm->listDatabases());
+		common_Logger::d('Check if database exist : ' . $dbName . ' for driver ' . $this->dbConfiguration['driver']);
+        if($this->dbConfiguration['driver'] == 'pdo_oci'){
+        	common_Logger::d('Oracle special query dbExist');
+        	return in_array(strtoupper($dbName),$sm->listDatabases());
+        }
+        else {
+        	return in_array($dbName,$sm->listDatabases());
+        }
     }
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
@@ -146,7 +135,7 @@ class tao_install_utils_DbalDbCreator {
     private function createExtensionsSchema(){
     	$table = $this->schema->createTable("extensions");
     	
-    	$table->addColumn("id", "string", array("length" => 25,"notnull" => true,'autoincrement' => true));
+    	$table->addColumn("id", "string", array("length" => 25,"notnull" => true));
     	$table->addColumn("name", "string", array("length" => 150));
     	$table->addColumn("version", "string", array("length" => 5));
     	$table->addColumn("loaded", "integer");
@@ -177,7 +166,13 @@ class tao_install_utils_DbalDbCreator {
     	$table->addColumn("modelid", "integer",array("notnull" => true,"default" => 0));
     	$table->addColumn("subject", "string",array("length" => 255,"default" => null));
     	$table->addColumn("predicate", "string",array("length" => 255,"default" => null));
-    	$table->addColumn("object", "text", array("default" => null,"notnull" => false));
+    	if($this->dbConfiguration['driver'] == 'pdo_oci' ) {
+    		$table->addColumn("object", "string", array("length" => 4000,"default" => null,"notnull" => false));
+    	}
+    		else {
+    			$table->addColumn("object", "text", array("default" => null,"notnull" => false)); 		
+    	
+    	}
     	$table->addColumn("l_language", "string",array("length" => 255,"default" => null,"notnull" => false));
     	$table->addColumn("id", "integer",array("notnull" => true,"autoincrement" => true));
     	$table->addColumn("author", "string",array("length" => 255,"default" => null,"notnull" => false));
@@ -191,8 +186,9 @@ class tao_install_utils_DbalDbCreator {
     	
     	if($this->dbConfiguration['driver'] != 'pdo_mysql'){
     	   	$table->addIndex(array("subject","predicate"),"k_sp");
-    		
-    	   	if($this->dbConfiguration['driver'] != 'pdo_sqlsrv'){
+    		common_Logger::d('driver is ' . $this->dbConfiguration['driver']);
+    	   	if($this->dbConfiguration['driver'] != 'pdo_sqlsrv' 
+    	   			&& $this->dbConfiguration['driver'] != 'pdo_oci'){
     	   		$table->addIndex(array("predicate","object"),"k_po");
     	   	}
     	} 	
@@ -342,9 +338,14 @@ class tao_install_utils_DbalDbCreator {
     public function destroyTaoDatabase(){
     	$platform = $this->connection->getDatabasePlatform();
     	$queries = $this->schema->toDropSql($platform);
-    	
     	foreach ($queries as $query){
     		$this->connection->executeUpdate($query);
+    	}
+    	//drop sequence
+    	$sm = $this->getSchemaManager();
+    	$sequences = $sm->listSequences();
+    	foreach($sequences as $name){
+    		$sm->dropSequence($name);
     	}
     	
     	
@@ -379,15 +380,13 @@ class tao_install_utils_DbalDbCreator {
         $sm = $this->getSchemaManager();
         $platform = $this->connection->getDatabasePlatform();
         $tables = $sm->listTableNames();
+        
         foreach($tables as $name){
-            $sm->dropTable($platform->quoteIdentifier($name));
+        	common_Logger::d('Table to drop : '  . $name);
+            $sm->dropTable($name);
         }
         
-        //drop sequence
-//         $sequences = $sm->listSequences();
-//         foreach($sequences as $name){
-//             $sm->dropSequence($name);
-//         }
+
     }
 
     /**

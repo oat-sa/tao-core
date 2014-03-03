@@ -125,8 +125,18 @@ class tao_install_services_CheckDatabaseConnectionService
             // Great the driver is there, we can try a connection.
             try{
                 set_error_handler(array('tao_install_services_CheckDatabaseConnectionService', 'onError'));
-                $dbCreatorClassName = tao_install_utils_DbCreator::getClassNameForDriver($driver);
-                $dbCreator = new $dbCreatorClassName($host, $user, $password, $driver);
+                //$dbCreatorClassName = tao_install_utils_DbCreator::getClassNameForDriver($driver);
+                //$dbCreator = new $dbCreatorClassName($host, $user, $password, $driver);
+                
+                $dbConfiguration = array(
+                		'driver' => $driver,
+                		'host' => $host,
+                		'dbname' => $database,
+                		'user' => $user,
+                		'password' => $password
+                );
+                
+                $dbCreator = new tao_install_utils_DbalDbCreator($dbConfiguration);
                 
 				// If we are here, we are connected.
 				if ($overwrite == false && $dbCreator->dbExists($database)){

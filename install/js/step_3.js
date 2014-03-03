@@ -198,6 +198,10 @@ function getDriverLabel(driverId){
 		case 'pdo_sqlsrv':
 			return 'SQL Server'
 		break;
+			
+		case 'pdo_oci':
+			return 'Oracle Server'
+		break;
 		
 		default:
 			throw 'Unknown database driver (' + driverId + ').';

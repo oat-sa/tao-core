@@ -141,15 +141,25 @@ class tao_install_Installator{
 // 				$installData['db_driver'],
 // 				$installData['db_name']
 // 			);
-			
+			$dbName = $installData['db_name'];
+			if($installData['db_driver'] == 'pdo_oci'){
+				$installData['db_name'] = $installData['db_host'];
+				$installData['db_host'] = '';
+			}
 			$dbConfiguration = array(
-					'driver' => $installData['db_driver'],
-					'host' => $installData['db_host'],
-					'dbname' => $installData['db_name'],
-					'user' => $installData['db_user'],
-					'password' => $installData['db_pass']
+						'driver' => $installData['db_driver'],
+						'host' => $installData['db_host'],
+						'dbname' => $installData['db_name'],
+						'user' => $installData['db_user'],
+						'password' => $installData['db_pass'],
+	
 			);
+			if($installData['db_driver'] == 'pdo_oci'){
+				$dbConfiguration['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
+				$dbConfiguration['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
+				$dbConfiguration['fetch_case'] = PDO::CASE_LOWER;
 			
+			}
 			$dbCreator = new tao_install_utils_DbalDbCreator($dbConfiguration);
 			
 			common_Logger::d("DbCreator spawned", 'INSTALL');
@@ -159,8 +169,19 @@ class tao_install_Installator{
 			 */
 	
 			// If the database already exists, drop all tables
-			if ($dbCreator->dbExists($installData['db_name'])) {
-				$dbCreator->cleanDb ($installData['db_name']);
+			if ($dbCreator->dbExists($dbName)) {
+				
+				try {
+					$dbCreator->cleanDb($dbName);
+					
+				} catch (Exception $e){
+					common_Logger::i('Problem cleaning db will try to erase the whole db');
+					try {
+					$dbCreator->destroyTaoDatabase($dbName);
+					} catch (Exception $e){
+						common_Logger::i('isssue during db cleaning : ' . $e->getMessage());
+					}
+				}
 				common_Logger::i("Dropped all tables", 'INSTALL');
 			}
 			// Else create it
@@ -297,9 +318,10 @@ class tao_install_Installator{
 						    $importLocalData = ($installData['import_local'] == true);
 							$extinstaller = new tao_install_ExtensionInstaller($extension, $importLocalData);
 							
-							set_time_limit(60);
+							set_time_limit(300);
 							
 							$extinstaller->install();
+							common_Logger::w('Extension '.$key.' installed');
 						} catch (common_ext_ExtensionException $e) {
 							common_Logger::w('Exception('.$e->getMessage().') during install for extension "'.$extension->getId().'"');
 							throw new tao_install_utils_Exception("An error occured during the installation of extension '" . $extension->getId() . "'.");

@@ -89,7 +89,7 @@ class tao_install_services_SyncService extends tao_install_services_Service{
     }
 
     private static function getAvailableDrivers(){
-        $compatibleDrivers = array('pdo_mysql', 'pdo_pgsql', 'pdo_sqlsrv');
+        $compatibleDrivers = array('pdo_mysql', 'pdo_pgsql', 'pdo_sqlsrv','pdo_oci');
         $availableDrivers = array();
 
         foreach ($compatibleDrivers as $cD){
