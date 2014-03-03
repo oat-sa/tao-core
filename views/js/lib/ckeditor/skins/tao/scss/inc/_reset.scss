@@ -65,7 +65,7 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 
   /* These are rule inherited by all children elements. */
   border-collapse: collapse;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: $regularFont;
   font-weight: 400;
   font-style: normal;
   font-size: 1.4rem;
