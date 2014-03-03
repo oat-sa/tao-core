@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
  * @package tao
  * @subpackage test
  */
-class tao_test_DurationTest extends TaoPhpUnitTestRunner {
+class DurationHelperTest extends TaoPhpUnitTestRunner {
     
     /**
      * Data provider for the testTimetoDuration method
