@@ -1,4 +1,4 @@
-define(['lodash', 'async', 'validator/core/Report', 'validator/core/validators'], function(_, async, Report, validators){
+define(['lodash', 'async', 'validator/Report', 'validator/validators'], function(_, async, Report, validators){
 
     var _rules = validators;
 
