@@ -37,11 +37,10 @@
 
 /* Incrementer */
 input.incrementer {
-    width: 30px;
+    min-width: 25px;
+    width: 25px;
     text-align: right;
-    -moz-border-radius: 2px 0 0 2px;
-    -webkit-border-radius: 2px 0 0 2px;
-    border-radius: 2px 0 0 2px;
+    @include border-radius-left(2);
     border-right-style: none;
     & ~ .incrementer-ctrl {
         display: inline-block;
@@ -52,7 +51,6 @@ input.incrementer {
         line-height: normal;
         vertical-align: bottom;
         position: relative;
-        top: -1px;
         > a {
             display: block;
             height: 13px;
@@ -185,7 +183,7 @@ ul.listbox {
 /* Button groups */
 
 
-ul[data-button-group] {
+ul[data-button-group], ul.button-group {
 
     list-style-type: none;
     padding: 0;
@@ -193,8 +191,9 @@ ul[data-button-group] {
     border: 1px solid $uiGeneralContentBorder;
     border-radius: 1px;
     margin: 0 2px 2px 0;
-    display:inline-block;
+    display: inline-block;
     @include border-radius;
+    @include font-size(12);
 
     & > li {
         border: 0 none;
@@ -240,45 +239,4 @@ ul[data-button-group] {
             padding-top: 2px;
         }
     }
-/*
-    display: inline-block;
-    border: solid 1px whiten($info, .4);
-    background-color: whiten($info, .4);
-    padding: 0;
-    @include border-radius(2);
-
-    & > li {
-        display: inline-block;
-        float: left;
-        color: $textColor;
-        background-color: $uiClickableDefaultBg;
-        padding: 4px 6px;
-        margin: 0;
-        border-right: solid 1px whiten($info, .4);
-        line-height: 20px;
-        &:hover {
-            text-decoration: none;
-            color: $textColor;
-        }
-        &.active {
-            color: $textHighlight;
-            background-color: $info;
-            -webkit-transition: background 0.4s ease;
-            -moz-transition: all 0.4s ease;
-            -o-transition: background 0.4s ease;
-            transition: all 0.4s ease;
-        }
-        &:first-child {
-            @include border-radius-left(1);
-        }
-        &:last-child {
-            border-right: none;
-            @include border-radius-right(1);
-        }
-        &[class^="icon-"], &[class*=" icon-"] {
-            width: 28px;
-            text-align: center;
-        }
-    }*/
-
 }
