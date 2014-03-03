@@ -18,7 +18,6 @@
                                 <*_/   <*/
                                  
 @import "inc/bootstrap";
-
 .cke_button_icon, .cke_button { @extend %tao-icon-setup; }
 .cke_button__anchor_icon:before { @extend %icon-anchor; }
 .cke_button__bgcolor_icon:before { @extend %icon-background-color; }

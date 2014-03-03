@@ -44,7 +44,7 @@ input {
 }
 
 .ui-widget {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: $regularFont;
     font-size: 1.4rem !important;
 }
 
@@ -53,7 +53,7 @@ input {
 }
 
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: $regularFont;
     font-size: 1.4rem !important;
 }
 
@@ -84,7 +84,7 @@ a[rel="external"] span.icon-external {
 
     position: relative;
 
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: $regularFont;
     font-weight: 400;
 
     h1, h2, h3, h4, h5, h6 {
@@ -104,7 +104,7 @@ a[rel="external"] span.icon-external {
     input,
     select,
     textarea {
-        font-family: 'Source Sans Pro', sans-serif;
+        font-family: $regularFont;
         font-weight: 400;
     }
 
@@ -112,3 +112,4 @@ a[rel="external"] span.icon-external {
         max-width: 100%
     }
 }
+
