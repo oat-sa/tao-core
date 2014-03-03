@@ -5914,7 +5914,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   transition: none;
   /* These are rule inherited by all children elements. */
   border-collapse: collapse;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans serif;
   font-weight: 400;
   font-style: normal;
   font-size: 1.4rem;
@@ -12871,7 +12871,7 @@ input {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000346}}
 .ui-widget {
-  font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans serif;
   font-size: 1.4rem !important; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000351}}
@@ -12880,7 +12880,7 @@ input {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000355}}
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
-  font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans serif;
   font-size: 1.4rem !important; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000360}}
@@ -12899,7 +12899,7 @@ a[rel="external"] span.icon-external:before {
   position: relative;
   top: 1px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000377}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000378}}
 .tao-scope {
   /* todo move to main ? */
   /*
@@ -13094,7 +13094,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :__:-:__.;--'
                              <*_/   <*/
   position: relative;
-  font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans serif;
   font-weight: 400; }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_buttons\.scss}line{font-family:\000032}}
   .tao-scope [class^="btn-"], .tao-scope [class*=" btn-"], .tao-scope .btn-info, .tao-scope .ui-button,
@@ -15816,23 +15816,23 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .tao-scope xxsvg .info {
     stroke: #3e7da7;
     fill: rgba(14, 93, 145, 0.5); }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000391}}
   .tao-scope h1, .tao-scope h2, .tao-scope h3, .tao-scope h4, .tao-scope h5, .tao-scope h6 {
     font-weight: 400;
     font-style: normal; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000395}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000396}}
   .tao-scope b, .tao-scope .b, .tao-scope strong, .tao-scope .strong {
     font-weight: 600; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\0000399}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\00003100}}
   .tao-scope a.block {
     color: #222222; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\00003106}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\00003107}}
   .tao-scope button,
   .tao-scope input,
   .tao-scope select,
   .tao-scope textarea {
-    font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans serif;
     font-weight: 400; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\00003111}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/tao-main-style\.scss}line{font-family:\00003112}}
   .tao-scope select {
     max-width: 100%; }
