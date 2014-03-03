@@ -103,13 +103,13 @@ label {
             color: #222 !important;
         }
         &:checked ~ .icon-checkbox:before {
-            content: "\e600";
+            @extend .icon-checkbox-checked:before;
         }
         &:checked ~ .icon-radio:before {
-            content: "\e623";
+            @extend .icon-radio-checked:before;
         }
         &:checked ~ .icon-checkbox.cross:before {
-            content: "\e627";
+            @extend .icon-checkbox-crossed:before;
         }
     }
 }
