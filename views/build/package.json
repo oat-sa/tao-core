@@ -5,14 +5,13 @@
     "type": "svn",
     "url": "http://vcs.taotesting.com/svn/oat/projects/tao/trunk/views/build"
   },
- "scripts": {
+  "scripts": {
     "install": "grunt install",
     "build": "grunt install;grunt build"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-requirejs": "~0.4.1",
-    "grunt-sass": "~0.10.0",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-qunit": "~0.3.0",
@@ -23,6 +22,8 @@
     "npm": "~1.3.25",
     "install": "~0.1.7",
     "grunt-contrib-uglify": "~0.3.2",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "grunt-contrib-sass": "^0.7.2",
+    "grunt-notify": "^0.2.18"
   }
 }
