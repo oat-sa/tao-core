@@ -13,7 +13,7 @@
 }
 
 .tlb-box {
-    @extend .cke_toolbox;
+    @extend .cke_toolbox !optional;
 }
 
 .tlb-break {
@@ -51,7 +51,7 @@
 }
 
 .tlb-end {
-    @extend .cke_toolbar_end;
+    @extend .cke_toolbar_end !optional;
 }
 
 .tlb-group {
@@ -63,7 +63,7 @@
 }
 
 .tlb-start {
-    @extend .cke_toolbar_start;
+    @extend .cke_toolbar_start !optional;
 }
 
 .tlb-top {
@@ -106,7 +106,7 @@
         &:hover {
             background: $uiClickableHoverBg;
             color: $textHighlight;
-            .tlb-text {
+            .tlb-text , [class^="icon-"], [class*=" icon-"] {
                 color: $textHighlight;
                 text-shadow: none;
             }
@@ -119,11 +119,18 @@
             width: auto;
             color: $textColor;
         }
+        [class^="icon-"], [class*=" icon-"] {
+            cursor: pointer;
+            color: $textColor;
+            line-height: 26px;
+            float: left;
+            padding-left: 6px;;
+        }
     }
     .tlb-text-button-disabled {
         cursor: default !important;
         background: white !important;
-        .tlb-text {
+        .tlb-text, [class^="icon-"], [class*=" icon-"]  {
             color: $textColor !important;
             cursor: default !important;
             text-shadow: 1px 1px 0 rgba(255, 255, 255, 1) !important;
@@ -134,7 +141,7 @@
         background-color: $info;
         color: $textHighlight;
         text-shadow: 1px 1px 0 black(.2) !important;
-        .tlb-text {
+        .tlb-text , [class^="icon-"], [class*=" icon-"] {
             text-shadow: none;
             color: $textHighlight;
         }
