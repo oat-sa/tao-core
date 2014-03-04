@@ -58,6 +58,12 @@ new tao_scripts_TaoInstall(array(
 			'required'		=> true,
 			'description'	=> 'Login to access to the database.'
 		),
+	    array(
+	        'name'			=> 'file_path',
+	        'type'			=> 'string',
+	        'shortcut'		=> 'f',
+	        'description'	=> 'Path to where files should be stored.'
+	    ),
 		array(
 			'name'			=> 'install_sent',
 			'type' 			=> 'integer',

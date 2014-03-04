@@ -19,43 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - tao/scripts/class.TaoInstall.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 11.07.2011, 18:41:26 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author firstname and lastname of author, <author@example.org>
- * @package tao
- * @subpackage scripts
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include tao_scripts_Runner
- *
- * @author firstname and lastname of author, <author@example.org>
- */
-
-/* user defined includes */
-// section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E71-includes begin
-// section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E71-includes end
-
-/* user defined constants */
-// section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E71-constants begin
-// section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E71-constants end
 
 /**
  * Short description of class tao_scripts_TaoInstall
@@ -85,6 +48,7 @@ class tao_scripts_TaoInstall
     public function preRun()
     {
         // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E76 begin
+        $root_path = realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR;
         
     	$this->options = array (
 			"db_driver"	=>			"mysql"
@@ -108,8 +72,9 @@ class tao_scripts_TaoInstall
 			, "import_local" => 	true
 			, "instance_name" =>	null
 			, "extensions" =>		null
+    	    , "file_path" =>        $root_path.'generis'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR
 		);
-        
+    	
     	$this->options = array_merge($this->options, $this->parameters);
     	
     	// Feature #1789: default db_name is module_name if not specified.
