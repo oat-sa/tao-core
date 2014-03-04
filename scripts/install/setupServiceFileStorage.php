@@ -25,18 +25,19 @@
  * by end-users through the TAO GUI.
  */
 
-$publicDataPath = GENERIS_FILES_PATH.'servicePublic'.DIRECTORY_SEPARATOR;
-$privateDataPath = GENERIS_FILES_PATH.'servicePrivate'.DIRECTORY_SEPARATOR;
+$publicDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR;
+$privateDataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'private'.DIRECTORY_SEPARATOR;
 
-helpers_File::emptyDirectory($publicDataPath);
-helpers_File::emptyDirectory($privateDataPath);
+if (file_exists($publicDataPath)) {
+    helpers_File::emptyDirectory($publicDataPath);
+}
+if (file_exists($privateDataPath)) {
+    helpers_File::emptyDirectory($privateDataPath);
+}
 
 $publicFs = tao_models_classes_FileSourceService::singleton()->addLocalSource('public service storage', $publicDataPath);
 $privateFs = tao_models_classes_FileSourceService::singleton()->addLocalSource('public service storage', $privateDataPath);
 
 $provider = tao_models_classes_fsAccess_TokenAccessProvider::spawnProvider($publicFs);
-/*
-$provider = new tao_models_classes_fsAccess_TokenAccessProvider($publicFs);
-$provider->prepareProvider();
-*/
+
 tao_models_classes_service_FileStorage::configure($privateFs, $publicFs, $provider);
