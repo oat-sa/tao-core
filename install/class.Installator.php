@@ -240,6 +240,15 @@ class tao_install_Installator{
 			));
 			
 			/*
+			 * 5b - Prepare the cache folder (GENERIS_CACHE_PATH npot yet defined)
+			 * @todo solve this more elegantly
+			 */
+			$cache_path = $installData['file_path'] . 'generis' . DIRECTORY_SEPARATOR. 'cache';
+			if (!file_exists($cache_path)) {
+                mkdir($cache_path, 0700, true);
+			}
+			
+			/*
 			 * 6 - Run the extensions bootstrap
 			 */
 			common_Logger::d('Running the extensions bootstrap', 'INSTALL');
