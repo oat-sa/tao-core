@@ -225,7 +225,8 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
         new DataAttrHandler('close', {
             container: $container,
             listenerEvent: 'click',
-            namespace: dataNs
+            namespace: dataNs,
+            bubbled: true
         }).init(function($elt, $target) {
             var options = {
                 target: $target,

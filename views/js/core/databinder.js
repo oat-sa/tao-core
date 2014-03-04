@@ -162,6 +162,7 @@ function($, _, Handlebars, Encoders, Filters){
      * @constructs
      * @param {jQueryElement} $container
      * @param {Object} model
+     * @param {Object} options - to be documented
      * @returns {DataBinder}
      */
     var DataBinder = function DataBinder($container, model, options) {
@@ -170,7 +171,9 @@ function($, _, Handlebars, Encoders, Filters){
         this.model = model || {};
         this.encoders = _.clone(Encoders);
         this.filters = _.clone(Filters);
-        
+     
+       this.templates = options.templates || {};       
+ 
         if(options){
             if(_.isPlainObject(options.encoders)){
                 _.forEach(options.encoders, function(encoder, name){
@@ -227,11 +230,10 @@ function($, _, Handlebars, Encoders, Filters){
             
             //the item content is either defined by an external template or as the node content
             if($node.data('bind-tmpl')){
-                template = Handlebars.compile($($node.data('bind-tmpl')).html());
+                template = self.templates[$node.data('bind-tmpl')];
             } else {
                  template = Handlebars.compile($node.html());
             }
-
 
             if(!values || !_.isArray(values)){
                  //create the array in the model if not exists

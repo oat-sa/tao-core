@@ -7,7 +7,7 @@
             var control = {};
             var model = {};
             var binderOpts = _.pick(options, function(value, key){
-               return key ===  'encoders' || key === 'filters';
+               return key ===  'encoders' || key === 'filters' || key === 'templates';
             });
             
             if(options.get){

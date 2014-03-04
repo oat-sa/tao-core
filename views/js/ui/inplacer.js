@@ -18,7 +18,53 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
            //input otherwise
         }
    };
+ 
+   /**
+    * Get the element text but not the text of children
+    * @param {jQueryElement} $elt - the element to get the text from
+    * @returns {String} the content
+    */ 
+   function getText($elt){
+        var text = '';
+        $elt.contents().filter(function() {
+            if (this.nodeType === Node.TEXT_NODE && $.trim(this.nodeValue) !== '') {
+                text += $.trim(this.nodeValue);
+            }
+        });
+        return text;
+   }
    
+   /**
+    * Set the element text without removing children
+    * @param {jQueryElement} $elt - the element to set the text to
+    * @param {String} text - the content to set
+    */ 
+   function setText($elt, text){
+        var set = false;
+        $elt.contents().filter(function() {
+            if (this.nodeType === Node.TEXT_NODE && set === false) {
+                set = true;
+                this.nodeValue = text;
+                return;
+            }
+        });
+        if(set === false){
+            $elt.prepend(text);
+        } 
+   } 
+ 
+   /**
+    * Empty the text node of the element
+    * @param {jQueryElement} $elt - the element to set the text to
+    */
+   function emptyText($elt){
+        var set = false;
+        $elt.contents().filter(function() {
+            if (this.nodeType === Node.TEXT_NODE) {
+                this.nodeValue = '';
+            }
+        });
+   } 
    /** 
     * The InPlacer component, 
     * @exports ui/inplacer
@@ -144,20 +190,20 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
             var self = this;
             var options = $elt.data(dataNs);
             var $target = options.target;
-            var text = $elt.text();
+            var text = getText($elt);
             var width = options.width || ($elt.width() + 'px');
             var $editor;
+            emptyText($elt);
             if(_.contains(options.mapping.textarea, $elt.prop('tagName').toLowerCase())){
                 var height = options.height || ($elt.height() + 'px');
-                $editor = $elt.empty()
+                $editor = $elt
                         .append("<textarea>" + text + "</textarea>")
                         .children(':input')
                         .width(width)
                         .height(height);
             } else {
             
-                $editor = $elt.empty()
-                        .append("<input type='text' value='" + text + "' />")
+                $editor = $elt.prepend("<input type='text' value='" + text + "' />")
                         .children(':input')
                         .width(width);
             }
@@ -211,9 +257,12 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
        _leave: function($elt){
             var options = $elt.data(dataNs);
             var $target = options.target;
+            var $input = $elt.children(':input');
+            var content = $input.val();
             
-            $elt.text($elt.children(':input').val()).children(':input').remove();
-            
+            $input.remove();    
+        
+            setText($elt, content);
             
             this._sync($elt, $target);
             
@@ -237,7 +286,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
            if($elt.children(':text').length > 0){
                $target.val($elt.children(':text').val());
            } else {
-               $target.val($elt.text());
+               $target.val(getText($elt));
            } 
        },
                
