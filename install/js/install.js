@@ -24,6 +24,7 @@ $(document).ready(function() {
 	apiInstance = new TaoInstall();
 	apiInstance.frameId = 'mainFrame';
 	apiInstance.setTemplate('step_1');
+	apiInstance.addData('extensions', ['taoCe']);
 
 	// feedback popup show/hide
 	$('#suppportTab').bind('click', openSupportTab);

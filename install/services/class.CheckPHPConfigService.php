@@ -50,26 +50,14 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
     public function execute(){
 		// contains an array of 'component', associated input 'data' 
 		// and service 'class'.
-    	$componentToData = array(); 
+    	$componentToData = array();
     	
         $content = json_decode($this->getData()->getContent(), true);
         if (self::getRequestMethod() == 'get'){
-        	// We extract the checks to perform from the manifests
+            // We extract the checks to perform from the manifests
         	// depending on the distribution.
-        	$distributionsPath = dirname(__FILE__) . '/../../distributions.php';
-        	$distributionsManifest = new common_distrib_Manifest($distributionsPath);
-        	$distributions = $distributionsManifest->getDistributions();
-        	$distrib = $distributions[1]; // Open Source Distribution is default at the moment.
-        	$content['value'] = array();
-        	
-        	foreach ($distrib->getExtensions() as $ext){
-        		$manifestPath = dirname(__FILE__) . '/../../../' . $ext . '/manifest.php';
-        		$content['value'] = array_merge($content['value'], common_ext_Manifest::extractChecks($manifestPath));
-        	}
+            $content['value'] = tao_install_utils_ChecksHelper::getRawChecks($content['extensions']);
         }
-        
-        $resultData = json_encode(array('type' => 'ReportCollection',
-                                        'value' => '{RETURN_VALUE}'));
         
         // Deal with checks to be done.
         $collection = new common_configuration_ComponentCollection();
@@ -131,6 +119,9 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
         // Sort by 'optional'.
         usort($resultValue, array('tao_install_services_CheckPHPConfigService' , 'sortReports'));
         
+        
+        $resultData = json_encode(array('type' => 'ReportCollection',
+            'value' => '{RETURN_VALUE}'));
         
         $resultData = str_replace('"{RETURN_VALUE}"', '[' . implode(',', $resultValue) . ']', $resultData);
         $this->setResult(new tao_install_services_Data($resultData));

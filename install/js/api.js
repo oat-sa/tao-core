@@ -113,7 +113,10 @@ TaoInstall.prototype.checkConfiguration = function(checks, callback){
 	}
 	else{
 		// The checks to perform are chosen by the server-side.
-		var data = {type: 'CheckPHPConfig'};
+		var data = {type: 'CheckPHPConfig'}
+		if (typeof this.data['extensions'] != undefined) {
+			data['extensions'] = this.data['extensions'];
+		}
 		var options = {data: data, type: 'GET', dataType: 'json'};
 	}
 			   	

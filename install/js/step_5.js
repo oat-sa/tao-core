@@ -56,6 +56,7 @@ function onLoad(){
     			'db_pass': install.getData('database_password'),
     			'db_driver': install.getData('database_driver'),
     			'db_name': install.getData('database_name'),
+    			'extensions': install.getData('extensions'),
     			'timezone': install.getData('timezone')
     		};
     		

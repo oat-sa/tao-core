@@ -33,26 +33,6 @@
 
 class tao_install_Installator{
 
-	static $defaultExtensions = array(
-        'tao', 
-        'funcAcl', 
-        'filemanager', 
-        'taoItems', 
-        'wfEngine', 
-        'taoResults', 
-        'taoTests', 
-        'taoDelivery', 
-        'taoGroups', 
-        'taoSubjects', 
-        'taoQTI', 
-        'taoQtiTest', 
-        'taoOpenWebItem', 
-        'taoWfTest', 
-        'taoSimpleDelivery', 
-        'taoQtiCommon', 
-        'taoCe'
-    );
-    
     protected $options = array();
 	
 	private $toInstall = array();
@@ -102,14 +82,19 @@ class tao_install_Installator{
 			if(!preg_match("/\/$/", $installData['module_url'])){
 				$installData['module_url'] .= '/';
 			}
+
+			if(isset($installData['extensions'])) {
+			    $extensionIDs = is_array($installData['extensions'])
+			     ? $installData['extensions']
+			     : explode(',',$installData['extensions']);
+			} else {
+			    $extensionIDs = array('taoCe');
+			}
 			
 			/*
 			 *  1 - Check configuration with checks described in the manifest.
 			 */
-			$distribManifest = new common_distrib_Manifest(dirname(__FILE__) . '/../distributions.php');
-			$distrib = $distribManifest->getDistributions();
-			$distrib = $distrib[1]; // At the moment we only use the Open Source Distribution by default.
-			$configChecker = $distrib->getConfigChecker();
+			$configChecker = tao_install_utils_ChecksHelper::getConfigChecker($extensionIDs);
 			
 			// Silence checks to have to be escaped.
 			foreach ($configChecker->getComponents() as $c){
@@ -286,11 +271,6 @@ class tao_install_Installator{
 	        /*
 			 * 9 - Install the extensions
 			 */			
-			if(isset($installData['extensions'])) {
-				$extensionIDs = explode(',',$installData['extensions']); 
-			} else {
-				$extensionIDs = self::$defaultExtensions;
-			}
 			
 			$toInstall = array();
 			foreach ($extensionIDs as $id) {
@@ -298,7 +278,7 @@ class tao_install_Installator{
 					$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
 					
 					if (!$ext->isInstalled()) {
-					    common_Logger::d('ext :' . $id . ' need to be installed');
+					    common_Logger::d('ext ' . $id . ' need to be installed');
 						$toInstall[$id] = $ext;
 					}
 				} catch (common_ext_ExtensionException $e) {
@@ -310,7 +290,7 @@ class tao_install_Installator{
 				$modified = false;
 				foreach ($toInstall as $key => $extension) {
 					// if all dependencies are installed
-				    common_Logger::d('Considering ext :' . $key);
+				    common_Logger::d('Considering ext ' . $key);
 					$installed	= array_keys(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
 					$missing	= array_diff(array_keys($extension->getDependencies()), $installed);
 					if (count($missing) == 0) {
@@ -331,7 +311,7 @@ class tao_install_Installator{
 					} else {
 						$missing = array_diff($missing, array_keys($toInstall));
 						foreach ($missing as $extID) {
-						    common_Logger::d('ext :' . $key . ' is missing, will be install');
+						    common_Logger::d('ext ' . $extID . ' is required and missing, added to install list');
 							$toInstall[$extID] = common_ext_ExtensionsManager::singleton()->getExtensionById($extID);
 							$modified = true;
 						}
@@ -472,4 +452,3 @@ class tao_install_Installator{
 		return in_array($id, $this->getEscapedChecks());
 	}
 }
-?>
