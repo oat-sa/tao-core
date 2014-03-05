@@ -172,8 +172,6 @@ function($, _, Handlebars, Encoders, Filters){
         this.encoders = _.clone(Encoders);
         this.filters = _.clone(Filters);
      
-       this.templates = options.templates || {};       
- 
         if(options){
             if(_.isPlainObject(options.encoders)){
                 _.forEach(options.encoders, function(encoder, name){
@@ -185,6 +183,7 @@ function($, _, Handlebars, Encoders, Filters){
                     self.filters.register(name, filter);
                 });
             }
+            this.templates = options.templates || {};       
         }
     };
 
@@ -231,6 +230,11 @@ function($, _, Handlebars, Encoders, Filters){
             //the item content is either defined by an external template or as the node content
             if($node.data('bind-tmpl')){
                 template = self.templates[$node.data('bind-tmpl')];
+            
+                //fallback to inner template
+                if(typeof template !== 'function' && $($node.data('bind-tmpl')).length > 0 ){
+                    template = Handlebars.compile($($node.data('bind-tmpl')).html());
+                }
             } else {
                  template = Handlebars.compile($node.html());
             }
