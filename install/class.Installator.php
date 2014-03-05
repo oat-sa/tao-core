@@ -285,7 +285,7 @@ class tao_install_Installator{
 				try {
 					$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
 					
-					if (!$ext->isInstalled()) {
+					if (!common_ext_ExtensionsManager::singleton()->isInstalled($ext->getId())) {
 					    common_Logger::d('ext ' . $id . ' need to be installed');
 						$toInstall[$id] = $ext;
 					}
