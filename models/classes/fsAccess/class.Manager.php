@@ -46,9 +46,8 @@ class tao_models_classes_fsAccess_Manager
     
     private function __construct() {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $config = $ext->getConfig(self::CONFIG_KEY);
-        if (!is_null($config)) {
-            foreach ($config as $serialized) {
+        if ($ext->hasConfig(self::CONFIG_KEY)) {
+            foreach ($ext->getConfig(self::CONFIG_KEY) as $serialized) {
                 $provider = tao_models_classes_fsAccess_AccessProvider::restoreFromString($serialized);
                 $this->providers[$provider->getId()] = $provider; 
             }
