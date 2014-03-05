@@ -132,22 +132,6 @@ class tao_install_utils_DbalDbCreator {
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
-    private function createExtensionsSchema(){
-    	$table = $this->schema->createTable("extensions");
-    	
-    	$table->addColumn("id", "string", array("length" => 25,"notnull" => true));
-    	$table->addColumn("name", "string", array("length" => 150));
-    	$table->addColumn("version", "string", array("length" => 5));
-    	$table->addColumn("loaded", "integer");
-    	$table->addColumn("loadatstartup", "integer");
-    	$table->addColumn("ghost", "integer",array("notnull" => true,"default" => 0));
-    	$table->setPrimaryKey(array("id"));
-    	$table->addOption('engine' , 'MyISAM');
-    }
-    
-    /**
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
-     */
     private function createModelsSchema(){
 	    $table = $this->schema->createTable("models");
 	    $table->addColumn('modelid', "integer",array("notnull" => true,"autoincrement" => true));
@@ -269,7 +253,6 @@ class tao_install_utils_DbalDbCreator {
     	if($this->schema == null){
 
     		$this->schema = new \Doctrine\DBAL\Schema\Schema() ;
-			$this->createExtensionsSchema();
 			$this->createModelsSchema();
 			$this->createStatementsSchena();
 			$this->createResourceToTable();
