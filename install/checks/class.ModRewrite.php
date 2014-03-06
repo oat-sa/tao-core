@@ -44,7 +44,7 @@ class tao_install_checks_ModRewrite extends common_configuration_Component {
             $modRewrite = true;
         }
         // else test the behaviour
-        elseif (function_exists("curl_init")) {
+        elseif (php_sapi_name() != 'cli' && function_exists("curl_init")) {
             
             $server =
                 ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https' : 'http')
