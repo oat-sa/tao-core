@@ -297,8 +297,7 @@ class tao_install_utils_DbalDbCreator {
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
     public function removeGenerisUser(){
-       $this->connection->executeUpdate('DELETE FROM "statements" WHERE "subject" = \'http://www.tao.lu/Ontologies/TAO.rdf#installator\' AND "modelid"=6');
-        
+       $this->connection->executeUpdate("DELETE FROM statements WHERE subject = ?" , array('http://www.tao.lu/Ontologies/TAO.rdf#installator'));    
     }
     
     /**
