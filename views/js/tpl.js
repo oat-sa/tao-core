@@ -38,28 +38,28 @@ define(['handlebars', 'i18n', 'lodash'], function(Handlebars, __, _){
     });
 
     //register join helper
-    Handlebars.registerHelper('join', function(attr, glue, delimiter, wrapper){
-        var ret = '', value = '';
+    Handlebars.registerHelper('join', function(arr, glue, delimiter, wrapper){
+        
+        var ret = '';
 
-        //set default arguments with the format: name1="value1" name2="value2"
+        //set default arguments in the format: name1="value1" name2="value2"
         glue = typeof(glue) === 'string' ? glue : '=';
         delimiter = typeof(delimiter) === 'string' ? delimiter : ' ';
         wrapper = typeof(wrapper) === 'string' ? wrapper : '"';
 
-        if(typeof(attr) === 'object'){
-            for(var name in attr){
-                value = attr[name];
-                if(value !== null || value !== undefined){
-                    if(typeof(value) === 'boolean'){
-                        value = value ? 'true' : 'false';
-                    }else if(typeof(value) === 'object'){
-                        value = _.values(value).join(' ');
-                    }
-                }else{
-                    value = '';
+        _.forIn(arr, function(value, key){
+            if(value !== null || value !== undefined){
+                if(typeof(value) === 'boolean'){
+                    value = value ? 'true' : 'false';
+                }else if(typeof(value) === 'object'){
+                    value = _.values(value).join(' ');
                 }
-                ret += name + glue + wrapper + value + wrapper + delimiter;
+            }else{
+                value = '';
             }
+            ret += key + glue + wrapper + value + wrapper + delimiter;
+        });
+        if(ret){
             ret.substring(0, ret.length - 1);
         }
 
