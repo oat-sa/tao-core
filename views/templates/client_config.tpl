@@ -70,7 +70,8 @@ require.config({
         'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
         'eyecatcher'        : 'eyecatcher', 
         'core.validator'    : 'validator/Validator',
-        'jquery.validator'  : 'validator/jquery.validator'
+        'jquery.validator'  : 'validator/jquery.validator',
+        'jquery.filedownload'  : 'lib/jquery.fileDownload'
    },
   
    shim : {
@@ -80,6 +81,7 @@ require.config({
         'jwysiwyg'              : ['jquery'],
         'jquery.cookie'         : ['jquery'],
         'jquery.timePicker'     : ['jquery'],
+        'jquery.filedownload'   : ['jquery'],
         'jsTree/plugins/jquery.tree.contextmenu' : ['lib/jsTree/jquery.tree'],
         'jsTree/plugins/jquery.tree.checkbox' : ['lib/jsTree/jquery.tree'],
         'generis.tree.select'   : ['generis.tree', 'lib/jsTree/plugins/jquery.tree.checkbox'],
