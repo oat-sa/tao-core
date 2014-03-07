@@ -43,16 +43,17 @@ abstract class tao_models_classes_Compiler
      * 
      * @param core_kernel_classes_Resource $resource
      */
-    public function __construct(core_kernel_classes_Resource $resource, $storage = null) {
+    public function __construct(core_kernel_classes_Resource $resource, tao_models_classes_service_FileStorage $storage) {
         $this->resoure = $resource;
         $this->compilationStorage = $storage;
     }
     
-    public function setStorage(tao_models_classes_service_FileStorage $storage) {
-        $this->compilationStorage = $storage;
-    }
-    
-    public function getStorage() {
+    /**
+     * Returns the storage to be used during compilation
+     * 
+     * @return tao_models_classes_service_FileStorage
+     */
+    protected function getStorage() {
         return $this->compilationStorage;
     }
     
@@ -63,40 +64,74 @@ abstract class tao_models_classes_Compiler
         return $this->resoure;
     }
     
+    /**
+     * Returns a directory that is accessible to the client
+     * 
+     * @return tao_models_classes_service_StorageDirectory
+     */
     protected function spawnPublicDirectory() {
-        if (is_null($this->compilationStorage)) {
-            throw new common_Exception('No storage defined for compiler');
-        }
         return $this->compilationStorage->spawnDirectory(true);
     }
     
+    /**
+     * Returns a directory that is not accessible to the client
+     * 
+     * @return tao_models_classes_service_StorageDirectory
+     */
     protected function spawnPrivateDirectory() {
-        if (is_null($this->compilationStorage)) {
-            throw new common_Exception('No storage defined for compiler');
-        }
         return $this->compilationStorage->spawnDirectory(false);
     }
+
+    /**
+     * helper to create a fail report
+     * 
+     * @param string $userMessage
+     * @return common_report_Report
+     */
+    protected function fail($userMessage) {
+        return new common_report_Report(
+            common_report_Report::TYPE_ERROR,
+            $userMessage
+        );
+    }
     
-    protected abstract function getSubCompilerClass($resource);
+    /**
+     * Determin the compiler of the resource
+     * 
+     * 
+     * @param core_kernel_classes_Resource $resource
+     * @return string the name of the compiler class
+     */
+    protected abstract function getSubCompilerClass(core_kernel_classes_Resource $resource);
     
-    protected function subCompile($resource) {
+    /**
+     * Compile a subelement of the current resource
+     * 
+     * @param core_kernel_classes_Resource $resource
+     * @return common_report_Report returns a report that if successful contains the service call
+     */
+    protected function subCompile(core_kernel_classes_Resource $resource) {
         $compilerClass = $this->getSubCompilerClass($resource);
         if (!class_exists($compilerClass)) {
-            throw new common_exception_Error('Class '.$compilerClass.' not found while instanciating Compiler');
+            common_Logger::e('Class '.$compilerClass.' not found while instanciating Compiler');
+            return $this->fail(__('%s is of a type that cannot be published', $resource->getLabel()));
         }
         if (!is_subclass_of($compilerClass, __CLASS__)) {
-            throw new common_exception_Error('Compiler class '.$compilerClass.' is not a compiler');
+            common_Logger::e('Compiler class '.$compilerClass.' is not a compiler');
+            return $this->fail(__('%s is of a type that cannot be published', $resource->getLabel()));
         }
         $compiler = new $compilerClass($resource, $this->getStorage());
-        return $compiler->compile();
+        $report = $compiler->compile();
+        return $report;
     }
     
     /**
      * Compile the resource into a runnable service
-     * using the provided directory as storage
+     * and returns a report that if successful contains the service call
      * 
-     * @return tao_models_classes_service_ServiceCall
+     * @return common_report_Report
      * @throws tao_models_classes_CompilationFailedException
      */
     public abstract function compile();
+    
 }
