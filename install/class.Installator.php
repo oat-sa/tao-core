@@ -139,6 +139,9 @@ class tao_install_Installator{
 						'password' => $installData['db_pass'],
 	
 			);
+			if($installData['db_driver'] == 'pdo_mysql'){
+			    $dbConfiguration['dbname'] = '';
+			}
 			if($installData['db_driver'] == 'pdo_oci'){
 				$dbConfiguration['wrapperClass'] = 'Doctrine\DBAL\Portability\Connection';
 				$dbConfiguration['portability'] = \Doctrine\DBAL\Portability\Connection::PORTABILITY_ALL;
@@ -157,6 +160,10 @@ class tao_install_Installator{
 			if ($dbCreator->dbExists($dbName)) {
 				
 				try {
+				    //If the target Sgbd is mysql select the database after creating it
+				    if ($installData['db_driver'] == 'pdo_mysql'){
+				        $dbCreator->setDatabase($installData['db_name']);
+				    }
 					$dbCreator->cleanDb($dbName);
 					
 				} catch (Exception $e){
@@ -172,15 +179,18 @@ class tao_install_Installator{
 			// Else create it
 			else {
 				try {
+
 					$dbCreator->createDatabase($installData['db_name']);
 					common_Logger::i("Created database ".$installData['db_name'], 'INSTALL');
 				} catch (Exception $e){
 					throw new tao_install_utils_Exception('Unable to create the database, make sure that '.$installData['db_user'].' is granted to create databases. Otherwise create the database with your super user and give to  '.$installData['db_user'].' the right to use it.');
 				}
-				// If the target Sgbd is mysql select the database after creating it
-// 				if ($installData['db_driver'] == 'mysql'){
-// 					$dbCreator->setDatabase ($installData['db_name']);
-// 				}
+				
+				//If the target Sgbd is mysql select the database after creating it
+				if ($installData['db_driver'] == 'pdo_mysql'){
+				    $dbCreator->setDatabase($installData['db_name']);
+				}
+
 			}
 	
 			// Create tao tables

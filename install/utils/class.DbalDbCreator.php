@@ -61,7 +61,6 @@ class tao_install_utils_DbalDbCreator {
      */
     public function __construct($params){
    		try{
-
             $this->connection = $this->buildDbalConnection($params);
             $this->dbConfiguration = $params;
             $this->buildSchema();
@@ -104,9 +103,11 @@ class tao_install_utils_DbalDbCreator {
      * @param string $name
      */
     public function setDatabase($name){
-        $params = $this->connection->getParams();
-        $this->connection = null;
+        $this->connection->close();
         common_Logger::d('Switch to database ' . $name , 'INSTALL');
+        $this->dbConfiguration['dbname'] = $name;
+        $this->connection = $this->buildDbalConnection($this->dbConfiguration);
+        
     }
 
     /**
