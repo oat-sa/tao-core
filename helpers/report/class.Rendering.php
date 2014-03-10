@@ -111,8 +111,10 @@ class tao_helpers_report_Rendering {
             break;
         }
         
-        $openingTag = '<div class="feedback-' . $typeClass . ' feedback-nesting-' . $nesting . ' ' . (($leaf === true) ? 'leaf' : 'hierarchical') . ' tao-scope">';
-        $icon = '<span class="icon-' . $typeClass . '"></span>';
+        $display = ($nesting > 0) ? 'style="display-none"' : '';
+        $openingTag = '<div class="feedback-' . $typeClass . ' feedback-nesting-' . $nesting . ' ' . (($leaf === true) ? 'leaf' : 'hierarchical') . ' tao-scope" ' . $display . '>';
+        $leafIcon = ($leaf === true) ? ' leaf-icon' : ' hierarchical-icon';
+        $icon = '<span class="icon-' . $typeClass . $leafIcon . '"></span>';
         $message = nl2br($report->__toString());
         $endingTag = '</div>';
         
