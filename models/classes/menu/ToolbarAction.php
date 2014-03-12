@@ -62,7 +62,7 @@ class ToolbarAction implements PhpSerializable
      * Construct from a data array
      * @param array $data the action data
      */    
-    public function __construct($data) {
+    public function __construct($data, $version = self::SERIAL_VERSION) {
         $this->data = $data;
     }
    
