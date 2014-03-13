@@ -1357,6 +1357,23 @@
     left: 0;
 }
 
+.range-slider-arrowed {
+    margin: 0 5px;
+    .ui-slider-handle.has-icon {
+        background: transparent !important;
+        .icon-range-slider-left, .icon-range-slider-right {
+            @include font-size(20);
+            color: $uiClickableActiveBg;
+        }
+        & .ui-active-state {
+            background: transparent !important;
+            .icon-range-slider-left, .icon-range-slider-right {
+                color: $uiClickableHoverBg !important;
+            }
+        }
+    }
+}
+
 .ui-slider-horizontal .ui-slider-range-max {
     right: 0;
 }
@@ -2017,8 +2034,8 @@ html, body {
 }
 
 .ui-slider .ui-slider-range {
-    background: #FFFFFF;
-    height: 50px;
+    background: $uiClickableDefaultBg;
+    height: 9px;
 }
 
 .ui-slider .ui-state-default {
