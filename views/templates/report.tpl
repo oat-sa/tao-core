@@ -11,7 +11,11 @@
 </script>
 <div class="main-container">
 	<div class="ui-widget-header ui-corner-top ui-state-default">
-		<?= __('Import report'); ?>
+		<?php if (has_data('title')): ?>
+			<?php echo $title; ?>
+		<?php else: ?>
+			<?php echo __('Import report'); ?>
+		<?php endif; ?>
 	</div>
 	<div class="ui-widget-content ui-corner-bottom report">
 		<? if (get_data('report')->hasChildren() === true): ?>
@@ -19,7 +23,7 @@
 			<span><?= __("Show detailed report"); ?></span>
 			<input type="checkbox"/>
 		</label>
-		<? endif; ?>
-		<?= tao_helpers_report_Rendering::render(get_data('report')); ?>
+		<?php endif; ?>
+		<?php echo tao_helpers_report_Rendering::render(get_data('report')); ?>
 	</div>
 </div>
