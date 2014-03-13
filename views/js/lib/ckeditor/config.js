@@ -31,3 +31,5 @@ CKEDITOR.editorConfig = function( config ) {
 
 
 CKEDITOR.disableAutoInline = true;
+
+console.log(CKEDITOR.dtd)
