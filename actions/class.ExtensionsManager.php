@@ -20,6 +20,7 @@
  * 
  */
 
+use oat\tao\models\classes\menu\MenuService;
 
 /**
  * default action
@@ -140,6 +141,31 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		$this->index();
 
 	}
+	
+	/**
+	 * Disables an extension
+	 */
+	public function disable() {
+	    $extId = $this->getRequestParameter('id');
+	    \common_ext_ExtensionsManager::singleton()->setEnabled($extId, false);
+	    MenuService::flushCache();
+	    echo json_encode(array(
+	        'success' => true,
+	        'message' => __('Disabled %s', $this->getRequestParameter('id'))
+	    ));
+	}
+	
+	/**
+	 * Enables an extension
+	 */
+	public function enable() {
+	    $extId = $this->getRequestParameter('id');
+	    \common_ext_ExtensionsManager::singleton()->setEnabled($extId, true);
+	    MenuService::flushCache();
+	    echo json_encode(array(
+	        'success' => true,
+	        'message' => __('Disabled %s', $this->getRequestParameter('id'))
+	    ));
+	}
 
 }
-?>

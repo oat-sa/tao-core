@@ -216,4 +216,11 @@ class MenuService {
 
         return $returnValue;
     }
+    
+    
+    public static function flushCache()
+    {
+        self::$structure = array();        
+        \common_cache_FileCache::singleton()->remove(self::CACHE_KEY);
+    }
 }
