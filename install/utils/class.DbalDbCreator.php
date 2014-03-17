@@ -223,13 +223,25 @@ class tao_install_utils_DbalDbCreator {
     }
     
     /**
+     * 
+     * @author "Lionel Lecaque, <lionel@taotesting.com>"
+     */
+    private function createKeyValueStoreTable(){
+        $table = $this->schema->createTable("kv_store");
+        $table->addColumn('kv_id',"string",array("notnull" => null,"length" => 255));
+        $table->addColumn('kv_value',"text",array("notnull" => null));
+        $table->addColumn('kv_time',"integer",array("notnull" => null,"length" => 30));
+        $table->setPrimaryKey(array("kv_id"));
+        $table->addOption('engine' , 'MyISAM');
+    }
+    
+    /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
      */
     private function createResourceHasClass(){
     	$table = $this->schema->createTable("resource_has_class");
     	$table->addColumn("resource_id", "integer",array("notnull" => true));
    		$table->addColumn("class_id", "integer",array("notnull" => true));
-   		$table->addOption('engine' , 'MyISAM');
     	$table->setPrimaryKey(array("resource_id","class_id"));
     	$table->addOption('engine' , 'MyISAM');
     }
@@ -261,6 +273,7 @@ class tao_install_utils_DbalDbCreator {
 			$this->createClassToTable();
 			$this->createClassAdditionalProp();
 			$this->createSequenceUriProvider();
+			$this->createKeyValueStoreTable();
     	}
     	return $this->schema;
     	
