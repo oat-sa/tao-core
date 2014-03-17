@@ -16,6 +16,7 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
 ?>
@@ -339,7 +340,7 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$extractor = new tao_helpers_translation_SourceCodeExtractor($sourceCodePaths, $extensions);
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
-		$this->assertTrue(count($tus) == 21);
+		$this->assertEquals(count($tus), 21);
 		
 		// Complete test.
 		$extensions = array('php', 'tpl', 'js');
@@ -349,7 +350,7 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 		$extractor->setPaths($sourceCodePaths);
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
-		$this->assertTrue(count($tus) == 56);
+		$this->assertEquals(count($tus), 60);
 		$this->assertTrue($tus[1]->getSource() == 'Import');
 		$this->assertTrue($tus[2]->getSource() == ' Please select the input data format to import ');
 		$this->assertTrue($tus[5]->getSource() == 'Please upload a CSV file formated as "defined" %min by %max the options above.');

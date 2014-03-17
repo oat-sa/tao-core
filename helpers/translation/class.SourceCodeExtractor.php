@@ -16,28 +16,11 @@
  * 
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 ?>
 <?php
 
-error_reporting(E_ALL);
-
-/**
- * A TranslationExtractor that focuses on the extraction of Translation Units
- * source code. It searches for calls to the __() function. The generated
- * units will get the first parameter of the __() function as their source.
- *
- * @author Jerome Bogaerts
- * @package tao
- * @since 2.2
- * @subpackage helpers_translation
- * @version 1.0
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
 
 /**
  * A TranslationExtractor instance extracts TranslationUnits from a given source
@@ -49,13 +32,6 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  */
 require_once('tao/helpers/translation/class.TranslationExtractor.php');
 
-/* user defined includes */
-// section -64--88-1-7-3ec47102:13332ada7cb:-8000:0000000000003201-includes begin
-// section -64--88-1-7-3ec47102:13332ada7cb:-8000:0000000000003201-includes end
-
-/* user defined constants */
-// section -64--88-1-7-3ec47102:13332ada7cb:-8000:0000000000003201-constants begin
-// section -64--88-1-7-3ec47102:13332ada7cb:-8000:0000000000003201-constants end
 
 /**
  * A TranslationExtractor that focuses on the extraction of Translation Units
@@ -219,34 +195,47 @@ class tao_helpers_translation_SourceCodeExtractor
 		}
 		
 		if ($extOk) {
+            
 		 	// We read the file.
 		 	$lines = file($filePath);
-		 	foreach ($lines as $line_num => $line) {
-		 		$string	= array();
-		 		preg_match_all("/__\(['\"](.*?)['\"]\)/u", $line, $string);
+		 	foreach ($lines as $line) {
+                $strings        = array();
+		 		$patternMatch1	= array();
+		 		$patternMatch2	= array();
 				
-		 		if (!empty($string[1])) {
-		 			foreach($string[1] as $s) {
-		 				$tu = new tao_helpers_translation_TranslationUnit();
-                        $tu->setSource(tao_helpers_translation_POUtils::sanitize($s));
-		 				$tus = $this->getTranslationUnits();
-		 				$found = false;
-		 				
-		 				// We must add the string as a new TranslationUnit only
-		 				// if a similiar source does not exist.
-		 				foreach ($tus as $t) {
-		 					if ($tu->getSource() == $t->getSource()) {
-		 						$found = true;
-		 						break;
-		 					}
-		 				}
-		 				
-		 				if (!$found) {
-		 					array_push($tus, $tu);
-		 					$this->setTranslationUnits($tus);
-		 				}
-		 			}
-		 		}
+                preg_match_all("/__\(['\"](.*?)['\"]\)/u", $line, $patternMatch1);
+				preg_match_all("/\{\{__ ['\"](.*?)['\"]\}\}/u", $line, $patternMatch2);
+                if(!empty($patternMatch1[1])){
+                    $strings = $patternMatch1[1];
+                }
+                if(!empty($patternMatch2[1])){
+                    $strings = array_merge($strings, $patternMatch2[1]);
+                }
+                //preg_match_all("/__(\(| )+['\"](.*?)['\"](\))?/u", $line, $string);
+                
+                //lookup for __('to translate') or __ 'to translate'
+            //    preg_match_all("/__(\(| )+(('(.*?)')|(\"(.*?)\"))(\))?/u", $line, $string);
+            
+                foreach($strings as $s) {
+                    $tu = new tao_helpers_translation_TranslationUnit();
+                    $tu->setSource(tao_helpers_translation_POUtils::sanitize($s));
+                    $tus = $this->getTranslationUnits();
+                    $found = false;
+                    
+                    // We must add the string as a new TranslationUnit only
+                    // if a similiar source does not exist.
+                    foreach ($tus as $t) {
+                        if ($tu->getSource() == $t->getSource()) {
+                            $found = true;
+                            break;
+                        }
+                    }
+                    
+                    if (!$found) {
+                        array_push($tus, $tu);
+                        $this->setTranslationUnits($tus);
+                    }
+                }
 		 	}
 		}
         // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:000000000000323B end
