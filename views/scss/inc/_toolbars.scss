@@ -86,7 +86,7 @@
 }
 
 .tlb-wrapper {
-    background: whiten($uiClickableDefaultBg, .5);
+    background: $uiClickableDefaultBg;
     @include box-shadow();
     .tlb {
         float: right;

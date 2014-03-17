@@ -1,4 +1,9 @@
 /* Base style that applies on all elements */
+.viewport-hidden {
+    position: absolute;
+    left: -10000px;
+    top: -10000px
+}
 
 s {
     text-decoration: none;

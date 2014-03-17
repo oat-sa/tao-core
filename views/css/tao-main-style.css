@@ -635,6 +635,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
+
 @font-face {
   font-family: 'Source Sans Pro';
   font-style: normal;
@@ -672,8 +684,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                              <*_/   <*/
 @font-face {
   font-family: 'tao';
-  src: url("font/tao/tao.eot?n3m2wx");
-  src: url("font/tao/tao.eot?#iefixn3m2wx") format("embedded-opentype"), url("font/tao/tao.woff?n3m2wx") format("woff"), url("font/tao/tao.ttf?n3m2wx") format("truetype"), url("font/tao/tao.svg?n3m2wx#tao") format("svg");
+  src: url("font/tao/tao.eot?i8h1ul");
+  src: url("font/tao/tao.eot?#iefixi8h1ul") format("embedded-opentype"), url("font/tao/tao.woff?i8h1ul") format("woff"), url("font/tao/tao.ttf?i8h1ul") format("truetype"), url("font/tao/tao.svg?i8h1ul#tao") format("svg");
   font-weight: normal;
   font-style: normal; }
 
@@ -1309,6 +1321,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-checkbox-checked:before, .tao-scope label input[type="radio"]:checked ~ .icon-checkbox:before,
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
 
                                   /*
                                  /  \
@@ -3062,6 +3086,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
+
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_select2\.scss}line{font-family:\000033}}
 .list-symbol {
   font: bold 13px "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
@@ -4316,6 +4352,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
+
 /* The box that holds each toolbar. */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000353}}
 .cke_toolbar, .tlb-bar, .tlb-spacer {
@@ -5277,6 +5325,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
+
 /* "Reset" styles, necessary to avoid the editor UI being broken by external CSS. */
 /*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
@@ -5937,6 +5997,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-checkbox-checked:before, .tao-scope label input[type="radio"]:checked ~ .icon-checkbox:before,
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
 
 /* Reset for single elements, not their children. */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000327}}
@@ -6902,6 +6974,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
+
 /* The box that holds an IFRAME. It's inserted into a host document and positioned
    absolutely by the application. It floats above the host document/editor. */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\0000345}}
@@ -7861,6 +7945,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-checkbox-checked:before, .tao-scope label input[type="radio"]:checked ~ .icon-checkbox:before,
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
 
 /* The box that holds each toolbar. */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000353}}
@@ -9020,6 +9116,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
+
 /* The box that hold the entire combo widget */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000328}}
 .cke_combo, .tlb-text-button-box {
@@ -9907,6 +10015,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
+
 /* "Source" button label */
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_presets\.scss}line{font-family:\000038}}
 .cke_button__source_label,
@@ -10572,6 +10692,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-checkbox-checked:before, .tao-scope label input[type="radio"]:checked ~ .icon-checkbox:before,
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000032}}
 [class^="icon-"], [class*=" icon-"] {
@@ -11287,10 +11419,22 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
+
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the
    editor creates it with visibility:hidden. Here, we restore the UI visibility. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000360}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000359}}
 .cke_chrome {
   visibility: inherit; }
 
@@ -11298,11 +11442,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
    These are usually <span> elements that show not be visible, but that are
    used by screen-readers to announce other elements. Here, we hide these
    <spans>, in fact. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000368}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000367}}
 .cke_voice_label {
   display: none; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000372}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000371}}
 legend.cke_voice_label {
   display: none; }
 
@@ -11321,7 +11465,7 @@ legend.cke_voice_label {
   *zoom: 1;
 }
 */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000391}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000390}}
 .cke_top, .tlb-top {
   display: table; }
 
@@ -11961,6 +12105,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-checkbox-checked:before, .tao-scope label input[type="radio"]:checked ~ .icon-checkbox:before,
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000032}}
 [class^="icon-"], [class*=" icon-"] {
@@ -12872,6 +13028,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
   content: "\1b4"; }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+.icon-result-ok:before {
+  content: "\1b5"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+.icon-result-nok:before {
+  content: "\1b6"; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+.icon-not-evaluated:before {
+  content: "\1b7"; }
+
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_toolbars\.scss}line{font-family:\0000325}}
 .tlb .tlb-bar .tlb-button-on,
 .tlb .tlb-bar .tlb-button-off,
@@ -12905,7 +13073,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_toolbars\.scss}line{font-family:\0000388}}
 .tlb-wrapper {
-  background: #f9f8f7;
+  background: #f3f1ef;
   -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
@@ -14880,238 +15048,243 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_jquery-ui\.scss}line{font-family:\000032144}}
     .tao-scope .ui-button.ui-state-default {
       background-color: #266d9c; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\000033}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\000032}}
+  .tao-scope .viewport-hidden {
+    position: absolute;
+    left: -10000px;
+    top: -10000px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\000038}}
   .tao-scope s {
     text-decoration: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\000037}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000312}}
   .tao-scope .deleted {
     display: none !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000311}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000316}}
   .tao-scope *, .tao-scope *:before, .tao-scope *:after {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000317}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000322}}
   .tao-scope html {
     font-size: 62.5%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000321}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000326}}
   .tao-scope .clear {
     display: block;
     clear: both; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000326}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000331}}
   .tao-scope .lft {
     display: inline;
     float: left; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000331}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000336}}
   .tao-scope .rgt {
     display: inline;
     float: right; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000341}}
   .tao-scope img {
     max-width: 100%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000340}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000345}}
   .tao-scope .plain {
     padding: 0;
     margin: 0;
     list-style: none;
     list-style-image: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000347}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000352}}
   .tao-scope .block {
     display: block;
     text-decoration: none !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000352}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000357}}
   .tao-scope label, .tao-scope button {
     cursor: pointer; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000356}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000361}}
   .tao-scope button {
     vertical-align: middle;
     outline: 0;
     overflow: visible;
     border: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000368}}
   .tao-scope a {
     text-decoration: none;
     outline: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000368}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000373}}
   .tao-scope a:hover {
     text-decoration: underline; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000372}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000377}}
   .tao-scope .placeholder {
     color: #777 !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000376}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000381}}
   .tao-scope ::-webkit-input-placeholder {
     color: #777 !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000380}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000385}}
   .tao-scope :-moz-placeholder {
     color: #777 !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000385}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000390}}
   .tao-scope .submit {
     text-align: right; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000389}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000394}}
   .tao-scope .em, .tao-scope i, .tao-scope em, .tao-scope .i {
     font-style: italic; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000393}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000398}}
   .tao-scope .strong, .tao-scope .b, .tao-scope strong, .tao-scope b {
     font-weight: bold; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\0000397}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003102}}
   .tao-scope small {
     font-size: 0.8rem; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003101}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003106}}
   .tao-scope .js .js-hide {
     display: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003105}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003110}}
   .tao-scope .truncate, .tao-scope .tlb-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003111}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003116}}
   .tao-scope .txt-ctr {
     text-align: center; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003115}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003120}}
   .tao-scope .txt-lft {
     text-align: left; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003119}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003124}}
   .tao-scope .txt-rgt {
     text-align: right; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003123}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003128}}
   .tao-scope .txt-jty {
     text-align: justify; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003128}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003133}}
   .tao-scope .tbl {
     display: table;
     float: none !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003133}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003138}}
   .tao-scope .tbl-row {
     display: table-row;
     float: none !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003138}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003143}}
   .tao-scope .tbl-cell {
     display: table-cell;
     vertical-align: top;
     float: none !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003144}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003149}}
   .tao-scope .debug {
     border: 1px firebrick solid; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.armenian, .tao-scope ol.armenian {
     list-style-type: armenian; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.circle, .tao-scope ol.circle {
     list-style-type: circle; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.cjk-ideographic, .tao-scope ol.cjk-ideographic {
     list-style-type: cjk-ideographic; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.decimal, .tao-scope ol.decimal {
     list-style-type: decimal; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.decimal-leading-zero, .tao-scope ol.decimal-leading-zero {
     list-style-type: decimal-leading-zero; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.disc, .tao-scope ol.disc {
     list-style-type: disc; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.georgian, .tao-scope ol.georgian {
     list-style-type: georgian; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.hebrew, .tao-scope ol.hebrew {
     list-style-type: hebrew; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.hiragana, .tao-scope ol.hiragana {
     list-style-type: hiragana; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.hiragana-iroha, .tao-scope ol.hiragana-iroha {
     list-style-type: hiragana-iroha; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.katakana, .tao-scope ol.katakana {
     list-style-type: katakana; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.katakana-iroha, .tao-scope ol.katakana-iroha {
     list-style-type: katakana-iroha; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.lower-alpha, .tao-scope ol.lower-alpha {
     list-style-type: lower-alpha; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.lower-greek, .tao-scope ol.lower-greek {
     list-style-type: lower-greek; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.lower-latin, .tao-scope ol.lower-latin {
     list-style-type: lower-latin; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.lower-roman, .tao-scope ol.lower-roman {
     list-style-type: lower-roman; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.square, .tao-scope ol.square {
     list-style-type: square; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.upper-alpha, .tao-scope ol.upper-alpha {
     list-style-type: upper-alpha; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.upper-latin, .tao-scope ol.upper-latin {
     list-style-type: upper-latin; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.upper-roman, .tao-scope ol.upper-roman {
     list-style-type: upper-roman; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003151}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
   .tao-scope ul.none, .tao-scope ol.none {
     list-style-type: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003156}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003161}}
   .tao-scope ul, .tao-scope ol {
     padding-left: 40px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003158}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003163}}
     .tao-scope ul.none, .tao-scope ol.none {
       padding-left: 0; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003161}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003166}}
     .tao-scope ul li, .tao-scope ol li {
       vertical-align: text-top !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003167}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003172}}
   .tao-scope a {
     color: #3e7da7; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003169}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003174}}
     .tao-scope a:hover {
       color: #0e5d91; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003171}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003176}}
       .tao-scope a:hover:before, .tao-scope a:hover:after {
         text-decoration: none !important; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003178}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003183}}
   .tao-scope .disabled, .tao-scope *:disabled {
     cursor: default;
     opacity: .7; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003183}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003188}}
   .tao-scope table.matrix {
     width: 100%;
     background: #f9f8f7;
     border: 6px solid #f9f8f7;
     margin-bottom: 10px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003189}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003194}}
     .tao-scope table.matrix td, .tao-scope table.matrix th {
       font-weight: normal;
       padding: 3px 5px;
       border: 1px solid #dddddd;
       border-radius: 2px;
       -webkit-border-radius: 2px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003194}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003199}}
     .tao-scope table.matrix th {
       text-align: left;
       vertical-align: middle; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003198}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003203}}
     .tao-scope table.matrix td {
       background: white;
       text-align: left;
       padding: 2px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003202}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003207}}
       .tao-scope table.matrix td.numeric {
         text-align: right; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003205}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003210}}
       .tao-scope table.matrix td label {
         display: block;
         margin: 0; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003210}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003215}}
     .tao-scope table.matrix [data-edit], .tao-scope table.matrix [data-edit] * {
       border: none;
       padding: 6px;
       cursor: pointer; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003215}}
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_base\.scss}line{font-family:\00003220}}
     .tao-scope table.matrix tbody [data-edit] {
       width: 30px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_forms\.scss}line{font-family:\000031}}
@@ -15908,6 +16081,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .tao-scope .icon-checkbox-checked:before, .tao-scope label input[type="radio"]:checked ~ .icon-checkbox:before,
   .tao-scope label input[type="checkbox"]:checked ~ .icon-checkbox:before {
     content: "\1b4"; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003182}}
+  .tao-scope .icon-result-ok:before {
+    content: "\1b5"; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003183}}
+  .tao-scope .icon-result-nok:before {
+    content: "\1b6"; }
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003184}}
+  .tao-scope .icon-not-evaluated:before {
+    content: "\1b7"; }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_svg\.scss}line{font-family:\000034}}
   .tao-scope xxsvg * {
     cursor: pointer;
