@@ -371,6 +371,25 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 	}
 	
 	/**
+	 * Add a subclass to the currently selected class
+	 * 
+	 * @throws Exception
+	 */
+	public function addSubClass()
+	{
+	    if(!tao_helpers_Request::isAjax()){
+	        throw new Exception("wrong request mode");
+	    }
+	    $clazz = $this->service->createSubClass($this->getCurrentClass());
+	    if(!is_null($clazz) && $clazz instanceof core_kernel_classes_Class){
+	        echo json_encode(array(
+	            'label'	=> $clazz->getLabel(),
+	            'uri' 	=> tao_helpers_Uri::encode($clazz->getUri())
+	        ));
+	    }
+	}
+	
+	/**
 	 * Add an instance of the selected class
 	 * @return void
 	 */
