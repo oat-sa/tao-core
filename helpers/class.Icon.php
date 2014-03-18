@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-03-05 17:04
+ * @date   2014-03-17 16:52
  * @package tao
  * @subpackage helpers
  */
@@ -223,6 +223,9 @@ class tao_helpers_Icon {
     const CLASS_CHECKBOX = 'icon-checkbox';
     const CLASS_CHECKBOX_CROSSED = 'icon-checkbox-crossed';
     const CLASS_CHECKBOX_CHECKED = 'icon-checkbox-checked';
+    const CLASS_RESULT_OK = 'icon-result-ok';
+    const CLASS_RESULT_NOK = 'icon-result-nok';
+    const CLASS_NOT_EVALUATED = 'icon-not-evaluated';
 
 	
     /**
@@ -819,6 +822,18 @@ class tao_helpers_Icon {
 
     public static function iconCheckboxChecked($options=array()){
         return self::buildIcon(self::CLASS_CHECKBOX_CHECKED, $options);
+}
+
+    public static function iconResultOk($options=array()){
+        return self::buildIcon(self::CLASS_RESULT_OK, $options);
+}
+
+    public static function iconResultNok($options=array()){
+        return self::buildIcon(self::CLASS_RESULT_NOK, $options);
+}
+
+    public static function iconNotEvaluated($options=array()){
+        return self::buildIcon(self::CLASS_NOT_EVALUATED, $options);
 }
 
 
