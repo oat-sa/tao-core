@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-03-17 16:52
+ * @date   2014-03-18 17:26
  * @package tao
  * @subpackage helpers
  */
@@ -226,6 +226,7 @@ class tao_helpers_Icon {
     const CLASS_RESULT_OK = 'icon-result-ok';
     const CLASS_RESULT_NOK = 'icon-result-nok';
     const CLASS_NOT_EVALUATED = 'icon-not-evaluated';
+    const CLASS_CONTINUE = 'icon-continue';
 
 	
     /**
@@ -834,6 +835,10 @@ class tao_helpers_Icon {
 
     public static function iconNotEvaluated($options=array()){
         return self::buildIcon(self::CLASS_NOT_EVALUATED, $options);
+}
+
+    public static function iconContinue($options=array()){
+        return self::buildIcon(self::CLASS_CONTINUE, $options);
 }
 
 
