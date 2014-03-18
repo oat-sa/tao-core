@@ -142,15 +142,4 @@ abstract class tao_actions_CommonModule extends Module {
         
         return _url('config', 'ClientConfig', 'tao', array_merge($clientConfigParameters, $extraParameters));
     }
-    
-    /**
-     * (non-PHPdoc)
-     * @see Module::getRenderer()
-     */
-    public function getRenderer() {
-        if (!isset($this->renderer)) {
-            $this->renderer = new oat\tao\helpers\template\Template();
-        }
-        return $this->renderer;
-    }
 }
