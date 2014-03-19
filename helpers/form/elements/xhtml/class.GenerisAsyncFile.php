@@ -415,7 +415,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
          
         $returnValue .= '$(document).ready(function() {';
         $returnValue .= '	$("#' . $downloadButtonId . '").click(function() {';
-        $returnValue .= '		$("#' . $iFrameId . '").attr("src", root_url + "tao/File/downloadFile?uri=' . $fileUri . '")';
+        $returnValue .= '		$("#' . $iFrameId . '").attr("src", "'.ROOT_URL.'tao/File/downloadFile?uri=' . $fileUri . '")';
         $returnValue .= '	});';
         $returnValue .= '});';
         // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C8E end
