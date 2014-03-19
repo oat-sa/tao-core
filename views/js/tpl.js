@@ -39,7 +39,7 @@ define(['handlebars', 'i18n', 'lodash'], function(Handlebars, __, _){
 
     //register join helper
     Handlebars.registerHelper('join', function(arr, glue, delimiter, wrapper){
-        
+
         var ret = '';
 
         //set default arguments in the format: name1="value1" name2="value2"
@@ -79,6 +79,14 @@ define(['handlebars', 'i18n', 'lodash'], function(Handlebars, __, _){
         }
 
         return ret;
+    });
+
+    Handlebars.registerHelper('equal', function(var1, var2, options){
+        if(var1 == var2){
+            return options.fn(this);
+        }else{
+            return options.inverse(this);
+        }
     });
 
     return {
