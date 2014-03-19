@@ -2,15 +2,19 @@ define([
     'ui/toggler', 
     'ui/disabler', 
     'ui/adder', 
-    'ui/closer', 
+    'ui/deleter', 
     'ui/incrementer', 
     'ui/inplacer', 
     'ui/btngrouper', 
     'ui/flipper',
     'ui/durationer',
     'ui/selecter',
-    'ui/modal'
-], function(toggler, disabler, adder, closer, incrementer, inplacer, btngrouper, flipper, durationer, selecter, modal) {
+    'ui/modal',
+    'ui/tooltipster',
+    'ui/radiocheckbox',
+    'ui/validator',
+    'ui/groupvalidator'
+], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, flipper, durationer, selecter, modal, tooltipster, radiocheckbox) {
     'use strict';
         
     /**
@@ -26,7 +30,7 @@ define([
         startEventComponents : function($container){
             adder($container);
             btngrouper($container);
-            closer($container);
+            deleter($container);
             disabler($container);
             toggler($container);
             inplacer($container);
@@ -39,6 +43,8 @@ define([
             incrementer($container);
             durationer($container);
             selecter($container);
+            tooltipster($container);
+            radiocheckbox($container);
         }
     };
 });

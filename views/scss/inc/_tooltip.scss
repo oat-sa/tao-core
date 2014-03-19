@@ -1,0 +1,20 @@
+@import 'inc/bootstrap';
+
+/* tooltip */
+.tao-tooltip {
+	@include border-radius(4); 
+	border: 1px solid #444;
+	background-color: #404040;
+    @include box-shadow;
+	color: $textHighlight;
+    max-width: 300px;
+    .tooltipster-content {
+        @include font-size(12);
+        line-height: 14px;
+        padding: 6px;
+    }
+
+    .tooltipster-fade-show{
+        opacity: 0.7 !important;
+    }
+}

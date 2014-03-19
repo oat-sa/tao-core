@@ -47,6 +47,7 @@ require.config({
         'raphael'           : 'lib/raphael.min',
         'spin'              : 'lib/spin.min',
         'raphael-collision' : 'lib/raphael/raphael-collision/raphael-collision',
+        'tooltipster'       : 'lib/tooltipster/js/jquery.tooltipster.min',
         'mediaElement'      : '../../../taoQTI/views/js/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min',
         'mathJax'           : '../../../taoQTI/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
         'i18n_tr'           : '<?=BASE_URL?>locales/<?=get_data('locale')?>/messages_po',
@@ -68,9 +69,7 @@ require.config({
         'taoQtiXmlRenderer' : '../../../taoQTI/views/js/qtiXmlRenderer',
         'qtiClass'          : '../../../taoQTI/views/js/qtiItem/lib/class',
         'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
-        'eyecatcher'        : 'eyecatcher', 
-        'core.validator'    : 'validator/Validator',
-        'jquery.validator'  : 'validator/jquery.validator',
+        'eyecatcher'        : 'eyecatcher',
         'jquery.filedownload'  : 'lib/jquery.fileDownload'
    },
   
@@ -81,6 +80,7 @@ require.config({
         'jwysiwyg'              : ['jquery'],
         'jquery.cookie'         : ['jquery'],
         'jquery.timePicker'     : ['jquery'],
+        'tooltipster'           : ['jquery', 'css!lib/tooltipster/css/tooltipster.css'],
         'jquery.filedownload'   : ['jquery'],
         'jsTree/plugins/jquery.tree.contextmenu' : ['lib/jsTree/jquery.tree'],
         'jsTree/plugins/jquery.tree.checkbox' : ['lib/jsTree/jquery.tree'],

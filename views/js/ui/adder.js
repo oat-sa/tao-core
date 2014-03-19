@@ -143,6 +143,7 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
         * @private
         * @param {jQueryElement} $elt - plugin's element 
         * @fires Adder#add.adder
+        * @fires Adder#add
         */
        _add : function($elt){
            var options = $elt.data(dataNs);
@@ -153,15 +154,24 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
            
            var applyTemplate = function applyTemplate($content, position, $target, data){
                $content[position]($target);
+
+               /**
+                * The target has received content.
+                * @event Adder#add
+                * @param {jQueryElement} - the added content
+                * @param {Object} - the data bound to the added content
+                */
+               $target.trigger('add', [$content, data]);
                
                /**
                 * The content has been added.
                 * @event Adder#add.adder
                 * @param {jQueryElement} - the target
                 * @param {jQueryElement} - the added content
+                * @param {Object} - the data bound to the added content
                 */
-               $elt.trigger('add.'+ns, [$target, $content]);
-               $target.trigger('add', [data]);     //also trigger unamespaced event for global behavior
+               $elt.trigger('add.'+ns, [$target, $content, data]);
+
            };
            
            //DOM element or template

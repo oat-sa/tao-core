@@ -13,39 +13,7 @@ define(['jquery', 'lodash'], function($, _){
        bubbled: false    
    };
    
-   /**
-    * Loads the target element from the data-attr (and fallback to href or a named attribute).
-    * The value of the data-attr is a CSS selector, it will be applied directly or with $elt as context.
-    * 
-    * @private
-    * @param {String} attrName - the name of the attribute, ie. `toggle` for `data-toggle`
-    * @param {jQueryElement} $elt - the element that holds the data attr
-    * @returns {jQueryElement} the target
-    */
-   var getTarget = function getTarget(attrName, $elt){
-        var relativeRegex = /^(\+|>|~|:parent|<)/;
-        var $target = [];
-        var targetSelector = $elt.attr('data-' + attrName) || $elt.attr('href') || $elt.attr('attrName');
-        if(!_.isEmpty(targetSelector)){
-            //try to contextualize from the current element before selcting globally
-            var matches = relativeRegex.exec(targetSelector);
-            if(matches !== null){
-                var selector = targetSelector.replace(relativeRegex, '');
-                if(matches[0] === ':parent' || matches[0] === '<'){
-                    $target = $elt.parents(selector);
-                } else if (matches[0] === '~'){
-                    $target = $elt.siblings(selector);
-                } else if (matches[0] === '+'){
-                    $target = $elt.next(selector);
-                } else {
-                    $target = $(selector, $elt);
-                }
-            }else {
-                $target = $(targetSelector);
-            }
-        }
-        return $target;
-   };
+
    
    var letDefaultOn = [
        ':radio', ':checkbox'
@@ -117,7 +85,7 @@ define(['jquery', 'lodash'], function($, _){
                     $elt = $elt.parents('[data-' + attrName + ']');
                 }
                 
-                $target =  (self.options.useTarget === true) ? getTarget(attrName, $elt) : (self.options.inner ? $outer : undefined);
+                $target =  (self.options.useTarget === true) ? DataAttrHandler.getTarget(attrName, $elt) : (self.options.inner ? $outer : undefined);
 
                 //check if the plugin is already bound to the element
                 if(!$elt.data(self.options.namespace)){
@@ -177,6 +145,39 @@ define(['jquery', 'lodash'], function($, _){
 
         return this;
     };
+
+   /**
+    * Loads the target element from the data-attr (and fallback to href or a named attribute).
+    * The value of the data-attr is a CSS selector, it will be applied directly or with $elt as context.
+    * 
+    * @param {String} attrName - the name of the attribute, ie. `toggle` for `data-toggle`
+    * @param {jQueryElement} $elt - the element that holds the data attr
+    * @returns {jQueryElement} the target
+    */
+    DataAttrHandler.getTarget = function getTarget(attrName, $elt){
+        var relativeRegex = /^(\+|>|~|:parent|<)/;
+        var $target = [];
+        var targetSelector = $elt.attr('data-' + attrName) || $elt.attr('href') || $elt.attr('attrName');
+        if(!_.isEmpty(targetSelector)){
+            //try to contextualize from the current element before selcting globally
+            var matches = relativeRegex.exec(targetSelector);
+            if(matches !== null){
+                var selector = targetSelector.replace(relativeRegex, '');
+                if(matches[0] === ':parent' || matches[0] === '<'){
+                    $target = $elt.parents(selector);
+                } else if (matches[0] === '~'){
+                    $target = $elt.siblings(selector);
+                } else if (matches[0] === '+'){
+                    $target = $elt.next(selector);
+                } else {
+                    $target = $(selector, $elt);
+                }
+            }else {
+                $target = $(targetSelector);
+            }
+        }
+        return $target;
+   };
 
     //expose the handler
     return DataAttrHandler;

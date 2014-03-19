@@ -141,20 +141,44 @@ function($, _, Handlebars, Encoders, Filters){
      * @param {jQueryElement} $node
      * @returns {jQueryElement}
      */
-    var toBind = function toBind($node) {
-        if ($node.is(':radio') && $node.attr('name')) {
-            return $(":radio[name='" + $node.attr('name') + "']");
-        } else if ($node.is(':checkbox')  && $node.attr('name')) {
-            return $(":checkbox[name='" + $node.attr('name') + "']");
+    var toBind = function toBind($node){ 
+        if($node[0].type && $node[0].name){
+            if($node[0].type === 'radio'){
+                return $("[name='" + $node[0].name + "']");
+            } else if ($node[0].type === 'checkbox') {
+                return $("[name='" + $node[0].name + "']");
+            }
         }
         return $node;
     };
-    
+
+    /**
+     * Bind wrapper to ensure the event is bound only once using a namespace
+     * @param {jQueryElement} $node - the node to bind
+     * @param {String} eventName - the name of the event to bind
+     * @param {Function} cb - a jQuery event handler 
+     */
+    var _bindOnce = function _bind($node, eventName, cb){
+        var bounds;
+        if($node.length > 0){
+            bounds = $._data($node[0], 'events');
+            if(!bounds || _(bounds[eventName]).where({namespace : 'internalbinder'}).size() < 1 ){
+                toBind($node).on(eventName + '.internalbinder', function(e){
+                    if($(this).is(e.target)){
+                        cb.apply(null, Array.prototype.splice.call(arguments, 1));
+                    } 
+                });
+            }
+        }
+    };
+   
+    /**
+     * The default configuration
+     */ 
     var bindDefault = {
         domFirst : false,
         rebind : false
     };
-    
         
     /**
      * Constructor, define the model and the DOM container to bind
@@ -188,7 +212,7 @@ function($, _, Handlebars, Encoders, Filters){
     };
 
     /**
-     * Assign value and listen for change on a particular node.
+     1* Assign value and listen for change on a particular node.
      * @memberOf DataBinder
      * @private
      * @param {jQueryElement} $node - the elements to bind 
@@ -306,11 +330,8 @@ function($, _, Handlebars, Encoders, Filters){
      * @fires DataBinder#change.binder
      */
     DataBinder.prototype._listenUpdates = function _listenUpdates($node, path, model) {
-        
         var self = this;
-        toBind($node).off('change').on('change', function(e) {
-            e.stopPropagation();
-            
+        _bindOnce($node, 'change', function() {
             if($node.is('[data-bind-each]')){
                 
                  //sort the model, sync the indexes and rebind the content
@@ -380,11 +401,8 @@ function($, _, Handlebars, Encoders, Filters){
      * @fires DataBinder#change.binder
      */
     DataBinder.prototype._listenRemoves = function _listenRemoves($node, path, model) {
-        
         var self = this;
-        toBind($node).off('close').on('close', function(e){
-            e.stopPropagation();
-
+        _bindOnce($node, 'delete', function(){
             remove(model, path);
             
             //if we remove an element of an array, we need to resync indexes and bindings
@@ -400,6 +418,7 @@ function($, _, Handlebars, Encoders, Filters){
                     .trigger('change.binder', [self.model]);
 
         });
+        
     };
     
      /**
@@ -415,9 +434,7 @@ function($, _, Handlebars, Encoders, Filters){
     DataBinder.prototype._listenAdds = function _listenAdds($node, path, model) {
         
         var self = this;
-        toBind($node).off('add').on('add', function(e, data){
-            e.stopPropagation();
-            
+        _bindOnce($node, 'add', function(content, data){
             var size = $node.children('[data-bind-index]').length;
             $node.children().not('[data-bind-index]').each(function(){
                 
@@ -445,6 +462,9 @@ function($, _, Handlebars, Encoders, Filters){
             self.$container
                     .trigger('add.binder', [self.model])
                     .trigger('change.binder', [self.model]);
+
+            //rethrow on the node
+            $node.trigger('add.binder', [content, data]); 
         });
     };
     
@@ -493,16 +513,18 @@ function($, _, Handlebars, Encoders, Filters){
             if ($node.data('bind-encoder')) {
                  value = this.encoders.encode($node.data('bind-encoder'), value);
             }
-
+        
             //assign value
-            if ($node.is(":text, input[type='hidden'], textarea, select")) {
-                $node.val(value);
-                $node.trigger('change');
-            } else if ($node.is(':radio, :checkbox')) {
-                toBind($node).each(function(){
-                    var $elt = $(this);
-                    $elt.prop('checked', $elt.val() === value);
-                }).trigger('change');
+            if(['INPUT', 'SELECT', 'TEXTAREA'].indexOf($node[0].nodeName) >= 0){
+                if ($node.is(":text, input[type='hidden'], textarea, select")) {
+                    $node.val(value);
+                  //  $node.trigger('change');
+                } else if ($node.is(':radio, :checkbox')) {
+                    toBind($node).each(function(){
+                        var $elt = $(this);
+                        $elt.prop('checked', $elt.val() === value);
+                    }); // .trigger('change');
+                } 
             } else if ($node.hasClass('button-group')) {
                 $node.find('[data-bind-value]').each(function(){
                     var $elt = $(this);
@@ -512,6 +534,8 @@ function($, _, Handlebars, Encoders, Filters){
                         $elt.removeClass('active');
                     }
                 });
+            } else if ($node.data('bind-html') === true) {
+                $node.html(value);
             } else {
                 $node.text(value);
             }
@@ -528,17 +552,19 @@ function($, _, Handlebars, Encoders, Filters){
      */
     DataBinder.prototype._getNodeValue = function _getNodeValue($node) {
         var value;
-        if ($node.is(":text, input[type='hidden'], textarea, select")) {
-            value = $node.val();
-        } else if ($node.is(':radio, :checkbox')) {
-            value = toBind($node).filter(':checked').val();
-        } else if ($node.hasClass('button-group')) {
-            $node.find('[data-bind-value]').each(function(){
-                var $elt = $(this);
-                if($elt.hasClass('active')){
-                    value = $elt.data('bind-value') + '';
-                }  
-            });
+        if(['INPUT', 'SELECT', 'TEXTAREA'].indexOf($node[0].nodeName) >= 0){
+            if ($node.is(":text, input[type='hidden'], textarea, select")) {
+                value = $node.val();
+            } else if ($node.is(':radio, :checkbox')) {
+                value = toBind($node).filter(':checked').val();
+            } else if ($node.hasClass('button-group')) {
+                $node.find('[data-bind-value]').each(function(){
+                    var $elt = $(this);
+                    if($elt.hasClass('active')){
+                        value = $elt.data('bind-value') + '';
+                    }  
+                });
+            }
         } else {
             value = $node.text();
         }

@@ -11,6 +11,7 @@ label {
 
 .pseudo-label-box {
     position: relative;
+    cursor: pointer; 
     & > label {
         width: 20px;
         position: absolute;
@@ -21,6 +22,10 @@ label {
             cursor: pointer;
             margin-left: 24px;
         }
+    }
+    abbr {
+        border: none;
+        color: $info;
     }
 }
 
@@ -62,6 +67,19 @@ select {
     background-color: white;
     color: $textColor;
     max-width: 300px;
+
+    &.disabled, &[disabled], &[readonly] {
+        cursor: not-allowed !important;
+        color: $textColor;
+        opacity: .55 !important;
+    }
+
+    & ~ .validate-error {
+        color: $error;
+    }
+    &.error {
+        border-color: $error;
+    }
 }
 
 option {
@@ -111,5 +129,14 @@ label {
         &:checked ~ .icon-checkbox.cross:before {
             @extend .icon-checkbox-crossed:before;
         }
+        &.disabled, &[disabled], &[readonly] {
+            & ~[class^="icon-"], 
+            & ~[class*=" icon-"]{
+                cursor: not-allowed !important;
+                opacity: .4 !important;
+            }
+        }
     }
 }
+
+

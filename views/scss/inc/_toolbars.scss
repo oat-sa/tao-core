@@ -35,12 +35,14 @@
     @extend .cke_button_off;
 }
 
-.tlb-button-on {
+.tlb-button-on, .tlb-button-off:focus {
     @extend .cke_button_on;
 }
 
-.tlb .tlb-top .tlb-bar .tlb-button-disabled {
+.tlb .tlb-top .tlb-bar .tlb-button-disabled,
+.tlb .tlb-top .tlb-bar .disabled{
     opacity: .5;
+    background: white !important;
     &:hover {
         background: white !important;
         color: $textColor !important;
@@ -127,7 +129,7 @@
             padding-left: 6px;;
         }
     }
-    .tlb-text-button-disabled {
+    .tlb-text-button-disabled, .disabled {
         cursor: default !important;
         background: white !important;
         .tlb-text, [class^="icon-"], [class*=" icon-"]  {
@@ -137,7 +139,7 @@
             opacity: .4;
         }
     }
-    .tlb-text-button-on {
+    .tlb-text-button-on, &:focus {
         background-color: $info;
         color: $textHighlight;
         text-shadow: 1px 1px 0 black(.2) !important;

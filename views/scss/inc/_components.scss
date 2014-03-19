@@ -37,8 +37,8 @@
 
 /* Incrementer */
 input.incrementer {
-    min-width: 25px;
-    width: 25px;
+    min-width: 25px !important;
+    width: 25px !important;
     text-align: right;
     @include border-radius-left(2);
     border-right-style: none;
@@ -240,3 +240,5 @@ ul[data-button-group], ul.button-group {
         }
     }
 }
+
+
