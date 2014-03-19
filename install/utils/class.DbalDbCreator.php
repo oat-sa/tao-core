@@ -181,47 +181,7 @@ class tao_install_utils_DbalDbCreator {
     
     }
     
-    
-    /**
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
-     */
-    private function createClassToTable(){
-    	$table = $this->schema->createTable("class_to_table");
-    	$table->addColumn("id", "integer",array("notnull" => true,"autoincrement" => true));
-    	$table->addColumn("uri", "string",array("notnull" => null));
-    	$table->addColumn("table", "string",array("notnull" => null,"length" => 64));
-    	$table->addColumn("topclass", "string",array("notnull" => null));
-    	$table->addIndex(array("uri"),"idx_class_to_table_uri");
-    	$table->addIndex(array("id"),"id");
-    	$table->setPrimaryKey(array("id"));
-    	$table->addOption('engine' , 'MyISAM');
-    }
-    
-    /**
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
-     */
-    private function createClassAdditionalProp(){
-    	$table = $this->schema->createTable("class_additional_properties");
-    	$table->addColumn("class_id", "integer",array("notnull" => true));
-    	$table->addColumn("property_uri", "string",array("length" => 255,"notnull" => null));
-    	$table->setPrimaryKey(array("class_id","property_uri"));
-    	$table->addOption('engine' , 'MyISAM');
-    }
-    
-    /**
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
-     */
-    private function createResourceToTable(){
-    	$table = $this->schema->createTable("resource_to_table");
-    	$table->addColumn("id", "integer",array("notnull" => true,"autoincrement" => true));
-    	$table->addColumn("uri", "string",array("notnull" => null));
-    	$table->addColumn("table", "string",array("notnull" => null,"length" => 64));
-    	$table->addIndex(array("uri"),"idx_resource_to_table_uri");
-    	$table->addIndex(array("id"),"id");
-    	$table->setPrimaryKey(array("id"));
-    	$table->addOption('engine' , 'MyISAM');
-    }
-    
+
     /**
      * 
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
@@ -234,17 +194,7 @@ class tao_install_utils_DbalDbCreator {
         $table->setPrimaryKey(array("kv_id"));
         $table->addOption('engine' , 'MyISAM');
     }
-    
-    /**
-     * @author "Lionel Lecaque, <lionel@taotesting.com>"
-     */
-    private function createResourceHasClass(){
-    	$table = $this->schema->createTable("resource_has_class");
-    	$table->addColumn("resource_id", "integer",array("notnull" => true));
-   		$table->addColumn("class_id", "integer",array("notnull" => true));
-    	$table->setPrimaryKey(array("resource_id","class_id"));
-    	$table->addOption('engine' , 'MyISAM');
-    }
+
     
     /**
      * @author "Lionel Lecaque, <lionel@taotesting.com>"
@@ -268,10 +218,10 @@ class tao_install_utils_DbalDbCreator {
     		$this->schema = new \Doctrine\DBAL\Schema\Schema() ;
 			$this->createModelsSchema();
 			$this->createStatementsSchena();
-			$this->createResourceToTable();
-			$this->createResourceHasClass();
-			$this->createClassToTable();
-			$this->createClassAdditionalProp();
+// 			$this->createResourceToTable();
+// 			$this->createResourceHasClass();
+// 			$this->createClassToTable();
+// 			$this->createClassAdditionalProp();
 			$this->createSequenceUriProvider();
 			$this->createKeyValueStoreTable();
     	}
