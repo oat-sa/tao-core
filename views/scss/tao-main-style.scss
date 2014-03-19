@@ -16,12 +16,12 @@ hgroup, hr, noscript, ol, output, p, pre, section, table, tfoot, ul, video, main
     padding-bottom: 0;
 }
 
-
 // add margin to some of the block elements
 blockquote, dd, dl, fieldset, figure, h1, h2, h3, h4, h5, h6,
 hr, ol, p, pre, table, ul {
     margin-bottom: 10px;
 }
+
 
 code {
     background: whiten($lightBlueGrey, .5);

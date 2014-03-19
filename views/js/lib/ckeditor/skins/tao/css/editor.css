@@ -33,7 +33,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000320}}
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -46,171 +45,132 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000337}}
 .cke_combo_arrow:before, .cke_button_arrow:before {
   content: "\124"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000338}}
 .cke_button__undo_icon:before {
   content: "\125"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000339}}
 .cke_button__redo_icon:before {
   content: "\126"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000353}}
 .cke_button__find_icon:before {
   content: "\134"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000354}}
 .cke_button__image_icon:before {
   content: "\135"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000364}}
 .cke_button__bulletedlist_icon:before {
   content: "\13f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000365}}
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000398}}
+.cke_button__horizontalrule_icon:before {
+  content: "\160"; }
+
 .cke_button__table_icon:before {
   content: "\161"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000399}}
 .cke_button__anchor_icon:before {
   content: "\162"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003100}}
 .cke_button__unlink_icon:before {
   content: "\163"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003101}}
 .cke_button__link_icon:before {
   content: "\164"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003102}}
 .cke_button__bidirtl_icon:before {
   content: "\165"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003103}}
 .cke_button__bidiltr_icon:before {
   content: "\166"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003104}}
 .cke_button__specialchar_icon:before {
   content: "\167"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003105}}
 .cke_button__sourcedialog_icon:before {
   content: "\168"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003106}}
 .cke_button__newpage_icon:before {
   content: "\169"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003107}}
 .cke_button__templates_icon:before {
   content: "\16a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003108}}
 .cke_button__cut_icon:before {
   content: "\16b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003109}}
 .cke_button__replace_icon:before {
   content: "\16c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003110}}
 .cke_button__copy_icon:before {
   content: "\16d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003111}}
 .cke_button__paste_icon:before {
   content: "\16e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003112}}
 .cke_button__selectall_icon:before {
   content: "\16f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003113}}
 .cke_button__pastetext_icon:before {
   content: "\170"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003114}}
 .cke_button__pastefromword_icon:before {
   content: "\171"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003115}}
 .cke_button__bold_icon:before {
   content: "\172"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003116}}
 .cke_button__italic_icon:before {
   content: "\173"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003117}}
 .cke_button__underline_icon:before {
   content: "\174"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003118}}
 .cke_button__subscript_icon:before {
   content: "\175"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003119}}
 .cke_button__superscript_icon:before {
   content: "\176"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003120}}
 .cke_button__strike_icon:before {
   content: "\177"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003121}}
 .cke_button__outdent_icon:before {
   content: "\178"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003122}}
 .cke_button__indent_icon:before {
   content: "\179"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003123}}
 .cke_button__blockquote_icon:before {
   content: "\17a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003124}}
 .cke_button__creatediv_icon:before {
   content: "\17b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003125}}
 .cke_button__justifyleft_icon:before {
   content: "\17c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003126}}
 .cke_button__justifycenter_icon:before {
   content: "\17d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003127}}
 .cke_button__justifyright_icon:before {
   content: "\17e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003128}}
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003151}}
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003152}}
 .cke_button__bgcolor_icon:before {
   content: "\197"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003153}}
 .cke_button__scayt_icon:before {
   content: "\198"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003178}}
 .cke_button__radio_icon:before {
   content: "\1b1"; }
 
@@ -259,7 +219,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000320}}
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -272,176 +231,136 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000337}}
 .cke_combo_arrow:before, .cke_button_arrow:before {
   content: "\124"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000338}}
 .cke_button__undo_icon:before {
   content: "\125"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000339}}
 .cke_button__redo_icon:before {
   content: "\126"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000353}}
 .cke_button__find_icon:before {
   content: "\134"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000354}}
 .cke_button__image_icon:before {
   content: "\135"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000364}}
 .cke_button__bulletedlist_icon:before {
   content: "\13f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000365}}
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000398}}
+.cke_button__horizontalrule_icon:before {
+  content: "\160"; }
+
 .cke_button__table_icon:before {
   content: "\161"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000399}}
 .cke_button__anchor_icon:before {
   content: "\162"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003100}}
 .cke_button__unlink_icon:before {
   content: "\163"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003101}}
 .cke_button__link_icon:before {
   content: "\164"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003102}}
 .cke_button__bidirtl_icon:before {
   content: "\165"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003103}}
 .cke_button__bidiltr_icon:before {
   content: "\166"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003104}}
 .cke_button__specialchar_icon:before {
   content: "\167"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003105}}
 .cke_button__sourcedialog_icon:before {
   content: "\168"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003106}}
 .cke_button__newpage_icon:before {
   content: "\169"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003107}}
 .cke_button__templates_icon:before {
   content: "\16a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003108}}
 .cke_button__cut_icon:before {
   content: "\16b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003109}}
 .cke_button__replace_icon:before {
   content: "\16c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003110}}
 .cke_button__copy_icon:before {
   content: "\16d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003111}}
 .cke_button__paste_icon:before {
   content: "\16e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003112}}
 .cke_button__selectall_icon:before {
   content: "\16f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003113}}
 .cke_button__pastetext_icon:before {
   content: "\170"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003114}}
 .cke_button__pastefromword_icon:before {
   content: "\171"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003115}}
 .cke_button__bold_icon:before {
   content: "\172"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003116}}
 .cke_button__italic_icon:before {
   content: "\173"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003117}}
 .cke_button__underline_icon:before {
   content: "\174"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003118}}
 .cke_button__subscript_icon:before {
   content: "\175"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003119}}
 .cke_button__superscript_icon:before {
   content: "\176"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003120}}
 .cke_button__strike_icon:before {
   content: "\177"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003121}}
 .cke_button__outdent_icon:before {
   content: "\178"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003122}}
 .cke_button__indent_icon:before {
   content: "\179"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003123}}
 .cke_button__blockquote_icon:before {
   content: "\17a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003124}}
 .cke_button__creatediv_icon:before {
   content: "\17b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003125}}
 .cke_button__justifyleft_icon:before {
   content: "\17c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003126}}
 .cke_button__justifycenter_icon:before {
   content: "\17d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003127}}
 .cke_button__justifyright_icon:before {
   content: "\17e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003128}}
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003151}}
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003152}}
 .cke_button__bgcolor_icon:before {
   content: "\197"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003153}}
 .cke_button__scayt_icon:before {
   content: "\198"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003178}}
 .cke_button__radio_icon:before {
   content: "\1b1"; }
 
 /* Reset for single elements, not their children. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000327}}
 .cke_reset {
   /* Do not include inheritable rules here. */
   margin: 0;
@@ -462,7 +381,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   transition: none; }
 
 /* Reset for elements and their children. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000348}}
 .cke_reset_all, .cke_reset_all * {
   /* The following must be identical to .cke_reset. */
   margin: 0;
@@ -490,38 +408,31 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   white-space: nowrap;
   cursor: auto; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000378}}
 .cke_reset_all .cke_rtl * {
   text-align: right; }
 
 /* Defaults for some elements. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000384}}
 .cke_reset_all iframe {
   vertical-align: inherit;
   /** For IE */ }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000388}}
 .cke_reset_all textarea {
   white-space: pre; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\0000394}}
 .cke_reset_all textarea,
 .cke_reset_all input[type="text"],
 .cke_reset_all input[type="password"] {
   cursor: text; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\00003100}}
 .cke_reset_all textarea[disabled],
 .cke_reset_all input[type="text"][disabled],
 .cke_reset_all input[type="password"][disabled] {
   cursor: default; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\00003104}}
 .cke_reset_all fieldset {
   padding: 10px;
   border: 2px groove #E0DFE3; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_reset\.scss}line{font-family:\00003109}}
 .cke_reset_all select {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -574,14 +485,12 @@ Special outer level classes used in this file:
 
 */
 /* The outer boundary of the interface. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000349}}
 .cke_chrome {
   /* This is <span>, so transform it into a block.*/
   display: block;
   padding: 0; }
 
 /* The inner boundary of the interface. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000356}}
 .cke_inner {
   /* This is <span>, so transform it into a block.*/
   display: block;
@@ -592,19 +501,16 @@ Special outer level classes used in this file:
 
 /* Added to the outer boundary of the UI when in inline editing,
    when the UI is floating. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000370}}
 .cke_float {
   /* Make white the space between the outer and the inner borders. */
   border: none; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000375}}
 .cke_float .cke_inner {
   /* As we don't have blocks following top (toolbar) we suppress the padding
      as the toolbar defines its own margin. */
   padding-bottom: 0; }
 
 /* Make the main spaces enlarge to hold potentially floated content. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000384}}
 .cke_top,
 .cke_contents,
 .cke_bottom {
@@ -612,7 +518,6 @@ Special outer level classes used in this file:
   /* Ideally this should be "auto", but it shows scrollbars in IE7. */
   overflow: hidden; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\0000392}}
 .cke_top {
   /*border: 1px solid #b2b2b2;*/
   /* Allow breaking toolbars when in a narrow editor. (#9947) */
@@ -626,11 +531,9 @@ Special outer level classes used in this file:
   -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003102}}
 .cke_float .cke_top {
   border: 3px solid #f3f1ef; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003107}}
 .cke_bottom {
   padding: 1px;
   position: relative;
@@ -654,14 +557,12 @@ Special outer level classes used in this file:
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');*/ }
 
 /* On iOS we need to manually enable scrolling in the contents block. (#9945) */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003129}}
 .cke_browser_ios .cke_contents {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch; }
 
 /* The resizer is the small UI element that is rendered at the bottom right
    part of the editor. It makes is possible to resize the editor UI. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003136}}
 .cke_resizer {
   /* To avoid using images for the resizer, we create a small triangle,
      using some CSS magic. */
@@ -684,14 +585,12 @@ Special outer level classes used in this file:
   -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3); }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003163}}
 .cke_hc .cke_resizer {
   font-size: 15px;
   width: auto;
   height: auto;
   border-width: 0; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003170}}
 .cke_resizer_ltr {
   cursor: se-resize;
   float: right;
@@ -701,7 +600,6 @@ Special outer level classes used in this file:
    (usually the .cke_rtl class is used), because it may not necessarily be in
    RTL mode if the main UI is RTL. It depends instead on the context where the
    editor is inserted on. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003181}}
 .cke_resizer_rtl {
   border-width: 10px 0 0 10px;
   border-color: transparent transparent transparent #A5A5A5;
@@ -714,7 +612,6 @@ Special outer level classes used in this file:
 /* The editing area (where users type) can be rendered as an editable <div>
    element (e.g. divarea plugin). In that case, this is the class applied to
    that element. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_mainui\.scss}line{font-family:\00003196}}
 .cke_wysiwyg_div {
   display: block;
   height: 100%;
@@ -788,7 +685,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000320}}
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -801,177 +697,137 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000337}}
 .cke_combo_arrow:before, .cke_button_arrow:before {
   content: "\124"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000338}}
 .cke_button__undo_icon:before {
   content: "\125"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000339}}
 .cke_button__redo_icon:before {
   content: "\126"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000353}}
 .cke_button__find_icon:before {
   content: "\134"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000354}}
 .cke_button__image_icon:before {
   content: "\135"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000364}}
 .cke_button__bulletedlist_icon:before {
   content: "\13f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000365}}
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000398}}
+.cke_button__horizontalrule_icon:before {
+  content: "\160"; }
+
 .cke_button__table_icon:before {
   content: "\161"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000399}}
 .cke_button__anchor_icon:before {
   content: "\162"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003100}}
 .cke_button__unlink_icon:before {
   content: "\163"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003101}}
 .cke_button__link_icon:before {
   content: "\164"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003102}}
 .cke_button__bidirtl_icon:before {
   content: "\165"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003103}}
 .cke_button__bidiltr_icon:before {
   content: "\166"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003104}}
 .cke_button__specialchar_icon:before {
   content: "\167"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003105}}
 .cke_button__sourcedialog_icon:before {
   content: "\168"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003106}}
 .cke_button__newpage_icon:before {
   content: "\169"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003107}}
 .cke_button__templates_icon:before {
   content: "\16a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003108}}
 .cke_button__cut_icon:before {
   content: "\16b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003109}}
 .cke_button__replace_icon:before {
   content: "\16c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003110}}
 .cke_button__copy_icon:before {
   content: "\16d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003111}}
 .cke_button__paste_icon:before {
   content: "\16e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003112}}
 .cke_button__selectall_icon:before {
   content: "\16f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003113}}
 .cke_button__pastetext_icon:before {
   content: "\170"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003114}}
 .cke_button__pastefromword_icon:before {
   content: "\171"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003115}}
 .cke_button__bold_icon:before {
   content: "\172"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003116}}
 .cke_button__italic_icon:before {
   content: "\173"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003117}}
 .cke_button__underline_icon:before {
   content: "\174"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003118}}
 .cke_button__subscript_icon:before {
   content: "\175"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003119}}
 .cke_button__superscript_icon:before {
   content: "\176"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003120}}
 .cke_button__strike_icon:before {
   content: "\177"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003121}}
 .cke_button__outdent_icon:before {
   content: "\178"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003122}}
 .cke_button__indent_icon:before {
   content: "\179"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003123}}
 .cke_button__blockquote_icon:before {
   content: "\17a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003124}}
 .cke_button__creatediv_icon:before {
   content: "\17b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003125}}
 .cke_button__justifyleft_icon:before {
   content: "\17c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003126}}
 .cke_button__justifycenter_icon:before {
   content: "\17d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003127}}
 .cke_button__justifyright_icon:before {
   content: "\17e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003128}}
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003151}}
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003152}}
 .cke_button__bgcolor_icon:before {
   content: "\197"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003153}}
 .cke_button__scayt_icon:before {
   content: "\198"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003178}}
 .cke_button__radio_icon:before {
   content: "\1b1"; }
 
 /* The box that holds an IFRAME. It's inserted into a host document and positioned
    absolutely by the application. It floats above the host document/editor. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\0000345}}
 .cke_panel {
   /* Restore the loading hide */
   visibility: visible;
@@ -989,19 +845,16 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15); }
 
 /* This class represents panels which are used as context menus. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\0000366}}
 .cke_menu_panel {
   padding: 0;
   margin: 0; }
 
 /* This class represents panels which are used by rich combos. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\0000372}}
 .cke_combopanel {
   width: 150px;
   height: 170px; }
 
 /* The IFRAME the panel is wrapped into. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\0000378}}
 .cke_panel_frame {
   width: 100%;
   height: 100%;
@@ -1010,7 +863,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   overflow-x: hidden; }
 
 /* The HTML document which is a direct descendant of the IFRAME */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\0000388}}
 .cke_panel_container {
   overflow-y: auto;
   overflow-x: hidden; }
@@ -1043,7 +895,6 @@ is its visual representation:
 +-------------------------------------+
 */
 /* The list of panel items. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003122}}
 .cke_panel_list {
   list-style-type: none;
   margin: 3px;
@@ -1051,14 +902,12 @@ is its visual representation:
   white-space: nowrap; }
 
 /* The item of .cke_panel_list */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003130}}
 .cke_panel_listItem {
   margin: 0;
   padding-bottom: 1px; }
 
 /* The child of .cke_panel_listItem. These elements contain spans which are
    to display a real name of the property which is visible for an end-user. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003137}}
 .cke_panel_listItem a {
   padding: 3px 4px;
   display: block;
@@ -1072,33 +921,27 @@ is its visual representation:
   border-radius: 2px; }
 
 /* IE6 */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003152}}
 * html .cke_panel_listItem a {
   width: 100%;
   /* IE is not able to inherit the color, so we must force it to black */
   color: #000; }
 
 /* IE7 */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003160}}
 *:first-child + html .cke_panel_listItem a {
   /* IE is not able to inherit the color, so we must force it to black */
   color: #000; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003165}}
 .cke_panel_listItem.cke_selected a {
   background-color: #cedee9; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003172}}
 .cke_panel_listItem a:hover,
 .cke_panel_listItem a:focus,
 .cke_panel_listItem a:active {
   background-color: #3e7da7; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003177}}
 .cke_hc .cke_panel_listItem a {
   border-style: none; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003183}}
 .cke_hc .cke_panel_listItem a:hover,
 .cke_hc .cke_panel_listItem a:focus,
 .cke_hc .cke_panel_listItem a:active {
@@ -1106,13 +949,11 @@ is its visual representation:
   padding: 1px 2px; }
 
 /* The title of the entire panel which is visible on top of the list. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003189}}
 .cke_panel_grouptitle {
   display: none; }
 
 /* The following styles set defaults of the elements used by the Paragraph
    Format panel. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_panel\.scss}line{font-family:\00003202}}
 .cke_panel_listItem p,
 .cke_panel_listItem h1,
 .cke_panel_listItem h2,
@@ -1173,13 +1014,11 @@ The COLOR PALETTE section instead is a table with a variable number of cells
 +---------------------------+
 */
 /* The container of the color palette. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000351}}
 .cke_colorblock {
   padding: 3px;
   font-size: 11px;
   font-family: 'Microsoft Sans Serif', Tahoma, Arial, Verdana, Sans-Serif; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000358}}
 .cke_colorblock,
 .cke_colorblock a {
   text-decoration: none;
@@ -1187,19 +1026,16 @@ The COLOR PALETTE section instead is a table with a variable number of cells
 
 /* The box which is to represent a single color on the color palette.
    It is a small, square-shaped element which can be selected from the palette. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000365}}
 span.cke_colorbox {
   width: 10px;
   height: 10px;
   border: #808080 1px solid;
   float: left; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000372}}
 .cke_rtl span.cke_colorbox {
   float: right; }
 
 /* The wrapper of the span.cke_colorbox. It provides an extra border and padding. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000377}}
 a.cke_colorbox {
   border: #fff 1px solid;
   padding: 2px;
@@ -1207,12 +1043,10 @@ a.cke_colorbox {
   width: 12px;
   height: 12px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000385}}
 .cke_rtl a.cke_colorbox {
   float: right; }
 
 /* Different states of the a.cke_colorbox wrapper. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\0000392}}
 a:hover.cke_colorbox,
 a:focus.cke_colorbox,
 a:active.cke_colorbox {
@@ -1223,7 +1057,6 @@ a:active.cke_colorbox {
    - cke_colorauto (TOP) applies the automatic color.
    - cke_colormore (BOTTOM) executes the color dialog.
 */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\00003102}}
 a.cke_colorauto,
 a.cke_colormore {
   border: #fff 1px solid;
@@ -1232,7 +1065,6 @@ a.cke_colormore {
   cursor: pointer; }
 
 /* Different states of cke_colorauto/cke_colormore buttons. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_colorpanel\.scss}line{font-family:\00003115}}
 a:hover.cke_colorauto,
 a:hover.cke_colormore,
 a:focus.cke_colorauto,
@@ -1313,7 +1145,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000320}}
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -1326,187 +1157,145 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000337}}
 .cke_combo_arrow:before, .cke_button_arrow:before {
   content: "\124"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000338}}
 .cke_button__undo_icon:before {
   content: "\125"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000339}}
 .cke_button__redo_icon:before {
   content: "\126"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000353}}
 .cke_button__find_icon:before {
   content: "\134"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000354}}
 .cke_button__image_icon:before {
   content: "\135"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000364}}
 .cke_button__bulletedlist_icon:before {
   content: "\13f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000365}}
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000398}}
+.cke_button__horizontalrule_icon:before {
+  content: "\160"; }
+
 .cke_button__table_icon:before {
   content: "\161"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000399}}
 .cke_button__anchor_icon:before {
   content: "\162"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003100}}
 .cke_button__unlink_icon:before {
   content: "\163"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003101}}
 .cke_button__link_icon:before {
   content: "\164"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003102}}
 .cke_button__bidirtl_icon:before {
   content: "\165"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003103}}
 .cke_button__bidiltr_icon:before {
   content: "\166"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003104}}
 .cke_button__specialchar_icon:before {
   content: "\167"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003105}}
 .cke_button__sourcedialog_icon:before {
   content: "\168"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003106}}
 .cke_button__newpage_icon:before {
   content: "\169"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003107}}
 .cke_button__templates_icon:before {
   content: "\16a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003108}}
 .cke_button__cut_icon:before {
   content: "\16b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003109}}
 .cke_button__replace_icon:before {
   content: "\16c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003110}}
 .cke_button__copy_icon:before {
   content: "\16d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003111}}
 .cke_button__paste_icon:before {
   content: "\16e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003112}}
 .cke_button__selectall_icon:before {
   content: "\16f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003113}}
 .cke_button__pastetext_icon:before {
   content: "\170"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003114}}
 .cke_button__pastefromword_icon:before {
   content: "\171"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003115}}
 .cke_button__bold_icon:before {
   content: "\172"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003116}}
 .cke_button__italic_icon:before {
   content: "\173"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003117}}
 .cke_button__underline_icon:before {
   content: "\174"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003118}}
 .cke_button__subscript_icon:before {
   content: "\175"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003119}}
 .cke_button__superscript_icon:before {
   content: "\176"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003120}}
 .cke_button__strike_icon:before {
   content: "\177"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003121}}
 .cke_button__outdent_icon:before {
   content: "\178"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003122}}
 .cke_button__indent_icon:before {
   content: "\179"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003123}}
 .cke_button__blockquote_icon:before {
   content: "\17a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003124}}
 .cke_button__creatediv_icon:before {
   content: "\17b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003125}}
 .cke_button__justifyleft_icon:before {
   content: "\17c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003126}}
 .cke_button__justifycenter_icon:before {
   content: "\17d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003127}}
 .cke_button__justifyright_icon:before {
   content: "\17e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003128}}
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003151}}
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003152}}
 .cke_button__bgcolor_icon:before {
   content: "\197"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003153}}
 .cke_button__scayt_icon:before {
   content: "\198"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003178}}
 .cke_button__radio_icon:before {
   content: "\1b1"; }
 
 /* The box that holds each toolbar. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000353}}
 .cke_toolbar {
   float: left;
   position: relative;
   z-index: 10005; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000359}}
 .cke_rtl .cke_toolbar {
   float: right; }
 
 /* The box that holds buttons. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000364}}
 .cke_toolgroup {
   float: left;
   margin: 0 2px 2px 0;
@@ -1518,20 +1307,17 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   border-radius: 1px;
   background: white; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000373}}
 .cke_hc .cke_toolgroup {
   border: 0;
   margin-right: 10px;
   margin-bottom: 10px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000387}}
 .cke_rtl .cke_toolgroup {
   float: right;
   margin-left: 6px;
   margin-right: 0; }
 
 /* A toolbar button . */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\0000394}}
 .cke .cke_toolbar .cke_button {
   display: inline-block;
   height: 18px;
@@ -1542,22 +1328,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   border: 0;
   color: #222222; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003105}}
 .cke .cke_toolbar .cke_button:hover {
   background: #3e7da7 !important;
   color: white !important; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003112}}
 .cke_reset_all, .cke_reset_all *
 .cke .cke_top .cke_toolbar .cke_button_disabled:hover {
   background: white !important;
   cursor: default !important; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003118}}
 .cke_rtl .cke_button {
   float: right; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003122}}
 .cke_hc .cke_button {
   border: 1px solid black;
   /* Compensate the added border */
@@ -1567,12 +1349,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 /* This class is applied to the button when it is "active" (pushed).
    This style indicates that the feature associated with the button is active
    i.e. currently writing in bold or when spell checking is enabled. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003133}}
 a.cke_button_on {
   background-color: #0e5d91;
   color: white !important; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003145}}
 .cke_hc .cke_button_on,
 .cke_hc a.cke_button_off:hover,
 .cke_hc a.cke_button_off:focus,
@@ -1586,17 +1366,14 @@ a.cke_button_on {
    button cannot be used (grayed-out).
    i.e. paste button remains disabled when there is nothing in the clipboard to
    be pasted. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003160}}
 .cke_button_disabled span {
   opacity: 0.4 !important; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003166}}
 a.cke_button_on:hover,
 a.cke_button_on:focus,
 a.cke_button_on:active {
   cursor: pointer; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003176}}
 a.cke_button_off:hover,
 a.cke_button_off:focus,
 a.cke_button_off:active,
@@ -1608,7 +1385,6 @@ a.cke_button_disabled:active {
   text-shadow: none; }
 
 /* The icon which is a visual representation of the button. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003185}}
 .cke_button_icon {
   cursor: inherit;
   background-repeat: no-repeat;
@@ -1617,17 +1393,14 @@ a.cke_button_disabled:active {
   height: 16px;
   float: left; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003194}}
 .cke_rtl .cke_button_icon {
   float: right; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003198}}
 .cke_hc .cke_button_icon {
   display: none; }
 
 /* The label of the button that stores the name of the feature. By default,
    labels are invisible. They can be revealed on demand though. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003204}}
 .cke_button_label {
   display: none;
   padding-left: 3px;
@@ -1639,31 +1412,26 @@ a.cke_button_disabled:active {
   color: #474747;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003216}}
 .cke_rtl .cke_button_label {
   padding-right: 3px;
   padding-left: 0;
   float: right; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003222}}
 .cke_hc .cke_button_label {
   padding: 0;
   display: inline-block;
   font-size: 12px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003228}}
 .cke_rtl .cke_button_arrow {
   margin-right: 5px;
   margin-left: 0; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003233}}
 .cke_hc .cke_button_arrow {
   font-size: 10px;
   margin: 3px -2px 0 3px;
   width: auto;
   border: 0; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003240}}
 .cke_button_arrow {
   padding: 0 8px 5px 0;
   position: relative;
@@ -1672,7 +1440,6 @@ a.cke_button_disabled:active {
 
 /* The vertical separator which is used within a single toolbar to split
    buttons into sub-groups. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003249}}
 .cke_toolbar_separator {
   float: left;
   background-color: #c0c0c0;
@@ -1681,11 +1448,9 @@ a.cke_button_disabled:active {
   height: 18px;
   width: 1px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003258}}
 .cke_rtl .cke_toolbar_separator {
   float: right; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003262}}
 .cke_hc .cke_toolbar_separator {
   width: 0;
   border-left: 1px solid;
@@ -1693,17 +1458,14 @@ a.cke_button_disabled:active {
 
 /* The dummy element that breaks toolbars.
    Once it is placed, the very next toolbar is moved to the new row. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003270}}
 .cke_toolbar_break {
   display: block;
   clear: left; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003275}}
 .cke_rtl .cke_toolbar_break {
   clear: right; }
 
 /* The button, which when clicked hides (collapses) all the toolbars. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003280}}
 .cke_toolbox_collapser {
   width: 12px;
   height: 11px;
@@ -1719,16 +1481,13 @@ a.cke_button_disabled:active {
   border-radius: 3px;
   background: #fff; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003303}}
 .cke_toolbox_collapser.cke_toolbox_collapser_min {
   margin: 0 2px 4px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003307}}
 .cke_rtl .cke_toolbox_collapser {
   float: left; }
 
 /* The CSS arrow, which belongs to the toolbar collapser. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003312}}
 .cke_toolbox_collapser .cke_arrow {
   display: inline-block;
   height: 0;
@@ -1740,13 +1499,11 @@ a.cke_button_disabled:active {
   border-bottom: 3px solid #474747;
   border-top: 3px solid transparent; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003325}}
 .cke_toolbox_collapser.cke_toolbox_collapser_min .cke_arrow {
   margin-top: 4px;
   border-bottom-color: transparent;
   border-top-color: #474747; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_toolbar\.scss}line{font-family:\00003331}}
 .cke_hc .cke_toolbox_collapser .cke_arrow {
   font-size: 8px;
   width: auto;
@@ -1802,48 +1559,40 @@ Special outer level classes used in this file:
 */
 /* .cke_menuitem is the element that holds the entire structure of each of the
    menu items. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000351}}
 .cke_menubutton {
   /* The "button" inside a menu item is a <a> element.
      Transforms it into a block. */
   display: block; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000357}}
 .cke_menuitem span {
   /* Avoid the text selection cursor inside menu items. */
   cursor: default;
   font-size: 12px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000365}}
 .cke_menubutton:hover,
 .cke_menubutton:focus,
 .cke_menubutton:active {
   background-color: #D3D3D3;
   display: block; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000370}}
 .cke_hc .cke_menubutton {
   padding: 2px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000376}}
 .cke_hc .cke_menubutton:hover,
 .cke_hc .cke_menubutton:focus,
 .cke_hc .cke_menubutton:active {
   border: 2px solid;
   padding: 0; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000381}}
 .cke_menubutton_inner {
   display: table-row; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000387}}
 .cke_menubutton_icon,
 .cke_menubutton_label,
 .cke_menuarrow {
   display: table-cell; }
 
 /* The menu item icon. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000392}}
 .cke_menubutton_icon {
   background-color: #D7D8D7;
   opacity: 0.70;
@@ -1852,19 +1601,16 @@ Special outer level classes used in this file:
   /* IE */
   padding: 4px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\0000399}}
 .cke_hc .cke_menubutton_icon {
   height: 16px;
   width: 0;
   padding: 4px 0; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003107}}
 .cke_menubutton:hover .cke_menubutton_icon,
 .cke_menubutton:focus .cke_menubutton_icon,
 .cke_menubutton:active .cke_menubutton_icon {
   background-color: #D0D2D0; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003113}}
 .cke_menubutton_disabled:hover .cke_menubutton_icon,
 .cke_menubutton_disabled:focus .cke_menubutton_icon,
 .cke_menubutton_disabled:active .cke_menubutton_icon {
@@ -1873,20 +1619,17 @@ Special outer level classes used in this file:
   filter: alpha(opacity=30); }
 
 /* The textual part of each menu item. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003120}}
 .cke_menubutton_label {
   padding: 0 5px;
   background-color: transparent;
   width: 100%;
   vertical-align: middle; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003127}}
 .cke_menubutton_disabled .cke_menubutton_label {
   /* Greyed label text indicates a disabled menu item. */
   opacity: 0.3;
   filter: alpha(opacity=30); }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003133}}
 .cke_menubutton_on {
   border: 1px solid #dedede;
   background-color: #f2f2f2;
@@ -1894,22 +1637,18 @@ Special outer level classes used in this file:
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.1) inset;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1) inset; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003142}}
 .cke_menubutton_on .cke_menubutton_icon {
   padding-right: 3px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003148}}
 .cke_menubutton:hover,
 .cke_menubutton:focus,
 .cke_menubutton:active {
   background-color: #EFF0EF; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003152}}
 .cke_panel_frame .cke_menubutton_label {
   display: none; }
 
 /* The separator used to separate menu item groups. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003157}}
 .cke_menuseparator {
   background-color: #D3D3D3;
   height: 1px;
@@ -1919,23 +1658,19 @@ Special outer level classes used in this file:
   /* Safari, Opera and Mozilla */ }
 
 /* The small arrow shown for item with sub-menus. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003165}}
 .cke_menuarrow {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAeCAYAAAAPSW++AAAAWUlEQVR42mNgAAJLS8v5QMzJgA6Agv+B+AYQa2GTAOFvQJyMSyINm1G66EYtAmIehlEwXAEobYHSGLqgFjRB/EcWTIYmnf/oEmlYJaCSuhhGIUnygNIYiA0Ab4wwJXKzD74AAAAASUVORK5CYII=);
   background-position: 0 10px;
   background-repeat: no-repeat;
   padding: 0 5px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003172}}
 .cke_rtl .cke_menuarrow {
   background-position: 5px -13px;
   background-repeat: no-repeat; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003177}}
 .cke_menuarrow span {
   display: none; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_menu\.scss}line{font-family:\00003181}}
 .cke_hc .cke_menuarrow span {
   vertical-align: middle;
   display: inline; }
@@ -1986,7 +1721,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000320}}
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -1999,191 +1733,148 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000337}}
 .cke_combo_arrow:before, .cke_button_arrow:before {
   content: "\124"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000338}}
 .cke_button__undo_icon:before {
   content: "\125"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000339}}
 .cke_button__redo_icon:before {
   content: "\126"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000353}}
 .cke_button__find_icon:before {
   content: "\134"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000354}}
 .cke_button__image_icon:before {
   content: "\135"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000364}}
 .cke_button__bulletedlist_icon:before {
   content: "\13f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000365}}
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000398}}
+.cke_button__horizontalrule_icon:before {
+  content: "\160"; }
+
 .cke_button__table_icon:before {
   content: "\161"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000399}}
 .cke_button__anchor_icon:before {
   content: "\162"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003100}}
 .cke_button__unlink_icon:before {
   content: "\163"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003101}}
 .cke_button__link_icon:before {
   content: "\164"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003102}}
 .cke_button__bidirtl_icon:before {
   content: "\165"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003103}}
 .cke_button__bidiltr_icon:before {
   content: "\166"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003104}}
 .cke_button__specialchar_icon:before {
   content: "\167"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003105}}
 .cke_button__sourcedialog_icon:before {
   content: "\168"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003106}}
 .cke_button__newpage_icon:before {
   content: "\169"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003107}}
 .cke_button__templates_icon:before {
   content: "\16a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003108}}
 .cke_button__cut_icon:before {
   content: "\16b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003109}}
 .cke_button__replace_icon:before {
   content: "\16c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003110}}
 .cke_button__copy_icon:before {
   content: "\16d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003111}}
 .cke_button__paste_icon:before {
   content: "\16e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003112}}
 .cke_button__selectall_icon:before {
   content: "\16f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003113}}
 .cke_button__pastetext_icon:before {
   content: "\170"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003114}}
 .cke_button__pastefromword_icon:before {
   content: "\171"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003115}}
 .cke_button__bold_icon:before {
   content: "\172"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003116}}
 .cke_button__italic_icon:before {
   content: "\173"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003117}}
 .cke_button__underline_icon:before {
   content: "\174"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003118}}
 .cke_button__subscript_icon:before {
   content: "\175"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003119}}
 .cke_button__superscript_icon:before {
   content: "\176"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003120}}
 .cke_button__strike_icon:before {
   content: "\177"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003121}}
 .cke_button__outdent_icon:before {
   content: "\178"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003122}}
 .cke_button__indent_icon:before {
   content: "\179"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003123}}
 .cke_button__blockquote_icon:before {
   content: "\17a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003124}}
 .cke_button__creatediv_icon:before {
   content: "\17b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003125}}
 .cke_button__justifyleft_icon:before {
   content: "\17c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003126}}
 .cke_button__justifycenter_icon:before {
   content: "\17d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003127}}
 .cke_button__justifyright_icon:before {
   content: "\17e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003128}}
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003151}}
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003152}}
 .cke_button__bgcolor_icon:before {
   content: "\197"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003153}}
 .cke_button__scayt_icon:before {
   content: "\198"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003178}}
 .cke_button__radio_icon:before {
   content: "\1b1"; }
 
 /* The box that hold the entire combo widget */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000328}}
 .cke_combo {
   display: inline-block;
   float: left; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000333}}
 .cke_rtl .cke_combo {
   float: right; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000337}}
 .cke_hc .cke_combo {
   margin-top: -2px; }
 
 /* The label of the combo widget. It is invisible by default, yet
    it's important for semantics and accessibility. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000343}}
 .cke_combo_label {
   display: none;
   float: left;
@@ -2191,14 +1882,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   vertical-align: top;
   margin-right: 5px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000351}}
 .cke_rtl .cke_combo_label {
   float: right;
   margin-left: 5px;
   margin-right: 0; }
 
 /* The container for combo text and arrow. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000358}}
 .cke_combo_button {
   display: inline-block;
   margin: 0 2px 0 0;
@@ -2213,22 +1902,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   white-space: nowrap; }
 
 /* Different states of the container. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000373}}
 .cke_combo_off a.cke_combo_button:hover,
 .cke_combo_off a.cke_combo_button:focus {
   outline: none; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000390}}
 .cke_rtl .cke_combo_button {
   float: right;
   margin-left: 5px;
   margin-right: 0; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\0000396}}
 .cke_hc a.cke_combo_button {
   padding: 3px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003103}}
 .cke_hc .cke_combo_on a.cke_combo_button,
 .cke_hc .cke_combo_off a.cke_combo_button:hover,
 .cke_hc .cke_combo_off a.cke_combo_button:focus,
@@ -2239,7 +1924,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 /* The label that shows the current value of the rich combo.
    By default, it holds the name of the property.
    See: .cke_combo_inlinelabel */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003111}}
 .cke_combo_text {
   line-height: 26px;
   padding-left: 10px;
@@ -2251,21 +1935,18 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   width: 60px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003123}}
 .cke_rtl .cke_combo_text {
   float: right;
   text-align: right;
   padding-left: 0;
   padding-right: 10px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003130}}
 .cke_hc .cke_combo_text {
   line-height: 18px;
   font-size: 12px; }
 
 /* The handler which opens the panel of rich combo properties.
    It holds an arrow as a visual indicator. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003137}}
 .cke_combo_open {
   display: inline-block;
   font-size: 0;
@@ -2275,12 +1956,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   text-align: center;
   width: 20px;
   cursor: pointer; }
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003146}}
   .cke_combo_open:hover {
     color: white;
     background: #3e7da7; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003152}}
 .cke_hc .cke_combo_open {
   cursor: default;
   display: inline-block;
@@ -2292,7 +1971,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   width: 20px; }
 
 /* The arrow which is displayed inside of the .cke_combo_open handler. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003164}}
 .cke_combo_arrow, .cke_button_arrow {
   margin: 8px 0 0;
   float: left;
@@ -2311,7 +1989,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   cursor: pointer;
   font-size: 1rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003188}}
 .cke_hc .cke_combo_arrow {
   font-size: 10px;
   width: auto;
@@ -2319,7 +1996,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   margin-top: 3px; }
 
 /* Disabled combo button styles. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_richcombo\.scss}line{font-family:\00003197}}
 .cke_combo_disabled .cke_combo_inlinelabel,
 .cke_combo_disabled .cke_combo_open {
   opacity: 0.3; }
@@ -2345,13 +2021,11 @@ The following is a visual representation of its main elements:
 +----------------------------------------------------------------------------+
 */
 /* The box that holds the entire elements path. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_elementspath\.scss}line{font-family:\0000323}}
 .cke_path {
   float: left;
   margin: -2px 0 2px; }
 
 /* Each item of the elements path. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_elementspath\.scss}line{font-family:\0000332}}
 .cke_path_item,
 .cke_path_empty {
   display: inline-block;
@@ -2367,14 +2041,12 @@ The following is a visual representation of its main elements:
   font-weight: bold;
   font-size: 11px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_elementspath\.scss}line{font-family:\0000349}}
 .cke_rtl .cke_path,
 .cke_rtl .cke_path_item,
 .cke_rtl .cke_path_empty {
   float: right; }
 
 /* The items are <a> elements, so we define its hover states here. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_elementspath\.scss}line{font-family:\0000356}}
 a.cke_path_item:hover,
 a.cke_path_item:focus,
 a.cke_path_item:active {
@@ -2388,7 +2060,6 @@ a.cke_path_item:active {
   -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5) inset, 0 1px 0 rgba(255, 255, 255, 0.5);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5) inset, 0 1px 0 rgba(255, 255, 255, 0.5); }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_elementspath\.scss}line{font-family:\0000372}}
 .cke_hc a.cke_path_item:hover,
 .cke_hc a.cke_path_item:focus,
 .cke_hc a.cke_path_item:active {
@@ -2422,7 +2093,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000320}}
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -2435,199 +2105,155 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000337}}
 .cke_combo_arrow:before, .cke_button_arrow:before {
   content: "\124"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000338}}
 .cke_button__undo_icon:before {
   content: "\125"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000339}}
 .cke_button__redo_icon:before {
   content: "\126"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000353}}
 .cke_button__find_icon:before {
   content: "\134"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000354}}
 .cke_button__image_icon:before {
   content: "\135"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000364}}
 .cke_button__bulletedlist_icon:before {
   content: "\13f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000365}}
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000398}}
+.cke_button__horizontalrule_icon:before {
+  content: "\160"; }
+
 .cke_button__table_icon:before {
   content: "\161"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000399}}
 .cke_button__anchor_icon:before {
   content: "\162"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003100}}
 .cke_button__unlink_icon:before {
   content: "\163"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003101}}
 .cke_button__link_icon:before {
   content: "\164"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003102}}
 .cke_button__bidirtl_icon:before {
   content: "\165"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003103}}
 .cke_button__bidiltr_icon:before {
   content: "\166"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003104}}
 .cke_button__specialchar_icon:before {
   content: "\167"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003105}}
 .cke_button__sourcedialog_icon:before {
   content: "\168"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003106}}
 .cke_button__newpage_icon:before {
   content: "\169"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003107}}
 .cke_button__templates_icon:before {
   content: "\16a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003108}}
 .cke_button__cut_icon:before {
   content: "\16b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003109}}
 .cke_button__replace_icon:before {
   content: "\16c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003110}}
 .cke_button__copy_icon:before {
   content: "\16d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003111}}
 .cke_button__paste_icon:before {
   content: "\16e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003112}}
 .cke_button__selectall_icon:before {
   content: "\16f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003113}}
 .cke_button__pastetext_icon:before {
   content: "\170"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003114}}
 .cke_button__pastefromword_icon:before {
   content: "\171"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003115}}
 .cke_button__bold_icon:before {
   content: "\172"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003116}}
 .cke_button__italic_icon:before {
   content: "\173"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003117}}
 .cke_button__underline_icon:before {
   content: "\174"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003118}}
 .cke_button__subscript_icon:before {
   content: "\175"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003119}}
 .cke_button__superscript_icon:before {
   content: "\176"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003120}}
 .cke_button__strike_icon:before {
   content: "\177"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003121}}
 .cke_button__outdent_icon:before {
   content: "\178"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003122}}
 .cke_button__indent_icon:before {
   content: "\179"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003123}}
 .cke_button__blockquote_icon:before {
   content: "\17a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003124}}
 .cke_button__creatediv_icon:before {
   content: "\17b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003125}}
 .cke_button__justifyleft_icon:before {
   content: "\17c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003126}}
 .cke_button__justifycenter_icon:before {
   content: "\17d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003127}}
 .cke_button__justifyright_icon:before {
   content: "\17e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003128}}
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003151}}
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003152}}
 .cke_button__bgcolor_icon:before {
   content: "\197"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003153}}
 .cke_button__scayt_icon:before {
   content: "\198"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003178}}
 .cke_button__radio_icon:before {
   content: "\1b1"; }
 
 /* "Source" button label */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_presets\.scss}line{font-family:\000038}}
 .cke_button__source_label,
 .cke_button__sourcedialog_label {
   display: inline; }
 
 /* "Font Size" combo width */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_presets\.scss}line{font-family:\0000313}}
 .cke_combo__fontsize .cke_combo_text {
   width: 30px; }
 
 /* "Font Size" panel size */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_presets\.scss}line{font-family:\0000318}}
 .cke_combopanel__fontsize {
   width: 120px; }
 
 /* Editable regions */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_presets\.scss}line{font-family:\0000323}}
 .cke_source {
   font-family: 'Courier New', Monospace;
   font-size: small;
   background-color: #fff;
   white-space: pre; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_presets\.scss}line{font-family:\0000330}}
 .cke_wysiwyg_frame, .cke_wysiwyg_div {
   background-color: #fff; }
 
@@ -2653,7 +2279,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000320}}
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -2666,185 +2291,143 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000337}}
 .cke_combo_arrow:before, .cke_button_arrow:before {
   content: "\124"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000338}}
 .cke_button__undo_icon:before {
   content: "\125"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000339}}
 .cke_button__redo_icon:before {
   content: "\126"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000353}}
 .cke_button__find_icon:before {
   content: "\134"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000354}}
 .cke_button__image_icon:before {
   content: "\135"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000364}}
 .cke_button__bulletedlist_icon:before {
   content: "\13f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000365}}
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000398}}
+.cke_button__horizontalrule_icon:before {
+  content: "\160"; }
+
 .cke_button__table_icon:before {
   content: "\161"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000399}}
 .cke_button__anchor_icon:before {
   content: "\162"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003100}}
 .cke_button__unlink_icon:before {
   content: "\163"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003101}}
 .cke_button__link_icon:before {
   content: "\164"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003102}}
 .cke_button__bidirtl_icon:before {
   content: "\165"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003103}}
 .cke_button__bidiltr_icon:before {
   content: "\166"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003104}}
 .cke_button__specialchar_icon:before {
   content: "\167"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003105}}
 .cke_button__sourcedialog_icon:before {
   content: "\168"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003106}}
 .cke_button__newpage_icon:before {
   content: "\169"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003107}}
 .cke_button__templates_icon:before {
   content: "\16a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003108}}
 .cke_button__cut_icon:before {
   content: "\16b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003109}}
 .cke_button__replace_icon:before {
   content: "\16c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003110}}
 .cke_button__copy_icon:before {
   content: "\16d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003111}}
 .cke_button__paste_icon:before {
   content: "\16e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003112}}
 .cke_button__selectall_icon:before {
   content: "\16f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003113}}
 .cke_button__pastetext_icon:before {
   content: "\170"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003114}}
 .cke_button__pastefromword_icon:before {
   content: "\171"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003115}}
 .cke_button__bold_icon:before {
   content: "\172"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003116}}
 .cke_button__italic_icon:before {
   content: "\173"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003117}}
 .cke_button__underline_icon:before {
   content: "\174"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003118}}
 .cke_button__subscript_icon:before {
   content: "\175"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003119}}
 .cke_button__superscript_icon:before {
   content: "\176"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003120}}
 .cke_button__strike_icon:before {
   content: "\177"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003121}}
 .cke_button__outdent_icon:before {
   content: "\178"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003122}}
 .cke_button__indent_icon:before {
   content: "\179"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003123}}
 .cke_button__blockquote_icon:before {
   content: "\17a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003124}}
 .cke_button__creatediv_icon:before {
   content: "\17b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003125}}
 .cke_button__justifyleft_icon:before {
   content: "\17c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003126}}
 .cke_button__justifycenter_icon:before {
   content: "\17d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003127}}
 .cke_button__justifyright_icon:before {
   content: "\17e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003128}}
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003151}}
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003152}}
 .cke_button__bgcolor_icon:before {
   content: "\197"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003153}}
 .cke_button__scayt_icon:before {
   content: "\198"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003178}}
 .cke_button__radio_icon:before {
   content: "\1b1"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000032}}
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\000036}}
 .cke_button {
   min-width: 14px;
   text-decoration: none !important;
   text-align: center; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000317}}
 .cke_top,
 .cke_top:before,
 .cke_top:after,
@@ -2855,13 +2438,11 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-box-sizing: content-box !important;
   box-sizing: content-box !important; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000323}}
 .cke_button_icon, .cke_button {
   padding-top: 1px;
   line-height: 0.9;
   font-size: 16px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/inc\/_tao\.scss}line{font-family:\0000329}}
 .cke_nose {
   position: absolute;
   z-index: 10000;
@@ -2919,7 +2500,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :  : :      :
                               :__:-:__.;--'
                              <*_/   <*/
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000320}}
 .cke_button_icon, .cke_button {
   font-family: 'tao';
   speak: none;
@@ -2932,178 +2512,138 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000337}}
 .cke_combo_arrow:before, .cke_button_arrow:before {
   content: "\124"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000338}}
 .cke_button__undo_icon:before {
   content: "\125"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000339}}
 .cke_button__redo_icon:before {
   content: "\126"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000353}}
 .cke_button__find_icon:before {
   content: "\134"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000354}}
 .cke_button__image_icon:before {
   content: "\135"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000364}}
 .cke_button__bulletedlist_icon:before {
   content: "\13f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000365}}
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000398}}
+.cke_button__horizontalrule_icon:before {
+  content: "\160"; }
+
 .cke_button__table_icon:before {
   content: "\161"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\0000399}}
 .cke_button__anchor_icon:before {
   content: "\162"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003100}}
 .cke_button__unlink_icon:before {
   content: "\163"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003101}}
 .cke_button__link_icon:before {
   content: "\164"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003102}}
 .cke_button__bidirtl_icon:before {
   content: "\165"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003103}}
 .cke_button__bidiltr_icon:before {
   content: "\166"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003104}}
 .cke_button__specialchar_icon:before {
   content: "\167"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003105}}
 .cke_button__sourcedialog_icon:before {
   content: "\168"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003106}}
 .cke_button__newpage_icon:before {
   content: "\169"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003107}}
 .cke_button__templates_icon:before {
   content: "\16a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003108}}
 .cke_button__cut_icon:before {
   content: "\16b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003109}}
 .cke_button__replace_icon:before {
   content: "\16c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003110}}
 .cke_button__copy_icon:before {
   content: "\16d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003111}}
 .cke_button__paste_icon:before {
   content: "\16e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003112}}
 .cke_button__selectall_icon:before {
   content: "\16f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003113}}
 .cke_button__pastetext_icon:before {
   content: "\170"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003114}}
 .cke_button__pastefromword_icon:before {
   content: "\171"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003115}}
 .cke_button__bold_icon:before {
   content: "\172"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003116}}
 .cke_button__italic_icon:before {
   content: "\173"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003117}}
 .cke_button__underline_icon:before {
   content: "\174"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003118}}
 .cke_button__subscript_icon:before {
   content: "\175"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003119}}
 .cke_button__superscript_icon:before {
   content: "\176"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003120}}
 .cke_button__strike_icon:before {
   content: "\177"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003121}}
 .cke_button__outdent_icon:before {
   content: "\178"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003122}}
 .cke_button__indent_icon:before {
   content: "\179"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003123}}
 .cke_button__blockquote_icon:before {
   content: "\17a"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003124}}
 .cke_button__creatediv_icon:before {
   content: "\17b"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003125}}
 .cke_button__justifyleft_icon:before {
   content: "\17c"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003126}}
 .cke_button__justifycenter_icon:before {
   content: "\17d"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003127}}
 .cke_button__justifyright_icon:before {
   content: "\17e"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003128}}
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003151}}
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003152}}
 .cke_button__bgcolor_icon:before {
   content: "\197"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003153}}
 .cke_button__scayt_icon:before {
   content: "\198"; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/scss\/inc\/_tao-icon-vars\.scss}line{font-family:\00003178}}
 .cke_button__radio_icon:before {
   content: "\1b1"; }
 
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the
    editor creates it with visibility:hidden. Here, we restore the UI visibility. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000359}}
 .cke_chrome {
   visibility: inherit; }
 
@@ -3111,11 +2651,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
    These are usually <span> elements that show not be visible, but that are
    used by screen-readers to announce other elements. Here, we hide these
    <spans>, in fact. */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000367}}
 .cke_voice_label {
   display: none; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000371}}
 legend.cke_voice_label {
   display: none; }
 
@@ -3134,6 +2672,5 @@ legend.cke_voice_label {
   *zoom: 1;
 }
 */
-@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/htdocs\/tao\/tao\/tao\/views\/js\/lib\/ckeditor\/skins\/tao\/scss\/editor\.scss}line{font-family:\0000390}}
 .cke_top {
   display: table; }

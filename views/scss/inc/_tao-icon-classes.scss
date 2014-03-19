@@ -16,7 +16,8 @@
                                  :  : :      :
                                  :__:-:__.;--'
                                 <*_/   <*/
-                                 
+
+@import 'inc/tao-icon-vars.scss';
 [class^="icon-"], [class*=" icon-"] { @extend %tao-icon-setup; }
 .icon-left:before { @extend %icon-left; }
 .icon-right:before { @extend %icon-right; }
@@ -166,7 +167,7 @@
 .icon-checkbox:before { @extend %icon-checkbox; }
 .icon-checkbox-crossed:before { @extend %icon-checkbox-crossed; }
 .icon-checkbox-checked:before { @extend %icon-checkbox-checked; }
-.icon-result-ok:before { @extend %icon-result-ok; }
-.icon-result-nok:before { @extend %icon-result-nok; }
-.icon-not-evaluated:before { @extend %icon-not-evaluated; }
 .icon-continue:before { @extend %icon-continue; }
+.icon-result-nok:before { @extend %icon-result-nok; }
+.icon-result-ok:before { @extend %icon-result-ok; }
+.icon-not-evaluated:before { @extend %icon-not-evaluated; }
