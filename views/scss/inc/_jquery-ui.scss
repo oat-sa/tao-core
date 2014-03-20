@@ -1360,6 +1360,16 @@
 .range-slider-arrowed {
     margin: 0 5px;
     .ui-slider-handle.has-icon {
+        .icon-range-slider-left{
+            position: relative;
+            left: -5px;
+            color: blue
+        }
+        .icon-range-slider-right {
+            position: relative;
+            right: -5px;
+            color: red
+        }
         background: transparent !important;
         .icon-range-slider-left, .icon-range-slider-right {
             @include font-size(20);

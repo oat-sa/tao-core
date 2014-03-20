@@ -12663,6 +12663,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     margin: 0 5px; }
     .tao-scope .range-slider-arrowed .ui-slider-handle.has-icon {
       background: transparent !important; }
+      .tao-scope .range-slider-arrowed .ui-slider-handle.has-icon .icon-range-slider-left {
+        position: relative;
+        left: -5px;
+        color: blue; }
+      .tao-scope .range-slider-arrowed .ui-slider-handle.has-icon .icon-range-slider-right {
+        position: relative;
+        right: -5px;
+        color: red; }
       .tao-scope .range-slider-arrowed .ui-slider-handle.has-icon .icon-range-slider-left, .tao-scope .range-slider-arrowed .ui-slider-handle.has-icon .icon-range-slider-right {
         font-size: 20px;
         font-size: 2rem;
