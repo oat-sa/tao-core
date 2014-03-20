@@ -289,6 +289,12 @@ module.exports = function(grunt) {
                 title: 'Grunt SASS', 
                 message: 'SASS files compiled to CSS'
               }
+            },
+            qtisass: {
+              options: {
+                title: 'Grunt SASS', 
+                message: 'QTI SASS files compiled to CSS'
+              }
             }
         }
     });
