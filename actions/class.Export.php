@@ -105,7 +105,8 @@ class tao_actions_Export extends tao_actions_CommonModule {
 	 */
 	private function getCurrentExporter() {
 		if ($this->hasRequestParameter('exportHandler')) {
-			$exportHandler = $this->getRequestParameter('exportHandler');
+			//$exportHandler = $this->getRequestParameter('exportHandler');
+			$exportHandler = $_POST['exportHandler'];
 			if (class_exists($exportHandler) && in_array('tao_models_classes_export_ExportHandler', class_implements($exportHandler))) {
 				$exporter = new $exportHandler();
 				return $exporter;

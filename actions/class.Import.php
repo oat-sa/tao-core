@@ -74,7 +74,8 @@ class tao_actions_Import extends tao_actions_CommonModule {
 	 */
 	private function getCurrentImporter() {
 		if ($this->hasRequestParameter('importHandler')) {
-			$importHandlerClass = $this->getRequestParameter('importHandler');
+			//$importHandlerClass = $this->getRequestParameter('importHandler');
+			$importHandlerClass = $_POST['importHandler'];
 			foreach ($this->getAvailableImportHandlers() as $importHandler) {
 				if (get_class($importHandler) == $importHandlerClass) {
 					return $importHandler;
