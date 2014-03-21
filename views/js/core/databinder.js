@@ -494,7 +494,7 @@ function($, _, Handlebars, Encoders, Filters){
                 });
                 
                 //we need to rebind the model to the new paths
-                self._rebind($parentNode);
+                self._rebind($parentNode, parentPath.replace($parentNode.data('bind-each'), ''));
             }
     };
     
