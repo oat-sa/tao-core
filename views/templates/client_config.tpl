@@ -48,8 +48,8 @@ require.config({
         'spin'              : 'lib/spin.min',
         'raphael-collision' : 'lib/raphael/raphael-collision/raphael-collision',
         'tooltipster'       : 'lib/tooltipster/js/jquery.tooltipster.min',
-        'mediaElement'      : '../../../taoQTI/views/js/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min',
-        'mathJax'           : '../../../taoQTI/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
+        'mediaElement'      : '../../../taoQtiItem/views/js/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min',
+        'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
         'i18n_tr'           : '<?=BASE_URL?>locales/<?=get_data('locale')?>/messages_po',
     <?foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
@@ -61,13 +61,6 @@ require.config({
         '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
         <?endif?>
     <?endforeach?>
-        'taoQtiItemCreator' : '../../../taoQTI/views/js/qtiCreator',
-        'taoQtiItem'        : '../../../taoQTI/views/js/qtiItem',
-        'taoQtiRunner'      : '../../../taoQTI/views/js/qtiRunner',
-        'taoQtiDefaultRenderer' : '../../../taoQTI/views/js/qtiDefaultRenderer',
-        'taoQtiCommonRenderer' : '../../../taoQTI/views/js/qtiCommonRenderer',
-        'taoQtiXmlRenderer' : '../../../taoQTI/views/js/qtiXmlRenderer',
-        'qtiClass'          : '../../../taoQTI/views/js/qtiItem/lib/class',
         'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
         'eyecatcher'        : 'eyecatcher',
         'jquery.filedownload'  : 'lib/jquery.fileDownload'
