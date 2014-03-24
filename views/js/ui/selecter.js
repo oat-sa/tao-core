@@ -25,7 +25,7 @@ define(['jquery', 'select2'], function($){
                     return selected;
                 }(this.options)),
                 settings = {
-                    width: '100%'
+                    width: 'resolve'
                 };
             if(hasPlaceholder && this.options[0].text) {
                 $elt.prepend('<option>');

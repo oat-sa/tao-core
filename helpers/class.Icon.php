@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-03-19 15:05
+ * @date   2014-03-24 09:37
  * @package tao
  * @subpackage helpers
  */
@@ -133,7 +133,6 @@ class tao_helpers_Icon {
     const CLASS_RESULT = 'icon-result';
     const CLASS_DELIVERY_SMALL = 'icon-delivery-small';
     const CLASS_RESULT_SMALL = 'icon-result-small';
-    const CLASS_PREVIEW3 = 'icon-preview3';
     const CLASS_MOBILE_PREVIEW = 'icon-mobile-preview';
     const CLASS_EXTENSION = 'icon-extension';
     const CLASS_DESKTOP_PREVIEW = 'icon-desktop-preview';
@@ -227,6 +226,7 @@ class tao_helpers_Icon {
     const CLASS_RESULT_NOK = 'icon-result-nok';
     const CLASS_RESULT_OK = 'icon-result-ok';
     const CLASS_NOT_EVALUATED = 'icon-not-evaluated';
+    const CLASS_FILTER = 'icon-filter';
 
 	
     /**
@@ -235,611 +235,611 @@ class tao_helpers_Icon {
 
     public static function iconLeft($options=array()){
         return self::buildIcon(self::CLASS_LEFT, $options);
-}
+    }
 
     public static function iconRight($options=array()){
         return self::buildIcon(self::CLASS_RIGHT, $options);
-}
+    }
 
     public static function iconUp($options=array()){
         return self::buildIcon(self::CLASS_UP, $options);
-}
+    }
 
     public static function iconDown($options=array()){
         return self::buildIcon(self::CLASS_DOWN, $options);
-}
+    }
 
     public static function iconUndo($options=array()){
         return self::buildIcon(self::CLASS_UNDO, $options);
-}
+    }
 
     public static function iconRedo($options=array()){
         return self::buildIcon(self::CLASS_REDO, $options);
-}
+    }
 
     public static function iconScreen($options=array()){
         return self::buildIcon(self::CLASS_SCREEN, $options);
-}
+    }
 
     public static function iconLaptop($options=array()){
         return self::buildIcon(self::CLASS_LAPTOP, $options);
-}
+    }
 
     public static function iconTablet($options=array()){
         return self::buildIcon(self::CLASS_TABLET, $options);
-}
+    }
 
     public static function iconPhone($options=array()){
         return self::buildIcon(self::CLASS_PHONE, $options);
-}
+    }
 
     public static function iconFolder($options=array()){
         return self::buildIcon(self::CLASS_FOLDER, $options);
-}
+    }
 
     public static function iconFolderOpen($options=array()){
         return self::buildIcon(self::CLASS_FOLDER_OPEN, $options);
-}
+    }
 
     public static function iconMove($options=array()){
         return self::buildIcon(self::CLASS_MOVE, $options);
-}
+    }
 
     public static function iconBin($options=array()){
         return self::buildIcon(self::CLASS_BIN, $options);
-}
+    }
 
     public static function iconShuffle($options=array()){
         return self::buildIcon(self::CLASS_SHUFFLE, $options);
-}
+    }
 
     public static function iconPrint($options=array()){
         return self::buildIcon(self::CLASS_PRINT, $options);
-}
+    }
 
     public static function iconTools($options=array()){
         return self::buildIcon(self::CLASS_TOOLS, $options);
-}
+    }
 
     public static function iconSettings($options=array()){
         return self::buildIcon(self::CLASS_SETTINGS, $options);
-}
+    }
 
     public static function iconVideo($options=array()){
         return self::buildIcon(self::CLASS_VIDEO, $options);
-}
+    }
 
     public static function iconFind($options=array()){
         return self::buildIcon(self::CLASS_FIND, $options);
-}
+    }
 
     public static function iconImage($options=array()){
         return self::buildIcon(self::CLASS_IMAGE, $options);
-}
+    }
 
     public static function iconEdit($options=array()){
         return self::buildIcon(self::CLASS_EDIT, $options);
-}
+    }
 
     public static function iconDocument($options=array()){
         return self::buildIcon(self::CLASS_DOCUMENT, $options);
-}
+    }
 
     public static function iconResizeGrid($options=array()){
         return self::buildIcon(self::CLASS_RESIZE_GRID, $options);
-}
+    }
 
     public static function iconResize($options=array()){
         return self::buildIcon(self::CLASS_RESIZE, $options);
-}
+    }
 
     public static function iconHelp($options=array()){
         return self::buildIcon(self::CLASS_HELP, $options);
-}
+    }
 
     public static function iconMobileMenu($options=array()){
         return self::buildIcon(self::CLASS_MOBILE_MENU, $options);
-}
+    }
 
     public static function iconFix($options=array()){
         return self::buildIcon(self::CLASS_FIX, $options);
-}
+    }
 
     public static function iconUnlock($options=array()){
         return self::buildIcon(self::CLASS_UNLOCK, $options);
-}
+    }
 
     public static function iconLock($options=array()){
         return self::buildIcon(self::CLASS_LOCK, $options);
-}
+    }
 
     public static function iconUl($options=array()){
         return self::buildIcon(self::CLASS_UL, $options);
-}
+    }
 
     public static function iconOl($options=array()){
         return self::buildIcon(self::CLASS_OL, $options);
-}
+    }
 
     public static function iconEmail($options=array()){
         return self::buildIcon(self::CLASS_EMAIL, $options);
-}
+    }
 
     public static function iconDownload($options=array()){
         return self::buildIcon(self::CLASS_DOWNLOAD, $options);
-}
+    }
 
     public static function iconLogout($options=array()){
         return self::buildIcon(self::CLASS_LOGOUT, $options);
-}
+    }
 
     public static function iconLogin($options=array()){
         return self::buildIcon(self::CLASS_LOGIN, $options);
-}
+    }
 
     public static function iconSpinner($options=array()){
         return self::buildIcon(self::CLASS_SPINNER, $options);
-}
+    }
 
     public static function iconPreview($options=array()){
         return self::buildIcon(self::CLASS_PREVIEW, $options);
-}
+    }
 
     public static function iconExternal($options=array()){
         return self::buildIcon(self::CLASS_EXTERNAL, $options);
-}
+    }
 
     public static function iconTime($options=array()){
         return self::buildIcon(self::CLASS_TIME, $options);
-}
+    }
 
     public static function iconSave($options=array()){
         return self::buildIcon(self::CLASS_SAVE, $options);
-}
+    }
 
     public static function iconWarning($options=array()){
         return self::buildIcon(self::CLASS_WARNING, $options);
-}
+    }
 
     public static function iconAdd($options=array()){
         return self::buildIcon(self::CLASS_ADD, $options);
-}
+    }
 
     public static function iconClose($options=array()){
         return self::buildIcon(self::CLASS_CLOSE, $options);
-}
+    }
 
     public static function iconSuccess($options=array()){
         return self::buildIcon(self::CLASS_SUCCESS, $options);
-}
+    }
 
     public static function iconRemove($options=array()){
         return self::buildIcon(self::CLASS_REMOVE, $options);
-}
+    }
 
     public static function iconInfo($options=array()){
         return self::buildIcon(self::CLASS_INFO, $options);
-}
+    }
 
     public static function iconError($options=array()){
         return self::buildIcon(self::CLASS_ERROR, $options);
-}
+    }
 
     public static function iconUsers($options=array()){
         return self::buildIcon(self::CLASS_USERS, $options);
-}
+    }
 
     public static function iconUser($options=array()){
         return self::buildIcon(self::CLASS_USER, $options);
-}
+    }
 
     public static function iconTestTaker($options=array()){
         return self::buildIcon(self::CLASS_TEST_TAKER, $options);
-}
+    }
 
     public static function iconTestTakers($options=array()){
         return self::buildIcon(self::CLASS_TEST_TAKERS, $options);
-}
+    }
 
     public static function iconItem($options=array()){
         return self::buildIcon(self::CLASS_ITEM, $options);
-}
+    }
 
     public static function iconTest($options=array()){
         return self::buildIcon(self::CLASS_TEST, $options);
-}
+    }
 
     public static function iconDelivery($options=array()){
         return self::buildIcon(self::CLASS_DELIVERY, $options);
-}
+    }
 
     public static function iconResult($options=array()){
         return self::buildIcon(self::CLASS_RESULT, $options);
-}
+    }
 
     public static function iconDeliverySmall($options=array()){
         return self::buildIcon(self::CLASS_DELIVERY_SMALL, $options);
-}
+    }
 
     public static function iconResultSmall($options=array()){
         return self::buildIcon(self::CLASS_RESULT_SMALL, $options);
-}
-
-    public static function iconPreview3($options=array()){
-        return self::buildIcon(self::CLASS_PREVIEW3, $options);
-}
+    }
 
     public static function iconMobilePreview($options=array()){
         return self::buildIcon(self::CLASS_MOBILE_PREVIEW, $options);
-}
+    }
 
     public static function iconExtension($options=array()){
         return self::buildIcon(self::CLASS_EXTENSION, $options);
-}
+    }
 
     public static function iconDesktopPreview($options=array()){
         return self::buildIcon(self::CLASS_DESKTOP_PREVIEW, $options);
-}
+    }
 
     public static function iconTabletPreview($options=array()){
         return self::buildIcon(self::CLASS_TABLET_PREVIEW, $options);
-}
+    }
 
     public static function iconInsertHorizontalLine($options=array()){
         return self::buildIcon(self::CLASS_INSERT_HORIZONTAL_LINE, $options);
-}
+    }
 
     public static function iconTable($options=array()){
         return self::buildIcon(self::CLASS_TABLE, $options);
-}
+    }
 
     public static function iconAnchor($options=array()){
         return self::buildIcon(self::CLASS_ANCHOR, $options);
-}
+    }
 
     public static function iconUnlink($options=array()){
         return self::buildIcon(self::CLASS_UNLINK, $options);
-}
+    }
 
     public static function iconLink($options=array()){
         return self::buildIcon(self::CLASS_LINK, $options);
-}
+    }
 
     public static function iconRightLeft($options=array()){
         return self::buildIcon(self::CLASS_RIGHT_LEFT, $options);
-}
+    }
 
     public static function iconLeftRight($options=array()){
         return self::buildIcon(self::CLASS_LEFT_RIGHT, $options);
-}
+    }
 
     public static function iconSpecialCharacter($options=array()){
         return self::buildIcon(self::CLASS_SPECIAL_CHARACTER, $options);
-}
+    }
 
     public static function iconSource($options=array()){
         return self::buildIcon(self::CLASS_SOURCE, $options);
-}
+    }
 
     public static function iconNewPage($options=array()){
         return self::buildIcon(self::CLASS_NEW_PAGE, $options);
-}
+    }
 
     public static function iconTemplates($options=array()){
         return self::buildIcon(self::CLASS_TEMPLATES, $options);
-}
+    }
 
     public static function iconCut($options=array()){
         return self::buildIcon(self::CLASS_CUT, $options);
-}
+    }
 
     public static function iconReplace($options=array()){
         return self::buildIcon(self::CLASS_REPLACE, $options);
-}
+    }
 
     public static function iconCopy($options=array()){
         return self::buildIcon(self::CLASS_COPY, $options);
-}
+    }
 
     public static function iconPaste($options=array()){
         return self::buildIcon(self::CLASS_PASTE, $options);
-}
+    }
 
     public static function iconSelectAll($options=array()){
         return self::buildIcon(self::CLASS_SELECT_ALL, $options);
-}
+    }
 
     public static function iconPasteText($options=array()){
         return self::buildIcon(self::CLASS_PASTE_TEXT, $options);
-}
+    }
 
     public static function iconPasteWord($options=array()){
         return self::buildIcon(self::CLASS_PASTE_WORD, $options);
-}
+    }
 
     public static function iconBold($options=array()){
         return self::buildIcon(self::CLASS_BOLD, $options);
-}
+    }
 
     public static function iconItalic($options=array()){
         return self::buildIcon(self::CLASS_ITALIC, $options);
-}
+    }
 
     public static function iconUnderline($options=array()){
         return self::buildIcon(self::CLASS_UNDERLINE, $options);
-}
+    }
 
     public static function iconSubscript($options=array()){
         return self::buildIcon(self::CLASS_SUBSCRIPT, $options);
-}
+    }
 
     public static function iconSuperscript($options=array()){
         return self::buildIcon(self::CLASS_SUPERSCRIPT, $options);
-}
+    }
 
     public static function iconStrikeThrough($options=array()){
         return self::buildIcon(self::CLASS_STRIKE_THROUGH, $options);
-}
+    }
 
     public static function iconDecreaseIndent($options=array()){
         return self::buildIcon(self::CLASS_DECREASE_INDENT, $options);
-}
+    }
 
     public static function iconIncreaseIndent($options=array()){
         return self::buildIcon(self::CLASS_INCREASE_INDENT, $options);
-}
+    }
 
     public static function iconBlockQuote($options=array()){
         return self::buildIcon(self::CLASS_BLOCK_QUOTE, $options);
-}
+    }
 
     public static function iconDivContainer($options=array()){
         return self::buildIcon(self::CLASS_DIV_CONTAINER, $options);
-}
+    }
 
     public static function iconAlignLeft($options=array()){
         return self::buildIcon(self::CLASS_ALIGN_LEFT, $options);
-}
+    }
 
     public static function iconCenter($options=array()){
         return self::buildIcon(self::CLASS_CENTER, $options);
-}
+    }
 
     public static function iconAlignRight($options=array()){
         return self::buildIcon(self::CLASS_ALIGN_RIGHT, $options);
-}
+    }
 
     public static function iconJustify($options=array()){
         return self::buildIcon(self::CLASS_JUSTIFY, $options);
-}
+    }
 
     public static function iconChoice($options=array()){
         return self::buildIcon(self::CLASS_CHOICE, $options);
-}
+    }
 
     public static function iconInlineChoice($options=array()){
         return self::buildIcon(self::CLASS_INLINE_CHOICE, $options);
-}
+    }
 
     public static function iconMatch($options=array()){
         return self::buildIcon(self::CLASS_MATCH, $options);
-}
+    }
 
     public static function iconAssociate($options=array()){
         return self::buildIcon(self::CLASS_ASSOCIATE, $options);
-}
+    }
 
     public static function iconMedia($options=array()){
         return self::buildIcon(self::CLASS_MEDIA, $options);
-}
+    }
 
     public static function iconGraphicOrder($options=array()){
         return self::buildIcon(self::CLASS_GRAPHIC_ORDER, $options);
-}
+    }
 
     public static function iconHotspot($options=array()){
         return self::buildIcon(self::CLASS_HOTSPOT, $options);
-}
+    }
 
     public static function iconGraphicGap($options=array()){
         return self::buildIcon(self::CLASS_GRAPHIC_GAP, $options);
-}
+    }
 
     public static function iconGraphicAssociate($options=array()){
         return self::buildIcon(self::CLASS_GRAPHIC_ASSOCIATE, $options);
-}
+    }
 
     public static function iconSelectPoint($options=array()){
         return self::buildIcon(self::CLASS_SELECT_POINT, $options);
-}
+    }
 
     public static function iconPin($options=array()){
         return self::buildIcon(self::CLASS_PIN, $options);
-}
+    }
 
     public static function iconImport($options=array()){
         return self::buildIcon(self::CLASS_IMPORT, $options);
-}
+    }
 
     public static function iconExport($options=array()){
         return self::buildIcon(self::CLASS_EXPORT, $options);
-}
+    }
 
     public static function iconMoveItem($options=array()){
         return self::buildIcon(self::CLASS_MOVE_ITEM, $options);
-}
+    }
 
     public static function iconMetaData($options=array()){
         return self::buildIcon(self::CLASS_META_DATA, $options);
-}
+    }
 
     public static function iconSlider($options=array()){
         return self::buildIcon(self::CLASS_SLIDER, $options);
-}
+    }
 
     public static function iconSummaryReport($options=array()){
         return self::buildIcon(self::CLASS_SUMMARY_REPORT, $options);
-}
+    }
 
     public static function iconTextEntry($options=array()){
         return self::buildIcon(self::CLASS_TEXT_ENTRY, $options);
-}
+    }
 
     public static function iconExtendedText($options=array()){
         return self::buildIcon(self::CLASS_EXTENDED_TEXT, $options);
-}
+    }
 
     public static function iconEraser($options=array()){
         return self::buildIcon(self::CLASS_ERASER, $options);
-}
+    }
 
     public static function iconRow($options=array()){
         return self::buildIcon(self::CLASS_ROW, $options);
-}
+    }
 
     public static function iconColumn($options=array()){
         return self::buildIcon(self::CLASS_COLUMN, $options);
-}
+    }
 
     public static function iconTextColor($options=array()){
         return self::buildIcon(self::CLASS_TEXT_COLOR, $options);
-}
+    }
 
     public static function iconBackgroundColor($options=array()){
         return self::buildIcon(self::CLASS_BACKGROUND_COLOR, $options);
-}
+    }
 
     public static function iconSpellCheck($options=array()){
         return self::buildIcon(self::CLASS_SPELL_CHECK, $options);
-}
+    }
 
     public static function iconPolygon($options=array()){
         return self::buildIcon(self::CLASS_POLYGON, $options);
-}
+    }
 
     public static function iconRectangle($options=array()){
         return self::buildIcon(self::CLASS_RECTANGLE, $options);
-}
+    }
 
     public static function iconGapMatch($options=array()){
         return self::buildIcon(self::CLASS_GAP_MATCH, $options);
-}
+    }
 
     public static function iconOrder($options=array()){
         return self::buildIcon(self::CLASS_ORDER, $options);
-}
+    }
 
     public static function iconHottext($options=array()){
         return self::buildIcon(self::CLASS_HOTTEXT, $options);
-}
+    }
 
     public static function iconFreeForm($options=array()){
         return self::buildIcon(self::CLASS_FREE_FORM, $options);
-}
+    }
 
     public static function iconFont($options=array()){
         return self::buildIcon(self::CLASS_FONT, $options);
-}
+    }
 
     public static function iconStepBackward($options=array()){
         return self::buildIcon(self::CLASS_STEP_BACKWARD, $options);
-}
+    }
 
     public static function iconFastBackward($options=array()){
         return self::buildIcon(self::CLASS_FAST_BACKWARD, $options);
-}
+    }
 
     public static function iconBackward($options=array()){
         return self::buildIcon(self::CLASS_BACKWARD, $options);
-}
+    }
 
     public static function iconPlay($options=array()){
         return self::buildIcon(self::CLASS_PLAY, $options);
-}
+    }
 
     public static function iconPause($options=array()){
         return self::buildIcon(self::CLASS_PAUSE, $options);
-}
+    }
 
     public static function iconStop($options=array()){
         return self::buildIcon(self::CLASS_STOP, $options);
-}
+    }
 
     public static function iconForward($options=array()){
         return self::buildIcon(self::CLASS_FORWARD, $options);
-}
+    }
 
     public static function iconFastForward($options=array()){
         return self::buildIcon(self::CLASS_FAST_FORWARD, $options);
-}
+    }
 
     public static function iconStepForward($options=array()){
         return self::buildIcon(self::CLASS_STEP_FORWARD, $options);
-}
+    }
 
     public static function iconEject($options=array()){
         return self::buildIcon(self::CLASS_EJECT, $options);
-}
+    }
 
     public static function iconEllipsis($options=array()){
         return self::buildIcon(self::CLASS_ELLIPSIS, $options);
-}
+    }
 
     public static function iconCircle($options=array()){
         return self::buildIcon(self::CLASS_CIRCLE, $options);
-}
+    }
 
     public static function iconTarget($options=array()){
         return self::buildIcon(self::CLASS_TARGET, $options);
-}
+    }
 
     public static function iconGuideArrow($options=array()){
         return self::buildIcon(self::CLASS_GUIDE_ARROW, $options);
-}
+    }
 
     public static function iconRangeSliderRight($options=array()){
         return self::buildIcon(self::CLASS_RANGE_SLIDER_RIGHT, $options);
-}
+    }
 
     public static function iconRangeSliderLeft($options=array()){
         return self::buildIcon(self::CLASS_RANGE_SLIDER_LEFT, $options);
-}
+    }
 
     public static function iconRadio($options=array()){
         return self::buildIcon(self::CLASS_RADIO, $options);
-}
+    }
 
     public static function iconRadioChecked($options=array()){
         return self::buildIcon(self::CLASS_RADIO_CHECKED, $options);
-}
+    }
 
     public static function iconCheckbox($options=array()){
         return self::buildIcon(self::CLASS_CHECKBOX, $options);
-}
+    }
 
     public static function iconCheckboxCrossed($options=array()){
         return self::buildIcon(self::CLASS_CHECKBOX_CROSSED, $options);
-}
+    }
 
     public static function iconCheckboxChecked($options=array()){
         return self::buildIcon(self::CLASS_CHECKBOX_CHECKED, $options);
-}
+    }
 
     public static function iconContinue($options=array()){
         return self::buildIcon(self::CLASS_CONTINUE, $options);
-}
+    }
 
     public static function iconResultNok($options=array()){
         return self::buildIcon(self::CLASS_RESULT_NOK, $options);
-}
+    }
 
     public static function iconResultOk($options=array()){
         return self::buildIcon(self::CLASS_RESULT_OK, $options);
-}
+    }
 
     public static function iconNotEvaluated($options=array()){
         return self::buildIcon(self::CLASS_NOT_EVALUATED, $options);
-}
+    }
+
+    public static function iconFilter($options=array()){
+        return self::buildIcon(self::CLASS_FILTER, $options);
+    }
 
 
 }

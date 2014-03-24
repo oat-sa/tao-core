@@ -16,7 +16,7 @@
                                  :  : :      :
                                  :__:-:__.;--'
                                 <*_/   <*/
-
+                                 
 @import 'inc/tao-icon-vars.scss';
 [class^="icon-"], [class*=" icon-"] { @extend %tao-icon-setup; }
 .icon-left:before { @extend %icon-left; }
@@ -77,7 +77,6 @@
 .icon-result:before { @extend %icon-result; }
 .icon-delivery-small:before { @extend %icon-delivery-small; }
 .icon-result-small:before { @extend %icon-result-small; }
-.icon-preview3:before { @extend %icon-preview3; }
 .icon-mobile-preview:before { @extend %icon-mobile-preview; }
 .icon-extension:before { @extend %icon-extension; }
 .icon-desktop-preview:before { @extend %icon-desktop-preview; }
@@ -171,3 +170,4 @@
 .icon-result-nok:before { @extend %icon-result-nok; }
 .icon-result-ok:before { @extend %icon-result-ok; }
 .icon-not-evaluated:before { @extend %icon-not-evaluated; }
+.icon-filter:before { @extend %icon-filter; }
