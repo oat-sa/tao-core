@@ -37,15 +37,15 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             
             //Initialize the overlay for the modal dialog
             if ($('#'+options.modalOverlay).length === 0) {
-               $('<div/>').attr({'id':options.modalOverlay, 'class':'modal-bg'}).insertAfter($modal);
+               $('<div/>').attr({'id':options.modalOverlay, 'class': options.modalOverlay}).insertAfter($modal);
             }
             
             //Initialize the close button for the modal dialog
-            if ($('#'+options.modalClose).length === 0) {
-               $('<div/>').attr({'id':options.modalClose}).html('<span class="icon-close"></span>').appendTo($modal);
+            if ($('.'+options.modalClose, $modal).length === 0) {
+               $('<div class="' + options.modalClose + '"><span class="icon-close"></span></div>').appendTo($modal);
             }
             
-            Modal._openModal($(this));
+            Modal._openModal($modal);
             
             /**
              * The plugin have been created.
@@ -68,7 +68,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
              Modal._resizeModal($element);
           });
 
-          $('#'+options.modalClose).on('click.'+pluginName, function(e){
+          $('.'+options.modalClose, $element).on('click.'+pluginName, function(e){
              e.preventDefault();
              Modal._closeModal($element);
           });
@@ -138,6 +138,12 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             $element.animate({'opacity': '1', 'top':topOffset+'px'});
           
             Modal._bindEvents($element);
+
+           /**
+            * The target has been closed/removed. 
+            * @event Modal#closed.modal
+            */
+            $element.trigger('opened.'+ pluginName);
           }
        },
 

@@ -17875,10 +17875,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     top: -1000px;
     padding: 40px;
     position: fixed;
-    z-index: 99;
+    z-index: 100002;
     left: 0; }
     /* line 158, ../scss/inc/_components.scss */
-    .tao-scope .modal #modal-close {
+    .tao-scope .modal .modal-close {
       position: absolute;
       right: 12px;
       top: 12px;
@@ -17899,7 +17899,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     width: 100%;
     left: 0;
     top: 0;
-    z-index: 98; }
+    z-index: 100001; }
   /* line 186, ../scss/inc/_components.scss */
   .tao-scope ul[data-button-group], .tao-scope ul.button-group {
     list-style-type: none;
