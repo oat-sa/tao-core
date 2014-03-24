@@ -80,19 +80,27 @@ class Template {
      * @return string
      */
     public static function inc($path, $extenionName = null) {
-        if (is_null($extenionName)) {
-            $extenionName = \Context::getInstance()->getExtensionName();
-        } elseif ($extenionName != \Context::getInstance()->getExtensionName()) {
+        if (!is_null($extenionName) && $extenionName != \Context::getInstance()->getExtensionName()) {
             // template is within diffrent extension, change context
             $formerContext = \Context::getInstance()->getExtensionName();
             \Context::getInstance()->setExtensionName($extenionName);
         }
         
-        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extenionName);
-        include($ext->getConstant('TPL_PATH').$path);
+        $absPath = self::getTemplate($path, $extenionName);
+        if (file_exists($absPath)) {
+            include($absPath);
+        } else {
+            \common_Logger::w('Failed to include "'.$absPath.'" in template');
+        }
         // restore context
         if (isset($formerContext)) {
             \Context::getInstance()->setExtensionName($formerContext);
         }
+    }
+    
+    public static function getTemplate($path, $extenionName = null) {
+        $extenionName = is_null($extenionName) ? \Context::getInstance()->getExtensionName() : $extenionName;
+        $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extenionName);
+        return $ext->getDir().'views'.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.$path;
     }
 }
