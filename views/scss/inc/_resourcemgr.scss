@@ -1,0 +1,200 @@
+@import 'inc/bootstrap';
+
+/* tooltip */
+.resourcemgr {
+
+    $activeColor:  whiten($uiClickableHoverBg, 0.5);
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+   .file-browser, .file-selector, .file-preview { 
+        position: relative;
+        display: table-cell;
+        vertical-align: top;
+        height: 100% !important;
+
+        color: $textColor;
+
+        h1 {
+            @include font-size(16);
+            line-height: 1.6;
+
+            color: $textColor;
+            margin-top: 1px;
+            padding: 5px;
+            height: 38px;
+        }
+    }
+
+    .file-browser{
+        background-color: $uiClickableDefaultBg;
+        & > h1 {
+            width: 200px;
+            background-color: $uiHeaderBg;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 5px;
+            ul {
+                padding-left: 18px;
+            }
+            li {
+                a {
+                    color: $textColor;
+                    &:before {
+                        @include icon('folder');
+                        margin: 0 3px;
+                    }
+                }
+
+                a.opened:before {
+                    font-style: italic;
+                    @include icon('folder-open');
+                }
+
+                &.active {
+                    background-color: $activeColor;
+                }
+            }
+        }
+    }
+
+    .file-preview{
+        background-color: $uiClickableDefaultBg;
+        & > h1 {
+            width: 300px;
+            background-color: $uiHeaderBg;
+        }
+
+        h2 {
+            @include font-size(13);
+            line-height: 1.3;
+            background-color: $uiHeaderBg;
+            color: $textColor;
+            margin-top: 1px;
+            padding: 6px;
+            position: relative;
+            clear: both;
+        
+            &.toggler{
+                cursor: pointer;
+                &:after{
+                    position: absolute;
+                    right: 15px;
+                    top: 3px;
+                }
+            }
+        }
+
+        .file-properties{
+            padding: 0 5px;
+        }
+
+        .reader {
+            height: 250px;
+            background-color: $uiGeneralContentBg;
+            margin: 5px;
+            
+            .nopreview {
+                color: $uiGeneralContentBorder;
+                text-align: center;
+                @include font-size(20);
+                
+                &:before {
+                    @include icon('document');
+                    @include font-size(60);
+                    display: block !important;
+                }
+                &[data-type='image']:before{
+                    @include icon('image');
+                }
+                &[data-type='audio']:before{
+                    @include icon('media');
+                } 
+                &[data-type='video']:before{
+                    @include icon('video');
+                }
+            }
+        }
+    }
+
+    .file-selector{
+        position: relative;
+        width: 100%;
+        
+        background-color: $uiGeneralContentBg;
+        & > h1 {
+            background-color: $uiClickableDefaultBg;
+        }
+
+        ul.files {
+            position: relative;
+            height: 100%;
+            margin-bottom: 40px;
+            padding: 0;
+            list-style-type: none;
+ 
+            li {
+                height: 35px;
+                line-height: 35px;
+                padding-left: 5px;
+
+                &:before {
+                    @include icon('document');
+                    margin: 0 4px;
+                    @include font-size(16);
+
+                }
+                &[data-type='image']:before{
+                    @include icon('image');
+                    margin: 0 2px 0 0;
+                }
+                &[data-type='audio']:before{
+                    @include icon('media');
+                    margin: 0 2px 0 0;
+                } 
+                &[data-type='video']:before{
+                    @include icon('video');
+                    margin: 0 2px 0 0;
+                }
+
+                &.active, &:hover {
+                    background-color: $activeColor;
+                    cursor: pointer;
+                }
+
+                .actions { 
+                    float: right;
+                    position: relative;
+                    display: inline-block;
+                    height: 35px;
+                    text-overflow: ellipsis;
+                    .tlb {
+                        display: inline-block;
+                        background: none;
+                        margin-left: 15px;
+                        @include font-size(14);
+                        .tlb-top {
+                            background: none !important;
+                            border-width: 0 !important;
+                            @include box-shadow(0, 0, 0);
+                        }
+                    }
+                }
+            }
+        }
+        .uploader {
+            position: absolute;
+            bottom: 0;
+            left: 200px;
+            right: 300px;
+            height: 40px;
+            padding: 0 5px;
+            line-height: 40px;
+            background-color: $uiClickableDefaultBg;
+        }
+    }
+}
