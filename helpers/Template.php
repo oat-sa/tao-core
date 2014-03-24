@@ -101,6 +101,6 @@ class Template {
     public static function getTemplate($path, $extenionName = null) {
         $extenionName = is_null($extenionName) ? \Context::getInstance()->getExtensionName() : $extenionName;
         $ext = \common_ext_ExtensionsManager::singleton()->getExtensionById($extenionName);
-        return $ext->getDir().'views'.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.$path;
+        return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$path;
     }
 }
