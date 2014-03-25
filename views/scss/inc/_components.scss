@@ -147,13 +147,11 @@ ul.listbox {
     border: 1px solid $uiGeneralContentBorder;
     box-shadow: 3px 3px 5px #666666;
     height: auto;
-    min-width: 600px;
     opacity: 0;
     top: -1000px;
     padding: 40px;
-    position: fixed;
+    position: absolute;
     z-index: 100002;
-    left: 0;
 
     .modal-close {
         position: absolute;

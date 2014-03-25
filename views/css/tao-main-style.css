@@ -17870,14 +17870,12 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     border: 1px solid #dddddd;
     box-shadow: 3px 3px 5px #666666;
     height: auto;
-    min-width: 600px;
     opacity: 0;
     top: -1000px;
     padding: 40px;
-    position: fixed;
-    z-index: 100002;
-    left: 0; }
-    /* line 158, ../scss/inc/_components.scss */
+    position: absolute;
+    z-index: 100002; }
+    /* line 156, ../scss/inc/_components.scss */
     .tao-scope .modal .modal-close {
       position: absolute;
       right: 12px;
@@ -17887,7 +17885,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       color: #222222;
       font-size: 20px;
       font-size: 2rem; }
-  /* line 169, ../scss/inc/_components.scss */
+  /* line 167, ../scss/inc/_components.scss */
   .tao-scope .modal-bg {
     background: none repeat scroll 0 0 black;
     opacity: 0.45;
@@ -17900,7 +17898,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     left: 0;
     top: 0;
     z-index: 100001; }
-  /* line 186, ../scss/inc/_components.scss */
+  /* line 184, ../scss/inc/_components.scss */
   .tao-scope ul[data-button-group], .tao-scope ul.button-group {
     list-style-type: none;
     padding: 0;
@@ -17914,7 +17912,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     border-radius: 2px;
     font-size: 12px;
     font-size: 1.2rem; }
-    /* line 198, ../scss/inc/_components.scss */
+    /* line 196, ../scss/inc/_components.scss */
     .tao-scope ul[data-button-group] > li, .tao-scope ul.button-group > li {
       border: 0 none;
       color: #222222;
@@ -17925,7 +17923,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       padding: 4px 6px;
       text-align: center;
       text-decoration: none !important; }
-      /* line 209, ../scss/inc/_components.scss */
+      /* line 207, ../scss/inc/_components.scss */
       .tao-scope ul[data-button-group] > li.active, .tao-scope ul.button-group > li.active {
         color: white;
         background-color: #0e5d91;
@@ -17933,7 +17931,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         -moz-transition: all 0.4s ease;
         -o-transition: background 0.4s ease;
         transition: all 0.4s ease; }
-      /* line 217, ../scss/inc/_components.scss */
+      /* line 215, ../scss/inc/_components.scss */
       .tao-scope ul[data-button-group] > li:hover, .tao-scope ul.button-group > li:hover {
         color: white;
         background-color: #3e7da7;
@@ -17941,7 +17939,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         -moz-transition: all 0.4s ease;
         -o-transition: background 0.4s ease;
         transition: all 0.4s ease; }
-      /* line 225, ../scss/inc/_components.scss */
+      /* line 223, ../scss/inc/_components.scss */
       .tao-scope ul[data-button-group] > li.separator, .tao-scope ul.button-group > li.separator {
         background-color: #dddddd;
         float: left;
@@ -17950,7 +17948,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         width: 1px;
         min-width: 1px;
         padding: 0; }
-      /* line 235, ../scss/inc/_components.scss */
+      /* line 233, ../scss/inc/_components.scss */
       .tao-scope ul[data-button-group] > li[class^="icon-"], .tao-scope ul[data-button-group] > li[class*=" icon-"], .tao-scope ul.button-group > li[class^="icon-"], .tao-scope ul.button-group > li[class*=" icon-"] {
         height: 16px;
         margin-top: 1px;

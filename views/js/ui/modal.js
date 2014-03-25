@@ -15,15 +15,20 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
     var defaults = {
         modalClose  : 'modal-close',
         modalOverlay: 'modal-bg',
-        disableOverlayClose: false
+        disableClosing: false,
+        width: 'responsive'
     };
 
 
     var Modal = {
        /**
         * Initialize the modal dialog
-        * @param {object} options - plugin options
-        * @returns {jQuery object}
+        * @param {Object} [options] - plugin options
+        * @param {String} [options.modalClose = 'modal-close'] - the css class for the modal closer
+        * @param {String} [options.modalOverlay = 'modal-bg'] - the css class for the modal overlay element
+        * @param {Boolean} [options .disableClosing = false] - to disable the default closers
+        * @param {String|Number|Boolean}  [options.width = 'responsive'] - the width behavior, responsive or a fixed value, or default if false
+        * @returns {jQueryElement} for chaining
         */
        init: function(options){
           
@@ -41,11 +46,11 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             }
             
             //Initialize the close button for the modal dialog
-            if ($('.'+options.modalClose, $modal).length === 0) {
+            if ($('.'+options.modalClose, $modal).length === 0 && !options.disableClosing) {
                $('<div class="' + options.modalClose + '"><span class="icon-close"></span></div>').appendTo($modal);
             }
             
-            Modal._openModal($modal);
+            Modal._open($modal);
             
             /**
              * The plugin have been created.
@@ -62,30 +67,32 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         */
        _bindEvents: function($element){
           var options = $element.data(dataNs);
-          
-          $(window).on('resize.'+pluginName, function(e){
-             e.preventDefault();
-             Modal._resizeModal($element);
-          });
-
-          $('.'+options.modalClose, $element).on('click.'+pluginName, function(e){
-             e.preventDefault();
-             Modal._closeModal($element);
-          });
-          
-          if(!options.disableOverlayClose){
-            $('#'+options.modalOverlay).on('click.'+pluginName, function(e){
-               e.preventDefault();
-               Modal._closeModal($element);
-            });
+         
+          if(options.width === 'responsive'){ 
+              $(window).on('resize.'+pluginName, function(e){
+                 e.preventDefault();
+                 Modal._resize($element);
+              });
           }
 
-          $(document).on('keydown.'+pluginName, function(e) {
-             if(e.keyCode===27){
-                e.preventDefault();
-                Modal._closeModal($element);
-             }
-          });
+          if(!options.disableClosing){
+                $('.'+options.modalClose, $element).on('click.'+pluginName, function(e){
+                    e.preventDefault();
+                    Modal._close($element);
+                });
+
+                $('#'+options.modalOverlay).on('click.'+pluginName, function(e){
+                    e.preventDefault();
+                    Modal._close($element);
+                });
+
+                $(document).on('keydown.'+pluginName, function(e) {
+                    if(e.keyCode===27){
+                        e.preventDefault();
+                        Modal._close($element);
+                    }
+                });
+          }
        },
 
        /**
@@ -96,23 +103,26 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
        _unBindEvents: function($element){
           var options = $element.data(dataNs);
           
-          $(window).off('resize.'+pluginName);
+          if(options.width === 'responsive'){ 
+            $(window).off('resize.'+pluginName);
+          }
+
           $element.off('click.'+pluginName);
           
-          if(!options.disableOverlayClose){
+          if(!options.disableClosing){
+              $('.'+options.modalClose, $element).off('click.'+pluginName);
               $('#'+options.modalOverlay).off('click.'+pluginName);
+              $(document).off('keydown.'+pluginName);
           }
-          
-          $(document).off('keydown.'+pluginName);
        },
 
        /**
         * Open the modal dialog
         * @returns {jQuery object}
         */
-       openModal: function(){
+       open: function(){
            return this.each(function() {
-                Modal._openModal($(this));
+                Modal._open($(this));
            });
        },
        
@@ -121,22 +131,24 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         * @param {jQuery object} $element
         * @returns {jQuery object}
         */
-       _openModal: function($element){
-          var modalHeight = $element[0].clientHeight,
+       _open: function($element){
+          var modalHeight = $element.outerHeight(),
               windowHeight = $(window).height(),
               options = $element.data(dataNs);
       
           if (typeof options !== 'undefined'){
             //Calculate the top offset
             var topOffset = modalHeight>windowHeight?40:(windowHeight-modalHeight)/2;
-            
-            Modal._resizeModal($element);
+
+            Modal._resize($element);
+
             $element.css({
                 'top': '-'+modalHeight+'px'
             });
+
             $('#'+options.modalOverlay).fadeIn(300);
+
             $element.animate({'opacity': '1', 'top':topOffset+'px'});
-          
             Modal._bindEvents($element);
 
            /**
@@ -151,9 +163,9 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         * Close the modal dialog
         * @returns {undefined}
         */
-       closeModal: function(){
+       close: function(){
            return this.each(function() {
-               Modal._closeModal($(this));
+               Modal._close($(this));
            });
        },
        
@@ -162,7 +174,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         * @param {jQuery object} $element
         * @returns {undefined}
         */
-       _closeModal: function($element){
+       _close: function($element){
            var options = $element.data(dataNs);
        
            Modal._unBindEvents($element);
@@ -182,12 +194,14 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         * @param {jQuery object} $element
         * @returns {undefined}
         */
-       _resizeModal: function($element){
-           var windowWidth = $(window).width();
-           
+       _resize: function($element){
+           var options = $element.data(dataNs);
+           var windowWidth = parseInt($(window).width(), 10);
+           var modalWidth = options.width === 'responsive' ? windowWidth * 0.7 : parseInt(options.width, 10);
+
            $element.css({
-                'width': (windowWidth*0.7)+'px',
-                'margin-left': (windowWidth*0.15)+'px'
+                'width': modalWidth + 'px',
+                'left' : ( (windowWidth - modalWidth) / 2) + 'px',
            });
        }
     };
