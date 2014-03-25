@@ -22,7 +22,6 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
     * @exports ui/deleter
     */
    var deleter = {
-       
         /**
          * Initialize the plugin.
          * 
