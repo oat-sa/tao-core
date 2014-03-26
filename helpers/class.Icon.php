@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-03-24 09:37
+ * @date   2014-03-26 10:20
  * @package tao
  * @subpackage helpers
  */
@@ -210,23 +210,25 @@ class tao_helpers_Icon {
     const CLASS_FORWARD = 'icon-forward';
     const CLASS_FAST_FORWARD = 'icon-fast-forward';
     const CLASS_STEP_FORWARD = 'icon-step-forward';
-    const CLASS_EJECT = 'icon-eject';
     const CLASS_ELLIPSIS = 'icon-ellipsis';
     const CLASS_CIRCLE = 'icon-circle';
     const CLASS_TARGET = 'icon-target';
     const CLASS_GUIDE_ARROW = 'icon-guide-arrow';
     const CLASS_RANGE_SLIDER_RIGHT = 'icon-range-slider-right';
     const CLASS_RANGE_SLIDER_LEFT = 'icon-range-slider-left';
-    const CLASS_RADIO = 'icon-radio';
     const CLASS_RADIO_CHECKED = 'icon-radio-checked';
     const CLASS_CHECKBOX = 'icon-checkbox';
     const CLASS_CHECKBOX_CROSSED = 'icon-checkbox-crossed';
     const CLASS_CHECKBOX_CHECKED = 'icon-checkbox-checked';
-    const CLASS_CONTINUE = 'icon-continue';
     const CLASS_RESULT_NOK = 'icon-result-nok';
     const CLASS_RESULT_OK = 'icon-result-ok';
     const CLASS_NOT_EVALUATED = 'icon-not-evaluated';
     const CLASS_FILTER = 'icon-filter';
+    const CLASS_TRANSLATE = 'icon-translate';
+    const CLASS_EJECT = 'icon-eject';
+    const CLASS_CONTINUE = 'icon-continue';
+    const CLASS_RADIO = 'icon-radio';
+    const CLASS_SPHERE = 'icon-sphere';
 
 	
     /**
@@ -773,10 +775,6 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_STEP_FORWARD, $options);
     }
 
-    public static function iconEject($options=array()){
-        return self::buildIcon(self::CLASS_EJECT, $options);
-    }
-
     public static function iconEllipsis($options=array()){
         return self::buildIcon(self::CLASS_ELLIPSIS, $options);
     }
@@ -801,10 +799,6 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_RANGE_SLIDER_LEFT, $options);
     }
 
-    public static function iconRadio($options=array()){
-        return self::buildIcon(self::CLASS_RADIO, $options);
-    }
-
     public static function iconRadioChecked($options=array()){
         return self::buildIcon(self::CLASS_RADIO_CHECKED, $options);
     }
@@ -821,10 +815,6 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_CHECKBOX_CHECKED, $options);
     }
 
-    public static function iconContinue($options=array()){
-        return self::buildIcon(self::CLASS_CONTINUE, $options);
-    }
-
     public static function iconResultNok($options=array()){
         return self::buildIcon(self::CLASS_RESULT_NOK, $options);
     }
@@ -839,6 +829,26 @@ class tao_helpers_Icon {
 
     public static function iconFilter($options=array()){
         return self::buildIcon(self::CLASS_FILTER, $options);
+    }
+
+    public static function iconTranslate($options=array()){
+        return self::buildIcon(self::CLASS_TRANSLATE, $options);
+    }
+
+    public static function iconEject($options=array()){
+        return self::buildIcon(self::CLASS_EJECT, $options);
+    }
+
+    public static function iconContinue($options=array()){
+        return self::buildIcon(self::CLASS_CONTINUE, $options);
+    }
+
+    public static function iconRadio($options=array()){
+        return self::buildIcon(self::CLASS_RADIO, $options);
+    }
+
+    public static function iconSphere($options=array()){
+        return self::buildIcon(self::CLASS_SPHERE, $options);
     }
 
 
