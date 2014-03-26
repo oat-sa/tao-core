@@ -1,5 +1,6 @@
+//define, dep: ckeditor, dtdhandler, lodash, return ckconfigurator
 /**
- * The DTD as defined by CKEDITOR, will on occassion be toggled to the QTI DTD
+ * The DTD as defined by CKEDITOR, will on occasion be toggled to the QTI DTD
  */
 var originalDtd = _.cloneDeep(CKEDITOR.dtd);
 
@@ -20,7 +21,7 @@ var originalConfig = _.cloneDeep(CKEDITOR.config);
  * options.positionedPlugins    -> @see ckConfig.positionedPlugins
  *
  * @param mode block | inline | flow | qtiBlock | qtiInline | qtiFlow
- * @param options is based on the CKEDITOR config object with some additonal sugar
+ * @param options is based on the CKEDITOR config object with some additional sugar
  * @see http://docs.ckeditor.com/#!/api/CKEDITOR.config
  */
 var ckConfigurator = function(mode, options) {
@@ -249,7 +250,7 @@ var ckConfigurator = function(mode, options) {
                     }
                 }
                 if (index > -1) {
-
+                    // ~~ converts bool to number
                     numToReplace = ~~ (method === 'replace');
                     if (method === 'insertAfter') {
                         index++;
