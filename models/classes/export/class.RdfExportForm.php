@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\tao\helpers\Template;
+
 /**
  * Export form for QTI packages
  *
@@ -108,7 +110,7 @@ class tao_models_classes_export_RdfExportForm
 		$this->form->addElement($nameElt);
 
 		$tplElt = new tao_helpers_form_elements_template_Template('rdftpl');
-		$tplElt->setPath(TAO_TPL_PATH . '/form/rdfexport.tpl.php');
+		$tplElt->setPath(Template::getTemplate('form/rdfexport.tpl.php', 'tao'));
 		$tplElt->setVariables(array(
 			'instances'		=> $instances
 		));

@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\tao\helpers\Template;
+
 /**
  * Export form for QTI packages
  *
@@ -78,7 +80,7 @@ class tao_models_classes_nsImExport_NamespaceExportForm
 		$nsManager = common_ext_NamespaceManager::singleton();
 
 		$tplElt = new tao_helpers_form_elements_template_Template('rdftpl');
-		$tplElt->setPath(TAO_TPL_PATH . '/settings/namespaceExport.tpl');
+		$tplElt->setPath(Template::getTemplate('settings/namespaceExport.tpl', 'tao'));
 		$tplElt->setVariables(array(
 			'namespaces' 	=> $nsManager->getAllNamespaces(),
 			'localNs'		=> $nsManager->getLocalNamespace()->getModelId()

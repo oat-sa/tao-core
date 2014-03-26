@@ -1,3 +1,6 @@
+<?php 
+use oat\tao\helpers\Template;
+?>
 <?=get_data('userTree')?>
 
 <div class="main-container large">
@@ -8,5 +11,6 @@
 		<?=get_data('myForm')?>
 	</div>
 </div>
-
-<?include(TAO_TPL_PATH . 'footer.tpl')?>
+<?php
+Template::inc('footer.tpl', 'tao')
+?>

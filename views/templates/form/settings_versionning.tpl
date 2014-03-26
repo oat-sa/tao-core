@@ -1,4 +1,7 @@
-<?if(get_data('message')):?>
+<?php
+use oat\tao\helpers\Template;
+
+if(get_data('message')):?>
 	<div id="info-box" class="ui-corner-all auto-highlight auto-hide">
 		<?=get_data('message')?>
 	</div>
@@ -10,8 +13,9 @@
 <div id="versioning-container" class="ui-widget-content ui-corner-bottom">
 	<?=get_data('myForm')?>
 </div>
-
-<?include(TAO_TPL_PATH.'footer.tpl')?>
+<?php
+Template::inc('footer.tpl', 'tao')
+?>
 
 <script type="text/javascript">
 $(function(){

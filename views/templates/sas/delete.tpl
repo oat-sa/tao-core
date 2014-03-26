@@ -1,3 +1,6 @@
+<?php
+use oat\tao\helpers\Template;
+?>
 <div class="ui-widget-content ui-corner-all" style="text-align:center;margin:30px auto 30px auto;width: 250px;padding:10px;font-size:16px;">
 	<?=__('Delete')?> : <strong><?=get_data('label')?></strong><br /><br />
 	<input id="instance-deleter" type='button' value="<?=__('Confirm')?>" /> 
@@ -28,5 +31,6 @@ $(document).ready(function(){
 	});
 });
 </script>
-
-<?include(TAO_TPL_PATH .'footer.tpl');?>
+<?php
+Template::inc('footer.tpl', 'tao')
+?>

@@ -1,4 +1,7 @@
-<?if(get_data('found')):?>
+<?php
+use oat\tao\helpers\Template;
+
+if(get_data('found')):?>
 	<?if(get_data('foundNumber') > 0):?>
 		<table id="result-list"></table>
 		<div id="result-list-pager"></div> 
@@ -65,6 +68,7 @@ require(['jquery', 'i18n', 'generis.actions', 'grid/tao.grid'], function($, __, 
         });
 });
 </script>
-<?endif?>
-
-<?include(TAO_TPL_PATH .'footer.tpl');?>
+<?php
+endif;
+Template::inc('footer.tpl', 'tao')
+?>

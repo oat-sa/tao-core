@@ -1,3 +1,6 @@
+<?php
+use oat\tao\helpers\Template;
+?>
 <div class="main-container">
 
 <div id="import-container" style="float: left;margin: 5px; ">
@@ -37,4 +40,6 @@
 <?if (has_data('download')):?>
 	<iframe src="<?=get_data('download');?>" style="height: 0px;min-height: 0px"></iframe>
 <?php endif;?>
-<?include(TAO_TPL_PATH . 'footer.tpl')?>
+<?php
+Template::inc('footer.tpl', 'tao')
+?>

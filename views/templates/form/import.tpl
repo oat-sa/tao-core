@@ -1,3 +1,6 @@
+<?php 
+use oat\tao\helpers\Template;
+?>
 <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
 	<?=get_data('formTitle')?>
 </div>
@@ -37,5 +40,6 @@ require(['jquery'], function($) {
 	});
 });
 </script>
-
-<?include(TAO_TPL_PATH .'footer.tpl');?>
+<?php
+Template::inc('footer.tpl', 'tao')
+?>

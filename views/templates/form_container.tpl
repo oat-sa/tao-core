@@ -1,4 +1,8 @@
-<? include(TAO_TPL_PATH . 'form_context.tpl') ?>
+<?php
+use oat\tao\helpers\Template;
+
+Template::inc('form_context.tpl', 'tao')
+?>
 <div class="main-container tao-scope">
     <div id="form-title" class="ui-widget-header ui-corner-top ui-state-default">
     	<?=get_data('formTitle')?>
@@ -15,4 +19,6 @@
     	<?=get_data('myForm')?>
     </div>
 </div>
-<? include(TAO_TPL_PATH . 'footer.tpl');
+<?php
+Template::inc('footer.tpl', 'tao')
+?>

@@ -1,5 +1,8 @@
-<? include(TAO_TPL_PATH . 'layout_header.tpl') ?>
+<?php
+use oat\tao\helpers\Template;
 
+Template::inc('layout_header.tpl', 'tao')
+?>
 	<div id="main-menu" class="ui-state-default" >
 		<a href="<?=_url('entry', 'Main', 'tao')?>" title="<?=__('TAO Home')?>"><span id="menu-bullet"></span></a>
 		<div class="left-menu">
@@ -76,8 +79,9 @@
 		<div id="section-meta"></div>
 	</div>
 
-<?endif?>
-
-<? include 'layout_footer.tpl' ?>
+<?php
+endif;
+Template::inc('layout_footer.tpl', 'tao')
+?>
 	</body>
 </html>

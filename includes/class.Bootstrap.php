@@ -18,8 +18,9 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
+
+use oat\tao\helpers\Template;
+
 /*
  * The generis extension loader is included there ONCE!
  *  1. Load and initialize the API and so the database
@@ -177,10 +178,11 @@ class Bootstrap{
                 else{
                     //the request is not an ajax request, redirect the user to the maintenance page
                     if(!$isAjax){
-                        require_once TAO_TPL_PATH . 'error/maintenance.tpl';
+                        require_once Template::getTemplate('error/maintenance.tpl', 'tao');
                     //else throw an exception, this exception will be send to the client properly
                     }
                     else{
+                        
                         throw new common_exception_SystemUnderMaintenance();
                     }
                 }
@@ -263,7 +265,7 @@ class Bootstrap{
     		));
     	}
     	else{
-    		require_once TAO_TPL_PATH . "error/error${httpStatus}.tpl";
+    	    require_once Template::getTemplate("error/error${httpStatus}.tpl", 'tao');
     	}
     }
 

@@ -1,1 +1,5 @@
-<? include TAO_TPL_PATH .'footer/layout_footer_'.TAO_RELEASE_STATUS.'.tpl' ?>
+<?php
+use oat\tao\helpers\Template;
+
+Template::inc('footer/layout_footer_'.TAO_RELEASE_STATUS.'.tpl', 'tao')
+?>

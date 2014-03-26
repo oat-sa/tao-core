@@ -38,6 +38,24 @@ abstract class tao_models_classes_ClassService
 	 */
 	abstract public function getRootClass();
 
+	/**
+	 * Delete a subclass
+	 *
+	 * @access public
+	 * @author Joel Bout, <joel@taotesting.com>
+	 * @param  Class clazz
+	 * @return boolean
+	 */
+	public function deleteClass( core_kernel_classes_Class $clazz)
+	{
+	    $returnValue = (bool) false;
 	
+        if($clazz->isSubClassOf($this->getRootClass()) && !$clazz->equals($this->getRootClass())) {
+            $returnValue = $clazz->delete();
+        } else {
+            common_Logger::w('Tried to delete class '.$clazz->getUri().' as if it were a subclass of '.$this->getRootClass()->getUri());
+        }
+	
+	    return (bool) $returnValue;
+	}
 }
-?>
