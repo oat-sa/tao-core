@@ -62,19 +62,19 @@ module.exports = function(grunt) {
                     },
                     'qtiruntime' : [{
                         pattern : ['views/js/qtiItem/core/**/*.js', 'views/js/qtiDefaultRenderer/renderers/**/*.js',  'views/js/qtiDefaultRenderer/widgets/**/*.js'],
-                        extension: 'taoQTI',
+                        extension: 'taoQtiItem',
                         replacements : function(file){
-                            return  file.replace('taoQTI/qtiItem', 'taoQtiItem')
-                                        .replace('taoQTI/qtiRunner', 'taoQtiRunner')
-                                        .replace('taoQTI/qtiDefaultRenderer', 'taoQtiDefaultRenderer');
+                            return  file.replace('taoQtiItem/qtiItem', 'taoQtiItem')
+                                        .replace('taoQtiItem/qtiRunner', 'taoQtiRunner')
+                                        .replace('taoQtiItem/qtiDefaultRenderer', 'taoQtiDefaultRenderer');
                         },
                         amdify : true
                     }, {
                         pattern : ['views/js/qtiDefaultRenderer/tpl/**/*.tpl'],
-                        extension: 'taoQTI',
+                        extension: 'taoQtiItem',
                         replacements : function(file){
                             return  'tpl!' + file.replace(/\.(tpl)$/, '')
-                                        .replace('taoQTI/qtiDefaultRenderer', 'taoQtiDefaultRenderer');
+                                        .replace('taoQtiItem/qtiDefaultRenderer', 'taoQtiDefaultRenderer');
                         },
                         amdify : true
                     }]
@@ -88,7 +88,7 @@ module.exports = function(grunt) {
             },
             install : ['output' ],
             backendBundle : ['output',  '../js/main.min.js', '../../../*/views/js/controllers.min.js'],
-            qtiBundle : ['output', '../../../taoQTI/views/js/runtime/qtiLoader.min.js', '../../../taoQTI/views/js/runtime/qtiBoostrap.min.js']
+            qtiBundle : ['output', '../../../taoQtiItem/views/js/runtime/qtiLoader.min.js', '../../../taoQtiItem/views/js/runtime/qtiBoostrap.min.js']
         },
         
         copy : {            
@@ -105,7 +105,7 @@ module.exports = function(grunt) {
             //the qti loader is uglify outside the r.js to split the file loading (qtiLoader.min published within the item and qtiBootstrap shared)
             qtiBundle : { 
                 files : { 
-                    'output/qtiLoader.min.js' : ['../js/lib/require.js', '../../../taoQTI/views/js/runtime/qtiLoader.js']
+                    'output/qtiLoader.min.js' : ['../js/lib/require.js', '../../../taoQtiItem/views/js/runtime/qtiLoader.js']
                 }
             }
         },
@@ -117,16 +117,16 @@ module.exports = function(grunt) {
             qtiBundle : { 
                  options: {
                      patterns: [{
-                        match : 'taoQTI/runtime/qtiBootstrap',
-                        replacement:  'taoQTI/runtime/qtiBootstrap.min',
+                        match : 'taoQtiItem/runtime/qtiBootstrap',
+                        replacement:  'taoQtiItem/runtime/qtiBootstrap.min',
                         expression: false
                      }],
                      force : true,
                      prefix: ''
                  },
                  files : [ 
-                     { src: ['output/qtiBootstrap.min.js'],  dest: '../../../taoQTI/views/js/runtime/qtiBootstrap.min.js' },
-                     { src: ['output/qtiLoader.min.js'],  dest: '../../../taoQTI/views/js/runtime/qtiLoader.min.js' }
+                     { src: ['output/qtiBootstrap.min.js'],  dest: '../../../taoQtiItem/views/js/runtime/qtiBootstrap.min.js' },
+                     { src: ['output/qtiLoader.min.js'],  dest: '../../../taoQtiItem/views/js/runtime/qtiLoader.min.js' }
                  ]
              }
         },
@@ -189,11 +189,11 @@ module.exports = function(grunt) {
                 options: {
                     baseUrl : '../js',
                     out: 'output/qtiBootstrap.min.js',
-                    name: 'taoQTI/runtime/qtiBootstrap',
+                    name: 'taoQtiItem/runtime/qtiBootstrap',
                     optimizeAllPluginResources: true,
                     mainConfigFile : './config/requirejs.build.js',
                     paths: {
-                       'taoQTI' : '../../../taoQTI/views/js'
+                       'taoQtiItem' : '../../../taoQtiItem/views/js'
                     },
                     include: sources.qtiRuntime,
                     exclude : ['i18n_tr', 'mathJax', 'mediaElement']
@@ -228,7 +228,7 @@ module.exports = function(grunt) {
         sass : {
             options : {
                 noCache: true,
-                loadPath : ['../scss/', '../js/lib/', '../../../taoQTI/views/scss/inc', '../../../taoQTI/views/scss/qti'],
+                loadPath : ['../scss/', '../js/lib/', '../../../taoQtiItem/views/scss/inc', '../../../taoQtiItem/views/scss/qti'],
                 lineNumbers : true
             },
             
@@ -243,11 +243,11 @@ module.exports = function(grunt) {
 
             qti : {
                  files : {
-                    '../../../taoQTI/views/css/item-creator.css' : '../../../taoQTI/views/scss/item-creator.scss',
-                    '../../../taoQTI/views/css/qti.css' : '../../../taoQTI/views/scss/qti.scss'
+                    '../../../taoQtiItem/views/css/item-creator.css' : '../../../taoQtiItem/views/scss/item-creator.scss',
+                    '../../../taoQtiItem/views/css/qti.css' : '../../../taoQtiItem/views/scss/qti.scss'
                  },
                  options : {
-                    loadPath : ['../scss/', '../js/lib/', '../../../taoQTI/views/scss/inc', '../../../taoQTI/views/scss/qti']
+                    loadPath : ['../scss/', '../js/lib/', '../../../taoQtiItem/views/scss/inc', '../../../taoQtiItem/views/scss/qti']
                 }
             }
         },
@@ -270,7 +270,7 @@ module.exports = function(grunt) {
             },
             
             'qtisass' : {
-                files : ['../../../taoQTI/views/scss/**/*.scss'],
+                files : ['../../../taoQtiItem/views/scss/**/*.scss'],
                 tasks : ['sass:qti'],
                 options : {
                     debounceDelay : 500
