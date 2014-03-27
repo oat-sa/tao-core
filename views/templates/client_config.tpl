@@ -44,9 +44,10 @@ require.config({
         'jquery.timePicker' : 'lib/jquery.timePicker',
         'jquery.cookie'     : 'lib/jquery.cookie',
         'attrchange'        : 'lib/attrchange',
-        'raphael'           : 'lib/raphael.min',
-        'spin'              : 'lib/spin.min',
+        'raphael'           : 'lib/raphael/raphael',
+        'scale.raphael'     : 'lib/raphael/scale.raphael',
         'raphael-collision' : 'lib/raphael/raphael-collision/raphael-collision',
+        'spin'              : 'lib/spin.min',
         'tooltipster'       : 'lib/tooltipster/js/jquery.tooltipster.min',
         'mediaElement'      : '../../../taoQtiItem/views/js/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min',
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
@@ -93,6 +94,10 @@ require.config({
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
+        'scale.raphael'         : {
+            deps : ['raphael'],
+            exports : 'ScaleRaphael'
+        },
         'mediaElement' : {
             deps: ['jquery'],
             exports : 'MediaElementPlayer',
