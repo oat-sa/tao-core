@@ -1,6 +1,8 @@
 define(['jquery', 'core/dataattrhandler', 'tooltipster'], function($, DataAttrHandler){
     'use strict';
     
+    var themes = ['dark', 'default', 'info', 'warning', 'error', 'success'];
+
     /**
     * Look up for tooltips and initialize them
     * 
@@ -12,8 +14,9 @@ define(['jquery', 'core/dataattrhandler', 'tooltipster'], function($, DataAttrHa
         $('[data-tooltip]', $container).each(function(){
             var $elt = $(this);
             var $target = DataAttrHandler.getTarget('tooltip', $elt);
+            var theme = themes.indexOf($elt.data('tooltip-theme')) > -1 ? $elt.data('tooltip-theme') : 'default'; 
             $elt.tooltipster({
-                theme: 'tao-tooltip',
+                theme: 'tao-' + theme  + '-tooltip',
                 content: $target,          
                 contentAsHTML: $target.children().length > 0,
                 delay: 350,
