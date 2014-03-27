@@ -194,7 +194,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){
-       
+
        $container.find('[data-duration]').each(function(){
            var $elt = $(this);
            var format = $elt.data('duration');

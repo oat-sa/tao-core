@@ -201,7 +201,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
 
            $element.css({
                 'width': modalWidth + 'px',
-                'left' : ( (windowWidth - modalWidth) / 2) + 'px',
+                'left' : ( (windowWidth - modalWidth) / 2) + 'px'
            });
        }
     };

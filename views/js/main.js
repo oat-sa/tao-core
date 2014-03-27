@@ -8,7 +8,7 @@
 
                 //contextual loading, do a dispatch each time an ajax request loads an HTML page
                 $(document).ajaxComplete(function(event, request, settings){
-                    if(settings.dataTypes.indexOf('html') > - 1){
+                    if(_.contains(settings.dataTypes, 'html')){
                        router.dispatch(settings.url, function(){
                            ui.startDomComponent($('.tao-scope'));
                        });
