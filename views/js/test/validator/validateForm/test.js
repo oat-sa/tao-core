@@ -1,4 +1,4 @@
-define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
+define(['lodash', 'jquery', 'ui/validator'], function(_, $) {
 
     var CL = console.log;
     
@@ -23,7 +23,7 @@ define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
 
         stop();
         $('#text1').val('York');
-        $('#text1').validator('validate', {}, function(res) {
+        $('#text1').validator('validate', {}, function(valid, res) {
             start();
 
             equal(_.size(res), 2, 'validated');
@@ -40,7 +40,7 @@ define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
 
         stop();
         $('#text1').val('');
-        $('#text1').validator('validate', {}, function(res) {
+        $('#text1').validator('validate', {}, function(valid, res) {
             start();
 
             equal(_.size(res), 2, 'validated');
@@ -56,7 +56,7 @@ define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
 
         stop();
         $('#text1').val('Yor');
-        $('#text1').validator('validate', {}, function(res) {
+        $('#text1').validator('validate', {}, function(valid, res) {
             start();
 
             equal(_.size(res), 2, 'validated');
@@ -114,7 +114,7 @@ define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
         
         //set default callback, and test to results
         $('#text2').validator({
-            validated:function(results){
+            validated:function(valid, results){
                 equal(this, $('#text2')[0], 'validated element ok');
                 equal(_.size(results), 2, 'results ok');
             }
