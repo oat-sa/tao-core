@@ -138,7 +138,6 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
      */
     public function import($class, $form) {
 	
-        $report = new common_report_Report();
 		// Clean "csv_select" values from form view.
 		// Transform any "csv_select" in "csv_null" in order to
 		// have the same importation behaviour for both because
@@ -170,14 +169,13 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
 		$options['staticMap'] = array_merge($staticMap, $this->getStaticData());
 		$options = array_merge($options, $this->getAdditionAdapterOptions());
 		$adapter = new tao_helpers_data_GenerisAdapterCsv($options);
-		
+
 		//import it!
 		if($adapter->import($form->getValue('importFile'), $class)){
-		    $report->add(new common_report_SuccessElement(''));
-		    $report->setTitle(__('Data imported successfully'));
+            $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Data imported successfully'));
 			@unlink($form->getValue('importFile'));
 		} else {
-		    $report->add(new common_report_ErrorElement(__('Import failed')));
+		    $report = new common_report_Report(common_report_Report::TYPE_ERROR, __('Import failed'));
 		}
 		return $report;
     }

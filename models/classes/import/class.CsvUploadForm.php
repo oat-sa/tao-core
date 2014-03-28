@@ -102,12 +102,14 @@ class tao_models_classes_import_CsvUploadForm
 		$optEncloser->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($optEncloser);
 		
+		/*
 		$optMulti = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::MULTI_VALUES_DELIMITER, 'Textbox');
 		$optMulti->setDescription(__("Multiple values delimiter"));
 		$optMulti->setValue('|');
 		$optMulti->addAttribute("size", 6);
 		$optMulti->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
 		$this->form->addElement($optMulti);
+		*/
 		
 		$optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Checkbox');
 		$optFirstColumn->setDescription( __("First row column names"));
@@ -116,7 +118,7 @@ class tao_models_classes_import_CsvUploadForm
 		$this->form->addElement($optFirstColumn);
 		
 		$this->form->createGroup('options', __('CSV Options'), array(
-		    $optDelimiter, $optEncloser, $optMulti, $optFirstColumn
+		    $optDelimiter, $optEncloser, /*$optMulti,*/ $optFirstColumn
 		));
     }
    
