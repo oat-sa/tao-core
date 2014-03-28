@@ -1,5 +1,6 @@
-define(['lodash', 'i18n_tr', 'context'], function(_, tr, context){
-    
+define(['lodash', 'i18n_tr', 'context', 'core/format'], function(_, tr, context, format){
+    'use strict';   
+ 
     var translations = tr.i18n_tr || {};
     var extensionLocales = _.map(context.extensionsLocales, function(extension){
       return extension + '_i18n';  
@@ -23,7 +24,11 @@ define(['lodash', 'i18n_tr', 'context'], function(_, tr, context){
      * @returns {String} translated message 
      */
     var __ = function __(message){
-        return !translations[message] ? message :  translations[message];
+        var localized =  !translations[message] ? message :  translations[message];
+        if(arguments.length > 1){
+            localized = format.apply(null, arguments); 
+        }
+        return localized;
     };
 
 
