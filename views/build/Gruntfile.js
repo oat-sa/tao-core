@@ -271,7 +271,7 @@ module.exports = function(grunt) {
             
             'qtisass' : {
                 files : ['../../../taoQtiItem/views/scss/**/*.scss'],
-                tasks : ['sass:qti'],
+                tasks : ['sass:qti', 'notify:qtisass'],
                 options : {
                     debounceDelay : 500
                 }
