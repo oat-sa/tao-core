@@ -73,11 +73,15 @@ class tao_actions_GenerisTree extends tao_actions_CommonModule {
 			throw new common_exception_IsAjaxAction(__FUNCTION__);
 		}
 		
+		$json = $_POST['instances'];
 		$values = array();
-		foreach($this->getRequestParameters() as $key => $value){
-			if(preg_match("/^instance_/", $key)){
-				array_push($values, tao_helpers_Uri::decode($value));
-			}
+		foreach (json_decode($json) as $coded) {
+		    $val = tao_helpers_Uri::decode($coded);
+		    if (!empty($val)) {
+		        $values[] = $val;
+		    } else {
+		        common_Logger::w('Empty URI in json array');
+		    }
 		}
 		
 		$resource = new core_kernel_classes_Resource($this->getRequestParameter('resourceUri'));

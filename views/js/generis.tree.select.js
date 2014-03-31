@@ -94,8 +94,6 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers'], function($, __,
 								returnValue[key] = instance.serverParameters[key];
 							}
 						}
-						//Augment with the selected nodes
-						returnValue['selected'] = instance.checkedNodes;
 						return returnValue;
 					},
 					//
@@ -257,10 +255,22 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers'], function($, __,
 		 * @return {array}
 		 */
 		getChecked: function() {
-			var returnValue = new Array ();
+			var unchecked = [];
+			$.each($.tree.plugins.checkbox.get_unchecked(this.getTree()), function(i, NODE) {
+				if ($(NODE).hasClass('node-instance')) {
+					unchecked.push($(NODE).prop('id'));
+				}
+			});
+			var returnValue = jQuery.grep(this.checkedNodes, function(value) {
+				return unchecked.indexOf(value) == -1;
+			});
+			
 			$.each($.tree.plugins.checkbox.get_checked(this.getTree()), function(i, NODE) {
 				if ($(NODE).hasClass('node-instance')) {
-					returnValue.push($(NODE).prop('id'));
+					var value = $(NODE).prop('id');
+					if (returnValue.indexOf(value) == -1) {
+						returnValue.push(value);
+					}
 				}
 			});
 			return returnValue;
@@ -288,10 +298,7 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers'], function($, __,
 			});*/
 
 			var nodes = this.getChecked();
-			for (var i in nodes) {
-				toSend['instance_'+index] = nodes[i];
-				index++;
-			}
+			toSend['instances'] = JSON.stringify(nodes);
 
 			var uriField, classUriField = null;
 			if (this.options.relatedFormId) {
