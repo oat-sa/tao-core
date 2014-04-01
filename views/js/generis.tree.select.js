@@ -59,14 +59,6 @@ define(['jquery', 'i18n', 'context', 'generis.tree', 'helpers'], function($, __,
 								instance.paginateInstances(NODE, TREE_OBJ, {limit:0, checkedNodes:"*"});
 								return false;
 							}
-						} else {
-							var indice = $.inArray(nodeId, instance.checkedNodes);
-							if (indice === -1) {
-								instance.checkedNodes.push(nodeId);
-							} else {
-								// The widget should stop the propagation
-								return true;
-							}
 						}
 						return true;
 					},
