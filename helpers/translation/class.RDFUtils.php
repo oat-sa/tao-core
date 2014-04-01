@@ -19,8 +19,6 @@
  * 
  */
 
-error_reporting(E_ALL);
-
 /**
  * Aims at providing utility methods for RDF Translation models.
  *
@@ -164,11 +162,13 @@ class tao_helpers_translation_RDFUtils
         $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', INSTANCE_LANGUAGE_USAGE_DATA);
         $descriptionNode->appendChild($dataUsageNode);
         
+        $dataUsageNode = $doc->createElementNS($base, 'tao:LanguageOrientation');
+        $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', INSTANCE_ORIENTATION_LTR);
+        $descriptionNode->appendChild($dataUsageNode);
+        
         $returnValue = $doc;
 
         return $returnValue;
     }
 
 }
-
-?>
