@@ -135,6 +135,7 @@ class tao_helpers_data_GenerisAdapterCsv
         $rangeProperty = new core_kernel_classes_Property(RDFS_RANGE);
         
     	for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++){
+    	    helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::SHORT);
     		common_Logger::d("CSV - Importing CSV row ${rowIterator}.");
     		
 			$resource = null;
@@ -165,22 +166,22 @@ class tao_helpers_data_GenerisAdapterCsv
 						$ranges = $targetProperty->getPropertyValues($rangeProperty);
 						if (count($ranges) > 0) {
 							// @todo support multi-valued ranges in CSV import.
-							common_Logger::d("CSV - Target property has " . $ranges[0] . " for range");
+							common_Logger::t("CSV - Target property has " . $ranges[0] . " for range");
 							$range = new core_kernel_classes_Resource($ranges[0]);
 						} 
 						else {
-						    common_Logger::d("CSV - Target property has no range");
+						    common_Logger::t("CSV - Target property has no range");
 							$range = null;	
 						}
 						
 						if ($range == null || $range->getUri() == RDFS_LITERAL) {
 							// Deal with the column value as a literal.
-							common_Logger::d("CSV - Importing Literal from CSV");
+							common_Logger::t("CSV - Importing Literal from CSV");
 							$this->importLiteral($targetProperty, $resource, $csvRow, $csvColumn);
 						}
 						else {
 							// Deal with the column value as a resource existing in the Knowledge Base.
-							common_Logger::d("CSV - Importing Resource from CSV");
+							common_Logger::t("CSV - Importing Resource from CSV");
 							$this->importResource($targetProperty, $resource, $csvRow, $csvColumn);
 						}
 					}
@@ -196,6 +197,7 @@ class tao_helpers_data_GenerisAdapterCsv
 				
 				$createdResources++;
 			}
+			helpers_TimeOutHelper::reset();
 		}
         
 		$this->addOption('to_import', count($csvData));
@@ -238,12 +240,12 @@ class tao_helpers_data_GenerisAdapterCsv
     {
     	if ($csvColumn == 'csv_null' || $csvColumn == 'csv_select') {
     		// We do not use the value contained in $literal but an empty string.
-    		common_Logger::d("CSV - Importing an empty string");
+    		common_Logger::t("CSV - Importing an empty string");
     		$targetResource->setPropertyValue($targetProperty, '');
     	}
     	else if (isset($csvRow[$csvColumn]) && $csvRow[$csvColumn] != null) {
     		$literal = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
-            common_Logger::d("CSV - Importing ${literal}");
+            common_Logger::t("CSV - Importing ${literal}");
     		$targetResource->setPropertyValue($targetProperty, $literal);
     	}
     }
@@ -267,7 +269,7 @@ class tao_helpers_data_GenerisAdapterCsv
     		$value = $csvRow[$csvColumn];
     		
     		if ($value != null) {
-    		    common_Logger::d("CSV - Importing a resource");
+    		    common_Logger::t("CSV - Importing a resource");
     			$value = $this->applyCallbacks($csvRow[$csvColumn], $this->options, $targetProperty);
     			$this->attachResource($targetProperty, $targetResource, $value);
     		}

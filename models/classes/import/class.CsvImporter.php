@@ -80,7 +80,6 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
 		$classProperties = tao_models_classes_TaoService::singleton()->getClazzProperties($clazz, $topLevelClass);
 
 		foreach($classProperties as $property){
-			common_Logger::i($property->getLabel());
 			if(!in_array($property->getUri(), $this->getExludedProperties())){
 				//@todo manage the properties with range
 				$range = $property->getRange();
@@ -154,8 +153,6 @@ class tao_models_classes_import_CsvImporter implements tao_models_classes_import
 			}
 		    common_Logger::d('map: ' . $k . ' => '. $newMap[$k]);
 		}
-		
-		common_Logger::i('source: ' . $form->getValue('importFile'));
 		
 		$options = $form->getValues();
 		$options['map'] = $newMap;
