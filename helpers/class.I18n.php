@@ -158,9 +158,11 @@ class tao_helpers_I18n
 	        	        $usages[] = $usage->getUri();
 	        	    }
 	        	    if (count($values[PROPERTY_LANGUAGE_ORIENTATION]) != 1) {
-	        	        throw new common_exception_InconsistentData('Error with orrientation of language '.$lang->getUri());
+	        	        common_Logger::w('Error with orientation of language '.$lang->getUri());
+	        	        $orientation = INSTANCE_ORIENTATION_LTR;
+	        	    } else {
+                        $orientation = current($values[PROPERTY_LANGUAGE_ORIENTATION])->getUri();
 	        	    }
-	        	    $orientation = current($values[PROPERTY_LANGUAGE_ORIENTATION])->getUri();
 	        	    self::$availableLangs[$value] = array(
 	        	        'uri'                         => $lang->getUri(), 
 	        	        PROPERTY_LANGUAGE_USAGES      => $usages,
