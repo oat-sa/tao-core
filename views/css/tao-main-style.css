@@ -11769,6 +11769,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tooltipster-arrow-top-left .tooltipster-arrow-border {
   bottom: -8px !important; }
 
+.icon-help.tooltipstered {
+  cursor: help;
+  position: relative;
+  top: 2px; }
+
+.help-content {
+  display: none; }
+
 /* to be included into your scss files, don't forget to set the includePaths (--load-path) in your compiler  */
 /**
  * Use icon within sass: @inclue icon('down');

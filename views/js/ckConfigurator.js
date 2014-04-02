@@ -1,3 +1,10 @@
+define([
+    'lodash',
+    'ckeditor',
+    'taoQtiItem/qtiCreator/editor/dtdHandler'
+], function(__, ckeditor, dtdHandler) {
+     'use strict'
+
 /**
  * Cache original config
  */
@@ -7,7 +14,7 @@ var ckConfigurator = (function() {
 
 
     // This is different from CKEDITOR.config.extraPlugins since it also allows to position the button
-    // Valid positioners are indertAfter | insertBefore | replace followed by the button name, e.g. 'Anchor'
+    // Valid positioning keys are insertAfter | insertBefore | replace followed by the button name, e.g. 'Anchor'
     // separator bool, defaults to false
     // don't get confused by the naming - TaoMediaManager is the button name for the plugin taomediamanager
     var positionedPlugins = {
@@ -241,3 +248,6 @@ var ckConfigurator = (function() {
     }
 
 }());
+
+     return ckConfigurator;
+});

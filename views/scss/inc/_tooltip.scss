@@ -76,4 +76,14 @@
 .tooltipster-arrow-top-right .tooltipster-arrow-border, 
 .tooltipster-arrow-top-left .tooltipster-arrow-border{
     bottom: -8px !important;
-} 
+}
+
+.icon-help.tooltipstered {
+    cursor: help;
+    position: relative;
+    top: 2px
+}
+
+.help-content{
+    display: none;
+}
