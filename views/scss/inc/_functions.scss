@@ -148,3 +148,10 @@
     @extend %#{$namespace}-#{$name};
     display: inline-block;
 }
+
+@mixin transition($type : all, $duration : 0.5s, $effect : ease-out){
+    -webkit-transition: $type $duration $effect;
+    -moz-transition: $type $duration $effect;
+    -o-transition: $type $duration $effect;
+    transition: $type $duration $effect;
+}
