@@ -77,10 +77,10 @@ a[rel="external"] span.icon-external {
     }
 }
 
-
 .tao-scope {
     @import "inc/buttons";
     @import "inc/jquery-ui";
+    @import "inc/jquery.nouislider";
     @import "inc/base";
     @import "inc/forms";
     @import "inc/components";
