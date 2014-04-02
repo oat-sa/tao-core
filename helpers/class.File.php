@@ -370,7 +370,9 @@ class tao_helpers_File
         } elseif (is_dir($path)) {
             $filemd5s = array();
             // using scandir to get files in a fixed order
-            foreach (scandir($path, SCANDIR_SORT_ASCENDING) as $basename) {
+            $files = scandir($path);
+            sort($files);
+            foreach ($files as $basename) {
                 if($basename != '.' && $basename != '..') {
                     //$fileInfo->getFilename()
                     $filemd5s[] = $basename.self::md5_dir(self::concat(array($path, $basename)));
