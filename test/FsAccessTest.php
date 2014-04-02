@@ -67,7 +67,7 @@ class tao_test_FsAccessTest extends TaoPhpUnitTestRunner {
             self::$fileSystem = tao_models_classes_FileSourceService::singleton()->addLocalSource('test FS', $ext->getConstant('DIR_VIEWS'));
         }
         return array(
-            array(tao_models_classes_fsAccess_DirectAccessProvider::spawnProvider(self::$fileSystem, $ext->getConstant('BASE_WWWW'))),
+            array(tao_models_classes_fsAccess_DirectAccessProvider::spawnProvider(self::$fileSystem, $ext->getConstant('BASE_WWW'))),
             array(tao_models_classes_fsAccess_TokenAccessProvider::spawnProvider(self::$fileSystem)),
             array(tao_models_classes_fsAccess_ActionAccessProvider::spawnProvider(self::$fileSystem))
         );
