@@ -249,7 +249,12 @@ module.exports = function(grunt) {
                  options : {
                     loadPath : ['../scss/', '../js/lib/', '../../../taoQtiItem/views/scss/inc', '../../../taoQtiItem/views/scss/qti']
                 }
-            }
+            },
+            delivery : {
+                files : {
+                    '../../../taoDelivery/views/css/testtakers.css' : '../../../taoDelivery/views/scss/testtakers.scss',
+                }
+            },
         },
         
 
@@ -275,12 +280,18 @@ module.exports = function(grunt) {
                 options : {
                     debounceDelay : 500
                 }
+            },
+
+            'deliverysass' : {
+                files : ['../../../taoDelivery/views/scss/testtakers.scss'],
+                tasks : ['sass:delivery'],
+                options : {
+                    debounceDelay : 500
+                }
             }
+	},
 
-        },
-
-
-        /**
+	/**
          * Display system notifications
          */
         notify: {
