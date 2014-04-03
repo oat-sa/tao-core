@@ -10,33 +10,28 @@
 	<?= __('Installed Extensions') ?>
 </div>
 <div id="extensions-manager-container" class="ui-widget-content ui-corner-bottom">
-	<form action="<?= BASE_URL; ?>/ExtensionsManager/modify" method="post">
-		<table summary="modules" class="maximal">
-			<thead>
-				<tr>
-					<th class="bordered"></th>
-					<th class="bordered author"><?= __('Author'); ?></th>
-					<th class="version"><?= __('Version'); ?></th>
-					<!-- <th><?= __('Loaded'); ?></th>  -->
-					<!-- <th><?= __('Loaded at Startup'); ?></th> -->
-				</tr>
-			</thead>
-			<tbody>
-			<? foreach(get_data('installedExtArray') as $extensionObj): ?>
-			<? if($extensionObj->getId() !=null): ?>
-				<tr>
-					<td class="ext-id bordered"><?= $extensionObj->getName(); ?></td>
-					<td class="bordered"><?= str_replace(',', '<br />', $extensionObj->getAuthor()) ; ?></td>
-					<td><?= $extensionObj->getVersion(); ?></td>
-				</tr>
-			<? endif; ?>
-			<? endforeach;?>
-			</tbody>
-		</table>
-		<!-- <div class="actions">
-			<input class="save" name="save_extension" value="<?= __('Save');?>" type="submit" />
-		</div> -->
-	</form>
+	<table summary="modules" class="maximal">
+		<thead>
+			<tr>
+				<th class="bordered"></th>
+				<th class="bordered author"><?= __('Author'); ?></th>
+				<th class="version"><?= __('Version'); ?></th>
+				<!-- <th><?= __('Loaded'); ?></th>  -->
+				<!-- <th><?= __('Loaded at Startup'); ?></th> -->
+			</tr>
+		</thead>
+		<tbody>
+		<? foreach(get_data('installedExtArray') as $extensionObj): ?>
+		<? if($extensionObj->getId() !=null): ?>
+			<tr>
+				<td class="ext-id bordered"><?= $extensionObj->getName(); ?></td>
+				<td class="bordered"><?= str_replace(',', '<br />', $extensionObj->getAuthor()) ; ?></td>
+				<td><?= $extensionObj->getVersion(); ?></td>
+			</tr>
+		<? endif; ?>
+		<? endforeach;?>
+		</tbody>
+	</table>
 </div>
 
 <div id="available-extensions-title" class="ui-widget-header ui-corner-top ui-state-default">
