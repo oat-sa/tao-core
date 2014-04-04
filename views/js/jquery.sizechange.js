@@ -101,7 +101,8 @@ define(['jquery'], function($){
         if (isDOM3EventSupported()) { //DOM3,  Modern Browsers
             var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
             var mutationOptions = {
-                        subtree: this[0].nodeName !== 'IFRAME',
+                        childList : this[0].nodeName !== 'IFRAME',
+                        subtree: true, 
                         attributes: true
                 };
 
@@ -116,7 +117,7 @@ define(['jquery'], function($){
                 $this.each(function() {
                     observer.observe(this, mutationOptions);
                 });
-        } else if (isDOM2EventSupported()) { //DOM2, Opera
+        } else  if (isDOM2EventSupported()) { //DOM2, Opera
             $this.on('DOMAttrModified', function(event) {
                 if(event.attrName === 'style'){
                     execCb();
