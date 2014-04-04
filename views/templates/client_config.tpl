@@ -50,8 +50,8 @@ require.config({
         'spin'              : 'lib/spin.min',
         'tooltipster'       : 'lib/tooltipster/js/jquery.tooltipster.min',
         'nouislider'       : 'lib/no-ui-slider/jquery.nouislider.js',
-        'mediaElement'      : 'taoQtiItem/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min',
-        'mathJax'           : 'taoQtiItem/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
+        'mediaElement'      : '../../../taoQtiItem/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min',
+        'mathJax'           : '../../../taoQtiItem/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
         'i18n_tr'           : '<?=BASE_URL?>locales/<?=get_data('locale')?>/messages_po',
     <?foreach (get_data('extensionsAliases') as $name => $path) :?>
         '<?=$name?>'        : '<?=$path?>',
