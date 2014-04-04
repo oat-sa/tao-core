@@ -101,7 +101,7 @@ require.config({
             exports : 'ScaleRaphael'
         },
         'mediaElement' : {
-            deps: ['jquery', 'taoQtiItem/qtiDefaultRenderer/lib/mediaelement/css/mediaelementplayer.min.css'],
+            deps: ['jquery', 'css!taoQtiItem/qtiDefaultRenderer/lib/mediaelement/css/mediaelementplayer.min.css'],
             exports : 'MediaElementPlayer',
             init : function(){
                 MediaElementPlayer.pluginPath = '';//define the plugin swf path here
