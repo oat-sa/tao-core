@@ -113,4 +113,18 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
 	public function render() {
 		return parent::render();
 	}
+	
+	public static function getSelectedInstancesFromPost() {
+	    $json = $_POST['instances'];
+	    $values = array();
+	    foreach (json_decode($json) as $coded) {
+	        $val = tao_helpers_Uri::decode($coded);
+	        if (!empty($val)) {
+	            $values[] = $val;
+	        } else {
+	            common_Logger::w('Empty URI in json array');
+	        }
+	    }
+	    return $values;
+	}
 }

@@ -73,16 +73,7 @@ class tao_actions_GenerisTree extends tao_actions_CommonModule {
 			throw new common_exception_IsAjaxAction(__FUNCTION__);
 		}
 		
-		$json = $_POST['instances'];
-		$values = array();
-		foreach (json_decode($json) as $coded) {
-		    $val = tao_helpers_Uri::decode($coded);
-		    if (!empty($val)) {
-		        $values[] = $val;
-		    } else {
-		        common_Logger::w('Empty URI in json array');
-		    }
-		}
+		$values = tao_helpers_form_GenerisTreeForm::getSelectedInstancesFromPost();
 		
 		$resource = new core_kernel_classes_Resource($this->getRequestParameter('resourceUri'));
 		$property = new core_kernel_classes_Property($this->getRequestParameter('propertyUri'));
@@ -96,16 +87,9 @@ class tao_actions_GenerisTree extends tao_actions_CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new common_exception_IsAjaxAction(__FUNCTION__);
 		}
-		$json = $_POST['instances'];
-		$values = array();
-		foreach (json_decode($json) as $coded) {
-		    $val = tao_helpers_Uri::decode($coded);
-		    if (!empty($val)) {
-		        $values[] = $val;
-		    } else {
-		        common_Logger::w('Empty URI in json array');
-		    }
-		}
+		
+		$values = tao_helpers_form_GenerisTreeForm::getSelectedInstancesFromPost();
+		
 		$resource = new core_kernel_classes_Resource($this->getRequestParameter('resourceUri'));
 		$property = new core_kernel_classes_Property($this->getRequestParameter('propertyUri'));
 		

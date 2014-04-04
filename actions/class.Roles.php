@@ -212,51 +212,6 @@ class tao_actions_Roles extends tao_actions_TaoModule {
 		}
 	}
 	
-	/**
-	 * save from the checkbox tree the users to link with 
-	 * @return void
-	 */
-	public function saveUsers()
-	{
-		if(!tao_helpers_Request::isAjax()){
-			throw new Exception("wrong request mode");
-		}
-		else{
-			$saved = false;
-			$role = $this->getCurrentInstance();
-			$userRolesProperty = new core_kernel_classes_Property(PROPERTY_USER_ROLES);
-			
-			// Detect users selected to be given the role.
-			$detectedUsers = array(); // URIs of detected users.
-			foreach($this->getRequestParameters() as $key => $value){
-				if(preg_match("/^instance_/", $key)){
-					array_push($detectedUsers, tao_helpers_Uri::decode($value));
-				}
-			}
-			
-			// get the users currently associated to the target role.
-			$userClass = new core_kernel_classes_Class(CLASS_GENERIS_USER);
-			$options = array('recursive' => true, 'like' => false);
-			$filters = array($userRolesProperty->getUri() => $role->getUri());
-			$users = $userClass->searchInstances($filters, $options);
-			
-			// Remove role to some users if not selected anymore.
-			foreach ($users as $u){	
-				if (!in_array($u->getUri(), $detectedUsers)){
-					// if the user has the role but is not in the selected users
-					// remove the role from him.
-					$u->removePropertyValues($userRolesProperty, array('like' => false, 'pattern' => $role->getUri()));
-				}
-			}
-			
-			if(true === $this->service->setRoleToUsers($role, $detectedUsers)){
-				$saved = true;
-			}
-	
-			echo json_encode(array('saved'	=> $saved));	
-		}
-	}
-	
 	public function editRoleClass()
 	{
 		$this->removeSessionAttribute('uri');
