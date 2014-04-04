@@ -26,7 +26,7 @@
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @deprecated
  * @package tao
- * @subpackage helpers_data
+ 
  */
 class tao_helpers_data_GenerisAdapterCsv
     extends tao_helpers_data_GenerisAdapter

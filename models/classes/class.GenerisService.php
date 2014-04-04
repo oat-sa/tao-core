@@ -26,7 +26,7 @@
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage models_classes
+ 
  */
 
 
@@ -44,7 +44,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage models_classes
+ 
  */
 abstract class tao_models_classes_GenerisService
     extends tao_models_classes_Service

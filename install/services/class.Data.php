@@ -26,7 +26,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- * @subpackage install_services
+ 
  */
 class tao_install_services_Data{
     

@@ -5,7 +5,7 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
- * @subpackage helpers
+ 
  */
 class tao_helpers_Duration {
 

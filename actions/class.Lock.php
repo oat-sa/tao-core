@@ -24,7 +24,7 @@
  * 
  * @author plichart
  * @package taoGroups
- * @subpackage actions
+ 
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_actions_Lock extends tao_actions_CommonModule {

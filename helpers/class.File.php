@@ -24,7 +24,7 @@
  *
  * @author Lionel Lecaque, <lionel@taotesting.com>
  * @package tao
- * @subpackage helpers
+ 
  */
 class tao_helpers_File
     extends helpers_File

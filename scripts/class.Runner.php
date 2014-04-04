@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,37 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - tao\scripts\class.Runner.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 11.01.2012, 13:44:17 with ArgoUML PHP module 
- * (last revised $Date: 2008-04-19 08:22:08 +0200 (Sat, 19 Apr 2008) $)
- *
- * @author firstname and lastname of author, <author@example.org>
- * @package tao
- * @subpackage scripts
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D48-includes begin
-// section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D48-includes end
-
-/* user defined constants */
-// section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D48-constants begin
-// section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D48-constants end
 
 /**
  * Short description of class tao_scripts_Runner
@@ -58,7 +27,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @access public
  * @author firstname and lastname of author, <author@example.org>
  * @package tao
- * @subpackage scripts
+ 
  */
 abstract class tao_scripts_Runner
 {

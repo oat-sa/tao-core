@@ -24,7 +24,7 @@
  * @access public
  * @author @author Joel Bout, <joel@taotesting.com>
  * @package taoItemRunner
- * @subpackage models_classes_runner
+ 
  */
 class tao_models_classes_service_StateStorage
     extends tao_models_classes_Service

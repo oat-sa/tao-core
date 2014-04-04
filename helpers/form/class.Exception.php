@@ -25,7 +25,7 @@
  * @access public
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
- * @subpackage helpers_form
+ 
  */
 class tao_helpers_form_Exception
     extends common_Exception

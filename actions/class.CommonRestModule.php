@@ -19,7 +19,7 @@
  * @author patrick implements the restcontroller module type with an HTTP digest login/Basic protocol
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- * @subpackage action
+ 
  * @TODO
  * ADD Param multi values -- OK
  * CHECK Param value is a uri -- OK

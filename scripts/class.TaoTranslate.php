@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,39 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * The TaoTranslate script aims at providing command line tools to manage
- * of tao. It enables you to manage the i18n of the messages found in the source
- * (gettext) but also i18n of RDF Models.
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- * @package tao
- * @subpackage scripts
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include tao_scripts_Runner
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- */
-require_once('tao/scripts/class.Runner.php');
-
-/* user defined includes */
-// section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003286-includes begin
-// section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003286-includes end
-
-/* user defined constants */
-// section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003286-constants begin
-// section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003286-constants end
 
 /**
  * The TaoTranslate script aims at providing command line tools to manage
@@ -61,7 +28,7 @@ require_once('tao/scripts/class.Runner.php');
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- * @subpackage scripts
+ 
  */
 class tao_scripts_TaoTranslate
     extends tao_scripts_Runner

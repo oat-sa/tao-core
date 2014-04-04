@@ -24,7 +24,7 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage actions_form
+ 
  */
 class tao_models_classes_import_CSVMappingForm
     extends tao_helpers_form_FormContainer

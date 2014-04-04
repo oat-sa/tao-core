@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,35 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * The GenerisFormFactory enables you to create Forms using rdf data and the
- * api to provide it. You can give any node of your ontology and the factory
- * create the appriopriate form. The Generis ontology (with the Widget Property)
- * required to use it.
- * Now only the xhtml rendering mode is implemented
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @see core_kernel_classes_* packages
- * @subpackage helpers_form
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 10-13-1-45--70bace43:123ffff90e9:-8000:00000000000018CC-includes begin
-// section 10-13-1-45--70bace43:123ffff90e9:-8000:00000000000018CC-includes end
-
-/* user defined constants */
-// section 10-13-1-45--70bace43:123ffff90e9:-8000:00000000000018CC-constants begin
-// section 10-13-1-45--70bace43:123ffff90e9:-8000:00000000000018CC-constants end
 
 /**
  * The GenerisFormFactory enables you to create Forms using rdf data and the
@@ -59,7 +30,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
  * @see core_kernel_classes_* packages
- * @subpackage helpers_form
+ 
  */
 class tao_helpers_form_GenerisFormFactory
 {

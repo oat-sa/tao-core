@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,38 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * This class provides the services on the list management
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- * @package tao
- * @subpackage models_classes
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * The Service class is an abstraction of each service instance. 
- * Used to centralize the behavior related to every servcie instances.
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- */
-require_once('tao/models/classes/class.GenerisService.php');
-
-/* user defined includes */
-// section 127-0-1-1-68d242d4:127aa5da21a:-8000:000000000000234A-includes begin
-// section 127-0-1-1-68d242d4:127aa5da21a:-8000:000000000000234A-includes end
-
-/* user defined constants */
-// section 127-0-1-1-68d242d4:127aa5da21a:-8000:000000000000234A-constants begin
-// section 127-0-1-1-68d242d4:127aa5da21a:-8000:000000000000234A-constants end
 
 /**
  * This class provides the services on the list management
@@ -58,7 +26,7 @@ require_once('tao/models/classes/class.GenerisService.php');
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- * @subpackage models_classes
+ 
  */
 class tao_models_classes_ListService
     extends tao_models_classes_GenerisService

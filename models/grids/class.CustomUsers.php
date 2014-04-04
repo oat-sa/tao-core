@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,37 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Extend the default users grid model here
- *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
- * @package tao
- * @subpackage models_grids
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include tao_models_grids_Users
- *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
- */
-require_once('tao/models/grids/class.Users.php');
-
-/* user defined includes */
-// section 127-0-1-1--2e12219e:1360c8283db:-8000:000000000000387B-includes begin
-// section 127-0-1-1--2e12219e:1360c8283db:-8000:000000000000387B-includes end
-
-/* user defined constants */
-// section 127-0-1-1--2e12219e:1360c8283db:-8000:000000000000387B-constants begin
-// section 127-0-1-1--2e12219e:1360c8283db:-8000:000000000000387B-constants end
 
 /**
  * Extend the default users grid model here
@@ -57,7 +26,7 @@ require_once('tao/models/grids/class.Users.php');
  * @access public
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
- * @subpackage models_grids
+ 
  */
 class tao_models_grids_CustomUsers
     extends tao_models_grids_Users

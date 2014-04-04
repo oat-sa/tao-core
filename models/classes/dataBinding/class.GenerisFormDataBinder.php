@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,41 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * A specific Data Binder which binds data coming from a Generis Form Instance
- * the Generis persistent memory.
- *
- * If the target instance was not set, a new instance of the target class will
- * created to receive the data to be bound.
- *
- * @author Jerome Bogaerts <jerome@taotesting.com>
- * @package tao
- * @subpackage models_classes_dataBinding
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * A data binder focusing on binding a source of data to a generis instance
- *
- * @author Jerome Bogaerts <jerome@taotesting.com>
- */
-require_once('tao/models/classes/dataBinding/class.GenerisInstanceDataBinder.php');
-
-/* user defined includes */
-// section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CB8-includes begin
-// section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CB8-includes end
-
-/* user defined constants */
-// section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CB8-constants begin
-// section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CB8-constants end
 
 /**
  * A specific Data Binder which binds data coming from a Generis Form Instance
@@ -65,7 +30,7 @@ require_once('tao/models/classes/dataBinding/class.GenerisInstanceDataBinder.php
  * @access public
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @package tao
- * @subpackage models_classes_dataBinding
+ 
  */
 class tao_models_classes_dataBinding_GenerisFormDataBinder
     extends tao_models_classes_dataBinding_GenerisInstanceDataBinder

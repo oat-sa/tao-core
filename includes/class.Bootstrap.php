@@ -44,7 +44,7 @@ require_once dirname(__FILE__) . '/../../generis/common/inc.extension.php';
  *
  * @author Bertrand CHEVRIER <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage includes
+ 
  * @example
  * <code>
  *  $bootStrap = new BootStrap('tao');	//create the Bootstrap instance

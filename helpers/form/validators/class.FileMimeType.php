@@ -26,7 +26,7 @@
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- * @subpackage helpers_form_validators
+ 
  */
 class tao_helpers_form_validators_FileMimeType
     extends tao_helpers_form_Validator

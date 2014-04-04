@@ -22,7 +22,7 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
- * @subpackage actions
+ 
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_actions_ClientConfig extends tao_actions_CommonModule {

@@ -26,7 +26,7 @@
  * 
  * @author Jerome BOGAERTS
  * @package tao
- * @subpackage install_utils
+ 
  */
 interface tao_install_utils_Parser {
 	

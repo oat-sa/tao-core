@@ -29,7 +29,7 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage models_classes
+ 
  */
 class tao_models_classes_EventsService
     extends tao_models_classes_Service

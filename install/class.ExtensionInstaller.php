@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,39 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Specification of the Generis ExtensionInstaller class to add a new behavior:
- * the Modules and Actions in the Ontology at installation time.
- *
- * @author Jerome Bogaerts <jerome@taotesting.com>
- * @package tao
- * @since 2.4
- * @subpackage install
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include common_ext_ExtensionInstaller
- *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
- */
-require_once('common/ext/class.ExtensionInstaller.php');
-
-/* user defined includes */
-// section 10-13-1-85-74f9b31f:13c8ff1fd35:-8000:0000000000003C57-includes begin
-// section 10-13-1-85-74f9b31f:13c8ff1fd35:-8000:0000000000003C57-includes end
-
-/* user defined constants */
-// section 10-13-1-85-74f9b31f:13c8ff1fd35:-8000:0000000000003C57-constants begin
-// section 10-13-1-85-74f9b31f:13c8ff1fd35:-8000:0000000000003C57-constants end
 
 /**
  * Specification of the Generis ExtensionInstaller class to add a new behavior:
@@ -61,7 +28,7 @@ require_once('common/ext/class.ExtensionInstaller.php');
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @package tao
  * @since 2.4
- * @subpackage install
+ 
  */
 class tao_install_ExtensionInstaller
     extends common_ext_ExtensionInstaller

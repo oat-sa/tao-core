@@ -24,7 +24,7 @@
  *
  * @author Bertrand Chevrier, <bertrand@taotesting.com>
  * @package tao
- * @subpackage helpers_form_elements_xhtml
+ 
  */
 class tao_helpers_form_elements_xhtml_Calendar
     extends tao_helpers_form_elements_Calendar

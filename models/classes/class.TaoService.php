@@ -26,7 +26,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- * @subpackage models_classes
+ 
  */
 class tao_models_classes_TaoService
     extends tao_models_classes_GenerisService

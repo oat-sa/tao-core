@@ -27,7 +27,7 @@
  * 
  * @author Jerome BOGARTS <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage install_utils
+ 
  */
 abstract class tao_install_utils_SQLParser implements tao_install_utils_Parser {
 	

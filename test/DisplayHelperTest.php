@@ -25,7 +25,7 @@ require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 /**
  * PHPUnit test of the {@link tao_helpers_Duration} helper
  * @package tao
- * @subpackage test
+ 
  */
 class DisplayHelperTest extends TaoPhpUnitTestRunner {
     

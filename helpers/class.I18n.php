@@ -26,7 +26,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage helpers
+ 
  */
 class tao_helpers_I18n
 {

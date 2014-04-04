@@ -26,7 +26,7 @@
  * 
  * @author Bertrand Chevrier, <taosupport@tudor.lu>
  * @package taoGroups
- * @subpackage actions
+ 
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_actions_Roles extends tao_actions_TaoModule {

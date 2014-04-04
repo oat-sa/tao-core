@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,45 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - tao/actions/form/class.CreateInstance.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 02.01.2013, 12:00:54 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- * @package tao
- * @subpackage actions_form
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * This class provide a container for a specific form instance.
- * It's subclasses instanciate a form and it's elements to be used as a
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- */
-require_once('tao/helpers/form/class.FormContainer.php');
-
-/* user defined includes */
-// section 10-30-1--78-65b5aa41:13bfae012f7:-8000:0000000000003C8C-includes begin
-// section 10-30-1--78-65b5aa41:13bfae012f7:-8000:0000000000003C8C-includes end
-
-/* user defined constants */
-// section 10-30-1--78-65b5aa41:13bfae012f7:-8000:0000000000003C8C-constants begin
-// section 10-30-1--78-65b5aa41:13bfae012f7:-8000:0000000000003C8C-constants end
 
 /**
  * Short description of class tao_actions_form_CreateInstance
@@ -64,7 +25,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- * @subpackage actions_form
+ 
  */
 class tao_actions_form_CreateInstance
     extends tao_helpers_form_FormContainer

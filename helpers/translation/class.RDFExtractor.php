@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,47 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - tao/helpers/translation/class.RDFExtractor.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 13.02.2013, 12:16:28 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- * @package tao
- * @subpackage helpers_translation
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * A TranslationExtractor instance extracts TranslationUnits from a given source
- * as an Item, source code, ...
- *
- * @author Jerome Bogaerts
- * @since 2.2
- * @version 1.0
- */
-require_once('tao/helpers/translation/class.TranslationExtractor.php');
-
-/* user defined includes */
-// section 10-13-1-85--4f943509:1353d309872:-8000:00000000000067EB-includes begin
-// section 10-13-1-85--4f943509:1353d309872:-8000:00000000000067EB-includes end
-
-/* user defined constants */
-// section 10-13-1-85--4f943509:1353d309872:-8000:00000000000067EB-constants begin
-// section 10-13-1-85--4f943509:1353d309872:-8000:00000000000067EB-constants end
 
 /**
  * Short description of class tao_helpers_translation_RDFExtractor
@@ -66,7 +25,7 @@ require_once('tao/helpers/translation/class.TranslationExtractor.php');
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- * @subpackage helpers_translation
+ 
  */
 class tao_helpers_translation_RDFExtractor
     extends tao_helpers_translation_TranslationExtractor

@@ -26,7 +26,7 @@
  * @access public
  * @author firstname and lastname of author, <author@example.org>
  * @package tao
- * @subpackage scripts
+ 
  */
 class tao_scripts_TaoInstall
     extends tao_scripts_Runner

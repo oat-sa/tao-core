@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,44 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - tao/scripts/class.TaoVersioning.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 13.10.2011, 07:52:44 with ArgoUML PHP module
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
- * @package tao
- * @subpackage scripts
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include tao_scripts_Runner
- *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
- */
-require_once('tao/scripts/class.Runner.php');
-
-/* user defined includes */
-// section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F57-includes begin
-// section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F57-includes end
-
-/* user defined constants */
-// section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F57-constants begin
-// section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F57-constants end
 
 /**
  * Short description of class tao_scripts_TaoVersioning
@@ -64,7 +26,7 @@ require_once('tao/scripts/class.Runner.php');
  * @access public
  * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
- * @subpackage scripts
+ 
  */
 class tao_scripts_TaoVersioning
     extends tao_scripts_Runner

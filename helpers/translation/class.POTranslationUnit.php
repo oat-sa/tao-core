@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,45 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * A PO Translation Unit.
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package tao
- * @subpackage helpers_translation
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * A Translation Unit represents a single unit of translation of a software,
- * file, ... It has a source text in the original language and a target in which
- * text has to be translated.
- *
- * Example:
- * Source (English): The end is far away
- * Target (Yoda English): Far away the end is
- *
- * @author Jerome Bogaerts
- * @since 2.2
- * @version 1.0
- */
-require_once('tao/helpers/translation/class.TranslationUnit.php');
-
-/* user defined includes */
-// section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003AC5-includes begin
-// section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003AC5-includes end
-
-/* user defined constants */
-// section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003AC5-constants begin
-// section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003AC5-constants end
 
 /**
  * A PO Translation Unit.
@@ -64,7 +25,7 @@ require_once('tao/helpers/translation/class.TranslationUnit.php');
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage helpers_translation
+ 
  */
 class tao_helpers_translation_POTranslationUnit
     extends tao_helpers_translation_TranslationUnit

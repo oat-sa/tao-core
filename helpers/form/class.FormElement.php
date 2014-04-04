@@ -31,7 +31,7 @@
  *
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- * @subpackage helpers_form
+ 
  */
 abstract class tao_helpers_form_FormElement
 {

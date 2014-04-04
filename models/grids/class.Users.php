@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,44 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - tao/models/grids/class.Users.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 12.03.2012, 17:18:46 with ArgoUML PHP module
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
- * @package tao
- * @subpackage models_grids
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * include tao_helpers_grid_GridContainer
- *
- * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
- */
-require_once('tao/helpers/grid/class.GridContainer.php');
-
-/* user defined includes */
-// section 127-0-1-1--3130d5b7:13607a37283:-8000:000000000000386D-includes begin
-// section 127-0-1-1--3130d5b7:13607a37283:-8000:000000000000386D-includes end
-
-/* user defined constants */
-// section 127-0-1-1--3130d5b7:13607a37283:-8000:000000000000386D-constants begin
-// section 127-0-1-1--3130d5b7:13607a37283:-8000:000000000000386D-constants end
 
 /**
  * Short description of class tao_models_grids_Users
@@ -64,7 +26,7 @@ require_once('tao/helpers/grid/class.GridContainer.php');
  * @access public
  * @author Somsack Sipasseuth, <somsack.sipasseuth@tudor.lu>
  * @package tao
- * @subpackage models_grids
+ 
  */
 class tao_models_grids_Users
     extends tao_helpers_grid_GridContainer

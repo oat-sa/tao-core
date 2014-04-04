@@ -27,7 +27,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- * @subpackage models_classes_dataBinding
+ 
  */
 class tao_models_classes_dataBinding_GenerisFormDataBindingException
     extends tao_models_classes_dataBinding_DataBindingException

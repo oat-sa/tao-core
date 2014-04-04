@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,38 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * This container initialize the list form.
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @subpackage actions_form
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * This class provide a container for a specific form instance.
- * It's subclasses instanciate a form and it's elements to be used as a
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- */
-require_once('tao/helpers/form/class.FormContainer.php');
-
-/* user defined includes */
-// section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237A-includes begin
-// section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237A-includes end
-
-/* user defined constants */
-// section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237A-constants begin
-// section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237A-constants end
 
 /**
  * This container initialize the list form.
@@ -57,7 +25,7 @@ require_once('tao/helpers/form/class.FormContainer.php');
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage actions_form
+ 
  */
 class tao_actions_form_List
     extends tao_helpers_form_FormContainer

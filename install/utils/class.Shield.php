@@ -24,7 +24,7 @@
  * install Shield to block future installation
  *
  * @package tao
- * @subpackage install_utils
+ 
  */
 class tao_install_utils_Shield{
 	

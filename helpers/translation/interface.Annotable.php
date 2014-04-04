@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,30 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Any Object that claims to be annotable should implement this interface.
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- * @package tao
- * @subpackage helpers_translation
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003947-includes begin
-// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003947-includes end
-
-/* user defined constants */
-// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003947-constants begin
-// section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003947-constants end
 
 /**
  * Any Object that claims to be annotable should implement this interface.
@@ -49,7 +25,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage helpers_translation
+ 
  */
 interface tao_helpers_translation_Annotable
 {

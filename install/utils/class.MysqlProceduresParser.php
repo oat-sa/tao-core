@@ -32,7 +32,7 @@
  * 
  * @author Jerome BOGAERTS <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage install_utils
+ 
  *
  */
 class tao_install_utils_MysqlProceduresParser extends tao_install_utils_SQLParser{

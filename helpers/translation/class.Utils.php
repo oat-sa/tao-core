@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,32 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Aims at providing common utility methods for the tao::helpers::translation
- *
- * @author Jerome Bogaerts
- * @package tao
- * @since 2.2
- * @subpackage helpers_translation
- * @version 1.0
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section -64--88-56-1--1ef43195:136cfde50f6:-8000:0000000000003968-includes begin
-// section -64--88-56-1--1ef43195:136cfde50f6:-8000:0000000000003968-includes end
-
-/* user defined constants */
-// section -64--88-56-1--1ef43195:136cfde50f6:-8000:0000000000003968-constants begin
-// section -64--88-56-1--1ef43195:136cfde50f6:-8000:0000000000003968-constants end
 
 /**
  * Aims at providing common utility methods for the tao::helpers::translation
@@ -52,7 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @author Jerome Bogaerts
  * @package tao
  * @since 2.2
- * @subpackage helpers_translation
+ 
  * @version 1.0
  */
 class tao_helpers_translation_Utils

@@ -25,7 +25,7 @@
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- * @subpackage actions_form
+ 
  */
 class tao_actions_form_Import
 extends tao_helpers_form_FormContainer

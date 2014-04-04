@@ -23,7 +23,7 @@
  *
  * @author Jehan Bihin, <jehan.bihin@tudor.lu>
  * @package tao
- * @subpackage helpers_form_validators
+ 
  */
 class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
 {

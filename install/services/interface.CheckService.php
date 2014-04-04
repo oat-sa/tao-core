@@ -25,7 +25,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- * @subpackage install_services
+ 
  */
 interface tao_install_services_CheckService{
 	/**

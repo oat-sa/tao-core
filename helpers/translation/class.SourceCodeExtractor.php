@@ -42,7 +42,7 @@ require_once('tao/helpers/translation/class.TranslationExtractor.php');
  * @author Jerome Bogaerts
  * @package tao
  * @since 2.2
- * @subpackage helpers_translation
+ 
  * @version 1.0
  */
 class tao_helpers_translation_SourceCodeExtractor

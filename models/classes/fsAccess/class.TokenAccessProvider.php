@@ -29,7 +29,7 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- * @subpackage models_classes_fsAccess
+ 
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_models_classes_fsAccess_TokenAccessProvider

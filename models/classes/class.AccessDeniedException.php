@@ -26,7 +26,7 @@
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- * @subpackage models_classes
+ 
  */
 class tao_models_classes_AccessDeniedException
     extends tao_models_classes_UserException

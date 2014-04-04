@@ -28,7 +28,7 @@
  * @author Somsack Sipasseuth <somsack.sipasseuth@tudor.lu>
  * @author Jerome Bogaerts <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage install_utils
+ 
  */
 class tao_install_utils_System{
 	

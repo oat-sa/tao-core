@@ -26,7 +26,7 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package taoItems
- * @subpackage models_classes
+ 
  */
 interface tao_models_classes_export_ExportProvider
 {

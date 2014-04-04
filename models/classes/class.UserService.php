@@ -26,7 +26,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage models_classes
+ 
  */
 class tao_models_classes_UserService
     extends tao_models_classes_ClassService

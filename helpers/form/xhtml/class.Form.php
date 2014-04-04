@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,52 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * TAO - tao/helpers/form/xhtml/class.Form.php
- *
- * $Id$
- *
- * This file is part of TAO.
- *
- * Automatically generated on 08.02.2011, 17:25:47 with ArgoUML PHP module 
- * (last revised $Date: 2010-01-12 20:14:42 +0100 (Tue, 12 Jan 2010) $)
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @subpackage helpers_form_xhtml
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * Represents a form. It provides the default behavior for form management and
- * be overridden for any rendering mode.
- * A form is composed by a set of FormElements.
- *
- * The form data flow is:
- * 1. add the elements to the form instance
- * 2. run evaluate (initElements, update states (submited, valid, etc), update
- * )
- * 3. render form
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- */
-require_once('tao/helpers/form/class.Form.php');
-
-/* user defined includes */
-// section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018EF-includes begin
-// section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018EF-includes end
-
-/* user defined constants */
-// section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018EF-constants begin
-// section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018EF-constants end
 
 /**
  * Short description of class tao_helpers_form_xhtml_Form
@@ -71,7 +25,7 @@ require_once('tao/helpers/form/class.Form.php');
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage helpers_form_xhtml
+ 
  */
 class tao_helpers_form_xhtml_Form
     extends tao_helpers_form_Form

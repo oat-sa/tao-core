@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -19,34 +19,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * This abstract class represents a Data Binder that is able to bind data from a
- * source (e.g. a form) to another one (e.g. a persistent memory such as a
- *
- * Implementors have to implement the bind method to introduce their main logic
- * data binding.
- *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
- * @package tao
- * @subpackage models_classes_dataBinding
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003C99-includes begin
-// section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003C99-includes end
-
-/* user defined constants */
-// section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003C99-constants begin
-// section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003C99-constants end
 
 /**
  * This abstract class represents a Data Binder that is able to bind data from a
@@ -59,7 +31,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- * @subpackage models_classes_dataBinding
+ 
  */
 abstract class tao_models_classes_dataBinding_AbstractDataBinder
 {

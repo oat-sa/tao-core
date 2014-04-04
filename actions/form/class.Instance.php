@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,38 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Create a form from a  resource of your ontology. 
- * Each property will be a field, regarding it's widget.
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @subpackage actions_form
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * This container enables gives you tools to create a form from ontology
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- */
-require_once('tao/actions/form/class.Generis.php');
-
-/* user defined includes */
-// section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C-includes begin
-// section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C-includes end
-
-/* user defined constants */
-// section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C-constants begin
-// section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000248C-constants end
 
 /**
  * Create a form from a  resource of your ontology. 
@@ -58,7 +26,7 @@ require_once('tao/actions/form/class.Generis.php');
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage actions_form
+ 
  */
 class tao_actions_form_Instance
     extends tao_actions_form_Generis

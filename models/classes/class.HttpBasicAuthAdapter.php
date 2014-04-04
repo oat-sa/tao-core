@@ -25,7 +25,7 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- * @subpackage models_classes
+ 
  */
 class tao_models_classes_HttpBasicAuthAdapter
 	implements common_user_auth_Adapter

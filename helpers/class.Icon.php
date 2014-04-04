@@ -48,7 +48,7 @@
  * @author Dieter Raber, <dieter@taotesting.com>
  * @date   2014-03-26 14:03
  * @package tao
- * @subpackage helpers
+ 
  */
 class tao_helpers_Icon {
 

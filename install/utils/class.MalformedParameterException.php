@@ -28,7 +28,7 @@
  * 
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @package tao
- * @subpackage install_utils
+ 
  */
 class tao_install_utils_MalformedParameterException extends common_Exception{
 	

@@ -26,7 +26,7 @@ require_once dirname(__FILE__) . '/../../generis/test/GenerisPhpUnitTestRunner.p
 /**
  * Help you to run the test into the TAO Context
  * @package tao
- * @subpackage test
+ 
  */
 abstract class  TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner{
 	

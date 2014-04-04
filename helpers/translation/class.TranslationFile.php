@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,44 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * A translation file represents the translation of a file, software, item, ...
- * contains a list of Translation Units a source language and a target language.
- * File can be read and written by TranslationFileReader & TranslationFileWriter
- *
- * @author Jerome Bogaerts
- * @package tao
- * @see tao_model_classes_TranslationUnit
-tao_model_classes_TranslationFileReader
-tao_model_classes_TranslationFileWriter
- * @since 2.2
- * @subpackage helpers_translation
- * @version 1.0
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * Any Object that claims to be annotable should implement this interface.
- *
- * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
- */
-require_once('tao/helpers/translation/interface.Annotable.php');
-
-/* user defined includes */
-// section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000348D-includes begin
-// section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000348D-includes end
-
-/* user defined constants */
-// section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000348D-constants begin
-// section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000348D-constants end
 
 /**
  * A translation file represents the translation of a file, software, item, ...
@@ -69,7 +31,7 @@ require_once('tao/helpers/translation/interface.Annotable.php');
 tao_model_classes_TranslationFileReader
 tao_model_classes_TranslationFileWriter
  * @since 2.2
- * @subpackage helpers_translation
+ 
  * @version 1.0
  */
 class tao_helpers_translation_TranslationFile

@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,32 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * This class enables you to manage interfaces with data. 
- * It provides the default prototype to adapt the data import/export from/to any
- * format.
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @subpackage helpers_data
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001C8F-includes begin
-// section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001C8F-includes end
-
-/* user defined constants */
-// section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001C8F-constants begin
-// section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001C8F-constants end
 
 /**
  * This class enables you to manage interfaces with data. 
@@ -54,7 +28,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage helpers_data
+ 
  */
 abstract class tao_helpers_data_GenerisAdapter
 {

@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,53 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Represents a form. It provides the default behavior for form management and
- * be overridden for any rendering mode.
- * A form is composed by a set of FormElements.
- *
- * The form data flow is:
- * 1. add the elements to the form instance
- * 2. run evaluate (initElements, update states (submited, valid, etc), update
- * )
- * 3. render form
- *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
- * @package tao
- * @subpackage helpers_form
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * This class provide a container for a specific form instance.
- * It's subclasses instanciate a form and it's elements to be used as a
- *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
- */
-require_once('tao/helpers/form/class.FormContainer.php');
-
-/**
- * A decorator is an helper used for aspect oriented rendering.
- *
- * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
- */
-require_once('tao/helpers/form/interface.Decorator.php');
-
-/* user defined includes */
-// section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A4-includes begin
-// section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A4-includes end
-
-/* user defined constants */
-// section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A4-constants begin
-// section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018A4-constants end
 
 /**
  * Represents a form. It provides the default behavior for form management and
@@ -81,7 +34,7 @@ require_once('tao/helpers/form/interface.Decorator.php');
  * @access public
  * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
- * @subpackage helpers_form
+ 
  */
 abstract class tao_helpers_form_Form
 {

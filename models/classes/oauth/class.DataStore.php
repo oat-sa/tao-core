@@ -34,7 +34,7 @@ require_once dirname(__FILE__).'/../../../lib/oauth/OAuth.php';
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- * @subpackage models_classes_oauth
+ 
  */
 class tao_models_classes_oauth_DataStore
 	extends OAuthDataStore

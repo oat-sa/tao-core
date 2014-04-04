@@ -21,7 +21,7 @@
 /**
  * @access public
  * @package tao
- * @subpackage helpers
+ 
  */
 class tao_helpers_ServiceJavascripts
 {

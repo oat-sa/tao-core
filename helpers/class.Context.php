@@ -25,7 +25,7 @@
  *
  * @author Cedric Alfonsi, <cedric.alfonsi@tudor.lu>
  * @package tao
- * @subpackage helpers
+ 
  */
 class tao_helpers_Context
 {

@@ -28,7 +28,7 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- * @subpackage helpers
+ 
  */
 class tao_helpers_Javascript
 {

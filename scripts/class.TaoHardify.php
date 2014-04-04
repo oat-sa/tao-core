@@ -28,7 +28,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage scripts
+ 
  */
 class tao_scripts_TaoHardify
     extends tao_scripts_Runner

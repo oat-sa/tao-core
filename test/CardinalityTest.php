@@ -27,7 +27,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  *
  * @author Joel Bout, <taosupport@tudor.lu>
  * @package tao
- * @subpackage test
+ 
  */
 class CardinalityTest extends TaoPhpUnitTestRunner {
 

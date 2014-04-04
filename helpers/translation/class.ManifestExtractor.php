@@ -37,7 +37,7 @@ require_once('tao/helpers/translation/class.TranslationExtractor.php');
  * @access public
  * @author firstname and lastname of author, <author@example.org>
  * @package tao
- * @subpackage helpers_translation
+ 
  */
 class tao_helpers_translation_ManifestExtractor
     extends tao_helpers_translation_TranslationExtractor

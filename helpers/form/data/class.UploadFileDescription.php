@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,38 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * The description of a file at upload time.
- *
- * @author Jerome Bogaerts, <jerome@taotesting.com>
- * @package tao
- * @subpackage helpers_form_data
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * The FileDescription data type contains all the data that a form collects or
- * about a file.
- *
- * @author Jerome Bogaerts <jerome@taotesting.com>
- */
-require_once('tao/helpers/form/data/class.FileDescription.php');
-
-/* user defined includes */
-// section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CD9-includes begin
-// section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CD9-includes end
-
-/* user defined constants */
-// section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CD9-constants begin
-// section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CD9-constants end
 
 /**
  * The description of a file at upload time.
@@ -57,7 +25,7 @@ require_once('tao/helpers/form/data/class.FileDescription.php');
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- * @subpackage helpers_form_data
+ 
  */
 class tao_helpers_form_data_UploadFileDescription
     extends tao_helpers_form_data_FileDescription

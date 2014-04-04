@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,33 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * A TranslationExtractor instance extracts TranslationUnits from a given source
- * as an Item, source code, ...
- *
- * @author Jerome Bogaerts
- * @package tao
- * @since 2.2
- * @subpackage helpers_translation
- * @version 1.0
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031E0-includes begin
-// section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031E0-includes end
-
-/* user defined constants */
-// section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031E0-constants begin
-// section -64--88-1-7-3ec47102:13332ada7cb:-8000:00000000000031E0-constants end
 
 /**
  * A TranslationExtractor instance extracts TranslationUnits from a given source
@@ -55,7 +28,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @author Jerome Bogaerts
  * @package tao
  * @since 2.2
- * @subpackage helpers_translation
+ 
  * @version 1.0
  */
 abstract class tao_helpers_translation_TranslationExtractor

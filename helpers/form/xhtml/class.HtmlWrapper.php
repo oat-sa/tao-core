@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,37 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * This decorator render the decorated element inside xhtml.
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
- * @subpackage helpers_form_xhtml
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/**
- * A decorator is an helper used for aspect oriented rendering.
- *
- * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- */
-require_once('tao/helpers/form/interface.Decorator.php');
-
-/* user defined includes */
-// section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CEE-includes begin
-// section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CEE-includes end
-
-/* user defined constants */
-// section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CEE-constants begin
-// section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CEE-constants end
 
 /**
  * This decorator render the decorated element inside xhtml.
@@ -56,7 +25,7 @@ require_once('tao/helpers/form/interface.Decorator.php');
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage helpers_form_xhtml
+ 
  */
 class tao_helpers_form_xhtml_HtmlWrapper
         implements tao_helpers_form_Decorator

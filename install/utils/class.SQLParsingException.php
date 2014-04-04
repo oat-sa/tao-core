@@ -26,7 +26,7 @@
  *
  * @author Jerome Bogaerts <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage install_utils
+ 
  */
 class tao_install_utils_SQLParsingException extends tao_install_utils_ParsingException {
 	

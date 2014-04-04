@@ -25,7 +25,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage helpers_data
+ 
  */
 class tao_helpers_data_GenerisAdapterRdf
     extends tao_helpers_data_GenerisAdapter

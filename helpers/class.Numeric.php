@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,31 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Helper to process numeric input
- *
- * @author Jehan Bihin
- * @package tao
- * @since 2.2
- * @subpackage helpers
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1--35f5fbfd:1379d8c2a8c:-8000:0000000000003AB5-includes begin
-// section 127-0-1-1--35f5fbfd:1379d8c2a8c:-8000:0000000000003AB5-includes end
-
-/* user defined constants */
-// section 127-0-1-1--35f5fbfd:1379d8c2a8c:-8000:0000000000003AB5-constants begin
-// section 127-0-1-1--35f5fbfd:1379d8c2a8c:-8000:0000000000003AB5-constants end
 
 /**
  * Helper to process numeric input
@@ -51,7 +26,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @author Jehan Bihin
  * @package tao
  * @since 2.2
- * @subpackage helpers
+ 
  */
 class tao_helpers_Numeric
 {

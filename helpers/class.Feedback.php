@@ -23,7 +23,7 @@
  *
  * @author Dieter Raber, <dieter@taotesting.com>
  * @package tao
- * @subpackage helpers
+ 
  */
 class tao_helpers_Feedback
 {

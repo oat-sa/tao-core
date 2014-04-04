@@ -27,7 +27,7 @@
  * @author Joel bout, <joel@taotesting.com>
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- * @subpackage action
+ 
  */
 class tao_actions_GenerisTree extends tao_actions_CommonModule {
 	

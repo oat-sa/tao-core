@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -25,8 +25,7 @@
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
- * @package common
- * @subpackage exception
+ * @package tao
  */
 class tao_models_classes_FileNotFoundException
     extends common_Exception

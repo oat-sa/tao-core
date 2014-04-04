@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -20,30 +20,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * Service is the base class of all services, and implements the singleton
- * for derived services
- *
- * @author Joel Bout, <joel.bout@tudor.lu>
- * @package tao
- * @subpackage models_classes
- */
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 127-0-1-1-25600304:12a5c17a5ca:-8000:00000000000024AC-includes begin
-// section 127-0-1-1-25600304:12a5c17a5ca:-8000:00000000000024AC-includes end
-
-/* user defined constants */
-// section 127-0-1-1-25600304:12a5c17a5ca:-8000:00000000000024AC-constants begin
-// section 127-0-1-1-25600304:12a5c17a5ca:-8000:00000000000024AC-constants end
 
 /**
  * Service is the base class of all services, and implements the singleton
@@ -53,7 +29,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
- * @subpackage models_classes
+ 
  */
 abstract class tao_models_classes_Service {
     // --- ASSOCIATIONS ---

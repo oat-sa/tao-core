@@ -28,7 +28,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  * @since 2.2
- * @subpackage helpers_translation
+ 
  */
 class tao_helpers_translation_JSFileWriter extends tao_helpers_translation_TranslationFileWriter {
 

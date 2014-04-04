@@ -30,7 +30,7 @@ require_once INCLUDES_PATH.'/ClearFw/core/simpletestRunner/_main.php';
  * Help you to run the test into the TAO Context
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage test
+ 
  */
 class TaoTestRunner extends TestRunner{
 	

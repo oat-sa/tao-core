@@ -28,7 +28,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- * @subpackage install
+ 
  */
 
 class tao_install_Installator{

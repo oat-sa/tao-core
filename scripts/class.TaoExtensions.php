@@ -27,7 +27,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage scripts
+ 
  */
 class tao_scripts_TaoExtensions
     extends tao_scripts_Runner

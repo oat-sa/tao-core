@@ -27,7 +27,7 @@
  * 
  * @author Bertrand CHEVRIER <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage install_utils
+ 
  */
 class tao_install_utils_Exception extends common_Exception{
 	

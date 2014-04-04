@@ -27,7 +27,7 @@ include_once dirname(__FILE__).'/taoConnector/taoSessionRequiredException.php';
 /**
  * @author Cédric Alfonsi, <taosupport@tudor.lu>
  * @package tao
- * @subpackage test
+ 
  */
 class ConnectorUserServiceTestCase extends TaoPhpUnitTestRunner {
 	

@@ -25,7 +25,7 @@
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- * @subpackage helpers
+ 
  */
 class tao_helpers_Cli
 {

@@ -24,7 +24,7 @@
  *
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage helpers_translation
+ 
  */
 
 /**
@@ -33,7 +33,7 @@
  * @access public
  * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
  * @package tao
- * @subpackage helpers_translation
+ 
  */
 class tao_helpers_translation_RDFUtils
 {

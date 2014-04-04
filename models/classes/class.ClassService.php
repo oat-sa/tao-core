@@ -26,7 +26,7 @@
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
- * @subpackage models_classes
+ 
  */
 abstract class tao_models_classes_ClassService
     extends tao_models_classes_GenerisService

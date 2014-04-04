@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -18,34 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-?>
-<?php
-
-error_reporting(E_ALL);
-
-/**
- * A Reading class for TranslationFiles. Must be implemented by a concrete class
- * a given Translation Format such as XLIFF, PO, ... The read method must be
- * by subclasses.
- *
- * @author Jerome Bogaerts
- * @package tao
- * @since 2.2
- * @subpackage helpers_translation
- * @version 1.0
- */
-
-if (0 > version_compare(PHP_VERSION, '5')) {
-    die('This file was generated for PHP 5');
-}
-
-/* user defined includes */
-// section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034B0-includes begin
-// section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034B0-includes end
-
-/* user defined constants */
-// section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034B0-constants begin
-// section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034B0-constants end
 
 /**
  * A Reading class for TranslationFiles. Must be implemented by a concrete class
@@ -57,7 +29,7 @@ if (0 > version_compare(PHP_VERSION, '5')) {
  * @author Jerome Bogaerts
  * @package tao
  * @since 2.2
- * @subpackage helpers_translation
+ 
  * @version 1.0
  */
 abstract class tao_helpers_translation_TranslationFileReader
