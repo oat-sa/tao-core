@@ -7,7 +7,7 @@
     <section class="file-browser">
         
         <h1>{{ __ 'Browse resources'}}</h1>
-        <ul class="fodlers">
+        <ul class="folders">
             <li><a href='#'>Folder 1</a></li>
             <li><a href='#'>Folder 2</a></li>
             <li><a href='#' data-toggle="~ ul">Opened Folder</a>
