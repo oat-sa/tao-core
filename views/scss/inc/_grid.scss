@@ -13,6 +13,9 @@
     float: none;
 }
 
+.grid-container {
+    overflow-x: hidden; 
+}
 
 .grid-row {
     @extend .clearfix:after;

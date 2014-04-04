@@ -2348,6 +2348,10 @@ textarea {
 .col-12 {
   float: none; }
 
+.grid-container {
+    overflow-x: hidden;
+}
+
 .grid-row {
   width: 101.42857%; }
 
