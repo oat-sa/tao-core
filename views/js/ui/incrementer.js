@@ -15,22 +15,23 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
         max : null,
         incrementerClass : 'incrementer',
         incrementerCtrlClass : 'incrementer-ctrl',
+        incrementerWrapperClass : 'incrementer-ctrl-wrapper',
         decimal : 0
     };
 
-    /** 
-     * The Incrementer component, it transforms a text input in an number input, the data-attr way 
-     * (has the HTML5 number input type is not yet very well supported, we don't use polyfill to have a consistent UI) 
+    /**
+     * The Incrementer component, it transforms a text input in an number input, the data-attr way
+     * (has the HTML5 number input type is not yet very well supported, we don't use polyfill to have a consistent UI)
      * @exports ui/incrementer
      */
     var Incrementer = {
         /**
          * Initialize the plugin.
-         * 
+         *
          * Called the jQuery way once registered by the Pluginifier.
          * @example $('selector').incrementer({step : 1, min : 0, max : 12 });
          * @public
-         * 
+         *
          * @constructor
          * @param {Object} [options] - the plugin options
          * @param {Number} [options.step = 1] - the increment step
@@ -41,36 +42,39 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
         init : function(options){
             var self = Incrementer;
 
+
             //get options using default
             options = _.defaults(options || {}, defaults);
 
             return this.each(function(){
                 var $elt = $(this);
+                var wrapper = $('<span>', { class: options.incrementerWrapperClass });
                 var $ctrl, currentValue;
 
                 if(!$elt.data(dataNs)){
 
                     //basic type checking
                     if(!$elt.is('input[type="text"]')){
-                        $.error('The incrementer plugin applies only on input element of type text');
+                        $.error('The incrementer plugin applies only on input element of the type text');
                     }else{
                         currentValue = parseFloat($elt.val()).toFixed(options.decimal);
+                        $elt.wrap(wrapper);
                         $elt.data(dataNs, options)                      //add data to the element
                             .addClass(options.incrementerClass)         //add the css class
                             .after(//set up controls
-                            "<div class='ctrl " + options.incrementerCtrlClass + "'>\
-                                <a href='#' class='inc' title='+' tabindex='-1'></a>\
-                                <a href='#' class='dec' title='-' tabindex='-1'></a>\
-                              </div>")
+                                '<span class="ctrl ' + options.incrementerCtrlClass + '">\
+                                   <a class="inc" title="+' + options.step + '" tabindex="-1"></a>\
+                                   <a class="dec" title="-' + options.step + '" tabindex="-1"></a>\
+                                </span>')
                             .on('keydown', function(e){
-                            if(e.which === 38){                      //up
-                                self._inc($elt);
-                                this.select();
-                            }else if(e.which === 40){               //down
-                                self._dec($elt);
-                                this.select();
-                            }
-                        })
+                                if(e.which === 38){                      //up
+                                    self._inc($elt);
+                                    this.select();
+                                }else if(e.which === 40){               //down
+                                    self._dec($elt);
+                                    this.select();
+                                }
+                            })
                             .on('keyup', function(){
 //                            var val = $elt.val();
 //                            if(val.slice(-1) !== '.'){
@@ -80,19 +84,19 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
 //                                }
 //                            }
 //                            $elt.val(val);
-                            $elt.val($elt.val().replace(/[\D]/g, ''));
-                        })
+                                $elt.val($elt.val().replace(/[\D]/g, ''));
+                            })
                             .on('focus', function(){
-                            this.select();
-                        })
+                                this.select();
+                            })
                             .on('disable', function(){
-                            $ctrl.find('.inc,.dec').prop('disabled', true)
-                                .addClass('disabled');
-                        })
+                                $ctrl.find('.inc,.dec').prop('disabled', true)
+                                    .addClass('disabled');
+                            })
                             .on('enable', function(){
-                            $ctrl.find('.inc,.dec').prop('disabled', false)
-                                .removeClass('disabled');
-                        });
+                                $ctrl.find('.inc,.dec').prop('disabled', false)
+                                    .removeClass('disabled');
+                            });
 
                         //set up the default value if needed
                         if(_.isNaN(currentValue)
@@ -138,9 +142,9 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
         },
         /**
          * Increment value
-         * 
+         *
          * @private
-         * @param {jQueryElement} $elt - plugin's element 
+         * @param {jQueryElement} $elt - plugin's element
          * @fires Incrementer#plus.incrementer
          */
         _inc : function($elt){
@@ -161,7 +165,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                 $elt.val(value);
 
                 /**
-                 * The target has been toggled. 
+                 * The target has been toggled.
                  * @event Incrementer#increment.incrementer
                  */
                 $elt.trigger('increment.' + ns, [value]).trigger('change');
@@ -169,9 +173,9 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
         },
         /**
          * Decrement value
-         * 
+         *
          * @private
-         * @param {jQueryElement} $elt - plugin's element 
+         * @param {jQueryElement} $elt - plugin's element
          * @fires Incrementer#minus.incrementer
          */
         _dec : function($elt){
@@ -193,7 +197,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                 $elt.val(value);
 
                 /**
-                 * The target has been toggled. 
+                 * The target has been toggled.
                  * @event Incrementer#decrement.incrementer
                  */
                 $elt.trigger('decrement.' + ns, [value]).trigger('change');
@@ -201,7 +205,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
         },
         /**
          * Destroy completely the plugin.
-         * 
+         *
          * Called the jQuery way once registered by the Pluginifier.
          * @example $('selector').incrementer('destroy');
          * @public
@@ -227,7 +231,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
 
     /**
      * The only exposed function is used to start listening on data-attr
-     * 
+     *
      * @public
      * @example define(['ui/incrementer'], function(incrementer){ incrementer($('rootContainer')); });
      * @param {jQueryElement} $container - the root context to listen in
