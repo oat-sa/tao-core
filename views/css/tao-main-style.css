@@ -12668,18 +12668,6 @@ a[rel="external"] span.icon-external:before {
    */
   /* Disabled state;
    */
-  /*.noUi-horizontal {	
-  	.step-indicator {
-  	    margin-top: 2px;
-  	    border-right: 1px #444 solid;
-  	}
-  
-  	.step-indicator div {
-  	    min-height: 5px;
-  	    border-left: 1px #444 solid;
-  	    float:left;
-  	}
-  }*/
   /* Base style that applies on all elements */
   /* box that contains submit button */
   /* fake table stuff */
@@ -14054,13 +14042,57 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     background: #B8B8B8; }
   .tao-scope [disabled] .noUi-handle {
     cursor: not-allowed; }
-  .tao-scope .noUi-horizontal .step-indicator {
-    margin-top: 2px;
-    border-right: 1px #444 solid; }
-  .tao-scope .noUi-horizontal .step-indicator div {
-    min-height: 5px;
-    border-left: 1px #444 solid;
-    float: left; }
+  .tao-scope .noUi-horizontal .step-marker {
+    position: relative; }
+    .tao-scope .noUi-horizontal .step-marker span {
+      font-size: 10px;
+      position: relative;
+      display: block;
+      float: left;
+      text-align: center;
+      min-height: 10px; }
+      .tao-scope .noUi-horizontal .step-marker span:before {
+        width: 1px;
+        height: 5px;
+        position: absolute;
+        content: '';
+        background: #434343;
+        left: 50%; }
+    .tao-scope .noUi-horizontal .step-marker.after {
+      top: 5px; }
+      .tao-scope .noUi-horizontal .step-marker.after span:before {
+        top: -4px; }
+    .tao-scope .noUi-horizontal .step-marker.before {
+      top: -28px; }
+      .tao-scope .noUi-horizontal .step-marker.before span:before {
+        top: 13px; }
+  .tao-scope .item-editor-sidebar .noUi-target {
+    margin-left: 4px;
+    margin-right: 4px; }
+  .tao-scope .noUi-vertical-wrapper {
+    position: relative;
+    display: inline-block; }
+    .tao-scope .noUi-vertical-wrapper .step-marker {
+      position: absolute;
+      height: 100%;
+      top: 0; }
+      .tao-scope .noUi-vertical-wrapper .step-marker span {
+        font-size: 10px;
+        position: relative;
+        display: block; }
+        .tao-scope .noUi-vertical-wrapper .step-marker span:before {
+          width: 5px;
+          height: 1px;
+          position: absolute;
+          content: '';
+          background: #434343;
+          top: 50%; }
+      .tao-scope .noUi-vertical-wrapper .step-marker.after {
+        left: 20px; }
+        .tao-scope .noUi-vertical-wrapper .step-marker.after span:before {
+          left: -9px; }
+      .tao-scope .noUi-vertical-wrapper .step-marker.before span:before {
+        left: -40%; }
   .tao-scope .viewport-hidden {
     position: absolute;
     left: -10000px;
