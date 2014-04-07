@@ -77,7 +77,7 @@ require.config({
         'jwysiwyg'              : ['jquery'],
         'jquery.cookie'         : ['jquery'],
         'jquery.timePicker'     : ['jquery'],
-        'tooltipster'           : ['jquery', 'css!lib/tooltipster/css/tooltipster.css'],
+        'tooltipster'           : ['jquery', 'css!lib/tooltipster/css/tooltipster'],
         'nouislider'            : ['jquery'],
         'jquery.filedownload'   : ['jquery'],
         'jsTree/plugins/jquery.tree.contextmenu' : ['lib/jsTree/jquery.tree'],
@@ -103,7 +103,7 @@ require.config({
             exports : 'ScaleRaphael'
         },
         'mediaElement' : {
-            deps: ['jquery', 'css!taoQtiItem/qtiDefaultRenderer/lib/mediaelement/css/mediaelementplayer.min.css'],
+            deps: ['jquery', 'css!taoQtiItem/qtiDefaultRenderer/lib/mediaelement/css/mediaelementplayer.min'],
             exports : 'MediaElementPlayer',
             init : function(){
                 MediaElementPlayer.pluginPath = '';//define the plugin swf path here
