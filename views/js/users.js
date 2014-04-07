@@ -9,7 +9,6 @@ define(['jquery', 'i18n', 'context'], function($, __, context){
      */
     function checkLogin(id, url){
         var $login = $("input[id='" + id + "']");
-        var $loginInfo =  $('.login-info');
         if($login.length > 0){
             $login.blur(function(){
                 var elt = $(this);
@@ -19,12 +18,12 @@ define(['jquery', 'i18n', 'context'], function($, __, context){
                 var value = elt.val();
 
                 if(trimmedValue === ''){
-                    $loginInfo.remove();
+                    $('span.login-info').remove();
                 } else{
                     $.postJson(url,
                         { login: value },
                         function(data){
-                            $loginInfo.remove();
+                            $('span.login-info').remove();
                             if(data.available){
                                     elt.after("<span class='login-info'><img src='"+context.taobase_www+"img/tick.png' /> " + __('Login available') + "</span>");
                             } else{
