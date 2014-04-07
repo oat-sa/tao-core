@@ -28,6 +28,7 @@ require.config({
         'json'              : 'lib/text/json',
         'css'               : 'lib/require-css/css',
         'polyfill'          : 'lib/polyfill',
+        'filereader'        : 'lib/polyfill/jquery.FileReader.min',
         'store'             : 'lib/store/store.min',
         'select2'           : 'lib/select2/select2.min',
         'lodash'            : 'lib/lodash.min',
@@ -116,6 +117,7 @@ require.config({
                 MathJax.Hub.Startup.onload();
                 return MathJax;
             }
-        }
+        },
+        'filereader' : ['jquery', 'polyfill/swfobject']
     }
 });
