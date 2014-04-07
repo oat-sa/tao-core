@@ -21,6 +21,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
+include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 /**
  * PHPUnit test of the {@link tao_helpers_Duration} helper
