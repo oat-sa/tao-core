@@ -27,7 +27,7 @@ include_once dirname(__FILE__) . '/../includes/raw_start.php';
  * @package tao
  
  */
-class OntoLockTestCase extends TaoPhpUnitTestRunner {
+class OntoLockTest extends TaoPhpUnitTestRunner {
 	
     protected $tempResource = null;
     protected $lockService = null;
