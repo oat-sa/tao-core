@@ -52,7 +52,6 @@ $todefine = array(
 	'TAO_SUBJECT_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject',
 	'TAO_TEST_CLASS' 					=> 'http://www.tao.lu/Ontologies/TAOTest.rdf#Test',
 	'TAO_DELIVERY_CLASS' 				=> 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery',
-	'RDFS_TYPE'							=> 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
 	'GENERIS_RESOURCE'					=> 'http://www.tao.lu/Ontologies/generis.rdf#generis_Ressource',
 	'INSTANCE_BOOLEAN_TRUE'				=> 'http://www.tao.lu/Ontologies/generis.rdf#True',
 	'INSTANCE_BOOLEAN_FALSE'			=> 'http://www.tao.lu/Ontologies/generis.rdf#False',

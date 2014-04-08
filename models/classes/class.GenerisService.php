@@ -366,7 +366,7 @@ abstract class tao_models_classes_GenerisService
     }
 
     /**
-     * Change the Class (RDFS_TYPE) of a resource
+     * Change the Class (RDF_TYPE) of a resource
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
