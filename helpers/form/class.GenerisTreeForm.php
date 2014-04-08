@@ -115,15 +115,23 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
 	}
 	
 	public static function getSelectedInstancesFromPost() {
-	    $json = $_POST['instances'];
-	    $values = array();
-	    foreach (json_decode($json) as $coded) {
-	        $val = tao_helpers_Uri::decode($coded);
-	        if (!empty($val)) {
-	            $values[] = $val;
-	        } else {
-	            common_Logger::w('Empty URI in json array');
-	        }
+    	$values = array();
+	    if (isset($_POST['instances'])) {
+    	    $json = json_decode($_POST['instances']);
+    	    if (!is_null($json)) {
+        	    foreach ($json as $coded) {
+        	        $val = tao_helpers_Uri::decode($coded);
+        	        if (!empty($val)) {
+        	            $values[] = $val;
+        	        } else {
+        	            common_Logger::w('Empty URI in json array in '.__FUNCTION__);
+        	        }
+        	    }
+    	    } else {
+    	        common_Logger::w('json string could not be decoded in '.__FUNCTION__);
+    	    }
+	    } else {
+	        common_Logger::w('No post parameter instances in '.__FUNCTION__);
 	    }
 	    return $values;
 	}
