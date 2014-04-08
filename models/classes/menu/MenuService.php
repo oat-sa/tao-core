@@ -201,7 +201,7 @@ class MenuService {
      */
     public static function getSection($extension, $perspectiveId, $sectionId)
     {
-        $returnValue = array();
+        $returnValue = null;
 
         $structure = self::getPerspective($extension, $perspectiveId);
         foreach ($structure->getSections() as $section) {
@@ -211,7 +211,7 @@ class MenuService {
             }
         }
 		if (empty($returnValue)) {
-			\common_logger::w('Section '.$section.' not found found for perspective '.$perspectiveId);
+			\common_logger::w('Section '.$sectionId.' not found found for perspective '.$perspectiveId);
     	}
 
         return $returnValue;

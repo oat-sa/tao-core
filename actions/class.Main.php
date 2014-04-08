@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -319,66 +319,68 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		$this->setData('shownExtension', $this->getRequestParameter('ext'));
 
 		$section = MenuService::getSection($extname, $struct, $this->getRequestParameter('section'));
-		$actions = array();
-		foreach ($section->getActions() as $action) {
-		    if ($action->hasAccess()) {
-		        $display = __($action->getName());
-		        if(strlen($display) > 15){
-		            $display = str_replace(' ', "<br>", $display);
-		        }
-		        $actionData = array(
-		            'js'		=> $action->getJs(),
-		            'url' 		=> ROOT_URL . $action->getUrl(),
-		            'display'	=> $display,
-		            'rowName'	=> $action->getName(),
-		            'name'		=> _clean($action->getName()),
-		            'uri'		=> ($uri) ? $this->getRequestParameter('uri') : false,
-		            'classUri'	=> ($classUri) ? $this->getRequestParameter('classUri') : false,
-		            'reload'	=> $action->getReload(),
-		            'ext'       => $action->getExtensionId()
-		        );
-		        
-		        $actionData['disabled'] = true;
-		        switch ($action->getContext()) {
-		        	case 'resource':
-		        	    if ($classUri || $uri) {
-		        	        $actionData['disabled'] = false;
-		        	    }
-		        	    break;
-		        	case 'class':
-		        	    if ($classUri && !$uri) {
-		        	        $actionData['disabled'] = false;
-		        	    }
-		        	    break;
-		        	case 'instance':
-		        	    if ($classUri && $uri) {
-		        	        $actionData['disabled'] = false;
-		        	    }
-		        	    break;
-		        	case '*':
-		        	    $actionData['disabled'] = false;
-		        	    break;
-		        	default:
-		        	    $actionData['disabled'] = true;
-		        	    break;
-		        }
-		        
-		        //@todo remove this when permissions engine is setup
-		        if ($actionData['rowName'] == 'delete' && $classUri && !$uri) {
-		            if (in_array($actionData['classUri'], tao_helpers_Uri::encodeArray($rootClasses, tao_helpers_Uri::ENCODE_ARRAY_VALUES))) {
-		                $actionData['disabled'] = true;
-		            }
-		        }
-		        
-		        array_push($actions, $actionData);
-		    }
+		if (!is_null($section)) {
+    		$actions = array();
+    		foreach ($section->getActions() as $action) {
+    		    if ($action->hasAccess()) {
+    		        $display = __($action->getName());
+    		        if(strlen($display) > 15){
+    		            $display = str_replace(' ', "<br>", $display);
+    		        }
+    		        $actionData = array(
+    		            'js'		=> $action->getJs(),
+    		            'url' 		=> ROOT_URL . $action->getUrl(),
+    		            'display'	=> $display,
+    		            'rowName'	=> $action->getName(),
+    		            'name'		=> _clean($action->getName()),
+    		            'uri'		=> ($uri) ? $this->getRequestParameter('uri') : false,
+    		            'classUri'	=> ($classUri) ? $this->getRequestParameter('classUri') : false,
+    		            'reload'	=> $action->getReload(),
+    		            'ext'       => $action->getExtensionId()
+    		        );
+    		        
+    		        $actionData['disabled'] = true;
+    		        switch ($action->getContext()) {
+    		        	case 'resource':
+    		        	    if ($classUri || $uri) {
+    		        	        $actionData['disabled'] = false;
+    		        	    }
+    		        	    break;
+    		        	case 'class':
+    		        	    if ($classUri && !$uri) {
+    		        	        $actionData['disabled'] = false;
+    		        	    }
+    		        	    break;
+    		        	case 'instance':
+    		        	    if ($classUri && $uri) {
+    		        	        $actionData['disabled'] = false;
+    		        	    }
+    		        	    break;
+    		        	case '*':
+    		        	    $actionData['disabled'] = false;
+    		        	    break;
+    		        	default:
+    		        	    $actionData['disabled'] = true;
+    		        	    break;
+    		        }
+    		        
+    		        //@todo remove this when permissions engine is setup
+    		        if ($actionData['rowName'] == 'delete' && $classUri && !$uri) {
+    		            if (in_array($actionData['classUri'], tao_helpers_Uri::encodeArray($rootClasses, tao_helpers_Uri::ENCODE_ARRAY_VALUES))) {
+    		                $actionData['disabled'] = true;
+    		            }
+    		        }
+    		        
+    		        array_push($actions, $actionData);
+    		    }
+    		}
+    			
+    	    if (!empty($actions)) {
+    			$this->setData('actions', $actions);
+    		}
+    
+    		$this->setView('main/actions.tpl', 'tao');
 		}
-			
-	    if (!empty($actions)) {
-			$this->setData('actions', $actions);
-		}
-
-		$this->setView('main/actions.tpl', 'tao');
 	}
 
 	/**
@@ -392,47 +394,48 @@ class tao_actions_Main extends tao_actions_CommonModule {
 		$sectionId	= $this->getRequestParameter('section');
 
 		$section = MenuService::getSection($extname, $struct, $sectionId);
-		$treeData = array();
-		foreach ($section->getTrees() as $tree) {
-		    $mapping = array(
-		        'editClassUrl'      => 'editClassAction',
-		        'editInstanceUrl'   => 'editInstanceAction',
-		        'addInstanceUrl'    => 'createInstanceAction',
-		        'moveInstanceUrl'   => 'moveInstanceAction',
-		        'addSubClassUrl'    => 'subClassAction',
-		        'deleteUrl'         => 'deleteAction',
-		        'duplicateUrl'      => 'duplicateAction',
-		        'dataUrl'           => 'dataUrl',
-		        'className'         => 'className',
-		        'name'              => 'name'
-		    );
-		    $treeArray = array();
-		    foreach ($mapping as $from => $to) {
-		        $attrValue = $tree->get($from);
-		        if (!is_null($attrValue)) {
-		            if(preg_match("/^\//", (string) $attrValue)){
-		                $treeArray[$to] = ROOT_URL . substr((string)$attrValue, 1);
-		            }
-		            else{
-		                $treeArray[$to] = (string)$attrValue;
-		            }
-		        }
-		    }
-            if($this->hasSessionAttribute("showNodeUri")){
-                $treeArray['selectNode'] = $this->getSessionAttribute("showNodeUri");
+		if (!is_null($section)) {
+    		$treeData = array();
+    		foreach ($section->getTrees() as $tree) {
+    		    $mapping = array(
+    		        'editClassUrl'      => 'editClassAction',
+    		        'editInstanceUrl'   => 'editInstanceAction',
+    		        'addInstanceUrl'    => 'createInstanceAction',
+    		        'moveInstanceUrl'   => 'moveInstanceAction',
+    		        'addSubClassUrl'    => 'subClassAction',
+    		        'deleteUrl'         => 'deleteAction',
+    		        'duplicateUrl'      => 'duplicateAction',
+    		        'dataUrl'           => 'dataUrl',
+    		        'className'         => 'className',
+    		        'name'              => 'name'
+    		    );
+    		    $treeArray = array();
+    		    foreach ($mapping as $from => $to) {
+    		        $attrValue = $tree->get($from);
+    		        if (!is_null($attrValue)) {
+    		            if(preg_match("/^\//", (string) $attrValue)){
+    		                $treeArray[$to] = ROOT_URL . substr((string)$attrValue, 1);
+    		            }
+    		            else{
+    		                $treeArray[$to] = (string)$attrValue;
+    		            }
+    		        }
+    		    }
+                if($this->hasSessionAttribute("showNodeUri")){
+                    $treeArray['selectNode'] = $this->getSessionAttribute("showNodeUri");
+                }
+                if(isset($treeArray['className'])){
+                    $treeArray['instanceClass'] = 'node-'.str_replace(' ', '-', strtolower($treeArray['className']));
+                    $treeArray['instanceName'] = mb_strtolower(__($treeArray['className']), TAO_DEFAULT_ENCODING);
+                }
+                $treeId = tao_helpers_Display::textCleaner((string) $tree->getName(), '_');
+                $treeData[$treeId] = $treeArray;
+    		}
+    		if (!empty($treeData)) {
+                $this->setData('trees', $treeData);
             }
-            if(isset($treeArray['className'])){
-                $treeArray['instanceClass'] = 'node-'.str_replace(' ', '-', strtolower($treeArray['className']));
-                $treeArray['instanceName'] = mb_strtolower(__($treeArray['className']), TAO_DEFAULT_ENCODING);
-            }
-            $treeId = tao_helpers_Display::textCleaner((string) $tree->getName(), '_');
-            $treeData[$treeId] = $treeArray;
+    
+    		$this->setView('main/trees.tpl', 'tao');
 		}
-		if (!empty($treeData)) {
-            $this->setData('trees', $treeData);
-        }
-
-		$this->setView('main/trees.tpl', 'tao');
 	}
 }
-?>
