@@ -236,7 +236,7 @@ class tao_scripts_TaoHardify
         	$hardenedClasses = $switcher->getHardenedClasses();
         	if (array_key_exists($classUri, $hardenedClasses)){
         		$count = $hardenedClasses[$classUri];
-        		$this->outVerbose("Class '${classUri}' successfuly hardified: ${count} instance(s) compiled.");	
+        		$this->outVerbose("Class '${classUri}' successfully hardified: ${count} instance(s) compiled.");	
 				
 				if (true == $optionsHardify['createForeigns']){
 			    	unset($hardenedClasses[$classUri]);
@@ -246,7 +246,7 @@ class tao_scripts_TaoHardify
 			    	}
 			    	else{
 			    		foreach ($hardenedClasses as $uri => $count){
-							$this->outVerbose("Foreign class '${uri} successfuly hardified: ${count} instance(s) compiled.'");
+							$this->outVerbose("Foreign class '${uri} successfully hardified: ${count} instance(s) compiled.'");
 			    		}
 			    	}
 				}

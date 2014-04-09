@@ -563,7 +563,7 @@ TaoInstall.prototype.getData = function(key){
  * Popuplate registered inputs of the currently displayed template with
  * data stored in the data store. If keys of the store matches
  * an input id, this input will be populated.
- * @return {Array} A set of element that were successfuly populated.
+ * @return {Array} A set of element that were successfully populated.
  */
 TaoInstall.prototype.populate = function(){
 	var populated = [];

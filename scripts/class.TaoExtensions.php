@@ -264,7 +264,7 @@ class tao_scripts_TaoExtensions
                 }
             
                 $currentConfig->save($ext);
-                $this->outVerbose("Configuration parameter '${configParam}' successfuly updated to " . (($configValue == true) ? 1 : 0) . " for extension '${extensionId}'.");
+                $this->outVerbose("Configuration parameter '${configParam}' successfully updated to " . (($configValue == true) ? 1 : 0) . " for extension '${extensionId}'.");
             }
         }
         catch (common_ext_ExtensionException $e){
@@ -492,7 +492,7 @@ class tao_scripts_TaoExtensions
                 $this->outVerbose("Installing extension '${extensionId}'...");
                 $installer = new tao_install_ExtensionInstaller($ext, $importLocalData);
                 $installer->install();
-                $this->outVerbose("Extension successfuly installed.");
+                $this->outVerbose("Extension successfully installed.");
             }
             catch (common_ext_ForbiddenActionException $e){
                 $this->error("A forbidden action was undertaken: " . $e->getMessage() . " .", true);

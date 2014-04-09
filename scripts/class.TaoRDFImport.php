@@ -141,7 +141,7 @@ class tao_scripts_TaoRDFImport
 				//initialize the adapter (no target class but a target namespace)
 				$adapter = new tao_helpers_data_GenerisAdapterRdf();
 				if($adapter->import($this->options['input'], null, $targetNamespace)){
-					$this->outVerbose("RDF 'input' file successfuly imported.");
+					$this->outVerbose("RDF 'input' file successfully imported.");
 					$userService->logout();
 				}		
 				else{

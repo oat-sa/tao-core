@@ -858,7 +858,7 @@ class tao_scripts_TaoTranslate
         	$this->err("Could not delete language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "'.", true);	
         }
         
-        $this->outVerbose("Language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' successfuly deleted.");
+        $this->outVerbose("Language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' successfully deleted.");
         // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386A end
     }
 

@@ -144,7 +144,7 @@ class tao_install_services_CheckDatabaseConnectionService
 					$status = 'invalid-overwrite';
 				}
 				else{
-					$message = "Database connection successfuly established with '${host}' using driver '${driver}'.";
+					$message = "Database connection successfully established with '${host}' using driver '${driver}'.";
 					$status = 'valid';
 				}
 				

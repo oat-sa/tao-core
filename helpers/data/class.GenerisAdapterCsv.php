@@ -156,7 +156,7 @@ class tao_helpers_data_GenerisAdapterCsv
 			}
 							
 			if($resource instanceof core_kernel_classes_Resource){
-				common_Logger::t("CSV - Resource successfuly created");
+				common_Logger::t("CSV - Resource successfully created");
 				//import the value of each column into the property defined in the map 
 				foreach($this->options['map'] as $propUri => $csvColumn){
 					

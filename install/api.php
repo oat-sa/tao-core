@@ -214,7 +214,7 @@
  * will return:
  * {"type": "DatabaseConnectionReport",
  *  "value": {"status": "valid",
- *            "message": "Database connection successfuly established with driver 'mysql'.",
+ *            "message": "Database connection successfully established with driver 'mysql'.",
  *            "optional": false,
  *            "name": "db_connection"}}
  */
