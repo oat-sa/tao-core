@@ -111,7 +111,7 @@
                     unitProps = {},
                     boxProps = {};
 
-                boxProps.class = 'step-marker clearfix ' + markerPosition;
+                boxProps['class'] = 'step-marker clearfix ' + markerPosition;
 
                 // horizontal
                 if (sizeFn['key'] === 'width') {

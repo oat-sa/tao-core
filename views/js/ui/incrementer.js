@@ -48,7 +48,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
 
             return this.each(function(){
                 var $elt = $(this);
-                var wrapper = $('<span>', { class: options.incrementerWrapperClass });
+                var wrapper = $('<span>', { 'class': options.incrementerWrapperClass });
                 var $ctrl, currentValue;
 
                 if(!$elt.data(dataNs)){
