@@ -400,7 +400,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   transition: none;
   /* These are rule inherited by all children elements. */
   border-collapse: collapse;
-  font-family: "Franklin Gothic", "Source Sans Pro", sans-serif;
+  font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
   font-weight: 400;
   font-style: normal;
   font-size: 1.4rem;

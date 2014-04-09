@@ -36,45 +36,72 @@
 }
 
 /* Incrementer */
-input.incrementer {
-    min-width: 25px !important;
-    width: 25px !important;
-    text-align: right;
-    @include border-radius-left(2);
-    border-right-style: none;
-    & ~ .incrementer-ctrl {
-        display: inline-block;
-        margin-right: 5px;
-        border: 1px solid $uiGeneralContentBorder;
-        border-left-width: 0;
-        @include border-radius(2);
-        line-height: normal;
-        vertical-align: bottom;
-        position: relative;
-        > a {
-            display: block;
-            height: 13px;
-            line-height: 13px;
-            color: $textColor;
-            padding: 0 4px 0 4px;
-            @include font-size(10.5);
-            &.inc:before {
-                position: relative;
-                bottom: -2px;
-                @include icon('up');
-            }
-            &.dec:before {
-                position: relative;
-                top: -2px;
-                @include icon('down');
-            }
-            &:hover {
-                background-color: $uiClickableHoverBg;
-                color: $textHighlight;
+input[data-increment] {
+    width: 40px !important;
+    min-width: 40px !important;
+    text-align:right;
+}
+
+.incrementer-ctrl-wrapper {
+    position: relative;
+    display:inline-block;
+    @include simple-border($uiGeneralContentBorder);
+    @include border-radius(2);
+    .incrementer {
+        text-align: right;
+        border: none;
+        padding-right: 18px;
+        & ~ .incrementer-ctrl {
+            border-left: 1px $uiGeneralContentBorder solid;
+            display: inline-block;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            > a {
+                outline: 0 !important;
+                cursor:pointer;
+                display: inline-block;
+                line-height: 13px;
+                color: $textColor;
+                background: $uiClickableDefaultBg;
+                padding: 0 4px 0 4px;
+                @include font-size(10.5);
+                position: absolute;
+                right: 0;
+                height: 50%;
+                text-align:center;
+                &.inc {
+                    top: 0;
+                    -moz-border-radius-topright: 2px;
+                    -webkit-border-top-right-radius: 2px;
+                    border-top-right-radius: 2px;
+                }
+                &.dec {
+                    top: 50%;
+                    -moz-border-radius-bottomright: 2px;
+                    -webkit-border-bottom-right-radius: 2px;
+                    border-bottom-right-radius: 2px;
+                }
+                &.inc:before {
+                    position: relative;
+                    bottom: 0px;
+                    @include icon('up');
+                }
+                &.dec:before {
+                    position: relative;
+                    top: 0px;
+                    @include icon('down');
+                }
+                &:hover {
+                    background-color: $uiClickableHoverBg;
+                    color: $textHighlight;
+                }
             }
         }
     }
 }
+
 
 /* Flipper */
 .flip {

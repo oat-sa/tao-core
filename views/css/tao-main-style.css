@@ -45,10 +45,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -589,10 +589,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -1108,10 +1108,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -2349,8 +2349,7 @@ textarea {
   float: none; }
 
 .grid-container {
-    overflow-x: hidden;
-}
+  overflow-x: hidden; }
 
 .grid-row {
   width: 101.42857%; }
@@ -2561,10 +2560,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -3607,10 +3606,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -4404,10 +4403,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -4934,10 +4933,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -5433,7 +5432,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   transition: none;
   /* These are rule inherited by all children elements. */
   border-collapse: collapse;
-  font-family: "Franklin Gothic", "Source Sans Pro", sans-serif;
+  font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
   font-weight: 400;
   font-style: normal;
   font-size: 1.4rem;
@@ -5744,10 +5743,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -6548,10 +6547,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -7520,10 +7519,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -8252,10 +8251,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -8782,10 +8781,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -9360,10 +9359,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -9900,10 +9899,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -10660,10 +10659,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -11245,10 +11244,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -11828,10 +11827,10 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .tao-scope .ui-icon-triangle-1-e:before {
   content: "\122"; }
 
-.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+.icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
   content: "\123"; }
 
-.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+.icon-down:before, .cke_combo_arrow:before, .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .select2-container .select2-choice .select2-arrow b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
   content: "\124"; }
 
 .icon-undo:before, .cke_button__undo_icon:before {
@@ -12476,14 +12475,14 @@ input {
   background: rgba(255, 255, 255, 0.9); }
 
 .ui-widget {
-  font-family: "Franklin Gothic", "Source Sans Pro", sans-serif;
+  font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
   font-size: 1.4rem !important; }
 
 .ui-widget .ui-widget {
   font-size: 1.4rem !important; }
 
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
-  font-family: "Franklin Gothic", "Source Sans Pro", sans-serif;
+  font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
   font-size: 1.4rem !important; }
 
 a {
@@ -12705,7 +12704,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                               :__:-:__.;--'
                              <*_/   <*/
   position: relative;
-  font-family: "Franklin Gothic", "Source Sans Pro", sans-serif;
+  font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
   font-weight: normal; }
   .tao-scope [class^="btn-"], .tao-scope [class*=" btn-"], .tao-scope .btn-info, .tao-scope .ui-button,
   .tao-scope button, .tao-scope input[type="submit"], .tao-scope input[type="reset"] {
@@ -14472,49 +14471,67 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     font-size: 1.05rem;
     font-family: 'tao';
     display: inline-block; }
-  .tao-scope input.incrementer {
-    min-width: 25px !important;
-    width: 25px !important;
-    text-align: right;
-    -webkit-border-top-left-radius: 2px;
-    -webkit-border-bottom-left-radius: 2px;
-    -moz-border-radius-topleft: 2px;
-    -moz-border-radius-bottomleft: 2px;
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-    border-right-style: none; }
-    .tao-scope input.incrementer ~ .incrementer-ctrl {
-      display: inline-block;
-      margin-right: 5px;
-      border: 1px solid #dddddd;
-      border-left-width: 0;
-      -moz-border-radius: 2px;
-      -webkit-border-radius: 2px;
-      border-radius: 2px;
-      line-height: normal;
-      vertical-align: bottom;
-      position: relative; }
-      .tao-scope input.incrementer ~ .incrementer-ctrl > a {
-        display: block;
-        height: 13px;
-        line-height: 13px;
-        color: #222222;
-        padding: 0 4px 0 4px;
-        font-size: 10.5px;
-        font-size: 1.05rem; }
-        .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
-          position: relative;
-          bottom: -2px;
-          font-family: 'tao';
-          display: inline-block; }
-        .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
-          position: relative;
-          top: -2px;
-          font-family: 'tao';
-          display: inline-block; }
-        .tao-scope input.incrementer ~ .incrementer-ctrl > a:hover {
-          background-color: #3e7da7;
-          color: white; }
+  .tao-scope input[data-increment] {
+    width: 40px !important;
+    min-width: 40px !important;
+    text-align: right; }
+  .tao-scope .incrementer-ctrl-wrapper {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #dddddd;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px; }
+    .tao-scope .incrementer-ctrl-wrapper .incrementer {
+      text-align: right;
+      border: none;
+      padding-right: 18px; }
+      .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl {
+        border-left: 1px #dddddd solid;
+        display: inline-block;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0; }
+        .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a {
+          outline: 0 !important;
+          cursor: pointer;
+          display: inline-block;
+          line-height: 13px;
+          color: #222222;
+          background: #f3f1ef;
+          padding: 0 4px 0 4px;
+          font-size: 10.5px;
+          font-size: 1.05rem;
+          position: absolute;
+          right: 0;
+          height: 50%;
+          text-align: center; }
+          .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc {
+            top: 0;
+            -moz-border-radius-topright: 2px;
+            -webkit-border-top-right-radius: 2px;
+            border-top-right-radius: 2px; }
+          .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec {
+            top: 50%;
+            -moz-border-radius-bottomright: 2px;
+            -webkit-border-bottom-right-radius: 2px;
+            border-bottom-right-radius: 2px; }
+          .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
+            position: relative;
+            bottom: 0px;
+            font-family: 'tao';
+            display: inline-block; }
+          .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
+            position: relative;
+            top: 0px;
+            font-family: 'tao';
+            display: inline-block; }
+          .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a:hover {
+            background-color: #3e7da7;
+            color: white; }
   .tao-scope .flip {
     overflow: hidden; }
   .tao-scope .flip-back {
@@ -14668,9 +14685,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .tao-scope .icon-right:before, .tao-scope .ui-datepicker-next:before,
   .tao-scope .ui-icon-triangle-1-e:before {
     content: "\122"; }
-  .tao-scope .icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.inc:before {
+  .tao-scope .icon-up:before, .tao-scope .ui-icon-triangle-1-n:before, .tao-scope .toggler.opened:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.inc:before {
     content: "\123"; }
-  .tao-scope .icon-down:before, .tao-scope .cke_combo_arrow:before, .tao-scope .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .tao-scope .select2-container .select2-choice .select2-arrow b:before, .select2-container .select2-choice .select2-arrow .tao-scope b:before, .tao-scope .toggler:after, .tao-scope input.incrementer ~ .incrementer-ctrl > a.dec:before {
+  .tao-scope .icon-down:before, .tao-scope .cke_combo_arrow:before, .tao-scope .cke_button_arrow:before, .tao-scope .ui-icon-triangle-1-s:before, .tao-scope .select2-container .select2-choice .select2-arrow b:before, .select2-container .select2-choice .select2-arrow .tao-scope b:before, .tao-scope .toggler:after, .tao-scope .incrementer-ctrl-wrapper .incrementer ~ .incrementer-ctrl > a.dec:before {
     content: "\124"; }
   .tao-scope .icon-undo:before, .tao-scope .cke_button__undo_icon:before {
     content: "\125"; }
@@ -15012,7 +15029,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .tao-scope input,
   .tao-scope select,
   .tao-scope textarea {
-    font-family: "Franklin Gothic", "Source Sans Pro", sans-serif;
+    font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
     font-weight: normal; }
   .tao-scope select {
     max-width: 100%; }
