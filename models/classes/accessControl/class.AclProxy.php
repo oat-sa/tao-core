@@ -70,4 +70,8 @@ class tao_models_classes_accessControl_AclProxy
     public static function applyRule(tao_models_classes_accessControl_AccessRule $rule) {
         self::getImplementation()->applyRule($rule);
     }
+    
+    public static function revokeRule(tao_models_classes_accessControl_AccessRule $rule) {
+        self::getImplementation()->revokeRule($rule);
+    }
 }

@@ -114,34 +114,6 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		echo json_encode(array('success' => $success, 'message' => $message));
 	}
 
-    /**
-     *
-     * modify an already installed action
-     *
-     * @param $loaded
-     * @param $loadatstartup
-     */
-    public function modify($loaded,$loadatstartup){
-
-		$extensionManager = common_ext_ExtensionsManager::singleton();
-		$installedExtArray = $extensionManager->getInstalledExtensions();
-		$configurationArray = array();
-		foreach($installedExtArray as $k=>$ext){
-			$configuration = new common_ext_ExtensionConfiguration(isset($loaded[$k]),isset($loadatstartup[$k]));
-			$configurationArray[$k]=$configuration;
-		}
-		try {
-			$extensionManager->modifyConfigurations($configurationArray);
-			$message = __('Extensions\' configurations updated ');
-		}
-		catch(common_ext_ExtensionException $e) {
-			$message = $e->getMessage();
-		}
-		$this->setData('message', $message);
-		$this->index();
-
-	}
-	
 	/**
 	 * Disables an extension
 	 */
@@ -165,6 +137,28 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 	    echo json_encode(array(
 	        'success' => true,
 	        'message' => __('Disabled %s', $this->getRequestParameter('id'))
+	    ));
+	}
+	
+	/**
+	 * Uninstalls an extension
+	 */
+	public function uninstall() {
+	    try {
+	        $uninstaller = new \tao_install_ExtensionUninstaller($this->getCurrentExtension());
+	        $success = $uninstaller->uninstall();
+	        $message = __('Uninstalled %s', $this->getRequestParameter('id'));
+	    } catch (\common_Exception $e) {
+	        $success = false;
+	        if ($e instanceof \common_exception_UserReadableException) {
+	            $message = $e->getUserMessage();
+	        } else {
+	            $message = __('Uninstall of %s failed', $this->getRequestParameter('id'));
+	        }
+	    }
+	    echo json_encode(array(
+	        'success' => $success,
+	        'message' => $message
 	    ));
 	}
 

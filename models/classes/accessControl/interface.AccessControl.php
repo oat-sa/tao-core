@@ -41,4 +41,6 @@ interface tao_models_classes_accessControl_AccessControl
     public function hasAccess($extension, $controller, $action, $parameters);
     
     public function applyRule(tao_models_classes_accessControl_AccessRule $rule);
+    
+    public function revokeRule(tao_models_classes_accessControl_AccessRule $rule);
 }

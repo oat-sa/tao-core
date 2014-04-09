@@ -70,6 +70,18 @@ class tao_models_classes_accessControl_SimpleAccess
         }
     }
     
+    public function revokeRule(tao_models_classes_accessControl_AccessRule $rule) {
+        if ($rule->getRole()->getUri() == INSTANCE_ROLE_ANONYMOUS) {
+            $mask = $rule->getMask();
+            $ruleString = $mask['ext'].'::'.(isset($mask['mod']) ? $mask['mod'] : '*').'::'.(isset($mask['act']) ? $mask['act'] : '*');
+            $remaining = array_diff(explode(',', $this->whitelist), array($ruleString));
+            $this->whitelist = implode(',', $remaining);
+            $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig(self::WHITELIST_KEY, $this->whitelist);
+        }
+    }
+    
+    
     private function inWhiteList($extension, $controller, $action) {
         return strpos($this->whitelist, $extension.'::'.$controller.'::'.$action) !== false
             || strpos($this->whitelist, $extension.'::'.$controller.'::*') !== false

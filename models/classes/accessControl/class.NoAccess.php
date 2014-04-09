@@ -46,4 +46,8 @@ class tao_models_classes_accessControl_NoAccess
     public function applyRule(tao_models_classes_accessControl_AccessRule $rule) {
         // nothing can be done
     }
+    
+    public function revokeRule(tao_models_classes_accessControl_AccessRule $rule) {
+        // nothing can be done
+    }
 }
