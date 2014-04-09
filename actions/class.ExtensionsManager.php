@@ -64,32 +64,7 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule {
 		}
 	}
 
-    /**
-     * add an extension
-     *
-     * @param $id
-     * @param $package_zip
-     *
-     */
-    public function add( $id , $package_zip ){
 
-		$extensionManager = common_ext_ExtensionsManager::singleton();
-		$fileUnzip = new fileUnzip(urldecode($package_zip));
-		$fileUnzip->unzipAll(EXTENSION_PATH);
-		$newExt = $extensionManager->getExtensionById($id);
-		$extInstaller = new tao_install_ExtensionInstaller($newExt);
-		try {
-			$extInstaller->install();
-			$message =   __('Extension %s has been installed', $newExt->getName());
-		}
-		catch(common_ext_ExtensionException $e) {
-			$message = $e->getMessage();
-		}
-
-		$this->setData('message',$message);
-		$this->index();
-
-	}
 
     /**
      *
