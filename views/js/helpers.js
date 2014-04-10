@@ -1,7 +1,7 @@
 /*
  * Helpers
  */
-define(['jquery', 'context'], function($, context) {
+define(['jquery', 'context', 'jqueryui'], function($, context) {
     
         var parallelLoading = 0;
         var $loader =  $("#ajax-loading");
