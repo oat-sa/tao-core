@@ -1,11 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php
+use oat\tao\helpers\Template;
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?> Service</title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 
-	<?=tao_helpers_Scriptloader::render()?>
+    <?=tao_helpers_Scriptloader::render()?>
 
     <?if(tao_helpers_Mode::is('production')):?>
         <script id='amd-loader' 
@@ -36,12 +38,11 @@
         }
         helpers._autoFx();
 
-        <?if(get_data('message')):?>
+        <?if(get_data('errorMessage')):?>
             helpers.createErrorMessage("<?=get_data('errorMessage')?>");
         <?endif?>
     });
 	</script>
-<?endif?>
 
 </head>
 <body>
@@ -51,8 +52,8 @@
 	</div>
 
 <?endif?>
-	
-	<? include(get_data('includedView')); ?>
+
+<?php Template::inc(get_data('includeTemplate'), get_data('includeExtension')); ?>
 	
 </body>
 </html>

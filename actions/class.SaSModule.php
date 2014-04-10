@@ -57,13 +57,14 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 		}
 	}
 
-	public function setView($identifier, $extensionID = null) {
+	public function setView($path, $extensionID = null) {
 		// override non AJAX calls for SAS
 		if(!$this->isStandAlone || tao_helpers_Request::isAjax()){
-			parent::setView($identifier, $extensionID);
+			parent::setView($path, $extensionID);
 		} else {
-			$view = self::getTemplatePath($identifier, $extensionID);
-			$this->setData('includedView', $view);
+		    $this->setData('client_config_url', $this->getClientConfigUrl());
+		    $this->setData('includeTemplate', $path);
+			$this->setData('includeExtension', $extensionID);
 			parent::setView('sas.tpl', 'tao');
 		}
     }

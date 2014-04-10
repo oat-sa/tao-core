@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -20,78 +20,86 @@
  * 
  */
 
+use oat\tao\helpers\Template;
+
 /**
  * Top level controller
  * All children extenions module should extends the CommonModule to access the shared data
- * 
+ *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ * @license GPLv2 http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- 
+ *         
  */
-abstract class tao_actions_CommonModule extends Module {
+abstract class tao_actions_CommonModule extends Module
+{
 
     /**
      * The Modules access the models throught the service instance
+     * 
      * @var tao_models_classes_Service
      */
     protected $service = null;
-	
+
     /**
      * constructor checks if a user is logged in
-     * If you don't want this check, please override the  _isAllowed method to return true
+     * If you don't want this check, please override the _isAllowed method to return true
      */
-    public function __construct(){
-    }
-	
+    public function __construct()
+    {}
+
     /**
+     *
      * @see Module::setView()
-     * @param string $identifier view identifier
-     * @param string use the views in the specified extension instead of the current extension 
+     * @param string $path
+     *            view identifier
+     * @param string $extensionID
+     *            use the views in the specified extension instead of the current extension
      */
-    public function setView($identifier, $extensionID = null)
+    public function setView($path, $extensionID = null)
     {
-		parent::setView(self::getTemplatePath($identifier, $extensionID));
-	}
-	
+        parent::setView(Template::getTemplate($path, $extensionID));
+    }
+
     /**
      * Retrieve the data from the url and make the base initialization
+     * 
      * @return void
      */
     protected function defaultData()
     {
-            $context = Context::getInstance();
-
-            $this->setData('extension', context::getInstance()->getExtensionName());
-            $this->setData('module', $context->getModuleName());
-            $this->setData('action', $context->getActionName());
-
-            if($this->hasRequestParameter('uri')) {
-
-                    // @todo stop using session to manage uri/classUri
-                    $this->setSessionAttribute('uri', $this->getRequestParameter('uri'));
-
-                    // inform the client of new classUri
-                    $this->setData('uri', $this->getRequestParameter('uri'));
+        $context = Context::getInstance();
+        
+        $this->setData('extension', context::getInstance()->getExtensionName());
+        $this->setData('module', $context->getModuleName());
+        $this->setData('action', $context->getActionName());
+        
+        if ($this->hasRequestParameter('uri')) {
+            
+            // @todo stop using session to manage uri/classUri
+            $this->setSessionAttribute('uri', $this->getRequestParameter('uri'));
+            
+            // inform the client of new classUri
+            $this->setData('uri', $this->getRequestParameter('uri'));
+        }
+        if ($this->hasRequestParameter('classUri')) {
+            
+            // @todo stop using session to manage uri/classUri
+            $this->setSessionAttribute('classUri', $this->getRequestParameter('classUri'));
+            if (! $this->hasRequestParameter('uri')) {
+                $this->removeSessionAttribute('uri');
             }
-            if($this->hasRequestParameter('classUri')) {
-
-                    // @todo stop using session to manage uri/classUri
-                    $this->setSessionAttribute('classUri', $this->getRequestParameter('classUri'));
-                    if (!$this->hasRequestParameter('uri')) {
-                            $this->removeSessionAttribute('uri');
-                    }
-
-                    // inform the client of new classUri
-                    $this->setData('uri', $this->getRequestParameter('classUri'));
-            }
-
-            if($this->getRequestParameter('message')){
-                    $this->setData('message', $this->getRequestParameter('message'));
-            }
-            if($this->getRequestParameter('errorMessage')){
-                    $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
-            }
+            
+            // inform the client of new classUri
+            $this->setData('uri', $this->getRequestParameter('classUri'));
+        }
+        
+        if ($this->getRequestParameter('message')) {
+            $this->setData('message', $this->getRequestParameter('message'));
+        }
+        if ($this->getRequestParameter('errorMessage')) {
+            $this->setData('errorMessage', $this->getRequestParameter('errorMessage'));
+        }
     }
 	
     /**
@@ -102,14 +110,14 @@ abstract class tao_actions_CommonModule extends Module {
      * @param boolean $returnLink whenever or not to add a return link
      */
     protected function returnError($description, $returnLink = true) {
-            if (tao_helpers_Request::isAjax()) {
-                    common_Logger::w('Called '.__FUNCTION__.' in an unsupported AJAX context');
-                    throw new common_Exception($description); 
-            } else {
-                    $this->setData('message', $description);
-                    $this->setData('returnLink', $returnLink);
-                    $this->setView('error/user_error.tpl', 'tao');
-            }
+        if (tao_helpers_Request::isAjax()) {
+            common_Logger::w('Called '.__FUNCTION__.' in an unsupported AJAX context');
+            throw new common_Exception($description); 
+        } else {
+            $this->setData('message', $description);
+            $this->setData('returnLink', $returnLink);
+            $this->setView('error/user_error.tpl', 'tao');
+        }
     }
 
     /**
