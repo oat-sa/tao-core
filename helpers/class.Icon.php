@@ -46,9 +46,9 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-03-26 14:03
+ * @date   2014-04-10 10:55
  * @package tao
- 
+ * @subpackage helpers
  */
 class tao_helpers_Icon {
 
@@ -200,7 +200,6 @@ class tao_helpers_Icon {
     const CLASS_ORDER = 'icon-order';
     const CLASS_HOTTEXT = 'icon-hottext';
     const CLASS_FREE_FORM = 'icon-free-form';
-    const CLASS_FONT = 'icon-font';
     const CLASS_STEP_BACKWARD = 'icon-step-backward';
     const CLASS_FAST_BACKWARD = 'icon-fast-backward';
     const CLASS_BACKWARD = 'icon-backward';
@@ -229,6 +228,14 @@ class tao_helpers_Icon {
     const CLASS_CONTINUE = 'icon-continue';
     const CLASS_RADIO = 'icon-radio';
     const CLASS_SPHERE = 'icon-sphere';
+    const CLASS_RESET = 'icon-reset';
+    const CLASS_SMALLER = 'icon-smaller';
+    const CLASS_LARGER = 'icon-larger';
+    const CLASS_CLOCK = 'icon-clock';
+    const CLASS_FONT = 'icon-font';
+    const CLASS_MATHS = 'icon-maths';
+    const CLASS_GRIP = 'icon-grip';
+    const CLASS_RUBRIC = 'icon-rubric';
 
 	
     /**
@@ -735,10 +742,6 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_FREE_FORM, $options);
     }
 
-    public static function iconFont($options=array()){
-        return self::buildIcon(self::CLASS_FONT, $options);
-    }
-
     public static function iconStepBackward($options=array()){
         return self::buildIcon(self::CLASS_STEP_BACKWARD, $options);
     }
@@ -849,6 +852,38 @@ class tao_helpers_Icon {
 
     public static function iconSphere($options=array()){
         return self::buildIcon(self::CLASS_SPHERE, $options);
+    }
+
+    public static function iconReset($options=array()){
+        return self::buildIcon(self::CLASS_RESET, $options);
+    }
+
+    public static function iconSmaller($options=array()){
+        return self::buildIcon(self::CLASS_SMALLER, $options);
+    }
+
+    public static function iconLarger($options=array()){
+        return self::buildIcon(self::CLASS_LARGER, $options);
+    }
+
+    public static function iconClock($options=array()){
+        return self::buildIcon(self::CLASS_CLOCK, $options);
+    }
+
+    public static function iconFont($options=array()){
+        return self::buildIcon(self::CLASS_FONT, $options);
+    }
+
+    public static function iconMaths($options=array()){
+        return self::buildIcon(self::CLASS_MATHS, $options);
+    }
+
+    public static function iconGrip($options=array()){
+        return self::buildIcon(self::CLASS_GRIP, $options);
+    }
+
+    public static function iconRubric($options=array()){
+        return self::buildIcon(self::CLASS_RUBRIC, $options);
     }
 
 

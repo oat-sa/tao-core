@@ -144,7 +144,6 @@
 .icon-order:before { @extend %icon-order; }
 .icon-hottext:before { @extend %icon-hottext; }
 .icon-free-form:before { @extend %icon-free-form; }
-.icon-font:before { @extend %icon-font; }
 .icon-step-backward:before { @extend %icon-step-backward; }
 .icon-fast-backward:before { @extend %icon-fast-backward; }
 .icon-backward:before { @extend %icon-backward; }
@@ -173,3 +172,11 @@
 .icon-continue:before { @extend %icon-continue; }
 .icon-radio:before { @extend %icon-radio; }
 .icon-sphere:before { @extend %icon-sphere; }
+.icon-reset:before { @extend %icon-reset; }
+.icon-smaller:before { @extend %icon-smaller; }
+.icon-larger:before { @extend %icon-larger; }
+.icon-clock:before { @extend %icon-clock; }
+.icon-font:before { @extend %icon-font; }
+.icon-maths:before { @extend %icon-maths; }
+.icon-grip:before { @extend %icon-grip; }
+.icon-rubric:before { @extend %icon-rubric; }

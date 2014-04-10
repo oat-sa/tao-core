@@ -14,7 +14,7 @@ define(['jquery', 'core/dataattrhandler', 'tooltipster'], function($, DataAttrHa
         $('[data-tooltip]', $container).each(function(){
             var $elt = $(this);
             var $target = DataAttrHandler.getTarget('tooltip', $elt);
-            var theme = themes.indexOf($elt.data('tooltip-theme')) > -1 ? $elt.data('tooltip-theme') : 'default'; 
+            var theme = _.contains(themes, $elt.data('tooltip-theme')) ? $elt.data('tooltip-theme') : 'default';
             $elt.tooltipster({
                 theme: 'tao-' + theme  + '-tooltip',
                 content: $target,          
