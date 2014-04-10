@@ -131,15 +131,22 @@ abstract class tao_actions_CommonModule extends Module {
     	$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionID);
     	return $ext->getConstant('DIR_VIEWS').'templates'.DIRECTORY_SEPARATOR.$identifier;
     }
-    
+   
+     
+    /**
+     * Helps you to add the URL of the client side config file
+     * 
+     * @param array $extraParameters additionnal parameters to append to the URL 
+     * @return string the URL
+     */
     protected function getClientConfigUrl($extraParameters = array()){
         $context = Context::getInstance();
-        $clientConfigParameters = array(
+        $clientConfigParams = array(
             'extension'         => $context->getExtensionName(),
             'module'            => $context->getModuleName(),
             'action'            => $context->getActionName()
         );
         
-        return _url('config', 'ClientConfig', 'tao', array_merge($clientConfigParameters, $extraParameters));
+        return _url('config', 'ClientConfig', 'tao', array_merge($clientConfigParams, $extraParameters));
     }
 }

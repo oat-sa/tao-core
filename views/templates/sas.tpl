@@ -5,39 +5,44 @@
 	<title><?=PRODUCT_NAME?> <?=TAO_VERSION?> Service</title>
 	<link rel="shortcut icon" href="<?=BASE_WWW?>img/favicon.ico" type="image/x-icon" />
 
-	<script type='text/javascript'>
-		var jsPath 	= '<?=BASE_WWW?>js/';
-		var imgPath = '<?=BASE_WWW?>img/';
-	</script>
+	<?=tao_helpers_Scriptloader::render()?>
 
-        <?=tao_helpers_Scriptloader::render()?>
-	<script src="<?=TAOBASE_WWW?>js/lib/require-jquery.js" data-main="<?=TAOBASE_WWW?>js/main"></script>
-
+    <?if(tao_helpers_Mode::is('production')):?>
+        <script id='amd-loader' 
+            type="text/javascript" 
+            src="<?=TAOBASE_WWW?>js/main.min.js" 
+            data-config="<?=get_data('client_config_url')?>"></script>
+    <? else: ?>
+        <script id='amd-loader' 
+            type="text/javascript" 
+            src="<?=TAOBASE_WWW?>js/lib/require.js" 
+            data-main="<?=TAOBASE_WWW?>js/main"
+            data-config="<?=get_data('client_config_url')?>"></script>
+    <? endif ?>
 	<script type='text/javascript'>
-		var ctx_extension = '<?=get_data("extension")?>';
-		var ctx_module = '<?=get_data("module")?>';
-		var ctx_action = '<?=get_data("action")?>';
+    require(['module', 'context', 'helpers', 'uiForm'], function(module, context, helpers, uiForm){	
+        'use strict';
+    
+        var config = module.config();
 
-		callbackMeWhenReady.sasReady = function() {
-			if(/edit|Edit|add/.test(ctx_action)){
-				uiForm.initElements();
-				uiForm.initOntoForms();
-			} else if(/translate/.test(ctx_action)){
-				uiForm.initElements();
-				uiForm.initTranslationForm();
-			} else {
-				uiForm.initElements();
-			}
-			helpers._autoFx();
-		};
-	</script>
-<?if(get_data('errorMessage')):?>
-	<script type='text/javascript'>
-		$(function(){
-			helpers.createErrorMessage("<?=get_data('errorMessage')?>");
-		});
+        if(/edit|Edit|add/.test(context.action)){
+            uiForm.initElements();
+            uiForm.initOntoForms();
+        } else if(/translate/.test(context.action)){
+            uiForm.initElements();
+            uiForm.initTranslationForm();
+        } else {
+            uiForm.initElements();
+        }
+        helpers._autoFx();
+
+        <?if(get_data('message')):?>
+            helpers.createErrorMessage("<?=get_data('errorMessage')?>");
+        <?endif?>
+    });
 	</script>
 <?endif?>
+
 </head>
 <body>
 <?if(get_data('message')):?>

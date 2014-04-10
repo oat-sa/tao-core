@@ -50,6 +50,7 @@ abstract class tao_actions_SaSModule extends tao_actions_TaoModule {
 		if ($this->hasRequestParameter('standalone') && $this->getRequestParameter('standalone')) {
 			tao_helpers_Context::load('STANDALONE_MODE');
 			$this->isStandAlone = true;
+            $this->setData('client_config_url', $this->getClientConfigUrl());
 			common_Logger::d('Standalone mode set');
 		} else {
 			$this->isStandAlone = false;
