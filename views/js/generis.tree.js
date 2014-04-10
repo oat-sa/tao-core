@@ -70,7 +70,11 @@ define(['jquery', 'i18n', 'class', 'uiBootstrap'], function($, __, Class, uiBoot
 				$.extend(true, this.treeOptions, this.treeDefaultOptions, treeOptions);
 			}
 
-			$(selector).tree(this.treeOptions);
+			// workaround to fix dublicate tree bindings on multiple page loads
+			var classes = $(selector).attr('class');
+			if (typeof classes != 'string' || classes.match('tree') == null) {
+				$(selector).tree(this.treeOptions);
+			}
 		},
 
 		/**
