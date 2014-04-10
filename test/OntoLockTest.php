@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -16,6 +16,7 @@
  * 
  * Copyright (c) 2013 Open Assessment Technologies S.A.
  */
+define('ENABLE_LOCK', true);
 
 require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
