@@ -225,7 +225,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -414,9 +414,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -504,6 +501,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-sphere:before {
   content: "\1c0"; }
 
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
+
 @font-face {
   font-family: 'Source Sans Pro';
   font-style: normal;
@@ -541,8 +562,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
                              <*_/   <*/
 @font-face {
   font-family: 'tao';
-  src: url("font/tao/tao.eot?-usajv6");
-  src: url("font/tao/tao.eot?#iefix-usajv6") format("embedded-opentype"), url("font/tao/tao.woff?-usajv6") format("woff"), url("font/tao/tao.ttf?-usajv6") format("truetype"), url("font/tao/tao.svg?-usajv6#tao") format("svg");
+  src: url("font/tao/tao.eot?r4mxwq");
+  src: url("font/tao/tao.eot?#iefixr4mxwq") format("embedded-opentype"), url("font/tao/tao.woff?r4mxwq") format("woff"), url("font/tao/tao.ttf?r4mxwq") format("truetype"), url("font/tao/tao.svg?r4mxwq#tao") format("svg");
   font-weight: normal;
   font-style: normal; }
 
@@ -769,7 +790,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -958,9 +979,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -1047,6 +1065,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
                                   /*
                                  /  \
@@ -1288,7 +1330,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -1477,9 +1519,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -1566,6 +1605,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 /*! normalize.css v1.1.3 | MIT License | git.io/normalize */
 /* ==========================================================================
@@ -2740,7 +2803,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -2929,9 +2992,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -3018,6 +3078,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 .list-symbol {
   font: bold 13px "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
@@ -3786,7 +3870,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -3975,9 +4059,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -4064,6 +4145,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 /* The box that holds each toolbar. */
 .cke_toolbar, .tlb-bar, .tlb-spacer {
@@ -4583,7 +4688,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -4772,9 +4877,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -4861,6 +4963,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 /* "Reset" styles, necessary to avoid the editor UI being broken by external CSS. */
 /*
@@ -5113,7 +5239,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -5302,9 +5428,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -5391,6 +5514,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 /* Reset for single elements, not their children. */
 .cke_reset {
@@ -5923,7 +6070,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -6112,9 +6259,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -6201,6 +6345,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 /* The box that holds an IFRAME. It's inserted into a host document and positioned
    absolutely by the application. It floats above the host document/editor. */
@@ -6727,7 +6895,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -6916,9 +7084,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -7005,6 +7170,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 /* The box that holds each toolbar. */
 .cke_toolbar, .tlb-bar, .tlb-spacer {
@@ -7699,7 +7888,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -7888,9 +8077,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -7977,6 +8163,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 /* The box that hold the entire combo widget */
 .cke_combo, .tlb-text-button-box {
@@ -8431,7 +8641,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -8620,9 +8830,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -8709,6 +8916,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 /* "Source" button label */
 .cke_button__source_label,
@@ -8961,7 +9192,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -9150,9 +9381,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -9239,6 +9467,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
@@ -9539,7 +9791,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -9728,9 +9980,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -9817,6 +10066,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the
@@ -10079,7 +10352,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -10268,9 +10541,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -10357,6 +10627,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
@@ -10839,7 +11133,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -11028,9 +11322,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -11117,6 +11408,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 .tlb .tlb-bar .tlb-button-on,
 .tlb .tlb-bar .tlb-button-off,
@@ -11424,7 +11739,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -11613,9 +11928,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -11702,6 +12014,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 /* tooltipster themes */
 .tao-dark-tooltip, .tao-default-tooltip, .tao-info-tooltip, .tao-success-tooltip, .tao-warning-tooltip, .tao-error-tooltip {
@@ -12007,7 +12343,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-tablet-preview:before {
   content: "\15f"; }
 
-.icon-insert-horizontal-line:before, .cke_button__horizontalrule_icon:before {
+.icon-insert-horizontal-line:before {
   content: "\160"; }
 
 .icon-table:before, .cke_button__table_icon:before {
@@ -12196,9 +12532,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .icon-free-form:before {
   content: "\19e"; }
 
-.icon-font:before {
-  content: "\19f"; }
-
 .icon-step-backward:before {
   content: "\1a0"; }
 
@@ -12285,6 +12618,30 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .icon-sphere:before {
   content: "\1c0"; }
+
+.icon-reset:before {
+  content: "\1c3"; }
+
+.icon-smaller:before {
+  content: "\1c7"; }
+
+.icon-larger:before {
+  content: "\1c8"; }
+
+.icon-clock:before {
+  content: "\1c9"; }
+
+.icon-font:before {
+  content: "\19f"; }
+
+.icon-maths:before {
+  content: "\1c6"; }
+
+.icon-grip:before {
+  content: "\1c5"; }
+
+.icon-rubric:before {
+  content: "\1c4"; }
 
 /* tooltip */
 .resourcemgr {
@@ -14805,7 +15162,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     content: "\15e"; }
   .tao-scope .icon-tablet-preview:before {
     content: "\15f"; }
-  .tao-scope .icon-insert-horizontal-line:before, .tao-scope .cke_button__horizontalrule_icon:before {
+  .tao-scope .icon-insert-horizontal-line:before {
     content: "\160"; }
   .tao-scope .icon-table:before, .tao-scope .cke_button__table_icon:before {
     content: "\161"; }
@@ -14931,8 +15288,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     content: "\19d"; }
   .tao-scope .icon-free-form:before {
     content: "\19e"; }
-  .tao-scope .icon-font:before {
-    content: "\19f"; }
   .tao-scope .icon-step-backward:before {
     content: "\1a0"; }
   .tao-scope .icon-fast-backward:before {
@@ -14992,6 +15347,22 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     content: "\1b0"; }
   .tao-scope .icon-sphere:before {
     content: "\1c0"; }
+  .tao-scope .icon-reset:before {
+    content: "\1c3"; }
+  .tao-scope .icon-smaller:before {
+    content: "\1c7"; }
+  .tao-scope .icon-larger:before {
+    content: "\1c8"; }
+  .tao-scope .icon-clock:before {
+    content: "\1c9"; }
+  .tao-scope .icon-font:before {
+    content: "\19f"; }
+  .tao-scope .icon-maths:before {
+    content: "\1c6"; }
+  .tao-scope .icon-grip:before {
+    content: "\1c5"; }
+  .tao-scope .icon-rubric:before {
+    content: "\1c4"; }
   .tao-scope xxsvg * {
     cursor: pointer;
     position: absolute;

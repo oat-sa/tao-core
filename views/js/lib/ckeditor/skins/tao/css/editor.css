@@ -66,9 +66,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-.cke_button__horizontalrule_icon:before {
-  content: "\160"; }
-
 .cke_button__table_icon:before {
   content: "\161"; }
 
@@ -252,9 +249,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-.cke_button__horizontalrule_icon:before {
-  content: "\160"; }
-
 .cke_button__table_icon:before {
   content: "\161"; }
 
@@ -400,7 +394,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   transition: none;
   /* These are rule inherited by all children elements. */
   border-collapse: collapse;
-  font-family: "Franklin Gothic", "Source Sans Pro", sans-serif;
+  font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
   font-weight: 400;
   font-style: normal;
   font-size: 1.4rem;
@@ -717,9 +711,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\160"; }
 
 .cke_button__table_icon:before {
   content: "\161"; }
@@ -1177,9 +1168,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\160"; }
 
 .cke_button__table_icon:before {
   content: "\161"; }
@@ -1754,9 +1742,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-.cke_button__horizontalrule_icon:before {
-  content: "\160"; }
-
 .cke_button__table_icon:before {
   content: "\161"; }
 
@@ -2126,9 +2111,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
 
-.cke_button__horizontalrule_icon:before {
-  content: "\160"; }
-
 .cke_button__table_icon:before {
   content: "\161"; }
 
@@ -2311,9 +2293,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\160"; }
 
 .cke_button__table_icon:before {
   content: "\161"; }
@@ -2532,9 +2511,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__numberedlist_icon:before {
   content: "\140"; }
-
-.cke_button__horizontalrule_icon:before {
-  content: "\160"; }
 
 .cke_button__table_icon:before {
   content: "\161"; }
