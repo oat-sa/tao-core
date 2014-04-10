@@ -12,12 +12,12 @@ use oat\tao\helpers\Template;
         <?if(tao_helpers_Mode::is('production')):?>
             <script id='amd-loader' 
                 type="text/javascript" 
-                src="<?=TAOBASE_WWW?>js/main.min.js" 
+                src="<?=Template::js('main.min.js', 'tao')?>" 
                 data-config="<?=get_data('client_config_url')?>"></script>
         <? else: ?>
             <script id='amd-loader' 
                 type="text/javascript" 
-                src="<?=TAOBASE_WWW?>js/lib/require.js" 
+                src="<?=Template::js('lib/require.js', 'tao')?>" 
                 data-main="<?=TAOBASE_WWW?>js/main"
                 data-config="<?=get_data('client_config_url')?>"></script>
         <? endif ?>
