@@ -63,7 +63,7 @@ require.config({
         '<?=$name?>/controller/routes' : '<?=$path?>/controllers.min',
         <?endif?>
     <?endforeach?>
-        'mediaElement'      : '../../../taoQtiItem/views/js/qtiDefaultRenderer/lib/mediaelement/mediaelement-and-player.min',
+        'mediaElement'      : 'lib/mediaelement/mediaelement-and-player.min',
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
         'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
         'eyecatcher'        : 'eyecatcher',
@@ -106,7 +106,7 @@ require.config({
             deps: ['jquery', 'css!taoQtiItem/qtiDefaultRenderer/lib/mediaelement/css/mediaelementplayer.min'],
             exports : 'MediaElementPlayer',
             init : function(){
-                MediaElementPlayer.pluginPath = '';//define the plugin swf path here
+                MediaElementPlayer.pluginPath = '<?=TAOBASE_WWW?>/lib/mediaelement/'; //define the plugin swf path here
                 return MediaElementPlayer;
             }
         },
