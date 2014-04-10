@@ -99,9 +99,10 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                             });
 
                         //set up the default value if needed
-                        if(_.isNaN(currentValue)
-                            || (options.min !== null && currentValue < options.min)
-                            || (options.max !== null && currentValue > options.max)){
+                        if( _.isNaN(currentValue) || 
+                            (options.min !== null && currentValue < options.min) || 
+                            (options.max !== null && currentValue > options.max)){
+                            
                             $elt.val(options.min || 0);
                         }
 
@@ -160,7 +161,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
             }else{
                 current = parseFloat(currentFloat.toFixed(options.decimal));
             }
-            var value = current + options.step;
+            value = current + options.step;
             if(options.max === null || (_.isNumber(options.max) && value <= options.max)){
                 $elt.val(value);
 
