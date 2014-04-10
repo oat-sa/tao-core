@@ -164,7 +164,7 @@ define(['jquery', 'i18n', 'context', 'helpers', 'jqueryui'], function($, __, con
              */
             initActions: function(uri, classUri){
                     //left menu actions init by loading the tab content
-                    if(this.tabs.length > 0){
+                    if(this.tabs && this.tabs.length > 0){
                         var $sectionActions = $('#section-actions');
                         
                         //get the link text of the selected tab

@@ -6,28 +6,27 @@ use oat\tao\helpers\Template;
 	<input id="instance-deleter" type='button' value="<?=__('Confirm')?>" /> 
 </div>
 <script type="text/javascript">
-$(document).ready(function(){
-	$("#instance-deleter").click(function(){
-		url = '';
-		if(ctx_extension){
-			url = root_url + ctx_extension + '/' + ctx_module + '/';
-		}
-		url += 'delete';
-		$.ajax({
-			url: url,
-			type: "POST",
-			data: {
-				uri: "<?=get_data('uri')?>",
-				classUri: "<?=get_data('classUri')?>"
-			},
-			dataType: 'json',
-			success: function(response){
-				if(response.deleted){
-					$("#instance-deleter").hide();
-					helpers.createInfoMessage("<?=get_data('label')?> "+__(' has been deleted successfully'));
-				}
-			}
-		});
+require(['<?=get_data('client_config_url')?>'], function(){
+
+    require(['jquery', 'context', 'helpers', 'i18n'], function($, context, helpers, __) {
+        $("#instance-deleter").click(function(){
+            url = '';
+            $.ajax({
+                url: helpers._url('delete'),
+                type: "POST",
+                data: {
+                    uri: "<?=get_data('uri')?>",
+                    classUri: "<?=get_data('classUri')?>"
+                },
+                dataType: 'json',
+                success: function(response){
+                    if(response.deleted){
+                        $("#instance-deleter").hide();
+                        helpers.createInfoMessage("<?=get_data('label')?> "+__(' has been deleted successfully'));
+                    }
+                }
+            });
+        });
 	});
 });
 </script>

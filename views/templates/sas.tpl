@@ -9,38 +9,31 @@ use oat\tao\helpers\Template;
 
     <?=tao_helpers_Scriptloader::render()?>
 
-    <?if(tao_helpers_Mode::is('production')):?>
-        <script id='amd-loader' 
-            type="text/javascript" 
-            src="<?=Template::js('main.min.js', 'tao')?>" 
-            data-config="<?=get_data('client_config_url')?>"></script>
-    <? else: ?>
-        <script id='amd-loader' 
-            type="text/javascript" 
-            src="<?=Template::js('lib/require.js', 'tao')?>" 
-            data-main="<?=TAOBASE_WWW?>js/main"
-            data-config="<?=get_data('client_config_url')?>"></script>
-    <? endif ?>
+    <script id='amd-loader' 
+        type="text/javascript" 
+        src="<?=Template::js('lib/require.js', 'tao')?>">
+    </script>
 	<script type='text/javascript'>
-    require(['module', 'context', 'helpers', 'uiForm'], function(module, context, helpers, uiForm){	
-        'use strict';
-    
-        var config = module.config();
+    require(['<?=get_data('client_config_url')?>'], function(){
+         'use strict';
+         require(['main', 'module', 'context', 'helpers', 'uiForm'], function(main, module, context, helpers, uiForm){	
+            var config = module.config();
 
-        if(/edit|Edit|add/.test(context.action)){
-            uiForm.initElements();
-            uiForm.initOntoForms();
-        } else if(/translate/.test(context.action)){
-            uiForm.initElements();
-            uiForm.initTranslationForm();
-        } else {
-            uiForm.initElements();
-        }
-        helpers._autoFx();
+            if(/edit|Edit|add/.test(context.action)){
+                uiForm.initElements();
+                uiForm.initOntoForms();
+            } else if(/translate/.test(context.action)){
+                uiForm.initElements();
+                uiForm.initTranslationForm();
+            } else {
+                uiForm.initElements();
+            }
+            helpers._autoFx();
 
-        <?if(get_data('errorMessage')):?>
-            helpers.createErrorMessage("<?=get_data('errorMessage')?>");
-        <?endif?>
+            <?if(get_data('errorMessage')):?>
+                helpers.createErrorMessage("<?=get_data('errorMessage')?>");
+            <?endif?>
+        });
     });
 	</script>
 
