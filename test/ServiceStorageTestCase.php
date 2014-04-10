@@ -18,7 +18,8 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-require_once dirname(__FILE__) . '/../../tao/test/TaoTestRunner.php';
+
+//TODO simpletest testcase that need to be migrate to phpunit
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 class ServiceStorageTestCase extends UnitTestCase {
