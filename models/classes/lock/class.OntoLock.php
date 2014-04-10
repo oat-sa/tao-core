@@ -77,8 +77,9 @@ class tao_models_classes_lock_OntoLock
      * return true is the resource is locked, else otherwise
      * @return boolean
      */
-    public function isLocked(core_kernel_classes_Resource $resource){
+    public function isLocked(core_kernel_classes_Resource $resource){       
         if (!$this->isEnabled()) {
+            common_Logger::i('Lock is disable : return false');
             return false;
         }
         $values = $resource->getPropertyValues($this->getLockProperty());
