@@ -1,11 +1,5 @@
 define(['jquery', 'lodash', 'ui/validator'], function($, _){
 
-    var defaults = {
-        errorClass : 'error',
-        errorMessageClass: 'validate-error',
-        defaultEvent : ['change', 'blur']
-    };
-
     /**
      * Register a plugin to validate a group of elements
      * 
@@ -21,21 +15,19 @@ define(['jquery', 'lodash', 'ui/validator'], function($, _){
      */
     $.fn.groupValidator = function(options){
     
-        options = _.defaults(options || {}, defaults);
+        options = _.defaults(options || {}, $.fn.groupValidator.defaults);
         
         return this.each(function(){
             var $container = $(this);
             var states = [];
-            var events = _.map(options.defaultEvent, function(event){
-                return {type : event};
-            });
             
             $('[data-validate]', $container).validator({
-                event: events,
+                event: options.events,
                 validated : function(valid, results){
+                    
                     var $elt = $(this);
                     var message, rule;
-            
+                    
                     //update global state
                     states[$(this).attr('name')] = valid;
 
@@ -58,9 +50,16 @@ define(['jquery', 'lodash', 'ui/validator'], function($, _){
                      * @event validated.group
                      * @param {boolean} isValid - wheter the group is valid 
                      */
-                    $container.trigger('validated.group', [_(states).values().contains(false) === false]);
+                    $container.trigger('validated.group', [_(states).values().contains(false) === false, this]);
                  }
            });
         });
     };
+    
+    $.fn.groupValidator.defaults = {
+        errorClass : 'error',
+        errorMessageClass: 'validate-error',
+        events : ['change', 'blur']
+    };
+    
 });

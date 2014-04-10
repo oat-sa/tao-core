@@ -182,6 +182,13 @@ define(['jquery', 'lodash', 'core/validator/Validator'], function($, _, Validato
         var events = (_.isArray(options.event)) ? options.event : [options.event];
         if(events.length > 0 && _.isFunction(options.validated)){
             _.forEach(events, function(event){
+                
+                if(_.isString(event)){
+                    event = {
+                        type:event
+                    };
+                }
+                
                 switch(event.type){
                     case 'keyup':
                     case 'keydown':
@@ -200,7 +207,6 @@ define(['jquery', 'lodash', 'core/validator/Validator'], function($, _, Validato
 
                     case 'change':
                     case 'blur':
-
                         $elt.on(event.type, function(){
                             validate($elt, options.validated, {});
                         });
@@ -214,9 +220,9 @@ define(['jquery', 'lodash', 'core/validator/Validator'], function($, _, Validato
     };
 
     var validate = function($elt, callback, options){
-
         var value = $elt.val();
         $elt.data('validator-instance').validate(value, options || {}, function(results){
+            
             var valid;
 
             //always trigger an event "validated" with associated results:
