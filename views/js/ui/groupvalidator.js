@@ -25,6 +25,7 @@ define(['jquery', 'lodash', 'ui/validator'], function($, _){
                 event: options.events,
                 validated : function(valid, results){
                     
+                    debugger;
                     var $elt = $(this);
                     var message, rule;
                     
@@ -43,7 +44,8 @@ define(['jquery', 'lodash', 'ui/validator'], function($, _){
                     } else {
                         $elt.removeClass(options.errorClass);
                     }
-    
+                    $elt.trigger('validated.single', [valid]);
+                    
                     /**
                      * Gives the validation state of the entire group. 
                      * Fired at each validation

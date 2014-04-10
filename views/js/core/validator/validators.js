@@ -48,13 +48,14 @@ define(['lodash', 'i18n'], function(_, __){
             message : __('must be numeric'),
             options : {},
             validate : function(value, callback){
-                var r = _.isNumber(value);
+                value = parseFloat(value);
+                var r = _.isNumber(value) && !_.isNaN(value);
                 if(typeof(callback) === 'function'){
                     callback.call(null, r);
                 }
             }
         },
-
+                
         notEmpty : {
             name : 'notEmpty',
             message : __('must not be empty'),
