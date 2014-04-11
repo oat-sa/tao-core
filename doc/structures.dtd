@@ -1,5 +1,5 @@
 <!-- Root Tag -->
-<!ELEMENT structures  (( structure )* ,(entrypoint)*) >
+<!ELEMENT structures  (( structure )* , (toolbar)* ,(entrypoint)*) >
 	<!ELEMENT structure  ( (description)? ,sections )>
 	
 		<!-- The id of the structure -->
@@ -65,4 +65,14 @@
 
 		<!ELEMENT replace EMPTY>
 		
-			<!ATTLIST replace id CDATA #REQUIRED>		
+			<!ATTLIST replace id CDATA #REQUIRED>
+			
+	<!ELEMENT toolbar  ( (toolbaraction)* )>
+		<!-- displayed name of the section -->
+		<!ATTLIST toolbaraction id CDATA #REQUIRED>
+		<!ATTLIST toolbaraction icon CDATA #REQUIRED>
+		<!ATTLIST toolbaraction level CDATA #REQUIRED>
+		<!ATTLIST toolbaraction title CDATA #REQUIRED>
+		<!ATTLIST toolbaraction js CDATA #IMPLIED>
+		<!ATTLIST toolbaraction structure CDATA #IMPLIED>
+		

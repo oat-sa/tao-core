@@ -147,7 +147,7 @@ class MenuService {
 				    }
 				    $entrypoints[$entryPoint->getId()] = $entryPoint;
 				}
-				foreach($xmlStructures->xpath("/structures/toolbar/action") as $xmlStructure){
+				foreach($xmlStructures->xpath("/structures/toolbar/toolbaraction") as $xmlStructure){
 				    $toolbarAction = ToolbarAction::fromSimpleXMLElement($xmlStructure, $extID);
 				    $toolbarActions[$toolbarAction->getId()] = $toolbarAction;
 				}

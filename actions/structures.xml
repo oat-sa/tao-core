@@ -59,8 +59,8 @@
 		</sections>
 	</structure>
     <toolbar>
-        <action id="usermanager" icon="icon-users" level="9" structure="users" title="User Management"></action>
-        <action id="settings" icon="icon-tools" level="10" structure="settings" title="System Settings"></action>
+        <toolbaraction id="usermanager" icon="icon-users" level="9" structure="users" title="User Management"></toolbaraction>
+        <toolbaraction id="settings" icon="icon-tools" level="10" structure="settings" title="System Settings"></toolbaraction>
     </toolbar>
     <entrypoint id="backoffice" title="Test Developers and Administrators" label="TAO Back Office" url="tao/Main/index">
         <description><![CDATA[Create items, manage item and test banks, organize cohorts and deliveries, prepare reports, set up workflows.]]></description>
