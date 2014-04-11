@@ -25,7 +25,6 @@ define(['jquery', 'lodash', 'ui/validator'], function($, _){
                 event: options.events,
                 validated : function(valid, results){
                     
-                    debugger;
                     var $elt = $(this);
                     var message, rule;
                     
