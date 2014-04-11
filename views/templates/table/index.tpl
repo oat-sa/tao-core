@@ -10,7 +10,7 @@ use oat\tao\helpers\Template;
 	<div style='padding: 20px'>
 	<span class="ui-state-default ui-corner-all">
 		<a href="#" id="getScoreButton">
-			<img src="<?=TAOBASE_WWW?>img/add.png" alt="add" /> <?=__('Add grades')?>
+			<img src="<?=Template::img('add.png', 'tao')?>" alt="add" /> <?=__('Add grades')?>
 		</a>
 	</span>
 	</div>

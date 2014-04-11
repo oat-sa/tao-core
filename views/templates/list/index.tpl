@@ -1,4 +1,7 @@
-<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>/css/lists.css" />
+<?php
+use oat\tao\helpers\Template;
+?>
+<link rel="stylesheet" type="text/css" href="<?=Template::css('lists.css', 'tao')?>" />
 <div class="main-container">
 	<div id="list-container">
 		<?foreach(get_data('lists') as $i => $list):?>
@@ -17,11 +20,11 @@
 						<div class="list-controls">
 						<?if($list['editable']):?>
 							<a href="#" class="list-editor" id='list-editor_<?=$list['uri']?>'>
-								<img src="<?=TAOBASE_WWW?>/img/pencil.png" class="icon" /><?=__('Edit')?>
+								<img src="<?=Template::img('pencil.png', 'tao')?>" class="icon" /><?=__('Edit')?>
 							</a>
 							|
 							<a href="#" class="list-deletor" id='list-deletor_<?=$list['uri']?>'>
-								<img src="<?=TAOBASE_WWW?>/img/delete.png" class="icon" /><?=__('Delete')?>
+								<img src="<?=Template::img('delete.png', 'tao')?>" class="icon" /><?=__('Delete')?>
 							</a>
 						<?else:?>
 							<?=__('Edit')?> | <?=__('Delete')?>

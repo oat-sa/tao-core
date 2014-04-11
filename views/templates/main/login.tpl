@@ -5,17 +5,17 @@ use oat\tao\helpers\Template;
 	<head>
 		<title><?=get_data('title')?></title>
 
-		<link rel="stylesheet" type="text/css" media="screen" href="<?=TAOBASE_WWW?>css/custom-theme/jquery-ui-1.8.22.custom.css"/>
-		<link rel="stylesheet" type="text/css" media="screen" href="<?=TAOBASE_WWW?>css/style.css"/>
-		<link rel="stylesheet" type="text/css" media="screen" href="<?=TAOBASE_WWW?>css/layout.css"/>
-		<link rel="stylesheet" type="text/css" media="screen" href="<?=TAOBASE_WWW?>css/form.css"/>
-		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/portal.css" />
-		<link rel="stylesheet" type="text/css" href="<?=TAOBASE_WWW?>css/login.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="<?=Template::css('custom-theme/jquery-ui-1.8.22.custom.css','tao')?>"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="<?=Template::css('style.css','tao')?>"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="<?=Template::css('layout.css','tao')?>"/>
+		<link rel="stylesheet" type="text/css" media="screen" href="<?=Template::css('form.css','tao')?>"/>
+		<link rel="stylesheet" type="text/css" href="<?=Template::css('portal.css','tao')?>" />
+		<link rel="stylesheet" type="text/css" href="<?=Template::css('login.css','tao')?>" />
                 
-                <script id='amd-loader' 
-                        type="text/javascript" 
-                        src="<?=TAOBASE_WWW?>js/lib/require.js" 
-                        data-main="<?=TAOBASE_WWW?>js/login"></script>
+        <script id='amd-loader' 
+                type="text/javascript" 
+                src="<?=Template::js('lib/require.js')?>" 
+                data-main="<?=TAOBASE_WWW?>js/login"></script>
 	</head>
 	<body>
 

@@ -1,4 +1,7 @@
-<link rel="stylesheet" type="text/css" href="<?= TAOBASE_WWW ?>css/report.css" media="screen"/>
+<?php
+use oat\tao\helpers\Template;
+?>
+<link rel="stylesheet" type="text/css" href="<?= Template::css('report.css','tao') ?>" media="screen"/>
 <script type="text/javascript">
 	$(function() {
 		require(['jquery', 'tao/report'], function($, report){
