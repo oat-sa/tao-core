@@ -17,6 +17,8 @@
  * Copyright (c) 2013 Open Assessment Technologies S.A.
  * 
  */
+
+
 /**
  * Implements Lock using a basic property in the ontology storing the lock data
  *
@@ -26,7 +28,9 @@
 class tao_models_classes_lock_OntoLock
     implements tao_models_classes_lock_Lock
 {
-     private static $instance;
+    private $isEnabled = false ;
+    
+    private static $instance;
     /**
      * 
      * @return core_kernel_classes_Property
@@ -34,6 +38,11 @@ class tao_models_classes_lock_OntoLock
     private function getLockProperty(){
         return new core_kernel_classes_Property(PROPERTY_LOCK);
     }
+    /**
+     * 
+     * @author Lionel Lecaque <lionel@taotesting.com>
+     * @return tao_models_classes_lock_OntoLock
+     */
     public static function singleton() {
         $returnValue = null;
         if (!isset(self::$instance)) {
@@ -42,17 +51,42 @@ class tao_models_classes_lock_OntoLock
         $returnValue = self::$instance;
         return $returnValue;
     }
-     protected function __construct()
+    /**
+     * 
+     * @author Lionel Lecaque <lionel@taotesting.com>
+     */
+    private function __construct()
     {
-
+        //read status from config
+        $this->restoreEnabled();
     }
-    //there is not factory building lock object and controlling if the lock is being enable, currently done inside the impl.
+    /**
+     * 
+     * @author Lionel Lecaque <lionel@taotesting.com>
+     * @return boolean
+     */
     private function isEnabled() {
-            if ((!defined("ENABLE_LOCK")) || (!(ENABLE_LOCK))) {
-                return false;
-            } else {
-                return true;
-            }
+        return $this->isEnabled;
+    }
+    /**
+     * 
+     * @author Lionel Lecaque <lionel@taotesting.com>
+     * @param boolean $isEnabled
+     */
+    public function setEnabled($isEnabled){
+        $this->isEnabled = $isEnabled;
+    }
+    
+    /**
+     * 
+     * @author Lionel Lecaque <lionel@taotesting.com>
+     */
+    public function restoreEnabled(){
+        if ((!defined("ENABLE_LOCK")) || (!(ENABLE_LOCK))) {
+            $this->setEnabled(false);
+        } else {
+            $this->setEnabled(true);
+        }
     }
     /**
      * set a lock on @resource with owner @user, succeeds also if there is a lock already exists but with the same owner

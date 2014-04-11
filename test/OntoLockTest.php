@@ -36,12 +36,14 @@ class OntoLockTest extends TaoPhpUnitTestRunner {
         $resourceClass = new core_kernel_classes_Class(RDFS_RESOURCE);
         $this->tempResource = $resourceClass->createInstance('MyTest');
         $this->lockService = tao_models_classes_lock_OntoLock::singleton();
+        $this->lockService->setEnabled(true);
         //$this->owner = tao_models_classes_UserService::singleton()->getCurrentUser();
         $this->owner = new core_kernel_classes_Resource('#virtualOwner');
     }
     public function tearDown() {
 
         $this->tempResource->delete();
+        $this->lockService->restoreEnabled();
     }
 	public function testSetLock(){
         $this->assertFalse($this->lockService->isLocked($this->tempResource));
