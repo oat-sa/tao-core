@@ -42,11 +42,11 @@ abstract class tao_actions_CommonModule extends Module
     protected $service = null;
 
     /**
-     * constructor checks if a user is logged in
-     * If you don't want this check, please override the _isAllowed method to return true
+     * empty constuctor
      */
     public function __construct()
-    {}
+    {
+    }
 
     /**
      *

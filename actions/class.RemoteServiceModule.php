@@ -37,13 +37,12 @@ class tao_actions_RemoteServiceModule extends Module {
 	private $currentUser = null;
 
 	/**
-	 * constructor checks if a user is logged in
-	 * If you don't want this check, please override the  _isAllowed method to return true
+	 * empty constructor
 	 */
 	public function __construct()
 	{
 	}
-	
+
 	/**
 	 * Allows a remote system to connect a tao User
 	 */
