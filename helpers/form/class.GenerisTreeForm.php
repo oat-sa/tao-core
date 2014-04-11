@@ -1,4 +1,5 @@
 <?php
+use oat\tao\helpers\Template;
 /*  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -90,8 +91,7 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
 	 * @param core_kernel_classes_Property $property
 	 */
 	public function __construct(core_kernel_classes_Resource $resource, core_kernel_classes_Property $property) {
-		$tpl = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConstant('TPL_PATH')
-			.'form'.DIRECTORY_SEPARATOR.'generis_tree_form.tpl';
+	    $tpl = Template::getTemplate('form'.DIRECTORY_SEPARATOR.'generis_tree_form.tpl', 'tao');
 		parent::__construct($tpl);
 		
 		$this->setData('id',			'uid'.md5($property->getUri().$resource->getUri()));
