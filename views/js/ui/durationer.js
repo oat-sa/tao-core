@@ -15,13 +15,14 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
    
    var defaults = {
        format : 'HH:mm:ss',
-       ctrlClass : 'duration-ctrl',
-       cssClass : 'micro'
+       separator : ':',
+       wrapperClass : 'duration-ctrl-wrapper',
+       ctrlClass : 'duration-ctrl'
    };
    
    //the template used for each of the 3 part of the duration
    var fieldTmpl = Handlebars.compile(
-        "<input type='text' id='{{id}}-{{type}}' data-duration-type='{{type}}' class='{{ctrlClass}} {{cssClass}}' value='{{value}}'/>"
+        "<input type='text' id='{{id}}-{{type}}' data-duration-type='{{type}}' class='{{ctrlClass}}' value='{{value}}'/>"
     );
   
    
@@ -69,7 +70,6 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
                         options.id = $elt.attr('id') || $elt.attr('name') || 'durationer-' + new Date().getTime();
                         $elt.data(dataNs, options);
 
-
                         var duration = moment($elt.val(), options.format);
 
                         //hide the element
@@ -79,7 +79,12 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
                         self._insertField($elt, duration.minutes(), 'minutes');
                         self._insertField($elt, duration.seconds(), 'seconds');
 
-                        $elt.siblings('.' + options.ctrlClass).on('change', function(){
+                        if(options.separator){
+                            $elt.siblings('.' + options.wrapperClass + ':not(:last)')
+                                .after('<span class="separator">:</span>');  
+                        }
+
+                        $elt.siblings('.' + options.wrapperClass).on('change', function(){
                             self._syncToField($elt);
                         });
                         $elt.on('change', function(e){
@@ -116,7 +121,8 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
                 .val(value)
                 .incrementer({
                     min: 0, 
-                    max: (type === 'hours') ? 23 : 59
+                    max: (type === 'hours') ? 23 : 59,
+                    incrementerWrapperClass : 'duration-ctrl-wrapper'
                 });
        },
        

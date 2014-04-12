@@ -35,16 +35,16 @@
     }
 }
 
-/* Incrementer */
-input[data-increment] {
+/* Incrementer and duration */
+input[data-increment], input.duration-ctrl {
     width: 40px !important;
     min-width: 40px !important;
     text-align:right;
 }
 
-.incrementer-ctrl-wrapper {
+.duration-ctrl-wrapper, .incrementer-ctrl-wrapper {
     position: relative;
-    display:inline-block;
+    display: inline-block;
     @include simple-border($uiGeneralContentBorder);
     @include border-radius(2);
     .incrementer {
@@ -102,6 +102,11 @@ input[data-increment] {
     }
 }
 
+.duration-ctrl-wrapper ~ .separator {
+    padding: 0 3px;
+    text-align: center;
+    opacity: .7;
+}
 
 /* Flipper */
 .flip {
