@@ -1,13 +1,7 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
- * @requires jquery
- * @requires lodash
- * @requires core/pluginifier
- * @requires core/dataattrhandler
- * @require handlebars
- * @requires moment
  */
-define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], function($, _, Pluginifier, Handlebars, moment){
+define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'], function($, _, __, Pluginifier, Handlebars, moment){
    'use strict';
    
    var ns = 'durationer';
@@ -17,12 +11,17 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
        format : 'HH:mm:ss',
        separator : ':',
        wrapperClass : 'duration-ctrl-wrapper',
-       ctrlClass : 'duration-ctrl'
+       ctrlClass : 'duration-ctrl',
+       title : {
+            hours : __('hours'),
+            minutes : __('minutes'),
+            seconds: __('seconds'),
+       }
    };
    
    //the template used for each of the 3 part of the duration
    var fieldTmpl = Handlebars.compile(
-        "<input type='text' id='{{id}}-{{type}}' data-duration-type='{{type}}' class='{{ctrlClass}}' value='{{value}}'/>"
+        "<input type='text' id='{{id}}-{{type}}' data-duration-type='{{type}}' class='{{ctrlClass}}' value='{{value}}' title='{{title}}' />"
     );
   
    
@@ -68,31 +67,37 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
                         $.error('The durationer plugin applies only on input element of type text');
                     } else {
                         options.id = $elt.attr('id') || $elt.attr('name') || 'durationer-' + new Date().getTime();
-                        $elt.data(dataNs, options);
+
 
                         var duration = moment($elt.val(), options.format);
 
                         //hide the element
                         $elt.hide();
 
-                        self._insertField($elt, duration.hours(), 'hours');
-                        self._insertField($elt, duration.minutes(), 'minutes');
-                        self._insertField($elt, duration.seconds(), 'seconds');
+                        self._insertField($elt, options, duration.hours(), 'hours');
+                        self._insertField($elt, options, duration.minutes(), 'minutes');
+                        self._insertField($elt, options, duration.seconds(), 'seconds');
 
                         if(options.separator){
                             $elt.siblings('.' + options.wrapperClass + ':not(:last)')
                                 .after('<span class="separator">:</span>');  
                         }
+    
+                        //keep a ref to the incrementer elements
+                        options.$ctrls = $elt.siblings('.' + options.wrapperClass).children('input');
 
-                        $elt.siblings('.' + options.wrapperClass).on('change', function(){
+                        options.$ctrls.on('change', function(){
                             self._syncToField($elt);
                         });
+
                         $elt.on('change', function(e){
                            if(e.namespace !== ns){
                                self._syncFromField($elt);
                            } 
                         });
 
+                        $elt.data(dataNs, options);
+                        
                         /**
                          * The plugin have been created.
                          * @event Durationer#create.durationer
@@ -107,22 +112,23 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
         * Insert one of the duration control field, as an incrementer
         * @private
         * @param {jQueryElement} $elt - the plugin element
+        * @param {Object} options - the plugin options (not yet set into the data space)
         * @param {string} value - the current field value
         * @param {string} type - which field to insert (hours, minutes or seconds)
-        * @returns {undefined}
         */
-       _insertField : function($elt, value, type){
-            var data = _.merge($elt.data(dataNs), {
+       _insertField : function($elt, options, value, type){
+            var data = _.defaults({
                 type : type,
-                value : value
-            });
+                value : value,
+                title : options.title[type]
+            }, options);
             $(fieldTmpl(data))
                 .insertBefore($elt)
                 .val(value)
                 .incrementer({
                     min: 0, 
                     max: (type === 'hours') ? 23 : 59,
-                    incrementerWrapperClass : 'duration-ctrl-wrapper'
+                    incrementerWrapperClass : options.wrapperClass
                 });
        },
        
@@ -135,7 +141,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
            var options = $elt.data(dataNs);
            var current = moment($elt.val(), options.format);
             
-           $elt.siblings('.' + options.ctrlClass).each(function(){
+           options.$ctrls.each(function(){
                var $field = $(this);
                if(current[$field.data('duration-type')]){
                    $field.val(current[$field.data('duration-type')]());
@@ -152,7 +158,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
            var options = $elt.data(dataNs);
            var current = moment($elt.val(), options.format);
             
-           $elt.siblings('.' + options.ctrlClass).each(function(){
+           options.$ctrls.each(function(){
                var $field = $(this);
                if(current[$field.data('duration-type')]){
                    current[$field.data('duration-type')]($field.val());
@@ -177,7 +183,8 @@ define(['jquery', 'lodash', 'core/pluginifier', 'handlebars', 'moment'], functio
                 var $elt = $(this);
                 var options = $elt.data(dataNs);
                 
-                $elt.siblings('.' + options.ctrlClass).remove();
+                $elt.siblings('.' + options.wrapperClass).remove();
+                $elt.siblings('.separator').remove();
                 $elt.removeData(dataNs);
                 
                 /**

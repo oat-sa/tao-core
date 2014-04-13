@@ -404,7 +404,7 @@ function($, _, Handlebars, Encoders, Filters){
         var self = this;
         _bindOnce($node, 'delete', function(){
             remove(model, path);
-            
+           
             //if we remove an element of an array, we need to resync indexes and bindings
             self._resyncIndexOnceRm($node, path);
 
@@ -515,16 +515,14 @@ function($, _, Handlebars, Encoders, Filters){
             }
         
             //assign value
-            if(['INPUT', 'SELECT', 'TEXTAREA'].indexOf($node[0].nodeName) >= 0){
+            if(_.contains(['INPUT', 'SELECT', 'TEXTAREA'], $node[0].nodeName)){
                 if ($node.is(":text, input[type='hidden'], textarea, select")) {
-                    $node.val(value);
-                  //  $node.trigger('change');
+                    $node.val(value).trigger('change');
                 } else if ($node.is(':radio, :checkbox')) {
                     toBind($node).each(function(){
                         var $elt = $(this);
                         $elt.prop('checked', $elt.val() === value);
-                    }); // .trigger('change');
-                } 
+                    });                 } 
             } else if ($node.hasClass('button-group')) {
                 $node.find('[data-bind-value]').each(function(){
                     var $elt = $(this);
@@ -552,7 +550,7 @@ function($, _, Handlebars, Encoders, Filters){
      */
     DataBinder.prototype._getNodeValue = function _getNodeValue($node) {
         var value;
-        if(['INPUT', 'SELECT', 'TEXTAREA'].indexOf($node[0].nodeName) >= 0){
+        if(_.contains(['INPUT', 'SELECT', 'TEXTAREA'], $node[0].nodeName)){
             if ($node.is(":text, input[type='hidden'], textarea, select")) {
                 value = $node.val();
             } else if ($node.is(':radio, :checkbox')) {
