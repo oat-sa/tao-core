@@ -94,6 +94,17 @@ class tao_actions_form_UserSettings
         $dataLangElement->setOptions($dataOptions);
 
         $this->form->addElement($dataLangElement);
+        
+        $tzElement = tao_helpers_form_FormFactory::getElement('timezone', 'Combobox');
+        $tzElement->setDescription(__('Time zone'));
+        $options = array();
+        foreach (DateTimeZone::listIdentifiers() as $id) {
+            $options[$id] = $id;
+        }
+        $tzElement->setOptions($options);
+        
+        $this->form->addElement($tzElement);
+        
         // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF5 end
     }
 

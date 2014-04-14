@@ -74,13 +74,17 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 	 */
 	public function properties(){
 
-		$myFormContainer = new tao_actions_form_UserSettings($this->getLangs());
+		$myFormContainer = new tao_actions_form_UserSettings($this->getUserSettings());
 		$myForm = $myFormContainer->getForm();
 		if($myForm->isSubmited()){
 			if($myForm->isValid()){
 
 				$currentUser = $this->userService->getCurrentUser();
-				$userSettings = array();
+				$userSettings = array(
+				    PROPERTY_USER_UILG => $myForm->getValue('ui_lang'),
+				    PROPERTY_USER_DEFLG => $myForm->getValue('data_lang'),
+				    PROPERTY_USER_TIMEZONE => $myForm->getValue('timezone')
+				);
 				
 				$uiLang 	= new core_kernel_classes_Resource($myForm->getValue('ui_lang'));
 				$dataLang 	= new core_kernel_classes_Resource($myForm->getValue('data_lang'));
@@ -112,20 +116,23 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 
 
 	/**
-	 * Get the langage of the current user. This method returns an associative array with the following keys:
+	 * Get the settings of the current user. This method returns an associative array with the following keys:
 	 * 
 	 * - 'ui_lang': The value associated to this key is a core_kernel_classes_Resource object which represents the language
 	 * selected for the Graphical User Interface.
 	 * - 'data_lang': The value associated to this key is a core_kernel_classes_Resource object which respresents the language
 	 * selected to access the data in persistent memory.
+	 * - 'timezone': The value associated to this key is a core_kernel_classes_Resource object which respresents the timezone
+	 * selected to display times and dates.
 	 * 
 	 * @return array The URIs of the languages.
 	 */
-	private function getLangs(){
+	private function getUserSettings(){
 		$currentUser = $this->userService->getCurrentUser();
 		$props = $currentUser->getPropertiesValues(array(
 			new core_kernel_classes_Property(PROPERTY_USER_UILG),
-			new core_kernel_classes_Property(PROPERTY_USER_DEFLG)
+			new core_kernel_classes_Property(PROPERTY_USER_DEFLG),
+		    new core_kernel_classes_Property(PROPERTY_USER_TIMEZONE)
 		));
 		$langs = array();
 		if (!empty($props[PROPERTY_USER_UILG])) {
@@ -134,6 +141,9 @@ class tao_actions_UserSettings extends tao_actions_CommonModule {
 		if (!empty($props[PROPERTY_USER_DEFLG])) {
 			$langs['data_lang'] = current($props[PROPERTY_USER_DEFLG])->getUri();
 		}
+		$langs['timezone'] = !empty($props[PROPERTY_USER_TIMEZONE])
+            ? current($props[PROPERTY_USER_TIMEZONE])
+            : TIME_ZONE;
 		return $langs; 
 	}
 
