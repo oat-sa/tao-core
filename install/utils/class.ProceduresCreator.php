@@ -17,6 +17,10 @@ class tao_install_utils_ProceduresCreator{
         	    $this->setSQLParser(new tao_install_utils_PostgresProceduresParser());
         	    break;
         	}
+        	case 'pdo_oci' : {
+        	    $this->setSQLParser(new tao_install_utils_OracleProceduresParser());
+        	    break;
+        	}
         	default: {
         	    throw new tao_install_utils_SQLParsingException('Could not find Parser for driver ' . $driver);
         	}
@@ -42,6 +46,7 @@ class tao_install_utils_ProceduresCreator{
         $parser->parse();
 
         foreach ($parser->getStatements() as $statement){
+            common_Logger::d($statement);
             $this->connection->executeUpdate($statement);
            
         }
