@@ -57,7 +57,6 @@ class tao_install_utils_OracleProceduresParser extends tao_install_utils_SQLPars
 						
 			
      		foreach ($functions as $f){
-                    common_Logger::d($f );
 					$this->addStatement($f);
 			}
 			
