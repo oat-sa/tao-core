@@ -46,7 +46,6 @@ class tao_install_utils_ProceduresCreator{
         $parser->parse();
 
         foreach ($parser->getStatements() as $statement){
-            common_Logger::d($statement);
             $this->connection->executeUpdate($statement);
            
         }
