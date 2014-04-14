@@ -19,6 +19,7 @@
 	    <generis:userMail></generis:userMail>
 	    <generis:userDefLg></generis:userDefLg>
 	    <generis:userUILg></generis:userUILg>
+	    <generis:userTimezone></generis:userTimezone>
         <tao:firstTimeInTao rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
 	</rdf:Description>
 	

@@ -45,6 +45,7 @@ class tao_helpers_Date
     	$ts = is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal ? $timestamp->__toString() : $timestamp;
     	$dateTime = new DateTime();
     	$dateTime->setTimestamp($timestamp);
+    	$dateTime->setTimezone(new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone()));
     	switch ($format) {
     		case self::FORMAT_LONG :
     			$returnValue = $dateTime->format('d/m/Y H:i:s');
@@ -65,5 +66,3 @@ class tao_helpers_Date
     }
 
 }
-
-?>

@@ -352,7 +352,8 @@ class tao_install_Installator{
 				'userFirstName'	=> $installData['user_firstname'],
 				'userMail'		=> $installData['user_email'],
 				'userDefLg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.$installData['module_lang'],
-				'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.$installData['module_lang']
+				'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.$installData['module_lang'],
+			    'userTimezone'  => TIME_ZONE
 			));
 	
 			/*
