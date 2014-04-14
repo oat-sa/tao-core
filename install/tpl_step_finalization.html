@@ -11,11 +11,11 @@
 	<script type="text/javascript" src="js/help.js"></script>
 	<script type="text/javascript" src="js/jquery.labelify.js"></script>
 	<script type="text/javascript" src="js/steps.js"></script>
-	<script type="text/javascript" src="js/step_5.js"></script>
+	<script type="text/javascript" src="js/step_finalization.js"></script>
 	<link rel="stylesheet" type="text/css" href="../views/css/reset.css" />
 	<link rel="stylesheet" type="text/css" href="../views/css/custom-theme/jquery-ui-1.8.22.custom.css"/>
 	<link rel="stylesheet" type="text/css" href="css/installation_main.css" />
-	<link rel="stylesheet" type="text/css" href="css/step_5.css" />
+	<link rel="stylesheet" type="text/css" href="css/step_finalization.css" />
 	<!--[if lt IE 9]>
 	<link rel="stylesheet" type="text/css" href="css/step_ie8.css"/>
 	<![endif]-->
@@ -23,19 +23,21 @@
 
 <body>
 	<div id="installation_form" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-			<h2>Tao Installation Wizard</h2>
+			<h2>TAO Installation Wizard</h2>
 			<h1>Finalize Installation</h1>
 			<ul id="install_seq">
 				<li><h3>Installation Steps</h3></li>
-				<li id="step_1"><a href="#">1. Requirements Check</a></li>
-				<li id="step_2"><a href="#">2. Server Setup</a></li>
-				<li id="step_3"><a href="#">3. Database Setup</a></li>
-				<li id="step_4"><a href="#">4. Administrator Setup</a></li>
-				<li id="step_5" class="currentStep">5. Finalize Installation</li>
+				<li id="step_requirements"><a href="#">1. Requirements Check</a></li>
+				<li id="step_server_setup"><a href="#">2. Server Setup</a></li>
+				<li id="step_database_setup"><a href="#">3. Database Setup</a></li>
+				<li id="step_admin_setup">4. Administrator Setup</li>
+				<li id="step_licenses">5. Licensing Agreement</li>
+				<li id="step_registration_1">6. Registration</li>
+                                <li id="step_finalization" class="currentStep">7. Finalize Installation</li>
 			</ul>
 			<p id="comments">
-			    We now have all needed information to finalize the installation of your TAO platform instance.
-			    Press the button below to start deploying your instance. It might last a few minutes.
+			    You're almost there! Simply click the button below to finish your installation.
+                            Depending on your system, this may take a few minutes to complete.
 			</p>
 			<div id="forms_check_content">
 				<form>

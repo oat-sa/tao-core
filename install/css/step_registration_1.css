@@ -1,0 +1,70 @@
+/*  
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * 
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * 
+ */
+/* form check */
+#forms_content{
+    position: absolute;
+    top: 190px;
+    width: 585px;
+    height: 253px;
+    margin-left: 200px;
+}
+
+#forms_content form {
+    
+    margin-top: 105px; //172px;
+}
+
+input[type="radio"] {
+    width:15px;
+    clear:both;
+    margin:13px 0 0 5px;
+}
+
+p#comments {
+    font-weight: bold;
+}
+
+#forge-account {
+    position: relative;
+    top: 10px;
+    visibility: hidden;
+    line-height: 20px;
+}
+
+#forge-account > span {
+    font-size: 10px;
+    font-weight: bold;
+    font-style: italic;
+    margin-left: 20px;
+}
+
+#formComment{
+    width: 330px;
+    top: 0px;
+}
+
+ul#support_fields {
+    margin-left: 21px;
+}
+
+#submitForm {
+    width: 120px;
+}

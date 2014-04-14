@@ -24,19 +24,19 @@ function onLoad(){
 		$('#submitForm').removeClass('disabled')
 						.addClass('enabled')
 						.attr('disabled', false);
-		$('#submitForm').attr('value', 'Proceed next step');
+		$('#submitForm').attr('value', 'Next');
 	};
 	
 	install.onUnnextable = function(){
 		$('#submitForm').removeClass('enabled')
 						.addClass('disabled')
 						.attr('disabled', true);
-		$('#submitForm').attr('value', 'Awaiting mandatory information');
+		$('#submitForm').attr('value', 'Next');
 	}
 	
 	$('form').bind('submit', function(){
 		if (install.isNextable()){
-			install.setTemplate('step_5');
+			install.setTemplate('step_licenses');
 		}
 		
 		return false;
@@ -67,6 +67,7 @@ function onLoad(){
 		$(this).bind('click', onBackward);
 	});
 	
+        
 	// Register inputs.
 	$('.tao-input').each(function(){
 

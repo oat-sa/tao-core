@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>Installation Process</title>
+	<script type="text/javascript" src="../views/js/lib/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="../views/js/lib/jquery-ui-1.8.23.custom.min.js"></script>
+	<script type="text/javascript" src="../views/js/lib/spin.min.js"></script>
+	<script type="text/javascript" src="js/help.js"></script>
+	<script type="text/javascript" src="js/jquery.labelify.js"></script>
+	<script type="text/javascript" src="js/steps.js"></script>
+	<script type="text/javascript" src="js/step_registration_2.js"></script>
+	<link rel="stylesheet" type="text/css" href="../views/css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="../views/css/custom-theme/jquery-ui-1.8.22.custom.css"/>
+	<link rel="stylesheet" type="text/css" href="css/installation_main.css" />
+	<link rel="stylesheet" type="text/css" href="css/step_registration_2.css" />
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="css/step_ie8.css"/>
+	<![endif]-->
+</head>
+
+<body>
+	<div id="installation_form" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+			<h2>TAO Installation Wizard</h2>
+			<h1>Registration</h1>
+			<ul id="install_seq">
+				<li><h3>Installation Steps</h3></li>
+				<li id="step_requirements">1. Requirements Check</li>
+				<li id="step_server_setup">2. Server Setup</li>
+				<li id="step_database_setup">3. Database Setup</li>
+				<li id="step_admin_setup">4. Administrator Setup</li>
+                                <li id="step_licenses"><a href="#">5. Licensing Agreement</a></li>
+                                <li id="step_registration_1"><a href="#">6. Registration</a></li>
+                                <li id="step_finalization"><a href="#">7. Finalize Installation</a></li>
+			</ul>
+			<p id="comments">
+			    Now you may register this TAO installation by creating a TAO forge account.
+			</p>
+			<div id="forms_content">
+				<form>
+					<label for="radio2">Create your TAO Forge Account in order to gain access to technical support:</label>
+					<ul id="registration_fields">
+						<li>
+							<label for="support_firstname">First Name</label><br />
+							<input type="text" id="support_firstname" name="support_firstname" class="tao-input" title="e.g. John" autocomplete="off"/>
+							<div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_support_firstname" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
+						</li>
+						<li>
+							<label for="support_lastname">Last Name</label><br />
+							<input type="text" id="support_lastname" name="support_lastname" class="tao-input" title="e.g. Smith" autocomplete="off"/>
+							<div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_support_lastname" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
+						</li>
+						<li>
+							<label for="support_organization">Organization</label><br />
+							<input type="text" id="support_organization" name="support_organization" class="tao-input" title="e.g. The World Company" autocomplete="off"/>
+							<div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_support_organization" class="ui-icon ui-icon-help"></a></div>
+						</li>
+						<li>
+							<label for="support_email">Email</label><br />
+							<input type="text" id="support_email" name="support_email" class="tao-input" title="e.g. john.doe@mailer.com" autocomplete="off"/>
+							<div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_support_email" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
+						</li>
+						<li>
+							<label for="support_login">Username</label><br />
+							<input type="text" id="support_login" name="support_login" class="tao-input" title="e.g. JohnSmith" autocomplete="off"/>
+							<div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_support_login" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
+						</li>
+						<li>
+							<label for="support_password">Password</label><br />
+							<input type="text" id="support_password" name="support_password" class="tao-input" title="" autocomplete="off"/>
+							<div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_support_password" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
+						</li>
+						<li>
+                                                        <label for="checkbox-contact">Contact request?</label><br/>
+                                                        <input type="checkbox" name="checkbox-contact" id="checkbox-contact" class="tao-input" value="checkbox"/><span class="checkboxLabel">Please contact me</span>
+                                                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_support_contactme" class="ui-icon ui-icon-help"></a></div>
+                                                </li>
+					</ul>
+                                                        
+					<input id="default_language" type="hidden" value="en-US" class="tao-input"/>        
+					
+					<!--<input id="skipForm" class="enabled" type="button" value="Skip" role="button"/>-->
+					<input id="submitForm" class="disabled" type="submit" value="Next" role="button"/>
+					<p id="formComment"><span class="formExample">*</span> Required</p>
+				</form>
+			</div>
+	</div>
+</body>
+
+</html>

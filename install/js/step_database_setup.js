@@ -20,14 +20,25 @@
  */
 function onLoad(){
 	
+        // Set up the list of available timezones.
+	/*var availableSampleItems = install.getData('available_sampledata');
+	if (availableSampleItems != null){
+		var $sampleDataElement = $('#sampledata').empty();
+		
+		for (var i in availableSampleItems){
+			var selected = (availableSampleItems[i] == 'Default QTI Sample (4 items)') ? 'selected="selected"' : '';
+			$sampleDataElement.append('<option value="' + availableSampleItems[i] + '" ' + selected + '>' + availableSampleItems[i] + '</option>');
+		}
+	}*/
+        
 	// If we have available drivers, we set up
 	// the list of db drivers.
 	var availableDrivers = install.getData('available_drivers');
-	
+        
 	if (availableDrivers != null && availableDrivers.length > 0){
 		$databaseDriverElement = $('#database_driver');
 		$databaseDriverElement.empty();
-		
+                
 		for (var i in availableDrivers){
 			$databaseDriverElement.append('<option value="' + availableDrivers[i] + '">' + getDriverLabel(availableDrivers[i]) + '</option>');
 		}
@@ -37,14 +48,14 @@ function onLoad(){
 		$('#submitForm').removeClass('disable')
 						.addClass('enabled')
 						.attr('disabled', false);
-		$('#submitForm').attr('value', 'Proceed next step');
+		$('#submitForm').attr('value', 'Next');
 	};
 	
 	install.onUnnextable = function(){
 		$('#submitForm').removeClass('enabled')
 						.addClass('disabled')
 						.attr('disabled', true);
-		$('#submitForm').attr('value', 'Awaiting mandatory information');
+		$('#submitForm').attr('value', 'Next');
 	};
 	
 	$('form').bind('submit', function(){
@@ -76,7 +87,7 @@ function onLoad(){
 				if (data.value.status == 'valid'){
 					// Great! We could connect with the provided data.
 					if (install.isNextable()){
-						install.setTemplate('step_4');
+						install.setTemplate('step_admin_setup');
 					}
 				}
 				else if (data.value.status == 'invalid-noconnection'){
@@ -188,7 +199,7 @@ function onLoad(){
 function getDriverLabel(driverId){
 	switch(driverId){
 		case 'pdo_mysql':
-			return 'MySQL or MariaDB';
+			return 'MySQL / MariaDB';
 		break;
 		
 		case 'pdo_pgsql':

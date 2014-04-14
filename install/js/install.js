@@ -23,7 +23,7 @@ $(document).ready(function() {
 	// injection. (apiInstance has no var statement -> global scope).
 	apiInstance = new TaoInstall();
 	apiInstance.frameId = 'mainFrame';
-	apiInstance.setTemplate('step_1');
+	apiInstance.setTemplate('step_requirements');
 	apiInstance.addData('extensions', ['taoCe']);
 
 	// feedback popup show/hide
@@ -97,7 +97,7 @@ function closeSupportTab(){
 }
 
 function showRemoteSupport(spinner){
-		spinner.stop();
-		$('#supportLoading').remove();
-		$('#supportFrameId').css('display', 'block');
+        spinner.stop();
+        $('#supportLoading').remove();
+        $('#supportFrameId').css('display', 'block');
 }

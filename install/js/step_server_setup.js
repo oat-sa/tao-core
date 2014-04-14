@@ -34,7 +34,7 @@ function onLoad(){
 	
 	// Set up the list of available timezones.
 	var availableTimezones = install.getData('available_timezones');
-	if (availableLanguages != null){
+	if (availableTimezones != null){
 		var $timezoneElement = $('#timezone').empty();
 		
 		for (var i in availableTimezones){
@@ -47,19 +47,19 @@ function onLoad(){
 		$('#submitForm').removeClass('disabled')
 						.addClass('enabled')
 						.attr('disabled', false);
-		$('#submitForm').attr('value', 'Proceed next step');
+		$('#submitForm').attr('value', 'Next');
 	}
 	
 	install.onUnnextable = function(){
 		$('#submitForm').removeClass('enabled')
 						.addClass('disabled')
 						.attr('disabled', true);
-		$('#submitForm').attr('value', 'Awaiting mandatory information');
+		$('#submitForm').attr('value', 'Next');
 	}
 	
 	$('form').bind('submit', function(){
 		if (install.isNextable()){
-			install.setTemplate('step_3');
+			install.setTemplate('step_database_setup');
 		}
 		
 		return false;
@@ -88,7 +88,7 @@ function onLoad(){
 		if (typeof(firstValues[this.id]) != 'undefined'){
 			this.firstValue = firstValues[this.id];
 		}
-		
+
 		switch (this.id){
 			
 			case 'host_name':
@@ -100,6 +100,10 @@ function onLoad(){
 				install.getValidator(this, {dataType: 'regexp', pattern: "^[a-zA-Z0-9_\-]{3,63}$"});
 				validify(this);
 			break;
+                        
+                        case 'default_language':
+                            this.isValid = function() { return true; };
+                        break;
 			
 			default:
 				install.getValidator(this);

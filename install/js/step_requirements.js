@@ -43,7 +43,7 @@ function onLoad(){
     // What happens if you click on 'Proceed next step'.
     $('form').bind('submit', function(event){
     	if (install.isNextable()){
-    		install.setTemplate('step_2');	
+    		install.setTemplate('step_server_setup');	
     	}
     	
     	return false;
@@ -53,6 +53,12 @@ function onLoad(){
     initHelp();
 
 	checkConfig();
+
+    // CHA - small hack for direct access to licensing step
+    // Backward management.
+    $('#install_seq li a').each(function(){
+	$(this).bind('click', onBackward);
+    });
 }
 
 function checkConfig(){
@@ -145,7 +151,7 @@ function checkConfig(){
 				    	}
 				    	
 				    	if (mandatoryCount == 0){
-				    		addReport('ready', 'Your system is compliant with the TAO requirements', 'ok', false, true);
+				    		addReport('ready', 'Your web server meets TAO requirements.', 'ok', false, true);
 				    	}
 				    	
 				    	install.stateChange();
@@ -194,8 +200,8 @@ function addReport(name, message, kind, prepend, noHelp){
 }
 
 function displayLegend(){
-	$('#formComment').empty().append('<p id="explMandatory">Mandatory requirement</p>')
-							 .append('<p id="explOptional">Optional requirement</p>');
+	$('#formComment').empty().append('<p id="explMandatory">Mandatory component</p>')
+							 .append('<p id="explOptional">Optional component</p>');
 }
 
 function initHelp(){
