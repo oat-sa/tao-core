@@ -98,10 +98,6 @@ require.config({
         'ckeditor'              : { exports : 'CKEDITOR' },
         'ckeditor-jquery'       : ['ckeditor'],
         'class'                 : { exports : 'Class'},
-        'scale.raphael'         : {
-            deps : ['raphael'],
-            exports : 'ScaleRaphael'
-        },
         'mediaElement' : {
             deps: ['jquery', 'css!lib/mediaelement/css/mediaelementplayer.min'],
             exports : 'MediaElementPlayer',

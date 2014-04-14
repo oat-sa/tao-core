@@ -1,32 +1,41 @@
-/*
+/**
+ * ORGINAL VERSION:
  * ScaleRaphael 0.8 by Zevan Rosser 2010 
  * For use with Raphael library : www.raphaeljs.com
  * Licensed under the MIT license.
- *
  * www.shapevent.com/scaleraphael/
+ * 
+ * MODIFIED VERSION:
+ * @author Bertrand Chevrier <bertrand@taotesting.com> for OAT SA
+ * - Code refactoring to fit AMD modules
  */
-(function(){
-  window.ScaleRaphael = function(container, width, height){
+define(['jquery', 'raphael'], function($, Raphael){
+    
+  var scaleRaphael = function(container, width, height){
     var wrapper = container.style ? container : document.getElementById(container);
-    if (!wrapper.style.position) wrapper.style.position = "relative";
+    
+   if (!wrapper.style.position){
+         wrapper.style.position = "relative";
+    }
+
     wrapper.style.width = width + "px";
     wrapper.style.height = height + "px";
     wrapper.style.overflow = "hidden";
     
     var nestedWrapper;
       
-    if (Raphael.type == "VML"){
-      wrapper.innerHTML = "<rvml:group style='position : absolute; width: 1000px; height: 1000px; top: 0px; left: 0px' coordsize='1000,1000' class='rvml' id='vmlgroup'><\/rvml:group>";
-      nestedWrapper = document.getElementById("vmlgroup");
+    if (Raphael.type === "VML"){
+      wrapper.innerHTML = "<rvml:group style='position : absolute; width: 1000px; height: 1000px; top: 0px; left: 0px' coordsize='1000,1000' class='rvml'><\/rvml:group>";
+      nestedWrapper = $(".rvml", $(wrapper))[0];
     }else{
-      wrapper.innerHTML = "<div id='svggroup'><\/div>";
-      nestedWrapper = document.getElementById("svggroup");
+      wrapper.innerHTML = "<div class='svggroup'><\/div>";
+      nestedWrapper = $(".svggroup", $(wrapper))[0];
     }
- 
+
     var paper = new Raphael(nestedWrapper, width, height);
     var vmlDiv;
     
-    if (Raphael.type == "SVG"){
+    if (Raphael.type === "SVG"){
       paper.canvas.setAttribute("viewBox", "0 0 "+width+" "+height);
     }else{
       vmlDiv = wrapper.getElementsByTagName("div")[0];
@@ -42,7 +51,7 @@
       var newHeight = parseInt(height * scale);
       var newWidth = parseInt(width * scale);
       
-      if (Raphael.type == "VML"){
+      if (Raphael.type === "VML"){
          // scale the textpaths
        var txt = document.getElementsByTagName("textpath");
         for (var i in txt){
@@ -86,11 +95,11 @@
         wrapper.style.left = parseInt((w - newWidth) / 2) + "px";
         wrapper.style.top = parseInt((h - newHeight) / 2) + "px";
       }
-    }
+    };
     
     paper.scaleAll = function(amount){
       paper.changeSize(width * amount, height * amount);
-    }
+    };
     
     paper.changeSize(width, height);
     
@@ -98,5 +107,7 @@
     paper.h = height;
     
     return paper;
-  }
-})();
+  };
+
+    return scaleRaphael;
+});
