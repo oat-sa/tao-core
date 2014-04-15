@@ -4,7 +4,7 @@
  * @requires core/pluginifier
  * @requires core/dataattrhandler
  */
-define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Pluginifier, DataAttrHandler){
+define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], function($, _, Pluginifier, DataAttrHandler){
    'use strict';
    
    var ns = 'btngrouper';
@@ -47,7 +47,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             //get options using default
             options = $.extend(true, {}, defaults, options);
             
-            if(availableActions.indexOf[options.actions] === -1){
+            if(!_.contains(availableActions,options.actions)){
                 return $.error('Action ' + options.action + ' not supported');
             }
            

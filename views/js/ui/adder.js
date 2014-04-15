@@ -93,7 +93,7 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
                 }
             }
             //check supported positions
-            if(positions.indexOf(options.position) === -1){
+            if(!_.contains(positions, options.position)){
                 return $.error('Unsupported position option');
             }
            

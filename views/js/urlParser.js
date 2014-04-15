@@ -113,7 +113,7 @@ define(['lodash'], function(_){
        var url = '';
        exclude = exclude || []; 
        if(this.data){
-            if(this.data.hostname && exclude.indexOf('host') === -1){
+            if(this.data.hostname && !_.contains(exclude, 'host')){
                 url += (this.data.protocol ?  this.data.protocol : 'http:') + '//' + this.data.hostname;
                 if(this.data.port){
                     url += ':' + this.data.port;
@@ -121,7 +121,7 @@ define(['lodash'], function(_){
             }       
             url += this.data.pathname;  //there is always a path
 
-            if(this.params && exclude.indexOf('params') === -1){
+            if(this.params && !_.contains(exclude, 'params')){
                 url += '?';
                 _.forEach(this.params, function(value, key){
                    url += encodeURIComponent(key) + '=' + encodeURIComponent(value) + '&';
@@ -129,7 +129,7 @@ define(['lodash'], function(_){
                 url = url.substring(0, url.length - 1);
             }
 
-            if(this.data.hash && exclude.indexOf('hash') === -1){
+            if(this.data.hash && !_.contains(exclude, 'hash')){
                 url += this.data.hash;
             }
        }
