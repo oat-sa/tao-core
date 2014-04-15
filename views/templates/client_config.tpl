@@ -50,7 +50,8 @@ require.config({
         'raphael-collision' : 'lib/raphael/raphael-collision/raphael-collision',
         'spin'              : 'lib/spin.min',
         'tooltipster'       : 'lib/tooltipster/js/jquery.tooltipster.min',
-        'nouislider'       : 'lib/no-ui-slider/jquery.nouislider.js',
+        'nouislider'        : 'lib/no-ui-slider/jquery.nouislider',
+        'jquery.trunc'		: 'lib/jquery.badonkatrunc',
 
         'i18n_tr'           : '<?=BASE_URL?>locales/<?=get_data('locale')?>/messages_po',
     <?foreach (get_data('extensionsAliases') as $name => $path) :?>
@@ -76,6 +77,7 @@ require.config({
         'select2'               : ['jquery'],
         'jwysiwyg'              : ['jquery'],
         'jquery.cookie'         : ['jquery'],
+        'jquery.trunc'			: ['jquery'],
         'jquery.timePicker'     : ['jquery'],
         'tooltipster'           : ['jquery', 'css!lib/tooltipster/css/tooltipster'],
         'nouislider'            : ['jquery'],
