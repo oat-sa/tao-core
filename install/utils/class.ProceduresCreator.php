@@ -21,6 +21,10 @@ class tao_install_utils_ProceduresCreator{
         	    $this->setSQLParser(new tao_install_utils_OracleProceduresParser());
         	    break;
         	}
+        	case 'pdo_sqlsrv' : {
+        		$this->setSQLParser(new tao_install_utils_OracleProceduresParser());
+        		break;
+        	}
         	default: {
         	    throw new tao_install_utils_SQLParsingException('Could not find Parser for driver ' . $driver);
         	}
