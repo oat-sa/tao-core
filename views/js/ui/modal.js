@@ -50,7 +50,9 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
                $('<div class="' + options.modalClose + '"><span class="icon-close"></span></div>').appendTo($modal);
             }
             
-            Modal._open($modal);
+            if(!options.startClosed){
+                Modal._open($modal);
+            }
             
             /**
              * The plugin have been created.
