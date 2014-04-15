@@ -66,17 +66,24 @@ define(['jquery', 'iframeNotifier' ,'jquery.sizechange'], function ($, iframeNot
                     $($frameContent[0].document).find('img')
                     
                     //then listen for size change
-                    $frameContent.find(restrict).sizeChange(function () {
-                        
+                    var onSizeChange = function() {
                         var newHeight = $frameContent.height();
-                         if (newHeight > height) {
-                            height = newHeight;
-                            resizePop();
+                        if (newHeight > height) {
+                           height = newHeight;
+                           resizePop();
                         }
                         if (newHeight > height) {
-                            height = newHeight;
-                            resizePop();
-                       }
+                           height = newHeight;
+                           resizePop();
+                        }
+                    }
+                    
+                    $frameContent.find(restrict).sizeChange(function () {
+                        onSizeChange();
+                    });
+                    
+                    $frameContent[0].resize(function() {
+                        onSizeChange();
                     });
                     
                 } catch (e) {
