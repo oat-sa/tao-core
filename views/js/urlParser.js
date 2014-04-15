@@ -59,7 +59,7 @@ define(['lodash'], function(_){
     * @returns {String|Boolean} the requested url part or false
     */
    UrlParser.prototype.get = function(what){
-       return urlParts.indexOf(what) > - 1 ? this.data[what] : false;
+       return _.contains(urlParts, what) ? this.data[what] : false;
    };
    
    /**
