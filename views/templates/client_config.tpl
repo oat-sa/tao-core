@@ -50,7 +50,7 @@ require.config({
         'raphael-collision' : 'lib/raphael/raphael-collision/raphael-collision',
         'spin'              : 'lib/spin.min',
         'tooltipster'       : 'lib/tooltipster/js/jquery.tooltipster.min',
-        'nouislider'        : 'lib/no-ui-slider/jquery.nouislider',
+        'nouislider'        : 'lib/sliders/jquery.nouislider',
         'jquery.trunc'		: 'lib/jquery.badonkatrunc',
 
         'i18n_tr'           : '<?=BASE_URL?>locales/<?=get_data('locale')?>/messages_po',

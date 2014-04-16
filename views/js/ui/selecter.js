@@ -11,8 +11,9 @@ define(['jquery', 'select2'], function($){
     return function lookupSelecter($container) {
         $('select.select2', $container).each(function () {
             var $elt = $(this),
-                hasSearch = false === $elt.data('has-search'),
+                hasSearch = !(false === $elt.data('has-search')),
                 hasPlaceholder = !!($elt.attr('placeholder') || $elt.data('placeholder')),
+                widthMethod = ($elt.data('width') || 'resolve'),
                 hasSelectedIndex = (function(options) {
                     var i = options.length,
                         selected = false;
@@ -25,15 +26,16 @@ define(['jquery', 'select2'], function($){
                     return selected;
                 }(this.options)),
                 settings = {
-                    width: 'resolve'
+                    width: widthMethod
                 };
-            if(hasPlaceholder && this.options[0].text) {
+
+            if(hasPlaceholder && this.options[0] && this.options[0].text) {
                 $elt.prepend('<option>');
                 if(!hasSelectedIndex) {
                     this.selectedIndex = this.options[0];
                 }
             }
-            if (hasSearch) {
+            if (!hasSearch) {
                 settings.minimumResultsForSearch = -1;
             }
             $elt.select2(settings);
