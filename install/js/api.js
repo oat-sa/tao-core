@@ -141,6 +141,24 @@ TaoInstall.prototype.checkDatabaseConnection = function(check, callback){
 							 .fail(function(jqxhr){callback(jqxhr.status)});
 }
 
+/**
+ * Check that a Redmine account exists remotely
+ */
+TaoInstall.prototype.checkRedmineAccount = function(check, callback){
+	
+        check.password = this.nullToEmptyString(check.password);
+	
+	var data = {type: 'checkRedmineAccount',
+				value: check};
+				
+	var options = {data: JSON.stringify(data),
+				   type: 'POST',
+				   dataType: 'json'};
+				   
+	$.ajax(this.url, options).done(function(data, textStatus, jqxhr){callback(jqxhr.status, data)})
+							 .fail(function(jqxhr){callback(jqxhr.status)});
+}
+
 TaoInstall.prototype.install = function(inputs, callback){
 	inputs.db_pass = this.nullToEmptyString(inputs.db_pass);
 	
@@ -302,7 +320,8 @@ TaoInstall.prototype.getValidator = function(element, options){
 		case 'textarea':
 			if ($element.prop('tagName').toLowerCase() == 'textarea' || 
 			    $element.attr('type') == 'text' ||
-			    $element.attr('type') == 'password'){
+			    $element.attr('type') == 'password' ||
+                            $element.attr('type') == 'hidden'){
 				
 				var firstValueFunction = function () { return $element.val() != $element[0].firstValue || !mandatory; };
 				
@@ -354,7 +373,7 @@ TaoInstall.prototype.getValidator = function(element, options){
 							
 							case 'string':
 								var sameAsFunction = function(){ var value = ($element[0].getData() != null) ? $element[0].getData() : ''; return api.getRegisteredElement(options.sameAs).getData() == value; };
-							
+                                                        
 								if (typeof(options.min) == 'undefined' && typeof(options.max) == 'undefined'){
 									// no min, no max.
 									if (typeof(options.sameAs) == 'undefined'){
@@ -456,7 +475,7 @@ TaoInstall.prototype.getValidator = function(element, options){
 					element.isValid = function(){ return firstValueFunction() && $element.val().length > 0; };	
 				}
 			}
-			else if ($element.attr('type') == 'checkbox' || $element.attr('type') == 'hidden'){
+			else if ($element.attr('type') == 'checkbox' || $element.attr('type') == 'radio'){
 				element.isValid = function(){ return true; };
 			}
 		break;
