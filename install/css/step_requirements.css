@@ -54,7 +54,7 @@
 #forms_check_content form ul li.tao-ok{
 	border:none;
 	background:none;
-	background:url(../images/valide.png) no-repeat 253px -2px;
+	//background:url(../images/valide.png) no-repeat 253px -2px;
 	margin-top:20px;
 }
 
@@ -113,4 +113,8 @@
 #loadingCheck label{
 	padding-left: 25px;
 	padding-top: 3px;
+}
+
+p#comments {
+    font-family: Arial, Helvetica, sans-serif;
 }

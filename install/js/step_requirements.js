@@ -152,6 +152,7 @@ function checkConfig(){
 				    	
 				    	if (mandatoryCount == 0){
 				    		addReport('ready', 'Your web server meets TAO requirements.', 'ok', false, true);
+                                                $('li.tao-ok label').append('<img src="images/valide.png" />');
 				    	}
 				    	
 				    	install.stateChange();
@@ -200,8 +201,9 @@ function addReport(name, message, kind, prepend, noHelp){
 }
 
 function displayLegend(){
-	$('#formComment').empty().append('<p id="explMandatory">Mandatory component</p>')
-							 .append('<p id="explOptional">Optional component</p>');
+	$('#formComment').empty()
+            .append('<p id="explMandatory">Mandatory component</p>')
+            .append('<p id="explOptional">Optional component</p>');
 }
 
 function initHelp(){
