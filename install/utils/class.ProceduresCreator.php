@@ -18,11 +18,11 @@ class tao_install_utils_ProceduresCreator{
         	    break;
         	}
         	case 'pdo_oci' : {
-        	    $this->setSQLParser(new tao_install_utils_OracleProceduresParser());
+        	    $this->setSQLParser(new tao_install_utils_CustomProceduresParser());
         	    break;
         	}
         	case 'pdo_sqlsrv' : {
-        		$this->setSQLParser(new tao_install_utils_OracleProceduresParser());
+        		$this->setSQLParser(new tao_install_utils_CustomProceduresParser());
         		break;
         	}
         	default: {

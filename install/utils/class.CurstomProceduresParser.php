@@ -29,7 +29,7 @@
  * @package tao
  
  */
-class tao_install_utils_OracleProceduresParser extends tao_install_utils_SQLParser{
+class tao_install_utils_CustomProceduresParser extends tao_install_utils_SQLParser{
 	
 	/**
 	 * Parse a SQL file containing mySQL compliant Procedures or Functions.
