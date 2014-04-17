@@ -10,9 +10,13 @@ define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeRe
         this.userService = userService;
 
         this.onFinishCallback;
+        this.onKillCallback;
         this.onDisplayChangeCallback;
     }
 
+    ServiceApi.SIG_SUCCESS = 0; 
+    ServiceApi.SIG_ERROR = 1;
+        
     ServiceApi.prototype.loadInto = function(frame, connected){
         var self = this;
         var callUrl = this.getCallUrl();        
@@ -89,6 +93,18 @@ define(['jquery', 'urlParser', 'iframeResizer'], function($, UrlParser, iframeRe
         this.onFinishCallback = callback;	
     };
 
+    ServiceApi.prototype.onKill = function(callback) {
+        this.onKillCallback = callback;	
+    };
+    
+    ServiceApi.prototype.kill = function(callback) {
+    	if (typeof this.onKillCallback == 'function') {
+    		this.onKillCallback(callback);
+    	} else {
+    		callback(0);
+    	}
+    };
+    
     // Flow
     // valueArray are return parameters of the service.
     ServiceApi.prototype.finish = function(valueArray) {
