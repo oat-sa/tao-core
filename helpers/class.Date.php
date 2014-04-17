@@ -42,8 +42,16 @@ class tao_helpers_Date
     public static function displayeDate($timestamp, $format = self::FORMAT_LONG)
     {
     	$returnValue = '';
-    	$ts = is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal ? $timestamp->__toString() : $timestamp;
-    	$dateTime = new DateTime();
+        
+    	if (is_object($timestamp) && $timestamp instanceof core_kernel_classes_Literal) {
+            $dateTime = new DateTime();
+            $dateTime->setTimestamp($timestamp->__toString());
+        } else if (is_object($timestamp) && $timestamp instanceof DateTime){
+            $dateTime = $timestamp;
+        } else {
+            $dateTime = new DateTime();
+            $dateTime->setTimestamp($timestamp);
+        }
     	$dateTime->setTimestamp($timestamp);
     	$dateTime->setTimezone(new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone()));
     	switch ($format) {
