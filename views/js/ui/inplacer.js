@@ -97,7 +97,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
                 
                 if(!$elt.data(dataNs)){
                     var $target = options.target;
-
+                    
                     if(!/^#/.test($target.selector)){
                         $.error('The target selector must referr to the of an element id or to the element to create.');
                     }
@@ -202,10 +202,13 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
                         .width(width)
                         .height(height);
             } else {
-            
-                $editor = $elt.prepend("<input type='text' value='" + text + "' />")
+                
+                //set focus before adding text allow focus in the end of the text
+                $editor = $elt.prepend($('<input>', {type:'text'}))
                         .children(':input')
-                        .width(width);
+                        .width(width)
+                        .focus()
+                        .val(text);
             }
             
             $editor.off('click')
