@@ -46,7 +46,7 @@
  *
  * @access public
  * @author Dieter Raber, <dieter@taotesting.com>
- * @date   2014-04-10 10:55
+ * @date   2014-04-17 17:16
  * @package tao
  * @subpackage helpers
  */
@@ -130,8 +130,10 @@ class tao_helpers_Icon {
     const CLASS_ITEM = 'icon-item';
     const CLASS_TEST = 'icon-test';
     const CLASS_DELIVERY = 'icon-delivery';
+    const CLASS_EYE_SLASH = 'icon-eye-slash';
     const CLASS_RESULT = 'icon-result';
     const CLASS_DELIVERY_SMALL = 'icon-delivery-small';
+    const CLASS_UPLOAD = 'icon-upload';
     const CLASS_RESULT_SMALL = 'icon-result-small';
     const CLASS_MOBILE_PREVIEW = 'icon-mobile-preview';
     const CLASS_EXTENSION = 'icon-extension';
@@ -462,12 +464,20 @@ class tao_helpers_Icon {
         return self::buildIcon(self::CLASS_DELIVERY, $options);
     }
 
+    public static function iconEyeSlash($options=array()){
+        return self::buildIcon(self::CLASS_EYE_SLASH, $options);
+    }
+
     public static function iconResult($options=array()){
         return self::buildIcon(self::CLASS_RESULT, $options);
     }
 
     public static function iconDeliverySmall($options=array()){
         return self::buildIcon(self::CLASS_DELIVERY_SMALL, $options);
+    }
+
+    public static function iconUpload($options=array()){
+        return self::buildIcon(self::CLASS_UPLOAD, $options);
     }
 
     public static function iconResultSmall($options=array()){
