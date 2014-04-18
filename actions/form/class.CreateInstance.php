@@ -19,6 +19,8 @@
  * 
  */
 
+use oat\tao\helpers\Template;
+
 /**
  * Short description of class tao_actions_form_CreateInstance
  *
@@ -77,13 +79,13 @@ class tao_actions_form_CreateInstance
 		
         $this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
     	
-		//add translate action in toolbar
-		$actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
-		$value =  "<a href='#' class='form-submiter' ><img src='".TAOBASE_WWW."/img/save.png' /> ".__('Create')."</a>";
-		$actions->setValue($value);
+		//add create action in toolbar
+		$action = tao_helpers_form_FormFactory::getElement('save', 'Free');
+		$value =  "<a href='#' class='form-submiter' ><img src='".Template::img('save.png', 'tao')."' /> ".__('Create')."</a>";
+		$action->setValue($value);
 		
-		$this->form->setActions(array($actions), 'top');
-		$this->form->setActions(array($actions), 'bottom');
+		$this->form->setActions(array($action), 'top');
+		$this->form->setActions(array($action), 'bottom');
         // section 10-30-1--78-65b5aa41:13bfae012f7:-8000:0000000000003C8E end
     }
 
