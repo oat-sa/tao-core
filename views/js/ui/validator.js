@@ -1,4 +1,4 @@
-define(['jquery', 'lodash', 'core/validator/Validator'], function($, _, Validator){
+define(['jquery', 'lodash', 'core/validator/Report', 'core/validator/Validator'], function($, _, Report, Validator){
 
 
     $.fn.validator = function(options){
@@ -42,7 +42,8 @@ define(['jquery', 'lodash', 'core/validator/Validator'], function($, _, Validato
     };
 
     $.fn.validator.defaults = {
-        'validator' : {
+        allowEmpty:false,
+        validator : {
             lazy : false
         }
     };
@@ -147,13 +148,11 @@ define(['jquery', 'lodash', 'core/validator/Validator'], function($, _, Validato
                 options[optionArray.name] = optionArray.options;
             }
         });
-
+        
         return options;
     };
 
     var create = function($elt, options){
-
-        $elt.data('validator-config', options);
 
         var rules = buildRules($elt);
         if(options.rules){
@@ -162,6 +161,8 @@ define(['jquery', 'lodash', 'core/validator/Validator'], function($, _, Validato
         }
 
         options = _.merge(options, buildOptions($elt) || {});
+        
+        $elt.data('validator-config', _.clone(options));
         
         createValidator($elt, rules, options);
     };
@@ -220,20 +221,29 @@ define(['jquery', 'lodash', 'core/validator/Validator'], function($, _, Validato
     };
 
     var validate = function($elt, callback, options){
-        var value = $elt.val();
-        $elt.data('validator-instance').validate(value, options || {}, function(results){
+        
+        var value = $elt.val(),
+            defaults = $elt.data('validator-config'),
+            execCallback = function(results){
             
-            var valid;
+                var valid;
 
-            //always trigger an event "validated" with associated results:
-            $elt.trigger('validated', {elt : $elt[0], results : results});
+                //always trigger an event "validated" with associated results:
+                $elt.trigger('validated', {elt : $elt[0], results : results});
 
-            //call the callback function is given:
-            if(_.isFunction(callback)){
-                valid = _.where(results, {type : 'failure'}).length === 0;
-                callback.call($elt[0], valid, results);
-            }
-        });
+                //call the callback function is given:
+                if(_.isFunction(callback)){
+                    valid = _.where(results, {type : 'failure'}).length === 0;
+                    callback.call($elt[0], valid, results);
+                }
+            };
+        
+        if(defaults.allowEmpty && value === ''){
+            execCallback([new Report('success', {validator : 'allowEmpty'})]);
+        }else{
+            $elt.data('validator-instance').validate(value, options || {}, execCallback);
+        }
+        
     };
 
 });

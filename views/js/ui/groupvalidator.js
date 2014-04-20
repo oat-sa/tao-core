@@ -1,4 +1,4 @@
-define(['jquery', 'lodash', 'ui/validator'], function($, _){
+define(['jquery', 'lodash', 'ui/validator'], function($, _) {
 
     /**
      * Register a plugin to validate a group of elements
@@ -13,38 +13,29 @@ define(['jquery', 'lodash', 'ui/validator'], function($, _){
      * @fires validated.group
      * @returns {jQueryElement} for chaining
      */
-    $.fn.groupValidator = function(options){
-    
+    $.fn.groupValidator = function(options) {
+
         options = _.defaults(options || {}, $.fn.groupValidator.defaults);
         
-        return this.each(function(){
+        return this.each(function() {
             var $container = $(this);
             var states = [];
-            
+
             $('[data-validate]', $container).validator({
                 event: options.events,
-                validated : function(valid, results){
-                    
+                validated: function(valid, results) {
+
                     var $elt = $(this);
-                    var message, rule;
-                    
+
                     //update global state
-                    states[$(this).attr('name')] = valid;
+                    states[$elt.attr('name')] = valid;
 
-                    //removes previous error messages
-                    $elt.siblings('.' + options.errorMessageClass).remove();
+                    //call custom callback
+                    options.callback.call(this, valid, results, options);
 
-                    if(valid === false){
-                        rule = _.where(results, {type: 'failure'})[0];
-                        $elt.addClass(options.errorClass);
-                        if(rule && rule.data.message){
-                            $elt.after("<span class='" + options.errorMessageClass + "'>" + rule.data.message + "</span>"); 
-                        }
-                    } else {
-                        $elt.removeClass(options.errorClass);
-                    }
+                    //trigger event on single validation
                     $elt.trigger('validated.single', [valid]);
-                    
+
                     /**
                      * Gives the validation state of the entire group. 
                      * Fired at each validation
@@ -52,15 +43,31 @@ define(['jquery', 'lodash', 'ui/validator'], function($, _){
                      * @param {boolean} isValid - wheter the group is valid 
                      */
                     $container.trigger('validated.group', [_(states).values().contains(false) === false, this]);
-                 }
-           });
+                }
+            });
         });
     };
-    
+
     $.fn.groupValidator.defaults = {
-        errorClass : 'error',
+        errorClass: 'error',
         errorMessageClass: 'validate-error',
-        events : ['change', 'blur']
+        events: ['change', 'blur'],
+        callback: function(valid, results, options) {
+
+            var $elt = $(this), rule;
+            //removes previous error messages
+            $elt.siblings('.' + options.errorMessageClass).remove();
+
+            if (valid === false) {
+                rule = _.where(results, {type: 'failure'})[0];
+                $elt.addClass(options.errorClass);
+                if (rule && rule.data.message) {
+                    $elt.after("<span class='" + options.errorMessageClass + "'>" + rule.data.message + "</span>");
+                }
+            } else {
+                $elt.removeClass(options.errorClass);
+            }
+        }
     };
-    
+
 });

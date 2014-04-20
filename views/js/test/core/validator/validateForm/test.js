@@ -1,7 +1,5 @@
-define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
+define(['lodash', 'jquery', 'ui/validator'], function(_, $) {
 
-    var CL = console.log;
-    
     test('create, destroy', function(){
         
         $('#text1').validator();
@@ -14,6 +12,17 @@ define(['lodash', 'jquery', 'jquery.validator'], function(_, $) {
         ok(!$('#text1').data('validator-config'), 'validator bound');
     });
     
+    test('validate empty validator', function(){
+        
+        expect(1);
+        $('#text0').validator('validate', function(valid, res){
+            console.log(res);
+            ok(valid, 'valid empty validator');
+        });
+        
+        
+    });
+        
     test('validate element', function(){
 
         //set test value;
