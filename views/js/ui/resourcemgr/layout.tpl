@@ -141,18 +141,33 @@
                 </div>
             </li>
         </ul>
+        
+        <h2 class="toggler" data-toggle="~ .uploader">{{__ 'Upload file'}}</h2>
         <div class="uploader">
-            <button class="btn-default small">
-                <span class="icon-import"></span>
-                {{__ 'Upload'}}
-            </button>
+            
+            <div id="dragZone">
+<!-- see http://www.sitepoint.com/html5-file-drag-and-drop/  -->
+            </div>
+            <div class="progressbar"></div>
+            <div class="file-upload grid-row">
+                <span class="btn-info small col-4">
+                    <span class="icon-import"></span>
+                    {{__ 'Upload'}}
+                </span>
+                <span class="file-name col-8 truncate"></span>
+                <input type="file">
+            </div>
+            <!--<button class="btn-default small">-->
+                <!--<span class="icon-import"></span>-->
+                <!--{{__ 'Upload'}}-->
+            <!--</button>-->
         </div>
     </section>   
 
     <section class="file-preview">
         <h1>{{__ 'Preview'}}</h1>
-        <div class="reader">
-            <p class="nopreview" data-type="audio">NO PREVIEW</p>
+        <div class="previewer">
+            <p class="nopreview">NO PREVIEW</p>
         </div>
        
         <h2 class="toggler" data-toggle="~ .file-properties">{{__ 'File Properties'}}</h2>

@@ -73,7 +73,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
         
         equal($title.text(), model.title, 'h1 has value assigned');
         
-        $title.trigger('close').remove();
+        $title.trigger('delete');
         
         strictEqual(model.title, undefined, 'model title has been removed');
     });
@@ -149,7 +149,7 @@ define(['jquery', 'core/databinder'], function($, DataBinder){
         
         strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 4, 'model length has been updated');
         
-        $firstPart.trigger('close').remove();
+        $firstPart.trigger('delete').remove();
         
         strictEqual(model.testParts[0].assessmentSections[0].sectionParts.length, 3, 'model length has been updated');
         strictEqual(model.testParts[0].assessmentSections[0].sectionParts[0].index, 0, 'model element has been removed');

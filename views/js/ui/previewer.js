@@ -1,24 +1,69 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
+define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'mediaElement'], function($, _, __, Pluginifier){
     'use strict';
 
     var ns = 'previewer';
     var dataNs = 'ui.' + ns;
 
+    //the plugin defaults
     var defaults = {
-
+        containerClass : 'previewer'
     };
 
    //the previewer will show the resource regarding it's mime/type, willcards are supported for subtypes
-   var mimeMapping = {
-        'mediaElement'  : ['application/ogg', 'audio/*', 'video/*'],
-        'image'         : ['image/*'],
-        'object'        : ['application/pdf'], 
-        'flash'         : ['application/x-shockwave-flash'],
-        'mathml'        : ['application/mathml+xml']
-    }; 
+   var mimeMapping = [
+        { type : 'youtube',   mimes : ['video/youtube'] },
+        { type : 'video',   mimes : ['application/ogg', 'video/*'] },
+        { type : 'audio',   mimes : ['audio/*'] },
+        { type : 'image',   mimes : ['image/*'] },
+        { type : 'pdf',     mimes : ['application/pdf'] }, 
+        { type : 'flash',   mimes : ['application/x-shockwave-flash'] },
+        { type : 'mathml',  mimes : ['application/mathml+xml'] }
+    ]; 
+
+    /**
+     * Get the type from a mimeType regarding the mimeMapping above
+     * @private
+     * @param {String} mime - type/mime
+     * @returns {String} type
+     */
+    var getFileType = function getType(mime){
+        var fileType;
+        var result = _.where(mimeMapping, { mimes : [mime]});
+        if(result.length === 0){
+             result = _.where(mimeMapping, { mimes : [mime.replace(/\/.*$/, '/*')]});
+        }
+        if(result.length > 0){
+            return result[0].type;
+        }
+    };
+
+    var previewGenerator = {
+        placeHolder     : _.template("<p class='nopreview' data-type='${type}'>${desc}</p>"),
+        youtubeTemplate : _.template("<video preload='none'><source type='video/youtueb' src='${file}'/></video>"),
+        videoTemplate   : _.template("<video src='${file}'></video>"),
+        audioTemplate   : _.template("<audio src='${file}'></audio>"),
+        imageTemplate   : _.template("<img src='${file}' alt='${name}' />"),
+        pdfTemplate     : _.template("<object data='${file}#toolbar=0' type='application/pdf'><a href='${file} target='_blank'>${name}</a></object>"),
+        flashTemplate   : _.template("<object data='${file}' type='application/x-shockwave-flash'><param name='movie' value='${file}'></param></object>"),
+        mathmlTemplate  : _.template("<iframe src='${file}'></iframe>"),
+
+        /**
+         * Generates the preview tags for a type 
+         * @memberOf previewGenerator 
+         * @param {String} type - the file type
+         * @param {Object} data - the preview data (file, desc, name)
+         * @returns {String} the tags
+         */
+        generate : function generate(type, data) {
+            var tmpl = this[type + 'Template'];
+            if(_.isFunction(tmpl)){
+                return tmpl(data); 
+            }
+         }
+    };
 
     /**
      * @exports ui/previewer
@@ -37,7 +82,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
          * @returns {jQueryElement} for chaining
          */
         init : function(options){
-        
+            var self = previewer;       
 
 
             //get options using default
@@ -46,31 +91,81 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
             return this.each(function(){
                 var $elt = $(this);
                 if(!$elt.data(dataNs)){
+            
+                    if(!$elt.hasClass(options.containerClass)){
+                        $elt.addClass(options.containerClass);
+                    }
+
+                    $elt.data(dataNs, options);
+                    self._update($elt);
 
                     /**
-                     * The plugin have been created.
-                     * @event Incrementer#create.incrementer
+                     * The plugin has been created.
+                     * @event previewer#create.previewer
                      */
                     $elt.trigger('create.' + ns);
                 }
             });
         },
 
-        update : function(file, type){
+        /**
+         * Update the preview
+         * @example $('selector').previewer('update', {file: 'foo.mp3', type : 'audio/mp3'});
+         * @public
+         * @param {Object} data - the new options for the preview
+         * @returns {jQueryElement} for chaining
+         */
+        update : function(data){
             return this.each(function(){
-                previewer._update($(this), file, type);
+                var $elt = $(this);
+                var options = $elt.data(dataNs);
+                $elt.data(dataNs, _.merge(options, data));
+                previewer._update($elt);
             });
         },
-       
-        _update : function($elt, file, type){
+      
+        /**
+         * Update the preview
+         * @private
+         * @param {jQueryElement} $elt - the current element
+         */
+        _update : function($elt){
+           var $content, mep;
+           var options = $elt.data(dataNs);
+           var type = getFileType(options.type);
+           var content = previewGenerator.placeHolder(_.merge({desc : __('No preview available')}, options));
+           if(options.file){
+                if(!options.name){
+                    options.name = options.file.substring(options.file.lastIndexOf("/") + 1, options.file.lastIndexOf("."));
+                }
+                content = previewGenerator.generate(type, options);
+           }
+           $content = $(content);
+           
+           $elt.empty().html($content);
+          
+           if(options.width){
+                $content.attr('width', options.width);
+           }
+           if(options.height){
+                $content.attr('height', options.height);
+           }
+           if(type === 'audio' || type === 'video' || type === 'youtube'){
+                $content.mediaelementplayer();
+           }
             
+            /**
+             * The plugin has been created.
+             * @event previewer#update.previewer
+             */
+            $elt.trigger('update.' + ns);
         },
  
         /**
          * Destroy completely the plugin.
          *
          * Called the jQuery way once registered by the Pluginifier.
-         * @example $('selector').filePreviewer('destroy');
+         * @example $('selector').previewer('destroy');
          * @public
          */
         destroy : function(){
@@ -79,8 +174,8 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                 var options = $elt.data(dataNs);
 
                 /**
-                 * The plugin have been destroyed.
-                 * @event Incrementer#destroy.incrementer
+                 * The plugin has been destroyed.
+                 * @event previewer#destroy.previewer
                  */
                 $elt.trigger('destroy.' + ns);
             });
@@ -102,8 +197,10 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
         $container.find('[data-preview]').each(function(){
             var $elt = $(this);
             $elt.previewer({
-                file : $elt.data('preview'),
-                type : $elt.data('preview-type')
+                file    : $elt.data('preview'),
+                type    : $elt.data('preview-type'),
+                width   : $elt.width(),
+                height  : $elt.height() 
             });
         });
     };

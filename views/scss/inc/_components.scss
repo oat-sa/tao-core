@@ -271,4 +271,21 @@ ul[data-button-group], ul.button-group {
     }
 }
 
-
+/* Media Preview */
+.previewer {
+    background-color: $uiGeneralContentBg;
+    margin: 5px;
+    min-width: 300px;
+    min-height: 200px;
+    .nopreview {
+        color: $uiGeneralContentBorder;
+        text-align: center;
+        @include font-size(20);
+        &:before {
+            @include icon('document');
+            @include font-size(60);
+            @include icon('media');
+            display: block !important;
+        }
+    }
+}
