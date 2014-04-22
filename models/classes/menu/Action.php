@@ -22,6 +22,7 @@
 namespace oat\tao\models\classes\menu;
 
 use oat\oatbox\PhpSerializable;
+use tao_models_classes_accessControl_AclProxy;
 
 class Action implements PhpSerializable
 {
@@ -82,7 +83,7 @@ class Action implements PhpSerializable
                 $ext = (isset($url[0])) ? $url[0] : null;
                 $module = (isset($url[1])) ? $url[1] : null;
                 $action = (isset($url[2])) ? $url[2] : null;
-                $access = \tao_models_classes_accessControl_AclProxy::hasAccess($action, $module, $ext);
+                $access = tao_models_classes_accessControl_AclProxy::hasAccess($action, $module, $ext);
             }
         }
         return $access;

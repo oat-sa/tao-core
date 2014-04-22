@@ -22,6 +22,7 @@
 namespace oat\tao\models\classes\menu;
 
 use oat\oatbox\PhpSerializable;
+use tao_models_classes_accessControl_AclProxy;
 
 class Entrypoint  implements PhpSerializable
 {
@@ -74,7 +75,7 @@ class Entrypoint  implements PhpSerializable
     
     public function hasAccess() {
         list($ext, $mod, $act) = explode('/', trim($this->data['url'], '/'));
-        return \tao_models_classes_accessControl_AclProxy::hasAccess($act, $mod, $ext);
+        return tao_models_classes_accessControl_AclProxy::hasAccess($act, $mod, $ext);
     }    
     
     public function __toPhpCode() {
