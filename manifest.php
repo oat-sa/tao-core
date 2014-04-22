@@ -112,6 +112,9 @@ return array(
     'autoload' => array (
         'psr-4' => array(
             'oat\\tao\\' => $extpath
+        ),
+        'legacy' => array(
+            'tao_models_classes_' => 'oat\\tao\\model\\'
         )
     ),
 	'constants' => array(
