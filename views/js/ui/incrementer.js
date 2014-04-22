@@ -76,15 +76,27 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                                 }
                             })
                             .on('keyup', function(){
-//                            var val = $elt.val();
-//                            if(val.slice(-1) !== '.'){
-//                                var currentFloat = parseFloat(val);
-//                                if(self._decimalPlaces(currentFloat) > options.decimal){
-//                                    val = self._toFixedDown(currentFloat, options.decimal);
-//                                }
-//                            }
-//                            $elt.val(val);
-                                $elt.val($elt.val().replace(/[\D]/g, ''));
+                                
+                                var value = parseFloat($elt.val().replace(/[\D]/g, '')),
+                                    options = $elt.data(dataNs);
+                                
+                                if(isNaN(value)){
+                                    $elt.val('');//allow empty input
+                                }else{
+                                    //check if the min and max are respected:
+                                    if(options.min === null || (_.isNumber(options.min) && value >= options.min)){
+                                        $elt.val(value);
+                                    }else{
+                                        $elt.val(options.min);
+                                        value = options.min;
+                                    }
+                                    if(options.max === null || (_.isNumber(options.max) && value <= options.max)){
+                                        $elt.val(value);
+                                    }else{
+                                        $elt.val(options.max);
+                                    }
+                                }
+                                
                             })
                             .on('focus', function(){
                                 this.select();
@@ -151,7 +163,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
         _inc : function($elt){
 
             var options = $elt.data(dataNs),
-                currentFloat = parseFloat($elt.val()),
+                currentFloat = parseFloat($elt.val()||0),
                 stepDecimal = Incrementer._decimalPlaces(options.step),
                 current,
                 value;
@@ -182,7 +194,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
         _dec : function($elt){
 
             var options = $elt.data(dataNs),
-                currentFloat = parseFloat($elt.val()),
+                currentFloat = parseFloat($elt.val()||0),
                 stepDecimal = Incrementer._decimalPlaces(options.step),
                 current,
                 value;
@@ -193,7 +205,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                 current = parseFloat(currentFloat.toFixed(options.decimal));
                 value = current - options.step;
             }
-
+           
             if(options.min === null || (_.isNumber(options.min) && value >= options.min)){
                 $elt.val(value);
 
@@ -224,6 +236,22 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                  */
                 $elt.trigger('destroy.' + ns);
             });
+        },
+            
+        /**
+         * Set options of the plugin
+         *
+         * Called the jQuery way once registered by the Pluginifier.
+         * @example $('selector').incrementer('options', {min:0});
+         * @param  {object} options
+         * @public
+         */
+        options : function(options){
+            this.each(function(){
+                var $elt = $(this);
+                $elt.data(dataNs, _.merge($elt.data(dataNs), options));
+            });
+            return this;
         }
     };
 
