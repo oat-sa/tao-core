@@ -65,13 +65,13 @@ class tao_models_classes_accessControl_AclProxy
     /**
      * Returns whenever or not a user has access to a specified link
      *
-     * @param string $extension
-     * @param string $controller
      * @param string $action
+     * @param string $controller
+     * @param string $extension
      * @param array $parameters
      * @return boolean
      */
-    public static function hasAccess($extension, $controller, $action = null, $parameters = array()) {
+    public static function hasAccess($action, $controller, $extension, $parameters = array()) {
         return self::getImplementation()->hasAccess($extension, $controller, $action, $parameters);
     }
     

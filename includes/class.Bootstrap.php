@@ -219,7 +219,7 @@ class Bootstrap{
     		common_Logger::i('Access denied', array('TAO', 'BOOT'));
             if (!tao_helpers_Request::isAjax()
                 && common_session_SessionManager::isAnonymous()
-    		    && tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'Main', 'login')
+    		    && tao_models_classes_accessControl_AclProxy::hasAccess('login', 'Main', 'tao')
     		) {
                 header(HTTPToolkit::statusCodeHeader(302));
                 header(HTTPToolkit::locationHeader(_url('login', 'Main', 'tao', array(

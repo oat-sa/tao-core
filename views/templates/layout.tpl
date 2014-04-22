@@ -21,7 +21,7 @@ Template::inc('layout_header.tpl', 'tao')
                     <span class="icon-logout" ></span>
                 </a>
 			</div>
-<?php if (tao_models_classes_accessControl_AclProxy::hasAccess('tao', 'UserSettings', null)): ?>
+<?php if (tao_models_classes_accessControl_AclProxy::hasAccess(null, 'UserSettings', 'tao')): ?>
             <div>
                 <a id="usersettings" href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>" title="<?=__('My Settings')?>">
                     <span class="icon-settings" ></span>

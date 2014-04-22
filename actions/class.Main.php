@@ -223,8 +223,8 @@ class tao_actions_Main extends tao_actions_CommonModule {
     private function hasAccessToStructure(Perspective $structure){
         $access = false;
         foreach ($structure->getSections() as $section) {
-            list($ext, $mod, $act) = explode('/', trim((string) $section->getUrl(), '/'));
-            if (tao_models_classes_accessControl_AclProxy::hasAccess($ext, $mod, $act)) {
+            list($extension, $controller, $action) = explode('/', trim((string) $section->getUrl(), '/'));
+            if (tao_models_classes_accessControl_AclProxy::hasAccess($action, $controller, $extension)) {
                 $access = true;
                 break;
             }
@@ -244,12 +244,9 @@ class tao_actions_Main extends tao_actions_CommonModule {
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
         foreach ($structure->getSections() as $section) {
             
-            $url = explode('/', trim($section->getUrl(), '/'));
-            $ext = (isset($url[0])) ? $url[0] : null;
-            $module = (isset($url[1])) ? $url[1] : null;
-            $action = (isset($url[2])) ? $url[2] : null;
+            list($extension, $controller, $action) = explode('/', trim((string) $section->getUrl(), '/'));
 
-            if (tao_models_classes_accessControl_AclProxy::hasAccess($ext, $module, $action)) {
+            if (tao_models_classes_accessControl_AclProxy::hasAccess($action, $controller, $extension)) {
                 $sections[] = array(
                     'id'    => $section->getId(), 
                     'url'   => $section->getUrl(), 
@@ -279,7 +276,7 @@ class tao_actions_Main extends tao_actions_CommonModule {
                 }
             } else {
                 $action['js'] =  $extension. '/'. $toolbarAction->getJs();
-                $access = tao_models_classes_accessControl_AclProxy::hasAccess($extension, null);
+                $access = tao_models_classes_accessControl_AclProxy::hasAccess(null, null, $extension);
             }
             if($access){
                 $actions[$i] = $action;

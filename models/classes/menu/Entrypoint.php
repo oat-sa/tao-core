@@ -74,7 +74,7 @@ class Entrypoint  implements PhpSerializable
     
     public function hasAccess() {
         list($ext, $mod, $act) = explode('/', trim($this->data['url'], '/'));
-        return \tao_models_classes_accessControl_AclProxy::hasAccess($ext, $mod, $act);
+        return \tao_models_classes_accessControl_AclProxy::hasAccess($act, $mod, $ext);
     }    
     
     public function __toPhpCode() {
