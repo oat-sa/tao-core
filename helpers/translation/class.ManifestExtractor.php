@@ -19,8 +19,6 @@
  * 
  */
 
-require_once('tao/helpers/translation/class.TranslationExtractor.php');
-
 /**
  * The ManifestExtractor extracts translation units from structures.xml files.
  * It will extract the following nodes/attributes.
@@ -162,5 +160,3 @@ class tao_helpers_translation_ManifestExtractor
     }
 
 }
-
-?>

@@ -18,20 +18,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-?>
-<?php
-
-
-/**
- * A TranslationExtractor instance extracts TranslationUnits from a given source
- * as an Item, source code, ...
- *
- * @author Jerome Bogaerts
- * @since 2.2
- * @version 1.0
- */
-require_once('tao/helpers/translation/class.TranslationExtractor.php');
-
 
 /**
  * A TranslationExtractor that focuses on the extraction of Translation Units
