@@ -25,7 +25,7 @@ pre {
 
 body textarea {
     font-weight: normal;
-    //background-color: white;    
+    //background-color: white;  
 }
 
 textarea {
@@ -180,4 +180,16 @@ div#license2-content {
 #border {
     border: 1px solid #00000a;
     padding: 0.04cm 0.14cm;
+}
+
+p#comments {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#readLicense1Header, #readLicense2Header {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input#readLicense1, input#readLicense2 {
+    font-family: Arial, Helvetica, sans-serif;
 }

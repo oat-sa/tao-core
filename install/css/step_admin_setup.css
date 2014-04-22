@@ -39,3 +39,7 @@ ul{
 #formComment{
 	width: 330px;
 }
+
+p#comments {
+    font-family: Arial, Helvetica, sans-serif;
+}

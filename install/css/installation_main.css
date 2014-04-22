@@ -20,7 +20,7 @@
  */
 body {
 	background:#eee;
-	font-family: Verdana, Arial, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;//Verdana, Arial, sans-serif;
 	color: #3A3A3A;
 }
 
@@ -66,6 +66,7 @@ h4 {
 	background-repeat: no-repeat;
 	background-position-y: 1px;
 	color: #3A3A3A;
+        font-family: Arial, Helvetica, sans-serif;
 }
 
 #genericPopup h4.help {
@@ -83,6 +84,7 @@ h2 {
 	font-size:12px;
 	font-weight:bold;
 	color:rgb(205,0,62);
+        font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
@@ -95,6 +97,7 @@ h1 {
 	line-height: 22px;
 	font-size:18px;
 	color: #3A3A3A;
+        font-family: Arial, Helvetica, sans-serif;
 }
 
 h3{
@@ -102,6 +105,7 @@ h3{
 	margin-bottom:15px;
 	border-bottom:1px dotted black;
 	padding-bottom:5px;
+        font-family: Arial, Helvetica, sans-serif;
 }
 
 #comments{
@@ -121,6 +125,7 @@ h3{
 	font-size:10px;
 	margin:10px 0;
 	color: #3A3A3A;
+        font-family: Arial, Helvetica, sans-serif;
 }
 
 #install_seq li a{
@@ -196,12 +201,14 @@ input[type="text"], input[type="password"]{
 	padding:0 5px;
 	clear:both;
 	color: #3A3A3A;
+        font-family: Arial, Helvetica, sans-serif;
 }
 
 input[type="checkbox"]{
 	width:15px;
 	clear:both;
 	margin:13px 0 0 100px;
+        font-family: Arial, Helvetica, sans-serif;
 }
 
 
@@ -276,7 +283,7 @@ form > ul > li >*{
 } 
 
 #helpPopupContent, #errorPopUp{
-	font-family:arial;
+	font-family:Arial, Helvetica, sans-serif;//arial;
 	font-weight:normal;
 	font-size:12px;
 	line-height: 14px;
@@ -297,7 +304,7 @@ body .ui-widget-overlay{
 }
 
 #helpPopUpClose, #errorPopUpClose{
-	font-family: verdana,arial,sans-serif;
+	font-family: Arial, Helvetica, sans-serif;//verdana,arial,sans-serif;
 	font-weight: bold;
 	color:#666;
 	font-size:12px;
@@ -332,7 +339,7 @@ body .ui-widget-overlay{
 } 
 
 #supportPopupContent {
-	font-family:arial;
+	font-family:Arial, Helvetica, sans-serif;//arial;
 	font-weight:normal;
 	font-size:12px;
 	line-height: 14px;
@@ -383,7 +390,7 @@ body .ui-widget-overlay {
 
 
 #supportPopupClose {
-	font-family: verdana,arial,sans-serif;
+	font-family: Arial, Helvetica, sans-serif;//verdana,arial,sans-serif;
 	font-weight: bold;
 	color:#666;
 	font-size:12px;
@@ -420,7 +427,7 @@ body input.helpTaoInputLabel, body textarea.helpTaoInputLabel {
 
 body textarea {
 	font-size:11px;
-	font-family: Verdana;
+	font-family: Arial, Helvetica, sans-serif;//Verdana;
 	font-weight:bold;
 }
 
@@ -456,7 +463,7 @@ body textarea {
 	font-weight: bold;
 	color:#D31145;
 	font-size:14px;
-	font-family:verdana;
+	font-family:Arial, Helvetica, sans-serif;//verdana;
 	position:relative;
 	margin-left:4px;
 	margin-top:4px;
@@ -466,7 +473,7 @@ body textarea {
 	font-weight: bold;
 	color:#D31145;
 	font-size:14px;
-	font-family:verdana;
+	font-family:Arial, Helvetica, sans-serif;//verdana;
 }
 
 
@@ -532,7 +539,7 @@ html, body{
 } 
 
 #genericPopupContent{
-	font-family:arial;
+	font-family:Arial, Helvetica, sans-serif;//arial;
 	font-weight:normal;
 	font-size:12px;
 	line-height: 14px;
@@ -572,7 +579,7 @@ body .ui-widget-overlay{
 
 
 #genericPopupClose{
-	font-family: verdana,arial,sans-serif;
+	font-family: Arial, Helvetica, sans-serif;//Arial; //verdana,arial,sans-serif;
 	font-weight: bold;
 	color:#666;
 	font-size:12px;
@@ -592,4 +599,8 @@ iframe::-webkit-scrollbar { display: none; }
 .validField{
 	margin-top:9px;
 	margin-left:4px;
+}
+
+#submitForm, #abortForm, #redoForm {
+    font-family: Arial, Helvetica, sans-serif;
 }

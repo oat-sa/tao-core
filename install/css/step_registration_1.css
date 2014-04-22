@@ -29,7 +29,7 @@
 
 #forms_content form {
     
-    margin-top: 105px; //172px;
+    margin-top: 0px; //105px;
 }
 
 input[type="radio"] {
@@ -40,6 +40,7 @@ input[type="radio"] {
 
 p#comments {
     font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #forge-account {
@@ -62,7 +63,7 @@ p#comments {
 }
 
 ul#support_fields {
-    margin-left: 21px;
+    //margin-left: 21px;
 }
 
 #submitForm {

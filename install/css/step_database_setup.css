@@ -59,3 +59,11 @@ ul{
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
+p#comments {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#database_driver {
+        font-family: Arial, Helvetica, sans-serif;
+}

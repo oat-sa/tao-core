@@ -30,3 +30,8 @@
 ul{
 	height: 230px;
 }
+
+p#comments {
+    font-family: Arial, Helvetica, sans-serif;
+}
+

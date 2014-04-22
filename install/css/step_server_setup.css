@@ -39,3 +39,11 @@ ul{
 #formComment{
 	width: 330px;
 }
+
+p#comments {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#timezone,#deployment_mode {
+        font-family: Arial, Helvetica, sans-serif;
+}
