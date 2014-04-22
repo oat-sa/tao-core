@@ -43,12 +43,20 @@ class tao_models_classes_accessControl_AclProxy
     protected static function getImplementation() {
         if (is_null(self::$implementation)) {
             $implClass = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_KEY_IMPLEMENTATION);
-            $implClass = !empty($implClass) && class_exists($implClass) ? $implClass : self::FALLBACK_IMPLEMENTATION_CLASS;
+            if (empty($implClass) || !class_exists($implClass)) {
+                common_Logger::e('No implementation found for Access Control, locking down the server');
+                $implClass = self::FALLBACK_IMPLEMENTATION_CLASS;
+            }
             self::$implementation = new $implClass();
         }
         return self::$implementation;
     }
     
+    /**
+     * Change the implementation of the access control permanently
+     * 
+     * @param tao_models_classes_accessControl_AccessControl $implementation
+     */
     public static function setImplementation(tao_models_classes_accessControl_AccessControl $implementation) {
         self::$implementation = $implementation;
         common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->setConfig(self::CONFIG_KEY_IMPLEMENTATION, get_class($implementation));
@@ -67,10 +75,20 @@ class tao_models_classes_accessControl_AclProxy
         return self::getImplementation()->hasAccess($extension, $controller, $action, $parameters);
     }
     
+    /**
+     * Apply an AccessControl Rule to the current access control implemnentation
+     * 
+     * @param tao_models_classes_accessControl_AccessRule $rule
+     */
     public static function applyRule(tao_models_classes_accessControl_AccessRule $rule) {
         self::getImplementation()->applyRule($rule);
     }
     
+    /**
+     * Revoke an AccessControl Rule from the current access control implemnentation
+     * 
+     * @param tao_models_classes_accessControl_AccessRule $rule
+     */
     public static function revokeRule(tao_models_classes_accessControl_AccessRule $rule) {
         self::getImplementation()->revokeRule($rule);
     }
