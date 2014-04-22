@@ -136,5 +136,5 @@ function initHelp(){
 	install.addHelp('tpl_superuser_email', 'The email address of the Administrator.');
 	install.addHelp('tpl_superuser_login', 'The account login of the Administrator.');
 	install.addHelp('tpl_superuser_password', 'The Administrator password. Do not forget it.');
-	install.addHelp('tpl_superuser_password2', 'Repeat the Administrator password to make sure it does not contain errors.');
+	install.addHelp('tpl_superuser_password2', 'Type the Administrator password again to make sure it\'s consistent.');
 }

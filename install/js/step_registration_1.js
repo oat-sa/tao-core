@@ -53,6 +53,7 @@ function onLoad(){
 	$('input#radio-noreg').click(function() {
             
             $('ul#support_fields').fadeOut(150); //.hide();
+            $('ul#registration_fields').fadeOut(150);
             $('p#formComment').fadeOut(150); //.hide();
 
             $('input#submitForm').removeClass('disabled')
@@ -76,6 +77,9 @@ function onLoad(){
 	$('input#radio-askreg').click(function() {
             $('ul#support_fields').fadeOut(150); //.hide();
             $('p#formComment').fadeOut(150); //.hide();
+            $('ul#registration_fields').fadeIn(300);
+
+            //$('ul#registration_fields').load('http://tao.vhost/TAOForgeRegistration.html');
 
             // disable next, unless the credentials check is incorrect
             $('input#submitForm').removeClass('disabled')
@@ -98,6 +102,7 @@ function onLoad(){
         
         $('input#radio-alreadyreg').click(function() {
             $('ul#support_fields').fadeIn(300);//.show();
+            $('ul#registration_fields').fadeOut(150);
             $('p#formComment').fadeIn(300);//.show();
             
             /*$('input#submitForm').removeClass('enabled')
@@ -106,6 +111,15 @@ function onLoad(){
             $('input#submitForm').removeClass('disabled')
                     .addClass('enabled')
                     .attr('disabled', false);  
+            
+            // TEST
+            $('ul#support_fields').load('http://tao.vhost/TAOForgeCheckAccount.html div#forms_content form', function( response, status, xhr ) {
+                if ( status == "error" ) {
+                var msg = "Sorry but there was an error: \r\n";
+                alert( msg + xhr.status + " " + xhr.statusText );
+                        //$( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+                }
+            });
             
             //TODO add credentials check
             $('form').unbind('submit').bind('submit', function(){
@@ -247,6 +261,6 @@ function onLoad(){
 }
 
 function initHelp(){	
-        install.addHelp('tpl_support_login', 'The account login that you previously registered on the TAO forge.');
-	install.addHelp('tpl_support_password', 'The account password that you previously registered on the TAO forge. This password is used to check that your are the legitimate owner of this account by checking the login/password couple.');
+        install.addHelp('tpl_support_login', 'Your current login on TAO forge.');
+	install.addHelp('tpl_support_password', 'Your current password on TAO forge. Used jointly with your login to grant you access to this TAO forge account.');
 }

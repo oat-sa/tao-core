@@ -41,6 +41,7 @@ function onLoad(){
             $(this).bind('click', onBackward);
 	});
         
+        $('ul#registration_fields').load('http://tao.vhost/TAOForgeRegistration.html');
         
         // Initialize 'tao-input's.
 	

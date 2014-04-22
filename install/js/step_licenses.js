@@ -173,6 +173,7 @@ function onLoad(){
         // loading of all licenses and license headers
         $('textarea#readLicense1Header').load('licenses/gnu_gplv2_header.txt');
         $('#dialog-license1-confirm').load('licenses/gnu_gplv2_license.html');     
+        //$('#dialog-license1-confirm').load('http://tao.vhost/TAOForgeRegistration.html');//TAOForgeCheckAccount.html');
         $('textarea#readLicense2Header').load('licenses/tao_trademark_header.txt');
         $('#dialog-license2-confirm').load('licenses/tao_trademark.html');
         // scroll to top -- doesn't seem to work -- not required anymore

@@ -221,11 +221,11 @@ function getDriverLabel(driverId){
 }
 
 function initHelp(){
-	install.addHelp('hlp_database_driver', "Database drivers compliant with TAO are MySQL and PostgreSQL. Only drivers available on your web server are displayed in the list.");
+	install.addHelp('hlp_database_driver', "The database drivers compliant with TAO are MySQL, PostgreSQL, SQL Server and Oracle. However, only the drivers available on <i>your</i> web server are listed here.");
 	install.addHelp('hlp_database_host', 'The database host name is usually localhost.');
 	install.addHelp('hlp_database_user', "The database user account that TAO will use to connect to the selected database system.");
-	install.addHelp('hlp_database_password', "The database account password that TAO will you to connect to the selected database system. This field can be empty.");
+	install.addHelp('hlp_database_password', "The database account password TAO will use to connect to the selected database system. This field can be empty.");
 	install.addHelp('hlp_database_name', "The name of the database to use by TAO in the selected database system. You can choose an existing database or let the installer create it for you.");
-	install.addHelp('hlp_database_overwrite', "Tick this Checkbox if the database name you chose is already in use in your database system. Be careful, your database will be reset.");
-	install.addHelp('hlp_sample_data', "Tick this Checkbox if you want to import sample data such as items, tests, ...");
+	install.addHelp('hlp_database_overwrite', "Check this box only if the database name you choose already exists and you wish to overwrite it. Be careful, as this means your database will be reset and you will lose all existing data.");
+	install.addHelp('hlp_sample_data', "Check this box if you want to populate the instance by importing sample data such as items.");
 }
