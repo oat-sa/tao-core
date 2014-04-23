@@ -120,7 +120,6 @@ class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod {
   public function build_signature($request, $consumer, $token) {
     $base_string = $request->get_signature_base_string();
     $request->base_string = $base_string;
-
     $key_parts = array(
       $consumer->secret,
       ($token) ? $token->secret : ""
@@ -391,6 +390,7 @@ class OAuthRequest {
   }
 
   /**
+   * intended for base string computation
    * parses the url and rebuilds it to be
    * scheme://host/path
    */
@@ -401,14 +401,19 @@ class OAuthRequest {
     $port = (isset($parts['port'])) ? $parts['port'] : (($scheme == 'https') ? '443' : '80');
     $host = (isset($parts['host'])) ? strtolower($parts['host']) : '';
     $path = (isset($parts['path'])) ? $parts['path'] : '';
-
+    //$query = (isset($parts['query'])) ? '?'.$parts['query'] : '';
+    
     if (($scheme == 'https' && $port != '443')
         || ($scheme == 'http' && $port != '80')) {
       $host = "$host:$port";
     }
     return "$scheme://$host$path";
   }
-
+  
+  public function getUrl() {
+      return $this->http_url;
+  }
+  
   /**
    * builds a url usable for a GET request
    */
