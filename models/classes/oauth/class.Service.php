@@ -68,7 +68,7 @@ class tao_models_classes_oauth_Service
             $consumer,
             $token,
             $oauthRequest->get_normalized_http_method(),
-            $oauthRequest->get_normalized_http_url(),
+            $oauthRequest->getUrl(),
             $allInitialParameters
         );
         $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
@@ -83,7 +83,7 @@ class tao_models_classes_oauth_Service
             $signatureParameters["oauth_body_hash"] = base64_encode(sha1($request->getBody(), true));
             $signatureHeaders = array("Authorization" => self::buildAuthorizationHeader($signatureParameters));
             $signedRequest = new common_http_Request(
-                $signedRequest->get_normalized_http_url(),
+                $signedRequest->getUrl(),
                 $signedRequest->get_normalized_http_method(),
                 $request->getParams(),
                 array_merge($signatureHeaders, $request->getHeaders()),
@@ -140,7 +140,7 @@ class tao_models_classes_oauth_Service
         
         $params = array_merge($params, $request->getParams());
         //$params = array_merge($params, $request->getHeaders());
-        
+        common_Logger::d("OAuth Request created:".$request->getUrl()." using ".$request->getMethod());
         $oauthRequest = new OAuthRequest($request->getMethod(), $request->getUrl(), $params);
         return $oauthRequest;
     }
