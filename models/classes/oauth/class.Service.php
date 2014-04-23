@@ -91,7 +91,7 @@ class tao_models_classes_oauth_Service
             );
         } else {
             $signedRequest =  new common_http_Request(
-                $signedRequest->get_normalized_http_url(),
+                $signedRequest->getUrl(),
                 $signedRequest->get_normalized_http_method(),
                 $signedRequest->get_parameters(),
                 $request->getHeaders(),
