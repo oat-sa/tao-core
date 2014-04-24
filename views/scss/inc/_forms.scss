@@ -33,12 +33,25 @@ label {
         opacity: 0;
         cursor:pointer;
     }
-}
-&:hover {
-    .btn-info {
-        opacity: .85;
+
+    &:hover {
+        .btn-info {
+            opacity: .85;
+        }
     }
 }
+.file-drop {
+    height: 150px;
+    padding-top: 50px;
+    border: dashed 2px $uiGeneralContentBorder;
+    text-align: center;
+    color: $uiGeneralContentBorder;
+    @include font-size(20);
+    &.drag-hover {
+        border-color: $uiClickableHoverBg;
+    }
+}
+
 
 .pseudo-label-box {
     position: relative;
