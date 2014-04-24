@@ -37,7 +37,7 @@ require.config({
         'handlebars'        : 'lib/handlebars',
         'tpl'               : 'tpl',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
-        'ckeditor-jquery'   : 'lib/ckeditor/adapters/jquery',
+        'ckConfigurator'    : '../../../taoQtiItem/views/js/qtiCreator/editor/ckEditor/ckConfigurator',
         'class'             : 'lib/class',
         'jwysiwyg'          : 'lib/jwysiwyg/jquery.wysiwyg',
         'jsTree'            : 'lib/jsTree',
