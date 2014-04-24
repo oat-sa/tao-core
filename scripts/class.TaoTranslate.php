@@ -123,16 +123,17 @@ class tao_scripts_TaoTranslate
         	$this->err("Please enter the 'action' parameter.", true);
         } else {
         	$this->options['action'] = strtolower($this->options['action']);
-        	$allowedActions = array('create',
-        							'update',
-        							'delete',
-        							'updateall',
-        							'deleteall',
-                                    'enable',
-                                    'disable',
-                                    'compile',
-                                    'compileall',
-        							'changecode');
+                $allowedActions = array(    'create',
+                                            'update',
+                                            'delete',
+                                            'updateall',
+                                            'deleteall',
+                                            'enable',
+                                            'disable',
+                                            'compile',
+                                            'compileall',
+                                            'changecode',
+                                            'getallextensions');	 // new action!
         	
         	if (!in_array($this->options['action'], $allowedActions)) {
         		$this->err("'" . $this->options['action'] . "' is not a valid action.", true);
@@ -197,6 +198,10 @@ class tao_scripts_TaoTranslate
             
             case 'changecode':
             	$this->actionChangeCode();
+            break;
+            
+            case 'getallextensions':
+            	$this->actionGetExt();
             break;
         }
         // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 end
@@ -266,7 +271,10 @@ class tao_scripts_TaoTranslate
             case 'changecode':
             	$this->checkChangeCodeInput();
             break;
-        	
+
+            case 'getallextensions':
+                ;
+            break;	
         	default:
         		// Should not happen.
         		$this->err("Fatal error while checking input parameters. Unknown 'action'.", true);
@@ -456,7 +464,7 @@ class tao_scripts_TaoTranslate
      *
      * @access private
      * @author Joel Bout, <joel.bout@tudor.lu>
-     * @return void
+     * @return void/
      */
     private function checkDeleteInput()
     {
@@ -1385,113 +1393,118 @@ class tao_scripts_TaoTranslate
     public function actionCompile()
     {
         // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003ABD begin
-        $extension = $this->options['extension'];
-        $language = $this->options['language'];
-        $compiledTranslationFile = new tao_helpers_translation_TranslationFile();
-        $compiledTranslationFile->setTargetLanguage($this->options['language']);
+        $extensionsToCreate = explode(',', $this->options['extension']);
+        $extensionsToCreate = array_unique($extensionsToCreate);
         
-        $this->outVerbose("Compiling language '${language}' for extension '${extension}'...");
-        
-        // Get the dependencies of the target extension.
-        // @todo Deal with dependencies at compilation time.
-        $dependencies = array();
-        if ($extension !== 'tao'){
-            $dependencies[] = 'tao';
-        }
-        
-        $this->outVerbose("Resolving Dependencies...");
-        foreach ($dependencies as $depExtId){
-            $this->outVerbose("Adding messages from extension '${depExtId}' in '${language}'...");
-            // Does the locale exist for $depExtId?
-            $depPath = $this->buildLanguagePath($depExtId, $language) . '/' . self::DEF_PO_FILENAME;
-            if (!file_exists($depPath) || !is_readable($depPath)){
-                $this->outVerbose("Dependency on extension '${depExtId}' in '${language}' does not exist. Trying to resolve default language...");
-                $depPath = $this->buildLanguagePath($depExtId, tao_helpers_translation_Utils::getDefaultLanguage() . '/' . self::DEF_PO_FILENAME);
+		foreach ($extensionsToCreate as $extension){
+			$language = $this->options['language'];
+			$compiledTranslationFile = new tao_helpers_translation_TranslationFile();
+			$compiledTranslationFile->setTargetLanguage($this->options['language']);
+			
+			$this->outVerbose("Compiling language '${language}' for extension '${extension}'...");
+			
+			// Get the dependencies of the target extension.
+			// @todo Deal with dependencies at compilation time.
+			$dependencies = array();
+			if ($extension !== 'tao'){
+				$dependencies[] = 'tao';
+			}
+			
+			$this->outVerbose("Resolving Dependencies...");
+			foreach ($dependencies as $depExtId){
+				$this->outVerbose("Adding messages from extension '${depExtId}' in '${language}'...");
+				// Does the locale exist for $depExtId?
+				$depPath = $this->buildLanguagePath($depExtId, $language) . '/' . self::DEF_PO_FILENAME;
+				if (!file_exists($depPath) || !is_readable($depPath)){
+					$this->outVerbose("Dependency on extension '${depExtId}' in '${language}' does not exist. Trying to resolve default language...");
+					$depPath = $this->buildLanguagePath($depExtId, tao_helpers_translation_Utils::getDefaultLanguage() . '/' . self::DEF_PO_FILENAME);
 
-                if (!file_exists($depPath) || !is_readable($depPath)){
-                    $this->outVerbose("Dependency on extension '${depExtId}' in '${language}' does not exist.");
-                    continue;
-                }
-            }
-            
-            // Recompile the dependent extension (for the moment 'tao' meta-extension only).
-            $oldVerbose = $this->options['verbose'];
-            $this->parameters['verbose'] = false;
-            $this->options['extension'] = $depExtId;
-            $this->actionCompile();
-            $this->options['extension'] = $extension;
-            $this->parameters['verbose'] = $oldVerbose;
-            
-            $poFileReader = new tao_helpers_translation_POFileReader($depPath);
-            $poFileReader->read();
-            $poFile = $poFileReader->getTranslationFile();
-            $poCount = $poFile->count();
-            $compiledTranslationFile->addTranslationUnits($poFile->getTranslationUnits());
-            
-            $this->outVerbose("${poCount} messages added.");
-        }
+					if (!file_exists($depPath) || !is_readable($depPath)){
+						$this->outVerbose("Dependency on extension '${depExtId}' in '${language}' does not exist.");
+						continue;
+					}
+				}
+				
+				// Recompile the dependent extension (for the moment 'tao' meta-extension only).
+				$oldVerbose = $this->options['verbose'];
+				$this->parameters['verbose'] = false;
+				$this->options['extension'] = $depExtId;
+				$this->actionCompile();
+				$this->options['extension'] = $extension;
+				$this->parameters['verbose'] = $oldVerbose;
+				
+				$poFileReader = new tao_helpers_translation_POFileReader($depPath);
+				$poFileReader->read();
+				$poFile = $poFileReader->getTranslationFile();
+				$poCount = $poFile->count();
+				$compiledTranslationFile->addTranslationUnits($poFile->getTranslationUnits());
+				
+				$this->outVerbose("${poCount} messages added.");
+			}
 
-        if (($extDirectories = scandir(ROOT_PATH)) !== false){
-                    
-            // Get all public messages accross extensions.
-            foreach ($extDirectories as $extDir){
-                $extPath = ROOT_PATH . '/' . $extDir;
-                
-                if (is_dir($extPath) && is_readable($extPath) && $extDir[0] != '.' && !in_array($extDir, $dependencies) && $extDir != $extension && $extDir != 'generis'){
-                    $this->outVerbose("Adding public messages from extension '${extDir}' in '${language}'...");
-                    
-                    $poPath = $this->buildLanguagePath($extDir, $language) . '/' . self::DEF_PO_FILENAME;
-                    if (!file_exists($poPath) || !is_readable($poPath)){
-                        $this->outVerbose("Extension '${extDir}' is not translated in language '${language}'. Trying to retrieve default language...");
-                        $poPath = $this->buildLanguagePath($extDir, tao_helpers_translation_Utils::getDefaultLanguage()) . '/' . self::DEF_PO_FILENAME;
-                        
-                        if (!file_exists($poPath) || !is_readable($poPath)){
-                            $this->outVerbose("Extension '${extDir}' in '${language}' does not exist.");
-                            continue;
-                        }
-                    }
+			if (($extDirectories = scandir(ROOT_PATH)) !== false){
+						
+				// Get all public messages accross extensions.
+				foreach ($extDirectories as $extDir){
+					$extPath = ROOT_PATH . '/' . $extDir;
+					
+					if (is_dir($extPath) && is_readable($extPath) && $extDir[0] != '.' && !in_array($extDir, $dependencies) && $extDir != $extension && $extDir != 'generis'){
+						$this->outVerbose("Adding public messages from extension '${extDir}' in '${language}'...");
+						
+						$poPath = $this->buildLanguagePath($extDir, $language) . '/' . self::DEF_PO_FILENAME;
+						if (!file_exists($poPath) || !is_readable($poPath)){
+							$this->outVerbose("Extension '${extDir}' is not translated in language '${language}'. Trying to retrieve default language...");
+							$poPath = $this->buildLanguagePath($extDir, tao_helpers_translation_Utils::getDefaultLanguage()) . '/' . self::DEF_PO_FILENAME;
+							
+							if (!file_exists($poPath) || !is_readable($poPath)){
+								$this->outVerbose("Extension '${extDir}' in '${language}' does not exist.");
+								continue;
+							}
+						}
 
-                    $poFileReader = new tao_helpers_translation_POFileReader($poPath);
-                    $poFileReader->read();
-                    $poFile = $poFileReader->getTranslationFile();
-                    $poUnits = $poFile->getByFlag('tao-public');
-                    $poCount = count($poUnits);
-                    $compiledTranslationFile->addTranslationUnits($poUnits);
-                    $this->outVerbose("${poCount} public messages added.");
-                }
-            }                
-            
-            // Finally, add the translation units related to the target extension.
-            $path = $this->buildLanguagePath($extension, $language) . '/' . self::DEF_PO_FILENAME;
-            if (file_exists($path) && is_readable($path)){
-                $poFileReader = new tao_helpers_translation_POFileReader($path);
-                $poFileReader->read();
-                $poFile = $poFileReader->getTranslationFile();
-                $compiledTranslationFile->addTranslationUnits($poFile->getTranslationUnits());
-                
-                // Sort the TranslationUnits.
-                $sortingMethod = tao_helpers_translation_TranslationFile::SORT_ASC_I;
-                $compiledTranslationFile->setTranslationUnits($compiledTranslationFile->sortBySource($sortingMethod));
-                
-                $phpPath = $this->buildLanguagePath($extension, $language) . '/' . self::DEF_PHP_FILENAME;
-                $phpFileWriter = new tao_helpers_translation_PHPFileWriter($phpPath, $compiledTranslationFile);
-                $phpFileWriter->write();
-                $this->outVerbose("PHP compiled translations for extension '${extension}' with '${language}' written.");
-                
-                $jsPath = $this->buildLanguagePath($extension, $language) . '/' . self::DEF_JS_FILENAME;
-                $jsFileWriter = new tao_helpers_translation_JSFileWriter($jsPath, $compiledTranslationFile);
-                $jsFileWriter->write();
-                $this->outVerbose("JavaScript compiled translations for extension '${extension}' with '${language}' written.");
-            }
-            else{
-                $this->err("PO file for extension '${extension}' with language '${language}' cannot be read.", true);
-            }
-        }
-        else{
-            $this->err("Cannot list TAO Extensions from root path. Check your system rights.", true);    
-        }
+						$poFileReader = new tao_helpers_translation_POFileReader($poPath);
+						$poFileReader->read();
+						$poFile = $poFileReader->getTranslationFile();
+						$poUnits = $poFile->getByFlag('tao-public');
+						$poCount = count($poUnits);
+						$compiledTranslationFile->addTranslationUnits($poUnits);
+						$this->outVerbose("${poCount} public messages added.");
+					}
+				}                
+				
+				// Finally, add the translation units related to the target extension.
+				$path = $this->buildLanguagePath($extension, $language) . '/' . self::DEF_PO_FILENAME;
+				if (file_exists($path) && is_readable($path)){
+					$poFileReader = new tao_helpers_translation_POFileReader($path);
+					$poFileReader->read();
+					$poFile = $poFileReader->getTranslationFile();
+					$compiledTranslationFile->addTranslationUnits($poFile->getTranslationUnits());
+					
+					// Sort the TranslationUnits.
+					$sortingMethod = tao_helpers_translation_TranslationFile::SORT_ASC_I;
+					$compiledTranslationFile->setTranslationUnits($compiledTranslationFile->sortBySource($sortingMethod));
+					
+					$phpPath = $this->buildLanguagePath($extension, $language) . '/' . self::DEF_PHP_FILENAME;
+					$phpFileWriter = new tao_helpers_translation_PHPFileWriter($phpPath, $compiledTranslationFile);
+					$phpFileWriter->write();
+					$this->outVerbose("PHP compiled translations for extension '${extension}' with '${language}' written.");
+					
+					$jsPath = $this->buildLanguagePath($extension, $language) . '/' . self::DEF_JS_FILENAME;
+					$jsFileWriter = new tao_helpers_translation_JSFileWriter($jsPath, $compiledTranslationFile);
+					$jsFileWriter->write();
+					$this->outVerbose("JavaScript compiled translations for extension '${extension}' with '${language}' written.");
+				}
+				else{
+					$this->err("PO file for extension '${extension}' with language '${language}' cannot be read.", true);
+				}
+			}
+			else{
+				$this->err("Cannot list TAO Extensions from root path. Check your system rights.", true);    
+			}
 
-        $this->outVerbose("Translations for '${extension}' with language '${language}' gracefully compiled.");
+			$this->outVerbose("Translations for '${extension}' with language '${language}' gracefully compiled.");
+
+		}
         // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003ABD end
     }
 
@@ -1582,6 +1595,48 @@ class tao_scripts_TaoTranslate
         }
         // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B0E end
     }
+    
+    private function actionGetExt()
+    {
+		$rootDir = ROOT_PATH;
+		$extensions = array();
+		$extensionsList = '';
+		$language = $this->options['language'];
+
+		// create initial folders array
+		if ($dir = opendir($rootDir)) {
+			$j = 0;
+			while (($file = readdir($dir)) !== false) {
+				if ($file[0] !== '.' && $file != '.' && $file != '..' && is_dir($rootDir.$file)) {
+					$j++;
+					$directories[$j] = $file;
+				}
+			}
+		}
+
+		if ($directories === false) {
+			
+			$this->err("The locales directory of extension '" . $this->options['extension'] . "' cannot be read.", true);    
+		} else {
+			
+			foreach ($directories as $dir) {
+
+				// folder where these .po files should be
+				$extensionLocalesDir = $dir . '/' . self::DEF_OUTPUT_DIR . '/' . $language;
+				$poFile = $rootDir . $extensionLocalesDir . '/' . self::DEF_PO_FILENAME;
+				
+				// check .po file existency
+				if (file_exists($poFile) && is_readable($poFile)){
+
+					$extensions[] = $dir;
+					$extensionsList .= (!$extensionsList?"":",") . $dir;
+				}
+			}
+			sort($extensions);
+			print_r( $extensions );
+			echo ( count($extensions) . ' extensions with translations: ' . $extensionsList . "\n");
+		}
+	}
 
 } /* end of class tao_scripts_TaoTranslate */
 
