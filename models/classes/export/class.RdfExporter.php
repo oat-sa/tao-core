@@ -75,44 +75,12 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
 			$instances = array();
 			foreach($formValues['rdftpl'] as $key => $value){
 				if(preg_match("/^instance_/", $key)){
-					$instances[] = tao_helpers_Uri::decode(str_replace('instance_', '', $key));
+				    $uri = tao_helpers_Uri::decode(str_replace('instance_', '', $key));
+					$instances[] = new core_kernel_classes_Resource($uri);
 				}
 			}
 			if(count($instances) > 0){
-				$xmls = array();
-				foreach($instances as $instanceUri){
-					$xmls[] = $api->getResourceDescriptionXML($instanceUri);
-				}
-
-				if(count($xmls) == 1){
-					$rdf = $xmls[0];
-				}
-				else if(count($xmls) > 1){
-
-					//merge the xml of each instances...
-
-					$baseDom = new DomDocument();
-					$baseDom->formatOutput = true;
-					$baseDom->loadXML($xmls[0]);
-
-					for($i = 1; $i < count($xmls); $i++){
-
-						$xmlDoc = new SimpleXMLElement($xmls[$i]);
-						foreach($xmlDoc->getNamespaces() as $nsName => $nsUri){
-							if(!$baseDom->documentElement->hasAttribute('xmlns:'.$nsName)){
-								$baseDom->documentElement->setAttribute('xmlns:'.$nsName, $nsUri);
-							}
-						}
-						$newDom = new DOMDocument();
-						$newDom->loadXml($xmls[$i]);
-						foreach($newDom->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', "Description") as $desc){
-							$newNode = $baseDom->importNode($desc, true);
-							$baseDom->documentElement->appendChild($newNode);
-						}
-					}
-
-					$rdf = $baseDom->saveXml();
-				}
+			    $rdf = $this->getRdfString($instances);
 			}
 
 			//save it
@@ -124,7 +92,49 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
 		}
 		return $file;
     }
+    
+    /**
+     * exports an array of instances into an rdf string
+     * 
+     * @param array $instances
+     * @return string
+     */
+    public function getRdfString($instances) {
+        $api = core_kernel_impl_ApiModelOO::singleton();
+        $xmls = array();
+        foreach($instances as $instance){
+            $xmls[] = $api->getResourceDescriptionXML($instance->getUri());
+        }
+        
+        if(count($xmls) == 1){
+            $rdf = $xmls[0];
+        } elseif (count($xmls) > 1) {
+        
+            //merge the xml of each instances...
+    
+            $baseDom = new DomDocument();
+            $baseDom->formatOutput = true;
+            $baseDom->loadXML($xmls[0]);
+    
+            for($i = 1; $i < count($xmls); $i++){
+    
+                $xmlDoc = new SimpleXMLElement($xmls[$i]);
+                foreach($xmlDoc->getNamespaces() as $nsName => $nsUri){
+                    if(!$baseDom->documentElement->hasAttribute('xmlns:'.$nsName)){
+                        $baseDom->documentElement->setAttribute('xmlns:'.$nsName, $nsUri);
+                    }
+                }
+                $newDom = new DOMDocument();
+                $newDom->loadXml($xmls[$i]);
+                foreach($newDom->getElementsByTagNameNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', "Description") as $desc){
+                    $newNode = $baseDom->importNode($desc, true);
+                    $baseDom->documentElement->appendChild($newNode);
+                }
+            }
+    
+            $rdf = $baseDom->saveXml();
+        }
+        return $rdf;
+    }
 
 }
-
-?>
