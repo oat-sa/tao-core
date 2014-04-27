@@ -1,4 +1,4 @@
-define(['jquery', 'core/dataattrhandler', 'tooltipster'], function($, DataAttrHandler){
+define(['jquery', 'lodash', 'core/dataattrhandler', 'tooltipster'], function($, _, DataAttrHandler){
     'use strict';
     
     var themes = ['dark', 'default', 'info', 'warning', 'error', 'success'];

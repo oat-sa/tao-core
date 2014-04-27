@@ -10,6 +10,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
     var dataNs = 'ui.' + ns;
 
     var defaults = {
+        disableClass : 'disabled',
         step : 1,
         min : null,
         max : null,
@@ -62,10 +63,10 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                         $elt.data(dataNs, options)                      //add data to the element
                             .addClass(options.incrementerClass)         //add the css class
                             .after(//set up controls
-                                '<span class="ctrl ' + options.incrementerCtrlClass + '">\
-                                   <a href="#" class="inc" title="+' + options.step + '" tabindex="-1"></a>\
-                                   <a href="#" class="dec" title="-' + options.step + '" tabindex="-1"></a>\
-                                </span>')
+                                '<span class="ctrl ' + options.incrementerCtrlClass + '"' +
+                                    '<a href="#" class="inc" title="+' + options.step + '" tabindex="-1"></a>' +
+                                    '<a href="#" class="dec" title="-' + options.step + '" tabindex="-1"></a>' +
+                                 '</span>')
                             .on('keydown', function(e){
                                 if(e.which === 38){                      //up
                                     self._inc($elt);
@@ -142,10 +143,12 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                 }
             });
         },
+
         _toFixedDown : function(number, precision){
             var m = Math.pow(10, precision||0);
             return Math.floor(number * m) / m;
         },
+
         _decimalPlaces : function(number){
             var match = ('' + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
             if(!match){
@@ -153,6 +156,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
             }
             return Math.max(0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
         },
+
         /**
          * Increment value
          *
@@ -238,21 +242,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
             });
         },
             
-        /**
-         * Set options of the plugin
-         *
-         * Called the jQuery way once registered by the Pluginifier.
-         * @example $('selector').incrementer('options', {min:0});
-         * @param  {object} options
-         * @public
-         */
-        options : function(options){
-            this.each(function(){
-                var $elt = $(this);
-                $elt.data(dataNs, _.merge($elt.data(dataNs), options));
-            });
-            return this;
-        }
+
     };
 
     //Register the incrementer to behave as a jQuery plugin.

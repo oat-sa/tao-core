@@ -9,7 +9,7 @@ define(['jquery', 'ui/adder'], function($, adder){
     });
    
     asyncTest('Initialization', function(){
-        expect(5);
+        expect(6);
         
         var $container = $('#container-1');
         ok($container.length === 1, 'Test the fixture is available');
@@ -24,7 +24,12 @@ define(['jquery', 'ui/adder'], function($, adder){
         ok($tmpl.length === 1, 'Template is available');
         
         $elt.on('create.adder', function(){
-            ok(typeof $elt.data('ui.adder') === 'object', 'The element is runing the plugin');
+            var data = $elt.data('ui.adder'); 
+            ok(typeof data === 'object', 'The element is runing the plugin');
+
+            $elt.adder('options', { test : true});
+            strictEqual(data.test, true, 'The plugin options methods update the element data');
+
             start();
         });
         $elt.adder({

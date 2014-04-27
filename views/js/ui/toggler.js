@@ -11,6 +11,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
    var dataNs = 'ui.' + ns;
    
    var defaults = {
+       disableClass : 'disabled',
        bindEvent   : 'click',
        openedClass : 'opened',
        closedClass : 'closed'
@@ -101,20 +102,6 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         * 
         * Called the jQuery way once registered by the Pluginifier.
         * @example $('selector').toggler('toggle');
-        * @public
-        * 
-        * @returns {jQueryElement} for chaining
-        */
-       toggle : function(){
-           return this.each(function() {
-                Toggler._toggle($(this));
-           });
-       },
-               
-       /**
-        * Internal toggling mechanism.
-        * 
-        * @private
         * @param {jQueryElement} $elt - plugin's element 
         * @fires Toggler#toggle.toggler
         * @fires Toggler#open.toggler
@@ -186,8 +173,10 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
         }
    };
    
-   //Register the toggler to behave as a jQuery plugin.
-   Pluginifier.register(ns, Toggler);
+    //Register the toggler to behave as a jQuery plugin.
+    Pluginifier.register(ns, Toggler, {
+        expose : ['toggle']
+    });
    
    /**
     * The only exposed function is used to start listening on data-attr

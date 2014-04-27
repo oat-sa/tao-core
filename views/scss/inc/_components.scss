@@ -26,13 +26,26 @@
     }
 }
 
-/* Closer */
+/* Closer / Deleter */
 .closer {
     &:before {
         margin-right: 5px;
         @include font-size(10.5);
         @include icon('close');
     }
+}
+.deleter {
+    @extend .closer;
+}
+
+.undobox {
+    display : block;
+    position : fixed;
+    top : 50px;
+    left : 50%;
+    margin-left : -200px;
+    width : 400px;
+    z-index: 20000;
 }
 
 /* Incrementer and duration */
@@ -106,15 +119,6 @@ input[data-increment], input.duration-ctrl {
     padding: 0 3px;
     text-align: center;
     opacity: .7;
-}
-
-/* Flipper */
-.flip {
-    overflow: hidden;
-}
-
-.flip-back {
-    display: none;
 }
 
 /* InPlacer */

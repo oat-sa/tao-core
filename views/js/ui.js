@@ -6,7 +6,6 @@ define([
     'ui/incrementer', 
     'ui/inplacer', 
     'ui/btngrouper', 
-    'ui/flipper',
     'ui/durationer',
     'ui/selecter',
     'ui/modal',
@@ -14,7 +13,7 @@ define([
     'ui/radiocheckbox',
     'ui/validator',
     'ui/groupvalidator'
-], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, flipper, durationer, selecter, modal, tooltipster, radiocheckbox) {
+], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, tooltipster, radiocheckbox) {
     'use strict';
         
     /**
@@ -34,7 +33,6 @@ define([
             disabler($container);
             toggler($container);
             inplacer($container);
-            flipper($container);
             modal($container);
             this.startDomComponent($container);
         },

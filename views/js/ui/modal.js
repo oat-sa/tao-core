@@ -120,16 +120,6 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
 
        /**
         * Open the modal dialog
-        * @returns {jQuery object}
-        */
-       open: function(){
-           return this.each(function() {
-                Modal._open($(this));
-           });
-       },
-       
-       /**
-        * Private function for opening
         * @param {jQuery object} $element
         * @returns {jQuery object}
         */
@@ -163,16 +153,6 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
 
        /**
         * Close the modal dialog
-        * @returns {undefined}
-        */
-       close: function(){
-           return this.each(function() {
-               Modal._close($(this));
-           });
-       },
-       
-       /**
-        * Private function for closing
         * @param {jQuery object} $element
         * @returns {undefined}
         */
@@ -209,8 +189,10 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
     };
 
 
-   //Register the modal to behave as a jQuery plugin.
-   Pluginifier.register(pluginName, Modal);
+    //Register the modal to behave as a jQuery plugin.
+    Pluginifier.register(pluginName, Modal, {
+        expose : ['open', 'close']
+    });
    
    /**
     * The only exposed function is used to start listening on data-attr

@@ -4,17 +4,28 @@
  * @requires core/pluginifier
  * @requires core/dataattrhandler
  */
-define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], function($, _, Pluginifier, DataAttrHandler){
+define([
+    'jquery', 
+    'lodash', 
+    'i18n', 
+    'core/pluginifier', 
+    'core/dataattrhandler',
+    'tpl!ui/deleter/undo'
+], function($, _, __, Pluginifier, DataAttrHandler, undoTmpl){
    'use strict';
    
    var ns = 'deleter';
    var dataNs = 'ui.' + ns;
    
    var defaults = {
-       bindEvent : 'click',
-       confirm : true,
-       confirmMessage : 'Are you sure you want to close it?',
-       disableClass : 'disabled'
+       bindEvent        : 'click',
+       undo             : false,
+       undoTimeout      : 5000,
+       undoMessage      : __('Element deleted.'),
+       undoContainer    : 'body',
+       confirm          : false,
+       confirmMessage   : __('Are you sure you want to delete it?'),
+       disableClass     : 'disabled'
    };
    
    /** 
@@ -33,7 +44,11 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
          * @param {Object} options - the plugin options
          * @param {jQueryElement} options.target - the element to close
          * @param {string|boolean} [options.bindEvent = 'click'] - the event that trigger the close
-         * @param {boolean} [options.confirm = true] - diplay a popup to confirm the closing
+         * @param {Boolean} [options.undo = false] - enable to undo the deletion
+         * @param {Number}  [options.undoTimeout = 5000] - the time the undo remains available
+         * @param {String} [options.undoMessage = '...'] - the message to display in the undo box
+         * @param {String|jQueryElement} [options.undoContainer = 'body'] - the element that will contain the undo box
+         * @param {boolean} [options.confirm = false] - diplay a popup to confirm the closing
          * @param {string} [optionsconfirmMessage = '...'] - the confirmation message
          * @fires deleter#create.deleter
          * @returns {jQueryElement} for chaining
@@ -52,7 +67,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
                     if(options.bindEvent !== false){
                         $elt.on(options.bindEvent, function(e){
                             e.preventDefault();
-                             deleter._close($elt);
+                             deleter._delete($elt);
                          });
                     }
 
@@ -65,46 +80,44 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
             });
        },
        
-       /**
-        * Trigger the close. 
-        * 
-        * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').deleter('close');
-        * @public
-        * 
-        * @returns {jQueryElement} for chaining
-        */
-       close : function(){
-           this.each(function() {
-                deleter._close($(this));
-           });
-       },
                
        /**
-        * Internal close mechanism.
+        * Trigger the delete. 
         * 
-        * @private
+        * Called the jQuery way once registered by the Pluginifier.
+        * @example $('selector').closer('close');
         * @param {jQueryElement} $elt - plugin's element 
-        * @fires deleter#close.deleter
-        * @fires close
+        * @fires deleter#delete.deleter
+        * @fires delete
+        * @fires deleter#deleted.deleter
+        * @fires deleted
+        * @fires deleter#undo.deleter
         */
-       _close : function($elt){
+       _delete : function($elt){
+           var self = deleter;
+           var performDelete = true;
+           var $target, 
+               $parent,
+               $evtTrigger,
+               $placeholder,
+               $undoBox;
            var options = $elt.data(dataNs);
            if(options && !$elt.hasClass(options.disableClass)){
-                var $target = options.target;
-                var close = true;
-                var $evtTrigger;
+                $target = options.target;
 
                 if(options.confirm === true){
-                    close = confirm(options.confirmMessage);
+                    performDelete = window.confirm(options.confirmMessage);
                 }
-                if(close){
+
+                if(performDelete){
+
+                    $parent = $target.parent();
 
                     //if elt is inside target, we get the parent to simulate the bubbing
-                    $evtTrigger = ($target.has($elt).length > 0) ? $target.parent()  : $elt;
+                    $evtTrigger = ($target.has($elt).length > 0) ? $parent  : $elt;
 
                     /**
-                      * The plugin is closing the target. 
+                      * The plugin is removing the target. 
                       * Those eventes are fired just before the removal 
                       * to be able to listen them 
                       * (if $elt is inside the closed elt for instance)
@@ -112,88 +125,62 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
                       * @param {jQueryElement} $target - the element being closed/removed
                       */
                     $elt.trigger('delete.'+ ns, [$target]);
-                    $target.trigger('delete');            //global event for consistensy
+                    $target.trigger('delete', [options.undo]);            //global event for consistensy
 
+                    //create a placeholder to retrieve the target position in case of undo
+                    $placeholder = $('<span style="display:none;" />').insertAfter($target);
                     $target.detach();
+                   
+                    if(options.undo){
+                        //show the feedback
+                        $undoBox = self._createUndoBox(options);
+                        $undoBox.find('.undo').click(function(e){
+                            e.preventDefault();
+
+                            performDelete = false;
+                            $undoBox.remove();
+                            $target.insertBefore($placeholder);
+                            $placeholder.remove();
+                            
+                            /**
+                              * The delete has been undone
+                              * @event deleter#undo.deleter
+                              */
+                            $elt.trigger('undo.' + ns, [$target]);
+                        });
+                    } 
 
                     //remove the target once the atteched events may be terminated (no guaranty, this happens after in the event loop)
                     setTimeout(function(){
-                        
-                        $target.remove();
-                        
-                        /**
-                          * The target has been closed/removed. 
-                          * @event deleter#deleted.deleter
-                          */
-                        $evtTrigger.trigger('deleted.'+ ns).trigger('deleted');
-
-                    }, 10);
+                        if(performDelete){ 
+                            $target.remove();
+                            
+                            /**
+                              * The target has been closed/removed. 
+                              * @event deleter#deleted.deleter
+                              */
+                            $evtTrigger.trigger('deleted.'+ ns).trigger('deleted');
+                        }
+                        if($undoBox && $undoBox.length){
+                            $undoBox.remove();
+                            $placeholder.remove();
+                        }
+                    }, options.undo ? options.undoTimeout : 10);
                 }
            }
        },
-       
+      
        /**
-        * Disable the deleter action. 
-        * 
-        * It can be called prior to the plugin initilization.
-        * 
-        * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').deleter('disable');
-        * @public
-        * 
-        * @returns {jQueryElement} for chaining
-        */
-       disable : function(){
-            this.each(function() {
-                deleter._disable($(this));
-           });
-       },
-       
-       /**
-        * Internal disabling mechanism.
-        * 
+        * Create the undo message box
         * @private
-        * @param {jQueryElement} $elt - plugin's element 
-        * @fires deleter#disabled.deleter
-        */
-       _disable : function($elt){
-            var options = $elt.data(dataNs);
-            if(options){
-                $elt.addClass(options.disableClass)
-                    .trigger('disabled.'+ ns);
-            }
+        * @param {Object} options - the plugin options
+        * @returns {jQueryElement} the undo box
+        */ 
+       _createUndoBox : function(options){
+            return $(undoTmpl(options)).appendTo(options.undoContainer);
        },
-       
-       /**
-        * Enable the deleter action. 
-        * 
-        * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').deleter('enable');
-        * @public
-        * 
-        * @returns {jQueryElement} for chaining
-        */
-       enable : function(){
-            this.each(function() {
-                deleter._enable($(this));
-           });
-       },
-             
-       /**
-        * Internal enabling mechanism.
-        * 
-        * @private
-        * @param {jQueryElement} $elt - plugin's element 
-        * @fires deleter#enabled.deleter
-        */
-       _enable : function($elt){
-            var options = $elt.data(dataNs);
-            if(options){
-                $elt.removeClass(options.disableClass)
-                   .trigger('enabled.'+ ns);
-            }
-       },
-        
+
+
        /**
         * Destroy completely the plugin.
         * 
@@ -220,8 +207,10 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
         }
    };
    
-   //Register the toggler to behave as a jQuery plugin.
-   Pluginifier.register(ns, deleter);
+    //Register the toggler to behave as a jQuery plugin.
+    Pluginifier.register(ns, deleter, {
+        expose : ['delete']
+    });
    
    /**
     * The only exposed function is used to start listening on data-attr
@@ -240,19 +229,32 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
         }).init(function($elt, $target) {
             var options = {
                 target: $target,
-                bindEvent: false
+                bindEvent: false,
+                undo : true
             };
-            var confirm = $elt.data('confirm');
-            if(confirm !== null){
-                if(confirm === false){
-                    options.confirm = false;
-                } else {
+            var confirm = $elt.data('delete-confirm');
+            var undo = $elt.data('delete-undo');
+            if(confirm){
+                options.confirm = true;
+                options.undo = false;
+                if(confirm.length > 0){
                     options.confirmMessage = confirm;
                 }
             }
+            if(undo !== null && undo !== undefined){
+                if(undo === false){
+                    options.undo = false;
+                } else {
+                    options.confirm = false;
+                    options.undo = true;
+                    if(undo.length > 0){
+                        options.undoMessage = undo;
+                    }
+                }
+            }   
             $elt.deleter(options);
         }).trigger(function($elt) {
-            $elt.deleter('close');
+            $elt.deleter('delete');
         });
     };
 });

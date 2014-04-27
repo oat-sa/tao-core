@@ -402,21 +402,30 @@ function($, _, Handlebars, Encoders, Filters){
      */
     DataBinder.prototype._listenRemoves = function _listenRemoves($node, path, model) {
         var self = this;
-        _bindOnce($node, 'delete', function(){
-            remove(model, path);
-           
-            //if we remove an element of an array, we need to resync indexes and bindings
-            self._resyncIndexOnceRm($node, path);
+        _bindOnce($node, 'delete', function(undoable){
+            if(undoable === true){
+                $node.parent().on('deleted', function(){
+                    doRemoval();
+                });
+            } else {
+                doRemoval();
+            }
 
-            /**
-             * An property of the model is removed
-             * @event DataBinder#delete.binder
-             * @param {Object} model - the up to date model
-             */
-            self.$container
-                    .trigger('delete.binder', [self.model])
-                    .trigger('change.binder', [self.model]);
+            function doRemoval(){
+                remove(model, path);
+               
+                //if we remove an element of an array, we need to resync indexes and bindings
+                self._resyncIndexOnceRm($node, path);
 
+                /**
+                 * An property of the model is removed
+                 * @event DataBinder#delete.binder
+                 * @param {Object} model - the up to date model
+                 */
+                self.$container
+                        .trigger('delete.binder', [self.model])
+                       .trigger('change.binder', [self.model]);
+            }
         });
         
     };

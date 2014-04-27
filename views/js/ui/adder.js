@@ -16,8 +16,9 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
    var positions = ['append', 'prepend'];
    
    var defaults = {
-       bindEvent : 'click',
-       position : 'append',
+       bindEvent    : 'click',
+       disableClass : 'disabled',
+       position     : 'append',
        
        /**
         * Async callback used to populate template data
@@ -121,26 +122,12 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
                 }
             });
        },
-       
+         
        /**
         * Trigger the adding. 
         * 
         * Called the jQuery way once registered by the Pluginifier.
         * @example $('selector').adder('add');
-        * @public
-        * 
-        * @returns {jQueryElement} for chaining
-        */
-       add : function(){
-           this.each(function() {
-                Adder._add($(this));
-           });
-       },
-         
-       /**
-        * Internal adding mechanism.
-        * 
-        * @private
         * @param {jQueryElement} $elt - plugin's element 
         * @fires Adder#add.adder
         * @fires Adder#add
@@ -213,7 +200,9 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
    };
    
    //Register the toggler to behave as a jQuery plugin.
-   Pluginifier.register(ns, Adder);
+   Pluginifier.register(ns, Adder, {
+        expose : ['add']
+   });
    
    /**
     * The only exposed function is used to start listening on data-attr

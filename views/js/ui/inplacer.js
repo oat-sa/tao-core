@@ -11,6 +11,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
    var dataNs = 'ui.' + ns;
    
    var defaults = {
+       disableClass : 'disabled',
        bindEvent   : 'click',
        inplaceClass: 'inplace',
        mapping: {
@@ -139,20 +140,6 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
         * 
         * Called the jQuery way once registered by the Pluginifier.
         * @example $('selector').inplacer('toggle');
-        * @public
-        * 
-        * @returns {jQueryElement} for chaining
-        */
-       toggle : function(){
-           return this.each(function() {
-                InPlacer._toggle($(this));
-           });
-       },
-       
-       /**
-        * Internal state toggling mechanism.
-        * 
-        * @private
         * @param {jQueryElement} $elt - plugin's element 
         * @fires InPlacer#toggle.inplacer
         */
@@ -163,26 +150,12 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
                this._edit($elt);
            }
        },
-       
+               
        /**
         * Change the state to the edit mode.
         * 
         * Called the jQuery way once registered by the Pluginifier.
         * @example $('selector').inplacer('edit');
-        * @public
-        * 
-        * @returns {jQueryElement} for chaining
-        */
-       edit : function(){
-           return this.each(function() {
-                InPlacer._edit($(this));
-           });
-       },
-               
-       /**
-        * Internal mechanism to update the state to the edit mode.
-        * 
-        * @private
         * @param {jQueryElement} $elt - plugin's element 
         * @fires InPlacer#edit.inplacer
         */
@@ -240,20 +213,6 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
         * 
         * Called the jQuery way once registered by the Pluginifier.
         * @example $('selector').inplacer('_leave');
-        * @public
-        * 
-        * @returns {jQueryElement} for chaining
-        */
-       leave : function(){
-           return this.each(function() {
-                InPlacer._leave($(this));
-           });
-       },
-       
-       /**
-        * Internal mechanism to leave the edit mode.
-        * 
-        * @private
         * @param {jQueryElement} $elt - plugin's element 
         * @fires InPlacer#leave.inplacer
         */
@@ -318,8 +277,10 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
         }
    };
    
-   //Register the inplacer to behave as a jQuery plugin.
-   Pluginifier.register(ns, InPlacer);
+    //Register the inplacer to behave as a jQuery plugin.
+    Pluginifier.register(ns, InPlacer, {
+        expose : ['toggle', 'leave', 'edit']
+    });
    
    /**
     * The only exposed function is used to start listening on data-attr

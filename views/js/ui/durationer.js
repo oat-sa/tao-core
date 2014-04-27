@@ -12,10 +12,11 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'handlebars', 'moment'],
        separator : ':',
        wrapperClass : 'duration-ctrl-wrapper',
        ctrlClass : 'duration-ctrl',
+       disableClass : 'disabled',
        title : {
             hours : __('hours'),
             minutes : __('minutes'),
-            seconds: __('seconds'),
+            seconds: __('seconds')
        }
    };
    

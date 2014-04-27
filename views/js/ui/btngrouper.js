@@ -11,10 +11,11 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
    var dataNs = 'ui.' + ns;
    
    var defaults = {
-       bindEvent   : 'click',
-       activeClass : 'active',
-       innerElt : 'li',
-       action : 'toggle'
+       bindEvent    : 'click',
+       activeClass  : 'active',
+       disableClass : 'disabled',
+       innerElt     : 'li',
+       action       : 'toggle'
    };
    
    //todo add other behavior : on/off, multi
@@ -45,9 +46,9 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
         init : function(options){
             
             //get options using default
-            options = $.extend(true, {}, defaults, options);
+            options = _.defaults(options || {}, defaults);
             
-            if(!_.contains(availableActions,options.actions)){
+            if(!_.contains(availableActions, options.action)){
                 return $.error('Action ' + options.action + ' not supported');
             }
            
@@ -96,20 +97,6 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
         * 
         * Called the jQuery way once registered by the Pluginifier.
         * @example $('selector').btngrouper('toggle');
-        * @public
-        * 
-        * @returns {jQueryElement} for chaining
-        */
-       toggle : function(){
-           return this.each(function() {
-                BtnGrouper._toggle($(this));
-           });
-       },
-               
-       /**
-        * Internal toggling mechanism.
-        * 
-        * @private
         * @param {jQueryElement} $elt - plugin's element 
         * @fires BtnGrouper#toggle.btngrouper
         */
@@ -129,22 +116,7 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
        /**
         * On/Off a button in the group .
         * 
-        * Called the jQuery way once registered by the Pluginifier.
         * @example $('selector').btngrouper('toggle');
-        * @public
-        * 
-        * @returns {jQueryElement} for chaining
-        */
-       'switch' : function($target){
-           return this.each(function() {
-                BtnGrouper._switch($(this), $target);
-           });
-       },
-               
-       /**
-        * Internal On/Off mechanism.
-        * 
-        * @private
         * @param {jQueryElement} $elt - plugin's element 
         * @param {jQueryElement} $target - the inner element to switch
         * @fires BtnGrouper#toggle.btngrouper
@@ -206,8 +178,10 @@ define(['jquery', 'lodash', 'core/pluginifier', 'core/dataattrhandler'], functio
         }
    };
    
-   //Register the btngrouper to behave as a jQuery plugin.
-   Pluginifier.register(ns, BtnGrouper);
+    //Register the btngrouper to behave as a jQuery plugin.
+    Pluginifier.register(ns, BtnGrouper, {
+        expose : ['toggle', 'switch']
+    });
    
    /**
     * The only exposed function is used to start listening on data-attr
