@@ -121,4 +121,40 @@ class tao_helpers_report_Rendering {
         $content = implode('', $childRenderedReports);
         return $openingTag . $icon . $message . $content . $endingTag;
     }
+    
+    /**
+     * Contains the logic to render a report and its children to the command line
+     *
+     * @param common_report_Report $report A report to be rendered.
+     * @param integer $intend the intend of the message.
+     * @return string The HTML output of $report.
+     */
+    public static function renderToCommandline(common_report_Report $report, $intend = 0) {
+        switch ($report->getType()) {
+            case common_report_Report::TYPE_SUCCESS:
+                $color = '0;32'; // green
+                break;
+            
+            case common_report_Report::TYPE_WARNING:
+                $color = '1;33'; // yellow
+                break;
+            
+            case common_report_Report::TYPE_ERROR:
+                $color = '1;31'; // red
+                break;
+            
+            default:
+                $color = '0;37'; // light grey
+        }
+            
+        $output =  "\033[".$color.'m'
+            .($intend > 0 ? str_repeat(' ', $intend) : '')
+            .$report->getMessage()
+            ."\033[0m".PHP_EOL;
+        foreach ($report as $child) {
+            $output .= self::renderCommandline($child, $intend + 2);
+        }
+        return $output;
+    }
+    
 }
