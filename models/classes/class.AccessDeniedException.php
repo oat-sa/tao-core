@@ -45,14 +45,14 @@ class tao_models_classes_AccessDeniedException
     // --- OPERATIONS ---
 
     /**
-     * Short description of method __construct
-     *
-     * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
-     * @param  string message
-     * @return mixed
+     * An exception if a user is not authorised to execute a controller action
+     * 
+     * @param string $userUri
+     * @param string $action
+     * @param string $module
+     * @param string $ext
      */
-    public function __construct($userUri, $ext, $module, $action)
+    public function __construct($userUri, $action, $module, $ext)
     {
         $this->request = new Request();
     	parent::__construct('Access to '.$ext.'::'.$module.'::'.$action.' denied to \''.$userUri.'\'');
