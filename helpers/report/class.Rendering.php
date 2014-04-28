@@ -152,7 +152,7 @@ class tao_helpers_report_Rendering {
             .$report->getMessage()
             ."\033[0m".PHP_EOL;
         foreach ($report as $child) {
-            $output .= self::renderCommandline($child, $intend + 2);
+            $output .= self::renderToCommandline($child, $intend + 2);
         }
         return $output;
     }
