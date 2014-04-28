@@ -11,9 +11,10 @@ define([
     'ui/modal',
     'ui/tooltipster',
     'ui/radiocheckbox',
+    'ui/resourcemgr',
     'ui/validator',
     'ui/groupvalidator'
-], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, tooltipster, radiocheckbox) {
+], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, tooltipster, radiocheckbox, resourcemgr) {
     'use strict';
         
     /**
