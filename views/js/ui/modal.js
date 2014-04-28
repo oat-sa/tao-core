@@ -15,8 +15,11 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
     var defaults = {
         modalClose  : 'modal-close',
         modalOverlay: 'modal-bg',
+        startClosed: false,
         disableClosing: false,
-        width: 'responsive'
+        width: 'responsive',
+        minWidth : false,
+        vCenter : true
     };
 
 
@@ -129,13 +132,15 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
               options = $element.data(dataNs);
       
           if (typeof options !== 'undefined'){
+       
             //Calculate the top offset
-            var topOffset = modalHeight>windowHeight?40:(windowHeight-modalHeight)/2;
+            var topOffset = (options.vCenter || modalHeight > windowHeight) ? 40: (windowHeight-modalHeight)/2;
 
             Modal._resize($element);
 
             $element.css({
-                'top': '-'+modalHeight+'px'
+                'top': '-'+modalHeight+'px',
+                'display' : 'block'
             });
 
             $('#'+options.modalOverlay).fadeIn(300);
@@ -162,7 +167,9 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
            Modal._unBindEvents($element);
            
            $('#'+options.modalOverlay).fadeOut(300);
-           $element.animate({'opacity': '0', 'top':'-1000px'}, 500);
+           $element.animate({'opacity': '0', 'top':'-1000px'}, 500, function(){
+                $element.css('display', 'none');
+           });
            
            /**
             * The target has been closed/removed. 
@@ -179,11 +186,13 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
        _resize: function($element){
            var options = $element.data(dataNs);
            var windowWidth = parseInt($(window).width(), 10);
-           var modalWidth = options.width === 'responsive' ? windowWidth * 0.7 : parseInt(options.width, 10);
 
+           var modalWidth = options.width === 'responsive' ? windowWidth * 0.7 : parseInt(options.width, 10);
+           if(options.minWidth && modalWidth < options.minWidth){
+                modalWidth = options.minWidth;
+           }
            $element.css({
-                'width': modalWidth + 'px',
-                'left' : ( (windowWidth - modalWidth) / 2) + 'px'
+                'width': modalWidth + 'px'
            });
        }
     };

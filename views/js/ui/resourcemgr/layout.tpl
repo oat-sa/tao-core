@@ -1,6 +1,4 @@
-<div class="tao-scope">
-   
-<div class="resourcemgr">
+<div class="resourcemgr modal">
 
 
 <!-- left section: items selection -->
@@ -201,6 +199,11 @@
             </div>
         </div>
 
-    </section
- 
+        <h2 class="toggler" data-toggle="~ .actions">{{__ 'Actions'}}</h2>
+        <div class="action>">
+            <button class="btn-success small select">
+                <span class="icon-move-item"></span>{{__ 'Select'}}
+            </button>
+        </div>
+    </section>
 </div>

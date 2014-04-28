@@ -5,7 +5,7 @@ define([
 function($, _, layout){
     'use strict';
 
-    var ns = 'resourcemanager';
+    var ns = 'resourcemgr';
 
     function shortenPath(path){
         var tokens = path.replace(/\/$/, '').split('/');
@@ -35,45 +35,7 @@ function($, _, layout){
 
     return function($container, path){
 
-        var $fileBrowser, $fileSelector, $filePreview;
-
-        $container.append(layout());
-
-        $fileBrowser = $('.file-browser', $container);  
-        $fileSelector = $('.file-selector', $container); 
-        $filePreview  = $('.file-preview', $container); 
-
-
-
-        //file browser
-        var $folders = $('.folders li', $fileBrowser);
-        $folders.on('click', 'a', function(e){
-            e.preventDefault();
-           
-            //TODO move active on a elements 
-            var $selected = $(this);                
-            $folders.removeClass('active');
-            $selected.parent('li').addClass('active');
-    
-            //get full path 
-            var $parent = $selected;
-            var path = '/';
-            var i = 512;
-            do{
-                $parent = $parent.parent();
-                if($parent.is('li')){
-                    path = '/' + $parent.children('a').text() +  path;
-                }
-                if($parent.hasClass('file-browser')){
-                    break;
-                } 
-            } while(true && i--);
-
-            $container.trigger('folderselect.' + ns , [path]);
-        });
-        
-
-       //file selector
+        var $fileSelector = $('.file-selector', $container); 
 
         //update current folder
         var $pathTitle = $fileSelector.children('h1');

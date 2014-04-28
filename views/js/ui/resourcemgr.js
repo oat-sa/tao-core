@@ -1,167 +1,137 @@
-define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Pluginifier, DataAttrHandler){
+define([
+    'jquery',
+    'lodash', 
+    'core/pluginifier', 
+    'core/dataattrhandler', 
+    'ui/modal',
+    'ui/resourcemgr/file-browser',
+    'ui/resourcemgr/file-preview',
+    'ui/resourcemgr/file-selector',
+    'tpl!ui/resourcemgr/layout'
+], function($, _, Pluginifier, DataAttrHandler, modal, fileBrowser, filePreview, fileSelector, layout){
 
     'use strict';
    
-   var ns = 'rscmgr';
+   var ns = 'resourcemgr';
    var dataNs = 'ui.' + ns;
    
    var defaults = {
-       bindEvent   : 'click',
-       openedClass : 'opened',
-       closedClass : 'closed'
+        bindEvent   : 'click',
+        appendContainer : '.tao-scope:first'
    };
    
    /** 
-    * The ResourceMgr component, that helps you to show/hide an element
-    * @exports ui/toggler
+    * The ResourceMgr component helps you to browse and select external resources.
+    * @exports ui/resourcemgr
     */
-   var ResourceMgr = {
+   var resourceMgr = {
 
         /**
          * Initialize the plugin.
          * 
          * Called the jQuery way once registered by the Pluginifier.
-         * @example $('selector').toggler({target : $('target') });
-         * @public
+         * @example $('selector').resourcemgr({
+         *
+         *  });
          * 
          * @constructor
          * @param {Object} options - the plugin options
-         * @param {jQueryElement} options.target - the element to be toggled
-         * @param {string|boolean} [options.bindEvent = 'click'] - the event that trigger the toggling
-         * @param {string} [options.openedClass = 'opened'] - the css added to element (not the target) for the opened state
-         * @param {string} [options.closedClass = 'closed'] - the css added to element (not the target) for the closed state
-         * @param {string} [options.hideText] - the text to replace the toggler with when the element is toggled (ie. Show -> Hide)
-         * @fires ResourceMgr#create.toggler
+         * @param {Sring|Boolean} [options.bindEvent = 'click'] - the event that trigger the toggling
+         * @param {String} options.url - the URL of the service used to retrieve the resources.
+         * @fires ResourceMgr#create.resourcemgr
          * @returns {jQueryElement} for chaining
          */
         init : function(options){
+            var self = resourceMgr;
             
             //get options using default
-            options = $.extend(true, {}, defaults, options);
+            options = _.defaults(options, defaults);
            
             return this.each(function() {
                 var $elt = $(this);
-                var $target = options.target;
-                var openedClass = options.openedClass;
-                var closedClass = options.closedClass;
-               
+                var $target; 
+
                 if(!$elt.data(dataNs)){
 
-                    if(options.hideText){
-                        options.showText = $elt.text();
-                    }
-                    
                     //add data to the element
                     $elt.data(dataNs, options);
 
-                    //add the default class if not set
-                    if(!$elt.hasClass(closedClass) && !$elt.hasClass(openedClass)){
-                        $elt.addClass($target.css('display') === 'none' ? closedClass : openedClass);
-                    }
-
-                    //keep in sync with changes made by another toggler
-                    $target.on('toggle.' + ns, function(e, $toggler){
-                         e.stopPropagation();
-                         if(!$toggler.is($elt)){
-                            if($target.css('display') === 'none'){
-                                $elt.addClass(closedClass)
-                                    .removeClass(openedClass);
-                            } else {
-                                $elt.removeClass(closedClass)
-                                    .addClass(openedClass);
-                            }
-
-                        }
+                    //auto bind events configured in options
+                    _.functions(options).forEach(function(eventName){
+                        $elt.on(eventName + '.' + ns, function(){
+                            options[eventName].apply($elt, arguments);
+                        });
+                    });
+                   
+                    $target = options.$target || self._createTarget($elt);
+            
+                    $target.modal({
+                        startClosed: true,
+                        minWidth : 900,
+                        disableClosing: true
                     });
 
-                    //bind an event to trigger the toggling
+                    $target.on('select.' + ns, function(e, uris){
+                        self._close($elt);
+                        $elt.trigger(e, [uris]);
+                    });
+
+                    fileBrowser($target, '/');
+                    fileSelector($target, '/');
+                    filePreview($target, '/');
+        
+                     //bind an event to trigger the addition
                     if(options.bindEvent !== false){
                         $elt.on(options.bindEvent, function(e){
                             e.preventDefault();
-                            ResourceMgr._toggle($(this));
+                            self._open($elt);
                          });
                     }
 
                     /**
                      * The plugin have been created.
-                     * @event ResourceMgr#create.toggler
+                     * @event ResourceMgr#create.resourcemgr
                      */
                     $elt.trigger('create.' + ns);
                 }
             });
        },
-       
-       /**
-        * Toggle the target.
-        * 
-        * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').toggler('toggle');
-        * @public
-        * 
-        * @returns {jQueryElement} for chaining
-        */
-       toggle : function(){
-           return this.each(function() {
-                ResourceMgr._toggle($(this));
-           });
-       },
-               
-       /**
-        * Internal toggling mechanism.
-        * 
-        * @private
-        * @param {jQueryElement} $elt - plugin's element 
-        * @fires ResourceMgr#toggle.toggler
-        * @fires ResourceMgr#open.toggler
-        * @fires ResourceMgr#close.toggler
-        */
-       _toggle: function($elt){
+      
+       _createTarget : function($elt){
             var options = $elt.data(dataNs);
-            var $target = options.target;
-
-            var triggerEvents = function triggerEvents(){ 
-
-                /**
-                * The target has been toggled. 
-                * Trigger 2 events : toggle and open or close.
-                * @event ResourceMgr#toggle.toggler
-                * @event ResourceMgr#open.toggler
-                * @event ResourceMgr#close.toggler
-                */
-                $elt.trigger('toggle.' + ns, [$target])
-                    .trigger(action + '.' + ns, [$target]);
-
-                //trigger also on the target in case of multiple toggling
-                $target.trigger('toggle.' + ns, [$elt]);
-            };
-
-           var action;
-           if( $elt.is(':radio,:checkbox') ){
-                action =  $elt.prop('checked') ?  'open' : 'close';
-            } else {
-                action =  $elt.hasClass(options.closedClass) ?  'open' : 'close';
-                $elt.toggleClass(options.closedClass)
-                    .toggleClass(options.openedClass);
+            if(options){
+                //create an identifier to the target content
+                options.targetId = 'resourcemgr-' + $(document).find('.resourcemgr').length;
+                
+                //generate
+                options.$target  = $(layout())
+                    .attr('id', options.targetId)
+                    .css('display', 'none')
+                    .appendTo(options.appendContainer);             
+ 
+                $elt.data(dataNs, options);
             }
-            
-            if(action === 'open'){
-                $target.fadeIn(200, triggerEvents);
-                if(options.hideText){
-                    $elt.text(options.hideText);
-                }
-            } else {
-                $target.fadeOut(300, triggerEvents);
-                if(options.showText){
-                    $elt.text(options.showText);
-                }
-            }
+            return options.$target;
        },
+
+       _open : function($elt){
+            var options = $elt.data(dataNs);
+            if(options && options.$target){
+                options.$target.modal('open');
+            }
+       }, 
                
+       _close : function($elt){
+            var options = $elt.data(dataNs);
+            if(options && options.$target){
+                options.$target.modal('close');
+            }
+       }, 
        /**
         * Destroy completely the plugin.
         * 
         * Called the jQuery way once registered by the Pluginifier.
-        * @example $('selector').toggler('destroy');
+        * @example $('selector').resourcemgr('destroy');
         * @public
         */
        destroy : function(){
@@ -171,45 +141,30 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
                 if(options.bindEvent !== false){
                     $elt.off(options.bindEvent);
                 }
-                
+                if(options.targetId){
+                    $('#' + options.targetId).remove();
+                } 
                 /**
                  * The plugin have been destroyed.
-                 * @event ResourceMgr#destroy.toggler
+                 * @event ResourceMgr#destroy.resourcemgr
                  */
                 $elt.trigger('destroy.' + ns);
             });
         }
    };
    
-   //Register the toggler to behave as a jQuery plugin.
-   Pluginifier.register(ns, ResourceMgr);
+   //Register the resourcemgr to behave as a jQuery plugin.
+   Pluginifier.register(ns, resourceMgr);
    
    /**
     * The only exposed function is used to start listening on data-attr
     * 
     * @public
-    * @example define(['ui/toggler'], function(toggler){ toggler($('rootContainer')); });
+    * @example define(['ui/resourcemgr'], function(resourcemgr){ resourcemgr($('rootContainer')); });
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){
        
-        new DataAttrHandler('toggle', {
-            container: $container,
-            listenerEvent: 'click',
-            bubbled: true,
-            namespace: dataNs
-        }).init(function($elt, $target) {
-            var opts = {
-                target: $target,
-                bindEvent: false
-            };
-            if($elt.data('hide-text')){
-                opts.hideText = $elt.data('hide-text');
-            }
-            $elt.toggler(opts);
-        }).trigger(function($elt) {
-            $elt.toggler('toggle');
-        });
     };
 });
 

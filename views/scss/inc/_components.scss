@@ -188,6 +188,9 @@ ul.listbox {
     padding: 40px;
     position: absolute;
     z-index: 100002;
+    margin: auto;
+    left: 0;
+    right: 0;
 
     .modal-close {
         position: absolute;
@@ -279,7 +282,7 @@ ul[data-button-group], ul.button-group {
 .previewer {
     background-color: $uiGeneralContentBg;
     margin: 5px;
-    min-width: 300px;
+    min-width: 280px;
     min-height: 200px;
     .nopreview {
         color: $uiGeneralContentBorder;
