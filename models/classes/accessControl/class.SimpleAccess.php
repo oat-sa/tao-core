@@ -48,7 +48,7 @@ class tao_models_classes_accessControl_SimpleAccess
      * (non-PHPdoc)
      * @see tao_models_classes_accessControl_AccessControl::hasAccess()
      */
-    public function hasAccess($extension, $controller, $action, $parameters) {
+    public function hasAccess($action, $controller, $extension, $parameters) {
         $isUser = false;
         foreach (common_session_SessionManager::getSession()->getUserRoles() as $role) {
             if ($role == INSTANCE_ROLE_BASEUSER) {
@@ -56,7 +56,7 @@ class tao_models_classes_accessControl_SimpleAccess
                 break;
             }
         }
-        return $isUser || $this->inWhiteList($extension, $controller, $action);
+        return $isUser || $this->inWhiteList($action, $controller, $extension);
     }
     
     public function applyRule(tao_models_classes_accessControl_AccessRule $rule) {
@@ -82,13 +82,13 @@ class tao_models_classes_accessControl_SimpleAccess
     }
     
     
-    private function inWhiteList($extension, $controller, $action) {
+    private function inWhiteList($action, $controller, $extension) {
         return strpos($this->whitelist, $extension.'::'.$controller.'::'.$action) !== false
             || strpos($this->whitelist, $extension.'::'.$controller.'::*') !== false
             || strpos($this->whitelist, $extension.'::*::*') !== false;
     }
     
-    private function whiteList($extension, $controller, $action) {
+    private function whiteList($action, $controller, $extension) {
         $entry = $extension.'::'.(is_null($controller) ? '*' : $controller).'::'.(is_null($action) ? '*' : $action);
         $this->whitelist = (string)common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::WHITELIST_KEY);
         $this->whitelist .= ','.$entry;

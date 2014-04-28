@@ -72,7 +72,7 @@ class tao_models_classes_accessControl_AclProxy
      * @return boolean
      */
     public static function hasAccess($action, $controller, $extension, $parameters = array()) {
-        return self::getImplementation()->hasAccess($extension, $controller, $action, $parameters);
+        return self::getImplementation()->hasAccess($action, $controller, $extension, $parameters);
     }
     
     /**

@@ -39,7 +39,7 @@ class tao_models_classes_accessControl_NoAccess
      * (non-PHPdoc)
      * @see tao_models_classes_accessControl_AccessControl::hasAccess()
      */
-    public function hasAccess($extension, $controller, $action, $parameters) {
+    public function hasAccess($action, $controller, $extension, $parameters) {
         return false;
     }
     

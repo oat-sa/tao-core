@@ -32,13 +32,13 @@ interface tao_models_classes_accessControl_AccessControl
     /**
      * Returns whenever or not a user has access to a specified call
      * 
-     * @param string $extension
-     * @param string $controller
      * @param string $action
+     * @param string $controller
+     * @param string $extension
      * @param array $parameters
      * @return boolean
      */
-    public function hasAccess($extension, $controller, $action, $parameters);
+    public function hasAccess($action, $controller, $extension, $parameters);
     
     public function applyRule(tao_models_classes_accessControl_AccessRule $rule);
     
