@@ -196,8 +196,9 @@ class tao_actions_Main extends tao_actions_CommonModule {
     
     
     /**
-     * Get the list of extensions to display@param string $shownExtension
-     * @return array the sections
+     * Get the list of menu structures
+     * 
+     * @return array with data about the menu structures
      */
     private function getMenuEntries(){
         $entries = array();
