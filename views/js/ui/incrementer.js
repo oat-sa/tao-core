@@ -63,7 +63,7 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                         $elt.data(dataNs, options)                      //add data to the element
                             .addClass(options.incrementerClass)         //add the css class
                             .after(//set up controls
-                                '<span class="ctrl ' + options.incrementerCtrlClass + '"' +
+                                '<span class="ctrl ' + options.incrementerCtrlClass + '">' +
                                     '<a href="#" class="inc" title="+' + options.step + '" tabindex="-1"></a>' +
                                     '<a href="#" class="dec" title="-' + options.step + '" tabindex="-1"></a>' +
                                  '</span>')
