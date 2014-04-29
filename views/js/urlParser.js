@@ -115,7 +115,7 @@ define(['lodash'], function(_){
        if(this.data){
             if(this.data.hostname && !_.contains(exclude, 'host')){
                 url += (this.data.protocol ?  this.data.protocol : 'http:') + '//' + this.data.hostname;
-                if(this.data.port){
+                if(this.data.port && this.data.port !== 80 && this.data.port !== 0){
                     url += ':' + this.data.port;
                 }
             }       
