@@ -46,7 +46,6 @@ img {
     padding: 0;
     margin: 0;
     list-style: none;
-    list-style-image: none
 }
 
 .block {
@@ -189,20 +188,20 @@ a {
 table.matrix {
 
     width: 100%;
-    background: whiten($uiClickableDefaultBg, .5);
     border: 6px solid whiten($uiClickableDefaultBg, .5);
     margin-bottom: 10px;
     td, th {
         font-weight: normal;
         padding: 3px 5px;
-        @include simple-border();
+        border: 1px solid #ddd !important;
     }
     th {
         text-align: left;
         vertical-align: middle;
+        background: whiten($uiClickableDefaultBg, .5);
     }
     td {
-        background: white();
+        background: transparent;
         text-align: left;
         padding: 2px;
         &.numeric {
