@@ -62,7 +62,7 @@ define([
                             options[eventName].apply($elt, arguments);
                         });
                     });
-                   
+                  
                     $target = options.$target || self._createTarget($elt);
             
                     $target.modal({
@@ -76,7 +76,10 @@ define([
                         $elt.trigger(e, [uris]);
                     });
 
-                    fileBrowser($target, '/');
+                                
+
+
+                    fileBrowser(options, '/');
                     fileSelector($target, '/');
                     filePreview($target, '/');
         
