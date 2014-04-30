@@ -74,8 +74,9 @@
                     @include icon('folder-open');
                 }
 
-                &.active {
+                &.active > a {
                     background-color: $activeColor;
+                    
                 }
             }
         }
@@ -133,8 +134,24 @@
  
         background-color: $uiGeneralContentBg;
         & > h1 {
+            position: relative;
             background-color: $uiClickableDefaultBg;
+
+            .title {
+                margin-right: 75px;
+            }
+
+            .upload-switcher {
+                position: absolute;
+                width: 75px;
+                top: 0;
+                right: 0;
+                height: 38px;
+                padding: 5px;
+            }
         }
+
+
 
         ul.files {
             position: relative;
@@ -192,14 +209,8 @@
                 }
             }
         }
-        h2 {
-            margin-bottom:0;
-        }
         .uploader {
-            /*position: absolute;*/
-            /*bottom: 0;*/
-            /*left: 200px;*/
-            /*right: 300px;*/
+            display: none;
             height: 40px;
             padding: 0 5px;
             background-color: $uiClickableDefaultBg;

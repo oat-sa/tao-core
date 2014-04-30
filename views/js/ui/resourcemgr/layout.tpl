@@ -5,140 +5,21 @@
     <section class="file-browser">
         
         <h1>{{ __ 'Browse resources'}}</h1>
-        <ul class="folders">
-            <!--<li><a href='#'>Folder 1</a></li>-->
-            <!--<li><a href='#'>Folder 2</a></li>-->
-            <!--<li><a href='#' data-toggle="~ ul">Opened Folder</a>-->
-                <!--<ul>-->
-                    <!--<li class="active"><a href='#'>Folder 3</a></li>-->
-                    <!--<li><a href='#'>Folder 4</a></li>-->
-                    <!--<li><a class="disabled" href='#'>Folder 5</a></li>-->
-                    <!--<li><a href='#' data-toggle="~ ul">Long folder name, from a far far away galaxy</a>-->
-                        <!--<ul>-->
-                            <!--<li><a href='#'>Folder 7</a></li>-->
-                            <!--<li><a href='#'>Folder 6</a></li>-->
-                        <!--</ul>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</li>-->
-        </ul>
+        <ul class="folders"></ul>
     </section>
  
 <!-- test editor  -->
     <section class="file-selector">
-        <h1>Folder 1 &gt; Folder 3</h1>
-        <ul class="files">
-            <li class="active" data-type="audio">
-                <span class="desc">rammstein.mp3</span>
-                <div class="actions">
-                    <div class="tlb">
-                        <div class="tlb-top">
-                            <span class="tlb-box">
-                                <span class="tlb-bar">
-                                    <span class="tlb-start"></span>
-                                    <span class="tlb-group">
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Download'}}"><span class="icon-export"></span></a>
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Preview'}}"><span class="icon-preview"></span></a>
-                                        <span class="tlb-separator"></span> 
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Remove file'}}"><span class="icon-bin"></span></a>
-                                    </span>
-                                    <span class="tlb-end"></span>
-                                </span>  
-                            </span>   
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li data-type="audio">
-                <span class="desc">rammstein.mp3</span>
-                <div class="actions">
-                    <div class="tlb">
-                        <div class="tlb-top">
-                            <span class="tlb-box">
-                                <span class="tlb-bar">
-                                    <span class="tlb-start"></span>
-                                    <span class="tlb-group">
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Download'}}"><span class="icon-download"></span></a>
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Preview'}}"><span class="icon-preview"></span></a>
-                                        <span class="tlb-separator"></span> 
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Remove file'}}" data-delete=":parent li"><span class="icon-bin"></span></a>
-                                    </span>
-                                    <span class="tlb-end"></span>
-                                </span>  
-                            </span>   
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li data-type="video">
-                <span class="desc">rammstein.mp4</span>
-                <div class="actions">
-                    <div class="tlb">
-                        <div class="tlb-top">
-                            <span class="tlb-box">
-                                <span class="tlb-bar">
-                                    <span class="tlb-start"></span>
-                                    <span class="tlb-group">
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Select'}}"><span class="icon-move-item"></span></a>
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Download'}}"><span class="icon-export"></span></a>
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Preview'}}"><span class="icon-preview"></span></a>
-                                        <span class="tlb-separator"></span> 
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Remove file'}}"><span class="icon-bin"></span></a>
-                                    </span>
-                                    <span class="tlb-end"></span>
-                                </span>  
-                            </span>   
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li data-type="image">
-                <span class="desc">rammstein.png</span>
-                <div class="actions">
-                    <div class="tlb">
-                        <div class="tlb-top">
-                            <span class="tlb-box">
-                                <span class="tlb-bar">
-                                    <span class="tlb-start"></span>
-                                    <span class="tlb-group">
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Download'}}"><span class="icon-export"></span></a>
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Preview'}}"><span class="icon-preview"></span></a>
-                                        <span class="tlb-separator"></span> 
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Remove file'}}"><span class="icon-bin"></span></a>
-                                    </span>
-                                    <span class="tlb-end"></span>
-                                </span>  
-                            </span>   
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li data-type="text">
-                <span class="desc">README.txt</span>
-                <div class="actions">
-                    <div class="tlb">
-                        <div class="tlb-top">
-                            <span class="tlb-box">
-                                <span class="tlb-bar">
-                                    <span class="tlb-start"></span>
-                                    <span class="tlb-group">
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Download'}}"><span class="icon-export"></span></a>
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Preview'}}"><span class="icon-preview"></span></a>
-                                        <span class="tlb-separator"></span> 
-                                        <a href="#" class="tlb-button-off" title="{{__ 'Remove file'}}"><span class="icon-bin"></span></a>
-                                    </span>
-                                    <span class="tlb-end"></span>
-                                </span>  
-                            </span>   
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
+        <h1>
+            <div class="title"></div> 
+            <div class="upload-switcher">
+                <span class="icon-add"></span>{{__ 'Upload'}}
+            </div>
+        </h1>
+
+        <ul class="files"></ul>
         
-        <h2 class="toggler" data-toggle="~ .uploader">{{__ 'Upload file'}}</h2>
         <div class="uploader">
-            
             <div id="dragZone">
 <!-- see http://www.sitepoint.com/html5-file-drag-and-drop/  -->
             </div>
@@ -151,10 +32,6 @@
                 <span class="file-name col-8 truncate"></span>
                 <input type="file">
             </div>
-            <!--<button class="btn-default small">-->
-                <!--<span class="icon-import"></span>-->
-                <!--{{__ 'Upload'}}-->
-            <!--</button>-->
         </div>
     </section>   
 

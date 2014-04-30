@@ -74,9 +74,8 @@ define(['jquery', 'lodash'], function($, _){
         $(document)
             .off(this.options.listenerEvent, selector)
             .on(this.options.listenerEvent, selector, function(e){
-            
+           
             var $elt = $(e.target);
-            
             if(self.options.bubbled === true || $elt.is(selector)){
                 var $target, $outer;
                 

@@ -220,7 +220,8 @@ define([
     * @param {jQueryElement} $container - the root context to listen in
     */
    return function listenDataAttr($container){
-       
+      
+        //handle data-delete 
         new DataAttrHandler('delete', {
             container: $container,
             listenerEvent: 'click',
@@ -252,6 +253,32 @@ define([
                     }
                 }
             }   
+            $elt.deleter(options);
+        }).trigger(function($elt) {
+            $elt.deleter('delete');
+        });
+            
+        //handle data-close
+        new DataAttrHandler('close', {
+            container: $container,
+            listenerEvent: 'click',
+            namespace: dataNs,
+            bubbled: true
+        }).init(function($elt, $target) {
+            var options = {
+                target: $target,
+                bindEvent: false,
+                undo : false
+            };
+            var confirm = $elt.data('delete-confirm');
+            var undo = $elt.data('delete-undo');
+            if(confirm){
+                options.confirm = true;
+                options.undo = false;
+                if(confirm.length > 0){
+                    options.confirmMessage = confirm;
+                }
+            }
             $elt.deleter(options);
         }).trigger(function($elt) {
             $elt.deleter('delete');

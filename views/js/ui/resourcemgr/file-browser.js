@@ -3,61 +3,74 @@ define(['jquery', 'lodash'], function($, _) {
 
     var ns = 'resourcemgr';
 
-
-
-    return function(options){
+    return function(options, root){
 
 
         var $container = options.$target;
+        var liveSelector = '#' + $container.attr('id') + ' .file-browser'; 
         var $fileBrowser = $('.file-browser', $container);  
         var $folderContainer = $('.folders', $fileBrowser);
-
         var fileTree = {};
-        showContent(fileTree, '/', function(content){
-            console.log('1 content', content);        
-            console.log('1 fileTree', fileTree);
-
-            showContent(fileTree, '/images', function(content){
-                console.log('2 content', content);        
-                console.log('2 fileTree', fileTree);
-
-                  
-            });
-              
-        });
-/*
-, function(data){
-
-            //file browser
-            var $folders = $('.folders li', $fileBrowser);
-            $folders.on('click', 'a', function(e){
-                e.preventDefault();
-               
-                //TODO move active on a elements 
-                var $selected = $(this);                
-                $folders.removeClass('active');
-                $selected.parent('li').addClass('active');
         
-                //get full path 
-                //var $parent = $selected;
-                //var path = '/';
-                //var i = 512;
-                //do{
-                    //$parent = $parent.parent();
-                    //if($parent.is('li')){
-                        //path = '/' + $parent.children('a').text() +  path;
-                    //}
-                    //if($parent.hasClass('file-browser')){
-                        //break;
-                    //} 
-                //} while(true && i--);
+        root = root || '/';
 
-                $container.trigger('folderselect.' + ns , [data]);
-            });
+        $folderContainer.append('<li><a class="root-folder" href="#">' + root + '</a></li>');
 
-            $container.trigger('folderselect.' + ns , [data]);
+        showContent(fileTree, root, function(content){
+             var $innerList = $('<ul></ul>').insertAfter($('.root-folder', $folderContainer));     
+             updateFolders(content, $innerList); 
+             $container.trigger('folderselect.' + ns , [root, content.children]);
         });
-*/
+
+        console.log( liveSelector + ' .folders  a');
+        
+        $(document).on('click', liveSelector + ' .folders  a', function(e){
+            e.preventDefault();
+            var $selected = $(this); 
+            var $folders = $('.folders li', $fileBrowser);
+            var fullPath = $selected.data('path');
+            var subTree = getByPath(fileTree, fullPath);
+
+            $folders.removeClass('active');
+            $selected.parent('li').addClass('active');
+                        
+ 
+            showContent(subTree, fullPath, function(content){
+                 var $innerList = $selected.siblings('ul');
+                 if(!$innerList.length && content.children && _.find(content.children, 'path')){
+                    $innerList = $('<ul></ul>').insertAfter($selected);     
+                    updateFolders(content, $innerList);
+                    $selected.addClass('opened');
+                 } else if($innerList.length){
+                    if($innerList.css('display') === 'none'){
+                        $innerList.show();
+                        $selected.addClass('opened');
+                    } else {
+                        $innerList.hide();
+                        $selected.removeClass('opened');
+                    } 
+                 }
+                 $container.trigger('folderselect.' + ns , [fullPath, content.children]);
+            });
+        });
+    
+        function getFullPathFromList($parent){
+            var i = 512;
+            var fullPath = '';
+            do{
+                $parent = $parent.parent();
+                if($parent.is('li')){
+                    fullPath = $parent.children('a').text() +   fullPath;
+                }
+                if($parent.hasClass('file-browser')){
+                    break;
+                } 
+            } while(true && i--);
+            if(fullPath.length > 1){
+                fullPath = fullPath.replace(/\/$/, '');
+            }
+            return fullPath;
+        }
 
         function showContent(tree, path, cb){
             var content = getByPath(tree, path);
@@ -117,41 +130,20 @@ define(['jquery', 'lodash'], function($, _) {
             return $.getJSON(options.browseUrl, _.merge(parameters, options.params));
         }
 
-        function getContent(path, subtree, recurse){
-            var parameters = {};
-            parameters[options.pathParam] = path;
-            $.getJSON(options.browseUrl, _.merge(parameters, options.params)).done(function(data){
-                if(!subtree){
-                    subtree = data;
-                }
-                if(data.children && _.isArray(data.children)){
-                    if(recurse){
-                        subtree.children = data.children;
-                    }
-                    _.forEach(data.children, function(child, index){
-                        if(child.path){
-                            getContent(child.path, subtree.children[index], true);
-                        } 
-                    });
-                }
-            });
-        }
-
-
-
         //updateFolders(data, $folderContainer);
-        function updateFolders(data, $parent){
+        function updateFolders(data, $parent, recurse){
+           var $item;
+           if(recurse && data.path){
+                $item = $('<li><a data-path="' + data.path + '" href="#">' + data.path.split('/').pop() + '</a></li>').appendTo($parent);
+           }
            if(data.children && _.isArray(data.children)){
-                if(!$parent.hasClass('folders')){
-                    $parent = $('<ul><ul>').appendTo($parent);     
-                }           
+                 //if(!$parent.hasClass('folders')){
+                    //$parent = $('<ul><ul>').insertAfter($('a', $item));     
+                 //}           
                 _.forEach(data.children, function(child){
-                    updateFolders(child, $parent);
+                    updateFolders(child, $parent, true);
                 });
            } 
-           if(data.path && data.path !== '/'){
-                $parent.append('<li><a href="#">' + data.path.replace(/\//, '') + '</a></li>');
-           }
         }
     };
 });

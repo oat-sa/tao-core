@@ -1,5 +1,7 @@
 define(['jquery', 'ui/resourcemgr'], function($){
 
+    console.log($('#uri').val())
+
 
     $('#launcher').resourcemgr({
         browseUrl   : '/taoItems/ItemContent/files',
@@ -7,7 +9,7 @@ define(['jquery', 'ui/resourcemgr'], function($){
         deleteUrl   : '/taoItems/ItemContent/delete',
         downloadUrl : '/taoItems/ItemContent/download',
         params : {
-            uri : 'http://tao.localdomain/tao.rdf#i139763803992938',
+            uri : $('#uri').val(),
             lang : 'en-US'
         },
         pathParam : 'path',
