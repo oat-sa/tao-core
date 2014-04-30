@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -30,10 +30,10 @@
  *
  */
 #TAO version number
-define('TAO_VERSION', '2.6-alpha4');
+define('TAO_VERSION', '2.6-beta');
 
 #TAO version label
-define('TAO_VERSION_NAME', 'v2.6-alpha4');
+define('TAO_VERSION_NAME', 'v2.6-beta');
 
 #the name to display
 define('PRODUCT_NAME', 'TAO');
