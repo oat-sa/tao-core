@@ -17,8 +17,10 @@ label {
     .file-name {
         padding:  2px 5px;
         background: white;
-        font-style: italic;
-        color: whiten($textColor, .8);
+        &.placeholder {
+            font-style: italic;
+            color: whiten($textColor, .8);
+        }
         @include simple-border();
         &.active {
             font-style: normal;
