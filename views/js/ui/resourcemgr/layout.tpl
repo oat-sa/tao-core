@@ -13,32 +13,34 @@
         <h1>
             <div class="title"></div> 
             <div class="upload-switcher">
-                <span class="icon-add"></span>{{__ 'Upload'}}
+                <a href="#"><span class="icon-add"></span>{{__ 'Upload'}}</a>
             </div>
         </h1>
 
         <ul class="files"></ul>
         
-        <div class="uploader">
-            <div id="dragZone">
-<!-- see http://www.sitepoint.com/html5-file-drag-and-drop/  -->
-            </div>
+        <form class="uploader"> 
+
             <div class="progressbar"></div>
             <div class="file-upload grid-row">
-                <span class="btn-info small col-4">
-                    <span class="icon-import"></span>
-                    {{__ 'Upload'}}
-                </span>
-                <span class="file-name col-8 truncate"></span>
-                <input type="file">
+                <span class="btn-info small col-4"><span class="icon-upload"></span>{{__ 'Upload'}}</span>
+                <span class="file-name placeholder col-8 truncate">{{__ 'Select a file'}}</span>
+                <input type="file" name="content">
+
             </div>
-        </div>
+            <div class="grid-row"> 
+                <div class="file-drop col-12">
+                    &#152;or &#152;<br />
+                    {{__ 'Drop file here'}}
+                </div>
+            </div>
+       </form>
     </section>   
 
     <section class="file-preview">
         <h1>{{__ 'Preview'}}</h1>
         <div class="previewer">
-            <p class="nopreview">NO PREVIEW</p>
+            <p class="nopreview">{{__ 'No Preview available'}}</p>
         </div>
        
         <h2 class="toggler" data-toggle="~ .file-properties">{{__ 'File Properties'}}</h2>
@@ -48,33 +50,29 @@
                 <div class="col-2">
                     {{__ 'Type'}}
                 </div>
-                <div class="col-10">
-                    audio/ogg
-                </div>
+                <div class="col-10 prop-type"></div>
             </div>
 
             <div class="grid-row">
                 <div class="col-2">
                     {{__ 'Size'}}
                 </div>
-                <div class="col-10">
-                    32Mb
-                </div>
+                <div class="col-10 prop-size"></div>
             </div>
             
             <div class="grid-row">
                 <div class="col-2">
                     {{__ 'URL'}}
                 </div>
-                <div class="col-10">
-                    <a href="#">http://tao.local/test/1234/rammstein.ogg</a>
+                <div class="col-10 prop-url">
+                    <a href="#"></a>
                 </div>
             </div>
         </div>
 
         <h2 class="toggler" data-toggle="~ .actions">{{__ 'Actions'}}</h2>
-        <div class="action>">
-            <button class="btn-success small select">
+        <div class="actions">
+            <button class="btn-success small select-action" disabled>
                 <span class="icon-move-item"></span>{{__ 'Select'}}
             </button>
         </div>

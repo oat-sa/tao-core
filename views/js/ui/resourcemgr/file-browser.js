@@ -10,37 +10,53 @@ define(['jquery', 'lodash'], function($, _) {
         var liveSelector = '#' + $container.attr('id') + ' .file-browser'; 
         var $fileBrowser = $('.file-browser', $container);  
         var $folderContainer = $('.folders', $fileBrowser);
+
         var fileTree = {};
         
         root = root || '/';
 
-        $folderContainer.append('<li><a class="root-folder" href="#">' + root + '</a></li>');
+        //create the tree node for the ROOT folder by default
+        $folderContainer.append('<li class="active"><a class="root-folder" data-path="/" href="#">' + root + '</a></li>');
 
-        showContent(fileTree, root, function(content){
-             var $innerList = $('<ul></ul>').insertAfter($('.root-folder', $folderContainer));     
+        //load the content of the ROOT
+        getFolderContent(fileTree, root, function(content){
+    
+            var $rootNode = $('.root-folder', $folderContainer);
+             //create an inner list and append found elements
+             var $innerList = $('<ul></ul>').insertAfter($rootNode);
+             if(content.children){
+                $rootNode.addClass('opened');
+             }  
              updateFolders(content, $innerList); 
+
+             //internal event to set the file-selector content
              $container.trigger('folderselect.' + ns , [root, content.children]);
         });
 
-        console.log( liveSelector + ' .folders  a');
-        
+
+        // by clicking on the tree (using a live binding  because content is not complete yet)
         $(document).on('click', liveSelector + ' .folders  a', function(e){
             e.preventDefault();
+
             var $selected = $(this); 
             var $folders = $('.folders li', $fileBrowser);
             var fullPath = $selected.data('path');
             var subTree = getByPath(fileTree, fullPath);
 
+            //toggle active element
             $folders.removeClass('active');
             $selected.parent('li').addClass('active');
                         
- 
-            showContent(subTree, fullPath, function(content){
+            //get the folder content
+            getFolderContent(subTree, fullPath, function(content){
+
+                 //either create the inner list of the content is new or just show it 
                  var $innerList = $selected.siblings('ul');
                  if(!$innerList.length && content.children && _.find(content.children, 'path')){
                     $innerList = $('<ul></ul>').insertAfter($selected);     
                     updateFolders(content, $innerList);
                     $selected.addClass('opened');
+
                  } else if($innerList.length){
                     if($innerList.css('display') === 'none'){
                         $innerList.show();
@@ -50,35 +66,28 @@ define(['jquery', 'lodash'], function($, _) {
                         $selected.removeClass('opened');
                     } 
                  }
+             
+                 //internal event to set the file-selector content
                  $container.trigger('folderselect.' + ns , [fullPath, content.children]);
             });
         });
-    
-        function getFullPathFromList($parent){
-            var i = 512;
-            var fullPath = '';
-            do{
-                $parent = $parent.parent();
-                if($parent.is('li')){
-                    fullPath = $parent.children('a').text() +   fullPath;
-                }
-                if($parent.hasClass('file-browser')){
-                    break;
-                } 
-            } while(true && i--);
-            if(fullPath.length > 1){
-                fullPath = fullPath.replace(/\/$/, '');
-            }
-            return fullPath;
-        }
-
-        function showContent(tree, path, cb){
+   
+        /**
+         * Get the content of a folder, either in the model or load it
+         * @param {Object} tree - the tree model
+         * @param {String} path - the folder path (relative to the root)
+         * @param {Function} cb- called back with the content in 1st parameter
+         */
+        function getFolderContent(tree, path, cb){
             var content = getByPath(tree, path);
             if(!content || (!content.children && !content.empty)){
                 loadContent(path).done(function(data){
                     if(!tree.path){
                         tree = _.merge(tree, data);
                     } else if (data.children) {
+                        if(!_.find(content.children, 'path')){
+                            tree.empty = true;
+                        }
                         setToPath(tree, path, data.children);
                     } else {
                         tree.empty = true;
@@ -90,6 +99,12 @@ define(['jquery', 'lodash'], function($, _) {
             }
         } 
 
+        /**
+         * Get a subTree from a path
+         * @param {Object} tree - the tree model
+         * @param {String} path - the path (relative to the root)
+         * @returns {Object} the subtree that matches the path
+         */
         function getByPath(tree, path){
             var match;
             if(tree){
@@ -107,6 +122,13 @@ define(['jquery', 'lodash'], function($, _) {
             return match;
         }
 
+        /**
+         * Merge data into at into the subtree
+         * @param {Object} tree - the tree model
+         * @param {String} path - the path (relative to the root)
+         * @param {Object} data - the sbutree to merge at path level
+         * @returns {Boolean}  true if done
+         */
         function setToPath(tree, path, data){
             var done = false;
             if(tree){
@@ -124,13 +146,23 @@ define(['jquery', 'lodash'], function($, _) {
             return done;
         }
 
+        /**
+         * Get the content of a folder
+         * @param {String} path - the folder path
+         * @returns {jQuery.Deferred} the defferred object to run done/complete/fail 
+         */
         function loadContent(path){
             var parameters = {};
             parameters[options.pathParam] = path;
             return $.getJSON(options.browseUrl, _.merge(parameters, options.params));
         }
 
-        //updateFolders(data, $folderContainer);
+        /**
+         * Update the HTML Tree
+         * @param {Object} data - the tree data
+         * @param {jQueryElement} $parent - the parent node to append the data
+         * @param {Boolean} [recurse] - internal recursive condition
+         */
         function updateFolders(data, $parent, recurse){
            var $item;
            if(recurse && data.path){

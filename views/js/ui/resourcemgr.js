@@ -16,7 +16,8 @@ define([
    var dataNs = 'ui.' + ns;
    
    var defaults = {
-        bindEvent   : 'click',
+        root            : '/',
+        open            : true,
         appendContainer : '.tao-scope:first'
    };
    
@@ -67,35 +68,37 @@ define([
             
                     $target.modal({
                         startClosed: true,
-                        minWidth : 900,
-                        disableClosing: true
+                        minWidth : 900
                     });
 
+                    //rethrow some events
                     $target.on('select.' + ns, function(e, uris){
                         self._close($elt);
                         $elt.trigger(e, [uris]);
                     });
-
-                                
-
-
+                    $target.on('closed.modal', function(){
+                        $elt.trigger('close.' + ns);
+                    });
+                    
+                    //initialize the components
                     fileBrowser(options, '/');
-                    fileSelector($target, '/');
-                    filePreview($target, '/');
-        
-                     //bind an event to trigger the addition
-                    if(options.bindEvent !== false){
-                        $elt.on(options.bindEvent, function(e){
-                            e.preventDefault();
-                            self._open($elt);
-                         });
-                    }
+                    fileSelector(options, '/');
+                    filePreview(options, '/');
 
                     /**
                      * The plugin have been created.
                      * @event ResourceMgr#create.resourcemgr
                      */
                     $elt.trigger('create.' + ns);
+                            
+                    if(options.open){
+                        self._open($elt);
+                    }
+                } else {
+                    options = $elt.data(dataNs);
+                    if(options.open){
+                        self._open($elt);
+                    }
                 }
             });
        },
@@ -121,6 +124,12 @@ define([
             var options = $elt.data(dataNs);
             if(options && options.$target){
                 options.$target.modal('open');
+                
+                /**
+                 * Open the resource manager.
+                 * @event ResourceMgr#open.resourcemgr
+                 */
+                $elt.trigger('open.' + ns);
             }
        }, 
                
@@ -128,6 +137,12 @@ define([
             var options = $elt.data(dataNs);
             if(options && options.$target){
                 options.$target.modal('close');
+                
+                /**
+                 * Close the resource manager.
+                 * @event ResourceMgr#close.resourcemgr
+                 */
+                $elt.trigger('close.' + ns);
             }
        }, 
        /**
@@ -147,6 +162,7 @@ define([
                 if(options.targetId){
                     $('#' + options.targetId).remove();
                 } 
+   
                 /**
                  * The plugin have been destroyed.
                  * @event ResourceMgr#destroy.resourcemgr

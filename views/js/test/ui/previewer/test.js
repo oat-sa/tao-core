@@ -19,7 +19,7 @@ define(['jquery', 'ui', 'ui/previewer'], function($, ui, previewer){
             start();
         });
         $elt.previewer({
-            file: 'http://taotesting.com/sites/tao/themes/tao/img/tao_logo.png',
+            url: 'http://taotesting.com/sites/tao/themes/tao/img/tao_logo.png',
             type: 'image/png' 
         });
     });
@@ -28,7 +28,7 @@ define(['jquery', 'ui', 'ui/previewer'], function($, ui, previewer){
         expect(5);
 
         var options     = {
-            file    : 'http://taotesting.com/sites/tao/themes/tao/img/tao_logo.png',
+            url    : 'http://taotesting.com/sites/tao/themes/tao/img/tao_logo.png',
             type    : 'image/png',
             width   : 50,
             height  : 50
@@ -40,7 +40,7 @@ define(['jquery', 'ui', 'ui/previewer'], function($, ui, previewer){
         
         $elt.on('create.previewer', function(){
             equal($elt.find('img').length, 1, 'The image element is created');
-            equal($elt.find('img').attr('src'), options.file, 'The image src is set');
+            equal($elt.find('img').attr('src'), options.url, 'The image src is set');
             equal($elt.find('img').width(), options.width, 'The image width is set');
             equal($elt.find('img').height(), options.height, 'The image height is set');
             start();
@@ -52,7 +52,7 @@ define(['jquery', 'ui', 'ui/previewer'], function($, ui, previewer){
         expect(6);
 
         var options     = {
-            file    : 'http://techslides.com/demos/sample-videos/small.mp4',
+            url    : 'http://techslides.com/demos/sample-videos/small.mp4',
             type    : 'video/mp4',
             width   : 200,
             height  : 150
@@ -66,7 +66,7 @@ define(['jquery', 'ui', 'ui/previewer'], function($, ui, previewer){
         
         $elt.on('create.previewer', function(){
             equal($elt.find('video').length, 1, 'The video element is created');
-            equal($elt.find('video').attr('src'), options.file, 'The video src is set');
+            equal($elt.find('video').attr('src'), options.url, 'The video src is set');
             equal($elt.find('video').width(), options.width, 'The video width is set');
             equal($elt.find('video').height(), options.height, 'The video height is set');
             equal($elt.find('.mejs-container').length, 1, 'The media element player is set up');

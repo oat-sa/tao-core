@@ -7,7 +7,9 @@ define([
     'i18n', 
     'core/pluginifier', 
     'context',
-    'filereader'
+    'ui/filesender',
+    'filereader',
+    'jqueryui'
 ], function($, _, __, Pluginifier, context){
     'use strict';
 
@@ -31,8 +33,6 @@ define([
         filereader: typeof FileReader !== 'undefined',
         dnd : 'draggable' in document.createElement('span')
     };
-
-    console.log(tests);
 
     /**
      * @exports ui/uploader
@@ -59,7 +59,7 @@ define([
             return this.each(function(){
                 var $elt = $(this);
                 if(!$elt.data(dataNs)){
-                   
+
                     //retrieve elements 
                     options.$input       = $('input[type=file]', $elt);
                     options.$button      = $('.' + options.buttonClass, $elt);
@@ -67,25 +67,34 @@ define([
 
                     options.$dropZone    = options.dropZone || $elt.parent().find('.' + options.dropZoneClass);
                     options.$progressBar = options.progressBar || $elt.parent().find('.' + options.progressBarClass);
-                    
+    
+                    if(options.upload){
+                        options.$form = options.$form || $elt.parents('form');
+                    }                   
+ 
                     $elt.data(dataNs, options);
            
                     self._reset($elt);
-         
-                    var changeListener = function (e) {
+
+                    var inputHandler = function (e) {
                         var file = e.target.files[0];
                         
                         // Are you really sure something was selected
                         // by the user... huh? :)
                         if (typeof(file) !== 'undefined') {
-                            console.log(file);
                             $elt.trigger('file.' + ns, [file]);
                         }
+                   };
+
+                    var dragOverHandler = function(e){
+                        e.preventDefault();
+                        e.stopPropagation();
+                        options.$dropZone.addClass(options.dragOverClass);
                     };
                     
                     if (tests.filereader) {
                         // Yep ! :D
-                        options.$input.on('change', changeListener);
+                        options.$input.on('change', inputHandler);
                     }
                     else {
                         // Nope... :/
@@ -93,25 +102,23 @@ define([
                             id: 'fileReaderSWFObject',
                             filereader: context.taobase_www + 'js/lib/polyfill/filereader.swf',
                             callback: function() {
-                                options.$input.on('change', changeListener);
+                                options.$input.on('change', inputHandler);
                             }
                         });
                     }
 
                     if(options.$dropZone.length){
                         if(tests.dnd){
-                            console.log('DND is ok');
-                            options.$dropZone.on('dragover', function (event) {
-                                event.preventDefault();
-                                options.$dropZone.addClass(options.dragOverClass);
-                            }).on('dragend',  function(event) { 
-                                event.preventDefault();
-                                options.$dropZone.removeClass(options.dragOverClass);
-                            }).on('drop', function(event){
-                                event.preventDefault();
-                                options.$dropZone.removeClass(options.dragOverClass);
-                                
-                                console.log('drop files', event.originalEvent.dataTransfer);
+                            options.$dropZone
+                                .on('dragover', dragOverHandler)
+                                .on('dragend', dragOverHandler)
+                                .on('drop', function(e){
+                                    dragOverHandler(e); 
+                                    
+                                var files =  e.target.filesi || e.originalEvent.files || e.originalEvent.dataTransfer.files;
+                                if(files && files.length > 0){
+                                    $elt.trigger('file.' + ns, [files[0]]);
+                                }
                             
                             });
                         } else {
@@ -125,6 +132,22 @@ define([
                         e.preventDefault();
                         $(this).blur();
                         return false;
+                    });
+
+
+                    //what to do with the file
+                    $elt.on('file.' + ns, function(e, file){
+                
+                        options.$fileName
+                            .text(file.name)
+                            .removeClass('placeholder');
+
+                        if(options.upload){
+                            self._upload($elt, file);
+                        }
+                        if(options.read){
+                            self._read($elt, file);
+                        }
                     });
  
                     /**
@@ -145,59 +168,93 @@ define([
         _reset : function($elt){
             var options = $elt.data(dataNs);
             
-            options.$fileName.text(options.fileNamePlaceholder);
+            options.$fileName
+                .text(options.fileNamePlaceholder)
+                .addClass('placeholder');    
             if(options.buttonIcon){        
                 options.$button.html('<span class="icon-' + options.buttonIcon +'"></span>' + options.buttonLabel);
             } else {
                 options.$button.text(options.buttonLabel);
             }
+            
+            /**
+             * The plugin has been created.
+             * @event uploader#reset.uploader
+             */
+            $elt.trigger('reset.' + ns);
+        },
+
+        _upload : function($elt, file){
+            var options = $elt.data(dataNs);
+            var uploaded = false;
+            var fakeProgress = function(value){
+                setTimeout(function(){
+                    if(uploaded === false){
+                        options.$progressBar.progressbar({
+                            value: value
+                        });
+                        fakeProgress(value += 1);
+                    }
+                }, 10);
+            };
+ 
+            if(options.uploadUrl){
+
+                //ne real way to know the progress
+                if(options.$progressBar.length){
+                    fakeProgress(0);
+                }
+                options.$form.sendfile({
+                    url : options.uploadUrl, 
+                    loaded : function(result){
+                        uploaded = true;
+                        options.$progressBar.progressbar({value: 100});
+                        $elt.trigger('upload.'+ns, [file, result]); 
+                    }
+                });
+            } 
         },
 
         _read : function($elt, file){
             var options = $elt.data(dataNs);
+            var filename;
+            var filesize;
+            var filetype;
+        
+            if(options && file){
+            
+                // Show information about the processed file to the candidate.
+                filename = file.name;
+                filesize = file.size;
+                filetype = file.type;
+                
+                // Let's read the file to get its base64 encoded content.
+                var reader = new FileReader();
 
-            // Show information about the processed file to the candidate.
-            var filename = file.name;
-            var filesize = file.size;
-            var filetype = file.type;
-            
-            options.$fileName.text(filename);
-            
-            // Let's read the file to get its base64 encoded content.
-            var reader = new FileReader();
-
-            // Update file processing progress.
-            
-            reader.onload = function (e) {
+                reader.onload = function (e) {
+                    options.$progressBar.progressbar({
+                        value: 100
+                    });
+                    $elt.trigger('readend.'+ns, [file, e.target.result]);                    
+                };
                 
-                $container.find('.progressbar').progressbar({
-                    value: 100
-                });
-                
-                var base64Data = e.target.result;
-                var commaPosition = base64Data.indexOf(',');
-                
-                // Store the base64 encoded data for later use.
-                base64Raw = base64Data.substring(commaPosition + 1);
-                filetype = filetype;
-                _response = { "base" : { "file" : { "data" : base64Raw, "mime" : filetype, "name" : filename } } }; 
+                reader.onloadstart = function (e) {
+                    options.$progressBar.progressbar({
+                        value: 0
+                    });
+                    $elt.trigger('readstart.'+ns, [file]); 
+                };
+               
+                if(options.$progressBar.length){
+                    reader.onprogress = function (e) {
+                        var percentProgress = Math.ceil(Math.round(e.loaded) / Math.round(e.total) * 100);
+                        options.$progressBar.progressbar({
+                            value: percentProgress
+                        });
+                    };
+                }
+                reader.readAsDataURL(file);
             }
-            
-            reader.onloadstart = function (e) {
-                Helper.removeInstructions(interaction);
-                $container.find('.progressbar').progressbar({
-                    value: 0
-                });
-            };
-            
-            reader.onprogress = function (e) {
-                var percentProgress = Math.ceil(Math.round(e.loaded) / Math.round(e.total) * 100);
-                $container.find('.progressbar').progressbar({
-                    value: percentProgress
-                });
-            }
-            
-            reader.readAsDataURL(file);
         },
 
         /**
@@ -215,6 +272,10 @@ define([
                 options.$input.off('change')
                               .off('mousedown');
 
+                options.$dropZone
+                    .off('dragover')
+                    .off('dragend')
+                    .off('drop');
                 /**
                  * The plugin has been destroyed.
                  * @event uploader#destroy.uploader

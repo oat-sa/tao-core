@@ -1,5 +1,5 @@
 {{#each files}}
-<li data-type="{{type}}">
+<li data-type="{{type}}" data-file="{{path}}" data-mime="{{mime}}" data-size="{{size}}" data-url="{{url}}"> 
     <span class="desc">{{name}}</span>
     <div class="actions">
         <div class="tlb">
@@ -8,10 +8,9 @@
                     <span class="tlb-bar">
                         <span class="tlb-start"></span>
                         <span class="tlb-group">
-                            <a href="#" class="tlb-button-off" title="{{__ 'Download'}}"><span class="icon-export"></span></a>
-                            <a href="#" class="tlb-button-off" title="{{__ 'Preview'}}"><span class="icon-preview"></span></a>
-                            <span class="tlb-separator"></span> 
-                            <a href="#" class="tlb-button-off" title="{{__ 'Remove file'}}"><span class="icon-bin"></span></a>
+                            <a href="#" class="tlb-button-off select" title="{{__ 'Select this file'}}"><span class="icon-move-item"></span></a>
+                            <a href="{{downloadUrl}}" download="{{name}}" target="_blank" class="tlb-button-off download" title="{{__ 'Download this file'}}"><span class="icon-export"></span></a>
+                            <a href="#" class="tlb-button-off" title="{{__ 'Remove this file'}}" data-delete=":parent li"><span class="icon-bin"></span></a>
                         </span>
                         <span class="tlb-end"></span>
                     </span>  

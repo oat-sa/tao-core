@@ -1,37 +1,59 @@
-define(['jquery', 'ui/resourcemgr'], function($){
+define(['jquery', 'helpers', 'ui/resourcemgr'], function($, helpers){
 
-    console.log($('#uri').val())
+    //sample
+
+    var $uri = $('#uri');
+    var $launcher = $('#launcher');
+    $launcher.attr('disabled', 'disabled');
+
+    $uri.on('change', function(){
+        if($uri.val() === ''){
+            $launcher.attr('disabled', 'disabled');
+        } else {
+            $launcher.removeAttr('disabled');
+        } 
+    });
+    $uri.trigger('change');
+
+    $launcher.click(function(e){
+        e.preventDefault();
+
+        $launcher.resourcemgr({
+            root        : '/',
+            browseUrl   : helpers._url('files', 'ItemContent', 'taoItems'),
+            uploadUrl   : helpers._url('upload', 'ItemContent', 'taoItems'),
+            deleteUrl   : helpers._url('delete', 'ItemContent', 'taoItems'),
+            downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
+            params : {
+                uri : $('#uri').val(),
+                lang : 'en-US'
+            },
+            pathParam : 'path',
+            create : function(e){
+                console.log('created');
+            },
+            open : function(e){
+                console.log('opened');
+            },
+            close : function(e){
+                console.log('closed');
+            },
+            select : function(e, uris){
+                $('.selected').text('Resources selected: ' + JSON.stringify(uris)); 
+            }
+        }); 
+   });
 
 
-    $('#launcher').resourcemgr({
-        browseUrl   : '/taoItems/ItemContent/files',
-        uploadUrl   : '/taoItems/ItemContent/upload',
-        deleteUrl   : '/taoItems/ItemContent/delete',
-        downloadUrl : '/taoItems/ItemContent/download',
-        params : {
-            uri : $('#uri').val(),
-            lang : 'en-US'
-        },
-        pathParam : 'path',
-        create : function(e){
-            console.log('create');
-        },
-        select : function(e, uris){
-            console.log('select with ', uris);
-        }
-    });     
-    
-    //module('Incrementer Stand Alone Test');
+    //test
+
+    module('ResourceManager Stand Alone Test');
    
-    //test('plugin', function(){
-        //expect(1);
-        //ok(typeof resourcemgr === 'function', 'The resourcemgr expose a function');
-    //});
+    test('plugin', function(){
+        expect(1);
+        ok(typeof $.fn.resourcemgr === 'function', 'The resourcemgr plugin is loaded');
+    });
 
-    //test('initialization', function(){
-        //expect(0);
-        //resourcemgr($('#main'), '');
-    //});
 });
 
 
