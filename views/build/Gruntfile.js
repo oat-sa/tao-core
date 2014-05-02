@@ -120,7 +120,7 @@ module.exports = function(grunt) {
                      prefix: ''
                  },
                  files : [ 
-                     { src: ['output/qtiBootstrap.min.js'],  dest: '../../../taoQtiItem/views/js/runtime/qtiBootstrap.min.js' },
+                     { src: ['output/taoQtiItem/runtime/qtiBootstrap.js'],  dest: '../../../taoQtiItem/views/js/runtime/qtiBootstrap.min.js' },
                      { src: ['output/qtiLoader.min.js'],  dest: '../../../taoQtiItem/views/js/runtime/qtiLoader.min.js' }
                  ]
              }
@@ -162,7 +162,7 @@ module.exports = function(grunt) {
              * a common bundle (tao's main libs) and extension controlers
              */
             backendBundle : {
-                 options: {
+                options: {
                     baseUrl : '../js',
                     dir : 'output',
                     mainConfigFile : './config/requirejs.build.js',
@@ -183,9 +183,7 @@ module.exports = function(grunt) {
             qtiBundle : {
                 options: {
                     baseUrl : '../js',
-                    out: 'output/qtiBootstrap.min.js',
-                    name: 'taoQtiItem/runtime/qtiBootstrap',
-                    optimizeAllPluginResources: true,
+                    dir: 'output',
                     mainConfigFile : './config/requirejs.build.js',
                     paths: {
                        'taoQtiItem' : '../../../taoQtiItem/views/js',
@@ -193,9 +191,28 @@ module.exports = function(grunt) {
                        'taoQtiItem_css' : '../../../taoQtiItem/views/css',
                        'i18n_tr' : '../../locales/en-US/messages_po',
                     },
-                    include: sources.qtiRuntime,
-                    exclude : ['i18n_tr', 'mathJax', 'mediaElement']
+                    modules : [{
+                        name: 'taoQtiItem/runtime/qtiBootstrap',
+
+                        include: sources.qtiRuntime,
+                        exclude : ['i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style.css']
+                    }]
                 }
+                //options: {
+                    //baseUrl : '../js',
+                    //out: 'output/qtiBootstrap.min.js',
+                    //name: 'taoQtiItem/runtime/qtiBootstrap',
+                    //optimizeAllPluginResources: true,
+                    //mainConfigFile : './config/requirejs.build.js',
+                    //paths: {
+                       //'taoQtiItem' : '../../../taoQtiItem/views/js',
+                       //'tao_css' : '../css',
+                       //'taoQtiItem_css' : '../../../taoQtiItem/views/css',
+                       //'i18n_tr' : '../../locales/en-US/messages_po',
+                    //},
+                    //include: sources.qtiRuntime,
+                    //exclude : ['i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style.css']
+                //}
             }
         },
 
