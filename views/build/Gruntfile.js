@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         amdBundles.push({
             name: extension + '/controller/routes',
             include : ext.getExtensionsControllers([extension]),
-            exclude : ['main', 'i18n_tr']
+            exclude : ['jquery', 'lodash', 'jqueryui', 'main', 'i18n_tr'].concat(sources.jsbaselibs)
        });
        copies.push({
            src: ['output/'+ extension +'/controller/routes.js'],  
@@ -61,16 +61,11 @@ module.exports = function(grunt) {
                         amdify : true
                     },
                     'qtiruntime' : [{
-                        pattern : ['views/js/qtiItem/core/**/*.js', 'views/js/qtiDefaultRenderer/renderers/**/*.js',  'views/js/qtiDefaultRenderer/widgets/**/*.js'],
+                        pattern : ['views/js/qtiItem/core/**/*.js', 'views/js/qtiCommonRenderer/renderers/**/*.js',  'views/js/qtiCommonRenderer/helpers/**/*.js'],
                         extension: 'taoQtiItem',
-                        replacements : function(file){
-                            return  file.replace('taoQtiItem/qtiItem', 'taoQtiItem')
-                                        .replace('taoQtiItem/qtiRunner', 'taoQtiRunner')
-                                        .replace('taoQtiItem/qtiDefaultRenderer', 'taoQtiDefaultRenderer');
-                        },
                         amdify : true
                     }, {
-                        pattern : ['views/js/qtiDefaultRenderer/tpl/**/*.tpl'],
+                        pattern : ['views/js/qtiCommontRenderer/tpl/**/*.tpl'],
                         extension: 'taoQtiItem',
                         replacements : function(file){
                             return  'tpl!' + file.replace(/\.(tpl)$/, '')
@@ -193,7 +188,10 @@ module.exports = function(grunt) {
                     optimizeAllPluginResources: true,
                     mainConfigFile : './config/requirejs.build.js',
                     paths: {
-                       'taoQtiItem' : '../../../taoQtiItem/views/js'
+                       'taoQtiItem' : '../../../taoQtiItem/views/js',
+                       'tao_css' : '../css',
+                       'taoQtiItem_css' : '../../../taoQtiItem/views/css',
+                       'i18n_tr' : '../../locales/en-US/messages_po',
                     },
                     include: sources.qtiRuntime,
                     exclude : ['i18n_tr', 'mathJax', 'mediaElement']
