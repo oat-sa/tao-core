@@ -2,9 +2,10 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'core/mimeType',
     'tpl!ui/resourcemgr/fileSelect',
     'ui/uploader' 
-], function($, _, __, fileSelectTpl, uploader){
+], function($, _, __, mimeType, fileSelectTpl, uploader){
     'use strict';
 
     var ns = 'resourcemgr';
@@ -35,37 +36,6 @@ define([
         return textSize > $element.width();
     }
    
-    //the previewer will show the resource regarding it's mime/type, willcards are supported for subtypes
-   var mimeMapping = [
-        { type : 'youtube',   mimes : ['video/youtube'] },
-        { type : 'video',   mimes : ['application/ogg', 'video/*'] },
-        { type : 'audio',   mimes : ['audio/*'] },
-        { type : 'image',   mimes : ['image/*'] },
-        { type : 'pdf',     mimes : ['application/pdf'] }, 
-        { type : 'flash',   mimes : ['application/x-shockwave-flash'] },
-        { type : 'mathml',  mimes : ['application/mathml+xml'] },
-        { type : 'xml'  ,   mimes : ['application/xml'] },
-        { type : 'html',    mimes : ['text/html'] },
-        { type : 'text',     mimes : ['text/*'] }
-    ]; 
-
-    /**
-     * Get the type from a mimeType regarding the mimeMapping above
-     * @private
-     * @param {String} mime - type/mime
-     * @returns {String} type
-     */
-    var getFileType = function getType(mime){
-        var fileType;
-        var result = _.where(mimeMapping, { mimes : [mime]});
-        if(result.length === 0){
-             result = _.where(mimeMapping, { mimes : [mime.replace(/\/.*$/, '/*')]});
-        }
-        if(result.length > 0){
-            return result[0].type;
-        }
-    };
-
     return function(options, root){
 
         var $container = options.$target;
@@ -86,7 +56,7 @@ define([
                 var files = _.filter(data, function(item){
                     return !!item.name;
                 }).map(function(file){
-                    file.type = getFileType(file.mime);
+                    file.type = mimeType.getFileType(file);
                     file.path = (fullPath + '/' + file.name).replace('//', '/');
                     file.downloadUrl = options.downloadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + file.path;
                     return file; 

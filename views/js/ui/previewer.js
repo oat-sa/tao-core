@@ -1,7 +1,7 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'mediaElement'], function($, _, __, Pluginifier){
+define(['jquery', 'lodash', 'i18n', 'core/mimetype', 'core/pluginifier', 'mediaElement'], function($, _, __, mimeType, Pluginifier){
     'use strict';
 
     var ns = 'previewer';
@@ -10,34 +10,6 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'mediaElement'], functio
     //the plugin defaults
     var defaults = {
         containerClass : 'previewer'
-    };
-
-   //the previewer will show the resource regarding it's mime/type, willcards are supported for subtypes
-   var mimeMapping = [
-        { type : 'youtube',   mimes : ['video/youtube'] },
-        { type : 'video',   mimes : ['application/ogg', 'video/*'] },
-        { type : 'audio',   mimes : ['audio/*'] },
-        { type : 'image',   mimes : ['image/*'] },
-        { type : 'pdf',     mimes : ['application/pdf'] }, 
-        { type : 'flash',   mimes : ['application/x-shockwave-flash'] },
-        { type : 'mathml',  mimes : ['application/mathml+xml'] }
-    ]; 
-
-    /**
-     * Get the type from a mimeType regarding the mimeMapping above
-     * @private
-     * @param {String} mime - type/mime
-     * @returns {String} type
-     */
-    var getFileType = function getType(mime){
-        var fileType;
-        var result = _.where(mimeMapping, { mimes : [mime]});
-        if(result.length === 0){
-             result = _.where(mimeMapping, { mimes : [mime.replace(/\/.*$/, '/*')]});
-        }
-        if(result.length > 0){
-            return result[0].type;
-        }
     };
 
     var previewGenerator = {
@@ -134,7 +106,7 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'mediaElement'], functio
         _update : function($elt){
            var $content, mep;
            var options = $elt.data(dataNs);
-           var type = options.type || getFileType(options.mime);
+           var type = options.type || mimeType.getFileType({ mime : options.mime, name : options.url});
            var content;
            if(options.url){
                 if(!options.name){
@@ -155,7 +127,7 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'mediaElement'], functio
            if(options.height){
                 $content.attr('height', options.height);
            }
-           if(type === 'audio' || type === 'video' || type === 'youtube'){
+           if(type === 'audio' || type === 'video'){
                 $content.mediaelementplayer();
            }
             
@@ -202,7 +174,7 @@ define(['jquery', 'lodash', 'i18n', 'core/pluginifier', 'mediaElement'], functio
         $container.find('[data-preview]').each(function(){
             var $elt = $(this);
             $elt.previewer({
-                url    : $elt.data('preview'),
+                url     : $elt.data('preview'),
                 type    : $elt.data('preview-type'),
                 mime    : $elt.data('preview-mime'),
                 width   : $elt.width(),

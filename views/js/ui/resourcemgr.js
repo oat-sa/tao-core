@@ -174,16 +174,5 @@ define([
    
    //Register the resourcemgr to behave as a jQuery plugin.
    Pluginifier.register(ns, resourceMgr);
-   
-   /**
-    * The only exposed function is used to start listening on data-attr
-    * 
-    * @public
-    * @example define(['ui/resourcemgr'], function(resourcemgr){ resourcemgr($('rootContainer')); });
-    * @param {jQueryElement} $container - the root context to listen in
-    */
-   return function listenDataAttr($container){
-       
-    };
 });
 
