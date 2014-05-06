@@ -4,10 +4,10 @@ define([
     'core/pluginifier', 
     'core/dataattrhandler', 
     'ui/modal',
-    'ui/resourcemgr/file-browser',
-    'ui/resourcemgr/file-preview',
-    'ui/resourcemgr/file-selector',
-    'tpl!ui/resourcemgr/layout'
+    'ui/resourcemgr/fileBrowser',
+    'ui/resourcemgr/filePreview',
+    'ui/resourcemgr/fileSelector',
+    'tpl!ui/resourcemgr/tpl/layout'
 ], function($, _, Pluginifier, DataAttrHandler, modal, fileBrowser, filePreview, fileSelector, layout){
 
     'use strict';

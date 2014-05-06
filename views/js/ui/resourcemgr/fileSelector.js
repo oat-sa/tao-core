@@ -2,8 +2,8 @@ define([
     'jquery',
     'lodash',
     'i18n',
-    'core/mimeType',
-    'tpl!ui/resourcemgr/fileSelect',
+    'core/mimetype',
+    'tpl!ui/resourcemgr/tpl/fileSelect',
     'ui/uploader' 
 ], function($, _, __, mimeType, fileSelectTpl, uploader){
     'use strict';
