@@ -27,8 +27,11 @@ Template::inc('layout_header.tpl', 'tao')
                     <span class="icon-settings" ></span>
                 </a>
                 <p class="icon-desc">
-                    <?=__('Logged in as:')?></br>
-                    <strong><?=get_data('userLabel')?></strong>
+                    <strong 
+                      
+                        class="username">
+                            <?=get_data('userLabel')?>
+                    </strong>
                 </p>
 			</div>
 <? endif ?>
