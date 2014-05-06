@@ -20,7 +20,7 @@
  * 
  */
 
-use oat\tao\models\classes\menu\MenuService;
+use oat\tao\model\menu\MenuService;
 
 /**
  * default action

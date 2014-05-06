@@ -19,7 +19,7 @@
  *
  */
 
-namespace oat\tao\models\classes\menu;
+namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
 

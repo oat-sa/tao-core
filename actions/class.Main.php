@@ -20,8 +20,8 @@
  * 
  */
 
-use oat\tao\models\classes\menu\MenuService;
-use oat\tao\models\classes\menu\Perspective;
+use oat\tao\model\menu\MenuService;
+use oat\tao\model\menu\Perspective;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}

@@ -20,7 +20,7 @@
  *               2014      (update and modification) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\models\classes\menu;
+namespace oat\tao\model\menu;
 
 /**
  * 

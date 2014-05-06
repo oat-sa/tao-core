@@ -111,7 +111,8 @@ return array(
     ),
     'autoload' => array (
         'psr-4' => array(
-            'oat\\tao\\' => $extpath
+            'oat\\tao\\model\\' => $extpath.'models'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR,
+            'oat\\tao\\helpers\\' => $extpath.'helpers'.DIRECTORY_SEPARATOR
         ),
         'legacy' => array(
             'tao_models_classes_' => 'oat\\tao\\model\\'
