@@ -1102,3 +1102,5 @@ msgstr ""
 msgid "You cannot modify this property"
 msgstr ""
 
+msgid "Test takers"
+msgstr "Test-takers"
