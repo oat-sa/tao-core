@@ -28,8 +28,8 @@
 $extpath = dirname(__FILE__).DIRECTORY_SEPARATOR;
 
 return array(
-    'id' => 'tao',
-	'name' => 'Tao base',
+    'name' => 'tao',
+	'label' => 'Tao base',
 	'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
     'version' => '2.6',
