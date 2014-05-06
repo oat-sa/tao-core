@@ -18,10 +18,13 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
+
+mandatoryCount = 0;
+optionalCount = 0;
+
 function onLoad(){
 	// Binding to API.
 	install.onNextable = function(){
-		displayLegend();
 		
 		$('#submitForm').removeClass('disabled')
 						.addClass('enabled')
@@ -93,7 +96,6 @@ function checkConfig(){
 						$list.empty();
 		
 						// Append new reports.
-						var mandatoryCount = 0;
 				    	for (report in data.value){
 				    		var r = data.value[report];
 				    		if (r.value.status != 'valid'){
@@ -108,9 +110,11 @@ function checkConfig(){
 				    					
 				    					if (optional == true){
 				    						message = "PHP Extension '" + name + "' is not loaded on your web server but is optional to run TAO.";
+                                                                                optionalCount++;
 				    					}
 				    					else{
 				    						message = "PHP Extension '" + name + "' is not loaded on your web server but is mandatory to run TAO.";
+                                                                                mandatoryCount++;
 				    					}
 				    			break;
 				    				
@@ -121,9 +125,11 @@ function checkConfig(){
 				    					
 				    					if (optional == true){
 				    						message = "PHP INI value '" + name + "' on your web server has not the expected value but is optional. Current value is '" + value + "' but should be '" + expectedValue + "'.";
+                                                                                optionalCount++;
 				    					}
 				    					else{
 				    						message = "PHP INI value '" + name + "' on your web server has not the expected value but is mandatory. Current value is '" + value + "' but should be '" + expectedValue + "'.";
+                                                                                mandatoryCount++;
 				    					}
 				    				break;
 				    				
@@ -143,14 +149,19 @@ function checkConfig(){
 				    				
 				    				default:
 				    					message = r.value.message;
+                                                                        mandatoryCount++;
+                                                                        
 				    				break;
 				    			}
 				    			
+                                                        
 				    			addReport(r.value.id, message, kind);
 				    		}
 				    	}
+                                        
+                                        displayLegend();
 				    	
-				    	if (mandatoryCount == 0){
+				    	if (mandatoryCount === 0){
 				    		addReport('ready', 'Your web server meets TAO requirements.', 'ok', false, true);
                                                 $('li.tao-ok label').append('<img src="images/valide.png" />');
 				    	}
@@ -201,9 +212,14 @@ function addReport(name, message, kind, prepend, noHelp){
 }
 
 function displayLegend(){
-	$('#formComment').empty()
-            .append('<p id="explMandatory">Mandatory component</p>')
-            .append('<p id="explOptional">Optional component</p>');
+    
+	$('#formComment').empty();
+        if (mandatoryCount > 0) {
+            $('#formComment').append('<p id="explMandatory">Mandatory component</p>');
+        }
+        if (optionalCount > 0) {
+            $('#formComment').append('<p id="explOptional">Optional component</p>');
+        }
 }
 
 function initHelp(){
@@ -226,7 +242,7 @@ function initHelp(){
 	install.addHelp('hlp_tao_ini_suhosin_request_max_varname_length', 'Make sure that your php.ini file contains an entry for suhosin.request.max_varname_length and that its value is equal to 128.');
 	install.addHelp('hlp_tao_custom_mod_rewrite', 'The mod_rewrite module uses a rule-based rewriting engine, based on a PCRE regular-expression parser, to rewrite requested URLs on the fly. It must be enabled to make TAO running properly.');
 	install.addHelp('hlp_tao_custom_not_nginx', 'Since Nginx does not come with support for per directory rewrite rules, the rewrite rules will have to be specified in the server config. Please see http://forge.taotesting.com/projects/tao/wiki/Nginx for further help.');
-	install.addHelp('hlp_tao_custom_database_drivers', 'Database drivers supported by the TAO platform are MySQL and PostgreSQL.');
+	install.addHelp('hlp_tao_custom_database_drivers', 'Database drivers supported by the TAO platform are MySQL, PostgreSQL, SQL Server and Oracle.');
 	install.addHelp('hlp_tao_fs_root', 'The root directory of your installation must be readable and writable by the user running your web server.');
 	install.addHelp('hlp_fs_generis_data_cache', "The '/generis/data/cache' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_generis_data_servicePublic', "The '/generis/data/servicePublic' directory of your installation must be readable and writable by the user running your web server.");
