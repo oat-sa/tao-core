@@ -22,17 +22,12 @@ Template::inc('layout_header.tpl', 'tao')
                 </a>
 			</div>
 <?php if (tao_models_classes_accessControl_AclProxy::hasAccess(null, 'UserSettings', 'tao')): ?>
-            <div>
-                <a id="usersettings" href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>" title="<?=__('My Settings')?>">
-                    <span class="icon-settings" ></span>
+            <div class="vr">|</div>
+            <div class="usersettings">
+                <a id="usersettings" href="<?=_url('index', 'Main', 'tao', array('structure' => 'user_settings', 'ext' => 'tao'))?>" title="<?=__('My profile')?>">
+                    <span class="icon-user" ></span>
+                    <span class="username"><?=get_data('userLabel')?></span>
                 </a>
-                <p class="icon-desc">
-                    <strong 
-                      
-                        class="username">
-                            <?=get_data('userLabel')?>
-                    </strong>
-                </p>
 			</div>
 <? endif ?>
 

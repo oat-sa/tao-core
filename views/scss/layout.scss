@@ -22,7 +22,6 @@
 
 //@TODO in the long run all icons need to be changed to vectors!
 
-@CHARSET "UTF-8";
 html body {
     height: 100%;
     position: relative;
@@ -134,21 +133,26 @@ html body {
         }
 
         [class*="icon-"] {
-            @include font-size(20);
-            margin-top: 7px;
+            @include font-size(18);
+            margin-top: 8px;
             display: inline-block;
         }
 
-        .icon-desc {
-            margin-left: 5px;
-            margin-top: 5px;
-            font-size: 80%;
-            display: inline-block;
+        .usersettings {
+            a {
+                text-decoration: none !important;
+                .username {
+                    position: relative;
+                    top: -3px;
+                    padding: 0 3px 0 5px;
+                }
+            }
         }
 
         .icon-with-desc {
             position: absolute;
         }
+
     }
 
     .left-menu {
@@ -372,6 +376,7 @@ html body {
         width: 50%;
     }
 }
+
 
 /* Footer */
 #footer {

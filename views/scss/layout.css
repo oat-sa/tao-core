@@ -39,7 +39,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  * 
  */
-@CHARSET "UTF-8";
 html body {
   height: 100%;
   position: relative;
@@ -122,15 +121,16 @@ html body {
       padding-left: 1px;
       padding-right: 1px; }
     #main-menu .right-menu [class*="icon-"] {
-      font-size: 20px;
-      font-size: 2rem;
-      margin-top: 7px;
+      font-size: 18px;
+      font-size: 1.8rem;
+      margin-top: 8px;
       display: inline-block; }
-    #main-menu .right-menu .icon-desc {
-      margin-left: 5px;
-      margin-top: 5px;
-      font-size: 80%;
-      display: inline-block; }
+    #main-menu .right-menu .usersettings a {
+      text-decoration: none !important; }
+      #main-menu .right-menu .usersettings a .username {
+        position: relative;
+        top: -3px;
+        padding: 0 3px 0 5px; }
     #main-menu .right-menu .icon-with-desc {
       position: absolute; }
   #main-menu .left-menu {

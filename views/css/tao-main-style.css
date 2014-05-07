@@ -14842,7 +14842,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   .tao-scope .file-upload {
     display: inline-block;
     position: relative;
-    overflow: hidden; }
+    overflow: hidden;
+    max-width: 300px; }
     .tao-scope .file-upload .file-name {
       padding: 2px 5px;
       background: white;
