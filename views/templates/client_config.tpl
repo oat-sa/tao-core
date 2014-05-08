@@ -2,7 +2,7 @@ require.config({
 
     baseUrl : '<?=TAOBASE_WWW?>js',
     catchError: true,
-    
+
     config : {
         'context': {
             root_url        : '<?=ROOT_URL?>',
@@ -68,7 +68,7 @@ require.config({
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
         'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
         'eyecatcher'        : 'eyecatcher',
-        'jquery.filedownload'  : 'lib/jquery.fileDownload'
+        'jquery.fileDownload'  : 'lib/jquery.fileDownload'
    },
   
    shim : {
@@ -81,7 +81,7 @@ require.config({
         'jquery.timePicker'     : ['jquery'],
         'tooltipster'           : ['jquery', 'css!lib/tooltipster/css/tooltipster'],
         'nouislider'            : ['jquery'],
-        'jquery.filedownload'   : ['jquery'],
+        'jquery.fileDownload'   : ['jquery'],
         'jsTree/plugins/jquery.tree.contextmenu' : ['lib/jsTree/jquery.tree'],
         'jsTree/plugins/jquery.tree.checkbox' : ['lib/jsTree/jquery.tree'],
         'generis.tree.select'   : ['generis.tree', 'lib/jsTree/plugins/jquery.tree.checkbox'],
