@@ -33,7 +33,7 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
          * @constructor
          * @param {Object} options - the plugin options
          * @param {jQueryElement} options.target - the element to be toggled
-         * @param {string|boolean} [options.bindEvent = 'click'] - the event that trigger the toggling
+         * @param {string|boolean} [options.bindEvent = 'click'] - the event that triggers the toggling
          * @param {string} [options.openedClass = 'opened'] - the css added to element (not the target) for the opened state
          * @param {string} [options.closedClass = 'closed'] - the css added to element (not the target) for the closed state
          * @param {string} [options.hideText] - the text to replace the toggler with when the element is toggled (ie. Show -> Hide)
@@ -44,6 +44,8 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             
             //get options using default
             options = $.extend(true, {}, defaults, options);
+
+            console.log(options)
            
             return this.each(function() {
                 var $elt = $(this);

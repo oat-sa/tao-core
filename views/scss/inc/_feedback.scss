@@ -4,6 +4,7 @@
     padding: 20px 20px 20px 45px;
     margin: 5px 0 10px 0;
     border-radius: 3px;
+    color: $textColor !important;
     &.small {
         padding: 8px 20px 8px 45px;
         [class^="icon-"], [class*=" icon-"] {
@@ -34,7 +35,7 @@
     border-color: mix(#fff, $error, 20%);
     background-color: mix(#fff, $error, 90%);
     .icon-error {
-        color: $error;
+        color: $error !important;
     }
 }
 
@@ -42,7 +43,7 @@
     border-color: mix(#fff, $info, 20%);
     background-color: mix(#fff, $info, 90%);
     .icon-info {
-        color: $info;
+        color: $info !important;
     }
 }
 
@@ -50,7 +51,7 @@
     border-color: mix(#fff, $success, 20%);
     background-color: mix(#fff, $success, 90%);
     .icon-success {
-        color: $success;
+        color: $success !important;
     }
 }
 
@@ -58,7 +59,7 @@
     border-color: mix(#fff, $warning, 20%);
     background-color: mix(#fff, $warning, 90%);
     .icon-warning {
-        color: $warning;
+        color: $warning !important;
     }
 }
 

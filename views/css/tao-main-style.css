@@ -2353,7 +2353,8 @@ textarea {
   position: relative;
   padding: 20px 20px 20px 45px;
   margin: 5px 0 10px 0;
-  border-radius: 3px; }
+  border-radius: 3px;
+  color: #222222 !important; }
   [class^="feedback-"].small, [class*=" feedback-"].small {
     padding: 8px 20px 8px 45px; }
     [class^="feedback-"].small [class^="icon-"], [class^="feedback-"].small [class*=" icon-"], [class*=" feedback-"].small [class^="icon-"], [class*=" feedback-"].small [class*=" icon-"] {
@@ -2380,25 +2381,25 @@ textarea {
   border-color: #c74155;
   background-color: #f8e7e9; }
   .feedback-error .icon-error, .tao-error-tooltip .icon-error, .tao-scope .ui-state-error .icon-error {
-    color: #ba122b; }
+    color: #ba122b !important; }
 
 .feedback-info, .tao-info-tooltip {
   border-color: #3e7da7;
   background-color: #e6eef4; }
   .feedback-info .icon-info, .tao-info-tooltip .icon-info {
-    color: #0e5d91; }
+    color: #0e5d91 !important; }
 
 .feedback-success, .tao-success-tooltip {
   border-color: #3ea76f;
   background-color: #e6f4ed; }
   .feedback-success .icon-success, .tao-success-tooltip .icon-success {
-    color: #0e914b; }
+    color: #0e914b !important; }
 
 .feedback-warning, .tao-warning-tooltip, .tao-scope .ui-state-highlight {
   border-color: #dfbe7b;
   background-color: #fbf6ee; }
   .feedback-warning .icon-warning, .tao-warning-tooltip .icon-warning, .tao-scope .ui-state-highlight .icon-warning {
-    color: #d8ae5b; }
+    color: #d8ae5b !important; }
 
 .brd-error {
   border: 1px solid #c74155 !important; }
@@ -2445,7 +2446,8 @@ textarea {
     margin-bottom: 0; }
 
 .col-12 {
-  float: none; }
+  float: none;
+  margin-left: 0 !important; }
 
 .grid-container {
   overflow-x: hidden; }
@@ -14811,7 +14813,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .tao-scope table.matrix td, .tao-scope table.matrix th {
       font-weight: normal;
       padding: 3px 5px;
-      border: 1px solid #ddd !important; }
+      border: 1px solid #ddd; }
     .tao-scope table.matrix th {
       text-align: left;
       vertical-align: middle;
