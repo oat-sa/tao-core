@@ -39,13 +39,13 @@ class IconsTest extends TaoPhpUnitTestRunner {
      * @author Lionel Lecaque, lionel@taotesting.com
      * @dataProvider iconsProvider
      */
-    public function testBuildIcons($method){
+    public function testBuildIcons($method,$const){
         
        
         $span = $method->invoke(null);
         $this->assertEquals(preg_match('#<span class="(.*)">#', $span,$res),1);
         
-        $const = $this->getConst();
+        //$const = $this->getConst();
         $this->assertTrue(in_array($res[1], $const));
         
         $toto = $method->invoke(null,array('element'=> 'toto'));
@@ -53,18 +53,13 @@ class IconsTest extends TaoPhpUnitTestRunner {
         $this->assertTrue(in_array($res[1], $const));
         
     }
-    
-    public function getConst(){
-        $reflection = new ReflectionClass('tao_helpers_Icon');
-        return array_values($reflection->getConstants());
-    }
-    
+        
     public function iconsProvider(){
         $reflection = new ReflectionClass('tao_helpers_Icon');
         $methods = array();
         foreach ($reflection->getMethods() as $method) {
             if($method->isPublic()){
-                $methods[] = array($method);
+                $methods[] = array($method,array_values($reflection->getConstants()));
             }
         }
            
