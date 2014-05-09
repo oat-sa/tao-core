@@ -23,7 +23,6 @@ require.config({
     paths : {
         'jquery'            : 'lib/jquery-1.8.0.min',
         'jqueryui'          : 'lib/jquery-ui-1.8.23.custom.min',
-        'jquerytools'       : 'lib/jquery.tools.min',
         'text'              : 'lib/text/text',
         'json'              : 'lib/text/json',
         'css'               : 'lib/require-css/css',
