@@ -164,7 +164,7 @@ label {
         &:focus ~ [class*=" icon-"],
         &:active ~ [class^="icon-"],
         &:active ~ [class*=" icon-"] {
-            color: #222 !important;
+            color: #222;
         }
         &:checked ~ .icon-checkbox:before {
             @extend .icon-checkbox-checked:before;
@@ -180,6 +180,7 @@ label {
             & ~[class*=" icon-"]{
                 cursor: not-allowed !important;
                 opacity: .4 !important;
+                color: #555;
             }
         }
     }

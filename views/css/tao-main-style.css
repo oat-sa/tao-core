@@ -15043,7 +15043,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope label input[type="checkbox"]:focus ~ [class*=" icon-"],
       .tao-scope label input[type="checkbox"]:active ~ [class^="icon-"],
       .tao-scope label input[type="checkbox"]:active ~ [class*=" icon-"] {
-        color: #222 !important; }
+        color: #222; }
       .tao-scope label input[type="radio"].disabled ~ [class^="icon-"], .tao-scope label input[type="radio"].disabled ~ [class*=" icon-"], .tao-scope label input[type="radio"][disabled] ~ [class^="icon-"], .tao-scope label input[type="radio"][disabled] ~ [class*=" icon-"], .tao-scope label input[type="radio"][readonly] ~ [class^="icon-"], .tao-scope label input[type="radio"][readonly] ~ [class*=" icon-"],
       .tao-scope label input[type="checkbox"].disabled ~ [class^="icon-"],
       .tao-scope label input[type="checkbox"].disabled ~ [class*=" icon-"],
@@ -15052,7 +15052,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
       .tao-scope label input[type="checkbox"][readonly] ~ [class^="icon-"],
       .tao-scope label input[type="checkbox"][readonly] ~ [class*=" icon-"] {
         cursor: not-allowed !important;
-        opacity: .4 !important; }
+        opacity: .4 !important;
+        color: #555; }
   .tao-scope .toggler:after {
     margin-left: 3px;
     position: relative;
