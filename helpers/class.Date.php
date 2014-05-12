@@ -52,7 +52,6 @@ class tao_helpers_Date
             $dateTime = new DateTime();
             $dateTime->setTimestamp($timestamp);
         }
-    	$dateTime->setTimestamp($timestamp);
     	$dateTime->setTimezone(new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone()));
     	switch ($format) {
     		case self::FORMAT_LONG :
