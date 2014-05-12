@@ -19,14 +19,18 @@ define([
     //the plugin defaults
     var defaults = {
         containerClass      : 'file-upload',
-        buttonClass         : 'btn-info',
-        buttonIcon          : 'upload',
-        buttonLabel         : __('Browse...'),
+        browseBtnClass      : 'btn-browse',
+        browseBtnIcon       : 'upload',
+        browseBtnLabel      : __('Browse...'),
+        upload              : true,
+        uploadBtnClass      : 'btn-upload',
+        uploadBtnIcon       : 'upload',
+        uploadBtnLabel      : __('Upload'),
         fileNameClass       : 'file-name',
         fileNamePlaceholder : __('No file selected'),
         dropZoneClass       : 'file-drop',
         progressBarClass    : 'progressbar',
-        dragOverClass       : 'drag-hover'      
+        dragOverClass       : 'drag-hover'
     };
 
     var tests = {
@@ -62,14 +66,14 @@ define([
 
                     //retrieve elements 
                     options.$input       = $('input[type=file]', $elt);
-                    options.$button      = $('.' + options.buttonClass, $elt);
+                    options.$browseBtn   = $('.' + options.browseBtnClass, $elt);
                     options.$fileName    = $('.' + options.fileNameClass, $elt);
-
                     options.$dropZone    = options.dropZone || $elt.parent().find('.' + options.dropZoneClass);
                     options.$progressBar = options.progressBar || $elt.parent().find('.' + options.progressBarClass);
     
                     if(options.upload){
                         options.$form = options.$form || $elt.parents('form');
+                        options.$uploadBtn   = $('.' + options.uploadBtnClass, $elt);
                     }                   
  
                     $elt.data(dataNs, options);
@@ -126,7 +130,7 @@ define([
                         }
                     }
                     
-                    // IE Specific hack. It prevents the button to slightly
+                    // IE Specific hack. It prevents the browseBtn to slightly
                     // move on click. Special thanks to Dieter Rabber, OAT S.A.
                     options.$input.on('mousedown', function(e){
                         e.preventDefault();
@@ -171,12 +175,23 @@ define([
             options.$fileName
                 .text(options.fileNamePlaceholder)
                 .addClass('placeholder');    
-            if(options.buttonIcon){        
-                options.$button.html('<span class="icon-' + options.buttonIcon +'"></span>' + options.buttonLabel);
+
+            if(options.browseBtnIcon){        
+                options.$browseBtn.html('<span class="icon-' + options.browseBtnIcon +'"></span>' + options.browseBtnLabel);
             } else {
-                options.$button.text(options.buttonLabel);
+                options.$browseBtn.text(options.browseBtnLabel);
             }
-            
+            if(options.upload){
+                console.log('reset upload', options.$uploadBtn);
+                options.$uploadBtn.prop('disabled', true);
+ 
+                if(options.uploadBtnIcon){        
+                    options.$uploadBtn.html('<span class="icon-' + options.uploadBtnIcon +'"></span>' + options.uploadBtnLabel);
+                } else {
+                    options.$uploadBtn.text(options.uploadBtnLabel);
+                }
+            }
+
             /**
              * The plugin has been created.
              * @event uploader#reset.uploader
