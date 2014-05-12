@@ -16,8 +16,13 @@
                 <a href="#"><span class="icon-add"></span>{{__ 'Upload'}}</a>
             </div>
         </h1>
+        
+        <div class="empty">
+            {{__ 'No files'}}
+        </div>
 
         <ul class="files"></ul>
+
         
         <form class="uploader">            
             <div class="progressbar"></div>

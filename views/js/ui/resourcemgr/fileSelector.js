@@ -41,6 +41,7 @@ define([
         var $container      = options.$target;
         var $fileSelector   = $('.file-selector', $container); 
         var $fileContainer  = $('.files', $fileSelector);
+        var $placeholder    = $('.empty', $fileSelector);
         var $uploadContainer= $('.uploader', $fileSelector);
         var liveSelector    = '#' + $container.attr('id') + ' .file-selector'; 
         var $pathTitle      = $fileSelector.find('h1 > .title');
@@ -50,13 +51,13 @@ define([
 
         //update current folder
         $container.on('folderselect.' + ns , function(e, fullPath, data){    
-           
+            var files;           
             //update title
             $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath); 
 
             //update content here
             if(_.isArray(data)){
-                var files = _.filter(data, function(item){
+                files = _.filter(data, function(item){
                     return !!item.name;
                 }).map(function(file){
                     file.type = mimeType.getFileType(file);
@@ -151,12 +152,17 @@ define([
             };
         }
 
-
         
         function updateFiles(path, files){
-            $fileContainer.empty().append(fileSelectTpl({
-                files : files
-            })); 
+            $fileContainer.empty();
+            if(files.length){
+                $placeholder.hide();
+                $fileContainer.append(fileSelectTpl({
+                    files : files
+                })); 
+            } else {
+                $placeholder.show();
+            }
         }
     };
 });
