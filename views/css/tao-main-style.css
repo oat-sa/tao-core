@@ -16216,30 +16216,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .resourcemgr .file-preview .file-properties {
       padding: 0 5px; }
     /* line 99, ../scss/inc/_resourcemgr.scss */
-    .resourcemgr .file-preview .reader {
-      height: 300px;
-      /*background-color: $uiGeneralContentBg;*/
-      /*margin: 5px;*/
-      /*.nopreview {*/
-      /*color: $uiGeneralContentBorder;*/
-      /*text-align: center;*/
-      /*@include font-size(20);*/
-      /*&:before {*/
-      /*@include icon('document');*/
-      /*@include font-size(60);*/
-      /*display: block !important;*/
-      /*}*/
-      /*&[data-type='image']:before{*/
-      /*@include icon('image');*/
-      /*}*/
-      /*&[data-type='audio']:before{*/
-      /*@include icon('media');*/
-      /*} */
-      /*&[data-type='video']:before{*/
-      /*@include icon('video');*/
-      /*}*/
-      /*}*/ }
-  /* line 127, ../scss/inc/_resourcemgr.scss */
+    .resourcemgr .file-preview .previewer {
+      height: 300px; }
+  /* line 104, ../scss/inc/_resourcemgr.scss */
   .resourcemgr .file-selector {
     position: relative;
     width: 100%;
@@ -16247,14 +16226,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     border-top: none;
     border-bottom: none;
     background-color: white; }
-    /* line 136, ../scss/inc/_resourcemgr.scss */
+    /* line 113, ../scss/inc/_resourcemgr.scss */
     .resourcemgr .file-selector > h1 {
       position: relative;
       background-color: #f3f1ef; }
-      /* line 140, ../scss/inc/_resourcemgr.scss */
+      /* line 117, ../scss/inc/_resourcemgr.scss */
       .resourcemgr .file-selector > h1 .title {
         margin-right: 75px; }
-      /* line 144, ../scss/inc/_resourcemgr.scss */
+      /* line 121, ../scss/inc/_resourcemgr.scss */
       .resourcemgr .file-selector > h1 .upload-switcher {
         position: absolute;
         width: 75px;
@@ -16262,66 +16241,66 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         right: 0;
         height: 38px;
         padding: 5px; }
-    /* line 156, ../scss/inc/_resourcemgr.scss */
+    /* line 133, ../scss/inc/_resourcemgr.scss */
     .resourcemgr .file-selector ul.files {
       position: relative;
       height: 300px;
       margin-bottom: 5px;
       padding: 0;
       list-style-type: none; }
-      /* line 163, ../scss/inc/_resourcemgr.scss */
+      /* line 140, ../scss/inc/_resourcemgr.scss */
       .resourcemgr .file-selector ul.files li {
         height: 35px;
         line-height: 35px;
         padding-left: 5px; }
-        /* line 168, ../scss/inc/_resourcemgr.scss */
+        /* line 145, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li:before {
           font-family: 'tao';
           display: inline-block;
           margin: 0 4px;
           font-size: 16px;
           font-size: 1.6rem; }
-        /* line 174, ../scss/inc/_resourcemgr.scss */
+        /* line 151, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li[data-type='image']:before {
           font-family: 'tao';
           display: inline-block;
           margin: 0 2px 0 0; }
-        /* line 178, ../scss/inc/_resourcemgr.scss */
+        /* line 155, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li[data-type='audio']:before {
           font-family: 'tao';
           display: inline-block;
           margin: 0 2px 0 0; }
-        /* line 182, ../scss/inc/_resourcemgr.scss */
+        /* line 159, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li[data-type='video']:before {
           font-family: 'tao';
           display: inline-block;
           margin: 0 2px 0 0; }
-        /* line 187, ../scss/inc/_resourcemgr.scss */
+        /* line 164, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li.active, .resourcemgr .file-selector ul.files li:hover {
           background-color: #9ebed3;
           cursor: pointer; }
-        /* line 192, ../scss/inc/_resourcemgr.scss */
+        /* line 169, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li .actions {
           float: right;
           position: relative;
           display: inline-block;
           height: 35px;
           text-overflow: ellipsis; }
-          /* line 198, ../scss/inc/_resourcemgr.scss */
+          /* line 175, ../scss/inc/_resourcemgr.scss */
           .resourcemgr .file-selector ul.files li .actions .tlb {
             display: inline-block;
             background: none;
             margin-left: 15px;
             font-size: 14px;
             font-size: 1.4rem; }
-            /* line 203, ../scss/inc/_resourcemgr.scss */
+            /* line 180, ../scss/inc/_resourcemgr.scss */
             .resourcemgr .file-selector ul.files li .actions .tlb .tlb-top {
               background: none !important;
               border-width: 0 !important;
               -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
               -moz-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
               box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
-    /* line 212, ../scss/inc/_resourcemgr.scss */
+    /* line 189, ../scss/inc/_resourcemgr.scss */
     .resourcemgr .file-selector .uploader {
       display: none;
       height: 40px;
@@ -19194,14 +19173,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     background-color: white;
     margin: 5px;
     min-width: 280px;
-    min-height: 200px; }
-    /* line 287, ../scss/inc/_components.scss */
+    min-height: 200px;
+    text-align: center; }
+    /* line 288, ../scss/inc/_components.scss */
     .tao-scope .previewer .nopreview {
       color: #dddddd;
       text-align: center;
       font-size: 20px;
       font-size: 2rem; }
-      /* line 291, ../scss/inc/_components.scss */
+      /* line 292, ../scss/inc/_components.scss */
       .tao-scope .previewer .nopreview:before {
         font-family: 'tao';
         display: inline-block;

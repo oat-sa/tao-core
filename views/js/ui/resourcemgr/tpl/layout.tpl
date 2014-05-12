@@ -19,22 +19,23 @@
 
         <ul class="files"></ul>
         
-        <form class="uploader"> 
-
+        <form class="uploader">            
             <div class="progressbar"></div>
             <div class="file-upload grid-row">
-                <span class="btn-info small col-4"><span class="icon-upload"></span>{{__ 'Upload'}}</span>
-                <span class="file-name placeholder col-8 truncate">{{__ 'Select a file'}}</span>
+                <span class="btn-info btn-browse small col-4"></span>
+                <span class="file-name col-8 truncate"></span>
                 <input type="file" name="content">
-
             </div>
             <div class="grid-row"> 
                 <div class="file-drop col-12">
-                    &#152;or &#152;<br />
+                    - {{__ 'or'}} -<br />
                     {{__ 'Drop file here'}}
                 </div>
             </div>
-       </form>
+            <div class="grid-row"> 
+                <button class="btn-success btn-upload small"></button>
+            </div>
+        </form>
     </section>   
 
     <section class="file-preview">

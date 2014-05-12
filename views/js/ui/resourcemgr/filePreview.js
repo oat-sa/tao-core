@@ -43,7 +43,7 @@ function($, _){
                 $propSize.text(hrSize(file.size)); 
                 $propUrl.html('<a href="' + file.url + '">' + file.file + '</a>'); 
 
-                currentSelection = [file.path];
+                currentSelection = [file.file];
                 $selectButton.removeAttr('disabled');
             } else {
                 $propType.empty(); 

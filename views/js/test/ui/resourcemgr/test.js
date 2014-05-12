@@ -25,6 +25,7 @@ define(['jquery', 'helpers', 'ui/resourcemgr'], function($, helpers){
             deleteUrl   : helpers._url('delete', 'ItemContent', 'taoItems'),
             downloadUrl : helpers._url('download', 'ItemContent', 'taoItems'),
             params : {
+                filters : $('#filters').val(),
                 uri : $('#uri').val(),
                 lang : 'en-US'
             },

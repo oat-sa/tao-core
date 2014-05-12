@@ -250,8 +250,6 @@ define([
                     options.confirm = false;
                     options.undo = true;
 
-                    console.log($container);
-
                     if(undo.length > 0){
                         options.undoMessage = undo;
                     }

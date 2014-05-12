@@ -96,31 +96,8 @@
             padding: 0 5px;
         }
 
-        .reader {
+        .previewer {
             height: 300px;
-            /*background-color: $uiGeneralContentBg;*/
-            /*margin: 5px;*/
-            
-            /*.nopreview {*/
-                /*color: $uiGeneralContentBorder;*/
-                /*text-align: center;*/
-                /*@include font-size(20);*/
-                
-                /*&:before {*/
-                    /*@include icon('document');*/
-                    /*@include font-size(60);*/
-                    /*display: block !important;*/
-                /*}*/
-                /*&[data-type='image']:before{*/
-                    /*@include icon('image');*/
-                /*}*/
-                /*&[data-type='audio']:before{*/
-                    /*@include icon('media');*/
-                /*} */
-                /*&[data-type='video']:before{*/
-                    /*@include icon('video');*/
-                /*}*/
-            /*}*/
         }
     }
 

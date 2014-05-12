@@ -26,10 +26,12 @@ define( ['jquery', 'lodash'], function($, _){
 		 */
 		_init : function(options){
 
-			var self = FileSender,
-	            opts = _.defaults(options, self._opts),
-	            $form = this,
-	            id = opts.frame;
+			var self    = FileSender,
+	            opts    = _.defaults(options, self._opts),
+                xhr2    = typeof XMLHttpRequest !== 'undefined' && new XMLHttpRequest().upload,
+	            $form   = this,
+	            id      = opts.frame,
+                $file, xhr, fd;
     
 			if(!$form || !$form.is('form')){
 				$.error('This plugin can only be called on a FORM element');
@@ -37,49 +39,74 @@ define( ['jquery', 'lodash'], function($, _){
 			if(!$form.attr('action') && (!opts.url || opts.url.trim().length === 0)){
 				$.error('An url is required in the options or at least an action ');
 			}
-			if($form.find("input[type='file']").length === 0){
+            $file = $form.find("input[type='file']");
+			if($file.length === 0){
 				$.error('This plugin is used to post files, your form should include an input element of type file.');
 			}
+
+            if(xhr2){
+                //send using xhr2
+                xhr = new XMLHttpRequest();
+                fd = new FormData();
+                
+                xhr.open("POST", opts.url, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var result = $.parseJSON(xhr.responseText);
+                        
+                        if(typeof opts.loaded === 'function'){
+                             opts.loaded(result);
+                        }
+                    }
+                };
+                
+                fd.append($file.attr('name'), opts.file || $file[0].files[0]);
+                // Initiate a multipart/form-data upload
+                xhr.send(fd);
 			
-			//the iframe identifier is composed by opts.frame + (form.id or form.name or timestamp)
-			//the timestamp is the worth because if the response goes wrong we will not be able to remove it
-			id += ($form.attr('id') ?  $form.attr('id') : ($form.attr('name') ?  $form.attr('name') : (new Date()).getTime()));
-			
-			//clean up if already exists
-			$('#' + id).remove();
-			
-			//we create the hidden frame as the action of the upload form (to prevent page reload)
-			var $postFrame = $("<iframe />");
-			$postFrame.attr({
-				'name': id,
-				'id' : id
-			})
-			.css('display', 'none');
-			
-			
-			//we update the form attributes according to the frame
-			$form.attr({
-					'action'	: opts.url,
-					'method'	: 'POST',
-					'enctype'	: 'multipart/form-data',
-					'encoding'	: 'utf8',
-					'target'	: id
-				})
-				.append($postFrame);
-			
-			$('#' + id, $form).on('load', function(e){
-				//we get the response in the frame
-				var result = $.parseJSON($(this).contents().text());
-				
-				if(typeof opts.loaded === 'function'){
-					 opts.loaded(result);
-				}
-				
-				$(this).off('load');
-				$(this).remove();
-			});
-				
-			$form.submit();
+            } else {
+                //send by iframe
+
+                //the iframe identifier is composed by opts.frame + (form.id or form.name or timestamp)
+                //the timestamp is the worth because if the response goes wrong we will not be able to remove it
+                id += ($form.attr('id') ?  $form.attr('id') : ($form.attr('name') ?  $form.attr('name') : (new Date()).getTime()));
+                
+                //clean up if already exists
+                $('#' + id).remove();
+                
+                //we create the hidden frame as the action of the upload form (to prevent page reload)
+                var $postFrame = $("<iframe />");
+                $postFrame.attr({
+                    'name': id,
+                    'id' : id
+                })
+                .css('display', 'none');
+                
+                //we update the form attributes according to the frame
+                $form.attr({
+                        'action'	: opts.url,
+                        'method'	: 'post',
+                        'enctype'	: 'multipart/form-data',
+                        'encoding'	: 'multipart/form-data',
+                        'target'	: id
+                    })
+                    .append($postFrame);
+                
+                $('#' + id, $form).on('load', function(e){
+                    //we get the response in the frame
+                    var result = $.parseJSON($(this).contents().text());
+                    
+                    if(typeof opts.loaded === 'function'){
+                         opts.loaded(result);
+                    }
+                    
+                    $(this).off('load');
+                    $(this).remove();
+                });
+                    
+                $form.submit();
+
+            }
 		}
 	};
 	

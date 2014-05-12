@@ -96,13 +96,12 @@ define([
 
         //delete a file
         $fileContainer.on('delete.deleter', function(e, $target){
-            var file;
+            var path, params = {};
             if(e.namespace === 'deleter' && $target.length){
-                file = $target.data('file');
+                path = $target.data('file');
                 $(this).one('deleted', function(){
-
-                    //TODO connect DELETE HERE
-                    //console.log(file + ' deleted');
+                    params[options.pathParam] = path;
+                    $.getJSON(options.deleteUrl, _.merge(params, options.params));
                 });
             }
         });
@@ -111,7 +110,7 @@ define([
         //TODO move upload where the path is correct 
         var $uploader =  $('.file-upload', $fileSelector);
         $uploader.on('upload.uploader', function(e, file, result){
-            //console.log('UPLOAD', arguments);
+            switchUpload();
         });
         $('.file-upload', $fileSelector).uploader({
             upload : true,
@@ -119,21 +118,25 @@ define([
         });
 
         //siwtch to upload mode
-        $('.upload-switcher a', $fileSelector).click(function(e){
+        var $switcher = $('.upload-switcher a', $fileSelector);
+        $switcher.click(function(e){
             e.preventDefault();
+            switchUpload();
+        }); 
 
+        function switchUpload(){
             if($fileContainer.css('display') === 'none'){
                 $uploadContainer.hide();
                 $fileContainer.show();
-                $(this).html('<span class="icon-add"></span>' + __('Upload'));
+                $switcher.html('<span class="icon-add"></span>' + __('Upload'));
             } else {
                 $fileContainer.hide();
                 $uploadContainer.show();
-                $(this).html('<span class="icon-undo"></span>' + __('Files'));
+                $switcher.html('<span class="icon-undo"></span>' + __('Files'));
+                $uploader.uploader('reset');
             }
-        }); 
-
-
+        }
+        
         function updateFiles(path, files){
             $fileContainer.empty().append(fileSelectTpl({
                 files : files

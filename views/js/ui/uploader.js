@@ -18,11 +18,12 @@ define([
 
     //the plugin defaults
     var defaults = {
+        upload              : true,
+        read                : false,
         containerClass      : 'file-upload',
         browseBtnClass      : 'btn-browse',
         browseBtnIcon       : false,
         browseBtnLabel      : __('Browse...'),
-        upload              : true,
         uploadBtnClass      : 'btn-upload',
         uploadBtnIcon       : 'upload',
         uploadBtnLabel      : __('Upload'),
@@ -35,6 +36,7 @@ define([
 
     var tests = {
         filereader: typeof FileReader !== 'undefined',
+        xhr2  : typeof XMLHttpRequest !== 'undefined' && new XMLHttpRequest().upload,
         dnd : 'draggable' in document.createElement('span')
     };
 
@@ -63,12 +65,9 @@ define([
          * @param {String} [options.uploadBtnClass = btn-upload] - the class to identify the upload button
          * @param {String|Boolean} [options.uploadBtnIcon  = upload] - the icon used by the upload button
          * @param {String} [options.uploadBtnLabel = Browse] - the brows button label
-        uploadBtnLabel      : __('Upload'),
-        fileNameClass       : 'file-name',
-        fileNamePlaceholder : __('No file selected'),
-        dropZoneClass       : 'file-drop',
-        progressBarClass    : 'progressbar',
-        dragOverClass       : 'drag-hover'
+
+         * TODO add missing options comment
+
          * @returns {jQueryElement} for chaining
          */
         init : function(options){
@@ -83,13 +82,13 @@ define([
 
                     //retrieve elements 
                     options.$input       = $('input[type=file]', $elt);
-                    options.$browseBtn   = $('.' + options.browseBtnClass, $elt);
-                    options.$fileName    = $('.' + options.fileNameClass, $elt);
+                    options.$browseBtn   = options.browseBtn || $('.' + options.browseBtnClass, $elt);
+                    options.$fileName    = options.fileName || $('.' + options.fileNameClass, $elt);
                     options.$dropZone    = options.dropZone || $elt.parent().find('.' + options.dropZoneClass);
                     options.$progressBar = options.progressBar || $elt.parent().find('.' + options.progressBarClass);
     
                     if(options.upload){
-                        options.$form = options.$form || $elt.parents('form');
+                        options.$form = options.form || $elt.parents('form');
                         options.$uploadBtn = options.uploadBtn || $elt.parent().find('.' + options.uploadBtnClass, $elt);
                     }                   
  
@@ -118,11 +117,8 @@ define([
                         options.$dropZone.removeClass(options.dragOverClass);
                     };
                     
-                    if (tests.filereader) {
-                        // Yep ! :D
-                        options.$input.on('change', inputHandler);
-                    }
-                    else {
+
+                    if(options.read && !tests.filereader) {
                         // Nope... :/
                         options.$input.fileReader({
                             id: 'fileReaderSWFObject',
@@ -131,17 +127,19 @@ define([
                                 options.$input.on('change', inputHandler);
                             }
                         });
+                    } else {
+                        options.$input.on('change', inputHandler);
                     }
-
+                    
                     if(options.$dropZone.length){
-                        if(tests.dnd){
+                        if(tests.dnd && tests.xhr2){
                             options.$dropZone
                                 .on('dragover', dragOverHandler)
                                 .on('dragend', dragOutHandler)
                                 .on('drop', function(e){
                                     dragOutHandler(e); 
                                     
-                                var files =  e.target.filesi || e.originalEvent.files || e.originalEvent.dataTransfer.files;
+                                var files =  e.target.files || e.originalEvent.files || e.originalEvent.dataTransfer.files;
                                 if(files && files.length > 0){
                                     $elt.trigger('file.' + ns, [files[0]]);
                                 }
@@ -163,7 +161,6 @@ define([
 
                     //what to do with the file
                     $elt.on('file.' + ns, function(e, file){
-                
                         options.$fileName
                             .text(file.name)
                             .removeClass('placeholder');
@@ -173,7 +170,6 @@ define([
                                 .off('click')
                                 .on('click', function(e){
                                     e.preventDefault();
-                                
                                     self._upload($elt, file);
                                 }).removeProp('disabled');
                         }
@@ -251,19 +247,21 @@ define([
                     }
                 }, 10);
             };
- 
+
             if(options.uploadUrl){
 
                 //ne real way to know the progress
                 if(options.$progressBar.length){
                     fakeProgress(0);
                 }
+
                 options.$form.sendfile({
-                    url : options.uploadUrl, 
+                    url : options.uploadUrl,
+                    file : file, 
                     loaded : function(result){
                         uploaded = true;
                         options.$progressBar.progressbar({value: 100});
-
+                    
                         /**
                          * A file is uploaded
                          * @event uploader#upload.uploader
@@ -376,7 +374,7 @@ define([
     };
 
     //Register the incrementer to behave as a jQuery plugin.
-    Pluginifier.register(ns, uploader, ['reset', 'upload', 'read']);
+    Pluginifier.register(ns, uploader, { expose : ['reset', 'upload', 'read'] });
 
 });
 

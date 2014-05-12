@@ -50,25 +50,27 @@ define(['jquery', 'lodash'], function($, _) {
             //get the folder content
             getFolderContent(subTree, fullPath, function(content){
 
-                 //either create the inner list of the content is new or just show it 
-                 var $innerList = $selected.siblings('ul');
-                 if(!$innerList.length && content.children && _.find(content.children, 'path')){
-                    $innerList = $('<ul></ul>').insertAfter($selected);     
-                    updateFolders(content, $innerList);
-                    $selected.addClass('opened');
-
-                 } else if($innerList.length){
-                    if($innerList.css('display') === 'none'){
-                        $innerList.show();
+                if(content){
+                     //either create the inner list of the content is new or just show it 
+                     var $innerList = $selected.siblings('ul');
+                     if(!$innerList.length && content.children && _.find(content.children, 'path') && !content.empty){
+                        $innerList = $('<ul></ul>').insertAfter($selected);     
+                        updateFolders(content, $innerList);
                         $selected.addClass('opened');
-                    } else {
-                        $innerList.hide();
-                        $selected.removeClass('opened');
-                    } 
-                 }
-             
-                 //internal event to set the file-selector content
-                 $container.trigger('folderselect.' + ns , [fullPath, content.children]);
+
+                     } else if($innerList.length){
+                        if($innerList.css('display') === 'none'){
+                            $innerList.show();
+                            $selected.addClass('opened');
+                        } else {
+                            $innerList.hide();
+                            $selected.removeClass('opened');
+                        } 
+                     }
+                    
+                     //internal event to set the file-selector content
+                     $container.trigger('folderselect.' + ns , [fullPath, content.children]);
+                }
             });
         });
    
@@ -165,13 +167,10 @@ define(['jquery', 'lodash'], function($, _) {
          */
         function updateFolders(data, $parent, recurse){
            var $item;
-           if(recurse && data.path){
+           if(recurse && data && data.path){
                 $item = $('<li><a data-path="' + data.path + '" href="#">' + data.path.split('/').pop() + '</a></li>').appendTo($parent);
            }
-           if(data.children && _.isArray(data.children)){
-                 //if(!$parent.hasClass('folders')){
-                    //$parent = $('<ul><ul>').insertAfter($('a', $item));     
-                 //}           
+           if(data && data.children && _.isArray(data.children) && !data.empty){
                 _.forEach(data.children, function(child){
                     updateFolders(child, $parent, true);
                 });
