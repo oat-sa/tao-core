@@ -16212,13 +16212,17 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     .resourcemgr .file-preview > h1 {
       width: 300px;
       background-color: #d4d5d7; }
-    /* line 95, ../scss/inc/_resourcemgr.scss */
+    /* line 93, ../scss/inc/_resourcemgr.scss */
     .resourcemgr .file-preview .file-properties {
       padding: 0 5px; }
-    /* line 99, ../scss/inc/_resourcemgr.scss */
+    /* line 97, ../scss/inc/_resourcemgr.scss */
     .resourcemgr .file-preview .previewer {
       height: 300px; }
-  /* line 104, ../scss/inc/_resourcemgr.scss */
+    /* line 101, ../scss/inc/_resourcemgr.scss */
+    .resourcemgr .file-preview .actions {
+      text-align: center;
+      margin-bottom: 10px; }
+  /* line 107, ../scss/inc/_resourcemgr.scss */
   .resourcemgr .file-selector {
     position: relative;
     width: 100%;
@@ -16226,14 +16230,14 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     border-top: none;
     border-bottom: none;
     background-color: white; }
-    /* line 113, ../scss/inc/_resourcemgr.scss */
+    /* line 116, ../scss/inc/_resourcemgr.scss */
     .resourcemgr .file-selector > h1 {
       position: relative;
       background-color: #f3f1ef; }
-      /* line 117, ../scss/inc/_resourcemgr.scss */
+      /* line 120, ../scss/inc/_resourcemgr.scss */
       .resourcemgr .file-selector > h1 .title {
         margin-right: 75px; }
-      /* line 121, ../scss/inc/_resourcemgr.scss */
+      /* line 124, ../scss/inc/_resourcemgr.scss */
       .resourcemgr .file-selector > h1 .upload-switcher {
         position: absolute;
         width: 75px;
@@ -16241,66 +16245,66 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
         right: 0;
         height: 38px;
         padding: 5px; }
-    /* line 133, ../scss/inc/_resourcemgr.scss */
+    /* line 136, ../scss/inc/_resourcemgr.scss */
     .resourcemgr .file-selector ul.files {
       position: relative;
       height: 300px;
       margin-bottom: 5px;
       padding: 0;
       list-style-type: none; }
-      /* line 140, ../scss/inc/_resourcemgr.scss */
+      /* line 143, ../scss/inc/_resourcemgr.scss */
       .resourcemgr .file-selector ul.files li {
         height: 35px;
         line-height: 35px;
         padding-left: 5px; }
-        /* line 145, ../scss/inc/_resourcemgr.scss */
+        /* line 148, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li:before {
           font-family: 'tao';
           display: inline-block;
           margin: 0 4px;
           font-size: 16px;
           font-size: 1.6rem; }
-        /* line 151, ../scss/inc/_resourcemgr.scss */
+        /* line 154, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li[data-type='image']:before {
           font-family: 'tao';
           display: inline-block;
           margin: 0 2px 0 0; }
-        /* line 155, ../scss/inc/_resourcemgr.scss */
+        /* line 158, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li[data-type='audio']:before {
           font-family: 'tao';
           display: inline-block;
           margin: 0 2px 0 0; }
-        /* line 159, ../scss/inc/_resourcemgr.scss */
+        /* line 162, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li[data-type='video']:before {
           font-family: 'tao';
           display: inline-block;
           margin: 0 2px 0 0; }
-        /* line 164, ../scss/inc/_resourcemgr.scss */
+        /* line 167, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li.active, .resourcemgr .file-selector ul.files li:hover {
           background-color: #9ebed3;
           cursor: pointer; }
-        /* line 169, ../scss/inc/_resourcemgr.scss */
+        /* line 172, ../scss/inc/_resourcemgr.scss */
         .resourcemgr .file-selector ul.files li .actions {
           float: right;
           position: relative;
           display: inline-block;
           height: 35px;
           text-overflow: ellipsis; }
-          /* line 175, ../scss/inc/_resourcemgr.scss */
+          /* line 178, ../scss/inc/_resourcemgr.scss */
           .resourcemgr .file-selector ul.files li .actions .tlb {
             display: inline-block;
             background: none;
             margin-left: 15px;
             font-size: 14px;
             font-size: 1.4rem; }
-            /* line 180, ../scss/inc/_resourcemgr.scss */
+            /* line 183, ../scss/inc/_resourcemgr.scss */
             .resourcemgr .file-selector ul.files li .actions .tlb .tlb-top {
               background: none !important;
               border-width: 0 !important;
               -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
               -moz-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
               box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
-    /* line 189, ../scss/inc/_resourcemgr.scss */
+    /* line 192, ../scss/inc/_resourcemgr.scss */
     .resourcemgr .file-selector .uploader {
       display: none;
       height: 40px;

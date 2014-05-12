@@ -81,9 +81,9 @@ define([
                     });
                     
                     //initialize the components
-                    fileBrowser(options, '/');
-                    fileSelector(options, '/');
-                    filePreview(options, '/');
+                    fileBrowser(options);
+                    fileSelector(options);
+                    filePreview(options);
 
                     /**
                      * The plugin have been created.

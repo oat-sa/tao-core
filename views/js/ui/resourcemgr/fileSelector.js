@@ -36,18 +36,21 @@ define([
         return textSize > $element.width();
     }
    
-    return function(options, root){
+    return function(options){
+        var root            = options.root || '/';
+        var $container      = options.$target;
+        var $fileSelector   = $('.file-selector', $container); 
+        var $fileContainer  = $('.files', $fileSelector);
+        var $uploadContainer= $('.uploader', $fileSelector);
+        var liveSelector    = '#' + $container.attr('id') + ' .file-selector'; 
+        var $pathTitle      = $fileSelector.find('h1 > .title');
 
-        var $container = options.$target;
-        var $fileSelector = $('.file-selector', $container); 
-        var $fileContainer = $('.files', $fileSelector);
-        var $uploadContainer = $('.uploader', $fileSelector);
-        var liveSelector = '#' + $container.attr('id') + ' .file-selector'; 
+        //set up the uploader 
+        setUpUploader(root);
 
         //update current folder
-        var $pathTitle = $fileSelector.find('h1 > .title');
         $container.on('folderselect.' + ns , function(e, fullPath, data){    
-            
+           
             //update title
             $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath); 
 
@@ -102,40 +105,53 @@ define([
                 $(this).one('deleted', function(){
                     params[options.pathParam] = path;
                     $.getJSON(options.deleteUrl, _.merge(params, options.params));
+                    $container.trigger('filedelete.' + ns, [path]); 
                 });
             }
         });
        
 
-        //TODO move upload where the path is correct 
-        var $uploader =  $('.file-upload', $fileSelector);
-        $uploader.on('upload.uploader', function(e, file, result){
-            switchUpload();
-        });
-        $('.file-upload', $fileSelector).uploader({
-            upload : true,
-            uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=/' 
-        });
+        function setUpUploader(currentPath){
+            var $uploader =  $('.file-upload', $fileSelector);
+            var $switcher = $('.upload-switcher a', $fileSelector);
 
-        //siwtch to upload mode
-        var $switcher = $('.upload-switcher a', $fileSelector);
-        $switcher.click(function(e){
-            e.preventDefault();
-            switchUpload();
-        }); 
+            $uploader.on('upload.uploader', function(e, file, result){
+                $container.trigger('filenew.' + ns, [result, currentPath]);
+                switchUpload();
+            });
+            $uploader.uploader({
+                upload : true,
+                uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath 
+            });
 
-        function switchUpload(){
-            if($fileContainer.css('display') === 'none'){
-                $uploadContainer.hide();
-                $fileContainer.show();
-                $switcher.html('<span class="icon-add"></span>' + __('Upload'));
-            } else {
-                $fileContainer.hide();
-                $uploadContainer.show();
-                $switcher.html('<span class="icon-undo"></span>' + __('Files'));
-                $uploader.uploader('reset');
-            }
+            $container.on('folderselect.' + ns , function(e, fullPath, data){    
+                currentPath = fullPath;
+                $uploader.uploader('options', {
+                    uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath
+                });
+            });
+
+            //siwtch to upload mode
+            $switcher.click(function(e){
+                e.preventDefault();
+                switchUpload();
+            }); 
+            
+            var switchUpload = function switchUpload(){
+                if($fileContainer.css('display') === 'none'){
+                    $uploadContainer.hide();
+                    $fileContainer.show();
+                    $switcher.html('<span class="icon-add"></span>' + __('Upload'));
+                } else {
+                    $fileContainer.hide();
+                    $uploadContainer.show();
+                    $switcher.html('<span class="icon-undo"></span>' + __('Files'));
+                    $uploader.uploader('reset');
+                }
+            };
         }
+
+
         
         function updateFiles(path, files){
             $fileContainer.empty().append(fileSelectTpl({

@@ -218,6 +218,12 @@ define([
                     options.$uploadBtn.text(options.uploadBtnLabel);
                 }
             }
+            if(options.$progressBar){
+                
+                options.$progressBar.progressbar({
+                    value: 0
+                });
+            }
 
             /**
              * The plugin has been created.

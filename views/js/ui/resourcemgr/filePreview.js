@@ -25,7 +25,7 @@ function($, _){
         return bytes.toFixed(2) + ' ' + units[unit];
     }
 
-    return function(options, path){
+    return function(options){
         
         var $container      = options.$target;
         var $filePreview    = $('.file-preview', $container);
@@ -39,19 +39,15 @@ function($, _){
 
         $container.on('fileselect.' + ns, function(e, file){
             if(file && file.file){
-                $propType.text(file.type + ' (' + file.mime + ')'); 
-                $propSize.text(hrSize(file.size)); 
-                $propUrl.html('<a href="' + file.url + '">' + file.file + '</a>'); 
-
+                startPreview(file);
                 currentSelection = [file.file];
-                $selectButton.removeAttr('disabled');
             } else {
-                $propType.empty(); 
-                $propSize.empty(); 
-                $propUrl.empty(); 
-                $selectButton.attr('disabled', 'disabled');
+                stopPreview();
             }
-            startPreview(file);
+        });
+
+        $container.on('filedelete.' + ns, function(){
+            stopPreview();
         });
 
         $selectButton.on('click', function(e){
@@ -61,6 +57,17 @@ function($, _){
 
         function startPreview(file){
             $previewer.previewer(file);
+            $propType.text(file.type + ' (' + file.mime + ')'); 
+            $propSize.text(hrSize(file.size)); 
+            $propUrl.html('<a href="' + file.url + '">' + file.file + '</a>'); 
+            $selectButton.removeAttr('disabled');
+        }
+        function stopPreview(){
+            $previewer.previewer('update', {url : false});
+            $propType.empty(); 
+            $propSize.empty(); 
+            $propUrl.empty(); 
+            $selectButton.attr('disabled', 'disabled');
         }
     };
 });

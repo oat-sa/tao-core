@@ -3,17 +3,14 @@ define(['jquery', 'lodash'], function($, _) {
 
     var ns = 'resourcemgr';
 
-    return function(options, root){
+    return function(options){
 
-
-        var $container = options.$target;
-        var liveSelector = '#' + $container.attr('id') + ' .file-browser'; 
-        var $fileBrowser = $('.file-browser', $container);  
-        var $folderContainer = $('.folders', $fileBrowser);
-
-        var fileTree = {};
-        
-        root = root || '/';
+        var root            = options.root || '/';
+        var $container      = options.$target;
+        var liveSelector    = '#' + $container.attr('id') + ' .file-browser'; 
+        var $fileBrowser    = $('.file-browser', $container);  
+        var $folderContainer= $('.folders', $fileBrowser);
+        var fileTree        = {};
 
         //create the tree node for the ROOT folder by default
         $folderContainer.append('<li class="active"><a class="root-folder" data-path="/" href="#">' + root + '</a></li>');
@@ -32,7 +29,6 @@ define(['jquery', 'lodash'], function($, _) {
              //internal event to set the file-selector content
              $container.trigger('folderselect.' + ns , [root, content.children]);
         });
-
 
         // by clicking on the tree (using a live binding  because content is not complete yet)
         $(document).on('click', liveSelector + ' .folders  a', function(e){
@@ -72,6 +68,22 @@ define(['jquery', 'lodash'], function($, _) {
                      $container.trigger('folderselect.' + ns , [fullPath, content.children]);
                 }
             });
+        });
+
+        $container.on('filenew.' + ns, function(e, file, path){
+            var subTree = getByPath(fileTree, path);
+            if(subTree){
+                if(!subTree.children){
+                    subTree.children = [];
+                }
+                subTree.children.push(file);
+                $('a[data-path="'+path+'"]', $fileBrowser).trigger('click');
+            }
+        });
+
+
+        $container.on('filedelete.' + ns, function(e, path){
+            removeFromPath(fileTree, path);
         });
    
         /**
@@ -139,6 +151,26 @@ define(['jquery', 'lodash'], function($, _) {
                 } else if(tree.children){
                    _.forEach(tree.children, function(child){
                         done = setToPath(child, path, data);
+                        if(done){
+                            return false;
+                        }
+                    });
+                }
+            }
+            return done;
+        }
+
+        function removeFromPath(tree, path){
+            var done = false;
+            var removed = [];
+            if(tree && tree.children){
+                removed = _.remove(tree.children, function(child){
+                    return child.path === path;
+                });
+                done = removed.length > 0;
+                if(!done){
+                   _.forEach(tree.children, function(child){
+                        done = removeFromPath(child, path);
                         if(done){
                             return false;
                         }

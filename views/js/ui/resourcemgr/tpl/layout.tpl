@@ -73,7 +73,7 @@
 
         <h2 class="toggler" data-toggle="~ .actions">{{__ 'Actions'}}</h2>
         <div class="actions">
-            <button class="btn-success small select-action" disabled>
+            <button class="btn-success select-action" disabled>
                 <span class="icon-move-item"></span>{{__ 'Select'}}
             </button>
         </div>

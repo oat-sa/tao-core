@@ -90,14 +90,17 @@
             background-color: $uiHeaderBg;
         }
 
-
-
         .file-properties{
             padding: 0 5px;
         }
 
         .previewer {
             height: 300px;
+        }
+    
+        .actions {
+            text-align: center;
+            margin-bottom: 10px;
         }
     }
 
