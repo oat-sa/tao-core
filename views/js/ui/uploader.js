@@ -130,7 +130,7 @@ define([
                     } else {
                         options.$input.on('change', inputHandler);
                     }
-                    
+
                     if(options.$dropZone.length){
                         if(tests.dnd && tests.xhr2){
                             options.$dropZone
@@ -170,7 +170,7 @@ define([
                                 .off('click')
                                 .on('click', function(e){
                                     e.preventDefault();
-                                    self._upload($elt, file);
+                            self._upload($elt, file);
                                 }).removeProp('disabled');
                         }
 
@@ -178,7 +178,7 @@ define([
                             self._read($elt, file);
                         }
                     });
-
+ 
                     /**
                      * The plugin has been created.
                      * @event uploader#create.uploader
@@ -209,6 +209,7 @@ define([
                 options.$browseBtn.text(options.browseBtnLabel);
             }
             if(options.upload){
+                //console.log('reset upload', options.$uploadBtn);
                 options.$uploadBtn.prop('disabled', true);
  
                 if(options.uploadBtnIcon){        
@@ -247,7 +248,7 @@ define([
                     }
                 }, 10);
             };
-
+ 
             if(options.uploadUrl){
 
                 //ne real way to know the progress
@@ -256,7 +257,7 @@ define([
                 }
 
                 options.$form.sendfile({
-                    url : options.uploadUrl,
+                    url : options.uploadUrl, 
                     file : file, 
                     loaded : function(result){
                         uploaded = true;
@@ -376,5 +377,5 @@ define([
     //Register the incrementer to behave as a jQuery plugin.
     Pluginifier.register(ns, uploader, { expose : ['reset', 'upload', 'read'] });
 
-});
+            });
 
