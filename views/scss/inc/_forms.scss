@@ -34,7 +34,7 @@ label {
         left: 0;
         top: 0;
         opacity: 0;
-        cursor:pointer;
+        cursor: pointer;
     }
 
     &:hover {
@@ -43,6 +43,7 @@ label {
         }
     }
 }
+
 .file-drop {
     height: 150px;
     padding-top: 50px;
@@ -52,6 +53,7 @@ label {
     @include font-size(20);
     &.drag-hover {
         border-color: $uiClickableHoverBg;
+        color: $uiClickableHoverBg;
     }
 }
 

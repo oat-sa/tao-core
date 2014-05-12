@@ -231,6 +231,7 @@ define([
             var options = {
                 target: $target,
                 bindEvent: false,
+                undoContainer : $container,
                 undo : true
             };
             var confirm = $elt.data('delete-confirm');
@@ -248,6 +249,9 @@ define([
                 } else {
                     options.confirm = false;
                     options.undo = true;
+
+                    console.log($container);
+
                     if(undo.length > 0){
                         options.undoMessage = undo;
                     }

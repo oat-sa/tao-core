@@ -45,8 +45,6 @@ define(['jquery', 'core/pluginifier', 'core/dataattrhandler'], function($, Plugi
             //get options using default
             options = $.extend(true, {}, defaults, options);
 
-            console.log(options)
-           
             return this.each(function() {
                 var $elt = $(this);
                 var $target = options.target;
