@@ -29,6 +29,15 @@
             }
         }
     }
+    &.popup {
+        display : block;
+        position : fixed;
+        top : 50px;
+        left : 50%;
+        margin-left : -200px;
+        width : 400px;
+        z-index : 999999;
+    }
 }
 
 .feedback-error {
