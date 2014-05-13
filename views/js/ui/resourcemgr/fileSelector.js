@@ -126,12 +126,23 @@ define([
                 upload      : true,
                 uploadUrl   : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath,
                 fileSelect  : function(file){
+                    //check the mime-type
+                    if(options.params.filters){
+                        var filters = options.params.filters.split(',');
+                        if(!_.contains(filters, file.type)){
+                            //TODO use a feedback popup
+                            window.alert('Unauthorized file type');
+                            return false;
+                        }
+                    }
+
                     //check if the file name isn't already used
                     var fileNames = [];
                     $fileContainer.find('li > .desc').each(function(){
                         fileNames.push($(this).text().toLowerCase());
                     });
                     if(_.contains(fileNames, file.name.toLowerCase())){
+                        //TODO use a feedback popup
                         if(!window.confirm('Do you want to override ' + file.name + '?')){
                             return false;
                         }   
