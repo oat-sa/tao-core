@@ -25,7 +25,9 @@
 
         
         <form class="uploader">            
-            <div class="progressbar"></div>
+            <div class="grid-row">
+                <p>{{__ 'Upload to'}} : <span class="current-path"></span></p>
+            </div>
             <div class="file-upload grid-row">
                 <span class="btn-info btn-browse small col-4"></span>
                 <span class="file-name col-8 truncate"></span>
@@ -36,6 +38,10 @@
                     - {{__ 'or'}} -<br />
                     {{__ 'Drop file here'}}
                 </div>
+            </div>
+            <div class="grid-row">
+                <div class="progressbar"></div>
+                <br />
             </div>
             <div class="grid-row"> 
                 <button class="btn-success btn-upload small"></button>

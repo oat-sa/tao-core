@@ -31,7 +31,10 @@ define([
         fileNamePlaceholder : __('No file selected'),
         dropZoneClass       : 'file-drop',
         progressBarClass    : 'progressbar',
-        dragOverClass       : 'drag-hover'
+        dragOverClass       : 'drag-hover',
+        fileSelect          : function(file) { 
+            return file; 
+        }
     };
 
     var tests = {
@@ -102,7 +105,14 @@ define([
                         // Are you really sure something was selected
                         // by the user... huh? :)
                         if (typeof(file) !== 'undefined') {
-                            $elt.trigger('file.' + ns, [file]);
+                           if(_.isFunction(options.fileSelect)){
+                                var filteredFile = options.fileSelect.call($elt, file);
+                                if(filteredFile){
+                                    $elt.trigger('file.' + ns, [filteredFile]);
+                                }
+                           } else {
+                                $elt.trigger('file.' + ns, [file]);
+                           }
                         }
                    };
 
@@ -209,7 +219,6 @@ define([
                 options.$browseBtn.text(options.browseBtnLabel);
             }
             if(options.upload){
-                //console.log('reset upload', options.$uploadBtn);
                 options.$uploadBtn.prop('disabled', true);
  
                 if(options.uploadBtnIcon){        
@@ -219,7 +228,6 @@ define([
                 }
             }
             if(options.$progressBar){
-                
                 options.$progressBar.progressbar({
                     value: 0
                 });

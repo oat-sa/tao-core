@@ -102,7 +102,6 @@ function($, _, Handlebars, Pluginifier, DataAttrHandler){
                 var $elt = $(this);
                 
                 if(!$elt.data(dataNs)){
-                
                     //add data to the element
                     $elt.data(dataNs, options);
 

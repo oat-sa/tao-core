@@ -115,18 +115,35 @@ define([
         function setUpUploader(currentPath){
             var $uploader =  $('.file-upload', $fileSelector);
             var $switcher = $('.upload-switcher a', $fileSelector);
+            var $uploadPath = $('.current-path', $uploadContainer);
 
             $uploader.on('upload.uploader', function(e, file, result){
                 $container.trigger('filenew.' + ns, [result, currentPath]);
                 switchUpload();
             });
+
             $uploader.uploader({
-                upload : true,
-                uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath 
+                upload      : true,
+                uploadUrl   : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath,
+                fileSelect  : function(file){
+                    //check if the file name isn't already used
+                    var fileNames = [];
+                    $fileContainer.find('li > .desc').each(function(){
+                        fileNames.push($(this).text().toLowerCase());
+                    });
+                    if(_.contains(fileNames, file.name.toLowerCase())){
+                        if(!window.confirm('Do you want to override ' + file.name + '?')){
+                            return false;
+                        }   
+                    }
+                    return file;
+                } 
             });
 
             $container.on('folderselect.' + ns , function(e, fullPath, data){    
                 currentPath = fullPath;
+            
+                $uploadPath.text(currentPath);
                 $uploader.uploader('options', {
                     uploadUrl : options.uploadUrl + '?' +  $.param(options.params) + '&' + options.pathParam + '=' + currentPath
                 });

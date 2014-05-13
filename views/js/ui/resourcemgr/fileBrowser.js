@@ -76,8 +76,10 @@ define(['jquery', 'lodash'], function($, _) {
                 if(!subTree.children){
                     subTree.children = [];
                 }
-                subTree.children.push(file);
-                $('a[data-path="'+path+'"]', $fileBrowser).trigger('click');
+                if(!_.find(subTree.children, {name : file.name})){
+                    subTree.children.push(file);
+                    $('a[data-path="'+path+'"]', $fileBrowser).trigger('click');
+                }
             }
         });
 
