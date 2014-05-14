@@ -162,6 +162,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
+.cke_button__taomediamanager:before {
+  content: "\184"; }
+
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
@@ -347,6 +350,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
+
+.cke_button__taomediamanager:before {
+  content: "\184"; }
 
 .cke_button__textcolor_icon:before {
   content: "\196"; }
@@ -814,6 +820,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
+.cke_button__taomediamanager:before {
+  content: "\184"; }
+
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
@@ -847,7 +856,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 /* This class represents panels which are used as context menus. */
 .cke_menu_panel {
   padding: 0;
-  margin: 0; }
+  margin: 0;
+  visibility: hidden; }
 
 /* This class represents panels which are used by rich combos. */
 .cke_combopanel {
@@ -1273,6 +1283,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
+
+.cke_button__taomediamanager:before {
+  content: "\184"; }
 
 .cke_button__textcolor_icon:before {
   content: "\196"; }
@@ -1850,6 +1863,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
+.cke_button__taomediamanager:before {
+  content: "\184"; }
+
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
@@ -2222,6 +2238,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
+.cke_button__taomediamanager:before {
+  content: "\184"; }
+
 .cke_button__textcolor_icon:before {
   content: "\196"; }
 
@@ -2407,6 +2426,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
+
+.cke_button__taomediamanager:before {
+  content: "\184"; }
 
 .cke_button__textcolor_icon:before {
   content: "\196"; }
@@ -2628,6 +2650,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
+
+.cke_button__taomediamanager:before {
+  content: "\184"; }
 
 .cke_button__textcolor_icon:before {
   content: "\196"; }

@@ -66,6 +66,7 @@ panel contents and color panels check menu.css and colorpanel.css.
 .cke_menu_panel {
   padding: 0;
   margin: 0;
+    visibility: hidden;
 }
 
 /* This class represents panels which are used by rich combos. */
