@@ -5,8 +5,8 @@
  * @requires handlebars
  * @requires core/encoder/encoders
  */
-define(
-['jquery', 'lodash', 'handlebars', 'core/encoder/encoders', 'core/filter/filters'], 
+define([
+'jquery', 'lodash', 'handlebars', 'core/encoder/encoders', 'core/filter/filters'], 
 function($, _, Handlebars, Encoders, Filters){
     'use strict';
     
@@ -572,6 +572,8 @@ function($, _, Handlebars, Encoders, Filters){
                     }  
                 });
             }
+        } else if ($node.data('bind-html') === true) {
+            value =  $node.html();
         } else {
             value = $node.text();
         }

@@ -13,8 +13,8 @@ define(['jquery'], function($){
         $('.pseudo-label-box', $container).on('click', function (e) {
             e.preventDefault();
             var $box = $(this);
-            var $radios =  $box.find('input:radio').not('[disabled]');
-            var $checkboxes = $box.find('input:checkbox').not('[disabled]');
+            var $radios =  $box.find('input:radio').not('[disabled]').not('.disabled');
+            var $checkboxes = $box.find('input:checkbox').not('[disabled]').not('.disabled');
            
             if($radios.length){
                 $radios.not(':checked').prop('checked', true);
