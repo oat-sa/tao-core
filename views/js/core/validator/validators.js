@@ -41,25 +41,23 @@ define(['lodash', 'i18n'], function(_, __){
     /**
      * The current validators
      */
-    var validators =  {
-
+    var validators = {
         numeric : {
             name : 'numeric',
             message : __('must be numeric'),
             options : {},
             validate : function(value, callback){
-                
-                var parsedValue  = parseFloat(value),
-                    r = (parsedValue == value) 
-                        && _.isNumber(parsedValue) 
-                        && !_.isNaN(parsedValue);
-                
+
+                var parsedValue = parseFloat(value),
+                    r = (parsedValue == value)
+                    && _.isNumber(parsedValue)
+                    && !_.isNaN(parsedValue);
+
                 if(typeof(callback) === 'function'){
                     callback.call(null, r);
                 }
             }
         },
-                
         notEmpty : {
             name : 'notEmpty',
             message : __('this is required'),
@@ -76,14 +74,12 @@ define(['lodash', 'i18n'], function(_, __){
                 }
             }
         },
-
         pattern : {
             name : 'pattern',
             message : __('does not match'),
             options : {pattern : '', modifier : 'igm'},
             validate : _validatePattern
         },
-
         length : {
             name : 'length',
             message : __('required length'),
@@ -102,13 +98,25 @@ define(['lodash', 'i18n'], function(_, __){
                 }
             }
         },
+        fileExists : {
+            name : 'fileExists',
+            message : __('no file not found in this location'),
+            options : {baseUrl : ''},
+            validate : function(value, callback, options){
 
-        /* @todo qti stuffs to be removed from this location */
-        qtiIdentifier : {
-            name : 'qtiIdentifier',
-            message : __('is not a valid IMS QTI identifier'),
-            validate : function(value, callback){
-                _validatePattern(value, callback, {pattern : '^[_a-z]{1}[a-z0-9-._]{0,31}$', modifier : 'i'});
+                var r = false,
+                    url = (value.indexOf('http') === 0) ? value : options.baseUrl + value,
+                    img = new Image();
+
+                img.src = url;
+
+                r = (img.height !== 0);
+
+                delete img;
+
+                if(typeof(callback) === 'function'){
+                    callback.call(null, r);
+                }
             }
         }
     };
@@ -143,8 +151,8 @@ define(['lodash', 'i18n'], function(_, __){
      * @exports validator/validators 
      */
     return {
-        validators: validators,
-        register  : register
+        validators : validators,
+        register : register
     };
 });
 
