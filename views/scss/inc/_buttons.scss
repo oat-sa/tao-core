@@ -1,4 +1,4 @@
-[class^="btn-"], [class*=" btn-"], .btn-info,
+[class^="btn-"], [class*=" btn-"], .btn-default,
 button, input[type="submit"], input[type="reset"] {
     @include border-radius(3);
     font-size: 14px !important;
@@ -13,8 +13,8 @@ button, input[type="submit"], input[type="reset"] {
     display: inline-block;
     line-height: 2.5;
     padding: 0 15px;
-    background-color: whiten($info, .1);
-    text-shadow: 1px 1px 0 blacken($info, .2);
+    background-color: whiten($uiClickableActiveBg, .1);
+    text-shadow: 1px 1px 0 blacken($uiClickableActiveBg, .2);
     font-weight: normal;
     font-style: normal;
     text-align: center;
@@ -40,6 +40,10 @@ button, input[type="submit"], input[type="reset"] {
     }
     &:hover {
         opacity: .85;
+    }
+    &.btn-info {
+        background-color: whiten($info, .1);
+        text-shadow: 1px 1px 0 blacken($info, .2);
     }
     &.btn-error {
         background-color: whiten($error, .1);
