@@ -108,16 +108,7 @@ dl {
 }
 
 div.ui-widget-overlay {
-    //position: absolute;
-    //background-color: green;
-    //margin-left: -277px;
-    //margin-top: -138px;
-    
-    height: 200%;
-    left: 200;
-    position: fixed;
-    top: 100;
-    width: 200%;
+    //background-color: white;
 }
 
 span.ui-button-text {

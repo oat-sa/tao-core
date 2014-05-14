@@ -25,7 +25,7 @@ $(document).ready(function(){
 	$("input:text, textarea").labelify({labelledClass: "helpTaoInputLabel"});
 
 	// feedback popup show/hide
-	$("#suppportTab").bind("click",openSupportTab);
+	$("#supportTab").bind("click",openSupportTab);
 
 	$("#supportPopupClose").bind("click",function(){
 		$("#mainSupportPopup").hide();

@@ -20,11 +20,11 @@
  */
 body {
 	background:#eee;
-	font-family: Arial, Helvetica, sans-serif;//Verdana, Arial, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	color: #3A3A3A;
 }
 
-#suppportTab{
+#supportTab{
 	width:30px;
 	height:120px;
 	background:#aaa;
@@ -42,7 +42,7 @@ body {
 	border-right:none;
 }
 
-#suppportTab:hover{
+#supportTab:hover{
 	cursor:pointer;
 	margin-right:1px;
 }
@@ -283,7 +283,7 @@ form > ul > li >*{
 } 
 
 #helpPopupContent, #errorPopUp{
-	font-family:Arial, Helvetica, sans-serif;//arial;
+	font-family:Arial, Helvetica, sans-serif;
 	font-weight:normal;
 	font-size:12px;
 	line-height: 14px;
@@ -292,19 +292,19 @@ form > ul > li >*{
 	width: 380px;
 }
 
-body .ui-widget-overlay{
-	width:420px;
-	height:250px;
+/*body .ui-widget-overlay{
+	width:100%; //420px;
+	height:100%; //250px;
 	position:absolute;
 	z-index:990;
 	top:50%;
 	left:50%;
 	margin-left:-212px;
 	margin-top:-135px;
-}
+}*/
 
 #helpPopUpClose, #errorPopUpClose{
-	font-family: Arial, Helvetica, sans-serif;//verdana,arial,sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
 	color:#666;
 	font-size:12px;
@@ -339,7 +339,7 @@ body .ui-widget-overlay{
 } 
 
 #supportPopupContent {
-	font-family:Arial, Helvetica, sans-serif;//arial;
+	font-family:Arial, Helvetica, sans-serif;
 	font-weight:normal;
 	font-size:12px;
 	line-height: 14px;
@@ -360,14 +360,14 @@ body .ui-widget-overlay{
 	margin-top: 190px;
 }
 
-#supportLoading span{
+#supportLoading span{h
 	margin-left: 23px;
 	font-weight: bold;
 	font-size: 10px;
 	font-style: italic;
 }
 
-body .ui-widget-overlay {
+/*body .ui-widget-overlay {
 	width:436px;
 	height:268px;
 	position:absolute;
@@ -376,7 +376,7 @@ body .ui-widget-overlay {
 	left:50%;
 	margin-left:-218px;
 	margin-top:-134px;
-}
+}*/
 
 #supportPopupOverlay .ui-widget-overlay {
 	position:absolute;
@@ -390,7 +390,7 @@ body .ui-widget-overlay {
 
 
 #supportPopupClose {
-	font-family: Arial, Helvetica, sans-serif;//verdana,arial,sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
 	color:#666;
 	font-size:12px;
@@ -427,7 +427,7 @@ body input.helpTaoInputLabel, body textarea.helpTaoInputLabel {
 
 body textarea {
 	font-size:11px;
-	font-family: Arial, Helvetica, sans-serif;//Verdana;
+	font-family: Arial, Helvetica, sans-serif;
 	font-weight:bold;
 }
 
@@ -463,7 +463,7 @@ body textarea {
 	font-weight: bold;
 	color:#D31145;
 	font-size:14px;
-	font-family:Arial, Helvetica, sans-serif;//verdana;
+	font-family:Arial, Helvetica, sans-serif;
 	position:relative;
 	margin-left:4px;
 	margin-top:4px;
@@ -473,7 +473,7 @@ body textarea {
 	font-weight: bold;
 	color:#D31145;
 	font-size:14px;
-	font-family:Arial, Helvetica, sans-serif;//verdana;
+	font-family:Arial, Helvetica, sans-serif;
 }
 
 
@@ -539,7 +539,7 @@ html, body{
 } 
 
 #genericPopupContent{
-	font-family:Arial, Helvetica, sans-serif;//arial;
+	font-family:Arial, Helvetica, sans-serif;
 	font-weight:normal;
 	font-size:12px;
 	line-height: 14px;
@@ -556,7 +556,7 @@ html, body{
 	color: #3A3A3A;
 }
 
-body .ui-widget-overlay{
+/*body .ui-widget-overlay{
 	width:436px;
 	height:268px;
 	position:absolute;
@@ -565,21 +565,21 @@ body .ui-widget-overlay{
 	left:50%;
 	margin-left:-218px;
 	margin-top:-134px;
-}
+}*/
 
-#genericPopupOverlay .ui-widget-overlay{
+/*#genericPopupOverlay .ui-widget-overlay{
 	position:absolute;
 	width:100%;
 	height:100%;
 	top:0;
 	left:0;
 	margin:0;
-}
+}*/
 
 
 
 #genericPopupClose{
-	font-family: Arial, Helvetica, sans-serif;//Arial; //verdana,arial,sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
 	color:#666;
 	font-size:12px;
@@ -592,12 +592,12 @@ body .ui-widget-overlay{
 	cursor:pointer;
 }
 
-/* workarround hidden overflow wekti safari, chrome issue */ 
+/* workaround hidden overflow wekti safari, chrome issue */ 
 iframe::-webkit-scrollbar { display: none; }
 
 /* Validate */
 .validField{
-	margin-top:9px;
+	margin-top:6px;
 	margin-left:4px;
 }
 

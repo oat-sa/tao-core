@@ -138,6 +138,23 @@ class tao_install_services_SyncService extends tao_install_services_Service{
      */
     private static function getAvailableTimezones() {
         return DateTimeZone::listIdentifiers();
+        
+        // get full list of timezone identifiers and add UTC value with the display
+        $timezone_identifiers = DateTimeZone::listIdentifiers();
+        $timezones = array();
+        foreach ($timezone_identifiers as $timezone_identifier) {
+    
+            $now = new DateTime(null, new DateTimeZone( $timezone_identifier ));
+            str_replace('_', ' ', $timezone_identifier);
+            $utcValue = $now->getOffset() / 3600;
+            $utcHours = floor($utcValue);
+            $utcMinutes = ($utcValue - $utcHours) * 60;
+            $utcPrint = sprintf('%d:%02d', $utcHours, $utcMinutes);
+            $utcValue = ($utcHours>0) ? (' +'.$utcPrint) : (($utcHours==0)?'':' '.$utcPrint);
+            array_push( $timezones, $timezone_identifier." (UTC".$utcValue.")" );
+        }
+        
+        return $timezones;
     }
     
     protected function checkData(){

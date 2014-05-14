@@ -57,7 +57,6 @@ function onLoad(){
 
 	checkConfig();
 
-    // CHA - small hack for direct access to licensing step
     // Backward management.
     $('#install_seq li a').each(function(){
 	$(this).bind('click', onBackward);
@@ -114,7 +113,7 @@ function checkConfig(){
 				    					}
 				    					else{
 				    						message = "PHP Extension '" + name + "' is not loaded on your web server but is mandatory to run TAO.";
-                                                                                mandatoryCount++;
+                                                                                //mandatoryCount++;
 				    					}
 				    			break;
 				    				
@@ -129,7 +128,7 @@ function checkConfig(){
 				    					}
 				    					else{
 				    						message = "PHP INI value '" + name + "' on your web server has not the expected value but is mandatory. Current value is '" + value + "' but should be '" + expectedValue + "'.";
-                                                                                mandatoryCount++;
+                                                                                //mandatoryCount++;
 				    					}
 				    				break;
 				    				
@@ -149,7 +148,7 @@ function checkConfig(){
 				    				
 				    				default:
 				    					message = r.value.message;
-                                                                        mandatoryCount++;
+                                                                        //mandatoryCount++;
                                                                         
 				    				break;
 				    			}
@@ -179,6 +178,111 @@ function checkConfig(){
 		}
 	});
 }
+
+function checkTAOForgeConnection(){
+    // Launch the configuration check procedure only if we can talk JSON
+    // with the server side.
+    install.sync(function(status, data){
+            if (data.value.json == true){
+
+                    // set a spinner up.
+                    var $target = $('<li id="connectionCheck"><label>Checking connection to TAO Forge. Please wait...</label></li>');
+                    $('#forms_content ul#').prepend($target);
+                    var spinner = new Spinner(getSpinnerOptions('small')).spin($target[0]);
+
+                    setTimeout(function(){ // Fake a small processing time... -> 500ms
+                            install.CheckTAOForgeConnection(null, function(status, data){
+                                    if (status == 200){
+                                            var $list = $('#forms_check_content ul');
+
+                                            // Stop spinner.
+                                            spinner.stop();
+                                            $list.empty();
+
+                                            // Append new reports.
+                                    for (report in data.value){
+                                            var r = data.value[report];
+                                            if (r.value.status != 'valid'){
+                                                    var optional = r.value.optional;
+                                                    var kind = (optional == true) ? 'optional' : 'mandatory';
+                                                    var message;
+                                                    mandatoryCount += (r.value.optional == true) ? 0 : 1;
+
+                                                    switch (r.type){
+                                                            case 'PHPExtensionReport':
+                                                                    var name = r.value.name;
+
+                                                                    if (optional == true){
+                                                                            message = "PHP Extension '" + name + "' is not loaded on your web server but is optional to run TAO.";
+                                                                            optionalCount++;
+                                                                    }
+                                                                    else{
+                                                                            message = "PHP Extension '" + name + "' is not loaded on your web server but is mandatory to run TAO.";
+                                                                            //mandatoryCount++;
+                                                                    }
+                                                    break;
+
+                                                            case 'PHPINIValueReport':
+                                                                    var expectedValue = r.value.expectedValue;
+                                                                    var value = r.value.value;
+                                                                    var name = r.value.name;
+
+                                                                    if (optional == true){
+                                                                            message = "PHP INI value '" + name + "' on your web server has not the expected value but is optional. Current value is '" + value + "' but should be '" + expectedValue + "'.";
+                                                                            optionalCount++;
+                                                                    }
+                                                                    else{
+                                                                            message = "PHP INI value '" + name + "' on your web server has not the expected value but is mandatory. Current value is '" + value + "' but should be '" + expectedValue + "'.";
+                                                                            //mandatoryCount++;
+                                                                    }
+                                                            break;
+
+                                                            case 'FileSystemComponentReport':
+                                                                    var expectedRights = r.value.expectedRights;
+                                                                    var isReadable = r.value.isReadable;
+                                                                    var isWritable = r.value.isWritable;
+                                                                    var isExecutable = r.value.isExecutable;
+                                                                    var location = r.value.location;
+
+                                                                    var expectedRightsMessage = getExpectedRightsAsString(r.value.expectedRights);
+                                                                    var currentRightsMessage = getCurrentRightsAsString(r);
+                                                                    var nature = (r.value.isFile == true) ? 'file' : 'directory';
+
+                                                                    message = "The " + nature + " located at '" + location + "' on your web server should be " + expectedRightsMessage + " but is currently " + currentRightsMessage + ' only.';
+                                                                    
+                                                                    //mandatoryCount++;
+                                                            break;
+
+                                                            default:
+                                                                    message = r.value.message;
+                                                                    //mandatoryCount++;
+
+                                                            break;
+                                                    }
+
+                                                    addReport(r.value.id, message, kind);
+                                            }
+                                    }
+
+                                    if (mandatoryCount == 0){
+                                            addReport('ready', 'Your web server meets TAO requirements.', 'ok', false, true);
+                                            $('li.tao-ok label').append('<img src="images/valide.png" />');
+                                    }
+
+                                    install.stateChange();
+                                    }
+                        });
+                    }, 500);
+
+            }
+            else {
+                    // We cannot exchange data with the server side.
+                    var msg = "PHP Extension 'json' could not be found on the server-side.";
+                    addReport('json', msg, false);
+            }
+    });
+}
+
 
 function addReport(name, message, kind, prepend, noHelp){
 	prepend = (typeof(prepend) != 'undefined') ? prepend : false;
@@ -273,6 +377,7 @@ function initHelp(){
 	install.addHelp('hlp_fs_taoResults_views_genpics', "The 'taoResults/views/genpics' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_wfEngine_includes', "The 'wfEngine/includes' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_taoQTI_custom_mathjax', 'The procedure to install MathJax on your TAO Platform can be found on the <a href="http://forge.taotesting.com/projects/tao/wiki/Enable_math" target="_blank">TAO Wiki</a>.');
+        install.addHelp('hlp_taoForge_connection', 'The installer could not reach TAO Forge, and registration or link to your support account won\'t be possible');
 }
 
 function getExpectedRightsAsString(expectedRights){

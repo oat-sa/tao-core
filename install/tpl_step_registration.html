@@ -11,11 +11,11 @@
 	<script type="text/javascript" src="js/help.js"></script>
 	<script type="text/javascript" src="js/jquery.labelify.js"></script>
 	<script type="text/javascript" src="js/steps.js"></script>
-	<script type="text/javascript" src="js/step_registration_1.js"></script>
+	<script type="text/javascript" src="js/step_registration.js"></script>
 	<link rel="stylesheet" type="text/css" href="../views/css/reset.css" />
 	<link rel="stylesheet" type="text/css" href="../views/css/custom-theme/jquery-ui-1.8.22.custom.css"/>
 	<link rel="stylesheet" type="text/css" href="css/installation_main.css" />
-	<link rel="stylesheet" type="text/css" href="css/step_registration_1.css" />
+	<link rel="stylesheet" type="text/css" href="css/step_registration.css" />
 	<!--[if lt IE 9]>
 	<link rel="stylesheet" type="text/css" href="css/step_ie8.css"/>
 	<![endif]-->
@@ -32,7 +32,7 @@
 				<li id="step_database_setup">3. <a href="#">Database Setup</a></li>
 				<li id="step_admin_setup">4. <a href="#">Administrator Setup</a></li>
                                 <li id="step_licenses">5. <a href="#">Licensing Agreement</a></li>
-				<li id="step_registration_1" class="currentStep">6. Registration</li>
+				<li id="step_registration" class="currentStep">6. Registration</li>
                                 <li id="step_finalization">7. Finalize Installation</li>
 			</ul>
 			<p id="comments">
@@ -41,35 +41,27 @@
 			</p>
                         <div id="forms_content">
                             <form>
+                                <div id="forge-account">
+                                    <span>Checking access to remote TAO Forge registration service...</span>
+                                    <br/>
+                                </div>
                                 <input type="radio" name="radio" id="radio-askreg" value="radio-askreg" />
                                 <label for="radio-askreg">&nbsp;Yes, I want to register my TAO installation and fill in the form.</label><br/>
                                 <ul id="registration_fields"></ul>
                                 <input type="radio" name="radio" id="radio-alreadyreg" value="radio-alreadyreg"/>
                                 <label for="checkbox-forge-credentials">&nbsp;Yes, I want to register my installation using my existing TAO forge account.</label><br />
                                 <!--<input type="checkbox" name="checkbox-forge-credentials" id="checkbox-forge-credentials" class="tao-input" value="checkbox"/>-->
-                                <ul id="support_fields">
-                                    <!--<li>
-                                        <label for="support_login">Your TAO forge account login:</label>
-                                        <input type="text" class="tao-NOinput" id="support_login" name="support_login" title="e.g. JohnSmith" autocomplete="off"/>
-                                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_support_login" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
-                                    </li>
-                                    <li>
-                                        <label for="support_password">Your TAO forge account password (min. 8 chars):</label>
-                                        <input type="password" class="tao-NOinput" id="support_password" name="support_password" title="" autocomplete="off"/>
-                                        <div title="learn more on this topic" class="icons ui-state-default ui-corner-all"><a id="tpl_support_password" class="ui-icon ui-icon-help"></a></div><span class="formMandatory">*</span>
-                                    </li>-->
-				</ul>
+                                <ul id="support_fields"></ul>
                                 <input type="radio" name="radio" id="radio-noreg" value="radio-noreg"/>
                                 <label for="radio-noreg">&nbsp;No, I do not want to register my installation.</label>
                                 <br/>
                                 
-                                <div id="forge-account">
-                                    <span>Checking your TAO forge account...</span>
-                                </div>
                                 <!--<input id="flag_notreg" type="hidden" class="tao-input" value=""/>
                                 <!--<input id="support_password_var" type="hidden" class="tao-input" value=""/>-->
+                                <input id="redoForm" class="enabled" type="button" value="Re-check" />
                                 <input id="submitForm" class="disabled" type="submit" value="Next" role="button" disabled="disabled"/>
                                 <p id="formComment"><span class="formExample">*</span> Required</p>
+                                </div>
                             </form>
                         </div>
 </body>

@@ -50,7 +50,7 @@ function onLoad(){
     
         $('form').bind('submit', function(){
 		if (install.isNextable()){
-			install.setTemplate('step_registration_1');
+			install.setTemplate('step_registration');
 		}
 		
 		return false;
@@ -79,8 +79,7 @@ function onLoad(){
                         $(this).dialog( "close" );
                     }
                  }
-              },
-              //show: { effect: "blind", duration: 200 }              
+              },           
             });
           });
           
@@ -114,7 +113,6 @@ function onLoad(){
         $('#readLicense1').click(
            function() {
                 $('#dialog-license1-confirm').dialog('open');
-                $('#screenShield').css('display','');
            }
         ).focus();
 
@@ -128,7 +126,7 @@ function onLoad(){
             function() { 
                  $('#approval-status-1')
                     .text("You have reviewed and accepted the terms of this license.")
-                    .append('<img src="images/valide.png" />');                     
+                    .append('&nbsp;<img src="images/valide.png" />');                     
                  $('#readLicense2').focus();
                  
                  $('#gplRead').val('1');
@@ -173,13 +171,43 @@ function onLoad(){
         // loading of all licenses and license headers
         $('textarea#readLicense1Header').load('licenses/gnu_gplv2_header.txt');
         $('#dialog-license1-confirm').load('licenses/gnu_gplv2_license.html');     
-        //$('#dialog-license1-confirm').load('http://tao.vhost/TAOForgeRegistration.html');//TAOForgeCheckAccount.html');
         $('textarea#readLicense2Header').load('licenses/tao_trademark_header.txt');
         $('#dialog-license2-confirm').load('licenses/tao_trademark.html');
-        // scroll to top -- doesn't seem to work -- not required anymore
-        //$('.ui-dialog-content').scrollTop( $('#dialog-license1-confirm')[0].scrollHeight );
 
         $('#abortForm').bind('click', function(event){
                 install.setTemplate('step_requirements');
         });
+        
+        // license approval status   
+        
+        // force accepted license
+        //$('#gplRead').val('1');
+        
+        if ($('#gplRead').val() == '1') {
+            
+            $('#approval-status-1')
+                .text("You have reviewed and accepted the terms of this license.")
+                .append('<img src="images/valide.png" />');
+            
+        }
+        else {
+            $('#approval-status-1').text('Please review and approve the terms of this license.');
+        }
+        
+        // force accepted license
+        //$('#trademarkRead').val('1');
+        
+        if ($('#trademarkRead').val() == '1') {
+            
+            $('#approval-status-2')
+                .text("You have reviewed and accepted the terms of this license.")
+                .append('<img src="images/valide.png" />');
+            
+        }
+        else {
+            $('#approval-status-2').text('Please review and approve the terms of this license.');
+        }
+        
+        // refresh current state
+        install.stateChange();
 }

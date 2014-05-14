@@ -17,14 +17,14 @@ Apache web server configuration:
   - magic_quotes_gpc Off (PHP >= 5.4)
   - required extensions: mysql, mysqli, curl, json, gd, zip (or compiled with zip support on Linux)
   
- MySql server cofiguration:
+ MySQL server configuration:
   - version >= 5.0  
   
  
   
 ## INSTALL TAO ##
- - copy TAO distribution in your web folder (the DOCUMENT ROOT of your virtual host is recommended)
- - check the web sever permissions
+ - Copy TAO distribution in your web folder (the DOCUMENT ROOT of your virtual host is recommended)
+ - Check the web server permissions
  - In your web browser open the page http://your-host/tao/install/ and fill out the form
  
  
@@ -32,7 +32,7 @@ Apache web server configuration:
 ## UPDATE AN EXISTING TAO ##
   - backup the files from the folders listed at the end this file.
   - copy the TAO distribution over the previous.
-  - copy the backed-up files in their respectives folders 
+  - copy the backed-up files in their respective folders 
   - from the command line: 
   $ cd tao/install && php update.php version 
    where "version" is version to update to, for example to update from version 1.2 to 1.3 :

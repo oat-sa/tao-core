@@ -243,7 +243,7 @@ class tao_install_Installator{
 				'GENERIS_INSTANCE_NAME'		=> $installData['instance_name'],
 				'GENERIS_SESSION_NAME'		=> self::generateSessionName(),
 				'ROOT_PATH'					=> $this->options['root_path'],
-			    'FILES_PATH'                => $installData['file_path'],
+                                'FILES_PATH'                => $installData['file_path'],
 				'ROOT_URL'					=> $installData['module_url'],
 				'DEFAULT_LANG'				=> $installData['module_lang'],
 				'DEBUG_MODE'				=> ($installData['module_mode'] == 'debug') ? true : false
@@ -270,12 +270,12 @@ class tao_install_Installator{
 			 * 7 - Add languages
 			 */
 			$models = $modelCreator->getLanguageModels();
-	        foreach ($models as $ns => $modelFiles){
-	            foreach ($modelFiles as $file){
-	                common_Logger::d("Inserting language description model '".$file."'", 'INSTALL');
-	            	$modelCreator->insertLocalModel($file);
-	            }
-	        }
+                        foreach ($models as $ns => $modelFiles){
+                            foreach ($modelFiles as $file){
+                                common_Logger::d("Inserting language description model '".$file."'", 'INSTALL');
+                                $modelCreator->insertLocalModel($file);
+                            }
+                        }
 
 			/*
 			 * 8 - Finish Generis Install
@@ -353,7 +353,7 @@ class tao_install_Installator{
 				'userMail'		=> $installData['user_email'],
 				'userDefLg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.$installData['module_lang'],
 				'userUILg'		=> 'http://www.tao.lu/Ontologies/TAO.rdf#Lang'.$installData['module_lang'],
-			    'userTimezone'  => TIME_ZONE
+                                'userTimezone'  => TIME_ZONE
 			));
 	
 			/*

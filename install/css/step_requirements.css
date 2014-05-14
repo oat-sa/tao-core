@@ -38,7 +38,7 @@
 	padding:7px 5px 7px 10px;
 	height:15px;
 	margin: 4px 0 0 0;
-	background:#e5e5e5;
+	//background: rgb(229,229,229);
 	display:block;
 	color: #3A3A3A;
 }
@@ -54,7 +54,6 @@
 #forms_check_content form ul li.tao-ok{
 	border:none;
 	background:none;
-	//background:url(../images/valide.png) no-repeat 253px -2px;
 	margin-top:20px;
 }
 

@@ -142,13 +142,13 @@ TaoInstall.prototype.checkDatabaseConnection = function(check, callback){
 }
 
 /**
- * Check that a Redmine account exists remotely
+ * Check connection to TAO Forge
  */
-TaoInstall.prototype.checkRedmineAccount = function(check, callback){
+TaoInstall.prototype.checkTAOForgeConnection = function(check, callback){
 	
         check.password = this.nullToEmptyString(check.password);
 	
-	var data = {type: 'checkRedmineAccount',
+	var data = {type: 'CheckTAOForgeConnection',
 				value: check};
 				
 	var options = {data: JSON.stringify(data),

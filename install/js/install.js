@@ -27,7 +27,7 @@ $(document).ready(function() {
 	apiInstance.addData('extensions', ['taoCe']);
 
 	// feedback popup show/hide
-	$('#suppportTab').bind('click', openSupportTab);
+	$('#supportTab').bind('click', openSupportTab);
 	$('#supportPopupClose').bind('click', closeSupportTab);
 });
 
