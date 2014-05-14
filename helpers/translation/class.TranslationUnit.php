@@ -95,9 +95,9 @@ class tao_helpers_translation_TranslationUnit
      */
     public function setAnnotations($annotations)
     {
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003948 begin
+        
         $this->annotations = $annotations;
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003948 end
+        
     }
 
     /**
@@ -112,9 +112,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = array();
 
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003952 begin
+        
         $returnValue = $this->annotations;
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003952 end
+        
 
         return (array) $returnValue;
     }
@@ -131,9 +131,9 @@ class tao_helpers_translation_TranslationUnit
      */
     public function addAnnotation($name, $value = '')
     {
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003955 begin
+        
         $this->annotations[$name] = $value;
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:0000000000003955 end
+        
     }
 
     /**
@@ -146,11 +146,11 @@ class tao_helpers_translation_TranslationUnit
      */
     public function removeAnnotation($name)
     {
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:000000000000395C begin
+        
         if (isset($this->annotations[$name])){
             unset($this->annotations[$name]);
         }
-        // section -64--88-56-1--5deb8f54:136cf746d4c:-8000:000000000000395C end
+        
     }
 
     /**
@@ -166,13 +166,13 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = array();
 
-        // section -64--88-56-1--1ef43195:136cfde50f6:-8000:0000000000003971 begin
+        
         if (isset($this->annotations[$name])){
             $returnValue = array('name' => $name, 'value' => $this->annotations[$name]);
         }else{
             $returnValue = null;
         }
-        // section -64--88-56-1--1ef43195:136cfde50f6:-8000:0000000000003971 end
+        
 
         return (array) $returnValue;
     }
@@ -188,9 +188,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000347F begin
+        
         $returnValue = $this->source;
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:000000000000347F end
+        
 
         return (string) $returnValue;
     }
@@ -206,9 +206,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003481 begin
+        
         $returnValue = $this->target;
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003481 end
+        
 
         return (string) $returnValue;
     }
@@ -223,9 +223,9 @@ class tao_helpers_translation_TranslationUnit
      */
     public function setSource($source)
     {
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003483 begin
+        
         $this->source = $source;
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003483 end
+        
     }
 
     /**
@@ -238,9 +238,9 @@ class tao_helpers_translation_TranslationUnit
      */
     public function setTarget($target)
     {
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003486 begin
+        
         $this->target = $target;
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003486 end
+        
     }
 
     /**
@@ -252,11 +252,11 @@ class tao_helpers_translation_TranslationUnit
      */
     public function __construct()
     {
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003489 begin
+        
         // Default values for source and target languages are en-US.
         $this->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
         $this->setTargetLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:0000000000003489 end
+        
     }
 
     /**
@@ -269,10 +269,10 @@ class tao_helpers_translation_TranslationUnit
      */
     public function setSourceLanguage($sourceLanguage)
     {
-        // section 10-13-1-85-4b6473d:1331c301495:-8000:000000000000351D begin
+        
         $this->sourceLanguage = $sourceLanguage;
         $this->addAnnotation('sourceLanguage', $sourceLanguage);
-        // section 10-13-1-85-4b6473d:1331c301495:-8000:000000000000351D end
+        
     }
 
     /**
@@ -285,10 +285,10 @@ class tao_helpers_translation_TranslationUnit
      */
     public function setTargetLanguage($targetLanguage)
     {
-        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003520 begin
+        
         $this->targetLanguage = $targetLanguage;
         $this->addAnnotation('targetLanguage', $targetLanguage);
-        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003520 end
+        
     }
 
     /**
@@ -302,9 +302,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003523 begin
+        
         $returnValue = $this->sourceLanguage;
-        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003523 end
+        
 
         return (string) $returnValue;
     }
@@ -320,9 +320,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003525 begin
+        
         $returnValue = $this->targetLanguage;
-        // section 10-13-1-85-4b6473d:1331c301495:-8000:0000000000003525 end
+        
 
         return (string) $returnValue;
     }
@@ -338,10 +338,10 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85--248fc0f4:133211c8937:-8000:0000000000003549 begin
+        
         $returnValue = $this->getSourceLanguage() . '->' . $this->getTargetLanguage() . ':' .
         			   $this->getSource() . '-' . $this->getTarget();
-        // section 10-13-1-85--248fc0f4:133211c8937:-8000:0000000000003549 end
+        
 
         return (string) $returnValue;
     }
@@ -358,9 +358,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (bool) false;
 
-        // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:000000000000322F begin
+        
         $returnValue = $this->getSource() == $translationUnit->getSource();
-        // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:000000000000322F end
+        
 
         return (bool) $returnValue;
     }
@@ -377,9 +377,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (bool) false;
 
-        // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:0000000000003232 begin
+        
         $returnValue = $this->getTarget() == $translationUnit->getTarget();
-        // section -64--88-1-7-576a6b36:1333bcb6e9d:-8000:0000000000003232 end
+        
 
         return (bool) $returnValue;
     }
@@ -397,9 +397,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--60155064:1355488bb4c:-8000:0000000000003712 begin
+        
         $returnValue = $this->getSourceLanguage() == $translationUnit->getSourceLanguage();
-        // section 127-0-1-1--60155064:1355488bb4c:-8000:0000000000003712 end
+        
 
         return (bool) $returnValue;
     }
@@ -417,9 +417,9 @@ class tao_helpers_translation_TranslationUnit
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--60155064:1355488bb4c:-8000:0000000000003715 begin
+        
         $returnValue = $this->getTargetLanguage() == $translationUnit->getTargetLanguage();
-        // section 127-0-1-1--60155064:1355488bb4c:-8000:0000000000003715 end
+        
 
         return (bool) $returnValue;
     }

@@ -48,7 +48,7 @@ class tao_helpers_form_elements_xhtml_Textbox
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018E8 begin
+        
 		
 		if(!isset($this->attributes['noLabel'])){
 			$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
@@ -64,7 +64,7 @@ class tao_helpers_form_elements_xhtml_Textbox
 			$returnValue .= " " . _dh($this->unit);
 		}
 		
-        // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018E8 end
+        
 
         return (string) $returnValue;
     }

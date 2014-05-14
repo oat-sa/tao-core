@@ -48,7 +48,7 @@ class tao_helpers_form_elements_xhtml_Readonly
     {
         $returnValue = (string) '';
 
-        // section 10-13-1--128-66e372da:130084c89b7:-8000:0000000000002E49 begin
+        
 		if(!isset($this->attributes['noLabel'])){
 			$returnValue .= "<span class='form_desc'>"._dh($this->getDescription())."</span>";
 		}
@@ -59,7 +59,7 @@ class tao_helpers_form_elements_xhtml_Readonly
 		$returnValue .= "<input type='text' readonly='readonly' disabled='disabled' name='{$this->name}' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= ' value="'._dh($this->value).'"  />';
-        // section 10-13-1--128-66e372da:130084c89b7:-8000:0000000000002E49 end
+        
 
         return (string) $returnValue;
     }

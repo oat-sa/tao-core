@@ -32,7 +32,7 @@ function _url($action = null, $module = null, $extension = null, $params = array
 	return tao_helpers_Uri::url($action, $module, $extension, $params);
 }
 
-// section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019D2-constants end
+
 
 /**
  * Utilities on URL/URI
@@ -102,7 +102,7 @@ class tao_helpers_Uri
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A45 begin
+        
 
 		if(is_null(self::$base) && defined('BASE_URL')){
 			self::$base = BASE_URL;
@@ -112,7 +112,7 @@ class tao_helpers_Uri
 		}
 		$returnValue = self::$base;
 
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A45 end
+        
 
         return (string) $returnValue;
     }
@@ -128,7 +128,7 @@ class tao_helpers_Uri
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-269c0444:12849d750d4:-8000:0000000000002440 begin
+        
 
         if(is_null(self::$root) && defined('ROOT_URL')){
 			self::$root = ROOT_URL;
@@ -138,7 +138,7 @@ class tao_helpers_Uri
 		}
 		$returnValue = self::$root;
 
-        // section 127-0-1-1-269c0444:12849d750d4:-8000:0000000000002440 end
+        
 
         return (string) $returnValue;
     }
@@ -159,7 +159,7 @@ class tao_helpers_Uri
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A26 begin
+        
 
 		if(is_null($module)){
 			$module = Context::getInstance()->getModuleName();
@@ -187,7 +187,7 @@ class tao_helpers_Uri
 				$returnValue = substr($returnValue, 0, -1);
 			}
 		}
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A26 end
+        
 
         return (string) $returnValue;
     }
@@ -205,8 +205,8 @@ class tao_helpers_Uri
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--399a8411:1284971f0c8:-8000:0000000000002436 begin
-        // section 127-0-1-1--399a8411:1284971f0c8:-8000:0000000000002436 end
+        
+        
 
         return (string) $returnValue;
     }
@@ -224,7 +224,7 @@ class tao_helpers_Uri
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A3F begin
+        
 		if (preg_match("/^http/", $uri)) {
 			//return base64_encode($uri);
 			if ($dotMode) {
@@ -236,7 +236,7 @@ class tao_helpers_Uri
 		} else {
 			$returnValue = $uri;
 		}
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A3F end
+        
 
         return (string) $returnValue;
     }
@@ -272,7 +272,7 @@ class tao_helpers_Uri
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A42 begin
+        
 		if (preg_match("/^http/", $uri)) {
 			//return base64_decode($uri);
 			if ($dotMode) {
@@ -285,7 +285,7 @@ class tao_helpers_Uri
 		} else {
 			$returnValue = $uri;
 		}
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A42 end
+        
 
         return (string) $returnValue;
     }
@@ -305,7 +305,7 @@ class tao_helpers_Uri
     {
         $returnValue = array();
 
-        // section 127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242B begin
+        
 
         if(is_array($uris)){
         	foreach($uris as $key => $value){
@@ -323,7 +323,7 @@ class tao_helpers_Uri
         	$returnValue = array_unique($returnValue);
         }
 
-        // section 127-0-1-1--399a8411:1284971f0c8:-8000:000000000000242B end
+        
 
         return (array) $returnValue;
     }
@@ -342,13 +342,13 @@ class tao_helpers_Uri
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-2045fd08:128b9eb9c51:-8000:0000000000001F71 begin
+        
 
     	if(stripos($uriResource,"#")>0){
 			$returnValue = substr($uriResource, stripos($uriResource,"#")+1);
 		}
 
-        // section 127-0-1-1-2045fd08:128b9eb9c51:-8000:0000000000001F71 end
+        
 
         return (string) $returnValue;
     }
@@ -367,13 +367,13 @@ class tao_helpers_Uri
     {
         $returnValue = (string) '';
 
-        // section 10-30-1--78--740a6007:139f87bbe8d:-8000:0000000000003B83 begin
+        
         if (substr($filepath, 0, strlen(ROOT_PATH)) != ROOT_PATH) {
         	throw new common_exception_Error('filepath "'.$filepath.'" is not located in the tao directory');
         }
         $parts = explode(DIRECTORY_SEPARATOR, substr($filepath, strlen(ROOT_PATH)));
         $returnValue = ROOT_URL.implode('/', $parts);
-        // section 10-30-1--78--740a6007:139f87bbe8d:-8000:0000000000003B83 end
+        
 
         return (string) $returnValue;
     }
@@ -393,7 +393,7 @@ class tao_helpers_Uri
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85--364706d5:13b1d5134f6:-8000:0000000000003C27 begin
+        
         if (preg_match("/^[A-Za-z0-9]*$/", $uri)){
         	// no '.', no '/', ... does not look good.
         	return null;
@@ -404,7 +404,7 @@ class tao_helpers_Uri
 	        	return null;
 	        }	
         }
-        // section 10-13-1-85--364706d5:13b1d5134f6:-8000:0000000000003C27 end
+        
 
         return (string) $returnValue;
     }
@@ -422,12 +422,12 @@ class tao_helpers_Uri
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85--364706d5:13b1d5134f6:-8000:0000000000003C2D begin
+        
         $returnValue = parse_url($uri, PHP_URL_HOST);
         if (empty($returnValue)){
         	return null;
         }
-        // section 10-13-1-85--364706d5:13b1d5134f6:-8000:0000000000003C2D end
+        
 
         return (string) $returnValue;
     }
@@ -445,7 +445,7 @@ class tao_helpers_Uri
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85--3c6f7e45:13b1d933d54:-8000:0000000000003C33 begin
+        
         $domain = self::getDomain($uri);
         if (!empty($domain)){
         	if (preg_match("/^[a-z0-9\-]+(?:[a-z0-9\-]\.)+/iu", $domain) > 0){
@@ -458,7 +458,7 @@ class tao_helpers_Uri
         else{
         	$returnValue = false;
         }
-        // section 10-13-1-85--3c6f7e45:13b1d933d54:-8000:0000000000003C33 end
+        
 
         return (bool) $returnValue;
     }

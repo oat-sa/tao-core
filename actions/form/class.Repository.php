@@ -46,7 +46,7 @@ class tao_actions_form_Repository
      */
     public function initElements()
     {
-        // section 127-0-1-1-35689176:13832da9f32:-8000:0000000000003B3E begin
+        
         parent::initElements();
         $ele = $this->form->getElement(tao_helpers_Uri::encode(PROPERTY_GENERIS_VERSIONEDREPOSITORY_URL));
         $ele->addValidators(array(
@@ -69,7 +69,7 @@ class tao_actions_form_Repository
 		$ele->setHelp( __('Path to the local working copy, it is where your local 
 				version of your versioned Resource will be stored. ') . '/path/to/the/local/working_copy');
 		$ele->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		        // section 127-0-1-1-35689176:13832da9f32:-8000:0000000000003B3E end
+		        
     }
 
 } /* end of class tao_actions_form_Repository */

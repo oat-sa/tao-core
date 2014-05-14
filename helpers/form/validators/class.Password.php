@@ -47,12 +47,12 @@ class tao_helpers_form_validators_Password
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D5C begin
+        
 		
 		parent::__construct($options);
 		
 		$this->message = __('Passwords are not matching');
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D5C end
+        
     }
 
     /**
@@ -67,7 +67,7 @@ class tao_helpers_form_validators_Password
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D66 begin
+        
         if (is_array($values) && count($values) == 2) {
         	list($first, $second) = $values;
         	$returnValue = $first == $second;
@@ -82,7 +82,7 @@ class tao_helpers_form_validators_Password
 			}
         }
 		
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D66 end
+        
 
         return (bool) $returnValue;
     }

@@ -46,7 +46,7 @@ class tao_actions_form_Role
      */
     public function initElements()
     {
-        // section 10-13-1-85--332f5c64:13cafb9ead5:-8000:0000000000003C7C begin
+        
         parent::initElements();
         
         $encodedIncludesRolePropertyUri = tao_helpers_Uri::encode(PROPERTY_ROLE_INCLUDESROLE);
@@ -63,7 +63,7 @@ class tao_actions_form_Role
 	        
 	        $rolesElement->setOptions($rolesOptions);
         }
-        // section 10-13-1-85--332f5c64:13cafb9ead5:-8000:0000000000003C7C end
+        
     }
 
     /**
@@ -78,9 +78,9 @@ class tao_actions_form_Role
     {
         $returnValue = null;
 
-        // section 10-30-1--78-5c081e8a:13cdee282e5:-8000:0000000000003C84 begin
+        
         $returnValue = new core_kernel_classes_Class(CLASS_ROLE);
-        // section 10-30-1--78-5c081e8a:13cdee282e5:-8000:0000000000003C84 end
+        
 
         return $returnValue;
     }

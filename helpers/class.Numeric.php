@@ -49,7 +49,7 @@ class tao_helpers_Numeric
     {
         $returnValue = (float) 0.0;
 
-        // section 127-0-1-1--35f5fbfd:1379d8c2a8c:-8000:0000000000003AB6 begin
+        
 		$returnValue = str_replace(',', '.', $value);
 		$returnValue = str_replace(' ', '', $returnValue);
 		$p = strrpos($returnValue, '.');
@@ -58,7 +58,7 @@ class tao_helpers_Numeric
 			$b = intval(substr($returnValue, $p + 1));
 			$returnValue = floatval($a.'.'.$b);
 		}
-        // section 127-0-1-1--35f5fbfd:1379d8c2a8c:-8000:0000000000003AB6 end
+        
 
         return (float) $returnValue;
     }

@@ -56,7 +56,7 @@ class tao_helpers_form_elements_xhtml_Authoring
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-51e1cabd:124e3b3d559:-8000:0000000000001B4D begin
+        
 		
 		if(array_key_exists('class', $this->attributes)){
 			if(strstr($this->attributes['class'], self::CSS_CLASS) !== false){
@@ -72,7 +72,7 @@ class tao_helpers_form_elements_xhtml_Authoring
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= " />";
 		
-        // section 127-0-1-1-51e1cabd:124e3b3d559:-8000:0000000000001B4D end
+        
 
         return (string) $returnValue;
     }

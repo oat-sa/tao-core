@@ -49,9 +49,9 @@ class tao_helpers_translation_Utils
     {
         $returnValue = (string) '';
 
-        // section -64--88-56-1--1ef43195:136cfde50f6:-8000:000000000000396D begin
+        
         $returnValue = 'EN';
-        // section -64--88-56-1--1ef43195:136cfde50f6:-8000:000000000000396D end
+        
 
         return (string) $returnValue;
     }

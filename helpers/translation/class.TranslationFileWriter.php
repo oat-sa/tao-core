@@ -68,10 +68,10 @@ abstract class tao_helpers_translation_TranslationFileWriter
      */
     public function __construct($filePath,  tao_helpers_translation_TranslationFile $translationFile)
     {
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034D3 begin
+        
         $this->filePath = $filePath;
         $this->translationFile = $translationFile;
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034D3 end
+        
     }
 
     /**
@@ -96,9 +96,9 @@ abstract class tao_helpers_translation_TranslationFileWriter
      */
     public function setTranslationFile( tao_helpers_translation_TranslationFile $translationFile)
     {
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034D9 begin
+        
         $this->translationFile = $translationFile;
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034D9 end
+        
     }
 
     /**
@@ -112,9 +112,9 @@ abstract class tao_helpers_translation_TranslationFileWriter
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034DC begin
+        
         return $this->filePath;
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034DC end
+        
 
         return (string) $returnValue;
     }
@@ -129,9 +129,9 @@ abstract class tao_helpers_translation_TranslationFileWriter
      */
     public function setFilePath($filePath)
     {
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034DE begin
+        
         $this->filePath = $filePath;
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034DE end
+        
     }
 
     /**
@@ -145,9 +145,9 @@ abstract class tao_helpers_translation_TranslationFileWriter
     {
         $returnValue = null;
 
-        // section 10-13-1-85--1e5948f4:133212a9225:-8000:000000000000354D begin
+        
         $returnValue = $this->translationFile;
-        // section 10-13-1-85--1e5948f4:133212a9225:-8000:000000000000354D end
+        
 
         return $returnValue;
     }

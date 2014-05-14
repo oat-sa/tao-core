@@ -58,9 +58,9 @@ class tao_models_classes_table_PropertyColumn
     {
         $returnValue = null;
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BF2 begin
+        
         $returnValue = new static(new core_kernel_classes_Property($array['prop']));
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BF2 end
+        
 
         return $returnValue;
     }
@@ -75,10 +75,10 @@ class tao_models_classes_table_PropertyColumn
      */
     public function __construct( core_kernel_classes_Property $property)
     {
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BC8 begin
+        
         $this->property = $property;
         parent::__construct($property->getLabel());
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BC8 end
+        
     }
 
     /**
@@ -92,9 +92,9 @@ class tao_models_classes_table_PropertyColumn
     {
         $returnValue = null;
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BC2 begin
+        
         $returnValue = $this->property;
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BC2 end
+        
 
         return $returnValue;
     }
@@ -110,9 +110,9 @@ class tao_models_classes_table_PropertyColumn
     {
         $returnValue = null;
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BD1 begin
+        
         $returnValue = tao_models_classes_table_PropertyDP::singleton();
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BD1 end
+        
 
         return $returnValue;
     }
@@ -128,10 +128,10 @@ class tao_models_classes_table_PropertyColumn
     {
         $returnValue = array();
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BCF begin
+        
         $returnValue = parent::toArray();
         $returnValue['prop'] = $this->property->getUri();
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BCF end
+        
 
         return (array) $returnValue;
     }

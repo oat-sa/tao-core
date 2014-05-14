@@ -50,7 +50,7 @@ class tao_helpers_form_validators_Equals
      */
     public function __construct($options = array())
     {
-        // section 10-30-1--78--cac56b6:13bb38b902c:-8000:0000000000003C86 begin
+        
         parent::__construct($options);
     	if(!isset($this->options['reference']) || !$this->options['reference'] instanceof tao_helpers_form_FormElement){
 			throw new common_Exception("No FormElement provided as reference for Equals validator");
@@ -61,7 +61,7 @@ class tao_helpers_form_validators_Equals
 		} else {
 			$this->message = __('This should equal ').$reference->getDescription();
 		}
-        // section 10-30-1--78--cac56b6:13bb38b902c:-8000:0000000000003C86 end
+        
     }
 
     /**
@@ -76,12 +76,12 @@ class tao_helpers_form_validators_Equals
     {
         $returnValue = (bool) false;
 
-        // section 10-30-1--78--cac56b6:13bb38b902c:-8000:0000000000003C83 begin
+        
         $invert = isset($this->options['invert']) ? $this->options['invert'] : false;
         $reference = $this->options['reference'];
 		$equals = ($values == $reference->getRawValue());
 		$returnValue = $invert ? !$equals : $equals;
-        // section 10-30-1--78--cac56b6:13bb38b902c:-8000:0000000000003C83 end
+        
 
         return (bool) $returnValue;
     }

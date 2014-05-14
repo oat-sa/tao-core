@@ -46,7 +46,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
      */
     public function feed()
     {
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C62 begin
+        
     	if (isset($_POST[$this->name])) {
     		$struct = @unserialize($_POST[$this->name]);
     		if($struct !== false){
@@ -62,7 +62,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     			$this->setValue($_POST[$this->name]);
     		}
     	}
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C62 end
+        
     }
 
     /**
@@ -76,7 +76,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C64 begin
+        
         $widgetName = $this->buildWidgetName();
         $widgetContainerId = $this->buildWidgetContainerId();
         
@@ -112,7 +112,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         
         
         $returnValue .= "</div>";
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C64 end
+        
 
         return (string) $returnValue;
     }
@@ -126,9 +126,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
      */
     public function getEvaluatedValue()
     {
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C66 begin
+        
     	return $this->getRawValue();
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C66 end
+        
     }
 
     /**
@@ -142,7 +142,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C68 begin
+        
         $deleteButtonId = $this->buildDeleteButtonId();
          
         $returnValue .= '$(document).ready(function() {';
@@ -151,7 +151,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         $returnValue .= '		' . $this->buildUploaderBehaviour(true);
         $returnValue .= '	});';
         $returnValue .= '});';
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C68 end
+        
 
         return (string) $returnValue;
     }
@@ -168,7 +168,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C6A begin
+        
         $widgetName = $this->buildWidgetName();
          
         //get the upload max size (the min of those 3 directives)
@@ -262,7 +262,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         $returnValue .= '		);'; // End of AsyncFileUpload instantiation.
         $returnValue .= '	});'; // End of require.
         $returnValue .= '});'; // End of $(document).ready()
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C6A end
+        
 
         return (string) $returnValue;
     }
@@ -278,9 +278,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C6C begin
+        
         $returnValue = 'AsyncFileUploader_'.md5($this->name);
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C6C end
+        
 
         return (string) $returnValue;
     }
@@ -296,9 +296,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C6E begin
+        
         $returnValue = $this->buildWidgetName() . '_deleter';
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C6E end
+        
 
         return (string) $returnValue;
     }
@@ -314,9 +314,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C70 begin
+        
         $returnValue = $this->buildWidgetName() . '_container';
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C70 end
+        
 
         return (string) $returnValue;
     }
@@ -333,9 +333,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C72 begin
+        
         $returnValue = '<script type="text/javascript">' . $behaviour . '</script>';
-        // section 127-0-1-1-37c605c1:13d218622e6:-8000:0000000000003C72 end
+        
 
         return (string) $returnValue;
     }
@@ -351,9 +351,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C8C begin
+        
         $returnValue = $this->buildWidgetName() . '_downloader';
-        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C8C end
+        
 
         return (string) $returnValue;
     }
@@ -369,7 +369,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C8E begin
+        
         $downloadButtonId = $this->buildDownloadButtonId();
         $iFrameId = $this->buildIframeId();
         $fileUri = $this->value->getFile()->getUri();
@@ -380,7 +380,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
         $returnValue .= '		$("#' . $iFrameId . '").attr("src", "'.ROOT_URL.'tao/File/downloadFile?uri=' . $fileUri . '")';
         $returnValue .= '	});';
         $returnValue .= '});';
-        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C8E end
+        
 
         return (string) $returnValue;
     }
@@ -396,9 +396,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C90 begin
+        
         $returnValue = $this->buildWidgetName() . '_iframe';
-        // section 127-0-1-1-2444335b:13d2649df43:-8000:0000000000003C90 end
+        
 
         return (string) $returnValue;
     }

@@ -64,11 +64,11 @@ abstract class tao_helpers_form_elements_Combobox
      */
     public function setEmptyOption($display)
     {
-        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B47 begin
+        
 		
 		$this->emptyOption = $display;
 		
-        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B47 end
+        
     }
 
 } /* end of abstract class tao_helpers_form_elements_Combobox */

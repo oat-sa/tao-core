@@ -46,7 +46,7 @@ class tao_actions_form_UserSettings
      */
     protected function initForm()
     {
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF3 begin
+        
 		
 		$this->form = tao_helpers_form_FormFactory::getForm('settings');
 		
@@ -54,7 +54,7 @@ class tao_actions_form_UserSettings
 		$this->form->setActions(array(), 'top');
 		$this->form->setActions($actions, 'bottom');
 		
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF3 end
+        
     }
 
     /**
@@ -66,7 +66,7 @@ class tao_actions_form_UserSettings
      */
     protected function initElements()
     {
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF5 begin
+        
 		$langService = tao_models_classes_LanguageService::singleton();
 		
     	// Retrieve languages available for a GUI usage.
@@ -105,7 +105,7 @@ class tao_actions_form_UserSettings
         
         $this->form->addElement($tzElement);
         
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DF5 end
+        
     }
 
 } /* end of class tao_actions_form_UserSettings */

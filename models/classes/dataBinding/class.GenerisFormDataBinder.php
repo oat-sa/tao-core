@@ -64,7 +64,7 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder
     {
         $returnValue = null;
 
-        // section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CBA begin
+        
         try {
         	$instance = parent::bind($data);
         	
@@ -84,7 +84,7 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder
         	$instanceUri = $instance->getUri();
         	throw new tao_models_classes_dataBinding_GenerisFormDataBindingException($msg);
         }
-        // section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CBA end
+        
 
         return $returnValue;
     }
@@ -100,7 +100,7 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder
      */
     protected function bindUploadFileDescription( core_kernel_classes_Property $property,  tao_helpers_form_data_UploadFileDescription $desc)
     {
-        // section 127-0-1-1-4a948c58:13d11fbcd0f:-8000:0000000000003C39 begin
+        
         $instance = $this->getTargetInstance();
         
         // Delete old files.
@@ -124,7 +124,7 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder
         	// Update the UploadFileDescription with the stored file.
         	$desc->setFile($file);
         }
-        // section 127-0-1-1-4a948c58:13d11fbcd0f:-8000:0000000000003C39 end
+        
     }
 
 } /* end of class tao_models_classes_dataBinding_GenerisFormDataBinder */

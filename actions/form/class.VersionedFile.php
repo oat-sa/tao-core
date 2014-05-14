@@ -70,7 +70,7 @@ class tao_actions_form_VersionedFile
      */
     public function initForm()
     {
-        // section 127-0-1-1-234d8e6a:13300ee5308:-8000:0000000000003F7E begin
+        
         
 		if(!isset($this->options['instanceUri'])){
     		throw new Exception(__('Option instanceUri is not an option !!'));
@@ -96,7 +96,7 @@ class tao_actions_form_VersionedFile
     	$this->form->setActions(array($actions), 'top');
     	$this->form->setActions(array($actions), 'bottom');
     	
-        // section 127-0-1-1-234d8e6a:13300ee5308:-8000:0000000000003F7E end
+        
     }
 
     /**
@@ -108,7 +108,7 @@ class tao_actions_form_VersionedFile
      */
     public function initElements()
     {
-        // section 127-0-1-1-234d8e6a:13300ee5308:-8000:0000000000003F80 begin
+        
     	
     	$versioned = $this->versionedFile->isVersioned();
 		$freeFilePath = isset($this->options['freeFilePath'])?(bool)$this->options['freeFilePath']:false;
@@ -276,7 +276,7 @@ class tao_actions_form_VersionedFile
 			}
 		}
     	
-        // section 127-0-1-1-234d8e6a:13300ee5308:-8000:0000000000003F80 end
+        
     }
 
     /**
@@ -291,7 +291,7 @@ class tao_actions_form_VersionedFile
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--485428cc:133267d2802:-8000:000000000000409D begin
+        
         
     	if($this->form->isSubmited()){
 			
@@ -326,7 +326,7 @@ class tao_actions_form_VersionedFile
 	        }
     	}
     	
-        // section 127-0-1-1--485428cc:133267d2802:-8000:000000000000409D end
+        
 
         return (bool) $returnValue;
     }
@@ -342,13 +342,13 @@ class tao_actions_form_VersionedFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF2 begin
+        
 		
 		if(!is_null($this->ownerInstance)){
 			$returnValue = _url('downloadFile', 'File', 'tao', array('uri' => tao_helpers_Uri::encode($this->ownerInstance->getUri())));
 		}
 		
-        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF2 end
+        
 
         return (string) $returnValue;
     }
@@ -364,11 +364,11 @@ class tao_actions_form_VersionedFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF4 begin
+        
 		
 		$returnValue = tao_helpers_Uri::getUniqueId($this->ownerInstance->getUri()).'/'.tao_helpers_Uri::getUniqueId($this->property->getUri());
 			
-        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF4 end
+        
 
         return (string) $returnValue;
     }
@@ -384,8 +384,8 @@ class tao_actions_form_VersionedFile
     {
         $returnValue = null;
 
-        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF6 begin
-        // section 127-0-1-1-34f65b5e:136df48a4e6:-8000:0000000000004AF6 end
+        
+        
 
         return $returnValue;
     }

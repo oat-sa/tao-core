@@ -57,9 +57,9 @@ abstract class tao_helpers_form_elements_Checkbox
     {
         $returnValue = array();
 
-        // section 127-0-1-1-7e796816:13cf8387df3:-8000:0000000000003C8C begin
+        
         $returnValue = $this->values;
-        // section 127-0-1-1-7e796816:13cf8387df3:-8000:0000000000003C8C end
+        
 
         return (array) $returnValue;
     }

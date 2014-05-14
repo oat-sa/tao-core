@@ -48,7 +48,7 @@ class tao_helpers_form_elements_xhtml_Submit
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E53 begin
+        
 		
 		if(is_null($this->value) || empty($this->value)){
 			$this->value = __('Save');
@@ -57,7 +57,7 @@ class tao_helpers_form_elements_xhtml_Submit
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= ' value="'._dh($this->value).'"  />';
 		
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E53 end
+        
 
         return (string) $returnValue;
     }

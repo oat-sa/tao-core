@@ -56,11 +56,11 @@ abstract class tao_helpers_transfert_Adapter
     {
         $returnValue = array();
 
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000227E begin
+        
         
         $returnValue = $this->messages;
         
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000227E end
+        
 
         return (array) $returnValue;
     }
@@ -75,11 +75,11 @@ abstract class tao_helpers_transfert_Adapter
      */
     public function setMessages($messages)
     {
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002280 begin
+        
         
     	$this->messages = (array)$messages;
     	
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002280 end
+        
     }
 
     /**
@@ -92,11 +92,11 @@ abstract class tao_helpers_transfert_Adapter
      */
     public function addMessage( tao_helpers_transfert_Message $message)
     {
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002283 begin
+        
         
     	$this->messages[] = $message;
     	
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002283 end
+        
     }
 
     /**

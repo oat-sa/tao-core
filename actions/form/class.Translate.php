@@ -46,7 +46,7 @@ class tao_actions_form_Translate
      */
     protected function initForm()
     {
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249A begin
+        
         
     	parent::initForm();
     	$this->form->setName('translate_'.$this->form->getName());
@@ -55,7 +55,7 @@ class tao_actions_form_Translate
 		$this->form->setActions($actions, 'top');
 		$this->form->setActions($actions, 'bottom');
     	
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249A end
+        
     }
 
     /**
@@ -67,7 +67,7 @@ class tao_actions_form_Translate
      */
     protected function initElements()
     {
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249D begin
+        
         
     	parent::initElements();
     	
@@ -143,7 +143,7 @@ class tao_actions_form_Translate
 		
 		$this->form->createGroup('translation_form', __('Translate'), $dataGroup);
 		
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249D end
+        
     }
 
 } /* end of class tao_actions_form_Translate */

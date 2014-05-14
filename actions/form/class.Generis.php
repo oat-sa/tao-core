@@ -83,7 +83,7 @@ abstract class tao_actions_form_Generis
      */
     public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $instance = null, $options = array())
     {
-        // section 127-0-1-1-ed0d875:129a2b8fa60:-8000:0000000000002060 begin
+        
 
     	$this->clazz 	= $clazz;
     	$this->instance = $instance;
@@ -94,7 +94,7 @@ abstract class tao_actions_form_Generis
     	}
     	$returnValue = parent::__construct(array(), $options);
     	
-        // section 127-0-1-1-ed0d875:129a2b8fa60:-8000:0000000000002060 end
+        
     }
 
     /**
@@ -108,11 +108,11 @@ abstract class tao_actions_form_Generis
     {
         $returnValue = null;
 
-        // section 127-0-1-1-ed0d875:129a2b8fa60:-8000:0000000000002067 begin
+        
         
         $returnValue = $this->clazz;
         
-        // section 127-0-1-1-ed0d875:129a2b8fa60:-8000:0000000000002067 end
+        
 
         return $returnValue;
     }
@@ -128,11 +128,11 @@ abstract class tao_actions_form_Generis
     {
         $returnValue = null;
 
-        // section 127-0-1-1-ed0d875:129a2b8fa60:-8000:0000000000002069 begin
+        
         
         $returnValue = $this->instance;
         
-        // section 127-0-1-1-ed0d875:129a2b8fa60:-8000:0000000000002069 end
+        
 
         return $returnValue;
     }
@@ -148,7 +148,7 @@ abstract class tao_actions_form_Generis
     {
         $returnValue = null;
 
-        // section 127-0-1-1--7978326a:129a2dd1980:-8000:0000000000002089 begin
+        
         
    	 	if(!is_null($this->topClazz)){
         	$returnValue = $this->topClazz;
@@ -157,7 +157,7 @@ abstract class tao_actions_form_Generis
         	$returnValue = new core_kernel_classes_Class(self::DEFAULT_TOP_CLASS);
         }
         
-        // section 127-0-1-1--7978326a:129a2dd1980:-8000:0000000000002089 end
+        
 
         return $returnValue;
     }

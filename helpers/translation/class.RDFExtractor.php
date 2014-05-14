@@ -62,7 +62,7 @@ class tao_helpers_translation_RDFExtractor
      */
     public function extract()
     {
-        // section 10-13-1-85--4f943509:1353d309872:-8000:00000000000067ED begin
+        
         foreach ($this->getPaths() as $path){
         	// In the RDFExtractor, we expect the paths to points directly to the file.
         	if (!file_exists($path)){
@@ -142,7 +142,7 @@ class tao_helpers_translation_RDFExtractor
 	        	}	
         	}
         }
-        // section 10-13-1-85--4f943509:1353d309872:-8000:00000000000067ED end
+        
     }
 
     /**
@@ -155,9 +155,9 @@ class tao_helpers_translation_RDFExtractor
      */
     public function addTranslatableProperty($propertyUri)
     {
-        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A7E begin
+        
         $this->translatableProperties[] = $propertyUri;
-        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A7E end
+        
     }
 
     /**
@@ -170,13 +170,13 @@ class tao_helpers_translation_RDFExtractor
      */
     public function removeTranslatableProperty($propertyUri)
     {
-        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A81 begin
+        
         foreach ($this->translatableProperties as $prop){
         	if ($prop == $propertyUri){
         		unset($prop);
         	}
         }
-        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A81 end
+        
     }
 
     /**
@@ -189,9 +189,9 @@ class tao_helpers_translation_RDFExtractor
      */
     public function setTranslatableProperties($propertyUris)
     {
-        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A84 begin
+        
         $this->translatableProperties = $propertyUris;
-        // section 10-13-1-85-2cdd3220:1353e441ff7:-8000:0000000000003A84 end
+        
     }
 
     /**
@@ -206,12 +206,12 @@ class tao_helpers_translation_RDFExtractor
     {
         $returnValue = (string) '';
 
-        // section 10-30-1--78-5610a354:13cd2e07c14:-8000:00000000000053D0 begin
+        
         if (!isset($this->xmlBase[$path])) {
         	throw new tao_helpers_translation_TranslationException('Missing xmlBase for file '.$path);
         }
         $returnValue = $this->xmlBase[$path]; 
-        // section 10-30-1--78-5610a354:13cd2e07c14:-8000:00000000000053D0 end
+        
 
         return (string) $returnValue;
     }

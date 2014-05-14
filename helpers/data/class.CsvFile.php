@@ -91,7 +91,7 @@ class tao_helpers_data_CsvFile
      */
     public function __construct($options = array())
     {
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AD8 begin
+        
         $defaults = array('field_delimiter' => ';',
         				  'field_encloser' => '"',
         				  'multi_values_delimiter' => '|',
@@ -99,7 +99,7 @@ class tao_helpers_data_CsvFile
         
         $this->setOptions(array_merge($defaults, $options));
         $this->setColumnCount(0);
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AD8 end
+        
     }
 
     /**
@@ -112,9 +112,9 @@ class tao_helpers_data_CsvFile
      */
     protected function setData($data)
     {
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003ADA begin
+        
         $this->data = $data;
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003ADA end
+        
     }
 
     /**
@@ -128,9 +128,9 @@ class tao_helpers_data_CsvFile
     {
         $returnValue = array();
 
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003ADD begin
+        
         $returnValue = $this->data;
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003ADD end
+        
 
         return (array) $returnValue;
     }
@@ -145,9 +145,9 @@ class tao_helpers_data_CsvFile
      */
     protected function setColumnMapping($columnMapping)
     {
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003ADF begin
+        
         $this->columnMapping = $columnMapping;
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003ADF end
+        
     }
 
     /**
@@ -161,9 +161,9 @@ class tao_helpers_data_CsvFile
     {
         $returnValue = array();
 
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AE5 begin
+        
         $returnValue = $this->columnMapping;
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AE5 end
+        
 
         return (array) $returnValue;
     }
@@ -178,7 +178,7 @@ class tao_helpers_data_CsvFile
      */
     public function load($path)
     {
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AE7 begin
+        
         if (!is_file($path)){
         	throw new InvalidArgumentException("Expected CSV file '${path}' could not be open.");
         }
@@ -244,7 +244,7 @@ class tao_helpers_data_CsvFile
 			
 			$this->setData($data);
         }
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AE7 end
+        
     }
 
     /**
@@ -257,9 +257,9 @@ class tao_helpers_data_CsvFile
      */
     public function setOptions($array = array())
     {
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AF2 begin
+        
         $this->options = $array;
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AF2 end
+        
     }
 
     /**
@@ -273,9 +273,9 @@ class tao_helpers_data_CsvFile
     {
         $returnValue = array();
 
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AFF begin
+        
         $returnValue = $this->options;
-        // section 10-13-1-85-3961c2de:1355c9d169a:-8000:0000000000003AFF end
+        
 
         return (array) $returnValue;
     }
@@ -293,7 +293,7 @@ class tao_helpers_data_CsvFile
     {
         $returnValue = array();
 
-        // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B02 begin
+        
         $data = $this->getData();
         if (isset($data[$index])){
         	if ($associative == false) {
@@ -319,7 +319,7 @@ class tao_helpers_data_CsvFile
         else{
         	throw new InvalidArgumentException("No row at index ${index}.");	
         }
-        // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B02 end
+        
 
         return (array) $returnValue;
     }
@@ -335,9 +335,9 @@ class tao_helpers_data_CsvFile
     {
         $returnValue = (int) 0;
 
-        // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B28 begin
+        
         $returnValue = count($this->getData());
-        // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B28 end
+        
 
         return (int) $returnValue;
     }
@@ -355,7 +355,7 @@ class tao_helpers_data_CsvFile
     {
         $returnValue = null;
 
-        // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B2D begin
+        
         $data = $this->getData();
         if (isset($data[$row][$col])){
         	$returnValue = $data[$row][$col];	
@@ -374,7 +374,7 @@ class tao_helpers_data_CsvFile
         else {
         	throw new InvalidArgumentException("No value at ${row},${col}.");	
         }
-        // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B2D end
+        
 
         return $returnValue;
     }
@@ -391,7 +391,7 @@ class tao_helpers_data_CsvFile
      */
     public function setValue($row, $col, $value)
     {
-        // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B33 begin
+        
         $data = $this->getData();
         if (isset($data[$row][$col])){
         	$this->data[$row][$col] = $value;	
@@ -412,7 +412,7 @@ class tao_helpers_data_CsvFile
         else{
         	throw new InvalidArgumentException("No value at ${row},${col}.");	
         }
-        // section 10-13-1-85-4ddb0268:1355cfb6e4b:-8000:0000000000003B33 end
+        
     }
 
     /**
@@ -426,9 +426,9 @@ class tao_helpers_data_CsvFile
     {
         $returnValue = (int) 0;
 
-        // section 10-13-1-85-529882dc:13562475a8a:-8000:00000000000037C1 begin
+        
         $returnValue = $this->columnCount;
-        // section 10-13-1-85-529882dc:13562475a8a:-8000:00000000000037C1 end
+        
 
         return (int) $returnValue;
     }
@@ -443,9 +443,9 @@ class tao_helpers_data_CsvFile
      */
     protected function setColumnCount($count)
     {
-        // section 10-13-1-85-529882dc:13562475a8a:-8000:00000000000037C9 begin
+        
         $this->columnCount = $count;
-        // section 10-13-1-85-529882dc:13562475a8a:-8000:00000000000037C9 end
+        
     }
 
 }

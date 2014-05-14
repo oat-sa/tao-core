@@ -80,11 +80,11 @@ abstract class tao_helpers_form_elements_Template
      */
     public function setPath($path)
     {
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F3D begin
+        
         
     	$this->path = $path;
     	
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F3D end
+        
     }
 
     /**
@@ -97,13 +97,13 @@ abstract class tao_helpers_form_elements_Template
      */
     public function setValues($values)
     {
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F40 begin
+        
         
     	if(is_array($values)){
     		$this->values = $values;
     	}
     	
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F40 end
+        
     }
 
     /**
@@ -117,11 +117,11 @@ abstract class tao_helpers_form_elements_Template
     {
         $returnValue = null;
 
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F43 begin
+        
         
         $returnValue = $this->values;
         
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F43 end
+        
 
         return $returnValue;
     }
@@ -137,7 +137,7 @@ abstract class tao_helpers_form_elements_Template
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F54 begin
+        
         
         //prevent to use empty prefix. By default the name is used!
         if(empty($this->prefix) && !empty($this->name)){
@@ -146,7 +146,7 @@ abstract class tao_helpers_form_elements_Template
         
         $returnValue = $this->prefix;
         
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F54 end
+        
 
         return (string) $returnValue;
     }
@@ -161,11 +161,11 @@ abstract class tao_helpers_form_elements_Template
      */
     public function setPrefix($prefix)
     {
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F56 begin
+        
         
     	$this->prefix = $prefix;
     	
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F56 end
+        
     }
 
     /**
@@ -178,14 +178,14 @@ abstract class tao_helpers_form_elements_Template
      */
     public function setVariables($variables)
     {
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F5C begin
+        
         
     	if(!is_array($variables)){
     		$variables = array($variables);
     	}
     	$this->variables = $variables;
     	
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F5C end
+        
     }
 
 } /* end of class tao_helpers_form_elements_Template */

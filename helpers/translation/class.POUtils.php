@@ -49,7 +49,7 @@ class tao_helpers_translation_POUtils
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85--20e08ece:13320c7798f:-8000:0000000000003546 begin
+        
 		if ($reverse) {
 			$smap = array('"', "\n", "\t", "\r");
 			$rmap = array('\\"', '\\n"' . "\n" . '"', '\\t', '\\r');
@@ -59,7 +59,7 @@ class tao_helpers_translation_POUtils
 			$rmap = array('', "\n", "\r", "\t", '"');
 			$returnValue = (string) preg_replace($smap, $rmap, $string);
 		}
-        // section 10-13-1-85--20e08ece:13320c7798f:-8000:0000000000003546 end
+        
 
         return (string) $returnValue;
     }
@@ -76,7 +76,7 @@ class tao_helpers_translation_POUtils
     {
         $returnValue = array();
 
-        // section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003C03 begin
+        
         $matches = array();
         $e = TAO_DEFAULT_ENCODING;
         
@@ -145,7 +145,7 @@ class tao_helpers_translation_POUtils
         else{
             throw new tao_helpers_translation_TranslationException("An error occured while unserializing annotations '${annotations}'.");
         }
-        // section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003C03 end
+        
 
         return (array) $returnValue;
     }
@@ -162,7 +162,7 @@ class tao_helpers_translation_POUtils
     {
         $returnValue = (string) '';
 
-        // section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003C14 begin
+        
         // Buffer will contain each line of the serialized PO comment block.
         $buffer = array();
         
@@ -203,7 +203,7 @@ class tao_helpers_translation_POUtils
 
         // Glue the annotation lines in a single PO comment block.
         $returnValue = implode("\n", $buffer);
-        // section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003C14 end
+        
 
         return (string) $returnValue;
     }
@@ -221,14 +221,14 @@ class tao_helpers_translation_POUtils
     {
         $returnValue = (string) '';
 
-        // section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003C1A begin
+        
         $returnValue = $comment;
         $flag = trim($flag);
         
         if (mb_strpos($returnValue, $flag, 0, TAO_DEFAULT_ENCODING) === false){
             $returnValue .= ((mb_strlen($returnValue, TAO_DEFAULT_ENCODING) > 0) ? " ${flag}" : $flag);
         }
-        // section -64--88-56-1--6ccfbacb:137c11aa2dd:-8000:0000000000003C1A end
+        
 
         return (string) $returnValue;
     }

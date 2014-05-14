@@ -52,7 +52,7 @@ class tao_models_grids_adaptors_UserAdditionalProperties
     {
         $returnValue = null;
 
-        // section 127-0-1-1--2e12219e:1360c8283db:-8000:0000000000003883 begin
+        
 		$user = new core_kernel_classes_Resource($rowId);
 		$prop = new core_kernel_classes_Property($columnId);
 		$res = $user->getOnePropertyValue($prop);
@@ -63,7 +63,7 @@ class tao_models_grids_adaptors_UserAdditionalProperties
 		} else {
 			$returnValue = (string)$res;
 		}
-        // section 127-0-1-1--2e12219e:1360c8283db:-8000:0000000000003883 end
+        
 
         return $returnValue;
     }

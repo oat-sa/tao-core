@@ -46,7 +46,7 @@ class tao_helpers_translation_PHPFileWriter
      */
     public function write()
     {
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B13 begin
+        
         $tf = $this->getTranslationFile();
         $buffer = "<?php\n";
         foreach ($tf->getTranslationUnits() as $tu){
@@ -62,7 +62,7 @@ class tao_helpers_translation_PHPFileWriter
         $buffer .= "\n?>";
         
         file_put_contents($this->getFilePath(), $buffer);
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B13 end
+        
     }
 
 } /* end of class tao_helpers_translation_PHPFileWriter */

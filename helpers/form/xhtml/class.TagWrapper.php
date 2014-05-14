@@ -73,7 +73,7 @@ class tao_helpers_form_xhtml_TagWrapper
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001952 begin
+        
 		if(!empty($this->tag)){
 			$returnValue .= "<{$this->tag}";
 			if(!empty($this->id)){
@@ -84,7 +84,7 @@ class tao_helpers_form_xhtml_TagWrapper
 			}
 			$returnValue .= ">";
 		}
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001952 end
+        
 
         return (string) $returnValue;
     }
@@ -100,11 +100,11 @@ class tao_helpers_form_xhtml_TagWrapper
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001954 begin
+        
 		if(!empty($this->tag)){
 			$returnValue .= "</{$this->tag}>";
 		}
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001954 end
+        
 
         return (string) $returnValue;
     }
@@ -121,11 +121,11 @@ class tao_helpers_form_xhtml_TagWrapper
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C79 begin
+        
 		if(isset($this->$key)){
 			$returnValue = $this->$key;
 		}
-        // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C79 end
+        
 
         return (string) $returnValue;
     }
@@ -143,11 +143,11 @@ class tao_helpers_form_xhtml_TagWrapper
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C7C begin
+        
 		
 		$this->$key = $value;
 		
-        // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C7C end
+        
 
         return (bool) $returnValue;
     }
@@ -162,7 +162,7 @@ class tao_helpers_form_xhtml_TagWrapper
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001976 begin
+        
 		if(isset($options['tag'])){
 			$this->tag = $options['tag'];
 		}
@@ -172,7 +172,7 @@ class tao_helpers_form_xhtml_TagWrapper
 		if(isset($options['id'])){
 			$this->id = $options['id'];
 		}
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001976 end
+        
     }
 
 } /* end of class tao_helpers_form_xhtml_TagWrapper */

@@ -47,7 +47,7 @@ class tao_helpers_form_validators_Regex
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C09 begin
+        
 		
 		parent::__construct($options);
 		
@@ -56,7 +56,7 @@ class tao_helpers_form_validators_Regex
 		}
 		$this->message = __('The format of this field is not valid.');
 		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C09 end
+        
     }
 
     /**
@@ -71,14 +71,14 @@ class tao_helpers_form_validators_Regex
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C13 begin
+        
         if (is_string($values) || is_numeric($values)) {
 			if(preg_match($this->options['format'], $values)){
 				 $returnValue = true;
 			}
         }
 		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C13 end
+        
 
         return (bool) $returnValue;
     }

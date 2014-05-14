@@ -64,8 +64,8 @@ abstract class tao_models_classes_Service {
      * @return mixed
      */
     protected function __construct() {
-        // section 127-0-1-1--196c75a3:133f5095367:-8000:000000000000343A begin
-        // section 127-0-1-1--196c75a3:133f5095367:-8000:000000000000343A end
+        
+        
     }
 
     /**
@@ -81,7 +81,7 @@ abstract class tao_models_classes_Service {
     public static function getServiceByName($serviceName) {
         $returnValue = null;
 
-        // section 127-0-1-1--196c75a3:133f5095367:-8000:000000000000343C begin
+        
         $className = (!class_exists($serviceName) || !preg_match("/^(tao|wf)/", $serviceName)) ? sprintf(self::namePattern, ucfirst(strtolower($serviceName))) : $serviceName;
 
         // does the class exist
@@ -106,7 +106,7 @@ abstract class tao_models_classes_Service {
 
         //get the instance
         $returnValue = self::$instances[$className];
-        // section 127-0-1-1--196c75a3:133f5095367:-8000:000000000000343C end
+        
 
         return $returnValue;
     }
@@ -122,14 +122,14 @@ abstract class tao_models_classes_Service {
     public static function singleton() {
         $returnValue = null;
 
-        // section 127-0-1-1--83665c3:133f534928e:-8000:0000000000003447 begin
+        
         $serviceName = get_called_class();
         if (!isset(self::$instances[$serviceName])) {
             self::$instances[$serviceName] = new $serviceName();
         }
 
         $returnValue = self::$instances[$serviceName];
-        // section 127-0-1-1--83665c3:133f534928e:-8000:0000000000003447 end
+        
 
         return $returnValue;
     }

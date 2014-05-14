@@ -48,7 +48,7 @@ class tao_helpers_translation_POFileReader
      */
     public function read()
     {
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034CA begin
+        
         $file = $this->getFilePath();
         if (!file_exists($file)) {
 			throw new tao_helpers_translation_TranslationException("The translation file '${file}' does not exist.");
@@ -101,7 +101,7 @@ class tao_helpers_translation_POFileReader
 		}
 		
 		$this->setTranslationFile($tf);
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034CA end
+        
     }
 
 } /* end of class tao_helpers_translation_POFileReader */

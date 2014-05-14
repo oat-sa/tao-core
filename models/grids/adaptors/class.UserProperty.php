@@ -52,7 +52,7 @@ class tao_models_grids_adaptors_UserProperty
     {
         $returnValue = null;
 
-        // section 127-0-1-1--3130d5b7:13607a37283:-8000:0000000000003876 begin
+        
 		
 		//@TODO : to be delegated to the LazyAdapter : columnNames, adapterOptions, excludedProperties
 		if (isset($this->data[$rowId])) {
@@ -131,7 +131,7 @@ class tao_models_grids_adaptors_UserProperty
 			}
 		}
 		
-        // section 127-0-1-1--3130d5b7:13607a37283:-8000:0000000000003876 end
+        
 
         return $returnValue;
     }

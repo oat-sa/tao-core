@@ -45,13 +45,13 @@ class tao_helpers_form_elements_xhtml_File
      */
     public function feed()
     {
-        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003482 begin
+        
 		if(isset($_FILES[$this->getName()])){
 			$this->setValue($_FILES[$this->getName()]);
 		}else{
 			throw new tao_helpers_form_Exception('cannot evaluate the element '.__CLASS__);
 		}
-        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003482 end
+        
     }
 
     /**
@@ -65,7 +65,7 @@ class tao_helpers_form_elements_xhtml_File
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3453b76:1254af40027:-8000:0000000000001CCA begin
+        
 		
 		if(!empty($this->value)){
 			if(common_Utils::isUri($this->value)){
@@ -85,7 +85,7 @@ class tao_helpers_form_elements_xhtml_File
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= " value='{$this->value}'  />";
 		
-        // section 127-0-1-1-3453b76:1254af40027:-8000:0000000000001CCA end
+        
 
         return (string) $returnValue;
     }
@@ -99,9 +99,9 @@ class tao_helpers_form_elements_xhtml_File
      */
     public function getEvaluatedValue()
     {
-        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A2 begin
+        
         return $this->getRawValue();
-        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A2 end
+        
     }
 
 } /* end of class tao_helpers_form_elements_xhtml_File */

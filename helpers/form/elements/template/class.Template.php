@@ -46,7 +46,7 @@ class tao_helpers_form_elements_template_Template
      */
     public function feed()
     {
-        // section 127-0-1-1-1ee974ce:13456771564:-8000:000000000000348A begin
+        
     	$values = array();
     	$prefix = preg_quote($this->getPrefix(), '/');
     	foreach($_POST as $key => $value){
@@ -55,7 +55,7 @@ class tao_helpers_form_elements_template_Template
     		}
     	}
     	$this->setValues($values);
-        // section 127-0-1-1-1ee974ce:13456771564:-8000:000000000000348A end
+        
     }
 
     /**
@@ -69,7 +69,7 @@ class tao_helpers_form_elements_template_Template
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F35 begin
+        
         
         if(file_exists($this->path) && is_readable($this->path)){
         	
@@ -92,7 +92,7 @@ class tao_helpers_form_elements_template_Template
         	
         }
         
-        // section 127-0-1-1--74f64380:12e057353c9:-8000:0000000000004F35 end
+        
 
         return (string) $returnValue;
     }
@@ -106,9 +106,9 @@ class tao_helpers_form_elements_template_Template
      */
     public function getEvaluatedValue()
     {
-        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A4 begin
+        
         return $this->getValues();
-        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A4 end
+        
     }
 
 } /* end of class tao_helpers_form_elements_template_Template */

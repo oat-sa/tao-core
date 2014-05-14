@@ -48,7 +48,7 @@ class tao_helpers_translation_POFileWriter
      */
     public function write()
     {
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034E3 begin
+        
         $buffer = '';
         $file = $this->getTranslationFile();
         
@@ -82,7 +82,7 @@ class tao_helpers_translation_POFileWriter
 		}
 		
 		return file_put_contents($this->getFilePath(), $buffer);
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034E3 end
+        
     }
 
 } /* end of class tao_helpers_translation_POFileWriter */

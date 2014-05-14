@@ -51,7 +51,7 @@ class tao_models_classes_import_CSVMappingForm
      */
     public function initForm()
     {
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FD begin
+        
         
     	$this->form = tao_helpers_form_FormFactory::getForm('mapping');
     	
@@ -60,7 +60,7 @@ class tao_models_classes_import_CSVMappingForm
 		$this->form->setActions(array($importElt), 'bottom');
 		$this->form->setActions(array(), 'top');
     	
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FD end
+        
     }
 
     /**
@@ -72,7 +72,7 @@ class tao_models_classes_import_CSVMappingForm
      */
     public function initElements()
     {
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FF begin
+        
         if(!isset($this->options['class_properties'])){
     		throw new Exception('No class properties found');
     	}
@@ -157,7 +157,7 @@ class tao_models_classes_import_CSVMappingForm
 		$this->form->addElement($optFirstColumn);
 		
     	
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:00000000000023FF end
+        
     }
 
 } /* end of class tao_actions_form_CSVMapping */

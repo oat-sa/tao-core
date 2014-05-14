@@ -48,7 +48,7 @@ class tao_helpers_form_elements_xhtml_Radiobox
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F6 begin
+        
 		
 		$i = 0;
 		
@@ -70,7 +70,7 @@ class tao_helpers_form_elements_xhtml_Radiobox
 		}
 		$returnValue .= "</div>";
 		
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F6 end
+        
 
         return (string) $returnValue;
     }

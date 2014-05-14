@@ -51,10 +51,10 @@ class tao_models_classes_TaoService
      */
     public function setUploadFileSource( core_kernel_versioning_Repository $source)
     {
-        // section 127-0-1-1-7b77f86d:13d16ab7c5c:-8000:0000000000003C63 begin
+        
     	$ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
     	$ext->setConfig(self::CONFIG_UPLOAD_FILESOURCE, $source->getUri());
-        // section 127-0-1-1-7b77f86d:13d16ab7c5c:-8000:0000000000003C63 end
+        
     }
 
     /**
@@ -68,7 +68,7 @@ class tao_models_classes_TaoService
     {
         $returnValue = null;
 
-        // section 127-0-1-1-7b77f86d:13d16ab7c5c:-8000:0000000000003C69 begin
+        
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $uri = $ext->getConfig(self::CONFIG_UPLOAD_FILESOURCE);
         if (!empty($uri)) {
@@ -76,7 +76,7 @@ class tao_models_classes_TaoService
         } else {
         	throw new common_Exception('No default repository defined for uploaded files storage.');
         }
-        // section 127-0-1-1-7b77f86d:13d16ab7c5c:-8000:0000000000003C69 end
+        
 
         return $returnValue;
     }

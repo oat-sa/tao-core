@@ -64,9 +64,9 @@ abstract class tao_helpers_form_elements_MultipleElement
      */
     public function setOptions($options)
     {
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A07 begin
+        
 		$this->options = $options;
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A07 end
+        
     }
 
     /**
@@ -80,9 +80,9 @@ abstract class tao_helpers_form_elements_MultipleElement
     {
         $returnValue = array();
 
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A37 begin
+        
 		$returnValue = $this->options;
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A37 end
+        
 
         return (array) $returnValue;
     }
@@ -97,9 +97,9 @@ abstract class tao_helpers_form_elements_MultipleElement
      */
     public function setValue($value)
     {
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A2C begin
+        
 		$this->value = tao_helpers_Uri::encode($value);
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A2C end
+        
     }
 
     /**
@@ -112,9 +112,9 @@ abstract class tao_helpers_form_elements_MultipleElement
      */
     public function addValue($value)
     {
-        // section 127-0-1-1-bed3971:124720c750d:-8000:0000000000001A97 begin
+        
 		$this->values[] = tao_helpers_Uri::encode($value);
-        // section 127-0-1-1-bed3971:124720c750d:-8000:0000000000001A97 end
+        
     }
 
     /**
@@ -128,9 +128,9 @@ abstract class tao_helpers_form_elements_MultipleElement
     {
         $returnValue = array();
 
-        // section 127-0-1-1-bed3971:124720c750d:-8000:0000000000001A9D begin
+        
 		$returnValue = $this->values;
-        // section 127-0-1-1-bed3971:124720c750d:-8000:0000000000001A9D end
+        
 
         return (array) $returnValue;
     }
@@ -145,11 +145,11 @@ abstract class tao_helpers_form_elements_MultipleElement
      */
     public function setValues($values)
     {
-        // section 127-0-1-1-c213658:12568a3be0b:-8000:0000000000001CED begin
+        
 		
 		$this->values = $values;
 		
-        // section 127-0-1-1-c213658:12568a3be0b:-8000:0000000000001CED end
+        
     }
 
 } /* end of abstract class tao_helpers_form_elements_MultipleElement */

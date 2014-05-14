@@ -58,10 +58,10 @@ class tao_actions_form_CreateInstance
      */
     public function __construct($classes, $options)
     {
-        // section 10-30-1--78-65b5aa41:13bfae012f7:-8000:0000000000003C92 begin
+        
         $this->classes = $classes;
     	parent::__construct(array(), $options);
-        // section 10-30-1--78-65b5aa41:13bfae012f7:-8000:0000000000003C92 end
+        
     }
 
     /**
@@ -73,7 +73,7 @@ class tao_actions_form_CreateInstance
      */
     public function initForm()
     {
-        // section 10-30-1--78-65b5aa41:13bfae012f7:-8000:0000000000003C8E begin
+        
         $name = isset($this->options['name']) ? $this->options['name'] : 'form_'.(count(self::$forms)+1); 
 		unset($this->options['name']);
 		
@@ -86,7 +86,7 @@ class tao_actions_form_CreateInstance
 		
 		$this->form->setActions(array($action), 'top');
 		$this->form->setActions(array($action), 'bottom');
-        // section 10-30-1--78-65b5aa41:13bfae012f7:-8000:0000000000003C8E end
+        
     }
 
     /**
@@ -98,7 +98,7 @@ class tao_actions_form_CreateInstance
      */
     public function initElements()
     {
-        // section 10-30-1--78-65b5aa41:13bfae012f7:-8000:0000000000003C90 begin
+        
         $guiOrderProperty = new core_kernel_classes_Property(TAO_GUIORDER_PROP);
     	
     	//get the list of properties to set in the form
@@ -199,7 +199,7 @@ class tao_actions_form_CreateInstance
 		$this->form->addElement($classUriElt);
 		
 		$this->form->addElement($classUriElt);
-        // section 10-30-1--78-65b5aa41:13bfae012f7:-8000:0000000000003C90 end
+        
     }
 
 } /* end of class tao_actions_form_CreateInstance */

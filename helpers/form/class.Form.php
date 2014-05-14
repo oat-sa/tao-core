@@ -128,10 +128,10 @@ abstract class tao_helpers_form_Form
      */
     public function __construct($name = '', $options = array())
     {
-        // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:0000000000001912 begin
+        
 		$this->name = $name;
 		$this->options = $options;
-        // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:0000000000001912 end
+        
     }
 
     /**
@@ -144,11 +144,11 @@ abstract class tao_helpers_form_Form
      */
     public function setName($name)
     {
-        // section 127-0-1-1-2209c6ee:1266b4e4079:-8000:0000000000001E39 begin
+        
 		
 		$this->name = $name;
 		
-        // section 127-0-1-1-2209c6ee:1266b4e4079:-8000:0000000000001E39 end
+        
     }
 
     /**
@@ -162,11 +162,11 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:0000000000001918 begin
+        
 		
 		$returnValue = $this->name;
 		
-        // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:0000000000001918 end
+        
 
         return (string) $returnValue;
     }
@@ -181,11 +181,11 @@ abstract class tao_helpers_form_Form
      */
     public function setOptions($options)
     {
-        // section 127-0-1-1-2209c6ee:1266b4e4079:-8000:0000000000001E36 begin
+        
 		
 		$this->options = $options;
 		
-        // section 127-0-1-1-2209c6ee:1266b4e4079:-8000:0000000000001E36 end
+        
     }
 
     /**
@@ -200,7 +200,7 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = null;
 
-        // section 127-0-1-1-34faf2f6:126dcb3a83d:-8000:0000000000001EAB begin
+        
 		
 		foreach($this->elements as $element){
 			if($element->getName() == $name){
@@ -211,7 +211,7 @@ abstract class tao_helpers_form_Form
 		if (is_null($returnValue)) {
 			common_Logger::w('Element with name \''.$name.'\' not found');			
 		}
-        // section 127-0-1-1-34faf2f6:126dcb3a83d:-8000:0000000000001EAB end
+        
 
         return $returnValue;
     }
@@ -227,11 +227,11 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = array();
 
-        // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AC begin
+        
 		
 		$returnValue = $this->elements;
 		
-        // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AC end
+        
 
         return (array) $returnValue;
     }
@@ -246,11 +246,11 @@ abstract class tao_helpers_form_Form
      */
     public function setElements($elements)
     {
-        // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018B1 begin
+        
 		
 		$this->elements = $elements;
 		
-        // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018B1 end
+        
     }
 
     /**
@@ -265,7 +265,7 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-740c50e3:12704c0ea0d:-8000:0000000000001ECE begin
+        
 		
 		foreach($this->elements as $index => $element){
 			if($element->getName() == $name){
@@ -280,7 +280,7 @@ abstract class tao_helpers_form_Form
 			}
 		}
 		
-        // section 127-0-1-1-740c50e3:12704c0ea0d:-8000:0000000000001ECE end
+        
 
         return (bool) $returnValue;
     }
@@ -295,7 +295,7 @@ abstract class tao_helpers_form_Form
      */
     public function addElement( tao_helpers_form_FormElement $element)
     {
-        // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AE begin
+        
 		$elementPosition = -1;
 		foreach($this->elements as $i => $elt){
 			if($elt->getName() == $element->getName()){
@@ -310,7 +310,7 @@ abstract class tao_helpers_form_Form
 			$this->elements[] = $element;
 		}
 		
-        // section 10-13-1-45--48e788d1:123dcd97db5:-8000:00000000000018AE end
+        
     }
 
     /**
@@ -325,7 +325,7 @@ abstract class tao_helpers_form_Form
      */
     public function setActions($actions, $context = 'bottom')
     {
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E49 begin
+        
 		
 		$this->actions[$context] = array();
 		
@@ -336,7 +336,7 @@ abstract class tao_helpers_form_Form
 			$this->actions[$context][] = $action;
 		}
 		
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E49 end
+        
     }
 
     /**
@@ -351,13 +351,13 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = array();
 
-        // section 127-0-1-1--41373b28:1268dca6296:-8000:0000000000001E6A begin
+        
 		
 		if(isset($this->actions[$context])){
 			$returnValue = $this->actions[$context];
 		}
 		
-        // section 127-0-1-1--41373b28:1268dca6296:-8000:0000000000001E6A end
+        
 
         return (array) $returnValue;
     }
@@ -375,11 +375,11 @@ abstract class tao_helpers_form_Form
      */
     public function setDecorator( tao_helpers_form_Decorator $decorator, $type = 'element')
     {
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001961 begin
+        
 		
 		$this->decorators[$type] = $decorator;
 		
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001961 end
+        
     }
 
     /**
@@ -392,13 +392,13 @@ abstract class tao_helpers_form_Form
      */
     public function setDecorators($decorators)
     {
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E3E begin
+        
 		
 		foreach($decorators as $type => $decorator){
 			$this->setDecorator($decorator, $type);
 		}
 		
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E3E end
+        
     }
 
     /**
@@ -415,13 +415,13 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = null;
 
-        // section 127-0-1-1-42952c74:1268930e800:-8000:0000000000001E52 begin
+        
 		
 		if(array_key_exists($type, $this->decorators)){
 			$returnValue  = $this->decorators[$type];
 		}
 		
-        // section 127-0-1-1-42952c74:1268930e800:-8000:0000000000001E52 end
+        
 
         return $returnValue;
     }
@@ -437,7 +437,7 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001983 begin
+        
 		foreach($this->elements as $element){
 			 
 			 if($this->getElementGroup($element->getName()) != ''){
@@ -558,7 +558,7 @@ abstract class tao_helpers_form_Form
 				$this->getDecorator('group')->setOption('id', '');
 			}
 		}
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001983 end
+        
 
         return (string) $returnValue;
     }
@@ -575,7 +575,7 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E4C begin
+        
 		
 		if(isset($this->actions[$context])){
 			
@@ -601,7 +601,7 @@ abstract class tao_helpers_form_Form
 		
 		}
 		
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E4C end
+        
 
         return (string) $returnValue;
     }
@@ -615,8 +615,8 @@ abstract class tao_helpers_form_Form
      */
     protected function initElements()
     {
-        // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4E begin
-        // section 127-0-1-1-79c612e8:1244dcac11b:-8000:0000000000001A4E end
+        
+        
     }
 
     /**
@@ -630,7 +630,7 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-3453b76:1254af40027:-8000:0000000000001CCD begin
+        
 		
 		foreach($this->elements as $element){
 			if($element instanceof tao_helpers_form_elements_File){
@@ -639,7 +639,7 @@ abstract class tao_helpers_form_Form
 			}
 		}
 		
-        // section 127-0-1-1-3453b76:1254af40027:-8000:0000000000001CCD end
+        
 
         return (bool) $returnValue;
     }
@@ -655,9 +655,9 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019D3 begin
+        
 		$returnValue = $this->valid;
-        // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019D3 end
+        
 
         return (bool) $returnValue;
     }
@@ -673,9 +673,9 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019E0 begin
+        
 		$returnValue = $this->submited;
-        // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019E0 end
+        
 
         return (bool) $returnValue;
     }
@@ -690,7 +690,7 @@ abstract class tao_helpers_form_Form
      */
     public function setValues($values)
     {
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E43 begin
+        
 		
 		foreach($values as $key => $value){
 			foreach($this->elements as $element){
@@ -708,7 +708,7 @@ abstract class tao_helpers_form_Form
 			
 		}
 		
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E43 end
+        
     }
 
     /**
@@ -723,7 +723,7 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = array();
 
-        // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019E6 begin
+        
 		
 		foreach($this->elements as $element){
 			if(!empty($groupName)){
@@ -736,7 +736,7 @@ abstract class tao_helpers_form_Form
 			$returnValue[$element->getName()] = $element->getValue();
 		}
 		
-        // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019E6 end
+        
 
         return (array) $returnValue;
     }
@@ -753,13 +753,13 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--6132c277:1244e864521:-8000:0000000000001A59 begin
+        
 		foreach($this->elements as $element){
 			if($element->getName() == $name){
 				return  $element->getEvaluatedValue();
 			}
 		}
-        // section 127-0-1-1--6132c277:1244e864521:-8000:0000000000001A59 end
+        
 
         return (bool) $returnValue;
     }
@@ -775,11 +775,11 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = array();
 
-        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:000000000000208B begin
+        
         
         $returnValue = $this->groups;
         
-        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:000000000000208B end
+        
 
         return (array) $returnValue;
     }
@@ -794,11 +794,11 @@ abstract class tao_helpers_form_Form
      */
     public function setGroups($groups)
     {
-        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:000000000000208D begin
+        
         
     	$this->groups = $groups;
     	
-        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:000000000000208D end
+        
     }
 
     /**
@@ -842,7 +842,7 @@ abstract class tao_helpers_form_Form
      */
     public function addToGroup($groupName, $elementName = '')
     {
-        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ACA begin
+        
 		
 		if(isset($this->groups[$groupName])){
 			if(isset($this->groups[$groupName]['elements'])){
@@ -852,7 +852,7 @@ abstract class tao_helpers_form_Form
 			}
 		}
 		
-        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ACA end
+        
     }
 
     /**
@@ -867,14 +867,14 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ACF begin
+        
 		foreach($this->groups as $groupName => $group){
 				if(in_array($elementName, $group['elements'])){
 					$returnValue = $groupName;
 					break;
 				}
 		}
-        // section 127-0-1-1--5420fa6f:12481873cb2:-8000:0000000000001ACF end
+        
 
         return (string) $returnValue;
     }
@@ -891,7 +891,7 @@ abstract class tao_helpers_form_Form
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-86dc9fc:12705e3a3bc:-8000:0000000000001ED1 begin
+        
 		
 		if(isset($this->groups[$grouName])){
 			foreach($this->groups[$grouName]['elements'] as $element){
@@ -900,7 +900,7 @@ abstract class tao_helpers_form_Form
 			unset($this->groups[$grouName]);
 		}
 		
-        // section 127-0-1-1-86dc9fc:12705e3a3bc:-8000:0000000000001ED1 end
+        
 
         return (bool) $returnValue;
     }

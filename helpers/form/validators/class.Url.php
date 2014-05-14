@@ -47,7 +47,7 @@ class tao_helpers_form_validators_Url
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-652edf41:12dec09453b:-8000:0000000000004EEE begin
+        
         
     	if(isset($options['format'])){
     		unset($options['format']);	//the pattern cannot be overriden
@@ -61,7 +61,7 @@ class tao_helpers_form_validators_Url
     	
     	parent::__construct(array_merge(array('format' => $pattern), $options));
     	
-        // section 127-0-1-1-652edf41:12dec09453b:-8000:0000000000004EEE end
+        
     }
 
 } /* end of class tao_helpers_form_validators_Url */

@@ -48,7 +48,7 @@ class tao_helpers_form_elements_xhtml_Hiddenbox
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F8 begin
+        
 		
 		if(!isset($this->attributes['noLabel'])){
 			$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription())."</label>";
@@ -60,7 +60,7 @@ class tao_helpers_form_elements_xhtml_Hiddenbox
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= ' value="'._dh($this->value).'"  />';
         
-		// section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F8 end
+		
 
         return (string) $returnValue;
     }

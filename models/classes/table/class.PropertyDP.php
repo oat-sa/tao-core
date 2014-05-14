@@ -65,8 +65,8 @@ class tao_models_classes_table_PropertyDP
      */
     public function prepare($resources, $columns)
     {
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BDA begin
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BDA end
+        
+        
     }
 
     /**
@@ -82,10 +82,10 @@ class tao_models_classes_table_PropertyDP
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BDE begin
+        
         $result = $resource->getOnePropertyValue($column->getProperty());
         $returnValue = $result instanceof core_kernel_classes_Resource ? $result->getLabel() : (string)$result;
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BDE end
+        
 
         return (string) $returnValue;
     }
@@ -101,12 +101,12 @@ class tao_models_classes_table_PropertyDP
     {
         $returnValue = null;
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BF0 begin
+        
         if (is_null(self::$singleton)) {
         	self::$singleton = new self();
         }
         $returnValue = self::$singleton;
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BF0 end
+        
 
         return $returnValue;
     }

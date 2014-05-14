@@ -65,7 +65,7 @@ class tao_actions_form_Users
      */
     public function __construct( core_kernel_classes_Class $clazz,  core_kernel_classes_Resource $user = null, $forceAdd = false)
     {
-        // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F43 begin
+        
         
     	if (empty($clazz)){
     		throw new Exception('Set the user class in the parameters');	
@@ -97,7 +97,7 @@ class tao_actions_form_Users
     	
     	parent::__construct($clazz, $this->user, $options);
     	
-        // section 127-0-1-1-7dfb074:128afd58ed5:-8000:0000000000001F43 end
+        
     }
 
     /**
@@ -111,11 +111,11 @@ class tao_actions_form_Users
     {
         $returnValue = null;
 
-        // section 127-0-1-1--65048268:128b57ca3f4:-8000:0000000000001F6B begin
+        
         
         $returnValue = $this->user;
         
-        // section 127-0-1-1--65048268:128b57ca3f4:-8000:0000000000001F6B end
+        
 
         return $returnValue;
     }
@@ -129,7 +129,7 @@ class tao_actions_form_Users
      */
     protected function initForm()
     {
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFA begin
+        
 		
     	parent::initForm();
     	
@@ -139,7 +139,7 @@ class tao_actions_form_Users
 		$this->form->setActions($actions, 'top');
 		$this->form->setActions($actions, 'bottom');
 		
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFA end
+        
     }
 
     /**
@@ -151,7 +151,7 @@ class tao_actions_form_Users
      */
     protected function initElements()
     {
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC begin
+        
 		
 		if(!isset($this->options['mode'])){
 			throw new Exception("Please set a mode into container options ");
@@ -269,7 +269,7 @@ class tao_actions_form_Users
 		/**/
 		
 		
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DFC end
+        
     }
 
 } /* end of class tao_actions_form_Users */

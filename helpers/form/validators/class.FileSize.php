@@ -47,7 +47,7 @@ class tao_helpers_form_validators_FileSize
      */
     public function __construct($options)
     {
-        // section 127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDF begin
+        
 
 		parent::__construct($options);
 		
@@ -62,7 +62,7 @@ class tao_helpers_form_validators_FileSize
 			throw new common_Exception("Please set 'min' and/or 'max' options!");
 		}
 		
-        // section 127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CDF end
+        
     }
 
     /**
@@ -77,7 +77,7 @@ class tao_helpers_form_validators_FileSize
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CE3 begin
+        
 		
 		if(is_array($values)){
 			if(isset($values['size'])){
@@ -91,7 +91,7 @@ class tao_helpers_form_validators_FileSize
 			$returnValue = true;
 		}
 		
-        // section 127-0-1-1-7214cdeb:1254e85ce09:-8000:0000000000001CE3 end
+        
 
         return (bool) $returnValue;
     }

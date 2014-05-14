@@ -89,7 +89,7 @@ class tao_helpers_Scriptloader
      */
     public static function contextInit($extension, $module, $action)
     {
-        // section 127-0-1-1-38d1d39c:12665a8fe44:-8000:0000000000001E2B begin
+        
 		
 		$basePath = '/'.$extension.'/views/';
 		
@@ -113,7 +113,7 @@ class tao_helpers_Scriptloader
 		//@todo load action scripts
 		//
 		
-        // section 127-0-1-1-38d1d39c:12665a8fe44:-8000:0000000000001E2B end
+        
     }
 
     /**
@@ -128,7 +128,7 @@ class tao_helpers_Scriptloader
      */
     public static function setPaths($paths, $recursive = false, $filter = '')
     {
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019E6 begin
+        
 		foreach($paths as $path){
     		if(!preg_match("/\/$/", $path)){
     			$path .= '/';
@@ -155,7 +155,7 @@ class tao_helpers_Scriptloader
 				}
 			}
     	}
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019E6 end
+        
     }
 
     /**
@@ -169,7 +169,7 @@ class tao_helpers_Scriptloader
      */
     public static function addFile($file, $type = '')
     {
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019F4 begin
+        
 		if(empty($type)){
 			if(preg_match("/\.".tao_helpers_Scriptloader::CSS."$/", $file)){
 				$type = tao_helpers_Scriptloader::CSS;
@@ -184,7 +184,7 @@ class tao_helpers_Scriptloader
 			default:
 				throw new Exception("Unknown script type for file : ".$file);
 		} 
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019F4 end
+        
     }
 
     /**
@@ -197,9 +197,9 @@ class tao_helpers_Scriptloader
      */
     public static function addCssFile($file)
     {
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019FB begin
+        
 		self::addFile($file, tao_helpers_Scriptloader::CSS);
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019FB end
+        
     }
 
     /**
@@ -212,9 +212,9 @@ class tao_helpers_Scriptloader
      */
     public static function addJsFile($file)
     {
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019FF begin
+        
 		self::addFile($file, tao_helpers_Scriptloader::JS);
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:00000000000019FF end
+        
     }
 
     /**
@@ -227,11 +227,11 @@ class tao_helpers_Scriptloader
      */
     public static function addCssFiles($files = array())
     {
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A02 begin
+        
 		foreach($files as $file){
 			self::addFile($file, tao_helpers_Scriptloader::CSS);
 		}
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A02 end
+        
     }
 
     /**
@@ -244,11 +244,11 @@ class tao_helpers_Scriptloader
      */
     public static function addJsFiles($files = array())
     {
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A0C begin
+        
 		foreach($files as $file){
 			self::addFile($file, tao_helpers_Scriptloader::JS);
 		}
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A0C end
+        
     }
 
     /**
@@ -262,11 +262,11 @@ class tao_helpers_Scriptloader
      */
     public static function addJsVar($name, $value = '')
     {
-        // section 127-0-1-1--1c869303:1284d9e28b9:-8000:0000000000002459 begin
+        
         
     	self::$jsVars[$name] = $value;
     	
-        // section 127-0-1-1--1c869303:1284d9e28b9:-8000:0000000000002459 end
+        
     }
 
     /**
@@ -279,7 +279,7 @@ class tao_helpers_Scriptloader
      */
     public static function addJsVars($vars)
     {
-        // section 127-0-1-1--1c869303:1284d9e28b9:-8000:000000000000245F begin
+        
         
     	if(is_array($vars)){
 	    	foreach($vars as $name => $value){
@@ -290,7 +290,7 @@ class tao_helpers_Scriptloader
 			}
     	}
         
-        // section 127-0-1-1--1c869303:1284d9e28b9:-8000:000000000000245F end
+        
     }
     
     public static function getJsFiles(){
@@ -309,7 +309,7 @@ class tao_helpers_Scriptloader
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A17 begin
+        
 		if(empty($filter) || strtolower($filter) == tao_helpers_Scriptloader::CSS){
 			foreach(self::$cssFiles as $file){
 				$returnValue .= "\t<link rel='stylesheet' type='text/css' href='{$file}' />\n";
@@ -327,7 +327,7 @@ class tao_helpers_Scriptloader
 				$returnValue .= "\t<script type='text/javascript' src='{$file}' ></script>\n";
 			}
 		}
-        // section 127-0-1-1-4955a5a0:1242e3739c6:-8000:0000000000001A17 end
+        
 
         return (string) $returnValue;
     }

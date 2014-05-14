@@ -49,7 +49,7 @@ class tao_models_grids_CustomUsers
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--2e12219e:1360c8283db:-8000:000000000000387C begin
+        
 		$returnValue = parent::initColumns();
 		/*if (!in_array('country', $this->excludedProperties)) {*/
 		foreach ($this->options['customProps'] as $uri => $opts) {
@@ -62,7 +62,7 @@ class tao_models_grids_CustomUsers
 			);
 		}
 		/*}*/
-        // section 127-0-1-1--2e12219e:1360c8283db:-8000:000000000000387C end
+        
 
         return (bool) $returnValue;
     }

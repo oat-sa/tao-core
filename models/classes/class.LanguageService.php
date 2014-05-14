@@ -50,9 +50,9 @@ class tao_models_classes_LanguageService
     {
         $returnValue = null;
 
-        // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C14 begin
+        
         throw new common_exception_Error(__METHOD__.' not yet implemented in '.__CLASS__);
-        // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C14 end
+        
 
         return $returnValue;
     }
@@ -69,7 +69,7 @@ class tao_models_classes_LanguageService
     {
         $returnValue = null;
 
-        // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C17 begin
+        
         $langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
 	    $langs = $langClass->searchInstances(array(
 	    	RDF_VALUE => $code
@@ -81,7 +81,7 @@ class tao_models_classes_LanguageService
 	    } else {
 	    	common_Logger::w('Could not find language with code '.$code);
 	    }
-        // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C17 end
+        
 
         return $returnValue;
     }
@@ -98,10 +98,10 @@ class tao_models_classes_LanguageService
     {
         $returnValue = (string) '';
 
-        // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C1A begin
+        
 	    $valueProperty = new core_kernel_classes_Property(RDF_VALUE);
         $returnValue = $language->getUniquePropertyValue($valueProperty);
-        // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C1A end
+        
 
         return (string) $returnValue;
     }
@@ -118,14 +118,14 @@ class tao_models_classes_LanguageService
     {
         $returnValue = array();
 
-        // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C1D begin
+        
     	$langClass = new core_kernel_classes_Class(CLASS_LANGUAGES);
 	    $returnValue = $langClass->searchInstances(array(
 	    	PROPERTY_LANGUAGE_USAGES => $usage->getUri()
 	    ), array(
 	    	'like' => false
 	    ));
-        // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C1D end
+        
 
         return (array) $returnValue;
     }
@@ -142,9 +142,9 @@ class tao_models_classes_LanguageService
     {
         $returnValue = null;
 
-        // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C20 begin
+        
         throw new common_exception_Error(__METHOD__.' not yet implemented in '.__CLASS__);
-        // section 10-30-1--78--4ba5e2df:13b03a2f5f0:-8000:0000000000003C20 end
+        
 
         return $returnValue;
     }

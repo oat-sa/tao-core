@@ -49,7 +49,7 @@ class tao_helpers_form_xhtml_Form
     {
         $returnValue = array();
 
-        // section 127-0-1-1-4c3c2ff9:1242ef00aa7:-8000:0000000000001A1A begin
+        
 		foreach($this->elements as $element){
 			if(empty($groupName)
 					|| !isset($this->groups[$groupName])
@@ -60,7 +60,7 @@ class tao_helpers_form_xhtml_Form
 		}
 		unset($returnValue['uri']);
 		unset($returnValue['classUri']);
-        // section 127-0-1-1-4c3c2ff9:1242ef00aa7:-8000:0000000000001A1A end
+        
 
         return (array) $returnValue;
     }
@@ -74,7 +74,7 @@ class tao_helpers_form_xhtml_Form
      */
     public function evaluate()
     {
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A33 begin
+        
 		
 		$this->initElements();
 		
@@ -91,7 +91,7 @@ class tao_helpers_form_xhtml_Form
 			
 		}
 			
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001A33 end
+        
     }
 
     /**
@@ -105,7 +105,7 @@ class tao_helpers_form_xhtml_Form
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018F0 begin
+        
 		
 		(strpos($_SERVER['REQUEST_URI'], '?') > 0) ? $action = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $action = $_SERVER['REQUEST_URI'];
 		
@@ -138,7 +138,7 @@ class tao_helpers_form_xhtml_Form
 		$returnValue .= "</form>\n";
         $returnValue .= "</div>\n";
 		
-        // section 127-0-1-1--54ddf4d1:12404ee79c9:-8000:00000000000018F0 end
+        
 
         return (string) $returnValue;
     }
@@ -154,7 +154,7 @@ class tao_helpers_form_xhtml_Form
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019E2 begin
+        
 		
 		$this->valid = true;
 		
@@ -164,7 +164,7 @@ class tao_helpers_form_xhtml_Form
 			}
 		}
 		
-        // section 127-0-1-1-7ebefbff:12428eef00b:-8000:00000000000019E2 end
+        
 
         return (bool) $returnValue;
     }

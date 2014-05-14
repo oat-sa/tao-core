@@ -57,11 +57,11 @@ abstract class tao_helpers_data_GenerisAdapter
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001C97 begin
+        
         
     	$this->options = $options;
     	
-        // section 127-0-1-1--464fd80f:12545a0876a:-8000:0000000000001C97 end
+        
     }
 
     /**
@@ -75,11 +75,11 @@ abstract class tao_helpers_data_GenerisAdapter
     {
         $returnValue = array();
 
-        // section 127-0-1-1-10bf4933:12549adcf20:-8000:0000000000001CC0 begin
+        
         
         $returnValue = $this->options;
         
-        // section 127-0-1-1-10bf4933:12549adcf20:-8000:0000000000001CC0 end
+        
 
         return (array) $returnValue;
     }
@@ -94,11 +94,11 @@ abstract class tao_helpers_data_GenerisAdapter
      */
     public function setOptions($options = array())
     {
-        // section 127-0-1-1-10bf4933:12549adcf20:-8000:0000000000001CC3 begin
+        
         
     	$this->options = $options;
     	
-        // section 127-0-1-1-10bf4933:12549adcf20:-8000:0000000000001CC3 end
+        
     }
 
     /**
@@ -112,11 +112,11 @@ abstract class tao_helpers_data_GenerisAdapter
      */
     public function addOption($name, $value)
     {
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002412 begin
+        
         
     	$this->options[$name] = $value;
     	
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002412 end
+        
     }
 
     /**

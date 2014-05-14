@@ -57,8 +57,8 @@ abstract class tao_helpers_translation_TaoTranslationFile
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85--345dcc7e:13543c6ca3a:-8000:0000000000003A7A begin
-        // section 10-13-1-85--345dcc7e:13543c6ca3a:-8000:0000000000003A7A end
+        
+        
 
         return (string) $returnValue;
     }
@@ -73,8 +73,8 @@ abstract class tao_helpers_translation_TaoTranslationFile
      */
     public function setExtensionId($extensionId)
     {
-        // section 10-13-1-85--345dcc7e:13543c6ca3a:-8000:0000000000003A7D begin
-        // section 10-13-1-85--345dcc7e:13543c6ca3a:-8000:0000000000003A7D end
+        
+        
     }
 
 } /* end of abstract class tao_helpers_translation_TaoTranslationFile */

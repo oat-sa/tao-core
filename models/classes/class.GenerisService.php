@@ -65,8 +65,8 @@ abstract class tao_models_classes_GenerisService
      */
     protected function __construct()
     {
-        // section 10-13-1-45-792423e0:12398d13f24:-8000:000000000000183D begin
-        // section 10-13-1-45-792423e0:12398d13f24:-8000:000000000000183D end
+        
+        
     }
 
     /**
@@ -95,14 +95,14 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = array();
 
-        // section 127-0-1-1-106f2734:126b2f503d0:-8000:0000000000001E96 begin
+        
 
         if(!is_null($topClazz)){
         	$returnValue = $topClazz->searchInstances($propertyFilters, $options);
         }
 
 
-        // section 127-0-1-1-106f2734:126b2f503d0:-8000:0000000000001E96 end
+        
 
         return (array) $returnValue;
     }
@@ -119,7 +119,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        // section 127-0-1-1--519643a:127850ba1cf:-8000:000000000000233B begin
+        
 
      	if(!is_null($instance)){
         	if(!$instance->isClass() && !$instance->isProperty()){
@@ -130,7 +130,7 @@ abstract class tao_models_classes_GenerisService
         	}
         }
 
-        // section 127-0-1-1--519643a:127850ba1cf:-8000:000000000000233B end
+        
 
         return $returnValue;
     }
@@ -148,7 +148,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        // section 10-13-1-45--135fece8:123b76cb3ff:-8000:0000000000001897 begin
+        
 
         if( empty($label) ){
 			$label =  $this->createUniqueLabel($clazz);
@@ -156,7 +156,7 @@ abstract class tao_models_classes_GenerisService
 
 		$returnValue = core_kernel_classes_ResourceFactory::create($clazz, $label, '');
 
-        // section 10-13-1-45--135fece8:123b76cb3ff:-8000:0000000000001897 end
+        
 
         return $returnValue;
     }
@@ -174,7 +174,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002487 begin
+        
 
 
         if($subClassing){
@@ -204,7 +204,7 @@ abstract class tao_models_classes_GenerisService
 
 		$returnValue = $label;
 
-        // section 127-0-1-1-5449e54e:12a6a9d50dc:-8000:0000000000002487 end
+        
 
         return (string) $returnValue;
     }
@@ -222,14 +222,14 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AB5 begin
+        
 
         if( empty($label) ){
 			$label = $this->createUniqueLabel($parentClazz, true);
 		}
 		$returnValue = $parentClazz->createSubClass($label, '');
 
-        // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001AB5 end
+        
 
         return $returnValue;
     }
@@ -247,13 +247,13 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        // section 10-13-1-45--135fece8:123b76cb3ff:-8000:00000000000018A5 begin
+        
         $binder = new tao_models_classes_dataBinding_GenerisInstanceDataBinder($instance);
         $binder->bind($properties);
 
         $returnValue = $instance;
 
-        // section 10-13-1-45--135fece8:123b76cb3ff:-8000:00000000000018A5 end
+        
 
         return $returnValue;
     }
@@ -271,7 +271,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        // section 127-0-1-1-50de96c6:1266ae198e7:-8000:0000000000001E30 begin
+        
         if (is_null($clazz)) {
             $types = $instance->getTypes();
             $clazz = current($types);
@@ -294,7 +294,7 @@ abstract class tao_models_classes_GenerisService
 			$returnValue->setLabel($cloneLabel);
 		}
 
-        // section 127-0-1-1-50de96c6:1266ae198e7:-8000:0000000000001E30 end
+        
 
         return $returnValue;
     }
@@ -330,7 +330,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = null;
 
-        // section 127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F3F begin
+        
 
     	if(!is_null($sourceClazz) && !is_null($newParentClazz)){
         	if((is_null($topLevelClazz))){
@@ -360,7 +360,7 @@ abstract class tao_models_classes_GenerisService
         	}
         }
 
-        // section 127-0-1-1-6c3e90c1:1288272e8b7:-8000:0000000000001F3F end
+        
 
         return $returnValue;
     }
@@ -378,7 +378,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331 begin
+        
 
    		try{
         	foreach($instance->getTypes() as $type){
@@ -396,7 +396,7 @@ abstract class tao_models_classes_GenerisService
         	print $ce;
         }
 
-        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002331 end
+        
 
         return (bool) $returnValue;
     }
@@ -417,7 +417,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = array();
 
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 begin
+        
 
         if(is_null($topLevelClazz)){
 			$topLevelClazz = new core_kernel_classes_Class(TAO_OBJECT_CLASS);
@@ -469,7 +469,7 @@ abstract class tao_models_classes_GenerisService
 
 		$returnValue = array_merge($returnValue, $clazz->getProperties(false));
 
-        // section 127-0-1-1--250780b8:12843f3062f:-8000:0000000000002405 end
+        
 
         return (array) $returnValue;
     }
@@ -487,7 +487,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = array();
 
-        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002337 begin
+        
 
     	$sourceProperties = $sourceClass->getProperties(true);
         $destinationProperties = $destinationClass->getProperties(true);
@@ -498,7 +498,7 @@ abstract class tao_models_classes_GenerisService
         	}
         }
 
-        // section 127-0-1-1--4b0a5ad3:12776b15903:-8000:0000000000002337 end
+        
 
         return (array) $returnValue;
     }
@@ -516,7 +516,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = array();
 
-        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E84 begin
+        
 
     	try{
 			foreach($instance->getTypes() as $clazz){
@@ -545,7 +545,7 @@ abstract class tao_models_classes_GenerisService
 			print $e;
 		}
 
-        // section 127-0-1-1--1254e308:126aced7510:-8000:0000000000001E84 end
+        
 
         return (array) $returnValue;
     }
@@ -562,7 +562,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = array();
 
-        // section 127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C80 begin
+        
 
     	$properties = $clazz->getProperties(false);
 		foreach($clazz->getInstances(false) as $instance){
@@ -582,7 +582,7 @@ abstract class tao_models_classes_GenerisService
 			array_push($returnValue, $data);
 		}
 
-        // section 127-0-1-1-1f98225a:12544a8e3a3:-8000:0000000000001C80 end
+        
 
         return (array) $returnValue;
     }
@@ -601,7 +601,7 @@ abstract class tao_models_classes_GenerisService
     {
         $returnValue = array();
 
-        // section 127-0-1-1-404a280c:12475f095ee:-8000:0000000000001A9B begin
+        
         // show subclasses yes/no, not implemented
         $subclasses = (isset($options['subclasses'])) ? $options['subclasses'] : true;
         // show instances yes/no

@@ -79,9 +79,9 @@ class tao_helpers_grid_Grid
     {
         $returnValue = null;
 
-        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:0000000000003401 begin
+        
 
-        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:0000000000003401 end
+        
 
         return $returnValue;
     }
@@ -96,9 +96,9 @@ class tao_helpers_grid_Grid
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032A5 begin
+        
 		$this->options = $options;
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032A5 end
+        
     }
 
     /**
@@ -115,7 +115,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = null;
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032A7 begin
+        
 		$replace = false;
 		if(isset($options['replace'])){
 			$replace = $options['replace'];
@@ -128,7 +128,7 @@ class tao_helpers_grid_Grid
 			//set order as well:
 			$returnValue = true;
 		}
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032A7 end
+        
 
         return $returnValue;
     }
@@ -145,10 +145,10 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032AB begin
+        
 		unset($this->columns[$id]);
 		$returnValue = true;
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032AB end
+        
 
         return (bool) $returnValue;
     }
@@ -167,7 +167,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032B2 begin
+        
 		if(!$replace && isset($this->rows[$id])){
 			throw new common_Exception('the row with the id '.$id.' already exists');
 		}else{
@@ -176,7 +176,7 @@ class tao_helpers_grid_Grid
 
 			$returnValue = true;
 		}
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032B2 end
+        
 
         return (bool) $returnValue;
     }
@@ -193,10 +193,10 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032B5 begin
+        
 		unset($this->rows[$id]);
 		$returnValue = true;
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032B5 end
+        
 
         return (bool) $returnValue;
     }
@@ -216,7 +216,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032CD begin
+        
 		//TODO: for creating row and column if not exists?
 		if(isset($this->columns[$columnId])){
 			if(isset($this->rows[$rowId])){
@@ -224,7 +224,7 @@ class tao_helpers_grid_Grid
 				$returnValue = true;
 			}
 		}
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032CD end
+        
 
         return (bool) $returnValue;
     }
@@ -242,7 +242,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032D2 begin
+        
 		if(is_string($columnIds)){
 			$columnIds = array($columnIds);
 		}
@@ -255,7 +255,7 @@ class tao_helpers_grid_Grid
 				}
 			}
 		}
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032D2 end
+        
 
         return (bool) $returnValue;
     }
@@ -271,7 +271,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = array();
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032E0 begin
+        
 
 		//sort columns:
 		$this->sortColumns();
@@ -305,7 +305,7 @@ class tao_helpers_grid_Grid
 			}
 
 		}
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032E0 end
+        
 
         return (array) $returnValue;
     }
@@ -321,8 +321,8 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003316 begin
-        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003316 end
+        
+        
 
         return (bool) $returnValue;
     }
@@ -338,9 +338,9 @@ class tao_helpers_grid_Grid
     {
         $returnValue = array();
 
-        // section 127-0-1-1--3aed8f55:13388eba496:-8000:0000000000003366 begin
+        
 		$returnValue = $this->columns;
-        // section 127-0-1-1--3aed8f55:13388eba496:-8000:0000000000003366 end
+        
 
         return (array) $returnValue;
     }
@@ -357,11 +357,11 @@ class tao_helpers_grid_Grid
     {
         $returnValue = null;
 
-        // section 127-0-1-1-3d16f06:13388f94a40:-8000:000000000000336B begin
+        
 		if(isset($this->columns[$id]) && $this->columns[$id] instanceof tao_helpers_grid_Column){
 			$returnValue = $this->columns[$id];
 		}
-        // section 127-0-1-1-3d16f06:13388f94a40:-8000:000000000000336B end
+        
 
         return $returnValue;
     }
@@ -378,7 +378,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = array();
 
-        // section 127-0-1-1-72bb438:1338cba5f73:-8000:0000000000003370 begin
+        
 		foreach($this->columns as $column){
 
 			if($column instanceof tao_helpers_grid_Column){
@@ -409,7 +409,7 @@ class tao_helpers_grid_Grid
 
 		}
 
-        // section 127-0-1-1-72bb438:1338cba5f73:-8000:0000000000003370 end
+        
 
         return (array) $returnValue;
     }
@@ -424,7 +424,7 @@ class tao_helpers_grid_Grid
      */
     public function setData($data = array())
     {
-        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:00000000000033F7 begin
+        
 
     	//empty local data
     	$this->rows = array();
@@ -437,7 +437,7 @@ class tao_helpers_grid_Grid
 			}
 		}
 
-        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:00000000000033F7 end
+        
     }
 
 } /* end of class tao_helpers_grid_Grid */

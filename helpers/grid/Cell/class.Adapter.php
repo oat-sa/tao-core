@@ -84,10 +84,10 @@ abstract class tao_helpers_grid_Cell_Adapter
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032EA begin
+        
 		$this->options = $options;
 		$this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : array();
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032EA end
+        
     }
 
     /**
@@ -101,9 +101,9 @@ abstract class tao_helpers_grid_Cell_Adapter
     {
         $returnValue = array();
 
-        // section 127-0-1-1-3d16f06:13388f94a40:-8000:0000000000003368 begin
+        
 		$returnValue = $this->data;
-        // section 127-0-1-1-3d16f06:13388f94a40:-8000:0000000000003368 end
+        
 
         return (array) $returnValue;
     }

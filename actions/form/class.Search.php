@@ -46,7 +46,7 @@ class tao_actions_form_Search
      */
     protected function initForm()
     {
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249F begin
+        
         
     	(isset($this->options['name'])) ? $name = $this->options['name'] : $name = ''; 
     	if(empty($name)){
@@ -62,7 +62,7 @@ class tao_actions_form_Search
 		$this->form->setActions(array($searchElt), 'top');
 		$this->form->setActions(array($searchElt), 'bottom');
     	
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:000000000000249F end
+        
     }
 
     /**
@@ -74,7 +74,7 @@ class tao_actions_form_Search
      */
     protected function initElements()
     {
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A1 begin
+        
         
     	$chainingElt = tao_helpers_form_FormFactory::getElement('chaining', 'Radiobox');
 		$chainingElt->setDescription(__('Filtering mode'));
@@ -144,7 +144,7 @@ class tao_actions_form_Search
 		}
 		$this->form->createGroup('filters', __('Filters'), $filters);
     	
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:00000000000024A1 end
+        
     }
 
 } /* end of class tao_actions_form_Search */

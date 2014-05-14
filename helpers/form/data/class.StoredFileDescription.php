@@ -47,9 +47,9 @@ class tao_helpers_form_data_StoredFileDescription
      */
     public function __construct( core_kernel_file_File $file)
     {
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003D05 begin
+        
         $this->setFile($file);
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003D05 end
+        
     }
 
 } /* end of class tao_helpers_form_data_StoredFileDescription */

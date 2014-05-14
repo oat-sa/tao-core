@@ -49,11 +49,11 @@ class tao_helpers_form_validators_Md5Password
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D73 begin
+        
 		
 		$returnValue = md5(parent::getRawValue());
 		
-        // section 127-0-1-1--d36e6ea:12597e82faa:-8000:0000000000001D73 end
+        
 
         return (string) $returnValue;
     }
@@ -70,7 +70,7 @@ class tao_helpers_form_validators_Md5Password
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85--1e71c2ba:1370cdb32ad:-8000:00000000000039C7 begin
+        
     	if (is_array($values) && count($values) == 2) {
         	list($first, $second) = $values;
         	$returnValue = $first == $second;
@@ -84,7 +84,7 @@ class tao_helpers_form_validators_Md5Password
 				$returnValue = true;
 			}
         }
-        // section 10-13-1-85--1e71c2ba:1370cdb32ad:-8000:00000000000039C7 end
+        
 
         return (bool) $returnValue;
     }

@@ -47,7 +47,7 @@ class tao_actions_form_Instance
      */
     protected function initForm()
     {
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002496 begin
+        
         
     	(isset($this->options['name'])) ? $name = $this->options['name'] : $name = ''; 
     	if(empty($name)){
@@ -74,7 +74,7 @@ class tao_actions_form_Instance
 		$this->form->setActions($actions, 'top');
 		$this->form->setActions($actions, 'bottom');
 		
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002496 end
+        
     }
 
     /**
@@ -86,7 +86,7 @@ class tao_actions_form_Instance
      */
     protected function initElements()
     {
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002498 begin
+        
         
     	
     	$clazz = $this->getClazz();
@@ -206,7 +206,7 @@ class tao_actions_form_Instance
 			$this->form->addElement($instanceUriElt);
 		}
         
-        // section 127-0-1-1-56df1631:1284f2fd9c5:-8000:0000000000002498 end
+        
     }
 
 } /* end of class tao_actions_form_Instance */

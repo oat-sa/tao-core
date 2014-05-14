@@ -73,10 +73,10 @@ abstract class tao_helpers_form_data_FileDescription
      */
     public function __construct($name, $size)
     {
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CD2 begin
+        
         $this->name = $name;
         $this->size = $size;
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CD2 end
+        
     }
 
     /**
@@ -90,14 +90,14 @@ abstract class tao_helpers_form_data_FileDescription
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CF2 begin
+        
         if (!empty($this->file) && empty($this->name)){
         	// collect information about the file instance itself.
         	$this->name = $this->file->getLabel();
         }
         
         $returnValue = $this->name;
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CF2 end
+        
 
         return (string) $returnValue;
     }
@@ -113,7 +113,7 @@ abstract class tao_helpers_form_data_FileDescription
     {
         $returnValue = (int) 0;
 
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CF5 begin
+        
         if (!empty($this->file) && empty($this->size)){
         	// collect from the file instance itself.
         	$fileInfo = $this->file->getFileInfo();
@@ -121,7 +121,7 @@ abstract class tao_helpers_form_data_FileDescription
         }
         
         $returnValue = $this->size;
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CF5 end
+        
 
         return (int) $returnValue;
     }
@@ -138,9 +138,9 @@ abstract class tao_helpers_form_data_FileDescription
     {
         $returnValue = null;
 
-        // section 127-0-1-1--26b8e569:13d1573b9cd:-8000:0000000000003C48 begin
+        
         $returnValue = $this->file;
-        // section 127-0-1-1--26b8e569:13d1573b9cd:-8000:0000000000003C48 end
+        
 
         return $returnValue;
     }
@@ -155,14 +155,14 @@ abstract class tao_helpers_form_data_FileDescription
      */
     public function setFile( core_kernel_file_File $file)
     {
-        // section 127-0-1-1--26b8e569:13d1573b9cd:-8000:0000000000003C4A begin
+        
         $this->file = $file;
         
         // Reset data about the file to make them computed from
         // the Generis File instance.
         $this->name = '';
         $this->size = 0;
-        // section 127-0-1-1--26b8e569:13d1573b9cd:-8000:0000000000003C4A end
+        
     }
 
 } /* end of abstract class tao_helpers_form_data_FileDescription */

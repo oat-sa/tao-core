@@ -62,7 +62,7 @@ class tao_actions_form_Import
      */
     public function initForm()
     {
-        // section 127-0-1-1--5823ae53:12820f19957:-8000:00000000000023CF begin
+        
         
     	$this->form = tao_helpers_form_FormFactory::getForm('import');
     	
@@ -83,7 +83,7 @@ class tao_actions_form_Import
 		$this->form->setActions(array($submitElt), 'bottom');
 		$this->form->setActions(array(), 'top');
     	
-        // section 127-0-1-1--5823ae53:12820f19957:-8000:00000000000023CF end
+        
     }
 
     /**
@@ -95,7 +95,7 @@ class tao_actions_form_Import
      */
     public function initElements()
     {
-        // section 127-0-1-1--5823ae53:12820f19957:-8000:00000000000023D1 begin
+        
         
     	//create the element to select the import format
     	$formatElt = tao_helpers_form_FormFactory::getElement('format', 'Radiobox');
@@ -129,7 +129,7 @@ class tao_actions_form_Import
     		}
     	}
     	
-        // section 127-0-1-1--5823ae53:12820f19957:-8000:00000000000023D1 end
+        
     }
 
     /**
@@ -141,7 +141,7 @@ class tao_actions_form_Import
      */
     protected function initCSVElements()
     {
-        // section 127-0-1-1-2993bc96:12baebd89c3:-8000:0000000000002671 begin
+        
         
     	$adapter = new tao_helpers_data_GenerisAdapterCsv();
 		$options = $adapter->getOptions();
@@ -198,7 +198,7 @@ class tao_actions_form_Import
 		$csvSentElt->setValue(1);
 		$this->form->addElement($csvSentElt);
     	
-        // section 127-0-1-1-2993bc96:12baebd89c3:-8000:0000000000002671 end
+        
     }
 
     /**
@@ -210,7 +210,7 @@ class tao_actions_form_Import
      */
     protected function initRDFElements()
     {
-        // section 127-0-1-1--2a1722e0:12cbb421f9c:-8000:0000000000002939 begin
+        
         
     	$descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
 		$descElt->setValue(__("Please upload \t an RDF file.\n\n"));
@@ -237,7 +237,7 @@ class tao_actions_form_Import
 		$rdfSentElt->setValue(1);
 		$this->form->addElement($rdfSentElt);
     	
-        // section 127-0-1-1--2a1722e0:12cbb421f9c:-8000:0000000000002939 end
+        
     }
 
 } /* end of class tao_actions_form_Import */

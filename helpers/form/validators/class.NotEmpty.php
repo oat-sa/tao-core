@@ -47,13 +47,13 @@ class tao_helpers_form_validators_NotEmpty
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BEA begin
+        
 		
 		parent::__construct($options);
 		
 		(isset($options['message'])) ? $this->message = $options['message'] : $this->message = __('This field is required');
 		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BEA end
+        
     }
 
     /**
@@ -68,7 +68,7 @@ class tao_helpers_form_validators_NotEmpty
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCB begin
+        
         if (is_string($values)){
         	$values = trim($values);
         }
@@ -87,7 +87,7 @@ class tao_helpers_form_validators_NotEmpty
 		else{
 			$returnValue = false;
 		}
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCB end
+        
 
         return (bool) $returnValue;
     }

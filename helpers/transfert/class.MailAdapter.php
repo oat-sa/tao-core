@@ -54,7 +54,7 @@ class tao_helpers_transfert_MailAdapter
      */
     public function __construct()
     {
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000229F begin
+        
         
     	$this->mailer = new PHPMailer();
     	
@@ -69,7 +69,7 @@ class tao_helpers_transfert_MailAdapter
 			$this->mailer->Password   = SMTP_PASS;
     	}
 		
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000229F end
+        
     }
 
     /**
@@ -83,7 +83,7 @@ class tao_helpers_transfert_MailAdapter
     {
         $returnValue = (int) 0;
 
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000228A begin
+        
         
         foreach($this->messages as $message){
 		    if($message instanceof tao_helpers_transfert_Message){
@@ -122,7 +122,7 @@ class tao_helpers_transfert_MailAdapter
         }
         
         $this->mailer->SmtpClose();
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000228A end
+        
 
         return (int) $returnValue;
     }

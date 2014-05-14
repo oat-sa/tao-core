@@ -64,11 +64,11 @@ abstract class tao_helpers_form_Validator
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001B8C begin
+        
 		
 		$this->options = $options;
 		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001B8C end
+        
     }
 
     /**
@@ -82,11 +82,11 @@ abstract class tao_helpers_form_Validator
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCE begin
+        
 		
 		$returnValue = str_replace('tao_helpers_form_validators_', '', get_class($this));
 		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BCE end
+        
 
         return (string) $returnValue;
     }
@@ -102,11 +102,11 @@ abstract class tao_helpers_form_Validator
     {
         $returnValue = array();
 
-        // section 127-0-1-1--3dfcc751:12825c5585c:-8000:00000000000023E4 begin
+        
         
         $returnValue = $this->options;
         
-        // section 127-0-1-1--3dfcc751:12825c5585c:-8000:00000000000023E4 end
+        
 
         return (array) $returnValue;
     }
@@ -122,11 +122,11 @@ abstract class tao_helpers_form_Validator
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BDD begin
+        
 		
 		$returnValue = $this->message;
 		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BDD end
+        
 
         return (string) $returnValue;
     }

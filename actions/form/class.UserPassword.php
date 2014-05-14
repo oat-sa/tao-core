@@ -46,13 +46,13 @@ class tao_actions_form_UserPassword
      */
     public function initForm()
     {
-        // section 127-0-1-1-bd1e3ae:137ff81790c:-8000:0000000000003B25 begin
+        
         $this->form = tao_helpers_form_FormFactory::getForm('password');
 		
 		$actions = tao_helpers_form_FormFactory::getCommonActions('top');
 		$this->form->setActions($actions, 'top');
 		$this->form->setActions($actions, 'bottom');
-        // section 127-0-1-1-bd1e3ae:137ff81790c:-8000:0000000000003B25 end
+        
     }
 
     /**
@@ -64,7 +64,7 @@ class tao_actions_form_UserPassword
      */
     public function initElements()
     {
-        // section 127-0-1-1-bd1e3ae:137ff81790c:-8000:0000000000003B27 begin
+        
 				$pass1Element = tao_helpers_form_FormFactory::getElement('oldpassword', 'Hiddenbox');
 				$pass1Element->setDescription(__('Old Password'));
 				$pass1Element->addValidator(
@@ -89,7 +89,7 @@ class tao_actions_form_UserPassword
 					tao_helpers_form_FormFactory::getValidator('Password', array('password2_ref' => $pass2Element)),
 				));
 				$this->form->addElement($pass3Element);
-        // section 127-0-1-1-bd1e3ae:137ff81790c:-8000:0000000000003B27 end
+        
     }
 
 } /* end of class tao_actions_form_UserPassword */

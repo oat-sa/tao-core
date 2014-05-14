@@ -105,7 +105,7 @@ class tao_scripts_TaoTranslate
      */
     public function preRun()
     {
-        // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003287 begin
+        
     	$this->options = array('verbose' => false,
         					   'action' => null,
     						   'extension' => null);
@@ -143,7 +143,7 @@ class tao_scripts_TaoTranslate
         		$this->checkInput();	
         	}
         }
-        // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003287 end
+        
     }
 
     /**
@@ -155,7 +155,7 @@ class tao_scripts_TaoTranslate
      */
     public function run()
     {
-        // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 begin
+        
         
         // Select the action to perform depending on the 'action' parameter.
         // Verification of the value of 'action' performed in self::preRun().
@@ -204,7 +204,7 @@ class tao_scripts_TaoTranslate
             	$this->actionGetExt();
             break;
         }
-        // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:0000000000003289 end
+        
     }
 
     /**
@@ -216,8 +216,8 @@ class tao_scripts_TaoTranslate
      */
     public function postRun()
     {
-        // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:000000000000328B begin
-        // section -64--88-1-7-6b37e1cc:1336002dd1f:-8000:000000000000328B end
+        
+        
     }
 
     /**
@@ -229,7 +229,7 @@ class tao_scripts_TaoTranslate
      */
     private function checkInput()
     {
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003840 begin
+        
         
         switch ($this->options['action']) {
         	case 'create':
@@ -280,7 +280,7 @@ class tao_scripts_TaoTranslate
         		$this->err("Fatal error while checking input parameters. Unknown 'action'.", true);
         	break;
         }
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003840 end
+        
     }
 
     /**
@@ -292,7 +292,7 @@ class tao_scripts_TaoTranslate
      */
     private function checkCreateInput()
     {
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003842 begin
+        
         $defaults = array('language' => null,
                           'languageLabel' => null,
         				  'extension' => null,
@@ -345,7 +345,7 @@ class tao_scripts_TaoTranslate
         		}
         	}
         }
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003842 end
+        
     }
 
     /**
@@ -357,7 +357,7 @@ class tao_scripts_TaoTranslate
      */
     private function checkUpdateInput()
     {
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003844 begin
+        
         $defaults = array('language' => null,
         				  'extension' => null,
         				  'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
@@ -420,7 +420,7 @@ class tao_scripts_TaoTranslate
         	
         	
         }
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003844 end
+        
     }
 
     /**
@@ -432,7 +432,7 @@ class tao_scripts_TaoTranslate
      */
     private function checkUpdateAllInput()
     {
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003846 begin
+        
         $defaults = array('input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
         				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
         				  'extension' => null);
@@ -456,7 +456,7 @@ class tao_scripts_TaoTranslate
         		$this->err("The 'output' directory is not writable.", true);
         	}
         }
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003846 end
+        
     }
 
     /**
@@ -468,7 +468,7 @@ class tao_scripts_TaoTranslate
      */
     private function checkDeleteInput()
     {
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003848 begin
+        
         $defaults = array('language' => null,
         				  'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
         				  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
@@ -492,7 +492,7 @@ class tao_scripts_TaoTranslate
                 }
             }
         }
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:0000000000003848 end
+        
     }
 
     /**
@@ -504,7 +504,7 @@ class tao_scripts_TaoTranslate
      */
     private function checkDeleteAllInput()
     {
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:000000000000384A begin
+        
      	$defaults = array('input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
      					  'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR,
                           'extension' => null);
@@ -523,7 +523,7 @@ class tao_scripts_TaoTranslate
         }else{
             $this->err("Please provide an 'extension' identifier.", true);
         }
-        // section 10-13-1-85--7b8e6d0a:134ae555568:-8000:000000000000384A end
+        
     }
     
     private function checkChangeCodeInput(){
@@ -562,7 +562,7 @@ class tao_scripts_TaoTranslate
      */
     public function actionCreate()
     {
-        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 begin
+        
         $extensionsToCreate = explode(',', $this->options['extension']);
         $extensionsToCreate = array_unique($extensionsToCreate);
         
@@ -697,7 +697,7 @@ class tao_scripts_TaoTranslate
         		}
         	}	
         }
-        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003864 end
+        
     }
 
     /**
@@ -709,7 +709,7 @@ class tao_scripts_TaoTranslate
      */
     public function actionUpdate()
     {
-        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 begin
+        
         $this->outVerbose("Updating language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "'...");
         $sortingMethod = tao_helpers_translation_TranslationFile::SORT_ASC_I;
         
@@ -803,7 +803,7 @@ class tao_scripts_TaoTranslate
         }
         
        	$this->outVerbose("Language '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "'.");
-        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003866 end
+        
     }
 
     /**
@@ -815,7 +815,7 @@ class tao_scripts_TaoTranslate
      */
     public function actionUpdateAll()
     {
-        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003868 begin
+        
         // Scan the locales folder for languages in the wwextension and
         // launch actionUpdate for each of them.
 
@@ -846,7 +846,7 @@ class tao_scripts_TaoTranslate
     		
     		$this->outVerbose("");
     	}
-        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:0000000000003868 end
+        
     }
 
     /**
@@ -858,7 +858,7 @@ class tao_scripts_TaoTranslate
      */
     public function actionDelete()
     {
-        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386A begin
+        
         $this->outVerbose("Deleting language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' ...");
     	
     	$dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
@@ -867,7 +867,7 @@ class tao_scripts_TaoTranslate
         }
         
         $this->outVerbose("Language '" . $this->options['language'] . "' for extension '" . $this->options['extension'] . "' successfully deleted.");
-        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386A end
+        
     }
 
     /**
@@ -879,7 +879,7 @@ class tao_scripts_TaoTranslate
      */
     public function actionDeleteAll()
     {
-        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386C begin
+        
     	// Get the list of languages that will be deleted.
     	$this->outVerbose("Deleting all languages for extension '" . $this->options['extension'] . "'...");
     	
@@ -907,7 +907,7 @@ class tao_scripts_TaoTranslate
     		
     		$this->outVerbose("");
     	}
-        // section 10-13-1-85-4f86d2fb:134b3339b70:-8000:000000000000386C end
+        
     }
     
     public function actionChangeCode(){
@@ -1027,9 +1027,9 @@ class tao_scripts_TaoTranslate
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85-6cb6330f:134b35c8bda:-8000:0000000000003870 begin
+        
         $returnValue = dirname(__FILE__) . '/../../' . $extension . '/' . self::DEF_OUTPUT_DIR . '/' . $language;
-        // section 10-13-1-85-6cb6330f:134b35c8bda:-8000:0000000000003870 end
+        
 
         return (string) $returnValue;
     }
@@ -1046,7 +1046,7 @@ class tao_scripts_TaoTranslate
     {
         $returnValue = null;
 
-        // section 10-13-1-85-49a3b43f:134b39b4ede:-8000:0000000000003874 begin
+        
         if ($directory == null) {
         	$actionsDir = $this->options['input'] . '/actions';	
         } else {
@@ -1072,7 +1072,7 @@ class tao_scripts_TaoTranslate
         		$returnValue = $structureFile;
         	}
         }
-        // section 10-13-1-85-49a3b43f:134b39b4ede:-8000:0000000000003874 end
+        
 
         return $returnValue;
     }
@@ -1087,7 +1087,7 @@ class tao_scripts_TaoTranslate
      */
     public function preparePOFile( tao_helpers_translation_POFile $poFile)
     {
-        // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038C3 begin
+        
         $poFile->addHeader('Project-Id-Version', PRODUCT_NAME . ' ' . TAO_VERSION_NAME);
         $poFile->addHeader('PO-Revision-Date', date('Y-m-d') . 'T' . date('H:i:s'));
         $poFile->addHeader('Last-Translator', 'TAO Translation Team <translation@tao.lu>');
@@ -1095,7 +1095,7 @@ class tao_scripts_TaoTranslate
         $poFile->addHeader('Language', $poFile->getTargetLanguage());
         $poFile->addHeader('Content-Type', 'text/plain; charset=utf-8');
         $poFile->addHeader('Content-Transfer-Encoding', '8bit');
-        // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038C3 end
+        
     }
 
     /**
@@ -1110,7 +1110,7 @@ class tao_scripts_TaoTranslate
     {
         $returnValue = (bool) false;
 
-        // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E3 begin
+        
         $hasStructure = $this->findStructureManifest($directory) !== false;
         $hasPHPManifest = false;
         
@@ -1126,7 +1126,7 @@ class tao_scripts_TaoTranslate
         }
         
         $returnValue = $hasStructure || $hasPHPManifest;
-        // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E3 end
+        
 
         return (bool) $returnValue;
     }
@@ -1142,7 +1142,7 @@ class tao_scripts_TaoTranslate
      */
     public function addManifestsTranslations( tao_helpers_translation_POFile $poFile)
     {
-        // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E5 begin
+        
         $this->outVerbose("Adding all manifests messages to extension '" . $this->options['extension'] . "'");
     	
         $rootDir = dirname(__FILE__) . '/../../';
@@ -1171,7 +1171,7 @@ class tao_scripts_TaoTranslate
 				}
         	}
         }
-        // section 10-13-1-85--228d4509:134d1864dda:-8000:00000000000038E5 end
+        
     }
 
     /**
@@ -1184,7 +1184,7 @@ class tao_scripts_TaoTranslate
      */
     protected function addLanguageToOntology()
     {
-        // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A88 begin
+        
         $this->outVerbose("Importing RDF language description '" . $this->options['language'] . "' to ontology...");
         
         // RDF Language Descriptions are stored in the tao meta-extension locales.
@@ -1219,7 +1219,7 @@ class tao_scripts_TaoTranslate
         
         
         $this->outVerbose("RDF language description '" . $this->options['language'] . "' added to ontology.");
-        // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A88 end
+        
     }
 
     /**
@@ -1232,7 +1232,7 @@ class tao_scripts_TaoTranslate
      */
     protected function removeLanguageFromOntology()
     {
-        // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A8E begin
+        
         $this->outVerbose("Removing RDF language description '" . $this->options['language'] . "' from ontology...");
         $taoNS = 'http://www.tao.lu/Ontologies/TAO.rdf#';
         $expectedDescriptionUri = $taoNS . 'Lang' . $this->options['language'];
@@ -1244,7 +1244,7 @@ class tao_scripts_TaoTranslate
         }else{
             $this->outVerbose("RDF language description '" . $this->options['language'] . "' not found but considered removed.");
         }
-        // section 10-13-1-85-59c88e8f:13543d8a458:-8000:0000000000003A8E end
+        
     }
 
     /**
@@ -1256,7 +1256,7 @@ class tao_scripts_TaoTranslate
      */
     protected function checkAuthInput()
     {
-        // section 127-0-1-1-3599ab3f:135546c24af:-8000:0000000000003704 begin
+        
         $defaults = array('user' => null,
 						  'password' => null);
 						  
@@ -1268,7 +1268,7 @@ class tao_scripts_TaoTranslate
 		else if ($this->options['password'] == null) {
 			$this->err("Please provide a value for the 'password' parameter.", true);
 		}
-        // section 127-0-1-1-3599ab3f:135546c24af:-8000:0000000000003704 end
+        
     }
 
     /**
@@ -1282,10 +1282,10 @@ class tao_scripts_TaoTranslate
     {
         $returnValue = array();
 
-        // section -64--88-56-1--acd0dae:136abeb190f:-8000:000000000000390D begin
+        
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById($this->options['extension']);
         $returnValue = $ext->getManifest()->getInstallModelFiles();
-        // section -64--88-56-1--acd0dae:136abeb190f:-8000:000000000000390D end
+        
 
         return (array) $returnValue;
     }
@@ -1299,7 +1299,7 @@ class tao_scripts_TaoTranslate
      */
     private function checkEnableInput()
     {
-        // section -64--88-56-1-218fa982:136eddd6b1c:-8000:000000000000399C begin
+        
         $this->checkAuthInput();
         $defaults = array('language' => null,
                           'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
@@ -1310,7 +1310,7 @@ class tao_scripts_TaoTranslate
         if ($this->options['language'] == null){
             $this->err("Please provide the 'language' parameter.", true);
         }
-        // section -64--88-56-1-218fa982:136eddd6b1c:-8000:000000000000399C end
+        
     }
 
     /**
@@ -1322,14 +1322,14 @@ class tao_scripts_TaoTranslate
      */
     private function checkDisableInput()
     {
-        // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039B5 begin
+        
         $this->checkAuthInput();
         $defaults = array('language' => null);
         $this->options = array_merge($defaults, $this->options);
         if ($this->options['language'] == null){
             $this->err("Please provide the 'language' parameter.", true);
         }
-        // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039B5 end
+        
     }
 
     /**
@@ -1341,7 +1341,7 @@ class tao_scripts_TaoTranslate
      */
     public function actionEnable()
     {
-        // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039B8 begin
+        
         $userService = tao_models_classes_UserService::singleton();
         $this->outVerbose("Connecting to TAO as '" . $this->options['user'] . "' ...");
         if ($userService->loginUser($this->options['user'], $this->options['password'])){
@@ -1352,7 +1352,7 @@ class tao_scripts_TaoTranslate
         }else{
             $this->err("Unable to connect to TAO as '" . $this->options['user'] . "'. Please check user name and password.", true);
         }
-        // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039B8 end
+        
     }
 
     /**
@@ -1369,7 +1369,7 @@ class tao_scripts_TaoTranslate
      */
     public function actionDisable()
     {
-        // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039BB begin
+        
         $userService = tao_models_classes_UserService::singleton();
         $this->outVerbose("Connecting to TAO as '" . $this->options['user'] . "' ...");
         if ($userService->loginUser($this->options['user'], $this->options['password'])){
@@ -1380,7 +1380,7 @@ class tao_scripts_TaoTranslate
         }else{
             $this->err("Unable to connect to TAO as '" . $this->options['user'] . "'. Please check user name and password.", true);
         }
-        // section -64--88-56-1-218fa982:136eddd6b1c:-8000:00000000000039BB end
+        
     }
 
     /**
@@ -1392,7 +1392,7 @@ class tao_scripts_TaoTranslate
      */
     public function actionCompile()
     {
-        // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003ABD begin
+        
         $extensionsToCreate = explode(',', $this->options['extension']);
         $extensionsToCreate = array_unique($extensionsToCreate);
         
@@ -1505,7 +1505,7 @@ class tao_scripts_TaoTranslate
 			$this->outVerbose("Translations for '${extension}' with language '${language}' gracefully compiled.");
 
 		}
-        // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003ABD end
+        
     }
 
     /**
@@ -1517,7 +1517,7 @@ class tao_scripts_TaoTranslate
      */
     private function checkCompileInput()
     {
-        // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003AC0 begin
+        
         $defaults = array('extension' => null,
                           'language' => null,
                           'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
@@ -1531,7 +1531,7 @@ class tao_scripts_TaoTranslate
         else if ($this->options['language'] == null){
             $this->err("Please provide the 'language' parameter.", true);
         }
-        // section -64--88-56-1-512ad09a:137c0d6cd41:-8000:0000000000003AC0 end
+        
     }
 
     /**
@@ -1543,7 +1543,7 @@ class tao_scripts_TaoTranslate
      */
     public function actionCompileAll()
     {
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B0B begin
+        
         // Get the list of languages that will be compiled.
         $this->outVerbose("Compiling all languages for extension '" . $this->options['extension'] . "'...");
         
@@ -1571,7 +1571,7 @@ class tao_scripts_TaoTranslate
             
             $this->outVerbose("");
         }
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B0B end
+        
     }
 
     /**
@@ -1583,7 +1583,7 @@ class tao_scripts_TaoTranslate
      */
     private function checkCompileAllInput()
     {
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B0E begin
+        
         $defaults = array('extension' => null,
                           'input' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_INPUT_DIR,
                           'output' => dirname(__FILE__) . '/../../' . $this->options['extension'] . '/' . self::DEF_OUTPUT_DIR);
@@ -1593,7 +1593,7 @@ class tao_scripts_TaoTranslate
         if ($this->options['extension'] == null){
             $this->err("Please provide the 'extension' parameter.", true);
         }
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B0E end
+        
     }
     
     private function actionGetExt()

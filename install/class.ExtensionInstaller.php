@@ -49,11 +49,11 @@ class tao_install_ExtensionInstaller
      * @since 2.4
      */
     public function extendedInstall() {
-        // section 10-13-1-85-74f9b31f:13c8ff1fd35:-8000:0000000000003C58 begin
+        
         $this->installManagementRole();
         
         $this->applyAccessRules();
-        // section 10-13-1-85-74f9b31f:13c8ff1fd35:-8000:0000000000003C58 end
+        
     }
     
     /**

@@ -55,11 +55,11 @@ class tao_models_classes_ListService
      */
     protected function __construct()
     {
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002364 begin
+        
         
     	$this->parentListClass = new core_kernel_classes_Class(TAO_LIST_CLASS);
         
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002364 end
+        
     }
 
     /**
@@ -73,7 +73,7 @@ class tao_models_classes_ListService
     {
         $returnValue = array();
 
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:000000000000234C begin
+        
         
         $returnValue[] = new core_kernel_classes_Class(GENERIS_BOOLEAN); 
         
@@ -83,7 +83,7 @@ class tao_models_classes_ListService
         
         
         
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:000000000000234C end
+        
 
         return (array) $returnValue;
     }
@@ -100,7 +100,7 @@ class tao_models_classes_ListService
     {
         $returnValue = null;
 
-        // section 127-0-1-1-7add8745:127b99f9642:-8000:0000000000002388 begin
+        
         
         foreach($this->getLists() as $list){
         	if($list->getUri() == $uri){
@@ -109,7 +109,7 @@ class tao_models_classes_ListService
         	}
         }
         
-        // section 127-0-1-1-7add8745:127b99f9642:-8000:0000000000002388 end
+        
 
         return $returnValue;
     }
@@ -128,7 +128,7 @@ class tao_models_classes_ListService
     {
         $returnValue = null;
 
-        // section 127-0-1-1--4fd18cbc:1281f7e7c81:-8000:00000000000023CA begin
+        
         
         if(!empty($uri)){
 	        foreach($this->getListElements($listClass, false) as $element){   	
@@ -139,7 +139,7 @@ class tao_models_classes_ListService
 			}
         }
         
-        // section 127-0-1-1--4fd18cbc:1281f7e7c81:-8000:00000000000023CA end
+        
 
         return $returnValue;
     }
@@ -157,7 +157,7 @@ class tao_models_classes_ListService
     {
         $returnValue = array();
 
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002359 begin
+        
         
         if(!is_null($listClass)){
 
@@ -192,7 +192,7 @@ class tao_models_classes_ListService
         	}
         }
         
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002359 end
+        
 
         return (array) $returnValue;
     }
@@ -209,7 +209,7 @@ class tao_models_classes_ListService
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002366 begin
+        
         
         if(!is_null($listClass)){
         	foreach($this->getListElements($listClass) as $element){
@@ -218,7 +218,7 @@ class tao_models_classes_ListService
         	$returnValue = $listClass->delete();
         }
         
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002366 end
+        
 
         return (bool) $returnValue;
     }
@@ -235,13 +235,13 @@ class tao_models_classes_ListService
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002369 begin
+        
         
 		if(!is_null($element)){
 			$returnValue = $element->delete();
         }
         
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002369 end
+        
 
         return (bool) $returnValue;
     }
@@ -258,14 +258,14 @@ class tao_models_classes_ListService
     {
         $returnValue = null;
 
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:000000000000236C begin
+        
         
         if(empty($label)) {
         	$label = __('List') . ' ' . (count($this->getLists()) + 1);
         }
         $returnValue = $this->createSubClass($this->parentListClass, $label);
         
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:000000000000236C end
+        
 
         return $returnValue;
     }
@@ -283,7 +283,7 @@ class tao_models_classes_ListService
     {
         $returnValue = null;
 
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002374 begin
+        
         
         if(!is_null($listClass)){
 			$level = count($this->getListElements($listClass)) + 1;
@@ -293,7 +293,7 @@ class tao_models_classes_ListService
 	        $returnValue = $this->createInstance($listClass, $label);
 	        $this->bindProperties($returnValue, array(TAO_LIST_LEVEL_PROP => count($this->getListElements($listClass, false))));
         }
-        // section 127-0-1-1-3fbbe8f5:127aa7fc0e0:-8000:0000000000002374 end
+        
 
         return $returnValue;
     }

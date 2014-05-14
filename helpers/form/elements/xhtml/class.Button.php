@@ -48,7 +48,7 @@ class tao_helpers_form_elements_xhtml_Button
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--5dde9503:124b4a68f24:-8000:0000000000001B13 begin
+        
 		
 		if(!empty($this->description)){
 			$returnValue .= "<label class='form_desc' for='{$this->name}'>"._dh($this->getDescription())."</label>";
@@ -57,7 +57,7 @@ class tao_helpers_form_elements_xhtml_Button
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= ' value="'._dh($this->value).'"  />';
 		
-        // section 127-0-1-1--5dde9503:124b4a68f24:-8000:0000000000001B13 end
+        
 
         return (string) $returnValue;
     }

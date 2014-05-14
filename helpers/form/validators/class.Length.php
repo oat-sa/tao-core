@@ -47,7 +47,7 @@ class tao_helpers_form_validators_Length
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C18 begin
+        
 		
 		parent::__construct($options);
 		
@@ -64,7 +64,7 @@ class tao_helpers_form_validators_Length
 			throw new Exception("Please set 'min' and/or 'max' options!");
 		}
 		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C18 end
+        
     }
 
     /**
@@ -79,7 +79,7 @@ class tao_helpers_form_validators_Length
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C22 begin
+        
         $returnValue = true;
         
 		$values = is_array($values) ? $values : array($values);
@@ -97,7 +97,7 @@ class tao_helpers_form_validators_Length
 				break;
 			}
 		}
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001C22 end
+        
 
         return (bool) $returnValue;
     }

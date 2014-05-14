@@ -47,7 +47,7 @@ class tao_scripts_TaoVersioning
      */
     public function preRun()
     {
-        // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F58 begin
+        
         $this->options = array (
     		'enable'	=> false,
     		'disable'	=> false,
@@ -58,7 +58,7 @@ class tao_scripts_TaoVersioning
         	'path'		=> null
     	);
     	$this->options = array_merge($this->options, $this->parameters);
-        // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F58 end
+        
     }
 
     /**
@@ -70,7 +70,7 @@ class tao_scripts_TaoVersioning
      */
     public function run()
     {
-        // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F5A begin
+        
         if($this->options['enable']){
 
         	$typeUri	= !is_null($this->options['type']) 		? $this->options['type'] 	: PROPERTY_GENERIS_VCS_TYPE_SUBVERSION;
@@ -109,7 +109,7 @@ class tao_scripts_TaoVersioning
 			}
         }
 
-        // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F5A end
+        
     }
 
     /**
@@ -121,8 +121,8 @@ class tao_scripts_TaoVersioning
      */
     public function postRun()
     {
-        // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F5C begin
-        // section 127-0-1-1--33cecc33:132fbb6bd64:-8000:0000000000003F5C end
+        
+        
     }
 
 } /* end of class tao_scripts_TaoVersioning */

@@ -64,8 +64,8 @@ class tao_helpers_form_xhtml_HtmlWrapper
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001952 begin
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001952 end
+        
+        
 
         return (string) $returnValue;
     }
@@ -81,8 +81,8 @@ class tao_helpers_form_xhtml_HtmlWrapper
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001954 begin
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001954 end
+        
+        
 
         return (string) $returnValue;
     }
@@ -99,8 +99,8 @@ class tao_helpers_form_xhtml_HtmlWrapper
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C79 begin
-        // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C79 end
+        
+        
 
         return (string) $returnValue;
     }
@@ -118,8 +118,8 @@ class tao_helpers_form_xhtml_HtmlWrapper
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C7C begin
-        // section 127-0-1-1--704cb8ff:125262de5fb:-8000:0000000000001C7C end
+        
+        
 
         return (bool) $returnValue;
     }
@@ -134,8 +134,8 @@ class tao_helpers_form_xhtml_HtmlWrapper
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CF5 begin
-        // section 127-0-1-1-3c8d01cf:1256d79098b:-8000:0000000000001CF5 end
+        
+        
     }
 
 } /* end of class tao_helpers_form_xhtml_HtmlWrapper */

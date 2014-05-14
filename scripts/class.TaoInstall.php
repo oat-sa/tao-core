@@ -47,7 +47,7 @@ class tao_scripts_TaoInstall
      */
     public function preRun()
     {
-        // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E76 begin
+        
         $root_path = realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR;
         
     	$this->options = array (
@@ -94,7 +94,7 @@ class tao_scripts_TaoInstall
     		$this->options['module_url'] = 'http://' . $this->options['module_host'];
     	}
     	
-        // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E76 end
+        
     }
 
     /**
@@ -106,7 +106,7 @@ class tao_scripts_TaoInstall
      */
     public function run()
     {
-        // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E78 begin
+        
         
     	$this->outVerbose("TAO is being installed. Please wait...");
     	try{
@@ -126,7 +126,7 @@ class tao_scripts_TaoInstall
     		$this->err("A fatal error occured during installation: " . $e->getMessage(), true);
     	}
 		
-        // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E78 end
+        
     }
 
     /**
@@ -138,9 +138,9 @@ class tao_scripts_TaoInstall
      */
     public function postRun()
     {
-        // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E7A begin
+        
         $this->outVerbose("Installation successful.");
-        // section 127-0-1-1--109d2719:1311a0f963b:-8000:0000000000002E7A end
+        
     }
 
 } /* end of class tao_scripts_TaoInstall */

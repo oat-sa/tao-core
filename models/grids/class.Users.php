@@ -49,7 +49,7 @@ class tao_models_grids_Users
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--3130d5b7:13607a37283:-8000:000000000000386F begin
+        
 
 		$columnNames = (is_array($this->options) && isset($this->options['columnNames']))?$this->options['columnNames']:array();
 		$adapterOptions = array();
@@ -91,7 +91,7 @@ class tao_models_grids_Users
 			new tao_models_grids_adaptors_UserProperty($adapterOptions)
 		);
 
-        // section 127-0-1-1--3130d5b7:13607a37283:-8000:000000000000386F end
+        
 
         return (bool) $returnValue;
     }

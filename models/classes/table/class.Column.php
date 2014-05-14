@@ -58,11 +58,11 @@ abstract class tao_models_classes_table_Column
     {
         $returnValue = null;
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BA2 begin
+        
         $type = $array['type'];
         unset($array['type']);
         $returnValue = $type::fromArray($array);
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BA2 end
+        
 
         return $returnValue;
     }
@@ -77,9 +77,9 @@ abstract class tao_models_classes_table_Column
      */
     public function __construct($label)
     {
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BA9 begin
+        
         $this->label = $label;
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BA9 end
+        
     }
 
     /**
@@ -94,8 +94,8 @@ abstract class tao_models_classes_table_Column
     {
         $returnValue = null;
 
-        // section 127-0-1-1--1257c5a1:1397d0b84b8:-8000:0000000000003BDE begin
-        // section 127-0-1-1--1257c5a1:1397d0b84b8:-8000:0000000000003BDE end
+        
+        
 
         return $returnValue;
     }
@@ -111,9 +111,9 @@ abstract class tao_models_classes_table_Column
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003B9E begin
+        
         $returnValue = $this->label;
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003B9E end
+        
 
         return (string) $returnValue;
     }
@@ -129,10 +129,10 @@ abstract class tao_models_classes_table_Column
     {
         $returnValue = array();
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BA7 begin
+        
         $returnValue['type'] = get_class($this);
         $returnValue['label'] = $this->label;
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BA7 end
+        
 
         return (array) $returnValue;
     }

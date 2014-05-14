@@ -47,13 +47,13 @@ class tao_helpers_Request
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A24 begin
+        
 		if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
 			if(strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
 				$returnValue = true;
 			}
 		}
-        // section 127-0-1-1-2c289c37:12448d7d8c8:-8000:0000000000001A24 end
+        
 
         return (bool) $returnValue;
     }
@@ -89,7 +89,7 @@ class tao_helpers_Request
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-673d6215:12afb9a0b0f:-8000:00000000000025A1 begin
+        
         
         if(!empty($url)){
 	        if($useSession){
@@ -123,7 +123,7 @@ class tao_helpers_Request
 			curl_close($curlHandler);  
         }
         
-        // section 127-0-1-1-673d6215:12afb9a0b0f:-8000:00000000000025A1 end
+        
 
         return (string) $returnValue;
     }

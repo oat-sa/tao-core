@@ -66,7 +66,7 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter
      */
     public function __construct($options = array(), $subgridClass = '')
     {
-        // section 127-0-1-1-72bb438:1338cba5f73:-8000:00000000000033A8 begin
+        
 		parent::__construct($options);
 		
 		$this->initSubgridClass($subgridClass);
@@ -81,7 +81,7 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter
 		}else{
 			throw new common_Exception('invalid subgrid class : '.$this->subgridClass);
 		}
-        // section 127-0-1-1-72bb438:1338cba5f73:-8000:00000000000033A8 end
+        
     }
 
     /**
@@ -98,7 +98,7 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter
     {
         $returnValue = null;
 
-        // section 127-0-1-1-72bb438:1338cba5f73:-8000:0000000000003388 begin
+        
 		if(isset($this->data[$rowId]) && is_a($this->data[$rowId], 'wfEngine_helpers_Monitoring_ActivityMonitoringGrid')){
 			
 			$returnValue = $this->data[$rowId];
@@ -111,7 +111,7 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter
 			$returnValue = $cloneSubGridCtn;
 			$this->data[$rowId] = $cloneSubGridCtn;
 		}
-        // section 127-0-1-1-72bb438:1338cba5f73:-8000:0000000000003388 end
+        
 
         return $returnValue;
     }
@@ -149,9 +149,9 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter
     {
         $returnValue = null;
 
-        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:00000000000033FB begin
+        
         $returnValue = $this->subGridContainer;
-        // section 127-0-1-1--509f1d4b:133a6f9e0dc:-8000:00000000000033FB end
+        
 
         return $returnValue;
     }

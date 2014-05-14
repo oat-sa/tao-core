@@ -46,7 +46,7 @@ class tao_helpers_translation_RDFFileReader
      */
     public function read()
     {
-        // section -64--88-56-1--508090e5:136c5d740c9:-8000:0000000000003922 begin
+        
         $translationUnits = array();
         
         try{
@@ -162,7 +162,7 @@ class tao_helpers_translation_RDFFileReader
         }else{
             throw new tao_helpers_translation_TranslationException("The file '${inputFile}' does not exist.");
         }
-        // section -64--88-56-1--508090e5:136c5d740c9:-8000:0000000000003922 end
+        
     }
 
 } /* end of class tao_helpers_translation_RDFFileReader */

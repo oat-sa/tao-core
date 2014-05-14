@@ -56,7 +56,7 @@ class tao_helpers_form_elements_xhtml_Htmlarea
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F4 begin
+        
 
 		if(array_key_exists('class', $this->attributes)){
 			if(strstr($this->attributes['class'], self::CSS_CLASS) !== false){
@@ -77,7 +77,7 @@ class tao_helpers_form_elements_xhtml_Htmlarea
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= ">"._dh($this->value)."</textarea>";
 		
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019F4 end
+        
 
         return (string) $returnValue;
     }

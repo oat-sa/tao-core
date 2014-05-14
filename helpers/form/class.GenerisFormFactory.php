@@ -53,7 +53,7 @@ class tao_helpers_form_GenerisFormFactory
     {
         $returnValue = null;
 
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001937 begin
+        
 		
 		//create the element from the right widget
 		$property->feed();
@@ -123,7 +123,7 @@ class tao_helpers_form_GenerisFormFactory
 			$returnValue = $element;
 		}
 		
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:0000000000001937 end
+        
 
         return $returnValue;
     }
@@ -143,7 +143,7 @@ class tao_helpers_form_GenerisFormFactory
     {
         $returnValue = array();
 
-        // section 127-0-1-1-2db84171:12476b7fa3b:-8000:0000000000001AAB begin
+        
 		
 		 
         if(is_null($topLevelClazz)){
@@ -198,7 +198,7 @@ class tao_helpers_form_GenerisFormFactory
     	}
     	$returnValue = array_merge($returnValue, $clazz->getProperties(false));
 		
-        // section 127-0-1-1-2db84171:12476b7fa3b:-8000:0000000000001AAB end
+        
 
         return (array) $returnValue;
     }
@@ -214,13 +214,13 @@ class tao_helpers_form_GenerisFormFactory
     {
         $returnValue = array();
 
-        // section 127-0-1-1--5ce810e0:1244ce713f8:-8000:0000000000001A43 begin
+        
 
 		 $returnValue = array(
 			new core_kernel_classes_Property(RDFS_LABEL)
 		);
 		
-        // section 127-0-1-1--5ce810e0:1244ce713f8:-8000:0000000000001A43 end
+        
 
         return (array) $returnValue;
     }
@@ -237,7 +237,7 @@ class tao_helpers_form_GenerisFormFactory
     {
         $returnValue = array();
 
-        // section 127-0-1-1-696660da:12480a2774f:-8000:0000000000001AB5 begin
+        
 		
 		switch($mode){
 			case 'simple':
@@ -260,7 +260,7 @@ class tao_helpers_form_GenerisFormFactory
 			}
 		}
 		
-        // section 127-0-1-1-696660da:12480a2774f:-8000:0000000000001AB5 end
+        
 
         return (array) $returnValue;
     }
@@ -277,7 +277,7 @@ class tao_helpers_form_GenerisFormFactory
     {
         $returnValue = array();
 
-        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B31 begin
+        
 		
 		$returnValue = array(
 			'text' => array(
@@ -327,7 +327,7 @@ class tao_helpers_form_GenerisFormFactory
 			)
 		);
 		
-        // section 127-0-1-1-47336e64:124c90d0af6:-8000:0000000000001B31 end
+        
 
         return (array) $returnValue;
     }
@@ -345,7 +345,7 @@ class tao_helpers_form_GenerisFormFactory
     {
         $returnValue = array();
 
-        // section 127-0-1-1--21f2413d:129b116aefd:-8000:00000000000021F1 begin
+        
         
         
         $data = array();
@@ -379,7 +379,7 @@ class tao_helpers_form_GenerisFormFactory
         	$returnValue = $data;
         }
         
-        // section 127-0-1-1--21f2413d:129b116aefd:-8000:00000000000021F1 end
+        
 
         return (array) $returnValue;
     }
@@ -397,7 +397,7 @@ class tao_helpers_form_GenerisFormFactory
     {
         $returnValue = array();
 
-        // section 127-0-1-1--65f085c2:129b27ea381:-8000:0000000000002206 begin
+        
         
         
         if(isset($data['data'])){
@@ -410,7 +410,7 @@ class tao_helpers_form_GenerisFormFactory
         	}
         }
         
-        // section 127-0-1-1--65f085c2:129b27ea381:-8000:0000000000002206 end
+        
 
         return (array) $returnValue;
     }

@@ -68,11 +68,11 @@ class tao_helpers_form_data_UploadFileDescription
      */
     public function __construct($name, $size, $type, $tmpPath)
     {
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CE6 begin
+        
         parent::__construct($name, $size);
         $this->type = $type;
         $this->tmpPath = $tmpPath;
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CE6 end
+        
     }
 
     /**
@@ -86,9 +86,9 @@ class tao_helpers_form_data_UploadFileDescription
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CF8 begin
+        
         $returnValue = $this->type;
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CF8 end
+        
 
         return (string) $returnValue;
     }
@@ -104,9 +104,9 @@ class tao_helpers_form_data_UploadFileDescription
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CFB begin
+        
         $returnValue = $this->tmpPath;
-        // section 127-0-1-1--2c821474:13d11698078:-8000:0000000000003CFB end
+        
 
         return (string) $returnValue;
     }

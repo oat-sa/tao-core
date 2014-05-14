@@ -46,7 +46,7 @@ class tao_actions_form_Login
      */
     public function initForm()
     {
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E57 begin
+        
 		
 		$this->form = tao_helpers_form_FormFactory::getForm('loginForm');
 		
@@ -54,7 +54,7 @@ class tao_actions_form_Login
 		$connectElt->setValue(__('Log in'));
 		$this->form->setActions(array($connectElt), 'bottom');
 		
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E57 end
+        
     }
 
     /**
@@ -66,7 +66,7 @@ class tao_actions_form_Login
      */
     public function initElements()
     {
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E59 begin
+        
 		
     	if (isset($this->data['redirect']) && !empty($this->data['redirect'])) {
 			$hiddenElt = tao_helpers_form_FormFactory::getElement('redirect', 'Hidden');
@@ -85,7 +85,7 @@ class tao_actions_form_Login
 		);
 		$this->form->addElement($passElt);
 		
-        // section 127-0-1-1-5e86b639:12689c55756:-8000:0000000000001E59 end
+        
     }
 
 } /* end of class tao_actions_form_Login */

@@ -47,7 +47,7 @@ class tao_helpers_form_validators_Callback
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D69 begin
+        
 		
 		parent::__construct($options);
 		
@@ -62,7 +62,7 @@ class tao_helpers_form_validators_Callback
 			throw new Exception("Please define a callback function or method");
 		}
 		
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D69 end
+        
     }
 
     /**
@@ -77,7 +77,7 @@ class tao_helpers_form_validators_Callback
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D73 begin
+        
 		
 		if(isset($this->options['function'])){
 			$function = $this->options['function'];
@@ -110,7 +110,7 @@ class tao_helpers_form_validators_Callback
 		} else {
 			$returnValue = (bool)call_user_func($callback, $values);
 		}
-        // section 127-0-1-1-4660071d:12596d6b0e5:-8000:0000000000001D73 end
+        
 
         return (bool) $returnValue;
     }

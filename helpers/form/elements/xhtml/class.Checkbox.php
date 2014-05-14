@@ -46,7 +46,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
      */
     public function feed()
     {
-        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003486 begin
+        
 		$expression = "/^".preg_quote($this->name, "/")."(.)*[0-9]+$/";
     	$this->setValues(array());
 		foreach($_POST as $key => $value){
@@ -54,7 +54,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
 				$this->addValue(tao_helpers_Uri::decode($value));
 			}
 		}
-        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003486 end
+        
     }
 
     /**
@@ -68,7 +68,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019FC begin
+        
 		
 		$i = 0;
 		if(!isset($this->attributes['noLabel'])){
@@ -107,7 +107,7 @@ class tao_helpers_form_elements_xhtml_Checkbox
 			}
 		}
 		
-        // section 127-0-1-1-3ed01c83:12409dc285c:-8000:00000000000019FC end
+        
 
         return (string) $returnValue;
     }
@@ -122,9 +122,9 @@ class tao_helpers_form_elements_xhtml_Checkbox
      */
     public function setValue($value)
     {
-        // section 127-0-1-1-bed3971:124720c750d:-8000:0000000000001A9A begin
+        
 		$this->addValue($value);
-        // section 127-0-1-1-bed3971:124720c750d:-8000:0000000000001A9A end
+        
     }
 
     /**
@@ -136,10 +136,10 @@ class tao_helpers_form_elements_xhtml_Checkbox
      */
     public function getEvaluatedValue()
     {
-        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:000000000000349E begin
+        
         return array_map("tao_helpers_Uri::decode", $this->getValues());
         //return array_map("tao_helpers_Uri::decode", $this->getRawValue());
-        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:000000000000349E end
+        
     }
 
 } /* end of class tao_helpers_form_elements_xhtml_Checkbox */

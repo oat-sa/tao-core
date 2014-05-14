@@ -46,7 +46,7 @@ class tao_actions_form_AdvancedProperty
      */
     public function initForm()
     {
-        // section 127-0-1-1--3a436df4:129b1de06f1:-8000:00000000000021FE begin
+        
         
     	(isset($this->options['name'])) ? $name = $this->options['name'] : $name = ''; 
     	if(empty($name)){
@@ -56,7 +56,7 @@ class tao_actions_form_AdvancedProperty
 			
 		$this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
     	
-        // section 127-0-1-1--3a436df4:129b1de06f1:-8000:00000000000021FE end
+        
     }
 
     /**
@@ -68,7 +68,7 @@ class tao_actions_form_AdvancedProperty
      */
     public function initElements()
     {
-        // section 127-0-1-1--3a436df4:129b1de06f1:-8000:0000000000002200 begin
+        
         
     	$property = new core_kernel_classes_Property($this->instance->getUri());
     	
@@ -119,7 +119,7 @@ class tao_actions_form_AdvancedProperty
 		$propUriElt->setValue(tao_helpers_Uri::encode($property->getUri()));
 		$this->form->addElement($propUriElt);
     	
-        // section 127-0-1-1--3a436df4:129b1de06f1:-8000:0000000000002200 end
+        
     }
 
 } /* end of class tao_actions_form_AdvancedProperty */

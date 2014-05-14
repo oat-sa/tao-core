@@ -88,7 +88,7 @@ abstract class tao_helpers_grid_GridContainer
      */
     public function __construct($data = array(), $options = array())
     {
-        // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000337D begin
+        
 		
 		$this->data = $data;
 		$this->options = $options;
@@ -100,7 +100,7 @@ abstract class tao_helpers_grid_GridContainer
 		$this->initColumns();
 		$this->initOptions($options);
 		
-        // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000337D end
+        
     }
 
     /**
@@ -112,12 +112,12 @@ abstract class tao_helpers_grid_GridContainer
      */
     public function __destruct()
     {
-        // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000338F begin
+        
 		if(!is_null($this->grid)){
 			//remove the refs of the contained grid
 			
 		}
-        // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000338F end
+        
     }
 
     /**
@@ -131,9 +131,9 @@ abstract class tao_helpers_grid_GridContainer
     {
         $returnValue = null;
 
-        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003392 begin
+        
 		$returnValue = $this->grid;
-        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003392 end
+        
 
         return $returnValue;
     }
@@ -149,12 +149,12 @@ abstract class tao_helpers_grid_GridContainer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003395 begin
+        
 		
 		//set data if data given
 		$returnValue = $this->grid->setData($this->data);
 		
-        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003395 end
+        
 
         return (bool) $returnValue;
     }
@@ -180,9 +180,9 @@ abstract class tao_helpers_grid_GridContainer
     {
         $returnValue = array();
 
-        // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000339E begin
+        
 		$returnValue = $this->grid->toArray();
-        // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000339E end
+        
 
         return (array) $returnValue;
     }
@@ -198,7 +198,7 @@ abstract class tao_helpers_grid_GridContainer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C1 begin
+        
         
         $columns = $this->grid->getColumns();
         if(isset($options['columns'])){
@@ -233,7 +233,7 @@ abstract class tao_helpers_grid_GridContainer
 				
         	}
         }
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C1 end
+        
 
         return (bool) $returnValue;
     }
@@ -247,9 +247,9 @@ abstract class tao_helpers_grid_GridContainer
      */
     public function __clone()
     {
-        // section 127-0-1-1-1e2308e2:133abaa95c2:-8000:0000000000003408 begin
+        
 		$this->grid = clone $this->grid;
-        // section 127-0-1-1-1e2308e2:133abaa95c2:-8000:0000000000003408 end
+        
     }
 
 } /* end of abstract class tao_helpers_grid_GridContainer */

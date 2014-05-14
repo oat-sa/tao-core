@@ -48,11 +48,11 @@ class tao_helpers_form_elements_xhtml_Free
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--6954f75c:1249b8f0f93:-8000:0000000000001ACF begin
+        
 		
 		$returnValue = $this->value;
 		
-        // section 127-0-1-1--6954f75c:1249b8f0f93:-8000:0000000000001ACF end
+        
 
         return (string) $returnValue;
     }

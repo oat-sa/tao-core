@@ -96,11 +96,11 @@ class tao_helpers_grid_Column
      */
     public function __construct($id, $title, $options = array())
     {
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:0000000000003295 begin
+        
 		$this->id = $id;
 		$this->title = $title;
 		$this->options = $options;
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:0000000000003295 end
+        
     }
 
     /**
@@ -115,10 +115,10 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032C0 begin
+        
 		$this->type = $type;
 		$returnValue = true;
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032C0 end
+        
 
         return (bool) $returnValue;
     }
@@ -134,9 +134,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032C4 begin
+        
 		$returnValue = $this->type;
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032C4 end
+        
 
         return (string) $returnValue;
     }
@@ -153,10 +153,10 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032C6 begin
+        
 		$this->title = $title;
 		$returnValue = true;
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032C6 end
+        
 
         return (bool) $returnValue;
     }
@@ -172,9 +172,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032C9 begin
+        
 		$returnValue = $this->title;
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032C9 end
+        
 
         return (string) $returnValue;
     }
@@ -190,9 +190,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032CB begin
+        
 		$returnValue = $this->id;
-        // section 127-0-1-1--17d909f0:1336f22bf6e:-8000:00000000000032CB end
+        
 
         return (string) $returnValue;
     }
@@ -209,12 +209,12 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003312 begin
+        
 		if(!is_null($adapter)){
 			$this->adapters[] = $adapter;
 			$returnValue = true;
 		}
-        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003312 end
+        
 
         return (bool) $returnValue;
     }
@@ -231,7 +231,7 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003318 begin
+        
 		$adapterClass = empty($type)?'tao_helpers_grid_Cell_Adapter':$type;
 		foreach($this->adapters as $adapter){
 			if($adapter instanceof $adapterClass){
@@ -240,7 +240,7 @@ class tao_helpers_grid_Column
 			}
 		}
 		
-        // section 127-0-1-1-6c609706:1337d294662:-8000:0000000000003318 end
+        
 
         return (bool) $returnValue;
     }
@@ -259,7 +259,7 @@ class tao_helpers_grid_Column
     {
         $returnValue = null;
 
-        // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000331A begin
+        
 		
 		if($this->hasAdapter()){
 			foreach($this->adapters as $adapter){
@@ -283,7 +283,7 @@ class tao_helpers_grid_Column
 			}
 		}
 		
-        // section 127-0-1-1-6c609706:1337d294662:-8000:000000000000331A end
+        
 
         return $returnValue;
     }
@@ -300,14 +300,14 @@ class tao_helpers_grid_Column
     {
         $returnValue = null;
 
-        // section 127-0-1-1-72bb438:1338cba5f73:-8000:00000000000033D6 begin
+        
 		foreach($this->adapters as $adapter){
 			if($adapter instanceof $type){
 				$returnValue = $adapter;
 				break;
 			}
 		}
-        // section 127-0-1-1-72bb438:1338cba5f73:-8000:00000000000033D6 end
+        
 
         return $returnValue;
     }
@@ -323,9 +323,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = array();
 
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033BD begin
+        
         $returnValue = $this->options;
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033BD end
+        
 
         return (array) $returnValue;
     }
@@ -339,9 +339,9 @@ class tao_helpers_grid_Column
      */
     public function setOptions($options)
     {
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033BF begin
+        
 		$this->options = array_merge($this->options, $options);
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033BF end
+        
     }
 
     /**
@@ -356,9 +356,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = null;
 
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C3 begin
+        
         $returnValue = $this->options[$name];
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C3 end
+        
 
         return $returnValue;
     }
@@ -373,9 +373,9 @@ class tao_helpers_grid_Column
      */
     public function setOption($name, $value)
     {
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C6 begin
+        
         $this->options[$name] = $value;
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033C6 end
+        
     }
 
     /**
@@ -390,8 +390,8 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-648bde17:133a6d54b9f:-8000:00000000000033ED begin
-        // section 127-0-1-1-648bde17:133a6d54b9f:-8000:00000000000033ED end
+        
+        
 
         return (bool) $returnValue;
     }
@@ -407,9 +407,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = array();
 
-        // section 127-0-1-1-648bde17:133a6d54b9f:-8000:00000000000033F6 begin
+        
 		$returnValue = $this->adapters;
-        // section 127-0-1-1-648bde17:133a6d54b9f:-8000:00000000000033F6 end
+        
 
         return (array) $returnValue;
     }

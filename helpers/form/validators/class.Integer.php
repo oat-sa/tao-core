@@ -47,9 +47,9 @@ class tao_helpers_form_validators_Integer
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1--4cd6560c:1379cf5f01c:-8000:0000000000003AAC begin
+        
 				parent::__construct($options);
-        // section 127-0-1-1--4cd6560c:1379cf5f01c:-8000:0000000000003AAC end
+        
     }
 
     /**
@@ -64,14 +64,14 @@ class tao_helpers_form_validators_Integer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--4cd6560c:1379cf5f01c:-8000:0000000000003AB6 begin
+        
 				if ($values == intval($values)) {
 					$returnValue = parent::evaluate($values);
 				} else {
 					$returnValue = false;
 					$this->message .= __('The value of this field must be an integer');
 				}
-        // section 127-0-1-1--4cd6560c:1379cf5f01c:-8000:0000000000003AB6 end
+        
 
         return (bool) $returnValue;
     }

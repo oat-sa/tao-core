@@ -52,7 +52,7 @@ abstract class tao_helpers_grid_Cell_VersionedFileAdapter
     {
         $returnValue = null;
 
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033CC begin
+        
         
         $versionedFile = $this->getVersionedFile($rowId, $columnId, $data);
         $verison = $this->getVersion($rowId, $columnId, $data);
@@ -61,7 +61,7 @@ abstract class tao_helpers_grid_Cell_VersionedFileAdapter
         	, "version" => $version
         );
         
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033CC end
+        
 
         return $returnValue;
     }

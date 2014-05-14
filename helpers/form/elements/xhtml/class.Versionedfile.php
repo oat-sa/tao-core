@@ -56,7 +56,7 @@ class tao_helpers_form_elements_xhtml_Versionedfile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-1ae05cc0:132f22f86c1:-8000:0000000000003F53 begin
+        
 		
 		if(array_key_exists('class', $this->attributes)){
 			if(strstr($this->attributes['class'], self::CSS_CLASS) !== false){
@@ -74,7 +74,7 @@ class tao_helpers_form_elements_xhtml_Versionedfile
 		$returnValue .= " />";
 		$returnValue .= "<span for='{$this->name}' ".$this->renderAttributes()."></span>";
 		
-        // section 127-0-1-1-1ae05cc0:132f22f86c1:-8000:0000000000003F53 end
+        
 
         return (string) $returnValue;
     }

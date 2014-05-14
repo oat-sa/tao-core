@@ -56,13 +56,13 @@ abstract class tao_helpers_form_elements_Password
      */
     public function __construct($name = '')
     {
-        // section 127-0-1-1-1ee974ce:13456771564:-8000:000000000000348C begin
+        
     	parent::__construct($name);
     	$this->addValidators(array(
     		tao_helpers_form_FormFactory::getValidator('Password'),
     		tao_helpers_form_FormFactory::getValidator('Length', array('min' => 3))
     	));
-        // section 127-0-1-1-1ee974ce:13456771564:-8000:000000000000348C end
+        
     }
 
 } /* end of abstract class tao_helpers_form_elements_Password */

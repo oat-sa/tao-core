@@ -109,11 +109,11 @@ class tao_helpers_transfert_Message
      */
     public function __construct()
     {
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:00000000000022D1 begin
+        
         
     	$this->status = self::STATUS_WAITING;
     	
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:00000000000022D1 end
+        
     }
 
     /**
@@ -127,11 +127,11 @@ class tao_helpers_transfert_Message
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000226A begin
+        
         
         $returnValue = $this->from;
         
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000226A end
+        
 
         return (string) $returnValue;
     }
@@ -146,11 +146,11 @@ class tao_helpers_transfert_Message
      */
     public function setFrom($from)
     {
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000226C begin
+        
         
     	$this->from = $from;
     	
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000226C end
+        
     }
 
     /**
@@ -164,11 +164,11 @@ class tao_helpers_transfert_Message
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000226F begin
+        
         
         $returnValue = $this->to;
         
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000226F end
+        
 
         return (string) $returnValue;
     }
@@ -183,11 +183,11 @@ class tao_helpers_transfert_Message
      */
     public function setTo($to)
     {
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002271 begin
+        
         
     	$this->to = $to;
     	
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002271 end
+        
     }
 
     /**
@@ -201,11 +201,11 @@ class tao_helpers_transfert_Message
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002274 begin
+        
         
         $returnValue = $this->title;
         
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002274 end
+        
 
         return (string) $returnValue;
     }
@@ -219,11 +219,11 @@ class tao_helpers_transfert_Message
      */
     public function setTitle($title)
     {
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002276 begin
+        
         
     	$this->title = $title;
     	
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002276 end
+        
     }
 
     /**
@@ -237,11 +237,11 @@ class tao_helpers_transfert_Message
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002279 begin
+        
         
         $returnValue = $this->body;
         
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:0000000000002279 end
+        
 
         return (string) $returnValue;
     }
@@ -256,11 +256,11 @@ class tao_helpers_transfert_Message
      */
     public function setBody($body)
     {
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000227B begin
+        
         
     	$this->body = $body;
     	
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:000000000000227B end
+        
     }
 
     /**
@@ -274,11 +274,11 @@ class tao_helpers_transfert_Message
     {
         $returnValue = (int) 0;
 
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:00000000000022D6 begin
+        
         
         $returnValue = $this->status;
         
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:00000000000022D6 end
+        
 
         return (int) $returnValue;
     }
@@ -293,11 +293,11 @@ class tao_helpers_transfert_Message
      */
     public function setStatus($status)
     {
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:00000000000022D3 begin
+        
         
     	$this->status = $status;
     	
-        // section 127-0-1-1-1609ec43:129caf00b07:-8000:00000000000022D3 end
+        
     }
 
 } /* end of class tao_helpers_transfert_Message */

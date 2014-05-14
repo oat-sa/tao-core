@@ -45,12 +45,12 @@ class tao_helpers_form_elements_xhtml_Password
      */
     public function feed()
     {
-        // section 127-0-1-1-750eebc6:13440d254e0:-8000:0000000000006086 begin
+        
         
     	if (isset($_POST[$this->name]) && is_array($_POST[$this->name])) {
     		$this->setValue(array_values($_POST[$this->name]));
 		}
-        // section 127-0-1-1-750eebc6:13440d254e0:-8000:0000000000006086 end
+        
     }
 
     /**
@@ -64,7 +64,7 @@ class tao_helpers_form_elements_xhtml_Password
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-750eebc6:13440d254e0:-8000:0000000000006083 begin
+        
         if(!isset($this->attributes['noLabel'])){
 			$returnValue .= "<label class='form_desc' for='{$this->name}'>". _dh($this->getDescription()).
 			(strlen($this->value) == 0 ? '' : ' (change)').
@@ -80,7 +80,7 @@ class tao_helpers_form_elements_xhtml_Password
 		$returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' ";
 		$returnValue .= $this->renderAttributes();
 		$returnValue .= ' value=""  />';
-        // section 127-0-1-1-750eebc6:13440d254e0:-8000:0000000000006083 end
+        
 
         return (string) $returnValue;
     }
@@ -96,10 +96,10 @@ class tao_helpers_form_elements_xhtml_Password
     {
         $returnValue = null;
 
-        // section 127-0-1-1--78214b38:13447752615:-8000:0000000000003488 begin
+        
     	$arr = $this->getRawValue();
     	$returnValue = core_kernel_users_AuthAdapter::getPasswordHash()->encrypt(array_shift($arr));
-        // section 127-0-1-1--78214b38:13447752615:-8000:0000000000003488 end
+        
 
         return $returnValue;
     }

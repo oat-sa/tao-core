@@ -47,7 +47,7 @@ class tao_scripts_TaoRDFImport
      */
     public function preRun()
     {
-        // section 10-13-1-85-386ea1c0:135859fbbdd:-8000:00000000000037CE begin
+        
         $this->options = array('verbose' => false,
         					   'user' => null,
         					   'password' => null,
@@ -68,7 +68,7 @@ class tao_scripts_TaoRDFImport
         	$this->err("Please provide a RDF 'input' file.", true);
         }
 
-        // section 10-13-1-85-386ea1c0:135859fbbdd:-8000:00000000000037CE end
+        
     }
 
     /**
@@ -80,7 +80,7 @@ class tao_scripts_TaoRDFImport
      */
     public function run()
     {
-        // section 10-13-1-85-386ea1c0:135859fbbdd:-8000:00000000000037D0 begin
+        
         $userService = tao_models_classes_UserService::singleton();
         $this->outVerbose("Connecting to TAO as '" . $this->options['user'] . "' ...");
         if ($userService->loginUser($this->options['user'], $this->options['password'])){
@@ -153,7 +153,7 @@ class tao_scripts_TaoRDFImport
         else{
         	$this->err("Unable to connect to TAO as '" . $this->options['user'] . "'.", true);
         }
-        // section 10-13-1-85-386ea1c0:135859fbbdd:-8000:00000000000037D0 end
+        
     }
 
     /**
@@ -165,8 +165,8 @@ class tao_scripts_TaoRDFImport
      */
     public function postRun()
     {
-        // section 10-13-1-85-386ea1c0:135859fbbdd:-8000:00000000000037D2 begin
-        // section 10-13-1-85-386ea1c0:135859fbbdd:-8000:00000000000037D2 end
+        
+        
     }
 
 } /* end of class tao_scripts_TaoRDFImport */

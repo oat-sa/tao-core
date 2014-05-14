@@ -66,7 +66,7 @@ abstract class tao_scripts_Runner
      */
     public function __construct($inputFormat = array(), $options = array())
     {
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B begin
+        
         if(PHP_SAPI == 'cli' && !isset($options['argv'])){
             $this->argv = $_SERVER['argv'];
             $this->isCli = true;
@@ -108,7 +108,7 @@ abstract class tao_scripts_Runner
         $this->out('Execution of Script ' . (isset($this->argv[0]) ? $this->argv[0] : __CLASS__) . ' completed' , $options);
          
     	
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D4B end
+        
     }
 
     /**
@@ -122,7 +122,7 @@ abstract class tao_scripts_Runner
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D63 begin
+        
         
         $returnValue = true;
         
@@ -287,7 +287,7 @@ abstract class tao_scripts_Runner
         
  
         
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D63 end
+        
 
         return (bool) $returnValue;
     }
@@ -301,8 +301,8 @@ abstract class tao_scripts_Runner
      */
     protected function preRun()
     {
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D49 begin
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D49 end
+        
+        
     }
 
     /**
@@ -324,8 +324,8 @@ abstract class tao_scripts_Runner
      */
     protected function postRun()
     {
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D54 begin
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D54 end
+        
+        
     }
     /**
      *
@@ -410,7 +410,7 @@ abstract class tao_scripts_Runner
      */
     public function out($message, $options = array())
     {
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D56 begin
+        
         $returnValue =  $this->isCli ? $this->renderCliOutput($message,$options) : $this->renderHtmlOutput($message,$options);
         if ($this->logOny){
             //do nothing
@@ -419,7 +419,7 @@ abstract class tao_scripts_Runner
             echo $returnValue ;
         }
         common_Logger::i($message, array('SCRIPTS_RUNNER'));
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D56 end
+        
     }
 
     /**
@@ -432,7 +432,7 @@ abstract class tao_scripts_Runner
      */
     protected function err($message, $stopExec = false)
     {
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D5B begin
+        
         common_Logger::e($message);
         echo $this->out($message, array('color' => 'light_red'));
         
@@ -445,7 +445,7 @@ abstract class tao_scripts_Runner
             }
         }
         
-        // section 127-0-1-1--39e3a8dd:12e33ba6c22:-8000:0000000000002D5B end
+        
     }
 
     /**
@@ -457,7 +457,7 @@ abstract class tao_scripts_Runner
      */
     protected function help()
     {
-        // section 127-0-1-1--5d5119d4:12e3924f2ec:-8000:0000000000002D86 begin
+        
         
     	$usage = "Usage:php {$this->argv[0]} [arguments]\n";
     	$usage .= "\nArguments list:\n";
@@ -485,7 +485,7 @@ abstract class tao_scripts_Runner
        	}
   		$this->out($usage, array('color' => 'light_blue'));
     	
-        // section 127-0-1-1--5d5119d4:12e3924f2ec:-8000:0000000000002D86 end
+        
     }
 
     /**
@@ -499,12 +499,12 @@ abstract class tao_scripts_Runner
      */
     public function outVerbose($message, $options = array())
     {
-        // section 10-13-1-85-2583e310:134ccc56ba1:-8000:00000000000038B7 begin
+        
         common_Logger::i($message);
         if (isset($this->parameters['verbose']) && $this->parameters['verbose'] === true) {
         	$this->out($message, $options);
         }
-        // section 10-13-1-85-2583e310:134ccc56ba1:-8000:00000000000038B7 end
+        
     }
 
 } /* end of abstract class tao_scripts_Runner */

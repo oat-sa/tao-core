@@ -46,7 +46,7 @@ class tao_helpers_translation_RDFFileWriter
      */
     public function write()
     {
-        // section 10-13-1-85--345dcc7e:13543c6ca3a:-8000:0000000000003A86 begin
+        
         $targetPath = $this->getFilePath();
         $file = $this->getTranslationFile();
         $semanticNamespaces = array('rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
@@ -124,7 +124,7 @@ class tao_helpers_translation_RDFFileWriter
         catch (DOMException $e) {
             throw new tao_helpers_translation_TranslationException("An error occured while writing the RDF File at '${targetPath}'.");
         }
-        // section 10-13-1-85--345dcc7e:13543c6ca3a:-8000:0000000000003A86 end
+        
     }
 
 } /* end of class tao_helpers_translation_RDFFileWriter */

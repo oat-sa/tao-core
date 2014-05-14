@@ -47,11 +47,11 @@ class tao_helpers_data_GenerisAdapterRdf
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EB2 begin
+        
         
     	parent::__construct();
     	
-        // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EB2 end
+        
     }
 
     /**
@@ -68,7 +68,7 @@ class tao_helpers_data_GenerisAdapterRdf
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EBC begin
+        
         
         $api = core_kernel_impl_ApiModelOO::singleton();
 		$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
@@ -85,7 +85,7 @@ class tao_helpers_data_GenerisAdapterRdf
 			$returnValue = $api->importXmlRdf($localModel, $source);
 		}
         
-        // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EBC end
+        
 
         return (bool) $returnValue;
     }
@@ -104,7 +104,7 @@ class tao_helpers_data_GenerisAdapterRdf
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EC1 begin
+        
         
    		$api = core_kernel_impl_ApiModelOO::singleton();
 		
@@ -124,7 +124,7 @@ class tao_helpers_data_GenerisAdapterRdf
 			$returnValue = $api->exportXmlRdf();
 		}
         
-        // section 127-0-1-1-32e481fe:126f616bda1:-8000:0000000000001EC1 end
+        
 
         return (string) $returnValue;
     }

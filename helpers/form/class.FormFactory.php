@@ -56,9 +56,9 @@ class tao_helpers_form_FormFactory
      */
     public static function setRenderMode($renderMode)
     {
-        // section 127-0-1-1--4d0d476d:124bee31dc8:-8000:0000000000001B2E begin
+        
 		self::$renderMode = $renderMode;
-        // section 127-0-1-1--4d0d476d:124bee31dc8:-8000:0000000000001B2E end
+        
     }
 
     /**
@@ -74,7 +74,7 @@ class tao_helpers_form_FormFactory
     {
         $returnValue = null;
 
-        // section 127-0-1-1--35d6051a:124bac7a23e:-8000:0000000000001B17 begin
+        
 		
 		//use the right implementation (depending the render mode)
 		//@todo refactor this and use a FormElementFactory
@@ -101,7 +101,7 @@ class tao_helpers_form_FormFactory
 		
 		$returnValue = $myForm;
 		
-        // section 127-0-1-1--35d6051a:124bac7a23e:-8000:0000000000001B17 end
+        
 
         return $returnValue;
     }
@@ -119,7 +119,7 @@ class tao_helpers_form_FormFactory
     {
         $returnValue = null;
 
-        // section 127-0-1-1--35d6051a:124bac7a23e:-8000:0000000000001B21 begin
+        
 		
 		$eltClass = false;
 		
@@ -144,7 +144,7 @@ class tao_helpers_form_FormFactory
 			}
 		}
 
-        // section 127-0-1-1--35d6051a:124bac7a23e:-8000:0000000000001B21 end
+        
 
         return $returnValue;
     }
@@ -162,7 +162,7 @@ class tao_helpers_form_FormFactory
     {
         $returnValue = null;
 
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BD2 begin
+        
 		
 		$clazz = 'tao_helpers_form_validators_'.$name;
 		if(class_exists($clazz)){
@@ -171,7 +171,7 @@ class tao_helpers_form_FormFactory
 			common_Logger::w('Unknown validator '.$name, array('TAO', 'FORM'));
 		}
 		
-        // section 127-0-1-1-34d7bcb9:1250bcb34b1:-8000:0000000000001BD2 end
+        
 
         return $returnValue;
     }
@@ -189,7 +189,7 @@ class tao_helpers_form_FormFactory
     {
         $returnValue = array();
 
-        // section 127-0-1-1--792ca639:1268e3f82cb:-8000:0000000000001E6C begin
+        
 		
 		switch($context){
 			
@@ -207,7 +207,7 @@ class tao_helpers_form_FormFactory
 				break;
 		}
 		
-        // section 127-0-1-1--792ca639:1268e3f82cb:-8000:0000000000001E6C end
+        
 
         return (array) $returnValue;
     }

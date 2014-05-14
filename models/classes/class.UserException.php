@@ -48,11 +48,11 @@ class tao_models_classes_UserException
      */
     public function __construct($message)
     {
-        // section 127-0-1-1-235ad9e5:12db7a01f69:-8000:0000000000002D14 begin
+        
         
     	parent::__construct($message);
     	
-        // section 127-0-1-1-235ad9e5:12db7a01f69:-8000:0000000000002D14 end
+        
     }
 
 } /* end of class tao_models_classes_UserException */

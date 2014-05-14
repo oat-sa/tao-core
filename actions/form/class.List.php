@@ -46,7 +46,7 @@ class tao_actions_form_List
      */
     public function initForm()
     {
-        // section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237C begin
+        
 
         $this->form = tao_helpers_form_FormFactory::getForm('list');
 
@@ -55,7 +55,7 @@ class tao_actions_form_List
 		$this->form->setActions(array($addElt), 'bottom');
 		$this->form->setActions(array(), 'top');
 
-        // section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237C end
+        
     }
 
     /**
@@ -67,7 +67,7 @@ class tao_actions_form_List
      */
     public function initElements()
     {
-        // section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237E begin
+        
 
     	$labelElt = tao_helpers_form_FormFactory::getElement('label', 'Textbox');
 		$labelElt->setDescription(__('Name'));
@@ -86,7 +86,7 @@ class tao_actions_form_List
 
 		$this->form->createGroup('options', __('List Options'), array('label', 'size'));
 
-        // section 127-0-1-1--289f70ef:127af0e99db:-8000:000000000000237E end
+        
     }
 
 } /* end of class tao_actions_form_List */

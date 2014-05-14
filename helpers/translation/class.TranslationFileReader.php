@@ -67,9 +67,9 @@ abstract class tao_helpers_translation_TranslationFileReader
      */
     public function __construct($filePath)
     {
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034B7 begin
+        
         $this->filePath = $filePath;
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034B7 end
+        
     }
 
     /**
@@ -95,14 +95,14 @@ abstract class tao_helpers_translation_TranslationFileReader
     {
         $returnValue = null;
 
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034BC begin
+        
     	if ($this->translationFile != null) {
         	return $this->translationFile;
         }
         else {
         	throw new tao_helpers_translation_TranslationException('No TranslationFile to retrieve.');
         }
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034BC end
+        
 
         return $returnValue;
     }
@@ -118,9 +118,9 @@ abstract class tao_helpers_translation_TranslationFileReader
     {
         $returnValue = (string) '';
 
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034BE begin
+        
         return $this->filePath;
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034BE end
+        
 
         return (string) $returnValue;
     }
@@ -135,9 +135,9 @@ abstract class tao_helpers_translation_TranslationFileReader
      */
     public function setFilePath($filePath)
     {
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034C0 begin
+        
         $this->filePath = $filePath;
-        // section 10-13-1-85-72d0ca97:1331b62f595:-8000:00000000000034C0 end
+        
     }
 
     /**
@@ -150,9 +150,9 @@ abstract class tao_helpers_translation_TranslationFileReader
      */
     public function setTranslationFile( tao_helpers_translation_TranslationFile $translationFile)
     {
-        // section 10-13-1-85-39553493:1331c604ede:-8000:0000000000003542 begin
+        
         $this->translationFile = $translationFile;
-        // section 10-13-1-85-39553493:1331c604ede:-8000:0000000000003542 end
+        
     }
 
 } /* end of abstract class tao_helpers_translation_TranslationFileReader */

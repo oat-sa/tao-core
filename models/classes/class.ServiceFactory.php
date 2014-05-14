@@ -54,9 +54,9 @@ class tao_models_classes_ServiceFactory
     {
         $returnValue = null;
 
-        // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001832 begin
+        
         $returnValue = tao_models_classes_Service::getServiceByName($serviceName);
-        // section 10-13-1-45-792423e0:12398d13f24:-8000:0000000000001832 end
+        
 
         return $returnValue;
     }

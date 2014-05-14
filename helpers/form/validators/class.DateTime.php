@@ -47,11 +47,11 @@ class tao_helpers_form_validators_DateTime
      */
     public function __construct($options = array())
     {
-        // section 127-0-1-1-1327d07d:131adaf13fc:-8000:0000000000002E7A begin
+        
 		 
 		parent::__construct($options);
 		
-        // section 127-0-1-1-1327d07d:131adaf13fc:-8000:0000000000002E7A end
+        
     }
 
     /**
@@ -66,7 +66,7 @@ class tao_helpers_form_validators_DateTime
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1-1327d07d:131adaf13fc:-8000:0000000000002E84 begin
+        
 		$value = trim($values);
 		/*
 		if(empty($value)){
@@ -141,7 +141,7 @@ class tao_helpers_form_validators_DateTime
 			$returnValue = false;
 		}
 		
-        // section 127-0-1-1-1327d07d:131adaf13fc:-8000:0000000000002E84 end
+        
 
         return (bool) $returnValue;
     }

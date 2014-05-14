@@ -56,9 +56,9 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
      */
     public function __construct( core_kernel_classes_Resource $targetInstance)
     {
-        // section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CC8 begin
+        
         $this->targetInstance = $targetInstance;
-        // section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CC8 end
+        
     }
 
     /**
@@ -72,9 +72,9 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
     {
         $returnValue = null;
 
-        // section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CAD begin
+        
         $returnValue = $this->targetInstance;
-        // section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CAD end
+        
 
         return $returnValue;
     }
@@ -99,7 +99,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
     {
         $returnValue = null;
 
-        // section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CE0 begin
+        
         
         // Some predicates must be excluded.
         // e.g. 'tao.forms.instance' which is only a tag to identify
@@ -177,7 +177,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
         	$instanceUri = $instance->getUri();
         	throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException($msg);
         }
-        // section 127-0-1-1-2d2ef7de:13d10c8a117:-8000:0000000000003CE0 end
+        
 
         return $returnValue;
     }

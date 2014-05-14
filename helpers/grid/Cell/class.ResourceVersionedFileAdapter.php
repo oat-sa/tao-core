@@ -51,7 +51,7 @@ class tao_helpers_grid_Cell_ResourceVersionedFileAdapter
     {
         $returnValue = null;
 
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033DB begin
+        
         if(empty($data)){
         	throw new Exception('data can not be empty');
         }
@@ -63,7 +63,7 @@ class tao_helpers_grid_Cell_ResourceVersionedFileAdapter
 		}
 		
 		$returnValue = $data;
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033DB end
+        
 
         return $returnValue;
     }
@@ -82,9 +82,9 @@ class tao_helpers_grid_Cell_ResourceVersionedFileAdapter
     {
         $returnValue = (int) 0;
 
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033E1 begin
+        
 		$returnValue = null;
-        // section 127-0-1-1--17a51322:133a2840e6a:-8000:00000000000033E1 end
+        
 
         return (int) $returnValue;
     }

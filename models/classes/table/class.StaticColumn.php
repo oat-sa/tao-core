@@ -58,9 +58,9 @@ class tao_models_classes_table_StaticColumn
      */
     public function prepare($resources, $columns)
     {
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BDA begin
+        
         // nothing to do
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BDA end
+        
     }
 
     /**
@@ -76,9 +76,9 @@ class tao_models_classes_table_StaticColumn
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BDE begin
+        
         $returnValue = $column->value;
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BDE end
+        
 
         return (string) $returnValue;
     }
@@ -95,9 +95,9 @@ class tao_models_classes_table_StaticColumn
     {
         $returnValue = null;
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BF5 begin
+        
         $returnValue = new self($array['label'], $array['val']);
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BF5 end
+        
 
         return $returnValue;
     }
@@ -113,10 +113,10 @@ class tao_models_classes_table_StaticColumn
      */
     public function __construct($label, $value)
     {
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BAF begin
+        
         parent::__construct($label);
         $this->value = $value;
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BAF end
+        
     }
 
     /**
@@ -130,10 +130,10 @@ class tao_models_classes_table_StaticColumn
     {
         $returnValue = array();
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BC0 begin
+        
         $returnValue = parent::toArray();
         $returnValue['val'] = $this->value;
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BC0 end
+        
 
         return (array) $returnValue;
     }
@@ -149,9 +149,9 @@ class tao_models_classes_table_StaticColumn
     {
         $returnValue = null;
 
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BE4 begin
+        
         $returnValue = $this;
-        // section 127-0-1-1--8febfab:13977a059a7:-8000:0000000000003BE4 end
+        
 
         return $returnValue;
     }

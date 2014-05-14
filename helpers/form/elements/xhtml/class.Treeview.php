@@ -46,7 +46,7 @@ class tao_helpers_form_elements_xhtml_Treeview
      */
     public function feed()
     {
-        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003484 begin
+        
 		$expression = "/^" . preg_quote($this->name, "/") . "(.)*[0-9]+$/";
 		$found = false;
 		foreach ($_POST as $key => $value) {
@@ -63,7 +63,7 @@ class tao_helpers_form_elements_xhtml_Treeview
 				}
 			}
 		}
-        // section 127-0-1-1-7109ddcd:1344660e25c:-8000:0000000000003484 end
+        
     }
 
     /**
@@ -78,7 +78,7 @@ class tao_helpers_form_elements_xhtml_Treeview
     {
         $returnValue = array();
 
-        // section 127-0-1-1--65f085c2:129b27ea381:-8000:0000000000002202 begin
+        
 
         switch($format){
         	case 'structured':
@@ -90,7 +90,7 @@ class tao_helpers_form_elements_xhtml_Treeview
         		break;
         }
 
-        // section 127-0-1-1--65f085c2:129b27ea381:-8000:0000000000002202 end
+        
 
         return (array) $returnValue;
     }
@@ -105,11 +105,11 @@ class tao_helpers_form_elements_xhtml_Treeview
      */
     public function setValue($value)
     {
-        // section 127-0-1-1--65f085c2:129b27ea381:-8000:000000000000220B begin
+        
 
     	$this->addValue($value);
 
-        // section 127-0-1-1--65f085c2:129b27ea381:-8000:000000000000220B end
+        
     }
 
     /**
@@ -123,7 +123,7 @@ class tao_helpers_form_elements_xhtml_Treeview
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1-1a593a5d:129ad6a35a4:-8000:000000000000204C begin
+        
 
         $widgetTreeName  = $this->name.'-TreeBox';
         $widgetValueName = $this->name.'-TreeValues';
@@ -188,7 +188,7 @@ class tao_helpers_form_elements_xhtml_Treeview
 			</script>';
         $returnValue .= "</div><br />";
 
-        // section 127-0-1-1-1a593a5d:129ad6a35a4:-8000:000000000000204C end
+        
 
         return (string) $returnValue;
     }
@@ -202,14 +202,14 @@ class tao_helpers_form_elements_xhtml_Treeview
      */
     public function getEvaluatedValue()
     {
-        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:000000000000349C begin
+        
     	$values = array_map("tao_helpers_Uri::decode", $this->getValues());
     	if(count($values) == 1){
 			return $values[0];
     	} else{
     		return $values;
     	}
-        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:000000000000349C end
+        
     }
 
 } /* end of class tao_helpers_form_elements_xhtml_Treeview */

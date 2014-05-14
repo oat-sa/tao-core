@@ -104,7 +104,7 @@ class tao_helpers_translation_POTranslationUnit
      */
     public function addFlag($flag)
     {
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF3 begin
+        
         $currentAnnotations = $this->getAnnotations();
         if (!isset($currentAnnotations[self::FLAGS])){
             $currentAnnotations[self::FLAGS] = $flag;
@@ -114,7 +114,7 @@ class tao_helpers_translation_POTranslationUnit
         }
     
         $this->setAnnotations($currentAnnotations);
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF3 end
+        
     }
 
     /**
@@ -128,7 +128,7 @@ class tao_helpers_translation_POTranslationUnit
      */
     public function removeFlag($flag)
     {
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF8 begin
+        
         $currentFlags = $this->getFlags();
         for ($i = 0; $i < count($currentFlags); $i++){
             if ($currentFlags[$i] == $flag){
@@ -141,7 +141,7 @@ class tao_helpers_translation_POTranslationUnit
             unset($currentFlags[$i]);
             $this->setFlags($currentFlags);
         }
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AF8 end
+        
     }
 
     /**
@@ -156,14 +156,14 @@ class tao_helpers_translation_POTranslationUnit
     {
         $returnValue = (bool) false;
 
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AFD begin
+        
         foreach ($this->getFlags() as $f){
             if ($f == $flag){
                 $returnValue = true;
                 break;
             }
         }
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003AFD end
+        
 
         return (bool) $returnValue;
     }
@@ -180,12 +180,12 @@ class tao_helpers_translation_POTranslationUnit
     {
         $returnValue = array();
 
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B02 begin
+        
         $currentAnnotations = $this->getAnnotations();
         if (isset($currentAnnotations[self::FLAGS])){
             $returnValue = explode(" ", $currentAnnotations[self::FLAGS]);
         }
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B02 end
+        
 
         return (array) $returnValue;
     }
@@ -201,11 +201,11 @@ class tao_helpers_translation_POTranslationUnit
      */
     public function setFlags($flags)
     {
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B06 begin
+        
         $currentAnnotations = $this->getAnnotations();
         $currentAnnotations[self::FLAGS] = implode(" ", $flags);
         $this->setAnnotations($currentAnnotations);
-        // section -64--88-56-1--3f1036:137c6806719:-8000:0000000000003B06 end
+        
     }
 
 } /* end of class tao_helpers_translation_POTranslationUnit */

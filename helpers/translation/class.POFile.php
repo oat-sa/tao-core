@@ -56,9 +56,9 @@ class tao_helpers_translation_POFile
      */
     public function addHeader($name, $value)
     {
-        // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038DA begin
+        
         $this->headers[$name] = $value;
-        // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038DA end
+        
     }
 
     /**
@@ -71,9 +71,9 @@ class tao_helpers_translation_POFile
      */
     public function removeHeader($name)
     {
-        // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038DE begin
+        
         unset($this->headers[$name]);
-        // section 10-13-1-85-73c9aa2d:134d14a8b30:-8000:00000000000038DE end
+        
     }
 
     /**
@@ -87,9 +87,9 @@ class tao_helpers_translation_POFile
     {
         $returnValue = array();
 
-        // section 10-13-1-85--53f40a93:134d16b5c93:-8000:00000000000038E1 begin
+        
         $returnValue = $this->headers;
-        // section 10-13-1-85--53f40a93:134d16b5c93:-8000:00000000000038E1 end
+        
 
         return (array) $returnValue;
     }
@@ -107,13 +107,13 @@ class tao_helpers_translation_POFile
     {
         $returnValue = array();
 
-        // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B17 begin
+        
         foreach ($this->getTranslationUnits() as $tu){
             if ($tu->hasFlag($flag)){
                 $returnValue[] = $tu;
             }
         }
-        // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B17 end
+        
 
         return (array) $returnValue;
     }
@@ -131,7 +131,7 @@ class tao_helpers_translation_POFile
     {
         $returnValue = array();
 
-        // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B1D begin
+        
         foreach ($this->getTranslationUnits() as $tu){
             $matching = true;
             foreach ($flags as $f){
@@ -149,7 +149,7 @@ class tao_helpers_translation_POFile
                 $matching = true;
             }
         }
-        // section -64--88-56-1-6fd49a8c:137c6c06daf:-8000:0000000000003B1D end
+        
 
         return (array) $returnValue;
     }

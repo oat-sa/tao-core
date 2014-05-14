@@ -83,7 +83,7 @@ abstract class tao_helpers_form_FormContainer
      */
     public function __construct($data = array(), $options = array())
     {
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DDD begin
+        
 		
 		$this->data = $data;
 		$this->options = $options;
@@ -116,7 +116,7 @@ abstract class tao_helpers_form_FormContainer
 		
 		$returnValue = $this;
 		
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DDD end
+        
     }
 
     /**
@@ -128,14 +128,14 @@ abstract class tao_helpers_form_FormContainer
      */
     public function __destruct()
     {
-        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:0000000000002090 begin
+        
         
     	if(!is_null($this->form)){
 			//remove the refs of the contained form
 			unset(self::$forms[$this->form->getName()]);
 		}
     	
-        // section 127-0-1-1--1c40cb28:129a733b4d1:-8000:0000000000002090 end
+        
     }
 
     /**
@@ -149,11 +149,11 @@ abstract class tao_helpers_form_FormContainer
     {
         $returnValue = null;
 
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DD9 begin
+        
 		
 		$returnValue = $this->form;
 		
-        // section 127-0-1-1-1f533553:1260917dc26:-8000:0000000000001DD9 end
+        
 
         return $returnValue;
     }
@@ -191,11 +191,11 @@ abstract class tao_helpers_form_FormContainer
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--485428cc:133267d2802:-8000:0000000000004096 begin
+        
         
         $returnValue = true;
         
-        // section 127-0-1-1--485428cc:133267d2802:-8000:0000000000004096 end
+        
 
         return (bool) $returnValue;
     }

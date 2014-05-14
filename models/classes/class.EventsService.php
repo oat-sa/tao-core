@@ -116,7 +116,7 @@ class tao_models_classes_EventsService
     {
         $returnValue = (bool) false;
 
-        // section 127-0-1-1--400678db:12c07cdfee6:-8000:0000000000002744 begin
+        
         
     	try
 		{

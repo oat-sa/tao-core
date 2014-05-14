@@ -45,7 +45,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
      */
     public function feed()
     {
-        // section 127-0-1-1-3ba812e2:1284379704f:-8000:00000000000023F8 begin
+        
         common_Logger::t('Evaluating AsyncFile '.$this->getName(), array('TAO'));
         if (isset($_POST[$this->name])) {
         	$struct = @unserialize($_POST[$this->name]);
@@ -55,7 +55,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
         		common_Logger::w('Could not unserialise AsyncFile field '.$this->getName(), array('TAO'));
         	}
         }
-        // section 127-0-1-1-3ba812e2:1284379704f:-8000:00000000000023F8 end
+        
     }
 
     /**
@@ -69,7 +69,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
     {
         $returnValue = (string) '';
 
-        // section 127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DE begin
+        
 
         $widgetName = 'AsyncFileUploader_'.md5($this->name);
 
@@ -146,7 +146,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile
 			</script>';
         $returnValue .= "</div>";
 
-        // section 127-0-1-1--79a39ca7:12824fe53d5:-8000:00000000000023DE end
+        
 
         return (string) $returnValue;
     }
@@ -160,9 +160,9 @@ class tao_helpers_form_elements_xhtml_AsyncFile
      */
     public function getEvaluatedValue()
     {
-        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A0 begin
+        
     	return $this->getRawValue();
-        // section 127-0-1-1--19ea91f3:1349db91b83:-8000:00000000000034A0 end
+        
     }
 
 } /* end of class tao_helpers_form_elements_xhtml_AsyncFile */
