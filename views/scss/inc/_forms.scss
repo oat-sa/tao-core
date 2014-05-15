@@ -116,11 +116,14 @@ select {
     color: $textColor;
     max-width: 300px;
 
-    &.disabled, &[disabled], &[readonly] {
+    &.disabled, &[disabled] {
         cursor: not-allowed !important;
+    }
+    &.disabled, &[disabled], &[readonly] {
         color: $textColor;
         opacity: .55 !important;
     }
+   
 
     & ~ .validate-error {
         color: $error;

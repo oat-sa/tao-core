@@ -10,11 +10,11 @@ define([
     'ui/selecter',
     'ui/modal',
     'ui/tooltipster',
-    'ui/radiocheckbox',
+    'ui/form',
     'ui/resourcemgr',
     'ui/validator',
     'ui/groupvalidator'
-], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, tooltipster, radiocheckbox, resourcemgr) {
+], function(toggler, disabler, adder, deleter, incrementer, inplacer, btngrouper, durationer, selecter, modal, tooltipster, form, resourcemgr) {
     'use strict';
         
     /**
@@ -35,6 +35,7 @@ define([
             toggler($container);
             inplacer($container);
             modal($container);
+            form($container);
             this.startDomComponent($container);
         },
         
@@ -43,7 +44,6 @@ define([
             durationer($container);
             selecter($container);
             tooltipster($container);
-            radiocheckbox($container);
         }
     };
 });

@@ -46,7 +46,7 @@ define(['jquery', 'lodash'], function($, _){
                 var options = $elt.data(dataNs);
                 if(options){
                     $elt.addClass(options.disableClass || 'disabled')
-                        .trigger('disabled.'+ ns);
+                        .trigger('disable.'+ ns);
                 }
             });
        },
@@ -66,7 +66,7 @@ define(['jquery', 'lodash'], function($, _){
                 var options = $elt.data(dataNs);
                 if(options){
                     $elt.removeClass(options.disableClass || 'disabled')
-                       .trigger('enabled.'+ ns);
+                       .trigger('enable.'+ ns);
                 }
             });
        },

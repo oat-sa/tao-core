@@ -102,11 +102,11 @@ define(['jquery', 'lodash', 'core/pluginifier'], function($, _, Pluginifier){
                             .on('focus', function(){
                                 this.select();
                             })
-                            .on('disable', function(){
+                            .on('disable.incrementer', function(){
                                 $ctrl.find('.inc,.dec').prop('disabled', true)
                                     .addClass('disabled');
                             })
-                            .on('enable', function(){
+                            .on('enable.incrementer', function(){
                                 $ctrl.find('.inc,.dec').prop('disabled', false)
                                     .removeClass('disabled');
                             });
