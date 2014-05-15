@@ -77,49 +77,38 @@ class tao_models_classes_export_RdfExportForm
     {
 
     	$fileName = '';
+    	
+    	$descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
+    	$descElt->setValue(__('Enables you to export an RDF file containing the selected instances'));
+    	$this->form->addElement($descElt);
+    	 
     	$instances = array();
     	if (isset($this->data['instance'])){
-    		$instance = $this->data['instance'];
-    		if ($instance instanceof core_kernel_classes_Resource) {
-    			$fileName = strtolower(tao_helpers_Display::textCleaner($instance->getLabel(), '*'));
-    			$instances[$instance->getUri()] = $instance->getLabel();
-    		}
+    		$resource = $this->data['instance'];
     	}
     	elseif (isset($this->data['class'])) {
-    		$class = $this->data['class'];
-    		if ($class instanceof core_kernel_classes_Class) {
-				$fileName =  strtolower(tao_helpers_Display::textCleaner($class->getLabel(), '*'));
-				foreach($class->getInstances() as $instance){
-					$instances[$instance->getUri()] = $instance->getLabel();
-				}
-    		}
+    		$resource = $this->data['class'];
 		} else {
 		    throw new common_Exception('No class nor instance specified for export');
     	}
+    	
+    	$fileName = strtolower(tao_helpers_Display::textCleaner($resource->getLabel(), '*'));
+    	 
+    	$hiddenElt = tao_helpers_form_FormFactory::getElement('resource', 'Hidden');
+    	$hiddenElt->setValue($resource->getUri());
+    	$this->form->addElement($hiddenElt);
+    	 
+
+    	$nameElt = tao_helpers_form_FormFactory::getElement('filename', 'Textbox');
+    	$nameElt->setDescription(__('File name'));
+    	$nameElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+    	$nameElt->setValue($fileName);
+    	$nameElt->setUnit(".rdf");
+    	$this->form->addElement($nameElt);
+    	 
     	$instances = tao_helpers_Uri::encodeArray($instances, tao_helpers_Uri::ENCODE_ARRAY_KEYS);
-
-    	$descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
-		$descElt->setValue(__('Enables you to export an RDF file containing the selected namespaces or instances'));
-		$this->form->addElement($descElt);
-
-		$nameElt = tao_helpers_form_FormFactory::getElement('filename', 'Textbox');
-		$nameElt->setDescription(__('File name'));
-		$nameElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-		$nameElt->setValue($fileName);
-		$nameElt->setUnit(".rdf");
-		$this->form->addElement($nameElt);
-
-		$tplElt = new tao_helpers_form_elements_template_Template('rdftpl');
-		$tplElt->setPath(Template::getTemplate('form/rdfexport.tpl.php', 'tao'));
-		$tplElt->setVariables(array(
-			'instances'		=> $instances
-		));
-		$this->form->addElement($tplElt);
-
-
+    	 
 		$this->form->createGroup('options', __('Export Options'), array('rdf_desc', 'filename', 'rdftpl'));
     }
 
-} /* end of class taoItems_actions_form_Export */
-
-?>
+}

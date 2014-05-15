@@ -57,38 +57,23 @@ class tao_models_classes_export_RdfExporter implements tao_models_classes_export
      * @see tao_models_classes_export_ExportHandler::export()
      */
     public function export($formValues, $destination) {
+        
     	$file = null;
-    	if(isset($formValues['rdftpl']) && isset($formValues['filename'])){
+    	if(isset($formValues['filename']) && isset($formValues['resource'])){
 
-			$rdf = '';
-
-			//file where we export
-			$name = $formValues['filename'].'_'.time().'.rdf';
-			$path = tao_helpers_File::concat(array($destination, $name));
-			if(!tao_helpers_File::securityCheck($path, true)){
-				throw new Exception('Unauthorized file name');
-			}
-			$api = core_kernel_impl_ApiModelOO::singleton();
-
-			//export by instances
-
-			$instances = array();
-			foreach($formValues['rdftpl'] as $key => $value){
-				if(preg_match("/^instance_/", $key)){
-				    $uri = tao_helpers_Uri::decode(str_replace('instance_', '', $key));
-					$instances[] = new core_kernel_classes_Resource($uri);
-				}
-			}
-			if(count($instances) > 0){
-			    $rdf = $this->getRdfString($instances);
-			}
-
-			//save it
-			if(!empty($rdf)){
+		    $class = new core_kernel_classes_Class($formValues['resource']);
+		    common_Logger::i('Exporting '.$class->getUri());
+		    $adapter = new tao_helpers_data_GenerisAdapterRdf();
+		    $rdf = $adapter->export($class);
+		    
+		    if(!empty($rdf)){
+		        $name = $formValues['filename'].'_'.time().'.rdf';
+		        $path = tao_helpers_File::concat(array($destination, $name));
 				if(file_put_contents($path, $rdf)){
 					$file = $path;
 				}
 			}
+		       
 		}
 		return $file;
     }
