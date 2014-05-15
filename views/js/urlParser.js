@@ -114,7 +114,7 @@ define(['lodash'], function(_){
        exclude = exclude || []; 
        if(this.data){
             if(this.data.hostname && !_.contains(exclude, 'host')){
-                url += (this.data.protocol ?  this.data.protocol : 'http:') + '//' + this.data.hostname;
+                url += (this.data.protocol ?  this.data.protocol : 'http:') + '//' + this.data.hostname + '/';
                 
                 //the value of the port seems to be different regardign the browser, so we prevent adding port if not usual
                 if(this.data.port && this.data.port !== 80 && this.data.port !== '80' && this.data.port !== '0'){
