@@ -1,4 +1,5 @@
 <?php
+use oat\tao\model\menu\MenuService;
 /**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -615,12 +616,14 @@ class tao_scripts_TaoTranslate
         			$translationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
         			$translationFile->setTargetLanguage($this->options['language']);
         			$translationFile->addTranslationUnits($sourceExtractor->getTranslationUnits());
-        			if (file_exists($this->options['input'] . '/actions')) {
-	        			$manifestExtractor = new tao_helpers_translation_ManifestExtractor(array($this->options['input'] . '/actions'));
-        				$manifestExtractor->extract();
-        				$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
+        			
+        			$file = MenuService::getStructuresFilePath($this->options['extension']);
+        			if (!is_null($file)) {
+            			$structureExtractor = new tao_helpers_translation_StructureExtractor(array($file));
+            			$structureExtractor->extract();
+            			$translationFile->addTranslationUnits($structureExtractor->getTranslationUnits());
         			}
-        	
+
         			$sortedTus = $translationFile->sortBySource($sortingMethod);
         	
         			$sortedTranslationFile = new tao_helpers_translation_POFile();
@@ -726,10 +729,12 @@ class tao_scripts_TaoTranslate
         $translationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
         $translationFile->setTargetLanguage($this->options['language']);
        	$translationFile->addTranslationUnits($sourceCodeExtractor->getTranslationUnits());
-       	if (file_exists($this->options['input'] . '/actions')) {
-       		$manifestExtractor = new tao_helpers_translation_ManifestExtractor(array($this->options['input'] . '/actions'));
-       		$manifestExtractor->extract();
-       		$translationFile->addTranslationUnits($manifestExtractor->getTranslationUnits());
+       	
+       	$file = MenuService::getStructuresFilePath($this->options['extension']);
+       	if (!is_null($file)) {
+       	    $structureExtractor = new tao_helpers_translation_StructureExtractor(array($file));
+           	$structureExtractor->extract();
+       		$translationFile->addTranslationUnits($structureExtractor->getTranslationUnits());
        	}
 
        	// For each TU that was recovered, have a look in an older version
@@ -1159,13 +1164,12 @@ class tao_scripts_TaoTranslate
 						continue;	
 					} else {
 						// Is this a TAO extension ?
-						if (self::isExtension($rootDir . $dir)) {
-							if (file_exists($rootDir . $dir . '/actions')) {
-       							$manifestReader = new tao_helpers_translation_ManifestExtractor(array($rootDir . $dir . '/actions'));
-								$manifestReader->extract();
-								$poFile->addTranslationUnits($manifestReader->getTranslationUnits());
-								$this->outVerbose("Manifest of extension '" . $dir . "' added to extension '" . $this->options['extension'] . "'");
-							}
+					    $file = MenuService::getStructuresFilePath($this->options['extension']);
+					    if (!is_null($file)) {
+					        $structureExtractor = new tao_helpers_translation_StructureExtractor(array($file));
+						    $structureExtractor->extract();
+					    	$poFile->addTranslationUnits($structureExtractor->getTranslationUnits());
+							$this->outVerbose("Manifest of extension '" . $dir . "' added to extension '" . $this->options['extension'] . "'");
 						}
 					}
 				}

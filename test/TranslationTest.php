@@ -308,8 +308,8 @@ class TranslationTest extends TaoPhpUnitTestRunner {
     }
 	
 	public function testManifestExtraction() {
-		$taoManifestPath = dirname(__FILE__) . self::TAO_MANIFEST;
-		$extractor = new tao_helpers_translation_ManifestExtractor(array($taoManifestPath));
+		$taoStructurePath = dirname(__FILE__) . self::TAO_MANIFEST . '/structures.xml';
+		$extractor = new tao_helpers_translation_StructureExtractor($taoStructurePath);
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
 		$this->assertTrue(count($tus) == 5);
@@ -320,10 +320,10 @@ class TranslationTest extends TaoPhpUnitTestRunner {
 	}
 	
 	public function testMultipleManfiestExtraction() {
-		$taoManifestPaths = array(dirname(__FILE__) . self::GROUPS_MANIFEST,
-								  dirname(__FILE__) . self::ITEMS_MANIFEST);
+		$taoStructurePaths = array(dirname(__FILE__) . self::GROUPS_MANIFEST. '/structures.xml',
+								  dirname(__FILE__) . self::ITEMS_MANIFEST. '/structures.xml');
 							  
-		$extractor = new tao_helpers_translation_ManifestExtractor($taoManifestPaths);
+		$extractor = new tao_helpers_translation_StructureExtractor($taoStructurePaths);
 		$extractor->extract();
 		$tus = $extractor->getTranslationUnits();
 		$this->assertTrue(count($tus) == 23);

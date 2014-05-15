@@ -55,18 +55,21 @@ class MenuService {
      * @param  string extensionId
      * @return SimpleXMLElement
      */
-    private static function getStructuresXml($extensionId)
+    public static function getStructuresFilePath($extensionId)
     {
-        $returnValue = null;
-
         $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
-        $structureFilePath = $extension->getDir().'actions/structures.xml';
+        $extra = $extension->getManifest()->getExtra();
+        if (isset($extra['structures'])) {
+            $structureFilePath = $extra['structures'];
+        } else {
+            $structureFilePath = $extension->getDir().'actions/structures.xml';
+        }
 		
 		if(file_exists($structureFilePath)){
-			return new \SimpleXMLElement($structureFilePath, null, true);
+			return $structureFilePath;
+		} else {
+		    return null;
 		}
-
-        return $returnValue;
     }
     
     /**
@@ -124,8 +127,9 @@ class MenuService {
         $toolbarActions = array();
 		$sorted = \helpers_ExtensionHelper::sortByDependencies(\common_ext_ExtensionsManager::singleton()->getEnabledExtensions());
 		foreach(array_keys($sorted) as $extID){
-			$xmlStructures = self::getStructuresXml($extID);
-			if(!is_null($xmlStructures)){
+			$file = self::getStructuresFilePath($extID);
+			if(!is_null($file)){
+			    $xmlStructures = new \SimpleXMLElement($file, null, true);
 				$extStructures = $xmlStructures->xpath("/structures/structure");
 				foreach($extStructures as $xmlStructure){
 					$id = (string)$xmlStructure['id'];

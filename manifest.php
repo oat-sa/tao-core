@@ -119,7 +119,7 @@ return array(
         )
     ),
 	'constants' => array(
-	
+
 		# actions directory
 		"DIR_ACTIONS" => $extpath."actions".DIRECTORY_SEPARATOR,
 	
@@ -149,5 +149,8 @@ return array(
 	
 		#STUFF that belongs in TAO
 		'TAOBASE_WWW' => ROOT_URL . 'tao/views/'
-	 )
+	 ),
+    'extra' => array(
+        'structures' => $extpath.'actions'.DIRECTORY_SEPARATOR.'structures.xml',
+    )
 );
