@@ -57,7 +57,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__find_icon:before {
   content: "\134"; }
 
-.cke_button__image_icon:before {
+.cke_button__image_icon:before, .cke_button__taoqtiimage:before {
   content: "\135"; }
 
 .cke_button__bulletedlist_icon:before {
@@ -162,7 +162,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-.cke_button__taomediamanager:before {
+.cke_button__taomediamanager:before, .cke_button__taoqtimedia:before {
   content: "\184"; }
 
 .cke_button__textcolor_icon:before {
@@ -176,6 +176,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__radio_icon:before {
   content: "\1b1"; }
+
+.cke_button__taoqtimaths:before {
+  content: "\1c6"; }
 
 /* "Reset" styles, necessary to avoid the editor UI being broken by external CSS. */
 /*
@@ -246,7 +249,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__find_icon:before {
   content: "\134"; }
 
-.cke_button__image_icon:before {
+.cke_button__image_icon:before, .cke_button__taoqtiimage:before {
   content: "\135"; }
 
 .cke_button__bulletedlist_icon:before {
@@ -351,7 +354,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-.cke_button__taomediamanager:before {
+.cke_button__taomediamanager:before, .cke_button__taoqtimedia:before {
   content: "\184"; }
 
 .cke_button__textcolor_icon:before {
@@ -365,6 +368,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__radio_icon:before {
   content: "\1b1"; }
+
+.cke_button__taoqtimaths:before {
+  content: "\1c6"; }
 
 /* Reset for single elements, not their children. */
 .cke_reset {
@@ -715,7 +721,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__find_icon:before {
   content: "\134"; }
 
-.cke_button__image_icon:before {
+.cke_button__image_icon:before, .cke_button__taoqtiimage:before {
   content: "\135"; }
 
 .cke_button__bulletedlist_icon:before {
@@ -820,7 +826,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-.cke_button__taomediamanager:before {
+.cke_button__taomediamanager:before, .cke_button__taoqtimedia:before {
   content: "\184"; }
 
 .cke_button__textcolor_icon:before {
@@ -834,6 +840,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__radio_icon:before {
   content: "\1b1"; }
+
+.cke_button__taoqtimaths:before {
+  content: "\1c6"; }
 
 /* The box that holds an IFRAME. It's inserted into a host document and positioned
    absolutely by the application. It floats above the host document/editor. */
@@ -1179,7 +1188,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__find_icon:before {
   content: "\134"; }
 
-.cke_button__image_icon:before {
+.cke_button__image_icon:before, .cke_button__taoqtiimage:before {
   content: "\135"; }
 
 .cke_button__bulletedlist_icon:before {
@@ -1284,7 +1293,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-.cke_button__taomediamanager:before {
+.cke_button__taomediamanager:before, .cke_button__taoqtimedia:before {
   content: "\184"; }
 
 .cke_button__textcolor_icon:before {
@@ -1298,6 +1307,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__radio_icon:before {
   content: "\1b1"; }
+
+.cke_button__taoqtimaths:before {
+  content: "\1c6"; }
 
 /* The box that holds each toolbar. */
 .cke_toolbar {
@@ -1758,7 +1770,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__find_icon:before {
   content: "\134"; }
 
-.cke_button__image_icon:before {
+.cke_button__image_icon:before, .cke_button__taoqtiimage:before {
   content: "\135"; }
 
 .cke_button__bulletedlist_icon:before {
@@ -1863,7 +1875,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-.cke_button__taomediamanager:before {
+.cke_button__taomediamanager:before, .cke_button__taoqtimedia:before {
   content: "\184"; }
 
 .cke_button__textcolor_icon:before {
@@ -1877,6 +1889,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__radio_icon:before {
   content: "\1b1"; }
+
+.cke_button__taoqtimaths:before {
+  content: "\1c6"; }
 
 /* The box that hold the entire combo widget */
 .cke_combo {
@@ -2133,7 +2148,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__find_icon:before {
   content: "\134"; }
 
-.cke_button__image_icon:before {
+.cke_button__image_icon:before, .cke_button__taoqtiimage:before {
   content: "\135"; }
 
 .cke_button__bulletedlist_icon:before {
@@ -2238,7 +2253,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-.cke_button__taomediamanager:before {
+.cke_button__taomediamanager:before, .cke_button__taoqtimedia:before {
   content: "\184"; }
 
 .cke_button__textcolor_icon:before {
@@ -2252,6 +2267,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__radio_icon:before {
   content: "\1b1"; }
+
+.cke_button__taoqtimaths:before {
+  content: "\1c6"; }
 
 /* "Source" button label */
 .cke_button__source_label,
@@ -2322,7 +2340,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__find_icon:before {
   content: "\134"; }
 
-.cke_button__image_icon:before {
+.cke_button__image_icon:before, .cke_button__taoqtiimage:before {
   content: "\135"; }
 
 .cke_button__bulletedlist_icon:before {
@@ -2427,7 +2445,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-.cke_button__taomediamanager:before {
+.cke_button__taomediamanager:before, .cke_button__taoqtimedia:before {
   content: "\184"; }
 
 .cke_button__textcolor_icon:before {
@@ -2441,6 +2459,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__radio_icon:before {
   content: "\1b1"; }
+
+.cke_button__taoqtimaths:before {
+  content: "\1c6"; }
 
 [class^="icon-"], [class*=" icon-"] {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
@@ -2546,7 +2567,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__find_icon:before {
   content: "\134"; }
 
-.cke_button__image_icon:before {
+.cke_button__image_icon:before, .cke_button__taoqtiimage:before {
   content: "\135"; }
 
 .cke_button__bulletedlist_icon:before {
@@ -2651,7 +2672,7 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 .cke_button__justifyblock_icon:before {
   content: "\17f"; }
 
-.cke_button__taomediamanager:before {
+.cke_button__taomediamanager:before, .cke_button__taoqtimedia:before {
   content: "\184"; }
 
 .cke_button__textcolor_icon:before {
@@ -2665,6 +2686,9 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_button__radio_icon:before {
   content: "\1b1"; }
+
+.cke_button__taoqtimaths:before {
+  content: "\1c6"; }
 
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the
