@@ -49,133 +49,136 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -moz-osx-font-smoothing: grayscale; }
 
 .cke_combo_arrow:before, .cke_button_arrow:before {
-  content: "\124"; }
+  content: "\e603"; }
 
 .cke_button__undo_icon:before {
-  content: "\125"; }
+  content: "\e604"; }
 
 .cke_button__redo_icon:before {
-  content: "\126"; }
+  content: "\e605"; }
 
 .cke_button__find_icon:before {
-  content: "\134"; }
+  content: "\e613"; }
 
-.cke_button__image_icon:before {
-  content: "\135"; }
+.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
+  content: "\e614"; }
 
 .cke_button__bulletedlist_icon:before {
-  content: "\13f"; }
+  content: "\e61e"; }
 
 .cke_button__numberedlist_icon:before {
-  content: "\140"; }
+  content: "\e61f"; }
 
 .cke_button__horizontalrule_icon:before {
-  content: "\160"; }
+  content: "\e640"; }
 
 .cke_button__table_icon:before {
-  content: "\161"; }
+  content: "\e641"; }
 
 .cke_button__anchor_icon:before {
-  content: "\162"; }
+  content: "\e642"; }
 
 .cke_button__unlink_icon:before {
-  content: "\163"; }
+  content: "\e643"; }
 
 .cke_button__link_icon:before {
-  content: "\164"; }
+  content: "\e644"; }
 
 .cke_button__bidirtl_icon:before {
-  content: "\165"; }
+  content: "\e645"; }
 
 .cke_button__bidiltr_icon:before {
-  content: "\166"; }
+  content: "\e646"; }
 
 .cke_button__specialchar_icon:before {
-  content: "\167"; }
+  content: "\e647"; }
 
 .cke_button__sourcedialog_icon:before {
-  content: "\168"; }
+  content: "\e648"; }
 
 .cke_button__newpage_icon:before {
-  content: "\169"; }
+  content: "\e649"; }
 
 .cke_button__templates_icon:before {
-  content: "\16a"; }
+  content: "\e64a"; }
 
 .cke_button__cut_icon:before {
-  content: "\16b"; }
+  content: "\e64b"; }
 
 .cke_button__replace_icon:before {
-  content: "\16c"; }
+  content: "\e64c"; }
 
 .cke_button__copy_icon:before {
-  content: "\16d"; }
+  content: "\e64d"; }
 
 .cke_button__paste_icon:before {
-  content: "\16e"; }
+  content: "\e64e"; }
 
 .cke_button__selectall_icon:before {
-  content: "\16f"; }
+  content: "\e64f"; }
 
 .cke_button__pastetext_icon:before {
-  content: "\170"; }
+  content: "\e650"; }
 
 .cke_button__pastefromword_icon:before {
-  content: "\171"; }
+  content: "\e651"; }
 
 .cke_button__bold_icon:before {
-  content: "\172"; }
+  content: "\e652"; }
 
 .cke_button__italic_icon:before {
-  content: "\173"; }
+  content: "\e653"; }
 
 .cke_button__underline_icon:before {
-  content: "\174"; }
+  content: "\e654"; }
 
 .cke_button__subscript_icon:before {
-  content: "\175"; }
+  content: "\e655"; }
 
 .cke_button__superscript_icon:before {
-  content: "\176"; }
+  content: "\e656"; }
 
 .cke_button__strike_icon:before {
-  content: "\177"; }
+  content: "\e657"; }
 
 .cke_button__outdent_icon:before {
-  content: "\178"; }
+  content: "\e658"; }
 
 .cke_button__indent_icon:before {
-  content: "\179"; }
+  content: "\e659"; }
 
 .cke_button__blockquote_icon:before {
-  content: "\17a"; }
+  content: "\e65a"; }
 
 .cke_button__creatediv_icon:before {
-  content: "\17b"; }
+  content: "\e65b"; }
 
 .cke_button__justifyleft_icon:before {
-  content: "\17c"; }
+  content: "\e65c"; }
 
 .cke_button__justifycenter_icon:before {
-  content: "\17d"; }
+  content: "\e65d"; }
 
 .cke_button__justifyright_icon:before {
-  content: "\17e"; }
+  content: "\e65e"; }
 
 .cke_button__justifyblock_icon:before {
-  content: "\17f"; }
+  content: "\e65f"; }
 
-.cke_button__taomediamanager:before {
-  content: "\184"; }
+.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
+  content: "\e664"; }
 
 .cke_button__textcolor_icon:before {
-  content: "\196"; }
+  content: "\e676"; }
 
 .cke_button__bgcolor_icon:before {
-  content: "\197"; }
+  content: "\e677"; }
 
 .cke_button__scayt_icon:before {
-  content: "\198"; }
+  content: "\e678"; }
 
 .cke_button__radio_icon:before {
-  content: "\1b1"; }
+  content: "\e68e"; }
+
+.cke_button__taoqtimaths_icon:before {
+  content: "\e6a0"; }

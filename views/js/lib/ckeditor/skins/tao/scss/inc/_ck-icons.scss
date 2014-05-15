@@ -61,9 +61,9 @@
 .cke_button__underline_icon:before { @extend %icon-underline; }
 .cke_button__undo_icon:before { @extend %icon-undo; }
 .cke_button__unlink_icon:before { @extend %icon-unlink; }
+.cke_button__taomediamanager_icon:before { @extend %icon-media; }
+.cke_button__taoqtiimage_icon:before { @extend %icon-image; }
+.cke_button__taoqtimaths_icon:before { @extend %icon-maths; }
+.cke_button__taoqtimedia_icon:before { @extend %icon-media; }
 .cke_combo_arrow:before { @extend %icon-down; }
 .cke_button_arrow:before { @extend %icon-down; }
-.cke_button__taomediamanager:before { @extend %icon-media; }
-.cke_button__taoqtiimage:before { @extend %icon-image; }
-.cke_button__taoqtimaths:before { @extend %icon-maths; }
-.cke_button__taoqtimedia:before { @extend %icon-media; }
