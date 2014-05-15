@@ -27,6 +27,7 @@ CKEDITOR.plugins.add('taoqtimaths', {
             // Define a function that will be fired when the command is executed.
             // http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.commandDefinition.html#exec
             exec: function(editor) {
+                editor.insertHtml(' <span style="background:yellow">I am a QTI maths element</span> ');
                 // Insert the taomediamanager into the document.
                 // http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#insertHtml
                 //                $('<div>').resourcemgr(_.defaults(editor.config.resourcemgr, resourceMgrDefaults));
