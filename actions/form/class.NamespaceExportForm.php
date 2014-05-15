@@ -29,7 +29,7 @@ use oat\tao\helpers\Template;
  * @package taoItems
  
  */
-class tao_models_classes_nsImExport_NamespaceExportForm
+class tao_actions_form_NamespaceExportForm
     extends tao_helpers_form_FormContainer
 {
     // --- ASSOCIATIONS ---

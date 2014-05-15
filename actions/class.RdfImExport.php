@@ -28,7 +28,7 @@
 class tao_actions_RdfImExport extends tao_actions_CommonModule {
     
     public function index() {
-        $import = new tao_models_classes_nsImExport_NamespaceImportForm();
+        $import = new tao_actions_form_NamespaceImportForm();
         $form = $import->getForm();
         if ($form->isSubmited()) {
             if ($form->isValid()) {
@@ -37,7 +37,7 @@ class tao_actions_RdfImExport extends tao_actions_CommonModule {
         }
         $this->setData('importForm', $form->render());
         
-        $export = new tao_models_classes_nsImExport_NamespaceExportForm();
+        $export = new tao_actions_form_NamespaceExportForm();
         $form = $export->getForm();
         if ($form->isSubmited()) {
             if ($form->isValid()) {
@@ -88,25 +88,15 @@ class tao_actions_RdfImExport extends tao_actions_CommonModule {
         if(!tao_helpers_File::securityCheck($path, true)){
             throw new Exception('Unauthorized file name');
         }
-        $api = core_kernel_impl_ApiModelOO::singleton();
-        $nsManager = common_ext_NamespaceManager::singleton();
-    
-        $namespaces = array();
+
+        $modelIds = array();
         foreach($form->getValue('rdftpl') as $key => $value){
             if(preg_match("/^ns_/", $key)){
-                $modelid = (int)str_replace('ns_', '', $key);
-                if($modelid > 0){
-                    $ns = $nsManager->getNamespace($modelid);
-                    if($ns instanceof common_ext_Namespace){
-                        $namespaces[] = (string)$ns;
-                    }
-                }
+                $modelIds[] = (int)str_replace('ns_', '', $key);
             }
-        }
-        if(count($namespaces) > 0){
-            $rdf = $api->exportXmlRdf($namespaces);
-        }
-        
+        };
+        $rdf = core_kernel_api_ModelExporter::exportModels($modelIds);
+
         //save it
         if(!empty($rdf)){
             common_Logger::i('Saving to '.$path);

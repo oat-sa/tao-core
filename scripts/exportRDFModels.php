@@ -70,7 +70,7 @@ $namespaces = $nsManager->getAllNamespaces();
 
 foreach($namespaces as $namespace){
 	out("Exporting $namespace");
-	$rdfData = $api->exportXmlRdf(array($namespace));
+	$rdfData = core_kernel_api_ModelExporter::exportModelByUri($namespace);
 	if(empty($rdfData)){
 		out("Nothing exported!");
 		continue;

@@ -27,7 +27,7 @@
  * @package taoItems
  
  */
-class tao_models_classes_nsImExport_NamespaceImportForm
+class tao_actions_form_NamespaceImportForm
     extends tao_helpers_form_FormContainer
 {
     // --- ASSOCIATIONS ---

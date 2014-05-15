@@ -98,35 +98,29 @@ class tao_helpers_data_GenerisAdapterRdf
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param  Class source
      * @return string
-     * @see core_kernel_impl_ApiModelOO::exportXmlRdf
      */
     public function export( core_kernel_classes_Class $source = null)
     {
-        $returnValue = (string) '';
-
+        $rdf = '';
         
-        
-   		$api = core_kernel_impl_ApiModelOO::singleton();
-		
 		if(!is_null($source)){
-			
-			$localModel = rtrim(common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri(), '#');
-			$sourceModel = substr($source->getUri(), 0, strpos($source->getUri(), '#'));
-			if($localModel == $sourceModel){
-				$returnValue = $api->exportXmlRdf(array($localModel));
-			}
-			else{
-				$returnValue = $api->exportXmlRdf(array($localModel, $sourceModel));
-			}
-			
+		    return core_kernel_api_ModelExporter::exportAll();
 		}
-		else{
-			$returnValue = $api->exportXmlRdf();
-		}
-        
-        
 
-        return (string) $returnValue;
+		$graph = new EasyRdf_Graph();
+		foreach($source->getInstances(true) as $instance){
+    		foreach ($source->getRdfTriples() as $triple) {
+    	        if (!empty($triple->lg)) {
+    	            $graph->addLiteral($triple->subject, $triple->predicate, $triple->object, $triple->lg);
+    	        } elseif (common_Utils::isUri($triple->object)) {
+    	            $graph->add($triple->subject, $triple->predicate, $triple->object);
+    	        } else {
+    	            $graph->addLiteral($triple->subject, $triple->predicate, $triple->object);
+    	        }
+    		}
+		}
+		$format = EasyRdf_Format::getFormat('rdfxml');
+		return $graph->serialise($format);
     }
 
 }
