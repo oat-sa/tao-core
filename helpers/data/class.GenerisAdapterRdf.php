@@ -103,24 +103,46 @@ class tao_helpers_data_GenerisAdapterRdf
     {
         $rdf = '';
         
-		if(!is_null($source)){
+        common_Logger::d('Do this '.$source);
+        
+		if(is_null($source)){
 		    return core_kernel_api_ModelExporter::exportAll();
 		}
 
 		$graph = new EasyRdf_Graph();
-		foreach($source->getInstances(true) as $instance){
-    		foreach ($source->getRdfTriples() as $triple) {
-    	        if (!empty($triple->lg)) {
-    	            $graph->addLiteral($triple->subject, $triple->predicate, $triple->object, $triple->lg);
-    	        } elseif (common_Utils::isUri($triple->object)) {
-    	            $graph->add($triple->subject, $triple->predicate, $triple->object);
-    	        } else {
-    	            $graph->addLiteral($triple->subject, $triple->predicate, $triple->object);
-    	        }
-    		}
+		if ($source->isClass()) {
+            $this->addClass($graph, $source);
+		} else {
+		    $this->addResource($graph, $source);
 		}
 		$format = EasyRdf_Format::getFormat('rdfxml');
 		return $graph->serialise($format);
+    }
+    
+    private function addClass(EasyRdf_Graph $graph, core_kernel_classes_Class $resource) {
+        $this->addResource($graph, $resource);
+    	foreach($resource->getInstances(false) as $instance){
+		    $this->addResource($graph, $instance);
+		}
+        foreach($resource->getSubClasses(false) as $subclass){
+            $this->addClass($graph, $subclass);
+        }
+        
+    }
+    
+    /**
+     * @ignore
+     */
+    private function addResource(EasyRdf_Graph $graph, core_kernel_classes_Resource $resource) {
+        foreach ($resource->getRdfTriples() as $triple) {
+            if (!empty($triple->lg)) {
+                $graph->addLiteral($triple->subject, $triple->predicate, $triple->object, $triple->lg);
+            } elseif (common_Utils::isUri($triple->object)) {
+                $graph->add($triple->subject, $triple->predicate, $triple->object);
+            } else {
+                $graph->addLiteral($triple->subject, $triple->predicate, $triple->object);
+            }
+        }
     }
 
 }
