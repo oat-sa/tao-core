@@ -104,18 +104,37 @@ define(['lodash', 'i18n'], function(_, __){
             options : {baseUrl : ''},
             validate : function(value, callback, options){
 
-                var r = false,
+                var t,
+                    total = 0,
                     url = (value.indexOf('http') === 0) ? value : options.baseUrl + value,
-                    img = new Image();
+                    img = new Image(),
+                    verif = {
+                        duration : 1000, //check maximum during 1000ms
+                        interval : 50 //... with interval of 50ms
+                    };
 
                 img.src = url;
 
-                r = (img.height !== 0);
+                var callbackCall = function(ok){
 
-                delete img;
+                    callback.call(null, !!ok);
+                    clearInterval(t);
+                    delete img;
+                };
 
                 if(typeof(callback) === 'function'){
-                    callback.call(null, r);
+
+                    t = setInterval(function(){
+
+                        if(img.height !== 0){
+                            callbackCall(true);
+                        }else if(total < verif.count){
+                            total += verif.interval;
+                        }else{
+                            callbackCall(false);
+                        }
+                    }, verif.interval);
+
                 }
             }
         }
