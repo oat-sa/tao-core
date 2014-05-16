@@ -52,7 +52,7 @@ function($, _){
 
         $selectButton.on('click', function(e){
             e.preventDefault();
-            $container.trigger('select.' + ns, [_.pick(currentSelection, ['file', 'type', 'mime', 'size'])]);
+            $container.trigger('select.' + ns, [[_.pick(currentSelection, ['file', 'type', 'mime', 'size'])]]);
         });
 
         function startPreview(file){
