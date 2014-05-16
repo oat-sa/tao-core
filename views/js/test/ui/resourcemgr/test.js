@@ -39,8 +39,8 @@ define(['jquery', 'helpers', 'ui/resourcemgr'], function($, helpers){
             close : function(e){
                 console.log('closed');
             },
-            select : function(e, uris){
-                $('.selected').text('Resources selected: ' + JSON.stringify(uris)); 
+            select : function(e, files){
+                $('.selected').text('Resources selected: ' + JSON.stringify(files)); 
             }
         }); 
    });
