@@ -116,7 +116,6 @@ define(['lodash', 'i18n'], function(_, __){
                 img.src = url;
 
                 var callbackCall = function(ok){
-
                     callback.call(null, !!ok);
                     clearInterval(t);
                     delete img;
@@ -125,10 +124,10 @@ define(['lodash', 'i18n'], function(_, __){
                 if(typeof(callback) === 'function'){
 
                     t = setInterval(function(){
-
+                        
                         if(img.height !== 0){
                             callbackCall(true);
-                        }else if(total < verif.count){
+                        }else if(total < verif.duration){
                             total += verif.interval;
                         }else{
                             callbackCall(false);
