@@ -33,7 +33,7 @@ class tao_install_checks_NotNginx extends common_configuration_Component {
 		                                                      $this);
 	        } else {
 	        	$report = new common_configuration_Report(common_configuration_Report::VALID,
-		                                                      'You are not using Nginx',
+		                                                      'You are not using Nginx.',
 		                                                      $this);
 	        }
         } else {

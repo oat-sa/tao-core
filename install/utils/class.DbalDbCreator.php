@@ -79,7 +79,7 @@ class tao_install_utils_DbalDbCreator {
      */
     public function dbExists($dbName){
         $sm = $this->getSchemaManager();
-		common_Logger::d('Check if database exist : ' . $dbName . ' for driver ' . $this->dbConfiguration['driver']);
+		common_Logger::d('Check if database with name \'' .$dbName. '\' exists for driver ' . $this->dbConfiguration['driver']);
         if($this->dbConfiguration['driver'] == 'pdo_oci'){
         	common_Logger::d('Oracle special query dbExist');
         	return in_array(strtoupper($dbName),$sm->listDatabases());
@@ -328,7 +328,7 @@ class tao_install_utils_DbalDbCreator {
         $tables = $sm->listTableNames();
         
         foreach($tables as $name){
-        	common_Logger::d('Table to drop : '  . $name);
+        	common_Logger::d('Table to drop: '  . $name);
             $sm->dropTable($name);
         }
         

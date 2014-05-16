@@ -296,7 +296,7 @@ class tao_install_Installator{
 					$ext = common_ext_ExtensionsManager::singleton()->getExtensionById($id);
 					
 					if (!common_ext_ExtensionsManager::singleton()->isInstalled($ext->getId())) {
-					    common_Logger::d('ext ' . $id . ' need to be installed');
+					    common_Logger::d('Extension ' . $id . ' needs to be installed');
 						$toInstall[$id] = $ext;
 					}
 				} catch (common_ext_ExtensionException $e) {
@@ -308,7 +308,7 @@ class tao_install_Installator{
 				$modified = false;
 				foreach ($toInstall as $key => $extension) {
 					// if all dependencies are installed
-				    common_Logger::d('Considering ext ' . $key);
+				    common_Logger::d('Considering extension ' . $key);
 					$installed	= array_keys(common_ext_ExtensionsManager::singleton()->getInstalledExtensions());
 					$missing	= array_diff(array_keys($extension->getDependencies()), $installed);
 					if (count($missing) == 0) {
@@ -329,7 +329,7 @@ class tao_install_Installator{
 					} else {
 						$missing = array_diff($missing, array_keys($toInstall));
 						foreach ($missing as $extID) {
-						    common_Logger::d('ext ' . $extID . ' is required and missing, added to install list');
+						    common_Logger::d('Extension ' . $extID . ' is required but missing, added to install list');
 							$toInstall[$extID] = common_ext_ExtensionsManager::singleton()->getExtensionById($extID);
 							$modified = true;
 						}
@@ -380,7 +380,7 @@ class tao_install_Installator{
 			/*
 			 *  12 - Create the version file
 			 */
-			common_Logger::d('Creating version file for TAO', 'INSTALL');
+			common_Logger::d('Creating TAO version file', 'INSTALL');
 			file_put_contents(ROOT_PATH.'version', TAO_VERSION);
 		}
 		catch(Exception $e){
