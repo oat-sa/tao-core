@@ -39,7 +39,8 @@ require.config({
         'jquery.fmRunner'   : '../../../filemanager/views/js/jquery.fmRunner',
         'eyecatcher'        : 'eyecatcher',
         'i18n_tr' : '../../locales/en-US/messages_po',
-        'jquery.filedownload'  : 'lib/jquery.fileDownload'
+        'jquery.filedownload'  : 'lib/jquery.fileDownload',
+        'tao'        : '../../../tao/views/js'
    },
   
    shim : {

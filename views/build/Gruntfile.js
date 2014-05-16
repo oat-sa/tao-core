@@ -22,7 +22,7 @@ module.exports = function(grunt) {
     //build some dynamic values for the config regarding the current extensions 
     var amdBundles = [];
     var copies = [];
-    ext.getExtensions(true).forEach(function(extension){
+     ext.getExtensions(true).forEach(function(extension){
         amdBundles.push({
             name: extension + '/controller/routes',
             include : ext.getExtensionsControllers([extension]),
@@ -93,6 +93,13 @@ module.exports = function(grunt) {
                     { src: ['output/main.js'],  dest: '../js/main.min.js' },
                     { src: ['output/controller/routes.js'],  dest: '../js/controllers.min.js' }
                 ].concat(copies)
+            },
+
+            preQtiBundle : {
+                files: [
+                    { src: ['../css/tao-main-style.css'],  dest: 'output/tao_css/tao-main-style.css' },
+                    { src: ['../../../taoQtiItems/views/css/qti.css'],  dest: 'output/taoQtiItem_css/qti.css' }
+                ]
             }
         },
         
@@ -166,6 +173,7 @@ module.exports = function(grunt) {
                     baseUrl : '../js',
                     dir : 'output',
                     mainConfigFile : './config/requirejs.build.js',
+
                     modules : [{
                         name: 'main',
                         include: [
@@ -193,9 +201,8 @@ module.exports = function(grunt) {
                     },
                     modules : [{
                         name: 'taoQtiItem/runtime/qtiBootstrap',
-
                         include: sources.qtiRuntime,
-                        exclude : ['i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style.css']
+                        exclude : ['i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style.css', 'css!taoQtiItem_css/qti.css'],
                     }]
                 }
                 //options: {
@@ -339,7 +346,7 @@ module.exports = function(grunt) {
                         ['clean:backendBundle', 'requirejs:backendBundle', 'copy:backendBundle']);
                         
     grunt.registerTask('qtiBundle', "Create JavaScript bundles for QTI runtimes",
-                        ['clean:qtiBundle', 'requirejs:qtiBundle', 'uglify:qtiBundle', 'replace:qtiBundle']);
+                        ['clean:qtiBundle', 'copy:preQtiBundle', 'requirejs:qtiBundle', 'uglify:qtiBundle', 'replace:qtiBundle']);
                         
     grunt.registerTask('jsBundle', "Create JavaScript bundles for the whole TAO plateform",
                         ['backendBundle', 'qtiBundle']);
