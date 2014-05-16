@@ -23,10 +23,14 @@ module.exports = function(grunt) {
     var amdBundles = [];
     var copies = [];
      ext.getExtensions(true).forEach(function(extension){
+        var includes = ext.getExtensionsControllers([extension]);
+        if(extension === 'taoQtiItem'){
+            includes = includes.concat(sources.qtiRuntime);   
+        }
         amdBundles.push({
             name: extension + '/controller/routes',
             include : ext.getExtensionsControllers([extension]),
-            exclude : ['jquery', 'lodash', 'jqueryui', 'main', 'i18n_tr'].concat(sources.jsbaselibs)
+            exclude : ['jquery', 'lodash', 'jqueryui', 'main', 'i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style', 'css!taoQtiItem_css/qti'].concat(sources.jsbaselibs)
        });
        copies.push({
            src: ['output/'+ extension +'/controller/routes.js'],  
@@ -141,28 +145,15 @@ module.exports = function(grunt) {
             //common options
             options : {
                 optimize: 'uglify2',
+                //optimize : 'none',
                 preserveLicenseComments: false,
                 optimizeAllPluginResources: false,
                 findNestedDependencies : true,
                 optimizeCss : false,
+                buildCss : false,
                 inlineText: true,
-                paths : ext.getExtensionsPaths()
-            },
-            
-            /**
-             * Compile the javascript files of all TAO backend's extension to one file!
-             * Not yet used as it doesn't fit the extension model
-             */
-            backendAll: {
-                options: {
-                    baseUrl : '../js',
-                    out: '../js/main.min.js',
-                    name: 'main',
-                    mainConfigFile : './config/backend.js',
-                    include: ['lib/require'].concat(ext.getExtensionsControllers()),
-                    exclude : ['i18n_tr']
-                }
-            },
+                paths : ext.getExtensionsPaths(),
+           },
             
             /**
              * Compile the javascript files of all TAO backend's extension bundles, 
@@ -173,14 +164,14 @@ module.exports = function(grunt) {
                     baseUrl : '../js',
                     dir : 'output',
                     mainConfigFile : './config/requirejs.build.js',
-
                     modules : [{
                         name: 'main',
                         include: [
                             'lib/require'
                         ],
                         deps : sources.jsbaselibs,
-                        exclude : ['i18n_tr']
+                        exclude : ['i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style', 'css!taoQtiItem_css/qti'],
+
                     }].concat(amdBundles)
                 }
             },
@@ -193,33 +184,12 @@ module.exports = function(grunt) {
                     baseUrl : '../js',
                     dir: 'output',
                     mainConfigFile : './config/requirejs.build.js',
-                    paths: {
-                       'taoQtiItem' : '../../../taoQtiItem/views/js',
-                       'tao_css' : '../css',
-                       'taoQtiItem_css' : '../../../taoQtiItem/views/css',
-                       'i18n_tr' : '../../locales/en-US/messages_po',
-                    },
                     modules : [{
                         name: 'taoQtiItem/runtime/qtiBootstrap',
                         include: sources.qtiRuntime,
-                        exclude : ['i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style.css', 'css!taoQtiItem_css/qti.css'],
+                        exclude : ['i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style', 'css!taoQtiItem_css/qti'],
                     }]
                 }
-                //options: {
-                    //baseUrl : '../js',
-                    //out: 'output/qtiBootstrap.min.js',
-                    //name: 'taoQtiItem/runtime/qtiBootstrap',
-                    //optimizeAllPluginResources: true,
-                    //mainConfigFile : './config/requirejs.build.js',
-                    //paths: {
-                       //'taoQtiItem' : '../../../taoQtiItem/views/js',
-                       //'tao_css' : '../css',
-                       //'taoQtiItem_css' : '../../../taoQtiItem/views/css',
-                       //'i18n_tr' : '../../locales/en-US/messages_po',
-                    //},
-                    //include: sources.qtiRuntime,
-                    //exclude : ['i18n_tr', 'mathJax', 'mediaElement', 'css!tao_css/tao-main-style.css']
-                //}
             }
         },
 
@@ -346,7 +316,8 @@ module.exports = function(grunt) {
                         ['clean:backendBundle', 'requirejs:backendBundle', 'copy:backendBundle']);
                         
     grunt.registerTask('qtiBundle', "Create JavaScript bundles for QTI runtimes",
-                        ['clean:qtiBundle', 'copy:preQtiBundle', 'requirejs:qtiBundle', 'uglify:qtiBundle', 'replace:qtiBundle']);
+                        ['clean:qtiBundle', 'requirejs:qtiBundle', 'uglify:qtiBundle', 'replace:qtiBundle']);
+                        //['clean:qtiBundle', 'copy:preQtiBundle', 'requirejs:qtiBundle', 'uglify:qtiBundle', 'replace:qtiBundle']);
                         
     grunt.registerTask('jsBundle', "Create JavaScript bundles for the whole TAO plateform",
                         ['backendBundle', 'qtiBundle']);

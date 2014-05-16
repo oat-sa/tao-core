@@ -40,7 +40,9 @@ require.config({
         'eyecatcher'        : 'eyecatcher',
         'i18n_tr' : '../../locales/en-US/messages_po',
         'jquery.filedownload'  : 'lib/jquery.fileDownload',
-        'tao'        : '../../../tao/views/js'
+        'tao_css'           : '../css',
+        'taoQtiItem_css'    : '../../../taoQtiItem/views/css',
+        'taoQtiTest_css'    : '../../../taoQtiTest/views/css'
    },
   
    shim : {
