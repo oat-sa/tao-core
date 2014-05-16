@@ -40,7 +40,7 @@ function($, _){
         $container.on('fileselect.' + ns, function(e, file){
             if(file && file.file){
                 startPreview(file);
-                currentSelection = [file.file];
+                currentSelection = [file];
             } else {
                 stopPreview();
             }

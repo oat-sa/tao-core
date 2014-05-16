@@ -86,7 +86,7 @@ define([
             } else {
                 $files.removeClass('active');
                 $selected.addClass('active');
-                selection = $selected.data();
+                selection = _.pick($selected.data(), ['file', 'type', 'mime', 'size']);
             }
              
             $container.trigger('fileselect.' + ns, [selection]); 
@@ -95,7 +95,7 @@ define([
         //select a file
         $(document).on('click', liveSelector + ' .files li a.select', function(e){
             e.preventDefault();
-            $container.trigger('select.' + ns, [[$(this).parents('li').data('file')]]);
+            $container.trigger('select.' + ns, [_.pick($(this).parents('li').data(), ['file', 'type', 'mime', 'size'])]);
         });
 
         //delete a file

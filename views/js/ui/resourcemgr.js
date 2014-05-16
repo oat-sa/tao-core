@@ -72,9 +72,9 @@ define([
                     });
 
                     //rethrow some events
-                    $target.on('select.' + ns, function(e, uris){
+                    $target.on('select.' + ns, function(e, files){
                         self._close($elt);
-                        $elt.trigger(e, [uris]);
+                        $elt.trigger(e, [files]);
                     });
                     $target.on('closed.modal', function(){
                         $elt.trigger('close.' + ns);
