@@ -86,7 +86,7 @@ define([
             } else {
                 $files.removeClass('active');
                 $selected.addClass('active');
-                selection = _.pick($selected.data(), ['file', 'type', 'mime', 'size']);
+                selection = $selected.data();
             }
              
             $container.trigger('fileselect.' + ns, [selection]); 

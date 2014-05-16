@@ -151,7 +151,14 @@ define([
                                     
                                 var files =  e.target.files || e.originalEvent.files || e.originalEvent.dataTransfer.files;
                                 if(files && files.length > 0){
-                                    $elt.trigger('file.' + ns, [files[0]]);
+                                   if(_.isFunction(options.fileSelect)){
+                                        var filteredFile = options.fileSelect.call($elt, files[0]);
+                                        if(filteredFile){
+                                            $elt.trigger('file.' + ns, [filteredFile]);
+                                        }
+                                   } else {
+                                        $elt.trigger('file.' + ns, [files[0]]);
+                                   }
                                 }
                             
                             });

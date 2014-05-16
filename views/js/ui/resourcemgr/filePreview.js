@@ -40,7 +40,7 @@ function($, _){
         $container.on('fileselect.' + ns, function(e, file){
             if(file && file.file){
                 startPreview(file);
-                currentSelection = [file];
+                currentSelection = file;
             } else {
                 stopPreview();
             }
@@ -52,7 +52,7 @@ function($, _){
 
         $selectButton.on('click', function(e){
             e.preventDefault();
-            $container.trigger('select.' + ns, [currentSelection]);
+            $container.trigger('select.' + ns, [_.pick(currentSelection, ['file', 'type', 'mime', 'size'])]);
         });
 
         function startPreview(file){
