@@ -2488,7 +2488,6 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
 
 .cke_nose {
   position: absolute;
-  z-index: 10000;
   bottom: -6px;
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
@@ -2502,7 +2501,15 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   background: #f3f1ef;
   -webkit-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1); }
+  box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  right: 5px; }
+  .cke_nose.float-space-bottom {
+    top: -6px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none; }
+  .cke_nose.float-space-top {
+    bottom: -6px; }
 
 /* Icon set */
                                   /*
