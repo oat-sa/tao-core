@@ -85,9 +85,10 @@ define(['urlParser'], function(UrlParser){
     });
     
     test('getUrl', function(){
-        expect(3);
+        expect(4);
         
         equal(new UrlParser(url).getUrl(), url);
+        equal(new UrlParser(url2).getUrl(), url2);
         equal(new UrlParser(url3).getUrl(), url3);
         equal(new UrlParser(url4).getUrl(), "https://example.com/?p=a&c=b"); //slash is added
     });
