@@ -73,6 +73,7 @@ function checkConfig(){
 			install.addData('available_drivers', data.value.availableDrivers);
 			install.addData('available_languages', data.value.availableLanguages);
 			install.addData('available_timezones', data.value.availableTimezones);
+                        install.addData('available_timezone_labels', data.value.availableTimezoneLabels);
 			
 			// Empty existing reports.
 			var $list = $('#forms_check_content ul');
@@ -376,7 +377,7 @@ function initHelp(){
 	install.addHelp('hlp_fs_taoResults_includes', "The 'taoResults/includes' directory of your installation must be readable by the user running your web server.");
 	install.addHelp('hlp_fs_taoResults_views_genpics', "The 'taoResults/views/genpics' directory of your installation must be readable and writable by the user running your web server.");
 	install.addHelp('hlp_fs_wfEngine_includes', "The 'wfEngine/includes' directory of your installation must be readable by the user running your web server.");
-	install.addHelp('hlp_taoQTI_custom_mathjax', 'The procedure to install MathJax on your TAO Platform can be found on the <a href="http://forge.taotesting.com/projects/tao/wiki/Enable_math" target="_blank">TAO Wiki</a>.');
+	install.addHelp('hlp_taoQtiItem_custom_mathjax', 'The procedure to install MathJax on your TAO Platform can be found on the <a href="http://forge.taotesting.com/projects/tao/wiki/Enable_math" target="_blank">TAO Wiki</a>.');
         install.addHelp('hlp_taoForge_connection', 'The installer could not reach TAO Forge, and registration or link to your support account won\'t be possible');
 }
 
