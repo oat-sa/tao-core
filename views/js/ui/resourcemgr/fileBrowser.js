@@ -78,7 +78,7 @@ define(['jquery', 'lodash'], function($, _) {
                 }
                 if(!_.find(subTree.children, {name : file.name})){
                     subTree.children.push(file);
-                    $('a[data-path="'+path+'"]', $fileBrowser).trigger('click');
+                    $container.trigger('folderselect.' + ns , [path, subTree.children, file]);
                 }
             }
         });

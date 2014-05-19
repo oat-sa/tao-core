@@ -50,7 +50,7 @@ define([
         setUpUploader(root);
 
         //update current folder
-        $container.on('folderselect.' + ns , function(e, fullPath, data){    
+        $container.on('folderselect.' + ns , function(e, fullPath, data, active){    
             var files;           
             //update title
             $pathTitle.text(isTextLarger($pathTitle, fullPath) ? shortenPath(fullPath) : fullPath); 
@@ -66,9 +66,16 @@ define([
                     return file; 
                 });
             
-                updateFiles(fullPath, files); 
+                updateFiles(fullPath, files);
+                updateSize();
+
+                if(active){
+                    $('li[data-file="' + active.path + '"]').trigger('click');
+                } 
             }
         });
+
+        $(window).on('resize', _.throttle(updateSize, 100));
 
         //listen for file activation
         $(document).on('click', liveSelector + ' .files li', function(e){
@@ -118,8 +125,10 @@ define([
             var $uploadPath = $('.current-path', $uploadContainer);
 
             $uploader.on('upload.uploader', function(e, file, result){
-                $container.trigger('filenew.' + ns, [result, currentPath]);
-                switchUpload();
+                setTimeout(function(){
+                    switchUpload();
+                    $container.trigger('filenew.' + ns, [result, currentPath]);
+                }, 300);
             });
 
             $uploader.uploader({
@@ -179,7 +188,6 @@ define([
                 }
             };
         }
-
         
         function updateFiles(path, files){
             $fileContainer.empty();
@@ -187,10 +195,20 @@ define([
                 $placeholder.hide();
                 $fileContainer.append(fileSelectTpl({
                     files : files
-                })); 
+                }));
+
             } else {
                 $placeholder.show();
             }
+        }
+
+        function updateSize(){
+            var listWidth = $fileContainer.innerWidth();
+            $('li', $fileContainer).each(function(){
+                var $item = $(this);
+                var actionsWidth = $('.actions', $item).outerWidth(true);
+                $('.desc', $item).width(listWidth - (actionsWidth + 40));   //40 is for the image in :before 
+            });
         }
     };
 });

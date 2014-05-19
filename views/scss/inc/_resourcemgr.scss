@@ -149,7 +149,7 @@
                     @include icon('document');
                     margin: 0 4px;
                     @include font-size(16);
-
+                    vertical-align: top;
                 }
                 &[data-type='image']:before{
                     @include icon('image');
@@ -169,16 +169,18 @@
                     cursor: pointer;
                 }
 
+                .desc {
+                    display: inline-block;
+                }
+
                 .actions { 
                     float: right;
                     position: relative;
-                    display: inline-block;
                     height: 35px;
-                    text-overflow: ellipsis;
+                    width: 100px;
                     .tlb {
                         display: inline-block;
                         background: none;
-                        margin-left: 15px;
                         @include font-size(14);
                         .tlb-top {
                             background: none !important;
