@@ -22,7 +22,7 @@ define([
        undo             : false,
        undoTimeout      : 5000,
        undoMessage      : __('Element deleted.'),
-       undoContainer    : 'body',
+       undoContainer    : false,
        confirm          : false,
        confirmMessage   : __('Are you sure you want to delete it?'),
        disableClass     : 'disabled'
@@ -165,7 +165,7 @@ define([
                             $undoBox.remove();
                             $placeholder.remove();
                         }
-                    }, options.undo ? options.undoTimeout : 10);
+                    }, options.undo ? options.undoTimeout : 10000);
                 }
            }
        },
@@ -177,7 +177,13 @@ define([
         * @returns {jQueryElement} the undo box
         */ 
        _createUndoBox : function(options){
-            return $(undoTmpl(options)).appendTo(options.undoContainer);
+            var $undoContainer = options.undoContainer || $('#feedback-messages-main');
+            if(!$undoContainer.length){
+                //create a global feedback container
+                
+                $undoContainer = $('<div id="feedback-messages-main" class="tao-scope"></div>').appendTo('body');
+            }
+            return $(undoTmpl(options)).appendTo($undoContainer);
        },
 
 
@@ -231,7 +237,6 @@ define([
             var options = {
                 target: $target,
                 bindEvent: false,
-                undoContainer : $container,
                 undo : true
             };
             var confirm = $elt.data('delete-confirm');
