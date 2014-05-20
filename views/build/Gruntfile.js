@@ -144,8 +144,8 @@ module.exports = function(grunt) {
             
             //common options
             options : {
-                optimize: 'uglify2',
-                //optimize : 'none',
+                //optimize: 'uglify2',
+                optimize : 'none',
                 preserveLicenseComments: false,
                 optimizeAllPluginResources: false,
                 findNestedDependencies : true,
