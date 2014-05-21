@@ -1,47 +1,19 @@
-// Register the plugin with the editor.
-// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.plugins.html
-
-
 CKEDITOR.plugins.add('taoqtimaths', {
-    // The plugin initialization logic goes inside this method.
-    // http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.pluginDefinition.html#init
     init: function(editor) {
-        // Define an editor command that inserts a taomediamanager.
-        // http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#addCommand
-        // var resourceMgrDefaults = {
-        //     params: {
-        //         lang: 'en-US',
-        //         filters: 'image/jpeg,image/png,image/gif'
-        //     },
-        //     pathParam: 'path',
-        //     select: function (e, uris) {
-        //         var i, l = uris.length;
-        //         for (i = 0; i < l; i++) {
-        //             editor.insertHtml('<img src="' + uris[i] + '"/>')
-        //         }
-        //     }
-        // };
-
 
         editor.addCommand('insertQtiMaths', {
-            // Define a function that will be fired when the command is executed.
-            // http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.commandDefinition.html#exec
             exec: function(editor) {
-                editor.insertHtml(' <span style="background:yellow">I am a QTI maths element</span> ');
-                // Insert the taomediamanager into the document.
-                // http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.editor.html#insertHtml
-                //                $('<div>').resourcemgr(_.defaults(editor.config.resourcemgr, resourceMgrDefaults));
-
+                var config = editor.config.taoQtiItem;
+                if(typeof(config.insert) === 'function'){
+                    editor.insertHtml('<span data-new="true" data-qti-class="math" class="widget-box">&nbsp;</span>');
+                    config.insert.call(editor);
+                }
             }
         });
-        // Create a toolbar button that executes the plugin command.
-        // http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.ui.html#addButton
+        
         editor.ui.addButton('TaoQtiMaths', {
-            // Toolbar button tooltip.
-            label: 'Insert Qti Maths',
-            // Reference to the plugin command name.
+            label: 'Insert Math Expression',
             command: 'insertQtiMaths',
-            // Button's icon file path.
             icon: this.path + 'images/taoqtimaths.png'
         });
     }

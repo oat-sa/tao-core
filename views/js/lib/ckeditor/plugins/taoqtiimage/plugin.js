@@ -1,6 +1,3 @@
-// Register the plugin with the editor.
-// http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.plugins.html
-
 CKEDITOR.plugins.add('taoqtiimage', {
     init: function(editor) {
 
@@ -8,7 +5,7 @@ CKEDITOR.plugins.add('taoqtiimage', {
             exec: function(editor) {
                 var config = editor.config.taoQtiItem;
                 if(typeof(config.insert) === 'function'){
-                    editor.insertHtml('<span data-new="true" data-qti-class="img" class="widget-box"></span>');
+                    editor.insertHtml('<span data-new="true" data-qti-class="img" class="widget-box">&nbsp;</span>');
                     config.insert.call(editor);
                 }
             }
