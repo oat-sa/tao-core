@@ -291,7 +291,7 @@ define(['jquery', 'context', 'jqueryui'], function($, context) {
 		},
 		
 		/**
-		 * sinple _url implementation, requires layout_header to set some global variables
+		 * simple _url implementation, requires layout_header to set some global variables
 		 */
 		_url: function(action, module, extension) {
                     module = module || context.module;

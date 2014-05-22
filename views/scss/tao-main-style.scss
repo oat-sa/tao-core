@@ -23,6 +23,10 @@ hr, ol, p, pre, table, ul {
     margin-bottom: 10px;
 }
 
+iframe {
+    border: none;
+}
+
 code {
     background: whiten($lightBlueGrey, .5);
     padding: 2px 6px;

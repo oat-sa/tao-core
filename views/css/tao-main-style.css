@@ -13025,6 +13025,9 @@ blockquote, dd, dl, fieldset, figure, h1, h2, h3, h4, h5, h6,
 hr, ol, p, pre, table, ul {
   margin-bottom: 10px; }
 
+iframe {
+  border: none; }
+
 code {
   background: #f1f5f7;
   padding: 2px 6px;
@@ -15244,7 +15247,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     z-index: 100002;
     margin: auto;
     left: 0;
-    right: 0; }
+    right: 0;
+    overflow: hidden; }
     .tao-scope .modal .modal-close {
       position: absolute;
       right: 12px;
@@ -15265,7 +15269,8 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
     width: 100%;
     left: 0;
     top: 0;
-    z-index: 100001; }
+    z-index: 100001;
+    overflow: hidden; }
   .tao-scope ul[data-button-group], .tao-scope ul.button-group {
     list-style-type: none;
     padding: 0;
