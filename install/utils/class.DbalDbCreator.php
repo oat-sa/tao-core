@@ -316,12 +316,20 @@ class tao_install_utils_DbalDbCreator {
 
     }
 
+    /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     * @param string $database
+     */
     public function createDatabase($database){
         $sm = $this->getSchemaManager();
         return $sm->createDatabase($database);
     }
     
-
+    /**
+     * 
+     * @author Lionel Lecaque, lionel@taotesting.com
+     */
     public function cleanDb(){
         $sm = $this->getSchemaManager();
         $platform = $this->connection->getDatabasePlatform();
