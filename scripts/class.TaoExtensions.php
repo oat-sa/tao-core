@@ -116,9 +116,7 @@ class tao_scripts_TaoExtensions
     /**
      * Instructions to execute after the postRun method.
      *
-     * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @return void
      */
     public function postRun()
     {
