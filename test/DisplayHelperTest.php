@@ -1,5 +1,5 @@
 <?php
-/*  
+/**  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -17,8 +17,7 @@
  * Copyright (c) 2013-2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  * 
  */
-?>
-<?php
+
 
 require_once dirname(__FILE__) . '/TaoPhpUnitTestRunner.php';
 include_once dirname(__FILE__) . '/../includes/raw_start.php';
@@ -38,9 +37,9 @@ class DisplayHelperTest extends TaoPhpUnitTestRunner {
         return array(
             array('This is a simple text',          '_', -1, 'This_is_a_simple_text'),
             array('This is a simple text',          '-', 10, 'This_is_a_'),
-            array('@à|`',                           '-', -1, '-----'),
+            array('@à|`',                           '-', -1, '----'),
             array('@à|`',                           '-',  2, '--'),
-            array('This 4s @ \'stronger\' tèxte',   '',  -1, 'This_4s__stronger_txte')
+            array('This 4s @ \'stronger\' tèxte',   '',  -1, 'This_4s__stronger_txt')
         );
     }
     
