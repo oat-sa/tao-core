@@ -49,7 +49,7 @@ class tao_actions_form_Instance
     {
         
         
-    	(isset($this->options['name'])) ? $name = $this->options['name'] : $name = ''; 
+    	$name = isset($this->options['name']) ? $this->options['name'] : ''; 
     	if(empty($name)){
 			$name = 'form_'.(count(self::$forms)+1);
 		}
