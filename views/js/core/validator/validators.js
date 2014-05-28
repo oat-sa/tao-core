@@ -109,9 +109,9 @@ define(['lodash', 'i18n'], function(_, __){
                     url = (value.indexOf('http') === 0) ? value : options.baseUrl + value,
                     img = new Image(),
                     verif = {
-                        duration : 1000, //check maximum during 1000ms
-                        interval : 50 //... with interval of 50ms
-                    };
+                    duration : 1000, //check maximum during 1000ms
+                    interval : 50 //... with interval of 50ms
+                };
 
                 img.src = url;
 
@@ -124,7 +124,7 @@ define(['lodash', 'i18n'], function(_, __){
                 if(typeof(callback) === 'function'){
 
                     t = setInterval(function(){
-                        
+
                         if(img.height !== 0){
                             callbackCall(true);
                         }else if(total < verif.duration){
@@ -132,8 +132,13 @@ define(['lodash', 'i18n'], function(_, __){
                         }else{
                             callbackCall(false);
                         }
+                        
                     }, verif.interval);
-
+                    
+                    //security
+                    setTimeout(function(){
+                        clearInterval(t);
+                    }, 3000);
                 }
             }
         }
