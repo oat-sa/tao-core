@@ -65,17 +65,69 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
 			$report->add($parser->getReport());
 			return $report;
 		} else{
-		
-			//initialize the adapter
-			$adapter = new tao_helpers_data_GenerisAdapterRdf();
-			if($adapter->import($file, $class)){
-				return common_report_Report::createSuccess(__('Data imported successfully'));
-			} else{
-				return common_report_Report::createFailure(__('Nothing imported'));
-			}	
+		    return $this->flatImport($file, $class);
 		}
+    }
+    
+    /**
+     * Imports the rdf file into the selected class
+     * 
+     * @param string $file
+     * @param core_kernel_classes_Class $class
+     * @return common_report_Report
+     */
+    private function flatImport($file, core_kernel_classes_Class $class) {
+        $report = common_report_Report::createSuccess(__('Data imported successfully'));
+        
+        $graph = new EasyRdf_Graph();
+        $graph->parseFile($file);
+
+        $map = array();
+        
+        foreach ($graph->resources() as $resource) {
+            $map[$resource->getUri()] = common_Utils::getNewUri();
+        }
+        
+        $format = EasyRdf_Format::getFormat('php');
+        $data = $graph->serialise($format);
+        
+        foreach ($data as $subjectUri => $propertiesValues){
+            $resource = new core_kernel_classes_Resource($map[$subjectUri]);
+            $isClass = false;
+            foreach ($propertiesValues as $prop=>$values){
+                $props[$prop] = array();
+                if ($prop == RDF_TYPE) {
+                    foreach ($values as $k => $v) {
+                        $classType = isset($map[$v['value']])
+                            ? new core_kernel_classes_Class($map[$v['value']])
+                            : $class; 
+                        $resource->setType($classType);
+                    }
+                } elseif ($prop == RDF_SUBCLASSOF) {
+                    $isClass = true;
+                    $classRes = new core_kernel_classes_Class($resource);
+                    foreach ($values as $k => $v) {
+                        $classSup = isset($map[$v['value']])
+                            ? new core_kernel_classes_Class($map[$v['value']])
+                            : $class;
+                        $classRes->setSubClassOf($classSup); 
+                    }
+                } else {
+                    $property = new core_kernel_classes_Property($prop);
+                    foreach ($values as $k => $v) {
+                        $value = isset($map[$v['value']]) ? $map[$v['value']] : $v['value'];
+                        if (isset($v['lang'])) {
+                            $resource->setPropertyValueByLg($property, $value, $v['lang']);
+                        } else {
+                            $resource->setPropertyValue($property, $value);
+                        }
+                    }
+                }
+            }
+            $msg = $isClass ? __('Successfully imported class "%s"', $resource->getLabel()) : __('Successfully imported "%s"', $resource->getLabel());
+            $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, $msg));
+        }
+        return $report;
     }
 
 }
-
-?>
