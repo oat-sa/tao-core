@@ -231,6 +231,7 @@ abstract class tao_actions_TaoModule extends tao_actions_CommonModule {
 							
 							if(isset($propertyMap[$type])){
 								$properties[PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
+								$properties[PROPERTY_MULTIPLE] = $propertyMap[$type]['multiple'];
 								if(!empty($range)){
 									$properties[RDFS_RANGE] = $range;
 								}

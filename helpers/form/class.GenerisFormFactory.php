@@ -283,47 +283,56 @@ class tao_helpers_form_GenerisFormFactory
 			'text' => array(
 				'title' 	=> __('Text - Short - Field'),
 				'widget'	=> PROPERTY_WIDGET_TEXTBOX,
-				'range'		=> RDFS_LITERAL
+				'range'		=> RDFS_LITERAL,
+			    'multiple'  => GENERIS_FALSE
 			),
 			'longtext' => array(
 				'title' 	=> __('Text - Long - Box'),
 				'widget'	=> PROPERTY_WIDGET_TEXTAREA,
-				'range'		=> RDFS_LITERAL
+				'range'		=> RDFS_LITERAL,
+			    'multiple'  => GENERIS_FALSE
 			),
 			'html' => array(
 				'title' 	=> __('Text - Long - HTML editor'),
 				'widget'	=> PROPERTY_WIDGET_HTMLAREA,
-				'range'		=> RDFS_LITERAL
+				'range'		=> RDFS_LITERAL,
+			    'multiple'  => GENERIS_FALSE
 			),
 			'list' => array(
 				'title' 	=> __('List - Single choice - Radio button'),
 				'widget'	=> PROPERTY_WIDGET_RADIOBOX,
-				'range'		=> RDFS_RESOURCE
+				'range'		=> RDFS_RESOURCE,
+			    'multiple'  => GENERIS_FALSE
 			),
 			'longlist' => array(
 				'title' 	=> __('List - Single choice - Drop down'),
 				'widget'	=> PROPERTY_WIDGET_COMBOBOX,
-				'range'		=> RDFS_RESOURCE
+				'range'		=> RDFS_RESOURCE,
+			    'multiple'  => GENERIS_FALSE
 			),
 			'multilist' => array(
 				'title' 	=> __('List - Multiple choice - Check box'),
 				'widget'	=> PROPERTY_WIDGET_CHECKBOX,
-				'range'		=> RDFS_RESOURCE
+				'range'		=> RDFS_RESOURCE,
+			    'multiple'  => GENERIS_TRUE
 			),
 			'calendar' => array(
 				'title' 	=> __('Calendar'),
 				'widget'	=> PROPERTY_WIDGET_CALENDAR,
-				'range'		=> RDFS_LITERAL
+				'range'		=> RDFS_LITERAL,
+			    'multiple'  => GENERIS_FALSE
 			),
 			'password' => array(
 				'title' 	=> __('Password'),
 				'widget'	=> PROPERTY_WIDGET_HIDDENBOX,
-				'range'		=> RDFS_LITERAL
+				'range'		=> RDFS_LITERAL,
+			    'multiple'  => GENERIS_FALSE
 			),
 			'file' => array(
 				'title' 	=> __('File'),
 				'widget'	=> PROPERTY_WIDGET_FILE,
-				'range'		=> CLASS_GENERIS_FILE
+				'range'		=> CLASS_GENERIS_FILE,
+			    'multiple'  => GENERIS_FALSE
 			)
 		);
 		
