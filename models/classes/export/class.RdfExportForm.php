@@ -78,10 +78,6 @@ class tao_models_classes_export_RdfExportForm
 
     	$fileName = '';
     	
-    	$descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
-    	$descElt->setValue(__('Enables you to export an RDF file containing the selected instances'));
-    	$this->form->addElement($descElt);
-    	 
     	$instances = array();
     	if (isset($this->data['instance'])){
     		$resource = $this->data['instance'];
@@ -108,7 +104,7 @@ class tao_models_classes_export_RdfExportForm
     	 
     	$instances = tao_helpers_Uri::encodeArray($instances, tao_helpers_Uri::ENCODE_ARRAY_KEYS);
     	 
-		$this->form->createGroup('options', __('Export Options'), array('rdf_desc', 'filename', 'rdftpl'));
+		$this->form->createGroup('options', __('Export Metadata as RDF/XML file'), array('rdf_desc', 'filename', 'rdftpl'));
     }
 
 }
