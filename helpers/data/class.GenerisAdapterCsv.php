@@ -332,8 +332,8 @@ class tao_helpers_data_GenerisAdapterCsv
 			foreach(array('*', $targetProperty->getUri()) as $key){
 				if(isset($options['callbacks'][$key]) && is_array($options['callbacks'][$key])){
 					foreach ($options['callbacks'][$key] as $callback) {
-						if(function_exists($callback)){
-							$value = $callback($value);
+						if(is_callable($callback)){
+							$value = call_user_func($callback, $value);
 						}
 					}
 				}
