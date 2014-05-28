@@ -151,7 +151,7 @@ class tao_install_services_CheckDatabaseConnectionService
 				restore_error_handler();
             }
             catch(Exception $e){
-                $message = "Unable to connect to database at '${host}' using driver '${driver}': " . $e->getMessage();
+                $message = "Unable to connect to database '${database}' at '${host}' using driver '${driver}': " . $e->getMessage();
                 $status = 'invalid-noconnection';
                 
                 restore_error_handler();
