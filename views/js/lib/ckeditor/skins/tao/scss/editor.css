@@ -2502,7 +2502,21 @@ DO NOT EDIT!     * *      '-'-'\_      /'._.'
   -webkit-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
-  right: 5px; }
+  opacity: 0; }
+  .cke_nose.float-space-left {
+    opacity: 1;
+    transition: opacity .1s ease-in-out;
+    -moz-transition: opacity .1s ease-in-out;
+    -webkit-transition: opacity .1s ease-in-out;
+    right: auto;
+    left: 5px; }
+  .cke_nose.float-space-right {
+    opacity: 1;
+    transition: opacity .1s ease-in-out;
+    -moz-transition: opacity .1s ease-in-out;
+    -webkit-transition: opacity .1s ease-in-out;
+    right: 5px;
+    left: auto; }
   .cke_nose.float-space-bottom {
     top: -6px;
     -webkit-box-shadow: none;
